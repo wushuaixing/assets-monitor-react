@@ -1,11 +1,12 @@
 import React from 'react';
-import logoImg from '@/assets/img/logo.png';
+import { navigate } from '@reach/router';
 
 import Dropdown from 'antd/lib/dropdown';
 import Menu from 'antd/lib/menu';
 
-const logoText = '源诚资产监控平台';
+import logoImg from '@/assets/img/logo.png';
 
+const logoText = '源诚资产监控平台';
 const dataSource = [
 	{ id: 1, name: '首页', url: '/' },
 	{
@@ -47,7 +48,7 @@ const dataSource = [
 	},
 ];
 
-
+// 下拉列表
 const ItemList = data => (
 	<Menu>
 		{
@@ -60,21 +61,22 @@ const ItemList = data => (
 	</Menu>
 );
 
+// 导航项目
 const Item = (props) => {
-	const { name, children } = props;
+	const { name, children, url } = props;
 	if (children) {
 		const itemList = ItemList(children);
 		// onVisibleChange={visible => console.log(res, visible)}
 		return (
 			<Dropdown overlay={itemList}>
-				<li className="header-item">
+				<li className="header-item" onClick={() => navigate(url)}>
 					<span>{name}</span>
 				</li>
 			</Dropdown>
 		);
 	}
 	return (
-		<li className="header-item">
+		<li className="header-item" onClick={() => navigate(url)}>
 			<span>{name}</span>
 		</li>
 	);
@@ -93,7 +95,7 @@ const Header = () => (
 					dataSource.map(items => <Item key={items.id} {...items} />)
 				}
 			</div>
-			<div className="header-else">youb</div>
+			<div className="header-else">YX</div>
 		</div>
 	</div>
 );
