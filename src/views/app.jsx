@@ -1,22 +1,20 @@
 import React from 'react';
 import { Router } from '@reach/router';
 // import Router from '@/utils/Router';
-
+import LoginScreen from './login';
+import Monitor from './monitor';
 import { Header, Container, Footer } from '../common/layout';
 
 const MainScreen = () => (
 	<React.Fragment>
 		<Header />
 		<Container>
-			主页内容
+			<Monitor />
 		</Container>
 		<Footer />
 	</React.Fragment>
 );
 
-const LoginScreen = () => (
-	<div>登录页面</div>
-);
 
 const BaseRouter = () => (
 	<Router mode="hash">
