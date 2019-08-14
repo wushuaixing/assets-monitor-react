@@ -1,13 +1,33 @@
 import React, { useState } from 'react';
-// import Badge from 'antd/lib/badge';
 import './style.scss';
-import Badge from '../Badge';
+import Badge from '../badge';
 
+const toGetDefaultActive = (source) => {
+	const { hash } = window.location;
+	let res = '';
+	source.forEach((item) => {
+		if (new RegExp(item.url).test(hash)) {
+			res = item.id;
+		}
+	});
+	return res || source[0].id;
+};
 const Tabs = (props) => {
 	const {
 		simple, rightRender, onChange, source, number,
 	} = props;
-	const [active, setActive] = useState(source[0].id);
+	const [active, setActive] = useState(toGetDefaultActive(source));
+
+	window.onhashchange = () => {
+		const _result = toGetDefaultActive(source);
+		if (_result !== active) {
+			setActive(_result);
+		}
+	};
+	// useEffect(() => {
+	// 	/* 未考虑兼容性 暂时搁置 */
+	//
+	// });
 	return (
 		<div className={`yc-tabs-wrapper ${simple ? 'yc-tabs-simple' : 'yc-tabs-normal'}`}>
 			<ul>

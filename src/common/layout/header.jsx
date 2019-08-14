@@ -1,9 +1,11 @@
 import React from 'react';
+// { useState }
 import { navigate } from '@reach/router';
 
 import Dropdown from 'antd/lib/dropdown';
 import Menu from 'antd/lib/menu';
 
+import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo.png';
 
 const logoText = '源诚资产监控平台';
@@ -15,12 +17,12 @@ const dataSource = [
 		url: '/monitor',
 		warning: false,
 		children: [
-			{ id: 21, name: '资产拍卖', url: '/' },
-			{ id: 22, name: '代位权', url: '/' },
-			{ id: 23, name: '金融资产', url: '/' },
-			{ id: 24, name: '涉诉监控', url: '/' },
-			{ id: 25, name: '企业破产重组', url: '/' },
-			{ id: 26, name: '公示公告', url: '/' },
+			{ id: 21, name: '资产拍卖', url: '/monitor' },
+			{ id: 22, name: '代位权', url: '/monitor/subrogation' },
+			{ id: 23, name: '金融资产', url: '/monitor/financial' },
+			{ id: 24, name: '涉诉监控', url: '/monitor/lawsuits' },
+			{ id: 25, name: '企业破产重组', url: '/monitor/bankruptcy' },
+			{ id: 26, name: '公示公告', url: '/monitor/public' },
 		],
 	},
 	{
@@ -29,9 +31,9 @@ const dataSource = [
 		url: '/business',
 		warning: false,
 		children: [
-			{ id: 21, name: '业务视图', url: '/' },
-			{ id: 22, name: '债务人', url: '/' },
-			{ id: 23, name: '资产信息', url: '/' },
+			{ id: 21, name: '业务视图', url: '/business' },
+			{ id: 22, name: '债务人', url: '/business/debtor' },
+			{ id: 23, name: '资产信息', url: '/business/asset' },
 		],
 	},
 	{ id: 4, name: '企业查询', url: '/company' },
@@ -42,18 +44,20 @@ const dataSource = [
 		url: '/organization',
 		warning: false,
 		children: [
-			{ id: 21, name: '推送设置', url: '/' },
-			{ id: 22, name: '账户列表', url: '/' },
+			{ id: 21, name: '推送设置', url: '/organization' },
+			{ id: 22, name: '账户列表', url: '/organization/user' },
 		],
 	},
+	{ id: 7, name: '登录页面', url: '/login' },
+
 ];
 
 // 下拉列表
 const ItemList = data => (
-	<Menu>
+	<Menu onSelect={e => navigate(e.key)}>
 		{
 			data.map(item => (
-				<Menu.Item key={item.id}>
+				<Menu.Item key={item.url}>
 					<span className="yc-span-padding">{item.name}</span>
 				</Menu.Item>
 			))
@@ -81,6 +85,14 @@ const Item = (props) => {
 		</li>
 	);
 };
+// const toGetDefaultActive = (data) => {
+// 	const res = { p: 1, c: 0 };
+// 	const { hash } = window.location;
+// 	data.forEach((item) => {
+//
+// 	});
+// };
+// const [active, setActive] = useState(toGetDefaultActive(dataSource));
 
 // 头部
 const Header = () => (
@@ -92,10 +104,22 @@ const Header = () => (
 			</div>
 			<div className="header-menu">
 				{
-					dataSource.map(items => <Item key={items.id} {...items} />)
-				}
+						dataSource.map(items => <Item key={items.id} {...items} />)
+					}
 			</div>
-			<div className="header-else">YX</div>
+			<div className="header-else">
+				<div className="else-child else-notice ">
+					<Badge dot style={{ top: 0, right: 0 }}>
+						<div className="notice-icon yc-notice-img" />
+					</Badge>
+					<span className="notice-number">(3226)</span>
+				</div>
+				<div className="else-child else-line" />
+				<div className="else-child else-username">
+					<li>您好，崔九九</li>
+					<li>崔金鑫测试机构121</li>
+				</div>
+			</div>
 		</div>
 	</div>
 );

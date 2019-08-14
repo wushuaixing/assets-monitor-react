@@ -8,9 +8,11 @@
     width: 1200px;
     margin: 0 auto;
     color: #FFFFFF;
+
     .header-logo {
       padding: 8px 0;
       float: left;
+
       img, span {
         display: inline-block;
         vertical-align: middle;
@@ -29,33 +31,80 @@
         font-weight: bold;
       }
     }
-    .header-menu{
-      display:inline-block;
+
+    .header-menu {
+      display: inline-block;
       margin-left: 100px;
-      .header-item{
+
+      .header-item {
         display: inline-block;
         height: 50px;
         padding: 15px;
-        &:hover{
+
+        &:hover {
           background: $color-text-hover;
         }
-        span{
+
+        span {
           cursor: pointer;
 
         }
       }
     }
-    .header-else{
-      float:right;
+
+    .header-else {
+      float: right;
+      height: 50px;
+
+      .else-child {
+        display: inline-block;
+        vertical-align: top;
+        height: 100%;
+        cursor: pointer;
+      }
+
+      .else-notice {
+        line-height: 30px;
+        padding: 10px;
+        .notice-icon{
+          padding: 13px;
+          width: 26px;
+          height: 26px;
+        }
+        .notice-number{
+          margin-left: 5px;
+          font-size: 12px;
+          line-height: 25px;
+        }
+      }
+
+      .else-line {
+        height: 20px;
+        margin-top: 15px;
+        width: 1px;
+        background: #7a82aa;
+      }
+
+      .else-username {
+        line-height: 18px;
+        padding: 7px 20px;
+        li{
+          font-size: 12px;
+          line-height: 18px;
+          text-align: right;
+        }
+      }
     }
   }
 }
-.yc-span-padding{
+
+.yc-span-padding {
   padding: 5px 5px 5px 0;
   display: block;
   font-size: 14px;
   min-width: 80px;
 }
+
 .yc-container-wrapper {
   background: #f0f2f5;
   overflow: auto;
