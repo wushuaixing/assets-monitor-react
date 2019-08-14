@@ -51,7 +51,11 @@ const dataSource = [
 const ItemList = data => (
 	<Menu>
 		{
-			data.map(item => <Menu.Item key={item.id}>{item.name}</Menu.Item>)
+			data.map(item => (
+				<Menu.Item key={item.id}>
+					<span className="yc-span-padding">{item.name}</span>
+				</Menu.Item>
+			))
 		}
 	</Menu>
 );
@@ -60,6 +64,7 @@ const Item = (props) => {
 	const { name, children } = props;
 	if (children) {
 		const itemList = ItemList(children);
+		// onVisibleChange={visible => console.log(res, visible)}
 		return (
 			<Dropdown overlay={itemList}>
 				<li className="header-item">
