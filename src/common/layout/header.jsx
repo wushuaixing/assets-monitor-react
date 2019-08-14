@@ -1,9 +1,8 @@
-import React from 'react';
-// { useState }
+import React, { useState } from 'react';
 import { navigate } from '@reach/router';
 
-import Dropdown from 'antd/lib/dropdown';
-import Menu from 'antd/lib/menu';
+import HeaderMessage from './header-message';
+import HeaderCenter from './header-center';
 
 import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo.png';
@@ -31,9 +30,9 @@ const dataSource = [
 		url: '/business',
 		warning: false,
 		children: [
-			{ id: 21, name: '业务视图', url: '/business' },
-			{ id: 22, name: '债务人', url: '/business/debtor' },
-			{ id: 23, name: '资产信息', url: '/business/asset' },
+			{ id: 31, name: '业务视图', url: '/business' },
+			{ id: 32, name: '债务人', url: '/business/debtor' },
+			{ id: 33, name: '资产信息', url: '/business/asset' },
 		],
 	},
 	{ id: 4, name: '企业查询', url: '/company' },
@@ -44,83 +43,91 @@ const dataSource = [
 		url: '/organization',
 		warning: false,
 		children: [
-			{ id: 21, name: '推送设置', url: '/organization' },
-			{ id: 22, name: '账户列表', url: '/organization/user' },
+			{ id: 61, name: '推送设置', url: '/organization' },
+			{ id: 62, name: '账户列表', url: '/organization/user' },
 		],
 	},
 	{ id: 7, name: '登录页面', url: '/login' },
 
 ];
 
-// 下拉列表
-const ItemList = data => (
-	<Menu onSelect={e => navigate(e.key)}>
-		{
-			data.map(item => (
-				<Menu.Item key={item.url}>
-					<span className="yc-span-padding">{item.name}</span>
-				</Menu.Item>
-			))
-		}
-	</Menu>
-);
-
 // 导航项目
 const Item = (props) => {
-	const { name, children, url } = props;
-	if (children) {
-		const itemList = ItemList(children);
-		// onVisibleChange={visible => console.log(res, visible)}
-		return (
-			<Dropdown overlay={itemList}>
-				<li className="header-item" onClick={() => navigate(url)}>
-					<span>{name}</span>
-				</li>
-			</Dropdown>
-		);
-	}
+	const { name, children, id } = props;
+	const { set, active } = props;
+	/**
+	 * 点击路由跳转方法
+	 * @param event 点击元素
+	 * @param items 当前项参数
+	 * @param parent 父项参数
+	 */
+	const toNavigate = (event, items, parent) => {
+		navigate(items.url);
+		const _childId = children ? children[0].id : '';
+		set({
+			p: parent ? parent.id : items.id,
+			c: parent ? items.id : _childId,
+		});
+		event.stopPropagation();
+	};
+	const parentChoose = active.p === id ? 'header-item-active' : 'header-item-normal';
 	return (
-		<li className="header-item" onClick={() => navigate(url)}>
+		<li className={`header-item header-item-${id} ${parentChoose}`} onClick={e => toNavigate(e, props)}>
 			<span>{name}</span>
+			<ul className="header-child-item">
+				{
+					children && children.map(item =>	(
+						<li
+							className={`child-item ${active.c === item.id ? 'child-item-active' : 'child-item-normal'}`}
+							key={item.id}
+							onClick={e => toNavigate(e, item, props)}
+						>
+							{item.name}
+						</li>
+					))
+					}
+			</ul>
 		</li>
 	);
 };
-// const toGetDefaultActive = (data) => {
-// 	const res = { p: 1, c: 0 };
-// 	const { hash } = window.location;
-// 	data.forEach((item) => {
-//
-// 	});
-// };
-// const [active, setActive] = useState(toGetDefaultActive(dataSource));
 
-// 头部
-const Header = () => (
-	<div className="yc-header-wrapper">
-		<div className="yc-header-content">
-			<div className="header-logo">
-				<img src={logoImg} alt="" />
-				<span>{logoText}</span>
-			</div>
-			<div className="header-menu">
-				{
-						dataSource.map(items => <Item key={items.id} {...items} />)
-					}
-			</div>
-			<div className="header-else">
-				<div className="else-child else-notice ">
-					<Badge dot style={{ top: 0, right: 0 }}>
-						<div className="notice-icon yc-notice-img" />
-					</Badge>
-					<span className="notice-number">(3226)</span>
+// Header 样式需求
+const Header = () => {
+	const [active, setActive] = useState({ p: '', c: '' });
+	return (
+		<div className="yc-header-wrapper">
+			<div className="yc-header-content">
+				<div className="header-logo">
+					<img src={logoImg} alt="" />
+					<span>{logoText}</span>
 				</div>
-				<div className="else-child else-line" />
-				<div className="else-child else-username">
-					<li>您好，崔九九</li>
-					<li>崔金鑫测试机构121</li>
+				<div className="header-menu">
+					{ dataSource.map(items => <Item key={items.id} {...items} set={setActive} active={active} />) }
+				</div>
+				<div className="header-else">
+					<div
+						className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
+						onClick={(event) => {
+							setActive({ p: 101, c: '' });
+							navigate('/message');
+							event.stopPropagation();
+						}}
+					>
+						<Badge dot style={{ top: 0, right: 0 }}>
+							<div className="notice-icon yc-notice-img" />
+						</Badge>
+						<span className="notice-number">(3226)</span>
+						<HeaderMessage mark="消息中心大概预览" />
+					</div>
+					<div className="else-child else-line" />
+					<div className="else-child else-username header-item-normal">
+						<li>您好，崔九九</li>
+						<li>崔金鑫测试机构121</li>
+						<HeaderCenter mark="个人中心大概" />
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-);
+	);
+};
 export default Header;
