@@ -2,7 +2,6 @@
   background-color: $color-base;
   height: 50px;
   width: 100%;
-  overflow: hidden;
 
   .yc-header-content {
     width: 1200px;
@@ -31,7 +30,14 @@
         font-weight: bold;
       }
     }
-
+    .header-item-active{
+      background: $color-text-hover;
+    }
+    .header-item-normal{
+      &:hover {
+        background: $color-text-hover;
+      }
+    }
     .header-menu {
       display: inline-block;
       margin-left: 100px;
@@ -40,14 +46,49 @@
         display: inline-block;
         height: 50px;
         padding: 15px;
-
-        &:hover {
-          background: $color-text-hover;
-        }
-
+        position: relative;
         span {
           cursor: pointer;
+        }
+      }
 
+      .header-child-item{
+        display: none;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        z-index: 1;
+        min-width: 120px;
+        height: auto;
+        background-color: #FFFFFF;
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+        border: 1px solid $fontColor-hover;
+        border-radius: 0 0 2px 2px;
+        li{
+          height: 40px;
+          padding: 0 20px;
+          line-height: 40px;
+          font-size: 12px;
+          cursor: pointer;
+          color: $fontColor-base;
+          &:hover{
+            background-color: $fontColor-hover;
+          }
+        }
+        .child-item-active{
+          background-color: $fontColor-hover;
+        }
+        .child-item-normal{
+          &:hover{
+            background-color: $fontColor-hover;
+          }
+        }
+      }
+      .header-item-1,.header-item-2,.header-item-3,.header-item-4,.header-item-5,.header-item-6{
+        &:hover{
+          .header-child-item{
+            display: block;
+          }
         }
       }
     }
@@ -61,11 +102,21 @@
         vertical-align: top;
         height: 100%;
         cursor: pointer;
-      }
+        position: relative;
 
+      }
       .else-notice {
         line-height: 30px;
         padding: 10px;
+        &:hover{
+          .yc-header-message{
+            display: block;
+          }
+        }
+        .yc-header-message{
+          display: none;
+        }
+
         .notice-icon{
           padding: 13px;
           width: 26px;
@@ -76,6 +127,7 @@
           font-size: 12px;
           line-height: 25px;
         }
+
       }
 
       .else-line {
@@ -88,14 +140,56 @@
       .else-username {
         line-height: 18px;
         padding: 7px 20px;
+
+        &:hover{
+          .yc-header-center{
+            display: block;
+          }
+        }
+        .yc-header-center{
+          display: none;
+        }
         li{
           font-size: 12px;
           line-height: 18px;
           text-align: right;
         }
+
       }
     }
   }
+}
+
+.yc-header-message{
+  position: absolute;
+  top: 50px;
+  right: 0;
+  z-index: 1;
+  min-width: 400px;
+  min-height: 100px;
+  padding: 15px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid $fontColor-hover;
+  border-radius: 0 0 2px 2px;
+  background-color: #fff;
+  color: $fontColor-base;
+}
+
+
+.yc-header-center{
+  position: absolute;
+  top: 50px;
+  right: 0;
+  z-index: 1;
+  width: 440px;
+  height: 400px;
+  padding: 15px;
+  //height: auto;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid $fontColor-hover;
+  border-radius: 0 0 2px 2px;
+  background-color: #fff;
+  color: $fontColor-base;
 }
 
 .yc-span-padding {
@@ -107,7 +201,6 @@
 
 .yc-container-wrapper {
   background: #f0f2f5;
-  overflow: auto;
   margin: 30px 0 50px 0;
 
   .yc-container-content {
