@@ -51,6 +51,19 @@ body,td,th {
   background: none;
 }
 
+
+.yc-badge-img{
+  background-image: url('../img/icon/icon_reddot.png');
+}
+.yc-notice-img{
+  background-image: url('../img/icon/icon_news_normal.png');
+
+}
+
+.yc-page-content{
+  padding: 20px;
+}
+
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
@@ -454,4 +467,14 @@ td.column-center{
 // 降低下拉框层级
 .ant-select-dropdown {
   z-index: 1050;
+}
+// table 多级下拉
+.ant-table-row-expand-icon {
+  background-color:transparent;
+  border: 1px solid transparent;
+}
+.ant-table-row-collapsed:after {
+  content: "\E603";
+  -webkit-transition: -webkit-transform .2s ease;
+  transition: -webkit-transform .2s ease;
 }
