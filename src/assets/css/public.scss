@@ -468,3 +468,13 @@ td.column-center{
 .ant-select-dropdown {
   z-index: 1050;
 }
+// table 多级下拉
+.ant-table-row-expand-icon {
+  background-color:transparent;
+  border: 1px solid transparent;
+}
+.ant-table-row-collapsed:after {
+  content: "\E603";
+  -webkit-transition: -webkit-transform .2s ease;
+  transition: -webkit-transform .2s ease;
+}
