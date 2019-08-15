@@ -4,12 +4,14 @@ html {
     border-color: #f50;
     box-shadow: 0 0 0 2px rgba(255,85,0,.2);
   }
-
+  $input-fontsize:12px;
   .yc-input-wrapper {
     position: relative;
     display: inline-block;
     vertical-align: top;
     width: 100%;
+    font-size: $input-fontsize;
+
     &:focus {
       border: 1px solid $color-base;
       box-shadow: 0 0 4px 0 $color-base;
@@ -22,7 +24,7 @@ html {
       width: 100%;
       cursor: text;
       color: #333;
-      font-size: 14px;
+      font-size: inherit;
       line-height: 14px;
       //background-color: #fff;
       background:transparent;
@@ -59,6 +61,7 @@ html {
       top: 6px;
       width: 40px;
       height: 20px;
+      font-size: inherit;
       span{
         height: 14px;
         width: 39px;
@@ -69,7 +72,7 @@ html {
       }
     }
     .yc-input-left{
-      padding-left: 75px;
+      padding-left: 77px;
     }
     .yc-input-group-left {
       position: absolute;
@@ -78,6 +81,8 @@ html {
       top: 6px;
       width: 70px;
       height: 20px;
+      font-size: inherit;
+
       span{
         height: 14px;
         width: 69px;
