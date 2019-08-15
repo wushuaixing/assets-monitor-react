@@ -51,10 +51,24 @@ export default class BasicTable extends React.Component {
 				},
 				{
 					title: '状态',
-					dataIndex: 'name',
-					key: 'name',
+					dataIndex: 'state',
+					key: 'state',
 					render: text => (
-						<p>{text || '--'}</p>
+						<React.Fragment>
+							{
+								text === 1 ? (
+									<React.Fragment>
+										<p className="circle-item">启用</p>
+									</React.Fragment>
+
+								) : (
+									<React.Fragment>
+										<p className="no-attention">禁用</p>
+									</React.Fragment>
+								)
+							}
+						</React.Fragment>
+
 					),
 				},
 				{
@@ -72,6 +86,11 @@ export default class BasicTable extends React.Component {
 			data: [
 				{
 					name: '1111',
+					state: 1,
+				},
+				{
+					name: '2222',
+					state: 2,
 				},
 			],
 			total: 0,

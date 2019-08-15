@@ -1,9 +1,13 @@
-.push-manage{
+.operate-log{
+  padding: 20px;
+  .bread-crumb{
+    margin: 10px 0 30px 0;
+  }
   .search-item{
     display: inline-block;
     vertical-align: top;
     margin-right: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
     .ant-input-group-wrap{
       position: absolute;
       left: 246px;
@@ -52,18 +56,3 @@
     }
   }
 }
-
-.line{
-  position: relative;
-  margin-bottom: 15px;
-  padding-left: 20px;
-  >p{
-    font-size: 14px;
-    display: inline-block;
-    margin-right: 20px;
-    width: 58px;
-    text-align: right;
-  }
-}
-
-
