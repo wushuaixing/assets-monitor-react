@@ -1,0 +1,145 @@
+.yc-home {
+  height: 100%;
+  font-size: 14px;
+  line-height: 16px;
+  color: #4e5566;
+  .yc-home-header {
+    width: 1200px;
+    height: 122px;
+    color: #20242e;
+    padding: 0 20px 36px 20px;
+    box-sizing: border-box;
+    .yc-header-left {
+      float: left;
+      padding-top: 36px;
+      padding-right: 60px;
+      .yc-left-title {
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 1;
+        color: #20242e;
+      }
+      .yc-left-text {
+        padding-top: 16px;
+      }
+    }
+    .yc-header-right {
+      float: right;
+      padding-top: 36px;
+      padding-right: 60px;
+      .yc-right-title {
+        font-size: 12px;
+      }
+      .yc-right-num {
+        font-size: 28px;
+        color: #20242e;
+        letter-spacing: 0;
+        line-height: 28px;
+        padding-top: 10px;
+      }
+    }
+  }
+  .yc-home-background {
+    height: 10px;
+    width: 1200px;
+    background: #f0f2f5;
+  }
+  .yc-home-content {
+    width: 1200px;
+    color: #20242e;
+    padding: 0 20px 36px 20px;
+    box-sizing: border-box;
+    .yc-content-title {
+      padding-top: 40px;
+      line-height: 1;
+      padding-bottom: 40px;
+      font-size: 14px;
+      margin: 0;
+      .yc-content-spite {
+        font-size: 12px;
+        color: #7d8699;
+      }
+    }
+    .yc-content-header {
+      height: 196px;
+      width: 100%;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #f0f1f5;
+
+      .yc-content-item {
+        zoom: 1;
+        height: 61px;
+        .left {
+          float: left;
+        }
+        .yc-content-item1 {
+          width: 500px;
+          height: 100%;
+          padding: 0 20px;
+        }
+        .yc-content-item2 {
+          width: 330px;
+          height: 100%;
+          padding: 0 20px;
+          border-left: 1px solid #f0f1f5;
+        }
+        .yc-text {
+          font-size: 14px;
+          line-height: 16px;
+          color: #4e5566;
+          .yc-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+            background-image: url("../../assets/img/home/icon_statistics_assets.png");
+          }
+          .yc-icon-debtor {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+            background-image: url("../../assets/img/home/icon_statistics_debtor.png");
+          }
+          .yc-icon-money {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+            background-image: url("../../assets/img/home/icon_statistics_money.png");
+          }
+        }
+        .yc-num {
+          font-size: 28px;
+          color: #20242e;
+          letter-spacing: 0;
+          line-height: 28px;
+          padding-top: 17px;
+          .right {
+            float: right;
+          }
+          .yc-count-sounds {
+            font-size: 14px;
+            line-height: 1;
+            padding-left: 20px;
+            padding-right: 30px;
+            border-left: 1px solid #f0f1f5;
+            margin-top: 10px;
+            .yc-statistic-text {
+              font-size: 14px;
+              line-height: 16px;
+              color: #4e5566;
+              .yc-txt-normal {
+                padding: 0 12px 0 4px;
+                color: #20242e;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
