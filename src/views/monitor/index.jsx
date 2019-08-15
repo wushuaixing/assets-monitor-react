@@ -80,7 +80,7 @@ const MonitorMain = () => (
 					{'我的关注'}
 				</Button>
 			)}
-			onChange={res => navigate(res.url + res.paramUrl)}
+			onChange={res => navigate(res.url + res.paramUrl || '')}
 			source={source}
 		/>
 		<div className="yc-monitor yc-page-content">
