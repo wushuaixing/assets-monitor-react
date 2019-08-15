@@ -1,12 +1,13 @@
-.yc-assets-auction{
-  .yc-content-query{
-    .yc-query-item{
+.yc-assets-auction {
+  .yc-content-query {
+    .yc-query-item {
       position: relative;
       margin-right: 14px;
       display: inline-block;
       vertical-align: top;
       margin-bottom: 17px;
-      .yc-query-item-title{
+
+      .yc-query-item-title {
         padding: 9px 3px;
         height: 34px;
         line-height: 14px;
@@ -15,7 +16,31 @@
     }
 
   }
-  .assets-auction-action{
+
+  .assets-tabs-right {
+    li {
+      display: inline-block;
+      padding: 9px 5px;
+      img {
+        display: inline-block;
+        vertical-align: middle;
+        width: 16px;
+        height: 16px;
+      }
+      span{
+        cursor: pointer;
+        margin-left: 5px;
+        line-height: 16px;
+        font-size: 12px;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .assets-auction-action {
     padding: 10px 0;
   }
+
 }

@@ -3,6 +3,9 @@ import Query from './query';
 import './style.scss';
 import { Tabs, Button } from '@/common';
 
+import imgRecovery from '@/assets/img/icon/icon_recovery_n.png';
+import imgExport from '@/assets/img/icon/icon_export.png';
+
 const source = [
 	{
 		id: 1,
@@ -38,18 +41,6 @@ const source = [
 	},
 ];
 
-const AssetsRight = () => (
-	<div className="assets-tabs-right">
-		<li>
-			<img src="" alt="" />
-			<span>资产清收流程</span>
-		</li>
-		<li>
-			<img src="" alt="" />
-			<span>一键导出</span>
-		</li>
-	</div>
-);
 export default class Assets extends React.Component {
 	constructor(props) {
 		super(props);
@@ -61,7 +52,18 @@ export default class Assets extends React.Component {
 			<div className="yc-assets-auction">
 				<Query />
 				<Tabs
-					rightRender={() => <AssetsRight />}
+					rightRender={() => (
+						<div className="assets-tabs-right">
+							<li>
+								<img src={imgRecovery} alt="" />
+								<span>资产清收流程</span>
+							</li>
+							<li>
+								<img src={imgExport} alt="" />
+								<span>一键导出</span>
+							</li>
+						</div>
+					)}
 					source={source}
 					simple
 					field="process"

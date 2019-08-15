@@ -2,7 +2,7 @@ import React from 'react';
 import { navigate } from '@reach/router';
 
 import Router from '@/utils/Router';
-import Tabs from '@/common/tabs';
+import { Tabs, Button } from '@/common';
 // 主要内容模块
 import Assets from './assets-auction';
 import Subrogation from './subrogation';
@@ -12,6 +12,8 @@ import Bankruptcy from './bankruptcy';
 import Public from './public-proclamation';
 // 我的关注
 import Attention from './my-attention';
+
+import Star from '@/assets/img/icon/btn_attention_h.png';
 
 const source = [
 	{
@@ -68,7 +70,16 @@ const source = [
 const MonitorMain = () => (
 	<React.Fragment>
 		<Tabs
-			rightRender={() => <span onClick={() => navigate('/monitor/attention')}>我的关注</span>}
+			rightRender={() => (
+				<Button
+					style={{ marginTop: 6, marginRight: 25, width: 95 }}
+					onClick={() => navigate('/monitor/attention')}
+					size="large"
+					icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 16, marginTop: -2 }} />}
+				>
+					{'我的关注'}
+				</Button>
+			)}
 			onChange={res => navigate(res.url + res.paramUrl)}
 			source={source}
 		/>
