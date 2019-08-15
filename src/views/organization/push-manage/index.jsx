@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Input, Button, Select, Table, Pagination, message, Modal,
 } from 'antd';
-import './style.scss';
+import '../style.scss';
 import EditModal from './editModal';
 
 
@@ -155,7 +155,7 @@ export default class BasicTable extends React.Component {
 						<Select.Option value="yiminghe">yiminghe</Select.Option>
 					</Select>
 				</div>
-				<Button type="ghost" size="large" style={{ display: 'block', margin: '20px 0 15px 0' }} onClick={() => this.handleOpeanModal('add')}>添加推送人</Button>
+				<Button type="ghost" size="large" style={{ display: 'block', margin: '0 0 15px 0' }} onClick={() => this.handleOpeanModal('add')}>添加推送人</Button>
 				<div className="table">
 					<Table
 						columns={columns}
