@@ -45,12 +45,22 @@ body,td,th {
   background-color: $background-border;
 }
 
+.yc-split-hr {
+  width: 100%;
+  height: 1px;
+  background-color: $background-border;
+}
+
 .yc-split-line-row{
   width: 100%;
   height: 10px;
   background: none;
 }
 
+.yc-img-normal{
+  display: inline-block;
+  vertical-align: middle;
+}
 
 .yc-badge-img{
   background-image: url('../img/icon/icon_reddot.png');
@@ -77,10 +87,6 @@ input[type="number"] {
   //background: $warning;
 }
 
-/* antd 样式修改 -- start*/
-.ant-btn, .ant-input {
-  border-radius: 4px;
-}
 
 /* -- end*/
 .height0 {
@@ -477,4 +483,18 @@ td.column-center{
   content: "\E603";
   -webkit-transition: -webkit-transform .2s ease;
   transition: -webkit-transform .2s ease;
+}
+
+
+input::-webkit-input-placeholder{
+  color:#999;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+  color:#999;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+  color:#999;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+  color:#999;
 }
