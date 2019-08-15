@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import '../style.scss';
 import EditModal from './editModal';
-
+import Search from '../search';
 
 const InputGroup = Input.Group;
 const { confirm } = Modal;
@@ -132,20 +132,25 @@ export default class BasicTable extends React.Component {
 		return null;
 	}
 
+	search=(val) => {
+		console.log('zzz', val);
+	}
+
 	render() {
 		const {
 			columns, total, data, searchData,
 		} = this.state;
 		return (
 			<div className="push-manage">
-				<div className="search-item">
+				<Search placeholder='姓名/手机号/邮箱' onSearch={(val) => { this.search(val); }} />
+				{/* <div className="search-item">
 					<InputGroup className="search-group">
 						<Input size="large" placeholder="姓名/手机号/邮箱" />
 						<div className="ant-input-group-wrap" onClick={() => { this.getTableData(); }}>
 							<p>搜索</p>
 						</div>
 					</InputGroup>
-				</div>
+				</div> */}
 				<div className="search-item">
 					<p>角色：</p>
 					<Select defaultValue="lucy" size="large" allowClear>

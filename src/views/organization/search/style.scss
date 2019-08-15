@@ -1,0 +1,25 @@
+.search-input{
+  position: relative;
+  width: 310px;
+  display: inline-block;
+  margin-right: 20px;
+  .search-icon{
+    display: inline;
+    position: absolute;
+    right: 55px;
+    top: 8px;
+  }
+  .search-click{
+    font-size: 12px;
+    width: 49px;
+    border-left: 1px solid #d9d9d9;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 34px;
+    padding: 9px;
+  }
+  .ant-input{
+    height: 34px;
+  }
+}

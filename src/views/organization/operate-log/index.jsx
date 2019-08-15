@@ -69,7 +69,7 @@ export default class BasicTable extends React.Component {
 			<div className="operate-log">
 				<div className="bread-crumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><p className="click-p" onClick={() => navigate('organization/user')}>账户列表</p></Breadcrumb.Item>
+						<Breadcrumb.Item><p style={{ fontSize: 14 }} className="click-p" onClick={() => navigate('organization/user')}>账户列表</p></Breadcrumb.Item>
 						<Breadcrumb.Item><span style={{ 'font-weight': 100 }}>邵颖-历史操作记录 Center</span></Breadcrumb.Item>
 					</Breadcrumb>
 				</div>
