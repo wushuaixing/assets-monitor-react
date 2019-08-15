@@ -4,7 +4,7 @@ import './style.scss';
 const comButton = (props) => {
 	const { style, children, className } = props;
 	const {
-		size, type, disabled, onClick,
+		size, type, disabled, onClick, icon,
 	} = props;
 	const classList = ['yc-btn', 'ie-css3'];
 	if (size) classList.push(size ? `yc-btn-${size}` : '');
@@ -23,7 +23,8 @@ const comButton = (props) => {
 				className={classList.join(' ')}
 				onClick={(e) => { if (onClick)onClick(e); }}
 			>
-				<span>{children}</span>
+				{ icon ? icon() : null}
+				<span style={icon ? { marginLeft: 3 } : ''}>{children}</span>
 			</button>
 		</React.Fragment>
 	);

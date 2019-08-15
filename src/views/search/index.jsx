@@ -67,7 +67,6 @@ const tabSource = [
 		types: [],
 	},
 ];
-const
 const HomeRouter = () => (
 	<div className="search-wrapper">
 		<p>信息搜索</p>

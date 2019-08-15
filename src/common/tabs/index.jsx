@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import './style.scss';
 import Badge from '../badge';
+import { parseQuery } from '@/utils';
 
-const toGetDefaultActive = (source) => {
+const toGetDefaultActive = (source, field) => {
 	const { hash } = window.location;
 	let res = '';
+	if (field) {
+		return Number(parseQuery(hash)[field]) || source[0].id;
+	}
 	source.forEach((item) => {
 		if (new RegExp(item.url).test(hash)) {
 			res = item.id;
@@ -14,12 +18,12 @@ const toGetDefaultActive = (source) => {
 };
 const Tabs = (props) => {
 	const {
-		simple, rightRender, onChange, source, number,
+		simple, rightRender, onChange, source, number, field,
 	} = props;
-	const [active, setActive] = useState(toGetDefaultActive(source));
+	const [active, setActive] = useState(toGetDefaultActive(source, field));
 
 	window.onhashchange = () => {
-		const _result = toGetDefaultActive(source);
+		const _result = toGetDefaultActive(source, field);
 		if (_result !== active) {
 			setActive(_result);
 		}
@@ -33,7 +37,7 @@ const Tabs = (props) => {
 			<ul>
 				{source.map(item => (
 					<li
-						className={active === item.id ? 'yc-tabs-active' : 'yc-tabs-un-active'}
+						className={`${active === item.id ? 'yc-tabs-active' : 'yc-tabs-un-active'} yc-tabs-li`}
 						onClick={() => {
 							setActive(item.id);
 							if (onChange)onChange(item);
@@ -41,7 +45,7 @@ const Tabs = (props) => {
 					>
 						<div className="yc-tabs-active-line" />
 						<Badge dot={item.dot}>
-							{number ? `${item.name}(${item.number})` : item.name}
+							{number || item.showNumber ? `${item.name}(${item.number})` : item.name}
 						</Badge>
 					</li>
 				))}
