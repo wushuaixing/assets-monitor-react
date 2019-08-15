@@ -1,3 +1,4 @@
+
 .yc-btn {
   //@extend .ie-css3;
   padding: 2px 9px;
@@ -16,7 +17,7 @@
   margin-right: 5px;
 
   span {
-    font-size: 14px;
+    font-size: $input-fontsize;
     line-height: 24px;
   }
 }
@@ -25,7 +26,7 @@
   padding: 4px 9px;
 
   span {
-    font-size: 16px;
+    font-size: $input-fontsize;
     line-height: 24px;
   }
 }

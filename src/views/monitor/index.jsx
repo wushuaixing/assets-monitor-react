@@ -18,6 +18,7 @@ const source = [
 		id: 1,
 		name: '资产拍卖',
 		url: '/monitor',
+		paramUrl: '?process=2',
 		number: 0,
 		dot: false,
 		components: Assets,
@@ -68,7 +69,7 @@ const MonitorMain = () => (
 	<React.Fragment>
 		<Tabs
 			rightRender={() => <span onClick={() => navigate('/monitor/attention')}>我的关注</span>}
-			onChange={res => navigate(res.url)}
+			onChange={res => navigate(res.url + res.paramUrl)}
 			source={source}
 		/>
 		<div className="yc-monitor yc-page-content">

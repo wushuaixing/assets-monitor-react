@@ -4,7 +4,7 @@ html {
     border-color: #f50;
     box-shadow: 0 0 0 2px rgba(255,85,0,.2);
   }
-  $input-fontsize:12px;
+
   .yc-input-wrapper {
     position: relative;
     display: inline-block;
@@ -16,11 +16,14 @@ html {
       border: 1px solid $color-base;
       box-shadow: 0 0 4px 0 $color-base;
     }
+    //.yc-input-large {
+    //  padding: 9px 9px
+    //}
     .yc-input {
       //input 默认最小高度 16px
       position: relative;
       display: inline-block;
-      padding: 8px 7px;
+      padding: 9px 7px;
       width: 100%;
       cursor: text;
       color: #333;
@@ -56,7 +59,7 @@ html {
     }
     .yc-input-group-right {
       position: absolute;
-      z-index: -1;
+      z-index: 1;
       right: 0;
       top: 6px;
       width: 40px;
@@ -94,9 +97,7 @@ html {
     }
   }
 
-  //.yc-input-large {
-  //  padding: 6px 9px;
-  //}
+
 
 
 }
