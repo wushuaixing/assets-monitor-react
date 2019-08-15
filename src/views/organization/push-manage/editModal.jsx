@@ -7,15 +7,18 @@ export default class DetailModal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: {},
-			errorName: false,
-			spin: false,
+			data: {
+				name: null,
+				tel: null,
+				buzhidaojiaoshenm: null,
+				email: null,
+			},
 		};
 	}
 
 	componentDidMount() {
-		const { data } = this.props;
-		this.setState({ data });
+	/*	const { data } = this.props;
+		this.setState({ data }); */
 	}
 
 	handleCancel=() => {
@@ -41,27 +44,23 @@ export default class DetailModal extends React.Component {
 
 	handleSave=() => {
 		const { data } = this.state;
-		console.log('aaa', data);
+		if (!data.name) {
+			message.warning('请输入姓名');
+		} else {
+			console.log('aaa', data);
+			this.handleCancel();
+		}
 	}
 
 	change=(val, type, maxSize) => {
 		const { data } = this.state;
 		const maxValue = this.getInMaxValue(val, maxSize);
 		data[type] = maxValue;
-		if (type === 'name') {
-			if (!maxValue) {
-				this.setState({ data, errorName: true });
-			} else {
-				this.setState({ data, errorName: false });
-			}
-		}
 		this.setState({ data });
 	}
 
 	render() {
-		const {
-			data, errorName,
-		} = this.state;
+		const { data } = this.state;
 		const { modalState } = this.props;
 		let title = '新增推送';
 		if (modalState === 'add') {
@@ -85,16 +84,9 @@ export default class DetailModal extends React.Component {
 								size="large"
 								placeholder="请输入"
 								style={{ width: 340 }}
-								onChange={event => this.change(event, 'linkMode', 12)}
-								onBlur={event => this.change(event, 'linkMode', 12)}
+								onChange={event => this.change(event, 'name', 12)}
+								onBlur={event => this.change(event, 'name', 12)}
 							/>
-							{
-								errorName ? (
-									<p className="error">
-										请输入联系方式
-									</p>
-								) : null
-							}
 						</div>
 						<div className="line">
 							<p>手机号：</p>
@@ -102,8 +94,8 @@ export default class DetailModal extends React.Component {
 								size="large"
 								placeholder="请输入"
 								style={{ width: 340 }}
-								onChange={event => this.change(event, 'linkMode', 12)}
-								onBlur={event => this.change(event, 'linkMode', 12)}
+								onChange={event => this.change(event, 'tel', 12)}
+								onBlur={event => this.change(event, 'tel', 12)}
 							/>
 						</div>
 						<div className="line">
@@ -114,7 +106,7 @@ export default class DetailModal extends React.Component {
 								style={{ width: 100 }}
 								placeholder="请选择"
 								onChange={(val) => {
-									this.onCommonChange('loanTypeConst', val);
+									this.change(val, 'buzhidaojiaoshenm');
 								}}
 							>
 								<Select.Option key="1" value="1">111</Select.Option>
@@ -126,8 +118,8 @@ export default class DetailModal extends React.Component {
 								size="large"
 								style={{ width: 340 }}
 								placeholder="请输入"
-								onChange={event => this.change(event, 'linkMode', 12)}
-								onBlur={event => this.change(event, 'linkMode', 12)}
+								onChange={event => this.change(event, 'email', 12)}
+								onBlur={event => this.change(event, 'emal', 12)}
 							/>
 						</div>
 					</div>

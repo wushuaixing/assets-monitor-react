@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-	Breadcrumb, Button, Select, Table, Pagination, message, Modal,
+	Breadcrumb, Button, Select, Table, Pagination,
 } from 'antd';
 import './style.scss';
+import { navigate } from '@reach/router';
 
 export default class BasicTable extends React.Component {
 	constructor(props) {
@@ -49,10 +50,6 @@ export default class BasicTable extends React.Component {
 
 	}
 
-	handleOpeanLog=(row) => {
-		navigate('/organization/operate/log');
-	}
-
 	handleChangePage=(val, type, size) => {
 		const { searchData } = this.state;
 		if (size) {
@@ -72,12 +69,12 @@ export default class BasicTable extends React.Component {
 			<div className="operate-log">
 				<div className="bread-crumb">
 					<Breadcrumb>
-						<Breadcrumb.Item>账户列表</Breadcrumb.Item>
-						<Breadcrumb.Item><a href="">邵颖-历史操作记录 Center</a></Breadcrumb.Item>
+						<Breadcrumb.Item><p className="click-p" onClick={() => navigate('organization/user')}>账户列表</p></Breadcrumb.Item>
+						<Breadcrumb.Item><span style={{ 'font-weight': 100 }}>邵颖-历史操作记录 Center</span></Breadcrumb.Item>
 					</Breadcrumb>
 				</div>
 				<div className="search-item">
-					<Select defaultValue="lucy" size="large" style={{ width: 185, 'margin-right': 10 }}>
+					<Select defaultValue="lucy" size="large" allowClear style={{ width: 185, 'margin-right': 10 }}>
 						<Select.Option value="jack">Jack</Select.Option>
 						<Select.Option value="lucy">Lucy</Select.Option>
 						<Select.Option value="disabled" disabled>Disabled</Select.Option>
@@ -88,7 +85,8 @@ export default class BasicTable extends React.Component {
 						size="large"
 						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
 						onClick={this.getTableData()}
-					>搜索
+					>
+搜索
 					</Button>
 					<Button type="ghost" size="large">清空搜索条件</Button>
 				</div>

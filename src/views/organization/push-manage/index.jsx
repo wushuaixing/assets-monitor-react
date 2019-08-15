@@ -148,7 +148,7 @@ export default class BasicTable extends React.Component {
 				</div>
 				<div className="search-item">
 					<p>角色：</p>
-					<Select defaultValue="lucy" size="large">
+					<Select defaultValue="lucy" size="large" allowClear>
 						<Select.Option value="jack">Jack</Select.Option>
 						<Select.Option value="lucy">Lucy</Select.Option>
 						<Select.Option value="disabled" disabled>Disabled</Select.Option>
