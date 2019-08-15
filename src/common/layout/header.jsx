@@ -16,7 +16,7 @@ const dataSource = [
 		url: '/monitor',
 		warning: false,
 		children: [
-			{ id: 21, name: '资产拍卖', url: '/monitor' },
+			{ id: 21, name: '资产拍卖', url: '/monitor?process=2' },
 			{ id: 22, name: '代位权', url: '/monitor/subrogation' },
 			{ id: 23, name: '金融资产', url: '/monitor/financial' },
 			{ id: 24, name: '涉诉监控', url: '/monitor/lawsuits' },
