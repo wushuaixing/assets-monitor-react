@@ -22,6 +22,7 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			type: 1,
+			phoneNum: '',
 		};
 	}
 
@@ -33,8 +34,14 @@ class Login extends React.Component {
 		});
 	};
 
+	inputPhoneNum = (num) => {
+		this.setState({
+			phoneNum: num,
+		});
+	}
+
 	render() {
-		const { type } = this.state;
+		const { type, phoneNum } = this.state;
 		return (
 			<div className="yc-login">
 				<Header />
@@ -46,11 +53,11 @@ class Login extends React.Component {
 						}
 						{/* 忘记密码验证吗界面 */}
 						{
-							type === 2 && <VerifyAccount changeType={this.changeType} />
+							type === 2 && <VerifyAccount inputPhoneNum={this.inputPhoneNum} changeType={this.changeType} />
 						}
 						{/* 填写手机验证码 */}
 						{
-							type === 3 && <WriteCode changeType={this.changeType} />
+							type === 3 && <WriteCode phoneNum={phoneNum} changeType={this.changeType} />
 						}
 						{/* 修改密码 */}
 						{
