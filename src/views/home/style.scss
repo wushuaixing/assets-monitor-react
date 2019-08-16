@@ -143,6 +143,21 @@
     }
   }
   .yc-container-main {
+    .yc-no-container {
+      padding: 30px;
+      text-align: center;
+      color: #bcc1cc;
+      font-size: 12px;
+      line-height: 30px;
+      .yc-data-img {
+        background-image: url("../../assets/img/home/img_blank_nodata.png");
+        margin: 0 auto;
+        width: 300px;
+        height: 180px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+      }
+    }
     .yc-group-search {
       width: 310px;
       margin-bottom: 10px;
@@ -206,7 +221,7 @@
 }
 .treetable {
   background-repeat: repeat;
-  background-image: url("../../assets/img/home/img_bg.png");
+  // background-image: url("../../assets/img/home/img_bg.png");
 }
 .ant-table-tbody > tr > td,
 .ant-table-thead > tr > th {

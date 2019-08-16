@@ -50,7 +50,7 @@ class comInput extends React.Component {
 		const { onChange } = this.props;
 		// console.log('onChange:', str);
 
-		onChange(str ? Number(str) : undefined);
+		onChange(str);
 	};
 
 	onFocus=() => {
@@ -132,8 +132,9 @@ class comInput extends React.Component {
 
 	render() {
 		const {
-			style, className, placeholder, defaultValue, value, money, decimal,
+			style, className, placeholder, defaultValue, value, money, decimal, onChange,
 		} = this.props;
+		// console.log(this.props);
 		const {
 			size, disabled, suffix, title,
 		} = this.props;
@@ -158,12 +159,13 @@ class comInput extends React.Component {
 		if (money) {
 			__value = value || value === 0 ? formatMoney(value, decimal || 0) : value;
 		}
-		const _value = inputValue || __value || defaultValue || '';
+		const	_value = (onChange ? __value : inputValue) || defaultValue || '';
 		// if (money) {
 		// 	if (value && !inputValue) {
 		// 		_value = !Number.isNaN(_value) ? formatMoney(_value, decimal) : formatMoney(_value, decimal)
 		// 	}
 		// }
+		// console.log(this.ref ? this.ref.value : '');
 		return (
 			<div className="yc-input-wrapper" style={style}>
 				{
@@ -179,8 +181,8 @@ class comInput extends React.Component {
 					ref={e => this.ref = e}
 					className={classList.join(' ')}
 					autoComplete="off"
-					disabled={disabled || false}
 					value={_value}
+					disabled={disabled || false}
 					placeholder={placeholder || '请输入'}
 					{...inputChange}
 					onBlur={this.onBlur}

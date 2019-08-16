@@ -1,5 +1,7 @@
 import React from 'react';
 import { Input, Button } from '@/common';
+import InputPrice from '@/common/input/input-price';
+
 import DatePicker from 'antd/lib/date-picker';
 import Select from 'antd/lib/select';
 import Form from 'antd/lib/form';
@@ -10,14 +12,25 @@ class QueryCondition extends React.Component {
 		this.state = {};
 	}
 
+	handleSubmit=() => {
+		const { form: { getFieldsValue } } = this.props;
+		console.log(111, getFieldsValue());
+	};
+
+	handleReset=() => {
+		const { form } = this.props;
+		form.resetFields();
+	};
+
 	render() {
+		const { form: { getFieldProps } } = this.props;
 		const _style1 = { width: 274 };
 		const _style2 = { width: 100 };
 		const _style3 = { width: 80 };
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="姓名/公司名称" />
+					<Input title="债务人" style={_style1} size="large" placeholder="姓名/公司名称" {...getFieldProps('zwr')} />
 				</div>
 				<div className="yc-query-item">
 					<Input title="证件号" style={_style1} size="large" placeholder="身份证号/统一社会信用代码" />
@@ -27,7 +40,14 @@ class QueryCondition extends React.Component {
 					<Input title="机构名称" style={_style1} size="large" placeholder="机构名称" />
 				</div>
 				<div className="yc-query-item">
-					<Input title="评估价" style={_style1} size="large" placeholder="未完善" />
+					<InputPrice
+						title="评估价"
+						style={_style1}
+						size="large"
+						suffix="万元"
+						inputFirstProps={getFieldProps('pgj1')}
+						inputSecondProps={getFieldProps('pgj2')}
+					/>
 				</div>
 				<div className="yc-query-item">
 					<Input title="信息标题" style={_style1} size="large" placeholder="拍卖信息标题" />
@@ -72,8 +92,8 @@ class QueryCondition extends React.Component {
 					<DatePicker size="large" style={_style2} placeholder="结束日期" />
 				</div>
 				<div className="yc-query-item yc-query-item-btn">
-					<Button size="large" type="warning" style={{ width: 84 }}>查询</Button>
-					<Button size="large" style={{ width: 120 }}>重置查询条件</Button>
+					<Button size="large" type="warning" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
+					<Button size="large" style={{ width: 120 }} onClick={this.handleReset}>重置查询条件</Button>
 				</div>
 				<div className="yc-split-hr" />
 			</div>
