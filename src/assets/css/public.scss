@@ -48,7 +48,7 @@ body,td,th {
 .yc-split-hr {
   width: 100%;
   height: 1px;
-  background-color: $background-border;
+  background-color: $background-line;
 }
 
 .yc-split-line-row{
@@ -480,9 +480,35 @@ td.column-center{
   border: 1px solid transparent;
 }
 .ant-table-row-collapsed:after {
-  content: "\E603";
+  content: "";
+  background-image: url("../img/home/icon_arrow_right.png");
+  width: 16px;
+  height: 17px;
+  border: medium none;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  display: inline-block;
+  background-repeat: no-repeat;
   -webkit-transition: -webkit-transform .2s ease;
   transition: -webkit-transform .2s ease;
+}
+.ant-table-row-expanded:after {
+  content: "";
+  background-image: url("../img/home/icon_arrow_down2.png");
+  width: 16px;
+  height: 17px;
+  border: medium none;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  display: inline-block;
+  background-repeat: no-repeat;
+  -webkit-transition: -webkit-transform .2s ease;
+  transition: -webkit-transform .2s ease;
+}
+.anticon-cross-circle:before {
+  color: #b7b7b7;
 }
 
 

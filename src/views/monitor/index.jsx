@@ -1,6 +1,6 @@
 import React from 'react';
 import { navigate } from '@reach/router';
-
+import './style.scss';
 import Router from '@/utils/Router';
 import { Tabs, Button } from '@/common';
 // 主要内容模块
@@ -29,6 +29,7 @@ const source = [
 		id: 2,
 		name: '代位权',
 		url: '/monitor/subrogation',
+		paramUrl: '',
 		number: 0,
 		dot: true,
 		components: Subrogation,
@@ -37,6 +38,7 @@ const source = [
 		id: 3,
 		name: '金融资产',
 		url: '/monitor/financial',
+		paramUrl: '',
 		number: 0,
 		dot: false,
 		components: Financial,
@@ -45,6 +47,7 @@ const source = [
 		id: 4,
 		name: '涉诉监控',
 		url: '/monitor/lawsuits',
+		paramUrl: '',
 		number: 0,
 		dot: true,
 		components: Lawsuits,
@@ -53,6 +56,7 @@ const source = [
 		id: 5,
 		name: '企业破产重组',
 		url: '/monitor/bankruptcy',
+		paramUrl: '',
 		number: 0,
 		dot: false,
 		components: Bankruptcy,
@@ -61,6 +65,7 @@ const source = [
 		id: 6,
 		name: '公示公告',
 		url: '/monitor/public',
+		paramUrl: '',
 		number: 0,
 		dot: false,
 		components: Public,
@@ -80,7 +85,7 @@ const MonitorMain = () => (
 					{'我的关注'}
 				</Button>
 			)}
-			onChange={res => navigate(res.url + res.paramUrl)}
+			onChange={res => navigate(res.url + res.paramUrl || '')}
 			source={source}
 		/>
 		<div className="yc-monitor yc-page-content">
