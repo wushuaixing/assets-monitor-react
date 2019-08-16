@@ -11,6 +11,17 @@
     width: 840px;
     margin-left: 163px;
     position: relative;
+    .high-search{
+        color: #337ab7;
+        font-size: 15px;
+        cursor: pointer;
+        text-decoration: underline;
+
+        padding: 0;
+        position: absolute;
+        right: 0;
+        top: 15px;
+    }
   }
 }
 
