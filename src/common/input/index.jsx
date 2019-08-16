@@ -165,7 +165,7 @@ class comInput extends React.Component {
 		// 		_value = !Number.isNaN(_value) ? formatMoney(_value, decimal) : formatMoney(_value, decimal)
 		// 	}
 		// }
-		console.log(this.ref ? this.ref.value : '');
+		// console.log(this.ref ? this.ref.value : '');
 		return (
 			<div className="yc-input-wrapper" style={style}>
 				{
