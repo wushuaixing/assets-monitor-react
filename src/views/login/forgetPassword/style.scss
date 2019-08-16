@@ -21,6 +21,13 @@
   }
   .yc-form-wapper {
     position: relative;
+    .yc-verificationCode {
+      position: absolute;
+      right: 0;
+      top: 0px;
+      height: 38px;
+      cursor: pointer;
+    }
     .yc-form-lable {
       float: left;
       width: 70px;

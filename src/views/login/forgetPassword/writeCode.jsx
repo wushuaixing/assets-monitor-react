@@ -10,8 +10,9 @@ import Spin from 'antd/lib/spin';
 import Button from 'antd/lib/button';
 import message from 'antd/lib/message';
 import PhoneModal from './noPhoneModal';
-// import rsaEncrypt from '@/utils/encryp';
-// import { Button } from '@/components';
+import {
+	sendVerificationSms, // login
+} from '@/utils/api/user';
 import './style.scss';
 
 const FormItem = Form.Item;
@@ -33,6 +34,14 @@ getCode = () => {
 	this.setState({
 		btnDisabled: true,
 	});
+	const {
+		phoneNum,
+	} = this.props;
+	if (phoneNum) {
+		sendVerificationSms(`phone: ${phoneNum}`); // 发送验证码
+	} else {
+		message.warning('手机号错误');
+	}
 	const timer = setInterval(() => {
 		time -= 1;
 		this.setState({
@@ -79,7 +88,7 @@ openModal = () => {
 			loading, phoneCode, btnDisabled, noPhoneModalVisible,
 		} = this.state;
 		const {
-			form: { getFieldProps },
+			form: { getFieldProps }, phoneNum,
 		} = this.props; // 会提示props is not defined
 
 		return (
@@ -91,7 +100,7 @@ openModal = () => {
 						<div className="yc-form-wapper writeCode">
 							<span className="yc-form-lable">手机号</span>
 							<FormItem>
-								<span className="yc-writeCode-phone">18870231056</span>
+								<span className="yc-writeCode-phone">{phoneNum && phoneNum}</span>
 								<Button disabled={btnDisabled} onClick={this.getCode} className="yc-form-writeCode">{phoneCode}</Button>
 							</FormItem>
 						</div>

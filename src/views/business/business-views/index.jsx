@@ -3,7 +3,13 @@ import DatePicker from 'antd/lib/date-picker';
 import Form from 'antd/lib/form';
 import Tooltip from 'antd/lib/tooltip';
 import Icon from 'antd/lib/icon';
+import Pagination from 'antd/lib/pagination';
+import message from 'antd/lib/message';
 import TableList from './table';
+import {
+	businessList, // 列表
+} from '@/utils/api/business';
+
 import { Input, Button } from '@/common';
 import './style.scss';
 
@@ -39,9 +45,85 @@ class BusinessView extends React.Component {
 		super(props);
 		this.state = {
 			openRowSelection: false,
+			dataList: [], // 接口返回数据
 			selectedRowKeys: [], // 这里配置默认勾选列
 			selectData: [], // 选中数组
+			totals: 0,
+			current: 1, // 当前页
+			pageSize: 10, // 默认展示条数
 		};
+	}
+
+	componentDidMount() {
+		this.getData();
+	}
+
+	// 获取消息列表
+	getData = (value) => {
+		const { current, pageSize } = this.state;
+		const params = {
+			page: {
+				num: pageSize,
+				page: current,
+			},
+			...value,
+		};
+		businessList(params).then((res) => {
+			if (res && res.data) {
+				this.setState({
+					dataList: res.data.list,
+					totals: res.data.total,
+				});
+			} else {
+				message.error(res.message);
+			}
+		}).catch(() => {
+			// this.setState({ loading: false });
+		});
+	};
+
+	// //  pagesize页面翻页可选
+	// onShowSizeChange = (current, pageSize) => {
+	// 	console.log(current, pageSize);
+
+	// 	const { form } = this.props; // 会提示props is not defined
+	// 	const { getFieldsValue } = form;
+	// 	const fields = getFieldsValue();
+	// 	const params = {
+	// 		...fields,
+	// 		page: {
+	// 			num: pageSize,
+	// 			page: current,
+	// 		},
+	// 	};
+
+	// 	this.getData(params);
+
+	// 	this.setState({
+	// 		pageSize,
+	// 		current: 1,
+	// 	});
+	// }
+
+	// page翻页
+	handleChangePage = (val) => {
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const { repayStartTime, repayEndTime, pageSize } = this.state;
+		const fields = getFieldsValue();
+		console.log(val, pageSize);
+		const params = {
+			...fields,
+			page: {
+				num: pageSize,
+				page: val,
+			},
+		};
+
+		this.getData(params);
+		this.setState({
+			current: val,
+		});
 	}
 
 	openManagement = (openRowSelection) => {
@@ -60,7 +142,9 @@ class BusinessView extends React.Component {
 	};
 
 	render() {
-		const { openRowSelection, selectedRowKeys, selectData } = this.state;
+		const {
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList,
+		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldsValue } = form;
 		const fields = getFieldsValue();
@@ -69,7 +153,6 @@ class BusinessView extends React.Component {
 			selectedRowKeys,
 			onChange: this.onSelectChange,
 		};
-		console.log(fields, selectData);
 
 		return (
 			<div className="yc-content-query">
@@ -85,8 +168,6 @@ class BusinessView extends React.Component {
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
-								// getValueFromEvent: e => console.log(e),
-
 							})}
 						/>
 					</div>
@@ -101,7 +182,6 @@ class BusinessView extends React.Component {
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
 								// ],
-								// getValueFromEvent: e => e.target.value.replace(/\s+/g, ''),
 							})}
 						/>
 					</div>
@@ -116,7 +196,6 @@ class BusinessView extends React.Component {
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
 								// ],
-								getValueFromEvent: e => e.target.value.replace(/\s+/g, ''),
 							})}
 						/>
 					</div>
@@ -131,7 +210,6 @@ class BusinessView extends React.Component {
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
 								// ],
-								getValueFromEvent: e => e.target.value.replace(/\s+/g, ''),
 							})}
 						/>
 					</div>
@@ -183,6 +261,20 @@ class BusinessView extends React.Component {
 						</Tooltip>
 					</div>
 					<TableList stateObj={this.state} rowSelection={rowSelection} />
+					<div className="yc-pagination">
+						<Pagination
+							total={totals}
+							current={current}
+							defaultPageSize={10} // 默认条数
+							showQuickJumper
+							showTotal={total => `共 ${total} 条记录`}
+							onShowSizeChange={this.onShowSizeChange}
+							onChange={(val) => {
+								this.handleChangePage(val);
+							}}
+						/>
+						<div className="yc-pagination-btn"><Button>跳转</Button></div>
+					</div>
 				</Form>
 			</div>
 		);
