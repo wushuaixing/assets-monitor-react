@@ -21,7 +21,17 @@ const Datas = (props) => {
 				{
 					plaintiff.map((item, index) => (
 						<div className="item" style={{ 'margin-right': 10 }}>
-							<Input key={item.id} title="原告" value={item.name} placeholder="姓名/公司名称" />
+							<Input
+								key={item.id}
+								title="原告"
+								value={item.name}
+								placeholder="姓名/公司名称"
+								onChange={(val) => {
+									const temp = plaintiff;
+									temp[index].name = val;
+									setPlaintiff(temp);
+								}}
+							/>
 							{
 								plaintiff.length > 0 ? (
 									<img
@@ -61,7 +71,17 @@ const Datas = (props) => {
 				{
 					defendant.map((item, index) => (
 						<div className="item" style={{ 'margin-right': 10 }}>
-							<Input key={item.id} title="被告" value={item.name} placeholder="姓名/公司名称" />
+							<Input
+								key={item.id}
+								title="被告"
+								value={item.name}
+								placeholder="姓名/公司名称"
+								onChange={(val) => {
+									const temp = defendant;
+									temp[index].name = val;
+									setDefendant(temp);
+								}}
+							/>
 							{
 								defendant.length > 0 ? (
 									<img
