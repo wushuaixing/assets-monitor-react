@@ -43,8 +43,10 @@ class comInput extends React.Component {
 		const {
 			size, disabled, suffix, title, style, inputFirstProps, inputSecondProps,
 		} = this.props;
+		const f = inputFirstProps;
+		const s = inputSecondProps;
+		console.log(inputFirstProps);
 		const { focus, value1, value2 } = this.state;
-
 		const classList = ['yc-price'];
 		if (size) classList.push(size ? `yc-input-${size}` : '');
 		if (disabled)classList.push('yc-input-disabled');
@@ -66,7 +68,7 @@ class comInput extends React.Component {
 					autoComplete="off"
 					disabled={disabled || false}
 					placeholder="最低价"
-					value={value1 || inputFirstProps.value || inputFirstProps.defaultValue || ''}
+					value={(f.onChange ? f.value : value1) || f.defaultValue || ''}
 					onChange={e => this.onChange(e, 'value1')}
 					onBlur={this.onBlur}
 					onFocus={this.onFocus}
@@ -84,7 +86,7 @@ class comInput extends React.Component {
 					className={classList.join(' ')}
 					autoComplete="off"
 					disabled={disabled || false}
-					value={value2 || inputSecondProps.value || inputSecondProps.defaultValue || ''}
+					value={(s.onChange ? s.value : value2) || s.defaultValue || ''}
 					placeholder="最高价"
 					onChange={e => this.onChange(e, 'value2')}
 					onBlur={this.onBlur}
