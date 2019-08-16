@@ -15,7 +15,7 @@ module.exports = {
 	entry: `${ROOT}/src/index.jsx`,
 	output: {
 		path: `${ROOT}/docs`,
-		filename: 'index.js.[contenthash].js',
+		filename: 'index.[contenthash].js',
 	},
 	resolve: {
 		alias: {
