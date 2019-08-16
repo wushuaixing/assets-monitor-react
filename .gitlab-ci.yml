@@ -1,0 +1,71 @@
+stages:
+  - install_deps
+  - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+    - docs
+
+# 安装依赖
+install_deps:
+  stage: install_deps
+  tags:
+    - font-group-runner
+  only:
+    - tags
+    - master
+    - dev-branch
+  script:
+    - node -v
+    - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
+    - yarn config set sass-binary-site https://npm.taobao.org/mirrors/node-sass
+    - yarn install
+
+# 编译
+build_step:
+  stage: build
+  tags:
+    - font-group-runner
+  only:
+    - tags
+    - master
+    - dev-branch
+  script:
+    - rm ./docs/* -rf
+    - yarn build
+
+# 拷贝
+deploy_step:
+  stage: deploy
+  tags:
+    - font-group-runner
+  only:
+    - tags
+    - master
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
+    - chmod 644 ~/.ssh/know_hosts
+    - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-manager-new/web
+
+# 拷贝
+deploy_step_dev:
+  stage: deploy
+  tags:
+    - font-group-runner
+  only:
+    - dev-branch
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
+    - chmod 644 ~/.ssh/know_hosts
+    - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-manager-new/web
+
