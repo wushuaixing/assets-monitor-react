@@ -7,7 +7,7 @@ import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
 
 const Datas = (props) => {
-	const [itemList, setItemList] = useState([{
+	const [plaintiff, setPlaintiff] = useState([{
 		name: '',
 		id: 1,
 	}]);
@@ -19,19 +19,19 @@ const Datas = (props) => {
 		<div className="yc-tabs-data" style={{ padding: '16px 22px' }}>
 			<div className="yc-tabs-items">
 				{
-					itemList.map((item, index) => (
+					plaintiff.map((item, index) => (
 						<div className="item" style={{ 'margin-right': 10 }}>
 							<Input key={item.id} title="原告" value={item.name} placeholder="姓名/公司名称" />
 							{
-								itemList.length > 0 ? (
+								plaintiff.length > 0 ? (
 									<img
 										alt=""
 										className="close"
 										src={close}
 										onClick={() => {
-											const temp = itemList;
+											const temp = plaintiff;
 											temp.splice(index, 1);
-											setItemList(temp);
+											setPlaintiff(temp);
 										}}
 									/>
 								) : null
@@ -40,18 +40,18 @@ const Datas = (props) => {
 					))
 				}
 				{
-					itemList.length > 2 ? (<span style={{ 'margin-top': 8, display: 'inline-block' }}>最多添加3个</span>) : (
+					plaintiff.length > 2 ? (<span style={{ 'margin-top': 8, display: 'inline-block' }}>最多添加3个</span>) : (
 						<img
 							alt=""
 							style={{ 'margin-top': 8 }}
 							src={add}
 							onClick={() => {
-								const temp = itemList;
+								const temp = plaintiff;
 								temp.push({
 									name: '',
-									id: itemList.length + 1,
+									id: plaintiff.length + 1,
 								});
-								setItemList(temp);
+								setPlaintiff(temp);
 							}}
 						/>
 					)
