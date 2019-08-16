@@ -2,6 +2,7 @@ import React from 'react';
 import Form from 'antd/lib/form';
 import Table from 'antd/lib/table';
 import Tooltip from 'antd/lib/tooltip';
+import TableList from './table';
 
 const columns = [{
 	title: '业务编号',

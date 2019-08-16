@@ -13,6 +13,7 @@ import message from 'antd/lib/message';
 // import { Button } from '@/components';
 import './style.scss';
 
+const verificationCodeImg = 'http://172.18.255.251:18080/yc/open/verificationCode';
 const FormItem = Form.Item;
 const createForm = Form.create;
 
@@ -21,12 +22,13 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			loading: false,
+			codeImg: verificationCodeImg,
 		};
 	}
 
 	handleSubmit = () => {
 		const {
-			form, changeType,
+			form, changeType, inputPhoneNum,
 		} = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
@@ -39,17 +41,25 @@ class Login extends React.Component {
 				return;
 			}
 			console.log(fields);
+			inputPhoneNum(fields.username);
 			changeType(3);
 		});
 	};
 
+	verificationCode = () => {
+		this.setState({
+			codeImg: `${verificationCodeImg}?${Math.random()}`,
+		});
+	}
+
 	render() {
 		const {
-			loading, userName,
+			loading, userName, codeImg,
 		} = this.state;
 		const {
 			form: { getFieldProps },
 		} = this.props; // 会提示props is not defined
+		console.log(codeImg);
 
 		return (
 
@@ -82,6 +92,8 @@ class Login extends React.Component {
 								<Input
 									className="yc-login-input"
 									placeholder="请输入验证码"
+									maxlength={4}
+									style={{ parringRight: 160 }}
 									{...getFieldProps('resetImg', {
 										rules: [
 											{
@@ -91,6 +103,7 @@ class Login extends React.Component {
 										],
 									})}
 								/>
+								<img onClick={this.verificationCode} className="yc-verificationCode" src={codeImg} alt="" />
 							</FormItem>
 						</div>
 						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>下一步</Button>

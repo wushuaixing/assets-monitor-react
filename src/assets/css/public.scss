@@ -511,7 +511,29 @@ td.column-center{
   color: #b7b7b7;
 }
 
+.yc-pagination {
+  position: relative;
+  left: 812px;
+  margin-top: 24px;
+  &::after {
+    clear:both;
+    content:'.';
+    display:block;
+    width: 0;
+    height: 0;
+    visibility:hidden;
+  }
+  .ant-pagination  {
+    display: inline-block;
+  }
+}
 
+.yc-pagination-btn{
+  display: inline-block;
+  position: relative;
+  bottom: 11px;
+  left: 8px;
+}
 input::-webkit-input-placeholder{
   color:#999;
 }

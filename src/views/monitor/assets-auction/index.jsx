@@ -71,6 +71,7 @@ export default class Assets extends React.Component {
 				<div className="assets-auction-action">
 					<Button>批量管理</Button>
 				</div>
+				<div style={{ height: 600 }} />
 			</div>
 		);
 	}

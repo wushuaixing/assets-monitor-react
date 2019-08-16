@@ -21,7 +21,7 @@ const HomeRouter = () => (
 		<hr />
 		<InputPrice suffix="万元" title="业务编号" style={{ width: 274 }} />
 		<hr />
-		<input type="number" />
+		<input type="text" onChange={e => console.log(e)} />
 	</div>
 );
 export default HomeRouter;
