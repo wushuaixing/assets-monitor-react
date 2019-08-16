@@ -1,7 +1,6 @@
 import React from 'react';
-import {
-	Input, Icon,
-} from 'antd';
+import Icon from 'antd/lib/icon';
+import Input from 'antd/lib/input';
 import './style.scss';
 
 export default class BasicTable extends React.Component {
