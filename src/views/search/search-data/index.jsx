@@ -34,7 +34,20 @@ const Datas = (props) => {
 			);
 		}
 		return (
-			<SelectSearch options={active.types} />
+			<React.Fragment>
+				{
+					active.id === 1 ? (<SelectSearch options={active.types} />) : null
+				}
+				{
+					active.id === 2 ? (<SelectSearch options={active.types} />) : null
+				}
+				{
+					active.id === 3 ? (<SelectSearch options={active.types} />) : null
+				}
+				{
+					active.id === 4 ? (<SelectSearch />) : null
+				}
+			</React.Fragment>
 		);
 	};
 	return renderDom();

@@ -5,8 +5,8 @@ import Select from 'antd/lib/select';
 
 const Datas = (props) => {
 	const { options } = props;
-	if (options.length > 0) {
-		const [placeholder, setPlaceholder] = useState('身份证、统一社会信用代码');
+	if (options) {
+		const [placeholder, setPlaceholder] = useState(options[1].placeholder);
 		const [selectId, setSelectId] = useState(options[1].id);
 		return (
 			<div className="select-search">
@@ -45,7 +45,7 @@ const Datas = (props) => {
 	return (
 		<div className="select-search">
 			<div className="select">
-				<p className='financial'>全文</p>
+				<p className="financial">全文</p>
 			</div>
 			<Input placeholder="标题、关键字" />
 			<Button

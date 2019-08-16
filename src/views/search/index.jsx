@@ -81,7 +81,6 @@ const tabSource = [
 const HomeRouter = () => {
 	const [active, setActive] = useState(tabSource[0]);
 	const [highSearch, setHighSearch] = useState(false);
-
 	return (
 		<div className="search-wrapper">
 			<p>信息搜索</p>
@@ -91,7 +90,7 @@ const HomeRouter = () => {
 					source={tabSource}
 					onChange={(item) => {
 						setActive(item);
-						console.log(item);
+						//console.log('22',item)
 					}}
 				/>
 				{
