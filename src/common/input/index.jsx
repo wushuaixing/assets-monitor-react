@@ -50,7 +50,7 @@ class comInput extends React.Component {
 		const { onChange } = this.props;
 		// console.log('onChange:', str);
 
-		onChange(str ? Number(str) : undefined);
+		onChange(str);
 	};
 
 	onFocus=() => {
