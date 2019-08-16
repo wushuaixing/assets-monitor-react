@@ -1,12 +1,15 @@
 import React from 'react';
-import {
-	Input, Button, Select, Table, Pagination, message, Modal,
-} from 'antd';
+import Input from 'antd/lib/input';
+import Button from 'antd/lib/button';
+import Select from 'antd/lib/select';
+import Table from 'antd/lib/table';
+import Pagination from 'antd/lib/pagination';
+import message from 'antd/lib/message';
+import Modal from 'antd/lib/modal';
 import '../style.scss';
 import EditModal from './editModal';
 import Search from '../search';
 
-const InputGroup = Input.Group;
 const { confirm } = Modal;
 export default class BasicTable extends React.Component {
 	constructor(props) {
