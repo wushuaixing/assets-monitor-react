@@ -12,6 +12,7 @@ import Affix from 'antd/lib/affix';
 import Tooltip from 'antd/lib/tooltip';
 import Icon from 'antd/lib/icon';
 import flat from '../../utils/flatArray';
+
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
 import './style.scss';
@@ -116,6 +117,50 @@ const dataList = [{
 			num: 122,
 			all: 1233,
 			totalMoney: '106,202.00',
+		}, {
+			key: 12,
+			name: '崔金鑫测试机构121',
+			age: 33,
+			num: 122,
+			all: 1233,
+			totalMoney: '106,202.00',
+			children: [{
+				key: 121,
+				name: '崔金鑫测试机构1211',
+				age: 33,
+				num: 122,
+				all: 1233,
+				totalMoney: '106,202.00',
+			}, {
+				key: 121,
+				name: '崔金鑫测试机构1211',
+				age: 33,
+				num: 122,
+				all: 1233,
+				totalMoney: '106,202.00',
+			}],
+		}, {
+			key: 12,
+			name: '崔金鑫测试机构121',
+			age: 33,
+			num: 122,
+			all: 1233,
+			totalMoney: '106,202.00',
+			children: [{
+				key: 121,
+				name: '崔金鑫测试机构1211',
+				age: 33,
+				num: 122,
+				all: 1233,
+				totalMoney: '106,202.00',
+			}, {
+				key: 121,
+				name: '崔金鑫测试机构1211',
+				age: 33,
+				num: 122,
+				all: 1233,
+				totalMoney: '106,202.00',
+			}],
 		}],
 	}, {
 		key: 13,
@@ -187,10 +232,11 @@ class Login extends React.Component {
 	btnSearch = (value) => {
 		const arr = flat(dataList) && flat(dataList).filter(item => item !== undefined);
 		const list = arr.filter(item => item.name === value);
-		console.log(value, list);
-		this.setState({
-			data: list,
-		});
+		if (value) {
+			this.setState({
+				data: list,
+			});
+		}
 	}
 
 	inputSearchFoucs = () => {
@@ -264,20 +310,30 @@ class Login extends React.Component {
 						</tbody>
 					</table>
 				</Affix>
-				<Table
-					columns={columns}
-					dataSource={data}
-					showHeader={false}
-					style={{ width: '100%' }}
-					defaultExpandAllRows
-					pagination={false}
-					onRowClick={(record, index) => {
-						if (!record.children) {
-							const w = window.open('about:blank');
-							w.location.href = '#/monitor';
-						}
-					}}
-				/>
+
+				{data && data.length > 0 ? (
+					<Table
+						columns={columns}
+						dataSource={data}
+						showHeader={false}
+						style={{ width: '100%' }}
+						defaultExpandAllRows
+						pagination={false}
+						onRowClick={(record) => {
+							if (!record.children) {
+								const w = window.open('about:blank');
+								w.location.href = '#/monitor';
+							}
+						}}
+					/>
+				) : (
+					<div className="yc-no-container">
+						<div className="yc-data-img" />
+						<span>暂无数据</span>
+
+					</div>
+				)
+			}
 			</Form>
 		);
 	}
