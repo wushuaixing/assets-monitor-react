@@ -17,6 +17,12 @@
         vertical-align: top;
         width: 230px;
         margin: 0 26px 16px 0;
+        position: relative;
+        .close{
+          position: absolute;
+          right: -6px;
+          top: -6px;
+        }
       }
       :nth-child(3n+0)
       {
