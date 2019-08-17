@@ -63,6 +63,10 @@ const Item = (props) => {
 	 */
 	const toNavigate = (event, items, parent) => {
 		navigate(items.url);
+		// setTimeout(() => {
+		// 	window.scrollTo(0, 0);
+		// });
+		// document.body.scrollTo(0, 0);
 		const _childId = children ? children[0].id : '';
 		set({
 			p: parent ? parent.id : items.id,
