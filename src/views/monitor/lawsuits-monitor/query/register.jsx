@@ -1,8 +1,6 @@
 import React from 'react';
 import { Input, Button } from '@/common';
-import DatePicker from 'antd/lib/date-picker';
-import Form from 'antd/lib/form';
-import Radio from 'antd/lib/radio';
+import { DatePicker, Form, Radio } from '@antd';
 
 class QueryCondition extends React.Component {
 	constructor(props) {

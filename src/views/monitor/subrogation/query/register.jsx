@@ -1,7 +1,6 @@
 import React from 'react';
 import { Input, Button } from '@/common';
-import DatePicker from 'antd/lib/date-picker';
-import Form from 'antd/lib/form';
+import { DatePicker, Form } from '@antd';
 
 const toTime = n => window.parseInt((new Date(n).getTime()) / 1000);
 const handleTime = ['startLarq', 'endLarq', 'startUpdateTime', 'endUpdateTime'];
