@@ -2,12 +2,19 @@ import React from 'react';
 import Form from 'antd/lib/form';
 import Table from 'antd/lib/table';
 import Tooltip from 'antd/lib/tooltip';
+import message from 'antd/lib/message';
+import Modal from 'antd/lib/modal';
+import {
+	openPush, // 打开推送
+	closePush, // 关闭推送
+	postDelete, // 删除一条记录
+} from '@/utils/api/business';
 
+const { confirm } = Modal;
 
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
-		const { showConfirm } = props;
 		this.state = {
 			columns: [{
 				title: '业务编号',
@@ -88,8 +95,8 @@ class BusinessView extends React.Component {
 				width: 100,
 			},	{
 				title: '推送状态',
-				dataIndex: 'upPut',
-				key: 'upPut',
+				dataIndex: 'pushState',
+				key: 'pushState',
 				width: 110,
 				render: text => (
 					<React.Fragment>
@@ -101,7 +108,7 @@ class BusinessView extends React.Component {
 
 							) : (
 								<React.Fragment>
-									<p className="no-attention">禁用</p>
+									<p className="no-attention">关闭</p>
 								</React.Fragment>
 							)
 						}
@@ -111,19 +118,73 @@ class BusinessView extends React.Component {
 			}, {
 				title: '操作',
 				key: 'operation',
-				render: () => (
+				render: (text, row) => (
 					<span>
 						<a href="#">查看详情</a>
 						<span className="ant-divider" />
-						<a href="#">关闭推送</a>
+						<a onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</a>
 						<span className="ant-divider" />
-						<a onClick={showConfirm}>删除</a>
+						<a onClick={() => this.showDeleteConfirm(row)}>删除</a>
 					</span>
 				),
 			}],
 		};
 	}
 
+	// 删除一条业务
+	showDeleteConfirm = (row) => {
+		const { getData } = this.props; // 刷新列表
+		confirm({
+			title: '确认删除选中业务吗?',
+			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
+			iconType: 'exclamation-circle-o',
+			onOk() {
+				console.log('确定');
+				const params = {
+					id: row.id,
+				};
+				postDelete(params).then((res) => {
+					if (res.code === 200) {
+						console.log(res);
+						getData();
+					}
+				});
+			},
+			onCancel() {},
+		});
+	}
+
+	// 关闭, 开启推送
+	handlePut = (row) => {
+		const { getData } = this.props;// 刷新列表
+		confirm({
+			title: `确认${row.pushState === 1 ? '关闭' : '开启'}本条业务的推送功能吗?`,
+			content: `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本条业务相关的监控信息。`,
+			iconType: 'exclamation-circle-o',
+			onOk() {
+				console.log('确定', row.id);
+				const params = {
+					id: row.id,
+				};
+				if (row.pushState === 1) {
+					closePush(params).then((res) => {
+						if (res.code === 200) {
+							message.success('关闭成功');
+							getData();
+						}
+					});
+				} else {
+					openPush(params).then((res) => {
+						if (res.code === 200) {
+							message.success('开启成功');
+							getData();
+						}
+					});
+				}
+			},
+			onCancel() {},
+		});
+	}
 
 	render() {
 		const { stateObj, rowSelection } = this.props;

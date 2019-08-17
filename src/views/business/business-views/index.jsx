@@ -4,17 +4,17 @@ import Form from 'antd/lib/form';
 import Tooltip from 'antd/lib/tooltip';
 import Icon from 'antd/lib/icon';
 import Pagination from 'antd/lib/pagination';
+import Spin from 'antd/lib/spin';
 import message from 'antd/lib/message';
-import Modal from 'antd/lib/modal';
 import TableList from './table';
 import {
 	businessList, // 列表
+	exportExcel, // 导出列表
 } from '@/utils/api/business';
 
 import { Input, Button } from '@/common';
 import './style.scss';
 
-const { confirm } = Modal;
 const createForm = Form.create;
 
 const _style1 = { width: 274 };
@@ -53,6 +53,7 @@ class BusinessView extends React.Component {
 			totals: 0,
 			current: 1, // 当前页
 			pageSize: 10, // 默认展示条数
+			loading: false,
 		};
 	}
 
@@ -70,11 +71,15 @@ class BusinessView extends React.Component {
 			},
 			...value,
 		};
+		this.setState({
+			loading: true,
+		});
 		businessList(params).then((res) => {
 			if (res && res.data) {
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
+					loading: false,
 				});
 			} else {
 				message.error(res.message);
@@ -117,18 +122,6 @@ class BusinessView extends React.Component {
 		this.getData(params);
 	}
 
-	// 关闭推送
-	showConfirm = () => {
-		confirm({
-			title: '确认删除选中业务吗?',
-			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
-			iconType: 'exclamation-circle-o',
-			onOk() {
-				console.log('确定');
-			},
-			onCancel() {},
-		});
-	}
 
 	openManagement = (openRowSelection) => {
 		this.setState({
@@ -145,9 +138,48 @@ class BusinessView extends React.Component {
 		});
 	};
 
+	// 一键导出
+	handleExportExcel = () => {
+		console.log('导出');
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const fields = getFieldsValue();
+		const params = {
+			...fields,
+		};
+		exportExcel(params).then((res) => {
+			if (res.status === 200) {
+				const downloadElement = document.createElement('a');
+				downloadElement.href = res.responseURL;
+				// document.body.appendChild(downloadElement);
+				downloadElement.click(); // 点击下载
+				message.success('下载成功');
+			} else {
+				message.error('请求失败');
+			}
+		});
+	}
+
+	// 重置输入框
+	queryReset = () => {
+		const { form } = this.props; // 会提示props is not defined
+		const { resetFields } = form;
+		resetFields('');
+		this.getData();
+	}
+
+	// 判断点击的键盘的keyCode是否为13，是就调用上面的搜索函数
+	handleEnterKey = (e) => {
+		console.log(1);
+
+		if (e.nativeEvent.keyCode === 13) { // e.nativeEvent获取原生的事件对像
+			this.getData();
+		}
+	}
+
 	render() {
 		const {
-			openRowSelection, selectedRowKeys, selectData, totals, current, dataList,
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -166,6 +198,7 @@ class BusinessView extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="业务编号"
+							onKeyPress={this.handleEnterKey} // enter事件
 							{...getFieldProps('caseNumber', {
 							// initialValue: true,
 							// rules: [
@@ -219,14 +252,34 @@ class BusinessView extends React.Component {
 
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">上传时间: </span>
-						<DatePicker size="large" style={_style2} placeholder="开始日期" />
+						<DatePicker
+							{...getFieldProps('uploadTimeStart', {
+							// initialValue: true,
+							// rules: [
+							// 	{ required: true, whitespace: true, message: '请填写密码' },
+							// ],
+							})}
+							size="large"
+							style={_style2}
+							placeholder="开始日期"
+						/>
 						<span className="yc-query-item-title">至</span>
-						<DatePicker size="large" style={_style2} placeholder="结束日期" />
+						<DatePicker
+							{...getFieldProps('uploadTimeEnd', {
+							// initialValue: true,
+							// rules: [
+							// 	{ required: true, whitespace: true, message: '请填写密码' },
+							// ],
+							})}
+							size="large"
+							style={_style2}
+							placeholder="结束日期"
+						/>
 					</div>
 
 					<div className="yc-query-item yc-query-item-btn">
 						<Button onClick={this.search} size="large" type="warning" style={{ width: 84 }}>查询</Button>
-						<Button size="large" style={{ width: 120 }}>重置查询条件</Button>
+						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 					<div className="yc-split-hr" />
 
@@ -255,7 +308,7 @@ class BusinessView extends React.Component {
 							{openRowSelection ? '取消管理' : '批量管理'}
 						</Button>
 						{!openRowSelection && (
-						<Button className="yc-business-btn">
+						<Button onClick={this.handleExportExcel} className="yc-business-btn">
 							一键导出
 						</Button>
 						)}
@@ -263,7 +316,9 @@ class BusinessView extends React.Component {
 							<Icon className="yc-business-icon" type="question-circle-o" />
 						</Tooltip>
 					</div>
-					<TableList stateObj={this.state} rowSelection={rowSelection} showConfirm={this.showConfirm} />
+					<Spin spinning={loading}>
+						<TableList stateObj={this.state} rowSelection={rowSelection} getData={this.getData} />
+					</Spin>
 					<div className="yc-pagination">
 						<Pagination
 							total={totals}

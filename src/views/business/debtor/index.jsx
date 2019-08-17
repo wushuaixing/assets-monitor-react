@@ -62,19 +62,6 @@ class BusinessDebtor extends React.Component {
 		});
 	};
 
-	//  pagesize页面翻页可选
-	onShowSizeChange = (current, pageSize) => {
-		const { form } = this.props; // 会提示props is not defined
-		const { getFieldsValue } = form;
-		const fields = getFieldsValue();
-		console.log(fields);
-
-		this.setState({
-			pageSize,
-			current: 1,
-		});
-	}
-
 	// page翻页
 	handleChangePage = (val) => {
 		const { form } = this.props; // 会提示props is not defined
@@ -141,22 +128,21 @@ class BusinessDebtor extends React.Component {
 					</Button>
 				</div>
 				<TableList stateObj={this.state} rowSelection={rowSelection} />
-				<Pagination
-					// current={searchData.page}
-					className="yc-pagination"
-						// total={totals}
-					total={32}
-					current={current}
-					defaultPageSize={20} // 默认条数
-						// PageSize={22}
-					showQuickJumper
-					showSizeChanger
-					showTotal={total => `共 ${total} 条记录`}
-					onShowSizeChange={this.onShowSizeChange}
-					onChange={(val) => {
-						this.handleChangePage(val);
-					}}
-				/>
+				<div className="yc-pagination">
+					<Pagination
+						total={totals}
+						current={current}
+						defaultPageSize={10} // 默认条数
+						showQuickJumper
+						showTotal={total => `共 ${total} 条记录`}
+						onChange={(val) => {
+							console.log(val);
+
+							this.handleChangePage(val);
+						}}
+					/>
+					{/* <div className="yc-pagination-btn"><Button>跳转</Button></div> */}
+				</div>
 			</div>
 		);
 	}
