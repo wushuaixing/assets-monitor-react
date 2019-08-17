@@ -48,8 +48,6 @@ class comInput extends React.Component {
 			inputValue: str,
 		});
 		const { onChange } = this.props;
-		// console.log('onChange:', str);
-
 		onChange(str);
 	};
 

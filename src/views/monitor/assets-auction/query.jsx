@@ -2,9 +2,7 @@ import React from 'react';
 import { Input, Button } from '@/common';
 import InputPrice from '@/common/input/input-price';
 
-import DatePicker from 'antd/lib/date-picker';
-import Select from 'antd/lib/select';
-import Form from 'antd/lib/form';
+import { DatePicker, Select, Form } from '@/common/antd';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -20,6 +18,7 @@ class QueryCondition extends React.Component {
 	handleReset=() => {
 		const { form } = this.props;
 		form.resetFields();
+		console.log('reset:', form.getFieldsValue());
 	};
 
 	render() {
@@ -33,11 +32,11 @@ class QueryCondition extends React.Component {
 					<Input title="债务人" style={_style1} size="large" placeholder="姓名/公司名称" {...getFieldProps('zwr')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="证件号" style={_style1} size="large" placeholder="身份证号/统一社会信用代码" />
+					<Input title="证件号" style={_style1} size="large" placeholder="身份证号/统一社会信用代码" {...getFieldProps('zjh')} />
 				</div>
 				<br />
 				<div className="yc-query-item">
-					<Input title="机构名称" style={_style1} size="large" placeholder="机构名称" />
+					<Input title="机构名称" style={_style1} size="large" placeholder="机构名称" {...getFieldProps('jgmc')} />
 				</div>
 				<div className="yc-query-item">
 					<InputPrice
@@ -50,15 +49,15 @@ class QueryCondition extends React.Component {
 					/>
 				</div>
 				<div className="yc-query-item">
-					<Input title="信息标题" style={_style1} size="large" placeholder="拍卖信息标题" />
+					<Input title="信息标题" style={_style1} size="large" placeholder="拍卖信息标题" {...getFieldProps('title')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="处置机关" style={_style1} size="large" placeholder="处置法院/单位" />
+					<Input title="处置机关" style={_style1} size="large" placeholder="处置法院/单位" {...getFieldProps('dw')} />
 				</div>
 
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">匹配类型：</span>
-					<Select size="large" defaultValue="all" style={_style3}>
+					<Select size="large" defaultValue="all" style={_style3} {...getFieldProps('type', { initialValue: 'all' })}>
 						<Select.Option value="all">全部</Select.Option>
 						<Select.Option value="exact">精准匹配</Select.Option>
 						<Select.Option value="obscure">模糊匹配</Select.Option>
@@ -66,8 +65,8 @@ class QueryCondition extends React.Component {
 				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">开拍时间：</span>
-					<Select size="large" defaultValue="all" style={_style3}>
+					<span className="yc-query-item-title">拍卖状态：</span>
+					<Select size="large" defaultValue="all" style={_style3} {...getFieldProps('status', { initialValue: 'all' })}>
 						<Select.Option value="all">全部</Select.Option>
 						<Select.Option value="exact">中止</Select.Option>
 						<Select.Option value="exact">撤回</Select.Option>
@@ -79,18 +78,19 @@ class QueryCondition extends React.Component {
 				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">更新时间：</span>
-					<DatePicker size="large" style={_style2} placeholder="开始日期" />
+					<span className="yc-query-item-title">开拍时间：</span>
+					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('kpStart')} />
 					<span className="yc-query-item-title">至</span>
-					<DatePicker size="large" style={_style2} placeholder="结束日期" />
+					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('kpEnd')} />
 				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">拍卖状态：</span>
-					<DatePicker size="large" style={_style2} placeholder="开始日期" />
+					<span className="yc-query-item-title">更新时间：</span>
+					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('gxStart')} />
 					<span className="yc-query-item-title">至</span>
-					<DatePicker size="large" style={_style2} placeholder="结束日期" />
+					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('gxEnd')} />
 				</div>
+
 				<div className="yc-query-item yc-query-item-btn">
 					<Button size="large" type="warning" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
 					<Button size="large" style={{ width: 120 }} onClick={this.handleReset}>重置查询条件</Button>
