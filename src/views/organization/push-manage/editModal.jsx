@@ -1,7 +1,8 @@
 import React from 'react';
-import {
-	Modal, Input, message, Select,
-} from 'antd';
+import Modal from 'antd/lib/modal';
+import Input from 'antd/lib/input';
+import Select from 'antd/lib/select';
+import message from 'antd/lib/message';
 
 export default class DetailModal extends React.Component {
 	constructor(props) {

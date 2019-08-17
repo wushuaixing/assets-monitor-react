@@ -1,7 +1,9 @@
 import React from 'react';
-import {
-	Breadcrumb, Button, Select, Table, Pagination,
-} from 'antd';
+import Breadcrumb from 'antd/lib/breadcrumb';
+import Button from 'antd/lib/button';
+import Select from 'antd/lib/select';
+import Table from 'antd/lib/table';
+import Pagination from 'antd/lib/pagination';
 import './style.scss';
 import { navigate } from '@reach/router';
 
