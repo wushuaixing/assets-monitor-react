@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Button } from '@/common';
 import InputPrice from '@/common/input/input-price';
 
-import { DatePicker, Select, Form } from '@/common/antd';
+import { DatePicker, Select, Form } from '@antd';
 
 class QueryCondition extends React.Component {
 	constructor(props) {

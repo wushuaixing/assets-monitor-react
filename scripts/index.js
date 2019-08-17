@@ -27,6 +27,7 @@ module.exports = {
 			'@reach/router': `${ROOT}/patchs/Router`,
 			redux: `${ROOT}/patchs/redux`,
 			'@': `${ROOT}/src`,
+			'@antd': `${ROOT}/src/common/antd`,
 			api: `${ROOT}/src/utils/api`,
 		},
 		extensions: ['.js', '.jsx'],
