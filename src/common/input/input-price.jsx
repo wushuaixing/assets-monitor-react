@@ -21,9 +21,18 @@ class comInput extends React.Component {
 
 	onChange=(event, field) => {
 		// const { value1 } = this.state;
+		const {
+			inputFirstProps, inputSecondProps,
+		} = this.props;
 		this.setState({
 			[field]: event.target.value,
 		});
+		if (field === 'value1' && inputFirstProps.onChange) {
+			inputFirstProps.onChange(event);
+		}
+		if (field === 'value2' && inputSecondProps.onChange) {
+			inputSecondProps.onChange(event);
+		}
 	};
 
 	onFocus=() => {
@@ -45,12 +54,14 @@ class comInput extends React.Component {
 		} = this.props;
 		const f = inputFirstProps;
 		const s = inputSecondProps;
-		console.log(inputFirstProps);
+		// console.log(inputFirstProps);
 		const { focus, value1, value2 } = this.state;
 		const classList = ['yc-price'];
 		if (size) classList.push(size ? `yc-input-${size}` : '');
 		if (disabled)classList.push('yc-input-disabled');
 		/* 当为IE时绑定onChange方法，非IE时绑定onInput */
+		// console.log(inputFirstProps, value1);
+		// console.log('value1:', (f.onChange ? f.value : value1) || f.defaultValue || '');
 		// const inputChange = { onChange: this.onInputChange };
 		return (
 			<div className={`yc-input-price ${focus ? 'yc-input-price-focus' : 'yc-input-price-normal'}`} style={style}>
@@ -72,7 +83,6 @@ class comInput extends React.Component {
 					onChange={e => this.onChange(e, 'value1')}
 					onBlur={this.onBlur}
 					onFocus={this.onFocus}
-					{...inputFirstProps}
 				/>
 				{
 					suffix ? (
@@ -91,7 +101,6 @@ class comInput extends React.Component {
 					onChange={e => this.onChange(e, 'value2')}
 					onBlur={this.onBlur}
 					onFocus={this.onFocus}
-					{...inputSecondProps}
 				/>
 				{
 					suffix ? (
@@ -107,17 +116,11 @@ class comInput extends React.Component {
 comInput.propTypes = {
 	inputFirstProps: PropTypes.obj,
 	inputSecondProps: PropTypes.obj,
-	onChange: PropTypes.func,
-	onSelect: PropTypes.func,
-	placeholder: PropTypes.string,
 };
 
 comInput.defaultProps = {
 	inputFirstProps: {},
 	inputSecondProps: {},
-	onChange: () => {},
-	onSelect: () => {},
-	placeholder: '请选择',
 };
 
 export default comInput;
