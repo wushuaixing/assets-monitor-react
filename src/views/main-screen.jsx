@@ -28,6 +28,7 @@ const MainScreen = () => (
 		</Container>
 		<Footer />
 	</React.Fragment>
+
 );
 
 export default MainScreen;

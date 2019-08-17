@@ -512,8 +512,7 @@ td.column-center{
 }
 
 .yc-pagination {
-  position: relative;
-  left: 812px;
+  text-align: right;
   margin-top: 24px;
   &::after {
     clear:both;
@@ -532,7 +531,7 @@ td.column-center{
   display: inline-block;
   position: relative;
   bottom: 11px;
-  left: 8px;
+  left: 5px;
 }
 input::-webkit-input-placeholder{
   color:#999;

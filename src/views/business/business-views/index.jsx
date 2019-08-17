@@ -5,6 +5,7 @@ import Tooltip from 'antd/lib/tooltip';
 import Icon from 'antd/lib/icon';
 import Pagination from 'antd/lib/pagination';
 import message from 'antd/lib/message';
+import Modal from 'antd/lib/modal';
 import TableList from './table';
 import {
 	businessList, // 列表
@@ -13,6 +14,7 @@ import {
 import { Input, Button } from '@/common';
 import './style.scss';
 
+const { confirm } = Modal;
 const createForm = Form.create;
 
 const _style1 = { width: 274 };
@@ -82,28 +84,6 @@ class BusinessView extends React.Component {
 		});
 	};
 
-	// //  pagesize页面翻页可选
-	// onShowSizeChange = (current, pageSize) => {
-	// 	console.log(current, pageSize);
-
-	// 	const { form } = this.props; // 会提示props is not defined
-	// 	const { getFieldsValue } = form;
-	// 	const fields = getFieldsValue();
-	// 	const params = {
-	// 		...fields,
-	// 		page: {
-	// 			num: pageSize,
-	// 			page: current,
-	// 		},
-	// 	};
-
-	// 	this.getData(params);
-
-	// 	this.setState({
-	// 		pageSize,
-	// 		current: 1,
-	// 	});
-	// }
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -111,7 +91,6 @@ class BusinessView extends React.Component {
 		const { getFieldsValue } = form;
 		const { repayStartTime, repayEndTime, pageSize } = this.state;
 		const fields = getFieldsValue();
-		console.log(val, pageSize);
 		const params = {
 			...fields,
 			page: {
@@ -123,6 +102,31 @@ class BusinessView extends React.Component {
 		this.getData(params);
 		this.setState({
 			current: val,
+		});
+	}
+
+	// 搜索
+	search = () => {
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const fildes = getFieldsValue();
+		console.log(fildes);
+		const params = {
+			...fildes,
+		};
+		this.getData(params);
+	}
+
+	// 关闭推送
+	showConfirm = () => {
+		confirm({
+			title: '确认删除选中业务吗?',
+			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
+			iconType: 'exclamation-circle-o',
+			onOk() {
+				console.log('确定');
+			},
+			onCancel() {},
 		});
 	}
 
@@ -146,8 +150,7 @@ class BusinessView extends React.Component {
 			openRowSelection, selectedRowKeys, selectData, totals, current, dataList,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps, getFieldsValue } = form;
-		const fields = getFieldsValue();
+		const { getFieldProps } = form;
 		// 通过 rowSelection 对象表明需要行选择
 		const rowSelection = {
 			selectedRowKeys,
@@ -163,7 +166,7 @@ class BusinessView extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="业务编号"
-							{...getFieldProps('a', {
+							{...getFieldProps('caseNumber', {
 							// initialValue: true,
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
@@ -177,7 +180,7 @@ class BusinessView extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="姓名/公司名称"
-							{...getFieldProps('b', {
+							{...getFieldProps('obligorName', {
 								// initialValue: true,
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
@@ -191,7 +194,7 @@ class BusinessView extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="身份证号/统一社会信用代码"
-							{...getFieldProps('c', {
+							{...getFieldProps('obligorNumber', {
 								// initialValue: true,
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
@@ -205,7 +208,7 @@ class BusinessView extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="机构名称"
-							{...getFieldProps('d', {
+							{...getFieldProps('orgName', {
 								// initialValue: true,
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
@@ -222,7 +225,7 @@ class BusinessView extends React.Component {
 					</div>
 
 					<div className="yc-query-item yc-query-item-btn">
-						<Button size="large" type="warning" style={{ width: 84 }}>查询</Button>
+						<Button onClick={this.search} size="large" type="warning" style={{ width: 84 }}>查询</Button>
 						<Button size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 					<div className="yc-split-hr" />
@@ -260,7 +263,7 @@ class BusinessView extends React.Component {
 							<Icon className="yc-business-icon" type="question-circle-o" />
 						</Tooltip>
 					</div>
-					<TableList stateObj={this.state} rowSelection={rowSelection} />
+					<TableList stateObj={this.state} rowSelection={rowSelection} showConfirm={this.showConfirm} />
 					<div className="yc-pagination">
 						<Pagination
 							total={totals}
@@ -268,12 +271,13 @@ class BusinessView extends React.Component {
 							defaultPageSize={10} // 默认条数
 							showQuickJumper
 							showTotal={total => `共 ${total} 条记录`}
-							onShowSizeChange={this.onShowSizeChange}
 							onChange={(val) => {
+								console.log(val);
+
 								this.handleChangePage(val);
 							}}
 						/>
-						<div className="yc-pagination-btn"><Button>跳转</Button></div>
+						{/* <div className="yc-pagination-btn"><Button>跳转</Button></div> */}
 					</div>
 				</Form>
 			</div>

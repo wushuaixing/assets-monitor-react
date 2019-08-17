@@ -19,3 +19,9 @@ export const attach = async (id, params) => {
 	const response = await service.get(`${baseUrl}/jms/message/center/risk/attach/${id}`, { params });
 	return response.request;
 };
+
+// 开启推送[C.H Wong]
+export const openPush = async (params) => {
+	const response = await service.post(`${baseUrl}//yc/business/openPush`, params);
+	return response.data;
+};
