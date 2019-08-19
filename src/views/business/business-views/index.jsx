@@ -62,6 +62,7 @@ class BusinessView extends React.Component {
 			endTime: '',
 			PeopleListModalVisible: false,
 			businessId: '', // 担保人id
+			searchValue: null, // 输入框内容
 		};
 	}
 
@@ -139,11 +140,10 @@ class BusinessView extends React.Component {
 		});
 		businessList(params).then((res) => {
 			if (res && res.data) {
-				console.log(value);
-
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
+					current: value && value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
 					loading: false,
 				});
 			} else {
@@ -157,12 +157,10 @@ class BusinessView extends React.Component {
 
 	// page翻页
 	handleChangePage = (val) => {
-		const { form } = this.props; // 会提示props is not defined
-		const { getFieldsValue } = form;
-		const { pageSize } = this.state;
-		const fields = getFieldsValue();
+		const { pageSize, searchValue } = this.state;
 		const params = {
-			...fields,
+			...searchValue,
+			current: val,
 			page: {
 				num: pageSize,
 				page: val,
@@ -170,9 +168,6 @@ class BusinessView extends React.Component {
 		};
 
 		this.getData(params);
-		this.setState({
-			current: val,
-		});
 	}
 
 
@@ -191,8 +186,7 @@ class BusinessView extends React.Component {
 
 		this.getData(params);
 		this.setState({
-			fields: params,
-			current: 1,
+			searchValue: params,
 		});
 	}
 
@@ -214,7 +208,6 @@ class BusinessView extends React.Component {
 
 	// 一键导出
 	handleExportExcel = () => {
-		console.log(encodeURI);
 		const { selectedRowKeys } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
@@ -227,8 +220,9 @@ class BusinessView extends React.Component {
 			if (res.status === 200) {
 				const downloadElement = document.createElement('a');
 				downloadElement.href = res.responseURL;
-				// document.body.appendChild(downloadElement);
+				// // document.body.appendChild(downloadElement);
 				downloadElement.click(); // 点击下载
+
 				message.success('下载成功');
 			} else {
 				message.error('请求失败');
@@ -242,6 +236,9 @@ class BusinessView extends React.Component {
 		const { resetFields } = form;
 		resetFields('');
 		this.getData();
+		this.setState({
+			searchValue: {},
+		});
 	}
 
 	// 判断点击的键盘的keyCode是否为13，是就调用上面的搜索函数
@@ -472,7 +469,7 @@ class BusinessView extends React.Component {
 						</Tooltip>
 					</div>
 					<Spin spinning={loading}>
-						<TableList stateObj={this.state} rowSelection={rowSelection} getData={this.getData} openPeopleModal={this.openPeopleModal} />
+						<TableList stateObj={this.state} selectData={selectData} dataList={dataList} rowSelection={rowSelection} getData={this.getData} openPeopleModal={this.openPeopleModal} />
 					</Spin>
 					<div className="yc-pagination">
 						<Pagination
