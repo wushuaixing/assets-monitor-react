@@ -1,17 +1,11 @@
 import React from 'react';
 import { Table } from '@antd';
+import { ReadStatus } from '@/common/table';
 
 const columns = [{
-	title: '',
-	dataIndex: 'read',
-	width: 20,
-	render: text => <a href="#">{text}</a>,
-}, {
-	title: '立案日期',
+	title: <span style={{ paddingLeft: 11 }}>立案信息</span>,
 	dataIndex: 'name',
-	width: 40,
-
-	render: text => <a href="#">{text}</a>,
+	render: ReadStatus,
 }, {
 	title: '原告',
 	dataIndex: 'age',
