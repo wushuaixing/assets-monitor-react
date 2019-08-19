@@ -30,7 +30,7 @@ class BusinessDebtor extends React.Component {
 			current: 1, // 当前页
 			pageSize: 10, // 默认展示条数
 			loading: false,
-			fildes: null,
+			searchValue: null,
 			dataList: [],
 		};
 	}
@@ -58,12 +58,10 @@ class BusinessDebtor extends React.Component {
 		});
 		obligorList(params).then((res) => {
 			if (res && res.data) {
-				console.log(value, res.data.list);
-
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
-					// current: value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
+					current: value && value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
 					loading: false,
 				});
 			} else {
@@ -116,7 +114,7 @@ class BusinessDebtor extends React.Component {
 		};
 		this.getData(params);
 		this.setState({
-			fields: params,
+			searchValue: params,
 		});
 	}
 
@@ -127,15 +125,15 @@ class BusinessDebtor extends React.Component {
 		resetFields('');
 		this.getData();
 		this.setState({
-			fields: {},
+			searchValue: {},
 		});
 	}
 
 	// page翻页
 	handleChangePage = (val) => {
-		const { pageSize, fields } = this.state;
+		const { pageSize, searchValue } = this.state;
 		const params = {
-			...fields,
+			...searchValue,
 			current: val,
 			page: {
 				num: pageSize,
@@ -219,7 +217,7 @@ class BusinessDebtor extends React.Component {
 					</Button>
 				</div>
 				<Spin spinning={loading}>
-					<TableList stateObj={this.state} getData={this.getData} />
+					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} />
 				</Spin>
 				<div className="yc-pagination">
 					<Pagination

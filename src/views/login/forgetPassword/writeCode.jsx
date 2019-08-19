@@ -11,6 +11,7 @@ import {
 import PhoneModal from './noPhoneModal';
 import {
 	sendVerificationSms, // login
+	forgetPasswordStep2, // 忘记密码-step1
 } from '@/utils/api/user';
 import './style.scss';
 
@@ -77,6 +78,17 @@ openModal = () => {
 				message.error('请输入验证码');
 				return;
 			}
+			const params = {
+				code: fields.phoneCode,
+				phone: fields.phone,
+			};
+			forgetPasswordStep2(params).then((res) => {
+				if (res === 200) {
+					console.log(1);
+				} else {
+					message.error(res.message);
+				}
+			});
 			console.log(fields);
 			changeType(4);
 		});

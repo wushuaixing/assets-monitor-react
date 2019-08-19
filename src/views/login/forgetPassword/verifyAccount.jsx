@@ -8,8 +8,9 @@ import React from 'react';
 import {
 	Form, Input, Button, message, Spin,
 } from 'antd';
-// import rsaEncrypt from '@/utils/encryp';
-// import { Button } from '@/components';
+import {
+	forgetPasswordStep1, // 忘记密码-step1
+} from '@/utils/api/user';
 import './style.scss';
 
 const verificationCodeImg = 'http://172.18.255.251:18080/yc/open/verificationCode';
@@ -35,13 +36,25 @@ class Login extends React.Component {
 			if (errors) {
 				return;
 			}
-			if (!fields.resetImg) {
+			if (!fields.code) {
 				message.errors('请输入验证码');
 				return;
 			}
+			const params = {
+				phone: fields.phone,
+				code: fields.code,
+			};
+			forgetPasswordStep1(params).then((res) => {
+				if (res === 200) {
+					changeType(3);
+					message.success('验证成功');
+				} else {
+					message.warning(res.message);
+					this.verificationCode(); // 错误刷新验证码
+				}
+			});
 			console.log(fields);
 			inputPhoneNum(fields.username);
-			changeType(3);
 		});
 	};
 
@@ -65,7 +78,7 @@ class Login extends React.Component {
 			<div className="yc-verifyAccount-main">
 				<Form>
 					<Spin spinning={loading}>
-						<li className="yc-card-title">填写验证码</li>
+						<li className="yc-card-title">验证账号</li>
 						<div className="yc-form-wapper">
 							<span className="yc-form-lable">账号</span>
 							<FormItem>
@@ -73,7 +86,7 @@ class Login extends React.Component {
 									className="yc-login-input"
 									placeholder="请输入11位数字"
 									maxlength="11"
-									{...getFieldProps('username', {
+									{...getFieldProps('phone', {
 										initialValue: userName && userName.length > 0 ? userName : '',
 										rules: [
 											{
@@ -93,7 +106,7 @@ class Login extends React.Component {
 									placeholder="请输入验证码"
 									maxlength={4}
 									style={{ parringRight: 160 }}
-									{...getFieldProps('resetImg', {
+									{...getFieldProps('code', {
 										rules: [
 											{
 												required: true,
