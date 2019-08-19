@@ -4,11 +4,10 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
-import Form from 'antd/lib/form';
-import Input from 'antd/lib/input';
-import Spin from 'antd/lib/spin';
-import Button from 'antd/lib/button';
-import Popover from 'antd/lib/popover';
+
+import {
+	Form, Input, Button, Spin, Popover,
+} from 'antd';
 import CommonIcon from './compontent/commonIcon';
 import './style.scss';
 

@@ -1,9 +1,7 @@
 import React from 'react';
-import Form from 'antd/lib/form';
-import Table from 'antd/lib/table';
-import Tooltip from 'antd/lib/tooltip';
-import message from 'antd/lib/message';
-import Modal from 'antd/lib/modal';
+import {
+	Modal, message, Tooltip, Table, Form,
+} from 'antd';
 import {
 	openPush, // 打开推送
 	closePush, // 关闭推送
@@ -15,13 +13,14 @@ const { confirm } = Modal;
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
+		const { openPeopleModal } = props;
+
 		this.state = {
 			columns: [{
 				title: '业务编号',
 				dataIndex: 'caseNumber',
 				key: 'caseNumber',
 				width: 120,
-				render: text => <a href="#">{text}</a>,
 			}, {
 				title: '借款人',
 				dataIndex: 'obligorName',
@@ -66,11 +65,11 @@ class BusinessView extends React.Component {
 				dataIndex: 'guarantorCount',
 				key: 'guarantorCount',
 				width: 68,
-				render(text) {
+				render(text, row) {
 					if (text === '0' || !text) {
 						return <div>0</div>;
 					}
-					return <a>{text}</a>;
+					return <a onClick={() => openPeopleModal(row.id)}>{text}</a>;
 				},
 			}, {
 				title: '相关推送',
@@ -93,6 +92,9 @@ class BusinessView extends React.Component {
 				dataIndex: 'uploadTime',
 				key: 'uploadTime',
 				width: 100,
+				render(text) {
+					return <span>{(text) || '--'}</span>;
+				},
 			},	{
 				title: '推送状态',
 				dataIndex: 'pushState',
@@ -120,7 +122,7 @@ class BusinessView extends React.Component {
 				key: 'operation',
 				render: (text, row) => (
 					<span>
-						<a href="#">查看详情</a>
+						<a onClick={() => this.detail(row)}>查看详情</a>
 						<span className="ant-divider" />
 						<a onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</a>
 						<span className="ant-divider" />
@@ -131,21 +133,34 @@ class BusinessView extends React.Component {
 		};
 	}
 
+	// 跳转详情
+	detail = (row) => {
+		console.log(row.id);
+		const w = window.open('about:blank');
+		w.location.href = `#/business/detail?${row.id}`;
+	}
+
 	// 删除一条业务
 	showDeleteConfirm = (row) => {
-		const { getData } = this.props; // 刷新列表
+		const { getData, stateObj } = this.props; // 刷新列表
+		const { selectedRowKeys } = stateObj;
 		confirm({
 			title: '确认删除选中业务吗?',
 			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
 			iconType: 'exclamation-circle-o',
 			onOk() {
-				console.log('确定');
 				const params = {
 					id: row.id,
 				};
 				postDelete(params).then((res) => {
 					if (res.code === 200) {
-						console.log(res);
+						if (stateObj && selectedRowKeys && selectedRowKeys.length > 0) {
+							selectedRowKeys.forEach((i, index) => {
+								if (i === row.id) {
+									selectedRowKeys.splice(index, 1);
+								}
+							});
+						}
 						getData();
 					}
 				});
@@ -193,7 +208,7 @@ class BusinessView extends React.Component {
 			<React.Fragment>
 				<Table
 					rowSelection={stateObj.openRowSelection ? rowSelection : null}
-					rowKey={record => record.key}
+					rowKey={record => record.id}
 					columns={columns}
 					dataSource={stateObj.dataList}
 					style={{ width: '100%' }}

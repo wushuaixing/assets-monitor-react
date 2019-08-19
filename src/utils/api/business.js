@@ -46,7 +46,11 @@ export const getDetail = async (id) => {
 // 列表页导出excel[C.H Wong]
 export const exportExcel = async (params) => {
 	const response = await service.get(`${baseUrl}/yc/business/exportExcel`, { params });
-	console.log(response, 1);
-
 	return response.request;
+};
+
+// 获取担保人列表[C.H Wong]
+export const postGuaranteeList = async (businessId) => {
+	const response = await service.post(`${baseUrl}/yc/obligor/getGuaranteeList/${businessId}`);
+	return response.data;
 };

@@ -1,7 +1,12 @@
 .yc-business-tablebtn {
   margin: 15px 0;
-  
+  position: relative;
   .yc-business-icon {
     cursor: pointer;
   }
+}
+.yc-upload {
+  // position: relative;
+  // top: 11px;
+  display: inline-block;
 }

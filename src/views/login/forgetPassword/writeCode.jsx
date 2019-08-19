@@ -4,11 +4,10 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
-import Form from 'antd/lib/form';
-import Input from 'antd/lib/input';
-import Spin from 'antd/lib/spin';
-import Button from 'antd/lib/button';
-import message from 'antd/lib/message';
+
+import {
+	Form, Input, Button, message, Spin,
+} from 'antd';
 import PhoneModal from './noPhoneModal';
 import {
 	sendVerificationSms, // login

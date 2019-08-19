@@ -32,7 +32,7 @@ const dataSource = [
 		children: [
 			{ id: 31, name: '业务视图', url: '/business' },
 			{ id: 32, name: '债务人', url: '/business/debtor' },
-			{ id: 33, name: '资产信息', url: '/business/asset' },
+			// { id: 33, name: '资产信息', url: '/business/asset' },
 		],
 	},
 	{ id: 4, name: '企业查询', url: '/company' },

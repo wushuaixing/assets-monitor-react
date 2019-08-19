@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal from 'antd/lib/modal';
-import Form from 'antd/lib/form';
-import Button from 'antd/lib/button';
+import {
+	Form, Button, Modal,
+} from 'antd';
 import ImgWeixin from '../../../../assets/img/login/weixin.png';
 import './style.scss';
 
