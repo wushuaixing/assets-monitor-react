@@ -67,7 +67,6 @@
     "koa-static": "^4.0.3",
     "lodash-es": "^4.17.11",
     "node-sass": "^4.11.0",
-    "postcss": "^7.0.5",
     "sass-loader": "^7.1.0",
     "sass-resources-loader": "^2.0.1",
     "shelljs": "^0.8.3",
