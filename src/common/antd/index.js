@@ -1,3 +1,4 @@
+/*
 import DatePicker from 'antd/lib/date-picker';
 import Select from 'antd/lib/select';
 import Form from 'antd/lib/form';
@@ -10,3 +11,4 @@ import InputNumber from 'antd/lib/input-number';
 export {
 	DatePicker, Select, Form, Radio, Table, Tooltip, Pagination, InputNumber,
 };
+*/

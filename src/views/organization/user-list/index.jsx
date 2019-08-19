@@ -1,7 +1,5 @@
 import React from 'react';
-import Select from 'antd/lib/select';
-import Table from 'antd/lib/table';
-import Pagination from 'antd/lib/pagination';
+import { Select, Table, Pagination } from 'antd';
 import '../style.scss';
 import { navigate } from '@reach/router';
 import Search from '../search';

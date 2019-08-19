@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './style.scss';
-import DatePicker from 'antd/lib/date-picker';
-import Select from 'antd/lib/select';
 import Input from '@/common/input';
+import { DatePicker, Select } from 'antd';
 
 const Datas = props => (
 	<div className="yc-tabs-data">

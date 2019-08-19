@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Button from 'antd/lib/button';
-import Input from 'antd/lib/input';
-import Select from 'antd/lib/select';
+import { Button, Input, Select } from 'antd';
 
 const Datas = (props) => {
 	const { options } = props;

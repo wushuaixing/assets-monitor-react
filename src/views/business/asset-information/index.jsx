@@ -1,7 +1,6 @@
 import React from 'react';
-import Form from 'antd/lib/form';
-import Select from 'antd/lib/select';
 
+import {Select,Form} from 'antd';
 import { Input, Button } from '@/common';
 
 const { Option } = Select;

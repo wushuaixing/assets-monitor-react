@@ -4,7 +4,7 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
-import Form from 'antd/lib/form';
+import { Form } from 'antd';
 import Header from './header';
 import Footer from './footer';
 import Register from './register';

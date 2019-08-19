@@ -1,11 +1,7 @@
 import React from 'react';
-import Input from 'antd/lib/input';
-import Button from 'antd/lib/button';
-import Select from 'antd/lib/select';
-import Table from 'antd/lib/table';
-import Pagination from 'antd/lib/pagination';
-import message from 'antd/lib/message';
-import Modal from 'antd/lib/modal';
+import {
+	Input, Button, Select, Table, Pagination, message, Modal,
+} from 'antd';
 import '../style.scss';
 import EditModal from './editModal';
 import Search from '../search';
@@ -145,7 +141,7 @@ export default class BasicTable extends React.Component {
 		} = this.state;
 		return (
 			<div className="push-manage">
-				<Search placeholder='姓名/手机号/邮箱' onSearch={(val) => { this.search(val); }} />
+				<Search placeholder="姓名/手机号/邮箱" onSearch={(val) => { this.search(val); }} />
 				{/* <div className="search-item">
 					<InputGroup className="search-group">
 						<Input size="large" placeholder="姓名/手机号/邮箱" />

@@ -6,9 +6,8 @@ import Cookies from 'universal-cookie';
 // ==================
 // 所需的所有组件
 // ==================
-import Spin from 'antd/lib/spin';
 import {
-	Form, Input, Button, Checkbox, message,
+	Form, Input, Button, Checkbox, message, Spin,
 } from 'antd';
 import {
 	login, // login

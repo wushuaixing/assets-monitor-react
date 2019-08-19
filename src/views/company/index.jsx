@@ -3,7 +3,7 @@ import React from 'react';
 import { Input } from '@/common';
 import {
 	InputNumber, InputPrice, DatePicker, Select,
-} from '@antd';
+} from 'antd';
 
 const handleEnterKey = (e) => {
 	if (e.nativeEvent.keyCode === 13) { // e.nativeEvent获取原生的事件对像
