@@ -37,9 +37,10 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
 	// 在请求发出之前做拦截工作
 	// 这块需要做一些用户验证的工作，需要带上用户凭证
+
+
 	const configNew = Object.assign({}, config);
-
-
+	configNew.headers['Set-Cookie'] = cookies.get('SESSION');
 	// 在发送请求设置cancel token
 	configNew.cancelToken = new axios.CancelToken((cancel) => {
 		axiosPromiseArr.push({ cancel });
@@ -47,7 +48,6 @@ service.interceptors.request.use((config) => {
 	if (config.cancelToken) {
 		configNew.cancelToken = config.cancelToken;
 	}
-
 
 	const path = configNew.url.split('jms')[1];
 
