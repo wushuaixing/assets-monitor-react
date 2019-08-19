@@ -11,10 +11,8 @@ const column = '../docs';
 
 // 跨域设置
 app.use(cors());
-
 // OPTION请求设置
 app.use(async (ctx, next) => {
-	// console.log(ctx.url);
 	ctx.set('Access-Control-Allow-Origin', '*');
 	ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
 	ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
@@ -29,11 +27,11 @@ app.use(koaStatic(path.resolve(__dirname, column)));
 
 // 服务端接口转发
 app.use(async (ctx, next) => {
-	console.log(ctx.url);
+	console.log(ctx.cookies.get('SESSION'));
 	if (ctx.url.startsWith('/jms')) { // 以yc开头的异步请求接口都会被转发
 		ctx.respond = false;
 		return httpProxy({
-			target: 'http://172.18.255.251:8286', // 服务器地址
+			target: 'http://172.18.255.251:18080', // 服务器地址
 			changeOrigin: true,
 			secure: false,
 			/* ^^^
