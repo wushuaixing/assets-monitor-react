@@ -1,6 +1,5 @@
 import axios from 'axios';
-import message from 'antd/lib/message';
-import Modal from 'antd/lib/modal';
+import { message, Modal } from 'antd';
 import Cookies from 'universal-cookie';
 import { navigate } from '@reach/router';
 

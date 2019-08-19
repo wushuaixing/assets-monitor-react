@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import './style.scss';
-import DatePicker from 'antd/lib/date-picker';
-import Button from 'antd/lib/button';
+import { DatePicker, Button } from 'antd';
 import Input from '@/common/input';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
+import './style.scss';
 
 const Datas = (props) => {
 	const [plaintiff, setPlaintiff] = useState([{

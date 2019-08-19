@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination, InputNumber } from '@antd';
+import { Pagination, InputNumber } from 'antd';
 import Button from '../button';
 
 const paginationRewrite = (props) => {

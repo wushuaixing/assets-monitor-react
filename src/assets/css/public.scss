@@ -78,7 +78,13 @@ body,td,th {
   height: 6px;
   margin-right:5px ;
 }
-
+.yc-table-pagination{
+  text-align: right;
+  padding: 10px 0;
+  .ant-pagination{
+    display: inline-block;
+  }
+}
 .yc-badge-img{
   background-image: url('../img/icon/icon_reddot.png');
 }
