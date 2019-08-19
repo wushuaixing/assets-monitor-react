@@ -1,5 +1,5 @@
 node_modules/
 docs/
-patchs/
-scripts/
+patchs/*
+scripts/*
 src/static

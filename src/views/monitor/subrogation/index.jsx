@@ -1,8 +1,12 @@
 import React from 'react';
 import QueryCourt from './query/court';
+import TableCourt from './table/court';
+
 import QueryRegister from './query/register';
-import './style.scss';
+// import TableRegister from './table/register';
+
 import { Tabs, Button } from '@/common';
+import './style.scss';
 
 const source = [
 	{
@@ -46,6 +50,7 @@ export default class Subrogation extends React.Component {
 					<Button>全部标为已读</Button>
 					<Button>批量管理</Button>
 				</div>
+				<TableCourt />
 			</div>
 		);
 	}

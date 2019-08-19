@@ -1,10 +1,15 @@
 import React from 'react';
 // import Router from '@/utils/Router';
 import { Input } from '@/common';
-import InputPrice from '@/common/input/input-price';
-import DatePicker from 'antd/lib/date-picker';
-import Select from 'antd/lib/select';
+import {
+	InputNumber, InputPrice, DatePicker, Select,
+} from '@antd';
 
+const handleEnterKey = (e) => {
+	if (e.nativeEvent.keyCode === 13) { // e.nativeEvent获取原生的事件对像
+		console.log(e);
+	}
+};
 const HomeRouter = () => (
 	<div style={{ padding: 30 }}>
 		<hr />
@@ -21,7 +26,12 @@ const HomeRouter = () => (
 		<hr />
 		<InputPrice suffix="万元" title="业务编号" style={{ width: 274 }} />
 		<hr />
-		<input type="text" onChange={e => console.log(e)} />
+		<InputNumber
+			min={1}
+			max={10}
+			onChange={e => console.log(e)}
+			onKeyPress={e => handleEnterKey(e)}
+		/>
 	</div>
 );
 export default HomeRouter;

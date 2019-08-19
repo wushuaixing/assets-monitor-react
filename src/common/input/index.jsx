@@ -130,7 +130,7 @@ class comInput extends React.Component {
 
 	render() {
 		const {
-			style, className, placeholder, defaultValue, value, money, decimal, onChange,
+			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown,
 		} = this.props;
 		// console.log(this.props);
 		const {
@@ -185,6 +185,7 @@ class comInput extends React.Component {
 					{...inputChange}
 					onBlur={this.onBlur}
 					onFocus={this.onFocus}
+					onKeyDown={onKeyDown}
 				/>
 				{
 					suffix ? (

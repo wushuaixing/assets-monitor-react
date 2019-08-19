@@ -50,7 +50,7 @@ class comInput extends React.Component {
 
 	render() {
 		const {
-			size, disabled, suffix, title, style, inputFirstProps, inputSecondProps,
+			size, disabled, suffix, title, style, inputFirstProps, inputSecondProps, onKeyDown,
 		} = this.props;
 		const f = inputFirstProps;
 		const s = inputSecondProps;
@@ -83,6 +83,7 @@ class comInput extends React.Component {
 					onChange={e => this.onChange(e, 'value1')}
 					onBlur={this.onBlur}
 					onFocus={this.onFocus}
+					onKeyDown={onKeyDown}
 				/>
 				{
 					suffix ? (
@@ -101,6 +102,7 @@ class comInput extends React.Component {
 					onChange={e => this.onChange(e, 'value2')}
 					onBlur={this.onBlur}
 					onFocus={this.onFocus}
+					onKeyDown={onKeyDown}
 				/>
 				{
 					suffix ? (

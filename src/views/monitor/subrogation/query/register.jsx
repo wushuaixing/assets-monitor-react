@@ -2,8 +2,6 @@ import React from 'react';
 import { Input, Button } from '@/common';
 import { DatePicker, Form } from '@antd';
 
-const toTime = n => window.parseInt((new Date(n).getTime()) / 1000);
-const handleTime = ['startLarq', 'endLarq', 'startUpdateTime', 'endUpdateTime'];
 class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
@@ -13,9 +11,6 @@ class QueryCondition extends React.Component {
 	handleSubmit=() => {
 		const { form: { getFieldsValue } } = this.props;
 		const condition = getFieldsValue();
-		handleTime.forEach((item) => {
-			if (condition[item])condition[item] = toTime(condition[item]);
-		});
 		console.log('condition:', condition);
 	};
 
@@ -29,7 +24,11 @@ class QueryCondition extends React.Component {
 		const _style1 = { width: 274 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps } } = this.props;
-
+		const timeOption = {
+			normalize(n) {
+				return n && new Date(n).format('yyyy-MM-dd');
+			},
+		};
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
@@ -46,15 +45,15 @@ class QueryCondition extends React.Component {
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">立案日期：</span>
-					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('startLarq')} />
+					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('startLarq', timeOption)} />
 					<span className="yc-query-item-title">至</span>
-					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('endLarq')} />
+					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('endLarq', timeOption)} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">更新日期：</span>
-					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('startUpdateTime')} />
+					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('startUpdateTime', timeOption)} />
 					<span className="yc-query-item-title">至</span>
-					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('endUpdateTime')} />
+					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('endUpdateTime', timeOption)} />
 				</div>
 
 				<div className="yc-query-item yc-query-item-btn">
