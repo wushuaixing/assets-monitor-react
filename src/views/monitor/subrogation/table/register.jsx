@@ -1,122 +1,110 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Pagination } from 'antd';
+import { ReadStatus, Attention } from '@/common/table';
 
-const columns = [
+// 含操作等...
+const defaultColumns = [
 	{
-		title: '',
-		dataIndex: 'read',
-		key: 'read',
-		width: 20,
+		title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
+		dataIndex: 'larq',
+		render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 	}, {
-		title: '业务编号',
-		dataIndex: 'caseNumber',
-		key: 'caseNumber',
-		width: 120,
-		render: text => <a href="#">{text}</a>,
+		title: '原告',
+		dataIndex: 'yg',
 	}, {
-		title: '借款人',
-		dataIndex: 'obligorName',
-		key: 'obligorName',
-		width: 240,
+		title: '被告',
+		dataIndex: 'bg',
 	}, {
-		title: '机构名称',
-		dataIndex: 'orgName',
-		key: 'orgName',
-		width: 134,
+		title: '法院',
+		dataIndex: 'court',
 	}, {
-		title: '担保人',
-		dataIndex: 'guarantorCount',
-		key: 'guarantorCount',
-		width: 68,
-		render(text) {
-			if (text === '0' || !text) {
-				return <div>0</div>;
-			}
-			return <a>{text}</a>;
-		},
+		title: '案号',
+		dataIndex: 'ah',
+		render: content => <span>{content}</span>,
 	}, {
-		title: '相关推送',
-		dataIndex: 'pushCount',
-		key: 'pushCount',
-		width: 80,
-		render(text) {
-			if (text === '0' || !text) {
-				return <div>0</div>;
-			}
-			return <a>{text}</a>;
-		},
+		title: '案由',
+		dataIndex: 'anyou',
+		render: content => <span>{content}</span>,
 	}, {
-		title: '上传人员',
-		dataIndex: 'uploadName',
-		key: 'uploadName',
+		title: '关联信息',
+		render: () => <span>开庭</span>,
 		width: 80,
 	}, {
-		title: '上传时间',
-		dataIndex: 'uploadTime',
-		key: 'uploadTime',
-		width: 100,
-	},	{
-		title: '推送状态',
-		dataIndex: 'upPut',
-		key: 'upPut',
-		width: 110,
-		render: text => (
-			<React.Fragment>
-				{
-					text === 1 ? (
-						<React.Fragment>
-							<p className="circle-item">启用</p>
-						</React.Fragment>
-
-					) : (
-						<React.Fragment>
-							<p className="no-attention">禁用</p>
-						</React.Fragment>
-					)
-				}
-			</React.Fragment>
-
-		),
+		title: '更新日期',
+		dataIndex: 'updateTime',
+		render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 	}, {
 		title: '操作',
-		key: 'operation',
-		render: () => (
-			<span>
-				<a href="#">查看详情</a>
-				<span className="ant-divider" />
-				<a href="#">关闭推送</a>
-				<span className="ant-divider" />
-				<a href="#">删除</a>
-			</span>
-		),
+		dataIndex: 'address',
+		render: (text, row) => <Attention text={text} row={row} />,
+	}];
+// 单纯展示
+const normalColumns = [
+	{
+		title: '立案日期',
+		dataIndex: 'larq',
+	}, {
+		title: '原告',
+		dataIndex: 'yg',
+	}, {
+		title: '被告',
+		dataIndex: 'bg',
+	}, {
+		title: '法院',
+		dataIndex: 'court',
+	}, {
+		title: '案号',
+		dataIndex: 'ah',
+	}, {
+		title: '关联信息',
+		dataIndex: 'associateInfo',
+	}, {
+		title: '更新日期',
+		dataIndex: 'updateTime',
 	}];
 
 export default class TableView extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			selectedRowKeys: [],
+		};
 	}
 
+	toRowClick = (record, index) => {
+		console.log(index);
+	};
+
+	onSelectChange=(selectedRowKeys) => {
+		const { onSelect } = this.props;
+		this.setState({ selectedRowKeys });
+		if (onSelect)onSelect(selectedRowKeys);
+	};
 
 	render() {
-		const { stateObj, rowSelection } = this.props;
+		const {
+			normal, total, current, dataSource, manage,
+		} = this.props;
+		const { selectedRowKeys } = this.state;
+		const rowSelection = manage ? {
+			rowSelection: {
+				selectedRowKeys,
+				onChange: this.onSelectChange,
+			},
+		} : null;
 		return (
 			<React.Fragment>
 				<Table
-					rowSelection={stateObj.openRowSelection ? rowSelection : null}
-					rowKey={record => record.key}
-					columns={columns}
-					dataSource={stateObj.dataList}
-					style={{ width: '100%' }}
-					defaultExpandAllRows
+					{...rowSelection}
+					columns={normal ? normalColumns : defaultColumns}
+					dataSource={dataSource}
 					pagination={false}
-					onRowClick={() => {
-						// if (!record.children) {
-						// 	const w = window.open('about:blank');
-						// 	w.location.href = '#/monitor';
-						// }
-					}}
+					rowClassName={record => (record.isRead ? 'yc-row-bold' : '')}
+					onRowClick={this.toRowClick}
 				/>
+				<div className="yc-table-pagination">
+					<Pagination defaultCurrent={1} current={current || 1} total={total || 0} />
+				</div>
 			</React.Fragment>
 		);
 	}

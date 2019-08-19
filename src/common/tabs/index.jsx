@@ -47,7 +47,7 @@ const Tabs = (props) => {
 					>
 						<div className="yc-tabs-active-line" />
 						<Badge dot={item.dot}>
-							{number || item.showNumber ? `${item.name}（${numUnit(item.number)}）` : item.name}
+							{number || item.showNumber ? `${item.name}「${numUnit(item.number)}」` : item.name}
 						</Badge>
 					</li>
 				))}

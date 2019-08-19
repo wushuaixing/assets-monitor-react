@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import QueryCourt from './query/court';
 import TableCourt from './table/court';
 import QueryRegister from './query/register';
-// import TableRegister from './table/register';
+import TableRegister from './table/register';
 
 import { Tabs, Button } from '@/common';
 import {
@@ -31,7 +31,7 @@ export default class Subrogation extends React.Component {
 				},
 				{
 					id: 2,
-					name: '开庭公共',
+					name: '开庭公告',
 					number: 0,
 					dot: false,
 					showNumber: false,
@@ -43,7 +43,7 @@ export default class Subrogation extends React.Component {
 
 	componentDidMount() {
 		// this.onQueryChange({});
-		this.toInfoCount();
+		// this.toInfoCount();
 	}
 
 	// 获取统计信息
@@ -174,7 +174,9 @@ export default class Subrogation extends React.Component {
 						</div>
 					)
 				}
-				<TableCourt {...tableProps} />
+				{
+					sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
+				}
 			</div>
 		);
 	}

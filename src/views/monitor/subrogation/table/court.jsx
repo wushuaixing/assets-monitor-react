@@ -24,6 +24,7 @@ const defaultColumns = [
 	}, {
 		title: '关联信息',
 		render: () => <span>立案</span>,
+		width: 80,
 	}, {
 		title: '更新日期',
 		dataIndex: 'updateTime',
