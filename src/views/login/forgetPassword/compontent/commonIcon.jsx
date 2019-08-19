@@ -4,8 +4,9 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
-import Form from 'antd/lib/form';
-import Icon from 'antd/lib/icon';
+import {
+	Form, Icon,
+} from 'antd';
 import './style.scss';
 
 const createForm = Form.create;

@@ -4,7 +4,9 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
-import Form from 'antd/lib/form';
+import {
+	Form,
+} from 'antd';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
 import './style.scss';

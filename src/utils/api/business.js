@@ -13,9 +13,44 @@ export const businessList = async (params) => {
 	return response.data;
 };
 
+// 开启推送[C.H Wong]
+export const openPush = async (params) => {
+	const response = await service.post(`${baseUrl}/yc/business/openPush`, params);
+	return response.data;
+};
 
-// 下载风险变动消息附件下载 zhousai
-export const attach = async (id, params) => {
-	const response = await service.get(`${baseUrl}/jms/message/center/risk/attach/${id}`, { params });
+// 关闭推送[C.H Wong]
+export const closePush = async (params) => {
+	const response = await service.post(`${baseUrl}/yc/business/closePush`, params);
+	return response.data;
+};
+
+// 删除一条记录[C.H Wong]
+export const postDelete = async (params) => {
+	const response = await service.post(`${baseUrl}/yc/business/delete`, params);
+	return response.data;
+};
+
+// 批量删除记录[C.H Wong]
+export const postDeleteBatch = async (params) => {
+	const response = await service.post(`${baseUrl}/yc/business/deleteBatch`, params);
+	return response.data;
+};
+
+// 获取业务基本详情[C.H Wong]
+export const getDetail = async (id) => {
+	const response = await service.get(`${baseUrl}/yc/business/detail/${id}`);
+	return response.data;
+};
+
+// 列表页导出excel[C.H Wong]
+export const exportExcel = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/business/exportExcel`, { params });
 	return response.request;
+};
+
+// 获取担保人列表[C.H Wong]
+export const postGuaranteeList = async (businessId) => {
+	const response = await service.post(`${baseUrl}/yc/obligor/getGuaranteeList/${businessId}`);
+	return response.data;
 };

@@ -1,18 +1,24 @@
 import React from 'react';
-import DatePicker from 'antd/lib/date-picker';
-import Form from 'antd/lib/form';
-import Tooltip from 'antd/lib/tooltip';
-import Icon from 'antd/lib/icon';
-import Pagination from 'antd/lib/pagination';
-import message from 'antd/lib/message';
+import {
+	DatePicker, Form, message, Tooltip, Icon, Pagination, Spin, Modal, Upload,
+} from 'antd';
+
+import Cookies from 'universal-cookie';
+import PeopleListModal from './Modal/peopleList';
 import TableList from './table';
+import { baseUrl } from '@/utils/api';
 import {
 	businessList, // 列表
+	exportExcel, // 导出列表
+	postDeleteBatch, // 批量删除
 } from '@/utils/api/business';
 
 import { Input, Button } from '@/common';
 import './style.scss';
 
+const cookies = new Cookies();
+
+const { confirm } = Modal;
 const createForm = Form.create;
 
 const _style1 = { width: 274 };
@@ -51,6 +57,11 @@ class BusinessView extends React.Component {
 			totals: 0,
 			current: 1, // 当前页
 			pageSize: 10, // 默认展示条数
+			loading: false,
+			startTime: '',
+			endTime: '',
+			PeopleListModalVisible: false,
+			businessId: '', // 担保人id
 		};
 	}
 
@@ -58,60 +69,98 @@ class BusinessView extends React.Component {
 		this.getData();
 	}
 
+		// 附件上传处理
+		uploadAttachmentParam = () => {
+			const that = this;
+			// const Authorization = 'eyJuYW1lIjoi5rWL6K-VIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiIxMjMiLCJleHAiOjE1NTg1NzQ4NDl9.TUn3QyocFGMMBV7Z4X0TXDxkFnkf5t83rNh-qISmLeoMlMIWLsvmykmk8cb8U89zyp0CCZGZVmoa9gIgzu32qw';
+			return {
+				name: 'mortgageFile',
+				action: `${baseUrl}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
+				beforeUpload(file) {
+					const type = file.name.split('.');
+					const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
+					if (!isTypeRight) {
+						message.error('只能上传 Excel格式文件！');
+					}
+					return isTypeRight;
+				},
+				onChange(info) {
+					if (info.file.status !== 'uploading') {
+						console.log(info.file, info.fileList);
+					}
+					if (info.file.status === 'done') {
+						if (info.file.response.code === 200) {
+							// url.push(info.file.response.data);
+							that.setState({
+								refresh: !that.state.refresh,
+								errorMsg: [],
+							});
+							that.handleCancel();
+							message.success(`${info.file.name} 上传成功。`);
+						} else {
+							info.fileList.pop();
+							// 主动刷新页面，更新文件列表
+							that.setState({
+								refresh: !that.state.refresh,
+								// errorMsg: info.file.response.data.errorMsgList,
+							});
+							message.error(`上传失败: ${info.file.response.message}`);
+						}
+					} else if (info.file.status === 'error') {
+						message.error(`${info.file.name} 上传失败。`);
+						that.setState({
+							errorMsg: [],
+						});
+					}
+				},
+			};
+		};
+
 	// 获取消息列表
 	getData = (value) => {
-		const { current, pageSize } = this.state;
+		const {
+			current, pageSize, startTime, endTime,
+		} = this.state;
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const fildes = getFieldsValue();
 		const params = {
 			page: {
 				num: pageSize,
 				page: current,
 			},
+			uploadTimeStart: startTime, // 搜索时间
+			uploadTimeEnd: endTime,
+			...fildes,
 			...value,
 		};
+		this.setState({
+			loading: true,
+		});
 		businessList(params).then((res) => {
 			if (res && res.data) {
+				console.log(value);
+
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
+					loading: false,
 				});
 			} else {
 				message.error(res.message);
 			}
 		}).catch(() => {
-			// this.setState({ loading: false });
+			this.setState({ loading: false });
 		});
 	};
 
-	// //  pagesize页面翻页可选
-	// onShowSizeChange = (current, pageSize) => {
-	// 	console.log(current, pageSize);
-
-	// 	const { form } = this.props; // 会提示props is not defined
-	// 	const { getFieldsValue } = form;
-	// 	const fields = getFieldsValue();
-	// 	const params = {
-	// 		...fields,
-	// 		page: {
-	// 			num: pageSize,
-	// 			page: current,
-	// 		},
-	// 	};
-
-	// 	this.getData(params);
-
-	// 	this.setState({
-	// 		pageSize,
-	// 		current: 1,
-	// 	});
-	// }
 
 	// page翻页
 	handleChangePage = (val) => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-		const { repayStartTime, repayEndTime, pageSize } = this.state;
+		const { pageSize } = this.state;
 		const fields = getFieldsValue();
-		console.log(val, pageSize);
 		const params = {
 			...fields,
 			page: {
@@ -125,6 +174,28 @@ class BusinessView extends React.Component {
 			current: val,
 		});
 	}
+
+
+	// 搜索
+	search = () => {
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const fildes = getFieldsValue();
+		const params = {
+			...fildes,
+			page: {
+				page: 1,
+				num: 10,
+			},
+		};
+
+		this.getData(params);
+		this.setState({
+			fields: params,
+			current: 1,
+		});
+	}
+
 
 	openManagement = (openRowSelection) => {
 		this.setState({
@@ -141,13 +212,118 @@ class BusinessView extends React.Component {
 		});
 	};
 
+	// 一键导出
+	handleExportExcel = () => {
+		console.log(encodeURI);
+		const { selectedRowKeys } = this.state;
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const fields = getFieldsValue();
+		const params = {
+			...fields,
+			idList: selectedRowKeys, // 批量选中
+		};
+		exportExcel(params).then((res) => {
+			if (res.status === 200) {
+				const downloadElement = document.createElement('a');
+				downloadElement.href = res.responseURL;
+				// document.body.appendChild(downloadElement);
+				downloadElement.click(); // 点击下载
+				message.success('下载成功');
+			} else {
+				message.error('请求失败');
+			}
+		});
+	}
+
+	// 重置输入框
+	queryReset = () => {
+		const { form } = this.props; // 会提示props is not defined
+		const { resetFields } = form;
+		resetFields('');
+		this.getData();
+	}
+
+	// 判断点击的键盘的keyCode是否为13，是就调用上面的搜索函数
+	handleEnterKey = (e) => {
+		console.log(1);
+		if (e.nativeEvent.keyCode === 13) { // e.nativeEvent获取原生的事件对像
+			this.getData();
+		}
+	}
+
+	// 批量删除
+	handledDeleteBatch = () => {
+		const { selectedRowKeys } = this.state;
+		const that = this;
+		if (selectedRowKeys.length === 0) {
+			message.warning('未选中业务');
+			return;
+		}
+		confirm({
+			title: '确认删除选中业务吗?',
+			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
+			iconType: 'exclamation-circle-o',
+			onOk() {
+				console.log('确定');
+				const params = {
+					idList: selectedRowKeys,
+				};
+				postDeleteBatch(params).then((res) => {
+					if (res.code === 200) {
+						console.log(res);
+						that.getData();
+					} else {
+						message.error(res.message);
+					}
+				});
+			},
+			onCancel() {},
+		});
+	}
+
+	// 导出选中业务
+	handledExport = () => {
+		const { selectedRowKeys } = this.state;
+		const that = this; // this指定
+		if (selectedRowKeys.length === 0) {
+			message.warning('未选中业务');
+			return;
+		}
+		confirm({
+			title: '确认导出所选业务吗?',
+			content: '点击确定，将为您导出所有选中的信息',
+			iconType: 'exclamation-circle-o',
+			onOk() {
+				that.handleExportExcel();
+			},
+			onCancel() {},
+		});
+	}
+
+	// 打开担保人弹窗
+	openPeopleModal = (id) => {
+		console.log(id);
+
+		this.setState({
+			PeopleListModalVisible: true,
+			businessId: id,
+		});
+	}
+
+	// 关闭弹窗
+	onCancel = () => {
+		this.setState({
+			PeopleListModalVisible: false,
+		});
+	}
+
 	render() {
 		const {
-			openRowSelection, selectedRowKeys, selectData, totals, current, dataList,
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps, getFieldsValue } = form;
-		const fields = getFieldsValue();
+		const { getFieldProps } = form;
 		// 通过 rowSelection 对象表明需要行选择
 		const rowSelection = {
 			selectedRowKeys,
@@ -163,7 +339,7 @@ class BusinessView extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="业务编号"
-							{...getFieldProps('a', {
+							{...getFieldProps('caseNumber', {
 							// initialValue: true,
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
@@ -177,7 +353,7 @@ class BusinessView extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="姓名/公司名称"
-							{...getFieldProps('b', {
+							{...getFieldProps('obligorName', {
 								// initialValue: true,
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
@@ -191,7 +367,7 @@ class BusinessView extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="身份证号/统一社会信用代码"
-							{...getFieldProps('c', {
+							{...getFieldProps('obligorNumber', {
 								// initialValue: true,
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
@@ -205,7 +381,7 @@ class BusinessView extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="机构名称"
-							{...getFieldProps('d', {
+							{...getFieldProps('orgName', {
 								// initialValue: true,
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
@@ -216,24 +392,56 @@ class BusinessView extends React.Component {
 
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">上传时间: </span>
-						<DatePicker size="large" style={_style2} placeholder="开始日期" />
+						<DatePicker
+							{...getFieldProps('uploadTimeStart', {
+							// initialValue: true,
+							// rules: [
+							// 	{ required: true, whitespace: true, message: '请填写密码' },
+							// ],
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										startTime: dateString,
+									});
+								},
+							})}
+							size="large"
+							style={_style2}
+							placeholder="开始日期"
+						/>
 						<span className="yc-query-item-title">至</span>
-						<DatePicker size="large" style={_style2} placeholder="结束日期" />
+						<DatePicker
+							{...getFieldProps('uploadTimeEnd', {
+							// initialValue: true,
+							// rules: [
+							// 	{ required: true, whitespace: true, message: '请填写密码' },
+							// ],
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										endTime: dateString,
+									});
+								},
+							})}
+							size="large"
+							style={_style2}
+							placeholder="结束日期"
+						/>
 					</div>
 
 					<div className="yc-query-item yc-query-item-btn">
-						<Button size="large" type="warning" style={{ width: 84 }}>查询</Button>
-						<Button size="large" style={{ width: 120 }}>重置查询条件</Button>
+						<Button onClick={this.search} size="large" type="warning" style={{ width: 84 }}>查询</Button>
+						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 					<div className="yc-split-hr" />
 
 					<div className="yc-business-tablebtn">
 						{openRowSelection && (
 						<React.Fragment>
-							<Button className="yc-business-btn">
+							<Button onClick={this.handledDeleteBatch} className="yc-business-btn">
 								删除
 							</Button>
-							<Button className="yc-business-btn">
+							<Button onClick={this.handledExport} className="yc-business-btn">
 								导出
 							</Button>
 						</React.Fragment>
@@ -241,26 +449,31 @@ class BusinessView extends React.Component {
 						{!openRowSelection && (
 						<React.Fragment>
 							<Button className="yc-business-btn">
-								模版下载
+								<a href="../../../static/template.xlsx" style={{ color: '#333' }}>模版下载</a>
 							</Button>
-							<Button className="yc-business-btn">
+							<Upload className="yc-upload" showUploadList={false} {...this.uploadAttachmentParam()}>
+								<Button className="yc-business-btn">
 								导入业务
-							</Button>
+								</Button>
+							</Upload>
+
 						</React.Fragment>
 						)}
 						<Button className="yc-business-btn" onClick={() => this.openManagement(openRowSelection)}>
 							{openRowSelection ? '取消管理' : '批量管理'}
 						</Button>
 						{!openRowSelection && (
-						<Button className="yc-business-btn">
+							<Button onClick={this.handleExportExcel} className="yc-business-btn">
 							一键导出
-						</Button>
+							</Button>
 						)}
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
 							<Icon className="yc-business-icon" type="question-circle-o" />
 						</Tooltip>
 					</div>
-					<TableList stateObj={this.state} rowSelection={rowSelection} />
+					<Spin spinning={loading}>
+						<TableList stateObj={this.state} rowSelection={rowSelection} getData={this.getData} openPeopleModal={this.openPeopleModal} />
+					</Spin>
 					<div className="yc-pagination">
 						<Pagination
 							total={totals}
@@ -268,14 +481,24 @@ class BusinessView extends React.Component {
 							defaultPageSize={10} // 默认条数
 							showQuickJumper
 							showTotal={total => `共 ${total} 条记录`}
-							onShowSizeChange={this.onShowSizeChange}
 							onChange={(val) => {
+								console.log(val);
+
 								this.handleChangePage(val);
 							}}
 						/>
-						<div className="yc-pagination-btn"><Button>跳转</Button></div>
+						{/* <div className="yc-pagination-btn"><Button>跳转</Button></div> */}
 					</div>
 				</Form>
+				{/** 担保人Modal */}
+				{PeopleListModalVisible && (
+				<PeopleListModal
+					onCancel={this.onCancel}
+					onOk={this.onOk}
+					businessId={businessId}
+					PeopleListModalVisible={PeopleListModalVisible}
+				/>
+				)}
 			</div>
 		);
 	}

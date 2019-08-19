@@ -528,8 +528,7 @@ td.column-center{
 }
 
 .yc-pagination {
-  position: relative;
-  left: 812px;
+  text-align: right;
   margin-top: 24px;
   &::after {
     clear:both;
@@ -548,8 +547,27 @@ td.column-center{
   display: inline-block;
   position: relative;
   bottom: 11px;
-  left: 8px;
+  left: 5px;
 }
+.circle-item:before{
+  width: 6px;
+  height: 6px;
+  content: "";
+  border-radius: 3px;
+  background-color: #3DBD7D;
+  display: inline-block;
+  margin-right: 6px;
+}
+.no-attention:before{
+  width: 6px;
+  height: 6px;
+  content: "";
+  border-radius: 3px;
+  background-color: #BCC1CC;
+  display: inline-block;
+  margin-right: 6px;
+}
+
 input::-webkit-input-placeholder{
   color:#999;
 }

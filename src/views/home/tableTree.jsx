@@ -4,13 +4,10 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
-import Form from 'antd/lib/form';
-import Input from 'antd/lib/input';
-import Button from 'antd/lib/button';
-import Table from 'antd/lib/table';
-import Affix from 'antd/lib/affix';
-import Tooltip from 'antd/lib/tooltip';
-import Icon from 'antd/lib/icon';
+
+import {
+	Form, Input, Button, Table, Affix, Tooltip, Icon,
+} from 'antd';
 import flat from '../../utils/flatArray';
 
 // import rsaEncrypt from '@/utils/encryp';

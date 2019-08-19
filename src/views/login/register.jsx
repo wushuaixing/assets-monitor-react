@@ -6,13 +6,10 @@ import Cookies from 'universal-cookie';
 // ==================
 // 所需的所有组件
 // ==================
-import Form from 'antd/lib/form';
-import Checkbox from 'antd/lib/checkbox';
-import Input from 'antd/lib/input';
-import message from 'antd/lib/message';
 import Spin from 'antd/lib/spin';
-import Button from 'antd/lib/button';
-
+import {
+	Form, Input, Button, Checkbox, message,
+} from 'antd';
 import {
 	login, // login
 } from '@/utils/api/user';
