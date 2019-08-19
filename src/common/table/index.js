@@ -1,4 +1,4 @@
 import ReadStatus from './readStatus';
+import Attention from './attention';
 
-const SpanNormal = '3';
-export { ReadStatus, SpanNormal };
+export { ReadStatus, Attention };

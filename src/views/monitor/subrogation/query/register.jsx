@@ -9,9 +9,10 @@ class QueryCondition extends React.Component {
 	}
 
 	handleSubmit=() => {
-		const { form: { getFieldsValue } } = this.props;
+		const { form: { getFieldsValue }, onQueryChange } = this.props;
 		const condition = getFieldsValue();
-		console.log('condition:', condition);
+		if (onQueryChange)onQueryChange(condition);
+		// console.log('condition:', condition);
 	};
 
 	handleReset=() => {

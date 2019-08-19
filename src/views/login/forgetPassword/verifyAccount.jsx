@@ -12,6 +12,7 @@ import {
 	forgetPasswordStep1, // 忘记密码-step1
 } from '@/utils/api/user';
 import './style.scss';
+// import server from '@/utils/service';
 
 const verificationCodeImg = 'http://172.18.255.251:18080/yc/open/verificationCode';
 const FormItem = Form.Item;
@@ -59,10 +60,11 @@ class Login extends React.Component {
 	};
 
 	verificationCode = () => {
+		// const imgs = server.get(`${verificationCodeImg}?${Math.random()}`);
 		this.setState({
 			codeImg: `${verificationCodeImg}?${Math.random()}`,
 		});
-	}
+	};
 
 	render() {
 		const {
@@ -115,7 +117,7 @@ class Login extends React.Component {
 										],
 									})}
 								/>
-								<img onClick={this.verificationCode} className="yc-verificationCode" src={codeImg} alt="" />
+								<img onClick={this.verificationCode} className="yc-verificationCode" src={codeImg} alt="" referrerPolicy="no-referrer" />
 							</FormItem>
 						</div>
 						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>下一步</Button>

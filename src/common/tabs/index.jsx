@@ -16,11 +16,13 @@ const toGetDefaultActive = (source, field) => {
 	});
 	return res || source[0].id;
 };
+const numUnit = val => (val > 10000 ? `${(val / 10000).toFixed(1)}万` : val);
+
 const Tabs = (props) => {
 	const {
-		simple, rightRender, onChange, source, number, field,
+		simple, rightRender, onChange, source, number, field, defaultCurrent,
 	} = props;
-	const [active, setActive] = useState(toGetDefaultActive(source, field));
+	const [active, setActive] = useState(defaultCurrent || toGetDefaultActive(source, field));
 
 	window.onhashchange = () => {
 		const _result = toGetDefaultActive(source, field);
@@ -45,7 +47,7 @@ const Tabs = (props) => {
 					>
 						<div className="yc-tabs-active-line" />
 						<Badge dot={item.dot}>
-							{number || item.showNumber ? `${item.name}(${item.number})` : item.name}
+							{number || item.showNumber ? `${item.name}（${numUnit(item.number)}）` : item.name}
 						</Badge>
 					</li>
 				))}
