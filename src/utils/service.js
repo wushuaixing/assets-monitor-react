@@ -37,6 +37,7 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
 	// 在请求发出之前做拦截工作
 	// 这块需要做一些用户验证的工作，需要带上用户凭证
+	console.log(cookies, 1);
 
 
 	const configNew = Object.assign({}, config);
