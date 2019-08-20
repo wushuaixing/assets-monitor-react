@@ -7,28 +7,27 @@ import { navigate } from '@reach/router';
 const cookies = new Cookies();
 const axiosPromiseArr = []; // 储存cancel token
 // 创建axios实例
-// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+// axios.defaults.headers['Content-Type'] = 'image/jpeg;charset=UTF-8'; // 此处是增加的代码，设置请求头的类型
 // axios.defaults.withCredentials = true;
 const service = axios.create({
 	baseURL: process.env.BASE_URL,
 	timeout: 5000 * 4,
 	withCredentials: true,
-	// transformRequest:[
-	//     function(e){
-	//         function setDate(e){
-	//             var t, n, i, r, o, s, a, c = "";
-	//             for (t in e)
-	//             if (n = e[t], n instanceof Array)
-	//                 for (a = 0; a < n.length; ++a)
-	//                 o = n[a], i = t + "[]", s = {}, s[i] = o, c += setDate(s) + "&";
-	//             else if (n instanceof Object)
-	//                 for (r in n) o = n[r], i = t + "[" + r + "]", s = {}, s[i] = o, c += setDate(s) + "&";
-	//             else void 0 !== n && null !== n && (c += encodeURIComponent(t) + "=" + encodeURIComponent(n) + "&");
-	//             return c.length ? c.substr(0, c.length - 1) : c
+	credentials: 'include',
+	// transformRequest: [
+	// 	function (e) {
+	//         function setDate(e) {
+	//             let t; let n; let i; let r; let o; let s; let a; let
+	// 				c = '';
+	//             for (t in e) {
+	// 				if (n = e[t], n instanceof Array) {
+	// 					for (a = 0; a < n.length; ++a) { o = n[a], i = `${t}[]`, s = {}, s[i] = o, c += `${setDate(s)}&`; }
+	// 				} else if (n instanceof Object) { for (r in n) o = n[r], i = `${t}[${r}]`, s = {}, s[i] = o, c += `${setDate(s)}&`; } else void 0 !== n && n !== null && (c += `${encodeURIComponent(t)}=${encodeURIComponent(n)}&`);
+	// 			}
+	//             return c.length ? c.substr(0, c.length - 1) : c;
 	//         }
 	//         return setDate(e);
-
-	//     }
+	//     },
 	// ],
 	headers: {
 		'Content-Type': 'application/json;charset=utf-8',
@@ -42,7 +41,7 @@ service.interceptors.request.use((config) => {
 	// 这块需要做一些用户验证的工作，需要带上用户凭证
 
 	const configNew = Object.assign({}, config);
-	configNew.headers['Set-Cookie'] = cookies.get('SESSION');
+	// configNew.headers['Set-Cookie'] = cookies.get('SESSION');
 	// 在发送请求设置cancel token
 	configNew.cancelToken = new axios.CancelToken((cancel) => {
 		axiosPromiseArr.push({ cancel });
@@ -85,7 +84,6 @@ service.interceptors.request.use((config) => {
 // response 拦截  请求相应之后的拦截webp
 service.interceptors.response.use(
 	(response) => {
-
 		/**
 		 * 下面的注释为通过response自定义code来标示请求状态，当code返回如下情况为权限有问题，登出并返回到登录页
 		 * 如通过xmlhttprequest 状态码标识 逻辑可写在下面error中

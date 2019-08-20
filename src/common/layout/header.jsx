@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { navigate } from '@reach/router';
 
-import HeaderMessage from './header-message';
+import HeaderMessage from './headerMessage/header-message';
 import HeaderCenter from './headerCenter/header-center';
 
 import Badge from '@/common/badge';
@@ -123,6 +123,7 @@ const Header = () => {
 						<span className="notice-number">(3226)</span>
 						<HeaderMessage mark="消息中心大概预览" />
 					</div>
+					{/* <HeaderMessage mark="消息中心大概预览" /> */}
 					<div className="else-child else-line" />
 					<div className="else-child else-username header-item-normal">
 						<li className="else-child-li">您好，崔九九</li>
