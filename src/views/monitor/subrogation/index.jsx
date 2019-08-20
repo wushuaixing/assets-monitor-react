@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-
+import Cookies from 'universal-cookie';
 import QueryCourt from './query/court';
 import TableCourt from './table/court';
 import QueryRegister from './query/register';
@@ -8,16 +8,18 @@ import TableRegister from './table/register';
 
 import { Button, Tabs, Spin } from '@/common';
 import {
-	infoCount, infoList, readStatus, attention,
+	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor';
-import './style.scss';
+import { urlEncode } from '@/utils';
+
+const cookies = new Cookies();
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			sourceType: 1,
-			isRead: '',
+			isRead: 'all',
 			dataSource: '',
 			current: 1,
 			total: 0,
@@ -50,8 +52,8 @@ export default class Subrogation extends React.Component {
 	}
 
 	// 获取统计信息
-	toInfoCount=() => {
-		infoCount({ type: 1 }).then((res) => {
+	toInfoCount=(isRead) => {
+		infoCount({ type: 1, isRead }).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
@@ -81,11 +83,13 @@ export default class Subrogation extends React.Component {
 	// 切换列表类型
 	handleReadChange=(val) => {
 		this.setState({ isRead: val });
+		this.toInfoCount(val === 'all' ? '' : 0);
 		this.onQueryChange(this.condition, '', val);
 	};
 
 	// 全部标记为已读
 	handleAllRead=() => {
+		const _this = this;
 		Modal.confirm({
 			title: '确认将代位权—立案信息标记为全部已读？',
 			content: '点击确定，将为您标记为全部已读。',
@@ -93,7 +97,7 @@ export default class Subrogation extends React.Component {
 			onOk() {
 				readStatus({}).then((res) => {
 					if (res.code === 200) {
-						this.onQueryChange();
+						_this.onQueryChange();
 					}
 				});
 			},
@@ -101,9 +105,15 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
-	// 批量导出
-	handleExport=() => {
-		if (this.selectRow.length > 0) {
+	// 一键导出 & 批量导出
+	handleExport=(type) => {
+		if (type === 'all') {
+			const _condition = Object.assign(this.condition, {
+				token: cookies.get('token'),
+			});
+			window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
+			// console.log(urlEncode(_condition));
+		} else if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			Modal.confirm({
 				title: '确认导出选中的所有信息吗？',
@@ -158,7 +168,6 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
-
 	// 批量管理☑️结果
 	onSelect=(val) => {
 		console.log(val);
@@ -197,15 +206,19 @@ export default class Subrogation extends React.Component {
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, isRead, current } = this.state;
 		// console.log(val, _sourceType, _isRead);
-
+		const __isRead = _isRead || isRead;
 		this.condition = Object.assign(con || this.condition, {
 			sourceType: _sourceType || sourceType,
-			isRead: _isRead || isRead,
 			page: page || current,
 			type: 1,
 			num: 10,
 		});
-		// console.log(condition);
+		if (__isRead === 'all') {
+			this.condition.isRead = '';
+		}
+		if (__isRead === 'else') {
+			this.condition.isRead = 0;
+		}
 		this.setState({
 			loading: true,
 		});
@@ -256,17 +269,21 @@ export default class Subrogation extends React.Component {
 					!manage ? (
 						<div className="assets-auction-action">
 							<Button
-								active={!isRead}
-								onClick={() => this.handleReadChange('')}
+								active={isRead === 'all'}
+								onClick={() => this.handleReadChange('all')}
 								title="全部"
 							/>
 							<Button
-								active={isRead === 1}
-								onClick={() => this.handleReadChange(1)}
+								active={isRead === 'unread'}
+								onClick={() => this.handleReadChange('unread')}
 								title="只显示未读"
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
+								<span className="yc-export-img" />
+								<span> 一键导出</span>
+							</Button>
 						</div>
 					) : (
 						<div className="assets-auction-action">

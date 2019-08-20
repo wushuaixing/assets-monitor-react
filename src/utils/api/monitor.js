@@ -6,8 +6,7 @@ import { baseUrl } from '@/utils/api/index';
 export const attention = (params, star) => service.post(`${baseUrl}/yc/monitor/early/warning/attention?star=${star}`, params)
 	.then(res => res.data);
 // 导出
-export const exportList = params => service.get(`${baseUrl}/yc/monitor/early/warning/export`, { params })
-	.then(res => res.data);
+export const exportList = `${baseUrl}/yc/monitor/early/warning/export`;
 // 统计
 export const infoCount = params => service.get(`${baseUrl}/yc/monitor/early/warning/infoCount`, { params })
 	.then(res => res.data);

@@ -120,6 +120,13 @@ body, td, th {
 }
 
 // -- end
+.yc-export-img{
+  @extend .yc-img-normal;
+  background-image: url('../img/icon/icon_export.png');
+  height: 16px;
+  width: 16px;
+}
+
 .yc-badge-img {
   background-image: url('../img/icon/icon_reddot.png');
 }
