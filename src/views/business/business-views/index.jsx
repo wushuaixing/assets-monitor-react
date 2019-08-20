@@ -126,10 +126,8 @@ class BusinessView extends React.Component {
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		const params = {
-			page: {
-				num: pageSize,
-				page: current,
-			},
+			num: pageSize,
+			page: current,
 			uploadTimeStart: startTime, // 搜索时间
 			uploadTimeEnd: endTime,
 			...fildes,
@@ -161,10 +159,8 @@ class BusinessView extends React.Component {
 		const params = {
 			...searchValue,
 			current: val,
-			page: {
-				num: pageSize,
-				page: val,
-			},
+			num: pageSize,
+			page: val,
 		};
 
 		this.getData(params);
@@ -182,10 +178,8 @@ class BusinessView extends React.Component {
 
 		const params = {
 			...fildes,
-			page: {
-				page: 1,
-				num: 10,
-			},
+			page: 1,
+			num: 10,
 			uploadTimeStart: startTime, // 搜索时间
 			uploadTimeEnd: endTime,
 		};

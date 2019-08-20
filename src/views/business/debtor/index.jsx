@@ -45,10 +45,8 @@ class BusinessDebtor extends React.Component {
 			current, pageSize, startTime, endTime,
 		} = this.state;
 		const params = {
-			page: {
-				num: pageSize,
-				page: current,
-			},
+			num: pageSize,
+			page: current,
 			...value,
 			uploadTimeStart: startTime, // 搜索时间
 			uploadTimeEnd: endTime,
@@ -107,10 +105,8 @@ class BusinessDebtor extends React.Component {
 
 		const params = {
 			...fildes,
-			page: {
-				page: 1,
-				num: 10,
-			},
+			page: 1,
+			num: 10,
 		};
 		this.getData(params);
 		this.setState({
@@ -135,10 +131,8 @@ class BusinessDebtor extends React.Component {
 		const params = {
 			...searchValue,
 			current: val,
-			page: {
-				num: pageSize,
-				page: val,
-			},
+			num: pageSize,
+			page: val,
 		};
 
 		this.getData(params);
