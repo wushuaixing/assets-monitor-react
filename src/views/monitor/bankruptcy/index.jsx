@@ -1,12 +1,11 @@
 import React from 'react';
 import Query from './query';
 import Table from './table';
-// export default class Assets extends React.Component {
 import { Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
 import { Button, Spin } from '@/common';
 import {
-	infoList, readStatus, attention, exportList, follow,
+	infoList, readStatus, exportList, follow,
 } from '@/utils/api/monitor-info/bankruptcy';
 import { urlEncode } from '@/utils';
 import './style.scss';
@@ -31,7 +30,6 @@ export default class Subrogation extends React.Component {
 
 	componentDidMount() {
 		this.onQueryChange({});
-		// this.toInfoCount();
 	}
 
 	// 切换列表类型
@@ -153,11 +151,9 @@ export default class Subrogation extends React.Component {
 		this.condition = Object.assign(con || this.condition, {
 			sourceType: _sourceType || sourceType,
 			page: page || current,
-			type: 1,
-			num: 10,
 		});
 		if (__isRead === 'all') {
-			this.condition.isRead = '';
+			delete this.condition.isRead;
 		}
 		if (__isRead === 'else') {
 			this.condition.isRead = 0;

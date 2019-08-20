@@ -511,18 +511,17 @@ td.column-center {
 }
 
 //有链接、可点击的元素
-.click-p {
+.click-link {
   display: inline-block;
-  color: #337ab7;;
-}
-
-.click-p:hover {
-  color: #23527c;;
-  text-decoration: underline;
+  color: $fontColor-base-2;
   cursor: pointer;
+  &:hover {
+    color:$fontColor-base;
+    text-decoration: underline;
+  }
 }
 
-.click-p-disabled {
+.click-link-disabled {
   display: inline-block;
   color: #D9D9D9;
 }

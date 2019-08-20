@@ -12,24 +12,32 @@ const columns = (props) => {
 		{
 			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
 			dataIndex: 'publishDate',
+			width: 115,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 		}, {
 			title: '企业',
 			dataIndex: 'obligorName',
-			width: 150,
+			width: 195,
 		}, {
 			title: '起诉法院',
 			dataIndex: 'court',
-			width: 150,
+			width: 180,
 		}, {
 			title: '标题',
 			dataIndex: 'title',
+			width: 506,
+			render: (text, record) => {
+				const { url } = record;
+				return url ? <a href={url} className="click-link">{text || '--'}</a> : <span>{text || '--'}</span>;
+			},
 		}, {
 			title: '更新日期',
+			width: 115,
 			dataIndex: 'updateTime',
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
 			title: '操作',
+			width: 55,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
 				<Attentions

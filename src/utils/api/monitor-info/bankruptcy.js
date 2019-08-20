@@ -4,7 +4,7 @@ import { baseUrl } from '@/utils/api/index';
 /*  监控信息=>破产监控相关接口 */
 
 // 破产监控列表页
-export const infoList = params => service.post(`${baseUrl}/yc/monitor/bankruptcy/list`, params)
+export const infoList = params => service.get(`${baseUrl}/yc/monitor/bankruptcy/list`, { params })
 	.then(res => res.data);
 
 // 关注列表
