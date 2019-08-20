@@ -7,6 +7,7 @@ import {
 	closePush, // 关闭推送
 	postDelete, // 删除一条记录
 } from '@/utils/api/business';
+import { formatDateTime } from '@/utils/changeTime';
 
 const { confirm } = Modal;
 
@@ -93,7 +94,7 @@ class BusinessView extends React.Component {
 				key: 'uploadTime',
 				width: 100,
 				render(text) {
-					return <span>{(text) || '--'}</span>;
+					return <span>{formatDateTime(text) || '--'}</span>;
 				},
 			},	{
 				title: '推送状态',

@@ -20,9 +20,15 @@ export const notify = async (params) => {
 	return response.data;
 };
 
-// 已读
-export const isRead = async (messageType, id) => {
-	const response = await service.get(`${baseUrl}/jms/message/center/read/${messageType}/${id}`);
+// 站内信已读
+export const isRead = async (params) => {
+	const response = await service.post(`${baseUrl}/yc/message/station/read`, params);
+	return response.data;
+};
+
+// 站内信删除
+export const getDelete = async (params) => {
+	const response = await service.post(`${baseUrl}/yc/message/station/delete`, params);
 	return response.data;
 };
 

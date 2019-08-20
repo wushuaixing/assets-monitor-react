@@ -1,7 +1,11 @@
 import React from 'react';
-import { Tree, Input } from 'antd';
+import { Tree, Input, message } from 'antd';
+import { navigate } from '@reach/router';
 import './style.scss';
-import { orgTree } from '../../../utils/api/index';
+import {
+	info, // tree
+	loginOut, // login
+} from '@/utils/api/user';
 
 const { TreeNode } = Tree;
 export default class HeaderMessage extends React.Component {
@@ -13,7 +17,7 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	componentDidMount() {
-		orgTree().then((res) => {
+		info().then((res) => {
 			if (res.code === 200) {
 				console.log(res.data);
 
@@ -23,6 +27,20 @@ export default class HeaderMessage extends React.Component {
 			}
 		});
 	}
+
+	handleClick = () => {
+		loginOut().then((res) => {
+			if (res.code === 200) {
+				message.success('退出成功');
+				// 清空token
+				navigate('/login');
+			} else {
+				message.error(res.message);
+			}
+		}).catch(() => {
+			message.error('服务器出错');
+		});
+	};
 
 	inputValue= (e) => {
 		const { value } = e.target;
@@ -169,7 +187,7 @@ export default class HeaderMessage extends React.Component {
 					<div className="g-right user-panel-right">
 						<div>
 							<a className="text-prompt user-panel-login" data-toggle="modal" data-target="#Modalupdate">修改密码</a>
-							<a className="user-panel-login" href="/User/Index/logout">退出登录</a>
+							<a onClick={() => this.handleClick()} className="user-panel-login">退出登录</a>
 						</div>
 					</div>
 				</div>

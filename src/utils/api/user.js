@@ -36,3 +36,9 @@ export const forgetPasswordStep2Sms = async (params) => {
 	const response = await service.get(`${baseUrl}/api/auth/open/forgetPassword/step2/sms`, { params });
 	return response.data;
 };
+
+// userInfo
+export const info = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/user/info`, { params });
+	return response.data;
+};

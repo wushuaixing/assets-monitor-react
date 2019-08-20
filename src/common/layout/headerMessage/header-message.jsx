@@ -4,6 +4,7 @@ import {
 	notify, // 消息提醒
 	// exportExcel, // 导出
 } from '@/utils/api/inform';
+import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
 export default class HeaderMessage extends React.Component {
@@ -15,14 +16,13 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	componentDidMount() {
-		// notify().then((res) => {
-		// 	if (res.code === 200) {
-		// 		console.log(res);
-		// 		this.setState({
-		// 			dataList: res.data,
-		// 		});
-		// 	}
-		// });
+		notify().then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					dataList: res.data.list,
+				});
+			}
+		});
 	}
 
 	render() {
@@ -42,16 +42,23 @@ export default class HeaderMessage extends React.Component {
 							{item.isRead && <div className="yc-badge-tab-red" />}
 							<div className="yc-station-item-title">
 								{item.title}
-								<span className="yc-station-item-brief">{item.createTime}</span>
+								<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
 							</div>
 							<div className="yc-station-item-content">{item.content}</div>
 						</div>
 					)) : (
-						<div className="notice-station-wrapper ">
+						<div className="notice-station-wrapper">
 							<div className="notice notice-station-img" />
 							<span className="notice-text">
 								暂无新消息，已读信息请至
-								<a href="/Station/Station/orgLists" target="_blank">消息中心</a>
+								<a
+									onClick={() => {
+										navigate('/message');
+									}}
+									target="_blank"
+								>
+									消息中心
+								</a>
 								查看
 							</span>
 						</div>
