@@ -7,9 +7,12 @@ import { navigate } from '@reach/router';
 const cookies = new Cookies();
 const axiosPromiseArr = []; // 储存cancel token
 // 创建axios实例
+// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+// axios.defaults.withCredentials = true;
 const service = axios.create({
 	baseURL: process.env.BASE_URL,
 	timeout: 5000 * 4,
+	withCredentials: true,
 	// transformRequest:[
 	//     function(e){
 	//         function setDate(e){
@@ -37,8 +40,6 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
 	// 在请求发出之前做拦截工作
 	// 这块需要做一些用户验证的工作，需要带上用户凭证
-	console.log(cookies, 1);
-
 
 	const configNew = Object.assign({}, config);
 	configNew.headers['Set-Cookie'] = cookies.get('SESSION');
@@ -81,9 +82,10 @@ service.interceptors.request.use((config) => {
 // 	return newObj;
 // }
 
-// response 拦截  请求相应之后的拦截
+// response 拦截  请求相应之后的拦截webp
 service.interceptors.response.use(
 	(response) => {
+
 		/**
 		 * 下面的注释为通过response自定义code来标示请求状态，当code返回如下情况为权限有问题，登出并返回到登录页
 		 * 如通过xmlhttprequest 状态码标识 逻辑可写在下面error中

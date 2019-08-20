@@ -1,91 +1,106 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
-import { ReadStatus } from '@/common/table';
+import { ReadStatus, Attention } from '@/common/table';
 
 // 含操作等...
 const defaultColumns = [
 	{
-		title: <span style={{ paddingLeft: 11 }}>立案信息</span>,
-		dataIndex: 'name',
-		render: ReadStatus,
+		title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
+		dataIndex: 'larq',
+		render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 	}, {
 		title: '原告',
-		dataIndex: 'age',
+		dataIndex: 'yg',
 	}, {
 		title: '被告',
-		dataIndex: 'address',
+		dataIndex: 'bg',
 	}, {
 		title: '法院',
-		dataIndex: 'address',
+		dataIndex: 'court',
 	}, {
 		title: '案号',
-		dataIndex: 'address',
+		dataIndex: 'ah',
+		render: content => <span>{content}</span>,
 	}, {
 		title: '关联信息',
-		dataIndex: 'address',
+		render: () => <span>立案</span>,
 	}, {
 		title: '更新日期',
-		dataIndex: 'address',
+		dataIndex: 'updateTime',
+		render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 	}, {
 		title: '操作',
 		dataIndex: 'address',
+		render: (text, row) => <Attention text={text} row={row} />,
 	}];
 // 单纯展示
 const normalColumns = [
 	{
-		title: '立案信息',
-		dataIndex: 'name',
+		title: '立案日期',
+		dataIndex: 'larq',
 	}, {
 		title: '原告',
-		dataIndex: 'age',
+		dataIndex: 'yg',
 	}, {
 		title: '被告',
-		dataIndex: 'address',
+		dataIndex: 'bg',
 	}, {
 		title: '法院',
-		dataIndex: 'address',
+		dataIndex: 'court',
 	}, {
 		title: '案号',
-		dataIndex: 'address',
+		dataIndex: 'ah',
 	}, {
 		title: '关联信息',
-		dataIndex: 'address',
+		dataIndex: 'associateInfo',
 	}, {
 		title: '更新日期',
-		dataIndex: 'address',
+		dataIndex: 'updateTime',
 	}];
 
-const data = [{
-	key: '1',
-	name: '胡彦斌',
-	age: 32,
-	address: '西湖区湖底公园1号',
-}, {
-	key: '2',
-	name: '胡彦祖',
-	age: 42,
-	address: '西湖区湖底公园1号',
-}, {
-	key: '3',
-	name: '李大嘴',
-	age: 32,
-	address: '西湖区湖底公园1号',
-}];
+export default class TableView extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			selectedRowKeys: [],
+		};
+	}
 
-const TableView = (props) => {
-	const { normal } = props;
-	return (
-		<React.Fragment>
-			<Table
-				columns={normal ? normalColumns : defaultColumns}
-				dataSource={data}
-				pagination={false}
-			/>
-			<div className="yc-table-pagination">
-				<Pagination defaultCurrent={1} total={500} />
+	toRowClick = (record, index) => {
+		console.log(index);
+	};
 
-			</div>
-		</React.Fragment>
-	);
-};
-export default TableView;
+	onSelectChange=(selectedRowKeys) => {
+		const { onSelect } = this.props;
+		this.setState({ selectedRowKeys });
+		if (onSelect)onSelect(selectedRowKeys);
+	};
+
+	render() {
+		const {
+			normal, total, current, dataSource, manage,
+		} = this.props;
+		const { selectedRowKeys } = this.state;
+		const rowSelection = manage ? {
+			rowSelection: {
+				selectedRowKeys,
+				onChange: this.onSelectChange,
+			},
+		} : null;
+		return (
+			<React.Fragment>
+				<Table
+					{...rowSelection}
+					columns={normal ? normalColumns : defaultColumns}
+					dataSource={dataSource}
+					pagination={false}
+					rowClassName={record => (record.isRead ? 'yc-row-bold' : '')}
+					onRowClick={this.toRowClick}
+				/>
+				<div className="yc-table-pagination">
+					<Pagination defaultCurrent={1} current={current || 1} total={total || 0} />
+				</div>
+			</React.Fragment>
+		);
+	}
+}
