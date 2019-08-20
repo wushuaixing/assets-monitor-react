@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { navigate } from '@reach/router';
 
 import HeaderMessage from './header-message';
-import HeaderCenter from './header-center';
+import HeaderCenter from './headerCenter/header-center';
 
 import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo.png';
@@ -125,10 +125,11 @@ const Header = () => {
 					</div>
 					<div className="else-child else-line" />
 					<div className="else-child else-username header-item-normal">
-						<li>您好，崔九九</li>
-						<li>崔金鑫测试机构121</li>
+						<li className="else-child-li">您好，崔九九</li>
+						<li className="else-child-li"> 崔金鑫测试机构121</li>
 						<HeaderCenter mark="个人中心大概" />
 					</div>
+					{/* <HeaderCenter mark="个人中心大概" /> */}
 				</div>
 			</div>
 		</div>

@@ -174,14 +174,20 @@ class BusinessView extends React.Component {
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
+		const {
+			startTime, endTime,
+		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
+
 		const params = {
 			...fildes,
 			page: {
 				page: 1,
 				num: 10,
 			},
+			uploadTimeStart: startTime, // 搜索时间
+			uploadTimeEnd: endTime,
 		};
 
 		this.getData(params);

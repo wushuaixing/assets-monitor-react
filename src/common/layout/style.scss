@@ -149,12 +149,11 @@
         .yc-header-center{
           display: none;
         }
-        li{
+        .else-child-li {
           font-size: 12px;
           line-height: 18px;
           text-align: right;
         }
-
       }
     }
   }
@@ -168,23 +167,6 @@
   min-width: 400px;
   min-height: 100px;
   padding: 15px;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
-  border: 1px solid $fontColor-hover;
-  border-radius: 0 0 2px 2px;
-  background-color: #fff;
-  color: $fontColor-base;
-}
-
-
-.yc-header-center{
-  position: absolute;
-  top: 50px;
-  right: 0;
-  z-index: 3;
-  width: 440px;
-  height: 400px;
-  padding: 15px;
-  //height: auto;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
   border: 1px solid $fontColor-hover;
   border-radius: 0 0 2px 2px;
