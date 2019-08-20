@@ -1,13 +1,15 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 
 import QueryCourt from './query/court';
 import TableCourt from './table/court';
 import QueryRegister from './query/register';
 import TableRegister from './table/register';
 
-import { Button, Tabs } from '@/common';
-import { infoCount, infoList, readStatus } from '@/utils/api/monitor';
+import { Button, Tabs, Spin } from '@/common';
+import {
+	infoCount, infoList, readStatus, attention,
+} from '@/utils/api/monitor';
 import './style.scss';
 
 export default class Subrogation extends React.Component {
@@ -19,6 +21,7 @@ export default class Subrogation extends React.Component {
 			dataSource: '',
 			current: 1,
 			total: 0,
+			loading: true,
 			manage: false,
 			tabConfig: [
 				{
@@ -38,6 +41,7 @@ export default class Subrogation extends React.Component {
 			],
 		};
 		this.condition = {};
+		this.selectRow = [];
 	}
 
 	componentDidMount() {
@@ -83,7 +87,7 @@ export default class Subrogation extends React.Component {
 	// 全部标记为已读
 	handleAllRead=() => {
 		Modal.confirm({
-			title: '确认将代位权——立案信息标记为全部已读？',
+			title: '确认将代位权—立案信息标记为全部已读？',
 			content: '点击确定，将为您标记为全部已读。',
 			iconType: 'exclamation-circle',
 			onOk() {
@@ -97,8 +101,68 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	// 批量导出
+	handleExport=() => {
+		if (this.selectRow.length > 0) {
+			const idList = this.selectRow;
+			Modal.confirm({
+				title: '确认导出选中的所有信息吗？',
+				content: '点击确定，将为您导出所有选中的信息',
+				iconType: 'exclamation-circle',
+				onOk() {
+					attention({ idList }, true).then((res) => {
+						if (res.code === 200) {
+							message.success('操作成功！');
+						}
+					});
+				},
+				onCancel() {},
+			});
+		} else {
+			message.warning('未选中业务');
+		}
+	};
+
+	// 批量关注
+	handleAttention=() => {
+		if (this.selectRow.length > 0) {
+			const idList = this.selectRow;
+			const { dataSource } = this.state;
+			const _this = this;
+			Modal.confirm({
+				title: '确认关注选中的所有信息吗？',
+				content: '点击确定，将为您收藏所有选中的信息',
+				iconType: 'exclamation-circle',
+				onOk() {
+					attention({ idList }, true).then((res) => {
+						if (res.code === 200) {
+							message.success('操作成功！');
+							const _dataSource = dataSource.map((item) => {
+								const _item = item;
+								idList.forEach((it) => {
+									if (it === item.id) _item.isAttention = 1;
+								});
+								return _item;
+							});
+							_this.setState({
+								dataSource: _dataSource,
+								manage: false,
+							});
+						}
+					});
+				},
+				onCancel() {},
+			});
+		} else {
+			message.warning('未选中业务');
+		}
+	};
+
+
+	// 批量管理☑️结果
 	onSelect=(val) => {
 		console.log(val);
+		this.selectRow = val;
 	};
 
 	// 表格发生变化
@@ -115,22 +179,36 @@ export default class Subrogation extends React.Component {
 	// sourceType变化
 	onSourceType=(val) => {
 		const { isRead } = this.state;
-		this.setState({ sourceType: val, dataSource: '' });
+		this.setState({
+			sourceType: val,
+			dataSource: '',
+			current: 1,
+			total: '',
+		});
 		this.onQueryChange(null, val, isRead);
 	};
 
+	// 当前页数变化
+	onPageChange=(val) => {
+		this.onQueryChange('', '', '', val);
+	};
+
 	// 查询条件变化
-	onQueryChange=(val, _sourceType, _isRead) => {
-		const { sourceType, isRead } = this.state;
+	onQueryChange=(con, _sourceType, _isRead, page) => {
+		const { sourceType, isRead, current } = this.state;
 		// console.log(val, _sourceType, _isRead);
 
-		this.condition = Object.assign(val || this.condition, {
+		this.condition = Object.assign(con || this.condition, {
 			sourceType: _sourceType || sourceType,
 			isRead: _isRead || isRead,
+			page: page || current,
 			type: 1,
 			num: 10,
 		});
 		// console.log(condition);
+		this.setState({
+			loading: true,
+		});
 		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -139,12 +217,19 @@ export default class Subrogation extends React.Component {
 					total: res.data.total,
 				});
 			}
+			this.setState({
+				loading: false,
+			});
+		}).catch(() => {
+			this.setState({
+				loading: false,
+			});
 		});
 	};
 
 	render() {
 		const {
-			sourceType, isRead, dataSource, current, total, tabConfig, manage,
+			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
 		} = this.state;
 		const tableProps = {
 			manage,
@@ -153,10 +238,13 @@ export default class Subrogation extends React.Component {
 			total,
 			onRefresh: this.onRefresh,
 			onSelect: this.onSelect,
+			onPageChange: this.onPageChange,
 		};
 		return (
 			<div className="yc-assets-auction">
-				{sourceType === 1 ?	<QueryRegister onQueryChange={this.onQueryChange} /> :	<QueryCourt />}
+				{sourceType === 1
+					?	<QueryRegister onQueryChange={this.onQueryChange} />
+					:	<QueryCourt onQueryChange={this.onQueryChange} />}
 				<Tabs
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
@@ -182,15 +270,24 @@ export default class Subrogation extends React.Component {
 						</div>
 					) : (
 						<div className="assets-auction-action">
-							<Button onClick={() => this.handleReadChange('')} title="关注" />
-							<Button onClick={() => this.handleReadChange('')} title="导出" />
-							<Button onClick={() => this.setState({ manage: false })} title="取消管理" />
+							<Button onClick={this.handleAttention} title="关注" />
+							<Button onClick={this.handleExport} title="导出" />
+							<Button
+								onClick={() => {
+									this.setState({ manage: false });
+									this.selectRow = [];
+								}}
+								title="取消管理"
+							/>
 						</div>
 					)
 				}
-				{
-					sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
-				}
+				<Spin visible={loading}>
+					{
+						sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
+					}
+				</Spin>
+
 			</div>
 		);
 	}

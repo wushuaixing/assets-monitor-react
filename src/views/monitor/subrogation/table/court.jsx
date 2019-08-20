@@ -97,15 +97,17 @@ export default class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys) => {
+	onSelectChange=(selectedRowKeys, record) => {
+		// console.log(selectedRowKeys, record);
+		const _selectedRowKeys = record.map(item => item.id);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(selectedRowKeys);
+		if (onSelect)onSelect(_selectedRowKeys);
 	};
 
 	render() {
 		const {
-			total, current, dataSource, manage,
+			total, current, dataSource, manage, onPageChange,
 		} = this.props;
 		const { selectedRowKeys } = this.state;
 		const rowSelection = manage ? {
@@ -125,7 +127,12 @@ export default class TableView extends React.Component {
 					onRowClick={this.toRowClick}
 				/>
 				<div className="yc-table-pagination">
-					<Pagination defaultCurrent={1} current={current || 1} total={total || 0} />
+					<Pagination
+						showQuickJumper
+						current={current || 1}
+						total={total || 0}
+						onChange={onPageChange}
+					/>
 				</div>
 			</React.Fragment>
 		);
