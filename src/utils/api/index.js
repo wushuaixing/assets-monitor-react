@@ -29,3 +29,9 @@ export const getOrgSystemKeys = async () => {
 	const response = await service.post(`${baseUrl}/index/v1/getOrgSystemKeys`);
 	return response.data;
 };
+
+// 机构树
+export const orgTree = async () => {
+	const response = await service.get(`${baseUrl}/yc/organization/orgTree`);
+	return response.data;
+};
