@@ -1,4 +1,4 @@
 import ReadStatus from './readStatus';
-import Attention from './attention';
+import Attentions from './attention';
 
-export { ReadStatus, Attention };
+export { ReadStatus, Attentions };

@@ -99,8 +99,9 @@ body, td, th {
 .yc-list-attention {
   background-repeat: no-repeat;
   background-size: 100%;
-  display: inline-block;
+  display: block;
   text-align: center;
+  margin: 0 auto;
   cursor: pointer;
   height: 16px;
   width: 16px;
@@ -172,9 +173,15 @@ input[type="number"] {
 .router-link-span:hover {
   color: #96cff9;
 }
-
-.tAlignCenter {
+.tAlignCenter{
   text-align: center;
+
+}
+.tAlignCenter_important {
+  text-align: center!important;
+}
+.width60{
+  width: 60px;
 }
 
 .T_f19_ff3 {

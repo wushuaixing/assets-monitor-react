@@ -1,14 +1,13 @@
 import React from 'react';
 import { Modal } from 'antd';
+
 import QueryCourt from './query/court';
 import TableCourt from './table/court';
 import QueryRegister from './query/register';
 import TableRegister from './table/register';
 
-import { Tabs, Button } from '@/common';
-import {
-	attention, exportList, infoCount, infoList, readStatus,
-} from '@/utils/api/monitor';
+import { Button, Tabs } from '@/common';
+import { infoCount, infoList, readStatus } from '@/utils/api/monitor';
 import './style.scss';
 
 export default class Subrogation extends React.Component {
@@ -42,8 +41,8 @@ export default class Subrogation extends React.Component {
 	}
 
 	componentDidMount() {
-		// this.onQueryChange({});
-		// this.toInfoCount();
+		this.onQueryChange({});
+		this.toInfoCount();
 	}
 
 	// 获取统计信息
@@ -75,8 +74,10 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	// 切换列表类型
 	handleReadChange=(val) => {
 		this.setState({ isRead: val });
+		this.onQueryChange(this.condition, '', val);
 	};
 
 	// 全部标记为已读
@@ -86,8 +87,10 @@ export default class Subrogation extends React.Component {
 			content: '点击确定，将为您标记为全部已读。',
 			iconType: 'exclamation-circle',
 			onOk() {
-				return new Promise((resolve) => {
-					setTimeout(resolve, 1000);
+				readStatus({}).then((res) => {
+					if (res.code === 200) {
+						this.onQueryChange();
+					}
 				});
 			},
 			onCancel() {},
@@ -99,25 +102,36 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=() => {
-		console.log('toRefresh');
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = dataSource;
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
 	};
 
 	// sourceType变化
 	onSourceType=(val) => {
-		this.setState({ sourceType: val });
+		const { isRead } = this.state;
+		this.setState({ sourceType: val, dataSource: '' });
+		this.onQueryChange(null, val, isRead);
 	};
 
 	// 查询条件变化
 	onQueryChange=(val, _sourceType, _isRead) => {
 		const { sourceType, isRead } = this.state;
-		const condition = Object.assign({
+		// console.log(val, _sourceType, _isRead);
+
+		this.condition = Object.assign(val || this.condition, {
 			sourceType: _sourceType || sourceType,
 			isRead: _isRead || isRead,
 			type: 1,
-		}, val);
-		this.condition = condition;
-		infoList(condition).then((res) => {
+			num: 10,
+		});
+		// console.log(condition);
+		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
