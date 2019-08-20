@@ -9,7 +9,7 @@ import TableRegister from '../subrogation/table/register';
 
 import {
 	infoCount, infoList, readStatus, attention,
-} from '@/utils/api/monitor';
+} from '@/utils/api/monitor-info/monitor';
 import './style.scss';
 
 export default class Lawsuits extends React.Component {

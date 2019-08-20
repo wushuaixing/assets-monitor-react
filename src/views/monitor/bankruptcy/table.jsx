@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { ReadStatus, Attentions } from '@/common/table';
-import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
+import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
 
 // 获取表格配置
 const columns = (props) => {
@@ -10,28 +10,20 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
-			dataIndex: 'larq',
+			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
+			dataIndex: 'publishDate',
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 		}, {
-			title: '原告',
-			dataIndex: 'yg',
+			title: '企业',
+			dataIndex: 'obligorName',
 			width: 150,
 		}, {
-			title: '被告',
-			dataIndex: 'bg',
-			width: 150,
-		}, {
-			title: '法院',
+			title: '起诉法院',
 			dataIndex: 'court',
+			width: 150,
 		}, {
-			title: '案号',
-			dataIndex: 'ah',
-			render: content => <span>{content}</span>,
-		}, {
-			title: '关联信息',
-			render: () => <span>立案</span>,
-			width: 80,
+			title: '标题',
+			dataIndex: 'title',
 		}, {
 			title: '更新日期',
 			dataIndex: 'updateTime',
@@ -39,7 +31,16 @@ const columns = (props) => {
 		}, {
 			title: '操作',
 			className: 'tAlignCenter_important',
-			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
+			render: (text, row, index) => (
+				<Attentions
+					text={text}
+					row={row}
+					single
+					onClick={onRefresh}
+					api={row.isAttention ? unFollowSingle : followSingle}
+					index={index}
+				/>
+			),
 		}];
 	// 单纯展示
 	const normalColumns = [
