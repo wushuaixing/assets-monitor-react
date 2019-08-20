@@ -215,9 +215,9 @@ export default class Subrogation extends React.Component {
 			num: 10,
 		});
 		if (__isRead === 'all') {
-			this.condition.isRead = '';
+			delete this.condition.isRead;
 		}
-		if (__isRead === 'else') {
+		if (__isRead === 'unread') {
 			this.condition.isRead = 0;
 		}
 		this.setState({

@@ -108,6 +108,25 @@ body, td, th {
   vertical-align: top;
 }
 
+.yc-list-link {
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+  height: 16px;
+  width: 16px;
+  vertical-align: top;
+  background-image: url('../img/icon/icon_link_normal.png');
+  &:hover {
+    background-image: url('../img/icon/icon_link_selected.png');
+  }
+  &:active {
+    background-image: url('../img/icon/icon_link_selected.png');
+  }
+}
+
 .yc-list-attention-un {
   background-image: url('../img/icon/btn_attention16_n.png');
   &:hover {
