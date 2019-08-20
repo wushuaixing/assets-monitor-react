@@ -1,13 +1,27 @@
 import React from 'react';
 import { Tree, Input } from 'antd';
 import './style.scss';
+import { orgTree } from '../../../utils/api/index';
 
 const { TreeNode } = Tree;
 export default class HeaderMessage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			treeData: [],
 		};
+	}
+
+	componentDidMount() {
+		orgTree().then((res) => {
+			if (res.code === 200) {
+				console.log(res.data);
+
+				this.setState({
+					treeData: res.data,
+				});
+			}
+		});
 	}
 
 	inputValue= (e) => {
@@ -22,6 +36,9 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	render() {
+		const { treeData } = this.state;
+		console.log(treeData);
+
 		const gData = [{
 			key: 1,
 			name: '崔金鑫测试机构121（汇总）',

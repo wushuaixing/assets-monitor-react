@@ -8,16 +8,16 @@ import { baseUrl } from '@/utils/api/index';
  * @returns {Promise<*>}
  */
 // 消息中心列表
-export const centerList = async (messageType, params) => {
-	const response = await service.get(`${baseUrl}/jms/message/center/list/${messageType}`, { params });
+export const centerList = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/message/station/list`, { params });
 	return response.data;
 };
 
 
-// 下载风险变动消息附件下载 zhousai
-export const attach = async (id, params) => {
-	const response = await service.get(`${baseUrl}/jms/message/center/risk/attach/${id}`, { params });
-	return response.request;
+// 消息提醒
+export const notify = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/message/station/notify`, { params });
+	return response.data;
 };
 
 // 已读

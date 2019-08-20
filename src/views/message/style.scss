@@ -1,0 +1,30 @@
+.yc-inform-center {
+  width: 1200px;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  background-color: #ffffff;
+  min-height: 731px;
+  .yc-content-wapper {
+    padding-bottom: 40px;
+    background-color: #ffffff;
+    color: #20242e;
+    padding: 0 20px;
+    box-sizing: border-box;
+    .yc-page-title {
+      color: #20242e;
+      font-size: 16px;
+      line-height: 68px;
+      font-weight: bold;
+    }
+    .yc-con-item-wrapper {
+        margin: 15px 0;
+        .btn-default {
+            height: 30px;
+            &:first-child {
+                margin-right: 10px;
+            }
+        }
+    }
+  }
+}
