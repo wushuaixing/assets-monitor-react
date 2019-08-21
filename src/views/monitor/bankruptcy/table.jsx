@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { ReadStatus, Attentions } from '@/common/table';
-import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
+import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
 
 // 获取表格配置
 const columns = (props) => {
@@ -10,36 +10,45 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
-			dataIndex: 'larq',
+			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
+			dataIndex: 'publishDate',
+			width: 115,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 		}, {
-			title: '原告',
-			dataIndex: 'yg',
-			width: 150,
+			title: '企业',
+			dataIndex: 'obligorName',
+			width: 195,
 		}, {
-			title: '被告',
-			dataIndex: 'bg',
-			width: 150,
-		}, {
-			title: '法院',
+			title: '起诉法院',
 			dataIndex: 'court',
+			width: 180,
 		}, {
-			title: '案号',
-			dataIndex: 'ah',
-			render: content => <span>{content}</span>,
-		}, {
-			title: '关联信息',
-			render: () => <span>立案</span>,
-			width: 80,
+			title: '标题',
+			dataIndex: 'title',
+			width: 506,
+			render: (text, record) => {
+				const { url } = record;
+				return url ? <a href={url} className="click-link">{text || '--'}</a> : <span>{text || '--'}</span>;
+			},
 		}, {
 			title: '更新日期',
+			width: 115,
 			dataIndex: 'updateTime',
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
 			title: '操作',
+			width: 55,
 			className: 'tAlignCenter_important',
-			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
+			render: (text, row, index) => (
+				<Attentions
+					text={text}
+					row={row}
+					single
+					onClick={onRefresh}
+					api={row.isAttention ? unFollowSingle : followSingle}
+					index={index}
+				/>
+			),
 		}];
 	// 单纯展示
 	const normalColumns = [

@@ -9,7 +9,7 @@ import TableRegister from './table/register';
 import { Button, Tabs, Spin } from '@/common';
 import {
 	infoCount, infoList, readStatus, attention, exportList,
-} from '@/utils/api/monitor';
+} from '@/utils/api/monitor-info/monitor';
 import { urlEncode } from '@/utils';
 
 const cookies = new Cookies();
@@ -115,16 +115,17 @@ export default class Subrogation extends React.Component {
 			// console.log(urlEncode(_condition));
 		} else if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
+			const _condition = Object.assign(this.condition, {
+				token: cookies.get('token'),
+				idList,
+			});
 			Modal.confirm({
 				title: '确认导出选中的所有信息吗？',
 				content: '点击确定，将为您导出所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					attention({ idList }, true).then((res) => {
-						if (res.code === 200) {
-							message.success('操作成功！');
-						}
-					});
+					window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
+					// message.success('操作成功！');
 				},
 				onCancel() {},
 			});
@@ -214,9 +215,9 @@ export default class Subrogation extends React.Component {
 			num: 10,
 		});
 		if (__isRead === 'all') {
-			this.condition.isRead = '';
+			delete this.condition.isRead;
 		}
-		if (__isRead === 'else') {
+		if (__isRead === 'unread') {
 			this.condition.isRead = 0;
 		}
 		this.setState({

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { ReadStatus, Attentions } from '@/common/table';
-import { attention, readStatus } from '@/utils/api/monitor';
+import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 
 // 获取表格配置
 const columns = (props) => {

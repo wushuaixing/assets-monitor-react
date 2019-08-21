@@ -4,11 +4,12 @@ import { message } from 'antd';
 
 const modalPro = (props) => {
 	const {
-		row: { id, isAttention }, onClick, api, index,
+		row: { id, isAttention }, onClick, api, index, single,
 	} = props;
 	const _isAttention = !isAttention;
 	// console.log(props);
-	api({ idList: [id] }, _isAttention).then((res) => {
+	const params = single ? { id } : { idList: [id] };
+	api(params, _isAttention).then((res) => {
 		if (res.code === 200) {
 			if (isAttention) {
 				message.success('已取消关注本条信息');
