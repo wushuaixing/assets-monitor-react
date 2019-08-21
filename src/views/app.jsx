@@ -8,7 +8,7 @@ message.config({
 	top: 300,
 });
 const BaseRouter = () => (
-	<Router mode="hash">
+	<Router mode="hash" className="yc-router">
 		<MainScreen path="/*" />
 		<LoginScreen path="login/*" />
 	</Router>
