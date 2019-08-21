@@ -1,7 +1,8 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { Attentions } from '@/common/table';
-import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
+import { attention } from '@/utils/api/monitor-info/assets';
+
 
 // 获取表格配置
 const columns = (props) => {
@@ -13,11 +14,10 @@ const columns = (props) => {
 			title: '资产信息',
 			dataIndex: 'larq',
 			width: 274,
-
 			// render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 		}, {
 			title: '匹配原因',
-			dataIndex: 'yg',
+			dataIndex: 'reason',
 			width: 367,
 		}, {
 			title: '拍卖信息',
@@ -27,7 +27,11 @@ const columns = (props) => {
 			title: '操作',
 			width: 127,
 			className: 'tAlignCenter_important',
-			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
+			render: (text, row, index) => (
+				<React.Fragment>
+					<Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />
+				</React.Fragment>
+			),
 		}];
 	// 单纯展示
 	const normalColumns = [
@@ -71,18 +75,18 @@ export default class TableView extends React.Component {
 		}
 	}
 
-	// 行点击操作
-	toRowClick = (record, index) => {
-		const { id, isRead } = record;
-		const { onRefresh } = this.props;
-		if (!isRead) {
-			readStatus({ idList: [id] }).then((res) => {
-				if (res.code === 200) {
-					onRefresh({ id, isRead: !isRead, index }, 'isRead');
-				}
-			});
-		}
-	};
+	// // 行点击操作
+	// toRowClick = (record, index) => {
+	// 	const { id, isRead } = record;
+	// 	const { onRefresh } = this.props;
+	// 	if (!isRead) {
+	// 		readStatus({ idList: [id] }).then((res) => {
+	// 			if (res.code === 200) {
+	// 				onRefresh({ id, isRead: !isRead, index }, 'isRead');
+	// 			}
+	// 		});
+	// 	}
+	// };
 
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {

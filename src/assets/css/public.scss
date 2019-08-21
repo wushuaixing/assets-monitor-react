@@ -138,7 +138,6 @@ body, td, th {
   background-image: url('../img/icon/btn_attention_h.png');
 }
 
-// -- end
 .yc-export-img{
   @extend .yc-img-normal;
   background-image: url('../img/icon/icon_export.png');
@@ -153,6 +152,8 @@ body, td, th {
 .yc-notice-img {
   background-image: url('../img/icon/icon_news_normal.png');
 }
+
+// -- end
 
 .yc-page-content {
   padding: 20px;
