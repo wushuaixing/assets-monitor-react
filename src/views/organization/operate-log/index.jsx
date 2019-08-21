@@ -138,7 +138,7 @@ export default class BasicTable extends React.Component {
 			<div className="operate-log">
 				<div className="bread-crumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><p style={{ fontSize: 14 }} className="click-p" onClick={() => navigate('/organization/user')}>账户列表</p></Breadcrumb.Item>
+						<Breadcrumb.Item><a style={{ fontSize: 14, color: '#384482' }} onClick={() => navigate('/organization/user')}>账户列表</a></Breadcrumb.Item>
 						<Breadcrumb.Item>
 							<span style={{ 'font-weight': 100 }}>
 								{`${getQueryByName(hash, 'name')}_历史操作记录`}

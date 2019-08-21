@@ -107,7 +107,7 @@ export default class DebtorDetail extends React.Component {
 			<div className="yc-debtor-wrapper">
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><p style={{ fontSize: 14 }} className="click-p" onClick={() => navigate('/business/debtor')}>债务人</p></Breadcrumb.Item>
+						<Breadcrumb.Item><a style={{ fontSize: 14, color: '#384482' }} onClick={() => navigate('/business/debtor')}>债务人</a></Breadcrumb.Item>
 						<Breadcrumb.Item><span style={{ 'font-weight': 100 }}>债务人详情</span></Breadcrumb.Item>
 					</Breadcrumb>
 				</div>

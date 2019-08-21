@@ -77,7 +77,7 @@ export default class BasicTable extends React.Component {
 					key: 'x',
 					render: row => (
 						<div className="table-btn">
-							<p className="click-p" onClick={() => this.handleOpeanLog(row)}>操作记录</p>
+							<a className="click-p" onClick={() => this.handleOpeanLog(row)}>操作记录</a>
 						</div>
 					),
 				},

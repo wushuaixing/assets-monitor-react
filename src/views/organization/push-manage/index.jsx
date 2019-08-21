@@ -68,11 +68,12 @@ export default class BasicTable extends React.Component {
 					dataIndex: '',
 					key: 'x',
 					render: (text, row) => (
-						<div className="table-btn">
-							<p className="click-p" onClick={() => this.handleOpeanModal('edit', row)}>编辑</p>
+						<span>
+							<a className="click-p" onClick={() => this.handleOpeanModal('edit', row)}>编辑</a>
 							<span className="ant-divider" />
-							<p className="click-p" onClick={() => this.handleDel(row)}>删除</p>
-						</div>
+							<a className="click-p" onClick={() => this.handleDel(row)}>删除</a>
+						</span>
+
 					),
 				},
 			],
