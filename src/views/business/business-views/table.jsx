@@ -22,6 +22,9 @@ class BusinessView extends React.Component {
 				dataIndex: 'caseNumber',
 				key: 'caseNumber',
 				width: 120,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
 			}, {
 				title: '借款人',
 				dataIndex: 'obligorName',
@@ -41,14 +44,14 @@ class BusinessView extends React.Component {
 														<p>{`${text.substr(0, 12)}...`}</p>
 													</Tooltip>
 												)
-												: <p>{text || '--'}</p>
+												: <p>{text || '-'}</p>
 										}
 									</p>
 								</div>
 								<div>
 									<span style={{ marginRight: '4px' }}>证件号:</span>
 									<p style={{ display: 'inline-block' }}>
-										{row.obligorNumber || '--'}
+										{row.obligorNumber || '-'}
 									</p>
 								</div>
 							</div>
@@ -60,6 +63,9 @@ class BusinessView extends React.Component {
 				dataIndex: 'orgName',
 				key: 'orgName',
 				width: 134,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
 			},
 			{
 				title: '担保人',
@@ -88,13 +94,16 @@ class BusinessView extends React.Component {
 				dataIndex: 'uploadName',
 				key: 'uploadName',
 				width: 80,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
 			}, {
 				title: '上传时间',
 				dataIndex: 'uploadTime',
 				key: 'uploadTime',
 				width: 100,
 				render(text) {
-					return <span>{formatDateTime(text) || '--'}</span>;
+					return <span>{formatDateTime(text) || '-'}</span>;
 				},
 			},	{
 				title: '推送状态',
@@ -138,7 +147,7 @@ class BusinessView extends React.Component {
 	detail = (row) => {
 		console.log(row.id);
 		const w = window.open('about:blank');
-		w.location.href = `#/business/detail?${row.id}`;
+		w.location.href = `#/business/detail?id=${row.id}`;
 	}
 
 	// 删除一条业务

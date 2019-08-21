@@ -19,7 +19,7 @@ export default class DetailModal extends React.PureComponent {
 				key: 'obligorName',
 				width: 220,
 				render: text => (
-					<p style={{ color: '#3DA8F5', cursor: 'pointer' }}>{text || '--'}</p>
+					<p style={{ color: '#3DA8F5', cursor: 'pointer' }}>{text || '-'}</p>
 				),
 			}, {
 				title: '身份证号/统一社会信用代码',
@@ -27,13 +27,13 @@ export default class DetailModal extends React.PureComponent {
 				key: 'obligorNumber',
 				width: 200,
 				render(text) {
-					return <div>{text || '--'}</div>;
+					return <div>{text || '-'}</div>;
 				},
 			}, {
 				title: '角色',
 				dataIndex: 'role',
 				key: 'role',
-				render: text => this.filterText(text) || '--',
+				render: text => this.filterText(text) || '-',
 			}],
 		};
 	}

@@ -1,23 +1,25 @@
 import React from 'react';
 import { Select, Table, Pagination } from 'antd';
 import '../style.scss';
-import { navigate } from '@reach/router';
+import { formatDateTime } from '../../../utils/changeTime';
 import Search from '../search';
+import {
+	userManageList, // liebiao
+	RoleList, // 角色列表
+} from '@/utils/api/organization';
+import { Spin } from '@/common';
 
+const { Option } = Select;
 export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchData: {
-				num: 10,
-				page: 1,
-				searchKeyWord: '',
-			},
+
 			columns: [
 				{
 					title: '账号',
-					dataIndex: 'name',
-					key: 'name',
+					dataIndex: 'mobile',
+					key: 'mobile',
 					render: text => (
 						<p>{text || '--'}</p>
 					),
@@ -32,24 +34,24 @@ export default class BasicTable extends React.Component {
 				},
 				{
 					title: '角色',
-					dataIndex: 'name',
-					key: 'name',
+					dataIndex: 'groupId',
+					key: 'groupId',
 					render: text => (
-						<p>{text || '--'}</p>
+						<p>{this.matchingRoles(text) || '--'}</p>
 					),
 				},
 				{
 					title: '上次登录',
-					dataIndex: 'name',
-					key: 'name',
+					dataIndex: 'lastDate',
+					key: 'lastDate',
 					render: text => (
-						<p>{text || '--'}</p>
+						<p>{formatDateTime(text) || '--'}</p>
 					),
 				},
 				{
 					title: '状态',
-					dataIndex: 'state',
-					key: 'state',
+					dataIndex: 'isEnabled',
+					key: 'isEnabled',
 					render: text => (
 						<React.Fragment>
 							{
@@ -80,87 +82,166 @@ export default class BasicTable extends React.Component {
 					),
 				},
 			],
-			data: [
-				{
-					name: '1111',
-					state: 1,
-				},
-				{
-					name: '2222',
-					state: 2,
-				},
-			],
+			loading: false,
+			roleData: [],
+			data: [],
 			total: 0,
+			current: 1,
+			pageSize: 10,
+			role: '',
+			keyword: '',
 		};
 	}
 
-	getTableData=() => {
+	componentDidMount() {
+		this.getTableData();
+		this.getRole();
+	}
 
+	// 获取角色类型
+	getRole = () => {
+		RoleList().then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					roleData: res.data,
+				});
+			}
+		}).catch(() => {});
+	}
+
+	// 列表数据
+	getTableData=(data) => {
+		const params = {
+			...data,
+			num: 10,
+		};
+		this.setState({
+			loading: true,
+		});
+		userManageList(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.list,
+					total: res.data.total,
+					loading: false,
+					current: data && data.page ? data.page : 1, // 翻页传选中页数，其他重置为1
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	}
+
+	// 匹配角色
+	// eslint-disable-next-line consistent-return
+	matchingRoles = (roleId) => {
+		const { roleData } = this.state;
+		if (roleData && roleData.length > 0) {
+			const list = roleData.filter(item => item.id === roleId);
+			return list[0].title;
+		}
+	}
+
+	// page翻页
+	handleChangePage=(val) => {
+		const { pageSize } = this.state;
+		this.setState({
+			current: val,
+		});
+		const params = {
+			num: pageSize,
+			page: val,
+		};
+		this.getTableData(params);
+	}
+
+	// 下拉选中
+	handleChange = (searchVal) => {
+		console.log(searchVal);
+		const { keyword } = this.state;
+		this.setState({
+			role: searchVal,
+		});
+		const params = {
+			groupId: searchVal,
+			keyword,
+		};
+		this.getTableData(params);
+	}
+
+	onKeyup = (e) => {
+		console.log(e.target.value);
+		const { role } = this.state;
+		const { value } = e.target;
+		this.setState({
+			keyword: value,
+		});
+		const params = {
+			role,
+			keyword: value,
+		};
+		if (e.keyCode === 13) {
+			this.getTableData(params);
+		}
+	}
+
+	clearInput = () => {
+		this.setState({
+			keyword: '',
+		});
 	}
 
 	handleOpeanLog=(row) => {
-		navigate('/organization/operate/log');
-	}
-
-	handleChangePage=(val, type, size) => {
-		const { searchData } = this.state;
-		if (size) {
-			searchData[type] = size;
-		} else {
-			searchData[type] = val;
-		}
-		this.setState({ searchData });
-		this.getTableData();
-	}
-
-	search=(val) => {
-		console.log('zzz', val);
+		// 跳转详情
+		console.log(row.id);
+		const w = window.open('about:blank');
+		w.location.href = `#/organization/operate/log?userId=${row.id}&&name=${row.name}`;
 	}
 
 	render() {
 		const {
-			columns, total, data, searchData,
+			columns, total, data, loading, current, pageSize, roleData, keyword, role,
 		} = this.state;
+
 		return (
 			<div className="push-manage">
-				<Search placeholder="姓名/手机号" onSearch={(val) => { this.search(val); }} />
-				{/* <div className="search-item">
-					<InputGroup className="search-group">
-						<Input size="large" placeholder="姓名/手机号/邮箱" />
-						<div className="ant-input-group-wrap" onClick={() => { this.getTableData(); }}>
-							<p>搜索</p>
-						</div>
-					</InputGroup>
-				</div> */}
+				<Search
+					placeholder="姓名/手机号"
+					onSearch={(val) => { this.search(val); }}
+					onKeyUp={this.onKeyup}
+					getTableData={this.getTableData}
+					keyword={keyword}
+					role={role}
+					clearInput={this.clearInput}
+				/>
 				<div className="search-item">
 					<p>角色：</p>
-					<Select defaultValue="lucy" size="large">
-						<Select.Option value="jack">Jack</Select.Option>
-						<Select.Option value="lucy">Lucy</Select.Option>
-						<Select.Option value="disabled" disabled>Disabled</Select.Option>
-						<Select.Option value="yiminghe">yiminghe</Select.Option>
+					<Select placeholder="请选择角色" size="large" allowClear onChange={this.handleChange}>
+						{
+							roleData && roleData.length > 0 && roleData.map(item => (
+								<Option value={item.id}>{item.title}</Option>
+							))
+						}
 					</Select>
 				</div>
 				<div className="table">
-					<Table
-						columns={columns}
-						dataSource={data}
-						className="table"
-						pagination={false}
-					/>
+					<Spin visible={loading}>
+						<Table
+							columns={columns}
+							dataSource={data}
+							className="table"
+							pagination={false}
+						/>
+					</Spin>
 					<div className="page-size">
 						<Pagination
-							current={searchData.page}
-							pageSize={searchData.num}
+							current={current}
+							pageSize={pageSize}
 							total={total}
 							showTotal={val => `共 ${val} 条`}
-							showSizeChanger
 							showQuickJumper
-							onShowSizeChange={(val, pageSize) => {
-								this.handleChangePage(val, 'num', pageSize);
-							}}
 							onChange={(val) => {
-								this.handleChangePage(val, 'page', '');
+								this.handleChangePage(val);
 							}}
 						/>
 					</div>

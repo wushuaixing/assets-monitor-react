@@ -3,7 +3,10 @@ import { navigate } from '@reach/router';
 import {
 	Breadcrumb, Button, Table, Pagination,
 } from 'antd';
-
+import {
+	detail, // 详情
+} from '@/utils/api/business';
+import { getQueryByName } from '@/utils';
 import './style.scss';
 
 const columns = [{
@@ -39,6 +42,44 @@ export default class DebtorDetail extends React.Component {
 			current: 1, // 当前页
 			pageSize: 10, // 默认展示条数
 		};
+	}
+
+	componentDidMount() {
+		const { hash } = window.location;
+		this.setState({
+			hash,
+		});
+		this.getTableData();
+	}
+
+	// 匹配操作类型
+	// eslint-disable-next-line consistent-return
+	matchingType = (type) => {
+		const { operateList } = this.state;
+		if (operateList && operateList.length > 0) {
+			const list = operateList.filter(item => item.target === type);
+			return list[0].type;
+		}
+	}
+
+	getTableData=() => {
+		const { hash } = window.location;
+		const userId = getQueryByName(hash, 'id');
+		this.setState({
+			loading: true,
+		});
+		detail(userId).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.list,
+					total: res.data.total,
+					loading: false,
+					current: data && data.page ? data.page : 1, // 翻页传选中页数，其他重置为1
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	}
 
 	// page翻页

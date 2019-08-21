@@ -41,7 +41,7 @@ service.interceptors.request.use((config) => {
 	// 这块需要做一些用户验证的工作，需要带上用户凭证
 
 	const configNew = Object.assign({}, config);
-	// configNew.headers['Set-Cookie'] = cookies.get('SESSION');
+	configNew.headers['Set-Cookie'] = cookies.get('SESSION');
 	// 在发送请求设置cancel token
 	configNew.cancelToken = new axios.CancelToken((cancel) => {
 		axiosPromiseArr.push({ cancel });

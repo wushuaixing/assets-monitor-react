@@ -5,6 +5,7 @@ import {
 } from 'antd';
 import './style.scss';
 
+
 const createForm = Form.create;
 
 const columns = [{
@@ -65,6 +66,7 @@ class DebtorDetail extends React.Component {
 			},
 		};
 	}
+
 
 	handleCancal = () => {
 		this.setState({

@@ -17,6 +17,7 @@ export default class HeaderMessage extends React.Component {
 			treeData: [],
 			treeList: [],
 			valueList: '',
+			defaultExpandedKeys: [],
 		};
 	}
 
@@ -148,7 +149,7 @@ export default class HeaderMessage extends React.Component {
 							<Tree
 								draggable
 								onSelect={this.handleOnSelect}
-								defaultExpandAll
+								showLine
 							>
 								{loop(treeList && treeList)}
 							</Tree>

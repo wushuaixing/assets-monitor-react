@@ -18,22 +18,34 @@ class BusinessView extends React.Component {
 				dataIndex: 'obligorName',
 				key: 'obligorName',
 				width: 254,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
 			}, {
 				title: '身份证号/统一社会信用代码',
 				dataIndex: 'obligorNumber',
 				key: 'obligorNumber',
 				width: 308,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
 			},
 			{
 				title: '当前业务',
 				dataIndex: 'businessCount',
 				key: 'businessCount',
 				width: 133,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
 			}, {
 				title: '相关推送',
 				dataIndex: 'pushCount',
 				key: 'pushCount',
 				width: 133,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
 			}, {
 				title: '推送状态',
 				dataIndex: 'pushState',
@@ -74,7 +86,7 @@ class BusinessView extends React.Component {
 	detail = (row) => {
 		console.log(row.id);
 		const w = window.open('about:blank');
-		w.location.href = `#/business/debtor/detail?${row.id}`;
+		w.location.href = `#/business/debtor/detail?id=${row.id}`;
 	}
 
 	// 关闭, 开启推送

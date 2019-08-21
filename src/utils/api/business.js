@@ -54,3 +54,9 @@ export const postGuaranteeList = async (businessId) => {
 	const response = await service.post(`${baseUrl}/yc/obligor/getGuaranteeList/${businessId}`);
 	return response.data;
 };
+
+// 债务人详情页[C.H Wong]
+export const detail = async (id) => {
+	const response = await service.post(`${baseUrl}/yc/obligor/detail/${id}`);
+	return response.data;
+};

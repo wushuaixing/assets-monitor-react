@@ -4,111 +4,184 @@ import {
 } from 'antd';
 import './style.scss';
 import { navigate } from '@reach/router';
+import {
+	userOperateList, // 操作列表
+	operateTypeList, // 操作类型
+} from '@/utils/api/organization';
+import { Spin } from '@/common';
+import { formatDateTime } from '../../../utils/changeTime';
+import { getQueryByName } from '@/utils';
 
+const { Option } = Select;
 export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchData: {
-				num: 10,
-				page: 1,
-				searchKeyWord: '',
-			},
+			data: [],
+			total: 0,
+			current: 1,
+			operateList: [],
+			loading: false,
+			pageSize: 10,
+			hash: '',
+			target: '',
 			columns: [
 				{
 					title: '操作时间',
-					dataIndex: 'name',
-					key: 'name',
+					dataIndex: 'createTime',
+					key: 'createTime',
 					render: text => (
-						<p>{text || '--'}</p>
+						<p>{formatDateTime(text) || '--'}</p>
 					),
 				},
 				{
 					title: '操作类型',
-					dataIndex: 'name',
-					key: 'name',
+					dataIndex: 'target',
+					key: 'target',
 					render: text => (
-						<p>{text || '--'}</p>
+						<p>{this.matchingType(text) || '--'}</p>
 					),
 				},
 			],
-			data: [
-				{
-					name: '1111',
-					state: 1,
-				},
-				{
-					name: '2222',
-					state: 2,
-				},
-			],
-			total: 0,
 		};
 	}
 
-	getTableData=() => {
-
+	componentDidMount() {
+		const { hash } = window.location;
+		this.setState({
+			hash,
+		});
+		this.getTableData();
+		this.getRole();
 	}
 
-	handleChangePage=(val, type, size) => {
-		const { searchData } = this.state;
-		if (size) {
-			searchData[type] = size;
-		} else {
-			searchData[type] = val;
+	// 匹配操作类型
+	// eslint-disable-next-line consistent-return
+	matchingType = (type) => {
+		const { operateList } = this.state;
+		if (operateList && operateList.length > 0) {
+			const list = operateList.filter(item => item.target === type);
+			return list[0].type;
 		}
-		this.setState({ searchData });
-		this.getTableData();
+	}
+
+	getRole = () => {
+		operateTypeList().then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					operateList: res.data,
+				});
+			}
+		}).catch(() => {});
+	}
+
+	getTableData=(data) => {
+		const { hash } = window.location;
+		const userId = getQueryByName(hash, 'userId');
+		const params = {
+			...data,
+			num: 10,
+			userId,
+		};
+		this.setState({
+			loading: true,
+		});
+		userOperateList(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.list,
+					total: res.data.total,
+					loading: false,
+					current: data && data.page ? data.page : 1, // 翻页传选中页数，其他重置为1
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	}
+
+	// page翻页
+	handleChangePage=(val) => {
+		const { pageSize, target } = this.state;
+		this.setState({
+			current: val,
+		});
+		const params = {
+			num: pageSize,
+			page: val,
+			target,
+		};
+		this.getTableData(params);
+	}
+
+	// 下拉选中
+	handleChange = (searchVal) => {
+		console.log(searchVal);
+		const { hash } = window.location;
+		const userId = getQueryByName(hash, 'userId');
+		const params = {
+			target: searchVal,
+			userId,
+		};
+		this.getTableData(params);
+		this.setState({
+			target: searchVal,
+		});
 	}
 
 	render() {
 		const {
-			columns, total, data, searchData,
+			columns, total, data, loading, current, pageSize, operateList, hash,
 		} = this.state;
+
 		return (
 			<div className="operate-log">
 				<div className="bread-crumb">
 					<Breadcrumb>
 						<Breadcrumb.Item><p style={{ fontSize: 14 }} className="click-p" onClick={() => navigate('/organization/user')}>账户列表</p></Breadcrumb.Item>
-						<Breadcrumb.Item><span style={{ 'font-weight': 100 }}>邵颖-历史操作记录 Center</span></Breadcrumb.Item>
+						<Breadcrumb.Item>
+							<span style={{ 'font-weight': 100 }}>
+								{`${getQueryByName(hash, 'name')}_历史操作记录`}
+
+							</span>
+
+						</Breadcrumb.Item>
 					</Breadcrumb>
 				</div>
 				<div className="search-item">
-					<Select defaultValue="lucy" size="large" allowClear style={{ width: 185, 'margin-right': 10 }}>
-						<Select.Option value="jack">全部</Select.Option>
-						<Select.Option value="lucy">系统账号</Select.Option>
-						<Select.Option value="disabled">非系统账号</Select.Option>
+					<Select placeholder="请选择角色" size="large" onChange={this.handleChange} allowClear style={{ width: 185, 'margin-right': 10 }}>
+						{
+							operateList && operateList.length > 0 && operateList.map(item => (<Option value={item.target}>{item.type}</Option>))
+						}
 					</Select>
 					<Button
 						type="primary"
 						size="large"
 						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
-						onClick={this.getTableData()}
+						// onClick={this.getTableData()}
 					>
 						搜索
 					</Button>
-					<Button type="ghost" size="large">清空搜索条件</Button>
+					{/* <Button type="ghost" size="large">清空搜索条件</Button> */}
 				</div>
 				<div className="table">
-					<Table
-						columns={columns}
-						dataSource={data}
-						className="table"
-						pagination={false}
-					/>
+					<Spin visible={loading}>
+						<Table
+							columns={columns}
+							dataSource={data}
+							className="table"
+							pagination={false}
+						/>
+					</Spin>
 					<div className="page-size">
 						<Pagination
-							current={searchData.page}
-							pageSize={searchData.num}
+							current={current}
+							pageSize={pageSize}
 							total={total}
 							showTotal={val => `共 ${val} 条`}
-							showSizeChanger
 							showQuickJumper
-							onShowSizeChange={(val, pageSize) => {
-								this.handleChangePage(val, 'num', pageSize);
-							}}
 							onChange={(val) => {
-								this.handleChangePage(val, 'page', '');
+								this.handleChangePage(val);
 							}}
 						/>
 					</div>

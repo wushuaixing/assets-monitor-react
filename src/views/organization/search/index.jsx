@@ -16,13 +16,24 @@ export default class BasicTable extends React.Component {
 	}
 
 	onClear=() => {
+		const { getTableData, clearInput, role } = this.props;
 		this.setState({ data: '' });
+
+		const params = {
+			role,
+		};
+		getTableData(params);
+		clearInput();
 	}
 
 	onSearch=() => {
-		const { data } = this.state;
-		const { onSearch } = this.props;
-		onSearch(data);
+		const { getTableData, keyword, role } = this.props;
+		const params = {
+			keyword,
+			role,
+			groupId: role,
+		};
+		getTableData(params);
 	}
 
 	renderIcon=() => {
@@ -47,6 +58,7 @@ export default class BasicTable extends React.Component {
 					value={data}
 					placeholder={placeholder}
 					onChange={event => this.onChange(event)}
+					{...this.props}
 				/>
 				{
 					this.renderIcon()
