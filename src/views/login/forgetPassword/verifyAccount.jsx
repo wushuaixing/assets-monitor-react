@@ -13,8 +13,9 @@ import {
 } from '@/utils/api/user';
 import './style.scss';
 // import server from '@/utils/service';
+import { baseUrl } from '@/utils/api';
 
-const verificationCodeImg = 'http://172.18.255.251:18080/yc/open/verificationCode';
+const verificationCodeImg = `${baseUrl}/yc/open/verificationCode`;
 const FormItem = Form.Item;
 const createForm = Form.create;
 
