@@ -5,18 +5,20 @@ import {
 import {
 	postGuaranteeList, // 担保人
 } from '@/utils/api/business';
+import { Spin } from '@/common';
 
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
 			data: [], // 列表数据
+			loading: false,
 			columns: [{
 				title: '担保人名称',
 				dataIndex: 'obligorName',
 				key: 'obligorName',
 				width: 220,
-				render: (text, row) => (
+				render: text => (
 					<p style={{ color: '#3DA8F5', cursor: 'pointer' }}>{text || '--'}</p>
 				),
 			}, {
@@ -38,9 +40,15 @@ export default class DetailModal extends React.PureComponent {
 
 	componentDidMount() {
 		const { businessId } = this.props;
+		this.setState({
+			loading: true,
+		});
 		postGuaranteeList(businessId).then((res) => {
 			if (res.code === 200 && res.data) {
-				this.setState({ data: res.data });
+				this.setState({
+					data: res.data,
+					loading: false,
+				});
 			} else {
 				message.error(res.message);
 			}
@@ -63,17 +71,19 @@ export default class DetailModal extends React.PureComponent {
 	}
 
 	render() {
-		const { columns, data } = this.state;
+		const { columns, data, loading } = this.state;
 		const { PeopleListModalVisible } = this.props;
 		return (
 			<Modal title="担保人列表" width={560} style={{ 'max-height': 650 }} visible={PeopleListModalVisible} footer={(null)} onCancel={this.handleCancel}>
-				<Table
-					scroll={data.length > 8 ? { y: 440 } : {}}
-					columns={columns}
-					dataSource={data}
-					pagination={false}
-					className="table"
-				/>
+				<Spin visible={loading}>
+					<Table
+						scroll={data.length > 8 ? { y: 440 } : {}}
+						columns={columns}
+						dataSource={data}
+						pagination={false}
+						className="table"
+					/>
+				</Spin>
 			</Modal>
 		);
 	}

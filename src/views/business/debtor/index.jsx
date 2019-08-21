@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Select, message, Pagination, Form, Spin,
+	Select, message, Pagination, Form,
 } from 'antd';
 import TableList from './table';
 import {
@@ -8,7 +8,7 @@ import {
 	exportExcel, // 导出
 } from '@/utils/api/debator';
 
-import { Input, Button } from '@/common';
+import { Spin, Input, Button } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
@@ -206,11 +206,12 @@ class BusinessDebtor extends React.Component {
 				</div>
 				<div className="yc-split-hr" />
 				<div className="yc-business-tablebtn">
-					<Button onClick={this.handleExportExcel} className="yc-business-btn">
+					<Button onClick={this.handleExportExcel} className="yc-business-btn" style={{ float: 'right' }}>
+						<span className="yc-icon-export" />
 						一键导出
 					</Button>
 				</div>
-				<Spin spinning={loading}>
+				<Spin visible={loading}>
 					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} />
 				</Spin>
 				<div className="yc-pagination">

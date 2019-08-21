@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Icon,Input} from 'antd';
+import { Icon, Input, Button } from 'antd';
 import './style.scss';
 
 export default class BasicTable extends React.Component {
@@ -51,7 +51,7 @@ export default class BasicTable extends React.Component {
 				{
 					this.renderIcon()
 				}
-				<p className="search-click" onClick={() => this.onSearch()}>搜索</p>
+				<Button type="ghost" className="search-click" onClick={() => this.onSearch()}>搜索</Button>
 			</div>
 		);
 	}

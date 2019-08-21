@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-	Button, Table, Pagination, Modal, message, Spin, Form,
+	Button, Table, Pagination, Modal, message, Form,
 } from 'antd';
 import {
 	centerList, // 消息提醒
 	getDelete, // 删除
 	isRead, // 标记已读
 } from '@/utils/api/inform';
+import { Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import imgUnread from '../../assets/img/inform/icon_message_unread.png';
 import imgReade from '../../assets/img/inform/icon_message_read.png';
@@ -125,11 +126,19 @@ class InformCenter extends React.Component {
 									selectedRowKeys.splice(index, 1);
 								}
 							});
-							this.setState({
+
+							that.setState({
 								selectedRowKeys,
 							});
 						}
+						if (!row.id) {
+							that.setState({
+								selectedRowKeys: [],
+							});
+						}
+
 						that.getData();
+						message.success(res.message);
 					} else {
 						message.error(res.message);
 					}
@@ -139,30 +148,37 @@ class InformCenter extends React.Component {
 		});
 	}
 
-	// 标记已读
-	getRead = () => {
-		const { selectedRowKeys } = this.state;
-		if (selectedRowKeys.length === 0) {
-			message.warning('未选中业务');
-			return;
-		}
-		console.log(selectedRowKeys);
-
-		const params = {
-			idList: selectedRowKeys,
-		};
-		isRead(params).then((res) => {
-			if (res.code === 200) {
-				message.success('操作成功');
-				this.getData();
-				this.setState({
-					selectedRowKeys: [],
-				});
-			} else {
-				message.warning(res.message);
+		// 全部标记为已读
+		handleAllRead=() => {
+			const that = this;
+			const { selectedRowKeys } = this.state;
+			if (selectedRowKeys.length === 0) {
+				message.warning('未选中业务');
+				return;
 			}
-		});
-	}
+			const params = {
+				idList: selectedRowKeys,
+			};
+			Modal.confirm({
+				title: '确认将消息中心全部标记为已读？',
+				content: '点击确定，将为您标记为全部已读。',
+				iconType: 'exclamation-circle',
+				onOk() {
+					isRead(params).then((res) => {
+						if (res.code === 200) {
+							message.success('操作成功');
+							that.getData();
+							that.setState({
+								selectedRowKeys: [],
+							});
+						} else {
+							message.warning(res.message);
+						}
+					});
+				},
+				onCancel() {},
+			});
+		};
 
 	onSelectChange = (selectedRowKeys, selectedRows) => {
 		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
@@ -173,7 +189,7 @@ class InformCenter extends React.Component {
 
 	render() {
 		const {
-			columns, data, tabTotal, current, pageSize, loading, selectedRowKeys,
+			columns, data, tabTotal, current, loading, selectedRowKeys,
 		} = this.state;
 		// 通过 rowSelection 对象表明需要行选择
 		const rowSelection = {
@@ -185,10 +201,10 @@ class InformCenter extends React.Component {
 				<div className="yc-content-wapper">
 					<div className="yc-page-title">消息中心</div>
 					<div className="yc-con-item-wrapper">
-						<Button onClick={this.getRead} type="ghost" className="btn-default">标记为已读</Button>
+						<Button onClick={this.handleAllRead} type="ghost" className="btn-default">标记为已读</Button>
 						<Button onClick={this.handledDeleteBatch} type="ghost" className="btn-default">删除</Button>
 					</div>
-					<Spin spinning={loading}>
+					<Spin visible={loading}>
 						<Table
 							rowSelection={rowSelection}
 							columns={columns}

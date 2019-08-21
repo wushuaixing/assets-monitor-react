@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { navigate } from '@reach/router';
 
 import HeaderMessage from './headerMessage/header-message';
@@ -47,8 +47,7 @@ const dataSource = [
 			{ id: 62, name: '账户列表', url: '/organization/user' },
 		],
 	},
-	{ id: 7, name: '登录页面', url: '/login' },
-
+	// { id: 7, name: '登录页面', url: '/login' },
 ];
 
 // 导航项目
@@ -98,6 +97,10 @@ const Item = (props) => {
 // Header 样式需求
 const Header = () => {
 	const [active, setActive] = useState({ p: '', c: '' });
+	useEffect(() => {
+		// 滚动条手动置顶
+		window.scrollTo(0, 0);
+	});
 	return (
 		<div className="yc-header-wrapper">
 			<div className="yc-header-content">
