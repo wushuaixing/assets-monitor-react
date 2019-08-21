@@ -223,6 +223,9 @@
   background-repeat: repeat;
   // background-image: url("../../assets/img/home/img_bg.png");
 }
+.ant-table-tbody > tr > td{
+  position: relative;
+}
 .ant-table-tbody > tr > td,
 .ant-table-thead > tr > th {
   padding: 12px 15px;
