@@ -1,5 +1,6 @@
 import React from 'react';
 import Query from './query';
+import Table from './table';
 import './style.scss';
 import { Tabs, Button } from '@/common';
 
@@ -47,6 +48,10 @@ export default class Assets extends React.Component {
 		this.state = {};
 	}
 
+	handleExport=() => {
+		console.log('handleExport');
+	};
+
 	render() {
 		return (
 			<div className="yc-assets-auction">
@@ -58,10 +63,6 @@ export default class Assets extends React.Component {
 								<img src={imgRecovery} alt="" />
 								<span>资产清收流程</span>
 							</li>
-							<li>
-								<img src={imgExport} alt="" />
-								<span>一键导出</span>
-							</li>
 						</div>
 					)}
 					source={source}
@@ -70,8 +71,12 @@ export default class Assets extends React.Component {
 				/>
 				<div className="assets-auction-action">
 					<Button>批量管理</Button>
+					<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
+						<span className="yc-export-img" />
+						<span> 一键导出</span>
+					</Button>
 				</div>
-				<div style={{ height: 600 }} />
+				<Table />
 			</div>
 		);
 	}

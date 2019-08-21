@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { ReadStatus, Attentions } from '@/common/table';
-import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
-
+import Api from '@/utils/api/monitor-info/public';
+// { attention, readStatus }
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh } = props;
@@ -10,36 +10,46 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
-			dataIndex: 'larq',
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
+			dataIndex: 'publishTime',
+			width: 113,
+			render: (text, record) => ReadStatus(text || '--', record),
 		}, {
-			title: '原告',
-			dataIndex: 'yg',
-			width: 150,
+			title: '纳税人',
+			dataIndex: 'obName',
+			width: 226,
 		}, {
-			title: '被告',
-			dataIndex: 'bg',
-			width: 150,
+			title: '统一社会信用代码',
+			dataIndex: 'obNumber',
+			width: 190,
 		}, {
-			title: '法院',
-			dataIndex: 'court',
-		}, {
-			title: '案号',
-			dataIndex: 'ah',
-			render: content => <span>{content}</span>,
-		}, {
-			title: '关联信息',
-			render: () => <span>立案</span>,
-			width: 80,
+			title: '案件性质',
+			dataIndex: 'property',
+			width: 403,
 		}, {
 			title: '更新日期',
 			dataIndex: 'updateTime',
+			width: 115,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
-			title: '操作',
+			title: '源链接',
+			dataIndex: 'obName',
 			className: 'tAlignCenter_important',
-			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
+			width: 75,
+			render: (text, record) => (record.url ? <a href={record.url} className="yc-list-link" target="_blank" rel="noopener noreferrer"> </a> : <span>--</span>),
+		}, {
+			title: '操作',
+			width: 60,
+			className: 'tAlignCenter_important',
+			render: (text, row, index) => (
+				<Attentions
+					text={text}
+					row={row}
+					onClick={onRefresh}
+					api={Api.attentionIllegal}
+					index={index}
+				/>
+			),
 		}];
 	// 单纯展示
 	const normalColumns = [
@@ -88,7 +98,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			readStatus({ idList: [id] }).then((res) => {
+			Api.readStatusIllegal({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

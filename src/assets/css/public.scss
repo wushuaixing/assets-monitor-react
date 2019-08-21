@@ -108,6 +108,25 @@ body, td, th {
   vertical-align: top;
 }
 
+.yc-list-link {
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+  height: 16px;
+  width: 16px;
+  vertical-align: top;
+  background-image: url('../img/icon/icon_link_normal.png');
+  &:hover {
+    background-image: url('../img/icon/icon_link_selected.png');
+  }
+  &:active {
+    background-image: url('../img/icon/icon_link_selected.png');
+  }
+}
+
 .yc-list-attention-un {
   background-image: url('../img/icon/btn_attention16_n.png');
   &:hover {
@@ -511,18 +530,17 @@ td.column-center {
 }
 
 //有链接、可点击的元素
-.click-p {
+.click-link {
   display: inline-block;
-  color: #337ab7;;
-}
-
-.click-p:hover {
-  color: #23527c;;
-  text-decoration: underline;
+  color: $fontColor-base-2;
   cursor: pointer;
+  &:hover {
+    color:$fontColor-base;
+    text-decoration: underline;
+  }
 }
 
-.click-p-disabled {
+.click-link-disabled {
   display: inline-block;
   color: #D9D9D9;
 }
