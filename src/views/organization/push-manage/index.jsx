@@ -1,10 +1,14 @@
 import React from 'react';
 import {
-	Input, Button, Select, Table, Pagination, message, Modal,
+	Button, Select, Table, Pagination, message, Modal,
 } from 'antd';
 import '../style.scss';
 import EditModal from './editModal';
 import Search from '../search';
+import {
+	pushManagerList, // 消息提醒
+} from '@/utils/api/organization';
+import { Spin } from '@/common';
 
 const { confirm } = Modal;
 export default class BasicTable extends React.Component {
@@ -27,24 +31,24 @@ export default class BasicTable extends React.Component {
 				},
 				{
 					title: '手机号',
-					dataIndex: 'name',
-					key: 'name',
+					dataIndex: 'mobile',
+					key: 'mobile',
 					render: text => (
 						<p>{text || '--'}</p>
 					),
 				},
 				{
 					title: '邮箱',
-					dataIndex: 'name',
-					key: 'name',
+					dataIndex: 'email',
+					key: 'email',
 					render: text => (
 						<p>{text || '--'}</p>
 					),
 				},
 				{
 					title: '角色',
-					dataIndex: 'name',
-					key: 'name',
+					dataIndex: 'role',
+					key: 'role',
 					render: text => (
 						<p>{text || '--'}</p>
 					),
@@ -63,11 +67,7 @@ export default class BasicTable extends React.Component {
 					),
 				},
 			],
-			data: [
-				{
-					name: '1111',
-				},
-			],
+			data: [],
 			modalVisible: false,
 			selectData: {},
 			modalState: 'add',
@@ -75,8 +75,29 @@ export default class BasicTable extends React.Component {
 		};
 	}
 
-	getTableData=() => {
+	componentDidMount() {
+		this.getTableData();
+	}
 
+	getTableData=(data) => {
+		const params = {
+			...data,
+			num: 10,
+		};
+		this.setState({
+			loading: true,
+		});
+		pushManagerList(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.list,
+					total: res.data.total,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	}
 
 	handleChangePage=(val, type, size) => {
@@ -105,7 +126,8 @@ export default class BasicTable extends React.Component {
 			content: '点击确定后将为您删除推送设置。',
 			onOk() {
 				that.setState({ visible: true });
-				删除接口(row.businessId).then((res) => {
+				// 删除接口
+				(row.businessId).then((res) => {
 					that.setState({ visible: false });
 					if (res.code === 200) {
 						that.getTableData();
@@ -122,7 +144,9 @@ export default class BasicTable extends React.Component {
 	}
 
 	renderModal=() => {
-		const { modalVisible, modalState, selectData } = this.state;
+		const {
+			modalVisible, modalState, selectData, loading,
+		} = this.state;
 		if (modalVisible) {
 			return (
 				<EditModal modalState={modalState} propsData={selectData} handleCancel={() => this.handleCancel()} />
@@ -153,31 +177,28 @@ export default class BasicTable extends React.Component {
 				<div className="search-item">
 					<p>角色：</p>
 					<Select defaultValue="lucy" size="large" allowClear>
-						<Select.Option value="jack">Jack</Select.Option>
-						<Select.Option value="lucy">Lucy</Select.Option>
-						<Select.Option value="disabled" disabled>Disabled</Select.Option>
-						<Select.Option value="yiminghe">yiminghe</Select.Option>
+						<Select.Option value="jack">全部</Select.Option>
+						<Select.Option value="lucy">系统账号</Select.Option>
+						<Select.Option value="disabled">非系统账号</Select.Option>
 					</Select>
 				</div>
 				<Button type="ghost" size="large" style={{ display: 'block', margin: '0 0 15px 0' }} onClick={() => this.handleOpeanModal('add')}>添加推送人</Button>
 				<div className="table">
-					<Table
-						columns={columns}
-						dataSource={data}
-						className="table"
-						pagination={false}
-					/>
+					<Spin visible={loading}>
+						<Table
+							columns={columns}
+							dataSource={data}
+							className="table"
+							pagination={false}
+						/>
+					</Spin>
 					<div className="page-size">
 						<Pagination
 							current={searchData.page}
 							pageSize={searchData.num}
 							total={total}
 							showTotal={val => `共 ${val} 条`}
-							showSizeChanger
 							showQuickJumper
-							onShowSizeChange={(val, pageSize) => {
-								this.handleChangePage(val, 'num', pageSize);
-							}}
 							onChange={(val) => {
 								this.handleChangePage(val, 'page', '');
 							}}

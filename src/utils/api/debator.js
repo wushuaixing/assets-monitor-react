@@ -9,7 +9,7 @@ import { baseUrl } from '@/utils/api/index';
  */
 // 债务人列表[C.H Wong]
 export const obligorList = async (params) => {
-	const response = await service.post(`${baseUrl}/yc/obligor/list`, params);
+	const response = await service.get(`${baseUrl}/yc/obligor/list`, { params });
 	return response.data;
 };
 
@@ -27,6 +27,6 @@ export const closePush = async (params) => {
 
 // 列表页导出excel[C.H Wong]
 export const exportExcel = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/obligor/exportExcel`, params);
+	const response = await service.get(`${baseUrl}/yc/obligor/exportExcel`, { params });
 	return response.request;
 };

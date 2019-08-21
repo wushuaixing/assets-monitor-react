@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	DatePicker, Form, message, Tooltip, Icon, Pagination, Spin, Modal, Upload,
+	DatePicker, Form, message, Tooltip, Icon, Pagination, Modal, Upload,
 } from 'antd';
 
 import Cookies from 'universal-cookie';
@@ -12,8 +12,8 @@ import {
 	exportExcel, // 导出列表
 	postDeleteBatch, // 批量删除
 } from '@/utils/api/business';
-
-import { Input, Button } from '@/common';
+import { urlEncode } from '@/utils';
+import { Input, Button, Spin } from '@/common';
 import './style.scss';
 
 const cookies = new Cookies();
@@ -120,18 +120,16 @@ class BusinessView extends React.Component {
 	// 获取消息列表
 	getData = (value) => {
 		const {
-			current, pageSize, startTime, endTime,
+			current, pageSize,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		const params = {
-			page: {
-				num: pageSize,
-				page: current,
-			},
-			uploadTimeStart: startTime, // 搜索时间
-			uploadTimeEnd: endTime,
+			num: pageSize,
+			page: current,
+			// uploadTimeStart: startTime, // 搜索时间
+			// uploadTimeEnd: endTime,
 			...fildes,
 			...value,
 		};
@@ -161,10 +159,8 @@ class BusinessView extends React.Component {
 		const params = {
 			...searchValue,
 			current: val,
-			page: {
-				num: pageSize,
-				page: val,
-			},
+			num: pageSize,
+			page: val,
 		};
 
 		this.getData(params);
@@ -179,15 +175,14 @@ class BusinessView extends React.Component {
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
+		console.log(startTime, endTime, 11);
 
 		const params = {
 			...fildes,
-			page: {
-				page: 1,
-				num: 10,
-			},
-			uploadTimeStart: startTime, // 搜索时间
-			uploadTimeEnd: endTime,
+			page: 1,
+			num: 10,
+			uploadTimeStart: startTime || null, // 搜索时间
+			uploadTimeEnd: endTime || null,
 		};
 
 		this.getData(params);
@@ -222,7 +217,7 @@ class BusinessView extends React.Component {
 			...fields,
 			idList: selectedRowKeys, // 批量选中
 		};
-		exportExcel(params).then((res) => {
+		exportExcel(urlEncode(params)).then((res) => {
 			if (res.status === 200) {
 				const downloadElement = document.createElement('a');
 				downloadElement.href = res.responseURL;
@@ -465,16 +460,16 @@ class BusinessView extends React.Component {
 						<Button className="yc-business-btn" onClick={() => this.openManagement(openRowSelection)}>
 							{openRowSelection ? '取消管理' : '批量管理'}
 						</Button>
-						{!openRowSelection && (
-							<Button onClick={this.handleExportExcel} className="yc-business-btn">
-							一键导出
-							</Button>
-						)}
+
+						<Button onClick={this.handleExportExcel} className="yc-business-btn" style={{ float: 'right' }}>
+							<span className="yc-icon-export" />
+								一键导出
+						</Button>
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
 							<Icon className="yc-business-icon" type="question-circle-o" />
 						</Tooltip>
 					</div>
-					<Spin spinning={loading}>
+					<Spin visible={loading}>
 						<TableList stateObj={this.state} selectData={selectData} dataList={dataList} rowSelection={rowSelection} getData={this.getData} openPeopleModal={this.openPeopleModal} />
 					</Spin>
 					<div className="yc-pagination">

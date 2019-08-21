@@ -9,7 +9,7 @@ import { baseUrl } from '@/utils/api/index';
  */
 // 业务列表[C.H Wong]
 export const businessList = async (params) => {
-	const response = await service.post(`${baseUrl}/yc/business/list`, params);
+	const response = await service.get(`${baseUrl}/yc/business/list`, { params });
 	return response.data;
 };
 
@@ -45,9 +45,7 @@ export const getDetail = async (id) => {
 
 // 列表页导出excel[C.H Wong]
 export const exportExcel = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/business/exportExcel`, params);
-	console.log(response.request);
-
+	const response = await service.get(`${baseUrl}/yc/business/exportExcel`, { params });
 	return response.request;
 };
 

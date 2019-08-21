@@ -1,12 +1,22 @@
 .yc-business-tablebtn {
   margin: 15px 0;
   position: relative;
+  overflow: hidden;
   .yc-business-icon {
     cursor: pointer;
   }
 }
 .yc-upload {
-  // position: relative;
-  // top: 11px;
+  position: relative;
+  top: -1px;
   display: inline-block;
+}
+.yc-icon-export {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+  margin-right: 6px;
+  width: 16px;
+  height: 16px;
+  background-image: url("../../../assets/img/icon/icon_export.png");
 }

@@ -75,10 +75,9 @@ export default class BasicTable extends React.Component {
 				</div>
 				<div className="search-item">
 					<Select defaultValue="lucy" size="large" allowClear style={{ width: 185, 'margin-right': 10 }}>
-						<Select.Option value="jack">Jack</Select.Option>
-						<Select.Option value="lucy">Lucy</Select.Option>
-						<Select.Option value="disabled" disabled>Disabled</Select.Option>
-						<Select.Option value="yiminghe">yiminghe</Select.Option>
+						<Select.Option value="jack">全部</Select.Option>
+						<Select.Option value="lucy">系统账号</Select.Option>
+						<Select.Option value="disabled">非系统账号</Select.Option>
 					</Select>
 					<Button
 						type="primary"
@@ -86,7 +85,7 @@ export default class BasicTable extends React.Component {
 						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
 						onClick={this.getTableData()}
 					>
-搜索
+						搜索
 					</Button>
 					<Button type="ghost" size="large">清空搜索条件</Button>
 				</div>
