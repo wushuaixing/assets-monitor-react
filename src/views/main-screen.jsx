@@ -58,15 +58,12 @@ export default class Screen extends React.Component {
 
 	componentWillMount() {
 		authRule().then((res) => {
-			setTimeout(() => {
-				if (res.code === 200) {
-					this.setState({
-						loading: false,
-						rule: res.data.orgPageGroups,
-					});
-					// console.log(res.data);
-				}
-			}, 1000);
+			if (res.code === 200) {
+				this.setState({
+					loading: false,
+					rule: res.data.orgPageGroups,
+				});
+			}
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
