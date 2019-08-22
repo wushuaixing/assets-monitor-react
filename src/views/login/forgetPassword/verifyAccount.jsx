@@ -47,16 +47,15 @@ class Login extends React.Component {
 				code: fields.code,
 			};
 			forgetPasswordStep1(params).then((res) => {
-				if (res === 200) {
+				if (res.code === 200) {
 					changeType(3);
+					inputPhoneNum(fields.phone);
 					message.success('验证成功');
 				} else {
 					message.warning(res.message);
 					this.verificationCode(); // 错误刷新验证码
 				}
 			});
-			console.log(fields);
-			inputPhoneNum(fields.username);
 		});
 	};
 
@@ -69,7 +68,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, codeImg,
+			loading, codeImg,
 		} = this.state;
 		const {
 			form: { getFieldProps },
@@ -90,7 +89,7 @@ class Login extends React.Component {
 									placeholder="请输入11位数字"
 									maxlength="11"
 									{...getFieldProps('phone', {
-										initialValue: userName && userName.length > 0 ? userName : '',
+										// initialValue: userName && userName.length > 0 ? userName : '',
 										rules: [
 											{
 												required: true,

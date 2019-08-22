@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, Pagination,
+	Breadcrumb, Button, Table,
 } from 'antd';
 import {
 	detail, // 详情
@@ -138,7 +138,12 @@ export default class DebtorDetail extends React.Component {
 						<div className="yc-item-icon" />
 						<div className="yc-search-content">
 							<span className="yc-item-title">{businessDetail ? businessDetail.obligorName : '-'}</span>
-							{businessDetail && businessDetail.dishonestStatus === 1 ? <img className="yc-item-break" src={isBreak} alt="" /> : businessDetail && businessDetail.dishonestStatus === 2 ? <img className="yc-item-break" src={beforeBreak} alt="" /> : null}
+							{
+								businessDetail && businessDetail.dishonestStatus === 1 ? <img className="yc-item-break" src={isBreak} alt="" /> : null
+							}
+							{
+								businessDetail && businessDetail.dishonestStatus === 2 ? <img className="yc-item-break" src={beforeBreak} alt="" /> : null
+							}
 							<div className="search-item-text">
 								<span className="search-item-text-header">身份证号/统一社会信用代码：</span>
 								<span className="search-item-text-msg">{businessDetail && businessDetail.obligorNumber.length > 0 ? businessDetail.obligorNumber : '-'}</span>

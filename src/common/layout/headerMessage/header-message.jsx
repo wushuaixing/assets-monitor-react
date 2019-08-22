@@ -25,9 +25,9 @@ export default class HeaderMessage extends React.Component {
 		});
 	}
 
-	skip= (id) => {
-		console.log(id, '跳转');
-		navigate(`/business/debtor/detail?id=${id}`);
+	skip= (obligorId) => {
+		console.log(obligorId, '跳转');
+		navigate(`/business/debtor/detail?id=${obligorId}`);
 		// const w = window.open('about:blank');
 		// w.location.href = `#/business/detail?id=${id}`;
 	}
@@ -50,7 +50,7 @@ export default class HeaderMessage extends React.Component {
 				</div>
 				<div className="yc-station-list">
 					{dataList && dataList.length > 0 ? dataList.map(item => (
-						<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.id)}>
+						<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId)}>
 							{item.isRead && <div className="yc-badge-tab-red" />}
 							<div className="yc-station-item-title">
 								{item.title}

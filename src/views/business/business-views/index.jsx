@@ -461,10 +461,12 @@ class BusinessView extends React.Component {
 							{openRowSelection ? '取消管理' : '批量管理'}
 						</Button>
 
+						{!openRowSelection && (
 						<Button onClick={this.handleExportExcel} className="yc-business-btn" style={{ float: 'right' }}>
 							<span className="yc-icon-export" />
 								一键导出
 						</Button>
+						)}
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
 							<Icon className="yc-business-icon" type="question-circle-o" />
 						</Tooltip>

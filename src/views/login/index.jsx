@@ -42,6 +42,8 @@ class Login extends React.Component {
 
 	render() {
 		const { type, phoneNum } = this.state;
+		console.log(phoneNum, 333);
+
 		return (
 			<div className="yc-login">
 				<Header />
