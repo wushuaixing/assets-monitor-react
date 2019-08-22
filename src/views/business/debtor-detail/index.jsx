@@ -7,49 +7,71 @@ import {
 	detail, // 详情
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
+import { Spin } from '@/common';
+import isBreak from '../../../assets/img/business/status_shixin.png';
+import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import './style.scss';
-
-const columns = [{
-	title: '资产信息',
-	dataIndex: 'name',
-	width: 375,
-	render(text) {
-		return <a href="#">{text}</a>;
-	},
-}, {
-	title: '匹配原因',
-	dataIndex: 'age',
-	width: 375,
-}, {
-	title: '拍卖信息',
-	dataIndex: 'address',
-}];
-const data = [];
-for (let i = 0; i < 12; i += 1) {
-	data.push({
-		key: i,
-		name: `李大嘴${i}`,
-		age: 32,
-		address: `西湖区湖底公园${i}号`,
-	});
-}
 
 export default class DebtorDetail extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			totals: 0,
-			current: 1, // 当前页
-			pageSize: 10, // 默认展示条数
+			businessDetail: null,
+			data: [],
+			columns: [{
+				title: '业务编号',
+				dataIndex: 'caseNumber',
+				key: 'caseNumber',
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			},
+			{
+				title: '角色',
+				dataIndex: 'roleText',
+				key: 'roleText',
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			},
+			{
+				title: '机构名称',
+				dataIndex: 'orgName',
+				key: 'orgName',
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			},
+			{
+				title: '担保方式',
+				dataIndex: 'guaranteeString',
+				key: 'guaranteeString',
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			}, {
+				title: '操作',
+				key: 'operation',
+				render: (text, row) => (
+					<span>
+						<a onClick={() => this.detail(row)}>查看</a>
+					</span>
+				),
+			}],
 		};
 	}
 
 	componentDidMount() {
-		const { hash } = window.location;
-		this.setState({
-			hash,
-		});
 		this.getTableData();
+	}
+
+	componentDidUpdate() {
+		const { hash } = window.location;
+		const userId = getQueryByName(hash, 'id');
+		const { loaclUserId } = this.state;
+		if (userId !== loaclUserId) {
+			this.getTableData(userId);
+		}
 	}
 
 	// 匹配操作类型
@@ -62,19 +84,19 @@ export default class DebtorDetail extends React.Component {
 		}
 	}
 
-	getTableData=() => {
+	getTableData=(value) => {
 		const { hash } = window.location;
 		const userId = getQueryByName(hash, 'id');
 		this.setState({
 			loading: true,
+			loaclUserId: userId,
 		});
-		detail(userId).then((res) => {
+		detail(value || userId).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					data: res.data.list,
-					total: res.data.total,
+					data: res.data.businessList,
+					businessDetail: res.data.detail,
 					loading: false,
-					current: data && data.page ? data.page : 1, // 翻页传选中页数，其他重置为1
 				});
 			}
 		}).catch(() => {
@@ -101,71 +123,62 @@ export default class DebtorDetail extends React.Component {
 
 	render() {
 		const {
-			totals, current,
+			loading, businessDetail, data, columns,
 		} = this.state;
 		return (
 			<div className="yc-debtor-wrapper">
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><a style={{ fontSize: 14, color: '#384482' }} onClick={() => navigate('/business/debtor')}>债务人</a></Breadcrumb.Item>
-						<Breadcrumb.Item><span style={{ 'font-weight': 100 }}>债务人详情</span></Breadcrumb.Item>
+						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/business/debtor')}>债务人</a></Breadcrumb.Item>
+						<Breadcrumb.Item><span style={{ 'font-weight': 400, color: '#384482' }}>债务人详情</span></Breadcrumb.Item>
 					</Breadcrumb>
 				</div>
-				<div className="yc-item-ob">
-					<div className="yc-item-icon" />
-					<div className="yc-search-content">
-						<span className="yc-item-title">p</span>
-						<div className="search-item-text">
-							<span className="search-item-text-header">身份证号/统一社会信用代码：</span>
-							<span className="search-item-text-msg">2222</span>
+				<Spin visible={loading}>
+					<div className="yc-item-ob">
+						<div className="yc-item-icon" />
+						<div className="yc-search-content">
+							<span className="yc-item-title">{businessDetail ? businessDetail.obligorName : '-'}</span>
+							{businessDetail && businessDetail.dishonestStatus === 1 ? <img className="yc-item-break" src={isBreak} alt="" /> : businessDetail && businessDetail.dishonestStatus === 2 ? <img className="yc-item-break" src={beforeBreak} alt="" /> : null}
+							<div className="search-item-text">
+								<span className="search-item-text-header">身份证号/统一社会信用代码：</span>
+								<span className="search-item-text-msg">{businessDetail && businessDetail.obligorNumber.length > 0 ? businessDetail.obligorNumber : '-'}</span>
+							</div>
+							<div className="search-item-text">
+								<span className="search-item-text-header">曾用名：</span>
+								<span className="search-item-text-msg">
+									{
+										businessDetail && businessDetail.usedName.length > 0 ? businessDetail.usedName.map(item => item) : '-'
+									}
+								</span>
+							</div>
 						</div>
-						<div className="search-item-text">
-							<span className="search-item-text-header">曾用名：</span>
-							<span className="search-item-text-msg">－</span>
-						</div>
-					</div>
-					<div className="yc-search-right">
-						<Button className="yc-btn">
-							<span className="yc-icon-export" />
+						<div className="yc-search-right">
+							<Button className="yc-btn">
+								<span className="yc-icon-export" />
                             下载
-						</Button>
-					</div>
-				</div>
-				<div className="yc-debtor-table">
-					<div className="yc-table-header">
-						<div className="table-header-left">
-							资产拍卖
+							</Button>
 						</div>
 					</div>
-					<Table
-						columns={columns}
-						dataSource={data}
-						style={{ width: '100%' }}
-						pagination={false}
-						onRowClick={(record) => {
-							if (!record.children) {
-								const w = window.open('about:blank');
-								w.location.href = '#/monitor';
-							}
-						}}
-					/>
-					<div className="yc-pagination">
-						<Pagination
-							// total={totals}
-							total={12}
-							current={current}
-							defaultPageSize={10} // 默认条数
-							showQuickJumper
-							showTotal={total => `共 ${total} 条记录`}
-							onChange={(val) => {
-								console.log(val);
-
-								this.handleChangePage(val);
+					{data && data.length > 0 && (
+					<div className="yc-debtor-table">
+						<div className="yc-table-header">
+							<div className="table-header-left">
+									业务列表
+							</div>
+						</div>
+						<Table
+							columns={columns}
+							dataSource={data}
+							style={{ width: '100%' }}
+							pagination={false}
+							onRowClick={(record) => {
+								console.log(record);
 							}}
 						/>
-						{/* <div className="yc-pagination-btn"><Button>跳转</Button></div> */}
 					</div>
-				</div>
+					)}
+				</Spin>
+
 			</div>
 		);
 	}

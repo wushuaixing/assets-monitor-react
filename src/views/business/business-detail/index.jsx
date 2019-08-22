@@ -112,8 +112,8 @@ class DebtorDetail extends React.Component {
 			<div className="yc-business-wrapper">
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><a style={{ fontSize: 14, color: '#384482' }} onClick={() => navigate('/business/debtor')}>业务视图</a></Breadcrumb.Item>
-						<Breadcrumb.Item><span style={{ 'font-weight': 100 }}>业务详情</span></Breadcrumb.Item>
+						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/business/debtor')}>业务视图</a></Breadcrumb.Item>
+						<Breadcrumb.Item><a className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>业务详情</a></Breadcrumb.Item>
 					</Breadcrumb>
 					<div className="yc-search-right">
 						<Button onClick={() => this.handleEdit(edit)} className="yc-btn">
