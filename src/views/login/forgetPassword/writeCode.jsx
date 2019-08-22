@@ -11,7 +11,7 @@ import {
 import PhoneModal from './noPhoneModal';
 import {
 	forgetPasswordStep2Sms, // 发送短信
-	forgetPasswordStep2, // 忘记密码-step1
+	smsValid, // 验证短信忘记密码-step1
 } from '@/utils/api/user';
 import './style.scss';
 
@@ -79,12 +79,13 @@ openModal = () => {
 				return;
 			}
 			const params = {
-				code: fields.phoneCode,
+				smsCode: fields.phoneCode,
 				phone: fields.phone,
 			};
-			forgetPasswordStep2(params).then((res) => {
+			smsValid(params).then((res) => {
 				if (res.code === 200) {
 					changeType(4);
+					message.success('验证成功');
 				} else {
 					message.error(res.message);
 				}

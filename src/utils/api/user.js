@@ -25,15 +25,22 @@ export const forgetPasswordStep1 = async (params) => {
 	return response.data;
 };
 
-// 忘记密码-step2
-export const forgetPasswordStep2 = async (params) => {
-	const response = await service.post(`${baseUrl}/api/auth/open/forgetPassword/step2`, params);
+
+// 忘记密码获取验证短信-step2
+export const forgetPasswordStep2Sms = async (params) => {
+	const response = await service.get(`${baseUrl}/api/auth/open/forgetPassword/step2/sms`, { params });
 	return response.data;
 };
 
-// 忘记密码验证短信-step2
-export const forgetPasswordStep2Sms = async (params) => {
-	const response = await service.get(`${baseUrl}/api/auth/open/forgetPassword/step2/sms`, { params });
+// 验证短信验证-step2
+export const smsValid = async (params) => {
+	const response = await service.post(`${baseUrl}/api/auth/open/forgetPassword/step2/smsValid`, params);
+	return response.data;
+};
+
+// 忘记密码-step3 修改密码
+export const forgetPasswordStep3 = async (params) => {
+	const response = await service.post(`${baseUrl}/api/auth/open/forgetPassword/step3`, params);
 	return response.data;
 };
 

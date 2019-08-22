@@ -10,6 +10,7 @@ import { getQueryByName } from '@/utils';
 import './style.scss';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
+import Edit from './edit';
 import { Spin } from '@/common';
 
 const createForm = Form.create;
@@ -105,7 +106,7 @@ class DebtorDetail extends React.Component {
 			<div className="yc-business-wrapper">
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><span className="yc-bread-hover" onClick={() => navigate('/business/debtor')}>业务视图</span></Breadcrumb.Item>
+						<Breadcrumb.Item><span className="yc-bread-hover" onClick={() => navigate('/business')}>业务视图</span></Breadcrumb.Item>
 						<Breadcrumb.Item><a className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>业务详情</a></Breadcrumb.Item>
 					</Breadcrumb>
 					<div className="yc-search-right">
@@ -219,17 +220,20 @@ class DebtorDetail extends React.Component {
                             业务相关人列表
 						</div>
 					</div>
-					<Spin visible={loading}>
-						<Table
-							dataSource={data}
-							columns={columns}
-							style={{ width: '100%' }}
-							pagination={false}
-							onRowClick={(record) => {
-								console.log(record);
-							}}
-						/>
-					</Spin>
+					{edit === false ? (
+						<Spin visible={loading}>
+							<Table
+								dataSource={data}
+								columns={columns}
+								style={{ width: '100%' }}
+								pagination={false}
+								onRowClick={(record) => {
+									console.log(record);
+								}}
+							/>
+						</Spin>
+					)
+						: <Edit data={data} />}
 				</div>
 			</div>
 		);

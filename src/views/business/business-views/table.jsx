@@ -171,6 +171,7 @@ class BusinessView extends React.Component {
 								}
 							});
 						}
+						message.success(res.message);
 						getData();
 					}
 				});

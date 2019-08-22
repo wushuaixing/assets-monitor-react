@@ -6,9 +6,12 @@ import React from 'react';
 // ==================
 
 import {
-	Form, Input, Button, Spin, Popover,
+	Form, Input, Button, Spin, Popover, message,
 } from 'antd';
 import CommonIcon from './compontent/commonIcon';
+import {
+	forgetPasswordStep3, // 修改密码
+} from '@/utils/api/user';
 import './style.scss';
 
 const FormItem = Form.Item;
@@ -243,7 +246,7 @@ class Login extends React.Component {
 
 	handleSubmit = () => {
 		const {
-			form,
+			form, changeType,
 		} = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
@@ -251,7 +254,43 @@ class Login extends React.Component {
 			if (errors) {
 				return;
 			}
-			console.log(fields);
+			const firstWorld = fields.newPassword;
+			const newWorld = fields.newPasswordAgain;
+			// && numAndWorld.test(newWorld) && regx1.test(newWorld)
+			console.log(regx, newWorld, regx.test(newWorld));
+
+			// 两次密码要输入一致
+			if (firstWorld !== newWorld) {
+				message.error('两次密码不一致');
+				return;
+			}
+			if (!regx.test(newWorld)) {
+				message.error('长度6-20位字符');
+				return;
+			}
+			if (!numAndWorld.test(newWorld)) {
+				message.error('同时包含数字、字母');
+				return;
+			}
+			if (!regx1.test(newWorld)) {
+				message.error('不支持空格');
+				return;
+			}
+			const params = {
+				newPassword: fields.newPasswordAgain,
+			};
+			forgetPasswordStep3(params).then((res) => {
+				if (res.code === 200) {
+					const hide = message.loading('验证成功,两秒后跳转跳转登录页面...', 0);
+					// 异步手动移除
+					setTimeout(() => {
+						changeType(1);
+					}, 2000);
+					setTimeout(hide, 2000);
+				} else {
+					message.error(res.message);
+				}
+			});
 		});
 	};
 
