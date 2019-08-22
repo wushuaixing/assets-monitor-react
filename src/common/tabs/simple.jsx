@@ -5,39 +5,20 @@ import { parseQuery } from '@/utils';
 
 const toGetDefaultActive = (source, field) => {
 	const { hash } = window.location;
-	let res = '';
-	if (field) {
-		// console.log(Number(parseQuery(hash)[field]));
-		return Number(parseQuery(hash)[field]) || source[0].id;
-	}
-
-	source.forEach((item) => {
-		if (new RegExp(item.url).test(hash)) {
-			res = item.id;
-		}
-	});
-	return res || source[0].id;
+	return Number(parseQuery(hash)[field]) || source[0].id;
 };
 const numUnit = val => (val > 10000 ? `${(val / 10000).toFixed(1)}万` : val);
 
 const Tabs = (props) => {
 	const {
-		simple, rightRender, onChange, source, number, field, defaultCurrent,
+		rightRender, onChange, source, number, field, defaultCurrent,
 	} = props;
 	const [active, setActive] = useState(defaultCurrent || toGetDefaultActive(source, field));
-	window.onhashchange = () => {
-		const _result = toGetDefaultActive(source, field);
-		if (_result !== active) {
-			setActive(_result);
-		}
-	};
 
 	// useEffect(() => {
-	// 	/* 未考虑兼容性 暂时搁置 */
-	//
 	// });
 	return (
-		<div className={`yc-tabs-wrapper ${simple ? 'yc-tabs-simple' : 'yc-tabs-normal'}`}>
+		<div className="yc-tabs-wrapper yc-tabs-simple">
 			<ul>
 				{source.map(item => (
 					<li
