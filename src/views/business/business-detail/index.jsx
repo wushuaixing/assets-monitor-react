@@ -27,7 +27,7 @@ class DebtorDetail extends React.Component {
 				key: 'obligorName',
 				width: 375,
 				render: (text, row) => (
-					<p>
+					<p style={{ position: 'relative' }}>
 						{text || '-'}
 						{
 								row && row.dishonestStatus === 1 ? <img className="yc-item-break" src={isBreak} alt="" /> : null

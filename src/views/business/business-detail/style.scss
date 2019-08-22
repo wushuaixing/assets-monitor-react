@@ -91,6 +91,11 @@
   .yc-business-table {
     padding-top: 30px;
     padding-bottom: 15px;
+    .yc-item-break {
+      position: absolute;
+      left: 26px;
+      top: 0;
+    }
     .yc-table-header {
       overflow: hidden;
       padding: 0;
