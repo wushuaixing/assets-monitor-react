@@ -45,7 +45,7 @@ class QueryCondition extends React.Component {
 					<Input title="法院" style={_style1} size="large" placeholder="法院名称" {...getFieldProps('court')} />
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">立案日期：</span>
+					<span className="yc-query-item-title">立案/开庭日期：</span>
 					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('startLarq', timeOption)} />
 					<span className="yc-query-item-title">至</span>
 					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('endLarq', timeOption)} />

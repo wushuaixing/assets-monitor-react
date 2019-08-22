@@ -165,7 +165,7 @@ export default class Screen extends React.Component {
 				});
 			}
 		}).catch(() => {
-			this.setState({ loading: false });
+			this.setState({ loading: true });
 		});
 	}
 

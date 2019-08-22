@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, message } from 'antd';
 
-import { Tabs, Button } from '@/common';
-import QueryCourt from './query/court';
+import { Tabs, Button, Spin } from '@/common';
+// import QueryCourt from './query/court';
 import QueryRegister from './query/register';
 import TableCourt from '../subrogation/table/court';
 import TableRegister from '../subrogation/table/register';
@@ -22,6 +22,7 @@ export default class Lawsuits extends React.Component {
 			current: 1,
 			total: 0,
 			manage: false,
+			loading: true,
 			tabConfig: [
 				{
 					id: 1,
@@ -164,23 +165,40 @@ export default class Lawsuits extends React.Component {
 	// sourceType变化
 	onSourceType=(val) => {
 		const { isRead } = this.state;
-		this.setState({ sourceType: val, dataSource: '' });
+		this.setState({
+			sourceType: val,
+			dataSource: '',
+			current: 1,
+			total: '',
+		});
 		this.onQueryChange(null, val, isRead);
 	};
 
-	// 查询条件变化
-	onQueryChange=(val, _sourceType, _isRead) => {
-		console.log();
-		const { sourceType, isRead } = this.state;
-		// console.log(val, _sourceType, _isRead);
+	// 当前页数变化
+	onPageChange=(val) => {
+		this.onQueryChange('', '', '', val);
+	};
 
-		this.condition = Object.assign(val || this.condition, {
+	// 查询条件变化
+	onQueryChange=(con, _sourceType, _isRead, page) => {
+		const { sourceType, isRead, current } = this.state;
+		// console.log(val, _sourceType, _isRead);
+		const __isRead = _isRead || isRead;
+		this.condition = Object.assign(con || this.condition, {
 			sourceType: _sourceType || sourceType,
-			isRead: _isRead || isRead,
+			page: page || current,
 			type: 0,
 			num: 10,
 		});
-		// console.log(condition);
+		if (__isRead === 'all') {
+			delete this.condition.isRead;
+		}
+		if (__isRead === 'unread') {
+			this.condition.isRead = 0;
+		}
+		this.setState({
+			loading: true,
+		});
 		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -189,12 +207,19 @@ export default class Lawsuits extends React.Component {
 					total: res.data.total,
 				});
 			}
+			this.setState({
+				loading: false,
+			});
+		}).catch(() => {
+			this.setState({
+				loading: false,
+			});
 		});
 	};
 
 	render() {
 		const {
-			sourceType, isRead, dataSource, current, total, tabConfig, manage,
+			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
 		} = this.state;
 		const tableProps = {
 			manage,
@@ -206,9 +231,7 @@ export default class Lawsuits extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
-				{sourceType === 1
-					?	<QueryRegister onQueryChange={this.onQueryChange} />
-					:	<QueryCourt onQueryChange={this.onQueryChange} />}
+				<QueryRegister onQueryChange={this.onQueryChange} />
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
@@ -218,13 +241,13 @@ export default class Lawsuits extends React.Component {
 					!manage ? (
 						<div className="assets-auction-action">
 							<Button
-								active={!isRead}
-								onClick={() => this.handleReadChange('')}
+								active={isRead === 'all'}
+								onClick={() => this.handleReadChange('all')}
 								title="全部"
 							/>
 							<Button
-								active={isRead === 1}
-								onClick={() => this.handleReadChange(1)}
+								active={isRead === 'unread'}
+								onClick={() => this.handleReadChange('unread')}
 								title="只显示未读"
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
@@ -244,9 +267,11 @@ export default class Lawsuits extends React.Component {
 						</div>
 					)
 				}
-				{
+				<Spin visible={loading}>
+					{
 					sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
 				}
+				</Spin>
 			</div>
 		);
 	}

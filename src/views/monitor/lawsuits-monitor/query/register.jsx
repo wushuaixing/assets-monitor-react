@@ -11,16 +11,20 @@ class QueryCondition extends React.Component {
 	}
 
 	handleSubmit=() => {
-		const { form: { getFieldsValue } } = this.props;
+		const { form: { getFieldsValue }, onQueryChange } = this.props;
 		const { filterCurrentOrg } = this.state;
 		const condition = getFieldsValue();
 		condition.filterCurrentOrg = Boolean(filterCurrentOrg);
-		console.log('condition:', condition);
+		if (onQueryChange)onQueryChange(condition);
+
+		// console.log('condition:', condition);
 	};
 
 	handleReset=() => {
-		const { form } = this.props;
+		const { form, onQueryChange } = this.props;
 		form.resetFields();
+		const condition = form.getFieldsValue();
+		if (onQueryChange)onQueryChange(condition);
 	};
 
 	radioChange=(e) => {
@@ -50,7 +54,7 @@ class QueryCondition extends React.Component {
 					<Input title="法院" style={_style1} size="large" placeholder="法院名称" {...getFieldProps('court')} />
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">立案日期：</span>
+					<span className="yc-query-item-title">立案/开庭日期：</span>
 					<DatePicker size="large" style={_style2} placeholder="开始日期" />
 					<span className="yc-query-item-title">至</span>
 					<DatePicker size="large" style={_style2} placeholder="结束日期" />

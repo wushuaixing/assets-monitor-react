@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
-import QueryCourt from './query/court';
+// import QueryCourt from './query/court';
 import TableCourt from './table/court';
 import QueryRegister from './query/register';
 import TableRegister from './table/register';
@@ -256,9 +256,7 @@ export default class Subrogation extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
-				{sourceType === 1
-					?	<QueryRegister onQueryChange={this.onQueryChange} />
-					:	<QueryCourt onQueryChange={this.onQueryChange} />}
+				<QueryRegister onQueryChange={this.onQueryChange} />
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
