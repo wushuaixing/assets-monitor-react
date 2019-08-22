@@ -5,18 +5,23 @@ import HeaderMessage from './headerMessage/header-message';
 import HeaderCenter from './headerCenter/header-center';
 
 import Badge from '@/common/badge';
-import logoImg from '@/assets/img/logo.png';
+import logoImg from '@/assets/img/logo_white.png';
 
 const logoText = '源诚资产监控平台';
 const dataSource = [
-	{ id: 1, name: '首页', url: '/' },
+	{
+		id: 1, name: '首页', url: '/', rule: 'jggljgtj',
+	},
 	{
 		id: 2,
 		name: '监控信息',
 		url: '/monitor',
+		groupName: 'menu_jkxx&&',
 		warning: false,
 		children: [
-			{ id: 21, name: '资产拍卖', url: '/monitor?process=2' },
+			{
+				id: 21, name: '资产拍卖', url: '/monitor', param: '?process=2',
+			},
 			{ id: 22, name: '代位权', url: '/monitor/subrogation' },
 			{ id: 23, name: '金融资产', url: '/monitor/financial' },
 			{ id: 24, name: '涉诉监控', url: '/monitor/lawsuits' },
@@ -93,10 +98,25 @@ const Item = (props) => {
 		</li>
 	);
 };
-
+const defaultRouter = () => {
+	const { hash } = window.location;
+	const res = { p: 'item.id', c: '' };
+	dataSource.forEach((item) => {
+		if (new RegExp(item.url).test(hash)) {
+			if (item.children) {
+				res.p = item.id;
+				item.children.forEach((itemChild) => {
+					if (new RegExp(itemChild.url).test(hash))res.c = itemChild.id;
+				});
+			}
+		}
+	});
+	return res;
+};
 // Header 样式需求
 const Header = () => {
-	const [active, setActive] = useState({ p: '', c: '' });
+	const [active, setActive] = useState(defaultRouter());
+	// console.log(defaultRouter());
 	useEffect(() => {
 		// 滚动条手动置顶
 		window.scrollTo(0, 0);

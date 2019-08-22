@@ -34,10 +34,9 @@ export default class Financial extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				{childChoose === 1 ?	<QueryBidding /> :	<QueryPublicity />}
-				<Tabs
+				<Tabs.Simple
 					onChange={e => this.setState({ childChoose: e.id })}
 					source={source}
-					simple
 					field="process"
 				/>
 				<div className="assets-auction-action">

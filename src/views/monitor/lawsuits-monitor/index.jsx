@@ -209,11 +209,9 @@ export default class Lawsuits extends React.Component {
 				{sourceType === 1
 					?	<QueryRegister onQueryChange={this.onQueryChange} />
 					:	<QueryCourt onQueryChange={this.onQueryChange} />}
-				<Tabs
+				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
-					defaultCurrent={sourceType}
-					simple
 					field="process"
 				/>
 				{

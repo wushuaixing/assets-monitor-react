@@ -195,7 +195,7 @@ export default class Assets extends React.Component {
 
 	render() {
 		const {
-			dataSource, current, total, manage, loading, sourceType,
+			dataSource, current, total, manage, loading,
 		} = this.state;
 		const tableProps = {
 			manage,
@@ -209,11 +209,10 @@ export default class Assets extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				<Query onQueryChange={this.onQueryChange} />
-				<Tabs
+				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={source}
-					defaultCurrent={sourceType}
-					simple
+					defaultCurrent={2}
 				/>
 				{
 					!manage ? (
