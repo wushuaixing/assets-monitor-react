@@ -39,7 +39,7 @@ class Login extends React.Component {
 				return;
 			}
 			if (!fields.code) {
-				message.errors('请输入验证码');
+				message.error('请输入验证码');
 				return;
 			}
 			const params = {

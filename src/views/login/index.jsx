@@ -42,7 +42,6 @@ class Login extends React.Component {
 
 	render() {
 		const { type, phoneNum } = this.state;
-		console.log(phoneNum, 333);
 
 		return (
 			<div className="yc-login">
@@ -63,7 +62,7 @@ class Login extends React.Component {
 						}
 						{/* 修改密码 */}
 						{
-							type === 4 && <ChangePassword />
+							type === 4 && <ChangePassword changeType={this.changeType} />
 						}
 					</div>
 				</div>

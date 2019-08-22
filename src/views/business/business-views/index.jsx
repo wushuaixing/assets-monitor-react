@@ -97,7 +97,7 @@ class BusinessView extends React.Component {
 								errorMsg: [],
 							});
 							that.getData();
-							message.success(`${info.file.name} 上传成功。`);
+							message.success(`${info.file.name} ${info.file.response.message}`);
 						} else {
 							info.fileList.pop();
 							// 主动刷新页面，更新文件列表
@@ -105,7 +105,7 @@ class BusinessView extends React.Component {
 								refresh: !that.state.refresh,
 								// errorMsg: info.file.response.data.errorMsgList,
 							});
-							message.error(`上传失败: ${info.file.response.message}`);
+							message.error(`上传失败: ${info.file.response.data.errorMessage}`);
 						}
 					} else if (info.file.status === 'error') {
 						message.error(`${info.file.name} 上传失败。`);
@@ -270,6 +270,7 @@ class BusinessView extends React.Component {
 				postDeleteBatch(params).then((res) => {
 					if (res.code === 200) {
 						console.log(res);
+						message.success(res.message);
 						that.getData();
 					} else {
 						message.error(res.message);
