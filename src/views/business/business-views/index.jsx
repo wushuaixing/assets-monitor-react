@@ -75,7 +75,7 @@ class BusinessView extends React.Component {
 			const that = this;
 			// const Authorization = 'eyJuYW1lIjoi5rWL6K-VIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiIxMjMiLCJleHAiOjE1NTg1NzQ4NDl9.TUn3QyocFGMMBV7Z4X0TXDxkFnkf5t83rNh-qISmLeoMlMIWLsvmykmk8cb8U89zyp0CCZGZVmoa9gIgzu32qw';
 			return {
-				name: 'mortgageFile',
+				name: 'file',
 				action: `${baseUrl}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
 				beforeUpload(file) {
 					const type = file.name.split('.');
@@ -96,7 +96,7 @@ class BusinessView extends React.Component {
 								refresh: !that.state.refresh,
 								errorMsg: [],
 							});
-							that.handleCancel();
+							that.getData();
 							message.success(`${info.file.name} 上传成功。`);
 						} else {
 							info.fileList.pop();
@@ -461,10 +461,12 @@ class BusinessView extends React.Component {
 							{openRowSelection ? '取消管理' : '批量管理'}
 						</Button>
 
+						{!openRowSelection && (
 						<Button onClick={this.handleExportExcel} className="yc-business-btn" style={{ float: 'right' }}>
 							<span className="yc-icon-export" />
 								一键导出
 						</Button>
+						)}
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
 							<Icon className="yc-business-icon" type="question-circle-o" />
 						</Tooltip>

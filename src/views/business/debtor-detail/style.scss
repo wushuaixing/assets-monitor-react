@@ -30,6 +30,12 @@
       vertical-align: top;
       display: inline-block;
       max-width: 750px;
+      position: relative;
+      .yc-item-break {
+        position: absolute;
+        top: -16px;
+        right: -16px;
+      }
       .yc-item-title {
         position: relative;
         font-size: 16px;
@@ -69,7 +75,6 @@
     padding-bottom: 15px;
     .yc-table-header {
       overflow: hidden;
-      border-bottom: 1px solid #f0f2f5;
       padding: 0;
       margin-bottom: 20px;
       .table-header-left {
@@ -77,11 +82,13 @@
         color: #20242e;
         padding-right: 20px;
         line-height: 14px;
-        border-right: 1px solid #dadde6;
         margin: 14px 0;
         margin-right: 20px;
         float: left;
       }
     }
   }
+}
+.yc-bread-hover:hover {
+  text-decoration: underline;
 }

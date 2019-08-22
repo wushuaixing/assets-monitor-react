@@ -8,6 +8,7 @@ import Business from './business-views';
 import BusinessDetail from './business-detail';
 import Debtor from './debtor';
 import DebtorDetail from './debtor-detail';
+
 // import Asset from './asset-information';
 
 const source = [
@@ -24,7 +25,7 @@ const source = [
 		name: '债务人',
 		url: '/business/debtor',
 		number: 0,
-		dot: true,
+		dot: false,
 		components: Debtor,
 	},
 	// {

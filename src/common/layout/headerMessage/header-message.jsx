@@ -25,11 +25,23 @@ export default class HeaderMessage extends React.Component {
 		});
 	}
 
+	skip= (obligorId) => {
+		console.log(obligorId, '跳转');
+		navigate(`/business/debtor/detail?id=${obligorId}`);
+		// const w = window.open('about:blank');
+		// w.location.href = `#/business/detail?id=${id}`;
+	}
+
 	render() {
 		const { dataList } = this.state;
 
 		return (
-			<div className="yc-header-message">
+			<div
+				className="yc-header-message"
+				onClick={(e) => {
+					e.stopPropagation(); // 防止冒泡
+				}}
+			>
 				<div className="yc-header-title">
 					<div className="yc-station-box">
 						<span>消息</span>
@@ -38,7 +50,7 @@ export default class HeaderMessage extends React.Component {
 				</div>
 				<div className="yc-station-list">
 					{dataList && dataList.length > 0 ? dataList.map(item => (
-						<div key={item.id} className="yc-station-item">
+						<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId)}>
 							{item.isRead && <div className="yc-badge-tab-red" />}
 							<div className="yc-station-item-title">
 								{item.title}

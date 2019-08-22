@@ -10,7 +10,7 @@ import {
 } from 'antd';
 import PhoneModal from './noPhoneModal';
 import {
-	sendVerificationSms, // login
+	forgetPasswordStep2Sms, // 发送短信
 	forgetPasswordStep2, // 忘记密码-step1
 } from '@/utils/api/user';
 import './style.scss';
@@ -38,7 +38,7 @@ getCode = () => {
 		phoneNum,
 	} = this.props;
 	if (phoneNum) {
-		sendVerificationSms(`phone: ${phoneNum}`); // 发送验证码
+		forgetPasswordStep2Sms(); // 发送验证码
 	} else {
 		message.warning('手机号错误');
 	}
@@ -83,14 +83,12 @@ openModal = () => {
 				phone: fields.phone,
 			};
 			forgetPasswordStep2(params).then((res) => {
-				if (res === 200) {
-					console.log(1);
+				if (res.code === 200) {
+					changeType(4);
 				} else {
 					message.error(res.message);
 				}
 			});
-			console.log(fields);
-			changeType(4);
 		});
 	};
 

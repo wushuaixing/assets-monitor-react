@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Breadcrumb, Button, Select, Table, Pagination,
+	Breadcrumb, Select, Table, Pagination,
 } from 'antd';
 import './style.scss';
 import { navigate } from '@reach/router';
@@ -138,13 +138,12 @@ export default class BasicTable extends React.Component {
 			<div className="operate-log">
 				<div className="bread-crumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><a style={{ fontSize: 14, color: '#384482' }} onClick={() => navigate('/organization/user')}>账户列表</a></Breadcrumb.Item>
+						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/organization/user')}>账户列表</a></Breadcrumb.Item>
 						<Breadcrumb.Item>
-							<span style={{ 'font-weight': 100 }}>
+							<a className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>
 								{`${getQueryByName(hash, 'name')}_历史操作记录`}
 
-							</span>
-
+							</a>
 						</Breadcrumb.Item>
 					</Breadcrumb>
 				</div>
@@ -154,14 +153,14 @@ export default class BasicTable extends React.Component {
 							operateList && operateList.length > 0 && operateList.map(item => (<Option value={item.target}>{item.type}</Option>))
 						}
 					</Select>
-					<Button
+					{/* <Button
 						type="primary"
 						size="large"
 						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
 						// onClick={this.getTableData()}
 					>
 						搜索
-					</Button>
+					</Button> */}
 					{/* <Button type="ghost" size="large">清空搜索条件</Button> */}
 				</div>
 				<div className="table">

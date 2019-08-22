@@ -1,72 +1,83 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, Pagination, Input, Form,
+	Breadcrumb, Button, Table, Input, Form,
 } from 'antd';
+import {
+	getDetail, // 详情
+} from '@/utils/api/business';
+import { getQueryByName } from '@/utils';
 import './style.scss';
-
+import isBreak from '../../../assets/img/business/status_shixin.png';
+import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
+import { Spin } from '@/common';
 
 const createForm = Form.create;
-
-const columns = [{
-	title: '资产信息',
-	dataIndex: 'name',
-	width: 375,
-	render(text) {
-		return <a href="#">{text}</a>;
-	},
-}, {
-	title: '匹配原因',
-	dataIndex: 'age',
-	width: 375,
-}, {
-	title: '拍卖信息',
-	dataIndex: 'address',
-}];
-const data = [];
-for (let i = 0; i < 12; i += 1) {
-	data.push({
-		key: i,
-		name: `李大嘴${i}`,
-		age: 32,
-		address: `西湖区湖底公园${i}号`,
-	});
-}
-
 
 class DebtorDetail extends React.Component {
 	constructor(props) {
 		super(props);
-		this.columns1 = [{
-			title: '相关人名称',
-			dataIndex: 'a',
-			width: 375,
-			render(text) {
-				return <a href="#">{text}</a>;
-			},
-		}, {
-			title: '身份证号/统一社会信用代码',
-			dataIndex: 'b',
-			width: 375,
-		}, {
-			title: '角色',
-			dataIndex: 'c',
-		}];
 		this.state = {
-			totals: 0,
-			current: 1, // 当前页
-			pageSize: 10, // 默认展示条数
 			edit: false,
-			detail: {
-				caseNumber: 11123,
-				obligorName: '占三',
-				obligorNumber: 'TEST22335662',
-				orgName: 'Test机构',
-				guarantee: '担保',
-			},
+			detail: null,
+			data: [],
+			columns: [{
+				title: '相关人名称',
+				dataIndex: 'obligorName',
+				key: 'obligorName',
+				width: 375,
+				render: (text, row) => (
+					<p style={{ position: 'relative' }}>
+						{text || '-'}
+						{
+								row && row.dishonestStatus === 1 ? <img className="yc-item-break" src={isBreak} alt="" /> : null
+							}
+						{
+								row && row.dishonestStatus === 2 ? <img className="yc-item-break" src={beforeBreak} alt="" /> : null
+							}
+					</p>
+				),
+			}, {
+				title: '身份证号/统一社会信用代码',
+				dataIndex: 'obligorNumber',
+				key: 'obligorNumber',
+				width: 375,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			}, {
+				title: '角色',
+				dataIndex: 'roleText',
+				key: 'roleText',
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			}],
 		};
 	}
 
+	componentDidMount() {
+		this.getTableData();
+	}
+
+	getTableData=(value) => {
+		const { hash } = window.location;
+		const userId = getQueryByName(hash, 'id');
+		this.setState({
+			loading: true,
+		});
+		getDetail(value || userId).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.obligorList,
+					detail: res.data.detail,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	}
 
 	handleCancal = () => {
 		this.setState({
@@ -84,27 +95,9 @@ class DebtorDetail extends React.Component {
 		}
 	}
 
-	// page翻页
-	handleChangePage = (val) => {
-		const { pageSize, searchValue } = this.state;
-		console.log(val, pageSize, searchValue);
-
-		// const params = {
-		// 	...searchValue,
-		// 	current: val,
-		// 	page: {
-		// 		num: pageSize,
-		// 		page: val,
-		// 	},
-		// };
-
-		// this.getData(params);
-	}
-
-
 	render() {
 		const {
-			totals, current, edit, detail,
+			edit, detail, loading, columns, data,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -112,8 +105,8 @@ class DebtorDetail extends React.Component {
 			<div className="yc-business-wrapper">
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><a style={{ fontSize: 14, color: '#384482' }} onClick={() => navigate('/business/debtor')}>业务视图</a></Breadcrumb.Item>
-						<Breadcrumb.Item><span style={{ 'font-weight': 100 }}>业务详情</span></Breadcrumb.Item>
+						<Breadcrumb.Item><span className="yc-bread-hover" onClick={() => navigate('/business/debtor')}>业务视图</span></Breadcrumb.Item>
+						<Breadcrumb.Item><a className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>业务详情</a></Breadcrumb.Item>
 					</Breadcrumb>
 					<div className="yc-search-right">
 						<Button onClick={() => this.handleEdit(edit)} className="yc-btn">
@@ -145,23 +138,23 @@ class DebtorDetail extends React.Component {
 						<div style={{ padding: '0 35px' }}>
 							<div className="yc-form-group">
 								<div className="yc-basic-msg-title">业务编号:</div>
-								<div className="yc-basic-msg-inner">{detail.caseNumber}</div>
+								<div className="yc-basic-msg-inner">{detail && detail.caseNumber.length > 0 ? detail.caseNumber : '-'}</div>
 							</div>
 							<div className="yc-form-group">
 								<div className="yc-basic-msg-title">借款人名称:</div>
-								<div className="yc-basic-msg-inner">{detail.obligorName}</div>
+								<a className="yc-basic-msg-inner">{detail && detail.obligorName.length > 0 ? detail.obligorName : '-'}</a>
 							</div>
 							<div className="yc-form-group">
 								<div className="yc-basic-msg-title">身份证号/统一社会信用代码:</div>
-								<div className="yc-basic-msg-inner">{detail.obligorNumber}</div>
+								<div className="yc-basic-msg-inner">{detail && detail.obligorNumber.length > 0 ? detail.obligorNumber : '-'}</div>
 							</div>
 							<div className="yc-form-group">
 								<div className="yc-basic-msg-title">机构名称:</div>
-								<div className="yc-basic-msg-inner">{detail.orgName}</div>
+								<div className="yc-basic-msg-inner">{detail && detail.orgName.length > 0 ? detail.orgName : '-'}</div>
 							</div>
 							<div className="yc-form-group">
 								<div className="yc-basic-msg-title">担保方式:</div>
-								<div className="yc-basic-msg-inner">{detail.guarantee}</div>
+								<div className="yc-basic-msg-inner">{detail && detail.guaranteeString.length > 0 ? detail.guaranteeString : '-'}</div>
 							</div>
 						</div>
 					) : (
@@ -170,7 +163,7 @@ class DebtorDetail extends React.Component {
 								<span className="yc-from-lable1">业务编号:</span>
 								<Input
 									{...getFieldProps('caseNumber', {
-										initialValue: detail.caseNumber,
+										initialValue: detail && detail.caseNumber,
 										// rules: [
 										// 	{ required: true, whitespace: true, message: '请填写密码' },
 										// ],
@@ -185,7 +178,7 @@ class DebtorDetail extends React.Component {
 								</span>
 								<Input
 									{...getFieldProps('obligorName', {
-										initialValue: detail.obligorName,
+										initialValue: detail && detail.obligorName,
 										// rules: [
 										// 	{ required: true, whitespace: true, message: '请填写密码' },
 										// ],
@@ -197,7 +190,7 @@ class DebtorDetail extends React.Component {
 								<span className="yc-from-lable1">机构名称:</span>
 								<Input
 									{...getFieldProps('orgName', {
-										initialValue: detail.orgName,
+										initialValue: detail && detail.orgName,
 										// rules: [
 										// 	{ required: true, whitespace: true, message: '请填写密码' },
 										// ],
@@ -209,7 +202,7 @@ class DebtorDetail extends React.Component {
 								<span className="yc-from-lable2">身份证号/统一社会信用代码:</span>
 								<Input
 									{...getFieldProps('obligorNumber', {
-										initialValue: detail.obligorNumber,
+										initialValue: detail && detail.obligorNumber,
 										// rules: [
 										// 	{ required: true, whitespace: true, message: '请填写密码' },
 										// ],
@@ -226,53 +219,17 @@ class DebtorDetail extends React.Component {
                             业务相关人列表
 						</div>
 					</div>
-					{/* <Table
-						columns={this.columns1}
-						dataSource={edit === false ? defaultData : cellData}
-						style={{ width: '100%' }}
-						pagination={false}
-						onRowClick={(record) => {
-							if (!record.children) {
-								const w = window.open('about:blank');
-								w.location.href = '#/monitor';
-							}
-						}}
-					/> */}
-				</div>
-				<div className="yc-business-table">
-					<div className="yc-table-header">
-						<div className="table-header-left">
-							资产拍卖
-						</div>
-					</div>
-					<Table
-						columns={columns}
-						dataSource={data}
-						style={{ width: '100%' }}
-						pagination={false}
-						onRowClick={(record) => {
-							if (!record.children) {
-								const w = window.open('about:blank');
-								w.location.href = '#/monitor';
-							}
-						}}
-					/>
-					<div className="yc-pagination">
-						<Pagination
-							// total={totals}
-							total={12}
-							current={current}
-							defaultPageSize={10} // 默认条数
-							showQuickJumper
-							showTotal={total => `共 ${total} 条记录`}
-							onChange={(val) => {
-								console.log(val);
-
-								this.handleChangePage(val);
+					<Spin visible={loading}>
+						<Table
+							dataSource={data}
+							columns={columns}
+							style={{ width: '100%' }}
+							pagination={false}
+							onRowClick={(record) => {
+								console.log(record);
 							}}
 						/>
-						{/* <div className="yc-pagination-btn"><Button>跳转</Button></div> */}
-					</div>
+					</Spin>
 				</div>
 			</div>
 		);

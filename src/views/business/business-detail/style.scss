@@ -6,9 +6,7 @@
     display: inline-block;
   }
   .yc-search-right {
-    position: relative;
-    text-align: right;
-    top: -25px;
+    float: right;
     .yc-btn {
       background: #fff;
       height: 30px;
@@ -41,11 +39,17 @@
       padding: 10px 0;
       margin-bottom: 12px;
       font-size: 14px;
-      margin: 0;
     }
     .yc-form-group {
       overflow: hidden;
       font-size: 12px;
+      line-height: 22px;
+      a {
+        color: #337ab7;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
       .yc-basic-msg-title {
         color: #7d8699;
         width: 160px;
@@ -87,17 +91,20 @@
   .yc-business-table {
     padding-top: 30px;
     padding-bottom: 15px;
+    .yc-item-break {
+      position: absolute;
+      left: 26px;
+      top: 0;
+    }
     .yc-table-header {
       overflow: hidden;
-      border-bottom: 1px solid #f0f2f5;
       padding: 0;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       .table-header-left {
         font-size: 14px;
         color: #20242e;
         padding-right: 20px;
         line-height: 14px;
-        border-right: 1px solid #dadde6;
         margin: 14px 0;
         margin-right: 20px;
         float: left;
