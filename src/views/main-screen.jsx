@@ -5,30 +5,80 @@ import { Router } from '@reach/router';
 import Home from './home';
 import Monitor from './monitor';
 import Business from './business';
-import Company from './company';
+// import Company from './company';
 import Search from './search';
 import Organization from './organization';
 import Message from './message';
-
+import { Spin } from '@/common';
 import { Header, Container, Footer } from '@/common/layout';
+import { authRule } from '@/utils/api';
 
-const MainScreen = () => (
+const toRule = (props, tag) => {
+	const { rule } = props;
+	let res = false;
+	rule.forEach((item) => {
+		if (item.groupName === tag)res = true;
+	});
+	return res;
+};
+
+const ruleList = (props) => {
+	const l = [];
+	if (toRule(props, 'menu_jkxx'))l.push(<Monitor path="monitor/*" rule="menu_jkxx" />);
+	if (toRule(props, 'menu_ywgl'))l.push(<Business path="business/*" rule="menu_ywgl" />);
+	if (toRule(props, 'menu_xxss'))l.push(<Search path="search/*" rule="menu_xxss" />);
+	if (toRule(props, 'menu_jjgl'))l.push(<Organization path="organization/*" rule="menu_jjgl" />);
+	l.push(<Message path="message/*" />);
+	return l;
+};
+
+const MainScreen = props => (
 	<React.Fragment>
-		<Header />
+		<Header {...props} />
 		<Container>
 			<Router mode="hash">
 				<Home path="/*" />
-				<Monitor path="monitor/*" />
-				<Business path="business/*" />
-				<Company path="company/*" />
-				<Search path="search/*" />
-				<Organization path="organization/*" />
-				<Message path="message/*" />
+				{
+					ruleList(props).map(item => item)
+				}
 			</Router>
 		</Container>
 		<Footer />
 	</React.Fragment>
-
 );
 
-export default MainScreen;
+export default class Screen extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			loading: true,
+			rule: [],
+		};
+	}
+
+	componentWillMount() {
+		authRule().then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					loading: false,
+					rule: res.data.orgPageGroups,
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	}
+
+	componentWillUnmount() {
+		const { loading } = this.state;
+		console.log('componentWillUnmount:', loading);
+	}
+
+	render() {
+		const { loading, rule } = this.state;
+		if (!loading) {
+			return <MainScreen rule={rule} />;
+		}
+		return <Spin visible={loading} text=" "><div style={{ height: 500 }} /></Spin>;
+	}
+}

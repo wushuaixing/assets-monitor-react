@@ -159,5 +159,15 @@ module.exports = {
 	],
 	devServer: {	// didn't work on IE8
 		contentBase: `${ROOT}/docs`,
+		// proxy: {
+		// 	"/yc": {
+		// 		target: "http://172.18.255.251:18080",
+		// 		pathRewrite: { "^/yc": "" }
+		// 	},
+		// 	"/api": {
+		// 		target: "http://172.18.255.251:18080",
+		// 		pathRewrite: { "^/api": "" }
+		// 	},
+    // }
 	},
 };
