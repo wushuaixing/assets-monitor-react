@@ -174,6 +174,7 @@ export default class Assets extends React.Component {
 		this.setState({
 			loading: true,
 		});
+		// if (this.condition.sourceType === 3) this.condition.sourceType = [3, 6];
 		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({

@@ -2,7 +2,9 @@ import React from 'react';
 import { Table, Pagination } from 'antd';
 import { Attentions } from '@/common/table';
 import { attention } from '@/utils/api/monitor-info/assets';
-
+import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/monitor/assets-auction/tableComponents';
+import { Button } from '@/common';
+import { floatFormat } from '@/utils/format';
 
 // 获取表格配置
 const columns = (props) => {
@@ -12,26 +14,50 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: '资产信息',
-			dataIndex: 'larq',
 			width: 274,
-			// render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+			render: AssetsInfo,
 		}, {
 			title: '匹配原因',
 			dataIndex: 'reason',
 			width: 367,
+			render: MatchingReason,
 		}, {
 			title: '拍卖信息',
-			dataIndex: 'bg',
 			width: 392,
+			render: AuctionInfo,
 		}, {
 			title: '操作',
 			width: 127,
-			className: 'tAlignCenter_important',
-			render: (text, row, index) => (
-				<React.Fragment>
-					<Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />
-				</React.Fragment>
-			),
+			className: 'tAlignCenter_important yc-assets-auction-action',
+			render: (text, row, index) => {
+				const { recovery, process } = row;
+				return (
+					<React.Fragment>
+						{recovery > 0 ?	<div className="auction-recovery">{`追回金额：${floatFormat(recovery)}元`}</div> : ''}
+						{{
+							0: (
+								<React.Fragment>
+									<Button className="auction-button" title="跟进" />
+									<br />
+									<Button className="auction-button" title="忽略" />
+								</React.Fragment>
+							),
+							3: <Button className="auction-button" title="跟进中" />,
+							6: <Button className="auction-button" title="跟进中" />,
+							9: <Button className="auction-button" title="已完成" />,
+							12: (
+								<React.Fragment>
+									<Button className="auction-button" title="跟进" />
+									<br />
+									<Button className="auction-button" title="已忽略" disabled />
+								</React.Fragment>
+							),
+							15: <Button className="auction-button" title="已放弃" />,
+						}[process] || null }
+						<Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />
+					</React.Fragment>
+				);
+			},
 		}];
 	// 单纯展示
 	const normalColumns = [
@@ -75,19 +101,6 @@ export default class TableView extends React.Component {
 		}
 	}
 
-	// // 行点击操作
-	// toRowClick = (record, index) => {
-	// 	const { id, isRead } = record;
-	// 	const { onRefresh } = this.props;
-	// 	if (!isRead) {
-	// 		readStatus({ idList: [id] }).then((res) => {
-	// 			if (res.code === 200) {
-	// 				onRefresh({ id, isRead: !isRead, index }, 'isRead');
-	// 			}
-	// 		});
-	// 	}
-	// };
-
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {
 		// console.log(selectedRowKeys, record);
@@ -112,11 +125,12 @@ export default class TableView extends React.Component {
 			<React.Fragment>
 				<Table
 					{...rowSelection}
+					rowClassName={() => 'yc-assets-auction-table-row'}
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold')}
 					onRowClick={this.toRowClick}
+					// rowClassName="yc-assets-auction-table-row"
 				/>
 				<div className="yc-table-pagination">
 					<Pagination
@@ -124,6 +138,7 @@ export default class TableView extends React.Component {
 						current={current || 1}
 						total={total || 0}
 						onChange={onPageChange}
+						showTotal={totalCount => `共 ${totalCount} 条`}
 					/>
 				</div>
 			</React.Fragment>

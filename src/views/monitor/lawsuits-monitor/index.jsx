@@ -228,6 +228,7 @@ export default class Lawsuits extends React.Component {
 			total,
 			onRefresh: this.onRefresh,
 			onSelect: this.onSelect,
+			onPageChange: this.onPageChange,
 		};
 		return (
 			<div className="yc-assets-auction">

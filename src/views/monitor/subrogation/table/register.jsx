@@ -136,6 +136,7 @@ export default class TableView extends React.Component {
 						showQuickJumper
 						current={current || 1}
 						total={total || 0}
+						showTotal={totalCount => `共 ${totalCount} 条`}
 						onChange={onPageChange}
 					/>
 				</div>

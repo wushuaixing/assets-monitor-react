@@ -22,6 +22,36 @@ const toGetApi = (type, base) => {
 	return `${base}Bid`;
 };
 
+const toGetConfig = (rule) => {
+	const { children } = rule;
+	const base = [
+		{
+			id: 1,
+			name: '招标中标',
+			dot: false,
+			number: 0,
+			showNumber: false,
+			status: children.gsgg_bidding,
+		},
+		{
+			id: 2,
+			name: '重大税收违法',
+			number: 0,
+			dot: false,
+			showNumber: false,
+			status: children.gsgg_tax,
+		},
+		{
+			id: 3,
+			name: '环境行政处罚',
+			number: 0,
+			dot: false,
+			showNumber: false,
+			status: children.gsgg_epb,
+		},
+	];
+	return base.filter(item => item.status);
+};
 export default class Lawsuits extends React.Component {
 	constructor(props) {
 		super(props);
@@ -33,29 +63,7 @@ export default class Lawsuits extends React.Component {
 			total: 0,
 			loading: true,
 			manage: false,
-			tabConfig: [
-				{
-					id: 1,
-					name: '招标中标',
-					dot: false,
-					number: 0,
-					showNumber: false,
-				},
-				{
-					id: 2,
-					name: '重大税收违法',
-					number: 0,
-					dot: false,
-					showNumber: false,
-				},
-				{
-					id: 3,
-					name: '环境行政处罚',
-					number: 0,
-					dot: false,
-					showNumber: false,
-				},
-			],
+			tabConfig: toGetConfig(props.rule),
 		};
 		this.condition = {};
 		this.selectRow = [];
@@ -190,7 +198,7 @@ export default class Lawsuits extends React.Component {
 
 	// 批量管理☑️结果
 	onSelect=(val) => {
-		console.log(val);
+		// console.log(val);
 		this.selectRow = val;
 	};
 

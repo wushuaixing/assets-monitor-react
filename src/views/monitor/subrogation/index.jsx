@@ -171,7 +171,7 @@ export default class Subrogation extends React.Component {
 
 	// 批量管理☑️结果
 	onSelect=(val) => {
-		console.log(val);
+		// console.log(val);
 		this.selectRow = val;
 	};
 
