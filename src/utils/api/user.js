@@ -55,3 +55,9 @@ export const switchOrg = async (params) => {
 	const response = await service.post(`${baseUrl}/api/auth/switchOrg`, params);
 	return response.data;
 };
+
+// 修改密码
+export const changePassword = async (params) => {
+	const response = await service.post(`${baseUrl}/api/auth/user/changePassword`, params);
+	return response.data;
+};

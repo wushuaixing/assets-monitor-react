@@ -1,18 +1,11 @@
-/** 登录页 * */
-
 import React from 'react';
-// ==================
-// 所需的所有组件
-// ==================
-
 import {
-	Form, Input, Button, Spin, Popover, message,
+	Modal, Form, Popover, Input, message,
 } from 'antd';
-import CommonIcon from './compontent/commonIcon';
+import { navigate } from '@reach/router';
 import {
-	forgetPasswordStep3, // 修改密码
+	changePassword, // 修改密码,
 } from '@/utils/api/user';
-import './style.scss';
 
 const FormItem = Form.Item;
 const createForm = Form.create;
@@ -20,15 +13,16 @@ const regx = /^[ \x21-\x7E]{6,20}$/; // 判断6到20的字符
 const numAndWorld = /^(?=[a-zA-Z]*.*[0-9])(?=[0-9]*.*[a-zA-Z])[a-zA-Z0-9 \x21-\x7E]{2,}$/; // 必须包涵数字和字母
 const regx1 = /^[\x21-\x7Ea-zA-Z0-9]{1,}$/; // 无标点空格
 
-class Login extends React.Component {
+const formItemLayout = {
+	labelCol: { span: 6 },
+	wrapperCol: { span: 14 },
+};
+class ChangeWorldModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loading: false,
 			PopoverVisible: false,
 			againPasswordVisible: false,
-			firstClearIcon: false,
-			secondClearIcon: false,
 			firstVali: null, // 第一次～第四次验证判断
 			secondVali: null,
 			thirdVali: null,
@@ -36,7 +30,6 @@ class Login extends React.Component {
 			againText: '请再次输入密码',
 		};
 	}
-
 	// ===========
 	// 新密码验证
 
@@ -86,23 +79,17 @@ class Login extends React.Component {
 				firstVali: null, // 第一次～第四次验证判断
 				secondVali: null,
 				thirdVali: null,
-				firstClearIcon: false,
-			});
-		} else {
-			this.setState({
-				firstClearIcon: true,
 			});
 		}
 	};
 
 	onBlurValue = (e) => {
 		const newWorld = e.target.value;
-		setTimeout(() => {
+		if (!newWorld) {
 			this.setState({
-				firstClearIcon: false,
+				PopoverVisible: false,
 			});
-		}, 200);
-
+		}
 		// 三个都输入正确时
 		if (regx.test(newWorld) && numAndWorld.test(newWorld) && regx1.test(newWorld)) {
 			this.setState({
@@ -113,21 +100,12 @@ class Login extends React.Component {
 
 	newPasswordFoucs = (e) => {
 		const newWorld = e.target.value;
-		if (!newWorld) {
-			this.setState({
-				PopoverVisible: false,
-			});
-		}
 		// 三个都输入正确时
 		if (newWorld.length === 0) {
 			this.setState({
 				firstVali: null, // 第一次～第四次验证判断
 				secondVali: null,
 				thirdVali: null,
-			});
-		} else {
-			this.setState({
-				firstClearIcon: true,
 			});
 		}
 	};
@@ -148,7 +126,7 @@ class Login extends React.Component {
 			form: { getFieldsValue },
 		} = this.props; // 会提示props is not defined
 		const fields = getFieldsValue();
-		if (fields.newPassword === fields.newPasswordAgain) {
+		if (fields.Password === fields.newPassword) {
 			this.setState({
 				fouthVali: true,
 				againText: '两次密码输入一致',
@@ -164,10 +142,6 @@ class Login extends React.Component {
 			this.setState({
 				fouthVali: null,
 			});
-		} else {
-			this.setState({
-				secondClearIcon: true,
-			});
 		}
 	};
 
@@ -176,12 +150,8 @@ class Login extends React.Component {
 			form: { getFieldsValue },
 		} = this.props; // 会提示props is not defined
 		const fields = getFieldsValue();
-		setTimeout(() => {
-			this.setState({
-				secondClearIcon: false,
-			});
-		}, 200);
-		if (fields.newPassword === fields.newPasswordAgain) {
+
+		if (fields.Password === fields.newPassword) {
 			this.setState({
 				againPasswordVisible: false,
 			});
@@ -193,7 +163,7 @@ class Login extends React.Component {
 			form: { getFieldsValue },
 		} = this.props; // 会提示props is not defined
 		const fields = getFieldsValue();
-		if (fields.newPassword === fields.newPasswordAgain) {
+		if (fields.Password === fields.newPassword) {
 			this.setState({
 				fouthVali: true,
 				againText: '两次密码输入一致',
@@ -210,10 +180,6 @@ class Login extends React.Component {
 				fouthVali: null,
 				againText: '请再次输入密码',
 			});
-		} else {
-			this.setState({
-				secondClearIcon: true,
-			});
 		}
 	};
 
@@ -226,8 +192,8 @@ class Login extends React.Component {
 		const { resetFields, getFieldsValue } = form;
 		const fields = getFieldsValue();
 		if (type === 'first') {
-			if (fields.newPassword && fields.newPassword.length) {
-				resetFields(['newPassword']);
+			if (fields.Password && fields.Password.length) {
+				resetFields(['Password']);
 				this.setState({
 					firstVali: null, // 第一次～第四次验证判断
 					secondVali: null,
@@ -238,8 +204,8 @@ class Login extends React.Component {
 		}
 
 		if (type === 'second') {
-			if (fields.newPasswordAgain && fields.newPasswordAgain.length) {
-				resetFields(['newPasswordAgain']);
+			if (fields.newPassword && fields.newPassword.length) {
+				resetFields(['newPassword']);
 				this.setState({
 					fouthVali: null,
 					againText: '请再次输入密码',
@@ -249,47 +215,54 @@ class Login extends React.Component {
 		}
 	};
 
-	handleSubmit = () => {
-		const {
-			form, changeType,
-		} = this.props; // 会提示props is not defined
+	handleCancel=() => {
+		const { onCancel } = this.props;
+		onCancel();
+	}
+
+	// 确认修改密码
+	handleOk = () => {
+		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		form.validateFields((errors) => {
 			if (errors) {
 				return;
 			}
-			const firstWorld = fields.newPassword;
-			const newWorld = fields.newPasswordAgain;
+			const firstWorld = fields.Password;
+			const newWorld = fields.newPassword;
 			// && numAndWorld.test(newWorld) && regx1.test(newWorld)
 			console.log(regx, newWorld, regx.test(newWorld));
-
+			if (!fields.currentPassword) {
+				message.warning('请输入原密码');
+				return;
+			}
 			// 两次密码要输入一致
 			if (firstWorld !== newWorld) {
-				message.error('两次密码不一致');
+				message.warning('两次密码不一致');
 				return;
 			}
 			if (!regx.test(newWorld)) {
-				message.error('长度6-20位字符');
+				message.warning('长度6-20位字符');
 				return;
 			}
 			if (!numAndWorld.test(newWorld)) {
-				message.error('同时包含数字、字母');
+				message.warning('同时包含数字、字母');
 				return;
 			}
 			if (!regx1.test(newWorld)) {
-				message.error('不支持空格');
+				message.warning('不支持空格');
 				return;
 			}
 			const params = {
-				newPassword: fields.newPasswordAgain,
+				...fields,
 			};
-			forgetPasswordStep3(params).then((res) => {
+			changePassword(params).then((res) => {
 				if (res.code === 200) {
 					const hide = message.loading('验证成功,两秒后跳转跳转登录页面...', 0);
 					// 异步手动移除
 					setTimeout(() => {
-						changeType(1);
+						navigate('/login');
 					}, 2000);
 					setTimeout(hide, 2000);
 				} else {
@@ -297,15 +270,13 @@ class Login extends React.Component {
 				}
 			});
 		});
-	};
+	}
 
 	render() {
+		const { passwordModalVisible, form: { getFieldProps } } = this.props;
 		const {
-			loading, userName, PopoverVisible, againPasswordVisible, firstVali, secondVali, thirdVali, fouthVali, againText, firstClearIcon, secondClearIcon,
+			firstVali, secondVali, thirdVali, fouthVali, againText, PopoverVisible, againPasswordVisible,
 		} = this.state;
-		const {
-			form: { getFieldProps },
-		} = this.props; // 会提示props is not defined
 		const popverTypes = (type) => {
 			let popverType;
 			if (type === true) {
@@ -337,84 +308,83 @@ class Login extends React.Component {
 		);
 		// ==========
 		return (
-
-			<div className="yc-changePassword-main">
-				<Form>
-					<Spin spinning={loading}>
-						<li className="yc-card-title">设置新密码</li>
-						<div className="yc-form-wapper">
-							<span className="yc-form-lable">新密码</span>
-							<FormItem>
-								<Popover
-									content={newPassword}
-									trigger="click"
-									visible={PopoverVisible}
-									onVisibleChange={this.handleNewPassword}
-									placement="right"
-									className="yc-form-popover"
-								>
-									<Input
-										type="password"
-										autocomplete="off"
-										className="yc-login-input"
-										placeholder="请输入新密码"
-										maxlength="20"
-										onInput={e => this.changeValue(e)}
-										onBlur={e => this.onBlurValue(e)}
-										onFocus={e => this.newPasswordFoucs(e)}
-										// onFocus={e => this.newPasswordFoucs(e)}
-										{...getFieldProps('newPassword', {
-											initialValue: userName && userName.length > 0 ? userName : '',
-										// rules: [
-										// 	{
-										// 		required: true,
-										// 		message: '请输入账号',
-										// 	},
-										// ],
-										})}
-									/>
-								</Popover>
-								{firstClearIcon && <CommonIcon clearInputValue={() => this.clearInputValue('first')} />}
-							</FormItem>
-						</div>
-						<div className="yc-form-wapper">
-							<span className="yc-form-lable">确认新密码</span>
-							<FormItem>
-								<Popover
-									content={newAgainPassword}
-									trigger="click"
-									visible={againPasswordVisible}
-									onVisibleChange={this.handleAgainPassword}
-									placement="right"
-									className="yc-form-popover"
-								>
-									<Input
-										type="password"
-										autocomplete="off"
-										className="yc-login-input"
-										placeholder="请再次输入新密码"
-										onInput={e => this.againPasswordValue(e)}
-										onBlur={e => this.onAgainBlurValue(e)}
-										onFocus={e => this.againPasswordFoucs(e)}
-										{...getFieldProps('newPasswordAgain', {
-										// rules: [
-										// 	{
-										// 		required: true,
-										// 		message: '请输入验证码',
-										// 	},
-										// ],
-										})}
-									/>
-								</Popover>
-								{secondClearIcon && <CommonIcon clearInputValue={() => this.clearInputValue('second')} />}
-							</FormItem>
-						</div>
-						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>确定</Button>
-					</Spin>
-				</Form>
-			</div>
+			<Modal title="修改密码" width={600} visible={passwordModalVisible} onCancel={this.handleCancel} onOk={this.handleOk}>
+				<div className="yc-form-wapper">
+					<FormItem
+						{...formItemLayout}
+						label="原密码"
+					>
+						<Input
+							type="password"
+							autocomplete="off"
+							style={{ width: 234, height: 34 }}
+							placeholder="请输入原密码"
+							maxlength="20"
+							{...getFieldProps('currentPassword', {})}
+						/>
+					</FormItem>
+				</div>
+				<div className="yc-form-wapper">
+					<FormItem
+						{...formItemLayout}
+						label="新密码"
+					>
+						<Popover
+							content={newPassword}
+							trigger="click"
+							visible={PopoverVisible}
+							onVisibleChange={this.handleNewPassword}
+							placement="right"
+						>
+							<Input
+								type="password"
+								autocomplete="off"
+								style={{ width: 234, height: 34 }}
+								placeholder="请输入新密码"
+								maxlength="20"
+								onInput={e => this.changeValue(e)}
+								onBlur={e => this.onBlurValue(e)}
+								onFocus={e => this.newPasswordFoucs(e)}
+								{...getFieldProps('Password', {})}
+							/>
+						</Popover>
+					</FormItem>
+				</div>
+				<div className="yc-form-wapper">
+					<FormItem
+						{...formItemLayout}
+						label="确认新密码"
+					>
+						<Popover
+							content={newAgainPassword}
+							trigger="click"
+							visible={againPasswordVisible}
+							onVisibleChange={this.handleAgainPassword}
+							placement="right"
+							className="yc-form-popover"
+						>
+							<Input
+								type="password"
+								autocomplete="off"
+								style={{ width: 234, height: 34 }}
+								placeholder="请再次输入新密码"
+								onInput={e => this.againPasswordValue(e)}
+								onBlur={e => this.onAgainBlurValue(e)}
+								onFocus={e => this.againPasswordFoucs(e)}
+								{...getFieldProps('newPassword', {
+									// rules: [
+									// 	{
+									// 		required: true,
+									// 		message: '请输入验证码',
+									// 	},
+									// ],
+								})}
+							/>
+						</Popover>
+					</FormItem>
+				</div>
+			</Modal>
 		);
 	}
 }
-
-export default createForm()(Login);
+export default createForm()(ChangeWorldModal);
