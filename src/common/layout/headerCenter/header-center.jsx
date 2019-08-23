@@ -17,7 +17,6 @@ export default class HeaderMessage extends React.Component {
 			treeData: [],
 			treeList: [],
 			valueList: '',
-			defaultExpandedKeys: [],
 		};
 	}
 
@@ -33,6 +32,7 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	handleClick = () => {
+		navigate('/login');
 		loginOut().then((res) => {
 			if (res.code === 200) {
 				message.success('退出成功');

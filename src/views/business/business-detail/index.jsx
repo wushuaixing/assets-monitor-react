@@ -1,10 +1,11 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, Input, Form,
+	Breadcrumb, Button, Table, Input, Form, message, Modal,
 } from 'antd';
 import {
 	getDetail, // 详情
+	save, // 编辑
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
 import './style.scss';
@@ -13,6 +14,7 @@ import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import Edit from './edit';
 import { Spin } from '@/common';
 
+const { confirm } = Modal;
 const createForm = Form.create;
 
 class DebtorDetail extends React.Component {
@@ -21,6 +23,7 @@ class DebtorDetail extends React.Component {
 		this.state = {
 			edit: false,
 			detail: null,
+			isEdit: false,
 			data: [],
 			columns: [{
 				title: '相关人名称',
@@ -81,38 +84,97 @@ class DebtorDetail extends React.Component {
 	}
 
 	handleCancal = () => {
+		// const { defaultData } = this.state;
+		this.getTableData();
 		this.setState({
 			edit: false,
+			isEdit: false,
 		});
 	}
 
 	handleEdit = (edit) => {
-		if (edit === false) {
-			this.setState({
-				edit: !edit,
-			});
-		} else {
-			console.log(2);
-		}
+		this.setState({
+			edit: !edit,
+		});
+	}
+
+
+	// 保存
+	handleSave = () => {
+		const { data } = this.state;
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const { hash } = window.location;
+		const userId = getQueryByName(hash, 'id');
+		const fields = getFieldsValue();
+
+		confirm({
+			title: '确认修改债务人名称/身份信息？',
+			iconType: 'exclamation-circle-o',
+			width: 500,
+			content: '若本次编辑涉及债务人名称或身份证号，该债务人的历史数据匹配将被删除，并以新名称、身份证号重新进行匹配。',
+			onOk() {
+				const params = {
+					...fields,
+					obligorList: data,
+				};
+				if (!fields.obligorName) {
+					message.error('请填写借款人名称');
+					return;
+				}
+				save(userId, params).then((res) => {
+					if (res.code === 200) {
+						message.success(res.message);
+					} else {
+						message.error(res.message);
+					}
+				}).catch(() => {
+					message.error('服务端错误');
+				});
+			},
+			onCancel() {},
+		});
+	}
+
+	// 判断是否已经编辑
+	isEdit = () => {
+		this.setState({
+			isEdit: true,
+		});
+	}
+
+	// 跳转债务人详情
+	detail = (id) => {
+		const w = window.open('about:blank');
+		w.location.href = `#/business/debtor/detail?id=${id}`;
 	}
 
 	render() {
 		const {
-			edit, detail, loading, columns, data,
+			edit, detail, loading, columns, data, isEdit,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
+
 		return (
 			<div className="yc-business-wrapper">
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><span className="yc-bread-hover" onClick={() => navigate('/business')}>业务视图</span></Breadcrumb.Item>
-						<Breadcrumb.Item><a className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>业务详情</a></Breadcrumb.Item>
+						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/business')}>业务视图</a></Breadcrumb.Item>
+						<Breadcrumb.Item><span className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>业务详情</span></Breadcrumb.Item>
 					</Breadcrumb>
 					<div className="yc-search-right">
-						<Button onClick={() => this.handleEdit(edit)} className="yc-btn">
-							{edit ? '保存' : '编辑'}
-						</Button>
+						{edit === false ? (
+							<Button onClick={() => this.handleEdit(edit)} className="yc-btn">
+								编辑
+							</Button>
+						) : (
+							<Button disabled={!isEdit} onClick={() => this.handleSave()} className="yc-btn">
+								保存
+							</Button>
+						)
+						}
+
 						{edit === false
 							? (
 								<React.Fragment>
@@ -143,7 +205,7 @@ class DebtorDetail extends React.Component {
 							</div>
 							<div className="yc-form-group">
 								<div className="yc-basic-msg-title">借款人名称:</div>
-								<a className="yc-basic-msg-inner">{detail && detail.obligorName.length > 0 ? detail.obligorName : '-'}</a>
+								<a onClick={() => this.detail(detail.obligorId)} className="yc-basic-msg-inner">{detail && detail.obligorName.length > 0 ? detail.obligorName : '-'}</a>
 							</div>
 							<div className="yc-form-group">
 								<div className="yc-basic-msg-title">身份证号/统一社会信用代码:</div>
@@ -163,6 +225,7 @@ class DebtorDetail extends React.Component {
 							<div className="yc-from-container">
 								<span className="yc-from-lable1">业务编号:</span>
 								<Input
+									onInput={this.isEdit}
 									{...getFieldProps('caseNumber', {
 										initialValue: detail && detail.caseNumber,
 										// rules: [
@@ -178,6 +241,7 @@ class DebtorDetail extends React.Component {
 									借款人名称:
 								</span>
 								<Input
+									onInput={this.isEdit}
 									{...getFieldProps('obligorName', {
 										initialValue: detail && detail.obligorName,
 										// rules: [
@@ -190,6 +254,7 @@ class DebtorDetail extends React.Component {
 							<div className="yc-from-container">
 								<span className="yc-from-lable1">机构名称:</span>
 								<Input
+									onInput={this.isEdit}
 									{...getFieldProps('orgName', {
 										initialValue: detail && detail.orgName,
 										// rules: [
@@ -202,6 +267,7 @@ class DebtorDetail extends React.Component {
 							<div className="yc-from-container">
 								<span className="yc-from-lable2">身份证号/统一社会信用代码:</span>
 								<Input
+									onInput={this.isEdit}
 									{...getFieldProps('obligorNumber', {
 										initialValue: detail && detail.obligorNumber,
 										// rules: [
@@ -233,10 +299,10 @@ class DebtorDetail extends React.Component {
 							/>
 						</Spin>
 					)
-						: <Edit data={data} />}
+						: <Edit editSave={this.editSave} isEdit={this.isEdit} data={data} />}
 				</div>
 			</div>
 		);
 	}
 }
-export default createForm()(DebtorDetail);
+export default createForm({})(DebtorDetail);

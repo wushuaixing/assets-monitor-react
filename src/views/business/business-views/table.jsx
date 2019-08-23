@@ -36,7 +36,14 @@ class BusinessView extends React.Component {
 							<div style={{ display: 'inline-block', float: 'left' }}>
 								<div>
 									<span style={{ marginRight: '4px' }}>借款人:</span>
-									<p className="click-p" style={{ display: 'inline-block' }}>
+									<a
+										onClick={() => {
+											const w = window.open('about:blank');
+											w.location.href = `#/business/debtor/detail?id=${row.obligorId}`;
+										}}
+										className="yc-click-obligorName"
+										style={{ display: 'inline-block' }}
+									>
 										{
 											text && text.length > 12
 												? (
@@ -46,7 +53,7 @@ class BusinessView extends React.Component {
 												)
 												: <p>{text || '-'}</p>
 										}
-									</p>
+									</a>
 								</div>
 								<div>
 									<span style={{ marginRight: '4px' }}>证件号:</span>

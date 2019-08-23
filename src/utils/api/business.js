@@ -60,3 +60,9 @@ export const detail = async (id) => {
 	const response = await service.post(`${baseUrl}/yc/obligor/detail/${id}`);
 	return response.data;
 };
+
+// 编辑业务[C.H Wong]
+export const save = async (id, params) => {
+	const response = await service.post(`${baseUrl}/yc/business/save/${id}`, params);
+	return response.data;
+};
