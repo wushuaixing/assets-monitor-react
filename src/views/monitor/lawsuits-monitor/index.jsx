@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-
+import Cookies from 'universal-cookie';
 import { Tabs, Button, Spin } from '@/common';
 // import QueryCourt from './query/court';
 import QueryRegister from './query/register';
@@ -8,21 +8,24 @@ import TableCourt from '../subrogation/table/court';
 import TableRegister from '../subrogation/table/register';
 
 import {
-	infoCount, infoList, readStatus, attention,
+	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
+import { urlEncode } from '@/utils';
 import './style.scss';
 
-export default class Lawsuits extends React.Component {
+const cookies = new Cookies();
+
+export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			sourceType: 1,
-			isRead: '',
+			isRead: 'all',
 			dataSource: '',
 			current: 1,
 			total: 0,
-			manage: false,
 			loading: true,
+			manage: false,
 			tabConfig: [
 				{
 					id: 1,
@@ -49,8 +52,8 @@ export default class Lawsuits extends React.Component {
 	}
 
 	// 获取统计信息
-	toInfoCount=() => {
-		infoCount({ type: 0 }).then((res) => {
+	toInfoCount=(isRead) => {
+		infoCount({ type: 0, isRead }).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
@@ -93,6 +96,7 @@ export default class Lawsuits extends React.Component {
 
 	// 全部标记为已读
 	handleAllRead=() => {
+		const _this = this;
 		Modal.confirm({
 			title: '确认将代位权—立案信息标记为全部已读？',
 			content: '点击确定，将为您标记为全部已读。',
@@ -100,7 +104,7 @@ export default class Lawsuits extends React.Component {
 			onOk() {
 				readStatus({}).then((res) => {
 					if (res.code === 200) {
-						this.onQueryChange();
+						_this.onQueryChange();
 					}
 				});
 			},
@@ -108,20 +112,27 @@ export default class Lawsuits extends React.Component {
 		});
 	};
 
-	// 批量导出
-	handleExport=() => {
-		if (this.selectRow.length > 0) {
+	// 一键导出 & 批量导出
+	handleExport=(type) => {
+		if (type === 'all') {
+			const _condition = Object.assign(this.condition, {
+				token: cookies.get('token'),
+			});
+			window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
+			// console.log(urlEncode(_condition));
+		} else if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
+			const _condition = Object.assign(this.condition, {
+				token: cookies.get('token'),
+				idList,
+			});
 			Modal.confirm({
 				title: '确认导出选中的所有信息吗？',
 				content: '点击确定，将为您导出所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					attention({ idList }, true).then((res) => {
-						if (res.code === 200) {
-							message.success('操作成功！');
-						}
-					});
+					window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
+					// message.success('操作成功！');
 				},
 				onCancel() {},
 			});
@@ -134,6 +145,8 @@ export default class Lawsuits extends React.Component {
 	handleAttention=() => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
+			const { dataSource } = this.state;
+			const _this = this;
 			Modal.confirm({
 				title: '确认关注选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
@@ -142,6 +155,17 @@ export default class Lawsuits extends React.Component {
 					attention({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
+							const _dataSource = dataSource.map((item) => {
+								const _item = item;
+								idList.forEach((it) => {
+									if (it === item.id) _item.isAttention = 1;
+								});
+								return _item;
+							});
+							_this.setState({
+								dataSource: _dataSource,
+								manage: false,
+							});
 						}
 					});
 				},
@@ -182,14 +206,13 @@ export default class Lawsuits extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(page) => {
-		this.onQueryChange('', '', '', page);
+	onPageChange=(val) => {
+		this.onQueryChange('', '', '', val);
 	};
 
 	// 查询条件变化
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, isRead, current } = this.state;
-		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
 		// console.log(val, _sourceType, _isRead);
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign(con || this.condition, {
@@ -207,6 +230,7 @@ export default class Lawsuits extends React.Component {
 		this.setState({
 			loading: true,
 		});
+		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
 		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -261,6 +285,10 @@ export default class Lawsuits extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
+								<span className="yc-export-img" />
+								<span> 一键导出</span>
+							</Button>
 						</div>
 					) : (
 						<div className="assets-auction-action">
@@ -278,9 +306,10 @@ export default class Lawsuits extends React.Component {
 				}
 				<Spin visible={loading}>
 					{
-					sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
-				}
+						sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
+					}
 				</Spin>
+
 			</div>
 		);
 	}
