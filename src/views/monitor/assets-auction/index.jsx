@@ -5,43 +5,48 @@ import { Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
 import { Button, Spin, Tabs } from '@/common';
 import {
-	infoList, exportList, follow,
+	infoList, exportList, follow, infoCount,
 } from '@/utils/api/monitor-info/assets';
 import { urlEncode } from '@/utils';
 import './style.scss';
 
-const source = [
+const source = (obj = {}) => [
 	{
 		id: 1,
 		name: '全部',
+		field: 'totalCount',
 	},
 	{
 		id: -1,
 		name: '未跟进',
-		number: 0,
+		number: obj.unfollowedCount || 0,
 		showNumber: true,
 	},
 	{
 		id: 3,
 		name: '跟进中',
-		number: 0,
+		number: obj.followingCount || 0,
 		showNumber: true,
+		field: 'followingCount',
 	},
 	{
 		id: 9,
 		name: '已完成',
-		number: 0,
+		number: obj.finishedCount || 0,
 		showNumber: true,
+		field: 'finishedCount',
 	},
 	{
 		id: 12,
 		name: '已忽略',
 		number: 0,
+		field: 'ignoreCount',
 	},
 	{
 		id: 15,
 		name: '已放弃',
 		number: 0,
+		field: 'giveUpCount',
 	},
 ];
 
@@ -57,6 +62,7 @@ export default class Assets extends React.Component {
 			total: 0,
 			loading: true,
 			manage: false,
+			tabConfig: source(),
 		};
 		this.condition = {};
 		this.selectRow = [];
@@ -64,7 +70,26 @@ export default class Assets extends React.Component {
 
 	componentDidMount() {
 		this.onQueryChange({});
+		this.toInfoCount();
+		this.toInfoCountIntervel = setInterval(() => {
+			this.toInfoCount();
+		}, 60 * 1000);
 	}
+
+	componentWillUnmount() {
+		clearInterval(this.toInfoCountIntervel);
+	}
+
+	// 获取统计信息
+	toInfoCount=() => {
+		infoCount(this.condition).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					tabConfig: source(res.data || {}),
+				});
+			}
+		});
+	};
 
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
@@ -176,7 +201,10 @@ export default class Assets extends React.Component {
 		});
 
 		if (this.condition.process === -1) this.condition.process = 0;
-		if (this.condition.process === 3) this.condition.process = [3, 6];
+		if (this.condition.process === 3) this.condition.processString = '3,6';
+		else {
+			delete this.condition.processString;
+		}
 		if (this.condition.process === 1) delete this.condition.process;
 
 		infoList(this.condition).then((res) => {
@@ -186,11 +214,17 @@ export default class Assets extends React.Component {
 					current: res.data.page,
 					total: res.data.total,
 					manage: false,
+					loading: false,
+				});
+			} else {
+				this.setState({
+					dataSource: '',
+					current: 1,
+					total: 0,
+					manage: false,
+					loading: false,
 				});
 			}
-			this.setState({
-				loading: false,
-			});
 		}).catch(() => {
 			this.setState({
 				loading: false,
@@ -200,7 +234,7 @@ export default class Assets extends React.Component {
 
 	render() {
 		const {
-			dataSource, current, total, manage, loading,
+			dataSource, current, total, manage, loading, tabConfig,
 		} = this.state;
 		const tableProps = {
 			manage,
@@ -216,7 +250,7 @@ export default class Assets extends React.Component {
 				<Query onQueryChange={this.onQueryChange} />
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
-					source={source}
+					source={tabConfig}
 					defaultCurrent={-1}
 				/>
 				{
