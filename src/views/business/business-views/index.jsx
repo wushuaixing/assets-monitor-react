@@ -96,6 +96,8 @@ class BusinessView extends React.Component {
 								refresh: !that.state.refresh,
 								errorMsg: [],
 							});
+							const { form: { resetFields } } = that.props; // 会提示props is not defined
+							resetFields('');
 							that.getData();
 							message.success(`${info.file.name} ${info.file.response.message}`);
 						} else {

@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 // 所需的所有组件
 // ==================
 import {
-	Form, Input, Button, Checkbox, message, Spin,
+	Form, Input, Button, Checkbox, message, Spin, Icon,
 } from 'antd';
 import {
 	login, // login
@@ -25,6 +25,7 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			loading: false,
+			clearUsernameIcon: false,
 			rememberPassword: cookie.get('rememberPassword'),
 			userName: '',
 			errorNum: 0,
@@ -79,7 +80,6 @@ class Login extends React.Component {
 					message.success('登陆成功');
 					cookie.set('token', res.data.token);
 					cookie.set('name', res.data.userName);
-					cookie.set('roleCode', res.data.roleCode);
 					navigate('/monitor');
 				} else {
 					message.error(res.message);
@@ -96,9 +96,56 @@ class Login extends React.Component {
 		});
 	};
 
+	clearInputValue = (type) => {
+		const {
+			form,
+		} = this.props; // 会提示props is not defined
+		const { resetFields, getFieldsValue } = form;
+		const fields = getFieldsValue();
+		if (type === 'first') {
+			if (fields.username && fields.username.length) {
+				resetFields(['username']);
+				this.setState({
+					clearUsernameIcon: false,
+				});
+			}
+		}
+
+		if (type === 'second') {
+			if (fields.password && fields.password.length) {
+				resetFields(['password']);
+				this.setState({
+
+				});
+			}
+		}
+	};
+
+	changeValue = (e) => {
+		const { value } = e.target;
+		if (value.length > 0) {
+			this.setState({
+				clearUsernameIcon: true,
+			});
+		} else {
+			this.setState({
+				clearUsernameIcon: false,
+			});
+		}
+	}
+
+	PasswordBlur = (e) => {
+		console.log(1);
+		setTimeout(() => {
+			this.setState({
+				clearUsernameIcon: false,
+			});
+		}, 200);
+	}
+
 	render() {
 		const {
-			loading, userName, rememberPassword, errorNum,
+			loading, userName, rememberPassword, errorNum, clearUsernameIcon,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType,
@@ -117,6 +164,10 @@ class Login extends React.Component {
 									placeholder="请输入11位数字"
 												// addonBefore={<img style={{ height: 20, width: 18 }} src={imgTel} alt="" />}
 									maxlength="11"
+									// onInput={e => this.changeValue(e)}
+									// onFocus={e => this.changeValue(e)}
+									// onBlur={e => this.PasswordBlur(e)}
+
 									{...getFieldProps('username', {
 										initialValue: userName && userName.length > 0 ? userName : '',
 										rules: [
@@ -127,6 +178,7 @@ class Login extends React.Component {
 										],
 									})}
 								/>
+								<Icon className="yc-login-clearIcon" type="cross-circle" clearInputValue={() => this.clearInputValue('first')} />
 								<span className="yc-form-userName yc-form-icon" />
 							</FormItem>
 						</div>
@@ -136,6 +188,8 @@ class Login extends React.Component {
 									className="yc-login-input"
 									type="password"
 									placeholder="请输入密码"
+									// onBlur={e => this.PasswordBlur(e)}
+									// onFocus={e => this.PasswordFoucs(e)}
 									{...getFieldProps('password', {
 										// initialValue: true,
 										rules: [

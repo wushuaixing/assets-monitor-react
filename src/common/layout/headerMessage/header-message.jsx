@@ -39,7 +39,8 @@ export default class HeaderMessage extends React.Component {
 		navigate(`/business/debtor/detail?id=${obligorId}`);
 		isRead(params).then((res) => {
 			if (res.code === 200) {
-				message.success(res.message);
+				// message.success(res.message);
+				console.log('成功');
 			} else {
 				message.warning(res.message);
 			}

@@ -69,27 +69,36 @@ export default class HeaderMessage extends React.Component {
 
 	// 选择列表
 	selectFilterValue = (val) => {
+		console.log(1);
 		this.handleOnSelect([val]);
 	}
 
 	handleOnSelect = (info) => {
-		console.log(info.join(''));
 		const num = Number(info.join(''));
 		const params = {
 			orgId: num,
 		};
-		switchOrg(params).then((res) => {
-			if (res.code === 200) {
-				const hide = message.loading('正在切换机构,请稍后...', 0);
-				setTimeout(() => {
-					window.location.reload(); // 实现页面重新加载
-				}, 800);
-				// 异步手动移除
-				setTimeout(hide, 800);
-			} else {
-				message.error(res.message);
-			}
-		});
+
+		const start = new Date().getTime(); // 获取接口响应时间
+		console.log(num, 1);
+		if (num !== 0) {
+			switchOrg(params).then((res) => {
+				if (res.code === 200) {
+					const now = new Date().getTime();
+					const latency = now - start;
+					console.log(start, now, latency);
+
+					const hide = message.loading('正在切换机构,请稍后...', 0);
+					setTimeout(() => {
+						window.location.reload(); // 实现页面重新加载/
+					}, latency);
+					// 异步手动移除
+					setTimeout(hide, latency);
+				} else {
+					message.error(res.message);
+				}
+			});
+		}
 	}
 
 	// 打开修改密码弹框

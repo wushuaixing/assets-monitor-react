@@ -24,7 +24,7 @@ class commonIcon extends React.Component {
 
 	render() {
 		return (
-			<Icon onClick={this.clear} className="yc-clear-icon" type="cross-circle" />
+			<Icon {...this.props} onClick={this.clear} className="yc-clear-icon" type="cross-circle" />
 		);
 	}
 }
