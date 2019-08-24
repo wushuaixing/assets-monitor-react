@@ -163,7 +163,8 @@ export default class Screen extends React.Component {
 	}
 
 	componentWillMount() {
-		// console.log('componentWillMount');
+		this.clientHeight = 500 || document.body.clientHeight;
+		// console.log('componentWillMount:', document.body.clientHeight);
 		authRule().then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -192,9 +193,9 @@ export default class Screen extends React.Component {
 
 	render() {
 		const { loading, rule, errorCode } = this.state;
-		// console.log(loading, errorCode);
+		// console.log(rule);
 		if (loading === 'show') {
-			return <Spin visible={loading} text=" "><div style={{ height: 500 }} /></Spin>;
+			return <Spin visible={loading} text=" "><div style={{ height: this.clientHeight || 500 }} /></Spin>;
 		}
 		if (loading === 'hidden') {
 			return <MainScreen rule={rule} />;
