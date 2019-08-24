@@ -12,7 +12,7 @@ export default class MatchingReason extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this.dom.clientHeight);
+		// console.log(this.dom.clientHeight);
 		if (this.dom.clientHeight > 64) {
 			this.setState({ status: 'canOpen' });
 		}
@@ -37,7 +37,7 @@ export default class MatchingReason extends React.Component {
 			} else {
 				this.setState({ status: 'none' });
 			}
-			console.log('重新渲染：', this.dom.clientHeight);
+			// console.log('重新渲染：', this.dom.clientHeight);
 		}
 	}
 

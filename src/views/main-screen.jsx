@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from '@reach/router';
+import { Router, navigate } from '@reach/router';
 
 /* 子路由模块  */
 import Home from './home';
@@ -9,9 +9,14 @@ import Business from './business';
 import Search from './search';
 import Organization from './organization';
 import Message from './message';
-import { Spin } from '@/common';
+import { Spin, Button } from '@/common';
 import { Header, Container, Footer } from '@/common/layout';
 import { authRule } from '@/utils/api';
+
+//
+// import Error403 from '@/assets/img/error/404@2x.png';
+// import Error404 from '@/assets/img/error/404@2x.png';
+import Error500 from '@/assets/img/error/500@2x.png';
 
 // 处理路由数据
 const handleRule = (source) => {
@@ -153,6 +158,7 @@ export default class Screen extends React.Component {
 		this.state = {
 			loading: true,
 			rule: [],
+			errorCode: '',
 		};
 	}
 
@@ -164,8 +170,14 @@ export default class Screen extends React.Component {
 					rule: handleRule(res.data.orgPageGroups),
 				});
 			}
+			this.setState({
+				errorCode: res.code,
+			});
 		}).catch(() => {
-			this.setState({ loading: true });
+			this.setState({
+				loading: false,
+				errorCode: 500,
+			});
 		});
 	}
 
@@ -175,10 +187,25 @@ export default class Screen extends React.Component {
 	}
 
 	render() {
-		const { loading, rule } = this.state;
-		if (!loading) {
+		const { loading, rule, errorCode } = this.state;
+		console.log(loading, errorCode);
+		if (loading === false && !errorCode) {
+			return <Spin visible={loading} text=" "><div style={{ height: 500 }} /></Spin>;
+		}
+		if (!loading && errorCode === 200) {
 			return <MainScreen rule={rule} />;
 		}
-		return <Spin visible={loading} text=" "><div style={{ height: 500 }} /></Spin>;
+		return (
+			<div style={{ padding: 150 }} className="yc-error-page">
+				<div className="yc-error-content">
+					<img src={Error500} alt="" className="yc-error-img" />
+					<div className="yc-error-text">
+						<li className="error-code">{errorCode}</li>
+						<li className="error-text">抱歉，服务器出错了</li>
+						<Button title="返回登录页面" style={{ width: 120 }} onClick={() => navigate('/login')} />
+					</div>
+				</div>
+			</div>
+		);
 	}
 }

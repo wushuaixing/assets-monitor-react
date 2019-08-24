@@ -16,7 +16,7 @@ const source = [
 		name: '全部',
 	},
 	{
-		id: 2,
+		id: -1,
 		name: '未跟进',
 		number: 0,
 		showNumber: true,
@@ -28,18 +28,18 @@ const source = [
 		showNumber: true,
 	},
 	{
-		id: 4,
+		id: 9,
 		name: '已完成',
 		number: 0,
 		showNumber: true,
 	},
 	{
-		id: 5,
+		id: 12,
 		name: '已忽略',
 		number: 0,
 	},
 	{
-		id: 6,
+		id: 15,
 		name: '已放弃',
 		number: 0,
 	},
@@ -51,7 +51,7 @@ export default class Assets extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: 2,
+			sourceType: -1,
 			dataSource: '',
 			current: 1,
 			total: 0,
@@ -168,13 +168,17 @@ export default class Assets extends React.Component {
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, current } = this.state;
 		this.condition = Object.assign(con || this.condition, {
-			sourceType: _sourceType || sourceType,
+			process: _sourceType || sourceType,
 			page: page || current,
 		});
 		this.setState({
 			loading: true,
 		});
-		// if (this.condition.sourceType === 3) this.condition.sourceType = [3, 6];
+
+		if (this.condition.process === -1) this.condition.process = 0;
+		if (this.condition.process === 3) this.condition.process = [3, 6];
+		if (this.condition.process === 1) delete this.condition.process;
+
 		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -213,7 +217,7 @@ export default class Assets extends React.Component {
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={source}
-					defaultCurrent={2}
+					defaultCurrent={-1}
 				/>
 				{
 					!manage ? (
