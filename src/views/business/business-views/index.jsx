@@ -175,8 +175,10 @@ class BusinessView extends React.Component {
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		console.log(startTime, endTime, 11);
-
+		if (startTime > endTime) {
+			message.warning('结束时间必须大于开始时间');
+			return;
+		}
 		const params = {
 			...fildes,
 			page: 1,
@@ -343,6 +345,7 @@ class BusinessView extends React.Component {
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
+								getValueFromEvent: e => e.replace(/\s+/g, ''),
 							})}
 						/>
 					</div>
@@ -357,6 +360,7 @@ class BusinessView extends React.Component {
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
 								// ],
+								getValueFromEvent: e => e.replace(/\s+/g, ''),
 							})}
 						/>
 					</div>
@@ -371,6 +375,7 @@ class BusinessView extends React.Component {
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
 								// ],
+								getValueFromEvent: e => e.replace(/\s+/g, ''),
 							})}
 						/>
 					</div>
@@ -385,6 +390,7 @@ class BusinessView extends React.Component {
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
 								// ],
+								getValueFromEvent: e => e.replace(/\s+/g, ''),
 							})}
 						/>
 					</div>

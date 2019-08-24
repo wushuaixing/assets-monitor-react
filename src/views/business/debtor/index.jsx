@@ -166,6 +166,7 @@ class BusinessDebtor extends React.Component {
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
+							getValueFromEvent: e => e.replace(/\s+/g, ''),
 						})}
 					/>
 				</div>
@@ -180,6 +181,7 @@ class BusinessDebtor extends React.Component {
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
+							getValueFromEvent: e => e.replace(/\s+/g, ''),
 						})}
 					/>
 				</div>

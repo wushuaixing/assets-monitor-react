@@ -6,6 +6,8 @@ import {
 	openPush, // 打开推送
 	closePush, // 关闭推送
 } from '@/utils/api/debator';
+import isBreak from '../../../assets/img/business/status_shixin.png';
+import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 
 const { confirm } = Modal;
 
@@ -18,8 +20,17 @@ class BusinessView extends React.Component {
 				dataIndex: 'obligorName',
 				key: 'obligorName',
 				width: 254,
-				render: text => (
-					<p>{text || '-'}</p>
+				render: (text, row) => (
+					<p style={{ position: 'relative' }}>
+						{text || '-'}
+						{
+								row && row.dishonestStatus === 1 ? <img className="yc-item-break" src={isBreak} alt="" /> : null
+							}
+						{
+								row && row.dishonestStatus === 2 ? <img className="yc-item-break" src={beforeBreak} alt="" /> : null
+							}
+
+					</p>
 				),
 			}, {
 				title: '身份证号/统一社会信用代码',
@@ -43,9 +54,12 @@ class BusinessView extends React.Component {
 				dataIndex: 'pushCount',
 				key: 'pushCount',
 				width: 133,
-				render: text => (
-					<p>{text || '-'}</p>
-				),
+				render(text) {
+					if (text === '0' || !text) {
+						return <div>0</div>;
+					}
+					return <a>{text}</a>;
+				},
 			}, {
 				title: '推送状态',
 				dataIndex: 'pushState',
