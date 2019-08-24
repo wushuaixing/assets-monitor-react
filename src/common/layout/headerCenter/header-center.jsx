@@ -80,7 +80,12 @@ export default class HeaderMessage extends React.Component {
 		};
 		switchOrg(params).then((res) => {
 			if (res.code === 200) {
-				message.success(res.message);
+				const hide = message.loading('正在切换机构,请稍后...', 0);
+				setTimeout(() => {
+					window.location.reload(); // 实现页面重新加载
+				}, 800);
+				// 异步手动移除
+				setTimeout(hide, 800);
 			} else {
 				message.error(res.message);
 			}

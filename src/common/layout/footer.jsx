@@ -8,16 +8,34 @@ import email from '../../assets/img/login/icon_contact_email.png';
 
 const content = (
 	<div>
-		<p>
-			<img style={{ width: 14, height: 14, marginRight: 5 }} src={phone} alt="" />
+		<p style={{ lineHeight: '22px' }}>
+			<img
+				style={{
+					width: 14, height: 14, marginRight: 5, position: 'relative', bottom: -2,
+				}}
+				src={phone}
+				alt=""
+			/>
 			0571-81182249
 		</p>
-		<p>
-			<img style={{ width: 14, height: 14, marginRight: 5 }} src={email} alt="" />
+		<p style={{ lineHeight: '22px' }}>
+			<img
+				style={{
+					width: 14, height: 14, marginRight: 5, position: 'relative', bottom: -2,
+				}}
+				src={email}
+				alt=""
+			/>
 			sales@yczcjk.com
 		</p>
-		<p>
-			<img style={{ width: 14, height: 14, marginRight: 5 }} src={address} alt="" />
+		<p style={{ lineHeight: '22px' }}>
+			<img
+				style={{
+					width: 14, height: 14, marginRight: 5, position: 'relative', bottom: -2,
+				}}
+				src={address}
+				alt=""
+			/>
 			杭州市西湖区华星世纪大楼五楼508
 		</p>
 	</div>
