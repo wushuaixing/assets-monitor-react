@@ -161,15 +161,18 @@ export default class HeaderMessage extends React.Component {
 									)
 								}
 							</div>
-						) : (
+						)
+							: treeList && treeList.length > 0 && (
 							<Tree
 								draggable
 								onSelect={this.handleOnSelect}
 								showLine
+								defaultExpandedKeys={[treeList[0].orgId.toString()]}
 							>
-								{loop(treeList && treeList)}
+								{loop(treeList)}
 							</Tree>
-						)}
+							)
+						}
 					</div>
 				</div>
 				{/** 担保人Modal */}

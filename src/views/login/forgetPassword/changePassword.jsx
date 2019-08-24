@@ -393,6 +393,7 @@ class Login extends React.Component {
 										autocomplete="off"
 										className="yc-login-input"
 										placeholder="请再次输入新密码"
+										maxlength="20"
 										onInput={e => this.againPasswordValue(e)}
 										onBlur={e => this.onAgainBlurValue(e)}
 										onFocus={e => this.againPasswordFoucs(e)}
