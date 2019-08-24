@@ -8,7 +8,7 @@ import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo_white.png';
 
 const logoText = '源诚资产监控平台';
-const dataSource = (rule = {}) => {
+const dataSource = (rule) => {
 	console.log('dataSource');
 	const _RES = [];
 	const base = [
@@ -136,7 +136,6 @@ const dataSource = (rule = {}) => {
 			_RES.push(_item);
 		}
 	});
-	console.log(_RES);
 	return _RES;
 };
 
@@ -183,10 +182,10 @@ const Item = (props) => {
 		</li>
 	);
 };
-const defaultRouter = () => {
+const defaultRouter = (source) => {
 	const { hash } = window.location;
-	const res = { p: 'item.id', c: '' };
-	dataSource.forEach((item) => {
+	const res = { p: '', c: '' };
+	source.forEach((item) => {
 		if (new RegExp(item.url).test(hash)) {
 			if (item.children) {
 				res.p = item.id;
@@ -200,14 +199,15 @@ const defaultRouter = () => {
 };
 // Header 样式需求
 const Header = (props) => {
-	const [active, setActive] = useState(defaultRouter());
-	// console.log(defaultRouter());
+	const { rule } = props;
+	const source = dataSource(rule);
+	const [active, setActive] = useState(defaultRouter(source));
 	useEffect(() => {
 		// 滚动条手动置顶
 		window.scrollTo(0, 0);
 	});
-	const { rule } = props;
-	console.log(rule);
+	// const { rule } = props;
+
 	return (
 		<div className="yc-header-wrapper">
 			<div className="yc-header-content">
@@ -216,7 +216,7 @@ const Header = (props) => {
 					<span>{logoText}</span>
 				</div>
 				<div className="header-menu">
-					{ dataSource(rule).map(items => <Item key={items.id} {...items} set={setActive} active={active} />) }
+					{ source.map(items => <Item key={items.id} {...items} set={setActive} active={active} />) }
 				</div>
 				<div className="header-else">
 					<div
