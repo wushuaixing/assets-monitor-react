@@ -689,3 +689,39 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
 .yc-read-status {
   padding: 12px 5px !important;
 }
+
+
+// error page
+.yc-error-page{
+  padding-top: 200px;
+  .yc-error-content{
+    width: 700px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+.yc-error-img{
+  width: 390px;
+  height: 255px;
+  display: inline-block;
+  vertical-align: top;
+  float: left;
+
+}
+  .yc-error-text{
+    display: inline-block;
+    vertical-align: top;
+    float: right;
+    .error-code{
+      font-size:100px;
+      color:#434E59;
+      line-height:100px;
+      font-weight: bold;
+    }
+    .error-text{
+      font-size: 20px;
+      line-height: 20px;
+      color: #666666;
+      margin:18px 0 40px 0;
+    }
+  }
+}

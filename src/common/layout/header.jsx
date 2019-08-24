@@ -8,52 +8,136 @@ import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo_white.png';
 
 const logoText = '源诚资产监控平台';
-const dataSource = [
-	{
-		id: 1, name: '首页', url: '/', rule: 'jggljgtj',
-	},
-	{
-		id: 2,
-		name: '监控信息',
-		url: '/monitor',
-		groupName: 'menu_jkxx&&',
-		warning: false,
-		children: [
-			{
-				id: 21, name: '资产拍卖', url: '/monitor', param: '?process=2',
-			},
-			{ id: 22, name: '代位权', url: '/monitor/subrogation' },
-			{ id: 23, name: '金融资产', url: '/monitor/financial' },
-			{ id: 24, name: '涉诉监控', url: '/monitor/lawsuits' },
-			{ id: 25, name: '企业破产重组', url: '/monitor/bankruptcy' },
-			{ id: 26, name: '公示公告', url: '/monitor/public' },
-		],
-	},
-	{
-		id: 3,
-		name: '业务管理',
-		url: '/business',
-		warning: false,
-		children: [
-			{ id: 31, name: '业务视图', url: '/business' },
-			{ id: 32, name: '债务人', url: '/business/debtor' },
+const dataSource = (rule) => {
+	console.log('dataSource');
+	const _RES = [];
+	const base = [
+		{
+			id: 1,
+			name: '首页',
+			url: '/',
+			status: rule.menu_sy,
+		},
+		{
+			id: 2,
+			name: '监控信息',
+			url: '/monitor',
+			status: rule.menu_jkxx,
+			warning: false,
+			children: [
+				{
+					id: 21,
+					name: '资产拍卖',
+					url: '/monitor',
+					param: '?process=2',
+					status: (rule.menu_jkxx || {}).xxsszcpm,
+				},
+				{
+					id: 22,
+					name: '代位权',
+					url: '/monitor/subrogation',
+					status: (rule.menu_jkxx || {}).jkxxdwq,
+				},
+				{
+					id: 23,
+					name: '金融资产',
+					url: '/monitor/financial',
+					status: (rule.menu_jkxx || {}).jkxxjrzcgsxm || (rule.menu_jkxx || {}).jkxxjrzcjjxm,
+				},
+				{
+					id: 24,
+					name: '涉诉监控',
+					url: '/monitor/lawsuits',
+					status: (rule.menu_jkxx || {}).jkxxssjk,
+				},
+				{
+					id: 25,
+					name: '企业破产重组',
+					url: '/monitor/bankruptcy',
+					status: (rule.menu_jkxx || {}).jkxxpccz,
+				},
+				{
+					id: 26,
+					name: '公示公告',
+					url: '/monitor/public',
+					status: (rule.menu_jkxx || {}).gsgg_tendering || (rule.menu_jkxx || {}).gsgg_tax || (rule.menu_jkxx || {}).gsgg_epb,
+				},
+			],
+		},
+		{
+			id: 3,
+			name: '业务管理',
+			url: '/business',
+			status: rule.menu_ywgl,
+			warning: false,
+			children: [
+				{
+					id: 31,
+					name: '业务视图',
+					url: '/business',
+					status: (rule.menu_ywgl || {}).ywglywst,
+				},
+				{
+					id: 32,
+					name: '债务人',
+					url: '/business/debtor',
+					status: (rule.menu_ywgl || {}).ywglzwr,
+				},
 			// { id: 33, name: '资产信息', url: '/business/asset' },
-		],
-	},
-	{ id: 4, name: '企业查询', url: '/company' },
-	{ id: 5, name: '信息查询', url: '/search' },
-	{
-		id: 6,
-		name: '机构管理',
-		url: '/organization',
-		warning: false,
-		children: [
-			{ id: 61, name: '推送设置', url: '/organization' },
-			{ id: 62, name: '账户列表', url: '/organization/user' },
-		],
-	},
+			],
+		},
+		{
+			id: 4,
+			name: '企业查询',
+			url: '/company',
+			status: rule.menu_qycx,
+		},
+		{
+			id: 5,
+			name: '信息查询',
+			url: '/search',
+			status: rule.menu_xxss,
+		},
+		{
+			id: 6,
+			name: '机构管理',
+			url: '/organization',
+			status: rule.menu_jjgl,
+			warning: false,
+			children: [
+				{
+					id: 61,
+					name: '推送设置',
+					url: '/organization',
+					status: (rule.menu_ywgl || {}).jggltssz,
+				},
+				{
+					id: 62,
+					name: '账户列表',
+					url: '/organization/user',
+					status: (rule.menu_ywgl || {}).jgglzhlb,
+				},
+			],
+		},
 	// { id: 7, name: '登录页面', url: '/login' },
-];
+	];
+	base.forEach((item) => {
+		if (item.status) {
+			const _item = {
+				id: item.id,
+				name: item.name,
+				url: item.url,
+				status: true,
+				warning: item.warning,
+			};
+			if (item.children) {
+				_item.children = item.children.filter(it => it.status);
+			}
+			_RES.push(_item);
+		}
+	});
+	return _RES;
+};
 
 // 导航项目
 const Item = (props) => {
@@ -98,10 +182,10 @@ const Item = (props) => {
 		</li>
 	);
 };
-const defaultRouter = () => {
+const defaultRouter = (source) => {
 	const { hash } = window.location;
-	const res = { p: 'item.id', c: '' };
-	dataSource.forEach((item) => {
+	const res = { p: '', c: '' };
+	source.forEach((item) => {
 		if (new RegExp(item.url).test(hash)) {
 			if (item.children) {
 				res.p = item.id;
@@ -114,13 +198,16 @@ const defaultRouter = () => {
 	return res;
 };
 // Header 样式需求
-const Header = () => {
-	const [active, setActive] = useState(defaultRouter());
-	// console.log(defaultRouter());
+const Header = (props) => {
+	const { rule } = props;
+	const source = dataSource(rule);
+	const [active, setActive] = useState(defaultRouter(source));
 	useEffect(() => {
 		// 滚动条手动置顶
 		window.scrollTo(0, 0);
 	});
+	// const { rule } = props;
+
 	return (
 		<div className="yc-header-wrapper">
 			<div className="yc-header-content">
@@ -129,7 +216,7 @@ const Header = () => {
 					<span>{logoText}</span>
 				</div>
 				<div className="header-menu">
-					{ dataSource.map(items => <Item key={items.id} {...items} set={setActive} active={active} />) }
+					{ source.map(items => <Item key={items.id} {...items} set={setActive} active={active} />) }
 				</div>
 				<div className="header-else">
 					<div

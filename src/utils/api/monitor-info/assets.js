@@ -1,4 +1,3 @@
-
 import service from '@/utils/service';
 import { baseUrl } from '@/utils/api/index';
 
@@ -28,3 +27,7 @@ export const attentionList = params => service.get(`${baseUrl}/yc/monitor/auctio
 	.then(res => res.data);
 // 导出
 export const exportList = `${baseUrl}/yc/monitor/auction/exportExcel`;
+
+// 司法拍卖监控搜索统计数字
+export const infoCount = params => service.get(`${baseUrl}/yc/monitor/auction/processCount`, { params })
+	.then(res => res.data);

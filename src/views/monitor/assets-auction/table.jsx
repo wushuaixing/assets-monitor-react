@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { Attentions } from '@/common/table';
-import { attention } from '@/utils/api/monitor-info/assets';
+import { followSingle, unFollowSingle } from '@/utils/api/monitor-info/assets';
 import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/monitor/assets-auction/tableComponents';
 import { Button } from '@/common';
 import { floatFormat } from '@/utils/format';
@@ -54,7 +54,14 @@ const columns = (props) => {
 							),
 							15: <Button className="auction-button" title="已放弃" />,
 						}[process] || null }
-						<Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />
+						<Attentions
+							text={text}
+							row={row}
+							onClick={onRefresh}
+							index={index}
+							api={row.isAttention ? unFollowSingle : followSingle}
+							single
+						/>
 					</React.Fragment>
 				);
 			},
