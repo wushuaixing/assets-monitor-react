@@ -8,8 +8,20 @@ import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo_white.png';
 
 const logoText = '源诚资产监控平台';
+const toStatus = (rule, field) => {
+	if (rule) {
+		if (typeof field === 'string') {
+			return Boolean(rule.children[field]);
+		}
+		let r = false;
+		field.forEach((item) => {
+			r = r || rule.children[item];
+		});
+		return Boolean(r);
+	}
+	return false;
+};
 const dataSource = (rule) => {
-	console.log('dataSource');
 	const _RES = [];
 	const base = [
 		{
@@ -30,37 +42,37 @@ const dataSource = (rule) => {
 					name: '资产拍卖',
 					url: '/monitor',
 					param: '?process=2',
-					status: (rule.menu_jkxx || {}).xxsszcpm,
+					status: toStatus(rule.menu_jkxx, 'jkxxzcpm'),
 				},
 				{
 					id: 22,
 					name: '代位权',
 					url: '/monitor/subrogation',
-					status: (rule.menu_jkxx || {}).jkxxdwq,
+					status: toStatus(rule.menu_jkxx, 'jkxxdwq'),
 				},
 				{
 					id: 23,
 					name: '金融资产',
 					url: '/monitor/financial',
-					status: (rule.menu_jkxx || {}).jkxxjrzcgsxm || (rule.menu_jkxx || {}).jkxxjrzcjjxm,
+					status: toStatus(rule.menu_jkxx, ['jkxxjrzcgsxm', 'jkxxjrzcjjxm']),
 				},
 				{
 					id: 24,
 					name: '涉诉监控',
 					url: '/monitor/lawsuits',
-					status: (rule.menu_jkxx || {}).jkxxssjk,
+					status: toStatus(rule.menu_jkxx, 'jkxxssjk'),
 				},
 				{
 					id: 25,
 					name: '企业破产重组',
 					url: '/monitor/bankruptcy',
-					status: (rule.menu_jkxx || {}).jkxxpccz,
+					status: toStatus(rule.menu_jkxx, 'jkxxpccz'),
 				},
 				{
 					id: 26,
 					name: '公示公告',
 					url: '/monitor/public',
-					status: (rule.menu_jkxx || {}).gsgg_tendering || (rule.menu_jkxx || {}).gsgg_tax || (rule.menu_jkxx || {}).gsgg_epb,
+					status: toStatus(rule.menu_jkxx, ['gsgg_tendering', 'gsgg_tax', 'gsgg_epb']),
 				},
 			],
 		},
@@ -75,13 +87,13 @@ const dataSource = (rule) => {
 					id: 31,
 					name: '业务视图',
 					url: '/business',
-					status: (rule.menu_ywgl || {}).ywglywst,
+					status: toStatus(rule.menu_ywgl, 'ywglywst'),
 				},
 				{
 					id: 32,
 					name: '债务人',
 					url: '/business/debtor',
-					status: (rule.menu_ywgl || {}).ywglzwr,
+					status: toStatus(rule.menu_ywgl, 'ywglzwr'),
 				},
 			// { id: 33, name: '资产信息', url: '/business/asset' },
 			],
@@ -109,13 +121,13 @@ const dataSource = (rule) => {
 					id: 61,
 					name: '推送设置',
 					url: '/organization',
-					status: (rule.menu_ywgl || {}).jggltssz,
+					status: toStatus(rule.menu_jjgl, 'jggltssz'),
 				},
 				{
 					id: 62,
 					name: '账户列表',
 					url: '/organization/user',
-					status: (rule.menu_ywgl || {}).jgglzhlb,
+					status: toStatus(rule.menu_jjgl, 'jgglzhlb'),
 				},
 			],
 		},
