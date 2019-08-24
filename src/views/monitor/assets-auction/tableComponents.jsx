@@ -7,13 +7,13 @@ import dishonest2 from '@/assets/img/icon/icon_cengshixin.png';
 import Matching from './matching-reason';
 import { floatFormat } from '@/utils/format';
 
-const AssetsInfo = (text, rowContent) => {
+const AssetsInfo = (text, rowContent, noMatching = false) => {
 	const {
 		obligorName, obligorNumber, orgName, updateTime, important, dishonestStatus,
 	} = rowContent;
 	return (
 		<React.Fragment>
-			{important === 1 ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
+			{important === 1 && !noMatching ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
 			<div className="assets-info-content">
 				<li>
 

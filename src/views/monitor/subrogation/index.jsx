@@ -31,14 +31,14 @@ export default class Subrogation extends React.Component {
 					name: '立案信息',
 					dot: false,
 					number: 0,
-					showNumber: false,
+					showNumber: true,
 				},
 				{
 					id: 2,
 					name: '开庭公告',
 					number: 0,
 					dot: false,
-					showNumber: false,
+					showNumber: true,
 				},
 			],
 		};
@@ -48,7 +48,6 @@ export default class Subrogation extends React.Component {
 
 	componentDidMount() {
 		this.onQueryChange({});
-		this.toInfoCount();
 	}
 
 	// 获取统计信息
@@ -82,8 +81,15 @@ export default class Subrogation extends React.Component {
 
 	// 切换列表类型
 	handleReadChange=(val) => {
-		this.setState({ isRead: val });
-		this.toInfoCount(val === 'all' ? '' : 0);
+		const { tabConfig } = this.state;
+		const _tabConfig = tabConfig.map((item) => {
+			const _item = Object.assign({}, item);
+			_item.number = 0;
+			_item.dot = false;
+			_item.showNumber = true;
+			return _item;
+		});
+		this.setState({ isRead: val, tabConfig: _tabConfig });
 		this.onQueryChange(this.condition, '', val);
 	};
 
@@ -206,6 +212,7 @@ export default class Subrogation extends React.Component {
 	// 查询条件变化
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, isRead, current } = this.state;
+		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
 		// console.log(val, _sourceType, _isRead);
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign(con || this.condition, {
