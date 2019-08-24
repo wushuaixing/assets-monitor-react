@@ -156,26 +156,30 @@ export default class Screen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loading: true,
+			loading: 'show',
 			rule: [],
 			errorCode: '',
 		};
 	}
 
 	componentWillMount() {
+		// console.log('componentWillMount');
 		authRule().then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					loading: false,
+					loading: 'hidden',
 					rule: handleRule(res.data.orgPageGroups),
+					errorCode: res.code,
+				});
+			} else {
+				this.setState({
+					loading: 'error',
+					errorCode: res.code,
 				});
 			}
-			this.setState({
-				errorCode: res.code,
-			});
 		}).catch(() => {
 			this.setState({
-				loading: false,
+				loading: 'error',
 				errorCode: 500,
 			});
 		});
@@ -188,24 +192,27 @@ export default class Screen extends React.Component {
 
 	render() {
 		const { loading, rule, errorCode } = this.state;
-		console.log(loading, errorCode);
-		if (loading === false && !errorCode) {
+		// console.log(loading, errorCode);
+		if (loading === 'show') {
 			return <Spin visible={loading} text=" "><div style={{ height: 500 }} /></Spin>;
 		}
-		if (!loading && errorCode === 200) {
+		if (loading === 'hidden') {
 			return <MainScreen rule={rule} />;
 		}
-		return (
-			<div style={{ padding: 150 }} className="yc-error-page">
-				<div className="yc-error-content">
-					<img src={Error500} alt="" className="yc-error-img" />
-					<div className="yc-error-text">
-						<li className="error-code">{errorCode}</li>
-						<li className="error-text">抱歉，服务器出错了</li>
-						<Button title="返回登录页面" style={{ width: 120 }} onClick={() => navigate('/login')} />
+		if (loading === 'error') {
+			return (
+				<div style={{ padding: 150 }} className="yc-error-page">
+					<div className="yc-error-content">
+						<img src={Error500} alt="" className="yc-error-img" />
+						<div className="yc-error-text">
+							<li className="error-code">{errorCode}</li>
+							<li className="error-text">抱歉，服务器出错了</li>
+							<Button title="返回登录页面" style={{ width: 120 }} onClick={() => navigate('/login')} />
+						</div>
 					</div>
 				</div>
-			</div>
-		);
+			);
+		}
+		return null;
 	}
 }
