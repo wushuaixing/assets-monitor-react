@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { navigate } from '@reach/router';
 
 import HeaderMessage from './headerMessage/header-message';
@@ -21,6 +21,7 @@ const toStatus = (rule, field) => {
 	}
 	return false;
 };
+
 const dataSource = (rule) => {
 	const _RES = [];
 	const base = [
@@ -35,7 +36,7 @@ const dataSource = (rule) => {
 			name: '监控信息',
 			url: '/monitor',
 			status: rule.menu_jkxx,
-			warning: false,
+			dot: false,
 			children: [
 				{
 					id: 21,
@@ -81,7 +82,7 @@ const dataSource = (rule) => {
 			name: '业务管理',
 			url: '/business',
 			status: rule.menu_ywgl,
-			warning: false,
+			dot: false,
 			children: [
 				{
 					id: 31,
@@ -115,7 +116,7 @@ const dataSource = (rule) => {
 			name: '机构管理',
 			url: '/organization',
 			status: rule.menu_jjgl,
-			warning: false,
+			dot: false,
 			children: [
 				{
 					id: 61,
@@ -140,7 +141,7 @@ const dataSource = (rule) => {
 				name: item.name,
 				url: item.url,
 				status: true,
-				warning: item.warning,
+				dot: item.dot,
 			};
 			if (item.children) {
 				_item.children = item.children.filter(it => it.status);
@@ -153,7 +154,9 @@ const dataSource = (rule) => {
 
 // 导航项目
 const Item = (props) => {
-	const { name, children, id } = props;
+	const {
+		name, children, id, dot,
+	} = props;
 	const { set, active } = props;
 	/**
 	 * 点击路由跳转方法
@@ -163,10 +166,6 @@ const Item = (props) => {
 	 */
 	const toNavigate = (event, items, parent) => {
 		navigate(items.url);
-		// setTimeout(() => {
-		// 	window.scrollTo(0, 0);
-		// });
-		// document.body.scrollTo(0, 0);
 		const _childId = children ? children[0].id : '';
 		set({
 			p: parent ? parent.id : items.id,
@@ -177,7 +176,9 @@ const Item = (props) => {
 	const parentChoose = active.p === id ? 'header-item-active' : 'header-item-normal';
 	return (
 		<li className={`header-item header-item-${id} ${parentChoose}`} onClick={e => toNavigate(e, props)}>
-			<span>{name}</span>
+			<Badge dot={dot}>
+				<span>{name}</span>
+			</Badge>
 			<ul className="header-child-item">
 				{
 					children && children.map(item =>	(
@@ -194,6 +195,7 @@ const Item = (props) => {
 		</li>
 	);
 };
+
 const defaultRouter = (source) => {
 	const { hash } = window.location;
 	const res = { p: '', c: '' };
@@ -209,53 +211,116 @@ const defaultRouter = (source) => {
 	});
 	return res;
 };
-// Header 样式需求
-const Header = (props) => {
-	const { rule } = props;
-	const source = dataSource(rule);
-	const [active, setActive] = useState(defaultRouter(source));
-	useEffect(() => {
-		// 滚动条手动置顶
-		window.scrollTo(0, 0);
-	});
-	// const { rule } = props;
 
-	return (
-		<div className="yc-header-wrapper">
-			<div className="yc-header-content">
-				<div className="header-logo">
-					<img src={logoImg} alt="" />
-					<span>{logoText}</span>
-				</div>
-				<div className="header-menu">
-					{ source.map(items => <Item key={items.id} {...items} set={setActive} active={active} />) }
-				</div>
-				<div className="header-else">
-					<div
-						className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
-						onClick={(event) => {
-							setActive({ p: 101, c: '' });
-							navigate('/message');
-							event.stopPropagation();
-						}}
-					>
-						<Badge dot style={{ top: 0, right: 0 }}>
-							<div className="notice-icon yc-notice-img" />
-						</Badge>
-						<span className="notice-number">(3226)</span>
-						<HeaderMessage mark="消息中心大概预览" />
+// Header 样式需求
+export default class Headers extends React.Component {
+	constructor(props) {
+		super(props);
+		this.source = dataSource(props.rule);
+		this.state = {
+			active: defaultRouter(this.source),
+			config: dataSource(props.rule),
+		};
+	}
+
+	componentDidMount() {
+		window.scrollTo(0, 0);
+	}
+
+	render() {
+		const { active, config } = this.state;
+		return (
+			<div className="yc-header-wrapper">
+				<div className="yc-header-content">
+					<div className="header-logo">
+						<img src={logoImg} alt="" />
+						<span>{logoText}</span>
 					</div>
-					{/* <HeaderMessage mark="消息中心大概预览" /> */}
-					<div className="else-child else-line" />
-					<div className="else-child else-username header-item-normal">
-						<li className="else-child-li">您好，崔九九</li>
-						<li className="else-child-li"> 崔金鑫测试机构121</li>
-						<HeaderCenter mark="个人中心大概" />
+					<div className="header-menu">
+						{ config.map(items => (
+							<Item
+								key={items.id}
+								{...items}
+								set={val => this.setState({ active: val })}
+								active={active}
+							/>
+						)) }
 					</div>
-					{/* <HeaderCenter mark="个人中心大概" /> */}
+					<div className="header-else">
+						<div
+							className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
+							onClick={(event) => {
+								this.setState({ active: { p: 101, c: '' } });
+								navigate('/message');
+								event.stopPropagation();
+							}}
+						>
+							<Badge dot style={{ top: 0, right: 0 }}>
+								<div className="notice-icon yc-notice-img" />
+							</Badge>
+							<span className="notice-number">(3226)</span>
+							<HeaderMessage mark="消息中心大概预览" />
+						</div>
+						{/* <HeaderMessage mark="消息中心大概预览" /> */}
+						<div className="else-child else-line" />
+						<div className="else-child else-username header-item-normal">
+							<li className="else-child-li">您好，崔九九</li>
+							<li className="else-child-li"> 崔金鑫测试机构121</li>
+							<HeaderCenter mark="个人中心大概" />
+						</div>
+						{/* <HeaderCenter mark="个人中心大概" /> */}
+					</div>
 				</div>
 			</div>
-		</div>
-	);
-};
-export default Header;
+		);
+	}
+}
+// const Header = (props) => {
+// 	const { rule } = props;
+// 	const source = dataSource(rule);
+// 	const [active, setActive] = useState(defaultRouter(source));
+// 	useEffect(() => {
+// 		// 滚动条手动置顶
+// 		window.scrollTo(0, 0);
+// 	});
+// 	// const { rule } = props;
+//
+// 	return (
+// 		<div className="yc-header-wrapper">
+// 			<div className="yc-header-content">
+// 				<div className="header-logo">
+// 					<img src={logoImg} alt="" />
+// 					<span>{logoText}</span>
+// 				</div>
+// 				<div className="header-menu">
+// 					{ source.map(items => <Item key={items.id} {...items} set={setActive} active={active} />) }
+// 				</div>
+// 				<div className="header-else">
+// 					<div
+// 						className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
+// 						onClick={(event) => {
+// 							setActive({ p: 101, c: '' });
+// 							navigate('/message');
+// 							event.stopPropagation();
+// 						}}
+// 					>
+// 						<Badge dot style={{ top: 0, right: 0 }}>
+// 							<div className="notice-icon yc-notice-img" />
+// 						</Badge>
+// 						<span className="notice-number">(3226)</span>
+// 						<HeaderMessage mark="消息中心大概预览" />
+// 					</div>
+// 					{/* <HeaderMessage mark="消息中心大概预览" /> */}
+// 					<div className="else-child else-line" />
+// 					<div className="else-child else-username header-item-normal">
+// 						<li className="else-child-li">您好，崔九九</li>
+// 						<li className="else-child-li"> 崔金鑫测试机构121</li>
+// 						<HeaderCenter mark="个人中心大概" />
+// 					</div>
+// 					{/* <HeaderCenter mark="个人中心大概" /> */}
+// 				</div>
+// 			</div>
+// 		</div>
+// 	);
+// };
+//  Header;

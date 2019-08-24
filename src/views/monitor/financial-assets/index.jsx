@@ -233,7 +233,7 @@ export default class Subrogation extends React.Component {
 		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					dataSource: res.data.list,
+					// dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
 				});

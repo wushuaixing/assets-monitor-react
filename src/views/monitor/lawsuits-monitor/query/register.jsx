@@ -16,13 +16,15 @@ class QueryCondition extends React.Component {
 		const condition = getFieldsValue();
 		condition.filterCurrentOrg = Boolean(filterCurrentOrg);
 		if (onQueryChange)onQueryChange(condition);
-
 		// console.log('condition:', condition);
 	};
 
 	handleReset=() => {
 		const { form, onQueryChange } = this.props;
 		form.resetFields();
+		this.setState({
+			filterCurrentOrg: 1,
+		});
 		const condition = form.getFieldsValue();
 		if (onQueryChange)onQueryChange(condition);
 	};
@@ -39,6 +41,11 @@ class QueryCondition extends React.Component {
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps } } = this.props;
 		const { filterCurrentOrg } = this.state;
+		const timeOption = {
+			normalize(n) {
+				return n && new Date(n).format('yyyy-MM-dd');
+			},
+		};
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
@@ -55,15 +62,15 @@ class QueryCondition extends React.Component {
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">立案/开庭日期：</span>
-					<DatePicker size="large" style={_style2} placeholder="开始日期" />
+					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('startLarq', timeOption)} />
 					<span className="yc-query-item-title">至</span>
-					<DatePicker size="large" style={_style2} placeholder="结束日期" />
+					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('endLarq', timeOption)} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">更新日期：</span>
-					<DatePicker size="large" style={_style2} placeholder="开始日期" />
+					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('startUpdateTime', timeOption)} />
 					<span className="yc-query-item-title">至</span>
-					<DatePicker size="large" style={_style2} placeholder="结束日期" />
+					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('endUpdateTime', timeOption)} />
 				</div>
 
 				<div className="yc-query-item" style={{ height: 34, paddingTop: 9 }}>
