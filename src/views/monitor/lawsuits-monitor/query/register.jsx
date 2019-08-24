@@ -6,7 +6,7 @@ class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			filterCurrentOrg: 1,
+			filterCurrentOrg: '',
 		};
 	}
 
@@ -74,7 +74,7 @@ class QueryCondition extends React.Component {
 				</div>
 
 				<div className="yc-query-item" style={{ height: 34, paddingTop: 9 }}>
-					<span className="yc-query-item-title">是否过滤本机机构：</span>
+					<span className="yc-query-item-title">是否过滤本级机构：</span>
 					<Radio.Group onChange={this.radioChange} value={filterCurrentOrg}>
 						<Radio key="a" value={1}>是</Radio>
 						<Radio key="b" value={0}>否</Radio>
