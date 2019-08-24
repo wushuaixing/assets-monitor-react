@@ -1,9 +1,12 @@
 import React from 'react';
 
-import { Icon, Input, Button } from 'antd';
+import {
+	Icon, Input, Button, Form,
+} from 'antd';
 import './style.scss';
 
-export default class BasicTable extends React.Component {
+const createForm = Form.create;
+class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -13,6 +16,7 @@ export default class BasicTable extends React.Component {
 
 	onChange=(val) => {
 		this.setState({ data: val.target.value });
+		val.target.value.replace(/\s+/g, '');
 	}
 
 	onClear=() => {
@@ -50,7 +54,8 @@ export default class BasicTable extends React.Component {
 
 	render() {
 		const { data } = this.state;
-		const { placeholder } = this.props;
+		const { placeholder, form } = this.props;
+		const { getFieldProps } = form;
 		return (
 			<div className="search-input">
 				<Input
@@ -59,6 +64,13 @@ export default class BasicTable extends React.Component {
 					placeholder={placeholder}
 					onChange={event => this.onChange(event)}
 					{...this.props}
+					{...getFieldProps('obligorName', {
+						// initialValue: true,
+						// rules: [
+						// 	{ required: true, whitespace: true, message: '请填写密码' },
+						// ],
+						getValueFromEvent: e => e.target.value.replace(/\s+/g, ''),
+					})}
 				/>
 				{
 					this.renderIcon()
@@ -68,3 +80,4 @@ export default class BasicTable extends React.Component {
 		);
 	}
 }
+export default createForm()(BasicTable);

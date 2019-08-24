@@ -6,13 +6,14 @@
   .yc-header-content {
     width: 1200px;
     margin: 0 auto;
-    color: #FFFFFF;
+    color: #ffffff;
 
     .header-logo {
       padding: 8px 0;
       float: left;
 
-      img, span {
+      img,
+      span {
         display: inline-block;
         vertical-align: middle;
       }
@@ -30,10 +31,10 @@
         font-weight: bold;
       }
     }
-    .header-item-active{
+    .header-item-active {
       background: $color-text-hover;
     }
-    .header-item-normal{
+    .header-item-normal {
       &:hover {
         background: $color-text-hover;
       }
@@ -53,7 +54,7 @@
         // }
       }
 
-      .header-child-item{
+      .header-child-item {
         display: none;
         position: absolute;
         top: 50px;
@@ -61,33 +62,38 @@
         z-index: 3;
         min-width: 120px;
         height: auto;
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
         border: 1px solid $fontColor-hover;
         border-radius: 0 0 2px 2px;
-        li{
+        li {
           height: 40px;
           padding: 0 20px;
           line-height: 40px;
           font-size: 12px;
           cursor: pointer;
           color: $fontColor-base;
-          &:hover{
+          &:hover {
             background-color: $fontColor-hover;
           }
         }
-        .child-item-active{
+        .child-item-active {
           background-color: $fontColor-hover;
         }
-        .child-item-normal{
-          &:hover{
+        .child-item-normal {
+          &:hover {
             background-color: $fontColor-hover;
           }
         }
       }
-      .header-item-1,.header-item-2,.header-item-3,.header-item-4,.header-item-5,.header-item-6{
-        &:hover{
-          .header-child-item{
+      .header-item-1,
+      .header-item-2,
+      .header-item-3,
+      .header-item-4,
+      .header-item-5,
+      .header-item-6 {
+        &:hover {
+          .header-child-item {
             display: block;
           }
         }
@@ -104,31 +110,29 @@
         height: 100%;
         cursor: pointer;
         position: relative;
-
       }
       .else-notice {
         line-height: 30px;
         padding: 10px;
-        &:hover{
-          .yc-header-message{
+        &:hover {
+          .yc-header-message {
             display: block;
           }
         }
-        .yc-header-message{
+        .yc-header-message {
           display: none;
         }
 
-        .notice-icon{
+        .notice-icon {
           padding: 13px;
           width: 26px;
           height: 26px;
         }
-        .notice-number{
+        .notice-number {
           margin-left: 5px;
           font-size: 12px;
           line-height: 25px;
         }
-
       }
 
       .else-line {
@@ -142,12 +146,12 @@
         line-height: 18px;
         padding: 7px 20px;
 
-        &:hover{
-          .yc-header-center{
+        &:hover {
+          .yc-header-center {
             display: block;
           }
         }
-        .yc-header-center{
+        .yc-header-center {
           display: none;
         }
         .else-child-li {
@@ -172,7 +176,7 @@
   margin: 30px 0 50px 0;
   min-height: 725px;
   .yc-container-content {
-    background: #FFFFFF;
+    background: #ffffff;
     width: 1200px;
     height: 100%;
     min-height: 666px;
@@ -181,16 +185,53 @@
 }
 
 .yc-footer-wrapper {
-  background-color: $color-base;
   height: 150px;
   width: 100%;
   overflow: hidden;
-
+  background-color: #3a3f4c;
+  color: #fff;
+  // .yc-footer-img {
+  //   width: 14px;
+  //   height: 14px;
+  //   margin-right: 5px;
+  //   position: relative;
+  //   bottom: -2px;
+  // }
   .yc-footer-content {
     width: 1200px;
     margin: 0 auto;
-    color: #FFFFFF;
-    font-size: 20px;
-    line-height: 50px;
+    padding: 20px 0;
+    .clearfix {
+      zoom: 1;
+      .left {
+        float: left;
+        padding-left: 18px;
+        .copyright-item-first {
+          padding-top: 20px;
+          span:hover {
+            cursor: pointer;
+          }
+        }
+        .copyright-item {
+          padding: 10px 0;
+          font-size: 12px;
+          line-height: 1;
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+      .right {
+        float: right;
+        padding-top: 20px;
+        .copyright-code-text {
+          display: inline-block;
+          width: 145px;
+          color: rgba(255, 255, 255, 0.7);
+          margin-left: 10px;
+          line-height: 20px;
+          vertical-align: top;
+          font-size: 12px;
+        }
+      }
+    }
   }
 }

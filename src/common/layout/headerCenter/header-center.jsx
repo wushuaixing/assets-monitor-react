@@ -7,6 +7,7 @@ import {
 	loginOut, // login
 	switchOrg, // 切换机构
 } from '@/utils/api/user';
+import PasswordModal from './passwordModal';
 import flat from '../../../utils/flatArray';
 
 const { TreeNode } = Tree;
@@ -14,10 +15,10 @@ export default class HeaderMessage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			passwordModalVisible: false,
 			treeData: [],
 			treeList: [],
 			valueList: '',
-			defaultExpandedKeys: [],
 		};
 	}
 
@@ -33,6 +34,7 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	handleClick = () => {
+		navigate('/login');
 		loginOut().then((res) => {
 			if (res.code === 200) {
 				message.success('退出成功');
@@ -78,16 +80,35 @@ export default class HeaderMessage extends React.Component {
 		};
 		switchOrg(params).then((res) => {
 			if (res.code === 200) {
-				message.success(res.message);
+				const hide = message.loading('正在切换机构,请稍后...', 0);
+				setTimeout(() => {
+					window.location.reload(); // 实现页面重新加载
+				}, 800);
+				// 异步手动移除
+				setTimeout(hide, 800);
 			} else {
 				message.error(res.message);
 			}
 		});
 	}
 
+	// 打开修改密码弹框
+	openModal = () => {
+		this.setState({
+			passwordModalVisible: true,
+		});
+	}
+
+	// 关闭弹窗
+	onCancel = () => {
+		this.setState({
+			passwordModalVisible: false,
+		});
+	}
+
 	render() {
 		const {
-			treeList, treeData, valueList, selectList,
+			treeList, treeData, valueList, selectList, passwordModalVisible,
 		} = this.state;
 		const loop = tree => tree && tree.map((item) => {
 			if (item.children && item.children.length > 0) {
@@ -117,7 +138,7 @@ export default class HeaderMessage extends React.Component {
 					</div>
 					<div className="g-right user-panel-right">
 						<div>
-							<a className="text-prompt user-panel-login" data-toggle="modal" data-target="#Modalupdate">修改密码</a>
+							<a onClick={() => this.openModal()} className="text-prompt user-panel-login" data-toggle="modal" data-target="#Modalupdate">修改密码</a>
 							<a onClick={() => this.handleClick()} className="user-panel-login">退出登录</a>
 						</div>
 					</div>
@@ -145,18 +166,28 @@ export default class HeaderMessage extends React.Component {
 									)
 								}
 							</div>
-						) : (
+						)
+							: treeList && treeList.length > 0 && (
 							<Tree
 								draggable
 								onSelect={this.handleOnSelect}
 								showLine
+								defaultExpandedKeys={[treeList[0].orgId.toString()]}
 							>
-								{loop(treeList && treeList)}
+								{loop(treeList)}
 							</Tree>
-						)}
+							)
+						}
 					</div>
-
 				</div>
+				{/** 担保人Modal */}
+				{passwordModalVisible && (
+				<PasswordModal
+					onCancel={this.onCancel}
+					onOk={this.onOk}
+					passwordModalVisible={passwordModalVisible}
+				/>
+				)}
 			</div>
 		);
 	}

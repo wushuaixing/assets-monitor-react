@@ -1,9 +1,11 @@
 import React from 'react';
 import { navigate } from '@reach/router';
+import { message } from 'antd';
 import {
 	notify, // 消息提醒
-	// exportExcel, // 导出
+	isRead, // 标记已读
 } from '@/utils/api/inform';
+
 import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
@@ -16,6 +18,10 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	componentDidMount() {
+		this.informCenter();
+	}
+
+	informCenter = () => {
 		notify().then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -25,11 +31,36 @@ export default class HeaderMessage extends React.Component {
 		});
 	}
 
-	skip= (obligorId) => {
+	skip= (obligorId, id) => {
+		const params = {
+			idList: [id],
+		};
 		console.log(obligorId, '跳转');
 		navigate(`/business/debtor/detail?id=${obligorId}`);
-		// const w = window.open('about:blank');
-		// w.location.href = `#/business/detail?id=${id}`;
+		isRead(params).then((res) => {
+			if (res.code === 200) {
+				message.success(res.message);
+			} else {
+				message.warning(res.message);
+			}
+		});
+	}
+
+	// all
+	allRead = () => {
+		const { dataList } = this.state;
+		const idList = [];
+		dataList.map(item => idList.push(item.id));
+		const params = {
+			idList,
+		};
+		isRead(params).then((res) => {
+			if (res.code === 200) {
+				this.informCenter();
+			} else {
+				message.warning(res.message);
+			}
+		});
 	}
 
 	render() {
@@ -45,13 +76,13 @@ export default class HeaderMessage extends React.Component {
 				<div className="yc-header-title">
 					<div className="yc-station-box">
 						<span>消息</span>
-						<span className="yc-station-btn">全部标为已读</span>
+						<span onClick={this.allRead} className="yc-station-btn">全部标为已读</span>
 					</div>
 				</div>
 				<div className="yc-station-list">
 					{dataList && dataList.length > 0 ? dataList.map(item => (
-						<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId)}>
-							{item.isRead && <div className="yc-badge-tab-red" />}
+						<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId, item.id)}>
+							{item.isRead === false && <div className="yc-badge-tab-red" />}
 							<div className="yc-station-item-title">
 								{item.title}
 								<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>

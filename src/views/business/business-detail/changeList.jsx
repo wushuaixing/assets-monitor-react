@@ -1,20 +1,18 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, Input, Form, message, Modal,
+	Breadcrumb, Button, Table, Input, Form, message, Pagination,
 } from 'antd';
 import {
 	getDetail, // 详情
-	save, // 编辑
+	businessChange, // 变更记录
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
 import './style.scss';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
-import Edit from './edit';
 import { Spin } from '@/common';
 
-const { confirm } = Modal;
 const createForm = Form.create;
 
 class DebtorDetail extends React.Component {
@@ -23,8 +21,10 @@ class DebtorDetail extends React.Component {
 		this.state = {
 			edit: false,
 			detail: null,
-			isEdit: false,
 			data: [],
+			totals: 0,
+			current: 1, // 当前页
+			changeDataList: [],
 			columns: [{
 				title: '相关人名称',
 				dataIndex: 'obligorName',
@@ -57,11 +57,54 @@ class DebtorDetail extends React.Component {
 					<p>{text || '-'}</p>
 				),
 			}],
+			changeColumns: [{
+				title: '变更时间',
+				dataIndex: 'updateTime',
+				key: 'updateTime',
+				width: 180,
+				render: (text, row) => (
+					<p style={{ position: 'relative' }}>
+						{text || '-'}
+					</p>
+				),
+			}, {
+				title: '	变更项',
+				dataIndex: 'changeItem',
+				key: 'changeItem',
+				width: 300,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			}, {
+				title: '变更前',
+				dataIndex: 'beforeContent',
+				key: 'beforeContent',
+				width: 226,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			}, {
+				title: '变更后',
+				dataIndex: 'afterContent',
+				key: 'afterContent',
+				width: 227,
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			}, {
+				title: '变更人',
+				dataIndex: 'username',
+				key: 'username',
+				render: text => (
+					<p>{text || '-'}</p>
+				),
+			}],
 		};
 	}
 
 	componentDidMount() {
 		this.getTableData();
+		this.getChangeData();
 	}
 
 	getTableData=(value) => {
@@ -83,65 +126,61 @@ class DebtorDetail extends React.Component {
 		});
 	}
 
+    getChangeData=(value) => {
+    	const { hash } = window.location;
+    	const userId = getQueryByName(hash, 'id');
+    	this.setState({
+    		loading: true,
+    	});
+    	const params = {
+    		page: {
+    			num: 10,
+    			page: 1,
+    		},
+    	};
+    	businessChange(userId, params).then((res) => {
+    		if (res && res.data) {
+    			this.setState({
+    				changeDataList: res.data.list,
+    				totals: res.data.total,
+    				current: value && value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
+    				loading: false,
+    			});
+    		} else {
+    			message.error(res.message);
+    		}
+    	}).catch(() => {
+    		this.setState({ loading: false });
+    	});
+    }
+
+	// page翻页
+	handleChangePage = (val) => {
+		const { pageSize, searchValue } = this.state;
+		const params = {
+			...searchValue,
+			current: val,
+			num: pageSize,
+			page: val,
+		};
+
+		this.getData(params);
+	}
+
 	handleCancal = () => {
 		// const { defaultData } = this.state;
 		this.getTableData();
 		this.setState({
 			edit: false,
-			isEdit: false,
 		});
 	}
 
-	handleEdit = (edit) => {
-		this.setState({
-			edit: !edit,
-		});
-	}
-
-
-	// 保存
-	handleSave = () => {
-		const { data } = this.state;
-		const { form } = this.props; // 会提示props is not defined
-		const { getFieldsValue } = form;
-		const { hash } = window.location;
-		const userId = getQueryByName(hash, 'id');
-		const fields = getFieldsValue();
-
-		confirm({
-			title: '确认修改债务人名称/身份信息？',
-			iconType: 'exclamation-circle-o',
-			width: 500,
-			content: '若本次编辑涉及债务人名称或身份证号，该债务人的历史数据匹配将被删除，并以新名称、身份证号重新进行匹配。',
-			onOk() {
-				const params = {
-					...fields,
-					obligorList: data,
-				};
-				if (!fields.obligorName) {
-					message.error('请填写借款人名称');
-					return;
-				}
-				save(userId, params).then((res) => {
-					if (res.code === 200) {
-						message.success(res.message);
-					} else {
-						message.error(res.message);
-					}
-				}).catch(() => {
-					message.error('服务端错误');
-				});
-			},
-			onCancel() {},
-		});
-	}
-
-	// 判断是否已经编辑
-	isEdit = () => {
-		this.setState({
-			isEdit: true,
-		});
-	}
+    // back
+    back = () => {
+    	const { hash } = window.location;
+    	const userId = getQueryByName(hash, 'id');
+    	navigate(`/business/detail?id=${userId}`);
+    }
 
 	// 跳转债务人详情
 	detail = (id) => {
@@ -149,16 +188,10 @@ class DebtorDetail extends React.Component {
 		w.location.href = `#/business/debtor/detail?id=${id}`;
 	}
 
-	changeList = () => {
-		const { hash } = window.location;
-		const userId = getQueryByName(hash, 'id');
-		navigate(`/business/detail/changeList?id=${userId}`);
-	}
-
 	// 变更记录
 	render() {
 		const {
-			edit, detail, loading, columns, data, isEdit,
+			edit, detail, loading, columns, data, changeColumns, changeDataList, totals, current,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -168,36 +201,13 @@ class DebtorDetail extends React.Component {
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/business')}>业务视图</a></Breadcrumb.Item>
-						<Breadcrumb.Item><span className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>业务详情</span></Breadcrumb.Item>
+						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => this.back()}>业务详情</a></Breadcrumb.Item>
+						<Breadcrumb.Item><span className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>变更记录</span></Breadcrumb.Item>
 					</Breadcrumb>
 					<div className="yc-search-right">
-						{edit === false ? (
-							<Button onClick={() => this.handleEdit(edit)} className="yc-btn">
-								编辑
-							</Button>
-						) : (
-							<Button disabled={!isEdit} onClick={() => this.handleSave()} className="yc-btn">
-								保存
-							</Button>
-						)
-						}
-						{edit === false
-							? (
-								<React.Fragment>
-									<Button onClick={this.changeList} className="yc-btn">
-                                        变更记录
-									</Button>
-									<Button className="yc-btn">
-										<span className="yc-icon-export" />
-                                        下载
-									</Button>
-								</React.Fragment>
-							) : (
-								<Button onClick={() => this.handleCancal()} className="yc-btn">
-									{/* {!edit && <span className="yc-icon-export" />} */}
-                                    取消
-								</Button>
-							) }
+						<Button onClick={() => this.back()} className="yc-btn">
+							返回
+						</Button>
 					</div>
 				</div>
 
@@ -292,20 +302,50 @@ class DebtorDetail extends React.Component {
                             业务相关人列表
 						</div>
 					</div>
-					{edit === false ? (
-						<Spin visible={loading}>
-							<Table
-								dataSource={data}
-								columns={columns}
-								style={{ width: '100%' }}
-								pagination={false}
-								onRowClick={(record) => {
-									console.log(record);
-								}}
-							/>
-						</Spin>
-					)
-						: <Edit editSave={this.editSave} isEdit={this.isEdit} data={data} />}
+					<Spin visible={loading}>
+						<Table
+							dataSource={data}
+							columns={columns}
+							style={{ width: '100%' }}
+							pagination={false}
+							onRowClick={(record) => {
+								console.log(record);
+							}}
+						/>
+					</Spin>
+				</div>
+				<div className="yc-business-table">
+					<div className="yc-table-header">
+						<div className="table-header-left">
+                        变更记录
+						</div>
+					</div>
+					<Spin visible={loading}>
+						<Table
+							dataSource={changeDataList}
+							columns={changeColumns}
+							style={{ width: '100%' }}
+							pagination={false}
+							onRowClick={(record) => {
+								console.log(record);
+							}}
+						/>
+					</Spin>
+					<div className="yc-pagination">
+						<Pagination
+							total={totals}
+							current={current}
+							defaultPageSize={10} // 默认条数
+							showQuickJumper
+							showTotal={total => `共 ${total} 条记录`}
+							onChange={(val) => {
+								console.log(val);
+
+								this.handleChangePage(val);
+							}}
+						/>
+						{/* <div className="yc-pagination-btn"><Button>跳转</Button></div> */}
+					</div>
 				</div>
 			</div>
 		);

@@ -8,7 +8,7 @@ import Business from './business-views';
 import BusinessDetail from './business-detail';
 import Debtor from './debtor';
 import DebtorDetail from './debtor-detail';
-
+import ChangeList from './business-detail/changeList';
 // import Asset from './asset-information';
 
 const source = [
@@ -60,6 +60,7 @@ const BusinessRouter = () => (
 		<BusinessBase path="/*" />
 		<BusinessDetail path="/business/detail/*" />
 		<DebtorDetail path="/business/debtor/detail/*" />
+		<ChangeList path="/business/detail/changeList/*" />
 	</Router>
 );
 export default BusinessRouter;
