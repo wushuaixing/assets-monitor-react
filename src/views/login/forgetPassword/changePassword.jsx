@@ -97,6 +97,11 @@ class Login extends React.Component {
 
 	onBlurValue = (e) => {
 		const newWorld = e.target.value;
+		if (!newWorld) {
+			this.setState({
+				PopoverVisible: false,
+			});
+		}
 		setTimeout(() => {
 			this.setState({
 				firstClearIcon: false,
@@ -113,11 +118,7 @@ class Login extends React.Component {
 
 	newPasswordFoucs = (e) => {
 		const newWorld = e.target.value;
-		if (!newWorld) {
-			this.setState({
-				PopoverVisible: false,
-			});
-		}
+
 		// 三个都输入正确时
 		if (newWorld.length === 0) {
 			this.setState({
