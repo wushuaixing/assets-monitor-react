@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table,
+	Breadcrumb, Button, Table, message,
 } from 'antd';
 import {
 	detail, // 详情
@@ -98,6 +98,9 @@ export default class DebtorDetail extends React.Component {
 					businessDetail: res.data.detail,
 					loading: false,
 				});
+			} else {
+				message.error(res.message);
+				this.setState({ loading: false });
 			}
 		}).catch(() => {
 			this.setState({ loading: false });

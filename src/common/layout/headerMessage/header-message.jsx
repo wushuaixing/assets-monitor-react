@@ -55,13 +55,15 @@ export default class HeaderMessage extends React.Component {
 		const params = {
 			idList,
 		};
-		isRead(params).then((res) => {
-			if (res.code === 200) {
-				this.informCenter();
-			} else {
-				message.warning(res.message);
-			}
-		});
+		if (idList.length > 0) {
+			isRead(params).then((res) => {
+				if (res.code === 200) {
+					this.informCenter();
+				} else {
+					message.warning(res.message);
+				}
+			});
+		}
 	}
 
 	render() {

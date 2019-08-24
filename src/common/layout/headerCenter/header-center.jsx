@@ -19,6 +19,7 @@ export default class HeaderMessage extends React.Component {
 			treeData: [],
 			treeList: [],
 			valueList: '',
+			value: '',
 		};
 	}
 
@@ -64,6 +65,7 @@ export default class HeaderMessage extends React.Component {
 		this.setState({
 			valueList: value,
 			selectList: this.filterByName(arr, value),
+			value,
 		});
 	}
 
@@ -80,13 +82,11 @@ export default class HeaderMessage extends React.Component {
 		};
 
 		const start = new Date().getTime(); // 获取接口响应时间
-		console.log(num, 1);
 		if (num !== 0) {
 			switchOrg(params).then((res) => {
 				if (res.code === 200) {
 					const now = new Date().getTime();
 					const latency = now - start;
-					console.log(start, now, latency);
 
 					const hide = message.loading('正在切换机构,请稍后...', 0);
 					setTimeout(() => {
@@ -117,7 +117,7 @@ export default class HeaderMessage extends React.Component {
 
 	render() {
 		const {
-			treeList, treeData, valueList, selectList, passwordModalVisible,
+			treeList, treeData, valueList, selectList, passwordModalVisible, value,
 		} = this.state;
 		const loop = tree => tree && tree.map((item) => {
 			if (item.children && item.children.length > 0) {
@@ -158,6 +158,8 @@ export default class HeaderMessage extends React.Component {
 						onInput={e => this.inputValue(e)}
 						placeholder="请输入机构名称..."
 						size="large"
+						type="text"
+						value={value}
 					/>
 					{/* <Button onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button> */}
 					<div style={{ height: 304, overflow: 'auto' }}>

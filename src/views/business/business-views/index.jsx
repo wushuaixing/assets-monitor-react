@@ -274,6 +274,9 @@ class BusinessView extends React.Component {
 				postDeleteBatch(params).then((res) => {
 					if (res.code === 200) {
 						console.log(res);
+						that.setState({
+							selectedRowKeys: [],
+						});
 						message.success(res.message);
 						that.getData();
 					} else {

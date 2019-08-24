@@ -217,7 +217,13 @@ class ChangeWorldModal extends React.PureComponent {
 
 	handleCancel=() => {
 		const { onCancel } = this.props;
-		onCancel();
+		this.setState({
+			PopoverVisible: false,
+			againPasswordVisible: false,
+		});
+		setTimeout(() => {
+			onCancel();
+		}, 0);
 	}
 
 	// 确认修改密码
@@ -337,8 +343,8 @@ class ChangeWorldModal extends React.PureComponent {
 							placement="right"
 						>
 							<Input
-								type="password"
 								autocomplete="off"
+								type="password"
 								style={{ width: 234, height: 34 }}
 								placeholder="请输入新密码"
 								maxlength="20"

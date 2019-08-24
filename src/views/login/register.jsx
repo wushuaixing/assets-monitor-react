@@ -25,7 +25,6 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			loading: false,
-			clearUsernameIcon: false,
 			rememberPassword: cookie.get('rememberPassword'),
 			userName: '',
 			errorNum: 0,
@@ -88,7 +87,7 @@ class Login extends React.Component {
 					});
 				}
 			}).catch(() => {
-				message.error('服务器出错');
+				// message.error('服务器出错');
 				this.setState({
 					loading: false,
 				});
@@ -106,7 +105,6 @@ class Login extends React.Component {
 			if (fields.username && fields.username.length) {
 				resetFields(['username']);
 				this.setState({
-					clearUsernameIcon: false,
 				});
 			}
 		}
@@ -121,31 +119,9 @@ class Login extends React.Component {
 		}
 	};
 
-	changeValue = (e) => {
-		const { value } = e.target;
-		if (value.length > 0) {
-			this.setState({
-				clearUsernameIcon: true,
-			});
-		} else {
-			this.setState({
-				clearUsernameIcon: false,
-			});
-		}
-	}
-
-	PasswordBlur = (e) => {
-		console.log(1);
-		setTimeout(() => {
-			this.setState({
-				clearUsernameIcon: false,
-			});
-		}, 200);
-	}
-
 	render() {
 		const {
-			loading, userName, rememberPassword, errorNum, clearUsernameIcon,
+			loading, userName, rememberPassword, errorNum,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType,
@@ -166,7 +142,7 @@ class Login extends React.Component {
 									maxlength="11"
 									// onInput={e => this.changeValue(e)}
 									// onFocus={e => this.changeValue(e)}
-									// onBlur={e => this.PasswordBlur(e)}
+									onBlur={e => this.PasswordBlur(e)}
 
 									{...getFieldProps('username', {
 										initialValue: userName && userName.length > 0 ? userName : '',
