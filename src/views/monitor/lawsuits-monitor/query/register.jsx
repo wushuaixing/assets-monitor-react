@@ -30,7 +30,7 @@ class QueryCondition extends React.Component {
 	};
 
 	radioChange=(e) => {
-		console.log('radio checked', e.target.value);
+		// console.log('radio checked', e.target.value);
 		this.setState({
 			filterCurrentOrg: e.target.value,
 		});

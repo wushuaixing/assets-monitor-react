@@ -1,12 +1,14 @@
 import React from 'react';
+import accurate from '@/assets/img/icon/icon-jinzhun.png';
 
 const readStatus = (text, record) => {
-	const { isRead } = record;
+	const { isRead, isDeleted } = record;
 	return (
-		<div>
+		<React.Fragment>
+			{isDeleted ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
 			<span className={!isRead ? 'yc-table-read' : 'yc-table-unread'} />
 			<span>{text}</span>
-		</div>
+		</React.Fragment>
 	);
 };
 export default readStatus;

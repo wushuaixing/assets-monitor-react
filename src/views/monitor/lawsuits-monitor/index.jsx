@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie';
 import { Tabs, Button, Spin } from '@/common';
 // import QueryCourt from './query/court';
 import QueryRegister from './query/register';
-import TableCourt from '../subrogation/table/court';
+// import TableCourt from '../subrogation/table/court';
 import TableRegister from '../subrogation/table/register';
 
 import {
@@ -305,9 +305,7 @@ export default class Subrogation extends React.Component {
 					)
 				}
 				<Spin visible={loading}>
-					{
-						sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
-					}
+					<TableRegister {...tableProps} sourceType={sourceType} />
 				</Spin>
 
 			</div>
