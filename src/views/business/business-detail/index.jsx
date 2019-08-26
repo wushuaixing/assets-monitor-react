@@ -107,7 +107,6 @@ class DebtorDetail extends React.Component {
 		const { hash } = window.location;
 		const userId = getQueryByName(hash, 'id');
 		const fields = getFieldsValue();
-
 		confirm({
 			title: '确认修改债务人名称/身份信息？',
 			iconType: 'exclamation-circle-o',
@@ -115,16 +114,29 @@ class DebtorDetail extends React.Component {
 			content: '若本次编辑涉及债务人名称或身份证号，该债务人的历史数据匹配将被删除，并以新名称、身份证号重新进行匹配。',
 			onOk() {
 				const params = {
-					...fields,
+					detail: {
+						...fields,
+						id: Number(userId),
+					},
 					obligorList: data,
 				};
 				if (!fields.obligorName) {
 					message.error('请填写借款人名称');
 					return;
 				}
+				const start = new Date().getTime(); // 获取接口响应时间
 				save(userId, params).then((res) => {
 					if (res.code === 200) {
-						message.success(res.message);
+						const now = new Date().getTime();
+						const latency = now - start;
+
+						const hide = message.loading('正在刷新,请稍后...', 0);
+						setTimeout(() => {
+							window.location.reload(); // 实现页面重新加载/
+						}, latency);
+						// 异步手动移除
+						setTimeout(hide, latency);
+						// that.getTableData();
 					} else {
 						message.error(res.message);
 					}

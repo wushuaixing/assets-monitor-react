@@ -27,7 +27,13 @@ class InformCenter extends React.Component {
 					render: (text, row) => (
 						<div>
 							<img style={{ width: 16, verticalAlign: 'sub', marginRight: 10 }} src={row.isRead === false ? imgUnread : imgReade} alt="" />
-							<span>
+							<span
+								onClick={() => {
+									const w = window.open('about:blank');
+									w.location.href = `#/business/debtor/detail?id=${row.obligorId}`;
+								}}
+								className="yc-message-content"
+							>
 							[
 								{text}
 							]
