@@ -24,3 +24,7 @@ export const readStatus = params => service.post(`${baseUrl}/yc/monitor/early/wa
 // 案件详情
 export const caseDetail = params => service.get(`${baseUrl}/yc/monitor/early/warning/caseDetail`, { params })
 	.then(res => res.data);
+
+// 原告被告列表
+export const infoObligorList = params => service.get(`${baseUrl}/yc/monitor/early/warning/infoObligorList`, { params })
+	.then(res => res.data);
