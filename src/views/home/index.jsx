@@ -3,27 +3,56 @@
 import React from 'react';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
+import { message } from 'antd';
 import TableTree from './tableTree';
+import {
+	selfTree, // login
+} from '@/utils/api/home';
+import { toThousands } from '@/utils/changeTime';
 import './style.scss';
 
 
 class HomeRouter extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			orgDetail: null,
+			tree: null,
+		};
 	}
 
+	componentDidMount() {
+		this.getData();
+	}
+
+	// 获取消息列表
+	getData = () => {
+		selfTree().then((res) => {
+			if (res && res.data) {
+				this.setState({
+					orgDetail: res.data.orgDetail,
+					tree: res.data.tree,
+				});
+			} else {
+				message.error(res.message);
+			}
+		}).catch(() => {
+			console.log(1);
+		});
+	};
+
 	render() {
+		const { orgDetail, tree } = this.state;
 		return (
 			<div className="yc-home">
 				<div className="yc-home-header">
 					<div className="yc-header-left">
 						<div className="yc-left-title">我的机构</div>
-						<div className="yc-left-text">崔金鑫测试机构121</div>
+						<div className="yc-left-text">{orgDetail && orgDetail ? orgDetail.name : '-'}</div>
 					</div>
 					<div className="yc-header-right">
 						<div className="yc-right-title">机构数</div>
-						<div className="yc-right-num">28</div>
+						<div className="yc-right-num">{orgDetail && orgDetail ? orgDetail.totalCount : '-'}</div>
 					</div>
 				</div>
 				<div className="yc-home-background" />
@@ -40,19 +69,19 @@ class HomeRouter extends React.Component {
 									未跟进监控信息数/条
 								</div>
 								<div className="yc-num">
-									<span style={{ color: 'red' }}>201</span>
+									<span style={{ color: 'red' }}>{tree ? tree.monitorUnfollowedCount : '-'}</span>
 									<div className="right yc-count-sounds">
 										<span className="yc-statistic-text">
 											跟进
-											<span className="yc-txt-normal">70</span>
+											<span className="yc-txt-normal">{tree ? tree.monitorFollowedCount : '-'}</span>
 										</span>
 										<span className="yc-statistic-text">
 											完成
-											<span className="yc-txt-normal">14</span>
+											<span className="yc-txt-normal">{tree ? tree.monitorDoneCount : '-'}</span>
 										</span>
 										<span className="yc-statistic-text">
 											全部
-											<span className="yc-txt-normal">300</span>
+											<span className="yc-txt-normal">{tree ? tree.monitorTotalCount : '-'}</span>
 										</span>
 									</div>
 								</div>
@@ -60,19 +89,19 @@ class HomeRouter extends React.Component {
 							<div className="left yc-content-item2">
 								<div className="yc-text">
 									<span className="yc-icon-debtor" />
-									未跟进监控信息数/条
+									监控债务人数/人
 								</div>
 								<div className="yc-num">
-									<span>22735</span>
+									<span>{tree ? tree.obligorCount : '-'}</span>
 								</div>
 							</div>
 							<div className="left yc-content-item2">
 								<div className="yc-text">
 									<span className="yc-icon-money" />
-									未跟进监控信息数/条
+									追回总金额/元
 								</div>
 								<div className="yc-num">
-									<span>22735</span>
+									<span>{tree ? toThousands(tree.recovery) : '-'}</span>
 								</div>
 							</div>
 						</div>
@@ -81,7 +110,7 @@ class HomeRouter extends React.Component {
 						<div className="yc-content-title">
 							机构统计
 						</div>
-						<TableTree />
+						<TableTree tree={tree && tree} />
 					</div>
 				</div>
 			</div>

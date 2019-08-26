@@ -32,8 +32,8 @@ export const getDelete = async (params) => {
 	return response.data;
 };
 
-// 小铃铛提醒。 是否含有未读消息
-export const hasUnreadMessage = async () => {
-	const response = await service.get(`${baseUrl}/jms/message/center/hasUnreadMessage`);
+// 未读消息数量提醒 [zhousai]
+export const unreadCount = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/message/station/notify/unreadCount`, { params });
 	return response.data;
 };

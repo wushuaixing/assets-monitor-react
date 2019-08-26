@@ -3,9 +3,11 @@ import { navigate } from '@reach/router';
 
 import HeaderMessage from './headerMessage/header-message';
 import HeaderCenter from './headerCenter/header-center';
-
 import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo_white.png';
+import {
+	unreadCount,
+} from '@/utils/api/inform';
 
 const logoText = '源诚资产监控平台';
 const toStatus = (rule, field) => {
@@ -220,15 +222,51 @@ export default class Headers extends React.Component {
 		this.state = {
 			active: defaultRouter(this.source),
 			config: dataSource(props.rule),
+			num: '',
+			data: [],
+			Surplus: '', // 剩余未读数
 		};
 	}
 
+
 	componentDidMount() {
+		window.scrollTo(0, 0);
+		unreadCount().then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					Surplus: res.data,
+				});
+			}
+		});
+	}
+
+	componentDidUpdate() {
 		window.scrollTo(0, 0);
 	}
 
+	componentWillUnmount() {
+		window.scrollTo(0, 0);
+	}
+
+	// 获取消息数量
+	getNoticeNum = (data) => {
+		this.setState({
+			num: data,
+		});
+	}
+
+	// 获取当前机构
+	getData = (data) => {
+		this.setState({
+			data,
+		});
+	}
+
 	render() {
-		const { active, config } = this.state;
+		const {
+			active, config, num, data, Surplus,
+		} = this.state;
+
 		return (
 			<div className="yc-header-wrapper">
 				<div className="yc-header-content">
@@ -255,18 +293,21 @@ export default class Headers extends React.Component {
 								event.stopPropagation();
 							}}
 						>
-							<Badge dot style={{ top: 0, right: 0 }}>
+							<Badge dot={Surplus && Surplus > 0} style={{ top: 0, right: 0 }}>
 								<div className="notice-icon yc-notice-img" />
 							</Badge>
-							<span className="notice-number">(3226)</span>
-							<HeaderMessage mark="消息中心大概预览" />
+							<span className="notice-number">{num && num > 0 ? `(${num})` : ''}</span>
+							<HeaderMessage getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" />
 						</div>
 						{/* <HeaderMessage mark="消息中心大概预览" /> */}
 						<div className="else-child else-line" />
 						<div className="else-child else-username header-item-normal">
-							<li className="else-child-li">您好，崔九九</li>
-							<li className="else-child-li"> 崔金鑫测试机构121</li>
-							<HeaderCenter mark="个人中心大概" />
+							<li className="else-child-li">
+								您好，
+								{data && data.name}
+							</li>
+							<li className="else-child-li">{data && data.orgName}</li>
+							<HeaderCenter getData={this.getData} mark="个人中心大概" />
 						</div>
 						{/* <HeaderCenter mark="个人中心大概" /> */}
 					</div>
