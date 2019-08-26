@@ -18,8 +18,17 @@ export default class DetailModal extends React.PureComponent {
 				dataIndex: 'obligorName',
 				key: 'obligorName',
 				width: 220,
-				render: text => (
-					<p style={{ color: '#3DA8F5', cursor: 'pointer' }}>{text || '-'}</p>
+				render: (text, row) => (
+					<p
+						onClick={() => {
+							const w = window.open('about:blank');
+							w.location.href = `#/business/debtor/detail?id=${row.obligorId}`;
+						}}
+						style={{ color: '#3DA8F5', cursor: 'pointer' }}
+					>
+						{text || '-'}
+
+					</p>
 				),
 			}, {
 				title: '身份证号/统一社会信用代码',
