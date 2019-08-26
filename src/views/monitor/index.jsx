@@ -14,7 +14,9 @@ import Public from './public-proclamation';
 import Attention from './my-attention';
 
 import Star from '@/assets/img/icon/btn_attention_h.png';
-
+import BusinessDetail from '../business/business-detail';
+import DebtorDetail from '../business/debtor-detail';
+// DebtorDetail
 // 获取展示配置
 const toGetRuth = (rules) => {
 	const rule = rules.children;
@@ -121,6 +123,8 @@ const monitorRouter = (props) => {
 		<Router>
 			<MonitorMain path="/*" rule={rule} />
 			<Attention path="/monitor/attention/*" rule={rule} />
+			<BusinessDetail path="/monitor/business/detail/*" parent="监控信息" parentUrl="/" />
+			<DebtorDetail path="/monitor/debtor/detail/*" />
 		</Router>
 	);
 };

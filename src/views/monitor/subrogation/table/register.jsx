@@ -4,7 +4,7 @@ import { ReadStatus, Attentions, TitleIcon } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 
 // 关联连接 组件
-const aboutLink = (value) => {
+const aboutLink = (value, row) => {
 	const toShow = () => {
 		Modal.info({
 			title: '本案号关联多个立案链接，如下：',
@@ -25,7 +25,7 @@ const aboutLink = (value) => {
 			onOk() {},
 		});
 	};
-	if (value) {
+	if (value && !row.isDeleted) {
 		if (value.length > 1) {
 			return <span className="click-link" onClick={toShow}>立案</span>;
 		}
@@ -37,7 +37,7 @@ const aboutLink = (value) => {
 // 获取表格配置
 const columns = (props) => {
 	const {
-		normal, onRefresh, tableType, sourceType,
+		normal, onRefresh, sourceType,
 	} = props;
 	// 含操作等...
 	const defaultColumns = [
@@ -49,26 +49,31 @@ const columns = (props) => {
 		}, {
 			title: '原告',
 			dataIndex: 'yg',
+			render: text => text || '--',
 		}, {
 			title: <TitleIcon title="被告" tooltip="我行债务人" />,
 			dataIndex: 'bg',
+			render: (text, row) => (
+				row.isDeleted ? text : <a href={`/#/monitor/business/detail?id=${row.obligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>),
 		}, {
 			title: '法院',
 			dataIndex: 'court',
+			render: text => text || '--',
 		}, {
 			title: '案号',
 			dataIndex: 'ah',
 			render: (content, row) => (
-				<span
-					className="click-link"
-					onClick={() => {
-						Modal.info({
-							title: '当事人详情',
-							okText: '确定',
-							iconType: 't',
-							content: (
-								<div style={{ marginLeft: -28 }}>
-									{
+				row.isDeleted ? content : (
+					<span
+						className="click-link"
+						onClick={() => {
+							Modal.info({
+								title: '当事人详情',
+								okText: '确定',
+								iconType: 't',
+								content: (
+									<div style={{ marginLeft: -28 }}>
+										{
 										row.ygList && row.ygList.map(item => (
 											<p style={{ margin: 5, fontSize: 14 }}>
 												<strong>原告：</strong>
@@ -76,7 +81,7 @@ const columns = (props) => {
 											</p>
 										))
 									}
-									{
+										{
 										row.bgList && row.bgList.map(item => (
 											<p style={{ margin: 5, fontSize: 14 }}>
 												<strong>被告：</strong>
@@ -84,19 +89,21 @@ const columns = (props) => {
 											</p>
 										))
 									}
-								</div>
-							),
-							onOk() {},
-						});
-					}}
-				>
-					{content}
-				</span>
+									</div>
+								),
+								onOk() {},
+							});
+						}}
+					>
+						{content}
+					</span>
+				)
 			),
 		}, {
 			title: '案由',
 			dataIndex: 'anyou',
 			sourceType: 1,
+			render: text => text || '--',
 			// render: content => <span>{content}</span>,
 		}, {
 			title: '关联信息',

@@ -52,20 +52,21 @@ export default class Subrogation extends React.Component {
 
 	// 获取统计信息
 	toInfoCount=(isRead) => {
-		infoCount({ type: 1, isRead }).then((res) => {
+		const params = Object.assign(this.condition, { type: 1, isRead });
+		infoCount(params).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
 				res.data.forEach((item) => {
 					if (item.sourceType === 1 || item.sourceType === 2) {
 						_tabConfig = _tabConfig.map((itemChild) => {
-							if (itemChild.id === item.sourceType && item.count) {
+							if (itemChild.id === item.sourceType && item.count >= 0) {
 								return {
 									id: itemChild.id,
 									name: itemChild.name,
 									number: item.count,
 									dot: Boolean(item.unreadCount),
-									showNumber: Boolean(item.count),
+									showNumber: true,
 								};
 							}
 							return itemChild;
@@ -90,7 +91,7 @@ export default class Subrogation extends React.Component {
 			return _item;
 		});
 		this.setState({ isRead: val, tabConfig: _tabConfig });
-		this.onQueryChange(this.condition, '', val);
+		this.onQueryChange(this.condition, '', val,1);
 	};
 
 	// 全部标记为已读
@@ -117,7 +118,7 @@ export default class Subrogation extends React.Component {
 			const _condition = Object.assign(this.condition, {
 				token: cookies.get('token'),
 			});
-			window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
+			window.open(`${exportList}?${urlEncode(_condition)}`, '_self');
 			// console.log(urlEncode(_condition));
 		} else if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
@@ -130,7 +131,7 @@ export default class Subrogation extends React.Component {
 				content: '点击确定，将为您导出所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
+					window.open(`${exportList}?${urlEncode(_condition)}`, '_self');
 					// message.success('操作成功！');
 				},
 				onCancel() {},
@@ -201,7 +202,7 @@ export default class Subrogation extends React.Component {
 			current: 1,
 			total: '',
 		});
-		this.onQueryChange(null, val, isRead);
+		this.onQueryChange('', val, isRead, 1);
 	};
 
 	// 当前页数变化
@@ -212,7 +213,6 @@ export default class Subrogation extends React.Component {
 	// 查询条件变化
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, isRead, current } = this.state;
-		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
 		// console.log(val, _sourceType, _isRead);
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign(con || this.condition, {
@@ -229,7 +229,10 @@ export default class Subrogation extends React.Component {
 		}
 		this.setState({
 			loading: true,
+			manage: false,
 		});
+		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
+
 		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({

@@ -160,14 +160,14 @@ class DebtorDetail extends React.Component {
 		const {
 			edit, detail, loading, columns, data, isEdit,
 		} = this.state;
-		const { form } = this.props; // 会提示props is not defined
+		const { form, parent, parentUrL } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 
 		return (
 			<div className="yc-business-wrapper">
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/business')}>业务视图</a></Breadcrumb.Item>
+						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate(parentUrL || '/business')}>{parent || '业务视图'}</a></Breadcrumb.Item>
 						<Breadcrumb.Item><span className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>业务详情</span></Breadcrumb.Item>
 					</Breadcrumb>
 					<div className="yc-search-right">

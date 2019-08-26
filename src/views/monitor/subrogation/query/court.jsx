@@ -16,9 +16,11 @@ class QueryCondition extends React.Component {
 	};
 
 	handleReset=() => {
-		const { form } = this.props;
+		const { form, onQueryChange } = this.props;
 		form.resetFields();
-		console.log(form.getFieldsValue());
+		const condition = 	form.getFieldsValue();
+		if (onQueryChange)onQueryChange(condition);
+		// console.log(form.getFieldsValue());
 	};
 
 	render() {

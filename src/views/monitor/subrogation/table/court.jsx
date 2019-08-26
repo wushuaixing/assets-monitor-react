@@ -1,10 +1,11 @@
 import React from 'react';
+// import { navigate } from '@reach/router';
 import { Table, Pagination, Modal } from 'antd';
 import { ReadStatus, Attentions, TitleIcon } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 
 // 关联连接 组件
-const aboutLink = (value) => {
+const aboutLink = (value, row) => {
 	const toShow = () => {
 		Modal.info({
 			title: '本案号关联多个立案链接，如下：',
@@ -25,7 +26,7 @@ const aboutLink = (value) => {
 			onOk() {},
 		});
 	};
-	if (value) {
+	if (value && !row.isDeleted) {
 		if (value.length > 1) {
 			return <span className="click-link" onClick={toShow}>立案</span>;
 		}
@@ -48,9 +49,23 @@ const columns = (props) => {
 		}, {
 			title: <TitleIcon title="原告" tooltip="我行债务人" />,
 			dataIndex: 'yg',
+			render: (text, row) => (
+				row.isDeleted ? text : <a href={`/#/monitor/business/detail?id=${row.obligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>
+			),
 		}, {
 			title: <TitleIcon title="被告" tooltip="蓝色可点击为我行债务人" />,
 			dataIndex: 'bg',
+			render: (text, row) => {
+				const { isDeleted, extObligorId } = row;
+				if (!isDeleted && extObligorId) {
+					return (
+						<a href={`/#/monitor/business/detail?id=${extObligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>
+					);
+				}
+				return text;
+			}
+
+			,
 		}, {
 			title: '法院',
 			dataIndex: 'court',
@@ -58,16 +73,17 @@ const columns = (props) => {
 			title: '案号',
 			dataIndex: 'ah',
 			render: (content, row) => (
-				<span
-					className="click-link"
-					onClick={() => {
-						Modal.info({
-							title: '当事人详情',
-							okText: '确定',
-							iconType: 't',
-							content: (
-								<div style={{ marginLeft: -28 }}>
-									{
+				row.isDeleted ? content : (
+					<span
+						className="click-link"
+						onClick={() => {
+							Modal.info({
+								title: '当事人详情',
+								okText: '确定',
+								iconType: 't',
+								content: (
+									<div style={{ marginLeft: -28 }}>
+										{
 										row.ygList && row.ygList.map(item => (
 											<p style={{ margin: 5, fontSize: 14 }}>
 												<strong>原告：</strong>
@@ -75,7 +91,7 @@ const columns = (props) => {
 											</p>
 										))
 									}
-									{
+										{
 										row.bgList && row.bgList.map(item => (
 											<p style={{ margin: 5, fontSize: 14 }}>
 												<strong>被告：</strong>
@@ -83,14 +99,15 @@ const columns = (props) => {
 											</p>
 										))
 									}
-								</div>
-							),
-							onOk() {},
-						});
-					}}
-				>
-					{content}
-				</span>
+									</div>
+								),
+								onOk() {},
+							});
+						}}
+					>
+						{content}
+					</span>
+				)
 			),
 		}, {
 			title: '案由',
