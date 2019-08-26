@@ -22,8 +22,13 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	informCenter = () => {
-		notify().then((res) => {
+		const { getNoticeNum } = this.props;
+		const params = {
+			isRead: false,
+		};
+		notify(params).then((res) => {
 			if (res.code === 200) {
+				getNoticeNum(res.data.total);
 				this.setState({
 					dataList: res.data.list,
 				});
@@ -54,6 +59,7 @@ export default class HeaderMessage extends React.Component {
 		dataList.map(item => idList.push(item.id));
 		const params = {
 			idList,
+			isRead: false,
 		};
 		if (idList.length > 0) {
 			isRead(params).then((res) => {

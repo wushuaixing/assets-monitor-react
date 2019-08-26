@@ -151,13 +151,16 @@ class InformCenter extends React.Component {
 		// 全部标记为已读
 		handleAllRead=() => {
 			const that = this;
-			const { selectedRowKeys } = this.state;
+			const { selectedRowKeys, current } = this.state;
 			if (selectedRowKeys.length === 0) {
 				message.warning('未选中业务');
 				return;
 			}
 			const params = {
 				idList: selectedRowKeys,
+			};
+			const page = {
+				page: current,
 			};
 			Modal.confirm({
 				title: '确认将消息中心全部标记为已读？',
@@ -167,7 +170,7 @@ class InformCenter extends React.Component {
 					isRead(params).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功');
-							that.getData();
+							that.getData(page);
 							that.setState({
 								selectedRowKeys: [],
 							});

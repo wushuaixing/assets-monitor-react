@@ -1,5 +1,7 @@
 import React from 'react';
-import { Tree, Input, message } from 'antd';
+import {
+	Tree, Input, message, Icon,
+} from 'antd';
 import { navigate } from '@reach/router';
 import './style.scss';
 import {
@@ -24,8 +26,10 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	componentDidMount() {
+		const { getData } = this.props;
 		userInfo().then((res) => {
 			if (res.code === 200) {
+				getData(res.data);
 				this.setState({
 					treeData: res.data,
 					treeList: [res.data.orgTree],
@@ -64,8 +68,8 @@ export default class HeaderMessage extends React.Component {
 		const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
 		this.setState({
 			valueList: value,
+			value: value.replace(/\s+/g, ''),
 			selectList: this.filterByName(arr, value),
-			value,
 		});
 	}
 
@@ -155,10 +159,12 @@ export default class HeaderMessage extends React.Component {
 				<div className="yc-search-container">
 					<Input
 						className="yc-group-input"
+						addonAfter={<Icon type="search" />}
 						onInput={e => this.inputValue(e)}
-						placeholder="请输入机构名称..."
+						placeholder="请输入机构名称"
 						size="large"
 						type="text"
+						// onkeyup={e => e.target.}
 						value={value}
 					/>
 					{/* <Button onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button> */}

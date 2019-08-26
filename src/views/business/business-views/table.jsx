@@ -83,7 +83,7 @@ class BusinessView extends React.Component {
 					if (text === '0' || !text) {
 						return <div>0</div>;
 					}
-					return <a onClick={() => openPeopleModal(row.id)}>{text}</a>;
+					return <a className="yc-click-obligorName" onClick={() => openPeopleModal(row.id)}>{text}</a>;
 				},
 			}, {
 				title: '相关推送',

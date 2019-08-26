@@ -142,7 +142,7 @@ class Login extends React.Component {
 									maxlength="11"
 									// onInput={e => this.changeValue(e)}
 									// onFocus={e => this.changeValue(e)}
-									onBlur={e => this.PasswordBlur(e)}
+									// onBlur={e => this.PasswordBlur(e)}
 
 									{...getFieldProps('username', {
 										initialValue: userName && userName.length > 0 ? userName : '',
