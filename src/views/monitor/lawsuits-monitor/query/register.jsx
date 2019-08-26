@@ -15,7 +15,7 @@ class QueryCondition extends React.Component {
 		const { filterCurrentOrg } = this.state;
 		const condition = getFieldsValue();
 		condition.filterCurrentOrg = Boolean(filterCurrentOrg);
-		if (onQueryChange)onQueryChange(condition);
+		if (onQueryChange)onQueryChange(condition, '', '', 1);
 		// console.log('condition:', condition);
 	};
 
@@ -23,10 +23,10 @@ class QueryCondition extends React.Component {
 		const { form, onQueryChange } = this.props;
 		form.resetFields();
 		this.setState({
-			filterCurrentOrg: 1,
+			filterCurrentOrg: '',
 		});
 		const condition = form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition);
+		if (onQueryChange)onQueryChange(condition, '', '', 1);
 	};
 
 	radioChange=(e) => {

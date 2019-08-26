@@ -91,25 +91,29 @@ export default class Subrogation extends React.Component {
 			return _item;
 		});
 		this.setState({ isRead: val, tabConfig: _tabConfig });
-		this.onQueryChange(this.condition, '', val,1);
+		this.onQueryChange(this.condition, '', val, 1);
 	};
 
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		Modal.confirm({
-			title: '确认将代位权—立案信息标记为全部已读？',
-			content: '点击确定，将为您标记为全部已读。',
-			iconType: 'exclamation-circle',
-			onOk() {
-				readStatus({}).then((res) => {
-					if (res.code === 200) {
-						_this.onQueryChange();
-					}
-				});
-			},
-			onCancel() {},
-		});
+		const { sourceType, tabConfig } = this.state;
+		if (tabConfig[sourceType - 1].dot) {
+			Modal.confirm({
+				title: `确认将代位权—${sourceType === 1 ? '立案信息' : '开庭公共'}标记为全部已读？`,
+				content: '点击确定，将为您标记为全部已读。',
+				iconType: 'exclamation-circle',
+				onOk() {
+					readStatus({}).then((res) => {
+						if (res.code === 200) {
+							_this.onQueryChange();
+						}
+					});
+				},
+				onCancel() {},
+			});
+		}
+		message.warning('最新信息已经全部已读，没有未读信息了');
 	};
 
 	// 一键导出 & 批量导出
@@ -195,14 +199,14 @@ export default class Subrogation extends React.Component {
 
 	// sourceType变化
 	onSourceType=(val) => {
-		const { isRead } = this.state;
 		this.setState({
 			sourceType: val,
 			dataSource: '',
 			current: 1,
 			total: '',
+			isRead: 'all',
 		});
-		this.onQueryChange('', val, isRead, 1);
+		this.onQueryChange('', val, 'all', 1);
 	};
 
 	// 当前页数变化
