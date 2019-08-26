@@ -132,7 +132,7 @@ class DebtorDetail extends React.Component {
 
 						const hide = message.loading('正在刷新,请稍后...', 0);
 						setTimeout(() => {
-							// window.location.reload(); // 实现页面重新加载/
+							window.location.reload(); // 实现页面重新加载/
 						}, latency);
 						// 异步手动移除
 						setTimeout(hide, latency);
