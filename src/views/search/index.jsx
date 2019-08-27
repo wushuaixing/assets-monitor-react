@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import './index.scss';
 import Tabs from './search-tab';
 import Datas from './search-data';
-// import Router from '@/utils/Router';
+import Router from '@/utils/Router';
+import Detail from './search-detail';
+
 const tabSource = [
 	{
 		id: 1,
@@ -90,7 +92,6 @@ const HomeRouter = () => {
 					source={tabSource}
 					onChange={(item) => {
 						setActive(item);
-						//console.log('22',item)
 					}}
 				/>
 				{
@@ -113,4 +114,11 @@ const HomeRouter = () => {
 		</div>
 	);
 };
-export default HomeRouter;
+
+const BaseRouter = () => (
+	<Router>
+		<HomeRouter path="/*" />
+		<Detail path="/search/detail/*" />
+	</Router>
+);
+export default BaseRouter;

@@ -7,50 +7,49 @@ import SelectSearch from './selectSearch';
 
 const Datas = (props) => {
 	const { active, highSearch } = props;
-	const renderDom = () => {
-		if (highSearch && active.id !== 4) {
-			return (
-				<div className="yc-datas">
-					{
-						active.id === 1 ? (<Auction />) : null
-					}
-					{
-						active.id === 2 ? (<Lawsuits />) : null
-					}
-					{
-						active.id === 3 ? (<Writ />) : null
-					}
-					<div className="btn">
-						<Button
-							type="primary"
-							size="large"
-							style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
-						>
-							搜索
-						</Button>
-						<Button type="ghost" size="large">充值搜索条件</Button>
-					</div>
-				</div>
-			);
-		}
+	if (highSearch && active.id !== 4) {
+		let myRef = React.createRef();
 		return (
-			<React.Fragment>
+			<div className="yc-datas">
 				{
-					active.id === 1 ? (<SelectSearch options={active.types} />) : null
+					active.id === 1 ? (<Auction ref={myRef} />) : null
 				}
 				{
-					active.id === 2 ? (<SelectSearch options={active.types} />) : null
+					active.id === 2 ? (<Lawsuits ref={myRef} />) : null
 				}
 				{
-					active.id === 3 ? (<SelectSearch options={active.types} />) : null
+					active.id === 3 ? (<Writ ref={myRef} />) : null
 				}
-				{
-					active.id === 4 ? (<SelectSearch />) : null
-				}
-			</React.Fragment>
+				<div className="btn">
+					<Button
+						type="primary"
+						size="large"
+						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
+						onClick={() => { console.log('myRef', myRef.current.getData()); }}
+					>
+						搜索
+					</Button>
+					<Button type="ghost" size="large">重置搜索条件</Button>
+				</div>
+			</div>
 		);
-	};
-	return renderDom();
+	}
+	return (
+		<React.Fragment>
+			{
+				active.id === 1 ? (<SelectSearch options={active.types} />) : null
+			}
+			{
+				active.id === 2 ? (<SelectSearch options={active.types} />) : null
+			}
+			{
+				active.id === 3 ? (<SelectSearch options={active.types} />) : null
+			}
+			{
+				active.id === 4 ? (<SelectSearch />) : null
+			}
+		</React.Fragment>
+	);
 	/* (
 		<React.Fragment>
 			{
