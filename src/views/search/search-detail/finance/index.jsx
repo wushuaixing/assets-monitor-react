@@ -5,6 +5,7 @@ import React from 'react';
 import { Form, Pagination, message } from 'antd';
 import { getQueryByName } from '@/utils';
 import { Spin, Input, Button } from '@/common';
+
 import './style.scss';
 
 const createForm = Form.create;
@@ -12,11 +13,21 @@ const _style1 = { width: 900 };
 class FINANCE extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			content: '',
+		};
 	}
 
+	componentDidMount() {
+		const { hash } = window.location;
+		const content = getQueryByName(hash, 'content');
+		this.setState({
+			content,
+		});
+	}
 
 	render() {
+		const { content } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 		return (
@@ -26,11 +37,9 @@ class FINANCE extends React.Component {
 						title="全文"
 						style={_style1}
 						size="large"
-						placeholder="姓名/公司名称"
-						onkeydown={e => this.handleKeyDown(e)}
-						onFocus={e => this.handleKeyDown(e)}
+						placeholder="标题/关键字"
 						{...getFieldProps('content', {
-							initialValue: getQueryByName('content'),
+							initialValue: content,
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
