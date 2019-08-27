@@ -1,7 +1,9 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { ReadStatus, Attentions } from '@/common/table';
-import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
+import { readStatus } from '@/utils/api/monitor-info/finance';
+import api from '@/utils/api/monitor-info/finance';
+import { floatFormat } from '@/utils/format';
 
 // 获取表格配置
 const columns = (props) => {
@@ -12,30 +14,45 @@ const columns = (props) => {
 		{
 			title: <span style={{ paddingLeft: 11 }}>起始日期</span>,
 			dataIndex: 'startTime',
+			width: 110,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'obligorName',
-			width: 150,
 		}, {
 			title: '项目名称',
 			dataIndex: 'title',
-			width: 150,
 		}, {
-			title: '挂拍价格',
+			title: '挂拍价格(元)',
 			dataIndex: 'price',
+			width: 120,
+			className: 'tAlignRight_important',
+			render: value => <span>{value ? `${floatFormat(value)}` : '--'}</span>,
 		}, {
 			title: '期满日期',
 			dataIndex: 'endTime',
+			className: 'tAlignCenter_important',
+			width: 120,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
 			title: '更新日期',
 			dataIndex: 'updateTime',
+			className: 'tAlignCenter_important',
+			width: 120,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
 			title: '操作',
+			width: 60,
 			className: 'tAlignCenter_important',
-			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
+			render: (text, row, index) => (
+				<Attentions
+					text={text}
+					row={row}
+					onClick={onRefresh}
+					api={row.isAttention ? api.unFollowSinglePub : api.followSinglePub}
+					index={index}
+				/>
+			),
 		}];
 	// 单纯展示
 	const normalColumns = [
@@ -84,7 +101,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			readStatus({ idList: [id] }).then((res) => {
+			readStatus({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}
@@ -119,7 +136,7 @@ export default class TableView extends React.Component {
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold')}
+					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
 				<div className="yc-table-pagination">
