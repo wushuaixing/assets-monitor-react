@@ -1,11 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Input, Select } from 'antd';
+import React, { useState } from 'react';
+import {
+	Button, Input, Select, message,
+} from 'antd';
+import { navigate } from '@reach/router';
 
+/**
+ * 拼接参数，跳转到查询详情
+ * @param props
+ */
+const doSearch = (props) => {
+	if (props && props instanceof Array) {
+		let params = '';
+		props.map((item) => {
+			if (params === '') {
+				params = item;
+			} else {
+				params = `${params}&${item}`;
+			}
+			return item;
+		});
+		navigate(`/search/detail/?${params}`);
+	}
+};
 const Datas = (props) => {
 	const { options } = props;
+
 	if (options) {
-		const [placeholder, setPlaceholder] = useState(options[1].placeholder);
-		const [selectId, setSelectId] = useState(options[1].id);
+		const [placeholder, setPlaceholder] = useState(options[0].placeholder);
+		const [selectId, setSelectId] = useState(options[0].id);
+		const [keywords, setKeywords] = useState(null);
+
 		return (
 			<div className="select-search">
 				<div className="select">
@@ -28,11 +52,18 @@ const Datas = (props) => {
 						}
 					</Select>
 				</div>
-				<Input placeholder={placeholder} />
+				<Input placeholder={placeholder} value={keywords} onChange={(e) => { setKeywords(e.target.value); }} />
 				<Button
 					type="primary"
 					size="large"
 					className="red-search"
+					onClick={() => {
+						if (keywords) {
+							doSearch([`${selectId}=${keywords}`]);
+						} else {
+							message.error('请输入一个搜索条件');
+						}
+					}}
 				>
 					搜索
 				</Button>
