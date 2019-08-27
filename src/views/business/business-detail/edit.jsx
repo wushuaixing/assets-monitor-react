@@ -62,7 +62,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].role = value;
+					dataList[index].roleText = value;
 				}
 			});
 			that.setState({
@@ -75,7 +75,7 @@ class DebtorDetail extends React.Component {
 		const { dataList } = this.state;
 		dataList.push({
 			dishonestStatus: null,
-			id: dataList.length + 1,
+			id: -(dataList.length + 1),
 			obligorName: '',
 			obligorNumber: '',
 			role: 2,
@@ -89,12 +89,14 @@ class DebtorDetail extends React.Component {
 	// 删除
 	delete = (id) => {
 		const { dataList } = this.state;
+		const { isEdit } = this.props;
 		const that = this;
-
 		confirm({
 			title: '您是否确认要删除该条业务相关人？',
 			iconType: 'exclamation-circle-o',
 			onOk() {
+				isEdit();
+
 				if (dataList && dataList.length > 0) {
 					dataList.forEach((i, index) => {
 						if (i.id === id) {
@@ -165,8 +167,8 @@ class DebtorDetail extends React.Component {
 										style={{ width: 200 }}
 										placeholder="请选择人员"
 										size="large"
-										{...getFieldProps(`role${item.id}`, {
-											initialValue: item && item.role,
+										{...getFieldProps(`roleText${item.id}`, {
+											initialValue: item && item.roleText,
 											// rules: [
 											// 	{ required: true, whitespace: true, message: '请填写密码' },
 											// ],
@@ -175,8 +177,8 @@ class DebtorDetail extends React.Component {
 											},
 										})}
 									>
-										<Option value={2}>担保人</Option>
-										<Option value={4}>共同借款人</Option>
+										<Option value="担保人">担保人</Option>
+										<Option value="共同借款人">共同借款人</Option>
 									</Select>
 								</td>
 								<td>
