@@ -8,6 +8,7 @@ import {
 	businessChange, // 变更记录
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
+import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
@@ -18,6 +19,33 @@ const createForm = Form.create;
 class DebtorDetail extends React.Component {
 	constructor(props) {
 		super(props);
+		const toGetReasonList = (reason) => {
+			try {
+				if (typeof JSON.parse(reason) === 'object') {
+					const _reason = JSON.parse(reason);
+					const JSONArray = [];
+					if (_reason.name) {
+						JSONArray.push(_reason.name);
+					} if (_reason.number) {
+						JSONArray.push(_reason.number);
+					} if (_reason.role_text) {
+						JSONArray.push(_reason.role_text);
+					} if (_reason.obligor_id) {
+						JSONArray.push(_reason.obligor_id);
+					}
+					if (JSONArray && JSONArray.length > 0) {
+						return JSONArray.map(item => (
+							<p>{item}</p>
+						));
+					}
+				} else {
+					return reason && reason !== 'null' ? reason : '-';
+				}
+			} catch (e) {
+				return reason && reason !== 'null' ? reason : '-';
+			}
+			return false;
+		};
 		this.state = {
 			edit: false,
 			detail: null,
@@ -64,7 +92,7 @@ class DebtorDetail extends React.Component {
 				width: 180,
 				render: (text, row) => (
 					<p style={{ position: 'relative' }}>
-						{text || '-'}
+						{text && text !== 0 ? formatDateTime(text) : '-'}
 					</p>
 				),
 			}, {
@@ -80,16 +108,20 @@ class DebtorDetail extends React.Component {
 				dataIndex: 'beforeContent',
 				key: 'beforeContent',
 				width: 226,
-				render: text => (
-					<p>{text || '-'}</p>
+				render: (text, row) => (
+					<div>
+						{text && text.length > 0 ? toGetReasonList(text) : '-'}
+					</div>
 				),
 			}, {
 				title: '变更后',
 				dataIndex: 'afterContent',
 				key: 'afterContent',
 				width: 227,
-				render: text => (
-					<p>{text || '-'}</p>
+				render: (text, row) => (
+					<div>
+						{text && text.length > 0 ? toGetReasonList(text) : '-'}
+					</div>
 				),
 			}, {
 				title: '变更人',
@@ -106,6 +138,7 @@ class DebtorDetail extends React.Component {
 		this.getTableData();
 		this.getChangeData();
 	}
+
 
 	getTableData=(value) => {
 		const { hash } = window.location;
@@ -133,10 +166,9 @@ class DebtorDetail extends React.Component {
     		loading: true,
     	});
     	const params = {
-    		page: {
-    			num: 10,
-    			page: 1,
-    		},
+    		num: 10,
+    		page: 1,
+    		...value,
     	};
     	businessChange(userId, params).then((res) => {
     		if (res && res.data) {
@@ -164,7 +196,7 @@ class DebtorDetail extends React.Component {
 			page: val,
 		};
 
-		this.getData(params);
+		this.getChangeData(params);
 	}
 
 	handleCancal = () => {

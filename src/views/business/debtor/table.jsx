@@ -46,9 +46,12 @@ class BusinessView extends React.Component {
 				dataIndex: 'businessCount',
 				key: 'businessCount',
 				width: 133,
-				render: text => (
-					<p>{text || '-'}</p>
-				),
+				render(text) {
+					if (text === '0' || !text) {
+						return <div>0</div>;
+					}
+					return <p>{text}</p>;
+				},
 			}, {
 				title: '相关推送',
 				dataIndex: 'pushCount',
