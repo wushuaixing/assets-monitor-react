@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { Attentions } from '@/common/table';
-import { followSingle, unFollowSingle } from '@/utils/api/monitor-info/assets';
+import api from '@/utils/api/monitor-info/finance';
 import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/monitor/assets-auction/tableComponents';
 // import { Button } from '@/common';
 // import { floatFormat } from '@/utils/format';
@@ -35,7 +35,7 @@ const columns = (props) => {
 					row={row}
 					onClick={onRefresh}
 					index={index}
-					api={row.isAttention ? unFollowSingle : followSingle}
+					api={row.isAttention ? api.unFollowSingleBid : api.followSingleBid}
 					single
 				/>
 			),
@@ -81,6 +81,7 @@ export default class TableView extends React.Component {
 			this.setState({ selectedRowKeys: [] });
 		}
 	}
+
 
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {

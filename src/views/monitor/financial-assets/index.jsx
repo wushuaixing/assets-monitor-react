@@ -7,12 +7,12 @@ import QueryRegister from './query/publicity';
 import TableRegister from './table/publicity';
 
 import { Button, Tabs, Spin } from '@/common';
-import {
-	infoCount, infoList, readStatus, attention, exportList,
-} from '@/utils/api/monitor-info/monitor';
+import { readStatusAll } from '@/utils/api/monitor-info/finance';
+import Apis from '@/utils/api/monitor-info/finance';
 import { urlEncode } from '@/utils';
 
 const cookies = new Cookies();
+const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -50,34 +50,35 @@ export default class Subrogation extends React.Component {
 		this.onQueryChange({});
 	}
 
+
 	// 获取统计信息
-	toInfoCount=(isRead) => {
-		infoCount({ type: 1, isRead }).then((res) => {
-			if (res.code === 200) {
-				const { tabConfig } = this.state;
-				let _tabConfig = tabConfig;
-				res.data.forEach((item) => {
-					if (item.sourceType === 1 || item.sourceType === 2) {
-						_tabConfig = _tabConfig.map((itemChild) => {
-							if (itemChild.id === item.sourceType && item.count) {
-								return {
-									id: itemChild.id,
-									name: itemChild.name,
-									number: item.count,
-									dot: Boolean(item.count),
-									showNumber: Boolean(item.count),
-								};
-							}
-							return itemChild;
-						});
-					}
-				});
-				this.setState({
-					tabConfig: _tabConfig,
-				});
-			}
-		});
-	};
+	// toInfoCount=isRead => false
+	// infoCount({ type: 1, isRead }).then((res) => {
+	// 	if (res.code === 200) {
+	// 		const { tabConfig } = this.state;
+	// 		let _tabConfig = tabConfig;
+	// 		res.data.forEach((item) => {
+	// 			if (item.sourceType === 1 || item.sourceType === 2) {
+	// 				_tabConfig = _tabConfig.map((itemChild) => {
+	// 					if (itemChild.id === item.sourceType && item.count) {
+	// 						return {
+	// 							id: itemChild.id,
+	// 							name: itemChild.name,
+	// 							number: item.count,
+	// 							dot: Boolean(item.count),
+	// 							showNumber: Boolean(item.count),
+	// 						};
+	// 					}
+	// 					return itemChild;
+	// 				});
+	// 			}
+	// 		});
+	// 		this.setState({
+	// 			tabConfig: _tabConfig,
+	// 		});
+	// 	}
+	// });
+
 
 	// 切换列表类型
 	handleReadChange=(val) => {
@@ -101,7 +102,7 @@ export default class Subrogation extends React.Component {
 			content: '点击确定，将为您标记为全部已读。',
 			iconType: 'exclamation-circle',
 			onOk() {
-				readStatus({}).then((res) => {
+				readStatusAll({}).then((res) => {
 					if (res.code === 200) {
 						_this.onQueryChange();
 					}
@@ -113,6 +114,7 @@ export default class Subrogation extends React.Component {
 
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
+		const exportList = api('exportList', this.condition.sourceType);
 		if (type === 'all') {
 			const _condition = Object.assign(this.condition, {
 				token: cookies.get('token'),
@@ -144,14 +146,14 @@ export default class Subrogation extends React.Component {
 	handleAttention=() => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
-			const { dataSource } = this.state;
+			const { dataSource, sourceType } = this.state;
 			const _this = this;
 			Modal.confirm({
 				title: '确认关注选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					attention({ idList }, true).then((res) => {
+					api('attention', sourceType)({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
 							const _dataSource = dataSource.map((item) => {
@@ -194,14 +196,13 @@ export default class Subrogation extends React.Component {
 
 	// sourceType变化
 	onSourceType=(val) => {
-		const { isRead } = this.state;
 		this.setState({
 			sourceType: val,
 			dataSource: '',
 			current: 1,
 			total: '',
 		});
-		this.onQueryChange(null, val, isRead);
+		this.onQueryChange(null, val, 'all', 1);
 	};
 
 	// 当前页数变化
@@ -212,8 +213,7 @@ export default class Subrogation extends React.Component {
 	// 查询条件变化
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, isRead, current } = this.state;
-		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
-		// console.log(val, _sourceType, _isRead);
+		// this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0, 1);
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign(con || this.condition, {
 			sourceType: _sourceType || sourceType,
@@ -230,10 +230,10 @@ export default class Subrogation extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		infoList(this.condition).then((res) => {
+		api('infoList', this.condition.sourceType)(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					// dataSource: res.data.list,
+					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
 				});
@@ -276,17 +276,22 @@ export default class Subrogation extends React.Component {
 				{
 					!manage ? (
 						<div className="assets-auction-action">
-							<Button
-								active={isRead === 'all'}
-								onClick={() => this.handleReadChange('all')}
-								title="全部"
-							/>
-							<Button
-								active={isRead === 'unread'}
-								onClick={() => this.handleReadChange('unread')}
-								title="只显示未读"
-							/>
-							<Button onClick={this.handleAllRead}>全部标为已读</Button>
+							{
+								sourceType === 2 ? [
+									<Button
+										active={isRead === 'all'}
+										onClick={() => this.handleReadChange('all')}
+										title="全部"
+									/>,
+									<Button
+										active={isRead === 'unread'}
+										onClick={() => this.handleReadChange('unread')}
+										title="只显示未读"
+									/>,
+									<Button onClick={this.handleAllRead}>全部标为已读</Button>,
+								] : null
+							}
+
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
 								<span className="yc-export-img" />

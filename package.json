@@ -12,7 +12,7 @@
     "dev:polyfill": "export NODE_ENV=development&& node ./scripts/polyfill.js",
     "dev:dll": "export NODE_ENV=development&& webpack --config ./scripts/dll.js",
     "dev:index": "export NODE_ENV=development&& webpack --config ./scripts/index.js",
-    "start": "export NODE_ENV=development&& webpack-dev-server -d  --host 172.18.255.111 --config ./scripts/index.js",
+    "start": "export NODE_ENV=development&& webpack-dev-server -d  --host localhost --config ./scripts/index.js",
     "start:w": "set NODE_ENV=development&& webpack-dev-server -d  --host localhost --config ./scripts/index.js",
     "build": "yarn build:css && yarn build:shim && yarn build:polyfill && yarn build:dll && yarn build:index",
     "build:css": "node ./scripts/css.js",
