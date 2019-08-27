@@ -42,30 +42,33 @@ export default class MatchingReason extends React.Component {
 	}
 
 	toGetReasonList=(reason) => {
-		const _reason = JSON.parse(reason);
-		return _reason.map((item) => {
-			if (item.used_name) {
+		if (reason) {
+			const _reason = JSON.parse(reason);
+			return _reason.map((item) => {
+				if (item.used_name) {
+					return (
+						<div className="reason-list">
+							<div>{`● 根据曾用名"${item.used_name}"匹配`}</div>
+							{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} />) }
+						</div>
+					);
+				} if (item.birth) {
+					return (
+						<div className="reason-list">
+							<div>{`● 根据"${item.birth}"匹配`}</div>
+							<p dangerouslySetInnerHTML={{ __html: item.desc }} />
+						</div>
+					);
+				}
 				return (
 					<div className="reason-list">
-						<div>{`● 根据曾用名"${item.used_name}"匹配`}</div>
+						<div>{`● 根据"${item.name || item.number}"匹配`}</div>
 						{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} />) }
 					</div>
 				);
-			} if (item.birth) {
-				return (
-					<div className="reason-list">
-						<div>{`● 根据"${item.birth}"匹配`}</div>
-						<p dangerouslySetInnerHTML={{ __html: item.desc }} />
-					</div>
-				);
-			}
-			return (
-				<div className="reason-list">
-					<div>{`● 根据"${item.name || item.number}"匹配`}</div>
-					{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} />) }
-				</div>
-			);
-		});
+			});
+		}
+		return '--';
 	};
 
 	render() {

@@ -164,7 +164,7 @@ export default class Assets extends React.Component {
 			total: '',
 			manage: false,
 		});
-		this.onQueryChange(null, val);
+		this.onQueryChange(null, val, '', 1);
 	};
 
 	// 批量管理勾选️结果
@@ -199,14 +199,11 @@ export default class Assets extends React.Component {
 		this.setState({
 			loading: true,
 		});
-
+		delete this.condition.processString;
 		if (this.condition.process === -1) this.condition.process = 0;
-		if (this.condition.process === 3) this.condition.processString = '3,6';
-		else {
-			delete this.condition.processString;
-		}
 		if (this.condition.process === 1) delete this.condition.process;
-
+		if (this.condition.process === 3) this.condition.processString = '3,6';
+		this.toInfoCount();
 		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({
