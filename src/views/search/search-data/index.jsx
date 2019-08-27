@@ -8,7 +8,7 @@ import SelectSearch from './selectSearch';
 const Datas = (props) => {
 	const { active, highSearch } = props;
 	if (highSearch && active.id !== 4) {
-		const myRef = React.createRef();
+		let myRef = React.createRef();
 		return (
 			<div className="yc-datas">
 				{
@@ -25,7 +25,7 @@ const Datas = (props) => {
 						type="primary"
 						size="large"
 						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
-						onClick={() => { console.log('myRef', myRef)}}
+						onClick={() => { console.log('myRef', myRef.current.getData()); }}
 					>
 						搜索
 					</Button>
