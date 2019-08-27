@@ -39,4 +39,9 @@ const toThousands = (value) => {
 	return data2;
 };
 
-export { format, toThousands, formatDateTime };
+// 转JSON
+const strToJson = str => JSON.parse(str);
+
+export {
+	format, toThousands, formatDateTime, strToJson,
+};

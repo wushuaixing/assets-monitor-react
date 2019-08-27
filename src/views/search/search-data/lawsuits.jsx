@@ -32,7 +32,7 @@ const Datas = (props) => {
 								}}
 							/>
 							{
-								plaintiff.length > 0 ? (
+								plaintiff.length > 1 ? (
 									<img
 										alt=""
 										className="close"
@@ -82,7 +82,7 @@ const Datas = (props) => {
 								}}
 							/>
 							{
-								defendant.length > 0 ? (
+								defendant.length > 1 ? (
 									<img
 										alt=""
 										className="close"

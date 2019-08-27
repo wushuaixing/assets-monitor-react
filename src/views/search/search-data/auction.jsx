@@ -6,6 +6,9 @@ import Input from '@/common/input';
 class Datas extends React.PureComponent {
 	constructor(props) {
 		super(props);
+		this.state = {
+
+		};
 	}
 
 	getData = () => 'hahahahahah';

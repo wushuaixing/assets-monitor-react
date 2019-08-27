@@ -9,6 +9,7 @@ const tabSource = [
 	{
 		id: 1,
 		name: '拍卖信息',
+		router: 'auction',
 		types: [
 			{
 				placeholder: '姓名、公司名称',
@@ -35,6 +36,7 @@ const tabSource = [
 	{
 		id: 2,
 		name: '涉诉信息',
+		router: 'lawsuits',
 		types: [
 			{
 				placeholder: '姓名、公司名称',
@@ -56,6 +58,7 @@ const tabSource = [
 	{
 		id: 3,
 		name: '文书信息',
+		router: 'writ',
 		types: [
 			{
 				placeholder: '姓名、公司名称、关键字',
@@ -77,6 +80,7 @@ const tabSource = [
 	{
 		id: 4,
 		name: '金融资产',
+		router: 'finance',
 		types: [],
 	},
 ];
