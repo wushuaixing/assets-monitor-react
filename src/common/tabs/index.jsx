@@ -3,6 +3,7 @@ import './style.scss';
 import Badge from '../badge';
 import { parseQuery } from '@/utils';
 
+// 获取默认路由 选中
 const toGetDefaultActive = (source, field) => {
 	const { hash } = window.location;
 	let res = '';
@@ -18,6 +19,8 @@ const toGetDefaultActive = (source, field) => {
 	});
 	return res || source[0].id;
 };
+
+// 数值超过10000，加单位
 const numUnit = val => (val > 10000 ? `${(val / 10000).toFixed(1)}万` : val);
 
 const Tabs = (props) => {
@@ -32,10 +35,6 @@ const Tabs = (props) => {
 		}
 	};
 
-	// useEffect(() => {
-	// 	/* 未考虑兼容性 暂时搁置 */
-	//
-	// });
 	return (
 		<div className={`yc-tabs-wrapper ${simple ? 'yc-tabs-simple' : 'yc-tabs-normal'}`}>
 			<ul>

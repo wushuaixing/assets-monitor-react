@@ -50,6 +50,12 @@ export default class Subrogation extends React.Component {
 		this.onQueryChange({});
 	}
 
+	// 清除排序状态
+	toClearSortStatus=() => {
+		this.condition.field = '';
+		this.condition.order = '';
+	};
+
 	// 获取统计信息
 	toInfoCount=(isRead) => {
 		const params = Object.assign(this.condition, { type: 1, isRead });
@@ -182,7 +188,6 @@ export default class Subrogation extends React.Component {
 
 	// 批量管理☑️结果
 	onSelect=(val) => {
-		// console.log(val);
 		this.selectRow = val;
 	};
 
@@ -206,6 +211,7 @@ export default class Subrogation extends React.Component {
 			total: '',
 			isRead: 'all',
 		});
+		this.toClearSortStatus();
 		this.onQueryChange('', val, 'all', 1);
 	};
 
@@ -214,7 +220,20 @@ export default class Subrogation extends React.Component {
 		this.onQueryChange('', '', '', val);
 	};
 
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.field = field;
+		this.condition.order = order;
+		this.onQueryChange(this.condition, '', '', 1);
+	};
+
 	// 查询条件变化
+	onQuery =(con) => {
+		this.toClearSortStatus();
+		this.onQueryChange(con, '', '', 1);
+	};
+
+	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, isRead, current } = this.state;
 		// console.log(val, _sourceType, _isRead);
@@ -267,10 +286,13 @@ export default class Subrogation extends React.Component {
 			onRefresh: this.onRefresh,
 			onSelect: this.onSelect,
 			onPageChange: this.onPageChange,
+			onSortChange: this.onSortChange,
+			sortField: this.condition.field,
+			sortOrder: this.condition.order,
 		};
 		return (
 			<div className="yc-assets-auction">
-				<QueryRegister onQueryChange={this.onQueryChange} />
+				<QueryRegister onQueryChange={this.onQuery} />
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
