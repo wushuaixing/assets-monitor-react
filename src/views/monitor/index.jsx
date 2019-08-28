@@ -25,7 +25,7 @@ const toGetRuth = (rules) => {
 			id: 1,
 			name: '资产拍卖',
 			url: '/monitor',
-			paramUrl: '?process=2',
+			paramUrl: '?process=-1',
 			status: rule.jkxxzcpm,
 			number: 0,
 			dot: false,

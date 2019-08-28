@@ -271,6 +271,7 @@ export default class Assets extends React.Component {
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
+					field="process"
 					defaultCurrent={-1}
 				/>
 				{
