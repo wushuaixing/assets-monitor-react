@@ -1,20 +1,22 @@
 import React from 'react';
 import { Table, Pagination, Modal } from 'antd';
-import { ReadStatus, Attentions, TitleIcon } from '@/common/table';
+import {
+	ReadStatus, Attentions, TitleIcon, SortVessel,
+} from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 
 // 关联连接 组件
 const aboutLink = (value, row) => {
-	const toShow = () => {
+	const toShow = (source) => {
 		Modal.info({
 			title: '本案号关联多个立案链接，如下：',
 			okText: '确定',
-			iconType: 't',
+			iconType: 'null',
 			width: 600,
 			content: (
 				<div style={{ marginLeft: -28 }}>
 					{
-						value.map(item => (
+						source.map(item => (
 							<p style={{ margin: 5 }}>
 								<a href={item} className="click-link" target="_blank" rel="noopener noreferrer">{item}</a>
 							</p>
@@ -25,29 +27,54 @@ const aboutLink = (value, row) => {
 			onOk() {},
 		});
 	};
-	if (value && !row.isDeleted) {
-		if (value.length > 1) {
-			return <span className="click-link" onClick={toShow}>立案</span>;
+	if (row.isDeleted) return null;
+
+	const La = (value.filter(item => item.sourceType === 1))[0];
+	const Kt = (value.filter(item => item.sourceType === 2))[0];
+	const Ws = (value.filter(item => item.sourceType === 3))[0];
+	// console.log(La, Kt, Ws);
+	const resContent = [];
+	if (La && La.url.length) {
+		if (La.url.length > 1) {
+			resContent.push(<span className="click-link" onClick={() => toShow(La.url)}>立案</span>);
 		}
-		return <a href={value[0]} className="click-link" target="_blank" rel="noopener noreferrer">立案</a>;
+		resContent.push(<a href={La.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">立案</a>);
 	}
-	return null;
+	if (Kt && Kt.url.length) {
+		if (resContent.length)resContent.push(<span className="info-line">|</span>);
+		if (Kt.url.length > 1) {
+			resContent.push(<span className="click-link" onClick={() => toShow(Kt.url)}>开庭</span>);
+		}
+		resContent.push(<a href={Kt.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">开庭</a>);
+	}
+	if (Ws && Ws.url.length) {
+		if (resContent.length)resContent.push(<span className="info-line">|</span>);
+		if (Ws.url.length > 1) {
+			resContent.push(<span className="click-link" onClick={() => toShow(Ws.url)}>文书</span>);
+		}
+		resContent.push(<a href={Ws.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">文书</a>);
+	}
+	return resContent;
 };
 
 // 获取表格配置
 const columns = (props) => {
 	const {
-		normal, onRefresh, sourceType,
+		normal, onRefresh, sourceType, onSortChange, sortField, sortOrder,
 	} = props;
+	const sort = {
+		sortField,
+		sortOrder,
+	};
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
+			title: <SortVessel field="larq" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>,
 			dataIndex: 'larq',
 			width: 111,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 		}, {
-			title: '原告',
+			title: <SortVessel field="yg" onClick={onSortChange} {...sort}>原告</SortVessel>,
 			dataIndex: 'yg',
 			render: text => text || '--',
 		}, {
@@ -110,7 +137,6 @@ const columns = (props) => {
 			dataIndex: 'associatedInfo',
 			className: 'tAlignCenter_important',
 			render: aboutLink,
-			width: 80,
 		}, {
 			title: '更新日期',
 			dataIndex: 'updateTime',

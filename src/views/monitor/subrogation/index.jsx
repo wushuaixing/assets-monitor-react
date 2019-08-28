@@ -10,7 +10,7 @@ import { Button, Tabs, Spin } from '@/common';
 import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
-import { urlEncode } from '@/utils';
+import { urlEncode, clearEmpty } from '@/utils';
 
 const cookies = new Cookies();
 
@@ -50,10 +50,16 @@ export default class Subrogation extends React.Component {
 		this.onQueryChange({});
 	}
 
+	// 清除排序状态
+	toClearSortStatus=() => {
+		this.condition.field = '';
+		this.condition.order = '';
+	};
+
 	// 获取统计信息
 	toInfoCount=(isRead) => {
 		const params = Object.assign(this.condition, { type: 1, isRead });
-		infoCount(params).then((res) => {
+		infoCount(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
@@ -182,7 +188,6 @@ export default class Subrogation extends React.Component {
 
 	// 批量管理☑️结果
 	onSelect=(val) => {
-		// console.log(val);
 		this.selectRow = val;
 	};
 
@@ -206,6 +211,7 @@ export default class Subrogation extends React.Component {
 			total: '',
 			isRead: 'all',
 		});
+		this.toClearSortStatus();
 		this.onQueryChange('', val, 'all', 1);
 	};
 
@@ -214,7 +220,20 @@ export default class Subrogation extends React.Component {
 		this.onQueryChange('', '', '', val);
 	};
 
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.field = field;
+		this.condition.order = order;
+		this.onQueryChange(this.condition, '', '', 1);
+	};
+
 	// 查询条件变化
+	onQuery =(con) => {
+		this.toClearSortStatus();
+		this.onQueryChange(con, '', '', 1);
+	};
+
+	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, isRead, current } = this.state;
 		// console.log(val, _sourceType, _isRead);
@@ -225,29 +244,27 @@ export default class Subrogation extends React.Component {
 			type: 1,
 			num: 10,
 		});
-		if (__isRead === 'all') {
-			delete this.condition.isRead;
-		}
-		if (__isRead === 'unread') {
-			this.condition.isRead = 0;
-		}
+		if (__isRead === 'all') delete this.condition.isRead;
+		if (__isRead === 'unread') this.condition.isRead = 0;
 		this.setState({
 			loading: true,
 			manage: false,
 		});
-		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
-
-		infoList(this.condition).then((res) => {
+		this.toInfoCount();
+		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
+					loading: false,
+				});
+			} else {
+				message.error(res.message || '网络请求异常请稍后再试！');
+				this.setState({
+					loading: false,
 				});
 			}
-			this.setState({
-				loading: false,
-			});
 		}).catch(() => {
 			this.setState({
 				loading: false,
@@ -267,10 +284,13 @@ export default class Subrogation extends React.Component {
 			onRefresh: this.onRefresh,
 			onSelect: this.onSelect,
 			onPageChange: this.onPageChange,
+			onSortChange: this.onSortChange,
+			sortField: this.condition.field,
+			sortOrder: this.condition.order,
 		};
 		return (
 			<div className="yc-assets-auction">
-				<QueryRegister onQueryChange={this.onQueryChange} />
+				<QueryRegister onQueryChange={this.onQuery} />
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
