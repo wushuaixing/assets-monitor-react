@@ -10,7 +10,7 @@ import { Button, Tabs, Spin } from '@/common';
 import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
-import { urlEncode } from '@/utils';
+import { urlEncode, clearEmpty } from '@/utils';
 
 const cookies = new Cookies();
 
@@ -59,7 +59,7 @@ export default class Subrogation extends React.Component {
 	// 获取统计信息
 	toInfoCount=(isRead) => {
 		const params = Object.assign(this.condition, { type: 1, isRead });
-		infoCount(params).then((res) => {
+		infoCount(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
@@ -244,29 +244,27 @@ export default class Subrogation extends React.Component {
 			type: 1,
 			num: 10,
 		});
-		if (__isRead === 'all') {
-			delete this.condition.isRead;
-		}
-		if (__isRead === 'unread') {
-			this.condition.isRead = 0;
-		}
+		if (__isRead === 'all') delete this.condition.isRead;
+		if (__isRead === 'unread') this.condition.isRead = 0;
 		this.setState({
 			loading: true,
 			manage: false,
 		});
-		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
-
-		infoList(this.condition).then((res) => {
+		this.toInfoCount();
+		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
+					loading: false,
+				});
+			} else {
+				message.error(res.message || '网络请求异常请稍后再试！');
+				this.setState({
+					loading: false,
 				});
 			}
-			this.setState({
-				loading: false,
-			});
 		}).catch(() => {
 			this.setState({
 				loading: false,
