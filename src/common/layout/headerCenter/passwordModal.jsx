@@ -378,6 +378,7 @@ class ChangeWorldModal extends React.PureComponent {
 								autocomplete="off"
 								style={{ width: 234, height: 34 }}
 								placeholder="请再次输入新密码"
+								maxlength="20"
 								onInput={e => this.againPasswordValue(e)}
 								onBlur={e => this.onAgainBlurValue(e)}
 								onFocus={e => this.againPasswordFoucs(e)}

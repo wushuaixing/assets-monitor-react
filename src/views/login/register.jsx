@@ -62,7 +62,8 @@ class Login extends React.Component {
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		console.log(fields);
-
+		// const validRule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;// 手机号码校验规则
+		// const emialRule = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/; // 邮箱格式
 		const params = {
 			...fields,
 			// password: rsaEncrypt(fields.password),

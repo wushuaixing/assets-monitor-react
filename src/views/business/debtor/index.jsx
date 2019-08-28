@@ -119,7 +119,10 @@ class BusinessDebtor extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
 		resetFields('');
-		this.getData();
+		const params = {
+			page: 1,
+		};
+		this.getData(params);
 		this.setState({
 			searchValue: {},
 		});
