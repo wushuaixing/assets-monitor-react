@@ -19684,6 +19684,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      { className: 'ant-confirm-title' },
 	      props.title
 	    ),
+			_react2["default"].createElement(
+				'div',
+				{ className: 'ant-confirm-line' },
+			),
 	    _react2["default"].createElement(
 	      'div',
 	      { className: 'ant-confirm-content' },
