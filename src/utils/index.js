@@ -253,3 +253,17 @@ export const urlEncode = (param, key, encode) => {
 	}
 	return paramStr;
 };
+
+
+export const clearEmpty = (obj) => {
+	if (typeof obj === 'object') {
+		const l = Object.keys(obj);
+		const _obj = JSON.parse(JSON.stringify(obj));
+		l.forEach((item) => {
+			if (!_obj[item]) delete _obj[item];
+			else if (typeof _obj[item] === 'string')_obj[item] = _obj[item].replace(/^\s+|\s+$/g, '');
+		});
+		return _obj;
+	}
+	return obj;
+};

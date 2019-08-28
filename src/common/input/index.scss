@@ -42,6 +42,9 @@ html {
         vertical-align: middle;
         margin-top: 1px;
       }
+      &:hover{
+        border: 1px solid $color-base;
+      }
       &:focus{
         border: 1px solid $color-base;
         box-shadow: 0 0 4px 0 $color-base;

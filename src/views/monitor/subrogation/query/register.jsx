@@ -8,6 +8,22 @@ class QueryCondition extends React.Component {
 		this.state = {};
 	}
 
+	componentDidMount() {
+		window._addEventListener(window, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(window, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const	key = e.keyCode || e.which || e.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.handleSubmit();
+			document.activeElement.blur();
+		}
+	};
+
 	handleSubmit=() => {
 		const { form: { getFieldsValue }, onQueryChange } = this.props;
 		const condition = getFieldsValue();
@@ -32,7 +48,7 @@ class QueryCondition extends React.Component {
 			},
 		};
 		return (
-			<div className="yc-content-query">
+			<div className="yc-content-query" ref={e => this.dom = e}>
 				<div className="yc-query-item">
 					<Input title="原告" style={_style1} size="large" placeholder="原告姓名/公司" {...getFieldProps('yg')} />
 				</div>

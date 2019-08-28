@@ -1,0 +1,19 @@
+
+.yc-table-sort-wrapper{
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
+  .yc-title-mark{
+    color: #cccccc;
+    padding: 0 2px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .yc-title-sort-img{
+    display: inline-block;
+    vertical-align: top;
+    width: 16px;
+    height: 16px;
+  }
+}
