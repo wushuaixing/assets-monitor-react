@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button } from '@/common';
+import { Input, Button, timeRule } from '@/common';
 import InputPrice from '@/common/input/input-price';
 import {
 	DatePicker, Select, Form,
@@ -12,6 +12,22 @@ class QueryCondition extends React.Component {
 			moreOption: false,
 		};
 	}
+
+	componentDidMount() {
+		window._addEventListener(window, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(window, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const	key = e.keyCode || e.which || e.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.handleSubmit();
+			document.activeElement.blur();
+		}
+	};
 
 	handleSubmit=() => {
 		const { form: { getFieldsValue }, onQueryChange } = this.props;
@@ -28,7 +44,7 @@ class QueryCondition extends React.Component {
 	};
 
 	render() {
-		const { form: { getFieldProps } } = this.props;
+		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const _style1 = { width: 274 };
 		const _style2 = { width: 100 };
 		const _style3 = { width: 80 };
@@ -101,6 +117,7 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="开始日期"
 						{...getFieldProps('startStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('startEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
@@ -108,6 +125,7 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="结束日期"
 						{...getFieldProps('startEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startStart'))}
 					/>
 				</div>
 
@@ -118,6 +136,7 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="开始日期"
 						{...getFieldProps('updateTimeStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('updateTimeEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
@@ -125,6 +144,7 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="结束日期"
 						{...getFieldProps('updateTimeEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('updateTimeStart'))}
 					/>
 				</div>
 

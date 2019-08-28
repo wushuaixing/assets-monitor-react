@@ -114,4 +114,5 @@ class SimpleTab extends React.Component {
 // 		</div>
 // 	);
 // };
+SimpleTab.toGetDefaultActive = toGetDefaultActive;
 export default SimpleTab;
