@@ -7,7 +7,7 @@ import { Button, Spin, Tabs } from '@/common';
 import {
 	infoList, exportList, follow, infoCount,
 } from '@/utils/api/monitor-info/assets';
-import { urlEncode } from '@/utils';
+import { urlEncode, clearEmpty } from '@/utils';
 import './style.scss';
 
 const source = (obj = {}) => [
@@ -91,6 +91,12 @@ export default class Assets extends React.Component {
 		});
 	};
 
+	// 清除排序状态
+	toClearSortStatus=() => {
+		this.condition.sortColumn = '';
+		this.condition.sortOrder = '';
+	};
+
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
 		if (type === 'all') {
@@ -164,6 +170,7 @@ export default class Assets extends React.Component {
 			total: '',
 			manage: false,
 		});
+		this.toClearSortStatus();
 		this.onQueryChange(null, val, '', 1);
 	};
 
@@ -184,12 +191,25 @@ export default class Assets extends React.Component {
 		});
 	};
 
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
+		this.onQueryChange(this.condition, '', '', 1);
+	};
+
 	// 当前页数变化
 	onPageChange=(val) => {
 		this.onQueryChange('', '', '', val);
 	};
 
 	// 查询条件变化
+	onQuery =(con) => {
+		this.toClearSortStatus();
+		this.onQueryChange(con, '', '', 1);
+	};
+
+	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, current } = this.state;
 		this.condition = Object.assign(con || this.condition, {
@@ -204,7 +224,7 @@ export default class Assets extends React.Component {
 		if (this.condition.process === 1) delete this.condition.process;
 		if (this.condition.process === 3) this.condition.processString = '3,6';
 		this.toInfoCount();
-		infoList(this.condition).then((res) => {
+		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -241,10 +261,13 @@ export default class Assets extends React.Component {
 			onRefresh: this.onRefresh,
 			onSelect: this.onSelect,
 			onPageChange: this.onPageChange,
+			onSortChange: this.onSortChange,
+			sortField: this.condition.sortColumn,
+			sortOrder: this.condition.sortOrder,
 		};
 		return (
 			<div className="yc-assets-auction">
-				<Query onQueryChange={this.onQueryChange} />
+				<Query onQueryChange={this.onQuery} />
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
@@ -253,7 +276,13 @@ export default class Assets extends React.Component {
 				{
 					!manage ? (
 						<div className="assets-auction-action">
-							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							<Button
+								onClick={() => {
+									this.setState({ manage: true });
+									console.log(this.condition);
+								}}
+								title="批量管理"
+							/>
 							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
 								<span className="yc-export-img" />
 								<span> 一键导出</span>

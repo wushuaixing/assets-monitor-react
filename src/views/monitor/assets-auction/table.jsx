@@ -2,18 +2,26 @@ import React from 'react';
 import { Table, Pagination } from 'antd';
 import { Attentions } from '@/common/table';
 import { followSingle, unFollowSingle } from '@/utils/api/monitor-info/assets';
-import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/monitor/assets-auction/tableComponents';
+import {
+	AssetsInfo, MatchingReason, AuctionInfo,
+} from '@/views/monitor/assets-auction/tableComponents';
 import { Button } from '@/common';
+import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
 
 // 获取表格配置
 const columns = (props) => {
-	const { normal, onRefresh } = props;
-
+	const {
+		normal, onRefresh, onSortChange, sortField, sortOrder,
+	} = props;
+	const sort = {
+		sortField,
+		sortOrder,
+	};
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: '资产信息',
+			title: <SortVessel field="updateTime" onClick={onSortChange} mark="(更新时间)" {...sort}>资产信息</SortVessel>,
 			width: 274,
 			render: AssetsInfo,
 		}, {
@@ -22,7 +30,7 @@ const columns = (props) => {
 			width: 367,
 			render: MatchingReason,
 		}, {
-			title: '拍卖信息',
+			title: <SortVessel field="start" onClick={onSortChange} mark="(开拍时间)" {...sort}>拍卖信息</SortVessel>,
 			width: 392,
 			render: AuctionInfo,
 		}, {
