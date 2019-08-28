@@ -12,9 +12,11 @@ import {
 import {
 	login, // login
 } from '@/utils/api/user';
-// import rsaEncrypt from '@/utils/encryp';
-// import { Button } from '@/components';
+import { baseUrl } from '@/utils/api';
+import PasswordModal from './passwordModal';
 import './style.scss';
+
+const verificationCodeImg = `${baseUrl}/yc/open/verificationCode`;
 
 const cookie = new Cookies();
 const FormItem = Form.Item;
@@ -27,7 +29,9 @@ class Login extends React.Component {
 			loading: false,
 			rememberPassword: cookie.get('rememberPassword'),
 			userName: '',
-			errorNum: 0,
+			mustVerifyImageCode: false,
+			codeImg: verificationCodeImg,
+			passwordModalVisible: false,
 		};
 	}
 
@@ -57,6 +61,8 @@ class Login extends React.Component {
 		} = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
+		console.log(fields);
+
 		const params = {
 			...fields,
 			// password: rsaEncrypt(fields.password),
@@ -79,11 +85,22 @@ class Login extends React.Component {
 					message.success('登陆成功');
 					cookie.set('token', res.data.token);
 					cookie.set('name', res.data.userName);
-					navigate('/monitor');
+
+					// 判断是否是第一次登录
+					if (res.data.firstLogin === false) {
+						this.openModal();
+						this.setState({
+							loading: false,
+						});
+					} else {
+						navigate('/');
+					}
 				} else {
 					message.error(res.message);
+					this.verificationCode();
 					this.setState({
 						loading: false,
+						mustVerifyImageCode: res.data.mustVerifyImageCode,
 					});
 				}
 			}).catch(() => {
@@ -92,6 +109,13 @@ class Login extends React.Component {
 					loading: false,
 				});
 			});
+		});
+	};
+
+	verificationCode = () => {
+		// const imgs = server.get(`${verificationCodeImg}?${Math.random()}`);
+		this.setState({
+			codeImg: `${verificationCodeImg}?${Math.random()}`,
 		});
 	};
 
@@ -119,9 +143,23 @@ class Login extends React.Component {
 		}
 	};
 
+	// 打开修改密码弹框
+	openModal = () => {
+		this.setState({
+			passwordModalVisible: true,
+		});
+	}
+
+	// 关闭弹窗
+	onCancel = () => {
+		this.setState({
+			passwordModalVisible: false,
+		});
+	}
+
 	render() {
 		const {
-			loading, userName, rememberPassword, errorNum,
+			loading, userName, rememberPassword, mustVerifyImageCode, codeImg, passwordModalVisible,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType,
@@ -180,13 +218,13 @@ class Login extends React.Component {
 							</FormItem>
 						</div>
 						{
-							errorNum >= 3 && (
+							mustVerifyImageCode === true && (
 							<div className="yc-form-wapper">
 								<FormItem>
 									<Input
 										className="yc-login-input"
 										placeholder="请输入验证码"
-										{...getFieldProps('resetImg', {
+										{...getFieldProps('imageVerifyCode', {
 											rules: [
 												{
 													required: true,
@@ -196,6 +234,7 @@ class Login extends React.Component {
 										})}
 									/>
 									<span className="yc-form-resetImg yc-form-icon" />
+									<img onClick={this.verificationCode} className="yc-verificationCode" src={codeImg} alt="" referrerPolicy="no-referrer" />
 								</FormItem>
 							</div>
 							)
@@ -215,6 +254,14 @@ class Login extends React.Component {
 						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>登录</Button>
 					</Spin>
 				</Form>
+				{/** 修改密码Modal */}
+				{passwordModalVisible && (
+				<PasswordModal
+					onCancel={this.onCancel}
+					onOk={this.onOk}
+					passwordModalVisible={passwordModalVisible}
+				/>
+				)}
 			</div>
 		);
 	}

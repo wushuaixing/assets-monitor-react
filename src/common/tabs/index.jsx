@@ -27,6 +27,8 @@ const Tabs = (props) => {
 	const [active, setActive] = useState(defaultCurrent || toGetDefaultActive(source, field));
 	window.onhashchange = () => {
 		const _result = toGetDefaultActive(source, field);
+
+		// 当_result > active时请求
 		if (_result !== active) {
 			setActive(_result);
 		}

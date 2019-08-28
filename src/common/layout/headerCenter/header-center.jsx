@@ -4,6 +4,7 @@ import {
 } from 'antd';
 import { navigate } from '@reach/router';
 import './style.scss';
+import Cookies from 'universal-cookie';
 import {
 	userInfo, // tree
 	loginOut, // login
@@ -13,6 +14,7 @@ import PasswordModal from './passwordModal';
 import flat from '../../../utils/flatArray';
 
 const { TreeNode } = Tree;
+const cookie = new Cookies();
 export default class HeaderMessage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -38,12 +40,14 @@ export default class HeaderMessage extends React.Component {
 		});
 	}
 
+	// 退出登录
 	handleClick = () => {
 		navigate('/login');
 		loginOut().then((res) => {
 			if (res.code === 200) {
 				message.success('退出成功');
 				// 清空token
+				cookie.remove('token');
 				navigate('/login');
 			} else {
 				message.error(res.message);
@@ -197,7 +201,7 @@ export default class HeaderMessage extends React.Component {
 						}
 					</div>
 				</div>
-				{/** 担保人Modal */}
+				{/** 修改密码Modal */}
 				{passwordModalVisible && (
 				<PasswordModal
 					onCancel={this.onCancel}

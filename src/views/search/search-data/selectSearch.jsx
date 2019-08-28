@@ -26,7 +26,6 @@ const doSearch = (router, props) => {
 const Datas = (props) => {
 	const { options, router } = props;
 	const [keywords, setKeywords] = useState(null);
-
 	if (options) {
 		const [placeholder, setPlaceholder] = useState(options[0].placeholder);
 		const [selectId, setSelectId] = useState(options[0].id);

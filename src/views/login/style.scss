@@ -6,6 +6,12 @@
   background: #fff;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  .yc-verificationCode {
+    position: absolute;
+    height: 40px;
+    right: 0;
+    cursor: pointer;
+  }
   .yc-login-header {
     height: 90px;
     background: -moz-linear-gradient(top, #f5f7fa 0%, #f2f4f7 100%);

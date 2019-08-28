@@ -11,8 +11,6 @@ class Datas extends React.PureComponent {
 		};
 	}
 
-	getData = () => 'hahahahahah';
-
 	render() {
 		return (
 			<div className="yc-tabs-data">

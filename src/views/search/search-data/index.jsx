@@ -8,24 +8,23 @@ import SelectSearch from './selectSearch';
 const Datas = (props) => {
 	const { active, highSearch } = props;
 	if (highSearch && active.id !== 4) {
-		const myRef = React.createRef();
 		return (
 			<div className="yc-datas">
 				{
-					active.id === 1 ? (<Auction ref={myRef} />) : null
+					active.id === 1 ? (<Auction />) : null
 				}
 				{
-					active.id === 2 ? (<Lawsuits ref={myRef} />) : null
+					active.id === 2 ? (<Lawsuits />) : null
 				}
 				{
-					active.id === 3 ? (<Writ ref={myRef} />) : null
+					active.id === 3 ? (<Writ />) : null
 				}
 				<div className="btn">
 					<Button
 						type="primary"
 						size="large"
 						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
-						onClick={() => { console.log('myRef', myRef.current.getData()); }}
+						onClick={() => { console.log('myRef'); }}
 					>
 						搜索
 					</Button>

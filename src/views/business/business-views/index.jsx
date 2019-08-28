@@ -221,6 +221,8 @@ class BusinessView extends React.Component {
 			...fields,
 			idList: selectedRowKeys, // 批量选中
 		};
+		// console.log(urlEncode(params), 12);
+
 		exportExcel(urlEncode(params)).then((res) => {
 			if (res.status === 200) {
 				const downloadElement = document.createElement('a');

@@ -10,13 +10,13 @@ import Finance from './finance';
 import Lawsuits from './lawsuits';
 // import Asset from './asset-information';
 
-const source = [
+const source = rule => ([
 	{
 		id: 1,
 		name: '拍卖信息',
 		url: '/search/detail',
 		number: 0,
-		dot: false,
+		open: !!(rule && rule.xxsspmxx),
 		components: Auction,
 	},
 	{
@@ -24,7 +24,7 @@ const source = [
 		name: '涉诉信息',
 		url: '/search/detail/lawsuits',
 		number: 0,
-		dot: false,
+		open: !!(rule && rule.xxssssxx),
 		components: Lawsuits,
 	},
 	{
@@ -32,7 +32,7 @@ const source = [
 		name: '文书信息',
 		url: '/search/detail/writ',
 		number: 0,
-		dot: false,
+		open: !!(rule && rule.xxsswsxx),
 		components: Write,
 	},
 	{
@@ -40,34 +40,40 @@ const source = [
 		name: '金融信息',
 		url: '/search/detail/finance',
 		number: 0,
-		dot: false,
+		open: !!(rule && rule.xxssjrzc),
 		components: Finance,
 	},
-];
+]);
 
-const SearchBase = () => (
-	<React.Fragment>
-		<Tabs
-			onChange={res => navigate(res.url)}
-			source={source}
-		/>
-		<div className="yc-business yc-page-content">
-			<Router>
-				{
-					source.map(Item => <Item.components path={`${Item.url}/*`} />)
+const SearchBase = (props) => {
+	const { rule } = props && props;
+	const displayArray = source(rule).filter(item => item.open === true); // 过滤权限
+
+	return (
+		<React.Fragment>
+			<Tabs
+				onChange={res => navigate(res.url)}
+				source={displayArray}
+			/>
+			<div className="yc-business yc-page-content">
+				<Router>
+					{
+					displayArray.map(Item => <Item.components path={`${Item.url}/*`} />)
 				}
-			</Router>
-		</div>
-	</React.Fragment>
+				</Router>
+			</div>
+		</React.Fragment>
+	);
+};
 
-);
-const SearchRouter = () => (
-	<Router>
-		<SearchBase path="/*" />
-		{/* <Auction path="/search/detail/*" />
-		<Lawsuits path="/search/detail/lawsuits/*" />
-		<Write path="/search/detail/writ/*" />
-		<Finance path="/search/detail/finance/*" /> */}
-	</Router>
-);
+
+const SearchRouter = (props) => {
+	const { rule } = props;
+
+	return (
+		<Router>
+			<SearchBase rule={rule} path="/*" />
+		</Router>
+	);
+};
 export default SearchRouter;

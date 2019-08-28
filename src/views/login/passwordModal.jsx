@@ -264,17 +264,9 @@ class ChangeWorldModal extends React.PureComponent {
 				...fields,
 			};
 			changePassword(params).then((res) => {
-				const start = new Date().getTime(); // 获取接口响应时间
 				if (res.code === 200) {
-					const now = new Date().getTime();
-					const latency = now - start;
-					const hide = message.loading('验证成功, 跳转登录页面...', 0);
-					// 异步手动移除
-					setTimeout(() => {
-						navigate('/login'); // 实现页面重新加载/
-					}, latency);
-					// 异步手动移除
-					setTimeout(hide, latency);
+					message.success('修改成功,请重新登录');
+					this.handleCancel();
 				} else {
 					message.error(res.message);
 				}
@@ -318,7 +310,7 @@ class ChangeWorldModal extends React.PureComponent {
 		);
 		// ==========
 		return (
-			<Modal title="修改密码" width={600} visible={passwordModalVisible} onCancel={this.handleCancel} onOk={this.handleOk}>
+			<Modal title="第一次登录请先修改密码" width={600} visible={passwordModalVisible} onCancel={this.handleCancel} onOk={this.handleOk}>
 				<div className="yc-form-wapper">
 					<FormItem
 						{...formItemLayout}
