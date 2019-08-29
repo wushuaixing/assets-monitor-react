@@ -1,10 +1,10 @@
 import React from 'react';
 import { Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
-import QueryCourt from './query/bidding';
-import TableCourt from './table/bidding';
-import QueryRegister from './query/publicity';
-import TableRegister from './table/publicity';
+import QueryBidding from './query/bidding';
+import TableBidding from './table/bidding';
+import QueryPublicity from './query/publicity';
+import TablePublicity from './table/publicity';
 
 import { Button, Tabs, Spin } from '@/common';
 import { readStatusAll } from '@/utils/api/monitor-info/finance';
@@ -230,8 +230,8 @@ export default class Subrogation extends React.Component {
 			<div className="yc-assets-auction">
 				{
 					sourceType === 1
-						?	<QueryCourt onQueryChange={this.onQueryChange} />
-						:	<QueryRegister onQueryChange={this.onQueryChange} />
+						?	<QueryBidding onQueryChange={this.onQueryChange} />
+						:	<QueryPublicity onQueryChange={this.onQueryChange} />
 				}
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
@@ -279,7 +279,7 @@ export default class Subrogation extends React.Component {
 				}
 				<Spin visible={loading}>
 					{
-						sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
+						sourceType === 1 ? <TableBidding {...tableProps} /> : <TablePublicity {...tableProps} />
 					}
 				</Spin>
 
