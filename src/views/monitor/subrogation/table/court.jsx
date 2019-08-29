@@ -38,22 +38,25 @@ const aboutLink = (value, row) => {
 	if (La && La.url.length) {
 		if (La.url.length > 1) {
 			resContent.push(<span className="click-link" onClick={() => toShow(La.url)}>立案</span>);
+		} else if (La.url.length === 1) {
+			resContent.push(<a href={La.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">立案</a>);
 		}
-		resContent.push(<a href={La.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">立案</a>);
 	}
 	if (Kt && Kt.url.length) {
 		if (resContent.length)resContent.push(<span className="info-line">|</span>);
 		if (Kt.url.length > 1) {
 			resContent.push(<span className="click-link" onClick={() => toShow(Kt.url)}>开庭</span>);
+		} else if (Kt.url.length === 1) {
+			resContent.push(<a href={Kt.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">开庭</a>);
 		}
-		resContent.push(<a href={Kt.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">开庭</a>);
 	}
 	if (Ws && Ws.url.length) {
 		if (resContent.length)resContent.push(<span className="info-line">|</span>);
 		if (Ws.url.length > 1) {
 			resContent.push(<span className="click-link" onClick={() => toShow(Ws.url)}>文书</span>);
+		} else if (Ws.url.length === 1) {
+			resContent.push(<a href={Ws.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">文书</a>);
 		}
-		resContent.push(<a href={Ws.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">文书</a>);
 	}
 	return resContent;
 };
@@ -77,7 +80,7 @@ const columns = (props) => {
 			title: <TitleIcon title="原告" tooltip="我行债务人" />,
 			dataIndex: 'yg',
 			render: (text, row) => (
-				row.isDeleted ? text : <a href={`/#/monitor/business/detail?id=${row.obligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>
+				row.isDeleted ? text : <a href={`/#/monitor/debtor/detail?id=${row.obligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>
 			),
 		}, {
 			title: <TitleIcon title="被告" tooltip="蓝色可点击为我行债务人" />,
@@ -86,7 +89,7 @@ const columns = (props) => {
 				const { isDeleted, extObligorId } = row;
 				if (!isDeleted && extObligorId) {
 					return (
-						<a href={`/#/monitor/business/detail?id=${extObligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>
+						<a href={`/#/monitor/debtor/detail?id=${extObligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>
 					);
 				}
 				return text;
