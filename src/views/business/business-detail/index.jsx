@@ -62,7 +62,21 @@ class DebtorDetail extends React.Component {
 
 	componentDidMount() {
 		this.getTableData();
+		window._addEventListener(window, 'keyup', this.toKeyCode13);
 	}
+
+
+	componentWillUnmount() {
+		window._removeEventListener(window, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const	key = e.keyCode || e.which || e.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.handleSubmit();
+			document.activeElement.blur();
+		}
+	};
 
 	getTableData=(value) => {
 		const { hash } = window.location;
@@ -107,6 +121,19 @@ class DebtorDetail extends React.Component {
 		const { hash } = window.location;
 		const userId = getQueryByName(hash, 'id');
 		const fields = getFieldsValue();
+		if (!fields.obligorName) {
+			message.error('请填写借款人名称');
+			return;
+		}
+		if (fields.obligorName.length < 5 && !fields.obligorNumber) {
+			message.error('借款人为自然人时证件号不能为空！');
+			return;
+		}
+		// if (data) {
+		// 	message.error('业务人相关列表中，相关人名称不能为空!');
+		// 	return;
+		// }
+
 		confirm({
 			title: '确认修改债务人名称/身份信息？',
 			iconType: 'exclamation-circle-o',
@@ -120,19 +147,6 @@ class DebtorDetail extends React.Component {
 					},
 					obligorList: data,
 				};
-				if (!fields.obligorName) {
-					message.error('请填写借款人名称');
-					return;
-				}
-				console.log(data, 1);
-				if (data) {
-					const obligorName = data.forEach(item => item.obligorName);
-					console.log(obligorName);
-
-					// if (item.obligorName === '') {
-					// 	message.error('业务人相关列表中，相关人名称不能为空!');
-					// }
-				}
 				const start = new Date().getTime(); // 获取接口响应时间
 				save(userId, params).then((res) => {
 					if (res.code === 200) {

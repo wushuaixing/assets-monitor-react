@@ -37,16 +37,35 @@ class BusinessDebtor extends React.Component {
 
 	componentDidMount() {
 		this.getData();
+		window._addEventListener(window, 'keyup', this.toKeyCode13);
 	}
+
+
+	componentWillUnmount() {
+		window._removeEventListener(window, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const	key = e.keyCode || e.which || e.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.search();
+			document.activeElement.blur();
+		}
+	};
 
 	// 获取消息列表
 	getData = (value) => {
 		const {
 			current, pageSize, startTime, endTime,
 		} = this.state;
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+
+		const fildes = getFieldsValue();
 		const params = {
 			num: pageSize,
 			page: current,
+			...fildes,
 			...value,
 			uploadTimeStart: startTime, // 搜索时间
 			uploadTimeEnd: endTime,

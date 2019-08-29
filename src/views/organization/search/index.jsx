@@ -34,10 +34,10 @@ class BasicTable extends React.Component {
 		const { getTableData, role, form } = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
-		console.log(fields);
+		console.log(fields.obligorName.trim());
 
 		const params = {
-			keyword: fields.obligorName,
+			keyword: fields.obligorName.trim(),
 			role,
 			groupId: role,
 		};
