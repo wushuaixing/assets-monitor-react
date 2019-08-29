@@ -124,6 +124,15 @@ class DebtorDetail extends React.Component {
 					message.error('请填写借款人名称');
 					return;
 				}
+				console.log(data, 1);
+				if (data) {
+					const obligorName = data.forEach(item => item.obligorName);
+					console.log(obligorName);
+
+					// if (item.obligorName === '') {
+					// 	message.error('业务人相关列表中，相关人名称不能为空!');
+					// }
+				}
 				const start = new Date().getTime(); // 获取接口响应时间
 				save(userId, params).then((res) => {
 					if (res.code === 200) {

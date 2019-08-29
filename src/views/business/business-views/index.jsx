@@ -107,6 +107,7 @@ class BusinessView extends React.Component {
 								refresh: !that.state.refresh,
 								// errorMsg: info.file.response.data.errorMsgList,
 							});
+							// that.uploadError(info.file.response.data);
 							message.error(`上传失败: ${info.file.response.data.errorMessage}`);
 						}
 					} else if (info.file.status === 'error') {
@@ -118,6 +119,20 @@ class BusinessView extends React.Component {
 				},
 			};
 		};
+
+// uploadError = (data) => {
+// 	const that = this;
+// 	confirm({
+// 		title: `${data.errorType}`,
+// 		content: `${data.errorMessage}`,
+// 		iconType: 'exclamation-circle-o',
+// 		okText: '重新上传',
+// 		onOk() {
+// 			<Upload className="yc-upload" showUploadList={false} {...that.uploadAttachmentParam()} />;
+// 		},
+// 		onCancel() {},
+// 	});
+// }
 
 	// 获取消息列表
 	getData = (value) => {
@@ -221,20 +236,9 @@ class BusinessView extends React.Component {
 			...fields,
 			idList: selectedRowKeys, // 批量选中
 		};
-		// console.log(urlEncode(params), 12);
-
-		exportExcel(urlEncode(params)).then((res) => {
-			if (res.status === 200) {
-				const downloadElement = document.createElement('a');
-				downloadElement.href = res.responseURL;
-				// // document.body.appendChild(downloadElement);
-				downloadElement.click(); // 点击下载
-
-				message.success('下载成功');
-			} else {
-				message.error('请求失败');
-			}
-		});
+		const token = cookies.get('token');
+		// downloadElement.href = `${exportExcel}?${token}${urlEncode(params)}`;
+		window.open(`${exportExcel}?token=${token}${urlEncode(params)}`, '_self');
 	}
 
 	// 重置输入框
@@ -242,7 +246,10 @@ class BusinessView extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
 		resetFields('');
-		this.getData();
+		const params = {
+			page: 1,
+		};
+		this.getData(params);
 		this.setState({
 			searchValue: {},
 		});

@@ -11,8 +11,10 @@ import {
 } from 'antd';
 import {
 	login, // login
+	loginPreCheck, // 登录前校验
 } from '@/utils/api/user';
 import { baseUrl } from '@/utils/api';
+import rsaEncrypt from '@/utils/encrypt';
 import PasswordModal from './passwordModal';
 import './style.scss';
 
@@ -62,52 +64,62 @@ class Login extends React.Component {
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		console.log(fields);
-
+		// const validRule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;// 手机号码校验规则
+		// const emialRule = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/; // 邮箱格式
+		const beforeLogin = {
+			username: fields.username,
+		};
 		const params = {
 			...fields,
-			// password: rsaEncrypt(fields.password),
-			validCode: 123,
+			password: rsaEncrypt(fields.password),
 		};
 		form.validateFields((errors) => {
 			if (errors) {
 				return;
 			}
 			this.setState({
-				loading: true,
+				loading: false,
 			});
-			login(params).then((res) => {
-				if (res.code === 200) {
-					if (rememberPassword === 'false') {
-						cookie.remove('userName');
-					} else {
-						cookie.set('userName', fields.username);
-					}
-					message.success('登陆成功');
-					cookie.set('token', res.data.token);
-					cookie.set('name', res.data.userName);
-
-					// 判断是否是第一次登录
-					if (res.data.firstLogin === false) {
-						this.openModal();
+			loginPreCheck(beforeLogin).then((_res) => {
+				if (_res.code === 200) {
+					console.log(_res);
+					this.setState({
+						mustVerifyImageCode: _res.data.mustVerifyImageCode,
+					});
+					login(params).then((res) => {
+						if (res.code === 200) {
+							if (rememberPassword === 'false') {
+								cookie.remove('userName');
+							} else {
+								cookie.set('userName', fields.username);
+							}
+							message.success('登陆成功');
+							cookie.set('token', res.data.token);
+							cookie.set('name', res.data.userName);
+							navigate('/');
+							// 判断是否是第一次登录
+							if (res.data.firstLogin === true) {
+								this.setState({
+									loading: false,
+								});
+								navigate('/changepassword');
+							} else {
+								console.log(1);
+							}
+						} else {
+							message.error(res.message);
+							this.verificationCode();
+							this.setState({
+								loading: false,
+							});
+						}
+					}).catch(() => {
+						// message.error('服务器出错');
 						this.setState({
 							loading: false,
 						});
-					} else {
-						navigate('/');
-					}
-				} else {
-					message.error(res.message);
-					this.verificationCode();
-					this.setState({
-						loading: false,
-						mustVerifyImageCode: res.data.mustVerifyImageCode,
 					});
 				}
-			}).catch(() => {
-				// message.error('服务器出错');
-				this.setState({
-					loading: false,
-				});
 			});
 		});
 	};
@@ -157,6 +169,7 @@ class Login extends React.Component {
 		});
 	}
 
+
 	render() {
 		const {
 			loading, userName, rememberPassword, mustVerifyImageCode, codeImg, passwordModalVisible,
@@ -168,6 +181,7 @@ class Login extends React.Component {
 		return (
 
 			<div className="yc-login-main">
+
 				<Form>
 					<Spin spinning={loading}>
 						<li className="yc-card-title">用户登录</li>
@@ -176,7 +190,7 @@ class Login extends React.Component {
 								<Input
 									className="yc-login-input"
 									placeholder="请输入11位数字"
-												// addonBefore={<img style={{ height: 20, width: 18 }} src={imgTel} alt="" />}
+									// addonBefore={<img style={{ height: 20, width: 18 }} src={imgTel} alt="" />}
 									maxlength="11"
 									// onInput={e => this.changeValue(e)}
 									// onFocus={e => this.changeValue(e)}

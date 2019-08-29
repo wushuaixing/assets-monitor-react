@@ -61,3 +61,15 @@ export const changePassword = async (params) => {
 	const response = await service.post(`${baseUrl}/api/auth/user/changePassword`, params);
 	return response.data;
 };
+
+// 登录前校验
+export const loginPreCheck = async (params) => {
+	const response = await service.get(`${baseUrl}/api/auth/open/loginPreCheck`, { params });
+	return response.data;
+};
+
+// 初始账号(初始修改密码) [zhousai]
+export const initUser = async (params) => {
+	const response = await service.post(`${baseUrl}/api/auth/initUser`, params);
+	return response.data;
+};

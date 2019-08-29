@@ -31,9 +31,13 @@ class BasicTable extends React.Component {
 	}
 
 	onSearch=() => {
-		const { getTableData, keyword, role } = this.props;
+		const { getTableData, role, form } = this.props;
+		const { getFieldsValue } = form;
+		const fields = getFieldsValue();
+		console.log(fields);
+
 		const params = {
-			keyword,
+			keyword: fields.obligorName,
 			role,
 			groupId: role,
 		};
