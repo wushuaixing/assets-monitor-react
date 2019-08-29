@@ -62,21 +62,8 @@ class DebtorDetail extends React.Component {
 
 	componentDidMount() {
 		this.getTableData();
-		window._addEventListener(window, 'keyup', this.toKeyCode13);
 	}
 
-
-	componentWillUnmount() {
-		window._removeEventListener(window, 'keyup', this.toKeyCode13);
-	}
-
-	toKeyCode13=(e) => {
-		const	key = e.keyCode || e.which || e.charCode;
-		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
-			this.handleSubmit();
-			document.activeElement.blur();
-		}
-	};
 
 	getTableData=(value) => {
 		const { hash } = window.location;
@@ -91,6 +78,8 @@ class DebtorDetail extends React.Component {
 					detail: res.data.detail,
 					loading: false,
 				});
+			} else {
+				message.error(res.message);
 			}
 		}).catch(() => {
 			this.setState({ loading: false });
@@ -121,6 +110,8 @@ class DebtorDetail extends React.Component {
 		const { hash } = window.location;
 		const userId = getQueryByName(hash, 'id');
 		const fields = getFieldsValue();
+		const value = data && data.filter(res => res.obligorName === ''); // 过滤相关人内容为空
+		const obligorNameLength = data && data.filter(res => res.obligorName.length < 5 && res.obligorNumber === ''); // 过滤相关人内容小于5身份证为空
 		if (!fields.obligorName) {
 			message.error('请填写借款人名称');
 			return;
@@ -129,11 +120,15 @@ class DebtorDetail extends React.Component {
 			message.error('借款人为自然人时证件号不能为空！');
 			return;
 		}
-		// if (data) {
-		// 	message.error('业务人相关列表中，相关人名称不能为空!');
-		// 	return;
-		// }
 
+		if (value.length > 0) {
+			message.error('业务人相关列表中，相关人名称不能为空!');
+			return;
+		}
+		if (obligorNameLength.length > 0) {
+			message.error('业务人相关列表中，当相关人为自然人时证件号不可为空！');
+			return;
+		}
 		confirm({
 			title: '确认修改债务人名称/身份信息？',
 			iconType: 'exclamation-circle-o',
@@ -155,7 +150,7 @@ class DebtorDetail extends React.Component {
 
 						const hide = message.loading('正在刷新,请稍后...', 0);
 						setTimeout(() => {
-							// window.location.reload(); // 实现页面重新加载/
+							window.location.reload(); // 实现页面重新加载
 						}, latency);
 						// 异步手动移除
 						setTimeout(hide, latency);

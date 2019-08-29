@@ -79,7 +79,7 @@ class DebtorDetail extends React.Component {
 			obligorName: '',
 			obligorNumber: '',
 			role: 2,
-			roleText: '',
+			roleText: '担保人',
 		});
 		this.setState({
 			dataList,
@@ -116,7 +116,6 @@ class DebtorDetail extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 		const { dataList } = this.state;
-
 
 		return (
 			<div className="ant-table-body">
