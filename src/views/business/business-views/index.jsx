@@ -68,7 +68,21 @@ class BusinessView extends React.Component {
 
 	componentDidMount() {
 		this.getData();
+		window._addEventListener(window, 'keyup', this.toKeyCode13);
 	}
+
+
+	componentWillUnmount() {
+		window._removeEventListener(window, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const	key = e.keyCode || e.which || e.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.search();
+			document.activeElement.blur();
+		}
+	};
 
 		// 附件上传处理
 		uploadAttachmentParam = () => {
@@ -99,7 +113,7 @@ class BusinessView extends React.Component {
 							const { form: { resetFields } } = that.props; // 会提示props is not defined
 							resetFields('');
 							that.getData();
-							message.success(`${info.file.name} ${info.file.response.message}`);
+							message.success(`${info.file.name} 导入${info.file.response.message}${info.file.response.data.businessCount}笔`);
 						} else {
 							info.fileList.pop();
 							// 主动刷新页面，更新文件列表
@@ -120,19 +134,19 @@ class BusinessView extends React.Component {
 			};
 		};
 
-// uploadError = (data) => {
-// 	const that = this;
-// 	confirm({
-// 		title: `${data.errorType}`,
-// 		content: `${data.errorMessage}`,
-// 		iconType: 'exclamation-circle-o',
-// 		okText: '重新上传',
-// 		onOk() {
-// 			<Upload className="yc-upload" showUploadList={false} {...that.uploadAttachmentParam()} />;
-// 		},
-// 		onCancel() {},
-// 	});
-// }
+		// uploadError = (data) => {
+		// 	const that = this;
+		// 	confirm({
+		// 		title: `${data.errorType}`,
+		// 		content: `${data.errorMessage}`,
+		// 		iconType: 'exclamation-circle-o',
+		// 		okText: '重新上传',
+		// 		onOk() {
+		// 			<Upload className="yc-upload" showUploadList={false} {...that.uploadAttachmentParam()} />;
+		// 		},
+		// 		onCancel() {},
+		// 	});
+		// }
 
 	// 获取消息列表
 	getData = (value) => {
@@ -141,7 +155,9 @@ class BusinessView extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
+
 		const fildes = getFieldsValue();
+
 		const params = {
 			num: pageSize,
 			page: current,
@@ -192,7 +208,7 @@ class BusinessView extends React.Component {
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		if (startTime > endTime) {
+		if (startTime && endTime && startTime > endTime) {
 			message.warning('结束时间必须大于开始时间');
 			return;
 		}
@@ -252,16 +268,18 @@ class BusinessView extends React.Component {
 		this.getData(params);
 		this.setState({
 			searchValue: {},
+			startTime: '',
+			endTime: '',
 		});
 	}
 
-	// 判断点击的键盘的keyCode是否为13，是就调用上面的搜索函数
-	handleEnterKey = (e) => {
-		console.log(1);
-		if (e.nativeEvent.keyCode === 13) { // e.nativeEvent获取原生的事件对像
-			this.getData();
-		}
-	}
+	// // 判断点击的键盘的keyCode是否为13，是就调用上面的搜索函数
+	// handleEnterKey = (e) => {
+	// 	console.log(1);
+	// 	if (e.nativeEvent.keyCode === 13) { // e.nativeEvent获取原生的事件对像
+	// 		this.getData();
+	// 	}
+	// }
 
 	// 批量删除
 	handledDeleteBatch = () => {

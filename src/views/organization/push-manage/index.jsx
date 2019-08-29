@@ -191,7 +191,7 @@ export default class BasicTable extends React.Component {
 		});
 		const params = {
 			role,
-			keyword: value,
+			keyword: value.replace(/\s/ig, ''),
 		};
 		if (e.keyCode === 13) {
 			this.getTableData(params);
