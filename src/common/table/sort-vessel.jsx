@@ -7,8 +7,9 @@ import orderDesc from '@/assets/img/icon/icon_arrow_desc.png'; // 降序
 export default class SortVessel extends React.Component {
 	constructor(props) {
 		super(props);
+		// Get the default value 【 sortStatus 】
 		this.state = {
-			sortStatus: 'order',
+			sortStatus: props.sortField === props.field ? props.sortOrder : 'order',
 		};
 	}
 
@@ -31,8 +32,11 @@ export default class SortVessel extends React.Component {
 		if (sortStatus === 'DESC')_sortStatus = 'ASC';
 		if (sortStatus === 'ASC') _sortStatus = 'order';
 		this.setState({ sortStatus: _sortStatus });
-		console.log(field, _sortStatus, this.props);
-		if (onClick)onClick(field, _sortStatus === 'order' ? '' : _sortStatus);
+		// console.log(field, _sortStatus, this.props);
+		const r = _sortStatus === 'order';
+		if (onClick) {
+			onClick(r ? '' : field, r ? '' : _sortStatus);
+		}
 	};
 
 
