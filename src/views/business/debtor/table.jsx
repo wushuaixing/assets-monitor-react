@@ -110,8 +110,8 @@ class BusinessView extends React.Component {
 	handlePut = (row) => {
 		const { getData } = this.props;// 刷新列表
 		confirm({
-			title: `确认${row.pushState === 1 ? '关闭' : '开启'}本条业务的推送功能吗?`,
-			content: `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本条业务相关的监控信息。`,
+			title: `确认${row.pushState === 1 ? '关闭' : '开启'}本债务人的推送功能吗?`,
+			content: `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本债务人相关的监控信息。`,
 			iconType: 'exclamation-circle-o',
 			onOk() {
 				console.log('确定', row.id);

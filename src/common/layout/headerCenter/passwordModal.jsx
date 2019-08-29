@@ -3,6 +3,7 @@ import {
 	Modal, Form, Popover, Input, message,
 } from 'antd';
 import { navigate } from '@reach/router';
+import rsaEncrypt from '@/utils/encrypt';
 import {
 	changePassword, // 修改密码,
 } from '@/utils/api/user';
@@ -262,6 +263,7 @@ class ChangeWorldModal extends React.PureComponent {
 			}
 			const params = {
 				...fields,
+				password: rsaEncrypt(fields.password),
 			};
 			changePassword(params).then((res) => {
 				const start = new Date().getTime(); // 获取接口响应时间

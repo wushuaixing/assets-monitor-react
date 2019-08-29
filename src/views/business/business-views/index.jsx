@@ -107,6 +107,7 @@ class BusinessView extends React.Component {
 								refresh: !that.state.refresh,
 								// errorMsg: info.file.response.data.errorMsgList,
 							});
+							// that.uploadError(info.file.response.data);
 							message.error(`上传失败: ${info.file.response.data.errorMessage}`);
 						}
 					} else if (info.file.status === 'error') {
@@ -118,6 +119,20 @@ class BusinessView extends React.Component {
 				},
 			};
 		};
+
+// uploadError = (data) => {
+// 	const that = this;
+// 	confirm({
+// 		title: `${data.errorType}`,
+// 		content: `${data.errorMessage}`,
+// 		iconType: 'exclamation-circle-o',
+// 		okText: '重新上传',
+// 		onOk() {
+// 			<Upload className="yc-upload" showUploadList={false} {...that.uploadAttachmentParam()} />;
+// 		},
+// 		onCancel() {},
+// 	});
+// }
 
 	// 获取消息列表
 	getData = (value) => {

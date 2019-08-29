@@ -9,6 +9,7 @@ import Business from './business';
 import Search from './search';
 import Organization from './organization';
 import Message from './message';
+import Changepassword from './changPassword';
 import { Spin, Button } from '@/common';
 import { Header, Container, Footer } from '@/common/layout';
 import { authRule } from '@/utils/api';
@@ -135,6 +136,7 @@ const ruleList = (props) => {
 	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} />);
 	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} />);
 	l.push(<Message path="message/*" />);
+	l.push(<Changepassword path="changepassword/*" />);
 	return l;
 };
 

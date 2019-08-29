@@ -70,7 +70,7 @@ export default class DetailModal extends React.PureComponent {
 		case 2: return '担保人';
 		case 3: return '抵质押人';
 		case 4: return '共同借款人';
-		default: return '其他-未知';
+		default: return '未知';
 		}
 	}
 
