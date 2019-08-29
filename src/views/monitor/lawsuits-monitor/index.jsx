@@ -10,7 +10,7 @@ import TableRegister from '../subrogation/table/register';
 import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
-import { urlEncode } from '@/utils';
+import { clearEmpty, urlEncode } from '@/utils';
 import './style.scss';
 
 const cookies = new Cookies();
@@ -50,6 +50,12 @@ export default class Subrogation extends React.Component {
 	componentDidMount() {
 		this.onQueryChange({});
 	}
+
+	// 清除排序状态
+	toClearSortStatus=() => {
+		this.condition.field = '';
+		this.condition.order = '';
+	};
 
 	// 获取统计信息
 	toInfoCount=(isRead) => {
@@ -181,6 +187,13 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.field = field;
+		this.condition.order = order;
+		this.onQueryChange(this.condition, '', '', 1);
+	};
+
 	// 批量管理☑️结果
 	onSelect=(val) => {
 		// console.log(val);
@@ -216,6 +229,12 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 查询条件变化
+	onQuery =(con) => {
+		this.toClearSortStatus();
+		this.onQueryChange(con, '', '', 1);
+	};
+
+	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page) => {
 		const { sourceType, isRead, current } = this.state;
 		// console.log(val, _sourceType, _isRead);
@@ -237,7 +256,7 @@ export default class Subrogation extends React.Component {
 			manage: false,
 		});
 		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
-		infoList(this.condition).then((res) => {
+		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -267,10 +286,13 @@ export default class Subrogation extends React.Component {
 			onRefresh: this.onRefresh,
 			onSelect: this.onSelect,
 			onPageChange: this.onPageChange,
+			onSortChange: this.onSortChange,
+			sortField: this.condition.field,
+			sortOrder: this.condition.order,
 		};
 		return (
 			<div className="yc-assets-auction">
-				<QueryRegister onQueryChange={this.onQueryChange} />
+				<QueryRegister onQueryChange={this.onQuery} />
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}

@@ -3,17 +3,24 @@ import { Table, Pagination } from 'antd';
 import { Attentions } from '@/common/table';
 import api from '@/utils/api/monitor-info/finance';
 import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/monitor/assets-auction/tableComponents';
+import { SortVessel } from '@/common/table';
 // import { Button } from '@/common';
 // import { floatFormat } from '@/utils/format';
 
 // 获取表格配置
 const columns = (props) => {
-	const { normal, onRefresh } = props;
+	const {
+		normal, onRefresh, onSortChange, sortField, sortOrder,
+	} = props;
+	const sort = {
+		sortField,
+		sortOrder,
+	};
 
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: '资产信息',
+			title: <SortVessel field="updateTime" onClick={onSortChange} mark="更新时间" {...sort}>资产信息</SortVessel>,
 			width: 274,
 			render: (text, row) => AssetsInfo(text, row, true),
 		}, {
@@ -22,12 +29,12 @@ const columns = (props) => {
 			width: 367,
 			render: MatchingReason,
 		}, {
-			title: '拍卖信息',
+			title: <SortVessel field="start" onClick={onSortChange} mark="开拍时间" {...sort}>拍卖信息</SortVessel>,
 			width: 392,
 			render: AuctionInfo,
 		}, {
 			title: '操作',
-			width: 127,
+			width: 60,
 			className: 'tAlignCenter_important yc-assets-auction-action',
 			render: (text, row, index) => (
 				<Attentions

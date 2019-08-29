@@ -250,7 +250,7 @@ export default class Subrogation extends React.Component {
 			loading: true,
 			manage: false,
 		});
-		this.toInfoCount();
+		this.toInfoCount(this.condition.isRead);
 		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
