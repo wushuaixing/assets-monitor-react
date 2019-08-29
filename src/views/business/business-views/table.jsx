@@ -169,8 +169,12 @@ class BusinessView extends React.Component {
 				const params = {
 					id: row.id,
 				};
-				postDelete(params).then((res) => {
+				const start = new Date().getTime(); // 获取接口响应时间
+				return postDelete(params).then((res) => {
 					if (res.code === 200) {
+						const now = new Date().getTime();
+						const latency = now - start;
+						setTimeout(res.data, latency);
 						if (stateObj && selectedRowKeys && selectedRowKeys.length > 0) {
 							selectedRowKeys.forEach((i, index) => {
 								if (i === row.id) {
@@ -199,21 +203,27 @@ class BusinessView extends React.Component {
 				const params = {
 					id: row.id,
 				};
+				const start = new Date().getTime(); // 获取接口响应时间
 				if (row.pushState === 1) {
-					closePush(params).then((res) => {
+					return closePush(params).then((res) => {
 						if (res.code === 200) {
+							const now = new Date().getTime();
+							const latency = now - start;
+							setTimeout(res.data, latency);
 							message.success('关闭成功');
 							getData();
 						}
 					});
-				} else {
-					openPush(params).then((res) => {
-						if (res.code === 200) {
-							message.success('开启成功');
-							getData();
-						}
-					});
 				}
+				return openPush(params).then((res) => {
+					if (res.code === 200) {
+						const now = new Date().getTime();
+						const latency = now - start;
+						setTimeout(res.data, latency);
+						message.success('开启成功');
+						getData();
+					}
+				});
 			},
 			onCancel() {},
 		});

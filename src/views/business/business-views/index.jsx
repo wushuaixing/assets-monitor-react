@@ -71,7 +71,6 @@ class BusinessView extends React.Component {
 		window._addEventListener(window, 'keyup', this.toKeyCode13);
 	}
 
-
 	componentWillUnmount() {
 		window._removeEventListener(window, 'keyup', this.toKeyCode13);
 	}
@@ -298,9 +297,12 @@ class BusinessView extends React.Component {
 				const params = {
 					idList: selectedRowKeys,
 				};
-				postDeleteBatch(params).then((res) => {
+				const start = new Date().getTime(); // 获取接口响应时间
+				return postDeleteBatch(params).then((res) => {
 					if (res.code === 200) {
-						console.log(res);
+						const now = new Date().getTime();
+						const latency = now - start;
+						setTimeout(res.data, latency);
 						that.setState({
 							selectedRowKeys: [],
 						});

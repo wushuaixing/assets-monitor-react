@@ -118,25 +118,31 @@ class BusinessView extends React.Component {
 				const params = {
 					id: row.id,
 				};
+				const start = new Date().getTime(); // 获取接口响应时间
 				if (row.pushState === 1) {
-					closePush(params).then((res) => {
+					return closePush(params).then((res) => {
 						if (res.code === 200) {
+							const now = new Date().getTime();
+							const latency = now - start;
+							setTimeout(res.data, latency);
 							message.success('关闭成功');
 							getData();
 						} else {
 							message.error('res.message');
 						}
 					});
-				} else {
-					openPush(params).then((res) => {
-						if (res.code === 200) {
-							message.success('开启成功');
-							getData();
-						} else {
-							message.error('res.message');
-						}
-					});
 				}
+				return openPush(params).then((res) => {
+					if (res.code === 200) {
+						const now = new Date().getTime();
+						const latency = now - start;
+						setTimeout(res.data, latency);
+						message.success('开启成功');
+						getData();
+					} else {
+						message.error('res.message');
+					}
+				});
 			},
 			onCancel() {},
 		});
