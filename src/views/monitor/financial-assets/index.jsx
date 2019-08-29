@@ -1,15 +1,15 @@
 import React from 'react';
 import { Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
-import QueryCourt from './query/bidding';
-import TableCourt from './table/bidding';
-import QueryRegister from './query/publicity';
-import TableRegister from './table/publicity';
+import QueryBidding from './query/bidding';
+import TableBidding from './table/bidding';
+import QueryPublicity from './query/publicity';
+import TablePublicity from './table/publicity';
 
 import { Button, Tabs, Spin } from '@/common';
 import { readStatusAll } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
-import { urlEncode } from '@/utils';
+import { urlEncode, clearEmpty } from '@/utils';
 
 const cookies = new Cookies();
 const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
@@ -17,6 +17,26 @@ const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
+		// 获取当前页面路由配置
+		const _rule = rule => ([
+			{
+				id: 1,
+				name: '竞价项目',
+				dot: false,
+				number: 0,
+				status: rule.jkxxjrzcjjxm,
+				showNumber: false,
+			},
+			{
+				id: 2,
+				name: '公式项目',
+				number: 0,
+				dot: false,
+				status: rule.jkxxjrzcgsxm,
+				showNumber: false,
+			},
+		]).filter(item => item.status);
+
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',
@@ -25,62 +45,24 @@ export default class Subrogation extends React.Component {
 			total: 0,
 			loading: true,
 			manage: false,
-			tabConfig: [
-				{
-					id: 1,
-					name: '竞价项目',
-					dot: false,
-					number: 0,
-					showNumber: true,
-				},
-				{
-					id: 2,
-					name: '公式项目',
-					number: 0,
-					dot: false,
-					showNumber: true,
-				},
-			],
+			tabConfig: _rule(props.rule.children),
 		};
-		this.condition = {};
+		this.condition = {
+			num: 10,
+		};
 		this.selectRow = [];
 	}
 
-	componentDidMount() {
-		this.onQueryChange({});
+	componentWillMount() {
+		const { tabConfig } = this.state;
+		const sourceType = (Tabs.Simple.toGetDefaultActive(tabConfig, 'project')).id;
+		this.setState({
+			sourceType,
+		});
+		this.onQueryChange({}, sourceType);
 	}
 
-
-	// 获取统计信息
-	// toInfoCount=isRead => false
-	// infoCount({ type: 1, isRead }).then((res) => {
-	// 	if (res.code === 200) {
-	// 		const { tabConfig } = this.state;
-	// 		let _tabConfig = tabConfig;
-	// 		res.data.forEach((item) => {
-	// 			if (item.sourceType === 1 || item.sourceType === 2) {
-	// 				_tabConfig = _tabConfig.map((itemChild) => {
-	// 					if (itemChild.id === item.sourceType && item.count) {
-	// 						return {
-	// 							id: itemChild.id,
-	// 							name: itemChild.name,
-	// 							number: item.count,
-	// 							dot: Boolean(item.count),
-	// 							showNumber: Boolean(item.count),
-	// 						};
-	// 					}
-	// 					return itemChild;
-	// 				});
-	// 			}
-	// 		});
-	// 		this.setState({
-	// 			tabConfig: _tabConfig,
-	// 		});
-	// 	}
-	// });
-
-
-	// 切换列表类型
+	// 切换列表类型[仅公示项目]
 	handleReadChange=(val) => {
 		const { tabConfig } = this.state;
 		const _tabConfig = tabConfig.map((item) => {
@@ -158,9 +140,7 @@ export default class Subrogation extends React.Component {
 							message.success('操作成功！');
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
-								idList.forEach((it) => {
-									if (it === item.id) _item.isAttention = 1;
-								});
+								idList.forEach((it) => { if (it === item.id) _item.isAttention = 1; });
 								return _item;
 							});
 							_this.setState({
@@ -175,12 +155,6 @@ export default class Subrogation extends React.Component {
 		} else {
 			message.warning('未选中业务');
 		}
-	};
-
-	// 批量管理☑️结果
-	onSelect=(val) => {
-		// console.log(val);
-		this.selectRow = val;
 	};
 
 	// 表格发生变化
@@ -212,39 +186,30 @@ export default class Subrogation extends React.Component {
 
 	// 查询条件变化
 	onQueryChange=(con, _sourceType, _isRead, page) => {
-		const { sourceType, isRead, current } = this.state;
-		// this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0, 1);
-		const __isRead = _isRead || isRead;
+		const {
+			sourceType, isRead, current, loading,
+		} = this.state;
 		this.condition = Object.assign(con || this.condition, {
-			sourceType: _sourceType || sourceType,
 			page: page || current,
-			type: 1,
-			num: 10,
 		});
-		if (__isRead === 'all') {
-			delete this.condition.isRead;
-		}
-		if (__isRead === 'unread') {
-			this.condition.isRead = 0;
-		}
-		this.setState({
-			loading: true,
-		});
-		api('infoList', this.condition.sourceType)(this.condition).then((res) => {
+		if (_isRead || isRead === 'all') delete this.condition.isRead;
+		if (_isRead || isRead === 'unread') this.condition.isRead = 0;
+		if (!loading) this.setState({ loading: true });
+		delete this.condition.sourceType;
+
+		api('infoList', _sourceType || sourceType)(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
+					loading: false,
 				});
+			} else {
+				message.error(res.message || '网络请求异常请稍后再试！');
 			}
-			this.setState({
-				loading: false,
-			});
 		}).catch(() => {
-			this.setState({
-				loading: false,
-			});
+			this.setState({ loading: false });
 		});
 	};
 
@@ -258,20 +223,20 @@ export default class Subrogation extends React.Component {
 			current,
 			total,
 			onRefresh: this.onRefresh,
-			onSelect: this.onSelect,
+			onSelect: val => this.selectRow = val,
 			onPageChange: this.onPageChange,
 		};
 		return (
 			<div className="yc-assets-auction">
 				{
 					sourceType === 1
-						?	<QueryCourt onQueryChange={this.onQueryChange} />
-						:	<QueryRegister onQueryChange={this.onQueryChange} />
+						?	<QueryBidding onQueryChange={this.onQueryChange} />
+						:	<QueryPublicity onQueryChange={this.onQueryChange} />
 				}
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
-					field="process"
+					field="project"
 				/>
 				{
 					!manage ? (
@@ -314,7 +279,7 @@ export default class Subrogation extends React.Component {
 				}
 				<Spin visible={loading}>
 					{
-						sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
+						sourceType === 1 ? <TableBidding {...tableProps} /> : <TablePublicity {...tableProps} />
 					}
 				</Spin>
 

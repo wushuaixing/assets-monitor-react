@@ -44,7 +44,7 @@ const dataSource = (rule) => {
 					id: 21,
 					name: '资产拍卖',
 					url: '/monitor',
-					param: '?process=2',
+					param: '?process=-1',
 					status: toStatus(rule.menu_jkxx, 'jkxxzcpm'),
 				},
 				{
@@ -167,7 +167,7 @@ const Item = (props) => {
 	 * @param parent 父项参数
 	 */
 	const toNavigate = (event, items, parent) => {
-		navigate(items.url);
+		navigate(`${items.url}${items.param ? items.param : ''}`);
 		const _childId = children ? children[0].id : '';
 		set({
 			p: parent ? parent.id : items.id,
@@ -253,14 +253,14 @@ export default class Headers extends React.Component {
 		this.setState({
 			num: data,
 		});
-	}
+	};
 
 	// 获取当前机构
 	getData = (data) => {
 		this.setState({
 			data,
 		});
-	}
+	};
 
 	render() {
 		const {

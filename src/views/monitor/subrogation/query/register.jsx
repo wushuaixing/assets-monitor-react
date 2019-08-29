@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button } from '@/common';
+import { Input, Button, timeRule } from '@/common';
 import { DatePicker, Form } from 'antd';
 
 class QueryCondition extends React.Component {
@@ -41,7 +41,7 @@ class QueryCondition extends React.Component {
 	render() {
 		const _style1 = { width: 274 };
 		const _style2 = { width: 100 };
-		const { form: { getFieldProps } } = this.props;
+		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
 			normalize(n) {
 				return n && new Date(n).format('yyyy-MM-dd');
@@ -63,15 +63,39 @@ class QueryCondition extends React.Component {
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">立案/开庭日期：</span>
-					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('startLarq', timeOption)} />
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="开始日期"
+						{...getFieldProps('startLarq', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endLarq'))}
+					/>
 					<span className="yc-query-item-title">至</span>
-					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('endLarq', timeOption)} />
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="结束日期"
+						{...getFieldProps('endLarq', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startLarq'))}
+					/>
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">更新日期：</span>
-					<DatePicker size="large" style={_style2} placeholder="开始日期" {...getFieldProps('startUpdateTime', timeOption)} />
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="开始日期"
+						{...getFieldProps('startUpdateTime', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endUpdateTime'))}
+					/>
 					<span className="yc-query-item-title">至</span>
-					<DatePicker size="large" style={_style2} placeholder="结束日期" {...getFieldProps('endUpdateTime', timeOption)} />
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="结束日期"
+						{...getFieldProps('endUpdateTime', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startUpdateTime'))}
+					/>
 				</div>
 
 				<div className="yc-query-item yc-query-item-btn">
