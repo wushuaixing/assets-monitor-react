@@ -68,6 +68,7 @@ class BusinessView extends React.Component {
 			errorModalVisible: false,
 			uploadErrorData: '',
 			page: '',
+			errorLoading: false,
 		};
 	}
 
@@ -108,12 +109,17 @@ class BusinessView extends React.Component {
 					if (info.file.status !== 'uploading') {
 						console.log(info.file, info.fileList);
 					}
+					that.setState({
+						errorLoading: true,
+					});
+					that.handleCancel();
 					if (info.file.status === 'done') {
 						if (info.file.response.code === 200) {
 							// url.push(info.file.response.data);
 							that.setState({
 								refresh: !that.state.refresh,
 								errorMsg: [],
+								errorLoading: false,
 							});
 							const { form: { resetFields } } = that.props; // 会提示props is not defined
 							resetFields('');
@@ -122,12 +128,16 @@ class BusinessView extends React.Component {
 							that.handleCancel();
 						} else if (info.file.response.code === 9001) {
 							message.error('服务器出错');
+							that.setState({
+								errorLoading: false,
+							});
 						} else {
 							info.fileList.pop();
 							// 主动刷新页面，更新文件列表
 							that.setState({
 								refresh: !that.state.refresh,
 								uploadErrorData: info.file.response.data,
+								errorLoading: false,
 								// errorMsg: info.file.response.data.errorMsgList,
 							});
 							that.openErrorModal();
@@ -138,6 +148,7 @@ class BusinessView extends React.Component {
 						message.error(`${info.file.name} 上传失败。`);
 						that.setState({
 							errorMsg: [],
+							errorLoading: false,
 						});
 					}
 				},
@@ -297,7 +308,9 @@ class BusinessView extends React.Component {
 
 	// 批量删除
 	handledDeleteBatch = () => {
-		const { selectedRowKeys, page, totals } = this.state;
+		const {
+			selectedRowKeys, page, totals, current,
+		} = this.state;
 		const that = this;
 		if (selectedRowKeys.length === 0) {
 			message.warning('未选中业务');
@@ -312,16 +325,15 @@ class BusinessView extends React.Component {
 				const params = {
 					idList: selectedRowKeys,
 				};
-				console.log(Math.ceil(totals / 10), totals, totals % 10 === selectedRowKeys.length, page);
 				let currentLength;
-				if (Math.ceil(totals / 10) === page && totals % 10 === selectedRowKeys.length) {
-					currentLength = page - 1;
+				if (Math.ceil(totals / 10) === current && totals % 10 === selectedRowKeys.length) {
+					currentLength = current - 1;
 				}
-				if (selectedRowKeys.length === 10) {
-					currentLength = page - 1;
+				if (Math.ceil(totals / 10) === current && selectedRowKeys.length === 10) {
+					currentLength = current - 1;
 				}
 				const otherParams = {
-					page: currentLength || page,
+					page: currentLength || current,
 				};
 				const start = new Date().getTime(); // 获取接口响应时间
 				return postDeleteBatch(params).then((res) => {
@@ -393,7 +405,7 @@ class BusinessView extends React.Component {
 
 	render() {
 		const {
-			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData,
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -405,6 +417,7 @@ class BusinessView extends React.Component {
 
 		return (
 			<div className="yc-content-query">
+				<Spin visible={errorLoading} modal text="正在为您上传文件，请稍后..." />
 				<Form layout="inline">
 					<div className="yc-query-item">
 						<Input
@@ -417,7 +430,7 @@ class BusinessView extends React.Component {
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
-								getValueFromEvent: e => e.replace(/\s+/g, ''),
+								getValueFromEvent: e => e.trim(),
 							})}
 						/>
 					</div>
@@ -432,7 +445,7 @@ class BusinessView extends React.Component {
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
 								// ],
-								getValueFromEvent: e => e.replace(/\s+/g, ''),
+								getValueFromEvent: e => e.trim(),
 							})}
 						/>
 					</div>
@@ -447,7 +460,7 @@ class BusinessView extends React.Component {
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
 								// ],
-								getValueFromEvent: e => e.replace(/\s+/g, ''),
+								getValueFromEvent: e => e.trim(),
 							})}
 						/>
 					</div>
@@ -462,7 +475,7 @@ class BusinessView extends React.Component {
 								// rules: [
 								// 	{ required: true, whitespace: true, message: '请填写密码' },
 								// ],
-								getValueFromEvent: e => e.replace(/\s+/g, ''),
+								getValueFromEvent: e => e.trim(),
 							})}
 						/>
 					</div>
@@ -589,7 +602,6 @@ class BusinessView extends React.Component {
 					width={500}
 					closable={false}
 				>
-					{/* 请不要关闭当前页面，正在为您上传文件，请稍后... */}
 
 					<div className="yc-confirm-body">
 						<div className="yc-confirm-header">

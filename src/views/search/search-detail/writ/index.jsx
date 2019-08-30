@@ -39,7 +39,7 @@ class WRIT extends React.Component {
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
-							getValueFromEvent: e => e.replace(/\s+/g, ''),
+							getValueFromEvent: e => e.trim(),
 						})}
 					/>
 				</div>
@@ -54,7 +54,7 @@ class WRIT extends React.Component {
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
-							getValueFromEvent: e => e.replace(/\s+/g, ''),
+							getValueFromEvent: e => e.trim(),
 						})}
 					/>
 				</div>
@@ -69,7 +69,7 @@ class WRIT extends React.Component {
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
-							getValueFromEvent: e => e.replace(/\s+/g, ''),
+							getValueFromEvent: e => e.trim(),
 						})}
 					/>
 				</div>
@@ -84,7 +84,7 @@ class WRIT extends React.Component {
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
-							getValueFromEvent: e => e.replace(/\s+/g, ''),
+							getValueFromEvent: e => e.trim(),
 						})}
 					/>
 				</div>

@@ -286,13 +286,13 @@ export default class Headers extends React.Component {
 						)) }
 					</div>
 					<div className="header-else">
-						{data && data.expire < 30 && (
-						<div className="yc-leftTime">
-							帐号到期还剩：
-							{data.expire}
-							天
-						</div>
-						)}
+						{
+							<div className="yc-leftTime">
+								帐号到期还剩：
+								{data.expire}
+								天
+							</div>
+						}
 						<div className="else-child else-line" />
 						<div
 							className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
