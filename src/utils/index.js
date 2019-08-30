@@ -1,112 +1,19 @@
-const SIGN_REGEXP = /([yMdhsm])(\1*)/g;
-const DEFAULT_PATTERN = 'yyyy-MM-dd';
-
-function padding(s, len) {
-	const lens = len - (`${s}`).length;
-	for (let i = 0; i < lens; i += 1) {
-		s = `0${s}`;
-	}
-	return s;
-}
-// 去除头尾空格
-if (!String.prototype.trim) {
-	String.prototype.trim = function trim(val) {
-		return val.replace(/^\s+|\s+$/g, '');
-	};
-}
-
-
-// 时间戳格式替换
-Date.prototype.format = function fun(format) {
-	const o = {
-		'M+': this.getMonth() + 1, // 月份
-		'd+': this.getDate(), // 日
-		'h+': this.getHours(), // 小时
-		'm+': this.getMinutes(), // 分
-		's+': this.getSeconds(), // 秒
-		'q+': Math.floor((this.getMonth() + 3) / 3), // 季度
-		S: this.getMilliseconds(), // 毫秒
-	};
-	let fmt = format;
-	if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (`${this.getFullYear()}`).substr(4 - RegExp.$1.length));
-	for (const k in o) if (new RegExp(`(${k})`).test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : ((`00${o[k]}`).substr((`${o[k]}`).length)));
-	return fmt;
-};
-
 export default {
-	formatDate: {
-		format(date, pattern) {
-			pattern = pattern || DEFAULT_PATTERN;
-			return pattern.replace(SIGN_REGEXP, ($0) => {
-				switch ($0.charAt(0)) {
-				case 'y':
-					return padding(date.getFullYear(), $0.length);
-				case 'M':
-					return padding(date.getMonth() + 1, $0.length);
-				case 'd':
-					return padding(date.getDate(), $0.length);
-				case 'w':
-					return date.getDay() + 1;
-				case 'h':
-					return padding(date.getHours(), $0.length);
-				case 'm':
-					return padding(date.getMinutes(), $0.length);
-				case 's':
-					return padding(date.getSeconds(), $0.length);
-				}
-			});
-		},
-		parse(dateString, pattern) {
-			const matchs1 = pattern.match(SIGN_REGEXP);
-			const matchs2 = dateString.match(/(\d)+/g);
-			if (matchs1.length == matchs2.length) {
-				const _date = new Date(1970, 0, 1);
-				for (let i = 0; i < matchs1.length; i++) {
-					const _int = parseInt(matchs2[i]);
-					const sign = matchs1[i];
-					switch (sign.charAt(0)) {
-					case 'y':
-						_date.setFullYear(_int);
-						break;
-					case 'M':
-						_date.setMonth(_int - 1);
-						break;
-					case 'd':
-						_date.setDate(_int);
-						break;
-					case 'h':
-						_date.setHours(_int);
-						break;
-					case 'm':
-						_date.setMinutes(_int);
-						break;
-					case 's':
-						_date.setSeconds(_int);
-						break;
-					}
-				}
-				return _date;
-			}
-			return null;
-		},
-	},
-	thousandBitSeparator(num) {
+	thousandBitSeparator(val) {
+		let num = val;
 		if (typeof (num) === 'number') {
 			num = num.toString().split('.'); // 分隔小数点
 			const arr = num[0].split('').reverse(); // 转换成字符数组并且倒序排列
 			let res = [];
-			for (let i = 0, len = arr.length; i < len; i++) {
+			for (let i = 0, len = arr.length; i < len; i += 1) {
 				if (i % 3 === 0 && i !== 0) {
 					res.push(','); // 添加分隔符
 				}
 				res.push(arr[i]);
 			}
 			res.reverse(); // 再次倒序成为正确的顺序
-			if (num[1]) { // 如果有小数的话添加小数部分
-				res = res.join('').concat(`.${num[1]}`);
-			} else {
-				res = res.join('');
-			}
+			// 如果有小数的话添加小数部分
+			res = num[1] ? res.join('').concat(`.${num[1]}`) : res.join('');
 			return `${res}元`;
 		}
 		return num;
@@ -124,7 +31,7 @@ export default {
 	},
 	// 手机号码校验
 	rule_checkMobile: (rule, value, callback) => {
-		const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
+		const reg = /^1[34578][0-9]\d{8}$/;
 		if (!value) {
 			callback(new Error('账号不能为空'));
 		} else if (reg.test(value)) {
@@ -154,48 +61,35 @@ export default {
 			callback(new Error('只能输入小写字母'));
 		}
 	},
-	// 默认时间格式转换
-	newDate: (data, type) => {
-		if (data) {
-			// console.log(data)
-			if (type) {
-				return new Date(data * 1000).format('yyyy-MM-dd');
+	// 截取 url 里面 ？后面的参数
+	parseQuery: (url) => {
+		const queryObj = {};
+		const reg = /[?&]([^=&#]+)=([^&#]*)/g;
+		const _query = url.match(reg);
+		if (_query) {
+			for (let i = 0; i < _query.length; i += 1) {
+				const query = _query[i].split('=');
+				const key = query[0].substr(1);
+				const value = query[1];
+				if (queryObj[key]) {
+					queryObj[key] = [].concat(queryObj[key], window.decodeURI(value));
+				} else {
+					queryObj[key] = window.decodeURI(value);
+				}
 			}
-			return new Date(data * 1000).format('yyyy-MM-dd hh:mm:ss');
 		}
-		return '--';
+		return queryObj;
 	},
-	newDateD: (data, type) => {
-		if (data) {
-			// console.log(data)
-			if (type) {
-				return new Date(data).format('yyyy-MM-dd');
-			}
-			return new Date(data).format('yyyy-MM-dd hh:mm:ss');
-		}
-		return '--';
-	},
-
 
 };
 
-// 打开新的标签页
-export const openInNewTab = (url) => {
-	const w = window.open('about:blank');
-	w.location.href = url;
-};
-
-/**
- * 截取 url 里面 ？后面的参数
- * @param url
- */
 export const parseQuery = (url) => {
 	const queryObj = {};
 	const reg = /[?&]([^=&#]+)=([^&#]*)/g;
-	const querys = url.match(reg);
-	if (querys) {
-		for (let i = 0; i < querys.length; i += 1) {
-			const query = querys[i].split('=');
+	const _query = url.match(reg);
+	if (_query) {
+		for (let i = 0; i < _query.length; i += 1) {
+			const query = _query[i].split('=');
 			const key = query[0].substr(1);
 			const value = query[1];
 			if (queryObj[key]) {
@@ -235,11 +129,6 @@ export const keyFilter = (obj, predicate) => {
 	return result;
 };
 
-export const isIE = () => {
-	if (window.navigator.userAgent.toLowerCase().indexOf('msie') >= 1) return true;
-	return false;
-};
-
 /**
  * param 将要转为URL参数字符串的对象
  * key URL参数字符串的前缀
@@ -254,10 +143,10 @@ export const urlEncode = (param, key, encode) => {
 	if (t === 'string' || t === 'number' || t === 'boolean') {
 		paramStr += `&${key}=${(encode == null || encode) ? encodeURIComponent(param) : param}`;
 	} else {
-		for (const i in param) {
+		Object.keys(param).forEach((i) => {
 			const k = key == null ? i : key + (param instanceof Array ? '' : `.${i}`);
 			paramStr += urlEncode(param[i], k, encode);
-		}
+		});
 	}
 	return paramStr;
 };
@@ -274,4 +163,34 @@ export const clearEmpty = (obj) => {
 		return _obj;
 	}
 	return obj;
+};
+
+// 去除头尾空格
+if (!String.prototype.trim) {
+	String.prototype.trim = function trim(val) {
+		return val.replace(/^\s+|\s+$/g, '');
+	};
+}
+
+// 时间戳格式替换
+Date.prototype.format = function method(format) {
+	const o = {
+		'M+': this.getMonth() + 1, // 月份
+		'd+': this.getDate(), // 日
+		'h+': this.getHours(), // 小时
+		'm+': this.getMinutes(), // 分
+		's+': this.getSeconds(), // 秒
+		'q+': Math.floor((this.getMonth() + 3) / 3), // 季度
+		S: this.getMilliseconds(), // 毫秒
+	};
+	let fmt = format;
+	if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (`${this.getFullYear()}`).substr(4 - RegExp.$1.length));
+	Object.keys(o).forEach((k) => {
+		if (new RegExp(`(${k})`).test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1)
+				? (o[k])
+				: ((`00${o[k]}`).substr((`${o[k]}`).length)));
+		}
+	});
+	return fmt;
 };
