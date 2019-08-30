@@ -244,6 +244,14 @@ class ChangeWorldModal extends React.PureComponent {
 				message.warning('请输入原密码');
 				return;
 			}
+			if (fields.currentPassword === firstWorld || fields.currentPassword === newWorld) {
+				message.warning('新密码与原密码一致');
+				return;
+			}
+			if (!firstWorld && !newWorld) {
+				message.warning('必须输入新密码');
+				return;
+			}
 			// 两次密码要输入一致
 			if (firstWorld !== newWorld) {
 				message.warning('两次密码不一致');
