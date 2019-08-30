@@ -26,7 +26,7 @@ class DebtorDetail extends React.Component {
 					const JSONArray = [];
 
 					if (_reason.name && _reason.name.length > 0) {
-						JSONArray.push(`相关人名称: ${_reason.name}`);
+						JSONArray.push(`债务人名称: ${_reason.name}`);
 					}
 					if (_reason.number) {
 						JSONArray.push(`证件号: ${_reason.number}`);
@@ -279,6 +279,7 @@ class DebtorDetail extends React.Component {
 										// rules: [
 										// 	{ required: true, whitespace: true, message: '请填写密码' },
 										// ],
+										getValueFromEvent: e => e.target.value.trim(),
 									})}
 									className="yc-from-input"
 								/>
@@ -295,6 +296,7 @@ class DebtorDetail extends React.Component {
 										// rules: [
 										// 	{ required: true, whitespace: true, message: '请填写密码' },
 										// ],
+										getValueFromEvent: e => e.target.value.trim(),
 									})}
 									className="yc-from-input"
 								/>
@@ -308,6 +310,7 @@ class DebtorDetail extends React.Component {
 										// rules: [
 										// 	{ required: true, whitespace: true, message: '请填写密码' },
 										// ],
+										getValueFromEvent: e => e.target.value.trim(),
 									})}
 									className="yc-from-input"
 								/>
@@ -321,6 +324,7 @@ class DebtorDetail extends React.Component {
 										// rules: [
 										// 	{ required: true, whitespace: true, message: '请填写密码' },
 										// ],
+										getValueFromEvent: e => e.target.value.trim(),
 									})}
 									className="yc-from-input"
 								/>
