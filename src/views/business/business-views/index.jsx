@@ -71,15 +71,16 @@ class BusinessView extends React.Component {
 
 	componentDidMount() {
 		this.getData();
-		window._addEventListener(window, 'keyup', this.toKeyCode13);
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
 	componentWillUnmount() {
-		window._removeEventListener(window, 'keyup', this.toKeyCode13);
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
 	toKeyCode13=(e) => {
-		const	key = e.keyCode || e.which || e.charCode;
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
 			this.search();
 			document.activeElement.blur();
