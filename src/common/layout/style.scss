@@ -103,7 +103,17 @@
     .header-else {
       float: right;
       height: 50px;
-
+      .yc-leftTime {
+        float: left;
+        margin-top: 15px;
+        padding: 4px 7px;
+        margin-right: 13px;
+        font-size: 12px;
+        font-weight: bold;
+        background: #f0ad4e;
+        line-height: 1;
+        border-radius: 0.25em;
+      }
       .else-child {
         display: inline-block;
         vertical-align: top;

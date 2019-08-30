@@ -80,6 +80,7 @@ class Login extends React.Component {
 			this.setState({
 				loading: false,
 			});
+
 			loginPreCheck(beforeLogin).then((_res) => {
 				if (_res.code === 200) {
 					console.log(_res);
@@ -96,14 +97,15 @@ class Login extends React.Component {
 							message.success('登陆成功');
 							cookie.set('token', res.data.token);
 							cookie.set('name', res.data.userName);
-							navigate('/');
+							cookie.set('firstLogin', res.data.firstLogin);
 							// 判断是否是第一次登录
 							if (res.data.firstLogin === true) {
+								navigate('/changepassword');
+							} else {
 								this.setState({
 									loading: false,
 								});
-								navigate('/changepassword');
-							} else {
+								navigate('/');
 								console.log(1);
 							}
 						} else {

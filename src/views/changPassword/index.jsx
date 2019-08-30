@@ -3,6 +3,7 @@ import {
 	Form, Popover, Input, message, Button,
 } from 'antd';
 import { navigate } from '@reach/router';
+import Cookies from 'universal-cookie';
 import {
 	initUser, // 修改密码,
 } from '@/utils/api/user';
@@ -14,6 +15,7 @@ const createForm = Form.create;
 const regx = /^[ \x21-\x7E]{6,20}$/; // 判断6到20的字符
 const numAndWorld = /^(?=[a-zA-Z]*.*[0-9])(?=[0-9]*.*[a-zA-Z])[a-zA-Z0-9 \x21-\x7E]{2,}$/; // 必须包涵数字和字母
 const regx1 = /^[\x21-\x7Ea-zA-Z0-9]{1,}$/; // 无标点空格
+const cookie = new Cookies();
 
 const formItemLayout = {
 	labelCol: { span: 8 },
@@ -32,6 +34,7 @@ class ChangeWorldModal extends React.PureComponent {
 			againText: '请再次输入密码',
 		};
 	}
+
 	// ===========
 	// 新密码验证
 
@@ -266,6 +269,7 @@ class ChangeWorldModal extends React.PureComponent {
 			initUser(params).then((res) => {
 				if (res.code === 200) {
 					message.success('修改成功,请重新登录');
+					cookie.remove('firstLogin');
 					navigate('/login');
 					this.handleCancel();
 				} else {

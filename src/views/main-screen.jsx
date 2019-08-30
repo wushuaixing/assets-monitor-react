@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router, navigate } from '@reach/router';
-
+import Cookies from 'universal-cookie';
 /* 子路由模块  */
 import Home from './home';
 import Monitor from './monitor';
@@ -13,11 +13,12 @@ import Changepassword from './changPassword';
 import { Spin, Button } from '@/common';
 import { Header, Container, Footer } from '@/common/layout';
 import { authRule } from '@/utils/api';
-
 //
 // import Error403 from '@/assets/img/error/404@2x.png';
 // import Error404 from '@/assets/img/error/404@2x.png';
 import Error500 from '@/assets/img/error/500@2x.png';
+
+const cookie = new Cookies();
 
 // 处理路由数据
 const handleRule = (source) => {
@@ -164,7 +165,13 @@ export default class Screen extends React.Component {
 		};
 	}
 
+
 	componentWillMount() {
+		// 判断是否是第一次登录
+		const firstLogin = cookie.get('firstLogin');
+		if (firstLogin === 'true') {
+			navigate('/changepassword');
+		}
 		this.clientHeight = 500 || document.body.clientHeight;
 		// console.log('componentWillMount:', document.body.clientHeight);
 		authRule().then((res) => {
@@ -187,6 +194,20 @@ export default class Screen extends React.Component {
 			});
 		});
 	}
+
+	componentWillReceiveProps(props) {
+		// 判断是否是第一次登录
+		const firstLogin = cookie.get('firstLogin');
+		if (props.location.hash !== '#/changepassword' && firstLogin === 'ture') {
+			navigate('/changepassword');
+		}
+	}
+
+	// componentDidUpdate() {
+	// 	const firstLogin = cookie.get('firstLogin');
+	// 	console.log(firstLogin);
+	// 	console.log(typeof firstLogin);
+	// }
 
 	componentWillUnmount() {
 		// const { loading } = this.state;
