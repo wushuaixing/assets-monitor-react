@@ -13,7 +13,9 @@ import {
 	postDeleteBatch, // 批量删除
 } from '@/utils/api/business';
 import { urlEncode } from '@/utils';
-import { Input, Button, Spin } from '@/common';
+import {
+	Input, Button, Spin, timeRule,
+} from '@/common';
 import './style.scss';
 
 const cookies = new Cookies();
@@ -200,7 +202,7 @@ class BusinessView extends React.Component {
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
-					current: res.data.page, // 翻页传选中页数，其他重置为1
+					current: val && val.page ? val.page : res.data.page, // 翻页传选中页数，其他重置为1
 					loading: false,
 				});
 			} else {
@@ -310,11 +312,17 @@ class BusinessView extends React.Component {
 				const params = {
 					idList: selectedRowKeys,
 				};
-				// const otherParams = {
-				// 	page: selectedRowKeys && selectedRowKeys.length === 10 ? page - 1 : page,
-				// };
-				console.log(Math.ceil(totals / 10), totals, totals % 10, page);
-
+				console.log(Math.ceil(totals / 10), totals, totals % 10 === selectedRowKeys.length, page);
+				let currentLength;
+				if (Math.ceil(totals / 10) === page && totals % 10 === selectedRowKeys.length) {
+					currentLength = page - 1;
+				}
+				if (selectedRowKeys.length === 10) {
+					currentLength = page - 1;
+				}
+				const otherParams = {
+					page: currentLength || page,
+				};
 				const start = new Date().getTime(); // 获取接口响应时间
 				return postDeleteBatch(params).then((res) => {
 					if (res.code === 200) {
@@ -325,7 +333,7 @@ class BusinessView extends React.Component {
 							selectedRowKeys: [],
 						});
 						message.success(res.message);
-						that.getData();
+						that.getData(otherParams);
 					} else {
 						message.error(res.message);
 					}
@@ -388,7 +396,7 @@ class BusinessView extends React.Component {
 			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps } = form;
+		const { getFieldProps, getFieldValue } = form;
 		// 通过 rowSelection 对象表明需要行选择
 		const rowSelection = {
 			selectedRowKeys,
@@ -474,6 +482,7 @@ class BusinessView extends React.Component {
 									});
 								},
 							})}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
 							size="large"
 							style={_style2}
 							placeholder="开始日期"
@@ -492,6 +501,7 @@ class BusinessView extends React.Component {
 									});
 								},
 							})}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
 							size="large"
 							style={_style2}
 							placeholder="结束日期"
