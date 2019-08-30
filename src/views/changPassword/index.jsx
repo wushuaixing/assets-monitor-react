@@ -244,7 +244,7 @@ class ChangeWorldModal extends React.PureComponent {
 			const firstWorld = fields.Password;
 			const newWorld = fields.newPassword;
 			// && numAndWorld.test(newWorld) && regx1.test(newWorld)
-			console.log(regx, newWorld, regx.test(newWorld));
+			console.log(rsaEncrypt(newWorld), regx.test(newWorld));
 			// 两次密码要输入一致
 			if (firstWorld !== newWorld) {
 				message.warning('两次密码不一致');
@@ -263,8 +263,8 @@ class ChangeWorldModal extends React.PureComponent {
 				return;
 			}
 			const params = {
-				...fields,
-				password: rsaEncrypt(fields.password),
+				// ...fields,
+				password: rsaEncrypt(newWorld),
 			};
 			initUser(params).then((res) => {
 				if (res.code === 200) {

@@ -25,12 +25,14 @@ class DebtorDetail extends React.Component {
 					const _reason = JSON.parse(reason);
 					const JSONArray = [];
 
-					if (_reason.name) {
-						JSONArray.push(_reason.name);
-					} if (_reason.number) {
-						JSONArray.push(_reason.number);
-					} if (_reason.role_text) {
-						JSONArray.push(_reason.role_text);
+					if (_reason.name && _reason.name.length > 0) {
+						JSONArray.push(`相关人名称: ${_reason.name}`);
+					}
+					if (_reason.number) {
+						JSONArray.push(`证件号: ${_reason.number}`);
+					}
+					if (_reason.role_text) {
+						JSONArray.push(`角色: ${_reason.role_text}`);
 					}
 					// if (_reason.obligor_id) {
 					// 	JSONArray.push(_reason.obligor_id);
