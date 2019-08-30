@@ -5,7 +5,7 @@ import {
 } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 import { linkDom, timeStandard } from '@/utils';
-import { aboutLink, caseInfo } from '../../table-common';
+import { aboutLink, caseInfo } from '../table-common';
 
 // 获取表格配置
 const columns = (props) => {
@@ -21,6 +21,7 @@ const columns = (props) => {
 		{
 			title: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>,
 			dataIndex: 'larq',
+			width: 120,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: <TitleIcon title="原告" tooltip="我行债务人" />,
@@ -47,16 +48,18 @@ const columns = (props) => {
 		}, {
 			title: '关联信息',
 			dataIndex: 'associatedInfo',
-			className: 'tAlignCenter_important',
+			className: 'tAlignCenter_important min-width-80',
 			render: aboutLink,
 		}, {
 			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			dataIndex: 'updateTime',
+			width: 120,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
 			title: '操作',
 			unNormal: true,
 			className: 'tAlignCenter_important',
+			width: 60,
 			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
 		}];
 	// <a href={url} className="click-link">{text || '--'}</a>
