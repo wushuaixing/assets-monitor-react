@@ -169,6 +169,7 @@ class BusinessView extends React.Component {
 				const params = {
 					id: row.id,
 				};
+
 				const start = new Date().getTime(); // 获取接口响应时间
 				return postDelete(params).then((res) => {
 					if (res.code === 200) {
