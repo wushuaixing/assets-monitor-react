@@ -27,10 +27,12 @@ class DebtorDetail extends React.Component {
 	handleInputName = (e, id) => {
 		const { dataList } = this.state;
 		const that = this;
+		const { isEdit } = this.props;
+		isEdit();
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorName = e.target.value;
+					dataList[index].obligorName = e.target.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 				}
 			});
 			that.setState({
@@ -42,11 +44,13 @@ class DebtorDetail extends React.Component {
 	// 身份证号/统一社会信用代码
 	handleInputNumber = (e, id) => {
 		const { dataList } = this.state;
+		const { isEdit } = this.props;
+		isEdit();
 		const that = this;
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorNumber = e.target.value;
+					dataList[index].obligorNumber = e.target.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 				}
 			});
 			that.setState({
@@ -59,6 +63,8 @@ class DebtorDetail extends React.Component {
 	changeValue = (value, id) => {
 		const { dataList } = this.state;
 		const that = this;
+		const { isEdit } = this.props;
+		isEdit();
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
