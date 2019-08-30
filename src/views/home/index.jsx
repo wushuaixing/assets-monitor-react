@@ -9,6 +9,7 @@ import {
 	selfTree, // login
 } from '@/utils/api/home';
 import { toThousands } from '@/utils/changeTime';
+import { Spin } from '@/common';
 import './style.scss';
 
 
@@ -18,6 +19,7 @@ class HomeRouter extends React.Component {
 		this.state = {
 			orgDetail: null,
 			tree: null,
+			errorLoading: false,
 		};
 	}
 
@@ -38,11 +40,15 @@ class HomeRouter extends React.Component {
 
 	// 获取消息列表
 	getData = () => {
+		this.setState({
+			errorLoading: true,
+		});
 		selfTree().then((res) => {
 			if (res && res.data) {
 				this.setState({
 					orgDetail: res.data.orgDetail,
 					tree: res.data.tree,
+					errorLoading: false,
 				});
 			} else {
 				message.error(res.message);
@@ -53,9 +59,11 @@ class HomeRouter extends React.Component {
 	};
 
 	render() {
-		const { orgDetail, tree } = this.state;
+		const { orgDetail, tree, errorLoading } = this.state;
 		return (
 			<div className="yc-home">
+				<Spin visible={errorLoading} modal />
+
 				<div className="yc-home-header">
 					<div className="yc-header-left">
 						<div className="yc-left-title">我的机构</div>
