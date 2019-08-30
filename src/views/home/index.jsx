@@ -22,8 +22,19 @@ class HomeRouter extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getData();
+		const { hash } = window.location;
+		// 避免在登录页请求
+		if (hash !== '#/login') {
+			this.getData();
+		}
 	}
+
+	// componentWillUnmount() {
+	// 	// 组件卸载时判断getData是否存在，存在则取消掉请求
+	// 	if (this.getData) {
+	// 		this.getData();
+	// 	}
+	// }
 
 	// 获取消息列表
 	getData = () => {
