@@ -19,12 +19,12 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="larq" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>,
+			title: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>,
 			dataIndex: 'larq',
 			width: 111,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
-			title: <SortVessel field="yg" onClick={onSortChange} {...sort}>原告</SortVessel>,
+			title: <SortVessel field="YG" onClick={onSortChange} {...sort}>原告</SortVessel>,
 			dataIndex: 'yg',
 			render: text => text || '--',
 		}, {
@@ -50,7 +50,7 @@ const columns = (props) => {
 			className: 'tAlignCenter_important min-width-80',
 			render: aboutLink,
 		}, {
-			title: '更新日期',
+			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			dataIndex: 'updateTime',
 			width: 111,
 			render: value => timeStandard(value),

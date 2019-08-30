@@ -212,6 +212,7 @@ export default class Subrogation extends React.Component {
 			total: '',
 			isRead: 'all',
 		});
+		this.toClearSortStatus();
 		this.onQueryChange(null, val, 'all', 1);
 	};
 
