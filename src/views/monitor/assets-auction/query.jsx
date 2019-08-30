@@ -14,18 +14,22 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
-		window._addEventListener(window, 'keyup', this.toKeyCode13);
+		window._addEventListener(window.document, 'keyup', this.toKeyCode13);
 	}
 
 	componentWillUnmount() {
-		window._removeEventListener(window, 'keyup', this.toKeyCode13);
+		window._removeEventListener(window.document, 'keyup', this.toKeyCode13);
 	}
 
 	toKeyCode13=(e) => {
-		const	key = e.keyCode || e.which || e.charCode;
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
-			this.handleSubmit();
-			document.activeElement.blur();
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.handleSubmit();
+				document.activeElement.blur();
+			}
 		}
 	};
 
