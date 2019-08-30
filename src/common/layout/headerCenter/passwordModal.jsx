@@ -250,11 +250,11 @@ class ChangeWorldModal extends React.PureComponent {
 				return;
 			}
 			if (!regx.test(newWorld)) {
-				message.warning('长度6-20位字符');
+				message.warning('长度必须6-20位字符');
 				return;
 			}
 			if (!numAndWorld.test(newWorld)) {
-				message.warning('同时包含数字、字母');
+				message.warning('必须同时包含数字、字母');
 				return;
 			}
 			if (!regx1.test(newWorld)) {
@@ -262,8 +262,9 @@ class ChangeWorldModal extends React.PureComponent {
 				return;
 			}
 			const params = {
-				...fields,
-				password: rsaEncrypt(fields.password),
+				// ...fields,
+				currentPassword: rsaEncrypt(fields && fields.currentPassword),
+				newPassword: rsaEncrypt(newWorld),
 			};
 			changePassword(params).then((res) => {
 				const start = new Date().getTime(); // 获取接口响应时间

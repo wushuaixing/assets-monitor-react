@@ -244,18 +244,18 @@ class ChangeWorldModal extends React.PureComponent {
 			const firstWorld = fields.Password;
 			const newWorld = fields.newPassword;
 			// && numAndWorld.test(newWorld) && regx1.test(newWorld)
-			console.log(regx, newWorld, regx.test(newWorld));
+			console.log(rsaEncrypt(newWorld), regx.test(newWorld));
 			// 两次密码要输入一致
 			if (firstWorld !== newWorld) {
 				message.warning('两次密码不一致');
 				return;
 			}
 			if (!regx.test(newWorld)) {
-				message.warning('长度6-20位字符');
+				message.warning('长度必须6-20位字符');
 				return;
 			}
 			if (!numAndWorld.test(newWorld)) {
-				message.warning('同时包含数字、字母');
+				message.warning('必须同时包含数字、字母');
 				return;
 			}
 			if (!regx1.test(newWorld)) {
@@ -263,8 +263,8 @@ class ChangeWorldModal extends React.PureComponent {
 				return;
 			}
 			const params = {
-				...fields,
-				password: rsaEncrypt(fields.password),
+				// ...fields,
+				password: rsaEncrypt(newWorld),
 			};
 			initUser(params).then((res) => {
 				if (res.code === 200) {

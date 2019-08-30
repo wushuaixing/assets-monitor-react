@@ -325,6 +325,7 @@ class BusinessView extends React.Component {
 				const params = {
 					idList: selectedRowKeys,
 				};
+				// 判断最后一页批量删除
 				let currentLength;
 				if (Math.ceil(totals / 10) === current && totals % 10 === selectedRowKeys.length) {
 					currentLength = current - 1;
@@ -391,7 +392,12 @@ class BusinessView extends React.Component {
 		});
 	}
 
-	handleCancel = () => {
+	handleCancel = (type) => {
+		if (type === 'down') {
+			const hide = message.loading('正在为您下载,请稍后...', 0);
+			// 异步手动移除
+			setTimeout(hide, 1000);
+		}
 		this.setState({
 			errorModalVisible: false,
 		});
@@ -621,7 +627,7 @@ class BusinessView extends React.Component {
 								</Button>
 							</Upload>
 							{
-								uploadErrorData.errorType === '文件格式错误' ? <Button onClick={this.handleCancel} className="yc-confirm-footer-btn" type="primary"><a href="../../../static/template.xlsx" style={{ color: '#fff' }}>模版下载</a></Button>
+								uploadErrorData.errorType === '文件格式错误' ? <Button onClick={() => this.handleCancel('down')} className="yc-confirm-footer-btn" type="primary"><a href="../../../static/template.xlsx" style={{ color: '#fff' }}>模版下载</a></Button>
 									: <Button onClick={this.handleCancel} className="yc-confirm-footer-btn" type="primary">知道了</Button>
 								}
 
