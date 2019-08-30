@@ -1,65 +1,11 @@
 import React from 'react';
-// import { navigate } from '@reach/router';
-import { Table, Pagination, Modal } from 'antd';
+import { Table, Pagination } from 'antd';
 import {
 	ReadStatus, Attentions, TitleIcon, SortVessel,
 } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
-
-// 关联连接 组件
-const aboutLink = (value, row) => {
-	const toShow = (source) => {
-		Modal.info({
-			title: '本案号关联多个立案链接，如下：',
-			okText: '确定',
-			iconType: 'null',
-			width: 600,
-			content: (
-				<div style={{ marginLeft: -28 }}>
-					{
-						source.map(item => (
-							<p style={{ margin: 5 }}>
-								<a href={item} className="click-link" target="_blank" rel="noopener noreferrer">{item}</a>
-							</p>
-						))
-					}
-				</div>
-			),
-			onOk() {},
-		});
-	};
-	if (row.isDeleted) return null;
-
-	const La = (value.filter(item => item.sourceType === 1))[0];
-	const Kt = (value.filter(item => item.sourceType === 2))[0];
-	const Ws = (value.filter(item => item.sourceType === 3))[0];
-	// console.log(La, Kt, Ws);
-	const resContent = [];
-	if (La && La.url.length) {
-		if (La.url.length > 1) {
-			resContent.push(<span className="click-link" onClick={() => toShow(La.url)}>立案</span>);
-		} else if (La.url.length === 1) {
-			resContent.push(<a href={La.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">立案</a>);
-		}
-	}
-	if (Kt && Kt.url.length) {
-		if (resContent.length)resContent.push(<span className="info-line">|</span>);
-		if (Kt.url.length > 1) {
-			resContent.push(<span className="click-link" onClick={() => toShow(Kt.url)}>开庭</span>);
-		} else if (Kt.url.length === 1) {
-			resContent.push(<a href={Kt.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">开庭</a>);
-		}
-	}
-	if (Ws && Ws.url.length) {
-		if (resContent.length)resContent.push(<span className="info-line">|</span>);
-		if (Ws.url.length > 1) {
-			resContent.push(<span className="click-link" onClick={() => toShow(Ws.url)}>文书</span>);
-		} else if (Ws.url.length === 1) {
-			resContent.push(<a href={Ws.url[0]} className="click-link" target="_blank" rel="noopener noreferrer">文书</a>);
-		}
-	}
-	return resContent;
-};
+import { linkDom, timeStandard } from '@/utils';
+import { aboutLink, caseInfo } from '../../table-common';
 
 // 获取表格配置
 const columns = (props) => {
@@ -75,76 +21,29 @@ const columns = (props) => {
 		{
 			title: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>,
 			dataIndex: 'larq',
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: <TitleIcon title="原告" tooltip="我行债务人" />,
 			dataIndex: 'yg',
 			render: (text, row) => (
-				row.isDeleted ? text : <a href={`/#/monitor/debtor/detail?id=${row.obligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>
+				row.isDeleted ? text : linkDom(`/#/monitor/debtor/detail?id=${row.obligorId}`, text)
 			),
 		}, {
 			title: <TitleIcon title="被告" tooltip="蓝色可点击为我行债务人" />,
 			dataIndex: 'bg',
-			render: (text, row) => {
-				const { isDeleted, extObligorId } = row;
-				if (!isDeleted && extObligorId) {
-					return (
-						<a href={`/#/monitor/debtor/detail?id=${extObligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>
-					);
-				}
-				return text;
-			}
-
-			,
+			render: (text, row) => ((!row.isDeleted && row.extObligorId)
+				? linkDom(`/#/monitor/debtor/detail?id=${row.extObligorId}`, text) : text),
 		}, {
 			title: '法院',
 			dataIndex: 'court',
 		}, {
 			title: '案号',
 			dataIndex: 'ah',
-			render: (content, row) => (
-				row.isDeleted ? content : (
-					<span
-						className="click-link"
-						onClick={() => {
-							Modal.info({
-								title: '当事人详情',
-								okText: '确定',
-								iconType: 'null',
-								className: 'assets-an-info',
-								content: (
-									<div style={{ marginLeft: -28 }}>
-										{
-										row.ygList && row.ygList.map(item => (
-											<p style={{ margin: 5, fontSize: 14 }}>
-												<strong>原告：</strong>
-												<span>{item}</span>
-											</p>
-										))
-									}
-										{
-										row.bgList && row.bgList.map(item => (
-											<p style={{ margin: 5, fontSize: 14 }}>
-												<strong>被告：</strong>
-												<span>{item}</span>
-											</p>
-										))
-									}
-									</div>
-								),
-								onOk() {},
-							});
-						}}
-					>
-						{content}
-					</span>
-				)
-			),
+			render: caseInfo,
 		}, {
 			title: '案由',
 			dataIndex: 'anyou',
 			sourceType: 1,
-			// render: content => <span>{content}</span>,
 		}, {
 			title: '关联信息',
 			dataIndex: 'associatedInfo',
@@ -175,7 +74,7 @@ export default class TableView extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { manage } = this.props;
-		if (manage === false && nextProps.manage) {
+		if ((manage === false && nextProps.manage) || !nextProps.selectRow.length) {
 			this.setState({ selectedRowKeys: [] });
 		}
 	}

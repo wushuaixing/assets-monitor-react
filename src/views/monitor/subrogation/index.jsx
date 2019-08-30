@@ -3,7 +3,7 @@ import { Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
 // import QueryCourt from './query/court';
 import TableCourt from './table/court';
-import QueryRegister from './query/register';
+import QueryView from './queryView';
 // import TableRegister from './table/register';
 
 import { Button, Tabs, Spin } from '@/common';
@@ -57,9 +57,8 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 获取统计信息
-	toInfoCount=(isRead) => {
-		const params = Object.assign(this.condition, { type: 1, isRead });
-		infoCount(clearEmpty(params)).then((res) => {
+	toInfoCount=() => {
+		infoCount(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
@@ -106,7 +105,7 @@ export default class Subrogation extends React.Component {
 		const { sourceType, tabConfig } = this.state;
 		if (tabConfig[sourceType - 1].dot) {
 			Modal.confirm({
-				title: `确认将代位权—${sourceType === 1 ? '立案信息' : '开庭公共'}标记为全部已读？`,
+				title: `确认将代位权—${sourceType === 1 ? '立案信息' : '开庭公告'}标记为全部已读？`,
 				content: '点击确定，将为您标记为全部已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
@@ -118,21 +117,22 @@ export default class Subrogation extends React.Component {
 				},
 				onCancel() {},
 			});
+		} else {
+			message.warning('最新信息已经全部已读，没有未读信息了');
 		}
-		message.warning('最新信息已经全部已读，没有未读信息了');
 	};
 
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
 		if (type === 'all') {
-			const _condition = Object.assign(this.condition, {
+			const _condition = Object.assign({}, this.condition, {
 				token: cookies.get('token'),
 			});
-			window.open(`${exportList}?${urlEncode(_condition)}`, '_self');
+			window.open(`${exportList}?${urlEncode(clearEmpty(_condition))}`, '_self');
 			// console.log(urlEncode(_condition));
 		} else if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
-			const _condition = Object.assign(this.condition, {
+			const _condition = Object.assign({}, this.condition, {
 				token: cookies.get('token'),
 				idList,
 			});
@@ -141,7 +141,7 @@ export default class Subrogation extends React.Component {
 				content: '点击确定，将为您导出所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					window.open(`${exportList}?${urlEncode(_condition)}`, '_self');
+					window.open(`${exportList}?${urlEncode(clearEmpty(_condition))}`, '_self');
 					// message.success('操作成功！');
 				},
 				onCancel() {},
@@ -186,11 +186,6 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
-	// 批量管理☑️结果
-	onSelect=(val) => {
-		this.selectRow = val;
-	};
-
 	// 表格发生变化
 	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
@@ -217,7 +212,9 @@ export default class Subrogation extends React.Component {
 
 	// 当前页数变化
 	onPageChange=(val) => {
-		this.onQueryChange('', '', '', val);
+		const { manage } = this.state;
+		this.selectRow = [];
+		this.onQueryChange('', '', '', val, manage);
 	};
 
 	// 排序触发
@@ -234,11 +231,10 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 发起查询请求
-	onQueryChange=(con, _sourceType, _isRead, page) => {
+	onQueryChange=(con, _sourceType, _isRead, page, manage) => {
 		const { sourceType, isRead, current } = this.state;
-		// console.log(val, _sourceType, _isRead);
 		const __isRead = _isRead || isRead;
-		this.condition = Object.assign(con || this.condition, {
+		this.condition = Object.assign({}, con || this.condition, {
 			sourceType: _sourceType || sourceType,
 			page: page || current,
 			type: 1,
@@ -248,9 +244,9 @@ export default class Subrogation extends React.Component {
 		if (__isRead === 'unread') this.condition.isRead = 0;
 		this.setState({
 			loading: true,
-			manage: false,
+			manage: manage || false,
 		});
-		this.toInfoCount(this.condition.isRead);
+		this.toInfoCount();
 		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -282,7 +278,8 @@ export default class Subrogation extends React.Component {
 			current,
 			total,
 			onRefresh: this.onRefresh,
-			onSelect: this.onSelect,
+			selectRow: this.selectRow,
+			onSelect: val => this.selectRow = val,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
 			sortField: this.condition.field,
@@ -290,7 +287,7 @@ export default class Subrogation extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
-				<QueryRegister onQueryChange={this.onQuery} />
+				<QueryView onQueryChange={this.onQuery} />
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}

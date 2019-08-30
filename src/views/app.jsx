@@ -3,6 +3,7 @@ import { Router } from '@reach/router';
 import { message } from 'antd';
 import MainScreen from './main-screen';
 import LoginScreen from './login';
+import './main.scss';
 
 message.config({
 	top: 300,

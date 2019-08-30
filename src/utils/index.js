@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default {
 	thousandBitSeparator(val) {
 		let num = val;
@@ -80,6 +82,7 @@ export default {
 		}
 		return queryObj;
 	},
+
 
 };
 
@@ -194,3 +197,16 @@ Date.prototype.format = function method(format) {
 	});
 	return fmt;
 };
+export const timeStandard = text => (text ? new Date(text * 1000).format('yyyy-MM-dd') : '--');
+
+//	返回a标签，可点击链接
+export const linkDom = (url, text, target) => React.createElement(
+	'a',
+	{
+		href: url,
+		className: 'click-link',
+		rel: 'noopener noreferrer',
+		target: target || '_blank',
+	},
+	text,
+);
