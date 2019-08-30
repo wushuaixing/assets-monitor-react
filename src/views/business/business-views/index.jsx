@@ -13,7 +13,9 @@ import {
 	postDeleteBatch, // 批量删除
 } from '@/utils/api/business';
 import { urlEncode } from '@/utils';
-import { Input, Button, Spin } from '@/common';
+import {
+	Input, Button, Spin, timeRule,
+} from '@/common';
 import './style.scss';
 
 const cookies = new Cookies();
@@ -63,6 +65,9 @@ class BusinessView extends React.Component {
 			PeopleListModalVisible: false,
 			businessId: '', // 担保人id
 			searchValue: null, // 输入框内容
+			errorModalVisible: false,
+			uploadErrorData: '',
+			page: '',
 		};
 	}
 
@@ -114,15 +119,20 @@ class BusinessView extends React.Component {
 							resetFields('');
 							that.getData();
 							message.success(`${info.file.name} 导入${info.file.response.message}${info.file.response.data.businessCount}笔`);
+							that.handleCancel();
+						} else if (info.file.response.code === 9001) {
+							message.error('服务器出错');
 						} else {
 							info.fileList.pop();
 							// 主动刷新页面，更新文件列表
 							that.setState({
 								refresh: !that.state.refresh,
+								uploadErrorData: info.file.response.data,
 								// errorMsg: info.file.response.data.errorMsgList,
 							});
+							that.openErrorModal();
 							// that.uploadError(info.file.response.data);
-							message.error(`上传失败: ${info.file.response.data.errorMessage}`);
+							// message.error(`上传失败: ${info.file.response.data.errorMessage}`);
 						}
 					} else if (info.file.status === 'error') {
 						message.error(`${info.file.name} 上传失败。`);
@@ -134,19 +144,6 @@ class BusinessView extends React.Component {
 			};
 		};
 
-		// uploadError = (data) => {
-		// 	const that = this;
-		// 	confirm({
-		// 		title: `${data.errorType}`,
-		// 		content: `${data.errorMessage}`,
-		// 		iconType: 'exclamation-circle-o',
-		// 		okText: '重新上传',
-		// 		onOk() {
-		// 			<Upload className="yc-upload" showUploadList={false} {...that.uploadAttachmentParam()} />;
-		// 		},
-		// 		onCancel() {},
-		// 	});
-		// }
 
 	// 获取消息列表
 	getData = (value) => {
@@ -195,7 +192,9 @@ class BusinessView extends React.Component {
 			num: pageSize,
 			page: val,
 		};
-
+		this.setState({
+			page: val,
+		});
 		businessList(params).then((res) => {
 			if (res && res.data) {
 				console.log(res.data);
@@ -203,7 +202,7 @@ class BusinessView extends React.Component {
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
-					current: res.data.page, // 翻页传选中页数，其他重置为1
+					current: val && val.page ? val.page : res.data.page, // 翻页传选中页数，其他重置为1
 					loading: false,
 				});
 			} else {
@@ -298,7 +297,7 @@ class BusinessView extends React.Component {
 
 	// 批量删除
 	handledDeleteBatch = () => {
-		const { selectedRowKeys } = this.state;
+		const { selectedRowKeys, page, totals } = this.state;
 		const that = this;
 		if (selectedRowKeys.length === 0) {
 			message.warning('未选中业务');
@@ -313,9 +312,17 @@ class BusinessView extends React.Component {
 				const params = {
 					idList: selectedRowKeys,
 				};
-				// const otherParams = {
-				// 	page: 1,
-				// };
+				console.log(Math.ceil(totals / 10), totals, totals % 10 === selectedRowKeys.length, page);
+				let currentLength;
+				if (Math.ceil(totals / 10) === page && totals % 10 === selectedRowKeys.length) {
+					currentLength = page - 1;
+				}
+				if (selectedRowKeys.length === 10) {
+					currentLength = page - 1;
+				}
+				const otherParams = {
+					page: currentLength || page,
+				};
 				const start = new Date().getTime(); // 获取接口响应时间
 				return postDeleteBatch(params).then((res) => {
 					if (res.code === 200) {
@@ -326,7 +333,7 @@ class BusinessView extends React.Component {
 							selectedRowKeys: [],
 						});
 						message.success(res.message);
-						that.getData();
+						that.getData(otherParams);
 					} else {
 						message.error(res.message);
 					}
@@ -372,12 +379,24 @@ class BusinessView extends React.Component {
 		});
 	}
 
+	handleCancel = () => {
+		this.setState({
+			errorModalVisible: false,
+		});
+	}
+
+	openErrorModal = () => {
+		this.setState({
+			errorModalVisible: true,
+		});
+	}
+
 	render() {
 		const {
-			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId,
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps } = form;
+		const { getFieldProps, getFieldValue } = form;
 		// 通过 rowSelection 对象表明需要行选择
 		const rowSelection = {
 			selectedRowKeys,
@@ -463,6 +482,7 @@ class BusinessView extends React.Component {
 									});
 								},
 							})}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
 							size="large"
 							style={_style2}
 							placeholder="开始日期"
@@ -481,6 +501,7 @@ class BusinessView extends React.Component {
 									});
 								},
 							})}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
 							size="large"
 							style={_style2}
 							placeholder="结束日期"
@@ -558,6 +579,44 @@ class BusinessView extends React.Component {
 					businessId={businessId}
 					PeopleListModalVisible={PeopleListModalVisible}
 				/>
+				)}
+				{errorModalVisible && 	(
+				<Modal
+					// title="第一个 Modal"
+					visible={errorModalVisible}
+					onCancel={this.handleCancel}
+					footer={false}
+					width={500}
+					closable={false}
+				>
+					{/* 请不要关闭当前页面，正在为您上传文件，请稍后... */}
+
+					<div className="yc-confirm-body">
+						<div className="yc-confirm-header">
+							<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle-o" />
+							<span className="yc-confirm-title">{uploadErrorData.errorType}</span>
+						</div>
+						<div className="yc-confirm-content">
+							{uploadErrorData.errorMessage}
+						</div>
+						<div className="yc-confirm-btn">
+							<Upload className="yc-upload" showUploadList={false} {...this.uploadAttachmentParam()}>
+								<Button
+									style={{ height: 34, marginRight: 10 }}
+									// onClick={this.handleCancel}
+								>
+									重新上传
+								</Button>
+							</Upload>
+							{
+								uploadErrorData.errorType === '文件格式错误' ? <Button onClick={this.handleCancel} className="yc-confirm-footer-btn" type="primary"><a href="../../../static/template.xlsx" style={{ color: '#fff' }}>模版下载</a></Button>
+									: <Button onClick={this.handleCancel} className="yc-confirm-footer-btn" type="primary">知道了</Button>
+								}
+
+						</div>
+					</div>
+
+				</Modal>
 				)}
 			</div>
 		);

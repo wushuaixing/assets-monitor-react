@@ -3,10 +3,10 @@ import service from '../service';
 // export const baseUrl = 'http://172.18.255.121:8080';
 // export const baseUrl = 'http://172.18.255.74:8080'; // 赛神
 // export const baseUrl = 'http://172.18.255.32:8080'; // 胡歆
-// export const baseUrl = 'http://172.18.255.141';
+export const baseUrl = 'http://172.18.255.141';
 // export const baseUrl = 'http://172.18.255.25:8011';
 
-export const baseUrl = 'http://172.18.255.251:8588';
+// export const baseUrl = 'http://172.18.255.251:8588';
 
 // export const baseUrl = 'http://172.18.255.251:18080';
 // export const baseUrl = 'http://172.18.255.251:8588'; // 上传地址

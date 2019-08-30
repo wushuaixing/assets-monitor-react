@@ -24,15 +24,17 @@ class DebtorDetail extends React.Component {
 				if (typeof JSON.parse(reason) === 'object') {
 					const _reason = JSON.parse(reason);
 					const JSONArray = [];
+
 					if (_reason.name) {
 						JSONArray.push(_reason.name);
 					} if (_reason.number) {
 						JSONArray.push(_reason.number);
 					} if (_reason.role_text) {
 						JSONArray.push(_reason.role_text);
-					} if (_reason.obligor_id) {
-						JSONArray.push(_reason.obligor_id);
 					}
+					// if (_reason.obligor_id) {
+					// 	JSONArray.push(_reason.obligor_id);
+					// }
 					if (JSONArray && JSONArray.length > 0) {
 						return JSONArray.map(item => (
 							<p>{item}</p>
@@ -262,10 +264,6 @@ class DebtorDetail extends React.Component {
 							<div className="yc-form-group">
 								<div className="yc-basic-msg-title">机构名称:</div>
 								<div className="yc-basic-msg-inner">{detail && detail.orgName.length > 0 ? detail.orgName : '-'}</div>
-							</div>
-							<div className="yc-form-group">
-								<div className="yc-basic-msg-title">担保方式:</div>
-								<div className="yc-basic-msg-inner">{detail && detail.guaranteeString.length > 0 ? detail.guaranteeString : '-'}</div>
 							</div>
 						</div>
 					) : (
