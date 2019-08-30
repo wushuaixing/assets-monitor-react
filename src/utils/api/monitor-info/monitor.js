@@ -3,7 +3,7 @@ import { baseUrl } from '@/utils/api/index';
 
 /*  监控信息 => 代位权/涉诉监控 */
 // 关注/取消关注
-export const attention = (params, star) => service.post(`${baseUrl}/yc/monitor/early/warning/isAttention?star=${star}`, params)
+export const attention = (params, star) => service.post(`${baseUrl}/yc/monitor/early/warning/attention?isAttention=${star}`, params)
 	.then(res => res.data);
 
 // 导出

@@ -5,7 +5,7 @@ import {
 	ReadStatus, Attentions, TitleIcon, SortVessel,
 } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
-
+import { linkDom, timeStandard } from '@/utils';
 // 关联连接 组件
 const aboutLink = (value, row) => {
 	const toShow = (source) => {
@@ -17,11 +17,7 @@ const aboutLink = (value, row) => {
 			content: (
 				<div style={{ marginLeft: -28 }}>
 					{
-						source.map(item => (
-							<p style={{ margin: 5 }}>
-								<a href={item} className="click-link" target="_blank" rel="noopener noreferrer">{item}</a>
-							</p>
-						))
+						source.map(item => (<p style={{ margin: 5 }}>{linkDom(item, item)}</p>))
 					}
 				</div>
 			),
@@ -61,6 +57,40 @@ const aboutLink = (value, row) => {
 	return resContent;
 };
 
+// 案号 - 弹窗
+const caseInfo = (content, row) => {
+	const { isDelete, ygList, bgList } = row;
+	if (isDelete || !(ygList.length && bgList)) return content;
+	const toClick =	() => Modal.info({
+		title: '当事人详情',
+		okText: '确定',
+		iconType: 'null',
+		className: 'assets-an-info',
+		content: (
+			<div style={{ marginLeft: -28 }}>
+				{
+					row.ygList && row.ygList.map(item => (
+						<p style={{ margin: 5, fontSize: 14 }}>
+							<strong>原告：</strong>
+							<span>{item}</span>
+						</p>
+					))
+				}
+				{
+					row.bgList && row.bgList.map(item => (
+						<p style={{ margin: 5, fontSize: 14 }}>
+							<strong>被告：</strong>
+							<span>{item}</span>
+						</p>
+					))
+				}
+			</div>
+		),
+		onOk() {},
+	});
+	return <span className="click-link" onClick={toClick}>{content}</span>;
+};
+
 // 获取表格配置
 const columns = (props) => {
 	const {
@@ -75,12 +105,12 @@ const columns = (props) => {
 		{
 			title: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>,
 			dataIndex: 'larq',
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: <TitleIcon title="原告" tooltip="我行债务人" />,
 			dataIndex: 'yg',
 			render: (text, row) => (
-				row.isDeleted ? text : <a href={`/#/monitor/debtor/detail?id=${row.obligorId}`} className="click-link" target="_blank" rel="noopener noreferrer">{text}</a>
+				row.isDeleted ? text : linkDom(`/#/monitor/debtor/detail?id=${row.obligorId}`, text)
 			),
 		}, {
 			title: <TitleIcon title="被告" tooltip="蓝色可点击为我行债务人" />,
@@ -93,58 +123,18 @@ const columns = (props) => {
 					);
 				}
 				return text;
-			}
-
-			,
+			},
 		}, {
 			title: '法院',
 			dataIndex: 'court',
 		}, {
 			title: '案号',
 			dataIndex: 'ah',
-			render: (content, row) => (
-				row.isDeleted ? content : (
-					<span
-						className="click-link"
-						onClick={() => {
-							Modal.info({
-								title: '当事人详情',
-								okText: '确定',
-								iconType: 'null',
-								className: 'assets-an-info',
-								content: (
-									<div style={{ marginLeft: -28 }}>
-										{
-										row.ygList && row.ygList.map(item => (
-											<p style={{ margin: 5, fontSize: 14 }}>
-												<strong>原告：</strong>
-												<span>{item}</span>
-											</p>
-										))
-									}
-										{
-										row.bgList && row.bgList.map(item => (
-											<p style={{ margin: 5, fontSize: 14 }}>
-												<strong>被告：</strong>
-												<span>{item}</span>
-											</p>
-										))
-									}
-									</div>
-								),
-								onOk() {},
-							});
-						}}
-					>
-						{content}
-					</span>
-				)
-			),
+			render: caseInfo,
 		}, {
 			title: '案由',
 			dataIndex: 'anyou',
 			sourceType: 1,
-			// render: content => <span>{content}</span>,
 		}, {
 			title: '关联信息',
 			dataIndex: 'associatedInfo',
