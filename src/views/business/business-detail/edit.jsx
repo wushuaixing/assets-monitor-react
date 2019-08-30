@@ -149,7 +149,7 @@ class DebtorDetail extends React.Component {
 											// rules: [
 											// 	{ required: true, whitespace: true, message: '请填写密码' },
 											// ],
-											getValueFromEvent: e => e.trim(),
+											getValueFromEvent: e => e.target.value.trim(),
 										})}
 										className="yc-from-input"
 									/>
@@ -164,7 +164,7 @@ class DebtorDetail extends React.Component {
 											// rules: [
 											// 	{ required: true, whitespace: true, message: '请填写密码' },
 											// ],
-											getValueFromEvent: e => e.trim(),
+											getValueFromEvent: e => e.target.value.trim(),
 										})}
 										className="yc-from-input"
 									/>
