@@ -160,8 +160,6 @@ class BusinessView extends React.Component {
 		const params = {
 			num: pageSize,
 			page: current,
-			// uploadTimeStart: startTime, // 搜索时间
-			// uploadTimeEnd: endTime,
 			...fildes,
 			...value,
 		};
@@ -170,10 +168,12 @@ class BusinessView extends React.Component {
 		});
 		businessList(params).then((res) => {
 			if (res && res.data) {
+				console.log(res.data);
+
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
-					current: value && value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
+					current: res.data.page, // 翻页传选中页数，其他重置为1
 					loading: false,
 				});
 			} else {
@@ -195,7 +195,22 @@ class BusinessView extends React.Component {
 			page: val,
 		};
 
-		this.getData(params);
+		businessList(params).then((res) => {
+			if (res && res.data) {
+				console.log(res.data);
+
+				this.setState({
+					dataList: res.data.list,
+					totals: res.data.total,
+					current: res.data.page, // 翻页传选中页数，其他重置为1
+					loading: false,
+				});
+			} else {
+				message.error(res.message);
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	}
 
 
@@ -266,7 +281,7 @@ class BusinessView extends React.Component {
 		};
 		this.getData(params);
 		this.setState({
-			searchValue: {},
+			searchValue: '',
 			startTime: '',
 			endTime: '',
 		});
@@ -297,6 +312,9 @@ class BusinessView extends React.Component {
 				const params = {
 					idList: selectedRowKeys,
 				};
+				// const otherParams = {
+				// 	page: 1,
+				// };
 				const start = new Date().getTime(); // 获取接口响应时间
 				return postDeleteBatch(params).then((res) => {
 					if (res.code === 200) {

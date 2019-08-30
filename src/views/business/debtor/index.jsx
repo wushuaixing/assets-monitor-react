@@ -78,7 +78,7 @@ class BusinessDebtor extends React.Component {
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
-					current: value && value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
+					current: res.data.page, // 翻页传选中页数，其他重置为1
 					loading: false,
 				});
 			} else {
@@ -143,7 +143,7 @@ class BusinessDebtor extends React.Component {
 		};
 		this.getData(params);
 		this.setState({
-			searchValue: {},
+			searchValue: '',
 		});
 	}
 
@@ -157,7 +157,20 @@ class BusinessDebtor extends React.Component {
 			page: val,
 		};
 
-		this.getData(params);
+		obligorList(params).then((res) => {
+			if (res && res.data) {
+				this.setState({
+					dataList: res.data.list,
+					totals: res.data.total,
+					current: res.data.page, // 翻页传选中页数，其他重置为1
+					loading: false,
+				});
+			} else {
+				message.error(res.message);
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	}
 
 
