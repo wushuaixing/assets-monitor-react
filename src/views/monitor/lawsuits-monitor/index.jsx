@@ -2,10 +2,8 @@ import React from 'react';
 import { Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
 import { Tabs, Button, Spin } from '@/common';
-// import QueryCourt from './query/court';
 import QueryView from './queryView';
-// import TableCourt from '../subrogation/table/court';
-import TableRegister from '../subrogation/table/register';
+import TableView from './table';
 
 import {
 	infoCount, infoList, readStatus, attention, exportList,
@@ -110,7 +108,9 @@ export default class Subrogation extends React.Component {
 				content: '点击确定，将为您标记为全部已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					readStatus({}).then((res) => {
+					readStatus({
+						sourceType, type: 0,
+					}).then((res) => {
 						if (res.code === 200) {
 							_this.onQueryChange();
 						}
@@ -329,7 +329,7 @@ export default class Subrogation extends React.Component {
 					)
 				}
 				<Spin visible={loading}>
-					<TableRegister {...tableProps} sourceType={sourceType} />
+					<TableView {...tableProps} sourceType={sourceType} />
 				</Spin>
 
 			</div>
