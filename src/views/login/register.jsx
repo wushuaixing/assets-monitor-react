@@ -34,6 +34,7 @@ class Login extends React.Component {
 			mustVerifyImageCode: false,
 			codeImg: verificationCodeImg,
 			passwordModalVisible: false,
+			errorTime: '',
 		};
 	}
 
@@ -86,7 +87,9 @@ class Login extends React.Component {
 					console.log(_res);
 					this.setState({
 						mustVerifyImageCode: _res.data.mustVerifyImageCode,
+						errorTime: _res.data && _res.data.errorTime,
 					});
+
 					login(params).then((res) => {
 						if (res.code === 200) {
 							if (rememberPassword === 'false') {
@@ -109,7 +112,11 @@ class Login extends React.Component {
 								console.log(1);
 							}
 						} else {
-							message.error(res.message);
+							if (res.data && res.data.errorTime > 4) {
+								message.warning(`账号密码错误，您还可以尝试${res.data.errorTimeLeft}次`);
+							} else {
+								message.error(res.message);
+							}
 							this.verificationCode();
 							this.setState({
 								loading: false,
@@ -174,7 +181,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, rememberPassword, mustVerifyImageCode, codeImg, passwordModalVisible,
+			loading, userName, rememberPassword, mustVerifyImageCode, codeImg, passwordModalVisible, errorTime,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType,
@@ -234,7 +241,7 @@ class Login extends React.Component {
 							</FormItem>
 						</div>
 						{
-							mustVerifyImageCode === true && (
+							errorTime >= 2 && (
 							<div className="yc-form-wapper">
 								<FormItem>
 									<Input
