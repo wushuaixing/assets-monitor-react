@@ -21,16 +21,19 @@ class BusinessView extends React.Component {
 				key: 'obligorName',
 				width: 254,
 				render: (text, row) => (
-					<p style={{ position: 'relative' }}>
-						{text || '-'}
-						{
-								row && row.dishonestStatus === 1 ? <img className="yc-item-break" src={isBreak} alt="" /> : null
+					<div style={{ position: 'relative' }}>
+						<span>
+							{text || '-'}
+						</span>
+						<span className="yc-item-break">
+							{
+								row && row.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null
 							}
-						{
-								row && row.dishonestStatus === 2 ? <img className="yc-item-break" src={beforeBreak} alt="" /> : null
+							{
+								row && row.dishonestStatus === 2 ? <img src={beforeBreak} alt="" /> : null
 							}
-
-					</p>
+						</span>
+					</div>
 				),
 			}, {
 				title: '身份证号/统一社会信用代码',
