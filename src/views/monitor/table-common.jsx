@@ -4,11 +4,16 @@ import { linkDom } from '@/utils';
 
 // 关联连接 组件
 export const aboutLink = (value, row) => {
-	const toShow = (source) => {
+	const toShow = (source, type) => {
+		let text = '立案';
+		if (type === 1) text = '立案';
+		if (type === 2) text = '开庭';
+		if (type === 3) text = '文书';
 		Modal.info({
-			title: '本案号关联多个立案链接，如下：',
+			title: `本案号关联多个${text}链接，如下：`,
 			okText: '确定',
 			iconType: 'null',
+			className: 'assets-an-info',
 			width: 600,
 			content: (
 				<div style={{ marginLeft: -28 }}>
@@ -28,7 +33,7 @@ export const aboutLink = (value, row) => {
 
 	if (La && La.url.length) {
 		if (La.url.length > 1) {
-			resContent.push(<span className="click-link" onClick={() => toShow(La.url)}>立案</span>);
+			resContent.push(<span className="click-link" onClick={() => toShow(La.url, 1)}>立案</span>);
 		} else if (La.url.length === 1) {
 			resContent.push(linkDom(La.url[0], '立案'));
 		}
@@ -36,7 +41,7 @@ export const aboutLink = (value, row) => {
 	if (Kt && Kt.url.length) {
 		if (resContent.length)resContent.push(<span className="info-line">|</span>);
 		if (Kt.url.length > 1) {
-			resContent.push(<span className="click-link" onClick={() => toShow(Kt.url)}>开庭</span>);
+			resContent.push(<span className="click-link" onClick={() => toShow(Kt.url, 2)}>开庭</span>);
 		} else if (Kt.url.length === 1) {
 			resContent.push(linkDom(Kt.url[0], '开庭'));
 		}
@@ -44,7 +49,7 @@ export const aboutLink = (value, row) => {
 	if (Ws && Ws.url.length) {
 		if (resContent.length)resContent.push(<span className="info-line">|</span>);
 		if (Ws.url.length > 1) {
-			resContent.push(<span className="click-link" onClick={() => toShow(Ws.url)}>文书</span>);
+			resContent.push(<span className="click-link" onClick={() => toShow(Ws.url, 3)}>文书</span>);
 		} else if (Ws.url.length === 1) {
 			resContent.push(linkDom(Ws.url[0], '文书'));
 		}
@@ -55,7 +60,7 @@ export const aboutLink = (value, row) => {
 // 案号 - 弹窗
 export const caseInfo = (content, row) => {
 	const { isDelete, ygList, bgList } = row;
-	if (isDelete || !(ygList.length && bgList)) return content || '--';
+	if (isDelete || (!ygList.length && !bgList.length)) return content || '--';
 	const toClick =	() => Modal.info({
 		title: '当事人详情',
 		okText: '确定',

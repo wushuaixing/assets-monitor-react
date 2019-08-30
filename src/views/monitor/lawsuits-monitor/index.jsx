@@ -288,12 +288,15 @@ export default class Subrogation extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
+				{/* 查询模块 */}
 				<QueryView onQueryChange={this.onQuery} />
+				{/* tab模块 */}
 				<Tabs.Simple
 					onChange={e => this.onSourceType(e.id)}
 					source={tabConfig}
 					field="process"
 				/>
+				{/* 操作模块 */}
 				{
 					!manage ? (
 						<div className="assets-auction-action">
@@ -328,6 +331,7 @@ export default class Subrogation extends React.Component {
 						</div>
 					)
 				}
+				{/* 表格数据展示模块  */}
 				<Spin visible={loading}>
 					<TableView {...tableProps} sourceType={sourceType} />
 				</Spin>
