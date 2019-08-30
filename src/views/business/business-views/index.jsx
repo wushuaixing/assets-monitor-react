@@ -310,10 +310,10 @@ class BusinessView extends React.Component {
 				const params = {
 					idList: selectedRowKeys,
 				};
-				const otherParams = {
-					page: selectedRowKeys && selectedRowKeys.length === 10 ? page - 1 : page,
-				};
-				console.log(totals, totals % 10, page);
+				// const otherParams = {
+				// 	page: selectedRowKeys && selectedRowKeys.length === 10 ? page - 1 : page,
+				// };
+				console.log(Math.ceil(totals / 10), totals, totals % 10, page);
 
 				const start = new Date().getTime(); // 获取接口响应时间
 				return postDeleteBatch(params).then((res) => {
@@ -325,7 +325,7 @@ class BusinessView extends React.Component {
 							selectedRowKeys: [],
 						});
 						message.success(res.message);
-						that.getData(otherParams);
+						that.getData();
 					} else {
 						message.error(res.message);
 					}
