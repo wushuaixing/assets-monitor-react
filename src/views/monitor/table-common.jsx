@@ -55,7 +55,7 @@ export const aboutLink = (value, row) => {
 // 案号 - 弹窗
 export const caseInfo = (content, row) => {
 	const { isDelete, ygList, bgList } = row;
-	if (isDelete || !(ygList.length && bgList)) return content;
+	if (isDelete || !(ygList.length && bgList)) return content || '--';
 	const toClick =	() => Modal.info({
 		title: '当事人详情',
 		okText: '确定',

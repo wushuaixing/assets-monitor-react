@@ -12,7 +12,9 @@ const timeRule = {
 		if (!startValue || !endValue) {
 			return false;
 		}
-		return startValue.getTime() >= new Date(endValue).getTime();
+		const _endValue = new Date(endValue);
+		_endValue.setHours(23, 59, 59, 0);
+		return startValue.getTime() >= _endValue.getTime();
 	},
 	disabledEndDate: (endValue, startValue) => {
 		if (!startValue || !endValue) {
