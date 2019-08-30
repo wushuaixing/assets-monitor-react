@@ -8,6 +8,14 @@ function padding(s, len) {
 	}
 	return s;
 }
+// 去除头尾空格
+if (!String.prototype.trim) {
+	String.prototype.trim = function trim(val) {
+		return val.replace(/^\s+|\s+$/g, '');
+	};
+}
+
+
 // 时间戳格式替换
 Date.prototype.format = function fun(format) {
 	const o = {
