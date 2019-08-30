@@ -272,11 +272,11 @@ class Login extends React.Component {
 				return;
 			}
 			if (!regx.test(newWorld)) {
-				message.error('长度6-20位字符');
+				message.error('长度必须6-20位字符');
 				return;
 			}
 			if (!numAndWorld.test(newWorld)) {
-				message.error('同时包含数字、字母');
+				message.error('必须同时包含数字、字母');
 				return;
 			}
 			if (!regx1.test(newWorld)) {
@@ -284,7 +284,7 @@ class Login extends React.Component {
 				return;
 			}
 			const params = {
-				newPassword: rsaEncrypt(fields.newPasswordAgain),
+				newPassword: rsaEncrypt(newWorld),
 			};
 			forgetPasswordStep3(params).then((res) => {
 				if (res.code === 200) {
