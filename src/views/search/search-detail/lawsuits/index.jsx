@@ -250,7 +250,7 @@ class LAWSUITS extends React.Component {
 						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 					<Tabs.Simple
-						onChange={e => this.onSourceType(e.id)}
+						onChange={this.onSourceType}
 						source={tabConfig}
 						field="process"
 					/>

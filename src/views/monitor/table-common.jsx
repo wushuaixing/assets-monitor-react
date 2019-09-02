@@ -1,6 +1,11 @@
 import React from 'react';
 import { Modal } from 'antd';
 import { linkDom } from '@/utils';
+import Cookies from 'universal-cookie';
+import { urlEncode, clearEmpty } from '@/utils';
+// import { exportList1 } from '@/utils/api/monitor-info/monitor';
+
+const cookies = new Cookies();
 
 // const { _ } = window;
 // 关联连接 组件
@@ -82,4 +87,25 @@ export const caseInfo = (content, row) => {
 		onOk() {},
 	});
 	return <span className="click-link" onClick={toClick}>{content}</span>;
+};
+
+
+// 导出按钮& 【一键导出】
+export const fileExport = (api, condition, other = {}, type) => {
+	const _condition = Object.assign({}, condition, other, {
+		token: cookies.get('token'),
+	});
+	if (type === 'warning') {
+		Modal.confirm({
+			title: '确认导出选中的所有信息吗？',
+			content: '点击确定，将为您导出所有选中的信息',
+			iconType: 'exclamation-circle',
+			onOk() {
+				window.open(`${api}?${urlEncode(clearEmpty(_condition))}`, '_self');
+			},
+			onCancel() {},
+		});
+	} else {
+		window.open(`${api}?${urlEncode(clearEmpty(_condition))}`, '_self');
+	}
 };

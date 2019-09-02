@@ -7,7 +7,7 @@ import { Button, Spin, Tabs } from '@/common';
 import {
 	infoList, exportList, follow, infoCount,
 } from '@/utils/api/monitor-info/assets';
-import { urlEncode, clearEmpty } from '@/utils';
+import { urlEncode, clearEmpty, changeURLArg } from '@/utils';
 import './style.scss';
 
 const source = (obj = {}) => [
@@ -71,13 +71,13 @@ export default class Assets extends React.Component {
 	componentDidMount() {
 		this.onQueryChange({});
 		this.toInfoCount();
-		this.toInfoCountIntervel = setInterval(() => {
-			this.toInfoCount();
-		}, 60 * 1000);
+		// this.toInfoCountIntervel = setInterval(() => {
+		// 	this.toInfoCount();
+		// }, 60 * 1000);
 	}
 
 	componentWillUnmount() {
-		clearInterval(this.toInfoCountIntervel);
+		// clearInterval(this.toInfoCountIntervel);
 	}
 
 	// 获取统计信息
@@ -117,7 +117,6 @@ export default class Assets extends React.Component {
 				iconType: 'exclamation-circle',
 				onOk() {
 					window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
-					// message.success('操作成功！');
 				},
 				onCancel() {},
 			});
@@ -172,6 +171,8 @@ export default class Assets extends React.Component {
 		});
 		this.toClearSortStatus();
 		this.onQueryChange(null, val, '', 1);
+		window.location.href = changeURLArg(window.location.href, 'process', val);
+		// console.log(changeURLArg(window.location.href, 'process', val));
 	};
 
 	// 批量管理勾选️结果
@@ -269,7 +270,7 @@ export default class Assets extends React.Component {
 			<div className="yc-assets-auction">
 				<Query onQueryChange={this.onQuery} />
 				<Tabs.Simple
-					onChange={e => this.onSourceType(e.id)}
+					onChange={this.onSourceType}
 					source={tabConfig}
 					field="process"
 					defaultCurrent={-1}

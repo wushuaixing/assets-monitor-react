@@ -104,7 +104,7 @@ export default class Subrogation extends React.Component {
 		const { sourceType, tabConfig } = this.state;
 		if (tabConfig[sourceType - 1].dot) {
 			Modal.confirm({
-				title: `确认将代位权—${sourceType === 1 ? '立案信息' : '开庭公告'}标记为全部已读？`,
+				title: `确认将涉诉监控—${sourceType === 1 ? '立案信息' : '开庭公告'}标记为全部已读？`,
 				content: '点击确定，将为您标记为全部已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
@@ -292,7 +292,7 @@ export default class Subrogation extends React.Component {
 				<QueryView onQueryChange={this.onQuery} />
 				{/* tab模块 */}
 				<Tabs.Simple
-					onChange={e => this.onSourceType(e.id)}
+					onChange={this.onSourceType}
 					source={tabConfig}
 					field="process"
 				/>
