@@ -244,17 +244,25 @@ class ChangeWorldModal extends React.PureComponent {
 				message.warning('请输入原密码');
 				return;
 			}
+			if (fields.currentPassword === firstWorld || fields.currentPassword === newWorld) {
+				message.warning('新密码与原密码一致');
+				return;
+			}
+			if (!firstWorld && !newWorld) {
+				message.warning('必须输入新密码');
+				return;
+			}
 			// 两次密码要输入一致
 			if (firstWorld !== newWorld) {
 				message.warning('两次密码不一致');
 				return;
 			}
 			if (!regx.test(newWorld)) {
-				message.warning('长度6-20位字符');
+				message.warning('长度必须6-20位字符');
 				return;
 			}
 			if (!numAndWorld.test(newWorld)) {
-				message.warning('同时包含数字、字母');
+				message.warning('必须同时包含数字、字母');
 				return;
 			}
 			if (!regx1.test(newWorld)) {
@@ -262,8 +270,9 @@ class ChangeWorldModal extends React.PureComponent {
 				return;
 			}
 			const params = {
-				...fields,
-				password: rsaEncrypt(fields.password),
+				// ...fields,
+				currentPassword: rsaEncrypt(fields && fields.currentPassword),
+				newPassword: rsaEncrypt(newWorld),
 			};
 			changePassword(params).then((res) => {
 				const start = new Date().getTime(); // 获取接口响应时间

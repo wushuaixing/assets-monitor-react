@@ -32,7 +32,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorName = e.target.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+					dataList[index].obligorName = e.target.value.trim();
 				}
 			});
 			that.setState({
@@ -50,7 +50,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorNumber = e.target.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+					dataList[index].obligorNumber = e.target.value.trim();
 				}
 			});
 			that.setState({
@@ -149,7 +149,7 @@ class DebtorDetail extends React.Component {
 											// rules: [
 											// 	{ required: true, whitespace: true, message: '请填写密码' },
 											// ],
-											getValueFromEvent: e => e.target.value.replace(/\s+/g, ''),
+											getValueFromEvent: e => e.target.value.trim(),
 										})}
 										className="yc-from-input"
 									/>
@@ -164,7 +164,7 @@ class DebtorDetail extends React.Component {
 											// rules: [
 											// 	{ required: true, whitespace: true, message: '请填写密码' },
 											// ],
-											getValueFromEvent: e => e.target.value.replace(/\s+/g, ''),
+											getValueFromEvent: e => e.target.value.trim(),
 										})}
 										className="yc-from-input"
 									/>

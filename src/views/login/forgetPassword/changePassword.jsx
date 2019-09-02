@@ -266,25 +266,29 @@ class Login extends React.Component {
 			// && numAndWorld.test(newWorld) && regx1.test(newWorld)
 			console.log(regx, newWorld, regx.test(newWorld));
 
+			if (!firstWorld && !newWorld) {
+				message.warning('必须新输入密码');
+				return;
+			}
 			// 两次密码要输入一致
 			if (firstWorld !== newWorld) {
-				message.error('两次密码不一致');
+				message.warning('两次密码不一致');
 				return;
 			}
 			if (!regx.test(newWorld)) {
-				message.error('长度6-20位字符');
+				message.warning('长度必须6-20位字符');
 				return;
 			}
 			if (!numAndWorld.test(newWorld)) {
-				message.error('同时包含数字、字母');
+				message.warning('必须同时包含数字、字母');
 				return;
 			}
 			if (!regx1.test(newWorld)) {
-				message.error('不支持空格');
+				message.warning('不支持空格');
 				return;
 			}
 			const params = {
-				newPassword: rsaEncrypt(fields.newPasswordAgain),
+				newPassword: rsaEncrypt(newWorld),
 			};
 			forgetPasswordStep3(params).then((res) => {
 				if (res.code === 200) {
@@ -367,12 +371,12 @@ class Login extends React.Component {
 										// onFocus={e => this.newPasswordFoucs(e)}
 										{...getFieldProps('newPassword', {
 											initialValue: userName && userName.length > 0 ? userName : '',
-										// rules: [
-										// 	{
-										// 		required: true,
-										// 		message: '请输入账号',
-										// 	},
-										// ],
+											// rules: [
+											// 	{
+											// 		required: true,
+											// 		message: '请输入新密码',
+											// 	},
+											// ],
 										})}
 									/>
 								</Popover>
@@ -400,12 +404,12 @@ class Login extends React.Component {
 										onBlur={e => this.onAgainBlurValue(e)}
 										onFocus={e => this.againPasswordFoucs(e)}
 										{...getFieldProps('newPasswordAgain', {
-										// rules: [
-										// 	{
-										// 		required: true,
-										// 		message: '请输入验证码',
-										// 	},
-										// ],
+											// rules: [
+											// 	{
+											// 		required: true,
+											// 		message: '请再次输入新密码',
+											// 	},
+											// ],
 										})}
 									/>
 								</Popover>

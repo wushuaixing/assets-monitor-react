@@ -132,9 +132,19 @@ class Login extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getData();
+		// 避免在登录页请求
+		const { hash } = window.location;
+		if (hash !== '#/login') {
+			this.getData();
+		}
 	}
 
+	// componentWillUnmount() {
+	// 	// 组件卸载时判断getData是否存在，存在则取消掉请求
+	// 	if (this.getData) {
+	// 		this.getData();
+	// 	}
+	// }
 
 	// 获取消息列表
 	getData = () => {
