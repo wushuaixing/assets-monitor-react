@@ -113,8 +113,10 @@ class Login extends React.Component {
 							}
 						} else {
 							if (res.data && res.data.errorTime > 4) {
-								if (res.data.errorTime === 10) {
-									message.warning(res.data.message);
+								console.log(res.data.errorTime);
+
+								if (res.data.errorTime >= 10) {
+									message.warning(res.message);
 									return;
 								}
 								message.warning(`账号密码错误，您还可以尝试${res.data.errorTimeLeft}次`);
