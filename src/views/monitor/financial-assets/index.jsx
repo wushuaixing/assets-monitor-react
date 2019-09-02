@@ -55,7 +55,7 @@ export default class Subrogation extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const sourceType = (Tabs.Simple.toGetDefaultActive(tabConfig, 'project')).id;
+		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'project');
 		this.setState({
 			sourceType,
 		});
@@ -234,7 +234,7 @@ export default class Subrogation extends React.Component {
 						:	<QueryPublicity onQueryChange={this.onQueryChange} />
 				}
 				<Tabs.Simple
-					onChange={e => this.onSourceType(e.id)}
+					onChange={this.onSourceType}
 					source={tabConfig}
 					field="project"
 				/>

@@ -21,7 +21,7 @@ const columns = (props) => {
 		{
 			title: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>,
 			dataIndex: 'larq',
-			width: 120,
+			width: 100,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: <TitleIcon title="原告" tooltip="我行债务人" />,
@@ -45,6 +45,8 @@ const columns = (props) => {
 			title: '案由',
 			dataIndex: 'anyou',
 			sourceType: 1,
+			className: 'min-width-80-normal',
+			render: text => text || '--',
 		}, {
 			title: '关联信息',
 			dataIndex: 'associatedInfo',
@@ -53,7 +55,7 @@ const columns = (props) => {
 		}, {
 			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			dataIndex: 'updateTime',
-			width: 120,
+			width: 93,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
 			title: '操作',

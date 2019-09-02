@@ -1,18 +1,13 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import Cookies from 'universal-cookie';
-// import QueryCourt from './query/court';
 import TableView from './table';
 import QueryView from './queryView';
-// import TableRegister from './table/register';
-
 import { Button, Tabs, Spin } from '@/common';
 import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
-import { urlEncode, clearEmpty } from '@/utils';
-
-const cookies = new Cookies();
+import { clearEmpty } from '@/utils';
+import { fileExport } from '@/views/monitor/table-common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -127,27 +122,9 @@ export default class Subrogation extends React.Component {
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
 		if (type === 'all') {
-			const _condition = Object.assign({}, this.condition, {
-				token: cookies.get('token'),
-			});
-			window.open(`${exportList}?${urlEncode(clearEmpty(_condition))}`, '_self');
-			// console.log(urlEncode(_condition));
+			fileExport(exportList, this.condition);
 		} else if (this.selectRow.length > 0) {
-			const idList = this.selectRow;
-			const _condition = Object.assign({}, this.condition, {
-				token: cookies.get('token'),
-				idList,
-			});
-			Modal.confirm({
-				title: '确认导出选中的所有信息吗？',
-				content: '点击确定，将为您导出所有选中的信息',
-				iconType: 'exclamation-circle',
-				onOk() {
-					window.open(`${exportList}?${urlEncode(clearEmpty(_condition))}`, '_self');
-					// message.success('操作成功！');
-				},
-				onCancel() {},
-			});
+			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
 		} else {
 			message.warning('未选中业务');
 		}
@@ -233,7 +210,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 发起查询请求
-	onQueryChange=(con, _sourceType, _isRead, page, manage) => {
+	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign({}, con || this.condition, {
@@ -246,7 +223,7 @@ export default class Subrogation extends React.Component {
 		if (__isRead === 'unread') this.condition.isRead = 0;
 		this.setState({
 			loading: true,
-			manage: manage || false,
+			manage: _manage || false,
 		});
 		this.toInfoCount();
 		infoList(clearEmpty(this.condition)).then((res) => {
@@ -294,7 +271,7 @@ export default class Subrogation extends React.Component {
 				<QueryView onQueryChange={this.onQuery} />
 				{/* tab切换 */}
 				<Tabs.Simple
-					onChange={e => this.onSourceType(e.id)}
+					onChange={this.onSourceType}
 					source={tabConfig}
 					field="process"
 				/>

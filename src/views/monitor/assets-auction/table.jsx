@@ -8,7 +8,6 @@ import {
 import { Button } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
-
 // 获取表格配置
 const columns = (props) => {
 	const {

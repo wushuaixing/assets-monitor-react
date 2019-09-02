@@ -20,7 +20,9 @@ const timeRule = {
 		if (!startValue || !endValue) {
 			return false;
 		}
-		return endValue.getTime() <= new Date(startValue).getTime();
+		const _startValue = new Date(startValue);
+		_startValue.setHours(0, 0, 0, 0);
+		return endValue.getTime() < new Date(_startValue).getTime();
 	},
 };
 

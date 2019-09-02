@@ -626,6 +626,11 @@ td.column-center {
 .anticon-cross-circle:before {
   color: #b7b7b7;
 }
+.ant-table-selection-column{
+  width: 30px!important;
+  padding-left: 10px!important;
+  padding-right: 0!important;
+}
 
 .yc-pagination {
   text-align: right;

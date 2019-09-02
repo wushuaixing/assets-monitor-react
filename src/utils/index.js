@@ -210,3 +210,15 @@ export const linkDom = (url, text, target) => React.createElement(
 	},
 	text,
 );
+
+export const changeURLArg = function method(url, arg, _argVal) {
+	const pattern = `${arg}=([^&]*)`;
+	const replaceText = `${arg}=${_argVal}`;
+	if (url.match(pattern)) {
+		let tmp = `/(${arg}=)([^&]*)/gi`;
+		tmp = url.replace(eval(tmp), replaceText);
+		return tmp;
+	}
+	if (url.match('[?]')) return `${url}&${replaceText}`;
+	return `${url}?${replaceText}`;
+};
