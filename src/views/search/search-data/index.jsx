@@ -19,17 +19,6 @@ const Datas = (props) => {
 				{
 					active.id === 3 ? (<Writ />) : null
 				}
-				<div className="btn">
-					<Button
-						type="primary"
-						size="large"
-						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
-						onClick={() => { console.log('myRef'); }}
-					>
-						搜索
-					</Button>
-					<Button type="ghost" size="large">重置搜索条件</Button>
-				</div>
 			</div>
 		);
 	}

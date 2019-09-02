@@ -230,8 +230,8 @@ export default class Headers extends React.Component {
 
 
 	componentDidMount() {
-		const { hash } = window.location;
-		console.log(hash);
+		// const { hash } = window.location;
+		// console.log(hash);
 
 		window.scrollTo(0, 0);
 		unreadCount().then((res) => {
