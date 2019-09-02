@@ -19,15 +19,16 @@
         margin: 0 26px 16px 0;
         position: relative;
         .close{
+          cursor: pointer;
           position: absolute;
           right: -6px;
           top: -6px;
         }
       }
-      :nth-child(3n+0)
-      {
-        margin: 0 0 16px 0;
-      }
+      // :nth-child(3n+0)
+      // {
+      //   margin: 0 0 16px 0;
+      // }
     }
     .other{
       display: inline-block;
@@ -35,6 +36,7 @@
     }
   }
   .btn{
+    text-align: center;
     margin-top:16px ;
   }
 }

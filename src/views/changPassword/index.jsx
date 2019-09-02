@@ -245,6 +245,10 @@ class ChangeWorldModal extends React.PureComponent {
 			const newWorld = fields.newPassword;
 			// && numAndWorld.test(newWorld) && regx1.test(newWorld)
 			console.log(rsaEncrypt(newWorld), regx.test(newWorld));
+			if (!firstWorld && !newWorld) {
+				message.warning('必须新输入密码');
+				return;
+			}
 			// 两次密码要输入一致
 			if (firstWorld !== newWorld) {
 				message.warning('两次密码不一致');
@@ -348,7 +352,9 @@ class ChangeWorldModal extends React.PureComponent {
 									onInput={e => this.changeValue(e)}
 									onBlur={e => this.onBlurValue(e)}
 									onFocus={e => this.newPasswordFoucs(e)}
-									{...getFieldProps('Password', {})}
+									{...getFieldProps('Password', {
+										initialValue: '',
+									})}
 								/>
 							</Popover>
 						</FormItem>
@@ -376,6 +382,7 @@ class ChangeWorldModal extends React.PureComponent {
 									onBlur={e => this.onAgainBlurValue(e)}
 									onFocus={e => this.againPasswordFoucs(e)}
 									{...getFieldProps('newPassword', {
+										initialValue: '',
 									// rules: [
 									// 	{
 									// 		required: true,
