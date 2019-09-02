@@ -170,7 +170,6 @@ export default class BasicTable extends React.Component {
 	}
 
 	onKeyup = (e) => {
-		console.log(e.target.value);
 		const { role } = this.state;
 		const { value } = e.target;
 		this.setState({
