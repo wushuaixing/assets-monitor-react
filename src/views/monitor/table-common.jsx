@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal } from 'antd';
 import { linkDom } from '@/utils';
 
+// const { _ } = window;
 // 关联连接 组件
 export const aboutLink = (value, row) => {
 	const toShow = (source, type) => {
@@ -59,8 +60,8 @@ export const aboutLink = (value, row) => {
 
 // 案号 - 弹窗
 export const caseInfo = (content, row) => {
-	const { isDelete, ygList, bgList } = row;
-	if (isDelete || (!ygList.length && !bgList.length)) return content || '--';
+	const { isDelete, ygList } = row;
+	if (isDelete || !ygList.length) return content || '--';
 	const toClick =	() => Modal.info({
 		title: '当事人详情',
 		okText: '确定',
@@ -70,14 +71,6 @@ export const caseInfo = (content, row) => {
 			<div style={{ marginLeft: -28 }}>
 				{
 					row.ygList && row.ygList.map(item => (
-						<p style={{ margin: 5, fontSize: 14 }}>
-							<strong>{`${item.ssdw}：`}</strong>
-							<span>{item.mc}</span>
-						</p>
-					))
-				}
-				{
-					row.bgList && row.bgList.map(item => (
 						<p style={{ margin: 5, fontSize: 14 }}>
 							<strong>{`${item.ssdw}：`}</strong>
 							<span>{item.mc}</span>

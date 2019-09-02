@@ -5,10 +5,11 @@ import dishonest1 from '@/assets/img/icon/icon_shixin.png';
 import dishonest2 from '@/assets/img/icon/icon_cengshixin.png';
 import Matching from './matching-reason';
 import { floatFormat } from '@/utils/format';
+import { linkDom } from '@/utils';
 
 const AssetsInfo = (text, rowContent, noMatching = false) => {
 	const {
-		obligorName, obligorNumber, orgName, updateTime, important, dishonestStatus,
+		obligorName, obligorNumber, orgName, updateTime, important, dishonestStatus, obligorId,
 	} = rowContent;
 	return (
 		<React.Fragment>
@@ -19,7 +20,9 @@ const AssetsInfo = (text, rowContent, noMatching = false) => {
 					{
 						obligorName ? (
 							<Tooltip placement="top" title={obligorName}>
-								<span className="list list-content text-ellipsis click-link">{obligorName}</span>
+								<span className="list list-content text-ellipsis click-link">
+									{linkDom(`/#/monitor/debtor/detail?id=${obligorId}`, obligorName)}
+								</span>
 							</Tooltip>
 						) : <span className="list list-content text-ellipsis">-- </span>
 					}
