@@ -36,7 +36,7 @@ class PhoneModal extends React.PureComponent {
 								<img alt="二维码" src={ImgWeixin} />
 							</li>
 							<li>源诚客服微信</li>
-							<li>客服电话：XXX-XXXX-XXXX</li>
+							<li>客服电话：133-7256-7936</li>
 						</div>
 						<div className="yc-modal-part-b">
 							{'扫描二维码或拨打客服电话，将需要重置密码的账号、姓名、所属机构提供给小源，小源会第一时间为您进行处理'}
