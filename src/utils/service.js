@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { message, Modal } from 'antd';
+import { message } from 'antd';
 import Cookies from 'universal-cookie';
 import { navigate } from '@reach/router';
 
@@ -41,7 +41,6 @@ service.interceptors.request.use((config) => {
 	// 这块需要做一些用户验证的工作，需要带上用户凭证
 
 	const configNew = Object.assign({}, config);
-	configNew.headers['Set-Cookie'] = cookies.get('SESSION');
 	// 在发送请求设置cancel token
 	configNew.cancelToken = new axios.CancelToken((cancel) => {
 		axiosPromiseArr.push({ cancel });
@@ -51,11 +50,11 @@ service.interceptors.request.use((config) => {
 	}
 
 	const path = configNew.url.split('jms')[1];
-
+	const _token = cookies.get('token') || '';
 	if (configNew.url.match(/\?/)) {
-		configNew.url = `${configNew.url}&token=${cookies.get('token')}`;
+		configNew.url = `${configNew.url}${_token ? `&token=${_token}` : ''}`;
 	} else if (path !== '/open/login') {
-		configNew.url = `${config.url}?token=${cookies.get('token')}`;
+		configNew.url = `${config.url}${_token ? `?token=${_token}` : ''}`;
 	}
 	// configNew.headers['Access-Control-Allow-Origin'] = '*';
 	return configNew;
@@ -65,28 +64,12 @@ service.interceptors.request.use((config) => {
 	// return Promise.reject(error);
 });
 
-
-// 对象浅拷贝  主要用来对数据做一些映射工作
-// function copyObj(obj) {
-// 	const newObj = {};
-// 	for (const attr in obj) {
-// 		if (attr === 'returnCode') {
-// 			newObj.retCode = obj[attr];
-// 		} else if (attr === 'returnMessage') {
-// 			newObj.retMsg = obj[attr];
-// 		} else {
-// 			newObj[attr] = obj[attr];
-// 		}
-// 	}
-// 	return newObj;
-// }
-
 // response 拦截  请求相应之后的拦截webp
 service.interceptors.response.use(
 	(response) => {
 		/**
 		 * 下面的注释为通过response自定义code来标示请求状态，当code返回如下情况为权限有问题，登出并返回到登录页
-		 * 如通过xmlhttprequest 状态码标识 逻辑可写在下面error中
+		 * 如通过 xmlHttpRequest 状态码标识 逻辑可写在下面error中
 		 */
 		const res = response.data;
 		// 在login界面不弹弹框
@@ -97,15 +80,16 @@ service.interceptors.response.use(
 				ele.cancel('请求取消');
 				delete axiosPromiseArr[index];
 			});
-			Modal.confirm({
-				title: '登陆验证失效',
-				content: '你的登陆验证已经失效，可以取消继续留在该页面，或者重新登录',
-				onOk() {
-					/* 跳转到登陆页面 */
-					navigate('/login');
-				},
-				onCancel() {},
-			});
+			navigate('/login');
+			// Modal.confirm({
+			// 	title: '登陆验证失效',
+			// 	content: '你的登陆验证已经失效，可以取消继续留在该页面，或者重新登录',
+			// 	onOk() {
+			// 		/* 跳转到登陆页面 */
+			// 		navigate('/login');
+			// 	},
+			// 	onCancel() {},
+			// });
 			return Promise.reject(new Error('token失效'));
 		}
 		return response;
