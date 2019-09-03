@@ -5,7 +5,7 @@ import './index.scss';
 
 const Spin = (props) => {
 	const {
-		children, modal, visible, text, id, simple,
+		children, modal, visible, text, id, simple, transparent,
 	} = props;
 	const content = text || '加载中，请稍后...';
 	if (modal) {
@@ -27,7 +27,7 @@ const Spin = (props) => {
 	}
 	return (
 		<div className={`yc-spin-wrapper ${simple ? 'yc-spin-wrapper-simple' : ''}`} id={id}>
-			<div className={`yc-spin-mask ${visible ? '' : 'displayNone'}`}>
+			<div className={`yc-spin-mask ${visible ? '' : 'displayNone'}${transparent ? ' yc-spin-mask-transparent' : ''}`}>
 				<div className="yc-mask-wrapper">
 					<div className="yc-mask-content">
 						<img src={loading} alt="" />

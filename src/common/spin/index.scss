@@ -15,6 +15,9 @@
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7FFFFFFF,endColorstr=#7FFFFFFF);
     background-color: rgba(215,215,215,.2);
   }
+  .yc-spin-mask-transparent{
+    background-color: transparent!important;
+  }
   .yc-spin-mask{
     position: absolute;
     z-index: 200;
