@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import Cookies from 'universal-cookie';
 import QueryBidding from './query/bidding';
 import TableBidding from './table/bidding';
 import QueryPublicity from './query/publicity';
@@ -9,9 +8,9 @@ import TablePublicity from './table/publicity';
 import { Button, Tabs, Spin } from '@/common';
 import { readStatusAll } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
-import { urlEncode, clearEmpty } from '@/utils';
+import { clearEmpty, changeURLArg } from '@/utils';
+import { fileExport } from '@/views/monitor/table-common';
 
-const cookies = new Cookies();
 const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 
 export default class Subrogation extends React.Component {
@@ -29,7 +28,7 @@ export default class Subrogation extends React.Component {
 			},
 			{
 				id: 2,
-				name: '公式项目',
+				name: '公示项目',
 				number: 0,
 				dot: false,
 				status: rule.jkxxjrzcgsxm,
@@ -94,31 +93,14 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
 		const exportList = api('exportList', this.condition.sourceType);
 		if (type === 'all') {
-			const _condition = Object.assign(this.condition, {
-				token: cookies.get('token'),
-			});
-			window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
-			// console.log(urlEncode(_condition));
+			fileExport(exportList, this.condition);
 		} else if (this.selectRow.length > 0) {
-			const idList = this.selectRow;
-			const _condition = Object.assign(this.condition, {
-				token: cookies.get('token'),
-				idList,
-			});
-			Modal.confirm({
-				title: '确认导出选中的所有信息吗？',
-				content: '点击确定，将为您导出所有选中的信息',
-				iconType: 'exclamation-circle',
-				onOk() {
-					window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
-					// message.success('操作成功！');
-				},
-				onCancel() {},
-			});
+			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
 		} else {
 			message.warning('未选中业务');
 		}
@@ -177,6 +159,7 @@ export default class Subrogation extends React.Component {
 			total: '',
 		});
 		this.onQueryChange(null, val, 'all', 1);
+		window.location.href = changeURLArg(window.location.href, 'project', val);
 	};
 
 	// 当前页数变化

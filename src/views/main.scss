@@ -3,20 +3,22 @@
   color: #999;
 }
 .assets-an-info{
+  top: 25%!important;
+  width:600px!important;
   .ant-modal-body{
     padding: 15px 14px 15px 10px!important;
     .ant-confirm-title{
-      font-size: 20px;
+      font-size: 16px;
       display: inline-block;
     }
     .ant-confirm-line{
       margin: 8px 0;
       height: 1px;
-      background-color: #999;
+      background-color: $background-border;
     }
   }
   button{
-    width:85px
+    width:60px
   }
 }
 

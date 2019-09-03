@@ -2,13 +2,13 @@ import React from 'react';
 import Query from './query';
 import Table from './table';
 import { Modal, message } from 'antd';
-import Cookies from 'universal-cookie';
 import { Button, Spin, Tabs } from '@/common';
 import {
 	infoList, exportList, follow, infoCount,
 } from '@/utils/api/monitor-info/assets';
-import { urlEncode, clearEmpty, changeURLArg } from '@/utils';
+import { clearEmpty, changeURLArg } from '@/utils';
 import './style.scss';
+import { fileExport } from '@/views/monitor/table-common';
 
 const source = (obj = {}) => [
 	{
@@ -50,8 +50,6 @@ const source = (obj = {}) => [
 	},
 ];
 
-const cookies = new Cookies();
-
 export default class Assets extends React.Component {
 	constructor(props) {
 		super(props);
@@ -68,16 +66,14 @@ export default class Assets extends React.Component {
 		this.selectRow = [];
 	}
 
-	componentDidMount() {
-		this.onQueryChange({});
+	componentWillMount() {
+		const { tabConfig } = this.state;
+		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
+		this.setState({
+			sourceType,
+		});
+		this.onQueryChange({}, sourceType);
 		this.toInfoCount();
-		// this.toInfoCountIntervel = setInterval(() => {
-		// 	this.toInfoCount();
-		// }, 60 * 1000);
-	}
-
-	componentWillUnmount() {
-		// clearInterval(this.toInfoCountIntervel);
 	}
 
 	// 获取统计信息
@@ -100,26 +96,9 @@ export default class Assets extends React.Component {
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
 		if (type === 'all') {
-			const _condition = Object.assign(this.condition, {
-				token: cookies.get('token'),
-			});
-			window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
-			// console.log(urlEncode(_condition));
+			fileExport(exportList, this.condition);
 		} else if (this.selectRow.length > 0) {
-			const idList = this.selectRow;
-			const _condition = Object.assign(this.condition, {
-				token: cookies.get('token'),
-				idList,
-			});
-			Modal.confirm({
-				title: '确认导出选中的所有信息吗？',
-				content: '点击确定，将为您导出所有选中的信息',
-				iconType: 'exclamation-circle',
-				onOk() {
-					window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
-				},
-				onCancel() {},
-			});
+			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
 		} else {
 			message.warning('未选中业务');
 		}
@@ -172,7 +151,6 @@ export default class Assets extends React.Component {
 		this.toClearSortStatus();
 		this.onQueryChange(null, val, '', 1);
 		window.location.href = changeURLArg(window.location.href, 'process', val);
-		// console.log(changeURLArg(window.location.href, 'process', val));
 	};
 
 	// 批量管理勾选️结果
