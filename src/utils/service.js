@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { message, Modal } from 'antd';
+import { message } from 'antd';
 import Cookies from 'universal-cookie';
 import { navigate } from '@reach/router';
 
@@ -97,15 +97,8 @@ service.interceptors.response.use(
 				ele.cancel('请求取消');
 				delete axiosPromiseArr[index];
 			});
-			Modal.confirm({
-				title: '登陆验证失效',
-				content: '你的登陆验证已经失效，可以取消继续留在该页面，或者重新登录',
-				onOk() {
-					/* 跳转到登陆页面 */
-					navigate('/login');
-				},
-				onCancel() {},
-			});
+			message.error(res.message);
+			navigate('/login');
 			return Promise.reject(new Error('token失效'));
 		}
 		return response;
