@@ -57,7 +57,7 @@ export default class Subrogation extends React.Component {
 	// 获取统计信息
 	toInfoCount=(isRead) => {
 		const params = Object.assign(this.condition, { type: 0, isRead });
-		infoCount(params).then((res) => {
+		infoCount(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;

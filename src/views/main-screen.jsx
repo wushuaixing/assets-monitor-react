@@ -13,7 +13,6 @@ import Changepassword from './changPassword';
 import { Spin, Button } from '@/common';
 import { Header, Container, Footer } from '@/common/layout';
 import { authRule } from '@/utils/api';
-//
 // import Error403 from '@/assets/img/error/404@2x.png';
 // import Error404 from '@/assets/img/error/404@2x.png';
 import Error500 from '@/assets/img/error/500@2x.png';
@@ -127,6 +126,7 @@ const handleRule = (source) => {
 	});
 	return res;
 };
+
 // 返回路由表
 const ruleList = (props) => {
 	const l = [];
@@ -146,9 +146,7 @@ const MainScreen = props => (
 		<Header {...props} />
 		<Container>
 			<Router mode="hash">
-				{
-					ruleList(props).map(item => item)
-				}
+				{ ruleList(props).map(item => item) }
 			</Router>
 		</Container>
 		<Footer />
@@ -197,28 +195,17 @@ export default class Screen extends React.Component {
 
 	componentWillReceiveProps(props) {
 		// 判断是否是第一次登录
+		// console.log('main-screen:componentWillReceiveProps');
 		const firstLogin = cookie.get('firstLogin');
 		if (props.location.hash !== '#/changepassword' && firstLogin === 'ture') {
 			navigate('/changepassword');
 		}
 	}
 
-	// componentDidUpdate() {
-	// 	const firstLogin = cookie.get('firstLogin');
-	// 	console.log(firstLogin);
-	// 	console.log(typeof firstLogin);
-	// }
-
-	componentWillUnmount() {
-		// const { loading } = this.state;
-		// console.log('componentWillUnmount:', loading);
-	}
-
 	render() {
 		const { loading, rule, errorCode } = this.state;
-		// console.log(rule);
 		if (loading === 'show') {
-			return <Spin visible={loading} text=" "><div style={{ height: this.clientHeight || 500 }} /></Spin>;
+			return <Spin visible={loading} text=" " transparent><div style={{ height: this.clientHeight || 500 }} /></Spin>;
 		}
 		if (loading === 'hidden') {
 			return <MainScreen rule={rule} />;
