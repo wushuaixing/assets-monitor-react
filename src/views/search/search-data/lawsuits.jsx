@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	DatePicker, Button, Form, message,
 } from 'antd';
+import { navigate } from '@reach/router';
 import Input from '@/common/input';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
@@ -33,6 +34,19 @@ class Datas extends React.Component {
 		console.log(1);
 	}
 
+	generateUrlWithParams =(url, params) => {
+		const urlParams = [];
+		let urlList = url;
+		// eslint-disable-next-line no-restricted-syntax
+		for (const key in params) {
+			if (params[key]) {
+				urlParams.push(`${key}=${params[key]}`);
+			}
+		}
+		urlList += `?${urlParams.join('&')}`;
+		return urlList;
+	};
+
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
@@ -41,8 +55,11 @@ class Datas extends React.Component {
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
+		fildes.uploadTimeStart = startTime;
+		fildes.uploadTimeEnd = endTime;
 		console.log(fildes);
 
+		navigate(this.generateUrlWithParams('/search/detail/lawsuits', fildes));
 		// if (startTime && endTime && startTime > endTime) {
 		// 	message.warning('结束时间必须大于开始时间');
 		// 	return;
@@ -85,18 +102,15 @@ class Datas extends React.Component {
 								title="原告"
 								value={item.name}
 								placeholder="姓名/公司名称"
-								onChange={(val) => {
-									const temp = yg;
-									temp[index].name = val;
-									this.setState({
-										yg: temp,
-									});
-								}}
 								{...getFieldProps(`yg${index}`, {
-									// initialValue: content,
-									// rules: [
-									// 	{ required: true, whitespace: true, message: '请填写密码' },
-									// ],
+									onChange: (val) => {
+										const temp = yg;
+										temp[index].name = val;
+										console.log(temp);
+										this.setState({
+											yg: temp,
+										});
+									},
 									getValueFromEvent: e => e.trim(),
 								})}
 							/>
@@ -107,10 +121,15 @@ class Datas extends React.Component {
 										className="close"
 										src={close}
 										onClick={() => {
-											const temp = yg;
-											temp.splice(index, 1);
+											yg.forEach((i) => {
+												console.log(i.id, index, i.id === index + 1);
+
+												if (i.id === index + 1) {
+													yg.splice(index, 1);
+												}
+											});
 											this.setState({
-												yg: temp,
+												yg,
 											});
 										}}
 									/>
@@ -131,10 +150,11 @@ class Datas extends React.Component {
 									name: '',
 									id: yg.length + 1,
 								});
+								console.log(temp);
+
 								this.setState({
 									yg: temp,
 								});
-								// setyg(temp);
 							}}
 						/>
 					)

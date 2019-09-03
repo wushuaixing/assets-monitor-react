@@ -59,9 +59,31 @@ class LAWSUITS extends React.Component {
 
 		const { form } = this.props; // 会提示props is not defined
 		const { setFieldsValue } = form;
+		this.initialValue(params);
 		setFieldsValue({
-			bg1: params.bg0,
+			yg0: params.yg0,
+			yg1: params.yg1,
+			yg2: params.yg2,
+			bg0: params.bg0,
+			bg1: params.bg1,
+			bg2: params.bg2,
 		});
+	}
+
+	initialValue = (params) => {
+		if (params.yg1) {
+			this.addYg(params.yg1);
+		}
+		if (params.yg2) {
+			this.addYg(params.yg2);
+		}
+
+		if (params.bg1) {
+			this.addBg(params.yg1);
+		}
+		if (params.bg2) {
+			this.addBg(params.yg2);
+		}
 	}
 
 	// 搜索
@@ -107,6 +129,30 @@ class LAWSUITS extends React.Component {
 		// this.onQueryChange(null, val, 'all', 1);
 	};
 
+	// 添加原告
+	addYg = () => {
+		const { yg } = this.state;
+		yg.push({
+			name: '',
+			id: yg.length + 1,
+		});
+		this.setState({
+			yg,
+		});
+	}
+
+	// 添加被告
+	addBg = (val) => {
+		const { bg } = this.state;
+		bg.push({
+			name: val || '',
+			id: bg.length + 1,
+		});
+		this.setState({
+			bg,
+		});
+	}
+
 	render() {
 		const { yg, bg, tabConfig } = this.state;
 		const { form } = this.props; // 会提示props is not defined
@@ -116,7 +162,7 @@ class LAWSUITS extends React.Component {
 				<div className="yc-lawsuits-items">
 					{
 						yg.map((item, index) => (
-							<div className="item" style={{ 'margin-right': 10 }}>
+							<div className="item" style={{ 'margin-right': 15 }}>
 								<Input
 									key={item.id}
 									title="原告"
@@ -161,15 +207,7 @@ class LAWSUITS extends React.Component {
 								alt=""
 								src={add}
 								className="add"
-								onClick={() => {
-									yg.push({
-										name: '',
-										id: yg.length + 1,
-									});
-									this.setState({
-										yg,
-									});
-								}}
+								onClick={() => this.addYg()}
 							/>
 						)
 					}
@@ -177,7 +215,7 @@ class LAWSUITS extends React.Component {
 				<div className="yc-lawsuits-items">
 					{
 						bg.map((item, index) => (
-							<div className="item" style={{ 'margin-right': 10 }}>
+							<div className="item" style={{ 'margin-right': 15 }}>
 								<Input
 									key={item.id}
 									title="被告"
@@ -222,15 +260,8 @@ class LAWSUITS extends React.Component {
 								alt=""
 								src={add}
 								className="add"
-								onClick={() => {
-									bg.push({
-										name: '',
-										id: bg.length + 1,
-									});
-									this.setState({
-										bg,
-									});
-								}}
+								onClick={() => this.addBg()}
+
 							/>
 						)
 					}

@@ -109,7 +109,7 @@ const dataSource = (rule) => {
 		},
 		{
 			id: 5,
-			name: '信息查询',
+			name: '信息搜索',
 			url: '/search',
 			status: rule.menu_xxss,
 		},
