@@ -49,7 +49,7 @@ class SimpleTab extends React.Component {
 	onClick=(item) => {
 		const { onChange } = this.props;
 		this.setState({ active: item.id });
-		if (onChange)onChange(item.id);
+		if (onChange)onChange(item.id, item);
 	};
 
 	render() {

@@ -1,3 +1,103 @@
 import React from 'react';
+import Item from './item';
+import { Tabs } from '@/common';
+import { changeURLArg } from '@/utils';
+import './style.scss';
 
-export default () => <div>我的关注</div>;
+/**
+ * 获取默认tabs配置
+ * @param rule
+ * @returns {*[]}
+ */
+const toGetDefaultConfig = (rule) => {
+	const c = rule.children;
+	const base = [
+		{
+			id: 1,
+			name: '资产拍卖',
+			status: Boolean(c.jkxxzcpm),
+		},
+		{
+			id: 2,
+			name: '代位权',
+			status: Boolean(c.jkxxdwq),
+			child: [
+				{ id: 21, name: '立案信息', status: true },
+				{ id: 22, name: '开庭公告', status: true },
+			],
+		},
+		{
+			id: 3,
+			name: '金融资产',
+			status: Boolean(c.jkxxjrzcgsxm || c.jkxxjrzcjjxm),
+			child: [
+				{ id: 31, name: '竞价项目', status: Boolean(c.jkxxjrzcjjxm) },
+				{ id: 32, name: '公示项目', status: Boolean(c.jkxxjrzcgsxm) },
+			],
+		},
+		{
+			id: 4,
+			name: '涉诉监控',
+			status: Boolean(c.jkxxssjk),
+			child: [
+				{ id: 41, name: '立案信息', status: true },
+				{ id: 42, name: '开庭公告', status: true },
+			],
+		},
+		{
+			id: 5,
+			name: '企业破产重组',
+			status: Boolean(c.jkxxpccz),
+		},
+		{
+			id: 6,
+			name: '公示公告',
+			status: Boolean(c.gsgg_bidding || c.gsgg_epb || c.gsgg_tax),
+			child: [
+				{ id: 61, name: '招标中标', status: Boolean(c.gsgg_bidding) },
+				{ id: 62, name: '重大税收违法', status: Boolean(c.gsgg_tax) },
+				{ id: 63, name: '环境行政处罚', status: Boolean(c.gsgg_epb) },
+			],
+		},
+	];
+	return base.filter(item => item.status);
+};
+
+export default class MyAttention extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			config: toGetDefaultConfig(props.rule),
+			sourceType: 1,
+			source: '',
+		};
+	}
+
+	componentWillMount() {
+		const { config } = this.state;
+		const sourceType = Tabs.Simple.toGetDefaultActive(config, 'process');
+		const source = config.filter(i => i.id === sourceType)[0];
+		this.setState({ sourceType, source });
+		// this.onQueryChange({}, sourceType);
+	}
+
+	// sourceType变化
+	onSourceType=(sourceType) => {
+		const { config } = this.state;
+		const source = config.filter(i => i.id === sourceType)[0];
+		this.setState({ sourceType, source });
+		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
+		// this.onQueryChange(null, val, isRead);
+	};
+
+	render() {
+		const { config, sourceType, source } = this.state;
+		return (
+			<div className="yc-monitor-attention">
+				<div className="attention-title">我的关注</div>
+				<Tabs.Simple onChange={this.onSourceType} source={config} field="process" />
+				<Item sourceType={sourceType} source={source} />
+			</div>
+		);
+	}
+}
