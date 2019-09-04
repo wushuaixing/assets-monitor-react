@@ -42,17 +42,20 @@ const tabSource = rule => ([
 		types: [
 			{
 				placeholder: '姓名、公司名称',
-				id: 1,
+				id: 'bg0',
+				type: 'bg0',
 				name: '被告',
 			},
 			{
 				placeholder: '姓名、公司名称',
-				id: 2,
+				id: 'yg0',
+				type: 'yg0',
 				name: '原告',
 			},
 			{
 				placeholder: '案件编号',
-				id: 3,
+				id: 'ah',
+				type: 'ah',
 				name: '案号',
 			},
 		],

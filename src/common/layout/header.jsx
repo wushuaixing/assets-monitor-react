@@ -109,7 +109,7 @@ const dataSource = (rule) => {
 		},
 		{
 			id: 5,
-			name: '信息查询',
+			name: '信息搜索',
 			url: '/search',
 			status: rule.menu_xxss,
 		},
@@ -230,6 +230,9 @@ export default class Headers extends React.Component {
 
 
 	componentDidMount() {
+		// const { hash } = window.location;
+		// console.log(hash);
+
 		window.scrollTo(0, 0);
 		unreadCount().then((res) => {
 			if (res.code === 200) {
@@ -269,6 +272,15 @@ export default class Headers extends React.Component {
 
 		return (
 			<div className="yc-header-wrapper">
+				<div
+					className="yc-header-default"
+					onClick={(e) => {
+						// 禁止点击事件
+						e.preventDefault();
+						e.stopPropagation();
+						return false;
+					}}
+				/>
 				<div className="yc-header-content">
 					<div className="header-logo">
 						<img src={logoImg} alt="" />

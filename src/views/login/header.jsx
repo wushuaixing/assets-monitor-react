@@ -4,9 +4,7 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
-import {
-	Form, Icon,
-} from 'antd';
+import { Form, Icon } from 'antd';
 // import imgReset from '../../assets/img/icon_photocode.png';
 import backgroundHeaderImg from '../../assets/img/login/sign_logoyc.png';
 // import rsaEncrypt from '@/utils/encryp';

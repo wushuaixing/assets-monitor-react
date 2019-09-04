@@ -14,13 +14,16 @@ class BasicTable extends React.Component {
 		};
 	}
 
-	onChange=(val) => {
+	onInput=(val) => {
 		this.setState({ data: val.target.value });
-		val.target.value.replace(/\s+/g, '');
+		// val.target.value.replace(/\s+/g, '');
 	}
 
 	onClear=() => {
-		const { getTableData, clearInput, role } = this.props;
+		const {
+			getTableData, clearInput, role, form: { resetFields },
+		} = this.props;
+		resetFields(['obligorName']);
 		this.setState({ data: '' });
 
 		const params = {
@@ -64,16 +67,17 @@ class BasicTable extends React.Component {
 			<div className="search-input">
 				<Input
 					size="large"
+					autocomplete="off"
 					value={data}
 					placeholder={placeholder}
-					onChange={event => this.onChange(event)}
+					onInput={event => this.onInput(event)}
 					{...this.props}
 					{...getFieldProps('obligorName', {
 						// initialValue: true,
 						// rules: [
 						// 	{ required: true, whitespace: true, message: '请填写密码' },
 						// ],
-						getValueFromEvent: e => e.trim(),
+						getValueFromEvent: e => e.target.value.trim(),
 					})}
 				/>
 				{

@@ -99,7 +99,6 @@ class Login extends React.Component {
 							}
 							message.success('登陆成功');
 							cookie.set('token', res.data.token);
-							cookie.set('name', res.data.userName);
 							cookie.set('firstLogin', res.data.firstLogin);
 							// 判断是否是第一次登录
 							if (res.data.firstLogin === true) {
@@ -109,10 +108,13 @@ class Login extends React.Component {
 									loading: false,
 								});
 								navigate('/');
-								console.log(1);
 							}
 						} else {
 							if (res.data && res.data.errorTime > 4) {
+								if (res.data.errorTime >= 10) {
+									message.warning(res.message);
+									return;
+								}
 								message.warning(`账号密码错误，您还可以尝试${res.data.errorTimeLeft}次`);
 							} else {
 								message.error(res.message);
@@ -178,6 +180,13 @@ class Login extends React.Component {
 		});
 	}
 
+	onKeyup = (e) => {
+		console.log(1);
+
+		if (e.keyCode === 13) {
+			this.handleSubmit();
+		}
+	}
 
 	render() {
 		const {
@@ -225,6 +234,7 @@ class Login extends React.Component {
 									className="yc-login-input"
 									type="password"
 									placeholder="请输入密码"
+									onKeyUp={this.onKeyup}
 									// onBlur={e => this.PasswordBlur(e)}
 									// onFocus={e => this.PasswordFoucs(e)}
 									{...getFieldProps('password', {
@@ -241,7 +251,7 @@ class Login extends React.Component {
 							</FormItem>
 						</div>
 						{
-							errorTime >= 2 && (
+							errorTime >= 2 && errorTime < 10 && (
 							<div className="yc-form-wapper">
 								<FormItem>
 									<Input

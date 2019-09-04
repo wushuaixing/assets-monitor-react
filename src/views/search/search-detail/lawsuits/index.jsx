@@ -5,7 +5,7 @@ import React from 'react';
 import {
 	Form, Pagination, message, DatePicker,
 } from 'antd';
-import { getQueryByName } from '@/utils';
+import { parseQuery, getQueryByName } from '@/utils';
 import {
 	Spin, Input, Button, Tabs,
 } from '@/common';
@@ -36,22 +36,89 @@ class LAWSUITS extends React.Component {
 					showNumber: false,
 				},
 			],
-			plaintiff: [
-				{ name: '', id: '' },
+			yg: [
+				{
+					name: '',
+					id: 1,
+				},
 			],
-			defendant: [
-				{ name: '', id: '' },
+			bg: [
+				{
+					name: '',
+					id: 1,
+				},
 			],
 			sourceType: 1,
 		};
 	}
 
 	componentDidMount() {
-		// const { hash } = window.location;
-		// const content = getQueryByName(hash, 'content');
+		const { hash } = window.location;
+		const params = parseQuery(hash);
+		console.log(params);
+
+		const { form } = this.props; // 会提示props is not defined
+		const { setFieldsValue } = form;
+		this.initialValue(params);
+		setFieldsValue({
+			yg0: params.yg0,
+			yg1: params.yg1,
+			yg2: params.yg2,
+			bg0: params.bg0,
+			bg1: params.bg1,
+			bg2: params.bg2,
+		});
+	}
+
+	initialValue = (params) => {
+		if (params.yg1) {
+			this.addYg(params.yg1);
+		}
+		if (params.yg2) {
+			this.addYg(params.yg2);
+		}
+
+		if (params.bg1) {
+			this.addBg(params.yg1);
+		}
+		if (params.bg2) {
+			this.addBg(params.yg2);
+		}
+	}
+
+	// 搜索
+	search = () => {
+		const { form } = this.props; // 会提示props is not defined
+		const {
+			startTime, endTime,
+		} = this.state;
+		const { getFieldsValue } = form;
+		const fildes = getFieldsValue();
+		console.log(fildes);
+
+		// if (startTime && endTime && startTime > endTime) {
+		// 	message.warning('结束时间必须大于开始时间');
+		// 	return;
+		// }
+		// const params = {
+		// 	...fildes,
+		// 	page: 1,
+		// 	num: 10,
+		// 	uploadTimeStart: startTime || null, // 搜索时间
+		// 	uploadTimeEnd: endTime || null,
+		// };
+
+		// this.getData(params);
 		// this.setState({
-		// 	content,
+		// 	searchValue: params,
 		// });
+	}
+
+	// 重置输入框
+	queryReset = () => {
+		const { form } = this.props; // 会提示props is not defined
+		const { resetFields } = form;
+		resetFields('');
 	}
 
 	// sourceType变化
@@ -62,16 +129,40 @@ class LAWSUITS extends React.Component {
 		// this.onQueryChange(null, val, 'all', 1);
 	};
 
+	// 添加原告
+	addYg = () => {
+		const { yg } = this.state;
+		yg.push({
+			name: '',
+			id: yg.length + 1,
+		});
+		this.setState({
+			yg,
+		});
+	}
+
+	// 添加被告
+	addBg = (val) => {
+		const { bg } = this.state;
+		bg.push({
+			name: val || '',
+			id: bg.length + 1,
+		});
+		this.setState({
+			bg,
+		});
+	}
+
 	render() {
-		const { plaintiff, defendant, tabConfig } = this.state;
+		const { yg, bg, tabConfig } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 		return (
 			<div className="yc-content-query">
 				<div className="yc-lawsuits-items">
 					{
-						plaintiff.map((item, index) => (
-							<div className="item" style={{ 'margin-right': 10 }}>
+						yg.map((item, index) => (
+							<div className="item" style={{ 'margin-right': 15 }}>
 								<Input
 									key={item.id}
 									title="原告"
@@ -79,22 +170,29 @@ class LAWSUITS extends React.Component {
 									style={_style1}
 									placeholder="姓名/公司名称"
 									onChange={(val) => {
-										plaintiff[index].name = val;
+										yg[index].name = val;
 										this.setState({
-											plaintiff,
+											yg,
 										});
 									}}
+									{...getFieldProps(`yg${index}`, {
+										// initialValue: content,
+										// rules: [
+										// 	{ required: true, whitespace: true, message: '请填写密码' },
+										// ],
+										getValueFromEvent: e => e.trim(),
+									})}
 								/>
 								{
-									plaintiff.length > 1 ? (
+									yg.length > 1 ? (
 										<img
 											alt=""
 											className="close"
 											src={close}
 											onClick={() => {
-												plaintiff.splice(index, 1);
+												yg.splice(index, 1);
 												this.setState({
-													plaintiff,
+													yg,
 												});
 											}}
 										/>
@@ -104,28 +202,20 @@ class LAWSUITS extends React.Component {
 						))
 					}
 					{
-						plaintiff.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个原告</span>) : (
+						yg.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个原告</span>) : (
 							<img
 								alt=""
 								src={add}
 								className="add"
-								onClick={() => {
-									plaintiff.push({
-										name: '',
-										id: plaintiff.length + 1,
-									});
-									this.setState({
-										plaintiff,
-									});
-								}}
+								onClick={() => this.addYg()}
 							/>
 						)
 					}
 				</div>
 				<div className="yc-lawsuits-items">
 					{
-						defendant.map((item, index) => (
-							<div className="item" style={{ 'margin-right': 10 }}>
+						bg.map((item, index) => (
+							<div className="item" style={{ 'margin-right': 15 }}>
 								<Input
 									key={item.id}
 									title="被告"
@@ -133,22 +223,29 @@ class LAWSUITS extends React.Component {
 									style={_style1}
 									placeholder="姓名/公司名称"
 									onChange={(val) => {
-										defendant[index].name = val;
+										bg[index].name = val;
 										this.setState({
-											defendant,
+											bg,
 										});
 									}}
+									{...getFieldProps(`bg${index}`, {
+										// initialValue: content,
+										// rules: [
+										// 	{ required: true, whitespace: true, message: '请填写密码' },
+										// ],
+										getValueFromEvent: e => e.trim(),
+									})}
 								/>
 								{
-									defendant.length > 1 ? (
+									bg.length > 1 ? (
 										<img
 											alt=""
 											className="close"
 											src={close}
 											onClick={() => {
-												defendant.splice(index, 1);
+												bg.splice(index, 1);
 												this.setState({
-													defendant,
+													bg,
 												});
 											}}
 										/>
@@ -158,20 +255,13 @@ class LAWSUITS extends React.Component {
 						))
 					}
 					{
-						defendant.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个被告</span>) : (
+						bg.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个被告</span>) : (
 							<img
 								alt=""
 								src={add}
 								className="add"
-								onClick={() => {
-									defendant.push({
-										name: '',
-										id: defendant.length + 1,
-									});
-									this.setState({
-										defendant,
-									});
-								}}
+								onClick={() => this.addBg()}
+
 							/>
 						)
 					}
@@ -183,7 +273,7 @@ class LAWSUITS extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="法院名称"
-							{...getFieldProps('content', {
+							{...getFieldProps('court', {
 							// initialValue: content,
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
@@ -198,7 +288,7 @@ class LAWSUITS extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="案件编号"
-							{...getFieldProps('content', {
+							{...getFieldProps('ah', {
 							// initialValue: content,
 							// rules: [
 							// 	{ required: true, whitespace: true, message: '请填写密码' },

@@ -44,17 +44,23 @@ class HomeRouter extends React.Component {
 			errorLoading: true,
 		});
 		selfTree().then((res) => {
-			if (res && res.data) {
+			if (res && res.code === 200) {
 				this.setState({
 					orgDetail: res.data.orgDetail,
 					tree: res.data.tree,
 					errorLoading: false,
 				});
 			} else {
+				this.setState({
+					errorLoading: false,
+				});
 				message.error(res.message);
 			}
 		}).catch(() => {
 			console.log(1);
+			this.setState({
+				errorLoading: false,
+			});
 		});
 	};
 

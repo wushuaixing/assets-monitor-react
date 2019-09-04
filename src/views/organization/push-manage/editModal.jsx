@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Modal, Input, Select, message, Form,
+	Modal, Input, Select, message, Form, Button,
 } from 'antd';
 import {
 	saveList, // 保存
@@ -11,7 +11,9 @@ const createForm = Form.create;
 class DetailModal extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			confirmLoading: false,
+		};
 	}
 
 	componentDidMount() {
@@ -63,16 +65,25 @@ class DetailModal extends React.Component {
 			message.warning('请输入正确的邮箱格式');
 			return;
 		}
+		this.setState({
+			confirmLoading: true,
+		});
 		saveList(params).then((res) => {
 			// that.setState({ visible: false });
 			if (res.code === 200) {
 				getTableData();
 				message.success(propsData ? '修改成功' : '新增成功');
 				this.handleCancel();
+				this.setState({
+					confirmLoading: false,
+				});
 			} else {
 				message.error(res.message);
 			}
 		}).catch(() => {
+			this.setState({
+				confirmLoading: false,
+			});
 			message.error('error');
 		});
 	}
@@ -87,6 +98,7 @@ class DetailModal extends React.Component {
 	}
 
 	render() {
+		const { confirmLoading } = this.state;
 		const { modalState, form, propsData } = this.props;
 		const { getFieldProps } = form;
 		let title = '新增推送';
@@ -98,7 +110,22 @@ class DetailModal extends React.Component {
 		console.log(propsData, 1);
 
 		return (
-			<Modal maskClosable={false} title={title} className="client-modal" width={518} visible onCancel={this.handleCancel} onOk={this.handleSave}>
+			<Modal
+				maskClosable={false}
+				title={title}
+				className="client-modal"
+				width={518}
+				visible
+				confirmLoading={confirmLoading}
+				onCancel={this.handleCancel}
+				onOk={this.handleSave}
+				// footer={(
+				// 	<p>
+				// 		<Button disabled={confirmLoading} onClick={this.handleCancel}>取消</Button>
+				// 		<Button onClick={this.handleOk} type="primary">确认</Button>
+				// 	</p>
+				// )}
+			>
 				<div className="edit-debtor">
 					<div style={{ margin: '4px 0 0 0' }}>
 						<div className="line">

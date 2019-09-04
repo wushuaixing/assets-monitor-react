@@ -35,7 +35,7 @@ class BusinessView extends React.Component {
 						<div className="table-column">
 							<div style={{ display: 'inline-block', float: 'left' }}>
 								<div>
-									<span style={{ marginRight: '4px' }}>借款人:</span>
+									<span style={{ marginRight: '6px' }}>借款人:</span>
 									<a
 										onClick={() => {
 											const w = window.open('about:blank');
@@ -56,7 +56,7 @@ class BusinessView extends React.Component {
 									</a>
 								</div>
 								<div>
-									<span style={{ marginRight: '4px' }}>证件号:</span>
+									<span style={{ marginRight: '6px' }}>证件号:</span>
 									<p style={{ display: 'inline-block' }}>
 										{row.obligorNumber || '-'}
 									</p>

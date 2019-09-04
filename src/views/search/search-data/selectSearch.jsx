@@ -9,7 +9,6 @@ import { navigate } from '@reach/router';
  * @param props
  */
 const doSearch = (router, props) => {
-	console.log(router, 1);
 	if (props && props instanceof Array) {
 		let params = '';
 		props.map((item) => {
@@ -23,6 +22,7 @@ const doSearch = (router, props) => {
 		navigate(`/search/detail/${router}?${params}`);
 	}
 };
+
 const Datas = (props) => {
 	const { options, router } = props;
 	const [keywords, setKeywords] = useState(null);

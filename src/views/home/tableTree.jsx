@@ -8,6 +8,7 @@ import React from 'react';
 import {
 	Form, Input, Button, Table, Affix, Tooltip, Icon, message,
 } from 'antd';
+import SelectSearch from '@/common/selectSearch';
 import {
 	selfTree, // login
 } from '@/utils/api/home';
@@ -121,7 +122,6 @@ const columns = [
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			searchValue: '',
 			selectList: [],
@@ -200,14 +200,16 @@ class Login extends React.Component {
 	}
 
 	inputSearchFoucs = () => {
-		const { dataListArray } = this.state;
+		const { dataListArray, selectList, searchValue } = this.state;
 		this.setState({
 			isOpen: true,
-			selectList: dataListArray && flat(dataListArray) && flat(dataListArray).filter(item => item !== undefined),
+			selectList: dataListArray && flat(dataListArray) && searchValue.length > 0 ? selectList : flat(dataListArray).filter(item => item !== undefined),
 		});
 	}
 
 	inputSearchBlur = () => {
+		console.log(111);
+
 		setTimeout(() => {
 			this.setState({
 				isOpen: false,
@@ -217,12 +219,20 @@ class Login extends React.Component {
 
 	clearInputValue = () => {
 		const { dataListArray } = this.state;
+
 		this.setState({
 			treeList: dataListArray,
 			isOpen: false,
 			searchValue: '',
 			selectList: dataListArray && flat(dataListArray) && flat(dataListArray).filter(item => item !== undefined),
 		});
+	}
+
+	onKeyup = (e) => {
+		const { value } = e.target;
+		if (e.keyCode === 13) {
+			this.btnSearch(value);
+		}
 	}
 
 	// 递归去掉空children
@@ -240,21 +250,27 @@ class Login extends React.Component {
 		return arr;
 	};
 
+
 	render() {
 		const {
 			treeList, selectList, isOpen, searchValue, dataListArray,
 		} = this.state;
-
+		// 使用 `ref` 的回调将 text 输入框的 DOM 节点存储到 React
+		// 实例上（比如 this.textInput）
 		return (
 
 			<Form>
 				<div className="yc-group-search">
 					<Input
 						className="yc-group-input"
+						autocomplete="off"
+						maxlength="16"
+						type="text"
 						onInput={e => this.inputValue(e)}
 						value={searchValue}
 						onFocus={e => this.inputSearchFoucs(e)}
-						onBlur={e => this.inputSearchBlur(e)}
+						onKeyUp={this.onKeyup}
+						// onBlur={e => this.inputSearchBlur(e)}
 					/>
 					<Button onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button>
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
@@ -270,6 +286,13 @@ class Login extends React.Component {
 						)
 					}
 				</div>
+				{/* <SelectSearch onChange={e => console.log(e)} clear defaultValue="1">
+					{selectList.map(val => (
+						<SelectSearch.Option className="yc-input-list-item" onClick={() => this.selectFilterValue(val)}>
+							{ val ? val.name : null}
+						</SelectSearch.Option>
+					))}
+				</SelectSearch> */}
 				<Affix>
 					<table className="table table-striped treetable" style={{ marginBottom: 0 }}>
 						<tbody>
