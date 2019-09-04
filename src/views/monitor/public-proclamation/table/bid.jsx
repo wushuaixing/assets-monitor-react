@@ -20,7 +20,7 @@ const columns = (props) => {
 			title: '相关单位',
 			dataIndex: 'obName',
 			width: 160,
-			render: text => text || '--',
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '标题',
 			dataIndex: 'title',

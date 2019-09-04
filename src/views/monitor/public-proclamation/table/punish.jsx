@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDom } from '@/utils';
+import { linkDom, timeStandard } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';
 // { attention, readStatus }
 // 获取表格配置
@@ -12,14 +12,15 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort} style={{ paddingLeft: 11 }}>发布日期</SortVessel>,
+			title: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} {...sort} style={{ paddingLeft: 11 }}>发布日期</SortVessel>,
 			dataIndex: 'publishTime',
 			width: 113,
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '单位名称',
 			dataIndex: 'obName',
 			width: 277,
+			render: text => text || '--',
 		}, {
 			title: '标题',
 			dataIndex: 'title',

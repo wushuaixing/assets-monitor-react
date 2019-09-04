@@ -75,6 +75,12 @@ export default class Lawsuits extends React.Component {
 		this.onQueryChange({}, sourceType);
 	}
 
+	// 清除排序状态
+	toClearSortStatus=() => {
+		this.condition.field = '';
+		this.condition.order = '';
+	};
+
 	// 获取统计信息
 	toInfoCount=() => {
 		Api.infoCount({ isRead: 0 }).then((res) => {
@@ -197,17 +203,33 @@ export default class Lawsuits extends React.Component {
 			current: 1,
 			total: '',
 		});
+		this.toClearSortStatus();
 		this.onQueryChange(null, val, isRead);
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
-		this.onQueryChange('', '', '', val);
+		const { manage } = this.state;
+		this.selectRow = [];
+		this.onQueryChange('', '', '', val, manage);
+	};
+
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.field = field;
+		this.condition.order = order;
+		this.onQueryChange(this.condition, '', '', 1);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _sourceType, _isRead, page) => {
+	onQuery =(con) => {
+		this.toClearSortStatus();
+		this.onQueryChange(con, '', '', 1);
+	};
+
+	// 查询条件变化
+	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
 		const { loading } = this.state;
 		this.condition = Object.assign({}, con || this.condition, {
@@ -218,7 +240,7 @@ export default class Lawsuits extends React.Component {
 		if (__isRead === 'all') { delete this.condition.isRead; }
 		if (__isRead === 'unread') { this.condition.isRead = 0; }
 
-		if (!loading) this.setState({ loading: true });
+		if (!loading) this.setState({ loading: true, manage: _manage || false });
 		this.toInfoCount();
 		Api[toGetApi(_sourceType || sourceType, 'infoList')](clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
@@ -250,12 +272,15 @@ export default class Lawsuits extends React.Component {
 			onSelect: val => this.selectRow = val,
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
+			onSortChange: this.onSortChange,
+			sortField: this.condition.field,
+			sortOrder: this.condition.order,
 		};
 		return (
 			<div className="yc-assets-auction">
-				{sourceType === 1 ? <QueryBid onQueryChange={this.onQueryChange} /> : null}
-				{sourceType === 2 ? <QueryIllegal onQueryChange={this.onQueryChange} /> : null}
-				{sourceType === 3 ? <QueryPunish onQueryChange={this.onQueryChange} /> : null}
+				{sourceType === 1 ? <QueryBid onQueryChange={this.onQuery} /> : null}
+				{sourceType === 2 ? <QueryIllegal onQueryChange={this.onQuery} /> : null}
+				{sourceType === 3 ? <QueryPunish onQueryChange={this.onQuery} /> : null}
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}

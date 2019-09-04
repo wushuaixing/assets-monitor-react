@@ -21,19 +21,21 @@ const columns = (props) => {
 			title: '纳税人',
 			dataIndex: 'obName',
 			width: 226,
-			render: (text, row) => linkDom(`/#/monitor/debtor/detail?id=${row.obligorId}`, text),
+			render: (text, row) => (text ? linkDom(`/#/monitor/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '统一社会信用代码',
 			dataIndex: 'obNumber',
 			width: 190,
+			render: text => text || '--',
 		}, {
 			title: '案件性质',
 			dataIndex: 'property',
 			width: 403,
+			render: text => text || '--',
 		}, {
 			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			dataIndex: 'updateTime',
-			width: 115,
+			width: 90,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
 			title: '源链接',
