@@ -9,9 +9,8 @@ import { aboutLink, caseInfo } from '../table-common';
 
 // 获取表格配置
 const columns = (props) => {
-	const {
-		normal, onRefresh, sourceType, onSortChange, sortField, sortOrder,
-	} = props;
+	const { normal, onRefresh, sourceType } = props;
+	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
 		sortField,
 		sortOrder,
@@ -56,7 +55,7 @@ const columns = (props) => {
 			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			dataIndex: 'updateTime',
 			width: 93,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {
 			title: '操作',
 			unNormal: true,
@@ -99,7 +98,6 @@ export default class TableView extends React.Component {
 
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {
-		// console.log(selectedRowKeys, record);
 		const _selectedRowKeys = record.map(item => item.id);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });

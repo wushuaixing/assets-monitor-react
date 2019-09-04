@@ -1,5 +1,6 @@
 
 .yc-table-sort-wrapper {
+
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
@@ -19,6 +20,8 @@
   }
 
   .yc-title-sort-img {
+    margin-left: -4px;
+    margin-top: 1px;
     display: inline-block;
     vertical-align: top;
     width: 16px;
