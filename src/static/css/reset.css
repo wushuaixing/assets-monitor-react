@@ -118,6 +118,7 @@ sub {
   height: 100%;
 }
 #app{
+  position: relative;
   min-height: 100%;
   width: 100%;
   overflow: hidden;
