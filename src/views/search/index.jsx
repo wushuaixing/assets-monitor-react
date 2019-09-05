@@ -68,17 +68,17 @@ const tabSource = rule => ([
 		types: [
 			{
 				placeholder: '姓名、公司名称、关键字',
-				id: 1,
+				id: 'content',
 				name: '全文',
 			},
 			{
 				placeholder: '案件编号',
-				id: 2,
+				id: 'ah',
 				name: '案号',
 			},
 			{
 				placeholder: '案件内容提要',
-				id: 3,
+				id: 'reason',
 				name: '案由',
 			},
 		],
@@ -103,6 +103,7 @@ const HomeRouter = (props) => {
 			<div className="tab-search">
 				<Tabs
 					simple
+					// TODO 改了权限，displayArray改成tabSource(rule),上传改回来
 					source={tabSource(rule)}
 					onChange={(item) => {
 						setActive(item);

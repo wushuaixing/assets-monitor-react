@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, message, Tooltip,
+	DatePicker, Button, Form, Tooltip,
 } from 'antd';
 import { navigate } from '@reach/router';
 import Input from '@/common/input';
@@ -112,7 +112,10 @@ class Datas extends React.Component {
 		let { yg } = this.state;
 		yg = yg.filter(key => key.id !== id);
 		// console.log(id);
-		yg.map((item, index) => item.id = index + 1);
+		yg.map((item, index) => {
+			const _item = item;
+			return _item.id = index + 1;
+		});
 		this.setState({
 			yg,
 		});
@@ -148,7 +151,10 @@ class Datas extends React.Component {
 		let { bg } = this.state;
 		bg = bg.filter(key => key.id !== id);
 		// console.log(id);
-		bg.map((item, index) => item.id = index + 1);
+		bg.map((item, index) => {
+			const _item = item;
+			return _item.id = index + 1;
+		});
 		this.setState({
 			bg,
 		});
@@ -244,26 +250,14 @@ class Datas extends React.Component {
 						<Input
 							title="起诉法院"
 							placeholder="法院名称"
-							{...getFieldProps('court', {
-							// initialValue: content,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
-								getValueFromEvent: e => e.trim(),
-							})}
+							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ 'margin-right': 10 }}>
 						<Input
 							title="案号"
 							placeholder="案件编号"
-							{...getFieldProps('ah', {
-								// initialValue: content,
-								// rules: [
-								// 	{ required: true, whitespace: true, message: '请填写密码' },
-								// ],
-								getValueFromEvent: e => e.trim(),
-							})}
+							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ 'margin-right': 0, width: 303 }}>
@@ -272,10 +266,6 @@ class Datas extends React.Component {
 							placeholder="开始日期"
 							style={{ width: 112 }}
 							{...getFieldProps('uploadTimeStart', {
-								// initialValue: true,
-								// rules: [
-								// 	{ required: true, whitespace: true, message: '请填写密码' },
-								// ],
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
@@ -290,10 +280,6 @@ class Datas extends React.Component {
 							placeholder="结束日期"
 							style={{ width: 112 }}
 							{...getFieldProps('uploadTimeEnd', {
-								// initialValue: true,
-								// rules: [
-								// 	{ required: true, whitespace: true, message: '请填写密码' },
-								// ],
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
@@ -326,7 +312,7 @@ class Datas extends React.Component {
 					<Button
 						type="primary"
 						size="large"
-						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
+						style={{ 'margin-right': 32, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
 						onClick={this.search}
 					>
 						搜索

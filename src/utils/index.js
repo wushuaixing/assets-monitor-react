@@ -233,6 +233,25 @@ export const generateUrlWithParams = (url, params) => {
 			urlParams.push(`${key}=${params[key]}`);
 		}
 	}
-	urlList += `?${urlParams.join('&')}`;
+	if (urlParams.length > 0) {
+		urlList += `?${urlParams.join('&')}`;
+	}
 	return urlList;
+};
+
+// 判断对象内属性是否为空
+export const objectKeyIsEmpty = (obj) => {
+	let empty;
+	// eslint-disable-next-line no-restricted-syntax
+	for (const key in obj) {
+		if (Object.prototype.hasOwnProperty.call(obj, key)) {
+			if (obj[key] === undefined || obj[key] === '') {
+				empty = true;
+			} else {
+				empty = false;
+				break;
+			}
+		}
+	}
+	return empty;
 };

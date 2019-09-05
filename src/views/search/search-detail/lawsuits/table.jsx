@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Tooltip, Table, Form,
+	Table, Form,
 } from 'antd';
 
 const dataSource = [{
