@@ -142,12 +142,22 @@ class Login extends React.Component {
 		if (hash !== '#/login') {
 			this.getData();
 		}
-		// this.inputRef.props.onFocus();
+		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
+		document.addEventListener('mousedown', (e) => {
+			// console.log(e.target.id, e.target.id === 'select');
+			if (e.target.id === 'select') {
+				e.preventDefault();
+			}
+		}, false);
 	}
 
-	Focus = () => {
-		console.log(this.inputRef.props);
-		this.inputRef.props.onFocus();
+	componentWillUnmount() {
+		// 卸载
+		document.addEventListener('mousedown', (e) => {
+			if (e.target.id === 'select') {
+				e.preventDefault();
+			}
+		}, false);
 	}
 
 	// 获取消息列表
@@ -212,7 +222,6 @@ class Login extends React.Component {
 	}
 
 	inputSearchBlur = () => {
-		console.log(111);
 		setTimeout(() => {
 			this.setState({
 				isOpen: false,
@@ -263,9 +272,8 @@ class Login extends React.Component {
 		return (
 
 			<Form>
-				<div className="yc-group-search" ref={e => this.refInfo.wrapper = e}>
+				<div className="yc-group-search">
 					<Input
-						ref={(input) => { this.inputRef = input; }}
 						className="yc-group-input"
 						placeholder="请输入机构名称"
 						autoComplete="off"
@@ -281,7 +289,7 @@ class Login extends React.Component {
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (
-						<ul className="yc-input-list" onClick={() => this.Focus()} onScroll={() => this.Focus()}>
+						<ul id="select" className="yc-input-list">
 							{selectList.map(val => (
 								<li className="yc-input-list-item" onClick={() => this.selectFilterValue(val)}>
 									{ val ? val.name : null}

@@ -159,7 +159,7 @@ class BusinessView extends React.Component {
 	// 获取消息列表
 	getData = (value) => {
 		const {
-			current, pageSize,
+			current, pageSize, totals,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
@@ -168,7 +168,7 @@ class BusinessView extends React.Component {
 
 		const params = {
 			num: pageSize,
-			page: current,
+			page: totals % 10 === 1 ? current - 1 : current,
 			...fildes,
 			...value,
 		};

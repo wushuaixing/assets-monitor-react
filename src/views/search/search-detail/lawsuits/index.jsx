@@ -3,9 +3,9 @@ import React from 'react';
 // 所需的所有组件
 // ==================
 import {
-	Form, Pagination, message, DatePicker, Tooltip,
+	Form, DatePicker, Tooltip,
 } from 'antd';
-import { parseQuery, getQueryByName } from '@/utils';
+import { parseQuery } from '@/utils';
 import {
 	Spin, Input, Button, Tabs,
 } from '@/common';
@@ -57,7 +57,7 @@ class LAWSUITS extends React.Component {
 		const params = parseQuery(hash);
 		console.log(params);
 		const {
-			startTime, endTime, yg, bg,
+			yg, bg,
 		} = this.state;
 		this.initialValue(params);
 		if (yg[0]) {
@@ -102,9 +102,6 @@ class LAWSUITS extends React.Component {
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
-		const {
-			startTime, endTime,
-		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		console.log(fildes);
@@ -135,12 +132,11 @@ class LAWSUITS extends React.Component {
 	}
 
 	// sourceType变化
-	onSourceType=(val) => {
-		this.setState({
-			sourceType: val,
-		});
-		// this.onQueryChange(null, val, 'all', 1);
-	};
+	// onSourceType=(val) => {
+	// 	this.setState({
+	// 		sourceType: val,
+	// 	});
+	// };
 
 	handleYg = (e, id) => {
 		const { yg } = this.state;
@@ -172,7 +168,10 @@ class LAWSUITS extends React.Component {
 		let { yg } = this.state;
 		yg = yg.filter(key => key.id !== id);
 		// console.log(id);
-		yg.map((item, index) => item.id = index + 1);
+		yg.map((item, index) => {
+			const _item = item;
+			return _item.id = index + 1;
+		});
 		this.setState({
 			yg,
 		});
@@ -208,7 +207,10 @@ class LAWSUITS extends React.Component {
 		let { bg } = this.state;
 		bg = bg.filter(key => key.id !== id);
 		// console.log(id);
-		bg.map((item, index) => item.id = index + 1);
+		bg.map((item, index) => {
+			const _item = item;
+			return _item.id = index + 1;
+		});
 		this.setState({
 			bg,
 		});
@@ -216,10 +218,12 @@ class LAWSUITS extends React.Component {
 
 	render() {
 		const {
-			yg, bg, tabConfig, dataList, loading,
+			yg, bg, tabConfig, dataList, loading, startTime, endTime,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
+		console.log(startTime, endTime);
+
 		return (
 			<div className="yc-content-query">
 				<div className="yc-lawsuits-items">

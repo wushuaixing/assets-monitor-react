@@ -1,6 +1,6 @@
 import React from 'react';
-import { Table, Form } from 'antd';
-import { formatDateTime } from '@/utils/changeTime';
+import { Tooltip, Table, Form } from 'antd';
+import Link from '@/assets/img/icon/icon_link_normal.png';
 
 
 class BusinessView extends React.Component {
@@ -10,49 +10,118 @@ class BusinessView extends React.Component {
 		this.state = {
 			columns: [
 				{
-					title: '资产匹配',
-					dataIndex: 'title',
-					key: 'title',
-					width: 760,
-					render(text, row) {
-						return (
-							<div className="yc-td-hl">
-								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
-								<div dangerouslySetInnerHTML={{ __html: row.hl }} />
-							</div>
-						);
-					},
-				}, {
-					title: '资产信息',
-					dataIndex: 'address',
-					key: 'address',
+					title: '发布时间',
+					dataIndex: 'publishTime',
+					key: 'publishTime',
+					width: 100,
 					render(text, row) {
 						return (
 							<div className="table-column">
-								<div style={{ display: 'inline-block', float: 'left', verticalAlign: 'top' }}>
-									<div>
-										<span className="yc-td-title" style={{ marginRight: '4px' }}>项目编号:</span>
-										<p style={{ display: 'inline-block' }}>
-											{row.number}
-										</p>
-									</div>
-									<div>
-										<span className="yc-td-title" style={{ marginRight: '4px' }}>发布时间:</span>
-										<p style={{ display: 'inline-block' }}>
-											{formatDateTime(row.releaseTime) || '-'}
-										</p>
-									</div>
-									<div>
-										<span className="yc-td-title" style={{ marginRight: '4px' }}>更新时间:</span>
-										<p style={{ display: 'inline-block' }}>
-											{formatDateTime(row.updateTime) || '-'}
-										</p>
-									</div>
-								</div>
+								{row.publishTime || '-'}
 							</div>
 						);
 					},
-				}],
+				},
+				{
+					title: '标题',
+					dataIndex: 'title',
+					key: 'title',
+					width: 220,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{
+									row.title && row.title.length > 30
+										? (
+											<Tooltip placement="topLeft" title={row.title}>
+												<p>{`${row.title.substr(0, 30)}...`}</p>
+											</Tooltip>
+										)
+										: <p>{row.title || '-'}</p>
+								}
+							</div>
+						);
+					},
+				},
+				{
+					title: '案号',
+					dataIndex: 'ah',
+					key: 'ah',
+					width: 240,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{row.ah || '-'}
+							</div>
+						);
+					},
+				},
+				{
+					title: '相关人员',
+					dataIndex: 'appellors',
+					key: 'appellors',
+					width: 220,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{row.appellors || '-'}
+							</div>
+						);
+					},
+				},
+				{
+					title: '法院名称',
+					dataIndex: 'court',
+					key: 'court',
+					width: 108,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{row.court || '-'}
+							</div>
+						);
+					},
+				},
+				{
+					title: '案由',
+					dataIndex: 'reason',
+					key: 'reason',
+					width: 140,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{row.reason || '-'}
+							</div>
+						);
+					},
+				},
+				{
+					title: '案件类型',
+					dataIndex: 'caseType',
+					key: 'caseType',
+					width: 78,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{row.caseType || '-'}
+							</div>
+						);
+					},
+				},
+				{
+					title: '链接',
+					dataIndex: 'url',
+					key: 'url',
+					width: 54,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								<a href={row.url} target="_blank" rel="noopener noreferrer"><img src={Link} alt="" /></a>
+							</div>
+						);
+					},
+				},
+			],
 		};
 	}
 
@@ -66,18 +135,11 @@ class BusinessView extends React.Component {
 					rowKey={record => record.id}
 					dataSource={dataList.length > 0 && dataList}
 					columns={columns}
-					style={{ width: '100%' }}
-					defaultExpandAllRows
 					pagination={false}
-					onRowClick={() => {
-						// if (!record.children) {
-						// 	const w = window.open('about:blank');
-						// 	w.location.href = '#/monitor';
-						// }
-					}}
 				/>
 			</React.Fragment>
 		);
 	}
 }
+
 export default Form.create()(BusinessView);

@@ -19,7 +19,7 @@ class FINANCE extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataList: {},
+			dataList: [],
 			loading: false,
 			totals: 0,
 			pageSize: 10,
@@ -132,17 +132,13 @@ class FINANCE extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
 		resetFields('');
-		const params = {
-			content: '  ',
-			page: 1,
-			num: 10,
-		};
 		this.setState({
 			pageSize: 10,
+			dataList: [],
+			totals: 0,
 			page: 1,
 		});
 		this.generateUrlWithParams('/search/detail/finance', {});
-		this.getData(params);
 	}
 
 	//  pagesize页面翻页可选

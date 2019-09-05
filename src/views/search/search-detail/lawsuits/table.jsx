@@ -1,5 +1,7 @@
 import React from 'react';
-import { Table, Form } from 'antd';
+import {
+	Table, Form,
+} from 'antd';
 
 const dataSource = [{
 	key: '1',
