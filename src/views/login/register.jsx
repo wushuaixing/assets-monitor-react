@@ -181,8 +181,6 @@ class Login extends React.Component {
 	}
 
 	onKeyup = (e) => {
-		console.log(1);
-
 		if (e.keyCode === 13) {
 			this.handleSubmit();
 		}

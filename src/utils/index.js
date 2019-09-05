@@ -222,3 +222,17 @@ export const changeURLArg = function method(url, arg, _argVal) {
 	if (url.match('[?]')) return `${url}&${replaceText}`;
 	return `${url}?${replaceText}`;
 };
+
+// 将输入内容拼接到url上
+export const generateUrlWithParams = (url, params) => {
+	const urlParams = [];
+	let urlList = url;
+	// eslint-disable-next-line no-restricted-syntax
+	for (const key in params) {
+		if (params[key]) {
+			urlParams.push(`${key}=${params[key]}`);
+		}
+	}
+	urlList += `?${urlParams.join('&')}`;
+	return urlList;
+};

@@ -81,7 +81,7 @@ class BusinessView extends React.Component {
 
 							) : (
 								<React.Fragment>
-									<p className="no-attention">禁用</p>
+									<p className="no-attention">关闭</p>
 								</React.Fragment>
 							)
 						}

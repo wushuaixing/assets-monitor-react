@@ -6,6 +6,7 @@ import { Form, DatePicker, Select } from 'antd';
 import { getQueryByName } from '@/utils';
 import { Spin, Input, Button } from '@/common';
 import InputPrice from '@/common/input/input-price';
+import AuctionTable from './table';
 import './style.scss';
 
 const _style1 = { width: 274 };
@@ -17,12 +18,28 @@ const createForm = Form.create;
 class AUCTION extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			dataList: {},
+			loading: false,
+			auctionSort: undefined,
+			currentSort: undefined,
+			assessmentSort: undefined,
+		};
 	}
 
+	// 排序
+	sort = () => {
+		console.log(1);
+
+		// this.setState ({
+		// 	auctionSort
+		// })
+	}
 
 	render() {
-		const { startTime, endTime } = this.state;
+		const {
+			startTime, endTime, loading, dataList, auctionSort, currentSort, assessmentSort,
+		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 		return (
@@ -178,6 +195,37 @@ class AUCTION extends React.Component {
 						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 				</div>
+				<div className="yc-auction-tablebtn">
+					<Button onClick={this.handleExportExcel}>
+						全部导出
+					</Button>
+					<div className="yc-btn-right">
+						<Button onClick={this.handleExportExcel}>
+						默认排序
+						</Button>
+						<div className="yc-right-order" onClick={() => this.sort()}>
+							{auctionSort === undefined && <span className="sort th-sort-default" />}
+							{auctionSort === 'desc' && <span className="sort th-sort-down" />}
+							{auctionSort === 'asc' && <span className="sort th-sort-up" />}
+							拍卖时间
+						</div>
+						<div className="yc-right-order">
+							{currentSort === undefined && <span className="sort th-sort-default" />}
+							{currentSort === 'desc' && <span className="sort th-sort-down" />}
+							{currentSort === 'asc' && <span className="sort th-sort-up" />}
+							当前价格
+						</div>
+						<div className="yc-right-order">
+							{assessmentSort === undefined && <span className="sort th-sort-default" />}
+							{assessmentSort === 'desc' && <span className="sort th-sort-down" />}
+							{assessmentSort === 'asc' && <span className="sort th-sort-up" />}
+							评估价格
+						</div>
+					</div>
+				</div>
+				<Spin visible={loading}>
+					<AuctionTable stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
+				</Spin>
 			</div>
 		);
 	}

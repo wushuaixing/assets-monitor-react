@@ -44,7 +44,9 @@ class DetailModal extends React.Component {
 	}
 
 	handleSave=() => {
-		const { getTableData, form, propsData } = this.props;
+		const {
+			getTableData, form, propsData, searchValue, current,
+		} = this.props;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		const params = {
@@ -71,13 +73,20 @@ class DetailModal extends React.Component {
 		saveList(params).then((res) => {
 			// that.setState({ visible: false });
 			if (res.code === 200) {
-				getTableData();
+				const searchVal = {
+					page: current,
+					...searchValue,
+				};
+				getTableData(searchVal);
 				message.success(propsData ? '修改成功' : '新增成功');
 				this.handleCancel();
 				this.setState({
 					confirmLoading: false,
 				});
 			} else {
+				this.setState({
+					confirmLoading: false,
+				});
 				message.error(res.message);
 			}
 		}).catch(() => {
@@ -90,8 +99,6 @@ class DetailModal extends React.Component {
 
 	change=(val, type, maxSize) => {
 		const { data } = this.state;
-		console.log(val, data);
-
 		const maxValue = this.getInMaxValue(val, maxSize);
 		data[type] = maxValue;
 		this.setState({ data });
@@ -107,7 +114,6 @@ class DetailModal extends React.Component {
 		} else {
 			title = '修改推送';
 		}
-		console.log(propsData, 1);
 
 		return (
 			<Modal

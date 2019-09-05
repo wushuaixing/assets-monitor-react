@@ -6,6 +6,7 @@ import { Form, DatePicker, Select } from 'antd';
 import { getQueryByName } from '@/utils';
 import { Spin, Input, Button } from '@/common';
 import InputPrice from '@/common/input/input-price';
+import WritTable from './table';
 import './style.scss';
 
 const _style1 = { width: 274 };
@@ -18,12 +19,17 @@ const createForm = Form.create;
 class WRIT extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			dataList: {},
+			loading: false,
+		};
 	}
 
 
 	render() {
-		const { startTime, endTime } = this.state;
+		const {
+			startTime, endTime, loading, dataList,
+		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 		return (
@@ -159,6 +165,14 @@ class WRIT extends React.Component {
 						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 				</div>
+				<div className="yc-writ-tablebtn">
+					<Button onClick={this.handleExportExcel}>
+						全部导出
+					</Button>
+				</div>
+				<Spin visible={loading}>
+					<WritTable stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
+				</Spin>
 			</div>
 		);
 	}

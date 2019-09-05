@@ -3,12 +3,13 @@ import React from 'react';
 // 所需的所有组件
 // ==================
 import {
-	Form, Pagination, message, DatePicker,
+	Form, Pagination, message, DatePicker, Tooltip,
 } from 'antd';
 import { parseQuery, getQueryByName } from '@/utils';
 import {
 	Spin, Input, Button, Tabs,
 } from '@/common';
+import LawsuitsTable from './table';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
 import './style.scss';
@@ -48,7 +49,6 @@ class LAWSUITS extends React.Component {
 					id: 1,
 				},
 			],
-			sourceType: 1,
 		};
 	}
 
@@ -56,17 +56,31 @@ class LAWSUITS extends React.Component {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
 		console.log(params);
-
-		const { form } = this.props; // 会提示props is not defined
-		const { setFieldsValue } = form;
+		const {
+			startTime, endTime, yg, bg,
+		} = this.state;
 		this.initialValue(params);
-		setFieldsValue({
-			yg0: params.yg0,
-			yg1: params.yg1,
-			yg2: params.yg2,
-			bg0: params.bg0,
-			bg1: params.bg1,
-			bg2: params.bg2,
+		if (yg[0]) {
+			yg[0].name = params.yg0 ? params.yg0 : '';
+		}
+		if (yg[1]) {
+			yg[1].name = params.yg1 ? params.yg1 : '';
+		}
+		if (yg[2]) {
+			yg[2].name = params.yg2 ? params.yg2 : '';
+		}
+		if (bg[0]) {
+			bg[0].name = params.bg0 ? params.bg0 : '';
+		}
+		if (bg[1]) {
+			bg[1].name = params.bg1 ? params.bg1 : '';
+		}
+		if (bg[2]) {
+			bg[2].name = params.bg2 ? params.bg2 : '';
+		}
+		this.setState({
+			yg,
+			bg,
 		});
 	}
 
@@ -77,12 +91,11 @@ class LAWSUITS extends React.Component {
 		if (params.yg2) {
 			this.addYg(params.yg2);
 		}
-
 		if (params.bg1) {
-			this.addBg(params.yg1);
+			this.addBg(params.bg1);
 		}
 		if (params.bg2) {
-			this.addBg(params.yg2);
+			this.addBg(params.bg2);
 		}
 	}
 
@@ -129,7 +142,20 @@ class LAWSUITS extends React.Component {
 		// this.onQueryChange(null, val, 'all', 1);
 	};
 
-	// 添加原告
+	handleYg = (e, id) => {
+		const { yg } = this.state;
+		if (yg && yg.length > 0) {
+			yg.forEach((i, index) => {
+				if (i.id === id) {
+					yg[index].name = e.trim();
+				}
+			});
+			this.setState({
+				yg,
+			});
+		}
+	}
+
 	addYg = () => {
 		const { yg } = this.state;
 		yg.push({
@@ -141,11 +167,35 @@ class LAWSUITS extends React.Component {
 		});
 	}
 
-	// 添加被告
-	addBg = (val) => {
+	// 删除
+	deleteYg = (id) => {
+		let { yg } = this.state;
+		yg = yg.filter(key => key.id !== id);
+		// console.log(id);
+		yg.map((item, index) => item.id = index + 1);
+		this.setState({
+			yg,
+		});
+	}
+
+	handleBg = (e, id) => {
+		const { bg } = this.state;
+		if (bg && bg.length > 0) {
+			bg.forEach((i, index) => {
+				if (i.id === id) {
+					bg[index].name = e.trim();
+				}
+			});
+			this.setState({
+				bg,
+			});
+		}
+	}
+
+	addBg = () => {
 		const { bg } = this.state;
 		bg.push({
-			name: val || '',
+			name: '',
 			id: bg.length + 1,
 		});
 		this.setState({
@@ -153,102 +203,86 @@ class LAWSUITS extends React.Component {
 		});
 	}
 
+	// 删除
+	deleteBg = (id) => {
+		let { bg } = this.state;
+		bg = bg.filter(key => key.id !== id);
+		// console.log(id);
+		bg.map((item, index) => item.id = index + 1);
+		this.setState({
+			bg,
+		});
+	}
+
 	render() {
-		const { yg, bg, tabConfig } = this.state;
+		const {
+			yg, bg, tabConfig, dataList, loading,
+		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 		return (
 			<div className="yc-content-query">
 				<div className="yc-lawsuits-items">
 					{
-						yg.map((item, index) => (
-							<div className="item" style={{ 'margin-right': 15 }}>
-								<Input
-									key={item.id}
-									title="原告"
-									value={item.name}
-									style={_style1}
-									placeholder="姓名/公司名称"
-									onChange={(val) => {
-										yg[index].name = val;
-										this.setState({
-											yg,
-										});
-									}}
-									{...getFieldProps(`yg${index}`, {
-										// initialValue: content,
-										// rules: [
-										// 	{ required: true, whitespace: true, message: '请填写密码' },
-										// ],
-										getValueFromEvent: e => e.trim(),
-									})}
-								/>
-								{
-									yg.length > 1 ? (
+					yg.map(item => (
+						<div key={item.id} className="item" style={{ 'margin-right': 15 }}>
+							<Input
+								title="原告"
+								style={_style1}
+								value={item.name}
+								placeholder="姓名/公司名称"
+								onChange={e => this.handleYg(e, item.id)}
+							/>
+							{
+								yg.length > 1 ? (
+									<Tooltip placement="top" title="删除">
 										<img
 											alt=""
 											className="close"
 											src={close}
-											onClick={() => {
-												yg.splice(index, 1);
-												this.setState({
-													yg,
-												});
-											}}
+											onClick={() => this.deleteYg(item.id)}
 										/>
-									) : null
-								}
-							</div>
-						))
-					}
+									</Tooltip>
+								) : null
+							}
+						</div>
+					))
+				}
 					{
-						yg.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个原告</span>) : (
+					yg.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个原告</span>) : (
+						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
-								src={add}
 								className="add"
+								src={add}
 								onClick={() => this.addYg()}
 							/>
-						)
-					}
+						</Tooltip>
+					)
+				}
 				</div>
 				<div className="yc-lawsuits-items">
 					{
-						bg.map((item, index) => (
+						bg.map(item => (
 							<div className="item" style={{ 'margin-right': 15 }}>
 								<Input
 									key={item.id}
+									style={_style1}
 									title="被告"
 									value={item.name}
-									style={_style1}
 									placeholder="姓名/公司名称"
-									onChange={(val) => {
-										bg[index].name = val;
-										this.setState({
-											bg,
-										});
-									}}
-									{...getFieldProps(`bg${index}`, {
-										// initialValue: content,
-										// rules: [
-										// 	{ required: true, whitespace: true, message: '请填写密码' },
-										// ],
-										getValueFromEvent: e => e.trim(),
-									})}
+									onChange={e => this.handleBg(e, item.id)}
 								/>
 								{
 									bg.length > 1 ? (
-										<img
-											alt=""
-											className="close"
-											src={close}
-											onClick={() => {
-												bg.splice(index, 1);
-												this.setState({
-													bg,
-												});
-											}}
-										/>
+										<Tooltip placement="top" title="删除">
+											<img
+												alt=""
+												className="close"
+												src={close}
+												onClick={() => this.deleteBg(item.id)}
+											/>
+										</Tooltip>
 									) : null
 								}
 							</div>
@@ -256,13 +290,14 @@ class LAWSUITS extends React.Component {
 					}
 					{
 						bg.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个被告</span>) : (
-							<img
-								alt=""
-								src={add}
-								className="add"
-								onClick={() => this.addBg()}
-
-							/>
+							<Tooltip placement="top" title="添加">
+								<img
+									alt=""
+									className="add"
+									src={add}
+									onClick={() => this.addBg()}
+								/>
+							</Tooltip>
 						)
 					}
 				</div>
@@ -288,23 +323,13 @@ class LAWSUITS extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="案件编号"
-							{...getFieldProps('ah', {
-							// initialValue: content,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
-								getValueFromEvent: e => e.trim(),
-							})}
+							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">日期选择: </span>
 						<DatePicker
 							{...getFieldProps('uploadTimeStart', {
-							// initialValue: true,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
@@ -319,10 +344,6 @@ class LAWSUITS extends React.Component {
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
 							{...getFieldProps('uploadTimeEnd', {
-							// initialValue: true,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
@@ -339,12 +360,20 @@ class LAWSUITS extends React.Component {
 						<Button onClick={this.search} size="large" type="warning" style={{ width: 84 }}>查询</Button>
 						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
-					<Tabs.Simple
-						onChange={this.onSourceType}
-						source={tabConfig}
-						field="process"
-					/>
 				</div>
+				<Tabs.Simple
+					onChange={this.onSourceType}
+					source={tabConfig}
+					field="process"
+				/>
+				<div className="yc-lawsuits-tablebtn">
+					<Button onClick={this.handleExportExcel}>
+							全部导出
+					</Button>
+				</div>
+				<Spin visible={loading}>
+					<LawsuitsTable stateObj={this.state} dataList={dataList} />
+				</Spin>
 			</div>
 		);
 	}
