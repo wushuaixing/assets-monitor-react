@@ -53,7 +53,9 @@ export default class Tabs extends React.Component {
 	};
 
 	toSetActive=(active) => {
+		const { onActive } = this.props;
 		this.setState({ active });
+		if (onActive)onActive(active);
 	};
 
 	render() {

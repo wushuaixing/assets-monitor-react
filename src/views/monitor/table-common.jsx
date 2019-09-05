@@ -65,7 +65,8 @@ export const aboutLink = (value, row) => {
 // 案号 - 弹窗
 export const caseInfo = (content, row) => {
 	const { isDelete, ygList } = row;
-	if (isDelete || !ygList.length) return content || '--';
+	const ygListLength = window._.isArray(ygList) ? ygList.length : 0;
+	if (isDelete || !ygListLength) return content || '--';
 	const toClick =	() => Modal.info({
 		title: '当事人详情',
 		okText: '确定',

@@ -14,8 +14,8 @@ import Public from './public-proclamation';
 import Attention from './my-attention';
 
 import Star from '@/assets/img/icon/btn_attention_h.png';
-import BusinessDetail from '../business/business-detail';
-import DebtorDetail from '../business/debtor-detail';
+// import BusinessDetail from '../business/business-detail';
+// import DebtorDetail from '../business/debtor-detail';
 // DebtorDetail
 // 获取展示配置
 const toGetRuth = (rules) => {
@@ -84,12 +84,14 @@ const toGetRuth = (rules) => {
 	];
 	return source.filter(item => item.status);
 };
-
+let sourceType = '';
 // 主界面
 const MonitorMain = (props) => {
 	const { rule } = props;
 	const source = toGetRuth(rule);
-	// console.log(source);
+	const toNavigate = () => {
+		navigate(`/monitor/attention${sourceType ? `?process=${sourceType}` : ''}`);
+	};
 	return (
 		<React.Fragment>
 			<Tabs
@@ -97,12 +99,13 @@ const MonitorMain = (props) => {
 				rightRender={() => (
 					<Button
 						style={{ marginTop: 6, marginRight: 25, width: 95 }}
-						onClick={() => navigate('/monitor/attention')}
+						onClick={toNavigate}
 						size="large"
 						icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 16, marginTop: -2 }} />}
 						title="我的关注"
 					/>
 				)}
+				onActive={val => sourceType = val}
 				onChange={res => navigate(res.url + res.paramUrl || '')}
 				source={source}
 			/>
@@ -123,8 +126,8 @@ const monitorRouter = (props) => {
 		<Router>
 			<MonitorMain path="/*" rule={rule} />
 			<Attention path="/monitor/attention/*" rule={rule} />
-			<BusinessDetail path="/monitor/business/detail/*" parent="监控信息" parentUrl="/" />
-			<DebtorDetail path="/monitor/debtor/detail/*" />
+			{/* <BusinessDetail path="/monitor/business/detail/*" parent="监控信息" parentUrl="/" /> */}
+			{/* <DebtorDetail path="/business/debtor/detail/*" /> */}
 		</Router>
 	);
 };

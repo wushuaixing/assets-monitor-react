@@ -117,7 +117,7 @@ export default class Subrogation extends React.Component {
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					api('attention', sourceType)({ idList }, true).then((res) => {
+					api('follow', sourceType)({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
 							const _dataSource = dataSource.map((item) => {
@@ -162,22 +162,30 @@ export default class Subrogation extends React.Component {
 		window.location.href = changeURLArg(window.location.href, 'project', val);
 	};
 
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
+		this.onQueryChange(this.condition, '', '', 1);
+	};
+
 	// 当前页数变化
 	onPageChange=(val) => {
-		this.onQueryChange('', '', '', val);
+		const { manage } = this.state;
+		this.selectRow = [];
+		this.onQueryChange('', '', '', val, manage);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _sourceType, _isRead, page) => {
-		const {
-			sourceType, isRead, current, loading,
-		} = this.state;
+	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
+		const { sourceType, isRead, current } = this.state;
+		const __isRead = _isRead || isRead;
 		this.condition = Object.assign(con || this.condition, {
 			page: page || current,
 		});
-		if (_isRead || isRead === 'all') delete this.condition.isRead;
-		if (_isRead || isRead === 'unread') this.condition.isRead = 0;
-		if (!loading) this.setState({ loading: true });
+		if (__isRead === 'all') delete this.condition.isRead;
+		if (__isRead === 'else') this.condition.isRead = 0;
+		this.setState({ loading: true, manage: _manage || false });
 		delete this.condition.sourceType;
 
 		api('infoList', _sourceType || sourceType)(clearEmpty(this.condition)).then((res) => {
@@ -189,6 +197,12 @@ export default class Subrogation extends React.Component {
 					loading: false,
 				});
 			} else {
+				this.setState({
+					dataSource: '',
+					current: 1,
+					total: 0,
+					loading: false,
+				});
 				message.error(res.message || '网络请求异常请稍后再试！');
 			}
 		}).catch(() => {
@@ -208,6 +222,9 @@ export default class Subrogation extends React.Component {
 			onRefresh: this.onRefresh,
 			onSelect: val => this.selectRow = val,
 			onPageChange: this.onPageChange,
+			onSortChange: this.onSortChange,
+			sortField: this.condition.sortColumn,
+			sortOrder: this.condition.sortOrder,
 		};
 		return (
 			<div className="yc-assets-auction">
@@ -232,8 +249,8 @@ export default class Subrogation extends React.Component {
 										title="全部"
 									/>,
 									<Button
-										active={isRead === 'unread'}
-										onClick={() => this.handleReadChange('unread')}
+										active={isRead === 'else'}
+										onClick={() => this.handleReadChange('else')}
 										title="只显示未读"
 									/>,
 									<Button onClick={this.handleAllRead}>全部标为已读</Button>,

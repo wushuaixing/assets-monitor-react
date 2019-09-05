@@ -1,11 +1,11 @@
 import React from 'react';
 import Item from './item';
 import { Tabs } from '@/common';
-import { changeURLArg } from '@/utils';
+import { changeURLArg, parseQuery } from '@/utils';
 import './style.scss';
 
 /**
- * 获取默认tabs配置
+ * 获取默认tabs配置,含子模块btn
  * @param rule
  * @returns {*[]}
  */
@@ -68,35 +68,66 @@ export default class MyAttention extends React.Component {
 		super(props);
 		this.state = {
 			config: toGetDefaultConfig(props.rule),
-			sourceType: 1,
 			source: '',
+			sourceType: 1,
+			childType: 1,
 		};
 	}
 
 	componentWillMount() {
 		const { config } = this.state;
 		const sourceType = Tabs.Simple.toGetDefaultActive(config, 'process');
-		const source = config.filter(i => i.id === sourceType)[0];
-		this.setState({ sourceType, source });
-		// this.onQueryChange({}, sourceType);
+		const source = (config.filter(i => i.id === sourceType))[0];
+		const childAry = source.child ? source.child.filter(i => i.status) : '';
+		const childType =	parseQuery(window.location.href).type || (childAry ? childAry[0].id : '');
+		this.setState({
+			sourceType,
+			source,
+			childType,
+		});
 	}
 
 	// sourceType变化
-	onSourceType=(sourceType) => {
-		const { config } = this.state;
-		const source = config.filter(i => i.id === sourceType)[0];
-		this.setState({ sourceType, source });
-		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
-		// this.onQueryChange(null, val, isRead);
+	onSourceType=(_sourceType) => {
+		const { config, sourceType } = this.state;
+		if (_sourceType !== sourceType) {
+			const source = config.filter(i => i.id === _sourceType)[0];
+			const childAry = source.child ? source.child.filter(i => i.status) : '';
+			const childType =	childAry ? childAry[0].id : '';
+			this.setState({
+				sourceType: _sourceType,
+				source,
+				childType,
+			});
+			const url = changeURLArg(window.location.href, 'process', _sourceType);
+			window.location.href = changeURLArg(url, 'type', childType);
+			//	问题遗留：直接href导致每个Router重新渲染
+		}
+	};
+
+	// 如果有子项按钮，点击切换
+	onBtnChange=(val) => {
+		this.setState({
+			childType: val.id,
+		});
+		window.location.href = changeURLArg(window.location.href, 'type', val.id);
 	};
 
 	render() {
-		const { config, sourceType, source } = this.state;
+		const {
+			config, sourceType, source, childType,
+		} = this.state;
+		const content = {
+			source,
+			sourceType,
+			childType,
+			onBtnChange: this.onBtnChange,
+		};
 		return (
 			<div className="yc-monitor-attention">
 				<div className="attention-title">我的关注</div>
 				<Tabs.Simple onChange={this.onSourceType} source={config} field="process" />
-				<Item sourceType={sourceType} source={source} />
+				<Item {...content} mark="子模块展示内容" />
 			</div>
 		);
 	}

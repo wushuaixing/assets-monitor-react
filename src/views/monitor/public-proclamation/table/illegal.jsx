@@ -21,7 +21,7 @@ const columns = (props) => {
 			title: '纳税人',
 			dataIndex: 'obName',
 			width: 226,
-			render: (text, row) => (text ? linkDom(`/#/monitor/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '统一社会信用代码',
 			dataIndex: 'obNumber',

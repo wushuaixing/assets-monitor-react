@@ -153,12 +153,6 @@ export default class Assets extends React.Component {
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 
-	// 批量管理勾选️结果
-	onSelect=(val) => {
-		console.log(val);
-		this.selectRow = val;
-	};
-
 	// 表格发生变化
 	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
@@ -179,7 +173,9 @@ export default class Assets extends React.Component {
 
 	// 当前页数变化
 	onPageChange=(val) => {
-		this.onQueryChange('', '', '', val);
+		const { manage } = this.state;
+		this.selectRow = [];
+		this.onQueryChange('', '', '', val, manage);
 	};
 
 	// 查询条件变化
@@ -189,7 +185,7 @@ export default class Assets extends React.Component {
 	};
 
 	// 发起查询请求
-	onQueryChange=(con, _sourceType, _isRead, page) => {
+	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, current } = this.state;
 		this.condition = Object.assign(con || this.condition, {
 			process: _sourceType || sourceType,
@@ -197,6 +193,7 @@ export default class Assets extends React.Component {
 		});
 		this.setState({
 			loading: true,
+			manage: _manage || false,
 		});
 		delete this.condition.processString;
 		if (this.condition.process === -1) this.condition.process = 0;
@@ -238,7 +235,7 @@ export default class Assets extends React.Component {
 			current,
 			total,
 			onRefresh: this.onRefresh,
-			onSelect: this.onSelect,
+			onSelect: val => this.selectRow = val,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
 			sortField: this.condition.sortColumn,
