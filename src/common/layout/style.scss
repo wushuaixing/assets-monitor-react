@@ -185,6 +185,7 @@
   background: #f0f2f5;
   margin: 30px 0 50px 0;
   min-height: 688px;
+  padding-bottom: 150px;
   .yc-container-content {
     background: #ffffff;
     width: 1200px;
@@ -200,6 +201,8 @@
   overflow: hidden;
   background-color: #3a3f4c;
   color: #fff;
+  position: absolute;
+  bottom: 0;
   // .yc-footer-img {
   //   width: 14px;
   //   height: 14px;
