@@ -14,7 +14,7 @@ export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			searchValue: {},
 			columns: [
 				{
 					title: '账号',
@@ -144,41 +144,45 @@ export default class BasicTable extends React.Component {
 
 	// page翻页
 	handleChangePage=(val) => {
-		const { pageSize } = this.state;
+		const { pageSize, searchValue } = this.state;
 		this.setState({
 			current: val,
 		});
 		const params = {
 			num: pageSize,
 			page: val,
+			...searchValue,
 		};
 		this.getTableData(params);
 	}
 
 	// 下拉选中
-	handleChange = (searchVal) => {
-		console.log(searchVal);
+	handleChange = (id) => {
+		console.log(id);
 		const { keyword } = this.state;
-		this.setState({
-			role: searchVal,
-		});
+
 		const params = {
-			groupId: searchVal,
+			groupId: id,
 			keyword,
 		};
+		this.setState({
+			role: id,
+			searchValue: params,
+		});
 		this.getTableData(params);
 	}
 
 	onKeyup = (e) => {
 		const { role } = this.state;
 		const { value } = e.target;
-		this.setState({
-			keyword: value,
-		});
 		const params = {
 			role,
-			keyword: value.replace(/\s/ig, ''),
+			keyword: value.trim(),
 		};
+		this.setState({
+			keyword: value,
+			searchValue: params,
+		});
 		if (e.keyCode === 13) {
 			this.getTableData(params);
 		}
@@ -187,6 +191,12 @@ export default class BasicTable extends React.Component {
 	clearInput = () => {
 		this.setState({
 			keyword: '',
+		});
+	}
+
+	getSearchValue = (value) => {
+		this.setState({
+			searchValue: value,
 		});
 	}
 
@@ -212,6 +222,7 @@ export default class BasicTable extends React.Component {
 					keyword={keyword}
 					role={role}
 					clearInput={this.clearInput}
+					getSearchValue={this.getSearchValue}
 				/>
 				<div className="search-item">
 					<p>角色：</p>

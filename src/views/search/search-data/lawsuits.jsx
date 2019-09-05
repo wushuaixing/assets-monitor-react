@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, message,
+	DatePicker, Button, Form, message, Tooltip,
 } from 'antd';
 import { navigate } from '@reach/router';
 import Input from '@/common/input';
@@ -51,43 +51,112 @@ class Datas extends React.Component {
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const {
-			startTime, endTime,
+			startTime, endTime, yg, bg,
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		fildes.uploadTimeStart = startTime;
 		fildes.uploadTimeEnd = endTime;
+		fildes.yg0 = yg[0] ? yg[0].name : undefined;
+		fildes.yg1 = yg[1] ? yg[1].name : undefined;
+		fildes.yg2 = yg[2] ? yg[2].name : undefined;
+		fildes.bg0 = bg[0] ? bg[0].name : undefined;
+		fildes.bg1 = bg[1] ? bg[1].name : undefined;
+		fildes.bg2 = bg[2] ? bg[2].name : undefined;
 		console.log(fildes);
-
 		navigate(this.generateUrlWithParams('/search/detail/lawsuits', fildes));
-		// if (startTime && endTime && startTime > endTime) {
-		// 	message.warning('结束时间必须大于开始时间');
-		// 	return;
-		// }
-		// const params = {
-		// 	...fildes,
-		// 	page: 1,
-		// 	num: 10,
-		// 	uploadTimeStart: startTime || null, // 搜索时间
-		// 	uploadTimeEnd: endTime || null,
-		// };
-
-		// this.getData(params);
-		// this.setState({
-		// 	searchValue: params,
-		// });
 	}
 
 	// 重置输入框
 	queryReset = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
+		this.setState({
+			yg: [
+				{
+					name: '',
+					id: 1,
+				},
+			],
+		});
 		resetFields('');
+	}
+
+	handleYg = (e, id) => {
+		const { yg } = this.state;
+		if (yg && yg.length > 0) {
+			yg.forEach((i, index) => {
+				if (i.id === id) {
+					yg[index].name = e.trim();
+				}
+			});
+			this.setState({
+				yg,
+			});
+		}
+	}
+
+	addYg = () => {
+		const { yg } = this.state;
+		yg.push({
+			name: '',
+			id: yg.length + 1,
+		});
+		this.setState({
+			yg,
+		});
+	}
+
+	// 删除
+	deleteYg = (id) => {
+		let { yg } = this.state;
+		yg = yg.filter(key => key.id !== id);
+		// console.log(id);
+		yg.map((item, index) => item.id = index + 1);
+		this.setState({
+			yg,
+		});
+	}
+
+	handleBg = (e, id) => {
+		const { bg } = this.state;
+		if (bg && bg.length > 0) {
+			bg.forEach((i, index) => {
+				if (i.id === id) {
+					bg[index].name = e.trim();
+				}
+			});
+			this.setState({
+				bg,
+			});
+		}
+	}
+
+	addBg = () => {
+		const { bg } = this.state;
+		bg.push({
+			name: '',
+			id: bg.length + 1,
+		});
+		this.setState({
+			bg,
+		});
+	}
+
+	// 删除
+	deleteBg = (id) => {
+		let { bg } = this.state;
+		bg = bg.filter(key => key.id !== id);
+		// console.log(id);
+		bg.map((item, index) => item.id = index + 1);
+		this.setState({
+			bg,
+		});
 	}
 
 	render() {
 		const {
-			yg, bg, startTime, endTime,
+			yg, bg,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -95,44 +164,24 @@ class Datas extends React.Component {
 			<div className="yc-tabs-data" style={{ padding: '16px 22px' }}>
 				<div className="yc-tabs-items">
 					{
-					yg.map((item, index) => (
-						<div className="item" style={{ 'margin-right': 10 }}>
+					yg.map(item => (
+						<div key={item.id} className="item" style={{ 'margin-right': 10 }}>
 							<Input
-								key={item.id}
 								title="原告"
 								value={item.name}
 								placeholder="姓名/公司名称"
-								{...getFieldProps(`yg${index}`, {
-									onChange: (val) => {
-										const temp = yg;
-										temp[index].name = val;
-										console.log(temp);
-										this.setState({
-											yg: temp,
-										});
-									},
-									getValueFromEvent: e => e.trim(),
-								})}
+								onChange={e => this.handleYg(e, item.id)}
 							/>
 							{
 								yg.length > 1 ? (
-									<img
-										alt=""
-										className="close"
-										src={close}
-										onClick={() => {
-											yg.forEach((i) => {
-												console.log(i.id, index, i.id === index + 1);
-
-												if (i.id === index + 1) {
-													yg.splice(index, 1);
-												}
-											});
-											this.setState({
-												yg,
-											});
-										}}
-									/>
+									<Tooltip placement="top" title="删除">
+										<img
+											alt=""
+											className="close"
+											src={close}
+											onClick={() => this.deleteYg(item.id)}
+										/>
+									</Tooltip>
 								) : null
 							}
 						</div>
@@ -140,64 +189,38 @@ class Datas extends React.Component {
 				}
 					{
 					yg.length > 2 ? (<span style={{ 'margin-top': 8, display: 'inline-block' }}>最多添加3个</span>) : (
-						<img
-							alt=""
-							style={{ 'margin-top': 8, cursor: 'pointer' }}
-							src={add}
-							onClick={() => {
-								const temp = yg;
-								temp.push({
-									name: '',
-									id: yg.length + 1,
-								});
-								console.log(temp);
-
-								this.setState({
-									yg: temp,
-								});
-							}}
-						/>
+						<Tooltip placement="top" title="添加">
+							<img
+								alt=""
+								style={{ 'margin-top': 8, cursor: 'pointer' }}
+								src={add}
+								onClick={() => this.addYg()}
+							/>
+						</Tooltip>
 					)
 				}
 				</div>
 				<div className="yc-tabs-items">
 					{
-					bg.map((item, index) => (
+					bg.map(item => (
 						<div className="item" style={{ 'margin-right': 10 }}>
 							<Input
 								key={item.id}
 								title="被告"
 								value={item.name}
 								placeholder="姓名/公司名称"
-								onChange={(val) => {
-									const temp = bg;
-									temp[index].name = val;
-									this.setState({
-										bg: temp,
-									});
-								}}
-								{...getFieldProps(`bg${index}`, {
-									// initialValue: content,
-									// rules: [
-									// 	{ required: true, whitespace: true, message: '请填写密码' },
-									// ],
-									getValueFromEvent: e => e.trim(),
-								})}
+								onChange={e => this.handleBg(e, item.id)}
 							/>
 							{
 								bg.length > 1 ? (
-									<img
-										alt=""
-										className="close"
-										src={close}
-										onClick={() => {
-											const temp = bg;
-											temp.splice(index, 1);
-											this.setState({
-												bg: temp,
-											});
-										}}
-									/>
+									<Tooltip placement="top" title="删除">
+										<img
+											alt=""
+											className="close"
+											src={close}
+											onClick={() => this.deleteBg(item.id)}
+										/>
+									</Tooltip>
 								) : null
 							}
 						</div>
@@ -205,22 +228,14 @@ class Datas extends React.Component {
 				}
 					{
 					bg.length > 2 ? (<span style={{ 'margin-top': 8, display: 'inline-block' }}>最多添加3个</span>) : (
-						<img
-							alt=""
-							style={{ 'margin-top': 8, cursor: 'pointer' }}
-							src={add}
-							onClick={() => {
-								const temp = bg;
-								temp.push({
-									name: '',
-									id: bg.length + 1,
-								});
-								this.setState({
-									bg: temp,
-								});
-								// setbg(temp);
-							}}
-						/>
+						<Tooltip placement="top" title="添加">
+							<img
+								alt=""
+								style={{ 'margin-top': 8, cursor: 'pointer' }}
+								src={add}
+								onClick={() => this.addBg()}
+							/>
+						</Tooltip>
 					)
 				}
 				</div>

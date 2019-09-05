@@ -25,6 +25,7 @@ export default class BasicTable extends React.Component {
 			pageSize: 10,
 			role: '',
 			keyword: '',
+			searchValue: {},
 			columns: [
 				{
 					title: '姓名',
@@ -106,15 +107,22 @@ export default class BasicTable extends React.Component {
 		});
 	}
 
+	getSearchValue = (value) => {
+		this.setState({
+			searchValue: value,
+		});
+	}
+
 	// page翻页
 	handleChangePage=(val) => {
-		const { pageSize } = this.state;
+		const { pageSize, searchValue } = this.state;
 		this.setState({
 			current: val,
 		});
 		const params = {
 			num: pageSize,
 			page: val,
+			...searchValue,
 		};
 		this.getTableData(params);
 	}
@@ -128,18 +136,27 @@ export default class BasicTable extends React.Component {
 		this.setState({ modalVisible: false });
 	}
 
+	// 删除
 	handleDel=(row) => {
 		const that = this;
+		const { searchValue, current, total } = this.state;
 		confirm({
 			title: '您是否确认要删除推送设置？',
 			content: '点击确定后将为您删除推送设置。',
 			onOk() {
 				// that.setState({ visible: true });
+				const params = {
+					id: row.id,
+				};
 				// 删除接口
-				deleteList(`id: ${row.id}`).then((res) => {
+				deleteList(params).then((res) => {
 					// that.setState({ visible: false });
 					if (res.code === 200) {
-						that.getTableData();
+						const searchVal = {
+							page: total % 10 === 1 ? current - 1 : current,
+							...searchValue,
+						};
+						that.getTableData(searchVal);
 						message.success('删除成功');
 					} else {
 						message.error(res.message);
@@ -152,17 +169,6 @@ export default class BasicTable extends React.Component {
 		});
 	}
 
-	renderModal=() => {
-		const {
-			modalVisible, modalState, selectData,
-		} = this.state;
-		if (modalVisible) {
-			return (
-				<EditModal modalState={modalState} getTableData={this.getTableData} propsData={selectData} handleCancel={() => this.handleCancel()} />
-			);
-		}
-		return null;
-	}
 
 	search=(val) => {
 		console.log('zzz', val);
@@ -172,13 +178,14 @@ export default class BasicTable extends React.Component {
 	handleChange = (searchVal) => {
 		console.log(searchVal);
 		const { keyword } = this.state;
-		this.setState({
-			role: searchVal,
-		});
 		const params = {
 			role: searchVal,
 			keyword,
 		};
+		this.setState({
+			role: searchVal,
+			searchValue: params,
+		});
 		this.getTableData(params);
 	}
 
@@ -186,13 +193,14 @@ export default class BasicTable extends React.Component {
 		console.log(e.target.value);
 		const { role } = this.state;
 		const { value } = e.target;
-		this.setState({
-			keyword: value,
-		});
 		const params = {
 			role,
 			keyword: value.replace(/\s/ig, ''),
 		};
+		this.setState({
+			searchValue: params,
+			keyword: value,
+		});
 		if (e.keyCode === 13) {
 			this.getTableData(params);
 		}
@@ -202,6 +210,19 @@ export default class BasicTable extends React.Component {
 		this.setState({
 			keyword: '',
 		});
+	}
+
+	// 编辑modal
+	renderModal=() => {
+		const {
+			modalVisible, modalState, selectData, searchValue, current,
+		} = this.state;
+		if (modalVisible) {
+			return (
+				<EditModal modalState={modalState} current={current} searchValue={searchValue} getTableData={this.getTableData} propsData={selectData} handleCancel={() => this.handleCancel()} />
+			);
+		}
+		return null;
 	}
 
 	render() {
@@ -218,6 +239,7 @@ export default class BasicTable extends React.Component {
 					keyword={keyword}
 					role={role}
 					clearInput={this.clearInput}
+					getSearchValue={this.getSearchValue}
 				/>
 				<div className="search-item">
 					<p>角色：</p>
