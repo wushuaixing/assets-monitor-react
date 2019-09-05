@@ -17,9 +17,11 @@ import {
 } from '@/utils/api/user';
 import flat from '../../utils/flatArray';
 import { toThousands } from '@/utils/changeTime';
+import './style.scss';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
-import './style.scss';
+// 是否为IE
+const _msieBrowser = /msie/i.test(navigator.userAgent);
 
 const createForm = Form.create;
 const skip = (text, row) => {
@@ -84,7 +86,7 @@ const columns = [
 		dataIndex: 'monitorTotalCount',
 		id: 'monitorTotalCount',
 		width: 92,
-		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
+		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=1', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
 	{
 		title: '未跟进',
@@ -92,7 +94,7 @@ const columns = [
 		dataIndex: 'monitorUnfollowedCount',
 		id: 'monitorUnfollowedCount',
 		width: 112,
-		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
+		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=-1', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
 	{
 		title: '跟进',
@@ -100,7 +102,7 @@ const columns = [
 		dataIndex: 'monitorFollowedCount',
 		id: 'monitorFollowedCount',
 		width: 92,
-		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
+		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=3', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
 	{
 		title: '完成',
@@ -108,7 +110,7 @@ const columns = [
 		dataIndex: 'monitorDoneCount',
 		id: 'monitorDoneCount',
 		width: 92,
-		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
+		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=9', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
 	{
 		title: '追回总金额(元)',
@@ -129,6 +131,9 @@ class Login extends React.Component {
 			treeList: [],
 			dataListArray: null,
 		};
+		this.refInfo = {
+			input: '',
+		};
 	}
 
 	componentDidMount() {
@@ -137,14 +142,13 @@ class Login extends React.Component {
 		if (hash !== '#/login') {
 			this.getData();
 		}
+		// this.inputRef.props.onFocus();
 	}
 
-	// componentWillUnmount() {
-	// 	// 组件卸载时判断getData是否存在，存在则取消掉请求
-	// 	if (this.getData) {
-	// 		this.getData();
-	// 	}
-	// }
+	Focus = () => {
+		console.log(this.inputRef.props);
+		this.inputRef.props.onFocus();
+	}
 
 	// 获取消息列表
 	getData = () => {
@@ -209,7 +213,6 @@ class Login extends React.Component {
 
 	inputSearchBlur = () => {
 		console.log(111);
-
 		setTimeout(() => {
 			this.setState({
 				isOpen: false,
@@ -256,27 +259,29 @@ class Login extends React.Component {
 			treeList, selectList, isOpen, searchValue, dataListArray,
 		} = this.state;
 		// 使用 `ref` 的回调将 text 输入框的 DOM 节点存储到 React
-		// 实例上（比如 this.textInput）
+
 		return (
 
 			<Form>
-				<div className="yc-group-search">
+				<div className="yc-group-search" ref={e => this.refInfo.wrapper = e}>
 					<Input
+						ref={(input) => { this.inputRef = input; }}
 						className="yc-group-input"
-						autocomplete="off"
-						maxlength="16"
-						type="text"
+						placeholder="请输入机构名称"
+						autoComplete="off"
+						maxLength="16"
+						type="input"
 						onInput={e => this.inputValue(e)}
 						value={searchValue}
 						onFocus={e => this.inputSearchFoucs(e)}
 						onKeyUp={this.onKeyup}
-						// onBlur={e => this.inputSearchBlur(e)}
+						onBlur={e => this.inputSearchBlur(e)}
 					/>
 					<Button onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button>
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (
-						<ul className="yc-input-list">
+						<ul className="yc-input-list" onClick={() => this.Focus()} onScroll={() => this.Focus()}>
 							{selectList.map(val => (
 								<li className="yc-input-list-item" onClick={() => this.selectFilterValue(val)}>
 									{ val ? val.name : null}
@@ -286,13 +291,23 @@ class Login extends React.Component {
 						)
 					}
 				</div>
-				{/* <SelectSearch onChange={e => console.log(e)} clear defaultValue="1">
-					{selectList.map(val => (
-						<SelectSearch.Option className="yc-input-list-item" onClick={() => this.selectFilterValue(val)}>
-							{ val ? val.name : null}
-						</SelectSearch.Option>
-					))}
-				</SelectSearch> */}
+				{/* <div className="yc-group-search">
+					<SelectSearch
+						placeholder="请输入机构名称"
+						onChange={e => console.log(e)}
+						clear
+						defaultValue="1"
+						onFocus={e => this.inputSearchFoucs(e)}
+					>
+						{selectList.map(val => (
+							<SelectSearch.Option value={val.id + val.name} label={val.name} className="yc-input-list-item" onClick={console.log(2)}>
+								{ val ? val.name : null}
+							</SelectSearch.Option>
+						))}
+					</SelectSearch>
+					<Button onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button>
+				</div> */}
+
 				<Affix>
 					<table className="table table-striped treetable" style={{ marginBottom: 0 }}>
 						<tbody>

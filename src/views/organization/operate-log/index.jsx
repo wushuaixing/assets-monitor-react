@@ -36,10 +36,10 @@ export default class BasicTable extends React.Component {
 				},
 				{
 					title: '操作类型',
-					dataIndex: 'target',
-					key: 'target',
+					dataIndex: 'targetName',
+					key: 'targetName',
 					render: text => (
-						<p>{this.matchingType(text) || '--'}</p>
+						<p>{(text) || '--'}</p>
 					),
 				},
 			],

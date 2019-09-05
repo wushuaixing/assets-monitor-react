@@ -34,7 +34,9 @@ class BasicTable extends React.Component {
 	}
 
 	onSearch=() => {
-		const { getTableData, role, form } = this.props;
+		const {
+			getTableData, role, form, getSearchValue,
+		} = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		console.log(fields.obligorName.trim());
@@ -44,6 +46,7 @@ class BasicTable extends React.Component {
 			role,
 			groupId: role,
 		};
+		getSearchValue(params);
 		getTableData(params);
 	}
 

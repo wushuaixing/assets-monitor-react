@@ -177,8 +177,6 @@ class BusinessView extends React.Component {
 		});
 		businessList(params).then((res) => {
 			if (res && res.data) {
-				console.log(res.data);
-
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
@@ -208,8 +206,6 @@ class BusinessView extends React.Component {
 		});
 		businessList(params).then((res) => {
 			if (res && res.data) {
-				console.log(res.data);
-
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
@@ -260,7 +256,6 @@ class BusinessView extends React.Component {
 	}
 
 	onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
 		this.setState({
 			selectedRowKeys,
 			selectData: selectedRows,
@@ -298,13 +293,6 @@ class BusinessView extends React.Component {
 		});
 	}
 
-	// // 判断点击的键盘的keyCode是否为13，是就调用上面的搜索函数
-	// handleEnterKey = (e) => {
-	// 	console.log(1);
-	// 	if (e.nativeEvent.keyCode === 13) { // e.nativeEvent获取原生的事件对像
-	// 		this.getData();
-	// 	}
-	// }
 
 	// 批量删除
 	handledDeleteBatch = () => {
@@ -321,7 +309,6 @@ class BusinessView extends React.Component {
 			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
 			iconType: 'exclamation-circle-o',
 			onOk() {
-				console.log('确定');
 				const params = {
 					idList: selectedRowKeys,
 				};
@@ -377,8 +364,6 @@ class BusinessView extends React.Component {
 
 	// 打开担保人弹窗
 	openPeopleModal = (id) => {
-		console.log(id);
-
 		this.setState({
 			PeopleListModalVisible: true,
 			businessId: id,
@@ -495,7 +480,6 @@ class BusinessView extends React.Component {
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
 								onChange: (value, dateString) => {
-									console.log(value, dateString);
 									this.setState({
 										startTime: dateString,
 									});
@@ -514,7 +498,6 @@ class BusinessView extends React.Component {
 							// 	{ required: true, whitespace: true, message: '请填写密码' },
 							// ],
 								onChange: (value, dateString) => {
-									console.log(value, dateString);
 									this.setState({
 										endTime: dateString,
 									});
@@ -582,8 +565,6 @@ class BusinessView extends React.Component {
 							showQuickJumper
 							showTotal={total => `共 ${total} 条记录`}
 							onChange={(val) => {
-								console.log(val);
-
 								this.handleChangePage(val);
 							}}
 						/>

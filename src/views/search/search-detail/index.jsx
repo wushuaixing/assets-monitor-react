@@ -47,7 +47,7 @@ const source = rule => ([
 
 const SearchBase = (props) => {
 	const { rule } = props && props;
-	const displayArray = source(rule).filter(item => item.open === true); // 过滤权限
+	const displayArray = source(rule).filter(item => item.open === false); // 过滤权限
 
 	return (
 		<React.Fragment>

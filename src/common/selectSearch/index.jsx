@@ -12,13 +12,12 @@ import PropTypes from 'reactPropTypes';
 
 import Portal from './portal';
 import './index.scss';
-// import statusDown from '@/assets/com-img/status-down.jpg';
-// import statusUp from '@/assets/com-img/status-up.jpg';
+import statusDown from '../../assets/img/home/status-down.jpg';
+import statusUp from '../../assets/img/home/status-up.jpg';
 // import { findInArray } from '@/utils/arrayOperation';
 // 是否为IE
 const _msieBrowser = /msie/i.test(navigator.userAgent);
-const statusDown = '';
-const statusUp = '';
+
 // 通过class获取元素
 const getContainer = (className) => {
 	// console.log(className);

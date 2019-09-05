@@ -152,7 +152,6 @@ class BusinessView extends React.Component {
 
 	// 跳转详情
 	detail = (row) => {
-		console.log(row.id);
 		const w = window.open('about:blank');
 		w.location.href = `#/business/detail?id=${row.id}`;
 	}
@@ -200,7 +199,6 @@ class BusinessView extends React.Component {
 			content: `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本条业务相关的监控信息。`,
 			iconType: 'exclamation-circle-o',
 			onOk() {
-				console.log('确定', row.id);
 				const params = {
 					id: row.id,
 				};
