@@ -32,7 +32,7 @@ class Datas extends React.Component {
 
 	changeType= () => {
 		console.log(1);
-	}
+	};
 
 	generateUrlWithParams =(url, params) => {
 		const urlParams = [];
@@ -65,7 +65,7 @@ class Datas extends React.Component {
 		fildes.bg2 = bg[2] ? bg[2].name : undefined;
 		console.log(fildes);
 		navigate(this.generateUrlWithParams('/search/detail/lawsuits', fildes));
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -80,7 +80,7 @@ class Datas extends React.Component {
 			],
 		});
 		resetFields('');
-	}
+	};
 
 	handleYg = (e, id) => {
 		const { yg } = this.state;
@@ -94,7 +94,7 @@ class Datas extends React.Component {
 				yg,
 			});
 		}
-	}
+	};
 
 	addYg = () => {
 		const { yg } = this.state;
@@ -105,7 +105,7 @@ class Datas extends React.Component {
 		this.setState({
 			yg,
 		});
-	}
+	};
 
 	// 删除
 	deleteYg = (id) => {
@@ -119,7 +119,7 @@ class Datas extends React.Component {
 		this.setState({
 			yg,
 		});
-	}
+	};
 
 	handleBg = (e, id) => {
 		const { bg } = this.state;
@@ -144,7 +144,7 @@ class Datas extends React.Component {
 		this.setState({
 			bg,
 		});
-	}
+	};
 
 	// 删除
 	deleteBg = (id) => {
@@ -158,7 +158,7 @@ class Datas extends React.Component {
 		this.setState({
 			bg,
 		});
-	}
+	};
 
 	render() {
 		const {

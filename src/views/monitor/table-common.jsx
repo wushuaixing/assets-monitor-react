@@ -3,7 +3,6 @@ import { Modal } from 'antd';
 import { linkDom } from '@/utils';
 import Cookies from 'universal-cookie';
 import { urlEncode, clearEmpty } from '@/utils';
-// import { exportList1 } from '@/utils/api/monitor-info/monitor';
 
 const cookies = new Cookies();
 
@@ -17,7 +16,7 @@ export const aboutLink = (value, row) => {
 		if (type === 3) text = '文书';
 		Modal.info({
 			title: `本案号关联多个${text}链接，如下：`,
-			okText: '确定',
+			okText: '关闭',
 			iconType: 'null',
 			className: 'assets-an-info',
 			width: 600,
@@ -66,7 +65,8 @@ export const aboutLink = (value, row) => {
 // 案号 - 弹窗
 export const caseInfo = (content, row) => {
 	const { isDelete, ygList } = row;
-	if (isDelete || !ygList.length) return content || '--';
+	const ygListLength = window._.isArray(ygList) ? ygList.length : 0;
+	if (isDelete || !ygListLength) return content || '--';
 	const toClick =	() => Modal.info({
 		title: '当事人详情',
 		okText: '确定',

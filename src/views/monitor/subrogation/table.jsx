@@ -9,9 +9,8 @@ import { aboutLink, caseInfo } from '../table-common';
 
 // 获取表格配置
 const columns = (props) => {
-	const {
-		normal, onRefresh, sourceType, onSortChange, sortField, sortOrder,
-	} = props;
+	const { normal, onRefresh, sourceType } = props;
+	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
 		sortField,
 		sortOrder,
@@ -27,13 +26,13 @@ const columns = (props) => {
 			title: <TitleIcon title="原告" tooltip="我行债务人" />,
 			dataIndex: 'yg',
 			render: (text, row) => (
-				row.isDeleted ? text : linkDom(`/#/monitor/debtor/detail?id=${row.obligorId}`, text)
+				row.isDeleted ? text : linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text)
 			),
 		}, {
 			title: <TitleIcon title="被告" tooltip="蓝色可点击为我行债务人" />,
 			dataIndex: 'bg',
 			render: (text, row) => ((!row.isDeleted && row.extObligorId)
-				? linkDom(`/#/monitor/debtor/detail?id=${row.extObligorId}`, text) : text),
+				? linkDom(`/#/business/debtor/detail?id=${row.extObligorId}`, text) : text),
 		}, {
 			title: '法院',
 			dataIndex: 'court',
@@ -56,7 +55,7 @@ const columns = (props) => {
 			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			dataIndex: 'updateTime',
 			width: 93,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {
 			title: '操作',
 			unNormal: true,
@@ -79,7 +78,7 @@ export default class TableView extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { manage } = this.props;
-		if ((manage === false && nextProps.manage) || !nextProps.selectRow.length) {
+		if ((manage === false && nextProps.manage) || !(nextProps.selectRow || []).length) {
 			this.setState({ selectedRowKeys: [] });
 		}
 	}
@@ -99,7 +98,6 @@ export default class TableView extends React.Component {
 
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {
-		// console.log(selectedRowKeys, record);
 		const _selectedRowKeys = record.map(item => item.id);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });

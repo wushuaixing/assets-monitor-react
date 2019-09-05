@@ -34,7 +34,7 @@ const columns = (props) => {
 			render: AuctionInfo,
 		}, {
 			title: '操作',
-			width: 60,
+			width: 80,
 			className: 'tAlignCenter_important yc-assets-auction-action',
 			render: (text, row, index) => (
 				<Attentions
@@ -84,7 +84,7 @@ export default class TableView extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { manage } = this.props;
-		if (manage === false && nextProps.manage) {
+		if ((manage === false && nextProps.manage) || !(nextProps.selectRow || []).length) {
 			this.setState({ selectedRowKeys: [] });
 		}
 	}

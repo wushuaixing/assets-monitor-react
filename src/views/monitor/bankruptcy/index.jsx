@@ -2,15 +2,13 @@ import React from 'react';
 import Query from './query';
 import Table from './table';
 import { Modal, message } from 'antd';
-import Cookies from 'universal-cookie';
 import { Button, Spin } from '@/common';
 import {
 	infoList, readStatus, exportList, follow,
 } from '@/utils/api/monitor-info/bankruptcy';
-import { urlEncode } from '@/utils';
 import './style.scss';
+import { fileExport } from '@/views/monitor/table-common';
 
-const cookies = new Cookies();
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -59,27 +57,9 @@ export default class Subrogation extends React.Component {
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
 		if (type === 'all') {
-			const _condition = Object.assign(this.condition, {
-				token: cookies.get('token'),
-			});
-			window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
-			// console.log(urlEncode(_condition));
+			fileExport(exportList, this.condition);
 		} else if (this.selectRow.length > 0) {
-			const idList = this.selectRow;
-			const _condition = Object.assign(this.condition, {
-				token: cookies.get('token'),
-				idList,
-			});
-			Modal.confirm({
-				title: '确认导出选中的所有信息吗？',
-				content: '点击确定，将为您导出所有选中的信息',
-				iconType: 'exclamation-circle',
-				onOk() {
-					window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
-					// message.success('操作成功！');
-				},
-				onCancel() {},
-			});
+			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
 		} else {
 			message.warning('未选中业务');
 		}
@@ -120,11 +100,6 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
-	// 批量管理☑️结果
-	onSelect=(val) => {
-		console.log(val);
-		this.selectRow = val;
-	};
 
 	// 表格发生变化
 	onRefresh=(data, type) => {
@@ -137,30 +112,40 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
+		this.onQueryChange(this.condition, '', '', 1);
+	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
-		this.onQueryChange('', '', '', val);
+		const { manage } = this.state;
+		this.selectRow = [];
+		this.onQueryChange('', '', '', val, manage);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _sourceType, _isRead, page) => {
+	onQuery =(con) => {
+		this.toClearSortStatus();
+		this.onQueryChange(con, '', '', 1);
+	};
+
+	// 查询条件变化
+	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
-		// console.log(val, _sourceType, _isRead);
 		const __isRead = _isRead || isRead;
-		this.condition = Object.assign(con || this.condition, {
+		this.condition = Object.assign({}, con || this.condition, {
 			sourceType: _sourceType || sourceType,
 			page: page || current,
 		});
-		if (__isRead === 'all') {
-			delete this.condition.isRead;
-		}
-		if (__isRead === 'else') {
-			this.condition.isRead = 0;
-		}
+		if (__isRead === 'all') delete this.condition.isRead;
+		if (__isRead === 'else') this.condition.isRead = 0;
 		delete this.condition.sourceType;
 		this.setState({
 			loading: true,
+			manage: _manage || false,
 		});
 		infoList(this.condition).then((res) => {
 			if (res.code === 200) {
@@ -190,12 +175,15 @@ export default class Subrogation extends React.Component {
 			current,
 			total,
 			onRefresh: this.onRefresh,
-			onSelect: this.onSelect,
+			onSelect: val => this.selectRow = val,
 			onPageChange: this.onPageChange,
+			onSortChange: this.onSortChange,
+			sortField: this.condition.sortColumn,
+			sortOrder: this.condition.sortOrder,
 		};
 		return (
 			<div className="yc-assets-auction">
-				<Query onQueryChange={this.onQueryChange} />
+				<Query onQueryChange={this.onQuery} />
 				{
 					!manage ? (
 						<div className="assets-auction-action">
@@ -205,8 +193,8 @@ export default class Subrogation extends React.Component {
 								title="全部"
 							/>
 							<Button
-								active={isRead === 'unread'}
-								onClick={() => this.handleReadChange('unread')}
+								active={isRead === 'else'}
+								onClick={() => this.handleReadChange('else')}
 								title="只显示未读"
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>

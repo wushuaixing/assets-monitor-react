@@ -1,11 +1,14 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
+import { ReadStatus, Attentions, SortVessel } from '@/common/table';
+import { linkDom } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';
 // { attention, readStatus }
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh } = props;
+	const { onSortChange, sortField, sortOrder } = props;
+	const sort = { sortField, sortOrder };
 
 	// 含操作等...
 	const defaultColumns = [
@@ -18,28 +21,32 @@ const columns = (props) => {
 			title: '纳税人',
 			dataIndex: 'obName',
 			width: 226,
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '统一社会信用代码',
 			dataIndex: 'obNumber',
 			width: 190,
+			render: text => text || '--',
 		}, {
 			title: '案件性质',
 			dataIndex: 'property',
 			width: 403,
+			render: text => text || '--',
 		}, {
-			title: '更新日期',
+			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			dataIndex: 'updateTime',
-			width: 115,
+			width: 90,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
 			title: '源链接',
 			dataIndex: 'obName',
 			className: 'tAlignCenter_important',
 			width: 75,
-			render: (text, record) => (record.url ? <a href={record.url} className="yc-list-link" target="_blank" rel="noopener noreferrer"> </a> : <span>--</span>),
+			render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '--'),
 		}, {
 			title: '操作',
 			width: 60,
+			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
 				<Attentions
@@ -51,31 +58,8 @@ const columns = (props) => {
 				/>
 			),
 		}];
-	// 单纯展示
-	const normalColumns = [
-		{
-			title: '立案日期',
-			dataIndex: 'larq',
-		}, {
-			title: '原告',
-			dataIndex: 'yg',
-		}, {
-			title: '被告',
-			dataIndex: 'bg',
-		}, {
-			title: '法院',
-			dataIndex: 'court',
-		}, {
-			title: '案号',
-			dataIndex: 'ah',
-		}, {
-			title: '关联信息',
-			dataIndex: 'associateInfo',
-		}, {
-			title: '更新日期',
-			dataIndex: 'updateTime',
-		}];
-	return normal ? normalColumns : defaultColumns;
+
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
 export default class TableView extends React.Component {

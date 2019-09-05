@@ -1,18 +1,24 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
+import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
 import { floatFormat } from '@/utils/format';
 
 // 获取表格配置
 const columns = (props) => {
-	const { normal, onRefresh } = props;
+	const {
+		normal, onRefresh, onSortChange, sortField, sortOrder,
+	} = props;
+	const sort = {
+		sortField,
+		sortOrder,
+	};
 
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 11 }}>起始日期</span>,
+			title: <SortVessel field="startTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>起始日期</SortVessel>,
 			dataIndex: 'startTime',
 			width: 110,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
@@ -29,13 +35,13 @@ const columns = (props) => {
 			className: 'tAlignRight_important',
 			render: value => <span>{value ? `${floatFormat(value)}` : '--'}</span>,
 		}, {
-			title: '期满日期',
+			title: <SortVessel field="endTime" onClick={onSortChange} {...sort}>期满日期</SortVessel>,
 			dataIndex: 'endTime',
 			className: 'tAlignCenter_important',
 			width: 120,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
-			title: '更新日期',
+			title: <SortVessel field="updateTime" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			dataIndex: 'updateTime',
 			className: 'tAlignCenter_important',
 			width: 120,
@@ -51,6 +57,7 @@ const columns = (props) => {
 					onClick={onRefresh}
 					api={row.isAttention ? api.unFollowSinglePub : api.followSinglePub}
 					index={index}
+					single
 				/>
 			),
 		}];
@@ -91,7 +98,7 @@ export default class TableView extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { manage } = this.props;
-		if (manage === false && nextProps.manage) {
+		if ((manage === false && nextProps.manage) || !(nextProps.selectRow || []).length) {
 			this.setState({ selectedRowKeys: [] });
 		}
 	}

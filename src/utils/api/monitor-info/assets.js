@@ -23,7 +23,7 @@ export const unFollowSingle = params => service.post(`${baseUrl}/yc/monitor/auct
 	.then(res => res.data);
 
 // 关注列表
-export const attentionList = params => service.get(`${baseUrl}/yc/monitor/auction/list`, { params })
+export const attentionList = params => service.get(`${baseUrl}/yc/monitor/auction/attentionList`, { params })
 	.then(res => res.data);
 // 导出
 export const exportList = `${baseUrl}/yc/monitor/auction/exportExcel`;

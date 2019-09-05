@@ -1,7 +1,6 @@
 import React from 'react';
 import { message, Modal } from 'antd';
-import Cookies from 'universal-cookie';
-import { urlEncode } from '@/utils';
+import { changeURLArg, clearEmpty } from '@/utils';
 import { Tabs, Button, Spin } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
 import './style.scss';
@@ -12,8 +11,8 @@ import QueryPunish from './query/punish';
 import TableBid from './table/bid';
 import TableIllegal from './table/illegal';
 import TablePunish from './table/punish';
+import { fileExport } from '@/views/monitor/table-common';
 
-const cookies = new Cookies();
 // 获取api具体
 const toGetApi = (type, base) => {
 	if (type === 1) return `${base}Bid`;
@@ -69,15 +68,22 @@ export default class Lawsuits extends React.Component {
 		this.selectRow = [];
 	}
 
-	componentDidMount() {
-		this.onQueryChange({});
-		this.toInfoCount();
+	componentWillMount() {
+		const { tabConfig } = this.state;
+		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
+		this.setState({ sourceType });
+		this.onQueryChange({}, sourceType);
 	}
 
+	// 清除排序状态
+	toClearSortStatus=() => {
+		this.condition.field = '';
+		this.condition.order = '';
+	};
 
 	// 获取统计信息
-	toInfoCount=(isRead) => {
-		Api.infoCount({ isRead }).then((res) => {
+	toInfoCount=() => {
+		Api.infoCount({ isRead: 0 }).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
@@ -107,7 +113,6 @@ export default class Lawsuits extends React.Component {
 	// 切换列表类型
 	handleReadChange=(val) => {
 		this.setState({ isRead: val });
-		// this.toInfoCount(val === 'all' ? '' : 0);
 		this.onQueryChange(this.condition, '', val);
 	};
 
@@ -133,29 +138,11 @@ export default class Lawsuits extends React.Component {
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
 		const { sourceType } = this.state;
-		const exportList = toGetApi(sourceType, 'exportList');
+		const exportList = Api[toGetApi(sourceType, 'exportList')];
 		if (type === 'all') {
-			const _condition = Object.assign(this.condition, {
-				token: cookies.get('token'),
-			});
-			window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
-			// console.log(urlEncode(_condition));
+			fileExport(exportList, this.condition);
 		} else if (this.selectRow.length > 0) {
-			const idList = this.selectRow;
-			const _condition = Object.assign(this.condition, {
-				token: cookies.get('token'),
-				idList,
-			});
-			Modal.confirm({
-				title: '确认导出选中的所有信息吗？',
-				content: '点击确定，将为您导出所有选中的信息',
-				iconType: 'exclamation-circle',
-				onOk() {
-					window.open(`${exportList}?${urlEncode(_condition)}`, '_blank');
-					// message.success('操作成功！');
-				},
-				onCancel() {},
-			});
+			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
 		} else {
 			message.warning('未选中业务');
 		}
@@ -196,12 +183,6 @@ export default class Lawsuits extends React.Component {
 		}
 	};
 
-	// 批量管理☑️结果
-	onSelect=(val) => {
-		// console.log(val);
-		this.selectRow = val;
-	};
-
 	// 表格发生变化
 	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
@@ -222,36 +203,46 @@ export default class Lawsuits extends React.Component {
 			current: 1,
 			total: '',
 		});
+		this.toClearSortStatus();
 		this.onQueryChange(null, val, isRead);
-		console.log('onSourceType:', val);
+		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
-		this.onQueryChange('', '', '', val);
+		const { manage } = this.state;
+		this.selectRow = [];
+		this.onQueryChange('', '', '', val, manage);
+	};
+
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.field = field;
+		this.condition.order = order;
+		this.onQueryChange(this.condition, '', '', 1);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _sourceType, _isRead, page) => {
+	onQuery =(con) => {
+		this.toClearSortStatus();
+		this.onQueryChange(con, '', '', 1);
+	};
+
+	// 查询条件变化
+	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
-		// console.log(val, _sourceType, _isRead);
-		const __isRead = _isRead || isRead;
-		this.condition = Object.assign(con || this.condition, {
-			sourceType: _sourceType || sourceType,
+		const { loading } = this.state;
+		this.condition = Object.assign({}, con || this.condition, {
 			page: page || current,
-			type: 1,
 			num: 10,
 		});
-		if (__isRead === 'all') {
-			delete this.condition.isRead;
-		}
-		if (__isRead === 'unread') {
-			this.condition.isRead = 0;
-		}
-		this.setState({
-			loading: true,
-		});
-		Api[toGetApi(_sourceType || sourceType, 'infoList')](this.condition).then((res) => {
+		const __isRead = _isRead || isRead;
+		if (__isRead === 'all') { delete this.condition.isRead; }
+		if (__isRead === 'unread') { this.condition.isRead = 0; }
+
+		if (!loading) this.setState({ loading: true, manage: _manage || false });
+		this.toInfoCount();
+		Api[toGetApi(_sourceType || sourceType, 'infoList')](clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -278,15 +269,18 @@ export default class Lawsuits extends React.Component {
 			dataSource,
 			current,
 			total,
+			onSelect: val => this.selectRow = val,
 			onRefresh: this.onRefresh,
-			onSelect: this.onSelect,
 			onPageChange: this.onPageChange,
+			onSortChange: this.onSortChange,
+			sortField: this.condition.field,
+			sortOrder: this.condition.order,
 		};
 		return (
 			<div className="yc-assets-auction">
-				{sourceType === 1 ? <QueryBid onQueryChange={this.onQueryChange} /> : null}
-				{sourceType === 2 ? <QueryIllegal onQueryChange={this.onQueryChange} /> : null}
-				{sourceType === 3 ? <QueryPunish onQueryChange={this.onQueryChange} /> : null}
+				{sourceType === 1 ? <QueryBid onQueryChange={this.onQuery} /> : null}
+				{sourceType === 2 ? <QueryIllegal onQueryChange={this.onQuery} /> : null}
+				{sourceType === 3 ? <QueryPunish onQueryChange={this.onQuery} /> : null}
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}

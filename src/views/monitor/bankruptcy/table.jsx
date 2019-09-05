@@ -1,27 +1,34 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
+import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
+import { linkDom } from '@/utils';
 
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh } = props;
-
+	const { onSortChange, sortField, sortOrder } = props;
+	const sort = {
+		sortField,
+		sortOrder,
+	};
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
+			title: <SortVessel field="publishDate" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>,
 			dataIndex: 'publishDate',
 			width: 115,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 		}, {
 			title: '企业',
 			dataIndex: 'obligorName',
-			width: 195,
+			width: 200,
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '起诉法院',
 			dataIndex: 'court',
 			width: 180,
+			render: text => text || '--',
 		}, {
 			title: '标题',
 			dataIndex: 'title',
@@ -31,8 +38,8 @@ const columns = (props) => {
 				return url ? <a href={url} className="click-link">{text || '--'}</a> : <span>{text || '--'}</span>;
 			},
 		}, {
-			title: '更新日期',
-			width: 115,
+			title: <SortVessel field="updateTime" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
+			width: 90,
 			dataIndex: 'updateTime',
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
@@ -87,7 +94,7 @@ export default class TableView extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { manage } = this.props;
-		if (manage === false && nextProps.manage) {
+		if ((manage === false && nextProps.manage) || !(nextProps.selectRow || []).length) {
 			this.setState({ selectedRowKeys: [] });
 		}
 	}

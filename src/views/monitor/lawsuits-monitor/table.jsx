@@ -30,7 +30,7 @@ const columns = (props) => {
 		}, {
 			title: <TitleIcon title="被告" tooltip="我行债务人" />,
 			dataIndex: 'bg',
-			render: (text, row) => (row.isDeleted ? text : linkDom(`/#/monitor/debtor/detail?id=${row.obligorId}`, text)),
+			render: (text, row) => (row.isDeleted ? text : linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text)),
 		}, {
 			title: '法院',
 			dataIndex: 'court',
@@ -76,7 +76,7 @@ export default class TableView extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { manage } = this.props;
-		if ((manage === false && nextProps.manage) || !nextProps.selectRow.length) {
+		if ((manage === false && nextProps.manage) || !(nextProps.selectRow || []).length) {
 			this.setState({ selectedRowKeys: [] });
 		}
 	}

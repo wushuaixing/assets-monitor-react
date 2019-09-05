@@ -21,7 +21,6 @@ import './style.scss';
 const verificationCodeImg = `${baseUrl}/yc/open/verificationCode`;
 
 const cookie = new Cookies();
-const FormItem = Form.Item;
 const createForm = Form.create;
 
 class Login extends React.Component {
@@ -202,7 +201,7 @@ class Login extends React.Component {
 					<Spin spinning={loading}>
 						<li className="yc-card-title">用户登录</li>
 						<div className="yc-form-wapper">
-							<FormItem>
+							<Form.Item>
 								<Input
 									className="yc-login-input"
 									placeholder="请输入11位数字"
@@ -224,10 +223,10 @@ class Login extends React.Component {
 								/>
 								<Icon className="yc-login-clearIcon" type="cross-circle" clearInputValue={() => this.clearInputValue('first')} />
 								<span className="yc-form-userName yc-form-icon" />
-							</FormItem>
+							</Form.Item>
 						</div>
 						<div className="yc-form-wapper">
-							<FormItem>
+							<Form.Item>
 								<Input
 									className="yc-login-input"
 									type="password"
@@ -246,12 +245,12 @@ class Login extends React.Component {
 									})}
 								/>
 								<span className="yc-form-passWord yc-form-icon" />
-							</FormItem>
+							</Form.Item>
 						</div>
 						{
 							errorTime >= 2 && errorTime < 10 && (
 							<div className="yc-form-wapper">
-								<FormItem>
+								<Form.Item>
 									<Input
 										className="yc-login-input"
 										placeholder="请输入验证码"
@@ -266,7 +265,7 @@ class Login extends React.Component {
 									/>
 									<span className="yc-form-resetImg yc-form-icon" />
 									<img onClick={this.verificationCode} className="yc-verificationCode" src={codeImg} alt="" referrerPolicy="no-referrer" />
-								</FormItem>
+								</Form.Item>
 							</div>
 							)
 									}

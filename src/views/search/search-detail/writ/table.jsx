@@ -2,6 +2,7 @@ import React from 'react';
 import { Tooltip, Table, Form } from 'antd';
 import Link from '@/assets/img/icon/icon_link_normal.png';
 
+
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);

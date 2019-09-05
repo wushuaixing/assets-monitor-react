@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-	Tooltip, Table, Form,
-} from 'antd';
+import { Table, Form } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
 
 

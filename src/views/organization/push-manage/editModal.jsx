@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Modal, Input, Select, message, Form, Button,
+	Modal, Input, Select, message, Form,
 } from 'antd';
 import {
 	saveList, // 保存

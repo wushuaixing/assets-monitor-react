@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import Cookies from 'universal-cookie';
 import { Tabs, Button, Spin } from '@/common';
 import QueryView from './queryView';
 import TableView from './table';
@@ -8,9 +7,8 @@ import TableView from './table';
 import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
-import { clearEmpty, urlEncode } from '@/utils';
-
-const cookies = new Cookies();
+import { clearEmpty } from '@/utils';
+import { fileExport } from '@/views/monitor/table-common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -125,26 +123,9 @@ export default class Subrogation extends React.Component {
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
 		if (type === 'all') {
-			const _condition = Object.assign({}, this.condition, {
-				token: cookies.get('token'),
-			});
-			window.open(`${exportList}?${urlEncode(clearEmpty(_condition))}`, '_self');
-			// console.log(urlEncode(_condition));
+			fileExport(exportList, this.condition);
 		} else if (this.selectRow.length > 0) {
-			const idList = this.selectRow;
-			const _condition = Object.assign({}, this.condition, {
-				token: cookies.get('token'),
-				idList,
-			});
-			Modal.confirm({
-				title: '确认导出选中的所有信息吗？',
-				content: '点击确定，将为您导出所有选中的信息',
-				iconType: 'exclamation-circle',
-				onOk() {
-					window.open(`${exportList}?${urlEncode(clearEmpty(_condition))}`, '_self');
-				},
-				onCancel() {},
-			});
+			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
 		} else {
 			message.warning('未选中业务');
 		}

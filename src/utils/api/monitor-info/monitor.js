@@ -2,6 +2,7 @@ import service from '@/utils/service';
 import { baseUrl } from '@/utils/api/index';
 
 /*  监控信息 => 代位权/涉诉监控 */
+
 // 关注/取消关注
 export const attention = (params, star) => service.post(`${baseUrl}/yc/monitor/early/warning/attention?isAttention=${star}`, params)
 	.then(res => res.data);
@@ -27,4 +28,8 @@ export const caseDetail = params => service.get(`${baseUrl}/yc/monitor/early/war
 
 // 原告被告列表
 export const infoObligorList = params => service.get(`${baseUrl}/yc/monitor/early/warning/infoObligorList`, { params })
+	.then(res => res.data);
+
+// 关注列表
+export const attentionList = params => service.get(`${baseUrl}/yc/monitor/focus/attentionList`, { params })
 	.then(res => res.data);

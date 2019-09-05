@@ -1,39 +1,39 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
+import { ReadStatus, Attentions, SortVessel } from '@/common/table';
+import { linkDom, timeStandard } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';
-// { attention, readStatus }
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh } = props;
+	const { onSortChange, sortField, sortOrder } = props;
+	const sort = { sortField, sortOrder };
 
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
+			title: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>,
 			dataIndex: 'publishTime',
 			width: 113,
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'obName',
-			width: 122,
+			width: 160,
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '标题',
 			dataIndex: 'title',
-			width: 710,
-			render: (text, record) => {
-				const { url } = record;
-				return url ? <a href={url} className="click-link" target="_blank" rel="noopener noreferrer">{text || '--'}</a> : <span>{text || '--'}</span>;
-			},
+			render: (text, record) => (record.url ? linkDom(record.url, text || '--') : <span>{text || '--'}</span>),
 		}, {
-			title: '更新日期',
+			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			dataIndex: 'updateTime',
-			width: 115,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			width: 90,
+			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {
 			title: '操作',
 			width: 60,
+			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
 				<Attentions
@@ -45,31 +45,8 @@ const columns = (props) => {
 				/>
 			),
 		}];
-	// 单纯展示
-	const normalColumns = [
-		{
-			title: '立案日期',
-			dataIndex: 'larq',
-		}, {
-			title: '原告',
-			dataIndex: 'yg',
-		}, {
-			title: '被告',
-			dataIndex: 'bg',
-		}, {
-			title: '法院',
-			dataIndex: 'court',
-		}, {
-			title: '案号',
-			dataIndex: 'ah',
-		}, {
-			title: '关联信息',
-			dataIndex: 'associateInfo',
-		}, {
-			title: '更新日期',
-			dataIndex: 'updateTime',
-		}];
-	return normal ? normalColumns : defaultColumns;
+
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
 export default class TableView extends React.Component {
@@ -127,7 +104,7 @@ export default class TableView extends React.Component {
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold')}
+					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
 				<div className="yc-table-pagination">

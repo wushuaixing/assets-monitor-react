@@ -21,7 +21,7 @@ const AssetsInfo = (text, rowContent, noMatching = false) => {
 						obligorName ? (
 							<Tooltip placement="top" title={obligorName}>
 								<span className="list list-content text-ellipsis click-link">
-									{linkDom(`/#/monitor/debtor/detail?id=${obligorId}`, obligorName)}
+									{linkDom(`/#/business/debtor/detail?id=${obligorId}`, obligorName)}
 								</span>
 							</Tooltip>
 						) : <span className="list list-content text-ellipsis">-- </span>
