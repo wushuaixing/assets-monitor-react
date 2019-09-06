@@ -192,7 +192,11 @@ class Login extends React.Component {
 
 	inputValue= (e) => {
 		const { treeList } = this.state;
-		const { value } = e.target;
+		// const { value } = e.target;
+		const inputValue = e.target.value;
+		const value = inputValue.trim();
+		console.log(value);
+
 		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
 		this.setState({
 			selectList: this.filterByName(arr, value),
@@ -265,7 +269,6 @@ class Login extends React.Component {
 		const {
 			treeList, selectList, isOpen, searchValue,
 		} = this.state;
-		// 使用 `ref` 的回调将 text 输入框的 DOM 节点存储到 React
 
 		return (
 
