@@ -29,3 +29,9 @@ export const exportCurrent = async (params) => {
 	const response = await service.get(`${baseUrl}/yc/judgement/export`, { params });
 	return response.request;
 };
+
+// 拍卖信息搜索 [zhousai]
+export const fullAssetSearch = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/doc/search/fullAssetSearch`, { params });
+	return response.data;
+};

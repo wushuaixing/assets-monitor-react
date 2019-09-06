@@ -1,9 +1,14 @@
 import React from 'react';
 import './style.scss';
-import { DatePicker, Select } from 'antd';
+import {
+	DatePicker, Select, Button, Form,
+} from 'antd';
 import Input from '@/common/input';
 
-class Datas extends React.PureComponent {
+const createForm = Form.create;
+const _style1 = { marginRight: 27 };
+const _style2 = { width: 120 };
+class AUCTION extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -15,19 +20,19 @@ class Datas extends React.PureComponent {
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
-					<div className="item">
+					<div style={_style1} className="item">
 						<Input title="债务人" placeholder="姓名/公司名称" />
 					</div>
-					<div className="item">
+					<div style={_style1} className="item">
 						<Input title="证件号" placeholder="身份证号/统一社会信用代码" />
 					</div>
 					<div className="item">
 						<Input title="产权证" placeholder="房产证/土地证号" />
 					</div>
-					<div className="item">
+					<div style={_style1} className="item">
 						<Input title="处置机关" placeholder="处置法院/单位" />
 					</div>
-					<div className="item">
+					<div style={_style1} className="item">
 						<Input title="评估价" placeholder="身份证号/统一社会信用代码" />
 					</div>
 					<div className="item">
@@ -36,9 +41,9 @@ class Datas extends React.PureComponent {
 				</div>
 				<div className="other">
 					<span>开拍时间：</span>
-					<DatePicker placeholder="开始日期" size="large" allowClear />
+					<DatePicker style={_style2} placeholder="开始日期" size="large" allowClear />
 					<span style={{ margin: '0 2px ' }}>至</span>
-					<DatePicker placeholder="结束日期" size="large" allowClear />
+					<DatePicker style={_style2} placeholder="结束日期" size="large" allowClear />
 				</div>
 				<div className="other">
 					<span>拍卖状态：</span>
@@ -51,8 +56,21 @@ class Datas extends React.PureComponent {
 						<Select.Option value="6">正在进行</Select.Option>
 					</Select>
 				</div>
+				<div className="btn">
+					<Button
+						type="primary"
+						size="large"
+						className="yc-high-search"
+						onClick={this.search}
+					>
+						搜索
+					</Button>
+					<Button onClick={this.queryReset} type="ghost" size="large">
+						重置搜索条件
+					</Button>
+				</div>
 			</div>
 		);
 	}
 }
-export default Datas;
+export default createForm()(AUCTION);

@@ -386,7 +386,7 @@ class WRIT extends React.Component {
 				</div>
 				<div className="yc-writ-tablebtn">
 					{dataList.length > 0 && <Button style={{ marginRight: 5 }} onClick={this.handleExportCurrent}>本页导出</Button>}
-					<Button disabled={dataList.length === 0} onClick={this.handleExportExcelAll}>全部导出</Button>
+					<Button disabled={dataList.length === 0} onClick={dataList.length > 0 && this.handleExportExcelAll}>全部导出</Button>
 				</div>
 				<Spin visible={loading}>
 					<WritTable

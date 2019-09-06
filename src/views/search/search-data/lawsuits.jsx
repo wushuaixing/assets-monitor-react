@@ -1,9 +1,10 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, Tooltip,
+	DatePicker, Button, Form, Tooltip, message,
 } from 'antd';
 import { navigate } from '@reach/router';
 import Input from '@/common/input';
+import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
 import './style.scss';
@@ -34,19 +35,6 @@ class LAWSUITS extends React.Component {
 		console.log(1);
 	}
 
-	generateUrlWithParams = (url, params) => {
-		const urlParams = [];
-		let urlList = url;
-		// eslint-disable-next-line no-restricted-syntax
-		for (const key in params) {
-			if (params[key]) {
-				urlParams.push(`${key}=${params[key]}`);
-			}
-		}
-		urlList += `?${urlParams.join('&')}`;
-		return urlList;
-	}
-
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
@@ -64,7 +52,13 @@ class LAWSUITS extends React.Component {
 		fildes.bg1 = bg[1] ? bg[1].name : undefined;
 		fildes.bg2 = bg[2] ? bg[2].name : undefined;
 		console.log(fildes);
-		navigate(this.generateUrlWithParams('/search/detail/lawsuits', fildes));
+		// 判断是否为空对象,非空请求接口
+		if (!objectKeyIsEmpty(fildes)) {
+			// 将值传到URL
+			navigate(generateUrlWithParams('/search/detail/lawsuits', fildes));
+		} else {
+			message.error('请至少输入一个搜索条件');
+		}
 	}
 
 	// 重置输入框
@@ -303,11 +297,7 @@ class LAWSUITS extends React.Component {
 					<Button
 						type="primary"
 						size="large"
-						style={{
-							'margin-right': 32,
-							'background-color': '#FB5A5C',
-							'border-color': '#FB5A5C',
-						}}
+						className="yc-high-search"
 						onClick={this.search}
 					>
 						搜索

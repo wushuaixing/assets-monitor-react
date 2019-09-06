@@ -30,7 +30,6 @@ class Login extends React.Component {
 			loading: false,
 			rememberPassword: cookie.get('rememberPassword'),
 			userName: '',
-			mustVerifyImageCode: false,
 			codeImg: verificationCodeImg,
 			passwordModalVisible: false,
 			errorTime: '',
@@ -63,9 +62,6 @@ class Login extends React.Component {
 		} = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
-		console.log(fields);
-		// const validRule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;// 手机号码校验规则
-		// const emialRule = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/; // 邮箱格式
 		const beforeLogin = {
 			username: fields.username,
 		};
@@ -85,7 +81,6 @@ class Login extends React.Component {
 				if (_res.code === 200) {
 					console.log(_res);
 					this.setState({
-						mustVerifyImageCode: _res.data.mustVerifyImageCode,
 						errorTime: _res.data && _res.data.errorTime,
 					});
 
@@ -187,7 +182,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, rememberPassword, mustVerifyImageCode, codeImg, passwordModalVisible, errorTime,
+			loading, userName, rememberPassword, codeImg, passwordModalVisible, errorTime,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType,

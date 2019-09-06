@@ -51,6 +51,10 @@ class DetailModal extends React.Component {
 		};
 		const validRule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/; // 手机号码校验规则
 		const emialRule = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/; // 邮箱格式
+		if (!fildes.mobile && !fildes.email) {
+			message.warning('手机号和邮箱至少需要填一个');
+			return;
+		}
 		if (!fildes.name) {
 			message.warning('请输入姓名');
 			return;

@@ -98,7 +98,6 @@ const dataSource = (rule) => {
 					url: '/business/debtor',
 					status: toStatus(rule.menu_ywgl, 'ywglzwr'),
 				},
-			// { id: 33, name: '资产信息', url: '/business/asset' },
 			],
 		},
 		// {
@@ -208,9 +207,12 @@ const defaultRouter = (source) => {
 				item.children.forEach((itemChild) => {
 					if (new RegExp(itemChild.url).test(hash))res.c = itemChild.id;
 				});
+			} else {
+				res.p = item.id;
 			}
 		}
 	});
+	if (new RegExp('/message').test(hash))res.p = 101;
 	return res;
 };
 
@@ -243,9 +245,18 @@ export default class Headers extends React.Component {
 		});
 	}
 
+	componentWillReceiveProps() {
+		const { active } = this.state;
+		const _active = defaultRouter(this.source);
+		if (active !== _active) {
+			this.setState({ active: _active });
+		}
+	}
+
 	componentDidUpdate() {
 		window.scrollTo(0, 0);
 	}
+
 
 	componentWillUnmount() {
 		window.scrollTo(0, 0);
@@ -301,9 +312,9 @@ export default class Headers extends React.Component {
 							data && data.expire && data.expire > 0 && (
 							<div style={{ float: 'left' }}>
 								<div className="yc-leftTime">
-								帐号到期还剩：
+									帐号到期还剩：
 									{data.expire}
-								天
+									天
 								</div>
 								<div className="else-child else-line" />
 
@@ -316,6 +327,7 @@ export default class Headers extends React.Component {
 							onClick={(event) => {
 								this.setState({ active: { p: 101, c: '' } });
 								navigate('/message');
+								window.location.reload();
 								event.stopPropagation();
 							}}
 						>

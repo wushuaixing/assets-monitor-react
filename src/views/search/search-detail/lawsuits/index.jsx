@@ -131,13 +131,6 @@ class LAWSUITS extends React.Component {
 		resetFields('');
 	}
 
-	// sourceType变化
-	// onSourceType=(val) => {
-	// 	this.setState({
-	// 		sourceType: val,
-	// 	});
-	// };
-
 	handleYg = (e, id) => {
 		const { yg } = this.state;
 		if (yg && yg.length > 0) {

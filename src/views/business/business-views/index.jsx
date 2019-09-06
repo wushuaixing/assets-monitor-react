@@ -304,6 +304,8 @@ class BusinessView extends React.Component {
 			message.warning('未选中业务');
 			return;
 		}
+		console.log(page);
+
 		confirm({
 			title: '确认删除选中业务吗?',
 			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
@@ -417,10 +419,7 @@ class BusinessView extends React.Component {
 							size="large"
 							placeholder="业务编号"
 							{...getFieldProps('caseNumber', {
-							// initialValue: true,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
+
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -432,10 +431,7 @@ class BusinessView extends React.Component {
 							size="large"
 							placeholder="姓名/公司名称"
 							{...getFieldProps('obligorName', {
-								// initialValue: true,
-								// rules: [
-								// 	{ required: true, whitespace: true, message: '请填写密码' },
-								// ],
+
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -447,10 +443,6 @@ class BusinessView extends React.Component {
 							size="large"
 							placeholder="身份证号/统一社会信用代码"
 							{...getFieldProps('obligorNumber', {
-								// initialValue: true,
-								// rules: [
-								// 	{ required: true, whitespace: true, message: '请填写密码' },
-								// ],
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -462,10 +454,6 @@ class BusinessView extends React.Component {
 							size="large"
 							placeholder="机构名称"
 							{...getFieldProps('orgName', {
-								// initialValue: true,
-								// rules: [
-								// 	{ required: true, whitespace: true, message: '请填写密码' },
-								// ],
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -475,10 +463,6 @@ class BusinessView extends React.Component {
 						<span className="yc-query-item-title">上传时间: </span>
 						<DatePicker
 							{...getFieldProps('uploadTimeStart', {
-							// initialValue: true,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
 								onChange: (value, dateString) => {
 									this.setState({
 										startTime: dateString,
@@ -493,10 +477,6 @@ class BusinessView extends React.Component {
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
 							{...getFieldProps('uploadTimeEnd', {
-							// initialValue: true,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
 								onChange: (value, dateString) => {
 									this.setState({
 										endTime: dateString,
@@ -568,7 +548,6 @@ class BusinessView extends React.Component {
 								this.handleChangePage(val);
 							}}
 						/>
-						{/* <div className="yc-pagination-btn"><Button>跳转</Button></div> */}
 					</div>
 				</Form>
 				{/** 担保人Modal */}
@@ -582,7 +561,6 @@ class BusinessView extends React.Component {
 				)}
 				{errorModalVisible && 	(
 				<Modal
-					// title="第一个 Modal"
 					visible={errorModalVisible}
 					onCancel={this.handleCancel}
 					footer={false}
@@ -602,7 +580,6 @@ class BusinessView extends React.Component {
 							<Upload className="yc-upload" showUploadList={false} {...this.uploadAttachmentParam()}>
 								<Button
 									style={{ height: 34, marginRight: 10 }}
-									// onClick={this.handleCancel}
 								>
 									重新上传
 								</Button>

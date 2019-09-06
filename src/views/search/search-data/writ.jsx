@@ -3,7 +3,7 @@ import {
 	DatePicker, Button, Form, message, Select,
 } from 'antd';
 import { navigate } from '@reach/router';
-
+import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import { Input, timeRule } from '@/common';
 import './style.scss';
 
@@ -19,20 +19,6 @@ class WRIT extends React.Component {
 		};
 	}
 
-	// 将值传到URL
-	generateUrlWithParams = (url, params) => {
-		const urlParams = [];
-		let urlList = url;
-		// eslint-disable-next-line no-restricted-syntax
-		for (const key in params) {
-			if (params[key]) {
-				urlParams.push(`${key}=${params[key]}`);
-			}
-		}
-		urlList += `?${urlParams.join('&')}`;
-		return urlList;
-	}
-
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
@@ -43,8 +29,10 @@ class WRIT extends React.Component {
 		fildes.publishEnd = endTime;
 
 		console.log(fildes);
-		if (fildes) {
-			navigate(this.generateUrlWithParams('/search/detail/writ', fildes));
+		// 判断是否为空对象,非空请求接口
+		if (!objectKeyIsEmpty(fildes)) {
+			// 将值传到URL
+			navigate(generateUrlWithParams('/search/detail/writ', fildes));
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
@@ -155,11 +143,7 @@ class WRIT extends React.Component {
 					<Button
 						type="primary"
 						size="large"
-						style={{
-							'margin-right': 32,
-							'background-color': '#FB5A5C',
-							'border-color': '#FB5A5C',
-						}}
+						className="yc-high-search"
 						onClick={this.search}
 					>
 						搜索
