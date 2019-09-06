@@ -327,7 +327,6 @@ export default class Headers extends React.Component {
 							onClick={(event) => {
 								this.setState({ active: { p: 101, c: '' } });
 								navigate('/message');
-								window.location.reload();
 								event.stopPropagation();
 							}}
 						>

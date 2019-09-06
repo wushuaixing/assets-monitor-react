@@ -96,13 +96,6 @@ class InformCenter extends React.Component {
 				current: Number(params.page),
 			});
 		} else {
-			// const searchObj = {
-			// 	num: 10,
-			// 	page: 1,
-			// };
-			// this.setState({
-			// 	current: 1,
-			// });
 			this.getData();
 		}
 
@@ -115,16 +108,6 @@ class InformCenter extends React.Component {
 			}
 		});
 	}
-
-	// componentWillReceiveProps(props) {
-	// 	const { hash } = window.location;
-	// 	const page = getQueryByName(hash, 'page');
-
-	// 	if (props.uri === '/message' && !page) {
-	// 		window.location.reload();
-	// 		console.log(props, page);
-	// 	}
-	// }
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -265,6 +248,11 @@ class InformCenter extends React.Component {
 						setTimeout(() => {
 							window.location.reload(); // 实现页面重新加载/
 						}, 2000);
+						const urlValue = {
+							num: 10,
+							page: current,
+						};
+						navigate(generateUrlWithParams('/message', urlValue));
 						// 异步手动移除
 						// that.getData(page);
 						// that.setState({
