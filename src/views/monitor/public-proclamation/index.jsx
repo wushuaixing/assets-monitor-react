@@ -83,7 +83,7 @@ export default class Lawsuits extends React.Component {
 
 	// 获取统计信息
 	toInfoCount=() => {
-		Api.infoCount(clearEmpty(this.condition)).then((res) => {
+		Api.infoCount({ isRead: 0 }).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
@@ -113,26 +113,32 @@ export default class Lawsuits extends React.Component {
 	// 切换列表类型
 	handleReadChange=(val) => {
 		this.setState({ isRead: val });
-		this.onQueryChange(this.condition, '', val);
+		this.onQueryChange(this.condition, '', val, 1);
 	};
 
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		const { sourceType } = this.state;
-		Modal.confirm({
-			title: '确认将代位权—立案信息标记为全部已读？',
-			content: '点击确定，将为您标记为全部已读。',
-			iconType: 'exclamation-circle',
-			onOk() {
-				Api[toGetApi(sourceType, 'readStatus')]({}).then((res) => {
-					if (res.code === 200) {
-						_this.onQueryChange();
-					}
-				});
-			},
-			onCancel() {},
-		});
+		const { sourceType, tabConfig } = this.state;
+		if (tabConfig[sourceType - 1].dot) {
+			Modal.confirm({
+				title: '确认将代位权—立案信息标记为全部已读？',
+				content: '点击确定，将为您标记为全部已读。',
+				iconType: 'exclamation-circle',
+				onOk() {
+					Api[toGetApi(sourceType, 'readStatus')]({})
+						.then((res) => {
+							if (res.code === 200) {
+								_this.onQueryChange();
+							}
+						});
+				},
+				onCancel() {
+				},
+			});
+		} else {
+			message.warning('最新信息已经全部已读，没有未读信息了');
+		}
 	};
 
 	// 一键导出 & 批量导出
@@ -202,6 +208,7 @@ export default class Lawsuits extends React.Component {
 			dataSource: '',
 			current: 1,
 			total: '',
+			isRead: 'all',
 		});
 		this.toClearSortStatus();
 		this.onQueryChange(null, val, isRead);
@@ -270,6 +277,7 @@ export default class Lawsuits extends React.Component {
 			current,
 			total,
 			onSelect: val => this.selectRow = val,
+			selectRow: this.selectRow,
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
