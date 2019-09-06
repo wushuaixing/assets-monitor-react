@@ -8,15 +8,37 @@ class QueryCondition extends React.Component {
 		this.state = {};
 	}
 
+	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.handleSubmit();
+				document.activeElement.blur();
+			}
+		}
+	};
+
 	handleSubmit=() => {
 		const { form: { getFieldsValue }, onQueryChange } = this.props;
 		const condition = getFieldsValue();
-		if (onQueryChange)onQueryChange(condition);
+		if (onQueryChange)onQueryChange(condition, '', '', 1);
 	};
 
 	handleReset=() => {
-		const { form } = this.props;
+		const { form, onQueryChange } = this.props;
 		form.resetFields();
+		const condition = form.getFieldsValue();
+		if (onQueryChange)onQueryChange(condition, '', '', 1);
 		// console.log(form.getFieldsValue());
 	};
 

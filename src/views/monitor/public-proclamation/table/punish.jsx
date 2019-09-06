@@ -59,7 +59,7 @@ export default class TableView extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { manage } = this.props;
-		if (manage === false && nextProps.manage) {
+		if ((manage === false && nextProps.manage) || !(nextProps.selectRow || []).length) {
 			this.setState({ selectedRowKeys: [] });
 		}
 	}
@@ -104,7 +104,7 @@ export default class TableView extends React.Component {
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold')}
+					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
 				<div className="yc-table-pagination">

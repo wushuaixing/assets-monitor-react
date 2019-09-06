@@ -45,6 +45,7 @@ const columns = (props) => {
 		}, {
 			title: '操作',
 			width: 55,
+			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
 				<Attentions
@@ -57,31 +58,7 @@ const columns = (props) => {
 				/>
 			),
 		}];
-	// 单纯展示
-	const normalColumns = [
-		{
-			title: '立案日期',
-			dataIndex: 'larq',
-		}, {
-			title: '原告',
-			dataIndex: 'yg',
-		}, {
-			title: '被告',
-			dataIndex: 'bg',
-		}, {
-			title: '法院',
-			dataIndex: 'court',
-		}, {
-			title: '案号',
-			dataIndex: 'ah',
-		}, {
-			title: '关联信息',
-			dataIndex: 'associateInfo',
-		}, {
-			title: '更新日期',
-			dataIndex: 'updateTime',
-		}];
-	return normal ? normalColumns : defaultColumns;
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
 export default class TableView extends React.Component {
@@ -139,7 +116,7 @@ export default class TableView extends React.Component {
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold')}
+					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
 				<div className="yc-table-pagination">

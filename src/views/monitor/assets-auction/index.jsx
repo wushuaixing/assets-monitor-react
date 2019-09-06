@@ -95,6 +95,10 @@ export default class Assets extends React.Component {
 
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
+		delete this.condition.processString;
+		if (this.condition.process === -1) this.condition.process = 0;
+		if (this.condition.process === 1) delete this.condition.process;
+		if (this.condition.process === 3) this.condition.processString = '3,6';
 		if (type === 'all') {
 			fileExport(exportList, this.condition);
 		} else if (this.selectRow.length > 0) {
@@ -127,7 +131,7 @@ export default class Assets extends React.Component {
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: false,
+								manage: true,
 							});
 						}
 					});
@@ -236,6 +240,7 @@ export default class Assets extends React.Component {
 			total,
 			onRefresh: this.onRefresh,
 			onSelect: val => this.selectRow = val,
+			selectRow: this.selectRow,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
 			sortField: this.condition.sortColumn,
