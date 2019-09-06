@@ -10,7 +10,7 @@ const tabSource = rule => ([
 		id: 1,
 		name: '拍卖信息',
 		router: 'auction',
-		display: !!(rule && rule.xxsspmxx),
+		display: !!(rule && rule.xxsszcpm),
 		types: [
 			{
 				placeholder: '姓名、公司名称',
@@ -64,7 +64,7 @@ const tabSource = rule => ([
 		id: 3,
 		name: '文书信息',
 		router: 'writ',
-		display: !!(rule && rule.xxsswsxx),
+		display: !!(rule && rule.xxss_wsss),
 		types: [
 			{
 				placeholder: '姓名、公司名称、关键字',
@@ -93,6 +93,7 @@ const tabSource = rule => ([
 ]);
 const HomeRouter = (props) => {
 	const { rule } = props && props;
+
 	const displayArray = tabSource(rule).filter(item => item.display === true); // 过滤权限
 	const [active, setActive] = useState(displayArray[0]);
 	const [highSearch, setHighSearch] = useState(false);
@@ -104,7 +105,7 @@ const HomeRouter = (props) => {
 				<Tabs
 					simple
 					// TODO 改了权限，displayArray改成tabSource(rule),上传改回来
-					source={tabSource(rule)}
+					source={displayArray}
 					onChange={(item) => {
 						setActive(item);
 					}}

@@ -101,12 +101,12 @@ const dataSource = (rule) => {
 			// { id: 33, name: '资产信息', url: '/business/asset' },
 			],
 		},
-		{
-			id: 4,
-			name: '企业查询',
-			url: '/company',
-			status: rule.menu_qycx,
-		},
+		// {
+		// 	id: 4,
+		// 	name: '企业查询',
+		// 	url: '/company',
+		// 	status: rule.menu_qycx,
+		// },
 		{
 			id: 5,
 			name: '信息搜索',

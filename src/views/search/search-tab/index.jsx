@@ -10,7 +10,7 @@ const Tabs = (props) => {
 	return (
 		<div className="yc-tabs-search">
 			{/* displayArray */}
-			{source.map(item => (
+			{displayArray.map(item => (
 				<div
 					className={active === item.id ? 'tabs-nav-item active' : 'tabs-nav-item'}
 					key={item.id}

@@ -9,7 +9,7 @@ import add from '@/assets/img/icon/icon_add.png';
 import './style.scss';
 
 const createForm = Form.create;
-class Datas extends React.Component {
+class LAWSUITS extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -30,11 +30,11 @@ class Datas extends React.Component {
 		};
 	}
 
-	changeType= () => {
+	changeType = () => {
 		console.log(1);
-	};
+	}
 
-	generateUrlWithParams =(url, params) => {
+	generateUrlWithParams = (url, params) => {
 		const urlParams = [];
 		let urlList = url;
 		// eslint-disable-next-line no-restricted-syntax
@@ -45,7 +45,7 @@ class Datas extends React.Component {
 		}
 		urlList += `?${urlParams.join('&')}`;
 		return urlList;
-	};
+	}
 
 	// 搜索
 	search = () => {
@@ -65,7 +65,7 @@ class Datas extends React.Component {
 		fildes.bg2 = bg[2] ? bg[2].name : undefined;
 		console.log(fildes);
 		navigate(this.generateUrlWithParams('/search/detail/lawsuits', fildes));
-	};
+	}
 
 	// 重置输入框
 	queryReset = () => {
@@ -80,7 +80,7 @@ class Datas extends React.Component {
 			],
 		});
 		resetFields('');
-	};
+	}
 
 	handleYg = (e, id) => {
 		const { yg } = this.state;
@@ -94,7 +94,7 @@ class Datas extends React.Component {
 				yg,
 			});
 		}
-	};
+	}
 
 	addYg = () => {
 		const { yg } = this.state;
@@ -105,7 +105,7 @@ class Datas extends React.Component {
 		this.setState({
 			yg,
 		});
-	};
+	}
 
 	// 删除
 	deleteYg = (id) => {
@@ -114,12 +114,12 @@ class Datas extends React.Component {
 		// console.log(id);
 		yg.map((item, index) => {
 			const _item = item;
-			return _item.id = index + 1;
+			return (_item.id = index + 1);
 		});
 		this.setState({
 			yg,
 		});
-	};
+	}
 
 	handleBg = (e, id) => {
 		const { bg } = this.state;
@@ -144,7 +144,7 @@ class Datas extends React.Component {
 		this.setState({
 			bg,
 		});
-	};
+	}
 
 	// 删除
 	deleteBg = (id) => {
@@ -153,24 +153,21 @@ class Datas extends React.Component {
 		// console.log(id);
 		bg.map((item, index) => {
 			const _item = item;
-			return _item.id = index + 1;
+			return (_item.id = index + 1);
 		});
 		this.setState({
 			bg,
 		});
-	};
+	}
 
 	render() {
-		const {
-			yg, bg,
-		} = this.state;
+		const { yg, bg } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 		return (
 			<div className="yc-tabs-data" style={{ padding: '16px 22px' }}>
 				<div className="yc-tabs-items">
-					{
-					yg.map(item => (
+					{yg.map(item => (
 						<div key={item.id} className="item" style={{ 'margin-right': 10 }}>
 							<Input
 								title="原告"
@@ -178,23 +175,23 @@ class Datas extends React.Component {
 								placeholder="姓名/公司名称"
 								onChange={e => this.handleYg(e, item.id)}
 							/>
-							{
-								yg.length > 1 ? (
-									<Tooltip placement="top" title="删除">
-										<img
-											alt=""
-											className="close"
-											src={close}
-											onClick={() => this.deleteYg(item.id)}
-										/>
-									</Tooltip>
-								) : null
-							}
+							{yg.length > 1 ? (
+								<Tooltip placement="top" title="删除">
+									<img
+										alt=""
+										className="close"
+										src={close}
+										onClick={() => this.deleteYg(item.id)}
+									/>
+								</Tooltip>
+							) : null}
 						</div>
-					))
-				}
-					{
-					yg.length > 2 ? (<span style={{ 'margin-top': 8, display: 'inline-block' }}>最多添加3个</span>) : (
+					))}
+					{yg.length > 2 ? (
+						<span style={{ 'margin-top': 8, display: 'inline-block' }}>
+							最多添加3个
+						</span>
+					) : (
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
@@ -203,12 +200,10 @@ class Datas extends React.Component {
 								onClick={() => this.addYg()}
 							/>
 						</Tooltip>
-					)
-				}
+					)}
 				</div>
 				<div className="yc-tabs-items">
-					{
-					bg.map(item => (
+					{bg.map(item => (
 						<div className="item" style={{ 'margin-right': 10 }}>
 							<Input
 								key={item.id}
@@ -217,23 +212,23 @@ class Datas extends React.Component {
 								placeholder="姓名/公司名称"
 								onChange={e => this.handleBg(e, item.id)}
 							/>
-							{
-								bg.length > 1 ? (
-									<Tooltip placement="top" title="删除">
-										<img
-											alt=""
-											className="close"
-											src={close}
-											onClick={() => this.deleteBg(item.id)}
-										/>
-									</Tooltip>
-								) : null
-							}
+							{bg.length > 1 ? (
+								<Tooltip placement="top" title="删除">
+									<img
+										alt=""
+										className="close"
+										src={close}
+										onClick={() => this.deleteBg(item.id)}
+									/>
+								</Tooltip>
+							) : null}
 						</div>
-					))
-				}
-					{
-					bg.length > 2 ? (<span style={{ 'margin-top': 8, display: 'inline-block' }}>最多添加3个</span>) : (
+					))}
+					{bg.length > 2 ? (
+						<span style={{ 'margin-top': 8, display: 'inline-block' }}>
+							最多添加3个
+						</span>
+					) : (
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
@@ -242,8 +237,7 @@ class Datas extends React.Component {
 								onClick={() => this.addBg()}
 							/>
 						</Tooltip>
-					)
-				}
+					)}
 				</div>
 				<div className="yc-tabs-items">
 					<div className="item" style={{ 'margin-right': 10 }}>
@@ -301,10 +295,7 @@ class Datas extends React.Component {
 					>
 						立案信息
 					</Button>
-					<Button
-						size="large"
-						type="primary"
-					>
+					<Button size="large" type="primary">
 						开庭公告
 					</Button>
 				</div>
@@ -312,15 +303,21 @@ class Datas extends React.Component {
 					<Button
 						type="primary"
 						size="large"
-						style={{ 'margin-right': 32, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
+						style={{
+							'margin-right': 32,
+							'background-color': '#FB5A5C',
+							'border-color': '#FB5A5C',
+						}}
 						onClick={this.search}
 					>
 						搜索
 					</Button>
-					<Button onClick={this.queryReset} type="ghost" size="large">重置搜索条件</Button>
+					<Button onClick={this.queryReset} type="ghost" size="large">
+						重置搜索条件
+					</Button>
 				</div>
 			</div>
 		);
 	}
 }
-export default createForm()(Datas);
+export default createForm()(LAWSUITS);

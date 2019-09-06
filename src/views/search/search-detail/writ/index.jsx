@@ -406,7 +406,6 @@ class WRIT extends React.Component {
 						onShowSizeChange={this.onShowSizeChange}
 						showTotal={() => `共 ${totals} 条记录`}
 						onChange={(val) => {
-							console.log(val);
 							this.handleChangePage(val);
 						}}
 					/>
