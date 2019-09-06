@@ -10,6 +10,7 @@ import { readStatusAll } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { fileExport } from '@/views/monitor/table-common';
+import { unReadCount } from '@/utils/api/monitor-info';
 
 const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 
@@ -22,17 +23,13 @@ export default class Subrogation extends React.Component {
 				id: 1,
 				name: '竞价项目',
 				dot: false,
-				number: 0,
-				status: rule.jkxxjrzcjjxm,
-				showNumber: false,
+				status: Boolean(rule.jkxxjrzcjjxm),
 			},
 			{
 				id: 2,
 				name: '公示项目',
-				number: 0,
 				dot: false,
-				status: rule.jkxxjrzcgsxm,
-				showNumber: false,
+				status: Boolean(rule.jkxxjrzcgsxm),
 			},
 		]).filter(item => item.status);
 
@@ -59,7 +56,21 @@ export default class Subrogation extends React.Component {
 			sourceType,
 		});
 		this.onQueryChange({}, sourceType);
+		this.onUnReadCount();
+		this.setUnReadCount = setInterval(() => {
+			this.onUnReadCount();
+		}, 30 * 1000);
 	}
+
+	componentWillUnmount() {
+		if (this.setUnReadCount) window.clearInterval(this.setUnReadCount);
+	}
+
+	// 清除排序状态
+	toClearSortStatus=() => {
+		this.condition.sortColumn = '';
+		this.condition.sortOrder = '';
+	};
 
 	// 切换列表类型[仅公示项目]
 	handleReadChange=(val) => {
@@ -68,7 +79,6 @@ export default class Subrogation extends React.Component {
 			const _item = Object.assign({}, item);
 			_item.number = 0;
 			_item.dot = false;
-			_item.showNumber = true;
 			return _item;
 		});
 		this.setState({ isRead: val, tabConfig: _tabConfig });
@@ -93,10 +103,10 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
-
 	// 一键导出 & 批量导出
 	handleExport=(type) => {
-		const exportList = api('exportList', this.condition.sourceType);
+		const { sourceType } = this.state;
+		const exportList = api('exportList', sourceType);
 		if (type === 'all') {
 			fileExport(exportList, this.condition);
 		} else if (this.selectRow.length > 0) {
@@ -127,7 +137,7 @@ export default class Subrogation extends React.Component {
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: false,
+								manage: true,
 							});
 						}
 					});
@@ -158,6 +168,7 @@ export default class Subrogation extends React.Component {
 			current: 1,
 			total: '',
 		});
+		this.toClearSortStatus();
 		this.onQueryChange(null, val, 'all', 1);
 		window.location.href = changeURLArg(window.location.href, 'project', val);
 	};
@@ -177,6 +188,12 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 查询条件变化
+	onQuery =(con) => {
+		this.toClearSortStatus();
+		this.onQueryChange(con, '', '', 1);
+	};
+
+	// 查询条件变化
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
@@ -186,8 +203,7 @@ export default class Subrogation extends React.Component {
 		if (__isRead === 'all') delete this.condition.isRead;
 		if (__isRead === 'else') this.condition.isRead = 0;
 		this.setState({ loading: true, manage: _manage || false });
-		delete this.condition.sourceType;
-
+		// delete this.condition.sourceType;
 		api('infoList', _sourceType || sourceType)(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -210,6 +226,22 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	// 查询是否有未读消息
+	onUnReadCount=() => {
+		const { tabConfig } = this.state;
+		unReadCount().then((res) => {
+			const { data, code } = res;
+			if (code === 200) {
+				const _tabConfig = tabConfig.map((item) => {
+					const _item = item;
+					if (_item.id === 2)_item.dot = data.financeCount;
+					return _item;
+				});
+				this.setState({ tabConfig: _tabConfig });
+			}
+		});
+	};
+
 	render() {
 		const {
 			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
@@ -221,6 +253,7 @@ export default class Subrogation extends React.Component {
 			total,
 			onRefresh: this.onRefresh,
 			onSelect: val => this.selectRow = val,
+			selectRow: this.selectRow,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
 			sortField: this.condition.sortColumn,
@@ -230,8 +263,8 @@ export default class Subrogation extends React.Component {
 			<div className="yc-assets-auction">
 				{
 					sourceType === 1
-						?	<QueryBidding onQueryChange={this.onQueryChange} />
-						:	<QueryPublicity onQueryChange={this.onQueryChange} />
+						?	<QueryBidding onQueryChange={this.onQuery} />
+						:	<QueryPublicity onQueryChange={this.onQuery} />
 				}
 				<Tabs.Simple
 					onChange={this.onSourceType}

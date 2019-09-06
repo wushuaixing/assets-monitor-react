@@ -6,7 +6,7 @@ import { Button, Tabs, Spin } from '@/common';
 import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
-import { clearEmpty } from '@/utils';
+import { changeURLArg, clearEmpty } from '@/utils';
 import { fileExport } from '@/views/monitor/table-common';
 
 export default class Subrogation extends React.Component {
@@ -41,8 +41,13 @@ export default class Subrogation extends React.Component {
 		this.selectRow = [];
 	}
 
-	componentDidMount() {
-		this.onQueryChange({});
+	componentWillMount() {
+		const { tabConfig } = this.state;
+		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
+		this.setState({
+			sourceType,
+		});
+		this.onQueryChange({}, sourceType);
 	}
 
 	// 清除排序状态
@@ -153,7 +158,7 @@ export default class Subrogation extends React.Component {
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: false,
+								manage: true,
 							});
 						}
 					});
@@ -187,6 +192,7 @@ export default class Subrogation extends React.Component {
 		});
 		this.toClearSortStatus();
 		this.onQueryChange('', val, 'all', 1);
+		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 
 	// 当前页数变化

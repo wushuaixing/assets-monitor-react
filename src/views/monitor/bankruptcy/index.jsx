@@ -14,7 +14,6 @@ export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: '',
 			isRead: 'all',
 			dataSource: '',
 			current: 1,
@@ -29,6 +28,12 @@ export default class Subrogation extends React.Component {
 	componentDidMount() {
 		this.onQueryChange({});
 	}
+
+	// 清除排序状态
+	toClearSortStatus=() => {
+		this.condition.sortColumn = '';
+		this.condition.sortOrder = '';
+	};
 
 	// 切换列表类型
 	handleReadChange=(val) => {
@@ -88,7 +93,6 @@ export default class Subrogation extends React.Component {
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: false,
 							});
 						}
 					});
@@ -99,7 +103,6 @@ export default class Subrogation extends React.Component {
 			message.warning('未选中业务');
 		}
 	};
-
 
 	// 表格发生变化
 	onRefresh=(data, type) => {
@@ -134,10 +137,9 @@ export default class Subrogation extends React.Component {
 
 	// 查询条件变化
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
-		const { sourceType, isRead, current } = this.state;
+		const { isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign({}, con || this.condition, {
-			sourceType: _sourceType || sourceType,
 			page: page || current,
 		});
 		if (__isRead === 'all') delete this.condition.isRead;
@@ -176,6 +178,7 @@ export default class Subrogation extends React.Component {
 			total,
 			onRefresh: this.onRefresh,
 			onSelect: val => this.selectRow = val,
+			selectRow: this.selectRow,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
 			sortField: this.condition.sortColumn,
