@@ -45,21 +45,24 @@ const Datas = (props) => {
 							});
 						}}
 					>
-						{
-							options.map(item => (
-								<Select.Option value={item.id}>{item.name}</Select.Option>
-							))
-						}
+						{options.map(item => (
+							<Select.Option value={item.id}>{item.name}</Select.Option>
+						))}
 					</Select>
 				</div>
-				<Input placeholder={placeholder} value={keywords} onChange={(e) => { setKeywords(e.target.value); }} />
+				<Input
+					placeholder={placeholder}
+					value={keywords}
+					onChange={(e) => {
+						setKeywords(e.target.value);
+					}}
+				/>
 				<Button
 					type="primary"
 					size="large"
 					className="red-search"
 					onClick={() => {
 						if (keywords) {
-							console.log(keywords);
 							doSearch(router, [`${selectId}=${keywords}`]);
 						} else {
 							message.error('请输入一个搜索条件');
@@ -77,21 +80,26 @@ const Datas = (props) => {
 			<div className="select">
 				<p className="financial">全文</p>
 			</div>
-			<Input placeholder="标题、关键字" value={keywords} onChange={(e) => { setKeywords(e.target.value); }} />
+			<Input
+				placeholder="标题、关键字"
+				value={keywords}
+				onChange={(e) => {
+					setKeywords(e.target.value);
+				}}
+			/>
 			<Button
 				type="primary"
 				size="large"
 				className="red-search"
 				onClick={() => {
 					if (keywords) {
-						console.log(keywords);
 						doSearch(router, [`content=${keywords}`]);
 					} else {
 						message.error('请输入一个搜索条件');
 					}
 				}}
 			>
-					搜索
+				搜索
 			</Button>
 		</div>
 	);

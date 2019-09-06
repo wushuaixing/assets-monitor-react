@@ -1,18 +1,16 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, message, Tooltip, Select,
+	DatePicker, Button, Form, message, Select,
 } from 'antd';
 import { navigate } from '@reach/router';
 
-import {
-	Input, Spin, timeRule,
-} from '@/common';
+import { Input, timeRule } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
 const _style3 = { width: 120 };
 const { Option } = Select;
-class Datas extends React.Component {
+class WRIT extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -22,7 +20,7 @@ class Datas extends React.Component {
 	}
 
 	// 将值传到URL
-	generateUrlWithParams =(url, params) => {
+	generateUrlWithParams = (url, params) => {
 		const urlParams = [];
 		let urlList = url;
 		// eslint-disable-next-line no-restricted-syntax
@@ -33,14 +31,12 @@ class Datas extends React.Component {
 		}
 		urlList += `?${urlParams.join('&')}`;
 		return urlList;
-	};
+	}
 
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
-		const {
-			startTime, endTime,
-		} = this.state;
+		const { startTime, endTime } = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		fildes.publishStart = startTime;
@@ -61,7 +57,6 @@ class Datas extends React.Component {
 		resetFields('');
 	}
 
-
 	render() {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -69,18 +64,36 @@ class Datas extends React.Component {
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
 					<div className="item" style={{ width: 742 }}>
-						<Input title="全文" placeholder="姓名、公司名称、关键字" {...getFieldProps('content', { getValueFromEvent: e => e.trim() })} />
+						<Input
+							title="全文"
+							placeholder="姓名、公司名称、关键字"
+							{...getFieldProps('content', {
+								getValueFromEvent: e => e.trim(),
+							})}
+						/>
 					</div>
 				</div>
 				<div className="yc-tabs-items">
 					<div className="item" style={{ marginRight: 26 }}>
-						<Input title="案号" placeholder="案件编号" {...getFieldProps('ah', { getValueFromEvent: e => e.trim() })} />
+						<Input
+							title="案号"
+							placeholder="案件编号"
+							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
+						/>
 					</div>
 					<div className="item" style={{ marginRight: 26 }}>
-						<Input title="案由" placeholder="案件内容提要" {...getFieldProps('reason', { getValueFromEvent: e => e.trim() })} />
+						<Input
+							title="案由"
+							placeholder="案件内容提要"
+							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
+						/>
 					</div>
 					<div className="item">
-						<Input title="起诉法院" placeholder="法院名称" {...getFieldProps('court', { getValueFromEvent: e => e.trim() })} />
+						<Input
+							title="起诉法院"
+							placeholder="法院名称"
+							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
+						/>
 					</div>
 				</div>
 				<div className="other">
@@ -88,7 +101,8 @@ class Datas extends React.Component {
 					<DatePicker
 						placeholder="开始日期"
 						size="large"
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))
+	}
 						{...getFieldProps('publishStart', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
@@ -103,7 +117,8 @@ class Datas extends React.Component {
 					<DatePicker
 						placeholder="结束日期"
 						size="large"
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))
+	}
 						{...getFieldProps('publishEnd', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
@@ -122,11 +137,7 @@ class Datas extends React.Component {
 						allowClear
 						style={_style3}
 						placeholder="请选择案件类型"
-						{...getFieldProps('caseType', {
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
-						})}
+						{...getFieldProps('caseType', {})}
 					>
 						<Option value="刑事案件">刑事案件</Option>
 						<Option value="民事案件">民事案件</Option>
@@ -144,15 +155,21 @@ class Datas extends React.Component {
 					<Button
 						type="primary"
 						size="large"
-						style={{ 'margin-right': 32, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
+						style={{
+							'margin-right': 32,
+							'background-color': '#FB5A5C',
+							'border-color': '#FB5A5C',
+						}}
 						onClick={this.search}
 					>
 						搜索
 					</Button>
-					<Button onClick={this.queryReset} type="ghost" size="large">重置搜索条件</Button>
+					<Button onClick={this.queryReset} type="ghost" size="large">
+						重置搜索条件
+					</Button>
 				</div>
 			</div>
 		);
 	}
 }
-export default createForm()(Datas);
+export default createForm()(WRIT);

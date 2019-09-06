@@ -148,7 +148,7 @@ export default class BasicTable extends React.Component {
 					</Breadcrumb>
 				</div>
 				<div className="search-item">
-					<Select placeholder="请选择角色" size="large" onChange={this.handleChange} allowClear style={{ width: 185, 'margin-right': 10 }}>
+					<Select placeholder="请选择操作类型" size="large" onChange={this.handleChange} allowClear style={{ width: 185, 'margin-right': 10 }}>
 						{
 							operateList && operateList.length > 0 && operateList.map(item => (<Option value={item.target}>{item.type}</Option>))
 						}

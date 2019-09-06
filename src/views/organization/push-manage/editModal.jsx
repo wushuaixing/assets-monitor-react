@@ -16,18 +16,14 @@ class DetailModal extends React.Component {
 		};
 	}
 
-	componentDidMount() {
-	/*	const { data } = this.props;
-		this.setState({ data }); */
-	}
 
 	// 关闭弹窗
-	handleCancel=() => {
+	handleCancel = () => {
 		const { handleCancel } = this.props;
 		handleCancel();
 	}
 
-	getInMaxValue=(val, maxSize) => {
+	getInMaxValue = (val, maxSize) => {
 		let text = this.getVal(val);
 		if (maxSize && (text && text.length > maxSize)) {
 			text = text.substr(0, maxSize);
@@ -36,14 +32,14 @@ class DetailModal extends React.Component {
 		return text;
 	}
 
-	getVal=(val) => {
+	getVal = (val) => {
 		if (val && val.target) {
 			return val.target.value ? val.target.value : null;
 		}
 		return val || null;
 	}
 
-	handleSave=() => {
+	handleSave = () => {
 		const {
 			getTableData, form, propsData, searchValue, current,
 		} = this.props;
@@ -53,7 +49,7 @@ class DetailModal extends React.Component {
 			...fildes,
 			id: propsData && propsData.id,
 		};
-		const validRule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;// 手机号码校验规则
+		const validRule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/; // 手机号码校验规则
 		const emialRule = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/; // 邮箱格式
 		if (!fildes.name) {
 			message.warning('请输入姓名');
@@ -70,34 +66,35 @@ class DetailModal extends React.Component {
 		this.setState({
 			confirmLoading: true,
 		});
-		saveList(params).then((res) => {
-			// that.setState({ visible: false });
-			if (res.code === 200) {
-				const searchVal = {
-					page: current,
-					...searchValue,
-				};
-				getTableData(searchVal);
-				message.success(propsData ? '修改成功' : '新增成功');
-				this.handleCancel();
+		saveList(params)
+			.then((res) => {
+				if (res.code === 200) {
+					const searchVal = {
+						page: current,
+						...searchValue,
+					};
+					getTableData(searchVal);
+					message.success(propsData ? '修改成功' : '新增成功');
+					this.handleCancel();
+					this.setState({
+						confirmLoading: false,
+					});
+				} else {
+					this.setState({
+						confirmLoading: false,
+					});
+					message.error(res.message);
+				}
+			})
+			.catch(() => {
 				this.setState({
 					confirmLoading: false,
 				});
-			} else {
-				this.setState({
-					confirmLoading: false,
-				});
-				message.error(res.message);
-			}
-		}).catch(() => {
-			this.setState({
-				confirmLoading: false,
+				message.error('error');
 			});
-			message.error('error');
-		});
 	}
 
-	change=(val, type, maxSize) => {
+	change = (val, type, maxSize) => {
 		const { data } = this.state;
 		const maxValue = this.getInMaxValue(val, maxSize);
 		data[type] = maxValue;
@@ -125,19 +122,17 @@ class DetailModal extends React.Component {
 				confirmLoading={confirmLoading}
 				onCancel={this.handleCancel}
 				onOk={this.handleSave}
-				// footer={(
-				// 	<p>
-				// 		<Button disabled={confirmLoading} onClick={this.handleCancel}>取消</Button>
-				// 		<Button onClick={this.handleOk} type="primary">确认</Button>
-				// 	</p>
-				// )}
 			>
 				<div className="edit-debtor">
 					<div style={{ margin: '4px 0 0 0' }}>
 						<div className="line">
-							<span style={{
-								color: 'red', position: 'absolute', left: 27, top: 9,
-							}}
+							<span
+								style={{
+									color: 'red',
+									position: 'absolute',
+									left: 27,
+									top: 9,
+								}}
 							>
 								*
 							</span>
@@ -148,12 +143,7 @@ class DetailModal extends React.Component {
 								style={{ width: 340 }}
 								{...getFieldProps('name', {
 									initialValue: propsData && propsData.name,
-									// rules: [
-									// 	{ required: true, whitespace: true, message: '请填写密码' },
-									// ],
 								})}
-								// onChange={event => this.change(event, 'name', 12)}
-								// onBlur={event => this.change(event, 'name', 12)}
 							/>
 						</div>
 						<div className="line">
@@ -165,18 +155,12 @@ class DetailModal extends React.Component {
 								maxLength={11}
 								{...getFieldProps('mobile', {
 									initialValue: propsData && propsData.mobile,
-									// rules: [
-									// 	{ required: true, whitespace: true, message: '请填写密码' },
-									// ],
 								})}
-								// onChange={event => this.change(event, 'mobile', 12)}
-								// onBlur={event => this.change(event, 'mobile', 12)}
 							/>
 						</div>
 						<div className="line">
 							<p>角色：</p>
 							<Select
-								allowClear
 								size="large"
 								style={{ width: 100 }}
 								placeholder="请选择"
@@ -184,10 +168,7 @@ class DetailModal extends React.Component {
 									this.change(val, 'role');
 								}}
 								{...getFieldProps('role', {
-									initialValue: propsData && propsData.role,
-									// rules: [
-									// 	{ required: true, whitespace: true, message: '请填写密码' },
-									// ],
+									initialValue: propsData ? propsData.role : 0,
 								})}
 							>
 								<Select.Option value={0}>系统账号</Select.Option>
@@ -202,12 +183,7 @@ class DetailModal extends React.Component {
 								placeholder="请输入"
 								{...getFieldProps('email', {
 									initialValue: propsData && propsData.email,
-									// rules: [
-									// 	{ required: true, whitespace: true, message: '请填写密码' },
-									// ],
 								})}
-								// onChange={event => this.change(event, 'email', 12)}
-								// onBlur={event => this.change(event, 'email', 12)}
 							/>
 						</div>
 					</div>
