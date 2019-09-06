@@ -8,7 +8,6 @@ import React from 'react';
 import {
 	Form, Input, Button, Table, Affix, Tooltip, Icon, message,
 } from 'antd';
-import SelectSearch from '@/common/selectSearch';
 import {
 	selfTree, // login
 } from '@/utils/api/home';
@@ -21,7 +20,6 @@ import './style.scss';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
 // 是否为IE
-const _msieBrowser = /msie/i.test(navigator.userAgent);
 
 const createForm = Form.create;
 const skip = (text, row) => {
@@ -265,7 +263,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			treeList, selectList, isOpen, searchValue, dataListArray,
+			treeList, selectList, isOpen, searchValue,
 		} = this.state;
 		// 使用 `ref` 的回调将 text 输入框的 DOM 节点存储到 React
 
@@ -299,23 +297,6 @@ class Login extends React.Component {
 						)
 					}
 				</div>
-				{/* <div className="yc-group-search">
-					<SelectSearch
-						placeholder="请输入机构名称"
-						onChange={e => console.log(e)}
-						clear
-						defaultValue="1"
-						onFocus={e => this.inputSearchFoucs(e)}
-					>
-						{selectList.map(val => (
-							<SelectSearch.Option value={val.id + val.name} label={val.name} className="yc-input-list-item" onClick={console.log(2)}>
-								{ val ? val.name : null}
-							</SelectSearch.Option>
-						))}
-					</SelectSearch>
-					<Button onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button>
-				</div> */}
-
 				<Affix>
 					<table className="table table-striped treetable" style={{ marginBottom: 0 }}>
 						<tbody>
@@ -344,12 +325,6 @@ class Login extends React.Component {
 						style={{ width: '100%' }}
 						defaultExpandAllRows
 						pagination={false}
-						onRowClick={(record) => {
-							// if (!record.children) {
-							// 	const w = window.open('about:blank');
-							// 	w.location.href = '#/monitor';
-							// }
-						}}
 					/>
 				) : (
 					<div className="yc-no-container">
