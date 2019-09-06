@@ -83,7 +83,7 @@ export default class Lawsuits extends React.Component {
 
 	// 获取统计信息
 	toInfoCount=() => {
-		Api.infoCount({ isRead: 0 }).then((res) => {
+		Api.infoCount(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
