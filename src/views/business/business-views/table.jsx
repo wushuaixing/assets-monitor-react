@@ -108,7 +108,7 @@ class BusinessView extends React.Component {
 				title: '上传时间',
 				dataIndex: 'uploadTime',
 				key: 'uploadTime',
-				width: 100,
+				width: 90,
 				render(text) {
 					return <span>{formatDateTime(text) || '-'}</span>;
 				},

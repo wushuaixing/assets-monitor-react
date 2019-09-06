@@ -107,23 +107,6 @@ export default class DebtorDetail extends React.Component {
 		});
 	}
 
-	// page翻页
-	handleChangePage = (val) => {
-		const { pageSize, searchValue } = this.state;
-		console.log(val, pageSize, searchValue);
-
-		// const params = {
-		// 	...searchValue,
-		// 	current: val,
-		// 	page: {
-		// 		num: pageSize,
-		// 		page: val,
-		// 	},
-		// };
-
-		// this.getData(params);
-	}
-
 	render() {
 		const {
 			loading, businessDetail, data, columns,
@@ -140,13 +123,18 @@ export default class DebtorDetail extends React.Component {
 					<div className="yc-item-ob">
 						<div className="yc-item-icon" />
 						<div className="yc-search-content">
-							<span className="yc-item-title">{businessDetail ? businessDetail.obligorName : '-'}</span>
-							{
-								businessDetail && businessDetail.dishonestStatus === 1 ? <img className="yc-item-break" src={isBreak} alt="" /> : null
-							}
-							{
-								businessDetail && businessDetail.dishonestStatus === 2 ? <img className="yc-item-break" src={beforeBreak} alt="" /> : null
-							}
+							<span className="yc-item-title">
+								{businessDetail ? businessDetail.obligorName : '-'}
+								<span className="yc-item-break">
+									{
+										businessDetail && businessDetail.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null
+									}
+									{
+										businessDetail && businessDetail.dishonestStatus === 2 ? <img src={beforeBreak} alt="" /> : null
+									}
+								</span>
+							</span>
+
 							<div className="search-item-text">
 								<span className="search-item-text-header">身份证号/统一社会信用代码：</span>
 								<span className="search-item-text-msg">{businessDetail && businessDetail.obligorNumber.length > 0 ? businessDetail.obligorNumber : '-'}</span>
