@@ -146,6 +146,7 @@ const dataSource = (rule) => {
 			};
 			if (item.children) {
 				_item.children = item.children.filter(it => it.status);
+				_item.url = `${_item.children[0].url}${_item.children[0].param}`;
 			}
 			_RES.push(_item);
 		}

@@ -33,10 +33,7 @@ const columns = (props) => {
 			title: '标题',
 			dataIndex: 'title',
 			width: 506,
-			render: (text, record) => {
-				const { url } = record;
-				return url ? <a href={url} className="click-link">{text || '--'}</a> : <span>{text || '--'}</span>;
-			},
+			render: (text, record) => (record.url ? linkDom(record.url, text) : '--'),
 		}, {
 			title: <SortVessel field="updateTime" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
 			width: 90,

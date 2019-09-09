@@ -7,6 +7,9 @@ import { baseUrl } from '@/utils/api/index';
 // 列表
 export const infoListBid = params => service.get(`${baseUrl}/yc/monitor/bulletin/bidding/list`, { params })
 	.then(res => res.data);
+// 关注列表
+export const focusListBid = params => service.get(`${baseUrl}/yc/bulletin/focus/bidding/list`, { params })
+	.then(res => res.data);
 // 已读
 export const readStatusBid = params => service.post(`${baseUrl}/yc/monitor/bulletin/bidding/read`, params)
 	.then(res => res.data);
@@ -31,6 +34,11 @@ export const attentionIllegal = (params, isAttention) => service
 // 导出
 export const exportListIllegal = `${baseUrl}/yc/monitor/bulletin/tax/exportExcel`;
 
+// 关注列表
+export const focusListIllegal = params => service.get(`${baseUrl}/yc/bulletin/focus/tax/list`, { params })
+	.then(res => res.data);
+
+
 /* 环境行政处罚 */
 // 列表
 export const infoListPunish = params => service.get(`${baseUrl}/yc/monitor/bulletin/epb/list`, { params })
@@ -45,6 +53,10 @@ export const attentionPunish = (params, isAttention) => service
 // 导出
 export const exportListPunish = `${baseUrl}/yc/monitor/bulletin/epb/exportExcel`;
 
+// 关注列表
+export const focusListPunish = params => service.get(`${baseUrl}/yc/bulletin/focus/epb/list`, { params })
+	.then(res => res.data);
+
 // 统计
 export const infoCount = params => service.get(`${baseUrl}/yc/monitor/bulletin/unreadCountList`, { params })
 	.then(res => res.data);
@@ -55,13 +67,16 @@ export default {
 	readStatusBid,
 	attentionBid,
 	exportListBid,
+	focusListBid,
 	infoListIllegal,
 	readStatusIllegal,
 	attentionIllegal,
 	exportListIllegal,
+	focusListIllegal,
 	infoListPunish,
 	readStatusPunish,
 	attentionPunish,
 	exportListPunish,
+	focusListPunish,
 	infoCount,
 };
