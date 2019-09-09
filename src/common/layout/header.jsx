@@ -5,9 +5,7 @@ import HeaderMessage from './headerMessage/header-message';
 import HeaderCenter from './headerCenter/header-center';
 import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo_white.png';
-import {
-	unreadCount,
-} from '@/utils/api/inform';
+import { unreadCount } from '@/utils/api/inform';
 
 const logoText = '源诚资产监控平台';
 const toStatus = (rule, field) => {
@@ -146,7 +144,8 @@ const dataSource = (rule) => {
 			};
 			if (item.children) {
 				_item.children = item.children.filter(it => it.status);
-				_item.url = `${_item.children[0].url}${_item.children[0].param}`;
+				_item.newUrl = `${_item.children[0].url}${_item.children[0].param || ''}`;
+				// console.log(_item.newUrl, _item.url);
 			}
 			_RES.push(_item);
 		}
@@ -354,52 +353,3 @@ export default class Headers extends React.Component {
 		);
 	}
 }
-// const Header = (props) => {
-// 	const { rule } = props;
-// 	const source = dataSource(rule);
-// 	const [active, setActive] = useState(defaultRouter(source));
-// 	useEffect(() => {
-// 		// 滚动条手动置顶
-// 		window.scrollTo(0, 0);
-// 	});
-// 	// const { rule } = props;
-//
-// 	return (
-// 		<div className="yc-header-wrapper">
-// 			<div className="yc-header-content">
-// 				<div className="header-logo">
-// 					<img src={logoImg} alt="" />
-// 					<span>{logoText}</span>
-// 				</div>
-// 				<div className="header-menu">
-// 					{ source.map(items => <Item key={items.id} {...items} set={setActive} active={active} />) }
-// 				</div>
-// 				<div className="header-else">
-// 					<div
-// 						className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
-// 						onClick={(event) => {
-// 							setActive({ p: 101, c: '' });
-// 							navigate('/message');
-// 							event.stopPropagation();
-// 						}}
-// 					>
-// 						<Badge dot style={{ top: 0, right: 0 }}>
-// 							<div className="notice-icon yc-notice-img" />
-// 						</Badge>
-// 						<span className="notice-number">(3226)</span>
-// 						<HeaderMessage mark="消息中心大概预览" />
-// 					</div>
-// 					{/* <HeaderMessage mark="消息中心大概预览" /> */}
-// 					<div className="else-child else-line" />
-// 					<div className="else-child else-username header-item-normal">
-// 						<li className="else-child-li">您好，崔九九</li>
-// 						<li className="else-child-li"> 崔金鑫测试机构121</li>
-// 						<HeaderCenter mark="个人中心大概" />
-// 					</div>
-// 					{/* <HeaderCenter mark="个人中心大概" /> */}
-// 				</div>
-// 			</div>
-// 		</div>
-// 	);
-// };
-//  Header;

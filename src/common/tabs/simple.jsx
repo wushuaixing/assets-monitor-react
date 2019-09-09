@@ -53,11 +53,12 @@ class SimpleTab extends React.Component {
 	};
 
 	render() {
-		const { rightRender, source } = this.props;
+		const { rightRender, source, prefix } = this.props;
 		const { active } = this.state;
 		return (
 			<div className="yc-tabs-wrapper yc-tabs-simple">
 				<ul>
+					{prefix || ''}
 					{source.map(item => (
 						<li
 							className={`${active === item.id ? 'yc-tabs-active' : 'yc-tabs-un-active'} yc-tabs-li`}

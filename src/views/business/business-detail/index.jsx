@@ -13,6 +13,7 @@ import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import Edit from './edit';
 import { Spin } from '@/common';
+import TableList from '../table-list';
 
 const { confirm } = Modal;
 const createForm = Form.create;
@@ -341,6 +342,7 @@ class DebtorDetail extends React.Component {
 					)
 						: <Edit editSave={this.editSave} isEdit={this.isEdit} data={data} />}
 				</div>
+				<TableList model="business" />
 			</div>
 		);
 	}

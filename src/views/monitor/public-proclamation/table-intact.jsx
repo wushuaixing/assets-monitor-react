@@ -69,12 +69,13 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(_sourceType) => {
 		this.setState({ loading: true });
-		const { sourceType } = this.props;
+		const { sourceType, reqUrl } = this.props;
 		const type = _sourceType || sourceType;
-		let toApi = Api.focusListBid;
+		let toApi = '';
 		if (type === 1)toApi = Api.focusListBid;
 		if (type === 2)toApi = Api.focusListIllegal;
 		if (type === 3)toApi = Api.focusListPunish;
+		toApi = reqUrl || Api.focusListBid;
 		toApi(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -110,8 +111,9 @@ export default class TableIntact extends React.Component {
 		const {
 			dataSource, current, total, loading,
 		} = this.state;
-		const { sourceType } = this.props;
+		const { sourceType, normal } = this.props;
 		const tableProps = {
+			normal,
 			manage: false,
 			dataSource,
 			current,

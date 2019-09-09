@@ -10,7 +10,7 @@ import { aboutLink, caseInfo } from '../table-common';
 // 获取表格配置
 const columns = (props) => {
 	const {
-		normal, onRefresh, sourceType, onSortChange, sortField, sortOrder,
+		normal, onRefresh, sourceType, onSortChange, sortField, sortOrder, noSort,
 	} = props;
 	const sort = {
 		sortField,
@@ -19,12 +19,14 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>,
+			title: (noSort ? '立案日期'
+				: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
 			dataIndex: 'larq',
 			width: 111,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
-			title: <SortVessel field="YG" onClick={onSortChange} {...sort}>原告</SortVessel>,
+			title: (noSort ? '原告'
+				: <SortVessel field="YG" onClick={onSortChange} {...sort}>原告</SortVessel>),
 			dataIndex: 'yg',
 			render: text => text || '--',
 		}, {

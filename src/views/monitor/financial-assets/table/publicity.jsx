@@ -9,7 +9,7 @@ import { linkDom } from '@/utils';
 // 获取表格配置
 const columns = (props) => {
 	const {
-		normal, onRefresh, onSortChange, sortField, sortOrder,
+		normal, onRefresh, onSortChange, sortField, sortOrder, noSort,
 	} = props;
 	const sort = {
 		sortField,
@@ -19,7 +19,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="startTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>起始日期</SortVessel>,
+			title: (noSort ? '起始日期'
+				: <SortVessel field="startTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>起始日期</SortVessel>),
 			dataIndex: 'startTime',
 			width: 110,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
@@ -38,7 +39,8 @@ const columns = (props) => {
 			className: 'tAlignRight_important',
 			render: value => <span>{value ? `${floatFormat(value)}` : '--'}</span>,
 		}, {
-			title: <SortVessel field="endTime" onClick={onSortChange} {...sort}>期满日期</SortVessel>,
+			title: (noSort ? '期满日期'
+				: <SortVessel field="endTime" onClick={onSortChange} {...sort}>期满日期</SortVessel>),
 			dataIndex: 'endTime',
 			className: 'tAlignCenter_important',
 			width: 120,

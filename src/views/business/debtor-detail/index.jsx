@@ -11,6 +11,7 @@ import { Spin } from '@/common';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import './style.scss';
+import TableList from '../table-list';
 
 export default class DebtorDetail extends React.Component {
 	constructor(props) {
@@ -186,7 +187,7 @@ export default class DebtorDetail extends React.Component {
 					</div>
 					)}
 				</Spin>
-
+				<TableList model="debtor" />
 			</div>
 		);
 	}

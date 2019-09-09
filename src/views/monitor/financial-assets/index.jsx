@@ -74,15 +74,15 @@ export default class Subrogation extends React.Component {
 
 	// 切换列表类型[仅公示项目]
 	handleReadChange=(val) => {
-		const { tabConfig } = this.state;
-		const _tabConfig = tabConfig.map((item) => {
-			const _item = Object.assign({}, item);
-			_item.number = 0;
-			_item.dot = false;
-			return _item;
-		});
-		this.setState({ isRead: val, tabConfig: _tabConfig });
-		this.onQueryChange(this.condition, '', val);
+		// const { tabConfig } = this.state;
+		// const _tabConfig = tabConfig.map((item) => {
+		// 	const _item = Object.assign({}, item);
+		// 	_item.number = 0;
+		// 	_item.dot = false;
+		// 	return _item;
+		// });
+		this.setState({ isRead: val });
+		this.onQueryChange(this.condition, '', val, 1);
 	};
 
 	// 全部标记为已读
@@ -175,7 +175,7 @@ export default class Subrogation extends React.Component {
 			total: '',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange(null, val, 'all', 1);
+		this.onQueryChange({}, val, 'all', 1);
 		window.location.href = changeURLArg(window.location.href, 'project', val);
 	};
 

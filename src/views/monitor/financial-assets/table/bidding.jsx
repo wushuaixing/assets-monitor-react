@@ -10,7 +10,7 @@ import { SortVessel } from '@/common/table';
 // 获取表格配置
 const columns = (props) => {
 	const {
-		normal, onRefresh, onSortChange, sortField, sortOrder,
+		normal, onRefresh, onSortChange, sortField, sortOrder, noSort,
 	} = props;
 	const sort = {
 		sortField,
@@ -20,7 +20,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="updateTime" onClick={onSortChange} mark="更新时间" {...sort}>资产信息</SortVessel>,
+			title: (noSort ? '资产信息'
+				: <SortVessel field="updateTime" onClick={onSortChange} mark="更新时间" {...sort}>资产信息</SortVessel>),
 			width: 274,
 			render: (text, row) => AssetsInfo(text, row, true),
 		}, {
@@ -29,7 +30,8 @@ const columns = (props) => {
 			width: 367,
 			render: MatchingReason,
 		}, {
-			title: <SortVessel field="start" onClick={onSortChange} mark="开拍时间" {...sort}>拍卖信息</SortVessel>,
+			title: (noSort ? '拍卖信息'
+				: <SortVessel field="start" onClick={onSortChange} mark="开拍时间" {...sort}>拍卖信息</SortVessel>),
 			width: 392,
 			render: AuctionInfo,
 		}, {

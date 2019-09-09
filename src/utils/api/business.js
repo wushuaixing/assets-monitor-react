@@ -69,3 +69,7 @@ export const businessChange = async (businessId, params) => {
 	const response = await service.get(`${baseUrl}/yc/businessChange/list/${businessId}`, { params });
 	return response.data;
 };
+
+// 机构未读数量统计总览[C.H Wong]
+export const viewCount = businessId => service.get(`${baseUrl}/yc/business/monitor/overview/${businessId}`, { })
+	.then(res => res.data);
