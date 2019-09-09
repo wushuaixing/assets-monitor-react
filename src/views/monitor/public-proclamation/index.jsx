@@ -211,7 +211,7 @@ export default class Lawsuits extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange(null, val, isRead);
+		this.onQueryChange({}, val, isRead);
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 
@@ -239,7 +239,7 @@ export default class Lawsuits extends React.Component {
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
 		const { loading } = this.state;
-		this.condition = Object.assign({}, con || this.condition, {
+		this.condition = Object.assign(con || this.condition, {
 			page: page || current,
 			num: 10,
 		});

@@ -6,7 +6,7 @@ import { linkDom } from '@/utils';
 
 // 获取表格配置
 const columns = (props) => {
-	const { normal, onRefresh } = props;
+	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
 		sortField,
@@ -15,7 +15,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="publishDate" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>,
+			title: (noSort ? '发布日期'
+				: <SortVessel field="publishDate" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishDate',
 			width: 115,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
@@ -35,7 +36,8 @@ const columns = (props) => {
 			width: 506,
 			render: (text, record) => (record.url ? linkDom(record.url, text) : '--'),
 		}, {
-			title: <SortVessel field="updateTime" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
+			title: (noSort ? '更新日期'
+				: <SortVessel field="updateTime" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
 			width: 90,
 			dataIndex: 'updateTime',
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,

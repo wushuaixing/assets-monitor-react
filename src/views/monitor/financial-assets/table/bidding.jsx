@@ -10,7 +10,7 @@ import { SortVessel } from '@/common/table';
 // 获取表格配置
 const columns = (props) => {
 	const {
-		normal, onRefresh, onSortChange, sortField, sortOrder,
+		normal, onRefresh, onSortChange, sortField, sortOrder, noSort,
 	} = props;
 	const sort = {
 		sortField,
@@ -20,7 +20,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="updateTime" onClick={onSortChange} mark="更新时间" {...sort}>资产信息</SortVessel>,
+			title: (noSort ? '资产信息'
+				: <SortVessel field="updateTime" onClick={onSortChange} mark="更新时间" {...sort}>资产信息</SortVessel>),
 			width: 274,
 			render: (text, row) => AssetsInfo(text, row, true),
 		}, {
@@ -29,12 +30,14 @@ const columns = (props) => {
 			width: 367,
 			render: MatchingReason,
 		}, {
-			title: <SortVessel field="start" onClick={onSortChange} mark="开拍时间" {...sort}>拍卖信息</SortVessel>,
+			title: (noSort ? '拍卖信息'
+				: <SortVessel field="start" onClick={onSortChange} mark="开拍时间" {...sort}>拍卖信息</SortVessel>),
 			width: 392,
 			render: AuctionInfo,
 		}, {
 			title: '操作',
 			width: 80,
+			unNormal: true,
 			className: 'tAlignCenter_important yc-assets-auction-action',
 			render: (text, row, index) => (
 				<Attentions
@@ -47,31 +50,7 @@ const columns = (props) => {
 				/>
 			),
 		}];
-	// 单纯展示
-	const normalColumns = [
-		{
-			title: '立案日期',
-			dataIndex: 'larq',
-		}, {
-			title: '原告',
-			dataIndex: 'yg',
-		}, {
-			title: '被告',
-			dataIndex: 'bg',
-		}, {
-			title: '法院',
-			dataIndex: 'court',
-		}, {
-			title: '案号',
-			dataIndex: 'ah',
-		}, {
-			title: '关联信息',
-			dataIndex: 'associateInfo',
-		}, {
-			title: '更新日期',
-			dataIndex: 'updateTime',
-		}];
-	return normal ? normalColumns : defaultColumns;
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
 export default class TableView extends React.Component {

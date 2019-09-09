@@ -9,7 +9,9 @@ import { aboutLink, caseInfo } from '../table-common';
 
 // 获取表格配置
 const columns = (props) => {
-	const { normal, onRefresh, sourceType } = props;
+	const {
+		normal, onRefresh, sourceType, noSort,
+	} = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
 		sortField,
@@ -18,7 +20,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>,
+			title: (noSort ? '立案日期'
+				: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
 			dataIndex: 'larq',
 			width: 100,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
@@ -52,7 +55,8 @@ const columns = (props) => {
 			className: 'tAlignCenter_important min-width-80',
 			render: aboutLink,
 		}, {
-			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
+			title: (noSort ? '更新日期'
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
 			dataIndex: 'updateTime',
 			width: 93,
 			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),

@@ -4,11 +4,12 @@ import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
 import { floatFormat } from '@/utils/format';
+import { linkDom } from '@/utils';
 
 // 获取表格配置
 const columns = (props) => {
 	const {
-		normal, onRefresh, onSortChange, sortField, sortOrder,
+		normal, onRefresh, onSortChange, sortField, sortOrder, noSort,
 	} = props;
 	const sort = {
 		sortField,
@@ -18,16 +19,19 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="startTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>起始日期</SortVessel>,
+			title: (noSort ? '起始日期'
+				: <SortVessel field="startTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>起始日期</SortVessel>),
 			dataIndex: 'startTime',
 			width: 110,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'obligorName',
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '项目名称',
 			dataIndex: 'title',
+			render: (text, row) => (text ? linkDom(row.sourceUrl, text) : '--'),
 		}, {
 			title: '挂拍价格(元)',
 			dataIndex: 'price',
@@ -35,7 +39,8 @@ const columns = (props) => {
 			className: 'tAlignRight_important',
 			render: value => <span>{value ? `${floatFormat(value)}` : '--'}</span>,
 		}, {
-			title: <SortVessel field="endTime" onClick={onSortChange} {...sort}>期满日期</SortVessel>,
+			title: (noSort ? '期满日期'
+				: <SortVessel field="endTime" onClick={onSortChange} {...sort}>期满日期</SortVessel>),
 			dataIndex: 'endTime',
 			className: 'tAlignCenter_important',
 			width: 120,
@@ -49,6 +54,7 @@ const columns = (props) => {
 		}, {
 			title: '操作',
 			width: 60,
+			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
 				<Attentions
@@ -61,31 +67,7 @@ const columns = (props) => {
 				/>
 			),
 		}];
-	// 单纯展示
-	const normalColumns = [
-		{
-			title: '立案日期',
-			dataIndex: 'larq',
-		}, {
-			title: '原告',
-			dataIndex: 'yg',
-		}, {
-			title: '被告',
-			dataIndex: 'bg',
-		}, {
-			title: '法院',
-			dataIndex: 'court',
-		}, {
-			title: '案号',
-			dataIndex: 'ah',
-		}, {
-			title: '关联信息',
-			dataIndex: 'associateInfo',
-		}, {
-			title: '更新日期',
-			dataIndex: 'updateTime',
-		}];
-	return normal ? normalColumns : defaultColumns;
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
 export default class TableView extends React.Component {
