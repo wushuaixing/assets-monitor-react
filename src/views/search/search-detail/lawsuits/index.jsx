@@ -7,7 +7,7 @@ import {
 } from 'antd';
 import { parseQuery } from '@/utils';
 import {
-	Spin, Input, Button, Tabs,
+	Spin, Input, Button, Tabs, timeRule,
 } from '@/common';
 import LawsuitsTable from './table';
 import close from '@/assets/img/icon/close.png';
@@ -21,6 +21,7 @@ class LAWSUITS extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			params: {},
 			tabConfig: [
 				{
 					id: 1,
@@ -81,6 +82,7 @@ class LAWSUITS extends React.Component {
 		this.setState({
 			yg,
 			bg,
+			params,
 		});
 	}
 
@@ -211,11 +213,10 @@ class LAWSUITS extends React.Component {
 
 	render() {
 		const {
-			yg, bg, tabConfig, dataList, loading, startTime, endTime,
+			yg, bg, tabConfig, dataList, loading, params,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps } = form;
-		console.log(startTime, endTime);
+		const { getFieldProps, getFieldValue } = form;
 
 		return (
 			<div className="yc-content-query">
@@ -306,10 +307,7 @@ class LAWSUITS extends React.Component {
 							size="large"
 							placeholder="法院名称"
 							{...getFieldProps('court', {
-							// initialValue: content,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
+								initialValue: params.court,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -320,20 +318,24 @@ class LAWSUITS extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="案件编号"
-							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('ah', {
+								initialValue: params.ah,
+								getValueFromEvent: e => e.trim(),
+							})}
 						/>
 					</div>
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">日期选择: </span>
 						<DatePicker
 							{...getFieldProps('uploadTimeStart', {
+								initialValue: params.uploadTimeStart,
 								onChange: (value, dateString) => {
-									console.log(value, dateString);
 									this.setState({
 										startTime: dateString,
 									});
 								},
 							})}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
 							size="large"
 							style={_style2}
 							placeholder="开始日期"
@@ -341,13 +343,14 @@ class LAWSUITS extends React.Component {
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
 							{...getFieldProps('uploadTimeEnd', {
+								initialValue: params.uploadTimeEnd,
 								onChange: (value, dateString) => {
-									console.log(value, dateString);
 									this.setState({
 										endTime: dateString,
 									});
 								},
 							})}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
 							size="large"
 							style={_style2}
 							placeholder="结束日期"
@@ -361,7 +364,7 @@ class LAWSUITS extends React.Component {
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}
-					field="process"
+					field="type"
 				/>
 				<div className="yc-lawsuits-tablebtn">
 					<Button onClick={this.handleExportExcel}>

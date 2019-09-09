@@ -170,6 +170,8 @@ class WRIT extends React.Component {
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
 			this.getData(params); // 进入页面请求数据
+		} else {
+			message.error('请至少输入一个搜索条件');
 		}
 	}
 

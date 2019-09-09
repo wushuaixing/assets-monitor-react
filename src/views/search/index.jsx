@@ -14,22 +14,26 @@ const tabSource = rule => ([
 		types: [
 			{
 				placeholder: '姓名、公司名称',
-				id: 1,
+				id: 'name',
+				type: 'name',
 				name: '债务人',
 			},
 			{
 				placeholder: '身份证、统一社会信用代码',
-				id: 2,
+				id: 'number',
+				type: 'number',
 				name: '证件号',
 			},
 			{
 				placeholder: '房产证、土地证号',
-				id: 3,
+				id: 'certificate',
+				type: 'certificate',
 				name: '产权证',
 			},
 			{
 				placeholder: '地址信息',
-				id: 4,
+				id: 'addr',
+				type: 'addr',
 				name: '地址',
 			},
 		],
@@ -69,22 +73,26 @@ const tabSource = rule => ([
 			{
 				placeholder: '姓名、公司名称、关键字',
 				id: 'content',
+				type: 'content',
 				name: '全文',
 			},
 			{
 				placeholder: '案件编号',
 				id: 'ah',
+				type: 'ah',
 				name: '案号',
 			},
 			{
 				placeholder: '案件内容提要',
 				id: 'reason',
+				type: 'reason',
 				name: '案由',
 			},
 		],
 	},
 	{
 		id: 4,
+		type: 'content',
 		name: '金融资产',
 		router: 'finance',
 		display: !!(rule && rule.xxssjrzc),

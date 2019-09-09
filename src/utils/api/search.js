@@ -35,3 +35,8 @@ export const fullAssetSearch = async (params) => {
 	const response = await service.get(`${baseUrl}/yc/doc/search/fullAssetSearch`, { params });
 	return response.data;
 };
+// 拍卖信息导出(前1000条数据)
+export const fullAssetSearchExport = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/doc/search/fullAssetSearchExport`, { params });
+	return response.request;
+};

@@ -11,7 +11,7 @@ import {
 import {
 	userInfo, // 通知中心数据
 } from '@/utils/api/user';
-import { generateUrlWithParams, parseQuery, getQueryByName } from '@/utils';
+import { generateUrlWithParams, parseQuery } from '@/utils';
 import { Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import imgUnread from '../../assets/img/inform/icon_message_unread.png';

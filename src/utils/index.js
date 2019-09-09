@@ -242,10 +242,11 @@ export const generateUrlWithParams = (url, params) => {
 // 判断对象内属性是否为空
 export const objectKeyIsEmpty = (obj) => {
 	let empty;
+	// key === 'type'  限制涉诉信息中的信息类型切换
 	// eslint-disable-next-line no-restricted-syntax
 	for (const key in obj) {
 		if (Object.prototype.hasOwnProperty.call(obj, key)) {
-			if (obj[key] === undefined || obj[key] === '') {
+			if (obj[key] === undefined || obj[key] === '' || key === 'type') {
 				empty = true;
 			} else {
 				empty = false;

@@ -29,7 +29,6 @@ const Datas = (props) => {
 	if (options) {
 		const [placeholder, setPlaceholder] = useState(options[0].placeholder);
 		const [selectId, setSelectId] = useState(options[0].id);
-
 		return (
 			<div className="select-search">
 				<div className="select">

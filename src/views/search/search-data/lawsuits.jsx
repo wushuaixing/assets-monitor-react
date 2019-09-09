@@ -3,7 +3,7 @@ import {
 	DatePicker, Button, Form, Tooltip, message,
 } from 'antd';
 import { navigate } from '@reach/router';
-import Input from '@/common/input';
+import { Input, timeRule } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
@@ -16,6 +16,9 @@ class LAWSUITS extends React.Component {
 		this.state = {
 			startTime: '',
 			endTime: '',
+			filingType: 'primary',
+			courtType: 'ghost',
+			type: 1,
 			yg: [
 				{
 					name: '',
@@ -31,27 +34,47 @@ class LAWSUITS extends React.Component {
 		};
 	}
 
-	changeType = () => {
-		console.log(1);
+	// 切换信息类型
+	changeType = (type) => {
+		console.log(type);
+		switch (type) {
+		case 1:
+			this.setState({
+				filingType: 'primary',
+				courtType: 'ghost',
+				type,
+			});
+			break;
+		case 2:
+			this.setState({
+				filingType: 'ghost',
+				courtType: 'primary',
+				type,
+			});
+			break;
+		default:
+			break;
+		}
 	}
 
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const {
-			startTime, endTime, yg, bg,
+			startTime, endTime, yg, bg, type,
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		fildes.uploadTimeStart = startTime;
 		fildes.uploadTimeEnd = endTime;
+		fildes.type = type;
 		fildes.yg0 = yg[0] ? yg[0].name : undefined;
 		fildes.yg1 = yg[1] ? yg[1].name : undefined;
 		fildes.yg2 = yg[2] ? yg[2].name : undefined;
 		fildes.bg0 = bg[0] ? bg[0].name : undefined;
 		fildes.bg1 = bg[1] ? bg[1].name : undefined;
 		fildes.bg2 = bg[2] ? bg[2].name : undefined;
-		console.log(fildes);
+		console.log(fildes, type);
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
 			// 将值传到URL
@@ -155,9 +178,11 @@ class LAWSUITS extends React.Component {
 	}
 
 	render() {
-		const { yg, bg } = this.state;
+		const {
+			yg, bg, filingType, courtType,
+		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps } = form;
+		const { getFieldProps, getFieldValue } = form;
 		return (
 			<div className="yc-tabs-data" style={{ padding: '16px 22px' }}>
 				<div className="yc-tabs-items">
@@ -261,6 +286,7 @@ class LAWSUITS extends React.Component {
 									});
 								},
 							})}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
 							allowClear
 						/>
 						<span style={{ margin: '0 2px ' }}>至</span>
@@ -275,6 +301,7 @@ class LAWSUITS extends React.Component {
 									});
 								},
 							})}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
 							allowClear
 						/>
 					</div>
@@ -283,13 +310,17 @@ class LAWSUITS extends React.Component {
 					<span>信息类型：</span>
 					<Button
 						size="large"
-						type="ghost"
+						type={filingType}
 						style={{ 'margin-right': 10 }}
-						onClick={this.changeType}
+						onClick={() => this.changeType(1)}
 					>
 						立案信息
 					</Button>
-					<Button size="large" type="primary">
+					<Button
+						size="large"
+						type={courtType}
+						onClick={() => this.changeType(2)}
+					>
 						开庭公告
 					</Button>
 				</div>

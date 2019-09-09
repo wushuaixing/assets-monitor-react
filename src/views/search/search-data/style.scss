@@ -24,6 +24,10 @@
           right: -6px;
           top: -6px;
         }
+        .yc-price {
+          padding: 9px 0px 9px 5px;
+          width: 40px;
+        }
       }
       // :nth-child(3n+0)
       // {
@@ -42,6 +46,7 @@
       margin-right: 32px;
       background-color: #fb5a5c;
       border-color: #fb5a5c;
+      width: 84px;
     }
   }
 }
