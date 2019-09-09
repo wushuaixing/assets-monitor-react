@@ -9,6 +9,7 @@ import {
 import './style.scss';
 import { fileExport } from '@/views/monitor/table-common';
 import { clearEmpty } from '@/utils';
+import { unReadCount } from '@/utils/api/monitor-info';
 
 
 export default class Subrogation extends React.Component {
@@ -22,11 +23,13 @@ export default class Subrogation extends React.Component {
 			loading: true,
 			manage: false,
 		};
+		this.unReadCount = false;
 		this.condition = {};
 		this.selectRow = [];
 	}
 
 	componentDidMount() {
+		this.onUnReadCount();
 		this.onQueryChange({});
 	}
 
@@ -45,19 +48,24 @@ export default class Subrogation extends React.Component {
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		Modal.confirm({
-			title: '确认将企业破产重组所有信息标记为全部已读？',
-			content: '点击确定，将为您标记为全部已读。',
-			iconType: 'exclamation-circle',
-			onOk() {
-				readStatus({}).then((res) => {
-					if (res.code === 200) {
-						_this.onQueryChange();
-					}
-				});
-			},
-			onCancel() {},
-		});
+		if (this.unReadCount) {
+			Modal.confirm({
+				title: '确认将所有信息标记为全部已读？',
+				content: '点击确定，将为您标记为全部已读。',
+				iconType: 'exclamation-circle',
+				onOk() {
+					readStatus({}).then((res) => {
+						if (res.code === 200) {
+							_this.onQueryChange();
+							_this.onUnReadCount();
+						}
+					});
+				},
+				onCancel() {},
+			});
+		} else {
+			message.warning('最新信息已经全部已读，没有未读信息了');
+		}
 	};
 
 	// 一键导出 & 批量导出
@@ -113,6 +121,16 @@ export default class Subrogation extends React.Component {
 		_dataSource[index][type] = data[type];
 		this.setState({
 			dataSource: _dataSource,
+		});
+	};
+
+	// 查询是否有未读消息
+	onUnReadCount=() => {
+		unReadCount().then((res) => {
+			const { data, code } = res;
+			if (code === 200) {
+				this.unReadCount = data.bankruptcyCount;
+			}
 		});
 	};
 

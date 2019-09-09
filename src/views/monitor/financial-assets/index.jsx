@@ -88,19 +88,25 @@ export default class Subrogation extends React.Component {
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		Modal.confirm({
-			title: '确认将所有信息标记为全部已读？',
-			content: '点击确定，将为您标记为全部已读。',
-			iconType: 'exclamation-circle',
-			onOk() {
-				readStatusAll({}).then((res) => {
-					if (res.code === 200) {
-						_this.onQueryChange();
-					}
-				});
-			},
-			onCancel() {},
-		});
+		const { tabConfig } = this.state;
+		if (tabConfig[1].dot) {
+			Modal.confirm({
+				title: '确认将所有信息标记为全部已读？',
+				content: '点击确定，将为您标记为全部已读。',
+				iconType: 'exclamation-circle',
+				onOk() {
+					readStatusAll({}).then((res) => {
+						if (res.code === 200) {
+							_this.onQueryChange();
+							_this.onUnReadCount();
+						}
+					});
+				},
+				onCancel() {},
+			});
+		} else {
+			message.warning('最新信息已经全部已读，没有未读信息了');
+		}
 	};
 
 	// 一键导出 & 批量导出
