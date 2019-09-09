@@ -4,6 +4,7 @@ import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
 import { floatFormat } from '@/utils/format';
+import { linkDom } from '@/utils';
 
 // 获取表格配置
 const columns = (props) => {
@@ -25,9 +26,11 @@ const columns = (props) => {
 		}, {
 			title: '相关单位',
 			dataIndex: 'obligorName',
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '项目名称',
 			dataIndex: 'title',
+			render: (text, row) => (text ? linkDom(row.sourceUrl, text) : '--'),
 		}, {
 			title: '挂拍价格(元)',
 			dataIndex: 'price',
@@ -49,6 +52,7 @@ const columns = (props) => {
 		}, {
 			title: '操作',
 			width: 60,
+			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
 				<Attentions
@@ -61,31 +65,7 @@ const columns = (props) => {
 				/>
 			),
 		}];
-	// 单纯展示
-	const normalColumns = [
-		{
-			title: '立案日期',
-			dataIndex: 'larq',
-		}, {
-			title: '原告',
-			dataIndex: 'yg',
-		}, {
-			title: '被告',
-			dataIndex: 'bg',
-		}, {
-			title: '法院',
-			dataIndex: 'court',
-		}, {
-			title: '案号',
-			dataIndex: 'ah',
-		}, {
-			title: '关联信息',
-			dataIndex: 'associateInfo',
-		}, {
-			title: '更新日期',
-			dataIndex: 'updateTime',
-		}];
-	return normal ? normalColumns : defaultColumns;
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
 export default class TableView extends React.Component {
