@@ -8,6 +8,7 @@ import {
 } from '@/utils/api/monitor-info/bankruptcy';
 import './style.scss';
 import { fileExport } from '@/views/monitor/table-common';
+import { clearEmpty } from '@/utils';
 
 
 export default class Subrogation extends React.Component {
@@ -45,7 +46,7 @@ export default class Subrogation extends React.Component {
 	handleAllRead=() => {
 		const _this = this;
 		Modal.confirm({
-			title: '确认将代位权—立案信息标记为全部已读？',
+			title: '确认将企业破产重组所有信息标记为全部已读？',
 			content: '点击确定，将为您标记为全部已读。',
 			iconType: 'exclamation-circle',
 			onOk() {
@@ -149,7 +150,7 @@ export default class Subrogation extends React.Component {
 			loading: true,
 			manage: _manage || false,
 		});
-		infoList(this.condition).then((res) => {
+		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,

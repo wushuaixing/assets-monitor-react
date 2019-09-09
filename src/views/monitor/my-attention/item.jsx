@@ -6,6 +6,7 @@ import Table0031 from '../financial-assets/table/table-biding';
 import Table0032 from '../financial-assets/table/table-publicity';
 import Table0040 from '../lawsuits-monitor/table-intact';
 import Table0050 from '../bankruptcy/table-intact';
+import Table0060 from '../public-proclamation/table-intact';
 
 const TableItem	= (props) => {
 	const { source, childType, sourceType } = props;
@@ -22,6 +23,9 @@ const TableItem	= (props) => {
 					41: <Table0040 sourceType={1} />,
 					42: <Table0040 sourceType={2} />,
 					5: <Table0050 />,
+					61: <Table0060 sourceType={1} />,
+					62: <Table0060 sourceType={2} />,
+					63: <Table0060 sourceType={3} />,
 				}[ID] || <Table0010 />
 			}
 		</React.Fragment>

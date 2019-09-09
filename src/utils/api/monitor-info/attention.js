@@ -35,5 +35,5 @@ export const lawCount = () => service
 
 /* 公示公告 - btn 数量 */
 export const pubCount = () => service
-	.get(`${baseUrl}/yc/monitor/bulletin/unreadCountList`, { params: { isRead: '' } })
+	.get(`${baseUrl}/yc/bulletin/focus/countList`, { params: { } })
 	.then(res => res.data);

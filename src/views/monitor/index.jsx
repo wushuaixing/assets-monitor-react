@@ -115,7 +115,7 @@ class MonitorMain extends React.Component {
 					const _item = item;
 					if (_item.id === 1)_item.dot = data.auctionCount;
 					if (_item.id === 2)_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount;
-					if (_item.id === 3)_item.dot = data.auctionBiddingCount + data.financeCount;
+					if (_item.id === 3)_item.dot = data.financeCount;
 					if (_item.id === 4)_item.dot = data.trialCourtSessionCount + data.trialFilingCount;
 					if (_item.id === 5)_item.dot = data.bankruptcyCount;
 					if (_item.id === 6)_item.dot = data.biddingCount + data.taxCount + data.epbCount;

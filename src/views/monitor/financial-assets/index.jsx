@@ -89,7 +89,7 @@ export default class Subrogation extends React.Component {
 	handleAllRead=() => {
 		const _this = this;
 		Modal.confirm({
-			title: '确认将代位权—立案信息标记为全部已读？',
+			title: '确认将所有信息标记为全部已读？',
 			content: '点击确定，将为您标记为全部已读。',
 			iconType: 'exclamation-circle',
 			onOk() {

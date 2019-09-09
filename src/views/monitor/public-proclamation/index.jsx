@@ -90,7 +90,7 @@ export default class Lawsuits extends React.Component {
 				res.data.forEach((item) => {
 					if (item.sourceType === 1 || item.sourceType === 2 || item.sourceType === 3) {
 						_tabConfig = _tabConfig.map((itemChild) => {
-							if (itemChild.id === item.sourceType && item.count) {
+							if (itemChild.id === item.sourceType) {
 								return {
 									id: itemChild.id,
 									name: itemChild.name,
@@ -122,7 +122,7 @@ export default class Lawsuits extends React.Component {
 		const { sourceType, tabConfig } = this.state;
 		if (tabConfig[sourceType - 1].dot) {
 			Modal.confirm({
-				title: '确认将代位权—立案信息标记为全部已读？',
+				title: '确认将所有信息标记为全部已读？',
 				content: '点击确定，将为您标记为全部已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
