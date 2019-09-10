@@ -5,6 +5,7 @@ import {
 import { navigate } from '@reach/router';
 import './style.scss';
 import Cookies from 'universal-cookie';
+import { generateUrlWithParams } from '@/utils';
 import {
 	userInfo, // tree
 	loginOut, // login
@@ -85,7 +86,16 @@ export default class HeaderMessage extends React.Component {
 		const params = {
 			orgId: num,
 		};
-
+		const { hash } = window.location;
+		console.log(hash.indexOf('message') !== -1);
+		// 在消息中心切换时
+		if (hash.indexOf('message') !== -1) {
+			const urlObj = {
+				num: 1,
+				page: 1,
+			};
+			navigate(generateUrlWithParams('/message', urlObj));
+		}
 		const start = new Date().getTime(); // 获取接口响应时间
 		if (num !== 0) {
 			switchOrg(params).then((res) => {

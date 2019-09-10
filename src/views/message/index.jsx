@@ -83,13 +83,16 @@ class InformCenter extends React.Component {
 		const { columns } = this.state;
 		const { hash } = window.location;
 		const params = parseQuery(hash);
-		console.log(params);
 		if (params.page) {
+			console.log(12);
+
 			this.getData(params);
 			this.setState({
 				current: Number(params.page),
 			});
 		} else {
+			console.log(123);
+
 			this.getData();
 		}
 
