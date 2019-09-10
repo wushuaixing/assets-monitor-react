@@ -38,14 +38,7 @@ class InformCenter extends React.Component {
 							/>
 							<span
 								onClick={() => {
-									const w = window.open('about:blank');
-									w.location.href = `#/business/debtor/detail?id=${
-										row.obligorId
-									}`;
-									const params = {
-										idList: [row.id],
-									};
-									isRead(params);
+									this.skip(row);
 								}}
 								className="yc-message-content"
 							>
@@ -87,14 +80,27 @@ class InformCenter extends React.Component {
 	}
 
 	componentDidMount() {
+		const { columns } = this.state;
 		const { hash } = window.location;
 		const params = parseQuery(hash);
 		console.log(params);
 		if (params.page) {
-			this.getData(params);
-			this.setState({
-				current: Number(params.page),
-			});
+			centerList(params)
+				.then((res) => {
+					if (res.code === 200) {
+						this.setState({
+							current: res.data.total / 10 > params.page ? Number(params.page) : 1,
+						});
+						const page = {
+							page: res.data.total / 10 > params.page ? Number(params.page) : 1,
+						};
+						// 请求两次获取接口返回总数量
+						this.getData(page);
+					}
+				})
+				.catch(() => {
+					this.setState({ loading: false });
+				});
 		} else {
 			this.getData();
 		}
@@ -102,11 +108,44 @@ class InformCenter extends React.Component {
 		userInfo().then((res) => {
 			if (res.code === 200) {
 				const isInstitution = res.data.currentOrgId === res.data.masterOrgId;
+				console.log(isInstitution);
+
+				if (isInstitution === false && columns.length > 0) {
+					columns.pop(); // 删掉最后一项
+				}
 				this.setState({
 					isInstitution,
 				});
 			}
 		});
+	}
+
+	// 跳转
+	skip = (row) => {
+		console.log(row, 1);
+		if (row.operateType === 'auctionProcessAlert') {
+			const w = window.open('about:blank');
+			w.location.href = `#/monitor?process=1?id=${
+				row.obligorId
+			}`;
+		}
+		if (row.operateType === 'dishonestAdd') {
+			const w = window.open('about:blank');
+			w.location.href = `#/business/debtor/detail?id=${
+				row.obligorId
+			}`;
+		}
+		if (row.operateType === 'dishonestRemove') {
+			const w = window.open('about:blank');
+			w.location.href = `#/business/debtor/detail?id=${
+				row.obligorId
+			}`;
+		}
+		const params = {
+			idList: [row.id],
+		};
+		isRead(params);
+		this.getData();
 	}
 
 	// page翻页

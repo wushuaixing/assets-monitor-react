@@ -3,12 +3,16 @@ import React from 'react';
 // 所需的所有组件
 // ==================
 import {
-	Form, DatePicker, Tooltip,
+	Form, DatePicker, Tooltip, message, Pagination,
 } from 'antd';
 import { parseQuery } from '@/utils';
 import {
 	Spin, Input, Button, Tabs, timeRule,
 } from '@/common';
+import {
+	ktggRelationSearch, // 开庭列表
+	trialRelationSearch, // 立案列表
+} from '@/utils/api/search';
 import LawsuitsTable from './table';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
@@ -22,6 +26,12 @@ class LAWSUITS extends React.Component {
 		super(props);
 		this.state = {
 			params: {},
+			dataList: [],
+			loading: false,
+			totals: 0,
+			pageSize: 10,
+			current: 1, // 当前页
+			page: 1,
 			tabConfig: [
 				{
 					id: 1,
@@ -100,6 +110,78 @@ class LAWSUITS extends React.Component {
 			this.addBg(params.bg2);
 		}
 	}
+
+	// 获取立案消息列表
+	getTrialRelationData = (value) => {
+		const {
+			current, pageSize,
+		} = this.state;
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+
+		const fildes = getFieldsValue();
+
+		const params = {
+			num: pageSize,
+			page: current,
+			...fildes,
+			...value,
+		};
+		this.setState({
+			loading: true,
+		});
+		trialRelationSearch(params).then((res) => {
+			if (res && res.data) {
+				this.setState({
+					dataList: res.data.list,
+					totals: res.data.total,
+					current: res.data.page, // 翻页传选中页数，其他重置为1
+					loading: false,
+				});
+			} else {
+				message.error(res.message);
+				this.setState({ loading: false });
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	};
+
+	// 获取开庭消息列表
+	getKtggRelationData = (value) => {
+		const {
+			current, pageSize,
+		} = this.state;
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+
+		const fildes = getFieldsValue();
+
+		const params = {
+			num: pageSize,
+			page: current,
+			...fildes,
+			...value,
+		};
+		this.setState({
+			loading: true,
+		});
+		ktggRelationSearch(params).then((res) => {
+			if (res && res.data) {
+				this.setState({
+					dataList: res.data.list,
+					totals: res.data.total,
+					current: res.data.page, // 翻页传选中页数，其他重置为1
+					loading: false,
+				});
+			} else {
+				message.error(res.message);
+				this.setState({ loading: false });
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	};
 
 	// 搜索
 	search = () => {
@@ -213,7 +295,7 @@ class LAWSUITS extends React.Component {
 
 	render() {
 		const {
-			yg, bg, tabConfig, dataList, loading, params,
+			yg, bg, tabConfig, dataList, loading, params, totals, current, page, pageSize,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -374,6 +456,29 @@ class LAWSUITS extends React.Component {
 				<Spin visible={loading}>
 					<LawsuitsTable stateObj={this.state} dataList={dataList} />
 				</Spin>
+				<div className="yc-pagination">
+					<Pagination
+						total={totals && totals > 1000 ? 1000 : totals}
+						current={current}
+						pageSize={pageSize} // 默认条数
+						showQuickJumper
+						showSizeChanger
+						onShowSizeChange={this.onShowSizeChange}
+						showTotal={() => `共 ${totals} 条记录`}
+						onChange={(val) => {
+							console.log(val);
+							this.handleChangePage(val);
+						}}
+					/>
+				</div>
+				{page === 100 && (
+				<span style={{
+					color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
+				}}
+				>
+					如需更多数据请联系：186-5718-6471
+				</span>
+				)}
 			</div>
 		);
 	}

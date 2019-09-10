@@ -5,7 +5,7 @@ import {
 	notify, // 消息提醒
 	isRead, // 标记已读
 } from '@/utils/api/inform';
-
+import { Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
@@ -14,6 +14,7 @@ export default class HeaderMessage extends React.Component {
 		super(props);
 		this.state = {
 			dataList: [],
+			loading: false,
 		};
 	}
 
@@ -26,24 +27,51 @@ export default class HeaderMessage extends React.Component {
 		const params = {
 			isRead: false,
 		};
+		this.setState({
+			loading: true,
+		});
 		notify(params).then((res) => {
 			if (res.code === 200) {
 				getNoticeNum(res.data.total);
 				this.setState({
 					dataList: res.data.list,
+					loading: false,
+				});
+			} else {
+				this.setState({
+					loading: false,
 				});
 			}
 		});
 	}
 
-	skip= (obligorId, id) => {
+	skip= (obligorId, id, operateType) => {
 		const params = {
 			idList: [id],
 		};
-		console.log(obligorId, '跳转');
-		navigate(`/business/debtor/detail?id=${obligorId}`);
+		console.log(obligorId, operateType, '跳转');
+		if (operateType === 'auctionProcessAlert') {
+			const w = window.open('about:blank');
+			w.location.href = `#/monitor?process=1?id=${
+				obligorId
+			}`;
+		}
+		if (operateType === 'dishonestAdd') {
+			const w = window.open('about:blank');
+			w.location.href = `#/business/debtor/detail?id=${
+				obligorId
+			}`;
+		}
+		if (operateType === 'dishonestRemove') {
+			const w = window.open('about:blank');
+			w.location.href = `#/business/debtor/detail?id=${
+				obligorId
+			}`;
+		}
 		isRead(params).then((res) => {
 			if (res.code === 200) {
+				this.informCenter();
+				window.location.reload(); // 实现页面重新加载/
 				// message.success(res.message);
 				console.log('成功');
 			} else {
@@ -55,16 +83,11 @@ export default class HeaderMessage extends React.Component {
 	// all
 	allRead = () => {
 		const { dataList } = this.state;
-		const idList = [];
-		dataList.map(item => idList.push(item.id));
-		const params = {
-			idList,
-			isRead: false,
-		};
-		if (idList.length > 0) {
-			isRead(params).then((res) => {
+		if (dataList.length > 0) {
+			isRead({}).then((res) => {
 				if (res.code === 200) {
 					this.informCenter();
+					window.location.reload(); // 实现页面重新加载/
 				} else {
 					message.warning(res.message);
 				}
@@ -73,7 +96,7 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	render() {
-		const { dataList } = this.state;
+		const { dataList, loading } = this.state;
 
 		return (
 			<div
@@ -88,42 +111,46 @@ export default class HeaderMessage extends React.Component {
 						<span onClick={this.allRead} className="yc-station-btn">全部标为已读</span>
 					</div>
 				</div>
-				<div className="yc-station-list">
-					{dataList && dataList.length > 0 ? dataList.map(item => (
-						<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId, item.id)}>
-							{item.isRead === false && <div className="yc-badge-tab-red" />}
-							<div className="yc-station-item-title">
-								{item.title}
-								<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
+				<Spin visible={loading}>
+
+					<div className="yc-station-list">
+						{dataList && dataList.length > 0 ? dataList.map(item => (
+							<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId, item.id, item.operateType)}>
+								{item.isRead === false && <div className="yc-badge-tab-red" />}
+								<div className="yc-station-item-title">
+									{item.title}
+									<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
+								</div>
+								<div className="yc-station-item-content">{item.content}</div>
 							</div>
-							<div className="yc-station-item-content">{item.content}</div>
-						</div>
-					)) : (
-						<div className="notice-station-wrapper">
-							<div className="notice notice-station-img" />
-							<span className="notice-text">
+						)) : (
+							<div className="notice-station-wrapper">
+								<div className="notice notice-station-img" />
+								<span className="notice-text">
 								暂无新消息，已读信息请至
-								<a
-									onClick={() => {
-										navigate('/message');
-									}}
-									target="_blank"
-								>
+									<a
+										onClick={() => {
+											navigate('/message');
+										}}
+										target="_blank"
+									>
 									消息中心
-								</a>
+									</a>
 								查看
-							</span>
-						</div>
-					)}
-				</div>
-				<div className="yc-station-box-center">
-					<a onClick={() => {
-						navigate('/message');
-					}}
-					>
-					查看全部
-					</a>
-				</div>
+								</span>
+							</div>
+						)}
+					</div>
+					<div className="yc-station-box-center">
+						<a onClick={() => {
+							navigate('/message');
+						}}
+						>
+							查看全部
+						</a>
+					</div>
+				</Spin>
+
 			</div>
 		);
 	}
