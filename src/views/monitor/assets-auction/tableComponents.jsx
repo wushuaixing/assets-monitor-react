@@ -56,7 +56,7 @@ const MatchingReason = (text, content) => <Matching content={content} />;
 
 const AuctionInfo = (text, rowContent) => {
 	const {
-		title, url, court, consultPrice, start, currentPrice, status,
+		title, url, court, consultPrice, start, currentPrice, status, initialPrice,
 	} = rowContent;
 	const auctionStatus = (s) => {
 		let res = '--';
@@ -92,7 +92,7 @@ const AuctionInfo = (text, rowContent) => {
 				{
 					court ? (
 						<Tooltip placement="top" title={court}>
-							<span className="info info-content text-ellipsis list-width-120 cursor-pointer">{court}</span>
+							<span className="info info-content text-ellipsis list-width-120">{court}</span>
 						</Tooltip>
 					) : <span className="info info-content">未知</span>
 				}
@@ -107,14 +107,24 @@ const AuctionInfo = (text, rowContent) => {
 				<span className="info info-content">{start ? new Date(start * 1000).format('yyyy-MM-dd hh:mm') : '未知'}</span>
 			</li>
 			{
-				status === 5 ? (
-					<li className="table-info-list ">
-						<span className="info info-title">成交价：</span>
-						<span className="info-content info-over">
-							{currentPrice ? `${floatFormat(currentPrice.toFixed(2))} 元` : '未知'}
-						</span>
-					</li>
-				) : (
+				{
+					1: (
+						<li className="table-info-list ">
+							<span className="info info-title">起拍价：</span>
+							<span className="info-content info-over">
+								{initialPrice ? `${floatFormat(initialPrice.toFixed(2))} 元` : '未知'}
+							</span>
+						</li>
+					),
+					5: (
+						<li className="table-info-list ">
+							<span className="info info-title">成交价：</span>
+							<span className="info-content info-over">
+								{currentPrice ? `${floatFormat(currentPrice.toFixed(2))} 元` : '未知'}
+							</span>
+						</li>
+					),
+				}[status] || (
 					<li className="table-info-list ">
 						<span className="info info-title">当前价：</span>
 						<span className="info-content">

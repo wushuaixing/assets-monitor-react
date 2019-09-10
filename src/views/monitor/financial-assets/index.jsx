@@ -171,6 +171,7 @@ export default class Subrogation extends React.Component {
 		this.setState({
 			sourceType: val,
 			dataSource: '',
+			isRead: 'all',
 			current: 1,
 			total: '',
 		});
