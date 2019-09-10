@@ -3,9 +3,8 @@ import { baseUrl } from '@/utils/api/index';
 
 /**
  * 【首页接口】
- * @param id
- * @param type
  * @returns {Promise<*>}
+ * @param params
  */
 // 金融全文搜索
 export const finance = async (params) => {
@@ -39,4 +38,14 @@ export const fullAssetSearch = async (params) => {
 export const fullAssetSearchExport = async (params) => {
 	const response = await service.get(`${baseUrl}/yc/doc/search/fullAssetSearchExport`, { params });
 	return response.request;
+};
+// 涉诉信息 => 开庭公告 [zhousai]
+export const ktggRelationSearch = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/doc/search/ktggRelationSearch`, { params });
+	return response.data;
+};
+// 涉诉信息 => 立案信息 [zhousai]
+export const trialRelationSearch = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/doc/search/trialRelationSearch`, { params });
+	return response.data;
 };

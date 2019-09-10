@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, message,
+	Breadcrumb, Button, Table, Modal,
 } from 'antd';
 import {
 	detail, // 详情
@@ -100,13 +100,22 @@ export default class DebtorDetail extends React.Component {
 					loading: false,
 				});
 			} else {
-				message.error(res.message);
+				// message.error();
+				this.warning(res.message);
 				this.setState({ loading: false });
 			}
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
 	};
+
+	warning =(value) => {
+		const modal = Modal.warning({
+			title: `${value}`,
+			content: '三秒后自动移除',
+		});
+		setTimeout(() => modal.destroy(), 3000);
+	}
 
 	render() {
 		const {
