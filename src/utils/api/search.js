@@ -3,9 +3,8 @@ import { baseUrl } from '@/utils/api/index';
 import { urlEncode } from '@/utils';
 /**
  * 【首页接口】
- * @param id
- * @param type
  * @returns {Promise<*>}
+ * @param params
  */
 // 金融全文搜索
 export const finance = async (params) => {

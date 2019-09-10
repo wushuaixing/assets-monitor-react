@@ -83,7 +83,7 @@ export default class DebtorDetail extends React.Component {
 			const list = operateList.filter(item => item.target === type);
 			return list[0].type;
 		}
-	}
+	};
 
 	getTableData=(value) => {
 		const { hash } = window.location;
@@ -107,7 +107,7 @@ export default class DebtorDetail extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	warning =() => {
 		const modal = Modal.warning({
@@ -191,7 +191,7 @@ export default class DebtorDetail extends React.Component {
 					</div>
 					)}
 				</Spin>
-				<TableList model="debtor" />
+				<TableList model="obligor" />
 			</div>
 		);
 	}
