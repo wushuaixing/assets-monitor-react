@@ -6,13 +6,14 @@ import Api from '@/utils/api/monitor-info/public';
 // { attention, readStatus }
 // 获取表格配置
 const columns = (props) => {
-	const { normal, onRefresh } = props;
+	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = { sortField, sortOrder };
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} {...sort} style={{ paddingLeft: 11 }}>发布日期</SortVessel>,
+			title: (noSort ? '发布日期'
+				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
@@ -27,7 +28,8 @@ const columns = (props) => {
 			width: 536,
 			render: (text, row) => (row.url ? linkDom(row.url, text || '--') : (text || '--')),
 		}, {
-			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
+			title: (noSort ? '更新日期'
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
 			dataIndex: 'updateTime',
 			width: 115,
 			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),

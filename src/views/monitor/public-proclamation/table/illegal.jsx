@@ -6,7 +6,7 @@ import Api from '@/utils/api/monitor-info/public';
 // { attention, readStatus }
 // 获取表格配置
 const columns = (props) => {
-	const { normal, onRefresh } = props;
+	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = { sortField, sortOrder };
 
@@ -33,7 +33,8 @@ const columns = (props) => {
 			width: 403,
 			render: text => text || '--',
 		}, {
-			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
+			title: (noSort ? '更新日期'
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
 			dataIndex: 'updateTime',
 			width: 90,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,

@@ -28,15 +28,6 @@ const source = [
 		dot: false,
 		components: Debtor,
 	},
-	// {
-	// 	id: 3,
-	// 	name: '资产信息',
-	// 	url: '/business/asset',
-	// 	number: 0,
-	// 	dot: false,
-	// 	components: Asset,
-	// },
-
 ];
 
 const BusinessBase = () => (

@@ -15,7 +15,7 @@ export default class TableIntact extends React.Component {
 			loading: true,
 		};
 		this.condition = {
-			isAttention: 1,
+			// isAttention: 1,X
 			sortColumn: '',
 			sortOrder: '',
 			page: 1,
@@ -43,7 +43,9 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=() => {
 		this.setState({ loading: true });
-		attentionList(clearEmpty(this.condition)).then((res) => {
+		const { reqUrl } = this.props;
+		const toApi = reqUrl || attentionList;
+		toApi(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -70,7 +72,10 @@ export default class TableIntact extends React.Component {
 		const {
 			dataSource, current, total, loading,
 		} = this.state;
+		const { normal, noSort } = this.props;
 		const tableProps = {
+			noSort,
+			normal,
 			dataSource,
 			current,
 			total,
