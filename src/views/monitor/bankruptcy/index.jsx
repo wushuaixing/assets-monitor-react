@@ -42,7 +42,7 @@ export default class Subrogation extends React.Component {
 	// 切换列表类型
 	handleReadChange=(val) => {
 		this.setState({ isRead: val });
-		this.onQueryChange(this.condition, '', val);
+		this.onQueryChange(this.condition, '', val, 1);
 	};
 
 	// 全部标记为已读

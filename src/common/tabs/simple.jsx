@@ -5,12 +5,15 @@ import { parseQuery } from '@/utils';
 
 const toGetDefaultActive = (source, field, defaultCurrent) => {
 	const { hash } = window.location;
-	if (field) {
-		const res = parseQuery(hash)[field];
-		const r = res ? Number(res) : -100;
-		return ((source.filter(item => item.id === r)[0]) || {}).id || source[0].id;
+	if (source) {
+		if (field) {
+			const res = parseQuery(hash)[field];
+			const r = res ? Number(res) : -100;
+			return ((source.filter(item => item.id === r)[0]) || {}).id || source[0].id;
+		}
+		return defaultCurrent || source[0].id;
 	}
-	return defaultCurrent || source[0].id;
+	return defaultCurrent;
 };
 const numUnit = val => (val > 10000 ? `${(val / 10000).toFixed(1)}万` : val);
 
@@ -59,7 +62,7 @@ class SimpleTab extends React.Component {
 			<div className="yc-tabs-wrapper yc-tabs-simple">
 				<ul>
 					{prefix || ''}
-					{source.map(item => (
+					{source && source.map(item => (
 						<li
 							className={`${active === item.id ? 'yc-tabs-active' : 'yc-tabs-un-active'} yc-tabs-li`}
 							onClick={() => this.onClick(item)}
