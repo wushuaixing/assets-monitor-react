@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Button, timeRule } from '@/common';
 import InputPrice from '@/common/input/input-price';
 import {
-	DatePicker, Select, Form,
+	DatePicker, Select, Form, message,
 } from 'antd';
 
 class QueryCondition extends React.Component {
@@ -48,7 +48,7 @@ class QueryCondition extends React.Component {
 	};
 
 	render() {
-		const { form: { getFieldProps, getFieldValue } } = this.props;
+		const { form: { getFieldProps, getFieldValue, setFieldsValue } } = this.props;
 		const _style1 = { width: 274 };
 		const _style2 = { width: 100 };
 		const _style3 = { width: 80 };
@@ -89,8 +89,56 @@ class QueryCondition extends React.Component {
 							style={_style1}
 							size="large"
 							suffix="万元"
-							inputFirstProps={getFieldProps('consultPriceStart')}
-							inputSecondProps={getFieldProps('consultPriceEnd')}
+							inputFirstProps={getFieldProps('consultPriceStart', {
+								validateTrigger: 'onBlur',
+								rules: [
+									{
+										required: true,
+										validator(rule, value, callback) {
+											const consultPriceEnd = getFieldValue('consultPriceEnd');
+											if (consultPriceEnd && value) {
+												if (Number(value) > Number(consultPriceEnd)) {
+													message.error('评估价最低价不得高过最高价');
+													setFieldsValue({ consultPriceStart: '' });
+												}
+											}
+											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0) {
+												message.error('只能输入整数数字');
+												setFieldsValue({ consultPriceStart: '' });
+											}
+											if (Number(value) > 9999999999) {
+												message.error('数值上限不得超过9999999999');
+												setFieldsValue({ consultPriceStart: '' });
+											}
+											callback();
+										},
+									}],
+							})}
+							inputSecondProps={getFieldProps('consultPriceEnd', {
+								validateTrigger: 'onBlur',
+								rules: [
+									{
+										required: true,
+										validator(rule, value, callback) {
+											const consultPriceStart = getFieldValue('consultPriceStart');
+											if (consultPriceStart && value) {
+												if (Number(value) < Number(consultPriceStart)) {
+													message.error('评估价最高价不得低于最低价');
+													setFieldsValue({ consultPriceEnd: '' });
+												}
+											}
+											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0) {
+												message.error('只能输入整数数字');
+												setFieldsValue({ consultPriceEnd: '' });
+											}
+											if (Number(value) > 9999999999) {
+												message.error('数值上限不得超过9999999999');
+												setFieldsValue({ consultPriceEnd: '' });
+											}
+											callback();
+										},
+									}],
+							})}
 						/>
 					</div>
 					<div className="yc-query-item">
