@@ -19,7 +19,12 @@ const doSearch = (router, props) => {
 			}
 			return item;
 		});
-		navigate(`/search/detail/${router}?${params}`);
+		// 当时涉诉时拼接type
+		if (router === 'lawsuits') {
+			navigate(`/search/detail/${router}?type=1&${params}`);
+		} else {
+			navigate(`/search/detail/${router}?${params}`);
+		}
 	}
 };
 

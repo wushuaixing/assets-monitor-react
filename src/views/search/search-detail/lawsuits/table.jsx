@@ -1,19 +1,7 @@
 import React from 'react';
 import {
-	Table, Form,
+	Table, Form, Tooltip,
 } from 'antd';
-
-const dataSource = [{
-	key: '1',
-	name: '胡彦斌',
-	age: 32,
-	address: 'GR2019SC1001238',
-}, {
-	key: '2',
-	name: '胡彦祖',
-	age: 42,
-	address: '西湖区湖底公园1号',
-}];
 
 class BusinessView extends React.Component {
 	constructor(props) {
@@ -23,34 +11,91 @@ class BusinessView extends React.Component {
 			columns: [
 				{
 					title: '立案日期',
-					dataIndex: 'name',
-					key: 'name',
-					width: 760,
+					dataIndex: 'larq',
+					key: 'larq',
+					width: 122,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{row.larq || '-'}
+							</div>
+						);
+					},
 				}, {
 					title: '原告',
-					dataIndex: 'name',
-					key: 'name',
-					width: 760,
+					dataIndex: 'yg',
+					key: 'yg',
+					width: 241,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{
+									row.yg && row.yg.length > 14
+										? (
+											<Tooltip placement="topLeft" title={row.yg}>
+												<p>{`${row.yg.substr(0, 14)}...`}</p>
+											</Tooltip>
+										)
+										: <p>{row.yg || '-'}</p>
+								}
+							</div>
+						);
+					},
 				}, {
 					title: '被告',
-					dataIndex: 'name',
-					key: 'name',
-					width: 760,
+					dataIndex: 'bg',
+					key: 'bg',
+					width: 265,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{
+									row.bg && row.bg.length > 14
+										? (
+											<Tooltip placement="topLeft" title={row.bg}>
+												<p>{`${row.bg.substr(0, 14)}...`}</p>
+											</Tooltip>
+										)
+										: <p>{row.tibgtle || '-'}</p>
+								}
+							</div>
+						);
+					},
 				}, {
 					title: '起诉法院',
-					dataIndex: 'name',
-					key: 'name',
-					width: 760,
+					dataIndex: 'court',
+					key: 'court',
+					width: 183,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{row.court || '-'}
+							</div>
+						);
+					},
 				}, {
 					title: '案号',
-					dataIndex: 'name',
-					key: 'name',
-					width: 760,
+					dataIndex: 'ah',
+					key: 'ah',
+					width: 242,
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{row.ah || '-'}
+							</div>
+						);
+					},
 				}, {
 					title: '关联信息',
-					dataIndex: 'name',
-					key: 'name',
-					width: 760,
+					dataIndex: 'associates',
+					key: 'associates',
+					render(text, row) {
+						return (
+							<div className="table-column">
+								{row.associates.url || '-'}
+							</div>
+						);
+					},
 				},
 			],
 		};
@@ -58,11 +103,12 @@ class BusinessView extends React.Component {
 
 	render() {
 		const { columns } = this.state;
+		const { dataList } = this.props;
 		return (
 			<React.Fragment>
 				<Table
 					rowKey={record => record.id}
-					dataSource={dataSource}
+					dataSource={dataList.length > 0 && dataList}
 					columns={columns}
 					style={{ width: '100%' }}
 					defaultExpandAllRows

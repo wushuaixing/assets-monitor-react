@@ -5,6 +5,7 @@ import React from 'react';
 import {
 	Form, DatePicker, Tooltip, message, Pagination,
 } from 'antd';
+import { navigate } from '@reach/router';
 import { parseQuery } from '@/utils';
 import {
 	Spin, Input, Button, Tabs, timeRule,
@@ -12,7 +13,9 @@ import {
 import {
 	ktggRelationSearch, // 开庭列表
 	trialRelationSearch, // 立案列表
+	relationSearchCount, // 数量
 } from '@/utils/api/search';
+import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import LawsuitsTable from './table';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
@@ -21,33 +24,23 @@ import './style.scss';
 const createForm = Form.create;
 const _style1 = { width: 274 };
 const _style2 = { width: 120 };
+
 class LAWSUITS extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			params: {},
+			urlObj: {},
 			dataList: [],
+			startTime: undefined,
+			endTime: undefined,
 			loading: false,
 			totals: 0,
 			pageSize: 10,
 			current: 1, // 当前页
 			page: 1,
-			tabConfig: [
-				{
-					id: 1,
-					name: '立案信息',
-					dot: false,
-					number: 0,
-					showNumber: false,
-				},
-				{
-					id: 2,
-					name: '开庭公告',
-					number: 0,
-					dot: false,
-					showNumber: false,
-				},
-			],
+			ktggRelationCount: '', // 开庭
+			trialRelationCount: '', // 立案
+			type: 1,
 			yg: [
 				{
 					name: '',
@@ -65,50 +58,117 @@ class LAWSUITS extends React.Component {
 
 	componentDidMount() {
 		const { hash } = window.location;
-		const params = parseQuery(hash);
-		console.log(params);
+		const urlObj = parseQuery(hash);
+		const bgArray = ([urlObj.bg0 || '', urlObj.bg1 || '', urlObj.bg2 || '']);
+		const ygArray = ([urlObj.yg0 || '', urlObj.yg1 || '', urlObj.yg2 || '']);
+		const getTrialRelationParams = {
+			bgList: bgArray,
+			...urlObj,
+		};
+		const getKtggRelationParams = {
+			ygList: ygArray,
+			...urlObj,
+		};
+
+		// 判断是否为空对象,非空请求接口
+		if (Object.keys(urlObj).length !== 0 && urlObj.type === '1') {
+			this.getTrialRelationData(getTrialRelationParams); // 进入页面请求数据
+			this.getCount(getTrialRelationParams);
+		}
+		if (Object.keys(urlObj).length !== 0 && urlObj.type === '2') {
+			this.getKtggRelationData(getKtggRelationParams); // 进入页面请求数据
+			this.getCount(getKtggRelationParams);
+		}
 		const {
 			yg, bg,
 		} = this.state;
-		this.initialValue(params);
+		this.initialValue(urlObj);
 		if (yg[0]) {
-			yg[0].name = params.yg0 ? params.yg0 : '';
+			yg[0].name = urlObj.yg0 ? urlObj.yg0 : '';
 		}
 		if (yg[1]) {
-			yg[1].name = params.yg1 ? params.yg1 : '';
+			yg[1].name = urlObj.yg1 ? urlObj.yg1 : '';
 		}
 		if (yg[2]) {
-			yg[2].name = params.yg2 ? params.yg2 : '';
+			yg[2].name = urlObj.yg2 ? urlObj.yg2 : '';
 		}
 		if (bg[0]) {
-			bg[0].name = params.bg0 ? params.bg0 : '';
+			bg[0].name = urlObj.bg0 ? urlObj.bg0 : '';
 		}
 		if (bg[1]) {
-			bg[1].name = params.bg1 ? params.bg1 : '';
+			bg[1].name = urlObj.bg1 ? urlObj.bg1 : '';
 		}
 		if (bg[2]) {
-			bg[2].name = params.bg2 ? params.bg2 : '';
+			bg[2].name = urlObj.bg2 ? urlObj.bg2 : '';
 		}
 		this.setState({
 			yg,
 			bg,
-			params,
+			urlObj,
 		});
 	}
 
-	initialValue = (params) => {
-		if (params.yg1) {
-			this.addYg(params.yg1);
+	initialValue = (urlObj) => {
+		if (urlObj.yg1) {
+			this.addYg(urlObj.yg1);
 		}
-		if (params.yg2) {
-			this.addYg(params.yg2);
+		if (urlObj.yg2) {
+			this.addYg(urlObj.yg2);
 		}
-		if (params.bg1) {
-			this.addBg(params.bg1);
+		if (urlObj.bg1) {
+			this.addBg(urlObj.bg1);
 		}
-		if (params.bg2) {
-			this.addBg(params.bg2);
+		if (urlObj.bg2) {
+			this.addBg(urlObj.bg2);
 		}
+	}
+
+	// 切换已读未读
+	onSourceType=(val) => {
+		const { hash } = window.location;
+		const urlObj = parseQuery(hash);
+		const bgArray = ([urlObj.bg0 || '', urlObj.bg1 || '', urlObj.bg2 || '']);
+		const ygArray = ([urlObj.yg0 || '', urlObj.yg1 || '', urlObj.yg2 || '']);
+		const getTrialRelationParams = {
+			bgList: bgArray,
+			ygList: ygArray,
+			...urlObj,
+			type: val,
+		};
+		const getKtggRelationParams = {
+			bgList: bgArray,
+			ygList: ygArray,
+			...urlObj,
+			type: val,
+		};
+
+		// 判断是否为空对象,非空请求接口
+		if (Object.keys(urlObj).length !== 0 && val === 1) {
+			this.getTrialRelationData(getTrialRelationParams); // 进入页面请求数据
+			this.getCount(getTrialRelationParams);
+		}
+		if (Object.keys(urlObj).length !== 0 && val === 2) {
+			this.getKtggRelationData(getKtggRelationParams); // 进入页面请求数据
+			this.getCount(getKtggRelationParams);
+		}
+		this.setState({
+			type: val,
+		});
+	};
+
+	// 获取数量
+	getCount = (value) => {
+		const params = {
+			...value,
+		};
+		relationSearchCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					trialRelationCount: res.data[0].count,
+					ktggRelationCount: res.data[1].count,
+				});
+			}
+		});
 	}
 
 	// 获取立案消息列表
@@ -185,27 +245,45 @@ class LAWSUITS extends React.Component {
 
 	// 搜索
 	search = () => {
+		const {
+			startTime, endTime, yg, bg, type,
+		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
+		fildes.uploadTimeStart = startTime;
+		fildes.uploadTimeEnd = endTime;
+		fildes.type = type;
+		fildes.yg0 = yg[0] ? yg[0].name : undefined;
+		fildes.yg1 = yg[1] ? yg[1].name : undefined;
+		fildes.yg2 = yg[2] ? yg[2].name : undefined;
+		fildes.bg0 = bg[0] ? bg[0].name : undefined;
+		fildes.bg1 = bg[1] ? bg[1].name : undefined;
+		fildes.bg2 = bg[2] ? bg[2].name : undefined;
 		console.log(fildes);
-
-		// if (startTime && endTime && startTime > endTime) {
-		// 	message.warning('结束时间必须大于开始时间');
-		// 	return;
-		// }
-		// const params = {
+		// 判断是否为空对象,非空请求接口
+		if (!objectKeyIsEmpty(fildes)) {
+			// 将值传到URL
+			navigate(generateUrlWithParams('/search/detail/lawsuits', fildes));
+		} else {
+			message.error('请至少输入一个搜索条件');
+		}
+		// const getTrialRelationParams = {
 		// 	...fildes,
-		// 	page: 1,
-		// 	num: 10,
-		// 	uploadTimeStart: startTime || null, // 搜索时间
-		// 	uploadTimeEnd: endTime || null,
+		// };
+		// const getKtggRelationParams = {
+		// 	...fildes,
 		// };
 
-		// this.getData(params);
-		// this.setState({
-		// 	searchValue: params,
-		// });
+		// 判断是否为空对象,非空请求接口
+		// if (Object.keys(urlObj).length !== 0 && type === 1) {
+		// 	this.getTrialRelationData(getTrialRelationParams); // 进入页面请求数据
+		// 	this.getCount(getTrialRelationParams);
+		// }
+		// if (Object.keys(urlObj).length !== 0 && type === 2) {
+		// 	this.getKtggRelationData(getKtggRelationParams); // 进入页面请求数据
+		// 	this.getCount(getKtggRelationParams);
+		// }
 	}
 
 	// 重置输入框
@@ -244,7 +322,6 @@ class LAWSUITS extends React.Component {
 	deleteYg = (id) => {
 		let { yg } = this.state;
 		yg = yg.filter(key => key.id !== id);
-		// console.log(id);
 		yg.map((item, index) => {
 			const _item = item;
 			return _item.id = index + 1;
@@ -295,11 +372,26 @@ class LAWSUITS extends React.Component {
 
 	render() {
 		const {
-			yg, bg, tabConfig, dataList, loading, params, totals, current, page, pageSize,
+			yg, bg, dataList, loading, urlObj, totals, current, page, pageSize, ktggRelationCount, trialRelationCount,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
-
+		const tabConfig = [
+			{
+				id: 1,
+				name: '立案信息',
+				dot: false,
+				number: trialRelationCount,
+				showNumber: !!trialRelationCount,
+			},
+			{
+				id: 2,
+				name: '开庭公告',
+				dot: false,
+				number: ktggRelationCount,
+				showNumber: !!ktggRelationCount,
+			},
+		];
 		return (
 			<div className="yc-content-query">
 				<div className="yc-lawsuits-items">
@@ -389,7 +481,7 @@ class LAWSUITS extends React.Component {
 							size="large"
 							placeholder="法院名称"
 							{...getFieldProps('court', {
-								initialValue: params.court,
+								initialValue: urlObj.court,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -401,7 +493,7 @@ class LAWSUITS extends React.Component {
 							size="large"
 							placeholder="案件编号"
 							{...getFieldProps('ah', {
-								initialValue: params.ah,
+								initialValue: urlObj.ah,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -410,7 +502,7 @@ class LAWSUITS extends React.Component {
 						<span className="yc-query-item-title">日期选择: </span>
 						<DatePicker
 							{...getFieldProps('uploadTimeStart', {
-								initialValue: params.uploadTimeStart,
+								initialValue: urlObj.uploadTimeStart,
 								onChange: (value, dateString) => {
 									this.setState({
 										startTime: dateString,
@@ -425,7 +517,7 @@ class LAWSUITS extends React.Component {
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
 							{...getFieldProps('uploadTimeEnd', {
-								initialValue: params.uploadTimeEnd,
+								initialValue: urlObj.uploadTimeEnd,
 								onChange: (value, dateString) => {
 									this.setState({
 										endTime: dateString,
