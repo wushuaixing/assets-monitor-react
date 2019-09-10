@@ -113,7 +113,6 @@ class InformCenter extends React.Component {
 
 	// 跳转
 	skip = (row) => {
-		console.log(row, 1);
 		if (row.operateType === 'auctionProcessAlert') {
 			const w = window.open('about:blank');
 			w.location.href = '#/monitor?process=1';
@@ -134,7 +133,7 @@ class InformCenter extends React.Component {
 			idList: [row.id],
 		};
 		isRead(params);
-		this.getData();
+		window.location.reload(); // 实现页面重新加载/
 	}
 
 	// page翻页

@@ -4,7 +4,7 @@ import React from 'react';
 // ==================
 import { Form, Pagination, message } from 'antd';
 import { navigate } from '@reach/router';
-import { getQueryByName } from '@/utils';
+import { getQueryByName, generateUrlWithParams } from '@/utils';
 import { Spin, Input, Button } from '@/common';
 import FinanceTable from './table';
 import {
@@ -94,26 +94,13 @@ class FINANCE extends React.Component {
 		});
 	};
 
-	generateUrlWithParams = (url, params) => {
-		const urlParams = [];
-		let urlList = url;
-		// eslint-disable-next-line no-restricted-syntax
-		for (const key in params) {
-			if (params[key]) {
-				urlParams.push(`${key}=${params[key]}`);
-			}
-		}
-		urlList += `?${urlParams.join('&')}`;
-		return urlList;
-	};
-
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		const { pageSize } = this.state;
-		navigate(this.generateUrlWithParams('/search/detail/finance', fildes));
+		navigate(generateUrlWithParams('/search/detail/finance', fildes));
 		this.setState({
 			page: 1,
 		});
@@ -140,7 +127,7 @@ class FINANCE extends React.Component {
 			totals: 0,
 			page: 1,
 		});
-		this.generateUrlWithParams('/search/detail/finance', {});
+		navigate(generateUrlWithParams('/search/detail/finance', {}));
 	}
 
 	//  pagesize页面翻页可选

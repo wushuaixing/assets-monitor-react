@@ -1,6 +1,6 @@
 import service from '@/utils/service';
 import { baseUrl } from '@/utils/api/index';
-
+import { urlEncode } from '@/utils';
 /**
  * 【首页接口】
  * @returns {Promise<*>}
@@ -39,13 +39,45 @@ export const fullAssetSearchExport = async (params) => {
 	const response = await service.get(`${baseUrl}/yc/doc/search/fullAssetSearchExport`, { params });
 	return response.request;
 };
+// 涉诉信息 => 数量 [zhousai]
+export const relationSearchCount = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/doc/search/relationSearchCount`,
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
 // 涉诉信息 => 开庭公告 [zhousai]
 export const ktggRelationSearch = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/doc/search/ktggRelationSearch`, { params });
+	const response = await service.get(`${baseUrl}/yc/doc/search/ktggRelationSearch`,
+		{
+			params,
+			paramsSerializer: () => {
+			// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
 	return response.data;
 };
 // 涉诉信息 => 立案信息 [zhousai]
 export const trialRelationSearch = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/doc/search/trialRelationSearch`, { params });
+	const response = await service.get(`${baseUrl}/yc/doc/search/trialRelationSearch`,
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
 	return response.data;
 };
