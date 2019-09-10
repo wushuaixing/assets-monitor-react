@@ -46,6 +46,7 @@ class InformCenter extends React.Component {
 										idList: [row.id],
 									};
 									isRead(params);
+									this.getData();
 								}}
 								className="yc-message-content"
 							>
@@ -87,6 +88,7 @@ class InformCenter extends React.Component {
 	}
 
 	componentDidMount() {
+		const { columns } = this.state;
 		const { hash } = window.location;
 		const params = parseQuery(hash);
 		console.log(params);
@@ -102,6 +104,11 @@ class InformCenter extends React.Component {
 		userInfo().then((res) => {
 			if (res.code === 200) {
 				const isInstitution = res.data.currentOrgId === res.data.masterOrgId;
+				console.log(isInstitution);
+
+				if (isInstitution === false && columns.length > 0) {
+					columns.pop(); // 删掉最后一项
+				}
 				this.setState({
 					isInstitution,
 				});
