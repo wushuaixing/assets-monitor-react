@@ -41,11 +41,12 @@ class comInput extends React.Component {
 		});
 	};
 
-	onBlur=() => {
+	onBlur=(val, inputProps) => {
 		// console.log('onBlur');
 		this.setState({
 			focus: false,
 		});
+		if (inputProps.onBlur)inputProps.onBlur(val);
 	};
 
 	render() {
@@ -81,7 +82,7 @@ class comInput extends React.Component {
 					placeholder="最低价"
 					value={(f.onChange ? f.value : value1) || f.defaultValue || ''}
 					onChange={e => this.onChange(e, 'value1')}
-					onBlur={this.onBlur}
+					onBlur={val => this.onBlur(val, inputFirstProps)}
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
 				/>
@@ -100,7 +101,7 @@ class comInput extends React.Component {
 					value={(s.onChange ? s.value : value2) || s.defaultValue || ''}
 					placeholder="最高价"
 					onChange={e => this.onChange(e, 'value2')}
-					onBlur={this.onBlur}
+					onBlur={val => this.onBlur(val, inputSecondProps)}
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
 				/>
