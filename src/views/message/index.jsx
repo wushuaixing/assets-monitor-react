@@ -85,22 +85,10 @@ class InformCenter extends React.Component {
 		const params = parseQuery(hash);
 		console.log(params);
 		if (params.page) {
-			centerList(params)
-				.then((res) => {
-					if (res.code === 200) {
-						this.setState({
-							current: res.data.total / 10 > params.page ? Number(params.page) : 1,
-						});
-						const page = {
-							page: res.data.total / 10 > params.page ? Number(params.page) : 1,
-						};
-						// 请求两次获取接口返回总数量
-						this.getData(page);
-					}
-				})
-				.catch(() => {
-					this.setState({ loading: false });
-				});
+			this.getData(params);
+			this.setState({
+				current: Number(params.page),
+			});
 		} else {
 			this.getData();
 		}
@@ -125,9 +113,7 @@ class InformCenter extends React.Component {
 		console.log(row, 1);
 		if (row.operateType === 'auctionProcessAlert') {
 			const w = window.open('about:blank');
-			w.location.href = `#/monitor?process=1?id=${
-				row.obligorId
-			}`;
+			w.location.href = '#/monitor?process=1';
 		}
 		if (row.operateType === 'dishonestAdd') {
 			const w = window.open('about:blank');
