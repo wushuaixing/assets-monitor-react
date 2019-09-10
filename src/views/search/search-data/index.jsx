@@ -2,12 +2,14 @@ import React from 'react';
 import Auction from './auction';
 import Lawsuits from './lawsuits';
 import Writ from './writ';
-import SelectSearch from './selectSearch';
+import Finance from './finance';
 
 const Datas = (props) => {
-	const { active, highSearch } = props;
-	if (highSearch && active.id !== 4) {
-		return (
+	const { active } = props;
+
+	return (
+		<React.Fragment>
+			{active.id !== 4 && (
 			<div className="yc-datas">
 				{
 					active.id === 1 ? (<Auction />) : null
@@ -19,21 +21,9 @@ const Datas = (props) => {
 					active.id === 3 ? (<Writ />) : null
 				}
 			</div>
-		);
-	}
-	return (
-		<React.Fragment>
+			)}
 			{
-				active.id === 1 ? (<SelectSearch options={active.types} router={active.router} />) : null
-			}
-			{
-				active.id === 2 ? (<SelectSearch options={active.types} router={active.router} />) : null
-			}
-			{
-				active.id === 3 ? (<SelectSearch options={active.types} router={active.router} />) : null
-			}
-			{
-				active.id === 4 ? (<SelectSearch router={active.router} />) : null
+				active.id === 4 ? (<Finance router={active.router} />) : null
 			}
 		</React.Fragment>
 	);

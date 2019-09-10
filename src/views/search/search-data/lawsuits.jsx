@@ -14,8 +14,8 @@ class LAWSUITS extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			startTime: '',
-			endTime: '',
+			startTime: undefined,
+			endTime: undefined,
 			filingType: 'primary',
 			courtType: 'ghost',
 			type: 1,
@@ -89,13 +89,22 @@ class LAWSUITS extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
 		this.setState({
+			startTime: undefined,
+			endTime: undefined,
 			yg: [
 				{
 					name: '',
 					id: 1,
 				},
 			],
+			bg: [
+				{
+					name: '',
+					id: 1,
+				},
+			],
 		});
+
 		resetFields('');
 	}
 
@@ -184,7 +193,7 @@ class LAWSUITS extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
 		return (
-			<div className="yc-tabs-data" style={{ padding: '16px 22px' }}>
+			<div className="yc-tabs-data" style={{ padding: '0 22px' }}>
 				<div className="yc-tabs-items">
 					{yg.map(item => (
 						<div key={item.id} className="item" style={{ 'margin-right': 10 }}>

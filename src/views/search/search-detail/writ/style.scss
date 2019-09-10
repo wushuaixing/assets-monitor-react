@@ -3,3 +3,35 @@
     margin: 15px 0;
   }
 }
+.yc-trialRelation-title {
+  .sort {
+    width: 16px;
+    height: 16px;
+    background-position: center;
+    background-size: contain;
+    vertical-align: top;
+    position: absolute;
+  }
+  &:hover {
+    cursor: pointer;
+    .th-sort-default {
+      background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
+    }
+    .th-sort-down {
+      background-image: url("../../../../assets/img/icon/icon_arrow_asc.png");
+    }
+    .th-sort-up {
+      background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
+    }
+  }
+  .th-sort-default {
+    background-image: url("../../../../assets/img/icon/icon_arrow.png");
+  }
+  .th-sort-down {
+    background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
+  }
+
+  .th-sort-up {
+    background-image: url("../../../../assets/img/icon/icon_arrow_asc.png");
+  }
+}

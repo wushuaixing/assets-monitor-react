@@ -39,6 +39,8 @@ class WRIT extends React.Component {
 			pageSize: 10,
 			current: 1, // 当前页
 			page: 1,
+			Sort: undefined,
+			inputSearch: {},
 		};
 	}
 
@@ -148,6 +150,21 @@ class WRIT extends React.Component {
 		});
 	}
 
+	// 时间排序
+	SortTime = () => {
+		const { dataList, Sort, inputSearch } = this.state;
+		const params = {
+			sort: Sort === 'DESC' ? 1 : 0,
+			...inputSearch,
+		};
+		if (dataList.length > 0) {
+			this.getData(params); // 进入页面请求数据
+		}
+		this.setState({
+			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
+		});
+	}
+
 	// 搜索
 	query = () => {
 		const { form: { getFieldsValue } } = this.props; // 会提示props is not defined
@@ -159,6 +176,8 @@ class WRIT extends React.Component {
 		navigate(generateUrlWithParams('/search/detail/writ', fildes));
 		this.setState({
 			page: 1,
+			inputSearch: fildes,
+			Sort: undefined,
 		});
 
 		const params = {
@@ -186,17 +205,20 @@ class WRIT extends React.Component {
 			totals: 0,
 			pageSize: 10,
 			page: 1,
+			Sort: undefined,
 		});
 		resetFields('');
 	}
 
 	// 全部导出
 	handleExportExcelAll = () => {
+		const { Sort } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		const params = {
 			...fields,
+			Sort,
 		};
 		const start = new Date().getTime(); // 获取接口响应时间
 		exportAll(params).then((res) => {
@@ -221,12 +243,13 @@ class WRIT extends React.Component {
 
 	// 本页导出
 	handleExportCurrent= () => {
-		const { pageSize, current } = this.state;
+		const { pageSize, current, Sort } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		const params = {
 			...fields,
+			Sort,
 			page: current,
 			num: pageSize,
 		};
@@ -253,7 +276,7 @@ class WRIT extends React.Component {
 
 	render() {
 		const {
-			loading, dataList, params, totals, current, page, pageSize,
+			loading, dataList, params, totals, current, page, pageSize, Sort,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -396,6 +419,8 @@ class WRIT extends React.Component {
 						dataList={dataList}
 						getData={this.getData}
 						openPeopleModal={this.openPeopleModal}
+						SortTime={this.SortTime}
+						Sort={Sort}
 					/>
 				</Spin>
 				<div className="yc-pagination">

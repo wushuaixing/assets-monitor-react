@@ -34,6 +34,7 @@ class LAWSUITS extends React.Component {
 			startTime: undefined,
 			endTime: undefined,
 			loading: false,
+			Sort: undefined,
 			totals: 0,
 			pageSize: 10,
 			current: 1, // 当前页
@@ -63,9 +64,11 @@ class LAWSUITS extends React.Component {
 		const ygArray = ([urlObj.yg0 || '', urlObj.yg1 || '', urlObj.yg2 || '']);
 		const getTrialRelationParams = {
 			bgList: bgArray,
+			ygList: ygArray,
 			...urlObj,
 		};
 		const getKtggRelationParams = {
+			bgList: bgArray,
 			ygList: ygArray,
 			...urlObj,
 		};
@@ -108,6 +111,7 @@ class LAWSUITS extends React.Component {
 		});
 	}
 
+
 	initialValue = (urlObj) => {
 		if (urlObj.yg1) {
 			this.addYg(urlObj.yg1);
@@ -123,7 +127,7 @@ class LAWSUITS extends React.Component {
 		}
 	}
 
-	// 切换已读未读
+	// 切换立案开庭
 	onSourceType=(val) => {
 		const { hash } = window.location;
 		const urlObj = parseQuery(hash);
@@ -243,6 +247,21 @@ class LAWSUITS extends React.Component {
 		});
 	};
 
+	// 时间排序
+	SortTime = () => {
+		const { dataList, Sort, inputSearch } = this.state;
+		// const params = {
+		// 	sort: Sort === 'DESC' ? 1 : 0,
+		// 	...inputSearch,
+		// };
+		// if (dataList.length > 0) {
+		// 	this.getData(params); // 进入页面请求数据
+		// }
+		this.setState({
+			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
+		});
+	}
+
 	// 搜索
 	search = () => {
 		const {
@@ -260,7 +279,6 @@ class LAWSUITS extends React.Component {
 		fildes.bg0 = bg[0] ? bg[0].name : undefined;
 		fildes.bg1 = bg[1] ? bg[1].name : undefined;
 		fildes.bg2 = bg[2] ? bg[2].name : undefined;
-		console.log(fildes);
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
 			// 将值传到URL
@@ -268,28 +286,60 @@ class LAWSUITS extends React.Component {
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
-		// const getTrialRelationParams = {
-		// 	...fildes,
-		// };
-		// const getKtggRelationParams = {
-		// 	...fildes,
-		// };
+		const { hash } = window.location;
+		const urlObj = parseQuery(hash);
+		console.log(urlObj);
+
+		const bgArray = ([urlObj.bg0 || '', urlObj.bg1 || '', urlObj.bg2 || '']);
+		const ygArray = ([urlObj.yg0 || '', urlObj.yg1 || '', urlObj.yg2 || '']);
+		const getTrialRelationParams = {
+			bgList: bgArray,
+			ygList: ygArray,
+			...urlObj,
+		};
+		const getKtggRelationParams = {
+			bgList: bgArray,
+			ygList: ygArray,
+			...urlObj,
+		};
 
 		// 判断是否为空对象,非空请求接口
-		// if (Object.keys(urlObj).length !== 0 && type === 1) {
-		// 	this.getTrialRelationData(getTrialRelationParams); // 进入页面请求数据
-		// 	this.getCount(getTrialRelationParams);
-		// }
-		// if (Object.keys(urlObj).length !== 0 && type === 2) {
-		// 	this.getKtggRelationData(getKtggRelationParams); // 进入页面请求数据
-		// 	this.getCount(getKtggRelationParams);
-		// }
+		if (Object.keys(urlObj).length !== 0 && urlObj.type === '1') {
+			this.getTrialRelationData(getTrialRelationParams); // 进入页面请求数据
+			this.getCount(getTrialRelationParams);
+		}
+		if (Object.keys(urlObj).length !== 0 && urlObj.type === '2') {
+			this.getKtggRelationData(getKtggRelationParams); // 进入页面请求数据
+			this.getCount(getKtggRelationParams);
+		}
 	}
 
 	// 重置输入框
 	queryReset = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
+		navigate('/search/detail/lawsuits');
+		this.setState({
+			yg: [
+				{
+					name: '',
+					id: 1,
+				},
+			],
+			bg: [
+				{
+					name: '',
+					id: 1,
+				},
+			],
+			urlObj: {},
+			dataList: [],
+			startTime: undefined,
+			endTime: undefined,
+			totals: 0,
+			pageSize: 10,
+			page: 1,
+		});
 		resetFields('');
 	}
 
@@ -372,7 +422,7 @@ class LAWSUITS extends React.Component {
 
 	render() {
 		const {
-			yg, bg, dataList, loading, urlObj, totals, current, page, pageSize, ktggRelationCount, trialRelationCount,
+			yg, bg, dataList, loading, urlObj, totals, current, page, pageSize, ktggRelationCount, trialRelationCount, Sort,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -546,7 +596,12 @@ class LAWSUITS extends React.Component {
 					</Button>
 				</div>
 				<Spin visible={loading}>
-					<LawsuitsTable stateObj={this.state} dataList={dataList} />
+					<LawsuitsTable
+						stateObj={this.state}
+						dataList={dataList}
+						SortTime={this.SortTime}
+						Sort={Sort}
+					/>
 				</Spin>
 				<div className="yc-pagination">
 					<Pagination

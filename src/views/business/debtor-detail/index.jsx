@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, message, Modal,
+	Breadcrumb, Button, Table, Modal,
 } from 'antd';
 import {
 	detail, // 详情
@@ -109,12 +109,19 @@ export default class DebtorDetail extends React.Component {
 		});
 	}
 
-	warning =(value) => {
+	warning =() => {
 		const modal = Modal.warning({
-			title: `${value}`,
-			content: '三秒后自动移除',
+			title: '债务人不存在，可能关联的业务已经被删除',
+			content: '三秒后自动关闭页面',
+			onOk() {
+				window.close();
+			},
 		});
-		setTimeout(() => modal.destroy(), 3000);
+
+		setTimeout(() => {
+			modal.destroy();
+			window.close();
+		}, 3000);
 	}
 
 	render() {
