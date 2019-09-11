@@ -8,8 +8,9 @@ import {
 import { Button } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
+import FollowModel from './follow-info';
 // 获取表格配置
-const columns = (props) => {
+const columns = (props, onFollowClick) => {
 	const {
 		normal, onRefresh, onSortChange, sortField, sortOrder, noSort,
 	} = props;
@@ -47,17 +48,17 @@ const columns = (props) => {
 						{{
 							0: (
 								<React.Fragment>
-									<Button className="auction-button" title="跟进" />
+									<Button className="auction-button" title="跟进" onClick={() => onFollowClick(row)} />
 									<br />
 									<Button className="auction-button" title="忽略" />
 								</React.Fragment>
 							),
-							3: <Button className="auction-button" title="跟进中" />,
-							6: <Button className="auction-button" title="跟进中" />,
+							3: <Button className="auction-button" title="跟进中" onClick={() => onFollowClick(row)} />,
+							6: <Button className="auction-button" title="跟进中" onClick={() => onFollowClick(row)} />,
 							9: <Button className="auction-button" title="已完成" />,
 							12: (
 								<React.Fragment>
-									<Button className="auction-button" title="跟进" />
+									<Button className="auction-button" title="跟进" onClick={() => onFollowClick(row)} />
 									<br />
 									<Button className="auction-button" title="已忽略" disabled />
 								</React.Fragment>
@@ -85,6 +86,8 @@ export default class TableView extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
+			visible: false,
+			source: {},
 		};
 	}
 
@@ -104,11 +107,19 @@ export default class TableView extends React.Component {
 		if (onSelect)onSelect(_selectedRowKeys);
 	};
 
+	// 跟进点击效果
+	toFollowClick=(source) => {
+		this.setState({
+			visible: true,
+			source,
+		});
+	};
+
 	render() {
 		const {
 			total, current, dataSource, manage, onPageChange,
 		} = this.props;
-		const { selectedRowKeys } = this.state;
+		const { selectedRowKeys, visible, source } = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,
@@ -120,7 +131,7 @@ export default class TableView extends React.Component {
 				<Table
 					{...rowSelection}
 					rowClassName={() => 'yc-assets-auction-table-row'}
-					columns={columns(this.props)}
+					columns={columns(this.props, this.toFollowClick)}
 					dataSource={dataSource}
 					pagination={false}
 					onRowClick={this.toRowClick}
@@ -135,6 +146,11 @@ export default class TableView extends React.Component {
 						showTotal={totalCount => `共 ${totalCount} 条`}
 					/>
 				</div>
+				{
+					visible ? <FollowModel visible={visible} source={source} onClose={row => this.setState({ visible: false })} />
+						: null
+				}
+
 			</React.Fragment>
 		);
 	}
