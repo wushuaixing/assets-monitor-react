@@ -87,6 +87,7 @@ class LAWSUITS extends React.Component {
 			startLarq: urlObj.startLarq || undefined,
 			// type: urlObj.type || undefined,
 		};
+		console.log(urlObj);
 
 		// 判断是否为空对象,非空请求接口
 		if (Object.keys(urlObj).length !== 0 && urlObj.type === '1') {
@@ -127,7 +128,7 @@ class LAWSUITS extends React.Component {
 			urlObj,
 			getTrialRelationParams,
 			getKtggRelationParams,
-			type: Number(urlObj.type),
+			type: urlObj.type ? Number(urlObj.type) : 1,
 		});
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
@@ -335,7 +336,7 @@ class LAWSUITS extends React.Component {
 	// 时间排序
 	SortTime = () => {
 		const {
-			getTrialRelationParams, type, Sort,
+			getTrialRelationParams, type, Sort, dataList,
 		} = this.state;
 		const params = {
 			field: 'LARQ',
@@ -343,17 +344,18 @@ class LAWSUITS extends React.Component {
 			...getTrialRelationParams,
 		};
 		// 判断是否为空对象,非空请求接口
-		if (Object.keys(params).length !== 0 && type === 1) {
+		if (dataList.length > 0 && type === 1) {
 			this.getTrialRelationData(params); // 进入页面请求数据
 			this.getCount(params);
 		}
 		// 判断是否为空对象,非空请求接口
-		if (Object.keys(params).length !== 0 && type === 2) {
+		if (dataList.length > 0 && type === 2) {
 			this.getKtggRelationData(params); // 进入页面请求数据
 			this.getCount(params);
 		}
 		this.setState({
 			field: 'LARQ',
+			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
 			order: Sort === 'DESC' ? 'ASC' : 'DESC',
 		});
 	}
@@ -407,13 +409,14 @@ class LAWSUITS extends React.Component {
 			page: 1,
 			num: pageSize,
 		};
+		console.log(type);
 
 		// 判断是否为空对象,非空请求接口
-		if (Object.keys(urlObj).length !== 0 && urlObj.type === '1') {
+		if (Object.keys(urlObj).length !== 0 && type === 1) {
 			this.getTrialRelationData(getTrialRelationParams); // 进入页面请求数据
 			this.getCount(getTrialRelationParams);
 		}
-		if (Object.keys(urlObj).length !== 0 && urlObj.type === '2') {
+		if (Object.keys(urlObj).length !== 0 && type === 2) {
 			this.getKtggRelationData(getKtggRelationParams); // 进入页面请求数据
 			this.getCount(getKtggRelationParams);
 		}
@@ -454,6 +457,7 @@ class LAWSUITS extends React.Component {
 			totals: 0,
 			pageSize: 10,
 			page: 1,
+			type: 1,
 		});
 		resetFields('');
 	}
