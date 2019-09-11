@@ -117,6 +117,10 @@ class InformCenter extends React.Component {
 			const w = window.open('about:blank');
 			w.location.href = '#/monitor?process=1';
 		}
+		if (row.operateType === 'newAuctionProcessAlert') {
+			const w = window.open('about:blank');
+			w.location.href = '#/monitor?process=1';
+		}
 		if (row.operateType === 'dishonestAdd') {
 			const w = window.open('about:blank');
 			w.location.href = `#/business/debtor/detail?id=${

@@ -56,6 +56,12 @@ export default class HeaderMessage extends React.Component {
 				obligorId
 			}`;
 		}
+		if (operateType === 'newAuctionProcessAlert') {
+			const w = window.open('about:blank');
+			w.location.href = `#/monitor?process=1?id=${
+				obligorId
+			}`;
+		}
 		if (operateType === 'dishonestAdd') {
 			const w = window.open('about:blank');
 			w.location.href = `#/business/debtor/detail?id=${
