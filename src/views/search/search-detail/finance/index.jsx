@@ -224,30 +224,31 @@ class FINANCE extends React.Component {
 				</div>
 				<Spin visible={loading}>
 					<FinanceTable stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
-				</Spin>
-				<div className="yc-pagination">
-					<Pagination
-						total={totals && totals > 1000 ? 1000 : totals}
-						current={current}
-						pageSize={pageSize} // 默认条数
-						showQuickJumper
-						showSizeChanger
-						onShowSizeChange={this.onShowSizeChange}
-						showTotal={() => `共 ${totals} 条记录`}
-						onChange={(val) => {
-							console.log(val);
-							this.handleChangePage(val);
-						}}
-					/>
-				</div>
-				{page === 100 && (
-				<span style={{
-					color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
-				}}
-				>
+					<div className="yc-pagination">
+						<Pagination
+							total={totals && totals > 1000 ? 1000 : totals}
+							current={current}
+							pageSize={pageSize} // 默认条数
+							showQuickJumper
+							showSizeChanger
+							onShowSizeChange={this.onShowSizeChange}
+							showTotal={() => `共 ${totals} 条记录`}
+							onChange={(val) => {
+								console.log(val);
+								this.handleChangePage(val);
+							}}
+						/>
+					</div>
+					{page === 100 && (
+					<span style={{
+						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
+					}}
+					>
 					如需更多数据请联系：186-5718-6471
-				</span>
-				)}
+					</span>
+					)}
+				</Spin>
+
 			</div>
 		);
 	}

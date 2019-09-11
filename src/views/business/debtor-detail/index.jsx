@@ -75,6 +75,12 @@ export default class DebtorDetail extends React.Component {
 		}
 	}
 
+	// 跳转详情
+	detail = (row) => {
+		const w = window.open('about:blank');
+		w.location.href = `#/business/detail?id=${row.businessId}`;
+	}
+
 	// 匹配操作类型
 	// eslint-disable-next-line consistent-return
 	matchingType = (type) => {

@@ -258,19 +258,19 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
+						<div className="page-size">
+							<Pagination
+								current={current}
+								pageSize={pageSize}
+								total={total}
+								showTotal={val => `共 ${val} 条记录`}
+								showQuickJumper
+								onChange={(val) => {
+									this.handleChangePage(val);
+								}}
+							/>
+						</div>
 					</Spin>
-					<div className="page-size">
-						<Pagination
-							current={current}
-							pageSize={pageSize}
-							total={total}
-							showTotal={val => `共 ${val} 条记录`}
-							showQuickJumper
-							onChange={(val) => {
-								this.handleChangePage(val);
-							}}
-						/>
-					</div>
 				</div>
 				{
 					this.renderModal()

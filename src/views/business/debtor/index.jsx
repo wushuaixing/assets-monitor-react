@@ -157,7 +157,9 @@ class BusinessDebtor extends React.Component {
 			num: pageSize,
 			page: val,
 		};
-
+		this.setState({
+			loading: true,
+		});
 		obligorList(params).then((res) => {
 			if (res && res.data) {
 				this.setState({
@@ -251,20 +253,19 @@ class BusinessDebtor extends React.Component {
 				</div>
 				<Spin visible={loading}>
 					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} />
+					<div className="yc-pagination">
+						<Pagination
+							total={totals}
+							current={current}
+							defaultPageSize={10} // 默认条数
+							showQuickJumper
+							showTotal={total => `共 ${total} 条记录`}
+							onChange={(val) => {
+								this.handleChangePage(val);
+							}}
+						/>
+					</div>
 				</Spin>
-				<div className="yc-pagination">
-					<Pagination
-						total={totals}
-						current={current}
-						defaultPageSize={10} // 默认条数
-						showQuickJumper
-						showTotal={total => `共 ${total} 条记录`}
-						onChange={(val) => {
-							this.handleChangePage(val);
-						}}
-					/>
-					{/* <div className="yc-pagination-btn"><Button>跳转</Button></div> */}
-				</div>
 			</div>
 		);
 	}
