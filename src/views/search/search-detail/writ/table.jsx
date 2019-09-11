@@ -15,7 +15,7 @@ class BusinessView extends React.Component {
 			{
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						立案日期
+						发布日期
 						{Sort === undefined && <span className="sort th-sort-default" />}
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}

@@ -29,7 +29,10 @@ class BusinessView extends React.Component {
 					render(text, row) {
 						return (
 							<div className="table-column">
-								<div style={{ display: 'inline-block', float: 'left', verticalAlign: 'top' }}>
+								<div style={{
+									display: 'inline-block', float: 'left', verticalAlign: 'top', lineHeight: '20px',
+								}}
+								>
 									<div>
 										<span className="yc-td-title" style={{ marginRight: '4px' }}>项目编号:</span>
 										<p style={{ display: 'inline-block' }}>

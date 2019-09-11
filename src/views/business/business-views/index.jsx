@@ -90,70 +90,70 @@ class BusinessView extends React.Component {
 		}
 	};
 
-		// 附件上传处理
-		uploadAttachmentParam = () => {
-			const that = this;
-			// const Authorization = 'eyJuYW1lIjoi5rWL6K-VIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiIxMjMiLCJleHAiOjE1NTg1NzQ4NDl9.TUn3QyocFGMMBV7Z4X0TXDxkFnkf5t83rNh-qISmLeoMlMIWLsvmykmk8cb8U89zyp0CCZGZVmoa9gIgzu32qw';
-			return {
-				name: 'file',
-				action: `${baseUrl}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
-				beforeUpload(file) {
-					const type = file.name.split('.');
-					const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
-					if (!isTypeRight) {
-						message.error('只能上传 Excel格式文件！');
-					}
-					return isTypeRight;
-				},
-				onChange(info) {
-					if (info.file.status !== 'uploading') {
-						console.log(info.file, info.fileList);
-					}
-					that.setState({
-						errorLoading: true,
-					});
-					that.handleCancel();
-					if (info.file.status === 'done') {
-						if (info.file.response.code === 200) {
-							// url.push(info.file.response.data);
-							that.setState({
-								refresh: !that.state.refresh,
-								errorMsg: [],
-								errorLoading: false,
-							});
-							const { form: { resetFields } } = that.props; // 会提示props is not defined
-							resetFields('');
-							that.getData();
-							message.success(`${info.file.name} 导入${info.file.response.message}${info.file.response.data.businessCount}笔`);
-							that.handleCancel();
-						} else if (info.file.response.code === 9001) {
-							message.error('服务器出错');
-							that.setState({
-								errorLoading: false,
-							});
-						} else {
-							info.fileList.pop();
-							// 主动刷新页面，更新文件列表
-							that.setState({
-								refresh: !that.state.refresh,
-								uploadErrorData: info.file.response.data,
-								errorLoading: false,
-								// errorMsg: info.file.response.data.errorMsgList,
-							});
-							that.openErrorModal();
-							// that.uploadError(info.file.response.data);
-							// message.error(`上传失败: ${info.file.response.data.errorMessage}`);
-						}
-					} else if (info.file.status === 'error') {
-						message.error(`${info.file.name} 上传失败。`);
+	// 附件上传处理
+	uploadAttachmentParam = () => {
+		const that = this;
+		// const Authorization = 'eyJuYW1lIjoi5rWL6K-VIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiIxMjMiLCJleHAiOjE1NTg1NzQ4NDl9.TUn3QyocFGMMBV7Z4X0TXDxkFnkf5t83rNh-qISmLeoMlMIWLsvmykmk8cb8U89zyp0CCZGZVmoa9gIgzu32qw';
+		return {
+			name: 'file',
+			action: `${baseUrl}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
+			beforeUpload(file) {
+				const type = file.name.split('.');
+				const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
+				if (!isTypeRight) {
+					message.error('只能上传 Excel格式文件！');
+				}
+				return isTypeRight;
+			},
+			onChange(info) {
+				if (info.file.status !== 'uploading') {
+					console.log(info.file, info.fileList);
+				}
+				that.setState({
+					errorLoading: true,
+				});
+				that.handleCancel();
+				if (info.file.status === 'done') {
+					if (info.file.response.code === 200) {
+						// url.push(info.file.response.data);
 						that.setState({
+							refresh: !that.state.refresh,
 							errorMsg: [],
 							errorLoading: false,
 						});
+						const { form: { resetFields } } = that.props; // 会提示props is not defined
+						resetFields('');
+						that.getData();
+						message.success(`${info.file.name} 导入${info.file.response.message}${info.file.response.data.businessCount}笔`);
+						that.handleCancel();
+					} else if (info.file.response.code === 9001) {
+						message.error('服务器出错');
+						that.setState({
+							errorLoading: false,
+						});
+					} else {
+						info.fileList.pop();
+						// 主动刷新页面，更新文件列表
+						that.setState({
+							refresh: !that.state.refresh,
+							uploadErrorData: info.file.response.data,
+							errorLoading: false,
+							// errorMsg: info.file.response.data.errorMsgList,
+						});
+						that.openErrorModal();
+						// that.uploadError(info.file.response.data);
+						// message.error(`上传失败: ${info.file.response.data.errorMessage}`);
 					}
-				},
-			};
+				} else if (info.file.status === 'error') {
+					message.error(`${info.file.name} 上传失败。`);
+					that.setState({
+						errorMsg: [],
+						errorLoading: false,
+					});
+				}
+			},
 		};
+	};
 
 
 	// 获取消息列表
