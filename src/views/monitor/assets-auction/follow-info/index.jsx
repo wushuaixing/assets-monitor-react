@@ -8,6 +8,44 @@ import {
 	pushList, pushSave, processList, processSave,
 } from '@/utils/api/monitor-info/assets-follow';
 import './style.scss';
+import { floatFormat } from '@/utils/format';
+
+// step的描述内容
+const StepDesc = (props) => {
+	const {
+		recovery, expend, content, remindingTime, remindType,
+	} = props;
+	// 提醒方式(1-系统消息、2-短信/邮件、3-系统+短信/邮件
+	const remindTypeContent = (type) => {
+		if (type === 1) return '系统消息';
+		if (type === 2) return '短信/邮件';
+		if (type === 3) return '系统+短信/邮件';
+		return null;
+	};
+	return (
+		<React.Fragment>
+			{
+				recovery || expend ? (
+					<li>
+						{ recovery ? `收入金额/元：${floatFormat(recovery.toFixed(2))}；  ` : null}
+						{ expend ? `支出金额/元：${floatFormat(expend.toFixed(2))} ；` : null}
+					</li>
+				) : null
+			}
+			{
+				content ? `备注：${content}` : null
+			}
+			{
+				remindingTime || remindType ? (
+					<li>
+						{ remindingTime ? `提醒日期：${new Date(remindingTime * 1000).format('yyyy-MM-dd (早上10点)')}； ` : null}
+						{ remindType ? `提醒方式：${remindTypeContent(remindType)}；` : null}
+					</li>
+				) : null
+			}
+		</React.Fragment>
+	);
+};
 
 export default class FollowInfo extends React.Component {
 	constructor(props) {
@@ -43,6 +81,7 @@ export default class FollowInfo extends React.Component {
 	}
 
 	onChangeValue=(val, field) => {
+		console.log(val);
 		const value = val.target ? val.target.value : val;
 		this.setState({
 			[field]: value,
@@ -78,7 +117,7 @@ export default class FollowInfo extends React.Component {
 			const { data, code } = res;
 			if (code === 200) {
 				this.setState({
-					processSource: data.list,
+					processSource: data,
 					loadingList: false,
 				});
 			} else {
@@ -141,6 +180,8 @@ export default class FollowInfo extends React.Component {
 				visible={visible}
 				width="600"
 				className="yc-follow-model"
+				maskClosable={false}
+				onCancel={onClose}
 				footer={[
 					<Button key="back" type="ghost" size="large" onClick={onClose}>取 消</Button>,
 					<Button key="submit" type="primary" size="large" loading={loading} onClick={this.handleOk}>
@@ -299,7 +340,7 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">跟进状态：</div>
 										<div className="list-item-content">
-											<Radio.Group value={1}>
+											<Radio.Group {...getField('status')}>
 												<Radio key="a" value={1}>跟进中</Radio>
 												<Radio key="b" value={2}>完成跟进</Radio>
 												<Radio key="c" value={3}>放弃跟进</Radio>
@@ -309,7 +350,7 @@ export default class FollowInfo extends React.Component {
 								</div>
 							) : (
 								<div
-									className="follow-add-title"
+									className="follow-add-title cursor-pointer"
 									onClick={() => this.setState({
 										addStatus: true,
 									})}
@@ -320,24 +361,30 @@ export default class FollowInfo extends React.Component {
 							)
 						}
 					</div>
-					<div className="yc-follow-line" />
+					{
+						process !== 0 ? <div className="yc-follow-line" /> : ''
+					}
 					{
 						process !== 0 ? (
 							<div className="yc-follow-list">
-								<Spin visible={loadingList}>
+								<Spin visible={loadingList} minHeight={100}>
 									<div className="follow-add-title">跟进记录</div>
-									<Steps direction="vertical" size="small" className="follow-list-step">
-										{
-											processSource.map(item => (
-												<Steps.Step
-													status="process"
-													title={`步骤${item}`}
-													icon="clock-circle"
-													description="这里是多信息的描述"
-												/>
-											))
-										}
-									</Steps>
+									{
+										processSource ? (
+											<Steps direction="vertical" size="small" className="follow-list-step">
+												{
+													processSource.map(item => (
+														<Steps.Step
+															status="process"
+															title={`${item.username}`}
+															icon="clock-circle"
+															description={<StepDesc {...item} />}
+														/>
+													))
+												}
+											</Steps>
+										) : <div>暂无跟进记录</div>
+									}
 								</Spin>
 							</div>
 						) : null
