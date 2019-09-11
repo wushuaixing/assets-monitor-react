@@ -235,6 +235,8 @@ class WRIT extends React.Component {
 			Sort,
 		};
 		const start = new Date().getTime(); // 获取接口响应时间
+		const hide = message.loading('正在下载中，请稍后...', 0);
+
 		exportAll(params).then((res) => {
 			if (res.status === 200) {
 				const now = new Date().getTime();
@@ -246,7 +248,6 @@ class WRIT extends React.Component {
 				this.setState({
 					loading: false,
 				});
-				const hide = message.loading('正在下载中，请稍后...', 0);
 				// 异步手动移除
 				setTimeout(hide, latency);
 			} else {
@@ -268,6 +269,8 @@ class WRIT extends React.Component {
 			num: pageSize,
 		};
 		const start = new Date().getTime(); // 获取接口响应时间
+		const hide = message.loading('正在下载中，请稍后...', 0);
+
 		exportCurrent(params).then((res) => {
 			if (res.status === 200) {
 				const now = new Date().getTime();
@@ -279,7 +282,6 @@ class WRIT extends React.Component {
 				this.setState({
 					loading: false,
 				});
-				const hide = message.loading('正在下载中，请稍后...', 0);
 				// 异步手动移除
 				setTimeout(hide, latency);
 			} else {

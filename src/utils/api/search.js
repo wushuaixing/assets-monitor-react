@@ -67,6 +67,20 @@ export const ktggRelationSearch = async (params) => {
 		});
 	return response.data;
 };
+// 涉诉信息 => 开庭公告导出 [zhousai]
+export const ktggRelationSerachExport = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/doc/search/ktggRelationSerachExport`,
+		{
+			params,
+			paramsSerializer: () => {
+			// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.request;
+};
 // 涉诉信息 => 立案信息 [zhousai]
 export const trialRelationSearch = async (params) => {
 	const response = await service.get(`${baseUrl}/yc/doc/search/trialRelationSearch`,
@@ -80,4 +94,18 @@ export const trialRelationSearch = async (params) => {
 			},
 		});
 	return response.data;
+};
+// 涉诉信息 => 立案信息导出 [zhousai]
+export const trialRelationSearchExport = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/doc/search/trialRelationSearchExport`,
+		{
+			params,
+			paramsSerializer: () => {
+			// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.request;
 };

@@ -23,6 +23,15 @@ const doSearch = (router, props) => {
 	}
 };
 
+const toKeyCode13 = (e) => {
+	const { value } = e.target;
+	const event = e || window.event;
+	const key = event.keyCode || event.which || event.charCode;
+	if (key === 13) {
+		doSearch('finance', [`content=${value}`]);
+		document.activeElement.blur();
+	}
+};
 const Datas = (props) => {
 	const { router } = props;
 	const [keywords, setKeywords] = useState(null);
@@ -33,6 +42,7 @@ const Datas = (props) => {
 				<p className="financial">全文</p>
 			</div>
 			<Input
+				onKeyUp={toKeyCode13}
 				placeholder="标题、关键字"
 				value={keywords}
 				onChange={(e) => {

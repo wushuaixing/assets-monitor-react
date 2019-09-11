@@ -22,6 +22,23 @@ class AUCTION extends React.PureComponent {
 		};
 	}
 
+	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.search();
+			document.activeElement.blur();
+		}
+	};
+
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined

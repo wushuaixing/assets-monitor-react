@@ -19,6 +19,23 @@ class WRIT extends React.Component {
 		};
 	}
 
+	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.search();
+			document.activeElement.blur();
+		}
+	};
+
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
@@ -28,7 +45,6 @@ class WRIT extends React.Component {
 		fildes.publishStart = startTime;
 		fildes.publishEnd = endTime;
 
-		console.log(fildes);
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
 			// 将值传到URL

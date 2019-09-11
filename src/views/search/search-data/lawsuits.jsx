@@ -34,6 +34,23 @@ class LAWSUITS extends React.Component {
 		};
 	}
 
+	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.search();
+			document.activeElement.blur();
+		}
+	};
+
 	// 切换信息类型
 	changeType = (type) => {
 		console.log(type);
@@ -65,8 +82,8 @@ class LAWSUITS extends React.Component {
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		fildes.uploadTimeStart = startTime;
-		fildes.uploadTimeEnd = endTime;
+		fildes.startLarq = startTime;
+		fildes.endLarq = endTime;
 		fildes.type = type;
 		fildes.yg0 = yg[0] ? yg[0].name : undefined;
 		fildes.yg1 = yg[1] ? yg[1].name : undefined;

@@ -227,11 +227,13 @@ class AUCTION extends React.Component {
 		const params = {
 			...fields,
 			page: type === 'current' ? current : undefined,
-			num: type === 'current' ? pageSize : undefined,
+			num: type === 'current' ? pageSize : 1000,
 			field,
 			order,
 		};
 		const start = new Date().getTime(); // 获取接口响应时间
+		const hide = message.loading('正在下载中，请稍后...', 0);
+
 		fullAssetSearchExport(params).then((res) => {
 			if (res.status === 200) {
 				const now = new Date().getTime();
@@ -243,7 +245,6 @@ class AUCTION extends React.Component {
 				this.setState({
 					loading: false,
 				});
-				const hide = message.loading('正在下载中，请稍后...', 0);
 				// 异步手动移除
 				setTimeout(hide, latency);
 			} else {

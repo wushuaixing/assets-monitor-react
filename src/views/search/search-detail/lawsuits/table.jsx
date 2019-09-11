@@ -1,9 +1,68 @@
 import React from 'react';
 import {
-	Table, Form, Tooltip,
+	Table, Form, Tooltip, Modal,
 } from 'antd';
+import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
+const toClick = row => Modal.info({
+	title: '当事人详情',
+	okText: '确定',
+	iconType: 'null',
+	className: 'assets-an-info',
+	content: (
+		<div style={{ marginLeft: -28, fontSize: 14 }}>
+			{
+				row && row.ygList && (
+				<div>
+					<strong>原告：</strong>
+					<span>{row.ygList}</span>
+				</div>
+				)
+			}
+			{
+				row && row.bgList && row.bgList.split(',').map(item => (
+					<div key={item}>
+						<strong>被告：</strong>
+						<span>{item}</span>
+					</div>
+				))
+			}
+
+		</div>
+	),
+	onOk() {},
+});
+
+const toShow = (row, type) => {
+	if (row.associates[type].url.length > 1) {
+		let text = '立案';
+		if (type === 0) text = '立案';
+		if (type === 1) text = '开庭';
+		if (type === 2) text = '文书';
+		Modal.info({
+			title: `本案号关联多个${text}链接，如下：`,
+			okText: '关闭',
+			iconType: 'null',
+			className: 'assets-an-info',
+			width: 600,
+			content: (
+				<div style={{ marginLeft: -28 }}>
+					{ row.associates[type].url.map(item => (
+						<p style={{ margin: 5 }}>
+							<a href={item} target="_blank" rel="noopener noreferrer">{item}</a>
+						</p>
+					)) }
+				</div>
+			),
+			onOk() {},
+		});
+	} else {
+		const w = window.open('about:blank');
+		const associates = row.associates[type].url[0];
+		w.location.href = associates;
+	}
+};
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
@@ -27,12 +86,8 @@ class BusinessView extends React.Component {
 				dataIndex: 'larq',
 				key: 'larq',
 				width: 122,
-				render(text, row) {
-					return (
-						<div className="table-column">
-							{row.larq || '-'}
-						</div>
-					);
+				render(text) {
+					return <span>{formatDateTime(text) || '-'}</span>;
 				},
 			}, {
 				title: '原告',
@@ -69,7 +124,7 @@ class BusinessView extends React.Component {
 											<p>{`${row.bg.substr(0, 14)}...`}</p>
 										</Tooltip>
 									)
-									: <p>{row.tibgtle || '-'}</p>
+									: <p>{row.bg || '-'}</p>
 							}
 						</div>
 					);
@@ -93,8 +148,15 @@ class BusinessView extends React.Component {
 				width: 242,
 				render(text, row) {
 					return (
-						<div className="table-column">
-							{row.ah || '-'}
+						<div>
+							{
+								row.ah && row.ygList.length > 0 ? (
+									<div onClick={() => toClick(row)} className="yc-td-header">
+										{' '}
+										{row.ah || '-'}
+									</div>
+								) : <div>{row.ah || '-'}</div>
+							}
 						</div>
 					);
 				},
@@ -105,7 +167,42 @@ class BusinessView extends React.Component {
 				render(text, row) {
 					return (
 						<div className="table-column">
-							{row.associates.url || '-'}
+							{row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0 && (
+								<span>
+									<span
+										className="yc-td-header"
+										onClick={() => toShow(row, 0)}
+									>
+										立案
+									</span>
+								</span>
+							)}
+							{
+								row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0 && row.associates[1].url.length > 0 && row.associates[1].url[0].length > 0 && <span className="ant-divider" />
+							}
+							{row.associates.length > 0 && row.associates[1].url.length > 0 && row.associates[1].url[0].length > 0 && (
+								<span>
+									<span
+										className="yc-td-header"
+										onClick={() => toShow(row, 1)}
+									>
+										开庭
+									</span>
+								</span>
+							)}
+							{
+								row.associates.length > 0 && row.associates[1].url.length > 0 && row.associates[1].url[0].length > 0 && row.associates[2].url.length > 0 && row.associates[2].url[0].length > 0 && <span className="ant-divider" />
+							}
+							{row.associates.length > 0 && row.associates[2].url.length > 0 && row.associates[2].url[0].length > 0 && (
+								<span>
+									<span
+										className="yc-td-header"
+										onClick={() => toShow(row, 2)}
+									>
+										文书
+									</span>
+								</span>
+							)}
 						</div>
 					);
 				},
@@ -120,12 +217,7 @@ class BusinessView extends React.Component {
 					style={{ width: '100%' }}
 					defaultExpandAllRows
 					pagination={false}
-					onRowClick={() => {
-						// if (!record.children) {
-						// 	const w = window.open('about:blank');
-						// 	w.location.href = '#/monitor';
-						// }
-					}}
+					onRowClick={() => {}}
 				/>
 			</React.Fragment>
 		);
