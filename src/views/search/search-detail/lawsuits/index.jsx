@@ -109,8 +109,21 @@ class LAWSUITS extends React.Component {
 			bg,
 			urlObj,
 		});
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.search();
+			document.activeElement.blur();
+		}
+	};
 
 	initialValue = (urlObj) => {
 		if (urlObj.yg1) {

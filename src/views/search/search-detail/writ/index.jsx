@@ -54,7 +54,21 @@ class WRIT extends React.Component {
 		this.setState({
 			params,
 		});
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			this.query();
+			document.activeElement.blur();
+		}
+	};
 
 	// 获取消息列表
 	getData = (value) => {
@@ -412,6 +426,14 @@ class WRIT extends React.Component {
 				<div className="yc-writ-tablebtn">
 					{dataList.length > 0 && <Button style={{ marginRight: 5 }} onClick={this.handleExportCurrent}>本页导出</Button>}
 					<Button disabled={dataList.length === 0} onClick={dataList.length > 0 && this.handleExportExcelAll}>全部导出</Button>
+					{dataList.length > 0 && (
+					<div style={{
+						float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
+					}}
+					>
+						{`源诚科技为您找到${totals}条信息`}
+					</div>
+					)}
 				</div>
 				<Spin visible={loading}>
 					<WritTable
