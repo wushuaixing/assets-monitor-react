@@ -143,11 +143,11 @@ class AUCTION extends React.Component {
 		const fildes = getFieldsValue();
 		const params = {
 			...fildes,
-			current: val,
 			num: pageSize,
 			page: val,
 		};
 		this.setState({
+			current: val,
 			page: val,
 			loading: true,
 		});
@@ -179,6 +179,7 @@ class AUCTION extends React.Component {
 		navigate(generateUrlWithParams('/search/detail/auction', fildes));
 		this.setState({
 			page: 1,
+			current: 1,
 			inputSearch: fildes,
 			auctionSort: undefined,
 			currentSort: undefined,
