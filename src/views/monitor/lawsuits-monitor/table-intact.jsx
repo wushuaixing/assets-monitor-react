@@ -16,8 +16,8 @@ export default class TableIntact extends React.Component {
 		this.condition = {
 			type: 0,
 			sourceType: props.sourceType || 1,
-			field: '',
-			order: '',
+			sortColumn: '',
+			sortOrder: '',
 			page: 1,
 			num: 10,
 		};
@@ -30,8 +30,8 @@ export default class TableIntact extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		const { sourceType } = this.props;
 		if (sourceType !== nextProps.sourceType) {
-			this.condition.field = '';
-			this.condition.order = '';
+			this.condition.sortColumn = '';
+			this.condition.sortOrder = '';
 			this.condition.sourceType = nextProps.sourceType;
 			this.setState({
 				dataSource: '',
@@ -44,8 +44,8 @@ export default class TableIntact extends React.Component {
 
 	// 排序触发
 	onSortChange=(field, order) => {
-		this.condition.field = field;
-		this.condition.order = order;
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
 		this.toGetData();
 	};
 
@@ -111,8 +111,8 @@ export default class TableIntact extends React.Component {
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
 			sourceType: this.condition.sourceType,
-			sortField: this.condition.field,
-			sortOrder: this.condition.field,
+			sortField: this.condition.sortColumn,
+			sortOrder: this.condition.sortOrder,
 		};
 		return (
 			<div className="yc-assets-auction">

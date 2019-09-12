@@ -52,8 +52,8 @@ export default class Subrogation extends React.Component {
 
 	// 清除排序状态
 	toClearSortStatus=() => {
-		this.condition.field = '';
-		this.condition.order = '';
+		this.condition.sortColumn = '';
+		this.condition.sortOrder = '';
 	};
 
 	// 获取统计信息
@@ -204,8 +204,8 @@ export default class Subrogation extends React.Component {
 
 	// 排序触发
 	onSortChange=(field, order) => {
-		this.condition.field = field;
-		this.condition.order = order;
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
 	};
 
@@ -267,8 +267,8 @@ export default class Subrogation extends React.Component {
 			onSelect: val => this.selectRow = val,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
-			sortField: this.condition.field,
-			sortOrder: this.condition.order,
+			sortField: this.condition.sortColumn,
+			sortOrder: this.condition.sortOrder,
 		};
 
 		return (

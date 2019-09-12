@@ -50,6 +50,11 @@ const StepDesc = (props) => {
 export default class FollowInfo extends React.Component {
 	constructor(props) {
 		super(props);
+		const toStatus = (source) => {
+			const { process } = source;
+			if (process === 0 || process === 3 || process === 6) return 6;
+			return process;
+		};
 		this.state = {
 			addStatus: false,
 			loading: false,
@@ -63,7 +68,8 @@ export default class FollowInfo extends React.Component {
 			remindTime: '',
 			remindWay: '',
 			pushList: [],
-			status: 1,
+			status: toStatus(props.source),
+			// 新增推送人
 			add_name: '',
 			add_type: 1,
 			add_way: 1,
@@ -324,7 +330,7 @@ export default class FollowInfo extends React.Component {
 															{...getField('add_content')}
 															onBlur={this.onAddContentBlurEvent}
 														/>
-														<Button style={{ width: 66 }} className="item-class" loading={loadingChild}>保存</Button>
+														<Button style={{ width: 66 }} className="item-class" loading={loadingChild}>新增</Button>
 													</p>
 													<p style={{ overflow: 'hidden' }}>
 														<div className="yc-follow-line" style={{ margin: '3px 0' }} />
@@ -341,9 +347,10 @@ export default class FollowInfo extends React.Component {
 										<div className="list-item-title">跟进状态：</div>
 										<div className="list-item-content">
 											<Radio.Group {...getField('status')}>
-												<Radio key="a" value={1}>跟进中</Radio>
-												<Radio key="b" value={2}>完成跟进</Radio>
-												<Radio key="c" value={3}>放弃跟进</Radio>
+												<Radio key="a" value={6}>跟进中</Radio>
+												<Radio key="b" value={9}>完成跟进</Radio>
+												<Radio key="c" value={12}>已忽略</Radio>
+												<Radio key="c" value={15}>放弃跟进</Radio>
 											</Radio.Group>
 										</div>
 									</li>
