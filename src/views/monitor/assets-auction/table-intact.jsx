@@ -27,6 +27,17 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	// 表格发生变化
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = dataSource;
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
+
 	// 排序触发
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;

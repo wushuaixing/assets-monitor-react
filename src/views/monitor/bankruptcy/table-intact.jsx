@@ -27,6 +27,17 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	// 表格发生变化
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = dataSource;
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
+
 	// 排序触发
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
@@ -45,27 +56,29 @@ export default class TableIntact extends React.Component {
 		this.setState({ loading: true });
 		const { reqUrl } = this.props;
 		const toApi = reqUrl || attentionList;
-		toApi(clearEmpty(this.condition)).then((res) => {
-			if (res.code === 200) {
+		toApi(clearEmpty(this.condition))
+			.then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						dataSource: res.data.list,
+						current: res.data.page,
+						total: res.data.total,
+						loading: false,
+					});
+				} else {
+					this.setState({
+						dataSource: '',
+						current: 1,
+						total: 0,
+						loading: false,
+					});
+				}
+			})
+			.catch(() => {
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
 					loading: false,
 				});
-			} else {
-				this.setState({
-					dataSource: '',
-					current: 1,
-					total: 0,
-					loading: false,
-				});
-			}
-		}).catch(() => {
-			this.setState({
-				loading: false,
 			});
-		});
 	};
 
 	render() {

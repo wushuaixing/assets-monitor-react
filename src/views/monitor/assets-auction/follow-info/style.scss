@@ -48,6 +48,24 @@
           margin-left: 110px;
           min-height: 28px;
           line-height: 28px;
+          width: 430px;
+          position: relative;
+          .remark-count{
+            display: inline-block;
+            min-width: 50px;
+            background-color: #FFFFFF;
+            height: 20px;
+            position: absolute;
+            padding-right: 5px;
+            text-align: right;
+            bottom: 1px;
+            right: 1px;
+            color: #999999;
+            padding-bottom: 4px;
+            line-height: 16px;
+            font-size: 12px;
+
+          }
           .select-option-mark{
             margin-left:15px
           }
