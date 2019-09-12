@@ -53,8 +53,11 @@ class FINANCE extends React.Component {
 		const event = e || window.event;
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
-			this.search();
-			document.activeElement.blur();
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.search();
+				document.activeElement.blur();
+			}
 		}
 	};
 
@@ -143,12 +146,9 @@ class FINANCE extends React.Component {
 		const fildes = getFieldsValue();
 		const params = {
 			...fildes,
-			current: 1,
 			num: pageSize,
 			page: 1,
 		};
-		console.log(fildes);
-
 		if (fildes.content) {
 			this.getData(params);
 		}
@@ -206,10 +206,6 @@ class FINANCE extends React.Component {
 							size="large"
 							placeholder="标题/关键字"
 							{...getFieldProps('content', {
-								// initialValue: content,
-								// rules: [
-								// 	{ required: true, whitespace: true, message: '请填写密码' },
-								// ],
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -234,8 +230,10 @@ class FINANCE extends React.Component {
 							onShowSizeChange={this.onShowSizeChange}
 							showTotal={() => `共 ${totals} 条记录`}
 							onChange={(val) => {
-								console.log(val);
-								this.handleChangePage(val);
+								// 存在数据才允许翻页
+								if (dataList.length > 0) {
+									this.handleChangePage(val);
+								}
 							}}
 						/>
 					</div>
@@ -244,7 +242,7 @@ class FINANCE extends React.Component {
 						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
 					}}
 					>
-					如需更多数据请联系：186-5718-6471
+						如需更多数据请联系：186-5718-6471
 					</span>
 					)}
 				</Spin>

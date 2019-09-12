@@ -67,8 +67,11 @@ class AUCTION extends React.Component {
 		const event = e || window.event;
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
-			this.search();
-			document.activeElement.blur();
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.search();
+				document.activeElement.blur();
+			}
 		}
 	};
 
@@ -154,7 +157,6 @@ class AUCTION extends React.Component {
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
-					current: res.data.page,
 					loading: false,
 				});
 			} else {
@@ -514,7 +516,10 @@ class AUCTION extends React.Component {
 							onShowSizeChange={this.onShowSizeChange}
 							showTotal={() => `共 ${totals} 条记录`}
 							onChange={(val) => {
-								this.handleChangePage(val);
+								// 存在数据才允许翻页
+								if (dataList.length > 0) {
+									this.handleChangePage(val);
+								}
 							}}
 						/>
 					</div>

@@ -31,8 +31,11 @@ class WRIT extends React.Component {
 		const event = e || window.event;
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
-			this.search();
-			document.activeElement.blur();
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.search();
+				document.activeElement.blur();
+			}
 		}
 	};
 
