@@ -27,9 +27,9 @@ const columns = (props) => {
 			dataIndex: 'title',
 			render: (text, record) => (record.url ? linkDom(record.url, text || '--') : <span>{text || '--'}</span>),
 		}, {
-			title: (noSort ? '更新日期'
-				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
-			dataIndex: 'updateTime',
+			title: (noSort ? global.Table_CreateTime_Text
+				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'createTime',
 			width: 90,
 			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {

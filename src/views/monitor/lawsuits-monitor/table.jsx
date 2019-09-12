@@ -52,8 +52,9 @@ const columns = (props) => {
 			className: 'tAlignCenter_important min-width-80',
 			render: aboutLink,
 		}, {
-			title: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
-			dataIndex: 'updateTime',
+			title: (noSort ? global.Table_CreateTime_Text
+				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'createTime',
 			width: 111,
 			render: value => timeStandard(value),
 		}, {

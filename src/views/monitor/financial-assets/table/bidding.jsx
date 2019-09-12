@@ -21,7 +21,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? '资产信息'
-				: <SortVessel field="updateTime" onClick={onSortChange} mark="更新时间" {...sort}>资产信息</SortVessel>),
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="更新时间" {...sort}>资产信息</SortVessel>),
 			width: 274,
 			render: (text, row) => AssetsInfo(text, row, true),
 		}, {
@@ -31,7 +31,7 @@ const columns = (props) => {
 			render: MatchingReason,
 		}, {
 			title: (noSort ? '拍卖信息'
-				: <SortVessel field="start" onClick={onSortChange} mark="开拍时间" {...sort}>拍卖信息</SortVessel>),
+				: <SortVessel field="START" onClick={onSortChange} mark="开拍时间" {...sort}>拍卖信息</SortVessel>),
 			width: 392,
 			render: AuctionInfo,
 		}, {

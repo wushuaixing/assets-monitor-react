@@ -22,7 +22,7 @@ const columns = (props, onFollowClick) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? '资产信息'
-				: <SortVessel field="updateTime" onClick={onSortChange} mark="(更新时间)" {...sort}>资产信息</SortVessel>),
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort}>资产信息</SortVessel>),
 			width: 274,
 			render: AssetsInfo,
 		}, {
@@ -32,7 +32,7 @@ const columns = (props, onFollowClick) => {
 			render: MatchingReason,
 		}, {
 			title: (noSort ? '拍卖信息'
-				: <SortVessel field="start" onClick={onSortChange} mark="(开拍时间)" {...sort}>拍卖信息</SortVessel>),
+				: <SortVessel field="START" onClick={onSortChange} mark="(开拍时间)" {...sort}>拍卖信息</SortVessel>),
 			width: 392,
 			render: AuctionInfo,
 		}, {
@@ -55,7 +55,7 @@ const columns = (props, onFollowClick) => {
 							),
 							3: <Button className="auction-button" title="跟进中" onClick={() => onFollowClick(row)} />,
 							6: <Button className="auction-button" title="跟进中" onClick={() => onFollowClick(row)} />,
-							9: <Button className="auction-button" title="已完成" />,
+							9: <Button className="auction-button" title="已完成" onClick={() => onFollowClick(row)} />,
 							12: (
 								<React.Fragment>
 									<Button className="auction-button" title="跟进" onClick={() => onFollowClick(row)} />
@@ -63,7 +63,7 @@ const columns = (props, onFollowClick) => {
 									<Button className="auction-button" title="已忽略" disabled />
 								</React.Fragment>
 							),
-							15: <Button className="auction-button" title="已放弃" />,
+							15: <Button className="auction-button" title="已放弃" onClick={() => onFollowClick(row)} />,
 						}[process] || null }
 						<Attentions
 							text={text}

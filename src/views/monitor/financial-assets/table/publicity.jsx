@@ -20,7 +20,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? '起始日期'
-				: <SortVessel field="startTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>起始日期</SortVessel>),
+				: <SortVessel field="START_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>起始日期</SortVessel>),
 			dataIndex: 'startTime',
 			width: 110,
 			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
@@ -40,14 +40,15 @@ const columns = (props) => {
 			render: value => <span>{value ? `${floatFormat(value)}` : '--'}</span>,
 		}, {
 			title: (noSort ? '期满日期'
-				: <SortVessel field="endTime" onClick={onSortChange} {...sort}>期满日期</SortVessel>),
+				: <SortVessel field="END_TIME" onClick={onSortChange} {...sort}>期满日期</SortVessel>),
 			dataIndex: 'endTime',
 			className: 'tAlignCenter_important',
 			width: 120,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
-			title: <SortVessel field="updateTime" onClick={onSortChange} {...sort}>更新日期</SortVessel>,
-			dataIndex: 'updateTime',
+			title: (noSort ? global.Table_CreateTime_Text
+				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'createTime',
 			className: 'tAlignCenter_important',
 			width: 120,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,

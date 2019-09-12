@@ -98,17 +98,17 @@ class QueryCondition extends React.Component {
 											const consultPriceEnd = getFieldValue('consultPriceEnd');
 											if (consultPriceEnd && value) {
 												if (Number(value) > Number(consultPriceEnd)) {
-													message.error('评估价最低价不得高过最高价');
-													setFieldsValue({ consultPriceStart: '' });
+													message.error('评估价最低价不得高过最高价', 2);
+													// setFieldsValue({ consultPriceStart: '' });
 												}
 											}
-											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0) {
-												message.error('只能输入整数数字');
-												setFieldsValue({ consultPriceStart: '' });
+											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
+												message.error('只能输入正整数！', 2);
+												// setFieldsValue({ consultPriceStart: '' });
 											}
 											if (Number(value) > 9999999999) {
-												message.error('数值上限不得超过9999999999');
-												setFieldsValue({ consultPriceStart: '' });
+												message.error('数值上限不得超过9999999999', 2);
+												// setFieldsValue({ consultPriceStart: '' });
 											}
 											callback();
 										},
@@ -123,17 +123,17 @@ class QueryCondition extends React.Component {
 											const consultPriceStart = getFieldValue('consultPriceStart');
 											if (consultPriceStart && value) {
 												if (Number(value) < Number(consultPriceStart)) {
-													message.error('评估价最高价不得低于最低价');
-													setFieldsValue({ consultPriceEnd: '' });
+													message.error('评估价最高价不得低于最低价，评估价单位为【万元】', 2);
+													// setFieldsValue({ consultPriceEnd: '' });
 												}
 											}
-											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0) {
-												message.error('只能输入整数数字');
-												setFieldsValue({ consultPriceEnd: '' });
+											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
+												message.error('只能输入正整数', 2);
+												// setFieldsValue({ consultPriceEnd: '' });
 											}
 											if (Number(value) > 9999999999) {
-												message.error('数值上限不得超过9999999999');
-												setFieldsValue({ consultPriceEnd: '' });
+												message.error('数值上限不得超过9999999999，评估价单位为【万元】', 2);
+												// setFieldsValue({ consultPriceEnd: '' });
 											}
 											callback();
 										},
