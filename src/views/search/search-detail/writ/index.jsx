@@ -65,8 +65,11 @@ class WRIT extends React.Component {
 		const event = e || window.event;
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
-			this.query();
-			document.activeElement.blur();
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.search();
+				document.activeElement.blur();
+			}
 		}
 	};
 
@@ -180,7 +183,7 @@ class WRIT extends React.Component {
 	}
 
 	// 搜索
-	query = () => {
+	search = () => {
 		const { form: { getFieldsValue } } = this.props; // 会提示props is not defined
 		const { startTime, endTime } = this.state;
 		const fildes = getFieldsValue();
@@ -409,7 +412,7 @@ class WRIT extends React.Component {
 					</div>
 					<div className="yc-query-item yc-query-item-btn">
 						<Button
-							onClick={this.query}
+							onClick={this.search}
 							size="large"
 							type="warning"
 							style={{ width: 84 }}
@@ -456,7 +459,10 @@ class WRIT extends React.Component {
 							onShowSizeChange={this.onShowSizeChange}
 							showTotal={() => `共 ${totals} 条记录`}
 							onChange={(val) => {
-								this.handleChangePage(val);
+								// 存在数据才允许翻页
+								if (dataList.length > 0) {
+									this.handleChangePage(val);
+								}
 							}}
 						/>
 					</div>
