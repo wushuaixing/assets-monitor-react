@@ -97,7 +97,7 @@ class WRIT extends React.Component {
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.totalCount,
-					current: res.data.page, // 翻页传选中页数，其他重置为1
+					current: res.data.page,
 					loading: false,
 				});
 			} else {

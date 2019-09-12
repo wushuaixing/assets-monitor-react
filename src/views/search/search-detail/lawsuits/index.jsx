@@ -427,6 +427,7 @@ class LAWSUITS extends React.Component {
 			getTrialRelationParams,
 			getKtggRelationParams,
 			Sort: undefined,
+			current: 1,
 		});
 	}
 
