@@ -41,6 +41,7 @@ export default class MatchingReason extends React.Component {
 		}
 	}
 
+	// 资产拍卖
 	toGetReasonList=(reason) => {
 		if (reason) {
 			const _reason = JSON.parse(reason);
@@ -71,8 +72,21 @@ export default class MatchingReason extends React.Component {
 		return '--';
 	};
 
+	// 生效法律文书确定的义务
+	toGetReason=(reason) => {
+		if (reason) {
+			// const _reason = JSON.parse(reason);
+			return (
+				<div className="reason-list">
+					<p dangerouslySetInnerHTML={{ __html: reason }} />
+				</div>
+			);
+		}
+		return '--';
+	};
+
 	render() {
-		const { content: { reason, remark } } = this.props;
+		const { content: { reason, remark, duty }, dishonest } = this.props;
 		const { status } = this.state;
 		return (
 			<div className="assets-matching-reason-wrapper">
@@ -86,7 +100,9 @@ export default class MatchingReason extends React.Component {
 								</div>
 							) : null
 						}
-						{this.toGetReasonList(reason)}
+						{
+							dishonest ? this.toGetReason(duty) : this.toGetReasonList(reason)
+						}
 					</div>
 				</div>
 				<div className={`reason-action reason-action-${status}`}>

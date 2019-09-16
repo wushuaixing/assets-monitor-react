@@ -4,6 +4,7 @@ import Badge from './badge';
 import Button from './button';
 import Input from './input';
 import Spin from './spin';
+import Download from './download';
 
 Tabs.Simple = Simple;
 
@@ -27,5 +28,5 @@ const timeRule = {
 };
 
 export {
-	Tabs, Badge, Button, Input, Spin, timeRule,
+	Tabs, Badge, Button, Input, Spin, timeRule, Download,
 };

@@ -38,7 +38,7 @@ export default class TableIntact extends React.Component {
 				current: 1,
 				total: 0,
 			});
-			this.toGetData();
+			this.toGetData(nextProps);
 		}
 	}
 
@@ -67,9 +67,9 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=() => {
+	toGetData=(nextProps) => {
 		this.setState({ loading: true });
-		const { reqUrl, id } = this.props;
+		const { reqUrl, id } = nextProps || this.props;
 		const toApi = reqUrl || attentionList;
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {

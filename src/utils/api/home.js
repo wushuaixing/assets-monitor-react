@@ -3,9 +3,8 @@ import { baseUrl } from '@/utils/api/index';
 
 /**
  * 【首页接口】
- * @param id
- * @param type
  * @returns {Promise<*>}
+ * @param params
  */
 // 首页列表
 export const selfTree = async (params) => {
@@ -18,3 +17,11 @@ export const unreadCount = async (params) => {
 	const response = await service.get(`${baseUrl}/yc/message/station/notify/unreadCount`, { params });
 	return response.data;
 };
+
+
+// 导出Excel文件
+export const exportFile = id => `${baseUrl}/yc/export/file/excel/${id}`;
+
+// 导出Excel文件
+export const normalGet = (url, params) => service.get(url, { params })
+	.then(res => res.data);
