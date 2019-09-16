@@ -1,0 +1,53 @@
+.yc-auction-tablebtn {
+  margin: 15px 0;
+}
+.yc-btn-right {
+  float: right;
+  .yc-right-total {
+    font-size: 12px;
+    color: #929292;
+    margin-right: 10px;
+  }
+  .yc-right-order {
+    display: inline-block;
+    background-color: #f0f1f5;
+    padding: 7px;
+    line-height: 16px;
+    margin-left: -4px;
+    vertical-align: top;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    .sort {
+      width: 16px;
+      height: 16px;
+      background-position: center;
+      background-size: contain;
+      vertical-align: top;
+      float: right;
+    }
+    &:hover {
+      cursor: pointer;
+      .th-sort-default {
+        background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
+      }
+      .th-sort-down {
+        background-image: url("../../../../assets/img/icon/icon_arrow_asc.png");
+      }
+      .th-sort-up {
+        background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
+      }
+    }
+    .th-sort-default {
+      background-image: url("../../../../assets/img/icon/icon_arrow.png");
+    }
+    .th-sort-down {
+      background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
+    }
+
+    .th-sort-up {
+      background-image: url("../../../../assets/img/icon/icon_arrow_asc.png");
+    }
+  }
+}

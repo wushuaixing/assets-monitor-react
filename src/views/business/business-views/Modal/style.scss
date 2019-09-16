@@ -1,0 +1,15 @@
+.pendingModal {
+  .pendingModal-businessNo {
+    max-height: 250px;
+    overflow: auto;
+    margin-bottom: 15px;
+    .ant-form-item {
+      margin-bottom: 5px !important;
+    }
+  }
+  // .pendingModal-fontsize-bottom {
+  //     .ant-form-item {
+  //       margin-bottom: 5px !important;
+  //   }
+  // }
+}

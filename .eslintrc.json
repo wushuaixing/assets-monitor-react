@@ -29,6 +29,7 @@
                 "JSXElement", "JSXElement > *", "JSXAttribute", "JSXIdentifier", "JSXNamespacedName", "JSXMemberExpression", "JSXSpreadAttribute", "JSXExpressionContainer", "JSXOpeningElement", "JSXClosingElement", "JSXText", "JSXEmptyExpression", "JSXSpreadChild"
             ]}
         ],
+        "no-extend-native":0,
         "react/no-danger":0,
         "jsx-a11y/anchor-is-valid":0,
         "no-underscore-dangle": 0,

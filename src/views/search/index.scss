@@ -1,0 +1,27 @@
+.search-wrapper {
+  text-align: center;
+  p {
+    font-size: 34px;
+    line-height: 1;
+    color: #46729F;
+    padding-top: 126px;
+    padding-bottom: 75px;
+  }
+  .tab-search {
+    width: 840px;
+    margin-left: 163px;
+    position: relative;
+    .high-search{
+        color: #337ab7;
+        font-size: 15px;
+        cursor: pointer;
+        text-decoration: underline;
+
+        padding: 0;
+        position: absolute;
+        right: 0;
+        top: 15px;
+    }
+  }
+}
+

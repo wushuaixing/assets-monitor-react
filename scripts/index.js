@@ -15,20 +15,20 @@ module.exports = {
 	entry: `${ROOT}/src/index.jsx`,
 	output: {
 		path: `${ROOT}/docs`,
-		filename: 'index.js.[contenthash].js',
+		filename: 'index.[contenthash].js',
 	},
 	resolve: {
 		alias: {
-			'@': `${ROOT}/src`,
-			'common': `${ROOT}/src/views/mainScreen/common`,
 			react: 'anujs/dist/ReactIE',
-			api: `${ROOT}/src/utils/api`,
 			'react-dom': 'anujs/dist/ReactIE',
 			reactPropTypes: 'anujs/lib/ReactPropTypes',
 			'create-react-class': 'anujs/lib/createClass',
+			rematch: 'anujs/dist/Rematch',
 			'@reach/router': `${ROOT}/patchs/Router`,
 			redux: `${ROOT}/patchs/redux`,
-			rematch: 'anujs/dist/Rematch',
+			'@': `${ROOT}/src`,
+			antd: `${ROOT}/patchs/antd`,
+			api: `${ROOT}/src/utils/api`,
 		},
 		extensions: ['.js', '.jsx'],
 	},
@@ -159,5 +159,15 @@ module.exports = {
 	],
 	devServer: {	// didn't work on IE8
 		contentBase: `${ROOT}/docs`,
+		// proxy: {
+		// 	"/yc": {
+		// 		target: "http://172.18.255.251:18080",
+		// 		pathRewrite: { "^/yc": "" }
+		// 	},
+		// 	"/api": {
+		// 		target: "http://172.18.255.251:18080",
+		// 		pathRewrite: { "^/api": "" }
+		// 	},
+    // }
 	},
 };

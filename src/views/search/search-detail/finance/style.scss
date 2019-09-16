@@ -1,0 +1,27 @@
+.yc-content-query {
+  .yc-content-header {
+    border-bottom: 1px solid #f0f2f5;
+  }
+  .yc-header-title {
+    line-height: 30px;
+    color: #929292;
+    font-size: 12px;
+  }
+  .yc-td-hl {
+    max-width: 600px;
+    em {
+      color: #FB5A5C;
+      font-style: normal;
+    }
+  }
+  .yc-td-header {
+    color: #337ab7;
+    margin-bottom: 6px;
+    display: inline-block;
+    &:hover {
+      color: #23527c;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}

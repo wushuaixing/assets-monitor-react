@@ -5,3 +5,6 @@ node_modules/
 package-lock.json
 yarn.lock
 .DS_Store
+src/assets/旧平台图片库
+src/utils/api/index
+jsconfig.json

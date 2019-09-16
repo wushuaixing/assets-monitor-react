@@ -12,8 +12,8 @@
     "dev:polyfill": "export NODE_ENV=development&& node ./scripts/polyfill.js",
     "dev:dll": "export NODE_ENV=development&& webpack --config ./scripts/dll.js",
     "dev:index": "export NODE_ENV=development&& webpack --config ./scripts/index.js",
-    "start": "export NODE_ENV=development&& webpack-dev-server -d  --host 0.0.0.0 --config ./scripts/index.js",
-    "start:w": "set NODE_ENV=development&& webpack-dev-server -d  --host 0.0.0.0 --config ./scripts/index.js",
+    "start": "export NODE_ENV=development&& webpack-dev-server -d --host localhost --config ./scripts/index.js",
+    "start:w": "set NODE_ENV=development&& webpack-dev-server -d  --host localhost --config ./scripts/index.js",
     "build": "yarn build:css && yarn build:shim && yarn build:polyfill && yarn build:dll && yarn build:index",
     "build:css": "node ./scripts/css.js",
     "build:shim": "node ./scripts/shim.js",
@@ -24,9 +24,7 @@
     "lintfix": "eslint --fix ./src"
   },
   "dependencies": {
-    "@babel/polyfill": "7.0.0",
-    "antd": "1.11.6",
-    "anujs": "1.4.8",
+    "anujs": "1.5.0",
     "axios": "0.18.0",
     "console-polyfill": "0.3.0",
     "es5-shim": "4.5.11",
@@ -36,13 +34,13 @@
     "matchmedia-polyfill": "0.3.1",
     "react-loadable": "5.5.0",
     "react-redux": "5.0.7",
-    "universal-cookie": "4.0.0",
-    "yarn": "^1.17.3"
+    "universal-cookie": "4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "autoprefixer": "^9.2.0",
@@ -69,7 +67,6 @@
     "koa-static": "^4.0.3",
     "lodash-es": "^4.17.11",
     "node-sass": "^4.11.0",
-    "postcss": "^7.0.5",
     "sass-loader": "^7.1.0",
     "sass-resources-loader": "^2.0.1",
     "shelljs": "^0.8.3",

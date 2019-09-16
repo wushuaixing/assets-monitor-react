@@ -8,26 +8,32 @@ import { baseUrl } from '@/utils/api/index';
  * @returns {Promise<*>}
  */
 // 消息中心列表
-export const centerList = async (messageType, params) => {
-	const response = await service.get(`${baseUrl}/jms/message/center/list/${messageType}`, { params });
+export const centerList = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/message/station/list`, { params });
 	return response.data;
 };
 
 
-// 下载风险变动消息附件下载 zhousai
-export const attach = async (id, params) => {
-	const response = await service.get(`${baseUrl}/jms/message/center/risk/attach/${id}`, { params });
-	return response.request;
-};
-
-// 已读
-export const isRead = async (messageType, id) => {
-	const response = await service.get(`${baseUrl}/jms/message/center/read/${messageType}/${id}`);
+// 消息提醒
+export const notify = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/message/station/notify`, { params });
 	return response.data;
 };
 
-// 小铃铛提醒。 是否含有未读消息
-export const hasUnreadMessage = async () => {
-	const response = await service.get(`${baseUrl}/jms/message/center/hasUnreadMessage`);
+// 站内信已读
+export const isRead = async (params) => {
+	const response = await service.post(`${baseUrl}/yc/message/station/read`, params);
+	return response.data;
+};
+
+// 站内信删除
+export const getDelete = async (params) => {
+	const response = await service.post(`${baseUrl}/yc/message/station/delete`, params);
+	return response.data;
+};
+
+// 未读消息数量提醒 [zhousai]
+export const unreadCount = async (params) => {
+	const response = await service.get(`${baseUrl}/yc/message/station/notify/unreadCount`, { params });
 	return response.data;
 };
