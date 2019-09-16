@@ -14,7 +14,8 @@ import Bankruptcy from './bankruptcy';
 import Public from './public-proclamation';
 // 我的关注
 import Attention from './my-attention';
-
+// 资产清收流程
+import ClearProcess from './assets-auction/clearProcess';
 import Star from '@/assets/img/icon/btn_attention_h.png';
 
 // 获取展示配置
@@ -168,6 +169,7 @@ const monitorRouter = (props) => {
 		<Router>
 			<MonitorMain path="/*" rule={rule} />
 			<Attention path="/monitor/attention/*" rule={rule} />
+			<ClearProcess path="/monitor/clearProcess/*" />
 			{/* <BusinessDetail path="/monitor/business/detail/*" parent="监控信息" parentUrl="/" /> */}
 			{/* <DebtorDetail path="/business/debtor/detail/*" /> */}
 		</Router>

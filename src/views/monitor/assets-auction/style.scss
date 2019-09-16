@@ -28,7 +28,23 @@
   .assets-auction-action {
     padding: 10px 0;
   }
-
+  .yc-icon-recovery-title {
+    margin-right: 15px;
+    font-size: 13px;
+    color: #337ab7;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+  .yc-icon-recovery {
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin-right: 3px;
+    width: 16px;
+    height: 16px;
+    background-image: url("../../../assets/img/icon_recovery_n.png");
+  }
   // 资产拍卖-资产信息
   .assets-info-content {
     li {
@@ -187,5 +203,37 @@
       }
 
     }
+  }
+}
+.yc-module {
+  .yc-module-title {
+    color: #20242E;
+    padding-top: 40px;
+    padding-bottom: 60px;
+    line-height: 1;
+    font-weight: bold;
+  }
+  .yc-recovery-text {
+    padding: 0 20px;
+    margin-bottom: 10px;
+    p {
+      font-size: 14px;
+      line-height: 22px;
+      color: #20242E;
+    }
+    .yc-recovery-title {
+      font-size: 14px;
+      line-height: 1;
+      margin-top: 30px;
+      margin-bottom: 16px;
+      padding: 10px 16px;
+      background-color: #3D63BD;
+      color: #fff;
+      border-radius: 17px;
+      display: inline-block;
+    }
+  }
+  &:last-child {
+    padding-bottom: 40px;
   }
 }
