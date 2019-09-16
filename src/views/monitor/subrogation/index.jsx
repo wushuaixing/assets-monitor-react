@@ -2,7 +2,9 @@ import React from 'react';
 import { Modal, message } from 'antd';
 import TableView from './table';
 import QueryView from './queryView';
-import { Button, Tabs, Spin } from '@/common';
+import {
+	Button, Tabs, Spin,
+} from '@/common';
 import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
@@ -297,6 +299,7 @@ export default class Subrogation extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							{/* <Download str={exportList} condition={this.condition} /> */}
 							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
 								<span className="yc-export-img" />
 								<span> 一键导出</span>

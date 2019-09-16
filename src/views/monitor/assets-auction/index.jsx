@@ -2,7 +2,9 @@ import React from 'react';
 import Query from './query';
 import Table from './table';
 import { Modal, message } from 'antd';
-import { Button, Spin, Tabs } from '@/common';
+import {
+	Button, Spin, Tabs,
+} from '@/common';
 import {
 	infoList, exportList, follow, infoCount,
 } from '@/utils/api/monitor-info/assets';

@@ -296,6 +296,7 @@ export default class FollowInfo extends React.Component {
 										<div className="list-item-title">收入金额(元)：</div>
 										<div className="list-item-content">
 											<InputNumber
+												step={0.01}
 												style={{ width: '100%' }}
 												{...getField('recovery')}
 												placeholder="请输入收入金额"
@@ -309,6 +310,7 @@ export default class FollowInfo extends React.Component {
 										<div className="list-item-title">支出金额(元)：</div>
 										<div className="list-item-content">
 											<InputNumber
+												step={0.01}
 												style={{ width: '100%' }}
 												{...getField('expend')}
 												placeholder="请输入支出金额"
