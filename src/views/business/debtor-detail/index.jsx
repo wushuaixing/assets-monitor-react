@@ -118,7 +118,7 @@ export default class DebtorDetail extends React.Component {
 	warning =() => {
 		const modal = Modal.warning({
 			title: '债务人不存在，可能关联的业务已经被删除',
-			content: '三秒后自动关闭页面',
+			content: '3秒后自动关闭页面',
 			onOk() {
 				window.close();
 			},
@@ -134,6 +134,7 @@ export default class DebtorDetail extends React.Component {
 		const {
 			loading, businessDetail, data, columns,
 		} = this.state;
+
 		return (
 			<div className="yc-debtor-wrapper">
 				<div className="yc-content-breadcrumb">
