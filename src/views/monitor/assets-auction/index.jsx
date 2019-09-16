@@ -1,10 +1,9 @@
 import React from 'react';
+import { Modal, message } from 'antd';
+import { navigate } from '@reach/router';
 import Query from './query';
 import Table from './table';
-import { Modal, message } from 'antd';
-import {
-	Button, Spin, Tabs,
-} from '@/common';
+import { Button, Spin, Tabs } from '@/common';
 import {
 	infoList, exportList, follow, infoCount,
 } from '@/utils/api/monitor-info/assets';
@@ -232,6 +231,12 @@ export default class Assets extends React.Component {
 		});
 	};
 
+	toClearProcess = () => {
+		console.log(1);
+
+		navigate('/monitor/clearProcess');
+	}
+
 	render() {
 		const {
 			dataSource, current, total, manage, loading, tabConfig,
@@ -268,10 +273,18 @@ export default class Assets extends React.Component {
 								}}
 								title="批量管理"
 							/>
-							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
-								<span className="yc-export-img" />
-								<span> 一键导出</span>
-							</Button>
+							<span style={{ float: 'right' }}>
+								<span className="yc-icon-recovery-title" onClick={this.toClearProcess}>
+									<span className="yc-icon-recovery" />
+									资产清收流程
+								</span>
+
+								<Button onClick={() => this.handleExport('all')}>
+									<span className="yc-export-img" />
+									<span> 一键导出</span>
+								</Button>
+							</span>
+
 						</div>
 					) : (
 						<div className="assets-auction-action">

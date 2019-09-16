@@ -7,7 +7,7 @@ import {
 
 const status = (value) => {
 	switch (value) {
-	case 0: return '即将开始';
+	case 1: return '即将开始';
 	case 3: return '正在进行';
 	case 5: return '已成交';
 	case 7: return '已流拍';
@@ -65,7 +65,7 @@ class BusinessView extends React.Component {
 										{
 											row.obligors.length > 0 && row.obligors.map(item => (
 												<div>
-													{`${type(item.type)}: ${item.name} ${item.birthdayOriginal || item.gender !== 0 || item.number ? `(${item.gender === 0 ? '' : `性别: ${sex(item.gender)}`}  ${item.number ? `证件号: ${item.number}` : `${item.birthdayOriginal ? `生日: ${item.birthdayOriginal}` : ''}`} ${item.notes})` : ''}`}
+													{`${type(item.type)}: ${item.name} ${item.birthday || item.gender !== 0 || item.number ? `(${item.gender === 0 ? '' : `性别: ${sex(item.gender)}`}  ${item.number ? `证件号: ${item.number}` : `${item.birthday ? `生日: ${item.birthday}` : ''}`} ${item.notes})` : ''}`}
 												</div>
 											))
 										}
