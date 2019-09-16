@@ -38,7 +38,7 @@ export default class TableIntact extends React.Component {
 				current: 1,
 				total: 0,
 			});
-			this.toGetData(nextProps.sourceType);
+			this.toGetData(nextProps);
 		}
 	}
 
@@ -67,14 +67,13 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=(_sourceType) => {
+	toGetData=(nextProps) => {
 		this.setState({ loading: true });
-		const { sourceType, reqUrl, id } = this.props;
-		const type = _sourceType || sourceType;
+		const { sourceType, reqUrl, id } = nextProps || this.props;
 		let toApi = '';
-		if (type === 1)toApi = Api.focusListBid;
-		if (type === 2)toApi = Api.focusListIllegal;
-		if (type === 3)toApi = Api.focusListPunish;
+		if (sourceType === 1)toApi = Api.focusListBid;
+		if (sourceType === 2)toApi = Api.focusListIllegal;
+		if (sourceType === 3)toApi = Api.focusListPunish;
 		toApi = reqUrl || toApi;
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
@@ -111,8 +110,9 @@ export default class TableIntact extends React.Component {
 		const {
 			dataSource, current, total, loading,
 		} = this.state;
-		const { sourceType, normal } = this.props;
+		const { sourceType, normal, noSort } = this.props;
 		const tableProps = {
+			noSort,
 			normal,
 			manage: false,
 			dataSource,

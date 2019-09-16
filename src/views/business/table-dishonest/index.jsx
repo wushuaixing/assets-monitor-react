@@ -1,8 +1,9 @@
 import React from 'react';
 import Table from './table';
-import { attentionList } from '@/utils/api/monitor-info/monitor';
+import api from '@/utils/api/business-list';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
+import './style.scss';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -14,8 +15,7 @@ export default class TableIntact extends React.Component {
 			loading: true,
 		};
 		this.condition = {
-			type: 0,
-			sourceType: props.sourceType || 1,
+			isAttention: 1,
 			sortColumn: '',
 			sortOrder: '',
 			page: 1,
@@ -26,28 +26,6 @@ export default class TableIntact extends React.Component {
 	componentWillMount() {
 		this.toGetData();
 	}
-
-	componentWillReceiveProps(nextProps) {
-		const { sourceType } = this.props;
-		if (sourceType !== nextProps.sourceType) {
-			this.condition.sortColumn = '';
-			this.condition.sortOrder = '';
-			this.condition.sourceType = nextProps.sourceType;
-			this.setState({
-				dataSource: '',
-				current: 1,
-				total: 0,
-			});
-			this.toGetData(nextProps);
-		}
-	}
-
-	// 排序触发
-	onSortChange=(field, order) => {
-		this.condition.sortColumn = field;
-		this.condition.sortOrder = order;
-		this.toGetData();
-	};
 
 	// 表格发生变化
 	onRefresh=(data, type) => {
@@ -60,6 +38,13 @@ export default class TableIntact extends React.Component {
 		});
 	};
 
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
+		this.toGetData();
+	};
+
 	// 当前页数变化
 	onPageChange=(val) => {
 		this.condition.page = val;
@@ -67,31 +52,33 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=(nextProps) => {
+	toGetData=() => {
 		this.setState({ loading: true });
-		const { reqUrl, id } = nextProps || this.props;
-		const toApi = reqUrl || attentionList;
-		toApi(clearEmpty(this.condition), id).then((res) => {
-			if (res.code === 200) {
+		const { reqUrl, id } = this.props;
+		const toApi = reqUrl || api.obligor.dishonestList;
+		toApi(clearEmpty(this.condition), id)
+			.then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						dataSource: res.data[0].result,
+						current: res.data[0].page,
+						total: res.data[0].resNum,
+						loading: false,
+					});
+				} else {
+					this.setState({
+						dataSource: '',
+						current: 1,
+						total: 0,
+						loading: false,
+					});
+				}
+			})
+			.catch(() => {
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
 					loading: false,
 				});
-			} else {
-				this.setState({
-					dataSource: [],
-					current: 1,
-					total: 0,
-					loading: false,
-				});
-			}
-		}).catch(() => {
-			this.setState({
-				loading: false,
 			});
-		});
 	};
 
 	render() {
@@ -107,10 +94,9 @@ export default class TableIntact extends React.Component {
 			current,
 			total,
 			onRefresh: this.onRefresh,
-			onSelect: () => {},
+			onSelect: this.onSelect,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
-			sourceType: this.condition.sourceType,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};

@@ -1,7 +1,11 @@
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import {
+	Table, Pagination, Modal, message,
+} from 'antd';
 import { Attentions } from '@/common/table';
 import { followSingle, unFollowSingle } from '@/utils/api/monitor-info/assets';
+import { processSave } from '@/utils/api/monitor-info/assets-follow';
+
 import {
 	AssetsInfo, MatchingReason, AuctionInfo,
 } from '@/views/monitor/assets-auction/tableComponents';
@@ -9,6 +13,26 @@ import { Button } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
 import FollowModel from './follow-info';
+
+
+// 忽略操作
+const handleIgnore = (row, index, onRefresh) => {
+	Modal.confirm({
+		title: '确认忽略本条推送信息吗？',
+		content: '点击确定，本条推送信息将被标记为忽略。',
+		iconType: 'exclamation-circle',
+		onOk() {
+			processSave({ monitorId: row.id, process: 12 }, true).then((res) => {
+				if (res.code === 200) {
+					message.success('操作成功！');
+					onRefresh({ id: row.id, process: 12, index }, 'process');
+				}
+			});
+		},
+		onCancel() {},
+	});
+};
+
 // 获取表格配置
 const columns = (props, onFollowClick) => {
 	const {
@@ -53,7 +77,7 @@ const columns = (props, onFollowClick) => {
 								<React.Fragment>
 									<Button className="auction-button" title="跟进" {...event} />
 									<br />
-									<Button className="auction-button" title="忽略" />
+									<Button className="auction-button" title="忽略" onClick={() => handleIgnore(row, index, onRefresh)} />
 								</React.Fragment>
 							),
 							3: <Button className="auction-button" title="跟进中" {...event} />,

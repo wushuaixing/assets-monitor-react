@@ -9,6 +9,7 @@ import Table0032 from '../monitor/financial-assets/table/table-publicity';
 import Table0040 from '../monitor/lawsuits-monitor/table-intact';
 import Table0050 from '../monitor/bankruptcy/table-intact';
 import Table0060 from '../monitor/public-proclamation/table-intact';
+import Table0070 from './table-dishonest';
 import './style.scss';
 
 const toGetDefaultConfig = (c) => {
@@ -66,6 +67,12 @@ const toGetDefaultConfig = (c) => {
 				{ id: 63, name: '环境行政处罚', status: Boolean(c.epbCount) },
 			],
 		},
+		{
+			id: 7,
+			name: '失信记录',
+			field: 'dishonest',
+			status: Boolean(c.dishonestCount),
+		},
 	];
 	const _base = base.filter(item => item.status);
 	return _base.map((item) => {
@@ -120,6 +127,7 @@ const ItemTable = (props) => {
 		}
 		return null;
 	}
+	if (field === 'dishonest') return <Table0070 normal noSort id={id} />;
 	return null;
 };
 

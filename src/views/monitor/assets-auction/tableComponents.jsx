@@ -54,6 +54,61 @@ const AssetsInfo = (text, rowContent, noMatching = false) => {
 
 const MatchingReason = (text, content) => <Matching content={content} />;
 
+// 失信记录-判决信息
+const JudgmentInfo = (text, rowContent) => {
+	const {
+		courtName, caseCode, areaName, publishDate,
+	} = rowContent;
+	return (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify">机构名称：</span>
+					<span className="list list-content">{courtName || '--'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">案号：</span>
+					<span className="list list-content">{caseCode || '--'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">省份：</span>
+					<span className="list list-content">{areaName || '--'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">发布时间：</span>
+					<span className="list list-content">{publishDate || '--'}</span>
+				</li>
+			</div>
+		</React.Fragment>
+	);
+};
+// 失信记录-执行情况
+const ExecuteInfo = (text, rowContent) => {
+	const {
+		performance, disruptTypeName, businessEntity,
+	} = rowContent;
+	return (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify" style={{ width: 'auto' }}>被执行人的履行情况：</span>
+					<span className="list list-content">{performance || '--'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 'auto' }}>失信被执行人行为具体情形：</span>
+					<span className="list list-content" style={{ maxWidth: 250 }}>{disruptTypeName || '--'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 'auto' }}>法定代表人/负责人姓名：</span>
+					<span className="list list-content">{businessEntity || '--'}</span>
+				</li>
+			</div>
+		</React.Fragment>
+	);
+};
+// 失信记录-生效法律文书确定的义务
+const DishonestInfo = (text, content) => <Matching content={content} dishonest />;
+
 const AuctionInfo = (text, rowContent) => {
 	const {
 		title, url, court, consultPrice, start, currentPrice, status, initialPrice,
@@ -142,4 +197,6 @@ const AuctionInfo = (text, rowContent) => {
 	);
 };
 
-export { AssetsInfo, MatchingReason, AuctionInfo };
+export {
+	AssetsInfo, MatchingReason, AuctionInfo, DishonestInfo, JudgmentInfo, ExecuteInfo,
+};
