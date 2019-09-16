@@ -179,9 +179,11 @@ export default class MyAttention extends React.Component {
 
 	// 如果有子项按钮，点击切换
 	onBtnChange=(val) => {
+		const { sourceType, source } = this.state;
 		this.setState({
 			childType: val.id,
 		});
+		this.toGetTotal(sourceType, source);
 		window.location.href = changeURLArg(window.location.href, 'type', val.id);
 	};
 

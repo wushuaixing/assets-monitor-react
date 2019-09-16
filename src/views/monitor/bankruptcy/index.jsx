@@ -50,8 +50,8 @@ export default class Subrogation extends React.Component {
 		const _this = this;
 		if (this.unReadCount) {
 			Modal.confirm({
-				title: '确认将所有信息标记为全部已读？',
-				content: '点击确定，将为您标记为全部已读。',
+				title: '确认将所有信息全部标记为已读？',
+				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
 					readStatus({}).then((res) => {

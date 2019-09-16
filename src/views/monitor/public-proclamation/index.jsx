@@ -77,8 +77,8 @@ export default class Lawsuits extends React.Component {
 
 	// 清除排序状态
 	toClearSortStatus=() => {
-		this.condition.field = '';
-		this.condition.order = '';
+		this.condition.sortColumn = '';
+		this.condition.sortOrder = '';
 	};
 
 	// 获取统计信息
@@ -122,8 +122,8 @@ export default class Lawsuits extends React.Component {
 		const { sourceType, tabConfig } = this.state;
 		if (tabConfig[sourceType - 1].dot) {
 			Modal.confirm({
-				title: '确认将所有信息标记为全部已读？',
-				content: '点击确定，将为您标记为全部已读。',
+				title: '确认将所有信息全部标记为已读？',
+				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
 					Api[toGetApi(sourceType, 'readStatus')]({})
@@ -211,7 +211,7 @@ export default class Lawsuits extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange({}, val, isRead);
+		this.onQueryChange({}, val, isRead, 1);
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 
@@ -224,8 +224,8 @@ export default class Lawsuits extends React.Component {
 
 	// 排序触发
 	onSortChange=(field, order) => {
-		this.condition.field = field;
-		this.condition.order = order;
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
 	};
 
@@ -281,8 +281,8 @@ export default class Lawsuits extends React.Component {
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
-			sortField: this.condition.field,
-			sortOrder: this.condition.order,
+			sortField: this.condition.sortColumn,
+			sortOrder: this.condition.sortOrder,
 		};
 		return (
 			<div className="yc-assets-auction">

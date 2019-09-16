@@ -22,7 +22,7 @@ const columns = (props, onFollowClick) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? '资产信息'
-				: <SortVessel field="updateTime" onClick={onSortChange} mark="(更新时间)" {...sort}>资产信息</SortVessel>),
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort}>资产信息</SortVessel>),
 			width: 274,
 			render: AssetsInfo,
 		}, {
@@ -32,7 +32,7 @@ const columns = (props, onFollowClick) => {
 			render: MatchingReason,
 		}, {
 			title: (noSort ? '拍卖信息'
-				: <SortVessel field="start" onClick={onSortChange} mark="(开拍时间)" {...sort}>拍卖信息</SortVessel>),
+				: <SortVessel field="START" onClick={onSortChange} mark="(开拍时间)" {...sort}>拍卖信息</SortVessel>),
 			width: 392,
 			render: AuctionInfo,
 		}, {
@@ -42,28 +42,31 @@ const columns = (props, onFollowClick) => {
 			className: 'tAlignCenter_important yc-assets-auction-action',
 			render: (text, row, index) => {
 				const { recovery, process } = row;
+				const event = {
+					onClick: () => onFollowClick(row, index),
+				};
 				return (
 					<React.Fragment>
 						{recovery > 0 ?	<div className="auction-recovery">{`追回金额：${floatFormat(recovery)}元`}</div> : ''}
 						{{
 							0: (
 								<React.Fragment>
-									<Button className="auction-button" title="跟进" onClick={() => onFollowClick(row)} />
+									<Button className="auction-button" title="跟进" {...event} />
 									<br />
 									<Button className="auction-button" title="忽略" />
 								</React.Fragment>
 							),
-							3: <Button className="auction-button" title="跟进中" onClick={() => onFollowClick(row)} />,
-							6: <Button className="auction-button" title="跟进中" onClick={() => onFollowClick(row)} />,
-							9: <Button className="auction-button" title="已完成" />,
+							3: <Button className="auction-button" title="跟进中" {...event} />,
+							6: <Button className="auction-button" title="跟进中" {...event} />,
+							9: <Button className="auction-button" title="已完成" {...event} />,
 							12: (
 								<React.Fragment>
-									<Button className="auction-button" title="跟进" onClick={() => onFollowClick(row)} />
+									<Button className="auction-button" title="跟进" {...event} />
 									<br />
 									<Button className="auction-button" title="已忽略" disabled />
 								</React.Fragment>
 							),
-							15: <Button className="auction-button" title="已放弃" />,
+							15: <Button className="auction-button" title="已放弃" {...event} />,
 						}[process] || null }
 						<Attentions
 							text={text}
@@ -100,7 +103,6 @@ export default class TableView extends React.Component {
 
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {
-		// console.log(selectedRowKeys, record);
 		const _selectedRowKeys = record.map(item => item.id);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
@@ -108,16 +110,18 @@ export default class TableView extends React.Component {
 	};
 
 	// 跟进点击效果
-	toFollowClick=(source) => {
+	toFollowClick=(source, index) => {
+		const _source = source;
+		_source.index = index;
 		this.setState({
 			visible: true,
-			source,
+			source: _source,
 		});
 	};
 
 	render() {
 		const {
-			total, current, dataSource, manage, onPageChange,
+			total, current, dataSource, manage, onPageChange, onRefresh,
 		} = this.props;
 		const { selectedRowKeys, visible, source } = this.state;
 		const rowSelection = manage ? {
@@ -147,7 +151,14 @@ export default class TableView extends React.Component {
 					/>
 				</div>
 				{
-					visible ? <FollowModel visible={visible} source={source} onClose={row => this.setState({ visible: false })} />
+					visible ? (
+						<FollowModel
+							visible={visible}
+							source={source}
+							onClose={() => this.setState({ visible: false })}
+							onRefresh={onRefresh}
+						/>
+					)
 						: null
 				}
 

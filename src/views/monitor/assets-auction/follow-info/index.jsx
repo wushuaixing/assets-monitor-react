@@ -3,9 +3,9 @@ import {
 	Modal, Button, Icon, Steps, Select, InputNumber, Input, DatePicker, Checkbox, Radio, message,
 } from 'antd';
 import { Spin } from '@/common';
-import { linkDom } from '@/utils';
+import { clearEmpty, linkDom } from '@/utils';
 import {
-	pushList, pushSave, processList, processSave,
+	pushList as pushListApi, pushSave, processList, processSave,
 } from '@/utils/api/monitor-info/assets-follow';
 import './style.scss';
 import { floatFormat } from '@/utils/format';
@@ -50,6 +50,11 @@ const StepDesc = (props) => {
 export default class FollowInfo extends React.Component {
 	constructor(props) {
 		super(props);
+		const toStatus = (source) => {
+			const { process } = source;
+			if (process === 0 || process === 3 || process === 6) return 6;
+			return process;
+		};
 		this.state = {
 			addStatus: false,
 			loading: false,
@@ -57,15 +62,16 @@ export default class FollowInfo extends React.Component {
 			loadingChild: false,
 			dataSource: [],
 			processSource: [],
-			incomeMoney: '',
-			expendMoney: '',
+			recovery: '',
+			expend: '',
 			remark: '',
 			remindTime: '',
 			remindWay: '',
 			pushList: [],
-			status: 1,
+			status: toStatus(props.source),
+			// 新增推送人
 			add_name: '',
-			add_type: 1,
+			add_type: 0,
 			add_way: 1,
 			add_content: '',
 		};
@@ -81,25 +87,48 @@ export default class FollowInfo extends React.Component {
 	}
 
 	onChangeValue=(val, field) => {
-		console.log(val);
-		const value = val.target ? val.target.value : val;
-		this.setState({
-			[field]: value,
-		});
+		if (val) {
+			let value;
+			value = val.target ? val.target.value : val;
+			if (field === 'remark') value = value.slice(0, 160);
+			this.setState({
+				[field]: value,
+			});
+		} else {
+			this.setState({
+				[field]: val,
+			});
+		}
 	};
 
 	onAddContentBlurEvent=(val) => {
-		const value = val.target ? val.target.value : val;
-		const data = this.state;
-		console.log('add_way:', data.add_way);
-		console.log('value:', value);
+		if (val) {
+			const value = val.target ? val.target.value : val;
+			const data = this.state;
+			console.log(data.add_way);
+			if (data.add_way === 1 && value) {
+				const res = /^1[34578][0-9]\d{8}$/.test(value);
+				if (!res) {
+					message.error('请输入正确的手机号码！');
+					return false;
+				}
+			} if (data.add_way === 2 && value) {
+				const res = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value);
+				if (!res) {
+					message.error('请输入正确的邮箱！');
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	};
 
 	// 获取推送人列表
-	toGetPushList=() => {
+	toGetPushList=(refresh) => {
 		const { dataSource } = this.state;
-		if (dataSource.length === 0) {
-			pushList({ num: 20, page: 1 }).then((res) => {
+		if (dataSource.length === 0 || refresh) {
+			pushListApi({ num: 20, page: 1 }).then((res) => {
 				const { data, code } = res;
 				if (code === 200) {
 					this.setState({
@@ -134,17 +163,84 @@ export default class FollowInfo extends React.Component {
 
 	// 新增推送人
 	handlePushSave =() => {
-
+		const data = this.state;
+		if (data.add_name === '' || data.add_content === '') {
+			message.error('新增推送人的姓名或提醒方式相关内容不能为空！', 2);
+			return false;
+		}
+		if (this.onAddContentBlurEvent(data.add_content) === false) return false;
+		const param = {
+			name: data.add_name,
+			role: data.add_type,
+			mobile: data.add_way === 1 ? data.add_content : '',
+			email: data.add_way === 2 ? data.add_content : '',
+		};
+		if (data.loadingChild) return false;
+		this.setState({ loadingChild: true });
+		pushSave(clearEmpty(param))
+			.then((res) => {
+				const { code } = res;
+				if (code === 200) {
+					message.success('新增推送人成功！');
+					this.setState({ loadingChild: false, add_name: '', add_content: '' });
+					this.toGetPushList(true);
+				} else {
+					this.setState({ loadingChild: false });
+					message.error(res.message || '网络异常请稍后再试！');
+				}
+			})
+			.catch(() => {
+				this.setState({ loadingChild: false });
+			});
+		return true;
 	};
 
 	// 新增推送信息
 	handleProcessSave =() => {
-
+		const {
+			loading, recovery, expend, remark, remindTime, remindWay, pushList, status: process,
+		} = this.state;
+		const { source: { id, index }, onRefresh, onClose } = this.props;
+		if (loading) return false;
+		this.setState({ loading: true });
+		const remindType = (item) => {
+			if (item.length === 2) return 3;
+			if (item.indexOf('email') > -1) return 2;
+			if (item.indexOf('mobile') > -1) return 1;
+			return '';
+		};
+		console.log(remindTime);
+		const param = {
+			monitorId: id,
+			process,
+			recovery,
+			expend,
+			content: remark,
+			remindingTime: remindTime ? new Date(remindTime).format('yyyy-MM-dd') : '',
+			remindSetIdList: pushList.length > 0 ? pushList : '',
+			remindType: remindType(remindWay),
+		};
+		processSave(clearEmpty(param))
+			.then((res) => {
+				const { code } = res;
+				if (code === 200) {
+					message.success('添加跟进信息成功！');
+					if (onRefresh)onRefresh({ id, process, index }, 'process');
+					if (onClose) { onClose(); }
+				} else {
+					this.setState({ loading: false });
+					message.error(res.message || '网络异常请稍后再试！');
+				}
+			})
+			.catch(() => {
+				this.setState({ loading: false });
+			});
+		return true;
 	};
 
 	render() {
 		const {
-			loading, loadingChild, loadingList, dataSource, processSource, addStatus,
+			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark,
 		} = this.state;
 		const { visible, onClose, source: { process } } = this.props;
 		const data = this.state;
@@ -184,7 +280,7 @@ export default class FollowInfo extends React.Component {
 				onCancel={onClose}
 				footer={[
 					<Button key="back" type="ghost" size="large" onClick={onClose}>取 消</Button>,
-					<Button key="submit" type="primary" size="large" loading={loading} onClick={this.handleOk}>
+					<Button key="submit" type="primary" size="large" loading={loading} onClick={this.handleProcessSave}>
 						{'确 定'}
 					</Button>,
 				]}
@@ -201,7 +297,7 @@ export default class FollowInfo extends React.Component {
 										<div className="list-item-content">
 											<InputNumber
 												style={{ width: '100%' }}
-												{...getField('incomeMoney')}
+												{...getField('recovery')}
 												placeholder="请输入收入金额"
 												min={1}
 												max={999999999999}
@@ -214,19 +310,19 @@ export default class FollowInfo extends React.Component {
 										<div className="list-item-content">
 											<InputNumber
 												style={{ width: '100%' }}
-												{...getField('expendMoney')}
+												{...getField('expend')}
 												placeholder="请输入支出金额"
 												min={1}
 												max={999999999999}
 												onBlur={() => document.activeElement.blur()}
-
 											/>
 										</div>
 									</li>
 									<li className="follow-list-item">
 										<div className="list-item-title">备注：</div>
 										<div className="list-item-content">
-											<Input type="textarea" rows={5} {...getField('remark')} />
+											<Input type="textarea" rows={5} {...getField('remark')} pleaceholder="请输入" />
+											<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>
 										</div>
 									</li>
 									<li className="follow-list-item">
@@ -270,11 +366,10 @@ export default class FollowInfo extends React.Component {
 																	return false;
 																},
 															})}
-
 														>
 															{
 																dataSource.map(item => (
-																	<Select.Option key={item.id} value={item.name} label={item.name + item.phone}>
+																	<Select.Option key={item.id} value={item.id}>
 																		<span className="select-option-name">{item.name}</span>
 																		<span className="select-option-mark" style={{ marginLeft: 10 }}>{markContent(item)}</span>
 																	</Select.Option>
@@ -285,19 +380,19 @@ export default class FollowInfo extends React.Component {
 													<p style={{ marginTop: 3, fontSize: 0 }}>
 														<Input
 															placeholder="请输入姓名"
-															style={{ width: 80, marginRight: 3 }}
+															style={{ width: 78, marginRight: 3 }}
 															className="item-class"
 															{...getField('add_name')}
 														/>
 														<Select
-															defaultValue={1}
+															defaultValue={0}
 															style={{ width: 94, marginRight: 3 }}
 															className="item-class"
 															getPopupContainer={getContainer}
 															{...getField('add_type')}
 														>
-															<Select.Option value={1}>系统账号</Select.Option>
-															<Select.Option value={2}>非系统账号</Select.Option>
+															<Select.Option value={0}>系统账号</Select.Option>
+															<Select.Option value={1}>非系统账号</Select.Option>
 														</Select>
 														<Select
 															defaultValue={1}
@@ -324,7 +419,7 @@ export default class FollowInfo extends React.Component {
 															{...getField('add_content')}
 															onBlur={this.onAddContentBlurEvent}
 														/>
-														<Button style={{ width: 66 }} className="item-class" loading={loadingChild}>保存</Button>
+														<Button style={{ width: 66 }} className="item-class" loading={loadingChild} onClick={this.handlePushSave}>新增</Button>
 													</p>
 													<p style={{ overflow: 'hidden' }}>
 														<div className="yc-follow-line" style={{ margin: '3px 0' }} />
@@ -341,9 +436,10 @@ export default class FollowInfo extends React.Component {
 										<div className="list-item-title">跟进状态：</div>
 										<div className="list-item-content">
 											<Radio.Group {...getField('status')}>
-												<Radio key="a" value={1}>跟进中</Radio>
-												<Radio key="b" value={2}>完成跟进</Radio>
-												<Radio key="c" value={3}>放弃跟进</Radio>
+												<Radio key="a" value={6}>跟进中</Radio>
+												<Radio key="b" value={9}>完成跟进</Radio>
+												<Radio key="c" value={12}>已忽略</Radio>
+												<Radio key="c" value={15}>放弃跟进</Radio>
 											</Radio.Group>
 										</div>
 									</li>

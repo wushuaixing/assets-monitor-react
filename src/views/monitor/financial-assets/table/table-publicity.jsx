@@ -15,8 +15,8 @@ export default class TableIntact extends React.Component {
 		};
 		this.condition = {
 			isAttention: 1,
+			sortColumn: '',
 			sortOrder: '',
-			order: '',
 			page: 1,
 			num: 10,
 		};

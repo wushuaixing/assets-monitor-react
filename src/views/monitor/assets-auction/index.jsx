@@ -159,6 +159,7 @@ export default class Assets extends React.Component {
 
 	// 表格发生变化
 	onRefresh=(data, type) => {
+		// console.log('onRefresh:',data, type);
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;

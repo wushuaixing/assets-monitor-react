@@ -121,6 +121,7 @@ sub {
   position: relative;
   min-height: 100%;
   width: 100%;
+  min-width: 1200px;
   overflow: hidden;
   background-color: #F2F2F2;
 }

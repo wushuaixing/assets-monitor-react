@@ -59,27 +59,27 @@ class QueryCondition extends React.Component {
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">发布年份：</span>
-					<Select size="large" style={_style2} {...getFieldProps('year')} placeholder="请选择人员">
+					<Select size="large" style={_style2} {...getFieldProps('year')} placeholder="请选择" allowClear>
 						{options.map(item => <Select.Option value={item} key={item}>{`${item}年`}</Select.Option>)}
 					</Select>
 				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">更新日期：</span>
+					<span className="yc-query-item-title">{`${global.Table_CreateTime_Text}：`}</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startUpdateTime', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endUpdateTime'))}
+						{...getFieldProps('startCreateTime', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endCreateTime'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endUpdateTime', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startUpdateTime'))}
+						{...getFieldProps('endCreateTime', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startCreateTime'))}
 					/>
 				</div>
 
