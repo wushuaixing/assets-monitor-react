@@ -169,6 +169,7 @@ class FINANCE extends React.Component {
 		};
 		this.setState({
 			page: val,
+			loading: true,
 		});
 
 		finance(params).then((res) => {
