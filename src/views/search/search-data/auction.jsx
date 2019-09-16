@@ -219,7 +219,7 @@ class AUCTION extends React.PureComponent {
 						<Select.Option value="11">撤回</Select.Option>
 						<Select.Option value="5">已成交</Select.Option>
 						<Select.Option value="7">已流拍</Select.Option>
-						<Select.Option value="0">即将开始</Select.Option>
+						<Select.Option value="1">即将开始</Select.Option>
 						<Select.Option value="3">正在进行</Select.Option>
 					</Select>
 				</div>
