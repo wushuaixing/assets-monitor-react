@@ -183,6 +183,10 @@ class AUCTION extends React.Component {
 		const fildes = getFieldsValue();
 		fildes.startTime = startTime;
 		fildes.endTime = endTime;
+		if (fildes.lowestConsultPrice > fildes.highestConsultPrice) {
+			message.error('评估价格最低价不能高于评估价格最高价！');
+			return;
+		}
 		const { pageSize } = this.state;
 		navigate(generateUrlWithParams('/search/detail/auction', fildes));
 		this.setState({
@@ -223,6 +227,8 @@ class AUCTION extends React.Component {
 			auctionSort: undefined,
 			currentSort: undefined,
 			assessmentSort: undefined,
+			startTime: undefined,
+			endTime: undefined,
 			inputSearch: {},
 		});
 		resetFields('');
@@ -380,11 +386,11 @@ class AUCTION extends React.Component {
 						suffix="万元"
 						inputFirstProps={getFieldProps('lowestConsultPrice', {
 							initialValue: params.lowestConsultPrice,
-							getValueFromEvent: e => e.target.value.trim(),
+							getValueFromEvent: e => e.target.value.trim().replace(/[^1-9]/g, ''),
 						})}
 						inputSecondProps={getFieldProps('highestConsultPrice', {
 							initialValue: params.highestConsultPrice,
-							getValueFromEvent: e => e.target.value.trim(),
+							getValueFromEvent: e => e.target.value.trim().replace(/[^1-9]/g, ''),
 						})}
 					/>
 				</div>

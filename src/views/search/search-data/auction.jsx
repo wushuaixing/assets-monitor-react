@@ -50,7 +50,10 @@ class AUCTION extends React.PureComponent {
 		const fildes = getFieldsValue();
 		fildes.startTime = startTime;
 		fildes.endTime = endTime;
-
+		if (fildes.lowestConsultPrice > fildes.highestConsultPrice) {
+			message.error('评估价格最低价不能高于评估价格最高价！');
+			return;
+		}
 		console.log(fildes);
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
@@ -70,7 +73,7 @@ class AUCTION extends React.PureComponent {
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps, getFieldValue, setFieldsValue } = form;
+		const { getFieldProps, getFieldValue } = form;
 		return (
 			<div className="yc-tabs-data" style={{ padding: '0 40px' }}>
 				<div className="yc-tabs-items">
@@ -118,47 +121,11 @@ class AUCTION extends React.PureComponent {
 							suffix="万元"
 							inputFirstProps={getFieldProps('lowestConsultPrice', {
 								validateTrigger: 'onBlur',
-								rules: [
-									{
-										required: true,
-										validator(rule, value, callback) {
-											const highestConsultPrice = getFieldValue('highestConsultPrice');
-											if (highestConsultPrice && value) {
-												if (Number(value) > Number(highestConsultPrice)) {
-													message.error('评估价最低价不得高过最高价');
-													setFieldsValue({ lowestConsultPrice: '' });
-												}
-											}
-											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0) {
-												message.error('只能输入整数数字');
-												setFieldsValue({ lowestConsultPrice: '' });
-											}
-											callback();
-										},
-									}],
-								getValueFromEvent: e => e.target.value.trim(),
+								getValueFromEvent: e => e.target.value.trim().replace(/[^1-9]/g, ''),
 							})}
 							inputSecondProps={getFieldProps('highestConsultPrice', {
 								validateTrigger: 'onBlur',
-								rules: [
-									{
-										required: true,
-										validator(rule, value, callback) {
-											const lowestConsultPrice = getFieldValue('lowestConsultPrice');
-											if (lowestConsultPrice && value) {
-												if (Number(value) < Number(lowestConsultPrice)) {
-													message.error('评估价最高价不得低于最低价');
-													setFieldsValue({ highestConsultPrice: '' });
-												}
-											}
-											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0) {
-												message.error('只能输入整数数字');
-												setFieldsValue({ highestConsultPrice: '' });
-											}
-											callback();
-										},
-									}],
-								getValueFromEvent: e => e.target.value.trim(),
+								getValueFromEvent: e => e.target.value.trim().replace(/[^1-9]/g, ''),
 							})}
 						/>
 					</div>

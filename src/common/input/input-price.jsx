@@ -85,6 +85,7 @@ class comInput extends React.Component {
 					onBlur={val => this.onBlur(val, inputFirstProps)}
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
+					maxLength={10}
 				/>
 				{
 					suffix ? (
@@ -104,6 +105,7 @@ class comInput extends React.Component {
 					onBlur={val => this.onBlur(val, inputSecondProps)}
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
+					maxLength={10}
 				/>
 				{
 					suffix ? (
