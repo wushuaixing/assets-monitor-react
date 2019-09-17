@@ -24,7 +24,7 @@ const comButton = (props) => {
 				style={style}
 				disabled={disabled || false}
 				className={classList.join(' ')}
-				onClick={(e) => { if (onClick)onClick(e); }}
+				onClick={(e) => { if (onClick && !disabled)onClick(e); }}
 			>
 				{ icon ? icon() : null}
 				<span style={icon ? { marginLeft: 3 } : ''}>{children || title}</span>
