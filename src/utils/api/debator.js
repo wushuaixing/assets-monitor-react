@@ -26,7 +26,4 @@ export const closePush = async (params) => {
 };
 
 // 列表页导出excel[C.H Wong]
-export const exportExcel = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/obligor/exportExcel`, { params });
-	return response.request;
-};
+export const exportExcel = `${baseUrl}/yc/obligor/exportExcel`;

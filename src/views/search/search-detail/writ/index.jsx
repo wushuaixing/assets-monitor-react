@@ -9,11 +9,11 @@ import {
 import { navigate } from '@reach/router';
 import {
 	judgement, // 列表
-	exportAll, // 导出所有
-	exportCurrent, // 本页导出
+	exportWritAll, // 导出所有
+	exportWritCurrent, // 本页导出
 } from '@/utils/api/search';
 import {
-	Spin, Input, Button, timeRule,
+	Spin, Input, Button, timeRule, Download,
 } from '@/common';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import WritTable from './table';
@@ -40,6 +40,7 @@ class WRIT extends React.Component {
 			current: 1, // 当前页
 			page: 1,
 			Sort: undefined,
+			SortTime: undefined,
 			inputSearch: {},
 		};
 	}
@@ -47,12 +48,15 @@ class WRIT extends React.Component {
 	componentDidMount() {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
+		console.log(params);
 		// 判断是否为空对象,非空请求接口
 		if (Object.keys(params).length !== 0) {
 			this.getData(params); // 进入页面请求数据
 		}
 		this.setState({
 			params,
+			startTime: params.publishStart,
+			endTime: params.publishEnd,
 		});
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
@@ -76,7 +80,7 @@ class WRIT extends React.Component {
 	// 获取消息列表
 	getData = (value) => {
 		const {
-			current, pageSize,
+			current, pageSize, startTime, endTime,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
@@ -87,6 +91,8 @@ class WRIT extends React.Component {
 			num: pageSize,
 			page: current,
 			...fildes,
+			publishStart: startTime,
+			publishEnd: endTime,
 			...value,
 		};
 		this.setState({
@@ -134,14 +140,15 @@ class WRIT extends React.Component {
 
 	// page翻页
 	handleChangePage = (val) => {
-		const { pageSize } = this.state;
+		const { pageSize, startTime, endTime } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 
 		const fildes = getFieldsValue();
 		const params = {
 			...fildes,
-			current: val,
+			publishStart: startTime,
+			publishEnd: endTime,
 			num: pageSize,
 			page: val,
 		};
@@ -179,6 +186,7 @@ class WRIT extends React.Component {
 		}
 		this.setState({
 			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
+			SortTime: params.sort,
 		});
 	}
 
@@ -207,7 +215,8 @@ class WRIT extends React.Component {
 		if (!objectKeyIsEmpty(fildes)) {
 			this.getData(params); // 进入页面请求数据
 		} else {
-			message.error('请至少输入一个搜索条件');
+			this.queryReset();
+			// message.error('请至少输入一个搜索条件');
 		}
 	}
 
@@ -223,74 +232,30 @@ class WRIT extends React.Component {
 			pageSize: 10,
 			page: 1,
 			Sort: undefined,
+			startTime: undefined,
+			endTime: undefined,
 		});
 		resetFields('');
 	}
 
-	// 全部导出
-	handleExportExcelAll = () => {
-		const { Sort } = this.state;
+	// 导出
+	toExportCondition=(type) => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
+		const {
+			SortTime, pageSize, current, startTime, endTime,
+		} = this.state;
 		const fields = getFieldsValue();
+
 		const params = {
 			...fields,
-			Sort,
+			publishStart: startTime,
+			publishEnd: endTime,
+			sort: SortTime,
+			page: type === 'current' ? current : undefined,
+			num: type === 'current' ? pageSize : 1000,
 		};
-		const start = new Date().getTime(); // 获取接口响应时间
-		const hide = message.loading('正在下载中，请稍后...', 0);
-
-		exportAll(params).then((res) => {
-			if (res.status === 200) {
-				const now = new Date().getTime();
-				const latency = now - start;
-				const downloadElement = document.createElement('a');
-				downloadElement.href = res.responseURL;
-				// document.body.appendChild(downloadElement);
-				downloadElement.click(); // 点击下载
-				this.setState({
-					loading: false,
-				});
-				// 异步手动移除
-				setTimeout(hide, latency);
-			} else {
-				message.error('请求失败');
-			}
-		});
-	};
-
-	// 本页导出
-	handleExportCurrent= () => {
-		const { pageSize, current, Sort } = this.state;
-		const { form } = this.props; // 会提示props is not defined
-		const { getFieldsValue } = form;
-		const fields = getFieldsValue();
-		const params = {
-			...fields,
-			Sort,
-			page: current,
-			num: pageSize,
-		};
-		const start = new Date().getTime(); // 获取接口响应时间
-		const hide = message.loading('正在下载中，请稍后...', 0);
-
-		exportCurrent(params).then((res) => {
-			if (res.status === 200) {
-				const now = new Date().getTime();
-				const latency = now - start;
-				const downloadElement = document.createElement('a');
-				downloadElement.href = res.responseURL;
-				// document.body.appendChild(downloadElement);
-				downloadElement.click(); // 点击下载
-				this.setState({
-					loading: false,
-				});
-				// 异步手动移除
-				setTimeout(hide, latency);
-			} else {
-				message.error('请求失败');
-			}
-		});
+		return Object.assign({}, params);
 	};
 
 	render() {
@@ -429,8 +394,8 @@ class WRIT extends React.Component {
 					</div>
 				</div>
 				<div className="yc-writ-tablebtn">
-					{dataList.length > 0 && <Button style={{ marginRight: 5 }} onClick={this.handleExportCurrent}>本页导出</Button>}
-					<Button disabled={dataList.length === 0} onClick={dataList.length > 0 && this.handleExportExcelAll}>全部导出</Button>
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportWritCurrent} current page num text="本页导出" />}
+					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportWritAll} all page num text="全部导出" />
 					{dataList.length > 0 && (
 					<div style={{
 						float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',

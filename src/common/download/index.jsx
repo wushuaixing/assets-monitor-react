@@ -1,11 +1,10 @@
 import React from 'react';
-import {
-	Icon, Modal, message,
-} from 'antd';
-import Button from '../button';
+import { Icon, Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
+import PropTypes from 'reactPropTypes';
 import { exportFile, normalGet } from '@/utils/api/home';
 import { clearEmpty, urlEncode } from '@/utils';
+import Button from '../button';
 
 const cookies = new Cookies();
 export default class Download extends React.Component {
@@ -18,19 +17,20 @@ export default class Download extends React.Component {
 
 	handleDownload=() => {
 		const {
-			api, condition, all, field,
+			api, condition, all, field, current, page, num,
 		} = this.props;
 
 		// 处理变量参数
 		const _condition = typeof condition === 'function' ? condition() : condition;
 		const c = Object.assign({}, _condition);
-		const _request = normalGet(`${api}?${urlEncode(clearEmpty(_condition))}`);
+		// 删除掉 page 和 num
+		if (!page) delete c.page;
+		if (!num) delete c.num;
+
+		const _request = normalGet(`${api}?${urlEncode(clearEmpty(c))}`);
 		// console.log(`${api}?${urlEncode(clearEmpty(_condition))}`);
 		const token = cookies.get('token');
 
-		// 删除掉 page 和 num
-		delete c.page;
-		delete c.num;
 
 		// 点击确定 btn
 		const toOkClick = () => {
@@ -49,8 +49,18 @@ export default class Download extends React.Component {
 				message.warning('网络异常请稍后再试！');
 			});
 		};
-
-		if (all) {
+		if (current) {
+			// console.log('本页导出');
+			Modal.confirm({
+				title: '确认导出当页所有数据吗？',
+				content: '点击确定，将为您导出当页所有数据',
+				iconType: 'exclamation-circle',
+				onOk() {
+					toOkClick();
+				},
+				onCancel() {},
+			});
+		} else if (all) {
 			// console.log('一键导出');
 			Modal.confirm({
 				title: '确认导出选中的所有信息吗？',
@@ -77,10 +87,12 @@ export default class Download extends React.Component {
 
 	render() {
 		const { loadingStatus } = this.state;
-		const { text, all, style } = this.props;
+		const {
+			text, all, style, disabled,
+		} = this.props;
 
 		return (
-			<Button disabled={loadingStatus === 'loading'} onClick={this.handleDownload} style={style || ''}>
+			<Button disabled={loadingStatus === 'loading' || disabled} onClick={this.handleDownload} style={style || ''}>
 				{
 					loadingStatus === 'loading' ? <Icon type="loading" /> : <span className={all ? 'yc-export-img' : ''} />
 				}
@@ -89,3 +101,23 @@ export default class Download extends React.Component {
 		);
 	}
 }
+Download.propTypes = {
+	style: PropTypes.obj,
+	// 是否添加style样式
+	text: PropTypes.string,
+	// 按钮的文本内容
+	all: PropTypes.bool,
+	// 是否是一键导出，优先级高于 field
+	field: PropTypes.string,
+	// 部分导出时应用，与 all 参数冲突
+	condition: PropTypes.obj,
+	// 导出请求所需的参数
+};
+
+Download.defaultProps = {
+	style: {},
+	text: null,
+	all: false,
+	field: false,
+	condition: {},
+};

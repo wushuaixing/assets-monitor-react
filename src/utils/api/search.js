@@ -19,15 +19,10 @@ export const judgement = async (params) => {
 };
 
 // 文书全部导出(前1000条数据)
-export const exportAll = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/judgement/exportAll`, { params });
-	return response.request;
-};
+export const exportWritAll = `${baseUrl}/yc/judgement/exportAll`;
+
 // 文书本页导出
-export const exportCurrent = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/judgement/export`, { params });
-	return response.request;
-};
+export const exportWritCurrent = `${baseUrl}/yc/judgement/export`;
 
 // 拍卖信息搜索 [zhousai]
 export const fullAssetSearch = async (params) => {
@@ -35,10 +30,8 @@ export const fullAssetSearch = async (params) => {
 	return response.data;
 };
 // 拍卖信息导出(前1000条数据)
-export const fullAssetSearchExport = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/doc/search/fullAssetSearchExport`, { params });
-	return response.request;
-};
+export const fullAssetSearchExport = `${baseUrl}/yc/doc/search/fullAssetSearchExport`;
+
 // 涉诉信息 => 数量 [zhousai]
 export const relationSearchCount = async (params) => {
 	const response = await service.get(`${baseUrl}/yc/doc/search/relationSearchCount`,
@@ -68,19 +61,8 @@ export const ktggRelationSearch = async (params) => {
 	return response.data;
 };
 // 涉诉信息 => 开庭公告导出 [zhousai]
-export const ktggRelationSerachExport = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/doc/search/ktggRelationSerachExport`,
-		{
-			params,
-			paramsSerializer: () => {
-			// 拼接对象到url
-				let NewParams = urlEncode(params);
-				NewParams = NewParams.substr(1); // 删除第一个字符
-				return NewParams;
-			},
-		});
-	return response.request;
-};
+export const ktggRelationSerachExport = `${baseUrl}/yc/doc/search/ktggRelationSerachExport`;
+
 // 涉诉信息 => 立案信息 [zhousai]
 export const trialRelationSearch = async (params) => {
 	const response = await service.get(`${baseUrl}/yc/doc/search/trialRelationSearch`,
@@ -96,16 +78,4 @@ export const trialRelationSearch = async (params) => {
 	return response.data;
 };
 // 涉诉信息 => 立案信息导出 [zhousai]
-export const trialRelationSearchExport = async (params) => {
-	const response = await service.get(`${baseUrl}/yc/doc/search/trialRelationSearchExport`,
-		{
-			params,
-			paramsSerializer: () => {
-			// 拼接对象到url
-				let NewParams = urlEncode(params);
-				NewParams = NewParams.substr(1); // 删除第一个字符
-				return NewParams;
-			},
-		});
-	return response.request;
-};
+export const trialRelationSearchExport = `${baseUrl}/yc/doc/search/trialRelationSearchExport`;

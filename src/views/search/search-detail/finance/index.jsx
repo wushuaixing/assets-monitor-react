@@ -115,7 +115,8 @@ class FINANCE extends React.Component {
 		if (fildes.content) {
 			this.getData(params);
 		} else {
-			message.error('请输入搜索条件');
+			this.queryReset();
+			// message.error('请输入搜索条件');
 		}
 	}
 
