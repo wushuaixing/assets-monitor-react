@@ -135,6 +135,7 @@ export default class DebtorDetail extends React.Component {
 	}
 
 	closeErrorModal = () => {
+		window.close();
 		this.setState({
 			errorModalVisible: false,
 		});
