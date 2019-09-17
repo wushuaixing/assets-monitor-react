@@ -1,11 +1,10 @@
 import React from 'react';
-import {
-	Icon, Modal, message,
-} from 'antd';
-import Button from '../button';
+import { Icon, Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
 import { exportFile, normalGet } from '@/utils/api/home';
 import { clearEmpty, urlEncode } from '@/utils';
+import PropTypes from 'reactPropTypes';
+import Button from '../button';
 
 const cookies = new Cookies();
 export default class Download extends React.Component {
@@ -24,13 +23,13 @@ export default class Download extends React.Component {
 		// 处理变量参数
 		const _condition = typeof condition === 'function' ? condition() : condition;
 		const c = Object.assign({}, _condition);
-		const _request = normalGet(`${api}?${urlEncode(clearEmpty(_condition))}`);
-		// console.log(`${api}?${urlEncode(clearEmpty(_condition))}`);
-		const token = cookies.get('token');
-
 		// 删除掉 page 和 num
 		delete c.page;
 		delete c.num;
+		const _request = normalGet(`${api}?${urlEncode(clearEmpty(c))}`);
+		// console.log(`${api}?${urlEncode(clearEmpty(_condition))}`);
+		const token = cookies.get('token');
+
 
 		// 点击确定 btn
 		const toOkClick = () => {
@@ -89,3 +88,23 @@ export default class Download extends React.Component {
 		);
 	}
 }
+Download.propTypes = {
+	style: PropTypes.obj,
+	// 是否添加style样式
+	text: PropTypes.string,
+	// 按钮的文本内容
+	all: PropTypes.bool,
+	// 是否是一键导出，优先级高于 field
+	field: PropTypes.string,
+	// 部分导出时应用，与 all 参数冲突
+	condition: PropTypes.obj,
+	// 导出请求所需的参数
+};
+
+Download.defaultProps = {
+	style: {},
+	text: null,
+	all: false,
+	field: false,
+	condition: {},
+};
