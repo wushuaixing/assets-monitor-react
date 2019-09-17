@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-	Modal, Button, Icon, Steps, Select, InputNumber, Input, DatePicker, Checkbox, Radio, message,
+	Modal, Button, Icon, Steps, Select, InputNumber, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
 } from 'antd';
 import { Spin } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
 import {
-	pushList as pushListApi, pushSave, processList, processSave,
+	pushList as pushListApi, pushSave, processList, processSave, processDel,
 } from '@/utils/api/monitor-info/assets-follow';
 import './style.scss';
 import { floatFormat } from '@/utils/format';
@@ -27,8 +27,8 @@ const StepDesc = (props) => {
 			{
 				recovery || expend ? (
 					<li>
-						{ recovery ? `收入金额/元：${floatFormat(recovery.toFixed(2))}；  ` : null}
-						{ expend ? `支出金额/元：${floatFormat(expend.toFixed(2))} ；` : null}
+						{ recovery ? `收入金额/元：${recovery !== -1 ? floatFormat(recovery.toFixed(2)) : '--'}；  ` : null}
+						{ expend ? `支出金额/元：${expend !== -1 ? floatFormat(expend.toFixed(2)) : '--'} ；` : null}
 					</li>
 				) : null
 			}
@@ -45,6 +45,16 @@ const StepDesc = (props) => {
 			}
 		</React.Fragment>
 	);
+};
+
+// process 的 状态转移
+const ProcessTran = (type) => {
+// （6-跟进中、9-已完成、12-已忽略、15-已放弃）
+	if (type === 6 || type === 3) return '跟进中';
+	if (type === 9) return '已完成';
+	if (type === 12) return '已忽略';
+	if (type === 15) return '已放弃';
+	return null;
 };
 
 export default class FollowInfo extends React.Component {
@@ -146,7 +156,7 @@ export default class FollowInfo extends React.Component {
 			const { data, code } = res;
 			if (code === 200) {
 				this.setState({
-					processSource: data,
+					processSource: data || [],
 					loadingList: false,
 				});
 			} else {
@@ -200,7 +210,7 @@ export default class FollowInfo extends React.Component {
 		const {
 			loading, recovery, expend, remark, remindTime, remindWay, pushList, status: process,
 		} = this.state;
-		const { source: { id, index }, onRefresh, onClose } = this.props;
+		const { source: { id, index, recovery: _recovery }, onRefresh, onClose } = this.props;
 		if (loading) return false;
 		this.setState({ loading: true });
 		const remindType = (item) => {
@@ -209,7 +219,7 @@ export default class FollowInfo extends React.Component {
 			if (item.indexOf('mobile') > -1) return 1;
 			return '';
 		};
-		console.log(remindTime);
+		// console.log(remindTime);
 		const param = {
 			monitorId: id,
 			process,
@@ -225,6 +235,15 @@ export default class FollowInfo extends React.Component {
 				const { code } = res;
 				if (code === 200) {
 					message.success('添加跟进信息成功！');
+					const _rec = ((_recovery > -1 ? _recovery : 0) * 1 + (param.recovery || 0)) || -1;
+					// console.log(_recovery, param.recovery, _rec);
+					if (param.recovery > 0 && onRefresh) {
+						onRefresh({
+							id,
+							recovery: _rec,
+							index,
+						}, 'recovery');
+					}
 					if (onRefresh)onRefresh({ id, process, index }, 'process');
 					if (onClose) { onClose(); }
 				} else {
@@ -236,6 +255,24 @@ export default class FollowInfo extends React.Component {
 				this.setState({ loading: false });
 			});
 		return true;
+	};
+
+	// 删除推送记录
+	handleStepConfirm=(item, index) => {
+		const { id } = item;
+		const { processSource } = this.state;
+		processDel({ id }).then((res) => {
+			if (res.code === 200) {
+				message.success('跟进记录删除成功！');
+				const _processSource = JSON.parse(JSON.stringify(processSource));
+				_processSource.splice(index, 1);
+				this.setState({ processSource: _processSource });
+			} else {
+				message.error(res.message || '跟进记录删除失败，请稍后再试！');
+			}
+		}).catch(() => {
+			message.error('网络异常请稍后再试');
+		});
 	};
 
 	render() {
@@ -468,13 +505,30 @@ export default class FollowInfo extends React.Component {
 								<Spin visible={loadingList} minHeight={100}>
 									<div className="follow-add-title">跟进记录</div>
 									{
-										processSource ? (
+										processSource.length ? (
 											<Steps direction="vertical" size="small" className="follow-list-step">
 												{
-													processSource.map(item => (
+													processSource.map((item, index) => (
 														<Steps.Step
 															status="process"
-															title={`${item.username}`}
+															title={([
+																<span>{item.username}</span>,
+																<PopConfirm
+																	placement="leftBottom"
+																	title="确定删除这条记录吗？"
+																	onConfirm={() => this.handleStepConfirm(item, index)}
+																>
+																	<Icon type="delete" className="list-step-title-icon" />
+																</PopConfirm>,
+																<span
+																	className={`list-step-title-mark-status mark-status-${process}`}
+																>
+																	{ProcessTran(item.process)}
+																</span>,
+																<span className="list-step-title-mark-time">
+																	{item.updateTime ? new Date(item.updateTime * 1000).format('yyyy-MM-dd hh:mm:ss') : ''}
+																</span>,
+															])}
 															icon="clock-circle"
 															description={<StepDesc {...item} />}
 														/>
