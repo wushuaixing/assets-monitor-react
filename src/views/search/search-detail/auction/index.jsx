@@ -49,15 +49,20 @@ class AUCTION extends React.Component {
 	componentDidMount() {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
-		// 判断是否为空对象,非空请求接口
-		if (Object.keys(params).length !== 0) {
-			this.getData(params); // 进入页面请求数据
-		}
+		const objParams = {
+			...params,
+			lowestConsultPrice: params.lowestConsultPrice && params.lowestConsultPrice * 10000,
+			highestConsultPrice: params.highestConsultPrice && params.highestConsultPrice * 10000,
+		};
 		this.setState({
 			params,
 			startTime: params.startTime,
 			endTime: params.endTime,
 		});
+		// 判断是否为空对象,非空请求接口
+		if (Object.keys(params).length !== 0) {
+			this.getData(objParams); // 进入页面请求数据
+		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
@@ -197,7 +202,12 @@ class AUCTION extends React.Component {
 			currentSort: undefined,
 			assessmentSort: undefined,
 		});
-
+		if (fildes.lowestConsultPrice) {
+			fildes.lowestConsultPrice *= 10000;
+		}
+		if (fildes.highestConsultPrice) {
+			fildes.highestConsultPrice *= 10000;
+		}
 		const params = {
 			...fildes,
 			page: 1,
