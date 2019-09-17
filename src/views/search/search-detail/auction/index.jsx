@@ -55,6 +55,8 @@ class AUCTION extends React.Component {
 		}
 		this.setState({
 			params,
+			startTime: params.startTime,
+			endTime: params.endTime,
 		});
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
@@ -89,9 +91,9 @@ class AUCTION extends React.Component {
 			num: pageSize,
 			page: current,
 			...fildes,
-			...value,
 			startTime,
 			endTime,
+			...value,
 		};
 		this.setState({
 			loading: true,
@@ -122,13 +124,15 @@ class AUCTION extends React.Component {
 		});
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-
+		const { startTime, endTime } = this.state;
 		const fildes = getFieldsValue();
 		const params = {
 			...fildes,
 			current: 1,
 			num: pageSize,
 			page: 1,
+			startTime,
+			endTime,
 		};
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
@@ -138,7 +142,7 @@ class AUCTION extends React.Component {
 
 	// page翻页
 	handleChangePage = (val) => {
-		const { pageSize } = this.state;
+		const { pageSize, startTime, endTime } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 
@@ -147,6 +151,8 @@ class AUCTION extends React.Component {
 			...fildes,
 			num: pageSize,
 			page: val,
+			startTime,
+			endTime,
 		};
 		this.setState({
 			current: val,

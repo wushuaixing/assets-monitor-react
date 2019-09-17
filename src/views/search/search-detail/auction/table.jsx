@@ -41,7 +41,23 @@ const type = (value) => {
 const getName = () => {
 	const { hash } = window.location;
 	const params = parseQuery(hash);
-	return params.name ? params.name : '';
+	const paramsArray = [];
+	if (params.name) {
+		paramsArray.push(params.name);
+	}
+	if (params.number) {
+		paramsArray.push(params.number);
+	}
+	if (params.certificate) {
+		paramsArray.push(params.certificate);
+	}
+	if (params.court) {
+		paramsArray.push(params.court);
+	}
+	if (params.addr) {
+		paramsArray.push(params.addr);
+	}
+	return paramsArray.join('、');
 };
 
 class BusinessView extends React.Component {

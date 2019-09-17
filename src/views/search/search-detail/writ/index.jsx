@@ -124,13 +124,15 @@ class WRIT extends React.Component {
 		});
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-
+		const { startTime, endTime } = this.state;
 		const fildes = getFieldsValue();
 		const params = {
 			...fildes,
 			current: 1,
 			num: pageSize,
 			page: 1,
+			publishStart: startTime,
+			publishEnd: endTime,
 		};
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
