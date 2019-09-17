@@ -757,6 +757,7 @@ class LAWSUITS extends React.Component {
 						dataList={dataList}
 						SortTime={this.SortTime}
 						Sort={Sort}
+						type={type}
 					/>
 					<div className="yc-pagination">
 						<Pagination

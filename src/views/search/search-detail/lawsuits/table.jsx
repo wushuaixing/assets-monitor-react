@@ -73,12 +73,14 @@ class BusinessView extends React.Component {
 	}
 
 	render() {
-		const { Sort, dataList, SortTime } = this.props;
+		const {
+			Sort, dataList, SortTime, type,
+		} = this.props;
 		const columns = [
 			{
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						立案日期
+						{type === 1 ? '立案日期' : '开庭日期'}
 						{Sort === undefined && <span className="sort th-sort-default" />}
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
@@ -87,7 +89,7 @@ class BusinessView extends React.Component {
 				key: 'larq',
 				width: 122,
 				render(text) {
-					return <span>{formatDateTime(text) || '-'}</span>;
+					return <span>{formatDateTime(text, 'onlyYear') || '-'}</span>;
 				},
 			}, {
 				title: '原告',
