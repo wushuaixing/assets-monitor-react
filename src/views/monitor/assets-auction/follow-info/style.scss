@@ -95,6 +95,35 @@
         .ant-steps-title{
           display: block;
         }
+        .ant-steps-item-last{
+          .ant-steps-title{
+            padding-right: 10px!important;
+          }
+        }
+        .list-step-title-normal{
+          font-weight: 400;
+          margin-left: 5px;
+          float: right;
+        }
+        .mark-status-3, .mark-status-6, .mark-status-9, .mark-status-12, .mark-status-15{
+          padding: 0 5px;
+          background-color: #5487FF;
+          color: #ffffff;
+          border-radius: 2px;
+        }
+        .list-step-title-icon{
+          @extend .list-step-title-normal;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        .list-step-title-mark-status{
+          @extend .list-step-title-normal;
+
+        }
+        .list-step-title-mark-time{
+          @extend .list-step-title-normal;
+
+        }
         .ant-steps-head-inner{
           .anticon {
             color: rgb(130, 189, 240)!important;

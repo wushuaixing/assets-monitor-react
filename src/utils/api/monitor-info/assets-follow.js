@@ -12,6 +12,11 @@ export const pushSave = params => service.post(`${baseUrl}/yc/pushManager/save`,
 
 // 监控信息=>司法拍卖=>资产监控跟进[C.H Wong]
 
+
+// 删除一条跟进记录
+export const processDel = params => service.post(`${baseUrl}/yc/monitor/process/deleteProcessComment`, params)
+	.then(res => res.data);
+
 // 获取跟进记录列表
 export const processList = params => service.post(`${baseUrl}/yc/monitor/process/list`, params)
 	.then(res => res.data);
