@@ -62,11 +62,11 @@ const toGetDefaultConfig = (rule) => {
 				{ id: 63, name: '环境行政处罚', status: Boolean(c.gsgg_epb) },
 			],
 		},
-		{
-			id: 7,
-			name: '失信记录',
-			status: Boolean(c.jkxxpccz),
-		},
+		// {
+		// 	id: 7,
+		// 	name: '失信记录',
+		// 	status: Boolean(c.jkxxpccz),
+		// },
 	];
 	return base.filter(item => item.status);
 };

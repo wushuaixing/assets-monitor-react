@@ -1,6 +1,8 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import { Tabs, Button, Spin } from '@/common';
+import {
+	Tabs, Button, Spin, Download,
+} from '@/common';
 import QueryView from './queryView';
 import TableView from './table';
 
@@ -8,7 +10,7 @@ import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
 import { changeURLArg, clearEmpty } from '@/utils';
-import { fileExport } from '@/views/monitor/table-common';
+// import { fileExport } from '@/views/monitor/table-common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -125,16 +127,16 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
-	// 一键导出 & 批量导出
-	handleExport=(type) => {
-		if (type === 'all') {
-			fileExport(exportList, this.condition);
-		} else if (this.selectRow.length > 0) {
-			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
-		} else {
-			message.warning('未选中业务');
-		}
-	};
+	// // 一键导出 & 批量导出
+	// handleExport=(type) => {
+	// 	if (type === 'all') {
+	// 		fileExport(exportList, this.condition);
+	// 	} else if (this.selectRow.length > 0) {
+	// 		fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
+	// 	} else {
+	// 		message.warning('未选中业务');
+	// 	}
+	// };
 
 	// 批量关注
 	handleAttention=() => {
@@ -299,6 +301,13 @@ export default class Subrogation extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							<Download
+								all
+								text="一键导出"
+								condition={() => this.condition}
+								api={exportList}
+								style={{ float: 'right' }}
+							/>
 							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
 								<span className="yc-export-img" />
 								<span> 一键导出</span>
@@ -307,7 +316,12 @@ export default class Subrogation extends React.Component {
 					) : (
 						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
-							<Button onClick={this.handleExport} title="导出" />
+							<Download
+								text="导出"
+								field="idList"
+								api={exportList}
+								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
+							/>
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });

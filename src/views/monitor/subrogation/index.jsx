@@ -3,7 +3,7 @@ import { Modal, message } from 'antd';
 import TableView from './table';
 import QueryView from './queryView';
 import {
-	Button, Tabs, Spin,
+	Button, Tabs, Spin, Download,
 } from '@/common';
 import {
 	infoCount, infoList, readStatus, attention, exportList,
@@ -299,16 +299,24 @@ export default class Subrogation extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-							{/* <Download str={exportList} condition={this.condition} /> */}
-							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
-								<span className="yc-export-img" />
-								<span> 一键导出</span>
-							</Button>
+
+							<Download
+								all
+								text="一键导出"
+								condition={() => this.condition}
+								api={exportList}
+								style={{ float: 'right' }}
+							/>
 						</div>
 					) : (
 						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
-							<Button onClick={this.handleExport} title="导出" />
+							<Download
+								text="导出"
+								field="idList"
+								api={exportList}
+								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
+							/>
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });

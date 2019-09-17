@@ -2,7 +2,7 @@ import React from 'react';
 import Query from './query';
 import Table from './table';
 import { Modal, message } from 'antd';
-import { Button, Spin } from '@/common';
+import { Button, Download, Spin } from '@/common';
 import {
 	infoList, readStatus, exportList, follow,
 } from '@/utils/api/monitor-info/bankruptcy';
@@ -221,15 +221,24 @@ export default class Subrogation extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
-								<span className="yc-export-img" />
-								<span> 一键导出</span>
-							</Button>
+							<Download condition={() => this.condition} api={exportList} all text="一键导出" style={{ float: 'right' }} />
+
+							{/* <Button onClick={() => this.handleExport('all')} > */}
+							{/* <span className="yc-export-img" /> */}
+							{/* <span> 一键导出</span> */}
+							{/* </Button> */}
 						</div>
 					) : (
 						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
-							<Button onClick={this.handleExport} title="导出" />
+							<Download
+								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
+								api={exportList}
+								field="idList"
+								text="导出"
+							/>
+
+							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });

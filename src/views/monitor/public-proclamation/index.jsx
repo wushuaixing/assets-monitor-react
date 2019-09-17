@@ -1,7 +1,9 @@
 import React from 'react';
 import { message, Modal } from 'antd';
 import { changeURLArg, clearEmpty } from '@/utils';
-import { Tabs, Button, Spin } from '@/common';
+import {
+	Tabs, Button, Spin, Download,
+} from '@/common';
 import Api from '@/utils/api/monitor-info/public';
 import './style.scss';
 
@@ -11,7 +13,8 @@ import QueryPunish from './query/punish';
 import TableBid from './table/bid';
 import TableIllegal from './table/illegal';
 import TablePunish from './table/punish';
-import { fileExport } from '@/views/monitor/table-common';
+// import { fileExport } from '@/views/monitor/table-common';
+// import { exportList } from '@/utils/api/monitor-info/monitor';
 
 // 获取api具体
 const toGetApi = (type, base) => {
@@ -141,18 +144,18 @@ export default class Lawsuits extends React.Component {
 		}
 	};
 
-	// 一键导出 & 批量导出
-	handleExport=(type) => {
-		const { sourceType } = this.state;
-		const exportList = Api[toGetApi(sourceType, 'exportList')];
-		if (type === 'all') {
-			fileExport(exportList, this.condition);
-		} else if (this.selectRow.length > 0) {
-			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
-		} else {
-			message.warning('未选中业务');
-		}
-	};
+	// // 一键导出 & 批量导出
+	// handleExport=(type) => {
+	// 	const { sourceType } = this.state;
+	// 	const exportList = Api[toGetApi(sourceType, 'exportList')];
+	// 	if (type === 'all') {
+	// 		fileExport(exportList, this.condition);
+	// 	} else if (this.selectRow.length > 0) {
+	// 		fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
+	// 	} else {
+	// 		message.warning('未选中业务');
+	// 	}
+	// };
 
 	// 批量关注
 	handleAttention=() => {
@@ -309,6 +312,14 @@ export default class Lawsuits extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+
+							<Download
+								all
+								text="一键导出"
+								condition={() => this.condition}
+								api={Api[toGetApi(sourceType, 'exportList')]}
+								style={{ float: 'right' }}
+							/>
 							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
 								<span className="yc-export-img" />
 								<span> 一键导出</span>
@@ -317,7 +328,13 @@ export default class Lawsuits extends React.Component {
 					) : (
 						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
-							<Button onClick={this.handleExport} title="导出" />
+							<Download
+								text="导出"
+								field="idList"
+								api={Api[toGetApi(sourceType, 'exportList')]}
+								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
+							/>
+							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });
@@ -337,47 +354,3 @@ export default class Lawsuits extends React.Component {
 		);
 	}
 }
-// export default class Lawsuits extends React.Component {
-// 	constructor(props) {
-// 		super(props);
-// 		this.state = {
-// 			childChoose: 1,
-// 		};
-// 	}
-//
-// 	render() {
-// 		const { childChoose,loading } = this.state;
-// 		return (
-// 			<div className="yc-assets-auction">
-// 				{childChoose === 1 ?	<QueryBid /> : null}
-// 				{childChoose === 2 ?	<QueryIllegal /> : null}
-// 				{childChoose === 3 ?	<QueryPunish /> : null}
-// 				<Tabs
-// 					rightRender={() => (
-// 						<div className="assets-tabs-right">
-// 							<li>
-// 								<img src={imgExport} alt="" />
-// 								<span>一键导出</span>
-// 							</li>
-// 						</div>
-// 					)}
-// 					onChange={e => this.setState({ childChoose: e.id })}
-// 					source={source}
-// 					simple
-// 					field="process"
-// 				/>
-// 				<div className="assets-auction-action">
-// 					<Button>全部</Button>
-// 					<Button>只显示未读</Button>
-// 					<Button>全部标为已读</Button>
-// 					<Button>批量管理</Button>
-// 				</div>
-// 				<Spin visible={loading}>
-// 					{
-// 						// sourceType === 1 ? <TableCourt {...tableProps} /> : <TableRegister {...tableProps} />
-// 					}
-// 				</Spin>
-// 			</div>
-// 		);
-// 	}
-// }
