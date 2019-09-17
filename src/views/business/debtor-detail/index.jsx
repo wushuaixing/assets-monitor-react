@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, Modal,
+	Breadcrumb, Button, Table, Modal, Icon,
 } from 'antd';
 import {
 	detail, // 详情
@@ -19,6 +19,8 @@ export default class DebtorDetail extends React.Component {
 		this.state = {
 			businessDetail: null,
 			data: [],
+			errorModalVisible: false,
+			timeLeft: 3,
 			columns: [{
 				title: '业务编号',
 				dataIndex: 'caseNumber',
@@ -107,7 +109,18 @@ export default class DebtorDetail extends React.Component {
 				});
 			} else {
 				// message.error();
-				this.warning(res.message);
+				let time = 3;
+				const timer = setInterval(() => {
+					time -= 1;
+					this.setState({
+						timeLeft: time,
+					});
+					if (time === 0) {
+						this.closeErrorModal();
+						clearInterval(timer);
+					}
+				}, 1000);
+				this.openErrorModal();
 				this.setState({ loading: false });
 			}
 		}).catch(() => {
@@ -115,24 +128,21 @@ export default class DebtorDetail extends React.Component {
 		});
 	};
 
-	warning =() => {
-		const modal = Modal.warning({
-			title: '债务人不存在，可能关联的业务已经被删除',
-			content: '3秒后自动关闭页面',
-			onOk() {
-				window.close();
-			},
+	openErrorModal = () => {
+		this.setState({
+			errorModalVisible: true,
 		});
+	}
 
-		setTimeout(() => {
-			modal.destroy();
-			window.close();
-		}, 3000);
+	closeErrorModal = () => {
+		this.setState({
+			errorModalVisible: false,
+		});
 	}
 
 	render() {
 		const {
-			loading, businessDetail, data, columns,
+			loading, businessDetail, data, columns, errorModalVisible, timeLeft,
 		} = this.state;
 
 		return (
@@ -198,6 +208,33 @@ export default class DebtorDetail extends React.Component {
 					</div>
 					)}
 				</Spin>
+				{errorModalVisible && 	(
+				<Modal
+					visible={errorModalVisible}
+					onCancel={this.handleCancel}
+					footer={false}
+					width={500}
+					closable={false}
+				>
+
+					<div className="yc-confirm-body">
+						<div className="yc-confirm-header">
+							<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle-o" />
+							<span className="yc-confirm-title">债务人不存在，可能关联的业务已经被删除</span>
+						</div>
+						<div className="yc-confirm-content">
+							<span style={{ color: '#384482', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
+							秒后自动关闭页面
+						</div>
+						<div className="yc-confirm-btn">
+							{
+								<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">知道了</Button>
+							}
+						</div>
+					</div>
+
+				</Modal>
+				)}
 				<TableList model="obligor" />
 			</div>
 		);

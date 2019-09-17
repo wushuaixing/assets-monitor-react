@@ -232,8 +232,6 @@ export default class Assets extends React.Component {
 	};
 
 	toClearProcess = () => {
-		console.log(1);
-
 		navigate('/monitor/clearProcess');
 	}
 
