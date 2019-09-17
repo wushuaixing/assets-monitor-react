@@ -3,13 +3,15 @@ import { Modal, message } from 'antd';
 import { navigate } from '@reach/router';
 import Query from './query';
 import Table from './table';
-import { Button, Spin, Tabs } from '@/common';
+import {
+	Button, Spin, Tabs, Download,
+} from '@/common';
 import {
 	infoList, exportList, follow, infoCount,
 } from '@/utils/api/monitor-info/assets';
 import { clearEmpty, changeURLArg } from '@/utils';
 import './style.scss';
-import { fileExport } from '@/views/monitor/table-common';
+// import { fileExport } from '@/views/monitor/table-common';
 
 const source = (obj = {}) => [
 	{
@@ -94,19 +96,16 @@ export default class Assets extends React.Component {
 		this.condition.sortOrder = '';
 	};
 
-	// 一键导出 & 批量导出
-	handleExport=(type) => {
+	// 获取导出条件
+	toExportCondition=(type) => {
 		delete this.condition.processString;
 		if (this.condition.process === -1) this.condition.process = 0;
 		if (this.condition.process === 1) delete this.condition.process;
 		if (this.condition.process === 3) this.condition.processString = '3,6';
 		if (type === 'all') {
-			fileExport(exportList, this.condition);
-		} else if (this.selectRow.length > 0) {
-			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
-		} else {
-			message.warning('未选中业务');
+			return Object.assign({}, this.condition);
 		}
+		return Object.assign({}, this.condition, { idList: this.selectRow });
 	};
 
 	// 批量关注
@@ -233,7 +232,7 @@ export default class Assets extends React.Component {
 
 	toClearProcess = () => {
 		navigate('/monitor/clearProcess');
-	}
+	};
 
 	render() {
 		const {
@@ -276,18 +275,18 @@ export default class Assets extends React.Component {
 									<span className="yc-icon-recovery" />
 									资产清收流程
 								</span>
-
-								<Button onClick={() => this.handleExport('all')}>
-									<span className="yc-export-img" />
-									<span> 一键导出</span>
-								</Button>
+								<Download condition={() => this.toExportCondition('all')} api={exportList} all text="一键导出" />
+								{/* <Button onClick={() => this.toExportCondition('all')}> */}
+								{/* <span className="yc-export-img" /> */}
+								{/* <span> 一键导出</span> */}
+								{/* </Button> */}
 							</span>
 
 						</div>
 					) : (
 						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
-							<Button onClick={this.handleExport} title="导出" />
+							<Download condition={this.toExportCondition} api={exportList} field="idList" text="导出" />
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });

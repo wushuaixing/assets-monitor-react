@@ -5,12 +5,15 @@ import TableBidding from './table/bidding';
 import QueryPublicity from './query/publicity';
 import TablePublicity from './table/publicity';
 
-import { Button, Tabs, Spin } from '@/common';
+import {
+	Button, Tabs, Spin, Download,
+} from '@/common';
 import { readStatusAll } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
-import { fileExport } from '@/views/monitor/table-common';
+// import { fileExport } from '@/views/monitor/table-common';
 import { unReadCount } from '@/utils/api/monitor-info';
+// import { exportList } from '@/utils/api/monitor-info/bankruptcy';
 
 const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 
@@ -109,18 +112,18 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
-	// 一键导出 & 批量导出
-	handleExport=(type) => {
-		const { sourceType } = this.state;
-		const exportList = api('exportList', sourceType);
-		if (type === 'all') {
-			fileExport(exportList, this.condition);
-		} else if (this.selectRow.length > 0) {
-			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
-		} else {
-			message.warning('未选中业务');
-		}
-	};
+	// // 一键导出 & 批量导出
+	// handleExport=(type) => {
+	// 	const { sourceType } = this.state;
+	// 	const exportList = api('exportList', sourceType);
+	// 	if (type === 'all') {
+	// 		fileExport(exportList, this.condition);
+	// 	} else if (this.selectRow.length > 0) {
+	// 		fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
+	// 	} else {
+	// 		message.warning('未选中业务');
+	// 	}
+	// };
 
 	// 批量关注
 	handleAttention=() => {
@@ -298,15 +301,23 @@ export default class Subrogation extends React.Component {
 							}
 
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
-								<span className="yc-export-img" />
-								<span> 一键导出</span>
-							</Button>
+							<Download
+								all
+								text="一键导出"
+								condition={() => this.condition}
+								api={api('exportList', sourceType)}
+								style={{ float: 'right' }}
+							/>
 						</div>
 					) : (
 						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
-							<Button onClick={this.handleExport} title="导出" />
+							<Download
+								text="导出"
+								field="idList"
+								api={api('exportList', sourceType)}
+								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
+							/>
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });
