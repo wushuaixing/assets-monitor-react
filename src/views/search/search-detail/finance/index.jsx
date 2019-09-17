@@ -227,6 +227,7 @@ class FINANCE extends React.Component {
 							total={totals && totals > 1000 ? 1000 : totals}
 							current={current}
 							pageSize={pageSize} // 默认条数
+							pageSizeOptions={['10', '25', '50']}
 							showQuickJumper
 							showSizeChanger
 							onShowSizeChange={this.onShowSizeChange}
