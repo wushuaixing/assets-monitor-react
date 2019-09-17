@@ -7,7 +7,7 @@ import {
 } from 'antd';
 import { navigate } from '@reach/router';
 import {
-	Spin, Input, Button, timeRule,
+	Spin, Input, Button, timeRule, Download,
 } from '@/common';
 import InputPrice from '@/common/input/input-price';
 import AuctionTable from './table';
@@ -78,7 +78,7 @@ class AUCTION extends React.Component {
 	// 获取消息列表
 	getData = (value) => {
 		const {
-			current, pageSize,
+			current, pageSize, startTime, endTime,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
@@ -90,6 +90,8 @@ class AUCTION extends React.Component {
 			page: current,
 			...fildes,
 			...value,
+			startTime,
+			endTime,
 		};
 		this.setState({
 			loading: true,
@@ -196,7 +198,8 @@ class AUCTION extends React.Component {
 		if (!objectKeyIsEmpty(fildes)) {
 			this.getData(params); // 进入页面请求数据
 		} else {
-			message.error('请至少输入一个搜索条件');
+			this.queryReset();
+			// message.error('请至少输入一个搜索条件');
 		}
 	}
 
@@ -219,10 +222,11 @@ class AUCTION extends React.Component {
 		resetFields('');
 	}
 
-	// 全部导出
-	handleExport = (type) => {
+
+	// 导出
+	toExportCondition=(type) => {
 		const {
-			pageSize, current, field, order,
+			pageSize, current, field, order, startTime, endTime,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
@@ -233,27 +237,11 @@ class AUCTION extends React.Component {
 			num: type === 'current' ? pageSize : 1000,
 			field,
 			order,
+			startTime,
+			endTime,
 		};
-		const start = new Date().getTime(); // 获取接口响应时间
-		const hide = message.loading('正在下载中，请稍后...', 0);
 
-		fullAssetSearchExport(params).then((res) => {
-			if (res.status === 200) {
-				const now = new Date().getTime();
-				const latency = now - start;
-				const downloadElement = document.createElement('a');
-				downloadElement.href = res.responseURL;
-				// document.body.appendChild(downloadElement);
-				downloadElement.click(); // 点击下载
-				this.setState({
-					loading: false,
-				});
-				// 异步手动移除
-				setTimeout(hide, latency);
-			} else {
-				message.error('请求失败');
-			}
-		});
+		return Object.assign({}, params);
 	};
 
 	// 默认排序
@@ -478,8 +466,8 @@ class AUCTION extends React.Component {
 					</div>
 				</div>
 				<div className="yc-auction-tablebtn">
-					{dataList.length > 0 && <Button style={{ marginRight: 5 }} onClick={() => this.handleExport('current')}>本页导出</Button>}
-					<Button disabled={dataList.length === 0} onClick={dataList.length > 0 && this.handleExport}>全部导出</Button>
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={fullAssetSearchExport} current page num text="本页导出" />}
+					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={fullAssetSearchExport} all page num text="全部导出" />
 					<div className="yc-btn-right">
 						{dataList.length > 0 && <span className="yc-right-total">{`源诚科技为您找到${totals}条信息`}</span>}
 						<Button onClick={() => this.defaultSort(inputSearch)}>

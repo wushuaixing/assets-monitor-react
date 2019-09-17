@@ -8,7 +8,7 @@ import {
 import { navigate } from '@reach/router';
 import { parseQuery } from '@/utils';
 import {
-	Spin, Input, Button, Tabs, timeRule,
+	Spin, Input, Button, Tabs, timeRule, Download,
 } from '@/common';
 import {
 	ktggRelationSearch, // 开庭列表
@@ -223,59 +223,20 @@ class LAWSUITS extends React.Component {
 		});
 	}
 
-	// 全部导出
-	handleExport = (val) => {
+
+	// 导出
+	toExportCondition=(type) => {
 		const {
-			pageSize, current, field, order, getTrialRelationParams, type,
+			pageSize, current, field, order, getTrialRelationParams,
 		} = this.state;
 		const params = {
 			...getTrialRelationParams,
-			page: val === 'current' ? current : undefined,
-			num: val === 'current' ? pageSize : 1000,
+			page: type === 'current' ? current : undefined,
+			num: type === 'current' ? pageSize : 1000,
 			field: field || undefined,
 			order: order || undefined,
 		};
-		const start = new Date().getTime(); // 获取接口响应时间
-		const hide = message.loading('正在下载中，请稍后...', 0);
-
-		if (type === 1) {
-			trialRelationSearchExport(params).then((res) => {
-				if (res.status === 200) {
-					const now = new Date().getTime();
-					const latency = now - start;
-					const downloadElement = document.createElement('a');
-					downloadElement.href = res.responseURL;
-					// document.body.appendChild(downloadElement);
-					downloadElement.click(); // 点击下载
-					this.setState({
-						loading: false,
-					});
-					// 异步手动移除
-					setTimeout(hide, latency);
-				} else {
-					message.error('请求失败');
-				}
-			});
-		}
-		if (type === 2) {
-			ktggRelationSerachExport(params).then((res) => {
-				if (res.status === 200) {
-					const now = new Date().getTime();
-					const latency = now - start;
-					const downloadElement = document.createElement('a');
-					downloadElement.href = res.responseURL;
-					// document.body.appendChild(downloadElement);
-					downloadElement.click(); // 点击下载
-					this.setState({
-						loading: false,
-					});
-					// 异步手动移除
-					setTimeout(hide, latency);
-				} else {
-					message.error('请求失败');
-				}
-			});
-		}
+		return Object.assign({}, params);
 	};
 
 	// 获取立案消息列表
@@ -385,7 +346,7 @@ class LAWSUITS extends React.Component {
 			// 将值传到URL
 			navigate(generateUrlWithParams('/search/detail/lawsuits', fildes));
 		} else {
-			message.error('请至少输入一个搜索条件');
+			this.queryReset();
 		}
 		const { hash } = window.location;
 		const urlObj = parseQuery(hash);
@@ -608,7 +569,7 @@ class LAWSUITS extends React.Component {
 
 	render() {
 		const {
-			yg, bg, dataList, loading, urlObj, totals, current, page, pageSize, ktggRelationCount, trialRelationCount, Sort,
+			yg, bg, dataList, loading, urlObj, totals, current, page, pageSize, ktggRelationCount, trialRelationCount, Sort, type,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -777,8 +738,10 @@ class LAWSUITS extends React.Component {
 					field="type"
 				/>
 				<div className="yc-writ-tablebtn">
-					{dataList.length > 0 && <Button style={{ marginRight: 5 }} onClick={() => this.handleExport('current')}>本页导出</Button>}
-					<Button disabled={dataList.length === 0} onClick={dataList.length > 0 && this.handleExport}>全部导出</Button>
+					{/* {dataList.length > 0 && <Button style={{ marginRight: 5 }} onClick={() => this.handleExport('current')}>本页导出</Button>}
+					<Button disabled={dataList.length === 0} onClick={dataList.length > 0 && this.handleExport}>全部导出</Button> */}
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport} current page num text="本页导出" />}
+					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport} all page num text="全部导出" />
 					{dataList.length > 0 && (
 					<div style={{
 						float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',

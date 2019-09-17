@@ -8,7 +8,9 @@ import {
 	exportExcel, // 导出
 } from '@/utils/api/debator';
 
-import { Spin, Input, Button } from '@/common';
+import {
+	Spin, Input, Button, Download,
+} from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
@@ -93,31 +95,23 @@ class BusinessDebtor extends React.Component {
 		});
 	};
 
-	// 一键导出
-	handleExportExcel = () => {
+	// 导出
+	toExportCondition=(type) => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
+		const {
+			startTime, endTime, selectedRowKeys,
+		} = this.state;
 		const fields = getFieldsValue();
 		const params = {
 			...fields,
+			uploadTimeStart: startTime || null, // 搜索时间
+			uploadTimeEnd: endTime || null,
 		};
-		// const hide = message.loading('正在下载中，请稍后...', 0);
-		// // 异步手动移除
-		// setTimeout(hide, 2500);
-		exportExcel(params).then((res) => {
-			if (res.status === 200) {
-				const downloadElement = document.createElement('a');
-				downloadElement.href = res.responseURL;
-				// document.body.appendChild(downloadElement);
-				downloadElement.click(); // 点击下载
-				this.setState({
-					loading: false,
-				});
-				message.loading('下载成功');
-			} else {
-				message.error('请求失败');
-			}
-		});
+		if (type === 'all') {
+			return Object.assign({}, params);
+		}
+		return Object.assign({}, params, { idList: selectedRowKeys });
 	};
 
 	// 搜索
@@ -249,10 +243,7 @@ class BusinessDebtor extends React.Component {
 				</div>
 				<div className="yc-split-hr" />
 				<div className="yc-business-tablebtn">
-					<Button onClick={this.handleExportExcel} className="yc-business-btn" style={{ float: 'right' }}>
-						<span className="yc-icon-export" />
-						一键导出
-					</Button>
+					<Download condition={() => this.toExportCondition('all')} style={{ float: 'right' }} api={exportExcel} all text="一键导出" />
 				</div>
 				<Spin visible={loading}>
 					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} />

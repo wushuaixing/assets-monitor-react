@@ -12,9 +12,8 @@ import {
 	exportExcel, // 导出列表
 	postDeleteBatch, // 批量删除
 } from '@/utils/api/business';
-import { urlEncode } from '@/utils';
 import {
-	Input, Button, Spin, timeRule,
+	Input, Button, Spin, timeRule, Download,
 } from '@/common';
 import './style.scss';
 
@@ -266,21 +265,6 @@ class BusinessView extends React.Component {
 		});
 	};
 
-	// 一键导出
-	handleExportExcel = () => {
-		const { selectedRowKeys } = this.state;
-		const { form } = this.props; // 会提示props is not defined
-		const { getFieldsValue } = form;
-		const fields = getFieldsValue();
-		const params = {
-			...fields,
-			idList: selectedRowKeys, // 批量选中
-		};
-		const token = cookies.get('token');
-		// downloadElement.href = `${exportExcel}?${token}${urlEncode(params)}`;
-		window.open(`${exportExcel}?token=${token}${urlEncode(params)}`, '_self');
-	}
-
 	// 重置输入框
 	queryReset = () => {
 		const { form } = this.props; // 会提示props is not defined
@@ -349,24 +333,24 @@ class BusinessView extends React.Component {
 		});
 	}
 
-	// 导出选中业务
-	handledExport = () => {
-		const { selectedRowKeys } = this.state;
-		const that = this; // this指定
-		if (selectedRowKeys.length === 0) {
-			message.warning('未选中业务');
-			return;
+	// 导出
+	toExportCondition=(type) => {
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const {
+			startTime, endTime, selectedRowKeys,
+		} = this.state;
+		const fields = getFieldsValue();
+		const params = {
+			...fields,
+			uploadTimeStart: startTime || null, // 搜索时间
+			uploadTimeEnd: endTime || null,
+		};
+		if (type === 'all') {
+			return Object.assign({}, params);
 		}
-		confirm({
-			title: '确认导出所选业务吗?',
-			content: '点击确定，将为您导出所有选中的信息',
-			iconType: 'exclamation-circle-o',
-			onOk() {
-				that.handleExportExcel();
-			},
-			onCancel() {},
-		});
-	}
+		return Object.assign({}, params, { idList: selectedRowKeys });
+	};
 
 	// 打开担保人弹窗
 	openPeopleModal = (id) => {
@@ -506,9 +490,10 @@ class BusinessView extends React.Component {
 							<Button onClick={this.handledDeleteBatch} className="yc-business-btn">
 								删除
 							</Button>
-							<Button onClick={this.handledExport} className="yc-business-btn">
+							{/* <Button onClick={this.handledExport} className="yc-business-btn">
 								导出
-							</Button>
+							</Button> */}
+							<Download condition={this.toExportCondition} api={exportExcel} field="idList" text="导出" />
 						</React.Fragment>
 						)}
 						{!openRowSelection && (
@@ -529,10 +514,11 @@ class BusinessView extends React.Component {
 						</Button>
 
 						{!openRowSelection && (
-						<Button onClick={this.handleExportExcel} className="yc-business-btn" style={{ float: 'right' }}>
-							<span className="yc-icon-export" />
-								一键导出
-						</Button>
+						// <Button onClick={this.handleExportExcel} className="yc-business-btn" style={{ float: 'right' }}>
+						// 	<span className="yc-icon-export" />
+						// 		一键导出
+						// </Button>
+						<Download condition={() => this.toExportCondition('all')} style={{ float: 'right' }} api={exportExcel} all text="一键导出" />
 						)}
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
 							<Icon className="yc-business-icon" type="question-circle-o" />

@@ -36,7 +36,7 @@ const source = rule => ([
 	},
 	{
 		id: 4,
-		name: '金融信息',
+		name: '金融资产',
 		url: '/search/detail/finance',
 		number: 0,
 		open: !!(rule && rule.xxssjrzc),
