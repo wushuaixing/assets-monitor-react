@@ -203,16 +203,18 @@ class AUCTION extends React.Component {
 			currentSort: undefined,
 			assessmentSort: undefined,
 		});
-		if (fildes.lowestConsultPrice) {
-			fildes.lowestConsultPrice *= 10000;
-		}
-		if (fildes.highestConsultPrice) {
-			fildes.highestConsultPrice *= 10000;
-		}
+		// if (fildes.lowestConsultPrice || undefined) {
+		// 	fildes.lowestConsultPrice *= 10000;
+		// }
+		// if (fildes.highestConsultPrice || undefined) {
+		// 	fildes.highestConsultPrice *= 10000;
+		// }
 		const params = {
 			...fildes,
 			page: 1,
 			num: pageSize,
+			lowestConsultPrice: fildes.lowestConsultPrice ? fildes.lowestConsultPrice *= 10000 : undefined,
+			highestConsultPrice: fildes.highestConsultPrice ? fildes.highestConsultPrice *= 10000 : undefined,
 		};
 
 		// 判断是否为空对象,非空请求接口
