@@ -23,6 +23,7 @@ const createForm = Form.create;
 class InformCenter extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '消息中心';
 		this.state = {
 			columns: [
 				{

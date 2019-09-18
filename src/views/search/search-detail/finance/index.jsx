@@ -18,6 +18,7 @@ const _style1 = { width: 900 };
 class FINANCE extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '金融资产-信息搜索';
 		this.state = {
 			dataList: [],
 			loading: false,

@@ -50,6 +50,7 @@ const text = (
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '业务视图-业务管理';
 		this.state = {
 			openRowSelection: false,
 			dataList: [], // 接口返回数据

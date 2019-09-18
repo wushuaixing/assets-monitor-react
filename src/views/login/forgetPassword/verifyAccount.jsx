@@ -22,6 +22,7 @@ const createForm = Form.create;
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '重置密码';
 		this.state = {
 			loading: false,
 			codeImg: verificationCodeImg,

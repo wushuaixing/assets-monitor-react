@@ -21,6 +21,7 @@ const createForm = Form.create;
 class DebtorDetail extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '业务详情-业务管理';
 		this.state = {
 			edit: false,
 			detail: null,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
 import Tabs from './search-tab';
 import Datas from './search-data';
@@ -38,7 +38,10 @@ const HomeRouter = (props) => {
 
 	const displayArray = tabSource(rule).filter(item => item.display === true); // 过滤权限
 	const [active, setActive] = useState(displayArray[0]);
-
+	useEffect(() => {
+		// Update the document title using the browser API
+		document.title = '信息搜索';
+	});
 	return (
 		<div className="search-wrapper">
 			<p>信息搜索</p>

@@ -26,6 +26,7 @@ const createForm = Form.create;
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '用户登录';
 		this.state = {
 			loading: false,
 			rememberPassword: cookie.get('rememberPassword'),

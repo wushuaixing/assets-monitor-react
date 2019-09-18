@@ -27,6 +27,7 @@ const createForm = Form.create;
 class AUCTION extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '拍卖信息-信息搜索';
 		this.state = {
 			dataList: [],
 			params: {},

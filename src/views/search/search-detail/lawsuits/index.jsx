@@ -30,6 +30,7 @@ const _style2 = { width: 120 };
 class LAWSUITS extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '涉诉信息-信息搜索';
 		this.state = {
 			urlObj: {},
 			dataList: [],

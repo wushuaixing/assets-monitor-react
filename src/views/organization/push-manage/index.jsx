@@ -15,6 +15,7 @@ const { confirm } = Modal;
 export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '推送设置-机构管理';
 		this.state = {
 			data: [],
 			modalVisible: false,
