@@ -38,6 +38,15 @@ const type = (value) => {
 	default: return '-';
 	}
 };
+// 价格类型
+const courtPriceType = (value) => {
+	switch (value) {
+	case 1: return '起拍价: ';
+	case 5: return '成交价: ';
+	default: return '当前价: ';
+	}
+};
+
 const getName = () => {
 	const { hash } = window.location;
 	const params = parseQuery(hash);
@@ -146,9 +155,9 @@ class BusinessView extends React.Component {
 											</p>
 										</span>
 										<span>
-											<span className="yc-td-title" style={{ marginRight: '4px' }}>起拍价:</span>
+											<span className="yc-td-title" style={{ marginRight: '4px' }}>{courtPriceType(row.status)}</span>
 											<p style={{ display: 'inline-block' }}>
-												{toThousands(row.initialPrice) || '-'}
+												{row.status === 1 ? toThousands(row.initialPrice) : toThousands(row.currentPrice)}
 											</p>
 										</span>
 									</div>
