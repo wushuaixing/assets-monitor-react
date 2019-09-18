@@ -1,4 +1,5 @@
 import service from '@/utils/service';
+import { serviceFile } from '@/utils/service';
 import { baseUrl } from '@/utils/api/index';
 
 /**
@@ -24,4 +25,4 @@ export const exportFile = id => `${baseUrl}/yc/export/file/excel/${id}`;
 
 
 // 导出Excel文件
-export const normalGet = url => params => service.get(url, { params }).then(res => res.data);
+export const normalGet = url => params => serviceFile.get(url, { params }).then(res => res.data);
