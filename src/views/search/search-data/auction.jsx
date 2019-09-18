@@ -69,6 +69,10 @@ class AUCTION extends React.PureComponent {
 	queryReset = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
+		this.setState({
+			startTime: undefined,
+			endTime: undefined,
+		});
 		resetFields('');
 	}
 

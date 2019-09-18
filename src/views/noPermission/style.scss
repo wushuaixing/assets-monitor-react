@@ -1,0 +1,27 @@
+.yc-NoPermission-container {
+  background: #fff;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  padding-top: 150px;
+  .yc-NoPermission-img {
+    background-image: url("../../assets/img/noPermission/img_blank_error.png");
+    width: 240px;
+    height: 180px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .yc-NoPermission-content {
+    text-align: center;
+  }
+  .yc-NoPermission-skip {
+    margin: 0 3px;
+    color: #337ab7;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
