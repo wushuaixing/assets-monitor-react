@@ -399,11 +399,11 @@ class AUCTION extends React.Component {
 						suffix="万元"
 						inputFirstProps={getFieldProps('lowestConsultPrice', {
 							initialValue: params.lowestConsultPrice,
-							getValueFromEvent: e => e.target.value.trim().replace(/[^1-9]/g, ''),
+							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
 						})}
 						inputSecondProps={getFieldProps('highestConsultPrice', {
 							initialValue: params.highestConsultPrice,
-							getValueFromEvent: e => e.target.value.trim().replace(/[^1-9]/g, ''),
+							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
 						})}
 					/>
 				</div>
