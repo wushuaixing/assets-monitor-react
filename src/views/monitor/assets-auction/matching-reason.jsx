@@ -86,7 +86,11 @@ export default class MatchingReason extends React.Component {
 	};
 
 	render() {
-		const { content: { reason, remark, duty }, dishonest } = this.props;
+		const {
+			content: {
+				reason, remark, duty, approveTime,
+			}, dishonest,
+		} = this.props;
 		const { status } = this.state;
 		return (
 			<div className="assets-matching-reason-wrapper">
@@ -95,8 +99,8 @@ export default class MatchingReason extends React.Component {
 						{
 							remark ? (
 								<div className="reason-list">
-									<div>● 审核备注</div>
-									<p>{remark}</p>
+									<div>{`● 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
+									<p dangerouslySetInnerHTML={{ __html: remark }} />
 								</div>
 							) : null
 						}
