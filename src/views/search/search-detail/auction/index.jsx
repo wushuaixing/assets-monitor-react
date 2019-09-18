@@ -203,16 +203,18 @@ class AUCTION extends React.Component {
 			currentSort: undefined,
 			assessmentSort: undefined,
 		});
-		if (fildes.lowestConsultPrice) {
-			fildes.lowestConsultPrice *= 10000;
-		}
-		if (fildes.highestConsultPrice) {
-			fildes.highestConsultPrice *= 10000;
-		}
+		// if (fildes.lowestConsultPrice || undefined) {
+		// 	fildes.lowestConsultPrice *= 10000;
+		// }
+		// if (fildes.highestConsultPrice || undefined) {
+		// 	fildes.highestConsultPrice *= 10000;
+		// }
 		const params = {
 			...fildes,
 			page: 1,
 			num: pageSize,
+			lowestConsultPrice: fildes.lowestConsultPrice ? fildes.lowestConsultPrice *= 10000 : undefined,
+			highestConsultPrice: fildes.highestConsultPrice ? fildes.highestConsultPrice *= 10000 : undefined,
 		};
 
 		// 判断是否为空对象,非空请求接口
@@ -397,11 +399,11 @@ class AUCTION extends React.Component {
 						suffix="万元"
 						inputFirstProps={getFieldProps('lowestConsultPrice', {
 							initialValue: params.lowestConsultPrice,
-							getValueFromEvent: e => e.target.value.trim().replace(/[^1-9]/g, ''),
+							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
 						})}
 						inputSecondProps={getFieldProps('highestConsultPrice', {
 							initialValue: params.highestConsultPrice,
-							getValueFromEvent: e => e.target.value.trim().replace(/[^1-9]/g, ''),
+							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
 						})}
 					/>
 				</div>
