@@ -74,6 +74,7 @@ const toGetDefaultConfig = (rule) => {
 export default class MyAttention extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '我的关注-监控信息';
 		this.state = {
 			config: toGetDefaultConfig(props.rule),
 			source: '',

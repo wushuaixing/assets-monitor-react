@@ -14,6 +14,7 @@ import { fileExport } from '@/views/monitor/table-common';
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '代位权-监控信息';
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',

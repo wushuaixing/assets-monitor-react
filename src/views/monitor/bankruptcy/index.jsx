@@ -15,6 +15,7 @@ import { unReadCount } from '@/utils/api/monitor-info';
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '企业破产重组-监控信息';
 		this.state = {
 			isRead: 'all',
 			dataSource: '',

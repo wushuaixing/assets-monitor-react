@@ -56,6 +56,7 @@ const source = (obj = {}) => [
 export default class Assets extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '资产监控-监控信息';
 		this.state = {
 			sourceType: -1,
 			dataSource: '',

@@ -57,6 +57,7 @@ const toGetConfig = (rule) => {
 export default class Lawsuits extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '公示公告-监控信息';
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',

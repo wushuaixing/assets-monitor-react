@@ -20,6 +20,7 @@ const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '金融资产-监控信息';
 		// 获取当前页面路由配置
 		const _rule = rule => ([
 			{
