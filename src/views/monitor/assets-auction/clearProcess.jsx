@@ -29,7 +29,7 @@ export default class BasicTable extends React.Component {
 				<div className="yc-module">
 					<div className="yc-module-title">资产清收流程图</div>
 					<div className="img-wrapper">
-						<img src={clearProcess} alt="清收图" style={{ width: '1000px', height: '740px' }} />
+						<img src={clearProcess} alt="清收图" style={{ width: '1000px', height: '740px', margin: '0 auto' }} />
 					</div>
 					<div className="yc-recovery-text">
 						<div className="yc-recovery-title">如何确认是否有余值</div>
