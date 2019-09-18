@@ -73,7 +73,7 @@ export const caseInfo = (content, row) => {
 		iconType: 'null',
 		className: 'assets-an-info',
 		content: (
-			<div style={{ marginLeft: -28 }}>
+			<div style={{ marginLeft: -28, maxHeight: 400, overflow: 'auto' }}>
 				{
 					row.ygList && row.ygList.map(item => (
 						<p style={{ margin: 5, fontSize: 14 }}>
