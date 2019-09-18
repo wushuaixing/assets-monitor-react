@@ -13,7 +13,7 @@ import { floatFormat } from '@/utils/format';
 // step的描述内容
 const StepDesc = (props) => {
 	const {
-		recovery, expend, content, remindingTime, remindType,
+		recovery, expend, content, remindingTime, remindType, remindMobiles,
 	} = props;
 	// 提醒方式(1-系统消息、2-短信/邮件、3-系统+短信/邮件
 	const remindTypeContent = (type) => {
@@ -22,6 +22,13 @@ const StepDesc = (props) => {
 		if (type === 3) return '系统+短信/邮件';
 		return null;
 	};
+	const remindMobilesContent = (function methods(data) {
+		if (data) {
+			return (JSON.parse(data).map(item => item.name)).join(',');
+		}
+		return null;
+	}(remindMobiles));
+
 	return (
 		<React.Fragment>
 			{
@@ -39,7 +46,7 @@ const StepDesc = (props) => {
 				remindingTime || remindType ? (
 					<li>
 						{ remindingTime ? `提醒日期：${new Date(remindingTime * 1000).format('yyyy-MM-dd (早上10点)')}； ` : null}
-						{ remindType ? `提醒方式：${remindTypeContent(remindType)}；` : null}
+						{ remindType ? `提醒方式：${remindTypeContent(remindType)}${remindMobilesContent ? `(${remindMobilesContent})` : null}` : null}
 					</li>
 				) : null
 			}
@@ -238,19 +245,19 @@ export default class FollowInfo extends React.Component {
 		};
 		// console.log(clearEmpty(param));
 		_param = clearEmpty(param);
-		if (Object.keys(_param).length === 2 && _param.monitorId && _param.process) {
+		if (toProcess === 15) {
+			_param = {
+				monitorId: id,
+				process: 15,
+			};
+		} else if (Object.keys(_param).length === 2 && _param.monitorId && _param.process) {
 			// console.log('未变动', process, toStatus({ process }), _param.process);
 			if (toStatus({ process }) === _param.process) {
 				if (onClose) { onClose(); }
 				return true;
 			}
 		}
-		if (toProcess === 15) {
-			_param = {
-				monitorId: id,
-				process: 15,
-			};
-		}
+
 		// return;
 		this.setState({ loading: true });
 		processSave(_param)

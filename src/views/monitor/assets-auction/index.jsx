@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import { navigate } from '@reach/router';
+// import { navigate } from '@reach/router';
 import Query from './query';
 import Table from './table';
 import {
@@ -232,7 +232,7 @@ export default class Assets extends React.Component {
 	};
 
 	toClearProcess = () => {
-		navigate('/monitor/clearProcess');
+		window.open('/#/monitor/clearProcess', '_blank');
 	};
 
 	render() {
