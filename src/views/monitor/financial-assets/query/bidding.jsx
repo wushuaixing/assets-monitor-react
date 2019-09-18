@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Button, timeRule } from '@/common';
 import InputPrice from '@/common/input/input-price';
 import {
-	DatePicker, Select, Form,
+	DatePicker, Select, Form, message,
 } from 'antd';
 
 class QueryCondition extends React.Component {
@@ -36,7 +36,23 @@ class QueryCondition extends React.Component {
 	handleSubmit=() => {
 		const { form: { getFieldsValue }, onQueryChange } = this.props;
 		const condition = getFieldsValue();
+		const { consultPriceStart: start, consultPriceEnd: end } = condition;
+		if (start && end && Number(start) > Number(end)) {
+			message.error('评估价最低价不得高过最高价，评估价单位为【万元】', 1);
+			return false;
+		}
+		// if ((Number.isNaN(Number(start)) || Number(start) % 1 !== 0 || Number(start) < 0) || (Number.isNaN(Number(end)) || Number(end) % 1 !== 0 || Number(end) < 0)) {
+		// 	message.error('评估价只能输入正整数！', 2);
+		// 	// setFieldsValue({ consultPriceStart: '' });
+		// 	return false;
+		// }
+		if (Number(start) > 9999999 || Number(end) > 9999999) {
+			message.error('评估价数值上限不得超过9999999', 2);
+			return false;
+			// setFieldsValue({ consultPriceStart: '' });
+		}
 		if (onQueryChange)onQueryChange(condition);
+		return true;
 	};
 
 	handleReset=() => {
@@ -89,8 +105,58 @@ class QueryCondition extends React.Component {
 							style={_style1}
 							size="large"
 							suffix="万元"
-							inputFirstProps={getFieldProps('consultPriceStart')}
-							inputSecondProps={getFieldProps('consultPriceEnd')}
+							inputFirstProps={getFieldProps('consultPriceStart', {
+								validateTrigger: 'onBlur',
+								getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+								rules: [
+									{
+										required: true,
+										validator(rule, value, callback) {
+											const consultPriceEnd = getFieldValue('consultPriceEnd');
+											if (consultPriceEnd && value) {
+												if (Number(value) > Number(consultPriceEnd)) {
+													message.error('评估价最低价不得高过最高价，评估价单位为【万元】', 2);
+													// setFieldsValue({ consultPriceStart: '' });
+												}
+											}
+											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
+												message.error('只能输入正整数！', 2);
+												// setFieldsValue({ consultPriceStart: '' });
+											}
+											if (Number(value) > 9999999) {
+												message.error('数值上限不得超过9999999', 2);
+												// setFieldsValue({ consultPriceStart: '' });
+											}
+											callback();
+										},
+									}],
+							})}
+							inputSecondProps={getFieldProps('consultPriceEnd', {
+								validateTrigger: 'onBlur',
+								getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+								rules: [
+									{
+										required: true,
+										validator(rule, value, callback) {
+											const consultPriceStart = getFieldValue('consultPriceStart');
+											if (consultPriceStart && value) {
+												if (Number(value) < Number(consultPriceStart)) {
+													message.error('评估价最高价不得低于最低价，评估价单位为【万元】', 2);
+													// setFieldsValue({ consultPriceEnd: '' });
+												}
+											}
+											if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
+												message.error('只能输入正整数', 2);
+												// setFieldsValue({ consultPriceEnd: '' });
+											}
+											if (Number(value) > 9999999) {
+												message.error('数值上限不得超过9999999，评估价单位为【万元】', 2);
+												// setFieldsValue({ consultPriceEnd: '' });
+											}
+											callback();
+										},
+									}],
+							})}
 						/>
 					</div>
 					<div className="yc-query-item">
