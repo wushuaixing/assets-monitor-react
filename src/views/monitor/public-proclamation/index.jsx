@@ -321,10 +321,6 @@ export default class Lawsuits extends React.Component {
 								api={Api[toGetApi(sourceType, 'exportList')]}
 								style={{ float: 'right' }}
 							/>
-							<Button onClick={() => this.handleExport('all')} style={{ float: 'right' }}>
-								<span className="yc-export-img" />
-								<span> 一键导出</span>
-							</Button>
 						</div>
 					) : (
 						<div className="assets-auction-action">
