@@ -21,11 +21,13 @@ class Login extends React.Component {
 
 
 	render() {
+		const { imgUrl } = this.props;
+
 		return (
 			<div className="yc-login-header">
 				<div className="yc-login-logo">
 					<div className="yc-login-wrapper">
-						<img src={backgroundHeaderImg} alt="" />
+						<img src={imgUrl || backgroundHeaderImg} alt="" />
 						<span className="yc-login-world">
 							<Icon className="yc-login-icon" type="info-circle-o" />
 								正式用户都会开通唯一的二级域名，请确认访问正确的二级域名网址进行登录

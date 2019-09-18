@@ -186,7 +186,7 @@ class Login extends React.Component {
 			loading, userName, rememberPassword, codeImg, passwordModalVisible, errorTime,
 		} = this.state;
 		const {
-			form: { getFieldProps }, changeType,
+			form: { getFieldProps }, changeType, btnColor,
 		} = this.props; // 会提示props is not defined
 
 		return (
@@ -277,7 +277,7 @@ class Login extends React.Component {
 								</div>
 							</li>
 						</div>
-						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>登录</Button>
+						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit} style={{ backgroundColor: btnColor, border: `1px solid ${btnColor}` }}>登录</Button>
 					</Spin>
 				</Form>
 				{/** 修改密码Modal */}

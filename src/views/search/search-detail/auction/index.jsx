@@ -189,7 +189,7 @@ class AUCTION extends React.Component {
 		const fildes = getFieldsValue();
 		fildes.startTime = startTime;
 		fildes.endTime = endTime;
-		if (fildes.lowestConsultPrice > fildes.highestConsultPrice) {
+		if (fildes.lowestConsultPrice && Number(fildes.lowestConsultPrice) > fildes.highestConsultPrice && Number(fildes.highestConsultPrice)) {
 			message.error('评估价格最低价不能高于评估价格最高价！');
 			return;
 		}

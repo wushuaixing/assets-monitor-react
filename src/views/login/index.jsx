@@ -11,6 +11,9 @@ import Register from './register';
 import VerifyAccount from './forgetPassword/verifyAccount';
 import WriteCode from './forgetPassword/writeCode';
 import ChangePassword from './forgetPassword/changePassword';
+import {
+	bankConf, // 个性配置
+} from '@/utils/api/user';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
 import './style.scss';
@@ -23,7 +26,20 @@ class Login extends React.Component {
 		this.state = {
 			type: 1,
 			phoneNum: '',
+			btnColor: '#384482',
+			imgUrl: undefined,
 		};
+	}
+
+	componentDidMount() {
+		bankConf().then((_res) => {
+			if (_res.code === 200) {
+				this.setState({
+					btnColor: _res.data.btnColor,
+					imgUrl: _res.data.url,
+				});
+			}
+		});
 	}
 
 	changeType = (childType) => {
@@ -41,16 +57,18 @@ class Login extends React.Component {
 	}
 
 	render() {
-		const { type, phoneNum } = this.state;
+		const {
+			type, phoneNum, btnColor, imgUrl,
+		} = this.state;
 
 		return (
 			<div className="yc-login">
-				<Header />
+				<Header imgUrl={imgUrl} />
 				<div className="yc-login-wapper">
 					<div className="yc-login-content">
 						{/* 登录页面 */}
 						{
-							type === 1 && <Register changeType={this.changeType} />
+							type === 1 && <Register btnColor={btnColor} changeType={this.changeType} />
 						}
 						{/* 忘记密码验证吗界面 */}
 						{

@@ -50,11 +50,12 @@ class AUCTION extends React.PureComponent {
 		const fildes = getFieldsValue();
 		fildes.startTime = startTime;
 		fildes.endTime = endTime;
-		if (fildes.lowestConsultPrice > fildes.highestConsultPrice) {
+		console.log(fildes);
+
+		if (fildes.lowestConsultPrice && Number(fildes.lowestConsultPrice) > fildes.highestConsultPrice && Number(fildes.highestConsultPrice)) {
 			message.error('评估价格最低价不能高于评估价格最高价！');
 			return;
 		}
-		console.log(fildes);
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
 			// 将值传到URL

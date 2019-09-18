@@ -7,6 +7,12 @@ import { baseUrl } from '@/utils/api/index';
  * @param type
  * @returns {Promise<*>}
  */
+
+// 银行个性配置
+export const bankConf = async () => {
+	const response = await service.get(`${baseUrl}/yc/open/conf/bankConf`);
+	return response.data;
+};
 // 登陆
 export const login = async (params) => {
 	const response = await service.post(`${baseUrl}/api/auth/login`, params);
