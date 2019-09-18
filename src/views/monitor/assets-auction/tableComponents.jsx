@@ -7,7 +7,7 @@ import Matching from './matching-reason';
 import { floatFormat } from '@/utils/format';
 import { linkDom } from '@/utils';
 
-const AssetsInfo = (text, rowContent, noMatching = false) => {
+const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 	const {
 		obligorName, obligorNumber, orgName, updateTime, important, dishonestStatus, obligorId,
 	} = rowContent;

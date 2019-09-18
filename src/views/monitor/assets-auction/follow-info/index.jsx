@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Modal, Button, Icon, Steps, Select, InputNumber, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
 } from 'antd';
-import { Spin } from '@/common';
+import { Spin, Button as Btn } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
 import {
 	pushList as pushListApi, pushSave, processList, processSave, processDel,
@@ -57,14 +57,16 @@ const ProcessTran = (type) => {
 	return null;
 };
 
+// process 状态默认
+const toStatus = (source) => {
+	const { process } = source;
+	if (process === 0 || process === 3 || process === 6 || process === 12 || process === 15) return 6;
+	return process;
+};
 export default class FollowInfo extends React.Component {
 	constructor(props) {
 		super(props);
-		const toStatus = (source) => {
-			const { process } = source;
-			if (process === 0 || process === 3 || process === 6) return 6;
-			return process;
-		};
+
 		this.state = {
 			addStatus: false,
 			loading: false,
@@ -206,23 +208,27 @@ export default class FollowInfo extends React.Component {
 	};
 
 	// 新增推送信息
-	handleProcessSave =() => {
+	handleProcessSave =(toProcess) => {
 		const {
-			loading, recovery, expend, remark, remindTime, remindWay, pushList, status: process,
+			loading, recovery, expend, remark, remindTime, remindWay, pushList, status,
 		} = this.state;
-		const { source: { id, index, recovery: _recovery }, onRefresh, onClose } = this.props;
+		const {
+			source: {
+				id, index, recovery: _recovery, process,
+			}, onRefresh, onClose,
+		} = this.props;
+
 		if (loading) return false;
-		this.setState({ loading: true });
 		const remindType = (item) => {
 			if (item.length === 2) return 3;
 			if (item.indexOf('email') > -1) return 2;
 			if (item.indexOf('mobile') > -1) return 1;
 			return '';
 		};
-		// console.log(remindTime);
+		let _param;
 		const param = {
 			monitorId: id,
-			process,
+			process: status,
 			recovery,
 			expend,
 			content: remark,
@@ -230,7 +236,24 @@ export default class FollowInfo extends React.Component {
 			remindSetIdList: pushList.length > 0 ? pushList : '',
 			remindType: remindType(remindWay),
 		};
-		processSave(clearEmpty(param))
+		// console.log(clearEmpty(param));
+		_param = clearEmpty(param);
+		if (Object.keys(_param).length === 2 && _param.monitorId && _param.process) {
+			// console.log('未变动', process, toStatus({ process }), _param.process);
+			if (toStatus({ process }) === _param.process) {
+				if (onClose) { onClose(); }
+				return true;
+			}
+		}
+		if (toProcess === 15) {
+			_param = {
+				monitorId: id,
+				process: 15,
+			};
+		}
+		// return;
+		this.setState({ loading: true });
+		processSave(_param)
 			.then((res) => {
 				const { code } = res;
 				if (code === 200) {
@@ -244,7 +267,8 @@ export default class FollowInfo extends React.Component {
 							index,
 						}, 'recovery');
 					}
-					if (onRefresh)onRefresh({ id, process, index }, 'process');
+					console.log(toProcess, status);
+					if (onRefresh)onRefresh({ id, process: toProcess || status, index }, 'process');
 					if (onClose) { onClose(); }
 				} else {
 					this.setState({ loading: false });
@@ -316,8 +340,13 @@ export default class FollowInfo extends React.Component {
 				maskClosable={false}
 				onCancel={onClose}
 				footer={[
+					<p>
+						{
+							process !== 15 ? <Btn type="warning-text" style={{ float: 'left' }} size="normal" onClick={() => this.handleProcessSave(15)}>放弃跟进</Btn> : ''
+						}
+					</p>,
 					<Button key="back" type="ghost" size="large" onClick={onClose}>取 消</Button>,
-					<Button key="submit" type="primary" size="large" loading={loading} onClick={this.handleProcessSave}>
+					<Button key="submit" type="primary" size="large" loading={loading} onClick={() => this.handleProcessSave()}>
 						{'确 定'}
 					</Button>,
 				]}
@@ -477,8 +506,7 @@ export default class FollowInfo extends React.Component {
 											<Radio.Group {...getField('status')}>
 												<Radio key="a" value={6}>跟进中</Radio>
 												<Radio key="b" value={9}>完成跟进</Radio>
-												<Radio key="c" value={12}>已忽略</Radio>
-												<Radio key="c" value={15}>放弃跟进</Radio>
+												{/* <Radio key="c" value={15}>放弃跟进</Radio> */}
 											</Radio.Group>
 										</div>
 									</li>

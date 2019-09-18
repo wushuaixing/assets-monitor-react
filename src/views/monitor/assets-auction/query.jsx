@@ -36,6 +36,11 @@ class QueryCondition extends React.Component {
 	handleSubmit=() => {
 		const { form: { getFieldsValue }, onQueryChange } = this.props;
 		const condition = getFieldsValue();
+		const { consultPriceStart: start, consultPriceEnd: end } = condition;
+		if (start && end && Number(start) > Number(end)) {
+			message.error('评估价最低价不得高过最高价，评估价单位为【万元】', 1);
+			return;
+		}
 		if (onQueryChange)onQueryChange(condition);
 	};
 
@@ -48,7 +53,7 @@ class QueryCondition extends React.Component {
 	};
 
 	render() {
-		const { form: { getFieldProps, getFieldValue, setFieldsValue } } = this.props;
+		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const _style1 = { width: 274 };
 		const _style2 = { width: 100 };
 		const _style3 = { width: 80 };
@@ -98,7 +103,7 @@ class QueryCondition extends React.Component {
 											const consultPriceEnd = getFieldValue('consultPriceEnd');
 											if (consultPriceEnd && value) {
 												if (Number(value) > Number(consultPriceEnd)) {
-													message.error('评估价最低价不得高过最高价', 2);
+													message.error('评估价最低价不得高过最高价，评估价单位为【万元】', 2);
 													// setFieldsValue({ consultPriceStart: '' });
 												}
 											}
