@@ -16,6 +16,7 @@ const { Option } = Select;
 export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '操作记录-机构管理';
 		this.state = {
 			data: [],
 			total: 0,

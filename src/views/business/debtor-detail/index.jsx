@@ -16,6 +16,7 @@ import TableList from '../table-list';
 export default class DebtorDetail extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '债务人详情-业务管理';
 		this.state = {
 			businessDetail: null,
 			data: [],

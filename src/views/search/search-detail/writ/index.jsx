@@ -13,7 +13,7 @@ import {
 	exportWritCurrent, // 本页导出
 } from '@/utils/api/search';
 import {
-	Spin, Input, Button, timeRule, Download,
+	Spin, Input, Button, timeRule, Download, ReactDocumentTitle,
 } from '@/common';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import WritTable from './table';
@@ -29,6 +29,7 @@ const createForm = Form.create;
 class WRIT extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '文书信息-信息搜索';
 		this.state = {
 			dataList: [],
 			loading: false,
@@ -268,182 +269,184 @@ class WRIT extends React.Component {
 		const { getFieldProps, getFieldValue } = form;
 
 		return (
-			<div className="yc-content-query">
-				<div className="yc-query-item">
-					<Input
-						title="全文"
-						style={_style4}
-						size="large"
-						placeholder="姓名/公司名称/关键字"
-						{...getFieldProps('content', {
-							initialValue: params ? params.content : '',
-							getValueFromEvent: e => e.trim(),
-						})}
-					/>
-				</div>
-				<div className="yc-query-item">
-					<Input
-						title="案号"
-						style={_style1}
-						size="large"
-						placeholder="案件编号"
-						{...getFieldProps('ah', {
-							initialValue: params ? params.ah : '',
-							getValueFromEvent: e => e.trim(),
-						})}
-					/>
-				</div>
-				<div className="yc-query-item">
-					<Input
-						title="案由"
-						style={_style1}
-						size="large"
-						placeholder="案件内容提要"
-						{...getFieldProps('reason', {
-							initialValue: params ? params.reason : '',
-							getValueFromEvent: e => e.trim(),
-						})}
-					/>
-				</div>
-				<div className="yc-query-item">
-					<Input
-						title="起诉法院"
-						style={_style1}
-						size="large"
-						placeholder="法院名称"
-						{...getFieldProps('court', {
-							initialValue: params ? params.court : '',
-							getValueFromEvent: e => e.trim(),
-						})}
-					/>
-				</div>
-				<div style={{ borderBottom: '1px solid #F0F2F5' }}>
+			<ReactDocumentTitle title="文档标题">
+				<div className="yc-content-query">
 					<div className="yc-query-item">
-						<span className="yc-query-item-title">发布时间: </span>
-						<DatePicker
+						<Input
+							title="全文"
+							style={_style4}
 							size="large"
-							allowClear
-							style={_style2}
-							placeholder="开始日期"
-							{...getFieldProps('publishStart', {
-								initialValue: params ? params.publishStart : '',
-								onChange: (value, dateString) => {
-									this.setState({
-										startTime: dateString,
-									});
-								},
+							placeholder="姓名/公司名称/关键字"
+							{...getFieldProps('content', {
+								initialValue: params ? params.content : '',
+								getValueFromEvent: e => e.trim(),
 							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))
+						/>
+					</div>
+					<div className="yc-query-item">
+						<Input
+							title="案号"
+							style={_style1}
+							size="large"
+							placeholder="案件编号"
+							{...getFieldProps('ah', {
+								initialValue: params ? params.ah : '',
+								getValueFromEvent: e => e.trim(),
+							})}
+						/>
+					</div>
+					<div className="yc-query-item">
+						<Input
+							title="案由"
+							style={_style1}
+							size="large"
+							placeholder="案件内容提要"
+							{...getFieldProps('reason', {
+								initialValue: params ? params.reason : '',
+								getValueFromEvent: e => e.trim(),
+							})}
+						/>
+					</div>
+					<div className="yc-query-item">
+						<Input
+							title="起诉法院"
+							style={_style1}
+							size="large"
+							placeholder="法院名称"
+							{...getFieldProps('court', {
+								initialValue: params ? params.court : '',
+								getValueFromEvent: e => e.trim(),
+							})}
+						/>
+					</div>
+					<div style={{ borderBottom: '1px solid #F0F2F5' }}>
+						<div className="yc-query-item">
+							<span className="yc-query-item-title">发布时间: </span>
+							<DatePicker
+								size="large"
+								allowClear
+								style={_style2}
+								placeholder="开始日期"
+								{...getFieldProps('publishStart', {
+									initialValue: params ? params.publishStart : '',
+									onChange: (value, dateString) => {
+										this.setState({
+											startTime: dateString,
+										});
+									},
+								})}
+								disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))
 						}
-						/>
-						<span className="yc-query-item-title">至</span>
-						<DatePicker
-							size="large"
-							allowClear
-							style={_style2}
-							placeholder="结束日期"
-							{...getFieldProps('publishEnd', {
-								initialValue: params ? params.publishEnd : '',
-								onChange: (value, dateString) => {
-									this.setState({
-										endTime: dateString,
-									});
-								},
-							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))
+							/>
+							<span className="yc-query-item-title">至</span>
+							<DatePicker
+								size="large"
+								allowClear
+								style={_style2}
+								placeholder="结束日期"
+								{...getFieldProps('publishEnd', {
+									initialValue: params ? params.publishEnd : '',
+									onChange: (value, dateString) => {
+										this.setState({
+											endTime: dateString,
+										});
+									},
+								})}
+								disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))
 							}
-						/>
-					</div>
-					<div className="yc-query-item">
-						<span className="yc-query-item-title">案件类型: </span>
-						<Select
-							size="large"
-							allowClear
-							style={_style3}
-							placeholder="请选择案件类型"
-							{...getFieldProps('caseType', {
-								initialValue: params ? params.caseType : '',
-							})}
-						>
-							<Option value="刑事案件">刑事案件</Option>
-							<Option value="民事案件">民事案件</Option>
-							<Option value="行政案件">行政案件</Option>
-							<Option value="赔偿案件">赔偿案件</Option>
-							<Option value="执行案件">执行案件</Option>
-							<Option value="知识产权">知识产权</Option>
-							<Option value="商事">商事</Option>
-							<Option value="海事海商">海事海商</Option>
-							<Option value="申诉">申诉</Option>
-							<Option value="其他">其他</Option>
-						</Select>
-					</div>
-					<div className="yc-query-item yc-query-item-btn">
-						<Button
-							onClick={this.search}
-							size="large"
-							type="warning"
-							style={{ width: 84 }}
-						>
+							/>
+						</div>
+						<div className="yc-query-item">
+							<span className="yc-query-item-title">案件类型: </span>
+							<Select
+								size="large"
+								allowClear
+								style={_style3}
+								placeholder="请选择案件类型"
+								{...getFieldProps('caseType', {
+									initialValue: params ? params.caseType : '',
+								})}
+							>
+								<Option value="刑事案件">刑事案件</Option>
+								<Option value="民事案件">民事案件</Option>
+								<Option value="行政案件">行政案件</Option>
+								<Option value="赔偿案件">赔偿案件</Option>
+								<Option value="执行案件">执行案件</Option>
+								<Option value="知识产权">知识产权</Option>
+								<Option value="商事">商事</Option>
+								<Option value="海事海商">海事海商</Option>
+								<Option value="申诉">申诉</Option>
+								<Option value="其他">其他</Option>
+							</Select>
+						</div>
+						<div className="yc-query-item yc-query-item-btn">
+							<Button
+								onClick={this.search}
+								size="large"
+								type="warning"
+								style={{ width: 84 }}
+							>
 							查询
-						</Button>
-						<Button
-							onClick={this.queryReset}
-							size="large"
-							style={{ width: 120 }}
-						>
+							</Button>
+							<Button
+								onClick={this.queryReset}
+								size="large"
+								style={{ width: 120 }}
+							>
 							重置查询条件
-						</Button>
+							</Button>
+						</div>
 					</div>
-				</div>
-				<div className="yc-writ-tablebtn">
-					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportWritCurrent} current page num text="本页导出" />}
-					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportWritAll} all page num text="全部导出" />
-					{dataList.length > 0 && (
-					<div style={{
-						float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
-					}}
-					>
-						{`源诚科技为您找到${totals}条信息`}
+					<div className="yc-writ-tablebtn">
+						{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportWritCurrent} current page num text="本页导出" />}
+						<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportWritAll} all page num text="全部导出" />
+						{dataList.length > 0 && (
+						<div style={{
+							float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
+						}}
+						>
+							{`源诚科技为您找到${totals}条信息`}
+						</div>
+						)}
 					</div>
-					)}
-				</div>
-				<Spin visible={loading}>
-					<WritTable
-						stateObj={this.state}
-						dataList={dataList}
-						getData={this.getData}
-						openPeopleModal={this.openPeopleModal}
-						SortTime={this.SortTime}
-						Sort={Sort}
-					/>
-					<div className="yc-pagination">
-						<Pagination
-							total={totals && totals > 1000 ? 1000 : totals}
-							current={current}
-							pageSize={pageSize} // 默认条数
-							pageSizeOptions={['10', '25', '50']}
-							showQuickJumper
-							showSizeChanger
-							onShowSizeChange={this.onShowSizeChange}
-							showTotal={() => `共 ${totals} 条记录`}
-							onChange={(val) => {
-								// 存在数据才允许翻页
-								if (dataList.length > 0) {
-									this.handleChangePage(val);
-								}
-							}}
+					<Spin visible={loading}>
+						<WritTable
+							stateObj={this.state}
+							dataList={dataList}
+							getData={this.getData}
+							openPeopleModal={this.openPeopleModal}
+							SortTime={this.SortTime}
+							Sort={Sort}
 						/>
-					</div>
-					{page === 100 && (
-					<span style={{
-						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
-					}}
-					>
+						<div className="yc-pagination">
+							<Pagination
+								total={totals && totals > 1000 ? 1000 : totals}
+								current={current}
+								pageSize={pageSize} // 默认条数
+								pageSizeOptions={['10', '25', '50']}
+								showQuickJumper
+								showSizeChanger
+								onShowSizeChange={this.onShowSizeChange}
+								showTotal={() => `共 ${totals} 条记录`}
+								onChange={(val) => {
+								// 存在数据才允许翻页
+									if (dataList.length > 0) {
+										this.handleChangePage(val);
+									}
+								}}
+							/>
+						</div>
+						{page === 100 && (
+						<span style={{
+							color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
+						}}
+						>
 					如需更多数据请联系：186-5718-6471
-					</span>
-					)}
-				</Spin>
-			</div>
+						</span>
+						)}
+					</Spin>
+				</div>
+			</ReactDocumentTitle>
 		);
 	}
 }

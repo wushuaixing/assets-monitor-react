@@ -13,6 +13,7 @@ const { Option } = Select;
 export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '账号列表-机构管理';
 		this.state = {
 			searchValue: {},
 			columns: [

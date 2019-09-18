@@ -27,6 +27,7 @@ const dishonstList = [
 class BusinessDebtor extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '债务人-业务管理';
 		this.state = {
 			totals: 0,
 			current: 1, // 当前页

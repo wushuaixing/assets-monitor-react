@@ -25,6 +25,7 @@ const createForm = Form.create;
 class DebtorDetail extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '变更记录-业务管理';
 		const toGetReasonList = (reason) => {
 			try {
 				if (typeof JSON.parse(reason) === 'object') {

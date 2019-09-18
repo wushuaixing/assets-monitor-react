@@ -16,6 +16,7 @@ import './style.scss';
 class HomeRouter extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '首页';
 		this.state = {
 			orgDetail: null,
 			tree: null,
