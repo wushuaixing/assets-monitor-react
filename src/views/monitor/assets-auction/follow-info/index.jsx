@@ -237,11 +237,7 @@ export default class FollowInfo extends React.Component {
 		const {
 			loading, recovery, expend, remark, remindTime, remindWay, pushList, status, addStatus,
 		} = this.state;
-		const {
-			source: {
-				id, index, recovery: _recovery, process,
-			}, onRefresh, onClose,
-		} = this.props;
+		const { source: { id, index, recovery: _recovery }, onRefresh, onClose } = this.props;
 
 		// 未点击 新增跟进记录 直接关闭弹窗
 		if (!addStatus) { onClose(); return false; }
@@ -274,14 +270,14 @@ export default class FollowInfo extends React.Component {
 			}
 		}
 
-		// 未变动校验中。。。
-		if (Object.keys(param).length === 2 && param.monitorId && param.process && toProcess !== 15) {
-			// console.log('未变动', process, toStatus({ process }), _param.process);
-			if ((process === 3 || process === 6) && param.process === 6) {
-				if (onClose) { onClose(); }
-				return true;
-			}
-		}
+		// // 未变动校验中。。。
+		// if (Object.keys(param).length === 2 && param.monitorId && param.process && toProcess !== 15) {
+		// 	// console.log('未变动', process, toStatus({ process }), _param.process);
+		// 	if ((process === 3 || process === 6) && param.process === 6) {
+		// 		if (onClose) { onClose(); }
+		// 		return true;
+		// 	}
+		// }
 
 		// req 阶段
 		if (loading) return false;
