@@ -58,10 +58,10 @@ export default class HeaderMessage extends React.Component {
 			.catch(() => {
 				message.error('服务器出错');
 			});
-	}
+	};
 
 	// 根据单个名字筛选
-	filterByName = (aim, name) => 	aim.filter(item => item.orgName.indexOf(name) !== -1)
+	filterByName = (aim, name) => 	aim.filter(item => item.orgName.indexOf(name) !== -1);
 
 	inputValue = (e) => {
 		const value = e.target.value.trim();
@@ -74,12 +74,12 @@ export default class HeaderMessage extends React.Component {
 			value: value.replace(/\s+/g, ''),
 			selectList: this.filterByName(arr, value),
 		});
-	}
+	};
 
 	// 选择列表
 	selectFilterValue = (val) => {
 		this.handleOnSelect([val]);
-	}
+	};
 
 	handleOnSelect = (info) => {
 		const num = Number(info.join(''));
@@ -114,21 +114,21 @@ export default class HeaderMessage extends React.Component {
 				}
 			});
 		}
-	}
+	};
 
 	// 打开修改密码弹框
 	openModal = () => {
 		this.setState({
 			passwordModalVisible: true,
 		});
-	}
+	};
 
 	// 关闭弹窗
 	onCancel = () => {
 		this.setState({
 			passwordModalVisible: false,
 		});
-	}
+	};
 
 	render() {
 		const {

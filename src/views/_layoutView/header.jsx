@@ -1,11 +1,10 @@
 import React from 'react';
 import { navigate } from '@reach/router';
-
-import HeaderMessage from './headerMessage/header-message';
-import HeaderCenter from './headerCenter/header-center';
 import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo_white.png';
 import { unreadCount } from '@/utils/api/inform';
+import HeaderCenter from './headerCenter/header-center';
+import HeaderMessage from './headerMessage/header-message';
 
 const logoText = '源诚资产监控平台';
 const toStatus = (rule, field) => {
