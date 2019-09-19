@@ -7,7 +7,6 @@ import service from '../service';
 // export const baseUrl = 'http://172.18.255.25:8011';
 
 export const baseUrl = '';
-
 // export const baseUrl = 'http://172.18.255.251:8588';
 // export const baseUrl = 'http://172.18.255.251:18080';
 // export const baseUrl = 'http://172.18.255.251:8588'; // 上传地址
