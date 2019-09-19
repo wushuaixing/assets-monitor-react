@@ -34,7 +34,12 @@ const columns = (props) => {
 			title: '标题',
 			dataIndex: 'title',
 			width: 506,
-			render: (text, record) => (record.url ? linkDom(record.url, text) : '--'),
+			render: (text, record) => {
+				if (record.url || text) {
+					return record.url ? linkDom(record.url, text) : text;
+				}
+				return '--';
+			},
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

@@ -42,7 +42,7 @@ deploy_step:
   tags:
     - font-group-runner
   only:
-    - tags
+  ##  - tags
     - master
   script:
     - eval $(ssh-agent -s)
@@ -51,7 +51,7 @@ deploy_step:
     - chmod 700 ~/.ssh
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
-    - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-manager-new/web
+    - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-monitor/web
 
 # 拷贝
 deploy_step_dev:
@@ -67,5 +67,5 @@ deploy_step_dev:
     - chmod 700 ~/.ssh
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
-    - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-manager-new/web
+    - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-monitor-dev/web
 
