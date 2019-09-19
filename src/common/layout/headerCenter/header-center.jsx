@@ -51,6 +51,7 @@ export default class HeaderMessage extends React.Component {
 					// 清空token
 					cookie.remove('token');
 					navigate('/login');
+					window.location.reload(); // 退出登录刷新页面
 				} else {
 					message.error(res.message);
 				}
@@ -185,6 +186,7 @@ export default class HeaderMessage extends React.Component {
 						</div>
 					</div>
 				</div>
+				{treeList && treeList.length > 0 && (
 				<div className="yc-search-container">
 					<Input
 						className="yc-group-input"
@@ -226,6 +228,7 @@ export default class HeaderMessage extends React.Component {
 						)}
 					</div>
 				</div>
+				)}
 				{/** 修改密码Modal */}
 				{passwordModalVisible && (
 				<PasswordModal
