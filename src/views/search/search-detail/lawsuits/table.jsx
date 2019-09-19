@@ -63,6 +63,11 @@ const toShow = (row, type) => {
 		w.location.href = associates;
 	}
 };
+const dividerType = (row) => {
+	const trial = row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0;
+	const kaiting = row.associates.length > 0 && row.associates[1].url.length > 0 && row.associates[1].url[0].length > 0;
+	return trial || kaiting ? <span className="ant-divider" /> : '';
+};
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
@@ -192,8 +197,10 @@ class BusinessView extends React.Component {
 							)}
 							{row.associates.length > 0 && row.associates[2].url.length > 0 && row.associates[2].url[0].length > 0 && (
 								<span>
-
-									{row.associates[0].url[0].length > 0 || row.associates[1].url[0].length > 0 ? <span className="ant-divider" /> : ''}
+									{
+										// 开庭立案分割线
+										dividerType(row)
+									}
 									<span
 										className="yc-td-header"
 										onClick={() => toShow(row, 2)}

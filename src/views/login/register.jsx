@@ -16,6 +16,7 @@ import {
 import { baseUrl } from '@/utils/api';
 import rsaEncrypt from '@/utils/encrypt';
 import PasswordModal from './passwordModal';
+import { handleRule } from '@/utils';
 import './style.scss';
 
 const verificationCodeImg = `${baseUrl}/yc/open/verificationCode`;
@@ -34,6 +35,7 @@ class Login extends React.Component {
 			codeImg: verificationCodeImg,
 			passwordModalVisible: false,
 			errorTime: '',
+
 		};
 	}
 
@@ -95,6 +97,8 @@ class Login extends React.Component {
 							message.success('登陆成功');
 							cookie.set('token', res.data.token);
 							cookie.set('firstLogin', res.data.firstLogin);
+							const rule = handleRule(res.data.rules);
+
 							// 判断是否是第一次登录
 							if (res.data.firstLogin === true) {
 								navigate('/changepassword');
@@ -102,7 +106,13 @@ class Login extends React.Component {
 								this.setState({
 									loading: false,
 								});
-								navigate('/');
+								if (rule.menu_jkxx) {
+									navigate('/monitor?process=-1');
+								} else if (rule.menu_xxss) {
+									navigate('/search');
+								} else {
+									navigate('/');
+								}
 							}
 						} else {
 							if (res.data && res.data.errorTime > 4) {

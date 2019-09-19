@@ -9,6 +9,7 @@ import clearProcess from '../../../assets/img/img_flowchart.png';
 export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '资产清收流程-监控信息';
 		this.state = {};
 	}
 
