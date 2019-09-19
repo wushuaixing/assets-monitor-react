@@ -33,9 +33,11 @@ export default class HeaderMessage extends React.Component {
 		userInfo().then((res) => {
 			if (res.code === 200) {
 				getData(res.data);
+				console.log(res.data.orgTree, 111);
+
 				this.setState({
 					treeData: res.data,
-					treeList: [res.data.orgTree],
+					treeList: res.data.orgTree ? [res.data.orgTree] : [],
 				});
 			}
 		});
@@ -51,6 +53,7 @@ export default class HeaderMessage extends React.Component {
 					// 清空token
 					cookie.remove('token');
 					navigate('/login');
+					window.location.reload(); // 退出登录刷新页面
 				} else {
 					message.error(res.message);
 				}
@@ -139,8 +142,12 @@ export default class HeaderMessage extends React.Component {
 			passwordModalVisible,
 			value,
 		} = this.state;
-		const loop = tree => tree
+		console.log(treeList);
+
+		const loop = tree => tree && tree.length > 0
 			&& tree.map((item) => {
+				console.log(item);
+
 				if (item.children && item.children.length > 0) {
 					return (
 						<TreeNode key={item.orgId} title={item.orgName}>
@@ -152,7 +159,7 @@ export default class HeaderMessage extends React.Component {
 			});
 
 		return (
-			<div className="yc-header-center">
+			<div className="yc-header-center" style={treeList && treeList.length > 0 ? { height: 491 } : { height: 75 }}>
 				<div className="user-panel-item user-panel-msg clearfix">
 					<div className="g-left">
 						<div className="user-panel-item-text">
@@ -185,6 +192,7 @@ export default class HeaderMessage extends React.Component {
 						</div>
 					</div>
 				</div>
+				{treeList && treeList.length > 0 && (
 				<div className="yc-search-container">
 					<Input
 						className="yc-group-input"
@@ -218,14 +226,15 @@ export default class HeaderMessage extends React.Component {
 									draggable
 									onSelect={this.handleOnSelect}
 									showLine
-									defaultExpandedKeys={[treeList[0].orgId.toString()]}
+									defaultExpandedKeys={treeList && treeList.length > 0 && [treeList[0].orgId.toString()]}
 								>
-									{loop(treeList)}
+									{loop(treeList && treeList.length > 0 && treeList)}
 								</Tree>
 							)
 						)}
 					</div>
 				</div>
+				)}
 				{/** 修改密码Modal */}
 				{passwordModalVisible && (
 				<PasswordModal
