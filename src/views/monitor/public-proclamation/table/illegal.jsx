@@ -24,7 +24,7 @@ const columns = (props) => {
 			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '统一社会信用代码',
-			dataIndex: 'obNumber',
+			dataIndex: 'number',
 			width: 190,
 			render: text => text || '--',
 		}, {

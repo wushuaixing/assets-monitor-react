@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Modal, Button, Icon, Steps, Select, InputNumber, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
+	Modal, Button, Icon, Steps, Select, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
 } from 'antd';
 import { Spin, Button as Btn } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
@@ -46,7 +46,7 @@ const StepDesc = (props) => {
 				remindingTime || remindType ? (
 					<li>
 						{ remindingTime ? `提醒日期：${new Date(remindingTime * 1000).format('yyyy-MM-dd (早上10点)')}； ` : null}
-						{ remindType ? `提醒方式：${remindTypeContent(remindType)}${remindMobilesContent ? `(${remindMobilesContent})` : null}` : null}
+						{ remindType ? `提醒方式：${remindTypeContent(remindType)}${remindMobilesContent ? `(${remindMobilesContent})` : ''}` : ''}
 					</li>
 				) : null
 			}
@@ -70,10 +70,19 @@ const toStatus = (source) => {
 	if (process === 0 || process === 3 || process === 6 || process === 12 || process === 15) return 6;
 	return process;
 };
+
+// 跟进记录 remindType
+const remindType = (item) => {
+	if (item.length === 2) return 3;
+	if (item.indexOf('email') > -1) return 2;
+	if (item.indexOf('system') > -1) return 1;
+	return '';
+};
+
 export default class FollowInfo extends React.Component {
 	constructor(props) {
 		super(props);
-
+		const { source: { process } } = props;
 		this.state = {
 			addStatus: false,
 			loading: false,
@@ -87,7 +96,7 @@ export default class FollowInfo extends React.Component {
 			remindTime: '',
 			remindWay: '',
 			pushList: [],
-			status: toStatus(props.source),
+			status: process === 0 ? toStatus(props.source) : '',
 			// 新增推送人
 			add_name: '',
 			add_type: 0,
@@ -201,8 +210,17 @@ export default class FollowInfo extends React.Component {
 				const { code } = res;
 				if (code === 200) {
 					message.success('新增推送人成功！');
-					this.setState({ loadingChild: false, add_name: '', add_content: '' });
-					this.toGetPushList(true);
+					const { pushList, dataSource } = this.state;
+					dataSource.push(res.data);
+					pushList.push(res.data.id);
+					this.setState({
+						dataSource,
+						loadingChild: false,
+						add_name: '',
+						add_content: '',
+						pushList,
+					});
+					// this.toGetPushList(true);
 				} else {
 					this.setState({ loadingChild: false });
 					message.error(res.message || '网络异常请稍后再试！');
@@ -217,23 +235,18 @@ export default class FollowInfo extends React.Component {
 	// 新增推送信息
 	handleProcessSave =(toProcess) => {
 		const {
-			loading, recovery, expend, remark, remindTime, remindWay, pushList, status,
+			loading, recovery, expend, remark, remindTime, remindWay, pushList, status, addStatus,
 		} = this.state;
-		const {
-			source: {
-				id, index, recovery: _recovery, process,
-			}, onRefresh, onClose,
-		} = this.props;
+		const { source: { id, index, recovery: _recovery }, onRefresh, onClose } = this.props;
 
-		if (loading) return false;
-		const remindType = (item) => {
-			if (item.length === 2) return 3;
-			if (item.indexOf('email') > -1) return 2;
-			if (item.indexOf('mobile') > -1) return 1;
-			return '';
-		};
-		let _param;
-		const param = {
+		// 未点击 新增跟进记录 直接关闭弹窗
+		if (!addStatus) { onClose(); return false; }
+
+
+		const param = toProcess === 15 ? {
+			monitorId: id,
+			process: 15,
+		} : clearEmpty({
 			monitorId: id,
 			process: status,
 			recovery,
@@ -242,25 +255,34 @@ export default class FollowInfo extends React.Component {
 			remindingTime: remindTime ? new Date(remindTime).format('yyyy-MM-dd') : '',
 			remindSetIdList: pushList.length > 0 ? pushList : '',
 			remindType: remindType(remindWay),
-		};
-		// console.log(clearEmpty(param));
-		_param = clearEmpty(param);
-		if (toProcess === 15) {
-			_param = {
-				monitorId: id,
-				process: 15,
-			};
-		} else if (Object.keys(_param).length === 2 && _param.monitorId && _param.process) {
-			// console.log('未变动', process, toStatus({ process }), _param.process);
-			if (toStatus({ process }) === _param.process) {
-				if (onClose) { onClose(); }
-				return true;
+		});
+
+		// 字段校验
+		if (toProcess !== 15) {
+			if (!param.remindingTime && param.remindType) {
+				return message.error('已选择提醒方式，提醒时间不能为空', 2);
+			}
+			if (param.remindingTime && !param.remindType) {
+				return message.error('已填写提醒时间，提醒方式不能为空', 2);
+			}
+			if ((param.remindType === 3 || param.remindType === 2) && !param.remindSetIdList) {
+				return message.error('当推送方式勾选，短信/邮件，推送人不能为空', 2);
 			}
 		}
 
-		// return;
+		// // 未变动校验中。。。
+		// if (Object.keys(param).length === 2 && param.monitorId && param.process && toProcess !== 15) {
+		// 	// console.log('未变动', process, toStatus({ process }), _param.process);
+		// 	if ((process === 3 || process === 6) && param.process === 6) {
+		// 		if (onClose) { onClose(); }
+		// 		return true;
+		// 	}
+		// }
+
+		// req 阶段
+		if (loading) return false;
 		this.setState({ loading: true });
-		processSave(_param)
+		processSave(param)
 			.then((res) => {
 				const { code } = res;
 				if (code === 200) {
@@ -308,9 +330,11 @@ export default class FollowInfo extends React.Component {
 
 	render() {
 		const {
-			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark,
+			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList,
 		} = this.state;
-		const { visible, onClose, source: { process } } = this.props;
+		const {
+			visible, onClose, source: { process }, source,
+		} = this.props;
 		const data = this.state;
 		const plainOptions = [
 			{ label: '系统提醒', value: 'system' },
@@ -326,6 +350,13 @@ export default class FollowInfo extends React.Component {
 				} else {
 					this.onChangeValue(val, field);
 				}
+			}),
+		});
+
+		const getFieldIE = field => ({
+			value: data[field],
+			[global.GLOBAL_MEIE_BROWSER ? 'onchange' : 'oninput']: ((val) => {
+				this.onChangeValue(val, field);
 			}),
 		});
 
@@ -368,13 +399,11 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">收入金额(元)：</div>
 										<div className="list-item-content">
-											<InputNumber
-												step={0.01}
+											<Input
 												style={{ width: '100%' }}
 												{...getField('recovery')}
 												placeholder="请输入收入金额"
-												min={1}
-												max={999999999999}
+												maxlength={10}
 												onBlur={() => document.activeElement.blur()}
 											/>
 										</div>
@@ -382,13 +411,11 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">支出金额(元)：</div>
 										<div className="list-item-content">
-											<InputNumber
-												step={0.01}
+											<Input
 												style={{ width: '100%' }}
 												{...getField('expend')}
 												placeholder="请输入支出金额"
-												min={1}
-												max={999999999999}
+												maxlength={10}
 												onBlur={() => document.activeElement.blur()}
 											/>
 										</div>
@@ -396,7 +423,7 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">备注：</div>
 										<div className="list-item-content">
-											<Input type="textarea" rows={5} {...getField('remark')} pleaceholder="请输入" />
+											<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />
 											<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>
 										</div>
 									</li>
@@ -406,6 +433,12 @@ export default class FollowInfo extends React.Component {
 											<DatePicker
 												{...getField('remindTime')}
 												getCalendarContainer={getContainer}
+												disabledDate={(time) => {
+													if (!time) {
+														return false;
+													}
+													return time.getTime() <= new Date().getTime();
+												}}
 											/>
 										</div>
 									</li>
@@ -494,7 +527,15 @@ export default class FollowInfo extends React.Component {
 															{...getField('add_content')}
 															onBlur={this.onAddContentBlurEvent}
 														/>
-														<Button style={{ width: 66 }} className="item-class" loading={loadingChild} onClick={this.handlePushSave}>新增</Button>
+														<Button
+															style={{ width: 66 }}
+															className="item-class"
+															loading={loadingChild}
+															onClick={this.handlePushSave}
+															disabled={pushList.length >= 3}
+														>
+															{'保存'}
+														</Button>
 													</p>
 													<p style={{ overflow: 'hidden' }}>
 														<div className="yc-follow-line" style={{ margin: '3px 0' }} />
@@ -523,6 +564,7 @@ export default class FollowInfo extends React.Component {
 									className="follow-add-title cursor-pointer"
 									onClick={() => this.setState({
 										addStatus: true,
+										status: toStatus(source),
 									})}
 								>
 									<Icon type="plus-circle" />
@@ -556,7 +598,7 @@ export default class FollowInfo extends React.Component {
 																	<Icon type="delete" className="list-step-title-icon" />
 																</PopConfirm>,
 																<span
-																	className={`list-step-title-mark-status mark-status-${process}`}
+																	className={`list-step-title-mark-status mark-status-${item.process}`}
 																>
 																	{ProcessTran(item.process)}
 																</span>,

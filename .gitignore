@@ -6,5 +6,5 @@ package-lock.json
 yarn.lock
 .DS_Store
 src/assets/旧平台图片库
-src/utils/api/index
+src/utils/api/index.js
 jsconfig.json
