@@ -31,8 +31,8 @@ const dataSource = (rule) => {
 			status: rule.menu_sy,
 		},
 		{
-			id: 2,
-			name: '监控信息',
+			id: 21,
+			name: '资产挖掘',
 			url: '/monitor',
 			status: rule.menu_jkxx,
 			dot: false,
@@ -77,6 +77,12 @@ const dataSource = (rule) => {
 			],
 		},
 		{
+			id: 22,
+			name: '风险监控',
+			url: '/risk',
+			status: true,
+		},
+		{
 			id: 3,
 			name: '业务管理',
 			url: '/business',
@@ -97,12 +103,12 @@ const dataSource = (rule) => {
 				},
 			],
 		},
-		// {
-		// 	id: 4,
-		// 	name: '企业查询',
-		// 	url: '/company',
-		// 	status: rule.menu_qycx,
-		// },
+		{
+			id: 4,
+			name: '企业查询',
+			url: '/company',
+			status: false,
+		},
 		{
 			id: 5,
 			name: '信息搜索',
