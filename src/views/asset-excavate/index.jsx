@@ -7,16 +7,15 @@ import './style.scss';
 // 主要内容模块
 import Assets from './assets-auction'; // 资产拍卖
 import Subrogation from './subrogation'; // 代位权
+import LandData from './land-data'; // 土地数据
+import Tender from './tender-bid'; // 招标中标
 import Financial from './financial-assets'; // 金融资产
 import Public from './public-proclamation'; // 公示公告
 import Attention from './my-attention'; // 我的关注
 import ClearProcess from './assets-auction/clearProcess';// 资产清收流程
 import Star from '@/assets/img/icon/btn_attention_h.png';
 
-
-const publicCom = () => (
-	<div>暂未开发</div>
-);
+const noPage = () => <div>暂未开发</div>;
 // 获取展示配置
 const toGetRuth = (rules) => {
 	const rule = rules.children;
@@ -44,19 +43,29 @@ const toGetRuth = (rules) => {
 		{
 			id: 10,
 			name: '土地数据',
-			url: '/monitor/3',
+			url: '/monitor/land',
 			paramUrl: '',
 			status: true,
 			number: 0,
 			dot: false,
-			components: publicCom,
+			components: LandData,
+		},
+		{
+			id: 13,
+			name: '招标中标',
+			url: '/monitor/tender',
+			paramUrl: '',
+			status: true,
+			number: 0,
+			dot: false,
+			components: Tender,
 		},
 		{
 			id: 6,
 			name: '公示公告',
 			url: '/monitor/public',
 			paramUrl: '',
-			status: rule.gsgg_bidding || rule.gsgg_epb || rule.gsgg_tax,
+			status: (rule.gsgg_bidding || rule.gsgg_epb || rule.gsgg_tax) && false,
 			number: 0,
 			dot: false,
 			components: Public,
@@ -79,7 +88,7 @@ const toGetRuth = (rules) => {
 			status: true,
 			number: 0,
 			dot: false,
-			components: publicCom,
+			components: noPage,
 		},
 		{
 			id: 12,
@@ -89,7 +98,7 @@ const toGetRuth = (rules) => {
 			status: true,
 			number: 0,
 			dot: false,
-			components: publicCom,
+			components: noPage,
 		},
 
 	];
@@ -180,8 +189,6 @@ const monitorRouter = (props) => {
 			<MonitorMain path="/*" rule={rule} />
 			<Attention path="/monitor/attention/*" rule={rule} />
 			<ClearProcess path="/monitor/clearProcess/*" />
-			{/* <BusinessDetail path="/monitor/business/detail/*" parent="监控信息" parentUrl="/" /> */}
-			{/* <DebtorDetail path="/business/debtor/detail/*" /> */}
 		</Router>
 	);
 };
