@@ -27,7 +27,7 @@ const toGetConfig = () => {
 			dot: false,
 			number: 0,
 			showNumber: false,
-			status: true,
+			status: false,
 		},
 		{
 			id: 2,
@@ -43,7 +43,7 @@ const toGetConfig = () => {
 			number: 0,
 			dot: false,
 			showNumber: false,
-			status: true,
+			status: false,
 		},
 		{
 			id: 4,
@@ -51,7 +51,7 @@ const toGetConfig = () => {
 			dot: false,
 			number: 0,
 			showNumber: false,
-			status: true,
+			status: false,
 		},
 		{
 			id: 5,
@@ -67,7 +67,7 @@ const toGetConfig = () => {
 			number: 0,
 			dot: false,
 			showNumber: false,
-			status: true,
+			status: false,
 		},
 	];
 	return base.filter(item => item.status);
@@ -77,7 +77,7 @@ class BusinessRisk extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: 1, // 切换id
+			sourceType: 2, // 切换id
 			loading: false,
 			manage: false,
 			tabConfig: toGetConfig(),
