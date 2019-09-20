@@ -6,8 +6,8 @@ import service from '../service';
 // export const baseUrl = 'http://172.18.255.141';
 // export const baseUrl = 'http://172.18.255.25:8011';
 
-export const baseUrl = '';
-// export const baseUrl = 'http://ywgl.yczcjk.com';
+// export const baseUrl = '';
+export const baseUrl = 'http://ywgl.yczcjk.com';
 
 // export const baseUrl = 'http://172.18.255.251:8588';
 // export const baseUrl = 'http://172.18.255.251:18080';

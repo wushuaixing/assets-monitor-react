@@ -7,6 +7,7 @@ import './style.scss';
 // 主要内容模块
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
+import BusinessRisk from './businessRisk';
 import Attention from '../asset-excavate/my-attention'; // 我的关注
 
 import Star from '@/assets/img/icon/btn_attention_h.png';
@@ -38,12 +39,13 @@ const toGetRuth = (rules = {}) => {
 		{
 			id: 10,
 			name: '经营风险',
-			url: '/risk/1',
+			url: '/risk/businessRisk',
 			paramUrl: '',
 			status: true,
 			number: 0,
 			dot: false,
-			components: () => <div>暂未开发</div>,
+			components: BusinessRisk,
+			// components: () => <div>暂未开发</div>,
 		},
 	];
 	return source.filter(item => item.status);
@@ -98,6 +100,7 @@ class RiskMonitor extends React.Component {
 	render() {
 		const { source } = this.state;
 		const { rule } = this.props;
+
 		return (
 			<React.Fragment>
 				<Tabs

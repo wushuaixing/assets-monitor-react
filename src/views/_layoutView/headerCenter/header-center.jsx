@@ -33,8 +33,6 @@ export default class HeaderMessage extends React.Component {
 		userInfo().then((res) => {
 			if (res.code === 200) {
 				getData(res.data);
-				console.log(res.data.orgTree, 111);
-
 				this.setState({
 					treeData: res.data,
 					treeList: res.data.orgTree ? [res.data.orgTree] : [],
@@ -142,12 +140,9 @@ export default class HeaderMessage extends React.Component {
 			passwordModalVisible,
 			value,
 		} = this.state;
-		console.log(treeList);
 
 		const loop = tree => tree && tree.length > 0
 			&& tree.map((item) => {
-				console.log(item);
-
 				if (item.children && item.children.length > 0) {
 					return (
 						<TreeNode key={item.orgId} title={item.orgName}>
