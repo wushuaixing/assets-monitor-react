@@ -1,59 +1,52 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
-import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
-import { linkDom } from '@/utils';
+import { Attentions } from '@/common/table';
+import api from '@/utils/api/monitor-info/finance';
+import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
+import { SortVessel } from '@/common/table';
+// import { Button } from '@/common';
+// import { floatFormat } from '@/utils/format';
 
 // 获取表格配置
 const columns = (props) => {
-	const { normal, onRefresh, noSort } = props;
-	const { onSortChange, sortField, sortOrder } = props;
+	const {
+		normal, onRefresh, onSortChange, sortField, sortOrder, noSort,
+	} = props;
 	const sort = {
 		sortField,
 		sortOrder,
 	};
+
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? '发布日期'
-				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
-			dataIndex: 'publishDate',
-			width: 115,
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+			title: (noSort ? '资产信息'
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="更新时间" {...sort}>资产信息</SortVessel>),
+			width: 274,
+			render: (text, row) => AssetsInfo(text, row, true),
 		}, {
-			title: '企业',
-			dataIndex: 'obligorName',
-			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			title: '匹配原因',
+			dataIndex: 'reason',
+			width: 367,
+			render: MatchingReason,
 		}, {
-			title: '起诉法院',
-			dataIndex: 'court',
-			width: 180,
-			render: text => text || '--',
-		}, {
-			title: '标题',
-			dataIndex: 'title',
-			width: 506,
-			render: (text, record) => (record.url ? linkDom(record.url, text) : '--'),
-		}, {
-			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
-			width: 90,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			title: (noSort ? '拍卖信息'
+				: <SortVessel field="START" onClick={onSortChange} mark="开拍时间" {...sort}>拍卖信息</SortVessel>),
+			width: 392,
+			render: AuctionInfo,
 		}, {
 			title: '操作',
-			width: 55,
+			width: 80,
 			unNormal: true,
-			className: 'tAlignCenter_important',
+			className: 'tAlignCenter_important yc-assets-auction-action',
 			render: (text, row, index) => (
 				<Attentions
 					text={text}
 					row={row}
-					single
 					onClick={onRefresh}
-					api={row.isAttention ? unFollowSingle : followSingle}
 					index={index}
+					api={row.isAttention ? api.unFollowSingleBid : api.followSingleBid}
+					single
 				/>
 			),
 		}];
@@ -75,18 +68,6 @@ export default class TableView extends React.Component {
 		}
 	}
 
-	// 行点击操作
-	toRowClick = (record, index) => {
-		const { id, isRead } = record;
-		const { onRefresh } = this.props;
-		if (!isRead) {
-			readStatus({ idList: [id] }).then((res) => {
-				if (res.code === 200) {
-					onRefresh({ id, isRead: !isRead, index }, 'isRead');
-				}
-			});
-		}
-	};
 
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {
@@ -112,11 +93,12 @@ export default class TableView extends React.Component {
 			<React.Fragment>
 				<Table
 					{...rowSelection}
+					rowClassName={() => 'yc-assets-auction-table-row'}
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
+					// rowClassName="yc-assets-auction-table-row"
 				/>
 				<div className="yc-table-pagination">
 					<Pagination

@@ -13,20 +13,24 @@
       font-size: 12px;
     }
   }
-  .yc-more-option{
+
+  .yc-more-option {
     height: 34px;
     font-size: 12px;
     line-height: 34px;
     margin-left: 20px;
     color: $fontColor-base-1;
-    &:hover{
+
+    &:hover {
       color: $fontColor-base;
     }
   }
-  .yc-query-item-btn{
+
+  .yc-query-item-btn {
     float: right;
     margin-right: 0;
-    button{
+
+    button {
       margin-left: 5px;
     }
   }

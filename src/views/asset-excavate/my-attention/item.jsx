@@ -4,8 +4,8 @@ import Table0010 from '../assets-auction/table-intact';
 import Table0020 from '../subrogation/table-intact';
 import Table0031 from '../financial-assets/table/table-biding';
 import Table0032 from '../financial-assets/table/table-publicity';
-import Table0040 from '../lawsuits-monitor/table-intact';
-import Table0050 from '../bankruptcy/table-intact';
+import Table0040 from '../../risk-mointor/lawsuits-monitor/table-intact';
+import Table0050 from '../../risk-mointor/bankruptcy/table-intact';
 import Table0060 from '../public-proclamation/table-intact';
 
 const TableItem	= (props) => {

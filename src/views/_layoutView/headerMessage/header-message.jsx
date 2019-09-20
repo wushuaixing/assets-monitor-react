@@ -43,7 +43,7 @@ export default class HeaderMessage extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
 	skip= (obligorId, id, operateType) => {
 		const params = {
@@ -84,7 +84,7 @@ export default class HeaderMessage extends React.Component {
 				message.warning(res.message);
 			}
 		});
-	}
+	};
 
 	// all
 	allRead = () => {
@@ -99,7 +99,7 @@ export default class HeaderMessage extends React.Component {
 				}
 			});
 		}
-	}
+	};
 
 	render() {
 		const { dataList, loading } = this.state;

@@ -43,8 +43,8 @@ deploy_step:
   tags:
     - font-group-runner
   only:
-    - tags
-    - master
+   - tags
+   ## - master
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null

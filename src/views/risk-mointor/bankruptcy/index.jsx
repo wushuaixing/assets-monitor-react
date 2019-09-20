@@ -1,56 +1,37 @@
 import React from 'react';
+import Query from './query';
+import Table from './table';
 import { Modal, message } from 'antd';
-import TableView from './table';
-import QueryView from './queryView';
+import { Button, Download, Spin } from '@/common';
 import {
-	Button, Tabs, Spin, Download,
-} from '@/common';
-import {
-	infoCount, infoList, readStatus, attention, exportList,
-} from '@/utils/api/monitor-info/monitor';
-import { changeURLArg, clearEmpty } from '@/utils';
-import { fileExport } from '@/views/monitor/table-common';
+	infoList, readStatus, exportList, follow,
+} from '@/utils/api/monitor-info/bankruptcy';
+import './style.scss';
+import { fileExport } from '@/views/asset-excavate/table-common';
+import { clearEmpty } from '@/utils';
+import { unReadCount } from '@/utils/api/monitor-info';
+
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '代位权-监控信息';
+		document.title = '企业破产重组-监控信息';
 		this.state = {
-			sourceType: 1,
 			isRead: 'all',
 			dataSource: '',
 			current: 1,
 			total: 0,
 			loading: true,
 			manage: false,
-			tabConfig: [
-				{
-					id: 1,
-					name: '立案信息',
-					dot: false,
-					number: 0,
-					showNumber: true,
-				},
-				{
-					id: 2,
-					name: '开庭公告',
-					number: 0,
-					dot: false,
-					showNumber: true,
-				},
-			],
 		};
+		this.unReadCount = false;
 		this.condition = {};
 		this.selectRow = [];
 	}
 
-	componentWillMount() {
-		const { tabConfig } = this.state;
-		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
-		this.setState({
-			sourceType,
-		});
-		this.onQueryChange({}, sourceType);
+	componentDidMount() {
+		this.onUnReadCount();
+		this.onQueryChange({});
 	}
 
 	// 清除排序状态
@@ -59,64 +40,25 @@ export default class Subrogation extends React.Component {
 		this.condition.sortOrder = '';
 	};
 
-	// 获取统计信息
-	toInfoCount=() => {
-		infoCount(clearEmpty(this.condition)).then((res) => {
-			if (res.code === 200) {
-				const { tabConfig } = this.state;
-				let _tabConfig = tabConfig;
-				res.data.forEach((item) => {
-					if (item.sourceType === 1 || item.sourceType === 2) {
-						_tabConfig = _tabConfig.map((itemChild) => {
-							if (itemChild.id === item.sourceType) {
-								return {
-									id: itemChild.id,
-									name: itemChild.name,
-									number: item.count,
-									dot: Boolean(item.unreadCount),
-									showNumber: true,
-								};
-							}
-							return itemChild;
-						});
-					}
-				});
-				this.setState({
-					tabConfig: _tabConfig,
-				});
-			}
-		});
-	};
-
 	// 切换列表类型
 	handleReadChange=(val) => {
-		const { tabConfig } = this.state;
-		const _tabConfig = tabConfig.map((item) => {
-			const _item = Object.assign({}, item);
-			_item.number = 0;
-			_item.dot = false;
-			_item.showNumber = true;
-			return _item;
-		});
-		this.setState({ isRead: val, tabConfig: _tabConfig });
+		this.setState({ isRead: val });
 		this.onQueryChange(this.condition, '', val, 1);
 	};
 
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		const { sourceType, tabConfig } = this.state;
-		if (tabConfig[sourceType - 1].dot) {
+		if (this.unReadCount) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					readStatus({
-						sourceType, type: 1,
-					}).then((res) => {
+					readStatus({}).then((res) => {
 						if (res.code === 200) {
 							_this.onQueryChange();
+							_this.onUnReadCount();
 						}
 					});
 				},
@@ -149,7 +91,7 @@ export default class Subrogation extends React.Component {
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					attention({ idList }, true).then((res) => {
+					follow({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
 							const _dataSource = dataSource.map((item) => {
@@ -161,7 +103,6 @@ export default class Subrogation extends React.Component {
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: true,
 							});
 						}
 					});
@@ -184,25 +125,14 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
-	// sourceType变化
-	onSourceType=(val) => {
-		this.setState({
-			sourceType: val,
-			dataSource: '',
-			current: 1,
-			total: '',
-			isRead: 'all',
+	// 查询是否有未读消息
+	onUnReadCount=() => {
+		unReadCount().then((res) => {
+			const { data, code } = res;
+			if (code === 200) {
+				this.unReadCount = data.bankruptcyCount;
+			}
 		});
-		this.toClearSortStatus();
-		this.onQueryChange('', val, 'all', 1);
-		window.location.href = changeURLArg(window.location.href, 'process', val);
-	};
-
-	// 当前页数变化
-	onPageChange=(val) => {
-		const { manage } = this.state;
-		this.selectRow = [];
-		this.onQueryChange('', '', '', val, manage);
 	};
 
 	// 排序触发
@@ -212,43 +142,44 @@ export default class Subrogation extends React.Component {
 		this.onQueryChange(this.condition, '', '', 1);
 	};
 
+	// 当前页数变化
+	onPageChange=(val) => {
+		const { manage } = this.state;
+		this.selectRow = [];
+		this.onQueryChange('', '', '', val, manage);
+	};
+
 	// 查询条件变化
 	onQuery =(con) => {
 		this.toClearSortStatus();
 		this.onQueryChange(con, '', '', 1);
 	};
 
-	// 发起查询请求
+	// 查询条件变化
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
-		const { sourceType, isRead, current } = this.state;
+		const { isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign({}, con || this.condition, {
-			sourceType: _sourceType || sourceType,
 			page: page || current,
-			type: 1,
-			num: 10,
 		});
 		if (__isRead === 'all') delete this.condition.isRead;
-		if (__isRead === 'unread') this.condition.isRead = 0;
+		if (__isRead === 'else') this.condition.isRead = 0;
+		delete this.condition.sourceType;
 		this.setState({
 			loading: true,
 			manage: _manage || false,
 		});
-		this.toInfoCount();
 		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
-					loading: false,
-				});
-			} else {
-				message.error(res.message || '网络请求异常请稍后再试！');
-				this.setState({
-					loading: false,
 				});
 			}
+			this.setState({
+				loading: false,
+			});
 		}).catch(() => {
 			this.setState({
 				loading: false,
@@ -258,7 +189,7 @@ export default class Subrogation extends React.Component {
 
 	render() {
 		const {
-			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
+			isRead, dataSource, current, total, manage, loading,
 		} = this.state;
 		const tableProps = {
 			manage,
@@ -266,25 +197,16 @@ export default class Subrogation extends React.Component {
 			current,
 			total,
 			onRefresh: this.onRefresh,
-			selectRow: this.selectRow,
 			onSelect: val => this.selectRow = val,
+			selectRow: this.selectRow,
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-
 		return (
 			<div className="yc-assets-auction">
-				{/* 查询模块 */}
-				<QueryView onQueryChange={this.onQuery} />
-				{/* tab切换 */}
-				<Tabs.Simple
-					onChange={this.onSourceType}
-					source={tabConfig}
-					field="process"
-				/>
-				{/* 操作栏 */}
+				<Query onQueryChange={this.onQuery} />
 				{
 					!manage ? (
 						<div className="assets-auction-action">
@@ -294,30 +216,30 @@ export default class Subrogation extends React.Component {
 								title="全部"
 							/>
 							<Button
-								active={isRead === 'unread'}
-								onClick={() => this.handleReadChange('unread')}
+								active={isRead === 'else'}
+								onClick={() => this.handleReadChange('else')}
 								title="只显示未读"
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							<Download condition={() => this.condition} api={exportList} all text="一键导出" style={{ float: 'right' }} />
 
-							<Download
-								all
-								text="一键导出"
-								condition={() => this.condition}
-								api={exportList}
-								style={{ float: 'right' }}
-							/>
+							{/* <Button onClick={() => this.handleExport('all')} > */}
+							{/* <span className="yc-export-img" /> */}
+							{/* <span> 一键导出</span> */}
+							{/* </Button> */}
 						</div>
 					) : (
 						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
-								text="导出"
-								field="idList"
-								api={exportList}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
+								api={exportList}
+								field="idList"
+								text="导出"
 							/>
+
+							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });
@@ -328,11 +250,9 @@ export default class Subrogation extends React.Component {
 						</div>
 					)
 				}
-				{/* 表格数据展示模块  */}
 				<Spin visible={loading}>
-					<TableView {...tableProps} sourceType={sourceType} />
+					<Table {...tableProps} />
 				</Spin>
-
 			</div>
 		);
 	}

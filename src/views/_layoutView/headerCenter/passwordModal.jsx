@@ -225,7 +225,7 @@ class ChangeWorldModal extends React.PureComponent {
 		setTimeout(() => {
 			onCancel();
 		}, 0);
-	}
+	};
 
 	// 确认修改密码
 	handleOk = () => {
@@ -291,7 +291,7 @@ class ChangeWorldModal extends React.PureComponent {
 				}
 			});
 		});
-	}
+	};
 
 	render() {
 		const { passwordModalVisible, form: { getFieldProps } } = this.props;

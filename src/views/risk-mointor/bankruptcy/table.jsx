@@ -1,17 +1,13 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
-import {
-	ReadStatus, Attentions, TitleIcon, SortVessel,
-} from '@/common/table';
-import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
-import { linkDom, timeStandard } from '@/utils';
-import { aboutLink, caseInfo } from '../table-common';
+import { ReadStatus, Attentions, SortVessel } from '@/common/table';
+import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
+import { linkDom } from '@/utils';
 
 // 获取表格配置
 const columns = (props) => {
-	const {
-		normal, onRefresh, sourceType, onSortChange, sortField, sortOrder, noSort,
-	} = props;
+	const { normal, onRefresh, noSort } = props;
+	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
 		sortField,
 		sortOrder,
@@ -19,54 +15,54 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? '立案日期'
-				: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
-			dataIndex: 'larq',
-			width: 111,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			title: (noSort ? '发布日期'
+				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+			dataIndex: 'publishDate',
+			width: 115,
+			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
 		}, {
-			title: (noSort ? '原告'
-				: <SortVessel field="YG" onClick={onSortChange} {...sort}>原告</SortVessel>),
-			dataIndex: 'yg',
-			render: text => text || '--',
+			title: '企业',
+			dataIndex: 'obligorName',
+			width: 200,
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
-			title: <TitleIcon title="被告" tooltip="我行债务人" />,
-			dataIndex: 'bg',
-			render: (text, row) => (row.isDeleted ? text : linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text)),
-		}, {
-			title: '法院',
+			title: '起诉法院',
 			dataIndex: 'court',
+			width: 180,
 			render: text => text || '--',
 		}, {
-			title: '案号',
-			dataIndex: 'ah',
-			render: caseInfo,
-		}, {
-			title: '案由',
-			dataIndex: 'anyou',
-			sourceType: 1,
-			render: text => text || '--',
-		}, {
-			title: '关联信息',
-			dataIndex: 'associatedInfo',
-			className: 'tAlignCenter_important min-width-80',
-			render: aboutLink,
+			title: '标题',
+			dataIndex: 'title',
+			width: 506,
+			render: (text, record) => {
+				if (record.url || text) {
+					return record.url ? linkDom(record.url, text) : text;
+				}
+				return '--';
+			},
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'createTime',
-			width: 111,
-			render: value => timeStandard(value),
+			width: 90,
+			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
 		}, {
 			title: '操作',
+			width: 55,
 			unNormal: true,
-			width: 60,
 			className: 'tAlignCenter_important',
-			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
+			render: (text, row, index) => (
+				<Attentions
+					text={text}
+					row={row}
+					single
+					onClick={onRefresh}
+					api={row.isAttention ? unFollowSingle : followSingle}
+					index={index}
+				/>
+			),
 		}];
-	// <a href={url} className="click-link">{text || '--'}</a>
-	const base = defaultColumns.filter(item => item.sourceType !== sourceType);
-	return normal ? base.filter(item => !item.unNormal) : base;
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
 export default class TableView extends React.Component {
@@ -110,9 +106,7 @@ export default class TableView extends React.Component {
 		const {
 			total, current, dataSource, manage, onPageChange,
 		} = this.props;
-		const {
-			selectedRowKeys,
-		} = this.state;
+		const { selectedRowKeys } = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,

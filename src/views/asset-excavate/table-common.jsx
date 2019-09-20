@@ -89,7 +89,6 @@ export const caseInfo = (content, row) => {
 	return <span className="click-link" onClick={toClick}>{content}</span>;
 };
 
-
 // 导出按钮& 【一键导出】
 export const fileExport = (api, condition, other = {}, type) => {
 	const _condition = Object.assign({}, condition, other, {

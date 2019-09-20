@@ -8,7 +8,7 @@ import { processSave } from '@/utils/api/monitor-info/assets-follow';
 
 import {
 	AssetsInfo, MatchingReason, AuctionInfo,
-} from '@/views/monitor/assets-auction/tableComponents';
+} from '@/views/asset-excavate/assets-auction/tableComponents';
 import { Button } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';

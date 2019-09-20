@@ -1,62 +1,25 @@
 import React from 'react';
 import { navigate } from '@reach/router';
-import './style.scss';
 import Router from '@/utils/Router';
 import { Tabs, Button } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
-
+import './style.scss';
 // 主要内容模块
-import Assets from './assets-auction';
-import Subrogation from './subrogation';
-import Financial from './financial-assets';
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
-import Public from './public-proclamation';
-// 我的关注
-import Attention from './my-attention';
-// 资产清收流程
-import ClearProcess from './assets-auction/clearProcess';
+import Attention from '../asset-excavate/my-attention'; // 我的关注
+
 import Star from '@/assets/img/icon/btn_attention_h.png';
 
 // 获取展示配置
-const toGetRuth = (rules) => {
-	const rule = rules.children;
+const toGetRuth = (rules = {}) => {
+	const rule = rules.children || {};
 	const source = [
-		{
-			id: 1,
-			name: '资产拍卖',
-			url: '/monitor',
-			paramUrl: '?process=-1',
-			status: rule.jkxxzcpm,
-			number: 0,
-			dot: false,
-			components: Assets,
-		},
-		{
-			id: 2,
-			name: '代位权',
-			url: '/monitor/subrogation',
-			status: rule.jkxxdwq,
-			paramUrl: '',
-			number: 0,
-			dot: false,
-			components: Subrogation,
-		},
-		{
-			id: 3,
-			name: '金融资产',
-			url: '/monitor/financial',
-			status: rule.jkxxjrzcgsxm || rule.jkxxjrzcjjxm,
-			paramUrl: '',
-			number: 0,
-			dot: false,
-			components: Financial,
-		},
 		{
 			id: 4,
 			name: '涉诉监控',
-			url: '/monitor/lawsuits',
-			status: rule.jkxxssjk,
+			url: '/risk',
+			status: rule.jkxxssjk || true,
 			paramUrl: '',
 			number: 0,
 			dot: false,
@@ -65,29 +28,29 @@ const toGetRuth = (rules) => {
 		{
 			id: 5,
 			name: '企业破产重组',
-			url: '/monitor/bankruptcy',
-			status: rule.jkxxpccz,
+			url: '/risk/bankruptcy',
+			status: rule.jkxxpccz || true,
 			paramUrl: '',
 			number: 0,
 			dot: false,
 			components: Bankruptcy,
 		},
 		{
-			id: 6,
-			name: '公示公告',
-			url: '/monitor/public',
+			id: 10,
+			name: '经营风险',
+			url: '/risk/1',
 			paramUrl: '',
-			status: rule.gsgg_bidding || rule.gsgg_epb || rule.gsgg_tax,
+			status: true,
 			number: 0,
 			dot: false,
-			components: Public,
+			components: () => <div>暂未开发</div>,
 		},
 	];
 	return source.filter(item => item.status);
 };
 
 // 主界面
-class MonitorMain extends React.Component {
+class RiskMonitor extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -97,16 +60,17 @@ class MonitorMain extends React.Component {
 	}
 
 	componentWillMount() {
-		this.onUnReadCount();
-		this.setUnReadCount = setInterval(() => {
-			this.onUnReadCount();
-		}, 30 * 1000);
+		// this.onUnReadCount();
+		// this.setUnReadCount = setInterval(() => {
+		// 	this.onUnReadCount();
+		// }, 30 * 1000);
 	}
 
 	componentWillUnmount() {
 		if (this.setUnReadCount) window.clearInterval(this.setUnReadCount);
 	}
 
+	// 一级tab未读消息统计
 	onUnReadCount=() => {
 		const { source } = this.state;
 		unReadCount().then((res) => {
@@ -167,11 +131,8 @@ const monitorRouter = (props) => {
 	const { rule } = props;
 	return (
 		<Router>
-			<MonitorMain path="/*" rule={rule} />
+			<RiskMonitor path="/*" rule={rule} />
 			<Attention path="/monitor/attention/*" rule={rule} />
-			<ClearProcess path="/monitor/clearProcess/*" />
-			{/* <BusinessDetail path="/monitor/business/detail/*" parent="监控信息" parentUrl="/" /> */}
-			{/* <DebtorDetail path="/business/debtor/detail/*" /> */}
 		</Router>
 	);
 };
