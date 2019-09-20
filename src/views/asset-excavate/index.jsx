@@ -95,7 +95,7 @@ const toGetRuth = (rules) => {
 			name: '权证',
 			url: '/monitor/2',
 			paramUrl: '',
-			status: true,
+			status: false,
 			number: 0,
 			dot: false,
 			components: noPage,
