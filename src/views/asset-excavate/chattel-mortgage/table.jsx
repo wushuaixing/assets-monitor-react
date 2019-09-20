@@ -1,0 +1,193 @@
+import React from 'react';
+import { Table, Pagination } from 'antd';
+import { ReadStatus, Attentions, SortVessel } from '@/common/table';
+import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
+import { linkDom } from '@/utils';
+
+
+// 抵押详情
+const MortgageDetail = (text, rowContent) => {
+	const { obligorId } = rowContent;
+	return (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify " style={{ width: 80 }}>抵押物名称</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content text-ellipsis">{'✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘' || obligorId}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 80 }}>登记编号</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">✘✘✘✘✘✘</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 80 }}>担保债权数额</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">✘✘✘✘✘✘</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 130 }}>债务人履行债务的期限</span>
+					<span className="list list-title-colon">:</span>
+				</li>
+				<li>
+					<span className="list list-content" style={{ maxWidth: 'none' }}>自 ✘✘✘✘年✘✘月✘✘日 至 ✘✘✘✘年✘✘月✘✘日</span>
+				</li>
+			</div>
+		</React.Fragment>
+	);
+};
+
+// 登记详情
+const RegisterDetail = (text, rowContent) => {
+	const { obligorId } = rowContent;
+	return (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-content text-ellipsis">{'✘✘✘✘✘✘✘✘✘✘' || obligorId}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 'auto' }}>注销原因</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">✘✘✘✘✘✘</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 'auto' }}>注销时间</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">✘✘✘✘年✘✘月✘✘日</span>
+				</li>
+			</div>
+		</React.Fragment>
+	);
+};
+// 获取表格配置
+const columns = (props) => {
+	const { normal, onRefresh, noSort } = props;
+	const { onSortChange, sortField, sortOrder } = props;
+	const sort = {
+		sortField,
+		sortOrder,
+	};
+	// 含操作等...
+	const defaultColumns = [
+		{
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>登记日期</span>
+				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
+			dataIndex: 'publishDate2',
+			width: 115,
+			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '✘✘✘✘-✘✘-✘✘', record),
+		}, {
+			title: '抵押物所有人',
+			dataIndex: 'obligorName2',
+			width: 100,
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '✘✘✘✘✘✘✘✘✘✘'),
+		}, {
+			title: '抵押权人',
+			dataIndex: 'obligorName3',
+			width: 100,
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '✘✘✘✘✘✘✘✘'),
+		}, {
+			title: '抵押详情',
+			width: 240,
+			render: MortgageDetail,
+		}, {
+			title: '登记状态',
+			width: 150,
+			render: RegisterDetail,
+		}, {
+			title: (noSort ? global.Table_CreateTime_Text
+				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'createTime',
+			width: 90,
+			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+		}, {
+			title: '操作',
+			width: 55,
+			unNormal: true,
+			className: 'tAlignCenter_important',
+			render: (text, row, index) => (
+				<Attentions
+					text={text}
+					row={row}
+					single
+					onClick={onRefresh}
+					api={row.isAttention ? unFollowSingle : followSingle}
+					index={index}
+				/>
+			),
+		}];
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
+};
+
+export default class TableView extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			selectedRowKeys: [],
+		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { manage } = this.props;
+		if ((manage === false && nextProps.manage) || !(nextProps.selectRow || []).length) {
+			this.setState({ selectedRowKeys: [] });
+		}
+	}
+
+	// 行点击操作
+	toRowClick = (record, index) => {
+		const { id, isRead } = record;
+		const { onRefresh } = this.props;
+		if (!isRead) {
+			readStatus({ idList: [id] }).then((res) => {
+				if (res.code === 200) {
+					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				}
+			});
+		}
+	};
+
+	// 选择框
+	onSelectChange=(selectedRowKeys, record) => {
+		// console.log(selectedRowKeys, record);
+		const _selectedRowKeys = record.map(item => item.id);
+		const { onSelect } = this.props;
+		this.setState({ selectedRowKeys });
+		if (onSelect)onSelect(_selectedRowKeys);
+	};
+
+	render() {
+		const {
+			total, current, dataSource, manage, onPageChange,
+		} = this.props;
+		const { selectedRowKeys } = this.state;
+		const rowSelection = manage ? {
+			rowSelection: {
+				selectedRowKeys,
+				onChange: this.onSelectChange,
+			},
+		} : null;
+		return (
+			<React.Fragment>
+				<Table
+					{...rowSelection}
+					columns={columns(this.props)}
+					dataSource={dataSource}
+					pagination={false}
+					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
+					onRowClick={this.toRowClick}
+				/>
+				<div className="yc-table-pagination">
+					<Pagination
+						showQuickJumper
+						current={current || 1}
+						total={total || 0}
+						onChange={onPageChange}
+						showTotal={totalCount => `共 ${totalCount} 条`}
+					/>
+				</div>
+			</React.Fragment>
+		);
+	}
+}

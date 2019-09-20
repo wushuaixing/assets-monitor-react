@@ -2,18 +2,17 @@ import React from 'react';
 import { Modal, message } from 'antd';
 import QueryBidding from './query/bidding';
 import TableBidding from './table/bidding';
+import QueryResult from './query/result';
+import TableResult from './table/result';
 import QueryPublicity from './query/publicity';
 import TablePublicity from './table/publicity';
-
 import {
 	Button, Tabs, Spin, Download,
 } from '@/common';
 import { readStatusAll } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
-// import { fileExport } from '@/views/monitor/table-common';
 import { unReadCount } from '@/utils/api/monitor-info';
-// import { exportList } from '@/utils/api/monitor-info/bankruptcy';
 
 const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 
@@ -23,6 +22,12 @@ export default class Subrogation extends React.Component {
 		document.title = '金融资产-监控信息';
 		// 获取当前页面路由配置
 		const _rule = rule => ([
+			{
+				id: 3,
+				name: '股权质押',
+				dot: false,
+				status: true,
+			},
 			{
 				id: 1,
 				name: '竞价项目',
@@ -35,6 +40,7 @@ export default class Subrogation extends React.Component {
 				dot: false,
 				status: Boolean(rule.jkxxjrzcgsxm),
 			},
+
 		]).filter(item => item.status);
 
 		this.state = {
@@ -78,13 +84,6 @@ export default class Subrogation extends React.Component {
 
 	// 切换列表类型[仅公示项目]
 	handleReadChange=(val) => {
-		// const { tabConfig } = this.state;
-		// const _tabConfig = tabConfig.map((item) => {
-		// 	const _item = Object.assign({}, item);
-		// 	_item.number = 0;
-		// 	_item.dot = false;
-		// 	return _item;
-		// });
 		this.setState({ isRead: val });
 		this.onQueryChange(this.condition, '', val, 1);
 	};
@@ -112,19 +111,6 @@ export default class Subrogation extends React.Component {
 			message.warning('最新信息已经全部已读，没有未读信息了');
 		}
 	};
-
-	// // 一键导出 & 批量导出
-	// handleExport=(type) => {
-	// 	const { sourceType } = this.state;
-	// 	const exportList = api('exportList', sourceType);
-	// 	if (type === 'all') {
-	// 		fileExport(exportList, this.condition);
-	// 	} else if (this.selectRow.length > 0) {
-	// 		fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
-	// 	} else {
-	// 		message.warning('未选中业务');
-	// 	}
-	// };
 
 	// 批量关注
 	handleAttention=() => {
@@ -272,11 +258,9 @@ export default class Subrogation extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
-				{
-					sourceType === 1
-						?	<QueryBidding onQueryChange={this.onQuery} />
-						:	<QueryPublicity onQueryChange={this.onQuery} />
-				}
+				{ sourceType === 1 ?	<QueryBidding onQueryChange={this.onQuery} /> : null}
+				{ sourceType === 2 ?	<QueryPublicity onQueryChange={this.onQuery} /> : null}
+				{ sourceType === 3 ?	<QueryResult onQueryChange={this.onQuery} /> : null}
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}
@@ -330,9 +314,9 @@ export default class Subrogation extends React.Component {
 					)
 				}
 				<Spin visible={loading}>
-					{
-						sourceType === 1 ? <TableBidding {...tableProps} /> : <TablePublicity {...tableProps} />
-					}
+					{sourceType === 1 ? <TableBidding {...tableProps} /> : null }
+					{sourceType === 2 ? <TablePublicity {...tableProps} /> : null }
+					{sourceType === 3 ? <TableResult {...tableProps} /> : null }
 				</Spin>
 
 			</div>

@@ -48,7 +48,12 @@
         text-justify: distribute-all-lines;
         text-align-last: justify;
       }
-
+      .list-title-colon{
+        color: #7D8699;
+        width: 12px;
+        margin-left: 2px;
+        overflow:hidden;
+      }
       .list-content {
         max-width: 160px;
       }
