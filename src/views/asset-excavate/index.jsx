@@ -10,6 +10,7 @@ import Subrogation from './subrogation'; // 代位权
 import LandData from './land-data'; // 土地数据
 import Tender from './tender-bid'; // 招标中标
 import Financial from './financial-assets'; // 金融资产
+import Mortgage from './chattel-mortgage'; // 动产抵押
 import Public from './public-proclamation'; // 公示公告
 import Attention from './my-attention'; // 我的关注
 import ClearProcess from './assets-auction/clearProcess';// 资产清收流程
@@ -83,12 +84,12 @@ const toGetRuth = (rules) => {
 		{
 			id: 11,
 			name: '动产抵押',
-			url: '/monitor/1',
+			url: '/monitor/mortgage',
 			paramUrl: '',
 			status: true,
 			number: 0,
 			dot: false,
-			components: noPage,
+			components: Mortgage,
 		},
 		{
 			id: 12,
