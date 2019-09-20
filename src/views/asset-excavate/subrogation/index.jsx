@@ -9,7 +9,7 @@ import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
 import { changeURLArg, clearEmpty } from '@/utils';
-import { fileExport } from '@/views/monitor/table-common';
+import { fileExport } from '@/views/asset-excavate/table-common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {

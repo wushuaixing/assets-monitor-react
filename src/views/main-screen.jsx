@@ -3,7 +3,8 @@ import { Router, navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 /* 子路由模块  */
 import Home from './home';
-import Monitor from './monitor';
+import Monitor from './asset-excavate';
+import Risk from './risk-mointor';
 import Business from './business';
 // import Company from './company';
 import Search from './search';
@@ -28,6 +29,7 @@ const ruleList = (props) => {
 	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} />);
 	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} />);
 	l.push(<Message path="message/*" />);
+	l.push(<Risk path="risk/*" />);
 	l.push(<ChangePassword path="change/password/*" />);
 	return l;
 };

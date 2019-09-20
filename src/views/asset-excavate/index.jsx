@@ -5,16 +5,18 @@ import { Tabs, Button } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
 import './style.scss';
 // 主要内容模块
-import Assets from './assets-auction';
-import Subrogation from './subrogation';
-import Financial from './financial-assets';
-import Lawsuits from '../risk-mointor/lawsuits-monitor';
-import Bankruptcy from '../risk-mointor/bankruptcy';
-import Public from './public-proclamation';
+import Assets from './assets-auction'; // 资产拍卖
+import Subrogation from './subrogation'; // 代位权
+import Financial from './financial-assets'; // 金融资产
+import Public from './public-proclamation'; // 公示公告
 import Attention from './my-attention'; // 我的关注
 import ClearProcess from './assets-auction/clearProcess';// 资产清收流程
 import Star from '@/assets/img/icon/btn_attention_h.png';
 
+
+const publicCom = () => (
+	<div>暂未开发</div>
+);
 // 获取展示配置
 const toGetRuth = (rules) => {
 	const rule = rules.children;
@@ -40,34 +42,14 @@ const toGetRuth = (rules) => {
 			components: Subrogation,
 		},
 		{
-			id: 3,
-			name: '金融资产',
-			url: '/monitor/financial',
-			status: rule.jkxxjrzcgsxm || rule.jkxxjrzcjjxm,
+			id: 10,
+			name: '土地数据',
+			url: '/monitor/3',
 			paramUrl: '',
+			status: true,
 			number: 0,
 			dot: false,
-			components: Financial,
-		},
-		{
-			id: 4,
-			name: '涉诉监控',
-			url: '/monitor/lawsuits',
-			status: rule.jkxxssjk,
-			paramUrl: '',
-			number: 0,
-			dot: false,
-			components: Lawsuits,
-		},
-		{
-			id: 5,
-			name: '企业破产重组',
-			url: '/monitor/bankruptcy',
-			status: rule.jkxxpccz,
-			paramUrl: '',
-			number: 0,
-			dot: false,
-			components: Bankruptcy,
+			components: publicCom,
 		},
 		{
 			id: 6,
@@ -79,6 +61,37 @@ const toGetRuth = (rules) => {
 			dot: false,
 			components: Public,
 		},
+		{
+			id: 3,
+			name: '金融资产',
+			url: '/monitor/financial',
+			status: rule.jkxxjrzcgsxm || rule.jkxxjrzcjjxm,
+			paramUrl: '',
+			number: 0,
+			dot: false,
+			components: Financial,
+		},
+		{
+			id: 11,
+			name: '动产抵押',
+			url: '/monitor/1',
+			paramUrl: '',
+			status: true,
+			number: 0,
+			dot: false,
+			components: publicCom,
+		},
+		{
+			id: 12,
+			name: '权证',
+			url: '/monitor/2',
+			paramUrl: '',
+			status: true,
+			number: 0,
+			dot: false,
+			components: publicCom,
+		},
+
 	];
 	return source.filter(item => item.status);
 };

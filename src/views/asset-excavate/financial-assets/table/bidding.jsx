@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Pagination } from 'antd';
 import { Attentions } from '@/common/table';
 import api from '@/utils/api/monitor-info/finance';
-import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/monitor/assets-auction/tableComponents';
+import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
 import { SortVessel } from '@/common/table';
 // import { Button } from '@/common';
 // import { floatFormat } from '@/utils/format';

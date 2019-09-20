@@ -5,7 +5,7 @@ import {
 } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 import { linkDom, timeStandard } from '@/utils';
-import { aboutLink, caseInfo } from '../../monitor/table-common';
+import { aboutLink, caseInfo } from '../../asset-excavate/table-common';
 
 // 获取表格配置
 const columns = (props) => {

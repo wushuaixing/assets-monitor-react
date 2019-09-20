@@ -7,19 +7,19 @@ import './style.scss';
 // 主要内容模块
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
-import Attention from '../monitor/my-attention'; // 我的关注
+import Attention from '../asset-excavate/my-attention'; // 我的关注
 
 import Star from '@/assets/img/icon/btn_attention_h.png';
 
 // 获取展示配置
-const toGetRuth = (rules) => {
-	const rule = rules.children;
+const toGetRuth = (rules = {}) => {
+	const rule = rules.children || {};
 	const source = [
 		{
 			id: 4,
 			name: '涉诉监控',
-			url: '/monitor/lawsuits',
-			status: rule.jkxxssjk,
+			url: '/risk',
+			status: rule.jkxxssjk || true,
 			paramUrl: '',
 			number: 0,
 			dot: false,
@@ -28,12 +28,22 @@ const toGetRuth = (rules) => {
 		{
 			id: 5,
 			name: '企业破产重组',
-			url: '/monitor/bankruptcy',
-			status: rule.jkxxpccz,
+			url: '/risk/bankruptcy',
+			status: rule.jkxxpccz || true,
 			paramUrl: '',
 			number: 0,
 			dot: false,
 			components: Bankruptcy,
+		},
+		{
+			id: 10,
+			name: '经营风险',
+			url: '/risk/1',
+			paramUrl: '',
+			status: true,
+			number: 0,
+			dot: false,
+			components: () => <div>暂未开发</div>,
 		},
 	];
 	return source.filter(item => item.status);
@@ -60,6 +70,7 @@ class RiskMonitor extends React.Component {
 		if (this.setUnReadCount) window.clearInterval(this.setUnReadCount);
 	}
 
+	// 一级tab未读消息统计
 	onUnReadCount=() => {
 		const { source } = this.state;
 		unReadCount().then((res) => {

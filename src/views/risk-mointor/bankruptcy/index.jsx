@@ -7,7 +7,7 @@ import {
 	infoList, readStatus, exportList, follow,
 } from '@/utils/api/monitor-info/bankruptcy';
 import './style.scss';
-import { fileExport } from '@/views/monitor/table-common';
+import { fileExport } from '@/views/asset-excavate/table-common';
 import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
-import { DishonestInfo, JudgmentInfo, ExecuteInfo } from '@/views/monitor/assets-auction/tableComponents';
+import { DishonestInfo, JudgmentInfo, ExecuteInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
 // Pagination
 
 // 获取表格配置
