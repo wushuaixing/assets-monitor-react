@@ -22,7 +22,7 @@ class Penalties extends Component {
 	// 搜索
 	search = () => {
 		const { startTime, endTime } = this.state;
-		const { form, getQueryData } = this.props; // 会提示props is not defined
+		const { form, getTableList } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		if (startTime && endTime && startTime > endTime) {
@@ -39,7 +39,7 @@ class Penalties extends Component {
 			endTime: endTime || null,
 		};
 
-		getQueryData(params);
+		getTableList(params);
 	}
 
 	// 重置输入框
@@ -66,7 +66,7 @@ class Penalties extends Component {
 							style={_style1}
 							size="large"
 							placeholder="姓名/公司名称"
-							{...getFieldProps('caseNumber', {
+							{...getFieldProps('detober', {
 
 								getValueFromEvent: e => e.trim(),
 							})}

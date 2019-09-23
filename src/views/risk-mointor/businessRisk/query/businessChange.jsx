@@ -22,7 +22,7 @@ class BusinessChange extends Component {
 	// 搜索
 	search = () => {
 		const { startTime, endTime } = this.state;
-		const { form, getQueryData } = this.props; // 会提示props is not defined
+		const { form, getTableList } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		if (startTime && endTime && startTime > endTime) {
@@ -38,8 +38,7 @@ class BusinessChange extends Component {
 			startTime: startTime || null, // 搜索时间
 			endTime: endTime || null,
 		};
-
-		getQueryData(params);
+		getTableList(params);
 	}
 
 	// 重置输入框

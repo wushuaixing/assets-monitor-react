@@ -3,6 +3,7 @@ import { message, Modal } from 'antd';
 import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
+import { changeURLArg } from '@/utils';
 // query
 import QueryBusinessChange from './query/businessChange';
 import QueryAbnormalOperation from './query/abnormalOperation';
@@ -81,7 +82,6 @@ class BusinessRisk extends Component {
 			sourceType: 2, // 切换id
 			current: 1,
 			total: 12,
-			queryData: {}, // 查询条件
 			loading: false,
 			manage: false,
 			tabConfig: toGetConfig(),
@@ -110,6 +110,13 @@ class BusinessRisk extends Component {
 			}],
 		};
 		this.selectRow = [];
+	}
+
+	componentDidMount() {
+		const { tabConfig } = this.state;
+		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process'); // 获取默认对process
+		this.setState({ sourceType });
+		console.log(sourceType);
 	}
 
 	// 批量关注
@@ -151,8 +158,8 @@ class BusinessRisk extends Component {
 		});
 	};
 
-	// 获取查询条件
-	getQueryData = (val) => {
+	// 获取接口返回列表数据
+	getTableList = (val) => {
 		console.log(val);
 	}
 
@@ -161,6 +168,7 @@ class BusinessRisk extends Component {
 		this.setState({
 			sourceType: val,
 		});
+		window.location.href = changeURLArg(window.location.href, 'process', val);
 		if (val === 2) {
 			this.setState({
 				dataSource: [{
@@ -210,13 +218,33 @@ class BusinessRisk extends Component {
 		}
 	};
 
+	// 全部标记为已读
+	handleAllRead=() => {
+		const { sourceType, tabConfig } = this.state;
+		// 过滤sourceType
+		const isDot = tabConfig.length > 0 && tabConfig.filter(item => sourceType === item.id);
+		console.log(sourceType, tabConfig, isDot);
+
+		if (isDot.dot) {
+			Modal.confirm({
+				title: '确认将所有信息全部标记为已读？',
+				content: '点击确定，将为您把全部消息标记为已读。',
+				iconType: 'exclamation-circle',
+				onOk() {},
+				onCancel() {
+				},
+			});
+		} else {
+			message.warning('最新信息已经全部已读，没有未读信息了');
+		}
+	};
+
 	render() {
 		const {
-			tabConfig, sourceType, loading, manage, current, total, dataSource, queryData,
+			tabConfig, sourceType, loading, manage, current, total, dataSource,
 		} = this.state;
 		const queryProps = {
-			queryData,
-			getQueryData: this.getQueryData,
+			getTableList: this.getTableList,
 		};
 		const tableProps = {
 			manage,

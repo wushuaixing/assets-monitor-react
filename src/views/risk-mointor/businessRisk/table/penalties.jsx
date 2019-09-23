@@ -105,11 +105,12 @@ class Penalties extends Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			Api.readStatusBid({ idList: [id] }).then((res) => {
-				if (res.code === 200) {
-					onRefresh({ id, isRead: !isRead, index }, 'isRead');
-				}
-			});
+			onRefresh({ id, isRead: !isRead, index }, 'isRead');
+			// Api.readStatusBid({ idList: [id] }).then((res) => {
+			// 	if (res.code === 200) {
+			// 		onRefresh({ id, isRead: !isRead, index }, 'isRead');
+			// 	}
+			// });
 		}
 	};
 
