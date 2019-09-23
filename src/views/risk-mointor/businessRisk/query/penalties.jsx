@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-	DatePicker, Form,
+	DatePicker, Form, message,
 } from 'antd';
 import {
 	Input, Button, timeRule,
@@ -19,17 +19,43 @@ class Penalties extends Component {
 		};
 	}
 
+	// 搜索
+	search = () => {
+		const { startTime, endTime } = this.state;
+		const { form, getQueryData } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const fildes = getFieldsValue();
+		if (startTime && endTime && startTime > endTime) {
+			message.warning('结束时间必须大于开始时间');
+			return;
+		}
+		const params = {
+			...fildes,
+			page: 1,
+			num: 10,
+			uploadTimeStart: startTime || null, // 搜索时间
+			uploadTimeEnd: endTime || null,
+			startTime: startTime || null, // 搜索时间
+			endTime: endTime || null,
+		};
+
+		getQueryData(params);
+	}
+
+	// 重置输入框
+	queryReset = () => {
+		const { form } = this.props; // 会提示props is not defined
+		const { resetFields } = form;
+		resetFields('');
+		this.setState({
+			startTime: undefined,
+			endTime: undefined,
+		});
+	}
 
 	render() {
-		const { startTime, endTime } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
-		// // 通过 rowSelection 对象表明需要行选择
-		// const rowSelection = {
-		// 	selectedRowKeys,
-		// 	onChange: this.onSelectChange,
-		// };
-		console.log(startTime, endTime);
 
 		return (
 			<div className="yc-content-query">

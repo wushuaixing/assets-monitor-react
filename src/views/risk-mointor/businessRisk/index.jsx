@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { message, Modal } from 'antd';
 import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
@@ -78,10 +79,81 @@ class BusinessRisk extends Component {
 		super(props);
 		this.state = {
 			sourceType: 2, // 切换id
+			current: 1,
+			total: 12,
+			queryData: {}, // 查询条件
 			loading: false,
 			manage: false,
 			tabConfig: toGetConfig(),
+			dataSource: [{
+				id: 1,
+				publishTime: 1569204092,
+				obName: '浙江博创实业发展有限公司',
+				title: '经营范围',
+				before: '金融信息服务(未经行政许可,不得开展金融业务)企业征信业务技术推广、技术服务',
+				after: `技术推广、技术服务
+				技术咨询
+				销售软件
+				云计算中心(PUE值在1.4以下)`,
+				createTime: 1569204092,
+			}, {
+				id: 2,
+				publishTime: 1569204092,
+				obName: '浙江博创实业发展有限公司',
+				title: '经营范围',
+				before: '金融信息服务(未经行政许可,不得开展金融业务)企业征信业务技术推广、技术服务',
+				after: `技术推广、技术服务
+				技术咨询
+				销售软件
+				云计算中心(PUE值在1.4以下)`,
+				createTime: 1569204092,
+			}],
 		};
+		this.selectRow = [];
+	}
+
+	// 批量关注
+	handleAttention=() => {
+		if (this.selectRow.length > 0) {
+			const idList = this.selectRow;
+			console.log(idList, 12);
+
+			Modal.confirm({
+				title: '确认关注选中的所有信息吗？',
+				content: '点击确定，将为您收藏所有选中的信息',
+				iconType: 'exclamation-circle',
+				onOk() {},
+				onCancel() {},
+			});
+		} else {
+			message.warning('未选中业务');
+		}
+	};
+
+	// 表格发生变化
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = dataSource;
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
+
+	// 当前页数变化
+	onPageChange=(val) => {
+		const { manage } = this.state;
+		this.selectRow = [];
+		console.log(val, manage);
+		this.setState({
+			current: val,
+		});
+	};
+
+	// 获取查询条件
+	getQueryData = (val) => {
+		console.log(val);
 	}
 
 	// sourceType变化
@@ -89,23 +161,83 @@ class BusinessRisk extends Component {
 		this.setState({
 			sourceType: val,
 		});
+		if (val === 2) {
+			this.setState({
+				dataSource: [{
+					id: 1,
+					publishTime: 1569204092,
+					obName: '浙江博创实业发展有限公司',
+					title: '经营范围',
+					before: '金融信息服务(未经行政许可,不得开展金融业务)企业征信业务技术推广、技术服务',
+					after: `技术推广、技术服务
+					技术咨询
+					销售软件
+					云计算中心(PUE值在1.4以下)`,
+					createTime: 1569204092,
+				}, {
+					id: 2,
+					publishTime: 1569204092,
+					obName: '浙江博创实业发展有限公司',
+					title: '经营范围',
+					before: '金融信息服务(未经行政许可,不得开展金融业务)企业征信业务技术推广、技术服务',
+					after: `技术推广、技术服务
+					技术咨询
+					销售软件
+					云计算中心(PUE值在1.4以下)`,
+					createTime: 1569204092,
+				}],
+			});
+		} else if (val === 5) {
+			this.setState({
+				dataSource: [{
+					id: 1,
+					publishTime: 1569290492,
+					obName: '上海宏博口腔门诊部',
+					title: '普第2220150030号',
+					reason: '其它卫生计生领域的行政处罚事项',
+					pena: '警告',
+					createTime: 1569290492,
+				}, {
+					id: 2,
+					publishTime: 1569290492,
+					obName: '上海宏博口腔门诊部',
+					title: '普第2220150030号',
+					reason: '其它卫生计生领域的行政处罚事项',
+					pena: '警告',
+					createTime: 1569290492,
+				}],
+			});
+		}
 	};
 
 	render() {
 		const {
-			tabConfig, sourceType, loading, manage,
+			tabConfig, sourceType, loading, manage, current, total, dataSource, queryData,
 		} = this.state;
-		console.log(sourceType);
-
+		const queryProps = {
+			queryData,
+			getQueryData: this.getQueryData,
+		};
+		const tableProps = {
+			manage,
+			dataSource,
+			current,
+			total,
+			onSelect: val => this.selectRow = val,
+			selectRow: this.selectRow,
+			onRefresh: this.onRefresh,
+			onPageChange: this.onPageChange,
+			onSortChange: this.onSortChange,
+		};
 		return (
 			<Fragment>
 				<div>
-					{sourceType === 1 ? <QueryAbnormalOperation onQueryChange={this.onQuery} /> : null}
-					{sourceType === 2 ? <QueryBusinessChange onQueryChange={this.onQuery} /> : null}
-					{sourceType === 3 ? <QueryIllegal onQueryChange={this.onQuery} /> : null}
-					{sourceType === 4 ? <QueryTaxViolation onQueryChange={this.onQuery} /> : null}
-					{sourceType === 5 ? <QueryPenalties onQueryChange={this.onQuery} /> : null}
-					{sourceType === 6 ? <QueryEnvironmentalPunishment onQueryChange={this.onQuery} /> : null}
+					{sourceType === 1 ? <QueryAbnormalOperation {...queryProps} /> : null}
+					{sourceType === 2 ? <QueryBusinessChange {...queryProps} /> : null}
+					{sourceType === 3 ? <QueryIllegal {...queryProps} /> : null}
+					{sourceType === 4 ? <QueryTaxViolation {...queryProps} /> : null}
+					{sourceType === 5 ? <QueryPenalties {...queryProps} /> : null}
+					{sourceType === 6 ? <QueryEnvironmentalPunishment {...queryProps} /> : null}
 				</div>
 
 				<Tabs.Simple
@@ -155,12 +287,12 @@ class BusinessRisk extends Component {
 					)
 				}
 				<Spin visible={loading}>
-					{sourceType === 1 ? <TableAbnormalOperation /> : null}
-					{sourceType === 2 ? <TableBusinessChange /> : null}
-					{sourceType === 3 ? <TableIllegal /> : null}
-					{sourceType === 4 ? <TableTaxViolation /> : null}
-					{sourceType === 5 ? <TablePenalties onQueryChange={this.onQuery} /> : null}
-					{sourceType === 6 ? <TableEnvironmentalPunishment /> : null}
+					{sourceType === 1 ? <TableAbnormalOperation {...tableProps} /> : null}
+					{sourceType === 2 ? <TableBusinessChange {...tableProps} /> : null}
+					{sourceType === 3 ? <TableIllegal {...tableProps} /> : null}
+					{sourceType === 4 ? <TableTaxViolation {...tableProps} /> : null}
+					{sourceType === 5 ? <TablePenalties {...tableProps} /> : null}
+					{sourceType === 6 ? <TableEnvironmentalPunishment {...tableProps} /> : null}
 				</Spin>
 			</Fragment>
 		);
