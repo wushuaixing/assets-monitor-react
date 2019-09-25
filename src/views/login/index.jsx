@@ -1,6 +1,6 @@
 /** 登录页 * */
 
-import React from 'react';
+import React, { Frgament } from 'react';
 // ==================
 // 所需的所有组件
 // ==================
@@ -62,30 +62,32 @@ class Login extends React.Component {
 		} = this.state;
 
 		return (
-			<div className="yc-login">
-				<Header imgUrl={imgUrl} />
-				<div className="yc-login-wapper">
-					<div className="yc-login-content">
-						{/* 登录页面 */}
-						{
+			<Frgament>
+				<div className="yc-login">
+					<Header imgUrl={imgUrl} />
+					<div className="yc-login-wapper">
+						<div className="yc-login-content">
+							{/* 登录页面 */}
+							{
 							type === 1 && <Register btnColor={btnColor} changeType={this.changeType} />
 						}
-						{/* 忘记密码验证吗界面 */}
-						{
+							{/* 忘记密码验证吗界面 */}
+							{
 							type === 2 && <VerifyAccount inputPhoneNum={this.inputPhoneNum} changeType={this.changeType} />
 						}
-						{/* 填写手机验证码 */}
-						{
+							{/* 填写手机验证码 */}
+							{
 							type === 3 && <WriteCode phoneNum={phoneNum} changeType={this.changeType} />
 						}
-						{/* 修改密码 */}
-						{
+							{/* 修改密码 */}
+							{
 							type === 4 && <ChangePassword changeType={this.changeType} />
 						}
+						</div>
 					</div>
 				</div>
 				<Footer />
-			</div>
+			</Frgament>
 		);
 	}
 }
