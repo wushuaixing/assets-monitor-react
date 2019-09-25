@@ -40,7 +40,7 @@ class Penalties extends Component {
 		};
 
 		getTableList(params);
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -51,7 +51,7 @@ class Penalties extends Component {
 			startTime: undefined,
 			endTime: undefined,
 		});
-	}
+	};
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined

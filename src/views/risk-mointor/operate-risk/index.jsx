@@ -161,7 +161,7 @@ class BusinessRisk extends Component {
 	// 获取接口返回列表数据
 	getTableList = (val) => {
 		console.log(val);
-	}
+	};
 
 	// sourceType变化
 	onSourceType=(val) => {
