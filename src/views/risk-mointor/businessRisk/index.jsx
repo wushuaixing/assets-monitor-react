@@ -218,6 +218,7 @@ class BusinessRisk extends Component {
 		}
 	};
 
+
 	// 全部标记为已读
 	handleAllRead=() => {
 		const { sourceType, tabConfig } = this.state;
