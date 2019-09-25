@@ -39,7 +39,7 @@ class BusinessChange extends Component {
 			endTime: endTime || null,
 		};
 		getTableList(params);
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -50,7 +50,7 @@ class BusinessChange extends Component {
 			startTime: undefined,
 			endTime: undefined,
 		});
-	}
+	};
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined

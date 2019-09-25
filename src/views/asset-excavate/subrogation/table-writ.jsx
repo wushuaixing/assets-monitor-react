@@ -1,59 +1,45 @@
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import {
-	ReadStatus, Attentions, TitleIcon, SortVessel,
+	ReadStatus, Attentions, SortVessel,
 } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
-import { linkDom, timeStandard } from '@/utils';
-import { aboutLink, caseInfo } from '../table-common';
+import { timeStandard } from '@/utils';
+import { aboutLink } from '../table-common';
 
 // 获取表格配置
 const columns = (props) => {
 	const {
-		normal, onRefresh, sourceType, noSort,
+		normal, onRefresh, noSort,
 	} = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
 		sortField,
 		sortOrder,
 	};
-	const title1 = sourceType === 1 ? '立案日期' : '开庭日期';
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>{title1}</span>
-				: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>{title1}</SortVessel>),
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
+				: <SortVessel field="LARQ" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'larq',
 			width: 100,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
-			title: <TitleIcon title="原告" tooltip="我行债务人" />,
-			dataIndex: 'yg',
-			render: (text, row) => (
-				row.isDeleted ? text : linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text)
-			),
-		}, {
-			title: <TitleIcon title="被告" tooltip="蓝色可点击为我行债务人" />,
-			dataIndex: 'bg',
-			render: (text, row) => ((!row.isDeleted && row.extObligorId)
-				? linkDom(`/#/business/debtor/detail?id=${row.extObligorId}`, text) : text),
+			title: '当事人',
+			dataIndex: 'yg1',
+			render: () => '--',
 		}, {
 			title: '法院',
-			dataIndex: 'court',
+			dataIndex: 'bg2',
+			render: () => '--',
 		}, {
 			title: '案号',
-			dataIndex: 'ah',
-			render: caseInfo,
+			dataIndex: 'ah1',
+			render: () => '--',
 		}, {
-			title: '案由',
-			dataIndex: 'anyou',
-			sourceType: 1,
-			className: 'min-width-80-normal',
-			render: text => text || '--',
-		}, {
-			title: '关联信息',
+			title: <SortVessel field="START" onClick={onSortChange} mark="(判决日期)" {...sort}>文书信息</SortVessel>,
 			dataIndex: 'associatedInfo',
-			className: 'tAlignCenter_important min-width-80',
 			render: aboutLink,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
@@ -69,8 +55,8 @@ const columns = (props) => {
 			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
 		}];
 	// <a href={url} className="click-link">{text || '--'}</a>
-	const base = defaultColumns.filter(item => item.sourceType !== sourceType);
-	return normal ? base.filter(item => !item.unNormal) : base;
+	// const base = defaultColumns.filter(item => item.sourceType !== sourceType);
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
 export default class TableView extends React.Component {

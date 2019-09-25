@@ -7,7 +7,7 @@ import './style.scss';
 // 主要内容模块
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
-import BusinessRisk from './businessRisk';
+import OperateRisk from './operate-risk';
 import Attention from '../asset-excavate/my-attention'; // 我的关注
 
 import Star from '@/assets/img/icon/btn_attention_h.png';
@@ -39,12 +39,12 @@ const toGetRuth = (rules = {}) => {
 		{
 			id: 10,
 			name: '经营风险',
-			url: '/risk/businessRisk',
+			url: '/risk/operate',
 			paramUrl: '',
 			status: true,
 			number: 0,
 			dot: false,
-			components: BusinessRisk,
+			components: OperateRisk,
 			// components: () => <div>暂未开发</div>,
 		},
 	];
