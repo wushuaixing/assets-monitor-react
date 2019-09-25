@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, message } from 'antd';
 import TableView from './table';
+import TableViewWrit from './table-writ';
 import QueryView from './queryView';
 import {
 	Button, Tabs, Spin, Download,
@@ -9,7 +10,6 @@ import {
 	infoCount, infoList, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
 import { changeURLArg, clearEmpty } from '@/utils';
-import { fileExport } from '@/views/asset-excavate/table-common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -34,6 +34,13 @@ export default class Subrogation extends React.Component {
 				{
 					id: 2,
 					name: '开庭公告',
+					number: 0,
+					dot: false,
+					showNumber: true,
+				},
+				{
+					id: 3,
+					name: '裁判文书',
 					number: 0,
 					dot: false,
 					showNumber: true,
@@ -124,17 +131,6 @@ export default class Subrogation extends React.Component {
 			});
 		} else {
 			message.warning('最新信息已经全部已读，没有未读信息了');
-		}
-	};
-
-	// 一键导出 & 批量导出
-	handleExport=(type) => {
-		if (type === 'all') {
-			fileExport(exportList, this.condition);
-		} else if (this.selectRow.length > 0) {
-			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
-		} else {
-			message.warning('未选中业务');
 		}
 	};
 
@@ -298,6 +294,15 @@ export default class Subrogation extends React.Component {
 								onClick={() => this.handleReadChange('unread')}
 								title="只显示未读"
 							/>
+							{sourceType !== 2 ? (
+								<Button
+									active={isRead === 'resume'}
+									onClick={() => this.handleReadChange('resume')}
+								>
+									{'只显示执恢案件'}
+								</Button>
+							) : null}
+
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 
@@ -330,7 +335,11 @@ export default class Subrogation extends React.Component {
 				}
 				{/* 表格数据展示模块  */}
 				<Spin visible={loading}>
-					<TableView {...tableProps} sourceType={sourceType} />
+					{
+						sourceType === 3
+							? <TableViewWrit {...tableProps} />
+							: <TableView {...tableProps} sourceType={sourceType} />
+					}
 				</Spin>
 
 			</div>

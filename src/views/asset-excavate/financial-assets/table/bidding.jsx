@@ -68,7 +68,6 @@ export default class TableView extends React.Component {
 		}
 	}
 
-
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {
 		// console.log(selectedRowKeys, record);
