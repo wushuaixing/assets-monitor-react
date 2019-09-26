@@ -1,24 +1,69 @@
-/* 系统颜色规范 */
-/* 1.颜色规范 */
+/* 系统样式规范 --- start  */
 
+/* 1.颜色规范 */
 /* 系统色 */
+//导航、一级tab背景色
+$common-base: #384482;
+//导航经过背景色
+$common-base-hover: #43529C;
+//导航栏选中背景
+$common-base-active: #303a70;
+//警告、价格色
+$common-error: #F82626;
+//通过、开启、成功提示色
+$common-success: #3DBD7D;
+//收藏、按钮背景色
+$common-warning: #F82626;
+
+/* 文字色 */
+//一级标题、按钮文字、一级tab、二级tab
+$text-title: #20242E;
+//链接文字色
+$text-link: #1C80E1;
+//链接文字经过色
+$text-link-hover: #186FC7;
+//列表标题文字色
+$text-content: #4E5566;
+//其他辅助信息色
+$text-remark: #7D8699;
+//输入框提示文字颜色
+$text-placeholder: #C7CCD7;
+
+/*背景、线条色*/
+// 页面背景色、列表标题背景色、置灰按钮背景色
+$background-base: #F0F1F5;
+// 按钮、输入框边框颜色
+$border-base: #DADDE6;
+// 分割线颜色
+$background-line: #E5E5E5;
+// 列表内容经过背景色
+$background-list-hover: #EBF1FA;
+// 列表内容背景色
+$background-list: #F6F6F7;
+
+/* --- end  */
+
+
 
 // 系统主色、文字链接色、 按钮背景色
-$color-base:#384482;
+
+$color-base: #384482;
 // 文字鼠标经过、导航栏选中背景、 蓝色按钮鼠标按下背景色
+$common-base-hover: #43529C;
+
 $color-text-hover: #303a70;
-$color-btn-active: #303a70;
+$color-base-active: #303a70;
 // 导航经过背景色
-$color-bar-hover: #399EE6;
+$color-base-hover: #399EE6;
 // 蓝色按钮鼠标经过背景色
 $color-btn-hover: #178FFF;
-
+$color-btn-active: #303a70;
 // 警告、异常、价格色
 $color-alert-error: #EE5547;
-$color-warning-text:#F5A623;
+$color-warning-text: #F5A623;
 $color-alert-error-hover: #e18275;
 // 通过、成功提示色
-$color-alert-success: #52C41A;
+$color-alert-success: #3DBD7D;
 // 标签、普通提示色
 $color-alert-normal: #FAAD14;
 
@@ -49,11 +94,11 @@ $titleBGC: #eaecef;
 $background-title: #EAEAEA;
 // 按钮、输入框、分割线色
 $background-border: #D9D9D9;
-$background-line:  #F0F2F5;
+$background-line: #F0F2F5;
 // 列表内容经过背景色、左侧导航经过背景色
 $background-hover: #E6F3FF;
 // antd 边框白色
 $background-antd-border: #ffffff;
 
+$input-fontsize: 12px;
 
-$input-fontsize:12px;

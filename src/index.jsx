@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import App from './views/app';
 import store from './stores/app';
 import './assets/css/public.scss';
+import './assets/css/text-specification.scss';
+
 import './utils/config';
 
 
