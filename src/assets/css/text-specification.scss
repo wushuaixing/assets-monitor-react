@@ -1,12 +1,12 @@
 /* 2.文字规范 */
 
-// 内容类型 -title -remark
-// 字体类型 -normal -large
+// 内容类型 -title -remark -white
+// 字体类型 -normal -large -super
 // 是否加粗 -bold
 
 // 一些普遍场景的样式规整
-@each $colorText, $color in ('-title': $text-title, '-remark': $text-remark, '':$text-content) {
-  @each $fontSize, $size in ('-normal': 14px, '-large': 16px, '':12px) {
+@each $colorText, $color in ('-title': $text-title, '-remark': $text-remark, '':$text-content,'-white': #FFFFFF,) {
+  @each $fontSize, $size in ('-normal': 14px, '-large': 16px, '':12px, '-super': 18px,) {
     @each $fontWeight, $weight in ('-bold': 700, '':400) {
       .yc-public#{$colorText+$fontSize+$fontWeight} {
         color: $color;
@@ -17,3 +17,4 @@
     }
   }
 }
+
