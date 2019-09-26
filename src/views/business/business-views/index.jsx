@@ -22,7 +22,7 @@ const cookies = new Cookies();
 const { confirm } = Modal;
 const createForm = Form.create;
 
-const _style1 = { width: 274 };
+const _style1 = { width: 278 };
 const _style2 = { width: 100 };
 const text = (
 	<div style={{
@@ -436,7 +436,7 @@ class BusinessView extends React.Component {
 							})}
 						/>
 					</div>
-					<div className="yc-query-item">
+					<div className="yc-query-item" style={{ marginRight: 0 }}>
 						<Input
 							title="机构名称"
 							style={_style1}
@@ -481,7 +481,7 @@ class BusinessView extends React.Component {
 
 					<div className="yc-query-item yc-query-item-btn">
 						<Button onClick={this.search} size="large" type="warning" style={{ width: 84 }}>查询</Button>
-						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
+						<Button onClick={this.queryReset} size="large" style={{ width: 110, marginRight: 0 }}>重置查询条件</Button>
 					</div>
 					<div className="yc-split-hr" />
 
@@ -519,7 +519,7 @@ class BusinessView extends React.Component {
 						// 	<span className="yc-icon-export" />
 						// 		一键导出
 						// </Button>
-						<Download condition={() => this.toExportCondition('all')} style={{ float: 'right' }} api={exportExcel} all text="一键导出" />
+						<Download condition={() => this.toExportCondition('all')} style={{ float: 'right', marginRight: 0 }} api={exportExcel} all text="一键导出" />
 						)}
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
 							<Icon className="yc-business-icon" type="question-circle-o" />
