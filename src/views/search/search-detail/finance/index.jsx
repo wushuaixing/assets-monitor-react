@@ -223,7 +223,7 @@ class FINANCE extends React.Component {
 				</div>
 				<Spin visible={loading}>
 					<FinanceTable stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
-					<div className="yc-pagination">
+					<div className="yc-table-pagination">
 						<Pagination
 							total={totals && totals > 1000 ? 1000 : totals}
 							current={current}

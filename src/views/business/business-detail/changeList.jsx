@@ -100,7 +100,7 @@ class DebtorDetail extends React.Component {
 					dataIndex: 'updateTime',
 					key: 'updateTime',
 					width: 180,
-					render: (text, row) => (
+					render: text => (
 						<p style={{ position: 'relative' }}>
 							{text && text !== 0 ? formatDateTime(text) : '-'}
 						</p>
@@ -118,7 +118,7 @@ class DebtorDetail extends React.Component {
 					dataIndex: 'beforeContent',
 					key: 'beforeContent',
 					width: 226,
-					render: (text, row) => (
+					render: text => (
 						<div>{text && text.length > 0 ? toGetReasonList(text) : '-'}</div>
 					),
 				},
@@ -127,7 +127,7 @@ class DebtorDetail extends React.Component {
 					dataIndex: 'afterContent',
 					key: 'afterContent',
 					width: 227,
-					render: (text, row) => (
+					render: text => (
 						<div>{text && text.length > 0 ? toGetReasonList(text) : '-'}</div>
 					),
 				},
@@ -403,7 +403,7 @@ class DebtorDetail extends React.Component {
 								console.log(record);
 							}}
 						/>
-						<div className="yc-pagination">
+						<div className="yc-table-pagination">
 							<Pagination
 								total={totals}
 								current={current}

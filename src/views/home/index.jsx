@@ -67,11 +67,11 @@ class HomeRouter extends React.Component {
 
 				<div className="yc-home-header">
 					<div className="yc-header-left">
-						<div className="yc-left-title">我的机构</div>
+						<div className="yc-content-title">我的机构</div>
 						<div className="yc-left-text">{orgDetail && orgDetail ? orgDetail.name : '-'}</div>
 					</div>
 					<div className="yc-header-right">
-						<div className="yc-right-title">机构数</div>
+						<div className="yc-public-normal">机构数</div>
 						<div className="yc-right-num">{orgDetail && orgDetail ? orgDetail.totalCount : '-'}</div>
 					</div>
 				</div>
@@ -80,13 +80,13 @@ class HomeRouter extends React.Component {
 					<div className="yc-content-header">
 						<div className="yc-content-title">
 							数据统计
-							<span className="yc-content-spite">（包括本机构及子机构）</span>
+							<span className="yc-public-remark-normal">（包括本机构及子机构）</span>
 						</div>
 						<div className="yc-content-item">
 							<div className="left yc-content-item1">
 								<div className="yc-text">
 									<span className="yc-icon" />
-									未跟进监控信息数/条
+									{'未跟进监控信息数  (条)'}
 								</div>
 								<div className="yc-num">
 									<span style={{ color: 'red' }}>{tree ? tree.monitorUnfollowedCount : '-'}</span>
@@ -95,10 +95,12 @@ class HomeRouter extends React.Component {
 											跟进
 											<span className="yc-txt-normal">{tree ? tree.monitorFollowedCount : '-'}</span>
 										</span>
+										<span className="ant-divider" style={{ margin: '0 20px 0 6px' }} />
 										<span className="yc-statistic-text">
 											完成
 											<span className="yc-txt-normal">{tree ? tree.monitorDoneCount : '-'}</span>
 										</span>
+										<span className="ant-divider" style={{ margin: '0 20px 0 6px' }} />
 										<span className="yc-statistic-text">
 											全部
 											<span className="yc-txt-normal">{tree ? tree.monitorTotalCount : '-'}</span>
@@ -109,7 +111,7 @@ class HomeRouter extends React.Component {
 							<div className="left yc-content-item2">
 								<div className="yc-text">
 									<span className="yc-icon-debtor" />
-									监控债务人数/人
+									{'监控债务人数  (人)'}
 								</div>
 								<div className="yc-num">
 									<span>{tree ? tree.obligorCount : '-'}</span>
@@ -118,7 +120,7 @@ class HomeRouter extends React.Component {
 							<div className="left yc-content-item2">
 								<div className="yc-text">
 									<span className="yc-icon-money" />
-									追回总金额/元
+									{'追回总金额  (元)'}
 								</div>
 								<div className="yc-num">
 									<span>{tree ? toThousands(tree.recovery) : '-'}</span>

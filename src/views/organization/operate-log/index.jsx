@@ -172,7 +172,7 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
-						<div className="page-size">
+						<div className="yc-table-pagination ">
 							<Pagination
 								current={current}
 								pageSize={pageSize}

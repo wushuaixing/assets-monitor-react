@@ -71,9 +71,9 @@ export default class BasicTable extends React.Component {
 					key: 'x',
 					render: (text, row) => (
 						<span>
-							<a className="click-p" onClick={() => this.handleOpeanModal('edit', row)}>编辑</a>
+							<span className="yc-table-text-link" onClick={() => this.handleOpeanModal('edit', row)}>编辑</span>
 							<span className="ant-divider" />
-							<a className="click-p" onClick={() => this.handleDel(row)}>删除</a>
+							<span className="yc-table-text-link" onClick={() => this.handleDel(row)}>删除</span>
 						</span>
 
 					),
@@ -259,7 +259,7 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
-						<div className="page-size">
+						<div className="yc-table-pagination ">
 							<Pagination
 								current={current}
 								pageSize={pageSize}

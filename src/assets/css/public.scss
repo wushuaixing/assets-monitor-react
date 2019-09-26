@@ -90,7 +90,7 @@ body, td, th {
 
 .yc-table-pagination {
   text-align: right;
-  padding: 10px ;
+  padding: 30px 0 20px 0;
 
   .ant-pagination {
     display: inline-block;
@@ -740,4 +740,13 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
 // 删除图标颜色
 .anticon-cross-circle {
   color: #ccc;
+}
+
+// table 跳转链接样式
+.yc-table-text-link {
+  color: $text-link;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }

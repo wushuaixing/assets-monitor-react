@@ -1,5 +1,5 @@
 .yc-datas {
-  border: 1px solid #384482;
+  border: 1px solid $common-base;
   padding: 16px 0;
   p {
     font-size: 12px;
@@ -34,9 +34,16 @@
       //   margin: 0 0 16px 0;
       // }
     }
-    .other {
-      display: inline-block;
-      margin: 0 26px 0 0;
+    .others {
+      .yc-checked-btn {
+        border: 1px solid $text-link;
+        color: $text-link;
+        img {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+        }
+      }
     }
   }
   .btn {
@@ -95,7 +102,7 @@
   .ant-input {
     font-size: 16px;
     height: 50px;
-    border: 1px solid #384482;
+    border: 1px solid $common-base;
     padding-left: 130px;
   }
   .red-search {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Modal, Table, Form, message,
+	Modal, Table, Form, message, Tooltip,
 } from 'antd';
 import {
 	openPush, // 打开推送
@@ -23,7 +23,15 @@ class BusinessView extends React.Component {
 				render: (text, row) => (
 					<div style={{ position: 'relative' }}>
 						<span>
-							{text || '-'}
+							{
+								text && text.length > 16
+									? (
+										<Tooltip placement="topLeft" title={text}>
+											<span>{`${text.substr(0, 16)}...`}</span>
+										</Tooltip>
+									)
+									: <span>{text || '-'}</span>
+							}
 						</span>
 						<span className="yc-item-break">
 							{
@@ -91,11 +99,12 @@ class BusinessView extends React.Component {
 			}, {
 				title: '操作',
 				key: 'operation',
+				className: 'column-center',
 				render: (text, row) => (
 					<span>
-						<a onClick={() => this.detail(row)}>查看</a>
+						<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>
 						<span className="ant-divider" />
-						<a onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</a>
+						<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>
 					</span>
 				),
 			}],

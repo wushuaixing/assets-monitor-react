@@ -7,6 +7,7 @@ import { Input, timeRule } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
+import checkoutIcon from '@/assets/img/icon/icon_checked.png';
 import './style.scss';
 
 const createForm = Form.create;
@@ -16,9 +17,8 @@ class LAWSUITS extends React.Component {
 		this.state = {
 			startTime: undefined,
 			endTime: undefined,
-			filingType: 'primary',
-			courtType: 'ghost',
 			type: 1,
+			checkedType: 1,
 			yg: [
 				{
 					name: '',
@@ -60,15 +60,13 @@ class LAWSUITS extends React.Component {
 		switch (type) {
 		case 1:
 			this.setState({
-				filingType: 'primary',
-				courtType: 'ghost',
+				checkedType: type,
 				type,
 			});
 			break;
 		case 2:
 			this.setState({
-				filingType: 'ghost',
-				courtType: 'primary',
+				checkedType: type,
 				type,
 			});
 			break;
@@ -208,7 +206,7 @@ class LAWSUITS extends React.Component {
 
 	render() {
 		const {
-			yg, bg, filingType, courtType,
+			yg, bg, checkedType,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -236,7 +234,7 @@ class LAWSUITS extends React.Component {
 						</div>
 					))}
 					{yg.length > 2 ? (
-						<span style={{ 'margin-top': 8, display: 'inline-block' }}>
+						<span style={{ 'margin-top': 8, display: 'inline-block', color: '#FB5A5C' }}>
 							最多添加3个
 						</span>
 					) : (
@@ -273,7 +271,7 @@ class LAWSUITS extends React.Component {
 						</div>
 					))}
 					{bg.length > 2 ? (
-						<span style={{ 'margin-top': 8, display: 'inline-block' }}>
+						<span style={{ 'margin-top': 8, display: 'inline-block', color: '#FB5A5C' }}>
 							最多添加3个
 						</span>
 					) : (
@@ -337,19 +335,26 @@ class LAWSUITS extends React.Component {
 				</div>
 				<div className="others">
 					<span>信息类型：</span>
+					<span>
+						<Button
+							size="large"
+							type="ghost"
+							style={{ 'margin-right': 10 }}
+							className={checkedType === 1 ? 'yc-checked-btn' : null}
+							onClick={() => this.changeType(1)}
+						>
+							{checkedType === 1 ? <img src={checkoutIcon} alt="" /> : ''}
+							立案信息
+						</Button>
+
+					</span>
 					<Button
 						size="large"
-						type={filingType}
-						style={{ 'margin-right': 10 }}
-						onClick={() => this.changeType(1)}
-					>
-						立案信息
-					</Button>
-					<Button
-						size="large"
-						type={courtType}
+						type="ghost"
+						className={checkedType === 2 ? 'yc-checked-btn' : null}
 						onClick={() => this.changeType(2)}
 					>
+						{checkedType === 2 ? <img src={checkoutIcon} alt="" /> : ''}
 						开庭公告
 					</Button>
 				</div>

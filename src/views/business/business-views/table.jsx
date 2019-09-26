@@ -35,13 +35,13 @@ class BusinessView extends React.Component {
 						<div className="table-column">
 							<div style={{ display: 'inline-block', float: 'left' }}>
 								<div>
-									<span style={{ marginRight: '6px' }}>借款人:</span>
-									<a
+									<span className="yc-public-remark" style={{ marginRight: '6px' }}>借款人:</span>
+									<span
 										onClick={() => {
 											const w = window.open('about:blank');
 											w.location.href = `#/business/debtor/detail?id=${row.obligorId}`;
 										}}
-										className="yc-click-obligorName"
+										className="yc-table-text-link"
 										style={{ display: 'inline-block' }}
 									>
 										{
@@ -53,10 +53,10 @@ class BusinessView extends React.Component {
 												)
 												: <p>{text || '-'}</p>
 										}
-									</a>
+									</span>
 								</div>
 								<div>
-									<span style={{ marginRight: '6px' }}>证件号:</span>
+									<span className="yc-public-remark" style={{ marginRight: '6px' }}>证件号:</span>
 									<p style={{ display: 'inline-block' }}>
 										{row.obligorNumber || '-'}
 									</p>
@@ -83,7 +83,7 @@ class BusinessView extends React.Component {
 					if (text === '0' || !text) {
 						return <div>0</div>;
 					}
-					return <a className="yc-click-obligorName" onClick={() => openPeopleModal(row.id)}>{text}</a>;
+					return <span className="yc-table-text-link" onClick={() => openPeopleModal(row.id)}>{text}</span>;
 				},
 			}, {
 				title: '相关推送',
@@ -137,13 +137,14 @@ class BusinessView extends React.Component {
 			}, {
 				title: '操作',
 				key: 'operation',
+				className: 'column-center',
 				render: (text, row) => (
 					<span>
-						<a onClick={() => this.detail(row)}>查看详情</a>
+						<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看详情</span>
 						<span className="ant-divider" />
-						<a onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</a>
+						<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>
 						<span className="ant-divider" />
-						<a onClick={() => this.showDeleteConfirm(row)}>删除</a>
+						<span className="yc-table-text-link" onClick={() => this.showDeleteConfirm(row)}>删除</span>
 					</span>
 				),
 			}],

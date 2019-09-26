@@ -75,6 +75,7 @@ const columns = [
 		key: 'obligorCount',
 		dataIndex: 'obligorCount',
 		id: 'obligorCount',
+		className: 'column-center',
 		width: 174,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('business/debtor', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -83,6 +84,7 @@ const columns = [
 		key: 'monitorTotalCount',
 		dataIndex: 'monitorTotalCount',
 		id: 'monitorTotalCount',
+		className: 'column-center',
 		width: 92,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=1', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -91,6 +93,7 @@ const columns = [
 		key: 'monitorUnfollowedCount',
 		dataIndex: 'monitorUnfollowedCount',
 		id: 'monitorUnfollowedCount',
+		className: 'column-center',
 		width: 112,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=-1', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -99,6 +102,7 @@ const columns = [
 		key: 'monitorFollowedCount',
 		dataIndex: 'monitorFollowedCount',
 		id: 'monitorFollowedCount',
+		className: 'column-center',
 		width: 92,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=3', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -107,6 +111,7 @@ const columns = [
 		key: 'monitorDoneCount',
 		dataIndex: 'monitorDoneCount',
 		id: 'monitorDoneCount',
+		className: 'column-center',
 		width: 92,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=9', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -115,6 +120,7 @@ const columns = [
 		dataIndex: 'recovery',
 		key: 'recovery',
 		id: 'recovery',
+		className: 'column-right',
 		render: text => <span>{toThousands(text)}</span>,
 	},
 ];
@@ -304,10 +310,10 @@ class Login extends React.Component {
 					<table className="table table-striped treetable" style={{ marginBottom: 0 }}>
 						<tbody>
 							<tr className="tr-table">
-								<th rowSpan=" 2 " style={{ width: 400 }}>机构名称</th>
+								<th rowSpan=" 2 " style={{ width: 400, textAlign: 'left' }}>机构名称</th>
 								<th rowSpan=" 2 " style={{ width: 174 }}>监控债务人数</th>
 								<th colSpan="4" style={{ width: 388 }}>监控信息数</th>
-								<th rowSpan=" 2 " style={{ width: 198 }}>追回总金额(元)</th>
+								<th rowSpan=" 2 " style={{ width: 198, textAlign: 'right' }}>追回总金额(元)</th>
 							</tr>
 							<tr className="tr-table">
 								<th style={{ width: 92 }}>全部</th>

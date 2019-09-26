@@ -78,7 +78,7 @@ export default class BasicTable extends React.Component {
 					key: 'x',
 					render: row => (
 						<div className="table-btn">
-							<a className="click-p" onClick={() => this.handleOpeanLog(row)}>操作记录</a>
+							<span className="yc-table-text-link" onClick={() => this.handleOpeanLog(row)}>操作记录</span>
 						</div>
 					),
 				},
@@ -243,7 +243,7 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
-						<div className="page-size">
+						<div className="yc-table-pagination ">
 							<Pagination
 								current={current}
 								pageSize={pageSize}

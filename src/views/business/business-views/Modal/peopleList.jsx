@@ -60,6 +60,9 @@ export default class DetailModal extends React.PureComponent {
 				});
 			} else {
 				message.error(res.message);
+				this.setState({
+					loading: false,
+				});
 			}
 		});
 	}

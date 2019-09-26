@@ -248,7 +248,7 @@ class BusinessDebtor extends React.Component {
 				</div>
 				<Spin visible={loading}>
 					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} />
-					<div className="yc-pagination">
+					<div className="yc-table-pagination">
 						<Pagination
 							total={totals}
 							current={current}

@@ -1,6 +1,6 @@
 .yc-business-wrapper {
   color: #20242e;
-  padding: 0 20px;
+  padding: 0 20px 20px;
   box-sizing: border-box;
   .ant-breadcrumb {
     display: inline-block;
@@ -45,7 +45,7 @@
       font-size: 12px;
       line-height: 22px;
       a {
-        color: #337ab7;
+        color: $text-link;
         &:hover {
           text-decoration: underline;
         }

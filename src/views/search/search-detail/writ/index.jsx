@@ -418,7 +418,7 @@ class WRIT extends React.Component {
 							SortTime={this.SortTime}
 							Sort={Sort}
 						/>
-						<div className="yc-pagination">
+						<div className="yc-table-pagination">
 							<Pagination
 								total={totals && totals > 1000 ? 1000 : totals}
 								current={current}

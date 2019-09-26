@@ -760,7 +760,7 @@ class LAWSUITS extends React.Component {
 						Sort={Sort}
 						type={type}
 					/>
-					<div className="yc-pagination">
+					<div className="yc-table-pagination">
 						<Pagination
 							total={totals && totals > 1000 ? 1000 : totals}
 							current={current}

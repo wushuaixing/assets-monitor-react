@@ -58,7 +58,7 @@ export default class DebtorDetail extends React.Component {
 				key: 'operation',
 				render: (text, row) => (
 					<span>
-						<a onClick={() => this.detail(row)}>查看</a>
+						<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>
 					</span>
 				),
 			}],

@@ -3,7 +3,7 @@
   height: 50px;
   width: 100%;
   .temp-class{
-    @extend .public-fontsize;
+    font-size: 12px;
     height: 100px;
   }
   .yc-header-content {

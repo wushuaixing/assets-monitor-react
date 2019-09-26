@@ -63,7 +63,7 @@ class InformCenter extends React.Component {
 					render: (text, row) => (
 						<div
 							onClick={() => this.handledDeleteBatch(row)}
-							className="yc-message-delete"
+							className="yc-table-text-link"
 						>
 							删除
 						</div>
@@ -354,7 +354,7 @@ class InformCenter extends React.Component {
 							pagination={false}
 							rowKey={record => record.id}
 						/>
-						<div className="yc-pagination">
+						<div className="yc-table-pagination">
 							<Pagination
 								total={tabTotal}
 								current={current}
