@@ -44,7 +44,7 @@ const content = (
 const Footer = () => (
 	<div className="yc-footer-wrapper">
 		<div className="yc-footer-content">
-			<div className="clearfix">
+			<div className="clear-fix">
 				<div className="left">
 					<div className="copyright-item-first">
 						<Popover content={content}>

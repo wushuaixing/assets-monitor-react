@@ -1,15 +1,12 @@
 .yc-header-wrapper {
-  background-color: $color-base;
+  background-color: $common-base;
   height: 50px;
   width: 100%;
-  .temp-class{
-    font-size: 12px;
-    height: 100px;
-  }
+
   .yc-header-content {
     width: 1200px;
     margin: 0 auto;
-    color: #ffffff;
+    color: #FFFFFF;
 
     .header-logo {
       padding: 8px 0;
@@ -27,21 +24,23 @@
       }
 
       span {
+        //@extend .yc-public-title;
         height: 30px;
         line-height: 30px;
-        font-size: 16px;
         margin-left: 10px;
-        font-weight: bold;
       }
     }
+
     .header-item-active {
-      background: $color-text-hover;
+      background: $common-base-active;
     }
+
     .header-item-normal {
       &:hover {
-        background: $color-text-hover;
+        background: $common-base-hover;
       }
     }
+
     .header-menu {
       display: inline-block;
       margin-left: 100px;
@@ -52,9 +51,6 @@
         padding: 15px;
         position: relative;
         cursor: pointer;
-        // span {
-        //   cursor: pointer;
-        // }
       }
 
       .header-child-item {
@@ -65,30 +61,35 @@
         z-index: 3;
         min-width: 120px;
         height: auto;
-        background-color: #ffffff;
+        background-color: #FFFFFF;
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
-        border: 1px solid $fontColor-hover;
+        border: 1px solid $border-base;
         border-radius: 0 0 2px 2px;
+
         li {
           height: 40px;
           padding: 0 20px;
           line-height: 40px;
           font-size: 12px;
           cursor: pointer;
-          color: $fontColor-base;
+          color: $text-title;
+
           &:hover {
-            background-color: $fontColor-hover;
+            background-color: $background-list-hover;
           }
         }
+
         .child-item-active {
-          background-color: $fontColor-hover;
+          background-color: $background-list-hover;
         }
+
         .child-item-normal {
           &:hover {
-            background-color: $fontColor-hover;
+            background-color: $background-list-hover;
           }
         }
       }
+
       .header-item-YC01,
       .header-item-YC02,
       .header-item-YC07,
@@ -108,6 +109,7 @@
     .header-else {
       float: right;
       height: 50px;
+
       .yc-leftTime {
         float: left;
         margin-top: 15px;
@@ -115,10 +117,11 @@
         margin-right: 13px;
         font-size: 12px;
         font-weight: bold;
-        background: #f0ad4e;
+        background: $common-warning;
         line-height: 1;
         border-radius: 0.25em;
       }
+
       .else-child {
         display: inline-block;
         vertical-align: top;
@@ -126,14 +129,17 @@
         cursor: pointer;
         position: relative;
       }
+
       .else-notice {
         line-height: 30px;
         padding: 10px;
+
         &:hover {
           .yc-header-message {
             display: block;
           }
         }
+
         .yc-header-message {
           display: none;
         }
@@ -143,6 +149,7 @@
           width: 26px;
           height: 26px;
         }
+
         .notice-number {
           margin-left: 5px;
           font-size: 12px;
@@ -154,7 +161,8 @@
         height: 20px;
         margin-top: 15px;
         width: 1px;
-        background: #7a82aa;
+        background: $border-base;
+        opacity: 0.3;
       }
 
       .else-username {
@@ -166,9 +174,11 @@
             display: block;
           }
         }
+
         .yc-header-center {
           display: none;
         }
+
         .else-child-li {
           font-size: 12px;
           line-height: 18px;
@@ -179,20 +189,14 @@
   }
 }
 
-.yc-span-padding {
-  padding: 5px 5px 5px 0;
-  display: block;
-  font-size: 14px;
-  min-width: 80px;
-}
-
 .yc-container-wrapper {
-  background: #f0f2f5;
+  background: $background-base;
   margin: 20px 0 40px 0;
   min-height: 688px;
   padding-bottom: 150px;
+
   .yc-container-content {
-    background: #ffffff;
+    background: #FFFFFF;
     width: 1200px;
     height: 100%;
     min-height: 666px;
@@ -204,32 +208,31 @@
   height: 150px;
   width: 100%;
   overflow: hidden;
-  background-color: #3a3f4c;
+  background-color: $background-footer;
   color: #fff;
   position: absolute;
   bottom: 0;
-  // .yc-footer-img {
-  //   width: 14px;
-  //   height: 14px;
-  //   margin-right: 5px;
-  //   position: relative;
-  //   bottom: -2px;
-  // }
+
   .yc-footer-content {
     width: 1200px;
     margin: 0 auto;
     padding: 20px 0;
-    .clearfix {
+
+    .clear-fix {
       zoom: 1;
+
       .left {
         float: left;
         padding-left: 18px;
+
         .copyright-item-first {
           padding-top: 20px;
+
           span:hover {
             cursor: pointer;
           }
         }
+
         .copyright-item {
           padding: 10px 0;
           font-size: 12px;
@@ -237,9 +240,11 @@
           color: rgba(255, 255, 255, 0.7);
         }
       }
+
       .right {
         float: right;
         padding-top: 20px;
+
         .copyright-code-text {
           display: inline-block;
           width: 145px;

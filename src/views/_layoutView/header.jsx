@@ -338,7 +338,7 @@ export default class Headers extends React.Component {
 				<div className="yc-header-content">
 					<div className="header-logo">
 						<img src={logoImg} alt="" />
-						<span>{logoText}</span>
+						<span className="yc-public-white-large-bold">{logoText}</span>
 					</div>
 					<div className="header-menu">
 						{ config.map(items => (

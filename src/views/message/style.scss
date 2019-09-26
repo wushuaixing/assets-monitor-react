@@ -8,18 +8,17 @@
   .yc-message-content {
     &:hover {
       cursor: pointer;
-      color: $fontColor-base-2;
+      color: #337ab7;
     }
   }
   .yc-message-delete {
-    color: $fontColor-base-2;
+    color: #337ab7;
     cursor: pointer;
     &:hover {
       text-decoration: underline;
     }
   }
   .yc-content-wapper {
-    padding-bottom: 40px;
     background-color: #FFFFFF;
     color: #20242e;
     padding: 0 20px;
