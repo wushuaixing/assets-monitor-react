@@ -1,5 +1,4 @@
 /* 系统样式规范 --- start  */
-@import "./text-specification.scss";
 
 ///* 1.颜色规范 */
 ///* 系统色 */
@@ -43,6 +42,27 @@ $background-line: #E5E5E5;
 $background-list-hover: #EBF1FA;
 // 列表内容背景色
 $background-list: #F6F6F7;
+
+
+/* 2.文字规范 */
+
+// 内容类型 -title -remark -white
+// 字体类型 -normal -large -super
+// 是否加粗 -bold
+
+// 一些普遍场景的样式规整
+@each $colorText, $color in ('-title': $text-title, '-remark': $text-remark, '':$text-content,'-white': #FFFFFF,) {
+  @each $fontSize, $size in ('-normal': 14px, '-large': 16px, '':12px, '-super': 18px,) {
+    @each $fontWeight, $weight in ('-bold': 700, '':400) {
+      .yc-public#{$colorText+$fontSize+$fontWeight} {
+        color: $color;
+        font-size: $size;
+        line-height: $size*1.5;
+        font-weight: $weight;
+      }
+    }
+  }
+}
 
 /* --- end  */
 
