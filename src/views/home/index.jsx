@@ -32,12 +32,6 @@ class HomeRouter extends React.Component {
 		}
 	}
 
-	// componentWillUnmount() {
-	// 	// 组件卸载时判断getData是否存在，存在则取消掉请求
-	// 	if (this.getData) {
-	// 		this.getData();
-	// 	}
-	// }
 
 	// 获取消息列表
 	getData = () => {

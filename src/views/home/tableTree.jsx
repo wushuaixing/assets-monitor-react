@@ -286,7 +286,7 @@ class Login extends React.Component {
 						onKeyUp={this.onKeyup}
 						onBlur={e => this.inputSearchBlur(e)}
 					/>
-					<Button onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button>
+					<Button type="primary" onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button>
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (
