@@ -67,7 +67,6 @@ service.interceptors.request.use(
 	},
 );
 
-// response 拦截  请求相应之后的拦截webp
 service.interceptors.response.use(
 	(response) => {
 		/**
@@ -84,20 +83,27 @@ service.interceptors.response.use(
 				ele.cancel('请求取消');
 				delete axiosPromiseArr[index];
 			});
-			message.error(res.message);
+			// 如果没有token直接返回到登陆界面
+			if (cookies.get('token') !== undefined) {
+				message.error(res.message);
+			}
 			navigate('/login');
 			return Promise.reject(new Error('token失效'));
 		}
 		return response;
 	},
 	(error) => {
-		if (axios.isCancel(error)) {
+		// 如果没有token直接返回到登陆界面
+		if (cookies.get('token') === undefined) {
+			navigate('/login');
+		} else if (axios.isCancel(error)) {
 			console.log('isCancel error:', error);
 		} else {
 			message.error(error.message);
 		}
 	},
 );
+
 const serviceFile = axios.create({
 	baseURL: process.env.BASE_URL,
 	timeout: 1000 * 5 * 60,
