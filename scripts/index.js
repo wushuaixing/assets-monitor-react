@@ -18,6 +18,8 @@ module.exports = {
 	output: {
 		path: `${ROOT}/docs`,
 		filename: 'index.[contenthash].js',
+		chunkFilename: '[name].[chunkhash].js',
+		publicPath: './'
 	},
 	resolve: {
 		alias: {

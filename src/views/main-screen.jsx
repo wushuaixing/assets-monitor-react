@@ -2,13 +2,14 @@ import React from 'react';
 import { Router, navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 /* 子路由模块  */
+import Loadable from '@/common/loadable';
 import Home from './home';
-import Monitor from './asset-excavate';
-import Risk from './risk-mointor';
-import Business from './business';
+// import Monitor from '@/views/asset-excavate';
+// import Risk from './risk-mointor';
+// import Business from './business';
 // import Company from './company';
-import Search from './search';
-import Organization from './organization';
+// import Search from './search';
+// import Organization from './organization';
 import Message from './message';
 import ChangePassword from './changPassword';
 import { Spin, Button } from '@/common';
@@ -16,6 +17,13 @@ import { Header, Container, Footer } from '@/views/_layoutView';
 import { authRule } from '@/utils/api';
 import { handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
+
+// 新的引用方式，分割代码，懒加载
+const Monitor = Loadable(() => import('./asset-excavate'));
+const Risk = Loadable(() => import('./risk-mointor'));
+const Business = Loadable(() => import('./business'));
+const Search = Loadable(() => import('./search'));
+const Organization = Loadable(() => import('./organization'));
 
 const cookie = new Cookies();
 
@@ -62,6 +70,9 @@ export default class Screen extends React.Component {
 		if (firstLogin === 'true') {
 			navigate('/change/password');
 		}
+		const token = cookie.get('token');
+		if (!token) { navigate('/login'); return; }
+
 		this.clientHeight = 500 || document.body.clientHeight;
 		// console.log('componentWillMount:', document.body.clientHeight);
 		authRule().then((res) => {
