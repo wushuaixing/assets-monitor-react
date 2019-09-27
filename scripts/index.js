@@ -8,6 +8,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
 	mode: ENV || 'production',
@@ -102,7 +103,7 @@ module.exports = {
 					publicPath: '../',
 					hmr: process.env.NODE_ENV === 'development',
 				},
-			},'css-loader', 'sass-loader',
+			}, 'css-loader', 'sass-loader',
 				{
 					loader: 'sass-resources-loader',
 					options: {
@@ -113,7 +114,7 @@ module.exports = {
 					}
 				},
 
-				],
+			],
 		}, {
 			// 文件解析
 			test: /\.(eot|woff|otf|svg|ttf|woff2|appcache|mp3|mp4|pdf)(\?|$)/,
@@ -143,6 +144,15 @@ module.exports = {
 				},
 			}),
 		],
+		splitChunks: {
+			cacheGroups: {
+				commons: {
+					name: 'commons',
+					chunks: 'initial',
+					minChunks: 2
+				}
+			}
+		}
 	},
 	plugins: [
 		new webpack.DllReferencePlugin({
@@ -177,9 +187,13 @@ module.exports = {
 		new OptimizeCssAssetsPlugin({
 			assetNameRegExp: /\.css$/g,
 			cssProcessor: require('cssnano'),
-			cssProcessorOptions: { safe: true, discardComments: { removeAll: true } },
+			cssProcessorOptions: {
+				safe: true,
+				discardComments: { removeAll: true }
+			},
 			canPrint: true
-		})
+		}),
+		// new BundleAnalyzerPlugin({ analyzerPort: 9988 }),
 	],
 	devServer: {	// didn't work on IE8
 		contentBase: `${ROOT}/docs`,
@@ -192,6 +206,6 @@ module.exports = {
 		// 		target: "http://172.18.255.251:18080",
 		// 		pathRewrite: { "^/api": "" }
 		// 	},
-    // }
+		// }
 	},
 };
