@@ -5,6 +5,7 @@ import PropTypes from 'reactPropTypes';
 import { exportFile, normalGet } from '@/utils/api/home';
 import { clearEmpty, urlEncode } from '@/utils';
 import Button from '../button';
+import baseUrl from '@/utils/api/config';
 
 const cookies = new Cookies();
 export default class Download extends React.Component {
@@ -40,7 +41,9 @@ export default class Download extends React.Component {
 				const { code, data } = res;
 				if (code === 200) {
 					this.setState({ loadingStatus: 'normal' });
-					window.open(`${exportFile(data)}?token=${token}`, '_self');
+					// console.log(baseUrl, `${baseUrl}${exportFile(data)}?token=${token}`);
+					// return false;
+					window.open(`${baseUrl}${exportFile(data)}?token=${token}`, '_self');
 				} else {
 					this.setState({ loadingStatus: 'normal' });
 					message.error(res.message || '网络异常请稍后再试');
@@ -49,6 +52,7 @@ export default class Download extends React.Component {
 				message.warning('网络异常请稍后再试！');
 			});
 		};
+
 		if (current) {
 			// console.log('本页导出');
 			Modal.confirm({
@@ -61,7 +65,7 @@ export default class Download extends React.Component {
 				onCancel() {},
 			});
 		} else if (all) {
-			// console.log('一键导出');
+			console.log('一键导出');
 			Modal.confirm({
 				title: '确认导出选中的所有信息吗？',
 				content: '点击确定，将为您导出所有选中的信息',
@@ -73,7 +77,7 @@ export default class Download extends React.Component {
 			});
 		} else if (c[field] && window._.isArray(c[field])) {
 			if (c[field].length > 0) {
-				// console.log('部分导出');
+				console.log('部分导出');
 				toOkClick();
 			} else {
 				message.warning('未选中业务');
