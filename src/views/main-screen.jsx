@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import Loadable from '@/common/loadable';
 import Home from './home';
 // import Monitor from '@/views/asset-excavate';
-// import Risk from './risk-mointor';
+// import Risk from './risk-monitor';
 // import Business from './business';
 // import Company from './company';
 // import Search from './search';
@@ -20,7 +20,7 @@ import Error500 from '@/assets/img/error/500@2x.png';
 
 // 新的引用方式，分割代码，懒加载
 const Monitor = Loadable(() => import('./asset-excavate'));
-const Risk = Loadable(() => import('./risk-mointor'));
+const Risk = Loadable(() => import('./risk-monitor'));
 const Business = Loadable(() => import('./business'));
 const Search = Loadable(() => import('./search'));
 const Organization = Loadable(() => import('./organization'));
