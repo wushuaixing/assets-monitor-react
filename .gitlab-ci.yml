@@ -21,6 +21,7 @@ install_deps:
   script:
     - node -v
     - mv -f ./src/utils/api/config/dev.js ./src/utils/api/config/index.js
+    - cat ./src/views/main-screen.jsx
     - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
     - yarn config set sass-binary-site https://npm.taobao.org/mirrors/node-sass
     - yarn install
@@ -69,6 +70,5 @@ deploy_step_dev:
     - chmod 700 ~/.ssh
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
-    - cat ./src/views/main-screen.jsx
     - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-monitor-dev/web
 
