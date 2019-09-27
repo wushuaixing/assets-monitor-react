@@ -241,7 +241,9 @@ class LAWSUITS extends React.Component {
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
-								style={{ 'margin-top': 8, cursor: 'pointer' }}
+								style={{
+									'margin-top': 8, cursor: 'pointer', width: 16, height: 16,
+								}}
 								src={add}
 								onClick={() => this.addYg()}
 							/>
@@ -278,7 +280,9 @@ class LAWSUITS extends React.Component {
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
-								style={{ 'margin-top': 8, cursor: 'pointer' }}
+								style={{
+									'margin-top': 8, cursor: 'pointer', width: 16, height: 16,
+								}}
 								src={add}
 								onClick={() => this.addBg()}
 							/>
@@ -304,6 +308,7 @@ class LAWSUITS extends React.Component {
 						<span>日期选择：</span>
 						<DatePicker
 							placeholder="开始日期"
+							size="large"
 							style={{ width: 112 }}
 							{...getFieldProps('uploadTimeStart', {
 								onChange: (value, dateString) => {
@@ -319,6 +324,7 @@ class LAWSUITS extends React.Component {
 						<span style={{ margin: '0 2px ' }}>至</span>
 						<DatePicker
 							placeholder="结束日期"
+							size="large"
 							style={{ width: 112 }}
 							{...getFieldProps('uploadTimeEnd', {
 								onChange: (value, dateString) => {

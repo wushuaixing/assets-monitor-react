@@ -43,7 +43,7 @@
   .yc-home-content {
     width: 1200px;
     color: $text-title;
-    padding: 0 20px 36px 20px;
+    padding: 0 20px;
     box-sizing: border-box;
     .yc-content-title {
       padding-top: 30px;
@@ -57,7 +57,7 @@
       height: 196px;
       width: 100%;
       padding-bottom: 40px;
-      border-bottom: 1px solid $background-base;
+      // border-bottom: 1px solid $background-base;
 
       .yc-content-item {
         zoom: 1;
@@ -136,6 +136,15 @@
     }
   }
   .yc-container-main {
+    padding: 0 20px 36px 20px;
+    box-sizing: border-box;
+    .yc-content-title {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 1;
+      color: $text-title;
+      padding: 30px 0 24px;
+    }
     .yc-no-container {
       padding: 30px;
       text-align: center;

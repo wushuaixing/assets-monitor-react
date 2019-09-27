@@ -1,61 +1,67 @@
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Table, Pagination, message } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
+import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
 import { linkDom } from '@/utils';
 
 
 // 抵押详情
-const MortgageDetail = (text, rowContent) => {
-	const { obligorId } = rowContent;
-	return (
-		<React.Fragment>
-			<div className="assets-info-content">
-				<li>
-					<span className="list list-title align-justify " style={{ width: 80 }}>抵押物名称</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content text-ellipsis">{'✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘' || obligorId}</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>登记编号</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">✘✘✘✘✘✘</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>担保债权数额</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">✘✘✘✘✘✘</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 130 }}>债务人履行债务的期限</span>
-					<span className="list list-title-colon">:</span>
-				</li>
-				<li>
-					<span className="list list-content" style={{ maxWidth: 'none' }}>自 ✘✘✘✘年✘✘月✘✘日 至 ✘✘✘✘年✘✘月✘✘日</span>
-				</li>
-			</div>
-		</React.Fragment>
-	);
-};
+const MortgageDetail = (text, rowContent) => (
+	<React.Fragment>
+		<div className="assets-info-content">
+			<li>
+				<span className="list list-title align-justify " style={{ width: 80 }}>抵押物名称</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content text-ellipsis">{rowContent.pawnName || '-'}</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 80 }}>登记编号</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{rowContent.regNum || '-'}</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 80 }}>担保债权数额</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{rowContent.amount || '-'}</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 130 }}>债务人履行债务的期限</span>
+				<span className="list list-title-colon">:</span>
+			</li>
+			<li>
+				<span className="list list-content" style={{ maxWidth: 'none' }}>{rowContent.term || '-'}</span>
+			</li>
+		</div>
+	</React.Fragment>
+);
 
 // 登记详情
 const RegisterDetail = (text, rowContent) => {
-	const { obligorId } = rowContent;
+	let status;
+	if (rowContent.status === 0) {
+		status = '无效';
+	} else if (rowContent.status === 1) {
+		status = '有效';
+	} else {
+		status = '-';
+	}
 	return (
 		<React.Fragment>
 			<div className="assets-info-content">
 				<li>
-					<span className="list list-content text-ellipsis">{'✘✘✘✘✘✘✘✘✘✘' || obligorId}</span>
+					<span className="list list-content text-ellipsis">
+						{status}
+					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify" style={{ width: 'auto' }}>注销原因</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">✘✘✘✘✘✘</span>
+					<span className="list list-content">{rowContent.cancelReason && rowContent.cancelReason.length > 1 ? rowContent.cancelReason : '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify" style={{ width: 'auto' }}>注销时间</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">✘✘✘✘年✘✘月✘✘日</span>
+					<span className="list list-content">{rowContent.cancelDate || '-'}</span>
 				</li>
 			</div>
 		</React.Fragment>
@@ -73,34 +79,34 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>登记日期</span>
-				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
-			dataIndex: 'publishDate2',
+				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
+			dataIndex: 'regDate',
 			width: 115,
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '✘✘✘✘-✘✘-✘✘', record),
+			render: (text, record) => ReadStatus(text || '-', record),
 		}, {
 			title: '抵押物所有人',
-			dataIndex: 'obligorName2',
+			dataIndex: 'owner',
 			width: 100,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '✘✘✘✘✘✘✘✘✘✘'),
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
 		}, {
 			title: '抵押权人',
-			dataIndex: 'obligorName3',
+			dataIndex: 'people',
 			width: 100,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '✘✘✘✘✘✘✘✘'),
+			render: text => (<span>{text || '-'}</span>),
 		}, {
 			title: '抵押详情',
-			width: 240,
+			width: 160,
 			render: MortgageDetail,
 		}, {
 			title: '登记状态',
-			width: 150,
+			width: 130,
 			render: RegisterDetail,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
+			dataIndex: 'gmtModified',
 			width: 90,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			render: text => <span>{text || '-'}</span>,
 		}, {
 			title: '操作',
 			width: 55,
@@ -110,9 +116,8 @@ const columns = (props) => {
 				<Attentions
 					text={text}
 					row={row}
-					single
 					onClick={onRefresh}
-					api={row.isAttention ? unFollowSingle : followSingle}
+					api={row.isAttention ? postUnFollow : postFollow}
 					index={index}
 				/>
 			),
@@ -139,10 +144,12 @@ export default class TableView extends React.Component {
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
-		if (!isRead) {
-			readStatus({ idList: [id] }).then((res) => {
+		if (isRead === 0) {
+			postMarkRead({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				} else {
+					message.error(res.data.message);
 				}
 			});
 		}
@@ -175,7 +182,7 @@ export default class TableView extends React.Component {
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
+					rowClassName={record => (record.isRead === 1 ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
 				<div className="yc-table-pagination">

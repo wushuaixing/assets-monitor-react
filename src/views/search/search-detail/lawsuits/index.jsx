@@ -619,7 +619,14 @@ class LAWSUITS extends React.Component {
 					))
 				}
 					{
-					yg.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个原告</span>) : (
+					yg.length > 2 ? (
+						<span style={{
+							fontSize: 12, marginTop: 3, display: 'inline-block', color: '#FB5A5C',
+						}}
+						>
+							最多可添加3个原告
+						</span>
+					) : (
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
@@ -659,7 +666,14 @@ class LAWSUITS extends React.Component {
 						))
 					}
 					{
-						bg.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个被告</span>) : (
+						bg.length > 2 ? (
+							<span style={{
+								fontSize: 12, marginTop: 3, display: 'inline-block', color: '#FB5A5C',
+							}}
+							>
+								最多可添加3个被告
+							</span>
+						) : (
 							<Tooltip placement="top" title="添加">
 								<img
 									alt=""

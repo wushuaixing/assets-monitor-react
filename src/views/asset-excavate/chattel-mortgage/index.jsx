@@ -1,15 +1,15 @@
 import React from 'react';
+import { Modal, message } from 'antd';
 import Query from './query';
 import Table from './table';
-import { Modal, message } from 'antd';
 import { Button, Download, Spin } from '@/common';
+
 import {
-	infoList, readStatus, exportList, follow,
-} from '@/utils/api/monitor-info/bankruptcy';
+	getMortgageList, postMarkReadAll, postFollow, exportList,
+} from '@/utils/api/monitor-info/mortgage';
 import './style.scss';
 import { fileExport } from '@/views/asset-excavate/table-common';
 import { clearEmpty } from '@/utils';
-import { unReadCount } from '@/utils/api/monitor-info';
 
 
 export default class Subrogation extends React.Component {
@@ -24,13 +24,11 @@ export default class Subrogation extends React.Component {
 			loading: true,
 			manage: false,
 		};
-		this.unReadCount = false;
 		this.condition = {};
 		this.selectRow = [];
 	}
 
 	componentDidMount() {
-		this.onUnReadCount();
 		this.onQueryChange({});
 	}
 
@@ -49,24 +47,19 @@ export default class Subrogation extends React.Component {
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		if (this.unReadCount) {
-			Modal.confirm({
-				title: '确认将所有信息全部标记为已读？',
-				content: '点击确定，将为您把全部消息标记为已读。',
-				iconType: 'exclamation-circle',
-				onOk() {
-					readStatus({}).then((res) => {
-						if (res.code === 200) {
-							_this.onQueryChange();
-							_this.onUnReadCount();
-						}
-					});
-				},
-				onCancel() {},
-			});
-		} else {
-			message.warning('最新信息已经全部已读，没有未读信息了');
-		}
+		Modal.confirm({
+			title: '确认将所有信息全部标记为已读？',
+			content: '点击确定，将为您把全部消息标记为已读。',
+			iconType: 'exclamation-circle',
+			onOk() {
+				postMarkReadAll({}).then((res) => {
+					if (res.code === 200) {
+						_this.onQueryChange();
+					}
+				});
+			},
+			onCancel() {},
+		});
 	};
 
 	// 一键导出 & 批量导出
@@ -91,7 +84,7 @@ export default class Subrogation extends React.Component {
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					follow({ idList }, true).then((res) => {
+					postFollow({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
 							const _dataSource = dataSource.map((item) => {
@@ -122,16 +115,6 @@ export default class Subrogation extends React.Component {
 		_dataSource[index][type] = data[type];
 		this.setState({
 			dataSource: _dataSource,
-		});
-	};
-
-	// 查询是否有未读消息
-	onUnReadCount=() => {
-		unReadCount().then((res) => {
-			const { data, code } = res;
-			if (code === 200) {
-				this.unReadCount = data.bankruptcyCount;
-			}
 		});
 	};
 
@@ -169,7 +152,7 @@ export default class Subrogation extends React.Component {
 			loading: true,
 			manage: _manage || false,
 		});
-		infoList(clearEmpty(this.condition)).then((res) => {
+		getMortgageList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -222,7 +205,7 @@ export default class Subrogation extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-							<Download condition={() => this.condition} api={exportList} all text="一键导出" style={{ float: 'right' }} />
+							<Download condition={() => this.condition} api={exportList} all text="一键导出" style={{ float: 'right', marginRight: 0 }} />
 
 							{/* <Button onClick={() => this.handleExport('all')} > */}
 							{/* <span className="yc-export-img" /> */}

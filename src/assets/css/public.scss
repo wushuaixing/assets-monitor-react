@@ -539,10 +539,10 @@ td.column-center {
 
 //有链接、可点击的元素
 .click-link {
-  color: $fontColor-base-2;
+  color: $text-link;
   cursor: pointer;
   &:hover {
-    color:$fontColor-base;
+    color:$text-link-hover;
     text-decoration: underline;
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Input, Button, timeRule } from '@/common';
-import InputPrice from '@/common/input/input-price';
 import {
 	DatePicker, Form, Select, message,
 } from 'antd';
+import { Input, Button, timeRule } from '@/common';
+import InputPrice from '@/common/input/input-price';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -42,7 +42,6 @@ class QueryCondition extends React.Component {
 		form.resetFields();
 		const condition = form.getFieldsValue();
 		if (onQueryChange)onQueryChange(condition, '', '', 1);
-		// console.log(form.getFieldsValue());
 	};
 
 	render() {
@@ -66,11 +65,11 @@ class QueryCondition extends React.Component {
 						size="large"
 						defaultValue="all"
 						style={{ width: 150 }}
-						{...getFieldProps('important1', { initialValue: '' })}
+						{...getFieldProps('state', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>
+						<Select.Option value="0">无效</Select.Option>
 						<Select.Option value="1">有效</Select.Option>
-						<Select.Option value="2">无效</Select.Option>
 					</Select>
 				</div>
 
@@ -80,11 +79,11 @@ class QueryCondition extends React.Component {
 						size="large"
 						defaultValue="all"
 						style={{ width: 150 }}
-						{...getFieldProps('important2', { initialValue: '' })}
+						{...getFieldProps('role', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="1">抵押物所有人</Select.Option>
-						<Select.Option value="2">抵押权人</Select.Option>
+						<Select.Option value="0">抵押物所有人</Select.Option>
+						<Select.Option value="1">抵押权人</Select.Option>
 					</Select>
 				</div>
 
@@ -94,54 +93,42 @@ class QueryCondition extends React.Component {
 						style={_style1}
 						size="large"
 						suffix="万元"
-						inputFirstProps={getFieldProps('consultPriceStart', {
+						inputFirstProps={getFieldProps('lowPrice', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
 							rules: [
 								{
 									required: true,
 									validator(rule, value, callback) {
-										const consultPriceEnd = getFieldValue('consultPriceEnd');
+										const consultPriceEnd = getFieldValue('highPrice');
 										if (consultPriceEnd && value) {
 											if (Number(value) > Number(consultPriceEnd)) {
 												message.error('评估价最低价不得高过最高价', 2);
-												// setFieldsValue({ consultPriceStart: '' });
 											}
 										}
 										if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
 											message.error('只能输入正整数！', 2);
-											// setFieldsValue({ consultPriceStart: '' });
 										}
-										// if (Number(value) > 9999999) {
-										// 	message.error('数值上限不得超过9999999', 2);
-										// 	// setFieldsValue({ consultPriceStart: '' });
-										// }
 										callback();
 									},
 								}],
 						})}
-						inputSecondProps={getFieldProps('consultPriceEnd', {
+						inputSecondProps={getFieldProps('highPrice', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
 							rules: [
 								{
 									required: true,
 									validator(rule, value, callback) {
-										const consultPriceStart = getFieldValue('consultPriceStart');
+										const consultPriceStart = getFieldValue('lowPrice');
 										if (consultPriceStart && value) {
 											if (Number(value) < Number(consultPriceStart)) {
 												message.error('评估价最高价不得低于最低价', 2);
-												// setFieldsValue({ consultPriceEnd: '' });
 											}
 										}
 										if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
 											message.error('只能输入正整数', 2);
-											// setFieldsValue({ consultPriceEnd: '' });
 										}
-										// if (Number(value) > 9999999) {
-										// 	message.error('数值上限不得超过9999999', 2);
-										// 	// setFieldsValue({ consultPriceEnd: '' });
-										// }
 										callback();
 									},
 								}],
@@ -155,16 +142,16 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('publishDateStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishDateEnd'))}
+						{...getFieldProps('regDateStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('regDateEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('publishDateEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishDateStart'))}
+						{...getFieldProps('regDateEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('regDateStart'))}
 					/>
 				</div>
 
@@ -174,21 +161,21 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('updateTimeStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('updateTimeEnd'))}
+						{...getFieldProps('createTimeStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createTimeEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('updateTimeEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('updateTimeStart'))}
+						{...getFieldProps('createTimeEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('createTimeStart'))}
 					/>
 				</div>
 				<div className="yc-query-item yc-query-item-btn">
 					<Button size="large" type="warning" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
-					<Button size="large" style={{ width: 120 }} onClick={this.handleReset}>重置查询条件</Button>
+					<Button size="large" style={{ width: 110, marginRight: 0 }} onClick={this.handleReset}>重置查询条件</Button>
 				</div>
 				<div className="yc-split-hr" />
 			</div>

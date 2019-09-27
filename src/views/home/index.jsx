@@ -128,12 +128,13 @@ class HomeRouter extends React.Component {
 							</div>
 						</div>
 					</div>
-					<div className="yc-container-main">
-						<div className="yc-content-title">
+				</div>
+				<div className="yc-home-background" />
+				<div className="yc-container-main">
+					<div className="yc-content-title">
 							机构统计
-						</div>
-						<TableTree tree={tree && tree} />
 					</div>
+					<TableTree tree={tree && tree} />
 				</div>
 			</div>
 		);
