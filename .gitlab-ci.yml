@@ -37,7 +37,7 @@ build_step:
     - dev-branch
   script:
     - rm ./docs/* -rf
-    - yarn build
+    - yarn build:index
 
 # 拷贝
 deploy_step:
