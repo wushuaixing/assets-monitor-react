@@ -18,7 +18,7 @@ export default class Subrogation extends React.Component {
 		document.title = '动产抵押-监控信息';
 		this.state = {
 			isRead: 'all',
-			dataSource: '',
+			dataSource: [],
 			current: 1,
 			total: 0,
 			loading: true,
@@ -187,6 +187,7 @@ export default class Subrogation extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
+
 		return (
 			<div className="yc-assets-auction">
 				<Query onQueryChange={this.onQuery} />

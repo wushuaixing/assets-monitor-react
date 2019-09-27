@@ -1,5 +1,7 @@
 import React from 'react';
-import { Table, Pagination, message } from 'antd';
+import {
+	Table, Pagination, message, Tooltip,
+} from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
 import { linkDom } from '@/utils';
@@ -12,12 +14,33 @@ const MortgageDetail = (text, rowContent) => (
 			<li>
 				<span className="list list-title align-justify " style={{ width: 80 }}>抵押物名称</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content text-ellipsis">{rowContent.pawnName || '-'}</span>
+				<span className="list list-content text-ellipsis">
+					{
+						rowContent.pawnName && rowContent.pawnName.length > 10
+							? (
+								<Tooltip placement="topLeft" title={rowContent.pawnName}>
+									<p>{`${rowContent.pawnName.substr(0, 10)}...`}</p>
+								</Tooltip>
+							)
+							: <p>{rowContent.pawnName || '-'}</p>
+					}
+				</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 80 }}>登记编号</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{rowContent.regNum || '-'}</span>
+				<span className="list list-content">
+					{rowContent.regNum || '-'}
+					{/* {
+						rowContent.regNum && rowContent.regNum.length > 10
+							? (
+								<Tooltip placement="topLeft" title={rowContent.regNum}>
+									<p>{`${rowContent.regNum.substr(0, 10)}...`}</p>
+								</Tooltip>
+							)
+							: <p>{rowContent.regNum || '-'}</p>
+					} */}
+				</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 80 }}>担保债权数额</span>
@@ -53,16 +76,24 @@ const RegisterDetail = (text, rowContent) => {
 						{status}
 					</span>
 				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 'auto' }}>注销原因</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{rowContent.cancelReason && rowContent.cancelReason.length > 1 ? rowContent.cancelReason : '-'}</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 'auto' }}>注销时间</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{rowContent.cancelDate || '-'}</span>
-				</li>
+				{
+					rowContent.cancelReason && rowContent.cancelReason.length > 1 && (
+					<li>
+						<span className="list list-title align-justify" style={{ width: 'auto' }}>注销原因</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{rowContent.cancelReason }</span>
+					</li>
+					)
+				}
+				{
+					rowContent.cancelDate && (
+					<li>
+						<span className="list list-title align-justify" style={{ width: 'auto' }}>注销时间</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{rowContent.cancelDate || '-'}</span>
+					</li>
+					)
+				}
 			</div>
 		</React.Fragment>
 	);
@@ -86,16 +117,40 @@ const columns = (props) => {
 		}, {
 			title: '抵押物所有人',
 			dataIndex: 'owner',
-			width: 100,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
+			width: 120,
+			render: (text, row) => (
+				<span>
+					{
+						text && text.length > 10
+							? (
+								<Tooltip placement="topLeft" title={text}>
+									<p>{row.ownerId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.ownerId}`, `${text.substr(0, 10)}...`)}</p>
+								</Tooltip>
+							)
+							: <p>{text || '-'}</p>
+					}
+				</span>
+			),
 		}, {
 			title: '抵押权人',
 			dataIndex: 'people',
-			width: 100,
-			render: text => (<span>{text || '-'}</span>),
+			width: 120,
+			render: (text, row) => (
+				<span>
+					{
+						text && text.length > 10
+							? (
+								<Tooltip placement="topLeft" title={text}>
+									<p>{row.peopleId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.peopleId}`, `${text.substr(0, 10)}...`)}</p>
+								</Tooltip>
+							)
+							: <p>{text || '-'}</p>
+					}
+				</span>
+			),
 		}, {
 			title: '抵押详情',
-			width: 160,
+			width: 200,
 			render: MortgageDetail,
 		}, {
 			title: '登记状态',
@@ -147,7 +202,7 @@ export default class TableView extends React.Component {
 		if (isRead === 0) {
 			postMarkRead({ id }).then((res) => {
 				if (res.code === 200) {
-					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+					onRefresh({ id, isRead: 1, index }, 'isRead');
 				} else {
 					message.error(res.data.message);
 				}
@@ -182,6 +237,7 @@ export default class TableView extends React.Component {
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
+					// rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					rowClassName={record => (record.isRead === 1 ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
