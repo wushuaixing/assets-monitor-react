@@ -2,6 +2,7 @@ import axios from 'axios';
 import { message } from 'antd';
 import Cookies from 'universal-cookie';
 import { navigate } from '@reach/router';
+import BASE_URL from './api/config';
 
 // 获取当前token
 const cookies = new Cookies();
@@ -11,7 +12,7 @@ const axiosPromiseArr = []; // 储存cancel token
 // axios.defaults.withCredentials = true;
 
 const service = axios.create({
-	baseURL: process.env.BASE_URL,
+	baseURL: BASE_URL || process.env.BASE_URL,
 	timeout: 5000 * 4,
 	withCredentials: true,
 	credentials: 'include',
@@ -105,7 +106,7 @@ service.interceptors.response.use(
 );
 
 const serviceFile = axios.create({
-	baseURL: process.env.BASE_URL,
+	baseURL: BASE_URL || process.env.BASE_URL,
 	timeout: 1000 * 5 * 60,
 	withCredentials: true,
 	credentials: 'include',
