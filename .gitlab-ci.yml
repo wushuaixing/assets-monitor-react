@@ -20,7 +20,7 @@ install_deps:
     - dev-branch
   script:
     - node -v
-    - mv ./src/utils/api/config/dev.js ./src/utils/api/config/index.js
+    - mv -f ./src/utils/api/config/dev.js ./src/utils/api/config/index.js
     - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
     - yarn config set sass-binary-site https://npm.taobao.org/mirrors/node-sass
     - yarn install
