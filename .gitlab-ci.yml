@@ -69,5 +69,6 @@ deploy_step_dev:
     - chmod 700 ~/.ssh
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
+    - cat ./src/views/main-screen.jsx
     - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-monitor-dev/web
 
