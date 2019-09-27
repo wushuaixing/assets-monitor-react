@@ -19,7 +19,6 @@ module.exports = {
 		path: `${ROOT}/docs`,
 		filename: 'index.[contenthash].js',
 		chunkFilename: '[name].[chunkhash].js',
-		publicPath: './'
 	},
 	resolve: {
 		alias: {
@@ -146,15 +145,6 @@ module.exports = {
 				},
 			}),
 		],
-		splitChunks: {
-			cacheGroups: {
-				commons: {
-					name: 'commons',
-					chunks: 'initial',
-					minChunks: 2
-				}
-			}
-		}
 	},
 	plugins: [
 		new webpack.DllReferencePlugin({
