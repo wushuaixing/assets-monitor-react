@@ -15,3 +15,41 @@
     float: left;
   }
 }
+
+.yc-content-query {
+  .yc-query-item {
+    position: relative;
+    margin-right: 16px;
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 16px;
+
+    .yc-query-item-title {
+      padding: 9px 3px;
+      height: 34px;
+      line-height: 14px;
+      font-size: 12px;
+    }
+  }
+
+  .yc-more-option {
+    height: 34px;
+    font-size: 12px;
+    line-height: 34px;
+    margin-left: 20px;
+    color: $fontColor-base-1;
+
+    &:hover {
+      color: $fontColor-base;
+    }
+  }
+
+  .yc-query-item-btn {
+    float: right;
+    margin-right: 0;
+
+    button {
+      margin-left: 5px;
+    }
+  }
+}
