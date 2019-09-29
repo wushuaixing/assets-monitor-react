@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, Button, timeRule } from '@/common';
 import { DatePicker, Form } from 'antd';
+import { Input, Button, timeRule } from '@/common';
 
 
 class QueryCondition extends React.Component {

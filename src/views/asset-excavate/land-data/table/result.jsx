@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Table, Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
+import { linkDom } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';
 import { Result } from '@/views/asset-excavate/land-data/table/common';
 // 获取表格配置
@@ -14,15 +14,27 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>签订日期</span>
-				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>签订日期</SortVessel>),
-			dataIndex: 'publishTime',
+				: <SortVessel field="SIGNED_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>签订日期</SortVessel>),
+			dataIndex: 'singedDate',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: (text, record) => ReadStatus(text || '-', record),
 		}, {
 			title: '土地使用人',
-			dataIndex: 'obName',
+			dataIndex: 'obligorName',
 			width: 160,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			render: (text, row) => (
+				<span>
+					{
+						text && text.length > 10
+							? (
+								<Tooltip placement="topLeft" title={text}>
+									<p>{row.obligorId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, `${text.substr(0, 10)}...`)}</p>
+								</Tooltip>
+							)
+							: <p>{text || '-'}</p>
+					}
+				</span>
+			),
 		}, {
 			title: '项目信息',
 			width: 260,
@@ -38,9 +50,9 @@ const columns = (props) => {
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
+			dataIndex: 'gmtModified',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
+			render: text => <span>{text || '-'}</span>,
 		}, {
 			title: '操作',
 			width: 60,
@@ -51,7 +63,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={Api.attentionBid}
+					api={row.isAttention ? Api.attentionUnFollowResult : Api.attentionFollowResult}
 					index={index}
 				/>
 			),
@@ -80,7 +92,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			Api.readStatusBid({ idList: [id] }).then((res) => {
+			Api.readStatusResult({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}
@@ -90,8 +102,9 @@ export default class TableView extends React.Component {
 
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {
-		// console.log(selectedRowKeys, record);
-		const _selectedRowKeys = record.map(item => item.id);
+		// const _selectedRowKeys = record.map(item => item.id);
+		const _selectedRowKeys = selectedRowKeys;
+		console.log(record);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
 		if (onSelect)onSelect(_selectedRowKeys);
@@ -115,6 +128,7 @@ export default class TableView extends React.Component {
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
+					rowKey={record => record.id}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>

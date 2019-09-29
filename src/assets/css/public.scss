@@ -747,6 +747,7 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   color: $text-link;
   &:hover {
     cursor: pointer;
+    color: $text-link-hover;
     text-decoration: underline;
   }
 }

@@ -212,8 +212,8 @@ export default class TableView extends React.Component {
 
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {
-		// console.log(selectedRowKeys, record);
-		const _selectedRowKeys = record.map(item => item.id);
+		const _selectedRowKeys = selectedRowKeys;
+		console.log(record);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
 		if (onSelect)onSelect(_selectedRowKeys);
@@ -237,6 +237,7 @@ export default class TableView extends React.Component {
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
+					rowKey={record => record.id}
 					// rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					rowClassName={record => (record.isRead === 1 ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}

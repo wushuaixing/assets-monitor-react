@@ -1,9 +1,10 @@
 import React from 'react';
-import { Input, Button, timeRule } from '@/common';
-import InputPrice from '@/common/input/input-price';
 import {
 	DatePicker, Form, message, Select,
 } from 'antd';
+import provinceList from '../../../../utils/provinceList';
+import { Input, Button, timeRule } from '@/common';
+import InputPrice from '@/common/input/input-price';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -34,6 +35,10 @@ class QueryCondition extends React.Component {
 	handleSubmit=() => {
 		const { form: { getFieldsValue }, onQueryChange } = this.props;
 		const condition = getFieldsValue();
+		if (condition.lowPrice && Number(condition.lowPrice) > condition.highPrice && Number(condition.highPrice)) {
+			message.error('成交价格最低价不能高于成交价格最高价！');
+			return;
+		}
 		if (onQueryChange)onQueryChange(condition, '', '', 1);
 	};
 
@@ -56,71 +61,29 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obName')} />
+					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="土地用途" style={_style1} size="large" placeholder="土地用途" {...getFieldProps('title')} />
+					<Input title="土地用途" style={_style1} size="large" placeholder="土地用途" {...getFieldProps('landUse')} />
 				</div>
+
 				<div className="yc-query-item">
 					<InputPrice
 						title="成交价格"
 						style={_style1}
 						size="large"
 						suffix="万元"
-						inputFirstProps={getFieldProps('consultPriceStart', {
+						inputFirstProps={getFieldProps('lowPrice', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-							rules: [
-								{
-									required: true,
-									validator(rule, value, callback) {
-										const consultPriceEnd = getFieldValue('consultPriceEnd');
-										if (consultPriceEnd && value) {
-											if (Number(value) > Number(consultPriceEnd)) {
-												message.error('评估价最低价不得高过最高价', 2);
-												// setFieldsValue({ consultPriceStart: '' });
-											}
-										}
-										if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
-											message.error('只能输入正整数！', 2);
-											// setFieldsValue({ consultPriceStart: '' });
-										}
-										// if (Number(value) > 9999999) {
-										// 	message.error('数值上限不得超过9999999', 2);
-										// 	// setFieldsValue({ consultPriceStart: '' });
-										// }
-										callback();
-									},
-								}],
 						})}
-						inputSecondProps={getFieldProps('consultPriceEnd', {
+						inputSecondProps={getFieldProps('highPrice', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-							rules: [
-								{
-									required: true,
-									validator(rule, value, callback) {
-										const consultPriceStart = getFieldValue('consultPriceStart');
-										if (consultPriceStart && value) {
-											if (Number(value) < Number(consultPriceStart)) {
-												message.error('评估价最高价不得低于最低价', 2);
-												// setFieldsValue({ consultPriceEnd: '' });
-											}
-										}
-										if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
-											message.error('只能输入正整数', 2);
-											// setFieldsValue({ consultPriceEnd: '' });
-										}
-										// if (Number(value) > 9999999) {
-										// 	message.error('数值上限不得超过9999999', 2);
-										// 	// setFieldsValue({ consultPriceEnd: '' });
-										// }
-										callback();
-									},
-								}],
 						})}
 					/>
 				</div>
+
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">土地省份：</span>
 					<Select
@@ -128,14 +91,11 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={{ width: 150 }}
 						placeholder="请选择土地省份"
-						{...getFieldProps('status')}
+						{...getFieldProps('province')}
 					>
-						<Select.Option value="9">杭州市</Select.Option>
-						<Select.Option value="11">北京市</Select.Option>
-						<Select.Option value="5">河北省</Select.Option>
-						<Select.Option value="7">天津市</Select.Option>
-						<Select.Option value="1">山西省</Select.Option>
-						<Select.Option value="3">上海市</Select.Option>
+						{
+							provinceList && provinceList.provinceList.map(city => <Select.Option key={city.id} value={city.name}>{city.name}</Select.Option>)
+						}
 					</Select>
 				</div>
 				<div className="yc-query-item">
@@ -144,16 +104,16 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startPublishTime', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endPublishTime'))}
+						{...getFieldProps('signedDateStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createDateEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endPublishTime', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startPublishTime'))}
+						{...getFieldProps('createDateEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('signedDateStart'))}
 					/>
 				</div>
 				<div className="yc-query-item">
@@ -162,7 +122,7 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startCreateTime', timeOption)}
+						{...getFieldProps('createDateStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endCreateTime'))}
 					/>
 					<span className="yc-query-item-title">至</span>
@@ -171,7 +131,7 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="结束日期"
 						{...getFieldProps('endCreateTime', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startCreateTime'))}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('createDateStart'))}
 					/>
 				</div>
 

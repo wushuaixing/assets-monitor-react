@@ -61,7 +61,41 @@ export const focusListPunish = params => service.get('/yc/bulletin/focus/epb/lis
 export const infoCount = params => service.get('/yc/monitor/bulletin/unreadCountList', { params })
 	.then(res => res.data);
 
+/* 土地数据 */
+// 出让结果列表 ===========
+export const infoListResult = async (params) => {
+	const response = await service.get('/yc/monitor/land/list', { params });
+	return response.data;
+};
 
+// 标记为已读
+export const readStatusResult = async (params) => {
+	const response = await service.post('/yc/monitor/land/markRead', params);
+	return response.data;
+};
+
+// 全部标记为已读
+export const readAllStatusResult = async (params) => {
+	const response = await service.post('/yc/monitor/land/markReadAll', params);
+	return response.data;
+};
+
+// 关注
+export const attentionFollowResult = async (params) => {
+	const response = await service.post('/yc/monitor/land/follow', params);
+	return response.data;
+};
+
+// 取消关注
+export const attentionUnFollowResult = async (params) => {
+	const response = await service.post('/yc/monitor/land/unFollow', params);
+	return response.data;
+};
+
+// 导出excel
+export const exportListResult = '/yc/monitor/land/export';
+
+// =======================
 export default {
 	infoListBid,
 	readStatusBid,
@@ -79,4 +113,10 @@ export default {
 	exportListPunish,
 	focusListPunish,
 	infoCount,
+	infoListResult,
+	readStatusResult,
+	readAllStatusResult,
+	attentionFollowResult,
+	attentionUnFollowResult,
+	exportListResult,
 };

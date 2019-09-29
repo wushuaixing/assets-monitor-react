@@ -7,19 +7,22 @@ import {
 import Api from '@/utils/api/monitor-info/public';
 import './style.scss';
 
+// 搜索框
 import QueryResult from './query/result';
 import QueryTransfer from './query/transfer';
 import QueryMortgage from './query/mortgage';
+
+// table展示
 import TableResult from './table/result';
 import TableTransfer from './table/transfer';
 import TableMortgage from './table/mortgage';
 
 // 获取api具体
 const toGetApi = (type, base) => {
-	if (type === 1) return `${base}Bid`;
+	if (type === 1) return `${base}Result`;
 	if (type === 2) return `${base}Illegal`;
 	if (type === 3) return `${base}Punish`;
-	return `${base}Bid`;
+	return `${base}Result`;
 };
 
 const toGetConfig = (rule) => {
@@ -59,7 +62,7 @@ export default class Lawsuits extends React.Component {
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',
-			dataSource: '',
+			dataSource: [],
 			current: 1,
 			total: 0,
 			loading: true,
@@ -130,7 +133,7 @@ export default class Lawsuits extends React.Component {
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					Api[toGetApi(sourceType, 'readStatus')]({})
+					Api[toGetApi(sourceType, 'readAllStatus')]({})
 						.then((res) => {
 							if (res.code === 200) {
 								_this.onQueryChange();
@@ -156,9 +159,10 @@ export default class Lawsuits extends React.Component {
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					Api[toGetApi(sourceType, 'attention')]({ idList }, true).then((res) => {
+					Api[toGetApi(sourceType, 'attentionFollow')]({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
+							// _this.selectRow = []; // 批量关注清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
@@ -196,7 +200,7 @@ export default class Lawsuits extends React.Component {
 		const { isRead } = this.state;
 		this.setState({
 			sourceType: val,
-			dataSource: '',
+			dataSource: [],
 			current: 1,
 			total: '',
 			isRead: 'all',
@@ -209,7 +213,7 @@ export default class Lawsuits extends React.Component {
 	// 当前页数变化
 	onPageChange=(val) => {
 		const { manage } = this.state;
-		this.selectRow = [];
+		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 

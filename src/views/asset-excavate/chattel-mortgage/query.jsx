@@ -34,6 +34,10 @@ class QueryCondition extends React.Component {
 	handleSubmit=() => {
 		const { form: { getFieldsValue }, onQueryChange } = this.props;
 		const condition = getFieldsValue();
+		if (condition.lowPrice && Number(condition.lowPrice) > condition.highPrice && Number(condition.highPrice)) {
+			message.error('债权数额最低价不能高于债权数额最高价！');
+			return;
+		}
 		if (onQueryChange)onQueryChange(condition, '', '', 1);
 	};
 
@@ -96,42 +100,10 @@ class QueryCondition extends React.Component {
 						inputFirstProps={getFieldProps('lowPrice', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-							rules: [
-								{
-									required: true,
-									validator(rule, value, callback) {
-										const consultPriceEnd = getFieldValue('highPrice');
-										if (consultPriceEnd && value) {
-											if (Number(value) > Number(consultPriceEnd)) {
-												message.error('评估价最低价不得高过最高价', 2);
-											}
-										}
-										if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
-											message.error('只能输入正整数！', 2);
-										}
-										callback();
-									},
-								}],
 						})}
 						inputSecondProps={getFieldProps('highPrice', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-							rules: [
-								{
-									required: true,
-									validator(rule, value, callback) {
-										const consultPriceStart = getFieldValue('lowPrice');
-										if (consultPriceStart && value) {
-											if (Number(value) < Number(consultPriceStart)) {
-												message.error('评估价最高价不得低于最低价', 2);
-											}
-										}
-										if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
-											message.error('只能输入正整数', 2);
-										}
-										callback();
-									},
-								}],
 						})}
 					/>
 				</div>
