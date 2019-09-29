@@ -47,7 +47,10 @@ const Result = {
 				</li>
 				<li>
 					<span className="list list-title align-justify">面　　积：</span>
-					<span className="list list-content">{rowContent.area || '-'}</span>
+					<span className="list list-content">
+						{rowContent.area || '-'}
+						公顷
+					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">使用年限：</span>
