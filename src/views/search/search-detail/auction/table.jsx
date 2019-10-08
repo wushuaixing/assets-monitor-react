@@ -1,9 +1,10 @@
 import React from 'react';
-import { Table, Form, Tooltip } from 'antd';
+import { Form, Tooltip } from 'antd';
 import { formatDateTime, toThousands } from '@/utils/changeTime';
 import {
 	parseQuery,
 } from '@/utils';
+import { Table } from '@/common';
 
 const status = (value) => {
 	switch (value) {

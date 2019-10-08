@@ -1,12 +1,12 @@
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Pagination } from 'antd';
 import {
 	ReadStatus, Attentions, TitleIcon, SortVessel,
 } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 import { linkDom, timeStandard } from '@/utils';
 import { aboutLink, caseInfo } from '../../asset-excavate/table-common';
-
+import { Table } from '@/common';
 // 获取表格配置
 const columns = (props) => {
 	const {

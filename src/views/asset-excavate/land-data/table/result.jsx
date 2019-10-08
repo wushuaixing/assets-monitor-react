@@ -1,7 +1,8 @@
 import React from 'react';
-import { Table, Pagination, Tooltip } from 'antd';
+import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDom } from '@/utils';
+import { Table } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
 import { Result } from '@/views/asset-excavate/land-data/table/common';
 // 获取表格配置

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Modal, message, Tooltip, Table, Form,
+	Modal, message, Tooltip, Form,
 } from 'antd';
 import {
 	openPush, // 打开推送
@@ -8,6 +8,8 @@ import {
 	postDelete, // 删除一条记录
 } from '@/utils/api/business';
 import { formatDateTime } from '@/utils/changeTime';
+
+import { Table } from '@/common';
 
 const { confirm } = Modal;
 
@@ -236,6 +238,7 @@ class BusinessView extends React.Component {
 			<React.Fragment>
 				<Table
 					rowSelection={stateObj.openRowSelection ? rowSelection : null}
+					bordered={false}
 					rowKey={record => record.id}
 					columns={columns}
 					dataSource={stateObj.dataList}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Breadcrumb, Select, Table, Pagination,
+	Breadcrumb, Select, Pagination,
 } from 'antd';
 import './style.scss';
 import { navigate } from '@reach/router';
@@ -8,7 +8,7 @@ import {
 	userOperateList, // 操作列表
 	operateTypeList, // 操作类型
 } from '@/utils/api/organization';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
 import { formatDateTime } from '../../../utils/changeTime';
 import { getQueryByName } from '@/utils';
 
@@ -31,6 +31,7 @@ export default class BasicTable extends React.Component {
 					title: '操作时间',
 					dataIndex: 'createTime',
 					key: 'createTime',
+					width: 733,
 					render: text => (
 						<p>{formatDateTime(text) || '--'}</p>
 					),

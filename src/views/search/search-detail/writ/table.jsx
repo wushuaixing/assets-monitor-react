@@ -1,6 +1,7 @@
 import React from 'react';
-import { Tooltip, Table, Form } from 'antd';
+import { Tooltip, Form } from 'antd';
 import Link from '@/assets/img/icon/icon_link_normal.png';
+import { Table } from '@/common';
 import './style.scss';
 
 class BusinessView extends React.Component {

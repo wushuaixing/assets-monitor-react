@@ -22,6 +22,8 @@ import './style.scss';
 // 是否为IE
 
 const createForm = Form.create;
+
+// 首页跳转
 const skip = (text, row) => {
 	const params = {
 		orgId: row.id,
@@ -134,9 +136,6 @@ class Login extends React.Component {
 			isOpen: false,
 			treeList: [],
 			dataListArray: null,
-		};
-		this.refInfo = {
-			input: '',
 		};
 	}
 
@@ -339,7 +338,6 @@ class Login extends React.Component {
 					<div className="yc-no-container">
 						<div className="yc-data-img" />
 						<span>暂无数据</span>
-
 					</div>
 				)
 			}

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, Form } from 'antd';
+import { Form } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
-
+import { Table } from '@/common';
 
 class BusinessView extends React.Component {
 	constructor(props) {

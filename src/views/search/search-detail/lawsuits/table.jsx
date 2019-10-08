@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-	Table, Form, Tooltip, Modal,
+	Form, Tooltip, Modal,
 } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
+import { Table } from '@/common';
 import './style.scss';
 
 const toClick = row => Modal.info({

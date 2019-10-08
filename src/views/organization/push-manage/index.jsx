@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-	Button, Select, Table, Pagination, message, Modal,
+	Button, Select, Pagination, message, Modal,
 } from 'antd';
+import { Table, Spin } from '@/common';
 import '../style.scss';
 import EditModal from './editModal';
 import Search from '../search';
@@ -9,7 +10,6 @@ import {
 	pushManagerList, // liebiao
 	deleteList, // 删除
 } from '@/utils/api/organization';
-import { Spin } from '@/common';
 
 const { confirm } = Modal;
 export default class BasicTable extends React.Component {

@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-	Table, Pagination, message, Tooltip,
+	Pagination, message, Tooltip,
 } from 'antd';
+import { Table } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
 import { linkDom } from '@/utils';

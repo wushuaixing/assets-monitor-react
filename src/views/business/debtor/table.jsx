@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Modal, Table, Form, message, Tooltip,
+	Modal, Form, message, Tooltip,
 } from 'antd';
 import {
 	openPush, // 打开推送
@@ -8,6 +8,7 @@ import {
 } from '@/utils/api/debator';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
+import { Table } from '@/common';
 
 const { confirm } = Modal;
 

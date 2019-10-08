@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, Table, Pagination } from 'antd';
+import { Select, Pagination } from 'antd';
 import '../style.scss';
 import { formatDateTime } from '../../../utils/changeTime';
 import Search from '../search';
@@ -7,7 +7,7 @@ import {
 	userManageList, // liebiao
 	RoleList, // 角色列表
 } from '@/utils/api/organization';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
 
 const { Option } = Select;
 export default class BasicTable extends React.Component {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Button, Table, Pagination, Modal, message, Form,
+	Button, Pagination, Modal, message, Form,
 } from 'antd';
 import { navigate } from '@reach/router';
 import {
@@ -12,7 +12,7 @@ import {
 	userInfo, // 通知中心数据
 } from '@/utils/api/user';
 import { generateUrlWithParams, parseQuery } from '@/utils';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import imgUnread from '../../assets/img/inform/icon_message_unread.png';
 import imgReade from '../../assets/img/inform/icon_message_read.png';
