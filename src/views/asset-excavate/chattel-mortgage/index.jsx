@@ -8,7 +8,7 @@ import {
 	getMortgageList, postMarkReadAll, postFollow, exportList,
 } from '@/utils/api/monitor-info/mortgage';
 import './style.scss';
-import { fileExport } from '@/views/asset-excavate/table-common';
+// import { fileExport } from '@/views/asset-excavate/table-common';
 import { clearEmpty } from '@/utils';
 
 
@@ -60,17 +60,6 @@ export default class Subrogation extends React.Component {
 			},
 			onCancel() {},
 		});
-	};
-
-	// 一键导出 & 批量导出
-	handleExport=(type) => {
-		if (type === 'all') {
-			fileExport(exportList, this.condition);
-		} else if (this.selectRow.length > 0) {
-			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
-		} else {
-			message.warning('未选中业务');
-		}
 	};
 
 	// 批量关注

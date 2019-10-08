@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from './table';
+import Table from './table2';
 import { attentionList } from '@/utils/api/monitor-info/monitor';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';

@@ -108,3 +108,18 @@ export const fileExport = (api, condition, other = {}, type) => {
 		window.open(`${api}?${urlEncode(clearEmpty(_condition))}`, '_self');
 	}
 };
+
+// 数据列表 - 当事人
+// const _parities = [
+// 	{
+// 		certificateNumber: '',
+// 		certificateType: '',
+// 		name: 'xxx',
+// 		obligorId: 1,
+// 		role: '',
+// 		roleType: 1,
+// 	},
+// ];
+// export const partyInfo = (value, row) => {
+// 	const { parities } = row;
+// };
