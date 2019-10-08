@@ -3,6 +3,8 @@ import { Modal } from 'antd';
 import { linkDom } from '@/utils';
 import Cookies from 'universal-cookie';
 import { urlEncode, clearEmpty } from '@/utils';
+import PartyInfoDetail from './party-info';
+import './style.scss';
 
 const cookies = new Cookies();
 
@@ -107,4 +109,49 @@ export const fileExport = (api, condition, other = {}, type) => {
 	} else {
 		window.open(`${api}?${urlEncode(clearEmpty(_condition))}`, '_self');
 	}
+};
+
+// 数据列表 - 当事人
+
+// 处理 当事人数据列表，分类
+const handleParities = (data) => {
+	const source = [];
+	data.forEach((i) => {
+		if (source.length === 0) {
+			source.push({
+				index: source.length,
+				role: i.role,
+				child: [i],
+			});
+		} else {
+			const _result = source.filter(item => item.role === i.role)[0];
+			if (_result) {
+				source[_result.index].child.push(i);
+			} else {
+				source.push({
+					index: source.length,
+					role: i.role,
+					child: [i],
+				});
+			}
+		}
+	});
+	return source;
+};
+
+export const partyInfo = (value, row) => {
+	if (typeof value === 'object') {
+		if (value.length) {
+			const source = handleParities(value);
+			// console.log(source);
+			return (
+				<React.Fragment>
+					{
+						source.map(item => <PartyInfoDetail {...item} type={row.caseType} key={row.id} />)
+					}
+				</React.Fragment>
+			);
+		}
+	}
+	return '--';
 };

@@ -3,7 +3,7 @@ import { Table, Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 import { timeStandard } from '@/utils';
-// import { aboutLink, caseInfo } from '../../table-common';
+import { partyInfo } from '../../_common';
 
 // 获取表格配置
 const columns = (props) => {
@@ -24,8 +24,9 @@ const columns = (props) => {
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '当事人',
-			dataIndex: 'yg1',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+			dataIndex: 'parities',
+			width: 230,
+			render: partyInfo,
 		}, {
 			title: '法院',
 			dataIndex: 'court',
