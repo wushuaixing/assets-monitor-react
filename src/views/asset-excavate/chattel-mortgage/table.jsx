@@ -46,7 +46,7 @@ const MortgageDetail = (text, rowContent) => (
 			<li>
 				<span className="list list-title align-justify" style={{ width: 80 }}>担保债权数额</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{rowContent.amount || '-'}</span>
+				<span className="list list-content">{rowContent.amount ? `${rowContent.amount} 元` : '-'}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 130 }}>债务人履行债务的期限</span>
@@ -128,7 +128,7 @@ const columns = (props) => {
 									<p>{row.ownerId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.ownerId}`, `${text.substr(0, 10)}...`)}</p>
 								</Tooltip>
 							)
-							: <p>{text || '-'}</p>
+							: <p>{row.ownerId === 0 ? `${text || '-'}` : linkDom(`/#/business/debtor/detail?id=${row.ownerId}`, `${text || '-'}`)}</p>
 					}
 				</span>
 			),
@@ -145,7 +145,7 @@ const columns = (props) => {
 									<p>{row.peopleId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.peopleId}`, `${text.substr(0, 10)}...`)}</p>
 								</Tooltip>
 							)
-							: <p>{text || '-'}</p>
+							: <p>{row.peopleId === 0 ? `${text || '-'}` : linkDom(`/#/business/debtor/detail?id=${row.peopleId}`, `${text || '-'}`)}</p>
 					}
 				</span>
 			),
