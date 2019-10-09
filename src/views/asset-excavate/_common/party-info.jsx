@@ -4,13 +4,13 @@
  * @date 2019-10-08
  */
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon, Tooltip } from 'antd';
 
 export default class PartyInfo extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			status: props.child.length <= 0 ? 'none' : 'toOpen',
+			status: props.child.length <= 2 ? 'none' : 'toOpen',
 		//	none 无  toOpen 点击展开 toClose 点击收起
 		};
 	}
@@ -25,6 +25,7 @@ export default class PartyInfo extends React.Component {
 		const { status } = this.state;
 		const { role, child, type } = this.props;
 		const source = status === 'toOpen' ? child.slice(0, 2) : child;
+
 		const statusText = status === 'toOpen'
 			? (
 				<span>
@@ -37,10 +38,25 @@ export default class PartyInfo extends React.Component {
 					<Icon type="caret-up" />
 				</span>
 			);
+
 		// 收起↓↓
+		const _site = role.indexOf('（') > -1 ? role.indexOf('（') : '';
+		const roleContent = {
+			role: _site ? role.slice(0, _site) : role,
+			mark: _site ? role.slice(_site) : '',
+		};
 		return (
 			<div className="yc-party-info-list">
-				<span className={`party-info party-info-title party-info-type-${type || 0}`}>{role}</span>
+				<span className={`party-info party-info-title party-info-type-${type || 0}`}>
+					<li className="li-role">{roleContent.role}</li>
+					{
+						roleContent.mark ? (
+							<Tooltip placement="top" title={roleContent.mark}>
+								<li className="text-ellipsis">{roleContent.mark}</li>
+							</Tooltip>
+						) : null
+					}
+				</span>
 				<span className="party-info party-info-colon">：</span>
 				<div className="party-info party-info-content">
 					{

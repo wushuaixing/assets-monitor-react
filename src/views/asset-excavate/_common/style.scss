@@ -6,9 +6,11 @@
     vertical-align: top;
   }
   .party-info-title{
-    text-align: justify;
-    text-justify: distribute-all-lines;
-    text-align-last: justify;
+    .li-role{
+      text-align: justify;
+      text-justify: distribute-all-lines;
+      text-align-last: justify;
+    }
   }
   .party-info-type-0{
     width: 40px;
@@ -17,11 +19,10 @@
     width: 60px;
   }
   .party-info-content{
-    width: 135px;
     padding-right: 30px;
     position: relative;
     li{
-      width: 100px;
+      max-width: 140px;
     }
     .party-info-status{
       position: absolute;

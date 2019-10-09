@@ -25,17 +25,19 @@ const columns = (props) => {
 		}, {
 			title: '当事人',
 			dataIndex: 'parities',
-			width: 230,
+			width: 280,
 			render: partyInfo,
 		}, {
 			title: '法院',
 			dataIndex: 'court',
+			render: text => text || '--',
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
+			render: text => text || '--',
 			// render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
 		}, {
-			title: '关联信息',
+			title: '关联链接',
 			dataIndex: 'associatedInfo',
 			className: 'tAlignCenter_important min-width-80',
 			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
@@ -52,7 +54,6 @@ const columns = (props) => {
 			width: 60,
 			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
 		}];
-	// <a href={url} className="click-link">{text || '--'}</a>
 	// const base = defaultColumns.filter(item => item.sourceType !== sourceType);
 	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
