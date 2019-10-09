@@ -16,8 +16,8 @@ export default class BasicTable extends React.Component {
 
 	render() {
 		return (
-			<div className="operate-log">
-				<div className="bread-crumb">
+			<div className="yc-operate-log">
+				<div className="yc-bread-crumb">
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/monitor?process=-1')}>资产拍卖</a></Breadcrumb.Item>
 						<Breadcrumb.Item>

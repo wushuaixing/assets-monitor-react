@@ -1,11 +1,11 @@
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
 import { floatFormat } from '@/utils/format';
 import { linkDom } from '@/utils';
-
+import { Table } from '@/common';
 // 获取表格配置
 const columns = (props) => {
 	const {

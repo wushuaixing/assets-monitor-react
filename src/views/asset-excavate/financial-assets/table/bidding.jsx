@@ -1,9 +1,10 @@
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Pagination } from 'antd';
 import { Attentions } from '@/common/table';
 import api from '@/utils/api/monitor-info/finance';
 import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
 import { SortVessel } from '@/common/table';
+import { Table } from '@/common';
 // import { Button } from '@/common';
 // import { floatFormat } from '@/utils/format';
 

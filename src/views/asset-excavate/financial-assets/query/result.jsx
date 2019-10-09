@@ -1,9 +1,8 @@
 import React from 'react';
-import { Input, Button, timeRule } from '@/common';
-import InputPrice from '@/common/input/input-price';
 import {
-	DatePicker, Form, message, Select,
+	DatePicker, Form, Select,
 } from 'antd';
+import { Input, Button, timeRule } from '@/common';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -56,7 +55,7 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obName')} />
+					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 
 				<div className="yc-query-item">
@@ -65,11 +64,11 @@ class QueryCondition extends React.Component {
 						size="large"
 						defaultValue="all"
 						style={{ width: 150 }}
-						{...getFieldProps('important1', { initialValue: '' })}
+						{...getFieldProps('state', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="1">有效</Select.Option>
-						<Select.Option value="2">无效</Select.Option>
+						<Select.Option value="0">有效</Select.Option>
+						<Select.Option value="1">无效</Select.Option>
 					</Select>
 				</div>
 
@@ -79,15 +78,15 @@ class QueryCondition extends React.Component {
 						size="large"
 						defaultValue="all"
 						style={{ width: 150 }}
-						{...getFieldProps('important2', { initialValue: '' })}
+						{...getFieldProps('role', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="1">出质人</Select.Option>
-						<Select.Option value="2">质权人</Select.Option>
+						<Select.Option value="0">出质人</Select.Option>
+						<Select.Option value="1">质权人</Select.Option>
 					</Select>
 				</div>
 
-				<div className="yc-query-item">
+				{/* <div className="yc-query-item">
 					<InputPrice
 						title="成交价格"
 						style={_style1}
@@ -96,74 +95,32 @@ class QueryCondition extends React.Component {
 						inputFirstProps={getFieldProps('consultPriceStart', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-							rules: [
-								{
-									required: true,
-									validator(rule, value, callback) {
-										const consultPriceEnd = getFieldValue('consultPriceEnd');
-										if (consultPriceEnd && value) {
-											if (Number(value) > Number(consultPriceEnd)) {
-												message.error('评估价最低价不得高过最高价', 2);
-												// setFieldsValue({ consultPriceStart: '' });
-											}
-										}
-										if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
-											message.error('只能输入正整数！', 2);
-											// setFieldsValue({ consultPriceStart: '' });
-										}
-										// if (Number(value) > 9999999) {
-										// 	message.error('数值上限不得超过9999999', 2);
-										// 	// setFieldsValue({ consultPriceStart: '' });
-										// }
-										callback();
-									},
-								}],
+
 						})}
 						inputSecondProps={getFieldProps('consultPriceEnd', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-							rules: [
-								{
-									required: true,
-									validator(rule, value, callback) {
-										const consultPriceStart = getFieldValue('consultPriceStart');
-										if (consultPriceStart && value) {
-											if (Number(value) < Number(consultPriceStart)) {
-												message.error('评估价最高价不得低于最低价', 2);
-												// setFieldsValue({ consultPriceEnd: '' });
-											}
-										}
-										if (Number.isNaN(Number(value)) || Number(value) % 1 !== 0 || Number(value) < 0) {
-											message.error('只能输入正整数', 2);
-											// setFieldsValue({ consultPriceEnd: '' });
-										}
-										// if (Number(value) > 9999999) {
-										// 	message.error('数值上限不得超过9999999', 2);
-										// 	// setFieldsValue({ consultPriceEnd: '' });
-										// }
-										callback();
-									},
-								}],
+
 						})}
 					/>
-				</div>
+				</div> */}
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">签订日期：</span>
+					<span className="yc-query-item-title">登记日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startPublishTime', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endPublishTime'))}
+						{...getFieldProps('regDateStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('regDateEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endPublishTime', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startPublishTime'))}
+						{...getFieldProps('regDateEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('regDateStart'))}
 					/>
 				</div>
 
@@ -173,16 +130,16 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startCreateTime', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endCreateTime'))}
+						{...getFieldProps('createTimeStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createTimeEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endCreateTime', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startCreateTime'))}
+						{...getFieldProps('createTimeEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('createTimeStart'))}
 					/>
 				</div>
 

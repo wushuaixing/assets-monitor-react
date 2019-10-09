@@ -1,41 +1,55 @@
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { readStatus } from '@/utils/api/monitor-info/finance';
+import { readStatusResult } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
+import { Table } from '@/common';
 // import { floatFormat } from '@/utils/format';
 import { linkDom } from '@/utils';
 
 // 出质详情
-const PledgeDetail = (text, rowContent) => {
-	const { obligorId } = rowContent;
-	return (
-		<React.Fragment>
-			<div className="assets-info-content">
-				<li>
-					<span className="list list-title align-justify " style={{ width: 80 }}>股权标的企业</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content text-ellipsis">{'✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘' || obligorId}</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>登记编号</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">✘✘✘✘✘✘</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>出质股权数额</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">✘✘✘✘✘✘</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>状 态</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">✘✘✘✘✘✘</span>
-				</li>
-			</div>
-		</React.Fragment>
-	);
-};
+const PledgeDetail = (text, rowContent) => (
+	<React.Fragment>
+		<div className="assets-info-content">
+			<li>
+				<span className="list list-title align-justify " style={{ width: 80 }}>股权标的企业</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content text-ellipsis">
+					{
+						rowContent.companyName && rowContent.companyName.length > 12
+							? (
+								<Tooltip placement="topLeft" title={rowContent.companyName}>
+									<p>{`${rowContent.companyName.substr(0, 12)}...`}</p>
+								</Tooltip>
+							)
+							: <p>{rowContent.companyName || '-'}</p>
+					}
+				</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 80 }}>登记编号</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">
+					{rowContent.regNumber || '-'}
+				</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 80 }}>出质股权数额</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">
+					{rowContent.equityAmount || '-'}
+				</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 80 }}>状 态</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">
+					{rowContent.state === 1 ? '无效' : '有效'}
+				</span>
+			</li>
+		</div>
+	</React.Fragment>
+);
 
 // 获取表格配置
 const columns = (props) => {
@@ -51,42 +65,74 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>登记日期</span>
-				: <SortVessel field="START_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
-			dataIndex: 'startTime',
-			width: 110,
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
+			dataIndex: 'regDate',
+			width: 130,
+			render: (text, record) => ReadStatus(text || '-', record),
 		}, {
 			title: '出质人',
-			dataIndex: 'obligorNames',
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '✘✘✘✘'),
+			dataIndex: 'pledgeeList',
+			width: 250,
+			render: (text, row) => (
+				<span>
+					{row.pledgeeList && row.pledgeeList.length > 0 && row.pledgeeList.map(item => (
+						<span>
+							{
+								item.pledgee && item.pledgee.length > 12
+									? (
+										<Tooltip placement="topLeft" title={item.pledgee}>
+											<p>{item.pledgeeId === 0 ? `${item.pledgee.substr(0, 12)}...` : linkDom(`/#/business/debtor/detail?id=${item.pledgeeId}`, `${item.pledgee.substr(0, 12)}...`)}</p>
+										</Tooltip>
+									)
+									: <p>{item.pledgeeId === 0 ? `${item.pledgee || '-'}` : linkDom(`/#/business/debtor/detail?id=${item.pledgeeId}`, `${item.pledgee || '-'}`)}</p>
+							}
+						</span>
+					))}
+				</span>
+			),
 		}, {
 			title: '质权人',
 			dataIndex: 'title2',
-			render: (text, row) => (text ? linkDom(row.sourceUrl, text) : '✘✘✘✘'),
+			width: 250,
+			render: (text, row) => (
+				<span>
+					{row.pledgorList && row.pledgorList.length > 0 && row.pledgorList.map(item => (
+						<span>
+							{
+								item.pledgor && item.pledgor.length > 12
+									? (
+										<Tooltip placement="topLeft" title={item.pledgor}>
+											<p>{item.pledgorId === 0 ? `${item.pledgor.substr(0, 12)}...` : linkDom(`/#/business/debtor/detail?id=${item.pledgorId}`, `${item.pledgor.substr(0, 12)}...`)}</p>
+										</Tooltip>
+									)
+									: <p>{item.pledgorId === 0 ? `${item.pledgor || '-'}` : linkDom(`/#/business/debtor/detail?id=${item.pledgorId}`, `${item.pledgor || '-'}`)}</p>
+							}
+						</span>
+					))}
+				</span>
+			),
 		}, {
 			title: '出质详情',
-			width: 350,
 			render: PledgeDetail,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
+			dataIndex: 'gmtModified',
 			className: 'tAlignCenter_important',
-			width: 120,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			width: 130,
+			render: (text, record) => ReadStatus(text || '-', record),
 		}, {
 			title: '操作',
-			width: 60,
 			unNormal: true,
+			width: 60,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
 				<Attentions
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? api.unFollowSinglePub : api.followSinglePub}
+					api={row.isAttention ? api.unFollowResult : api.followResult}
 					index={index}
-					single
 				/>
 			),
 		}];
@@ -113,7 +159,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			readStatus({ id }).then((res) => {
+			readStatusResult({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

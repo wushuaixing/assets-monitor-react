@@ -32,7 +32,7 @@ const columns = (props) => {
 									<p>{row.obligorId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, `${text.substr(0, 10)}...`)}</p>
 								</Tooltip>
 							)
-							: <p>{text || '-'}</p>
+							: <p>{row.obligorId === 0 ? `${text || '-'}` : linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, `${text || '-'}`)}</p>
 					}
 				</span>
 			),

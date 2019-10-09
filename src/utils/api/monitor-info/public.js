@@ -64,36 +64,36 @@ export const infoCount = params => service.get('/yc/monitor/bulletin/unreadCount
 /* 土地数据 */
 // 出让结果列表 ===========
 export const infoListResult = async (params) => {
-	const response = await service.get('/yc/monitor/land/list', { params });
+	const response = await service.get('/yc/monitor/land/result/list', { params });
 	return response.data;
 };
 
 // 标记为已读
 export const readStatusResult = async (params) => {
-	const response = await service.post('/yc/monitor/land/markRead', params);
+	const response = await service.post('/yc/monitor/land/result/markRead', params);
 	return response.data;
 };
 
 // 全部标记为已读
 export const readAllStatusResult = async (params) => {
-	const response = await service.post('/yc/monitor/land/markReadAll', params);
+	const response = await service.post('/yc/monitor/land/result/markReadAll', params);
 	return response.data;
 };
 
 // 关注
 export const attentionFollowResult = async (params) => {
-	const response = await service.post('/yc/monitor/land/follow', params);
+	const response = await service.post('/yc/monitor/land/result/follow', params);
 	return response.data;
 };
 
 // 取消关注
 export const attentionUnFollowResult = async (params) => {
-	const response = await service.post('/yc/monitor/land/unFollow', params);
+	const response = await service.post('/yc/monitor/land/result/unFollow', params);
 	return response.data;
 };
 
 // 导出excel
-export const exportListResult = '/yc/monitor/land/export';
+export const exportListResult = '/yc/monitor/land/result/export';
 
 // =======================
 export default {

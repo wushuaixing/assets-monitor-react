@@ -14,7 +14,15 @@ import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 
-const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
+// const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
+
+// 获取api具体
+const api = (field, type) => {
+	if (type === 1) return Apis[`${field}Bid`];
+	if (type === 2) return Apis[`${field}Pub`];
+	if (type === 3) return Apis[`${field}Result`];
+	return Apis[`${field}Bid`];
+};
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -256,6 +264,7 @@ export default class Subrogation extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
+
 		return (
 			<div className="yc-assets-auction">
 				{ sourceType === 1 ?	<QueryBidding onQueryChange={this.onQuery} /> : null}
