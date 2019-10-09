@@ -7,8 +7,8 @@ import { clearEmpty, linkDom } from '@/utils';
 import {
 	pushList as pushListApi, pushSave, processList, processSave, processDel,
 } from '@/utils/api/monitor-info/assets-follow';
-import './style.scss';
 import { floatFormat } from '@/utils/format';
+import './style.scss';
 
 // step的描述内容
 const StepDesc = (props) => {

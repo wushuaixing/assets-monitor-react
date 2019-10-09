@@ -3,7 +3,6 @@ import Table from './table';
 import { attentionList } from '@/utils/api/monitor-info/bankruptcy';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import './style.scss';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
