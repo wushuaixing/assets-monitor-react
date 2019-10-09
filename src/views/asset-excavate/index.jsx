@@ -110,8 +110,9 @@ const toGetRuth = (rules) => {
 class MonitorMain extends React.Component {
 	constructor(props) {
 		super(props);
+		const _source = toGetRuth(props.rule);
 		this.state = {
-			source: toGetRuth(props.rule),
+			source: _source,
 		};
 		this.sourceType = '';
 	}
