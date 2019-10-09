@@ -2,6 +2,7 @@ import React from 'react';
 import { message, Modal } from 'antd';
 import { Button, Spin, Download } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
+import { unReadCount as unReadTotal } from '@/utils/api/monitor-info';
 import { clearEmpty } from '@/utils';
 import QueryView from './query';
 import TableView from './table';
@@ -23,6 +24,7 @@ export default class Lawsuits extends React.Component {
 			total: 0,
 			loading: true,
 			manage: false,
+			unReadCount: 0,
 		};
 		this.condition = {};
 		this.selectRow = [];
@@ -31,6 +33,18 @@ export default class Lawsuits extends React.Component {
 	componentWillMount() {
 		this.onQueryChange({});
 	}
+
+	// 获取招标中标未读数据
+	toUnReadCount=() => {
+		unReadTotal().then((res) => {
+			const { code, data } = res;
+			if (code === 200) {
+				this.setState({
+					unReadCount: data.biddingCount || 0,
+				});
+			}
+		});
+	};
 
 	// 清除排序状态
 	toClearSortStatus=() => {
@@ -47,8 +61,9 @@ export default class Lawsuits extends React.Component {
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		const { sourceType, tabConfig } = this.state;
-		if (tabConfig[sourceType - 1].dot) {
+		const { sourceType, unReadCount } = this.state;
+
+		if (unReadCount > 0) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
@@ -149,6 +164,7 @@ export default class Lawsuits extends React.Component {
 
 		if (!loading) this.setState({ loading: true, manage: _manage || false });
 		// this.toInfoCount();
+		this.toUnReadCount();
 		Api[toGetApi(1, 'infoList')](clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
