@@ -1,21 +1,20 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import {
-	Tabs, Button, Spin, Download,
-} from '@/common';
 import QueryView from './queryView';
-import TableView from './table';
-
+import { TableCourt, TableTrial, TableJudgment } from './table';
 import {
-	infoCount, infoList, readStatus, attention, exportList,
+	Button, Tabs, Spin, Download,
+} from '@/common';
+import {
+	infoCount, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
+import API from '@/utils/api/monitor-info/subrogation';
 import { changeURLArg, clearEmpty } from '@/utils';
-// import { fileExport } from '@/views/monitor/table-common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '涉诉监控-监控信息';
+		document.title = '代位权-资产挖掘';
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',
@@ -35,6 +34,13 @@ export default class Subrogation extends React.Component {
 				{
 					id: 2,
 					name: '开庭公告',
+					number: 0,
+					dot: false,
+					showNumber: true,
+				},
+				{
+					id: 3,
+					name: '裁判文书',
 					number: 0,
 					dot: false,
 					showNumber: true,
@@ -61,9 +67,8 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 获取统计信息
-	toInfoCount=(isRead) => {
-		const params = Object.assign(this.condition, { type: 0, isRead });
-		infoCount(clearEmpty(params)).then((res) => {
+	toInfoCount=() => {
+		infoCount(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				const { tabConfig } = this.state;
 				let _tabConfig = tabConfig;
@@ -115,29 +120,19 @@ export default class Subrogation extends React.Component {
 				iconType: 'exclamation-circle',
 				onOk() {
 					readStatus({
-						sourceType, type: 0,
+						sourceType, type: 1,
 					}).then((res) => {
 						if (res.code === 200) {
 							_this.onQueryChange();
 						}
 					});
 				},
+				onCancel() {},
 			});
 		} else {
 			message.warning('最新信息已经全部已读，没有未读信息了');
 		}
 	};
-
-	// // 一键导出 & 批量导出
-	// handleExport=(type) => {
-	// 	if (type === 'all') {
-	// 		fileExport(exportList, this.condition);
-	// 	} else if (this.selectRow.length > 0) {
-	// 		fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
-	// 	} else {
-	// 		message.warning('未选中业务');
-	// 	}
-	// };
 
 	// 批量关注
 	handleAttention=() => {
@@ -174,13 +169,6 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
-	// 排序触发
-	onSortChange=(field, order) => {
-		this.condition.sortColumn = field;
-		this.condition.sortOrder = order;
-		this.onQueryChange(this.condition, '', '', 1);
-	};
-
 	// 表格发生变化
 	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
@@ -202,7 +190,7 @@ export default class Subrogation extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange(null, val, 'all', 1);
+		this.onQueryChange('', val, 'all', 1);
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 
@@ -213,6 +201,13 @@ export default class Subrogation extends React.Component {
 		this.onQueryChange('', '', '', val, manage);
 	};
 
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
+		this.onQueryChange(this.condition, '', '', 1);
+	};
+
 	// 查询条件变化
 	onQuery =(con) => {
 		this.toClearSortStatus();
@@ -220,38 +215,35 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 发起查询请求
-	onQueryChange=(con, _sourceType, _isRead, page, manage) => {
+	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
-		// console.log(val, _sourceType, _isRead);
 		const __isRead = _isRead || isRead;
-		this.condition = Object.assign(con || this.condition, {
-			sourceType: _sourceType || sourceType,
+		this.condition = Object.assign({}, con || this.condition, {
 			page: page || current,
-			type: 0,
 			num: 10,
 		});
-		if (__isRead === 'all') {
-			delete this.condition.isRead;
-		}
-		if (__isRead === 'unread') {
-			this.condition.isRead = 0;
-		}
+		if (__isRead === 'all') delete this.condition.isRead;
+		if (__isRead === 'unread') this.condition.isRead = 0;
+		if (__isRead === 'resume') this.condition.isRestore = true;
 		this.setState({
 			loading: true,
-			manage: manage || false,
+			manage: _manage || false,
 		});
-		this.toInfoCount((_isRead || isRead) === 'all' ? '' : 0);
-		infoList(clearEmpty(this.condition)).then((res) => {
+		// this.toInfoCount();
+		API(_sourceType || sourceType, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
+					loading: false,
+				});
+			} else {
+				message.error(res.message || '网络请求异常请稍后再试！');
+				this.setState({
+					loading: false,
 				});
 			}
-			this.setState({
-				loading: false,
-			});
 		}).catch(() => {
 			this.setState({
 				loading: false,
@@ -276,17 +268,18 @@ export default class Subrogation extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
+
 		return (
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}
 				<QueryView onQueryChange={this.onQuery} />
-				{/* tab模块 */}
+				{/* tab切换 */}
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}
 					field="process"
 				/>
-				{/* 操作模块 */}
+				{/* 操作栏 */}
 				{
 					!manage ? (
 						<div className="assets-auction-action">
@@ -302,6 +295,7 @@ export default class Subrogation extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+
 							<Download
 								all
 								text="一键导出"
@@ -331,7 +325,14 @@ export default class Subrogation extends React.Component {
 				}
 				{/* 表格数据展示模块  */}
 				<Spin visible={loading}>
-					<TableView {...tableProps} sourceType={sourceType} />
+					{sourceType === 1 ? <TableTrial {...tableProps} /> : null}
+					{sourceType === 2 ? <TableCourt {...tableProps} /> : null}
+					{sourceType === 3 ? <TableJudgment {...tableProps} /> : null}
+					{/* { */}
+					{/* sourceType === 3 */}
+					{/* ? */}
+					{/* : <TableView {...tableProps} sourceType={sourceType} /> */}
+					{/* } */}
 				</Spin>
 
 			</div>
