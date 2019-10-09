@@ -1,0 +1,42 @@
+
+.yc-party-info-list{
+  margin-bottom: 5px;
+  .party-info{
+    display: inline-block;
+    vertical-align: top;
+  }
+  .party-info-title{
+    .li-role{
+      text-align: justify;
+      text-justify: distribute-all-lines;
+      text-align-last: justify;
+    }
+  }
+  .party-info-type-0{
+    width: 40px;
+  }
+  .party-info-type-1,.party-info-type-2,.party-info-type-3,.party-info-type-4{
+    width: 60px;
+  }
+  .party-info-content{
+    padding-right: 30px;
+    position: relative;
+    li{
+      max-width: 140px;
+    }
+    .party-info-status{
+      position: absolute;
+      bottom: 0;
+      right: -10px;
+      height: 18px;
+      width: 40px;
+      text-align: center;
+      i{
+        font-size: 8px;
+        padding-top: 5px;
+        vertical-align: top;
+        margin-left:3px;
+      }
+    }
+  }
+}

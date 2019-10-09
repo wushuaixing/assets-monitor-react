@@ -1,20 +1,20 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import TableView from './table';
-import TableViewWrit from './table-writ';
 import QueryView from './queryView';
+import { TableCourt, TableTrial, TableJudgment } from './table';
 import {
 	Button, Tabs, Spin, Download,
 } from '@/common';
 import {
-	infoCount, infoList, readStatus, attention, exportList,
+	infoCount, readStatus, attention, exportList,
 } from '@/utils/api/monitor-info/monitor';
+import API from '@/utils/api/monitor-info/subrogation';
 import { changeURLArg, clearEmpty } from '@/utils';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '代位权-监控信息';
+		document.title = '代位权-资产挖掘';
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',
@@ -219,19 +219,18 @@ export default class Subrogation extends React.Component {
 		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign({}, con || this.condition, {
-			sourceType: _sourceType || sourceType,
 			page: page || current,
-			type: 1,
 			num: 10,
 		});
 		if (__isRead === 'all') delete this.condition.isRead;
 		if (__isRead === 'unread') this.condition.isRead = 0;
+		if (__isRead === 'resume') this.condition.isRestore = true;
 		this.setState({
 			loading: true,
 			manage: _manage || false,
 		});
-		this.toInfoCount();
-		infoList(clearEmpty(this.condition)).then((res) => {
+		// this.toInfoCount();
+		API(_sourceType || sourceType, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -335,11 +334,14 @@ export default class Subrogation extends React.Component {
 				}
 				{/* 表格数据展示模块  */}
 				<Spin visible={loading}>
-					{
-						sourceType === 3
-							? <TableViewWrit {...tableProps} />
-							: <TableView {...tableProps} sourceType={sourceType} />
-					}
+					{sourceType === 1 ? <TableTrial {...tableProps} /> : null}
+					{sourceType === 2 ? <TableCourt {...tableProps} /> : null}
+					{sourceType === 3 ? <TableJudgment {...tableProps} /> : null}
+					{/* { */}
+					{/* sourceType === 3 */}
+					{/* ? */}
+					{/* : <TableView {...tableProps} sourceType={sourceType} /> */}
+					{/* } */}
 				</Spin>
 
 			</div>

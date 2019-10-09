@@ -7,7 +7,6 @@ import {
 	infoList, readStatus, exportList, follow,
 } from '@/utils/api/monitor-info/bankruptcy';
 import './style.scss';
-import { fileExport } from '@/views/asset-excavate/table-common';
 import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 
@@ -66,17 +65,6 @@ export default class Subrogation extends React.Component {
 			});
 		} else {
 			message.warning('最新信息已经全部已读，没有未读信息了');
-		}
-	};
-
-	// 一键导出 & 批量导出
-	handleExport=(type) => {
-		if (type === 'all') {
-			fileExport(exportList, this.condition);
-		} else if (this.selectRow.length > 0) {
-			fileExport(exportList, this.condition, { idList: this.selectRow }, 'warning');
-		} else {
-			message.warning('未选中业务');
 		}
 	};
 

@@ -29,49 +29,8 @@
     padding: 20px 0 16px;
   }
 
-  // 资产拍卖-资产信息
-  .assets-info-content {
-    li {
-      padding-bottom: 6px;
-      line-height: 16px;
-      display: block;
 
-      .list {
-        display: inline-block;
-        vertical-align: top;
-      }
 
-      .list-title {
-        color: $text-remark;
-        width: 60px;
-        text-align: justify;
-        text-justify: distribute-all-lines;
-        text-align-last: justify;
-      }
-      .list-title-colon{
-        color: $text-remark;
-        width: 12px;
-        margin-left: 2px;
-        overflow:hidden;
-      }
-      .list-content {
-        max-width: 160px;
-      }
-    }
-
-    .list-dishonest {
-      position: relative;
-
-      .list-dishonest-status {
-        position: absolute;
-        left: 160px;
-        bottom: 8px;
-        width: 48px;
-      }
-    }
-  }
-
-  // 资产拍卖-资产信息
   // 资产拍卖-拍卖信息
   .yc-assets-table-info {
 
