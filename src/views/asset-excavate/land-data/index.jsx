@@ -5,6 +5,7 @@ import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
+import { unReadCount } from '@/utils/api/monitor-info';
 import './style.scss';
 
 // 搜索框
@@ -79,6 +80,10 @@ export default class Lawsuits extends React.Component {
 		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
 		this.setState({ sourceType });
 		this.onQueryChange({}, sourceType);
+		this.onUnReadCount();
+		this.setUnReadCount = setInterval(() => {
+			this.onUnReadCount();
+		}, 30 * 1000);
 	}
 
 	// 清除排序状态
@@ -127,6 +132,7 @@ export default class Lawsuits extends React.Component {
 	handleAllRead=() => {
 		const _this = this;
 		const { sourceType, tabConfig } = this.state;
+
 		if (tabConfig[sourceType - 1].dot) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
@@ -137,6 +143,7 @@ export default class Lawsuits extends React.Component {
 						.then((res) => {
 							if (res.code === 200) {
 								_this.onQueryChange();
+								_this.onUnReadCount();
 							}
 						});
 				},
@@ -259,6 +266,22 @@ export default class Lawsuits extends React.Component {
 			this.setState({
 				loading: false,
 			});
+		});
+	};
+
+	// 查询是否有未读消息
+	onUnReadCount=() => {
+		const { tabConfig } = this.state;
+		unReadCount().then((res) => {
+			const { data, code } = res;
+			if (code === 200) {
+				const _tabConfig = tabConfig.map((item) => {
+					const _item = item;
+					if (_item.id === 1)_item.dot = data.landResultFlag;
+					return _item;
+				});
+				this.setState({ tabConfig: _tabConfig });
+			}
 		});
 	};
 

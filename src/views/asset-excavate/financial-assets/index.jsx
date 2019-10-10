@@ -9,7 +9,7 @@ import TablePublicity from './table/publicity';
 import {
 	Button, Tabs, Spin, Download,
 } from '@/common';
-import { readStatusAll } from '@/utils/api/monitor-info/finance';
+import { readStatusAll, readAllStatusResult } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
@@ -99,19 +99,30 @@ export default class Subrogation extends React.Component {
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		const { tabConfig } = this.state;
-		if (tabConfig[1].dot) {
+		const { tabConfig, sourceType } = this.state;
+		// console.log(tabConfig, sourceType);
+
+		if (tabConfig[0].dot || tabConfig[2].dot) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					readStatusAll({}).then((res) => {
-						if (res.code === 200) {
-							_this.onQueryChange();
-							_this.onUnReadCount();
-						}
-					});
+					if (sourceType === 2) {
+						readStatusAll({}).then((res) => {
+							if (res.code === 200) {
+								_this.onQueryChange();
+								_this.onUnReadCount();
+							}
+						});
+					} else if (sourceType === 3) {
+						readAllStatusResult({}).then((res) => {
+							if (res.code === 200) {
+								_this.onQueryChange();
+								_this.onUnReadCount();
+							}
+						});
+					}
 				},
 				onCancel() {},
 			});
@@ -240,6 +251,7 @@ export default class Subrogation extends React.Component {
 				const _tabConfig = tabConfig.map((item) => {
 					const _item = item;
 					if (_item.id === 2)_item.dot = data.financeCount;
+					if (_item.id === 3)_item.dot = data.stockPledgeFlag;
 					return _item;
 				});
 				this.setState({ tabConfig: _tabConfig });
@@ -279,7 +291,7 @@ export default class Subrogation extends React.Component {
 					!manage ? (
 						<div className="assets-auction-action">
 							{
-								sourceType === 2 ? [
+								sourceType === 2 || sourceType === 3 ? [
 									<Button
 										active={isRead === 'all'}
 										onClick={() => this.handleReadChange('all')}
