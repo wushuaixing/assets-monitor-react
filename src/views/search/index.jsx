@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
 import Tabs from './search-tab';
 import Datas from './search-data';
 import Router from '@/utils/Router';
 import Detail from './search-detail';
+import './index.scss';
 
 const tabSource = rule => ([
 	{

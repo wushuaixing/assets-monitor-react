@@ -2,7 +2,6 @@ import React from 'react';
 import {
 	Breadcrumb, Select, Pagination,
 } from 'antd';
-import './style.scss';
 import { navigate } from '@reach/router';
 import {
 	userOperateList, // 操作列表
@@ -11,6 +10,7 @@ import {
 import { Table, Spin } from '@/common';
 import { formatDateTime } from '../../../utils/changeTime';
 import { getQueryByName } from '@/utils';
+import './style.scss';
 
 const { Option } = Select;
 export default class BasicTable extends React.Component {

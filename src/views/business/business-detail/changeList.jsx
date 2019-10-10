@@ -15,10 +15,10 @@ import {
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
 import { formatDateTime } from '@/utils/changeTime';
-import './style.scss';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import { Spin } from '@/common';
+import './style.scss';
 
 const createForm = Form.create;
 
