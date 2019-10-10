@@ -7,10 +7,8 @@ import { unReadCount } from '@/utils/api/monitor-info';
 import {
 	getMortgageList, postMarkReadAll, postFollow, exportList,
 } from '@/utils/api/monitor-info/mortgage';
-import './style.scss';
-// import { fileExport } from '@/views/asset-excavate/table-common';
 import { clearEmpty } from '@/utils';
-
+import './style.scss';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -32,9 +30,9 @@ export default class Subrogation extends React.Component {
 	componentDidMount() {
 		this.onQueryChange({});
 		this.onUnReadCount();
-		this.setUnReadCount = setInterval(() => {
-			this.onUnReadCount();
-		}, 30 * 1000);
+		// this.setUnReadCount = setInterval(() => {
+		// 	this.onUnReadCount();
+		// }, 30 * 1000);
 	}
 
 	// 清除排序状态

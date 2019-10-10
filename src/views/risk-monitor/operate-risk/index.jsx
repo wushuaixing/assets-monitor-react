@@ -116,7 +116,7 @@ class BusinessRisk extends Component {
 		const { tabConfig } = this.state;
 		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process'); // 获取默认对process
 		this.setState({ sourceType });
-		console.log(sourceType);
+		// console.log(sourceType);
 	}
 
 	// 批量关注

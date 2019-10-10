@@ -3,7 +3,6 @@ import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { Tabs, Button } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
-import './style.scss';
 // 主要内容模块
 import Assets from './assets-auction'; // 资产拍卖
 import Subrogation from './subrogation'; // 代位权
@@ -15,6 +14,7 @@ import Mortgage from './chattel-mortgage'; // 动产抵押
 import Attention from '../my-attention'; // 我的关注
 import ClearProcess from './assets-auction/clearProcess';// 资产清收流程
 import Star from '@/assets/img/icon/btn_attention_h.png';
+import './style.scss';
 
 // const noPage = () => <div>暂未开发</div>;
 // 获取展示配置

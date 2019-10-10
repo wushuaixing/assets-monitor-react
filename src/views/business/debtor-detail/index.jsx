@@ -10,8 +10,8 @@ import { getQueryByName } from '@/utils';
 import { Spin } from '@/common';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
-import './style.scss';
 import TableList from '../table-list';
+import './style.scss';
 
 export default class DebtorDetail extends React.Component {
 	constructor(props) {
@@ -229,9 +229,7 @@ export default class DebtorDetail extends React.Component {
 							秒后自动关闭页面
 						</div>
 						<div className="yc-confirm-btn">
-							{
-								<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">知道了</Button>
-							}
+							<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">知道了</Button>
 						</div>
 					</div>
 

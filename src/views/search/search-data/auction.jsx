@@ -1,5 +1,4 @@
 import React from 'react';
-import './style.scss';
 import {
 	DatePicker, Select, Button, Form, message,
 } from 'antd';
@@ -9,6 +8,7 @@ import {
 } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import InputPrice from '@/common/input/input-price';
+import './style.scss';
 
 const createForm = Form.create;
 const _style1 = { marginRight: 27, width: 240 };
