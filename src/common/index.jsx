@@ -1,5 +1,4 @@
 import Tabs from './tabs';
-import Simple from './tabs/simple';
 import Badge from './badge';
 import Button from './button';
 import Input from './input';
@@ -7,7 +6,6 @@ import Spin from './spin';
 import Download from './download';
 import Table from './commonTable';
 
-Tabs.Simple = Simple;
 
 const timeRule = {
 	disabledStartDate: (startValue, endValue) => {

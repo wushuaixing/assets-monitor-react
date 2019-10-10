@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { Table, Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { Trial } from '@/utils/api/monitor-info/subrogation';
+import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 import { timeStandard } from '@/utils';
-import { partyInfo } from '@/views/_common';
+// import { aboutLink, caseInfo } from '../../table-common';
 
 // 获取表格配置
 const columns = (props) => {
@@ -13,31 +14,33 @@ const columns = (props) => {
 		sortField,
 		sortOrder,
 	};
-
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>立案日期</span>
-				: <SortVessel field="GMT_REGISTER" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
-			dataIndex: 'gmtRegister',
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>开庭日期</span>
+				: <SortVessel field="GMT_TRIAL" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>开庭日期</SortVessel>),
+			dataIndex: 'gmtTrial',
 			width: 100,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '当事人',
-			dataIndex: 'parities',
-			width: 300,
-			render: partyInfo,
+			dataIndex: 'yg1',
+			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
 		}, {
 			title: '法院',
 			dataIndex: 'court',
-			render: text => text || '--',
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
-			render: text => text || '--',
-			// render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
 		}, {
-			title: '关联链接',
+			title: '案由',
+			dataIndex: 'caseReason',
+			sourceType: 1,
+			className: 'min-width-80-normal',
+			render: text => text || '--',
+		}, {
+			title: '关联信息',
 			dataIndex: 'associatedInfo',
 			className: 'tAlignCenter_important min-width-80',
 			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
@@ -52,16 +55,9 @@ const columns = (props) => {
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			width: 60,
-			render: (text, row, index) => (
-				<Attentions
-					text={text}
-					row={row}
-					onClick={onRefresh}
-					api={row.isAttention ? Trial.unAttention : Trial.attention}
-					index={index}
-				/>
-			),
+			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
 		}];
+	// <a href={url} className="click-link">{text || '--'}</a>
 	// const base = defaultColumns.filter(item => item.sourceType !== sourceType);
 	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
@@ -86,7 +82,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			Trial.read({ idList: [id] }).then((res) => {
+			readStatus({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

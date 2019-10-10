@@ -11,12 +11,12 @@ import LandData from './land-data'; // 土地数据
 import Tender from './tender-bid'; // 招标中标
 import Financial from './financial-assets'; // 金融资产
 import Mortgage from './chattel-mortgage'; // 动产抵押
-import Public from './public-proclamation'; // 公示公告
-import Attention from './my-attention'; // 我的关注
+// import Public from './public-proclamation'; // 公示公告
+import Attention from '../my-attention'; // 我的关注
 import ClearProcess from './assets-auction/clearProcess';// 资产清收流程
 import Star from '@/assets/img/icon/btn_attention_h.png';
 
-const noPage = () => <div>暂未开发</div>;
+// const noPage = () => <div>暂未开发</div>;
 // 获取展示配置
 const toGetRuth = (rules) => {
 	const rule = rules.children;
@@ -61,16 +61,16 @@ const toGetRuth = (rules) => {
 			dot: false,
 			components: Tender,
 		},
-		{
-			id: 6,
-			name: '公示公告',
-			url: '/monitor/public',
-			paramUrl: '',
-			status: (rule.gsgg_bidding || rule.gsgg_epb || rule.gsgg_tax) && false,
-			number: 0,
-			dot: false,
-			components: Public,
-		},
+		// {
+		// 	id: 6,
+		// 	name: '公示公告',
+		// 	url: '/monitor/public',
+		// 	paramUrl: '',
+		// 	status: (rule.gsgg_bidding || rule.gsgg_epb || rule.gsgg_tax) && false,
+		// 	number: 0,
+		// 	dot: false,
+		// 	components: Public,
+		// },
 		{
 			id: 3,
 			name: '金融资产',
@@ -91,16 +91,16 @@ const toGetRuth = (rules) => {
 			dot: false,
 			components: Mortgage,
 		},
-		{
-			id: 12,
-			name: '权证',
-			url: '/monitor/2',
-			paramUrl: '',
-			status: false,
-			number: 0,
-			dot: false,
-			components: noPage,
-		},
+		// {
+		// 	id: 12,
+		// 	name: '权证',
+		// 	url: '/monitor/2',
+		// 	paramUrl: '',
+		// 	status: false,
+		// 	number: 0,
+		// 	dot: false,
+		// 	components: noPage,
+		// },
 
 	];
 	return source.filter(item => item.status);
@@ -110,8 +110,9 @@ const toGetRuth = (rules) => {
 class MonitorMain extends React.Component {
 	constructor(props) {
 		super(props);
+		const _source = toGetRuth(props.rule);
 		this.state = {
-			source: toGetRuth(props.rule),
+			source: _source,
 		};
 		this.sourceType = '';
 	}
@@ -139,9 +140,9 @@ class MonitorMain extends React.Component {
 					if (_item.id === 10)_item.dot = data.landResultFlag; // 土地数据
 					if (_item.id === 11)_item.dot = data.mortgageFlag; // 动产抵押
 					if (_item.id === 3)_item.dot = data.financeCount + data.stockPledgeFlag;
-					if (_item.id === 4)_item.dot = data.trialCourtSessionCount + data.trialFilingCount;
-					if (_item.id === 5)_item.dot = data.bankruptcyCount;
-					if (_item.id === 6)_item.dot = data.biddingCount + data.taxCount + data.epbCount;
+					// if (_item.id === 4)_item.dot = data.trialCourtSessionCount + data.trialFilingCount;
+					// if (_item.id === 5)_item.dot = data.bankruptcyCount;
+					// if (_item.id === 6)_item.dot = data.biddingCount + data.taxCount + data.epbCount;
 					return _item;
 				});
 				this.setState({ source: _source });

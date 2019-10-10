@@ -1,7 +1,7 @@
 import React from 'react';
-import './style.scss';
-import Badge from '../badge';
 import { parseQuery } from '@/utils';
+import Badge from '../badge';
+import './style.scss';
 
 const toGetDefaultActive = (source, field, defaultCurrent) => {
 	const { hash } = window.location;
@@ -56,10 +56,12 @@ class SimpleTab extends React.Component {
 	};
 
 	render() {
-		const { rightRender, source, prefix } = this.props;
+		const {
+			rightRender, source, prefix, type,
+		} = this.props;
 		const { active } = this.state;
 		return (
-			<div className="yc-tabs-wrapper yc-tabs-simple">
+			<div className={`yc-tabs-wrapper yc-tabs-simple yc-tabs-simple-${type || 'warning'}`}>
 				<ul>
 					{prefix || ''}
 					{source && source.map(item => (

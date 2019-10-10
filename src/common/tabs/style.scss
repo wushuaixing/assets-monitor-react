@@ -50,7 +50,7 @@
 }
 
 .yc-tabs-simple{
-  border-bottom: 1px solid $background-border;
+  border-bottom: 1px solid $background-line;
   ul{
     //padding-left: 10px;
   }
@@ -59,7 +59,6 @@
     span{
       font-size: 14px;
       line-height: 15px;
-
     }
   }
   .yc-tabs-active{
@@ -71,12 +70,41 @@
       right: 0;
       z-index:1;
       height:2px;
-      background-color: $color-alert-error;
+      background-color: $common-warning;
     }
     span{
-      color: $color-alert-error;
+      color: $common-warning;
       font-weight: 400;
     }
   }
 }
 
+.yc-tabs-simple-warning{
+  .yc-tabs-active{
+    .yc-tabs-active-line{
+      background-color: $common-warning;
+    }
+    span{
+      color: $common-warning;
+    }
+  }
+}
+
+.yc-tabs-simple-primary{
+  .yc-tabs-li{
+    padding: 20px 23px 17px 23px;
+    span{
+      font-size: 16px;
+      line-height: 18px;
+    }
+  }
+  .yc-tabs-active{
+    .yc-tabs-active-line{
+      height: 3px;
+      background-color: $common-base;
+    }
+    span{
+      color: $common-base;
+    }
+  }
+}
