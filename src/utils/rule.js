@@ -118,9 +118,10 @@ export default {
 	/**
 	 * 返回默认对应rule数据结构，包含二级三级
 	 * @param rule
+	 * @param moduleID
 	 * @returns {Array}
 	 */
-	toGetRuleSource: (rule) => {
+	toGetRuleSource: (rule, moduleID) => {
 		/**
 		 * 判断是否存在
 		 * @param rules
@@ -140,7 +141,6 @@ export default {
 			}
 			return false;
 		};
-
 		const _RES = [];
 		const base = [
 			{
@@ -186,6 +186,10 @@ export default {
 						name: '金融资产',
 						url: '/monitor/financial',
 						status: toStatus(rule.menu_jkxx, ['jkxxjrzcgsxm', 'jkxxjrzcjjxm']),
+					  child: [
+							{ id: 'YC020501', name: '竞价项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcjjxm') },
+							{ id: 'YC020502', name: '公示项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcgsxm') },
+					  ],
 					},
 					{
 						id: 'YC0206',
@@ -193,24 +197,6 @@ export default {
 						url: '/monitor/mortgage',
 						status: true,
 					},
-					// {
-					// 	id: 'YC0201',
-					// 	name: '涉诉监控',
-					// 	url: '/monitor/lawsuits',
-					// 	status: toStatus(rule.menu_jkxx, 'jkxxssjk'),
-					// },
-					// {
-					// 	id: 'YC0201',
-					// 	name: '企业破产重组',
-					// 	url: '/monitor/bankruptcy',
-					// 	status: toStatus(rule.menu_jkxx, 'jkxxpccz'),
-					// },
-					// {
-					// 	id: 'YC0201',
-					// 	name: '公示公告',
-					// 	url: '/monitor/public',
-					// 	status: toStatus(rule.menu_jkxx, ['gsgg_tendering', 'gsgg_tax', 'gsgg_epb']),
-					// },
 				],
 			},
 			{
@@ -312,6 +298,6 @@ export default {
 				_RES.push(_item);
 			}
 		});
-		return _RES;
+		return moduleID ? _RES.filter(item => item.id === moduleID)[0] : _RES;
 	},
 };

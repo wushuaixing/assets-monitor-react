@@ -299,6 +299,7 @@ export const handleRule = source => ruleMethods.handleRule(source);
 /**
  * 返回默认对应rule数据结构，包含二级三级
  * @param rule
+ * @param moduleID
  * @returns {Array}
  */
-export const toGetRuleSource = rule => ruleMethods.toGetRuleSource(rule);
+export const toGetRuleSource = (rule, moduleID) => ruleMethods.toGetRuleSource(rule, moduleID);
