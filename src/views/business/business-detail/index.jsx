@@ -8,12 +8,12 @@ import {
 	save, // 编辑
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
-import './style.scss';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import Edit from './edit';
 import { Spin } from '@/common';
 import TableList from '../table-list';
+import './style.scss';
 
 const { confirm } = Modal;
 const createForm = Form.create;

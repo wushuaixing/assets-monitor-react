@@ -11,9 +11,9 @@ import {
 import {
 	forgetPasswordStep1, // 忘记密码-step1
 } from '@/utils/api/user';
-import './style.scss';
 // import server from '@/utils/service';
 import { baseUrl } from '@/utils/api';
+import './style.scss';
 
 const verificationCodeImg = `${baseUrl}/yc/open/verificationCode`;
 const FormItem = Form.Item;

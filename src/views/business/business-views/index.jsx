@@ -6,7 +6,8 @@ import {
 import Cookies from 'universal-cookie';
 import PeopleListModal from './Modal/peopleList';
 import TableList from './table';
-import { baseUrl } from '@/utils/api';
+// import { baseUrl  } from '@/utils/api';
+import BASE_URL from '@/utils/api/config';
 import {
 	businessList, // 列表
 	exportExcel, // 导出列表
@@ -99,7 +100,7 @@ class BusinessView extends React.Component {
 		// const Authorization = 'eyJuYW1lIjoi5rWL6K-VIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiIxMjMiLCJleHAiOjE1NTg1NzQ4NDl9.TUn3QyocFGMMBV7Z4X0TXDxkFnkf5t83rNh-qISmLeoMlMIWLsvmykmk8cb8U89zyp0CCZGZVmoa9gIgzu32qw';
 		return {
 			name: 'file',
-			action: `${baseUrl}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
+			action: `${BASE_URL}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
 			beforeUpload(file) {
 				const type = file.name.split('.');
 				const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';

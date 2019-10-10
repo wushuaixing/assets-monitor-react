@@ -113,7 +113,7 @@ class BusinessView extends React.Component {
 									</div>
 									<div>
 										<span style={{ marginRight: '10px' }}>链接原内容:</span>
-										{<span dangerouslySetInnerHTML={{ __html: row.patternText }} />}
+										<span dangerouslySetInnerHTML={{ __html: row.patternText }} />
 									</div>
 								</div>
 								)}

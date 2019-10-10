@@ -3,7 +3,6 @@ import {
 	Tree, Input, message, Icon,
 } from 'antd';
 import { navigate } from '@reach/router';
-import './style.scss';
 import Cookies from 'universal-cookie';
 import { generateUrlWithParams } from '@/utils';
 import {
@@ -13,6 +12,7 @@ import {
 } from '@/utils/api/user';
 import PasswordModal from './passwordModal';
 import flat from '../../../utils/flatArray';
+import './style.scss';
 
 const { TreeNode } = Tree;
 const cookie = new Cookies();

@@ -3,7 +3,6 @@ import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { Tabs, Button } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
-
 // 主要内容模块
 import Assets from './assets-auction'; // 资产拍卖
 import Subrogation from './subrogation'; // 代位权

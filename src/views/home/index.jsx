@@ -86,7 +86,7 @@ class HomeRouter extends React.Component {
 							<div className="left yc-content-item1">
 								<div className="yc-text">
 									<span className="yc-icon" />
-									{'未跟进监控信息数  (条)'}
+									未跟进监控信息数  (条)
 								</div>
 								<div className="yc-num">
 									<span style={{ color: 'red' }}>{tree ? tree.monitorUnfollowedCount : '-'}</span>
@@ -111,7 +111,7 @@ class HomeRouter extends React.Component {
 							<div className="left yc-content-item2">
 								<div className="yc-text">
 									<span className="yc-icon-debtor" />
-									{'监控债务人数  (人)'}
+									监控债务人数  (人)
 								</div>
 								<div className="yc-num">
 									<span>{tree ? tree.obligorCount : '-'}</span>
@@ -120,7 +120,7 @@ class HomeRouter extends React.Component {
 							<div className="left yc-content-item2">
 								<div className="yc-text">
 									<span className="yc-icon-money" />
-									{'追回总金额  (元)'}
+									追回总金额  (元)
 								</div>
 								<div className="yc-num">
 									<span>{tree ? toThousands(tree.recovery) : '-'}</span>

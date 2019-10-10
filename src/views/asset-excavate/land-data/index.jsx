@@ -6,7 +6,6 @@ import {
 } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
 import { unReadCount } from '@/utils/api/monitor-info';
-import './style.scss';
 
 // 搜索框
 import QueryResult from './query/result';
@@ -17,6 +16,8 @@ import QueryMortgage from './query/mortgage';
 import TableResult from './table/result';
 import TableTransfer from './table/transfer';
 import TableMortgage from './table/mortgage';
+
+import './style.scss';
 
 // 获取api具体
 const toGetApi = (type, base) => {
@@ -81,9 +82,9 @@ export default class Lawsuits extends React.Component {
 		this.setState({ sourceType });
 		this.onQueryChange({}, sourceType);
 		this.onUnReadCount();
-		this.setUnReadCount = setInterval(() => {
-			this.onUnReadCount();
-		}, 30 * 1000);
+		// this.setUnReadCount = setInterval(() => {
+		// 	this.onUnReadCount();
+		// }, 30 * 1000);
 	}
 
 	// 清除排序状态

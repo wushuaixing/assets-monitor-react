@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'antd';
-import { linkDom } from '@/utils';
 import Cookies from 'universal-cookie';
+import { linkDom } from '@/utils';
 import { urlEncode, clearEmpty } from '@/utils';
 
 const cookies = new Cookies();
