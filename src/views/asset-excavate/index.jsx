@@ -15,7 +15,6 @@ import Attention from '../my-attention'; // 我的关注
 import ClearProcess from './assets-auction/clearProcess';// 资产清收流程
 import Star from '@/assets/img/icon/btn_attention_h.png';
 import './style.scss';
-
 // const noPage = () => <div>暂未开发</div>;
 // 获取展示配置
 const toGetRuth = (rules) => {
