@@ -484,6 +484,9 @@ hr {
 
     tr:nth-child(even) {
       background-color: #F7F7F7;
+      &:hover {
+        background: #eaf8fe;
+      }
     }
   }
 
@@ -778,4 +781,8 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   .assets-auction-action {
     padding: 20px 0 16px;
   }
+}
+// antd table行内下划线
+.ant-table-tbody>tr>td {
+  border-bottom: 0;
 }
