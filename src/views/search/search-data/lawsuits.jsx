@@ -214,7 +214,7 @@ class LAWSUITS extends React.Component {
 			<div className="yc-tabs-data" style={{ padding: '0 22px' }}>
 				<div className="yc-tabs-items">
 					{yg.map(item => (
-						<div key={item.id} className="item" style={{ 'margin-right': 10 }}>
+						<div key={item.id} className="item" style={{ 'margin-right': 16 }}>
 							<Input
 								title="原告"
 								value={item.name}
@@ -252,7 +252,7 @@ class LAWSUITS extends React.Component {
 				</div>
 				<div className="yc-tabs-items">
 					{bg.map(item => (
-						<div className="item" style={{ 'margin-right': 10 }}>
+						<div className="item" style={{ 'margin-right': 16 }}>
 							<Input
 								key={item.id}
 								title="被告"
@@ -290,14 +290,14 @@ class LAWSUITS extends React.Component {
 					)}
 				</div>
 				<div className="yc-tabs-items">
-					<div className="item" style={{ 'margin-right': 10 }}>
+					<div className="item" style={{ 'margin-right': 16 }}>
 						<Input
 							title="起诉法院"
 							placeholder="法院名称"
 							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item" style={{ 'margin-right': 10 }}>
+					<div className="item" style={{ 'margin-right': 16 }}>
 						<Input
 							title="案号"
 							placeholder="案件编号"
@@ -345,7 +345,7 @@ class LAWSUITS extends React.Component {
 						<Button
 							size="large"
 							type="ghost"
-							style={{ 'margin-right': 10 }}
+							style={{ 'margin-right': 16 }}
 							className={checkedType === 1 ? 'yc-checked-btn' : null}
 							onClick={() => this.changeType(1)}
 						>

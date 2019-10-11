@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-	Table, Pagination, Modal, message,
+	Pagination, Modal, message,
 } from 'antd';
 import { Attentions } from '@/common/table';
 import { followSingle, unFollowSingle } from '@/utils/api/monitor-info/assets';
 import { processSave } from '@/utils/api/monitor-info/assets-follow';
-
+import { Table } from '@/common';
 import {
 	AssetsInfo, MatchingReason, AuctionInfo,
 } from '@/views/asset-excavate/assets-auction/tableComponents';
@@ -46,7 +46,7 @@ const columns = (props, onFollowClick) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? '资产信息'
-				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort}>资产信息</SortVessel>),
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>资产信息</SortVessel>),
 			width: 274,
 			render: AssetsInfo,
 		}, {
@@ -171,7 +171,7 @@ export default class TableView extends React.Component {
 						current={current || 1}
 						total={total || 0}
 						onChange={onPageChange}
-						showTotal={totalCount => `共 ${totalCount} 条`}
+						showTotal={totalCount => `共 ${totalCount} 条信息`}
 					/>
 				</div>
 				{

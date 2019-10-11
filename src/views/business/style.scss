@@ -47,9 +47,11 @@
   .yc-query-item-btn {
     float: right;
     margin-right: 0;
-
+    .yc-btn {
+      margin: 0 0 0 10px;
+    }
     button {
-      margin-left: 5px;
+      margin-left: 10px;
     }
   }
 }

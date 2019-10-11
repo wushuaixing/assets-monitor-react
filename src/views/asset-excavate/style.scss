@@ -29,7 +29,9 @@
   .yc-query-item-btn {
     float: right;
     margin-right: 0;
-
+    .yc-btn {
+      margin: 0 0 0 10px;
+    }
     button {
       margin-left: 5px;
     }
@@ -37,6 +39,7 @@
 }
 // 资产拍卖-资产信息
 .assets-info-content {
+  margin-left: 10px;
   li {
     padding-bottom: 6px;
     line-height: 16px;
@@ -185,7 +188,7 @@
 
 }
 .yc-assets-info-img {
-  width: 30px;
+  // width: 30px;
   height: 30px;
   top: 0;
   left: 0;

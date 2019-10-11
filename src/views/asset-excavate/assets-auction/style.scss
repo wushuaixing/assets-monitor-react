@@ -31,7 +31,8 @@
   .yc-icon-recovery-title {
     margin-right: 15px;
     font-size: 13px;
-    color: #337ab7;
+    color: $text-link;
+    line-height: 30px;
     &:hover {
       text-decoration: underline;
       cursor: pointer;
@@ -47,6 +48,7 @@
   }
   // 资产拍卖-资产信息
   .assets-info-content {
+    margin-left: 10px;
     li {
       padding-bottom: 6px;
       line-height: 16px;
@@ -158,7 +160,7 @@
 
 }
 .yc-assets-info-img {
-  width: 30px;
+  // width: 30px;
   height: 30px;
   top: 0;
   left: 0;

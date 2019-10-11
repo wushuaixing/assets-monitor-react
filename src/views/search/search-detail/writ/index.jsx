@@ -319,7 +319,7 @@ class WRIT extends React.Component {
 							})}
 						/>
 					</div>
-					<div style={{ borderBottom: '1px solid #F0F2F5' }}>
+					<div>
 						<div className="yc-query-item">
 							<span className="yc-query-item-title">发布时间: </span>
 							<DatePicker

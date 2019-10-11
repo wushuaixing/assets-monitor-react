@@ -1,9 +1,10 @@
 
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 import { timeStandard } from '@/utils';
+import { Table } from '@/common';
 // import { aboutLink, caseInfo } from '../../table-common';
 
 // 获取表格配置
@@ -127,7 +128,7 @@ export default class TableView extends React.Component {
 						current={current || 1}
 						total={total || 0}
 						onChange={onPageChange}
-						showTotal={totalCount => `共 ${totalCount} 条`}
+						showTotal={totalCount => `共 ${totalCount} 条信息`}
 					/>
 				</div>
 			</React.Fragment>

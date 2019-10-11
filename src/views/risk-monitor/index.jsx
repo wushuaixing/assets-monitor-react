@@ -10,7 +10,7 @@ import Bankruptcy from './bankruptcy';
 import OperateRisk from './operate-risk';
 import Attention from '../my-attention'; // 我的关注
 
-import Star from '@/assets/img/icon/btn_attention_h.png';
+import Star from '@/assets/img/icon/btn_attention_n.png';
 
 // 获取展示配置
 const toGetRuth = (rules = {}) => {

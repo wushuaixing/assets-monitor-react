@@ -71,6 +71,27 @@ const columns = (props) => {
 			render: (text, record) => ReadStatus(text || '-', record),
 		}, {
 			title: '出质人',
+			dataIndex: 'pledgorList',
+			width: 250,
+			render: (text, row) => (
+				<span>
+					{row.pledgorList && row.pledgorList.length > 0 && row.pledgorList.map(item => (
+						<span>
+							{
+								item.pledgor && item.pledgor.length > 12
+									? (
+										<Tooltip placement="topLeft" title={item.pledgor}>
+											<p>{item.pledgorId === 0 ? `${item.pledgor.substr(0, 12)}...` : linkDom(`/#/business/debtor/detail?id=${item.pledgorId}`, `${item.pledgor.substr(0, 12)}...`)}</p>
+										</Tooltip>
+									)
+									: <p>{item.pledgorId === 0 ? `${item.pledgor || '-'}` : linkDom(`/#/business/debtor/detail?id=${item.pledgorId}`, `${item.pledgor || '-'}`)}</p>
+							}
+						</span>
+					))}
+				</span>
+			),
+		}, {
+			title: '质权人',
 			dataIndex: 'pledgeeList',
 			width: 250,
 			render: (text, row) => (
@@ -85,27 +106,6 @@ const columns = (props) => {
 										</Tooltip>
 									)
 									: <p>{item.pledgeeId === 0 ? `${item.pledgee || '-'}` : linkDom(`/#/business/debtor/detail?id=${item.pledgeeId}`, `${item.pledgee || '-'}`)}</p>
-							}
-						</span>
-					))}
-				</span>
-			),
-		}, {
-			title: '质权人',
-			dataIndex: 'title2',
-			width: 250,
-			render: (text, row) => (
-				<span>
-					{row.pledgorList && row.pledgorList.length > 0 && row.pledgorList.map(item => (
-						<span>
-							{
-								item.pledgor && item.pledgor.length > 12
-									? (
-										<Tooltip placement="topLeft" title={item.pledgor}>
-											<p>{item.pledgorId === 0 ? `${item.pledgor.substr(0, 12)}...` : linkDom(`/#/business/debtor/detail?id=${item.pledgorId}`, `${item.pledgor.substr(0, 12)}...`)}</p>
-										</Tooltip>
-									)
-									: <p>{item.pledgorId === 0 ? `${item.pledgor || '-'}` : linkDom(`/#/business/debtor/detail?id=${item.pledgorId}`, `${item.pledgor || '-'}`)}</p>
 							}
 						</span>
 					))}
@@ -203,7 +203,7 @@ export default class TableView extends React.Component {
 						current={current || 1}
 						total={total || 0}
 						onChange={onPageChange}
-						showTotal={totalCount => `共 ${totalCount} 条`}
+						showTotal={totalCount => `共 ${totalCount} 条信息`}
 					/>
 				</div>
 			</React.Fragment>

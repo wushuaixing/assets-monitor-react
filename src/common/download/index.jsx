@@ -96,7 +96,7 @@ export default class Download extends React.Component {
 		} = this.props;
 
 		return (
-			<Button disabled={loadingStatus === 'loading' || disabled} onClick={this.handleDownload} style={style || ''}>
+			<Button disabled={loadingStatus === 'loading' || disabled} onClick={this.handleDownload} style={all ? { style, float: 'right', marginRight: 0 } : style}>
 				{
 					loadingStatus === 'loading' ? <Icon type="loading" /> : <span className={all ? 'yc-export-img' : ''} />
 				}

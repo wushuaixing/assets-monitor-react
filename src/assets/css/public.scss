@@ -3,33 +3,33 @@
 
 body, td, th {
   font-size: 14px;
-  color: #333333;
+  color: $text-title;
 }
 
 .yc-h1 {
   font-size: 18px;
-  color: #333333;
+  color: $text-title;
 }
 
 .yc-h2 {
   font-size: 16px;
-  color: #333333;
+  color: $text-title;
 }
 
 .yc-h2-bold {
   font-size: 16px;
-  color: #333333;
+  color: $text-title;
   font-weight: bold;
 }
 
 .yc-h3 {
   font-size: 14px;
-  color: #333333;
+  color: $text-title;
 }
 
 .yc-h3-bold {
   font-size: 14px;
-  color: #333333;
+  color: $text-title;
   font-weight: bold;
 }
 
@@ -48,8 +48,8 @@ body, td, th {
 
 .yc-split-hr {
   width: 100%;
-  height: 1px;
-  background-color: $background-line;
+  // height: 1px;
+  // background-color: $background-line;
 }
 
 .yc-split-line-row {
@@ -479,20 +479,21 @@ hr {
 .ant-table-body, .cTableContent {
   tbody {
     tr:hover {
-      background: #eaf8fe;
+      background: $background-list-hover;
     }
 
     tr:nth-child(even) {
       background-color: #F7F7F7;
       &:hover {
-        background: #eaf8fe;
+        background: $background-list-hover;
       }
     }
   }
 
   table {
     thead th {
-      background: #f0F0F0 !important;
+      background: $background-base !important;
+      color: $text-content !important;
     }
 
     tr td {

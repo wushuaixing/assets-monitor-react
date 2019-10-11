@@ -685,7 +685,7 @@ class LAWSUITS extends React.Component {
 						)
 					}
 				</div>
-				<div style={{ borderBottom: '1px solid #F0F2F5' }}>
+				<div>
 					<div className="yc-query-item">
 						<Input
 							title="起诉法院"

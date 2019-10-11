@@ -13,7 +13,7 @@ import './style.scss';
 const createForm = Form.create;
 const _style1 = { marginRight: 27, width: 240 };
 const _style2 = { width: 120 };
-const _style3 = { width: 225 };
+const _style3 = { width: 240 };
 class AUCTION extends React.PureComponent {
 	constructor(props) {
 		super(props);
