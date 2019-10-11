@@ -239,15 +239,14 @@ export const linkDom = (url, text, target, className) => React.createElement(
  * @returns {*}
  */
 export const changeURLArg = function method(url, arg, _argVal) {
-	const pattern = `${arg}=([^&]*)`;
-	const replaceText = `${arg}=${_argVal}`;
-	if (url.match(pattern)) {
-		let tmp = `/(${arg}=)([^&]*)/gi`;
-		tmp = url.replace(eval(tmp), replaceText);
-		return tmp;
+	const replaceText = _argVal ? `${arg}=${_argVal}` : '';
+	const argMatchRes = url.match(`${arg}=([^&]*)`);
+	if (argMatchRes) {
+		const regExp = replaceText ? `(${arg}=)([^&]*)` : `[&|?](${arg}=)([^&]*)`;
+		return url.replace(new RegExp(regExp, 'gi'), replaceText);
 	}
-	if (url.match('[?]')) return `${url}&${replaceText}`;
-	return `${url}?${replaceText}`;
+	const mark = url.match('[?]') ? '&' : '?';
+	return replaceText ? `${url}${mark}${replaceText}` : url;
 };
 
 // 将输入内容拼接到url上
@@ -261,11 +260,6 @@ export const generateUrlWithParams = (url, params) => {
 			urlParams.push(`${key}=${params[key]}`);
 		}
 	}
-	// for (const key in params) {
-	// 	if (params[key]) {
-	// 		urlParams.push(`${key}=${params[key]}`);
-	// 	}
-	// }
 	if (urlParams.length > 0) {
 		urlList += `?${urlParams.join('&')}`;
 	}

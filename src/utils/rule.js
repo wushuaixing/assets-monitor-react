@@ -168,12 +168,21 @@ export default {
 						name: '代位权',
 						url: '/monitor/subrogation',
 						status: toStatus(rule.menu_jkxx, 'jkxxdwq'),
+						child: [
+							{ id: 'YC020201', name: '立案信息', status: true },
+							{ id: 'YC020202', name: '开庭公告', status: true },
+							{ id: 'YC020203', name: '裁判文书', status: true },
+						],
 					},
 					{
 						id: 'YC0203',
 						name: '土地数据',
 						url: '/monitor/land',
 						status: true,
+						child: [
+							{ id: 'YC020301', name: '出让结果', status: true },
+							// { id: 'YC020302', name: '开庭公告', status: false },
+						],
 					},
 					{
 						id: 'YC0204',
@@ -187,6 +196,7 @@ export default {
 						url: '/monitor/financial',
 						status: toStatus(rule.menu_jkxx, ['jkxxjrzcgsxm', 'jkxxjrzcjjxm']),
 					  child: [
+							{ id: 'YC020503', name: '股权质押', status: true },
 							{ id: 'YC020501', name: '竞价项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcjjxm') },
 							{ id: 'YC020502', name: '公示项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcgsxm') },
 					  ],
@@ -210,6 +220,11 @@ export default {
 						name: '涉诉监控',
 						url: '/risk',
 						status: true,
+						child: [
+							{ id: 'YC030101', name: '立案信息', status: true },
+							{ id: 'YC030102', name: '开庭公告', status: true },
+							{ id: 'YC030103', name: '裁判文书', status: true },
+						],
 					},
 					{
 						id: 'YC0302',
@@ -298,6 +313,18 @@ export default {
 				_RES.push(_item);
 			}
 		});
-		return moduleID ? _RES.filter(item => item.id === moduleID)[0] : _RES;
+		const type = typeof moduleID;
+		if (type === 'string') {
+			return moduleID ? _RES.filter(item => item.id === moduleID)[0] : _RES;
+		} if (type === 'object') {
+			return _RES.filter((item) => {
+				let res = false;
+				moduleID.forEach((i) => {
+					if (i === item.id)res = true;
+				});
+				return res;
+			});
+		}
+		return _RES;
 	},
 };
