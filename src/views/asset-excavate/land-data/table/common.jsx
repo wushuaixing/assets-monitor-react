@@ -72,7 +72,9 @@ const Result = {
 				</li>
 				<li>
 					<span className="list list-title align-justify">成交价格：</span>
-					<span className="list list-content">{rowContent.area || '-'}</span>
+					<span className="list list-content">
+						{rowContent.purchasePrice ? `${rowContent.purchasePrice} 万元` : '-'}
+					</span>
 				</li>
 			</div>
 		</React.Fragment>
