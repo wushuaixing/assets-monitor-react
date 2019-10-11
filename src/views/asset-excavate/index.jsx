@@ -68,12 +68,14 @@ class MonitorMain extends React.Component {
 			if (code === 200) {
 				const _source = source.map((item) => {
 					const _item = item;
+					// console.log(_item.id, 123);
+
 					if (_item.id === 'YC0201')_item.dot = data.auctionCount;
 					if (_item.id === 'YC0202')_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount;
 					if (_item.id === 'YC0203')_item.dot = data.landResultFlag; // 土地数据
 					if (_item.id === 'YC0204')_item.dot = data.biddingCount; // 招标中标
-					if (_item.id === 'YC0205')_item.dot = data.mortgageFlag; // 动产抵押
-					if (_item.id === 'YC0206')_item.dot = data.financeCount + data.stockPledgeFlag;
+					if (_item.id === 'YC0205')_item.dot = data.financeCount + data.stockPledgeFlag; // 金融资产
+					if (_item.id === 'YC0206')_item.dot = data.mortgageFlag; // 动产抵押
 					return _item;
 				});
 				this.setState({ source: _source });
