@@ -31,11 +31,11 @@ const cookie = new Cookies();
 const ruleList = (props) => {
 	const l = [];
 	const { rule } = props;
-	if (rule.menu_sy)l.push(<Home path="/*" rule={rule.menu_sy} />);
-	if (rule.menu_jkxx)l.push(<Monitor path="monitor/*" rule={rule.menu_jkxx} />);
-	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} />);
-	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} />);
-	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} />);
+	if (rule.menu_sy)l.push(<Home path="/*" rule={rule.menu_sy} baseRule={rule} />);
+	if (rule.menu_jkxx)l.push(<Monitor path="monitor/*" rule={rule.menu_jkxx} baseRule={rule} />);
+	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} />);
+	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} baseRule={rule} />);
+	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} />);
 	l.push(<Message path="message/*" />);
 	l.push(<Risk path="risk/*" />);
 	l.push(<ChangePassword path="change/password/*" />);
@@ -77,11 +77,13 @@ export default class Screen extends React.Component {
 		// console.log('componentWillMount:', document.body.clientHeight);
 		authRule().then((res) => {
 			if (res.code === 200) {
+				const rule = handleRule(res.data.orgPageGroups);
 				this.setState({
 					loading: 'hidden',
-					rule: handleRule(res.data.orgPageGroups),
+					rule,
 					errorCode: res.code,
 				});
+				global.ruleSource = rule;
 			} else {
 				this.setState({
 					loading: 'error',

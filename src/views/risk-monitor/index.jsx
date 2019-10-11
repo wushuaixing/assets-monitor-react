@@ -8,7 +8,7 @@ import './style.scss';
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import OperateRisk from './operate-risk';
-import Attention from '../asset-excavate/my-attention'; // 我的关注
+import Attention from '../my-attention'; // 我的关注
 
 import Star from '@/assets/img/icon/btn_attention_h.png';
 

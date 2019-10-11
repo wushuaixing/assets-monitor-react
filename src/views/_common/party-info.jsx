@@ -6,13 +6,24 @@
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
 
+const maxShowLength = 3;
 export default class PartyInfo extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			status: props.child.length <= 2 ? 'none' : 'toOpen',
+			status: props.child.length <= maxShowLength ? 'none' : 'toOpen',
 		//	none 无  toOpen 点击展开 toClose 点击收起
 		};
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		const _nextState = nextState;
+		const { id } = this.props;
+		const { status } = this.state;
+		if (nextProps.id !== id) {
+			_nextState.status = nextProps.child.length <= maxShowLength ? 'none' : 'toOpen';
+		}
+		return nextState.status !== status;
 	}
 
 	handleToChange=() => {
@@ -23,8 +34,10 @@ export default class PartyInfo extends React.Component {
 
 	render() {
 		const { status } = this.state;
-		const { role, child, type } = this.props;
-		const source = status === 'toOpen' ? child.slice(0, 2) : child;
+		const {
+			role, child, type, width,
+		} = this.props;
+		const source = status === 'toOpen' ? child.slice(0, maxShowLength) : child;
 
 		const statusText = status === 'toOpen'
 			? (
@@ -47,7 +60,7 @@ export default class PartyInfo extends React.Component {
 		};
 		return (
 			<div className="yc-party-info-list">
-				<span className={`party-info party-info-title party-info-type-${type || 0}`}>
+				<span className={`party-info party-info-title party-info-type-${type || 0}`} style={width ? { width } : ''}>
 					<li className="li-role">{roleContent.role}</li>
 					{
 						roleContent.mark ? (

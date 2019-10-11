@@ -1,8 +1,9 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
-import { Tabs, Button } from '@/common';
+import { Button, Tabs } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
+import { toGetRuleSource } from '@/utils';
 // 主要内容模块
 import Assets from './assets-auction'; // 资产拍卖
 import Subrogation from './subrogation'; // 代位权
@@ -12,104 +13,37 @@ import Financial from './financial-assets'; // 金融资产
 import Mortgage from './chattel-mortgage'; // 动产抵押
 // import Public from './public-proclamation'; // 公示公告
 import Attention from '../my-attention'; // 我的关注
-import ClearProcess from './assets-auction/clearProcess';// 资产清收流程
+import ClearProcess from './assets-auction/clearProcess'; // 资产清收流程
 import Star from '@/assets/img/icon/btn_attention_h.png';
 import './style.scss';
-// const noPage = () => <div>暂未开发</div>;
-// 获取展示配置
-const toGetRuth = (rules) => {
-	const rule = rules.children;
-	const source = [
-		{
-			id: 1,
-			name: '资产拍卖',
-			url: '/monitor',
-			paramUrl: '?process=-1',
-			status: rule.jkxxzcpm,
-			number: 0,
-			dot: false,
-			components: Assets,
-		},
-		{
-			id: 2,
-			name: '代位权',
-			url: '/monitor/subrogation',
-			status: rule.jkxxdwq,
-			paramUrl: '',
-			number: 0,
-			dot: false,
-			components: Subrogation,
-		},
-		{
-			id: 10,
-			name: '土地数据',
-			url: '/monitor/land',
-			paramUrl: '',
-			status: true,
-			number: 0,
-			dot: false,
-			components: LandData,
-		},
-		{
-			id: 13,
-			name: '招标中标',
-			url: '/monitor/tender',
-			paramUrl: '',
-			status: true,
-			number: 0,
-			dot: false,
-			components: Tender,
-		},
-		// {
-		// 	id: 6,
-		// 	name: '公示公告',
-		// 	url: '/monitor/public',
-		// 	paramUrl: '',
-		// 	status: (rule.gsgg_bidding || rule.gsgg_epb || rule.gsgg_tax) && false,
-		// 	number: 0,
-		// 	dot: false,
-		// 	components: Public,
-		// },
-		{
-			id: 3,
-			name: '金融资产',
-			url: '/monitor/financial',
-			status: rule.jkxxjrzcgsxm || rule.jkxxjrzcjjxm,
-			paramUrl: '',
-			number: 0,
-			dot: false,
-			components: Financial,
-		},
-		{
-			id: 11,
-			name: '动产抵押',
-			url: '/monitor/mortgage',
-			paramUrl: '',
-			status: true,
-			number: 0,
-			dot: false,
-			components: Mortgage,
-		},
-		// {
-		// 	id: 12,
-		// 	name: '权证',
-		// 	url: '/monitor/2',
-		// 	paramUrl: '',
-		// 	status: false,
-		// 	number: 0,
-		// 	dot: false,
-		// 	components: noPage,
-		// },
 
-	];
-	return source.filter(item => item.status);
+const noPage = () => <div>暂未开发</div>;
+
+// 获取展示配置
+const toGetRuth = (moduleID) => {
+	const result = toGetRuleSource(global.ruleSource, moduleID);
+	// console.log(result.children);
+	return result.children.map((item) => {
+	  const _item = item;
+	  let components = '';
+	  if (item.id === `${moduleID}01`) components = Assets;
+	  else if (item.id === `${moduleID}02`) components = Subrogation;
+	  else if (item.id === `${moduleID}03`) components = LandData;
+	  else if (item.id === `${moduleID}04`) components = Tender;
+	  else if (item.id === `${moduleID}05`) components = Financial;
+	  else if (item.id === `${moduleID}06`) components = Mortgage;
+	  else components = noPage;
+	  _item.paramUrl = item.paramUrl || '';
+	  _item.components = components;
+	  return _item;
+	});
 };
 
 // 主界面
 class MonitorMain extends React.Component {
 	constructor(props) {
 		super(props);
-		const _source = toGetRuth(props.rule);
+		const _source = toGetRuth('YC02');
 		this.state = {
 			source: _source,
 		};
@@ -134,14 +68,12 @@ class MonitorMain extends React.Component {
 			if (code === 200) {
 				const _source = source.map((item) => {
 					const _item = item;
-					if (_item.id === 1)_item.dot = data.auctionCount;
-					if (_item.id === 2)_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount;
-					if (_item.id === 10)_item.dot = data.landResultFlag; // 土地数据
-					if (_item.id === 11)_item.dot = data.mortgageFlag; // 动产抵押
-					if (_item.id === 3)_item.dot = data.financeCount + data.stockPledgeFlag;
-					// if (_item.id === 4)_item.dot = data.trialCourtSessionCount + data.trialFilingCount;
-					// if (_item.id === 5)_item.dot = data.bankruptcyCount;
-					// if (_item.id === 6)_item.dot = data.biddingCount + data.taxCount + data.epbCount;
+					if (_item.id === 'YC0201')_item.dot = data.auctionCount;
+					if (_item.id === 'YC0202')_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount;
+					if (_item.id === 'YC0203')_item.dot = data.landResultFlag; // 土地数据
+				  if (_item.id === 'YC0204')_item.dot = data.biddingCount; // 招标中标
+				  if (_item.id === 'YC0205')_item.dot = data.mortgageFlag; // 动产抵押
+					if (_item.id === 'YC0206')_item.dot = data.financeCount + data.stockPledgeFlag;
 					return _item;
 				});
 				this.setState({ source: _source });
@@ -150,7 +82,7 @@ class MonitorMain extends React.Component {
 	};
 
 	toNavigate=() => {
-		navigate(`/monitor/attention${this.sourceType ? `?process=${this.sourceType}` : ''}`);
+		navigate(`/monitor/attention?init=C02${this.sourceType ? `&process=${this.sourceType}` : ''}`);
 	};
 
 	render() {
@@ -169,7 +101,10 @@ class MonitorMain extends React.Component {
 							title="我的关注"
 						/>
 					)}
-					onActive={val => this.sourceType = val}
+					onActive={(val) => {
+					  console.log(val);
+					  this.sourceType = val;
+					}}
 					onChange={res => navigate(res.url + res.paramUrl || '')}
 					source={source}
 				/>
@@ -187,6 +122,10 @@ class MonitorMain extends React.Component {
 
 const monitorRouter = (props) => {
 	const { rule } = props;
+	// const r = {
+	// 	rule,
+	// 	baseRule,
+	// };
 	return (
 		<Router>
 			<MonitorMain path="/*" rule={rule} />

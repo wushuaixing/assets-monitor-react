@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'antd';
 import { linkDom } from '@/utils';
 import Cookies from 'universal-cookie';
-import { urlEncode, clearEmpty } from '@/utils';
+import { urlEncode, clearEmpty, getByteLength } from '@/utils';
 import PartyInfoDetail from './party-info';
 import './style.scss';
 
@@ -111,7 +111,9 @@ export const fileExport = (api, condition, other = {}, type) => {
 	}
 };
 
-// 数据列表 - 当事人
+/**
+ * 数据列表 - 当事人
+ * */
 
 // 处理 当事人数据列表，分类
 const handleParities = (data) => {
@@ -138,16 +140,26 @@ const handleParities = (data) => {
 	});
 	return source;
 };
-
+// 获取 字符最大长度
+const toGetStrWidth = (list) => {
+	let maxRoleName = '';
+	list.forEach((item) => {
+		const { role } = item;
+		const _site = role.indexOf('（') > -1 ? role.indexOf('（') : '';
+		const _role = _site ? role.slice(0, _site) : role;
+		maxRoleName = _role.length > maxRoleName.length ? _role : maxRoleName;
+	});
+	return getByteLength(maxRoleName) * 6 * 1.05;
+};
 export const partyInfo = (value, row) => {
 	if (typeof value === 'object') {
 		if (value.length) {
 			const source = handleParities(value);
-			// console.log(source);
+			const maxWidth = toGetStrWidth(source);
 			return (
 				<React.Fragment>
 					{
-						source.map(item => <PartyInfoDetail {...item} type={row.caseType} key={row.id} />)
+						source.map(item => <PartyInfoDetail {...item} type={row.caseType} id={row.id} width={maxWidth} />)
 					}
 				</React.Fragment>
 			);
