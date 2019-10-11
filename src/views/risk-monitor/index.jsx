@@ -8,7 +8,7 @@ import './style.scss';
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import OperateRisk from './operate-risk';
-import Attention from '../my-attention'; // 我的关注
+// import Attention from '../my-attention'; // 我的关注
 
 import Star from '@/assets/img/icon/btn_attention_h.png';
 
@@ -94,7 +94,7 @@ class RiskMonitor extends React.Component {
 	};
 
 	toNavigate=() => {
-		navigate(`/monitor/attention${this.sourceType ? `?process=${this.sourceType}` : ''}`);
+		navigate(`/my/attention${this.sourceType ? `?process=${this.sourceType}` : ''}`);
 	};
 
 	render() {
@@ -135,7 +135,7 @@ const monitorRouter = (props) => {
 	return (
 		<Router>
 			<RiskMonitor path="/*" rule={rule} />
-			<Attention path="/monitor/attention/*" rule={rule} />
+			{/* <Attention path="/monitor/attention/*" rule={rule} /> */}
 		</Router>
 	);
 };

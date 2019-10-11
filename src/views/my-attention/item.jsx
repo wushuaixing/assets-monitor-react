@@ -15,7 +15,7 @@ const TableItem	= (props) => {
 		<React.Fragment>
 			{
 				{
-					1: <Table0010 />,
+					YC0201: <Table0010 />,
 					21: <Table0020 sourceType={1} />,
 					22: <Table0020 sourceType={2} />,
 					23: <Table0020 sourceType={3} />,
@@ -42,7 +42,7 @@ const Item = (props) => {
 						{
 							source.child.map(item => (
 								<Button
-									active={item.id === childType * 1}
+									active={item.id === childType}
 									onClick={() => onBtnChange(item)}
 									style={{ marginRight: 12, minWidth: 85 }}
 								>
