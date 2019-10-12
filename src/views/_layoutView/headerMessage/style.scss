@@ -17,7 +17,7 @@
     padding: 16px 20px;
     font-size: 14px;
     line-height: 14px;
-    border-bottom: 1px solid $background-base;
+    border-bottom: 1px solid $background-line;
   }
   .yc-station-btn {
     margin: 0;
@@ -37,7 +37,7 @@
   .yc-station-list {
     height: 347px;
     overflow: auto;
-    border-bottom: 1px solid $background-base;
+    border-bottom: 1px solid $background-line;
 
     .notice-station-wrapper {
       padding-top: 130px;
@@ -55,7 +55,7 @@
     }
     .yc-station-item {
       padding: 16px 20px;
-      border-bottom: 1px solid $background-base;
+      border-bottom: 1px solid $background-line;
       font-size: 12px;
       position: relative;
       display: block;
@@ -100,7 +100,7 @@
     padding: 16px 20px;
     font-size: 14px;
     line-height: 14px;
-    border-bottom: 1px solid $background-base;
+    border-bottom: 1px solid $background-line;
     text-align: center;
   }
 }

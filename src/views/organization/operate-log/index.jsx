@@ -138,14 +138,14 @@ export default class BasicTable extends React.Component {
 
 		return (
 			<div className="operate-log">
-				<div className="bread-crumb">
+				<div className="yc-bread-crumb">
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/organization/user')}>账户列表</a></Breadcrumb.Item>
 						<Breadcrumb.Item>
-							<a className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>
+							<span style={{ 'font-weight': 400, color: '#20242E' }}>
 								{`${getQueryByName(hash, 'name')}_历史操作记录`}
 
-							</a>
+							</span>
 						</Breadcrumb.Item>
 					</Breadcrumb>
 				</div>

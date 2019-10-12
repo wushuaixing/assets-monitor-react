@@ -29,3 +29,7 @@ export const unFollowSingle = params => service.post('/yc/monitor/bankruptcy/unf
 
 // 导出excel
 export const exportList = '/yc/monitor/bankruptcy/exportExcel';
+
+// 立案弹窗
+export const trialDetail = params => service.get('/yc/monitor/bankruptcy/trialDetail', { params })
+	.then(res => res.data);

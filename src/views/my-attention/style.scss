@@ -19,7 +19,7 @@
   .yc-tabs-simple-prefix{
     @extend .yc-public-title-super-bold;
     width:184px;
-    border-right: 1px solid #DADDE6;
+    border-right: 1px solid $background-line;
     font-size: 18px;
     color: $fontColor-base;
     padding:0 20px;

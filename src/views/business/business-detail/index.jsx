@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, Input, Form, message, Modal,
+	Breadcrumb, Button, Input, Form, message, Modal,
 } from 'antd';
 import {
 	getDetail, // 详情
@@ -11,7 +11,7 @@ import { getQueryByName } from '@/utils';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import Edit from './edit';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
 import TableList from '../table-list';
 import './style.scss';
 
@@ -200,7 +200,7 @@ class DebtorDetail extends React.Component {
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate(parentUrL || '/business')}>{parent || '业务视图'}</a></Breadcrumb.Item>
-						<Breadcrumb.Item><span className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>业务详情</span></Breadcrumb.Item>
+						<Breadcrumb.Item><span style={{ 'font-weight': 400, color: '#20242E' }}>业务详情</span></Breadcrumb.Item>
 					</Breadcrumb>
 					<div className="yc-search-right">
 						{edit === false ? (

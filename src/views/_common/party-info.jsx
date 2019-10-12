@@ -40,17 +40,19 @@ export default class PartyInfo extends React.Component {
 		const {
 			role, child, type, width,
 		} = this.props;
+		console.log(role, this.props);
+
 		const source = status === 'toOpen' ? child.slice(0, maxShowLength) : child;
 
 		const statusText = status === 'toOpen'
 			? (
 				<span>
-					{'展开'}
+					展开
 					<Icon type="caret-down" />
 				</span>
 			) : (
 				<span>
-					{'收起'}
+					收起
 					<Icon type="caret-up" />
 				</span>
 			);

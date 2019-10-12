@@ -201,7 +201,7 @@
       margin-right: 4px;
       border-bottom: 1px solid #FFFFFF;
       &:hover{
-        border-bottom: 1px solid $color-base;
+        border-bottom: 1px solid $background-line;
       }
       i{
         margin-left: 2px;
@@ -215,6 +215,7 @@
   color: #20242e;
   padding: 0 20px 20px;
   box-sizing: border-box;
+  
   .yc-bread-crumb {
     padding: 24px 0;
     background-color: #fff;
@@ -222,8 +223,14 @@
     margin-bottom: 0;
     list-style: none;
     border-radius: 4px;
-    a {
+    border-bottom: 1px solid $background-line;
+    .yc-bread-hover {
       font-size: 14px;
+    }
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

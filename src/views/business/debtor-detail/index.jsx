@@ -1,13 +1,13 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, Modal, Icon,
+	Breadcrumb, Button, Modal, Icon,
 } from 'antd';
 import {
 	detail, // 详情
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import TableList from '../table-list';
@@ -152,7 +152,7 @@ export default class DebtorDetail extends React.Component {
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/business/debtor')}>债务人</a></Breadcrumb.Item>
-						<Breadcrumb.Item><span style={{ 'font-weight': 400, color: '#384482' }}>债务人详情</span></Breadcrumb.Item>
+						<Breadcrumb.Item><span style={{ 'font-weight': 400, color: '#20242E' }}>债务人详情</span></Breadcrumb.Item>
 					</Breadcrumb>
 				</div>
 				<Spin visible={loading}>
@@ -184,12 +184,12 @@ export default class DebtorDetail extends React.Component {
 								</span>
 							</div>
 						</div>
-						<div className="yc-search-right">
+						{/* <div className="yc-search-right">
 							<Button className="yc-btn">
 								<span className="yc-icon-export" />
                             下载
 							</Button>
-						</div>
+						</div> */}
 					</div>
 					{data && data.length > 0 && (
 					<div className="yc-debtor-table">

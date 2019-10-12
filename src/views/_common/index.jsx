@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'antd';
-import { linkDom } from '@/utils';
 import Cookies from 'universal-cookie';
+import { linkDom } from '@/utils';
 import { urlEncode, clearEmpty, getByteLength } from '@/utils';
 import PartyInfoDetail from './party-info';
 import './style.scss';
@@ -152,6 +152,8 @@ const toGetStrWidth = (list) => {
 	return getByteLength(maxRoleName) * 6 * 1.05;
 };
 export const partyInfo = (value, row) => {
+	console.log(value, row, 12);
+
 	if (typeof value === 'object') {
 		if (value.length) {
 			const source = handleParities(value);

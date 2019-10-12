@@ -21,9 +21,9 @@ export default class BasicTable extends React.Component {
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/monitor?process=-1')}>资产拍卖</a></Breadcrumb.Item>
 						<Breadcrumb.Item>
-							<a className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>
+							<span className="yc-bread-hover" style={{ 'font-weight': 400, color: '#20242E' }}>
 								资产清收流程
-							</a>
+							</span>
 						</Breadcrumb.Item>
 					</Breadcrumb>
 				</div>

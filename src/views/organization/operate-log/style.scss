@@ -1,23 +1,35 @@
 .operate-log{
-  padding: 20px;
+  padding: 0 20px 20px;
   font-size: 14px;
   p{
-    font-size: 12px;
+    font-size: 14px;
   }
   span{
-    font-size: 12px;
+    font-size: 14px;
   }
-  .bread-crumb{
-    margin: 10px 0 30px 0;
-    span{
+  .yc-bread-crumb{
+    padding: 24px 0;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    margin-bottom: 0;
+    list-style: none;
+    border-radius: 4px;
+    border-bottom: 1px solid $background-line;
+    .ant-breadcrumb {
       font-size: 14px;
+    }
+    .yc-bread-hover {
+      color: $text-remark;
+      &:hover {
+        text-decoration: underline;
+        color: #4d578b;
+      }
     }
   }
   .search-item{
     display: inline-block;
     vertical-align: top;
-    margin-right: 20px;
-    margin-bottom: 60px;
+    margin: 30px 0 60px;
     .ant-input-group-wrap{
       position: absolute;
       left: 246px;

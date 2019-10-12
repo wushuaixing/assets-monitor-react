@@ -1,7 +1,7 @@
 import React from 'react';
+import { Modal, message } from 'antd';
 import Query from './query';
 import Table from './table';
-import { Modal, message } from 'antd';
 import { Button, Download, Spin } from '@/common';
 import {
 	infoList, readStatus, exportList, follow,

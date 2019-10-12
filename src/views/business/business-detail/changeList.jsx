@@ -3,7 +3,6 @@ import { navigate } from '@reach/router';
 import {
 	Breadcrumb,
 	Button,
-	Table,
 	Input,
 	Form,
 	message,
@@ -17,7 +16,7 @@ import { getQueryByName } from '@/utils';
 import { formatDateTime } from '@/utils/changeTime';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
@@ -266,7 +265,7 @@ class DebtorDetail extends React.Component {
 						<Breadcrumb.Item>
 							<span
 								className="yc-bread-hover"
-								style={{ 'font-weight': 400, color: '#384482' }}
+								style={{ 'font-weight': 400, color: '#20242E' }}
 							>
 								变更记录
 							</span>

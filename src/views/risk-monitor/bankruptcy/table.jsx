@@ -4,8 +4,9 @@ import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom } from '@/utils';
 import { Table } from '@/common';
+import RegisterModal from './registerModal';
 // 获取表格配置
-const columns = (props) => {
+const columns = (props, openRegisterModalFunc) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
@@ -35,10 +36,15 @@ const columns = (props) => {
 			dataIndex: 'title',
 			width: 506,
 			render: (text, record) => {
-				if (record.url || text) {
-					return record.url ? linkDom(record.url, text) : text;
+				if (record.url) {
+					return (
+						<span>{text ? linkDom(record.url, text) : '--'}</span>
+					);
 				}
-				return '--';
+				return (
+					// className="click-link"
+					<span onClick={() => openRegisterModalFunc(record)}>{text || '--'}</span>
+				);
 			},
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
@@ -70,6 +76,8 @@ export default class TableView extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
+			registerModalVisible: false,
+			rowObj: {},
 		};
 	}
 
@@ -102,11 +110,27 @@ export default class TableView extends React.Component {
 		if (onSelect)onSelect(_selectedRowKeys);
 	};
 
+	// 打开立案弹框
+	openRegisterModal = (rowObj) => {
+		// console.log(rowObj);
+		this.setState({
+			registerModalVisible: true,
+			rowObj,
+		});
+	}
+
+	// 关闭弹窗
+	onCancel = () => {
+		this.setState({
+			registerModalVisible: false,
+		});
+	};
+
 	render() {
 		const {
 			total, current, dataSource, manage, onPageChange,
 		} = this.props;
-		const { selectedRowKeys } = this.state;
+		const { selectedRowKeys, registerModalVisible, rowObj } = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,
@@ -117,7 +141,7 @@ export default class TableView extends React.Component {
 			<React.Fragment>
 				<Table
 					{...rowSelection}
-					columns={columns(this.props)}
+					columns={columns(this.props, this.openRegisterModal)}
 					dataSource={dataSource}
 					pagination={false}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
@@ -132,6 +156,15 @@ export default class TableView extends React.Component {
 						showTotal={totalCount => `共 ${totalCount} 条信息`}
 					/>
 				</div>
+				{/** 修改密码Modal */}
+				{registerModalVisible && (
+					<RegisterModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						rowObj={rowObj}
+						registerModalVisible={registerModalVisible}
+					/>
+				)}
 			</React.Fragment>
 		);
 	}
