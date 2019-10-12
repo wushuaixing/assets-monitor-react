@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, Button, timeRule } from '@/common';
 import { DatePicker, Form } from 'antd';
+import { Input, Button, timeRule } from '@/common';
 
 
 class QueryCondition extends React.Component {
@@ -99,7 +99,7 @@ class QueryCondition extends React.Component {
 
 
 				<div className="yc-query-item yc-query-item-btn">
-					<Button size="large" type="warning" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
+					<Button size="large" type="common" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
 					<Button size="large" style={{ width: 120 }} onClick={this.handleReset}>重置查询条件</Button>
 				</div>
 				<div className="yc-split-hr" />

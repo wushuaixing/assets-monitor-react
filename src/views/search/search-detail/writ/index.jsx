@@ -383,7 +383,7 @@ class WRIT extends React.Component {
 							<Button
 								onClick={this.search}
 								size="large"
-								type="warning"
+								type="common"
 								style={{ width: 84 }}
 							>
 								查询

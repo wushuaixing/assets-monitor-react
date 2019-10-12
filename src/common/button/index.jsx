@@ -6,6 +6,7 @@ const comButton = (props) => {
 	const {
 		size, type, disabled, onClick, icon, active, title,
 	} = props;
+	// type 类型 primary 常规按钮颜色 warning 警告色 default 默认颜色 common 通用按钮色
 	const classList = ['yc-btn', 'ie-css3'];
 	if (size) classList.push(size ? `yc-btn-${size}` : '');
 	if (className)classList.push(className);
