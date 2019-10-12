@@ -450,7 +450,7 @@ class BusinessView extends React.Component {
 					</div>
 
 					<div className="yc-query-item">
-						<span className="yc-query-item-title">上传时间: </span>
+						<span className="yc-query-item-title">上传时间：</span>
 						<DatePicker
 							{...getFieldProps('uploadTimeStart', {
 								onChange: (value, dateString) => {

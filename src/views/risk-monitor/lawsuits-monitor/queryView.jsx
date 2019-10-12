@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, Button, timeRule } from '@/common';
 import { DatePicker, Form, Radio } from 'antd';
+import { Input, Button, timeRule } from '@/common';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -57,7 +57,7 @@ class QueryCondition extends React.Component {
 	};
 
 	render() {
-		const _style1 = { width: 274 };
+		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const { filterCurrentOrg } = this.state;
@@ -77,7 +77,7 @@ class QueryCondition extends React.Component {
 				<div className="yc-query-item">
 					<Input title="案号" style={_style1} size="large" placeholder="案号" {...getFieldProps('ah')} />
 				</div>
-				<div className="yc-query-item">
+				<div className="yc-query-item" style={{ marginRight: 0 }}>
 					<Input title="法院" style={_style1} size="large" placeholder="法院名称" {...getFieldProps('court')} />
 				</div>
 				<div className="yc-query-item">

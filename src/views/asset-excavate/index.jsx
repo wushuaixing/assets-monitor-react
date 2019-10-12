@@ -96,7 +96,7 @@ class MonitorMain extends React.Component {
 					id="TABS"
 					rightRender={() => (
 						<Button
-							style={{ marginTop: 6, marginRight: 25, width: 95 }}
+							style={{ marginTop: 6, marginRight: 20, width: 95 }}
 							onClick={this.toNavigate}
 							size="large"
 							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 16, marginTop: -2 }} />}

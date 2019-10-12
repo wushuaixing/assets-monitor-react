@@ -44,7 +44,7 @@ class QueryCondition extends React.Component {
 	};
 
 	render() {
-		const _style1 = { width: 274 };
+		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {

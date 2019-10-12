@@ -24,8 +24,8 @@ import add from '@/assets/img/icon/icon_add.png';
 import './style.scss';
 
 const createForm = Form.create;
-const _style1 = { width: 274 };
-const _style2 = { width: 120 };
+const _style1 = { width: 278 };
+const _style2 = { width: 100 };
 
 class LAWSUITS extends React.Component {
 	constructor(props) {

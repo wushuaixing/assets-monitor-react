@@ -298,7 +298,7 @@ export default class Subrogation extends React.Component {
 									active={isRead === 'resume'}
 									onClick={() => this.handleReadChange('resume')}
 								>
-									{'只显示执恢案件'}
+									只显示执恢案件
 								</Button>
 							) : null}
 

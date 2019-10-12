@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, Button, timeRule } from '@/common';
 import { DatePicker, Form } from 'antd';
+import { Input, Button, timeRule } from '@/common';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -42,7 +42,7 @@ class QueryCondition extends React.Component {
 	};
 
 	render() {
-		const _style1 = { width: 274 };
+		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
