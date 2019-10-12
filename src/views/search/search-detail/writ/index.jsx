@@ -19,10 +19,10 @@ import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import WritTable from './table';
 import './style.scss';
 
-const _style1 = { width: 274 };
-const _style2 = { width: 120 };
+const _style1 = { width: 278 };
+const _style2 = { width: 100 };
 const _style3 = { width: 120 };
-const _style4 = { width: 1130 };
+const _style4 = { width: 1160 };
 const { Option } = Select;
 const createForm = Form.create;
 
@@ -386,14 +386,14 @@ class WRIT extends React.Component {
 								type="warning"
 								style={{ width: 84 }}
 							>
-							查询
+								查询
 							</Button>
 							<Button
 								onClick={this.queryReset}
 								size="large"
 								style={{ width: 120 }}
 							>
-							重置查询条件
+								重置查询条件
 							</Button>
 						</div>
 					</div>

@@ -15,7 +15,7 @@ import './style.scss';
 
 const createForm = Form.create;
 const { Option } = Select;
-const _style1 = { width: 274 };
+const _style1 = { width: 278 };
 const _style3 = { width: 80 };
 const dishonstList = [
 	{ id: 1, name: '全部', value: '' },

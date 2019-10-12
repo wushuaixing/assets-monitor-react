@@ -1,9 +1,9 @@
 import React from 'react';
-import { Input, Button, timeRule } from '@/common';
-import InputPrice from '@/common/input/input-price';
 import {
 	DatePicker, Select, Form, message,
 } from 'antd';
+import { Input, Button, timeRule } from '@/common';
+import InputPrice from '@/common/input/input-price';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -65,7 +65,7 @@ class QueryCondition extends React.Component {
 
 	render() {
 		const { form: { getFieldProps, getFieldValue } } = this.props;
-		const _style1 = { width: 274 };
+		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const _style3 = { width: 80 };
 		const { moreOption } = this.state;
@@ -88,7 +88,7 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('obligorNumber')}
 					/>
 				</div>
-				<div className="yc-more-option inline-block cursor-pointer">
+				<div className="yc-more-option inline-block cursor-pointer" style={{ marginLeft: 0 }}>
 					{ moreOption
 						? <span onClick={() => this.setState({ moreOption: false })}>收起选项 ▲</span>
 						: <span onClick={() => this.setState({ moreOption: true })}>更多选项 ▼</span>
@@ -162,7 +162,7 @@ class QueryCondition extends React.Component {
 					<div className="yc-query-item">
 						<Input title="信息标题" style={_style1} size="large" placeholder="拍卖信息标题" {...getFieldProps('title')} />
 					</div>
-					<div className="yc-query-item">
+					<div className="yc-query-item" style={{ marginRight: 0 }}>
 						<Input title="处置机关" style={_style1} size="large" placeholder="处置法院/单位" {...getFieldProps('court')} />
 					</div>
 				</div>

@@ -49,7 +49,7 @@ class QueryCondition extends React.Component {
 	};
 
 	render() {
-		const _style1 = { width: 274 };
+		const _style1 = { width: 284 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
@@ -68,7 +68,7 @@ class QueryCondition extends React.Component {
 					<Select
 						size="large"
 						defaultValue="all"
-						style={{ width: 150 }}
+						style={{ width: 146 }}
 						{...getFieldProps('state', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>
@@ -82,7 +82,7 @@ class QueryCondition extends React.Component {
 					<Select
 						size="large"
 						defaultValue="all"
-						style={{ width: 150 }}
+						style={{ width: 146 }}
 						{...getFieldProps('role', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>

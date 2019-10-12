@@ -8,7 +8,7 @@ import {
 
 const createForm = Form.create;
 
-const _style1 = { width: 274 };
+const _style1 = { width: 278 };
 const _style2 = { width: 160 };
 class EnvironmentalPunishment extends Component {
 	constructor(props) {

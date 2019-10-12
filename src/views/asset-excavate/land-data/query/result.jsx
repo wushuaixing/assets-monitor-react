@@ -50,7 +50,7 @@ class QueryCondition extends React.Component {
 	};
 
 	render() {
-		const _style1 = { width: 274 };
+		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
@@ -84,12 +84,12 @@ class QueryCondition extends React.Component {
 					/>
 				</div>
 
-				<div className="yc-query-item">
+				<div className="yc-query-item" style={{ marginRight: 0 }}>
 					<span className="yc-query-item-title">土地省份：</span>
 					<Select
 						allowClear
 						size="large"
-						style={{ width: 150 }}
+						style={{ width: 212 }}
 						placeholder="请选择土地省份"
 						{...getFieldProps('province')}
 					>
