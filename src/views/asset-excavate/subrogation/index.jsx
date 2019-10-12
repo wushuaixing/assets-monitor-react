@@ -240,6 +240,8 @@ export default class Subrogation extends React.Component {
 			page: page || current,
 			num: 10,
 		});
+		// console.log(__isRead);
+		delete this.condition.isRestore;
 		if (__isRead === 'all') delete this.condition.isRead;
 		if (__isRead === 'unread') this.condition.isRead = 0;
 		if (__isRead === 'resume') this.condition.isRestore = true;

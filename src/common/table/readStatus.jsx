@@ -6,7 +6,7 @@ const readStatus = (text, record) => {
 	return (
 		<React.Fragment>
 			{isDeleted ? <img src={recall} alt="" className="yc-assets-info-img" /> : null}
-			<span className={!isRead ? 'yc-table-read' : 'yc-table-unread'} />
+			<span className={!isRead && isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'} />
 			<span>{text}</span>
 		</React.Fragment>
 	);

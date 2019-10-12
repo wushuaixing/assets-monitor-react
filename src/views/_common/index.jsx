@@ -1,70 +1,10 @@
 import React from 'react';
 import { Modal } from 'antd';
-import { linkDom } from '@/utils';
-import Cookies from 'universal-cookie';
-import { urlEncode, clearEmpty, getByteLength } from '@/utils';
+import { getByteLength } from '@/utils';
 import PartyInfoDetail from './party-info';
 import './style.scss';
 
-const cookies = new Cookies();
-
-// const { _ } = window;
-// 关联连接 组件
-export const aboutLink = (value, row) => {
-	const toShow = (source, type) => {
-		let text = '立案';
-		if (type === 1) text = '立案';
-		if (type === 2) text = '开庭';
-		if (type === 3) text = '文书';
-		Modal.info({
-			title: `本案号关联多个${text}链接，如下：`,
-			okText: '关闭',
-			iconType: 'null',
-			className: 'assets-an-info',
-			width: 600,
-			content: (
-				<div style={{ marginLeft: -28 }}>
-					{ source.map(item => (<p style={{ margin: 5 }}>{linkDom(item, item)}</p>)) }
-				</div>
-			),
-			onOk() {},
-		});
-	};
-	if (row.isDeleted) return null;
-
-	const La = (value.filter(item => item.sourceType === 1))[0];
-	const Kt = (value.filter(item => item.sourceType === 2))[0];
-	const Ws = (value.filter(item => item.sourceType === 3))[0];
-	// console.log(La, Kt, Ws);
-	const resContent = [];
-
-	if (La && La.url.length) {
-		if (La.url.length > 1) {
-			resContent.push(<span className="click-link" onClick={() => toShow(La.url, 1)}>立案</span>);
-		} else if (La.url.length === 1) {
-			resContent.push(linkDom(La.url[0], '立案'));
-		}
-	}
-	if (Kt && Kt.url.length) {
-		if (resContent.length)resContent.push(<span className="info-line">|</span>);
-		if (Kt.url.length > 1) {
-			resContent.push(<span className="click-link" onClick={() => toShow(Kt.url, 2)}>开庭</span>);
-		} else if (Kt.url.length === 1) {
-			resContent.push(linkDom(Kt.url[0], '开庭'));
-		}
-	}
-	if (Ws && Ws.url.length) {
-		if (resContent.length)resContent.push(<span className="info-line">|</span>);
-		if (Ws.url.length > 1) {
-			resContent.push(<span className="click-link" onClick={() => toShow(Ws.url, 3)}>文书</span>);
-		} else if (Ws.url.length === 1) {
-			resContent.push(linkDom(Ws.url[0], '文书'));
-		}
-	}
-	return resContent;
-};
-
-// 案号 - 弹窗
+/* // 案号 - 弹窗 */
 export const caseInfo = (content, row) => {
 	const { isDelete, ygList } = row;
 	const ygListLength = window._.isArray(ygList) ? ygList.length : 0;
@@ -91,78 +31,53 @@ export const caseInfo = (content, row) => {
 	return <span className="click-link" onClick={toClick}>{content}</span>;
 };
 
-// 导出按钮& 【一键导出】
-export const fileExport = (api, condition, other = {}, type) => {
-	const _condition = Object.assign({}, condition, other, {
-		token: cookies.get('token'),
-	});
-	if (type === 'warning') {
-		Modal.confirm({
-			title: '确认导出选中的所有信息吗？',
-			content: '点击确定，将为您导出所有选中的信息',
-			iconType: 'exclamation-circle',
-			onOk() {
-				window.open(`${api}?${urlEncode(clearEmpty(_condition))}`, '_self');
-			},
-			onCancel() {},
-		});
-	} else {
-		window.open(`${api}?${urlEncode(clearEmpty(_condition))}`, '_self');
-	}
-};
-
 /**
  * 数据列表 - 当事人
  * */
-
-// 处理 当事人数据列表，分类
-const handleParities = (data) => {
-	const source = [];
-	data.forEach((i) => {
-		if (source.length === 0) {
-			source.push({
-				index: source.length,
-				role: i.role,
-				child: [i],
-			});
-		} else {
-			const _result = source.filter(item => item.role === i.role)[0];
-			if (_result) {
-				source[_result.index].child.push(i);
-			} else {
+export const partyInfo = (value, row) => {
+	// 处理 当事人数据列表，分类
+	const handleParities = (data) => {
+		const source = [];
+		data.forEach((i) => {
+			if (source.length === 0) {
 				source.push({
 					index: source.length,
 					role: i.role,
 					child: [i],
 				});
+			} else {
+				const _result = source.filter(item => item.role === i.role)[0];
+				if (_result) {
+					source[_result.index].child.push(i);
+				} else {
+					source.push({
+						index: source.length,
+						role: i.role,
+						child: [i],
+					});
+				}
 			}
-		}
-	});
-	return source;
-};
-// 获取 字符最大长度
-const toGetStrWidth = (list) => {
-	let maxRoleName = '';
-	list.forEach((item) => {
-		const { role } = item;
-		const _site = role.indexOf('（') > -1 ? role.indexOf('（') : '';
-		const _role = _site ? role.slice(0, _site) : role;
-		maxRoleName = _role.length > maxRoleName.length ? _role : maxRoleName;
-	});
-	return getByteLength(maxRoleName) * 6 * 1.05;
-};
-export const partyInfo = (value, row) => {
+		});
+		return source;
+	};
+	// 获取 字符最大长度
+	const toGetStrWidth = (list) => {
+		let maxRoleName = '';
+		list.forEach((item) => {
+			const { role } = item;
+			const _site = role.indexOf('（') > -1 ? role.indexOf('（') : '';
+			const _role = _site ? role.slice(0, _site) : role;
+			maxRoleName = _role.length > maxRoleName.length ? _role : maxRoleName;
+		});
+		return getByteLength(maxRoleName) * 6 * 1.05;
+	};
 	if (typeof value === 'object') {
 		if (value.length) {
 			const source = handleParities(value);
 			const maxWidth = toGetStrWidth(source);
-			return (
-				<React.Fragment>
-					{
-						source.map(item => <PartyInfoDetail {...item} type={row.caseType} id={row.id} width={maxWidth} />)
-					}
-				</React.Fragment>
-			);
+			return source.map(item => (
+				<PartyInfoDetail {...item} id={row.id} key={row.id} width={maxWidth} />
+			));
 		}
 	}
 	return '--';

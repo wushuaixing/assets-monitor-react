@@ -1,14 +1,15 @@
-/**
- * @Description: 当事人组件
- * @author async
- * @date 2019-10-08
- */
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
 import { getByteLength } from '@/utils';
 
 const maxShowLength = 3;
-export default class PartyInfo extends React.Component {
+
+/**
+ * @Description: 当事人组件
+ * @author async
+ * @date 2019-10-08
+ */
+export default class PartyInfoDetail extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -21,8 +22,9 @@ export default class PartyInfo extends React.Component {
 		const _nextState = nextState;
 		const { id } = this.props;
 		const { status } = this.state;
+		// console.log(nextProps.id, id, nextProps.child, nextState.status);
 		if (nextProps.id !== id) {
-			// console.log(nextProps.id, id, caseNumber);
+			// console.log(nextProps.id, id, nextProps.child);
 			_nextState.status = nextProps.child.length <= maxShowLength ? 'none' : 'toOpen';
 			return true;
 		}
@@ -38,7 +40,7 @@ export default class PartyInfo extends React.Component {
 	render() {
 		const { status } = this.state;
 		const {
-			role, child, type, width,
+			role, child, width,
 		} = this.props;
 		const source = status === 'toOpen' ? child.slice(0, maxShowLength) : child;
 
@@ -65,7 +67,7 @@ export default class PartyInfo extends React.Component {
 		const liMaxWidth = width ? { maxWidth } : '';
 		return (
 			<div className="yc-party-info-list">
-				<span className={`party-info party-info-title party-info-type-${type || 0}`} style={width ? { width } : ''}>
+				<span className="party-info party-info-title" style={width ? { width } : ''}>
 					<li className="li-role">{roleContent.role}</li>
 					{
 						roleContent.mark ? (
