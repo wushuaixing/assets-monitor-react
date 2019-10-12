@@ -1,12 +1,11 @@
 import React from 'react';
 import { Button } from '@/common';
-import Table0010 from '../asset-excavate/assets-auction/table-intact';
-import Table0020 from '../asset-excavate/subrogation/table-intact';
-import Table0031 from '../asset-excavate/financial-assets/table/table-biding';
-import Table0032 from '../asset-excavate/financial-assets/table/table-publicity';
-import Table0040 from '../risk-monitor/lawsuits-monitor/table-intact';
-import Table0050 from '../risk-monitor/bankruptcy/table-intact';
-import Table0060 from '../asset-excavate/public-proclamation/table-intact';
+import AssetsAuction from '../asset-excavate/assets-auction/table-intact';
+import Subrogation from '../asset-excavate/subrogation/table-intact';
+import LandData from '../asset-excavate/land-data/table-intact';
+import TenderBid from '../asset-excavate/tender-bid/table-intact';
+import FinancialAssets from '../asset-excavate/financial-assets/table';
+import ChattelMortgage from '../asset-excavate/chattel-mortgage/table-intact';
 
 const TableItem	= (props) => {
 	const { source, childType, sourceType } = props;
@@ -15,19 +14,17 @@ const TableItem	= (props) => {
 		<React.Fragment>
 			{
 				{
-					YC0201: <Table0010 />,
-					21: <Table0020 sourceType={1} />,
-					22: <Table0020 sourceType={2} />,
-					23: <Table0020 sourceType={3} />,
-					31: <Table0031 />,
-					32: <Table0032 />,
-					41: <Table0040 sourceType={1} />,
-					42: <Table0040 sourceType={2} />,
-					5: <Table0050 />,
-					61: <Table0060 sourceType={1} />,
-					62: <Table0060 sourceType={2} />,
-					63: <Table0060 sourceType={3} />,
-				}[ID] || <Table0010 />
+					YC0201: <AssetsAuction />,
+					YC020201: <Subrogation sourceType={1} />,
+					YC020202: <Subrogation sourceType={2} />,
+					YC020203: <Subrogation sourceType={3} />,
+					YC020301: <LandData sourceType={1} />,
+					YC0204: <TenderBid />,
+					YC020501: <FinancialAssets sourceType={1} />,
+					YC020502: <FinancialAssets sourceType={2} />,
+					YC020503: <FinancialAssets sourceType={3} />,
+					YC0206: <ChattelMortgage />,
+				}[ID] || <AssetsAuction />
 			}
 		</React.Fragment>
 	);
