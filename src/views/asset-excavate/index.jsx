@@ -12,7 +12,7 @@ import Tender from './tender-bid'; // 招标中标
 import Financial from './financial-assets'; // 金融资产
 import Mortgage from './chattel-mortgage'; // 动产抵押
 // import Public from './public-proclamation'; // 公示公告
-import Attention from '../my-attention'; // 我的关注
+// import Attention from '../my-attention'; // 我的关注
 import ClearProcess from './assets-auction/clearProcess'; // 资产清收流程
 import Star from '@/assets/img/icon/btn_attention_n.png';
 import './style.scss';
@@ -84,7 +84,7 @@ class MonitorMain extends React.Component {
 	};
 
 	toNavigate=() => {
-		navigate(`/monitor/attention?init=C02${this.sourceType ? `&process=${this.sourceType}` : ''}`);
+		navigate(`/my/attention?init=YC02${this.sourceType ? `&process=${this.sourceType}` : ''}`);
 	};
 
 	render() {
@@ -124,14 +124,10 @@ class MonitorMain extends React.Component {
 
 const monitorRouter = (props) => {
 	const { rule } = props;
-	// const r = {
-	// 	rule,
-	// 	baseRule,
-	// };
 	return (
 		<Router>
 			<MonitorMain path="/*" rule={rule} />
-			<Attention path="/monitor/attention/*" rule={rule} />
+			{/* <Attention path="/monitor/attention/*" rule={rule} /> */}
 			<ClearProcess path="/monitor/clearProcess/*" />
 		</Router>
 	);

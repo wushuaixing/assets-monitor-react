@@ -8,7 +8,7 @@ const toGetDefaultActive = (source, field, defaultCurrent) => {
 	if (source) {
 		if (field) {
 			const res = parseQuery(hash)[field];
-			const r = res ? Number(res) : -100;
+			const r = (Number.isNaN(res * 1) ? res : Number(res)) || -100;
 			return ((source.filter(item => item.id === r)[0]) || {}).id || source[0].id;
 		}
 		return defaultCurrent || source[0].id;
@@ -20,9 +20,11 @@ const numUnit = val => (val > 10000 ? `${(val / 10000).toFixed(1)}万` : val);
 class SimpleTab extends React.Component {
 	constructor(props) {
 		super(props);
+		const active = toGetDefaultActive(props.source, props.field, props.defaultCurrent) || props.defaultCurrent;
 		this.state = {
-			active: toGetDefaultActive(props.source, props.field, props.defaultCurrent) || props.defaultCurrent,
+			active,
 		};
+		this.active = active;
 	}
 
 	componentWillMount() {
@@ -42,9 +44,8 @@ class SimpleTab extends React.Component {
 		const { source, field, onChange } = this.props;
 		const res = toGetDefaultActive(source, field);
 		if (res !== active) {
-			this.setState({
-				active: res,
-			});
+			this.setState({ active: res });
+			this.active = res;
 			if (onChange)onChange(res);
 		}
 	};
@@ -52,6 +53,7 @@ class SimpleTab extends React.Component {
 	onClick=(item) => {
 		const { onChange } = this.props;
 		this.setState({ active: item.id });
+		this.active = item.id;
 		if (onChange)onChange(item.id, item);
 	};
 
