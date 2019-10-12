@@ -5,6 +5,7 @@ import {
 import { Button, Spin, Table } from '@/common';
 import { trialDetail } from '@/utils/api/monitor-info/bankruptcy';
 import { formatDateTime } from '@/utils/changeTime';
+import { partyInfo } from '@/views/_common';
 
 const createForm = Form.create;
 
@@ -20,21 +21,23 @@ class RegisterModal extends React.PureComponent {
 					dataIndex: 'publishDate',
 					width: 100,
 					render(text) {
-						return <span>{formatDateTime(text, 'onlyYear') || '-'}</span>;
+						return <span>{formatDateTime(text, 'onlyYear') || '--'}</span>;
 					},
 				},
 				{
 					title: '当事人',
-					// dataIndex: 'party',
+					dataIndex: 'parities',
 					width: 300,
+					render: partyInfo,
 				}, {
 					title: '法院',
 					dataIndex: 'court',
-					render: text => text || '-',
+					width: 300,
+					render: text => text || '--',
 				}, {
 					title: '案件状态',
 					dataIndex: 'state',
-					render: text => text || '-',
+					render: text => text || '--',
 				},
 			],
 		};
