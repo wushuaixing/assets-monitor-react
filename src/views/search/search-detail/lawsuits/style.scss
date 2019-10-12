@@ -1,4 +1,18 @@
 .yc-content-query {
+  .yc-query-item {
+    position: relative;
+    margin-right: 16px;
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 16px;
+    .yc-query-item-title {
+      padding: 9px 3px;
+      height: 34px;
+      line-height: 14px;
+      font-size: 12px;
+    }
+  }
+
   .yc-lawsuits-items {
     position: relative;
     margin-bottom: 18px;

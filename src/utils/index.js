@@ -253,9 +253,11 @@ export const changeURLArg = function method(url, arg, _argVal) {
 export const generateUrlWithParams = (url, params) => {
 	const urlParams = [];
 	let urlList = url;
-	// eslint-disable-next-line no-restricted-syntax
-	for (let i = 0; i < Object.keys(params); i += 1) {
+	// console.log(Object.keys(params).length, 3);
+
+	for (let i = 0; i < Object.keys(params).length; i += 1) {
 		const key = Object.keys(params)[i];
+
 		if (params[key]) {
 			urlParams.push(`${key}=${params[key]}`);
 		}

@@ -61,7 +61,7 @@
       display: block;
       text-decoration: none;
       &:hover {
-        background: #ebf1fa;
+        background: $background-list-hover;
         text-decoration: none;
         cursor: pointer;
       }

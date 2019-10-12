@@ -80,7 +80,7 @@ class HomeRouter extends React.Component {
 					<div className="yc-content-header">
 						<div className="yc-content-title">
 							数据统计
-							<span className="yc-public-remark-normal">（包括本机构及子机构）</span>
+							<span className="yc-public-remark-normal"> 包括本机构及子机构 </span>
 						</div>
 						<div className="yc-content-item">
 							<div className="left yc-content-item1">

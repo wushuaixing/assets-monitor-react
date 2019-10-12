@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { message, Modal } from 'antd';
 import {
 	Tabs, Button, Spin, Download,
@@ -18,7 +18,6 @@ import TableIllegal from './table/illegal';
 import TableTaxViolation from './table/taxViolation';
 import TablePenalties from './table/penalties';
 import TableEnvironmentalPunishment from './table/environmentalPunishment';
-import './style.scss';
 
 const toGetConfig = () => {
 	// const { children } = rule;
@@ -259,7 +258,7 @@ class BusinessRisk extends Component {
 			onSortChange: this.onSortChange,
 		};
 		return (
-			<Fragment>
+			<div className="yc-assets-auction">
 				<div>
 					{sourceType === 1 ? <QueryAbnormalOperation {...queryProps} /> : null}
 					{sourceType === 2 ? <QueryBusinessChange {...queryProps} /> : null}
@@ -276,7 +275,7 @@ class BusinessRisk extends Component {
 				/>
 				{
 					!manage ? (
-						<div className="yc-businessRisk-action">
+						<div className="assets-auction-action">
 							<Button
 								onClick={() => this.handleReadChange('all')}
 								title="全部"
@@ -323,7 +322,7 @@ class BusinessRisk extends Component {
 					{sourceType === 5 ? <TablePenalties {...tableProps} /> : null}
 					{sourceType === 6 ? <TableEnvironmentalPunishment {...tableProps} /> : null}
 				</Spin>
-			</Fragment>
+			</div>
 		);
 	}
 }

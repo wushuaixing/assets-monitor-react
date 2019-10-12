@@ -116,7 +116,7 @@ export default class TableView extends React.Component {
 						current={current || 1}
 						total={total || 0}
 						onChange={onPageChange}
-						showTotal={totalCount => `共 ${totalCount} 条`}
+						showTotal={totalCount => `共 ${totalCount} 条信息`}
 					/>
 				</div>
 			</React.Fragment>

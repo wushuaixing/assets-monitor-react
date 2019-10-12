@@ -9,7 +9,7 @@
   }
   .yc-tabs-data {
     padding: 0 46px;
-    width: 840px;
+    width: 855px;
     text-align: left;
     .yc-tabs-items {
       .item {
@@ -52,12 +52,16 @@
   }
   .btn {
     text-align: center;
-    margin-top: 16px;
+    margin: 30px 0 40px;
     .yc-high-search {
-      margin-right: 32px;
-      background-color: #fb5a5c;
-      border-color: #fb5a5c;
-      width: 84px;
+      margin-right: 20px;
+      background-color: $text-link;
+      border-color: $text-link;
+      width: 110px;
+      &:hover {
+        background-color: $text-link-hover;
+        border-color: $text-link-hover;
+      }
     }
   }
 }
@@ -110,11 +114,15 @@
     padding-left: 130px;
   }
   .red-search {
-    background-color: #fb5a5c;
-    border-color: #fb5a5c;
+    background-color: $text-link;
+    border-color: $text-link;
     height: 50px;
     width: 128px;
     position: absolute;
     right: 0;
+    &:hover {
+      background-color: $text-link-hover;
+      border-color: $text-link-hover;
+    }
   }
 }
