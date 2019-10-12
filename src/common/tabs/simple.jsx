@@ -8,7 +8,7 @@ const toGetDefaultActive = (source, field, defaultCurrent) => {
 	if (source) {
 		if (field) {
 			const res = parseQuery(hash)[field];
-			const r = res || -100;
+			const r = (Number.isNaN(res * 1) ? res : Number(res)) || -100;
 			return ((source.filter(item => item.id === r)[0]) || {}).id || source[0].id;
 		}
 		return defaultCurrent || source[0].id;

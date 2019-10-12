@@ -21,7 +21,7 @@ const Trial = {
 	// POST已读
 	read: params => s.post('/yc/monitor/trial/read', params).then(res => res.data),
 	// POST全部已读
-	readAll: () => s.post('/yc/monitor/trial/read-all', { }).then(res => res.data),
+	readAll: () => s.post('/yc/monitor/trial/read-all', {}).then(res => res.data),
 	// POST取消收藏
 	unAttention: params => s.post('/yc/monitor/trial/un-attention', params).then(res => res.data),
 };
@@ -79,7 +79,7 @@ const Judgment = {
 const Api = (type, res) => {
 	if (type === 1) return Trial[res];
 	if (type === 2) return Court[res];
-	if (type === 2) return Judgment[res];
+	if (type === 3) return Judgment[res];
 	return Trial[res];
 };
 export { Court, Trial, Judgment };

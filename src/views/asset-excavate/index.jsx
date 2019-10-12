@@ -122,10 +122,6 @@ class MonitorMain extends React.Component {
 
 const monitorRouter = (props) => {
 	const { rule } = props;
-	// const r = {
-	// 	rule,
-	// 	baseRule,
-	// };
 	return (
 		<Router>
 			<MonitorMain path="/*" rule={rule} />

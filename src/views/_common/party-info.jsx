@@ -5,6 +5,7 @@
  */
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
+import { getByteLength } from '@/utils';
 
 const maxShowLength = 3;
 export default class PartyInfo extends React.Component {
@@ -21,7 +22,9 @@ export default class PartyInfo extends React.Component {
 		const { id } = this.props;
 		const { status } = this.state;
 		if (nextProps.id !== id) {
+			// console.log(nextProps.id, id, caseNumber);
 			_nextState.status = nextProps.child.length <= maxShowLength ? 'none' : 'toOpen';
+			return true;
 		}
 		return nextState.status !== status;
 	}
@@ -58,6 +61,8 @@ export default class PartyInfo extends React.Component {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',
 		};
+		const maxWidth = 280 - width - 50;
+		const liMaxWidth = width ? { maxWidth } : '';
 		return (
 			<div className="yc-party-info-list">
 				<span className={`party-info party-info-title party-info-type-${type || 0}`} style={width ? { width } : ''}>
@@ -73,7 +78,18 @@ export default class PartyInfo extends React.Component {
 				<span className="party-info party-info-colon">：</span>
 				<div className="party-info party-info-content">
 					{
-						source.map(i => <li className="text-ellipsis">{i.name}</li>)
+						source.map((i) => {
+							if (getByteLength(i.name) * 6 >= maxWidth) {
+								return (
+									<Tooltip placement="top" title={i.name}>
+										<li className="text-ellipsis" style={liMaxWidth}>{i.name}</li>
+									</Tooltip>
+								);
+							}
+							return (
+								<li className="text-ellipsis" style={liMaxWidth}>{i.name}</li>
+							);
+						})
 					}
 					{
 						status !== 'none'

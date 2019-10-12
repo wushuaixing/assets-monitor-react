@@ -271,7 +271,7 @@ export default class Assets extends React.Component {
 								}}
 								title="批量管理"
 							/>
-							<span style={{ float: 'right' }}>
+							<span className="export-style">
 								<span className="yc-icon-recovery-title" onClick={this.toClearProcess}>
 									<span className="yc-icon-recovery" />
 									资产清收流程
