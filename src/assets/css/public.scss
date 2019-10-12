@@ -788,8 +788,8 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   border-bottom: 0;
 }
 
-// 限制鼠标意如最大高度
+// 限制tooltip最大高度
 .ant-tooltip-inner {
   max-height: 700px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
