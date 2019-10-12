@@ -1,9 +1,8 @@
 import React from 'react';
-import Table from './table';
-import { postFollowList } from '@/utils/api/monitor-info/mortgage';
+import Table from './bidding';
+import api from '@/utils/api/monitor-info/finance';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import './style.scss';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -27,17 +26,6 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
-	// 表格发生变化
-	onRefresh=(data, type) => {
-		const { dataSource } = this.state;
-		const { index } = data;
-		const _dataSource = dataSource;
-		_dataSource[index][type] = data[type];
-		this.setState({
-			dataSource: _dataSource,
-		});
-	};
-
 	// 排序触发
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
@@ -51,34 +39,43 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	};
 
+	// 表格发生变化
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = dataSource;
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
+
 	// 查询数据methods
 	toGetData=() => {
 		this.setState({ loading: true });
-		const { reqUrl } = this.props;
-		const toApi = reqUrl || postFollowList;
-		toApi(clearEmpty(this.condition))
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						dataSource: res.data.list,
-						current: res.data.page,
-						total: res.data.total,
-						loading: false,
-					});
-				} else {
-					this.setState({
-						dataSource: '',
-						current: 1,
-						total: 0,
-						loading: false,
-					});
-				}
-			})
-			.catch(() => {
+		const { reqUrl, id } = this.props;
+		const toApi = reqUrl || api.followResult;
+		toApi(clearEmpty(this.condition), id).then((res) => {
+			if (res.code === 200) {
 				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
 					loading: false,
 				});
+			} else {
+				this.setState({
+					dataSource: [],
+					current: 1,
+					total: 0,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({
+				loading: false,
 			});
+		});
 	};
 
 	render() {
@@ -94,9 +91,10 @@ export default class TableIntact extends React.Component {
 			current,
 			total,
 			onRefresh: this.onRefresh,
-			onSelect: this.onSelect,
+			onSelect: () => {},
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
+			sourceType: this.condition.sourceType,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
