@@ -1,6 +1,6 @@
 /** 登录页 * */
 
-import React, { Frgament } from 'react';
+import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
@@ -62,7 +62,7 @@ class Login extends React.Component {
 		} = this.state;
 
 		return (
-			<Frgament>
+			<div>
 				<div className="yc-login">
 					<Header imgUrl={imgUrl} />
 					<div className="yc-login-wapper">
@@ -87,7 +87,7 @@ class Login extends React.Component {
 					</div>
 				</div>
 				<Footer />
-			</Frgament>
+			</div>
 		);
 	}
 }

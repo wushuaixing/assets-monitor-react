@@ -14,7 +14,7 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 	return (
 		<React.Fragment>
 			{important === 1 && !noMatching ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
-			<div className="assets-info-content">
+			<div className="assets-info-content" style={{ marginLeft: 10 }}>
 				<li>
 					<span className="list list-title align-justify">债 务 人：</span>
 					{

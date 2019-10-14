@@ -113,12 +113,12 @@ const columns = (props) => {
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>登记日期</span>
 				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
 			dataIndex: 'regDate',
-			width: 115,
+			width: 130,
 			render: (text, record) => ReadStatus(text || '-', record),
 		}, {
 			title: '抵押物所有人',
 			dataIndex: 'owner',
-			width: 120,
+			width: 190,
 			render: (text, row) => (
 				<span>
 					{
@@ -135,7 +135,7 @@ const columns = (props) => {
 		}, {
 			title: '抵押权人',
 			dataIndex: 'people',
-			width: 120,
+			width: 190,
 			render: (text, row) => (
 				<span>
 					{
@@ -151,21 +151,21 @@ const columns = (props) => {
 			),
 		}, {
 			title: '抵押详情',
-			width: 200,
+			width: 280,
 			render: MortgageDetail,
 		}, {
 			title: '登记状态',
-			width: 130,
+			width: 180,
 			render: RegisterDetail,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
-			width: 90,
+			width: 130,
 			render: text => <span>{text || '-'}</span>,
 		}, {
 			title: '操作',
-			width: 55,
+			// width: 55,
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
