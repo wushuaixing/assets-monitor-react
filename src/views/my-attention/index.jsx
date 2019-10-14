@@ -3,7 +3,7 @@ import Item from './item';
 import { Tabs } from '@/common';
 import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import {
-	subrogationCount, assCount, lawCount, pubCount,
+	subrogationCount, assCount, lawCount,
 } from '@/utils/api/monitor-info/attention';
 import './style.scss';
 
@@ -12,22 +12,26 @@ export default class MyAttention extends React.Component {
 		super(props);
 		document.title = '我的关注-监控信息';
 		this.state = {
-			config: (toGetRuleSource(global.ruleSource, 'YC02') || {}).children,
-			baseConfig: toGetRuleSource(global.ruleSource, ['YC02', 'YC03']),
-			source: '',
-			type: 1,
+			initConfig: toGetRuleSource(global.ruleSource, ['YC02', 'YC03']),
+			initType: 1,
+			config: [],
 			sourceType: 1,
 			childType: 1,
+			source: '',
 		};
 	}
 
 	componentWillMount() {
-		const { config } = this.state;
+		const { initConfig } = this.state;
+		const initType = Tabs.Simple.toGetDefaultActive(initConfig, 'init');
+		const config = (toGetRuleSource(global.ruleSource, initType) || {}).children;
 		const sourceType = Tabs.Simple.toGetDefaultActive(config, 'process');
 		const source = (config.filter(i => i.id === sourceType))[0];
 		const childAry = source.child ? source.child.filter(i => i.status) : '';
 		const childType =	parseQuery(window.location.href).type || (childAry ? childAry[0].id : '');
 		this.setState({
+			config,
+			initType,
 			sourceType,
 			source,
 			childType,
@@ -49,8 +53,7 @@ export default class MyAttention extends React.Component {
 				});
 				this.setState({ source: _source });
 			});
-		}
-		if (type === 3) {
+		} else if (type === 3) {
 			assCount().then((res) => {
 				_source.child = _source.child.map((item) => {
 					const _item = item;
@@ -61,8 +64,7 @@ export default class MyAttention extends React.Component {
 					source: _source,
 				});
 			});
-		}
-		if (type === 4) {
+		} else if (type === 4) {
 			lawCount().then((res) => {
 				const { data, code } = res;
 				if (code === 200) {
@@ -78,31 +80,14 @@ export default class MyAttention extends React.Component {
 				}
 			});
 		}
-		if (type === 6) {
-			pubCount().then((res) => {
-				const { data, code } = res;
-				if (code === 200) {
-					const r1 = data.filter(i => i.sourceType === 1)[0] || {};
-					const r2 = data.filter(i => i.sourceType === 2)[0] || {};
-					const r3 = data.filter(i => i.sourceType === 3)[0] || {};
-					_source.child = _source.child.map((item) => {
-						const _item = item;
-						if (item.id === 61 && r1.count) _item.number = r1.count;
-						if (item.id === 62 && r2.count) _item.number = r2.count;
-						if (item.id === 63 && r3.count) _item.number = r3.count;
-						return _item;
-					});
-					this.setState({ source: _source });
-				}
-			});
-		}
 	};
 
 	// Type变化
 	onType=(nextType) => {
-		const { type } = this.state;
-		if (nextType !== type) {
-			this.setState({ type: nextType });
+		const { initType } = this.state;
+		if (nextType !== initType) {
+			const config = (toGetRuleSource(global.ruleSource, nextType) || {}).children;
+			this.setState({ initType: nextType, config });
 			// console.log('_type:change', _type);
 			window.location.href = changeURLArg(window.location.href, 'init', nextType);
 			//	问题遗留：直接href导致每个Router重新渲染
@@ -139,7 +124,7 @@ export default class MyAttention extends React.Component {
 
 	render() {
 		const {
-			config, sourceType, source, childType, baseConfig,
+			config, sourceType, source, childType, initConfig,
 		} = this.state;
 		const content = {
 			source,
@@ -151,7 +136,7 @@ export default class MyAttention extends React.Component {
 			<div className="yc-monitor-attention">
 				<Tabs.Simple
 					onChange={this.onType}
-					source={baseConfig}
+					source={initConfig}
 					field="init"
 					type="primary"
 					prefix={<div className="yc-tabs-simple-prefix">我的关注</div>}
