@@ -9,7 +9,7 @@ import { toGetRuleSource } from '@/utils';
 
 const logoText = '源诚资产监控平台';
 
-// 导航项目
+/* 导航项目 */
 const Item = (props) => {
 	const {
 		name, children, id, dot,
@@ -53,10 +53,14 @@ const Item = (props) => {
 	);
 };
 
+/* 获取默认路由 */
 const defaultRouter = (source) => {
 	const { hash } = window.location;
 	const res = { p: '', c: '' };
+	// console.log('source:', source);
+	// console.log('hash:', hash);
 	source.forEach((item) => {
+		// console.log('item.url:', item.url, hash);
 		if (new RegExp(item.url).test(hash)) {
 			if (item.children) {
 				res.p = item.id;
@@ -68,6 +72,7 @@ const defaultRouter = (source) => {
 			}
 		}
 	});
+	if (new RegExp('/my/attention').test(hash))res.p = '';
 	if (new RegExp('/message').test(hash))res.p = 101;
 	return res;
 };
