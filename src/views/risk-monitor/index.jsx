@@ -4,59 +4,36 @@ import Router from '@/utils/Router';
 import { Tabs, Button } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
 import './style.scss';
-// 主要内容模块
+/* 主要内容模块 */
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import OperateRisk from './operate-risk';
-// import Attention from '../my-attention'; // 我的关注
 
 import Star from '@/assets/img/icon/btn_attention_n.png';
+import { toGetRuleSource } from '@/utils';
 
-// 获取展示配置
-const toGetRuth = (rules = {}) => {
-	const rule = rules.children || {};
-	const source = [
-		{
-			id: 4,
-			name: '涉诉监控',
-			url: '/risk',
-			status: rule.jkxxssjk || true,
-			paramUrl: '',
-			number: 0,
-			dot: false,
-			components: Lawsuits,
-		},
-		{
-			id: 5,
-			name: '企业破产重组',
-			url: '/risk/bankruptcy',
-			status: rule.jkxxpccz || true,
-			paramUrl: '',
-			number: 0,
-			dot: false,
-			components: Bankruptcy,
-		},
-		{
-			id: 10,
-			name: '经营风险',
-			url: '/risk/operate',
-			paramUrl: '',
-			status: true,
-			number: 0,
-			dot: false,
-			components: OperateRisk,
-			// components: () => <div>暂未开发</div>,
-		},
-	];
-	return source.filter(item => item.status);
+/* 获取展示配置 */
+const toGetRuth = (moduleID) => {
+	const result = toGetRuleSource(global.ruleSource, moduleID);
+	const noPage = () => <div>暂未开发</div>;
+	return result.children.map((item) => {
+		let components = '';
+		if (item.id === `${moduleID}01`) components = Lawsuits;
+		else if (item.id === `${moduleID}02`) components = Bankruptcy;
+		else if (item.id === `${moduleID}03`) components = OperateRisk;
+		else components = noPage;
+		return Object.assign({}, item, {
+			components,
+			paramUrl: item.paramUrl || '',
+		});
+	});
 };
-
 // 主界面
 class RiskMonitor extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			source: toGetRuth(props.rule),
+			source: toGetRuth('YC03'),
 		};
 		this.sourceType = '';
 	}
@@ -94,7 +71,7 @@ class RiskMonitor extends React.Component {
 	};
 
 	toNavigate=() => {
-		navigate(`/my/attention${this.sourceType ? `?process=${this.sourceType}` : ''}`);
+		navigate(`/my/attention?init=YC03${this.sourceType ? `&process=${this.sourceType}` : ''}`);
 	};
 
 	render() {
@@ -135,7 +112,6 @@ const monitorRouter = (props) => {
 	return (
 		<Router>
 			<RiskMonitor path="/*" rule={rule} />
-			{/* <Attention path="/monitor/attention/*" rule={rule} /> */}
 		</Router>
 	);
 };

@@ -30,7 +30,7 @@
       ]}
     ],
     "no-extend-native":0,
-    "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+//    "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
     "react/no-danger":0,
     "jsx-a11y/anchor-is-valid":0,
     "no-underscore-dangle": 0,

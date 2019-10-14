@@ -195,11 +195,11 @@ export default {
 						name: '金融资产',
 						url: '/monitor/financial',
 						status: toStatus(rule.menu_jkxx, ['jkxxjrzcgsxm', 'jkxxjrzcjjxm']),
-					  child: [
+						child: [
 							{ id: 'YC020503', name: '股权质押', status: true },
 							{ id: 'YC020501', name: '竞价项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcjjxm') },
 							{ id: 'YC020502', name: '公示项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcgsxm') },
-					  ],
+						],
 					},
 					{
 						id: 'YC0206',
@@ -237,6 +237,14 @@ export default {
 						name: '经营风险',
 						url: '/risk/operate',
 						status: true,
+						child: [
+							{ id: 'YC030301', name: '经营异常', status: false },
+							{ id: 'YC030302', name: '工商变更', status: true },
+							{ id: 'YC030303', name: '严重违法', status: false },
+							{ id: 'YC030304', name: '税收违法', status: false },
+							{ id: 'YC030305', name: '行政处罚', status: false },
+							{ id: 'YC030306', name: '环保处罚', status: false },
+						],
 					},
 				],
 			},
