@@ -29,6 +29,12 @@ export const postFollow = async (params) => {
 	return response.data;
 };
 
+// 关注列表
+export const postFollowList = async (params) => {
+	const response = await service.get('/yc/monitor/mortgage/follow/list', { params });
+	return response.data;
+};
+
 // 取消关注
 export const postUnFollow = async (params) => {
 	const response = await service.post('/yc/monitor/mortgage/unFollow', params);
