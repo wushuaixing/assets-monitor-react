@@ -26,7 +26,7 @@ class RegisterModal extends React.PureComponent {
 				},
 				{
 					title: '当事人',
-					dataIndex: 'parities',
+					dataIndex: 'parties',
 					width: 300,
 					render: partyInfo,
 				}, {
