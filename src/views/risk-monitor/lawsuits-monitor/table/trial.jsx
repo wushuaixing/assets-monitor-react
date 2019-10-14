@@ -24,7 +24,7 @@ const columns = (props) => {
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '当事人',
-			dataIndex: 'parities',
+			dataIndex: 'parties',
 			width: 300,
 			render: partyInfo,
 		}, {
