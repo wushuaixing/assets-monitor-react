@@ -29,9 +29,7 @@ const PledgeDetail = (text, rowContent) => (
 			<li>
 				<span className="list list-title align-justify" style={{ width: 80 }}>登记编号</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">
-					{rowContent.regNumber || '-'}
-				</span>
+				<span className="list list-content">{rowContent.regNumber || '-'}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 80 }}>出质股权数额</span>

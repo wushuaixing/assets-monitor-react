@@ -122,6 +122,34 @@ export const getByteLength = (val) => {
 };
 
 /**
+ * 截取前N个字节的字符串
+ * @param str
+ * @param len
+ * @param suffix
+ * @returns {*}
+ */
+export const toCutString = (str, len, suffix) => {
+	if (!str) return '';
+	if (len <= 0) return '';
+	const _suffix = suffix || '';
+	let template = 0;
+	for (let i = 0; i < str.length; i += 1) {
+		if (str.charCodeAt(i) > 255) {
+			template += 2;
+		} else {
+			template += 1;
+		}
+		if (template === len) {
+			return str.substring(0, i + 1) + _suffix;
+		} if (template > len) {
+			return str.substring(0, i) + _suffix;
+		}
+	}
+	return str;
+};
+
+
+/**
  * 截取 url 里面 指定的参数
  * @param url
  * @param name
