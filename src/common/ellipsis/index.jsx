@@ -49,10 +49,11 @@ export default class Ellipsis extends React.Component {
 		const showContent = _width
 			? toCutString(content, (_width * line) / 6 - (3 * line), '...') : '';
 		const ContentText = url ? linkDom(url, showContent) : showContent;
+		const _tooltip = showContent === content ? false : tooltip;
 		return (
 			<div ref={e => this.element = e} className="yc-ellipsis-element" style={_width ? { width: _width } : ''}>
 				{
-					tooltip
+					_tooltip
 						? <Tooltip placement="top" title={content}>{url ? ContentText : <span>{ContentText}</span>}</Tooltip>
 						: ContentText
 				}

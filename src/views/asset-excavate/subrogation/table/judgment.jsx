@@ -9,12 +9,12 @@ import { Judgment } from '@/utils/api/monitor-info/subrogation';
 /* 文书信息 */
 const documentInfo = (value, row) => {
 	const {
-		caseReason, caseType, gmtJudgment,
+		caseReason, caseType, gmtJudgment, title, url,
 	} = row;
 	return (
 		<div className="assets-info-content">
 			<li>
-				<Ellipsis content="阿萨德发发沙发斯蒂芬斯蒂芬发文阿萨德发发沙发斯蒂芬斯蒂芬发文阿萨德发发沙发斯蒂芬斯蒂芬发文阿萨德发发沙发斯蒂芬斯蒂芬发文阿萨德发发沙发斯蒂芬斯蒂芬发文" line={2} tooltip />
+				<Ellipsis content={title} line={2} tooltip url={url} />
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 'auto' }}>登记编号</span>

@@ -37,6 +37,22 @@ export default class PartyInfoDetail extends React.Component {
 		if (status === 'toClose') this.setState({ status: 'toOpen' });
 	};
 
+	/* 处理当事人名称 */
+	toHandleName=(item) => {
+		const {
+			birthday, certificateNumber, gender, name,
+		} = item;
+		if (certificateNumber) return `${name}（${certificateNumber}）`;
+		if (birthday || gender) {
+			const res = [];
+			if (gender && gender === 1)res.push('男');
+			else if (gender && gender === 2)res.push('女');
+			if (birthday)res.push(birthday);
+			return `${name}（${res.join(' ')}）`;
+		}
+		return name;
+	};
+
 	render() {
 		const { status } = this.state;
 		const {
@@ -81,15 +97,16 @@ export default class PartyInfoDetail extends React.Component {
 				<div className="party-info party-info-content">
 					{
 						source.map((i) => {
-							if (getByteLength(i.name) * 6 >= maxWidth) {
+							const content = this.toHandleName(i);
+							if (getByteLength(content) * 6 >= maxWidth) {
 								return (
-									<Tooltip placement="top" title={i.name}>
-										<li className="text-ellipsis" style={liMaxWidth}>{i.name}</li>
+									<Tooltip placement="top" title={content}>
+										<li className="text-ellipsis" style={liMaxWidth}>{content}</li>
 									</Tooltip>
 								);
 							}
 							return (
-								<li className="text-ellipsis" style={liMaxWidth}>{i.name}</li>
+								<li className="text-ellipsis" style={liMaxWidth}>{content}</li>
 							);
 						})
 					}
