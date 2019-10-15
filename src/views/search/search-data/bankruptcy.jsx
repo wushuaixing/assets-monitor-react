@@ -75,28 +75,28 @@ class BANKRUPTCY extends React.Component {
 				<div className="yc-tabs-items">
 					<div className="item" style={{ marginRight: 16, width: 243 }}>
 						<Input
-							title="案号"
-							placeholder="案件编号"
+							title="企业"
+							placeholder="企业名称"
 							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ marginRight: 16, width: 243 }}>
 						<Input
-							title="案由"
-							placeholder="案件内容提要"
+							title="案号/标题"
+							placeholder="破产案号/公告标题"
 							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ width: 243 }}>
 						<Input
-							title="起诉法院"
-							placeholder="法院名称"
+							title="受理法院"
+							placeholder="破产案件受理法院"
 							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 				</div>
 				<div className="other">
-					<span>发布日期：</span>
+					<span>日期选择：</span>
 					<DatePicker
 						placeholder="开始日期"
 						size="large"

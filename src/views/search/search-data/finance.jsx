@@ -76,20 +76,20 @@ class FINANCE extends React.Component {
 					<div className="item" style={{ marginRight: 16, width: 243 }}>
 						<Input
 							title="全文"
-							placeholder="案件内容提要"
+							placeholder="全文搜索关键词"
 							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ width: 243 }}>
 						<Input
 							title="项目名称"
-							placeholder="法院名称"
+							placeholder="项目标题"
 							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 				</div>
 				<div className="other">
-					<span>发布日期：</span>
+					<span>挂牌起始日期：</span>
 					<DatePicker
 						placeholder="开始日期"
 						size="large"
@@ -123,7 +123,7 @@ class FINANCE extends React.Component {
 					/>
 				</div>
 				<div className="other">
-					<span>发布日期：</span>
+					<span>挂牌期满日期：</span>
 					<DatePicker
 						placeholder="开始日期"
 						size="large"
