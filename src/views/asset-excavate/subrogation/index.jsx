@@ -88,11 +88,12 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 获取统计信息
-	toInfoCount=() => {
+	toInfoCount=(nextSourceType) => {
 		const { sourceType, tabConfig } = this.state;
-		API(sourceType, 'listCount')(this.condition).then((res) => {
+		const _t = nextSourceType || sourceType;
+		API(_t, 'listCount')(this.condition).then((res) => {
 			if (res.code === 200) {
-				tabConfig[sourceType - 1].number = res.data;
+				tabConfig[_t - 1].number = res.data;
 				this.setState({ tabConfig });
 			}
 		});
@@ -249,7 +250,7 @@ export default class Subrogation extends React.Component {
 			loading: true,
 			manage: _manage || false,
 		});
-		this.toInfoCount();
+		this.toInfoCount(__type);
 		const params = Object.assign({}, this.toHandleReqTime(__type, this.condition), this.condition);
 		delete params.startGmt;
 		delete params.endGmt;

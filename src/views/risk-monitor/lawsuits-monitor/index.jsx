@@ -5,7 +5,7 @@ import { TableCourt, TableTrial, TableJudgment } from './table';
 import {
 	Button, Tabs, Spin, Download,
 } from '@/common';
-import API from '@/utils/api/monitor-info/subrogation';
+import API from '@/utils/api/risk-monitor/lawsuit';
 import { changeURLArg, clearEmpty } from '@/utils';
 
 export default class Subrogation extends React.Component {

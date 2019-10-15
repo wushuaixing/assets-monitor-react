@@ -3,14 +3,13 @@ import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { Tabs, Button } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
-import './style.scss';
 /* 主要内容模块 */
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import OperateRisk from './operate-risk';
-
 import Star from '@/assets/img/icon/btn_attention_n.png';
 import ruleMethods from '@/utils/rule';
+import './style.scss';
 
 /* 获取展示配置 */
 const toGetRuth = (moduleID) => {
