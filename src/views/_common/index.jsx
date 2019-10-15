@@ -36,7 +36,7 @@ export const caseInfo = (content, row) => {
  * */
 export const partyInfo = (value, row) => {
 	// 处理 当事人数据列表，分类
-	const handleParities = (data) => {
+	const handleparties = (data) => {
 		const source = [];
 		data.forEach((i) => {
 			if (source.length === 0) {
@@ -73,7 +73,7 @@ export const partyInfo = (value, row) => {
 	};
 	if (typeof value === 'object') {
 		if (value.length) {
-			const source = handleParities(value);
+			const source = handleparties(value);
 			const maxWidth = toGetStrWidth(source);
 			return source.map(item => (
 				<PartyInfoDetail {...item} id={row.id} key={row.id} width={maxWidth} />

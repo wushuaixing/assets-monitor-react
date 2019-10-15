@@ -25,7 +25,7 @@ const columns = (props) => {
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '当事人',
-			dataIndex: 'parities',
+			dataIndex: 'parties',
 			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
 		}, {
 			title: '法院',

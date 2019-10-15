@@ -37,7 +37,7 @@ const Item = (props) => {
 				source.child ? (
 					<div className="item-btn-list">
 						{
-							source.child.map(item => (
+							source.child.map(item => (item.status ? (
 								<Button
 									active={item.id === childType}
 									onClick={() => onBtnChange(item)}
@@ -46,7 +46,7 @@ const Item = (props) => {
 									{item.name}
 									<span style={{ marginLeft: 4, color: '#FB5A5C' }}>{item.number || 0}</span>
 								</Button>
-							))
+							) : null))
 						}
 					</div>
 				) : null

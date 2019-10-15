@@ -5,16 +5,13 @@ import { TableCourt, TableTrial, TableJudgment } from './table';
 import {
 	Button, Tabs, Spin, Download,
 } from '@/common';
-import {
-	infoCount, readStatus, attention, exportList,
-} from '@/utils/api/monitor-info/monitor';
 import API from '@/utils/api/monitor-info/subrogation';
 import { changeURLArg, clearEmpty } from '@/utils';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '代位权-资产挖掘';
+		document.title = '涉诉监控-风险监控';
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',
@@ -58,6 +55,30 @@ export default class Subrogation extends React.Component {
 			sourceType,
 		});
 		this.onQueryChange({}, sourceType);
+		if (sourceType !== 1) {
+			API(1, 'listCount')({}).then((res) => {
+				if (res.code === 200) {
+					tabConfig[0].number = res.data;
+					this.setState({ tabConfig });
+				}
+			});
+		}
+		if (sourceType !== 2) {
+			API(2, 'listCount')({}).then((res) => {
+				if (res.code === 200) {
+					tabConfig[1].number = res.data;
+					this.setState({ tabConfig });
+				}
+			});
+		}
+		if (sourceType !== 3) {
+			API(3, 'listCount')({}).then((res) => {
+				if (res.code === 200) {
+					tabConfig[2].number = res.data;
+					this.setState({ tabConfig });
+				}
+			});
+		}
 	}
 
 	// 清除排序状态
@@ -68,29 +89,11 @@ export default class Subrogation extends React.Component {
 
 	// 获取统计信息
 	toInfoCount=() => {
-		infoCount(clearEmpty(this.condition)).then((res) => {
+		const { sourceType, tabConfig } = this.state;
+		API(sourceType, 'listCount')(this.condition).then((res) => {
 			if (res.code === 200) {
-				const { tabConfig } = this.state;
-				let _tabConfig = tabConfig;
-				res.data.forEach((item) => {
-					if (item.sourceType === 1 || item.sourceType === 2) {
-						_tabConfig = _tabConfig.map((itemChild) => {
-							if (itemChild.id === item.sourceType) {
-								return {
-									id: itemChild.id,
-									name: itemChild.name,
-									number: item.count,
-									dot: Boolean(item.unreadCount),
-									showNumber: true,
-								};
-							}
-							return itemChild;
-						});
-					}
-				});
-				this.setState({
-					tabConfig: _tabConfig,
-				});
+				tabConfig[sourceType - 1].number = res.data;
+				this.setState({ tabConfig });
 			}
 		});
 	};
@@ -100,7 +103,6 @@ export default class Subrogation extends React.Component {
 		const { tabConfig } = this.state;
 		const _tabConfig = tabConfig.map((item) => {
 			const _item = Object.assign({}, item);
-			_item.number = 0;
 			_item.dot = false;
 			_item.showNumber = true;
 			return _item;
@@ -113,15 +115,14 @@ export default class Subrogation extends React.Component {
 	handleAllRead=() => {
 		const _this = this;
 		const { sourceType, tabConfig } = this.state;
-		if (tabConfig[sourceType - 1].dot) {
+		console.log(tabConfig, sourceType);
+		if (tabConfig[sourceType - 1].number) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					readStatus({
-						sourceType, type: 1,
-					}).then((res) => {
+					API(sourceType, 'readAll')().then((res) => {
 						if (res.code === 200) {
 							_this.onQueryChange();
 						}
@@ -138,14 +139,14 @@ export default class Subrogation extends React.Component {
 	handleAttention=() => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
-			const { dataSource } = this.state;
+			const { dataSource, sourceType } = this.state;
 			const _this = this;
 			Modal.confirm({
 				title: '确认关注选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					attention({ idList }, true).then((res) => {
+					API(sourceType, 'attention')({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
 							const _dataSource = dataSource.map((item) => {
@@ -180,18 +181,34 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	// 修改请求参数【开庭】【立案】【裁判文书】
+	toHandleReqTime=(__sourceType, __con) => {
+		const GmtTime = {};
+		if (__sourceType === 1) {
+			GmtTime.startGmtTrial = __con.startGmt;
+			GmtTime.endGmtTrial = __con.endGmt;
+		} else if (__sourceType === 2) {
+			GmtTime.startGmtRegister = __con.startGmt;
+			GmtTime.endGmtRegister = __con.endGmt;
+		} else {
+			GmtTime.startGmtJudgment = __con.startGmt;
+			GmtTime.endGmtJudgment = __con.endGmt;
+		}
+		return GmtTime;
+	};
+
 	// sourceType变化
-	onSourceType=(val) => {
+	onSourceType=(sourceType) => {
 		this.setState({
-			sourceType: val,
+			sourceType,
 			dataSource: '',
 			current: 1,
 			total: '',
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange('', val, 'all', 1);
-		window.location.href = changeURLArg(window.location.href, 'process', val);
+		this.onQueryChange('', sourceType, 'all', 1);
+		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
 	};
 
 	// 当前页数变化
@@ -218,10 +235,13 @@ export default class Subrogation extends React.Component {
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
+		const __type = _sourceType || sourceType;
 		this.condition = Object.assign({}, con || this.condition, {
 			page: page || current,
 			num: 10,
 		});
+		// console.log(__isRead);
+		delete this.condition.isRestore;
 		if (__isRead === 'all') delete this.condition.isRead;
 		if (__isRead === 'unread') this.condition.isRead = 0;
 		if (__isRead === 'resume') this.condition.isRestore = true;
@@ -229,8 +249,11 @@ export default class Subrogation extends React.Component {
 			loading: true,
 			manage: _manage || false,
 		});
-		// this.toInfoCount();
-		API(_sourceType || sourceType, 'list')(clearEmpty(this.condition)).then((res) => {
+		this.toInfoCount();
+		const params = Object.assign({}, this.toHandleReqTime(__type, this.condition), this.condition);
+		delete params.startGmt;
+		delete params.endGmt;
+		API(_sourceType || sourceType, 'list')(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -272,9 +295,7 @@ export default class Subrogation extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}
-				<QueryView onQueryChange={this.onQuery} />
-				{/* 分隔下划线 */}
-				<div className="yc-haveTab-hr" />
+				<QueryView onQueryChange={this.onQuery} sourceType={sourceType} />
 				{/* tab切换 */}
 				<Tabs.Simple
 					onChange={this.onSourceType}
@@ -295,6 +316,15 @@ export default class Subrogation extends React.Component {
 								onClick={() => this.handleReadChange('unread')}
 								title="只显示未读"
 							/>
+							{sourceType !== 2 ? (
+								<Button
+									active={isRead === 'resume'}
+									onClick={() => this.handleReadChange('resume')}
+								>
+									只显示执恢案件
+								</Button>
+							) : null}
+
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 
@@ -302,7 +332,7 @@ export default class Subrogation extends React.Component {
 								all
 								text="一键导出"
 								condition={() => this.condition}
-								api={exportList}
+								api={API(sourceType, 'exportList')}
 								style={{ float: 'right' }}
 							/>
 						</div>
@@ -312,7 +342,7 @@ export default class Subrogation extends React.Component {
 							<Download
 								text="导出"
 								field="idList"
-								api={exportList}
+								api={API(sourceType, 'exportList')}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
 							<Button

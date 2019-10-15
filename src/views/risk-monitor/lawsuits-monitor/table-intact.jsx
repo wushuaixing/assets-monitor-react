@@ -1,6 +1,6 @@
 import React from 'react';
-import Table from './table3';
-import { attentionList } from '@/utils/api/monitor-info/monitor';
+import { TableCourt, TableTrial, TableJudgment } from './table';
+import API from '@/utils/api/monitor-info/subrogation';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
 
@@ -14,7 +14,6 @@ export default class TableIntact extends React.Component {
 			loading: true,
 		};
 		this.condition = {
-			type: 1,
 			sourceType: props.sourceType || 1,
 			sortColumn: '',
 			sortOrder: '',
@@ -69,8 +68,8 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(nextProps) => {
 		this.setState({ loading: true });
-		const { reqUrl, id } = nextProps || this.props;
-		const toApi = reqUrl || attentionList;
+		const { reqUrl, id, sourceType } = nextProps || this.props;
+		const toApi = reqUrl || API(sourceType, 'followList');
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -98,7 +97,7 @@ export default class TableIntact extends React.Component {
 		const {
 			dataSource, current, total, loading,
 		} = this.state;
-		const { normal, noSort } = this.props;
+		const { normal, noSort, sourceType } = this.props;
 		const tableProps = {
 			noSort,
 			normal,
@@ -114,10 +113,13 @@ export default class TableIntact extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
+
 		return (
 			<div className="yc-assets-auction">
 				<Spin visible={loading}>
-					<Table {...tableProps} />
+					{sourceType === 1 ? <TableTrial {...tableProps} /> : null}
+					{sourceType === 2 ? <TableCourt {...tableProps} /> : null}
+					{sourceType === 3 ? <TableJudgment {...tableProps} /> : null}
 				</Spin>
 			</div>
 

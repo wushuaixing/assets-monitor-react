@@ -4,6 +4,7 @@ import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { Trial } from '@/utils/api/monitor-info/subrogation';
 import { timeStandard } from '@/utils';
 import { partyInfo } from '@/views/_common';
+import associationLink from '@/views/_common/association-link';
 import { Table } from '@/common';
 // 获取表格配置
 const columns = (props) => {
@@ -24,7 +25,7 @@ const columns = (props) => {
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '当事人',
-			dataIndex: 'parities',
+			dataIndex: 'parties',
 			width: 300,
 			render: partyInfo,
 		}, {
@@ -35,12 +36,22 @@ const columns = (props) => {
 			title: '案号',
 			dataIndex: 'caseNumber',
 			render: text => text || '--',
-			// render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+		}, {
+			title: '案件类型',
+			render: (value, row) => {
+				const { isRestore, caseType } = row;
+				if (isRestore) return '执恢案件';
+				if (caseType === 1) return '普通案件';
+				if (caseType === 2) return '执行案件';
+				if (caseType === 3) return '终本案件';
+				if (caseType === 4) return '破产案件';
+				return '--';
+			},
 		}, {
 			title: '关联链接',
 			dataIndex: 'associatedInfo',
 			className: 'tAlignCenter_important min-width-80',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+			render: associationLink,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

@@ -18,8 +18,11 @@ import TableIllegal from './table/illegal';
 import TableTaxViolation from './table/taxViolation';
 import TablePenalties from './table/penalties';
 import TableEnvironmentalPunishment from './table/environmentalPunishment';
+import ruleMethods from '@/utils/rule';
 
 const toGetConfig = () => {
+	const r = ruleMethods.toGetRuleSource('', 'YC03', 'YC0303');
+	console.log(r);
 	// const { children } = rule;
 	const base = [
 		{
