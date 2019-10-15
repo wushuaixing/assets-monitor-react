@@ -4,77 +4,18 @@ import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
 import { changeURLArg } from '@/utils';
-// query
-import QueryBusinessChange from './query/businessChange';
-import QueryAbnormalOperation from './query/abnormalOperation';
-import QueryIllegal from './query/illegal';
-import QueryTaxViolation from './query/taxViolation';
-import QueryPenalties from './query/penalties';
-import QueryEnvironmentalPunishment from './query/environmentalPunishment';
-// table
-import TableBusinessChange from './table/businessChange';
-import TableAbnormalOperation from './table/abnormalOperation';
-import TableIllegal from './table/illegal';
-import TableTaxViolation from './table/taxViolation';
-import TablePenalties from './table/penalties';
-import TableEnvironmentalPunishment from './table/environmentalPunishment';
+/* Query 查询条件 */
+import Query from './query';
+/* Table 展示列表 */
+import Table from './table';
 import ruleMethods from '@/utils/rule';
 
 const toGetConfig = () => {
-	const r = ruleMethods.toGetRuleSource('', 'YC03', 'YC0303');
-	console.log(r);
-	// const { children } = rule;
-	const base = [
-		{
-			id: 1,
-			name: '经营异常',
-			dot: false,
-			number: 0,
-			showNumber: false,
-			status: true,
-		},
-		{
-			id: 2,
-			name: '工商变更',
-			number: 0,
-			dot: false,
-			showNumber: false,
-			status: true,
-		},
-		{
-			id: 3,
-			name: '严重违法',
-			number: 0,
-			dot: false,
-			showNumber: false,
-			status: true,
-		},
-		{
-			id: 4,
-			name: '税收违法',
-			dot: false,
-			number: 0,
-			showNumber: false,
-			status: false,
-		},
-		{
-			id: 5,
-			name: '行政处罚',
-			number: 0,
-			dot: false,
-			showNumber: false,
-			status: true,
-		},
-		{
-			id: 6,
-			name: '环保处罚',
-			number: 0,
-			dot: false,
-			showNumber: false,
-			status: false,
-		},
-	];
-	return base.filter(item => item.status);
+	const rule = ruleMethods.toGetRuleSource('', 'YC03', 'YC0303');
+	return rule.child.filter(item => item.status).map(item => Object.assign(item, {
+		number: 0,
+		showNumber: true,
+	}));
 };
 
 class BusinessRisk extends Component {
@@ -261,16 +202,11 @@ class BusinessRisk extends Component {
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
 		};
+		const QueryView = Query[sourceType || 'YC030301'];
+		const TableView = Table[sourceType || 'YC030301'];
 		return (
 			<div className="yc-assets-auction">
-				<div>
-					{sourceType === 1 ? <QueryAbnormalOperation {...queryProps} /> : null}
-					{sourceType === 2 ? <QueryBusinessChange {...queryProps} /> : null}
-					{sourceType === 3 ? <QueryIllegal {...queryProps} /> : null}
-					{sourceType === 4 ? <QueryTaxViolation {...queryProps} /> : null}
-					{sourceType === 5 ? <QueryPenalties {...queryProps} /> : null}
-					{sourceType === 6 ? <QueryEnvironmentalPunishment {...queryProps} /> : null}
-				</div>
+				<QueryView {...queryProps} />
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
@@ -281,17 +217,10 @@ class BusinessRisk extends Component {
 				{
 					!manage ? (
 						<div className="assets-auction-action">
-							<Button
-								onClick={() => this.handleReadChange('all')}
-								title="全部"
-							/>
-							<Button
-								onClick={() => this.handleReadChange('unread')}
-								title="只显示未读"
-							/>
+							<Button title="全部" onClick={() => this.handleReadChange('all')} />
+							<Button title="只显示未读" onClick={() => this.handleReadChange('unread')} />
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-
 							<Download
 								all
 								text="一键导出"
@@ -302,7 +231,7 @@ class BusinessRisk extends Component {
 						</div>
 					) : (
 						<div className="assets-auction-action">
-							<Button onClick={this.handleAttention} title="关注" />
+							<Button title="关注" onClick={this.handleAttention} />
 							<Download
 								text="导出"
 								field="idList"
@@ -320,12 +249,7 @@ class BusinessRisk extends Component {
 					)
 				}
 				<Spin visible={loading}>
-					{sourceType === 1 ? <TableAbnormalOperation {...tableProps} /> : null}
-					{sourceType === 2 ? <TableBusinessChange {...tableProps} /> : null}
-					{sourceType === 3 ? <TableIllegal {...tableProps} /> : null}
-					{sourceType === 4 ? <TableTaxViolation {...tableProps} /> : null}
-					{sourceType === 5 ? <TablePenalties {...tableProps} /> : null}
-					{sourceType === 6 ? <TableEnvironmentalPunishment {...tableProps} /> : null}
+					<TableView {...tableProps} />
 				</Spin>
 			</div>
 		);
