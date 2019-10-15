@@ -298,4 +298,4 @@ export const handleRule = source => ruleMethods.handleRule(source);
  * @param moduleID
  * @returns {Array}
  */
-export const toGetRuleSource = (rule, moduleID) => ruleMethods.toGetRuleSource(rule, moduleID);
+export const { toGetRuleSource } = ruleMethods;

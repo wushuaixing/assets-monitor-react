@@ -10,11 +10,11 @@ import Bankruptcy from './bankruptcy';
 import OperateRisk from './operate-risk';
 
 import Star from '@/assets/img/icon/btn_attention_n.png';
-import { toGetRuleSource } from '@/utils';
+import ruleMethods from '@/utils/rule';
 
 /* 获取展示配置 */
 const toGetRuth = (moduleID) => {
-	const result = toGetRuleSource(global.ruleSource, moduleID);
+	const result = ruleMethods.toGetRuleSource(global.ruleSource, moduleID);
 	const noPage = () => <div>暂未开发</div>;
 	return result.children.map((item) => {
 		let components = '';
