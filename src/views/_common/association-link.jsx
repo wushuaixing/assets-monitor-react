@@ -192,10 +192,10 @@ class AssociationLink extends React.Component {
 			if (value === 'Judgment') return { c: '文书', t: '判决日期' };
 			return '';
 		})(type || 'Trial') || { c: '立案', t: '立案日期' };
-
+		const list = this.handleSource(source);
 		return (
 			<React.Fragment>
-				{ this.handleSource(source).map(i => i)}
+				{ list.length ? list.map(i => i) : '--'}
 				<Modal
 					title={`关联${text.c}信息`}
 					onCancel={this.toClose}

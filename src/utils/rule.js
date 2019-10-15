@@ -240,9 +240,9 @@ export default {
 						url: '/risk/operate',
 						status: true,
 						child: [
-							{ id: 'YC030301', name: '经营异常', status: false },
+							{ id: 'YC030301', name: '经营异常', status: true },
 							{ id: 'YC030302', name: '工商变更', status: true },
-							{ id: 'YC030303', name: '严重违法', status: false },
+							{ id: 'YC030303', name: '严重违法', status: true },
 							{ id: 'YC030304', name: '税收违法', status: false },
 							{ id: 'YC030305', name: '行政处罚', status: true },
 							{ id: 'YC030306', name: '环保处罚', status: false },
