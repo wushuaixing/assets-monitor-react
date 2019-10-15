@@ -17,7 +17,7 @@ const defaultColumns = {
 		},
 		{
 			title: '当事人',
-			dataIndex: 'parities',
+			dataIndex: 'parties',
 			width: 300,
 			render: partyInfo,
 		},
@@ -53,7 +53,7 @@ const defaultColumns = {
 		},
 		{
 			title: '当事人',
-			dataIndex: 'parities',
+			dataIndex: 'parties',
 			width: 300,
 			render: partyInfo,
 		},
@@ -82,7 +82,7 @@ const defaultColumns = {
 		},
 		{
 			title: '当事人',
-			dataIndex: 'parities',
+			dataIndex: 'parties',
 			width: 300,
 			render: partyInfo,
 		},

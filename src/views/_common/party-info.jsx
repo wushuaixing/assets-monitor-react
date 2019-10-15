@@ -42,8 +42,6 @@ export default class PartyInfoDetail extends React.Component {
 		const {
 			role, child, width,
 		} = this.props;
-		console.log(role, this.props);
-
 		const source = status === 'toOpen' ? child.slice(0, maxShowLength) : child;
 
 		const statusText = status === 'toOpen'

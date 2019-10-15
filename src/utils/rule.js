@@ -117,17 +117,19 @@ export default {
 
 	/**
 	 * 返回默认对应rule数据结构，包含二级三级
-	 * @param rule
+	 * @param _rule
 	 * @param moduleID
+	 * @param childID
 	 * @returns {Array}
 	 */
-	toGetRuleSource: (rule, moduleID) => {
+	toGetRuleSource: (_rule, moduleID, childID) => {
 		/**
 		 * 判断是否存在
 		 * @param rules
 		 * @param field [string || array]
 		 * @returns {boolean}
 		 */
+		const rule = _rule || global.ruleSource;
 		const toStatus = (rules, field) => {
 			if (rules) {
 				if (typeof field === 'string') {
@@ -195,11 +197,11 @@ export default {
 						name: '金融资产',
 						url: '/monitor/financial',
 						status: toStatus(rule.menu_jkxx, ['jkxxjrzcgsxm', 'jkxxjrzcjjxm']),
-					  child: [
+						child: [
 							{ id: 'YC020503', name: '股权质押', status: true },
 							{ id: 'YC020501', name: '竞价项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcjjxm') },
 							{ id: 'YC020502', name: '公示项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcgsxm') },
-					  ],
+						],
 					},
 					{
 						id: 'YC0206',
@@ -237,6 +239,14 @@ export default {
 						name: '经营风险',
 						url: '/risk/operate',
 						status: true,
+						child: [
+							{ id: 'YC030301', name: '经营异常', status: false },
+							{ id: 'YC030302', name: '工商变更', status: true },
+							{ id: 'YC030303', name: '严重违法', status: false },
+							{ id: 'YC030304', name: '税收违法', status: false },
+							{ id: 'YC030305', name: '行政处罚', status: true },
+							{ id: 'YC030306', name: '环保处罚', status: false },
+						],
 					},
 				],
 			},
@@ -313,18 +323,24 @@ export default {
 				_RES.push(_item);
 			}
 		});
-		const type = typeof moduleID;
-		if (type === 'string') {
-			return moduleID ? _RES.filter(item => item.id === moduleID)[0] : _RES;
-		} if (type === 'object') {
-			return _RES.filter((item) => {
-				let res = false;
-				moduleID.forEach((i) => {
-					if (i === item.id)res = true;
+
+		const toGetRes = (ary, ID) => {
+			const type = typeof ID;
+			if (type === 'string') {
+				return ID ? ary.filter(item => item.id === ID)[0] : ary;
+			} if (type === 'object') {
+				return ary.filter((item) => {
+					let res = false;
+					ID.forEach((i) => {
+						if (i === item.id)res = true;
+					});
+					return res;
 				});
-				return res;
-			});
-		}
-		return _RES;
+			}
+			return ary;
+		};
+		const ruleObj = toGetRes(_RES, moduleID);
+		if (childID) return ((ruleObj || {}).children || []).filter(item => item.id === childID)[0];
+		return ruleObj;
 	},
 };
