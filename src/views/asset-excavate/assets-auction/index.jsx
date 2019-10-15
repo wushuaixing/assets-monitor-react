@@ -153,6 +153,7 @@ export default class Assets extends React.Component {
 			total: '',
 			manage: false,
 		});
+		this.selectRow = [];
 		this.toClearSortStatus();
 		this.onQueryChange(null, val, '', 1);
 		window.location.href = changeURLArg(window.location.href, 'process', val);

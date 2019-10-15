@@ -5,7 +5,7 @@ import { readStatus } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
 import { floatFormat } from '@/utils/format';
 import { linkDom } from '@/utils';
-import { Table } from '@/common';
+import { Table, SelectedNum } from '@/common';
 // 获取表格配置
 const columns = (props) => {
 	const {
@@ -121,6 +121,7 @@ export default class TableView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}

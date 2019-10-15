@@ -303,6 +303,7 @@ export default class Lawsuits extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
+
 		return (
 			<div className="yc-assets-auction">
 				{sourceType === 1 ? <QueryResult onQueryChange={this.onQuery} /> : null}

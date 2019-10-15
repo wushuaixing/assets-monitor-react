@@ -211,10 +211,10 @@ class FINANCE extends React.Component {
 				<div className="yc-content-header">
 					<div className="yc-query-item">
 						<Input
-							title="全文"
+							title="债务人"
 							style={_style1}
 							size="large"
-							placeholder="标题/关键字"
+							placeholder="企业债务人名称"
 							{...getFieldProps('content', {
 								initialValue: params.content,
 								getValueFromEvent: e => e.trim(),
@@ -223,10 +223,10 @@ class FINANCE extends React.Component {
 					</div>
 					<div className="yc-query-item">
 						<Input
-							title="项目名称"
+							title="案号/标题"
 							style={_style1}
 							size="large"
-							placeholder="处置法院/单位"
+							placeholder="破产案号/公告标题"
 							{...getFieldProps('title', {
 								initialValue: params.title,
 								getValueFromEvent: e => e.trim(),
@@ -234,41 +234,19 @@ class FINANCE extends React.Component {
 						/>
 					</div>
 					<div className="yc-query-item">
-						<span className="yc-query-item-title">挂牌起始日期: </span>
-						<DatePicker
-							{...getFieldProps('startTime', {
-								// initialValue: params.startTime,
-								onChange: (value, dateString) => {
-									console.log(value, dateString);
-									this.setState({
-										startTime: dateString,
-									});
-								},
-							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
+						<Input
+							title="受理法院"
+							style={_style1}
 							size="large"
-							style={_style2}
-							placeholder="开始日期"
-						/>
-						<span className="yc-query-item-title">至</span>
-						<DatePicker
-							{...getFieldProps('endTime', {
-								// initialValue: params.endTime,
-								onChange: (value, dateString) => {
-									console.log(value, dateString);
-									this.setState({
-										endTime: dateString,
-									});
-								},
+							placeholder="案件受理法院名称"
+							{...getFieldProps('court', {
+								initialValue: params.court,
+								getValueFromEvent: e => e.trim(),
 							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
-							size="large"
-							style={_style2}
-							placeholder="结束日期"
 						/>
 					</div>
 					<div className="yc-query-item">
-						<span className="yc-query-item-title">挂牌期满日期: </span>
+						<span className="yc-query-item-title">发布日期: </span>
 						<DatePicker
 							{...getFieldProps('startTime', {
 								// initialValue: params.startTime,

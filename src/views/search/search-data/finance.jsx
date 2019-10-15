@@ -50,7 +50,7 @@ class FINANCE extends React.Component {
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
 			// 将值传到URL
-			navigate(generateUrlWithParams('/search/detail/writ', fildes));
+			navigate(generateUrlWithParams('/search/detail/finance', fildes));
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
@@ -77,14 +77,14 @@ class FINANCE extends React.Component {
 						<Input
 							title="全文"
 							placeholder="全文搜索关键词"
-							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('content', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ width: 243 }}>
 						<Input
 							title="项目名称"
 							placeholder="项目标题"
-							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('title', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 				</div>

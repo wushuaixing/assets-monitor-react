@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Pagination, message, Tooltip,
 } from 'antd';
-import { Table } from '@/common';
+import { Table, SelectedNum } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
 import { linkDom } from '@/utils';
@@ -233,6 +233,7 @@ export default class TableView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}

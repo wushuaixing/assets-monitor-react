@@ -4,7 +4,7 @@ import { Attentions } from '@/common/table';
 import api from '@/utils/api/monitor-info/finance';
 import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
 import { SortVessel } from '@/common/table';
-import { Table } from '@/common';
+import { Table, SelectedNum } from '@/common';
 // import { Button } from '@/common';
 // import { floatFormat } from '@/utils/format';
 
@@ -91,6 +91,7 @@ export default class TableView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					rowClassName={() => 'yc-assets-auction-table-row'}

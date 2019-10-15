@@ -50,7 +50,7 @@ class BANKRUPTCY extends React.Component {
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
 			// 将值传到URL
-			navigate(generateUrlWithParams('/search/detail/writ', fildes));
+			navigate(generateUrlWithParams('/search/detail/bankruptcy', fildes));
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
@@ -77,14 +77,14 @@ class BANKRUPTCY extends React.Component {
 						<Input
 							title="企业"
 							placeholder="企业名称"
-							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('content', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ marginRight: 16, width: 243 }}>
 						<Input
 							title="案号/标题"
 							placeholder="破产案号/公告标题"
-							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('title', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ width: 243 }}>

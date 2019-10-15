@@ -14,7 +14,7 @@ import {
 	postDeleteBatch, // 批量删除
 } from '@/utils/api/business';
 import {
-	Input, Button, Spin, timeRule, Download,
+	Input, Button, Spin, timeRule, Download, SelectedNum,
 } from '@/common';
 import './style.scss';
 
@@ -527,6 +527,7 @@ class BusinessView extends React.Component {
 							<Icon className="yc-business-icon" type="question-circle-o" />
 						</Tooltip>
 					</div>
+					{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 					<Spin visible={loading}>
 						<TableList stateObj={this.state} selectData={selectData} dataList={dataList} rowSelection={rowSelection} getData={this.getData} openPeopleModal={this.openPeopleModal} />
 						{dataList && dataList.length > 0 && (

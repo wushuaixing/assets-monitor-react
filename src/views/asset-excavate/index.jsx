@@ -24,18 +24,18 @@ const toGetRuth = (moduleID) => {
 	const result = toGetRuleSource(global.ruleSource, moduleID);
 	// console.log(result.children);
 	return result.children.map((item) => {
-	  const _item = item;
-	  let components = '';
-	  if (item.id === `${moduleID}01`) components = Assets;
-	  else if (item.id === `${moduleID}02`) components = Subrogation;
-	  else if (item.id === `${moduleID}03`) components = LandData;
-	  else if (item.id === `${moduleID}04`) components = Tender;
-	  else if (item.id === `${moduleID}05`) components = Financial;
-	  else if (item.id === `${moduleID}06`) components = Mortgage;
-	  else components = noPage;
-	  _item.paramUrl = item.paramUrl || '';
-	  _item.components = components;
-	  return _item;
+		const _item = item;
+		let components = '';
+		if (item.id === `${moduleID}01`) components = Assets;
+		else if (item.id === `${moduleID}02`) components = Subrogation;
+		else if (item.id === `${moduleID}03`) components = LandData;
+		else if (item.id === `${moduleID}04`) components = Tender;
+		else if (item.id === `${moduleID}05`) components = Financial;
+		else if (item.id === `${moduleID}06`) components = Mortgage;
+		else components = noPage;
+		_item.paramUrl = item.paramUrl || '';
+		_item.components = components;
+		return _item;
 	});
 };
 
@@ -104,8 +104,8 @@ class MonitorMain extends React.Component {
 						/>
 					)}
 					onActive={(val) => {
-					  console.log(val);
-					  this.sourceType = val;
+						console.log(val);
+						this.sourceType = val;
 					}}
 					onChange={res => navigate(res.url + res.paramUrl || '')}
 					source={source}

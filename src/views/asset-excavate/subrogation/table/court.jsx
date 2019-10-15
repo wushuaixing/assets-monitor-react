@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { timeStandard } from '@/utils';
-import { Table } from '@/common';
+import { Table, SelectedNum } from '@/common';
 import { partyInfo } from '@/views/_common';
 import associationLink from '@/views/_common/association-link';
 import { Court } from '@/utils/api/monitor-info/subrogation';
@@ -123,6 +123,7 @@ export default class TableView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}

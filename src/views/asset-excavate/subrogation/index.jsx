@@ -207,6 +207,7 @@ export default class Subrogation extends React.Component {
 			total: '',
 			isRead: 'all',
 		});
+		this.selectRow = [];
 		this.toClearSortStatus();
 		this.onQueryChange('', sourceType, 'all', 1);
 		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
@@ -215,7 +216,7 @@ export default class Subrogation extends React.Component {
 	// 当前页数变化
 	onPageChange=(val) => {
 		const { manage } = this.state;
-		this.selectRow = [];
+		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 

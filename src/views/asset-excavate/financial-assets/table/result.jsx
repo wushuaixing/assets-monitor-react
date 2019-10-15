@@ -3,7 +3,7 @@ import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatusResult } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
-import { Table } from '@/common';
+import { Table, SelectedNum } from '@/common';
 // import { floatFormat } from '@/utils/format';
 import { linkDom } from '@/utils';
 
@@ -189,6 +189,7 @@ export default class TableView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}

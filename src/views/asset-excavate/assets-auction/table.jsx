@@ -5,11 +5,10 @@ import {
 import { Attentions } from '@/common/table';
 import { followSingle, unFollowSingle } from '@/utils/api/monitor-info/assets';
 import { processSave } from '@/utils/api/monitor-info/assets-follow';
-import { Table } from '@/common';
 import {
 	AssetsInfo, MatchingReason, AuctionInfo,
 } from '@/views/asset-excavate/assets-auction/tableComponents';
-import { Button } from '@/common';
+import { Button, Table, SelectedNum } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
 import FollowModel from './follow-info';
@@ -154,10 +153,10 @@ export default class TableView extends React.Component {
 				onChange: this.onSelectChange,
 			},
 		} : null;
-		console.log(dataSource);
 
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					rowClassName={() => 'yc-assets-auction-table-row'}

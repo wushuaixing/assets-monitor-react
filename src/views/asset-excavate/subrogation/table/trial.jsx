@@ -5,7 +5,7 @@ import { Trial } from '@/utils/api/monitor-info/subrogation';
 import { timeStandard } from '@/utils';
 import { partyInfo } from '@/views/_common';
 import associationLink from '@/views/_common/association-link';
-import { Table } from '@/common';
+import { Table, SelectedNum } from '@/common';
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -128,6 +128,7 @@ export default class TableView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}
