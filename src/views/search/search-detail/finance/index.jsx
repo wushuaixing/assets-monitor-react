@@ -39,7 +39,6 @@ class FINANCE extends React.Component {
 	componentDidMount() {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
-		console.log(params);
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 		this.setState({
 			params,
@@ -50,6 +49,10 @@ class FINANCE extends React.Component {
 		if (Object.keys(params).length !== 0) {
 			this.getData(params); // 进入页面请求数据
 		}
+	}
+
+	componentWillUpdate() {
+		window.scrollTo(0, 0); // 回到顶部
 	}
 
 	componentWillUnmount() {

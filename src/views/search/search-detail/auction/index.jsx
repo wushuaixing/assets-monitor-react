@@ -67,6 +67,10 @@ class AUCTION extends React.Component {
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
+	componentWillUpdate() {
+		window.scrollTo(0, 0); // 回到顶部
+	}
+
 	componentWillUnmount() {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}

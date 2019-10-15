@@ -52,6 +52,10 @@ class FINANCE extends React.Component {
 		}
 	}
 
+	componentWillUpdate() {
+		window.scrollTo(0, 0); // 回到顶部
+	}
+
 	componentWillUnmount() {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}
