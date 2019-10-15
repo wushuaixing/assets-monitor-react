@@ -242,7 +242,8 @@ class BusinessDebtor extends React.Component {
 					<Button onClick={this.search} size="large" type="common" style={{ width: 84 }}>查询</Button>
 					<Button onClick={this.queryReset} size="large" style={{ width: 120, marginRight: 0 }}>重置查询条件</Button>
 				</div>
-				<div className="yc-split-hr" />
+				{/* 分隔下划线 */}
+				<div className="yc-noTab-hr" />
 				<div className="yc-business-tablebtn">
 					<Download condition={() => this.toExportCondition('all')} style={{ float: 'right', marginRight: 0 }} api={exportExcel} all text="一键导出" />
 				</div>

@@ -282,6 +282,8 @@ export default class Subrogation extends React.Component {
 				{ sourceType === 1 ?	<QueryBidding onQueryChange={this.onQuery} /> : null}
 				{ sourceType === 2 ?	<QueryPublicity onQueryChange={this.onQuery} /> : null}
 				{ sourceType === 3 ?	<QueryResult onQueryChange={this.onQuery} /> : null}
+				{/* 分隔下划线 */}
+				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}

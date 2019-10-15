@@ -113,7 +113,7 @@ const columns = (props) => {
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>登记日期</span>
 				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
 			dataIndex: 'regDate',
-			width: 130,
+			width: 110,
 			render: (text, record) => ReadStatus(text || '-', record),
 		}, {
 			title: '抵押物所有人',
@@ -161,7 +161,7 @@ const columns = (props) => {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
-			width: 130,
+			width: 110,
 			render: text => <span>{text || '-'}</span>,
 		}, {
 			title: '操作',

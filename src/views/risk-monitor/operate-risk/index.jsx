@@ -28,7 +28,7 @@ const toGetConfig = () => {
 			dot: false,
 			number: 0,
 			showNumber: false,
-			status: false,
+			status: true,
 		},
 		{
 			id: 2,
@@ -44,7 +44,7 @@ const toGetConfig = () => {
 			number: 0,
 			dot: false,
 			showNumber: false,
-			status: false,
+			status: true,
 		},
 		{
 			id: 4,
@@ -77,6 +77,7 @@ const toGetConfig = () => {
 class BusinessRisk extends Component {
 	constructor(props) {
 		super(props);
+		document.title = '经营风险-风险监控';
 		this.state = {
 			sourceType: 2, // 切换id
 			current: 1,
@@ -267,7 +268,8 @@ class BusinessRisk extends Component {
 					{sourceType === 5 ? <QueryPenalties {...queryProps} /> : null}
 					{sourceType === 6 ? <QueryEnvironmentalPunishment {...queryProps} /> : null}
 				</div>
-
+				{/* 分隔下划线 */}
+				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}
@@ -296,7 +298,7 @@ class BusinessRisk extends Component {
 							/>
 						</div>
 					) : (
-						<div className="yc-businessRisk-action">
+						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								text="导出"

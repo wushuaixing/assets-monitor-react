@@ -308,6 +308,8 @@ export default class Lawsuits extends React.Component {
 				{sourceType === 1 ? <QueryResult onQueryChange={this.onQuery} /> : null}
 				{sourceType === 2 ? <QueryTransfer onQueryChange={this.onQuery} /> : null}
 				{sourceType === 3 ? <QueryMortgage onQueryChange={this.onQuery} /> : null}
+				{/* 分隔下划线 */}
+				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}

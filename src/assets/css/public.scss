@@ -793,3 +793,14 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   max-height: 700px;
   overflow-y: auto;
 }
+
+// 分割线
+.yc-haveTab-hr {
+  border-bottom: 1px solid $background-line;
+  margin: 4px 0 8px;
+}
+
+.yc-noTab-hr {
+  border-bottom: 1px solid $background-line;
+  margin-top: 4px;
+}

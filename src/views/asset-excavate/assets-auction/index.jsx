@@ -255,6 +255,9 @@ export default class Assets extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				<Query onQueryChange={this.onQuery} />
+
+				{/* 分隔下划线 */}
+				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}

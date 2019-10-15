@@ -747,6 +747,8 @@ class LAWSUITS extends React.Component {
 						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 				</div>
+				{/* 分隔下划线 */}
+				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}

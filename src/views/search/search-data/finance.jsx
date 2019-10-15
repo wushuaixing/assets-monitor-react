@@ -1,69 +1,176 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-	Button, Input, message,
+	DatePicker, Button, Form, message,
 } from 'antd';
 import { navigate } from '@reach/router';
+import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
+import { Input, timeRule } from '@/common';
+import './style.scss';
 
-/**
- * 拼接参数，跳转到查询详情
- * @param props
- */
-const doSearch = (router, props) => {
-	if (props && props instanceof Array) {
-		let params = '';
-		props.map((item) => {
-			if (params === '') {
-				params = item;
-			} else {
-				params = `${params}&${item}`;
+const createForm = Form.create;
+const _style1 = { width: 116 };
+class FINANCE extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			startTime: '',
+			endTime: '',
+		};
+	}
+
+	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.search();
+				document.activeElement.blur();
 			}
-			return item;
+		}
+	};
+
+	// 搜索
+	search = () => {
+		const { form } = this.props; // 会提示props is not defined
+		const { startTime, endTime } = this.state;
+		const { getFieldsValue } = form;
+		const fildes = getFieldsValue();
+		fildes.publishStart = startTime;
+		fildes.publishEnd = endTime;
+
+		// 判断是否为空对象,非空请求接口
+		if (!objectKeyIsEmpty(fildes)) {
+			// 将值传到URL
+			navigate(generateUrlWithParams('/search/detail/writ', fildes));
+		} else {
+			message.error('请至少输入一个搜索条件');
+		}
+	}
+
+	// 重置输入框
+	queryReset = () => {
+		const { form } = this.props; // 会提示props is not defined
+		const { resetFields } = form;
+		this.setState({
+			startTime: undefined,
+			endTime: undefined,
 		});
-		navigate(`/search/detail/${router}?${params}`);
+		resetFields('');
 	}
-};
 
-const toKeyCode13 = (e) => {
-	const { value } = e.target;
-	const event = e || window.event;
-	const key = event.keyCode || event.which || event.charCode;
-	if (key === 13) {
-		doSearch('finance', [`content=${value}`]);
-		document.activeElement.blur();
-	}
-};
-const Datas = (props) => {
-	const { router } = props;
-	const [keywords, setKeywords] = useState(null);
-
-	return (
-		<div className="select-search">
-			<div className="select">
-				<p className="financial">全文</p>
+	render() {
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldProps, getFieldValue } = form;
+		return (
+			<div className="yc-tabs-data">
+				<div className="yc-tabs-items">
+					<div className="item" style={{ marginRight: 16, width: 243 }}>
+						<Input
+							title="全文"
+							placeholder="案件内容提要"
+							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
+						/>
+					</div>
+					<div className="item" style={{ width: 243 }}>
+						<Input
+							title="项目名称"
+							placeholder="法院名称"
+							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
+						/>
+					</div>
+				</div>
+				<div className="other">
+					<span>发布日期：</span>
+					<DatePicker
+						placeholder="开始日期"
+						size="large"
+						style={_style1}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
+						{...getFieldProps('publishStart', {
+							onChange: (value, dateString) => {
+								console.log(value, dateString);
+								this.setState({
+									startTime: dateString,
+								});
+							},
+						})}
+						allowClear
+					/>
+					<span style={{ margin: '0 2px ' }}>至</span>
+					<DatePicker
+						placeholder="结束日期"
+						size="large"
+						style={_style1}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
+						{...getFieldProps('publishEnd', {
+							onChange: (value, dateString) => {
+								console.log(value, dateString);
+								this.setState({
+									endTime: dateString,
+								});
+							},
+						})}
+						allowClear
+					/>
+				</div>
+				<div className="other">
+					<span>发布日期：</span>
+					<DatePicker
+						placeholder="开始日期"
+						size="large"
+						style={_style1}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
+						{...getFieldProps('publishStart', {
+							onChange: (value, dateString) => {
+								console.log(value, dateString);
+								this.setState({
+									startTime: dateString,
+								});
+							},
+						})}
+						allowClear
+					/>
+					<span style={{ margin: '0 2px ' }}>至</span>
+					<DatePicker
+						placeholder="结束日期"
+						size="large"
+						style={_style1}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
+						{...getFieldProps('publishEnd', {
+							onChange: (value, dateString) => {
+								console.log(value, dateString);
+								this.setState({
+									endTime: dateString,
+								});
+							},
+						})}
+						allowClear
+					/>
+				</div>
+				<div className="btn">
+					<Button
+						type="primary"
+						size="large"
+						className="yc-high-search"
+						onClick={this.search}
+					>
+						搜索
+					</Button>
+					<Button onClick={this.queryReset} type="ghost" size="large">
+						重置搜索条件
+					</Button>
+				</div>
 			</div>
-			<Input
-				onKeyUp={toKeyCode13}
-				placeholder="标题、关键字"
-				value={keywords}
-				onChange={(e) => {
-					setKeywords(e.target.value);
-				}}
-			/>
-			<Button
-				type="primary"
-				size="large"
-				className="red-search"
-				onClick={() => {
-					if (keywords) {
-						doSearch(router, [`content=${keywords}`]);
-					} else {
-						message.error('请输入一个搜索条件');
-					}
-				}}
-			>
-				搜索
-			</Button>
-		</div>
-	);
-};
-export default Datas;
+		);
+	}
+}
+export default createForm()(FINANCE);

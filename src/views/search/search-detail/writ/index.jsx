@@ -397,6 +397,8 @@ class WRIT extends React.Component {
 							</Button>
 						</div>
 					</div>
+					{/* 分隔下划线 */}
+					<div className="yc-noTab-hr" />
 					<div className="yc-writ-tablebtn">
 						{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportWritCurrent} current page num text="本页导出" />}
 						<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportWritAll} all page num text="全部导出" />

@@ -11,6 +11,8 @@ import checkoutIcon from '@/assets/img/icon/icon_checked.png';
 import './style.scss';
 
 const createForm = Form.create;
+const _style1 = { width: 116 };
+
 class LAWSUITS extends React.Component {
 	constructor(props) {
 		super(props);
@@ -304,12 +306,12 @@ class LAWSUITS extends React.Component {
 							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item" style={{ 'margin-right': 0, width: 303 }}>
+					<div className="item" style={{ 'margin-right': 0, width: 316 }}>
 						<span>日期选择：</span>
 						<DatePicker
 							placeholder="开始日期"
 							size="large"
-							style={{ width: 112 }}
+							style={_style1}
 							{...getFieldProps('uploadTimeStart', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -325,7 +327,7 @@ class LAWSUITS extends React.Component {
 						<DatePicker
 							placeholder="结束日期"
 							size="large"
-							style={{ width: 112 }}
+							style={_style1}
 							{...getFieldProps('uploadTimeEnd', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);

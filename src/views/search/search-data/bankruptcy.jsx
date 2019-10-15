@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, message, Select,
+	DatePicker, Button, Form, message,
 } from 'antd';
 import { navigate } from '@reach/router';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
@@ -8,10 +8,8 @@ import { Input, timeRule } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
-const _style1 = { width: 120 };
-const _style2 = { width: 116 };
-const { Option } = Select;
-class WRIT extends React.Component {
+const _style1 = { width: 116 };
+class BANKRUPTCY extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -75,17 +73,6 @@ class WRIT extends React.Component {
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
-					<div className="item" style={{ width: 761 }}>
-						<Input
-							title="全文"
-							placeholder="姓名、公司名称、关键字"
-							{...getFieldProps('content', {
-								getValueFromEvent: e => e.trim().replace(/\s+/g, ' '),
-							})}
-						/>
-					</div>
-				</div>
-				<div className="yc-tabs-items">
 					<div className="item" style={{ marginRight: 16, width: 243 }}>
 						<Input
 							title="案号"
@@ -113,7 +100,7 @@ class WRIT extends React.Component {
 					<DatePicker
 						placeholder="开始日期"
 						size="large"
-						style={_style2}
+						style={_style1}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
 						{...getFieldProps('publishStart', {
 							onChange: (value, dateString) => {
@@ -129,7 +116,7 @@ class WRIT extends React.Component {
 					<DatePicker
 						placeholder="结束日期"
 						size="large"
-						style={_style2}
+						style={_style1}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
 						{...getFieldProps('publishEnd', {
 							onChange: (value, dateString) => {
@@ -141,27 +128,6 @@ class WRIT extends React.Component {
 						})}
 						allowClear
 					/>
-				</div>
-				<div className="other">
-					<span>案件类型：</span>
-					<Select
-						size="large"
-						allowClear
-						style={_style1}
-						placeholder="请选择案件类型"
-						{...getFieldProps('caseType', {})}
-					>
-						<Option value="刑事案件">刑事案件</Option>
-						<Option value="民事案件">民事案件</Option>
-						<Option value="行政案件">行政案件</Option>
-						<Option value="赔偿案件">赔偿案件</Option>
-						<Option value="执行案件">执行案件</Option>
-						<Option value="知识产权">知识产权</Option>
-						<Option value="商事">商事</Option>
-						<Option value="海事海商">海事海商</Option>
-						<Option value="申诉">申诉</Option>
-						<Option value="其他">其他</Option>
-					</Select>
 				</div>
 				<div className="btn">
 					<Button
@@ -180,4 +146,4 @@ class WRIT extends React.Component {
 		);
 	}
 }
-export default createForm()(WRIT);
+export default createForm()(BANKRUPTCY);

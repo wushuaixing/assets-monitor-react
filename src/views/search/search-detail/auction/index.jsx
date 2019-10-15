@@ -490,6 +490,8 @@ class AUCTION extends React.Component {
 						<Button onClick={this.queryReset} size="large" style={{ width: 110, marginRight: 0 }}>重置查询条件</Button>
 					</div>
 				</div>
+				{/* 分隔下划线 */}
+				<div className="yc-noTab-hr" />
 				<div className="yc-auction-tablebtn">
 					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={fullAssetSearchExport} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={fullAssetSearchExport} all page num text="全部导出" />

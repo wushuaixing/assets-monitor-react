@@ -32,6 +32,13 @@ const tabSource = rule => ([
 		display: !!(rule && rule.xxssjrzc),
 		types: [],
 	},
+	{
+		id: 5,
+		name: '破产重组',
+		router: 'bankruptcy',
+		display: !!(rule && rule.xxssjrzc),
+		types: [],
+	},
 ]);
 const HomeRouter = (props) => {
 	const { rule } = props && props;

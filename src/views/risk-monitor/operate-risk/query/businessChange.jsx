@@ -9,7 +9,7 @@ import {
 const createForm = Form.create;
 
 const _style1 = { width: 278 };
-const _style2 = { width: 160 };
+const _style2 = { width: 100 };
 class BusinessChange extends Component {
 	constructor(props) {
 		super(props);

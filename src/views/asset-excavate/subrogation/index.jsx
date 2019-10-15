@@ -296,6 +296,8 @@ export default class Subrogation extends React.Component {
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}
 				<QueryView onQueryChange={this.onQuery} sourceType={sourceType} />
+				{/* 分隔下划线 */}
+				<div className="yc-haveTab-hr" />
 				{/* tab切换 */}
 				<Tabs.Simple
 					onChange={this.onSourceType}

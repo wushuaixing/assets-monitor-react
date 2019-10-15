@@ -12,7 +12,7 @@ import './style.scss';
 
 const createForm = Form.create;
 const _style1 = { marginRight: 27, width: 240 };
-const _style2 = { width: 120 };
+const _style2 = { width: 116 };
 const _style3 = { width: 240 };
 class AUCTION extends React.PureComponent {
 	constructor(props) {
@@ -183,7 +183,7 @@ class AUCTION extends React.PureComponent {
 				<div className="other">
 					<span>拍卖状态：</span>
 					<Select
-						style={_style2}
+						style={{ width: 120 }}
 						placeholder="请选择拍卖状态"
 						size="large"
 						{...getFieldProps('status', {

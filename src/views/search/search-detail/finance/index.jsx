@@ -2,10 +2,15 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
-import { Form, Pagination, message } from 'antd';
+import {
+	Form, Pagination, message, DatePicker,
+} from 'antd';
+
 import { navigate } from '@reach/router';
 import { getQueryByName, generateUrlWithParams } from '@/utils';
-import { Spin, Input, Button } from '@/common';
+import {
+	timeRule, Spin, Input, Button,
+} from '@/common';
 import FinanceTable from './table';
 import {
 	finance, // 列表
@@ -14,7 +19,8 @@ import {
 import './style.scss';
 
 const createForm = Form.create;
-const _style1 = { width: 900 };
+const _style1 = { width: 278 };
+const _style2 = { width: 100 };
 class FINANCE extends React.Component {
 	constructor(props) {
 		super(props);
@@ -194,10 +200,11 @@ class FINANCE extends React.Component {
 
 	render() {
 		const {
-			loading, totals, current, dataList, page, pageSize,
+			loading, totals, current, dataList, page, pageSize, startTime, endTime,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps } = form;
+		const { getFieldProps, getFieldValue } = form;
+		console.log(endTime, startTime);
 
 		return (
 			<div className="yc-content-query">
@@ -211,6 +218,86 @@ class FINANCE extends React.Component {
 							{...getFieldProps('content', {
 								getValueFromEvent: e => e.trim(),
 							})}
+						/>
+					</div>
+					<div className="yc-query-item">
+						<Input
+							title="处置机关"
+							style={_style1}
+							size="large"
+							placeholder="处置法院/单位"
+							{...getFieldProps('court', {
+								// initialValue: params.court,
+								getValueFromEvent: e => e.trim(),
+							})}
+						/>
+					</div>
+					<div className="yc-query-item">
+						<span className="yc-query-item-title">开拍时间: </span>
+						<DatePicker
+							{...getFieldProps('startTime', {
+								// initialValue: params.startTime,
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										startTime: dateString,
+									});
+								},
+							})}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
+							size="large"
+							style={_style2}
+							placeholder="开始日期"
+						/>
+						<span className="yc-query-item-title">至</span>
+						<DatePicker
+							{...getFieldProps('endTime', {
+								// initialValue: params.endTime,
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										endTime: dateString,
+									});
+								},
+							})}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
+							size="large"
+							style={_style2}
+							placeholder="结束日期"
+						/>
+					</div>
+					<div className="yc-query-item">
+						<span className="yc-query-item-title">开拍时间: </span>
+						<DatePicker
+							{...getFieldProps('startTime', {
+								// initialValue: params.startTime,
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										startTime: dateString,
+									});
+								},
+							})}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
+							size="large"
+							style={_style2}
+							placeholder="开始日期"
+						/>
+						<span className="yc-query-item-title">至</span>
+						<DatePicker
+							{...getFieldProps('endTime', {
+								// initialValue: params.endTime,
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										endTime: dateString,
+									});
+								},
+							})}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
+							size="large"
+							style={_style2}
+							placeholder="结束日期"
 						/>
 					</div>
 					<div className="yc-query-item yc-query-item-btn">

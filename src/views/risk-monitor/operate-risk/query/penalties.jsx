@@ -9,7 +9,7 @@ import {
 const createForm = Form.create;
 
 const _style1 = { width: 278 };
-const _style2 = { width: 160 };
+const _style2 = { width: 100 };
 class Penalties extends Component {
 	constructor(props) {
 		super(props);
@@ -99,7 +99,7 @@ class Penalties extends Component {
 						/>
 					</div>
 
-					<div className="yc-query-item">
+					<div className="yc-query-item" style={{ marginRight: 0 }}>
 						<Input
 							title="决定机关"
 							style={_style1}

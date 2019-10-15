@@ -203,6 +203,8 @@ export default class Lawsuits extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				<QueryView onQueryChange={this.onQuery} />
+				{/* 分隔下划线 */}
+				<div className="yc-noTab-hr" />
 				{
 					!manage ? (
 						<div className="assets-auction-action">
