@@ -420,6 +420,7 @@ class WRIT extends React.Component {
 							SortTime={this.SortTime}
 							Sort={Sort}
 						/>
+						{dataList && dataList.length > 0 && (
 						<div className="yc-table-pagination">
 							<Pagination
 								total={totals && totals > 1000 ? 1000 : totals}
@@ -431,13 +432,14 @@ class WRIT extends React.Component {
 								onShowSizeChange={this.onShowSizeChange}
 								showTotal={() => `共 ${totals} 条记录`}
 								onChange={(val) => {
-								// 存在数据才允许翻页
+									// 存在数据才允许翻页
 									if (dataList.length > 0) {
 										this.handleChangePage(val);
 									}
 								}}
 							/>
 						</div>
+						)}
 						{page === 100 && (
 						<span style={{
 							color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,

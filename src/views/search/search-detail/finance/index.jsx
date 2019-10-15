@@ -310,6 +310,7 @@ class FINANCE extends React.Component {
 				</div>
 				<Spin visible={loading}>
 					<FinanceTable stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
+					{dataList && dataList.length > 0 && (
 					<div className="yc-table-pagination">
 						<Pagination
 							total={totals && totals > 1000 ? 1000 : totals}
@@ -328,6 +329,7 @@ class FINANCE extends React.Component {
 							}}
 						/>
 					</div>
+					)}
 					{page === 100 && (
 					<span style={{
 						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,

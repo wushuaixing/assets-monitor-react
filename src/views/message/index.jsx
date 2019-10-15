@@ -354,18 +354,20 @@ class InformCenter extends React.Component {
 							pagination={false}
 							rowKey={record => record.id}
 						/>
-						<div className="yc-table-pagination">
-							<Pagination
-								total={tabTotal}
-								current={current}
-								defaultPageSize={10} // 默认条数
-								showQuickJumper
-								showTotal={total => `共 ${total} 条记录`}
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
-							/>
-						</div>
+						{data && data.length > 0 && (
+							<div className="yc-table-pagination">
+								<Pagination
+									total={tabTotal}
+									current={current}
+									defaultPageSize={10} // 默认条数
+									showQuickJumper
+									showTotal={total => `共 ${total} 条记录`}
+									onChange={(val) => {
+										this.handleChangePage(val);
+									}}
+								/>
+							</div>
+						)}
 					</Spin>
 				</div>
 			</div>

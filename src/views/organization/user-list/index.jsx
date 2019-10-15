@@ -243,18 +243,20 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
-						<div className="yc-table-pagination ">
-							<Pagination
-								current={current}
-								pageSize={pageSize}
-								total={total}
-								showTotal={val => `共 ${val} 条记录`}
-								showQuickJumper
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
-							/>
-						</div>
+						{data && data.length > 0 && (
+							<div className="yc-table-pagination ">
+								<Pagination
+									current={current}
+									pageSize={pageSize}
+									total={total}
+									showTotal={val => `共 ${val} 条记录`}
+									showQuickJumper
+									onChange={(val) => {
+										this.handleChangePage(val);
+									}}
+								/>
+							</div>
+						)}
 					</Spin>
 				</div>
 			</div>

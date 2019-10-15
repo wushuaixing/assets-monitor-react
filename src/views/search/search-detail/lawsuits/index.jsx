@@ -776,6 +776,7 @@ class LAWSUITS extends React.Component {
 						Sort={Sort}
 						type={type}
 					/>
+					{dataList && dataList.length > 0 && (
 					<div className="yc-table-pagination">
 						<Pagination
 							total={totals && totals > 1000 ? 1000 : totals}
@@ -794,6 +795,7 @@ class LAWSUITS extends React.Component {
 							}}
 						/>
 					</div>
+					)}
 					{page === 100 && (
 					<span style={{
 						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,

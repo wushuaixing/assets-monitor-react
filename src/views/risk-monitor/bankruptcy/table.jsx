@@ -146,15 +146,17 @@ export default class TableView extends React.Component {
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
-				<div className="yc-table-pagination">
-					<Pagination
-						showQuickJumper
-						current={current || 1}
-						total={total || 0}
-						onChange={onPageChange}
-						showTotal={totalCount => `共 ${totalCount} 条信息`}
-					/>
-				</div>
+				{dataSource && dataSource.length > 0 && (
+					<div className="yc-table-pagination">
+						<Pagination
+							showQuickJumper
+							current={current || 1}
+							total={total || 0}
+							onChange={onPageChange}
+							showTotal={totalCount => `共 ${totalCount} 条信息`}
+						/>
+					</div>
+				)}
 				{/** 修改密码Modal */}
 				{registerModalVisible && (
 					<RegisterModal

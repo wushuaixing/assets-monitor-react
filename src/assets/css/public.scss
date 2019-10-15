@@ -804,3 +804,8 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   border-bottom: 1px solid $background-line;
   margin-top: 4px;
 }
+
+// 无数据时不展示分页器和下分割线
+.ant-table-placeholder {
+  border-bottom: 0;
+}

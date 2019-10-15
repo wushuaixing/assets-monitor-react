@@ -243,6 +243,7 @@ export default class TableView extends React.Component {
 					rowClassName={record => (record.isRead === 1 ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
+				{dataSource && dataSource.length > 0 && (
 				<div className="yc-table-pagination">
 					<Pagination
 						showQuickJumper
@@ -252,6 +253,7 @@ export default class TableView extends React.Component {
 						showTotal={totalCount => `共 ${totalCount} 条信息`}
 					/>
 				</div>
+				)}
 			</React.Fragment>
 		);
 	}

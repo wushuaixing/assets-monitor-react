@@ -249,18 +249,20 @@ class BusinessDebtor extends React.Component {
 				</div>
 				<Spin visible={loading}>
 					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} />
-					<div className="yc-table-pagination">
-						<Pagination
-							total={totals}
-							current={current}
-							defaultPageSize={10} // 默认条数
-							showQuickJumper
-							showTotal={total => `共 ${total} 条记录`}
-							onChange={(val) => {
-								this.handleChangePage(val);
-							}}
-						/>
-					</div>
+					{dataList && dataList.length > 0 && (
+						<div className="yc-table-pagination">
+							<Pagination
+								total={totals}
+								current={current}
+								defaultPageSize={10} // 默认条数
+								showQuickJumper
+								showTotal={total => `共 ${total} 条记录`}
+								onChange={(val) => {
+									this.handleChangePage(val);
+								}}
+							/>
+						</div>
+					)}
 				</Spin>
 			</div>
 		);

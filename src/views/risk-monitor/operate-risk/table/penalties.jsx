@@ -147,6 +147,7 @@ class Penalties extends Component {
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
+				{dataSource && dataSource.length > 0 && (
 				<div className="yc-table-pagination">
 					<Pagination
 						showQuickJumper
@@ -156,6 +157,7 @@ class Penalties extends Component {
 						showTotal={totalCount => `共 ${totalCount} 条信息`}
 					/>
 				</div>
+				)}
 			</Fragment>
 		);
 	}

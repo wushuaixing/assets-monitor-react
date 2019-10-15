@@ -402,6 +402,7 @@ class DebtorDetail extends React.Component {
 								console.log(record);
 							}}
 						/>
+						{changeDataList && changeDataList.length > 0 && (
 						<div className="yc-table-pagination">
 							<Pagination
 								total={totals}
@@ -416,6 +417,7 @@ class DebtorDetail extends React.Component {
 								}}
 							/>
 						</div>
+						)}
 					</Spin>
 				</div>
 			</div>

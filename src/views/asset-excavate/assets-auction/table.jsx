@@ -154,6 +154,8 @@ export default class TableView extends React.Component {
 				onChange: this.onSelectChange,
 			},
 		} : null;
+		console.log(dataSource);
+
 		return (
 			<React.Fragment>
 				<Table
@@ -165,6 +167,7 @@ export default class TableView extends React.Component {
 					onRowClick={this.toRowClick}
 					// rowClassName="yc-assets-auction-table-row"
 				/>
+				{dataSource && dataSource.length > 0 && (
 				<div className="yc-table-pagination">
 					<Pagination
 						showQuickJumper
@@ -174,6 +177,7 @@ export default class TableView extends React.Component {
 						showTotal={totalCount => `共 ${totalCount} 条信息`}
 					/>
 				</div>
+				)}
 				{
 					visible ? (
 						<FollowModel
