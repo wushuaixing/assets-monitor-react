@@ -6,6 +6,7 @@ import { exportFile, normalGet } from '@/utils/api/home';
 import { clearEmpty, urlEncode } from '@/utils';
 import Button from '../button';
 import baseUrl from '@/utils/api/config';
+import ModalTable from '../../views/business/business-views/modalTable';
 
 const cookies = new Cookies();
 export default class Download extends React.Component {
@@ -18,7 +19,7 @@ export default class Download extends React.Component {
 
 	handleDownload=() => {
 		const {
-			api, condition, all, field, current, page, num,
+			api, condition, all, field, current, page, num, selectIds, selectData,
 		} = this.props;
 
 		// 处理变量参数
@@ -58,6 +59,22 @@ export default class Download extends React.Component {
 			Modal.confirm({
 				title: '确认导出当页所有数据吗？',
 				content: '点击确定，将为您导出当页所有数据',
+				iconType: 'exclamation-circle',
+				onOk() {
+					toOkClick();
+				},
+				onCancel() {},
+			});
+		} else if (selectIds) {
+			// console.log('本页导出');
+			Modal.confirm({
+				title: '确认导出选中的所有信息吗？',
+				content: (
+					<div style={{ marginLeft: -37 }}>
+						<div style={{ fontSize: 14, marginBottom: 20 }}>点击确定，将为您导出选中的所有信息。</div>
+						<ModalTable selectData={selectData} getData={this.getData} />
+					</div>
+				),
 				iconType: 'exclamation-circle',
 				onOk() {
 					toOkClick();

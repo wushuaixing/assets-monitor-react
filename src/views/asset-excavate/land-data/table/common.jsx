@@ -8,7 +8,7 @@ const Result = {
 			<div className="assets-info-content">
 				<li>
 					<span className="list list-title align-justify">项目名称：</span>
-					<span className="list list-content text-ellipsis" style={{ color: '#1C80E1' }}>
+					<span className="list list-content text-ellipsis" style={{ color: '#186fc7' }}>
 						{/* {rowContent.projectName || '-'} */}
 						{
 						rowContent.projectName && rowContent.projectName.length > 12

@@ -42,6 +42,8 @@ export default class MyAttention extends React.Component {
 	// 获取数据统计
 	toGetTotal=(type, source) => {
 		const _source = source;
+		console.log(type);
+
 		if (type === 'YC0202') {
 			subrogationCount().then((res) => {
 				_source.child = _source.child.map((item) => {

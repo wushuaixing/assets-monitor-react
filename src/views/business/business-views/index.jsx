@@ -16,6 +16,8 @@ import {
 import {
 	Input, Button, Spin, timeRule, Download, SelectedNum,
 } from '@/common';
+import ModalTable from './modalTable';
+
 import './style.scss';
 
 const cookies = new Cookies();
@@ -70,6 +72,7 @@ class BusinessView extends React.Component {
 			uploadErrorData: '',
 			page: '',
 			errorLoading: false,
+			_selectedRowKeys: [],
 		};
 	}
 
@@ -261,9 +264,18 @@ class BusinessView extends React.Component {
 	}
 
 	onSelectChange = (selectedRowKeys, selectedRows) => {
+		// 维护一个 selectedRowsArray 来保存之前的数据。
+		const selectedRowsArray = selectedRowKeys.map(item => JSON.parse(item));
+
+		// 获取id数组
+		const _selectedRowKeys = selectedRowsArray.map(item => item.id);
+
+		console.log(selectedRows, _selectedRowKeys);
+
 		this.setState({
 			selectedRowKeys,
-			selectData: selectedRows,
+			_selectedRowKeys,
+			selectData: selectedRowsArray,
 		});
 	};
 
@@ -287,24 +299,28 @@ class BusinessView extends React.Component {
 	// 批量删除
 	handledDeleteBatch = () => {
 		const {
-			selectedRowKeys, page, totals, current,
+			selectedRowKeys, page, totals, current, selectData, _selectedRowKeys,
 		} = this.state;
 		const that = this;
 		if (selectedRowKeys.length === 0) {
 			message.warning('未选中业务');
 			return;
 		}
-		console.log(page);
+		console.log(selectedRowKeys, page);
 
 		confirm({
 			title: '确认删除选中业务吗?',
 			content: (
-				<span>点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据</span>
+				<div style={{ marginLeft: -37 }}>
+					<div style={{ fontSize: 14, marginBottom: 20 }}>点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据</div>
+					<ModalTable selectData={selectData} getData={this.getData} />
+				</div>
 			),
 			iconType: 'exclamation-circle-o',
+			width: 420,
 			onOk() {
 				const params = {
-					idList: selectedRowKeys,
+					idList: _selectedRowKeys,
 				};
 				// 判断最后一页批量删除
 				let currentLength;
@@ -342,7 +358,7 @@ class BusinessView extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const {
-			startTime, endTime, selectedRowKeys,
+			startTime, endTime, _selectedRowKeys,
 		} = this.state;
 		const fields = getFieldsValue();
 		const params = {
@@ -353,7 +369,7 @@ class BusinessView extends React.Component {
 		if (type === 'all') {
 			return Object.assign({}, params);
 		}
-		return Object.assign({}, params, { idList: selectedRowKeys });
+		return Object.assign({}, params, { idList: _selectedRowKeys });
 	};
 
 	// 打开担保人弹窗
@@ -498,7 +514,7 @@ class BusinessView extends React.Component {
 							{/* <Button onClick={this.handledExport} className="yc-business-btn">
 								导出
 							</Button> */}
-							<Download condition={this.toExportCondition} api={exportExcel} field="idList" text="导出" />
+							<Download selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
 						</React.Fragment>
 						)}
 						{!openRowSelection && (

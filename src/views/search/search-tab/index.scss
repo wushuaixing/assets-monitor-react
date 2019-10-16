@@ -12,14 +12,14 @@
     margin-right: -1px;
     cursor: pointer;
     &:hover{
-      border: 1px solid #384482;
+      border: 1px solid #1C80E1;
       z-index:999;
     }
   }
   .active {
     color: #fff;
-    border-color: #384482;
-    background-color: #384482;
+    border-color: #1C80E1;
+    background-color: #1C80E1;
     text-decoration: none;
   }
 }

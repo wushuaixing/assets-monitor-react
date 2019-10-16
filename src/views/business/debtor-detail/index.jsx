@@ -225,7 +225,7 @@ export default class DebtorDetail extends React.Component {
 							<span className="yc-confirm-title">债务人不存在，可能关联的业务已经被删除</span>
 						</div>
 						<div className="yc-confirm-content">
-							<span style={{ color: '#384482', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
+							<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
 							秒后自动关闭页面
 						</div>
 						<div className="yc-confirm-btn">

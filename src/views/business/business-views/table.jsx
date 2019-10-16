@@ -239,7 +239,8 @@ class BusinessView extends React.Component {
 				<Table
 					rowSelection={stateObj.openRowSelection ? rowSelection : null}
 					bordered={false}
-					rowKey={record => record.id}
+					// rowKey={record => record.id}
+					rowKey={record => JSON.stringify(record)}
 					columns={columns}
 					dataSource={stateObj.dataList}
 					style={{ width: '100%' }}
