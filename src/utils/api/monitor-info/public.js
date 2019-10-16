@@ -93,6 +93,12 @@ export const attentionFollowResultList = async (params) => {
 	return response.data;
 };
 
+// 关注list数量
+export const attentionFollowListCount = async (params) => {
+	const response = await service.get('/yc/monitor/land/result/follow/list-count', { params });
+	return response.data;
+};
+
 // 取消关注
 export const attentionUnFollowResult = async (params) => {
 	const response = await service.post('/yc/monitor/land/result/unFollow', params);
@@ -126,5 +132,6 @@ export default {
 	attentionFollowResult,
 	attentionUnFollowResult,
 	attentionFollowResultList,
+	attentionFollowListCount,
 	exportListResult,
 };

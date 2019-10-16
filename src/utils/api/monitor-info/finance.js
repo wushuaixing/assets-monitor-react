@@ -18,6 +18,10 @@ export const followBid = params => service.post('/yc/monitor/auctionBidding/foll
 export const followSingleBid = params => service.post('/yc/monitor/auctionBidding/follow', params)
 	.then(res => res.data);
 
+// 竞价项目 数量统计
+export const attentionFollowBidCount = params => service.get('/yc/monitor/auctionBidding/attentionList', { params })
+	.then(res => res.data);
+
 // 取消关注 [单个]
 export const unFollowSingleBid = params => service.post('/yc/monitor/auctionBidding/unfollow', params)
 	.then(res => res.data);
@@ -32,6 +36,10 @@ export const infoListPub = params => service.get('/yc/monitor/finance/list', { p
 
 // 关注列表
 export const attentionListPub = params => service.get('/yc/monitor/finance/attentionList', { params })
+	.then(res => res.data);
+
+// 公示项目 数量统计
+export const attentionFollowPubCount = params => service.get('/yc/monitor/auctionBidding/attentionList', { params })
 	.then(res => res.data);
 
 // 已读
@@ -64,9 +72,21 @@ export const exportListPub = '/yc/monitor/finance/exportExcel';
 
 // =============== 金融资产 ==============
 
-// 金融资产列表 ===========
+// 金融资产 股权质押 列表 ===========
+// 股权质押 列表
 export const infoListResult = async (params) => {
 	const response = await service.get('/yc/monitor/finance/pledge/list', { params });
+	return response.data;
+};
+// 股权质押 关注列表
+export const attentionFollowListResult = async (params) => {
+	const response = await service.get('/yc/monitor/finance/pledge/follow/list', { params });
+	return response.data;
+};
+
+// 关注list数量
+export const attentionFollowResultCount = async (params) => {
+	const response = await service.get('/yc/monitor/finance/pledge/follow/list-count', { params });
 	return response.data;
 };
 
@@ -103,14 +123,18 @@ export default {
 	followBid,
 	followSingleBid,
 	unFollowSingleBid,
+	attentionFollowBidCount,
 	exportListBid,
 	infoListPub,
 	attentionListPub,
 	followPub,
 	followSinglePub,
 	unFollowSinglePub,
+	attentionFollowPubCount,
 	exportListPub,
 	infoListResult,
+	attentionFollowListResult,
+	attentionFollowResultCount,
 	readStatusResult,
 	readAllStatusResult,
 	followResult,

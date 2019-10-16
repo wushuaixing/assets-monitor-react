@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from './bidding';
+import Table from './result';
 import api from '@/utils/api/monitor-info/finance';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
@@ -54,7 +54,7 @@ export default class TableIntact extends React.Component {
 	toGetData=() => {
 		this.setState({ loading: true });
 		const { reqUrl, id } = this.props;
-		const toApi = reqUrl || api.followResult;
+		const toApi = reqUrl || api.attentionFollowListResult;
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
 				this.setState({

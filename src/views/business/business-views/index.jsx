@@ -263,14 +263,14 @@ class BusinessView extends React.Component {
 		});
 	}
 
-	onSelectChange = (selectedRowKeys, selectedRows) => {
+	onSelectChange = (selectedRowKeys) => {
 		// 维护一个 selectedRowsArray 来保存之前的数据。
 		const selectedRowsArray = selectedRowKeys.map(item => JSON.parse(item));
 
 		// 获取id数组
 		const _selectedRowKeys = selectedRowsArray.map(item => item.id);
 
-		console.log(selectedRows, _selectedRowKeys);
+		// console.log(selectedRows, _selectedRowKeys);
 
 		this.setState({
 			selectedRowKeys,
@@ -306,7 +306,7 @@ class BusinessView extends React.Component {
 			message.warning('未选中业务');
 			return;
 		}
-		console.log(selectedRowKeys, page);
+		console.log(page);
 
 		confirm({
 			title: '确认删除选中业务吗?',

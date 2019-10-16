@@ -3,7 +3,7 @@ import Item from './item';
 import { Tabs } from '@/common';
 import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import {
-	subrogationCount, assCount, lawCount,
+	subrogationCount, financeCount, landCount,
 } from '@/utils/api/monitor-info/attention';
 import './style.scss';
 
@@ -42,7 +42,6 @@ export default class MyAttention extends React.Component {
 	// 获取数据统计
 	toGetTotal=(type, source) => {
 		const _source = source;
-		console.log(type);
 
 		if (type === 'YC0202') {
 			subrogationCount().then((res) => {
@@ -55,31 +54,28 @@ export default class MyAttention extends React.Component {
 				});
 				this.setState({ source: _source });
 			});
-		} else if (type === 3) {
-			assCount().then((res) => {
+		} else if (type === 'YC0203') {
+			landCount().then((res) => {
 				_source.child = _source.child.map((item) => {
 					const _item = item;
-					_item.number = item.id === 31 ? res.bid.total || 0 : res.pub.total || 0;
+					if (item.id === 'YC020301') _item.number = res.Land;
 					return _item;
 				});
 				this.setState({
 					source: _source,
 				});
 			});
-		} else if (type === 4) {
-			lawCount().then((res) => {
-				const { data, code } = res;
-				if (code === 200) {
-					const r1 = data.filter(i => i.sourceType === 1)[0] || {};
-					const r2 = data.filter(i => i.sourceType === 2)[0] || {};
-					_source.child = _source.child.map((item) => {
-						const _item = item;
-						if (item.id === 41 && r1.count) _item.number = r1.count;
-						if (item.id === 42 && r2.count) _item.number = r2.count;
-						return _item;
-					});
-					this.setState({ source: _source });
-				}
+		} else if (type === 'YC0205') {
+			financeCount().then((res) => {
+				_source.child = _source.child.map((item) => {
+					const _item = item;
+					console.log(_item, res);
+					// if (item.id === 'YC020501') _item.number = res.Bid;
+					// else if (item.id === 'YC020502') _item.number = res.Pub;
+					if (item.id === 'YC020503') _item.number = res.Result;
+					return _item;
+				});
+				this.setState({ source: _source });
 			});
 		}
 	};
