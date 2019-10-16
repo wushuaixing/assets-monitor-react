@@ -9,7 +9,7 @@ import {
 import { navigate } from '@reach/router';
 import { parseQuery, generateUrlWithParams } from '@/utils';
 import {
-	timeRule, Spin, Input, Button,
+	timeRule, Spin, Input, Button, Download,
 } from '@/common';
 import FinanceTable from './table';
 import {
@@ -28,6 +28,8 @@ class FINANCE extends React.Component {
 		this.state = {
 			dataList: [],
 			params: {},
+			SortTime: undefined,
+			Sort: undefined,
 			loading: false,
 			totals: 0,
 			pageSize: 10,
@@ -108,6 +110,24 @@ class FINANCE extends React.Component {
 		});
 	};
 
+	// 时间排序
+	SortTime = () => {
+		const { dataList, Sort, inputSearch } = this.state;
+		console.log(Sort, 2);
+
+		const params = {
+			sort: Sort === 'DESC' ? 1 : 0,
+			...inputSearch,
+		};
+		if (dataList.length > 0) {
+			this.getData(params); // 进入页面请求数据
+		}
+		this.setState({
+			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
+			SortTime: params.sort,
+		});
+	}
+
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
@@ -117,6 +137,7 @@ class FINANCE extends React.Component {
 		navigate(generateUrlWithParams('/search/detail/finance', fildes));
 		this.setState({
 			page: 1,
+			Sort: undefined,
 		});
 		const params = {
 			...fildes,
@@ -142,7 +163,7 @@ class FINANCE extends React.Component {
 			totals: 0,
 			page: 1,
 		});
-		navigate(generateUrlWithParams('/search/detail/finance', {}));
+		navigate(generateUrlWithParams('/search/detail/bankruptcy', {}));
 	}
 
 	//  pagesize页面翻页可选
@@ -151,6 +172,7 @@ class FINANCE extends React.Component {
 			pageSize,
 			current: 1,
 			page: 1,
+			Sort: undefined,
 		});
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
@@ -201,10 +223,29 @@ class FINANCE extends React.Component {
 		});
 	}
 
+	// 导出
+	toExportCondition=(type) => {
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const {
+			SortTime, pageSize, current, startTime, endTime,
+		} = this.state;
+		const fields = getFieldsValue();
+
+		const params = {
+			...fields,
+			publishStart: startTime,
+			publishEnd: endTime,
+			sort: SortTime,
+			page: type === 'current' ? current : undefined,
+			num: type === 'current' ? pageSize : 1000,
+		};
+		return Object.assign({}, params);
+	};
 
 	render() {
 		const {
-			loading, totals, current, dataList, page, pageSize, startTime, endTime, params,
+			loading, totals, current, dataList, page, pageSize, startTime, endTime, params, Sort,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -288,11 +329,25 @@ class FINANCE extends React.Component {
 						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 				</div>
-				<div className="yc-header-title">
+				{/* <div className="yc-header-title">
 					{totals ? `源诚科技为您找到${totals}条信息` : ''}
+				</div> */}
+				{/* 分隔下划线 */}
+				<div className="yc-noTab-hr" />
+				<div className="yc-writ-tablebtn">
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api="" current page num text="本页导出" />}
+					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api="" all page num text="全部导出" />
+					{dataList.length > 0 && (
+						<div style={{
+							float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
+						}}
+						>
+							{`源诚科技为您找到${totals}条信息`}
+						</div>
+					)}
 				</div>
 				<Spin visible={loading}>
-					<FinanceTable stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
+					<FinanceTable SortTime={this.SortTime} Sort={Sort} stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
 					{dataList && dataList.length > 0 && (
 					<div className="yc-table-pagination">
 						<Pagination

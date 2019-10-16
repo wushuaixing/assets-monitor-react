@@ -1,68 +1,104 @@
 import React from 'react';
-import { Form } from 'antd';
-import { formatDateTime } from '@/utils/changeTime';
+import { Form, Tooltip } from 'antd';
+// import { formatDateTime } from '@/utils/changeTime';
 import { Table } from '@/common';
 
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			columns: [
-				{
-					title: '资产匹配',
-					dataIndex: 'title',
-					key: 'title',
-					width: 760,
-					render(text, row) {
-						return (
-							<div className="yc-td-hl">
-								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
-								<div dangerouslySetInnerHTML={{ __html: row.hl }} />
-							</div>
-						);
-					},
-				}, {
-					title: '资产信息',
-					dataIndex: 'address',
-					key: 'address',
-					render(text, row) {
-						return (
-							<div className="table-column">
-								<div style={{
-									display: 'inline-block', float: 'left', verticalAlign: 'top', lineHeight: '20px',
-								}}
-								>
-									<div>
-										<span className="yc-td-title" style={{ marginRight: '4px' }}>项目编号:</span>
-										<p style={{ display: 'inline-block' }}>
-											{row.number}
-										</p>
-									</div>
-									<div>
-										<span className="yc-td-title" style={{ marginRight: '4px' }}>发布时间:</span>
-										<p style={{ display: 'inline-block' }}>
-											{formatDateTime(row.releaseTime) || '-'}
-										</p>
-									</div>
-									<div>
-										<span className="yc-td-title" style={{ marginRight: '4px' }}>更新时间:</span>
-										<p style={{ display: 'inline-block' }}>
-											{formatDateTime(row.updateTime) || '-'}
-										</p>
-									</div>
-								</div>
-							</div>
-						);
-					},
-				}],
-		};
+		this.state = {};
 	}
 
 	render() {
-		const { columns } = this.state;
-		const { dataList } = this.props;
-
+		const { dataList, Sort, SortTime } = this.props;
+		const columns = [
+			{
+				title: (
+					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
+						发布日期
+						{Sort === undefined && <span className="sort th-sort-default" />}
+						{Sort === 'DESC' && <span className="sort th-sort-down" />}
+						{Sort === 'ASC' && <span className="sort th-sort-up" />}
+					</div>),
+				dataIndex: 'publishTime',
+				key: 'publishTime',
+				width: 100,
+				render(text, row) {
+					return (
+						<div className="table-column">
+							{row.publishTime || '-'}
+						</div>
+					);
+				},
+			},
+			{
+				title: '相关企业',
+				dataIndex: 'title',
+				key: 'title',
+				width: 160,
+				render(text, row) {
+					return (
+						<div className="yc-td-hl">
+							<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
+							<div dangerouslySetInnerHTML={{ __html: row.hl }} />
+						</div>
+					);
+				},
+			}, {
+				title: '受理法院',
+				dataIndex: 'address',
+				key: 'address',
+				width: 160,
+				render(text, row) {
+					return (
+						<div className="table-column">
+							{ row}
+						</div>
+					);
+				},
+			}, {
+				title: '标题',
+				dataIndex: 'address',
+				key: 'address',
+				width: 360,
+				render(text) {
+					return (
+						<div className="table-column">
+							<p style={{ display: 'inline-block', width: 120, marginRight: 6 }}>
+								{
+									text && text.length > 8
+										? (
+											<Tooltip placement="topLeft" title={text}>
+												<p>{`${text.substr(0, 8)}...`}</p>
+											</Tooltip>
+										)
+										: <p>{text || '-'}</p>
+								}
+							</p>
+						</div>
+					);
+				},
+			},
+			{
+				title: (
+					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
+						更新日期
+						{Sort === undefined && <span className="sort th-sort-default" />}
+						{Sort === 'DESC' && <span className="sort th-sort-down" />}
+						{Sort === 'ASC' && <span className="sort th-sort-up" />}
+					</div>),
+				dataIndex: 'publishTime',
+				key: 'publishTime',
+				width: 100,
+				render(text, row) {
+					return (
+						<div className="table-column">
+							{row.publishTime || '-'}
+						</div>
+					);
+				},
+			},
+		];
 		return (
 			<React.Fragment>
 				<Table
