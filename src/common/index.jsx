@@ -6,6 +6,7 @@ import Spin from './spin';
 import Download from './download';
 import Table from './commonTable';
 import SelectedNum from './selectedNum';
+import Ellipsis from './ellipsis';
 
 const timeRule = {
 	disabledStartDate: (startValue, endValue) => {
@@ -27,5 +28,5 @@ const timeRule = {
 };
 
 export {
-	Tabs, Badge, Button, Input, Spin, timeRule, Download, Table, SelectedNum,
+	Tabs, Badge, Button, Input, Spin, timeRule, Download, Table, SelectedNum, Ellipsis,
 };

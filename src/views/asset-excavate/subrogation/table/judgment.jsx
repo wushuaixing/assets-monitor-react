@@ -1,12 +1,41 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 import { timeStandard } from '@/utils';
-import { Table, SelectedNum } from '@/common';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 // import { caseInfo } from '../../table-common';
+import { partyInfo } from '@/views/_common';
+import { Judgment } from '@/utils/api/monitor-info/subrogation';
 
-// 获取表格配置
+/* 文书信息 */
+const documentInfo = (value, row) => {
+	const {
+		caseReason, caseType, gmtJudgment, title, url,
+	} = row;
+	return (
+		<div className="assets-info-content">
+			<li>
+				<Ellipsis content={title} line={2} tooltip url={url} />
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 'auto' }}>登记编号</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{caseReason || '--'}</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 'auto' }}>案件类型</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{caseType || '--'}</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 'auto' }}>判决日期</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{timeStandard(gmtJudgment)}</span>
+			</li>
+		</div>
+	);
+};
+/* 获取表格配置 */
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
@@ -26,19 +55,22 @@ const columns = (props) => {
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+			width: 300,
+			render: partyInfo,
 		}, {
 			title: '法院',
 			dataIndex: 'court',
+			render: text => text || '--',
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+			render: text => text || '--',
 		}, {
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>文书信息</span>
 				: <SortVessel field="GMT_JUDGMENT" onClick={onSortChange} mark="(判决日期)" {...sort}>文书信息</SortVessel>),
 			dataIndex: 'associatedInfo1',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+			width: 350,
+			render: documentInfo,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
@@ -50,7 +82,15 @@ const columns = (props) => {
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			width: 60,
-			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
+			render: (text, row, index) => (
+				<Attentions
+					text={text}
+					row={row}
+					onClick={onRefresh}
+					api={row.isAttention ? Judgment.unAttention : Judgment.attention}
+					index={index}
+				/>
+			),
 		}];
 	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
@@ -75,7 +115,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			readStatus({ idList: [id] }).then((res) => {
+			Judgment.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

@@ -1,11 +1,11 @@
-
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { attention, readStatus } from '@/utils/api/monitor-info/monitor';
 import { timeStandard } from '@/utils';
 import { Table } from '@/common';
-// import { aboutLink, caseInfo } from '../../table-common';
+import { partyInfo } from '@/views/_common';
+import associationLink from '@/views/_common/association-link';
+import { Trial } from '@/utils/api/risk-monitor/lawsuit';
 
 // 获取表格配置
 const columns = (props) => {
@@ -25,38 +25,47 @@ const columns = (props) => {
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '当事人',
-			dataIndex: 'yg1',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+			dataIndex: 'parties',
+			width: 300,
+			render: partyInfo,
 		}, {
 			title: '法院',
 			dataIndex: 'court',
+			render: text => text || '--',
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+			render: text => text || '--',
 		}, {
 			title: '案由',
 			dataIndex: 'caseReason',
-			sourceType: 1,
 			className: 'min-width-80-normal',
 			render: text => text || '--',
 		}, {
 			title: '关联信息',
 			dataIndex: 'associatedInfo',
 			className: 'tAlignCenter_important min-width-80',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘',
+			render: associationLink,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 93,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
+			render: timeStandard,
 		}, {
 			title: '操作',
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			width: 60,
-			render: (text, row, index) => <Attentions text={text} row={row} onClick={onRefresh} api={attention} index={index} />,
+			render: (text, row, index) => (
+				<Attentions
+					text={text}
+					row={row}
+					onClick={onRefresh}
+					api={row.isAttention ? Trial.unAttention : Trial.attention}
+					index={index}
+				/>
+			),
 		}];
 	// <a href={url} className="click-link">{text || '--'}</a>
 	// const base = defaultColumns.filter(item => item.sourceType !== sourceType);
@@ -83,7 +92,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			readStatus({ idList: [id] }).then((res) => {
+			Trial.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}
