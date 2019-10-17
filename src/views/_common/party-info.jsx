@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
-import { getByteLength } from '@/utils';
+import { getByteLength, linkDom } from '@/utils';
 
 const maxShowLength = 3;
 
@@ -81,6 +81,7 @@ export default class PartyInfoDetail extends React.Component {
 		};
 		const maxWidth = 280 - width - 50;
 		const liMaxWidth = width ? { maxWidth } : '';
+		const obligorContent = (i, content) => (i.obligorId ? linkDom(`#/business/debtor/detail?id=${i.obligorId}`, content, '_target', 'text-ellipsis') : <li className="text-ellipsis" style={liMaxWidth}>{content}</li>);
 		return (
 			<div className="yc-party-info-list">
 				<span className="party-info party-info-title" style={width ? { width } : ''}>
@@ -101,13 +102,11 @@ export default class PartyInfoDetail extends React.Component {
 							if (getByteLength(content) * 6 >= maxWidth) {
 								return (
 									<Tooltip placement="top" title={content}>
-										<li className="text-ellipsis" style={liMaxWidth}>{content}</li>
+										{obligorContent(i, content)}
 									</Tooltip>
 								);
 							}
-							return (
-								<li className="text-ellipsis" style={liMaxWidth}>{content}</li>
-							);
+							return obligorContent(i, content);
 						})
 					}
 					{

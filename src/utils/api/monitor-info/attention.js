@@ -1,5 +1,6 @@
 import service from '@/utils/service';
 import { Court, Trial, Judgment } from './subrogation';
+import { Court as lCourt, Trial as lTrial, Judgment as lJudgment } from '../risk-monitor/lawsuit';
 import {
 	attentionFollowListCount, // 关注列表土地数据出让结果数量
 } from './public';
@@ -38,6 +39,25 @@ export const subrogationCount = () => {
 		}).then((res) => {
 			if (res.code === 200) result.Trial = res.data;
 			return Judgment.followListCount();
+		}).then((res) => {
+			if (res.code === 200) result.Judgment = res.data;
+			return result;
+		})
+		.catch(() => {
+			// 异常处理
+		});
+};
+
+/* 涉诉监控 - 关注列表 - 数量统计 */
+export const lawsuitCount = () => {
+	const result = {};
+	return lCourt.followListCount()
+		.then((res) => {
+			if (res.code === 200) result.Court = res.data;
+			return lTrial.followListCount();
+		}).then((res) => {
+			if (res.code === 200) result.Trial = res.data;
+			return lJudgment.followListCount();
 		}).then((res) => {
 			if (res.code === 200) result.Judgment = res.data;
 			return result;

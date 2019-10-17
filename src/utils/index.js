@@ -252,7 +252,7 @@ export const linkDom = (url, text, target, className) => React.createElement(
 	'a',
 	{
 		href: url,
-		className: className || 'click-link',
+		className: `click-link${className ? ` ${className}` : ''}`,
 		rel: 'noopener noreferrer',
 		target: target || '_blank',
 	},
