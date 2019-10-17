@@ -24,9 +24,17 @@ const columns = (props) => {
 			width: 200,
 			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
-			title: '标题',
+			title: '列入原因',
 			dataIndex: 'title',
-			render: (text, record) => (record.url ? linkDom(record.url, text || '--') : <span>{text || '--'}</span>),
+			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘',
+		}, {
+			title: '决定机关名称',
+			dataIndex: 'title',
+			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘',
+		}, {
+			title: '移除情况',
+			dataIndex: 'title',
+			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘',
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
