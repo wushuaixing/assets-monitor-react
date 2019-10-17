@@ -13,3 +13,6 @@ export default {
 	YC030305: TablePenalties,
 	YC030306: TableEnvironmentalPunishment,
 };
+
+// 经营异常（YC030301） 工商变更（YC030302) 严重违法（YC030303）
+// 税收违法（YC030304） 行政处罚 (YC030305) 环保处罚（YC030306）

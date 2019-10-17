@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { Trial } from '@/utils/api/monitor-info/subrogation';
+import { Trial } from '@/utils/api/risk-monitor/lawsuit';
 import { timeStandard } from '@/utils';
 import { partyInfo } from '@/views/_common';
 import associationLink from '@/views/_common/association-link';
