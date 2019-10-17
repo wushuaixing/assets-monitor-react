@@ -252,6 +252,8 @@ class BusinessView extends React.Component {
 		this.getData(params);
 		this.setState({
 			searchValue: params,
+			selectedRowKeys: [], // 这里配置默认勾选列
+			openRowSelection: false,
 		});
 	}
 
@@ -292,6 +294,8 @@ class BusinessView extends React.Component {
 			searchValue: '',
 			startTime: '',
 			endTime: '',
+			selectedRowKeys: [], // 这里配置默认勾选列
+			openRowSelection: false,
 		});
 	}
 
