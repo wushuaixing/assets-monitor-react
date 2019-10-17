@@ -180,6 +180,8 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	clearSelectRowNum = () => this.selectRow = []
+
 	render() {
 		const {
 			isRead, dataSource, current, total, manage, loading,
@@ -200,7 +202,7 @@ export default class Subrogation extends React.Component {
 
 		return (
 			<div className="yc-assets-auction">
-				<Query onQueryChange={this.onQuery} />
+				<Query onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 				{

@@ -8,21 +8,26 @@ import { urlEncode } from '@/utils';
  */
 // 金融全文搜索
 export const finance = async (params) => {
-	const response = await service.get('/yc/finance/search', { params });
+	const response = await service.get('/yc/information/finance/search', { params });
 	return response.data;
 };
+// 金融全部导出(前1000条数据)
+export const exportFinanceAll = '/yc/information/finance/exportAll';
+
+// 金融本页导出
+export const exportFinanceCurrent = '/yc/information/finance/export';
 
 // 文书金融全文搜索
 export const judgement = async (params) => {
-	const response = await service.get('/yc/judgement/search', { params });
+	const response = await service.get('/yc/information/judgement/search', { params });
 	return response.data;
 };
 
 // 文书全部导出(前1000条数据)
-export const exportWritAll = '/yc/judgement/exportAll';
+export const exportWritAll = '/yc/information/judgement/exportAll';
 
 // 文书本页导出
-export const exportWritCurrent = '/yc/judgement/export';
+export const exportWritCurrent = '/yc/information/judgement/export';
 
 // 拍卖信息搜索 [zhousai]
 export const fullAssetSearch = async (params) => {

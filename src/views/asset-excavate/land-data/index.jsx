@@ -270,6 +270,8 @@ export default class Lawsuits extends React.Component {
 		});
 	};
 
+	clearSelectRowNum = () => this.selectRow = []
+
 	// 查询是否有未读消息
 	onUnReadCount=() => {
 		const { tabConfig } = this.state;
@@ -306,7 +308,7 @@ export default class Lawsuits extends React.Component {
 
 		return (
 			<div className="yc-assets-auction">
-				{sourceType === 1 ? <QueryResult onQueryChange={this.onQuery} /> : null}
+				{sourceType === 1 ? <QueryResult onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
 				{sourceType === 2 ? <QueryTransfer onQueryChange={this.onQuery} /> : null}
 				{sourceType === 3 ? <QueryMortgage onQueryChange={this.onQuery} /> : null}
 				{/* 分隔下划线 */}

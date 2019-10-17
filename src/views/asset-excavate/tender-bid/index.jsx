@@ -133,7 +133,7 @@ export default class Lawsuits extends React.Component {
 	// 当前页数变化
 	onPageChange=(val) => {
 		const { manage } = this.state;
-		this.selectRow = [];
+		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 

@@ -94,6 +94,7 @@ export default class TableView extends React.Component {
 				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
+					rowKey={record => record.id}
 					rowClassName={() => 'yc-assets-auction-table-row'}
 					columns={columns(this.props)}
 					dataSource={dataSource}

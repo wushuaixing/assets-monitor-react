@@ -37,10 +37,10 @@
     font-size: 12px;
     line-height: 34px;
     margin-left: 20px;
-    color: $fontColor-base-1;
+    color: $text-link;
 
     &:hover {
-      color: $fontColor-base;
+      color: $text-link-hover;
     }
   }
 

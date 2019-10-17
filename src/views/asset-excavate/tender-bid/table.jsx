@@ -105,6 +105,7 @@ export default class TableView extends React.Component {
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}
+					rowKey={record => record.id}
 					dataSource={dataSource}
 					pagination={false}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}

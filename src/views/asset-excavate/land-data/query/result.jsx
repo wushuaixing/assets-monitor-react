@@ -33,7 +33,8 @@ class QueryCondition extends React.Component {
 	};
 
 	handleSubmit=() => {
-		const { form: { getFieldsValue }, onQueryChange } = this.props;
+		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
+		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
 		if (condition.lowPrice && Number(condition.lowPrice) > condition.highPrice && Number(condition.highPrice)) {
 			message.error('成交价格最低价不能高于成交价格最高价！');
@@ -43,7 +44,8 @@ class QueryCondition extends React.Component {
 	};
 
 	handleReset=() => {
-		const { form, onQueryChange } = this.props;
+		const { form, onQueryChange, clearSelectRowNum } = this.props;
+		clearSelectRowNum();// 清除选中项
 		form.resetFields();
 		const condition = 	form.getFieldsValue();
 		if (onQueryChange)onQueryChange(condition, '', '', 1);

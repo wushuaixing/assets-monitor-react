@@ -199,7 +199,7 @@ export default class Subrogation extends React.Component {
 	// 当前页数变化
 	onPageChange=(val) => {
 		const { manage } = this.state;
-		this.selectRow = [];
+		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
@@ -259,6 +259,8 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	clearSelectRowNum = () => this.selectRow = []
+
 	render() {
 		const {
 			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
@@ -279,9 +281,9 @@ export default class Subrogation extends React.Component {
 
 		return (
 			<div className="yc-assets-auction">
-				{ sourceType === 1 ?	<QueryBidding onQueryChange={this.onQuery} /> : null}
-				{ sourceType === 2 ?	<QueryPublicity onQueryChange={this.onQuery} /> : null}
-				{ sourceType === 3 ?	<QueryResult onQueryChange={this.onQuery} /> : null}
+				{ sourceType === 1 ?	<QueryBidding onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
+				{ sourceType === 2 ?	<QueryPublicity onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
+				{ sourceType === 3 ?	<QueryResult onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
