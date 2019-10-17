@@ -13,8 +13,10 @@ class FINANCE extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			startTime: '',
-			endTime: '',
+			startTimeStart: undefined,
+			startTimeEnd: undefined,
+			endTimeStart: undefined,
+			endTimeEnd: undefined,
 		};
 	}
 
@@ -41,11 +43,15 @@ class FINANCE extends React.Component {
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
-		const { startTime, endTime } = this.state;
+		const {
+			startTimeStart, startTimeEnd, endTimeStart, endTimeEnd,
+		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		fildes.publishStart = startTime;
-		fildes.publishEnd = endTime;
+		fildes.startTimeStart = startTimeStart;
+		fildes.startTimeEnd = startTimeEnd;
+		fildes.endTimeStart = endTimeStart;
+		fildes.endTimeEnd = endTimeEnd;
 
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
@@ -61,8 +67,10 @@ class FINANCE extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
 		this.setState({
-			startTime: undefined,
-			endTime: undefined,
+			startTimeStart: undefined,
+			startTimeEnd: undefined,
+			endTimeStart: undefined,
+			endTimeEnd: undefined,
 		});
 		resetFields('');
 	}
@@ -84,7 +92,7 @@ class FINANCE extends React.Component {
 						<Input
 							title="项目名称"
 							placeholder="项目标题"
-							{...getFieldProps('title', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('projectName', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 				</div>
@@ -94,12 +102,12 @@ class FINANCE extends React.Component {
 						placeholder="开始日期"
 						size="large"
 						style={_style1}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
-						{...getFieldProps('publishStart', {
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('startTimeEnd'))}
+						{...getFieldProps('startTimeStart', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
-									startTime: dateString,
+									startTimeStart: dateString,
 								});
 							},
 						})}
@@ -110,12 +118,12 @@ class FINANCE extends React.Component {
 						placeholder="结束日期"
 						size="large"
 						style={_style1}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
-						{...getFieldProps('publishEnd', {
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTimeStart'))}
+						{...getFieldProps('startTimeEnd', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
-									endTime: dateString,
+									startTimeEnd: dateString,
 								});
 							},
 						})}
@@ -128,12 +136,12 @@ class FINANCE extends React.Component {
 						placeholder="开始日期"
 						size="large"
 						style={_style1}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
-						{...getFieldProps('publishStart', {
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTimeEnd'))}
+						{...getFieldProps('endTimeStart', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
-									startTime: dateString,
+									endTimeStart: dateString,
 								});
 							},
 						})}
@@ -144,12 +152,12 @@ class FINANCE extends React.Component {
 						placeholder="结束日期"
 						size="large"
 						style={_style1}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
-						{...getFieldProps('publishEnd', {
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('endTimeStart'))}
+						{...getFieldProps('endTimeEnd', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
-									endTime: dateString,
+									endTimeEnd: dateString,
 								});
 							},
 						})}

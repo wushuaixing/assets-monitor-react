@@ -105,14 +105,14 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="开始日期"
 						{...getFieldProps('signedDateStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createDateEnd'))}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('signedDateEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('createDateEnd', timeOption)}
+						{...getFieldProps('signedDateEnd', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('signedDateStart'))}
 					/>
 				</div>
@@ -123,14 +123,14 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="开始日期"
 						{...getFieldProps('createDateStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endCreateTime'))}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createDateEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endCreateTime', timeOption)}
+						{...getFieldProps('createDateEnd', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('createDateStart'))}
 					/>
 				</div>

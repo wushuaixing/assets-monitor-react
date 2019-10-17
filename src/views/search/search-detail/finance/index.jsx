@@ -33,6 +33,10 @@ class FINANCE extends React.Component {
 			pageSize: 10,
 			current: 1, // 当前页
 			page: 1,
+			startTimeStart: undefined,
+			startTimeEnd: undefined,
+			endTimeStart: undefined,
+			endTimeEnd: undefined,
 		};
 	}
 
@@ -42,8 +46,10 @@ class FINANCE extends React.Component {
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 		this.setState({
 			params,
-			startTime: params.publishStart,
-			endTime: params.publishEnd,
+			startTimeStart: params.startTimeStart,
+			startTimeEnd: params.startTimeEnd,
+			endTimeStart: params.endTimeStart,
+			endTimeEnd: params.endTimeEnd,
 		});
 		// 判断是否为空对象,非空请求接口
 		if (Object.keys(params).length !== 0) {
@@ -112,7 +118,13 @@ class FINANCE extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		const { pageSize } = this.state;
+		const {
+			pageSize, startTimeStart, startTimeEnd, endTimeStart, endTimeEnd,
+		} = this.state;
+		fildes.startTimeStart = startTimeStart;
+		fildes.startTimeEnd = startTimeEnd;
+		fildes.endTimeStart = endTimeStart;
+		fildes.endTimeEnd = endTimeEnd;
 		navigate(generateUrlWithParams('/search/detail/finance', fildes));
 		this.setState({
 			page: 1,
@@ -140,6 +152,11 @@ class FINANCE extends React.Component {
 			dataList: [],
 			totals: 0,
 			page: 1,
+			startTimeStart: undefined,
+			startTimeEnd: undefined,
+			endTimeStart: undefined,
+			endTimeEnd: undefined,
+			params: {},
 		});
 		navigate(generateUrlWithParams('/search/detail/finance', {}));
 	}
@@ -203,11 +220,10 @@ class FINANCE extends React.Component {
 
 	render() {
 		const {
-			loading, totals, current, dataList, page, pageSize, startTime, endTime, params,
+			loading, totals, current, dataList, page, pageSize, params,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
-		console.log(endTime, startTime);
 
 		return (
 			<div className="yc-content-query">
@@ -230,8 +246,8 @@ class FINANCE extends React.Component {
 							style={_style1}
 							size="large"
 							placeholder="处置法院/单位"
-							{...getFieldProps('title', {
-								initialValue: params.title,
+							{...getFieldProps('projectName', {
+								initialValue: params.projectName,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -239,32 +255,32 @@ class FINANCE extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">挂牌起始日期: </span>
 						<DatePicker
-							{...getFieldProps('startTime', {
-								// initialValue: params.startTime,
+							{...getFieldProps('startTimeStart', {
+								initialValue: params.startTimeStart,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
-										startTime: dateString,
+										startTimeStart: dateString,
 									});
 								},
 							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('startTimeEnd'))}
 							size="large"
 							style={_style2}
 							placeholder="开始日期"
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('endTime', {
-								// initialValue: params.endTime,
+							{...getFieldProps('startTimeEnd', {
+								initialValue: params.startTimeEnd,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
-										endTime: dateString,
+										startTimeEnd: dateString,
 									});
 								},
 							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTimeStart'))}
 							size="large"
 							style={_style2}
 							placeholder="结束日期"
@@ -273,32 +289,32 @@ class FINANCE extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">挂牌期满日期: </span>
 						<DatePicker
-							{...getFieldProps('startTime', {
-								// initialValue: params.startTime,
+							{...getFieldProps('endTimeStart', {
+								initialValue: params.endTimeStart,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
-										startTime: dateString,
+										endTimeStart: dateString,
 									});
 								},
 							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTimeEnd'))}
 							size="large"
 							style={_style2}
 							placeholder="开始日期"
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('endTime', {
-								// initialValue: params.endTime,
+							{...getFieldProps('endTimeEnd', {
+								initialValue: params.endTimeEnd,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
-										endTime: dateString,
+										endTimeEnd: dateString,
 									});
 								},
 							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('endTimeStart'))}
 							size="large"
 							style={_style2}
 							placeholder="结束日期"
