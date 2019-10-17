@@ -100,9 +100,9 @@ export default class Subrogation extends React.Component {
 	handleAllRead=() => {
 		const _this = this;
 		const { tabConfig, sourceType } = this.state;
-		// console.log(tabConfig, sourceType);
+		const selectTab = tabConfig.filter(i => i.id === sourceType);
 
-		if (tabConfig[0].dot || tabConfig[2].dot) {
+		if (selectTab && selectTab[0].dot) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
@@ -194,6 +194,7 @@ export default class Subrogation extends React.Component {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
+		this.selectRow = [];
 	};
 
 	// 当前页数变化
@@ -250,6 +251,7 @@ export default class Subrogation extends React.Component {
 			if (code === 200) {
 				const _tabConfig = tabConfig.map((item) => {
 					const _item = item;
+
 					if (_item.id === 2)_item.dot = data.financeCount;
 					if (_item.id === 3)_item.dot = data.stockPledgeFlag;
 					return _item;

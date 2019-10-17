@@ -121,6 +121,7 @@ export default class Subrogation extends React.Component {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
+		this.selectRow = [];
 	};
 
 	// 当前页数变化

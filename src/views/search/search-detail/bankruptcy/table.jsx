@@ -79,25 +79,6 @@ class BusinessView extends React.Component {
 					);
 				},
 			},
-			{
-				title: (
-					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						更新日期
-						{Sort === undefined && <span className="sort th-sort-default" />}
-						{Sort === 'DESC' && <span className="sort th-sort-down" />}
-						{Sort === 'ASC' && <span className="sort th-sort-up" />}
-					</div>),
-				dataIndex: 'publishTime',
-				key: 'publishTime',
-				width: 100,
-				render(text, row) {
-					return (
-						<div className="table-column">
-							{row.publishTime || '-'}
-						</div>
-					);
-				},
-			},
 		];
 		return (
 			<React.Fragment>

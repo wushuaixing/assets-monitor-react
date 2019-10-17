@@ -8,7 +8,7 @@ import { processSave } from '@/utils/api/monitor-info/assets-follow';
 import {
 	AssetsInfo, MatchingReason, AuctionInfo,
 } from '@/views/asset-excavate/assets-auction/tableComponents';
-import { Button, Table, SelectedNum } from '@/common';
+import { Button, Table } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
 import FollowModel from './follow-info';
@@ -156,7 +156,7 @@ export default class TableView extends React.Component {
 
 		return (
 			<React.Fragment>
-				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
+				{/* {selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null} */}
 				<Table
 					{...rowSelection}
 					rowClassName={() => 'yc-assets-auction-table-row'}
