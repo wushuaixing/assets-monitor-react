@@ -95,7 +95,7 @@ export default class PartyInfoDetail extends React.Component {
 					}
 				</span>
 				<span className="party-info party-info-colon">：</span>
-				<div className="party-info party-info-content">
+				<div className="party-info party-info-content" style={maxWidth}>
 					{
 						source.map((i) => {
 							const content = this.toHandleName(i);

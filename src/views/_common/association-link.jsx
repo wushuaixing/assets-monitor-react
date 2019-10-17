@@ -146,6 +146,23 @@ class AssociationLink extends React.Component {
 		});
 	};
 
+	// 多个链接弹框
+	toJudgmentShow = (source) => {
+		Modal.info({
+			title: '本案号关联多个文书链接，如下：',
+			okText: '关闭',
+			iconType: 'null',
+			className: 'assets-an-info',
+			width: 600,
+			content: (
+				<div style={{ marginLeft: -28 }}>
+					{ source.map(item => (<p style={{ margin: 5 }}>{linkDom(item.url, item.url)}</p>)) }
+				</div>
+			),
+			onOk() {},
+		});
+	};
+
 	/* 处理数据 */
 	handleSource =(source) => {
 		const { associatedInfo: { trialAssociatedInfo: La, courtAssociatedInfo: Kt, judgmentAssociatedInfo: Ws } } = source;
@@ -169,7 +186,7 @@ class AssociationLink extends React.Component {
 		if (Ws.length > 0) {
 			if (Ws.length > 1) {
 				if (resContent.length)resContent.push(<span className="info-line">|</span>);
-				resContent.push(<span className="click-link" onClick={() => this.toShow(Ws, 'Judgment')}>文书</span>);
+				resContent.push(<span className="click-link" onClick={() => this.toJudgmentShow(Ws, 'Judgment')}>文书</span>);
 			} else if (Ws.length === 1 && Ws[0].url) {
 				if (resContent.length)resContent.push(<span className="info-line">|</span>);
 				resContent.push(linkDom(Ws[0].url, '文书'));
@@ -184,7 +201,7 @@ class AssociationLink extends React.Component {
 		/* 重新数据的数据 */
 		const _dataSource = {
 			tableData: dataSource.filter(item => !item.url),
-			listData: dataSource.filter(item => !item.url),
+			listData: dataSource.filter(item => item.url),
 		};
 		const text = ((value) => {
 			if (value === 'Trial') return { c: '立案', t: '立案日期' };
@@ -220,7 +237,7 @@ class AssociationLink extends React.Component {
 								_dataSource.listData.map(item => (
 									<div className="source-list-data">
 										<span className="list-title">{timeStandard(item.gmtTrial || item.gmtRegister)}</span>
-										<span className="list-content">{linkDom('http://www.baidu.com', 'http://www.baidu.com')}</span>
+										<span className="list-content">{linkDom(item.url, item.url)}</span>
 									</div>
 								)),
 							]
