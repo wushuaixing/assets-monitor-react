@@ -3,72 +3,73 @@ import service from '@/utils/service';
 
 /*  监控信息=>金融资产=>竞价项目[C.H Wong] 6 */
 // 破产监控列表页
-export const infoListBid = params => service.get('/yc/monitor/auctionBidding/list', { params })
+export const infoListBid = params => service.get('/yc/monitor/finance/auctionBidding/list', { params })
 	.then(res => res.data);
 
 // 关注列表
-export const attentionListBid = params => service.get('/yc/monitor/auctionBidding/attentionList', { params })
+export const attentionListBid = params => service.get('/yc/monitor/finance/auctionBidding/attentionList', { params })
 	.then(res => res.data);
 
 // 关注 [批量]
-export const followBid = params => service.post('/yc/monitor/auctionBidding/followBatch', params)
+export const followBid = params => service.post('/yc/monitor/finance/auctionBidding/followBatch', params)
 	.then(res => res.data);
 
 // 关注 [单个]
-export const followSingleBid = params => service.post('/yc/monitor/auctionBidding/follow', params)
+export const followSingleBid = params => service.post('/yc/monitor/finance/auctionBidding/follow', params)
 	.then(res => res.data);
 
 // 竞价项目 数量统计
-export const attentionFollowBidCount = params => service.get('/yc/monitor/auctionBidding/attentionList', { params })
+export const attentionFollowBidCount = params => service.get('/yc/monitor/finance/auctionBidding/attentionList-count', { params })
 	.then(res => res.data);
 
 // 取消关注 [单个]
-export const unFollowSingleBid = params => service.post('/yc/monitor/auctionBidding/unfollow', params)
+export const unFollowSingleBid = params => service.post('/yc/monitor/finance/auctionBidding/unfollow', params)
 	.then(res => res.data);
 
 // 导出excel
-export const exportListBid = '/yc/monitor/auctionBidding/exportExcel';
+export const exportListBid = '/yc/monitor/finance/auctionBidding/exportExcel';
+
 
 /* 监控信息=>金融资产=>公示项目 监控[C.H Wong] 9 */
 
-export const infoListPub = params => service.get('/yc/monitor/finance/list', { params })
+export const infoListPub = params => service.get('/yc/monitor/finance/finance/list', { params })
 	.then(res => res.data);
 
 // 关注列表
-export const attentionListPub = params => service.get('/yc/monitor/finance/attentionList', { params })
+export const attentionListPub = params => service.get('/yc/monitor/finance/finance/attentionList', { params })
 	.then(res => res.data);
 
 // 公示项目 数量统计
-export const attentionFollowPubCount = params => service.get('/yc/monitor/auctionBidding/attentionList', { params })
+export const attentionFollowPubCount = params => service.get('/yc/monitor/finance/finance/attentionList-count', { params })
 	.then(res => res.data);
 
 // 已读
-export const readStatus = params => service.post('/yc/monitor/finance/markRead', params)
+export const readStatus = params => service.post('/yc/monitor/finance/finance/markRead', params)
 	.then(res => res.data);
 
 // 全部标记已读
-export const readStatusAll = params => service.post('/yc/monitor/finance/markReadAll', params)
+export const readStatusAll = params => service.post('/yc/monitor/finance/finance/markReadAll', params)
 	.then(res => res.data);
 
 // 批量标记已读
-export const readStatusBatch = params => service.post('/yc/monitor/finance/markReadBatch', params)
+export const readStatusBatch = params => service.post('/yc/monitor/finance/finance/markReadBatch', params)
 	.then(res => res.data);
 
 
 // 关注 [批量]
-export const followPub = params => service.post('/yc/monitor/finance/followBatch', params)
+export const followPub = params => service.post('/yc/monitor/finance/finance/followBatch', params)
 	.then(res => res.data);
 
 // 关注 [单个]
-export const followSinglePub = params => service.post('/yc/monitor/finance/follow', params)
+export const followSinglePub = params => service.post('/yc/monitor/finance/finance/follow', params)
 	.then(res => res.data);
 
 // 取消关注 [单个]
-export const unFollowSinglePub = params => service.post('/yc/monitor/finance/unfollow', params)
+export const unFollowSinglePub = params => service.post('/yc/monitor/finance/finance/unfollow', params)
 	.then(res => res.data);
 
 // 导出excel
-export const exportListPub = '/yc/monitor/finance/exportExcel';
+export const exportListPub = '/yc/monitor/finance/finance/exportExcel';
 
 // =============== 金融资产 ==============
 
