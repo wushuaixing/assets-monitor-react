@@ -3,7 +3,7 @@ import Item from './item';
 import { Tabs } from '@/common';
 import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import {
-	subrogationCount, financeCount, landCount,
+	subrogationCount, financeCount, landCount, lawsuitCount,
 } from '@/utils/api/monitor-info/attention';
 import './style.scss';
 
@@ -42,16 +42,31 @@ export default class MyAttention extends React.Component {
 	// 获取数据统计
 	toGetTotal=(type, source) => {
 		const _source = source;
-
 		if (type === 'YC0202') {
 			subrogationCount().then((res) => {
+				// console.log(res);
 				_source.child = _source.child.map((item) => {
 					const _item = item;
+					// console.log(item);
 					if (item.id === 'YC020201') _item.number = res.Trial;
 					else if (item.id === 'YC020202') _item.number = res.Court;
 					else if (item.id === 'YC020203') _item.number = res.Judgment;
 					return _item;
 				});
+				this.setState({ source: _source });
+			});
+		} else if (type === 'YC0301') {
+			lawsuitCount().then((res) => {
+				// console.log(res);
+				_source.child = _source.child.map((item) => {
+					const _item = item;
+					// console.log(item);
+					if (item.id === 'YC030101') _item.number = res.Trial;
+					else if (item.id === 'YC030102') _item.number = res.Court;
+					else if (item.id === 'YC030103') _item.number = res.Judgment;
+					return _item;
+				});
+				// console.log(_source);
 				this.setState({ source: _source });
 			});
 		} else if (type === 'YC0203') {

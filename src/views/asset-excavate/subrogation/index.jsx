@@ -263,9 +263,9 @@ export default class Subrogation extends React.Component {
 		delete params.endGmt;
 		API(_sourceType || sourceType, 'list')(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
-				console.log(__type);
+				// console.log(__type);
 				tabConfig[__type - 1].number = res.data.total;
-				this.setState({ tabConfig });
+				// this.setState({ tabConfig });
 				this.setState({
 					dataSource: res.data.list,
 					current: res.data.page,

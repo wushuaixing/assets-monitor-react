@@ -14,7 +14,6 @@ export default class TableIntact extends React.Component {
 			loading: true,
 		};
 		this.condition = {
-			sourceType: props.sourceType || 1,
 			sortColumn: '',
 			sortOrder: '',
 			page: 1,

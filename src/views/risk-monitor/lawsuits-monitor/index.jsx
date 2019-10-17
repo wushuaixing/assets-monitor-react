@@ -55,30 +55,30 @@ export default class Subrogation extends React.Component {
 			sourceType,
 		});
 		this.onQueryChange({}, sourceType);
-		if (sourceType !== 1) {
-			API(1, 'listCount')({}).then((res) => {
-				if (res.code === 200) {
-					tabConfig[0].number = res.data;
-					this.setState({ tabConfig });
-				}
-			});
-		}
-		if (sourceType !== 2) {
-			API(2, 'listCount')({}).then((res) => {
-				if (res.code === 200) {
-					tabConfig[1].number = res.data;
-					this.setState({ tabConfig });
-				}
-			});
-		}
-		if (sourceType !== 3) {
-			API(3, 'listCount')({}).then((res) => {
-				if (res.code === 200) {
-					tabConfig[2].number = res.data;
-					this.setState({ tabConfig });
-				}
-			});
-		}
+		// if (sourceType !== 1) {
+		// 	API(1, 'listCount')({}).then((res) => {
+		// 		if (res.code === 200) {
+		// 			tabConfig[0].number = res.data;
+		// 			this.setState({ tabConfig });
+		// 		}
+		// 	});
+		// }
+		// if (sourceType !== 2) {
+		// 	API(2, 'listCount')({}).then((res) => {
+		// 		if (res.code === 200) {
+		// 			tabConfig[1].number = res.data;
+		// 			this.setState({ tabConfig });
+		// 		}
+		// 	});
+		// }
+		// if (sourceType !== 3) {
+		// 	API(3, 'listCount')({}).then((res) => {
+		// 		if (res.code === 200) {
+		// 			tabConfig[2].number = res.data;
+		// 			this.setState({ tabConfig });
+		// 		}
+		// 	});
+		// }
 	}
 
 	// 清除排序状态
@@ -88,12 +88,16 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 获取统计信息
-	toInfoCount=() => {
-		const { sourceType, tabConfig } = this.state;
-		API(sourceType, 'listCount')(this.condition).then((res) => {
-			if (res.code === 200) {
-				tabConfig[sourceType - 1].number = res.data;
-				this.setState({ tabConfig });
+	toInfoCount=(nextSourceType) => {
+		const { tabConfig } = this.state;
+		[1, 2, 3].forEach((i) => {
+			if (i !== nextSourceType) {
+				API(i, 'listCount')(this.condition).then((res) => {
+					if (res.code === 200) {
+						tabConfig[i - 1].number = res.data;
+						this.setState({ tabConfig });
+					}
+				});
 			}
 		});
 	};
@@ -233,7 +237,9 @@ export default class Subrogation extends React.Component {
 
 	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
-		const { sourceType, isRead, current } = this.state;
+		const {
+			sourceType, isRead, current, tabConfig,
+		} = this.state;
 		const __isRead = _isRead || isRead;
 		const __type = _sourceType || sourceType;
 		this.condition = Object.assign({}, con || this.condition, {
@@ -249,13 +255,15 @@ export default class Subrogation extends React.Component {
 			loading: true,
 			manage: _manage || false,
 		});
-		this.toInfoCount();
+		this.toInfoCount(__type);
 		const params = Object.assign({}, this.toHandleReqTime(__type, this.condition), this.condition);
 		delete params.startGmt;
 		delete params.endGmt;
 		API(_sourceType || sourceType, 'list')(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
+				tabConfig[__type - 1].number = res.data.total;
 				this.setState({
+					tabConfig,
 					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
