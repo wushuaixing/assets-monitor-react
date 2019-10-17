@@ -66,7 +66,6 @@ export default class Download extends React.Component {
 				onCancel() {},
 			});
 		} else if (selectIds) {
-			// console.log('本页导出');
 			Modal.confirm({
 				title: '确认导出选中的所有信息吗？',
 				content: (
