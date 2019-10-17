@@ -11,20 +11,20 @@ const Result = {
 					<span className="list list-content text-ellipsis" style={{ color: '#186fc7' }}>
 						{/* {rowContent.projectName || '-'} */}
 						{
-						rowContent.projectName && rowContent.projectName.length > 12
-							? (
-								<Tooltip placement="topLeft" title={rowContent.projectName}>
+							rowContent.projectName && rowContent.projectName.length > 12
+								? (
+									<Tooltip placement="topLeft" title={rowContent.projectName}>
+										<a href={rowContent.url.length > 1 && rowContent.url} target="_blank" rel="noopener noreferrer" className={rowContent.url.length > 1 ? 'yc-table-text-link' : ''}>
+											{`${rowContent.projectName.substr(0, 12)}...`}
+										</a>
+									</Tooltip>
+								)
+								: (
 									<a href={rowContent.url.length > 1 && rowContent.url} target="_blank" rel="noopener noreferrer" className={rowContent.url.length > 1 ? 'yc-table-text-link' : ''}>
-										{`${rowContent.projectName.substr(0, 12)}...`}
+										{rowContent.projectName || '-'}
 									</a>
-								</Tooltip>
-							)
-							: (
-								<a href={rowContent.url.length > 1 && rowContent.url} target="_blank" rel="noopener noreferrer" className={rowContent.url.length > 1 ? 'yc-table-text-link' : ''}>
-									{rowContent.projectName || '-'}
-								</a>
-							)
-					}
+								)
+						}
 					</span>
 				</li>
 				<li>
@@ -43,7 +43,24 @@ const Result = {
 			<div className="assets-info-content">
 				<li>
 					<span className="list list-title align-justify">土地用途：</span>
-					<span className="list list-content text-ellipsis">{rowContent.landUse || '-'}</span>
+					<span className="list list-content text-ellipsis">
+						{/* {rowContent.landUse || '-'} */}
+						{
+							rowContent.landUse && rowContent.landUse.length > 6
+								? (
+									<Tooltip placement="topLeft" title={rowContent.landUse}>
+										<span>
+											{`${rowContent.landUse.substr(0, 6)}...`}
+										</span>
+									</Tooltip>
+								)
+								: (
+									<span>
+										{rowContent.landUse || '-'}
+									</span>
+								)
+						}
+					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">面　　积：</span>
@@ -54,7 +71,24 @@ const Result = {
 				</li>
 				<li>
 					<span className="list list-title align-justify">使用年限：</span>
-					<span className="list list-content">{rowContent.landUsageTerm || '-'}</span>
+					<span className="list list-content">
+						{/* {rowContent.landUsageTerm || '-'} */}
+						{
+							rowContent.landUsageTerm && rowContent.landUsageTerm.length > 6
+								? (
+									<Tooltip placement="topLeft" title={rowContent.landUsageTerm}>
+										<span>
+											{`${rowContent.landUsageTerm.substr(0, 6)}...`}
+										</span>
+									</Tooltip>
+								)
+								: (
+									<span>
+										{rowContent.landUsageTerm || '-'}
+									</span>
+								)
+						}
+					</span>
 				</li>
 			</div>
 		</React.Fragment>
