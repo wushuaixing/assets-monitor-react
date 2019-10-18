@@ -55,9 +55,7 @@ export default class PartyInfoDetail extends React.Component {
 
 	render() {
 		const { status } = this.state;
-		const {
-			role, child, width,
-		} = this.props;
+		const { role, child, width } = this.props;
 		const source = status === 'toOpen' ? child.slice(0, maxShowLength) : child;
 
 		const statusText = status === 'toOpen'
@@ -79,12 +77,12 @@ export default class PartyInfoDetail extends React.Component {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',
 		};
-		const maxWidth = 280 - width - 50;
+		const maxWidth = 280 - width || 40 - 50;
 		const liMaxWidth = width ? { maxWidth } : '';
 		const obligorContent = (i, content) => (i.obligorId ? linkDom(`#/business/debtor/detail?id=${i.obligorId}`, content, '_target', 'text-ellipsis') : <li className="text-ellipsis" style={liMaxWidth}>{content}</li>);
 		return (
 			<div className="yc-party-info-list">
-				<span className="party-info party-info-title" style={width ? { width } : ''}>
+				<span className="party-info party-info-title" style={width ? { width: width < 40 ? 40 : width } : ''}>
 					<li className="li-role">{roleContent.role}</li>
 					{
 						roleContent.mark ? (
