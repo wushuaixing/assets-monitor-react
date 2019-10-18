@@ -89,7 +89,7 @@ class BusinessView extends React.Component {
 					render(text, row) {
 						return (
 							<div className="yc-td-hl">
-								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
+								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} />
 								{
 									row.obligors && row.obligors.length > 0 && (
 									<div>

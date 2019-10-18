@@ -12,7 +12,7 @@ import {
 	userInfo, // 通知中心数据
 } from '@/utils/api/user';
 import { generateUrlWithParams, parseQuery } from '@/utils';
-import { Table, Spin } from '@/common';
+import { Table, Spin, SelectedNum } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import imgUnread from '../../assets/img/inform/icon_message_unread.png';
 import imgReade from '../../assets/img/inform/icon_message_read.png';
@@ -139,7 +139,7 @@ class InformCenter extends React.Component {
 		};
 		isRead(params);
 		window.location.reload(); // 实现页面重新加载/
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -154,7 +154,7 @@ class InformCenter extends React.Component {
 		navigate(generateUrlWithParams('/message', params));
 
 		this.getData(params);
-	}
+	};
 
 
 	getData = (data) => {
@@ -178,7 +178,7 @@ class InformCenter extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	// 批量删除
 	handledDeleteBatch = (row) => {
@@ -252,7 +252,7 @@ class InformCenter extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	// 全部标记为已读
 	handleAllRead = () => {
@@ -297,14 +297,14 @@ class InformCenter extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	onSelectChange = (selectedRowKeys, selectedRows) => {
 		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
 		this.setState({
 			selectedRowKeys,
 		});
-	}
+	};
 
 	render() {
 		const {
@@ -346,6 +346,7 @@ class InformCenter extends React.Component {
 							</div>
 						)}
 					</div>
+					{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 					<Spin visible={loading}>
 						<Table
 							rowSelection={isInstitution && rowSelection}

@@ -2,33 +2,10 @@ import service from '@/utils/service';
 
 import { urlEncode } from '@/utils';
 /**
- * 【首页接口】
+ * 【信息搜索接口】
  * @returns {Promise<*>}
  * @param params
  */
-// 金融全文搜索
-export const finance = async (params) => {
-	const response = await service.get('/yc/information/finance/search', { params });
-	return response.data;
-};
-// 金融全部导出(前1000条数据)
-export const exportFinanceAll = '/yc/information/finance/exportAll';
-
-// 金融本页导出
-export const exportFinanceCurrent = '/yc/information/finance/export';
-
-// 文书金融全文搜索
-export const judgement = async (params) => {
-	const response = await service.get('/yc/information/judgement/search', { params });
-	return response.data;
-};
-
-// 文书全部导出(前1000条数据)
-export const exportWritAll = '/yc/information/judgement/exportAll';
-
-// 文书本页导出
-export const exportWritCurrent = '/yc/information/judgement/export';
-
 // 拍卖信息搜索 [zhousai]
 export const fullAssetSearch = async (params) => {
 	const response = await service.get('/yc/doc/search/fullAssetSearch', { params });
@@ -84,3 +61,37 @@ export const trialRelationSearch = async (params) => {
 };
 // 涉诉信息 => 立案信息导出 [zhousai]
 export const trialRelationSearchExport = '/yc/doc/search/trialRelationSearchExport';
+
+// 文书全文搜索
+export const judgement = async (params) => {
+	const response = await service.get('/yc/information/judgement/search', { params });
+	return response.data;
+};
+
+// 文书全部导出(前1000条数据)
+export const exportWritAll = '/yc/information/judgement/exportAll';
+
+// 文书本页导出
+export const exportWritCurrent = '/yc/information/judgement/export';
+
+// 金融全文搜索
+export const finance = async (params) => {
+	const response = await service.get('/yc/information/finance/search', { params });
+	return response.data;
+};
+// 金融全部导出(前1000条数据)
+export const exportFinanceAll = '/yc/information/finance/exportAll';
+
+// 金融本页导出
+export const exportFinanceCurrent = '/yc/information/finance/export';
+
+// 破产重组全文搜索
+export const bankruptcySearch = async (params) => {
+	const response = await service.get('/yc/information/bankruptcy/search', { params });
+	return response.data;
+};
+// 破产重组全部导出(前1000条数据)
+export const exportBankruptcyAll = '/yc/information/bankruptcy/exportAll';
+
+// 破产重组本页导出
+export const exportBankruptcyCurrent = '/yc/information/bankruptcy/export';

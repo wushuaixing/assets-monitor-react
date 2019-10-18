@@ -20,61 +20,71 @@ class BusinessView extends React.Component {
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
 					</div>),
-				dataIndex: 'publishTime',
-				key: 'publishTime',
-				width: 100,
+				dataIndex: 'publishDate',
+				key: 'publishDate',
+				width: 120,
 				render(text, row) {
 					return (
 						<div className="table-column">
-							{row.publishTime || '-'}
+							{row.publishDate || '-'}
 						</div>
 					);
 				},
 			},
 			{
 				title: '相关企业',
-				dataIndex: 'title',
-				key: 'title',
-				width: 160,
-				render(text, row) {
+				dataIndex: 'brcompanyname',
+				key: 'brcompanyname',
+				width: 250,
+				render(text) {
 					return (
-						<div className="yc-td-hl">
-							<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
-							<div dangerouslySetInnerHTML={{ __html: row.hl }} />
+						<div>
+							{/* <a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
+							<div dangerouslySetInnerHTML={{ __html: row.hl }} /> */}
+							{/* {row.brcompanyname || '-'} */}
+							{
+									text && text.length > 18
+										? (
+											<Tooltip placement="topLeft" title={text}>
+												<p>{`${text.substr(0, 18)}...`}</p>
+											</Tooltip>
+										)
+										: <p>{text || '-'}</p>
+								}
 						</div>
 					);
 				},
 			}, {
 				title: '受理法院',
-				dataIndex: 'address',
-				key: 'address',
-				width: 160,
+				dataIndex: 'court',
+				key: 'court',
+				width: 250,
 				render(text, row) {
 					return (
 						<div className="table-column">
-							{ row}
+							{row.court || '-'}
 						</div>
 					);
 				},
 			}, {
 				title: '标题',
-				dataIndex: 'address',
-				key: 'address',
-				width: 360,
-				render(text) {
+				dataIndex: 'title',
+				key: 'title',
+				// width: 360,
+				render(text, row) {
 					return (
-						<div className="table-column">
-							<p style={{ display: 'inline-block', width: 120, marginRight: 6 }}>
+						<div className="yc-table-text-link">
+							<a href={row.url} target="_blank" rel="noopener noreferrer">
 								{
-									text && text.length > 8
+									text && text.length > 30
 										? (
 											<Tooltip placement="topLeft" title={text}>
-												<p>{`${text.substr(0, 8)}...`}</p>
+												<p>{`${text.substr(0, 30)}...`}</p>
 											</Tooltip>
 										)
 										: <p>{text || '-'}</p>
 								}
-							</p>
+							</a>
 						</div>
 					);
 				},

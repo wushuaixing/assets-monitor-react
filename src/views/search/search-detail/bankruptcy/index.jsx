@@ -7,13 +7,15 @@ import {
 } from 'antd';
 
 import { navigate } from '@reach/router';
-import { parseQuery, generateUrlWithParams } from '@/utils';
+import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import {
 	timeRule, Spin, Input, Button, Download,
 } from '@/common';
-import FinanceTable from './table';
+import Bankruptcy from './table';
 import {
-	finance, // 列表
+	bankruptcySearch, // 列表
+	exportBankruptcyAll, // 全部导出
+	exportBankruptcyCurrent, // 本页导出
 } from '@/utils/api/search';
 
 import './style.scss';
@@ -21,15 +23,18 @@ import './style.scss';
 const createForm = Form.create;
 const _style1 = { width: 278 };
 const _style2 = { width: 100 };
-class FINANCE extends React.Component {
+class BANKRUPTCY extends React.Component {
 	constructor(props) {
 		super(props);
+		this.scrollTop = React.createRef();
 		document.title = '金融资产-信息搜索';
 		this.state = {
 			dataList: [],
 			params: {},
 			SortTime: undefined,
 			Sort: undefined,
+			publishDateStart: undefined,
+			publishDateEnd: undefined,
 			loading: false,
 			totals: 0,
 			pageSize: 10,
@@ -41,12 +46,11 @@ class FINANCE extends React.Component {
 	componentDidMount() {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
-		console.log(params);
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 		this.setState({
 			params,
-			startTime: params.publishStart,
-			endTime: params.publishEnd,
+			publishDateStart: params.publishDateStart,
+			publishDateEnd: params.publishDateEnd,
 		});
 		// 判断是否为空对象,非空请求接口
 		if (Object.keys(params).length !== 0) {
@@ -93,7 +97,7 @@ class FINANCE extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		finance(params).then((res) => {
+		bankruptcySearch(params).then((res) => {
 			if (res && res.data) {
 				this.setState({
 					dataList: res.data.list,
@@ -126,15 +130,17 @@ class FINANCE extends React.Component {
 			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
 			SortTime: params.sort,
 		});
-	}
+	};
 
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		const { pageSize } = this.state;
-		navigate(generateUrlWithParams('/search/detail/finance', fildes));
+		const { pageSize, publishDateStart, publishDateEnd } = this.state;
+		fildes.publishDateStart = publishDateStart;
+		fildes.publishDateEnd = publishDateEnd;
+		navigate(generateUrlWithParams('/search/detail/bankruptcy', fildes));
 		this.setState({
 			page: 1,
 			Sort: undefined,
@@ -144,13 +150,13 @@ class FINANCE extends React.Component {
 			page: 1,
 			num: pageSize,
 		};
-		if (fildes.content) {
+		if (!objectKeyIsEmpty(fildes)) {
 			this.getData(params);
 		} else {
 			this.queryReset();
 			// message.error('请输入搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -162,11 +168,14 @@ class FINANCE extends React.Component {
 			dataList: [],
 			totals: 0,
 			page: 1,
+			publishDateStart: undefined,
+			publishDateEnd: undefined,
+			params: {},
 		});
 		navigate(generateUrlWithParams('/search/detail/bankruptcy', {}));
-	}
+	};
 
-	//  pagesize页面翻页可选
+	//  pageSize页面翻页可选
 	onShowSizeChange = (current, pageSize) => {
 		this.setState({
 			pageSize,
@@ -176,25 +185,29 @@ class FINANCE extends React.Component {
 		});
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-
-		const fildes = getFieldsValue();
+		const fields = getFieldsValue();
+		const { publishDateStart, publishDateEnd } = this.state;
+		fields.publishDateStart = publishDateStart;
+		fields.publishDateEnd = publishDateEnd;
 		const params = {
-			...fildes,
+			...fields,
 			num: pageSize,
 			page: 1,
 		};
-		if (fildes.content) {
+		if (!objectKeyIsEmpty(fields)) {
 			this.getData(params);
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
 		const { pageSize } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-
 		const fildes = getFieldsValue();
+		const { publishDateStart, publishDateEnd } = this.state;
+		fildes.publishDateStart = publishDateStart;
+		fildes.publishDateEnd = publishDateEnd;
 		const params = {
 			...fildes,
 			current: val,
@@ -206,7 +219,7 @@ class FINANCE extends React.Component {
 			loading: true,
 		});
 
-		finance(params).then((res) => {
+		bankruptcySearch(params).then((res) => {
 			if (res && res.data) {
 				this.setState({
 					dataList: res.data.list,
@@ -221,21 +234,21 @@ class FINANCE extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	// 导出
 	toExportCondition=(type) => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const {
-			SortTime, pageSize, current, startTime, endTime,
+			SortTime, pageSize, current, publishDateStart, publishDateEnd,
 		} = this.state;
 		const fields = getFieldsValue();
 
 		const params = {
 			...fields,
-			publishStart: startTime,
-			publishEnd: endTime,
+			publishDateStart,
+			publishDateEnd,
 			sort: SortTime,
 			page: type === 'current' ? current : undefined,
 			num: type === 'current' ? pageSize : 1000,
@@ -245,23 +258,22 @@ class FINANCE extends React.Component {
 
 	render() {
 		const {
-			loading, totals, current, dataList, page, pageSize, startTime, endTime, params, Sort,
+			loading, totals, current, dataList, page, pageSize, params, Sort,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
-		console.log(endTime, startTime);
 
 		return (
 			<div className="yc-content-query">
 				<div className="yc-content-header">
 					<div className="yc-query-item">
 						<Input
-							title="债务人"
+							title="企业"
 							style={_style1}
 							size="large"
 							placeholder="企业债务人名称"
-							{...getFieldProps('content', {
-								initialValue: params.content,
+							{...getFieldProps('brcompanyname', {
+								initialValue: params.brcompanyname,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -293,32 +305,32 @@ class FINANCE extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">发布日期: </span>
 						<DatePicker
-							{...getFieldProps('startTime', {
-								// initialValue: params.startTime,
+							{...getFieldProps('publishDateStart', {
+								initialValue: params.publishDateStart,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
-										startTime: dateString,
+										publishDateStart: dateString,
 									});
 								},
 							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishDateEnd'))}
 							size="large"
 							style={_style2}
 							placeholder="开始日期"
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('endTime', {
-								// initialValue: params.endTime,
+							{...getFieldProps('publishDateEnd', {
+								initialValue: params.publishDateEnd,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
-										endTime: dateString,
+										publishDateEnd: dateString,
 									});
 								},
 							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishDateStart'))}
 							size="large"
 							style={_style2}
 							placeholder="结束日期"
@@ -335,8 +347,8 @@ class FINANCE extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 				<div className="yc-writ-tablebtn">
-					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api="" current page num text="本页导出" />}
-					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api="" all page num text="全部导出" />
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportBankruptcyCurrent} current page num text="本页导出" />}
+					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportBankruptcyAll} all page num text="全部导出" />
 					{dataList.length > 0 && (
 						<div style={{
 							float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
@@ -347,40 +359,41 @@ class FINANCE extends React.Component {
 					)}
 				</div>
 				<Spin visible={loading}>
-					<FinanceTable SortTime={this.SortTime} Sort={Sort} stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
-					{dataList && dataList.length > 0 && (
-					<div className="yc-table-pagination">
-						<Pagination
-							total={totals && totals > 1000 ? 1000 : totals}
-							current={current}
-							pageSize={pageSize} // 默认条数
-							pageSizeOptions={['10', '25', '50']}
-							showQuickJumper
-							showSizeChanger
-							onShowSizeChange={this.onShowSizeChange}
-							showTotal={() => `共 ${totals} 条记录`}
-							onChange={(val) => {
-								// 存在数据才允许翻页
-								if (dataList.length > 0) {
-									this.handleChangePage(val);
-								}
-							}}
-						/>
+					<div ref={this.scrollTop}>
+						<Bankruptcy SortTime={this.SortTime} Sort={Sort} stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
 					</div>
+					{dataList && dataList.length > 0 && (
+						<div className="yc-table-pagination">
+							<Pagination
+								total={totals && totals > 1000 ? 1000 : totals}
+								current={current}
+								pageSize={pageSize} // 默认条数
+								pageSizeOptions={['10', '25', '50']}
+								showQuickJumper
+								showSizeChanger
+								onShowSizeChange={this.onShowSizeChange}
+								showTotal={() => `共 ${totals} 条记录`}
+								onChange={(val) => {
+								// 存在数据才允许翻页
+									if (dataList.length > 0) {
+										this.handleChangePage(val);
+									}
+								}}
+							/>
+						</div>
 					)}
 					{page === 100 && (
-					<span style={{
-						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
-					}}
-					>
+						<span style={{
+							color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
+						}}
+						>
 						如需更多数据请联系：186-5718-6471
-					</span>
+						</span>
 					)}
 				</Spin>
-
 			</div>
 		);
 	}
 }
 
-export default createForm()(FINANCE);
+export default createForm()(BANKRUPTCY);
