@@ -127,7 +127,8 @@ class AssociationLink extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		const { visible } = this.state;
-		return nextState.visible !== visible;
+		const { source } = this.props;
+		return nextState.visible !== visible || JSON.stringify(nextProps.source) !== JSON.stringify(source);
 	}
 
 	toShow=(list, type) => {
