@@ -71,7 +71,7 @@ class BusinessView extends React.Component {
 				title: '机构名称',
 				dataIndex: 'orgName',
 				key: 'orgName',
-				width: 134,
+				width: 150,
 				render: text => (
 					<p>{text || '-'}</p>
 				),
@@ -81,6 +81,7 @@ class BusinessView extends React.Component {
 				dataIndex: 'guarantorCount',
 				key: 'guarantorCount',
 				width: 68,
+				className: 'column-center',
 				render(text, row) {
 					if (text === '0' || !text) {
 						return <div>0</div>;
@@ -92,6 +93,7 @@ class BusinessView extends React.Component {
 				dataIndex: 'pushCount',
 				key: 'pushCount',
 				width: 80,
+				className: 'column-center',
 				render(text) {
 					if (text === '0' || !text) {
 						return <div>0</div>;
@@ -110,7 +112,7 @@ class BusinessView extends React.Component {
 				title: '上传时间',
 				dataIndex: 'uploadTime',
 				key: 'uploadTime',
-				width: 90,
+				width: 130,
 				render(text) {
 					return <span>{formatDateTime(text) || '-'}</span>;
 				},
@@ -118,7 +120,7 @@ class BusinessView extends React.Component {
 				title: '推送状态',
 				dataIndex: 'pushState',
 				key: 'pushState',
-				width: 110,
+				width: 80,
 				render: text => (
 					<React.Fragment>
 						{

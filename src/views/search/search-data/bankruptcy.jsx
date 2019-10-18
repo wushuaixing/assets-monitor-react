@@ -13,8 +13,8 @@ class BANKRUPTCY extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			startTime: '',
-			endTime: '',
+			publishDateStart: undefined,
+			publishDateEnd: undefined,
 		};
 	}
 
@@ -41,11 +41,11 @@ class BANKRUPTCY extends React.Component {
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
-		const { startTime, endTime } = this.state;
+		const { publishDateStart, publishDateEnd } = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		fildes.publishStart = startTime;
-		fildes.publishEnd = endTime;
+		fildes.publishDateStart = publishDateStart;
+		fildes.publishDateEnd = publishDateEnd;
 
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
@@ -61,8 +61,8 @@ class BANKRUPTCY extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
 		this.setState({
-			startTime: undefined,
-			endTime: undefined,
+			publishDateStart: undefined,
+			publishDateEnd: undefined,
 		});
 		resetFields('');
 	}
@@ -77,7 +77,7 @@ class BANKRUPTCY extends React.Component {
 						<Input
 							title="企业"
 							placeholder="企业名称"
-							{...getFieldProps('content', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('brcompanyname', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ marginRight: 16, width: 243 }}>
@@ -101,12 +101,12 @@ class BANKRUPTCY extends React.Component {
 						placeholder="开始日期"
 						size="large"
 						style={_style1}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
-						{...getFieldProps('publishStart', {
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishDateEnd'))}
+						{...getFieldProps('publishDateStart', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
-									startTime: dateString,
+									publishDateStart: dateString,
 								});
 							},
 						})}
@@ -117,12 +117,12 @@ class BANKRUPTCY extends React.Component {
 						placeholder="结束日期"
 						size="large"
 						style={_style1}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
-						{...getFieldProps('publishEnd', {
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishDateStart'))}
+						{...getFieldProps('publishDateEnd', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
-									endTime: dateString,
+									publishDateEnd: dateString,
 								});
 							},
 						})}

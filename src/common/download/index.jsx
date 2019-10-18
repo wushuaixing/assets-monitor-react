@@ -19,7 +19,7 @@ export default class Download extends React.Component {
 
 	handleDownload=() => {
 		const {
-			api, condition, all, field, current, page, num, selectIds, selectData,
+			api, condition, all, field, current, page, num, selectIds, selectData, selectedRowKeys,
 		} = this.props;
 
 		// 处理变量参数
@@ -66,20 +66,26 @@ export default class Download extends React.Component {
 				onCancel() {},
 			});
 		} else if (selectIds) {
-			Modal.confirm({
-				title: '确认导出选中的所有信息吗？',
-				content: (
-					<div style={{ marginLeft: -37 }}>
-						<div style={{ fontSize: 14, marginBottom: 20 }}>点击确定，将为您导出选中的所有信息。</div>
-						<ModalTable selectData={selectData} getData={this.getData} />
-					</div>
-				),
-				iconType: 'exclamation-circle',
-				onOk() {
-					toOkClick();
-				},
-				onCancel() {},
-			});
+			// console.log(selectedRowKeys);
+
+			if (selectedRowKeys && selectedRowKeys.length > 0) {
+				Modal.confirm({
+					title: '确认导出选中的所有信息吗？',
+					content: (
+						<div style={{ marginLeft: -37 }}>
+							<div style={{ fontSize: 14, marginBottom: 20 }}>点击确定，将为您导出选中的所有信息。</div>
+							<ModalTable selectData={selectData} getData={this.getData} />
+						</div>
+					),
+					iconType: 'exclamation-circle',
+					onOk() {
+						toOkClick();
+					},
+					onCancel() {},
+				});
+			} else {
+				message.warning('未选中业务');
+			}
 		} else if (all) {
 			console.log('一键导出');
 			Modal.confirm({

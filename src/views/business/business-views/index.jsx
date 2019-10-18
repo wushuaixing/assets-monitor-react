@@ -518,7 +518,7 @@ class BusinessView extends React.Component {
 							{/* <Button onClick={this.handledExport} className="yc-business-btn">
 								导出
 							</Button> */}
-							<Download selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
+							<Download selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
 						</React.Fragment>
 						)}
 						{!openRowSelection && (
