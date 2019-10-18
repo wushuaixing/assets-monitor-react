@@ -159,7 +159,7 @@ class BusinessView extends React.Component {
 						<div>
 							{
 								row.ah && row.ygList.length > 0 ? (
-									<div onClick={() => toClick(row)} className="yc-td-header">
+									<div onClick={() => toClick(row)} className="yc-table-text-link">
 										{' '}
 										{row.ah || '-'}
 									</div>
@@ -178,7 +178,7 @@ class BusinessView extends React.Component {
 							{row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0 && (
 								<span>
 									<span
-										className="yc-td-header"
+										className="yc-table-text-link"
 										onClick={() => toShow(row, 0)}
 									>
 										立案
@@ -189,7 +189,7 @@ class BusinessView extends React.Component {
 								<span>
 									{row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0 && <span className="ant-divider" />}
 									<span
-										className="yc-td-header"
+										className="yc-table-text-link"
 										onClick={() => toShow(row, 1)}
 									>
 										开庭
@@ -203,7 +203,7 @@ class BusinessView extends React.Component {
 										dividerType(row)
 									}
 									<span
-										className="yc-td-header"
+										className="yc-table-text-link"
 										onClick={() => toShow(row, 2)}
 									>
 										文书
