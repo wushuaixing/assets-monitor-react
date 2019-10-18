@@ -259,6 +259,30 @@ export const linkDom = (url, text, target, className, style) => React.createElem
 	},
 	text,
 );
+//	返回a标签，可点击链接 => 债务人详情
+export const linkDetail = (id, text, target, className, style) => React.createElement(
+	'a',
+	{
+		href: `#/business/debtor/detail?id=${id}`,
+		className: `click-link${className ? ` ${className}` : ''}`,
+		rel: 'noopener noreferrer',
+		target: target || '_blank',
+		style,
+	},
+	text,
+);
+//	返回a标签，可点击链接 => 业务详情
+export const linkBusiness = (id, text, target, className, style) => React.createElement(
+	'a',
+	{
+		href: `#/business/detail?id=${id}`,
+		className: `click-link${className ? ` ${className}` : ''}`,
+		rel: 'noopener noreferrer',
+		target: target || '_blank',
+		style,
+	},
+	text,
+);
 
 /**
  * 拼接修改url后的get参数

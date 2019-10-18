@@ -237,7 +237,7 @@ export default {
 					{
 						id: 'YC0303',
 						name: '经营风险',
-						url: '/risk/operate',
+						url: '/risk/operation',
 						status: true,
 						child: [
 							{ id: 'YC030301', name: '经营异常', status: true },

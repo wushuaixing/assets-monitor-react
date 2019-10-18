@@ -31,14 +31,14 @@ class QueryCondition extends React.Component {
 	handleSubmit=() => {
 		const { form: { getFieldsValue }, onQueryChange } = this.props;
 		const condition = getFieldsValue();
-		if (onQueryChange)onQueryChange(condition, '', '', 1);
+		if (onQueryChange)onQueryChange(condition);
 	};
 
 	handleReset=() => {
 		const { form, onQueryChange } = this.props;
 		form.resetFields();
 		const condition = 	form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition, '', '', 1);
+		if (onQueryChange)onQueryChange(condition);
 	};
 
 	render() {
@@ -51,32 +51,30 @@ class QueryCondition extends React.Component {
 			},
 		};
 		return (
-			<div className="yc-content-query" ref={e => this.dom = e}>
+			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="当事人" style={_style1} size="large" placeholder="姓名/公司" {...getFieldProps('partiesName')} />
+					<Input title="相关单位" style={_style1} size="large" placeholder="单位名称" {...getFieldProps('obName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="案号" style={_style1} size="large" placeholder="案号" {...getFieldProps('caseNumber')} />
+					<Input title="标题" style={_style1} size="large" placeholder="标题信息" {...getFieldProps('title')} />
 				</div>
-				<div className="yc-query-item" style={{ marginRight: 0 }}>
-					<Input title="法院" style={_style1} size="large" placeholder="法院名称" {...getFieldProps('court')} />
-				</div>
+
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">立案/开庭/判决日期：</span>
+					<span className="yc-query-item-title">发布日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startGmt', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmt'))}
+						{...getFieldProps('startPublishTime', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endPublishTime'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endGmt', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmt'))}
+						{...getFieldProps('endPublishTime', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startPublishTime'))}
 					/>
 				</div>
 				<div className="yc-query-item">
@@ -85,18 +83,19 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startGmtCreate', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtCreate'))}
+						{...getFieldProps('startCreateTime', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endCreateTime'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endGmtCreate', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtCreate'))}
+						{...getFieldProps('endCreateTime', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startCreateTime'))}
 					/>
 				</div>
+
 
 				<div className="yc-query-item yc-query-item-btn">
 					<Button size="large" type="common" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
