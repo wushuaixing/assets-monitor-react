@@ -312,7 +312,7 @@ class Login extends React.Component {
 								<th rowSpan=" 2 " style={{ width: 400, textAlign: 'left' }}>机构名称</th>
 								<th rowSpan=" 2 " style={{ width: 174 }}>监控债务人数</th>
 								<th colSpan="4" style={{ width: 388 }}>监控信息数</th>
-								<th rowSpan=" 2 " style={{ width: 198, textAlign: 'right' }}>追回总金额(元)</th>
+								<th rowSpan=" 2 " style={{ width: 198, textAlign: 'right' }}>追回总金额 (元)</th>
 							</tr>
 							<tr className="tr-table">
 								<th style={{ width: 92 }}>全部</th>

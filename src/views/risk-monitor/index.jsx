@@ -7,7 +7,7 @@ import { unReadCount } from '@/utils/api/monitor-info';
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import OperateRisk from './operate-risk';
-import Star from '@/assets/img/icon/btn_attention_n.png';
+import Star from '@/assets/img/icon/btn_attention16_n.png';
 import ruleMethods from '@/utils/rule';
 import './style.scss';
 

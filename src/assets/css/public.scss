@@ -818,3 +818,31 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   margin-left: 2px;
   overflow: hidden;
 }
+
+// input背景色
+input::-webkit-input-placeholder {
+  color: $text-placeholder;
+}
+.ant-calendar-picker {
+  input::-webkit-input-placeholder {
+    color: $text-placeholder;
+  }
+}
+input::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: $text-placeholder;
+}
+
+input:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: $text-placeholder;
+}
+
+input:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: $text-placeholder;
+}
+
+.ant-select-selection__placeholder {
+  color: $text-placeholder;
+}
