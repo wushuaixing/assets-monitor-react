@@ -4,6 +4,7 @@ import { message } from 'antd';
 import MainScreen from './main-screen';
 import LoginScreen from './login';
 import NoPermission from './noPermission';
+// import Test from './_test';
 import './main.scss';
 
 message.config({
@@ -14,6 +15,7 @@ const BaseRouter = () => (
 		<MainScreen path="/*" />
 		<LoginScreen path="login/*" />
 		<NoPermission path="noPermission/*" />
+		{/* <Test path="page/*" /> */}
 	</Router>
 );
 export default BaseRouter;

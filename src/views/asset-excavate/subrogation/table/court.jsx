@@ -45,7 +45,7 @@ const columns = (props) => {
 			title: '关联信息',
 			dataIndex: 'associatedInfo',
 			className: 'tAlignCenter_important min-width-80',
-			render: associationLink,
+			render: (value, row) => associationLink(value, row, 'Court'),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

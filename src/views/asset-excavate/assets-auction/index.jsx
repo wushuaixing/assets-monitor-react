@@ -82,11 +82,15 @@ export default class Assets extends React.Component {
 
 	// 获取统计信息
 	toInfoCount=() => {
+		const { toRefreshCount } = this.props;
 		infoCount(this.condition).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					tabConfig: source(res.data || {}),
 				});
+				if ((res.data || {}).unfollowedCount === 0) {
+					toRefreshCount('YC0201', res.data.unfollowedCount);
+				}
 			}
 		});
 	};
