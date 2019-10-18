@@ -47,9 +47,9 @@ const defaultColumns = {
 	Court: [
 		{
 			title: <span style={{ paddingLeft: 11 }}>开庭日期</span>,
-			dataIndex: 'gmtRegister',
+			dataIndex: 'gmtTrial',
 			width: 100,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: text => ReadStatus(timeStandard(text)),
 		},
 		{
 			title: '当事人',
@@ -127,11 +127,11 @@ class AssociationLink extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		const { visible } = this.state;
-		return nextState.visible !== visible;
+		const { source } = this.props;
+		return nextState.visible !== visible || JSON.stringify(nextProps.source) !== JSON.stringify(source);
 	}
 
 	toShow=(list, type) => {
-		console.log(list, type);
 		this.setState({
 			visible: true,
 			dataSource: list,

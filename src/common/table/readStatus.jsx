@@ -1,7 +1,7 @@
 import React from 'react';
 import recall from '@/assets/img/icon/icon-recall.png';
 
-const readStatus = (text, record) => {
+const readStatus = (text, record = {}) => {
 	const { isRead, isDeleted } = record;
 	return (
 		<React.Fragment>
