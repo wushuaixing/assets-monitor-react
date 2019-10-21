@@ -3,7 +3,7 @@ import Item from './item';
 import { Tabs } from '@/common';
 import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import {
-	subrogationCount, financeCount, landCount, lawsuitCount,
+	subrogationCount, financeCount, landCount, lawsuitCount, operationCount,
 } from '@/utils/api/monitor-info/attention';
 import './style.scss';
 
@@ -67,6 +67,21 @@ export default class MyAttention extends React.Component {
 					return _item;
 				});
 				// console.log(_source);
+				this.setState({ source: _source });
+			});
+		} else if (type === 'YC0303') {
+			operationCount().then((res) => {
+				// console.log(res);
+				_source.child = _source.child.map((item) => {
+					const _item = item;
+					// Abnormal, Change, Illegal, Punishment,
+					// console.log(item);
+					if (item.id === 'YC030301') _item.number = res.Abnormal;
+					else if (item.id === 'YC030302') _item.number = res.Change;
+					else if (item.id === 'YC030303') _item.number = res.Illegal;
+					else if (item.id === 'YC030305') _item.number = res.Punishment;
+					return _item;
+				});
 				this.setState({ source: _source });
 			});
 		} else if (type === 'YC0203') {

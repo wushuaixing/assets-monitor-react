@@ -1,14 +1,17 @@
 import service from '@/utils/service';
 import { Court, Trial, Judgment } from './subrogation';
 import { Court as lCourt, Trial as lTrial, Judgment as lJudgment } from '../risk-monitor/lawsuit';
-import {
-	attentionFollowListCount, // 关注列表土地数据出让结果数量
-} from './public';
+import { attentionFollowListCount } from './public';// 关注列表土地数据出让结果数量
 import {
 	attentionFollowBidCount, // 竞价项目 数量统计
 	attentionFollowPubCount, // 公示项目 数量统计
 	attentionFollowResultCount, // 股权质押 数量统计
 } from './finance';
+//
+import {
+	Abnormal, Change, Illegal, Punishment,
+} from '../risk-monitor/operation-risk';
+
 // 我的关注
 
 // /* 金融资产 - btn 数量 */
@@ -41,6 +44,29 @@ export const subrogationCount = () => {
 			return Judgment.followListCount();
 		}).then((res) => {
 			if (res.code === 200) result.Judgment = res.data;
+			return result;
+		})
+		.catch(() => {
+			// 异常处理
+		});
+};
+
+/* 经营风险 - 关注列表 - 数量统计 */
+export const operationCount = () => {
+	const result = {};
+	return Abnormal.followListCount()
+		.then((res) => {
+			if (res.code === 200) result.Abnormal = res.data;
+			return Change.followListCount();
+		}).then((res) => {
+			if (res.code === 200) result.Change = res.data;
+			return Illegal.followListCount();
+		}).then((res) => {
+			if (res.code === 200) result.Illegal = res.data;
+			return Punishment.followListCount();
+		})
+		.then((res) => {
+			if (res.code === 200) result.Punishment = res.data;
 			return result;
 		})
 		.catch(() => {

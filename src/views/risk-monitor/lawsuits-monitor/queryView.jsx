@@ -58,7 +58,7 @@ class QueryCondition extends React.Component {
 
 	render() {
 		const _style1 = { width: 278 };
-		const _style2 = { width: 100 };
+		const _style2 = { width: 120 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const { filterCurrentOrg } = this.state;
 		const timeOption = {
@@ -72,16 +72,17 @@ class QueryCondition extends React.Component {
 					<Input title="当事人" style={_style1} size="large" placeholder="姓名/公司" {...getFieldProps('partiesName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="原告" style={_style1} size="large" placeholder="原告姓名/公司" {...getFieldProps('accuser')} />
-				</div>
-				<div className="yc-query-item">
-					<Input title="被告" style={_style1} size="large" placeholder="被告姓名/公司" {...getFieldProps('defendant')} />
-				</div>
-				<div className="yc-query-item">
 					<Input title="案号" style={_style1} size="large" placeholder="案号" {...getFieldProps('caseNumber')} />
 				</div>
-				<div className="yc-query-item" style={{ marginRight: 0 }}>
+				<div className="yc-query-item">
 					<Input title="法院" style={_style1} size="large" placeholder="法院名称" {...getFieldProps('court')} />
+				</div>
+				<div className="yc-query-item" style={{ height: 34, paddingTop: 9 }}>
+					<span className="yc-query-item-title">是否过滤本级机构：</span>
+					<Radio.Group onChange={this.radioChange} value={filterCurrentOrg}>
+						<Radio key="a" value={1}>是</Radio>
+						<Radio key="b" value={0}>否</Radio>
+					</Radio.Group>
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">立案/开庭/判决日期：</span>
@@ -120,13 +121,7 @@ class QueryCondition extends React.Component {
 					/>
 				</div>
 
-				<div className="yc-query-item" style={{ height: 34, paddingTop: 9 }}>
-					<span className="yc-query-item-title">是否过滤本级机构：</span>
-					<Radio.Group onChange={this.radioChange} value={filterCurrentOrg}>
-						<Radio key="a" value={1}>是</Radio>
-						<Radio key="b" value={0}>否</Radio>
-					</Radio.Group>
-				</div>
+
 				<div className="yc-query-item yc-query-item-btn">
 					<Button size="large" type="common" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
 					<Button size="large" style={{ width: 120 }} onClick={this.handleReset}>重置查询条件</Button>
