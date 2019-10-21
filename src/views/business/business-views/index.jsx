@@ -16,6 +16,7 @@ import {
 import {
 	Input, Button, Spin, timeRule, Download, SelectedNum,
 } from '@/common';
+import businessImg from '@/assets/img/business/icon_recovery_n.png';
 import ModalTable from './modalTable';
 
 import './style.scss';
@@ -161,7 +162,6 @@ class BusinessView extends React.Component {
 			},
 		};
 	};
-
 
 	// 获取消息列表
 	getData = (value) => {
@@ -546,7 +546,7 @@ class BusinessView extends React.Component {
 						<Download condition={() => this.toExportCondition('all')} style={{ float: 'right', marginRight: 0 }} api={exportExcel} all text="一键导出" />
 						)}
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
-							<Icon className="yc-business-icon" type="question-circle-o" />
+							<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
 						</Tooltip>
 					</div>
 					{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
