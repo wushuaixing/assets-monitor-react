@@ -5,7 +5,7 @@ import { readStatusResult } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
 import { Table, SelectedNum } from '@/common';
 // import { floatFormat } from '@/utils/format';
-import { linkDom } from '@/utils';
+import { linkDom, timeStandard } from '@/utils';
 
 // 出质详情
 const PledgeDetail = (text, rowContent) => (
@@ -66,7 +66,7 @@ const columns = (props) => {
 				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
 			dataIndex: 'regDate',
 			width: 130,
-			render: (text, record) => ReadStatus(text || '-', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '出质人',
 			dataIndex: 'pledgorList',
@@ -118,7 +118,7 @@ const columns = (props) => {
 			dataIndex: 'gmtModified',
 			className: 'tAlignCenter_important',
 			width: 130,
-			render: (text, record) => ReadStatus(text || '-', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '操作',
 			unNormal: true,

@@ -5,7 +5,7 @@ import {
 import { Table, SelectedNum } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
-import { linkDom } from '@/utils';
+import { linkDom, timeStandard } from '@/utils';
 
 
 // 抵押详情
@@ -114,7 +114,7 @@ const columns = (props) => {
 				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
 			dataIndex: 'regDate',
 			width: 110,
-			render: (text, record) => ReadStatus(text || '-', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '抵押物所有人',
 			dataIndex: 'owner',
@@ -162,7 +162,7 @@ const columns = (props) => {
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
 			width: 110,
-			render: text => <span>{text || '-'}</span>,
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '操作',
 			// width: 55,
