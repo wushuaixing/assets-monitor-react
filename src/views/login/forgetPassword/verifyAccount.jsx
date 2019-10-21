@@ -12,10 +12,10 @@ import {
 	forgetPasswordStep1, // 忘记密码-step1
 } from '@/utils/api/user';
 // import server from '@/utils/service';
-import { baseUrl } from '@/utils/api';
+import BASE_URL from '@/utils/api/config';
 import './style.scss';
 
-const verificationCodeImg = `${baseUrl}/yc/open/verificationCode`;
+const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
 const FormItem = Form.Item;
 const createForm = Form.create;
 

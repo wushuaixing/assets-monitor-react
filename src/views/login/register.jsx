@@ -13,13 +13,13 @@ import {
 	login, // login
 	loginPreCheck, // 登录前校验
 } from '@/utils/api/user';
-import { baseUrl } from '@/utils/api';
+import BASE_URL from '@/utils/api/config';
 import rsaEncrypt from '@/utils/encrypt';
 import PasswordModal from './passwordModal';
 import { handleRule } from '@/utils';
 import './style.scss';
 
-const verificationCodeImg = `${baseUrl}/yc/open/verificationCode`;
+const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
 
 const cookie = new Cookies();
 const createForm = Form.create;
