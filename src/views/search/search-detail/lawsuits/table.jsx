@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-	Form, Tooltip, Modal,
-} from 'antd';
+import { Form, Modal, Tooltip } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
 import { Table } from '@/common';
 import './style.scss';
@@ -59,9 +57,8 @@ const toShow = (row, type) => {
 			onOk() {},
 		});
 	} else {
-		const w = window.open('about:blank');
-		const associates = row.associates[type].url[0];
-		w.location.href = associates;
+		window.open(row.associates[type].url[0], '_blank');
+		// w.location.href = row.associates[type].url[0];
 	}
 };
 const dividerType = (row) => {

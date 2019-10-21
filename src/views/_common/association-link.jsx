@@ -47,9 +47,9 @@ const defaultColumns = {
 	Court: [
 		{
 			title: <span style={{ paddingLeft: 11 }}>开庭日期</span>,
-			dataIndex: 'gmtRegister',
+			dataIndex: 'gmtTrial',
 			width: 100,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: text => ReadStatus(timeStandard(text)),
 		},
 		{
 			title: '当事人',
@@ -127,11 +127,11 @@ class AssociationLink extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		const { visible } = this.state;
-		return nextState.visible !== visible;
+		const { source } = this.props;
+		return nextState.visible !== visible || JSON.stringify(nextProps.source) !== JSON.stringify(source);
 	}
 
 	toShow=(list, type) => {
-		console.log(list, type);
 		this.setState({
 			visible: true,
 			dataSource: list,
@@ -165,17 +165,18 @@ class AssociationLink extends React.Component {
 
 	/* 处理数据 */
 	handleSource =(source) => {
+		const { type } = this.props;
 		const { associatedInfo: { trialAssociatedInfo: La, courtAssociatedInfo: Kt, judgmentAssociatedInfo: Ws } } = source;
 		const resContent = [];
 		if (La.length > 0) {
-			if (La.length > 1) {
+			if (La.length > 1 || (Kt.length === 1 && type === 'Court')) {
 				resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
 			} else if (La.length === 1 && La[0].url) {
 				resContent.push(linkDom(La[0].url, '立案'));
 			}
 		}
 		if (Kt.length > 0) {
-			if (Kt.length > 1) {
+			if (Kt.length > 1 || (Kt.length === 1 && type === 'Trial')) {
 				if (resContent.length)resContent.push(<span className="info-line">|</span>);
 				resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Court')}>开庭</span>);
 			} else if (Kt.length === 1 && Kt[0].url) {
@@ -227,6 +228,7 @@ class AssociationLink extends React.Component {
 					{[
 						_dataSource.tableData.length
 							? <Table columns={defaultColumns[type || 'Trial']} dataSource={_dataSource.tableData} pagination={false} /> : null,
+						_dataSource.tableData.length && _dataSource.listData.length ? <div className="source-list-hr" /> : null,
 						_dataSource.listData.length
 							? [
 								<div className="yc-public-title-normal source-list-title">{`本条信息关联的其他多个${text.c}链接：`}</div>,
@@ -248,6 +250,6 @@ class AssociationLink extends React.Component {
 		);
 	}
 }
-const methods = (value, row) => <AssociationLink source={row} />;
+const methods = (value, row, type) => <AssociationLink source={row} type={type} />;
 
 export default methods;

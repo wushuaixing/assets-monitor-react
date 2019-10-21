@@ -226,7 +226,7 @@ class BusinessView extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 
 	// 搜索
@@ -255,7 +255,7 @@ class BusinessView extends React.Component {
 			selectedRowKeys: [], // 这里配置默认勾选列
 			openRowSelection: false,
 		});
-	}
+	};
 
 
 	openManagement = (openRowSelection) => {
@@ -263,7 +263,7 @@ class BusinessView extends React.Component {
 			openRowSelection: !openRowSelection,
 			selectedRowKeys: [],
 		});
-	}
+	};
 
 	onSelectChange = (selectedRowKeys) => {
 		// 维护一个 selectedRowsArray 来保存之前的数据。
@@ -297,7 +297,7 @@ class BusinessView extends React.Component {
 			selectedRowKeys: [], // 这里配置默认勾选列
 			openRowSelection: false,
 		});
-	}
+	};
 
 
 	// 批量删除
@@ -355,7 +355,7 @@ class BusinessView extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	// 导出
 	toExportCondition=(type) => {
@@ -382,14 +382,14 @@ class BusinessView extends React.Component {
 			PeopleListModalVisible: true,
 			businessId: id,
 		});
-	}
+	};
 
 	// 关闭弹窗
 	onCancel = () => {
 		this.setState({
 			PeopleListModalVisible: false,
 		});
-	}
+	};
 
 	handleCancel = (type) => {
 		if (type === 'down') {
@@ -400,13 +400,13 @@ class BusinessView extends React.Component {
 		this.setState({
 			errorModalVisible: false,
 		});
-	}
+	};
 
 	openErrorModal = () => {
 		this.setState({
 			errorModalVisible: true,
 		});
-	}
+	};
 
 	render() {
 		const {

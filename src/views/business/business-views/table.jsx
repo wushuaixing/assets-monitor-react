@@ -159,7 +159,7 @@ class BusinessView extends React.Component {
 	detail = (row) => {
 		const w = window.open('about:blank');
 		w.location.href = `#/business/detail?id=${row.id}`;
-	}
+	};
 
 	// 删除一条业务
 	showDeleteConfirm = (row) => {
@@ -194,7 +194,7 @@ class BusinessView extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	// 关闭, 开启推送
 	handlePut = (row) => {
@@ -231,7 +231,7 @@ class BusinessView extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	render() {
 		const { stateObj, rowSelection } = this.props;

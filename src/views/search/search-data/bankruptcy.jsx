@@ -54,7 +54,7 @@ class BANKRUPTCY extends React.Component {
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -65,7 +65,7 @@ class BANKRUPTCY extends React.Component {
 			publishDateEnd: undefined,
 		});
 		resetFields('');
-	}
+	};
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined

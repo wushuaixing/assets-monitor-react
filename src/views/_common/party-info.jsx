@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
-import { getByteLength, linkDom } from '@/utils';
+import { getByteLength, linkDetail } from '@/utils';
 
 const maxShowLength = 3;
 
@@ -77,9 +77,9 @@ export default class PartyInfoDetail extends React.Component {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',
 		};
-		const maxWidth = 280 - width || 40 - 50;
-		const liMaxWidth = width ? { maxWidth } : '';
-		const obligorContent = (i, content) => (i.obligorId ? linkDom(`#/business/debtor/detail?id=${i.obligorId}`, content, '_target', 'text-ellipsis') : <li className="text-ellipsis" style={liMaxWidth}>{content}</li>);
+		const maxWidth = 230 - (width * 1 < 40 ? 40 : width) || 40;
+		const obValue = (i, v) => (i.obligorId ? linkDetail(i.obligorId, v, '_target') : v);
+
 		return (
 			<div className="yc-party-info-list">
 				<span className="party-info party-info-title" style={width ? { width: width < 40 ? 40 : width } : ''}>
@@ -93,18 +93,24 @@ export default class PartyInfoDetail extends React.Component {
 					}
 				</span>
 				<span className="party-info party-info-colon">：</span>
-				<div className="party-info party-info-content" style={maxWidth}>
+				<div className="party-info party-info-content">
 					{
 						source.map((i) => {
 							const content = this.toHandleName(i);
 							if (getByteLength(content) * 6 >= maxWidth) {
 								return (
 									<Tooltip placement="top" title={content}>
-										{obligorContent(i, content)}
+										<li className="text-ellipsis" style={{ maxWidth }}>
+											{obValue(i, content)}
+										</li>
 									</Tooltip>
 								);
 							}
-							return obligorContent(i, content);
+							return (
+								<li className="text-ellipsis" style={{ maxWidth }}>
+									{obValue(i, content)}
+								</li>
+							);
 						})
 					}
 					{

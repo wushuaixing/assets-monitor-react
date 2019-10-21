@@ -6,8 +6,8 @@ import { unReadCount } from '@/utils/api/monitor-info';
 /* 主要内容模块 */
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
-import OperateRisk from './operate-risk';
-import Star from '@/assets/img/icon/btn_attention16_n.png';
+import Operation from './operation-risk';
+import Star from '@/assets/img/icon/btn_attention_n.png';
 import ruleMethods from '@/utils/rule';
 import './style.scss';
 
@@ -19,7 +19,7 @@ const toGetRuth = (moduleID) => {
 		let components = '';
 		if (item.id === `${moduleID}01`) components = Lawsuits;
 		else if (item.id === `${moduleID}02`) components = Bankruptcy;
-		else if (item.id === `${moduleID}03`) components = OperateRisk;
+		else if (item.id === `${moduleID}03`) components = Operation;
 		else components = noPage;
 		return Object.assign({}, item, {
 			components,

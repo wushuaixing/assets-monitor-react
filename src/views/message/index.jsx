@@ -139,7 +139,7 @@ class InformCenter extends React.Component {
 		};
 		isRead(params);
 		window.location.reload(); // 实现页面重新加载/
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -154,7 +154,7 @@ class InformCenter extends React.Component {
 		navigate(generateUrlWithParams('/message', params));
 
 		this.getData(params);
-	}
+	};
 
 
 	getData = (data) => {
@@ -178,7 +178,7 @@ class InformCenter extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	// 批量删除
 	handledDeleteBatch = (row) => {
@@ -252,7 +252,7 @@ class InformCenter extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	// 全部标记为已读
 	handleAllRead = () => {
@@ -297,14 +297,14 @@ class InformCenter extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	onSelectChange = (selectedRowKeys, selectedRows) => {
 		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
 		this.setState({
 			selectedRowKeys,
 		});
-	}
+	};
 
 	render() {
 		const {

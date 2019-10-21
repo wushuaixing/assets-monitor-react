@@ -130,7 +130,7 @@ class BANKRUPTCY extends React.Component {
 			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
 			SortTime: params.sort,
 		});
-	}
+	};
 
 	// 搜索
 	search = () => {
@@ -156,7 +156,7 @@ class BANKRUPTCY extends React.Component {
 			this.queryReset();
 			// message.error('请输入搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -173,9 +173,9 @@ class BANKRUPTCY extends React.Component {
 			params: {},
 		});
 		navigate(generateUrlWithParams('/search/detail/bankruptcy', {}));
-	}
+	};
 
-	//  pagesize页面翻页可选
+	//  pageSize页面翻页可选
 	onShowSizeChange = (current, pageSize) => {
 		this.setState({
 			pageSize,
@@ -185,19 +185,19 @@ class BANKRUPTCY extends React.Component {
 		});
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-		const fildes = getFieldsValue();
+		const fields = getFieldsValue();
 		const { publishDateStart, publishDateEnd } = this.state;
-		fildes.publishDateStart = publishDateStart;
-		fildes.publishDateEnd = publishDateEnd;
+		fields.publishDateStart = publishDateStart;
+		fields.publishDateEnd = publishDateEnd;
 		const params = {
-			...fildes,
+			...fields,
 			num: pageSize,
 			page: 1,
 		};
-		if (!objectKeyIsEmpty(fildes)) {
+		if (!objectKeyIsEmpty(fields)) {
 			this.getData(params);
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -234,7 +234,7 @@ class BANKRUPTCY extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	// 导出
 	toExportCondition=(type) => {

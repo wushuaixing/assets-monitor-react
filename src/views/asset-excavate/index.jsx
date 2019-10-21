@@ -61,6 +61,17 @@ class MonitorMain extends React.Component {
 		if (this.setUnReadCount) window.clearInterval(this.setUnReadCount);
 	}
 
+	/* 更新未读数据统计 */
+	toRefreshCount=(typeID, count) => {
+		const { source } = this.state;
+		const _source = source.map((item) => {
+			const _item = item;
+			if (_item.id === typeID)_item.dot = count;
+			return _item;
+		});
+		this.setState({ source: _source });
+	};
+
 	onUnReadCount=() => {
 		const { source } = this.state;
 		unReadCount().then((res) => {
@@ -69,7 +80,6 @@ class MonitorMain extends React.Component {
 				const _source = source.map((item) => {
 					const _item = item;
 					// console.log(_item.id, 123);
-
 					if (_item.id === 'YC0201')_item.dot = data.auctionCount;
 					if (_item.id === 'YC0202')_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount;
 					if (_item.id === 'YC0203')_item.dot = data.landResultFlag; // 土地数据
@@ -113,7 +123,13 @@ class MonitorMain extends React.Component {
 				<div className="yc-monitor yc-page-content">
 					<Router>
 						{
-							source.map(Item => <Item.components path={`${Item.url}/*`} rule={rule} />)
+							source.map(Item => (
+								<Item.components
+									path={`${Item.url}/*`}
+									rule={rule}
+									toRefreshCount={this.toRefreshCount}
+								/>
+							))
 						}
 					</Router>
 				</div>
