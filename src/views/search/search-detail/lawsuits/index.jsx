@@ -88,7 +88,6 @@ class LAWSUITS extends React.Component {
 			startLarq: urlObj.startLarq || undefined,
 			// type: urlObj.type || undefined,
 		};
-		console.log(urlObj);
 
 		// 判断是否为空对象,非空请求接口
 		if (Object.keys(urlObj).length !== 0 && urlObj.type === '1') {
