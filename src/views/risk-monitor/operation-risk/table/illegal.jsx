@@ -1,9 +1,72 @@
 import React, { Component, Fragment } from 'react';
-import { Pagination } from 'antd';
+import { Modal, Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
-import { Table } from '@/common';
-import Api from '@/utils/api/monitor-info/public';
+import { linkDetail, timeStandard } from '@/utils';
+import { Ellipsis, Table } from '@/common';
+import { Illegal } from '@/utils/api/risk-monitor/operation-risk';
+
+// removeSituation 移除情况
+const removeSituation = (val, row) => {
+	const { gmtRemoveDate, removeReason, removeDepartment } = row;
+	if (!gmtRemoveDate) {
+		return (
+			<div className="assets-info-content">
+				<li><span className="list list-content">未移除</span></li>
+			</div>
+		);
+	}
+	return (
+		<div className="assets-info-content">
+			<li>
+				<span className="list list-content">已移除</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify list-title-50">移除日期</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{gmtRemoveDate || '--'}</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify list-title-50">移除原因</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">
+					<Ellipsis content={removeReason} tooltip line={2} width={150} />
+				</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify list-title-50">决定机关</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{removeDepartment || '--'}</span>
+			</li>
+		</div>
+	);
+};
+
+// 点击查看具体违法事实
+const toSeasonShow = (source) => {
+	Modal.info({
+		title: '具体违法事实',
+		okText: '关闭',
+		iconType: 'null',
+		className: 'assets-an-info risk-detail-season',
+		width: 600,
+		content: (
+			<div className="assets-info-content risk-detail-season-list">
+				<li>
+					<span className="list list-title align-justify">违法类型</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">{source.type || '--'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">具体情形</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">{source.fact || '--'}</span>
+				</li>
+			</div>
+		),
+		onOk() {},
+	});
+};
+
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -14,31 +77,33 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
-			dataIndex: 'publishTime',
+				: <SortVessel field="GMT_PUT_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+			dataIndex: 'gmtPutDate',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '相关单位',
-			dataIndex: 'obName',
+			dataIndex: 'name',
 			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '列入原因',
-			dataIndex: 'title',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘',
+			dataIndex: 'putReason',
+			render: (text, row) => (text ? [
+				<Ellipsis content={text} tooltip width={250} line={1} />,
+				<div><span className="click-link" onClick={() => toSeasonShow(row)}>点击查看具体违法事实</span></div>,
+			] : '--'),
 		}, {
 			title: '决定机关名称',
-			dataIndex: 'title',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘',
+			dataIndex: 'putDepartment',
+			render: text => text || '--',
 		}, {
 			title: '移除情况',
-			dataIndex: 'title',
-			render: () => '✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘',
+			render: removeSituation,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
+				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'gmtCreate',
 			width: 90,
 			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {
@@ -51,7 +116,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={Api.attentionBid}
+					api={row.isAttention ? Illegal.unAttention : Illegal.attention}
 					index={index}
 				/>
 			),
@@ -80,7 +145,7 @@ class AbnormalOperation extends Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			Api.readStatusBid({ idList: [id] }).then((res) => {
+			Illegal.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}
@@ -129,6 +194,7 @@ class AbnormalOperation extends Component {
 						/>
 					</div>
 				)}
+
 			</Fragment>
 		);
 	}

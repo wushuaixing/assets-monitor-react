@@ -56,24 +56,30 @@ class QueryCondition extends React.Component {
 					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="变更事项" style={_style1} size="large" placeholder="工商变更事项" {...getFieldProps('changeItem')} />
+					<Input title="违法类型" style={_style1} size="large" placeholder="违法行为类型" {...getFieldProps('type')} />
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">变更日期：</span>
+					<Input title="决定文书号" style={_style1} size="large" placeholder="处罚决定文书号" {...getFieldProps('punishNumber')} />
+				</div>
+				<div className="yc-query-item" style={{ marginRight: 0 }}>
+					<Input title="决定机关" style={_style1} size="large" placeholder="作出处罚决定机关" {...getFieldProps('departmentName')} />
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">决定日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('changeTimeStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('changeTimeEnd'))}
+						{...getFieldProps('decisionDateStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('decisionDateEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('changeTimeEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('changeTimeStart'))}
+						{...getFieldProps('decisionDateEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('decisionDateStart'))}
 					/>
 				</div>
 				<div className="yc-query-item">
