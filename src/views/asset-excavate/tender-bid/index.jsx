@@ -142,6 +142,7 @@ export default class Lawsuits extends React.Component {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
+		this.selectRow = [];
 	};
 
 	// 查询条件变化
@@ -183,6 +184,9 @@ export default class Lawsuits extends React.Component {
 		});
 	};
 
+	//  清空选中内容
+	clearSelectRowNum = () => this.selectRow = []
+
 	render() {
 		const {
 			sourceType, isRead, dataSource, current, total, manage, loading,
@@ -202,7 +206,7 @@ export default class Lawsuits extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
-				<QueryView onQueryChange={this.onQuery} />
+				<QueryView onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 				{

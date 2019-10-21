@@ -8,7 +8,7 @@ import { processSave } from '@/utils/api/monitor-info/assets-follow';
 import {
 	AssetsInfo, MatchingReason, AuctionInfo,
 } from '@/views/asset-excavate/assets-auction/tableComponents';
-import { Button, Table } from '@/common';
+import { Button, Table, SelectedNum } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
 import FollowModel from './follow-info';
@@ -147,6 +147,7 @@ export default class TableView extends React.Component {
 			total, current, dataSource, manage, onPageChange, onRefresh,
 		} = this.props;
 		const { selectedRowKeys, visible, source } = this.state;
+
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,
@@ -156,9 +157,10 @@ export default class TableView extends React.Component {
 
 		return (
 			<React.Fragment>
-				{/* {selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null} */}
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
+					rowKey={record => record.id}
 					rowClassName={() => 'yc-assets-auction-table-row'}
 					columns={columns(this.props, this.toFollowClick)}
 					dataSource={dataSource}
