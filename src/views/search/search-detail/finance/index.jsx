@@ -7,7 +7,7 @@ import {
 } from 'antd';
 
 import { navigate } from '@reach/router';
-import { parseQuery, generateUrlWithParams } from '@/utils';
+import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import {
 	timeRule, Spin, Input, Button, Download,
 } from '@/common';
@@ -136,7 +136,7 @@ class FINANCE extends React.Component {
 			page: 1,
 			num: pageSize,
 		};
-		if (fildes.content) {
+		if (!objectKeyIsEmpty(fildes)) {
 			this.getData(params);
 		} else {
 			this.queryReset();

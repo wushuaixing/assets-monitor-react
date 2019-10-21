@@ -271,7 +271,7 @@ export default class Lawsuits extends React.Component {
 		});
 	};
 
-	clearSelectRowNum = () => this.selectRow = []
+	clearSelectRowNum = () => this.selectRow = [];
 
 	// 查询是否有未读消息
 	onUnReadCount=() => {

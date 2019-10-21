@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDom } from '@/utils';
+import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
 import { Result } from '@/views/asset-excavate/land-data/table/common';
@@ -18,7 +18,7 @@ const columns = (props) => {
 				: <SortVessel field="SIGNED_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>签订日期</SortVessel>),
 			dataIndex: 'singedDate',
 			width: 113,
-			render: (text, record) => ReadStatus(text || '-', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '土地使用人',
 			dataIndex: 'obligorName',
@@ -53,7 +53,7 @@ const columns = (props) => {
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
 			width: 90,
-			render: text => <span>{text || '-'}</span>,
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '操作',
 			width: 60,

@@ -31,8 +31,9 @@ class QueryCondition extends React.Component {
 	};
 
 	handleSubmit=() => {
-		const { form: { getFieldsValue }, onQueryChange } = this.props;
+		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
 		const { filterCurrentOrg } = this.state;
+		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
 		condition.filterCurrentOrg = Boolean(filterCurrentOrg);
 		if (onQueryChange)onQueryChange(condition, '', '', 1);
@@ -40,8 +41,9 @@ class QueryCondition extends React.Component {
 	};
 
 	handleReset=() => {
-		const { form, onQueryChange } = this.props;
+		const { form, onQueryChange, clearSelectRowNum } = this.props;
 		form.resetFields();
+		clearSelectRowNum();// 清除选中项
 		this.setState({
 			filterCurrentOrg: '',
 		});

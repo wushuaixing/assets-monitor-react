@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Tooltip } from 'antd';
-// import { formatDateTime } from '@/utils/changeTime';
 import { Table } from '@/common';
+import { formatDateTime } from '@/utils/changeTime';
 
 class BusinessView extends React.Component {
 	constructor(props) {
@@ -26,7 +26,8 @@ class BusinessView extends React.Component {
 				render(text, row) {
 					return (
 						<div className="table-column">
-							{row.publishDate || '-'}
+							{formatDateTime(row.publishDate, 'onlyYear') || '-'}
+							{/* {row.publishDate || '-'} */}
 						</div>
 					);
 				},
