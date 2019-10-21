@@ -76,8 +76,6 @@ class LAWSUITS extends React.Component {
 			court: urlObj.court || undefined,
 			endLarq: urlObj.endLarq || undefined,
 			startLarq: urlObj.startLarq || undefined,
-			// type: urlObj.type || undefined,
-			// ...urlObj,
 		};
 		const getKtggRelationParams = {
 			bgList: bgArray,
@@ -86,7 +84,6 @@ class LAWSUITS extends React.Component {
 			court: urlObj.court || undefined,
 			endLarq: urlObj.endLarq || undefined,
 			startLarq: urlObj.startLarq || undefined,
-			// type: urlObj.type || undefined,
 		};
 
 		// 判断是否为空对象,非空请求接口
@@ -804,7 +801,7 @@ class LAWSUITS extends React.Component {
 						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
 					}}
 					>
-					如需更多数据请联系：186-5718-6471
+						如需更多数据请联系：186-5718-6471
 					</span>
 					)}
 				</Spin>
