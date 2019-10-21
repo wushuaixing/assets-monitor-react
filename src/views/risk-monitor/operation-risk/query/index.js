@@ -1,15 +1,15 @@
-import TableBusinessChange from './businessChange';
-import TableAbnormalOperation from './abnormalOperation';
-import TableIllegal from './illegal';
-import TableTaxViolation from './taxViolation';
-import TablePenalties from './penalties';
-import TableEnvironmentalPunishment from './environmentalPunishment';
+import QueryBusinessChange from './businessChange';
+import QueryAbnormalOperation from './abnormalOperation';
+import QueryIllegal from './illegal';
+import QueryTaxViolation from './taxViolation';
+import QueryAdministrativePenalties from './administrativePenalties';
+import QueryEnvironmentalPunishment from './environmentalPunishment';
 
 export default {
-	YC030301: TableAbnormalOperation,
-	YC030302: TableBusinessChange,
-	YC030303: TableIllegal,
-	YC030304: TableTaxViolation,
-	YC030305: TablePenalties,
-	YC030306: TableEnvironmentalPunishment,
+	YC030301: QueryAbnormalOperation,
+	YC030302: QueryBusinessChange,
+	YC030303: QueryIllegal,
+	YC030304: QueryTaxViolation,
+	YC030305: QueryAdministrativePenalties,
+	YC030306: QueryEnvironmentalPunishment,
 };

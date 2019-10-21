@@ -45,13 +45,19 @@ export default class Ellipsis extends React.Component {
 	render() {
 		const { tooltip, url } = this.props;
 		const { line, content, width } = this.props;
+		const _line = line || 1;
 		const _width = width || this.maxWidth;
 		const showContent = _width
-			? toCutString(content, (_width * line) / 6 - (3 * line), '...') : '';
+			? toCutString(content, (_width * _line) / 6 - (3 * _line), '...') : '';
 		const ContentText = url ? linkDom(url, showContent) : showContent;
 		const _tooltip = showContent === content ? false : tooltip;
+		const style = _width ? {
+			width: _width,
+			display: 'inline-block',
+		} : '';
+
 		return (
-			<div ref={e => this.element = e} className="yc-ellipsis-element" style={_width ? { width: _width } : ''}>
+			<div ref={e => this.element = e} className="yc-ellipsis-element" style={style}>
 				{
 					_tooltip
 						? <Tooltip placement="top" title={content}>{url ? ContentText : <span>{ContentText}</span>}</Tooltip>
