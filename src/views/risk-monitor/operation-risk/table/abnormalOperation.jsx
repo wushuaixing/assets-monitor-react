@@ -24,7 +24,7 @@ const removeSituation = (val, row) => {
 			<li>
 				<span className="list list-title align-justify list-title-50">移除日期</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{gmtRemoveDate || '--'}</span>
+				<span className="list list-content">{timeStandard(gmtRemoveDate) || '--'}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify list-title-50">移除原因</span>

@@ -73,7 +73,7 @@ class SimpleTab extends React.Component {
 						>
 							<div className="yc-tabs-active-line" />
 							<Badge dot={item.dot}>
-								{ item.showNumber ? `${item.name}「${numUnit(item.number)}」` : item.name}
+								{ item.showNumber ? `${item.name}（${numUnit(item.number)}）` : item.name}
 							</Badge>
 						</li>
 					))}
