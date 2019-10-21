@@ -180,12 +180,13 @@ export default class Assets extends React.Component {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
+		this.selectRow = [];
 	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
 		const { manage } = this.state;
-		this.selectRow = [];
+		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
@@ -202,22 +203,22 @@ export default class Assets extends React.Component {
 			process: _sourceType || sourceType,
 			page: page || current,
 		});
-		this.setState({
-			loading: true,
-			manage: _manage || false,
-		});
 		delete this.condition.processString;
 		if (this.condition.process === -1) this.condition.process = 0;
 		if (this.condition.process === 1) delete this.condition.process;
 		if (this.condition.process === 3) this.condition.processString = '3,6';
 		this.toInfoCount();
+		this.setState({
+			loading: true,
+			manage: _manage || false,
+		});
 		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
-					manage: false,
+					// manage: false,
 					loading: false,
 				});
 			} else {
@@ -225,7 +226,7 @@ export default class Assets extends React.Component {
 					dataSource: '',
 					current: 1,
 					total: 0,
-					manage: false,
+					// manage: false,
 					loading: false,
 				});
 			}
@@ -240,10 +241,14 @@ export default class Assets extends React.Component {
 		window.open('/#/monitor/clearProcess', '_blank');
 	};
 
+	//  清空选中内容
+	clearSelectRowNum = () => this.selectRow = []
+
 	render() {
 		const {
 			dataSource, current, total, manage, loading, tabConfig,
 		} = this.state;
+
 		const tableProps = {
 			manage,
 			dataSource,
@@ -259,7 +264,7 @@ export default class Assets extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
-				<Query onQueryChange={this.onQuery} />
+				<Query onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />
 
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />

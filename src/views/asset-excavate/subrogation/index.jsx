@@ -287,6 +287,9 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	//  清空选中内容
+	clearSelectRowNum = () => this.selectRow = []
+
 	render() {
 		const {
 			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
@@ -308,7 +311,7 @@ export default class Subrogation extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}
-				<QueryView onQueryChange={this.onQuery} sourceType={sourceType} />
+				<QueryView onQueryChange={this.onQuery} sourceType={sourceType} clearSelectRowNum={this.clearSelectRowNum} />
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
 				{/* tab切换 */}

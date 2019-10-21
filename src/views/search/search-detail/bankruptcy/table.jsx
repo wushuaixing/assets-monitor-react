@@ -76,10 +76,10 @@ class BusinessView extends React.Component {
 						<div className="yc-table-text-link">
 							<a href={row.url} target="_blank" rel="noopener noreferrer">
 								{
-									text && text.length > 30
+									text && text.length > 40
 										? (
 											<Tooltip placement="topLeft" title={text}>
-												<p>{`${text.substr(0, 30)}...`}</p>
+												<p>{`${text.substr(0, 40)}...`}</p>
 											</Tooltip>
 										)
 										: <p>{text || '-'}</p>

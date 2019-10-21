@@ -34,29 +34,21 @@ class QueryCondition extends React.Component {
 	};
 
 	handleSubmit=() => {
-		const { form: { getFieldsValue }, onQueryChange } = this.props;
+		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
+		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
 		const { consultPriceStart: start, consultPriceEnd: end } = condition;
 		if (start && end && Number(start) > Number(end)) {
 			message.error('评估价最低价不得高过最高价', 1);
 			return false;
 		}
-		// if ((Number.isNaN(Number(start)) || Number(start) % 1 !== 0 || Number(start) < 0) || (Number.isNaN(Number(end)) || Number(end) % 1 !== 0 || Number(end) < 0)) {
-		// 	message.error('评估价只能输入正整数！', 2);
-		// 	// setFieldsValue({ consultPriceStart: '' });
-		// 	return false;
-		// }
-		// if (Number(start) > 9999999 || Number(end) > 9999999) {
-		// 	message.error('评估价数值上限不得超过9999999', 2);
-		// 	return false;
-		// 	// setFieldsValue({ consultPriceStart: '' });
-		// }
 		if (onQueryChange)onQueryChange(condition);
 		return true;
 	};
 
 	handleReset=() => {
-		const { form, onQueryChange } = this.props;
+		const { form, onQueryChange, clearSelectRowNum } = this.props;
+		clearSelectRowNum();// 清除选中项
 		form.resetFields();
 		const condition = form.getFieldsValue();
 		if (onQueryChange)onQueryChange(condition);
