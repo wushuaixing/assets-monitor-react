@@ -261,7 +261,7 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
-	clearSelectRowNum = () => this.selectRow = []
+	clearSelectRowNum = () => this.selectRow = [];
 
 	render() {
 		const {

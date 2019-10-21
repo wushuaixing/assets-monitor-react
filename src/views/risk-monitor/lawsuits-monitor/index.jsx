@@ -55,30 +55,6 @@ export default class Subrogation extends React.Component {
 			sourceType,
 		});
 		this.onQueryChange({}, sourceType);
-		// if (sourceType !== 1) {
-		// 	API(1, 'listCount')({}).then((res) => {
-		// 		if (res.code === 200) {
-		// 			tabConfig[0].number = res.data;
-		// 			this.setState({ tabConfig });
-		// 		}
-		// 	});
-		// }
-		// if (sourceType !== 2) {
-		// 	API(2, 'listCount')({}).then((res) => {
-		// 		if (res.code === 200) {
-		// 			tabConfig[1].number = res.data;
-		// 			this.setState({ tabConfig });
-		// 		}
-		// 	});
-		// }
-		// if (sourceType !== 3) {
-		// 	API(3, 'listCount')({}).then((res) => {
-		// 		if (res.code === 200) {
-		// 			tabConfig[2].number = res.data;
-		// 			this.setState({ tabConfig });
-		// 		}
-		// 	});
-		// }
 	}
 
 	// 清除排序状态
@@ -119,7 +95,6 @@ export default class Subrogation extends React.Component {
 	handleAllRead=() => {
 		const _this = this;
 		const { sourceType, tabConfig } = this.state;
-		console.log(tabConfig, sourceType);
 		if (tabConfig[sourceType - 1].number) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
@@ -218,7 +193,6 @@ export default class Subrogation extends React.Component {
 	// 当前页数变化
 	onPageChange=(val) => {
 		const { manage } = this.state;
-		this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
@@ -227,6 +201,7 @@ export default class Subrogation extends React.Component {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
+		this.selectRow = [];
 	};
 
 	// 查询条件变化
@@ -282,6 +257,8 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	clearSelectRowNum = () => this.selectRow = [];
+
 	render() {
 		const {
 			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
@@ -303,7 +280,7 @@ export default class Subrogation extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}
-				<QueryView onQueryChange={this.onQuery} sourceType={sourceType} />
+				<QueryView onQueryChange={this.onQuery} sourceType={sourceType} clearSelectRowNum={this.clearSelectRowNum} />
 				{/* tab切换 */}
 				<Tabs.Simple
 					onChange={this.onSourceType}

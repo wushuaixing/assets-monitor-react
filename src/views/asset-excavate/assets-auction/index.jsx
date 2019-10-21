@@ -242,7 +242,7 @@ export default class Assets extends React.Component {
 	};
 
 	//  清空选中内容
-	clearSelectRowNum = () => this.selectRow = []
+	clearSelectRowNum = () => this.selectRow = [];
 
 	render() {
 		const {

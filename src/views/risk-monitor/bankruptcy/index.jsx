@@ -126,12 +126,12 @@ export default class Subrogation extends React.Component {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
+		this.selectRow = [];
 	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
 		const { manage } = this.state;
-		this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
@@ -173,6 +173,8 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
+	clearSelectRowNum = () => this.selectRow = [];
+
 	render() {
 		const {
 			isRead, dataSource, current, total, manage, loading,
@@ -192,7 +194,7 @@ export default class Subrogation extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
-				<Query onQueryChange={this.onQuery} />
+				<Query onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 				{
