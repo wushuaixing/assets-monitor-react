@@ -23,7 +23,7 @@ const removeSituation = (val, row) => {
 			<li>
 				<span className="list list-title align-justify list-title-50">移除日期</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{gmtRemoveDate || '--'}</span>
+				<span className="list list-content">{timeStandard(gmtRemoveDate) || '--'}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify list-title-50">移除原因</span>
@@ -89,8 +89,8 @@ const columns = (props) => {
 		}, {
 			title: '列入原因',
 			dataIndex: 'putReason',
-			render: (text, row) => (text ? [
-				<Ellipsis content={text} tooltip width={250} line={1} />,
+			render: (text, row) => (text.replace(/(^\s*)|(\s*$)/g, '') ? [
+				<Ellipsis content={text.replace(/(^\s*)|(\s*$)/g, '')} tooltip width={250} />,
 				<div><span className="click-link" onClick={() => toSeasonShow(row)}>点击查看具体违法事实</span></div>,
 			] : '--'),
 		}, {
