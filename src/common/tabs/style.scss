@@ -53,7 +53,6 @@
   .yc-tabs-un-active:hover{
       background-color:#FFFFFF;
   }
-  height: 40px;
   border-bottom: 1px solid $background-line;
   ul{
     //padding-left: 10px;
@@ -78,7 +77,7 @@
     }
     span{
       color: $common-warning;
-      font-weight: bold;
+      // font-weight: bold;
     }
   }
 }
@@ -93,7 +92,7 @@
     }
     span{
       color: $common-warning;
-      font-weight: bold;
+      // font-weight: bold;
     }
   }
 }
@@ -116,7 +115,7 @@
     }
     span{
       color: $common-base;
-      font-weight: bold;
+      // font-weight: bold;
     }
   }
 }
