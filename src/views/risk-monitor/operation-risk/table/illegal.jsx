@@ -54,12 +54,12 @@ const toSeasonShow = (source) => {
 				<li>
 					<span className="list list-title align-justify">违法类型</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{source.type || '--'}</span>
+					<span className="list list-content">{source.type.replace(/(^\s*)|(\s*$)/g, '') || '--'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">具体情形</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{source.fact || '--'}</span>
+					<span className="list list-content">{source.fact.replace(/(^\s*)|(\s*$)/g, '') || '--'}</span>
 				</li>
 			</div>
 		),
