@@ -38,10 +38,10 @@ class RiskMonitor extends React.Component {
 	}
 
 	componentWillMount() {
-		// this.onUnReadCount();
-		// this.setUnReadCount = setInterval(() => {
-		// 	this.onUnReadCount();
-		// }, 30 * 1000);
+		this.onUnReadCount();
+		this.setUnReadCount = setInterval(() => {
+			this.onUnReadCount();
+		}, 30 * 1000);
 	}
 
 	componentWillUnmount() {
@@ -56,14 +56,12 @@ class RiskMonitor extends React.Component {
 			if (code === 200) {
 				const _source = source.map((item) => {
 					const _item = item;
-					if (_item.id === 1)_item.dot = data.auctionCount;
-					if (_item.id === 2)_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount;
-					if (_item.id === 3)_item.dot = data.financeCount;
-					if (_item.id === 4)_item.dot = data.trialCourtSessionCount + data.trialFilingCount;
-					if (_item.id === 5)_item.dot = data.bankruptcyCount;
-					if (_item.id === 6)_item.dot = data.biddingCount + data.taxCount + data.epbCount;
+					if (_item.id === 'YC0301')_item.dot = data.trialCourtSessionCount || data.trialFilingCount || data.trialJudgmentCount;
+					if (_item.id === 'YC0302')_item.dot = 0;
+					if (_item.id === 'YC0303')_item.dot = 0;
 					return _item;
 				});
+				console.log(_source);
 				this.setState({ source: _source });
 			}
 		});

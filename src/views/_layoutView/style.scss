@@ -32,7 +32,9 @@
     }
 
     .header-item-active {
-      font-weight: bold;
+      .yc-badge{
+        font-weight: bold;
+      }
       background: $common-base-active;
     }
 
@@ -81,6 +83,7 @@
         }
 
         .child-item-active {
+          font-weight: bold;
           background-color: $background-list-hover;
         }
 
