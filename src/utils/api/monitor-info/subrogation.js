@@ -30,7 +30,7 @@ const Trial = {
 		const count = params => s.get('/yc/monitor/trial/subrogation/list-count', { params }).then(res => res.data);
 		return count(data).then((res) => {
 			if (res.code === 200) result.count = res.data;
-			return count(Object.assign({}, data, { isRead: false }));
+			return count(Object.assign({}, { isRead: false }));
 		}).then((res) => {
 			if (res.code === 200) result.unRead = res.data;
 			return result;
@@ -67,7 +67,7 @@ const Court = {
 		const count = params => s.get('/yc/monitor/court/subrogation/list-count', { params }).then(res => res.data);
 		return count(data).then((res) => {
 			if (res.code === 200) result.count = res.data;
-			return count(Object.assign({}, data, { isRead: false }));
+			return count(Object.assign({}, { isRead: false }));
 		}).then((res) => {
 			if (res.code === 200) result.unRead = res.data;
 			return result;
@@ -104,7 +104,7 @@ const Judgment = {
 		const count = params => s.get('/yc/monitor/judgment/subrogation/list-count', { params }).then(res => res.data);
 		return count(data).then((res) => {
 			if (res.code === 200) result.count = res.data;
-			return count(Object.assign({}, data, { isRead: false }));
+			return count(Object.assign({}, { isRead: false }));
 		}).then((res) => {
 			if (res.code === 200) result.unRead = res.data;
 			return result;
