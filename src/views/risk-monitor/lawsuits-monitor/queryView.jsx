@@ -68,10 +68,17 @@ class QueryCondition extends React.Component {
 				return n && new Date(n).format('yyyy-MM-dd');
 			},
 		};
+		// TODO 后端临时需要原告被告参数
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
 					<Input title="当事人" style={_style1} size="large" placeholder="姓名/公司" {...getFieldProps('partiesName')} />
+				</div>
+				<div className="yc-query-item">
+					<Input title="原告" style={_style1} size="large" placeholder="原告姓名/公司" {...getFieldProps('accuser')} />
+				</div>
+				<div className="yc-query-item">
+					<Input title="被告" style={_style1} size="large" placeholder="被告姓名/公司" {...getFieldProps('defendant')} />
 				</div>
 				<div className="yc-query-item">
 					<Input title="案号" style={_style1} size="large" placeholder="案号" {...getFieldProps('caseNumber')} />

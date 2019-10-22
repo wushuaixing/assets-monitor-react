@@ -1,6 +1,6 @@
 {
-  "name": "reactie",
-  "version": "1.0.0",
+  "name": "asset-monitor",
+  "version": "v1.1.2",
   "description": "A solution that makes React stack work in IE8",
   "author": "yc",
   "license": "MIT",

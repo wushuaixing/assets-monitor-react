@@ -4,6 +4,7 @@ docs/
 node_modules/
 package-lock.json
 yarn.lock
+yarn-error.log
 .DS_Store
 src/assets/旧平台图片库
 src/utils/api/index.js
