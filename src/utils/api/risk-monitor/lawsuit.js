@@ -24,6 +24,18 @@ const Trial = {
 	readAll: () => s.post('/yc/monitor/trial/lawsuit/read-all', {}).then(res => res.data),
 	// POST取消收藏
 	unAttention: params => s.post('/yc/monitor/trial/lawsuit/un-attention', params).then(res => res.data),
+	// GET列表数据，含未读已读
+	listReadCount: (data) => {
+		const result = {};
+		const count = params => s.get('/yc/monitor/trial/lawsuit/list-count', { params }).then(res => res.data);
+		return count(data).then((res) => {
+			if (res.code === 200) result.count = res.data;
+			return count(Object.assign({}, { isRead: false }));
+		}).then((res) => {
+			if (res.code === 200) result.unRead = res.data;
+			return result;
+		});
+	},
 };
 // (新)监控信息 => 代位权 => 开庭公告 [ZhouSai]11
 const Court = {
@@ -49,6 +61,18 @@ const Court = {
 	readAll: () => s.post('/yc/monitor/court/lawsuit/read-all', { }).then(res => res.data),
 	// POST取消收藏
 	unAttention: params => s.post('/yc/monitor/court/lawsuit/un-attention', params).then(res => res.data),
+	// GET列表数据，含未读已读
+	listReadCount: (data) => {
+		const result = {};
+		const count = params => s.get('/yc/monitor/court/lawsuit/list-count', { params }).then(res => res.data);
+		return count(data).then((res) => {
+			if (res.code === 200) result.count = res.data;
+			return count(Object.assign({}, { isRead: false }));
+		}).then((res) => {
+			if (res.code === 200) result.unRead = res.data;
+			return result;
+		});
+	},
 };
 // (新)监控信息 => 代位权 => 裁判文书 [ZhouSai]11
 const Judgment = {
@@ -74,6 +98,18 @@ const Judgment = {
 	readAll: () => s.post('/yc/monitor/judgment/lawsuit/read-all', { }).then(res => res.data),
 	// POST取消收藏
 	unAttention: params => s.post('/yc/monitor/judgment/lawsuit/un-attention', params).then(res => res.data),
+	// GET列表数据，含未读已读
+	listReadCount: (data) => {
+		const result = {};
+		const count = params => s.get('/yc/monitor/judgment/lawsuit/list-count', { params }).then(res => res.data);
+		return count(data).then((res) => {
+			if (res.code === 200) result.count = res.data;
+			return count(Object.assign({}, { isRead: false }));
+		}).then((res) => {
+			if (res.code === 200) result.unRead = res.data;
+			return result;
+		});
+	},
 };
 // 获取不同类型的 api 接口
 const Api = (type, res) => {

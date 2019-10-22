@@ -71,7 +71,8 @@ export default class Subrogation extends React.Component {
 		// const _t = nextSourceType || sourceType;
 		[1, 2, 3].forEach((i) => {
 			if (i !== sourceType) {
-				API(i, 'listReadCount')(clearEmpty(this.queryCondition)).then((res) => {
+				const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
+				API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
 					tabConfig[i - 1].number = res.count;
 					tabConfig[i - 1].dot = res.unRead;
 					this.setState({ tabConfig });
@@ -335,11 +336,10 @@ export default class Subrogation extends React.Component {
 
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-
 							<Download
 								all
 								text="一键导出"
-								condition={() => this.condition}
+								condition={() => Object.assign({}, this.toHandleReqTime(sourceType, this.condition), this.condition, this.readStatus)}
 								api={API(sourceType, 'exportList')}
 								style={{ float: 'right' }}
 							/>
