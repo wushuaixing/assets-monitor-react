@@ -351,7 +351,7 @@ class FINANCE extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 				<div className="yc-writ-tablebtn">
-					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportFinanceCurrent} current page num text="本页导出" />}
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={exportFinanceCurrent} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportFinanceAll} all page num text="全部导出" />
 					{dataList.length > 0 && (
 						<div style={{
