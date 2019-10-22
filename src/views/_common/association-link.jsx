@@ -165,23 +165,24 @@ class AssociationLink extends React.Component {
 
 	/* 处理数据 */
 	handleSource =(source) => {
-		const { type } = this.props;
 		const { associatedInfo: { trialAssociatedInfo: La, courtAssociatedInfo: Kt, judgmentAssociatedInfo: Ws } } = source;
 		const resContent = [];
 		if (La.length > 0) {
-			if (La.length > 1 || (Kt.length === 1 && type === 'Court')) {
+			if (La.length > 1) {
 				resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
-			} else if (La.length === 1 && La[0].url) {
-				resContent.push(linkDom(La[0].url, '立案'));
+			} else if (La.length === 1) {
+				if (La[0].url) resContent.push(linkDom(La[0].url, '立案'));
+				else resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
 			}
 		}
 		if (Kt.length > 0) {
-			if (Kt.length > 1 || (Kt.length === 1 && type === 'Trial')) {
+			if (Kt.length > 1) {
 				if (resContent.length)resContent.push(<span className="info-line">|</span>);
 				resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Court')}>开庭</span>);
-			} else if (Kt.length === 1 && Kt[0].url) {
+			} else if (Kt.length === 1) {
 				if (resContent.length)resContent.push(<span className="info-line">|</span>);
-				resContent.push(linkDom(Kt[0].url, '开庭'));
+				if (Kt[0].url) resContent.push(linkDom(Kt[0].url, '开庭'));
+				else resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Court')}>开庭</span>);
 			}
 		}
 		if (Ws.length > 0) {
