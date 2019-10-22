@@ -18,17 +18,17 @@ const documentInfo = (value, row) => {
 				<Ellipsis content={title} line={2} tooltip url={url} />
 			</li>
 			<li>
-				<span className="list list-title align-justify" style={{ width: 'auto' }}>登记编号</span>
+				<span className="list list-title align-justify" style={{ width: 50 }}>案由</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">{caseReason || '--'}</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify" style={{ width: 'auto' }}>案件类型</span>
+				<span className="list list-title align-justify" style={{ width: 50 }}>案件类型</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">{caseType || '--'}</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify" style={{ width: 'auto' }}>判决日期</span>
+				<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">{timeStandard(gmtJudgment)}</span>
 			</li>
@@ -66,7 +66,7 @@ const columns = (props) => {
 			dataIndex: 'caseNumber',
 			render: text => text || '--',
 		}, {
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>文书信息</span>
+			title: (noSort ? <span>文书信息</span>
 				: <SortVessel field="GMT_JUDGMENT" onClick={onSortChange} mark="(判决日期)" {...sort}>文书信息</SortVessel>),
 			dataIndex: 'associatedInfo1',
 			width: 350,

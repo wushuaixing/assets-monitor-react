@@ -100,14 +100,14 @@ export default class PartyInfoDetail extends React.Component {
 							if (getByteLength(content) * 6 >= maxWidth) {
 								return (
 									<Tooltip placement="top" title={content}>
-										<li className="text-ellipsis" style={{ maxWidth }}>
+										<li className={`text-ellipsis${i.obligorId ? ' click-link' : ''}`} style={{ maxWidth }}>
 											{obValue(i, content)}
 										</li>
 									</Tooltip>
 								);
 							}
 							return (
-								<li className="text-ellipsis" style={{ maxWidth }}>
+								<li className={`text-ellipsis${i.obligorId ? ' click-link' : ''}`} style={{ maxWidth }}>
 									{obValue(i, content)}
 								</li>
 							);
