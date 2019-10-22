@@ -39,6 +39,7 @@
     .header-item-normal {
       &:hover {
         background: $common-base-hover;
+        font-weight: bold;
       }
     }
 
@@ -102,6 +103,7 @@
         &:hover {
           .header-child-item {
             display: block;
+            font-weight: 400;
           }
         }
       }
