@@ -1,0 +1,28 @@
+.yc-assets-auction {
+
+  .assets-tabs-right {
+    li {
+      display: inline-block;
+      padding: 9px 5px;
+      img {
+        display: inline-block;
+        vertical-align: middle;
+        width: 16px;
+        height: 16px;
+      }
+      span{
+        cursor: pointer;
+        margin-left: 5px;
+        line-height: 16px;
+        font-size: 12px;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .assets-auction-action {
+    padding: 20px 0 16px;
+  }
+}

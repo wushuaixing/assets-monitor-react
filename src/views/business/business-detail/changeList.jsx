@@ -3,7 +3,6 @@ import { navigate } from '@reach/router';
 import {
 	Breadcrumb,
 	Button,
-	Table,
 	Input,
 	Form,
 	message,
@@ -15,10 +14,10 @@ import {
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
 import { formatDateTime } from '@/utils/changeTime';
-import './style.scss';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
+import './style.scss';
 
 const createForm = Form.create;
 
@@ -100,7 +99,7 @@ class DebtorDetail extends React.Component {
 					dataIndex: 'updateTime',
 					key: 'updateTime',
 					width: 180,
-					render: (text, row) => (
+					render: text => (
 						<p style={{ position: 'relative' }}>
 							{text && text !== 0 ? formatDateTime(text) : '-'}
 						</p>
@@ -118,7 +117,7 @@ class DebtorDetail extends React.Component {
 					dataIndex: 'beforeContent',
 					key: 'beforeContent',
 					width: 226,
-					render: (text, row) => (
+					render: text => (
 						<div>{text && text.length > 0 ? toGetReasonList(text) : '-'}</div>
 					),
 				},
@@ -127,7 +126,7 @@ class DebtorDetail extends React.Component {
 					dataIndex: 'afterContent',
 					key: 'afterContent',
 					width: 227,
-					render: (text, row) => (
+					render: text => (
 						<div>{text && text.length > 0 ? toGetReasonList(text) : '-'}</div>
 					),
 				},
@@ -266,7 +265,7 @@ class DebtorDetail extends React.Component {
 						<Breadcrumb.Item>
 							<span
 								className="yc-bread-hover"
-								style={{ 'font-weight': 400, color: '#384482' }}
+								style={{ 'font-weight': 400, color: '#20242E' }}
 							>
 								变更记录
 							</span>
@@ -403,7 +402,8 @@ class DebtorDetail extends React.Component {
 								console.log(record);
 							}}
 						/>
-						<div className="yc-pagination">
+						{changeDataList && changeDataList.length > 0 && (
+						<div className="yc-table-pagination">
 							<Pagination
 								total={totals}
 								current={current}
@@ -417,6 +417,7 @@ class DebtorDetail extends React.Component {
 								}}
 							/>
 						</div>
+						)}
 					</Spin>
 				</div>
 			</div>

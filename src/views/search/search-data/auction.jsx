@@ -1,5 +1,4 @@
 import React from 'react';
-import './style.scss';
 import {
 	DatePicker, Select, Button, Form, message,
 } from 'antd';
@@ -9,11 +8,12 @@ import {
 } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import InputPrice from '@/common/input/input-price';
+import './style.scss';
 
 const createForm = Form.create;
 const _style1 = { marginRight: 27, width: 240 };
-const _style2 = { width: 120 };
-const _style3 = { width: 225 };
+const _style2 = { width: 116 };
+const _style3 = { width: 240 };
 class AUCTION extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -50,7 +50,7 @@ class AUCTION extends React.PureComponent {
 		const fildes = getFieldsValue();
 		fildes.startTime = startTime;
 		fildes.endTime = endTime;
-		console.log(fildes);
+		// console.log(fildes);
 
 		if (fildes.lowestConsultPrice && Number(fildes.lowestConsultPrice) > fildes.highestConsultPrice && Number(fildes.highestConsultPrice)) {
 			message.error('评估价格最低价不能高于评估价格最高价！');
@@ -58,6 +58,8 @@ class AUCTION extends React.PureComponent {
 		}
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
+			// console.log(fildes);
+
 			// 将值传到URL
 			navigate(generateUrlWithParams('/search/detail/auction', fildes));
 		} else {
@@ -181,7 +183,7 @@ class AUCTION extends React.PureComponent {
 				<div className="other">
 					<span>拍卖状态：</span>
 					<Select
-						style={_style2}
+						style={{ width: 120 }}
 						placeholder="请选择拍卖状态"
 						size="large"
 						{...getFieldProps('status', {

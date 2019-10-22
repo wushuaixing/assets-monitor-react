@@ -8,6 +8,7 @@ import Write from './writ';
 import Auction from './auction';
 import Finance from './finance';
 import Lawsuits from './lawsuits';
+import Bankruptcy from './bankruptcy';
 
 const source = rule => ([
 	{
@@ -41,6 +42,14 @@ const source = rule => ([
 		number: 0,
 		open: !!(rule && rule.xxssjrzc),
 		components: Finance,
+	},
+	{
+		id: 5,
+		name: '破产重组',
+		url: '/search/detail/bankruptcy',
+		number: 0,
+		open: !!(rule && rule.xxssjrzc),
+		components: Bankruptcy,
 	},
 ]);
 

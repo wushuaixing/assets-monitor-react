@@ -1,13 +1,13 @@
 import React from 'react';
-import { Select, Table, Pagination } from 'antd';
-import '../style.scss';
+import { Select, Pagination } from 'antd';
 import { formatDateTime } from '../../../utils/changeTime';
 import Search from '../search';
 import {
 	userManageList, // liebiao
 	RoleList, // 角色列表
 } from '@/utils/api/organization';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
+import '../style.scss';
 
 const { Option } = Select;
 export default class BasicTable extends React.Component {
@@ -78,7 +78,7 @@ export default class BasicTable extends React.Component {
 					key: 'x',
 					render: row => (
 						<div className="table-btn">
-							<a className="click-p" onClick={() => this.handleOpeanLog(row)}>操作记录</a>
+							<span className="yc-table-text-link" onClick={() => this.handleOpeanLog(row)}>操作记录</span>
 						</div>
 					),
 				},
@@ -243,18 +243,20 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
-						<div className="page-size">
-							<Pagination
-								current={current}
-								pageSize={pageSize}
-								total={total}
-								showTotal={val => `共 ${val} 条记录`}
-								showQuickJumper
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
-							/>
-						</div>
+						{data && data.length > 0 && (
+							<div className="yc-table-pagination ">
+								<Pagination
+									current={current}
+									pageSize={pageSize}
+									total={total}
+									showTotal={val => `共 ${val} 条记录`}
+									showQuickJumper
+									onChange={(val) => {
+										this.handleChangePage(val);
+									}}
+								/>
+							</div>
+						)}
 					</Spin>
 				</div>
 			</div>

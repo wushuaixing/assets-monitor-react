@@ -14,7 +14,7 @@
   white-space: nowrap;
   user-select: none;
   position: relative;
-  margin-right: 5px;
+  margin-right: 10px;
 
   span {
     font-size: $input-fontsize;
@@ -51,6 +51,7 @@
   background-color: #FFFFFF!important;
   color: $color-base!important;
 }
+
 .yc-btn-primary {
   border: 1px solid $color-base;
   background-color: $color-base;
@@ -95,6 +96,20 @@
      box-shadow: 0 0 4px 0 $color-alert-error;
    }
  }
+ .yc-btn-common {
+  border: 1px solid $text-link;
+  background-color: $text-link;
+  color: #FFFFFF;
+  &:hover{
+    border: 1px solid $text-link-hover;
+    background-color: $text-link-hover;
+
+  }
+  &:active{
+    border: 1px solid $text-link;
+    box-shadow: 0 0 4px 0 $text-link;
+  }
+}
 .yc-btn-warning-text {
   border: 1px solid $color-alert-error;
   background-color: #FFFFFF;

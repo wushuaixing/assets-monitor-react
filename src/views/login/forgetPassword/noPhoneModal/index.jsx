@@ -39,7 +39,7 @@ class PhoneModal extends React.PureComponent {
 							<li>客服电话：133-7256-7936</li>
 						</div>
 						<div className="yc-modal-part-b">
-							{'扫描二维码或拨打客服电话，将需要重置密码的账号、姓名、所属机构提供给小源，小源会第一时间为您进行处理'}
+							扫描二维码或拨打客服电话，将需要重置密码的账号、姓名、所属机构提供给小源，小源会第一时间为您进行处理
 						</div>
 						<div className="yc-modal-part-c">
 							<Button type="primary" className="yc-modal-btn" onClick={onCancel}>我知道了</Button>

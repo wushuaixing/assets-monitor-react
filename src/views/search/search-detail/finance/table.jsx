@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, Form } from 'antd';
+import { Form } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
-
+import { Table } from '@/common';
 
 class BusinessView extends React.Component {
 	constructor(props) {
@@ -17,7 +17,7 @@ class BusinessView extends React.Component {
 					render(text, row) {
 						return (
 							<div className="yc-td-hl">
-								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
+								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} />
 								<div dangerouslySetInnerHTML={{ __html: row.hl }} />
 							</div>
 						);

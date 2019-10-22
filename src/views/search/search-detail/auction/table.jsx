@@ -1,9 +1,10 @@
 import React from 'react';
-import { Table, Form, Tooltip } from 'antd';
+import { Form, Tooltip } from 'antd';
 import { formatDateTime, toThousands } from '@/utils/changeTime';
 import {
 	parseQuery,
 } from '@/utils';
+import { Table } from '@/common';
 
 const status = (value) => {
 	switch (value) {
@@ -88,7 +89,7 @@ class BusinessView extends React.Component {
 					render(text, row) {
 						return (
 							<div className="yc-td-hl">
-								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
+								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} />
 								{
 									row.obligors && row.obligors.length > 0 && (
 									<div>
@@ -112,7 +113,7 @@ class BusinessView extends React.Component {
 									</div>
 									<div>
 										<span style={{ marginRight: '10px' }}>链接原内容:</span>
-										{<span dangerouslySetInnerHTML={{ __html: row.patternText }} />}
+										<span dangerouslySetInnerHTML={{ __html: row.patternText }} />
 									</div>
 								</div>
 								)}

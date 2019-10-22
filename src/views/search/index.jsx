@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
 import Tabs from './search-tab';
 import Datas from './search-data';
 import Router from '@/utils/Router';
 import Detail from './search-detail';
+import './index.scss';
 
 const tabSource = rule => ([
 	{
@@ -29,6 +29,13 @@ const tabSource = rule => ([
 		type: 'content',
 		name: '金融资产',
 		router: 'finance',
+		display: !!(rule && rule.xxssjrzc),
+		types: [],
+	},
+	{
+		id: 5,
+		name: '破产重组',
+		router: 'bankruptcy',
 		display: !!(rule && rule.xxssjrzc),
 		types: [],
 	},

@@ -26,47 +26,11 @@
   }
 
   .assets-auction-action {
-    padding: 10px 0;
+    padding: 20px 0 16px;
   }
 
-  // 资产拍卖-资产信息
-  .assets-info-content {
-    li {
-      padding-bottom: 6px;
-      line-height: 16px;
-      display: block;
 
-      .list {
-        display: inline-block;
-        vertical-align: top;
-      }
 
-      .list-title {
-        color: #7D8699;
-        width: 60px;
-        text-align: justify;
-        text-justify: distribute-all-lines;
-        text-align-last: justify;
-      }
-
-      .list-content {
-        max-width: 160px;
-      }
-    }
-
-    .list-dishonest {
-      position: relative;
-
-      .list-dishonest-status {
-        position: absolute;
-        left: 160px;
-        bottom: 8px;
-        width: 48px;
-      }
-    }
-  }
-
-  // 资产拍卖-资产信息
   // 资产拍卖-拍卖信息
   .yc-assets-table-info {
 
@@ -142,7 +106,7 @@
 
 }
 .yc-assets-info-img {
-  width: 30px;
+  // width: 30px;
   height: 30px;
   top: 0;
   left: 0;
@@ -178,9 +142,9 @@
       float: right;
       cursor: pointer;
       margin-right: 4px;
-      border-bottom: 1px solid #ffffff;
+      border-bottom: 1px solid #FFFFFF;
       &:hover{
-        border-bottom: 1px solid $color-base;
+        border-bottom: 1px solid $background-line;
       }
       i{
         margin-left: 2px;

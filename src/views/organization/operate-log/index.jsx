@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-	Breadcrumb, Select, Table, Pagination,
+	Breadcrumb, Select, Pagination,
 } from 'antd';
-import './style.scss';
 import { navigate } from '@reach/router';
 import {
 	userOperateList, // 操作列表
 	operateTypeList, // 操作类型
 } from '@/utils/api/organization';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
 import { formatDateTime } from '../../../utils/changeTime';
 import { getQueryByName } from '@/utils';
+import './style.scss';
 
 const { Option } = Select;
 export default class BasicTable extends React.Component {
@@ -31,6 +31,7 @@ export default class BasicTable extends React.Component {
 					title: '操作时间',
 					dataIndex: 'createTime',
 					key: 'createTime',
+					width: 733,
 					render: text => (
 						<p>{formatDateTime(text) || '--'}</p>
 					),
@@ -137,14 +138,14 @@ export default class BasicTable extends React.Component {
 
 		return (
 			<div className="operate-log">
-				<div className="bread-crumb">
+				<div className="yc-bread-crumb">
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/organization/user')}>账户列表</a></Breadcrumb.Item>
 						<Breadcrumb.Item>
-							<a className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>
+							<span style={{ 'font-weight': 400, color: '#20242E' }}>
 								{`${getQueryByName(hash, 'name')}_历史操作记录`}
 
-							</a>
+							</span>
 						</Breadcrumb.Item>
 					</Breadcrumb>
 				</div>
@@ -172,18 +173,20 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
-						<div className="page-size">
-							<Pagination
-								current={current}
-								pageSize={pageSize}
-								total={total}
-								showTotal={val => `共 ${val} 条记录`}
-								showQuickJumper
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
-							/>
-						</div>
+						{data && data.length > 0 && (
+							<div className="yc-table-pagination ">
+								<Pagination
+									current={current}
+									pageSize={pageSize}
+									total={total}
+									showTotal={val => `共 ${val} 条记录`}
+									showQuickJumper
+									onChange={(val) => {
+										this.handleChangePage(val);
+									}}
+								/>
+							</div>
+						)}
 					</Spin>
 				</div>
 			</div>

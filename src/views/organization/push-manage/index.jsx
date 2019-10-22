@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-	Button, Select, Table, Pagination, message, Modal,
+	Button, Select, Pagination, message, Modal,
 } from 'antd';
+import { Table, Spin } from '@/common';
 import '../style.scss';
 import EditModal from './editModal';
 import Search from '../search';
@@ -9,7 +10,6 @@ import {
 	pushManagerList, // liebiao
 	deleteList, // 删除
 } from '@/utils/api/organization';
-import { Spin } from '@/common';
 
 const { confirm } = Modal;
 export default class BasicTable extends React.Component {
@@ -71,9 +71,9 @@ export default class BasicTable extends React.Component {
 					key: 'x',
 					render: (text, row) => (
 						<span>
-							<a className="click-p" onClick={() => this.handleOpeanModal('edit', row)}>编辑</a>
+							<span className="yc-table-text-link" onClick={() => this.handleOpeanModal('edit', row)}>编辑</span>
 							<span className="ant-divider" />
-							<a className="click-p" onClick={() => this.handleDel(row)}>删除</a>
+							<span className="yc-table-text-link" onClick={() => this.handleDel(row)}>删除</span>
 						</span>
 
 					),
@@ -259,18 +259,20 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
-						<div className="page-size">
-							<Pagination
-								current={current}
-								pageSize={pageSize}
-								total={total}
-								showTotal={val => `共 ${val} 条记录`}
-								showQuickJumper
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
-							/>
-						</div>
+						{data && data.length > 0 && (
+							<div className="yc-table-pagination ">
+								<Pagination
+									current={current}
+									pageSize={pageSize}
+									total={total}
+									showTotal={val => `共 ${val} 条记录`}
+									showQuickJumper
+									onChange={(val) => {
+										this.handleChangePage(val);
+									}}
+								/>
+							</div>
+						)}
 					</Spin>
 				</div>
 				{

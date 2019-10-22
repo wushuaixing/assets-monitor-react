@@ -3,16 +3,16 @@
   p {
     font-size: 34px;
     line-height: 1;
-    color: #46729F;
+    color: $common-base;
     padding-top: 126px;
     padding-bottom: 75px;
   }
   .tab-search {
-    width: 840px;
+    width: 855px;
     margin-left: 163px;
     position: relative;
     .high-search{
-        color: #337ab7;
+        color: $fontColor-base-2;
         font-size: 15px;
         cursor: pointer;
         text-decoration: underline;

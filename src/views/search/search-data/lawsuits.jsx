@@ -7,18 +7,20 @@ import { Input, timeRule } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
+import checkoutIcon from '@/assets/img/icon/icon_checked.png';
 import './style.scss';
 
 const createForm = Form.create;
+const _style1 = { width: 116 };
+
 class LAWSUITS extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			startTime: undefined,
 			endTime: undefined,
-			filingType: 'primary',
-			courtType: 'ghost',
 			type: 1,
+			checkedType: 1,
 			yg: [
 				{
 					name: '',
@@ -60,15 +62,13 @@ class LAWSUITS extends React.Component {
 		switch (type) {
 		case 1:
 			this.setState({
-				filingType: 'primary',
-				courtType: 'ghost',
+				checkedType: type,
 				type,
 			});
 			break;
 		case 2:
 			this.setState({
-				filingType: 'ghost',
-				courtType: 'primary',
+				checkedType: type,
 				type,
 			});
 			break;
@@ -208,7 +208,7 @@ class LAWSUITS extends React.Component {
 
 	render() {
 		const {
-			yg, bg, filingType, courtType,
+			yg, bg, checkedType,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -216,7 +216,7 @@ class LAWSUITS extends React.Component {
 			<div className="yc-tabs-data" style={{ padding: '0 22px' }}>
 				<div className="yc-tabs-items">
 					{yg.map(item => (
-						<div key={item.id} className="item" style={{ 'margin-right': 10 }}>
+						<div key={item.id} className="item" style={{ 'margin-right': 16 }}>
 							<Input
 								title="原告"
 								value={item.name}
@@ -236,14 +236,16 @@ class LAWSUITS extends React.Component {
 						</div>
 					))}
 					{yg.length > 2 ? (
-						<span style={{ 'margin-top': 8, display: 'inline-block' }}>
+						<span style={{ 'margin-top': 8, display: 'inline-block', color: '#FB5A5C' }}>
 							最多添加3个
 						</span>
 					) : (
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
-								style={{ 'margin-top': 8, cursor: 'pointer' }}
+								style={{
+									'margin-top': 8, cursor: 'pointer', width: 16, height: 16,
+								}}
 								src={add}
 								onClick={() => this.addYg()}
 							/>
@@ -252,7 +254,7 @@ class LAWSUITS extends React.Component {
 				</div>
 				<div className="yc-tabs-items">
 					{bg.map(item => (
-						<div className="item" style={{ 'margin-right': 10 }}>
+						<div className="item" style={{ 'margin-right': 16 }}>
 							<Input
 								key={item.id}
 								title="被告"
@@ -273,14 +275,16 @@ class LAWSUITS extends React.Component {
 						</div>
 					))}
 					{bg.length > 2 ? (
-						<span style={{ 'margin-top': 8, display: 'inline-block' }}>
+						<span style={{ 'margin-top': 8, display: 'inline-block', color: '#FB5A5C' }}>
 							最多添加3个
 						</span>
 					) : (
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
-								style={{ 'margin-top': 8, cursor: 'pointer' }}
+								style={{
+									'margin-top': 8, cursor: 'pointer', width: 16, height: 16,
+								}}
 								src={add}
 								onClick={() => this.addBg()}
 							/>
@@ -288,25 +292,26 @@ class LAWSUITS extends React.Component {
 					)}
 				</div>
 				<div className="yc-tabs-items">
-					<div className="item" style={{ 'margin-right': 10 }}>
+					<div className="item" style={{ 'margin-right': 16 }}>
 						<Input
 							title="起诉法院"
 							placeholder="法院名称"
 							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item" style={{ 'margin-right': 10 }}>
+					<div className="item" style={{ 'margin-right': 16 }}>
 						<Input
 							title="案号"
 							placeholder="案件编号"
 							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item" style={{ 'margin-right': 0, width: 303 }}>
+					<div className="item" style={{ 'margin-right': 0, width: 316 }}>
 						<span>日期选择：</span>
 						<DatePicker
 							placeholder="开始日期"
-							style={{ width: 112 }}
+							size="large"
+							style={_style1}
 							{...getFieldProps('uploadTimeStart', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -321,7 +326,8 @@ class LAWSUITS extends React.Component {
 						<span style={{ margin: '0 2px ' }}>至</span>
 						<DatePicker
 							placeholder="结束日期"
-							style={{ width: 112 }}
+							size="large"
+							style={_style1}
 							{...getFieldProps('uploadTimeEnd', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -337,19 +343,26 @@ class LAWSUITS extends React.Component {
 				</div>
 				<div className="others">
 					<span>信息类型：</span>
+					<span>
+						<Button
+							size="large"
+							type="ghost"
+							style={{ 'margin-right': 16 }}
+							className={checkedType === 1 ? 'yc-checked-btn' : null}
+							onClick={() => this.changeType(1)}
+						>
+							{checkedType === 1 ? <img src={checkoutIcon} alt="" /> : ''}
+							立案信息
+						</Button>
+
+					</span>
 					<Button
 						size="large"
-						type={filingType}
-						style={{ 'margin-right': 10 }}
-						onClick={() => this.changeType(1)}
-					>
-						立案信息
-					</Button>
-					<Button
-						size="large"
-						type={courtType}
+						type="ghost"
+						className={checkedType === 2 ? 'yc-checked-btn' : null}
 						onClick={() => this.changeType(2)}
 					>
+						{checkedType === 2 ? <img src={checkoutIcon} alt="" /> : ''}
 						开庭公告
 					</Button>
 				</div>

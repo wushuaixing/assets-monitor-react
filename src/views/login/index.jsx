@@ -26,7 +26,7 @@ class Login extends React.Component {
 		this.state = {
 			type: 1,
 			phoneNum: '',
-			btnColor: '#384482',
+			btnColor: '#1C80E1',
 			imgUrl: undefined,
 		};
 	}

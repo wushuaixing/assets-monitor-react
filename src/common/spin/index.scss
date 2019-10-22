@@ -1,5 +1,5 @@
 .yc-spin-wrapper{
-  min-height: 130px;
+  min-height: 88px;
   position: relative;
   border-radius: 2px;
   height:100%;
@@ -66,7 +66,7 @@
         font-size: 14px;
         text-align: center;
         font-weight:bold;
-        color: #2db7f5;
+        color: $text-link;
       }
     }
   }

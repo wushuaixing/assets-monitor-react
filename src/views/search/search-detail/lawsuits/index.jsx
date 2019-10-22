@@ -24,8 +24,8 @@ import add from '@/assets/img/icon/icon_add.png';
 import './style.scss';
 
 const createForm = Form.create;
-const _style1 = { width: 274 };
-const _style2 = { width: 120 };
+const _style1 = { width: 278 };
+const _style2 = { width: 100 };
 
 class LAWSUITS extends React.Component {
 	constructor(props) {
@@ -132,6 +132,10 @@ class LAWSUITS extends React.Component {
 			type: urlObj.type ? Number(urlObj.type) : 1,
 		});
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUpdate() {
+		window.scrollTo(0, 0); // 回到顶部
 	}
 
 	componentWillUnmount() {
@@ -619,7 +623,14 @@ class LAWSUITS extends React.Component {
 					))
 				}
 					{
-					yg.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个原告</span>) : (
+					yg.length > 2 ? (
+						<span style={{
+							fontSize: 12, marginTop: 3, display: 'inline-block', color: '#FB5A5C',
+						}}
+						>
+							最多可添加3个原告
+						</span>
+					) : (
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
@@ -659,7 +670,14 @@ class LAWSUITS extends React.Component {
 						))
 					}
 					{
-						bg.length > 2 ? (<span style={{ fontSize: 12, marginTop: 5, display: 'inline-block' }}>最多可添加3个被告</span>) : (
+						bg.length > 2 ? (
+							<span style={{
+								fontSize: 12, marginTop: 3, display: 'inline-block', color: '#FB5A5C',
+							}}
+							>
+								最多可添加3个被告
+							</span>
+						) : (
 							<Tooltip placement="top" title="添加">
 								<img
 									alt=""
@@ -671,7 +689,7 @@ class LAWSUITS extends React.Component {
 						)
 					}
 				</div>
-				<div style={{ borderBottom: '1px solid #F0F2F5' }}>
+				<div>
 					<div className="yc-query-item">
 						<Input
 							title="起诉法院"
@@ -729,10 +747,12 @@ class LAWSUITS extends React.Component {
 						/>
 					</div>
 					<div className="yc-query-item yc-query-item-btn">
-						<Button onClick={this.search} size="large" type="warning" style={{ width: 84 }}>查询</Button>
+						<Button onClick={this.search} size="large" type="common" style={{ width: 84 }}>查询</Button>
 						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 				</div>
+				{/* 分隔下划线 */}
+				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={tabConfig}
@@ -760,7 +780,8 @@ class LAWSUITS extends React.Component {
 						Sort={Sort}
 						type={type}
 					/>
-					<div className="yc-pagination">
+					{dataList && dataList.length > 0 && (
+					<div className="yc-table-pagination">
 						<Pagination
 							total={totals && totals > 1000 ? 1000 : totals}
 							current={current}
@@ -778,6 +799,7 @@ class LAWSUITS extends React.Component {
 							}}
 						/>
 					</div>
+					)}
 					{page === 100 && (
 					<span style={{
 						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,

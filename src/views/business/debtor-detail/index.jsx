@@ -1,17 +1,17 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb, Button, Table, Modal, Icon,
+	Breadcrumb, Button, Modal, Icon,
 } from 'antd';
 import {
 	detail, // 详情
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
-import { Spin } from '@/common';
+import { Table, Spin } from '@/common';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
-import './style.scss';
 import TableList from '../table-list';
+import './style.scss';
 
 export default class DebtorDetail extends React.Component {
 	constructor(props) {
@@ -58,7 +58,7 @@ export default class DebtorDetail extends React.Component {
 				key: 'operation',
 				render: (text, row) => (
 					<span>
-						<a onClick={() => this.detail(row)}>查看</a>
+						<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>
 					</span>
 				),
 			}],
@@ -152,7 +152,7 @@ export default class DebtorDetail extends React.Component {
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/business/debtor')}>债务人</a></Breadcrumb.Item>
-						<Breadcrumb.Item><span style={{ 'font-weight': 400, color: '#384482' }}>债务人详情</span></Breadcrumb.Item>
+						<Breadcrumb.Item><span style={{ 'font-weight': 400, color: '#20242E' }}>债务人详情</span></Breadcrumb.Item>
 					</Breadcrumb>
 				</div>
 				<Spin visible={loading}>
@@ -184,12 +184,12 @@ export default class DebtorDetail extends React.Component {
 								</span>
 							</div>
 						</div>
-						<div className="yc-search-right">
+						{/* <div className="yc-search-right">
 							<Button className="yc-btn">
 								<span className="yc-icon-export" />
                             下载
 							</Button>
-						</div>
+						</div> */}
 					</div>
 					{data && data.length > 0 && (
 					<div className="yc-debtor-table">
@@ -225,13 +225,11 @@ export default class DebtorDetail extends React.Component {
 							<span className="yc-confirm-title">债务人不存在，可能关联的业务已经被删除</span>
 						</div>
 						<div className="yc-confirm-content">
-							<span style={{ color: '#384482', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
+							<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
 							秒后自动关闭页面
 						</div>
 						<div className="yc-confirm-btn">
-							{
-								<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">知道了</Button>
-							}
+							<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">知道了</Button>
 						</div>
 					</div>
 

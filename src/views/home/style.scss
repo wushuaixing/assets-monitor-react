@@ -2,37 +2,34 @@
   height: 100%;
   font-size: 14px;
   line-height: 16px;
-  color: #4e5566;
   .yc-home-header {
     width: 1200px;
     height: 122px;
-    color: #20242e;
-    padding: 0 20px 36px 20px;
+    color: $text-title;
+    padding: 0 20px 40px 20px;
     box-sizing: border-box;
     .yc-header-left {
       float: left;
-      padding-top: 36px;
+      padding-top: 30px;
       padding-right: 60px;
-      .yc-left-title {
+      .yc-content-title {
         font-weight: bold;
         font-size: 18px;
         line-height: 1;
-        color: #20242e;
+        color: $text-title;
       }
       .yc-left-text {
-        padding-top: 16px;
+        padding-top: 20px;
+        color: $text-content;
       }
     }
     .yc-header-right {
       float: right;
       padding-top: 36px;
       padding-right: 60px;
-      .yc-right-title {
-        font-size: 12px;
-      }
       .yc-right-num {
         font-size: 28px;
-        color: #20242e;
+        color: $text-title;
         letter-spacing: 0;
         line-height: 28px;
         padding-top: 10px;
@@ -46,25 +43,22 @@
   }
   .yc-home-content {
     width: 1200px;
-    color: #20242e;
-    padding: 0 20px 36px 20px;
+    color: $text-title;
+    padding: 0 20px;
     box-sizing: border-box;
     .yc-content-title {
-      padding-top: 40px;
+      padding-top: 30px;
       line-height: 1;
-      padding-bottom: 40px;
-      font-size: 14px;
+      padding-bottom: 30px;
       margin: 0;
-      .yc-content-spite {
-        font-size: 12px;
-        color: #7d8699;
-      }
+      font-weight: bold;
+      font-size: 18px;
     }
     .yc-content-header {
-      height: 196px;
+      height: 180px;
       width: 100%;
-      padding-bottom: 40px;
-      border-bottom: 1px solid #f0f1f5;
+      padding-bottom: 30px;
+      // border-bottom: 1px solid $background-base;
 
       .yc-content-item {
         zoom: 1;
@@ -75,18 +69,18 @@
         .yc-content-item1 {
           width: 500px;
           height: 100%;
-          padding: 0 20px;
+          // padding: 0 20px;
         }
         .yc-content-item2 {
           width: 330px;
           height: 100%;
-          padding: 0 20px;
-          border-left: 1px solid #f0f1f5;
+          padding: 0 30px;
+          border-left: 1px solid $background-base;
         }
         .yc-text {
           font-size: 14px;
           line-height: 16px;
-          color: #4e5566;
+          color: $text-content;
           .yc-icon {
             width: 16px;
             height: 16px;
@@ -114,10 +108,11 @@
         }
         .yc-num {
           font-size: 28px;
-          color: #20242e;
+          color: $text-title;
           letter-spacing: 0;
           line-height: 28px;
           padding-top: 17px;
+          margin-left: 26px;
           .right {
             float: right;
           }
@@ -125,16 +120,15 @@
             font-size: 14px;
             line-height: 1;
             padding-left: 20px;
-            padding-right: 30px;
-            border-left: 1px solid #f0f1f5;
+            padding-right: 40px;
             margin-top: 10px;
             .yc-statistic-text {
               font-size: 14px;
               line-height: 16px;
-              color: #4e5566;
+              color: $text-content;
               .yc-txt-normal {
                 padding: 0 12px 0 4px;
-                color: #20242e;
+                color: $text-title;
               }
             }
           }
@@ -143,6 +137,15 @@
     }
   }
   .yc-container-main {
+    padding: 0 20px 36px 20px;
+    box-sizing: border-box;
+    .yc-content-title {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 1;
+      color: $text-title;
+      padding: 30px 0 24px;
+    }
     .yc-no-container {
       padding: 30px;
       text-align: center;
@@ -160,28 +163,18 @@
     }
     .yc-group-search {
       width: 310px;
-      margin-bottom: 10px;
+      margin-bottom: 16px;
       position: relative;
       .yc-group-icon {
         position: absolute;
-        right: 65px;
+        right: 79px;
         top: 10px;
         cursor: pointer;
       }
       .yc-group-input {
-        border: 1px solid #ccc;
-        width: 310px;
+        width: 240px;
         padding-right: 58px;
         height: 34px;
-        font-size: 14px;
-        color: #555;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-        -webkit-transition: border-color ease-in-out 0.15s,
-          -webkit-box-shadow ease-in-out 0.15s;
-        -o-transition: border-color ease-in-out 0.15s,
-          box-shadow ease-in-out 0.15s;
-        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
         border-radius: 2px;
       }
       .yc-group-button {
@@ -190,20 +183,23 @@
         right: 1px;
         top: 1px;
         border: 0;
-        border-left: 1px solid #d8dde5;
+        background-color: $text-link;
+        border-left: 1px solid $background-base;
         box-shadow: none;
         height: 32px;
-        border-radius: 0;
-        background-color: #fff;
+        border-radius: 2px;
+        &:hover {
+          background-color: $text-link-hover;
+        }
       }
       .yc-input-list {
         list-style: none;
-        border: 1px solid #dadde6;
+        border: 1px solid $background-base;
         position: absolute;
         top: 36px;
         left: 0;
         width: 245px;
-        background-color: #fff;
+        background-color: #ffffff;
         padding-left: 0;
         max-height: 300px;
         overflow: auto;
@@ -211,21 +207,25 @@
         .yc-input-list-item {
           padding: 6px 8px;
           font-size: 12px;
-          color: #20242e;
+          color: $text-title;
           cursor: pointer;
           &:hover {
-            background: #dadde6;
+            background: $background-base;
           }
         }
       }
     }
+  }
+  .ant-table-tbody > tr > td,
+  .ant-table-thead > tr > th {
+    padding: 12px 15px;
   }
 }
 .treetable {
   background-repeat: repeat;
   // background-image: url("../../assets/img/home/img_bg.png");
 }
-.ant-table-tbody > tr > td{
+.ant-table-tbody > tr > td {
   position: relative;
 }
 .ant-table-tbody > tr > td,
@@ -244,16 +244,15 @@
   border-color: grey;
 }
 .table > tbody > tr > th {
-  background-color: #f0f2f5;
+  background-color: $background-base;
   border: 1px solid #dfe3eb;
   border-left: 0;
-  text-align: left;
   font-size: 12px;
 }
 
 .table-striped tr > th {
   padding: 13px 15px;
-  color: #4d5566;
+  color: $text-content;
   white-space: nowrap;
 }
 .treetable tr > th:last-child {
@@ -263,12 +262,12 @@
   width: 400px;
 }
 .yc-table-child {
-  color: #337ab7;
+  color: $text-link;
   text-decoration: none;
   cursor: pointer;
 }
 .yc-table-body {
-  color: #337ab7;
+  color: $text-link;
   &:hover {
     text-decoration: underline;
     cursor: pointer;
