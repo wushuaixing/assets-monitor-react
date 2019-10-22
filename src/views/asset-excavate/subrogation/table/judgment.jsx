@@ -10,7 +10,7 @@ import { Judgment } from '@/utils/api/monitor-info/subrogation';
 /* 文书信息 */
 const documentInfo = (value, row) => {
 	const {
-		caseReason, caseType, gmtJudgment, title, url,
+		caseReason, caseType, gmtJudgment, title, url, isRestore,
 	} = row;
 	return (
 		<div className="assets-info-content">
@@ -25,7 +25,7 @@ const documentInfo = (value, row) => {
 			<li>
 				<span className="list list-title align-justify" style={{ width: 50 }}>案件类型</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{caseType || '--'}</span>
+				<span className="list list-content">{isRestore ? '执恢案件' : (caseType || '--')}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>

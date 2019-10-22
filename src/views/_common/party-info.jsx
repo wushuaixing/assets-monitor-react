@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
-import { getByteLength, linkDetail } from '@/utils';
+import { getByteLength, linkDetail, timeStandard } from '@/utils';
 
 const maxShowLength = 3;
 
@@ -47,7 +47,7 @@ export default class PartyInfoDetail extends React.Component {
 			const res = [];
 			if (gender && gender === 1)res.push('男');
 			else if (gender && gender === 2)res.push('女');
-			if (birthday)res.push(birthday);
+			if (birthday)res.push(timeStandard(birthday));
 			return `${name}（${res.join(' ')}）`;
 		}
 		return name;
