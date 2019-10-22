@@ -96,7 +96,7 @@ export default class Subrogation extends React.Component {
 			return _item;
 		});
 		this.setState({ isRead: val, tabConfig: _tabConfig }, () => {
-			this.onQueryChange(this.condition, '', val, 1);
+			this.onQueryChange(this.condition, 1);
 		});
 	};
 
