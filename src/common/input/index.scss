@@ -13,8 +13,8 @@ html {
     font-size: $input-fontsize;
 
     &:focus {
-      border: 1px solid $color-base;
-      box-shadow: 0 0 4px 0 $color-base;
+      border: 1px solid $text-link;
+      box-shadow: 0 0 4px 0 $text-link;
     }
     //.yc-input-large {
     //  padding: 9px 9px
@@ -43,11 +43,11 @@ html {
         margin-top: 1px;
       }
       &:hover{
-        border: 1px solid $color-base;
+        border: 1px solid $text-link;
       }
       &:focus{
-        border: 1px solid $color-base;
-        box-shadow: 0 0 4px 0 $color-base;
+        border: 1px solid $text-link;
+        box-shadow: 0 0 4px 0 $text-link;
       }
     }
     .yc-input-disabled {
@@ -100,8 +100,8 @@ html {
   }
 
   .yc-input-price-focus{
-    border: 1px solid $color-base;
-    box-shadow: 0 0 4px 0 $color-base;
+    border: 1px solid $text-link;
+    box-shadow: 0 0 4px 0 $text-link;
   }
   .yc-input-price-normal{
     border: 1px solid $background-border;
@@ -114,12 +114,12 @@ html {
     font-size: $input-fontsize;
 
     &:hover {
-      border: 1px solid $color-base;
-      box-shadow: 0 0 4px 0 $color-base;
+      border: 1px solid $text-link;
+      // box-shadow: 0 0 4px 0 $text-link;
     }
     &:focus {
-      border: 1px solid $color-base;
-      box-shadow: 0 0 4px 0 $color-base;
+      border: 1px solid $text-link;
+      box-shadow: 0 0 4px 0 $text-link;
     }
 
     .yc-price {
