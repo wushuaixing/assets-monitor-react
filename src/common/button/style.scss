@@ -67,21 +67,91 @@
 }
 
 .yc-btn-default {
+  $type-color:$color-base;
   border: 1px solid $background-border;
   background-color: #FFFFFF;
   color: #333333;
   &:hover{
-    border: 1px solid $color-base;
+    border: 1px solid $type-color;
     background-color: #FFFFFF;
-    color: $color-base;
+    color: $type-color;
   }
   &:active{
-    border: 1px solid $color-base;
+    border: 1px solid $type-color;
     background-color: #FFFFFF;
-    color: $color-base;
-    box-shadow: 0 0 4px 0 $color-base;
+    color: $type-color;
+    box-shadow: 0 0 4px 0 $type-color;
   }
 }
+.yc-btn-ghost-ing{
+  $type-color:$text-link;
+  border: 1px solid $background-border;
+  background-color: #FFFFFF;
+  color: #333333;
+  &:hover{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+  }
+  &:active{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+    box-shadow: 0 0 4px 0 $type-color;
+  }
+}
+.yc-btn-ghost-done{
+  $type-color:$common-success;
+  border: 1px solid $background-border;
+  background-color: #FFFFFF;
+  color: #333333;
+  &:hover{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+  }
+  &:active{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+    box-shadow: 0 0 4px 0 $type-color;
+  }
+}
+.yc-btn-ghost-abort{
+  $type-color:$text-remark;
+  border: 1px solid $background-border;
+  background-color: #FFFFFF;
+  color: #333333;
+  &:hover{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+  }
+  &:active{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+    box-shadow: 0 0 4px 0 $type-color;
+  }
+}
+
+.yc-btn-ghost-other{
+  border: 1px solid $background-border;
+  background-color: #FFFFFF;
+  color: #333333;
+  &:hover{
+    border: 1px solid $text-content;
+    background-color: #FFFFFF;
+    color: $text-content;
+  }
+  &:active{
+    border: 1px solid $text-content;
+    background-color: #FFFFFF;
+    color: $text-content;
+    box-shadow: 0 0 4px 0 $text-content;
+  }
+}
+
 .yc-btn-warning {
    border: 1px solid $color-alert-error;
    background-color: $color-alert-error;

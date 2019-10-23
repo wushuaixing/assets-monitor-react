@@ -166,7 +166,7 @@ export default class BusinessRisk extends React.Component {
 	// 当前页数变化
 	onPageChange=(val) => {
 		const { manage } = this.state;
-		this.selectRow = [];
+		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
@@ -174,12 +174,14 @@ export default class BusinessRisk extends React.Component {
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
+		this.selectRow = [];
 		this.onQueryChange(this.condition, '', '', 1);
 	};
 
 	// 查询条件变化
 	onQuery =(con) => {
 		this.toClearSortStatus();
+		this.selectRow = [];
 		this.onQueryChange(con, '', '', 1);
 	};
 

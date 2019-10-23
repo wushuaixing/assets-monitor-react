@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
-import { Table, Ellipsis } from '@/common';
+import { Table, Ellipsis, SelectedNum } from '@/common';
 import { Punishment } from '@/utils/api/risk-monitor/operation-risk';
 
 // 获取表格配置
@@ -117,11 +117,13 @@ export default class AdministrativePenalties extends Component {
 		} : null;
 		return (
 			<Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
+					rowKey={record => record.id}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>

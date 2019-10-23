@@ -11,7 +11,7 @@ import { changeURLArg, clearEmpty } from '@/utils';
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '代位权-资产挖掘';
+		document.title = '涉诉监控-风险监控';
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',
@@ -69,10 +69,8 @@ export default class Subrogation extends React.Component {
 	toInfoCount=() => {
 		const { tabConfig, sourceType } = this.state;
 		// const _t = nextSourceType || sourceType;
-		console.log(sourceType);
 		[1, 2, 3].forEach((i) => {
 			if (i !== sourceType) {
-				console.log(this.queryCondition);
 				const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
 				API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
 					tabConfig[i - 1].number = res.count;
@@ -80,7 +78,7 @@ export default class Subrogation extends React.Component {
 					this.setState({ tabConfig });
 				});
 			} else {
-				const params = Object.assign({ isRead: false });
+				const params = Object.assign({ isRead: false }, this.queryCondition);
 				API(i, 'listCount')(clearEmpty(params)).then((res) => {
 					tabConfig[i - 1].dot = res.data;
 					this.setState({ tabConfig });
@@ -300,7 +298,6 @@ export default class Subrogation extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-
 		return (
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}

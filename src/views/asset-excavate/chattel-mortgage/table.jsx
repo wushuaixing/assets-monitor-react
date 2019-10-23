@@ -151,7 +151,7 @@ const columns = (props) => {
 			),
 		}, {
 			title: '抵押详情',
-			width: 280,
+			width: 320,
 			render: MortgageDetail,
 		}, {
 			title: '登记状态',
@@ -162,7 +162,7 @@ const columns = (props) => {
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
 			width: 110,
-			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+			render: text => timeStandard(text) || '-',
 		}, {
 			title: '操作',
 			// width: 55,

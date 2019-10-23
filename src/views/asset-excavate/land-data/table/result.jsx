@@ -102,13 +102,11 @@ export default class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
+	onSelectChange=(selectedRowKeys) => {
 		// const _selectedRowKeys = record.map(item => item.id);
-		const _selectedRowKeys = selectedRowKeys;
-		console.log(record);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(_selectedRowKeys);
+		if (onSelect)onSelect(selectedRowKeys);
 	};
 
 	render() {

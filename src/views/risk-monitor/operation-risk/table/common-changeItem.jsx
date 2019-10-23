@@ -17,12 +17,16 @@ export default class MatchingReason extends React.Component {
 			this.setState({ status: 'canOpen' });
 		}
 	}
+	// componentWillReceiveProps(nextProps, nextContext) {
+	// 	// const { content: { id } } = this.props;
+	// }
 
 	componentDidUpdate(prevProps) {
 		const { content: { id } } = this.props;
 		const _id = prevProps.content.id;
 		if (id !== _id) {
 			this.toCal = true;
+			// Todo 展开问题
 			if (this.dom.clientHeight > 64) {
 				this.setState({ status: 'canOpen' });
 			} else {

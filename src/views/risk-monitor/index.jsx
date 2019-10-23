@@ -61,7 +61,7 @@ class RiskMonitor extends React.Component {
 					if (_item.id === 'YC0303')_item.dot = 0;
 					return _item;
 				});
-				console.log(_source);
+				// console.log(_source);
 				this.setState({ source: _source });
 			}
 		});
