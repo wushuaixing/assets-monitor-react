@@ -151,7 +151,7 @@ const columns = (props) => {
 			),
 		}, {
 			title: '抵押详情',
-			width: 320,
+			width: 300,
 			render: MortgageDetail,
 		}, {
 			title: '登记状态',
