@@ -300,7 +300,14 @@ export default class Assets extends React.Component {
 					) : (
 						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
-							<Download condition={this.toExportCondition} api={exportList} field="idList" text="导出" />
+							<Download
+								condition={this.toExportCondition}
+								api={exportList}
+								field="idList"
+								text="导出"
+								selectIds
+								selectedRowKeys={() => this.selectRow}
+							/>
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });

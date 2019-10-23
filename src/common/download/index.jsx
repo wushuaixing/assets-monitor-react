@@ -66,15 +66,14 @@ export default class Download extends React.Component {
 				onCancel() {},
 			});
 		} else if (selectIds) {
-			// console.log(selectedRowKeys);
-
-			if (selectedRowKeys && selectedRowKeys.length > 0) {
+			const _selectedRowKeys = (typeof selectedRowKeys === 'function' ? selectedRowKeys() : selectedRowKeys) || [];
+			if (_selectedRowKeys && _selectedRowKeys.length > 0) {
 				Modal.confirm({
 					title: '确认导出选中的所有信息吗？',
 					content: (
-						<div style={{ marginLeft: -37 }}>
+						<div style={selectData && { marginLeft: -37 }}>
 							<div style={{ fontSize: 14, marginBottom: 20 }}>点击确定，将为您导出选中的所有信息。</div>
-							<ModalTable selectData={selectData} getData={this.getData} />
+							{selectData && <ModalTable selectData={selectData} getData={this.getData} />}
 						</div>
 					),
 					iconType: 'exclamation-circle',
