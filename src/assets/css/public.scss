@@ -786,7 +786,7 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
 }
 // antd table行内下划线
 .ant-table-tbody>tr>td {
-  border-bottom: 0;
+  border-bottom: 1px solid #f7f7f7;
 }
 
 // 限制tooltip最大高度
@@ -819,7 +819,7 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   overflow: hidden;
 }
 
-// 分页器文字颜色 
+// 分页器文字颜色
 .ant-pagination-total-text {
   color: $text-remark;
 }
