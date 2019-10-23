@@ -186,6 +186,7 @@ export default class Subrogation extends React.Component {
 		});
 		this.toClearSortStatus();
 		this.onQueryChange({}, val, 'all', 1);
+		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'project', val);
 	};
 
@@ -328,6 +329,8 @@ export default class Subrogation extends React.Component {
 								text="导出"
 								field="idList"
 								api={api('exportList', sourceType)}
+								selectIds
+								selectedRowKeys={() => this.selectRow}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
 							<Button

@@ -349,6 +349,8 @@ export default class Subrogation extends React.Component {
 							<Download
 								text="导出"
 								field="idList"
+								selectIds
+								selectedRowKeys={() => this.selectRow}
 								api={API(sourceType, 'exportList')}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>

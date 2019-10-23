@@ -159,6 +159,7 @@ export default class BusinessRisk extends React.Component {
 		this.toClearSortStatus();
 		this.condition = {};
 		this.onQueryChange('', sourceType, 'all', 1);
+		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
 	};
 
@@ -281,6 +282,8 @@ export default class BusinessRisk extends React.Component {
 							<Download
 								text="导出"
 								field="idList"
+								selectIds
+								selectedRowKeys={() => this.selectRow}
 								api={API(sourceType, 'exportList')}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>

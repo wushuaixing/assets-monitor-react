@@ -200,6 +200,7 @@ export default class Subrogation extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
+		console.log(this.selectRow, 22);
 
 		return (
 			<div className="yc-assets-auction">
@@ -234,6 +235,8 @@ export default class Subrogation extends React.Component {
 							<Download
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 								api={exportList}
+								selectIds
+								selectedRowKeys={() => this.selectRow}
 								field="idList"
 								text="导出"
 							/>
