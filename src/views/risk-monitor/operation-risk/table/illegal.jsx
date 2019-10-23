@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Modal, Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
-import { Ellipsis, Table } from '@/common';
+import { Ellipsis, SelectedNum, Table } from '@/common';
 import { Illegal } from '@/utils/api/risk-monitor/operation-risk';
 
 // removeSituation 移除情况
@@ -105,7 +105,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
+			render: value => timeStandard(value),
 		}, {
 			title: '操作',
 			width: 60,
@@ -175,11 +175,13 @@ class AbnormalOperation extends Component {
 		} : null;
 		return (
 			<Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
+					rowKey={record => record.id}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>

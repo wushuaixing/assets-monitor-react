@@ -298,7 +298,6 @@ export default class Subrogation extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-
 		return (
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}
