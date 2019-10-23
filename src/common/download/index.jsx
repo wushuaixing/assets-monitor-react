@@ -70,6 +70,7 @@ export default class Download extends React.Component {
 			if (_selectedRowKeys && _selectedRowKeys.length > 0) {
 				Modal.confirm({
 					title: '确认导出选中的所有信息吗？',
+					width: (selectData ? 600 : 420),
 					content: (
 						<div style={selectData && { marginLeft: -37 }}>
 							<div style={{ fontSize: 14, marginBottom: 20 }}>点击确定，将为您导出选中的所有信息。</div>

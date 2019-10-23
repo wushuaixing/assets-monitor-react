@@ -321,7 +321,7 @@ class BusinessView extends React.Component {
 				</div>
 			),
 			iconType: 'exclamation-circle-o',
-			width: 420,
+			width: 600,
 			onOk() {
 				const params = {
 					idList: _selectedRowKeys,
