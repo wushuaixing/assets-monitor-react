@@ -18,18 +18,22 @@ export default class MatchingReason extends React.Component {
 		});
 	}
 
+
 	componentDidUpdate(prevProps) {
 		const { row: { id } } = this.props;
 		const _id = prevProps.row.id;
 		if (id !== _id) {
-			// Todo 展开问题
-			if (this.dom.clientHeight > 64) {
-				this.setState({ status: 'canOpen' });
-			} else {
-				this.setState({ status: 'none' });
-			}
+			this.toInitStatus();
 		}
 	}
+
+	toInitStatus=() => {
+		if (this.dom.clientHeight > 64) {
+			this.setState({ status: 'canOpen' });
+		} else {
+			this.setState({ status: 'none' });
+		}
+	};
 
 	render() {
 		const { content, type	} = this.props;
