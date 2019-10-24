@@ -14,32 +14,6 @@
   position: absolute;
 }
 
-.assets-matching-reason-wrapper {
-  em{
-    color: $color-alert-error;
-    font-style: normal;
-  }
-  .reason-content-wrapper {
-    max-height: 64px;
-    overflow: hidden;
-    line-height: 16px;
-  }
-  .content-canClose{
-    max-height: none!important;
-  }
-  .reason-action-none{
-    display: none;
-  }
-  .reason-action {
-    overflow: hidden;
-    line-height: 14px;
-    margin-top: 5px;
-    .action-ellipsis {
-      float: left;
-    }
-
-  }
-}
 .yc-operate-log {
   color: #20242e;
   padding: 0 20px 20px;
