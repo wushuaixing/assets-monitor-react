@@ -5,7 +5,7 @@ import { timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import { partyInfo } from '@/views/_common';
 import associationLink from '@/views/_common/association-link';
-import { Trial } from '@/utils/api/risk-monitor/lawsuit';
+import { Court } from '@/utils/api/risk-monitor/lawsuit';
 
 // 获取表格配置
 const columns = (props) => {
@@ -62,7 +62,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? Trial.unAttention : Trial.attention}
+					api={row.isAttention ? Court.unAttention : Court.attention}
 					index={index}
 				/>
 			),
@@ -92,7 +92,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			Trial.read({ idList: [id] }).then((res) => {
+			Court.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}
@@ -101,9 +101,9 @@ export default class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
+	onSelectChange=(selectedRowKeys) => {
 		// const _selectedRowKeys = record.map(item => item.id);
-		console.log(record);
+		// console.log(record);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
 		if (onSelect)onSelect(selectedRowKeys);

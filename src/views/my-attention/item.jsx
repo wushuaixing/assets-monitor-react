@@ -8,6 +8,7 @@ import FinancialAssets from '../asset-excavate/financial-assets/table';
 import ChattelMortgage from '../asset-excavate/chattel-mortgage/table-intact';
 import Lawsuit from '../risk-monitor/lawsuits-monitor/table-intact';
 import Operation from '../risk-monitor/operation-risk/table-intact';
+import Bankruptcy from '../risk-monitor/bankruptcy/table-intact';
 
 const TableItem	= (props) => {
 	const { source, childType, sourceType } = props;
@@ -29,6 +30,7 @@ const TableItem	= (props) => {
 					YC030101: <Lawsuit sourceType={1} />,
 					YC030102: <Lawsuit sourceType={2} />,
 					YC030103: <Lawsuit sourceType={3} />,
+					YC0302: <Bankruptcy />,
 					YC030301: <Operation sourceType="YC030301" />,
 					YC030302: <Operation sourceType="YC030302" />,
 					YC030303: <Operation sourceType="YC030303" />,

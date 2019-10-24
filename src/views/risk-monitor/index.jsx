@@ -57,8 +57,8 @@ class RiskMonitor extends React.Component {
 				const _source = source.map((item) => {
 					const _item = item;
 					if (_item.id === 'YC0301')_item.dot = data.trialCourtSessionCount || data.trialFilingCount || data.trialJudgmentCount;
-					if (_item.id === 'YC0302')_item.dot = 0;
-					if (_item.id === 'YC0303')_item.dot = 0;
+					if (_item.id === 'YC0302')_item.dot = data.bankruptcyCount;
+					if (_item.id === 'YC0303')_item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag;
 					return _item;
 				});
 				// console.log(_source);
