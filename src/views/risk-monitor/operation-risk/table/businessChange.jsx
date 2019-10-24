@@ -27,17 +27,19 @@ const columns = (props) => {
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '变更事项',
-			width: 300,
+			width: 200,
 			dataIndex: 'changeItem',
-			render: text => <Ellipsis content={text} tooltip width={250} line={2} />,
+			render: text => <Ellipsis content={text} tooltip width={200} line={2} />,
 		}, {
 			title: '变更前内容',
+			width: 260,
 			dataIndex: 'contentBefore',
-			render: text => (text ? <ChangeItem content={text} type="before" /> : '--'),
+			render: (text, row) => (text ? <ChangeItem content={text} type="before" key="before" row={row} /> : '--'),
 		}, {
 			title: '变更后内容',
+			width: 260,
 			dataIndex: 'contentAfter',
-			render: text => (text ? <ChangeItem content={text} /> : '--'),
+			render: (text, row) => (text ? <ChangeItem content={text} key="afters" row={row} /> : '--'),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
