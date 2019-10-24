@@ -111,7 +111,7 @@ class MonitorMain extends React.Component {
 							}}
 							onClick={this.toNavigate}
 							size="large"
-							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 16, marginTop: -2 }} />}
+							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 14, marginTop: -2 }} />}
 							title="我的关注"
 						/>
 					)}
