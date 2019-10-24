@@ -1,135 +1,110 @@
-import React, { Component } from 'react';
-import {
-	DatePicker, Form,
-} from 'antd';
-import {
-	Input, Button, timeRule,
-} from '@/common';
+import React from 'react';
+import { DatePicker, Form } from 'antd';
+import { Input, Button, timeRule } from '@/common';
 
-const createForm = Form.create;
 
-const _style1 = { width: 278 };
-const _style2 = { width: 100 };
-class EnvironmentalPunishment extends Component {
+class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			startTime: undefined,
-			endTime: undefined,
-		};
+		this.state = {};
 	}
 
+	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.handleSubmit();
+				document.activeElement.blur();
+			}
+		}
+	};
+
+	handleSubmit=() => {
+		const { form: { getFieldsValue }, onQueryChange } = this.props;
+		const condition = getFieldsValue();
+		if (onQueryChange)onQueryChange(condition, '', '', 1);
+	};
+
+	handleReset=() => {
+		const { form, onQueryChange } = this.props;
+		form.resetFields();
+		const condition = form.getFieldsValue();
+		if (onQueryChange)onQueryChange(condition, '', '', 1);
+	};
 
 	render() {
-		const { startTime, endTime } = this.state;
-		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps, getFieldValue } = form;
-		// // 通过 rowSelection 对象表明需要行选择
-		// const rowSelection = {
-		// 	selectedRowKeys,
-		// 	onChange: this.onSelectChange,
-		// };
-		console.log(startTime, endTime);
-
+		const _style1 = { width: 274 };
+		const _style2 = { width: 100 };
+		const { form: { getFieldProps, getFieldValue } } = this.props;
+		const timeOption = {
+			normalize(n) {
+				return n && new Date(n).format('yyyy-MM-dd');
+			},
+		};
 		return (
 			<div className="yc-content-query">
-				<Form layout="inline">
-					<div className="yc-query-item">
-						<Input
-							title="债务人"
-							style={_style1}
-							size="large"
-							placeholder="姓名/公司名称"
-							{...getFieldProps('caseNumber', {
+				<div className="yc-query-item">
+					<Input title="单位名称" style={_style1} size="large" placeholder="单位名称" {...getFieldProps('obName')} />
+				</div>
+				<div className="yc-query-item">
+					<Input title="标题" style={_style1} size="large" placeholder="标题信息" {...getFieldProps('title')} />
+				</div>
 
-								getValueFromEvent: e => e.trim(),
-							})}
-						/>
-					</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">发布日期：</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="开始日期"
+						{...getFieldProps('startPublishTime', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endPublishTime'))}
+					/>
+					<span className="yc-query-item-title">至</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="结束日期"
+						{...getFieldProps('endPublishTime', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startPublishTime'))}
+					/>
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">{`${global.Table_CreateTime_Text}：`}</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="开始日期"
+						{...getFieldProps('startCreateTime', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endCreateTime'))}
+					/>
+					<span className="yc-query-item-title">至</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="结束日期"
+						{...getFieldProps('endCreateTime', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startCreateTime'))}
+					/>
+				</div>
 
-					<div className="yc-query-item">
-						<Input
-							title="变更事项"
-							style={_style1}
-							size="large"
-							placeholder="工商变更事项"
-							{...getFieldProps('obligorName', {
 
-								getValueFromEvent: e => e.trim(),
-							})}
-						/>
-					</div>
-
-					<div className="yc-query-item">
-						<span className="yc-query-item-title">变更日期: </span>
-						<DatePicker
-							{...getFieldProps('uploadTimeStart', {
-								onChange: (value, dateString) => {
-									this.setState({
-										startTime: dateString,
-									});
-								},
-							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
-							size="large"
-							style={_style2}
-							placeholder="搜索范围起始变更日期"
-						/>
-						<span className="yc-query-item-title">至</span>
-						<DatePicker
-							{...getFieldProps('uploadTimeEnd', {
-								onChange: (value, dateString) => {
-									this.setState({
-										endTime: dateString,
-									});
-								},
-							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
-							size="large"
-							style={_style2}
-							placeholder="搜索范围截止变更日期"
-						/>
-					</div>
-
-					<div className="yc-query-item">
-						<span className="yc-query-item-title">更新日期: </span>
-						<DatePicker
-							{...getFieldProps('uploadTimeStart', {
-								onChange: (value, dateString) => {
-									this.setState({
-										startTime: dateString,
-									});
-								},
-							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
-							size="large"
-							style={_style2}
-							placeholder="搜索范围起始变更日期"
-						/>
-						<span className="yc-query-item-title">至</span>
-						<DatePicker
-							{...getFieldProps('uploadTimeEnd', {
-								onChange: (value, dateString) => {
-									this.setState({
-										endTime: dateString,
-									});
-								},
-							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
-							size="large"
-							style={_style2}
-							placeholder="搜索范围截止变更日期"
-						/>
-					</div>
-					<div className="yc-query-item yc-query-item-btn">
-						<Button onClick={this.search} size="large" type="common" style={{ width: 84 }}>查询</Button>
-						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
-					</div>
-					<div className="yc-split-hr" />
-				</Form>
+				<div className="yc-query-item yc-query-item-btn">
+					<Button size="large" type="common" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
+					<Button size="large" style={{ width: 120 }} onClick={this.handleReset}>重置查询条件</Button>
+				</div>
+				<div className="yc-split-hr" />
 			</div>
 		);
 	}
 }
-
-export default createForm()(EnvironmentalPunishment);
+export default Form.create()(QueryCondition);

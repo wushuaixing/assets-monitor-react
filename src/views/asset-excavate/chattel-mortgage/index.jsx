@@ -8,7 +8,6 @@ import {
 	getMortgageList, postMarkReadAll, postFollow, exportList,
 } from '@/utils/api/monitor-info/mortgage';
 import { clearEmpty } from '@/utils';
-import './style.scss';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {

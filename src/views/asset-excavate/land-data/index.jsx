@@ -17,8 +17,6 @@ import TableResult from './table/result';
 import TableTransfer from './table/transfer';
 import TableMortgage from './table/mortgage';
 
-import './style.scss';
-
 // 获取api具体
 const toGetApi = (type, base) => {
 	if (type === 1) return `${base}Result`;

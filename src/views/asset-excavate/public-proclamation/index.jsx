@@ -5,7 +5,6 @@ import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
-import './style.scss';
 
 import QueryBid from './query/bid';
 import QueryIllegal from './query/illegal';

@@ -104,15 +104,69 @@ const Punishment = {
 	followUnAttention: params => s.post('/yc/monitor/risk/punishment/follow/unFollow', params).then(res => res.data),
 };
 
+//  监控信息->经营风险->税收违法
+const Violation = {
+	// POST收藏
+	attention: params => s.post('/yc/monitor/risk/tax/attention', params).then(res => res.data),
+	// GET导出
+	exportList: '/yc/monitor/risk/tax/export',
+	// POST关注 => 收藏<
+	followAttention: params => s.post('/yc/monitor/risk/tax/follow/attention', params).then(res => res.data),
+	// GET关注 => 列表
+	followList: params => s.get('/yc/monitor/risk/tax/follow/list', { params }).then(res => res.data),
+	// GET关注 => 列表Count
+	followListCount: () => s.get('/yc/monitor/risk/tax/follow/list-count', {}).then(res => res.data),
+	// POST关注 => 取消收藏
+	followUnAttention: params => s.post('/yc/monitor/risk/tax/follow/un-attention', params).then(res => res.data),
+	// GET列表
+	list: params => s.get('/yc/monitor/risk/tax/list', { params }).then(res => res.data),
+	// GET列表count
+	listCount: params => s.get('/yc/monitor/risk/tax/list-count', { params }).then(res => res.data),
+	// POST已读
+	read: params => s.post('/yc/monitor/risk/tax/read', params).then(res => res.data),
+	// POST全部已读
+	readAll: () => s.post('/yc/monitor/risk/tax/read-all', {}).then(res => res.data),
+	// POST取消收藏
+	unAttention: params => s.post('/yc/monitor/risk/tax/un-attention', params).then(res => res.data),
+};
+
+//  监控信息->经营风险->环境处罚
+const Environment = {
+	// GET导出
+	exportList: '/yc/monitor/risk/epb/export',
+	// POST收藏
+	attention: params => s.post('/yc/monitor/risk/epb/attention', params).then(res => res.data),
+	// GET列表
+	list: params => s.get('/yc/monitor/risk/epb/list', { params }).then(res => res.data),
+	// GET列表count
+	listCount: params => s.get('/yc/monitor/risk/epb/list-count', { params }).then(res => res.data),
+	// POST已读
+	read: params => s.post('/yc/monitor/risk/epb/read', params).then(res => res.data),
+	// POST全部已读
+	readAll: () => s.post('/yc/monitor/risk/epb/read-all', {}).then(res => res.data),
+	// POST取消收藏
+	unAttention: params => s.post('/yc/monitor/risk/epb/un-attention', params).then(res => res.data),
+	// POST关注 => 收藏<
+	followAttention: params => s.post('/yc/monitor/risk/epb/follow/attention', params).then(res => res.data),
+	// GET关注 => 列表
+	followList: params => s.get('/yc/monitor/risk/epb/follow/list', { params }).then(res => res.data),
+	// GET关注 => 列表Count
+	followListCount: () => s.get('/yc/monitor/risk/epb/follow/list-count', {}).then(res => res.data),
+	// POST关注 => 取消收藏
+	followUnAttention: params => s.post('/yc/monitor/risk/epb/follow/un-attention', params).then(res => res.data),
+};
+
 // 获取不同类型的 api 接口
 const Api = (type, res) => {
 	if (type === 'YC030301') return Abnormal[res];
 	if (type === 'YC030302') return Change[res];
 	if (type === 'YC030303') return Illegal[res];
+	if (type === 'YC030304') return Violation[res];
 	if (type === 'YC030305') return Punishment[res];
+	if (type === 'YC030306') return Environment[res];
 	return Abnormal[res];
 };
 export {
-	Abnormal, Change, Illegal, Punishment,
+	Abnormal, Change, Illegal, Punishment, Violation, Environment,
 };
 export default Api;
