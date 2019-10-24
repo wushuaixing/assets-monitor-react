@@ -290,12 +290,7 @@ export default class Assets extends React.Component {
 									资产清收流程
 								</span>
 								<Download condition={() => this.toExportCondition('all')} api={exportList} all text="一键导出" />
-								{/* <Button onClick={() => this.toExportCondition('all')}> */}
-								{/* <span className="yc-export-img" /> */}
-								{/* <span> 一键导出</span> */}
-								{/* </Button> */}
 							</span>
-
 						</div>
 					) : (
 						<div className="assets-auction-action">

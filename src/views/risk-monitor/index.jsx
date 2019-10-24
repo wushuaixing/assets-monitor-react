@@ -7,7 +7,7 @@ import { unReadCount } from '@/utils/api/monitor-info';
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import Operation from './operation-risk';
-import Star from '@/assets/img/icon/btn_attention_n.png';
+import Star from '@/assets/img/icon/btn_attention16_n.png';
 import ruleMethods from '@/utils/rule';
 import './style.scss';
 
@@ -86,7 +86,7 @@ class RiskMonitor extends React.Component {
 							}}
 							onClick={this.toNavigate}
 							size="large"
-							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 16, marginTop: -2 }} />}
+							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 14, marginTop: -2 }} />}
 							title="我的关注"
 						/>
 					)}

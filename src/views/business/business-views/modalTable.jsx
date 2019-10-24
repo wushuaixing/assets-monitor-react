@@ -31,10 +31,10 @@ class BusinessView extends React.Component {
 								<div>
 									<span style={{ display: 'inline-block' }}>
 										{
-											text && text.length > 7
+											text && text.length > 12
 												? (
 													<Tooltip placement="topLeft" title={text}>
-														<p>{`${text.substr(0, 7)}...`}</p>
+														<p>{`${text.substr(0, 12)}...`}</p>
 													</Tooltip>
 												)
 												: <p>{text || '-'}</p>
@@ -57,10 +57,10 @@ class BusinessView extends React.Component {
 								<div>
 									<span style={{ display: 'inline-block' }}>
 										{
-											text && text.length > 4
+											text && text.length > 6
 												? (
 													<Tooltip placement="topLeft" title={text}>
-														<p>{`${text.substr(0, 4)}...`}</p>
+														<p>{`${text.substr(0, 6)}...`}</p>
 													</Tooltip>
 												)
 												: <p>{text || '-'}</p>

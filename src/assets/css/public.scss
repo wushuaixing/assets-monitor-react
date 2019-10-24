@@ -133,13 +133,16 @@ body, td, th {
 }
 
 .yc-list-attention-un {
+  width: 14px;
   background-image: url('../img/icon/btn_attention16_n.png');
   &:hover {
+    width: 14px;
     background-image: url('../img/icon/btn_attention16_h.png');
   }
 }
 
 .yc-list-attention-ed {
+  width: 14px;
   background-image: url('../img/icon/btn_attention_h.png');
 }
 
@@ -972,7 +975,7 @@ input:-ms-input-placeholder {
         color: #4267cb;
       }
       .info-auction-5 {
-        color: #4f8f06;
+        color: #3DBD7D;
       }
 
     }
@@ -1065,4 +1068,9 @@ input:-ms-input-placeholder {
 
     }
   }
+}
+
+// 一键导出居右20px
+.yc-all-export {
+  margin-right: 0;
 }

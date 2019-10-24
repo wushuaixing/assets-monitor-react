@@ -116,12 +116,13 @@ class BANKRUPTCY extends React.Component {
 
 	// 时间排序
 	SortTime = () => {
-		const { dataList, Sort, inputSearch } = this.state;
-		console.log(Sort, 2);
+		const { dataList, Sort } = this.state;
+		const { hash } = window.location;
+		const urlObj = parseQuery(hash);
 
 		const params = {
 			sort: Sort === 'DESC' ? 1 : 0,
-			...inputSearch,
+			...urlObj,
 		};
 		if (dataList.length > 0) {
 			this.getData(params); // 进入页面请求数据
