@@ -61,7 +61,7 @@ class QueryCondition extends React.Component {
 					<Input title="列入原因" style={_style1} size="large" placeholder="列入经营异常原因" {...getFieldProps('putReason')} />
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">匹配类型：</span>
+					<span className="yc-query-item-title">移除情况：</span>
 					<Select size="large" style={_style3} placeholder="请选择严重违法移除情况" {...getFieldProps('isRemove')} allowClear>
 						<Select.Option value={false}>未移除</Select.Option>
 						<Select.Option value>已移除</Select.Option>
