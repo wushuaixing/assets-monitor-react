@@ -8,32 +8,32 @@ export default class MatchingReason extends React.Component {
 			status: 'none',
 			//	none canOpen canClose
 		};
-		this.toCal = false;
 	}
 
 	componentDidMount() {
-		// console.log(this.dom.clientHeight);
-		if (this.dom.clientHeight > 64) {
-			this.setState({ status: 'canOpen' });
-		}
-	}
-	// componentWillReceiveProps(nextProps, nextContext) {
-	// 	// const { content: { id } } = this.props;
-	// }
-
-	componentDidUpdate(prevProps) {
-		const { content: { id } } = this.props;
-		const _id = prevProps.content.id;
-		if (id !== _id) {
-			this.toCal = true;
-			// Todo 展开问题
+		setTimeout(() => {
 			if (this.dom.clientHeight > 64) {
 				this.setState({ status: 'canOpen' });
-			} else {
-				this.setState({ status: 'none' });
 			}
+		});
+	}
+
+
+	componentDidUpdate(prevProps) {
+		const { row: { id } } = this.props;
+		const _id = prevProps.row.id;
+		if (id !== _id) {
+			this.toInitStatus();
 		}
 	}
+
+	toInitStatus=() => {
+		if (this.dom.clientHeight > 64) {
+			this.setState({ status: 'canOpen' });
+		} else {
+			this.setState({ status: 'none' });
+		}
+	};
 
 	render() {
 		const { content, type	} = this.props;

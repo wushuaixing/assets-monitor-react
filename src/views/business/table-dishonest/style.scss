@@ -114,43 +114,4 @@
   position: absolute;
 }
 
-.assets-matching-reason-wrapper {
-  em{
-    color: $color-alert-error;
-    font-style: normal;
-  }
-  .reason-content-wrapper {
-    max-height: 64px;
-    overflow: hidden;
-    line-height: 16px;
-  }
-  .content-canClose{
-    max-height: none!important;
-  }
-  .reason-action-none{
-    display: none;
-  }
-  .reason-action {
-    overflow: hidden;
-    line-height: 14px;
-    margin-top: 5px;
-    .action-ellipsis {
-      float: left;
-    }
 
-    .action-btn {
-      float: right;
-      cursor: pointer;
-      margin-right: 4px;
-      border-bottom: 1px solid #FFFFFF;
-      &:hover{
-        border-bottom: 1px solid $background-line;
-      }
-      i{
-        margin-left: 2px;
-        font-size: 7px;
-      }
-
-    }
-  }
-}

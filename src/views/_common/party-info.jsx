@@ -62,12 +62,12 @@ export default class PartyInfoDetail extends React.Component {
 			? (
 				<span>
 					展开
-					<Icon type="caret-down" />
+					<Icon type="down" />
 				</span>
 			) : (
 				<span>
 					收起
-					<Icon type="caret-up" />
+					<Icon type="up" />
 				</span>
 			);
 

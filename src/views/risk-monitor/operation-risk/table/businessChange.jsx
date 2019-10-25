@@ -15,8 +15,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>变更日期</span>
+				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>变更日期</SortVessel>),
 			dataIndex: 'changeTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
@@ -27,17 +27,19 @@ const columns = (props) => {
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '变更事项',
-			width: 300,
+			width: 200,
 			dataIndex: 'changeItem',
-			render: text => <Ellipsis content={text} tooltip width={250} line={2} />,
+			render: text => <Ellipsis content={text} tooltip width={200} line={2} />,
 		}, {
 			title: '变更前内容',
+			width: 260,
 			dataIndex: 'contentBefore',
-			render: text => (text ? <ChangeItem content={text} type="before" /> : '--'),
+			render: (text, row) => (text ? <ChangeItem content={text} type="before" key="before" row={row} /> : '--'),
 		}, {
 			title: '变更后内容',
+			width: 260,
 			dataIndex: 'contentAfter',
-			render: text => (text ? <ChangeItem content={text} /> : '--'),
+			render: (text, row) => (text ? <ChangeItem content={text} key="afters" row={row} /> : '--'),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
@@ -92,12 +94,10 @@ export default class BusinessChange extends Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
-		// console.log(selectedRowKeys, record);
-		const _selectedRowKeys = record.map(item => item.id);
+	onSelectChange=(selectedRowKeys) => {
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(_selectedRowKeys);
+		if (onSelect)onSelect(selectedRowKeys);
 	};
 
 	render() {

@@ -43,6 +43,7 @@ const removeSituation = (val, row) => {
 
 // 点击查看具体违法事实
 const toSeasonShow = (source) => {
+	const style = { maxWidth: 450 };
 	Modal.info({
 		title: '具体违法事实',
 		okText: '关闭',
@@ -54,12 +55,12 @@ const toSeasonShow = (source) => {
 				<li>
 					<span className="list list-title align-justify">违法类型</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{source.type.replace(/(^\s*)|(\s*$)/g, '') || '--'}</span>
+					<span className="list list-content" style={style}>{source.type.replace(/(^\s*)|(\s*$)/g, '') || '--'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">具体情形</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{source.fact.replace(/(^\s*)|(\s*$)/g, '') || '--'}</span>
+					<span className="list list-content" style={style}>{source.fact.replace(/(^\s*)|(\s*$)/g, '') || '--'}</span>
 				</li>
 			</div>
 		),
@@ -76,8 +77,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="GMT_PUT_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>列入日期</span>
+				: <SortVessel field="GMT_PUT_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>列入日期</SortVessel>),
 			dataIndex: 'gmtPutDate',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
@@ -154,12 +155,10 @@ class AbnormalOperation extends Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
-		// console.log(selectedRowKeys, record);
-		const _selectedRowKeys = record.map(item => item.id);
+	onSelectChange=(selectedRowKeys) => {
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(_selectedRowKeys);
+		if (onSelect)onSelect(selectedRowKeys);
 	};
 
 	render() {

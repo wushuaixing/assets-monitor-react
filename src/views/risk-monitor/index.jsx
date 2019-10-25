@@ -58,7 +58,7 @@ class RiskMonitor extends React.Component {
 					const _item = item;
 					if (_item.id === 'YC0301')_item.dot = data.trialCourtSessionCount || data.trialFilingCount || data.trialJudgmentCount;
 					if (_item.id === 'YC0302')_item.dot = data.bankruptcyCount;
-					if (_item.id === 'YC0303')_item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag;
+					if (_item.id === 'YC0303')_item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag || data.taxCount || data.epbCount;
 					return _item;
 				});
 				// console.log(_source);
