@@ -202,7 +202,6 @@ export default class Subrogation extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-		console.log(this.selectRow, 22);
 
 		return (
 			<div className="yc-assets-auction">

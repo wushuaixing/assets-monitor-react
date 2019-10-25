@@ -70,8 +70,8 @@ export default class TableView extends React.Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh } = this.props;
-		if (!isRead) {
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
 			Api.readStatusBid({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');

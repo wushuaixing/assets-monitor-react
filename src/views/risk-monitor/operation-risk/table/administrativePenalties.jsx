@@ -85,8 +85,8 @@ export default class AdministrativePenalties extends Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh } = this.props;
-		if (!isRead) {
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
 			Punishment.read({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
