@@ -150,7 +150,7 @@ export default class Subrogation extends React.Component {
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: true,
+								manage: false,
 							});
 						}
 					});
