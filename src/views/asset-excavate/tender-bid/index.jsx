@@ -1,7 +1,7 @@
 import React from 'react';
 import { message, Modal } from 'antd';
 import { Button, Spin, Download } from '@/common';
-import Api from '@/utils/api/monitor-info/public';
+import Api from '@/utils/api/monitor-info/bidding';
 import { unReadCount as unReadTotal } from '@/utils/api/monitor-info';
 import { clearEmpty } from '@/utils';
 import QueryView from './query';
@@ -9,15 +9,11 @@ import TableView from './table';
 
 import './style.scss';
 
-// 获取api具体
-const toGetApi = (type, base) => `${base}Bid`;
-
 export default class Lawsuits extends React.Component {
 	constructor(props) {
 		super(props);
 		document.title = '招标中标-监控信息';
 		this.state = {
-			sourceType: 1,
 			isRead: 'all',
 			dataSource: '',
 			current: 1,
@@ -61,7 +57,7 @@ export default class Lawsuits extends React.Component {
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		const { sourceType, unReadCount } = this.state;
+		const { unReadCount } = this.state;
 
 		if (unReadCount > 0) {
 			Modal.confirm({
@@ -69,7 +65,7 @@ export default class Lawsuits extends React.Component {
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					Api[toGetApi(sourceType, 'readStatus')]({})
+					Api.readAll({})
 						.then((res) => {
 							if (res.code === 200) {
 								_this.onQueryChange();
@@ -88,14 +84,14 @@ export default class Lawsuits extends React.Component {
 	handleAttention=() => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
-			const { dataSource, sourceType } = this.state;
+			const { dataSource } = this.state;
 			const _this = this;
 			Modal.confirm({
 				title: '确认关注选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
-					Api[toGetApi(sourceType, 'attention')]({ idList }, true).then((res) => {
+					Api.attention({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
 							const _dataSource = dataSource.map((item) => {
@@ -169,7 +165,7 @@ export default class Lawsuits extends React.Component {
 		if (!loading) this.setState({ loading: true, manage: _manage || false });
 		// this.toInfoCount();
 		this.toUnReadCount();
-		Api[toGetApi(1, 'infoList')](clearEmpty(this.condition)).then((res) => {
+		Api.list(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -192,7 +188,7 @@ export default class Lawsuits extends React.Component {
 
 	render() {
 		const {
-			sourceType, isRead, dataSource, current, total, manage, loading,
+			isRead, dataSource, current, total, manage, loading,
 		} = this.state;
 		const tableProps = {
 			manage,
@@ -232,7 +228,7 @@ export default class Lawsuits extends React.Component {
 								all
 								text="一键导出"
 								condition={() => this.condition}
-								api={Api[toGetApi(sourceType, 'exportList')]}
+								api={Api.exportList}
 								style={{ float: 'right' }}
 							/>
 						</div>
@@ -244,7 +240,7 @@ export default class Lawsuits extends React.Component {
 								field="idList"
 								selectIds
 								selectedRowKeys={() => this.selectRow}
-								api={Api[toGetApi(sourceType, 'exportList')]}
+								api={Api.exportList}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
 							{/* <Button onClick={this.handleExport} title="导出" /> */}
