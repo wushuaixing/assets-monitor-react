@@ -141,13 +141,16 @@ export default class Subrogation extends React.Component {
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
-									if (it === item.id) _item.isAttention = 1;
+									if (it === item.id) {
+										_item.isAttention = 1;
+										_item.isRead = true;
+									}
 								});
 								return _item;
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: true,
+								manage: false,
 							});
 						}
 					});

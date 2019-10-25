@@ -90,8 +90,8 @@ export default class TableView extends React.Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh } = this.props;
-		if (!isRead) {
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
 			readStatus({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
@@ -101,9 +101,7 @@ export default class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
-		// const _selectedRowKeys = record.map(item => item.id);
-		console.log(record);
+	onSelectChange=(selectedRowKeys) => {
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
 		if (onSelect)onSelect(selectedRowKeys);
@@ -116,7 +114,7 @@ export default class TableView extends React.Component {
 			registerModalVisible: true,
 			rowObj,
 		});
-	}
+	};
 
 	// 关闭弹窗
 	onCancel = () => {

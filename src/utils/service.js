@@ -89,6 +89,11 @@ const service = axios.create({
 
 	},
 });
+
+/* eslint-disable no-proto */
+service.__proto__ = axios;
+/* eslint-enable */
+
 // request拦截  请求之前拦截
 service.interceptors.request.use(requestMethods.onFulfilled, requestMethods.onRejected);
 service.interceptors.response.use(responseMethods.onFulfilled, responseMethods.onRejected);
