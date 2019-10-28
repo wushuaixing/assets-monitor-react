@@ -9,7 +9,6 @@ import Home from './home';
 // import Business from './business';
 // import Company from './company';
 // import Search from './search';
-// import Organization from './organization';
 import Message from './message';
 import ChangePassword from './changPassword';
 import { Spin, Button } from '@/common';
@@ -26,6 +25,7 @@ const Business = Loadable(() => import('./business'));
 const Search = Loadable(() => import('./search'));
 const Organization = Loadable(() => import('./organization'));
 const Attention = Loadable(() => import('./my-attention'));
+const Inquiry = Loadable(() => import('./portrait-inquiry'));
 
 const cookie = new Cookies();
 
@@ -38,6 +38,7 @@ const ruleList = (props) => {
 	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} />);
 	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} baseRule={rule} />);
 	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} />);
+	l.push(<Inquiry path="inquiry/*" baseRule={rule} />);
 	l.push(<Attention path="my/attention/*" />);
 	l.push(<Message path="message/*" />);
 	l.push(<Risk path="risk/*" />);
