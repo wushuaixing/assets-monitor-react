@@ -140,15 +140,15 @@
   background-color: #FFFFFF;
   color: #333333;
   &:hover{
-    border: 1px solid $text-content;
+    border: 1px solid $text-link;
     background-color: #FFFFFF;
-    color: $text-content;
+    color: $text-link;
   }
   &:active{
-    border: 1px solid $text-content;
+    border: 1px solid $text-link-hover;
     background-color: #FFFFFF;
-    color: $text-content;
-    box-shadow: 0 0 4px 0 $text-content;
+    color: $text-link-hover;
+    box-shadow: 0 0 4px 0 $text-link-hover;
   }
 }
 
@@ -171,13 +171,14 @@
   background-color: $text-link;
   color: #FFFFFF;
   &:hover{
-    border: 1px solid $text-link-hover;
-    background-color: $text-link-hover;
+    border: 1px solid $text-btn-hover;
+    background-color: $text-btn-hover;
 
   }
   &:active{
     border: 1px solid $text-link-hover;
     box-shadow: 0 0 4px 0 $text-link-hover;
+    background-color: $text-link-hover;
   }
 }
 .yc-btn-warning-text {
