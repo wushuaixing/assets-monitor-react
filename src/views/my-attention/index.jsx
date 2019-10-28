@@ -75,11 +75,13 @@ export default class MyAttention extends React.Component {
 				_source.child = _source.child.map((item) => {
 					const _item = item;
 					// Abnormal, Change, Illegal, Punishment,
-					// console.log(item);
+					console.log(res, 123);
 					if (item.id === 'YC030301') _item.number = res.Abnormal;
 					else if (item.id === 'YC030302') _item.number = res.Change;
 					else if (item.id === 'YC030303') _item.number = res.Illegal;
+					else if (item.id === 'YC030304') _item.number = res.Violation;
 					else if (item.id === 'YC030305') _item.number = res.Punishment;
+					else if (item.id === 'YC030306') _item.number = res.Environment;
 					return _item;
 				});
 				this.setState({ source: _source });

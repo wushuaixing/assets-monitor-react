@@ -34,7 +34,9 @@ const TableItem	= (props) => {
 					YC030301: <Operation sourceType="YC030301" />,
 					YC030302: <Operation sourceType="YC030302" />,
 					YC030303: <Operation sourceType="YC030303" />,
+					YC030304: <Operation sourceType="YC030304" />,
 					YC030305: <Operation sourceType="YC030305" />,
+					YC030306: <Operation sourceType="YC030306" />,
 				}[ID] || <AssetsAuction />
 			}
 		</React.Fragment>
