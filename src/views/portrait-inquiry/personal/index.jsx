@@ -1,16 +1,18 @@
 import React from 'react';
-// import { Button } from '@/common';
-// import { navigate } from '@reach/router';
+import Router from '@/utils/Router';
+import { navigate } from '@reach/router';
 import QueryView from '../common/queryView';
 import { Tabs } from '@/common';
 import OverView from './overview';
+import Assets from './assets';
+import Risk from './risk';
 import TempImg from '../title.png';
 import './style.scss';
 
 const source = () => [
 	{
 		id: 201,
-		name: '概况',
+		name: '　概况　',
 		field: 'totalCount',
 	},
 	{
@@ -34,26 +36,49 @@ export default class Personal extends React.Component {
 		super(props);
 		this.state = {
 			tabConfig: source(),
+			childDom: '',
+			sourceType: 201,
 		};
 	}
 
+	handleAddChild=(val) => {
+		this.setState({
+			childDom: val,
+		});
+	};
+
+	onSourceType=(val) => {
+		this.setState({
+			sourceType: val,
+			childDom: '',
+		}, () => {
+			navigate(`/inquiry/personal/${val}`);
+		});
+	};
+
+
 	render() {
-		const { tabConfig } = this.state;
+		const { tabConfig, sourceType, childDom } = this.state;
 		return (
 			<div className="yc-inquiry-personal">
 				<QueryView type={2} />
 				<div className="mark-line" />
 				<div className="inquiry-personal-content">
-					<div className="personal-intro">
+					<div className={`personal-intro ${childDom ? '' : 'personal-intro-child'}`}>
 						<img src={TempImg} alt="" style={{ width: '100%' }} />
 						<Tabs.Simple
 							onChange={this.onSourceType}
 							source={tabConfig}
-							field="process"
-							defaultCurrent={-1}
+							defaultCurrent={sourceType}
 						/>
+						{childDom}
 					</div>
-					<OverView />
+					<Router>
+						<OverView toPushChild={this.handleAddChild} path="/*" />
+						<Assets toPushChild={this.handleAddChild} path="/inquiry/personal/202/*" />
+						<Risk toPushChild={this.handleAddChild} path="/inquiry/personal/203/*" />
+					</Router>
+
 				</div>
 			</div>
 		);

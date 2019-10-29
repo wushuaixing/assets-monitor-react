@@ -41,8 +41,10 @@ class SimpleTab extends React.Component {
 
 	onHashChange=() => {
 		const { active } = this.state;
-		const { source, field, onChange } = this.props;
-		const res = toGetDefaultActive(source, field);
+		const {
+			source, field, onChange, defaultCurrent,
+		} = this.props;
+		const res = toGetDefaultActive(source, field, defaultCurrent);
 		if (res !== active) {
 			this.setState({ active: res });
 			this.active = res;

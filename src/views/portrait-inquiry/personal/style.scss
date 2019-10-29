@@ -2,6 +2,11 @@
   .personal-intro{
     padding: 20px 20px 0 20px;
   }
+  .personal-intro-child{
+    .yc-tabs-simple{
+      border-bottom: none!important;
+    }
+  }
 }
 .inquiry-overview{
   background-color: #F2F2F2;

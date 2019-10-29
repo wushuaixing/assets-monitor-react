@@ -7,14 +7,14 @@ import Assets from './assets';
 import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
-// import { navigate } from '@reach/router';
+import { navigate } from '@reach/router';
 import TempImg from '@/views/portrait-inquiry/title.png';
 import './style.scss';
 
 const source = () => [
 	{
 		id: 101,
-		name: '概况',
+		name: '　概况　',
 		field: 'totalCount',
 	},
 	{
@@ -51,6 +51,7 @@ export default class Enterprise extends React.Component {
 		this.state = {
 			tabConfig: source(),
 			childDom: '',
+			sourceType: 101,
 		};
 	}
 
@@ -61,29 +62,32 @@ export default class Enterprise extends React.Component {
 	};
 
 	onSourceType=(val) => {
-		// navigate(`/inquiry/enterprise/${val}`);
-		console.log(val);
+		this.setState({
+			sourceType: val,
+			childDom: '',
+		}, () => {
+			navigate(`/inquiry/enterprise/${val}`);
+		});
 	};
 
 	render() {
-		const { tabConfig, childDom } = this.state;
+		const { tabConfig, childDom, sourceType } = this.state;
 		return (
 			<div className="yc-inquiry-enterprise">
 				<QueryView type={1} />
 				<div className="mark-line" />
 				<div className="inquiry-enterprise-content">
-					<div className="enterprise-intro">
+					<div className={`enterprise-intro ${childDom ? '' : 'enterprise-intro-child'}`}>
 						<img src={TempImg} alt="" style={{ width: '100%' }} />
 						<Tabs.Simple
 							onChange={this.onSourceType}
 							source={tabConfig}
-							field="process"
-							defaultCurrent={-1}
+							defaultCurrent={sourceType}
 						/>
 						{childDom}
 					</div>
 					<Router>
-						<Overview toPushChild={this.handleAddChild} path="/101/*" />
+						<Overview toPushChild={this.handleAddChild} path="/*" />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" />
 						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" />
 						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" />
