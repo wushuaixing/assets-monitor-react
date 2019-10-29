@@ -1,50 +1,13 @@
 import React from 'react';
+import ReactECharts from 'echarts-for-react/lib/core';
+import echarts from 'echarts/lib/echarts';
+// 导入折线图
+import 'echarts/lib/chart/line'; // 折线图是line,饼图改为pie,柱形图改为bar
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/title';
+import 'echarts/lib/component/legend';
+import 'echarts/lib/component/markPoint';
 import './style.scss';
-
-
-const dataSource = {
-	name: '总公司',
-	upper: [
-		{
-			name: '股东1',
-			people: '老王',
-			upper: [
-				{ name: 'info1' },
-				{ name: 'info2' },
-				{ name: 'info3' },
-			],
-		},
-		{
-			name: '股东2',
-			people: '老李',
-			upper: [
-				{ name: 'info11' },
-				{ name: 'info22' },
-			],
-		},
-	],
-	lower: [
-		{
-			name: '分公司1',
-			people: '老吴',
-			lower: [
-				{ name: 'info3' },
-				{ name: 'info4' },
-			],
-		},
-		{
-			name: '分公司2',
-			people: '老赵',
-			lower: [
-				{ name: 'info 7' },
-				{ name: 'info 6' },
-				{ name: 'info 8' },
-				{ name: 'info 9' },
-			],
-		},
-	],
-};
-
 
 export default class StockRight extends React.Component {
 	constructor(props) {
@@ -52,16 +15,43 @@ export default class StockRight extends React.Component {
 		this.state = {};
 	}
 
+
 	componentDidMount() {
-		// this.drawChart();
-		window.drawTree(dataSource);
+
 	}
 
+	onChartReadyCallback=() => {
+		console.log('onChartReadyCallback');
+	};
+
+	getOption =() => ({
+		title: {
+			text: '用户骑行订单',
+			x: 'center',
+		},
+		tooltip: {
+			trigger: 'axis',
+		},
+		xAxis: {
+			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+		},
+		yAxis: {
+			type: 'value',
+		},
+		series: [
+			{
+				name: 'OFO订单量',
+				type: 'line', // 这块要定义type类型，柱形图是bar,饼图是pie
+				data: [1000, 2000, 1500, 3000, 2000, 1200, 800],
+			},
+		],
+	});
+
+
 	render() {
-		return (
-			<div className="container" id="d3_container">
-				<div className="basic" id="tree" />
-			</div>
-		);
+		return [
+			<ReactECharts option={this.getOption()} style={{ height: '400px' }} echarts={echarts} />,
+			<div id="main" />,
+		];
 	}
 }
