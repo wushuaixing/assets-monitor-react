@@ -14,7 +14,6 @@ export default class TableIntact extends React.Component {
 			loading: true,
 		};
 		this.condition = {
-			sourceType: props.sourceType || 1,
 			sortColumn: '',
 			sortOrder: '',
 			page: 1,
@@ -31,13 +30,15 @@ export default class TableIntact extends React.Component {
 		if (sourceType !== nextProps.sourceType) {
 			this.condition.sortColumn = '';
 			this.condition.sortOrder = '';
+			this.codition.page = 1;
 			this.condition.sourceType = nextProps.sourceType;
 			this.setState({
 				dataSource: '',
 				current: 1,
 				total: 0,
+			}, () => {
+				this.toGetData(nextProps);
 			});
-			this.toGetData(nextProps);
 		}
 	}
 
@@ -45,6 +46,7 @@ export default class TableIntact extends React.Component {
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
+		this.condition.page = 1;
 		this.toGetData();
 	};
 

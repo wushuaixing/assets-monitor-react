@@ -28,6 +28,7 @@ class Login extends React.Component {
 			phoneNum: '',
 			btnColor: '#1C80E1',
 			imgUrl: undefined,
+			imgLoading: false,
 		};
 	}
 
@@ -37,6 +38,10 @@ class Login extends React.Component {
 				this.setState({
 					btnColor: _res.data.btnColor,
 					imgUrl: _res.data.url,
+				});
+			} else {
+				this.setState({
+					imgLoading: true,
 				});
 			}
 		});
@@ -58,12 +63,12 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			type, phoneNum, btnColor, imgUrl,
+			type, phoneNum, btnColor, imgUrl, imgLoading,
 		} = this.state;
 
 		return (
 			<div className="yc-login">
-				<Header imgUrl={imgUrl} />
+				<Header imgLoading={imgLoading} imgUrl={imgUrl} />
 				<div className="yc-login-wapper">
 					<div className="yc-login-content">
 						{/* 登录页面 */}

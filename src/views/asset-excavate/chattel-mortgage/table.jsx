@@ -151,7 +151,7 @@ const columns = (props) => {
 			),
 		}, {
 			title: '抵押详情',
-			width: 280,
+			width: 300,
 			render: MortgageDetail,
 		}, {
 			title: '登记状态',
@@ -162,7 +162,7 @@ const columns = (props) => {
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
 			width: 110,
-			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+			render: text => timeStandard(text) || '-',
 		}, {
 			title: '操作',
 			// width: 55,
@@ -199,8 +199,8 @@ export default class TableView extends React.Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh } = this.props;
-		if (isRead === 0) {
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
 			postMarkRead({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: 1, index }, 'isRead');
@@ -212,9 +212,7 @@ export default class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
-		// const _selectedRowKeys = record.map(item => item.id);
-		console.log(record);
+	onSelectChange=(selectedRowKeys) => {
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
 		if (onSelect)onSelect(selectedRowKeys);

@@ -105,15 +105,15 @@ module.exports = {
 					hmr: process.env.NODE_ENV === 'development',
 				},
 			}, 'css-loader', 'sass-loader',
-				{
-					loader: 'sass-resources-loader',
-					options: {
-						resources: [
-							// resolve方法第二个参数为scss配置文件地址，如果有多个，就进行依次添加即可
-							path.resolve(__dirname, '../src/assets/css/configuration.scss'),
-						],
-					}
+			{
+				loader: 'sass-resources-loader',
+				options: {
+					resources: [
+						// resolve方法第二个参数为scss配置文件地址，如果有多个，就进行依次添加即可
+						path.resolve(__dirname, '../src/assets/css/configuration.scss'),
+					],
 				},
+			},
 
 			],
 		}, {
@@ -122,20 +122,20 @@ module.exports = {
 			include: path.resolve(__dirname, 'src'),
 			use: ['file-loader?name=assets/[name].[ext]'],
 		},
-			{
-				// 图片解析
-				test: /\.(png|jpg|gif)(\?|$)/,
-				// include: path.resolve(__dirname, 'src'),
-				use: [
-					{
-						loader: 'url-loader',
-						options: {
-							limit: ENV === 'development' ? 20840 : 2084,
-							name: 'assets/[name].[ext]'
-						}
-					}
-				],
-			},],
+		{
+			// 图片解析
+			test: /\.(png|jpg|gif)(\?|$)/,
+			// include: path.resolve(__dirname, 'src'),
+			use: [
+				{
+					loader: 'url-loader',
+					options: {
+						limit: ENV === 'development' ? 20840 : 2084,
+						name: 'assets/[name].[ext]',
+					},
+				},
+			],
+		}],
 	},
 	optimization: {
 		minimizer: [
@@ -181,9 +181,9 @@ module.exports = {
 			cssProcessor: require('cssnano'),
 			cssProcessorOptions: {
 				safe: true,
-				discardComments: { removeAll: true }
+				discardComments: { removeAll: true },
 			},
-			canPrint: true
+			canPrint: true,
 		}),
 		new BundleAnalyzerPlugin({ analyzerPort: 18888 }),
 	],

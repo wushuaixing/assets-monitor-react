@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	DatePicker, Select, Form, message,
+	DatePicker, Select, Form, message, Icon,
 } from 'antd';
 import { Input, Button, timeRule } from '@/common';
 import InputPrice from '@/common/input/input-price';
@@ -82,8 +82,18 @@ class QueryCondition extends React.Component {
 				</div>
 				<div className="yc-more-option inline-block cursor-pointer" style={{ marginLeft: 0 }}>
 					{ moreOption
-						? <span onClick={() => this.setState({ moreOption: false })}>收起选项 ▲</span>
-						: <span onClick={() => this.setState({ moreOption: true })}>更多选项 ▼</span>
+						? (
+							<span onClick={() => this.setState({ moreOption: false })}>
+								{'收起选项 '}
+								<Icon type="up" />
+							</span>
+						)
+						: (
+							<span onClick={() => this.setState({ moreOption: true })}>
+								{'更多选项 '}
+								<Icon type="down" />
+							</span>
+						)
 					}
 				</div>
 				<br />

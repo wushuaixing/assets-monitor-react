@@ -1,4 +1,3 @@
-
 stages:
   - install_deps
   - build
@@ -20,7 +19,9 @@ install_deps:
     - dev-branch
   script:
     - node -v
+    - mv -f ./src/utils/api/config/index.js ./src/utils/api/config/temp.js
     - mv -f ./src/utils/api/config/dev.js ./src/utils/api/config/index.js
+    - cat ./src/utils/api/config/index.js
     - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
     - yarn config set sass-binary-site https://npm.taobao.org/mirrors/node-sass
     - yarn install

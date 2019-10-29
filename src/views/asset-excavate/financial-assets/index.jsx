@@ -147,12 +147,17 @@ export default class Subrogation extends React.Component {
 							message.success('操作成功！');
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
-								idList.forEach((it) => { if (it === item.id) _item.isAttention = 1; });
+								idList.forEach((it) => {
+									if (it === item.id) {
+										_item.isAttention = 1;
+										_item.isRead = true;
+									}
+								});
 								return _item;
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: true,
+								manage: false,
 							});
 						}
 					});
@@ -186,6 +191,7 @@ export default class Subrogation extends React.Component {
 		});
 		this.toClearSortStatus();
 		this.onQueryChange({}, val, 'all', 1);
+		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'project', val);
 	};
 
@@ -328,6 +334,8 @@ export default class Subrogation extends React.Component {
 								text="导出"
 								field="idList"
 								api={api('exportList', sourceType)}
+								selectIds
+								selectedRowKeys={() => this.selectRow}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
 							<Button

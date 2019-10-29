@@ -5,7 +5,6 @@ import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
-import './style.scss';
 
 import QueryBid from './query/bid';
 import QueryIllegal from './query/illegal';
@@ -175,13 +174,16 @@ export default class Lawsuits extends React.Component {
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
-									if (it === item.id) _item.isAttention = 1;
+									if (it === item.id) {
+										_item.isAttention = 1;
+										_item.isRead = true;
+									}
 								});
 								return _item;
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: true,
+								manage: false,
 							});
 						}
 					});
@@ -331,6 +333,8 @@ export default class Lawsuits extends React.Component {
 							<Download
 								text="导出"
 								field="idList"
+								selectIds
+								selectedRowKeys={() => this.selectRow}
 								api={Api[toGetApi(sourceType, 'exportList')]}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>

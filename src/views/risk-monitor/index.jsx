@@ -7,7 +7,7 @@ import { unReadCount } from '@/utils/api/monitor-info';
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import Operation from './operation-risk';
-import Star from '@/assets/img/icon/btn_attention_n.png';
+import Star from '@/assets/img/icon/btn_attention16_n.png';
 import ruleMethods from '@/utils/rule';
 import './style.scss';
 
@@ -38,10 +38,10 @@ class RiskMonitor extends React.Component {
 	}
 
 	componentWillMount() {
-		// this.onUnReadCount();
-		// this.setUnReadCount = setInterval(() => {
-		// 	this.onUnReadCount();
-		// }, 30 * 1000);
+		this.onUnReadCount();
+		this.setUnReadCount = setInterval(() => {
+			this.onUnReadCount();
+		}, 30 * 1000);
 	}
 
 	componentWillUnmount() {
@@ -56,14 +56,12 @@ class RiskMonitor extends React.Component {
 			if (code === 200) {
 				const _source = source.map((item) => {
 					const _item = item;
-					if (_item.id === 1)_item.dot = data.auctionCount;
-					if (_item.id === 2)_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount;
-					if (_item.id === 3)_item.dot = data.financeCount;
-					if (_item.id === 4)_item.dot = data.trialCourtSessionCount + data.trialFilingCount;
-					if (_item.id === 5)_item.dot = data.bankruptcyCount;
-					if (_item.id === 6)_item.dot = data.biddingCount + data.taxCount + data.epbCount;
+					if (_item.id === 'YC0301')_item.dot = data.trialCourtSessionCount || data.trialFilingCount || data.trialJudgmentCount;
+					if (_item.id === 'YC0302')_item.dot = data.bankruptcyCount;
+					if (_item.id === 'YC0303')_item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag || data.taxCount || data.epbCount;
 					return _item;
 				});
+				// console.log(_source);
 				this.setState({ source: _source });
 			}
 		});
@@ -83,10 +81,12 @@ class RiskMonitor extends React.Component {
 					id="TABS"
 					rightRender={() => (
 						<Button
-							style={{ marginTop: 6, marginRight: 20, width: 95 }}
+							style={{
+								marginTop: 8, marginRight: 20, width: 95, padding: '2px 9px',
+							}}
 							onClick={this.toNavigate}
 							size="large"
-							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 16, marginTop: -2 }} />}
+							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 14, marginTop: -2 }} />}
 							title="我的关注"
 						/>
 					)}

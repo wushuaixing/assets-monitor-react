@@ -35,7 +35,7 @@
     padding: 15px 20px;
     span{
       font-size: 15px;
-      line-height: 15px;
+      // line-height: 15px;
 
     }
 
@@ -53,7 +53,6 @@
   .yc-tabs-un-active:hover{
       background-color:#FFFFFF;
   }
-  height: 40px;
   border-bottom: 1px solid $background-line;
   ul{
     //padding-left: 10px;
@@ -62,7 +61,7 @@
     padding: 12px 20px;
     span{
       font-size: 14px;
-      line-height: 15px;
+      // line-height: 15px;
     }
   }
   .yc-tabs-active{
@@ -78,7 +77,7 @@
     }
     span{
       color: $common-warning;
-      font-weight: bold;
+      // font-weight: bold;
     }
   }
 }

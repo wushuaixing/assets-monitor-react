@@ -2,7 +2,7 @@ import React from 'react';
 import TableView from './table';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import Api from '@/utils/api/monitor-info/public';
+import Api from '@/utils/api/monitor-info/bidding';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -68,7 +68,7 @@ export default class TableIntact extends React.Component {
 	toGetData=(nextProps) => {
 		this.setState({ loading: true });
 		const { reqUrl, id } = nextProps || this.props;
-		let toApi = Api.attentionBid;
+		let toApi = Api.followList;
 		toApi = reqUrl || toApi;
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {

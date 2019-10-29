@@ -3,13 +3,13 @@ import React from 'react';
 // 所需的所有组件
 // ==================
 import {
-	Form, Pagination, message, DatePicker,
+	Form, Pagination, message,
 } from 'antd';
 
 import { navigate } from '@reach/router';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import {
-	timeRule, Spin, Input, Button, Download,
+	Spin, Input, Button, Download,
 } from '@/common';
 import FinanceTable from './table';
 import {
@@ -22,7 +22,6 @@ import './style.scss';
 
 const createForm = Form.create;
 const _style1 = { width: 278 };
-const _style2 = { width: 100 };
 class FINANCE extends React.Component {
 	constructor(props) {
 		super(props);
@@ -246,7 +245,7 @@ class FINANCE extends React.Component {
 			loading, totals, current, dataList, page, pageSize, params,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps, getFieldValue } = form;
+		const { getFieldProps } = form;
 
 		return (
 			<div className="yc-content-query">
@@ -256,7 +255,7 @@ class FINANCE extends React.Component {
 							title="全文"
 							style={_style1}
 							size="large"
-							placeholder="标题/关键字"
+							placeholder="全文搜索关键词"
 							{...getFieldProps('content', {
 								initialValue: params.content,
 								getValueFromEvent: e => e.trim(),
@@ -268,14 +267,14 @@ class FINANCE extends React.Component {
 							title="项目名称"
 							style={_style1}
 							size="large"
-							placeholder="处置法院/单位"
+							placeholder="项目标题"
 							{...getFieldProps('projectName', {
 								initialValue: params.projectName,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
 					</div>
-					<div className="yc-query-item">
+					{/* <div className="yc-query-item">
 						<span className="yc-query-item-title">挂牌起始日期: </span>
 						<DatePicker
 							{...getFieldProps('startTimeStart', {
@@ -342,7 +341,7 @@ class FINANCE extends React.Component {
 							style={_style2}
 							placeholder="结束日期"
 						/>
-					</div>
+					</div> */}
 					<div className="yc-query-item yc-query-item-btn">
 						<Button onClick={this.search} size="large" type="common" style={{ width: 84 }}>查询</Button>
 						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
@@ -351,7 +350,7 @@ class FINANCE extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 				<div className="yc-writ-tablebtn">
-					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportFinanceCurrent} current page num text="本页导出" />}
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={exportFinanceCurrent} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportFinanceAll} all page num text="全部导出" />
 					{dataList.length > 0 && (
 						<div style={{

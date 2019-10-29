@@ -497,7 +497,7 @@ class AUCTION extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 				<div className="yc-auction-tablebtn">
-					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={fullAssetSearchExport} current page num text="本页导出" />}
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={fullAssetSearchExport} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={fullAssetSearchExport} all page num text="全部导出" />
 					<div className="yc-btn-right">
 						{dataList.length > 0 && <span className="yc-right-total">{`源诚科技为您找到${totals}条信息`}</span>}

@@ -175,6 +175,7 @@ class DebtorDetail extends React.Component {
 										style={{ width: 200 }}
 										placeholder="请选择人员"
 										size="large"
+										maxLength={30}
 										onInput={e => this.changeValue(e, item.id)}
 										{...getFieldProps(`roleText${item.id}`, {
 											initialValue: item && item.roleText,

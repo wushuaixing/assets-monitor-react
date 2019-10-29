@@ -15,7 +15,6 @@ import Mortgage from './chattel-mortgage'; // 动产抵押
 // import Attention from '../my-attention'; // 我的关注
 import ClearProcess from './assets-auction/clearProcess'; // 资产清收流程
 import Star from '@/assets/img/icon/btn_attention16_n.png';
-import './style.scss';
 
 const noPage = () => <div>暂未开发</div>;
 
@@ -81,7 +80,7 @@ class MonitorMain extends React.Component {
 					const _item = item;
 					// console.log(_item.id, 123);
 					if (_item.id === 'YC0201')_item.dot = data.auctionCount;
-					if (_item.id === 'YC0202')_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount;
+					if (_item.id === 'YC0202')_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount + data.subrogationJudgmentCourt;
 					if (_item.id === 'YC0203')_item.dot = data.landResultFlag; // 土地数据
 					if (_item.id === 'YC0204')_item.dot = data.biddingCount; // 招标中标
 					if (_item.id === 'YC0205')_item.dot = data.financeCount + data.stockPledgeFlag; // 金融资产
@@ -106,10 +105,12 @@ class MonitorMain extends React.Component {
 					id="TABS"
 					rightRender={() => (
 						<Button
-							style={{ marginTop: 6, marginRight: 20, width: 95 }}
+							style={{
+								marginTop: 8, marginRight: 20, width: 95, padding: '2px 9px',
+							}}
 							onClick={this.toNavigate}
 							size="large"
-							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 16, marginTop: -2 }} />}
+							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 14, marginTop: -2 }} />}
 							title="我的关注"
 						/>
 					)}

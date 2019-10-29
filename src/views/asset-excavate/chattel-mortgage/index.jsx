@@ -8,7 +8,6 @@ import {
 	getMortgageList, postMarkReadAll, postFollow, exportList,
 } from '@/utils/api/monitor-info/mortgage';
 import { clearEmpty } from '@/utils';
-import './style.scss';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -88,12 +87,16 @@ export default class Subrogation extends React.Component {
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
-									if (it === item.id) _item.isAttention = 1;
+									if (it === item.id) {
+										_item.isAttention = 1;
+										_item.isRead = true;
+									}
 								});
 								return _item;
 							});
 							_this.setState({
 								dataSource: _dataSource,
+								manage: false,
 							});
 						}
 					});
@@ -234,6 +237,8 @@ export default class Subrogation extends React.Component {
 							<Download
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 								api={exportList}
+								selectIds
+								selectedRowKeys={() => this.selectRow}
 								field="idList"
 								text="导出"
 							/>

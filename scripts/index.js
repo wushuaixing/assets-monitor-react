@@ -33,7 +33,7 @@ module.exports = {
 			antd: `${ROOT}/patchs/antd`,
 			api: `${ROOT}/src/utils/api`,
 		},
-		extensions: ['.js', '.jsx'],
+		extensions: ['.js', '.jsx','.scss'],
 	},
 	module: {
 		rules: [{

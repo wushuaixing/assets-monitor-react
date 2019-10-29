@@ -10,6 +10,7 @@
     .yc-btn {
       background: #fff;
       height: 30px;
+      margin-right: 10px;
     }
     .yc-icon-export {
       display: inline-block;
@@ -94,8 +95,8 @@
     padding-bottom: 15px;
     .yc-item-break {
       position: absolute;
-      left: 26px;
-      top: 0;
+      // left: 26px;
+      top: -20px;
     }
     .yc-table-header {
       overflow: hidden;

@@ -1,14 +1,13 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, message,
+	Button, Form, message,
 } from 'antd';
 import { navigate } from '@reach/router';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
-import { Input, timeRule } from '@/common';
+import { Input } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
-const _style1 = { width: 116 };
 class FINANCE extends React.Component {
 	constructor(props) {
 		super(props);
@@ -77,7 +76,7 @@ class FINANCE extends React.Component {
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined
-		const { getFieldProps, getFieldValue } = form;
+		const { getFieldProps } = form;
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
@@ -96,7 +95,7 @@ class FINANCE extends React.Component {
 						/>
 					</div>
 				</div>
-				<div className="other">
+				{/* <div className="other">
 					<span>挂牌起始日期：</span>
 					<DatePicker
 						placeholder="开始日期"
@@ -163,7 +162,7 @@ class FINANCE extends React.Component {
 						})}
 						allowClear
 					/>
-				</div>
+				</div> */}
 				<div className="btn">
 					<Button
 						type="primary"

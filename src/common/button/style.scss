@@ -14,7 +14,7 @@
   white-space: nowrap;
   user-select: none;
   position: relative;
-  margin-right: 10px;
+  // margin-right: 10px;
 
   span {
     font-size: $input-fontsize;
@@ -47,14 +47,14 @@
   color: $fontColor-help;
 }
 .yc-btn-active{
-  border: 1px solid $color-base!important;
+  border: 1px solid $text-link!important;
   background-color: #FFFFFF!important;
-  color: $color-base!important;
+  color: $text-link!important;
 }
 
 .yc-btn-primary {
-  border: 1px solid $color-base;
-  background-color: $color-base;
+  border: 1px solid $text-link;
+  background-color: $text-link;
   color: #FFFFFF;
   &:hover{
     border: 1px solid $color-btn-hover;
@@ -67,21 +67,91 @@
 }
 
 .yc-btn-default {
+  $type-color:$text-link;
   border: 1px solid $background-border;
   background-color: #FFFFFF;
   color: #333333;
   &:hover{
-    border: 1px solid $color-base;
+    border: 1px solid $type-color;
     background-color: #FFFFFF;
-    color: $color-base;
+    color: $type-color;
   }
   &:active{
-    border: 1px solid $color-base;
+    border: 1px solid $type-color;
     background-color: #FFFFFF;
-    color: $color-base;
-    box-shadow: 0 0 4px 0 $color-base;
+    color: $type-color;
+    box-shadow: 0 0 4px 0 $type-color;
   }
 }
+.yc-btn-ghost-ing{
+  $type-color:$text-link;
+  border: 1px solid $background-border;
+  background-color: #FFFFFF;
+  color: #333333;
+  &:hover{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+  }
+  &:active{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+    box-shadow: 0 0 4px 0 $type-color;
+  }
+}
+.yc-btn-ghost-done{
+  $type-color:$common-success;
+  border: 1px solid $background-border;
+  background-color: #FFFFFF;
+  color: #333333;
+  &:hover{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+  }
+  &:active{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+    box-shadow: 0 0 4px 0 $type-color;
+  }
+}
+.yc-btn-ghost-abort{
+  $type-color:$text-remark;
+  border: 1px solid $background-border;
+  background-color: #FFFFFF;
+  color: #333333;
+  &:hover{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+  }
+  &:active{
+    border: 1px solid $type-color;
+    background-color: #FFFFFF;
+    color: $type-color;
+    box-shadow: 0 0 4px 0 $type-color;
+  }
+}
+
+.yc-btn-ghost-other{
+  border: 1px solid $background-border;
+  background-color: #FFFFFF;
+  color: #333333;
+  &:hover{
+    border: 1px solid $text-link;
+    background-color: #FFFFFF;
+    color: $text-link;
+  }
+  &:active{
+    border: 1px solid $text-link-hover;
+    background-color: #FFFFFF;
+    color: $text-link-hover;
+    box-shadow: 0 0 4px 0 $text-link-hover;
+  }
+}
+
 .yc-btn-warning {
    border: 1px solid $color-alert-error;
    background-color: $color-alert-error;
@@ -101,13 +171,14 @@
   background-color: $text-link;
   color: #FFFFFF;
   &:hover{
-    border: 1px solid $text-link-hover;
-    background-color: $text-link-hover;
+    border: 1px solid $text-btn-hover;
+    background-color: $text-btn-hover;
 
   }
   &:active{
-    border: 1px solid $text-link;
-    box-shadow: 0 0 4px 0 $text-link;
+    border: 1px solid $text-link-hover;
+    box-shadow: 0 0 4px 0 $text-link-hover;
+    background-color: $text-link-hover;
   }
 }
 .yc-btn-warning-text {

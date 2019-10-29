@@ -17,8 +17,6 @@ import TableResult from './table/result';
 import TableTransfer from './table/transfer';
 import TableMortgage from './table/mortgage';
 
-import './style.scss';
-
 // 获取api具体
 const toGetApi = (type, base) => {
 	if (type === 1) return `${base}Result`;
@@ -174,13 +172,16 @@ export default class Lawsuits extends React.Component {
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
-									if (it === item.id) _item.isAttention = 1;
+									if (it === item.id) {
+										_item.isAttention = 1;
+										_item.isRead = true;
+									}
 								});
 								return _item;
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: true,
+								manage: false,
 							});
 						}
 					});
@@ -349,6 +350,8 @@ export default class Lawsuits extends React.Component {
 							<Download
 								text="导出"
 								field="idList"
+								selectIds
+								selectedRowKeys={() => this.selectRow}
 								api={Api[toGetApi(sourceType, 'exportList')]}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>

@@ -3,7 +3,6 @@ import Table from './table';
 import { postFollowList } from '@/utils/api/monitor-info/mortgage';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import './style.scss';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -41,6 +40,7 @@ export default class TableIntact extends React.Component {
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
+		this.condition.page = 1;
 		this.toGetData();
 	};
 

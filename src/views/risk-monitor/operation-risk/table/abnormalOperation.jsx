@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
-import { Table, Ellipsis } from '@/common';
+import { Table, Ellipsis, SelectedNum } from '@/common';
 import { Abnormal } from '@/utils/api/risk-monitor/operation-risk';
 
 
@@ -50,8 +50,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="GMT_PUT_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>列入日期</span>
+				: <SortVessel field="GMT_PUT_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>列入日期</SortVessel>),
 			dataIndex: 'gmtPutDate',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
@@ -117,8 +117,8 @@ class AbnormalOperation extends Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh } = this.props;
-		if (!isRead) {
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
 			Abnormal.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
@@ -128,12 +128,10 @@ class AbnormalOperation extends Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
-		// console.log(selectedRowKeys, record);
-		const _selectedRowKeys = record.map(item => item.id);
+	onSelectChange=(selectedRowKeys) => {
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(_selectedRowKeys);
+		if (onSelect)onSelect(selectedRowKeys);
 	};
 
 	render() {
@@ -149,11 +147,13 @@ class AbnormalOperation extends Component {
 		} : null;
 		return (
 			<Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
+					rowKey={record => record.id}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>

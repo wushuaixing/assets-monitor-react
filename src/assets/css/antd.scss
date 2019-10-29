@@ -1,0 +1,140 @@
+// table 多级下拉
+.ant-table-row-expand-icon {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+.ant-table-row-collapsed:after {
+  content: "";
+  background-image: url("../img/home/icon_arrow_right.png");
+  width: 16px;
+  height: 17px;
+  border: medium none;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  display: inline-block;
+  background-repeat: no-repeat;
+  -webkit-transition: -webkit-transform .2s ease;
+  transition: -webkit-transform .2s ease;
+}
+
+.ant-table-row-expanded:after {
+  content: "";
+  background-image: url("../img/home/icon_arrow_down2.png");
+  width: 16px;
+  height: 17px;
+  border: medium none;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  display: inline-block;
+  background-repeat: no-repeat;
+  -webkit-transition: -webkit-transform .2s ease;
+  transition: -webkit-transform .2s ease;
+}
+
+// 降低下拉框层级
+.ant-select-dropdown {
+  z-index: 1050;
+}
+
+// antd table行内下划线
+.ant-table-tbody > tr > td {
+  border-bottom: 1px solid #f7f7f7;
+}
+
+// 限制tooltip最大高度
+.ant-tooltip-inner {
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+.ant-table-selection-column {
+  width: 30px !important;
+  padding-left: 10px !important;
+  padding-right: 0 !important;
+}
+
+// 无数据时不展示分页器和下分割线
+.ant-table-placeholder {
+  border-bottom: 0;
+}
+
+// 分页器文字颜色
+.ant-pagination-total-text {
+  color: $text-remark;
+}
+
+.ant-calendar-picker {
+  input::-webkit-input-placeholder {
+    color: $text-placeholder;
+  }
+}
+
+.ant-select-selection__placeholder {
+  color: $text-placeholder;
+}
+
+// 弹框样式
+.ant-modal-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.ant-modal-footer {
+  padding: 20px;
+
+  .ant-btn {
+    min-width: 70px;
+  }
+
+  button + button {
+    margin-left: 10px;
+    background-color: $color-base;
+    border-color: $color-base;
+
+    &:hover {
+      background-color: $color-btn-hover;
+      border-color: $color-btn-hover;
+    }
+  }
+
+  .ant-btn-lg {
+    height: 32px;
+    width: 90px;
+  }
+}
+
+.ant-table-body, .cTableContent {
+  tbody {
+    tr:hover {
+      background: $background-list-hover;
+    }
+
+    tr:nth-child(even) {
+      background-color: #F7F7F7;
+
+      &:hover {
+        background: $background-list-hover;
+      }
+    }
+  }
+
+  table {
+    thead th {
+      background: $background-base !important;
+      color: $text-content !important;
+    }
+
+    tr td {
+      //border-bottom: none !important;
+    }
+  }
+}
+
+.ant-tooltip-inner {
+  max-width: 550px;
+}
+
+

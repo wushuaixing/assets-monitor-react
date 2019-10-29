@@ -2,8 +2,9 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDom, timeStandard } from '@/utils';
-import Api from '@/utils/api/monitor-info/public';
+import Api from '@/utils/api/monitor-info/bidding';
 import { Table, SelectedNum } from '@/common';
+
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -43,7 +44,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={Api.attentionBid}
+					api={row.isAttention ? Api.unAttention : Api.attention}
 					index={index}
 				/>
 			),
@@ -70,9 +71,9 @@ export default class TableView extends React.Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh } = this.props;
-		if (!isRead) {
-			Api.readStatusBid({ idList: [id] }).then((res) => {
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
+			Api.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

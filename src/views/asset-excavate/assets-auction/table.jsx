@@ -74,22 +74,22 @@ const columns = (props, onFollowClick) => {
 						{{
 							0: (
 								<React.Fragment>
-									<Button className="auction-button" title="跟进" {...event} />
+									<Button className="auction-button" type="ghost-other" title="跟进" {...event} />
 									<br />
 									<Button className="auction-button" title="忽略" onClick={() => handleIgnore(row, index, onRefresh)} />
 								</React.Fragment>
 							),
-							3: <Button className="auction-button" title="跟进中" {...event} />,
-							6: <Button className="auction-button" title="跟进中" {...event} />,
-							9: <Button className="auction-button" title="已完成" {...event} />,
+							3: <Button className="auction-button" type="ghost-ing" title="跟进中" {...event} />,
+							6: <Button className="auction-button" type="ghost-ing" title="跟进中" {...event} />,
+							9: <Button className="auction-button" type="ghost-done" title="已完成" {...event} />,
 							12: (
 								<React.Fragment>
-									<Button className="auction-button" title="跟进" {...event} />
+									<Button className="auction-button" type="ghost-other" title="跟进" {...event} />
 									<br />
-									<Button className="auction-button" title="已忽略" disabled />
+									<Button className="auction-button" type="ghost-ing" title="已忽略" disabled />
 								</React.Fragment>
 							),
-							15: <Button className="auction-button" title="已放弃" {...event} />,
+							15: <Button className="auction-button" type="ghost-abort" title="已放弃" {...event} />,
 						}[process] || null }
 						<Attentions
 							text={text}

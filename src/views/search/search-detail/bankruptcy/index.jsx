@@ -116,12 +116,13 @@ class BANKRUPTCY extends React.Component {
 
 	// 时间排序
 	SortTime = () => {
-		const { dataList, Sort, inputSearch } = this.state;
-		console.log(Sort, 2);
+		const { dataList, Sort } = this.state;
+		const { hash } = window.location;
+		const urlObj = parseQuery(hash);
 
 		const params = {
 			sort: Sort === 'DESC' ? 1 : 0,
-			...inputSearch,
+			...urlObj,
 		};
 		if (dataList.length > 0) {
 			this.getData(params); // 进入页面请求数据
@@ -347,7 +348,7 @@ class BANKRUPTCY extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 				<div className="yc-writ-tablebtn">
-					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportBankruptcyCurrent} current page num text="本页导出" />}
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={exportBankruptcyCurrent} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportBankruptcyAll} all page num text="全部导出" />
 					{dataList.length > 0 && (
 						<div style={{

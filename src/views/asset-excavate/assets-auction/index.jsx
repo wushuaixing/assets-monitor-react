@@ -130,13 +130,16 @@ export default class Assets extends React.Component {
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
-									if (it === item.id) _item.isAttention = 1;
+									if (it === item.id) {
+										_item.isAttention = 1;
+										_item.isRead = true;
+									}
 								});
 								return _item;
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: true,
+								manage: false,
 							});
 						}
 					});
@@ -290,17 +293,19 @@ export default class Assets extends React.Component {
 									资产清收流程
 								</span>
 								<Download condition={() => this.toExportCondition('all')} api={exportList} all text="一键导出" />
-								{/* <Button onClick={() => this.toExportCondition('all')}> */}
-								{/* <span className="yc-export-img" /> */}
-								{/* <span> 一键导出</span> */}
-								{/* </Button> */}
 							</span>
-
 						</div>
 					) : (
 						<div className="assets-auction-action">
 							<Button onClick={this.handleAttention} title="关注" />
-							<Download condition={this.toExportCondition} api={exportList} field="idList" text="导出" />
+							<Download
+								condition={this.toExportCondition}
+								api={exportList}
+								field="idList"
+								text="导出"
+								selectIds
+								selectedRowKeys={() => this.selectRow}
+							/>
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });

@@ -320,8 +320,8 @@ class BusinessView extends React.Component {
 					<ModalTable selectData={selectData} getData={this.getData} />
 				</div>
 			),
-			iconType: 'exclamation-circle-o',
-			width: 420,
+			iconType: 'exclamation-circle',
+			width: 600,
 			onOk() {
 				const params = {
 					idList: _selectedRowKeys,

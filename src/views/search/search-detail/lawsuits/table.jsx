@@ -58,7 +58,6 @@ const toShow = (row, type) => {
 		});
 	} else {
 		window.open(row.associates[type].url[0], '_blank');
-		// w.location.href = row.associates[type].url[0];
 	}
 };
 const dividerType = (row) => {
@@ -69,10 +68,7 @@ const dividerType = (row) => {
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-
-		};
+		this.state = {};
 	}
 
 	render() {
@@ -99,17 +95,17 @@ class BusinessView extends React.Component {
 				dataIndex: 'yg',
 				key: 'yg',
 				width: 241,
-				render(text, row) {
+				render(text) {
 					return (
 						<div className="table-column">
 							{
-								row.yg && row.yg.length > 14
+								text && text.length > 14
 									? (
-										<Tooltip placement="topLeft" title={row.yg}>
-											<p>{`${row.yg.substr(0, 14)}...`}</p>
+										<Tooltip placement="topLeft" title={text}>
+											<p>{`${text.substr(0, 14)}...`}</p>
 										</Tooltip>
 									)
-									: <p>{row.yg || '-'}</p>
+									: <p>{text || '-'}</p>
 							}
 						</div>
 					);
@@ -119,17 +115,17 @@ class BusinessView extends React.Component {
 				dataIndex: 'bg',
 				key: 'bg',
 				width: 265,
-				render(text, row) {
+				render(text) {
 					return (
 						<div className="table-column">
 							{
-								row.bg && row.bg.length > 14
+								text && text.length > 14
 									? (
-										<Tooltip placement="topLeft" title={row.bg}>
-											<p>{`${row.bg.substr(0, 14)}...`}</p>
+										<Tooltip placement="topLeft" title={text}>
+											<p>{`${text.substr(0, 14)}...`}</p>
 										</Tooltip>
 									)
-									: <p>{row.bg || '-'}</p>
+									: <p>{text || '-'}</p>
 							}
 						</div>
 					);
@@ -142,7 +138,15 @@ class BusinessView extends React.Component {
 				render(text, row) {
 					return (
 						<div className="table-column">
-							{row.court || '-'}
+							{
+								row.court && row.court.length > 12
+									? (
+										<Tooltip placement="topLeft" title={row.court}>
+											<p>{`${row.court.substr(0, 12)}...`}</p>
+										</Tooltip>
+									)
+									: <p>{row.court || '-'}</p>
+							}
 						</div>
 					);
 				},

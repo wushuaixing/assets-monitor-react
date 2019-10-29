@@ -40,6 +40,7 @@ export default class TableIntact extends React.Component {
 	// 排序触发
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
+		this.condition.page = 1;
 		this.condition.sortOrder = order;
 		this.toGetData();
 	};

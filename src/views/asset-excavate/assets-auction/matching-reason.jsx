@@ -8,38 +8,28 @@ export default class MatchingReason extends React.Component {
 			status: 'none',
 		//	none canOpen canClose
 		};
-		this.toCal = false;
 	}
 
 	componentDidMount() {
-		// console.log(this.dom.clientHeight);
 		if (this.dom.clientHeight > 64) {
 			this.setState({ status: 'canOpen' });
 		}
 	}
-	//
-	// componentWillReceiveProps(nextProps) {
-	// 	const { content: { id } } = this.props;
-	// 	const _id = nextProps.content.id;
-	// 	if (id !== _id) {
-	// 		this.toCal = true;
-	// 		console.log('重新渲染：', this.dom.clientHeight);
-	// 	}
-	// }
 
 	componentDidUpdate(prevProps) {
 		const { content: { id } } = this.props;
 		const _id = prevProps.content.id;
-		if (id !== _id) {
-			this.toCal = true;
-			if (this.dom.clientHeight > 64) {
-				this.setState({ status: 'canOpen' });
-			} else {
-				this.setState({ status: 'none' });
-			}
-			// console.log('重新渲染：', this.dom.clientHeight);
-		}
+		if (id !== _id) this.toInitStatus();
 	}
+
+
+	toInitStatus=() => {
+		if (this.dom.clientHeight > 64) {
+			this.setState({ status: 'canOpen' });
+		} else {
+			this.setState({ status: 'none' });
+		}
+	};
 
 	// 资产拍卖
 	toGetReasonList=(reason) => {

@@ -9,7 +9,7 @@
     color: #FFFFFF;
 
     .header-logo {
-      padding: 8px 0;
+      padding: 10px 0;
       float: left;
 
       img,
@@ -32,6 +32,9 @@
     }
 
     .header-item-active {
+      .yc-badge{
+        font-weight: bold;
+      }
       background: $common-base-active;
     }
 
@@ -80,6 +83,7 @@
         }
 
         .child-item-active {
+          font-weight: bold;
           background-color: $background-list-hover;
         }
 
@@ -101,6 +105,7 @@
         &:hover {
           .header-child-item {
             display: block;
+            font-weight: 400;
           }
         }
       }

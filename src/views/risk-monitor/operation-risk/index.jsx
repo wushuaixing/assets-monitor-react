@@ -3,6 +3,7 @@ import { message, Modal } from 'antd';
 import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
+import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
 import Table from './table'; /* Table 展示列表 */
 import { changeURLArg, clearEmpty } from '@/utils';
@@ -35,19 +36,17 @@ export default class BusinessRisk extends React.Component {
 			total: 0,
 			loading: true,
 			manage: false,
-			tabConfig: toGetConfig(),
 		};
 		this.condition = {};
 		this.selectRow = [];
+		this.config = toGetConfig();
 	}
 
 	componentWillMount() {
-		const { tabConfig } = this.state;
-		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
+		const sourceType = Tabs.Simple.toGetDefaultActive(this.config, 'process');
 		this.setState({
 			sourceType,
-		});
-		this.onQueryChange({}, sourceType);
+		}, () =>	this.onQueryChange({}));
 	}
 
 	// 清除排序状态
@@ -58,17 +57,7 @@ export default class BusinessRisk extends React.Component {
 
 	// 获取统计信息
 	toInfoCount=(nextSourceType) => {
-		const { tabConfig } = this.state;
-		tabConfig.forEach((i, index) => {
-			if (i.id !== nextSourceType) {
-				API(i.id, 'listCount')({}).then((res) => {
-					if (res.code === 200) {
-						tabConfig[index].number = res.data;
-						this.setState({ tabConfig });
-					}
-				});
-			}
-		});
+		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
 	};
 
 	// 切换列表类型
@@ -80,9 +69,9 @@ export default class BusinessRisk extends React.Component {
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		const { sourceType, tabConfig } = this.state;
-		// console.log(tabConfig, sourceType);
-		if (tabConfig[toGetProcess(sourceType, tabConfig)].number) {
+		const { sourceType } = this.state;
+		const _c = this.config;
+		if (_c[toGetProcess(sourceType, _c)].dot) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
@@ -118,13 +107,16 @@ export default class BusinessRisk extends React.Component {
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
-									if (it === item.id) _item.isAttention = 1;
+									if (it === item.id) {
+										_item.isAttention = 1;
+										_item.isRead = true;
+									}
 								});
 								return _item;
 							});
 							_this.setState({
 								dataSource: _dataSource,
-								manage: true,
+								manage: false,
 							});
 						}
 					});
@@ -159,13 +151,14 @@ export default class BusinessRisk extends React.Component {
 		this.toClearSortStatus();
 		this.condition = {};
 		this.onQueryChange('', sourceType, 'all', 1);
+		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
 	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
 		const { manage } = this.state;
-		this.selectRow = [];
+		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
@@ -173,20 +166,20 @@ export default class BusinessRisk extends React.Component {
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
+		this.selectRow = [];
 		this.onQueryChange(this.condition, '', '', 1);
 	};
 
 	// 查询条件变化
 	onQuery =(con) => {
 		this.toClearSortStatus();
+		this.selectRow = [];
 		this.onQueryChange(con, '', '', 1);
 	};
 
 	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
-		const {
-			sourceType, isRead, current, tabConfig,
-		} = this.state;
+		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
 		const __type = _sourceType || sourceType;
 		this.condition = Object.assign({}, con || this.condition, {
@@ -203,9 +196,10 @@ export default class BusinessRisk extends React.Component {
 		this.toInfoCount(__type);
 		API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
-				tabConfig[toGetProcess(__type, tabConfig)].number = res.data.total;
+				this.config[toGetProcess(__type, this.config)].number = res.data.total;
+				// tabConfig[toGetProcess(__type, tabConfig)].number = res.data.total;
 				this.setState({
-					tabConfig,
+					// tabConfig,
 					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
@@ -225,8 +219,9 @@ export default class BusinessRisk extends React.Component {
 	};
 
 	render() {
+		console.log('render');
 		const {
-			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
+			sourceType, isRead, dataSource, current, total, manage, loading,
 		} = this.state;
 		const tableProps = {
 			manage,
@@ -248,7 +243,14 @@ export default class BusinessRisk extends React.Component {
 				{/* 查询模块 */}
 				<QueryView onQueryChange={this.onQuery} />
 				{/* tab切换 */}
-				<Tabs.Simple onChange={this.onSourceType} source={tabConfig} field="process" />
+				<TabsIntact
+					ref={e => this.tabIntactDom = e}
+					onChange={this.onSourceType}
+					source={this.config}
+					sourceType={sourceType}
+					field="process"
+					toRefresh={val => this.config = val}
+				/>
 				{/* 操作栏 */}
 				{
 					!manage ? (
@@ -279,6 +281,8 @@ export default class BusinessRisk extends React.Component {
 							<Download
 								text="导出"
 								field="idList"
+								selectIds
+								selectedRowKeys={() => this.selectRow}
 								api={API(sourceType, 'exportList')}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>

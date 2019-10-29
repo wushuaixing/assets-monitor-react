@@ -55,7 +55,6 @@ const source = rule => ([
 
 const SearchBase = (props) => {
 	const { rule } = props && props;
-	// TODO 改了权限，true改成false,上传改回来
 	const displayArray = source(rule).filter(item => item.open === true); // 过滤权限
 
 	return (

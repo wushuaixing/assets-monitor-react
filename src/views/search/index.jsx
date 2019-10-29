@@ -55,7 +55,6 @@ const HomeRouter = (props) => {
 			<div className="tab-search">
 				<Tabs
 					simple
-					// TODO 改了权限，displayArray改成tabSource(rule),上传改回来
 					source={displayArray}
 					onChange={(item) => {
 						setActive(item);
