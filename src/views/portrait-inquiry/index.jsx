@@ -4,10 +4,9 @@ import Inquiry from './inquriy-view';
 import InquiryList from './inquiry-list';
 import Enterprise from './enterprise';
 import Personal from './personal';
+import Stock from './stock-right';
 import './index.scss';
-import t from './template';
 
-console.log(t);
 
 export default class DefaultRouter extends React.Component {
 	constructor(props) {
@@ -23,6 +22,7 @@ export default class DefaultRouter extends React.Component {
 					<InquiryList rule={2} path="/inquiry/list/*" />
 					<Enterprise rule={3} path="/inquiry/enterprise/*" />
 					<Personal rule={4} path="/inquiry/personal/*" />
+					<Stock rule={5} path="/inquiry/stock/*" />
 				</Router>
 			</div>
 		);
