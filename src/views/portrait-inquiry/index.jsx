@@ -5,8 +5,7 @@ import InquiryList from './inquiry-list';
 import Enterprise from './enterprise';
 import Personal from './personal';
 import Stock from './stock-right';
-import './index.scss';
-
+import './style.scss';
 
 export default class DefaultRouter extends React.Component {
 	constructor(props) {
