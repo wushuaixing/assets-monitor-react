@@ -304,14 +304,9 @@
   }
   .content-item-before{
     em{
-
-    }
-  }
-  .content-item-before{
-    em{
       color: $text-remark;
       text-decoration: line-through;
-      text-decoration-color:#000000;
+      text-decoration-color:$common-error;
     }
   }
 

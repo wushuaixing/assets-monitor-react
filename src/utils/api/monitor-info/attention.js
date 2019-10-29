@@ -9,7 +9,7 @@ import {
 } from './finance';
 //
 import {
-	Abnormal, Change, Illegal, Punishment,
+	Abnormal, Change, Illegal, Punishment, Violation, Environment,
 } from '../risk-monitor/operation-risk';
 
 // 我的关注
@@ -63,10 +63,18 @@ export const operationCount = () => {
 			return Illegal.followListCount();
 		}).then((res) => {
 			if (res.code === 200) result.Illegal = res.data;
+			return Environment.followListCount();
+		})
+		.then((res) => {
+			if (res.code === 200) result.Environment = res.data;
 			return Punishment.followListCount();
 		})
 		.then((res) => {
 			if (res.code === 200) result.Punishment = res.data;
+			return Violation.followListCount();
+		})
+		.then((res) => {
+			if (res.code === 200) result.Violation = res.data;
 			return result;
 		})
 		.catch(() => {
