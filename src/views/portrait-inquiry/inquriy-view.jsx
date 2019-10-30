@@ -84,6 +84,7 @@ export default class InitView extends React.Component {
 					<Button onClick={() => this.toNavigate('list')}>{'=> 查询列表'}</Button>
 					<Button onClick={() => this.toNavigate('enterprise')}>{'=> 企业查询详情'}</Button>
 					<Button onClick={() => this.toNavigate('personal')}>{'=> 个人查询详情'}</Button>
+					<Button onClick={() => this.toNavigate('stock')}>{'=> 穿透图demo'}</Button>
 				</div>
 			</div>
 		);
