@@ -7,6 +7,7 @@ import Assets from './assets';
 import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
+import { Affix } from 'antd';
 import { navigate } from '@reach/router';
 import TempImg from '@/views/portrait-inquiry/title.png';
 import './style.scss';
@@ -78,15 +79,17 @@ export default class Enterprise extends React.Component {
 				<QueryView type={1} />
 				<div className="mark-line" />
 				<div className="inquiry-enterprise-content">
-					<div className={`enterprise-intro ${childDom ? '' : 'enterprise-intro-child'}`}>
-						<img src={TempImg} alt="" style={{ width: '100%' }} />
-						<Tabs.Simple
-							onChange={this.onSourceType}
-							source={tabConfig}
-							defaultCurrent={sourceType}
-						/>
-						{childDom}
-					</div>
+					<Affix>
+						<div className={`enterprise-intro ${childDom ? '' : 'enterprise-intro-child'}`} id="enterprise-intro">
+							<img src={TempImg} alt="" style={{ width: '100%' }} />
+							<Tabs.Simple
+								onChange={this.onSourceType}
+								source={tabConfig}
+								defaultCurrent={sourceType}
+							/>
+							{childDom}
+						</div>
+					</Affix>
 					<Router>
 						<Overview toPushChild={this.handleAddChild} path="/*" />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" />
