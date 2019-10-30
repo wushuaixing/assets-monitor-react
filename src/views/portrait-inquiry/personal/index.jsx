@@ -34,10 +34,11 @@ export default class Personal extends React.Component {
 	constructor(props) {
 		document.title = '个人详情-画像查询';
 		super(props);
+		const defaultSourceType = window.location.hash.match(/\d{3}?/);
 		this.state = {
 			tabConfig: source(),
 			childDom: '',
-			sourceType: 201,
+			sourceType: defaultSourceType ? Number(defaultSourceType[0]) : 201,
 		};
 	}
 
@@ -48,12 +49,15 @@ export default class Personal extends React.Component {
 	};
 
 	onSourceType=(val) => {
-		this.setState({
-			sourceType: val,
-			childDom: '',
-		}, () => {
-			navigate(`/inquiry/personal/${val}`);
-		});
+		const { sourceType } = this.state;
+		if (sourceType !== val) {
+			this.setState({
+				sourceType: val,
+				childDom: '',
+			}, () => {
+				navigate(`/inquiry/personal/${val}`);
+			});
+		}
 	};
 
 
