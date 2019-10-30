@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
+
 import './style.scss';
+
+import edata from './data';
 
 export default class StockRight extends React.Component {
 	constructor(props) {
@@ -42,9 +45,8 @@ export default class StockRight extends React.Component {
 
 
 	render() {
-		return [
-			<ReactECharts option={this.getOption()} style={{ height: '400px' }} />,
-			<div id="main" />,
-		];
+		return (
+			<ReactECharts option={this.getOption()} style={{ width: 1000, height: 500 }} />
+		);
 	}
 }
