@@ -1,0 +1,70 @@
+//  画像查询 样式
+.yc-portrait-inquiry{
+  .yc-inquiry-common{
+    padding: 20px;
+    .yc-query-item{
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 10px;
+    }
+  }
+  .yc-inquiry-view{
+    padding: 20px 0;
+    .yc-inquiry-title{
+      padding: 100px 0 70px 0;
+      font-size: 36px;
+      color: $common-base;
+      text-align: center;
+    }
+    .yc-inquiry-content{
+      padding: 36px;
+      width: 800px;
+      margin: 0 auto;
+      border: 1px solid $common-base;
+      .yc-query-item{
+        margin:12px 0;
+        .ant-radio-wrapper{
+          font-size: 14px;
+
+        }
+      }
+      .yc-query-item-text1{
+        margin-right: 20px;
+      }
+      .yc-query-item-text1,.yc-query-item-text2{
+        display: inline-block;
+      }
+    }
+    .yc-to-go-list{
+      text-align: center;
+      button{
+        display: inline-block;
+        margin: 20px 20px 20px 0;
+      }
+    }
+  }
+  .yc-inquiry-list{
+
+    .list-content-total{
+      padding:16px 20px;
+      border-bottom: 1px solid $border-base;
+      span{
+        @extend .yc-public-normal
+      }
+    }
+    .content-list{
+      padding: 20px;
+    }
+  }
+  .mark-line{
+    height:12px ;
+    width: 100%;
+    background-color: #F2F2F2;
+  }
+  .yc-intro-sub-items{
+    padding: 16px 0 8px 0;
+    .intro-btn-items{
+      margin-right: 16px;
+    }
+  }
+}

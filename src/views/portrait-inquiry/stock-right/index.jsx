@@ -1,107 +1,59 @@
 import React from 'react';
+import ReactECharts from 'echarts-for-react/lib/core';
+import echarts from 'echarts/lib/echarts';
+// 导入折线图
+import 'echarts/lib/chart/line'; // 折线图是line,饼图改为pie,柱形图改为bar
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/title';
+import 'echarts/lib/component/legend';
+import 'echarts/lib/component/markPoint';
 import './style.scss';
+
 import data from './data';
 
 export default class StockRight extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			DataOwn: [data],
-		};
+		this.state = {};
 	}
+
 
 	componentDidMount() {
-		const { DataOwn } = this.state;
-		const myChart = window.echarts.init(document.getElementById('main'));
-		myChart.setOption({
 
-			tooltip: {
-				trigger: 'item',
-				triggerOn: 'mousemove',
-			},
-
-			series: [
-				{
-					type: 'tree',
-					data: DataOwn,
-					left: '2%',
-					right: '2%',
-					top: '20%',
-					bottom: '8%',
-
-					symbol: 'rectangle',
-					symbolSize: [60, 30],
-
-					orient: 'BT',
-
-					expandAndCollapse: true,
-
-
-					label: {
-						/* formatter: '{b|{b}}', */
-						/*formatter: function(params) {
-
-							//console.log(params.name, params.data.children.length,params.data)
-							let dataName='{a|'+ params.data.name +'}';
-							/!*if(params.data.children.length >1){
-								for(let i=0; i<params.data.children.length; i++){
-									console.log(params.data.children[i].children)
-									dataName += '{a|'+ params.data.children[i].name +'}{b|'+ params.data.children[i].children +'}';
-									console.log(dataName)
-								}
-							}
-							else{*!/
-								dataName +='{b|'+ params.data.name +'}';
-							//}
-
-							//
-							return dataName;
-						},
-						rich: {
-							a: {
-
-								verticalAlign:'bottom',
-								backgroundColor: 'black',
-							},
-							b: {
-								lineHeight: 30,
-								verticalAlign:'top',
-								borderWidth:4,
-								backgroundColor: 'red',
-
-							}
-						},*/
-						position: 'inside',
-						rotate: 0,
-						verticalAlign: 'middle',
-					},
-
-					leaves: {
-						label: {
-							position: 'inside',
-							rotate: 0,
-							verticalAlign: 'middle',
-						},
-					},
-					itemStyle: {
-						color: '#f6faff',
-						borderColor: '#1e81e1',
-					},
-
-					lineStyle: {
-						color: 'steelblue',
-						width: '1.5',
-						/* symbol: 'arrow', */
-					},
-					animationDurationUpdate: 750,
-				},
-			],
-		});
 	}
 
+	onChartReadyCallback=() => {
+		console.log('onChartReadyCallback');
+	};
+
+	getOption =() => ({
+		title: {
+			text: '用户骑行订单',
+			x: 'center',
+		},
+		tooltip: {
+			trigger: 'axis',
+		},
+		xAxis: {
+			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+		},
+		yAxis: {
+			type: 'value',
+		},
+		series: [
+			{
+				name: 'OFO订单量',
+				type: 'line', // 这块要定义type类型，柱形图是bar,饼图是pie
+				data: [1000, 2000, 1500, 3000, 2000, 1200, 800],
+			},
+		],
+	});
+
+
 	render() {
-		return (
-			<div className="container" id="main" style={{ width: 1000, height: 500 }} />
-		);
+		return [
+			<ReactECharts option={this.getOption()} style={{ height: '400px' }} echarts={echarts} />,
+			<div id="main" />,
+		];
 	}
 }

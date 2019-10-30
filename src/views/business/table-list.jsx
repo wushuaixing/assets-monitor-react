@@ -24,7 +24,7 @@ const toGetDefaultConfig = (c) => {
 			id: 2,
 			name: '代位权',
 			field: 'subrogation',
-			status: Boolean(c.subrogationCourtSessionCount || c.subrogationFilingCount),
+			status: Boolean(c.subrogationCourtSessionCount || c.subrogationFilingCount) && false,
 			child: [
 				{ id: 21, name: '立案信息', status: Boolean(c.subrogationFilingCount) },
 				{ id: 22, name: '开庭公告', status: Boolean(c.subrogationCourtSessionCount) },
@@ -44,7 +44,7 @@ const toGetDefaultConfig = (c) => {
 			id: 4,
 			name: '涉诉监控',
 			field: 'monitor',
-			status: Boolean(c.trialCourtSessionCount || c.trialFilingCount),
+			status: Boolean(c.trialCourtSessionCount || c.trialFilingCount) && false,
 			child: [
 				{ id: 41, name: '立案信息', status: Boolean(c.trialFilingCount) },
 				{ id: 42, name: '开庭公告', status: Boolean(c.trialCourtSessionCount) },
