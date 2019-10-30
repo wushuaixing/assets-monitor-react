@@ -272,10 +272,10 @@ export default {
 				],
 			},
 			{
-				id: 'YC04',
-				name: '企业查询',
-				url: '/company',
-				status: false,
+				id: 'YC07',
+				name: '画像查询',
+				url: '/inquiry',
+				status: true,
 			},
 			{
 				id: 'YC05',
