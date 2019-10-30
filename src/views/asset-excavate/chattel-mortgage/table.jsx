@@ -6,6 +6,7 @@ import { Table, SelectedNum } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
 import { linkDom, timeStandard } from '@/utils';
+import { formatDateTime } from '@/utils/changeTime';
 
 
 // 抵押详情
@@ -91,7 +92,7 @@ const RegisterDetail = (text, rowContent) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 'auto' }}>注销时间</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{rowContent.cancelDate || '-'}</span>
+						<span className="list list-content">{formatDateTime(rowContent.cancelDate, 'onlyYear') || '-'}</span>
 					</li>
 					)
 				}
@@ -160,7 +161,7 @@ const columns = (props) => {
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'gmtModified',
+			dataIndex: 'gmtCreate',
 			width: 110,
 			render: text => timeStandard(text) || '-',
 		}, {

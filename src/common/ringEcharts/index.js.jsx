@@ -105,7 +105,6 @@ class RingEcharts extends React.Component {
 			<div>
 				<div className="yc-ring-title">{title}</div>
 				<ReactECharts className="yc-ring-rcharts" option={this.getOption(Data, id, title)} style={{ width: 532, height: 150 }} />
-				{/* <div className="yc-ring-rcharts" id={`${id}'ring'`} style={{ width: 532, height: 150 }} /> */}
 			</div>
 		);
 	}
