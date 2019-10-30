@@ -1,12 +1,5 @@
 import React from 'react';
-import ReactECharts from 'echarts-for-react/lib/core';
-import echarts from 'echarts/lib/echarts';
-// 导入折线图
-import 'echarts/lib/chart/line'; // 折线图是line,饼图改为pie,柱形图改为bar
-import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/title';
-import 'echarts/lib/component/legend';
-import 'echarts/lib/component/markPoint';
+import ReactECharts from 'echarts-for-react';
 import './style.scss';
 
 export default class StockRight extends React.Component {
@@ -50,7 +43,7 @@ export default class StockRight extends React.Component {
 
 	render() {
 		return [
-			<ReactECharts option={this.getOption()} style={{ height: '400px' }} echarts={echarts} />,
+			<ReactECharts option={this.getOption()} style={{ height: '400px' }} />,
 			<div id="main" />,
 		];
 	}

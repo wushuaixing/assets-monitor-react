@@ -1,6 +1,10 @@
 .yc-ring-rcharts {
   display: inline-block;
-  margin: 20px 40px 20px 20px;
+}
+.yc-ring-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: $text-title;
 }
 .yc-ring-description {
   font-size: 12px;

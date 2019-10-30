@@ -9,9 +9,10 @@ import {
 	selfTree, // login
 } from '@/utils/api/home';
 import { toThousands } from '@/utils/changeTime';
-import RingEcharts from './ringEcharts/index.js';
-import ColumnarEcharts from './columnarEcharts';
-import { Spin } from '@/common';
+
+import {
+	Spin,
+} from '@/common';
 import './style.scss';
 
 
@@ -66,8 +67,6 @@ class HomeRouter extends React.Component {
 		return (
 			<div className="yc-home">
 				<Spin visible={errorLoading} modal />
-				<RingEcharts />
-				<ColumnarEcharts />
 				<div className="yc-home-header">
 					<div className="yc-header-left">
 						<div className="yc-content-title">我的机构</div>

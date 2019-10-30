@@ -31,8 +31,14 @@
   .overview-right{
     @extend .overview-public;
     background-color: #fff;
-    min-height: 500px;
+    min-height: 900px;
     width: 594px;
-
+  }
+  .overview-left-item {
+    width:3px;
+    height:16px;
+    background: $text-link;
+    display: inline-block;
+    margin-right: 7px;
   }
 }
