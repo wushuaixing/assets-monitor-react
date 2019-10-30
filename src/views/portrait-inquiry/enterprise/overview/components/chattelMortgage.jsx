@@ -1,7 +1,7 @@
 import React from 'react';
 import { TimeLine } from '@/common';
 
-export default class LostLetter extends React.Component {
+export default class ChattelMortgage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -19,7 +19,7 @@ export default class LostLetter extends React.Component {
 				<div className="overview-container-title">
 					<div className="overview-left-item" />
 					<span className="container-title-num">8条</span>
-					<span className="container-title-name">失信记录</span>
+					<span className="container-title-name"> 动产抵押信息</span>
 				</div>
 				<div className="overview-container-content">
 					<TimeLine title="年份分布" Data={timeLineData} id="lostLetter" />
