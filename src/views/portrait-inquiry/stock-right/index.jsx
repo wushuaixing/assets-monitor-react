@@ -20,25 +20,85 @@ export default class StockRight extends React.Component {
 		console.log('onChartReadyCallback');
 	};
 
-	getOption =() => ({
-		title: {
-			text: '用户骑行订单',
-			x: 'center',
-		},
-		tooltip: {
-			trigger: 'axis',
-		},
-		xAxis: {
-			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-		},
-		yAxis: {
-			type: 'value',
-		},
-		series: [
-			{
-				name: 'OFO订单量',
-				type: 'line', // 这块要定义type类型，柱形图是bar,饼图是pie
-				data: [1000, 2000, 1500, 3000, 2000, 1200, 800],
+	 /* arrowAdd=(node) => {
+		const per = node.percent;
+		const temp = node;
+		node = {
+			name: per,
+			orient: 'BT',
+			symbol: 'arrow',
+			symbolSize: [12, 12],
+			lineStyle: {
+				width: 1,
+				color: '#333',
+			},
+			itemStyle: {
+				position: 'right',
+				color: '#1e81e1',
+				borderColor: '#1e81e1',
+			},
+			children: [temp],
+		};
+		return node;
+	}; */
+
+	getOption =() => {
+		const _data = edata;
+
+		const { children } = _data;
+		// _data.DetailList = undefined;
+		// console.log(children[0].children);
+		_data.symbol = 'rectangle';
+		_data.symbolSize = [140, 40];
+		_data.labelClick = true;
+		_data.itemStyle = {
+			color: '#1e81e1',
+			borderColor: '#1e81e1',
+		};
+		if (children) {
+			for (let i = 0; i < children.length; i++) {
+				if (children[i].children.length > 1) {
+					for (let j = 0; j < children[i].children.length; j++) {
+						children[i].children[j].symbol = 'rectangle';
+						children[i].children[j].symbolSize = [110, 42];
+						children[i].children[j].itemStyle = {
+							color: '#f3f9fe',
+							borderColor: '#1e81e1',
+						};
+						// children[i].children[j] = this.arrowAdd(children[i].children[j]);
+					}
+				}
+				children[i].symbol = 'rectangle';
+				children[i].symbolSize = [146, 62];
+				children[i].itemStyle = {
+					color: 'white',
+					borderColor: '#333',
+				};
+				 // children[i] = this.arrowAdd(children[i]);
+			}
+		}
+		// console.log(_data);
+
+		return ({
+
+			tooltip: {
+				trigger: 'item',
+				triggerOn: 'mousemove',
+			},
+
+			series: [{
+				type: 'tree',
+				orient: 'BT',
+				nodePadding: 25,
+				layerPadding: 40,
+				symbol: 'circle',
+				expandAndCollapse: 'true',
+				rootLocation: {
+					x: '50%',
+					y: '50%',
+				},
+				direction: 'inverse',
+				data: [_data],
 			},
 			],
 		});
