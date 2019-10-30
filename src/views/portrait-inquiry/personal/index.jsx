@@ -1,6 +1,6 @@
 import React from 'react';
-import Router from '@/utils/Router';
 import { navigate } from '@reach/router';
+import Router from '@/utils/Router';
 import QueryView from '../common/queryView';
 import { Tabs } from '@/common';
 import OverView from './overview';
