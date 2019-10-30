@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs } from '@/common';
+import Table from '@/views/asset-excavate/assets-auction/table-version';
 
 export default class Auction extends React.Component {
 	constructor(props) {
@@ -21,7 +22,7 @@ export default class Auction extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">资产拍卖</div>}
 				/>
 				<div className="inquiry-public-table">
-					{'default Text'}
+					<Table />
 				</div>
 			</div>
 		);

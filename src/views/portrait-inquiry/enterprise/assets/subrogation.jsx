@@ -1,10 +1,12 @@
 import React from 'react';
 import { Tabs } from '@/common';
+import { Court, Trial, Judgment } from '@/views/asset-excavate/subrogation/table-version';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			sourceType: 1,
 			config: [
 				{ id: 1, name: '立案', total: 4 },
 				{ id: 2, name: '开庭', total: 3 },
@@ -12,8 +14,15 @@ export default class Subrogation extends React.Component {
 		};
 	}
 
+	onSourceType=(val) => {
+		const { sourceType } = this.state;
+		if (sourceType !== val) {
+			this.setState({ sourceType: val });
+		}
+	};
+
 	render() {
-		const { config } = this.state;
+		const { config, sourceType } = this.state;
 		return (
 			<div className="yc-inquiry-public-table">
 				<Tabs.Simple
@@ -22,7 +31,9 @@ export default class Subrogation extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">代位权</div>}
 				/>
 				<div className="inquiry-public-table">
-					{'default Text'}
+					{sourceType === 1 ? <Court /> : null}
+					{sourceType === 2 ? <Trial /> : null}
+					{sourceType === 3 ? <Judgment /> : null}
 				</div>
 			</div>
 		);

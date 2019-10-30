@@ -69,7 +69,6 @@
     }
   }
   .yc-inquiry-public-table{
-    padding-bottom: 20px;
     .yc-tabs-simple-prefix{
       @extend .yc-public-normal-bold;
       width:90px;
@@ -85,5 +84,7 @@
       padding-top: 5px;
     }
   }
-
+  .yc-table-pagination{
+    padding-bottom: 10px;
+  }
 }
