@@ -3,7 +3,7 @@ import ReactECharts from 'echarts-for-react';
 
 import './style.scss';
 
-import edata from './data';
+import eData from './data';
 
 export default class StockRight extends React.Component {
 	constructor(props) {
@@ -20,7 +20,7 @@ export default class StockRight extends React.Component {
 		console.log('onChartReadyCallback');
 	};
 
-	 /* arrowAdd=(node) => {
+	/* arrowAdd=(node) => {
 		const per = node.percent;
 		const temp = node;
 		node = {
@@ -43,7 +43,7 @@ export default class StockRight extends React.Component {
 	}; */
 
 	getOption =() => {
-		const _data = edata;
+		const _data = eData;
 
 		const { children } = _data;
 		// _data.DetailList = undefined;
@@ -56,9 +56,9 @@ export default class StockRight extends React.Component {
 			borderColor: '#1e81e1',
 		};
 		if (children) {
-			for (let i = 0; i < children.length; i++) {
+			for (let i = 0; i < children.length; i += 1) {
 				if (children[i].children.length > 1) {
-					for (let j = 0; j < children[i].children.length; j++) {
+					for (let j = 0; j < children[i].children.length; j += 1) {
 						children[i].children[j].symbol = 'rectangle';
 						children[i].children[j].symbolSize = [110, 42];
 						children[i].children[j].itemStyle = {
@@ -74,7 +74,7 @@ export default class StockRight extends React.Component {
 					color: 'white',
 					borderColor: '#333',
 				};
-				 // children[i] = this.arrowAdd(children[i]);
+				// children[i] = this.arrowAdd(children[i]);
 			}
 		}
 		// console.log(_data);
@@ -100,8 +100,9 @@ export default class StockRight extends React.Component {
 				direction: 'inverse',
 				data: [_data],
 			},
-		],
-	});
+			],
+		});
+	};
 
 
 	render() {
