@@ -90,10 +90,16 @@ const columns = (props) => {
 		}, {
 			title: '列入原因',
 			dataIndex: 'putReason',
-			render: (text, row) => (text.replace(/(^\s*)|(\s*$)/g, '') ? [
-				<Ellipsis content={text.replace(/(^\s*)|(\s*$)/g, '')} tooltip width={250} />,
-				<div><span className="click-link" onClick={() => toSeasonShow(row)}>点击查看具体违法事实</span></div>,
-			] : '--'),
+			render: (text, row) => {
+				const _text = text.replace(/(^\s*)|(\s*$)/g, '');
+				const _type = row.type.replace(/(^\s*)|(\s*$)/g, '');
+				const _fact = row.fact.replace(/(^\s*)|(\s*$)/g, '');
+				return [
+					_text ? <Ellipsis content={text.replace(/(^\s*)|(\s*$)/g, '')} tooltip width={250} /> : <div>--</div>,
+					_type || _fact
+						? <div><span className="click-link" onClick={() => toSeasonShow(row)}>点击查看具体违法事实</span></div> : '',
+				];
+			},
 		}, {
 			title: '决定机关名称',
 			dataIndex: 'putDepartment',
