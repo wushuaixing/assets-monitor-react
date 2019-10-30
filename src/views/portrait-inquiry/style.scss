@@ -65,6 +65,25 @@
     padding: 16px 0 8px 0;
     .intro-btn-items{
       margin-right: 16px;
+      min-width: 92px;
     }
   }
+  .yc-inquiry-public-table{
+    padding-bottom: 20px;
+    .yc-tabs-simple-prefix{
+      @extend .yc-public-normal-bold;
+      width:90px;
+      line-height: 14px;
+      border-right: 1px solid $border-base;
+      border-left: 3px solid $text-link;
+      margin: 12px 15px 12px 0;
+      padding-right: 20px;
+      padding-left: 7px;
+      float: left;
+    }
+    .inquiry-public-table{
+      padding-top: 5px;
+    }
+  }
+
 }
