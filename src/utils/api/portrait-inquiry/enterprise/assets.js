@@ -59,5 +59,70 @@ const assets = {
 			return service.get('/yc/monitor/judgment/subrogation/list-count', { params: this.params }).then(res => res.data);
 		},
 	},
+	result: {
+		name: '资产-土地信息-出让结果',
+		params: {
+			obligorName: '中国石油天然气股份有限公司山东销售分公司',
+		},
+		list() {
+			return service.get('/yc/monitor/land/result/list', { params: this.params }).then(res => res.data);
+		},
+		count() {
+			return service.get('/yc/monitor/land/result/list-count', { params: this.params }).then(res => res.data);
+		},
+	},
+	pledge: {
+		name: '资产-股权质押-股权质押',
+		params: {
+			obligorName: '上海浦东物流云计算有限公司',
+			role: 0,
+		},
+		list() {
+			return service.get('/yc/monitor/finance/pledge/list', { params: this.params }).then(res => res.data);
+		},
+		count() {
+			return service.get('/yc/monitor/finance/pledge/list-count', { params: this.params }).then(res => res.data);
+		},
+	},
+	mortgage: {
+		name: '资产-股权质押-股权质权',
+		params: {
+			obligorName: '投资',
+			role: 1,
+		},
+		list() {
+			return service.get('/yc/monitor/finance/pledge/list', { params: this.params }).then(res => res.data);
+		},
+		count() {
+			return service.get('/yc/monitor/finance/pledge/list-count', { params: this.params }).then(res => res.data);
+		},
+	},
+	pledgeD: {
+		name: '资产-股权质押-股权质押',
+		params: {
+			obligorName: '沈阳铠龙兴业锻铸有限公司',
+			role: 0,
+			regDateStart: '2019-04-01',
+		},
+		list() {
+			return service.get('/yc/monitor/mortgage/list', { params: this.params }).then(res => res.data);
+		},
+		count() {
+			return service.get('/yc/monitor/mortgage/list-count', { params: this.params }).then(res => res.data);
+		},
+	},
+	mortgageD: {
+		name: '资产-股权质押-股权质权',
+		params: {
+			role: 1,
+			regDateStart: '2019-05-01',
+		},
+		list() {
+			return service.get('/yc/monitor/mortgage/list', { params: this.params }).then(res => res.data);
+		},
+		count() {
+			return service.get('/yc/monitor/mortgage/list-count', { params: this.params }).then(res => res.data);
+		},
+	},
 };
 export default assets;

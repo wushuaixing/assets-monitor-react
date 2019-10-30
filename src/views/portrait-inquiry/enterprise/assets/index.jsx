@@ -68,11 +68,18 @@ export default class Assets extends React.Component {
 		toPushChild(this.toGetSubItems());
 	}
 
+	handleScroll=(eleID) => {
+		const dom = document.getElementById(eleID);
+		if (dom) {
+			window.scrollTo(0, document.getElementById(eleID).offsetTop - 80);
+		}
+	};
+
 	toGetSubItems=() => (
 		<div className="yc-intro-sub-items">
 			{
 				subItems.map(item => (
-					<Button className="intro-btn-items" disabled={item.disabled}>
+					<Button className="intro-btn-items" disabled={item.disabled} onClick={() => this.handleScroll(item.tagName)}>
 						{`${item.name}${item.total ? ` ${item.total}` : ' 0'}`}
 					</Button>
 				))

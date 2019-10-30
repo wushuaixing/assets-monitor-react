@@ -14,8 +14,9 @@ export default class Auction extends React.Component {
 
 	render() {
 		const { config } = this.state;
+		const { id } = this.props;
 		return (
-			<div className="yc-inquiry-public-table">
+			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={config}

@@ -2,10 +2,8 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
-import associationLink from '@/views/_common/association-link';
 
-const { court } = assets;
-
+const api = assets.pledge;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -24,22 +22,21 @@ export default class TableIntact extends React.Component {
 
 	toGetColumns=() => [
 		{
-			title: '拍卖信息',
-			dataIndex: 'caseNumber',
+			title: '信息',
+			dataIndex: 'pledgeeList',
+			render: text => text[0].pledgee,
 		}, {
 			title: '关联信息',
 			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li>
-						<span className="list list-title align-justify">审理法院</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
+						<span className="list list-content">{row.state === 0 ? '有效' : '无效'}</span>
 					</li>
 					<li>
-						<span className="list list-title align-justify">关联信息</span>
+						<span className="list list-title align-justify">登记编号</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{associationLink(value, row, 'Court')}</span>
+						<span className="list list-content">{row.regNumber || '-'}</span>
 					</li>
 				</div>
 			),
@@ -54,7 +51,7 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		this.setState({ loading: true });
-		court.list({
+		api.list({
 			page: page || 1,
 		}).then((res) => {
 			if (res.code === 200) {
