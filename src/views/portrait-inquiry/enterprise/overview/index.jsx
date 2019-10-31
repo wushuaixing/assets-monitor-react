@@ -10,6 +10,7 @@ import Information from './components/information';
 import Basic from './components/basic';
 import ShareholderSituation from './components/shareholderSituation';
 import BusinessScale from './components/businessScale';
+import { Spin } from '@/common';
 import './style.scss';
 
 export default class OverView extends React.Component {
@@ -18,11 +19,24 @@ export default class OverView extends React.Component {
 		this.state = {};
 	}
 
+	componentDidMount() {
+		this.setState({
+			loading: true,
+		});
+		setTimeout(() => {
+			this.setState({
+				loading: false,
+			});
+		}, 2000);
+	}
+
 	render() {
+		const { loading } = this.state;
 		return (
 			<div className="inquiry-overview">
 				<div className="mark-line" />
 				<div className="overview-left">
+					<Spin visible={loading} modal />
 					<div className="yc-overview-title">资产概况</div>
 					<div className="yc-overview-container">
 						{/* 相关资产拍卖 */}
