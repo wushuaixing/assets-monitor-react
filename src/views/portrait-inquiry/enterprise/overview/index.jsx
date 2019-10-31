@@ -3,11 +3,13 @@ import AssetAuction from './components/assetAuction';
 import Subrogation from './components/subrogation';
 import Land from './components/land';
 import LostLetter from './components/lostLetter';
-import TaxViolation from './components/taxVolation';
 import EquityPledge from './components/equityPledge';
 import ChattelMortgage from './components/chattelMortgage';
 import BusinessRisk from './components/businessRisk';
 import Information from './components/information';
+import Basic from './components/basic';
+import ShareholderSituation from './components/shareholderSituation';
+import BusinessScale from './components/businessScale';
 import './style.scss';
 
 export default class OverView extends React.Component {
@@ -52,7 +54,14 @@ export default class OverView extends React.Component {
 					</div>
 					<div className="mark-line" />
 					<div className="yc-overview-title">工商基本信息</div>
-					<div style={{ height: 555 }} />
+					<div className="yc-overview-container">
+						{/*  基本信息 */}
+						<Basic />
+						{/*  股东情况 */}
+						<ShareholderSituation />
+						{/* 企业规模 */}
+						<BusinessScale />
+					</div>
 				</div>
 			</div>
 		);

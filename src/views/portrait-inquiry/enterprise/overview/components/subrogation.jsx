@@ -20,6 +20,55 @@ export default class Subrogation extends React.Component {
 		};
 	}
 
+	checkTime = (time) => {
+		if (time === 'Filing') {
+			this.setState({
+				timeLineData: [
+					{ num: 2, year: 2017 },
+					{ num: 6, year: 2018 },
+					{ num: 6, year: 2019 },
+				],
+				RingData: [
+					{ value: 20, name: '已成交' },
+					{ value: 14, name: '正在进行' },
+					{ value: 10, name: '即将开始' },
+					{ value: 5, name: '已流拍' },
+					{ value: 7, name: '中止' },
+				],
+			});
+		} else if (time === 'Court') {
+			this.setState({
+				timeLineData: [
+					{ num: 2, year: 2017 },
+					{ num: 6, year: 2018 },
+				],
+				RingData: [
+					{ value: 20, name: '已成交' },
+					{ value: 14, name: '正在进行' },
+					{ value: 10, name: '即将开始' },
+					{ value: 5, name: '已流拍' },
+					{ value: 7, name: '中止' },
+					{ value: 6, name: '撤回' },
+				],
+			});
+		} else if (time === 'referee') {
+			this.setState({
+				timeLineData: [
+					{ num: 2, year: 2017 },
+					{ num: 6, year: 2018 },
+					{ num: 8, year: 2019 },
+				],
+				RingData: [
+					{ value: 14, name: '正在进行' },
+					{ value: 10, name: '即将开始' },
+					{ value: 5, name: '已流拍' },
+					{ value: 7, name: '中止' },
+					{ value: 6, name: '撤回' },
+				],
+			});
+		}
+	}
+
 	render() {
 		const { RingData, timeLineData } = this.state;
 		return (
@@ -31,9 +80,9 @@ export default class Subrogation extends React.Component {
 				</div>
 				<div className="overview-container-content">
 					<div style={{ marginBottom: 20 }}>
-						<Button style={{ marginRight: 10 }} onClick={() => this.checkTime('threeMonth')}>立案信息 8 条</Button>
-						<Button style={{ marginRight: 10 }} onClick={() => this.checkTime('all')}>开庭信息 8 条</Button>
-						<Button onClick={() => this.checkTime('all')}>裁判文书 8 条</Button>
+						<Button style={{ marginRight: 10 }} onClick={() => this.checkTime('Filing')}>立案信息 8 条</Button>
+						<Button style={{ marginRight: 10 }} onClick={() => this.checkTime('Court')}>开庭信息 8 条</Button>
+						<Button onClick={() => this.checkTime('referee')}>裁判文书 8 条</Button>
 					</div>
 					<TimeLine title="年份分布" Data={timeLineData} id="subrogation" />
 					<RingEcharts title="案件类型分布" Data={RingData} id="subrogation" />

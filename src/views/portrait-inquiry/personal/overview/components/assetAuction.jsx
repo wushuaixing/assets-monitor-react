@@ -63,6 +63,7 @@ export default class AssetAuction extends React.Component {
 			<div>
 				<div className="overview-container-title">
 					<div className="overview-left-item" />
+
 					<span className="container-title-num">12条</span>
 					<span className="container-title-name">相关资产拍卖</span>
 				</div>
