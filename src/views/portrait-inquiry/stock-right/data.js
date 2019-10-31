@@ -28,8 +28,8 @@ const data = {
 		{
 			name: 'animate',
 			children: [
-				{ name: 'Easing', value: 17010 },
-				{ name: 'FunctionSequence', value: 5842 },
+				// { name: 'Easing', value: 17010 },
+				// { name: 'FunctionSequence', value: 5842 },
 				{
 					name: 'interpolate',
 					children: [
