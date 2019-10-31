@@ -64,12 +64,15 @@ export default class Enterprise extends React.Component {
 	};
 
 	onSourceType=(val) => {
-		this.setState({
-			sourceType: val,
-			childDom: '',
-		}, () => {
-			navigate(`/inquiry/enterprise/${val}`);
-		});
+		const { sourceType } = this.state;
+		if (val !== sourceType) {
+			this.setState({
+				sourceType: val,
+				childDom: '',
+			}, () => {
+				navigate(`/inquiry/enterprise/${val}`);
+			});
+		}
 	};
 
 	render() {

@@ -52,7 +52,7 @@ const Change = {
 	followUnAttention: params => s.post('/yc/monitor/risk/change/follow/unFollow', params).then(res => res.data),
 };
 
-//  风险监控 => 经营风险 => 经营异常[zhousai]11
+//  风险监控 => 经营风险 => 严重违法[zhousai]11
 const Illegal = {
 	// POST收藏
 	attention: params => s.post('/yc/monitor/risk/illegal/attention', params).then(res => res.data),
