@@ -57,7 +57,9 @@ export default class Lawsuits extends React.Component {
 	render() {
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
-				{'default'}
+				<div className="yc-intro-sub-items">
+					1
+				</div>
 			</div>
 		);
 	}

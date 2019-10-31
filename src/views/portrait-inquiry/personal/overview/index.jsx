@@ -24,7 +24,7 @@ export default class OverView extends React.Component {
 			this.setState({
 				loading: false,
 			});
-		}, 2000);
+		}, 1000);
 	}
 
 	render() {

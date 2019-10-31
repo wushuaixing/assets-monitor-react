@@ -1,4 +1,6 @@
 import React from 'react';
+import { Affix } from 'antd';
+import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import QueryView from '../common/queryView';
 import { Tabs } from '@/common';
@@ -7,8 +9,6 @@ import Assets from './assets';
 import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
-import { Affix } from 'antd';
-import { navigate } from '@reach/router';
 import TempImg from '@/views/portrait-inquiry/title.png';
 import './style.scss';
 

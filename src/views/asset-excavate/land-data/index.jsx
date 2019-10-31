@@ -42,7 +42,7 @@ const toGetConfig = (rule) => {
 			number: 0,
 			dot: false,
 			showNumber: false,
-			status: children.gsgg_tax && false,
+			status: children.gsgg_tax,
 		},
 		{
 			id: 3,
@@ -50,7 +50,7 @@ const toGetConfig = (rule) => {
 			number: 0,
 			dot: false,
 			showNumber: false,
-			status: children.gsgg_epb && false,
+			status: children.gsgg_epb,
 		},
 	];
 	return base.filter(item => item.status);

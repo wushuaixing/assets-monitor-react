@@ -61,8 +61,8 @@
     background-color: $color-btn-hover;
   }
   &:active{
-    border: 1px solid $color-btn-active;
-    background-color: $color-btn-active;
+    border: 1px solid $text-link-hover;
+    background-color: $text-link-hover;
   }
 }
 

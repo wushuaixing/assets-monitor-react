@@ -1,9 +1,11 @@
 import React from 'react';
-import { DatePicker, Select, Form } from 'antd';
+import {
+	DatePicker, Form, message, Select,
+} from 'antd';
+import provinceList from '../../../../utils/provinceList';
 import { Input, Button, timeRule } from '@/common';
+import InputPrice from '@/common/input/input-price';
 
-
-const options = [2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2004];
 class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
@@ -31,20 +33,26 @@ class QueryCondition extends React.Component {
 	};
 
 	handleSubmit=() => {
-		const { form: { getFieldsValue }, onQueryChange } = this.props;
+		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
+		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
+		if (condition.lowPrice && Number(condition.lowPrice) > condition.highPrice && Number(condition.highPrice)) {
+			message.error('成交价格最低价不能高于成交价格最高价！');
+			return;
+		}
 		if (onQueryChange)onQueryChange(condition, '', '', 1);
 	};
 
 	handleReset=() => {
-		const { form, onQueryChange } = this.props;
+		const { form, onQueryChange, clearSelectRowNum } = this.props;
+		clearSelectRowNum();// 清除选中项
 		form.resetFields();
 		const condition = 	form.getFieldsValue();
 		if (onQueryChange)onQueryChange(condition, '', '', 1);
 	};
 
 	render() {
-		const _style1 = { width: 274 };
+		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
@@ -55,33 +63,80 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="纳税人" style={_style1} size="large" placeholder="纳税人姓名/公司名称" {...getFieldProps('obName')} />
+					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">发布年份：</span>
-					<Select size="large" style={_style2} {...getFieldProps('year')} placeholder="请选择" allowClear>
-						{options.map(item => <Select.Option value={item} key={item}>{`${item}年`}</Select.Option>)}
-					</Select>
+					<Input title="土地用途" style={_style1} size="large" placeholder="土地用途" {...getFieldProps('landUse')} />
 				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">{`${global.Table_CreateTime_Text}：`}</span>
+					<InputPrice
+						title="成交价格"
+						style={_style1}
+						size="large"
+						suffix="万元"
+						inputFirstProps={getFieldProps('lowPrice', {
+							validateTrigger: 'onBlur',
+							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+						})}
+						inputSecondProps={getFieldProps('highPrice', {
+							validateTrigger: 'onBlur',
+							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+						})}
+					/>
+				</div>
+
+				<div className="yc-query-item" style={{ marginRight: 0 }}>
+					<span className="yc-query-item-title">土地省份：</span>
+					<Select
+						allowClear
+						size="large"
+						style={{ width: 212 }}
+						placeholder="请选择土地省份"
+						{...getFieldProps('province')}
+					>
+						{
+							provinceList && provinceList.provinceList.map(city => <Select.Option key={city.id} value={city.name}>{city.name}</Select.Option>)
+						}
+					</Select>
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">成交日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startCreateTime', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endCreateTime'))}
+						{...getFieldProps('signedDateStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('signedDateEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endCreateTime', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startCreateTime'))}
+						{...getFieldProps('signedDateEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('signedDateStart'))}
 					/>
 				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">{`${global.Table_CreateTime_Text}：`}</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="开始日期"
+						{...getFieldProps('createDateStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createDateEnd'))}
+					/>
+					<span className="yc-query-item-title">至</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="结束日期"
+						{...getFieldProps('createDateEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('createDateStart'))}
+					/>
+				</div>
+
 
 				<div className="yc-query-item yc-query-item-btn">
 					<Button size="large" type="common" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
