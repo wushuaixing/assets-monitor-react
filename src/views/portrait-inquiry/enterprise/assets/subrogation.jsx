@@ -8,9 +8,15 @@ export default class Subrogation extends React.Component {
 		this.state = {
 			sourceType: 1,
 			config: [
-				{ id: 1, name: '立案', total: 4 },
-				{ id: 2, name: '开庭', total: 3 },
-				{ id: 3, name: '裁判文书', total: 9 }],
+				{
+					id: 1, name: '立案', number: 4, showNumber: true,
+				},
+				{
+					id: 2, name: '开庭', number: 3, showNumber: true,
+				},
+				{
+					id: 3, name: '裁判文书', number: 9, showNumber: true,
+				}],
 		};
 	}
 
@@ -29,6 +35,7 @@ export default class Subrogation extends React.Component {
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={config}
+					symbol="none"
 					prefix={<div className="yc-tabs-simple-prefix">代位权</div>}
 				/>
 				<div className="inquiry-public-table">

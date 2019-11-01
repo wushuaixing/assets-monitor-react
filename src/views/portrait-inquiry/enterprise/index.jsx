@@ -61,11 +61,11 @@ const EnterpriseInfo = (props) => {
 					<span className="intro-title-status">续存</span>
 				</div>
 				<div className="intro-base-info">
-					<li className="intro-info-list">
+					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">法定代表人：</span>
 						<span className="yc-public-title">井永柱</span>
 					</li>
-					<li className="intro-info-list">
+					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">注册资本：</span>
 						<span className="yc-public-title">10655.81万元人民币</span>
 					</li>
@@ -158,7 +158,7 @@ export default class Enterprise extends React.Component {
 				<div className="mark-line" />
 				<div className="inquiry-enterprise-content">
 					<Affix onChange={this.onChangeAffix}>
-						<div className={`enterprise-intro ${childDom ? '' : 'enterprise-intro-child'}`} id="enterprise-intro">
+						<div className={`enterprise-intro${childDom ? '' : ' enterprise-intro-child'}`} id="enterprise-intro">
 							{
 								affixStatus
 									? <EnterpriseInfoSimple download={this.handleDownload} />
@@ -167,6 +167,7 @@ export default class Enterprise extends React.Component {
 							<Tabs.Simple
 								onChange={this.onSourceType}
 								source={tabConfig}
+								symbol="none"
 								defaultCurrent={sourceType}
 							/>
 							{childDom}

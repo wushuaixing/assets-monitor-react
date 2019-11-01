@@ -69,10 +69,15 @@
     .enterprise-info-simple {
 
     }
-
+    .intro-list-border{
+      line-height: 1;
+      padding-right: 10px;
+      border-right:1px solid $border-base;
+    }
     .intro-info-list {
       display: inline-block;
       margin-right: 10px;
+
     }
   }
 

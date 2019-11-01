@@ -60,7 +60,9 @@ const subItems = [
 export default class Assets extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+
+		};
 	}
 
 	componentDidMount() {
