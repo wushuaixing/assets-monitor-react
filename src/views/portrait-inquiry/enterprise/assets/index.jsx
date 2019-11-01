@@ -70,9 +70,9 @@ export default class Assets extends React.Component {
 
 	handleScroll=(eleID) => {
 		const dom = document.getElementById(eleID);
-		const _heigt = document.getElementById('enterprise-intro').clientHeight;
+		const _height = document.getElementById('enterprise-intro').clientHeight;
 		if (dom) {
-			window.scrollTo(0, document.getElementById(eleID).offsetTop - _heigt);
+			window.scrollTo(0, document.getElementById(eleID).offsetTop - _height);
 		}
 	};
 

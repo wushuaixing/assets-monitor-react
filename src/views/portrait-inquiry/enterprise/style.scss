@@ -3,9 +3,19 @@
     background-color: #fff;
     padding: 20px 20px 0 20px;
   }
-  .enterprise-intro-child{
-    .yc-tabs-simple{
-      border-bottom: none!important;
+
+  .enterprise-intro-child {
+    .yc-tabs-simple {
+      border-bottom: none !important;
+    }
+  }
+
+  .public-table-tab {
+    display: block;
+    overflow: hidden;
+    border-bottom: 1px solid $border-base;
+    .yc-tabs-simple-prefix {
+      border-right: none !important;
     }
   }
 }
