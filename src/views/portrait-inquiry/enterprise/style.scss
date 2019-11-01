@@ -2,11 +2,83 @@
   .enterprise-intro {
     background-color: #fff;
     padding: 20px 20px 0 20px;
+    transition: all 0.5s;
+    .enterprise-info {
+      padding: 5px 0 20px 0;
+      border-bottom: 1px solid $border-base;
+      position: relative;
+      .intro-icon {
+        width: 80px;
+        height: 80px;
+        float: left;
+        background-color: #1E8CFA;
+        padding: 10px;
+        font-size: 24px;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 5px;
+        color: #FFFFFF;
+      }
+      .intro-content {
+        margin-left: 96px;
+
+        .intro-base-info, .intro-used {
+          margin-top: 7px;
+        }
+
+      }
+      .intro-title {
+
+        span {
+          display: inline-block;
+        }
+
+        .intro-title-name {
+          font-size: 17px;
+          position: relative;
+          margin-right: 30px;
+
+          .intro-title-tag {
+            position: absolute;
+            right: -20px;
+            bottom: 0;
+          }
+        }
+
+        .intro-title-status {
+          width: 44px;
+          height: 20px;
+          text-align: center;
+          color: $common-success;
+          border: 1px solid $common-success;
+          line-height: 18px;
+        }
+      }
+      .intro-download{
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 84px;
+        z-index: 1;
+        i{
+          margin-right: 4px;
+        }
+      }
+    }
+
+    .enterprise-info-simple {
+
+    }
+
+    .intro-info-list {
+      display: inline-block;
+      margin-right: 10px;
+    }
   }
 
   .enterprise-intro-child {
     .yc-tabs-simple {
-      border-bottom: none !important;
+      border-bottom: 1px solid $border-base !important;
     }
   }
 
@@ -14,6 +86,7 @@
     display: block;
     overflow: hidden;
     border-bottom: 1px solid $border-base;
+
     .yc-tabs-simple-prefix {
       border-right: none !important;
     }
