@@ -61,8 +61,12 @@ class SimpleTab extends React.Component {
 
 	render() {
 		const {
-			rightRender, source, prefix, type,
+			rightRender, source, prefix, type, symbol,
 		} = this.props;
+		let symbolAry = ['（', '）'];
+		if (symbol === 'none')symbolAry = [' ', ''];
+		if (symbol === '1')symbolAry = ['「', '」'];
+
 		const { active } = this.state;
 		return (
 			<div className={`yc-tabs-wrapper yc-tabs-simple yc-tabs-simple-${type || 'warning'}`}>
@@ -75,7 +79,7 @@ class SimpleTab extends React.Component {
 						>
 							<div className="yc-tabs-active-line" />
 							<Badge dot={item.dot}>
-								{ item.showNumber ? `${item.name}（${numUnit(item.number)}）` : item.name}
+								{ item.showNumber ? `${item.name}${symbolAry[0]}${numUnit(item.number)}${symbolAry[1]}` : item.name}
 							</Badge>
 						</li>
 					))}
