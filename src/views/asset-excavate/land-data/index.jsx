@@ -18,10 +18,16 @@ import TableTransfer from './table/transfer';
 import TableMortgage from './table/mortgage';
 
 // 获取api具体
+// const toGetApi = (type, base) => {
+// 	if (type === 1) return `${base}Result`;
+// 	if (type === 2) return `${base}Illegal`;
+// 	if (type === 3) return `${base}Punish`;
+// 	return `${base}Result`;
+// };
 const toGetApi = (type, base) => {
 	if (type === 1) return `${base}Result`;
-	if (type === 2) return `${base}Illegal`;
-	if (type === 3) return `${base}Punish`;
+	if (type === 2) return `${base}Result`;
+	if (type === 3) return `${base}Result`;
 	return `${base}Result`;
 };
 

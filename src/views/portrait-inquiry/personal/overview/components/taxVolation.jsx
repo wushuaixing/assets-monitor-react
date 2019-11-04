@@ -10,11 +10,12 @@ export default class TaxViolation extends React.Component {
 				{ value: 7, name: '作为法人' },
 				{ value: 10, name: '作为财务' },
 			],
+			colorArray: ['#45A1FF', '#F2657A', '#FCD44A'],
 		};
 	}
 
 	render() {
-		const { RingData } = this.state;
+		const { RingData, colorArray } = this.state;
 		return (
 			<div>
 				<div className="overview-container-title">
@@ -23,7 +24,7 @@ export default class TaxViolation extends React.Component {
 					<span className="container-title-name">税收违法</span>
 				</div>
 				<div className="overview-container-content">
-					<RingEcharts title="角色分布" Data={RingData} id="taxVolation" />
+					<RingEcharts title="角色分布" Data={RingData} id="taxVolation" colorArray={colorArray} />
 				</div>
 			</div>
 		);

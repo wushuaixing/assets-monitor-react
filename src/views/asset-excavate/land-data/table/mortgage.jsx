@@ -1,8 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
+import { timeStandard } from '@/utils';
 import { Table } from '@/common';
+import { Result } from './common';
 import Api from '@/utils/api/monitor-info/public';
 // { attention, readStatus }
 // 获取表格配置
@@ -13,25 +14,35 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
-			dataIndex: 'publishTime',
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>登记日期</span>
+				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
+			dataIndex: 'singedDate',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
-			title: '单位名称',
+			title: '土地权利人',
 			dataIndex: 'obName',
 			width: 234,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			render: Result.landOwner,
 		}, {
-			title: '标题',
+			title: '项目信息',
 			dataIndex: 'title',
-			width: 536,
-			render: (text, row) => (row.url ? linkDom(row.url, text || '--') : (text || '--')),
+			width: 160,
+			render: Result.InfoTransferProject,
+		}, {
+			title: '土地信息',
+			dataIndex: 'title',
+			width: 160,
+			render: Result.InfoMortgageLand,
+		}, {
+			title: '抵押信息',
+			dataIndex: 'title',
+			width: 160,
+			render: Result.InfoMortgage,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
+			dataIndex: 'gmtCreate',
 			width: 115,
 			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {
