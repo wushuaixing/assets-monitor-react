@@ -6,7 +6,6 @@ import { TaxViolation } from './common';
 
 const { trial } = assets;
 
-
 export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
