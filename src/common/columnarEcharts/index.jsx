@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactECharts from 'echarts-for-react';
+// import ReactECharts from 'echarts-for-react';
 import './style.scss';
 
 class ColumnarEcharts extends React.Component {
@@ -93,7 +93,7 @@ class ColumnarEcharts extends React.Component {
 		return (
 			<div>
 				<div className="yc-columnar-title">{title}</div>
-				<ReactECharts className="yc-columnar-rcharts" option={this.getOption(Data, id, title)} style={{ width: 532, height: Data.length * 40 }} />
+				{/*<ReactECharts className="yc-columnar-rcharts" option={this.getOption(Data, id, title)} style={{ width: 532, height: Data.length * 40 }} />*/}
 			</div>
 		);
 	}
