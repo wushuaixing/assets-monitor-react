@@ -80,11 +80,23 @@
 
     }
   }
+  .enterprise-intro{
+    border-bottom:none;
+    .yc-intro-sub-items{
+      border-bottom:none;
+    }
+  }
 
-  .enterprise-intro-child {
+  .enterprise-intro-child{
     .yc-tabs-simple {
       border-bottom: 1px solid $border-base !important;
     }
+  }
+  .enterprise-intro-affix {
+    .yc-intro-sub-items{
+      border-bottom:1px solid $border-base !important;
+    }
+
   }
 
   .public-table-tab {

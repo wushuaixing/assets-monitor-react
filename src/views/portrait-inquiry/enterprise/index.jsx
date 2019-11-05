@@ -12,6 +12,7 @@ import { navigate } from '@reach/router';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
 import './style.scss';
 
+/* 基本选项 */
 const source = () => [
 	{
 		id: 101,
@@ -158,7 +159,7 @@ export default class Enterprise extends React.Component {
 				<div className="mark-line" />
 				<div className="inquiry-enterprise-content">
 					<Affix onChange={this.onChangeAffix}>
-						<div className={`enterprise-intro${childDom ? '' : ' enterprise-intro-child'}`} id="enterprise-intro">
+						<div className={`enterprise-intro${childDom ? '' : ' enterprise-intro-child'}${affixStatus ? ' enterprise-intro-affix' : ''}`} id="enterprise-intro">
 							{
 								affixStatus
 									? <EnterpriseInfoSimple download={this.handleDownload} />
