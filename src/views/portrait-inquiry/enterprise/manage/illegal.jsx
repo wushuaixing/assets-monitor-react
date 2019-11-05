@@ -12,7 +12,7 @@ export default class IllegalIntact extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
-					<div className="yc-tabs-simple-prefix">经营异常</div>
+					<div className="yc-tabs-simple-prefix">严重违法</div>
 				</div>
 				<div className="inquiry-public-table">
 					<Illegal />

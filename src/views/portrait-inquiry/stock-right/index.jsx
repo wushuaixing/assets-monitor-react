@@ -9,8 +9,8 @@ import eData from './data';
 // import '@/static/echarts/echarts-all';
 // import '@/static/echarts/zrender';
 // const my = require('@/static/echarts/zrender');
-const zr = window.zrender;
-const ec = window.echarts;
+const zr = global.zrender;
+const ec = global.echarts;
 
 const dataSource = [{
 	name: '手机',
@@ -465,7 +465,7 @@ export default class StockRight extends React.Component {
 	componentDidMount() {
 		console.log(zr);
 		const myChart = ec.init(document.getElementById('zRenderEcharts'));
-		const { Text } = window.zrDefine;
+		const { Text } = global.zrDefine;
 		const shape = new Text({
 			style: {
 				x: 500,
@@ -607,7 +607,7 @@ export default class StockRight extends React.Component {
 
 	render() {
 		return (
-			<div id="zRenderEcharts" style={{ width: 1000, height: 500 }} />
+			<div id="zRenderEcharts" style={{ width: 1000, height: 500, border: '1px solid #ddd' }} />
 		);
 	}
 }
