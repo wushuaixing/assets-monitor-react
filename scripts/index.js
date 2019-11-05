@@ -32,6 +32,7 @@ module.exports = {
 			'@': `${ROOT}/src`,
 			antd: `${ROOT}/patchs/antd`,
 			api: `${ROOT}/src/utils/api`,
+			echarts:`${ROOT}/src/static/echarts`,
 		},
 		extensions: ['.js', '.jsx','.scss'],
 	},
