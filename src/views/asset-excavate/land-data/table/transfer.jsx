@@ -1,9 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDom } from '@/utils';
+import { timeStandard } from '@/utils';
 import { Table } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
+import { Result } from './common';
 // { attention, readStatus }
 // 获取表格配置
 const columns = (props) => {
@@ -14,37 +15,37 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
-			dataIndex: 'publishTime',
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>成交日期</span>
+				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>成交日期</SortVessel>),
+			dataIndex: 'singedDate',
 			width: 113,
-			render: (text, record) => ReadStatus(text || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
-			title: '纳税人',
+			title: '土地使用权人',
 			dataIndex: 'obName',
 			width: 226,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			render: Result.landUser,
 		}, {
-			title: '统一社会信用代码',
+			title: '项目信息',
 			dataIndex: 'number',
 			width: 190,
-			render: text => text || '--',
+			render: Result.InfoTransferProject,
 		}, {
-			title: '案件性质',
+			title: '土地信息',
 			dataIndex: 'property',
-			width: 403,
-			render: text => text || '--',
+			width: 160,
+			render: Result.InfoLand,
+		}, {
+			title: '转让信息',
+			dataIndex: 'property',
+			width: 160,
+			render: Result.transferInfo,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
+			dataIndex: 'gmtCreate',
 			width: 90,
 			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
-		}, {
-			title: '源链接',
-			dataIndex: 'obName',
-			className: 'tAlignCenter_important',
-			width: 75,
-			render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '--'),
 		}, {
 			title: '操作',
 			width: 60,

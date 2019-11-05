@@ -10,6 +10,7 @@ import Info from './info';
 import { Affix, Icon } from 'antd';
 import { navigate } from '@reach/router';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
+
 import './style.scss';
 
 /* 基本选项 */
@@ -168,7 +169,6 @@ export default class Enterprise extends React.Component {
 							<Tabs.Simple
 								onChange={this.onSourceType}
 								source={tabConfig}
-								symbol="none"
 								defaultCurrent={sourceType}
 							/>
 							{childDom}

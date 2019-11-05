@@ -42,8 +42,8 @@ class ColumnarEcharts extends React.Component {
 			{
 				name: title,
 				type: 'bar',
-				barMinHeight: 250,
-				barWidth: 20,
+				barMinHeight: 200,
+				barWidth: 25,
 				data: Data,
 				itemStyle: {
 					normal: {
@@ -65,7 +65,7 @@ class ColumnarEcharts extends React.Component {
 							textStyle: {
 								rich: {
 									a: {
-										width: 200,
+										width: 160,
 										padding: [0, 0, 0, 10],
 										color: '#fff',
 										fontSize: 12,

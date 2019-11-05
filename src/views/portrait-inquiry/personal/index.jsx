@@ -68,7 +68,7 @@ export default class Personal extends React.Component {
 				<QueryView type={2} />
 				<div className="mark-line" />
 				<div className="inquiry-personal-content">
-					<div className={`personal-intro ${childDom ? '' : 'personal-intro-child'}`}>
+					<div className={`personal-intro ${childDom ? '' : 'personal-intro-child'}`} id="personal-intro">
 						<img src={TempImg} alt="" style={{ width: '100%' }} />
 						<Tabs.Simple
 							onChange={this.onSourceType}

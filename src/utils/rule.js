@@ -183,7 +183,8 @@ export default {
 						status: true,
 						child: [
 							{ id: 'YC020301', name: '出让结果', status: true },
-							// { id: 'YC020302', name: '开庭公告', status: false },
+							{ id: 'YC020302', name: '土地转让', status: true },
+							{ id: 'YC020303', name: '土地抵押', status: true },
 						],
 					},
 					{
