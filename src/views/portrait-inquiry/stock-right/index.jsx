@@ -1,9 +1,459 @@
 import React from 'react';
-import ReactECharts from 'echarts-for-react';
+// import ReactECharts from 'echarts-for-react';
 import bg from '@/assets/background.png';
 import './style.scss';
 
 import eData from './data';
+// import echarts from '@/static/echarts/echarts';
+// import '@/static/echarts/chart/bar';
+// import '@/static/echarts/echarts-all';
+// import '@/static/echarts/zrender';
+// const my = require('@/static/echarts/zrender');
+const zr = window.zrender;
+const ec = window.echarts;
+
+const dataSource = [{
+	name: '手机',
+	value: 6,
+	symbolSize: [90, 70],
+	symbol: 'circle',
+	itemStyle: {
+		normal: {
+			label: {
+				show: false,
+			},
+		},
+	},
+	children: [{
+		name: '530',
+		value: 4,
+		symbol: 'droplet',
+		formatter: 'Template formatter: <br/>{b}<br/>{a}:{c}<br/>{a1}:{c1}',
+
+		itemStyle: {
+			normla: {
+				label: {
+					position: 'outer',
+					formatter: '123123123123',
+				},
+			},
+		},
+		symbolSize: [60, 60],
+		toggle: false,
+		children: [],
+		remark: [{
+			name: '小米1',
+			symbol: 'circle',
+			symbolSize: 20,
+			value: 4,
+			itemStyle: {
+				normal: {
+					color: '#fa6900',
+					label: {
+						show: true,
+						position: 'right',
+					},
+
+				},
+				emphasis: {
+					label: {
+						show: false,
+					},
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米2',
+			value: 4,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						show: true,
+						position: 'right',
+						formatter: '{b}',
+					},
+					color: '#fa6900',
+					borderWidth: 2,
+					borderColor: '#cc66ff',
+
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米3',
+			value: 2,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						position: 'right',
+					},
+					color: '#fa6900',
+					brushType: 'stroke',
+					borderWidth: 1,
+					borderColor: '#999966',
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		],
+	},
+	{
+		name: '苹果',
+		symbol: 'circle',
+		symbolSize: [60, 60],
+		itemStyle: {
+			normal: {
+				color: '#F3F9FE',
+				borderWidth: '1',
+				borderColor: '#128bed',
+				label: {
+					show: !0,
+					position: 'inside',
+					textStyle: {
+						color: '#333',
+						fontFamily: 'MicroSoft YaHei',
+						fontSize: 14,
+						fontStyle: 'normal',
+					},
+				},
+			},
+			emphasis: {
+				color: 'rgba(255,255,255,0)',
+				borderWidth: '1',
+				borderColor: 'rgba(255,255,255,0)',
+			},
+
+		},
+		value: 4,
+		toggle: false,
+		children: [],
+		remark: [{
+			name: '小米2',
+			value: 4,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						show: true,
+						position: 'right',
+						formatter: '{b}',
+					},
+					color: '#fa6900',
+					borderWidth: 2,
+					borderColor: '#cc66ff',
+
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		}],
+	},
+	{
+		name: '华为',
+		symbol: 'rectangle',
+		symbolSize: [146, 50],
+		itemStyle: {
+			normal: {
+				color: '#fff',
+				borderWidth: '1',
+				borderColor: '#ccc',
+				label: {
+					show: true,
+					position: 'inside',
+					textStyle: {
+						fontFamily: 'MicroSoft YaHei',
+						fontSize: 18,
+						color: '#333',
+						fontStyle: 'normal',
+					},
+				},
+			},
+			emphasis: {
+				color: 'rgba(255,255,255,0)',
+				borderWidth: '1',
+				borderColor: 'rgba(255,255,255,0)',
+			},
+		},
+		value: 2,
+		toggle: false,
+		children: [],
+		remark: [{
+			name: '小米1',
+			symbol: 'circle',
+			symbolSize: 20,
+			value: 4,
+			itemStyle: {
+				normal: {
+					color: '#fa6900',
+					label: {
+						show: true,
+						position: 'right',
+					},
+
+				},
+				emphasis: {
+					label: {
+						show: false,
+					},
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米2',
+			value: 4,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						show: true,
+						position: 'right',
+						formatter: '{b}',
+					},
+					color: '#fa6900',
+					borderWidth: 2,
+					borderColor: '#cc66ff',
+
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米3',
+			value: 2,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						position: 'right',
+					},
+					color: '#fa6900',
+					brushType: 'stroke',
+					borderWidth: 1,
+					borderColor: '#999966',
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米3',
+			value: 2,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						position: 'right',
+					},
+					color: '#fa6900',
+					brushType: 'stroke',
+					borderWidth: 1,
+					borderColor: '#999966',
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米3',
+			value: 2,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						position: 'right',
+					},
+					color: '#fa6900',
+					brushType: 'stroke',
+					borderWidth: 1,
+					borderColor: '#999966',
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		],
+	},
+	{
+		name: '联想',
+		symbol: 'circle',
+		symbolSize: [100, 40],
+		itemStyle: {
+			normal: {
+				label: {
+					show: false,
+				},
+
+			},
+		},
+		toggle: false,
+		children: [],
+		remark: [{
+			name: '小米1',
+			symbol: 'circle',
+			symbolSize: 20,
+			value: 4,
+			itemStyle: {
+				normal: {
+					color: '#fa6900',
+					label: {
+						show: true,
+						position: 'right',
+					},
+
+				},
+				emphasis: {
+					label: {
+						show: false,
+					},
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米2',
+			value: 4,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						show: true,
+						position: 'right',
+						formatter: '{b}',
+					},
+					color: '#fa6900',
+					borderWidth: 2,
+					borderColor: '#cc66ff',
+
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米3',
+			value: 2,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						position: 'right',
+					},
+					color: '#fa6900',
+					brushType: 'stroke',
+					borderWidth: 1,
+					borderColor: '#999966',
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米3',
+			value: 2,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						position: 'right',
+					},
+					color: '#fa6900',
+					brushType: 'stroke',
+					borderWidth: 1,
+					borderColor: '#999966',
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		{
+			name: '小米3',
+			value: 2,
+			symbol: 'circle',
+			symbolSize: 20,
+			itemStyle: {
+				normal: {
+					label: {
+						position: 'right',
+					},
+					color: '#fa6900',
+					brushType: 'stroke',
+					borderWidth: 1,
+					borderColor: '#999966',
+				},
+				emphasis: {
+					borderWidth: 0,
+				},
+			},
+		},
+		],
+		value: 2,
+	},
+	],
+}];
+const optionMethods = _dataSource => ({
+	calculable: false,
+	series: [{
+		name: '树图',
+		type: 'tree',
+		rootLocation: { x: '50%', y: '30%' }, // 根节点位置  {x: 'center',y: 10}
+		nodePadding: 20,
+		symbol: 'circle',
+		orient: 'vertical',
+		roam: true,
+		symbolSize: 40,
+		itemStyle: {
+			normal: {
+				color: '#fff',
+				borderWidth: '1',
+				borderColor: '#128bed',
+				label: {
+					show: !0,
+					position: 'inside',
+					textStyle: {
+						color: '#000',
+						fontFamily: 'MicroSoft YaHei',
+						fontSize: 16,
+						fontStyle: 'normal',
+					},
+				},
+			},
+			emphasis: {
+				color: 'rgba(255,255,255,0)',
+				borderWidth: '1',
+				borderColor: '#128bed00',
+			},
+		},
+		data: _dataSource,
+	}],
+});
 
 export default class StockRight extends React.Component {
 	constructor(props) {
@@ -13,34 +463,40 @@ export default class StockRight extends React.Component {
 
 
 	componentDidMount() {
+		console.log(zr);
+		const myChart = ec.init(document.getElementById('zRenderEcharts'));
+		const { Text } = window.zrDefine;
+		const shape = new Text({
+			style: {
+				x: 500,
+				y: 155,
+				textFont: 'normal 15px 微软雅黑',
+				text: '测试内容\n测试内容',
+				textAlign: 'center',
+				color: '#333',
+				fontSize: 14,
+				lineWidth: 0,
+			},
+			highlightStyle: {
+				lineWidth: 0,
+				color: '#333',
+				strokeColor: 'rgba(255,255,255,0)',
+			},
+			zlevel: 4,
 
+		});
+		shape.zlevel = 1;
+		shape.z = 5;
+		shape.ndelete = true;
+		shape.hoverable = false;
+		myChart.getZrender().addShape(shape);
+		myChart.setOption(optionMethods(dataSource));
 	}
 
 	onChartReadyCallback=() => {
 		console.log('onChartReadyCallback');
 	};
 
-	/* arrowAdd=(node) => {
-		const per = node.percent;
-		const temp = node;
-		node = {
-			name: per,
-			orient: 'BT',
-			symbol: 'arrow',
-			symbolSize: [12, 12],
-			lineStyle: {
-				width: 1,
-				color: '#333',
-			},
-			itemStyle: {
-				position: 'right',
-				color: '#1e81e1',
-				borderColor: '#1e81e1',
-			},
-			children: [temp],
-		};
-		return node;
-	}; */
 
 	getOption =() => {
 		const _data = eData;
@@ -151,7 +607,7 @@ export default class StockRight extends React.Component {
 
 	render() {
 		return (
-			<ReactECharts option={this.getOption()} style={{ width: 1200, height: 500 }} />
+			<div id="zRenderEcharts" style={{ width: 1000, height: 500 }} />
 		);
 	}
 }

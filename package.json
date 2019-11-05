@@ -27,8 +27,6 @@
     "anujs": "1.5.0",
     "axios": "0.18.0",
     "console-polyfill": "0.3.0",
-    "echarts": "4.4.0",
-    "echarts-for-react": "2.0.12",
     "es5-shim": "4.5.11",
     "es6-proxy-polyfill": "1.2.1",
     "jsencrypt": "3.0.0-rc.1",
@@ -36,7 +34,8 @@
     "matchmedia-polyfill": "0.3.1",
     "react-loadable": "5.5.0",
     "react-redux": "5.0.7",
-    "universal-cookie": "4.0.0"
+    "universal-cookie": "4.0.0",
+    "zrender": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",

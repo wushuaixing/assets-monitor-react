@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactECharts from 'echarts-for-react';
+// import ReactECharts from 'echarts-for-react';
 import './style.scss';
 
 
@@ -9,7 +9,7 @@ class RingEcharts extends React.Component {
 		this.state = {};
 	}
 
-	getOption =(Data, id, title, colorArray) => ({
+	getOption =(Data, id, title) => ({
 		tooltip: {
 			trigger: 'item',
 			formatter: '{a} <br/>{b}: {c} ({d}%)',
@@ -67,7 +67,7 @@ class RingEcharts extends React.Component {
 			},
 		},
 
-		color: colorArray || ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
+		color: ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
 		series: [
 			{
 				name: title,
@@ -100,13 +100,11 @@ class RingEcharts extends React.Component {
 	});
 
 	render() {
-		const {
-			Data, title, id, colorArray,
-		} = this.props;
+		const { Data, title, id } = this.props;
 		return (
 			<div>
 				<div className="yc-ring-title">{title}</div>
-				<ReactECharts className="yc-ring-rcharts" option={this.getOption(Data, id, title, colorArray)} style={{ width: 532, height: 150 }} />
+				{/*<ReactECharts className="yc-ring-rcharts" option={this.getOption(Data, id, title)} style={{ width: 532, height: 150 }} />*/}
 			</div>
 		);
 	}
