@@ -16,7 +16,7 @@ const getOption = (Data, id, title) => ({
 		y: 'center',
 		itemGap: 5,
 		// 距顶部的距离，其他同理
-
+		zlevel: 3,
 		data: Data,
 		formatter: (name) => {
 			let res = '';
@@ -31,20 +31,6 @@ const getOption = (Data, id, title) => ({
 			];
 
 			return arr.join('');
-		},
-		rich: {
-			a: {
-				align: 'left',
-				color: '#4E5566',
-				width: 72,
-				padding: [0, 0, 0, 10],
-			},
-			b: {
-				align: 'right',
-				color: '#20242E',
-				width: 40,
-				padding: [0, 0, 0, 10],
-			},
 		},
 	},
 	color: ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
@@ -98,10 +84,13 @@ class RingEcharts extends React.Component {
 		myChart.setOption(getOption(Data, id, title));
 	}
 
-	componentDidUpdate() {
+
+	componentDidUpdate(prevProps) {
 		const { Data, id, title } = this.props;
-		const myChart = window.echarts.init(document.getElementById(`${id}RingEcharts`));
-		myChart.setOption(getOption(Data, id, title));
+		if (prevProps.Data !== Data) {
+			const myChart = window.echarts.init(document.getElementById(`${id}RingEcharts`));
+			myChart.setOption(getOption(Data, id, title));
+		}
 	}
 
 	render() {

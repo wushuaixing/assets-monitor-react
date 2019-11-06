@@ -24,9 +24,11 @@ export default class AssetAuction extends React.Component {
 
 	checkTime = (time) => {
 		if (time === 'threeMonth') {
+			console.log('threeMonth');
+
 			this.setState({
 				columnarData: [
-					{ value: 8, name: '资产所有人' },
+					{ value: 1, name: '资产洒大地洒大地所有人' },
 					{ value: 12, name: '债权人' },
 					{ value: 9, name: '竞买人' },
 					{ value: 9, name: '资产线索' },
@@ -39,6 +41,7 @@ export default class AssetAuction extends React.Component {
 				],
 			});
 		} else if (time === 'all') {
+			console.log('all');
 			this.setState({
 				columnarData: [
 					{ value: 18, name: '资产所有人' },
