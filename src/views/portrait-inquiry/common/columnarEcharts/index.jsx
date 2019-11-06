@@ -3,18 +3,6 @@ import React from 'react';
 import './style.scss';
 
 const getOption = (Data, id, title) => ({
-	tooltip: {
-		trigger: 'axis',
-		axisPointer: { // 坐标轴指示器，坐标轴触发有效
-			type: '', // 默认为直线，可选为：'line' | 'shadow'
-		},
-		formatter: (params) => {
-			const { name } = params[0].data;
-			const { value } = params[0].data;
-			return `<div><span>${title}</div>`
-				+ `<div><span>${name}:</span>${value} 条</div>`;
-		},
-	},
 
 	grid: { // 绘图区调整
 		x: 20, // 左留白
@@ -90,19 +78,23 @@ class ColumnarEcharts extends React.Component {
 	}
 
 	componentDidMount() {
-		const { Data, id, title } = this.props;
-		const myChart = window.echarts.init(document.getElementById(`${id}ColumnarEcharts`));
-
-		myChart.setOption(getOption(Data, id, title));
+		this.toDrawEcharts();
 	}
 
 	componentDidUpdate(prevProps) {
-		const { Data, id, title } = this.props;
+		const { Data } = this.props;
 		if (prevProps.Data !== Data) {
-			const myChart = window.echarts.init(document.getElementById(`${id}ColumnarEcharts`));
-			myChart.setOption(getOption(Data, id, title));
+			this.toDrawEcharts();
 		}
 	}
+
+	toDrawEcharts=() => {
+		const { Data, id, title } = this.props;
+		const DOM = document.getElementById(`${id}ColumnarEcharts`);
+		const myChart = window.echarts.init(DOM);
+		// window[`${id}ColumnarEcharts`] = myChart;
+		myChart.setOption(getOption(Data, id, title));
+	};
 
 	render() {
 		const { title, Data, id } = this.props;
