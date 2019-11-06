@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimeLine } from '@/common';
+import TimeLine from '../../../common/timeLine';
 import './style.scss';
 
 export default class EquityPledge extends React.Component {
@@ -42,7 +42,7 @@ export default class EquityPledge extends React.Component {
 							</div>
 						))
 					}
-					<TimeLine title="年份分布" Data={timeLineData} id="lostLetter" />
+					<TimeLine title="年份分布" Data={timeLineData} id="EquityPledge" />
 				</div>
 			</div>
 		);

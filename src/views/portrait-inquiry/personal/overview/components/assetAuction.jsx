@@ -1,5 +1,7 @@
 import React from 'react';
-import { ColumnarEcharts, RingEcharts, Button } from '@/common';
+import { Button } from '@/common';
+import ColumnarEcharts from '../../../common/columnarEcharts';
+import RingEcharts from '../../../common/ringEcharts';
 
 export default class AssetAuction extends React.Component {
 	constructor(props) {
@@ -17,6 +19,7 @@ export default class AssetAuction extends React.Component {
 				{ value: 10, name: '即将开始' },
 				{ value: 5, name: '已流拍' },
 			],
+			colorArray: ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
 		};
 	}
 
@@ -55,10 +58,10 @@ export default class AssetAuction extends React.Component {
 				],
 			});
 		}
-	}
+	};
 
 	render() {
-		const { columnarData, RingData } = this.state;
+		const { columnarData, RingData, colorArray } = this.state;
 		return (
 			<div>
 				<div className="overview-container-title">
@@ -73,7 +76,7 @@ export default class AssetAuction extends React.Component {
 						<Button onClick={() => this.checkTime('all')}>全部 12</Button>
 					</div>
 					<ColumnarEcharts title="角色分布" Data={columnarData} id="assetAuction" />
-					<RingEcharts title="拍卖结果分布" Data={RingData} id="assetAuction" />
+					<RingEcharts title="拍卖结果分布" Data={RingData} id="assetAuction" colorArray={colorArray} />
 				</div>
 			</div>
 		);

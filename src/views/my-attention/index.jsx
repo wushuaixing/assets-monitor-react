@@ -91,6 +91,8 @@ export default class MyAttention extends React.Component {
 				_source.child = _source.child.map((item) => {
 					const _item = item;
 					if (item.id === 'YC020301') _item.number = res.Land;
+					if (item.id === 'YC020302') _item.number = res.Land;
+					if (item.id === 'YC020303') _item.number = res.Land;
 					return _item;
 				});
 				this.setState({

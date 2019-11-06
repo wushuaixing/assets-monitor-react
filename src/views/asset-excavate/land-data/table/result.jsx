@@ -4,7 +4,7 @@ import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
-import { Result } from '@/views/asset-excavate/land-data/table/common';
+import { Result } from './common';
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;

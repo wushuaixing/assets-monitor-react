@@ -1,5 +1,7 @@
 import React from 'react';
-import { ColumnarEcharts, RingEcharts, TimeLine } from '@/common';
+import ColumnarEcharts from '../../../common/columnarEcharts';
+import RingEcharts from '../../../common/ringEcharts';
+import TimeLine from '../../../common/timeLine';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -22,11 +24,14 @@ export default class Subrogation extends React.Component {
 				{ num: 2, year: 2017 },
 				{ num: 6, year: 2018 },
 			],
+			colorArray: ['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A'],
 		};
 	}
 
 	render() {
-		const { columnarData, RingData, timeLineData } = this.state;
+		const {
+			columnarData, RingData, timeLineData, colorArray,
+		} = this.state;
 		return (
 			<div>
 				<div className="overview-container-title">
@@ -37,7 +42,7 @@ export default class Subrogation extends React.Component {
 				<div className="overview-container-content">
 					<TimeLine title="年份分布" Data={timeLineData} id="subrogation" />
 					<ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />
-					<RingEcharts title="案件类型分布" Data={RingData} id="subrogation" />
+					<RingEcharts title="案件类型分布" Data={RingData} id="subrogation" colorArray={colorArray} />
 				</div>
 			</div>
 		);

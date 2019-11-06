@@ -8,6 +8,8 @@ require([
 	"zrender",
 	"echarts",
 	"echarts/chart/tree",
+	"echarts/chart/bar",
+	"echarts/chart/pie",
 ],function(zr,echarts){
 	window.echarts=echarts;
 	window.zrDefine={

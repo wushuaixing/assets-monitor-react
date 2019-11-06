@@ -7,9 +7,6 @@ import Download from './download';
 import Table from './commonTable';
 import SelectedNum from './selectedNum';
 import Ellipsis from './ellipsis';
-import RingEcharts from './ringEcharts/index.js';
-import ColumnarEcharts from './columnarEcharts';
-import TimeLine from './timeLine';
 import Icon from './icon';
 
 const timeRule = {
@@ -32,5 +29,5 @@ const timeRule = {
 };
 
 export {
-	Tabs, Badge, Button, Input, Spin, timeRule, Download, Table, SelectedNum, Ellipsis, RingEcharts, ColumnarEcharts, TimeLine, Icon,
+	Tabs, Badge, Button, Input, Spin, timeRule, Download, Table, SelectedNum, Ellipsis, Icon,
 };

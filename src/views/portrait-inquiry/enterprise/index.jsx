@@ -1,4 +1,6 @@
 import React from 'react';
+import { Affix, Icon } from 'antd';
+import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import QueryView from '../common/queryView';
 import { Tabs, Button } from '@/common';
@@ -7,9 +9,8 @@ import Assets from './assets';
 import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
-import { Affix, Icon } from 'antd';
-import { navigate } from '@reach/router';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
+
 import './style.scss';
 
 /* 基本选项 */
@@ -56,7 +57,7 @@ const EnterpriseInfo = (props) => {
 			<div className="intro-content">
 				<div className="intro-title">
 					<span className="yc-public-title-large-bold intro-title-name">
-						{'浙江天赐生态科技有限公司'}
+						浙江天赐生态科技有限公司
 						<img className="intro-title-tag" src={Dishonest} alt="" />
 					</span>
 					<span className="intro-title-status">续存</span>
@@ -84,7 +85,7 @@ const EnterpriseInfo = (props) => {
 			</div>
 			<Button className="intro-download" onClick={download}>
 				<Icon type="download" />
-				{'下载'}
+				下载
 			</Button>
 		</div>
 	);
@@ -96,14 +97,14 @@ const EnterpriseInfoSimple = (props) => {
 		<div className="enterprise-info">
 			<div className="intro-title">
 				<span className="yc-public-title-large-bold intro-title-name">
-					{'浙江天赐生态科技有限公司'}
+					浙江天赐生态科技有限公司
 					<img className="intro-title-tag" src={Dishonest} alt="" />
 				</span>
 				<span className="intro-title-status">续存</span>
 			</div>
 			<Button className="intro-download" onClick={download}>
 				<Icon type="download" />
-				{'下载'}
+				下载
 			</Button>
 		</div>
 	);
@@ -168,7 +169,6 @@ export default class Enterprise extends React.Component {
 							<Tabs.Simple
 								onChange={this.onSourceType}
 								source={tabConfig}
-								symbol="none"
 								defaultCurrent={sourceType}
 							/>
 							{childDom}

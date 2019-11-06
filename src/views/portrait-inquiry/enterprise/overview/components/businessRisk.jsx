@@ -1,5 +1,5 @@
 import React from 'react';
-import { ColumnarEcharts } from '@/common';
+import ColumnarEcharts from '../../../common/columnarEcharts';
 
 export default class BusinessRisk extends React.Component {
 	constructor(props) {
@@ -25,7 +25,7 @@ export default class BusinessRisk extends React.Component {
 					<span className="container-title-name">经营风险信息</span>
 				</div>
 				<div className="overview-container-content">
-					<ColumnarEcharts title="案由分布" Data={columnarData} id="involved" />
+					<ColumnarEcharts title="案由分布" Data={columnarData} id="BusinessRisk" />
 				</div>
 			</div>
 		);

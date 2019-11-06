@@ -113,6 +113,213 @@ const Result = {
 			</div>
 		</React.Fragment>
 	),
+	landUser: (text, rowContent) => (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify" style={{ width: 96 }}>原土地使用权人：</span>
+					<span className="list list-content text-ellipsis">
+						{/* {rowContent.landUse || '-'} */}
+						{
+							rowContent.landUse && rowContent.landUse.length > 6
+								? (
+									<Tooltip placement="topLeft" title={rowContent.landUse}>
+										<span>
+											{`${rowContent.landUse.substr(0, 6)}...`}
+										</span>
+									</Tooltip>
+								)
+								: (
+									<span>
+										{rowContent.landUse || '-'}
+									</span>
+								)
+						}
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 96 }}>现土地使用权人：</span>
+					<span className="list list-content">
+						{rowContent.area || '-'}
+					</span>
+				</li>
+			</div>
+		</React.Fragment>
+	),
+	landOwner: (text, rowContent) => (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify" style={{ width: 90 }}>土地抵押人：</span>
+					<span className="list list-content text-ellipsis">
+						{/* {rowContent.landUse || '-'} */}
+						{
+							rowContent.landUse && rowContent.landUse.length > 6
+								? (
+									<Tooltip placement="topLeft" title={rowContent.landUse}>
+										<span>
+											{`${rowContent.landUse.substr(0, 6)}...`}
+										</span>
+									</Tooltip>
+								)
+								: (
+									<span>
+										{rowContent.landUse || '-'}
+									</span>
+								)
+						}
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 90 }}>土地抵押权人：</span>
+					<span className="list list-content">
+						{rowContent.area || '-'}
+					</span>
+				</li>
+			</div>
+		</React.Fragment>
+	),
+	InfoTransferProject: (text, rowContent) => (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify">宗地坐落：</span>
+					<span className="list list-content text-ellipsis">
+						{/* {rowContent.landUse || '-'} */}
+						{
+							rowContent.landUse && rowContent.landUse.length > 6
+								? (
+									<Tooltip placement="topLeft" title={rowContent.landUse}>
+										<span>
+											{`${rowContent.landUse.substr(0, 6)}...`}
+										</span>
+									</Tooltip>
+								)
+								: (
+									<span>
+										{rowContent.landUse || '-'}
+									</span>
+								)
+						}
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">行政区划：</span>
+					<span className="list list-content text-ellipsis">
+						{/* {rowContent.landUse || '-'} */}
+						{
+							rowContent.landUse && rowContent.landUse.length > 6
+								? (
+									<Tooltip placement="topLeft" title={rowContent.landUse}>
+										<span>
+											{`${rowContent.landUse.substr(0, 6)}...`}
+										</span>
+									</Tooltip>
+								)
+								: (
+									<span>
+										{rowContent.landUse || '-'}
+									</span>
+								)
+						}
+					</span>
+				</li>
+			</div>
+		</React.Fragment>
+	),
+	transferInfo: (text, rowContent) => (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify">转让方式：</span>
+					<span className="list list-content text-ellipsis">{rowContent.supplyWay || '-'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">转让价格：</span>
+					<span className="list list-content">
+						{rowContent.purchasePrice ? `${rowContent.purchasePrice} 万元` : '-'}
+					</span>
+				</li>
+			</div>
+		</React.Fragment>
+	),
+	InfoMortgageLand: (text, rowContent) => (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify">土地用途：</span>
+					<span className="list list-content text-ellipsis">
+						{/* {rowContent.landUse || '-'} */}
+						{
+							rowContent.landUse && rowContent.landUse.length > 6
+								? (
+									<Tooltip placement="topLeft" title={rowContent.landUse}>
+										<span>
+											{`${rowContent.landUse.substr(0, 6)}...`}
+										</span>
+									</Tooltip>
+								)
+								: (
+									<span>
+										{rowContent.landUse || '-'}
+									</span>
+								)
+						}
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">面　　积：</span>
+					<span className="list list-content">
+						{rowContent.area || '-'}
+						公顷
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">评估金额：</span>
+					<span className="list list-content">
+						{rowContent.purchasePrice ? `${rowContent.purchasePrice} 万元` : '-'}
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 96 }}>土地使用权证号：</span>
+					<span className="list list-content">
+						{rowContent.area || '-'}
+					</span>
+				</li>
+			</div>
+		</React.Fragment>
+	),
+	InfoMortgage: (text, rowContent) => (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify">抵押面积：</span>
+					<span className="list list-content">
+						{rowContent.area || '-'}
+						公顷
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">抵押金额：</span>
+					<span className="list list-content">
+						{rowContent.purchasePrice ? `${rowContent.purchasePrice} 万元` : '-'}
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 96 }}>土地他项权证号：</span>
+					<span className="list list-content">
+						{rowContent.area || '-'}
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 96 }}>登记结束日期：</span>
+					<span className="list list-content">
+						{rowContent.area || '-'}
+					</span>
+				</li>
+			</div>
+		</React.Fragment>
+	),
 };
 const Transfer = {
 	AssetsInfo: (text, rowContent) => <div>{text || rowContent}</div>,
