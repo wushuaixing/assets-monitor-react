@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimeLine } from '@/common';
+import TimeLine from '../../../common/timeLine';
 
 export default class LostLetter extends React.Component {
 	constructor(props) {

@@ -36,7 +36,7 @@ const subItems = [
 	{
 		id: 4,
 		name: '股权穿透图',
-		total: 0,
+		total: 10,
 		disabled: true,
 		tagName: 'e-assets-equityPenetration',
 		component: EquityPenetration,

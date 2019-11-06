@@ -471,9 +471,28 @@ export default class StockRight extends React.Component {
 				x: 500,
 				y: 155,
 				textFont: 'normal 15px 微软雅黑',
-				text: '测试内容\n测试内容',
+				text: '测试内容',
 				textAlign: 'center',
 				color: '#333',
+				fontSize: 14,
+				lineWidth: 0,
+			},
+			highlightStyle: {
+				lineWidth: 0,
+				color: '#333',
+				strokeColor: 'rgba(255,255,255,0)',
+			},
+			zlevel: 4,
+
+		});
+		const shape2 = new Text({
+			style: {
+				x: 570,
+				y: 155,
+				textFont: 'normal 15px 微软雅黑',
+				text: '测试内容',
+				textAlign: 'center',
+				color: 'red',
 				fontSize: 14,
 				lineWidth: 0,
 			},
@@ -490,6 +509,8 @@ export default class StockRight extends React.Component {
 		shape.ndelete = true;
 		shape.hoverable = false;
 		myChart.getZrender().addShape(shape);
+		myChart.getZrender().addShape(shape2);
+
 		myChart.setOption(optionMethods(dataSource));
 	}
 

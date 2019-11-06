@@ -1,7 +1,7 @@
 import React from 'react';
-import {
-	RingEcharts, TimeLine, Button,
-} from '@/common';
+import { Button } from '@/common';
+import RingEcharts from '../../../common/ringEcharts';
+import TimeLine from '../../../common/timeLine';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimeLine } from '@/common';
+import TimeLine from '../../../common/timeLine';
 
 export default class ChattelMortgage extends React.Component {
 	constructor(props) {
@@ -46,7 +46,7 @@ export default class ChattelMortgage extends React.Component {
 							</div>
 						))
 					}
-					<TimeLine title="年份分布" Data={timeLineData} id="lostLetter" />
+					<TimeLine title="年份分布" Data={timeLineData} id="ChattelMortgage" />
 				</div>
 			</div>
 		);

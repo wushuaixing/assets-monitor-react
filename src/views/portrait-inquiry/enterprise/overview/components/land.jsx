@@ -1,5 +1,7 @@
 import React from 'react';
-import { ColumnarEcharts, RingEcharts, TimeLine } from '@/common';
+import ColumnarEcharts from '../../../common/columnarEcharts';
+import RingEcharts from '../../../common/ringEcharts';
+import TimeLine from '../../../common/timeLine';
 
 export default class Land extends React.Component {
 	constructor(props) {
@@ -35,9 +37,9 @@ export default class Land extends React.Component {
 					<span className="container-title-name">土地信息</span>
 				</div>
 				<div className="overview-container-content">
-					<RingEcharts title="信息类型分布" Data={RingData} />
-					<TimeLine title="年份分布" Data={timeLineData} />
-					<ColumnarEcharts title="角色分布" Data={columnarData} />
+					<RingEcharts title="信息类型分布" Data={RingData} id="Land" />
+					<TimeLine title="年份分布" Data={timeLineData} id="Land" />
+					<ColumnarEcharts title="角色分布" Data={columnarData} id="Land" />
 				</div>
 			</div>
 		);

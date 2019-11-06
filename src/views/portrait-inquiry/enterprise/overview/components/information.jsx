@@ -1,7 +1,7 @@
 import React from 'react';
-import {
-	RingEcharts, TimeLine, Button,
-} from '@/common';
+import { Button } from '@/common';
+import RingEcharts from '../../../common/ringEcharts';
+import TimeLine from '../../../common/timeLine';
 
 export default class Information extends React.Component {
 	constructor(props) {
@@ -83,8 +83,8 @@ export default class Information extends React.Component {
 						<Button style={{ marginRight: 10 }} onClick={() => this.checkTime('Court')}>开庭信息 8 条</Button>
 						<Button onClick={() => this.checkTime('referee')}>裁判文书 8 条</Button>
 					</div>
-					<TimeLine title="年份分布" Data={timeLineData} id="subrogation" />
-					<RingEcharts title="案件类型分布" Data={RingData} id="subrogation" />
+					<TimeLine title="年份分布" Data={timeLineData} id="Information" />
+					<RingEcharts title="案件类型分布" Data={RingData} id="Information" />
 				</div>
 			</div>
 		);

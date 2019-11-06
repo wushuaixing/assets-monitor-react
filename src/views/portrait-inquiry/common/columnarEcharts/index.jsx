@@ -93,7 +93,8 @@ class ColumnarEcharts extends React.Component {
 		return (
 			<div>
 				<div className="yc-columnar-title">{title}</div>
-				{/*<ReactECharts className="yc-columnar-rcharts" option={this.getOption(Data, id, title)} style={{ width: 532, height: Data.length * 40 }} />*/}
+				{/* <div className="yc-ring-rcharts" id={id} style={{ width: 532, height: Data.length * 40 }} /> */}
+				{/* <ReactECharts className="yc-columnar-rcharts" option={this.getOption(Data, id, title)} style={{ width: 532, height: Data.length * 40 }} /> */}
 			</div>
 		);
 	}

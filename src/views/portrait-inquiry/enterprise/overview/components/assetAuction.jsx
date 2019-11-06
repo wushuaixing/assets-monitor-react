@@ -1,5 +1,7 @@
 import React from 'react';
-import { ColumnarEcharts, RingEcharts, Button } from '@/common';
+import { Button } from '@/common';
+import ColumnarEcharts from '../../../common/columnarEcharts';
+import RingEcharts from '../../../common/ringEcharts';
 
 export default class AssetAuction extends React.Component {
 	constructor(props) {

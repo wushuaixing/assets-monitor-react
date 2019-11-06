@@ -1,5 +1,5 @@
 import React from 'react';
-import { RingEcharts } from '@/common';
+import RingEcharts from '../../../common/ringEcharts';
 
 export default class TaxViolation extends React.Component {
 	constructor(props) {

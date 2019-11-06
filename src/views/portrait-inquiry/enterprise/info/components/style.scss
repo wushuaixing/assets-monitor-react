@@ -1,6 +1,8 @@
 .yc-inquiry-public-table {
   .yc-base-content {
     margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 27px;
     width: 1043px;
     border: 1px solid $border-base;
     &:last-child {
@@ -9,6 +11,10 @@
     &:nth-child(2) {
       border-right: 0;
     }
+  }
+  .yc-base-table {
+    margin-top: 10px;
+    margin-bottom: 27px;
   }
   .yc-base-infoTitle {
     width: 180px;
