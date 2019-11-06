@@ -71,29 +71,47 @@ export default class TableIntact extends React.Component {
 	toGetColumns=() => [
 		{
 			title: '主要信息',
-			dataIndex: 'putReason',
+			dataIndex: 'fact',
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
 						{
-							value.trim() ? <Ellipsis content={row.putReason} width={600} /> : '--'
+							value.trim() ? <Ellipsis content={value} width={600} /> : '--'
 						}
 					</li>
 					<li>
 						<span className="list list-title align-justify">列入日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtPutDate)}</span>
-					</li>
-					<li>
+						<span className="list list-content" style={{ minWidth: 100 }}>{timeStandard(row.gmtPutDate)}</span>
+						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">决定机关</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.putDepartment || '-'}</span>
+						<span className="list list-content" style={{ maxWidth: 300 }}>{row.putDepartment || '-'}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify">列入原因</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content" style={{ minWidth: 200 }}>
+							{
+								row.putReason.trim()
+									? <Ellipsis content={row.putReason} width={200} /> : '--'
+							}
+						</span>
+						<span className="list-split" style={{ height: 16 }} />
+						<span className="list list-title align-justify">具体事实</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content none-width">
+							{
+									row.putReason.trim()
+										? <Ellipsis content={row.putReason} width={300} /> : '--'
+								}
+						</span>
 					</li>
 				</div>
 			),
 		}, {
 			title: '辅助信息',
-			width: 360,
+			width: 300,
 			render: removeSituation,
 		},
 	];

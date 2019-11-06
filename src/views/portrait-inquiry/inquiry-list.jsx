@@ -1,9 +1,9 @@
 import React from 'react';
-import { navigate } from '@reach/router';
+// import { navigate } from '@reach/router';
 import { Pagination } from 'antd';
 import QueryView from './common/queryView';
 import { inquiryList } from '@/utils/api/portrait-inquiry';
-import { Button, Spin, Table } from '@/common';
+import { Spin, Table } from '@/common';
 import { timeStandard } from '@/utils';
 
 export default class InquiryList extends React.Component {
@@ -19,7 +19,7 @@ export default class InquiryList extends React.Component {
 	}
 
 	componentWillMount() {
-		// this.toGetData();
+		this.toGetData();
 	}
 
 	// 当前页数变化
@@ -29,34 +29,29 @@ export default class InquiryList extends React.Component {
 
 	toGetColumns=() => [
 		{
-			title: '信息',
-			dataIndex: 'owner',
-		}, {
-			title: '关联信息',
-			width: 360,
+			title: '主要信息',
+			dataIndex: 'name',
 			render: (value, row) => (
 				<div className="assets-info-content">
+					<li className="yc-public-large-bold yc-em-tag" style={{ margin: '10px 0' }} dangerouslySetInnerHTML={{ __html: value }} />
 					<li>
-						<span className="list list-content">{row.state === 0 ? '有效' : '无效'}</span>
-					</li>
-					{
-						row.state === 1 ? [
-							<li>
-								<span className="list list-title align-justify">注销时间</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{row.regDate || '-'}</span>
-							</li>,
-							<li>
-								<span className="list list-title align-justify">注销原因</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{timeStandard(row.cancelReason) || '-'}</span>
-							</li>,
-						] : null
-					}
-					<li>
-						<span className="list list-title align-justify">登记编号</span>
+						<span className="list list-title">法定代表人</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.regNumber || '-'}</span>
+						<span className="list list-content" style={{ minWidth: 40 }}>
+							{row.legalPersonName || '--'}
+						</span>
+						<span className="list-split" style={{ height: 16 }} />
+						<span className="list list-title">注册资本</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content" style={{ minWidth: 130 }}>
+							{row.regCapital || '--'}
+						</span>
+						<span className="list-split" style={{ height: 16 }} />
+						<span className="list list-title ">成立日期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">
+							{timeStandard(row.estiblishTime)}
+						</span>
 					</li>
 				</div>
 			),
@@ -68,7 +63,7 @@ export default class InquiryList extends React.Component {
 		this.setState({ loading: true });
 		inquiryList({
 			page: page || 1,
-			name: '阿里巴巴',
+			name: '刀剑厂',
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -104,14 +99,15 @@ export default class InquiryList extends React.Component {
 						<span style={{ fontWeight: 'bold', margin: '0 5px' }}>{total || 0}</span>
 						<span>家可能符合条件的企业</span>
 					</div>
-					<div className="content-list">
-						<Button
-							onClick={() => navigate('/inquiry/enterprise')}
-						>
-							{'=> 企业查询详情'}
-						</Button>
+					<div className="content-list" style={{ paddingTop: 2 }}>
+						{/* <Button */}
+						{/* onClick={() => navigate('/inquiry/enterprise')} */}
+						{/* > */}
+						{/* {'=> 企业查询详情'} */}
+						{/* </Button> */}
 						<Spin visible={loading}>
 							<Table
+								className="yc-none-background"
 								rowClassName={() => 'yc-assets-auction-table-row'}
 								columns={this.toGetColumns()}
 								dataSource={dataSource}

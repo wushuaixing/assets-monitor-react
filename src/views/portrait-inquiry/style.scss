@@ -44,7 +44,11 @@
     }
   }
   .yc-inquiry-list{
-
+   .assets-info-content li {
+     .list-title{
+       width: auto;
+     }
+   }
     .list-content-total{
       padding:16px 20px;
       border-bottom: 1px solid $border-base;

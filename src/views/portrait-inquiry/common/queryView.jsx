@@ -26,6 +26,17 @@ export default class QueryView extends React.Component {
 		}
 	};
 
+	onClick=() => {
+		const { onQuery } = this.props;
+		const { obligorType, obligorName, obligorNumber } = this.state;
+		const obj = {
+			type: obligorType,
+			name: obligorName,
+			number: obligorNumber,
+		};
+		if (onQuery)onQuery(obj);
+	};
+
 	render() {
 		const { obligorType, obligorName, obligorNumber } = this.state;
 		return (
@@ -66,7 +77,7 @@ export default class QueryView extends React.Component {
 					) : null
 				}
 				<div className="yc-query-item" style={{ float: 'right' }}>
-					<Button type="primary" style={{ width: 85 }} size="large">查询</Button>
+					<Button type="primary" style={{ width: 85 }} size="large" onClick={this.onClick}>查询</Button>
 				</div>
 			</div>
 		);

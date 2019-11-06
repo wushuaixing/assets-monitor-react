@@ -465,13 +465,13 @@ export default class StockRight extends React.Component {
 	componentDidMount() {
 		console.log(zr);
 		const myChart = ec.init(document.getElementById('zRenderEcharts'));
-		const { Text } = global.zrDefine;
+		const { Text, Circle } = global.zrDefine;
 		const shape = new Text({
 			style: {
 				x: 500,
 				y: 155,
 				textFont: 'normal 15px 微软雅黑',
-				text: '测试内容\n测试内容',
+				text: '测试内容试内容',
 				textAlign: 'center',
 				color: '#333',
 				fontSize: 14,
@@ -490,6 +490,19 @@ export default class StockRight extends React.Component {
 		shape.ndelete = true;
 		shape.hoverable = false;
 		myChart.getZrender().addShape(shape);
+		const shapeCircle = new Circle({
+			style: {
+				x: 440,
+				y: 155,
+				r: 3,
+				brushType: 'both',
+				color: 'red',
+				strokeColor: 'red',
+				lineWidth: 3,
+			},
+		});
+		myChart.getZrender().addShape(shapeCircle);
+
 		myChart.setOption(optionMethods(dataSource));
 	}
 

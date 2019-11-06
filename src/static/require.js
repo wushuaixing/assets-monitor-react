@@ -11,6 +11,7 @@ require([
 ],function(zr,echarts){
 	window.echarts=echarts;
 	window.zrDefine={
-		Text:require('zrender/shape/Text')
+		Text:require('zrender/shape/Text'),
+		Circle:require('zrender/shape/Circle'),
 	};
 });

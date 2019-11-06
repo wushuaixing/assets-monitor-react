@@ -352,3 +352,12 @@ export const handleRule = source => ruleMethods.handleRule(source);
  * @returns {Array}
  */
 export const { toGetRuleSource } = ruleMethods;
+
+export const toEmpty = (data) => {
+	if (data) {
+		if (typeof data === 'string') return data.trim();
+		if (typeof data === 'number') return data.toString().trim();
+		return JSON.toString(data);
+	}
+	return '';
+};
