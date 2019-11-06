@@ -1,10 +1,19 @@
 require.config({
 	paths: {
-		zrender: '../static/echarts/zrender',
-	},
+		"zrender": "../static/echarts/zrender",
+		"echarts":"../static/echarts",
+	}
 });
-require(['zrender'], () => {
-	window.zrDefine = {
-		Text: require('zrender/shape/Text'),
+require([
+	"zrender",
+	"echarts",
+	"echarts/chart/tree",
+	"echarts/chart/bar",
+	"echarts/chart/pie",
+],function(zr,echarts){
+	window.echarts=echarts;
+	window.zrDefine={
+		Text:require('zrender/shape/Text'),
+
 	};
 });
