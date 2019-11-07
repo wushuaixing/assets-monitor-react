@@ -7,32 +7,6 @@ const getOption = (Data, id, title) => ({
 		trigger: 'item',
 		formatter: '{a} <br/>{b} : {c} ({d}%)',
 	},
-	// legend: {
-	// 	// orient: 'vertical',
-	// 	orient: 'vertical',
-	// 	// 水平对齐方式，可设置为'left','center','right',number(px)
-	// 	x: '300px',
-	// 	// 垂直对齐方式，可设置为'top','center','bottom',number(px)
-	// 	y: 'center',
-	// 	itemGap: 5,
-	// 	// 距顶部的距离，其他同理
-	// 	zlevel: 3,
-	// 	data: Data,
-	// 	formatter: (name) => {
-	// 		let res = '';
-	// 		for (let i = 0; i < Data.length; i += 1) {
-	// 			if (Data[i].name === name) {
-	// 				res = Data[i].value;
-	// 			}
-	// 		}
-	// 		const arr = [
-	// 			`${name}`,
-	// 			`${res} 条`,
-	// 		];
-	//
-	// 		return arr.join('');
-	// 	},
-	// },
 	color: ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
 	series: [
 		{
@@ -101,7 +75,7 @@ class RingEcharts extends React.Component {
 			y: 50,
 		};
 		dataList.forEach((item, index) => {
-			const x = base.x + (item.name.length * 12) * (index > 2 ? 1 : 0) + (index > 2 ? 1 : 0) * 120;
+			const x = base.x + (index > 2 ? 1 : 0) * 60 + (index > 2 ? 1 : 0) * 120;
 			const y = base.y + 20 * (index > 2 ? index - 3 : index);
 			const shapeCircle = new Circle({
 				style: {
@@ -127,8 +101,8 @@ class RingEcharts extends React.Component {
 			text1.hoverable = false;
 			const text2 = new Text({
 				style: {
-					x: x + 90,
-					y,
+					x: x + 110,
+					y: y + 2,
 					text: item.value,
 					textFont: 'bold 12px Arial',
 					textAlign: 'right',
@@ -138,8 +112,8 @@ class RingEcharts extends React.Component {
 			text2.hoverable = false;
 			const text3 = new Text({
 				style: {
-					x: x + 110,
-					y,
+					x: x + 130,
+					y: y + 2,
 					text: '条',
 					textFont: 'normal 12px verdana',
 					textAlign: 'right',

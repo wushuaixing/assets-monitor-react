@@ -55,6 +55,18 @@ body,td,th{font-size:14px;color:#20242e}
   height: 6px;
   margin-right: 5px;
 }
+.yc-case-type {
+  background-image: url('../img/icon/icon_tag.png');
+  display: inline-block;
+  vertical-align: top;
+  width: 68px;
+  height: 20px;
+  margin:0 20px;
+  line-height: 19px;
+  text-align: center;
+  font-size: 13px;
+  color: #FFFFFF;
+}
 
 .yc-table-read {
   background-image: url('../img/icon/icon_reddot.png');
