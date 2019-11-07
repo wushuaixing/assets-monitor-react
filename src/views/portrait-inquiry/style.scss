@@ -1,77 +1,82 @@
 //  画像查询 样式
-.yc-portrait-inquiry {
-  .yc-inquiry-common {
+.yc-portrait-inquiry{
+  .yc-inquiry-common{
     padding: 20px;
-    .yc-query-item {
+    .yc-query-item{
       display: inline-block;
       vertical-align: top;
       margin-right: 10px;
     }
   }
-  .yc-inquiry-view {
+  .yc-inquiry-view{
     padding: 20px 0;
-    .yc-inquiry-title {
+    .yc-inquiry-title{
       padding: 100px 0 70px 0;
       font-size: 36px;
       color: $common-base;
       text-align: center;
     }
-    .yc-inquiry-content {
+    .yc-inquiry-content{
       padding: 36px;
       width: 800px;
       margin: 0 auto;
       border: 1px solid $common-base;
-      .yc-query-item {
-        margin: 12px 0;
-        .ant-radio-wrapper {
+      .yc-query-item{
+        margin:12px 0;
+        .ant-radio-wrapper{
           font-size: 14px;
+
         }
       }
-      .yc-query-item-text1 {
+      .yc-query-item-text1{
         margin-right: 20px;
       }
-      .yc-query-item-text1,
-      .yc-query-item-text2 {
+      .yc-query-item-text1,.yc-query-item-text2{
         display: inline-block;
       }
     }
-    .yc-to-go-list {
+    .yc-to-go-list{
       text-align: center;
-      button {
+      button{
         display: inline-block;
         margin: 20px 20px 20px 0;
       }
     }
   }
-  .yc-inquiry-list {
-    .list-content-total {
-      padding: 16px 20px;
+  .yc-inquiry-list{
+   .assets-info-content li {
+     .list-title{
+       width: auto;
+     }
+   }
+    .list-content-total{
+      padding:16px 20px;
       border-bottom: 1px solid $border-base;
-      span {
-        @extend .yc-public-normal;
+      span{
+        @extend .yc-public-normal
       }
     }
-    .content-list {
+    .content-list{
       padding: 20px;
     }
   }
-  .mark-line {
-    height: 12px;
+  .mark-line{
+    height:12px ;
     width: 100%;
-    background-color: #f2f2f2;
+    background-color: #F2F2F2;
   }
-  .yc-intro-sub-items {
+  .yc-intro-sub-items{
     padding: 16px 0 12px 0;
     border-bottom: 1px solid $border-base;
-    .intro-btn-items {
+    .intro-btn-items{
       margin-right: 16px;
       min-width: 92px;
     }
   }
-  .yc-inquiry-public-table {
-    .yc-tabs-simple-prefix {
+  .yc-inquiry-public-table{
+    .yc-tabs-simple-prefix{
       @extend .yc-public-normal-bold;
-      width: 90px;
+      width:90px;
       line-height: 14px;
       border-right: 1px solid $border-base;
       border-left: 3px solid $text-link;
@@ -80,11 +85,11 @@
       padding-left: 7px;
       float: left;
     }
-    .inquiry-public-table {
+    .inquiry-public-table{
       padding-top: 5px;
     }
   }
-  .yc-table-pagination {
+  .yc-table-pagination{
     padding-bottom: 10px;
   }
   .yc-assets-auction .assets-info-content li .list-title {

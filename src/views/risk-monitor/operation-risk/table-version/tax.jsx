@@ -1,7 +1,8 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Spin, Table } from '@/common';
+import { Ellipsis, Spin, Table } from '@/common';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
+import { toEmpty } from '@/utils';
 
 const api = manage.tax;
 
@@ -23,16 +24,47 @@ export default class TableIntact extends React.Component {
 	toGetColumns=() => [
 		{
 			title: '主要信息',
-			dataIndex: 'caseNumber',
+			dataIndex: 'caseNature',
+			render: (value, row) => {
+				const { caseNature: ca, illegalFact: ill, punish } = row;
+				console.log(ca, ill, punish);
+				return (
+					<div className="assets-info-content">
+						<li style={{ fontSize: 14 }}>
+							{ toEmpty(ca) ? <Ellipsis content={ca} width={600} /> : '--' }
+						</li>
+						<li>
+							<span className="list list-title align-justify">违法事实</span>
+							<span className="list list-title-colon">:</span>
+							<span className="list list-content">
+								{ toEmpty(ill) ? <Ellipsis content={ill} width={600} tooltip /> : '--' }
+							</span>
+						</li>
+						<li>
+							<span className="list list-title align-justify">处罚情况</span>
+							<span className="list list-title-colon">:</span>
+							<span className="list list-content">
+								{ toEmpty(punish) ? <Ellipsis content={punish} width={600} tooltip /> : '--' }
+							</span>
+						</li>
+					</div>
+				);
+			},
 		}, {
 			title: '辅助信息',
-			width: 360,
+			width: 300,
 			render: (value, row) => (
 				<div className="assets-info-content">
+					<li><br /></li>
 					<li>
 						<span className="list list-title align-justify">受理法院</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{row.court || '-'}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify">移除日期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.publishTime || '--'}</span>
 					</li>
 				</div>
 			),

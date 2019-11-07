@@ -60,7 +60,7 @@ export default class AssetAuction extends React.Component {
 				],
 			});
 		}
-	}
+	};
 
 	render() {
 		const { columnarData, RingData } = this.state;

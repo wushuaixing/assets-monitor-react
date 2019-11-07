@@ -1,11 +1,57 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Spin, Table } from '@/common';
-import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
-import associationLink from '@/views/_common/association-link';
+import {
+	Spin, Table, Ellipsis, Icon,
+} from '@/common';
+import { timeStandard } from '@/utils';
+import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 
-const { court: abnormal } = lawsuits;
-
+const api = manage.abnormal;
+// removeSituation 移除情况
+const removeSituation = (val, row) => {
+	const { gmtRemoveDate, removeReason, removeDepartment } = row;
+	if (!gmtRemoveDate) {
+		return (
+			<div className="assets-info-content">
+				<li>
+					<Icon
+						type="icon-dot"
+						style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }}
+					/>
+					<span className="list list-content">未移除</span>
+				</li>
+			</div>
+		);
+	}
+	return (
+		<div className="assets-info-content">
+			<li>
+				<Icon
+					type="icon-dot"
+					style={{ fontSize: 12, color: '#7c7c7c', marginRight: 3 }}
+				/>
+				<span className="list list-content">已移除</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify list-title-50">移除日期</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{timeStandard(gmtRemoveDate)}</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify list-title-50">移除原因</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">
+					<Ellipsis content={removeReason} tooltip line={1} width={150} />
+				</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify list-title-50">决定机关</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{removeDepartment || '--'}</span>
+			</li>
+		</div>
+	);
+};
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -24,25 +70,31 @@ export default class TableIntact extends React.Component {
 
 	toGetColumns=() => [
 		{
-			title: '拍卖信息',
-			dataIndex: 'caseNumber',
-		}, {
-			title: '关联信息',
-			width: 360,
+			title: '主要信息',
+			dataIndex: 'putReason',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li>
-						<span className="list list-title align-justify">审理法院</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
+					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
+						{
+							value.trim() ? <Ellipsis content={row.putReason} width={600} /> : '--'
+						}
 					</li>
 					<li>
-						<span className="list list-title align-justify">关联信息</span>
+						<span className="list list-title align-justify">列入日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{associationLink(value, row, 'Court')}</span>
+						<span className="list list-content">{timeStandard(row.gmtPutDate)}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify">决定机关</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.putDepartment || '-'}</span>
 					</li>
 				</div>
 			),
+		}, {
+			title: '辅助信息',
+			width: 300,
+			render: removeSituation,
 		},
 	];
 
@@ -54,7 +106,7 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		this.setState({ loading: true });
-		abnormal.list({
+		api.list({
 			page: page || 1,
 		}).then((res) => {
 			if (res.code === 200) {

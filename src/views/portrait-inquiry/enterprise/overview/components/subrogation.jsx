@@ -67,7 +67,7 @@ export default class Subrogation extends React.Component {
 				],
 			});
 		}
-	}
+	};
 
 	render() {
 		const { RingData, timeLineData } = this.state;

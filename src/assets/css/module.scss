@@ -30,6 +30,17 @@
     .list-content {
       max-width: 160px;
     }
+    .none-width{
+      max-width: none;
+      width: auto;
+    }
+    .list-split{
+      display: inline-block;
+      width: 1px;
+      height: 100%;
+      margin: 0 15px 0 10px;
+      background: $border-base;
+    }
   }
 
   .list-dishonest {
@@ -131,6 +142,7 @@
       .list-content {
         max-width: 160px;
       }
+
     }
 
     .list-dishonest {
