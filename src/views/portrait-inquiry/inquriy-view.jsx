@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import { Button, Input } from '@/common';
-import { Radio, Icon } from 'antd';
+import { Radio, Icon, message } from 'antd';
 
 export default class InitView extends React.Component {
 	constructor(props) {
@@ -13,6 +13,27 @@ export default class InitView extends React.Component {
 			obligorNumber: '',
 		};
 	}
+
+	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.handleQuery();
+				document.activeElement.blur();
+			}
+		}
+	};
+
 
 	toNavigate=(path) => {
 		navigate(`/inquiry/${path}`);
@@ -29,6 +50,21 @@ export default class InitView extends React.Component {
 			});
 		} else {
 			this.setState({ [field]: value });
+		}
+	};
+
+	/* 一键查询债务人画像 */
+	handleQuery=() => {
+		const { obligorType: type, obligorName: name, obligorNumber: num } = this.state;
+		if (type === 1) {
+			if (name.length < 2) message.error('请输入更多的相关信息');
+			else navigate(`/inquiry/list?type=1&name=${name}`);
+		} else if (type === 2) {
+			if (name && num) {
+				navigate(`/inquiry/list?type=2&name=${name}&num=${num}`);
+			} else {
+				message.error('债务人名称或身份证号不能为空');
+			}
 		}
 	};
 
@@ -74,7 +110,7 @@ export default class InitView extends React.Component {
 						) : null
 					}
 					<div className="yc-query-item" style={{ textAlign: 'center', marginTop: 80 }}>
-						<Button type="primary" style={{ width: 186 }} size="large">
+						<Button type="primary" style={{ width: 186 }} size="large" onClick={this.handleQuery}>
 							<Icon type="search" style={{ marginRight: 10 }} />
 							{'一键查询债务人画像'}
 						</Button>

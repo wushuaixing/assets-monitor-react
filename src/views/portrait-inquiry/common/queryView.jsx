@@ -1,16 +1,48 @@
 import React from 'react';
 import { Radio } from 'antd';
 import { Button, Input } from '@/common';
+import { getQueryByName } from '@/utils';
 
 export default class QueryView extends React.Component {
 	constructor(props) {
 		super(props);
+		const res = this.toGetQueryValue();
 		this.state = {
-			obligorType: props.type || 1,
-			obligorName: '',
-			obligorNumber: '',
+			obligorType: props.type || res.type || 1,
+			obligorName: res.name || '',
+			obligorNumber: res.num || '',
 		};
 	}
+
+	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
+		this.onClick();
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.onClick();
+				document.activeElement.blur();
+			}
+		}
+	};
+
+
+	toGetQueryValue=() => {
+		const { href } = window.location;
+		const type = Number(getQueryByName(href, 'type'));
+		const name = getQueryByName(href, 'name');
+		const num = getQueryByName(href, 'num');
+		return { type, name, num };
+	};
 
 	onHandleChange = (e, field) => {
 		const { obligorType } = this.state;
