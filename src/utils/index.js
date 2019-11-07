@@ -361,3 +361,12 @@ export const toEmpty = (data) => {
 	}
 	return '';
 };
+
+/* 案件类型 */
+export const getCaseType = (caseType) => {
+	if (caseType === 1) return '普通案件';
+	if (caseType === 2) return '破产案件';
+	if (caseType === 3) return '执行案件';
+	if (caseType === 4) return '终本案件';
+	return '';
+};

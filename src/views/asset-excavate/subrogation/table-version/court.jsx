@@ -3,7 +3,7 @@ import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import associationLink from '@/views/_common/association-link';
-import { linkDom, timeStandard } from '@/utils';
+import { linkDom, timeStandard, getCaseType } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 const { court } = assets;
@@ -30,10 +30,13 @@ export default class TableIntact extends React.Component {
 			dataIndex: 'caseNumber',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
+					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
 							{linkDom('', value.replace('（', '('))}
 						</span>
+						{
+							row.caseType ? <span className="yc-case-type">{getCaseType(row.caseType)}</span> : ''
+						}
 					</li>
 					<li>
 						<span className="list list-title align-justify">开庭日期</span>
