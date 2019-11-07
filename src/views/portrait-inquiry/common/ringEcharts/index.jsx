@@ -101,7 +101,7 @@ class RingEcharts extends React.Component {
 			text1.hoverable = false;
 			const text2 = new Text({
 				style: {
-					x: x + 90,
+					x: x + 110,
 					y: y + 2,
 					text: item.value,
 					textFont: 'bold 12px Arial',
@@ -112,7 +112,7 @@ class RingEcharts extends React.Component {
 			text2.hoverable = false;
 			const text3 = new Text({
 				style: {
-					x: x + 110,
+					x: x + 130,
 					y: y + 2,
 					text: '条',
 					textFont: 'normal 12px verdana',
