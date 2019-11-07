@@ -126,7 +126,7 @@ export default class StockRight extends React.Component {
 		const source = this.toCreatOption();
 		this.myChart = window.echarts.init(document.getElementById('zRenderEcharts'));
 		this.myChart.setOption(optionMethods(source.holderData, source.investorData));
-		this.toAddShape();
+		this.initZRender();
 	}
 
 	toCreatOption=() => {
@@ -177,7 +177,7 @@ export default class StockRight extends React.Component {
 		};
 	};
 
-	toAddShape=() => {
+	initZRender=() => {
 		const { Text } = window.zrDefine;
 		const myZr = this.myChart.getZrender();
 		const shapeList = myZr.storage.getShapeList();

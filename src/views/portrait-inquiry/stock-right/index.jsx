@@ -1,458 +1,119 @@
 import React from 'react';
-// import ReactECharts from 'echarts-for-react';
-import bg from '@/assets/background.png';
 import './style.scss';
+import analogData from './analog-data';
+import iconAdd from '@/assets/img/icon/icon_add.png';
+import iconDelete from '@/assets/img/icon/icon_delete.png';
 
-import eData from './data';
-// import echarts from '@/static/echarts/echarts';
-// import '@/static/echarts/chart/bar';
-// import '@/static/echarts/echarts-all';
-// import '@/static/echarts/zrender';
-// const my = require('@/static/echarts/zrender');
-const zr = window.zrender;
-const ec = window.echarts;
-
-const dataSource = [{
-	name: '手机',
-	value: 6,
-	symbolSize: [90, 70],
-	symbol: 'circle',
-	itemStyle: {
+const obligorType = {
+	1: {
 		normal: {
+			color: '#fff',
+			borderWidth: '1',
+			borderColor: '#ccc',
 			label: {
-				show: false,
+				show: true,
+				position: 'inside',
+				textStyle: {
+					fontSize: 14,
+					color: '#333',
+					fontStyle: 'normal',
+				},
+			},
+		},
+		emphasis: {
+			color: 'rgba(255,255,255,0)',
+			borderWidth: '1',
+			borderColor: 'rgba(255,255,255,0)',
+		},
+	},
+	2: {
+		normal: {
+			color: '#f3f9fe',
+			borderColor: '#1e81e1',
+			borderWidth: '1',
+			label: {
+				show: true,
+				position: 'inside',
+				textStyle: {
+					color: 'black',
+				},
 			},
 		},
 	},
-	children: [{
-		name: '530',
-		value: 4,
-		symbol: 'droplet',
-		formatter: 'Template formatter: <br/>{b}<br/>{a}:{c}<br/>{a1}:{c1}',
+};
 
-		itemStyle: {
-			normla: {
-				label: {
-					position: 'outer',
-					formatter: '123123123123',
-				},
-			},
-		},
-		symbolSize: [60, 60],
-		toggle: false,
-		children: [],
-		remark: [{
-			name: '小米1',
-			symbol: 'circle',
-			symbolSize: 20,
-			value: 4,
-			itemStyle: {
-				normal: {
-					color: '#fa6900',
-					label: {
-						show: true,
-						position: 'right',
-					},
-
-				},
-				emphasis: {
-					label: {
-						show: false,
-					},
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米2',
-			value: 4,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						show: true,
-						position: 'right',
-						formatter: '{b}',
-					},
-					color: '#fa6900',
-					borderWidth: 2,
-					borderColor: '#cc66ff',
-
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米3',
-			value: 2,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						position: 'right',
-					},
-					color: '#fa6900',
-					brushType: 'stroke',
-					borderWidth: 1,
-					borderColor: '#999966',
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		],
-	},
-	{
-		name: '苹果',
-		symbol: 'circle',
-		symbolSize: [60, 60],
-		itemStyle: {
-			normal: {
-				color: '#F3F9FE',
-				borderWidth: '1',
-				borderColor: '#128bed',
-				label: {
-					show: !0,
-					position: 'inside',
-					textStyle: {
-						color: '#333',
-						fontFamily: 'MicroSoft YaHei',
-						fontSize: 14,
-						fontStyle: 'normal',
-					},
-				},
-			},
-			emphasis: {
-				color: 'rgba(255,255,255,0)',
-				borderWidth: '1',
-				borderColor: 'rgba(255,255,255,0)',
-			},
-
-		},
-		value: 4,
-		toggle: false,
-		children: [],
-		remark: [{
-			name: '小米2',
-			value: 4,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						show: true,
-						position: 'right',
-						formatter: '{b}',
-					},
-					color: '#fa6900',
-					borderWidth: 2,
-					borderColor: '#cc66ff',
-
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		}],
-	},
-	{
-		name: '华为',
-		symbol: 'rectangle',
-		symbolSize: [146, 50],
-		itemStyle: {
-			normal: {
-				color: '#fff',
-				borderWidth: '1',
-				borderColor: '#ccc',
-				label: {
-					show: true,
-					position: 'inside',
-					textStyle: {
-						fontFamily: 'MicroSoft YaHei',
-						fontSize: 18,
-						color: '#333',
-						fontStyle: 'normal',
-					},
-				},
-			},
-			emphasis: {
-				color: 'rgba(255,255,255,0)',
-				borderWidth: '1',
-				borderColor: 'rgba(255,255,255,0)',
-			},
-		},
-		value: 2,
-		toggle: false,
-		children: [],
-		remark: [{
-			name: '小米1',
-			symbol: 'circle',
-			symbolSize: 20,
-			value: 4,
-			itemStyle: {
-				normal: {
-					color: '#fa6900',
-					label: {
-						show: true,
-						position: 'right',
-					},
-
-				},
-				emphasis: {
-					label: {
-						show: false,
-					},
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米2',
-			value: 4,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						show: true,
-						position: 'right',
-						formatter: '{b}',
-					},
-					color: '#fa6900',
-					borderWidth: 2,
-					borderColor: '#cc66ff',
-
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米3',
-			value: 2,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						position: 'right',
-					},
-					color: '#fa6900',
-					brushType: 'stroke',
-					borderWidth: 1,
-					borderColor: '#999966',
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米3',
-			value: 2,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						position: 'right',
-					},
-					color: '#fa6900',
-					brushType: 'stroke',
-					borderWidth: 1,
-					borderColor: '#999966',
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米3',
-			value: 2,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						position: 'right',
-					},
-					color: '#fa6900',
-					brushType: 'stroke',
-					borderWidth: 1,
-					borderColor: '#999966',
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		],
-	},
-	{
-		name: '联想',
-		symbol: 'circle',
-		symbolSize: [100, 40],
-		itemStyle: {
-			normal: {
-				label: {
-					show: false,
-				},
-
-			},
-		},
-		toggle: false,
-		children: [],
-		remark: [{
-			name: '小米1',
-			symbol: 'circle',
-			symbolSize: 20,
-			value: 4,
-			itemStyle: {
-				normal: {
-					color: '#fa6900',
-					label: {
-						show: true,
-						position: 'right',
-					},
-
-				},
-				emphasis: {
-					label: {
-						show: false,
-					},
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米2',
-			value: 4,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						show: true,
-						position: 'right',
-						formatter: '{b}',
-					},
-					color: '#fa6900',
-					borderWidth: 2,
-					borderColor: '#cc66ff',
-
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米3',
-			value: 2,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						position: 'right',
-					},
-					color: '#fa6900',
-					brushType: 'stroke',
-					borderWidth: 1,
-					borderColor: '#999966',
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米3',
-			value: 2,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						position: 'right',
-					},
-					color: '#fa6900',
-					brushType: 'stroke',
-					borderWidth: 1,
-					borderColor: '#999966',
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		{
-			name: '小米3',
-			value: 2,
-			symbol: 'circle',
-			symbolSize: 20,
-			itemStyle: {
-				normal: {
-					label: {
-						position: 'right',
-					},
-					color: '#fa6900',
-					brushType: 'stroke',
-					borderWidth: 1,
-					borderColor: '#999966',
-				},
-				emphasis: {
-					borderWidth: 0,
-				},
-			},
-		},
-		],
-		value: 2,
-	},
-	],
-}];
-const optionMethods = _dataSource => ({
+/* 处理配置文件，并返回 eCharts配置 */
+const optionMethods = (source1, source2) => ({
 	calculable: false,
-	series: [{
-		name: '树图',
-		type: 'tree',
-		rootLocation: { x: '50%', y: '30%' }, // 根节点位置  {x: 'center',y: 10}
-		nodePadding: 20,
-		symbol: 'circle',
-		orient: 'vertical',
-		roam: true,
-		symbolSize: 40,
-		itemStyle: {
-			normal: {
-				color: '#fff',
-				borderWidth: '1',
-				borderColor: '#128bed',
-				label: {
-					show: !0,
-					position: 'inside',
-					textStyle: {
-						color: '#000',
-						fontFamily: 'MicroSoft YaHei',
-						fontSize: 16,
-						fontStyle: 'normal',
+	series: [
+		{
+			name: '股东',
+			type: 'tree',
+			rootLocation: { x: '50%', y: '50%' }, // 根节点位置  {x: 'center',y: 10}
+			nodePadding: 20,
+			layerPadding: 40,
+			symbol: 'circle',
+			orient: 'vertical',
+			direction: 'inverse',
+			roam: true,
+			symbolSize: 40,
+			itemStyle: {
+				normal: {
+					color: '#128bed',
+					borderWidth: '1',
+					borderColor: '#128bed',
+					label: {
+						position: 'inside',
+						textStyle: {
+							color: '#ffffff',
+							fontSize: 14,
+							fontStyle: 'normal',
+						},
 					},
 				},
+				emphasis: {
+					color: 'rgba(255,255,255,0)',
+					borderWidth: '1',
+					borderColor: '#128bed',
+				},
 			},
-			emphasis: {
-				color: 'rgba(255,255,255,0)',
-				borderWidth: '1',
-				borderColor: '#128bed00',
-			},
+			data: source1,
 		},
-		data: _dataSource,
-	}],
+		{
+			name: '投资',
+			type: 'tree',
+			rootLocation: { x: '50%', y: '50%' }, // 根节点位置  {x: 'center',y: 10}
+			nodePadding: 20,
+			layerPadding: 40,
+			symbol: 'circle',
+			orient: 'vertical',
+			roam: true,
+			symbolSize: 40,
+			itemStyle: {
+				normal: {
+					color: '#128bed',
+					borderWidth: '1',
+					borderColor: '#128bed',
+					label: {
+						show: !0,
+						position: 'inside',
+						textStyle: {
+							color: '#ffffff',
+							fontSize: 16,
+							fontStyle: 'normal',
+						},
+					},
+				},
+				emphasis: {
+					color: 'rgba(255,255,255,0)',
+					borderWidth: '1',
+					borderColor: '#128bed00',
+				},
+			},
+			data: source2,
+		},
+
+	],
 });
 
 export default class StockRight extends React.Component {
@@ -463,165 +124,147 @@ export default class StockRight extends React.Component {
 
 
 	componentDidMount() {
-		console.log(zr);
-		const myChart = ec.init(document.getElementById('zRenderEcharts'));
-		const { Text, Circle } = window.zrDefine;
-		const shape = new Text({
-			style: {
-				x: 500,
-				y: 155,
-				textFont: 'normal 15px 微软雅黑',
-				text: '测试内容\n测试内容',
-				textAlign: 'center',
-				color: '#333',
-				fontSize: 14,
-				lineWidth: 0,
-			},
-			highlightStyle: {
-				lineWidth: 0,
-				color: '#333',
-				strokeColor: 'rgba(255,255,255,0)',
-			},
-			zlevel: 4,
-
-		});
-		shape.zlevel = 1;
-		shape.z = 5;
-		shape.ndelete = true;
-		shape.hoverable = false;
-		myChart.getZrender().addShape(shape);
-		const shapeCircle = new Circle({
-			style: {
-				x: 440,
-				y: 155,
-				r: 3,
-				brushType: 'both',
-				color: 'red',
-				strokeColor: 'red',
-				lineWidth: 3,
-			},
-		});
-		myChart.getZrender().addShape(shapeCircle);
-
-
-		myChart.setOption(optionMethods(dataSource));
+		const source = this.toCreatOption();
+		this.myChart = window.echarts.init(document.getElementById('zRenderEcharts'));
+		this.myChart.setOption(optionMethods(source.holderData, source.investorData));
+		this.initZRender();
 	}
 
-	onChartReadyCallback=() => {
-		console.log('onChartReadyCallback');
+	toCreatOption=(keyID, addDatas) => {
+		const { holderList, investorList } = analogData;
+		const holderData = [{
+			name: analogData.name,
+			symbolSize: [40 + analogData.name.length * 18, 50],
+			symbol: 'rectangle',
+			children: holderList.map(item => ({
+				username: item.name,
+				symbol: 'rectangle',
+				symbolSize: [146, 50],
+				itemStyle: item.type === 1 ? obligorType[1] : obligorType[2],
+				amount: item.amount,
+				children: item.holderList.map(childItem => ({
+					username: childItem.name,
+					value: 2,
+					symbol: 'rectangle',
+					symbolSize: [140, 50],
+					amount: childItem.amount,
+					itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
+				})),
+			})),
+		}];
+		const investorData = [{
+			name: analogData.name,
+			symbolSize: [40 + analogData.name.length * 18, 50],
+			symbol: 'rectangle',
+			children: investorList.map(item => ({
+				username: item.name,
+				symbol: 'rectangle',
+				symbolSize: [146, 50],
+				itemStyle: item.type === 1 ? obligorType[1] : obligorType[2],
+				amount: item.amount,
+				children: item.investorList && item.investorList.map(childItem => ({
+					username: childItem.name,
+					value: 2,
+					symbol: 'rectangle',
+					symbolSize: [140, 50],
+					amount: childItem.amount,
+					itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
+				})),
+			})),
+		}];
+		return {
+			holderData,
+			investorData,
+		};
 	};
 
-
-	getOption =() => {
-		const _data = eData;
-
-		const { children } = _data;
-		// _data.DetailList = undefined;
-		// console.log(children[0].children);
-		_data.symbol = 'rectangle';
-		_data.symbolSize = [140, 40];
-		_data.labelClick = true;
-		_data.itemStyle = {
-			color: '#1e81e1',
-			borderColor: '#1e81e1',
-		};
-		if (children) {
-			for (let i = 0; i < children.length; i += 1) {
-				if (children[i].children.length > 1) {
-					for (let j = 0; j < children[i].children.length; j += 1) {
-						children[i].children[j].symbol = 'rectangle';
-						children[i].children[j].symbolSize = [110, 42];
-						children[i].children[j].itemStyle = {
-							color: '#f3f9fe',
-							borderColor: '#1e81e1',
-						};
-						// children[i].children[j] = this.arrowAdd(children[i].children[j]);
-					}
+	initZRender=() => {
+		const { Text, ImageShape } = window.zrDefine;
+		const myZr = this.myChart.getZrender();
+		const shapeList = myZr.storage.getShapeList();
+		for (let i = 0; i < shapeList.length; i += 1) {
+			const myChartData = shapeList[i]._echartsData;
+			const locationX = shapeList[i].rotation[1];
+			const locationY = shapeList[i].rotation[2];
+			if (myChartData) {
+				const shapeText = new Text({
+					style: {
+						x: locationX,
+						y: locationY - 5,
+						textFont: 'normal 12px verdana',
+						text: myChartData._data.username,
+						textAlign: 'center',
+						color: '#333',
+						fontSize: 14,
+						lineWidth: 0,
+					},
+					highlightStyle: {
+						lineWidth: 0,
+						color: '#333',
+						strokeColor: 'rgba(255,255,255,0)',
+					},
+					zlevel: 4,
+				});
+				shapeText.zlevel = 1;
+				shapeText.z = 5;
+				shapeText.ndelete = true;
+				shapeText.hoverable = false;
+				myZr.addShape(shapeText);
+				const { hasNode, id } = myChartData._data;
+				if (myChartData._data.amount) {
+					const shapeText1 = new Text({
+						style: {
+							x: locationX,
+							y: locationY + 10,
+							textFont: 'normal 10px verdana',
+							text: `认缴金额：${myChartData._data.amount}`,
+							textAlign: 'center',
+							color: '#333',
+							lineWidth: 0,
+						},
+						highlightStyle: {
+							lineWidth: 0,
+							color: '#333',
+							strokeColor: 'rgba(255,255,255,0)',
+						},
+						zlevel: 4,
+					});
+					shapeText1.zlevel = 1;
+					shapeText1.z = 5;
+					shapeText1.ndelete = true;
+					shapeText1.hoverable = false;
+					myZr.addShape(shapeText1);
 				}
-				children[i].symbol = 'rectangle';
-				children[i].symbolSize = [146, 62];
-				children[i].itemStyle = {
-					color: 'white',
-					borderColor: '#333',
-				};
-				// children[i] = this.arrowAdd(children[i]);
+				if (hasNode) {
+					const shapeBtn = new ImageShape({
+						style: {
+							image: iconAdd, // 图片url或者图片对象
+							x: locationX - 7,
+							y: locationY - 41,
+							width: 15,
+							height: 16,
+						},
+					});
+					shapeBtn.keyNo = id;
+					shapeBtn.isCollapse = true;
+					shapeBtn.zlevel = 1;
+					shapeBtn.z = 4;
+					shapeBtn.ndelete = true;
+					shapeBtn.clickcom = true;
+					shapeBtn.hoverable = true;
+					shapeBtn.clickable = true;
+					myZr.addShape(shapeBtn);
+
+				}
 			}
 		}
-		// console.log(_data);
-
-		return ({
-
-			tooltip: {
-				trigger: 'item',
-				triggerOn: 'mousemove',
-			},
-			series: [{
-				type: 'tree',
-				orient: 'BT',
-				nodePadding: 25,
-				layerPadding: 40,
-				symbol: 'rectangle',
-				expandAndCollapse: 'true',
-				rootLocation: {
-					x: '50%',
-					y: '50%',
-				},
-				direction: 'inverse',
-				data: [_data],
-				leaves: {
-					label: {
-						show: true,
-						formatter: [
-							'The whole box is a {term|Text Block}, with',
-							'red border and grey background.',
-							'{fregment1|A Text Fregment} ',
-							'{fregment2|Another Text Fregment}',
-							'Text fregments can be customized.',
-						].join('\n'),
-						backgroundColor: '#eee',
-						// borderColor: '#333',
-						borderColor: 'rgb(199,86,83)',
-						position: 'insideTop',
-						borderWidth: 2,
-						borderRadius: 5,
-						padding: 10,
-						color: '#000',
-						fontSize: 14,
-						shadowBlur: 3,
-						shadowColor: '#888',
-						shadowOffsetX: 0,
-						shadowOffsetY: 3,
-						lineHeight: 30,
-						rich: {
-							term: {
-								fontSize: 18,
-								color: 'rgb(199,86,83)',
-							},
-							fregment1: {
-								backgroundColor: '#000',
-								color: 'yellow',
-								padding: 5,
-							},
-							fregment2: {
-								backgroundColor: {
-									image: bg,
-								},
-								width: 100,
-								height: 20,
-								padding: 5,
-							},
-
-						},
-					},
-				},
-			}],
-		});
 	};
-
 
 	render() {
 		return (
-			<div id="zRenderEcharts" style={{ width: 1000, height: 500 }} />
+			<div style={{ padding: 10 }}>
+				<div id="zRenderEcharts" style={{ width: 1000, height: 700, border: '3px solid #ddd' }} />
+			</div>
 		);
 	}
 }
