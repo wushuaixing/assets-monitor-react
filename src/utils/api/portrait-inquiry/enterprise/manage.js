@@ -42,8 +42,8 @@ const manage = {
 	illegal: {
 		name: '经营-严重违法',
 		params: {
-			name: '江苏',
-			putDepartment: '江苏',
+			name: '河南永通投资有限公司',
+			putDepartment: '工商',
 		},
 		list() {
 			return service.get('/yc/monitor/risk/illegal/list', { params: this.params }).then(res => res.data);
@@ -55,7 +55,7 @@ const manage = {
 	tax: {
 		name: '经营-税收违法',
 		params: {
-			obName: '杭州',
+			obName: '贸易',
 		},
 		list() {
 			return service.get('/yc/monitor/risk/tax/list', { params: this.params }).then(res => res.data);

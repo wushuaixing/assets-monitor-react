@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Spin, Table, Ellipsis } from '@/common';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
-import { timeStandard } from '@/utils';
+import { timeStandard, toEmpty } from '@/utils';
 
 const api = manage.bankruptcy;
 
@@ -27,8 +27,8 @@ export default class TableIntact extends React.Component {
 			dataIndex: 'title',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li style={{ fontSize: 14 }}>
-						<Ellipsis content={value} url={row.url} width={600} />
+					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
+						{ toEmpty(value) ? <Ellipsis content={value} url={row.url} width={600} font={15} /> : '--' }
 					</li>
 					<li>
 						<span className="list list-title align-justify">发布日期</span>
@@ -42,6 +42,7 @@ export default class TableIntact extends React.Component {
 			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
+					<br />
 					<li>
 						<span className="list list-title align-justify">受理法院</span>
 						<span className="list list-title-colon">:</span>
