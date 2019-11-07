@@ -16,10 +16,11 @@ export default class InquiryList extends React.Component {
 			total: 0,
 			loading: false,
 		};
+		this.condition = {};
 	}
 
 	componentWillMount() {
-		this.toGetData();
+		// this.toGetData();
 	}
 
 	// 当前页数变化
@@ -58,12 +59,18 @@ export default class InquiryList extends React.Component {
 		},
 	];
 
+	/* 默认查询 */
+	handleQuery=(obj) => {
+		this.condition = obj;
+		this.toGetData(1);
+	};
+
 	// 查询数据methods
 	toGetData=(page) => {
 		this.setState({ loading: true });
 		inquiryList({
 			page: page || 1,
-			name: '刀剑厂',
+			name: this.condition.name,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -91,7 +98,7 @@ export default class InquiryList extends React.Component {
 
 		return (
 			<div className="yc-inquiry-list">
-				<QueryView />
+				<QueryView onQuery={this.handleQuery} />
 				<div className="mark-line" />
 				<div className="inquiry-list-content">
 					<div className="list-content-total">
