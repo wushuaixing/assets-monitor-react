@@ -1,6 +1,7 @@
 import React from 'react';
+import { getCount } from '@/utils/api/portrait-inquiry/enterprise/info';
 import { Button } from '@/common';
-import EssentialInfo from './components/essentialInfo';
+import BusinessInfo from './components/businessInfo';
 import KeyPersonnel from './components/keyPersonnel';
 import ShareholderInfo from './components/shareholderInfo';
 import EquityPenetration from './components/equityPenetration';
@@ -8,60 +9,58 @@ import Branch from './components/branch';
 import OutboundInvestment from './components/outboundInvestment';
 import BusinessCircles from './components/businessCircles';
 
-const subItems = [
+const subItems = data => [
 	{
 		id: 1,
 		name: '基本信息',
-		total: 10,
 		disabled: false,
-		tagName: 'e-assets-essentialInfo',
-		component: EssentialInfo,
+		tagName: 'e-assets-businessInfo',
+		component: BusinessInfo,
 	},
 	{
 		id: 2,
 		name: '主要人员',
-		total: 10,
-		disabled: false,
+		total: data.mainPerson,
+		disabled: data && data.mainPerson <= 0,
 		tagName: 'e-assets-keyPersonnel',
 		component: KeyPersonnel,
 	},
 	{
 		id: 3,
 		name: '股东信息',
-		total: 10,
-		disabled: false,
+		total: data && data.stockholder,
+		disabled: data && data.stockholder <= 0,
 		tagName: 'e-assets-shareholderInfo',
 		component: ShareholderInfo,
 	},
 	{
 		id: 4,
 		name: '股权穿透图',
-		total: 10,
-		disabled: true,
+		disabled: false,
 		tagName: 'e-assets-equityPenetration',
 		component: EquityPenetration,
 	},
 	{
 		id: 5,
 		name: '分支机构',
-		total: 10,
-		disabled: false,
+		total: data && data.branch,
+		disabled: data && data.branch <= 0,
 		tagName: 'e-assets-branch',
 		component: Branch,
 	},
 	{
 		id: 6,
 		name: '对外投资',
-		total: 10,
-		disabled: false,
+		total: data && data.investment,
+		disabled: data && data.investment <= 0,
 		tagName: 'e-assets-outboundInvestment',
 		component: OutboundInvestment,
 	},
 	{
 		id: 7,
 		name: '工商变更',
-		total: 10,
-		disabled: false,
+		total: data && data.change,
+		disabled: data && data.change <= 0,
 		tagName: 'e-assets-businessCircles',
 		component: BusinessCircles,
 	},
@@ -70,13 +69,24 @@ export default class Info extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			data: {},
 		};
 	}
 
 	componentDidMount() {
 		const { toPushChild } = this.props;
-		toPushChild(this.toGetSubItems());
+		const params = {
+			id: 1,
+		};
+		getCount(params)
+			.then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						data: res.data,
+					});
+					toPushChild(this.toGetSubItems(res.data));
+				}
+			});
 	}
 
 	handleScroll=(eleID) => {
@@ -87,12 +97,14 @@ export default class Info extends React.Component {
 		}
 	};
 
-	toGetSubItems=() => (
+	toGetSubItems= data => (
 		<div className="yc-intro-sub-items">
 			{
-				subItems.map(item => (
+				data && subItems(data).map(item => (
 					<Button className="intro-btn-items" disabled={item.disabled} onClick={() => this.handleScroll(item.tagName)}>
-						{`${item.name}${item.total ? ` ${item.total}` : ' 0'}`}
+						{
+							item.id === 1 || item.id === 4 ? `${item.name}` : `${item.name}${item.total ? ` ${item.total}` : ' 0'}`
+						}
 					</Button>
 				))
 			}
@@ -100,10 +112,14 @@ export default class Info extends React.Component {
 	);
 
 	render() {
+		const { data } = this.state;
+
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
-				{subItems.map(Item => (
-					Item.total ? <Item.component id={Item.tagName} /> : ''))}
+				{
+					data && subItems(data).map(Item => (
+						data && Item.disabled === false ? <Item.component id={Item.tagName} /> : ''))
+				}
 			</div>
 		);
 	}

@@ -41,4 +41,11 @@
     border-bottom: 1px solid $border-base;
     border-right: 1px solid $border-base;
   }
+  .yc-td-hl {
+    max-width: 600px;
+    em {
+      color: #FB5A5C;
+      font-style: normal;
+    }
+  }
 }
