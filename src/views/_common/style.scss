@@ -66,3 +66,37 @@
     }
   }
 }
+.yc-party-crosswise{
+  line-height: 1;
+  .detail-style{
+    vertical-align: top;
+    line-height: 17px;
+    display: inline-block;
+    margin-left: 5px;
+  }
+  .yc-split-line-info{
+    height: 16px;
+    margin: 0 10px 0 0;
+  }
+  .yc-party-info-crosswise {
+    width: 270px;
+    display: inline-block;
+    margin-bottom: 0;
+
+    .party-info-content{
+      padding-right: 10px;
+    }
+    .party-info-content li{
+      padding-bottom: 0;
+    }
+    .party-info-status-wait{
+      position: absolute;
+      top: 2px;
+      right: -13px;
+      height: 16px;
+      width: auto;
+      text-align: center;
+    }
+  }
+}
+

@@ -54,7 +54,7 @@ export default class TableIntact extends React.Component {
 			width: 300,
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li><br /></li>
+					<li style={{ height: 24 }} />
 					<li>
 						<span className="list list-title align-justify">决定机关</span>
 						<span className="list list-title-colon">:</span>

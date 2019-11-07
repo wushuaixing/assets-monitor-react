@@ -2,7 +2,6 @@ import React from 'react';
 import { Icon, Tooltip } from 'antd';
 import { getByteLength, linkDetail, timeStandard } from '@/utils';
 
-const maxShowLength = 3;
 
 /**
  * @Description: 当事人组件
@@ -12,8 +11,9 @@ const maxShowLength = 3;
 export default class PartyInfoDetail extends React.Component {
 	constructor(props) {
 		super(props);
+		this.maxShowLength = props.noStatus ? 99999 : 3;
 		this.state = {
-			status: props.child.length <= maxShowLength ? 'none' : 'toOpen',
+			status: props.child.length <= this.maxShowLength ? 'none' : 'toOpen',
 		//	none 无  toOpen 点击展开 toClose 点击收起
 		};
 	}
@@ -25,7 +25,7 @@ export default class PartyInfoDetail extends React.Component {
 		// console.log(nextProps.id, id, nextProps.child, nextState.status);
 		if (nextProps.id !== id) {
 			// console.log(nextProps.id, id, nextProps.child);
-			_nextState.status = nextProps.child.length <= maxShowLength ? 'none' : 'toOpen';
+			_nextState.status = nextProps.child.length <= this.maxShowLength ? 'none' : 'toOpen';
 			return true;
 		}
 		return nextState.status !== status;
@@ -56,7 +56,8 @@ export default class PartyInfoDetail extends React.Component {
 	render() {
 		const { status } = this.state;
 		const { role, child, width } = this.props;
-		const source = status === 'toOpen' ? child.slice(0, maxShowLength) : child;
+		const { noLink, detailWidth } = this.props;
+		const source = status === 'toOpen' ? child.slice(0, this.maxShowLength) : child;
 
 		const statusText = status === 'toOpen'
 			? (
@@ -77,8 +78,8 @@ export default class PartyInfoDetail extends React.Component {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',
 		};
-		const maxWidth = 230 - (width * 1 < 40 ? 40 : width) || 40;
-		const obValue = (i, v) => (i.obligorId ? linkDetail(i.obligorId, v, '_target') : v);
+		const maxWidth = (detailWidth || 230) - (width * 1 < 40 ? 40 : width) || 40;
+		const obValue = (i, v) => (i.obligorId && !noLink ? linkDetail(i.obligorId, v, '_target') : v);
 
 		return (
 			<div className="yc-party-info-list">
@@ -100,14 +101,14 @@ export default class PartyInfoDetail extends React.Component {
 							if (getByteLength(content) * 6 >= maxWidth) {
 								return (
 									<Tooltip placement="top" title={content}>
-										<li className={`text-ellipsis${i.obligorId ? ' click-link' : ''}`} style={{ maxWidth }}>
+										<li className={`text-ellipsis${i.obligorId && !noLink ? ' click-link' : ''}`} style={{ maxWidth }}>
 											{obValue(i, content)}
 										</li>
 									</Tooltip>
 								);
 							}
 							return (
-								<li className={`text-ellipsis${i.obligorId ? ' click-link' : ''}`} style={{ maxWidth }}>
+								<li className={`text-ellipsis${i.obligorId && !noLink ? ' click-link' : ''}`} style={{ maxWidth }}>
 									{obValue(i, content)}
 								</li>
 							);

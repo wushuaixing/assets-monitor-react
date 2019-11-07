@@ -4,8 +4,8 @@ const lawsuits = {
 	trial: {
 		name: '涉诉-立案',
 		params: {
-			startGmtRegister: '2017-05-01',
-			court: '人民法院',
+			// startGmtRegister: '2017-05-01',
+			partiesName: '浙江中味酿造有限公司',
 			filterCurrentOrg: false,
 		},
 		list() {
