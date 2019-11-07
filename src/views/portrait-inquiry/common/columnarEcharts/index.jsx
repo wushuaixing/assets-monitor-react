@@ -3,13 +3,12 @@ import React from 'react';
 import './style.scss';
 
 const getOption = (Data, id, title) => ({
-
 	grid: { // 绘图区调整
+		height: Data.length * 30,
 		x: 20, // 左留白
 		y: 10, // 上留白
 		x2: 10, // 右留白
-		y2: 10, // 下留白
-		show: false,
+		y2: 20, // 下留白
 		borderWidth: '0',
 	},
 	xAxis: [
@@ -18,9 +17,6 @@ const getOption = (Data, id, title) => ({
 			type: 'value',
 			boundaryGap: [0, 0],
 			position: 'top',
-			axisTick: {
-				alignWithLabel: false,
-			},
 		},
 	],
 
@@ -36,29 +32,15 @@ const getOption = (Data, id, title) => ({
 		{
 			name: title,
 			type: 'bar',
-			barMinHeight: 200,
-			barWidth: 25,
+			barMinHeight: 220,
 			borderwidth: 0,
 			data: Data,
 			itemStyle: {
 				normal: {
 					color: '#73AEEA',
 					label: {
-						show: true, // 开启显示
+						show: false, // 开启显示
 						position: 'inside', // 内显示
-						formatter: (obj) => {
-							let res = '';
-							for (let i = 0; i < Data.length; i += 1) {
-								if (Data[i].name === obj.data.name) {
-									res = Data[i].value;
-								}
-							}
-							const arr = [
-								`${obj.data.name}`,
-								`  ${res} 条`,
-							];
-							return arr.join('');
-						},
 						textStyle: {
 							fontWeight: 'bolder',
 							fontSize: '12',
@@ -66,6 +48,17 @@ const getOption = (Data, id, title) => ({
 						},
 					},
 				}, // 柱状图颜色
+				// emphasis: {
+				// 	color: '#73AEEA',
+				// 	label: {
+				// 		show: false, // 开启显示
+				// 		textStyle: {
+				// 			fontWeight: 'bolder',
+				// 			fontSize: '12',
+				// 			color: '#fff',
+				// 		},
+				// 	},
+				// },
 			},
 		},
 	],
@@ -92,6 +85,59 @@ class ColumnarEcharts extends React.Component {
 		const { Data, id, title } = this.props;
 		const DOM = document.getElementById(`${id}ColumnarEcharts`);
 		const myChart = window.echarts.init(DOM);
+		const option = getOption(Data, id, title);
+		const { series: { 0: { data: dataList } } } = option;
+		const { Text } = window.zrDefine;
+		const zr = myChart.getZrender();
+		const base = {
+			x: 20,
+			y: 27,
+		};
+		const newDataList = dataList.slice().reverse();
+		newDataList.forEach((item, index) => {
+			const { x } = base;
+			const y = base.y + 30 * (index);
+
+			const text1 = new Text({
+				style: {
+					x: x + 10,
+					y,
+					text: item.name,
+					textFont: 'normal 12px verdana',
+					textAlign: 'left',
+					color: '#FFFFFF',
+				},
+			});
+			text1.hoverable = false;
+			const text2 = new Text({
+				style: {
+					x: x + 180,
+					y,
+					text: item.value,
+					textFont: 'bold 12px Arial',
+					textAlign: 'right',
+					color: '#FFFFFF',
+				},
+			});
+			text2.hoverable = false;
+			const text3 = new Text({
+				style: {
+					x: x + 200,
+					y,
+					text: '条',
+					textFont: 'normal 12px verdana',
+					textAlign: 'right',
+					color: '#FFFFFF',
+				},
+			});
+			text3.hoverable = false;
+			zr.addShape(text1);
+			text1.zlevel = 9999;
+			zr.addShape(text2);
+			text2.zlevel = 9999;
+			zr.addShape(text3);
+			text3.zlevel = 9999;
+		});
 		// window[`${id}ColumnarEcharts`] = myChart;
 		myChart.setOption(getOption(Data, id, title));
 	};
@@ -101,7 +147,7 @@ class ColumnarEcharts extends React.Component {
 		return (
 			<div>
 				<div className="yc-columnar-title">{title}</div>
-				<div className="yc-ring-rcharts" style={{ width: 532, height: Data.length * 40 }} id={`${id}ColumnarEcharts`} />
+				<div className="yc-columnar-echarts" style={{ width: 532, height: Data.length * 40 }} id={`${id}ColumnarEcharts`} />
 			</div>
 		);
 	}

@@ -78,6 +78,7 @@ export default class Info extends React.Component {
 		const params = {
 			id: 1,
 		};
+
 		getCount(params)
 			.then((res) => {
 				if (res.code === 200) {
@@ -100,7 +101,7 @@ export default class Info extends React.Component {
 	toGetSubItems= data => (
 		<div className="yc-intro-sub-items">
 			{
-				data && subItems(data).map(item => (
+				subItems(data).map(item => (
 					<Button className="intro-btn-items" disabled={item.disabled} onClick={() => this.handleScroll(item.tagName)}>
 						{
 							item.id === 1 || item.id === 4 ? `${item.name}` : `${item.name}${item.total ? ` ${item.total}` : ' 0'}`
