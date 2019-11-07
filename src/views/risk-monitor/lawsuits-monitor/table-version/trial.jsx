@@ -1,8 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Spin, Table } from '@/common';
+import { Ellipsis, Spin, Table } from '@/common';
 import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
 import associationLink from '@/views/_common/association-link';
+import { timeStandard, toEmpty, linkDom } from '@/utils';
+import { PartyCrosswise } from '@/views/_common';
 
 const { trial } = lawsuits;
 
@@ -26,15 +28,33 @@ export default class TableIntact extends React.Component {
 		{
 			title: '拍卖信息',
 			dataIndex: 'caseNumber',
-		}, {
-			title: '关联信息',
-			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
+					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
+						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
+							{linkDom('', value.replace('（', '( '))}
+						</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify">立案日期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{timeStandard(row.gmtRegister)}</span>
+					</li>
+					<PartyCrosswise value={row.parties} row={row} />
+				</div>
+			),
+		}, {
+			title: '关联信息',
+			width: 270,
+			render: (value, row) => (
+				<div className="assets-info-content">
+					<li style={{ height: 24 }} />
 					<li>
 						<span className="list list-title align-justify">审理法院</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
+						<span className="list list-content">
+							{ toEmpty(row.court) ? <Ellipsis content={row.court} width={200} font={12} /> : '--' }
+						</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">关联信息</span>

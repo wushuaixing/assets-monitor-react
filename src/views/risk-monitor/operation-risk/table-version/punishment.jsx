@@ -1,7 +1,8 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Spin, Table } from '@/common';
+import { Ellipsis, Spin, Table } from '@/common';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
+import { timeStandard, toEmpty } from '@/utils';
 
 const api = manage.punishment;
 
@@ -23,16 +24,48 @@ export default class TableIntact extends React.Component {
 	toGetColumns=() => [
 		{
 			title: '主要信息',
-			dataIndex: 'caseNumber',
+			dataIndex: 'content',
+			render: (value, row) => {
+				const { punishNumber, content, type } = row;
+				return (
+					<div className="assets-info-content">
+						<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
+							{ toEmpty(type) ? <Ellipsis content={type} width={600} font={15} /> : '--' }
+						</li>
+						<li>
+							<span className="list list-title align-justify">决定文书号</span>
+							<span className="list list-title-colon">:</span>
+							<span className="list list-content">
+								{ toEmpty(punishNumber) ? <Ellipsis content={punishNumber} width={600} tooltip /> : '--' }
+							</span>
+						</li>
+						<li>
+							<span className="list list-title align-justify">处罚内容</span>
+							<span className="list list-title-colon">:</span>
+							<span className="list list-content">
+								{ toEmpty(content) ? <Ellipsis content={content} width={600} tooltip /> : '--' }
+							</span>
+						</li>
+					</div>
+				);
+			},
 		}, {
 			title: '辅助信息',
-			width: 360,
+			width: 300,
 			render: (value, row) => (
 				<div className="assets-info-content">
+					<li style={{ height: 24 }} />
 					<li>
-						<span className="list list-title align-justify">受理法院</span>
+						<span className="list list-title align-justify">决定机关</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
+						<span className="list list-content">
+							{ toEmpty(row.departmentName) ? <Ellipsis content={row.departmentName} width={200} /> : '--' }
+						</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify">决定日期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{timeStandard(row.decisionDate)}</span>
 					</li>
 				</div>
 			),

@@ -3,7 +3,7 @@ import { Pagination } from 'antd';
 import {
 	Spin, Table, Ellipsis, Icon,
 } from '@/common';
-import { timeStandard } from '@/utils';
+import { timeStandard, toEmpty } from '@/utils';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 
 const api = manage.illegal;
@@ -71,13 +71,11 @@ export default class TableIntact extends React.Component {
 	toGetColumns=() => [
 		{
 			title: '主要信息',
-			dataIndex: 'fact',
+			dataIndex: 'type',
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						{
-							value.trim() ? <Ellipsis content={value} width={600} /> : '--'
-						}
+						{ toEmpty(value) ? <Ellipsis content={value} width={600} font={15} /> : '--' }
 					</li>
 					<li>
 						<span className="list list-title align-justify">列入日期</span>

@@ -24,14 +24,13 @@ export default class TableIntact extends React.Component {
 	toGetColumns=() => [
 		{
 			title: '主要信息',
-			dataIndex: 'caseNature',
+			dataIndex: 'property',
 			render: (value, row) => {
 				const { caseNature: ca, illegalFact: ill, punish } = row;
-				console.log(ca, ill, punish);
 				return (
 					<div className="assets-info-content">
-						<li style={{ fontSize: 14 }}>
-							{ toEmpty(ca) ? <Ellipsis content={ca} width={600} /> : '--' }
+						<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
+							{ toEmpty(ca || value) ? <Ellipsis content={ca || value} width={600} font={15} /> : '--' }
 						</li>
 						<li>
 							<span className="list list-title align-justify">违法事实</span>
@@ -55,14 +54,14 @@ export default class TableIntact extends React.Component {
 			width: 300,
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li><br /></li>
+					<li style={{ height: 24 }} />
 					<li>
-						<span className="list list-title align-justify">受理法院</span>
+						<span className="list list-title align-justify">检查机关</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{row.court || '-'}</span>
 					</li>
 					<li>
-						<span className="list list-title align-justify">移除日期</span>
+						<span className="list list-title align-justify">发布日期</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{row.publishTime || '--'}</span>
 					</li>
