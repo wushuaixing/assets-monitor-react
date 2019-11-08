@@ -1,4 +1,5 @@
 import Result from './result';
+import Mortgage from './mortgage';
+import Transfer from './transfer';
 
-const e = 111;
-export { Result, e };
+export { Result, Mortgage, Transfer };

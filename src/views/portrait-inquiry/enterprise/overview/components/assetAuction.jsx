@@ -37,7 +37,6 @@ export default class AssetAuction extends React.Component {
 					{ value: 20, name: '已成交' },
 					{ value: 14, name: '正在进行' },
 					{ value: 10, name: '即将开始' },
-					{ value: 5, name: '已流拍' },
 				],
 			});
 		} else if (time === 'all') {
@@ -53,10 +52,6 @@ export default class AssetAuction extends React.Component {
 				RingData: [
 					{ value: 20, name: '已成交' },
 					{ value: 14, name: '正在进行' },
-					{ value: 10, name: '即将开始' },
-					{ value: 5, name: '已流拍' },
-					{ value: 7, name: '中止' },
-					{ value: 6, name: '撤回' },
 				],
 			});
 		}

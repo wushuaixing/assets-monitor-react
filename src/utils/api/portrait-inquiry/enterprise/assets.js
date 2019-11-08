@@ -61,11 +61,8 @@ const assets = {
 	},
 	result: {
 		name: '资产-土地信息-出让结果',
-		params: {
-			obligorName: '中国石油天然气股份有限公司山东销售分公司',
-		},
-		list() {
-			return service.get('/yc/monitor/land/result/list', { params: this.params }).then(res => res.data);
+		list(params) {
+			return service.get('/yc/monitor/land/result/list', { params }).then(res => res.data);
 		},
 		count() {
 			return service.get('/yc/monitor/land/result/list-count', { params: this.params }).then(res => res.data);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs } from '@/common';
-import { Result } from '@/views/asset-excavate/land-data/table-version';
+import { Result, Mortgage, Transfer } from '@/views/asset-excavate/land-data/table-version';
 
 export default class Land extends React.Component {
 	constructor(props) {
@@ -22,7 +22,7 @@ export default class Land extends React.Component {
 	};
 
 	render() {
-		const { config } = this.state;
+		const { config, sourceType } = this.state;
 		const { id } = this.props;
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
@@ -32,7 +32,10 @@ export default class Land extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">土地信息</div>}
 				/>
 				<div className="inquiry-public-table">
-					<Result />
+
+					{sourceType === 1 ? <Result /> : null}
+					{sourceType === 2 ? <Transfer /> : null}
+					{sourceType === 3 ? <Mortgage /> : null}
 				</div>
 			</div>
 		);

@@ -1,6 +1,6 @@
 .yc-table-content {
   display: inline-block;
-  min-width: 210px!important;
+  min-width: 210px !important;
   .list-title {
     color: #7d8699;
     width: 60px;
@@ -25,4 +25,12 @@
   margin-right: 12px;
   position: relative;
   top: 2px;
+}
+.yc-purchasePrice-icon {
+  display: inline-block;
+  margin-right: 6px;
+  width: 6px;
+  height: 6px;
+  background: $common-success;
+  border-radius: 5px;
 }

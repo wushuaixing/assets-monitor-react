@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
-import { Result } from './common';
+import { Transfer } from './common';
 
 const { result } = assets;
 
@@ -25,11 +25,11 @@ export default class TableIntact extends React.Component {
 		{
 			title: '信息',
 			dataIndex: 'projectName',
-			render: Result.resultDetail,
+			render: Transfer.transferDetail,
 		}, {
 			title: '关联信息',
 			width: 360,
-			render: Result.resultRelatedInfo,
+			render: Transfer.transferRelatedInfo,
 		},
 	];
 
