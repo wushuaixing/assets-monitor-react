@@ -28,10 +28,12 @@ export default class TableIntact extends React.Component {
 			dataIndex: 'title',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
+					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 400 }}>
 							{linkDom('', value.replace('（', '('))}
 						</span>
+						{ row.caseType ? <span className="yc-case-type">{row.caseType}</span> : ''}
+						{ row.caseReason ? <span className="yc-case-reason text-ellipsis">{row.caseReason}</span> : ''}
 					</li>
 					<li>
 						<span className="list list-title align-justify">判决日期</span>

@@ -67,6 +67,21 @@ body,td,th{font-size:14px;color:#20242e}
   font-size: 13px;
   color: #FFFFFF;
 }
+.yc-case-reason{
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 10px;
+  height: 20px;
+  max-width: 150px;
+  line-height: 19px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: normal;
+  background-color: #eff4ff;
+  border: 1px solid $text-link;
+  color: $text-link;
+  margin:0 20px;
+}
 
 .yc-table-read {
   background-image: url('../img/icon/icon_reddot.png');
