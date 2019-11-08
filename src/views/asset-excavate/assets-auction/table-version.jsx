@@ -1,10 +1,11 @@
 import React from 'react';
 import { Pagination, Tooltip } from 'antd';
-import { Spin, Table } from '@/common';
+import { Ellipsis, Spin, Table } from '@/common';
 import { floatFormat } from '@/utils/format';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 
 import './style.scss';
+import { toEmpty } from '@/utils';
 
 const { auction } = assets;
 
@@ -27,7 +28,7 @@ const AuctionInfo = (text, rowContent) => {
 	};
 	return (
 		<div className="yc-assets-table-info">
-			<li className="table-info-list list-width-180">
+			<li className="table-info-list list-width-180" style={{ lineHeight: '20px' }}>
 				<span className={`info info-content${status ? ` info-auction-${status}` : ''}`}>{auctionStatus(status)}</span>
 			</li>
 			<li className="table-info-list list-width-180">
@@ -82,6 +83,24 @@ const AuctionInfo = (text, rowContent) => {
 	);
 };
 
+const toGetType = (ary) => {
+	if (ary.length) {
+		const { type } = ary[0];
+		//	1：资产所有人 2：债权人 3：资产线索 4：起诉人 5：竞买人
+		let typeName = '--';
+		switch (type) {
+		case 1: typeName = '资产所有人'; break;
+		case 2: typeName = '债权人'; break;
+		case 3: typeName = '资产线索'; break;
+		case 4: typeName = '起诉人'; break;
+		case 5: typeName = '竞买人'; break;
+		default: typeName = '--';
+		}
+		return typeName;
+	}
+	return '--';
+};
+
 export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -101,6 +120,23 @@ export default class TableIntact extends React.Component {
 		{
 			title: '拍卖信息',
 			dataIndex: 'title',
+			render: (value, row) => (
+				<div className="assets-info-content">
+					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
+						{ toEmpty(row.title)
+							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} /> : '--' }
+					</li>
+					<li>
+						<span className="list list-title align-justify">匹配原因</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{toGetType(row.obligors)}</span>
+					</li>
+					<li>
+						{ toEmpty(row.matchRemark)
+							? <Ellipsis content={row.matchRemark} tooltip width={600} font={15} /> : '--' }
+					</li>
+				</div>
+			),
 		}, {
 			title: '拍卖状况',
 			width: 360,

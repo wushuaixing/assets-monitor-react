@@ -1,6 +1,6 @@
 import React from 'react';
 // import { navigate } from '@reach/router';
-import { Pagination } from 'antd';
+// import { Pagination } from 'antd';
 import QueryView from './common/queryView';
 import { inquiryList } from '@/utils/api/portrait-inquiry';
 import { Spin, Table } from '@/common';
@@ -12,7 +12,7 @@ export default class InquiryList extends React.Component {
 		super(props);
 		this.state = {
 			dataSource: '',
-			current: 1,
+			// current: 1,
 			total: 0,
 			loading: false,
 		};
@@ -70,19 +70,20 @@ export default class InquiryList extends React.Component {
 		this.setState({ loading: true });
 		inquiryList({
 			page: page || 1,
+			num: 20,
 			name: this.condition.name,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
-					current: res.data.page,
+					// current: res.data.page,
 					total: res.data.total,
 					loading: false,
 				});
 			} else {
 				this.setState({
 					dataSource: '',
-					current: 1,
+					// current: 1,
 					total: 0,
 					loading: false,
 				});
@@ -93,7 +94,7 @@ export default class InquiryList extends React.Component {
 	};
 
 	render() {
-		const { dataSource, current, total } = this.state;
+		const { dataSource } = this.state;
 		const { loading } = this.state;
 
 		return (
@@ -103,8 +104,8 @@ export default class InquiryList extends React.Component {
 				<div className="inquiry-list-content">
 					<div className="list-content-total">
 						<span>源诚为您找到以下</span>
-						<span style={{ fontWeight: 'bold', margin: '0 5px' }}>{total || 0}</span>
-						<span>家可能符合条件的企业</span>
+						{/* <span style={{ fontWeight: 'bold', margin: '0 5px' }}>{total || 0}</span> */}
+						<span>符合条件的企业</span>
 					</div>
 					<div className="content-list" style={{ paddingTop: 2 }}>
 						{/* <Button */}
@@ -121,17 +122,17 @@ export default class InquiryList extends React.Component {
 								showHeader={false}
 								pagination={false}
 							/>
-							{dataSource && dataSource.length > 0 && (
-								<div className="yc-table-pagination">
-									<Pagination
-										showQuickJumper
-										current={current || 1}
-										total={total || 0}
-										onChange={this.onPageChange}
-										showTotal={totalCount => `共 ${totalCount} 条信息`}
-									/>
-								</div>
-							)}
+							{/* {dataSource && dataSource.length > 0 && ( */}
+							{/* <div className="yc-table-pagination"> */}
+							{/* <Pagination */}
+							{/* showQuickJumper */}
+							{/* current={current || 1} */}
+							{/* total={total || 0} */}
+							{/* onChange={this.onPageChange} */}
+							{/* showTotal={totalCount => `共 ${totalCount} 条信息`} */}
+							{/* /> */}
+							{/* </div> */}
+							{/* )} */}
 						</Spin>
 					</div>
 				</div>
