@@ -52,9 +52,9 @@ export default class Lawsuits extends React.Component {
 
 	handleScroll=(eleID) => {
 		const dom = document.getElementById(eleID);
-		const _height = document.getElementById('enterprise-intro').clientHeight;
+		// const _height = document.getElementById('enterprise-intro').clientHeight;
 		if (dom) {
-			window.scrollTo(0, document.getElementById(eleID).offsetTop - _height);
+			window.scrollTo(0, document.getElementById(eleID).offsetTop - 168);
 		}
 	};
 

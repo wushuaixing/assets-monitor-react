@@ -4,12 +4,10 @@ const assets = {
 	auction: {
 		name: '资产-资产拍卖-精准匹配',
 		params: {
-			obligorName: '重庆文化产业融资担保',
-			updateTimeStart: '2019-10-01',
-			process: 0,
+			companyId: 3280438,
 		},
 		list() {
-			return service.get('/yc/monitor/auction/list', { params: this.params }).then(res => res.data);
+			return service.get('yc/search/portrait/company/asset/auction/precision/list', { params: this.params }).then(res => res.data);
 		},
 		count() {
 			return service.get('/yc/monitor/auction/list', { params: this.params }).then((res) => {

@@ -1,7 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Spin, Table } from '@/common';
+import {
+	Ellipsis, Icon, Spin, Table,
+} from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
+import { timeStandard, toEmpty } from '@/utils';
 
 const api = assets.mortgage;
 
@@ -24,14 +27,37 @@ export default class TableIntact extends React.Component {
 		{
 			title: '信息',
 			dataIndex: 'pledgorList',
-			render: text => text[0].pledgor,
+			render: (value, row) => (
+				<div className="assets-info-content">
+					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
+						{ toEmpty(row.companyName) ? <Ellipsis content={row.companyName} tooltip width={600} font={15} /> : '--' }
+					</li>
+					<li>
+						<span className="list list-title align-justify">登记日期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{timeStandard(row.regDate)}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify">质权人</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content" style={{ minWidth: 200 }}>
+							{ toEmpty(value[0].pledgor) ? <Ellipsis content={value[0].pledgor} tooltip width={200} /> : '--'}
+						</span>
+						<span className="list-split" style={{ height: 16 }} />
+						<span className="list list-title align-justify">出质股权数额</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content none-width">{row.equityAmount}</span>
+					</li>
+				</div>
+			),
 		}, {
 			title: '关联信息',
 			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li>
-						<span className="list list-content">{row.state === 0 ? '有效' : '无效'}</span>
+					<li style={{ lineHeight: '20px' }}>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: row.state === 0 ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
+						<span className="list list-content ">{row.state === 0 ? '有效' : '无效'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">登记编号</span>

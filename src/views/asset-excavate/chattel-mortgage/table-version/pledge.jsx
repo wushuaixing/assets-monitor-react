@@ -1,8 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Spin, Table } from '@/common';
+import {
+	Ellipsis, Icon, Spin, Table,
+} from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
-import { timeStandard } from '@/utils';
+import { timeStandard, toEmpty } from '@/utils';
 
 const api = assets.pledgeD;
 
@@ -24,29 +26,44 @@ export default class TableIntact extends React.Component {
 	toGetColumns=() => [
 		{
 			title: '信息',
-			dataIndex: 'owner',
-		}, {
-			title: '关联信息',
-			width: 360,
+			dataIndex: 'pledgeeList',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li>
-						<span className="list list-content">{row.state === 0 ? '有效' : '无效'}</span>
+					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
+						{ toEmpty(row.pawnName) ? <Ellipsis content={row.pawnName} tooltip width={600} font={15} /> : '--' }
 					</li>
-					{
-						row.state === 1 ? [
-							<li>
-								<span className="list list-title align-justify">注销时间</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{row.regDate || '-'}</span>
-							</li>,
-							<li>
-								<span className="list list-title align-justify">注销原因</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{timeStandard(row.cancelReason) || '-'}</span>
-							</li>,
-						] : null
-					}
+					<li>
+						<span className="list list-title align-justify">登记日期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{timeStandard(row.regDate)}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify">抵押权人</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content" style={{ minWidth: 200 }}>
+							{ toEmpty(row.people) ? <Ellipsis content={row.people} tooltip width={200} /> : '--'}
+						</span>
+						<span className="list-split" style={{ height: 16 }} />
+						<span className="list list-title align-justify">担保债权数额</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content " style={{ width: 120 }}>{row.amount}</span>
+						<span className="list-split" style={{ height: 16 }} />
+						<span className="list list-title align-justify">债务人履行债务的期限</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content " style={{ maxWidth: 'none' }}>{row.term}</span>
+					</li>
+				</div>
+			),
+		},
+		{
+			title: '关联信息',
+			width: 240,
+			render: (value, row) => (
+				<div className="assets-info-content">
+					<li style={{ lineHeight: '20px' }}>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: row.state === 0 ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
+						<span className="list list-content ">{row.state === 0 ? '有效' : '无效'}</span>
+					</li>
 					<li>
 						<span className="list list-title align-justify">登记编号</span>
 						<span className="list list-title-colon">:</span>
