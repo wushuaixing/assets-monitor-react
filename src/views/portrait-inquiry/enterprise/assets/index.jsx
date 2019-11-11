@@ -3,7 +3,7 @@ import { Button } from '@/common';
 import Auction from './auction';
 import Subrogation from './subrogation';
 import Land from './land';
-import Intangible from './intangible';
+// import Intangible from './intangible';
 import Stock from './stock';
 import Chattel from './chattel';
 
@@ -32,14 +32,14 @@ const subItems = [
 		tagName: 'e-assets-land',
 		component: Land,
 	},
-	{
-		id: 4,
-		name: '无形资产',
-		total: 0,
-		disabled: true,
-		tagName: 'e-assets-intangible',
-		component: Intangible,
-	},
+	// {
+	// 	id: 4,
+	// 	name: '无形资产',
+	// 	total: 0,
+	// 	disabled: true,
+	// 	tagName: 'e-assets-intangible',
+	// 	component: Intangible,
+	// },
 	{
 		id: 5,
 		name: '股权质押',

@@ -28,7 +28,7 @@ export default class Stock extends React.Component {
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={config}
-					prefix={<div className="yc-tabs-simple-prefix">股权质权</div>}
+					prefix={<div className="yc-tabs-simple-prefix">股权质押</div>}
 				/>
 				<div className="inquiry-public-table">
 					{sourceType === 1 ? <Pledge /> : null}
