@@ -1,7 +1,7 @@
 import React from 'react';
-import { Pagination, Tooltip } from 'antd';
+import { Pagination, Tooltip, Modal } from 'antd';
 import {
-	Ellipsis, Icon, Spin, Table,
+	Ellipsis, Icon, Spin, Table, Button,
 } from '@/common';
 import { floatFormat } from '@/utils/format';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
@@ -113,6 +113,7 @@ export default class TableIntact extends React.Component {
 			current: 1,
 			total: 0,
 			loading: false,
+			visible: false,
 		};
 	}
 
@@ -129,6 +130,10 @@ export default class TableIntact extends React.Component {
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
 						{ toEmpty(row.title)
 							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} /> : '--' }
+						<Button>
+							<Icon type="file-text" />
+							{'查看历史拍卖信息'}
+						</Button>
 					</li>
 					<li>
 						<span className="list list-title align-justify">匹配原因</span>
@@ -181,7 +186,7 @@ export default class TableIntact extends React.Component {
 
 	render() {
 		const { dataSource, current, total } = this.state;
-		const { loading } = this.state;
+		const { loading, visible } = this.state;
 
 		return (
 			<div className="yc-assets-auction ">
@@ -205,6 +210,14 @@ export default class TableIntact extends React.Component {
 						</div>
 					)}
 				</Spin>
+				<Modal
+					title="对话框标题"
+					visible={visible}
+					onCancel={() => this.setState({ visible: false })}
+				>
+					<p>`this.state.ModalText2`</p>
+				</Modal>
+
 			</div>
 		);
 	}
