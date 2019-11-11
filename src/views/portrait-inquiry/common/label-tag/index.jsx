@@ -3,8 +3,11 @@ import './style.scss';
 
 
 const TagOneSide = params => (
-	<div className="yc-label-tag yc-TagOneSide">
-		<div className="yc-label-tag-content">{params.content}</div>
+	<div className={`${params.tag || 'yc-label-tag yc-TagOneSide'} ${params.num === 0 && 'yc-label-disabled'}`} {...params}>
+		<div className="yc-label-tag-content">
+			{params.content}
+			<span style={{ marginLeft: 10 }}>{`${params.num} 条`}</span>
+		</div>
 		<div className="line-triangle line-triangle-right">
 			<div className="line-triangle-outside">
 				<div className="line-triangle-inside" />
@@ -14,13 +17,16 @@ const TagOneSide = params => (
 );
 
 const TagTwoSide = params => (
-	<div className="yc-label-tag yc-TagTwoSide">
+	<div className={`${params.tag || 'yc-label-tag yc-TagTwoSide'} ${params.num === 0 && 'yc-label-disabled'}`} {...params}>
 		<div className="line-triangle line-triangle-left">
 			<div className="line-triangle-outside">
 				<div className="line-triangle-inside" />
 			</div>
 		</div>
-		<div className="yc-label-tag-content">{params.content}</div>
+		<div className="yc-label-tag-content">
+			{params.content}
+			<span style={{ marginLeft: 10 }}>{`${params.num} 条`}</span>
+		</div>
 		<div className="line-triangle line-triangle-right">
 			<div className="line-triangle-outside">
 				<div className="line-triangle-inside" />

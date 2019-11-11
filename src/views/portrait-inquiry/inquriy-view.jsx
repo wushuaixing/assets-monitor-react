@@ -1,8 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
-import { Button, Input } from '@/common';
 import { Radio, Icon, message } from 'antd';
-import { TagOneSide, TagTwoSide } from './common/label-tag';
+import { Button, Input } from '@/common';
 
 export default class InitView extends React.Component {
 	constructor(props) {
@@ -73,10 +72,6 @@ export default class InitView extends React.Component {
 		const { obligorType, obligorName, obligorNumber } = this.state;
 		return (
 			<div className="yc-inquiry-view">
-				<div style={{ padding: 20 }}>
-					<TagOneSide content="测试内容创始人" />
-					<TagTwoSide content="模拟数据假数据" />
-				</div>
 				<div className="yc-inquiry-title">画像查询</div>
 				<div className="yc-inquiry-content">
 					<div className="yc-query-item" style={{ height: 34, paddingTop: 9 }}>
@@ -117,7 +112,7 @@ export default class InitView extends React.Component {
 					<div className="yc-query-item" style={{ textAlign: 'center', marginTop: 80 }}>
 						<Button type="primary" style={{ width: 186 }} size="large" onClick={this.handleQuery}>
 							<Icon type="search" style={{ marginRight: 10 }} />
-							{'一键查询债务人画像'}
+							一键查询债务人画像
 						</Button>
 					</div>
 				</div>

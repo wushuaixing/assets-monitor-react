@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from '@/common';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
+import { TagTwoSide } from '../../../common/label-tag';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -20,9 +20,12 @@ export default class Subrogation extends React.Component {
 		};
 	}
 
-	checkTime = (time) => {
-		if (time === 'Filing') {
+	checkTime = (selectType) => {
+		console.log(selectType);
+
+		if (selectType === 'Filing') {
 			this.setState({
+				selectType,
 				timeLineData: [
 					{ num: 2, year: 2017 },
 					{ num: 6, year: 2018 },
@@ -36,8 +39,9 @@ export default class Subrogation extends React.Component {
 					{ value: 7, name: '中止' },
 				],
 			});
-		} else if (time === 'Court') {
+		} else if (selectType === 'Court') {
 			this.setState({
+				selectType,
 				timeLineData: [
 					{ num: 2, year: 2017 },
 					{ num: 6, year: 2018 },
@@ -51,8 +55,9 @@ export default class Subrogation extends React.Component {
 					{ value: 6, name: '撤回' },
 				],
 			});
-		} else if (time === 'referee') {
+		} else if (selectType === 'referee') {
 			this.setState({
+				selectType,
 				timeLineData: [
 					{ num: 2, year: 2017 },
 					{ num: 6, year: 2018 },
@@ -70,7 +75,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	render() {
-		const { RingData, timeLineData } = this.state;
+		const { RingData, timeLineData, selectType } = this.state;
 		return (
 			<div>
 				<div className="overview-container-title">
@@ -80,9 +85,12 @@ export default class Subrogation extends React.Component {
 				</div>
 				<div className="overview-container-content">
 					<div style={{ marginBottom: 20 }}>
-						<Button style={{ marginRight: 10 }} onClick={() => this.checkTime('Filing')}>立案信息 8 条</Button>
+						{/* <Button style={{ marginRight: 10 }} onClick={() => this.checkTime('Filing')}>立案信息 8 条</Button>
 						<Button style={{ marginRight: 10 }} onClick={() => this.checkTime('Court')}>开庭信息 8 条</Button>
-						<Button onClick={() => this.checkTime('referee')}>裁判文书 8 条</Button>
+						<Button onClick={() => this.checkTime('referee')}>裁判文书 8 条</Button> */}
+						<TagTwoSide content="立案信息" num={9} onClick={() => this.checkTime('Filing')} tag={selectType === 'Filing' ? 'yc-tag-active' : ''} />
+						<TagTwoSide content="开庭信息" num={0} onClick={() => this.checkTime('Court')} tag={selectType === 'Court' ? 'yc-tag-active' : ''} />
+						<TagTwoSide content="裁判文书" num={8} onClick={() => this.checkTime('referee')} tag={selectType === 'referee' ? 'yc-tag-active' : ''} />
 					</div>
 					<TimeLine title="年份分布" Data={timeLineData} id="subrogation" />
 					<RingEcharts title="案件类型分布" Data={RingData} id="subrogation" />
