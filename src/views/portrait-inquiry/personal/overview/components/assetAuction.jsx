@@ -7,6 +7,7 @@ export default class AssetAuction extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			selectType: 'threeMonth',
 			columnarData: [
 				{ value: 8, name: '资产所有人' },
 				{ value: 12, name: '债权人' },
@@ -23,9 +24,10 @@ export default class AssetAuction extends React.Component {
 		};
 	}
 
-	checkTime = (time) => {
-		if (time === 'threeMonth') {
+	checkTime = (selectType) => {
+		if (selectType === 'threeMonth') {
 			this.setState({
+				selectType,
 				columnarData: [
 					{ value: 8, name: '资产所有人' },
 					{ value: 12, name: '债权人' },
@@ -39,8 +41,9 @@ export default class AssetAuction extends React.Component {
 					{ value: 5, name: '已流拍' },
 				],
 			});
-		} else if (time === 'all') {
+		} else if (selectType === 'all') {
 			this.setState({
+				selectType,
 				columnarData: [
 					{ value: 18, name: '资产所有人' },
 					{ value: 12, name: '债权人' },
@@ -61,7 +64,9 @@ export default class AssetAuction extends React.Component {
 	};
 
 	render() {
-		const { columnarData, RingData, colorArray } = this.state;
+		const {
+			columnarData, RingData, colorArray, selectType,
+		} = this.state;
 		return (
 			<div>
 				<div className="overview-container-title">
@@ -72,8 +77,8 @@ export default class AssetAuction extends React.Component {
 				</div>
 				<div className="overview-container-content">
 					<div style={{ marginBottom: 20 }}>
-						<Button style={{ marginRight: 10 }} onClick={() => this.checkTime('threeMonth')}>三个月内 8</Button>
-						<Button onClick={() => this.checkTime('all')}>全部 12</Button>
+						<Button type={selectType === 'threeMonth' ? 'warning' : 'select'} style={{ marginRight: 10 }} onClick={() => this.checkTime('threeMonth')}>三个月内 8</Button>
+						<Button type={selectType === 'all' ? 'warning' : 'select'} onClick={() => this.checkTime('all')}>全部 12</Button>
 					</div>
 					<ColumnarEcharts title="角色分布" Data={columnarData} id="assetAuction" />
 					<RingEcharts title="拍卖结果分布" Data={RingData} id="assetAuction" colorArray={colorArray} />

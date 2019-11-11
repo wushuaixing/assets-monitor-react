@@ -153,17 +153,33 @@
 }
 
 .yc-btn-warning {
-   border: 1px solid $color-alert-error;
-   background-color: $color-alert-error;
-   color: #FFFFFF;
+  border: 1px solid $common-warning;
+  // box-shadow: 0 0 4px 0 $common-warning;
+  color: $common-warning;
    &:hover{
-     border: 1px solid $color-alert-error-hover;
-     background-color: $color-alert-error-hover;
+    border: 1px solid $common-warning;
+    // box-shadow: 0 0 4px 0 $common-warning;
+    color: $common-warning;
 
    }
    &:active{
-     border: 1px solid $color-alert-error;
-     box-shadow: 0 0 4px 0 $color-alert-error;
+     border: 1px solid $common-warning;
+     box-shadow: 0 0 4px 0 $common-warning;
+     color: $common-warning;
+   }
+ }
+
+ .yc-btn-select {
+   &:hover{
+    border: 1px solid $common-warning;
+    // box-shadow: 0 0 4px 0 $common-warning;
+    color: $common-warning;
+
+   }
+   &:active{
+     border: 1px solid $common-warning;
+     box-shadow: 0 0 4px 0 $common-warning;
+     color: $common-warning;
    }
  }
  .yc-btn-common {

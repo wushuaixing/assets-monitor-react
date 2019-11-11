@@ -7,6 +7,7 @@ export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			selectType: 'Filing',
 			RingData: [
 				{ value: 20, name: '普通案件' },
 				{ value: 14, name: '执行案件' },
