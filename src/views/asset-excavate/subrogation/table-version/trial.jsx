@@ -82,7 +82,7 @@ export default class TableIntact extends React.Component {
 		trial.list({
 			page: page || 1,
 		}).then((res) => {
-			console.log(res);
+			// console.log(res);
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,

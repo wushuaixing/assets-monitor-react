@@ -13,7 +13,7 @@ export default class InquiryList extends React.Component {
 		this.state = {
 			dataSource: '',
 			// current: 1,
-			total: 0,
+			// total: 0,
 			loading: false,
 		};
 		this.condition = {};
@@ -28,13 +28,23 @@ export default class InquiryList extends React.Component {
 		this.toGetData(val);
 	};
 
+	getRegStatusClass=(val) => {
+		if (val.match(/(存续|在业)/)) return ' regStatus-green';
+		if (val.match(/(迁出|其他)/)) return ' regStatus-orange';
+		if (val.match(/(撤销|吊销|清算|停业|注销)/)) return ' regStatus-red';
+		return '';
+	};
+
 	toGetColumns=() => [
 		{
 			title: '主要信息',
 			dataIndex: 'name',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li className="yc-public-large-bold yc-em-tag" style={{ margin: '10px 0' }} dangerouslySetInnerHTML={{ __html: value }} />
+					<li className="yc-public-large-bold yc-em-tag" style={{ margin: '10px 0' }}>
+						<span dangerouslySetInnerHTML={{ __html: value }} />
+						<span className={`inquiry-list-regStatus${this.getRegStatusClass(row.regStatus)}`}>{row.regStatus}</span>
+					</li>
 					<li>
 						<span className="list list-title">法定代表人</span>
 						<span className="list list-title-colon">:</span>
@@ -59,6 +69,10 @@ export default class InquiryList extends React.Component {
 		},
 	];
 
+	onRowClick=(record, index) => {
+		console.log(record, index);
+	};
+
 	/* 默认查询 */
 	handleQuery=(obj) => {
 		this.condition = obj;
@@ -77,14 +91,14 @@ export default class InquiryList extends React.Component {
 				this.setState({
 					dataSource: res.data.list,
 					// current: res.data.page,
-					total: res.data.total,
+					// total: res.data.total,
 					loading: false,
 				});
 			} else {
 				this.setState({
 					dataSource: '',
 					// current: 1,
-					total: 0,
+					// total: 0,
 					loading: false,
 				});
 			}
@@ -118,6 +132,7 @@ export default class InquiryList extends React.Component {
 								className="yc-none-background"
 								rowClassName={() => 'yc-assets-auction-table-row'}
 								columns={this.toGetColumns()}
+								onRowClick={this.onRowClick}
 								dataSource={dataSource}
 								showHeader={false}
 								pagination={false}

@@ -43,10 +43,13 @@ const obligorType = {
 };
 
 /* 处理配置文件，并返回 eCharts配置 */
-const optionMethods = (source1, source2) => ({
-	calculable: false,
-	series: [
-		{
+const optionMethods = (source1, source2) => {
+	const option = {
+		calculable: false,
+		series: [],
+	};
+	if (source1) {
+		option.series.push({
 			name: '股东',
 			type: 'tree',
 			rootLocation: { x: '50%', y: '50%' }, // 根节点位置  {x: 'center',y: 10}
@@ -78,8 +81,10 @@ const optionMethods = (source1, source2) => ({
 				},
 			},
 			data: source1,
-		},
-		{
+		});
+	}
+	if (source2) {
+		option.series.push({
 			name: '投资',
 			type: 'tree',
 			rootLocation: { x: '50%', y: '50%' }, // 根节点位置  {x: 'center',y: 10}
@@ -110,11 +115,11 @@ const optionMethods = (source1, source2) => ({
 					borderColor: '#128bed00',
 				},
 			},
-			data: source2,
-		},
-
-	],
-});
+			data: source2 || [],
+		});
+	}
+	return option;
+};
 
 export default class StockRight extends React.Component {
 	constructor(props) {
@@ -133,6 +138,8 @@ export default class StockRight extends React.Component {
 			holderData: source.holderData,
 			investorData: source.investorData,
 		};
+		// console.log(source);
+		// return;
 		this.myChart = window.echarts.init(document.getElementById('zRenderEcharts'));
 		this.myChart.setOption(optionMethods(source.holderData, source.investorData));
 		this.initZRender();
@@ -146,6 +153,40 @@ export default class StockRight extends React.Component {
 		});
 	}
 
+	/* add arrow 添加箭头 */
+
+	toAddArrow=(item, type) => ({
+		name: item.percent,
+		symbol: 'circle', // 'arrowdown'
+		symbolSize: 20,
+		hoverable: false,
+		clickable: false,
+		isArrow: true,
+		itemStyle: {
+			normal: {
+				color: '#1e81e1',
+				label: {
+					position: 'right',
+					lineHeight: 0.5,
+				},
+			},
+		},
+		children: item[type === 'holder' ? 'holderList' : 'investorList'].map(childItem => ({
+			username: childItem.name,
+			value: 2,
+			type: childItem.type,
+			symbol: 'rectangle',
+			iconStatus: 'del',
+			id: childItem.id,
+			treeName: type,
+			hasNode: childItem.hasNode,
+			symbolSize: [140, 50],
+			amount: childItem.amount,
+			itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
+		})),
+	});
+
+
 	/* 初始化构建 树图配置 */
 	initOption=() => {
 		const { holderList, investorList } = analogData;
@@ -154,65 +195,134 @@ export default class StockRight extends React.Component {
 			symbolSize: [40 + analogData.name.length * 18, 50],
 			symbol: 'rectangle',
 			children: holderList.map(item => ({
-				username: item.name,
-				symbol: 'rectangle',
-				symbolSize: [146, 50],
-				hasNode: item.hasNode,
-				treeName: 'holder',
-				id: item.id,
-				type: item.type,
-				iconStatus: 'del',
-				itemStyle: item.type === 1 ? obligorType[1] : obligorType[2],
-				amount: item.amount,
-				remark: [],
-				children: item.holderList.map(childItem => ({
-					username: childItem.name,
-					value: 2,
-					type: childItem.type,
+				name: item.percent,
+				symbol: 'circle', // 'arrowdown'
+				symbolSize: 20,
+				hoverable: false,
+				clickable: false,
+				isArrow: true,
+				itemStyle: {
+					normal: {
+						color: '#1e81e1',
+						label: {
+							position: 'right',
+							lineHeight: 0.5,
+						},
+					},
+				},
+				children: [{
+					username: item.name,
 					symbol: 'rectangle',
-					iconStatus: 'del',
-					id: childItem.id,
+					symbolSize: [146, 50],
+					hasNode: item.hasNode,
 					treeName: 'holder',
-					hasNode: childItem.hasNode,
-					symbolSize: [140, 50],
-					amount: childItem.amount,
-					itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
-				})),
-			})),
-		}];
-		const investorData = [{
-			name: analogData.name,
-			symbolSize: [40 + analogData.name.length * 18, 50],
-			symbol: 'rectangle',
-			children: investorList.map(item => ({
-				username: item.name,
-				symbol: 'rectangle',
-				symbolSize: [146, 50],
-				hasNode: item.hasNode,
-				iconStatus: 'del',
-				treeName: 'investor',
-				type: item.type,
-				id: item.id,
-				itemStyle: item.type === 1 ? obligorType[1] : obligorType[2],
-				amount: item.amount,
-				children: item.investorList && item.investorList.map(childItem => ({
-					username: childItem.name,
-					type: childItem.type,
-					hasNode: childItem.hasNode,
+					id: item.id,
+					type: item.type,
 					iconStatus: 'del',
-					id: childItem.id,
-					treeName: 'investor',
-					value: 2,
-					symbol: 'rectangle',
-					symbolSize: [140, 50],
-					amount: childItem.amount,
-					itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
-				})),
+					itemStyle: item.type === 1 ? obligorType[1] : obligorType[2],
+					amount: item.amount,
+					remark: [],
+					children: item.holderList.map(childItem => ({
+						name: childItem.percent,
+						symbol: 'circle', // 'arrowdown'
+						symbolSize: 20,
+						hoverable: false,
+						clickable: false,
+						isArrow: true,
+						itemStyle: {
+							normal: {
+								color: '#1e81e1',
+								label: {
+									position: 'right',
+									lineHeight: 0.5,
+								},
+							},
+						},
+						children: [{
+							username: childItem.name,
+							value: 2,
+							type: childItem.type,
+							symbol: 'rectangle',
+							iconStatus: 'del',
+							id: childItem.id,
+							treeName: 'holder',
+							hasNode: childItem.hasNode,
+							symbolSize: [140, 50],
+							amount: childItem.amount,
+							itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
+						}],
+					})),
+				}],
 			})),
 		}];
+		// const investorData = [{
+		// 	name: analogData.name,
+		// 	symbolSize: [40 + analogData.name.length * 18, 50],
+		// 	symbol: 'rectangle',
+		// 	children: investorList.map(item => ({
+		// 		name: item.percent,
+		// 		symbol: 'circle', // 'arrowdown'
+		// 		symbolSize: 20,
+		// 		hoverable: false,
+		// 		clickable: false,
+		// 		isArrow: true,
+		// 		itemStyle: {
+		// 			normal: {
+		// 				color: '#1e81e1',
+		// 				label: {
+		// 					position: 'right',
+		// 					lineHeight: 0.5,
+		// 				},
+		// 			},
+		// 		},
+		// 		children: [{
+		// 			username: item.name,
+		// 			symbol: 'rectangle',
+		// 			symbolSize: [146, 50],
+		// 			hasNode: item.hasNode,
+		// 			treeName: 'investor',
+		// 			id: item.id,
+		// 			type: item.type,
+		// 			iconStatus: 'del',
+		// 			itemStyle: item.type === 1 ? obligorType[1] : obligorType[2],
+		// 			amount: item.amount,
+		// 			remark: [],
+		// 			children: item.investorList.map(childItem => ({
+		// 				name: childItem.percent,
+		// 				symbol: 'circle', // 'arrowdown'
+		// 				symbolSize: 20,
+		// 				hoverable: false,
+		// 				clickable: false,
+		// 				isArrow: true,
+		// 				itemStyle: {
+		// 					normal: {
+		// 						color: '#1e81e1',
+		// 						label: {
+		// 							position: 'right',
+		// 							lineHeight: 0.5,
+		// 						},
+		// 					},
+		// 				},
+		// 				children: [{
+		// 					username: childItem.name,
+		// 					value: 2,
+		// 					type: childItem.type,
+		// 					symbol: 'rectangle',
+		// 					iconStatus: 'del',
+		// 					id: childItem.id,
+		// 					treeName: 'holder',
+		// 					hasNode: childItem.hasNode,
+		// 					symbolSize: [140, 50],
+		// 					amount: childItem.amount,
+		// 					itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
+		// 				}],
+		// 			})),
+		// 		}],
+		// 	})),
+		// }];
 		return {
 			holderData,
-			investorData,
+			// investorData,
 		};
 	};
 
@@ -221,7 +331,7 @@ export default class StockRight extends React.Component {
 		const { id, iconStatus, treeName } = params;
 		if (treeName === 'holder') {
 			const { children } = this.resultSource.holderData[0];
-			this.resultSource.holderData[0].children = children.map((item) => {
+			this.resultSource.holderData[0].children = children[0].children.map((item) => {
 				const _item = item;
 				if (item.id === id) {
 					console.log(item);
@@ -255,7 +365,7 @@ export default class StockRight extends React.Component {
 			const myChartData = shapeList[i]._echartsData;
 			const locationX = shapeList[i].rotation[1];
 			const locationY = shapeList[i].rotation[2];
-			// console.log(myChartData);
+			console.log(myChartData);
 			if (myChartData) {
 				const shapeText = new Text({
 					style: {
@@ -331,6 +441,7 @@ export default class StockRight extends React.Component {
 			}
 		}
 	};
+
 
 	render() {
 		return (

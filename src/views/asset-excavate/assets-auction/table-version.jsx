@@ -1,6 +1,8 @@
 import React from 'react';
 import { Pagination, Tooltip } from 'antd';
-import { Ellipsis, Spin, Table } from '@/common';
+import {
+	Ellipsis, Icon, Spin, Table,
+} from '@/common';
 import { floatFormat } from '@/utils/format';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 
@@ -11,25 +13,27 @@ const { auction } = assets;
 
 const AuctionInfo = (text, rowContent) => {
 	const {
-		court, consultPrice, start, currentPrice, status, initialPrice,
+		court, consultPrice, start, currentPrice, initialPrice, status,
 	} = rowContent;
 	const auctionStatus = (s) => {
-		let res = '--';
+		let res = { text: '--', color: '#7D8699' };
 		switch (s) {
-		case 1: res = '即将开始'; break;
-		case 3: res = '正在进行'; break;
-		case 5: res = '已成交'; break;
-		case 7: res = '已流拍'; break;
-		case 9: res = '中止'; break;
-		case 11: res = '撤回'; break;
-		default: res = '--';
+		case 1: res = { text: '即将开始', color: '#FB8E3C' }; break;
+		case 3: res = { text: '正在进行', color: '#45A1FF' }; break;
+		case 5: res = { text: '已成交', color: '#3DBD7D' }; break;
+		case 7: res = { text: '已流拍', color: '#7D8699' }; break;
+		case 9: res = { text: '中止', color: '#7D8699' }; break;
+		case 11: res = { text: '撤回', color: '#7D8699' }; break;
+		default: res = { text: '--', color: '#7D8699' };
 		}
 		return res;
 	};
+	const result = auctionStatus(status);
 	return (
 		<div className="yc-assets-table-info">
-			<li className="table-info-list list-width-180" style={{ lineHeight: '20px' }}>
-				<span className={`info info-content${status ? ` info-auction-${status}` : ''}`}>{auctionStatus(status)}</span>
+			<li style={{ lineHeight: '20px' }}>
+				<Icon type="icon-dot" style={{ fontSize: 12, color: result.color, marginRight: 2 }} />
+				<span className="list list-content ">{result.text}</span>
 			</li>
 			<li className="table-info-list list-width-180">
 				<span className="info info-title">处置机关：</span>
