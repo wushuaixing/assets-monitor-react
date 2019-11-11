@@ -17,7 +17,7 @@ const eData = {
 			companyStatus: 1, // 企业状态,注销，存续等
 			amount: '4000万人民币', // 认缴金额
 			isHoldingCompany: true, // 是否控股
-			id: 2222, // 公司id or 个人id
+			id: 111222222, // 公司id or 个人id
 			hasNode: true,
 			percent: '70%',
 			type: 1, // 公司 or 个人
@@ -63,33 +63,33 @@ const eData = {
 			type: 1, // 公司 or 个人
 			isFHolder: false,
 			holderList: [
-				{
-					name: '何均善',
-					amount: '73000万人民币', // 认缴金额
-					id: 333, // 公司id or 个人id
-					hasNode: true,
-					percent: '70%',
-					type: 2, // 公司 or 个人
-					isFHolder: true, // 最终受益人
-				},
-				{
-					name: '李骆萍',
-					amount: '1000万人民币', // 认缴金额
-					id: 444, // 公司id or 个人id
-					hasNode: true,
-					percent: '70%',
-					type: 2, // 公司 or 个人
-					isFHolder: false, // 最终受益人
-				},
-				{
-					name: '李骆',
-					amount: '100万人民币', // 认缴金额
-					id: 555, // 公司id or 个人id
-					hasNode: true,
-					percent: '70%',
-					type: 2, // 公司 or 个人
-					isFHolder: false, // 最终受益人
-				},
+				// {
+				// 	name: '何均善',
+				// 	amount: '73000万人民币', // 认缴金额
+				// 	id: 333, // 公司id or 个人id
+				// 	hasNode: true,
+				// 	percent: '70%',
+				// 	type: 2, // 公司 or 个人
+				// 	isFHolder: true, // 最终受益人
+				// },
+				// {
+				// 	name: '李骆萍',
+				// 	amount: '1000万人民币', // 认缴金额
+				// 	id: 444, // 公司id or 个人id
+				// 	hasNode: true,
+				// 	percent: '70%',
+				// 	type: 2, // 公司 or 个人
+				// 	isFHolder: false, // 最终受益人
+				// },
+				// {
+				// 	name: '李骆',
+				// 	amount: '100万人民币', // 认缴金额
+				// 	id: 555, // 公司id or 个人id
+				// 	hasNode: true,
+				// 	percent: '70%',
+				// 	type: 2, // 公司 or 个人
+				// 	isFHolder: false, // 最终受益人
+				// },
 			],
 		},
 	],

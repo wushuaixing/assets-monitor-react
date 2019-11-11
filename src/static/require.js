@@ -15,5 +15,6 @@ require([
 	window.zrDefine = {
 		Text: require('zrender/shape/Text'),
 		Circle: require('zrender/shape/Circle'),
+		ImageShape:require('zrender/shape/Image')
 	};
 });
