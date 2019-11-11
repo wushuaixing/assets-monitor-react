@@ -18,7 +18,23 @@
   -webkit-transition: -webkit-transform .2s ease;
   transition: -webkit-transform .2s ease;
 }
-
+// input 框icon样式
+.anticon-search {
+  &::before {
+    content: "";
+    background-image: url("../img/icon/icon_search_n.png");
+    width: 16px;
+    height: 16px;
+    border: medium none;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    display: inline-block;
+    background-repeat: no-repeat;
+    -webkit-transition: -webkit-transform .2s ease;
+    transition: -webkit-transform .2s ease;
+  }
+}
 .ant-table-row-expanded:after {
   content: "";
   background-image: url("../img/home/icon_arrow_down2.png");

@@ -261,8 +261,8 @@ class Login extends React.Component {
 				if (arr[index] && arr[index].children && arr[index].children.length > 0) {
 					this.IterationDeleteMenuChildren(arr[index].children);
 				} else {
-					// eslint-disable-next-line no-param-reassign
-					delete arr[index].children;
+					const newArray = arr;
+					delete newArray[index].children;
 				}
 			});
 		}
@@ -279,7 +279,9 @@ class Login extends React.Component {
 
 			<Form>
 				<div className="yc-group-search">
+					<Icon className="yc-search-icon" type="search" />
 					<Input
+						// addonBefore={<Icon type="search" />}
 						className="yc-group-input"
 						placeholder="请输入机构名称"
 						autoComplete="off"
@@ -291,7 +293,6 @@ class Login extends React.Component {
 						onKeyUp={this.onKeyup}
 						onBlur={e => this.inputSearchBlur(e)}
 					/>
-					<Button type="primary" onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button>
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (
