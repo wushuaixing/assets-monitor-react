@@ -77,7 +77,6 @@ class RingEcharts extends React.Component {
 		dataList.forEach((item, index) => {
 			const x = base.x + (dataList.length === 4 ? (index > 1 ? 1 : 0) * 60 + (index > 1 ? 1 : 0) * 120 : (index > 2 ? 1 : 0) * 60 + (index > 2 ? 1 : 0) * 120);
 			const y = base.y + (dataList.length === 4 ? 20 * (index > 1 ? index - 2 : index) : 20 * (index > 2 ? index - 3 : index));
-			console.log(dataList.length, x, 11);
 
 			const shapeCircle = new Circle({
 				style: {
