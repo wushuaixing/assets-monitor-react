@@ -2,6 +2,7 @@ import React from 'react';
 import { navigate } from '@reach/router';
 import { Button, Input } from '@/common';
 import { Radio, Icon, message } from 'antd';
+import { TagOneSide, TagTwoSide } from './common/label-tag';
 
 export default class InitView extends React.Component {
 	constructor(props) {
@@ -72,6 +73,10 @@ export default class InitView extends React.Component {
 		const { obligorType, obligorName, obligorNumber } = this.state;
 		return (
 			<div className="yc-inquiry-view">
+				<div style={{ padding: 20 }}>
+					<TagOneSide content="测试内容创始人" />
+					<TagTwoSide content="模拟数据假数据" />
+				</div>
 				<div className="yc-inquiry-title">画像查询</div>
 				<div className="yc-inquiry-content">
 					<div className="yc-query-item" style={{ height: 34, paddingTop: 9 }}>
@@ -116,6 +121,7 @@ export default class InitView extends React.Component {
 						</Button>
 					</div>
 				</div>
+
 				<div className="yc-to-go-list">
 					<Button onClick={() => this.toNavigate('list')}>{'=> 查询列表'}</Button>
 					<Button onClick={() => this.toNavigate('enterprise')}>{'=> 企业查询详情'}</Button>
