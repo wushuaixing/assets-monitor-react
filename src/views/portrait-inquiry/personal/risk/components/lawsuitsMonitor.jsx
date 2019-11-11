@@ -72,7 +72,7 @@ export default class lawsuitsMonitor extends React.Component {
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
 					<div className="yc-tabs-simple-prefix">
-                        裁判文书
+                        涉诉文书
 						<span className="yc-table-num">{total}</span>
 					</div>
 				</div>

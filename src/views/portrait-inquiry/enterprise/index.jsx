@@ -154,6 +154,7 @@ export default class Enterprise extends React.Component {
 		const {
 			tabConfig, childDom, sourceType, affixStatus,
 		} = this.state;
+
 		return (
 			<div className="yc-inquiry-enterprise">
 				<QueryView type={1} />
