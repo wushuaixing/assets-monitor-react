@@ -81,7 +81,9 @@ const EnterpriseInfo = (props) => {
 						{name}
 						{/* <img className="intro-title-tag" src={Dishonest} alt="" /> */}
 					</span>
-					<span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={{ marginTop: 2 }}>{regStatus}</span>
+					{
+						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={{ marginTop: 2 }}>{regStatus}</span> : null
+					}
 				</div>
 				<div className="intro-base-info">
 					<li className="intro-info-list intro-list-border">
@@ -121,7 +123,9 @@ const EnterpriseInfoSimple = (props) => {
 					{data.name}
 					{/* <img className="intro-title-tag" src={Dishonest} alt="" /> */}
 				</span>
-				<span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={{ marginTop: 2 }}>{data.regStatus}</span>
+				{
+					data.regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={{ marginTop: 2 }}>{data.regStatus}</span> : ''
+				}
 			</div>
 			<Button className="intro-download" onClick={download}>
 				<Icon type="download" />
