@@ -1,5 +1,5 @@
 import React from 'react';
-// import { navigate } from '@reach/router';
+import { navigate } from '@reach/router';
 // import { Pagination } from 'antd';
 import QueryView from './common/queryView';
 import { inquiryList } from '@/utils/api/portrait-inquiry';
@@ -35,6 +35,10 @@ export default class InquiryList extends React.Component {
 		return '';
 	};
 
+	toDetailInfo=(id) => {
+		navigate(`/inquiry/enterprise?id=${id}`);
+	};
+
 	toGetColumns=() => [
 		{
 			title: '主要信息',
@@ -42,7 +46,11 @@ export default class InquiryList extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-large-bold yc-em-tag" style={{ margin: '10px 0' }}>
-						<span dangerouslySetInnerHTML={{ __html: value }} />
+						<span
+							className="cursor-pointer"
+							dangerouslySetInnerHTML={{ __html: value }}
+							onClick={() => this.toDetailInfo(row.companyId)}
+						/>
 						<span className={`inquiry-list-regStatus${this.getRegStatusClass(row.regStatus)}`}>{row.regStatus}</span>
 					</li>
 					<li>
