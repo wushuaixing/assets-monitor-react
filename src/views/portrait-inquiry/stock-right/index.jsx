@@ -1,12 +1,27 @@
 import React from 'react';
 import './style.scss';
-import analogData from './analog-data';
+import analogData, { imitateSource } from './analog-data';
 import iconAdd from '@/assets/img/icon/icon_add.png';
 import iconDelete from '@/assets/img/icon/icon_delete.png';
+import iconArrow from '@/assets/img/icon/arrow.png';
 
-const obligorType = {
-	1: {
-		normal: {
+/* 常用样式 */
+const style = {
+	font: {
+		textFont: 'normal 12px verdana',
+		textAlign: 'center',
+		color: '#333',
+		fontSize: 14,
+		lineWidth: 0,
+	},
+	zLevel: {
+		zlevel: 1,
+		z: 5,
+		ndelete: true,
+		hoverable: false,
+	},
+	background: {
+		any: {
 			color: '#fff',
 			borderWidth: '1',
 			borderColor: '#ccc',
@@ -20,14 +35,7 @@ const obligorType = {
 				},
 			},
 		},
-		emphasis: {
-			color: 'rgba(255,255,255,0)',
-			borderWidth: '1',
-			borderColor: 'rgba(255,255,255,0)',
-		},
-	},
-	2: {
-		normal: {
+		per: {
 			color: '#f3f9fe',
 			borderColor: '#1e81e1',
 			borderWidth: '1',
@@ -131,293 +139,180 @@ export default class StockRight extends React.Component {
 		};
 	}
 
-
 	componentDidMount() {
 		const source = this.initOption();
 		this.resultSource = {
 			holderData: source.holderData,
 			investorData: source.investorData,
 		};
-		// console.log(source);
-		// return;
+
 		this.myChart = window.echarts.init(document.getElementById('zRenderEcharts'));
 		this.myChart.setOption(optionMethods(source.holderData, source.investorData));
 		this.initZRender();
 		this.myChart.getZrender().on('click', (e) => {
 			if (e.target) {
 				const { isCollapse, info } = e.target;
-				if (isCollapse) {
-					this.handleOption(info);
-				}
+				if (isCollapse) this.handleOption(info);
 			}
 		});
 	}
-
-	/* add arrow 添加箭头 */
-
-	toAddArrow=(item, type) => ({
-		name: item.percent,
-		symbol: 'circle', // 'arrowdown'
-		symbolSize: 20,
-		hoverable: false,
-		clickable: false,
-		isArrow: true,
-		itemStyle: {
-			normal: {
-				color: '#1e81e1',
-				label: {
-					position: 'right',
-					lineHeight: 0.5,
-				},
-			},
-		},
-		children: item[type === 'holder' ? 'holderList' : 'investorList'].map(childItem => ({
-			username: childItem.name,
-			value: 2,
-			type: childItem.type,
-			symbol: 'rectangle',
-			iconStatus: 'del',
-			id: childItem.id,
-			treeName: type,
-			hasNode: childItem.hasNode,
-			symbolSize: [140, 50],
-			amount: childItem.amount,
-			itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
-		})),
-	});
-
 
 	/* 初始化构建 树图配置 */
 	initOption=() => {
 		const { holderList, investorList } = analogData;
 		const holderData = [{
 			name: analogData.name,
-			symbolSize: [40 + analogData.name.length * 18, 50],
+			symbolSize: [40 + analogData.name.length * 18 + 20, 50],
 			symbol: 'rectangle',
-			children: holderList.map(item => ({
-				name: item.percent,
-				symbol: 'circle', // 'arrowdown'
-				symbolSize: 20,
-				hoverable: false,
-				clickable: false,
+			children: this.toAddArrowData(holderList, 'holder'),
+		}];
+		const investorData = [{
+			name: analogData.name,
+			symbolSize: [40 + analogData.name.length * 18 + 20, 50],
+			symbol: 'rectangle',
+			children: this.toAddArrowData(investorList, 'investor'),
+		}];
+		return { holderData, investorData };
+	};
+
+	/* 添加箭头样式 */
+	toAddArrowData=(source, type) => {
+		if ((source || []).length) {
+			const sourceType = type === 'holder' ? 'holderList' : 'investorList';
+			const iconStatus = (item) => {
+				if (item.hasNode) {
+					if ((item[sourceType] || []).length) return 'del';
+					return 'add';
+				}
+				return '';
+			};
+			return	source.map(item => ({
+				value: item.percent,
+				symbol: 'arrow',
+				symbolSize: 1,
 				isArrow: true,
 				itemStyle: {
 					normal: {
-						color: '#1e81e1',
+						color: '#000',
 						label: {
 							position: 'right',
-							lineHeight: 0.5,
+							lineHeight: 1,
 						},
 					},
 				},
 				children: [{
-					username: item.name,
 					symbol: 'rectangle',
-					symbolSize: [146, 50],
-					hasNode: item.hasNode,
-					treeName: 'holder',
+					symbolSize: [160, 50],
+					iconStatus: iconStatus(item),
+					username: item.name,
+					value: item.value,
+					isElement: true,
+					dataType: type,
 					id: item.id,
-					type: item.type,
-					iconStatus: 'del',
-					itemStyle: item.type === 1 ? obligorType[1] : obligorType[2],
+					treeName: type,
+					hasNode: item.hasNode,
 					amount: item.amount,
-					remark: [],
-					children: item.holderList.map(childItem => ({
-						name: childItem.percent,
-						symbol: 'circle', // 'arrowdown'
-						symbolSize: 20,
-						hoverable: false,
-						clickable: false,
-						isArrow: true,
-						itemStyle: {
-							normal: {
-								color: '#1e81e1',
-								label: {
-									position: 'right',
-									lineHeight: 0.5,
-								},
-							},
-						},
-						children: [{
-							username: childItem.name,
-							value: 2,
-							type: childItem.type,
-							symbol: 'rectangle',
-							iconStatus: 'del',
-							id: childItem.id,
-							treeName: 'holder',
-							hasNode: childItem.hasNode,
-							symbolSize: [140, 50],
-							amount: childItem.amount,
-							itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
-						}],
-					})),
+					itemStyle: {
+						normal: item.type === 2 ? { ...style.background.any } : { ...style.background.per },
+					},
+					children: item.hasNode ? this.toAddArrowData(item[sourceType], type) : [],
 				}],
-			})),
-		}];
-		// const investorData = [{
-		// 	name: analogData.name,
-		// 	symbolSize: [40 + analogData.name.length * 18, 50],
-		// 	symbol: 'rectangle',
-		// 	children: investorList.map(item => ({
-		// 		name: item.percent,
-		// 		symbol: 'circle', // 'arrowdown'
-		// 		symbolSize: 20,
-		// 		hoverable: false,
-		// 		clickable: false,
-		// 		isArrow: true,
-		// 		itemStyle: {
-		// 			normal: {
-		// 				color: '#1e81e1',
-		// 				label: {
-		// 					position: 'right',
-		// 					lineHeight: 0.5,
-		// 				},
-		// 			},
-		// 		},
-		// 		children: [{
-		// 			username: item.name,
-		// 			symbol: 'rectangle',
-		// 			symbolSize: [146, 50],
-		// 			hasNode: item.hasNode,
-		// 			treeName: 'investor',
-		// 			id: item.id,
-		// 			type: item.type,
-		// 			iconStatus: 'del',
-		// 			itemStyle: item.type === 1 ? obligorType[1] : obligorType[2],
-		// 			amount: item.amount,
-		// 			remark: [],
-		// 			children: item.investorList.map(childItem => ({
-		// 				name: childItem.percent,
-		// 				symbol: 'circle', // 'arrowdown'
-		// 				symbolSize: 20,
-		// 				hoverable: false,
-		// 				clickable: false,
-		// 				isArrow: true,
-		// 				itemStyle: {
-		// 					normal: {
-		// 						color: '#1e81e1',
-		// 						label: {
-		// 							position: 'right',
-		// 							lineHeight: 0.5,
-		// 						},
-		// 					},
-		// 				},
-		// 				children: [{
-		// 					username: childItem.name,
-		// 					value: 2,
-		// 					type: childItem.type,
-		// 					symbol: 'rectangle',
-		// 					iconStatus: 'del',
-		// 					id: childItem.id,
-		// 					treeName: 'holder',
-		// 					hasNode: childItem.hasNode,
-		// 					symbolSize: [140, 50],
-		// 					amount: childItem.amount,
-		// 					itemStyle: childItem.type === 1 ? obligorType[1] : obligorType[2],
-		// 				}],
-		// 			})),
-		// 		}],
-		// 	})),
-		// }];
-		return {
-			holderData,
-			// investorData,
+			}));
+		}
+		return [];
+	};
+
+	/* 获取ID对应的节点数据 */
+	toGetIdItem=(eleId, type) => {
+		const baseSource = this.resultSource[type === 'holder' ? 'holderData' : 'investorData'];
+		let result = '';
+		const recursion = (id, array) => {
+			const _length = (array || []).length || 0;
+			if (_length) {
+				for (let i = 0; i < _length; i += 1) {
+					if (array[i].id === id) result = array[i];
+					if (array[i].isArrow || array[i].children) recursion(id, array[i].children);
+				}
+			}
 		};
+		recursion(eleId, baseSource);
+		return result;
 	};
 
 	/* 处理树图数据 */
 	handleOption=(params) => {
 		const { id, iconStatus, treeName } = params;
-		if (treeName === 'holder') {
-			const { children } = this.resultSource.holderData[0];
-			this.resultSource.holderData[0].children = children[0].children.map((item) => {
-				const _item = item;
-				if (item.id === id) {
-					console.log(item);
-					_item.iconStatus = iconStatus === 'add' ? 'del' : 'add';
-					if (iconStatus === 'del') {
-						_item.remark = item.children;
-						_item.children = [];
-					} else if (_item.remark.length) {
-						_item.children = item.remark;
-						_item.remark = [];
-					} else {
-						console.log('请求数据');
+		const idItem = this.toGetIdItem(id, treeName);
+		if (typeof idItem === 'object') {
+			if (iconStatus === 'del') {
+				idItem.iconStatus = 'add';
+				idItem.backup = idItem.children;
+				idItem.children = [];
+			} else if (idItem.hasNode) {
+				if (idItem.backup) {
+					idItem.iconStatus = 'del';
+					idItem.children = idItem.backup;
+					idItem.backup = [];
+				} else {
+					/* 获取数据源 */
+					const addData = imitateSource[id];
+					if (addData) {
+						idItem.children = this.toAddArrowData(addData, treeName);
+						idItem.iconStatus = 'del';
 					}
 				}
-				return _item;
-			});
-			this.myChart.clear();
-			this.myChart.setOption(optionMethods(this.resultSource.holderData, this.resultSource.investorData));
-			this.initZRender();
-		} else {
-			console.log(treeName);
+			}
 		}
+		this.myChart.clear();
+		this.myChart.setOption(optionMethods(this.resultSource.holderData, this.resultSource.investorData));
+		this.initZRender();
 	};
 
-	/* zrender */
+	/* zRender */
 	initZRender=() => {
 		const { Text, ImageShape } = window.zrDefine;
 		const myZr = this.myChart.getZrender();
 		const shapeList = myZr.storage.getShapeList();
+
 		for (let i = 0; i < shapeList.length; i += 1) {
-			const myChartData = shapeList[i]._echartsData;
 			const locationX = shapeList[i].rotation[1];
 			const locationY = shapeList[i].rotation[2];
-			console.log(myChartData);
-			if (myChartData) {
-				const shapeText = new Text({
-					style: {
-						x: locationX,
-						y: locationY - 5,
-						textFont: 'normal 12px verdana',
-						text: myChartData._data.username,
-						textAlign: 'center',
-						color: '#333',
-						fontSize: 14,
-						lineWidth: 0,
-					},
-					highlightStyle: {
-						lineWidth: 0,
-						color: '#333',
-						strokeColor: 'rgba(255,255,255,0)',
-					},
-					zlevel: 4,
-				});
-				shapeText.zlevel = 1;
-				shapeText.z = 5;
-				shapeText.ndelete = true;
-				shapeText.hoverable = false;
-				myZr.addShape(shapeText);
+			// 树节点数据源 myChartData
+			if (shapeList[i]._echartsData) {
 				const {
-					hasNode, id, type, iconStatus, treeName,
-				} = myChartData._data;
-				if (myChartData._data.amount) {
+					hasNode, id, dataType, iconStatus, treeName, username, amount, isElement, isArrow,
+				} = shapeList[i]._echartsData._data;
+
+				/* 添加 公司名称 */
+				if (isElement) {
+					const shapeText = new Text({
+						style: {
+							x: locationX,
+							y: locationY - 5,
+							text: username,
+							...style.font,
+						},
+						zlevel: 4,
+					});
+					myZr.addShape(Object.assign(shapeText, style.zLevel));
+				}
+
+				/* 添加 认缴金额 */
+				if (amount) {
 					const shapeText1 = new Text({
 						style: {
 							x: locationX,
 							y: locationY + 10,
-							textFont: 'normal 10px verdana',
-							text: `认缴金额：${myChartData._data.amount}`,
-							textAlign: 'center',
-							color: '#333',
-							lineWidth: 0,
-						},
-						highlightStyle: {
-							lineWidth: 0,
-							color: '#333',
-							strokeColor: 'rgba(255,255,255,0)',
+							text: `认缴金额：${amount}`,
+							...style.font,
 						},
 						zlevel: 4,
 					});
-					shapeText1.zlevel = 1;
-					shapeText1.z = 5;
-					shapeText1.ndelete = true;
-					shapeText1.hoverable = false;
-					myZr.addShape(shapeText1);
+					myZr.addShape(Object.assign(shapeText1, style.zLevel));
 				}
-				if (hasNode && type === 1) {
+
+				/* 如果拥有子节点 添加加减号 */
+				if (hasNode) {
 					const shapeBtn = new ImageShape({
 						style: {
 							image: iconStatus === 'add' ? iconAdd : iconDelete, // 图片url或者图片对象
@@ -428,15 +323,24 @@ export default class StockRight extends React.Component {
 						},
 					});
 					shapeBtn.info = {
-						hasNode, id, type, iconStatus, treeName,
+						hasNode, id, dataType, iconStatus, treeName,
 					};
 					shapeBtn.isCollapse = true;
-					shapeBtn.zlevel = 1;
-					shapeBtn.z = 4;
-					shapeBtn.ndelete = true;
-					shapeBtn.hoverable = true;
 					shapeBtn.clickable = true;
-					myZr.addShape(shapeBtn);
+					myZr.addShape(Object.assign(shapeBtn, style.zLevel));
+				}
+
+				if (isArrow) {
+					const shapeArrow = new ImageShape({
+						style: {
+							image: iconArrow, // 图片url或者图片对象
+							x: locationX - 7,
+							y: locationY - 9,
+							width: 15,
+							height: 16,
+						},
+					});
+					myZr.addShape(Object.assign(shapeArrow, style.zLevel));
 				}
 			}
 		}
