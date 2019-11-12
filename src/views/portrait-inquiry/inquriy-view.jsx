@@ -43,6 +43,7 @@ export default class InitView extends React.Component {
 	onHandleChange = (e, field) => {
 		const { obligorType } = this.state;
 		const value = typeof e === 'object' ? e.target.value : e;
+		// if(field==='obligorNumber')
 		if (field === 'obligorType' && obligorType !== value) {
 			this.setState({
 				[field]: value,
@@ -58,13 +59,17 @@ export default class InitView extends React.Component {
 	handleQuery=() => {
 		const { obligorType: type, obligorName: name, obligorNumber: num } = this.state;
 		if (type === 1) {
-			if (name.length < 2) message.error('请输入更多的相关信息');
+			if (!name)message.error('请输入债务人名称', 2000);
+			else if (name.length < 2) message.error('债务人名称请至少输入两个字', 2000);
 			else navigate(`/inquiry/list?type=1&name=${name}`);
 		} else if (type === 2) {
 			if (name && num) {
 				navigate(`/inquiry/list?type=2&name=${name}&num=${num}`);
 			} else {
-				message.error('债务人名称或身份证号不能为空');
+				if (!name || !num)message.error('请输入债务人名称和证据号不能为空', 2000);
+				else if (name.length < 2) message.error('债务人名称请至少输入两个字', 2000);
+				else if (num.length < 7) message.error('个人债务人证件号不得小于7位', 2000);
+				message.error('请输入债务人名称及证据号', 2000);
 			}
 		}
 	};
