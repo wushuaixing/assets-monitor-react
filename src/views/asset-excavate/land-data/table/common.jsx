@@ -33,7 +33,7 @@ const Result = {
 				</li>
 				<li>
 					<span className="list list-title align-justify">具体坐落：</span>
-					<span className="list list-content">{rowContent.projectAddress || '-'}</span>
+					<span className="list list-content">{rowContent.landAddress || '-'}</span>
 				</li>
 			</div>
 		</React.Fragment>
@@ -65,26 +65,26 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">面　　积：</span>
 					<span className="list list-content">
-						{rowContent.area || '-'}
+						{rowContent.landArea || '-'}
 						公顷
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">使用年限：</span>
 					<span className="list list-content">
-						{/* {rowContent.landUsageTerm || '-'} */}
+						{/* {rowContent.transferTerm || '-'} */}
 						{
-							rowContent.landUsageTerm && rowContent.landUsageTerm.length > 6
+							rowContent.transferTerm && rowContent.transferTerm.length > 6
 								? (
-									<Tooltip placement="topLeft" title={rowContent.landUsageTerm}>
+									<Tooltip placement="topLeft" title={rowContent.transferTerm}>
 										<span>
-											{`${rowContent.landUsageTerm.substr(0, 6)}...`}
+											{`${rowContent.transferTerm.substr(0, 6)}...`}
 										</span>
 									</Tooltip>
 								)
 								: (
 									<span>
-										{rowContent.landUsageTerm || '-'}
+										{rowContent.transferTerm || '-'}
 									</span>
 								)
 						}
@@ -102,12 +102,12 @@ const Result = {
 				</li>
 				<li>
 					<span className="list list-title align-justify">批准单位：</span>
-					<span className="list list-content">{rowContent.approvers || '-'}</span>
+					<span className="list list-content">{rowContent.approver || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">成交价格：</span>
 					<span className="list list-content">
-						{rowContent.purchasePrice ? `${rowContent.purchasePrice} 万元` : '-'}
+						{rowContent.finalPrice ? `${rowContent.finalPrice} 万元` : '-'}
 					</span>
 				</li>
 			</div>
