@@ -1,5 +1,31 @@
 //  画像查询 样式
 .yc-portrait-inquiry{
+
+  .inquiry-list-regStatus{
+    display: inline-block;
+    vertical-align: top;
+    font-size: 12px;
+    line-height: 18px;
+    padding: 0 10px;
+    margin-left: 20px;
+    font-weight: normal;
+    border: 1px solid $border-base;
+  }
+  .regStatus-green{
+    border: 1px solid $common-success;
+    background-color: #f4fffa;
+    color: $common-success;
+  }
+  .regStatus-red{
+    border: 1px solid $common-error;
+    background-color: #fff4f3;
+    color: $common-error;
+  }
+  .regStatus-orange{
+    border: 1px solid $common-warning;
+    background-color: #fef9f3;
+    color: $common-warning;
+  }
   .yc-inquiry-common{
     padding: 20px;
     .yc-query-item{
@@ -60,30 +86,7 @@
     .content-list{
       padding: 20px;
     }
-    .inquiry-list-regStatus{
-      display: inline-block;
-      font-size: 12px;
-      line-height: 18px;
-      padding: 0 10px;
-      margin-left: 20px;
-      font-weight: normal;
-      border: 1px solid $border-base;
-    }
-    .regStatus-green{
-      border: 1px solid $common-success;
-      background-color: #f4fffa;
-      color: $common-success;
-    }
-    .regStatus-red{
-      border: 1px solid $common-error;
-      background-color: #fff4f3;
-      color: $common-error;
-    }
-    .regStatus-orange{
-      border: 1px solid $common-warning;
-      background-color: #fef9f3;
-      color: $common-warning;
-    }
+
 
   }
   .mark-line{

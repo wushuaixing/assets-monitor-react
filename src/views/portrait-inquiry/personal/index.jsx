@@ -34,7 +34,7 @@ export default class Personal extends React.Component {
 	constructor(props) {
 		document.title = '个人详情-画像查询';
 		super(props);
-		const defaultSourceType = window.location.hash.match(/\d{3}?/);
+		const defaultSourceType = window.location.hash.match(/\d{3}?(\?)/);
 		this.state = {
 			tabConfig: source(),
 			childDom: '',
@@ -50,12 +50,14 @@ export default class Personal extends React.Component {
 
 	onSourceType=(val) => {
 		const { sourceType } = this.state;
+		const { href } = window.location;
+		const params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
 		if (sourceType !== val) {
 			this.setState({
 				sourceType: val,
 				childDom: '',
 			}, () => {
-				navigate(`/inquiry/personal/${val}`);
+				navigate(`/inquiry/personal/${val}${params}`);
 			});
 		}
 	};

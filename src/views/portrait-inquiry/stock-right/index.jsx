@@ -236,6 +236,7 @@ export default class StockRight extends React.Component {
 			}
 		};
 		recursion(eleId, baseSource);
+		console.log(result);
 		return result;
 	};
 
@@ -263,6 +264,7 @@ export default class StockRight extends React.Component {
 				}
 			}
 		}
+		/* 直接修改数据源 */
 		this.myChart.clear();
 		this.myChart.setOption(optionMethods(this.resultSource.holderData, this.resultSource.investorData));
 		this.initZRender();

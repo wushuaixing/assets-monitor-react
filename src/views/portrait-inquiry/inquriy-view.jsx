@@ -64,7 +64,7 @@ export default class InitView extends React.Component {
 			else navigate(`/inquiry/list?type=1&name=${name}`);
 		} else if (type === 2) {
 			if (name && num) {
-				navigate(`/inquiry/list?type=2&name=${name}&num=${num}`);
+				navigate(`/inquiry/personal?type=2&name=${name}&num=${num}`);
 			} else {
 				if (!name || !num)message.error('请输入债务人名称和证据号不能为空', 2000);
 				else if (name.length < 2) message.error('债务人名称请至少输入两个字', 2000);
@@ -78,10 +78,6 @@ export default class InitView extends React.Component {
 		const { obligorType, obligorName, obligorNumber } = this.state;
 		return (
 			<div className="yc-inquiry-view">
-				<div style={{ padding: 20 }}>
-					<TagOneSide content="测试内容创始人" />
-					<TagTwoSide content="模拟数据假数据" />
-				</div>
 				<div className="yc-inquiry-title">画像查询</div>
 				<div className="yc-inquiry-content">
 					<div className="yc-query-item" style={{ height: 34, paddingTop: 9 }}>
