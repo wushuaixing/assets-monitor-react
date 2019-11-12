@@ -49,11 +49,8 @@
     }
   }
   .yc-login-wapper {
-    // min-height: 800px;
-    // background-image: url(https://qiniu.yczcjk.com/image/sign_leftbackground.png),
-    //   url(https://qiniu.yczcjk.com/image/sign_rightbackground.png);
-    background-image: url(https://qiniu.yczcjk.com/image/sign_leftbackground.png),
-      url(https://qiniu.yczcjk.com/image/sign_rightbackground.png),
+    background-image: url("../../assets/img/login/sign_leftbackground.png"),
+      url("../../assets/img/login/sign_rightbackground.png"),
       -webkit-linear-gradient(top, #f2f4f7 0%, #e8eaed 100%);
     background-repeat: no-repeat, no-repeat, no-repeat;
     background-position: left bottom, right top;
@@ -67,7 +64,7 @@
       margin: 0 auto;
       width: 100%;
       height: 100%;
-      background-image: url(https://qiniu.yczcjk.com/image/sign_background.png);
+      background-image: url("../../assets/img/login/sign_background.png");
       background-repeat: no-repeat;
       background-position: center;
       .yc-login-main {
