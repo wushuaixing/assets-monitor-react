@@ -83,27 +83,31 @@
   }
   .yc-history-item {
     margin-bottom: 24px;
-    .yc-history-lable {
-      width: 48px;
-      height: 12px;
+  }
+  .yc-history-lable {
+    width: 48px;
+    height: 12px;
+    font-size: 12px;
+    font-weight: 400;
+    color: $text-remark;
+    line-height: 12px;
+  }
+  .yc-Timeline-content {
+    max-height: 600px;
+    overflow: auto;
+    .yc-Timeline-item {
+      margin-bottom: 16px;
+    }
+    .TimelineName {
       font-size: 12px;
       font-weight: 400;
-      color: $text-remark;
-      line-height: 12px;
+      color: $text-title;
     }
-  }
-  .yc-Timeline-item {
-    margin-bottom: 16px;
-  }
-  .TimelineName {
-    font-size: 12px;
-    font-weight: 400;
-    color: $text-title;
-  }
-  .TimelineUrl {
-    font-size: 12px;
-    font-weight: 400;
-    color: $text-link;
-    cursor: pointer;
+    .TimelineUrl {
+      font-size: 12px;
+      font-weight: 400;
+      color: $text-link;
+      cursor: pointer;
+    }
   }
 }

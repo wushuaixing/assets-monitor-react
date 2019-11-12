@@ -3,9 +3,10 @@
   font-size: 0;
   position: relative;
   padding-right: 20px;
-  margin-left: -8px;
-
+  margin-right: -8px;
+  border-left: 1px solid #fff;
   .yc-label-tag-content {
+    width: 130px;
     display: inline-block;
     font-size: 12px;
     height: 24px;
@@ -14,7 +15,6 @@
     border: 1px solid $border-base;
     color: #fff !important;
     border-right: none;
-    border-left: none;
     background: $text-link;
   }
 
@@ -67,26 +67,26 @@
   font-size: 0;
   position: relative;
   padding-right: 20px;
-  margin-left: -8px;
+  margin-right: -8px;
+  border-left: 1px solid #fff;
   &:hover {
     .yc-label-tag-content {
       cursor: pointer;
       color: $text-link;
       border: 1px solid $text-link;
       border-right: none;
-      border-left: none;
     }
     .line-triangle-outside {
       border-color: transparent transparent transparent $text-link;
     }
   }
   .yc-label-tag-content {
+    width: 130px;
     display: inline-block;
     font-size: 12px;
     height: 24px;
     line-height: 24px;
     border: 1px solid $border-base;
-    border-left: none;
     border-right: none;
     padding: 0 24px 0 24px;
     color: $text-title;
@@ -120,12 +120,7 @@
     top: 0;
   }
 }
-.yc-TagOneSide {
-  border-left: 1px solid $border-base;
-  &:hover {
-    border-left: 1px solid $text-link;
-  }
-}
+
 .yc-label-disabled {
   pointer-events: none;
   .yc-label-tag-content {
@@ -134,7 +129,6 @@
     background-color: #f5f5f5;
     color: #999;
     border-right: none;
-    border-left: none;
   }
   .line-triangle-right {
     position: absolute;

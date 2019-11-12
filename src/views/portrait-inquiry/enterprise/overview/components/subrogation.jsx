@@ -1,7 +1,7 @@
 import React from 'react';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
-import { TagTwoSide } from '../../../common/label-tag';
+import { TagOneSide, TagTwoSide } from '../../../common/label-tag';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -89,7 +89,7 @@ export default class Subrogation extends React.Component {
 						{/* <Button style={{ marginRight: 10 }} onClick={() => this.checkTime('Filing')}>立案信息 8 条</Button>
 						<Button style={{ marginRight: 10 }} onClick={() => this.checkTime('Court')}>开庭信息 8 条</Button>
 						<Button onClick={() => this.checkTime('referee')}>裁判文书 8 条</Button> */}
-						<TagTwoSide content="立案信息" num={9} onClick={() => this.checkTime('Filing')} tag={selectType === 'Filing' ? 'yc-tag-active' : ''} />
+						<TagOneSide content="立案信息" num={9} onClick={() => this.checkTime('Filing')} tag={selectType === 'Filing' ? 'yc-tag-active' : ''} />
 						<TagTwoSide content="开庭信息" num={0} onClick={() => this.checkTime('Court')} tag={selectType === 'Court' ? 'yc-tag-active' : ''} />
 						<TagTwoSide content="裁判文书" num={8} onClick={() => this.checkTime('referee')} tag={selectType === 'referee' ? 'yc-tag-active' : ''} />
 					</div>
