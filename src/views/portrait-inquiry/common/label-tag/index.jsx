@@ -3,7 +3,7 @@ import './style.scss';
 
 
 const TagOneSide = params => (
-	<div className={`${params.tag || 'yc-label-tag yc-TagOneSide'} ${params.num === 0 && 'yc-label-disabled'}`} {...params}>
+	<div className={`${params.tag || 'yc-label-tag'} ${params.num === 0 && 'yc-label-disabled'}`} {...params}>
 		<div className="yc-label-tag-content">
 			{params.content}
 			<span style={{ marginLeft: 10 }}>{`${params.num} 条`}</span>
@@ -17,7 +17,7 @@ const TagOneSide = params => (
 );
 
 const TagTwoSide = params => (
-	<div className={`${params.tag || 'yc-label-tag yc-TagTwoSide'} ${params.num === 0 && 'yc-label-disabled'}`} {...params}>
+	<div className={`${params.tag || 'yc-label-tag'} ${params.num === 0 && 'yc-label-disabled'}`} {...params}>
 		<div className="line-triangle line-triangle-left">
 			<div className="line-triangle-outside">
 				<div className="line-triangle-inside" />

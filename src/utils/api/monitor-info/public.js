@@ -64,49 +64,49 @@ export const infoCount = params => service.get('/yc/monitor/bulletin/unreadCount
 /* 土地数据 */
 // 出让结果列表 ===========
 export const infoListResult = async (params) => {
-	const response = await service.get('/yc/monitor/land/result/list', { params });
+	const response = await service.get('/yc/monitor/land/transfer/list', { params });
 	return response.data;
 };
 
 // 标记为已读
 export const readStatusResult = async (params) => {
-	const response = await service.post('/yc/monitor/land/result/markRead', params);
+	const response = await service.post('/yc/monitor/land/transfer/markRead', params);
 	return response.data;
 };
 
 // 全部标记为已读
 export const readAllStatusResult = async (params) => {
-	const response = await service.post('/yc/monitor/land/result/markReadAll', params);
+	const response = await service.post('/yc/monitor/land/transfer/markReadAll', params);
 	return response.data;
 };
 
 // 关注
 export const attentionFollowResult = async (params) => {
-	const response = await service.post('/yc/monitor/land/result/follow', params);
+	const response = await service.post('/yc/monitor/land/transfer/follow', params);
 	return response.data;
 };
 
 
 // 关注list
 export const attentionFollowResultList = async (params) => {
-	const response = await service.get('/yc/monitor/land/result/follow/list', { params });
+	const response = await service.get('/yc/monitor/land/transfer/follow/list', { params });
 	return response.data;
 };
 
 // 关注list数量
 export const attentionFollowListCount = async (params) => {
-	const response = await service.get('/yc/monitor/land/result/follow/list-count', { params });
+	const response = await service.get('/yc/monitor/land/transfer/follow/list-count', { params });
 	return response.data;
 };
 
 // 取消关注
 export const attentionUnFollowResult = async (params) => {
-	const response = await service.post('/yc/monitor/land/result/unFollow', params);
+	const response = await service.post('/yc/monitor/land/transfer/unFollow', params);
 	return response.data;
 };
 
 // 导出excel
-export const exportListResult = '/yc/monitor/land/result/export';
+export const exportListResult = '/yc/monitor/land/transfer/export';
 
 // =======================
 export default {

@@ -17,6 +17,22 @@ export default class DetailModal extends React.PureComponent {
 				},
 				{
 					name: '第二次拍卖', result: '流拍', currentPrice: 227000, time: '2019-04-29 10:00:00', url: 'https://sf-item.taobao.com/sf_item/603720609277.htm?spm=a213w.3064813.houseCat.2.4ac35dadcKE8P3',
+				}, {
+					name: '第一次拍卖', result: '撤回', currentPrice: 227000, time: '2019-04-29 10:00:00', url: 'https://sf-item.taobao.com/sf_item/603720609277.htm?spm=a213w.3064813.houseCat.2.4ac35dadcKE8P3',
+				},
+				{
+					name: '第一次拍卖', result: '撤回', currentPrice: 227000, time: '2019-04-29 10:00:00', url: 'https://sf-item.taobao.com/sf_item/603720609277.htm?spm=a213w.3064813.houseCat.2.4ac35dadcKE8P3',
+				},
+				{
+					name: '第二次拍卖', result: '流拍', currentPrice: 227000, time: '2019-04-29 10:00:00', url: 'https://sf-item.taobao.com/sf_item/603720609277.htm?spm=a213w.3064813.houseCat.2.4ac35dadcKE8P3',
+				}, {
+					name: '第一次拍卖', result: '撤回', currentPrice: 227000, time: '2019-04-29 10:00:00', url: 'https://sf-item.taobao.com/sf_item/603720609277.htm?spm=a213w.3064813.houseCat.2.4ac35dadcKE8P3',
+				},
+				{
+					name: '第一次拍卖', result: '撤回', currentPrice: 227000, time: '2019-04-29 10:00:00', url: 'https://sf-item.taobao.com/sf_item/603720609277.htm?spm=a213w.3064813.houseCat.2.4ac35dadcKE8P3',
+				},
+				{
+					name: '第二次拍卖', result: '流拍', currentPrice: 227000, time: '2019-04-29 10:00:00', url: 'https://sf-item.taobao.com/sf_item/603720609277.htm?spm=a213w.3064813.houseCat.2.4ac35dadcKE8P3',
 				},
 			],
 		};
@@ -47,7 +63,7 @@ export default class DetailModal extends React.PureComponent {
 								丽水市莲都区人民法院
 							</span>
 						</div>
-						<div>
+						<div className="yc-Timeline-content">
 							<Timeline>
 								{TimelineArray && TimelineArray.map(item => (
 									<Timeline.Item>

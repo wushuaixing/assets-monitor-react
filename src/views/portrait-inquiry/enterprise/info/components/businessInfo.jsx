@@ -82,7 +82,7 @@ export default class BusinessInfo extends React.Component {
 						<div className="yc-base-infoName">{dataObj.industry && dataObj.industry.length > 1 ? dataObj.industry : '-'}</div>
 						<div className="yc-base-infoTitle">营业期限</div>
 						<div className="yc-base-infoName">
-							{dataObj.fromTime && dataObj.toTime && dataObj.fromTime.length > 1 && dataObj.toTime.length > 1 ? `自 ${formatDateTime(dataObj.fromTime, 'onlyYear')} 至 ${formatDateTime(dataObj.toTime, 'onlyYear')}` : '-'}
+							{dataObj.fromTime && dataObj.toTime && dataObj.fromTime.length > 1 && dataObj.toTime.length > 1 ? `自 ${dataObj.fromTime} 至 ${dataObj.toTime}` : '-'}
 						</div>
 						<div className="yc-base-infoTitle">人员规模</div>
 						<div className="yc-base-infoName">{dataObj.scale && dataObj.scale.length > 1 ? dataObj.scale : '-'}</div>
