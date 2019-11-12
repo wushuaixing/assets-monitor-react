@@ -154,12 +154,19 @@ export default class TableIntact extends React.Component {
 		},
 	];
 
-	// 打开担保人弹窗
+	// 打开历史信息弹窗
 	historyInfoModal = () => {
 		this.setState({
 			historyInfoModalVisible: true,
 		});
 	};
+
+	// 关闭历史信息弹窗
+	handleCancel = () => {
+		this.setState({
+			historyInfoModalVisible: false,
+		});
+	}
 
 	// 当前页数变化
 	onPageChange=(val) => {
