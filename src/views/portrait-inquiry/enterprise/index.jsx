@@ -11,7 +11,7 @@ import Assets from './assets';
 import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
-import Dishonest from '@/assets/img/icon/icon_shixin.png';
+// import Dishonest from '@/assets/img/icon/icon_shixin.png';
 
 import './style.scss';
 
@@ -57,6 +57,7 @@ const getRegStatusClass = (val) => {
 	}
 	return '';
 };
+
 /* 企业概要 */
 const EnterpriseInfo = (props) => {
 	const {
@@ -117,10 +118,10 @@ const EnterpriseInfoSimple = (props) => {
 		<div className="enterprise-info">
 			<div className="intro-title">
 				<span className="yc-public-title-large-bold intro-title-name">
-					浙江天赐生态科技有限公司
-					<img className="intro-title-tag" src={Dishonest} alt="" />
+					{data.name}
+					{/* <img className="intro-title-tag" src={Dishonest} alt="" /> */}
 				</span>
-				<span className="intro-title-status">续存</span>
+				<span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={{ marginTop: 2 }}>{data.regStatus}</span>
 			</div>
 			<Button className="intro-download" onClick={download}>
 				<Icon type="download" />

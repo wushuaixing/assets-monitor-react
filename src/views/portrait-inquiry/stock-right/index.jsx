@@ -3,7 +3,7 @@ import './style.scss';
 import analogData, { imitateSource } from './analog-data';
 import iconAdd from '@/assets/img/icon/icon_add.png';
 import iconDelete from '@/assets/img/icon/icon_delete.png';
-import iconArrow from '@/assets/img/icon/arrow.png';
+// import iconArrow from '@/assets/img/icon/arrow.png';
 
 /* 常用样式 */
 const style = {
@@ -60,7 +60,10 @@ const optionMethods = (source1, source2) => {
 		option.series.push({
 			name: '股东',
 			type: 'tree',
-			rootLocation: { x: '50%', y: '50%' }, // 根节点位置  {x: 'center',y: 10}
+			rootLocation: {
+				x: '50%',
+				y: '50%',
+			}, // 根节点位置  {x: 'center',y: 10}
 			nodePadding: 20,
 			layerPadding: 40,
 			symbol: 'circle',
@@ -95,7 +98,10 @@ const optionMethods = (source1, source2) => {
 		option.series.push({
 			name: '投资',
 			type: 'tree',
-			rootLocation: { x: '50%', y: '50%' }, // 根节点位置  {x: 'center',y: 10}
+			rootLocation: {
+				x: '50%',
+				y: '50%',
+			}, // 根节点位置  {x: 'center',y: 10}
 			nodePadding: 20,
 			layerPadding: 40,
 			symbol: 'circle',
@@ -129,6 +135,21 @@ const optionMethods = (source1, source2) => {
 	return option;
 };
 
+const {
+	Text, ImageShape, Polygon,
+} = window.zrDefine;
+
+const toGetArrow = (x, y, size = 15) => {
+	const shape = new Polygon({
+		style: {
+			pointList: [[x, y], [x + size / 2, y + size * 1.2 * 0.3], [x + size, y], [x + size / 2, y + size * 1.2]],
+			color: '#128aed',
+		},
+		zlevel: 1,
+	});
+	return Object.assign(shape, style.zLevel);
+};
+
 export default class StockRight extends React.Component {
 	constructor(props) {
 		super(props);
@@ -149,16 +170,18 @@ export default class StockRight extends React.Component {
 		this.myChart = window.echarts.init(document.getElementById('zRenderEcharts'));
 		this.myChart.setOption(optionMethods(source.holderData, source.investorData));
 		this.initZRender();
-		this.myChart.getZrender().on('click', (e) => {
-			if (e.target) {
-				const { isCollapse, info } = e.target;
-				if (isCollapse) this.handleOption(info);
-			}
-		});
+
+		this.myChart.getZrender()
+			.on('click', (e) => {
+				if (e.target) {
+					const { isCollapse, info } = e.target;
+					if (isCollapse) this.handleOption(info);
+				}
+			});
 	}
 
 	/* 初始化构建 树图配置 */
-	initOption=() => {
+	initOption = () => {
 		const { holderList, investorList } = analogData;
 		const holderData = [{
 			name: analogData.name,
@@ -172,11 +195,14 @@ export default class StockRight extends React.Component {
 			symbol: 'rectangle',
 			children: this.toAddArrowData(investorList, 'investor'),
 		}];
-		return { holderData, investorData };
+		return {
+			holderData,
+			investorData,
+		};
 	};
 
 	/* 添加箭头样式 */
-	toAddArrowData=(source, type) => {
+	toAddArrowData = (source, type) => {
 		if ((source || []).length) {
 			const sourceType = type === 'holder' ? 'holderList' : 'investorList';
 			const iconStatus = (item) => {
@@ -186,7 +212,7 @@ export default class StockRight extends React.Component {
 				}
 				return '';
 			};
-			return	source.map(item => ({
+			return source.map(item => ({
 				value: item.percent,
 				symbol: 'arrow',
 				symbolSize: 1,
@@ -223,7 +249,7 @@ export default class StockRight extends React.Component {
 	};
 
 	/* 获取ID对应的节点数据 */
-	toGetIdItem=(eleId, type) => {
+	toGetIdItem = (eleId, type) => {
 		const baseSource = this.resultSource[type === 'holder' ? 'holderData' : 'investorData'];
 		let result = '';
 		const recursion = (id, array) => {
@@ -241,7 +267,7 @@ export default class StockRight extends React.Component {
 	};
 
 	/* 处理树图数据 */
-	handleOption=(params) => {
+	handleOption = (params) => {
 		const { id, iconStatus, treeName } = params;
 		const idItem = this.toGetIdItem(id, treeName);
 		if (typeof idItem === 'object') {
@@ -271,8 +297,7 @@ export default class StockRight extends React.Component {
 	};
 
 	/* zRender */
-	initZRender=() => {
-		const { Text, ImageShape } = window.zrDefine;
+	initZRender = () => {
 		const myZr = this.myChart.getZrender();
 		const shapeList = myZr.storage.getShapeList();
 
@@ -325,7 +350,11 @@ export default class StockRight extends React.Component {
 						},
 					});
 					shapeBtn.info = {
-						hasNode, id, dataType, iconStatus, treeName,
+						hasNode,
+						id,
+						dataType,
+						iconStatus,
+						treeName,
 					};
 					shapeBtn.isCollapse = true;
 					shapeBtn.clickable = true;
@@ -333,16 +362,16 @@ export default class StockRight extends React.Component {
 				}
 
 				if (isArrow) {
-					const shapeArrow = new ImageShape({
-						style: {
-							image: iconArrow, // 图片url或者图片对象
-							x: locationX - 7,
-							y: locationY - 9,
-							width: 15,
-							height: 16,
-						},
-					});
-					myZr.addShape(Object.assign(shapeArrow, style.zLevel));
+					// const shapeArrow = new ImageShape({
+					// 	style: {
+					// 		image: iconArrow, // 图片url或者图片对象
+					// 		x: locationX - 7,
+					// 		y: locationY - 9,
+					// 		width: 15,
+					// 		height: 16,
+					// 	},
+					// });
+					myZr.addShape(toGetArrow(locationX - 6, locationY - 8, 13));
 				}
 			}
 		}
@@ -352,7 +381,14 @@ export default class StockRight extends React.Component {
 	render() {
 		return (
 			<div style={{ padding: 10 }}>
-				<div id="zRenderEcharts" style={{ width: 1000, height: 700, border: '3px solid #ddd' }} />
+				<div
+					id="zRenderEcharts"
+					style={{
+						width: 1000,
+						height: 700,
+						border: '3px solid #ddd',
+					}}
+				/>
 			</div>
 		);
 	}
