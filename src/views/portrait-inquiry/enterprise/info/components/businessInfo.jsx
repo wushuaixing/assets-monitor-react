@@ -99,7 +99,7 @@ export default class BusinessInfo extends React.Component {
 							{
 							dataObj.businessScope && dataObj.businessScope.length > 20
 								? (
-									<Tooltip placement="topLeft" title={dataObj.businessScope}>
+									<Tooltip placement="top" title={dataObj.businessScope}>
 										<p style={{ cursor: 'pointer' }}>{`${dataObj.businessScope.substr(0, 20)}...`}</p>
 									</Tooltip>
 								)

@@ -39,7 +39,7 @@
 }
 .yc-module {
   .yc-module-title {
-    color: #20242E;
+    color: #20242e;
     padding-top: 40px;
     padding-bottom: 60px;
     line-height: 1;
@@ -51,7 +51,7 @@
     p {
       font-size: 14px;
       line-height: 22px;
-      color: #20242E;
+      color: #20242e;
     }
     .yc-recovery-title {
       font-size: 14px;
@@ -59,7 +59,7 @@
       margin-top: 30px;
       margin-bottom: 16px;
       padding: 10px 16px;
-      background-color: #3D63BD;
+      background-color: #3d63bd;
       color: #fff;
       border-radius: 17px;
       display: inline-block;
@@ -67,5 +67,43 @@
   }
   &:last-child {
     padding-bottom: 40px;
+  }
+}
+.yc-history-concent {
+  padding-top: 14px;
+  padding-left: 24px;
+  .yc-history-title {
+    width: 250px;
+    height: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-title;
+    line-height: 14px;
+    margin-bottom: 16px;
+  }
+  .yc-history-item {
+    margin-bottom: 24px;
+    .yc-history-lable {
+      width: 48px;
+      height: 12px;
+      font-size: 12px;
+      font-weight: 400;
+      color: $text-remark;
+      line-height: 12px;
+    }
+  }
+  .yc-Timeline-item {
+    margin-bottom: 16px;
+  }
+  .TimelineName {
+    font-size: 12px;
+    font-weight: 400;
+    color: $text-title;
+  }
+  .TimelineUrl {
+    font-size: 12px;
+    font-weight: 400;
+    color: $text-link;
+    cursor: pointer;
   }
 }

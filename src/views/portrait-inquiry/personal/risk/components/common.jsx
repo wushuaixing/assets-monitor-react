@@ -53,14 +53,14 @@ const LawsuitsMonitor = {
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">
 							{
-											text && text.length > 16
-												? (
-													<Tooltip placement="topLeft" title={text}>
-														<span>{`${text.substr(0, 16)}...`}</span>
-													</Tooltip>
-												)
-												: <span>{text || '-'}</span>
-										}
+								text && text.length > 16
+									? (
+										<Tooltip placement="topLeft" title={text}>
+											<span>{`${text.substr(0, 16)}...`}</span>
+										</Tooltip>
+									)
+									: <span>{text || '-'}</span>
+							}
 						</span>
 					</div>
 					<div className="yc-table-line" />

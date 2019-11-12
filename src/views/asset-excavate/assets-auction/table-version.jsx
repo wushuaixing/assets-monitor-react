@@ -1,10 +1,11 @@
 import React from 'react';
-import { Pagination, Tooltip, Modal } from 'antd';
+import { Pagination, Tooltip } from 'antd';
 import {
 	Ellipsis, Icon, Spin, Table, Button,
 } from '@/common';
 import { floatFormat } from '@/utils/format';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
+import TableVersionModal from './tableVersionModal';
 
 import './style.scss';
 import { toEmpty } from '@/utils';
@@ -113,7 +114,7 @@ export default class TableIntact extends React.Component {
 			current: 1,
 			total: 0,
 			loading: false,
-			visible: false,
+			historyInfoModalVisible: false,
 		};
 	}
 
@@ -130,7 +131,7 @@ export default class TableIntact extends React.Component {
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
 						{ toEmpty(row.title)
 							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} /> : '--' }
-						<Button>
+						<Button onClick={this.historyInfoModal}>
 							<Icon type="file-text" />
 							查看历史拍卖信息
 						</Button>
@@ -152,6 +153,13 @@ export default class TableIntact extends React.Component {
 			render: AuctionInfo,
 		},
 	];
+
+	// 打开担保人弹窗
+	historyInfoModal = () => {
+		this.setState({
+			historyInfoModalVisible: true,
+		});
+	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
@@ -186,7 +194,7 @@ export default class TableIntact extends React.Component {
 
 	render() {
 		const { dataSource, current, total } = this.state;
-		const { loading, visible } = this.state;
+		const { loading, historyInfoModalVisible } = this.state;
 
 		return (
 			<div className="yc-assets-auction ">
@@ -210,14 +218,14 @@ export default class TableIntact extends React.Component {
 						</div>
 					)}
 				</Spin>
-				<Modal
-					title="对话框标题"
-					visible={visible}
-					onCancel={() => this.setState({ visible: false })}
-				>
-					<p>`this.state.ModalText2`</p>
-				</Modal>
-
+				{/** 历史拍卖信息 */}
+				{historyInfoModalVisible && (
+				<TableVersionModal
+					onCancel={this.handleCancel}
+					onOk={this.onOk}
+					historyInfoModalVisible={historyInfoModalVisible}
+				/>
+				)}
 			</div>
 		);
 	}
