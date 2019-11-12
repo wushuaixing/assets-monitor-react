@@ -132,7 +132,7 @@ export default class TableIntact extends React.Component {
 							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} /> : '--' }
 						<Button>
 							<Icon type="file-text" />
-							{'查看历史拍卖信息'}
+							查看历史拍卖信息
 						</Button>
 					</li>
 					<li>

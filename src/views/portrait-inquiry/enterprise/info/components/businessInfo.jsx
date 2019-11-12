@@ -89,7 +89,7 @@ export default class BusinessInfo extends React.Component {
 						<div className="yc-base-infoTitle">工商注册号</div>
 						<div className="yc-base-infoName">{dataObj.regNumber && dataObj.regNumber.length > 1 ? dataObj.regNumber : '-'}</div>
 						<div className="yc-base-infoTitle">参保人数</div>
-						<div className="yc-base-infoName">{dataObj.employeeNum && dataObj.employeeNum.length > 1 ? dataObj.employeeNum : '-'}</div>
+						<div className="yc-base-infoName">{dataObj.insuranceNum && dataObj.insuranceNum.length > 1 ? dataObj.insuranceNum : '-'}</div>
 						<div className="yc-base-infoTitle">注册地址</div>
 						<div className="yc-base-infoName">{dataObj.regLocation && dataObj.regLocation.length > 1 ? dataObj.regLocation : '-'}</div>
 						<div className="yc-base-infoTitle">英文名</div>
