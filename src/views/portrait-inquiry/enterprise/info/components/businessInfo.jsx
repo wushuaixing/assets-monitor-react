@@ -145,6 +145,8 @@ export default class BusinessInfo extends React.Component {
 									: <p>{dataObj.businessScope && dataObj.businessScope.length > 1 ? dataObj.businessScope : '-'}</p>
 							}
 						</div>
+						<div className="yc-base-infoTitle">&nbsp;</div>
+						<div className="yc-base-infoName">&nbsp;</div>
 					</Spin>
 				</div>
 			</div>
