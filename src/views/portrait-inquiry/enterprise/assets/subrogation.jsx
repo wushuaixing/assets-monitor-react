@@ -12,7 +12,7 @@ export default class Subrogation extends React.Component {
 					id: 1, name: '立案', number: 4, showNumber: true,
 				},
 				{
-					id: 2, name: '开庭', number: 3, showNumber: true,
+					id: 2, name: '开庭', number: 3, showNumber: true, disabled: true,
 				},
 				{
 					id: 3, name: '裁判文书', number: 9, showNumber: true,

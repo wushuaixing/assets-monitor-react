@@ -32,14 +32,14 @@ const subItems = [
 		tagName: 'e-assets-land',
 		component: Land,
 	},
-	// {
-	// 	id: 4,
-	// 	name: '无形资产',
-	// 	total: 0,
-	// 	disabled: true,
-	// 	tagName: 'e-assets-intangible',
-	// 	component: Intangible,
-	// },
+	{
+		id: 4,
+		name: '无形资产',
+		total: 0,
+		disabled: true,
+		tagName: 'e-assets-intangible',
+		// component: Intangible,
+	},
 	{
 		id: 5,
 		name: '股权质押',
