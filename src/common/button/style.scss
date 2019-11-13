@@ -30,6 +30,14 @@
     line-height: 24px;
   }
 }
+.yc-btn-mini {
+  padding: 2px 9px;
+
+  span {
+    font-size: $input-fontsize;
+    line-height: 16px;
+  }
+}
 
 .yc-btn-normal {
   padding: 3px 12px;
