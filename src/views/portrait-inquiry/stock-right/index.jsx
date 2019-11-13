@@ -1,17 +1,25 @@
 import React from 'react';
+// import ReactECharts from 'echarts-for-react';
 import './style.scss';
-import analogData, { imitateSource } from './analog-data';
-import iconAdd from '@/assets/img/icon/icon_add.png';
-import iconDelete from '@/assets/img/icon/icon_delete.png';
-// import iconArrow from '@/assets/img/icon/arrow.png';
+// import eData, { imitateSource } from './data';
+import { stockChart } from '@/utils/api/portrait-inquiry/enterprise/info';
+import back from './logo.png';
+import { toEmpty } from '@/utils/';
+// import kzTag from './kzTag.png';
+const ec = window.echarts;
 
-/* 常用样式 */
+// 样式 // 1 个人 or 2 公司
 const style = {
 	font: {
-		textFont: 'normal 12px verdana',
+		textFont: 'normal 14px verdana',
 		textAlign: 'center',
 		color: '#333',
-		fontSize: 14,
+		lineWidth: 0,
+	},
+	font_amount: {
+		textFont: 'normal 12px verdana',
+		textAlign: 'center',
+		color: '#9e9e9e',
 		lineWidth: 0,
 	},
 	zLevel: {
@@ -19,228 +27,253 @@ const style = {
 		z: 5,
 		ndelete: true,
 		hoverable: false,
+		clickable: false,
 	},
-	background: {
-		any: {
-			color: '#fff',
-			borderWidth: '1',
-			borderColor: '#ccc',
-			label: {
-				show: true,
-				position: 'inside',
-				textStyle: {
-					fontSize: 14,
-					color: '#333',
-					fontStyle: 'normal',
+	forStyle: {
+		person: {
+			normal: {
+				color: '#f6faff',
+				borderColor: '#1e81e1',
+				borderWidth: '1',
+				label: {
+					show: true,
+					position: 'inside',
+					textStyle: {
+						// color: 'transparent',
+						// color: 'red',
+						fontSize: 12,
+					},
 				},
 			},
 		},
-		per: {
-			color: '#f3f9fe',
-			borderColor: '#1e81e1',
-			borderWidth: '1',
-			label: {
-				show: true,
-				position: 'inside',
-				textStyle: {
-					color: 'black',
+		company: {
+			normal: {
+				color: '#fff',
+				borderWidth: '1',
+				borderColor: '#ccc',
+				label: {
+					show: true,
+					position: 'inside',
+					textStyle: {
+						// color: 'transparent',
+						// color: 'red',
+						fontSize: 12,
+					},
 				},
 			},
 		},
 	},
 };
 
-/* 处理配置文件，并返回 eCharts配置 */
-const optionMethods = (source1, source2) => {
-	const option = {
-		calculable: false,
-		series: [],
-	};
-	if (source1) {
-		option.series.push({
-			name: '股东',
+// 上下树图初始化 ->option, 数据
+const optionMethods = source => ({
+	tooltip: {
+		show: false,
+	},
+	series: [
+		{
+			name: 'holder',
 			type: 'tree',
-			rootLocation: {
-				x: '50%',
-				y: '50%',
-			}, // 根节点位置  {x: 'center',y: 10}
-			nodePadding: 20,
-			layerPadding: 40,
-			symbol: 'circle',
+			rootLocation: { x: '50%', y: '50%' },
 			orient: 'vertical',
 			direction: 'inverse',
-			roam: true,
-			symbolSize: 40,
+			nodePadding: 25, // 节点间距
+			layerPadding: 45, // 层间距
+			symbol: 'arrow',
+			symbolRotate: -45,
+			hoverable: false,
+			roam: true, // 鼠标缩放
 			itemStyle: {
 				normal: {
-					color: '#128bed',
-					borderWidth: '1',
-					borderColor: '#128bed',
+					color: '#1e81e1',
 					label: {
 						position: 'inside',
 						textStyle: {
-							color: '#ffffff',
+							color: 'white',
 							fontSize: 14,
-							fontStyle: 'normal',
+							fontWeight: 'bold',
 						},
 					},
 				},
 				emphasis: {
 					color: 'rgba(255,255,255,0)',
-					borderWidth: '1',
-					borderColor: '#128bed',
+					borderColor: 'transparent',
 				},
 			},
-			data: source1,
-		});
-	}
-	if (source2) {
-		option.series.push({
-			name: '投资',
+			data: [source[0]],
+		},
+		{
+			name: 'investor',
 			type: 'tree',
-			rootLocation: {
-				x: '50%',
-				y: '50%',
-			}, // 根节点位置  {x: 'center',y: 10}
-			nodePadding: 20,
-			layerPadding: 40,
-			symbol: 'circle',
+			rootLocation: { x: '50%', y: '50%' },
 			orient: 'vertical',
-			roam: true,
-			symbolSize: 40,
+			nodePadding: 25,
+			layerPadding: 40,
+			hoverable: false,
+			symbol: 'arrow',
+			symbolRotate: -45,
+			roam: true, // 鼠标缩放
 			itemStyle: {
 				normal: {
-					color: '#128bed',
-					borderWidth: '1',
-					borderColor: '#128bed',
+					color: '#1e81e1',
 					label: {
-						show: !0,
 						position: 'inside',
 						textStyle: {
-							color: '#ffffff',
-							fontSize: 16,
-							fontStyle: 'normal',
+							color: 'white',
+							fontSize: 14,
+							fontWeight: 'bold',
 						},
 					},
 				},
 				emphasis: {
 					color: 'rgba(255,255,255,0)',
-					borderWidth: '1',
-					borderColor: '#128bed00',
+					borderColor: 'transparent',
 				},
 			},
-			data: source2 || [],
-		});
-	}
-	return option;
-};
-
-const {
-	Text, ImageShape, Polygon,
-} = window.zrDefine;
-
-const toGetArrow = (x, y, size = 15) => {
-	const shape = new Polygon({
-		style: {
-			pointList: [[x, y], [x + size / 2, y + size * 1.2 * 0.3], [x + size, y], [x + size / 2, y + size * 1.2]],
-			color: '#128aed',
+			data: [source[1]],
 		},
-		zlevel: 1,
-	});
-	return Object.assign(shape, style.zLevel);
-};
+	],
+});
 
 export default class StockRight extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-		this.resultSource = {
-			holderData: '',
-			investorData: '',
-		};
+		this.myChart = {};
+		this.resultSource = [];
 	}
 
 	componentDidMount() {
-		const source = this.initOption();
-		this.resultSource = {
-			holderData: source.holderData,
-			investorData: source.investorData,
+		const params = {
+			id: 269766, // 269766 京东 54780232 网商
+			// type: 1,
 		};
-
-		this.myChart = window.echarts.init(document.getElementById('zRenderEcharts'));
-		this.myChart.setOption(optionMethods(source.holderData, source.investorData));
-		this.initZRender();
-
-		this.myChart.getZrender()
-			.on('click', (e) => {
-				if (e.target) {
-					const { isCollapse, info } = e.target;
-					if (isCollapse) this.handleOption(info);
+		stockChart(params)
+			.then((res) => {
+				if (res.code === 200) {
+					// console.log(params, res);
+					/* this.setState({
+						data: res.data,
+					}); */
+					const source = this.initOption(res.data);
+					this.resultSource = source;
+					this.myChart = ec.init(document.getElementById('zRenderEcharts'));
+					this.myChart.setOption(optionMethods(source));
+					this.myZrender();
+					this.myChart.getZrender().on('click', (e) => {
+						if (e.target) {
+							// console.log(e.target.info);
+							const { isCollapse, info } = e.target;
+							if (isCollapse) {
+								this.handleOption(info);
+							}
+						}
+					});
 				}
+			})
+			.catch(() => {
+
 			});
+		// this.myChart.on(ec.config.EVENT.CLICK, this.toggleRemark);
 	}
 
-	/* 初始化构建 树图配置 */
-	initOption = () => {
-		const { holderList, investorList } = analogData;
-		const holderData = [{
-			name: analogData.name,
-			symbolSize: [40 + analogData.name.length * 18 + 20, 50],
-			symbol: 'rectangle',
-			children: this.toAddArrowData(holderList, 'holder'),
-		}];
-		const investorData = [{
-			name: analogData.name,
-			symbolSize: [40 + analogData.name.length * 18 + 20, 50],
-			symbol: 'rectangle',
-			children: this.toAddArrowData(investorList, 'investor'),
-		}];
-		return {
-			holderData,
-			investorData,
-		};
+	// 根据公司经营状态更改颜色
+	applyStatus =(val, num) => {
+		if (num === 1) {
+			if (val) {
+				if (val.match(/(存续|在业)/)) return { color: '#93d6b5' };
+				if (val.match(/(迁出|其他)/)) return { color: '#feb781' };
+				if (val.match(/(撤销|吊销|清算|停业|注销)/)) return { color: '#ff9293' };
+			}
+		}
+		if (num === 2) {
+			if (val) {
+				if (val.match(/(存续|在业)/)) return { strokeColor: '#93d6b5', color: '#f4fffa' };
+				if (val.match(/(迁出|其他)/)) return { strokeColor: '#feb781', color: '#fef9f3' };
+				if (val.match(/(撤销|吊销|清算|停业|注销)/)) return { strokeColor: '#ff9293', color: '#fff4f3' };
+			}
+		}
+		return {};
 	};
 
-	/* 添加箭头样式 */
-	toAddArrowData = (source, type) => {
+
+	// 树图初始化配置 第一次绘图内容
+	initOption=(params) => {
+		const { holderList, investorList } = params;
+
+		return [
+			{
+				name: toEmpty(params.name),
+				symbolSize: [60 + params.name.length * 18, 40],
+				symbol: 'rectangle',
+				children: this.toAddArrowData(holderList, 'holder'),
+			},
+			{
+				name: params.name,
+				symbolSize: [60 + params.name.length * 18, 40],
+				symbol: 'rectangle',
+				children: this.toAddArrowData(investorList, 'investor'),
+			},
+		];
+	};
+
+	// 箭头 children
+	toAddArrowData =(source, type) => {
 		if ((source || []).length) {
 			const sourceType = type === 'holder' ? 'holderList' : 'investorList';
-			const iconStatus = (item) => {
-				if (item.hasNode) {
-					if ((item[sourceType] || []).length) return 'del';
+			const iconStatus = (statusItem) => {
+				if (statusItem.hasNode) {
+					// console.log(statusItem);
+					if ((statusItem[sourceType] || []).length) return 'del';
 					return 'add';
 				}
 				return '';
 			};
+			// 根据公司名字长度/个人设置框大小
+			const resetSize = (item) => {
+				if (item.type === 1) {
+					return [164, 60];
+				}
+				/* if (item.name.length > 7) {
+					return [50 + item.name.length * 18, 60];
+				} */
+				return [210, 60];
+			};
+
 			return source.map(item => ({
-				value: item.percent,
+				name: item.percent,
 				symbol: 'arrow',
 				symbolSize: 1,
 				isArrow: true,
 				itemStyle: {
 					normal: {
-						color: '#000',
+						color: 'transparent',
 						label: {
 							position: 'right',
 							lineHeight: 1,
+							textStyle: {
+								color: '#128aed',
+							},
 						},
 					},
 				},
 				children: [{
 					symbol: 'rectangle',
-					symbolSize: [160, 50],
+					// eslint-disable-next-line no-nested-ternary
+					symbolSize: resetSize(item),
 					iconStatus: iconStatus(item),
 					username: item.name,
-					value: item.value,
+					setStatus: true,
+					percent: item.percent,
 					isElement: true,
 					dataType: type,
-					id: item.id,
 					treeName: type,
+					type: item.type,
+					id: item.id,
 					hasNode: item.hasNode,
 					amount: item.amount,
-					itemStyle: {
-						normal: item.type === 2 ? { ...style.background.any } : { ...style.background.per },
-					},
+					companyStatus: item.companyStatus,
+					itemStyle: item.type === 1 ? { ...style.forStyle.person } : { ...style.forStyle.company },
 					children: item.hasNode ? this.toAddArrowData(item[sourceType], type) : [],
 				}],
 			}));
@@ -248,148 +281,230 @@ export default class StockRight extends React.Component {
 		return [];
 	};
 
-	/* 获取ID对应的节点数据 */
-	toGetIdItem = (eleId, type) => {
-		const baseSource = this.resultSource[type === 'holder' ? 'holderData' : 'investorData'];
+	toGetIdItem=(eleId, type) => {
+		const baseSource = type === 'holder' ? this.resultSource[0].children : this.resultSource[1].children;
 		let result = '';
-		const recursion = (id, array) => {
+		const resetItem = (id, array) => {
 			const _length = (array || []).length || 0;
 			if (_length) {
 				for (let i = 0; i < _length; i += 1) {
 					if (array[i].id === id) result = array[i];
-					if (array[i].isArrow || array[i].children) recursion(id, array[i].children);
+					if (array[i].isArrow || array[i].children) resetItem(id, array[i].children);
 				}
 			}
 		};
-		recursion(eleId, baseSource);
-		console.log(result);
+		resetItem(eleId, baseSource);
 		return result;
 	};
 
-	/* 处理树图数据 */
-	handleOption = (params) => {
+	// 处理点击后数据
+	handleOption=(params) => {
 		const { id, iconStatus, treeName } = params;
-		const idItem = this.toGetIdItem(id, treeName);
+		let idItem = this.toGetIdItem(id, treeName);
+		console.log(idItem);
 		if (typeof idItem === 'object') {
 			if (iconStatus === 'del') {
-				idItem.iconStatus = 'add';
-				idItem.backup = idItem.children;
-				idItem.children = [];
+				idItem = Object.assign(idItem, {
+					iconStatus: 'add',
+					backup: idItem.children,
+					children: [],
+				});
 			} else if (idItem.hasNode) {
 				if (idItem.backup) {
 					idItem.iconStatus = 'del';
 					idItem.children = idItem.backup;
 					idItem.backup = [];
 				} else {
-					/* 获取数据源 */
-					const addData = imitateSource[id];
-					if (addData) {
-						idItem.children = this.toAddArrowData(addData, treeName);
-						idItem.iconStatus = 'del';
-					}
+					stockChart({ id })
+						.then((res) => {
+							if (res.code === 200) {
+								idItem.children = this.toAddArrowData(res.data.holderList, treeName);
+								idItem.iconStatus = 'del';
+							}
+						})
+						.catch(() => {
+						});
 				}
 			}
 		}
-		/* 直接修改数据源 */
 		this.myChart.clear();
-		this.myChart.setOption(optionMethods(this.resultSource.holderData, this.resultSource.investorData));
-		this.initZRender();
+		this.myChart.setOption(optionMethods(this.resultSource));
+		this.myZrender();
+		return true;
 	};
 
-	/* zRender */
-	initZRender = () => {
+	// zrender渲染
+	myZrender=() => {
+		const {
+			Text, ImageShape, Rectangle, Polygon, Circle,
+		} = window.zrDefine;
+		window.b = this.myChart;
 		const myZr = this.myChart.getZrender();
 		const shapeList = myZr.storage.getShapeList();
+		const toGetArrow = (x, y, size = 15) => {
+			const shape = new Polygon({
+				style: {
+					pointList: [[x, y], [x + size / 2, y + size * 1.2 * 0.3], [x + size, y], [x + size / 2, y + size * 1.2]],
+					color: '#128aed',
+				},
+				zlevel: 1,
+			});
+			return Object.assign(shape, style.zLevel);
+		};
 
+		// 背景水印
+		for (let t = 0; t < myZr.getWidth() + 100; t += 308) {
+			for (let j = 0; j < this.myChart.getZrender().getHeight() + 100; j += 208) {
+				const shapeSy = new ImageShape({
+					style: {
+						image: back,
+						x: t,
+						y: j,
+						width: 308,
+						height: 208,
+						// opacity: 0.1,
+					},
+				});
+				shapeSy.hoverable = false;
+				shapeSy.ndelete = true;
+				this.myChart.getZrender().addShape(shapeSy);
+			}
+		}
 		for (let i = 0; i < shapeList.length; i += 1) {
+			const myChartData = shapeList[i]._echartsData;
 			const locationX = shapeList[i].rotation[1];
 			const locationY = shapeList[i].rotation[2];
-			// 树节点数据源 myChartData
-			if (shapeList[i]._echartsData) {
+			if (myChartData) {
 				const {
-					hasNode, id, dataType, iconStatus, treeName, username, amount, isElement, isArrow,
-				} = shapeList[i]._echartsData._data;
+					username, type, amount, isArrow, hasNode, id, dataType, iconStatus, treeName, companyStatus,
+				} = myChartData._data;
 
-				/* 添加 公司名称 */
-				if (isElement) {
-					const shapeText = new Text({
+				// 金额字段长度
+				// if (amount && username) {
+				// const setLength = Math.max(username.length, amount.length);
+				// console.log(username.length, amount, 'am.len', amount.length);
+				// }
+				// 公司名字 经营状态 else 个人name
+				if (type === 2) {
+					const shapeCompany = new Text({
+						style: {
+							x: locationX - 20,
+							y: locationY - 5,
+							text: toEmpty(username).length > 10
+								? toEmpty(username).replace(/(.{10})(?=.)/g, '$1\n')
+								: toEmpty(username),
+							...style.font,
+						},
+					});
+					myZr.addShape(Object.assign(shapeCompany, style.zLevel));
+					const ecStatus = companyStatus;
+					// 公司状态边框
+					const shapeRect2 = new Rectangle({
+						style: {
+							x: username.length > 7 ? locationX + 60 : locationX + 50,
+							y: locationY - 17,
+							width: 38,
+							height: 18,
+							color: this.applyStatus(ecStatus, 2).strokeColor,
+						},
+					});
+					myZr.addShape(Object.assign(shapeRect2, style.zLevel));
+					// 公司状态背景
+					const shapeRect = new Rectangle({
+						style: {
+							x: username.length > 7 ? locationX + 61 : locationX + 51,
+							y: locationY - 16,
+							width: 36,
+							height: 16,
+							color: this.applyStatus(ecStatus, 2).color,
+						},
+					});
+					myZr.addShape(Object.assign(shapeRect, style.zLevel));
+					// 公司状态文字
+					const shapeStatus = new Text({
+						style: {
+							text: ecStatus, // 图片url或者图片对象
+							x: username.length > 7 ? locationX + 66 : locationX + 56,
+							y: locationY - 7,
+							color: this.applyStatus(ecStatus, 1).color,
+							textFont: 'bold 11px verdana',
+						},
+					});
+					myZr.addShape(Object.assign(shapeStatus, style.zLevel));
+				} else {
+					const shapeName = new Text({
 						style: {
 							x: locationX,
 							y: locationY - 5,
-							text: username,
+							text: toEmpty(username),
 							...style.font,
 						},
-						zlevel: 4,
 					});
-					myZr.addShape(Object.assign(shapeText, style.zLevel));
+					myZr.addShape(Object.assign(shapeName, style.zLevel));
 				}
-
-				/* 添加 认缴金额 */
+				// 认缴金额
 				if (amount) {
-					const shapeText1 = new Text({
+					const shapeAmount = new Text({
 						style: {
 							x: locationX,
-							y: locationY + 10,
-							text: `认缴金额：${amount}`,
-							...style.font,
-						},
-						zlevel: 4,
-					});
-					myZr.addShape(Object.assign(shapeText1, style.zLevel));
-				}
-
-				/* 如果拥有子节点 添加加减号 */
-				if (hasNode) {
-					const shapeBtn = new ImageShape({
-						style: {
-							image: iconStatus === 'add' ? iconAdd : iconDelete, // 图片url或者图片对象
-							x: locationX - 7,
-							y: locationY - 41,
-							width: 15,
-							height: 16,
+							y: type === 1 ? locationY + 20 : locationY + 23,
+							text: `认缴金额：${toEmpty(amount)}`,
+							...style.font_amount,
 						},
 					});
-					shapeBtn.info = {
-						hasNode,
-						id,
-						dataType,
-						iconStatus,
-						treeName,
-					};
-					shapeBtn.isCollapse = true;
-					shapeBtn.clickable = true;
-					myZr.addShape(Object.assign(shapeBtn, style.zLevel));
+					myZr.addShape(Object.assign(shapeAmount, style.zLevel));
 				}
 
+				// 箭头 百分比
+				// console.log(isArrow)
 				if (isArrow) {
-					// const shapeArrow = new ImageShape({
-					// 	style: {
-					// 		image: iconArrow, // 图片url或者图片对象
-					// 		x: locationX - 7,
-					// 		y: locationY - 9,
-					// 		width: 15,
-					// 		height: 16,
-					// 	},
-					// });
-					myZr.addShape(toGetArrow(locationX - 6, locationY - 8, 13));
+					myZr.addShape(toGetArrow(locationX - 7, locationY - 11, 15));
+				}
+				// + - 按钮
+				if (hasNode) {
+					// 圆
+					const shapeCircle = new Circle({
+						style: {
+							x: locationX,
+							y: type === 1 ? locationY - 48 : locationY - 40,
+							r: 9,
+							color: '#128aed',
+							// text: iconStatus === 'add' ? '+' : '-',
+						},
+					});
+					myZr.addShape(Object.assign(shapeCircle, style.zLevel));
+					// + - 文本
+					const shapeCollapse = new Text({
+						style: {
+							x: iconStatus === 'add' ? locationX - 9 : locationX - 5,
+							y: type === 1 ? locationY - 45 : locationY - 39,
+							color: 'white',
+							textFont: iconStatus === 'add' ? 'bold 20px verdana' : 'bold 22px verdana',
+							text: iconStatus === 'add' ? '+' : '-',
+						},
+					});
+					shapeCollapse.info = {
+						hasNode, id, dataType, iconStatus, treeName,
+					};
+					shapeCollapse.zlevel = 1;
+					shapeCollapse.z = 5;
+					shapeCollapse.ndelete = true;
+					shapeCollapse.hoverable = false;
+					shapeCollapse.isCollapse = true;
+					shapeCollapse.clickable = true;
+					myZr.addShape(shapeCollapse);
 				}
 			}
 		}
 	};
 
+	onChartReadyCallback=() => {
+		console.log('onChartReadyCallback');
+	};
 
 	render() {
 		return (
-			<div style={{ padding: 10 }}>
-				<div
-					id="zRenderEcharts"
-					style={{
-						width: 1000,
-						height: 700,
-						border: '3px solid #ddd',
-					}}
-				/>
-			</div>
+			<div id="zRenderEcharts" style={{ width: 1000, height: 500 }} />
 		);
 	}
 }
