@@ -71,14 +71,20 @@ export default class Info extends React.Component {
 		super(props);
 		this.state = {
 			data: {},
+			tabConfig: subItems(),
 		};
+	}
+
+	componentWillMount() {
+		const { toPushChild } = this.props;
+		toPushChild(this.toGetSubItems());
 	}
 
 	componentDidMount() {
 		const { toPushChild } = this.props;
 		const { hash } = window.location;
 		const urlValue = parseQuery(hash);
-		toPushChild(this.toGetSubItems());
+
 		const params = {
 			id: urlValue.id || -999999,
 		};
@@ -87,8 +93,10 @@ export default class Info extends React.Component {
 				if (res.code === 200) {
 					this.setState({
 						data: res.data,
+						tabConfig: subItems(res.data),
+					}, () => {
+						toPushChild(this.toGetSubItems());
 					});
-					toPushChild(this.toGetSubItems(res.data));
 				}
 			});
 	}
@@ -101,19 +109,23 @@ export default class Info extends React.Component {
 		}
 	};
 
-	toGetSubItems= data => (
-		<div className="yc-intro-sub-items">
-			{
-				subItems(data).map(item => (
-					<Button className="intro-btn-items" disabled={item.disabled} onClick={() => this.handleScroll(item.tagName)}>
-						{
-							item.id === 1 || item.id === 4 ? `${item.name}` : `${item.name}${item.total ? ` ${item.total}` : ' 0'}`
-						}
-					</Button>
-				))
-			}
-		</div>
-	);
+	toGetSubItems = () => {
+		const { tabConfig } = this.state;
+		return (
+			<div className="yc-intro-sub-items">
+				{
+					tabConfig.map(item => (
+						<Button className="intro-btn-items" disabled={item.disabled} onClick={() => this.handleScroll(item.tagName)}>
+							{
+								item.id === 1 || item.id === 4 ? `${item.name}` : `${item.name}${item.total ? ` ${item.total}` : ' 0'}`
+							}
+						</Button>
+					))
+				}
+			</div>
+		);
+	}
+
 
 	render() {
 		const { data } = this.state;
