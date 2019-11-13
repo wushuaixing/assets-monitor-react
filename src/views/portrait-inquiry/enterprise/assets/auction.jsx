@@ -7,7 +7,7 @@ export default class Auction extends React.Component {
 		super(props);
 		this.state = {
 			config: [{
-				id: 1, name: '智能精准匹配', total: 12,
+				id: 10101, name: '智能精准匹配', number: 12, showNumber: true,
 			}],
 		};
 	}
@@ -20,6 +20,7 @@ export default class Auction extends React.Component {
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={config}
+					symbol="none"
 					prefix={<div className="yc-tabs-simple-prefix">资产拍卖</div>}
 				/>
 				<div className="inquiry-public-table">

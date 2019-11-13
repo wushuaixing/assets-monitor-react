@@ -2,17 +2,20 @@ import React from 'react';
 import { Affix, Icon } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
+// import service from '@/utils/service';
+import { requestAll } from '@/utils/promise';
+import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import QueryView from '../common/queryView';
 import { Tabs, Button, Spin } from '@/common';
-import { getQueryByName, timeStandard, toEmpty } from '@/utils';
+import {
+	getQueryByName, timeStandard, toEmpty, reviseNum,
+} from '@/utils';
 import { companyInfo } from '@/utils/api/portrait-inquiry';
 import Overview from './overview';
 import Assets from './assets';
 import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
-// import Dishonest from '@/assets/img/icon/icon_shixin.png';
-
 import './style.scss';
 
 /* 基本选项 */
@@ -49,6 +52,7 @@ const source = () => [
 	},
 ];
 
+/* 获取注册状态样式 */
 const getRegStatusClass = (val) => {
 	if (val) {
 		if (val.match(/(存续|在业)/)) return ' regStatus-green';
@@ -92,7 +96,7 @@ const EnterpriseInfo = (props) => {
 					</li>
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">注册资本：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? regCapital : '--'}</span>
+						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? reviseNum(regCapital) : '--'}</span>
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">成立日期：</span>
@@ -157,10 +161,22 @@ export default class Enterprise extends React.Component {
 		companyInfo({ companyId }).then((res) => {
 			if (res.code === 200) {
 				this.setState({ infoSource: res.data });
+				this.toGetChildCount(companyId);
 			}
 		});
-		console.log(companyId);
 	}
+
+	/* 获取子项统计 */
+	toGetChildCount=(companyId) => {
+		/* ...... */
+		const reqList = Object.keys(assets).map(item => ({
+			api: assets[item].count({ companyId }, assets[item].id),
+			info: { id: assets[item].id },
+		}));
+		requestAll(reqList).then((res) => {
+			console.log(res);
+		});
+	};
 
 	handleDownload=() => {
 		console.log('handleDownload');
@@ -212,6 +228,7 @@ export default class Enterprise extends React.Component {
 								<Tabs.Simple
 									onChange={this.onSourceType}
 									source={tabConfig}
+									symbol="none"
 									defaultCurrent={sourceType}
 								/>
 								{childDom}

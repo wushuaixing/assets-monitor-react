@@ -9,7 +9,7 @@ import Chattel from './chattel';
 
 const subItems = [
 	{
-		id: 1,
+		id: 10100,
 		name: '资产拍卖',
 		total: 10,
 		disabled: false,
@@ -17,7 +17,7 @@ const subItems = [
 		component: Auction,
 	},
 	{
-		id: 2,
+		id: 10200,
 		name: '代位权',
 		total: 10,
 		disabled: false,
@@ -25,23 +25,23 @@ const subItems = [
 		component: Subrogation,
 	},
 	{
-		id: 3,
+		id: 10300,
 		name: '土地信息',
 		total: 10,
 		disabled: false,
 		tagName: 'e-assets-land',
 		component: Land,
 	},
+	// {
+	// 	id: 10400,
+	// 	name: '无形资产',
+	// 	total: 0,
+	// 	disabled: true,
+	// 	tagName: 'e-assets-intangible',
+	// 	// component: Intangible,
+	// },
 	{
-		id: 4,
-		name: '无形资产',
-		total: 0,
-		disabled: true,
-		tagName: 'e-assets-intangible',
-		// component: Intangible,
-	},
-	{
-		id: 5,
+		id: 10500,
 		name: '股权质押',
 		total: 10,
 		disabled: false,
@@ -49,7 +49,7 @@ const subItems = [
 		component: Stock,
 	},
 	{
-		id: 6,
+		id: 10600,
 		name: '动产抵押',
 		total: 10,
 		disabled: false,

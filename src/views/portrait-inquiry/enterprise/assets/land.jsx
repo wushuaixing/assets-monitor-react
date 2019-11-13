@@ -6,11 +6,17 @@ export default class Land extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: 1,
+			sourceType: 10301,
 			config: [
-				{ id: 1, name: '出让结果', total: 4 },
-				{ id: 2, name: '土地转让', total: 12 },
-				{ id: 3, name: '土地抵押', total: 8 }],
+				{
+					id: 10301, name: '出让结果', number: 3, showNumber: true,
+				},
+				{
+					id: 10302, name: '土地转让', number: 12, showNumber: true,
+				},
+				{
+					id: 10303, name: '土地抵押', number: 9, showNumber: true,
+				}],
 		};
 	}
 
@@ -29,13 +35,13 @@ export default class Land extends React.Component {
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={config}
+					symbol="none"
 					prefix={<div className="yc-tabs-simple-prefix">土地信息</div>}
 				/>
 				<div className="inquiry-public-table">
-
-					{sourceType === 1 ? <Result /> : null}
-					{sourceType === 2 ? <Transfer /> : null}
-					{sourceType === 3 ? <Mortgage /> : null}
+					{sourceType === 10301 ? <Result /> : null}
+					{sourceType === 10302 ? <Transfer /> : null}
+					{sourceType === 10303 ? <Mortgage /> : null}
 				</div>
 			</div>
 		);

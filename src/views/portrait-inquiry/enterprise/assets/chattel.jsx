@@ -6,10 +6,14 @@ export default class Chattel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			type: 1,
+			type: 10601,
 			config: [
-				{ id: 1, name: '抵押', total: 12 },
-				{ id: 2, name: '抵押权', total: 12 }],
+				{
+					id: 10601, name: '抵押', number: 12, showNumber: true,
+				},
+				{
+					id: 10602, name: '抵押权', number: 12, showNumber: true,
+				}],
 		};
 	}
 
@@ -29,11 +33,12 @@ export default class Chattel extends React.Component {
 				<Tabs.Simple
 					onChange={this.onChangeType}
 					source={config}
+					symbol="none"
 					prefix={<div className="yc-tabs-simple-prefix">动产抵押</div>}
 				/>
 				<div className="inquiry-public-table">
-					{type === 1 ? <Pledge /> : null}
-					{type === 2 ? <Mortgage /> : null}
+					{type === 10601 ? <Pledge /> : null}
+					{type === 10602 ? <Mortgage /> : null}
 				</div>
 			</div>
 		);

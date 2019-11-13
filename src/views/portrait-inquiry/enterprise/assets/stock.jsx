@@ -6,10 +6,14 @@ export default class Stock extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: 1,
+			sourceType: 10501,
 			config: [
-				{ id: 1, name: '股权出质', total: 4 },
-				{ id: 2, name: '股权质权', total: 12 }],
+				{
+					id: 10501, name: '股权出质', showNumber: true, number: 4,
+				},
+				{
+					id: 10502, name: '股权质权', showNumber: true, number: 12,
+				}],
 		};
 	}
 
@@ -28,11 +32,12 @@ export default class Stock extends React.Component {
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={config}
+					symbol="none"
 					prefix={<div className="yc-tabs-simple-prefix">股权质押</div>}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 1 ? <Pledge /> : null}
-					{sourceType === 2 ? <Mortgage /> : null}
+					{sourceType === 10501 ? <Pledge /> : null}
+					{sourceType === 10502 ? <Mortgage /> : null}
 				</div>
 			</div>
 		);

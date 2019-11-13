@@ -6,16 +6,16 @@ export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: 1,
+			sourceType: 10201,
 			config: [
 				{
-					id: 1, name: '立案', number: 4, showNumber: true,
+					id: 10201, name: '立案', number: 4, showNumber: true,
 				},
 				{
-					id: 2, name: '开庭', number: 3, showNumber: true, disabled: true,
+					id: 10202, name: '开庭', number: 3, showNumber: true, disabled: true,
 				},
 				{
-					id: 3, name: '裁判文书', number: 9, showNumber: true,
+					id: 10203, name: '裁判文书', number: 9, showNumber: true,
 				}],
 		};
 	}
@@ -39,9 +39,9 @@ export default class Subrogation extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">代位权</div>}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 1 ? <Trial /> : null}
-					{sourceType === 2 ? <Court /> : null}
-					{sourceType === 3 ? <Judgment /> : null}
+					{sourceType === 10201 ? <Trial /> : null}
+					{sourceType === 10202 ? <Court /> : null}
+					{sourceType === 10203 ? <Judgment /> : null}
 				</div>
 			</div>
 		);
