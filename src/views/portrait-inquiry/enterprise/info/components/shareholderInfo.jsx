@@ -1,4 +1,5 @@
 import React from 'react';
+import { parseQuery } from '@/utils';
 import { Spin, Table } from '@/common';
 import { getStockholder } from '@/utils/api/portrait-inquiry/enterprise/info';
 
@@ -12,15 +13,17 @@ export default class ShareholderInfo extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getStockholderData();
+		const { hash } = window.location;
+		const params = parseQuery(hash);
+		this.getStockholderData(params);
 	}
 
-	getStockholderData = () => {
+	getStockholderData = (value) => {
 		this.setState({
 			loading: true,
 		});
 		const params = {
-			id: 1,
+			...value,
 		};
 		getStockholder(params)
 			.then((res) => {

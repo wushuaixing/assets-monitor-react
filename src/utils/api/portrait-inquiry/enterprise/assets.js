@@ -60,10 +60,10 @@ const assets = {
 	result: {
 		name: '资产-土地信息-出让结果',
 		list(params) {
-			return service.get('/yc/monitor/land/result/list', { params }).then(res => res.data);
+			return service.get('/yc/monitor/land/transfer/list', { params }).then(res => res.data);
 		},
 		count() {
-			return service.get('/yc/monitor/land/result/list-count', { params: this.params }).then(res => res.data);
+			return service.get('/yc/monitor/land/transfer/list-count', { params: this.params }).then(res => res.data);
 		},
 	},
 	pledge: {

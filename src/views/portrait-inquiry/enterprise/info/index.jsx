@@ -1,6 +1,7 @@
 import React from 'react';
 import { getCount } from '@/utils/api/portrait-inquiry/enterprise/info';
 import { Button } from '@/common';
+import { parseQuery } from '@/utils';
 import BusinessInfo from './components/businessInfo';
 import KeyPersonnel from './components/keyPersonnel';
 import ShareholderInfo from './components/shareholderInfo';
@@ -20,7 +21,7 @@ const subItems = data => [
 	{
 		id: 2,
 		name: '主要人员',
-		total: data.mainPerson,
+		total: data && data.mainPerson,
 		disabled: data && data.mainPerson <= 0,
 		tagName: 'e-assets-keyPersonnel',
 		component: KeyPersonnel,
@@ -75,10 +76,12 @@ export default class Info extends React.Component {
 
 	componentDidMount() {
 		const { toPushChild } = this.props;
+		const { hash } = window.location;
+		const urlValue = parseQuery(hash);
+		toPushChild(this.toGetSubItems());
 		const params = {
-			id: 1,
+			id: urlValue.id || -999999,
 		};
-
 		getCount(params)
 			.then((res) => {
 				if (res.code === 200) {

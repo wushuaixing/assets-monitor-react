@@ -1,4 +1,6 @@
 import React from 'react';
+import { Pagination } from 'antd';
+import { parseQuery } from '@/utils';
 import { Spin, Table } from '@/common';
 import { getInvestment } from '@/utils/api/portrait-inquiry/enterprise/info';
 import { formatDateTime } from '@/utils/changeTime';
@@ -9,6 +11,8 @@ export default class OutboundInvestment extends React.Component {
 		this.state = {
 			loading: false,
 			data: [], // 列表数据
+			current: 1,
+			total: 0,
 		};
 	}
 
@@ -16,19 +20,30 @@ export default class OutboundInvestment extends React.Component {
 		this.getInvestmentData();
 	}
 
-	getInvestmentData = () => {
+	// 当前页数变化
+	onPageChange=(val) => {
+		this.getInvestmentData(val);
+	};
+
+	getInvestmentData = (value) => {
 		this.setState({
 			loading: true,
 		});
+		const { hash } = window.location;
+		const urlValue = parseQuery(hash);
 		const params = {
-			id: 1,
+			num: 5,
+			id: urlValue.id || '',
+			page: value,
 		};
 		getInvestment(params)
 			.then((res) => {
 				if (res.code === 200) {
 					this.setState({
+						data: res.data.list,
+						current: res.data.page,
+						total: res.data.total,
 						loading: false,
-						data: res.data,
 					});
 				} else {
 					this.setState({ loading: false });
@@ -100,7 +115,9 @@ export default class OutboundInvestment extends React.Component {
 
 	render() {
 		const { id } = this.props;
-		const { loading, data } = this.state;
+		const {
+			loading, data, current, total,
+		} = this.state;
 
 		// 添加一个下标属性indexNum
 		const newArray = [];
@@ -120,12 +137,23 @@ export default class OutboundInvestment extends React.Component {
 				<div className="yc-base-table">
 					<Spin visible={loading}>
 						<Table
-							scroll={data.length > 8 ? { y: 440 } : {}}
 							columns={this.toGetColumns()}
 							dataSource={newArray}
 							pagination={false}
 							className="table"
 						/>
+						{total && total > 5 ? (
+							<div className="yc-table-pagination">
+								<Pagination
+									pageSize={5}
+									showQuickJumper
+									current={current || 1}
+									total={total || 0}
+									onChange={this.onPageChange}
+									showTotal={totalCount => `共 ${totalCount} 条信息`}
+								/>
+							</div>
+						) : ''}
 					</Spin>
 				</div>
 			</div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Spin, Table } from '@/common';
+import { parseQuery } from '@/utils';
 import { getMainPerson } from '@/utils/api/portrait-inquiry/enterprise/info';
 
 export default class KeyPersonnel extends React.Component {
@@ -12,15 +13,17 @@ export default class KeyPersonnel extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getMainPersonData();
+		const { hash } = window.location;
+		const params = parseQuery(hash);
+		this.getMainPersonData(params);
 	}
 
-	getMainPersonData = () => {
+	getMainPersonData = (value) => {
 		this.setState({
 			loading: true,
 		});
 		const params = {
-			id: 1,
+			...value,
 		};
 		getMainPerson(params)
 			.then((res) => {
