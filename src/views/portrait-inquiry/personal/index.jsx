@@ -83,12 +83,14 @@ export default class Personal extends React.Component {
 	constructor(props) {
 		document.title = '个人详情-画像查询';
 		super(props);
-		const defaultSourceType = window.location.hash.match(/\d{3}?(\?)/);
+		// const defaultSourceType = window.location.hash.match(/\d{3}?(\?)/);
+		const defaultSourceType = window.location.hash.match(/\/personal\/(\d{3})\/?/);
+
 		this.state = {
 			tabConfig: source(),
 			childDom: '',
 			affixStatus: false,
-			sourceType: defaultSourceType ? Number(defaultSourceType[0]) : 201,
+			sourceType: defaultSourceType ? Number(defaultSourceType[1]) : 201,
 		};
 	}
 

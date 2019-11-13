@@ -138,12 +138,14 @@ const EnterpriseInfoSimple = (props) => {
 export default class Enterprise extends React.Component {
 	constructor(props) {
 		document.title = '企业详情-画像查询';
-		const defaultSourceType = window.location.hash.match(/\d{3}?(\?)/);
+		// const defaultSourceType = window.location.hash.match(/\d{3}?(\?)/);
+		const defaultSourceType = window.location.hash.match(/\/enterprise\/(\d{3})\/?/);
+
 		super(props);
 		this.state = {
 			tabConfig: source(),
 			childDom: '',
-			sourceType: defaultSourceType ? Number(defaultSourceType[0]) : 101,
+			sourceType: defaultSourceType ? Number(defaultSourceType[1]) : 101,
 			affixStatus: false,
 			loading: false,
 			infoSource: {},
