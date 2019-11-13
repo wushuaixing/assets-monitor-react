@@ -3,7 +3,7 @@ import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import associationLink from '@/views/_common/association-link';
-import { linkDom, timeStandard } from '@/utils';
+import { getQueryByName, linkDom, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 const { court } = assets;
@@ -72,9 +72,12 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
+		const companyId = getQueryByName(window.location.href, 'id');
 		this.setState({ loading: true });
 		court.list({
 			page: page || 1,
+			num: 5,
+			companyId,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

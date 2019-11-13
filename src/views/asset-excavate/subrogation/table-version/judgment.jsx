@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Icon, Spin, Table } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
-import { linkDom, timeStandard } from '@/utils';
+import { getQueryByName, linkDom, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 const { judgment } = assets;
@@ -74,9 +74,12 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
+		const companyId = getQueryByName(window.location.href, 'id');
 		this.setState({ loading: true });
 		judgment.list({
 			page: page || 1,
+			num: 5,
+			companyId,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
