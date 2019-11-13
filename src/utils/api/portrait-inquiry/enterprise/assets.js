@@ -3,46 +3,29 @@ import service from '@/utils/service';
 const assets = {
 	auction: {
 		name: '资产-资产拍卖-精准匹配',
-		params: {
-			companyId: 3280438,
-		},
-		list() {
-			return service.get('yc/search/portrait/company/asset/auction/precision/list', { params: this.params }).then(res => res.data);
-		},
-		count() {
-			return service.get('/yc/monitor/auction/list', { params: this.params }).then((res) => {
-				const { code, data, message } = res.data;
-				return {
-					code,
-					message,
-					data: data.total,
-				};
-			});
-		},
+		params: { companyId: 3280438 },
+		list: params => service.get('/yc/search/portrait/company/asset/auction/precision/list', { params }).then(res => res.data),
+		count: params => service.get('/yc/search/portrait/company/asset/auction/precision/list-count', { params })
+			.then(res => res.data),
 	},
 	trial: {
 		name: '资产-代位权-立案',
 		params: {
 			partiesName: '国网浙江省电力公司宁波供电公司',
 		},
-		list() {
-			return service.get('/yc/monitor/trial/subrogation/list', { params: this.params }).then(res => res.data);
-		},
-		count() {
-			return service.get('/yc/monitor/trial/subrogation/list-count', { params: this.params }).then(res => res.data);
-		},
+		list: params => service.get('/yc/search/portrait/company/asset/subrogation/trial/list', { params }).then(res => res.data),
+		count: params => service.get('yc/search/portrait/company/asset/subrogation/trial/list-count', { params })
+			.then(res => res.data),
 	},
 	court: {
 		name: '资产-代位权-开庭',
 		params: {
 			partiesName: '椰树集团有限公司',
 		},
-		list() {
-			return service.get('/yc/monitor/court/subrogation/list', { params: this.params }).then(res => res.data);
-		},
-		count() {
-			return service.get('/yc/monitor/court/subrogation/list-count', { params: this.params }).then(res => res.data);
-		},
+		list: params => service.get('/yc/search/portrait/company/asset/subrogation/court-notice/list', { params })
+			.then(res => res.data),
+		count: params => service.get('yc/search/portrait/company/asset/subrogation/court-notice/list-count', { params })
+			.then(res => res.data),
 	},
 	judgment: {
 		name: '资产-代位权-裁判文书',
@@ -50,12 +33,10 @@ const assets = {
 			partiesName: '中国民生银行股份有限公司',
 			caseNumber: '苏',
 		},
-		list() {
-			return service.get('/yc/monitor/judgment/subrogation/list', { params: this.params }).then(res => res.data);
-		},
-		count() {
-			return service.get('/yc/monitor/judgment/subrogation/list-count', { params: this.params }).then(res => res.data);
-		},
+		list: params => service.get('/yc/search/portrait/company/asset/subrogation/judgment-document/list', { params })
+			.then(res => res.data),
+		count: params => service.get('yc/search/portrait/company/asset/subrogation/judgment-document/list-count', { params })
+			.then(res => res.data),
 	},
 	result: {
 		name: '资产-土地信息-出让结果',

@@ -4,7 +4,7 @@ import { Ellipsis, Spin, Table } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import associationLink from '@/views/_common/association-link';
 import {
-	timeStandard, toEmpty, linkDom, getCaseType,
+	timeStandard, toEmpty, linkDom, getCaseType, getQueryByName,
 } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
@@ -78,9 +78,12 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
+		const companyId = getQueryByName(window.location.href, 'id');
 		this.setState({ loading: true });
 		trial.list({
 			page: page || 1,
+			num: 5,
+			companyId,
 		}).then((res) => {
 			// console.log(res);
 			if (res.code === 200) {

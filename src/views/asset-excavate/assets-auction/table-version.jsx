@@ -8,7 +8,7 @@ import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import TableVersionModal from './tableVersionModal';
 
 import './style.scss';
-import { toEmpty } from '@/utils';
+import { getQueryByName, toEmpty } from '@/utils';
 
 const { auction } = assets;
 
@@ -128,9 +128,9 @@ export default class TableIntact extends React.Component {
 			dataIndex: 'title',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
+					<li style={{ lineHeight: '20px' }}>
 						{ toEmpty(row.title)
-							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} /> : '--' }
+							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '--' }
 						<Button onClick={this.historyInfoModal}>
 							<Icon type="file-text" />
 							查看历史拍卖信息
@@ -166,7 +166,7 @@ export default class TableIntact extends React.Component {
 		this.setState({
 			historyInfoModalVisible: false,
 		});
-	}
+	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
@@ -175,9 +175,12 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
+		const companyId = getQueryByName(window.location.href, 'id');
 		this.setState({ loading: true });
 		auction.list({
 			page: page || 1,
+			num: 5,
+			companyId,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

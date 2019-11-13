@@ -43,8 +43,9 @@ export default class Ellipsis extends React.Component {
 	};
 
 	render() {
-		const { tooltip, url, font } = this.props;
-		const { line, content, width } = this.props;
+		const {
+			tooltip, url, font, line, content, width, className,
+		} = this.props;
 		const _line = line || 1;
 		const _width = width || this.maxWidth;
 		const showContent = _width
@@ -57,7 +58,7 @@ export default class Ellipsis extends React.Component {
 		} : '';
 
 		return (
-			<div ref={e => this.element = e} className="yc-ellipsis-element" style={style}>
+			<div ref={e => this.element = e} className={`yc-ellipsis-element${className ? ` ${className}` : ''}`} style={style}>
 				{
 					_tooltip
 						? <Tooltip placement="top" title={content}>{url ? ContentText : <span>{ContentText}</span>}</Tooltip>
