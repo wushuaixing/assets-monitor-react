@@ -76,13 +76,6 @@ export default class ShareholderInfo extends React.Component {
 			render(text) {
 				return <div>{text || '-'}</div>;
 			},
-		}, {
-			title: '认缴出资日期',
-			dataIndex: 'time',
-			key: 'time',
-			render(text) {
-				return <div>{text || '-'}</div>;
-			},
 		},
 	]
 

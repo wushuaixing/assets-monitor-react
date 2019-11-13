@@ -66,9 +66,9 @@ export default class BusinessInfo extends React.Component {
 						<div className="yc-base-infoTitle">纳税人识别号</div>
 						<div className="yc-base-infoName">{dataObj.taxNumber && dataObj.taxNumber.length > 1 ? dataObj.taxNumber : '-'}</div>
 						<div className="yc-base-infoTitle">成立日期</div>
-						<div className="yc-base-infoName">{dataObj.estiblishTime && dataObj.estiblishTime.length > 1 ? `${formatDateTime(dataObj.estiblishTime, 'onlyYear')}` : '-'}</div>
+						<div className="yc-base-infoName">{dataObj.estiblishTime ? `${formatDateTime(dataObj.estiblishTime, 'onlyYear')}` : '-'}</div>
 						<div className="yc-base-infoTitle">营业期限</div>
-						<div className="yc-base-infoName">{dataObj.fromTime && dataObj.fromTime.length > 1 ? dataObj.fromTime : '-'}</div>
+						<div className="yc-base-infoName">{dataObj.fromTime && dataObj.toTime && dataObj.fromTime.length > 1 && dataObj.toTime.length > 1 ? `自 ${dataObj.fromTime} 至 ${dataObj.toTime}` : '-'}</div>
 						<div className="yc-base-infoTitle">注册资本</div>
 						<div className="yc-base-infoName">{dataObj.regCapital && dataObj.regCapital.length > 1 ? dataObj.regCapital : '-'}</div>
 						<div className="yc-base-infoTitle">实缴资本</div>
@@ -100,7 +100,7 @@ export default class BusinessInfo extends React.Component {
 							}
 						</div>
 						<div className="yc-base-infoTitle">核准日期</div>
-						<div className="yc-base-infoName">{dataObj.approvedTime && dataObj.approvedTime.length > 1 ? `${formatDateTime(dataObj.approvedTime, 'onlyYear')}` : '-'}</div>
+						<div className="yc-base-infoName">{dataObj.approvedTime ? `${formatDateTime(dataObj.approvedTime, 'onlyYear')}` : '-'}</div>
 						<div className="yc-base-infoTitle">所属行业</div>
 						<div className="yc-base-infoName">
 							{
@@ -113,16 +113,14 @@ export default class BusinessInfo extends React.Component {
 									: <p>{dataObj.industry && dataObj.industry.length > 1 ? dataObj.industry : '-'}</p>
 							}
 						</div>
-						<div className="yc-base-infoTitle">营业期限</div>
-						<div className="yc-base-infoName">
-							{dataObj.fromTime && dataObj.toTime && dataObj.fromTime.length > 1 && dataObj.toTime.length > 1 ? `自 ${dataObj.fromTime} 至 ${dataObj.toTime}` : '-'}
-						</div>
-						<div className="yc-base-infoTitle">人员规模</div>
-						<div className="yc-base-infoName">{dataObj.scale && dataObj.scale.length > 1 ? dataObj.scale : '-'}</div>
 						<div className="yc-base-infoTitle">工商注册号</div>
 						<div className="yc-base-infoName">{dataObj.regNumber && dataObj.regNumber.length > 1 ? dataObj.regNumber : '-'}</div>
+						<div className="yc-base-infoTitle">人员规模</div>
+						<div className="yc-base-infoName">{dataObj.scale && dataObj.scale.length > 1 ? dataObj.scale : '-'}</div>
 						<div className="yc-base-infoTitle">参保人数</div>
 						<div className="yc-base-infoName">{dataObj.insuranceNum && dataObj.insuranceNum.length > 1 ? dataObj.insuranceNum : '-'}</div>
+						<div className="yc-base-infoTitle">英文名</div>
+						<div className="yc-base-infoName">{dataObj.englishName && dataObj.englishName.length > 1 ? dataObj.englishName : '-'}</div>
 						<div className="yc-base-infoTitle">注册地址</div>
 						<div className="yc-base-infoName">
 							{
@@ -135,8 +133,6 @@ export default class BusinessInfo extends React.Component {
 									: <p>{dataObj.regLocation && dataObj.regLocation.length > 1 ? dataObj.regLocation : '-'}</p>
 							}
 						</div>
-						<div className="yc-base-infoTitle">英文名</div>
-						<div className="yc-base-infoName">{dataObj.englishName && dataObj.englishName.length > 1 ? dataObj.englishName : '-'}</div>
 						<div className="yc-base-infoTitle">经营范围</div>
 						<div className="yc-base-infoName">
 							{

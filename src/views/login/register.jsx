@@ -51,7 +51,7 @@ class Login extends React.Component {
 
 	// 记住密码
 	checkboxChange = (e) => {
-		cookie.set('rememberPassword', e.target.checked);
+		cookie.set('rememberPassword', e.target.checked, { SameSite: 'none' });
 		this.setState({
 			rememberPassword: e.target.checked,
 		});
@@ -92,11 +92,11 @@ class Login extends React.Component {
 							if (rememberPassword === 'false') {
 								cookie.remove('userName');
 							} else {
-								cookie.set('userName', fields.username);
+								cookie.set('userName', fields.username, { SameSite: 'none' });
 							}
 							message.success('登陆成功');
-							cookie.set('token', res.data.token);
-							cookie.set('firstLogin', res.data.firstLogin);
+							cookie.set('token', res.data.token, { SameSite: 'none' });
+							cookie.set('firstLogin', res.data.firstLogin, { SameSite: 'none' });
 							const rule = handleRule(res.data.rules);
 
 							// 判断是否是第一次登录
