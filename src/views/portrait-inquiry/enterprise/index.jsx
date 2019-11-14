@@ -1,18 +1,21 @@
 import React from 'react';
-import { Affix, Icon } from 'antd';
+import { Affix, Icon, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
+// import service from '@/utils/service';
+import { requestAll } from '@/utils/promise';
+import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import QueryView from '../common/queryView';
 import { Tabs, Button, Spin } from '@/common';
-import { getQueryByName, timeStandard, toEmpty } from '@/utils';
+import {
+	getQueryByName, timeStandard, toEmpty, reviseNum,
+} from '@/utils';
 import { companyInfo } from '@/utils/api/portrait-inquiry';
 import Overview from './overview';
 import Assets from './assets';
 import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
-// import Dishonest from '@/assets/img/icon/icon_shixin.png';
-
 import './style.scss';
 
 /* 基本选项 */
@@ -25,22 +28,25 @@ const source = () => [
 	{
 		id: 102,
 		name: '资产',
-		number: 56,
-		showNumber: true,
+		number: 0,
+		showNumber: false,
+		disabled: true,
 	},
 	{
 		id: 103,
 		name: '涉诉',
-		number: 82,
-		showNumber: true,
+		number: 0,
+		showNumber: false,
 		field: 'followingCount',
+		disabled: true,
 	},
 	{
 		id: 104,
 		name: '经营',
-		number: 26,
-		showNumber: true,
+		number: 0,
+		showNumber: false,
 		field: 'finishedCount',
+		disabled: true,
 	},
 	{
 		id: 105,
@@ -49,6 +55,7 @@ const source = () => [
 	},
 ];
 
+/* 获取注册状态样式 */
 const getRegStatusClass = (val) => {
 	if (val) {
 		if (val.match(/(存续|在业)/)) return ' regStatus-green';
@@ -92,7 +99,7 @@ const EnterpriseInfo = (props) => {
 					</li>
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">注册资本：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? regCapital : '--'}</span>
+						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? reviseNum(regCapital) : '--'}</span>
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">成立日期：</span>
@@ -149,6 +156,9 @@ export default class Enterprise extends React.Component {
 			affixStatus: false,
 			loading: false,
 			infoSource: {},
+			countSource: {
+				assets: [],
+			},
 		};
 	}
 
@@ -157,10 +167,36 @@ export default class Enterprise extends React.Component {
 		companyInfo({ companyId }).then((res) => {
 			if (res.code === 200) {
 				this.setState({ infoSource: res.data });
+				this.toGetChildCount(companyId);
+			} else {
+				message.error('网络请求失败！');
 			}
+		}).catch(() => {
 		});
-		console.log(companyId);
 	}
+
+	/* 获取子项统计 */
+	toGetChildCount=(companyId) => {
+		/* ...... */
+		const { tabConfig: con } = this.state;
+		const reqList = Object.keys(assets).map(item => ({
+			api: assets[item].count({ companyId }, assets[item].id),
+			info: { id: assets[item].id },
+		}));
+		requestAll(reqList).then((res) => {
+			let count = 0;
+			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
+			con[1].disabled = !count;
+			con[1].number = count;
+			con[1].showNumber = Boolean(count);
+			this.setState({
+				tabConfig: con,
+				countSource: {
+					assets: res,
+				},
+			});
+		});
+	};
 
 	handleDownload=() => {
 		console.log('handleDownload');
@@ -193,7 +229,7 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, affixStatus, loading, infoSource,
+			tabConfig, childDom, sourceType, affixStatus, loading, infoSource, countSource,
 		} = this.state;
 
 		return (
@@ -212,6 +248,7 @@ export default class Enterprise extends React.Component {
 								<Tabs.Simple
 									onChange={this.onSourceType}
 									source={tabConfig}
+									symbol="none"
 									defaultCurrent={sourceType}
 								/>
 								{childDom}
@@ -221,7 +258,7 @@ export default class Enterprise extends React.Component {
 					</Affix>
 					<Router>
 						<Overview toPushChild={this.handleAddChild} path="/*" />
-						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" />
+						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" count={countSource.assets} />
 						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" />
 						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" />
 						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" />

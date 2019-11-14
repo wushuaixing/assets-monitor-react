@@ -1,16 +1,35 @@
 import React from 'react';
 import { Tabs } from '@/common';
 import { Result, Mortgage, Transfer } from '@/views/asset-excavate/land-data/table-version';
+import { toGetDefaultId, toGetNumber } from '@/utils/promise';
 
 export default class Land extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: 1,
+			sourceType: toGetDefaultId(props.data),
 			config: [
-				{ id: 1, name: '出让结果', total: 4 },
-				{ id: 2, name: '土地转让', total: 12 },
-				{ id: 3, name: '土地抵押', total: 8 }],
+				{
+					id: 10301,
+					name: '出让结果',
+					number: toGetNumber(props.data, 10301),
+					showNumber: true,
+					disabled: !(toGetNumber(props.data, 10201)),
+				},
+				{
+					id: 10302,
+					name: '土地转让',
+					number: toGetNumber(props.data, 10302),
+					showNumber: true,
+					disabled: !(toGetNumber(props.data, 10201)),
+				},
+				{
+					id: 10303,
+					name: '土地抵押',
+					number: toGetNumber(props.data, 10303),
+					showNumber: true,
+					disabled: !(toGetNumber(props.data, 10201)),
+				}],
 		};
 	}
 
@@ -29,13 +48,13 @@ export default class Land extends React.Component {
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={config}
+					symbol="none"
 					prefix={<div className="yc-tabs-simple-prefix">土地信息</div>}
 				/>
 				<div className="inquiry-public-table">
-
-					{sourceType === 1 ? <Result /> : null}
-					{sourceType === 2 ? <Transfer /> : null}
-					{sourceType === 3 ? <Mortgage /> : null}
+					{sourceType === 10301 ? <Result /> : null}
+					{sourceType === 10302 ? <Transfer /> : null}
+					{sourceType === 10303 ? <Mortgage /> : null}
 				</div>
 			</div>
 		);

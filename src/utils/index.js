@@ -370,3 +370,23 @@ export const getCaseType = (caseType) => {
 	if (caseType === 4) return '终本案件';
 	return '';
 };
+
+/* 去除小数点后，非正规数值 */
+export const reviseNum = (value) => {
+	if (value) {
+		const RegStr = new RegExp(/\.[\d,]+(?=[^\d,]|)/g);
+		const e = value.match(RegStr)[0];
+		if (e) {
+			let replaceStr = '';
+			if (/,/.test(e)) {
+				const _e = e.replace(',', '');
+				replaceStr = _e * 1 === 0 ? '' : (_e * 1).toString().slice(1);
+			} else {
+				replaceStr = e * 1 === 0 ? '' : (e * 1).toString().slice(1);
+			}
+			return value.replace(RegStr, replaceStr);
+		}
+		return value;
+	}
+	return value;
+};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@/common';
+import { Button, Spin } from '@/common';
 import Auction from './auction';
 import Subrogation from './subrogation';
 import Land from './land';
@@ -7,67 +7,94 @@ import Land from './land';
 import Stock from './stock';
 import Chattel from './chattel';
 
-const subItems = [
+
+const toGetTotal = (field, data) => {
+	let count = 0;
+	const reg = new RegExp(field);
+	data.forEach((item) => {
+		if (reg.test(item.id)) {
+			count += item.field ? item.data[item.field] : item.data;
+		}
+	});
+	return count;
+};
+const subItems = data => ([
 	{
-		id: 1,
+		id: 10100,
 		name: '资产拍卖',
-		total: 10,
-		disabled: false,
+		total: data ? toGetTotal('1010', data) : 0,
+		info: data ? data.filter(i => /1010/.test(i.id)) : '',
 		tagName: 'e-assets-auction',
 		component: Auction,
 	},
 	{
-		id: 2,
+		id: 10200,
 		name: '代位权',
-		total: 10,
-		disabled: false,
+		total: data ? toGetTotal('1020', data) : 0,
+		info: data ? data.filter(i => /1020/.test(i.id)) : '',
 		tagName: 'e-assets-subrogation',
 		component: Subrogation,
 	},
 	{
-		id: 3,
+		id: 10300,
 		name: '土地信息',
-		total: 10,
-		disabled: false,
+		total: data ? toGetTotal('1030', data) : 0,
+		info: data ? data.filter(i => /1030/.test(i.id)) : '',
 		tagName: 'e-assets-land',
 		component: Land,
 	},
 	// {
-	// 	id: 4,
+	// 	id: 10400,
 	// 	name: '无形资产',
 	// 	total: 0,
 	// 	disabled: true,
 	// 	tagName: 'e-assets-intangible',
-	// 	component: Intangible,
+	// 	// component: Intangible,
 	// },
 	{
-		id: 5,
+		id: 10500,
 		name: '股权质押',
-		total: 10,
-		disabled: false,
+		total: data ? toGetTotal('1050', data) : 0,
+		info: data ? data.filter(i => /1050/.test(i.id)) : '',
 		tagName: 'e-assets-stock',
 		component: Stock,
 	},
 	{
-		id: 6,
+		id: 10600,
 		name: '动产抵押',
-		total: 10,
-		disabled: false,
+		total: data ? toGetTotal('1060', data) : 0,
+		info: data ? data.filter(i => /1060/.test(i.id)) : '',
 		tagName: 'e-assets-chattel',
 		component: Chattel,
 	},
-];
+]);
 export default class Assets extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			config: subItems(props.count),
+			loading: Boolean(props.count.length === 0),
 		};
 	}
 
 	componentDidMount() {
 		const { toPushChild } = this.props;
 		toPushChild(this.toGetSubItems());
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { count } = this.props;
+		if (nextProps.count.length) {
+			if (JSON.stringify(nextProps.count) !== JSON.stringify(count)) {
+				this.setState({
+					loading: nextProps.count.length === 0,
+					config: subItems(nextProps.count),
+				}, () => {
+					const { toPushChild } = this.props;
+					toPushChild(this.toGetSubItems());
+				});
+			}
+		}
 	}
 
 	handleScroll=(eleID) => {
@@ -78,23 +105,32 @@ export default class Assets extends React.Component {
 		}
 	};
 
-	toGetSubItems=() => (
-		<div className="yc-intro-sub-items">
-			{
-				subItems.map(item => (
-					<Button className="intro-btn-items" disabled={item.disabled} onClick={() => this.handleScroll(item.tagName)}>
-						{`${item.name}${item.total ? ` ${item.total}` : ' 0'}`}
-					</Button>
-				))
-			}
-		</div>
-	);
+	toGetSubItems=() => {
+		const { config } = this.state;
+		return (
+			<div className="yc-intro-sub-items">
+				{
+					config.map(item => (
+						<Button className="intro-btn-items" disabled={item.total === 0} onClick={() => this.handleScroll(item.tagName)}>
+							{`${item.name}${item.total ? ` ${item.total}` : ' 0'}`}
+						</Button>
+					))
+				}
+			</div>
+		);
+	};
+
 
 	render() {
+		const { config, loading } = this.state;
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
-				{subItems.map(Item => (
-					Item.total ? <Item.component id={Item.tagName} /> : ''))}
+				{
+					loading ? <Spin visible minHeight={350} /> : (
+						config.map(Item => (
+							Item.total ? <Item.component id={Item.tagName} data={Item.info} /> : ''))
+					)
+				}
 			</div>
 		);
 	}

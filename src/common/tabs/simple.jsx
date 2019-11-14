@@ -53,10 +53,12 @@ class SimpleTab extends React.Component {
 	};
 
 	onClick=(item) => {
-		const { onChange } = this.props;
-		this.setState({ active: item.id });
-		this.active = item.id;
-		if (onChange)onChange(item.id, item);
+		if (!item.disabled) {
+			const { onChange } = this.props;
+			this.setState({ active: item.id });
+			this.active = item.id;
+			if (onChange)onChange(item.id, item);
+		}
 	};
 
 	render() {
@@ -74,7 +76,7 @@ class SimpleTab extends React.Component {
 					{prefix || ''}
 					{source && source.map(item => (
 						<li
-							className={`${active === item.id ? 'yc-tabs-active' : 'yc-tabs-un-active'} yc-tabs-li`}
+							className={`${active === item.id ? 'yc-tabs-active' : 'yc-tabs-un-active'} yc-tabs-li${item.disabled ? ' yc-tabs-disabled' : ''}`}
 							onClick={() => this.onClick(item)}
 						>
 							<div className="yc-tabs-active-line" />
