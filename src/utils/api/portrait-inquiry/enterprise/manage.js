@@ -13,7 +13,7 @@ const manage = {
 	// 		.then(res => Object.assign(res.data, { id })),
 	// },
 	bankruptcy: {
-		id: 30102,
+		id: 30201,
 		name: '经营-破产重组',
 		params: {
 			obligorName: '杭州',
@@ -24,7 +24,7 @@ const manage = {
 			.then(res => Object.assign(res.data, { id })),
 	},
 	abnormal: {
-		id: 30103,
+		id: 30301,
 		name: '经营-经营异常',
 		params: {
 			putDepartment: '杭州市富阳区',
@@ -34,7 +34,7 @@ const manage = {
 			.then(res => Object.assign(res.data, { id })),
 	},
 	illegal: {
-		id: 30104,
+		id: 30401,
 		name: '经营-严重违法',
 		params: {
 			name: '河南永通投资有限公司',
@@ -45,7 +45,7 @@ const manage = {
 			.then(res => Object.assign(res.data, { id })),
 	},
 	tax: {
-		id: 30105,
+		id: 30501,
 		name: '经营-税收违法',
 		params: {
 			obName: '贸易',
@@ -55,7 +55,7 @@ const manage = {
 			.then(res => Object.assign(res.data, { id })),
 	},
 	punishment: {
-		id: 30106,
+		id: 30601,
 		name: '经营-行政处罚',
 		params: {
 			obligorName: '特易购',

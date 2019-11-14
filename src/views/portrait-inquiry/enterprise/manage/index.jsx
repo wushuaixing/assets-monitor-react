@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Spin } from '@/common';
 import Abnormal from './abnormal';
 import Bankruptcy from './bankruptcy';
-import Bidding from './bidding';
+// import Bidding from './bidding';
 import Illegal from './illegal';
 import Punishment from './punishment';
 import Tax from './tax';
@@ -19,14 +19,14 @@ const toGetTotal = (field, data) => {
 };
 
 const subItems = data => ([
-	{
-		id: 30100,
-		name: '招投标',
-		total: data ? toGetTotal('3010', data) : 0,
-		info: data ? data.filter(i => /3010/.test(i.id)) : '',
-		tagName: 'e-manage-bidding',
-		component: Bidding,
-	},
+	// {
+	// 	id: 30100,
+	// 	name: '招投标',
+	// 	total: data ? toGetTotal('3010', data) : 0,
+	// 	info: data ? data.filter(i => /3010/.test(i.id)) : '',
+	// 	tagName: 'e-manage-bidding',
+	// 	component: Bidding,
+	// },
 	{
 		id: 30200,
 		name: '破产重组',
