@@ -115,7 +115,7 @@ export default class Branch extends React.Component {
 		const newArray = [];
 		if (data) {
 			data.map((item, index) => newArray.push(
-				Object.assign({}, item, { indexNum: index + 1 }),
+				Object.assign({}, item, { indexNum: 5 * (current - 1) + index + 1 }),
 			));
 		}
 
