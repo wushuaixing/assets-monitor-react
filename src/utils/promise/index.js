@@ -18,7 +18,7 @@ export const requestAll = (arrayApi) => {
 		/* eslint-disable no-return-await */
 		return await service.all(
 			array.map(promise => promise.api
-				.then(res => Object.assign(res, promise.info))
+				.then(res => Object.assign(res, promise.info, { data: res.data || 0 }))
 				.catch(() => ({
 					code: 500,
 					data: 0,

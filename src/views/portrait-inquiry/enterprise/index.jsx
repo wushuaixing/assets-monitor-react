@@ -2,9 +2,10 @@ import React from 'react';
 import { Affix, Icon, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
-// import service from '@/utils/service';
 import { requestAll } from '@/utils/promise';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
+import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
+import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import QueryView from '../common/queryView';
 import { Tabs, Button, Spin } from '@/common';
 import {
@@ -159,6 +160,8 @@ export default class Enterprise extends React.Component {
 			infoSource: {},
 			countSource: {
 				assets: [],
+				lawsuits: [],
+				manage: [],
 			},
 		};
 	}
@@ -168,7 +171,8 @@ export default class Enterprise extends React.Component {
 		companyInfo({ companyId }).then((res) => {
 			if (res.code === 200) {
 				this.setState({ infoSource: res.data });
-				this.toGetChildCount(companyId);
+				[{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
+					.forEach(item => this.toGetChildCount(companyId, item.d, item.f, item.i));
 			} else {
 				message.error('网络请求失败！');
 			}
@@ -177,24 +181,26 @@ export default class Enterprise extends React.Component {
 	}
 
 	/* 获取子项统计 */
-	toGetChildCount=(companyId) => {
+	toGetChildCount=(companyId, apiData, field, index) => {
 		/* ...... */
-		const { tabConfig: con } = this.state;
-		const reqList = Object.keys(assets).map(item => ({
-			api: assets[item].count({ companyId }, assets[item].id),
-			info: { id: assets[item].id },
+		const { tabConfig: con, countSource: cou } = this.state;
+		const reqList = Object.keys(apiData).map(item => ({
+			api: apiData[item].count({ companyId }, apiData[item].id),
+			info: { id: apiData[item].id },
 		}));
 		requestAll(reqList).then((res) => {
+			console.log(res);
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
-			con[1].disabled = !count;
-			con[1].number = count;
-			con[1].showNumber = Boolean(count);
+			console.log(field, count);
+			con[index].disabled = !count;
+			con[index].number = count;
+			con[index].showNumber = Boolean(count);
+			cou[field] = res;
+			console.log(con[index], cou);
 			this.setState({
 				tabConfig: con,
-				countSource: {
-					assets: res,
-				},
+				countSource: cou,
 			});
 		});
 	};
@@ -260,9 +266,9 @@ export default class Enterprise extends React.Component {
 					<Router>
 						<Overview toPushChild={this.handleAddChild} path="/*" />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" count={countSource.assets} />
-						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" />
-						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" />
-						<Info toPushChild={this.handleAddChild} detailObj={infoSource} path="/inquiry/enterprise/105/*" />
+						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} />
+						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} />
+						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" />
 					</Router>
 				</div>
 			</div>

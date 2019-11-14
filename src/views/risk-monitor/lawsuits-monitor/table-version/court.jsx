@@ -3,7 +3,7 @@ import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
 import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
 import associationLink from '@/views/_common/association-link';
-import { linkDom, timeStandard } from '@/utils';
+import { getQueryByName, linkDom, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 const { court } = lawsuits;
@@ -72,9 +72,12 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
+		const companyId = getQueryByName(window.location.href, 'id');
 		this.setState({ loading: true });
 		court.list({
 			page: page || 1,
+			companyId,
+			num: 5,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -116,6 +119,7 @@ export default class TableIntact extends React.Component {
 								showQuickJumper
 								current={current || 1}
 								total={total || 0}
+								pageSize={5}
 								onChange={this.onPageChange}
 								showTotal={totalCount => `共 ${totalCount} 条信息`}
 							/>
