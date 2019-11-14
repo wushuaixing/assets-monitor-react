@@ -1,18 +1,27 @@
 import React from 'react';
 import { Tabs } from '@/common';
 import { Pledge, Mortgage } from '@/views/asset-excavate/chattel-mortgage/table-version';
+import { toGetNumber, toGetDefaultId } from '@/utils/promise';
 
 export default class Chattel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			type: 10601,
+			type: toGetDefaultId(props.data),
 			config: [
 				{
-					id: 10601, name: '抵押', number: 12, showNumber: true,
+					id: 10601,
+					name: '抵押',
+					number: toGetNumber(props.data, 10601),
+					showNumber: true,
+					disabled: !toGetNumber(props.data, 10601),
 				},
 				{
-					id: 10602, name: '抵押权', number: 12, showNumber: true,
+					id: 10602,
+					name: '抵押权',
+					number: toGetNumber(props.data, 10602),
+					showNumber: true,
+					disabled: !toGetNumber(props.data, 10602),
 				}],
 		};
 	}
@@ -34,6 +43,7 @@ export default class Chattel extends React.Component {
 					onChange={this.onChangeType}
 					source={config}
 					symbol="none"
+					defaultCurrent={type}
 					prefix={<div className="yc-tabs-simple-prefix">动产抵押</div>}
 				/>
 				<div className="inquiry-public-table">

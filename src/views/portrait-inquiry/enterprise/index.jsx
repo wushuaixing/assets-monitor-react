@@ -1,5 +1,5 @@
 import React from 'react';
-import { Affix, Icon } from 'antd';
+import { Affix, Icon, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 // import service from '@/utils/service';
@@ -28,22 +28,25 @@ const source = () => [
 	{
 		id: 102,
 		name: '资产',
-		number: 56,
-		showNumber: true,
+		number: 0,
+		showNumber: false,
+		disabled: true,
 	},
 	{
 		id: 103,
 		name: '涉诉',
-		number: 82,
-		showNumber: true,
+		number: 0,
+		showNumber: false,
 		field: 'followingCount',
+		disabled: true,
 	},
 	{
 		id: 104,
 		name: '经营',
-		number: 26,
-		showNumber: true,
+		number: 0,
+		showNumber: false,
 		field: 'finishedCount',
+		disabled: true,
 	},
 	{
 		id: 105,
@@ -153,6 +156,9 @@ export default class Enterprise extends React.Component {
 			affixStatus: false,
 			loading: false,
 			infoSource: {},
+			countSource: {
+				assets: [],
+			},
 		};
 	}
 
@@ -162,19 +168,33 @@ export default class Enterprise extends React.Component {
 			if (res.code === 200) {
 				this.setState({ infoSource: res.data });
 				this.toGetChildCount(companyId);
+			} else {
+				message.error('网络请求失败！');
 			}
+		}).catch(() => {
 		});
 	}
 
 	/* 获取子项统计 */
 	toGetChildCount=(companyId) => {
 		/* ...... */
+		const { tabConfig: con } = this.state;
 		const reqList = Object.keys(assets).map(item => ({
 			api: assets[item].count({ companyId }, assets[item].id),
 			info: { id: assets[item].id },
 		}));
 		requestAll(reqList).then((res) => {
-			console.log(res);
+			let count = 0;
+			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
+			con[1].disabled = !count;
+			con[1].number = count;
+			con[1].showNumber = Boolean(count);
+			this.setState({
+				tabConfig: con,
+				countSource: {
+					assets: res,
+				},
+			});
 		});
 	};
 
@@ -209,7 +229,7 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, affixStatus, loading, infoSource,
+			tabConfig, childDom, sourceType, affixStatus, loading, infoSource, countSource,
 		} = this.state;
 
 		return (
@@ -238,7 +258,7 @@ export default class Enterprise extends React.Component {
 					</Affix>
 					<Router>
 						<Overview toPushChild={this.handleAddChild} path="/*" />
-						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" />
+						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" count={countSource.assets} />
 						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" />
 						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" />
 						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" />

@@ -1,21 +1,34 @@
 import React from 'react';
 import { Tabs } from '@/common';
 import { Result, Mortgage, Transfer } from '@/views/asset-excavate/land-data/table-version';
+import { toGetDefaultId, toGetNumber } from '@/utils/promise';
 
 export default class Land extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: 10301,
+			sourceType: toGetDefaultId(props.data),
 			config: [
 				{
-					id: 10301, name: '出让结果', number: 3, showNumber: true,
+					id: 10301,
+					name: '出让结果',
+					number: toGetNumber(props.data, 10301),
+					showNumber: true,
+					disabled: !(toGetNumber(props.data, 10201)),
 				},
 				{
-					id: 10302, name: '土地转让', number: 12, showNumber: true,
+					id: 10302,
+					name: '土地转让',
+					number: toGetNumber(props.data, 10302),
+					showNumber: true,
+					disabled: !(toGetNumber(props.data, 10201)),
 				},
 				{
-					id: 10303, name: '土地抵押', number: 9, showNumber: true,
+					id: 10303,
+					name: '土地抵押',
+					number: toGetNumber(props.data, 10303),
+					showNumber: true,
+					disabled: !(toGetNumber(props.data, 10201)),
 				}],
 		};
 	}

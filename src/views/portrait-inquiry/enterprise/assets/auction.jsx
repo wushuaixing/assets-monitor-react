@@ -1,13 +1,18 @@
 import React from 'react';
 import { Tabs } from '@/common';
 import Table from '@/views/asset-excavate/assets-auction/table-version';
+import { toGetNumber } from '@/utils/promise';
 
 export default class Auction extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			config: [{
-				id: 10101, name: '智能精准匹配', number: 12, showNumber: true,
+				id: 10101,
+				name: '智能精准匹配',
+				number: toGetNumber(props.data, 10101),
+				showNumber: true,
+				disabled: !toGetNumber(props.data, 10101),
 			}],
 		};
 	}

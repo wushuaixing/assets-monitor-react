@@ -119,6 +119,7 @@ export default class TableIntact extends React.Component {
 								showQuickJumper
 								current={current || 1}
 								total={total || 0}
+								pageSize={5}
 								onChange={this.onPageChange}
 								showTotal={totalCount => `共 ${totalCount} 条信息`}
 							/>

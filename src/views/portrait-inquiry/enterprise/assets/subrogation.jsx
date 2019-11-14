@@ -1,21 +1,35 @@
 import React from 'react';
 import { Tabs } from '@/common';
 import { Court, Trial, Judgment } from '@/views/asset-excavate/subrogation/table-version';
+import { toGetNumber } from '@/utils/promise';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
+		const defaultID = props.data.filter(i => i.data > 0)[0].id;
 		this.state = {
-			sourceType: 10201,
+			sourceType: defaultID,
 			config: [
 				{
-					id: 10201, name: '立案', number: 4, showNumber: true,
+					id: 10201,
+					name: '立案',
+					number: toGetNumber(props.data, 10201),
+					showNumber: true,
+					disabled: !toGetNumber(props.data, 10201),
 				},
 				{
-					id: 10202, name: '开庭', number: 3, showNumber: true, disabled: true,
+					id: 10202,
+					name: '开庭',
+					number: toGetNumber(props.data, 10202),
+					showNumber: true,
+					disabled: !toGetNumber(props.data, 10202),
 				},
 				{
-					id: 10203, name: '裁判文书', number: 9, showNumber: true,
+					id: 10203,
+					name: '裁判文书',
+					number: toGetNumber(props.data, 10203),
+					showNumber: true,
+					disabled: !toGetNumber(props.data, 10203),
 				}],
 		};
 	}

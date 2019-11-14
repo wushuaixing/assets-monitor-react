@@ -6,7 +6,7 @@ const assets = {
 		name: '资产-资产拍卖-精准匹配',
 		params: { companyId: 3280438 },
 		list: params => service.get('/yc/search/portrait/company/asset/auction/precision/list', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/asset/auction/precision/list-count2', { params })
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/auction/precision/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 	trial: {
@@ -38,10 +38,10 @@ const assets = {
 	result: {
 		id: 10301,
 		name: '资产-土地信息-出让结果',
-		list: params => service.get('/yc/search/portrait/company/asset/land/result', { params })
+		list: params => service.get('/yc/search/portrait/company/asset/land/transfer', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/land/count', { params })
-			.then(res => Object.assign(res.data, { id })),
+			.then(res => Object.assign(res.data, { id, field: 'transfer' })),
 	},
 	pledge: {
 		id: 10501,

@@ -1,18 +1,27 @@
 import React from 'react';
 import { Tabs } from '@/common';
 import { Pledge, Mortgage } from '@/views/asset-excavate/financial-assets/table-version';
+import { toGetNumber } from '@/utils/promise';
 
 export default class Stock extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: 10501,
+			sourceType: props.data.filter(i => i.data > 0)[0].id,
 			config: [
 				{
-					id: 10501, name: '股权出质', showNumber: true, number: 4,
+					id: 10501,
+					name: '股权出质',
+					number: toGetNumber(props.data, 10501),
+					showNumber: true,
+					disabled: !(toGetNumber(props.data, 10501)),
 				},
 				{
-					id: 10502, name: '股权质权', showNumber: true, number: 12,
+					id: 10502,
+					name: '股权质权',
+					number: toGetNumber(props.data, 10502),
+					showNumber: true,
+					disabled: !(toGetNumber(props.data, 10502)),
 				}],
 		};
 	}
