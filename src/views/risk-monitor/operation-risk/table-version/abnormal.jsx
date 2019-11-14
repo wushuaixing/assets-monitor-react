@@ -3,7 +3,7 @@ import { Pagination } from 'antd';
 import {
 	Spin, Table, Ellipsis, Icon,
 } from '@/common';
-import { timeStandard, toEmpty } from '@/utils';
+import { getQueryByName, timeStandard, toEmpty } from '@/utils';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 
 const api = manage.abnormal;
@@ -103,9 +103,12 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
+		const companyId = getQueryByName(window.location.href, 'id');
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
+			num: 5,
+			companyId,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -147,6 +150,7 @@ export default class TableIntact extends React.Component {
 								showQuickJumper
 								current={current || 1}
 								total={total || 0}
+								pageSize={5}
 								onChange={this.onPageChange}
 								showTotal={totalCount => `共 ${totalCount} 条信息`}
 							/>
