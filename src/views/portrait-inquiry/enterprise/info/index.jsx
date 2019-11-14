@@ -129,12 +129,13 @@ export default class Info extends React.Component {
 
 	render() {
 		const { data } = this.state;
+		const { detailObj } = this.props;
 
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
 				{
 					data && subItems(data).map(Item => (
-						data && Item.disabled === false ? <Item.component id={Item.tagName} /> : ''))
+						data && Item.disabled === false ? <Item.component name={detailObj && detailObj.name} id={Item.tagName} /> : ''))
 				}
 			</div>
 		);

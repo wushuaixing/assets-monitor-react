@@ -1,13 +1,19 @@
 import React from 'react';
+import { parseQuery } from '@/utils';
+import Stock from '../../../stock-right';
 
 export default class EquityPenetration extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			stockChartId: parseQuery(window.location.hash).id || -9999,
+		};
 	}
 
 	render() {
-		const { id } = this.props;
+		const { id, name } = this.props;
+		const { stockChartId } = this.state;
+
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab" style={{ borderBottom: 0 }}>
@@ -15,7 +21,10 @@ export default class EquityPenetration extends React.Component {
 						股权穿透图
 					</div>
 				</div>
-				<div style={{ height: 400, border: '1px solid #ccc' }} />
+				<div style={{ height: 546, border: '1px solid #DADDE6' }}>
+					<div className="yc-Stock-name">{name && name}</div>
+					<Stock stockChartId={stockChartId && stockChartId} />
+				</div>
 			</div>
 		);
 	}
