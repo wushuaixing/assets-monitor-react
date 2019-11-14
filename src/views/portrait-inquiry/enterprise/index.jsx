@@ -77,6 +77,7 @@ const EnterpriseInfo = (props) => {
 		minWidth: 80,
 		display: 'inline-block',
 	};
+
 	return (
 		<div className="enterprise-info">
 			<div className="intro-icon">

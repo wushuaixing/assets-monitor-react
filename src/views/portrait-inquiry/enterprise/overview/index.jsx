@@ -11,12 +11,15 @@ import Basic from './components/basic';
 import ShareholderSituation from './components/shareholderSituation';
 import BusinessScale from './components/businessScale';
 import { Spin } from '@/common';
+import { parseQuery } from '@/utils';
 import './style.scss';
 
 export default class OverView extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			companyId: parseQuery(window.location.hash).id || -9999,
+		};
 	}
 
 	// componentDidMount() {
@@ -31,7 +34,7 @@ export default class OverView extends React.Component {
 	// }
 
 	render() {
-		const { loading } = this.state;
+		const { loading, companyId } = this.state;
 		return (
 			<div className="inquiry-overview">
 				<div className="mark-line" />
@@ -40,7 +43,7 @@ export default class OverView extends React.Component {
 					<div className="yc-overview-title">资产概况</div>
 					<div className="yc-overview-container">
 						{/* 相关资产拍卖 */}
-						<AssetAuction />
+						<AssetAuction companyId={companyId} />
 						{/* 代位权信息 (裁判文书) */}
 						<Subrogation />
 						{/* 土地信息 */}
