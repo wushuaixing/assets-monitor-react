@@ -147,8 +147,10 @@ export default class StockRight extends React.Component {
 	}
 
 	componentDidMount() {
+		const { stockChartId } = this.props;
+
 		const params = {
-			id: 1585000, // 269766 京东 54780232 网商 1585000 天赐
+			id: stockChartId, // 269766 京东 54780232 网商 1585000 天赐
 			// type: 1,
 		};
 		this.setState({
@@ -171,17 +173,19 @@ export default class StockRight extends React.Component {
 					this.myZrender();
 					this.myChart.getZrender().on('click', (e) => {
 						if (e.target) {
-							// console.log(e.target.info);
+							// console.log(e.target.info, 11);
 							const { isCollapse, info } = e.target;
 							if (isCollapse) {
 								this.handleOption(info);
 							}
 						}
 					});
+				} else {
+					this.setState({ loading: false });
 				}
 			})
 			.catch(() => {
-				// this.setState({ loading: false });
+				this.setState({ loading: false });
 			});
 	}
 
@@ -328,10 +332,14 @@ export default class StockRight extends React.Component {
 							if (res.code === 200) {
 								idItem.children = this.toAddArrowData(res.data.holderList, treeName);
 								idItem.iconStatus = 'del';
+
+								// 当请求到数据后再次渲染图形
+								this.myChart.clear();
+								this.myChart.setOption(optionMethods(this.resultSource));
+								this.myZrender();
 							}
 						})
-						.catch(() => {
-						});
+						.catch(() => {});
 				}
 			}
 		}
@@ -477,7 +485,7 @@ export default class StockRight extends React.Component {
 					const shapeCircle = new Circle({
 						style: {
 							x: locationX,
-							y: locationY - 39.5,
+							y: treeName === 'investor' ? locationY + 40 : locationY - 40,
 							r: 9,
 							color: '#128aed',
 							text: iconStatus === 'add' ? '+' : '-',
@@ -530,7 +538,7 @@ export default class StockRight extends React.Component {
 		const { loading } = this.state;
 		return (
 			<Spin visible={loading}>
-				<div id="zRenderEcharts" style={{ width: 1000, height: 500 }} />
+				<div id="zRenderEcharts" style={{ width: 1158, height: 504 }} />
 			</Spin>
 		);
 	}
