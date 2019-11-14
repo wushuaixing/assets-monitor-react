@@ -189,15 +189,13 @@ export default class Enterprise extends React.Component {
 			info: { id: apiData[item].id },
 		}));
 		requestAll(reqList).then((res) => {
-			console.log(res);
+			// console.log(res);
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
-			console.log(field, count);
 			con[index].disabled = !count;
 			con[index].number = count;
 			con[index].showNumber = Boolean(count);
 			cou[field] = res;
-			console.log(con[index], cou);
 			this.setState({
 				tabConfig: con,
 				countSource: cou,
