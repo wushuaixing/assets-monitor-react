@@ -5,6 +5,7 @@ import './style.scss';
 import { stockChart } from '@/utils/api/portrait-inquiry/enterprise/info';
 import back from './logo.png';
 import { toEmpty } from '@/utils/';
+import { Spin } from '@/common';
 // import kzTag from './kzTag.png';
 const ec = window.echarts;
 
@@ -138,26 +139,34 @@ const optionMethods = source => ({
 export default class StockRight extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			loading: false,
+		};
 		this.myChart = {};
 		this.resultSource = [];
 	}
 
 	componentDidMount() {
 		const params = {
-			id: 269766, // 269766 京东 54780232 网商
+			id: 1585000, // 269766 京东 54780232 网商 1585000 天赐
 			// type: 1,
 		};
+		this.setState({
+			loading: true,
+		});
+		this.myChart = ec.init(document.getElementById('zRenderEcharts'));
+		/* this.myChart.showLoading({
+			text: '加载中，请稍后...',
+			effect: 'spin',
+		}); */
 		stockChart(params)
 			.then((res) => {
 				if (res.code === 200) {
-					// console.log(params, res);
-					/* this.setState({
-						data: res.data,
-					}); */
+					// console.log(params);
+					this.setState({ loading: false });
+					this.myChart.hideLoading();
 					const source = this.initOption(res.data);
 					this.resultSource = source;
-					this.myChart = ec.init(document.getElementById('zRenderEcharts'));
 					this.myChart.setOption(optionMethods(source));
 					this.myZrender();
 					this.myChart.getZrender().on('click', (e) => {
@@ -172,9 +181,8 @@ export default class StockRight extends React.Component {
 				}
 			})
 			.catch(() => {
-
+				// this.setState({ loading: false });
 			});
-		// this.myChart.on(ec.config.EVENT.CLICK, this.toggleRemark);
 	}
 
 	// 根据公司经营状态更改颜色
@@ -301,7 +309,7 @@ export default class StockRight extends React.Component {
 	handleOption=(params) => {
 		const { id, iconStatus, treeName } = params;
 		let idItem = this.toGetIdItem(id, treeName);
-		console.log(idItem);
+		// console.log(idItem);
 		if (typeof idItem === 'object') {
 			if (iconStatus === 'del') {
 				idItem = Object.assign(idItem, {
@@ -327,6 +335,7 @@ export default class StockRight extends React.Component {
 				}
 			}
 		}
+
 		this.myChart.clear();
 		this.myChart.setOption(optionMethods(this.resultSource));
 		this.myZrender();
@@ -397,7 +406,7 @@ export default class StockRight extends React.Component {
 						},
 					});
 					myZr.addShape(Object.assign(shapeCompany, style.zLevel));
-					const ecStatus = companyStatus;
+					const ecStatus = toEmpty(companyStatus);
 					// 公司状态边框
 					const shapeRect2 = new Rectangle({
 						style: {
@@ -423,7 +432,7 @@ export default class StockRight extends React.Component {
 					// 公司状态文字
 					const shapeStatus = new Text({
 						style: {
-							text: ecStatus, // 图片url或者图片对象
+							text: ecStatus,
 							x: username.length > 7 ? locationX + 66 : locationX + 56,
 							y: locationY - 7,
 							color: this.applyStatus(ecStatus, 1).color,
@@ -435,7 +444,7 @@ export default class StockRight extends React.Component {
 					const shapeName = new Text({
 						style: {
 							x: locationX,
-							y: locationY - 5,
+							y: toEmpty(amount).length > 10 ? locationY - 12 : locationY - 5,
 							text: toEmpty(username),
 							...style.font,
 						},
@@ -447,8 +456,10 @@ export default class StockRight extends React.Component {
 					const shapeAmount = new Text({
 						style: {
 							x: locationX,
-							y: type === 1 ? locationY + 20 : locationY + 23,
-							text: `认缴金额：${toEmpty(amount)}`,
+							y: toEmpty(amount).length > 10 && type === 1 ? locationY + 16 : locationY + 20,
+							text: toEmpty(amount).length > 10 && type === 1
+								? `认缴金额：${toEmpty(amount).replace(/(.{10})(?=.)/g, '$1\n')}`
+								: `认缴金额：${toEmpty(amount)}`,
 							...style.font_amount,
 						},
 					});
@@ -466,15 +477,28 @@ export default class StockRight extends React.Component {
 					const shapeCircle = new Circle({
 						style: {
 							x: locationX,
-							y: type === 1 ? locationY - 48 : locationY - 40,
+							y: locationY - 39.5,
 							r: 9,
 							color: '#128aed',
-							// text: iconStatus === 'add' ? '+' : '-',
+							text: iconStatus === 'add' ? '+' : '-',
+							textColor: 'white',
+							textFont: iconStatus === 'add' ? 'bold 20px verdana' : 'bold 24px verdana',
+							textPosition: 'inside',
 						},
 					});
-					myZr.addShape(Object.assign(shapeCircle, style.zLevel));
+					shapeCircle.info = {
+						hasNode, id, dataType, iconStatus, treeName,
+					};
+					shapeCircle.zlevel = 1;
+					shapeCircle.z = 5;
+					shapeCircle.ndelete = true;
+					shapeCircle.hoverable = false;
+					shapeCircle.isCollapse = true;
+					shapeCircle.clickable = true;
+					// myZr.addShape(Object.assign(shapeCircle, style.zLevel));
+					myZr.addShape(shapeCircle);
 					// + - 文本
-					const shapeCollapse = new Text({
+					/* const shapeCollapse = new Text({
 						style: {
 							x: iconStatus === 'add' ? locationX - 9 : locationX - 5,
 							y: type === 1 ? locationY - 45 : locationY - 39,
@@ -491,8 +515,8 @@ export default class StockRight extends React.Component {
 					shapeCollapse.ndelete = true;
 					shapeCollapse.hoverable = false;
 					shapeCollapse.isCollapse = true;
-					shapeCollapse.clickable = true;
-					myZr.addShape(shapeCollapse);
+					shapeCollapse.clickable = true; */
+					// myZr.addShape(shapeCollapse);
 				}
 			}
 		}
@@ -503,8 +527,11 @@ export default class StockRight extends React.Component {
 	};
 
 	render() {
+		const { loading } = this.state;
 		return (
-			<div id="zRenderEcharts" style={{ width: 1000, height: 500 }} />
+			<Spin visible={loading}>
+				<div id="zRenderEcharts" style={{ width: 1000, height: 500 }} />
+			</Spin>
 		);
 	}
 }
