@@ -46,3 +46,9 @@ export const getCount = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/baseInfo/count', { params });
 	return response.data;
 };
+
+// 股权穿透图
+export const stockChart = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/baseInfo/stockChart', { params });
+	return response.data;
+};

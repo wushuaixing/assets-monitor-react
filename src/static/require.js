@@ -18,5 +18,6 @@ require([
 		ImageShape: require('zrender/shape/Image'),
 		Polyline: require('zrender/shape/Polyline'),
 		Polygon: require('zrender/shape/Polygon'),
+		Rectangle: require('zrender/shape/Rectangle'),
 	};
 });
