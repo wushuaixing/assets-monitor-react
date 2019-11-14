@@ -3,6 +3,7 @@ import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { timeStandard } from '@/utils';
 import { Table } from '@/common';
+import { partyInfo } from '@/views/_common';
 import Api from '@/utils/api/monitor-info/public';
 import { Result } from './common';
 // { attention, readStatus }
@@ -17,38 +18,37 @@ const columns = (props) => {
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>成交日期</span>
 				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>成交日期</SortVessel>),
-			dataIndex: 'singedDate',
-			width: 113,
+			dataIndex: 'dealingTime',
+			width: 120,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '土地使用权人',
-			dataIndex: 'obName',
-			width: 226,
-			render: Result.landUser,
+			dataIndex: 'parties',
+			width: 230,
+			render: partyInfo,
 		}, {
 			title: '项目信息',
 			dataIndex: 'number',
-			width: 190,
+			width: 240,
 			render: Result.InfoTransferProject,
 		}, {
 			title: '土地信息',
 			dataIndex: 'property',
-			width: 160,
+			width: 170,
 			render: Result.InfoLand,
 		}, {
 			title: '转让信息',
 			dataIndex: 'property',
-			width: 160,
+			width: 190,
 			render: Result.transferInfo,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
-			width: 90,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			width: 120,
+			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'}</span>,
 		}, {
 			title: '操作',
-			width: 60,
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
@@ -56,7 +56,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={Api.attentionIllegal}
+					api={row.isAttention ? Api.attentionUnFollowTransfer : Api.attentionFollowTransfer}
 					index={index}
 				/>
 			),
@@ -85,7 +85,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
 		if (!isRead && !manage) {
-			Api.readStatusIllegal({ idList: [id] }).then((res) => {
+			Api.readStatusTransfer({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

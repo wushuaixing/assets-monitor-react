@@ -1,7 +1,11 @@
 import service from '@/utils/service';
 import { Court, Trial, Judgment } from './subrogation';
 import { Court as lCourt, Trial as lTrial, Judgment as lJudgment } from '../risk-monitor/lawsuit';
-import { attentionFollowListCount } from './public';// 关注列表土地数据出让结果数量
+import {
+	attentionFollowListCount, // 关注列表土地数据出让结果数量
+	transferFollowListCount, // 关注列表土地数据转让数量
+	mortgageFollowListCount, // 关注列表土地数据抵押数量
+} from './public';
 import {
 	attentionFollowBidCount, // 竞价项目 数量统计
 	attentionFollowPubCount, // 公示项目 数量统计
@@ -107,6 +111,12 @@ export const landCount = () => {
 	return attentionFollowListCount()
 		.then((res) => {
 			if (res.code === 200) result.Land = res.data;
+			return transferFollowListCount();
+		}).then((res) => {
+			if (res.code === 200) result.Tran = res.data;
+			return mortgageFollowListCount();
+		}).then((res) => {
+			if (res.code === 200) result.Mort = res.data;
 			return result;
 		})
 		.catch(() => {

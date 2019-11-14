@@ -22,6 +22,8 @@ const TableItem	= (props) => {
 					YC020202: <Subrogation sourceType={2} />,
 					YC020203: <Subrogation sourceType={3} />,
 					YC020301: <LandData sourceType={1} />,
+					YC020302: <LandData sourceType={2} />,
+					YC020303: <LandData sourceType={3} />,
 					YC0204: <TenderBid />,
 					YC020501: <FinancialAssets sourceType={1} />,
 					YC020502: <FinancialAssets sourceType={2} />,

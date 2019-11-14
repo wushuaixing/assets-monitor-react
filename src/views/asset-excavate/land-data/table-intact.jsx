@@ -6,6 +6,13 @@ import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';
 
+const toGetApi = (type, base) => {
+	if (type === 1) return `${base}ResultList`;
+	if (type === 2) return `${base}TransferList`;
+	if (type === 3) return `${base}MortgageList`;
+	return `${base}ResultList`;
+};
+
 export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -71,9 +78,9 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(nextProps) => {
 		this.setState({ loading: true });
-		const { reqUrl, id } = nextProps || this.props;
-		let toApi = Api.attentionFollowResultList;
-		toApi = reqUrl || toApi;
+		const { reqUrl, id, sourceType } = nextProps || this.props;
+
+		const toApi = reqUrl || Api[toGetApi(sourceType, 'attentionFollow')];
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
 				this.setState({

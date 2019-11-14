@@ -79,7 +79,7 @@ export default class PartyInfoDetail extends React.Component {
 			mark: _site ? role.slice(_site) : '',
 		};
 		const maxWidth = (detailWidth || 230) - (width * 1 < 40 ? 40 : width) || 40;
-		const obValue = (i, v) => (i.obligorId && !noLink ? linkDetail(i.obligorId, v, '_target') : v);
+		const obValue = (i, v) => (i.obligorId && noLink ? linkDetail(i.obligorId, v, '_target') : v);
 
 		return (
 			<div className="yc-party-info-list">
@@ -101,14 +101,14 @@ export default class PartyInfoDetail extends React.Component {
 							if (getByteLength(content) * 6 >= maxWidth) {
 								return (
 									<Tooltip placement="top" title={content}>
-										<li className={`text-ellipsis${i.obligorId && !noLink ? ' click-link' : ''}`} style={{ maxWidth }}>
+										<li className={`text-ellipsis ${i.obligorId && i.obligorId !== 0 && noLink ? 'click-link' : ''}`} style={{ maxWidth }}>
 											{obValue(i, content)}
 										</li>
 									</Tooltip>
 								);
 							}
 							return (
-								<li className={`text-ellipsis${i.obligorId && !noLink ? ' click-link' : ''}`} style={{ maxWidth }}>
+								<li className={`text-ellipsis ${i.obligorId && i.obligorId !== 0 && noLink ? 'click-link' : ''}`} style={{ maxWidth }}>
 									{obValue(i, content)}
 								</li>
 							);

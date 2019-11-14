@@ -17,12 +17,12 @@ const columns = (props) => {
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>签订日期</span>
 				: <SortVessel field="SIGNED_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>签订日期</SortVessel>),
 			dataIndex: 'singedTime',
-			width: 113,
+			width: 120,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '土地使用人',
 			dataIndex: 'obligorName',
-			width: 160,
+			width: 230,
 			render: (text, row) => (
 				<span>
 					{
@@ -38,25 +38,24 @@ const columns = (props) => {
 			),
 		}, {
 			title: '项目信息',
-			width: 260,
+			width: 240,
 			render: Result.InfoProject,
 		}, {
 			title: '土地信息',
-			width: 160,
+			width: 170,
 			render: Result.InfoLand,
 		}, {
 			title: '出让信息',
-			width: 160,
+			width: 190,
 			render: Result.InfoTransfer,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
-			width: 90,
+			width: 120,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '操作',
-			width: 60,
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tooltip } from 'antd';
+import { formatDateTime } from '@/utils/changeTime';
 // import { linkDom } from '@/utils';
 
 const Result = {
@@ -74,17 +75,17 @@ const Result = {
 					<span className="list list-content">
 						{/* {rowContent.transferTerm || '-'} */}
 						{
-							rowContent.transferTerm && rowContent.transferTerm.length > 6
+							rowContent.landUsageTerm && rowContent.landUsageTerm.length > 6
 								? (
-									<Tooltip placement="topLeft" title={rowContent.transferTerm}>
+									<Tooltip placement="topLeft" title={rowContent.landUsageTerm}>
 										<span>
-											{`${rowContent.transferTerm.substr(0, 6)}...`}
+											{`${rowContent.landUsageTerm.substr(0, 6)}...`}
 										</span>
 									</Tooltip>
 								)
 								: (
 									<span>
-										{rowContent.transferTerm || '-'}
+										{rowContent.landUsageTerm || '-'}
 									</span>
 								)
 						}
@@ -185,20 +186,19 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">宗地坐落：</span>
 					<span className="list list-content text-ellipsis">
-						{/* {rowContent.landUse || '-'} */}
 						{
-							rowContent.landUse && rowContent.landUse.length > 6
+							rowContent.landAddress && rowContent.landAddress.length > 6
 								? (
-									<Tooltip placement="topLeft" title={rowContent.landUse}>
-										<span>
-											{`${rowContent.landUse.substr(0, 6)}...`}
-										</span>
+									<Tooltip placement="topLeft" title={rowContent.landAddress}>
+										<a href={rowContent.url.length > 1 && rowContent.url} target="_blank" rel="noopener noreferrer" className={rowContent.url.length > 1 ? 'yc-table-text-link' : ''}>
+											{`${rowContent.landAddress.substr(0, 6)}...`}
+										</a>
 									</Tooltip>
 								)
 								: (
-									<span>
-										{rowContent.landUse || '-'}
-									</span>
+									<a href={rowContent.url.length > 1 && rowContent.url} target="_blank" rel="noopener noreferrer" className={rowContent.url.length > 1 ? 'yc-table-text-link' : ''}>
+										{rowContent.landAddress || '-'}
+									</a>
 								)
 						}
 					</span>
@@ -208,17 +208,17 @@ const Result = {
 					<span className="list list-content text-ellipsis">
 						{/* {rowContent.landUse || '-'} */}
 						{
-							rowContent.landUse && rowContent.landUse.length > 6
+							rowContent.administrativeRegion && rowContent.administrativeRegion.length > 10
 								? (
-									<Tooltip placement="topLeft" title={rowContent.landUse}>
+									<Tooltip placement="topLeft" title={rowContent.administrativeRegion}>
 										<span>
-											{`${rowContent.landUse.substr(0, 6)}...`}
+											{`${rowContent.administrativeRegion.substr(0, 10)}...`}
 										</span>
 									</Tooltip>
 								)
 								: (
 									<span>
-										{rowContent.landUse || '-'}
+										{rowContent.administrativeRegion || '-'}
 									</span>
 								)
 						}
@@ -232,12 +232,12 @@ const Result = {
 			<div className="assets-info-content">
 				<li>
 					<span className="list list-title align-justify">转让方式：</span>
-					<span className="list list-content text-ellipsis">{rowContent.supplyWay || '-'}</span>
+					<span className="list list-content text-ellipsis">{rowContent.transferMode || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">转让价格：</span>
 					<span className="list list-content">
-						{rowContent.purchasePrice ? `${rowContent.purchasePrice} 万元` : '-'}
+						{rowContent.transferPrice ? `${rowContent.transferPrice} 万元` : '-'}
 					</span>
 				</li>
 			</div>
@@ -270,20 +270,20 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">面　　积：</span>
 					<span className="list list-content">
-						{rowContent.area || '-'}
+						{rowContent.landArea || '-'}
 						公顷
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">评估金额：</span>
 					<span className="list list-content">
-						{rowContent.purchasePrice ? `${rowContent.purchasePrice} 万元` : '-'}
+						{rowContent.consultPrice ? `${rowContent.consultPrice} 万元` : '-'}
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify" style={{ width: 96 }}>土地使用权证号：</span>
 					<span className="list list-content">
-						{rowContent.area || '-'}
+						{rowContent.landUseCertificateNumber || '-'}
 					</span>
 				</li>
 			</div>
@@ -295,26 +295,26 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">抵押面积：</span>
 					<span className="list list-content">
-						{rowContent.area || '-'}
+						{rowContent.mortgageArea || '-'}
 						公顷
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">抵押金额：</span>
 					<span className="list list-content">
-						{rowContent.purchasePrice ? `${rowContent.purchasePrice} 万元` : '-'}
+						{rowContent.mortgageAmount ? `${rowContent.mortgageAmount} 万元` : '-'}
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify" style={{ width: 96 }}>土地他项权证号：</span>
 					<span className="list list-content">
-						{rowContent.area || '-'}
+						{rowContent.otherObligeeCertificateNumber || '-'}
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify" style={{ width: 96 }}>登记结束日期：</span>
 					<span className="list list-content">
-						{rowContent.area || '-'}
+						{`${formatDateTime(rowContent.endTime, 'onlyYear')}` || '-'}
 					</span>
 				</li>
 			</div>

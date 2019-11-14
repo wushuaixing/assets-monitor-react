@@ -17,17 +17,10 @@ import TableResult from './table/result';
 import TableTransfer from './table/transfer';
 import TableMortgage from './table/mortgage';
 
-// 获取api具体
-// const toGetApi = (type, base) => {
-// 	if (type === 1) return `${base}Result`;
-// 	if (type === 2) return `${base}Illegal`;
-// 	if (type === 3) return `${base}Punish`;
-// 	return `${base}Result`;
-// };
 const toGetApi = (type, base) => {
 	if (type === 1) return `${base}Result`;
-	if (type === 2) return `${base}Result`;
-	if (type === 3) return `${base}Result`;
+	if (type === 2) return `${base}Transfer`;
+	if (type === 3) return `${base}Mortgage`;
 	return `${base}Result`;
 };
 
@@ -317,8 +310,8 @@ export default class Lawsuits extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				{sourceType === 1 ? <QueryResult onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
-				{sourceType === 2 ? <QueryTransfer onQueryChange={this.onQuery} /> : null}
-				{sourceType === 3 ? <QueryMortgage onQueryChange={this.onQuery} /> : null}
+				{sourceType === 2 ? <QueryTransfer onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
+				{sourceType === 3 ? <QueryMortgage onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
 				<Tabs.Simple

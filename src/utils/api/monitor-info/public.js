@@ -108,6 +108,93 @@ export const attentionUnFollowResult = async (params) => {
 // 导出excel
 export const exportListResult = '/yc/monitor/land/transfer/export';
 
+// 土地转让列表 ===========
+export const infoListTransfer = async (params) => {
+	const response = await service.get('/yc/monitor/land/transaction/list', { params });
+	return response.data;
+};
+// 标记为已读
+export const readStatusTransfer = async (params) => {
+	const response = await service.post('/yc/monitor/land/transaction/markRead', params);
+	return response.data;
+};
+
+// 全部标记为已读
+export const readAllStatusTransfer = async (params) => {
+	const response = await service.post('/yc/monitor/land/transaction/markReadAll', params);
+	return response.data;
+};
+
+// 关注
+export const attentionFollowTransfer = async (params) => {
+	const response = await service.post('/yc/monitor/land/transaction/follow', params);
+	return response.data;
+};
+
+// 取消关注
+export const attentionUnFollowTransfer = async (params) => {
+	const response = await service.post('/yc/monitor/land/transaction/unFollow', params);
+	return response.data;
+};
+
+// 关注list
+export const attentionFollowTransferList = async (params) => {
+	const response = await service.get('/yc/monitor/land/transaction/follow/list', { params });
+	return response.data;
+};
+
+// 关注list数量
+export const transferFollowListCount = async (params) => {
+	const response = await service.get('/yc/monitor/land/transaction/follow/list-count', { params });
+	return response.data;
+};
+
+// 导出excel
+export const exportListTransfer = '/yc/monitor/land/transaction/export';
+
+// 土地抵押列表 ===========
+export const infoListMortgage = async (params) => {
+	const response = await service.get('/yc/monitor/land/mortgage/list', { params });
+	return response.data;
+};
+// 标记为已读
+export const readStatusMortgage = async (params) => {
+	const response = await service.post('/yc/monitor/land/mortgage/markRead', params);
+	return response.data;
+};
+
+// 全部标记为已读
+export const readAllStatusMortgage = async (params) => {
+	const response = await service.post('/yc/monitor/land/mortgage/markReadAll', params);
+	return response.data;
+};
+
+// 关注
+export const attentionFollowMortgage = async (params) => {
+	const response = await service.post('/yc/monitor/land/mortgage/follow', params);
+	return response.data;
+};
+
+// 取消关注
+export const attentionUnFollowMortgage = async (params) => {
+	const response = await service.post('/yc/monitor/land/mortgage/unFollow', params);
+	return response.data;
+};
+
+// 关注list
+export const attentionFollowMortgageList = async (params) => {
+	const response = await service.get('/yc/monitor/land/mortgage/follow/list', { params });
+	return response.data;
+};
+
+// 关注list数量
+export const mortgageFollowListCount = async (params) => {
+	const response = await service.get('/yc/monitor/land/mortgage/follow/list-count', { params });
+	return response.data;
+};
+
+// 导出excel
+export const exportListMortgage = '/yc/monitor/land/mortgage/export';
 // =======================
 export default {
 	infoListBid,
@@ -134,4 +221,20 @@ export default {
 	attentionFollowResultList,
 	attentionFollowListCount,
 	exportListResult,
+	infoListTransfer,
+	readStatusTransfer,
+	readAllStatusTransfer,
+	attentionFollowTransfer,
+	attentionFollowTransferList,
+	transferFollowListCount,
+	attentionUnFollowTransfer,
+	exportListTransfer,
+	infoListMortgage,
+	readStatusMortgage,
+	readAllStatusMortgage,
+	attentionFollowMortgage,
+	attentionUnFollowMortgage,
+	attentionFollowMortgageList,
+	mortgageFollowListCount,
+	exportListMortgage,
 };
