@@ -74,7 +74,7 @@ const EnterpriseInfo = (props) => {
 			name, regStatus, legalPersonName, regCapital, formerNames, estiblishTime, isDishonest,
 		},
 	} = props;
-	const _formerNames = (formerNames || []).join(' ');
+	const _formerNames = (formerNames || []).join('、');
 	const style = {
 		minWidth: 80,
 		display: 'inline-block',
