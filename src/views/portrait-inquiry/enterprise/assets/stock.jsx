@@ -1,13 +1,13 @@
 import React from 'react';
 import { Tabs } from '@/common';
 import { Pledge, Mortgage } from '@/views/asset-excavate/financial-assets/table-version';
-import { toGetNumber } from '@/utils/promise';
+import { toGetNumber, toGetDefaultId } from '@/utils/promise';
 
 export default class Stock extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: props.data.filter(i => i.data > 0)[0].id,
+			sourceType: toGetDefaultId(props.data),
 			config: [
 				{
 					id: 10501,
