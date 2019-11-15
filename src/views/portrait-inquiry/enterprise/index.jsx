@@ -109,8 +109,12 @@ const EnterpriseInfo = (props) => {
 				</div>
 				<div className="intro-used">
 					<li className="intro-info-list">
-						<span className="yc-public-remark">曾用名：</span>
-						<span className="yc-public-title">{toEmpty(_formerNames) ? _formerNames : '--'}</span>
+						{
+						toEmpty(_formerNames) ? [
+							<span className="yc-public-remark">曾用名：</span>,
+							<span className="yc-public-title">{_formerNames}</span>,
+						] : null
+					}
 					</li>
 				</div>
 			</div>
