@@ -1,5 +1,16 @@
 import service from '@/utils/service';
 
+export const toGetTotal = (field, data) => {
+	let count = 0;
+	const reg = new RegExp(field);
+	data.forEach((item) => {
+		if (reg.test(item.id)) {
+			count += item.field ? item.data[item.field] : item.data;
+		}
+	});
+	return count;
+};
+
 export const toGetNumber = (data, id) => {
 	const item = data.filter(i => i.id === id)[0];
 	return item.field ? item.data[item.field] : item.data;

@@ -23,7 +23,7 @@ export default class Auction extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">资产拍卖</div>}
 				/>
 				<div className="inquiry-public-table">
-					<Table />
+					<Table portrait="personal" />
 				</div>
 			</div>
 		);
