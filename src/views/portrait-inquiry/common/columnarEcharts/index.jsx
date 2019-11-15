@@ -2,9 +2,9 @@ import React from 'react';
 // import ReactECharts from 'echarts-for-react';
 import './style.scss';
 
-const getOption = (Data, id, title) => ({
+const getOption = (Data, id, title, newColumArray) => ({
 	grid: { // 绘图区调整
-		height: Data.length * 30,
+		height: newColumArray.length * 30,
 		x: 20, // 左留白
 		y: 10, // 上留白
 		x2: 10, // 右留白
@@ -24,7 +24,7 @@ const getOption = (Data, id, title) => ({
 		{
 			type: 'category',
 			show: false,
-			data: Data,
+			data: newColumArray,
 		},
 	],
 
@@ -34,7 +34,7 @@ const getOption = (Data, id, title) => ({
 			type: 'bar',
 			barMinHeight: 220,
 			borderwidth: 0,
-			data: Data,
+			data: newColumArray,
 			itemStyle: {
 				normal: {
 					color: '#73AEEA',
@@ -83,9 +83,18 @@ class ColumnarEcharts extends React.Component {
 
 	toDrawEcharts=() => {
 		const { Data, id, title } = this.props;
+		// 添加需要的字段名称
+		const newColumArray = [];
+		if (Data) {
+			Data.filter(item => item.count > 0)
+				.map(item => newColumArray.push(
+					Object.assign({}, item, { name: item.type, value: item.count }),
+				));
+		}
+
 		const DOM = document.getElementById(`${id}ColumnarEcharts`);
 		const myChart = window.echarts.init(DOM);
-		const option = getOption(Data, id, title);
+		const option = getOption(Data, id, title, newColumArray);
 		const { series: { 0: { data: dataList } } } = option;
 		const { Text } = window.zrDefine;
 		const zr = myChart.getZrender();
@@ -102,7 +111,7 @@ class ColumnarEcharts extends React.Component {
 				style: {
 					x: x + 10,
 					y,
-					text: item.name,
+					text: item.type,
 					textFont: 'normal 12px verdana',
 					textAlign: 'left',
 					color: '#FFFFFF',
@@ -113,7 +122,7 @@ class ColumnarEcharts extends React.Component {
 				style: {
 					x: x + 180,
 					y,
-					text: item.value,
+					text: item.count,
 					textFont: 'bold 12px Arial',
 					textAlign: 'right',
 					color: '#FFFFFF',
@@ -139,7 +148,7 @@ class ColumnarEcharts extends React.Component {
 			text3.zlevel = 9999;
 		});
 		// window[`${id}ColumnarEcharts`] = myChart;
-		myChart.setOption(getOption(Data, id, title));
+		myChart.setOption(getOption(Data, id, title, newColumArray));
 	};
 
 	render() {
@@ -147,7 +156,7 @@ class ColumnarEcharts extends React.Component {
 		return (
 			<div>
 				<div className="yc-columnar-title">{title}</div>
-				<div className="yc-columnar-echarts" style={{ width: 532, height: Data.length * 40 }} id={`${id}ColumnarEcharts`} />
+				<div className="yc-columnar-echarts" style={{ width: 532, height: Data.length * 40 || 200 }} id={`${id}ColumnarEcharts`} />
 			</div>
 		);
 	}

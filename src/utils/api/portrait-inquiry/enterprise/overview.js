@@ -11,14 +11,37 @@ export const getAuction = async (params) => {
 	return response.data;
 };
 
-// 主要人员
-export const getMainPerson = async (params) => {
-	const response = await service.get('/yc/search/portrait/company/baseInfo/mainPerson', { params });
+// 资产概览 => 代位权信息
+export const getSubrogation = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/asset/subrogation', { params });
 	return response.data;
 };
 
-// 股东信息
-export const getStockholder = async (params) => {
-	const response = await service.get('/yc/search/portrait/company/baseInfo/stockholder', { params });
+// 资产概况 => 土地信息
+export const getLand = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/asset/land', { params });
+	return response.data;
+};
+// 资产概况 => 股权质押
+export const getStock = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/asset/stock', { params });
+	return response.data;
+};
+
+// 资产概况 => 动产抵押
+export const getMortgage = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/asset/mortgage', { params });
+	return response.data;
+};
+
+// 风险情况
+export const getRisk = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/risk', { params });
+	return response.data;
+};
+
+// 工商基本情况
+export const getBusiness = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/business', { params });
 	return response.data;
 };

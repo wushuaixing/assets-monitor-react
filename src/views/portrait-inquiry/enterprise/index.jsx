@@ -266,7 +266,7 @@ export default class Enterprise extends React.Component {
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" count={countSource.assets} />
 						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} />
 						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} />
-						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" />
+						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" detailObj={infoSource} />
 					</Router>
 				</div>
 			</div>

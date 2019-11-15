@@ -2,7 +2,7 @@ import React from 'react';
 // import ReactECharts from 'echarts-for-react';
 import './style.scss';
 
-const getOption = (Data, id, title) => ({
+const getOption = (Data, id, title, newRingArray) => ({
 	tooltip: {
 		trigger: 'item',
 		formatter: '{a} <br/>{b} : {c} ({d}%)',
@@ -39,7 +39,7 @@ const getOption = (Data, id, title) => ({
 					},
 				},
 			},
-			data: Data,
+			data: newRingArray,
 		},
 	],
 });
@@ -64,9 +64,17 @@ class RingEcharts extends React.Component {
 
 	toDrawEcharts =() => {
 		const { Data, id, title } = this.props;
+		// 添加需要的字段名称
+		const newRingArray = [];
+		if (Data) {
+			Data.filter(item => item.count > 0)
+				.map(item => newRingArray.push(
+					Object.assign({}, item, { name: item.type, value: item.count }),
+				));
+		}
 		const DOM = document.getElementById(`${id}RingEcharts`);
 		const myChart = window.echarts.init(DOM);
-		const option = getOption(Data, id, title);
+		const option = getOption(Data, id, title, newRingArray);
 		const { color, series: { 0: { data: dataList } } } = option;
 		const { Text, Circle } = window.zrDefine;
 		const zr = myChart.getZrender();
@@ -93,7 +101,7 @@ class RingEcharts extends React.Component {
 				style: {
 					x: x + 10,
 					y: y + 2,
-					text: item.name,
+					text: item.type,
 					textFont: 'normal 12px verdana',
 					textAlign: 'left',
 					color: '#333',
@@ -104,7 +112,7 @@ class RingEcharts extends React.Component {
 				style: {
 					x: x + 110,
 					y: y + 2,
-					text: item.value,
+					text: item.count,
 					textFont: 'bold 12px Arial',
 					textAlign: 'right',
 					color: '#333',

@@ -16,17 +16,17 @@ class RingEcharts extends React.Component {
 				<ul className="yc-timeline">
 					{
 						Data
-						&& Data.map(item => (
+						&& Data.slice(0, 5).map(item => (
 							<li className="yc-li-complete">
 								<div className="yc-timestamp">
 									<span className="num">
-										{`${item.num} 条`}
+										{`${item.count} 条`}
 									</span>
 								</div>
 								<div className="yc-dotted-line" />
 								<div className="status">
 									<h4>
-										{`${item.year} 年`}
+										{item.year === 0 ? '未知' : `${item.year} 年`}
 									</h4>
 								</div>
 							</li>
