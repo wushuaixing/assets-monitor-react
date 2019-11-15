@@ -32,9 +32,9 @@ export default class Subrogation extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">代位权</div>}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 1 ? <Court /> : null}
-					{sourceType === 2 ? <Trial /> : null}
-					{sourceType === 3 ? <Judgment /> : null}
+					{sourceType === 1 ? <Court portrait="personal" /> : null}
+					{sourceType === 2 ? <Trial portrait="personal" /> : null}
+					{sourceType === 3 ? <Judgment portrait="personal" /> : null}
 				</div>
 			</div>
 		);

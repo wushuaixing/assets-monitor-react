@@ -1,5 +1,6 @@
 import React from 'react';
-import { Radio } from 'antd';
+import { message, Radio } from 'antd';
+import { navigate } from '@reach/router';
 import { Button, Input } from '@/common';
 import { getQueryByName } from '@/utils';
 
@@ -29,7 +30,7 @@ export default class QueryView extends React.Component {
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
 			const { className } = document.activeElement.offsetParent;
 			if (/yc-input-wrapper/.test(className)) {
-				this.onClick();
+				this.handleQuery();
 				document.activeElement.blur();
 			}
 		}
@@ -58,15 +59,44 @@ export default class QueryView extends React.Component {
 		}
 	};
 
+	/* 一键查询债务人画像 */
+	handleQuery=() => {
+		const { onQuery } = this.props;
+
+		const { obligorType: type, obligorName: name, obligorNumber: number } = this.state;
+		if (type === 1) {
+			if (!name)message.error('请输入债务人名称');
+			else if (name.length < 2) message.error('债务人名称请至少输入两个字');
+			else {
+				navigate(`/inquiry/list?type=1&name=${name}`);
+				if (onQuery) {
+					onQuery({
+						type,
+						name,
+						number,
+					});
+				}
+			}
+		} else if (type === 2) {
+			if (name && number) {
+				navigate(`/inquiry/personal?type=2&name=${name}&num=${number}`);
+			} else if (!name || !number)message.error('请输入债务人名称和证据号不能为空');
+			else if (name.length < 2) message.error('债务人名称请至少输入两个字');
+			else if (number.length < 7) message.error('个人债务人证件号不得小于7位');
+			else message.error('请输入债务人名称及证据号');
+		}
+	};
+
 	onClick=() => {
 		const { onQuery } = this.props;
 		const { obligorType, obligorName, obligorNumber } = this.state;
-		const obj = {
-			type: obligorType,
-			name: obligorName,
-			number: obligorNumber,
-		};
-		if (onQuery)onQuery(obj);
+		if (onQuery) {
+			onQuery({
+				type: obligorType,
+				name: obligorName,
+				number: obligorNumber,
+			});
+		}
 	};
 
 	render() {
@@ -109,7 +139,7 @@ export default class QueryView extends React.Component {
 					) : null
 				}
 				<div className="yc-query-item" style={{ float: 'right' }}>
-					<Button type="primary" style={{ width: 85 }} size="large" onClick={this.onClick}>查询</Button>
+					<Button type="primary" style={{ width: 85 }} size="large" onClick={this.handleQuery}>查询</Button>
 				</div>
 			</div>
 		);

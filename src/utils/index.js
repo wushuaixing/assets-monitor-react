@@ -376,7 +376,6 @@ export const reviseNum = (value) => {
 	if (value) {
 		const RegStr = new RegExp(/\.[\d,]+(?=[^\d,]|)/g);
 		const e = (value.match(RegStr) || [])[0];
-
 		if (e) {
 			let replaceStr = '';
 			if (/,/.test(e)) {

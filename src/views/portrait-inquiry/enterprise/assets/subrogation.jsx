@@ -1,12 +1,12 @@
 import React from 'react';
 import { Tabs } from '@/common';
 import { Court, Trial, Judgment } from '@/views/asset-excavate/subrogation/table-version';
-import { toGetNumber } from '@/utils/promise';
+import { toGetNumber, toGetDefaultId } from '@/utils/promise';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
-		const defaultID = props.data.filter(i => i.data > 0)[0].id;
+		const defaultID = toGetDefaultId(props.data);
 		this.state = {
 			sourceType: defaultID,
 			config: [

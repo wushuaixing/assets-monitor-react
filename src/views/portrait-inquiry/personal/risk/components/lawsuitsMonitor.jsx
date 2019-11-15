@@ -3,6 +3,7 @@ import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import { LawsuitsMonitor } from './common';
+import { getQueryByName } from '@/utils';
 
 const { trial } = assets;
 
@@ -39,9 +40,15 @@ export default class lawsuitsMonitor extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
+		const params = {
+			obligorName: getQueryByName(window.location.href, 'name'),
+			obligorNumber: getQueryByName(window.location.href, 'num'),
+		};
 		this.setState({ loading: true });
 		trial.list({
 			page: page || 1,
+			num: 5,
+			...params,
 		}).then((res) => {
 			console.log(res);
 			if (res.code === 200) {
@@ -91,6 +98,7 @@ export default class lawsuitsMonitor extends React.Component {
 									showQuickJumper
 									current={current || 1}
 									total={total || 0}
+									pageSize={5}
 									onChange={this.onPageChange}
 									showTotal={totalCount => `共 ${totalCount} 条信息`}
 								/>

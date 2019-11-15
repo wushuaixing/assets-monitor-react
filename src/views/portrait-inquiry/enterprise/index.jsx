@@ -17,6 +17,7 @@ import Assets from './assets';
 import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
+import Dishonest from '@/assets/img/icon/icon_shixin.png';
 import './style.scss';
 
 /* 基本选项 */
@@ -70,10 +71,10 @@ const getRegStatusClass = (val) => {
 const EnterpriseInfo = (props) => {
 	const {
 		download, data: {
-			name, regStatus, legalPersonName, regCapital, formerNames, estiblishTime,
+			name, regStatus, legalPersonName, regCapital, formerNames, estiblishTime, isDishonest,
 		},
 	} = props;
-	const _formerNames = (formerNames || []).join(' ');
+	const _formerNames = (formerNames || []).join('、');
 	const style = {
 		minWidth: 80,
 		display: 'inline-block',
@@ -88,7 +89,7 @@ const EnterpriseInfo = (props) => {
 				<div className="intro-title">
 					<span className="yc-public-title-large-bold intro-title-name">
 						{name}
-						{/* <img className="intro-title-tag" src={Dishonest} alt="" /> */}
+						{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 					</span>
 					{
 						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={{ marginTop: 2 }}>{regStatus}</span> : null
@@ -110,8 +111,12 @@ const EnterpriseInfo = (props) => {
 				</div>
 				<div className="intro-used">
 					<li className="intro-info-list">
-						<span className="yc-public-remark">曾用名：</span>
-						<span className="yc-public-title">{toEmpty(_formerNames) ? _formerNames : '--'}</span>
+						{
+						toEmpty(_formerNames) ? [
+							<span className="yc-public-remark">曾用名：</span>,
+							<span className="yc-public-title">{_formerNames}</span>,
+						] : null
+					}
 					</li>
 				</div>
 			</div>

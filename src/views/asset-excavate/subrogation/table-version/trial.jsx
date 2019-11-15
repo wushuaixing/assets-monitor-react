@@ -78,12 +78,18 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = portrait === 'personal' ? {
+			obligorName: getQueryByName(window.location.href, 'name'),
+			obligorNumber: getQueryByName(window.location.href, 'num'),
+		} : {
+			companyId: getQueryByName(window.location.href, 'id'),
+		};
 		this.setState({ loading: true });
 		trial.list({
 			page: page || 1,
 			num: 5,
-			companyId,
+			...params,
 		}).then((res) => {
 			// console.log(res);
 			if (res.code === 200) {
