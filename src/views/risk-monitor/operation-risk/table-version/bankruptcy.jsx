@@ -46,7 +46,7 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">受理法院</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
+						<span className="list list-content" style={{ maxWidth: 200 }}>{row.court || '-'}</span>
 					</li>
 				</div>
 			),

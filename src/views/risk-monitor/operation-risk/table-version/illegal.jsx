@@ -41,13 +41,15 @@ const removeSituation = (val, row) => {
 				<span className="list list-title align-justify list-title-50">移除原因</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">
-					<Ellipsis content={removeReason} tooltip line={2} width={150} />
+					<Ellipsis content={removeReason} tooltip line={1} width={180} />
 				</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify list-title-50">决定机关</span>
+				<span className="list list-title align-justify list-title-50">移除机关</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{removeDepartment || '--'}</span>
+				<span className="list list-content none-width">
+					{toEmpty(removeDepartment) ? <Ellipsis content={removeDepartment} tooltip line={1} width={180} /> : '--'}
+				</span>
 			</li>
 		</div>
 	);
@@ -84,25 +86,29 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">决定机关</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ maxWidth: 300 }}>{row.putDepartment || '-'}</span>
+						<span className="list list-content" style={{ maxWidth: 300 }}>
+							{row.putDepartment || '-'}
+						</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">列入原因</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ minWidth: 200 }}>
+						<span className="list list-content" style={{ minWidth: 600 }}>
 							{
 								row.putReason.trim()
-									? <Ellipsis content={row.putReason} width={200} /> : '--'
+									? <Ellipsis content={row.putReason} tooltip width={600} /> : '--'
 							}
 						</span>
-						<span className="list-split" style={{ height: 16 }} />
+					</li>
+					<li>
+
 						<span className="list list-title align-justify">具体事实</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content none-width">
 							{
-									row.putReason.trim()
-										? <Ellipsis content={row.putReason} width={300} /> : '--'
-								}
+								toEmpty(row.fact)
+									? <Ellipsis content={row.fact} tooltip width={600} /> : '--'
+							}
 						</span>
 					</li>
 				</div>
