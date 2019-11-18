@@ -21,59 +21,78 @@ export default class Information extends React.Component {
 		};
 	}
 
+	getPropsData = () => {
+		const { litigationInfosArray } = this.props;
+		if (litigationInfosArray && litigationInfosArray.length > 0) {
+			const FilingArray = litigationInfosArray[0];
+			const CourtArray = litigationInfosArray[1];
+			const refereeArray = litigationInfosArray[2];
+			const FilingNum = FilingArray.count;
+			const CourtNum = CourtArray.count;
+			const refereeNum = refereeArray.count;
+
+			if (FilingNum > 0) {
+				this.setState({
+					selectType: 'Filing',
+					RingData: FilingArray.caseTypes,
+					timeLineData: FilingArray.yearDistribution,
+					RingDataNum: getCount(FilingArray.caseTypes),
+					timeLineDataNum: getCount(FilingArray.yearDistribution),
+				});
+			} else if (CourtNum > 0) {
+				this.setState({
+					selectType: 'Court',
+					RingData: CourtArray.caseTypes,
+					timeLineData: CourtArray.yearDistribution,
+					RingDataNum: getCount(CourtArray.caseTypes),
+					timeLineDataNum: getCount(CourtArray.yearDistribution),
+				});
+			} else {
+				this.setState({
+					selectType: 'referee',
+					RingData: refereeArray.caseTypes,
+					timeLineData: refereeArray.yearDistribution,
+					RingDataNum: getCount(refereeArray.caseTypes),
+					timeLineDataNum: getCount(refereeArray.yearDistribution),
+				});
+			}
+		}
+	}
+
 	checkTime = (selectType) => {
+		const { FilingArray, CourtArray, refereeArray } = this.state;
 		if (selectType === 'Filing') {
 			this.setState({
 				selectType,
-				timeLineData: [
-					{ num: 2, year: 2017 },
-					{ num: 6, year: 2018 },
-					{ num: 6, year: 2019 },
-				],
-				RingData: [
-					{ value: 20, name: '普通案件' },
-					{ value: 14, name: '执行案件' },
-					{ value: 10, name: '终本案件' },
-					{ value: 5, name: '破产案件' },
-				],
+				RingData: FilingArray.caseTypes,
+				timeLineData: FilingArray.yearDistribution,
+				RingDataNum: getCount(FilingArray.caseTypes),
+				timeLineDataNum: getCount(FilingArray.yearDistribution),
 			});
 		} else if (selectType === 'Court') {
 			this.setState({
 				selectType,
-				timeLineData: [
-					{ num: 2, year: 2017 },
-					{ num: 6, year: 2018 },
-				],
-				RingData: [
-					{ value: 20, name: '已成交' },
-					{ value: 14, name: '正在进行' },
-					{ value: 10, name: '即将开始' },
-					{ value: 5, name: '已流拍' },
-					{ value: 7, name: '中止' },
-					{ value: 6, name: '撤回' },
-				],
+				RingData: CourtArray.caseTypes,
+				timeLineData: CourtArray.yearDistribution,
+				RingDataNum: getCount(CourtArray.caseTypes),
+				timeLineDataNum: getCount(CourtArray.yearDistribution),
 			});
 		} else if (selectType === 'referee') {
 			this.setState({
 				selectType,
-				timeLineData: [
-					{ num: 2, year: 2017 },
-					{ num: 6, year: 2018 },
-					{ num: 6, year: 2019 },
-				],
-				RingData: [
-					{ value: 14, name: '正在进行' },
-					{ value: 10, name: '即将开始' },
-					{ value: 5, name: '已流拍' },
-					{ value: 7, name: '中止' },
-					{ value: 6, name: '撤回' },
-				],
+				RingData: refereeArray.caseTypes,
+				timeLineData: refereeArray.yearDistribution,
+				RingDataNum: getCount(refereeArray.caseTypes),
+				timeLineDataNum: getCount(refereeArray.yearDistribution),
 			});
 		}
 	};
 
 	render() {
 		const { RingData, timeLineData, selectType } = this.state;
+		const { litigationInfosArray } = this.props;
+		console.log(litigationInfosArray);
+
 		return (
 			<div>
 				<div className="overview-container-title">

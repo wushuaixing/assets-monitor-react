@@ -39,7 +39,6 @@ export default class Subrogation extends React.Component {
 		getSubrogation(params)
 			.then((res) => {
 				if (res.code === 200) {
-					console.log(res);
 					const FilingArray = res.data.subrogationInfos[0];
 					const CourtArray = res.data.subrogationInfos[1];
 					const refereeArray = res.data.subrogationInfos[2];
@@ -98,18 +97,24 @@ export default class Subrogation extends React.Component {
 				selectType,
 				RingData: FilingArray.caseTypes,
 				timeLineData: FilingArray.yearDistribution,
+				RingDataNum: getCount(FilingArray.caseTypes),
+				timeLineDataNum: getCount(FilingArray.yearDistribution),
 			});
 		} else if (selectType === 'Court') {
 			this.setState({
 				selectType,
 				RingData: CourtArray.caseTypes,
 				timeLineData: CourtArray.yearDistribution,
+				RingDataNum: getCount(CourtArray.caseTypes),
+				timeLineDataNum: getCount(CourtArray.yearDistribution),
 			});
 		} else if (selectType === 'referee') {
 			this.setState({
 				selectType,
 				RingData: refereeArray.caseTypes,
 				timeLineData: refereeArray.yearDistribution,
+				RingDataNum: getCount(refereeArray.caseTypes),
+				timeLineDataNum: getCount(refereeArray.yearDistribution),
 			});
 		}
 	};
@@ -118,28 +123,30 @@ export default class Subrogation extends React.Component {
 		const {
 			RingData, timeLineData, selectType, loading, FilingArray, CourtArray, refereeArray, FilingNum, CourtNum, refereeNum, RingDataNum, timeLineDataNum,
 		} = this.state;
-		console.log(RingDataNum, timeLineDataNum);
 
 		return (
 			<div>
 				<Spin visible={loading}>
-					<div className="overview-container-title">
-						<div className="overview-left-item" />
-						<span className="container-title-num">
-							{FilingArray.count && CourtArray.count && refereeArray.count ? `${FilingArray.count + CourtArray.count + refereeArray.count} 条` : '-'}
-						</span>
-						<span className="container-title-name"> 代位权信息 (裁判文书)</span>
-					</div>
-					<div className="overview-container-content">
-						<div style={{ marginBottom: 20 }}>
-							<TagOneSide content="立案信息" num={FilingNum} onClick={() => this.checkTime('Filing')} tag={selectType === 'Filing' ? 'yc-tag-active' : ''} />
-							<TagTwoSide content="开庭信息" num={CourtNum} onClick={() => this.checkTime('Court')} tag={selectType === 'Court' ? 'yc-tag-active' : ''} />
-							<TagTwoSide content="裁判文书" num={refereeNum} onClick={() => this.checkTime('referee')} tag={selectType === 'referee' ? 'yc-tag-active' : ''} />
+					{timeLineDataNum > 0 || RingDataNum > 0 ? (
+						<div>
+							<div className="overview-container-title">
+								<div className="overview-left-item" />
+								<span className="container-title-num">
+									{FilingArray.count && CourtArray.count && refereeArray.count ? `${FilingArray.count + CourtArray.count + refereeArray.count} 条` : '-'}
+								</span>
+								<span className="container-title-name"> 代位权信息 (裁判文书)</span>
+							</div>
+							<div className="overview-container-content">
+								<div style={{ marginBottom: 20 }}>
+									<TagOneSide content="立案信息" num={FilingNum} onClick={() => this.checkTime('Filing')} tag={selectType === 'Filing' ? 'yc-tag-active' : ''} />
+									<TagTwoSide content="开庭信息" num={CourtNum} onClick={() => this.checkTime('Court')} tag={selectType === 'Court' ? 'yc-tag-active' : ''} />
+									<TagTwoSide content="裁判文书" num={refereeNum} onClick={() => this.checkTime('referee')} tag={selectType === 'referee' ? 'yc-tag-active' : ''} />
+								</div>
+								{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
+								{RingDataNum > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="subrogation" />}
+							</div>
 						</div>
-						{/* <TimeLine title="年份分布" Data={timeLineData} id="subrogation" /> */}
-						{<TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
-						{<RingEcharts title="案件类型分布" Data={RingData} id="subrogation" />}
-					</div>
+					) : null}
 				</Spin>
 			</div>
 		);

@@ -9,7 +9,7 @@ import BusinessRisk from './components/businessRisk';
 import Information from './components/information';
 import Basic from './components/basic';
 import ShareholderSituation from './components/shareholderSituation';
-import { getBusiness } from '@/utils/api/portrait-inquiry/enterprise/overview';
+import { getBusiness, getLitigation } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import BusinessScale from './components/businessScale';
 import { Spin } from '@/common';
 import { parseQuery } from '@/utils';
@@ -24,6 +24,8 @@ export default class OverView extends React.Component {
 			baseInfo: {},
 			shareholderInfos: [],
 			businessScaleInfo: '',
+			yearDistributions: [],
+			litigationInfos: [],
 		};
 	}
 
@@ -39,6 +41,25 @@ export default class OverView extends React.Component {
 		const params = {
 			companyId,
 		};
+
+		// 获取涉诉信息
+		getLitigation(params)
+			.then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						yearDistributions: res.data.assetOverviewDishonestInfo.yearDistributions,
+						litigationInfos: res.data.litigationInfos,
+						loading: false,
+					});
+				} else {
+					this.setState({ loading: false });
+				}
+			})
+			.catch(() => {
+				this.setState({ loading: false });
+			});
+
+		// 获取工商基本信息
 		getBusiness(params)
 			.then((res) => {
 				if (res.code === 200) {
@@ -60,7 +81,7 @@ export default class OverView extends React.Component {
 
 	render() {
 		const {
-			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo,
+			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos,
 		} = this.state;
 		return (
 			<div className="inquiry-overview">
@@ -92,9 +113,9 @@ export default class OverView extends React.Component {
 					<div className="yc-overview-title">涉诉情况</div>
 					<div className="yc-overview-container">
 						{/*  涉诉信息 */}
-						<Information companyId={companyId} />
+						<Information litigationInfosArray={litigationInfos} companyId={companyId} />
 						{/*  失信记录 */}
-						<LostLetter companyId={companyId} />
+						<LostLetter timeLineData={yearDistributions} companyId={companyId} />
 					</div>
 					<div className="mark-line" />
 					<div className="yc-overview-title">工商基本信息</div>

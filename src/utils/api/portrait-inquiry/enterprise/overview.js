@@ -40,6 +40,12 @@ export const getRisk = async (params) => {
 	return response.data;
 };
 
+// 涉诉情况
+export const getLitigation = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/litigation', { params });
+	return response.data;
+};
+
 // 工商基本情况
 export const getBusiness = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/overview/business', { params });

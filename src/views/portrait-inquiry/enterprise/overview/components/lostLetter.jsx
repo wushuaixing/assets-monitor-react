@@ -1,29 +1,30 @@
 import React from 'react';
 import TimeLine from '../../../common/timeLine';
+import getCount from '../../../common/getCount';
 
 export default class LostLetter extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			timeLineData: [
-				{ num: 2, year: 2017 },
-				{ num: 6, year: 2018 },
-			],
-		};
+		this.state = {};
 	}
 
 	render() {
-		const { timeLineData } = this.state;
+		const { timeLineData } = this.props;
+
 		return (
 			<div>
-				<div className="overview-container-title">
-					<div className="overview-left-item" />
-					<span className="container-title-num">8条</span>
-					<span className="container-title-name">失信记录</span>
+				{timeLineData && getCount(timeLineData) > 0 && (
+				<div>
+					<div className="overview-container-title">
+						<div className="overview-left-item" />
+						<span className="container-title-num">8条</span>
+						<span className="container-title-name">失信记录</span>
+					</div>
+					<div className="overview-container-content">
+						<TimeLine title="年份分布" Data={timeLineData} id="lostLetter" />
+					</div>
 				</div>
-				<div className="overview-container-content">
-					<TimeLine title="年份分布" Data={timeLineData} id="lostLetter" />
-				</div>
+				)}
 			</div>
 		);
 	}
