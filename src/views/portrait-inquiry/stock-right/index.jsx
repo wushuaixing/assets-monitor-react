@@ -330,7 +330,13 @@ export default class StockRight extends React.Component {
 					stockChart({ id })
 						.then((res) => {
 							if (res.code === 200) {
-								idItem.children = this.toAddArrowData(res.data.holderList, treeName);
+								if (treeName === 'investor') {
+									idItem.children = this.toAddArrowData(res.data.investorList, treeName);
+								}
+								if (treeName === 'holder') {
+									idItem.children = this.toAddArrowData(res.data.holderList, treeName);
+								}
+
 								idItem.iconStatus = 'del';
 
 								// 当请求到数据后再次渲染图形
