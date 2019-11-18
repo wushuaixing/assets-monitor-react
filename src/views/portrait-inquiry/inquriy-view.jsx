@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import { Radio, Icon, message } from 'antd';
-import { Button, Input } from '@/common';
+import { Button, Input, Icon as Iconfont } from '@/common';
 
 export default class InitView extends React.Component {
 	constructor(props) {
@@ -64,7 +64,7 @@ export default class InitView extends React.Component {
 		} else if (type === 2) {
 			if (name && num) {
 				navigate(`/inquiry/personal?type=2&name=${name}&num=${num}`);
-			} else if (!name || !num)message.error('请输入债务人名称和证据号不能为空');
+			} else if (!name || !num)message.error('债务人名称 或 债务人证件号 不能为空！');
 			else if (name.length < 2) message.error('债务人名称请至少输入两个字');
 			else if (num.length < 7) message.error('个人债务人证件号不得小于7位');
 			else message.error('请输入债务人名称及证据号');
@@ -87,7 +87,10 @@ export default class InitView extends React.Component {
 					<div className="yc-query-item yc-query-item-text1">
 						<Input
 							clear
-							title="债务人名称"
+							title={[
+								<Iconfont type="icon-symbol-star" style={{ fontSize: 10, color: '#FB5A5C' }} />,
+								' 债务人名称',
+							]}
 							size="large"
 							style={{ width: 350 }}
 							placeholder="请输入债务人名称"
@@ -101,10 +104,13 @@ export default class InitView extends React.Component {
 							<div className="yc-query-item yc-query-item-text2">
 								<Input
 									clear
-									title="债务人证件号"
+									title={[
+										<Iconfont type="icon-symbol-star" style={{ fontSize: 10, color: '#FB5A5C' }} />,
+										' 债务人证件号',
+									]}
 									size="large"
 									placeholder="请输入债务人证件号"
-									titleWidth={100}
+									titleWidth={120}
 									style={{ width: 350 }}
 									onChange={e => this.onHandleChange(e, 'obligorNumber')}
 									value={obligorNumber}

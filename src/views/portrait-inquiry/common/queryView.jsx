@@ -1,7 +1,7 @@
 import React from 'react';
 import { message, Radio } from 'antd';
 import { navigate } from '@reach/router';
-import { Button, Input } from '@/common';
+import { Button, Icon as Iconfont, Input } from '@/common';
 import { getQueryByName } from '@/utils';
 
 export default class QueryView extends React.Component {
@@ -80,7 +80,7 @@ export default class QueryView extends React.Component {
 		} else if (type === 2) {
 			if (name && number) {
 				navigate(`/inquiry/personal?type=2&name=${name}&num=${number}`);
-			} else if (!name || !number)message.error('请输入债务人名称和证据号不能为空');
+			} else if (!name || !number)message.error('债务人名称 或 债务人证件号 不能为空！');
 			else if (name.length < 2) message.error('债务人名称请至少输入两个字');
 			else if (number.length < 7) message.error('个人债务人证件号不得小于7位');
 			else message.error('请输入债务人名称及证据号');
@@ -113,7 +113,10 @@ export default class QueryView extends React.Component {
 				<div className="yc-query-item yc-query-item-text1">
 					<Input
 						clear
-						title="债务人名称"
+						title={[
+							<Iconfont type="icon-symbol-star" style={{ fontSize: 10, color: '#FB5A5C' }} />,
+							' 债务人名称',
+						]}
 						size="large"
 						style={{ width: 350 }}
 						placeholder="请输入债务人名称"
@@ -127,7 +130,10 @@ export default class QueryView extends React.Component {
 						<div className="yc-query-item yc-query-item-text2">
 							<Input
 								clear
-								title="债务人证件号"
+								title={[
+									<Iconfont type="icon-symbol-star" style={{ fontSize: 10, color: '#FB5A5C' }} />,
+									' 债务人证件号',
+								]}
 								size="large"
 								placeholder="请输入债务人证件号"
 								titleWidth={100}
