@@ -30,12 +30,14 @@ export default class AssetAuction extends React.Component {
 
 	getData = () => {
 		const params = this.info;
+		const { getAssetProfile } = this.props;
 		this.setState({
 			loading: true,
 		});
 		getAuction(params)
 			.then((res) => {
 				if (res.code === 200) {
+					getAssetProfile(res.data.auctionInfos[0].count, 'AssetAuction', false);
 					this.setState({
 						columnarData: res.data.auctionInfos[1].count > 0 ? res.data.auctionInfos[1].roleDistributions : res.data.auctionInfos[0].roleDistributions,
 						RingData: res.data.auctionInfos[1].count > 0 ? res.data.auctionInfos[1].auctionResults : res.data.auctionInfos[0].auctionResults,

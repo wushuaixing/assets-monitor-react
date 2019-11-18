@@ -3,7 +3,6 @@ import { Tooltip } from 'antd';
 import { Spin } from '@/common';
 import { parseQuery } from '@/utils';
 import { getBaseInfo } from '@/utils/api/portrait-inquiry/enterprise/info';
-import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
 export default class BusinessInfo extends React.Component {
@@ -66,7 +65,7 @@ export default class BusinessInfo extends React.Component {
 						<div className="yc-base-infoTitle">纳税人识别号</div>
 						<div className="yc-base-infoName">{dataObj.taxNumber && dataObj.taxNumber.trim().length > 0 ? dataObj.taxNumber : '-'}</div>
 						<div className="yc-base-infoTitle">成立日期</div>
-						<div className="yc-base-infoName">{dataObj.estiblishTime ? `${formatDateTime(dataObj.estiblishTime, 'onlyYear')}` : '-'}</div>
+						<div className="yc-base-infoName">{dataObj.estiblishTime ? dataObj.estiblishTime : '-'}</div>
 						<div className="yc-base-infoTitle">营业期限</div>
 						<div className="yc-base-infoName">{dataObj.fromTime && dataObj.toTime && dataObj.fromTime.trim().length > 0 && dataObj.toTime.trim().length > 0 ? `自 ${dataObj.fromTime} 至 ${dataObj.toTime}` : '-'}</div>
 						<div className="yc-base-infoTitle">注册资本</div>
@@ -100,7 +99,7 @@ export default class BusinessInfo extends React.Component {
 							}
 						</div>
 						<div className="yc-base-infoTitle">核准日期</div>
-						<div className="yc-base-infoName">{dataObj.approvedTime ? `${formatDateTime(dataObj.approvedTime, 'onlyYear')}` : '-'}</div>
+						<div className="yc-base-infoName">{dataObj.approvedTime ? dataObj.approvedTime : '-'}</div>
 						<div className="yc-base-infoTitle">所属行业</div>
 						<div className="yc-base-infoName">
 							{

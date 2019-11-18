@@ -5,6 +5,7 @@ import Involved from './components/involved';
 import LostLetter from './components/lostLetter';
 import TaxViolation from './components/taxVolation';
 import { Spin } from '@/common';
+import NoContent from '@/common/noContent';
 import './style.scss';
 
 export default class OverView extends React.Component {
@@ -12,36 +13,106 @@ export default class OverView extends React.Component {
 		super(props);
 		document.title = '画像查询-个人';
 		this.state = {
-			loading: false,
+			AssetAuctionCount: 0,
+			SubrogationCount: 0,
+			AssetAuctionLoading: true,
+			RiskSituation: true,
+			InvolvedCount: 0,
+			LostLetterCount: 0,
+			TaxViolationCount: 0,
 		};
 	}
 
+	componentDidMount() {
+		setTimeout(() => {
+			this.setState({
+				AssetAuctionLoading: false,
+				RiskSituation: false,
+			});
+		}, 10000);
+	}
+
+	// 获取资产监控可模块数量
+	getAssetProfile = (AssetProfileCountValue, type, loading) => {
+		switch (type) {
+		case 'AssetAuction':
+			return (
+				this.setState({
+					AssetAuctionCount: AssetProfileCountValue,
+					AssetAuctionLoading: loading,
+				})
+			);
+		case 'Subrogation':
+			return (
+				this.setState({
+					SubrogationCount: AssetProfileCountValue,
+					AssetAuctionLoading: loading,
+				})
+			);
+		case 'Involved':
+			return (
+				this.setState({
+					InvolvedCount: AssetProfileCountValue,
+					RiskSituation: loading,
+				})
+			);
+		case 'LostLetter':
+			return (
+				this.setState({
+					LostLetterCount: AssetProfileCountValue,
+					RiskSituation: loading,
+				})
+			);
+		case 'TaxViolation':
+			return (
+				this.setState({
+					TaxViolationCount: AssetProfileCountValue,
+					RiskSituation: loading,
+				})
+			);
+		default: return '-';
+		}
+	}
+
 	render() {
-		const { loading } = this.state;
+		const {
+			AssetAuctionCount, SubrogationCount, AssetAuctionLoading, InvolvedCount, LostLetterCount, TaxViolationCount, RiskSituation,
+		} = this.state;
 		return (
 			<div className="inquiry-overview">
 				<div className="mark-line" />
 				<div className="overview-left">
-					<Spin visible={loading} modal />
 					<div className="yc-overview-title">资产概况</div>
 					<div className="yc-overview-container">
 						{/* 相关资产拍卖 */}
-						<AssetAuction />
+						<AssetAuction getAssetProfile={this.getAssetProfile} />
 						{/* 代位权信息 (裁判文书) */}
-						<Subrogation />
+						<Subrogation getAssetProfile={this.getAssetProfile} />
 					</div>
+					<Spin visible={AssetAuctionLoading}>
+						{
+							AssetAuctionCount === 0 && SubrogationCount === 0
+							&& <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
+						}
+					</Spin>
 				</div>
 				<div className="overview-line" />
 				<div className="overview-right">
 					<div className="yc-overview-title">风险情况</div>
 					<div className="yc-overview-container">
 						{/*  涉诉信息 (涉诉文书) */}
-						<Involved />
+						<Involved getAssetProfile={this.getAssetProfile} />
 						{/*  失信记录 */}
-						<LostLetter />
+						<LostLetter getAssetProfile={this.getAssetProfile} />
 						{/* 税收违法 */}
-						<TaxViolation />
+						<TaxViolation getAssetProfile={this.getAssetProfile} />
 					</div>
+					<Spin visible={RiskSituation}>
+						{
+							InvolvedCount === 0 && LostLetterCount === 0 && TaxViolationCount === 0
+							&& <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
+						}
+					</Spin>
 				</div>
 			</div>
 		);
