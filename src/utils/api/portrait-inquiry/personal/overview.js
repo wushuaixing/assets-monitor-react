@@ -31,6 +31,6 @@ export const getDishonest = async (params) => {
 
 // 风险情况 => 税收违法
 export const getTaxIllegal = async (params) => {
-	const response = await service.get('/yc/search/portrait/personal/overview/risk/taxIllegal', { params });
+	const response = await service.get('/yc/search/portrait/personal/overview/risk/tax-illegal', { params });
 	return response.data;
 };

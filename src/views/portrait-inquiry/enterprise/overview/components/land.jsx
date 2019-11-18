@@ -67,7 +67,7 @@ export default class Land extends React.Component {
 						<div className="overview-container-title">
 							<div className="overview-left-item" />
 							<span className="container-title-num">
-								{`${getCount(columnarData) + getCount(RingData) + getCount(timeLineData)}条`}
+								{`${getCount(RingData)}条`}
 							</span>
 							<span className="container-title-name">土地信息</span>
 						</div>

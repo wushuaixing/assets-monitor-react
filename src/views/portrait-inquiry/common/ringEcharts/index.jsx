@@ -69,7 +69,7 @@ class RingEcharts extends React.Component {
 		if (Data) {
 			Data.filter(item => item.count > 0)
 				.map(item => newRingArray.push(
-					Object.assign({}, item, { name: item.type, value: item.count }),
+					Object.assign({}, item, { name: item.typeName || item.type, value: item.count }),
 				));
 		}
 		const DOM = document.getElementById(`${id}RingEcharts`);
@@ -101,7 +101,7 @@ class RingEcharts extends React.Component {
 				style: {
 					x: x + 10,
 					y: y + 2,
-					text: item.type,
+					text: item.typeName || item.type,
 					textFont: 'normal 12px verdana',
 					textAlign: 'left',
 					color: '#333',

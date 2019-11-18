@@ -23,7 +23,7 @@ const columns = (props) => {
 		}, {
 			title: '土地权利人',
 			dataIndex: 'parties',
-			width: 230,
+			width: 300,
 			render: partyInfo,
 		}, {
 			title: '项目信息',

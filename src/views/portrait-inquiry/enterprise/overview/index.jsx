@@ -27,11 +27,11 @@ export default class OverView extends React.Component {
 			yearDistributions: null,
 			litigationInfos: null,
 			litigationLoading: false,
-			AssetAuctionCount: '',
-			SubrogationCount: '',
-			LandCount: '',
-			EquityPledgeCount: '',
-			ChattelMortgageCount: '',
+			AssetAuctionCount: 0,
+			SubrogationCount: 0,
+			LandCount: 0,
+			EquityPledgeCount: 0,
+			ChattelMortgageCount: 0,
 		};
 	}
 
@@ -146,10 +146,12 @@ export default class OverView extends React.Component {
 						{/* 动产抵押信息 */}
 						<ChattelMortgage companyId={companyId} getAssetProfile={this.getAssetProfile} />
 					</div>
-					{
-					AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0
-					&& <NoContent style={{ marginBottom: 60 }} font="暂未匹配到资产信息" />
-					}
+					<Spin visible={loading}>
+						{
+							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0
+							&& <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
+						}
+					</Spin>
 				</div>
 				<div className="overview-line" />
 				<div className="overview-right">
@@ -161,7 +163,7 @@ export default class OverView extends React.Component {
 					<div className="mark-line" />
 					<div className="yc-overview-title">涉诉情况</div>
 					{litigationInfos && yearDistributions && yearDistributions.length === 0 && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0 ? (
-						<NoContent style={{ marginBottom: 60 }} font="暂未匹配到涉诉信息" />
+						<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到涉诉信息" />
 					) : (
 						<Spin visible={litigationLoading}>
 							<div className="yc-overview-container">

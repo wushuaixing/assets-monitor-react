@@ -71,7 +71,7 @@ class QueryCondition extends React.Component {
 
 				<div className="yc-query-item">
 					<InputPrice
-						title="成交价格"
+						title="抵押金额"
 						style={_style1}
 						size="large"
 						suffix="万元"

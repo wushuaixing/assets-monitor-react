@@ -24,22 +24,22 @@ const columns = (props) => {
 		}, {
 			title: '土地使用权人',
 			dataIndex: 'parties',
-			width: 230,
+			width: 300,
 			render: partyInfo,
 		}, {
 			title: '项目信息',
 			dataIndex: 'number',
-			width: 240,
+			width: 200,
 			render: Result.InfoTransferProject,
 		}, {
 			title: '土地信息',
 			dataIndex: 'property',
-			width: 170,
+			width: 160,
 			render: Result.InfoLand,
 		}, {
 			title: '转让信息',
 			dataIndex: 'property',
-			width: 190,
+			width: 160,
 			render: Result.transferInfo,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text

@@ -88,7 +88,7 @@ class ColumnarEcharts extends React.Component {
 		if (Data) {
 			Data.filter(item => item.count > 0)
 				.map(item => newColumArray.push(
-					Object.assign({}, item, { name: item.type, value: item.count }),
+					Object.assign({}, item, { name: item.typeName || item.type, value: item.count }),
 				));
 		}
 
@@ -111,7 +111,7 @@ class ColumnarEcharts extends React.Component {
 				style: {
 					x: x + 10,
 					y,
-					text: item.type,
+					text: item.typeName || item.type,
 					textFont: 'normal 12px verdana',
 					textAlign: 'left',
 					color: '#FFFFFF',

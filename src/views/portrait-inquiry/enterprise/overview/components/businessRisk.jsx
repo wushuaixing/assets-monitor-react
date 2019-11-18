@@ -52,9 +52,8 @@ export default class BusinessRisk extends React.Component {
 		return (
 			<div>
 				<Spin visible={loading}>
-					{columnarNum && columnarNum < 0 ? (
-
-						<NoContent style={{ marginBottom: 60 }} font="暂未匹配到经营风险信息" />
+					{columnarData && getCount(columnarData) === 0 ? (
+						<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到经营风险信息" />
 					) : (
 						<div>
 							{
