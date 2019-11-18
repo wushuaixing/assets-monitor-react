@@ -23,7 +23,7 @@ export default class BusinessScale extends React.Component {
 							人员规模
 						</div>
 						<div className="yc-role-num">
-							{businessScaleInfo.employeeNum}
+							{businessScaleInfo.employeeNum || '未知'}
 						</div>
 					</div>
 

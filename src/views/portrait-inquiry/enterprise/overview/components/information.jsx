@@ -28,7 +28,6 @@ export default class Information extends React.Component {
 
 	getPropsData = () => {
 		const { litigationInfosArray } = this.props;
-		console.log(litigationInfosArray, 11);
 
 		if (litigationInfosArray && litigationInfosArray.length > 0) {
 			const FilingArray = litigationInfosArray[0];

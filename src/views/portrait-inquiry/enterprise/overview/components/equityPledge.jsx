@@ -28,7 +28,7 @@ export default class EquityPledge extends React.Component {
 	}
 
 	getData = () => {
-		const { companyId } = this.props;
+		const { companyId, getAssetProfile } = this.props;
 		this.setState({
 			loading: true,
 		});
@@ -38,10 +38,14 @@ export default class EquityPledge extends React.Component {
 		getStock(params)
 			.then((res) => {
 				if (res.code === 200) {
+					const { roleDistributions } = res.data;
+					const timeLineData = res.data.yearDistributions;
+					const allNum = getCount(roleDistributions) + getCount(timeLineData);
+					getAssetProfile(allNum, 'EquityPledge');
 					this.setState({
 						loading: false,
-						roleDistributions: res.data.roleDistributions,
-						timeLineData: res.data.yearDistributions, // 年份分布
+						roleDistributions,
+						timeLineData, // 年份分布
 					});
 				} else {
 					this.setState({ loading: false });

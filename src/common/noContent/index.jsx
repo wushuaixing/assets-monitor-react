@@ -13,10 +13,13 @@ class noContent extends React.Component {
 
 
 	render() {
+		const { font, style } = this.props;
 		return (
-			<div className="yc-no-noContent">
+			<div style={style} className="yc-no-noContent">
 				<img src={noData} alt="" />
-				<span>暂无数据</span>
+				<span>
+					{font || '暂无数据'}
+				</span>
 			</div>
 		);
 	}

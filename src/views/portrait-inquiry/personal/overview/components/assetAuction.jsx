@@ -4,6 +4,7 @@ import ColumnarEcharts from '../../../common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
 import { getAuction } from '@/utils/api/portrait-inquiry/personal/overview';
 import { Spin } from '@/common';
+import { getQueryByName } from '@/utils';
 
 export default class AssetAuction extends React.Component {
 	constructor(props) {
@@ -17,6 +18,10 @@ export default class AssetAuction extends React.Component {
 			RingData: [],
 			// colorArray: ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
 		};
+		this.info = {
+			obligorName: getQueryByName(window.location.href, 'name'),
+			obligorNumber: getQueryByName(window.location.href, 'num'),
+		};
 	}
 
 	componentDidMount() {
@@ -24,18 +29,13 @@ export default class AssetAuction extends React.Component {
 	}
 
 	getData = () => {
-		const { companyId } = this.props;
+		const params = this.info;
 		this.setState({
 			loading: true,
 		});
-		const params = {
-			companyId,
-		};
 		getAuction(params)
 			.then((res) => {
 				if (res.code === 200) {
-					console.log(res);
-
 					this.setState({
 						columnarData: res.data.auctionInfos[1].count > 0 ? res.data.auctionInfos[1].roleDistributions : res.data.auctionInfos[0].roleDistributions,
 						RingData: res.data.auctionInfos[1].count > 0 ? res.data.auctionInfos[1].auctionResults : res.data.auctionInfos[0].auctionResults,

@@ -13,7 +13,7 @@ import { getBusiness, getLitigation } from '@/utils/api/portrait-inquiry/enterpr
 import BusinessScale from './components/businessScale';
 import { Spin } from '@/common';
 import { parseQuery } from '@/utils';
-
+import NoContent from '@/common/noContent';
 import './style.scss';
 
 export default class OverView extends React.Component {
@@ -24,8 +24,14 @@ export default class OverView extends React.Component {
 			baseInfo: {},
 			shareholderInfos: [],
 			businessScaleInfo: '',
-			yearDistributions: [],
-			litigationInfos: [],
+			yearDistributions: null,
+			litigationInfos: null,
+			litigationLoading: false,
+			AssetAuctionCount: '',
+			SubrogationCount: '',
+			LandCount: '',
+			EquityPledgeCount: '',
+			ChattelMortgageCount: '',
 		};
 	}
 
@@ -37,6 +43,7 @@ export default class OverView extends React.Component {
 		const { companyId } = this.state;
 		this.setState({
 			loading: true,
+			litigationLoading: true,
 		});
 		const params = {
 			companyId,
@@ -46,19 +53,17 @@ export default class OverView extends React.Component {
 		getLitigation(params)
 			.then((res) => {
 				if (res.code === 200) {
-					console.log(res.data.litigationInfos);
-
 					this.setState({
 						yearDistributions: res.data.assetOverviewDishonestInfo.yearDistributions,
 						litigationInfos: res.data.litigationInfos,
-						loading: false,
+						litigationLoading: false,
 					});
 				} else {
-					this.setState({ loading: false });
+					this.setState({ litigationLoading: false });
 				}
 			})
 			.catch(() => {
-				this.setState({ loading: false });
+				this.setState({ litigationLoading: false });
 			});
 
 		// 获取工商基本信息
@@ -81,9 +86,46 @@ export default class OverView extends React.Component {
 			});
 	}
 
+	// 获取资产监控可模块数量
+	getAssetProfile = (AssetProfileCountValue, type) => {
+		switch (type) {
+		case 'AssetAuction':
+			return (
+				this.setState({
+					AssetAuctionCount: AssetProfileCountValue,
+				})
+			);
+		case 'Subrogation':
+			return (
+				this.setState({
+					SubrogationCount: AssetProfileCountValue,
+				})
+			);
+		case 'Land':
+			return (
+				this.setState({
+					LandCount: AssetProfileCountValue,
+				})
+			);
+		case 'EquityPledge':
+			return (
+				this.setState({
+					EquityPledgeCount: AssetProfileCountValue,
+				})
+			);
+		case 'ChattelMortgage':
+			return (
+				this.setState({
+					ChattelMortgageCount: AssetProfileCountValue,
+				})
+			);
+		default: return '-';
+		}
+	}
+
 	render() {
 		const {
-			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos,
+			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, litigationLoading, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount,
 		} = this.state;
 
 		return (
@@ -94,16 +136,20 @@ export default class OverView extends React.Component {
 					<div className="yc-overview-title">资产概况</div>
 					<div className="yc-overview-container">
 						{/* 相关资产拍卖 */}
-						<AssetAuction companyId={companyId} />
+						<AssetAuction companyId={companyId} getAssetProfile={this.getAssetProfile} />
 						{/* 代位权信息 (裁判文书) */}
-						<Subrogation companyId={companyId} />
+						<Subrogation companyId={companyId} getAssetProfile={this.getAssetProfile} />
 						{/* 土地信息 */}
-						<Land companyId={companyId} />
+						<Land companyId={companyId} getAssetProfile={this.getAssetProfile} />
 						{/* 股权质押 */}
-						<EquityPledge companyId={companyId} />
+						<EquityPledge companyId={companyId} getAssetProfile={this.getAssetProfile} />
 						{/* 动产抵押信息 */}
-						<ChattelMortgage companyId={companyId} />
+						<ChattelMortgage companyId={companyId} getAssetProfile={this.getAssetProfile} />
 					</div>
+					{
+					AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0
+					&& <NoContent style={{ marginBottom: 60 }} font="暂未匹配到资产信息" />
+					}
 				</div>
 				<div className="overview-line" />
 				<div className="overview-right">
@@ -114,12 +160,18 @@ export default class OverView extends React.Component {
 					</div>
 					<div className="mark-line" />
 					<div className="yc-overview-title">涉诉情况</div>
-					<div className="yc-overview-container">
-						{/*  涉诉信息 */}
-						{litigationInfos.length > 0 && <Information litigationInfosArray={litigationInfos} companyId={companyId} />}
-						{/*  失信记录 */}
-						<LostLetter timeLineData={yearDistributions} companyId={companyId} />
-					</div>
+					{litigationInfos && yearDistributions && yearDistributions.length === 0 && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0 ? (
+						<NoContent style={{ marginBottom: 60 }} font="暂未匹配到涉诉信息" />
+					) : (
+						<Spin visible={litigationLoading}>
+							<div className="yc-overview-container">
+								{/*  涉诉信息 */}
+								{litigationInfos && litigationInfos.length > 0 && <Information litigationInfosArray={litigationInfos} />}
+								{/*  失信记录 */}
+								{yearDistributions && yearDistributions.length > 0 && <LostLetter timeLineData={yearDistributions} />}
+							</div>
+						</Spin>
+					)}
 					<div className="mark-line" />
 					<div className="yc-overview-title">工商基本信息</div>
 					<Spin visible={loading}>

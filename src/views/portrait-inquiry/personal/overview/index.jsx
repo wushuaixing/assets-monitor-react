@@ -16,17 +16,6 @@ export default class OverView extends React.Component {
 		};
 	}
 
-	// componentDidMount() {
-	// 	this.setState({
-	// 		loading: true,
-	// 	});
-	// 	setTimeout(() => {
-	// 		this.setState({
-	// 			loading: false,
-	// 		});
-	// 	}, 1000);
-	// }
-
 	render() {
 		const { loading } = this.state;
 		return (

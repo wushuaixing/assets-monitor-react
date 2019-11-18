@@ -29,7 +29,7 @@ export default class Subrogation extends React.Component {
 	}
 
 	getData = () => {
-		const { companyId } = this.props;
+		const { companyId, getAssetProfile } = this.props;
 		this.setState({
 			loading: true,
 		});
@@ -45,6 +45,8 @@ export default class Subrogation extends React.Component {
 					const FilingNum = FilingArray.count;
 					const CourtNum = CourtArray.count;
 					const refereeNum = refereeArray.count;
+					const allNum = FilingArray.count + CourtArray.count + refereeArray.count;
+					getAssetProfile(allNum, 'Subrogation');
 
 					if (FilingNum > 0) {
 						this.setState({
@@ -132,7 +134,7 @@ export default class Subrogation extends React.Component {
 							<div className="overview-container-title">
 								<div className="overview-left-item" />
 								<span className="container-title-num">
-									{FilingArray.count && CourtArray.count && refereeArray.count ? `${FilingArray.count + CourtArray.count + refereeArray.count} 条` : '-'}
+									{FilingArray.count || CourtArray.count || refereeArray.count ? `${FilingArray.count + CourtArray.count + refereeArray.count} 条` : '-'}
 								</span>
 								<span className="container-title-name"> 代位权信息 (裁判文书)</span>
 							</div>

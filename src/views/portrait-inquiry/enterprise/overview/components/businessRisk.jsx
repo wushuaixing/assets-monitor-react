@@ -3,6 +3,7 @@ import ColumnarEcharts from '../../../common/columnarEcharts';
 import { getRisk } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import { Spin } from '@/common';
 import getCount from '../../../common/getCount';
+import NoContent from '@/common/noContent';
 
 export default class BusinessRisk extends React.Component {
 	constructor(props) {
@@ -10,6 +11,7 @@ export default class BusinessRisk extends React.Component {
 		this.state = {
 			loading: false,
 			columnarData: [],
+			columnarNum: null,
 		};
 	}
 
@@ -28,8 +30,11 @@ export default class BusinessRisk extends React.Component {
 		getRisk(params)
 			.then((res) => {
 				if (res.code === 200) {
+					const columnarData = res.data.businessRiskInfos;
+					const columnarNum = getCount(columnarData);
 					this.setState({
-						columnarData: res.data.businessRiskInfos,
+						columnarNum,
+						columnarData,
 						loading: false,
 					});
 				} else {
@@ -42,23 +47,36 @@ export default class BusinessRisk extends React.Component {
 	}
 
 	render() {
-		const { columnarData, loading } = this.state;
+		const { columnarData, loading, columnarNum } = this.state;
+
 		return (
 			<div>
-				{getCount(columnarData) > 0 && (
 				<Spin visible={loading}>
-					<div className="overview-container-title">
-						<div className="overview-left-item" />
-						<span className="container-title-num">
-							{`${getCount(columnarData)} 条`}
-						</span>
-						<span className="container-title-name">经营风险信息</span>
-					</div>
-					<div className="overview-container-content">
-						<ColumnarEcharts title="案由分布" Data={columnarData} id="BusinessRisk" />
-					</div>
+					{columnarNum && columnarNum < 0 ? (
+
+						<NoContent style={{ marginBottom: 60 }} font="暂未匹配到经营风险信息" />
+					) : (
+						<div>
+							{
+								columnarNum > 0 && (
+								<div>
+									<div className="overview-container-title">
+										<div className="overview-left-item" />
+										<span className="container-title-num">
+											{`${getCount(columnarData)} 条`}
+										</span>
+										<span className="container-title-name">经营风险信息</span>
+									</div>
+									<div className="overview-container-content">
+										<ColumnarEcharts title="案由分布" Data={columnarData} id="BusinessRisk" />
+									</div>
+								</div>
+								)
+							}
+						</div>
+					)}
 				</Spin>
-				)}
+
 			</div>
 		);
 	}

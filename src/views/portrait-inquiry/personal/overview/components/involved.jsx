@@ -2,6 +2,9 @@ import React from 'react';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
+import { getLitigation } from '@/utils/api/portrait-inquiry/personal/overview';
+import { Spin } from '@/common';
+import { getQueryByName } from '@/utils';
 
 export default class Involved extends React.Component {
 	constructor(props) {
@@ -26,24 +29,54 @@ export default class Involved extends React.Component {
 			],
 			colorArray: ['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A'],
 		};
+		this.info = {
+			obligorName: getQueryByName(window.location.href, 'name'),
+			obligorNumber: getQueryByName(window.location.href, 'num'),
+		};
+	}
+
+	componentDidMount() {
+		this.getData();
+	}
+
+	getData = () => {
+		const params = this.info;
+		this.setState({
+			loading: true,
+		});
+		getLitigation(params)
+			.then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						loading: false,
+					});
+				} else {
+					this.setState({ loading: false });
+				}
+			})
+			.catch(() => {
+				this.setState({ loading: false });
+			});
 	}
 
 	render() {
 		const {
-			columnarData, RingData, timeLineData, colorArray,
+			columnarData, RingData, timeLineData, colorArray, loading,
 		} = this.state;
 		return (
 			<div>
-				<div className="overview-container-title">
-					<div className="overview-left-item" />
-					<span className="container-title-num">29条</span>
-					<span className="container-title-name"> 涉诉信息 (涉诉文书)</span>
-				</div>
-				<div className="overview-container-content">
-					<TimeLine title="年份分布" Data={timeLineData} id="involved" />
-					<ColumnarEcharts title="案由分布" Data={columnarData} id="involved" />
-					<RingEcharts title="案件类型分布" Data={RingData} id="involved" colorArray={colorArray} />
-				</div>
+				<Spin visible={loading}>
+					<div className="overview-container-title">
+						<div className="overview-left-item" />
+						<span className="container-title-num">29条</span>
+						<span className="container-title-name"> 涉诉信息 (涉诉文书)</span>
+					</div>
+					<div className="overview-container-content">
+						<TimeLine title="年份分布" Data={timeLineData} id="involved" />
+						<ColumnarEcharts title="案由分布" Data={columnarData} id="involved" />
+						<RingEcharts title="案件类型分布" Data={RingData} id="involved" colorArray={colorArray} />
+					</div>
+				</Spin>
 			</div>
 		);
 	}

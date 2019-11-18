@@ -21,7 +21,7 @@ export default class Land extends React.Component {
 	}
 
 	getData = () => {
-		const { companyId } = this.props;
+		const { companyId, getAssetProfile } = this.props;
 		this.setState({
 			loading: true,
 		});
@@ -31,11 +31,17 @@ export default class Land extends React.Component {
 		getLand(params)
 			.then((res) => {
 				if (res.code === 200) {
+					const RingData = res.data.infoTypes;
+					const columnarData = res.data.roleDistributions;
+					const timeLineData = res.data.yearDistributions;
+					const allNum = getCount(columnarData) + getCount(RingData) + getCount(timeLineData);
+					getAssetProfile(allNum, 'Land');
+
 					this.setState({
 						loading: false,
-						RingData: res.data.infoTypes, // 信息类型
-						columnarData: res.data.roleDistributions, // 角色分布
-						timeLineData: res.data.yearDistributions, // 年份分布
+						RingData, // 信息类型
+						columnarData, // 角色分布
+						timeLineData, // 年份分布
 					});
 				} else {
 					this.setState({ loading: false });

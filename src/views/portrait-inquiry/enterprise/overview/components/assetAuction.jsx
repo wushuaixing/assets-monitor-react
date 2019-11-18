@@ -23,7 +23,7 @@ export default class AssetAuction extends React.Component {
 	}
 
 	getData = () => {
-		const { companyId } = this.props;
+		const { companyId, getAssetProfile } = this.props;
 		this.setState({
 			loading: true,
 		});
@@ -41,6 +41,7 @@ export default class AssetAuction extends React.Component {
 						selectType: res.data.auctionInfos[1].count > 0 ? 'threeMonth' : 'all',
 						loading: false,
 					});
+					getAssetProfile(res.data.auctionInfos[0].count, 'AssetAuction');
 				} else {
 					this.setState({ loading: false });
 				}

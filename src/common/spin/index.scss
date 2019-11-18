@@ -1,11 +1,8 @@
 .yc-spin-wrapper{
-  min-height: 88px;
+  min-height: 150px;
   position: relative;
   border-radius: 2px;
   height:100%;
-  .yc-spin-content{
-    //position: relative;
-  }
   .yc-spin-blur{
     filter:blur(1px);
   }
