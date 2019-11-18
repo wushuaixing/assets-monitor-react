@@ -46,6 +46,8 @@ export default class OverView extends React.Component {
 		getLitigation(params)
 			.then((res) => {
 				if (res.code === 200) {
+					console.log(res.data.litigationInfos);
+
 					this.setState({
 						yearDistributions: res.data.assetOverviewDishonestInfo.yearDistributions,
 						litigationInfos: res.data.litigationInfos,
@@ -83,6 +85,7 @@ export default class OverView extends React.Component {
 		const {
 			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos,
 		} = this.state;
+
 		return (
 			<div className="inquiry-overview">
 				<div className="mark-line" />
@@ -113,7 +116,7 @@ export default class OverView extends React.Component {
 					<div className="yc-overview-title">涉诉情况</div>
 					<div className="yc-overview-container">
 						{/*  涉诉信息 */}
-						<Information litigationInfosArray={litigationInfos} companyId={companyId} />
+						{litigationInfos.length > 0 && <Information litigationInfosArray={litigationInfos} companyId={companyId} />}
 						{/*  失信记录 */}
 						<LostLetter timeLineData={yearDistributions} companyId={companyId} />
 					</div>
