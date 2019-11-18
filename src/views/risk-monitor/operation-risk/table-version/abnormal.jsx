@@ -41,13 +41,15 @@ const removeSituation = (val, row) => {
 				<span className="list list-title align-justify list-title-50">移除原因</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">
-					<Ellipsis content={removeReason} tooltip line={1} width={150} />
+					<Ellipsis content={removeReason} tooltip line={1} width={200} />
 				</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify list-title-50">决定机关</span>
+				<span className="list list-title align-justify list-title-50">移除机关</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{removeDepartment || '--'}</span>
+				<span className="list list-content">
+					<Ellipsis content={removeDepartment} tooltip line={1} width={200} />
+				</span>
 			</li>
 		</div>
 	);
@@ -85,7 +87,7 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">决定机关</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.putDepartment || '-'}</span>
+						<span className="list list-content" style={{ maxWidth: 600 }}>{row.putDepartment || '-'}</span>
 					</li>
 				</div>
 			),
