@@ -38,7 +38,7 @@ const skip = (text, row) => {
 
 				const hide = message.loading('正在切换机构,请稍后...', 0);
 				setTimeout(() => {
-					// window.location.reload(); // 实现页面重新加载/
+					window.location.reload(); // 实现页面重新加载/
 					const w = window.open('about:blank');
 					w.location.href = `#/${text}`;
 				}, latency);

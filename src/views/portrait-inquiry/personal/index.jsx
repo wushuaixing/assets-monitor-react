@@ -40,7 +40,7 @@ const source = () => [
 
 /* 企业概要 */
 const PersonalInfo = (props) => {
-	const { download, info } = props;
+	const { download, info, urlInfo } = props;
 	return (
 		<div className="personal-info">
 			<div className="intro-icon">
@@ -49,14 +49,14 @@ const PersonalInfo = (props) => {
 			<div className="intro-content">
 				<div className="intro-title">
 					<span className="yc-public-title-large-bold intro-title-name">
-						{info.name}
+						{info.name || urlInfo.name}
 						{info.isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 					</span>
 				</div>
 				<div className="intro-base-info">
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">证件号：</span>
-						<span className="yc-public-title">{info.number || '--'}</span>
+						<span className="yc-public-title">{info.number || urlInfo.num}</span>
 					</li>
 				</div>
 			</div>
@@ -138,7 +138,6 @@ export default class Personal extends React.Component {
 		});
 		getInfo(params)
 			.then((res) => {
-				console.log(res);
 				if (res.code === 200) {
 					this.setState({
 						infoSource: res.data,
@@ -225,8 +224,8 @@ export default class Personal extends React.Component {
 							<div className={`personal-intro${childDom ? '' : ' personal-intro-child'}${affixStatus ? ' personal-intro-affix' : ''}`} id="personal-intro">
 								{
 									affixStatus
-										? <PersonalInfoSimple download={this.handleDownload} info={infoSource} />
-										: <PersonalInfo download={this.handleDownload} info={infoSource} />
+										? <PersonalInfoSimple download={this.handleDownload} info={infoSource} urlInfo={this.info} />
+										: <PersonalInfo download={this.handleDownload} info={infoSource} urlInfo={this.info} />
 								}
 								<Tabs.Simple
 									onChange={this.onSourceType}

@@ -2,10 +2,12 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Icon, Spin, Table } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
+import personalAssets from '@/utils/api/portrait-inquiry/personal/assets';
 import { getQueryByName, linkDom, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 const { judgment } = assets;
+const { personalJudgment } = personalAssets;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -82,7 +84,10 @@ export default class TableIntact extends React.Component {
 			companyId: getQueryByName(window.location.href, 'id'),
 		};
 		this.setState({ loading: true });
-		judgment.list({
+		// 判断是个人还是企业
+		const commonJudgment = portrait === 'personal' ? personalJudgment : judgment;
+
+		commonJudgment.list({
 			page: page || 1,
 			num: 5,
 			...params,
