@@ -88,9 +88,9 @@ export default class Dishonest extends React.Component {
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					dataSource: res.data,
+					dataSource: res.data.list,
 					current: res.data.page,
-					total: res.data.length,
+					total: res.data.total,
 					loading: false,
 				});
 			} else {
@@ -125,7 +125,7 @@ export default class Dishonest extends React.Component {
 								showHeader={false}
 								pagination={false}
 							/>
-							{dataSource && dataSource.length > 0 && false && (
+							{dataSource && dataSource.length > 0 && (
 								<div className="yc-table-pagination">
 									<Pagination
 										showQuickJumper
