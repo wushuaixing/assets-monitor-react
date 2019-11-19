@@ -12,7 +12,7 @@ export const toGetTotal = (field, data) => {
 };
 
 export const toGetNumber = (data, id) => {
-	const item = data.filter(i => i.id === id)[0];
+	const item = data && data.filter(i => i.id === id)[0];
 	return item.field ? item.data[item.field] : item.data;
 };
 
