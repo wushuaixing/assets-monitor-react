@@ -44,19 +44,19 @@ const PersonalInfo = (props) => {
 	return (
 		<div className="personal-info">
 			<div className="intro-icon">
-				<span>{info.obligorName ? info.obligorName.slice(0, 1) : ''}</span>
+				<span>{info.name ? info.name.slice(0, 1) : ''}</span>
 			</div>
 			<div className="intro-content">
 				<div className="intro-title">
 					<span className="yc-public-title-large-bold intro-title-name">
-						{info.obligorName}
-						{/* <img className="intro-title-tag" src={Dishonest} alt="" /> */}
+						{info.name}
+						{info.isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 					</span>
 				</div>
 				<div className="intro-base-info">
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">证件号：</span>
-						<span className="yc-public-title">{info.obligorNumber || '--'}</span>
+						<span className="yc-public-title">{info.number || '--'}</span>
 					</li>
 				</div>
 			</div>
@@ -75,7 +75,7 @@ const PersonalInfoSimple = (props) => {
 		<div className="personal-info">
 			<div className="intro-title">
 				<span className="yc-public-title-large-bold intro-title-name">
-					{info.obligorName}
+					{info.name}
 					<img className="intro-title-tag" src={Dishonest} alt="" />
 				</span>
 			</div>
@@ -92,6 +92,7 @@ export default class Personal extends React.Component {
 		super(props);
 		const defaultSourceType = window.location.hash.match(/\/personal\/(\d{3})\/?/);
 		this.state = {
+			infoSource: '',
 			tabConfig: source(),
 			countSource: {
 				assets: [],
@@ -138,9 +139,9 @@ export default class Personal extends React.Component {
 		getInfo(params)
 			.then((res) => {
 				console.log(res);
-
 				if (res.code === 200) {
 					this.setState({
+						infoSource: res.data,
 						loading: false,
 					});
 				} else {
@@ -212,7 +213,7 @@ export default class Personal extends React.Component {
 
 	render() {
 		const {
-			tabConfig, sourceType, childDom, affixStatus, countSource, loading,
+			tabConfig, sourceType, childDom, affixStatus, countSource, loading, infoSource,
 		} = this.state;
 		return (
 			<div className="yc-inquiry-personal">
@@ -224,8 +225,8 @@ export default class Personal extends React.Component {
 							<div className={`personal-intro${childDom ? '' : ' personal-intro-child'}${affixStatus ? ' personal-intro-affix' : ''}`} id="personal-intro">
 								{
 									affixStatus
-										? <PersonalInfoSimple download={this.handleDownload} info={this.info} />
-										: <PersonalInfo download={this.handleDownload} info={this.info} />
+										? <PersonalInfoSimple download={this.handleDownload} info={infoSource} />
+										: <PersonalInfo download={this.handleDownload} info={infoSource} />
 								}
 								<Tabs.Simple
 									onChange={this.onSourceType}
