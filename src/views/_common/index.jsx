@@ -88,7 +88,7 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
  * 数据列表 - 当事人 - 横向
  * */
 export const PartyCrosswise = (props) => {
-	const { value, row } = props;
+	const { value, row, type } = props;
 	// 处理 当事人数据列表，分类
 	const handleParties = (data) => {
 		const source = [];
@@ -135,14 +135,26 @@ export const PartyCrosswise = (props) => {
 				<div style={{ padding: 15 }}>
 					<div className="assets-info-content">
 						<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-							<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>{row.caseNumber}</span>
+							<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>{row.caseNumber || '--'}</span>
 						</li>
 						<li>
-							<span className="list list-title align-justify">立案日期</span>
-							<span className="list list-title-colon">:</span>
-							<span className="list list-content">{timeStandard(row.gmtRegister)}</span>
+							{ type === 'trial' ? [
+								<span className="list list-title align-justify" style={{ width: 'auto' }}>立案日期</span>,
+								<span className="list list-title-colon">:</span>,
+								<span className="list list-content">{timeStandard(row.gmtRegister)}</span>,
+							] : '' }
+							{ type === 'court' ? [
+								<span className="list list-title align-justify" style={{ width: 'auto' }}>开庭日期</span>,
+								<span className="list list-title-colon">:</span>,
+								<span className="list list-content">{timeStandard(row.gmtTrial)}</span>,
+							] : '' }
+							{ type === 'judgment' ? [
+								<span className="list list-title align-justify" style={{ width: 'auto' }}>判决日期</span>,
+								<span className="list list-title-colon">:</span>,
+								<span className="list list-content">{timeStandard(row.gmtJudgment)}</span>,
+							] : '' }
 							<span className="list-split" style={{ height: 16 }} />
-							<span className="list list-title align-justify">处置单位</span>
+							<span className="list list-title align-justify" style={{ width: 'auto' }}>处置单位</span>
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content" style={{ maxWidth: 300 }}>{row.court || '-'}</span>
 						</li>

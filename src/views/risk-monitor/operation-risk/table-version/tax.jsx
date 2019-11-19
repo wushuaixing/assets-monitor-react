@@ -30,7 +30,8 @@ export default class TableIntact extends React.Component {
 				return (
 					<div className="assets-info-content">
 						<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-							{ toEmpty(ca || value) ? <Ellipsis content={ca || value} tooltip width={600} font={15} /> : '--' }
+							{ toEmpty(ca || value)
+								? <Ellipsis content={ca || value} tooltip url={row.url} width={600} font={15} /> : '--' }
 						</li>
 						<li>
 							<span className="list list-title align-justify">违法事实</span>

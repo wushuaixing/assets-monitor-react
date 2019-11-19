@@ -251,7 +251,7 @@ export const timeStandard = (text, mark) => {
 };
 
 //	返回a标签，可点击链接
-export const linkDom = (url, text, target, className, style) => React.createElement(
+export const linkDom = (url, text, target, className, style) => (url ? React.createElement(
 	'a',
 	{
 		href: url,
@@ -261,7 +261,7 @@ export const linkDom = (url, text, target, className, style) => React.createElem
 		style,
 	},
 	text,
-);
+) : text);
 //	返回a标签，可点击链接 => 债务人详情
 export const linkDetail = (id, text, target, className, style) => React.createElement(
 	'a',
