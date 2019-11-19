@@ -64,8 +64,7 @@ export default class Subrogation extends React.Component {
 							<div className="overview-container-title">
 								<div className="overview-left-item" />
 								<span className="container-title-num">
-									{getCount(timeLineData) + getCount(columnarData) + getCount(RingData)}
-									条
+									{`${getCount(timeLineData) + getCount(columnarData) + getCount(RingData)} 条`}
 								</span>
 								<span className="container-title-name">涉诉信息 (涉诉文书)</span>
 							</div>

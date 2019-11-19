@@ -50,8 +50,7 @@ export default class TaxViolation extends React.Component {
 					<div className="overview-container-title">
 						<div className="overview-left-item" />
 						<span className="container-title-num">
-							{getCount(RingData)}
-							条
+							{`${getCount(RingData)} 条`}
 						</span>
 						<span className="container-title-name">税收违法</span>
 					</div>

@@ -114,7 +114,9 @@ export default class Information extends React.Component {
 					<div>
 						<div className="overview-container-title">
 							<div className="overview-left-item" />
-							<span className="container-title-num">12条</span>
+							<span className="container-title-num">
+								{FilingNum || CourtNum || refereeNum ? `${FilingNum + CourtNum + refereeNum}  条` : ''}
+							</span>
 							<span className="container-title-name">  涉诉信息</span>
 						</div>
 						<div className="overview-container-content">
