@@ -8,7 +8,7 @@ import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import TableVersionModal from './tableVersionModal';
 
 import './style.scss';
-import { getQueryByName, toEmpty } from '@/utils';
+import { getQueryByName, toEmpty, timeStandard } from '@/utils';
 
 const { auction } = assets;
 
@@ -53,7 +53,7 @@ const AuctionInfo = (text, rowContent) => {
 			<br />
 			<li className="table-info-list list-width-180">
 				<span className="info info-title">开拍时间：</span>
-				<span className="info info-content">{start ? new Date(start * 1000).format('yyyy-MM-dd hh:mm') : '未知'}</span>
+				<span className="info info-content">{timeStandard(start, '未知')}</span>
 			</li>
 			{
 				{

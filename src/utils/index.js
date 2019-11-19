@@ -245,7 +245,10 @@ Date.prototype.format = function method(format) {
 	});
 	return fmt;
 };
-export const timeStandard = text => (text ? new Date(text * 1000).format('yyyy-MM-dd') : '--');
+export const timeStandard = (text, mark) => {
+	if (typeof text === 'number') return (text ? new Date(text * 1000).format('yyyy-MM-dd') : mark || '--');
+	return text;
+};
 
 //	返回a标签，可点击链接
 export const linkDom = (url, text, target, className, style) => React.createElement(
