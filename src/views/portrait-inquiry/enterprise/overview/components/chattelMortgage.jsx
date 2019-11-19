@@ -67,7 +67,9 @@ export default class ChattelMortgage extends React.Component {
 					<Spin visible={loading}>
 						<div className="overview-container-title">
 							<div className="overview-left-item" />
-							<span className="container-title-num">8条</span>
+							<span className="container-title-num">
+								{`${getCount(roleDistributions)} 条`}
+							</span>
 							<span className="container-title-name"> 动产抵押信息</span>
 						</div>
 						<div className="overview-container-content">

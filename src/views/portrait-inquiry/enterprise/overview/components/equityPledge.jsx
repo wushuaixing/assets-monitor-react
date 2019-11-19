@@ -66,7 +66,9 @@ export default class EquityPledge extends React.Component {
 					<Spin visible={loading}>
 						<div className="overview-container-title">
 							<div className="overview-left-item" />
-							<span className="container-title-num">8条</span>
+							<span className="container-title-num">
+								{`${getCount(roleDistributions)} 条`}
+							</span>
 							<span className="container-title-name"> 股权质押信息</span>
 						</div>
 						<div className="overview-container-content">

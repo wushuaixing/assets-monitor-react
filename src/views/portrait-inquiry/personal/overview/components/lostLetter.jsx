@@ -52,8 +52,7 @@ export default class LostLetter extends React.Component {
 					<div className="overview-container-title">
 						<div className="overview-left-item" />
 						<span className="container-title-num">
-							{getCount(timeLineData)}
-							条
+							{`${getCount(timeLineData)} 条`}
 						</span>
 						<span className="container-title-name">失信记录</span>
 					</div>

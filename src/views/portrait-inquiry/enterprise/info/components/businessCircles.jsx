@@ -3,7 +3,6 @@ import { Pagination } from 'antd';
 import { parseQuery } from '@/utils';
 import { Spin, Table } from '@/common';
 import { getChange } from '@/utils/api/portrait-inquiry/enterprise/info';
-import { formatDateTime } from '@/utils/changeTime';
 
 export default class BusinessCircles extends React.Component {
 	constructor(props) {
@@ -69,7 +68,7 @@ export default class BusinessCircles extends React.Component {
 			key: 'changeTime',
 			width: 200,
 			render(text) {
-				return <div>{text ? `${formatDateTime(text, 'onlyYear')}` : '-'}</div>;
+				return <div>{text || '-'}</div>;
 			},
 		}, {
 			title: '变更事项',

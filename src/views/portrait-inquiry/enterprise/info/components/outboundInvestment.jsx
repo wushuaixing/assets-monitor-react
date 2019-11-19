@@ -3,7 +3,6 @@ import { Pagination } from 'antd';
 import { parseQuery } from '@/utils';
 import { Spin, Table } from '@/common';
 import { getInvestment } from '@/utils/api/portrait-inquiry/enterprise/info';
-import { formatDateTime } from '@/utils/changeTime';
 
 export default class OutboundInvestment extends React.Component {
 	constructor(props) {
@@ -100,7 +99,7 @@ export default class OutboundInvestment extends React.Component {
 			key: 'regTime',
 			width: 120,
 			render(text) {
-				return <div>{text ? `${formatDateTime(text, 'onlyYear')}` : '-'}</div>;
+				return <div>{text || '-'}</div>;
 			},
 		}, {
 			title: '经营状态',

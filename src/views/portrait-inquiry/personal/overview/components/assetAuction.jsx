@@ -88,8 +88,12 @@ export default class AssetAuction extends React.Component {
 						</div>
 						<div className="overview-container-content">
 							<div style={{ marginBottom: 20 }}>
-								<Button disabled={threeMonth && threeMonth.count === 0} type={selectType === 'threeMonth' ? 'warning' : 'select'} style={{ marginRight: 10 }} onClick={() => this.checkTime('threeMonth')}>三个月内 8</Button>
-								<Button disabled={all && all.count === 0} type={selectType === 'all' ? 'warning' : 'select'} onClick={() => this.checkTime('all')}>全部 12</Button>
+								<Button disabled={threeMonth && threeMonth.count === 0} type={selectType === 'threeMonth' ? 'warning' : 'select'} style={{ marginRight: 10 }} onClick={() => this.checkTime('threeMonth')}>
+									{`三个月内 ${all.count}`}
+								</Button>
+								<Button disabled={all && all.count === 0} type={selectType === 'all' ? 'warning' : 'select'} onClick={() => this.checkTime('all')}>
+									{`全部 ${threeMonth.count}`}
+								</Button>
 							</div>
 							<ColumnarEcharts title="角色分布" Data={columnarData} id="assetAuction" />
 							<RingEcharts title="拍卖结果分布" Data={RingData} id="assetAuction" />
