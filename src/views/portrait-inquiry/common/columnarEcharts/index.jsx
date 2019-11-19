@@ -67,7 +67,9 @@ const getOption = (Data, id, title, newColumArray) => ({
 class ColumnarEcharts extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			newColumArray: [],
+		};
 	}
 
 	componentDidMount() {
@@ -91,7 +93,9 @@ class ColumnarEcharts extends React.Component {
 					Object.assign({}, item, { name: item.typeName || item.type, value: item.count }),
 				));
 		}
-
+		this.setState({
+			newColumArray,
+		});
 		const DOM = document.getElementById(`${id}ColumnarEcharts`);
 		const myChart = window.echarts.init(DOM);
 		const option = getOption(Data, id, title, newColumArray);
@@ -152,11 +156,13 @@ class ColumnarEcharts extends React.Component {
 	};
 
 	render() {
-		const { title, Data, id } = this.props;
+		const { title, id } = this.props;
+		const { newColumArray } = this.state;
+
 		return (
 			<div>
 				<div className="yc-columnar-title">{title}</div>
-				<div className="yc-columnar-echarts" style={{ width: 532, height: Data.length * 40 || 200 }} id={`${id}ColumnarEcharts`} />
+				<div className="yc-columnar-echarts" style={{ width: 532, height: newColumArray.length * 40 || 50 }} id={`${id}ColumnarEcharts`} />
 			</div>
 		);
 	}
