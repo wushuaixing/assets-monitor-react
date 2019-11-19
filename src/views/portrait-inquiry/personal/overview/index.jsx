@@ -53,7 +53,6 @@ export default class OverView extends React.Component {
 			return (
 				this.setState({
 					InvolvedCount: AssetProfileCountValue,
-					RiskSituation: loading,
 				})
 			);
 		case 'LostLetter':
@@ -67,7 +66,6 @@ export default class OverView extends React.Component {
 			return (
 				this.setState({
 					TaxViolationCount: AssetProfileCountValue,
-					RiskSituation: loading,
 				})
 			);
 		default: return '-';
@@ -110,7 +108,7 @@ export default class OverView extends React.Component {
 					<Spin visible={RiskSituation}>
 						{
 							InvolvedCount === 0 && LostLetterCount === 0 && TaxViolationCount === 0
-							&& <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
+							&& <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到风险信息" />
 						}
 					</Spin>
 				</div>

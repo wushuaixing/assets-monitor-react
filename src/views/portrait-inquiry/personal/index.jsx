@@ -10,9 +10,11 @@ import Risk from './risk';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
 import assets from '@/utils/api/portrait-inquiry/personal/assets';
 import risk from '@/utils/api/portrait-inquiry/personal/risk';
-import './style.scss';
+import { getInfo } from '@/utils/api/portrait-inquiry/personal/overview';
+import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
 import { requestAll } from '@/utils/promise';
+import './style.scss';
 
 const source = () => [
 	{
@@ -109,8 +111,11 @@ export default class Personal extends React.Component {
 		this.toTouchCount();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		console.log(nextProps);
+	componentDidMount() {
+		this.getData();
+	}
+
+	componentWillReceiveProps() {
 		const { sourceType, childDom } = this.state;
 		const defaultSourceType = Number((window.location.hash.match(/\/personal\/(\d{3})\/?/) || [])[1]) || 201;
 
@@ -123,6 +128,28 @@ export default class Personal extends React.Component {
 				this.toTouchCount();
 			});
 		}
+	}
+
+	getData = () => {
+		const params = this.info;
+		this.setState({
+			loading: true,
+		});
+		getInfo(params)
+			.then((res) => {
+				console.log(res);
+
+				if (res.code === 200) {
+					this.setState({
+						loading: false,
+					});
+				} else {
+					this.setState({ loading: false });
+				}
+			})
+			.catch(() => {
+				this.setState({ loading: false });
+			});
 	}
 
 	toGetInfo=() => ({
@@ -185,7 +212,7 @@ export default class Personal extends React.Component {
 
 	render() {
 		const {
-			tabConfig, sourceType, childDom, affixStatus, countSource,
+			tabConfig, sourceType, childDom, affixStatus, countSource, loading,
 		} = this.state;
 		return (
 			<div className="yc-inquiry-personal">
@@ -193,22 +220,23 @@ export default class Personal extends React.Component {
 				<div className="mark-line" />
 				<div className="inquiry-personal-content">
 					<Affix onChange={this.onChangeAffix}>
-						<div className={`personal-intro${childDom ? '' : ' personal-intro-child'}${affixStatus ? ' personal-intro-affix' : ''}`} id="personal-intro">
-							{
-								affixStatus
-									? <PersonalInfoSimple download={this.handleDownload} info={this.info} />
-									: <PersonalInfo download={this.handleDownload} info={this.info} />
-							}
-							<Tabs.Simple
-								onChange={this.onSourceType}
-								source={tabConfig}
-								symbol="none"
-								defaultCurrent={sourceType}
-							/>
-							{childDom}
-						</div>
+						<Spin visible={loading}>
+							<div className={`personal-intro${childDom ? '' : ' personal-intro-child'}${affixStatus ? ' personal-intro-affix' : ''}`} id="personal-intro">
+								{
+									affixStatus
+										? <PersonalInfoSimple download={this.handleDownload} info={this.info} />
+										: <PersonalInfo download={this.handleDownload} info={this.info} />
+								}
+								<Tabs.Simple
+									onChange={this.onSourceType}
+									source={tabConfig}
+									symbol="none"
+									defaultCurrent={sourceType}
+								/>
+								{childDom}
+							</div>
+						</Spin>
 					</Affix>
-
 					<Router>
 						<OverView toPushChild={this.handleAddChild} path="/*" />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/personal/202/*" count={countSource.assets} />

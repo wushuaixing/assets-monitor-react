@@ -34,3 +34,9 @@ export const getTaxIllegal = async (params) => {
 	const response = await service.get('/yc/search/portrait/personal/overview/risk/tax-illegal', { params });
 	return response.data;
 };
+
+// 个人信息
+export const getInfo = async (params) => {
+	const response = await service.get('/yc/search/portrait/personal/info', { params });
+	return response.data;
+};

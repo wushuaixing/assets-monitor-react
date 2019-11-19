@@ -1,7 +1,6 @@
 import React from 'react';
 import RingEcharts from '../../../common/ringEcharts';
 import { getTaxIllegal } from '@/utils/api/portrait-inquiry/personal/overview';
-import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
 import getCount from '../../../common/getCount';
 
@@ -25,9 +24,6 @@ export default class TaxViolation extends React.Component {
 	getData = () => {
 		const params = this.info;
 		const { getAssetProfile } = this.props;
-		this.setState({
-			loading: true,
-		});
 		getTaxIllegal(params)
 			.then((res) => {
 				if (res.code === 200) {
@@ -35,23 +31,22 @@ export default class TaxViolation extends React.Component {
 					getAssetProfile(getCount(RingData), 'TaxViolation', false);
 					this.setState({
 						RingData,
-						loading: false,
 					});
 				} else {
-					this.setState({ loading: false });
+					// this.setState({ loading: false });
 				}
 			})
 			.catch(() => {
-				this.setState({ loading: false });
+				// this.setState({ loading: false });
 			});
 	}
 
 	render() {
-		const { RingData, colorArray, loading } = this.state;
+		const { RingData, colorArray } = this.state;
 		return (
 			<div>
 				{RingData && getCount(RingData) > 0 && (
-				<Spin visible={loading}>
+				<div>
 					<div className="overview-container-title">
 						<div className="overview-left-item" />
 						<span className="container-title-num">
@@ -63,7 +58,7 @@ export default class TaxViolation extends React.Component {
 					<div className="overview-container-content">
 						<RingEcharts title="角色分布" Data={RingData} id="taxVolation" colorArray={colorArray} />
 					</div>
-				</Spin>
+				</div>
 				)}
 			</div>
 		);
