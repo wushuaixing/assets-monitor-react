@@ -16,7 +16,11 @@ export default class CourtIntact extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
-					<div className="yc-tabs-simple-prefix">{`开庭 ${count || 0}`}</div>
+					<div className="yc-tabs-simple-prefix">
+						开庭
+						<span className="yc-table-num">{count}</span>
+					</div>
+					{/* <div className="yc-tabs-simple-prefix">{`开庭 ${count || 0}`}</div> */}
 				</div>
 				<div className="inquiry-public-table">
 					<Court />

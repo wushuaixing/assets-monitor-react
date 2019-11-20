@@ -7,7 +7,7 @@ import { toGetTotal } from '@/utils/promise';
 
 const subItems = data => ([
 	{
-		id: 20100,
+		id: 20101,
 		name: '涉诉文书',
 		total: data ? toGetTotal('2010', data) : 0,
 		info: data ? data.filter(i => /2010/.test(i.id)) : '',
@@ -15,7 +15,7 @@ const subItems = data => ([
 		component: LawsuitsMonitor,
 	},
 	{
-		id: 20200,
+		id: 20201,
 		name: '失信记录',
 		total: data ? toGetTotal('2020', data) : 0,
 		info: data ? data.filter(i => /2020/.test(i.id)) : '',
@@ -23,7 +23,7 @@ const subItems = data => ([
 		component: BreakFaith,
 	},
 	{
-		id: 20300,
+		id: 20301,
 		name: '税收违法',
 		total: data ? toGetTotal('2030', data) : 0,
 		info: data ? data.filter(i => /2030/.test(i.id)) : '',

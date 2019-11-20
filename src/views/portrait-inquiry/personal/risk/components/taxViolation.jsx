@@ -1,110 +1,29 @@
 import React from 'react';
-import { Pagination } from 'antd';
-import { Spin, Table } from '@/common';
-import risk from '@/utils/api/portrait-inquiry/personal/risk';
-import { TaxViolation } from './common';
-import { getQueryByName } from '@/utils';
+import { Tax } from '@/views/risk-monitor/operation-risk/table-version';
+import { toGetNumber } from '@/utils/promise';
 
-const { tax } = risk;
-
-export default class TableIntact extends React.Component {
+export default class TaxIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: '',
-			current: 1,
-			total: 0,
-			loading: false,
+			count: toGetNumber(props.data, 30501),
 		};
 	}
-
-	componentWillMount() {
-		this.toGetData();
-	}
-
-	toGetColumns=() => [
-		{
-			dataIndex: 'caseNumber',
-			render: TaxViolation.taxViolationDetail,
-		}, {
-			dataIndex: 'caseNumber',
-			width: 258,
-			render: TaxViolation.taxViolationTrialCourt,
-		},
-	];
-
-	// 当前页数变化
-	onPageChange=(val) => {
-		this.toGetData(val);
-	};
-
-	// 查询数据methods
-	toGetData=(page) => {
-		const params = {
-			obligorName: getQueryByName(window.location.href, 'name'),
-			obligorNumber: getQueryByName(window.location.href, 'num'),
-		};
-		this.setState({ loading: true });
-		tax.list({
-			page: page || 1,
-			num: 5,
-			...params,
-		}).then((res) => {
-			console.log(res);
-			if (res.code === 200) {
-				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
-					loading: false,
-				});
-			} else {
-				this.setState({
-					dataSource: '',
-					current: 1,
-					total: 0,
-					loading: false,
-				});
-			}
-		}).catch(() => {
-			this.setState({ loading: false });
-		});
-	};
 
 	render() {
-		const { dataSource, current, total } = this.state;
-		const { loading } = this.state;
 		const { id } = this.props;
+		const { count } = this.state;
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
 					<div className="yc-tabs-simple-prefix">
-                        税收违法
-						<span className="yc-table-num">{total}</span>
+						税收违法
+						<span className="yc-table-num">{count}</span>
 					</div>
+					{/* <div className="yc-tabs-simple-prefix">{`税收违法 ${count || 0}`}</div> */}
 				</div>
-				<div className="yc-assets-auction">
-					<Spin visible={loading}>
-						<Table
-							rowClassName={() => 'yc-assets-auction-table-row'}
-							columns={this.toGetColumns()}
-							dataSource={dataSource}
-							showHeader={false}
-							pagination={false}
-						/>
-						{dataSource && dataSource.length > 0 && (
-							<div className="yc-table-pagination">
-								<Pagination
-									showQuickJumper
-									current={current || 1}
-									total={total || 0}
-									pageSize={5}
-									onChange={this.onPageChange}
-									showTotal={totalCount => `共 ${totalCount} 条信息`}
-								/>
-							</div>
-						)}
-					</Spin>
+				<div className="inquiry-public-table">
+					<Tax portrait="personal" />
 				</div>
 			</div>
 		);

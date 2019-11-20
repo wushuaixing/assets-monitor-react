@@ -1,7 +1,7 @@
 import service from '@/utils/service';
 
 const risk = {
-	judgment: {
+	personalJudgment: {
 		id: 20101,
 		name: '风险-涉诉文书',
 		params: {},
@@ -9,7 +9,7 @@ const risk = {
 		count: (params, id) => service.get('/yc/search/portrait/personal/risk/lawsuit/judgment-document/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
-	dishonest: {
+	personalDishonest: {
 		id: 20201,
 		name: '风险-失信记录',
 		params: {},
@@ -17,7 +17,7 @@ const risk = {
 		count: (params, id) => service.get('/yc/search/portrait/personal/risk/dishonest/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
-	tax: {
+	personalTax: {
 		id: 20301,
 		name: '风险-税收违法',
 		params: { obName: '贸易' },
