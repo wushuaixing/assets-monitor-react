@@ -92,6 +92,7 @@ export default class Personal extends React.Component {
 		super(props);
 		const defaultSourceType = window.location.hash.match(/\/personal\/(\d{3})\/?/);
 		this.state = {
+			loading: true,
 			infoSource: '',
 			tabConfig: source(),
 			countSource: {
@@ -110,11 +111,13 @@ export default class Personal extends React.Component {
 
 	componentWillMount() {
 		this.toTouchCount();
-	}
-
-	componentDidMount() {
 		this.getData();
 	}
+
+	// componentDidMount() {
+	// 	this.toTouchCount();
+	// 	this.getData();
+	// }
 
 	componentWillReceiveProps() {
 		const { sourceType, childDom } = this.state;
@@ -133,20 +136,17 @@ export default class Personal extends React.Component {
 
 	getData = () => {
 		const params = this.info;
-		this.setState({
-			loading: true,
-		});
-		getInfo(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						infoSource: res.data,
-						loading: false,
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
+		getInfo(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					infoSource: res.data,
+					loading: false,
+				});
+				console.log(111);
+			} else {
+				this.setState({ loading: false });
+			}
+		})
 			.catch(() => {
 				this.setState({ loading: false });
 			});
@@ -214,13 +214,16 @@ export default class Personal extends React.Component {
 		const {
 			tabConfig, sourceType, childDom, affixStatus, countSource, loading, infoSource,
 		} = this.state;
+		console.log(loading, 333);
+
 		return (
 			<div className="yc-inquiry-personal">
 				<QueryView type={2} />
 				<div className="mark-line" />
 				<div className="inquiry-personal-content">
-					<Affix onChange={this.onChangeAffix}>
-						<Spin visible={loading}>
+					<Spin visible={loading}>
+						<Affix onChange={this.onChangeAffix}>
+
 							<div className={`personal-intro${childDom ? '' : ' personal-intro-child'}${affixStatus ? ' personal-intro-affix' : ''}`} id="personal-intro">
 								{
 									affixStatus
@@ -235,8 +238,9 @@ export default class Personal extends React.Component {
 								/>
 								{childDom}
 							</div>
-						</Spin>
-					</Affix>
+						</Affix>
+
+					</Spin>
 					<Router>
 						<OverView toPushChild={this.handleAddChild} path="/*" />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/personal/202/*" count={countSource.assets} />

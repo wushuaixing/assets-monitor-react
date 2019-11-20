@@ -13,6 +13,7 @@ export default class Subrogation extends React.Component {
 			columnarData: [],
 			RingData: [],
 			timeLineData: [],
+			allNum: 0,
 			colorArray: ['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A'],
 		};
 		this.info = {
@@ -31,12 +32,13 @@ export default class Subrogation extends React.Component {
 		getLitigation(params)
 			.then((res) => {
 				if (res.code === 200) {
-					const timeLineData = res.data.litigationInfos.yearDistributions;
-					const columnarData = res.data.litigationInfos.caseReasons;
-					const RingData = res.data.litigationInfos.caseTypes;
-					const allNum = res.data.litigationInfos.count;
+					const timeLineData = res.data.litigationInfo.yearDistributions;
+					const columnarData = res.data.litigationInfo.caseReasons;
+					const RingData = res.data.litigationInfo.caseTypes;
+					const allNum = res.data.litigationInfo.count;
 					getAssetProfile(allNum, 'Involved', false);
 					this.setState({
+						allNum,
 						RingData,
 						columnarData,
 						timeLineData,
@@ -52,7 +54,7 @@ export default class Subrogation extends React.Component {
 
 	render() {
 		const {
-			columnarData, RingData, timeLineData, colorArray,
+			columnarData, RingData, timeLineData, colorArray, allNum,
 		} = this.state;
 
 		return (
@@ -64,7 +66,7 @@ export default class Subrogation extends React.Component {
 							<div className="overview-container-title">
 								<div className="overview-left-item" />
 								<span className="container-title-num">
-									{`${getCount(timeLineData) + getCount(columnarData) + getCount(RingData)} 条`}
+									{`${allNum || '-'} 条`}
 								</span>
 								<span className="container-title-name">涉诉信息 (涉诉文书)</span>
 							</div>

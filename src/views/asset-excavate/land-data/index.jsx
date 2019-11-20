@@ -85,13 +85,13 @@ export default class Lawsuits extends React.Component {
 	}
 
 	// 清除排序状态
-	toClearSortStatus=() => {
+	toClearSortStatus = () => {
 		this.condition.sortColumn = '';
 		this.condition.sortOrder = '';
 	};
 
 	// 获取统计信息
-	toInfoCount=() => {
+	toInfoCount = () => {
 		if (this.tempParam) return;
 		Api.infoCount({ isRead: 0 }).then((res) => {
 			if (res.code === 200) {
@@ -121,13 +121,13 @@ export default class Lawsuits extends React.Component {
 	};
 
 	// 切换列表类型
-	handleReadChange=(val) => {
+	handleReadChange = (val) => {
 		this.setState({ isRead: val });
 		this.onQueryChange(this.condition, '', val, 1);
 	};
 
 	// 全部标记为已读
-	handleAllRead=() => {
+	handleAllRead = () => {
 		const _this = this;
 		const { sourceType, tabConfig } = this.state;
 
@@ -154,7 +154,7 @@ export default class Lawsuits extends React.Component {
 	};
 
 	// 批量关注
-	handleAttention=() => {
+	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource, sourceType } = this.state;
@@ -185,7 +185,7 @@ export default class Lawsuits extends React.Component {
 						}
 					});
 				},
-				onCancel() {},
+				onCancel() { },
 			});
 		} else {
 			message.warning('未选中业务');
@@ -193,7 +193,7 @@ export default class Lawsuits extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -204,7 +204,7 @@ export default class Lawsuits extends React.Component {
 	};
 
 	// sourceType变化
-	onSourceType=(val) => {
+	onSourceType = (val) => {
 		const { isRead } = this.state;
 		this.setState({
 			sourceType: val,
@@ -219,14 +219,14 @@ export default class Lawsuits extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		const { manage } = this.state;
 		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
 	// 排序触发
-	onSortChange=(field, order) => {
+	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
@@ -234,13 +234,13 @@ export default class Lawsuits extends React.Component {
 	};
 
 	// 查询条件变化
-	onQuery =(con) => {
+	onQuery = (con) => {
 		this.toClearSortStatus();
 		this.onQueryChange(con, '', '', 1);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
+	onQueryChange = (con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
 		const { loading } = this.state;
 		this.condition = Object.assign(con || this.condition, {
@@ -274,14 +274,16 @@ export default class Lawsuits extends React.Component {
 	clearSelectRowNum = () => this.selectRow = [];
 
 	// 查询是否有未读消息
-	onUnReadCount=() => {
+	onUnReadCount = () => {
 		const { tabConfig } = this.state;
 		unReadCount().then((res) => {
 			const { data, code } = res;
 			if (code === 200) {
 				const _tabConfig = tabConfig.map((item) => {
 					const _item = item;
-					if (_item.id === 1)_item.dot = data.landResultFlag;
+					if (_item.id === 1) _item.dot = data.landTransferFlag;
+					if (_item.id === 2) _item.dot = data.landTransactionFlag;
+					if (_item.id === 3) _item.dot = data.landMortgageFlag;
 					return _item;
 				});
 				this.setState({ tabConfig: _tabConfig });

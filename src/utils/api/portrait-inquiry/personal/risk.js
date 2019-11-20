@@ -5,7 +5,7 @@ const risk = {
 		id: 20101,
 		name: '风险-涉诉文书',
 		params: {},
-		list: params => service.get('/yc/search/portrait/personal/risk/judgment-document/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/search/portrait/personal/risk/lawsuit/judgment-document/list', { params }).then(res => res.data),
 		count: (params, id) => service.get('/yc/search/portrait/personal/risk/lawsuit/judgment-document/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
