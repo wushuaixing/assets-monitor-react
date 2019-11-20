@@ -41,12 +41,12 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">抵押物所有人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
-							{ toEmpty(row.people) ? <Ellipsis content={row.people} tooltip width={200} /> : '--'}
+							{ toEmpty(row.owner) ? <Ellipsis content={row.owner} tooltip width={200} /> : '--'}
 						</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">担保债权数额</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content " style={{ width: 120 }}>{row.amount}</span>
+						<span className="list list-content " style={{ width: 120 }}>{row.amount ? `${row.amount}万人民币` : ''}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">债务人履行债务的期限</span>
 						<span className="list list-title-colon">:</span>
@@ -61,13 +61,27 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ lineHeight: '20px' }}>
-						<Icon type="icon-dot" style={{ fontSize: 12, color: row.state === 0 ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
-						<span className="list list-content ">{row.state === 0 ? '有效' : '无效'}</span>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: row.status === 0 ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
+						<span className="list list-content ">{row.status === 0 ? '有效' : '无效'}</span>
 					</li>
+					{
+						row.status === 0 ? [
+							<li>
+								<span className="list list-title align-justify">注销时间</span>
+								<span className="list list-title-colon">:</span>
+								<span className="list list-content">{row.cancelDate || '-'}</span>
+							</li>,
+							<li>
+								<span className="list list-title align-justify">注销原因</span>
+								<span className="list list-title-colon">:</span>
+								<span className="list list-content">{row.cancelReason || '-'}</span>
+							</li>,
+						] : null
+					}
 					<li>
 						<span className="list list-title align-justify">登记编号</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.regNumber || '-'}</span>
+						<span className="list list-content">{row.regNum || '-'}</span>
 					</li>
 				</div>
 			),
