@@ -15,6 +15,7 @@ export default class Chattel extends React.Component {
 					number: toGetNumber(props.data, 10601),
 					showNumber: true,
 					disabled: !toGetNumber(props.data, 10601),
+					tooltip: '查询主体作为抵押物所有人向其债权人抵押财产',
 				},
 				{
 					id: 10602,
@@ -22,6 +23,7 @@ export default class Chattel extends React.Component {
 					number: toGetNumber(props.data, 10602),
 					showNumber: true,
 					disabled: !toGetNumber(props.data, 10602),
+					tooltip: '查询主体作为债权人享有的抵押权信息',
 				}],
 		};
 	}

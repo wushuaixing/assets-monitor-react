@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Spin } from '@/common';
+import { Button, Spin, NoContent } from '@/common';
 import Trial from './trial';
 import Court from './court';
 import Judgment from './judgment';
@@ -110,12 +110,19 @@ export default class Lawsuits extends React.Component {
 
 	render() {
 		const { config, loading } = this.state;
+		const { count } = this.props;
+		const aryResult = (subItems(count).filter(i => i.total > 0)).length;
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
 				{
 					loading ? <Spin visible minHeight={350} /> : (
-						config.map(Item => (
-							Item.total ? <Item.component id={Item.tagName} data={Item.info} /> : ''))
+						<div>
+							{
+								aryResult ? config.map(Item => (
+									Item.total ? <Item.component id={Item.tagName} data={Item.info} /> : ''))
+									: <NoContent />
+							}
+						</div>
 					)
 				}
 			</div>

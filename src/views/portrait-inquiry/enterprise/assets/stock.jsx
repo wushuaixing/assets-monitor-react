@@ -15,6 +15,7 @@ export default class Stock extends React.Component {
 					number: toGetNumber(props.data, 10501),
 					showNumber: true,
 					disabled: !(toGetNumber(props.data, 10501)),
+					tooltip: '查询主体作为股权持有人向其债权人出质股权',
 				},
 				{
 					id: 10502,
@@ -22,6 +23,7 @@ export default class Stock extends React.Component {
 					number: toGetNumber(props.data, 10502),
 					showNumber: true,
 					disabled: !(toGetNumber(props.data, 10502)),
+					tooltip: '查询主体作为出质人的债权人，出质人将其持有的股权质押给查询主体',
 				}],
 		};
 	}
@@ -42,6 +44,7 @@ export default class Stock extends React.Component {
 					onChange={this.onSourceType}
 					source={config}
 					symbol="none"
+					defaultCurrent={sourceType}
 					prefix={<div className="yc-tabs-simple-prefix">股权质押</div>}
 				/>
 				<div className="inquiry-public-table">

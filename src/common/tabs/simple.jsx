@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip } from 'antd';
 import { parseQuery } from '@/utils';
 import Badge from '../badge';
 import './style.scss';
@@ -80,9 +81,21 @@ class SimpleTab extends React.Component {
 							onClick={() => this.onClick(item)}
 						>
 							<div className="yc-tabs-active-line" />
-							<Badge dot={item.dot}>
-								{ item.showNumber ? `${item.name}${symbolAry[0]}${numUnit(item.number)}${symbolAry[1]}` : item.name}
-							</Badge>
+							{
+								item.tooltip ? (
+									<Tooltip placement="top" title={item.tooltip}>
+										<span>
+											<Badge dot={item.dot}>
+												{ item.showNumber ? `${item.name}${symbolAry[0]}${numUnit(item.number)}${symbolAry[1]}` : item.name}
+											</Badge>
+										</span>
+									</Tooltip>
+								) : (
+									<Badge dot={item.dot}>
+										{ item.showNumber ? `${item.name}${symbolAry[0]}${numUnit(item.number)}${symbolAry[1]}` : item.name}
+									</Badge>
+								)
+							}
 						</li>
 					))}
 				</ul>

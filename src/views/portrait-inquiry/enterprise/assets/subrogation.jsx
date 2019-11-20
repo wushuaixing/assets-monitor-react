@@ -1,7 +1,9 @@
 import React from 'react';
-import { Tabs } from '@/common';
+import { Tooltip } from 'antd';
+import { Tabs, Icon } from '@/common';
 import { Court, Trial, Judgment } from '@/views/asset-excavate/subrogation/table-version';
 import { toGetNumber, toGetDefaultId } from '@/utils/promise';
+
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -50,7 +52,14 @@ export default class Subrogation extends React.Component {
 					onChange={this.onSourceType}
 					source={config}
 					symbol="none"
-					prefix={<div className="yc-tabs-simple-prefix">代位权</div>}
+					prefix={(
+						<div className="yc-tabs-simple-prefix" style={{ width: 100 }}>
+							<span>代位权</span>
+							<Tooltip placement="top" title="查询主体作为原告起诉他人的案件">
+								<span><Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} /></span>
+							</Tooltip>
+						</div>
+					)}
 				/>
 				<div className="inquiry-public-table">
 					{sourceType === 10201 ? <Trial /> : null}
