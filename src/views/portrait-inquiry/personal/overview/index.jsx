@@ -87,12 +87,14 @@ export default class OverView extends React.Component {
 						{/* 代位权信息 (裁判文书) */}
 						<Subrogation getAssetProfile={this.getAssetProfile} />
 					</div>
-					<Spin visible={AssetAuctionLoading}>
-						{
-							AssetAuctionCount === 0 && SubrogationCount === 0
-							&& <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
-						}
-					</Spin>
+					{
+					AssetAuctionCount === 0 && SubrogationCount === 0
+						&& (
+						<Spin visible={AssetAuctionLoading}>
+							<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
+						</Spin>
+						)
+					}
 				</div>
 				<div className="overview-line" />
 				<div className="overview-right">
@@ -105,12 +107,15 @@ export default class OverView extends React.Component {
 						{/* 税收违法 */}
 						<TaxViolation getAssetProfile={this.getAssetProfile} />
 					</div>
-					<Spin visible={RiskSituation}>
-						{
-							InvolvedCount === 0 && LostLetterCount === 0 && TaxViolationCount === 0
-							&& <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到风险信息" />
+
+					{
+						InvolvedCount === 0 && LostLetterCount === 0 && TaxViolationCount === 0
+							&& (
+							<Spin visible={RiskSituation}>
+								<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到风险信息" />
+							</Spin>
+							)
 						}
-					</Spin>
 				</div>
 			</div>
 		);

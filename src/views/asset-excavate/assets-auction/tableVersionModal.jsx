@@ -6,8 +6,8 @@ import { toThousands } from '@/utils/changeTime';
 const status = (value) => {
 	switch (value) {
 	case 1: return '即将开始';
-	case 3: return '拍卖中';
-	case 5: return '成功交易';
+	case 3: return '正在进行';
+	case 5: return '已成交';
 	case 7: return '已流拍';
 	case 9: return '中止';
 	case 11: return '撤回';

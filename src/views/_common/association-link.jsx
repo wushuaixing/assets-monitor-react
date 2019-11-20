@@ -164,7 +164,9 @@ class AssociationLink extends React.Component {
 	};
 
 	/* 处理数据 */
-	handleSource =(source) => {
+	handleSource = (source) => {
+		console.log(source, 33);
+
 		const { associatedInfo: { trialAssociatedInfo: La, courtAssociatedInfo: Kt, judgmentAssociatedInfo: Ws } } = source;
 		const resContent = [];
 		if (La.length > 0) {

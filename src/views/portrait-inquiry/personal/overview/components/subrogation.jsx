@@ -11,6 +11,7 @@ export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			allNum: 0,
 			columnarData: [],
 			RingData: [],
 			timeLineData: [],
@@ -41,6 +42,7 @@ export default class Subrogation extends React.Component {
 					const allNum = res.data.subrogationInfo.count;
 					getAssetProfile(allNum, 'Subrogation', false);
 					this.setState({
+						allNum,
 						RingData,
 						columnarData,
 						timeLineData,
@@ -57,7 +59,7 @@ export default class Subrogation extends React.Component {
 
 	render() {
 		const {
-			columnarData, RingData, timeLineData, colorArray, loading,
+			columnarData, RingData, timeLineData, colorArray, loading, allNum,
 		} = this.state;
 
 		return (
@@ -69,7 +71,7 @@ export default class Subrogation extends React.Component {
 							<div className="overview-container-title">
 								<div className="overview-left-item" />
 								<span className="container-title-num">
-									{`${getCount(timeLineData) + getCount(columnarData) + getCount(RingData)} 条`}
+									{`${allNum || '-'} 条`}
 								</span>
 								<span className="container-title-name"> 代位权信息 (裁判文书)</span>
 							</div>

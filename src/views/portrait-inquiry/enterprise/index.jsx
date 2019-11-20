@@ -158,7 +158,7 @@ export default class Enterprise extends React.Component {
 			childDom: '',
 			sourceType: defaultSourceType ? Number(defaultSourceType[1]) : 101,
 			affixStatus: false,
-			loading: false,
+			loading: true,
 			infoSource: {},
 			countSource: {
 				assets: [],
@@ -172,13 +172,22 @@ export default class Enterprise extends React.Component {
 		const companyId = getQueryByName(window.location.href, 'id');
 		companyInfo({ companyId }).then((res) => {
 			if (res.code === 200) {
-				this.setState({ infoSource: res.data });
+				this.setState({
+					infoSource: res.data,
+					loading: false,
+				});
 				[{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
 					.forEach(item => this.toGetChildCount(companyId, item.d, item.f, item.i));
 			} else {
 				message.error('网络请求失败！');
+				this.setState({
+					loading: false,
+				});
 			}
 		}).catch(() => {
+			this.setState({
+				loading: false,
+			});
 		});
 	}
 
@@ -260,7 +269,6 @@ export default class Enterprise extends React.Component {
 								{childDom}
 							</div>
 						</Spin>
-
 					</Affix>
 					<Router>
 						<Overview toPushChild={this.handleAddChild} path="/*" />

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
-import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
+import risk from '@/utils/api/portrait-inquiry/personal/risk';
 import { breakFaith } from './common';
 import { getQueryByName } from '@/utils';
 
-const { trial } = assets;
+const { dishonest } = risk;
 
 
 export default class TableIntact extends React.Component {
@@ -46,7 +46,7 @@ export default class TableIntact extends React.Component {
 			obligorNumber: getQueryByName(window.location.href, 'num'),
 		};
 		this.setState({ loading: true });
-		trial.list({
+		dishonest.list({
 			page: page || 1,
 			num: 5,
 			...params,
@@ -80,7 +80,7 @@ export default class TableIntact extends React.Component {
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
 					<div className="yc-tabs-simple-prefix">
-                        失信记录
+              失信记录
 						<span className="yc-table-num">{total}</span>
 					</div>
 				</div>

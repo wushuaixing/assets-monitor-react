@@ -1,11 +1,11 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
-import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
+import risk from '@/utils/api/portrait-inquiry/personal/risk';
 import { TaxViolation } from './common';
 import { getQueryByName } from '@/utils';
 
-const { trial } = assets;
+const { tax } = risk;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -45,7 +45,7 @@ export default class TableIntact extends React.Component {
 			obligorNumber: getQueryByName(window.location.href, 'num'),
 		};
 		this.setState({ loading: true });
-		trial.list({
+		tax.list({
 			page: page || 1,
 			num: 5,
 			...params,

@@ -34,9 +34,12 @@ build_step:
     - dev-branch
   script:
     - rm ./docs/* -rf
+<<<<<<< HEAD
+=======
     - mv -f ./src/utils/api/config/index.js ./src/utils/api/config/temp.js
     - mv -f ./src/utils/api/config/dev.js ./src/utils/api/config/index.js
     - cat ./src/utils/api/config/index.js
+>>>>>>> e9d0f6f600af13a36428c3ee1bbd8e8575a3d330
     - yarn build:index
 
 # 拷贝
