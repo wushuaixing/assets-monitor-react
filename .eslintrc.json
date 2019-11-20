@@ -61,7 +61,7 @@
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true , "peerDependencies": true}],
     "linebreak-style": [
       "error",
-      "unix"
+      "windows"
     ],
     "quotes": [
       "error",
