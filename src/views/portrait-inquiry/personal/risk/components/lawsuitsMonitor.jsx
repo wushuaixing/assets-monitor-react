@@ -1,5 +1,5 @@
 import React from 'react';
-import { LawsuitsMonitor } from './table-version';
+import { Judgment } from '@/views/risk-monitor/lawsuits-monitor/table-version';
 
 export default class lawsuitsMonitor extends React.Component {
 	constructor(props) {
@@ -20,7 +20,7 @@ export default class lawsuitsMonitor extends React.Component {
 					</div>
 				</div>
 				<div className="inquiry-public-table">
-					<LawsuitsMonitor portrait="personal" />
+					<Judgment portrait="personal" />
 				</div>
 			</div>
 		);

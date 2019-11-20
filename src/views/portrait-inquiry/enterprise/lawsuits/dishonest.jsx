@@ -2,9 +2,12 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Ellipsis, Spin, Table } from '@/common';
 import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
+import risk from '@/utils/api/portrait-inquiry/personal/risk';
 import { getQueryByName, toEmpty } from '@/utils';
 
 const { dishonest } = lawsuits;
+const { personalDishonest } = risk;
+
 export default class Dishonest extends React.Component {
 	constructor(props) {
 		super(props);
@@ -79,12 +82,20 @@ export default class Dishonest extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = portrait === 'personal' ? {
+			obligorName: getQueryByName(window.location.href, 'name'),
+			obligorNumber: getQueryByName(window.location.href, 'num'),
+		} : {
+			companyId: getQueryByName(window.location.href, 'id'),
+		};
 		this.setState({ loading: true });
-		dishonest.list({
+		// 判断是个人还是企业
+		const commonDishonest = portrait === 'personal' ? personalDishonest : dishonest;
+		commonDishonest.list({
 			page: page || 1,
-			companyId,
 			num: 5,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -113,7 +124,11 @@ export default class Dishonest extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
-					<div className="yc-tabs-simple-prefix">{`失信记录 ${total || 0}`}</div>
+					<div className="yc-tabs-simple-prefix">
+							失信记录
+						<span className="yc-table-num">{total}</span>
+					</div>
+					{/* <div className="yc-tabs-simple-prefix">{`失信记录 ${total || 0}`}</div> */}
 				</div>
 				<div className="inquiry-public-table">
 					<div className="yc-assets-auction">

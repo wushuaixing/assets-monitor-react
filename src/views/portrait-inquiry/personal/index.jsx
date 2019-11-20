@@ -140,7 +140,6 @@ export default class Personal extends React.Component {
 					infoSource: res.data,
 					loading: false,
 				});
-				console.log(111);
 			} else {
 				this.setState({ loading: false });
 			}
@@ -211,7 +210,6 @@ export default class Personal extends React.Component {
 		const {
 			tabConfig, sourceType, childDom, affixStatus, countSource, loading, infoSource,
 		} = this.state;
-		console.log(loading, 333);
 
 		return (
 			<div className="yc-inquiry-personal">

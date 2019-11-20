@@ -2,10 +2,12 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Icon, Spin, Table } from '@/common';
 import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
+import risk from '@/utils/api/portrait-inquiry/personal/risk';
 import { getQueryByName, linkDom, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 const { judgment } = lawsuits;
+const { personalJudgment } = risk;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -74,12 +76,21 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = portrait === 'personal' ? {
+			obligorName: getQueryByName(window.location.href, 'name'),
+			obligorNumber: getQueryByName(window.location.href, 'num'),
+		} : {
+			companyId: getQueryByName(window.location.href, 'id'),
+		};
 		this.setState({ loading: true });
-		judgment.list({
+		// 判断是个人还是企业
+		const commonJudgment = portrait === 'personal' ? personalJudgment : judgment;
+
+		commonJudgment.list({
 			page: page || 1,
-			companyId,
 			num: 5,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

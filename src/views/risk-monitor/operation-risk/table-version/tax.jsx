@@ -2,9 +2,11 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Ellipsis, Spin, Table } from '@/common';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
+import risk from '@/utils/api/portrait-inquiry/personal/risk';
 import { getQueryByName, toEmpty } from '@/utils';
 
 const api = manage.tax;
+const { personalTax } = risk;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -78,12 +80,21 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = portrait === 'personal' ? {
+			obligorName: getQueryByName(window.location.href, 'name'),
+			obligorNumber: getQueryByName(window.location.href, 'num'),
+		} : {
+			companyId: getQueryByName(window.location.href, 'id'),
+		};
 		this.setState({ loading: true });
-		api.list({
+		// 判断是个人还是企业
+		const commonTax = portrait === 'personal' ? personalTax : api;
+
+		commonTax.list({
 			page: page || 1,
 			num: 5,
-			companyId,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
