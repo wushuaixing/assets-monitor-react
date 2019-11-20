@@ -114,11 +114,6 @@ export default class Personal extends React.Component {
 		this.getData();
 	}
 
-	// componentDidMount() {
-	// 	this.toTouchCount();
-	// 	this.getData();
-	// }
-
 	componentWillReceiveProps() {
 		const { sourceType, childDom } = this.state;
 		const defaultSourceType = Number((window.location.hash.match(/\/personal\/(\d{3})\/?/) || [])[1]) || 201;
@@ -149,7 +144,7 @@ export default class Personal extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	toGetInfo=() => ({
 		obligorName: getQueryByName(window.location.href, 'name'),

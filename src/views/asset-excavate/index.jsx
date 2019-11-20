@@ -25,13 +25,21 @@ const toGetRuth = (moduleID) => {
 	return result.children.map((item) => {
 		const _item = item;
 		let components = '';
-		if (item.id === `${moduleID}01`) components = Assets;
-		else if (item.id === `${moduleID}02`) components = Subrogation;
-		else if (item.id === `${moduleID}03`) components = LandData;
-		else if (item.id === `${moduleID}04`) components = Tender;
-		else if (item.id === `${moduleID}05`) components = Financial;
-		else if (item.id === `${moduleID}06`) components = Mortgage;
-		else components = noPage;
+		if (item.id === `${moduleID}01`) {
+			components = Assets;
+		} else if (item.id === `${moduleID}02`) {
+			components = Subrogation;
+		} else if (item.id === `${moduleID}03`) {
+			components = LandData;
+		} else if (item.id === `${moduleID}04`) {
+			components = Tender;
+		} else if (item.id === `${moduleID}05`) {
+			components = Financial;
+		} else if (item.id === `${moduleID}06`) {
+			components = Mortgage;
+		} else {
+			components = noPage;
+		}
 		_item.paramUrl = item.paramUrl || '';
 		_item.components = components;
 		return _item;
@@ -61,38 +69,39 @@ class MonitorMain extends React.Component {
 	}
 
 	/* 更新未读数据统计 */
-	toRefreshCount=(typeID, count) => {
+	toRefreshCount = (typeID, count) => {
 		const { source } = this.state;
 		const _source = source.map((item) => {
 			const _item = item;
-			if (_item.id === typeID)_item.dot = count;
+			if (_item.id === typeID) _item.dot = count;
 			return _item;
 		});
 		this.setState({ source: _source });
 	};
 
-	onUnReadCount=() => {
+	onUnReadCount = () => {
 		const { source } = this.state;
-		unReadCount().then((res) => {
-			const { data, code } = res;
-			if (code === 200) {
-				const _source = source.map((item) => {
-					const _item = item;
-					// console.log(_item.id, 123);
-					if (_item.id === 'YC0201')_item.dot = data.auctionCount;
-					if (_item.id === 'YC0202')_item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount + data.subrogationJudgmentCourt;
-					if (_item.id === 'YC0203')_item.dot = data.landResultFlag; // 土地数据
-					if (_item.id === 'YC0204')_item.dot = data.biddingCount; // 招标中标
-					if (_item.id === 'YC0205')_item.dot = data.financeCount + data.stockPledgeFlag; // 金融资产
-					if (_item.id === 'YC0206')_item.dot = data.mortgageFlag; // 动产抵押
-					return _item;
-				});
-				this.setState({ source: _source });
-			}
-		});
+		unReadCount()
+			.then((res) => {
+				const { data, code } = res;
+				if (code === 200) {
+					const _source = source.map((item) => {
+						const _item = item;
+						// console.log(_item.id, 123);
+						if (_item.id === 'YC0201') _item.dot = data.auctionCount;
+						if (_item.id === 'YC0202') _item.dot = data.subrogationCourtSessionCount + data.subrogationFilingCount + data.subrogationJudgmentCourt;
+						if (_item.id === 'YC0203') _item.dot = data.landResultFlag; // 土地数据
+						if (_item.id === 'YC0204') _item.dot = data.biddingCount; // 招标中标
+						if (_item.id === 'YC0205') _item.dot = data.financeCount + data.stockPledgeFlag; // 金融资产
+						if (_item.id === 'YC0206') _item.dot = data.mortgageFlag; // 动产抵押
+						return _item;
+					});
+					this.setState({ source: _source });
+				}
+			});
 	};
 
-	toNavigate=() => {
+	toNavigate = () => {
 		navigate(`/my/attention?init=YC02${this.sourceType ? `&process=${this.sourceType}` : ''}`);
 	};
 
@@ -106,11 +115,24 @@ class MonitorMain extends React.Component {
 					rightRender={() => (
 						<Button
 							style={{
-								marginTop: 8, marginRight: 20, width: 95, padding: '2px 9px',
+								marginTop: 8,
+								marginRight: 20,
+								width: 95,
+								padding: '2px 9px',
 							}}
 							onClick={this.toNavigate}
 							size="large"
-							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 14, marginTop: -2 }} />}
+							icon={() => (
+								<img
+									src={Star}
+									alt=""
+									className="yc-img-normal"
+									style={{
+										width: 14,
+										marginTop: -2,
+									}}
+								/>
+							)}
 							title="我的关注"
 						/>
 					)}

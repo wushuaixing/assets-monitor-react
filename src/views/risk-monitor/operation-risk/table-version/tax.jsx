@@ -28,7 +28,7 @@ export default class TableIntact extends React.Component {
 			title: '主要信息',
 			dataIndex: 'property',
 			render: (value, row) => {
-				const { caseNature: ca, illegalFact: ill, punish } = row;
+				const { caseNature: ca, illegalFacts: ill, punish } = row;
 				return (
 					<div className="assets-info-content">
 						<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
@@ -59,14 +59,12 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li style={{ height: 24 }} />
 					<li>
-						<span className="list list-title align-justify">检查机关</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
+						<span className="list list-title align-justify">&nbsp;</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">发布日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.publishTime || '--'}</span>
+						<span className="list list-content">{row.gmtPublish || '--'}</span>
 					</li>
 				</div>
 			),
@@ -90,7 +88,7 @@ export default class TableIntact extends React.Component {
 		this.setState({ loading: true });
 		// 判断是个人还是企业
 		const commonTax = portrait === 'personal' ? personalTax : api;
-
+		console.log(commonTax, 11);
 		commonTax.list({
 			page: page || 1,
 			num: 5,

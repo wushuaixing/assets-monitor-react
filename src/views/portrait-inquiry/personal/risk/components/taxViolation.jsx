@@ -6,7 +6,7 @@ export default class TaxIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 30501),
+			count: toGetNumber(props.data, 20301),
 		};
 	}
 
@@ -20,7 +20,6 @@ export default class TaxIntact extends React.Component {
 						税收违法
 						<span className="yc-table-num">{count}</span>
 					</div>
-					{/* <div className="yc-tabs-simple-prefix">{`税收违法 ${count || 0}`}</div> */}
 				</div>
 				<div className="inquiry-public-table">
 					<Tax portrait="personal" />
