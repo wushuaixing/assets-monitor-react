@@ -62,7 +62,9 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">登记编号</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.regNumber || '-'}</span>
+						<span className="list list-content none-width">
+							{ toEmpty(row.regNumber) ? <Ellipsis content={row.regNumber} tooltip width={250} /> : '--'}
+						</span>
 					</li>
 				</div>
 			),

@@ -61,11 +61,11 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ lineHeight: '20px' }}>
-						<Icon type="icon-dot" style={{ fontSize: 12, color: row.status === 0 ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
-						<span className="list list-content ">{row.status === 0 ? '有效' : '无效'}</span>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: row.status === '有效' ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
+						<span className="list list-content ">{row.status}</span>
 					</li>
 					{
-						row.status === 0 ? [
+						row.status === '无效' ? [
 							<li>
 								<span className="list list-title align-justify">注销时间</span>
 								<span className="list list-title-colon">:</span>
@@ -81,7 +81,9 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">登记编号</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.regNum || '-'}</span>
+						<span className="list list-content">
+							{ toEmpty(row.regNum) ? <Ellipsis content={row.regNum} tooltip width={130} /> : '--'}
+						</span>
 					</li>
 				</div>
 			),
