@@ -32,7 +32,6 @@ const source = () => [
 		name: '资产',
 		number: 0,
 		showNumber: false,
-		disabled: true,
 	},
 	{
 		id: 103,
@@ -40,7 +39,6 @@ const source = () => [
 		number: 0,
 		showNumber: false,
 		field: 'followingCount',
-		disabled: true,
 	},
 	{
 		id: 104,
@@ -48,7 +46,6 @@ const source = () => [
 		number: 0,
 		showNumber: false,
 		field: 'finishedCount',
-		disabled: true,
 	},
 	{
 		id: 105,
@@ -197,9 +194,8 @@ export default class Enterprise extends React.Component {
 			// console.log(res);
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
-			con[index].disabled = !count;
 			con[index].number = count;
-			con[index].showNumber = Boolean(count);
+			con[index].showNumber = true;
 			cou[field] = res;
 			this.setState({
 				tabConfig: con,
