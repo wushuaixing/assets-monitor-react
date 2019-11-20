@@ -146,12 +146,14 @@ export default class OverView extends React.Component {
 						{/* 动产抵押信息 */}
 						<ChattelMortgage companyId={companyId} getAssetProfile={this.getAssetProfile} />
 					</div>
-					<Spin visible={loading}>
-						{
-							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0
-							&& <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
-						}
-					</Spin>
+					{
+						AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0
+						&& (
+						<Spin visible={loading}>
+							<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
+						</Spin>
+						)
+					}
 				</div>
 				<div className="overview-line" />
 				<div className="overview-right">

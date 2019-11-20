@@ -65,9 +65,11 @@ export default class QueryView extends React.Component {
 
 		const { obligorType: type, obligorName: name, obligorNumber: number } = this.state;
 		if (type === 1) {
-			if (!name)message.error('请输入债务人名称');
-			else if (name.length < 2) message.error('债务人名称请至少输入两个字');
-			else {
+			if (!name) {
+				message.error('请输入债务人名称');
+			} else if (name.length < 2) {
+				message.error('债务人名称请至少输入两个字');
+			} else {
 				navigate(`/inquiry/list?type=1&name=${name}`);
 				if (onQuery) {
 					onQuery({
@@ -78,14 +80,25 @@ export default class QueryView extends React.Component {
 				}
 			}
 		} else if (type === 2) {
-			if (name && number) {
+			if (!name || !number) {
+				message.error('债务人名称 或 债务人证件号 不能为空！');
+			} else if (name.length < 2) {
+				message.error('债务人名称请至少输入两个字');
+			} else if (number.length < 7) {
+				message.error('个人债务人证件号不得小于7位');
+			} else if (!name && !number) {
+				message.error('请输入债务人名称及证据号');
+			} else if (name && number) {
 				navigate(`/inquiry/personal?type=2&name=${name}&num=${number}`);
-				console.log(1);
 				window.location.reload(); // 退出登录刷新页面
-			} else if (!name || !number)message.error('债务人名称 或 债务人证件号 不能为空！');
-			else if (name.length < 2) message.error('债务人名称请至少输入两个字');
-			else if (number.length < 7) message.error('个人债务人证件号不得小于7位');
-			else message.error('请输入债务人名称及证据号');
+			}
+			// if (name && number) {
+			// 	navigate(`/inquiry/personal?type=2&name=${name}&num=${number}`);
+			// 	window.location.reload(); // 退出登录刷新页面
+			// } else if (!name || !number)message.error('债务人名称 或 债务人证件号 不能为空！');
+			// else if (name.length < 2) message.error('债务人名称请至少输入两个字');
+			// else if (number.length < 7) message.error('个人债务人证件号不得小于7位');
+			// else message.error('请输入债务人名称及证据号');
 		}
 	};
 

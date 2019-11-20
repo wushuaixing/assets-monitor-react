@@ -43,6 +43,22 @@ const assets = {
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/land/list-count', { params })
 			.then(res => Object.assign(res.data, { id, field: 'transfer' })),
 	},
+	transfer: {
+		id: 10302,
+		name: '资产-土地信息-土地转让',
+		list: params => service.get('/yc/search/portrait/company/asset/land/transaction', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/land/list-count', { params })
+			.then(res => Object.assign(res.data, { id, field: 'transaction' })),
+	},
+	landMortgage: {
+		id: 10303,
+		name: '资产-土地信息-土地抵押',
+		list: params => service.get('/yc/search/portrait/company/asset/land/mortgage', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/land/list-count', { params })
+			.then(res => Object.assign(res.data, { id, field: 'mortgage' })),
+	},
 	pledge: {
 		id: 10501,
 		name: '资产-股权质押-股权质押',
