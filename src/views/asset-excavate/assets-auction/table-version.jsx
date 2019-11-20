@@ -5,12 +5,14 @@ import {
 } from '@/common';
 import { floatFormat } from '@/utils/format';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
+import personalAssets from '@/utils/api/portrait-inquiry/personal/assets';
 import TableVersionModal from './tableVersionModal';
 
 import './style.scss';
 import { getQueryByName, toEmpty, timeStandard } from '@/utils';
 
 const { auction } = assets;
+const { personalAuction } = personalAssets;
 
 const AuctionInfo = (text, rowContent) => {
 	const {
@@ -115,6 +117,7 @@ export default class TableIntact extends React.Component {
 			total: 0,
 			loading: false,
 			historyInfoModalVisible: false,
+			historyInfoModalData: [],
 		};
 	}
 
@@ -131,10 +134,14 @@ export default class TableIntact extends React.Component {
 					<li style={{ lineHeight: '20px' }}>
 						{ toEmpty(row.title)
 							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '--' }
-						<Button onClick={this.historyInfoModal}>
-							<Icon type="file-text" />
-							查看历史拍卖信息
-						</Button>
+						{
+							row.historyAuctions.length > 0 && (
+								<Button onClick={() => this.historyInfoModal(row)}>
+									<Icon type="file-text" />
+									查看历史拍卖信息
+								</Button>
+							)
+						}
 					</li>
 					<li>
 						<span className="list list-title align-justify">匹配原因</span>
@@ -155,9 +162,10 @@ export default class TableIntact extends React.Component {
 	];
 
 	// 打开历史信息弹窗
-	historyInfoModal = () => {
+	historyInfoModal = (value) => {
 		this.setState({
 			historyInfoModalVisible: true,
+			historyInfoModalData: value,
 		});
 	};
 
@@ -183,7 +191,11 @@ export default class TableIntact extends React.Component {
 			companyId: getQueryByName(window.location.href, 'id'),
 		};
 		this.setState({ loading: true });
-		auction.list({
+
+		// 判断是个人还是企业
+		const commonAuction = portrait === 'personal' ? personalAuction : auction;
+
+		commonAuction.list({
 			page: page || 1,
 			num: 5,
 			...params,
@@ -209,8 +221,9 @@ export default class TableIntact extends React.Component {
 	};
 
 	render() {
-		const { dataSource, current, total } = this.state;
-		const { loading, historyInfoModalVisible } = this.state;
+		const {
+			dataSource, current, total, historyInfoModalData, loading, historyInfoModalVisible,
+		} = this.state;
 
 		return (
 			<div className="yc-assets-auction ">
@@ -239,6 +252,7 @@ export default class TableIntact extends React.Component {
 				<TableVersionModal
 					onCancel={this.handleCancel}
 					onOk={this.onOk}
+					data={historyInfoModalData}
 					historyInfoModalVisible={historyInfoModalVisible}
 				/>
 				)}

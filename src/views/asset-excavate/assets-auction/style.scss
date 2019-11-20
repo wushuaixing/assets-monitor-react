@@ -73,7 +73,6 @@
   padding-top: 14px;
   padding-left: 24px;
   .yc-history-title {
-    width: 250px;
     height: 14px;
     font-size: 14px;
     font-weight: 500;
@@ -97,6 +96,10 @@
     overflow: auto;
     .yc-Timeline-item {
       margin-bottom: 16px;
+      .yc-item-lable {
+        display: inline-block;
+        width: 140px;
+      }
     }
     .TimelineName {
       font-size: 12px;

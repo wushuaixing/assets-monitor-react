@@ -1,16 +1,13 @@
 import React from 'react';
-import { Tabs } from '@/common';
-import { Court, Trial, Judgment } from '@/views/asset-excavate/subrogation/table-version';
+import { Judgment } from '@/views/asset-excavate/subrogation/table-version';
+import { toGetNumber } from '@/utils/promise';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			sourceType: 1,
-			config: [
-				{ id: 1, name: '立案', total: 4 },
-				{ id: 2, name: '开庭', total: 3 },
-				{ id: 3, name: '裁判文书', total: 9 }],
+			count: toGetNumber(props.data, 10203),
 		};
 	}
 
@@ -22,19 +19,19 @@ export default class Subrogation extends React.Component {
 	};
 
 	render() {
-		const { config, sourceType } = this.state;
 		const { id } = this.props;
+		const { count } = this.state;
+
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
-				<Tabs.Simple
-					onChange={this.onSourceType}
-					source={config}
-					prefix={<div className="yc-tabs-simple-prefix">代位权</div>}
-				/>
+				<div className="public-table-tab">
+					<div className="yc-tabs-simple-prefix">
+						代位权
+						<span className="yc-table-num">{count}</span>
+					</div>
+				</div>
 				<div className="inquiry-public-table">
-					{sourceType === 1 ? <Court portrait="personal" /> : null}
-					{sourceType === 2 ? <Trial portrait="personal" /> : null}
-					{sourceType === 3 ? <Judgment portrait="personal" /> : null}
+					<Judgment portrait="personal" />
 				</div>
 			</div>
 		);

@@ -164,11 +164,12 @@
   border: 1px solid $common-warning;
   // box-shadow: 0 0 4px 0 $common-warning;
   color: $common-warning;
+  background-color: #FFFFFF;
    &:hover{
     border: 1px solid $common-warning;
     // box-shadow: 0 0 4px 0 $common-warning;
     color: $common-warning;
-
+    background-color: #FFFFFF;
    }
    &:active{
      border: 1px solid $common-warning;
