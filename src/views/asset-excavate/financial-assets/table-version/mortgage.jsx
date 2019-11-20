@@ -38,7 +38,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-content">{timeStandard(row.regDate)}</span>
 					</li>
 					<li>
-						<span className="list list-title align-justify">质权人</span>
+						<span className="list list-title align-justify">出质人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
 							{ toEmpty(value[0].pledgor) ? <Ellipsis content={value[0].pledgor} tooltip width={200} /> : '--'}
