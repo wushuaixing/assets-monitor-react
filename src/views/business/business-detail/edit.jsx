@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-	Form, Button, Input, Select, Modal,
+	Form, Button, Input, Modal,
 } from 'antd';
 
 import './style.scss';
 
 const { confirm } = Modal;
-const { Option } = Select;
 const createForm = Form.create;
 class DebtorDetail extends React.Component {
 	constructor(props) {
@@ -60,7 +59,9 @@ class DebtorDetail extends React.Component {
 	}
 
 	// 角色
-	changeValue = (value, id) => {
+	changeValue = (e, id) => {
+		const { value } = e.target;
+
 		const { dataList } = this.state;
 		const that = this;
 		const { isEdit } = this.props;
@@ -170,23 +171,23 @@ class DebtorDetail extends React.Component {
 									/>
 								</td>
 								<td>
-									<Select
+									<Input
 										style={{ width: 200 }}
 										placeholder="请选择人员"
 										size="large"
+										maxLength={30}
+										onInput={e => this.changeValue(e, item.id)}
 										{...getFieldProps(`roleText${item.id}`, {
 											initialValue: item && item.roleText,
 											// rules: [
 											// 	{ required: true, whitespace: true, message: '请填写密码' },
 											// ],
-											onChange: (value) => {
-												this.changeValue(value, item.id);
-											},
+											// onChange: (value) => {
+											// 	this.changeValue(value, item.id);
+											// },
+											getValueFromEvent: e => e.target.value.trim(),
 										})}
-									>
-										<Option value="担保人">担保人</Option>
-										<Option value="共同借款人">共同借款人</Option>
-									</Select>
+									/>
 								</td>
 								<td>
 									<Button type="ghost" onClick={() => this.delete(item.id)}>

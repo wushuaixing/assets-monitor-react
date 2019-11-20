@@ -130,7 +130,7 @@ class comInput extends React.Component {
 
 	render() {
 		const {
-			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown,
+			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth,
 		} = this.props;
 		// console.log(this.props);
 		const {
@@ -168,13 +168,14 @@ class comInput extends React.Component {
 			<div className="yc-input-wrapper" style={style}>
 				{
 					title ? (
-						<div className="yc-input-group-left">
-							<span>{title}</span>
+						<div className="yc-input-group-left" style={titleWidth ? { width: titleWidth } : ''}>
+							<span style={titleWidth ? { width: titleWidth - 2 } : ''}>{title}</span>
 							<div className="yc-split-line" />
 						</div>
 					) : ''
 				}
 				<input
+					style={titleWidth ? { paddingLeft: titleWidth + 7 } : ''}
 					type="text"
 					ref={e => this.ref = e}
 					className={classList.join(' ')}

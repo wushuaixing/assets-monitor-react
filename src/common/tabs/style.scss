@@ -7,7 +7,7 @@
   }
   .yc-tabs-un-active{
     &:hover{
-      background-color:$fontColor-hover;
+      background-color: $background-list-hover;
     }
   }
   .yc-tabs-li{
@@ -32,10 +32,10 @@
 .yc-tabs-normal{
   border-bottom: 2px solid $color-base;
   .yc-tabs-li{
-    padding: 15px 22px;
+    padding: 15px 20px;
     span{
       font-size: 15px;
-      line-height: 15px;
+      // line-height: 15px;
 
     }
 
@@ -50,16 +50,29 @@
 }
 
 .yc-tabs-simple{
-  border-bottom: 1px solid $background-border;
+  .yc-tabs-un-active:hover{
+      background-color:#FFFFFF;
+  }
+  border-bottom: 1px solid $background-line;
   ul{
     //padding-left: 10px;
   }
   .yc-tabs-li{
-    padding: 12px 22px;
+    padding: 12px 20px;
     span{
       font-size: 14px;
-      line-height: 15px;
-
+      // line-height: 15px;
+    }
+  }
+  .yc-tabs-disabled{
+    &:hover{
+      span{
+        color: #999!important;
+      }
+    }
+    cursor: not-allowed;
+    span{
+      color: #999;
     }
   }
   .yc-tabs-active{
@@ -71,12 +84,49 @@
       right: 0;
       z-index:1;
       height:2px;
-      background-color: $color-alert-error;
+      background-color: $common-warning;
     }
     span{
-      color: $color-alert-error;
-      font-weight: 400;
+      color: $common-warning;
+      // font-weight: bold;
     }
   }
 }
 
+.yc-tabs-simple-warning{
+  .yc-tabs-un-active:hover span{
+    color:$common-warning;
+  }
+  .yc-tabs-active{
+    .yc-tabs-active-line{
+      background-color: $common-warning;
+    }
+    span{
+      color: $common-warning;
+      font-weight: bold;
+    }
+  }
+}
+
+.yc-tabs-simple-primary{
+  .yc-tabs-un-active:hover span{
+    color:$common-base;
+  }
+  .yc-tabs-li{
+    padding: 20px 23px 17px 23px;
+    span{
+      font-size: 16px;
+      line-height: 18px;
+    }
+  }
+  .yc-tabs-active{
+    .yc-tabs-active-line{
+      height: 3px;
+      background-color: $common-base;
+    }
+    span{
+      color: $common-base;
+      font-weight: bold;
+    }
+  }
+}

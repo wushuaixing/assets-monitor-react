@@ -8,7 +8,8 @@ import { Input, timeRule } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
-const _style3 = { width: 120 };
+const _style1 = { width: 120 };
+const _style2 = { width: 116 };
 const { Option } = Select;
 class WRIT extends React.Component {
 	constructor(props) {
@@ -74,7 +75,7 @@ class WRIT extends React.Component {
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
-					<div className="item" style={{ width: 742 }}>
+					<div className="item" style={{ width: 761 }}>
 						<Input
 							title="全文"
 							placeholder="姓名、公司名称、关键字"
@@ -85,21 +86,21 @@ class WRIT extends React.Component {
 					</div>
 				</div>
 				<div className="yc-tabs-items">
-					<div className="item" style={{ marginRight: 26 }}>
+					<div className="item" style={{ marginRight: 16, width: 243 }}>
 						<Input
 							title="案号"
 							placeholder="案件编号"
 							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item" style={{ marginRight: 26 }}>
+					<div className="item" style={{ marginRight: 16, width: 243 }}>
 						<Input
 							title="案由"
 							placeholder="案件内容提要"
 							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item">
+					<div className="item" style={{ width: 243 }}>
 						<Input
 							title="起诉法院"
 							placeholder="法院名称"
@@ -112,8 +113,8 @@ class WRIT extends React.Component {
 					<DatePicker
 						placeholder="开始日期"
 						size="large"
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))
-	}
+						style={_style2}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
 						{...getFieldProps('publishStart', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
@@ -128,8 +129,8 @@ class WRIT extends React.Component {
 					<DatePicker
 						placeholder="结束日期"
 						size="large"
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))
-	}
+						style={_style2}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
 						{...getFieldProps('publishEnd', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
@@ -146,7 +147,7 @@ class WRIT extends React.Component {
 					<Select
 						size="large"
 						allowClear
-						style={_style3}
+						style={_style1}
 						placeholder="请选择案件类型"
 						{...getFieldProps('caseType', {})}
 					>

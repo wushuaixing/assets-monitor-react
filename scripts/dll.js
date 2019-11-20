@@ -1,7 +1,8 @@
 const ENV = process.env.NODE_ENV;
 const path = require('path');
+
 const ROOT = path.resolve(__dirname, '../');
-const DllPlugin = require('webpack').DllPlugin;
+const { DllPlugin } = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 
@@ -10,7 +11,7 @@ module.exports = {
 	devtool: ENV === 'development' ? 'source-map' : undefined,
 	context: ROOT,
 	entry: {
-		'base': [
+		base: [
 			'react',
 			'react-dom',
 			'reactPropTypes',
@@ -31,15 +32,15 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
-			'react': 'anujs/dist/ReactIE',
+			react: 'anujs/dist/ReactIE',
 			'react-dom': 'anujs/dist/ReactIE',
 			'create-react-class': 'anujs/lib/createClass',
-			'reactPropTypes': 'anujs/lib/ReactPropTypes',
+			reactPropTypes: 'anujs/lib/ReactPropTypes',
 			'@reach/router': `${ROOT}/patchs/Router`,
-			'redux': `${ROOT}/patchs/redux`,
+			redux: `${ROOT}/patchs/redux`,
 			'symbol-observable': `${ROOT}/patchs/symbol-observable`,
 			'@rematch/core': 'anujs/dist/Rematch',
-			'antd': `${ROOT}/patchs/antd`,
+			antd: `${ROOT}/patchs/antd`,
 		},
 	},
 	module: {
@@ -51,7 +52,7 @@ module.exports = {
 					presets: [
 						['@babel/preset-env', {
 							loose: true,
-							modules: 'commonjs'
+							modules: 'commonjs',
 						}],
 					],
 				},

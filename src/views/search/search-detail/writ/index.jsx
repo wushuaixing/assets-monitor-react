@@ -19,10 +19,10 @@ import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import WritTable from './table';
 import './style.scss';
 
-const _style1 = { width: 274 };
-const _style2 = { width: 120 };
+const _style1 = { width: 278 };
+const _style2 = { width: 100 };
 const _style3 = { width: 120 };
-const _style4 = { width: 1130 };
+const _style4 = { width: 1160 };
 const { Option } = Select;
 const createForm = Form.create;
 
@@ -60,6 +60,10 @@ class WRIT extends React.Component {
 			endTime: params.publishEnd,
 		});
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUpdate() {
+		window.scrollTo(0, 0); // 回到顶部
 	}
 
 	componentWillUnmount() {
@@ -319,7 +323,7 @@ class WRIT extends React.Component {
 							})}
 						/>
 					</div>
-					<div style={{ borderBottom: '1px solid #F0F2F5' }}>
+					<div>
 						<div className="yc-query-item">
 							<span className="yc-query-item-title">发布时间: </span>
 							<DatePicker
@@ -383,22 +387,24 @@ class WRIT extends React.Component {
 							<Button
 								onClick={this.search}
 								size="large"
-								type="warning"
+								type="common"
 								style={{ width: 84 }}
 							>
-							查询
+								查询
 							</Button>
 							<Button
 								onClick={this.queryReset}
 								size="large"
 								style={{ width: 120 }}
 							>
-							重置查询条件
+								重置查询条件
 							</Button>
 						</div>
 					</div>
+					{/* 分隔下划线 */}
+					<div className="yc-noTab-hr" />
 					<div className="yc-writ-tablebtn">
-						{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportWritCurrent} current page num text="本页导出" />}
+						{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={exportWritCurrent} current page num text="本页导出" />}
 						<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportWritAll} all page num text="全部导出" />
 						{dataList.length > 0 && (
 						<div style={{
@@ -418,7 +424,8 @@ class WRIT extends React.Component {
 							SortTime={this.SortTime}
 							Sort={Sort}
 						/>
-						<div className="yc-pagination">
+						{dataList && dataList.length > 0 && (
+						<div className="yc-table-pagination">
 							<Pagination
 								total={totals && totals > 1000 ? 1000 : totals}
 								current={current}
@@ -429,13 +436,14 @@ class WRIT extends React.Component {
 								onShowSizeChange={this.onShowSizeChange}
 								showTotal={() => `共 ${totals} 条记录`}
 								onChange={(val) => {
-								// 存在数据才允许翻页
+									// 存在数据才允许翻页
 									if (dataList.length > 0) {
 										this.handleChangePage(val);
 									}
 								}}
 							/>
 						</div>
+						)}
 						{page === 100 && (
 						<span style={{
 							color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,

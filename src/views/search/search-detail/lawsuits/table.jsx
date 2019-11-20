@@ -1,8 +1,7 @@
 import React from 'react';
-import {
-	Table, Form, Tooltip, Modal,
-} from 'antd';
+import { Form, Modal, Tooltip } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
+import { Table } from '@/common';
 import './style.scss';
 
 const toClick = row => Modal.info({
@@ -58,9 +57,7 @@ const toShow = (row, type) => {
 			onOk() {},
 		});
 	} else {
-		const w = window.open('about:blank');
-		const associates = row.associates[type].url[0];
-		w.location.href = associates;
+		window.open(row.associates[type].url[0], '_blank');
 	}
 };
 const dividerType = (row) => {
@@ -71,10 +68,7 @@ const dividerType = (row) => {
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-
-		};
+		this.state = {};
 	}
 
 	render() {
@@ -101,17 +95,17 @@ class BusinessView extends React.Component {
 				dataIndex: 'yg',
 				key: 'yg',
 				width: 241,
-				render(text, row) {
+				render(text) {
 					return (
 						<div className="table-column">
 							{
-								row.yg && row.yg.length > 14
+								text && text.length > 14
 									? (
-										<Tooltip placement="topLeft" title={row.yg}>
-											<p>{`${row.yg.substr(0, 14)}...`}</p>
+										<Tooltip placement="topLeft" title={text}>
+											<p>{`${text.substr(0, 14)}...`}</p>
 										</Tooltip>
 									)
-									: <p>{row.yg || '-'}</p>
+									: <p>{text || '-'}</p>
 							}
 						</div>
 					);
@@ -121,17 +115,17 @@ class BusinessView extends React.Component {
 				dataIndex: 'bg',
 				key: 'bg',
 				width: 265,
-				render(text, row) {
+				render(text) {
 					return (
 						<div className="table-column">
 							{
-								row.bg && row.bg.length > 14
+								text && text.length > 14
 									? (
-										<Tooltip placement="topLeft" title={row.bg}>
-											<p>{`${row.bg.substr(0, 14)}...`}</p>
+										<Tooltip placement="topLeft" title={text}>
+											<p>{`${text.substr(0, 14)}...`}</p>
 										</Tooltip>
 									)
-									: <p>{row.bg || '-'}</p>
+									: <p>{text || '-'}</p>
 							}
 						</div>
 					);
@@ -144,7 +138,15 @@ class BusinessView extends React.Component {
 				render(text, row) {
 					return (
 						<div className="table-column">
-							{row.court || '-'}
+							{
+								row.court && row.court.length > 12
+									? (
+										<Tooltip placement="topLeft" title={row.court}>
+											<p>{`${row.court.substr(0, 12)}...`}</p>
+										</Tooltip>
+									)
+									: <p>{row.court || '-'}</p>
+							}
 						</div>
 					);
 				},
@@ -158,7 +160,7 @@ class BusinessView extends React.Component {
 						<div>
 							{
 								row.ah && row.ygList.length > 0 ? (
-									<div onClick={() => toClick(row)} className="yc-td-header">
+									<div onClick={() => toClick(row)} className="yc-table-text-link">
 										{' '}
 										{row.ah || '-'}
 									</div>
@@ -177,7 +179,7 @@ class BusinessView extends React.Component {
 							{row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0 && (
 								<span>
 									<span
-										className="yc-td-header"
+										className="yc-table-text-link"
 										onClick={() => toShow(row, 0)}
 									>
 										立案
@@ -188,7 +190,7 @@ class BusinessView extends React.Component {
 								<span>
 									{row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0 && <span className="ant-divider" />}
 									<span
-										className="yc-td-header"
+										className="yc-table-text-link"
 										onClick={() => toShow(row, 1)}
 									>
 										开庭
@@ -202,7 +204,7 @@ class BusinessView extends React.Component {
 										dividerType(row)
 									}
 									<span
-										className="yc-td-header"
+										className="yc-table-text-link"
 										onClick={() => toShow(row, 2)}
 									>
 										文书

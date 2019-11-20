@@ -1,12 +1,13 @@
 import Tabs from './tabs';
-import Simple from './tabs/simple';
 import Badge from './badge';
 import Button from './button';
 import Input from './input';
 import Spin from './spin';
 import Download from './download';
-
-Tabs.Simple = Simple;
+import Table from './commonTable';
+import SelectedNum from './selectedNum';
+import Ellipsis from './ellipsis';
+import Icon from './icon';
 
 const timeRule = {
 	disabledStartDate: (startValue, endValue) => {
@@ -28,5 +29,5 @@ const timeRule = {
 };
 
 export {
-	Tabs, Badge, Button, Input, Spin, timeRule, Download,
+	Tabs, Badge, Button, Input, Spin, timeRule, Download, Table, SelectedNum, Ellipsis, Icon,
 };

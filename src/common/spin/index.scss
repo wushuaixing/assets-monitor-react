@@ -3,9 +3,6 @@
   position: relative;
   border-radius: 2px;
   height:100%;
-  .yc-spin-content{
-    //position: relative;
-  }
   .yc-spin-blur{
     filter:blur(1px);
   }
@@ -66,7 +63,7 @@
         font-size: 14px;
         text-align: center;
         font-weight:bold;
-        color: #2db7f5;
+        color: $text-link;
       }
     }
   }

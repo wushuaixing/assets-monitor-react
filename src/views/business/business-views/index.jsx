@@ -6,15 +6,19 @@ import {
 import Cookies from 'universal-cookie';
 import PeopleListModal from './Modal/peopleList';
 import TableList from './table';
-import { baseUrl } from '@/utils/api';
+// import { baseUrl  } from '@/utils/api';
+import BASE_URL from '@/utils/api/config';
 import {
 	businessList, // 列表
 	exportExcel, // 导出列表
 	postDeleteBatch, // 批量删除
 } from '@/utils/api/business';
 import {
-	Input, Button, Spin, timeRule, Download,
+	Input, Button, Spin, timeRule, Download, SelectedNum,
 } from '@/common';
+import businessImg from '@/assets/img/business/icon_recovery_n.png';
+import ModalTable from './modalTable';
+
 import './style.scss';
 
 const cookies = new Cookies();
@@ -22,7 +26,7 @@ const cookies = new Cookies();
 const { confirm } = Modal;
 const createForm = Form.create;
 
-const _style1 = { width: 274 };
+const _style1 = { width: 278 };
 const _style2 = { width: 100 };
 const text = (
 	<div style={{
@@ -69,6 +73,7 @@ class BusinessView extends React.Component {
 			uploadErrorData: '',
 			page: '',
 			errorLoading: false,
+			_selectedRowKeys: [],
 		};
 	}
 
@@ -99,7 +104,7 @@ class BusinessView extends React.Component {
 		// const Authorization = 'eyJuYW1lIjoi5rWL6K-VIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiIxMjMiLCJleHAiOjE1NTg1NzQ4NDl9.TUn3QyocFGMMBV7Z4X0TXDxkFnkf5t83rNh-qISmLeoMlMIWLsvmykmk8cb8U89zyp0CCZGZVmoa9gIgzu32qw';
 		return {
 			name: 'file',
-			action: `${baseUrl}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
+			action: `${BASE_URL}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
 			beforeUpload(file) {
 				const type = file.name.split('.');
 				const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
@@ -157,7 +162,6 @@ class BusinessView extends React.Component {
 			},
 		};
 	};
-
 
 	// 获取消息列表
 	getData = (value) => {
@@ -222,7 +226,7 @@ class BusinessView extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 
 	// 搜索
@@ -248,8 +252,10 @@ class BusinessView extends React.Component {
 		this.getData(params);
 		this.setState({
 			searchValue: params,
+			selectedRowKeys: [], // 这里配置默认勾选列
+			openRowSelection: false,
 		});
-	}
+	};
 
 
 	openManagement = (openRowSelection) => {
@@ -257,12 +263,21 @@ class BusinessView extends React.Component {
 			openRowSelection: !openRowSelection,
 			selectedRowKeys: [],
 		});
-	}
+	};
 
-	onSelectChange = (selectedRowKeys, selectedRows) => {
+	onSelectChange = (selectedRowKeys) => {
+		// 维护一个 selectedRowsArray 来保存之前的数据。
+		const selectedRowsArray = selectedRowKeys.map(item => JSON.parse(item));
+
+		// 获取id数组
+		const _selectedRowKeys = selectedRowsArray.map(item => item.id);
+
+		// console.log(selectedRows, _selectedRowKeys);
+
 		this.setState({
 			selectedRowKeys,
-			selectData: selectedRows,
+			_selectedRowKeys,
+			selectData: selectedRowsArray,
 		});
 	};
 
@@ -279,14 +294,16 @@ class BusinessView extends React.Component {
 			searchValue: '',
 			startTime: '',
 			endTime: '',
+			selectedRowKeys: [], // 这里配置默认勾选列
+			openRowSelection: false,
 		});
-	}
+	};
 
 
 	// 批量删除
 	handledDeleteBatch = () => {
 		const {
-			selectedRowKeys, page, totals, current,
+			selectedRowKeys, page, totals, current, selectData, _selectedRowKeys,
 		} = this.state;
 		const that = this;
 		if (selectedRowKeys.length === 0) {
@@ -297,11 +314,17 @@ class BusinessView extends React.Component {
 
 		confirm({
 			title: '确认删除选中业务吗?',
-			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
-			iconType: 'exclamation-circle-o',
+			content: (
+				<div style={{ marginLeft: -37 }}>
+					<div style={{ fontSize: 14, marginBottom: 20 }}>点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据</div>
+					<ModalTable selectData={selectData} getData={this.getData} />
+				</div>
+			),
+			iconType: 'exclamation-circle',
+			width: 600,
 			onOk() {
 				const params = {
-					idList: selectedRowKeys,
+					idList: _selectedRowKeys,
 				};
 				// 判断最后一页批量删除
 				let currentLength;
@@ -332,14 +355,14 @@ class BusinessView extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	// 导出
 	toExportCondition=(type) => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const {
-			startTime, endTime, selectedRowKeys,
+			startTime, endTime, _selectedRowKeys,
 		} = this.state;
 		const fields = getFieldsValue();
 		const params = {
@@ -350,7 +373,7 @@ class BusinessView extends React.Component {
 		if (type === 'all') {
 			return Object.assign({}, params);
 		}
-		return Object.assign({}, params, { idList: selectedRowKeys });
+		return Object.assign({}, params, { idList: _selectedRowKeys });
 	};
 
 	// 打开担保人弹窗
@@ -359,14 +382,14 @@ class BusinessView extends React.Component {
 			PeopleListModalVisible: true,
 			businessId: id,
 		});
-	}
+	};
 
 	// 关闭弹窗
 	onCancel = () => {
 		this.setState({
 			PeopleListModalVisible: false,
 		});
-	}
+	};
 
 	handleCancel = (type) => {
 		if (type === 'down') {
@@ -377,13 +400,13 @@ class BusinessView extends React.Component {
 		this.setState({
 			errorModalVisible: false,
 		});
-	}
+	};
 
 	openErrorModal = () => {
 		this.setState({
 			errorModalVisible: true,
 		});
-	}
+	};
 
 	render() {
 		const {
@@ -436,7 +459,7 @@ class BusinessView extends React.Component {
 							})}
 						/>
 					</div>
-					<div className="yc-query-item">
+					<div className="yc-query-item" style={{ marginRight: 0 }}>
 						<Input
 							title="机构名称"
 							style={_style1}
@@ -449,7 +472,7 @@ class BusinessView extends React.Component {
 					</div>
 
 					<div className="yc-query-item">
-						<span className="yc-query-item-title">上传时间: </span>
+						<span className="yc-query-item-title">上传时间：</span>
 						<DatePicker
 							{...getFieldProps('uploadTimeStart', {
 								onChange: (value, dateString) => {
@@ -480,10 +503,11 @@ class BusinessView extends React.Component {
 					</div>
 
 					<div className="yc-query-item yc-query-item-btn">
-						<Button onClick={this.search} size="large" type="warning" style={{ width: 84 }}>查询</Button>
-						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
+						<Button onClick={this.search} size="large" type="common" style={{ width: 84 }}>查询</Button>
+						<Button onClick={this.queryReset} size="large" style={{ width: 110, marginRight: 0 }}>重置查询条件</Button>
 					</div>
-					<div className="yc-split-hr" />
+					{/* 分隔下划线 */}
+					<div className="yc-noTab-hr" />
 
 					<div className="yc-business-tablebtn">
 						{openRowSelection && (
@@ -494,7 +518,7 @@ class BusinessView extends React.Component {
 							{/* <Button onClick={this.handledExport} className="yc-business-btn">
 								导出
 							</Button> */}
-							<Download condition={this.toExportCondition} api={exportExcel} field="idList" text="导出" />
+							<Download selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
 						</React.Fragment>
 						)}
 						{!openRowSelection && (
@@ -519,26 +543,29 @@ class BusinessView extends React.Component {
 						// 	<span className="yc-icon-export" />
 						// 		一键导出
 						// </Button>
-						<Download condition={() => this.toExportCondition('all')} style={{ float: 'right' }} api={exportExcel} all text="一键导出" />
+						<Download condition={() => this.toExportCondition('all')} style={{ float: 'right', marginRight: 0 }} api={exportExcel} all text="一键导出" />
 						)}
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
-							<Icon className="yc-business-icon" type="question-circle-o" />
+							<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
 						</Tooltip>
 					</div>
+					{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 					<Spin visible={loading}>
 						<TableList stateObj={this.state} selectData={selectData} dataList={dataList} rowSelection={rowSelection} getData={this.getData} openPeopleModal={this.openPeopleModal} />
-						<div className="yc-pagination">
-							<Pagination
-								total={totals}
-								current={current}
-								defaultPageSize={10} // 默认条数
-								showQuickJumper
-								showTotal={total => `共 ${total} 条记录`}
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
-							/>
-						</div>
+						{dataList && dataList.length > 0 && (
+							<div className="yc-table-pagination">
+								<Pagination
+									total={totals}
+									current={current}
+									defaultPageSize={10} // 默认条数
+									showQuickJumper
+									showTotal={total => `共 ${total} 条记录`}
+									onChange={(val) => {
+										this.handleChangePage(val);
+									}}
+								/>
+							</div>
+						)}
 					</Spin>
 				</Form>
 				{/** 担保人Modal */}

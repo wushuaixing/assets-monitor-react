@@ -1,4 +1,5 @@
 import React from 'react';
+import ruleMethods from './rule';
 
 export default {
 	thousandBitSeparator(val) {
@@ -105,6 +106,49 @@ export const parseQuery = (url) => {
 	return queryObj;
 };
 
+// 获得输入框中字符长度
+export const getByteLength = (val) => {
+	const str = String(val);
+	let bytesCount = 0;
+	for (let i = 0, n = str.length; i < n; i += 1) {
+		const c = str.charCodeAt(i);
+		if ((c >= 0x0001 && c <= 0x007e) || (c >= 0xff60 && c <= 0xff9f)) {
+			bytesCount += 1;
+		} else {
+			bytesCount += 2;
+		}
+	}
+	return bytesCount;
+};
+
+/**
+ * 截取前N个字节的字符串
+ * @param str
+ * @param len
+ * @param suffix
+ * @returns {*}
+ */
+export const toCutString = (str, len, suffix) => {
+	if (!str) return '';
+	if (len <= 0) return '';
+	const _suffix = suffix || '';
+	let template = 0;
+	for (let i = 0; i < str.length; i += 1) {
+		if (str.charCodeAt(i) > 255) {
+			template += 2;
+		} else {
+			template += 1;
+		}
+		if (template === len) {
+			return str.substring(0, i + 1) + _suffix;
+		} if (template > len) {
+			return str.substring(0, i) + _suffix;
+		}
+	}
+	return str;
+};
+
+
 /**
  * 截取 url 里面 指定的参数
  * @param url
@@ -154,7 +198,11 @@ export const urlEncode = (param, key, encode) => {
 	return paramStr;
 };
 
-
+/**
+ * 去除对象中空值
+ * @param obj
+ * @returns {*}
+ */
 export const clearEmpty = (obj) => {
 	if (typeof obj === 'object') {
 		const l = Object.keys(obj);
@@ -197,38 +245,75 @@ Date.prototype.format = function method(format) {
 	});
 	return fmt;
 };
-export const timeStandard = text => (text ? new Date(text * 1000).format('yyyy-MM-dd') : '--');
+export const timeStandard = (text, mark) => {
+	if (typeof text === 'number') return (text ? new Date(text * 1000).format('yyyy-MM-dd') : mark || '--');
+	return text;
+};
 
 //	返回a标签，可点击链接
-export const linkDom = (url, text, target, className) => React.createElement(
+export const linkDom = (url, text, target, className, style) => (url ? React.createElement(
 	'a',
 	{
 		href: url,
-		className: className || 'click-link',
+		className: `click-link${className ? ` ${className}` : ''}`,
 		rel: 'noopener noreferrer',
 		target: target || '_blank',
+		style,
+	},
+	text,
+) : text);
+//	返回a标签，可点击链接 => 债务人详情
+export const linkDetail = (id, text, target, className, style) => React.createElement(
+	'a',
+	{
+		href: `#/business/debtor/detail?id=${id}`,
+		className: `click-link${className ? ` ${className}` : ''}`,
+		rel: 'noopener noreferrer',
+		target: target || '_blank',
+		style,
+	},
+	text,
+);
+//	返回a标签，可点击链接 => 业务详情
+export const linkBusiness = (id, text, target, className, style) => React.createElement(
+	'a',
+	{
+		href: `#/business/detail?id=${id}`,
+		className: `click-link${className ? ` ${className}` : ''}`,
+		rel: 'noopener noreferrer',
+		target: target || '_blank',
+		style,
 	},
 	text,
 );
 
+/**
+ * 拼接修改url后的get参数
+ * @param url
+ * @param arg [参数名]
+ * @param _argVal
+ * @returns {*}
+ */
 export const changeURLArg = function method(url, arg, _argVal) {
-	const pattern = `${arg}=([^&]*)`;
-	const replaceText = `${arg}=${_argVal}`;
-	if (url.match(pattern)) {
-		let tmp = `/(${arg}=)([^&]*)/gi`;
-		tmp = url.replace(eval(tmp), replaceText);
-		return tmp;
+	const replaceText = _argVal ? `${arg}=${_argVal}` : '';
+	const argMatchRes = url.match(`${arg}=([^&]*)`);
+	if (argMatchRes) {
+		const regExp = replaceText ? `(${arg}=)([^&]*)` : `[&|?](${arg}=)([^&]*)`;
+		return url.replace(new RegExp(regExp, 'gi'), replaceText);
 	}
-	if (url.match('[?]')) return `${url}&${replaceText}`;
-	return `${url}?${replaceText}`;
+	const mark = url.match('[?]') ? '&' : '?';
+	return replaceText ? `${url}${mark}${replaceText}` : url;
 };
 
 // 将输入内容拼接到url上
 export const generateUrlWithParams = (url, params) => {
 	const urlParams = [];
 	let urlList = url;
-	// eslint-disable-next-line no-restricted-syntax
-	for (const key in params) {
+	// console.log(Object.keys(params).length, 3);
+
+	for (let i = 0; i < Object.keys(params).length; i += 1) {
+		const key = Object.keys(params)[i];
+
 		if (params[key]) {
 			urlParams.push(`${key}=${params[key]}`);
 		}
@@ -257,110 +342,54 @@ export const objectKeyIsEmpty = (obj) => {
 	return empty;
 };
 
-// 处理路由数据
-export const handleRule = (source) => {
-	const res = {};
-	source.forEach((item) => {
-		switch (item.groupName) {
-		case 'menu_sy':
-			res.menu_sy = {
-				id: 1,
-				groupName: item.groupName,
-				title: '首页',
-				rule: item.rule,
-			};
-			break;
-		case 'menu_jkxx':
-			if (res.menu_jkxx) {
-				res.menu_jkxx.children[item.rule] = item;
+/**
+ * 处理路由数据,对默认数据转换为可以使用的数据对象
+ * @param source
+ */
+export const handleRule = source => ruleMethods.handleRule(source);
+
+/**
+ * 返回默认对应rule数据结构，包含二级三级
+ * @param rule
+ * @param moduleID
+ * @returns {Array}
+ */
+export const { toGetRuleSource } = ruleMethods;
+
+export const toEmpty = (data) => {
+	if (data) {
+		if (typeof data === 'string') return data.trim();
+		if (typeof data === 'number') return data.toString().trim();
+		return JSON.toString(data);
+	}
+	return '';
+};
+
+/* 案件类型 */
+export const getCaseType = (caseType) => {
+	if (caseType === 1) return '普通案件';
+	if (caseType === 2) return '破产案件';
+	if (caseType === 3) return '执行案件';
+	if (caseType === 4) return '终本案件';
+	return '';
+};
+
+/* 去除小数点后，非正规数值 */
+export const reviseNum = (value) => {
+	if (value) {
+		const RegStr = new RegExp(/\.[\d,]+(?=[^\d,]|)/g);
+		const e = (value.match(RegStr) || [])[0];
+		if (e) {
+			let replaceStr = '';
+			if (/,/.test(e)) {
+				const _e = e.replace(',', '');
+				replaceStr = _e * 1 === 0 ? '' : (_e * 1).toString().slice(1);
 			} else {
-				res.menu_jkxx = {
-					id: 2,
-					groupName: item.groupName,
-					title: '监控信息',
-					children: {
-						[item.rule]: item,
-					},
-				};
+				replaceStr = e * 1 === 0 ? '' : (e * 1).toString().slice(1);
 			}
-			break;
-		case 'menu_gsgg':
-			if (res.menu_jkxx) {
-				res.menu_jkxx.children[item.rule] = item;
-			} else {
-				res.menu_jkxx = {
-					id: 2,
-					groupName: item.groupName,
-					title: '监控信息',
-					children: {
-						[item.rule]: item,
-					},
-				};
-			}
-			break;
-		case 'menu_ywgl':
-			if (res.menu_ywgl) {
-				res.menu_ywgl.children[item.rule] = item;
-			} else {
-				res.menu_ywgl = {
-					id: 3,
-					groupName: item.groupName,
-					title: '业务管理',
-					children: {
-						[item.rule]: item,
-					},
-				};
-			}
-			break;
-		case 'menu_qycx':
-			res.menu_qycx = {
-				id: 'menu_qycx',
-				groupName: item.groupName,
-				title: '企业查询',
-				rule: item.rule,
-			};
-			break;
-		case 'menu_xxss':
-			if (res.menu_xxss) {
-				res.menu_xxss.children[item.rule] = item;
-			} else {
-				res.menu_xxss = {
-					id: 5,
-					groupName: item.groupName,
-					title: '信息查询',
-					children: {
-						[item.rule]: item,
-					},
-				};
-			}
-			break;
-		case 'menu_jjgl':
-			if (res.menu_jjgl) {
-				res.menu_jjgl.children[item.rule] = item;
-			} else {
-				res.menu_jjgl = {
-					id: 6,
-					groupName: item.groupName,
-					title: '机构管理',
-					children: {
-						[item.rule]: item,
-					},
-				};
-			}
-			break;
-		default:
-			if (res.else) {
-				res.else.children[item.rule] = item;
-			} else {
-				res.else = {
-					id: 7,
-					title: '其他',
-					children: {
-						[item.rule]: item,
-					},
-				};
-			}
+			return value.replace(RegStr, replaceStr);
 		}
-	});
-	return res;
+		return value;
+	}
+	return value;
 };

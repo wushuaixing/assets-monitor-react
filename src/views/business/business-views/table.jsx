@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Modal, message, Tooltip, Table, Form,
+	Modal, message, Tooltip, Form,
 } from 'antd';
 import {
 	openPush, // 打开推送
@@ -8,6 +8,8 @@ import {
 	postDelete, // 删除一条记录
 } from '@/utils/api/business';
 import { formatDateTime } from '@/utils/changeTime';
+
+import { Table } from '@/common';
 
 const { confirm } = Modal;
 
@@ -35,13 +37,13 @@ class BusinessView extends React.Component {
 						<div className="table-column">
 							<div style={{ display: 'inline-block', float: 'left' }}>
 								<div>
-									<span style={{ marginRight: '6px' }}>借款人:</span>
-									<a
+									<span className="yc-public-remark" style={{ marginRight: '6px' }}>借款人:</span>
+									<span
 										onClick={() => {
 											const w = window.open('about:blank');
 											w.location.href = `#/business/debtor/detail?id=${row.obligorId}`;
 										}}
-										className="yc-click-obligorName"
+										className="yc-table-text-link"
 										style={{ display: 'inline-block' }}
 									>
 										{
@@ -53,10 +55,10 @@ class BusinessView extends React.Component {
 												)
 												: <p>{text || '-'}</p>
 										}
-									</a>
+									</span>
 								</div>
 								<div>
-									<span style={{ marginRight: '6px' }}>证件号:</span>
+									<span className="yc-public-remark" style={{ marginRight: '6px' }}>证件号:</span>
 									<p style={{ display: 'inline-block' }}>
 										{row.obligorNumber || '-'}
 									</p>
@@ -69,7 +71,7 @@ class BusinessView extends React.Component {
 				title: '机构名称',
 				dataIndex: 'orgName',
 				key: 'orgName',
-				width: 134,
+				width: 150,
 				render: text => (
 					<p>{text || '-'}</p>
 				),
@@ -79,17 +81,19 @@ class BusinessView extends React.Component {
 				dataIndex: 'guarantorCount',
 				key: 'guarantorCount',
 				width: 68,
+				className: 'column-center',
 				render(text, row) {
 					if (text === '0' || !text) {
 						return <div>0</div>;
 					}
-					return <a className="yc-click-obligorName" onClick={() => openPeopleModal(row.id)}>{text}</a>;
+					return <span className="yc-table-text-link" onClick={() => openPeopleModal(row.id)}>{text}</span>;
 				},
 			}, {
 				title: '相关推送',
 				dataIndex: 'pushCount',
 				key: 'pushCount',
 				width: 80,
+				className: 'column-center',
 				render(text) {
 					if (text === '0' || !text) {
 						return <div>0</div>;
@@ -108,7 +112,7 @@ class BusinessView extends React.Component {
 				title: '上传时间',
 				dataIndex: 'uploadTime',
 				key: 'uploadTime',
-				width: 90,
+				width: 130,
 				render(text) {
 					return <span>{formatDateTime(text) || '-'}</span>;
 				},
@@ -116,7 +120,7 @@ class BusinessView extends React.Component {
 				title: '推送状态',
 				dataIndex: 'pushState',
 				key: 'pushState',
-				width: 110,
+				width: 80,
 				render: text => (
 					<React.Fragment>
 						{
@@ -137,13 +141,14 @@ class BusinessView extends React.Component {
 			}, {
 				title: '操作',
 				key: 'operation',
+				className: 'column-center',
 				render: (text, row) => (
 					<span>
-						<a onClick={() => this.detail(row)}>查看详情</a>
+						<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看详情</span>
 						<span className="ant-divider" />
-						<a onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</a>
+						<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>
 						<span className="ant-divider" />
-						<a onClick={() => this.showDeleteConfirm(row)}>删除</a>
+						<span className="yc-table-text-link" onClick={() => this.showDeleteConfirm(row)}>删除</span>
 					</span>
 				),
 			}],
@@ -154,7 +159,7 @@ class BusinessView extends React.Component {
 	detail = (row) => {
 		const w = window.open('about:blank');
 		w.location.href = `#/business/detail?id=${row.id}`;
-	}
+	};
 
 	// 删除一条业务
 	showDeleteConfirm = (row) => {
@@ -189,7 +194,7 @@ class BusinessView extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	// 关闭, 开启推送
 	handlePut = (row) => {
@@ -226,7 +231,7 @@ class BusinessView extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	render() {
 		const { stateObj, rowSelection } = this.props;
@@ -235,7 +240,9 @@ class BusinessView extends React.Component {
 			<React.Fragment>
 				<Table
 					rowSelection={stateObj.openRowSelection ? rowSelection : null}
-					rowKey={record => record.id}
+					bordered={false}
+					// rowKey={record => record.id}
+					rowKey={record => JSON.stringify(record)}
 					columns={columns}
 					dataSource={stateObj.dataList}
 					style={{ width: '100%' }}

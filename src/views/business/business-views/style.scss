@@ -1,10 +1,14 @@
 .yc-business-tablebtn {
-  margin: 15px 0;
+  margin: 20px 0 16px 0;
   position: relative;
   overflow: hidden;
+  .yc-btn {
+    margin-right: 10px;
+  }
   .yc-business-icon {
+    width: 16px;
     position: relative;
-    top: 1px;
+    top: 4px;
     cursor: pointer;
   }
 }
@@ -22,13 +26,7 @@
   height: 16px;
   background-image: url("../../../assets/img/icon/icon_export.png");
 }
-.yc-click-obligorName {
-  color: #337ab7;
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-}
+
 .confirm-body {
   padding: 14px;
 } 

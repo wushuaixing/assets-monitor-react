@@ -20,7 +20,7 @@ import {
 } from '@/utils/api/search';
 import './style.scss';
 
-const _style1 = { width: 274 };
+const _style1 = { width: 278 };
 const _style2 = { width: 120 };
 const createForm = Form.create;
 
@@ -65,6 +65,10 @@ class AUCTION extends React.Component {
 			this.getData(objParams); // 进入页面请求数据
 		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUpdate() {
+		window.scrollTo(0, 0); // 回到顶部
 	}
 
 	componentWillUnmount() {
@@ -391,7 +395,7 @@ class AUCTION extends React.Component {
 						})}
 					/>
 				</div>
-				<div className="yc-query-item">
+				<div className="yc-query-item" style={{ marginRight: 0 }}>
 					<InputPrice
 						title="评估价"
 						style={_style1}
@@ -431,7 +435,7 @@ class AUCTION extends React.Component {
 						})}
 					/>
 				</div>
-				<div style={{ borderBottom: '1px solid #F0F2F5' }}>
+				<div>
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">开拍时间: </span>
 						<DatePicker
@@ -486,12 +490,14 @@ class AUCTION extends React.Component {
 						</Select>
 					</div>
 					<div className="yc-query-item yc-query-item-btn">
-						<Button onClick={this.search} size="large" type="warning" style={{ width: 84 }}>查询</Button>
-						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
+						<Button onClick={this.search} size="large" type="common" style={{ width: 84 }}>查询</Button>
+						<Button onClick={this.queryReset} size="large" style={{ width: 110, marginRight: 0 }}>重置查询条件</Button>
 					</div>
 				</div>
+				{/* 分隔下划线 */}
+				<div className="yc-noTab-hr" />
 				<div className="yc-auction-tablebtn">
-					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={fullAssetSearchExport} current page num text="本页导出" />}
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={fullAssetSearchExport} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={fullAssetSearchExport} all page num text="全部导出" />
 					<div className="yc-btn-right">
 						{dataList.length > 0 && <span className="yc-right-total">{`源诚科技为您找到${totals}条信息`}</span>}
@@ -520,7 +526,8 @@ class AUCTION extends React.Component {
 				</div>
 				<Spin visible={loading}>
 					<AuctionTable stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
-					<div className="yc-pagination">
+					{dataList && dataList.length > 0 && (
+					<div className="yc-table-pagination">
 						<Pagination
 							total={totals && totals > 1000 ? 1000 : totals}
 							current={current}
@@ -538,6 +545,7 @@ class AUCTION extends React.Component {
 							}}
 						/>
 					</div>
+					)}
 					{page === 100 && (
 					<span style={{
 						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,

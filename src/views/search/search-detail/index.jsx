@@ -8,6 +8,7 @@ import Write from './writ';
 import Auction from './auction';
 import Finance from './finance';
 import Lawsuits from './lawsuits';
+import Bankruptcy from './bankruptcy';
 
 const source = rule => ([
 	{
@@ -42,11 +43,18 @@ const source = rule => ([
 		open: !!(rule && rule.xxssjrzc),
 		components: Finance,
 	},
+	{
+		id: 5,
+		name: '破产重组',
+		url: '/search/detail/bankruptcy',
+		number: 0,
+		open: !!(rule && rule.xxssjrzc),
+		components: Bankruptcy,
+	},
 ]);
 
 const SearchBase = (props) => {
 	const { rule } = props && props;
-	// TODO 改了权限，true改成false,上传改回来
 	const displayArray = source(rule).filter(item => item.open === true); // 过滤权限
 
 	return (

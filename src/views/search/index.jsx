@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
 import Tabs from './search-tab';
 import Datas from './search-data';
 import Router from '@/utils/Router';
 import Detail from './search-detail';
+import './index.scss';
 
 const tabSource = rule => ([
 	{
@@ -32,6 +32,13 @@ const tabSource = rule => ([
 		display: !!(rule && rule.xxssjrzc),
 		types: [],
 	},
+	{
+		id: 5,
+		name: '破产重组',
+		router: 'bankruptcy',
+		display: !!(rule && rule.xxssjrzc),
+		types: [],
+	},
 ]);
 const HomeRouter = (props) => {
 	const { rule } = props && props;
@@ -48,7 +55,6 @@ const HomeRouter = (props) => {
 			<div className="tab-search">
 				<Tabs
 					simple
-					// TODO 改了权限，displayArray改成tabSource(rule),上传改回来
 					source={displayArray}
 					onChange={(item) => {
 						setActive(item);

@@ -1,4 +1,3 @@
-.yc-content-query {
   .yc-lawsuits-items {
     position: relative;
     margin-bottom: 18px;
@@ -16,12 +15,8 @@
       position: relative;
       top: 10px;
       cursor: pointer;
+      width: 16px;
+      height: 16px;
     }
   }
-  .yc-lawsuits-tablebtn {
-    margin: 15px 0;
-  }
-  .yc-tabs-simple ul {
-    padding-left: 0;
-  }
-}
+

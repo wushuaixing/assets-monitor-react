@@ -13,13 +13,13 @@ import {
 	login, // login
 	loginPreCheck, // 登录前校验
 } from '@/utils/api/user';
-import { baseUrl } from '@/utils/api';
+import BASE_URL from '@/utils/api/config';
 import rsaEncrypt from '@/utils/encrypt';
 import PasswordModal from './passwordModal';
 import { handleRule } from '@/utils';
 import './style.scss';
 
-const verificationCodeImg = `${baseUrl}/yc/open/verificationCode`;
+const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
 
 const cookie = new Cookies();
 const createForm = Form.create;
@@ -51,7 +51,7 @@ class Login extends React.Component {
 
 	// 记住密码
 	checkboxChange = (e) => {
-		cookie.set('rememberPassword', e.target.checked);
+		cookie.set('rememberPassword', e.target.checked, { SameSite: 'none' });
 		this.setState({
 			rememberPassword: e.target.checked,
 		});
@@ -92,11 +92,11 @@ class Login extends React.Component {
 							if (rememberPassword === 'false') {
 								cookie.remove('userName');
 							} else {
-								cookie.set('userName', fields.username);
+								cookie.set('userName', fields.username, { SameSite: 'none' });
 							}
 							message.success('登陆成功');
-							cookie.set('token', res.data.token);
-							cookie.set('firstLogin', res.data.firstLogin);
+							cookie.set('token', res.data.token, { SameSite: 'none' });
+							cookie.set('firstLogin', res.data.firstLogin, { SameSite: 'none' });
 							const rule = handleRule(res.data.rules);
 
 							// 判断是否是第一次登录

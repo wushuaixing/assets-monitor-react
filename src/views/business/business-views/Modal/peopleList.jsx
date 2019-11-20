@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-	Modal, Table, message,
+	Modal, message,
 } from 'antd';
 import {
 	postGuaranteeList, // 担保人
 } from '@/utils/api/business';
-import { Spin } from '@/common';
+import { Spin, Table } from '@/common';
 
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
@@ -60,6 +60,9 @@ export default class DetailModal extends React.PureComponent {
 				});
 			} else {
 				message.error(res.message);
+				this.setState({
+					loading: false,
+				});
 			}
 		});
 	}

@@ -6,7 +6,7 @@ import React from 'react';
 // ==================
 
 import {
-	Form, Input, Button, Table, Affix, Tooltip, Icon, message,
+	Form, Input, Table, Affix, Tooltip, Icon, message,
 } from 'antd';
 import {
 	selfTree, // login
@@ -22,6 +22,8 @@ import './style.scss';
 // 是否为IE
 
 const createForm = Form.create;
+
+// 首页跳转
 const skip = (text, row) => {
 	const params = {
 		orgId: row.id,
@@ -36,7 +38,7 @@ const skip = (text, row) => {
 
 				const hide = message.loading('正在切换机构,请稍后...', 0);
 				setTimeout(() => {
-					// window.location.reload(); // 实现页面重新加载/
+					window.location.reload(); // 实现页面重新加载/
 					const w = window.open('about:blank');
 					w.location.href = `#/${text}`;
 				}, latency);
@@ -75,6 +77,7 @@ const columns = [
 		key: 'obligorCount',
 		dataIndex: 'obligorCount',
 		id: 'obligorCount',
+		className: 'column-center',
 		width: 174,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('business/debtor', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -83,6 +86,7 @@ const columns = [
 		key: 'monitorTotalCount',
 		dataIndex: 'monitorTotalCount',
 		id: 'monitorTotalCount',
+		className: 'column-center',
 		width: 92,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=1', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -91,6 +95,7 @@ const columns = [
 		key: 'monitorUnfollowedCount',
 		dataIndex: 'monitorUnfollowedCount',
 		id: 'monitorUnfollowedCount',
+		className: 'column-center',
 		width: 112,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=-1', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -99,6 +104,7 @@ const columns = [
 		key: 'monitorFollowedCount',
 		dataIndex: 'monitorFollowedCount',
 		id: 'monitorFollowedCount',
+		className: 'column-center',
 		width: 92,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=3', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -107,6 +113,7 @@ const columns = [
 		key: 'monitorDoneCount',
 		dataIndex: 'monitorDoneCount',
 		id: 'monitorDoneCount',
+		className: 'column-center',
 		width: 92,
 		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=9', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
 	},
@@ -115,6 +122,7 @@ const columns = [
 		dataIndex: 'recovery',
 		key: 'recovery',
 		id: 'recovery',
+		className: 'column-right',
 		render: text => <span>{toThousands(text)}</span>,
 	},
 ];
@@ -128,9 +136,6 @@ class Login extends React.Component {
 			isOpen: false,
 			treeList: [],
 			dataListArray: null,
-		};
-		this.refInfo = {
-			input: '',
 		};
 	}
 
@@ -163,10 +168,10 @@ class Login extends React.Component {
 		const that = this;
 		selfTree().then((res) => {
 			if (res && res.data) {
-				const dataListArray = JSON.parse(JSON.stringify(that.IterationDelateMenuChildren([res.data.tree])));
+				const dataListArray = JSON.parse(JSON.stringify(that.IterationDeleteMenuChildren([res.data.tree])));
 
 				this.setState({
-					treeList: that.IterationDelateMenuChildren([res.data.tree]),
+					treeList: that.IterationDeleteMenuChildren([res.data.tree]),
 					dataListArray,
 				});
 			} else {
@@ -184,10 +189,10 @@ class Login extends React.Component {
 			isOpen: false,
 			searchValue: val.name,
 		});
-	}
+	};
 
 	// 根据单个名字筛选
-	filterByName = (aim, name) => aim.filter(item => item.name.indexOf(name) !== -1)
+	filterByName = (aim, name) => aim.filter(item => item.name.indexOf(name) !== -1);
 	// 输入 aim 'Leila' 期望输出为 [{name:'Leila', age: 16, gender:'female'}]
 
 	inputValue= (e) => {
@@ -202,7 +207,7 @@ class Login extends React.Component {
 			selectList: this.filterByName(arr, value),
 			searchValue: value,
 		});
-	}
+	};
 
 	btnSearch = (value) => {
 		const { dataListArray } = this.state;
@@ -213,7 +218,7 @@ class Login extends React.Component {
 				treeList: list,
 			});
 		}
-	}
+	};
 
 	inputSearchFoucs = () => {
 		const { dataListArray, selectList, searchValue } = this.state;
@@ -221,7 +226,7 @@ class Login extends React.Component {
 			isOpen: true,
 			selectList: dataListArray && flat(dataListArray) && searchValue.length > 0 ? selectList : flat(dataListArray).filter(item => item !== undefined),
 		});
-	}
+	};
 
 	inputSearchBlur = () => {
 		setTimeout(() => {
@@ -229,7 +234,7 @@ class Login extends React.Component {
 				isOpen: false,
 			});
 		}, 200);
-	}
+	};
 
 	clearInputValue = () => {
 		const { dataListArray } = this.state;
@@ -240,24 +245,24 @@ class Login extends React.Component {
 			searchValue: '',
 			selectList: dataListArray && flat(dataListArray) && flat(dataListArray).filter(item => item !== undefined),
 		});
-	}
+	};
 
 	onKeyup = (e) => {
 		const { value } = e.target;
 		if (e.keyCode === 13) {
 			this.btnSearch(value);
 		}
-	}
+	};
 
 	// 递归去掉空children
-	IterationDelateMenuChildren = (arr) => {
+	IterationDeleteMenuChildren = (arr) => {
 		if (arr.length) {
 			arr.forEach((i, index) => {
 				if (arr[index] && arr[index].children && arr[index].children.length > 0) {
-					this.IterationDelateMenuChildren(arr[index].children);
+					this.IterationDeleteMenuChildren(arr[index].children);
 				} else {
-					// eslint-disable-next-line no-param-reassign
-					delete arr[index].children;
+					const newArray = arr;
+					delete newArray[index].children;
 				}
 			});
 		}
@@ -274,7 +279,9 @@ class Login extends React.Component {
 
 			<Form>
 				<div className="yc-group-search">
+					<Icon className="yc-search-icon" type="search" />
 					<Input
+						// addonBefore={<Icon type="search" />}
 						className="yc-group-input"
 						placeholder="请输入机构名称"
 						autoComplete="off"
@@ -286,7 +293,6 @@ class Login extends React.Component {
 						onKeyUp={this.onKeyup}
 						onBlur={e => this.inputSearchBlur(e)}
 					/>
-					<Button onClick={() => this.btnSearch(searchValue || '')} className="yc-group-button">搜索</Button>
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (
@@ -304,10 +310,10 @@ class Login extends React.Component {
 					<table className="table table-striped treetable" style={{ marginBottom: 0 }}>
 						<tbody>
 							<tr className="tr-table">
-								<th rowSpan=" 2 " style={{ width: 400 }}>机构名称</th>
+								<th rowSpan=" 2 " style={{ width: 400, textAlign: 'left' }}>机构名称</th>
 								<th rowSpan=" 2 " style={{ width: 174 }}>监控债务人数</th>
 								<th colSpan="4" style={{ width: 388 }}>监控信息数</th>
-								<th rowSpan=" 2 " style={{ width: 198 }}>追回总金额(元)</th>
+								<th rowSpan=" 2 " style={{ width: 198, textAlign: 'right' }}>追回总金额 (元)</th>
 							</tr>
 							<tr className="tr-table">
 								<th style={{ width: 92 }}>全部</th>
@@ -333,7 +339,6 @@ class Login extends React.Component {
 					<div className="yc-no-container">
 						<div className="yc-data-img" />
 						<span>暂无数据</span>
-
 					</div>
 				)
 			}

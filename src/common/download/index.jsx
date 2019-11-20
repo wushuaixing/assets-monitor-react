@@ -5,6 +5,8 @@ import PropTypes from 'reactPropTypes';
 import { exportFile, normalGet } from '@/utils/api/home';
 import { clearEmpty, urlEncode } from '@/utils';
 import Button from '../button';
+import baseUrl from '@/utils/api/config';
+import ModalTable from '../../views/business/business-views/modalTable';
 
 const cookies = new Cookies();
 export default class Download extends React.Component {
@@ -17,7 +19,7 @@ export default class Download extends React.Component {
 
 	handleDownload=() => {
 		const {
-			api, condition, all, field, current, page, num,
+			api, condition, all, field, current, page, num, selectIds, selectData, selectedRowKeys,
 		} = this.props;
 
 		// 处理变量参数
@@ -40,7 +42,9 @@ export default class Download extends React.Component {
 				const { code, data } = res;
 				if (code === 200) {
 					this.setState({ loadingStatus: 'normal' });
-					window.open(`${exportFile(data)}?token=${token}`, '_self');
+					// console.log(baseUrl, `${baseUrl}${exportFile(data)}?token=${token}`);
+					// return false;
+					window.open(`${baseUrl}${exportFile(data)}?token=${token}`, '_self');
 				} else {
 					this.setState({ loadingStatus: 'normal' });
 					message.error(res.message || '网络异常请稍后再试');
@@ -49,6 +53,7 @@ export default class Download extends React.Component {
 				message.warning('网络异常请稍后再试！');
 			});
 		};
+
 		if (current) {
 			// console.log('本页导出');
 			Modal.confirm({
@@ -60,8 +65,29 @@ export default class Download extends React.Component {
 				},
 				onCancel() {},
 			});
+		} else if (selectIds) {
+			const _selectedRowKeys = (typeof selectedRowKeys === 'function' ? selectedRowKeys() : selectedRowKeys) || [];
+			if (_selectedRowKeys && _selectedRowKeys.length > 0) {
+				Modal.confirm({
+					title: '确认导出选中的所有信息吗？',
+					width: (selectData ? 600 : 420),
+					content: (
+						<div style={selectData && { marginLeft: -37 }}>
+							<div style={{ fontSize: 14, marginBottom: 20 }}>点击确定，将为您导出选中的所有信息。</div>
+							{selectData && <ModalTable selectData={selectData} getData={this.getData} />}
+						</div>
+					),
+					iconType: 'exclamation-circle',
+					onOk() {
+						toOkClick();
+					},
+					onCancel() {},
+				});
+			} else {
+				message.warning('未选中业务');
+			}
 		} else if (all) {
-			// console.log('一键导出');
+			console.log('一键导出');
 			Modal.confirm({
 				title: '确认导出选中的所有信息吗？',
 				content: '点击确定，将为您导出所有选中的信息',
@@ -73,7 +99,7 @@ export default class Download extends React.Component {
 			});
 		} else if (c[field] && window._.isArray(c[field])) {
 			if (c[field].length > 0) {
-				// console.log('部分导出');
+				console.log('部分导出');
 				toOkClick();
 			} else {
 				message.warning('未选中业务');
@@ -92,7 +118,7 @@ export default class Download extends React.Component {
 		} = this.props;
 
 		return (
-			<Button disabled={loadingStatus === 'loading' || disabled} onClick={this.handleDownload} style={style || ''}>
+			<Button className={all && 'yc-all-export'} disabled={loadingStatus === 'loading' || disabled} onClick={this.handleDownload} style={style}>
 				{
 					loadingStatus === 'loading' ? <Icon type="loading" /> : <span className={all ? 'yc-export-img' : ''} />
 				}

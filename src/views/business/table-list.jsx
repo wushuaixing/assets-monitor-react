@@ -2,13 +2,13 @@ import React from 'react';
 import API from '@/utils/api/business-list';
 import { getQueryByName } from '@/utils';
 import { Tabs, Spin } from '@/common';
-import Table0010 from '../monitor/assets-auction/table-intact';
-import Table0020 from '../monitor/subrogation/table-intact';
-import Table0031 from '../monitor/financial-assets/table/table-biding';
-import Table0032 from '../monitor/financial-assets/table/table-publicity';
-import Table0040 from '../monitor/lawsuits-monitor/table-intact';
-import Table0050 from '../monitor/bankruptcy/table-intact';
-import Table0060 from '../monitor/public-proclamation/table-intact';
+import Table0010 from '../asset-excavate/assets-auction/table-intact';
+import Table0020 from '../asset-excavate/subrogation/table-intact';
+import Table0031 from '../asset-excavate/financial-assets/table/table-biding';
+import Table0032 from '../asset-excavate/financial-assets/table/table-publicity';
+import Table0040 from '../risk-monitor/lawsuits-monitor/table-intact';
+import Table0050 from '../risk-monitor/bankruptcy/table-intact';
+import Table0060 from '../asset-excavate/public-proclamation/table-intact';
 import Table0070 from './table-dishonest';
 import './style.scss';
 
@@ -24,7 +24,7 @@ const toGetDefaultConfig = (c) => {
 			id: 2,
 			name: '代位权',
 			field: 'subrogation',
-			status: Boolean(c.subrogationCourtSessionCount || c.subrogationFilingCount),
+			status: Boolean(c.subrogationCourtSessionCount || c.subrogationFilingCount) && false,
 			child: [
 				{ id: 21, name: '立案信息', status: Boolean(c.subrogationFilingCount) },
 				{ id: 22, name: '开庭公告', status: Boolean(c.subrogationCourtSessionCount) },
@@ -44,7 +44,7 @@ const toGetDefaultConfig = (c) => {
 			id: 4,
 			name: '涉诉监控',
 			field: 'monitor',
-			status: Boolean(c.trialCourtSessionCount || c.trialFilingCount),
+			status: Boolean(c.trialCourtSessionCount || c.trialFilingCount) && false,
 			child: [
 				{ id: 41, name: '立案信息', status: Boolean(c.trialFilingCount) },
 				{ id: 42, name: '开庭公告', status: Boolean(c.trialCourtSessionCount) },
