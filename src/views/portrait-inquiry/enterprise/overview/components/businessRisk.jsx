@@ -44,7 +44,7 @@ export default class BusinessRisk extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	render() {
 		const { columnarData, loading, columnarNum } = this.state;
@@ -53,7 +53,9 @@ export default class BusinessRisk extends React.Component {
 			<div>
 				<Spin visible={loading}>
 					{columnarData && getCount(columnarData) === 0 ? (
-						<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到经营风险信息" />
+						<div>
+							{loading ? '' : <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到经营风险信息" />}
+						</div>
 					) : (
 						<div>
 							{

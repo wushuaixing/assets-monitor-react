@@ -70,7 +70,7 @@ export default class OverView extends React.Component {
 			);
 		default: return '-';
 		}
-	}
+	};
 
 	render() {
 		const {
@@ -91,7 +91,7 @@ export default class OverView extends React.Component {
 					AssetAuctionCount === 0 && SubrogationCount === 0
 						&& (
 						<Spin visible={AssetAuctionLoading}>
-							<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
+							{AssetAuctionLoading ? '' : <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />}
 						</Spin>
 						)
 					}
@@ -112,7 +112,7 @@ export default class OverView extends React.Component {
 						InvolvedCount === 0 && LostLetterCount === 0 && TaxViolationCount === 0
 							&& (
 							<Spin visible={RiskSituation}>
-								<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到风险信息" />
+								{RiskSituation ? '' : <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到风险信息" />}
 							</Spin>
 							)
 						}

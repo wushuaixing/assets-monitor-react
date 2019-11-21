@@ -19,7 +19,7 @@ import './style.scss';
 const source = () => [
 	{
 		id: 201,
-		name: '　概况　',
+		name: '概览',
 		field: 'totalCount',
 	},
 	{

@@ -14,21 +14,21 @@ export default class Land extends React.Component {
 					name: '出让结果',
 					number: toGetNumber(props.data, 10301),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10201)),
+					disabled: !(toGetNumber(props.data, 10301)),
 				},
 				{
 					id: 10302,
 					name: '土地转让',
 					number: toGetNumber(props.data, 10302),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10201)),
+					disabled: !(toGetNumber(props.data, 10302)),
 				},
 				{
 					id: 10303,
 					name: '土地抵押',
 					number: toGetNumber(props.data, 10303),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10201)),
+					disabled: !(toGetNumber(props.data, 10303)),
 				}],
 		};
 	}

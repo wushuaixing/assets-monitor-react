@@ -15,6 +15,18 @@ const status = (value) => {
 	}
 };
 
+const statusPrice = (value) => {
+	switch (value) {
+	case 1: return '起拍价: ';
+	case 5: return '成交价: ';
+	case 3:
+	case 7:
+	case 9:
+	case 11: return '当前价: ';
+	default: return '-';
+	}
+};
+
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -27,7 +39,7 @@ export default class DetailModal extends React.PureComponent {
 	handleCancel=() => {
 		const { onCancel } = this.props;
 		onCancel();
-	}
+	};
 
 	render() {
 		const { loading } = this.state;
@@ -35,7 +47,7 @@ export default class DetailModal extends React.PureComponent {
 		console.log(data);
 
 		return (
-			<Modal title="历史拍卖信息" width={880} style={{ 'max-height': 650 }} visible={historyInfoModalVisible} footer={(null)} onCancel={this.handleCancel}>
+			<Modal title="历史拍卖信息" width={880} style={{ 'max-height': 650 }} visible={historyInfoModalVisible} footer={null} onCancel={this.handleCancel}>
 				<Spin visible={loading}>
 
 					<div className="yc-history-concent">
@@ -64,7 +76,7 @@ export default class DetailModal extends React.PureComponent {
 												</span>
 												<div className="yc-table-line" />
 												<span className="yc-item-lable">
-													<span className="yc-history-lable">当前价：</span>
+													<span className="yc-history-lable">{statusPrice(item.status)}</span>
 													{`${toThousands(item.currentPrice)} 元`}
 												</span>
 												<div className="yc-table-line" />

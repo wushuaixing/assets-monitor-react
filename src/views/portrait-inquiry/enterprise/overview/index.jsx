@@ -84,7 +84,7 @@ export default class OverView extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	// 获取资产监控可模块数量
 	getAssetProfile = (AssetProfileCountValue, type) => {
@@ -121,7 +121,7 @@ export default class OverView extends React.Component {
 			);
 		default: return '-';
 		}
-	}
+	};
 
 	render() {
 		const {
@@ -150,7 +150,7 @@ export default class OverView extends React.Component {
 						AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0
 						&& (
 						<Spin visible={loading}>
-							<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />
+							{loading ? '' : <NoContent style={{ paddingBottom: 40 }} font="暂未匹配到资产信息" />}
 						</Spin>
 						)
 					}
@@ -164,7 +164,7 @@ export default class OverView extends React.Component {
 					</div>
 					<div className="mark-line" />
 					<div className="yc-overview-title">涉诉情况</div>
-					{litigationInfos && yearDistributions && yearDistributions.length === 0 && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0 ? (
+					{litigationInfos && yearDistributions && yearDistributions.length === 0 && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && 				litigationInfos[2].count === 0 ? (
 						<NoContent style={{ paddingBottom: 40 }} font="暂未匹配到涉诉信息" />
 					) : (
 						<Spin visible={litigationLoading}>
