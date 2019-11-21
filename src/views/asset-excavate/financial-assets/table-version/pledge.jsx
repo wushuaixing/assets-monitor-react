@@ -42,7 +42,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">质权人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
-							{ toEmpty(value[0].pledgee) ? <Ellipsis content={value[0].pledgee} tooltip width={200} /> : '--'}
+							{ (value || []).length ? <Ellipsis content={value.join('、')} tooltip width={200} /> : '--'}
 						</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">出质股权数额</span>

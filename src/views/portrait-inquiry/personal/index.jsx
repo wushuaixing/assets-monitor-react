@@ -27,14 +27,12 @@ const source = () => [
 		name: '资产',
 		number: 0,
 		showNumber: false,
-		disabled: true,
 	},
 	{
 		id: 203,
 		name: '风险',
 		number: 0,
 		showNumber: false,
-		disabled: true,
 	},
 ];
 
@@ -168,9 +166,8 @@ export default class Personal extends React.Component {
 		requestAll(reqList).then((res) => {
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
-			con[index].disabled = !count;
 			con[index].number = count;
-			con[index].showNumber = Boolean(count);
+			con[index].showNumber = true;
 			cou[field] = res;
 			this.setState({
 				tabConfig: con,

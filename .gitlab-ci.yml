@@ -37,7 +37,7 @@ build_step:
     - mv -f ./src/utils/api/config/index.js ./src/utils/api/config/temp.js
     - mv -f ./src/utils/api/config/dev.js ./src/utils/api/config/index.js
     - cat ./src/utils/api/config/index.js
-    ## - yarn build:index
+    - yarn build:index
 
 # 拷贝
 deploy_step:
