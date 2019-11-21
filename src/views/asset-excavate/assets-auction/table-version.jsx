@@ -63,7 +63,7 @@ const AuctionInfo = (text, rowContent) => {
 						<li className="table-info-list ">
 							<span className="info info-title">起拍价：</span>
 							<span className="info-content info-over">
-								{initialPrice ? `${floatFormat(initialPrice.toFixed(2))} 元` : '未知'}
+								{initialPrice || initialPrice === 0 ? `${floatFormat(initialPrice.toFixed(2))} 元` : '未知'}
 							</span>
 						</li>
 					),
@@ -71,7 +71,7 @@ const AuctionInfo = (text, rowContent) => {
 						<li className="table-info-list ">
 							<span className="info info-title">成交价：</span>
 							<span className="info-content info-over">
-								{currentPrice ? `${floatFormat(currentPrice.toFixed(2))} 元` : '未知'}
+								{currentPrice || currentPrice === 0 ? `${floatFormat(currentPrice.toFixed(2))} 元` : '未知'}
 							</span>
 						</li>
 					),
@@ -79,7 +79,7 @@ const AuctionInfo = (text, rowContent) => {
 					<li className="table-info-list ">
 						<span className="info info-title">当前价：</span>
 						<span className="info-content">
-							{currentPrice ? `${floatFormat(currentPrice.toFixed(2))} 元` : '未知'}
+							{currentPrice || currentPrice === 0 ? `${floatFormat(currentPrice.toFixed(2))} 元` : '未知'}
 						</span>
 					</li>
 				)
@@ -92,14 +92,14 @@ const AuctionInfo = (text, rowContent) => {
 
 const toGetType = (ary) => {
 	if (ary.length) {
-		const { type } = ary[0];
+		const { labelType: type } = ary[0];
 		//	1：资产所有人 2：债权人 3：资产线索 4：起诉人 5：竞买人
 		let typeName = '--';
 		switch (type) {
 		case 1: typeName = '资产所有人'; break;
 		case 2: typeName = '债权人'; break;
 		case 3: typeName = '资产线索'; break;
-		case 4: typeName = '起诉人'; break;
+		// case 4: typeName = '起诉人'; break;
 		case 5: typeName = '竞买人'; break;
 		default: typeName = '--';
 		}

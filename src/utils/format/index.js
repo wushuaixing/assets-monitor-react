@@ -1,4 +1,4 @@
-export const numberFormat = function (num) {
+export const numberFormat = function method(num) {
 	if (num.length <= 3) {
 		return num;
 	}
@@ -6,7 +6,7 @@ export const numberFormat = function (num) {
 	const arr = str.split('');
 	const arr1 = arr.slice(0);
 	let i = 1;
-	for (let j = 0; j <= i; j++) {
+	for (let j = 0; j <= i; j += 1) {
 		if ((i * 3) < arr.length) {
 			arr1.splice(arr.length - (3 * i), 0, ',');
 			i += 1;
@@ -22,7 +22,7 @@ export const floatFormat = (item) => {
 		return result;
 	}
 	const type = Number.parseFloat(item);
-	const bol = isNaN(type);
+	const bol = Number.isNaN(type);
 	if (bol) {
 		result = item;
 		return result;
