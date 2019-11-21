@@ -52,6 +52,7 @@ export default class Subrogation extends React.Component {
 					onChange={this.onSourceType}
 					source={config}
 					symbol="none"
+					defaultCurrent={sourceType}
 					prefix={(
 						<div className="yc-tabs-simple-prefix" style={{ width: 100 }}>
 							<span>代位权</span>

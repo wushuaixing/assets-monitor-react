@@ -50,7 +50,7 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">债务人履行债务的期限</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content " style={{ maxWidth: 'none' }}>{row.term}</span>
+						<span className="list list-content " style={{ maxWidth: 'none' }}>{row.term || '--'}</span>
 					</li>
 				</div>
 			),

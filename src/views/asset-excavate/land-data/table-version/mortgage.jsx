@@ -3,8 +3,9 @@ import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import { Mortgage } from './common';
+import { getQueryByName } from '@/utils';
 
-const { result } = assets;
+const { landMortgage } = assets;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -40,10 +41,12 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
+		const companyId = getQueryByName(window.location.href, 'id');
 		this.setState({ loading: true });
-		result.list({
+		landMortgage.list({
 			num: 5,
 			page: page || 1,
+			companyId,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

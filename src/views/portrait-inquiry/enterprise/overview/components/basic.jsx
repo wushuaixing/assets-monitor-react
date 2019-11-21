@@ -32,7 +32,7 @@ export default class Basic extends React.Component {
 						<div className="yc-basic-name">成立日期:</div>
 						<div className="yc-basic-description">{baseInfo.estiblishTime || '-'}</div>
 					</div>
-					<div className="yc-basic">
+					<div className="yc-basic" style={{ width: '100%' }}>
 						<div className="yc-basic-name">注册地址:</div>
 						<div className="yc-basic-description">{baseInfo.regLocation || '-'}</div>
 					</div>

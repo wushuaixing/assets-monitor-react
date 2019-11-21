@@ -6,8 +6,9 @@ import { toGetDefaultId, toGetNumber } from '@/utils/promise';
 export default class Land extends React.Component {
 	constructor(props) {
 		super(props);
+		const defaultID = toGetDefaultId(props.data);
 		this.state = {
-			sourceType: toGetDefaultId(props.data),
+			sourceType: defaultID,
 			config: [
 				{
 					id: 10301,
@@ -43,12 +44,14 @@ export default class Land extends React.Component {
 	render() {
 		const { config, sourceType } = this.state;
 		const { id } = this.props;
+
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
 					onChange={this.onSourceType}
 					source={config}
 					symbol="none"
+					defaultCurrent={sourceType}
 					prefix={<div className="yc-tabs-simple-prefix">土地信息</div>}
 				/>
 				<div className="inquiry-public-table">

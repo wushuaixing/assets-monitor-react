@@ -21,7 +21,7 @@ export default class Intangible extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">动产抵押</div>}
 				/>
 				<div className="inquiry-public-table">
-					{'default Text'}
+					default Text
 				</div>
 			</div>
 		);

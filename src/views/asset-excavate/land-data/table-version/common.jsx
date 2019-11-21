@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tooltip } from 'antd';
-import { formatDateTime } from '@/utils/changeTime';
+import { PartyCrosswise } from '@/views/_common';
 import './style.scss';
 
 const Result = {
@@ -10,26 +10,26 @@ const Result = {
 				<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 					<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
 						{
-							row.projectName && row.projectName.length > 20
-								? (
-									<Tooltip placement="topLeft" title={row.projectName}>
-										<span className="yc-table-text-link">
-											{`${row.projectName.substr(0, 20)}...`}
-										</span>
-									</Tooltip>
-								)
-								: (
-									<span className="yc-table-text-link">
-										{row.projectName || '-'}
-									</span>
-								)
-						}
+								row.projectName && row.projectName.length > 20
+									? (
+										<Tooltip placement="topLeft" title={row.projectName}>
+											<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
+												{`${row.projectName.substr(0, 20)}...`}
+											</a>
+										</Tooltip>
+									)
+									: (
+										<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
+											{row.projectName || '-'}
+										</a>
+									)
+							}
 					</span>
 				</li>
 				<li>
 					<span className="list">
 						<span>
-							{row.approvers || '-'}
+							{row.approver || '-'}
 						</span>
 						<span style={{ marginLeft: 20 }}>{row.administrativeRegion || '-'}</span>
 					</span>
@@ -37,18 +37,18 @@ const Result = {
 				<div className="yc-table-content">
 					<span className="list list-title align-justify">签订日期</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{formatDateTime(row.singedDate, 'onlyYear') || '-'}</span>
+					<span className="list list-content">{row.singedTime || '-'}</span>
 					<div className="yc-table-line" />
 					<span className="list list-title align-justify">面积</span>
 					<span className="list list-title-colon">:</span>
 					<span className="list list-content">
-						{row.area || '-'}
+						{row.landArea || '-'}
 						公顷
 					</span>
 					<div className="yc-table-line" />
 					<span className="list list-title align-justify">使用年限</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.landUsageTerm || '-'}</span>
+					<span className="list list-content">{row.transferTerm || '-'}</span>
 				</div>
 
 			</div>
@@ -60,18 +60,18 @@ const Result = {
 				<li>
 					<span className="list list-content">
 						<span className="yc-purchasePrice-icon" />
-						{`成交价格 ${row.purchasePrice}万元`}
+						{`成交价格 ${row.finalPrice}万元`}
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">批准单位</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.approvers || '-'}</span>
+					<span className="list list-content">{row.approver || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">供地方式</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.landUse || '-'}</span>
+					<span className="list list-content">{row.supplyWay || '-'}</span>
 				</li>
 			</div>
 		</React.Fragment>
@@ -85,18 +85,18 @@ const Transfer = {
 				<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 					<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
 						{
-							row.projectName && row.projectName.length > 20
+							row.landAddress && row.landAddress.length > 20
 								? (
-									<Tooltip placement="topLeft" title={row.projectName}>
-										<span className="yc-table-text-link">
-											{`${row.projectName.substr(0, 20)}...`}
-										</span>
+									<Tooltip placement="topLeft" title={row.landAddress}>
+										<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
+											{`${row.landAddress.substr(0, 20)}...`}
+										</a>
 									</Tooltip>
 								)
 								: (
-									<span className="yc-table-text-link">
-										{row.projectName || '-'}
-									</span>
+									<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
+										{row.landAddress || '-'}
+									</a>
 								)
 						}
 					</span>
@@ -104,30 +104,20 @@ const Transfer = {
 				<li>
 					<span className="list">
 						<span>
-							{row.approvers || '-'}
+							{row.administrativeRegion || '-'}
 						</span>
 					</span>
 				</li>
-				<li>
-					<span className="list list-title align-justify">原土地使用权人</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">五华县长安实业发展有限公司</span>
-					<div className="yc-table-line" />
-					<span className="list list-title align-justify">现土地使用权人</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
-					何萍
-					</span>
-				</li>
+				<PartyCrosswise value={row.parties} row={row} type="transfer" />
 				<div className="yc-table-content">
 					<span className="list list-title align-justify">成交日期</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{formatDateTime(row.singedDate, 'onlyYear') || '-'}</span>
+					<span className="list list-content">{row.dealingTime || '-'}</span>
 					<div className="yc-table-line" />
 					<span className="list list-title align-justify">面积</span>
 					<span className="list list-title-colon">:</span>
 					<span className="list list-content">
-						{row.area || '-'}
+						{row.landArea || '-'}
 						公顷
 					</span>
 					<div className="yc-table-line" />
@@ -145,13 +135,13 @@ const Transfer = {
 				<li>
 					<span className="list list-content">
 						<span className="yc-purchasePrice-icon" />
-						{`成交价格 ${row.purchasePrice}万元`}
+						{row.transferPrice && row.transferPrice > 0 ? `转让价格 ${row.transferPrice}万元` : '转让价格 -'}
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">转让方式</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">买卖</span>
+					<span className="list list-content">{row.transferMode}</span>
 				</li>
 			</div>
 		</React.Fragment>
@@ -165,18 +155,18 @@ const Mortgage = {
 				<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 					<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
 						{
-							row.projectName && row.projectName.length > 20
+							row.landAddress && row.landAddress.length > 20
 								? (
-									<Tooltip placement="topLeft" title={row.projectName}>
-										<span className="yc-table-text-link">
-											{`${row.projectName.substr(0, 20)}...`}
-										</span>
+									<Tooltip placement="topLeft" title={row.landAddress}>
+										<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
+											{`${row.landAddress.substr(0, 20)}...`}
+										</a>
 									</Tooltip>
 								)
 								: (
-									<span className="yc-table-text-link">
-										{row.projectName || '-'}
-									</span>
+									<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
+										{row.landAddress || '-'}
+									</a>
 								)
 						}
 					</span>
@@ -184,40 +174,32 @@ const Mortgage = {
 				<li>
 					<span className="list">
 						<span>
-							{row.approvers || '-'}
+							{row.administrativeRegion || '-'}
 						</span>
 					</span>
 				</li>
-				<li>
-					<span className="list list-title align-justify">抵押人</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">五华县长安实业发展有限公司</span>
-					<div className="yc-table-line" />
-					<span className="list list-title align-justify">抵押权人</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
-					何萍
-					</span>
-				</li>
+				<PartyCrosswise value={row.parties} row={row} type="mortgage" />
 				<div className="yc-table-content">
 					<span className="list list-title align-justify">登记日期</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{formatDateTime(row.singedDate, 'onlyYear') || '-'}</span>
+					<span className="list list-content">{row.startTime || '-'}</span>
 					<div className="yc-table-line" />
 					<span className="list list-title align-justify">面积</span>
 					<span className="list list-title-colon">:</span>
 					<span className="list list-content">
-						{row.area || '-'}
+						{row.landArea || '-'}
 						公顷
 					</span>
 					<div className="yc-table-line" />
 					<span className="list list-title align-justify">评估金额</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">7590.0000万元</span>
+					<span className="list list-content">
+						{`${row.consultPrice}万元`}
+					</span>
 					<div className="yc-table-line" />
 					<span className="list list-title align-justify">土地使用权证号</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">0036539</span>
+					<span className="list list-content">{row.landUseCertificateNumber}</span>
 				</div>
 
 			</div>
@@ -229,27 +211,27 @@ const Mortgage = {
 				<li>
 					<span className="list list-content">
 						<span className="yc-purchasePrice-icon" />
-						{`抵押金额 ${row.purchasePrice || '-'}万元`}
+						{`抵押金额 ${row.mortgageAmount || '-'}万元`}
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">抵押面积</span>
 					<span className="list list-title-colon">:</span>
 					<span className="list list-content">
-						{row.area || '-'}
+						{row.mortgageArea || '-'}
 						公顷
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">土地他项权证号</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">0071251</span>
+					<span className="list list-content">{row.otherObligeeCertificateNumber}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">登记结束日期</span>
 					<span className="list list-title-colon">:</span>
 					<span className="list list-content">
-						<span className="list list-content">{formatDateTime(row.singedDate, 'onlyYear') || '-'}</span>
+						<span className="list list-content">{row.endTime || '-'}</span>
 					</span>
 				</li>
 			</div>

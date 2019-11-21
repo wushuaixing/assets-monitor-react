@@ -1,9 +1,13 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Icon, Spin, Table } from '@/common';
+import {
+	Ellipsis, Icon, Spin, Table,
+} from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import personalAssets from '@/utils/api/portrait-inquiry/personal/assets';
-import { getQueryByName, linkDom, timeStandard } from '@/utils';
+import {
+	getQueryByName, timeStandard, toEmpty,
+} from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 const { judgment } = assets;
@@ -32,7 +36,8 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 400 }}>
-							{row.title ? linkDom(row.url, row.title.replace('（', '( ')) : '--'}
+							{ toEmpty(row.title)
+								? <Ellipsis content={row.title} url={row.url} tooltip width={400} font={15} /> : '--' }
 						</span>
 						{ row.caseType ? <span className="yc-case-type">{row.caseType}</span> : ''}
 						{ row.caseReason ? <span className="yc-case-reason text-ellipsis">{row.caseReason}</span> : ''}
