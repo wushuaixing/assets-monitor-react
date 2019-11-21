@@ -1,6 +1,7 @@
 import React from 'react';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
+import ColumnarEcharts from '../../../common/columnarEcharts';
 import { TagOneSide, TagTwoSide } from '../../../common/label-tag';
 import { getSubrogation } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import getCount from '../../../common/getCount';
@@ -17,9 +18,11 @@ export default class Subrogation extends React.Component {
 			CourtNum: 0,
 			refereeNum: 0,
 			RingData: [],
+			columnarData: [],
 			timeLineData: [],
 			RingDataNum: 0,
 			timeLineDataNum: 0,
+			columnarDataNum: 0,
 		};
 	}
 
@@ -48,24 +51,30 @@ export default class Subrogation extends React.Component {
 						this.setState({
 							selectType: 'Filing',
 							RingData: FilingArray.caseTypes,
+							columnarData: FilingArray.caseReasons,
 							timeLineData: FilingArray.yearDistribution,
 							RingDataNum: getCount(FilingArray.caseTypes),
+							columnarDataNum: getCount(FilingArray.caseReasons),
 							timeLineDataNum: getCount(FilingArray.yearDistribution),
 						});
 					} else if (CourtNum > 0) {
 						this.setState({
 							selectType: 'Court',
 							RingData: CourtArray.caseTypes,
+							columnarData: CourtArray.caseReasons,
 							timeLineData: CourtArray.yearDistribution,
 							RingDataNum: getCount(CourtArray.caseTypes),
+							columnarDataNum: getCount(CourtArray.caseReasons),
 							timeLineDataNum: getCount(CourtArray.yearDistribution),
 						});
 					} else {
 						this.setState({
 							selectType: 'referee',
 							RingData: refereeArray.caseTypes,
+							columnarData: refereeArray.caseReasons,
 							timeLineData: refereeArray.yearDistribution,
 							RingDataNum: getCount(refereeArray.caseTypes),
+							columnarDataNum: getCount(refereeArray.caseReasons),
 							timeLineDataNum: getCount(refereeArray.yearDistribution),
 						});
 					}
@@ -84,7 +93,7 @@ export default class Subrogation extends React.Component {
 			.catch(() => {
 				// this.setState({ loading: false });
 			});
-	}
+	};
 
 	checkTime = (selectType) => {
 		const { FilingArray, CourtArray, refereeArray } = this.state;
@@ -92,24 +101,30 @@ export default class Subrogation extends React.Component {
 			this.setState({
 				selectType,
 				RingData: FilingArray.caseTypes,
+				columnarData: FilingArray.caseReasons,
 				timeLineData: FilingArray.yearDistribution,
 				RingDataNum: getCount(FilingArray.caseTypes),
+				columnarDataNum: getCount(FilingArray.caseReasons),
 				timeLineDataNum: getCount(FilingArray.yearDistribution),
 			});
 		} else if (selectType === 'Court') {
 			this.setState({
 				selectType,
 				RingData: CourtArray.caseTypes,
+				columnarData: CourtArray.caseReasons,
 				timeLineData: CourtArray.yearDistribution,
 				RingDataNum: getCount(CourtArray.caseTypes),
+				columnarDataNum: getCount(CourtArray.caseReasons),
 				timeLineDataNum: getCount(CourtArray.yearDistribution),
 			});
 		} else if (selectType === 'referee') {
 			this.setState({
 				selectType,
 				RingData: refereeArray.caseTypes,
+				columnarData: refereeArray.caseReasons,
 				timeLineData: refereeArray.yearDistribution,
 				RingDataNum: getCount(refereeArray.caseTypes),
+				columnarDataNum: getCount(refereeArray.caseReasons),
 				timeLineDataNum: getCount(refereeArray.yearDistribution),
 			});
 		}
@@ -117,7 +132,7 @@ export default class Subrogation extends React.Component {
 
 	render() {
 		const {
-			RingData, timeLineData, selectType, FilingArray, CourtArray, refereeArray, FilingNum, CourtNum, refereeNum, RingDataNum, timeLineDataNum,
+			RingData, columnarData, timeLineData, selectType, FilingArray, CourtArray, refereeArray, FilingNum, CourtNum, refereeNum, RingDataNum, timeLineDataNum, columnarDataNum,
 		} = this.state;
 
 		return (
@@ -138,6 +153,7 @@ export default class Subrogation extends React.Component {
 								<TagTwoSide content="裁判文书" num={refereeNum} onClick={() => this.checkTime('referee')} tag={selectType === 'referee' ? 'yc-tag-active' : ''} />
 							</div>
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
+							{selectType !== 'Filing' && columnarDataNum > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}
 							{RingDataNum > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="subrogation" />}
 						</div>
 					</div>

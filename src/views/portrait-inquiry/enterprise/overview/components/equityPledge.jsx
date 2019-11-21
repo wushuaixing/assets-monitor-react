@@ -54,7 +54,7 @@ export default class EquityPledge extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	render() {
 		const { timeLineData, roleDistributions, loading } = this.state;
@@ -76,7 +76,7 @@ export default class EquityPledge extends React.Component {
 							<div>
 								<div className="yc-timeline-title">角色分布</div>
 								{
-									roleDistributions && roleDistributions.map(item => (
+									roleDistributions && roleDistributions.filter(item => item.count > 0).map(item => (
 										<div className="yc-role-container">
 											<span className="yc-role-icon" />
 											<div className="yc-role-name">
