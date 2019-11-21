@@ -132,6 +132,7 @@ class AUCTION extends React.Component {
 			current: 1,
 			page: 1,
 		});
+		this.handleScroll('actionId');
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const { startTime, endTime } = this.state;
@@ -148,14 +149,13 @@ class AUCTION extends React.Component {
 		if (!objectKeyIsEmpty(fildes)) {
 			this.getData(params); // 进入页面请求数据
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
 		const { pageSize, startTime, endTime } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-
 		const fildes = getFieldsValue();
 		const params = {
 			...fildes,
@@ -184,7 +184,7 @@ class AUCTION extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	// 搜索
 	search = () => {
@@ -228,7 +228,7 @@ class AUCTION extends React.Component {
 			this.queryReset();
 			// message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -249,7 +249,7 @@ class AUCTION extends React.Component {
 			inputSearch: {},
 		});
 		resetFields('');
-	}
+	};
 
 
 	// 导出
@@ -287,7 +287,7 @@ class AUCTION extends React.Component {
 			currentSort: undefined,
 			assessmentSort: undefined,
 		});
-	}
+	};
 
 	// 时间排序
 	auctionSort = () => {
@@ -307,7 +307,7 @@ class AUCTION extends React.Component {
 			currentSort: undefined,
 			assessmentSort: undefined,
 		});
-	}
+	};
 
 	// 当前价格排序
 	currentSort = () => {
@@ -327,7 +327,7 @@ class AUCTION extends React.Component {
 			auctionSort: undefined,
 			assessmentSort: undefined,
 		});
-	}
+	};
 
 	// 评估价格排序
 	assessmentSort = () => {
@@ -347,8 +347,7 @@ class AUCTION extends React.Component {
 			auctionSort: undefined,
 			currentSort: undefined,
 		});
-	}
-
+	};
 
 	render() {
 		const {
@@ -525,7 +524,7 @@ class AUCTION extends React.Component {
 					</div>
 				</div>
 				<Spin visible={loading}>
-					<AuctionTable stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
+					<AuctionTable id="actionId" stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
 					{dataList && dataList.length > 0 && (
 					<div className="yc-table-pagination">
 						<Pagination

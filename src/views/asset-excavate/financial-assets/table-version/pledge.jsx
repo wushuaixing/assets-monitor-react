@@ -124,6 +124,7 @@ export default class TableIntact extends React.Component {
 					{dataSource && dataSource.length > 0 && (
 						<div className="yc-table-pagination">
 							<Pagination
+								pageSize={5}
 								showQuickJumper
 								current={current || 1}
 								total={total || 0}
