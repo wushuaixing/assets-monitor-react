@@ -54,19 +54,9 @@ const getOption = (Data, id, title, newColumArray) => ({
 					color: '#73AEEA',
 					label: {
 						show: false,
+						position: 'inside',
 					},
 				}, // 柱状图颜色
-				emphasis: {
-					color: '#73AEEA',
-					label: {
-						show: false, // 开启显示
-						textStyle: {
-							fontWeight: 'bolder',
-							fontSize: '12',
-							color: 'transparent',
-						},
-					},
-				},
 			},
 		},
 	],
@@ -101,72 +91,36 @@ class ColumnarEcharts extends React.Component {
 		}
 		const DOM = document.getElementById(`${id}ColumnarEcharts`);
 		const myChart = window.echarts.init(DOM);
+
 		const option = getOption(Data, id, title, newColumArray);
 		const { series: { 0: { data: dataList } } } = option;
-		const { Text } = window.zrDefine;
-		const zr = myChart.getZrender();
+		// const { Text } = window.zrDefine;
+		window.myChart = myChart;
 		const base = {
 			x: 20,
-			y: 27,
+			y: 17,
 		};
 		const newDataList = dataList.slice().reverse();
+		const list = [];
 		newDataList.forEach((item, index) => {
 			const { x } = base;
 			const y = base.y + 30 * (index);
-
 			const typeName = item.typeName && item.typeName.length > 10 ? `${item.typeName.substr(0, 10)}...` : `${item.typeName}`;
 			const type = item.type && item.type.length > 10 ? `${item.type.substr(0, 10)}...` : `${item.type}`;
 
-			const text1 = new Text({
-				style: {
-					x: x + 10,
-					y,
-					text: typeName !== 'undefined' ? typeName : type,
-					textFont: 'normal 12px verdana',
-					textAlign: 'left',
-					color: '#FFFFFF',
-				},
-			});
-			text1.zlevel = 1;
-			text1.z = 5;
-			text1.hoverable = false;
-			text1.clickable = false;
-			console.log('111111', text1);
-			zr.addShape(text1);
-			const text2 = new Text({
-				style: {
-					x: x + 180,
-					y,
-					text: item.count,
-					textFont: 'bold 12px Arial',
-					textAlign: 'right',
-					color: '#FFFFFF',
-				},
-			});
-			text2.hoverable = false;
-			const text3 = new Text({
-				style: {
-					x: x + 200,
-					y,
-					text: '条',
-					textFont: 'normal 12px verdana',
-					textAlign: 'right',
-					color: '#FFFFFF',
-				},
-			});
-			text3.hoverable = false;
-
-			text2.zlevel = 9999;
-			zr.addShape(text2);
-			text3.zlevel = 9999;
-			zr.addShape(text3);
+			list.push(<span style={{ left: x + 10, top: y }} className="yc-p-span">{typeName !== 'undefined' ? typeName : type}</span>);
+			list.push(<span style={{ left: x + 180, top: y, textAlign: 'left' }} className="yc-p-span">{`${item.count} 条`}</span>);
 		});
 		// window[`${id}ColumnarEcharts`] = myChart;
+		this.setState({
+			list,
+		});
 		myChart.setOption(getOption(Data, id, title, newColumArray));
 	};
 
 	render() {
 		const { title, id, Data } = this.props;
+		const { list } = this.state;
 		const newArray = [];
 		if (Data) {
 			Data.filter(item => item.count > 0)
@@ -177,7 +131,10 @@ class ColumnarEcharts extends React.Component {
 		return (
 			<div>
 				<div className="yc-columnar-title">{title}</div>
-				<div className="yc-columnar-echarts" style={{ width: 532, height: newArray.length * 40 || 50 }} id={`${id}ColumnarEcharts`} />
+				<div className="yc-position">
+					{list}
+					<div className="yc-columnar-echarts" style={{ width: 532, height: newArray.length * 40 || 50 }} id={`${id}ColumnarEcharts`} />
+				</div>
 			</div>
 		);
 	}

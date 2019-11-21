@@ -63,7 +63,7 @@ export default class InitView extends React.Component {
 			} else if (name.length < 2) {
 				message.error('债务人名称请至少输入两个字');
 			} else {
-				navigate(`/inquiry/list?type=1&name=${name}`);
+				navigate(`/inquiry/list?type=1&name=${name.trim()}`);
 			}
 		} else if (type === 2) {
 			if (!name || !num) {
@@ -75,7 +75,7 @@ export default class InitView extends React.Component {
 			} else if (!name && !num) {
 				message.error('请输入债务人名称及证据号');
 			} else if (name && num) {
-				navigate(`/inquiry/personal?type=2&name=${name}&num=${num}`);
+				navigate(`/inquiry/personal?type=2&name=${name.trim()}&num=${num.trim()}`);
 			}
 		}
 	};
