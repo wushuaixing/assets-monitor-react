@@ -77,7 +77,7 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
 			const source = handleParties(value);
 			const maxWidth = toGetStrWidth(source);
 			return source.map(item => (
-				<PartyInfoDetail {...item} id={row.id} key={row.id} width={maxWidth} noLink noStatus detailWidth={detailWidth} />
+				<PartyInfoDetail {...item} id={row.id} key={row.id} width={maxWidth} noLink noStatus={noStatus} detailWidth={detailWidth} />
 			));
 		}
 	}
