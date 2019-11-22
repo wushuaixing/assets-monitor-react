@@ -1,7 +1,88 @@
 import React from 'react';
 import { Tooltip } from 'antd';
-import { PartyCrosswise } from '@/views/_common';
 import './style.scss';
+import { getByteLength } from '@/utils';
+import { Modal } from '../../../../../patchs/antd';
+import PartyCrosswiseDetail from '@/views/_common/party-crosswise';
+import { partyInfo } from '@/views/_common';
+
+export const PartyCrosswise = (props) => {
+	const { value, row, name } = props;
+	// 处理 当事人数据列表，分类
+	const handleParties = (data) => {
+		const source = [];
+		data.forEach((i) => {
+			if (source.length === 0) {
+				source.push({
+					index: source.length,
+					role: i.role,
+					child: [i],
+				});
+			} else {
+				const _result = source.filter(item => item.role === i.role)[0];
+				if (_result) {
+					source[_result.index].child.push(i);
+				} else {
+					source.push({
+						index: source.length,
+						role: i.role,
+						child: [i],
+					});
+				}
+			}
+		});
+		return source;
+	};
+	// 获取 字符最大长度
+	const toGetStrWidth = (list) => {
+		let maxRoleName = '';
+		list.forEach((item) => {
+			const { role } = item;
+			const _site = role.indexOf('（') > -1 ? role.indexOf('（') : '';
+			const _role = _site ? role.slice(0, _site) : role;
+			maxRoleName = _role.length > maxRoleName.length ? _role : maxRoleName;
+		});
+		return getByteLength(maxRoleName) * 6 * 1.05;
+	};
+
+	const toShowDetail =	() => Modal.info({
+		title: `${name}`,
+		okText: '确定',
+		iconType: 'null',
+		className: 'assets-an-info',
+		content: (
+			<div style={{ marginLeft: -28, maxHeight: 400, overflow: 'auto' }}>
+				<div style={{ padding: 15 }}>
+					<div style={{ maxHeight: 400, overflow: 'auto' }}>
+						{partyInfo(value, row, true, true, 400)}
+					</div>
+				</div>
+			</div>
+		),
+		onOk() {},
+	});
+	if (typeof value === 'object') {
+		if (value.length) {
+			const source = handleParties(value);
+			const maxWidth = toGetStrWidth(source);
+			const detailStatus = Boolean(source.filter(i => i.child.length > 1).length);
+			return (
+				<div className="yc-party-crosswise">
+					{
+						source.map((item, index) => [
+							<PartyCrosswiseDetail {...item} id={row.id} key={row.id} width={maxWidth} max={9999} />,
+							index !== source.length - 1 ? <span className="yc-split-line yc-split-line-info" /> : null,
+						])
+					}
+					{
+						detailStatus ? <span className="click-link detail-style" onClick={toShowDetail}>详情</span> : null
+					}
+				</div>
+			);
+		}
+	}
+	return '--';
+};
 
 const Result = {
 	resultDetail: (text, row) => (
@@ -48,7 +129,9 @@ const Result = {
 					<div className="yc-table-line" />
 					<span className="list list-title align-justify">使用年限</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.transferTerm || '-'}</span>
+					<span className="list list-content">
+						{`${row.transferTerm} 年` || '-'}
+					</span>
 				</div>
 
 			</div>
@@ -108,7 +191,7 @@ const Transfer = {
 						</span>
 					</span>
 				</li>
-				<PartyCrosswise value={row.parties} row={row} type="transfer" />
+				<PartyCrosswise value={row.parties} row={row} name="土地转让" type="transfer" />
 				<div className="yc-table-content">
 					<span className="list list-title align-justify">成交日期</span>
 					<span className="list list-title-colon">:</span>
@@ -123,7 +206,9 @@ const Transfer = {
 					<div className="yc-table-line" />
 					<span className="list list-title align-justify">使用年限</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.landUsageTerm || '-'}</span>
+					<span className="list list-content">
+						{`${row.landUsageTerm} 年` || '-'}
+					</span>
 				</div>
 
 			</div>
@@ -178,7 +263,7 @@ const Mortgage = {
 						</span>
 					</span>
 				</li>
-				<PartyCrosswise value={row.parties} row={row} type="mortgage" />
+				<PartyCrosswise value={row.parties} row={row} name="土地抵押" type="mortgage" />
 				<div className="yc-table-content">
 					<span className="list list-title align-justify">登记日期</span>
 					<span className="list list-title-colon">:</span>

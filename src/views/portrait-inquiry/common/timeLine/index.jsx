@@ -27,19 +27,34 @@ class RingEcharts extends React.Component {
 		if (Data && Data.length <= 5) {
 			const newData = [...Data];
 			const newDataArray = newData.sort((a, b) => a.year - b.year);
+			const newArray = [];
+			if (newDataArray) {
+				newDataArray.map(item => newArray.push(
+					Object.assign({}, item, { count: item.count, year: `${item.year} 年` }),
+				));
+			}
+
 			this.setState({
-				newArray: newDataArray,
+				newArray,
 			});
-			return newDataArray;
+			return newArray;
 		}
 		const newData = [...Data];
-		const num = getCount(Data.slice(5));
+		const num = getCount(Data.sort((a, b) => b.year - a.year).slice(5));
 		const newDataArray = newData.sort((a, b) => b.year - a.year).slice(0, 5).reverse();
-		newDataArray[4].count += num;
+		const newYearName = `${newDataArray[0].year} 年及以前`;
+		const newArray = [];
+		if (newDataArray) {
+			newDataArray.map(item => newArray.push(
+				Object.assign({}, item, { count: item.count, year: `${item.year} 年` }),
+			));
+		}
+		newArray[0].count += num;
+		newArray[0].year = newYearName;
 		this.setState({
-			newArray: newDataArray,
+			newArray,
 		});
-		return newDataArray;
+		return newArray;
 	};
 
 	render() {
@@ -60,7 +75,7 @@ class RingEcharts extends React.Component {
 								<div className="yc-dotted-line" />
 								<div className="status">
 									<h4>
-										{item.year === 0 ? '未知' : `${item.year} 年`}
+										{item.year === 0 ? '未知' : `${item.year}`}
 									</h4>
 								</div>
 							</li>
