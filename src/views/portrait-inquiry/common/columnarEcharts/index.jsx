@@ -133,7 +133,7 @@ class ColumnarEcharts extends React.Component {
 				<div className="yc-columnar-title">{title}</div>
 				<div className="yc-position">
 					{list}
-					<div className="yc-columnar-echarts" style={{ width: 532, height: newArray.length * 40 || 50 }} id={`${id}ColumnarEcharts`} />
+					<div className="yc-columnar-echarts" style={{ width: 532, height: newArray.length * 38 || 50 }} id={`${id}ColumnarEcharts`} />
 				</div>
 			</div>
 		);
