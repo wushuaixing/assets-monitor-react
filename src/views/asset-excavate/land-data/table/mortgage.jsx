@@ -16,7 +16,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>登记日期</span>
-				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
+				: <SortVessel field="START_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>登记日期</SortVessel>),
 			dataIndex: 'startTime',
 			width: 110,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
@@ -33,7 +33,7 @@ const columns = (props) => {
 		}, {
 			title: '土地信息',
 			dataIndex: 'title',
-			width: 180,
+			width: 190,
 			render: Result.InfoMortgageLand,
 		}, {
 			title: '抵押信息',
@@ -42,9 +42,9 @@ const columns = (props) => {
 			render: Result.InfoMortgage,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
-			width: 110,
+			width: 100,
 			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
 		}, {
 			title: '操作',
