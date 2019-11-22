@@ -6,7 +6,7 @@ import {
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import personalAssets from '@/utils/api/portrait-inquiry/personal/assets';
 import {
-	getQueryByName, timeStandard, toEmpty,
+	getQueryByName, timeStandard, toEmpty, getCaseType,
 } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
@@ -39,7 +39,7 @@ export default class TableIntact extends React.Component {
 							{ toEmpty(row.title)
 								? <Ellipsis content={row.title} url={row.url} tooltip width={400} font={15} /> : '--' }
 						</span>
-						{ row.caseType ? <span className="yc-case-type">{row.caseType}</span> : ''}
+						{ row.caseType ? <span className="yc-case-type">{getCaseType(row.caseType)}</span> : ''}
 						{ row.caseReason ? <span className="yc-case-reason text-ellipsis">{row.caseReason}</span> : ''}
 					</li>
 					<li>
