@@ -5,6 +5,32 @@ import PartyInfoDetail from './party-info';
 import PartyCrosswiseDetail from './party-crosswise';
 import './style.scss';
 
+// 处理 当事人数据列表，分类
+const handleParties = (data) => {
+	const source = [];
+	data.forEach((i) => {
+		if (source.length === 0) {
+			source.push({
+				index: source.length,
+				role: i.role,
+				child: [i],
+			});
+		} else {
+			const _result = source.filter(item => item.role === i.role)[0];
+			if (_result) {
+				source[_result.index].child.push(i);
+			} else {
+				source.push({
+					index: source.length,
+					role: i.role,
+					child: [i],
+				});
+			}
+		}
+	});
+	console.log(source);
+	return source;
+};
 /* // 案号 - 弹窗 */
 export const caseInfo = (content, row) => {
 	const { isDelete, ygList } = row;
@@ -36,31 +62,6 @@ export const caseInfo = (content, row) => {
  * 数据列表 - 当事人
  * */
 export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
-	// 处理 当事人数据列表，分类
-	const handleParties = (data) => {
-		const source = [];
-		data.forEach((i) => {
-			if (source.length === 0) {
-				source.push({
-					index: source.length,
-					role: i.role,
-					child: [i],
-				});
-			} else {
-				const _result = source.filter(item => item.role === i.role)[0];
-				if (_result) {
-					source[_result.index].child.push(i);
-				} else {
-					source.push({
-						index: source.length,
-						role: i.role,
-						child: [i],
-					});
-				}
-			}
-		});
-		return source;
-	};
 	// 获取 字符最大长度
 	const toGetStrWidth = (list) => {
 		let maxRoleName = '';
@@ -89,31 +90,7 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
  * */
 export const PartyCrosswise = (props) => {
 	const { value, row, type } = props;
-	// 处理 当事人数据列表，分类
-	const handleParties = (data) => {
-		const source = [];
-		data.forEach((i) => {
-			if (source.length === 0) {
-				source.push({
-					index: source.length,
-					role: i.role,
-					child: [i],
-				});
-			} else {
-				const _result = source.filter(item => item.role === i.role)[0];
-				if (_result) {
-					source[_result.index].child.push(i);
-				} else {
-					source.push({
-						index: source.length,
-						role: i.role,
-						child: [i],
-					});
-				}
-			}
-		});
-		return source;
-	};
+
 	// 获取 字符最大长度
 	const toGetStrWidth = (list) => {
 		let maxRoleName = '';
