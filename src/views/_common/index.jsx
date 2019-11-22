@@ -28,7 +28,6 @@ const handleParties = (data) => {
 			}
 		}
 	});
-	console.log(source);
 	return source;
 };
 /* // 案号 - 弹窗 */
