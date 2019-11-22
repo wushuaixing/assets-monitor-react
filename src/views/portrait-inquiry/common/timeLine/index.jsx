@@ -1,46 +1,56 @@
 import React from 'react';
+import getCount from '../getCount';
 import './style.scss';
 
 
 class RingEcharts extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			newArray: [],
+		};
 	}
 
-	sortFun = (a, b) => b.year - a.year;
+	componentDidMount() {
+		const { Data } = this.props;
+		this.newArrayFun(Data);
+	}
 
-	newArrayFun = (arr) => {
-		if (arr.length < 6) {
-			arr.sort((a, b) => a.year - b.year);
-			return arr;
+	componentWillReceiveProps(nextProps) {
+		const { Data } = this.props;
+		if (Data !== nextProps.Data) {
+			this.newArrayFun(nextProps.Data);
 		}
-		const b = arr.sort(this.sortFun);
-		const c = b.splice(0, 5);
-		c.sort((e, f) => e.year - f.year);
-		console.log(b);
+	}
 
-		// if (b.length === 0) return;
-		const num = b.length > 1 ? b.reduce((t, v) => t.count + v.count) : b[0].count;
-		c[4].count += num;
-		console.log(c);
-		return c;
-		// const newData = arr.sort(this.sortFun).slice(0, 5).reverse();
-		// const newDataNum = newData.length >= 5 ? getCount(arr.slice(5)) : 0;
-		// if (newData.length >= 5) {
-		// 	newData[4].count = newData[4].count + newDataNum;
-		// }
+	newArrayFun = (Data) => {
+		if (Data && Data.length <= 5) {
+			const newData = [...Data];
+			const newDataArray = newData.sort((a, b) => a.year - b.year);
+			this.setState({
+				newArray: newDataArray,
+			});
+			return newDataArray;
+		}
+		const newData = [...Data];
+		const num = getCount(Data.slice(5));
+		const newDataArray = newData.sort((a, b) => b.year - a.year).slice(0, 5).reverse();
+		newDataArray[4].count += num;
+		this.setState({
+			newArray: newDataArray,
+		});
+		return newDataArray;
 	};
 
 	render() {
 		const { title, Data } = this.props;
-		// console.log(this.newArrayFun(Data));
+		const { newArray } = this.state;
 		return (
 			<div>
 				<div className="yc-timeline-title">{title}</div>
 				<ul className="yc-timeline">
 					{
-						Data && this.newArrayFun(Data).map(item => (
+						Data && newArray.length > 0 && newArray.map(item => (
 							<li className="yc-li-complete">
 								<div className="yc-timestamp">
 									<span className="num">

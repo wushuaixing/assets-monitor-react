@@ -9,7 +9,7 @@ const getOption = (Data, id, title, newColumArray) => ({
 		// formatter: '{a} <br/>{b} : {c} {d}',
 		formatter(params) {
 			const datasArray = params.series.data.slice().reverse();
-			let res = `${params[0]}<br/>`;
+			let res = '';
 			for (let i = 0; i < datasArray.length; i += 1) {
 				res += `${datasArray[i].name}：${
 					datasArray[i].value} 条<br/>`;
