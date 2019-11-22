@@ -18,6 +18,7 @@ const format = (shijianchuo) => {
 
 // 标准时间转年月日
 const formatDateTime = (date, onlyYear) => {
+	if (!date) return '-';
 	const data = new Date(date && date * 1000);
 	const y = data.getFullYear();
 	let m = data.getMonth() + 1;

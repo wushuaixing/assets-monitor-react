@@ -49,7 +49,6 @@ export default class DetailModal extends React.PureComponent {
 		return (
 			<Modal title="历史拍卖信息" width={880} style={{ 'max-height': 650 }} visible={historyInfoModalVisible} footer={null} onCancel={this.handleCancel}>
 				<Spin visible={loading}>
-
 					<div className="yc-history-concent">
 						<div className="yc-history-title">{data.parsingTitle || '-'}</div>
 						<div className="yc-history-item">

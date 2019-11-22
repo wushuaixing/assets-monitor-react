@@ -10,7 +10,7 @@ export default class ShareholderSituation extends React.Component {
 				title: '股东名称',
 				dataIndex: 'investorName',
 				key: 'investorName',
-				width: 220,
+				width: 264,
 				render: text => (
 					<p>
 						{text || '-'}
@@ -20,10 +20,16 @@ export default class ShareholderSituation extends React.Component {
 				title: '持股比',
 				dataIndex: 'subscribeAmountRate',
 				key: 'subscribeAmountRate',
-				width: 200,
+				className: 'column-right',
+				width: 230,
 				render(text) {
-					return <div>{`${text} %` || '-'}</div>;
+					return <div>{text ? `${text} %` : '-'}</div>;
 				},
+			},
+			{
+				title: '',
+				key: 'subscribeAmountRate',
+				className: 'column-right',
 			}],
 		};
 	}

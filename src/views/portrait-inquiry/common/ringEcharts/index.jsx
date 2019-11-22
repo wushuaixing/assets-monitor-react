@@ -33,7 +33,7 @@ const getOption = (Data, id, title, newRingArray) => ({
 						show: true,
 						position: 'center',
 						textStyle: {
-							fontSize: '15',
+							fontSize: '14',
 							fontWeight: 'bold',
 						},
 					},

@@ -6,7 +6,7 @@
 .yc-timeline {
   list-style-type: none;
   width: 532px;
-  margin-bottom: 20px;
+  padding-bottom: 40px;
   &:before {
     content: "";
     width: 532px;
@@ -22,13 +22,14 @@
     text-align: center;
     .yc-timestamp {
       margin-bottom: 14px;
-      font-weight: 600;
+      font-size: 12px;
     }
     .yc-dotted-line {
       height: 1px;
     }
     .status {
       position: relative;
+      color: $text-content;
       transition: all 200ms ease-in;
       h4 {
         font-weight: 400;

@@ -94,8 +94,12 @@
   .yc-Timeline-content {
     max-height: 600px;
     overflow: auto;
+    .yc-Timeline-lable{
+      margin-bottom: 16px;
+    }
     .yc-Timeline-item {
       margin-bottom: 16px;
+
       .yc-item-lable {
         display: inline-block;
         width: 140px;
