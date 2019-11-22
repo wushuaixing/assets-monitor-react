@@ -9,7 +9,8 @@ const getOption = (Data, id, title, newColumArray) => ({
 		// formatter: '{a} <br/>{b} : {c} {d}',
 		formatter(params) {
 			const datasArray = params.series.data.slice().reverse();
-			let res = `${params[0]}<br/>`;
+			let res = '';
+
 			for (let i = 0; i < datasArray.length; i += 1) {
 				res += `${datasArray[i].name}：${
 					datasArray[i].value} 条<br/>`;
@@ -131,7 +132,7 @@ class ColumnarEcharts extends React.Component {
 			text1.z = 5;
 			text1.hoverable = false;
 			text1.clickable = false;
-			console.log('111111', text1);
+			// console.log('111111', text1);
 			zr.addShape(text1);
 			const text2 = new Text({
 				style: {

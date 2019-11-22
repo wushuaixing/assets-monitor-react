@@ -69,7 +69,7 @@ export default class BusinessRisk extends React.Component {
 										<span className="container-title-name">经营风险信息</span>
 									</div>
 									<div className="overview-container-content">
-										<ColumnarEcharts title="案由分布" Data={columnarData} id="BusinessRisk" />
+										<ColumnarEcharts title="" Data={columnarData} id="BusinessRisk" />
 									</div>
 								</div>
 								)

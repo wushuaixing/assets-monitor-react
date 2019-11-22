@@ -74,7 +74,7 @@ const PersonalInfoSimple = (props) => {
 			<div className="intro-title">
 				<span className="yc-public-title-large-bold intro-title-name">
 					{info.name}
-					<img className="intro-title-tag" src={Dishonest} alt="" />
+					{info.isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 				</span>
 			</div>
 			<Button className="intro-download" onClick={download}>

@@ -179,6 +179,10 @@
  }
 
  .yc-btn-select {
+   border: 1px solid  #d9d9d9;
+   // box-shadow: 0 0 4px 0 $common-warning;
+   color: $text-title;
+   background-color: #FFFFFF;
    &:hover{
     border: 1px solid $common-warning;
     // box-shadow: 0 0 4px 0 $common-warning;

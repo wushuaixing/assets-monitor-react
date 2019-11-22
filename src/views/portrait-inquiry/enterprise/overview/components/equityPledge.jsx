@@ -85,7 +85,7 @@ export default class EquityPledge extends React.Component {
 											<div className="yc-role-num">
 												{`${item.count} 条`}
 											</div>
-											<div className="yc-role-description">{`(其中${item.invalidCount}条质押登记状态为无效)`}</div>
+											{item.invalidCount > 0 && <div className="yc-role-description">{`(其中${item.invalidCount}条质押登记状态为无效)`}</div>}
 										</div>
 									))
 								}

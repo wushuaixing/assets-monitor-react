@@ -68,7 +68,7 @@ export default class DetailModal extends React.PureComponent {
 								{
 									data && data.historyAuctions.map(item => (
 										<Timeline.Item>
-											<div className="yc-Timeline-item TimelineName">{item.round}</div>
+											<div className="yc-Timeline-item TimelineName">{item.round ? item.round : 'nbsp;'}</div>
 											<div className="yc-Timeline-lable">
 												<span className="yc-item-lable">
 													<span className="yc-history-lable">拍卖结果：</span>
@@ -77,7 +77,7 @@ export default class DetailModal extends React.PureComponent {
 												<div className="yc-table-line" />
 												<span className="yc-item-lable">
 													<span className="yc-history-lable">{statusPrice(item.status)}</span>
-													{`${toThousands(item.currentPrice)} 元`}
+													{item.status === 1 ? `${toThousands(item.initialPrice)} 元` : `${toThousands(item.currentPrice)} 元`}
 												</span>
 												<div className="yc-table-line" />
 												<span className="yc-item-lable">
