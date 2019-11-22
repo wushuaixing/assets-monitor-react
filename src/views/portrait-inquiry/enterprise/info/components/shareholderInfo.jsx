@@ -39,7 +39,7 @@ export default class ShareholderInfo extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	toGetColumns = () => [
 		{
@@ -47,6 +47,7 @@ export default class ShareholderInfo extends React.Component {
 			dataIndex: 'indexNum',
 			key: 'indexNum',
 			width: 240,
+			className: 'column-left20',
 			render(text) {
 				return <div>{text || '-'}</div>;
 			},
@@ -77,7 +78,7 @@ export default class ShareholderInfo extends React.Component {
 				return <div>{text || '-'}</div>;
 			},
 		},
-	]
+	];
 
 	render() {
 		const { id } = this.props;

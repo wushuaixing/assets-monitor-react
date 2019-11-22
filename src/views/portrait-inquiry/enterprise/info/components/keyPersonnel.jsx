@@ -46,6 +46,7 @@ export default class KeyPersonnel extends React.Component {
 			title: '序号',
 			dataIndex: 'indexNum',
 			key: 'indexNum',
+			className: 'column-left20',
 			width: 240,
 			render(text) {
 				return <div>{text || '-'}</div>;

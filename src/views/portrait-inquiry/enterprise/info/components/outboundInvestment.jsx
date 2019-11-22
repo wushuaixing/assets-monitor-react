@@ -51,7 +51,7 @@ export default class OutboundInvestment extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	toGetColumns = () => [
 		{
@@ -59,6 +59,7 @@ export default class OutboundInvestment extends React.Component {
 			dataIndex: 'indexNum',
 			key: 'indexNum',
 			width: 120,
+			className: 'column-left20',
 			render(text) {
 				return <div>{text || '-'}</div>;
 			},
@@ -110,7 +111,7 @@ export default class OutboundInvestment extends React.Component {
 				return <div>{text || '-'}</div>;
 			},
 		},
-	]
+	];
 
 	render() {
 		const { id } = this.props;
