@@ -143,3 +143,12 @@
   margin-bottom: -20px !important;
   overflow: auto !important;
 }
+// 时间轴圆环大小
+.ant-timeline-item-head {
+  width: 10px;
+  height: 10px;
+}
+// 时间轴竖线位置
+.ant-timeline-item-tail {
+  left: 4px;
+}

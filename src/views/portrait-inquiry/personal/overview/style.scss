@@ -12,7 +12,6 @@
     color: $text-title;
     height: 16px;
     line-height: 16px;
-    margin-top: 20px;
     .container-title-num {
       display: inline-block;
       font-weight: 500;
@@ -31,6 +30,6 @@
     }
   }
   .overview-container-content {
-    padding: 20px 0 0 10px;
+    padding: 20px 0 20px 10px;
   }
 }
