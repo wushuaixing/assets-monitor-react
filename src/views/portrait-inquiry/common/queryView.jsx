@@ -2,7 +2,7 @@ import React from 'react';
 import { message, Radio } from 'antd';
 import { navigate } from '@reach/router';
 import { Button, Icon as Iconfont, Input } from '@/common';
-import { getQueryByName } from '@/utils';
+import { clearEmpty, getQueryByName } from '@/utils';
 
 export default class QueryView extends React.Component {
 	constructor(props) {
@@ -70,13 +70,13 @@ export default class QueryView extends React.Component {
 			} else if (name.length < 2) {
 				message.error('债务人名称请至少输入两个字');
 			} else {
-				navigate(`/inquiry/list?type=1&name=${name}`);
+				navigate(`/inquiry/list?type=1&name=${name.trim()}`);
 				if (onQuery) {
-					onQuery({
+					onQuery(clearEmpty({
 						type,
 						name,
 						number,
-					});
+					}));
 				}
 			}
 		} else if (type === 2) {
@@ -89,7 +89,7 @@ export default class QueryView extends React.Component {
 			} else if (!name && !number) {
 				message.error('请输入债务人名称及证据号');
 			} else if (name && number) {
-				navigate(`/inquiry/personal?type=2&name=${name}&num=${number}`);
+				navigate(`/inquiry/personal?type=2&name=${name.trim()}&num=${number.trim()}`);
 				window.location.reload(); // 退出登录刷新页面
 			}
 			// if (name && number) {

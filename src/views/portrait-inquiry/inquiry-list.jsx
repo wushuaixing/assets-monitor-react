@@ -4,7 +4,7 @@ import { navigate } from '@reach/router';
 import QueryView from './common/queryView';
 import { inquiryList } from '@/utils/api/portrait-inquiry';
 import { Spin, Table } from '@/common';
-import { timeStandard } from '@/utils';
+import { timeStandard, clearEmpty } from '@/utils';
 
 export default class InquiryList extends React.Component {
 	constructor(props) {
@@ -90,11 +90,11 @@ export default class InquiryList extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		this.setState({ loading: true });
-		inquiryList({
+		inquiryList(clearEmpty({
 			page: page || 1,
 			num: 20,
 			name: this.condition.name,
-		}).then((res) => {
+		})).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
