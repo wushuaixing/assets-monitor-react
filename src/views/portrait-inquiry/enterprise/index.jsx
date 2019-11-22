@@ -126,13 +126,13 @@ const EnterpriseInfo = (props) => {
 };
 /* 企业概要-简单版 */
 const EnterpriseInfoSimple = (props) => {
-	const { download, data } = props;
+	const { download, data, isDishonest } = props;
 	return (
 		<div className="enterprise-info">
 			<div className="intro-title">
 				<span className="yc-public-title-large-bold intro-title-name">
 					{data.name}
-					{/* <img className="intro-title-tag" src={Dishonest} alt="" /> */}
+					{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 				</span>
 				{
 					data.regStatus
