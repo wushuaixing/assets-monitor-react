@@ -106,6 +106,7 @@ const Result = {
 									)
 							}
 					</span>
+					{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : ''}
 				</li>
 				<li>
 					<span className="list">
@@ -183,6 +184,7 @@ const Transfer = {
 								)
 						}
 					</span>
+					{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : ''}
 				</li>
 				<li>
 					<span className="list">
@@ -255,6 +257,7 @@ const Mortgage = {
 								)
 						}
 					</span>
+					{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : ''}
 				</li>
 				<li>
 					<span className="list">
