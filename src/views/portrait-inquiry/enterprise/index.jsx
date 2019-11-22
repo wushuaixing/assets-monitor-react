@@ -11,7 +11,7 @@ import { Tabs, Button, Spin } from '@/common';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
-import { companyInfo } from '@/utils/api/portrait-inquiry';
+import { companyInfo, dishonestStatus } from '@/utils/api/portrait-inquiry';
 import Overview from './overview';
 import Assets from './assets';
 import Lawsuits from './lawsuits';
@@ -68,8 +68,8 @@ const getRegStatusClass = (val) => {
 const EnterpriseInfo = (props) => {
 	const {
 		download, data: {
-			name, regStatus, legalPersonName, regCapital, formerNames, estiblishTime, isDishonest,
-		},
+			name, regStatus, legalPersonName, regCapital, formerNames, establishTime,
+		}, isDishonest,
 	} = props;
 	const _formerNames = (formerNames || []).join('、');
 	const style = {
@@ -103,7 +103,7 @@ const EnterpriseInfo = (props) => {
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">成立日期：</span>
-						<span className="yc-public-title">{timeStandard(estiblishTime)}</span>
+						<span className="yc-public-title">{timeStandard(establishTime)}</span>
 					</li>
 				</div>
 				<div className="intro-used">
@@ -135,7 +135,8 @@ const EnterpriseInfoSimple = (props) => {
 					{/* <img className="intro-title-tag" src={Dishonest} alt="" /> */}
 				</span>
 				{
-					data.regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={{ marginTop: 2 }}>{data.regStatus}</span> : ''
+					data.regStatus
+						? <span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={{ marginTop: 2 }}>{data.regStatus}</span> : ''
 				}
 			</div>
 			<Button className="intro-download" onClick={download}>
@@ -160,6 +161,7 @@ export default class Enterprise extends React.Component {
 			affixStatus: false,
 			loading: true,
 			infoSource: {},
+			isDishonest: false,
 			countSource: {
 				assets: [],
 				lawsuits: [],
@@ -188,6 +190,13 @@ export default class Enterprise extends React.Component {
 			this.setState({
 				loading: false,
 			});
+		});
+		dishonestStatus({ companyId }).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					isDishonest: res.data,
+				});
+			}
 		});
 	}
 
@@ -244,7 +253,7 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, affixStatus, loading, infoSource, countSource,
+			tabConfig, childDom, sourceType, affixStatus, loading, infoSource, countSource, isDishonest,
 		} = this.state;
 
 		return (
@@ -257,8 +266,8 @@ export default class Enterprise extends React.Component {
 							<div className={`enterprise-intro${childDom ? '' : ' enterprise-intro-child'}${affixStatus ? ' enterprise-intro-affix' : ''}`} id="enterprise-intro">
 								{
 									affixStatus
-										? <EnterpriseInfoSimple download={this.handleDownload} data={infoSource} />
-										: <EnterpriseInfo download={this.handleDownload} data={infoSource} />
+										? <EnterpriseInfoSimple download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
+										: <EnterpriseInfo download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
 								}
 								<Tabs.Simple
 									onChange={this.onSourceType}
