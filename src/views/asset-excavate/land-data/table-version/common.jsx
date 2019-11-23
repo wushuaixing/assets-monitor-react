@@ -144,7 +144,7 @@ const Result = {
 				<li>
 					<span className="list list-content">
 						<span className="yc-purchasePrice-icon" />
-						{`成交价格 ${row.finalP1rice || '-'}万元`}
+						{`成交价格 ${row.finalPrice || '-'}万元`}
 					</span>
 				</li>
 				<li>
