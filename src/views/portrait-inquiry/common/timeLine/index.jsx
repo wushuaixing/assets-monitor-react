@@ -30,7 +30,7 @@ class RingEcharts extends React.Component {
 			const newArray = [];
 			if (newDataArray) {
 				newDataArray.map(item => newArray.push(
-					Object.assign({}, item, { count: item.count, year: `${item.year} 年` }),
+					Object.assign({}, item, { count: item.count, year: item.year === 0 ? '未知' : `${item.year} 年` }),
 				));
 			}
 
@@ -46,7 +46,7 @@ class RingEcharts extends React.Component {
 		const newArray = [];
 		if (newDataArray) {
 			newDataArray.map(item => newArray.push(
-				Object.assign({}, item, { count: item.count, year: `${item.year} 年` }),
+				Object.assign({}, item, { count: item.count, year: item.year === 0 ? '未知' : `${item.year} 年` }),
 			));
 		}
 		newArray[0].count += num;
@@ -75,7 +75,7 @@ class RingEcharts extends React.Component {
 								<div className="yc-dotted-line" />
 								<div className="status">
 									<h4 style={{ fontSize: 12 }}>
-										{item.year === 0 ? '未知' : `${item.year}`}
+										{`${item.year}`}
 									</h4>
 								</div>
 							</li>
