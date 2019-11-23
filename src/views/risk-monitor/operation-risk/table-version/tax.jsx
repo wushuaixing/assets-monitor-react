@@ -1,6 +1,8 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Ellipsis, Spin, Table } from '@/common';
+import {
+	Ellipsis, Icon, Spin, Table,
+} from '@/common';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import risk from '@/utils/api/portrait-inquiry/personal/risk';
 import { getQueryByName, toEmpty } from '@/utils';
@@ -8,6 +10,13 @@ import { getQueryByName, toEmpty } from '@/utils';
 const api = manage.tax;
 const { personalTax } = risk;
 
+const toGetIdentityType = (value) => {
+	/* 1：违法人 2：法人 3：财务 */
+	if (value === 1) return '作为违法人';
+	if (value === 2) return '作为法人';
+	if (value === 3) return '作为财务';
+	return '';
+};
 export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,53 +32,63 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
-	toGetColumns=() => [
-		{
-			title: '主要信息',
-			dataIndex: 'property',
-			render: (value, row) => {
-				const { caseNature: ca, illegalFacts: ill, punish } = row;
-				return (
+	toGetColumns=() => {
+		const { portrait } = this.props;
+		return ([
+			{
+				title: '主要信息',
+				dataIndex: 'property',
+				render: (value, row) => {
+					const { caseNature: ca, illegalFacts: ill, punish } = row;
+					return (
+						<div className="assets-info-content">
+							<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
+								{ toEmpty(ca || value)
+									? <Ellipsis content={ca || value} tooltip url={row.url} width={600} font={15} /> : '--' }
+								{ toGetIdentityType(row.identityType) && portrait === 'personal'
+									? <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span> : ''}
+							</li>
+							<li>
+								<span className="list list-title align-justify">违法事实</span>
+								<span className="list list-title-colon">:</span>
+								<span className="list list-content">
+									{ toEmpty(ill) ? <Ellipsis content={ill} width={600} tooltip /> : '--' }
+								</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify">处罚情况</span>
+								<span className="list list-title-colon">:</span>
+								<span className="list list-content">
+									{ toEmpty(punish) ? <Ellipsis content={punish} width={600} tooltip /> : '--' }
+								</span>
+							</li>
+						</div>
+					);
+				},
+			}, {
+				title: '辅助信息',
+				width: 300,
+				render: (value, row) => (
 					<div className="assets-info-content">
-						<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-							{ toEmpty(ca || value)
-								? <Ellipsis content={ca || value} tooltip url={row.url} width={600} font={15} /> : '--' }
-						</li>
+						{
+							portrait === 'personal' ? (
+								<li style={{ height: 24 }}>
+									<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 5 }} />
+									{/* eslint-disable-next-line no-irregular-whitespace */}
+									<Ellipsis content={`纳税人　${row.offender || '--'}`} tooltip width={240} />
+								</li>
+							) : <li style={{ height: 24 }} />
+						}
 						<li>
-							<span className="list list-title align-justify">违法事实</span>
+							<span className="list list-title align-justify">发布日期</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content">
-								{ toEmpty(ill) ? <Ellipsis content={ill} width={600} tooltip /> : '--' }
-							</span>
-						</li>
-						<li>
-							<span className="list list-title align-justify">处罚情况</span>
-							<span className="list list-title-colon">:</span>
-							<span className="list list-content">
-								{ toEmpty(punish) ? <Ellipsis content={punish} width={600} tooltip /> : '--' }
-							</span>
+							<span className="list list-content">{row.gmtPublish || '--'}</span>
 						</li>
 					</div>
-				);
+				),
 			},
-		}, {
-			title: '辅助信息',
-			width: 300,
-			render: (value, row) => (
-				<div className="assets-info-content">
-					<li style={{ height: 24 }} />
-					<li>
-						<span className="list list-title align-justify">&nbsp;</span>
-					</li>
-					<li>
-						<span className="list list-title align-justify">发布日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.gmtPublish || '--'}</span>
-					</li>
-				</div>
-			),
-		},
-	];
+		]);
+	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
