@@ -70,7 +70,7 @@ export const PartyCrosswise = (props) => {
 				<div className="yc-party-crosswise">
 					{
 						source.map((item, index) => [
-							<PartyCrosswiseDetail {...item} id={row.id} key={row.id} width={maxWidth} max={9999} />,
+							<PartyCrosswiseDetail {...item} id={item.id} key={item.id} width={maxWidth} items={value} max={9999} />,
 							index !== source.length - 1 ? <span className="yc-split-line yc-split-line-info" /> : null,
 						])
 					}
@@ -144,7 +144,7 @@ const Result = {
 				<li>
 					<span className="list list-content">
 						<span className="yc-purchasePrice-icon" />
-						{`成交价格 ${row.finalPrice  || '-'}万元`}
+						{`成交价格 ${row.finalP1rice || '-'}万元`}
 					</span>
 				</li>
 				<li>
