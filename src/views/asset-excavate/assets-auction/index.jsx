@@ -258,6 +258,7 @@ export default class Assets extends React.Component {
 			dataSource,
 			current,
 			total,
+			loading,
 			onRefresh: this.onRefresh,
 			onSelect: val => this.selectRow = val,
 			selectRow: this.selectRow,

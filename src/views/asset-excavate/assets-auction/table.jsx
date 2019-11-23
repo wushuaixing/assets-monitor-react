@@ -145,7 +145,7 @@ export default class TableView extends React.Component {
 
 	render() {
 		const {
-			total, current, dataSource, manage, onPageChange, onRefresh,
+			total, current, dataSource, manage, onPageChange, onRefresh, loading,
 		} = this.props;
 		const { selectedRowKeys, visible, source } = this.state;
 
@@ -161,6 +161,7 @@ export default class TableView extends React.Component {
 				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
+					visible={loading}
 					rowKey={record => record.id}
 					rowClassName={() => 'yc-assets-auction-table-row'}
 					columns={columns(this.props, this.toFollowClick)}
