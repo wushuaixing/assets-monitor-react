@@ -59,7 +59,15 @@ export default class OverView extends React.Component {
 						litigationLoading: false,
 					});
 				} else {
-					this.setState({ litigationLoading: false });
+					this.setState({
+						litigationLoading: false,
+						yearDistributions: [],
+						litigationInfos: [
+							{ count: 0 },
+							{ count: 0 },
+							{ count: 0 },
+						],
+					});
 				}
 			})
 			.catch(() => {
@@ -127,7 +135,7 @@ export default class OverView extends React.Component {
 		const {
 			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, litigationLoading, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount,
 		} = this.state;
-
+		console.log(litigationInfos);
 		return (
 			<div className="inquiry-overview">
 				<div className="mark-line" />
