@@ -20,11 +20,9 @@ export default class PartyInfoDetail extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		const _nextState = nextState;
-		const { id } = this.props;
+		const { id, items } = this.props;
 		const { status } = this.state;
-		// console.log(nextProps.id, id, nextProps.child, nextState.status);
-		if (nextProps.id !== id) {
-			// console.log(nextProps.id, id, nextProps.child);
+		if (nextProps.id !== id || JSON.stringify(items) !== JSON.stringify(nextProps.items)) {
 			_nextState.status = nextProps.child.length <= maxShowLength ? 'none' : 'toOpen';
 			return true;
 		}
