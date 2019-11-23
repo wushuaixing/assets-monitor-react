@@ -135,7 +135,6 @@ export default class OverView extends React.Component {
 		const {
 			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, litigationLoading, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount,
 		} = this.state;
-		console.log(litigationInfos);
 		return (
 			<div className="inquiry-overview">
 				<div className="mark-line" />
