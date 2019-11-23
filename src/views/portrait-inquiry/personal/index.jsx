@@ -38,23 +38,25 @@ const source = () => [
 
 /* 企业概要 */
 const PersonalInfo = (props) => {
-	const { download, info, urlInfo } = props;
+	const {
+		download, info, urlInfo, visible,
+	} = props;
 	return (
 		<div className="personal-info">
 			<div className="intro-icon">
-				<span>{info.name ? info.name.slice(0, 1) : ''}</span>
+				<span>{visible === false && urlInfo.obligorName ? urlInfo.obligorName.slice(0, 1) : ''}</span>
 			</div>
 			<div className="intro-content">
 				<div className="intro-title">
 					<span className="yc-public-title-large-bold intro-title-name">
-						{info.name || urlInfo.name}
+						{visible === false && urlInfo.obligorName ? urlInfo.obligorName : '-'}
 						{info.isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 					</span>
 				</div>
 				<div className="intro-base-info">
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">证件号：</span>
-						<span className="yc-public-title">{info.number || urlInfo.num}</span>
+						<span className="yc-public-title">{visible === false && urlInfo.obligorNumber ? urlInfo.obligorNumber : '-'}</span>
 					</li>
 				</div>
 			</div>
@@ -68,12 +70,15 @@ const PersonalInfo = (props) => {
 
 /* 企业概要-简单版 */
 const PersonalInfoSimple = (props) => {
-	const { download, info } = props;
+	const {
+		download, info, urlInfo, visible,
+	} = props;
+
 	return (
 		<div className="personal-info">
 			<div className="intro-title">
 				<span className="yc-public-title-large-bold intro-title-name">
-					{info.name}
+					{visible === false && urlInfo.obligorName ? urlInfo.obligorName : '-'}
 					{info.isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 				</span>
 			</div>
@@ -217,8 +222,8 @@ export default class Personal extends React.Component {
 							<div className={`personal-intro${childDom ? '' : ' personal-intro-child'}${affixStatus ? ' personal-intro-affix' : ''}`} id="personal-intro">
 								{
 									affixStatus
-										? <PersonalInfoSimple download={this.handleDownload} info={infoSource} urlInfo={this.info} />
-										: <PersonalInfo download={this.handleDownload} info={infoSource} urlInfo={this.info} />
+										? <PersonalInfoSimple download={this.handleDownload} info={infoSource} urlInfo={this.info} visible={loading} />
+										: <PersonalInfo download={this.handleDownload} info={infoSource} urlInfo={this.info} visible={loading} />
 								}
 								<Tabs.Simple
 									onChange={this.onSourceType}
