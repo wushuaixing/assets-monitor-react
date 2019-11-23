@@ -67,7 +67,7 @@ export default class DetailModal extends React.PureComponent {
 								{
 									data && data.historyAuctions.map(item => (
 										<Timeline.Item>
-											<div className="yc-Timeline-item TimelineName">{item.round ? item.round : 'nbsp;'}</div>
+											<div className="yc-Timeline-item TimelineName">{item.round ? item.round : '拍卖轮次未公示'}</div>
 											<div className="yc-Timeline-lable">
 												<span className="yc-item-lable">
 													<span className="yc-history-lable">拍卖结果：</span>
