@@ -18,7 +18,6 @@ import {
 } from '@/common';
 import businessImg from '@/assets/img/business/icon_recovery_n.png';
 import ModalTable from './modalTable';
-
 import './style.scss';
 
 const cookies = new Cookies();
@@ -212,6 +211,7 @@ class BusinessView extends React.Component {
 			page: val,
 			loading: true,
 		});
+
 		businessList(params).then((res) => {
 			if (res && res.data) {
 				this.setState({

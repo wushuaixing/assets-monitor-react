@@ -19,6 +19,7 @@ import {
 	fullAssetSearchExport, // 导出
 } from '@/utils/api/search';
 import './style.scss';
+import { ScrollAnimation } from '@/utils/changeTime';
 
 const _style1 = { width: 278 };
 const _style2 = { width: 120 };
@@ -67,10 +68,6 @@ class AUCTION extends React.Component {
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
-	componentWillUpdate() {
-		window.scrollTo(0, 0); // 回到顶部
-	}
-
 	componentWillUnmount() {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}
@@ -110,6 +107,9 @@ class AUCTION extends React.Component {
 		});
 		fullAssetSearch(params).then((res) => {
 			if (res && res.data) {
+				// 获取当前高度，动态移动滚动条
+				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+				ScrollAnimation(currentY, 285);
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
@@ -132,7 +132,7 @@ class AUCTION extends React.Component {
 			current: 1,
 			page: 1,
 		});
-		this.handleScroll('actionId');
+
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const { startTime, endTime } = this.state;
@@ -169,7 +169,9 @@ class AUCTION extends React.Component {
 			page: val,
 			loading: true,
 		});
-
+		// 获取当前高度，动态移动滚动条
+		const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+		ScrollAnimation(currentY, 285);
 		fullAssetSearch(params).then((res) => {
 			if (res && res.data) {
 				this.setState({

@@ -16,6 +16,7 @@ import { objectKeyIsEmpty } from '@/utils';
 import LawsuitsTable from './table';
 import Query from './query';
 import './style.scss';
+import { ScrollAnimation } from '@/utils/changeTime';
 
 const createForm = Form.create;
 
@@ -87,7 +88,7 @@ class LAWSUITS extends React.Component {
 		if (urlObj.defendant1) { this.addDefendant(); }
 		if (!urlObj.defendant1 && urlObj.defendant2) { this.addDefendant(); }
 		if (urlObj.defendant2) { this.addDefendant(urlObj.defendant2); }
-	}
+	};
 
 	// 获取数量
 	getCount = (value) => {
@@ -102,7 +103,7 @@ class LAWSUITS extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
 	// 获取消息列表
 	getData = (value, selectType) => {
@@ -118,6 +119,9 @@ class LAWSUITS extends React.Component {
 		const type = Number(selectType);
 		if (type === 2) {
 			ktggRelationSearch(params).then((res) => {
+				// 获取当前高度，动态移动滚动条
+				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+				ScrollAnimation(currentY, 293);
 				if (res && res.data) {
 					this.setState({
 						dataList: res.data.list,
@@ -134,6 +138,9 @@ class LAWSUITS extends React.Component {
 		} else {
 			trialRelationSearch(params).then((res) => {
 				if (res && res.data) {
+					// 获取当前高度，动态移动滚动条
+					const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+					ScrollAnimation(currentY, 293);
 					this.setState({
 						dataList: res.data.list,
 						totals: res.data.total,
@@ -147,7 +154,7 @@ class LAWSUITS extends React.Component {
 				this.setState({ loading: false });
 			});
 		}
-	}
+	};
 
 	// 切换立案开庭
 	onSourceType=(val) => {
@@ -203,7 +210,7 @@ class LAWSUITS extends React.Component {
 			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
 			order: Sort === 'DESC' ? 'ASC' : 'DESC',
 		});
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -221,7 +228,7 @@ class LAWSUITS extends React.Component {
 			page: 1,
 			type: 1,
 		});
-	}
+	};
 
 	//  pagesize页面翻页可选
 	onShowSizeChange = (current, pageSize) => {
@@ -236,7 +243,7 @@ class LAWSUITS extends React.Component {
 		if (Object.keys(ParamsObj).length !== 0) {
 			this.getData(ParamsObj, type); // 进入页面请求数据
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -251,7 +258,7 @@ class LAWSUITS extends React.Component {
 		if (!objectKeyIsEmpty(ParamsObj)) {
 			this.getData(ParamsObj, type); // 进入页面请求数据
 		}
-	}
+	};
 
 	// 输入原告被告
 	inputChange = (value, e, id) => {
@@ -272,7 +279,7 @@ class LAWSUITS extends React.Component {
 		const { plaintiff } = this.state;
 		plaintiff.push({ name: '', id: plaintiff.length + 1 });
 		this.setState({ plaintiff });
-	}
+	};
 
 	// 删除原告
 	deletePlaintiff = (id) => {
@@ -280,14 +287,14 @@ class LAWSUITS extends React.Component {
 		plaintiff = plaintiff.filter(key => key.id !== id);
 		plaintiff.map((item, index) => { const _item = item; return _item.id = index + 1; });
 		this.setState({ plaintiff });
-	}
+	};
 
 	// 新增被告
 	addDefendant = () => {
 		const { defendant } = this.state;
 		defendant.push({ name: '', id: defendant.length + 1 });
 		this.setState({ defendant });
-	}
+	};
 
 	// 删除被告
 	deleteDefendant = (id) => {
@@ -295,10 +302,10 @@ class LAWSUITS extends React.Component {
 		defendant = defendant.filter(key => key.id !== id);
 		defendant.map((item, index) => { const _item = item; return _item.id = index + 1; });
 		this.setState({ defendant });
-	}
+	};
 
 	// 获取查询参数
-	getQueryData = (obj) => { this.setState({ Params: obj }); }
+	getQueryData = (obj) => { this.setState({ Params: obj }); };
 
 	render() {
 		const {
