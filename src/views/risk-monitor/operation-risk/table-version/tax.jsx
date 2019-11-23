@@ -72,9 +72,10 @@ export default class TableIntact extends React.Component {
 					<div className="assets-info-content">
 						{
 							portrait === 'personal' ? (
-								<li>
-									<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 2 }} />
-									<span className="list list-content">{`纳税人 ${row.offender || '--'}`}</span>
+								<li style={{ height: 24 }}>
+									<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 5 }} />
+									{/* eslint-disable-next-line no-irregular-whitespace */}
+									<Ellipsis content={`纳税人　${row.offender || '--'}`} tooltip width={240} />
 								</li>
 							) : <li style={{ height: 24 }} />
 						}
