@@ -19,6 +19,7 @@ import {
 } from '@/utils/api/search';
 
 import './style.scss';
+import { ScrollAnimation } from '@/utils/changeTime';
 
 const createForm = Form.create;
 const _style1 = { width: 278 };
@@ -58,10 +59,6 @@ class BANKRUPTCY extends React.Component {
 		}
 	}
 
-	componentWillUpdate() {
-		window.scrollTo(0, 0); // 回到顶部
-	}
-
 	componentWillUnmount() {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}
@@ -99,6 +96,9 @@ class BANKRUPTCY extends React.Component {
 		});
 		bankruptcySearch(params).then((res) => {
 			if (res && res.data) {
+				// 获取当前高度，动态移动滚动条
+				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+				ScrollAnimation(currentY, 235);
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.totalCount,
@@ -151,6 +151,7 @@ class BANKRUPTCY extends React.Component {
 			page: 1,
 			num: pageSize,
 		};
+
 		if (!objectKeyIsEmpty(fildes)) {
 			this.getData(params);
 		} else {
@@ -219,7 +220,9 @@ class BANKRUPTCY extends React.Component {
 			page: val,
 			loading: true,
 		});
-
+		// 获取当前高度，动态移动滚动条
+		const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+		ScrollAnimation(currentY, 235);
 		bankruptcySearch(params).then((res) => {
 			if (res && res.data) {
 				this.setState({

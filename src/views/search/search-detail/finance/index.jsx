@@ -19,6 +19,7 @@ import {
 } from '@/utils/api/search';
 
 import './style.scss';
+import { ScrollAnimation } from '@/utils/changeTime';
 
 const createForm = Form.create;
 const _style1 = { width: 278 };
@@ -58,10 +59,6 @@ class FINANCE extends React.Component {
 		}
 	}
 
-	componentWillUpdate() {
-		window.scrollTo(0, 0); // 回到顶部
-	}
-
 	componentWillUnmount() {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}
@@ -99,6 +96,9 @@ class FINANCE extends React.Component {
 		});
 		finance(params).then((res) => {
 			if (res && res.data) {
+				// 获取当前高度，动态移动滚动条
+				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+				ScrollAnimation(currentY, 180);
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.totalCount,
@@ -141,7 +141,7 @@ class FINANCE extends React.Component {
 			this.queryReset();
 			// message.error('请输入搜索条件');
 		}
-	}
+	};
 
 	// 导出
 	toExportCondition=(type) => {
@@ -181,7 +181,7 @@ class FINANCE extends React.Component {
 			params: {},
 		});
 		navigate(generateUrlWithParams('/search/detail/finance', {}));
-	}
+	};
 
 	//  pagesize页面翻页可选
 	onShowSizeChange = (current, pageSize) => {
@@ -202,7 +202,7 @@ class FINANCE extends React.Component {
 		if (fildes.content) {
 			this.getData(params);
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -221,7 +221,9 @@ class FINANCE extends React.Component {
 			page: val,
 			loading: true,
 		});
-
+		// 获取当前高度，动态移动滚动条
+		const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+		ScrollAnimation(currentY, 180);
 		finance(params).then((res) => {
 			if (res && res.data) {
 				this.setState({
@@ -237,7 +239,7 @@ class FINANCE extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 
 	render() {

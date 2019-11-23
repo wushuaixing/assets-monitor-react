@@ -290,6 +290,7 @@ export default class Subrogation extends React.Component {
 			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
 		} = this.state;
 		const tableProps = {
+			loading,
 			manage,
 			dataSource,
 			current,

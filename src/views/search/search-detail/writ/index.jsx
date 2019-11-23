@@ -18,6 +18,7 @@ import {
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import WritTable from './table';
 import './style.scss';
+import { ScrollAnimation } from '@/utils/changeTime';
 
 const _style1 = { width: 278 };
 const _style2 = { width: 100 };
@@ -62,10 +63,6 @@ class WRIT extends React.Component {
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
-	componentWillUpdate() {
-		window.scrollTo(0, 0); // 回到顶部
-	}
-
 	componentWillUnmount() {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}
@@ -105,6 +102,9 @@ class WRIT extends React.Component {
 		});
 		judgement(params).then((res) => {
 			if (res && res.data) {
+				// 获取当前高度，动态移动滚动条
+				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+				ScrollAnimation(currentY, 285);
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.totalCount,
@@ -143,7 +143,7 @@ class WRIT extends React.Component {
 		if (!objectKeyIsEmpty(fildes)) {
 			this.getData(params); // 进入页面请求数据
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -163,7 +163,9 @@ class WRIT extends React.Component {
 			page: val,
 			loading: true,
 		});
-
+		// 获取当前高度，动态移动滚动条
+		const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+		ScrollAnimation(currentY, 285);
 		judgement(params).then((res) => {
 			if (res && res.data) {
 				this.setState({
@@ -179,7 +181,7 @@ class WRIT extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	// 时间排序
 	SortTime = () => {
@@ -195,7 +197,7 @@ class WRIT extends React.Component {
 			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
 			SortTime: params.sort,
 		});
-	}
+	};
 
 	// 搜索
 	search = () => {
@@ -225,7 +227,7 @@ class WRIT extends React.Component {
 			this.queryReset();
 			// message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -243,7 +245,7 @@ class WRIT extends React.Component {
 			endTime: undefined,
 		});
 		resetFields('');
-	}
+	};
 
 	// 导出
 	toExportCondition=(type) => {
