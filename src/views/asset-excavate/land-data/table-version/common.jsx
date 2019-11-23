@@ -106,7 +106,7 @@ const Result = {
 									)
 							}
 					</span>
-					{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : ''}
+					{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : '-'}
 				</li>
 				<li>
 					<span className="list">
@@ -144,7 +144,7 @@ const Result = {
 				<li>
 					<span className="list list-content">
 						<span className="yc-purchasePrice-icon" />
-						{`成交价格 ${row.finalPrice}万元`}
+						{`成交价格 ${row.finalPrice  || '-'}万元`}
 					</span>
 				</li>
 				<li>
@@ -184,7 +184,7 @@ const Transfer = {
 								)
 						}
 					</span>
-					{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : ''}
+					{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse || '-'}</span> : ''}
 				</li>
 				<li>
 					<span className="list">
@@ -228,7 +228,7 @@ const Transfer = {
 				<li>
 					<span className="list list-title align-justify">转让方式</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.transferMode}</span>
+					<span className="list list-content">{row.transferMode || '-'}</span>
 				</li>
 			</div>
 		</React.Fragment>
@@ -287,7 +287,7 @@ const Mortgage = {
 					<div className="yc-table-line" />
 					<span className="list list-title align-justify">土地使用权证号</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.landUseCertificateNumber}</span>
+					<span className="list list-content">{row.landUseCertificateNumber || '-'}</span>
 				</div>
 
 			</div>
@@ -313,7 +313,7 @@ const Mortgage = {
 				<li>
 					<span className="list list-title align-justify">土地他项权证号</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.otherObligeeCertificateNumber}</span>
+					<span className="list list-content">{row.otherObligeeCertificateNumber || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">登记结束日期</span>
