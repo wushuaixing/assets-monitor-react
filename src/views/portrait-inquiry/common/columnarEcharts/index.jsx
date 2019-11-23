@@ -18,7 +18,7 @@ const getOption = (Data, id, title, newColumArray) => ({
 		},
 	},
 	grid: { // 绘图区调整
-		height: newColumArray.length * 30,
+		height: newColumArray.length * 35,
 		x: 20, // 左留白
 		y: 10, // 上留白
 		x2: 10, // 右留白
@@ -104,7 +104,7 @@ class ColumnarEcharts extends React.Component {
 		const list = [];
 		newDataList.forEach((item, index) => {
 			const { x } = base;
-			const y = base.y + 30 * (index);
+			const y = base.y + 35 * (index);
 			const typeName = item.typeName && item.typeName.length > 10 ? `${item.typeName.substr(0, 10)}...` : `${item.typeName}`;
 			const type = item.type && item.type.length > 10 ? `${item.type.substr(0, 10)}...` : `${item.type}`;
 

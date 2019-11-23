@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { timeStandard } from '@/utils';
-import { Table } from '@/common';
+import { SelectedNum, Table } from '@/common';
 import { partyInfo } from '@/views/_common';
 import Api from '@/utils/api/monitor-info/public';
 import { Result } from './common';
@@ -115,6 +115,7 @@ export default class TableView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}

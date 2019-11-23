@@ -74,7 +74,7 @@ class RingEcharts extends React.Component {
 								</div>
 								<div className="yc-dotted-line" />
 								<div className="status">
-									<h4>
+									<h4 style={{ fontSize: 12 }}>
 										{item.year === 0 ? '未知' : `${item.year}`}
 									</h4>
 								</div>

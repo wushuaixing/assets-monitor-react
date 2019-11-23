@@ -145,6 +145,7 @@ export default class Subrogation extends React.Component {
 					api('follow', sourceType)({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
+							_this.selectRow = []; // 批量关注清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
