@@ -92,18 +92,23 @@ const AuctionInfo = (text, rowContent) => {
 
 const toGetType = (ary) => {
 	if (ary.length) {
-		const { labelType: type } = ary[0];
+		const res = [];
+		ary.forEach((item) => {
+			let typeName = '';
+			switch (item.labelType) {
+			case 1: typeName = '资产所有人'; break;
+			case 2: typeName = '债权人'; break;
+			case 3: typeName = '资产线索'; break;
+				// case 4: typeName = '起诉人'; break;
+			case 5: typeName = '竞买人'; break;
+			default: typeName = '';
+			}
+			if (typeName) {
+				if (!new RegExp(typeName).test(JSON.stringify(res))) res.push(typeName);
+			}
+		});
 		//	1：资产所有人 2：债权人 3：资产线索 4：起诉人 5：竞买人
-		let typeName = '--';
-		switch (type) {
-		case 1: typeName = '资产所有人'; break;
-		case 2: typeName = '债权人'; break;
-		case 3: typeName = '资产线索'; break;
-		// case 4: typeName = '起诉人'; break;
-		case 5: typeName = '竞买人'; break;
-		default: typeName = '--';
-		}
-		return typeName;
+		return res.length ? res.join('、') : '--';
 	}
 	return '--';
 };
