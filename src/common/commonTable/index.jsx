@@ -11,13 +11,13 @@ class commonTable extends React.Component {
 
 	render() {
 		const propsObj = this.props;
-		const { visible } = propsObj;
-		console.log(propsObj, visible);
+		// const { visible } = propsObj;
 
 		return (
 			<Table
 				{...propsObj}
-				locale={visible === false ? { emptyText: <NoContent /> } : { emptyText: '' }}
+				locale={{ emptyText: <NoContent /> }}
+				// locale={visible === false ? { emptyText: <NoContent /> } : { emptyText: '' }}
 			/>
 		);
 	}
