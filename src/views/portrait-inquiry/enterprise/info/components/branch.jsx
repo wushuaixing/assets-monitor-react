@@ -33,7 +33,7 @@ export default class Branch extends React.Component {
 		const params = {
 			num: 5,
 			id: urlValue.id || '',
-			page: value,
+			page: value > 200 ? 200 : value,
 		};
 		getBranch(params)
 			.then((res) => {

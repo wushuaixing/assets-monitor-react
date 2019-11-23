@@ -33,7 +33,7 @@ export default class OutboundInvestment extends React.Component {
 		const params = {
 			num: 5,
 			id: urlValue.id || '',
-			page: value,
+			page: value > 200 ? 200 : value,
 		};
 		getInvestment(params)
 			.then((res) => {
