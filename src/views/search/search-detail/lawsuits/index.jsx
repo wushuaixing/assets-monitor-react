@@ -121,7 +121,7 @@ class LAWSUITS extends React.Component {
 			ktggRelationSearch(params).then((res) => {
 				// 获取当前高度，动态移动滚动条
 				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
-				ScrollAnimation(currentY, 293);
+				ScrollAnimation(currentY, 0);
 				if (res && res.data) {
 					this.setState({
 						dataList: res.data.list,
@@ -140,7 +140,7 @@ class LAWSUITS extends React.Component {
 				if (res && res.data) {
 					// 获取当前高度，动态移动滚动条
 					const currentY = document.documentElement.scrollTop || document.body.scrollTop;
-					ScrollAnimation(currentY, 293);
+					ScrollAnimation(currentY, 0);
 					this.setState({
 						dataList: res.data.list,
 						totals: res.data.total,

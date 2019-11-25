@@ -109,7 +109,7 @@ class AUCTION extends React.Component {
 			if (res && res.data) {
 				// 获取当前高度，动态移动滚动条
 				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
-				ScrollAnimation(currentY, 285);
+				ScrollAnimation(currentY, 0);
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.total,
@@ -171,7 +171,7 @@ class AUCTION extends React.Component {
 		});
 		// 获取当前高度，动态移动滚动条
 		const currentY = document.documentElement.scrollTop || document.body.scrollTop;
-		ScrollAnimation(currentY, 285);
+		ScrollAnimation(currentY, 0);
 		fullAssetSearch(params).then((res) => {
 			if (res && res.data) {
 				this.setState({

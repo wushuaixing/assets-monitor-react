@@ -47,7 +47,7 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">出质股权数额</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content none-width">{row.equityAmount}</span>
+						<span className="list list-content none-width">{row.equityAmount || '--'}</span>
 					</li>
 				</div>
 			),
