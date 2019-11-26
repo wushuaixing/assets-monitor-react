@@ -378,14 +378,14 @@ export default class FollowInfo extends React.Component {
 				maskClosable={false}
 				onCancel={onClose}
 				footer={[
-					<p>
+					<p className="yc-public-floatLeft">
 						{
-							process !== 15 ? <Btn type="warning-text" style={{ float: 'left' }} size="normal" onClick={() => this.handleProcessSave(15)}>放弃跟进</Btn> : ''
+							process !== 15 ? <Btn type="warning-text" size="normal" onClick={() => this.handleProcessSave(15)}>放弃跟进</Btn> : ''
 						}
 					</p>,
 					<Button key="back" type="ghost" size="large" onClick={onClose}>取 消</Button>,
 					<Button key="submit" type="primary" size="large" loading={loading} onClick={() => this.handleProcessSave()}>
-						{'确 定'}
+						确 定
 					</Button>,
 				]}
 			>
@@ -534,7 +534,7 @@ export default class FollowInfo extends React.Component {
 															onClick={this.handlePushSave}
 															disabled={pushList.length >= 3}
 														>
-															{'保存'}
+															保存
 														</Button>
 													</p>
 													<p style={{ overflow: 'hidden' }}>

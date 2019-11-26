@@ -244,8 +244,11 @@ class BusinessDebtor extends React.Component {
 				</div>
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
+
 				<div className="yc-business-tablebtn">
-					<Download condition={() => this.toExportCondition('all')} style={{ float: 'right', marginRight: 0 }} api={exportExcel} all text="一键导出" />
+					<div className="yc-public-floatRight">
+						<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
+					</div>
 				</div>
 				<Spin visible={loading}>
 					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} />

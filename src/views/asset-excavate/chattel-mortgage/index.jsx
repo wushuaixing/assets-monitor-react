@@ -225,12 +225,9 @@ export default class Subrogation extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-							<Download condition={() => this.condition} api={exportList} all text="一键导出" style={{ float: 'right', marginRight: 0 }} />
-
-							{/* <Button onClick={() => this.handleExport('all')} > */}
-							{/* <span className="yc-export-img" /> */}
-							{/* <span> 一键导出</span> */}
-							{/* </Button> */}
+							<div className="yc-public-floatRight">
+								<Download condition={() => this.condition} api={exportList} all text="一键导出" />
+							</div>
 						</div>
 					) : (
 						<div className="assets-auction-action">

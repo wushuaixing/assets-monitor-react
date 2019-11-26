@@ -86,7 +86,7 @@ class DebtorDetail extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	handleCancal = () => {
 		// const { defaultData } = this.state;
@@ -95,13 +95,13 @@ class DebtorDetail extends React.Component {
 			edit: false,
 			isEdit: false,
 		});
-	}
+	};
 
 	handleEdit = (edit) => {
 		this.setState({
 			edit: !edit,
 		});
-	}
+	};
 
 
 	// 保存
@@ -166,26 +166,26 @@ class DebtorDetail extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	// 判断是否已经编辑
 	isEdit = () => {
 		this.setState({
 			isEdit: true,
 		});
-	}
+	};
 
 	// 跳转债务人详情
 	detail = (id) => {
 		const w = window.open('about:blank');
 		w.location.href = `#/business/debtor/detail?id=${id}`;
-	}
+	};
 
 	changeList = () => {
 		const { hash } = window.location;
 		const userId = getQueryByName(hash, 'id');
 		navigate(`/business/detail/changeList?id=${userId}`);
-	}
+	};
 
 	// 变更记录
 	render() {
@@ -217,17 +217,17 @@ class DebtorDetail extends React.Component {
 							? (
 								<React.Fragment>
 									<Button onClick={this.changeList} className="yc-btn">
-                                        变更记录
+										变更记录
 									</Button>
 									<Button className="yc-btn">
 										<span className="yc-icon-export" />
-                                        下载
+										下载
 									</Button>
 								</React.Fragment>
 							) : (
 								<Button onClick={() => this.handleCancal()} className="yc-btn">
 									{/* {!edit && <span className="yc-icon-export" />} */}
-                                    取消
+										取消
 								</Button>
 							) }
 					</div>

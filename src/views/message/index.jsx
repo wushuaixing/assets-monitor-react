@@ -54,7 +54,7 @@ class InformCenter extends React.Component {
 				{
 					title: '时间',
 					dataIndex: 'createTime',
-					width: 160,
+					// width: 160,
 					render: text => <span>{formatDateTime(text)}</span>,
 				},
 				{

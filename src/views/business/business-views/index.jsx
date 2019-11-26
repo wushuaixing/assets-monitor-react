@@ -543,7 +543,9 @@ class BusinessView extends React.Component {
 						// 	<span className="yc-icon-export" />
 						// 		一键导出
 						// </Button>
-						<Download condition={() => this.toExportCondition('all')} style={{ float: 'right', marginRight: 0 }} api={exportExcel} all text="一键导出" />
+							<div className="yc-public-floatRight">
+								<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
+							</div>
 						)}
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
 							<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />

@@ -114,7 +114,9 @@
     .header-else {
       float: right;
       height: 50px;
-
+      .header-else-left {
+        float: left;
+      }
       .yc-leftTime {
         float: left;
         margin-top: 15px;

@@ -171,7 +171,7 @@ export default class Headers extends React.Component {
 					<div className="header-else">
 						{
 							data && data.expire && data.expire > 0 && (
-							<div style={{ float: 'left' }}>
+							<div className="header-else-left">
 								<div className="yc-leftTime">
 									帐号到期还剩：
 									{data.expire}
