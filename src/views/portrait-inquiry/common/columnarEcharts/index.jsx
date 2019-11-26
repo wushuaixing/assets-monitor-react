@@ -29,7 +29,7 @@ const getOption = (Data, id, title, newColumArray) => ({
 		{
 			show: false,
 			type: 'value',
-			boundaryGap: [0, 0],
+			// boundaryGap: [0, 0],
 			position: 'top',
 		},
 	],
@@ -46,9 +46,10 @@ const getOption = (Data, id, title, newColumArray) => ({
 		{
 			name: title,
 			type: 'bar',
-			barMinHeight: 220,
-			borderwidth: 0,
+			stack: '总数',
 			data: newColumArray,
+			barMinHeight: 220,
+			// barHeight: 220,
 			itemStyle: {
 				normal: {
 					color: '#73AEEA',
