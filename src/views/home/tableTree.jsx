@@ -143,7 +143,7 @@ class Login extends React.Component {
 		// 避免在登录页请求
 		const { hash } = window.location;
 		if (hash !== '#/login') {
-			this.getData();
+			// this.getData();
 		}
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
 		document.addEventListener('mousedown', (e) => {

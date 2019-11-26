@@ -55,7 +55,6 @@ class HomeRouter extends React.Component {
 				message.error(res.message);
 			}
 		}).catch(() => {
-			console.log(1);
 			this.setState({
 				errorLoading: false,
 			});
