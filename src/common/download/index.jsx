@@ -3,7 +3,7 @@ import { Icon, Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
 import PropTypes from 'reactPropTypes';
 import { exportFile, normalGet } from '@/utils/api/home';
-import { clearEmpty, urlEncode } from '@/utils';
+import { clearEmpty, urlEncode, DownloadFile } from '@/utils';
 import Button from '../button';
 import baseUrl from '@/utils/api/config';
 import ModalTable from '../../views/business/business-views/modalTable';
@@ -44,13 +44,14 @@ export default class Download extends React.Component {
 					this.setState({ loadingStatus: 'normal' });
 					// console.log(baseUrl, `${baseUrl}${exportFile(data)}?token=${token}`);
 					// return false;
-					window.open(`${baseUrl}${exportFile(data)}?token=${token}`, '_self');
+					DownloadFile(`${baseUrl}${exportFile(data)}?token=${token}`);
+					// window.open(, '_self');
 				} else {
 					this.setState({ loadingStatus: 'normal' });
-					message.error(res.message || '网络异常请稍后再试');
+					message.error(res.message || '网络异常请稍后再试!111');
 				}
 			}).catch(() => {
-				message.warning('网络异常请稍后再试！');
+				message.warning('网络异常请稍后再试222！');
 			});
 		};
 
