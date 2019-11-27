@@ -1,6 +1,6 @@
 import React from 'react';
 import { message } from 'antd';
-
+import { Icon } from '@/common';
 
 const modalPro = (props) => {
 	const {
@@ -22,11 +22,26 @@ const modalPro = (props) => {
 };
 const Attentions = (props) => {
 	const { row: { isAttention }, onClick } = props;
+
 	return (
 		<div
-			className={`yc-list-attention ${isAttention ? 'yc-list-attention-ed' : 'yc-list-attention-un'}`}
+			// className={`yc-list-attention ${isAttention ? 'yc-list-attention-ed' : 'yc-list-attention-un'}`}
 			onClick={() => (onClick ? modalPro(props) : null)}
-		/>
+		>
+			{
+				isAttention ? (
+					<Icon
+						type="icon-follow"
+						style={{ fontSize: 16, color: '#7D8699', cursor: 'pointer' }}
+					/>
+				) : (
+					<Icon
+						type="icon-follow-ed"
+						style={{ fontSize: 16, color: '#FB8E3C', cursor: 'pointer' }}
+					/>
+				)
+			}
+		</div>
 	);
 };
 export default Attentions;

@@ -111,9 +111,9 @@ const Result = {
 				<li>
 					<span className="list">
 						<span>
-							{row.approver || '-'}
+							{row.administrativeRegion || '-'}
 						</span>
-						<span style={{ marginLeft: 20 }}>{row.administrativeRegion || '-'}</span>
+						<span style={{ marginLeft: 20 }}>{row.landAddress || '-'}</span>
 					</span>
 				</li>
 				<div className="yc-table-content">
