@@ -523,3 +523,19 @@ td.column-left20 {
 .yc-public-floatLeft {
   float: left;
 }
+
+// 关注icon
+.yc-normal-isAttention {
+  cursor: pointer;
+  font-size: 16px;
+  color: $text-remark;
+  &:hover {
+    color: $text-btn-hover;
+  }
+}
+
+.yc-isAttention {
+  cursor: pointer;
+  font-size: 16px;
+  color: $common-warning;
+}

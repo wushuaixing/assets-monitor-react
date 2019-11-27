@@ -32,12 +32,12 @@ const Attentions = (props) => {
 				isAttention ? (
 					<Icon
 						type="icon-follow"
-						style={{ fontSize: 16, color: '#7D8699', cursor: 'pointer' }}
+						className="yc-normal-isAttention"
 					/>
 				) : (
 					<Icon
 						type="icon-follow-ed"
-						style={{ fontSize: 16, color: '#FB8E3C', cursor: 'pointer' }}
+						className="yc-isAttention"
 					/>
 				)
 			}
