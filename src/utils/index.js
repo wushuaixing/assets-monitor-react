@@ -250,6 +250,27 @@ export const timeStandard = (text, mark) => {
 	return text;
 };
 
+export const DownloadFile = (url) => {
+	if (url) {
+		const download = document.createElement('a');
+		download.id = Math.floor(Math.random() * 5000);
+		download.href = url;
+		document.body.append(download);
+		if (global.GLOBAL_MEIE_BROWSER) {
+			const evt = document.createEventObject();
+			download.fireEvent('onclick', evt);
+		} else {
+			const e = document.createEvent('MouseEvent');
+			e.initEvent('click', false, false);
+			download.dispatchEvent(e);
+		}
+		setTimeout(() => {
+			document.body.removeChild(download);
+		}, 1000);
+	}
+};
+
+
 //	返回a标签，可点击链接
 export const linkDom = (url, text, target, className, style) => (url ? React.createElement(
 	'a',
