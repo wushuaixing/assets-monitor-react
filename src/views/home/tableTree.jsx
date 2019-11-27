@@ -157,7 +157,7 @@ class Login extends React.Component {
 			document.attachEvent('mousedown', (e) => {
 				// console.log(e.target.id, e.target.id === 'select');
 				if (e.target.id === 'select') {
-					e.preventDefault();
+					e.returnValue = false;
 				}
 			}, false);
 		}
@@ -183,7 +183,7 @@ class Login extends React.Component {
 			document.attachEvent('mousedown', (e) => {
 				// console.log(e.target.id, e.target.id === 'select');
 				if (e.target.id === 'select') {
-					e.preventDefault();
+					e.returnValue = false;
 				}
 			}, false);
 		}
