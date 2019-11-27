@@ -336,14 +336,15 @@ export default class Lawsuits extends React.Component {
 							/>
 							<Button onClick={this.handleAllRead}>全部标为已读</Button>
 							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-
-							<Download
-								all
-								text="一键导出"
-								condition={() => this.condition}
-								api={Api[toGetApi(sourceType, 'exportList')]}
-								style={{ float: 'right' }}
-							/>
+							<div className="yc-public-floatRight">
+								<Download
+									all
+									text="一键导出"
+									condition={() => this.condition}
+									api={Api[toGetApi(sourceType, 'exportList')]}
+									style={{ float: 'right' }}
+								/>
+							</div>
 						</div>
 					) : (
 						<div className="assets-auction-action">
