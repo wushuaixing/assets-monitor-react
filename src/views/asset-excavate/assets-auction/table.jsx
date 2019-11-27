@@ -192,7 +192,6 @@ export default class TableView extends React.Component {
 					)
 						: null
 				}
-
 			</React.Fragment>
 		);
 	}
