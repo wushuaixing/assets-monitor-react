@@ -50,9 +50,11 @@
   }
   .yc-login-wapper {
     background-image: url("../../assets/img/login/sign_leftbackground.png"),
-      url("../../assets/img/login/sign_rightbackground.png"),
-      -webkit-linear-gradient(top, #f2f4f7 0%, #e8eaed 100%);
-    background-repeat: no-repeat, no-repeat, no-repeat;
+      url("../../assets/img/login/sign_rightbackground.png");
+
+    background-color: #f2f4f7;
+
+    background-repeat: no-repeat;
     background-position: left bottom, right top;
     position: absolute;
     top: 90px;
