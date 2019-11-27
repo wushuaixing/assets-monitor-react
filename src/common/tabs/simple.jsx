@@ -6,7 +6,7 @@ import './style.scss';
 
 const toGetDefaultActive = (source, field, defaultCurrent) => {
 	const { hash } = window.location;
-	if (source) {
+	if (source && source.length > 0) {
 		if (field) {
 			const res = parseQuery(hash)[field];
 			const r = (Number.isNaN(res * 1) ? res : Number(res)) || -100;
