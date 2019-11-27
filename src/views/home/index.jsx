@@ -31,7 +31,7 @@ class HomeRouter extends React.Component {
 		const { hash } = window.location;
 		// 避免在登录页请求
 		if (hash !== '#/login') {
-			this.getData();
+			// this.getData();
 		}
 	}
 

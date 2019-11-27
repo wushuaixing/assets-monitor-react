@@ -117,7 +117,7 @@ class BusinessView extends React.Component {
 		console.log(row.id);
 		const w = window.open('about:blank');
 		w.location.href = `#/business/debtor/detail?id=${row.id}`;
-	}
+	};
 
 	// 关闭, 开启推送
 	handlePut = (row) => {
@@ -159,7 +159,7 @@ class BusinessView extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	render() {
 		const { stateObj } = this.props;

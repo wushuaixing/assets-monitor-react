@@ -106,13 +106,13 @@ export default class BasicTable extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	getSearchValue = (value) => {
 		this.setState({
 			searchValue: value,
 		});
-	}
+	};
 
 	// page翻页
 	handleChangePage=(val) => {
@@ -126,16 +126,16 @@ export default class BasicTable extends React.Component {
 			...searchValue,
 		};
 		this.getTableData(params);
-	}
+	};
 
 	// 新增编辑
 	handleOpeanModal=(type, row) => {
 		this.setState({ modalVisible: true, modalState: type, selectData: row });
-	}
+	};
 
 	handleCancel=() => {
 		this.setState({ modalVisible: false });
-	}
+	};
 
 	// 删除
 	handleDel=(row) => {
@@ -168,12 +168,12 @@ export default class BasicTable extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 
 	search=(val) => {
 		console.log('zzz', val);
-	}
+	};
 
 	// 下拉选中
 	handleChange = (searchVal) => {
@@ -188,7 +188,7 @@ export default class BasicTable extends React.Component {
 			searchValue: params,
 		});
 		this.getTableData(params);
-	}
+	};
 
 	onKeyup = (e) => {
 		console.log(e.target.value);
@@ -205,13 +205,13 @@ export default class BasicTable extends React.Component {
 		if (e.keyCode === 13) {
 			this.getTableData(params);
 		}
-	}
+	};
 
 	clearInput = () => {
 		this.setState({
 			keyword: '',
 		});
-	}
+	};
 
 	// 编辑modal
 	renderModal=() => {
@@ -224,7 +224,7 @@ export default class BasicTable extends React.Component {
 			);
 		}
 		return null;
-	}
+	};
 
 	render() {
 		const {

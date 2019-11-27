@@ -176,20 +176,20 @@ class Login extends React.Component {
 		this.setState({
 			passwordModalVisible: true,
 		});
-	}
+	};
 
 	// 关闭弹窗
 	onCancel = () => {
 		this.setState({
 			passwordModalVisible: false,
 		});
-	}
+	};
 
 	onKeyup = (e) => {
 		if (e.keyCode === 13) {
 			this.handleSubmit();
 		}
-	}
+	};
 
 	render() {
 		const {

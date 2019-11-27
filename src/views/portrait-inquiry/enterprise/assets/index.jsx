@@ -125,19 +125,27 @@ export default class Assets extends React.Component {
 		const { config, loading } = this.state;
 		const { count } = this.props;
 		const aryResult = (subItems(count).filter(i => i.total > 0)).length;
+		console.log(loading);
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
-				{
-					loading ? <Spin visible minHeight={350} /> : (
-						<div>
-							{
-								aryResult ? config.map(Item => (
-									Item.total ? <Item.component id={Item.tagName} data={Item.info} /> : ''))
-									: <NoContent />
-							}
-						</div>
-					)
-				}
+				<Spin visible={loading} minHeight={350}>
+					{
+						aryResult ? config.map(Item => (
+							Item.total ? <Item.component id={Item.tagName} data={Item.info} /> : ''))
+							: <NoContent />
+					}
+				</Spin>
+				{/* { */}
+				{/*	loading ? <Spin visible minHeight={350} /> : ( */}
+				{/*		<div> */}
+				{/*			{ */}
+				{/*				aryResult ? config.map(Item => ( */}
+				{/*					Item.total ? <Item.component id={Item.tagName} data={Item.info} /> : '')) */}
+				{/*					: <NoContent /> */}
+				{/*			} */}
+				{/*		</div> */}
+				{/*	) */}
+				{/* } */}
 			</div>
 		);
 	}
