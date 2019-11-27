@@ -267,7 +267,6 @@ export const DownloadFile = (url) => {
 		setTimeout(() => {
 			document.body.removeChild(download);
 		}, 1000);
-		//
 	}
 };
 

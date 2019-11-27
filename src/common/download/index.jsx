@@ -45,7 +45,6 @@ export default class Download extends React.Component {
 					// console.log(baseUrl, `${baseUrl}${exportFile(data)}?token=${token}`);
 					// return false;
 					DownloadFile(`${baseUrl}${exportFile(data)}?token=${token}`);
-					// window.open(, '_self');
 				} else {
 					this.setState({ loadingStatus: 'normal' });
 					message.error(res.message || '网络异常请稍后再试!111');
