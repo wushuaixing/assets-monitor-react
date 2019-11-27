@@ -26,6 +26,7 @@ const toGetApi = (type, base) => {
 
 const toGetConfig = (rule) => {
 	const { children } = rule;
+	console.log(children);
 	const base = [
 		{
 			id: 1,
@@ -33,7 +34,8 @@ const toGetConfig = (rule) => {
 			dot: false,
 			number: 0,
 			showNumber: false,
-			status: children.gsgg_bidding,
+			// status: children.gsgg_bidding,
+			status: true,
 		},
 		{
 			id: 2,
@@ -41,7 +43,8 @@ const toGetConfig = (rule) => {
 			number: 0,
 			dot: false,
 			showNumber: false,
-			status: children.gsgg_tax,
+			// status: children.gsgg_tax,
+			status: true,
 		},
 		{
 			id: 3,
@@ -49,7 +52,8 @@ const toGetConfig = (rule) => {
 			number: 0,
 			dot: false,
 			showNumber: false,
-			status: children.gsgg_epb,
+			// status: children.gsgg_epb,
+			status: true,
 		},
 	];
 	return base.filter(item => item.status);
@@ -308,7 +312,6 @@ export default class Lawsuits extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-
 		return (
 			<div className="yc-assets-auction">
 				{sourceType === 1 ? <QueryResult onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
