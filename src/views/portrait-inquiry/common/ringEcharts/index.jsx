@@ -1,5 +1,4 @@
 import React from 'react';
-// import ReactECharts from 'echarts-for-react';
 import './style.scss';
 
 const getOption = (Data, id, title, newRingArray) => ({
