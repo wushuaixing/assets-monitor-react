@@ -38,7 +38,19 @@ const skip = (text, row) => {
 
 				const hide = message.loading('正在切换机构,请稍后...', 0);
 				setTimeout(() => {
-					window.location.reload(); // 实现页面重新加载/
+					// window.location.reload(); // 实现页面重新加载/
+
+					// const a = document.createElement('a');
+					// a.setAttribute('href', text);
+					// a.setAttribute('target', '_blank');
+					// a.setAttribute('id', 'startTelMedicine');
+					// // 防止反复添加
+					// if (document.getElementById('startTelMedicine')) {
+					// 	document.body.removeChild(document.getElementById('startTelMedicine'));
+					// }
+					// document.body.appendChild(a);
+					// a.click();
+					console.log(text);
 					const w = window.open('about:blank');
 					w.location.href = `#/${text}`;
 				}, latency);
