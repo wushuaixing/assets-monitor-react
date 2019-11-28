@@ -24,9 +24,8 @@ const toGetApi = (type, base) => {
 	return `${base}Result`;
 };
 
-const toGetConfig = (rule) => {
-	const { children } = rule;
-	console.log(children);
+const toGetConfig = () => {
+	// const { children } = rule;
 	const base = [
 		{
 			id: 1,
@@ -34,7 +33,6 @@ const toGetConfig = (rule) => {
 			dot: false,
 			number: 0,
 			showNumber: false,
-			// status: children.gsgg_bidding,
 			status: true,
 		},
 		{
@@ -43,7 +41,6 @@ const toGetConfig = (rule) => {
 			number: 0,
 			dot: false,
 			showNumber: false,
-			// status: children.gsgg_tax,
 			status: true,
 		},
 		{
@@ -52,7 +49,6 @@ const toGetConfig = (rule) => {
 			number: 0,
 			dot: false,
 			showNumber: false,
-			// status: children.gsgg_epb,
 			status: true,
 		},
 	];

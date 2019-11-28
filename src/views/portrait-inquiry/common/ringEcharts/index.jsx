@@ -7,6 +7,31 @@ const getOption = (Data, id, title, newRingArray) => ({
 		formatter: '{a} <br/>{b} : {c} ({d}%)',
 	},
 	color: ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
+	legend: {
+		// orient: 'vertical',
+		// orient: 'vertical',
+		// // 水平对齐方式，可设置为'left','center','right',number(px)
+		// x: '300px',
+		// // 垂直对齐方式，可设置为'top','center','bottom',number(px)
+		// y: 'center',
+		// itemGap: 5,
+		// // 距顶部的距离，其他同理
+		// zlevel: 3,
+		// data: Data,
+		// formatter: (name) => {
+		// 	let res = '';
+		// 	for (let i = 0; i < Data.length; i += 1) {
+		// 		if (Data[i].name === name) {
+		// 			res = Data[i].value;
+		// 		}
+		// 	}
+		// 	const arr = [
+		// 		`${name}`,
+		// 		`${res} 条`,
+		// 	];
+		// 	return arr.join('');
+		// },
+	},
 	series: [
 		{
 			name: title,
@@ -75,65 +100,69 @@ class RingEcharts extends React.Component {
 		const myChart = window.echarts.init(DOM);
 		const option = getOption(Data, id, title, newRingArray);
 		const { color, series: { 0: { data: dataList } } } = option;
-		const { Text, Circle } = window.zrDefine;
-		const zr = myChart.getZrender();
-		const base = {
-			x: 200,
-			y: 50,
-		};
-		dataList.forEach((item, index) => {
-			const x = base.x + (dataList.length === 4 ? (index > 1 ? 1 : 0) * 60 + (index > 1 ? 1 : 0) * 120 : (index > 2 ? 1 : 0) * 60 + (index > 2 ? 1 : 0) * 120);
-			const y = base.y + (dataList.length === 4 ? 25 * (index > 1 ? index - 2 : index) : 25 * (index > 2 ? index - 3 : index));
+		if (!global.GLOBAL_MEIE_BROWSER) {
+			delete option.legend;
+			const { Text, Circle } = window.zrDefine;
+			const zr = myChart.getZrender();
+			const base = {
+				x: 200,
+				y: 50,
+			};
+			dataList.forEach((item, index) => {
+				const x = base.x + (dataList.length === 4 ? (index > 1 ? 1 : 0) * 60 + (index > 1 ? 1 : 0) * 120 : (index > 2 ? 1 : 0) * 60 + (index > 2 ? 1 : 0) * 120);
+				const y = base.y + (dataList.length === 4 ? 25 * (index > 1 ? index - 2 : index) : 25 * (index > 2 ? index - 3 : index));
 
-			const shapeCircle = new Circle({
-				style: {
-					x,
-					y,
-					r: 2,
-					brushType: 'both',
-					color: color[index],
-					strokeColor: color[index],
-					lineWidth: 3,
-				},
+				const shapeCircle = new Circle({
+					style: {
+						x,
+						y,
+						r: 2,
+						brushType: 'both',
+						color: color[index],
+						strokeColor: color[index],
+						lineWidth: 3,
+					},
+				});
+				const text1 = new Text({
+					style: {
+						x: x + 10,
+						y: y + 2,
+						text: item.typeName || item.type,
+						textFont: 'normal 12px verdana',
+						textAlign: 'left',
+						color: '#333',
+					},
+				});
+				text1.hoverable = false;
+				const text2 = new Text({
+					style: {
+						x: x + 110,
+						y: y + 2,
+						text: item.count,
+						textFont: 'bold 12px Arial',
+						textAlign: 'right',
+						color: '#333',
+					},
+				});
+				text2.hoverable = false;
+				const text3 = new Text({
+					style: {
+						x: x + 130,
+						y: y + 2,
+						text: '条',
+						textFont: 'normal 12px verdana',
+						textAlign: 'right',
+						color: '#333',
+					},
+				});
+				text3.hoverable = false;
+				zr.addShape(shapeCircle);
+				zr.addShape(text1);
+				zr.addShape(text2);
+				zr.addShape(text3);
 			});
-			const text1 = new Text({
-				style: {
-					x: x + 10,
-					y: y + 2,
-					text: item.typeName || item.type,
-					textFont: 'normal 12px verdana',
-					textAlign: 'left',
-					color: '#333',
-				},
-			});
-			text1.hoverable = false;
-			const text2 = new Text({
-				style: {
-					x: x + 110,
-					y: y + 2,
-					text: item.count,
-					textFont: 'bold 12px Arial',
-					textAlign: 'right',
-					color: '#333',
-				},
-			});
-			text2.hoverable = false;
-			const text3 = new Text({
-				style: {
-					x: x + 130,
-					y: y + 2,
-					text: '条',
-					textFont: 'normal 12px verdana',
-					textAlign: 'right',
-					color: '#333',
-				},
-			});
-			text3.hoverable = false;
-			zr.addShape(shapeCircle);
-			zr.addShape(text1);
-			zr.addShape(text2);
-			zr.addShape(text3);
-		});
+		}
+
 		myChart.setOption(option);
 	};
 

@@ -29,7 +29,7 @@ export default class Subrogation extends React.Component {
 		super(props);
 		document.title = '金融资产-监控信息';
 		// 获取当前页面路由配置
-		const _rule = rule => ([
+		const _rule = () => ([
 			{
 				id: 3,
 				name: '股权质押',
@@ -40,13 +40,13 @@ export default class Subrogation extends React.Component {
 				id: 1,
 				name: '竞价项目',
 				dot: false,
-				status: Boolean(rule.jkxxjrzcjjxm),
+				status: true,
 			},
 			{
 				id: 2,
 				name: '公示项目',
 				dot: false,
-				status: Boolean(rule.jkxxjrzcgsxm),
+				status: true,
 			},
 
 		]).filter(item => item.status);
