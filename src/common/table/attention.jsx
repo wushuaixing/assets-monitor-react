@@ -22,7 +22,6 @@ const modalPro = (props) => {
 };
 const Attentions = (props) => {
 	const { row: { isAttention }, onClick } = props;
-
 	return (
 		<div
 			// className={`yc-list-attention ${isAttention ? 'yc-list-attention-ed' : 'yc-list-attention-un'}`}
@@ -31,13 +30,15 @@ const Attentions = (props) => {
 			{
 				isAttention ? (
 					<Icon
-						type="icon-follow"
-						className="yc-normal-isAttention"
+						type="icon-follow-ed"
+						className="yc-isAttention"
+						// type="icon-follow"
+						// className="yc-normal-isAttention"
 					/>
 				) : (
 					<Icon
-						type="icon-follow-ed"
-						className="yc-isAttention"
+						type="icon-follow"
+						className="yc-normal-isAttention"
 					/>
 				)
 			}
