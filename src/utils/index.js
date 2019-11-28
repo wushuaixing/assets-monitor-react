@@ -252,14 +252,14 @@ export const timeStandard = (text, mark) => {
 
 export const DownloadFile = (url) => {
 	if (url) {
-		const download = document.createElement('a');
+		const download = window.parent.document.createElement('a');
 		download.id = Math.floor(Math.random() * 5000);
 		download.href = url;
-		document.body.append(download);
 		if (global.GLOBAL_MEIE_BROWSER) {
-			const evt = document.createEventObject();
-			download.fireEvent('onclick', evt);
+			window.parent.document.body.appendChild(download);
+			download.click();
 		} else {
+			document.body.append(download);
 			const e = document.createEvent('MouseEvent');
 			e.initEvent('click', false, false);
 			download.dispatchEvent(e);
