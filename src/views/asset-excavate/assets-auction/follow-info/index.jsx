@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Modal, Button, Icon, Steps, Select, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
 } from 'antd';
-import { Spin, Button as Btn } from '@/common';
+import { Spin, Button as Btn, Icon as IconType } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
 import {
 	pushList as pushListApi, pushSave, processList, processSave, processDel,
@@ -114,17 +114,22 @@ export default class FollowInfo extends React.Component {
 		}
 	}
 
-	onChangeValue=(val, field) => {
-		if (val) {
+	onChangeValue=(event, field) => {
+		if (event) {
 			let value;
-			value = val.target ? val.target.value : val;
+			if (global.GLOBAL_MEIE_BROWSER) {
+				// eslint-disable-next-line prefer-destructuring
+				value = event.value;
+			} else {
+				value = event.target ? event.target.value : event;
+			}
 			if (field === 'remark') value = value.slice(0, 160);
 			this.setState({
 				[field]: value,
 			});
 		} else {
 			this.setState({
-				[field]: val,
+				[field]: event,
 			});
 		}
 	};
@@ -287,7 +292,7 @@ export default class FollowInfo extends React.Component {
 				const { code } = res;
 				if (code === 200) {
 					message.success('添加跟进信息成功！');
-					const _rec = ((_recovery > -1 ? _recovery : 0) * 1 + (param.recovery || 0)) || -1;
+					const _rec = ((_recovery > -1 ? _recovery : 0) + Number(param.recovery || 0)) || -1;
 					// console.log(_recovery, param.recovery, _rec);
 					if (param.recovery > 0 && onRefresh) {
 						onRefresh({
@@ -296,7 +301,6 @@ export default class FollowInfo extends React.Component {
 							index,
 						}, 'recovery');
 					}
-					console.log(toProcess, status);
 					if (onRefresh)onRefresh({ id, process: toProcess || status, index }, 'process');
 					if (onClose) { onClose(); }
 				} else {
@@ -355,7 +359,7 @@ export default class FollowInfo extends React.Component {
 
 		const getFieldIE = field => ({
 			value: data[field],
-			[global.GLOBAL_MEIE_BROWSER ? 'onchange' : 'oninput']: ((val) => {
+			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((val) => {
 				this.onChangeValue(val, field);
 			}),
 		});
@@ -384,9 +388,14 @@ export default class FollowInfo extends React.Component {
 						}
 					</p>,
 					<Button key="back" type="ghost" size="large" onClick={onClose}>取 消</Button>,
-					<Button key="submit" type="primary" size="large" loading={loading} onClick={() => this.handleProcessSave()}>
-						确 定
-					</Button>,
+					<Btn
+						type="primary"
+						loading={loading}
+						size="large"
+						onClick={() => this.handleProcessSave()}
+						style={{ width: 100 }}
+						title="确定"
+					/>,
 				]}
 			>
 				<div className="yc-assets-follow-body" id="yc-assets-follow-body">
@@ -567,7 +576,7 @@ export default class FollowInfo extends React.Component {
 										status: toStatus(source),
 									})}
 								>
-									<Icon type="plus-circle" />
+									<IconType type="icon-add" style={{ color: '#1c80e1', marginRight: 10 }} />
 									<span>添加跟进信息</span>
 								</div>
 							)
