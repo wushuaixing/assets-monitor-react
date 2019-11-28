@@ -20,28 +20,42 @@ export default {
 					rule: item.rule,
 				};
 				break;
-			case 'menu_jkxx':
-				if (res.menu_jkxx) {
-					res.menu_jkxx.children[item.rule] = item;
+			case 'menu_zcwj':
+				if (res.menu_zcwj) {
+					res.menu_zcwj.children[item.rule] = item;
 				} else {
-					res.menu_jkxx = {
+					res.menu_zcwj = {
 						id: 2,
 						groupName: item.groupName,
-						title: '监控信息',
+						title: '资产挖掘',
 						children: {
 							[item.rule]: item,
 						},
 					};
 				}
 				break;
-			case 'menu_gsgg':
-				if (res.menu_jkxx) {
-					res.menu_jkxx.children[item.rule] = item;
+			case 'menu_fxjk':
+				if (res.menu_fxjk) {
+					res.menu_fxjk.children[item.rule] = item;
 				} else {
-					res.menu_jkxx = {
-						id: 2,
+					res.menu_fxjk = {
+						id: 3,
 						groupName: item.groupName,
-						title: '监控信息',
+						title: '风险监控',
+						children: {
+							[item.rule]: item,
+						},
+					};
+				}
+				break;
+			case 'menu_jyfx':
+				if (res.menu_fxjk) {
+					res.menu_fxjk.children[item.rule] = item;
+				} else {
+					res.menu_fxjk = {
+						id: 3,
+						groupName: item.groupName,
+						title: '风险监控',
 						children: {
 							[item.rule]: item,
 						},
@@ -53,7 +67,7 @@ export default {
 					res.menu_ywgl.children[item.rule] = item;
 				} else {
 					res.menu_ywgl = {
-						id: 3,
+						id: 4,
 						groupName: item.groupName,
 						title: '业务管理',
 						children: {
@@ -62,11 +76,11 @@ export default {
 					};
 				}
 				break;
-			case 'menu_qycx':
-				res.menu_qycx = {
-					id: 'menu_qycx',
+			case 'menu_hxcx':
+				res.menu_hxcx = {
+					id: 11,
 					groupName: item.groupName,
-					title: '企业查询',
+					title: '画像查询',
 					rule: item.rule,
 				};
 				break;
@@ -155,7 +169,7 @@ export default {
 				id: 'YC02',
 				name: '资产挖掘',
 				url: '/monitor',
-				status: rule.menu_jkxx,
+				status: rule.menu_zcwj,
 				dot: false,
 				children: [
 					{
@@ -163,13 +177,13 @@ export default {
 						name: '资产拍卖',
 						url: '/monitor',
 						param: '?process=-1',
-						status: toStatus(rule.menu_jkxx, 'jkxxzcpm'),
+						status: toStatus(rule.menu_zcwj, 'jkxxzcpm'),
 					},
 					{
 						id: 'YC0202',
 						name: '代位权',
 						url: '/monitor/subrogation',
-						status: toStatus(rule.menu_jkxx, 'jkxxdwq'),
+						status: toStatus(rule.menu_zcwj, 'jkxxdwq'),
 						child: [
 							{ id: 'YC020201', name: '立案信息', status: true },
 							{ id: 'YC020202', name: '开庭公告', status: true },
@@ -180,7 +194,7 @@ export default {
 						id: 'YC0203',
 						name: '土地数据',
 						url: '/monitor/land',
-						status: true,
+						status: toStatus(rule.menu_zcwj, 'jkxxtdsj'),
 						child: [
 							{ id: 'YC020301', name: '出让结果', status: true },
 							{ id: 'YC020302', name: '土地转让', status: true },
@@ -191,24 +205,24 @@ export default {
 						id: 'YC0204',
 						name: '招标中标',
 						url: '/monitor/tender',
-						status: true,
+						status: toStatus(rule.menu_zcwj, 'jkxxzbzb'),
 					},
 					{
 						id: 'YC0205',
 						name: '金融资产',
 						url: '/monitor/financial',
-						status: toStatus(rule.menu_jkxx, ['jkxxjrzcgsxm', 'jkxxjrzcjjxm']),
+						status: toStatus(rule.menu_zcwj, 'jkxxjrzj'),
 						child: [
 							{ id: 'YC020503', name: '股权质押', status: true },
-							{ id: 'YC020501', name: '竞价项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcjjxm') },
-							{ id: 'YC020502', name: '公示项目', status: toStatus(rule.menu_jkxx, 'jkxxjrzcgsxm') },
+							{ id: 'YC020501', name: '竞价项目', status: true },
+							{ id: 'YC020502', name: '公示项目', status: true },
 						],
 					},
 					{
 						id: 'YC0206',
 						name: '动产抵押',
 						url: '/monitor/mortgage',
-						status: true,
+						status: toStatus(rule.menu_zcwj, 'jkxxdcdy'),
 					},
 				],
 			},
@@ -216,13 +230,13 @@ export default {
 				id: 'YC03',
 				name: '风险监控',
 				url: '/risk',
-				status: true,
+				status: rule.menu_fxjk,
 				children: [
 					{
 						id: 'YC0301',
 						name: '涉诉监控',
 						url: '/risk',
-						status: true,
+						status: toStatus(rule.menu_fxjk, 'fxjkssjk'),
 						child: [
 							{ id: 'YC030101', name: '立案信息', status: true },
 							{ id: 'YC030102', name: '开庭公告', status: true },
@@ -233,20 +247,20 @@ export default {
 						id: 'YC0302',
 						name: '企业破产重组',
 						url: '/risk/bankruptcy',
-						status: true,
+						status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
 					},
 					{
 						id: 'YC0303',
 						name: '经营风险',
 						url: '/risk/operation',
-						status: true,
+						status: toStatus(rule.menu_fxjk, ['jyfxyzwf', 'jyfxsswf', 'jyfxjyyc', 'jyfxhbcf', 'jyfxxzcf', 'jyfxgsbg']),
 						child: [
-							{ id: 'YC030301', name: '经营异常', status: true },
-							{ id: 'YC030302', name: '工商变更', status: true },
-							{ id: 'YC030303', name: '严重违法', status: true },
-							{ id: 'YC030304', name: '税收违法', status: true },
-							{ id: 'YC030305', name: '行政处罚', status: true },
-							{ id: 'YC030306', name: '环保处罚', status: true },
+							{ id: 'YC030301', name: '经营异常', status: toStatus(rule.menu_fxjk, 'jyfxjyyc') },
+							{ id: 'YC030302', name: '工商变更', status: toStatus(rule.menu_fxjk, 'jyfxgsbg') },
+							{ id: 'YC030303', name: '严重违法', status: toStatus(rule.menu_fxjk, 'jyfxyzwf') },
+							{ id: 'YC030304', name: '税收违法', status: toStatus(rule.menu_fxjk, 'jyfxsswf') },
+							{ id: 'YC030305', name: '行政处罚', status: toStatus(rule.menu_fxjk, 'jyfxxzcf') },
+							{ id: 'YC030306', name: '环保处罚', status: toStatus(rule.menu_fxjk, 'jyfxhbcf') },
 						],
 					},
 				],
@@ -276,7 +290,7 @@ export default {
 				id: 'YC07',
 				name: '画像查询',
 				url: '/inquiry',
-				status: true,
+				status: rule.menu_hxcx,
 			},
 			{
 				id: 'YC05',
