@@ -106,7 +106,7 @@ class Login extends React.Component {
 								this.setState({
 									loading: false,
 								});
-								if (rule.menu_jkxx) {
+								if (rule.menu_zcwj) {
 									navigate('/monitor?process=-1');
 								} else if (rule.menu_xxss) {
 									navigate('/search');
