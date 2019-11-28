@@ -69,7 +69,7 @@ export default class InquiryList extends React.Component {
 						<span className="list list-title ">成立日期</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">
-							{timeStandard(row.estiblishTime)}
+							{timeStandard(row.establishTime)}
 						</span>
 					</li>
 				</div>

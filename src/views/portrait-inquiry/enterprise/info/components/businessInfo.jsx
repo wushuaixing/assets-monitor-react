@@ -65,7 +65,7 @@ export default class BusinessInfo extends React.Component {
 						<div className="yc-base-infoTitle">纳税人识别号</div>
 						<div className="yc-base-infoName">{dataObj.taxNumber && dataObj.taxNumber.trim().length > 0 ? dataObj.taxNumber : '-'}</div>
 						<div className="yc-base-infoTitle">成立日期</div>
-						<div className="yc-base-infoName">{dataObj.estiblishTime ? dataObj.estiblishTime : '-'}</div>
+						<div className="yc-base-infoName">{dataObj.establishTime ? dataObj.establishTime : '-'}</div>
 						<div className="yc-base-infoTitle">营业期限</div>
 						<div className="yc-base-infoName">{dataObj.fromTime && dataObj.toTime && dataObj.fromTime.trim().length > 0 && dataObj.toTime.trim().length > 0 ? `自 ${dataObj.fromTime} 至 ${dataObj.toTime}` : '-'}</div>
 						<div className="yc-base-infoTitle">注册资本</div>
