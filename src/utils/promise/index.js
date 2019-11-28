@@ -28,6 +28,7 @@ export const toGetDefaultId = (data) => {
 };
 
 export const requestAll = (arrayApi) => {
+	// eslint-disable-next-line no-unused-vars
 	async function toRequest(array) {
 		/* eslint-disable no-return-await */
 		return await service.all(
@@ -42,5 +43,34 @@ export const requestAll = (arrayApi) => {
 		);
 		/* eslint-enable */
 	}
-	return toRequest(arrayApi);
+
+	// eslint-disable-next-line no-shadow
+	async function promiseAll(array) {
+		const result = [];
+		// console.log(array);
+		return new Promise((resolve) => {
+			let i = 0;
+			// eslint-disable-next-line no-unused-vars
+			const next = () => {
+				// eslint-disable-next-line array-callback-return
+				const item = array[i];
+				item.api.then((res) => {
+					i += 1;
+					result.push(Object.assign(res, item.info, { data: res.data || 0 }));
+					if (i === array.length) { resolve(result); } else { next(); }
+				}).catch(() => {
+					i += 1;
+					if (i === array.length) { resolve(result); } else { next(); }
+					result.push({
+						code: 500,
+						data: 0,
+						message: '请求未成功，暂不做处理',
+						...item.info,
+					});
+				});
+			};
+			next();
+		});
+	}
+	return promiseAll(arrayApi);
 };

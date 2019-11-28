@@ -256,6 +256,7 @@ export const DownloadFile = (url) => {
 		download.id = Math.floor(Math.random() * 5000);
 		download.href = url;
 		if (global.GLOBAL_MEIE_BROWSER) {
+			download.target = '_blank';
 			window.parent.document.body.appendChild(download);
 			download.click();
 		} else {

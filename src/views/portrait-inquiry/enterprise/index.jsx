@@ -208,9 +208,8 @@ export default class Enterprise extends React.Component {
 			api: apiData[item].count({ companyId }, apiData[item].id),
 			info: { id: apiData[item].id },
 		}));
-		console.log('requestAll:start');
+
 		requestAll(reqList).then((res) => {
-			console.log(res);
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
 			con[index].number = count;
