@@ -1,5 +1,4 @@
 import React from 'react';
-// import ReactECharts from 'echarts-for-react';
 import './style.scss';
 
 const getOption = (Data, id, title, newRingArray) => ({
@@ -9,29 +8,28 @@ const getOption = (Data, id, title, newRingArray) => ({
 	},
 	color: ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
 	legend: {
-		// orient: 'vertical',
-		// orient: 'vertical',
-		// // 水平对齐方式，可设置为'left','center','right',number(px)
-		// x: '300px',
-		// // 垂直对齐方式，可设置为'top','center','bottom',number(px)
-		// y: 'center',
-		// itemGap: 5,
-		// // 距顶部的距离，其他同理
-		// zlevel: 3,
-		// data: Data,
-		// formatter: (name) => {
-		// 	let res = '';
-		// 	for (let i = 0; i < Data.length; i += 1) {
-		// 		if (Data[i].name === name) {
-		// 			res = Data[i].value;
-		// 		}
-		// 	}
-		// 	const arr = [
-		// 		`${name}`,
-		// 		`${res} 条`,
-		// 	];
-		// 	return arr.join('');
-		// },
+		orient: 'vertical',
+		// 水平对齐方式，可设置为'left','center','right',number(px)
+		x: '300px',
+		// 垂直对齐方式，可设置为'top','center','bottom',number(px)
+		y: 'center',
+		itemGap: 5,
+		// 距顶部的距离，其他同理
+		zlevel: 3,
+		data: newRingArray,
+		formatter: (name) => {
+			let res = '';
+			for (let i = 0; i < newRingArray.length; i += 1) {
+				if (newRingArray[i].name === name) {
+					res = newRingArray[i].count;
+				}
+			}
+			const arr = [
+				`${name}  `,
+				`${res} 条`,
+			];
+			return arr.join('');
+		},
 	},
 	series: [
 		{
