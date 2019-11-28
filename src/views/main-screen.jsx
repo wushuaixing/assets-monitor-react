@@ -34,14 +34,14 @@ const ruleList = (props) => {
 	const l = [];
 	const { rule } = props;
 	if (rule.menu_sy)l.push(<Home path="/*" rule={rule.menu_sy} baseRule={rule} />);
-	if (rule.menu_jkxx)l.push(<Monitor path="monitor/*" rule={rule.menu_jkxx} baseRule={rule} />);
+	if (rule.menu_zcwj)l.push(<Monitor path="monitor/*" rule={rule.menu_zcwj} baseRule={rule} />);
+	if (rule.menu_fxjk)l.push(<Risk path="risk/*" rule={rule.menu_fxjk} baseRule={rule} />);
 	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} />);
+	if (rule.menu_hxcx)l.push(<Inquiry path="inquiry/*" rule={rule.menu_hxcx} baseRule={rule} />);
 	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} baseRule={rule} />);
 	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} />);
-	l.push(<Inquiry path="inquiry/*" baseRule={rule} />);
 	l.push(<Attention path="my/attention/*" />);
 	l.push(<Message path="message/*" />);
-	l.push(<Risk path="risk/*" />);
 	l.push(<ChangePassword path="change/password/*" />);
 	return l;
 };
