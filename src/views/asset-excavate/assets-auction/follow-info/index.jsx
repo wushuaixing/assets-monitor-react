@@ -332,6 +332,15 @@ export default class FollowInfo extends React.Component {
 		});
 	};
 
+	// onInputChangeBase
+	onInputChangeBase =(e) => {
+		const value = e.value.length > 160 ? e.value.slice(0, 160) : e.value;
+		e.value = value;
+		this.setState({
+			remark: value,
+		});
+	};
+
 	render() {
 		const {
 			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList,
@@ -363,6 +372,7 @@ export default class FollowInfo extends React.Component {
 				this.onChangeValue(val, field);
 			}),
 		});
+
 
 		const markContent = (item) => {
 			const { email, mobile } = item;
@@ -432,8 +442,16 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">备注：</div>
 										<div className="list-item-content">
-											<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />
-											<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>
+											{
+												global.GLOBAL_MEIE_BROWSER
+													? [<textarea rows="5" cols="50" onChange={event => this.onInputChangeBase(event)} style={{ width: 430 }} />,
+														<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
+													: [
+														<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />,
+														<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
+													]
+											}
+
 										</div>
 									</li>
 									<li className="follow-list-item">
