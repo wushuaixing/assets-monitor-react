@@ -359,7 +359,7 @@ export default class FollowInfo extends React.Component {
 
 		const getFieldIE = field => ({
 			value: data[field],
-			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((val) => {
+			[global.GLOBAL_MEIE_BROWSER ? 'onchange' : 'oninput']: ((val) => {
 				this.onChangeValue(val, field);
 			}),
 		});
