@@ -15,17 +15,30 @@ const timeRule = {
 		if (!startValue || !endValue) {
 			return false;
 		}
-		const _endValue = new Date(endValue);
-		_endValue.setHours(23, 59, 59, 0);
-		return startValue.getTime() >= _endValue.getTime();
+		// if (typeof endValue === 'string')
+		if (typeof endValue === 'string') {
+			const year = endValue.slice(0, 4);
+			const month = Number(endValue.slice(5, 7)) - 1;
+			const day = endValue.slice(9, 11);
+			const _endValue = new Date(year, month, day);
+			_endValue.setHours(23, 59, 59, 0);
+			return startValue.getTime() >= _endValue.getTime();
+		}
+		return false;
 	},
 	disabledEndDate: (endValue, startValue) => {
 		if (!startValue || !endValue) {
 			return false;
 		}
-		const _startValue = new Date(startValue);
-		_startValue.setHours(0, 0, 0, 0);
-		return endValue.getTime() < new Date(_startValue).getTime();
+		if (typeof startValue === 'string') {
+			const year = startValue.slice(0, 4);
+			const month = Number(startValue.slice(5, 7)) - 1;
+			const day = startValue.slice(9, 11);
+			const _startValue = new Date(year, month, day);
+			_startValue.setHours(0, 0, 0, 0);
+			return endValue.getTime() < new Date(_startValue).getTime();
+		}
+		return false;
 	},
 };
 

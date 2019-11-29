@@ -65,7 +65,7 @@ class QueryCondition extends React.Component {
 		const { filterCurrentOrg } = this.state;
 		const timeOption = {
 			normalize(n) {
-				return n && new Date(n).format('yyyy-MM-dd');
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
 			},
 		};
 		return (

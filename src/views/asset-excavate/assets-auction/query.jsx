@@ -55,6 +55,20 @@ class QueryCondition extends React.Component {
 		// console.log('reset:', form.getFieldsValue());
 	};
 
+	disabledStartDate=(val, time) => {
+		// if (time) console.log('time:', time);
+		if (typeof time === 'string') {
+			const year = time.slice(0, 4);
+			const month = Number(time.slice(5, 7));
+			const day = time.slice(9, 11);
+			const _endValue = new Date(year, month - 1, day);
+			_endValue.setHours(23, 59, 59, 0);
+			return val.getTime() >= _endValue.getTime();
+		}
+		return false;
+	};
+
+
 	render() {
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const _style1 = { width: 278 };
@@ -63,9 +77,11 @@ class QueryCondition extends React.Component {
 		const { moreOption } = this.state;
 		const timeOption = {
 			normalize(n) {
-				return n && new Date(n).format('yyyy-MM-dd');
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
 			},
 		};
+
+
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
@@ -84,13 +100,13 @@ class QueryCondition extends React.Component {
 					{ moreOption
 						? (
 							<span onClick={() => this.setState({ moreOption: false })}>
-								{'收起选项 '}
+								收起选项
 								<Icon type="up" />
 							</span>
 						)
 						: (
 							<span onClick={() => this.setState({ moreOption: true })}>
-								{'更多选项 '}
+								更多选项
 								<Icon type="down" />
 							</span>
 						)
