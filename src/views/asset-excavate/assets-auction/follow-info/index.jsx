@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Modal, Button, Icon, Steps, Select, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
 } from 'antd';
-import { Spin, Button as Btn, Icon as IconType } from '@/common';
+import { Spin, Button as Btn, Input as ComInput } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
 import {
 	pushList as pushListApi, pushSave, processList, processSave, processDel,
@@ -328,23 +328,14 @@ export default class FollowInfo extends React.Component {
 		});
 	};
 
-	// onInputChangeBase
-	onInputChangeBase =(e) => {
-		if (e.value) {
-			const val = e.srcElement.value;
-			const value = val > 160 ? val.slice(0, 160) : val;
-			e.srcElement.value = value;
-			console.log(value);
-			this.setState({
-				remark: value,
-			});
-		}
-	};
-
+	// onInputChangeFieldIE=(event, field) => {
+	// 	console.log('onpropertychange:', event.value);
+	// };
 
 	// onInputChangeField
 	onInputChangeField=(event, field) => {
 		const { value } = event.srcElement;
+		console.log(field, ':', value);
 		if (value) {
 			this.setState({
 				[field]: value,
@@ -352,9 +343,15 @@ export default class FollowInfo extends React.Component {
 		}
 	};
 
+	onInputChangeNew =(value, field) => {
+		this.setState({
+			[field]: value,
+		});
+	};
+
 	render() {
 		const {
-			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList,
+			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList, recovery, expend,
 		} = this.state;
 		const {
 			visible, onClose, source: { process }, source,
@@ -428,23 +425,25 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">收入金额(元)：</div>
 										<div className="list-item-content">
-											<Input
+											<ComInput
 												style={{ width: '100%' }}
-												onChange={e => this.onInputChangeField(e, 'recovery')}
-												placeholder="请输入收入金额"
 												maxlength={10}
+												defaultValue={recovery}
+												onChange={e => this.onInputChangeNew(e, 'recovery')}
+												placeholder="请输入收入金额"
 											/>
 										</div>
 									</li>
 									<li className="follow-list-item">
 										<div className="list-item-title">支出金额(元)：</div>
 										<div className="list-item-content">
-											<Input
+
+											<ComInput
 												style={{ width: '100%' }}
-												{...getField('expend')}
-												placeholder="请输入支出金额"
 												maxlength={10}
-												onBlur={() => document.activeElement.blur()}
+												defaultValue={expend}
+												onChange={e => this.onInputChangeNew(e, 'expend')}
+												placeholder="请输入支出金额"
 											/>
 										</div>
 									</li>
@@ -453,7 +452,13 @@ export default class FollowInfo extends React.Component {
 										<div className="list-item-content">
 											{
 												global.GLOBAL_MEIE_BROWSER
-													? [<textarea rows="5" cols="50" onChange={event => this.onInputChangeBase(event)} style={{ width: 430 }} />,
+													? [<textarea
+														rows="5"
+														cols="50"
+														value={remark}
+														onChange={e => this.onInputChangeField(e, 'remark')}
+														style={{ width: 430, padding: '0px 7px' }}
+													/>,
 														<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
 													: [
 														<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />,
@@ -603,7 +608,8 @@ export default class FollowInfo extends React.Component {
 										status: toStatus(source),
 									})}
 								>
-									<IconType type="icon-add" style={{ color: '#1c80e1', marginRight: 10 }} />
+									<span className="yc-add-img" />
+									{/* <IconType type="icon-add" style={{ color: '#1c80e1', marginRight: 10 }} /> */}
 									<span>添加跟进信息</span>
 								</div>
 							)
