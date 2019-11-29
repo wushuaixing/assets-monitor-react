@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Modal, Button, Icon, Steps, Select, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
 } from 'antd';
-import { Spin, Button as Btn, Icon as IconType } from '@/common';
+import { Spin, Button as Btn, Input as ComInput } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
 import {
 	pushList as pushListApi, pushSave, processList, processSave, processDel,
@@ -117,12 +117,7 @@ export default class FollowInfo extends React.Component {
 	onChangeValue=(event, field) => {
 		if (event) {
 			let value;
-			if (global.GLOBAL_MEIE_BROWSER) {
-				// eslint-disable-next-line prefer-destructuring
-				value = event.value;
-			} else {
-				value = event.target ? event.target.value : event;
-			}
+			value = event.target ? event.target.value : event;
 			if (field === 'remark') value = value.slice(0, 160);
 			this.setState({
 				[field]: value,
@@ -287,6 +282,7 @@ export default class FollowInfo extends React.Component {
 		// req 阶段
 		if (loading) return false;
 		this.setState({ loading: true });
+		console.log(JSON.stringify(param));
 		processSave(param)
 			.then((res) => {
 				const { code } = res;
@@ -332,9 +328,30 @@ export default class FollowInfo extends React.Component {
 		});
 	};
 
+	// onInputChangeFieldIE=(event, field) => {
+	// 	console.log('onpropertychange:', event.value);
+	// };
+
+	// onInputChangeField
+	onInputChangeField=(event, field) => {
+		const { value } = event.srcElement;
+		console.log(field, ':', value);
+		if (value) {
+			this.setState({
+				[field]: value,
+			});
+		}
+	};
+
+	onInputChangeNew =(value, field) => {
+		this.setState({
+			[field]: value,
+		});
+	};
+
 	render() {
 		const {
-			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList,
+			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList, recovery, expend,
 		} = this.state;
 		const {
 			visible, onClose, source: { process }, source,
@@ -346,7 +363,6 @@ export default class FollowInfo extends React.Component {
 		];
 
 		const getField = (field, option = {}) => ({
-			value: data[field],
 			onChange: ((val) => {
 				if (option.onChange) {
 					const res = option.onChange(val, data[field]);
@@ -363,6 +379,7 @@ export default class FollowInfo extends React.Component {
 				this.onChangeValue(val, field);
 			}),
 		});
+
 
 		const markContent = (item) => {
 			const { email, mobile } = item;
@@ -408,32 +425,47 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">收入金额(元)：</div>
 										<div className="list-item-content">
-											<Input
+											<ComInput
 												style={{ width: '100%' }}
-												{...getField('recovery')}
-												placeholder="请输入收入金额"
 												maxlength={10}
-												onBlur={() => document.activeElement.blur()}
+												defaultValue={recovery}
+												onChange={e => this.onInputChangeNew(e, 'recovery')}
+												placeholder="请输入收入金额"
 											/>
 										</div>
 									</li>
 									<li className="follow-list-item">
 										<div className="list-item-title">支出金额(元)：</div>
 										<div className="list-item-content">
-											<Input
+
+											<ComInput
 												style={{ width: '100%' }}
-												{...getField('expend')}
-												placeholder="请输入支出金额"
 												maxlength={10}
-												onBlur={() => document.activeElement.blur()}
+												defaultValue={expend}
+												onChange={e => this.onInputChangeNew(e, 'expend')}
+												placeholder="请输入支出金额"
 											/>
 										</div>
 									</li>
 									<li className="follow-list-item">
 										<div className="list-item-title">备注：</div>
 										<div className="list-item-content">
-											<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />
-											<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>
+											{
+												global.GLOBAL_MEIE_BROWSER
+													? [<textarea
+														rows="5"
+														cols="50"
+														value={remark}
+														onChange={e => this.onInputChangeField(e, 'remark')}
+														style={{ width: 430, padding: '0px 7px' }}
+													/>,
+														<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
+													: [
+														<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />,
+														<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
+													]
+											}
+
 										</div>
 									</li>
 									<li className="follow-list-item">
@@ -576,7 +608,8 @@ export default class FollowInfo extends React.Component {
 										status: toStatus(source),
 									})}
 								>
-									<IconType type="icon-add" style={{ color: '#1c80e1', marginRight: 10 }} />
+									<span className="yc-add-img" />
+									{/* <IconType type="icon-add" style={{ color: '#1c80e1', marginRight: 10 }} /> */}
 									<span>添加跟进信息</span>
 								</div>
 							)

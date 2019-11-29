@@ -20,6 +20,7 @@
     "build:polyfill": "node ./scripts/polyfill.js",
     "build:dll": "webpack --config ./scripts/dll.js",
     "build:index": "webpack --config ./scripts/index.js",
+    "scp":"yarn build:index && scp -r -p ./docs/* work@172.18.255.251:/disk/web/front/asset-monitor-dev/web",
     "lint": "eslint ./src --ext .js --ext .jsx",
     "lintfix": "eslint --fix ./src"
   },
