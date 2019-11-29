@@ -1,7 +1,6 @@
 import React from 'react';
 import './style.scss';
 
-
 const TagOneSide = params => (
 	<div className={`${params.tag || 'yc-label-tag'} ${params.num === 0 && 'yc-label-disabled'}`} {...params}>
 		<div className="yc-label-tag-content">
