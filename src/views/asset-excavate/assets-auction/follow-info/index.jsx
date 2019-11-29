@@ -343,9 +343,14 @@ export default class FollowInfo extends React.Component {
 
 
 	// onInputChangeField
-	// onInputChangeField=(event)=>{
-	//
-	// };
+	onInputChangeField=(event, field) => {
+		const { value } = event.srcElement;
+		if (value) {
+			this.setState({
+				[field]: value,
+			});
+		}
+	};
 
 	render() {
 		const {
@@ -425,7 +430,7 @@ export default class FollowInfo extends React.Component {
 										<div className="list-item-content">
 											<Input
 												style={{ width: '100%' }}
-												{...getField('recovery')}
+												onChange={e => this.onInputChangeField(e, 'recovery')}
 												placeholder="请输入收入金额"
 												maxlength={10}
 											/>
