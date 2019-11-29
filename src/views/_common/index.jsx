@@ -12,7 +12,7 @@ const handleParties = (data) => {
 		if (source.length === 0) {
 			source.push({
 				index: source.length,
-				role: i.role,
+				role: i.role || i.identity,
 				child: [i],
 			});
 		} else {
@@ -22,7 +22,7 @@ const handleParties = (data) => {
 			} else {
 				source.push({
 					index: source.length,
-					role: i.role,
+					role: i.role || i.identity,
 					child: [i],
 				});
 			}
@@ -76,6 +76,7 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
 		if (value.length) {
 			const source = handleParties(value);
 			const maxWidth = toGetStrWidth(source);
+
 			return source.map(item => (
 				<PartyInfoDetail {...item} id={row.id} key={row.id} width={maxWidth} noLink noStatus={noStatus} detailWidth={detailWidth} />
 			));
