@@ -12,6 +12,12 @@ html {
     width: 100%;
     font-size: $input-fontsize;
 
+    .yc-placeholder{
+      position: absolute;
+      z-index: 0;
+      padding: 9px 7px;
+      color: #d6d9e2;
+    }
     &:focus {
       border: 1px solid $text-link;
       box-shadow: 0 0 4px 0 $text-link;

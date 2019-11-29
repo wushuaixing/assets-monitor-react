@@ -108,23 +108,6 @@ class comInput extends React.Component {
 				inputValue: result.input,
 			});
 			// return false;
-
-			// // 初始值
-			// const value = str.replace(/$s?|(,*)/g, '');
-			// // 转化值1：初始值 转 number
-			// const val = Number(value);
-			// console.log('value:', value);
-			//
-			// const number = !Number.isNaN(val);
-			// const _oldValue = oldValue.replace(/$s?|(,*)/g, '');
-			//
-			// const res = '';
-			//
-			// onChange(number ? val : Number(_oldValue));
-			//
-			// this.setState({
-			// 	inputValue: number ? formatMoney(val, decimal || 0) : oldValue,
-			// });
 		}
 	};
 
@@ -173,6 +156,10 @@ class comInput extends React.Component {
 							<div className="yc-split-line" />
 						</div>
 					) : ''
+				}
+				{
+					!_value && global.GLOBAL_MEIE_BROWSER
+						? <div className="yc-placeholder" style={{ paddingLeft: titleWidth ? { paddingLeft: titleWidth + 7 } : 78 }}>{placeholder || '请输入'}</div> : null
 				}
 				<input
 					style={titleWidth ? { paddingLeft: titleWidth + 7 } : ''}
