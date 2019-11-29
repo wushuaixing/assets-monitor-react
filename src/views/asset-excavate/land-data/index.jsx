@@ -205,7 +205,6 @@ export default class Lawsuits extends React.Component {
 
 	// sourceType变化
 	onSourceType = (val) => {
-		const { isRead } = this.state;
 		this.setState({
 			sourceType: val,
 			dataSource: [],
@@ -214,7 +213,7 @@ export default class Lawsuits extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange({}, val, isRead, 1);
+		this.onQueryChange({}, val, 1);
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 

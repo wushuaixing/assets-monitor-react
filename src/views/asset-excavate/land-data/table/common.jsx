@@ -8,7 +8,7 @@ const Result = {
 		<React.Fragment>
 			<div className="assets-info-content">
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>项目名称：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>项目名称：</span>
 					<span className="list list-content text-ellipsis" style={{ color: '#186fc7' }}>
 						{/* {rowContent.projectName || '-'} */}
 						{
@@ -29,11 +29,11 @@ const Result = {
 					</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>行政区划：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>行政区划：</span>
 					<span className="list list-content">{rowContent.administrativeRegion || '-'}</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>具体坐落：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>具体坐落：</span>
 					<span className="list list-content">
 						{/* {rowContent.landAddress || '-'} */}
 						{
@@ -60,7 +60,7 @@ const Result = {
 		<React.Fragment>
 			<div className="assets-info-content">
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>土地用途：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>土地用途：</span>
 					<span className="list list-content text-ellipsis">
 						{/* {rowContent.landUse || '-'} */}
 						{
@@ -81,14 +81,14 @@ const Result = {
 					</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>面　　积：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>面　　积：</span>
 					<span className="list list-content">
 						{rowContent.landArea || '-'}
 						公顷
 					</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>使用年限：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>使用年限：</span>
 					{rowContent.transferTerm ? (
 						<span className="list list-content">
 							{`${rowContent.transferTerm} 年` || '-'}
@@ -106,15 +106,15 @@ const Result = {
 		<React.Fragment>
 			<div className="assets-info-content">
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>供地方式：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>供地方式：</span>
 					<span className="list list-content text-ellipsis">{rowContent.supplyWay || '-'}</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>批准单位：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>批准单位：</span>
 					<span className="list list-content">{rowContent.approver || '-'}</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>成交价格：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>成交价格：</span>
 					<span className="list list-content">
 						{rowContent.finalPrice ? `${rowContent.finalPrice} 万元` : '-'}
 					</span>
@@ -192,7 +192,7 @@ const Result = {
 		<React.Fragment>
 			<div className="assets-info-content">
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>宗地坐落：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>宗地坐落：</span>
 					<span className="list list-content text-ellipsis">
 						{
 							rowContent.landAddress && rowContent.landAddress.length > 6
@@ -212,7 +212,7 @@ const Result = {
 					</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>行政区划：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>行政区划：</span>
 					<span className="list list-content text-ellipsis">
 						{/* {rowContent.landUse || '-'} */}
 						{
@@ -239,11 +239,11 @@ const Result = {
 		<React.Fragment>
 			<div className="assets-info-content">
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>转让方式：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>转让方式：</span>
 					<span className="list list-content text-ellipsis">{rowContent.transferMode || '-'}</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>转让价格：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>转让价格：</span>
 					<span className="list list-content">
 						{rowContent.transferPrice ? `${rowContent.transferPrice} 万元` : '-'}
 					</span>
@@ -255,7 +255,7 @@ const Result = {
 		<React.Fragment>
 			<div className="assets-info-content">
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>土地用途：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>土地用途：</span>
 					<span className="list list-content text-ellipsis">
 						{/* {rowContent.landUse || '-'} */}
 						{
@@ -276,14 +276,14 @@ const Result = {
 					</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>面　　积：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>面　　积：</span>
 					<span className="list list-content">
 						{rowContent.landArea || '-'}
 						公顷
 					</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>评估金额：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>评估金额：</span>
 					<span className="list list-content">
 						{rowContent.consultPrice ? `${rowContent.consultPrice} 万元` : '-'}
 					</span>
@@ -301,14 +301,14 @@ const Result = {
 		<React.Fragment>
 			<div className="assets-info-content">
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>抵押面积：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>抵押面积：</span>
 					<span className="list list-content">
 						{rowContent.mortgageArea || '-'}
 						公顷
 					</span>
 				</li>
 				<li>
-					<span className="list list-title align-justify" style={{ width: 80 }}>抵押金额：</span>
+					<span className="list list-title align-justify" style={{ width: 65 }}>抵押金额：</span>
 					<span className="list list-content">
 						{rowContent.mortgageAmount ? `${rowContent.mortgageAmount} 万元` : '-'}
 					</span>
