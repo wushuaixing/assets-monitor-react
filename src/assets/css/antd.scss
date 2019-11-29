@@ -3,6 +3,10 @@
   background-color: transparent;
   border: 1px solid transparent;
 }
+//.ant-modal-footer button+button{
+//  background-color: inherit!important;
+//  border-color: inherit!important;
+//}
 
 .ant-table-row-collapsed:after {
   content: "";
@@ -91,12 +95,12 @@
 
   button + button {
     margin-left: 10px;
-    background-color: $color-base;
-    border-color: $color-base;
+    background-color: $text-link;
+    border-color: $text-link;
 
     &:hover {
-      background-color: $color-btn-hover;
-      border-color: $color-btn-hover;
+      background-color: $text-link-hover;
+      border-color: $text-link-hover;
     }
   }
 
