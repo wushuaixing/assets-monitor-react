@@ -117,12 +117,7 @@ export default class FollowInfo extends React.Component {
 	onChangeValue=(event, field) => {
 		if (event) {
 			let value;
-			if (global.GLOBAL_MEIE_BROWSER) {
-				// eslint-disable-next-line prefer-destructuring
-				value = event.value;
-			} else {
-				value = event.target ? event.target.value : event;
-			}
+			value = event.target ? event.target.value : event;
 			if (field === 'remark') value = value.slice(0, 160);
 			this.setState({
 				[field]: value,
@@ -287,6 +282,7 @@ export default class FollowInfo extends React.Component {
 		// req 阶段
 		if (loading) return false;
 		this.setState({ loading: true });
+		console.log(JSON.stringify(param));
 		processSave(param)
 			.then((res) => {
 				const { code } = res;
@@ -334,12 +330,22 @@ export default class FollowInfo extends React.Component {
 
 	// onInputChangeBase
 	onInputChangeBase =(e) => {
-		const value = e.value.length > 160 ? e.value.slice(0, 160) : e.value;
-		e.value = value;
-		this.setState({
-			remark: value,
-		});
+		if (e.value) {
+			const val = e.srcElement.value;
+			const value = val > 160 ? val.slice(0, 160) : val;
+			e.srcElement.value = value;
+			console.log(value);
+			this.setState({
+				remark: value,
+			});
+		}
 	};
+
+
+	// onInputChangeField
+	// onInputChangeField=(event)=>{
+	//
+	// };
 
 	render() {
 		const {
@@ -355,7 +361,6 @@ export default class FollowInfo extends React.Component {
 		];
 
 		const getField = (field, option = {}) => ({
-			value: data[field],
 			onChange: ((val) => {
 				if (option.onChange) {
 					const res = option.onChange(val, data[field]);
@@ -423,7 +428,6 @@ export default class FollowInfo extends React.Component {
 												{...getField('recovery')}
 												placeholder="请输入收入金额"
 												maxlength={10}
-												onBlur={() => document.activeElement.blur()}
 											/>
 										</div>
 									</li>
