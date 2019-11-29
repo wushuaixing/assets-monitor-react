@@ -526,9 +526,9 @@ class BusinessView extends React.Component {
 							<Button className="yc-business-btn">
 								<a href="../../../static/template.xlsx" style={{ color: '#333' }}>模版下载</a>
 							</Button>
-							<Upload className="yc-upload" showUploadList={false} {...this.uploadAttachmentParam()}>
+							<Upload className={!global.GLOBAL_MEIE_BROWSER ? 'yc-upload' : 'yc-ie-upload'} showUploadList={false} {...this.uploadAttachmentParam()}>
 								<Button className="yc-business-btn">
-								导入业务
+									导入业务
 								</Button>
 							</Upload>
 
