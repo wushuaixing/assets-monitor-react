@@ -96,7 +96,7 @@ export default class Headers extends React.Component {
 		// const { hash } = window.location;
 		// console.log(hash);
 
-		window.scrollTo(0, 0);
+		// window.scrollTo(0, 0);
 		unreadCount().then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -114,14 +114,14 @@ export default class Headers extends React.Component {
 		}
 	}
 
-	componentDidUpdate() {
-		window.scrollTo(0, 0);
-	}
-
-
-	componentWillUnmount() {
-		window.scrollTo(0, 0);
-	}
+	// componentDidUpdate() {
+	// 	window.scrollTo(0, 0);
+	// }
+	//
+	//
+	// componentWillUnmount() {
+	// 	window.scrollTo(0, 0);
+	// }
 
 	// 获取消息数量
 	getNoticeNum = (data) => {

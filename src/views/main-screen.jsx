@@ -47,15 +47,16 @@ const ruleList = (props) => {
 };
 
 const MainScreen = props => (
-	<React.Fragment>
+	<div>
 		<Header {...props} />
+
 		<Container>
 			<Router mode="hash">
 				{ ruleList(props).map(item => item) }
 			</Router>
 		</Container>
 		<Footer />
-	</React.Fragment>
+	</div>
 );
 
 export default class Screen extends React.Component {
