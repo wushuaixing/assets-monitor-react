@@ -148,9 +148,36 @@ export default class Subrogation extends React.Component {
 						</div>
 						<div className="overview-container-content">
 							<div style={{ marginBottom: 20 }}>
-								<TagOneSide content="立案信息" num={FilingNum} onClick={() => this.checkTime('Filing')} tag={selectType === 'Filing' ? 'yc-tag-active' : ''} />
-								<TagTwoSide content="开庭信息" num={CourtNum} onClick={() => this.checkTime('Court')} tag={selectType === 'Court' ? 'yc-tag-active' : ''} />
-								<TagTwoSide content="裁判文书" num={refereeNum} onClick={() => this.checkTime('referee')} tag={selectType === 'referee' ? 'yc-tag-active' : ''} />
+								<TagOneSide
+									content="立案信息"
+									num={FilingNum}
+									onClick={() => {
+										if (FilingNum > 0) {
+											this.checkTime('Filing');
+										}
+									}}
+									tag={selectType === 'Filing' ? 'yc-tag-active' : ''}
+								/>
+								<TagTwoSide
+									content="开庭信息"
+									num={CourtNum}
+									onClick={() => {
+										if (CourtNum > 0) {
+											this.checkTime('Court');
+										}
+									}}
+									tag={selectType === 'Court' ? 'yc-tag-active' : ''}
+								/>
+								<TagTwoSide
+									content="裁判文书"
+									num={refereeNum}
+									onClick={() => {
+										if (refereeNum > 0) {
+											this.checkTime('referee');
+										}
+									}}
+									tag={selectType === 'referee' ? 'yc-tag-active' : ''}
+								/>
 							</div>
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
 							{selectType !== 'Filing' && columnarDataNum > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}
