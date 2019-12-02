@@ -282,7 +282,7 @@ export default class FollowInfo extends React.Component {
 		// req 阶段
 		if (loading) return false;
 		this.setState({ loading: true });
-		console.log(JSON.stringify(param));
+		// console.log(JSON.stringify(param));
 		processSave(param)
 			.then((res) => {
 				const { code } = res;
@@ -328,15 +328,13 @@ export default class FollowInfo extends React.Component {
 		});
 	};
 
-	// onInputChangeFieldIE=(event, field) => {
-	// 	console.log('onpropertychange:', event.value);
-	// };
-
 	// onInputChangeField
 	onInputChangeField=(event, field) => {
 		const { value } = event.srcElement;
-		console.log(field, ':', value);
+		// console.log(field, ':', value);
 		if (value) {
+			// eslint-disable-next-line no-param-reassign
+			event.srcElement.value = value;
 			this.setState({
 				[field]: value,
 			});
@@ -363,6 +361,7 @@ export default class FollowInfo extends React.Component {
 		];
 
 		const getField = (field, option = {}) => ({
+			value: data[field],
 			onChange: ((val) => {
 				if (option.onChange) {
 					const res = option.onChange(val, data[field]);
@@ -455,7 +454,7 @@ export default class FollowInfo extends React.Component {
 													? [<textarea
 														rows="5"
 														cols="50"
-														value={remark}
+														// value={remark}
 														onChange={e => this.onInputChangeField(e, 'remark')}
 														style={{ width: 430, padding: '0px 7px' }}
 													/>,
