@@ -334,7 +334,6 @@ export default class FollowInfo extends React.Component {
 		// console.log(field, ':', value);
 		if (value) {
 			// eslint-disable-next-line no-param-reassign
-			event.srcElement.value = value;
 			this.setState({
 				[field]: value,
 			});
