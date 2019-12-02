@@ -170,6 +170,13 @@ class comInput extends React.Component {
 						</div>
 					) : ''
 				}
+				<div
+					className={`yc-placeholder ${!displayRes ? 'yc-visibility-none' : ''}`}
+					style={pL()}
+					onClick={this.onPlaceholder}
+				>
+					{placeholder || '请输入'}
+				</div>
 				<input
 					style={titleWidth ? { paddingLeft: titleWidth + 7 } : ''}
 					type="text"
@@ -184,13 +191,7 @@ class comInput extends React.Component {
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
 				/>
-				<div
-					className={`yc-placeholder ${!displayRes ? 'yc-visibility-none' : ''}`}
-					style={pL()}
-					onClick={this.onPlaceholder}
-				>
-					{placeholder || '请输入'}
-				</div>
+
 				{
 					suffix ? (
 						<div className="yc-input-group-right">
