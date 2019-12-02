@@ -120,8 +120,6 @@ class comInput extends React.Component {
 			size, disabled, suffix, title,
 		} = this.props;
 		const { inputValue } = this.state;
-
-
 		const classList = ['yc-input'];
 		if (size) classList.push(size ? `yc-input-${size}` : '');
 		if (className)classList.push(className);
