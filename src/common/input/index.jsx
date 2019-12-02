@@ -159,7 +159,7 @@ class comInput extends React.Component {
 				}
 				{
 					!_value && global.GLOBAL_MEIE_BROWSER
-						? <div className="yc-placeholder" style={{ paddingLeft: titleWidth ? { paddingLeft: titleWidth + 7 } : 78 }}>{placeholder || '请输入'}</div> : null
+						? <div className="yc-placeholder" style={titleWidth ? { paddingLeft: titleWidth + 7 } : { paddingLeft: 78 }}>{placeholder || '请输入'}</div> : null
 				}
 				<input
 					style={titleWidth ? { paddingLeft: titleWidth + 7 } : ''}
