@@ -119,9 +119,9 @@ class comInput extends React.Component {
 
 	render() {
 		const {
-			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth,
+			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth, maxLength, type,
 		} = this.props;
-		// console.log(this.props);
+		// console.log(this.props, maxLength);
 		const {
 			size, disabled, suffix, title,
 		} = this.props;
@@ -172,7 +172,7 @@ class comInput extends React.Component {
 				}
 				<input
 					style={titleWidth ? { paddingLeft: titleWidth + 7 } : ''}
-					type="text"
+					type={type || 'text'}
 					ref={e => this.ref = e}
 					className={classList.join(' ')}
 					autoComplete="off"
@@ -183,6 +183,7 @@ class comInput extends React.Component {
 					onBlur={this.onBlur}
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
+					maxLength={maxLength}
 				/>
 				<div
 					className={`yc-placeholder ${!displayRes ? 'yc-visibility-none' : ''}`}

@@ -171,8 +171,8 @@ class Login extends React.Component {
 				if (e.target.id === 'select') {
 					e.preventDefault();
 					e.stopPropagation();
-					return false;
-					// e.returnValue = false;
+					// return false;
+					e.returnValue = false;
 				}
 			}, false);
 		}
@@ -260,7 +260,8 @@ class Login extends React.Component {
 		}
 	};
 
-	inputSearchFoucs = () => {
+	inputSearchFocus = () => {
+		console.log(1);
 		const { dataListArray, selectList, searchValue } = this.state;
 		this.setState({
 			isOpen: true,
@@ -314,9 +315,7 @@ class Login extends React.Component {
 		const {
 			treeList, selectList, isOpen, searchValue,
 		} = this.state;
-
 		return (
-
 			<Form>
 				<div className="yc-group-search">
 					<Icon className="yc-search-icon" type="search" />
@@ -329,10 +328,15 @@ class Login extends React.Component {
 						type="input"
 						onInput={e => this.inputValue(e)}
 						value={searchValue}
-						onFocus={e => this.inputSearchFoucs(e)}
+						onFocus={e => this.inputSearchFocus(e)}
 						onKeyUp={this.onKeyup}
 						onBlur={e => this.inputSearchBlur(e)}
 					/>
+					<div
+						className={`yc-home-placeholder ${!searchValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
+					>
+						{'请输入机构名称' || '请输入'}
+					</div>
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (

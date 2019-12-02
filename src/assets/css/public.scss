@@ -551,3 +551,22 @@ td.column-left20 {
   font-size: 16px;
   color: $common-warning;
 }
+
+.has-error{
+  .yc-select-content-wrapper{
+    border-color: #f50!important;
+    box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+  }
+  .yc-input  {
+    border-color: #f50!important;
+    box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+    &:hover {
+      border-color: #f50!important;
+      box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+    }
+    &:focus {
+      border-color: #f50!important;
+      box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+    }
+  }
+}

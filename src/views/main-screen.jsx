@@ -103,7 +103,6 @@ export default class Screen extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(2);
 		placeholderFun();
 	}
 
@@ -115,6 +114,15 @@ export default class Screen extends React.Component {
 		if (props.location.hash !== '#/change/password' && firstLogin === 'ture') {
 			navigate('/change/password');
 		}
+	}
+
+	componentDidUpdate() {
+		console.log(1);
+		placeholderFun();
+	}
+
+	componentWillUnmount() {
+		placeholderFun();
 	}
 
 	render() {
