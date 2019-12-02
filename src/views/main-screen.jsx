@@ -16,7 +16,6 @@ import { Header, Container, Footer } from '@/views/_layoutView';
 import { authRule } from '@/utils/api';
 import { handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
-import placeholderFun from '@/utils/placeholder';
 
 // 新的引用方式，分割代码，懒加载
 const Monitor = Loadable(() => import('./asset-excavate'));
@@ -102,27 +101,13 @@ export default class Screen extends React.Component {
 		});
 	}
 
-	componentDidMount() {
-		placeholderFun();
-	}
-
 	componentWillReceiveProps(props) {
 		// 判断是否是第一次登录
 		// console.log('main-screen:componentWillReceiveProps');
-		placeholderFun();
 		const firstLogin = cookie.get('firstLogin');
 		if (props.location.hash !== '#/change/password' && firstLogin === 'ture') {
 			navigate('/change/password');
 		}
-	}
-
-	componentDidUpdate() {
-		console.log(1);
-		placeholderFun();
-	}
-
-	componentWillUnmount() {
-		placeholderFun();
 	}
 
 	render() {

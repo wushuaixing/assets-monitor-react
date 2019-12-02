@@ -3,16 +3,8 @@ import { Router } from '@reach/router';
 import MainScreen from './main-screen';
 import LoginScreen from './login';
 import NoPermission from './noPermission';
-import placeholderFun from '@/utils/placeholder';
 
 export default class BaseRouter extends React.PureComponent {
-	componentDidMount() {
-		placeholderFun();
-	}
-
-	componentWillReceiveProps() {
-		placeholderFun();
-	}
 
 	render() {
 		return (
