@@ -120,8 +120,6 @@ class comInput extends React.Component {
 			size, disabled, suffix, title,
 		} = this.props;
 		const { inputValue } = this.state;
-
-
 		const classList = ['yc-input'];
 		if (size) classList.push(size ? `yc-input-${size}` : '');
 		if (className)classList.push(className);
@@ -149,13 +147,6 @@ class comInput extends React.Component {
 		// 	}
 		// }
 		// console.log(this.ref ? this.ref.value : '');
-		const pL = () => {
-			if (title) {
-				return { paddingLeft: titleWidth ? { paddingLeft: titleWidth + 7 } : 78 };
-			}
-			return { paddingLeft: 7 };
-		};
-		const displayRes = (!_value && global.GLOBAL_MEIE_BROWSER && placeholder);
 		return (
 			<div className="yc-input-wrapper" style={style}>
 				{
@@ -166,8 +157,10 @@ class comInput extends React.Component {
 						</div>
 					) : ''
 				}
-
-				<div className={`yc-placeholder ${!displayRes ? 'yc-visibility-none' : ''}`} style={pL()}>{placeholder || '请输入'}</div>
+				{
+					!_value && global.GLOBAL_MEIE_BROWSER
+						? <div className="yc-placeholder" style={{ paddingLeft: titleWidth ? { paddingLeft: titleWidth + 7 } : 78 }}>{placeholder || '请输入'}</div> : null
+				}
 				<input
 					style={titleWidth ? { paddingLeft: titleWidth + 7 } : ''}
 					type="text"

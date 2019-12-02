@@ -169,7 +169,10 @@ class Login extends React.Component {
 			document.attachEvent('mousedown', (e) => {
 				// console.log(e.target.id, e.target.id === 'select');
 				if (e.target.id === 'select') {
-					e.returnValue = false;
+					e.preventDefault();
+					e.stopPropagation();
+					return false;
+					// e.returnValue = false;
 				}
 			}, false);
 		}
@@ -238,7 +241,6 @@ class Login extends React.Component {
 		// const { value } = e.target;
 		const inputValue = e.target.value;
 		const value = inputValue.trim();
-		console.log(value);
 
 		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
 		this.setState({

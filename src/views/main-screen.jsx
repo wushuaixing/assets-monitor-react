@@ -103,6 +103,7 @@ export default class Screen extends React.Component {
 	}
 
 	componentDidMount() {
+		console.log(2);
 		placeholderFun();
 	}
 
