@@ -111,6 +111,12 @@ class comInput extends React.Component {
 		}
 	};
 
+	onPlaceholder=() => {
+		if (global.GLOBAL_MEIE_BROWSER) {
+			this.ref.focus();
+		}
+	};
+
 	render() {
 		const {
 			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth,
@@ -147,6 +153,13 @@ class comInput extends React.Component {
 		// 	}
 		// }
 		// console.log(this.ref ? this.ref.value : '');
+		const pL = () => {
+			if (title) {
+				return { paddingLeft: titleWidth ? { paddingLeft: titleWidth + 7 } : 78 };
+			}
+			return { paddingLeft: 7 };
+		};
+		const displayRes = (!_value && global.GLOBAL_MEIE_BROWSER && placeholder);
 		return (
 			<div className="yc-input-wrapper" style={style}>
 				{
@@ -156,10 +169,6 @@ class comInput extends React.Component {
 							<div className="yc-split-line" />
 						</div>
 					) : ''
-				}
-				{
-					!_value && global.GLOBAL_MEIE_BROWSER
-						? <div className="yc-placeholder" style={{ paddingLeft: titleWidth ? { paddingLeft: titleWidth + 7 } : 78 }}>{placeholder || '请输入'}</div> : null
 				}
 				<input
 					style={titleWidth ? { paddingLeft: titleWidth + 7 } : ''}
@@ -175,6 +184,13 @@ class comInput extends React.Component {
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
 				/>
+				<div
+					className={`yc-placeholder ${!displayRes ? 'yc-visibility-none' : ''}`}
+					style={pL()}
+					onClick={this.onPlaceholder}
+				>
+					{placeholder || '请输入'}
+				</div>
 				{
 					suffix ? (
 						<div className="yc-input-group-right">
