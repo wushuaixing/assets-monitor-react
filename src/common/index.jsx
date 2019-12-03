@@ -20,7 +20,7 @@ const timeRule = {
 		if (typeof endValue === 'string') {
 			const year = endValue.slice(0, 4);
 			const month = Number(endValue.slice(5, 7)) - 1;
-			const day = endValue.slice(9, 11);
+			const day = endValue.slice(8, 10);
 			const _endValue = new Date(year, month, day);
 			_endValue.setHours(23, 59, 59, 0);
 			return startValue.getTime() >= _endValue.getTime();
@@ -34,7 +34,7 @@ const timeRule = {
 		if (typeof startValue === 'string') {
 			const year = startValue.slice(0, 4);
 			const month = Number(startValue.slice(5, 7)) - 1;
-			const day = startValue.slice(9, 11);
+			const day = startValue.slice(8, 10);
 			const _startValue = new Date(year, month, day);
 			_startValue.setHours(0, 0, 0, 0);
 			return endValue.getTime() < new Date(_startValue).getTime();
