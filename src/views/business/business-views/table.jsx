@@ -211,7 +211,7 @@ class BusinessView extends React.Component {
 				if (row.pushState === 1) {
 					return closePush(params).then((res) => {
 						if (res.code === 200) {
-							if (!global.GLOBAL_MEIE_BROWSE) {
+							if (global.GLOBAL_MEIE_BROWSER) {
 								const now = new Date().getTime();
 								const latency = now - start;
 								setTimeout(res.data, latency);
@@ -223,7 +223,7 @@ class BusinessView extends React.Component {
 				}
 				return openPush(params).then((res) => {
 					if (res.code === 200) {
-						if (!global.GLOBAL_MEIE_BROWSE) {
+						if (global.GLOBAL_MEIE_BROWSER) {
 							const now = new Date().getTime();
 							const latency = now - start;
 							setTimeout(res.data, latency);

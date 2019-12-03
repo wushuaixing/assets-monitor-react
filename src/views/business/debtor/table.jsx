@@ -135,9 +135,11 @@ class BusinessView extends React.Component {
 				if (row.pushState === 1) {
 					return closePush(params).then((res) => {
 						if (res.code === 200) {
-							const now = new Date().getTime();
-							const latency = now - start;
-							setTimeout(res.data, latency);
+							if (global.GLOBAL_MEIE_BROWSER) {
+								const now = new Date().getTime();
+								const latency = now - start;
+								setTimeout(res.data, latency);
+							}
 							message.success('关闭成功');
 							getData();
 						} else {
@@ -147,9 +149,11 @@ class BusinessView extends React.Component {
 				}
 				return openPush(params).then((res) => {
 					if (res.code === 200) {
-						const now = new Date().getTime();
-						const latency = now - start;
-						setTimeout(res.data, latency);
+						if (global.GLOBAL_MEIE_BROWSER) {
+							const now = new Date().getTime();
+							const latency = now - start;
+							setTimeout(res.data, latency);
+						}
 						message.success('开启成功');
 						getData();
 					} else {
