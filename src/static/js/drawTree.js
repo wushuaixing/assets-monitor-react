@@ -190,7 +190,7 @@ function drawTree(dataSource) {
 
 		// Update the links...
 		var link = treeNet.selectAll("path.link")
-			.data(tree.links(nodes), function(d) { return d.target.id; });
+			.data(tree.links(nodes), function(d) { return (d.target||{}).id; });
 
 		// Enter any new links at the parent's previous position.
 		link.enter().insert("path", "g")
