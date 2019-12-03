@@ -7,8 +7,9 @@ import Cookies from 'universal-cookie';
 // 所需的所有组件
 // ==================
 import {
-	Form, Input, Button, Checkbox, message, Spin, Icon,
+	Form, Button, Checkbox, message, Spin, Icon,
 } from 'antd';
+import { Input } from '@/common';
 import {
 	login, // login
 	loginPreCheck, // 登录前校验
@@ -198,9 +199,7 @@ class Login extends React.Component {
 		const {
 			form: { getFieldProps }, changeType, btnColor,
 		} = this.props; // 会提示props is not defined
-
 		return (
-
 			<div className="yc-login-main">
 
 				<Form>
@@ -212,7 +211,7 @@ class Login extends React.Component {
 									className="yc-login-input"
 									placeholder="请输入11位数字"
 									// addonBefore={<img style={{ height: 20, width: 18 }} src={imgTel} alt="" />}
-									maxlength="11"
+									maxLength="11"
 									// onInput={e => this.changeValue(e)}
 									// onFocus={e => this.changeValue(e)}
 									// onBlur={e => this.PasswordBlur(e)}

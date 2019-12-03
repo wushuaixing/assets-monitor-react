@@ -193,6 +193,7 @@ export default class HeaderMessage extends React.Component {
 						className="yc-group-input"
 						addonAfter={<Icon type="search" />}
 						onInput={e => this.inputValue(e)}
+						onpropertychange={e => this.inputValue(e)}
 						placeholder="请输入机构名称"
 						size="large"
 						type="text"

@@ -3,6 +3,7 @@ import React from 'react';
 import {
 	Icon, Input, Button, Form,
 } from 'antd';
+
 import './style.scss';
 
 const createForm = Form.create;
@@ -17,7 +18,7 @@ class BasicTable extends React.Component {
 	onInput=(val) => {
 		this.setState({ data: val.target.value });
 		// val.target.value.replace(/\s+/g, '');
-	}
+	};
 
 	onClear=() => {
 		const {
@@ -31,7 +32,7 @@ class BasicTable extends React.Component {
 		};
 		getTableData(params);
 		clearInput();
-	}
+	};
 
 	onSearch=() => {
 		const {
@@ -48,7 +49,7 @@ class BasicTable extends React.Component {
 		};
 		getSearchValue(params);
 		getTableData(params);
-	}
+	};
 
 	renderIcon=() => {
 		const { data } = this.state;
@@ -60,7 +61,7 @@ class BasicTable extends React.Component {
 			);
 		}
 		return null;
-	}
+	};
 
 	render() {
 		const { data } = this.state;
@@ -74,6 +75,7 @@ class BasicTable extends React.Component {
 					value={data}
 					placeholder={placeholder}
 					onInput={event => this.onInput(event)}
+					onpropertychange={event => this.onInput(event)}
 					{...this.props}
 					{...getFieldProps('obligorName', {
 						// initialValue: true,
@@ -83,6 +85,11 @@ class BasicTable extends React.Component {
 						getValueFromEvent: e => e.target.value.trim(),
 					})}
 				/>
+				<div
+					className={`yc-search-placeholder ${!data && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
+				>
+					{placeholder || '请输入'}
+				</div>
 				{
 					this.renderIcon()
 				}

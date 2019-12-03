@@ -3,6 +3,13 @@
   width: 310px;
   display: inline-block;
   margin-right: 20px;
+  .yc-search-placeholder {
+    position: absolute;
+    top: 9px;
+    font-size: 12px;
+    left: 8px;
+    color: $text-placeholder;
+  }
   .search-icon{
     display: inline;
     position: absolute;

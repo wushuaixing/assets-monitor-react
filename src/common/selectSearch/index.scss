@@ -153,7 +153,13 @@
 .has-error{
   .yc-select-content-wrapper{
     border-color: #f50!important;
-    box-shadow: 0 0 0 2px rgba(255,85,0,.2);
+    box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+  }
+  .yc-input  {
+    &:hover {
+      border-color: #f50!important;
+      box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+    }
   }
 }
 

@@ -1,0 +1,15 @@
+.yc-datePicker-none {
+  display: none !important;
+}
+.yc-datePicker-placeholder {
+  position: relative;
+  display: inline-block;
+  font-size: 12px;
+  right: 93px;
+  top: -13px;
+  color: $text-placeholder;
+  .yc-datePicker-name {
+    position: absolute;
+    width: 100px;
+  }
+}

@@ -158,47 +158,24 @@ class Login extends React.Component {
 			this.getData();
 		}
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
-		if (document.addEventListener) {
-			document.addEventListener('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
-				if (e.target.id === 'select') {
-					e.preventDefault();
-				}
-			}, false);
-		} else if (document.attachEvent) {
-			document.attachEvent('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
-				if (e.target.id === 'select') {
-					e.returnValue = false;
-				}
-			}, false);
-		}
-
-		// document.attachEvent('mousedown', (e) => {
-		// 	// console.log(e.target.id, e.target.id === 'select');
-		// 	if (e.target.id === 'select') {
-		// 		e.preventDefault();
-		// 	}
-		// }, false);
+		window._addEventListener(document, 'mousedown', (e) => {
+			// console.log(e.target.id, e.target.id === 'select');
+			if (e.target.id === 'select') {
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		}, false);
 	}
 
 	componentWillUnmount() {
 		// 卸载
-		if (document.addEventListener) {
-			document.addEventListener('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
-				if (e.target.id === 'select') {
-					e.preventDefault();
-				}
-			}, false);
-		} else if (document.attachEvent) {
-			document.attachEvent('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
-				if (e.target.id === 'select') {
-					e.returnValue = false;
-				}
-			}, false);
-		}
+		window._removeEventListener(document, 'mousedown', (e) => {
+			// console.log(e.target.id, e.target.id === 'select');
+			if (e.target.id === 'select') {
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		}, false);
 	}
 
 	// 获取消息列表
@@ -238,7 +215,6 @@ class Login extends React.Component {
 		// const { value } = e.target;
 		const inputValue = e.target.value;
 		const value = inputValue.trim();
-		console.log(value);
 
 		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
 		this.setState({
@@ -258,7 +234,8 @@ class Login extends React.Component {
 		}
 	};
 
-	inputSearchFoucs = () => {
+	inputSearchFocus = () => {
+		console.log(1);
 		const { dataListArray, selectList, searchValue } = this.state;
 		this.setState({
 			isOpen: true,
@@ -312,9 +289,7 @@ class Login extends React.Component {
 		const {
 			treeList, selectList, isOpen, searchValue,
 		} = this.state;
-
 		return (
-
 			<Form>
 				<div className="yc-group-search">
 					<Icon className="yc-search-icon" type="search" />
@@ -327,10 +302,15 @@ class Login extends React.Component {
 						type="input"
 						onInput={e => this.inputValue(e)}
 						value={searchValue}
-						onFocus={e => this.inputSearchFoucs(e)}
+						onFocus={e => this.inputSearchFocus(e)}
 						onKeyUp={this.onKeyup}
 						onBlur={e => this.inputSearchBlur(e)}
 					/>
+					<div
+						className={`yc-home-placeholder ${!searchValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
+					>
+						{'请输入机构名称' || '请输入'}
+					</div>
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (
