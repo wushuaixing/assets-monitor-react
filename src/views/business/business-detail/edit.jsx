@@ -2,7 +2,6 @@ import React from 'react';
 import {
 	Form, Button, Input, Modal,
 } from 'antd';
-
 import './style.scss';
 
 const { confirm } = Modal;
@@ -38,10 +37,11 @@ class DebtorDetail extends React.Component {
 				dataList,
 			});
 		}
-	}
+	};
 
 	// 身份证号/统一社会信用代码
 	handleInputNumber = (e, id) => {
+		console.log(e);
 		const { dataList } = this.state;
 		const { isEdit } = this.props;
 		isEdit();
@@ -56,7 +56,7 @@ class DebtorDetail extends React.Component {
 				dataList,
 			});
 		}
-	}
+	};
 
 	// 角色
 	changeValue = (e, id) => {
@@ -76,7 +76,7 @@ class DebtorDetail extends React.Component {
 				dataList,
 			});
 		}
-	}
+	};
 
 	add = () => {
 		const { dataList } = this.state;
@@ -91,7 +91,7 @@ class DebtorDetail extends React.Component {
 		this.setState({
 			dataList,
 		});
-	}
+	};
 
 	// 删除
 	delete = (id) => {
@@ -117,7 +117,7 @@ class DebtorDetail extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined

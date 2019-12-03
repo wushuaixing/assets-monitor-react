@@ -164,7 +164,7 @@ class DebtorDetail extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	getChangeData = (value) => {
 		const { hash } = window.location;
@@ -193,7 +193,7 @@ class DebtorDetail extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -206,7 +206,7 @@ class DebtorDetail extends React.Component {
 		};
 
 		this.getChangeData(params);
-	}
+	};
 
 	handleCancal = () => {
 	// const { defaultData } = this.state;
@@ -214,20 +214,20 @@ class DebtorDetail extends React.Component {
 		this.setState({
 			edit: false,
 		});
-	}
+	};
 
 	// back
 	back = () => {
 		const { hash } = window.location;
 		const userId = getQueryByName(hash, 'id');
 		navigate(`/business/detail?id=${userId}`);
-	}
+	};
 
 	// 跳转债务人详情
 	detail = (id) => {
 		const w = window.open('about:blank');
 		w.location.href = `#/business/debtor/detail?id=${id}`;
-	}
+	};
 
 	// 变更记录
 	render() {
