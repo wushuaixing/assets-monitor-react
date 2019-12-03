@@ -153,12 +153,10 @@ class comInput extends React.Component {
 		// 	}
 		// }
 		// console.log(this.ref ? this.ref.value : '');
-		const pL = () => {
-			if (title) {
-				return { paddingLeft: titleWidth ? { paddingLeft: titleWidth + 7 } : 78 };
-			}
-			return { paddingLeft: 7 };
-		};
+		const pStyle = { paddingLeft: 7 };
+		if (title) {
+			pStyle.paddingLeft = titleWidth ? titleWidth + 7 : 78;
+		}
 		const displayRes = (!_value && global.GLOBAL_MEIE_BROWSER && placeholder);
 		return (
 			<div className="yc-input-wrapper" style={style}>
@@ -171,8 +169,8 @@ class comInput extends React.Component {
 					) : ''
 				}
 				<div
+					style={pStyle}
 					className={`yc-placeholder ${!displayRes ? 'yc-visibility-none' : ''}`}
-					style={pL()}
 					onClick={this.onPlaceholder}
 				>
 					{placeholder || '请输入'}
