@@ -63,6 +63,12 @@ class BasicTable extends React.Component {
 		return null;
 	};
 
+	onPlaceholder=() => {
+		if (global.GLOBAL_MEIE_BROWSER) {
+			document.getElementById('inputFocus').focus();
+		}
+	};
+
 	render() {
 		const { data } = this.state;
 		const { placeholder, form } = this.props;
@@ -72,6 +78,7 @@ class BasicTable extends React.Component {
 				<Input
 					size="large"
 					autocomplete="off"
+					id="inputFocus"
 					value={data}
 					placeholder={placeholder}
 					onInput={event => this.onInput(event)}
@@ -87,6 +94,7 @@ class BasicTable extends React.Component {
 				/>
 				<div
 					className={`yc-search-placeholder ${!data && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
+					onClick={this.onPlaceholder}
 				>
 					{placeholder || '请输入'}
 				</div>

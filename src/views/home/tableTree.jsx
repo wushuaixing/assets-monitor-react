@@ -158,8 +158,19 @@ class Login extends React.Component {
 			this.getData();
 		}
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
-		window._addEventListener(document, 'mousedown', (e) => {
+		if (global.GLOBAL_MEIE_BROWSER) {
+			document.attachEvent('mousedown', (e) => {
+				// console.log(e.target.id, e.target.id === 'select');
+				console.log(12, 'ie');
+				if (e.target.id === 'select') {
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			}, false);
+		}
+		document.addEventListener('mousedown', (e) => {
 			// console.log(e.target.id, e.target.id === 'select');
+			console.log(12);
 			if (e.target.id === 'select') {
 				e.preventDefault();
 				e.stopPropagation();
@@ -169,7 +180,7 @@ class Login extends React.Component {
 
 	componentWillUnmount() {
 		// 卸载
-		window._removeEventListener(document, 'mousedown', (e) => {
+		document.removeEventListener('mousedown', (e) => {
 			// console.log(e.target.id, e.target.id === 'select');
 			if (e.target.id === 'select') {
 				e.preventDefault();
@@ -284,6 +295,11 @@ class Login extends React.Component {
 		return arr;
 	};
 
+	onPlaceholder=() => {
+		if (global.GLOBAL_MEIE_BROWSER) {
+			document.getElementById('inputFocus').focus();
+		}
+	};
 
 	render() {
 		const {
@@ -294,7 +310,7 @@ class Login extends React.Component {
 				<div className="yc-group-search">
 					<Icon className="yc-search-icon" type="search" />
 					<Input
-						// addonBefore={<Icon type="search" />}
+						id="inputFocus"
 						className="yc-group-input"
 						placeholder="请输入机构名称"
 						autoComplete="off"
@@ -308,6 +324,7 @@ class Login extends React.Component {
 					/>
 					<div
 						className={`yc-home-placeholder ${!searchValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
+						onClick={this.onPlaceholder}
 					>
 						{'请输入机构名称' || '请输入'}
 					</div>
