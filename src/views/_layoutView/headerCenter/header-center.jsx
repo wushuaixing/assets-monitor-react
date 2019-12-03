@@ -65,7 +65,8 @@ export default class HeaderMessage extends React.Component {
 	filterByName = (aim, name) => 	aim.filter(item => item.orgName.indexOf(name) !== -1);
 
 	inputValue = (e) => {
-		const { value } = e.srcElement || {};
+		const event = e || window.event;
+		const value = event.srcElement ? event.srcElement.value : {};
 		console.log(value);
 		const { treeList } = this.state;
 		const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
