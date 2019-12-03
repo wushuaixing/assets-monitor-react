@@ -67,15 +67,13 @@ export default class HeaderMessage extends React.Component {
 	inputValue = (e) => {
 		const { value } = e.srcElement || {};
 		console.log(value);
-		if (value) {
-			const { treeList } = this.state;
-			const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
-			this.setState({
-				valueList: value,
-				value: value.trim(),
-				selectList: this.filterByName(arr, value),
-			});
-		}
+		const { treeList } = this.state;
+		const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
+		this.setState({
+			valueList: value,
+			value: value.trim(),
+			selectList: this.filterByName(arr, value),
+		});
 	};
 
 	// 选择列表

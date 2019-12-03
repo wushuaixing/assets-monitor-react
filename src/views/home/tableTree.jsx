@@ -230,7 +230,7 @@ class Login extends React.Component {
 		// const { value } = e.target;
 		const event = e || window.event;
 		const inputValue = (event.srcElement).value;
-		const value = inputValue.trim();
+		const value = inputValue && inputValue.trim();
 
 		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
 		this.setState({
@@ -310,6 +310,14 @@ class Login extends React.Component {
 		const {
 			treeList, selectList, isOpen, searchValue,
 		} = this.state;
+
+		const getFieldIE = () => ({
+			// value: data[field],
+			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((e) => {
+				this.inputValue(e);
+			}),
+		});
+
 		return (
 			<Form>
 				<div className="yc-group-search">
@@ -321,7 +329,8 @@ class Login extends React.Component {
 						autoComplete="off"
 						maxLength="16"
 						type="input"
-						onInput={e => this.inputValue(e)}
+						{...getFieldIE()}
+						// onInput={e => this.inputValue(e)}
 						value={searchValue}
 						onFocus={e => this.inputSearchFocus(e)}
 						onKeyUp={this.onKeyup}
