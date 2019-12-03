@@ -157,6 +157,7 @@ class Login extends React.Component {
 		if (hash !== '#/login') {
 			this.getData();
 		}
+		console.log(global.GLOBAL_MEIE_BROWSER);
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
 		if (global.GLOBAL_MEIE_BROWSER) {
 			document.attachEvent('mousedown', (e) => {
@@ -227,7 +228,8 @@ class Login extends React.Component {
 	inputValue= (e) => {
 		const { treeList } = this.state;
 		// const { value } = e.target;
-		const inputValue = e.target.value;
+		const event = e || window.event;
+		const inputValue = (event.target || event.srcElement).value;
 		const value = inputValue.trim();
 
 		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
