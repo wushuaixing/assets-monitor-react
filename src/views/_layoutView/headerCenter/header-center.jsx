@@ -65,7 +65,7 @@ export default class HeaderMessage extends React.Component {
 	filterByName = (aim, name) => 	aim.filter(item => item.orgName.indexOf(name) !== -1);
 
 	inputValue = (e) => {
-		const value = e.srcElement.value.trim();
+		const value = (e.srcElement || {}).value.trim();
 		console.log(value);
 
 		const { treeList } = this.state;
@@ -153,6 +153,13 @@ export default class HeaderMessage extends React.Component {
 				return <TreeNode key={item.orgId} title={item.orgName} />;
 			});
 
+		const getFieldIE = () => ({
+			// value: data[field],
+			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((e) => {
+				this.inputValue(e);
+			}),
+		});
+
 		return (
 			<div className="yc-header-center" style={treeList && treeList.length > 0 ? { height: 491 } : { height: 75 }}>
 				<div className="user-panel-item user-panel-msg clearfix">
@@ -192,8 +199,9 @@ export default class HeaderMessage extends React.Component {
 					<Input
 						className="yc-group-input"
 						addonAfter={<Icon type="search" />}
-						onInput={e => this.inputValue(e)}
-						onpropertychange={e => this.inputValue(e)}
+						{...getFieldIE()}
+						// onInput={e => this.inputValue(e)}
+						// onpropertychange={e => this.inputValue(e)}
 						placeholder="请输入机构名称"
 						size="large"
 						type="text"
