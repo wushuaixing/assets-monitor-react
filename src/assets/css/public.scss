@@ -163,7 +163,15 @@ body,td,th{font-size:14px;color:#20242e}
   background-image: url('../img/icon/add1.png');
 
 }
-
+.yc-public-placeholder{
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  padding: 7px;
+  color: #d6d9e2;
+  line-height: 1.5;
+}
 
 .yc-badge-img {
   background-image: url('../img/icon/icon_reddot.png');

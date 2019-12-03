@@ -240,7 +240,9 @@ export default class FollowInfo extends React.Component {
 		const { source: { id, index, recovery: _recovery }, onRefresh, onClose } = this.props;
 
 		// 未点击 新增跟进记录 直接关闭弹窗
-		if (!addStatus) { onClose(); return false; }
+		if (toProcess !== 15) {
+			if (!addStatus) { onClose(); return false; }
+		}
 
 
 		const param = toProcess === 15 ? {
@@ -331,11 +333,14 @@ export default class FollowInfo extends React.Component {
 	// onInputChangeField
 	onInputChangeField=(event, field) => {
 		const { value } = event.srcElement;
-		// console.log(field, ':', value);
 		if (value) {
-			// eslint-disable-next-line no-param-reassign
+			if (value.length > 160) {
+				// eslint-disable-next-line no-param-reassign
+				event.srcElement.value = value.slice(0, 160);
+				document.activeElement.blur();
+			}
 			this.setState({
-				[field]: value,
+				[field]: value.slice(0, 160),
 			});
 		}
 	};
@@ -435,7 +440,6 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">支出金额(元)：</div>
 										<div className="list-item-content">
-
 											<ComInput
 												style={{ width: '100%' }}
 												maxlength={10}

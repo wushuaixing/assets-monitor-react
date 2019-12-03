@@ -256,7 +256,6 @@ export const DownloadFile = (url) => {
 		download.id = Math.floor(Math.random() * 5000);
 		download.href = url;
 		if (global.GLOBAL_MEIE_BROWSER) {
-			download.target = '_blank';
 			window.parent.document.body.appendChild(download);
 			download.click();
 		} else {
@@ -265,9 +264,9 @@ export const DownloadFile = (url) => {
 			e.initEvent('click', false, false);
 			download.dispatchEvent(e);
 		}
-		setTimeout(() => {
-			document.body.removeChild(download);
-		}, 1000);
+		// setTimeout(() => {
+		// 	document.body.removeChild(download);
+		// }, 1000);
 	}
 };
 
