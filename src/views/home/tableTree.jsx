@@ -161,28 +161,29 @@ class Login extends React.Component {
 		if (global.GLOBAL_MEIE_BROWSER) {
 			document.attachEvent('mousedown', (e) => {
 				// console.log(e.target.id, e.target.id === 'select');
-				console.log(12, 'ie');
-				if (e.target.id === 'select') {
+				const event = e || window.event;
+				console.log(event, 12, 'ie');
+				if (event.srcElement.id === 'select') {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			}, false);
+		} else {
+			document.addEventListener('mousedown', (e) => {
+				// console.log(e.target.id, e.target.id === 'select');
+				if ((e.target || {}).id === 'select') {
 					e.preventDefault();
 					e.stopPropagation();
 				}
 			}, false);
 		}
-		document.addEventListener('mousedown', (e) => {
-			// console.log(e.target.id, e.target.id === 'select');
-			console.log(12);
-			if (e.target.id === 'select') {
-				e.preventDefault();
-				e.stopPropagation();
-			}
-		}, false);
 	}
 
 	componentWillUnmount() {
 		// 卸载
 		document.removeEventListener('mousedown', (e) => {
 			// console.log(e.target.id, e.target.id === 'select');
-			if (e.target.id === 'select') {
+			if ((e.target || {}).id === 'select') {
 				e.preventDefault();
 				e.stopPropagation();
 			}
