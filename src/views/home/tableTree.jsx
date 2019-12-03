@@ -337,38 +337,38 @@ class Login extends React.Component {
 					/>
 					<div
 						className={`yc-home-placeholder ${!searchValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
-						onClick={() => this.onPlaceholder}
+						onClick={ this.onPlaceholder}
 					>
 						{'请输入机构名称' || '请输入'}
 					</div>
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (
-						<ul id="select" className="yc-input-list">
-							{selectList.map(val => (
-								<li className="yc-input-list-item" onClick={() => this.selectFilterValue(val)}>
-									{ val ? val.name : null}
-								</li>
-							))}
-						</ul>
+							<ul id="select" className="yc-input-list">
+								{selectList.map(val => (
+									<li className="yc-input-list-item" onClick={() => this.selectFilterValue(val)}>
+										{ val ? val.name : null}
+									</li>
+								))}
+							</ul>
 						)
 					}
 				</div>
 				<Affix>
 					<table className="table table-striped treetable" style={{ marginBottom: 0 }}>
 						<tbody>
-							<tr className="tr-table">
-								<th rowSpan=" 2 " style={{ width: 400, textAlign: 'left' }}>机构名称</th>
-								<th rowSpan=" 2 " style={{ width: 174 }}>监控债务人数</th>
-								<th colSpan="4" style={{ width: 388 }}>监控信息数</th>
-								<th rowSpan=" 2 " style={{ width: 198, textAlign: 'right' }}>追回总金额 (元)</th>
-							</tr>
-							<tr className="tr-table">
-								<th style={{ width: 92 }}>全部</th>
-								<th style={{ width: 112 }}>未跟进</th>
-								<th style={{ width: 92 }}>跟进</th>
-								<th style={{ width: 92 }}>完成</th>
-							</tr>
+						<tr className="tr-table">
+							<th rowSpan=" 2 " style={{ width: 400, textAlign: 'left' }}>机构名称</th>
+							<th rowSpan=" 2 " style={{ width: 174 }}>监控债务人数</th>
+							<th colSpan="4" style={{ width: 388 }}>监控信息数</th>
+							<th rowSpan=" 2 " style={{ width: 198, textAlign: 'right' }}>追回总金额 (元)</th>
+						</tr>
+						<tr className="tr-table">
+							<th style={{ width: 92 }}>全部</th>
+							<th style={{ width: 112 }}>未跟进</th>
+							<th style={{ width: 92 }}>跟进</th>
+							<th style={{ width: 92 }}>完成</th>
+						</tr>
 						</tbody>
 					</table>
 				</Affix>
@@ -389,7 +389,7 @@ class Login extends React.Component {
 						<span>暂无数据</span>
 					</div>
 				)
-			}
+				}
 			</Form>
 		);
 	}
