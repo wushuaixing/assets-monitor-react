@@ -5,7 +5,6 @@ import LoginScreen from './login';
 import NoPermission from './noPermission';
 
 export default class BaseRouter extends React.PureComponent {
-
 	render() {
 		return (
 			<Router mode="hash" className="yc-router">

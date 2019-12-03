@@ -199,9 +199,7 @@ class Login extends React.Component {
 		const {
 			form: { getFieldProps }, changeType, btnColor,
 		} = this.props; // 会提示props is not defined
-
 		return (
-
 			<div className="yc-login-main">
 
 				<Form>

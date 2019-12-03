@@ -158,50 +158,24 @@ class Login extends React.Component {
 			this.getData();
 		}
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
-		if (document.addEventListener) {
-			document.addEventListener('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
-				if (e.target.id === 'select') {
-					e.preventDefault();
-				}
-			}, false);
-		} else if (document.attachEvent) {
-			document.attachEvent('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
-				if (e.target.id === 'select') {
-					e.preventDefault();
-					e.stopPropagation();
-					// return false;
-					e.returnValue = false;
-				}
-			}, false);
-		}
-
-		// document.attachEvent('mousedown', (e) => {
-		// 	// console.log(e.target.id, e.target.id === 'select');
-		// 	if (e.target.id === 'select') {
-		// 		e.preventDefault();
-		// 	}
-		// }, false);
+		window._addEventListener(document, 'mousedown', (e) => {
+			// console.log(e.target.id, e.target.id === 'select');
+			if (e.target.id === 'select') {
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		}, false);
 	}
 
 	componentWillUnmount() {
 		// 卸载
-		if (document.addEventListener) {
-			document.addEventListener('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
-				if (e.target.id === 'select') {
-					e.preventDefault();
-				}
-			}, false);
-		} else if (document.attachEvent) {
-			document.attachEvent('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
-				if (e.target.id === 'select') {
-					e.returnValue = false;
-				}
-			}, false);
-		}
+		window._removeEventListener(document, 'mousedown', (e) => {
+			// console.log(e.target.id, e.target.id === 'select');
+			if (e.target.id === 'select') {
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		}, false);
 	}
 
 	// 获取消息列表

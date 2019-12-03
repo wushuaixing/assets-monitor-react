@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	DatePicker, Form, message, Tooltip, Icon, Pagination, Modal, Upload,
+	Form, message, Tooltip, Icon, Pagination, Modal, Upload,
 } from 'antd';
 
 import Cookies from 'universal-cookie';
@@ -14,7 +14,7 @@ import {
 	postDeleteBatch, // 批量删除
 } from '@/utils/api/business';
 import {
-	Input, Button, Spin, timeRule, Download, SelectedNum,
+	Input, Button, Spin, timeRule, Download, SelectedNum, DatePicker,
 } from '@/common';
 import businessImg from '@/assets/img/business/icon_recovery_n.png';
 import ModalTable from './modalTable';
@@ -90,6 +90,7 @@ class BusinessView extends React.Component {
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
 			const { className } = document.activeElement.offsetParent;
+			console.log(className, 222);
 			if (/yc-input-wrapper/.test(className)) {
 				this.search();
 				document.activeElement.blur();
@@ -419,7 +420,11 @@ class BusinessView extends React.Component {
 			selectedRowKeys,
 			onChange: this.onSelectChange,
 		};
-
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div className="yc-content-query">
 				<Spin visible={errorLoading} modal text="正在为您上传文件，请稍后..." />
@@ -470,11 +475,10 @@ class BusinessView extends React.Component {
 							})}
 						/>
 					</div>
-
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">上传时间：</span>
 						<DatePicker
-							{...getFieldProps('uploadTimeStart', {
+							{...getFieldProps('uploadTimeStart', timeOption, {
 								onChange: (value, dateString) => {
 									this.setState({
 										startTime: dateString,
@@ -488,7 +492,7 @@ class BusinessView extends React.Component {
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('uploadTimeEnd', {
+							{...getFieldProps('uploadTimeEnd', timeOption, {
 								onChange: (value, dateString) => {
 									this.setState({
 										endTime: dateString,
