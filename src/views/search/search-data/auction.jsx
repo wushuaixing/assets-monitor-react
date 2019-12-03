@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-	DatePicker, Select, Button, Form, message,
+	Select, Button, Form, message,
 } from 'antd';
 import { navigate } from '@reach/router';
 import {
-	Input, timeRule,
+	Input, timeRule, DatePicker,
 } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import InputPrice from '@/common/input/input-price';
@@ -65,7 +65,7 @@ class AUCTION extends React.PureComponent {
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -76,7 +76,7 @@ class AUCTION extends React.PureComponent {
 			endTime: undefined,
 		});
 		resetFields('');
-	}
+	};
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined

@@ -4,7 +4,7 @@ import React from 'react';
 // 所需的所有组件
 // ==================
 import {
-	Form, DatePicker, Select, message, Pagination,
+	Form, Select, message, Pagination,
 } from 'antd';
 import { navigate } from '@reach/router';
 import {
@@ -13,7 +13,7 @@ import {
 	exportWritCurrent, // 本页导出
 } from '@/utils/api/search';
 import {
-	Spin, Input, Button, timeRule, Download, ReactDocumentTitle,
+	Spin, Input, Button, timeRule, Download, ReactDocumentTitle, DatePicker,
 } from '@/common';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import WritTable from './table';

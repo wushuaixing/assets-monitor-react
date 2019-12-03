@@ -1,9 +1,11 @@
 import React from 'react';
 import {
-	DatePicker, Form, message, Select,
+	Form, message, Select,
 } from 'antd';
 import provinceList from '../../../../utils/provinceList';
-import { Input, Button, timeRule } from '@/common';
+import {
+	Input, Button, timeRule, DatePicker,
+} from '@/common';
 import InputPrice from '@/common/input/input-price';
 
 class QueryCondition extends React.Component {

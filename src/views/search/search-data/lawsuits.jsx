@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, Tooltip, message,
+	Button, Form, Tooltip, message,
 } from 'antd';
 import { navigate } from '@reach/router';
-import { Input, timeRule } from '@/common';
+import { Input, timeRule, DatePicker } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
@@ -74,7 +74,7 @@ class LAWSUITS extends React.Component {
 		default:
 			break;
 		}
-	}
+	};
 
 	// 搜索
 	search = () => {
@@ -101,7 +101,7 @@ class LAWSUITS extends React.Component {
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -125,7 +125,7 @@ class LAWSUITS extends React.Component {
 		});
 
 		resetFields('');
-	}
+	};
 
 	handlePlaintiff = (e, id) => {
 		const { plaintiff } = this.state;
@@ -139,7 +139,7 @@ class LAWSUITS extends React.Component {
 				plaintiff,
 			});
 		}
-	}
+	};
 
 	addPlaintiff = () => {
 		const { plaintiff } = this.state;
@@ -150,7 +150,7 @@ class LAWSUITS extends React.Component {
 		this.setState({
 			plaintiff,
 		});
-	}
+	};
 
 	// 删除
 	deletePlaintiff = (id) => {
@@ -164,7 +164,7 @@ class LAWSUITS extends React.Component {
 		this.setState({
 			plaintiff,
 		});
-	}
+	};
 
 	handleDefendant = (e, id) => {
 		const { defendant } = this.state;
@@ -178,7 +178,7 @@ class LAWSUITS extends React.Component {
 				defendant,
 			});
 		}
-	}
+	};
 
 	addDefendant = () => {
 		const { defendant } = this.state;
@@ -189,7 +189,7 @@ class LAWSUITS extends React.Component {
 		this.setState({
 			defendant,
 		});
-	}
+	};
 
 	// 删除
 	deleteDefendant = (id) => {
@@ -203,7 +203,7 @@ class LAWSUITS extends React.Component {
 		this.setState({
 			defendant,
 		});
-	}
+	};
 
 	render() {
 		const {

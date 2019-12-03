@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, message,
+	Button, Form, message,
 } from 'antd';
 import { navigate } from '@reach/router';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
-import { Input, timeRule } from '@/common';
+import { Input, timeRule, DatePicker } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;

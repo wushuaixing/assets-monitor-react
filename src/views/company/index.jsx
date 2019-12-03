@@ -1,9 +1,9 @@
 import React from 'react';
 // import Router from '@/utils/Router';
-import { Input } from '@/common';
 import {
-	InputNumber, InputPrice, DatePicker, Select,
+	InputNumber, InputPrice, Select,
 } from 'antd';
+import { Input, DatePicker } from '@/common';
 
 const handleEnterKey = (e) => {
 	if (e.nativeEvent.keyCode === 13) { // e.nativeEvent获取原生的事件对像

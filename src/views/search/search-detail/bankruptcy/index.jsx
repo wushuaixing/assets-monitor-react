@@ -3,13 +3,13 @@ import React from 'react';
 // 所需的所有组件
 // ==================
 import {
-	Form, Pagination, message, DatePicker,
+	Form, Pagination, message,
 } from 'antd';
 
 import { navigate } from '@reach/router';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import {
-	timeRule, Spin, Input, Button, Download,
+	timeRule, Spin, Input, Button, Download, DatePicker,
 } from '@/common';
 import Bankruptcy from './table';
 import {

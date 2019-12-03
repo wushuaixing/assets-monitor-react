@@ -3,9 +3,9 @@ import React from 'react';
 // 所需的所有组件
 // ==================
 import { navigate } from '@reach/router';
-import { Form, DatePicker, Tooltip } from 'antd';
+import { Form, Tooltip } from 'antd';
 import {
-	Input, Button, timeRule,
+	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import { parseQuery } from '@/utils';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
@@ -93,7 +93,7 @@ class QUERYLAWSUITS extends React.Component {
 			getCount(Params);
 		}
 		getQueryData(Params);
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -102,7 +102,7 @@ class QUERYLAWSUITS extends React.Component {
 		navigate('/search/detail/lawsuits');
 		resetFields('');
 		queryReset();
-	}
+	};
 
 	render() {
 		const {

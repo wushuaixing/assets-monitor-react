@@ -36,7 +36,7 @@ const columns = (props) => {
 			render: text => text || '--',
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 90,
 			render: value => timeStandard(value),

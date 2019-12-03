@@ -1,8 +1,10 @@
 import React from 'react';
 import {
-	DatePicker, Form, Select,
+	Form, Select,
 } from 'antd';
-import { Input, Button, timeRule } from '@/common';
+import {
+	Input, Button, timeRule, DatePicker,
+} from '@/common';
 
 class QueryCondition extends React.Component {
 	constructor(props) {

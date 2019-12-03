@@ -1,8 +1,10 @@
 import React from 'react';
 import {
-	DatePicker, Form, Select, message,
+	Form, Select, message,
 } from 'antd';
-import { Input, Button, timeRule } from '@/common';
+import {
+	Input, Button, timeRule, DatePicker,
+} from '@/common';
 import InputPrice from '@/common/input/input-price';
 
 class QueryCondition extends React.Component {

@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, message, Select,
+	Button, Form, message, Select,
 } from 'antd';
 import { navigate } from '@reach/router';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
-import { Input, timeRule } from '@/common';
+import { Input, timeRule, DatePicker } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
@@ -56,7 +56,7 @@ class WRIT extends React.Component {
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -67,7 +67,7 @@ class WRIT extends React.Component {
 			endTime: undefined,
 		});
 		resetFields('');
-	}
+	};
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined

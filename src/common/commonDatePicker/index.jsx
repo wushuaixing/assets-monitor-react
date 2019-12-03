@@ -30,24 +30,23 @@ class commonDatePicker extends React.Component {
 	render() {
 		const propsObj = this.props;
 		const { openModal } = this.state;
-		// const { visible } = propsObj;
 		return (
-			<span>
+			<div
+				className="yc-datePicker-container"
+				onClick={this.onPlaceholder}
+			>
 				<DatePicker
-					ref={e => this.ref = e}
-					open={openModal}
-					toggleOpen={this.onHandle}
 					{...propsObj}
+					toggleOpen={this.onHandle}
+					open={openModal}
 				/>
-				<div
+				<span
 					className={`yc-datePicker-placeholder ${!propsObj.value && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-datePicker-none'}`}
-					onClick={this.onPlaceholder}
+					style={propsObj.placeholder ? { width: propsObj.placeholder.length * 15 } : ''}
 				>
-					<span className="yc-datePicker-name" style={{ width: 60 }}>
-						{propsObj.placeholder || '请输入日期'}
-					</span>
-				</div>
-			</span>
+					{propsObj.placeholder || '请输入日期'}
+				</span>
+			</div>
 		);
 	}
 }

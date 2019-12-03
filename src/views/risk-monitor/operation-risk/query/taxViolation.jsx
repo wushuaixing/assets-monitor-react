@@ -1,6 +1,8 @@
 import React from 'react';
-import { DatePicker, Select, Form } from 'antd';
-import { Input, Button, timeRule } from '@/common';
+import { Select, Form } from 'antd';
+import {
+	Input, Button, timeRule, DatePicker,
+} from '@/common';
 
 
 const options = [2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2004];
@@ -55,11 +57,11 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="纳税人" style={_style1} size="large" placeholder="纳税人姓名/公司名称" {...getFieldProps('obName')} />
+					<Input title="相关人" style={_style1} size="large" placeholder="相关人姓名/公司名称" {...getFieldProps('name')} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">发布年份：</span>
-					<Select size="large" style={_style2} {...getFieldProps('year')} placeholder="请选择" allowClear>
+					<Select size="large" style={_style2} {...getFieldProps('gmtPublishYear')} placeholder="请选择" allowClear>
 						{options.map(item => <Select.Option value={item} key={item}>{`${item}年`}</Select.Option>)}
 					</Select>
 				</div>
@@ -70,16 +72,16 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startCreateTime', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endCreateTime'))}
+						{...getFieldProps('startGmtCreate', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtCreate'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endCreateTime', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startCreateTime'))}
+						{...getFieldProps('endGmtCreate', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtCreate'))}
 					/>
 				</div>
 
