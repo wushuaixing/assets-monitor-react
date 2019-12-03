@@ -229,7 +229,7 @@ class Login extends React.Component {
 		const { treeList } = this.state;
 		// const { value } = e.target;
 		const event = e || window.event;
-		const inputValue = (event.target || event.srcElement).value;
+		const inputValue = (event.srcElement).value;
 		const value = inputValue.trim();
 
 		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
