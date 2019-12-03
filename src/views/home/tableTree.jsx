@@ -171,9 +171,11 @@ class Login extends React.Component {
 		} else {
 			document.addEventListener('mousedown', (e) => {
 				// console.log(e.target.id, e.target.id === 'select');
-				if ((e.target || {}).id === 'select') {
-					e.preventDefault();
-					e.stopPropagation();
+				// console.log(window.event.target);
+				const event = e || window.event;
+				if ((event.target || event.srcElement).id === 'select') {
+					event.preventDefault();
+					event.stopPropagation();
 				}
 			}, false);
 		}
