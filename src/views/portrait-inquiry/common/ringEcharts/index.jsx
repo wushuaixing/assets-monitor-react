@@ -8,6 +8,7 @@ const getOption = (Data, id, title, newRingArray) => ({
 	},
 	color: ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
 	legend: {
+		selectedMode: false, // 取消图例上的点击事件
 		orient: 'vertical',
 		// 水平对齐方式，可设置为'left','center','right',number(px)
 		x: '300px',
