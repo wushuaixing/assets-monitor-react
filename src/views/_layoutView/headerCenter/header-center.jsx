@@ -51,7 +51,7 @@ export default class HeaderMessage extends React.Component {
 					// 清空token
 					cookie.remove('token');
 					navigate('/login');
-					window.location.reload(); // 退出登录刷新页面
+					// window.location.reload(); // 退出登录刷新页面
 				} else {
 					message.error(res.message);
 				}
