@@ -64,7 +64,7 @@ export default class HeaderMessage extends React.Component {
 	// 根据单个名字筛选
 	filterByName = (aim, name) => 	aim.filter(item => item.orgName.indexOf(name) !== -1);
 
-	inputValue = (e) => {
+	ycInputValue = (e) => {
 		const event = e || window.event;
 		const value = event.srcElement ? event.srcElement.value : {};
 		console.log(value);
@@ -156,7 +156,7 @@ export default class HeaderMessage extends React.Component {
 		const getFieldIE = () => ({
 			// value: data[field],
 			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((e) => {
-				this.inputValue(e);
+				this.ycInputValue(e);
 			}),
 		});
 

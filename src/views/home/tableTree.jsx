@@ -160,7 +160,7 @@ class Login extends React.Component {
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
 		if (global.GLOBAL_MEIE_BROWSER) {
 			document.attachEvent('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
+				console.log(e.target.id, e.target.id === 'select');
 				const event = e || window.event;
 				console.log(event, 12, 'ie');
 				if (event.srcElement.id === 'select') {
@@ -224,7 +224,7 @@ class Login extends React.Component {
 	filterByName = (aim, name) => aim.filter(item => item.name.indexOf(name) !== -1);
 	// 输入 aim 'Leila' 期望输出为 [{name:'Leila', age: 16, gender:'female'}]
 
-	inputValue= (e) => {
+	ycInputValue= (e) => {
 		const { treeList } = this.state;
 		// const { value } = e.target;
 		const event = e || window.event;
@@ -313,7 +313,7 @@ class Login extends React.Component {
 		const getFieldIE = () => ({
 			// value: data[field],
 			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((e) => {
-				this.inputValue(e);
+				this.ycInputValue(e);
 			}),
 		});
 
@@ -337,7 +337,7 @@ class Login extends React.Component {
 					/>
 					<div
 						className={`yc-home-placeholder ${!searchValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
-						onClick={ this.onPlaceholder}
+						onClick={this.onPlaceholder}
 					>
 						{'请输入机构名称' || '请输入'}
 					</div>
@@ -357,18 +357,18 @@ class Login extends React.Component {
 				<Affix>
 					<table className="table table-striped treetable" style={{ marginBottom: 0 }}>
 						<tbody>
-						<tr className="tr-table">
-							<th rowSpan=" 2 " style={{ width: 400, textAlign: 'left' }}>机构名称</th>
-							<th rowSpan=" 2 " style={{ width: 174 }}>监控债务人数</th>
-							<th colSpan="4" style={{ width: 388 }}>监控信息数</th>
-							<th rowSpan=" 2 " style={{ width: 198, textAlign: 'right' }}>追回总金额 (元)</th>
-						</tr>
-						<tr className="tr-table">
-							<th style={{ width: 92 }}>全部</th>
-							<th style={{ width: 112 }}>未跟进</th>
-							<th style={{ width: 92 }}>跟进</th>
-							<th style={{ width: 92 }}>完成</th>
-						</tr>
+							<tr className="tr-table">
+								<th rowSpan=" 2 " style={{ width: 400, textAlign: 'left' }}>机构名称</th>
+								<th rowSpan=" 2 " style={{ width: 174 }}>监控债务人数</th>
+								<th colSpan="4" style={{ width: 388 }}>监控信息数</th>
+								<th rowSpan=" 2 " style={{ width: 198, textAlign: 'right' }}>追回总金额 (元)</th>
+							</tr>
+							<tr className="tr-table">
+								<th style={{ width: 92 }}>全部</th>
+								<th style={{ width: 112 }}>未跟进</th>
+								<th style={{ width: 92 }}>跟进</th>
+								<th style={{ width: 92 }}>完成</th>
+							</tr>
 						</tbody>
 					</table>
 				</Affix>
