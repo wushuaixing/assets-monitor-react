@@ -10,15 +10,15 @@ import './utils/config';
 
 message.config({ top: 300 });
 //
-// if (process.env.NODE_ENV === 'production') {
-// 	global.console = {
-// 		info: () => { },
-// 		log: () => { },
-// 		warn: () => { },
-// 		debug: () => { },
-// 		error: () => { },
-// 	};
-// }
+if (process.env.NODE_ENV === 'production') {
+	global.console = {
+		info: () => { },
+		log: () => { },
+		warn: () => { },
+		debug: () => { },
+		error: () => { },
+	};
+}
 
 ReactDOM.render(
 	<Provider store={store} className="Provider">
