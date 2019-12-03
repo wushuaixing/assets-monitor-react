@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 // 所需的所有组件
 // ==================
 import {
-	Form, Button, Checkbox, message, Spin, Icon,
+	Form, Button, Checkbox, message, Spin,
 } from 'antd';
 import { Input } from '@/common';
 import {
@@ -210,12 +210,11 @@ class Login extends React.Component {
 								<Input
 									className="yc-login-input"
 									placeholder="请输入11位数字"
-									// addonBefore={<img style={{ height: 20, width: 18 }} src={imgTel} alt="" />}
 									maxLength="11"
-									// onInput={e => this.changeValue(e)}
-									// onFocus={e => this.changeValue(e)}
-									// onBlur={e => this.PasswordBlur(e)}
-
+									title={(<span className="yc-form-userName yc-form-icon" />)}
+									titleWidth={40}
+									style={{ fontSize: 14 }}
+									unSplitLine
 									{...getFieldProps('username', {
 										initialValue: userName && userName.length > 0 ? userName : '',
 										rules: [
@@ -226,8 +225,6 @@ class Login extends React.Component {
 										],
 									})}
 								/>
-								<Icon className="yc-login-clearIcon" type="cross-circle" clearInputValue={() => this.clearInputValue('first')} />
-								<span className="yc-form-userName yc-form-icon" />
 							</Form.Item>
 						</div>
 						<div className="yc-form-wapper">
@@ -237,8 +234,10 @@ class Login extends React.Component {
 									type="password"
 									placeholder="请输入密码"
 									onKeyUp={this.onKeyup}
-									// onBlur={e => this.PasswordBlur(e)}
-									// onFocus={e => this.PasswordFoucs(e)}
+									style={{ fontSize: 14 }}
+									title={(<span className="yc-form-passWord yc-form-icon" />)}
+									titleWidth={40}
+									unSplitLine
 									{...getFieldProps('password', {
 										// initialValue: true,
 										rules: [
@@ -249,7 +248,6 @@ class Login extends React.Component {
 										],
 									})}
 								/>
-								<span className="yc-form-passWord yc-form-icon" />
 							</Form.Item>
 						</div>
 						{

@@ -1,5 +1,5 @@
 /*!
- * input v1.1.2
+ * input v1.1.3
  * 公共组件input
  *
  * @author async
@@ -119,7 +119,7 @@ class comInput extends React.Component {
 
 	render() {
 		const {
-			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth, maxLength, type,
+			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth, maxLength, type, unSplitLine,
 		} = this.props;
 		// console.log(this.props, maxLength);
 		const {
@@ -166,7 +166,7 @@ class comInput extends React.Component {
 					title ? (
 						<div className="yc-input-group-left" style={titleWidth ? { width: titleWidth } : ''}>
 							<span style={titleWidth ? { width: titleWidth - 2 } : ''}>{title}</span>
-							<div className="yc-split-line" />
+							{!unSplitLine ? <div className="yc-split-line" /> : null}
 						</div>
 					) : ''
 				}
