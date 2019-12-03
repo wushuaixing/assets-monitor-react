@@ -82,7 +82,7 @@ class BasicTable extends React.Component {
 					value={data}
 					placeholder={placeholder}
 					onInput={event => this.onInput(event)}
-					onpropertychange={event => this.onInput(event)}
+					// onpropertychange={event => this.onInput(event)}
 					{...this.props}
 					{...getFieldProps('obligorName', {
 						// initialValue: true,
