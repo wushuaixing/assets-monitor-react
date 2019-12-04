@@ -337,7 +337,7 @@ class Login extends React.Component {
 					/>
 					<div
 						className={`yc-home-placeholder ${!searchValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
-						onClick={() => this.onPlaceholder}
+						onClick={() => this.onPlaceholder()}
 					>
 						{'请输入机构名称' || '请输入'}
 					</div>

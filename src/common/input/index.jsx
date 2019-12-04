@@ -171,7 +171,7 @@ class comInput extends React.Component {
 				<div
 					style={pStyle}
 					className={`yc-placeholder ${!displayRes ? 'yc-visibility-none' : ''}`}
-					onClick={() => this.onPlaceholder}
+					onClick={() => this.onPlaceholder()}
 				>
 					{placeholder || '请输入'}
 				</div>
