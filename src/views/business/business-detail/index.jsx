@@ -66,7 +66,6 @@ class DebtorDetail extends React.Component {
 		this.getTableData();
 	}
 
-
 	getTableData=(value) => {
 		const { hash } = window.location;
 		const userId = getQueryByName(hash, 'id');
@@ -89,7 +88,6 @@ class DebtorDetail extends React.Component {
 	};
 
 	handleCancal = () => {
-		// const { defaultData } = this.state;
 		this.getTableData();
 		this.setState({
 			edit: false,
@@ -226,7 +224,6 @@ class DebtorDetail extends React.Component {
 								</React.Fragment>
 							) : (
 								<Button onClick={() => this.handleCancal()} className="yc-btn">
-									{/* {!edit && <span className="yc-icon-export" />} */}
 										取消
 								</Button>
 							) }
@@ -266,9 +263,6 @@ class DebtorDetail extends React.Component {
 									onInput={this.isEdit}
 									{...getFieldProps('caseNumber', {
 										initialValue: detail && detail.caseNumber,
-										// rules: [
-										// 	{ required: true, whitespace: true, message: '请填写密码' },
-										// ],
 										getValueFromEvent: e => e.target.value.trim(),
 									})}
 									className="yc-from-input"
@@ -283,9 +277,6 @@ class DebtorDetail extends React.Component {
 									onInput={this.isEdit}
 									{...getFieldProps('obligorName', {
 										initialValue: detail && detail.obligorName,
-										// rules: [
-										// 	{ required: true, whitespace: true, message: '请填写密码' },
-										// ],
 										getValueFromEvent: e => e.target.value.trim(),
 									})}
 									className="yc-from-input"
@@ -297,9 +288,6 @@ class DebtorDetail extends React.Component {
 									onInput={this.isEdit}
 									{...getFieldProps('orgName', {
 										initialValue: detail && detail.orgName,
-										// rules: [
-										// 	{ required: true, whitespace: true, message: '请填写密码' },
-										// ],
 										getValueFromEvent: e => e.target.value.trim(),
 									})}
 									className="yc-from-input"
@@ -311,9 +299,6 @@ class DebtorDetail extends React.Component {
 									onInput={this.isEdit}
 									{...getFieldProps('obligorNumber', {
 										initialValue: detail && detail.obligorNumber,
-										// rules: [
-										// 	{ required: true, whitespace: true, message: '请填写密码' },
-										// ],
 										getValueFromEvent: e => e.target.value.trim(),
 									})}
 									className="yc-from-input"
@@ -325,7 +310,7 @@ class DebtorDetail extends React.Component {
 				<div className="yc-business-table">
 					<div className="yc-table-header">
 						<div className="table-header-left">
-                            业务相关人列表
+							业务相关人列表
 						</div>
 					</div>
 					{edit === false ? (

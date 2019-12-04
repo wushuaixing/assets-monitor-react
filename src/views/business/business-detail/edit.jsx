@@ -147,9 +147,6 @@ class DebtorDetail extends React.Component {
 										{...getFieldProps(`obligorName${item.id}`, {
 											id: item.id,
 											initialValue: item && item.obligorName,
-											// rules: [
-											// 	{ required: true, whitespace: true, message: '请填写密码' },
-											// ],
 											getValueFromEvent: e => e.target.value.trim(),
 										})}
 										className="yc-from-input"
@@ -162,9 +159,6 @@ class DebtorDetail extends React.Component {
 										onInput={e => this.handleInputNumber(e, item.id)}
 										{...getFieldProps(`obligorNumber${item.id}`, {
 											initialValue: item && item.obligorNumber,
-											// rules: [
-											// 	{ required: true, whitespace: true, message: '请填写密码' },
-											// ],
 											getValueFromEvent: e => e.target.value.trim(),
 										})}
 										className="yc-from-input"
@@ -179,19 +173,12 @@ class DebtorDetail extends React.Component {
 										onInput={e => this.changeValue(e, item.id)}
 										{...getFieldProps(`roleText${item.id}`, {
 											initialValue: item && item.roleText,
-											// rules: [
-											// 	{ required: true, whitespace: true, message: '请填写密码' },
-											// ],
-											// onChange: (value) => {
-											// 	this.changeValue(value, item.id);
-											// },
 											getValueFromEvent: e => e.target.value.trim(),
 										})}
 									/>
 								</td>
 								<td>
 									<Button type="ghost" onClick={() => this.delete(item.id)}>
-										{/* {!edit && <span className="yc-icon-export" />} */}
 										删除
 									</Button>
 								</td>

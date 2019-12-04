@@ -143,19 +143,17 @@ class DebtorDetail extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		getDetail(value || userId)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						data: res.data.obligorList,
-						detail: res.data.detail,
-						loading: false,
-					});
-				}
-			})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		getDetail(value || userId).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.obligorList,
+					detail: res.data.detail,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	getChangeData = (value) => {
@@ -169,22 +167,20 @@ class DebtorDetail extends React.Component {
 			page: 1,
 			...value,
 		};
-		businessChange(userId, params)
-			.then((res) => {
-				if (res && res.data) {
-					this.setState({
-						changeDataList: res.data.list,
-						totals: res.data.total,
-						current: value && value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
-						loading: false,
-					});
-				} else {
-					message.error(res.message);
-				}
-			})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		businessChange(userId, params).then((res) => {
+			if (res && res.data) {
+				this.setState({
+					changeDataList: res.data.list,
+					totals: res.data.total,
+					current: value && value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
+					loading: false,
+				});
+			} else {
+				message.error(res.message);
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	// page翻页

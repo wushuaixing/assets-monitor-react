@@ -137,13 +137,12 @@ export default class Lawsuits extends React.Component {
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					Api[toGetApi(sourceType, 'readAllStatus')]({})
-						.then((res) => {
-							if (res.code === 200) {
-								_this.onQueryChange();
-								_this.onUnReadCount();
-							}
-						});
+					Api[toGetApi(sourceType, 'readAllStatus')]({}).then((res) => {
+						if (res.code === 200) {
+							_this.onQueryChange();
+							_this.onUnReadCount();
+						}
+					});
 				},
 				onCancel() {
 				},

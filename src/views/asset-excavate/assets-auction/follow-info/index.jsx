@@ -205,30 +205,28 @@ export default class FollowInfo extends React.Component {
 		};
 		if (data.loadingChild) return false;
 		this.setState({ loadingChild: true });
-		pushSave(clearEmpty(param))
-			.then((res) => {
-				const { code } = res;
-				if (code === 200) {
-					message.success('新增推送人成功！');
-					const { pushList, dataSource } = this.state;
-					dataSource.push(res.data);
-					pushList.push(res.data.id);
-					this.setState({
-						dataSource,
-						loadingChild: false,
-						add_name: '',
-						add_content: '',
-						pushList,
-					});
-					// this.toGetPushList(true);
-				} else {
-					this.setState({ loadingChild: false });
-					message.error(res.message || '网络异常请稍后再试！');
-				}
-			})
-			.catch(() => {
+		pushSave(clearEmpty(param)).then((res) => {
+			const { code } = res;
+			if (code === 200) {
+				message.success('新增推送人成功！');
+				const { pushList, dataSource } = this.state;
+				dataSource.push(res.data);
+				pushList.push(res.data.id);
+				this.setState({
+					dataSource,
+					loadingChild: false,
+					add_name: '',
+					add_content: '',
+					pushList,
+				});
+				// this.toGetPushList(true);
+			} else {
 				this.setState({ loadingChild: false });
-			});
+				message.error(res.message || '网络异常请稍后再试！');
+			}
+		}).catch(() => {
+			this.setState({ loadingChild: false });
+		});
 		return true;
 	};
 
@@ -272,43 +270,32 @@ export default class FollowInfo extends React.Component {
 			}
 		}
 
-		// // 未变动校验中。。。
-		// if (Object.keys(param).length === 2 && param.monitorId && param.process && toProcess !== 15) {
-		// 	// console.log('未变动', process, toStatus({ process }), _param.process);
-		// 	if ((process === 3 || process === 6) && param.process === 6) {
-		// 		if (onClose) { onClose(); }
-		// 		return true;
-		// 	}
-		// }
-
 		// req 阶段
 		if (loading) return false;
 		this.setState({ loading: true });
 		// console.log(JSON.stringify(param));
-		processSave(param)
-			.then((res) => {
-				const { code } = res;
-				if (code === 200) {
-					message.success('添加跟进信息成功！');
-					const _rec = ((_recovery > -1 ? _recovery : 0) + Number(param.recovery || 0)) || -1;
-					// console.log(_recovery, param.recovery, _rec);
-					if (param.recovery > 0 && onRefresh) {
-						onRefresh({
-							id,
-							recovery: _rec,
-							index,
-						}, 'recovery');
-					}
-					if (onRefresh)onRefresh({ id, process: toProcess || status, index }, 'process');
-					if (onClose) { onClose(); }
-				} else {
-					this.setState({ loading: false });
-					message.error(res.message || '网络异常请稍后再试！');
+		processSave(param).then((res) => {
+			const { code } = res;
+			if (code === 200) {
+				message.success('添加跟进信息成功！');
+				const _rec = ((_recovery > -1 ? _recovery : 0) + Number(param.recovery || 0)) || -1;
+				// console.log(_recovery, param.recovery, _rec);
+				if (param.recovery > 0 && onRefresh) {
+					onRefresh({
+						id,
+						recovery: _rec,
+						index,
+					}, 'recovery');
 				}
-			})
-			.catch(() => {
+				if (onRefresh)onRefresh({ id, process: toProcess || status, index }, 'process');
+				if (onClose) { onClose(); }
+			} else {
 				this.setState({ loading: false });
-			});
+				message.error(res.message || '网络异常请稍后再试！');
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 		return true;
 	};
 
