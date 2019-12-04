@@ -162,18 +162,18 @@ class Login extends React.Component {
 			document.attachEvent('mousedown', (e) => {
 				console.log(e.target.id, e.target.id === 'select');
 				const event = e || window.event;
+				const target = event.target || event.srcElement; // 获取document 对象的引用
 				console.log(event, 12, 'ie');
-				if (event.srcElement.id === 'select') {
+				if (target.id === 'select') {
 					event.preventDefault();
 					event.stopPropagation();
 				}
 			}, false);
 		} else {
 			document.addEventListener('mousedown', (e) => {
-				// console.log(e.target.id, e.target.id === 'select');
-				// console.log(window.event.target);
 				const event = e || window.event;
-				if ((event.target || event.srcElement).id === 'select') {
+				const target = event.target || event.srcElement; // 获取document 对象的引用
+				if (target.id === 'select') {
 					event.preventDefault();
 					event.stopPropagation();
 				}
