@@ -211,19 +211,18 @@ class Login extends React.Component {
 	filterByName = (aim, name) => aim.filter(item => item.name.indexOf(name) !== -1);
 	// 输入 aim 'Leila' 期望输出为 [{name:'Leila', age: 16, gender:'female'}]
 
-	ycInputValue= (e) => {
-		const { treeList } = this.state;
-		// const { value } = e.target;
-		const event = e || window.event;
-		const inputValue = (event.srcElement).value;
-		const value = inputValue && inputValue.trim();
-
-		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
-		this.setState({
-			selectList: this.filterByName(arr, value),
-			searchValue: value,
-		});
-	};
+	ycInputValue= () => false
+		// const { treeList } = this.state;
+		// // const { value } = e.target;
+		// const event = e || window.event;
+		// const inputValue = (event.srcElement).value;
+		// const value = inputValue && inputValue.trim();
+		// const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
+		// this.setState({
+		// 	selectList: this.filterByName(arr, value),
+		// 	searchValue: value,
+		// });
+	;
 
 	btnSearch = (value) => {
 		const { dataListArray } = this.state;
@@ -278,8 +277,9 @@ class Login extends React.Component {
 				if (arr[index] && arr[index].children && arr[index].children.length > 0) {
 					this.IterationDeleteMenuChildren(arr[index].children);
 				} else {
-					const newArray = arr;
-					delete newArray[index].children;
+					// TODO 2019.12.04 16:02
+					// const newArray = arr;
+					// delete newArray[index].children;
 				}
 			});
 		}
