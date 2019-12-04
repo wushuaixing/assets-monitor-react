@@ -2,7 +2,11 @@ import axios from 'axios';
 import { message } from 'antd';
 import Cookies from 'universal-cookie';
 import { navigate } from '@reach/router';
-import BASE_URL from './api/config';
+import BASE_URL_INDEX from './api/config';
+import BASE_URL_LOCAL from './api/config/local';
+
+// eslint-disable-next-line no-undef
+const BASE_URL = ENV === 'local' ? BASE_URL_LOCAL : BASE_URL_INDEX;
 
 /* 获取当前token */
 const cookies = new Cookies();
