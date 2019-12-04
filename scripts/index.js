@@ -10,13 +10,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+const ENV_VALUE =process.env.ENV;
 module.exports = {
 	mode: ENV || 'production',
 	devtool: ENV === 'development' ? 'source-map' : undefined,
 	context: ROOT,
 	entry: `${ROOT}/src/index.jsx`,
 	output: {
-		path: `${ROOT}/docs`,
+		path: `${ROOT}/${ENV_VALUE?"dist":"docs"}`,
 		filename: 'index.[contenthash].js',
 		chunkFilename: '[name].[chunkhash].js',
 	},
@@ -147,6 +148,9 @@ module.exports = {
 		],
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			ENV:JSON.stringify(ENV_VALUE)
+		}),
 		new webpack.DllReferencePlugin({
 			context: ROOT,
 			manifest: `${ROOT}/src/base.manifest.json`,
