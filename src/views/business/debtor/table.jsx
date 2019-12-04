@@ -119,47 +119,35 @@ class BusinessView extends React.Component {
 		w.location.href = `#/business/debtor/detail?id=${row.id}`;
 	};
 
+	commonPushState = (row) => {
+		const { getData } = this.props;// 刷新列表
+		const Api = row && row.pushState === 1 ? closePush : openPush;
+		const params = {
+			id: row.id,
+		};
+		const start = new Date().getTime(); // 获取接口响应时间
+		return Api(params).then((res) => {
+			if (res.code === 200) {
+				if (!global.GLOBAL_MEIE_BROWSER) {
+					const now = new Date().getTime();
+					const latency = now - start;
+					setTimeout(res.data, latency);
+				}
+				message.success(`${row.pushState === 1 ? '关闭成功' : '开启成功'}`);
+				getData();
+			}
+		});
+	};
+
 	// 关闭, 开启推送
 	handlePut = (row) => {
-		const { getData } = this.props;// 刷新列表
+		const that = this;
 		confirm({
 			title: `确认${row.pushState === 1 ? '关闭' : '开启'}本债务人的推送功能吗?`,
 			content: `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本债务人相关的监控信息。`,
 			iconType: 'exclamation-circle-o',
 			onOk() {
-				console.log('确定', row.id);
-				const params = {
-					id: row.id,
-				};
-				const start = new Date().getTime(); // 获取接口响应时间
-				if (row.pushState === 1) {
-					return closePush(params).then((res) => {
-						if (res.code === 200) {
-							if (global.GLOBAL_MEIE_BROWSER) {
-								const now = new Date().getTime();
-								const latency = now - start;
-								setTimeout(res.data, latency);
-							}
-							message.success('关闭成功');
-							getData();
-						} else {
-							message.error('res.message');
-						}
-					});
-				}
-				return openPush(params).then((res) => {
-					if (res.code === 200) {
-						if (global.GLOBAL_MEIE_BROWSER) {
-							const now = new Date().getTime();
-							const latency = now - start;
-							setTimeout(res.data, latency);
-						}
-						message.success('开启成功');
-						getData();
-					} else {
-						message.error('res.message');
-					}
-				});
+				that.commonPushState(row);
 			},
 			onCancel() {},
 		});
