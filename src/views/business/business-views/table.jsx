@@ -173,12 +173,14 @@ class BusinessView extends React.Component {
 				const params = {
 					id: row.id,
 				};
-				// const start = new Date().getTime(); // 获取接口响应时间
+				const start = new Date().getTime(); // 获取接口响应时间
 				return postDelete(params).then((res) => {
 					if (res.code === 200) {
-						// const now = new Date().getTime();
-						// const latency = now - start;
-						// setTimeout(res.data, latency);
+						if (!global.GLOBAL_MEIE_BROWSER) {
+							const now = new Date().getTime();
+							const latency = now - start;
+							setTimeout(res.data, latency);
+						}
 						if (stateObj && selectedRowKeys && selectedRowKeys.length > 0) {
 							selectedRowKeys.forEach((i, index) => {
 								if (i === row.id) {
@@ -237,19 +239,12 @@ class BusinessView extends React.Component {
 				<Table
 					rowSelection={stateObj.openRowSelection ? rowSelection : null}
 					bordered={false}
-					// rowKey={record => record.id}
 					rowKey={record => JSON.stringify(record)}
 					columns={columns}
 					dataSource={stateObj.dataList}
 					style={{ width: '100%' }}
 					defaultExpandAllRows
 					pagination={false}
-					onRowClick={() => {
-						// if (!record.children) {
-						// 	const w = window.open('about:blank');
-						// 	w.location.href = '#/monitor';
-						// }
-					}}
 				/>
 			</React.Fragment>
 		);
