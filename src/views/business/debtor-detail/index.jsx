@@ -82,7 +82,7 @@ export default class DebtorDetail extends React.Component {
 	detail = (row) => {
 		const w = window.open('about:blank');
 		w.location.href = `#/business/detail?id=${row.businessId}`;
-	}
+	};
 
 	// 匹配操作类型
 	// eslint-disable-next-line consistent-return
@@ -133,14 +133,14 @@ export default class DebtorDetail extends React.Component {
 		this.setState({
 			errorModalVisible: true,
 		});
-	}
+	};
 
 	closeErrorModal = () => {
 		window.close();
 		this.setState({
 			errorModalVisible: false,
 		});
-	}
+	};
 
 	render() {
 		const {

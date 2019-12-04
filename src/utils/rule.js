@@ -313,7 +313,7 @@ export default {
 					},
 					{
 						id: 'YC0602',
-						name: '账户列表',
+						name: '账号列表',
 						url: '/organization/user',
 						status: toStatus(rule.menu_jjgl, 'jgglzhlb'),
 					},

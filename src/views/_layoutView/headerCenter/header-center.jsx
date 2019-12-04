@@ -62,18 +62,17 @@ export default class HeaderMessage extends React.Component {
 	// 根据单个名字筛选
 	filterByName = (aim, name) => 	aim.filter(item => item.orgName.indexOf(name) !== -1);
 
-	inputValue = e => false
-		// TODO ERROR
-		// const { value } = e.srcElement || {};
-		// console.log(value);
-		// const { treeList } = this.state;
-		// const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
-		// this.setState({
-		// 	valueList: value,
-		// 	value: value.trim(),
-		// 	selectList: this.filterByName(arr, value),
-		// });
-	;
+	ycInputValue = (e) => {
+		const newInputValue = e && e.target ? e.target.value : ''; // 获取document 对象的引用
+		console.log(newInputValue);
+		const { treeList } = this.state;
+		const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
+		this.setState({
+			valueList: newInputValue,
+			value: newInputValue.trim(),
+			selectList: this.filterByName(arr, newInputValue),
+		});
+	};
 
 	// 选择列表
 	selectFilterValue = (val) => {
@@ -151,12 +150,6 @@ export default class HeaderMessage extends React.Component {
 				return <TreeNode key={item.orgId} title={item.orgName} />;
 			});
 
-		const getFieldIE = () => ({
-			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((event) => {
-				this.inputValue(event);
-			}),
-		});
-
 		return (
 			<div className="yc-header-center" style={treeList && treeList.length > 0 ? { height: 491 } : { height: 75 }}>
 				<div className="user-panel-item user-panel-msg clearfix">
@@ -196,9 +189,7 @@ export default class HeaderMessage extends React.Component {
 					<Input
 						className="yc-group-input"
 						addonAfter={<Icon type="search" />}
-						{...getFieldIE()}
-						// onInput={e => this.inputValue(e)}
-						// onpropertychange={e => this.inputValue(e)}
+						onInput={e => this.ycInputValue(e)}
 						placeholder="请输入机构名称"
 						size="large"
 						type="text"

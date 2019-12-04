@@ -59,7 +59,7 @@ class FINANCE extends React.Component {
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -72,7 +72,7 @@ class FINANCE extends React.Component {
 			endTimeEnd: undefined,
 		});
 		resetFields('');
-	}
+	};
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined

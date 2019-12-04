@@ -158,14 +158,19 @@ class Login extends React.Component {
 			this.getData();
 		}
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
-		window._addEventListener(document, 'mousedown', (e) => {
+		const selectId = document.getElementById('select');
+		window._addEventListener(selectId, 'mousedown', (e) => {
 			const event = e || window.event;
-			const target = event.target || event.srcElement; // 获取document 对象的引用
-			if (target.id === 'select') {
-				event.preventDefault();
-				event.stopPropagation();
+			const newTarget = event.target || event.srcElement; // 获取document 对象的引用
+			if (newTarget.id === 'select') {
+				if (event.preventDefault) {
+					event.preventDefault();
+				} else {
+					event.returnValue = false;
+				}
 			}
-		}, false);
+			return false;
+		});
 	}
 
 	componentWillUnmount() {
@@ -211,18 +216,16 @@ class Login extends React.Component {
 	filterByName = (aim, name) => aim.filter(item => item.name.indexOf(name) !== -1);
 	// 输入 aim 'Leila' 期望输出为 [{name:'Leila', age: 16, gender:'female'}]
 
-	ycInputValue= () => false
-		// const { treeList } = this.state;
-		// // const { value } = e.target;
+	ycInputValue= (e) => {
+		const { treeList } = this.state;
 		// const event = e || window.event;
-		// const inputValue = (event.srcElement).value;
-		// const value = inputValue && inputValue.trim();
-		// const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
-		// this.setState({
-		// 	selectList: this.filterByName(arr, value),
-		// 	searchValue: value,
-		// });
-	;
+		const newInputValue = e && e.target ? e.target.value : ''; // 获取document 对象的引用
+		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
+		this.setState({
+			selectList: this.filterByName(arr, newInputValue),
+			searchValue: '',
+		});
+	};
 
 	btnSearch = (value) => {
 		const { dataListArray } = this.state;
@@ -236,7 +239,6 @@ class Login extends React.Component {
 	};
 
 	inputSearchFocus = () => {
-		console.log(1);
 		const { dataListArray, selectList, searchValue } = this.state;
 		this.setState({
 			isOpen: true,
@@ -277,9 +279,8 @@ class Login extends React.Component {
 				if (arr[index] && arr[index].children && arr[index].children.length > 0) {
 					this.IterationDeleteMenuChildren(arr[index].children);
 				} else {
-					// TODO 2019.12.04 16:02
-					// const newArray = arr;
-					// delete newArray[index].children;
+					const newArray = arr.slice();
+					delete newArray[index].children;
 				}
 			});
 		}
@@ -297,13 +298,6 @@ class Login extends React.Component {
 			treeList, selectList, isOpen, searchValue,
 		} = this.state;
 
-		const getFieldIE = () => ({
-			// value: data[field],
-			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((e) => {
-				this.ycInputValue(e);
-			}),
-		});
-
 		return (
 			<Form>
 				<div className="yc-group-search">
@@ -314,9 +308,9 @@ class Login extends React.Component {
 						placeholder="请输入机构名称"
 						autoComplete="off"
 						maxLength="16"
-						type="input"
-						{...getFieldIE()}
-						// onInput={e => this.inputValue(e)}
+						// type="input"
+						onInput={e => this.ycInputValue(e)}
+						// oninput={e => this.inputValue(e)}
 						value={searchValue}
 						onFocus={e => this.inputSearchFocus(e)}
 						onKeyUp={this.onKeyup}

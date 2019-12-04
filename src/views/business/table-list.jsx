@@ -4,8 +4,9 @@ import { getQueryByName } from '@/utils';
 import { Tabs, Spin } from '@/common';
 import Table0010 from '../asset-excavate/assets-auction/table-intact';
 import Table0020 from '../asset-excavate/subrogation/table-intact';
-import Table0031 from '../asset-excavate/financial-assets/table/table-biding';
-import Table0032 from '../asset-excavate/financial-assets/table/table-publicity';
+import Table0031 from '../asset-excavate/financial-assets/table/table-reslut';
+import Table0032 from '../asset-excavate/financial-assets/table/table-biding';
+import Table0033 from '../asset-excavate/financial-assets/table/table-publicity';
 import Table0040 from '../risk-monitor/lawsuits-monitor/table-intact';
 import Table0050 from '../risk-monitor/bankruptcy/table-intact';
 import Table0060 from '../asset-excavate/public-proclamation/table-intact';
@@ -24,10 +25,11 @@ const toGetDefaultConfig = (c) => {
 			id: 2,
 			name: '代位权',
 			field: 'subrogation',
-			status: Boolean(c.subrogationCourtSessionCount || c.subrogationFilingCount) && false,
+			status: Boolean(c.subrogationCourtSessionCount || c.subrogationFilingCount || c.subrogationJudgmentCourt) && false,
 			child: [
 				{ id: 21, name: '立案信息', status: Boolean(c.subrogationFilingCount) },
 				{ id: 22, name: '开庭公告', status: Boolean(c.subrogationCourtSessionCount) },
+				{ id: 23, name: '裁判文书', status: Boolean(c.subrogationJudgmentCourt) },
 			],
 		},
 		{
@@ -36,8 +38,9 @@ const toGetDefaultConfig = (c) => {
 			field: 'assets',
 			status: Boolean(c.financeCount || c.auctionBiddingCount),
 			child: [
-				{ id: 31, name: '竞价项目', status: Boolean(c.auctionBiddingCount) },
-				{ id: 32, name: '公示项目', status: Boolean(c.financeCount) },
+				{ id: 31, name: '股权质押', status: Boolean(c.auctionBiddingCount) },
+				{ id: 32, name: '竞价项目', status: Boolean(c.auctionBiddingCount) },
+				{ id: 33, name: '公示项目', status: Boolean(c.financeCount) },
 			],
 		},
 		{
@@ -48,6 +51,7 @@ const toGetDefaultConfig = (c) => {
 			child: [
 				{ id: 41, name: '立案信息', status: Boolean(c.trialFilingCount) },
 				{ id: 42, name: '开庭公告', status: Boolean(c.trialCourtSessionCount) },
+				{ id: 43, name: '裁判文书', status: Boolean(c.trialJudgmentCount) },
 			],
 		},
 		{
@@ -92,27 +96,48 @@ const ItemTable = (props) => {
 	if (field === 'subrogation') {
 		const _subrogation = subrogation || source[0].id;
 		if (_subrogation) {
-			return _subrogation === 21
-				? <Table0020 normal noSort sourceType={1} reqUrl={API[model].trialListD} id={id} />
-				: <Table0020 normal noSort sourceType={2} reqUrl={API[model].courtSessionListD} id={id} />;
+			switch (_subrogation) {
+			case 21:
+				return <Table0020 normal noSort sourceType={1} reqUrl={API[model].trialListD} id={id} />;
+			case 22:
+				return <Table0020 normal noSort sourceType={2} reqUrl={API[model].courtSessionListD} id={id} />;
+			case 23:
+				return <Table0020 normal noSort sourceType={3} reqUrl={API[model].judgmentD} id={id} />;
+			default:
+				return null;
+			}
 		}
 		return null;
 	}
 	if (field === 'assets') {
 		const _assets = assets || source[0].id;
 		if (_assets) {
-			return _assets === 31
-				? <Table0031 normal noSort reqUrl={API[model].auctionBiddingList} id={id} />
-				: <Table0032 normal noSort reqUrl={API[model].financeList} id={id} />;
+			switch (_assets) {
+			case 31:
+				return <Table0031 normal noSort reqUrl={API[model].auctionBiddingList} id={id} />;
+			case 32:
+				return <Table0032 normal noSort reqUrl={API[model].auctionBiddingList} id={id} />;
+			case 33:
+				return <Table0033 normal noSort reqUrl={API[model].financeList} id={id} />;
+			default:
+				return null;
+			}
 		}
 		return null;
 	}
 	if (field === 'monitor') {
 		const _monitor = monitor || source[0].id;
 		if (_monitor) {
-			return _monitor === 41
-				? <Table0040 normal noSort sourceType={1} reqUrl={API[model].trialListS} id={id} />
-				: <Table0040 normal noSort sourceType={2} reqUrl={API[model].courtSessionListS} id={id} />;
+			switch (_monitor) {
+			case 41:
+				return <Table0040 normal noSort sourceType={1} reqUrl={API[model].trialListS} id={id} />;
+			case 42:
+				return <Table0040 normal noSort sourceType={2} reqUrl={API[model].courtSessionListS} id={id} />;
+			case 43:
+				return <Table0040 normal noSort sourceType={3} reqUrl={API[model].courtSessionListS} id={id} />;
+			default:
+				return null;
+			}
 		}
 		return null;
 	}
