@@ -158,32 +158,19 @@ class Login extends React.Component {
 			this.getData();
 		}
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
-		if (global.GLOBAL_MEIE_BROWSER) {
-			window._addEventListener(document, 'mousedown', (e) => {
-				console.log(e.target.id, e.target.id === 'select');
-				const event = e || window.event;
-				const target = event.target || event.srcElement; // 获取document 对象的引用
-				console.log(event, 12, 'ie');
-				if (target.id === 'select') {
-					event.preventDefault();
-					event.stopPropagation();
-				}
-			}, false);
-		} else {
-			window._addEventListener(document, 'mousedown', (e) => {
-				const event = e || window.event;
-				const target = event.target || event.srcElement; // 获取document 对象的引用
-				if (target.id === 'select') {
-					event.preventDefault();
-					event.stopPropagation();
-				}
-			}, false);
-		}
+		window._addEventListener(document, 'mousedown', (e) => {
+			const event = e || window.event;
+			const target = event.target || event.srcElement; // 获取document 对象的引用
+			if (target.id === 'select') {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		}, false);
 	}
 
 	componentWillUnmount() {
 		// 卸载
-		window._removeEventListener(document,'mousedown', (e) => {
+		window._removeEventListener(document, 'mousedown', (e) => {
 			// console.log(e.target.id, e.target.id === 'select');
 			if ((e.target || {}).id === 'select') {
 				e.preventDefault();
