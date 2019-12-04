@@ -157,7 +157,6 @@ class Login extends React.Component {
 		if (hash !== '#/login') {
 			this.getData();
 		}
-		console.log(global.GLOBAL_MEIE_BROWSER);
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
 		if (global.GLOBAL_MEIE_BROWSER) {
 			document.attachEvent('mousedown', (e) => {
@@ -338,7 +337,7 @@ class Login extends React.Component {
 					/>
 					<div
 						className={`yc-home-placeholder ${!searchValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
-						onClick={this.onPlaceholder}
+						onClick={() => this.onPlaceholder}
 					>
 						{'请输入机构名称' || '请输入'}
 					</div>
