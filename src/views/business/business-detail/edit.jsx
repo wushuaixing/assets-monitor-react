@@ -23,14 +23,17 @@ class DebtorDetail extends React.Component {
 
 	// 相关人名称
 	handleInputName = (e, id) => {
+		const event = e || window.event;
+		const target = event.target || event.srcElement; // 获取document 对象的引用
 		const { dataList } = this.state;
 		const that = this;
 		const { isEdit } = this.props;
 		isEdit();
+		// console.log(target.value.trim(), 3333333);
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorName = e.target.value.trim();
+					dataList[index].obligorName = target.value.trim();
 				}
 			});
 			that.setState({
@@ -41,7 +44,8 @@ class DebtorDetail extends React.Component {
 
 	// 身份证号/统一社会信用代码
 	handleInputNumber = (e, id) => {
-		console.log(e);
+		const event = e || window.event;
+		const target = event.target || event.srcElement; // 获取document 对象的引用
 		const { dataList } = this.state;
 		const { isEdit } = this.props;
 		isEdit();
@@ -49,7 +53,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorNumber = e.target.value.trim();
+					dataList[index].obligorNumber = target.value.trim();
 				}
 			});
 			that.setState({
@@ -60,8 +64,9 @@ class DebtorDetail extends React.Component {
 
 	// 角色
 	changeValue = (e, id) => {
-		const { value } = e.target;
-
+		// const { value } = e.target;
+		const event = e || window.event;
+		const target = event.target || event.srcElement; // 获取document 对象的引用
 		const { dataList } = this.state;
 		const that = this;
 		const { isEdit } = this.props;
@@ -69,7 +74,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].roleText = value;
+					dataList[index].roleText = target.value;
 				}
 			});
 			that.setState({
@@ -143,10 +148,13 @@ class DebtorDetail extends React.Component {
 									<Input
 										size="large"
 										placeholder="请输入相关人名称"
-										onInput={e => this.handleInputName(e, item.id)}
+										// onchange={e => this.handleInputName(e, item.id)}
 										{...getFieldProps(`obligorName${item.id}`, {
 											id: item.id,
 											initialValue: item && item.obligorName,
+											onChange: (e) => {
+												this.handleInputName(e, item.id);
+											},
 											getValueFromEvent: e => e.target.value.trim(),
 										})}
 										className="yc-from-input"
@@ -156,9 +164,11 @@ class DebtorDetail extends React.Component {
 									<Input
 										size="large"
 										placeholder="请输入身份证号/统一社会信用代码"
-										onInput={e => this.handleInputNumber(e, item.id)}
 										{...getFieldProps(`obligorNumber${item.id}`, {
 											initialValue: item && item.obligorNumber,
+											onChange: (e) => {
+												this.handleInputNumber(e, item.id);
+											},
 											getValueFromEvent: e => e.target.value.trim(),
 										})}
 										className="yc-from-input"
@@ -170,9 +180,11 @@ class DebtorDetail extends React.Component {
 										placeholder="请选择人员"
 										size="large"
 										maxLength={30}
-										onInput={e => this.changeValue(e, item.id)}
 										{...getFieldProps(`roleText${item.id}`, {
 											initialValue: item && item.roleText,
+											onChange: (e) => {
+												this.changeValue(e, item.id);
+											},
 											getValueFromEvent: e => e.target.value.trim(),
 										})}
 									/>
