@@ -159,7 +159,7 @@ class Login extends React.Component {
 		}
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
 		if (global.GLOBAL_MEIE_BROWSER) {
-			document.attachEvent('mousedown', (e) => {
+			window._addEventListener('mousedown', (e) => {
 				console.log(e.target.id, e.target.id === 'select');
 				const event = e || window.event;
 				const target = event.target || event.srcElement; // 获取document 对象的引用
@@ -170,7 +170,7 @@ class Login extends React.Component {
 				}
 			}, false);
 		} else {
-			document.addEventListener('mousedown', (e) => {
+			window._addEventListener('mousedown', (e) => {
 				const event = e || window.event;
 				const target = event.target || event.srcElement; // 获取document 对象的引用
 				if (target.id === 'select') {
