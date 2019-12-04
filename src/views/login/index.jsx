@@ -59,7 +59,7 @@ class Login extends React.Component {
 		this.setState({
 			phoneNum: num,
 		});
-	}
+	};
 
 	render() {
 		const {

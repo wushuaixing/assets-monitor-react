@@ -44,21 +44,19 @@ export default class HeaderMessage extends React.Component {
 	// 退出登录
 	handleClick = () => {
 		navigate('/login');
-		loginOut()
-			.then((res) => {
-				if (res.code === 200) {
-					message.success('退出成功');
-					// 清空token
-					cookie.remove('token');
-					navigate('/login');
-					// window.location.reload(); // 退出登录刷新页面
-				} else {
-					message.error(res.message);
-				}
-			})
-			.catch(() => {
-				message.error('服务器出错');
-			});
+		loginOut().then((res) => {
+			if (res.code === 200) {
+				message.success('退出成功');
+				// 清空token
+				cookie.remove('token');
+				navigate('/login');
+				window.location.reload(); // 退出登录刷新页面
+			} else {
+				message.error(res.message);
+			}
+		}).catch(() => {
+			message.error('服务器出错');
+		});
 	};
 
 	// 根据单个名字筛选
