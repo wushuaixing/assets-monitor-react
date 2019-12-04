@@ -43,7 +43,7 @@ export default class HeaderMessage extends React.Component {
 
 	// 退出登录
 	handleClick = () => {
-		navigate('/login');
+		// navigate('/login');
 		loginOut().then((res) => {
 			if (res.code === 200) {
 				message.success('退出成功');
@@ -62,18 +62,18 @@ export default class HeaderMessage extends React.Component {
 	// 根据单个名字筛选
 	filterByName = (aim, name) => 	aim.filter(item => item.orgName.indexOf(name) !== -1);
 
-	ycInputValue = (e) => {
-		const event = e || window.event;
-		const value = event.srcElement ? event.srcElement.value : {};
-		console.log(value);
-		const { treeList } = this.state;
-		const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
-		this.setState({
-			valueList: value,
-			value: value.trim(),
-			selectList: this.filterByName(arr, value),
-		});
-	};
+	inputValue = e => false
+		// TODO ERROR
+		// const { value } = e.srcElement || {};
+		// console.log(value);
+		// const { treeList } = this.state;
+		// const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
+		// this.setState({
+		// 	valueList: value,
+		// 	value: value.trim(),
+		// 	selectList: this.filterByName(arr, value),
+		// });
+	;
 
 	// 选择列表
 	selectFilterValue = (val) => {
@@ -152,9 +152,8 @@ export default class HeaderMessage extends React.Component {
 			});
 
 		const getFieldIE = () => ({
-			// value: data[field],
-			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((e) => {
-				this.ycInputValue(e);
+			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((event) => {
+				this.inputValue(event);
 			}),
 		});
 
