@@ -158,32 +158,19 @@ class Login extends React.Component {
 			this.getData();
 		}
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
-		// if (global.GLOBAL_MEIE_BROWSER) {
-		// 	document.attachEvent('mousedown', (e) => {
-		// 		// console.log(e.target.id, e.target.id === 'select');
-		// 		const event = e || window.event;
-		// 		console.log(event, 12, 'ie');
-		// 		if (event.srcElement.id === 'select') {
-		// 			event.preventDefault();
-		// 			event.stopPropagation();
-		// 		}
-		// 	}, false);
-		// } else {
-		// 	document.addEventListener('mousedown', (e) => {
-		// 		// console.log(e.target.id, e.target.id === 'select');
-		// 		// console.log(window.event.target);
-		// 		const event = e || window.event;
-		// 		if ((event.target || event.srcElement).id === 'select') {
-		// 			event.preventDefault();
-		// 			event.stopPropagation();
-		// 		}
-		// 	}, false);
-		// }
+		window._addEventListener(document, 'mousedown', (e) => {
+			const event = e || window.event;
+			const target = event.target || event.srcElement; // 获取document 对象的引用
+			if (target.id === 'select') {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		}, false);
 	}
 
 	componentWillUnmount() {
 		// 卸载
-		document.removeEventListener('mousedown', (e) => {
+		window._removeEventListener(document, 'mousedown', (e) => {
 			// console.log(e.target.id, e.target.id === 'select');
 			if ((e.target || {}).id === 'select') {
 				e.preventDefault();
@@ -224,7 +211,7 @@ class Login extends React.Component {
 	filterByName = (aim, name) => aim.filter(item => item.name.indexOf(name) !== -1);
 	// 输入 aim 'Leila' 期望输出为 [{name:'Leila', age: 16, gender:'female'}]
 
-	inputValue= (e) => {
+	ycInputValue= (e) => {
 		const { treeList } = this.state;
 		// const { value } = e.target;
 		const event = e || window.event;
@@ -312,9 +299,9 @@ class Login extends React.Component {
 
 		const getFieldIE = () => ({
 			// value: data[field],
-			// [global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((e) => {
-			// 	this.inputValue(e);
-			// }),
+			[global.GLOBAL_MEIE_BROWSER ? 'onpropertychange' : 'oninput']: ((e) => {
+				this.ycInputValue(e);
+			}),
 		});
 
 		return (
@@ -337,20 +324,20 @@ class Login extends React.Component {
 					/>
 					<div
 						className={`yc-home-placeholder ${!searchValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
-						onClick={() => this.onPlaceholder()}
+						onClick={this.onPlaceholder}
 					>
 						{'请输入机构名称' || '请输入'}
 					</div>
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (
-						<ul id="select" className="yc-input-list">
-							{selectList.map(val => (
-								<li className="yc-input-list-item" onClick={() => this.selectFilterValue(val)}>
-									{ val ? val.name : null}
-								</li>
-							))}
-						</ul>
+							<ul id="select" className="yc-input-list">
+								{selectList.map(val => (
+									<li className="yc-input-list-item" onClick={() => this.selectFilterValue(val)}>
+										{ val ? val.name : null}
+									</li>
+								))}
+							</ul>
 						)
 					}
 				</div>
@@ -389,7 +376,7 @@ class Login extends React.Component {
 						<span>暂无数据</span>
 					</div>
 				)
-			}
+				}
 			</Form>
 		);
 	}

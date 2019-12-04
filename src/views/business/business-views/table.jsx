@@ -173,13 +173,14 @@ class BusinessView extends React.Component {
 				const params = {
 					id: row.id,
 				};
-
-				// const start = new Date().getTime(); // 获取接口响应时间
+				const start = new Date().getTime(); // 获取接口响应时间
 				return postDelete(params).then((res) => {
 					if (res.code === 200) {
-						// const now = new Date().getTime();
-						// const latency = now - start;
-						// setTimeout(res.data, latency);
+						if (!global.GLOBAL_MEIE_BROWSER) {
+							const now = new Date().getTime();
+							const latency = now - start;
+							setTimeout(res.data, latency);
+						}
 						if (stateObj && selectedRowKeys && selectedRowKeys.length > 0) {
 							selectedRowKeys.forEach((i, index) => {
 								if (i === row.id) {
@@ -196,42 +197,35 @@ class BusinessView extends React.Component {
 		});
 	};
 
+	commonPushState = (row) => {
+		const { getData } = this.props;// 刷新列表
+		const Api = row && row.pushState === 1 ? closePush : openPush;
+		const params = {
+			id: row.id,
+		};
+		const start = new Date().getTime(); // 获取接口响应时间
+		return Api(params).then((res) => {
+			if (res.code === 200) {
+				if (!global.GLOBAL_MEIE_BROWSER) {
+					const now = new Date().getTime();
+					const latency = now - start;
+					setTimeout(res.data, latency);
+				}
+				message.success(`${row.pushState === 1 ? '关闭成功' : '开启成功'}`);
+				getData();
+			}
+		});
+	};
+
 	// 关闭, 开启推送
 	handlePut = (row) => {
-		const { getData } = this.props;// 刷新列表
+		const that = this;
 		confirm({
 			title: `确认${row.pushState === 1 ? '关闭' : '开启'}本条业务的推送功能吗?`,
 			content: `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本条业务相关的监控信息。`,
 			iconType: 'exclamation-circle-o',
 			onOk() {
-				const params = {
-					id: row.id,
-				};
-				const start = new Date().getTime(); // 获取接口响应时间
-				if (row.pushState === 1) {
-					return closePush(params).then((res) => {
-						if (res.code === 200) {
-							if (global.GLOBAL_MEIE_BROWSER) {
-								const now = new Date().getTime();
-								const latency = now - start;
-								setTimeout(res.data, latency);
-							}
-							message.success('关闭成功');
-							getData();
-						}
-					});
-				}
-				return openPush(params).then((res) => {
-					if (res.code === 200) {
-						if (global.GLOBAL_MEIE_BROWSER) {
-							const now = new Date().getTime();
-							const latency = now - start;
-							setTimeout(res.data, latency);
-						}
-						message.success('开启成功');
-						getData();
-					}
-				});
+				that.commonPushState(row);
 			},
 			onCancel() {},
 		});
@@ -245,19 +239,12 @@ class BusinessView extends React.Component {
 				<Table
 					rowSelection={stateObj.openRowSelection ? rowSelection : null}
 					bordered={false}
-					// rowKey={record => record.id}
 					rowKey={record => JSON.stringify(record)}
 					columns={columns}
 					dataSource={stateObj.dataList}
 					style={{ width: '100%' }}
 					defaultExpandAllRows
 					pagination={false}
-					onRowClick={() => {
-						// if (!record.children) {
-						// 	const w = window.open('about:blank');
-						// 	w.location.href = '#/monitor';
-						// }
-					}}
 				/>
 			</React.Fragment>
 		);

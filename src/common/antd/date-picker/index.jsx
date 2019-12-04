@@ -25,7 +25,7 @@ export default class NewDatePicker extends React.Component {
 				<div
 					className={`yc-public-placeholder ${!value ? 'yc-visibility-none' : ''}`}
 					style={{ paddingLeft: 7 }}
-					onClick={this.onPlaceholder}
+					onClick={ this.onPlaceholder}
 				>
 					{placeholder || '请输入'}
 				</div>

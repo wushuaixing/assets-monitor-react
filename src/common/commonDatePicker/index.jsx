@@ -33,7 +33,7 @@ class commonDatePicker extends React.Component {
 		return (
 			<div
 				className="yc-datePicker-container"
-				onClick={() => this.onPlaceholder()}
+				onClick={ this.onPlaceholder}
 			>
 				<DatePicker
 					{...propsObj}

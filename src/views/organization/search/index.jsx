@@ -94,7 +94,7 @@ class BasicTable extends React.Component {
 				/>
 				<div
 					className={`yc-search-placeholder ${!data && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
-					onClick={() => this.onPlaceholder()}
+					onClick={ this.onPlaceholder}
 				>
 					{placeholder || '请输入'}
 				</div>

@@ -55,29 +55,27 @@ export default class TableIntact extends React.Component {
 		this.setState({ loading: true });
 		const { reqUrl } = this.props;
 		const toApi = reqUrl || postFollowList;
-		toApi(clearEmpty(this.condition))
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						dataSource: res.data.list,
-						current: res.data.page,
-						total: res.data.total,
-						loading: false,
-					});
-				} else {
-					this.setState({
-						dataSource: '',
-						current: 1,
-						total: 0,
-						loading: false,
-					});
-				}
-			})
-			.catch(() => {
+		toApi(clearEmpty(this.condition)).then((res) => {
+			if (res.code === 200) {
 				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
 					loading: false,
 				});
+			} else {
+				this.setState({
+					dataSource: '',
+					current: 1,
+					total: 0,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({
+				loading: false,
 			});
+		});
 	};
 
 	render() {

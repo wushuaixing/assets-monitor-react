@@ -21,7 +21,6 @@ import ModalTable from './modalTable';
 import './style.scss';
 
 const cookies = new Cookies();
-
 const { confirm } = Modal;
 const createForm = Form.create;
 
@@ -101,7 +100,6 @@ class BusinessView extends React.Component {
 	// 附件上传处理
 	uploadAttachmentParam = () => {
 		const that = this;
-		// const Authorization = 'eyJuYW1lIjoi5rWL6K-VIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiIxMjMiLCJleHAiOjE1NTg1NzQ4NDl9.TUn3QyocFGMMBV7Z4X0TXDxkFnkf5t83rNh-qISmLeoMlMIWLsvmykmk8cb8U89zyp0CCZGZVmoa9gIgzu32qw';
 		return {
 			name: 'file',
 			action: `${BASE_URL}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
@@ -543,10 +541,6 @@ class BusinessView extends React.Component {
 						</Button>
 
 						{!openRowSelection && (
-						// <Button onClick={this.handleExportExcel} className="yc-business-btn" style={{ float: 'right' }}>
-						// 	<span className="yc-icon-export" />
-						// 		一键导出
-						// </Button>
 							<div className="yc-public-floatRight">
 								<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
 							</div>
@@ -609,7 +603,15 @@ class BusinessView extends React.Component {
 								</Button>
 							</Upload>
 							{
-								uploadErrorData.errorType === '文件格式错误' ? <Button onClick={() => this.handleCancel('down')} className="yc-confirm-footer-btn" type="primary"><a href="../../../static/template.xlsx" style={{ color: '#fff' }}>模版下载</a></Button>
+								uploadErrorData.errorType === '文件格式错误' ? (
+									<Button
+										onClick={() => this.handleCancel('down')}
+										className="yc-confirm-footer-btn"
+										type="primary"
+									>
+										<a href="../../../static/template.xlsx" style={{ color: '#fff' }}>模版下载</a>
+									</Button>
+								)
 									: <Button onClick={this.handleCancel} className="yc-confirm-footer-btn" type="primary">知道了</Button>
 								}
 

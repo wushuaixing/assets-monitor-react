@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-	Tooltip, Form,
-} from 'antd';
-
-
+import { Tooltip } from 'antd';
 import { Table } from '@/common';
-
 
 class BusinessView extends React.Component {
 	constructor(props) {
@@ -94,4 +89,4 @@ class BusinessView extends React.Component {
 		);
 	}
 }
-export default Form.create()(BusinessView);
+export default BusinessView;

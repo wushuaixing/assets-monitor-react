@@ -1,12 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import {
-	Breadcrumb,
-	Button,
-	Input,
-	Form,
-	message,
-	Pagination,
+	Breadcrumb, Button, Input,	Form, message, Pagination,
 } from 'antd';
 import {
 	getDetail, // 详情
@@ -40,9 +35,6 @@ class DebtorDetail extends React.Component {
 					if (_reason.role_text) {
 						JSONArray.push(`角色: ${_reason.role_text}`);
 					}
-					// if (_reason.obligor_id) {
-					// 	JSONArray.push(_reason.obligor_id);
-					// }
 					if (JSONArray && JSONArray.length > 0) {
 						return JSONArray.map(item => <p>{item}</p>);
 					}
@@ -151,19 +143,17 @@ class DebtorDetail extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		getDetail(value || userId)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						data: res.data.obligorList,
-						detail: res.data.detail,
-						loading: false,
-					});
-				}
-			})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		getDetail(value || userId).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.obligorList,
+					detail: res.data.detail,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	getChangeData = (value) => {
@@ -177,22 +167,20 @@ class DebtorDetail extends React.Component {
 			page: 1,
 			...value,
 		};
-		businessChange(userId, params)
-			.then((res) => {
-				if (res && res.data) {
-					this.setState({
-						changeDataList: res.data.list,
-						totals: res.data.total,
-						current: value && value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
-						loading: false,
-					});
-				} else {
-					message.error(res.message);
-				}
-			})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		businessChange(userId, params).then((res) => {
+			if (res && res.data) {
+				this.setState({
+					changeDataList: res.data.list,
+					totals: res.data.total,
+					current: value && value.current ? value.current : 1, // 翻页传选中页数，其他重置为1
+					loading: false,
+				});
+			} else {
+				message.error(res.message);
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	// page翻页
@@ -206,14 +194,6 @@ class DebtorDetail extends React.Component {
 		};
 
 		this.getChangeData(params);
-	};
-
-	handleCancal = () => {
-	// const { defaultData } = this.state;
-		this.getTableData();
-		this.setState({
-			edit: false,
-		});
 	};
 
 	// back
@@ -232,15 +212,7 @@ class DebtorDetail extends React.Component {
 	// 变更记录
 	render() {
 		const {
-			edit,
-			detail,
-			loading,
-			columns,
-			data,
-			changeColumns,
-			changeDataList,
-			totals,
-			current,
+			edit, detail,	loading,	columns, data, changeColumns, changeDataList, totals, current,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -411,8 +383,6 @@ class DebtorDetail extends React.Component {
 								showQuickJumper
 								showTotal={total => `共 ${total} 条记录`}
 								onChange={(val) => {
-									console.log(val);
-
 									this.handleChangePage(val);
 								}}
 							/>
