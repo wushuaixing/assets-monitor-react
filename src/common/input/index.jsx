@@ -164,7 +164,7 @@ class comInput extends React.Component {
 					title ? (
 						<div className="yc-input-group-left" style={titleWidth ? { width: titleWidth } : ''}>
 							<span style={titleWidth ? { width: titleWidth - 2 } : ''}>{title}</span>
-							{!unSplitLine ? <div className="yc-split-line" /> : null}
+							{!unSplitLine ? <div className="yc-split-line" style={{ height: 20, marginTop: 6 }} /> : null}
 						</div>
 					) : ''
 				}
@@ -194,7 +194,7 @@ class comInput extends React.Component {
 				{
 					suffix ? (
 						<div className="yc-input-group-right">
-							<div className="yc-split-line" />
+							<div className="yc-split-line" style={{ height: 20, marginTop: 6 }} />
 							<span>{suffix}</span>
 						</div>
 					) : ''
