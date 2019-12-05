@@ -4,11 +4,13 @@ var minify = require('html-minifier').minify;
 var UglifyJS = require("uglify-js");
 var methods = require("./dev");
 
-
-const backgroundImg = fs.readFileSync('./template/img/watermark.png',);
 // 转换为 data:image/jpeg;base64,***** 格式的字符串
 
+const backgroundImg = fs.readFileSync('./template/img/watermark.png',);
 const backgroundImgData = 'data:image/png;base64,' + new Buffer.alloc(65 * 1024, backgroundImg).toString('base64');
+
+var iconImg  = fs.readFileSync('./template/img/icon_shixin.png',);
+var iconImgData = 'data:image/png;base64,' +  new Buffer.alloc(4*1024,iconImg).toString('base64');
 
 const cssResult  = fs.readFileSync('./template/src/index.css','utf8');
 const minifyCss = new cleanCSS().minify(cssResult);
@@ -53,7 +55,7 @@ const resultCode = `"use strict";
 var htmlEnterprise = ${JSON.stringify(html_E)};
 var htmlPersonal = ${JSON.stringify(html_P)};
 var backgroundImgData = "${backgroundImgData}";
-${methods.publicFunction};
+var iconImgData = "${iconImgData}";
 
 ${methods.exportTemplate};`;
 
