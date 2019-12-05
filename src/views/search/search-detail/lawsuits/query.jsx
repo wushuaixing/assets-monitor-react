@@ -109,7 +109,11 @@ class QUERYLAWSUITS extends React.Component {
 			form, inputChange, addDefendant, deleteDefendant, addPlaintiff, deletePlaintiff, urlObj, plaintiff, defendant,
 		} = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
-
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div>
 				<div className="yc-lawsuits-items">
@@ -233,7 +237,7 @@ class QUERYLAWSUITS extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">日期选择: </span>
 						<DatePicker
-							{...getFieldProps('startLarq', {
+							{...getFieldProps('startLarq', timeOption, {
 								initialValue: urlObj.startLarq,
 								onChange: (value, dateString) => {
 									this.setState({
@@ -248,7 +252,7 @@ class QUERYLAWSUITS extends React.Component {
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('endLarq', {
+							{...getFieldProps('endLarq', timeOption, {
 								initialValue: urlObj.endLarq,
 								onChange: (value, dateString) => {
 									this.setState({

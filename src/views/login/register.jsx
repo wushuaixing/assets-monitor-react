@@ -41,6 +41,7 @@ class Login extends React.Component {
 	}
 
 	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
 		const rememberPassword = cookie.get('rememberPassword');
 		if (rememberPassword === 'true') {
 			const userName = cookie.get('userName');
@@ -49,6 +50,23 @@ class Login extends React.Component {
 			});
 		}
 	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+		this.setState = () => null;
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.handleSubmit();
+				document.activeElement.blur();
+			}
+		}
+	};
 
 	// 记住密码
 	checkboxChange = (e) => {
@@ -186,12 +204,6 @@ class Login extends React.Component {
 		});
 	};
 
-	onKeyup = (e) => {
-		if (e.keyCode === 13) {
-			this.handleSubmit();
-		}
-	};
-
 	render() {
 		const {
 			loading, userName, rememberPassword, codeImg, passwordModalVisible, errorTime,
@@ -233,7 +245,7 @@ class Login extends React.Component {
 									className="yc-login-input"
 									type="password"
 									placeholder="请输入密码"
-									onKeyUp={this.onKeyup}
+									// onKeyUp={this.onKeyup}
 									style={{ fontSize: 14 }}
 									title={(<span className="yc-form-passWord yc-form-icon" />)}
 									titleWidth={40}

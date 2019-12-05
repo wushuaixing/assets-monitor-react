@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Button, Select, Pagination, message, Modal,
+	Button, Select, Pagination, message, Modal, Form,
 } from 'antd';
 import { Table, Spin } from '@/common';
 import '../style.scss';
@@ -11,8 +11,9 @@ import {
 	deleteList, // 删除
 } from '@/utils/api/organization';
 
+
 const { confirm } = Modal;
-export default class BasicTable extends React.Component {
+class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
 		document.title = '推送设置-机构管理';
@@ -170,11 +171,6 @@ export default class BasicTable extends React.Component {
 		});
 	};
 
-
-	search=(val) => {
-		console.log('zzz', val);
-	};
-
 	// 下拉选中
 	handleChange = (searchVal) => {
 		console.log(searchVal);
@@ -234,7 +230,6 @@ export default class BasicTable extends React.Component {
 			<div className="push-manage">
 				<Search
 					placeholder="姓名/手机号/邮箱"
-					onSearch={(val) => { this.search(val); }}
 					onKeyUp={this.onKeyup}
 					getTableData={this.getTableData}
 					keyword={keyword}
@@ -282,3 +277,4 @@ export default class BasicTable extends React.Component {
 		);
 	}
 }
+export default Form.create()(BasicTable);

@@ -16,7 +16,7 @@ const source = rule => ([
 		name: '拍卖信息',
 		url: '/search/detail',
 		number: 0,
-		open: !!(rule && rule.xxsszcpm),
+		open: !!(rule && rule.xxsspmxx),
 		components: Auction,
 	},
 	{
@@ -32,7 +32,7 @@ const source = rule => ([
 		name: '文书信息',
 		url: '/search/detail/writ',
 		number: 0,
-		open: !!(rule && rule.xxss_wsss),
+		open: !!(rule && rule.xxsswsxx),
 		components: Write,
 	},
 	{
@@ -48,13 +48,14 @@ const source = rule => ([
 		name: '破产重组',
 		url: '/search/detail/bankruptcy',
 		number: 0,
-		open: !!(rule && rule.xxssjrzc),
+		open: !!(rule && rule.xxsspccz),
 		components: Bankruptcy,
 	},
 ]);
 
 const SearchBase = (props) => {
 	const { rule } = props && props;
+	console.log(rule, 111);
 	const displayArray = source(rule).filter(item => item.open === true); // 过滤权限
 
 	return (

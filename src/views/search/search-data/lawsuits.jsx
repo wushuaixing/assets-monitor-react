@@ -211,6 +211,11 @@ class LAWSUITS extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div className="yc-tabs-data" style={{ padding: '0 22px' }}>
 				<div className="yc-tabs-items">
@@ -311,7 +316,7 @@ class LAWSUITS extends React.Component {
 							placeholder="开始日期"
 							size="large"
 							style={_style1}
-							{...getFieldProps('uploadTimeStart', {
+							{...getFieldProps('uploadTimeStart', timeOption, {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
@@ -327,7 +332,7 @@ class LAWSUITS extends React.Component {
 							placeholder="结束日期"
 							size="large"
 							style={_style1}
-							{...getFieldProps('uploadTimeEnd', {
+							{...getFieldProps('uploadTimeEnd', timeOption, {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({

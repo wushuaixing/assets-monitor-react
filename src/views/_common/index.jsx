@@ -5,6 +5,18 @@ import PartyInfoDetail from './party-info';
 import PartyCrosswiseDetail from './party-crosswise';
 import './style.scss';
 
+const roleType = (value) => {
+	switch (value) {
+	case 1:
+		return '纳税人';
+	case 2:
+		return '法定代表人';
+	case 3:
+		return '财务';
+	default:
+		return '--';
+	}
+};
 // 处理 当事人数据列表，分类
 const handleParties = (data) => {
 	const source = [];
@@ -12,7 +24,7 @@ const handleParties = (data) => {
 		if (source.length === 0) {
 			source.push({
 				index: source.length,
-				role: i.role || i.identity,
+				role: i.role || roleType(i.identityType),
 				child: [i],
 			});
 		} else {
@@ -22,7 +34,7 @@ const handleParties = (data) => {
 			} else {
 				source.push({
 					index: source.length,
-					role: i.role || i.identity,
+					role: i.role || roleType(i.identityType),
 					child: [i],
 				});
 			}
@@ -78,7 +90,7 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
 			const maxWidth = toGetStrWidth(source);
 
 			return source.map(item => (
-				<PartyInfoDetail {...item} id={row.id} key={row.id} width={maxWidth} noLink noStatus={noStatus} detailWidth={detailWidth} />
+				<PartyInfoDetail {...item} id={row.id} row={row} key={row.id} width={maxWidth} noLink noStatus={noStatus} detailWidth={detailWidth} />
 			));
 		}
 	}

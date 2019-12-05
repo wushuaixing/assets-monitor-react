@@ -248,7 +248,6 @@ class FINANCE extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
-
 		return (
 			<div className="yc-content-query">
 				<div className="yc-content-header">
@@ -355,9 +354,11 @@ class FINANCE extends React.Component {
 					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={exportFinanceCurrent} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportFinanceAll} all page num text="全部导出" />
 					{dataList.length > 0 && (
-						<div style={{
-							float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
-						}}
+						<div
+							className="yc-public-floatRight"
+							style={{
+								lineHeight: '30px', color: '#929292', fontSize: '12px',
+							}}
 						>
 							{`源诚科技为您找到${totals}条信息`}
 						</div>

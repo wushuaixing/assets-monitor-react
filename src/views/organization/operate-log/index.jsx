@@ -65,7 +65,7 @@ export default class BasicTable extends React.Component {
 			const list = operateList.filter(item => item.target === type);
 			return list[0].type;
 		}
-	}
+	};
 
 	getRole = () => {
 		operateTypeList().then((res) => {
@@ -75,7 +75,7 @@ export default class BasicTable extends React.Component {
 				});
 			}
 		}).catch(() => {});
-	}
+	};
 
 	getTableData=(data) => {
 		const { hash } = window.location;
@@ -100,7 +100,7 @@ export default class BasicTable extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	// page翻页
 	handleChangePage=(val) => {
@@ -114,7 +114,7 @@ export default class BasicTable extends React.Component {
 			target,
 		};
 		this.getTableData(params);
-	}
+	};
 
 	// 下拉选中
 	handleChange = (searchVal) => {
@@ -129,7 +129,7 @@ export default class BasicTable extends React.Component {
 		this.setState({
 			target: searchVal,
 		});
-	}
+	};
 
 	render() {
 		const {
@@ -140,7 +140,7 @@ export default class BasicTable extends React.Component {
 			<div className="operate-log">
 				<div className="yc-bread-crumb">
 					<Breadcrumb>
-						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/organization/user')}>账户列表</a></Breadcrumb.Item>
+						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/organization/user')}>账号列表</a></Breadcrumb.Item>
 						<Breadcrumb.Item>
 							<span style={{ 'font-weight': 400, color: '#20242E' }}>
 								{`${getQueryByName(hash, 'name')}_历史操作记录`}
@@ -155,15 +155,6 @@ export default class BasicTable extends React.Component {
 							operateList && operateList.length > 0 && operateList.map(item => (<Option value={item.target}>{item.type}</Option>))
 						}
 					</Select>
-					{/* <Button
-						type="primary"
-						size="large"
-						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
-						// onClick={this.getTableData()}
-					>
-						搜索
-					</Button> */}
-					{/* <Button type="ghost" size="large">清空搜索条件</Button> */}
 				</div>
 				<div className="table">
 					<Spin visible={loading}>

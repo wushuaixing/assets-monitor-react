@@ -266,7 +266,11 @@ class BANKRUPTCY extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
-
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div className="yc-content-query">
 				<div className="yc-content-header">
@@ -309,7 +313,7 @@ class BANKRUPTCY extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">发布日期: </span>
 						<DatePicker
-							{...getFieldProps('publishDateStart', {
+							{...getFieldProps('publishDateStart', timeOption, {
 								initialValue: params.publishDateStart,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -325,7 +329,7 @@ class BANKRUPTCY extends React.Component {
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('publishDateEnd', {
+							{...getFieldProps('publishDateEnd', timeOption, {
 								initialValue: params.publishDateEnd,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -354,9 +358,9 @@ class BANKRUPTCY extends React.Component {
 					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={exportBankruptcyCurrent} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportBankruptcyAll} all page num text="全部导出" />
 					{dataList.length > 0 && (
-						<div style={{
-							float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
-						}}
+						<div
+							className="yc-public-floatRight"
+							style={{ lineHeight: '30px', color: '#929292', fontSize: '12px' }}
 						>
 							{`源诚科技为您找到${totals}条信息`}
 						</div>

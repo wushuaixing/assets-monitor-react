@@ -16,12 +16,16 @@ class DetailModal extends React.Component {
 		};
 	}
 
+	componentWillUnmount() {
+		// this.handleSave();
+		this.setState = () => {};
+	}
 
 	// 关闭弹窗
 	handleCancel = () => {
 		const { handleCancel } = this.props;
 		handleCancel();
-	}
+	};
 
 	getInMaxValue = (val, maxSize) => {
 		let text = this.getVal(val);
@@ -30,14 +34,14 @@ class DetailModal extends React.Component {
 			val.target.blur();
 		}
 		return text;
-	}
+	};
 
 	getVal = (val) => {
 		if (val && val.target) {
 			return val.target.value ? val.target.value : null;
 		}
 		return val || null;
-	}
+	};
 
 	handleSave = () => {
 		const {
@@ -70,40 +74,38 @@ class DetailModal extends React.Component {
 		this.setState({
 			confirmLoading: true,
 		});
-		saveList(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const searchVal = {
-						page: current,
-						...searchValue,
-					};
-					getTableData(searchVal);
-					message.success(propsData ? '修改成功' : '新增成功');
-					this.handleCancel();
-					this.setState({
-						confirmLoading: false,
-					});
-				} else {
-					this.setState({
-						confirmLoading: false,
-					});
-					message.error(res.message);
-				}
-			})
-			.catch(() => {
+		saveList(params).then((res) => {
+			if (res.code === 200) {
+				const searchVal = {
+					page: current,
+					...searchValue,
+				};
+				getTableData(searchVal);
+				message.success(propsData ? '修改成功' : '新增成功');
+				this.handleCancel();
 				this.setState({
 					confirmLoading: false,
 				});
-				message.error('error');
+			} else {
+				this.setState({
+					confirmLoading: false,
+				});
+				message.error(res.message);
+			}
+		}).catch(() => {
+			this.setState({
+				confirmLoading: false,
 			});
-	}
+			message.error('error');
+		});
+	};
 
 	change = (val, type, maxSize) => {
 		const { data } = this.state;
-		const maxValue = this.getInMaxValue(val, maxSize);
-		data[type] = maxValue;
+		data[type] = this.getInMaxValue(val, maxSize);
 		this.setState({ data });
-	}
+	};
+
 
 	render() {
 		const { confirmLoading } = this.state;
@@ -123,7 +125,7 @@ class DetailModal extends React.Component {
 				className="client-modal"
 				width={518}
 				visible
-				confirmLoading={confirmLoading}
+				confirmLoading={!global.GLOBAL_MEIE_BROWSER ? confirmLoading : false}
 				onCancel={this.handleCancel}
 				onOk={this.handleSave}
 			>

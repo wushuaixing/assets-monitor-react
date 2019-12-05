@@ -357,9 +357,11 @@ class LAWSUITS extends React.Component {
 					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport} all page num text="全部导出" />
 					{dataList.length > 0 && (
-					<div style={{
-						float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
-					}}
+					<div
+						className="yc-public-floatRight"
+						style={{
+							lineHeight: '30px', color: '#929292', fontSize: '12px',
+						}}
 					>
 						{`源诚科技为您找到${totals}条信息`}
 					</div>

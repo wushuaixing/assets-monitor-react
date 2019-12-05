@@ -16,7 +16,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
-			dataIndex: 'publishDate',
+			dataIndex: 'gmtPublish',
 			width: 113,
 			render: (text, record) => ReadStatus(text || '--', record),
 		}, {
@@ -24,12 +24,14 @@ const columns = (props) => {
 			dataIndex: 'parties',
 			width: 300,
 			render: partyInfo,
-		}, {
-			title: '统一社会信用代码',
-			dataIndex: 'unifiedSocialCreditCode',
-			width: 190,
-			render: text => text || '--',
-		}, {
+		},
+		// {
+		// 	title: '统一社会信用代码',
+		// 	dataIndex: 'unifiedSocialCreditCode',
+		// 	width: 190,
+		// 	render: text => text || '--',
+		// },
+		{
 			title: '案件性质',
 			dataIndex: 'caseNature',
 			width: 403,

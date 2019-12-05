@@ -8,13 +8,14 @@ import PushManage from './push-manage';
 import UserList from './user-list';
 import OperateLog from './operate-log';
 
-const source = [
+const source = rule => ([
 	{
 		id: 1,
 		name: '推送设置',
 		url: '/organization',
 		number: 0,
 		dot: false,
+		display: !!(rule && rule.jggltssz),
 		components: PushManage,
 	},
 	{
@@ -23,29 +24,51 @@ const source = [
 		url: '/organization/user',
 		number: 0,
 		dot: false,
+		display: !!(rule && rule.jgglzhlb),
 		components: UserList,
 	},
-];
-const BusinessBase = () => (
-	<React.Fragment>
-		<Tabs
-			onChange={res => navigate(res.url)}
-			source={source}
-		/>
-		<div className="yc-business yc-page-content">
-			<Router>
-				{
-					source.map(Item => <Item.components path={`${Item.url}/*`} />)
-				}
-			</Router>
-		</div>
-	</React.Fragment>
+]);
+class BusinessBase extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
 
-);
-const BusinessRouter = () => (
-	<Router>
-		<BusinessBase path="/*" />
-		<OperateLog path="/organization/operate/log/*" />
-	</Router>
-);
+	componentDidMount() {
+		const { rule } = this.props;
+		if (source(rule)[0].display === false) {
+			navigate('/organization/user');
+		}
+	}
+
+	render() {
+		const { rule } = this.props;
+		const displayArray = source(rule).filter(item => item.display === true); // 过滤权限
+		return (
+			<React.Fragment>
+				<Tabs
+					onChange={res => navigate(res.url)}
+					source={displayArray}
+				/>
+				<div className="yc-business yc-page-content">
+					<Router>
+						{
+							displayArray.map(Item => <Item.components path={`${Item.url}/*`} />)
+						}
+					</Router>
+				</div>
+			</React.Fragment>
+		);
+	}
+}
+
+const BusinessRouter = (props) => {
+	const { rule: { children } } = props;
+	return (
+		<Router>
+			<BusinessBase rule={children} path="/*" />
+			<OperateLog rule={children} path="/organization/operate/log/*" />
+		</Router>
+	);
+};
 export default BusinessRouter;

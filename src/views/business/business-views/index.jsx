@@ -82,6 +82,7 @@ class BusinessView extends React.Component {
 
 	componentWillUnmount() {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+		this.setState = () => null;
 	}
 
 	toKeyCode13=(e) => {
@@ -89,7 +90,6 @@ class BusinessView extends React.Component {
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
 			const { className } = document.activeElement.offsetParent;
-			console.log(className, 222);
 			if (/yc-input-wrapper/.test(className)) {
 				this.search();
 				document.activeElement.blur();

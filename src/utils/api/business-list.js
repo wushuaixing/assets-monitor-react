@@ -21,22 +21,32 @@ const obligor = {
 
 	// 代位权-开庭列表
 	courtSessionListD: (params, obligorId) => service
-		.get(`/yc/obligor/monitor/courtSessionList/${obligorId}`, { params })
+		.get(`/yc/obligor/monitor/subrogation/court-notice/${obligorId}`, { params })
 		.then(res => res.data),
 
 	// 代位权-立案列表
 	trialListD: (params, obligorId) => service
-		.get(`/yc/obligor/monitor/trialList/${obligorId}`, { params })
+		.get(`/yc/obligor/monitor/subrogation/trial/${obligorId}`, { params })
+		.then(res => res.data),
+
+	// 代位权-裁判列表
+	judgmentD: (params, businessId) => service
+		.get(`/yc/obligor/monitor/lawsuit/judgment-document/${businessId}`, { params })
 		.then(res => res.data),
 
 	// 涉诉-开庭列表
 	courtSessionListS: (params, obligorId) => service
-		.get(`/yc/obligor/monitor/courtSessionList/${obligorId}`, { params })
+		.get(`/yc/obligor/monitor/lawsuit/court-notice/${obligorId}`, { params })
 		.then(res => res.data),
 
 	// 涉诉-立案列表
 	trialListS: (params, obligorId) => service
-		.get(`/yc/obligor/monitor/trialList/${obligorId}`, { params })
+		.get(`/yc/obligor/monitor/lawsuit/trial/${obligorId}`, { params })
+		.then(res => res.data),
+
+	// 涉诉-裁判列表
+	judgmentS: (params, businessId) => service
+		.get(`/yc/obligor/monitor/lawsuit/judgment-document/${businessId}`, { params })
 		.then(res => res.data),
 
 	// 破产列表
@@ -97,6 +107,11 @@ const business = {
 	trialListD: (params, businessId) => service
 		.get(`/yc/business/monitor/trialList/${businessId}`, { params })
 		.then(res => res.data),
+
+	// 代位权-裁判列表
+	// trialListD: (params, businessId) => service
+	// 	.get(`/yc/business/monitor/trialList/${businessId}`, { params })
+	// 	.then(res => res.data),
 
 	// 涉诉-开庭列表
 	courtSessionListS: (params, businessId) => service

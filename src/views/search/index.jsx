@@ -10,7 +10,7 @@ const tabSource = rule => ([
 		id: 1,
 		name: '拍卖信息',
 		router: 'auction',
-		display: !!(rule && rule.xxsszcpm),
+		display: !!(rule && rule.xxsspmxx),
 	},
 	{
 		id: 2,
@@ -22,7 +22,7 @@ const tabSource = rule => ([
 		id: 3,
 		name: '文书信息',
 		router: 'writ',
-		display: !!(rule && rule.xxss_wsss),
+		display: !!(rule && rule.xxsswsxx),
 	},
 	{
 		id: 4,
@@ -36,13 +36,12 @@ const tabSource = rule => ([
 		id: 5,
 		name: '破产重组',
 		router: 'bankruptcy',
-		display: !!(rule && rule.xxssjrzc),
+		display: !!(rule && rule.xxsspccz),
 		types: [],
 	},
 ]);
 const HomeRouter = (props) => {
 	const { rule } = props && props;
-
 	const displayArray = tabSource(rule).filter(item => item.display === true); // 过滤权限
 	const [active, setActive] = useState(displayArray[0]);
 	useEffect(() => {
