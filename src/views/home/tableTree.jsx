@@ -185,7 +185,7 @@ class Login extends React.Component {
 				e.stopPropagation();
 			}
 		}, false);
-		this.setState = () => {};
+		this.setState = () => null;
 		// console.log(this.getData.cancel, 111);
 	}
 
