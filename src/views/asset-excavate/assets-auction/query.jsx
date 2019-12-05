@@ -102,13 +102,13 @@ class QueryCondition extends React.Component {
 					{ moreOption
 						? (
 							<span onClick={() => this.setState({ moreOption: false })}>
-								收起选项
+								<span>收起选项 </span>
 								<Icon type="up" />
 							</span>
 						)
 						: (
 							<span onClick={() => this.setState({ moreOption: true })}>
-								更多选项
+								<span>更多选项 </span>
 								<Icon type="down" />
 							</span>
 						)
@@ -143,10 +143,6 @@ class QueryCondition extends React.Component {
 												message.error('只能输入正整数！', 2);
 												// setFieldsValue({ consultPriceStart: '' });
 											}
-											// if (Number(value) > 9999999) {
-											// 	message.error('数值上限不得超过9999999', 2);
-											// 	// setFieldsValue({ consultPriceStart: '' });
-											// }
 											callback();
 										},
 									}],
