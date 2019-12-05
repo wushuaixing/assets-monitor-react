@@ -32,7 +32,7 @@ const source = rule => ([
 		name: '文书信息',
 		url: '/search/detail/writ',
 		number: 0,
-		open: !!(rule && rule.xxsswsss),
+		open: !!(rule && rule.xxsswsxx),
 		components: Write,
 	},
 	{

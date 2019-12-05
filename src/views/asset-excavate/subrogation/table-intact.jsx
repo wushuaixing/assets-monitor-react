@@ -30,7 +30,7 @@ export default class TableIntact extends React.Component {
 		if (sourceType !== nextProps.sourceType) {
 			this.condition.sortColumn = '';
 			this.condition.sortOrder = '';
-			this.codition.page = 1;
+			this.condition.page = 1;
 			this.condition.sourceType = nextProps.sourceType;
 			this.setState({
 				dataSource: '',

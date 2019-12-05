@@ -155,15 +155,6 @@ export default class BasicTable extends React.Component {
 							operateList && operateList.length > 0 && operateList.map(item => (<Option value={item.target}>{item.type}</Option>))
 						}
 					</Select>
-					{/* <Button
-						type="primary"
-						size="large"
-						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
-						// onClick={this.getTableData()}
-					>
-						搜索
-					</Button> */}
-					{/* <Button type="ghost" size="large">清空搜索条件</Button> */}
 				</div>
 				<div className="table">
 					<Spin visible={loading}>

@@ -72,6 +72,11 @@ class WRIT extends React.Component {
 	render() {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
@@ -115,7 +120,7 @@ class WRIT extends React.Component {
 						size="large"
 						style={_style2}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
-						{...getFieldProps('publishStart', {
+						{...getFieldProps('publishStart', timeOption, {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
@@ -131,7 +136,7 @@ class WRIT extends React.Component {
 						size="large"
 						style={_style2}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
-						{...getFieldProps('publishEnd', {
+						{...getFieldProps('publishEnd', timeOption, {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({

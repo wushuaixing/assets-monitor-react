@@ -273,7 +273,11 @@ class WRIT extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
-
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<ReactDocumentTitle title="文档标题">
 				<div className="yc-content-query">
@@ -333,7 +337,7 @@ class WRIT extends React.Component {
 								allowClear
 								style={_style2}
 								placeholder="开始日期"
-								{...getFieldProps('publishStart', {
+								{...getFieldProps('publishStart', timeOption, {
 									initialValue: params ? params.publishStart : '',
 									onChange: (value, dateString) => {
 										this.setState({
@@ -350,7 +354,7 @@ class WRIT extends React.Component {
 								allowClear
 								style={_style2}
 								placeholder="结束日期"
-								{...getFieldProps('publishEnd', {
+								{...getFieldProps('publishEnd', timeOption, {
 									initialValue: params ? params.publishEnd : '',
 									onChange: (value, dateString) => {
 										this.setState({
@@ -409,9 +413,11 @@ class WRIT extends React.Component {
 						{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={exportWritCurrent} current page num text="本页导出" />}
 						<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportWritAll} all page num text="全部导出" />
 						{dataList.length > 0 && (
-						<div style={{
-							float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
-						}}
+						<div
+							className="yc-public-floatRight"
+							style={{
+								lineHeight: '30px', color: '#929292', fontSize: '12px',
+							}}
 						>
 							{`源诚科技为您找到${totals}条信息`}
 						</div>

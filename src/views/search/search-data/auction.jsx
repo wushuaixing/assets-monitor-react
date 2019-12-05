@@ -81,6 +81,11 @@ class AUCTION extends React.PureComponent {
 	render() {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div className="yc-tabs-data" style={{ padding: '0 40px' }}>
 				<div className="yc-tabs-items">
@@ -153,7 +158,7 @@ class AUCTION extends React.PureComponent {
 						placeholder="开始日期"
 						size="large"
 						allowClear
-						{...getFieldProps('startTime', {
+						{...getFieldProps('startTime', timeOption, {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
@@ -169,7 +174,7 @@ class AUCTION extends React.PureComponent {
 						placeholder="结束日期"
 						size="large"
 						allowClear
-						{...getFieldProps('endTime', {
+						{...getFieldProps('endTime', timeOption, {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({

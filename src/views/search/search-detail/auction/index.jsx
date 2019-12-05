@@ -357,7 +357,11 @@ class AUCTION extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
-
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
@@ -440,7 +444,7 @@ class AUCTION extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">开拍时间: </span>
 						<DatePicker
-							{...getFieldProps('startTime', {
+							{...getFieldProps('startTime', timeOption, {
 								initialValue: params.startTime,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -456,7 +460,7 @@ class AUCTION extends React.Component {
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('endTime', {
+							{...getFieldProps('endTime', timeOption, {
 								initialValue: params.endTime,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);

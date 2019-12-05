@@ -40,15 +40,24 @@ export default class PartyInfoDetail extends React.Component {
 	/* 处理当事人名称 */
 	toHandleName=(item) => {
 		const {
-			birthday, certificateNumber, gender, name,
+			birthday, certificateNumber, gender, name, identityType,
 		} = item;
+		const { row: { unifiedSocialCreditCode } } = this.props;
 		if (certificateNumber) return `${name}（${certificateNumber}）`;
-		if (birthday || gender) {
+		const genderType = typeof gender;
+		if (birthday || genderType === 'number') {
 			const res = [];
-			if (gender && gender === 1)res.push('男');
-			else if (gender && gender === 2)res.push('女');
+			if (gender && gender === 1) res.push('男');
+			else if (gender && gender === 2) res.push('女');
 			if (birthday)res.push(timeStandard(birthday));
-			return `${name}（${res.join(' ')}）`;
+			return `${name} （${res.join('')})`;
+		}
+		if (identityType) {
+			const res = [];
+			if (identityType === 1) res.push(`${unifiedSocialCreditCode.length > 0 ? unifiedSocialCreditCode : item.idNumber}`);
+			if (identityType === 2 || identityType === 3) res.push(item.idNumber);
+			const newRes = res.filter(s => s && s.trim()); // 注：IE9(不包含IE9)以下的版本没有trim()方法
+			return `${name} ${newRes.length > 0 ? `（${newRes.join('')}）` : ''}`;
 		}
 		return name;
 	};

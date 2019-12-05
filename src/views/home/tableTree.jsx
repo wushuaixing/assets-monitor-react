@@ -159,14 +159,17 @@ class Login extends React.Component {
 		}
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
 		const selectId = document.getElementById('select');
+
 		window._addEventListener(selectId, 'mousedown', (e) => {
 			const event = e || window.event;
 			const newTarget = event.target || event.srcElement; // 获取document 对象的引用
-			if (newTarget.id === 'select') {
+
+			if (newTarget && newTarget.id === 'select') {
 				if (event.preventDefault) {
 					event.preventDefault();
 				} else {
 					event.returnValue = false;
+					return false;
 				}
 			}
 			return false;
@@ -182,6 +185,8 @@ class Login extends React.Component {
 				e.stopPropagation();
 			}
 		}, false);
+		this.setState = () => {};
+		// console.log(this.getData.cancel, 111);
 	}
 
 	// 获取消息列表
@@ -205,11 +210,13 @@ class Login extends React.Component {
 
 	// 选择列表
 	selectFilterValue = (val) => {
+		const selectValue = document.getElementById('inputFocus');
 		this.setState({
 			treeList: [val],
 			isOpen: false,
 			searchValue: val.name,
 		});
+		selectValue.value = val.name;
 	};
 
 	// 根据单个名字筛选
@@ -221,10 +228,17 @@ class Login extends React.Component {
 		// const event = e || window.event;
 		const newInputValue = e && e.target ? e.target.value : ''; // 获取document 对象的引用
 		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
-		this.setState({
-			selectList: this.filterByName(arr, newInputValue),
-			searchValue: '',
-		});
+		if (global.GLOBAL_MEIE_BROWSER) {
+			this.setState({
+				selectList: this.filterByName(arr, newInputValue),
+				// searchValue: !global.GLOBAL_MEIE_BROWSER && newInputValue,
+			});
+		} else {
+			this.setState({
+				selectList: this.filterByName(arr, newInputValue),
+				searchValue: newInputValue,
+			});
+		}
 	};
 
 	btnSearch = (value) => {
@@ -256,7 +270,8 @@ class Login extends React.Component {
 
 	clearInputValue = () => {
 		const { dataListArray } = this.state;
-
+		const clear = document.getElementById('inputFocus');
+		clear.value = '';
 		this.setState({
 			treeList: dataListArray,
 			isOpen: false,
@@ -311,7 +326,7 @@ class Login extends React.Component {
 						// type="input"
 						onInput={e => this.ycInputValue(e)}
 						// oninput={e => this.inputValue(e)}
-						value={searchValue}
+						// value={searchValue}
 						onFocus={e => this.inputSearchFocus(e)}
 						onKeyUp={this.onKeyup}
 						onBlur={e => this.inputSearchBlur(e)}
@@ -325,7 +340,7 @@ class Login extends React.Component {
 					{searchValue && searchValue.length > 0 && <Icon className="yc-group-icon" onClick={this.clearInputValue} type="cross-circle" />}
 					{
 						isOpen && selectList && selectList.length > 0 && (
-							<ul id="select" className="yc-input-list">
+							<ul id="select" className="yc-input-list" style={global.GLOBAL_MEIE_BROWSER ? {} : { maxHeight: 300, overflow: 'auto' }}>
 								{selectList.map(val => (
 									<li className="yc-input-list-item" onClick={() => this.selectFilterValue(val)}>
 										{ val ? val.name : null}

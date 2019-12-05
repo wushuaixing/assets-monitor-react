@@ -40,7 +40,6 @@ class BasicTable extends React.Component {
 		} = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
-		// console.log(fields.obligorName.trim());
 
 		const params = {
 			keyword: fields.obligorName && fields.obligorName.trim(),
@@ -81,20 +80,18 @@ class BasicTable extends React.Component {
 					id="inputFocus"
 					value={data}
 					placeholder={placeholder}
-					onInput={event => this.onInput(event)}
-					// onpropertychange={event => this.onInput(event)}
 					{...this.props}
 					{...getFieldProps('obligorName', {
-						// initialValue: true,
-						// rules: [
-						// 	{ required: true, whitespace: true, message: '请填写密码' },
-						// ],
+						onChange: (event) => {
+							// console.log(value);
+							this.onInput(event);
+						},
 						getValueFromEvent: e => e.target.value.trim(),
 					})}
 				/>
 				<div
 					className={`yc-search-placeholder ${!data && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
-					onClick={ this.onPlaceholder}
+					onClick={this.onPlaceholder}
 				>
 					{placeholder || '请输入'}
 				</div>

@@ -25,7 +25,7 @@ const toGetDefaultConfig = (c) => {
 			id: 2,
 			name: '代位权',
 			field: 'subrogation',
-			status: Boolean(c.subrogationCourtSessionCount || c.subrogationFilingCount || c.subrogationJudgmentCourt) && false,
+			status: Boolean(c.subrogationFilingCount || c.subrogationCourtSessionCount || c.subrogationJudgmentCourt),
 			child: [
 				{ id: 21, name: '立案信息', status: Boolean(c.subrogationFilingCount) },
 				{ id: 22, name: '开庭公告', status: Boolean(c.subrogationCourtSessionCount) },
@@ -47,7 +47,7 @@ const toGetDefaultConfig = (c) => {
 			id: 4,
 			name: '涉诉监控',
 			field: 'monitor',
-			status: Boolean(c.trialCourtSessionCount || c.trialFilingCount) && false,
+			status: Boolean(c.trialCourtSessionCount || c.trialFilingCount || c.trialJudgmentCount),
 			child: [
 				{ id: 41, name: '立案信息', status: Boolean(c.trialFilingCount) },
 				{ id: 42, name: '开庭公告', status: Boolean(c.trialCourtSessionCount) },
@@ -134,7 +134,7 @@ const ItemTable = (props) => {
 			case 42:
 				return <Table0040 normal noSort sourceType={2} reqUrl={API[model].courtSessionListS} id={id} />;
 			case 43:
-				return <Table0040 normal noSort sourceType={3} reqUrl={API[model].courtSessionListS} id={id} />;
+				return <Table0040 normal noSort sourceType={3} reqUrl={API[model].judgmentS} id={id} />;
 			default:
 				return null;
 			}

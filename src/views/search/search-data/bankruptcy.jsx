@@ -70,6 +70,11 @@ class BANKRUPTCY extends React.Component {
 	render() {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
@@ -102,7 +107,7 @@ class BANKRUPTCY extends React.Component {
 						size="large"
 						style={_style1}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishDateEnd'))}
-						{...getFieldProps('publishDateStart', {
+						{...getFieldProps('publishDateStart', timeOption, {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
@@ -118,7 +123,7 @@ class BANKRUPTCY extends React.Component {
 						size="large"
 						style={_style1}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishDateStart'))}
-						{...getFieldProps('publishDateEnd', {
+						{...getFieldProps('publishDateEnd', timeOption, {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
