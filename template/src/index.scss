@@ -10,7 +10,7 @@ $base-blue: #1C80E1;
 }
 body {
   padding: 2px;
-  background: #ffffff url("../watermark.png") repeat-y center top;
+  background: #ffffff url("../img/watermark.png") repeat-y center top;
   background-size: 80%;
 }
   span {
@@ -183,6 +183,15 @@ table {
 
 .title {
   color: #20242e;
+}
+.name-dishonest{
+  position: relative;
+  img{
+    position: absolute;
+    bottom: 0;
+    right: -50px;
+    width: 45px;
+  }
 }
 
 .entry-title {

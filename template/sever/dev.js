@@ -5,9 +5,13 @@ var dataSource = require('./data');
 var _dataSource = JSON.stringify(dataSource);
 
 var backgroundImg  = fs.readFileSync('./template/img/watermark.png',);
+var iconImg  = fs.readFileSync('./template/img/icon_shixin.png',);
+
 // 转换为 data:image/jpeg;base64,***** 格式的字符串
 
 var backgroundImgData = 'data:image/png;base64,' +  new Buffer.alloc(65*1024,backgroundImg).toString('base64');
+
+var iconImgData = 'data:image/png;base64,' +  new Buffer.alloc(4*1024,iconImg).toString('base64');
 
 var htmlResultStr1  = fs.readFileSync('./template/src/enterprise.html','utf8');
 var htmlResultStr2  = fs.readFileSync('./template/src/personal.html','utf8');
@@ -187,11 +191,12 @@ function exportTemplate(source,exportType) {
 
 	var htmlTemp = exportType?htmlEnterprise:htmlPersonal;
 
-	htmlTemp=htmlTemp.replace("../watermark.png",backgroundImgData);
-
+	htmlTemp=htmlTemp.replace("../img/watermark.png",backgroundImgData);
+	htmlTemp=htmlTemp.replace("../img/icon_shixin.png",iconImgData);
 	/* 基本信息模块 */
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlTemp = htmlTemp.replace(/{base.dateTime}/g, dataTime);
+
 
 	if(exportType){
 		var infoInput = function (source) {
@@ -204,12 +209,14 @@ function exportTemplate(source,exportType) {
 			htmlTemp = htmlTemp.replace("{info.formerNames}", formerNames);
 		};
 		infoInput(data.A10101);
+		htmlTemp = htmlTemp.replace("{info.dishonest}", (data.A10102?"<span class=\"img-icon\"></span>":""));
 	}else{
 		var infoInput2 = function (source) {
 			htmlTemp = htmlTemp.replace(/{info.name}/g, source.name||'--');
 			htmlTemp = htmlTemp.replace(/{info.number}/g, source.number||'--');
 		};
 		infoInput2(data.B10101);
+		htmlTemp = htmlTemp.replace("{info.dishonest}", (data.B10102?"<span class=\"img-icon\"></span>":""));
 	}
 
 	/* 概览模块 */
@@ -1493,7 +1500,7 @@ function exportTemplate(source,exportType) {
 }
 
 function writeFile() {
-	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, false), (error) => {
+	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, true), (error) => {
 		error && console.log('error');
 	});
 }
