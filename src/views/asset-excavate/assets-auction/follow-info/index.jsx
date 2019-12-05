@@ -621,13 +621,19 @@ export default class FollowInfo extends React.Component {
 															status="process"
 															title={([
 																<span>{item.username}</span>,
-																<PopConfirm
-																	placement="leftBottom"
-																	title="确定删除这条记录吗？"
-																	onConfirm={() => this.handleStepConfirm(item, index)}
-																>
-																	<Icon type="delete" className="list-step-title-icon" />
-																</PopConfirm>,
+																<React.Fragment>
+																	{
+																		item.self ? (
+																			<PopConfirm
+																				placement="leftBottom"
+																				title="确定删除这条记录吗？"
+																				onConfirm={() => this.handleStepConfirm(item, index)}
+																			>
+																				<Icon type="delete" className="list-step-title-icon" />
+																			</PopConfirm>
+																		) : <Icon type="delete" className="list-step-title-icon" style={{ color: '#ffffff' }} />
+																	}
+																</React.Fragment>,
 																<span
 																	className={`list-step-title-mark-status mark-status-${item.process}`}
 																>
