@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-	Modal, Input, Select, message, Form,
+	Modal, Select, message, Form,
 } from 'antd';
-import {
-	saveList, // 保存
-} from '@/utils/api/organization';
+import { Input } from '@/common';
+import { saveList } from '@/utils/api/organization'; // 保存
 
 const createForm = Form.create;
 
@@ -142,10 +141,10 @@ class DetailModal extends React.Component {
 							>
 								*
 							</span>
-							<p>姓名：</p>
+							<p className="yc-organization-lable">姓名：</p>
 							<Input
 								size="large"
-								placeholder="请输入"
+								placeholder="请输入姓名"
 								style={{ width: 340 }}
 								{...getFieldProps('name', {
 									initialValue: propsData && propsData.name,
@@ -153,10 +152,10 @@ class DetailModal extends React.Component {
 							/>
 						</div>
 						<div className="line">
-							<p>手机号：</p>
+							<p className="yc-organization-lable">手机号：</p>
 							<Input
 								size="large"
-								placeholder="请输入"
+								placeholder="请输入手机号"
 								style={{ width: 340 }}
 								maxLength={11}
 								{...getFieldProps('mobile', {
@@ -165,11 +164,11 @@ class DetailModal extends React.Component {
 							/>
 						</div>
 						<div className="line">
-							<p>角色：</p>
+							<p className="yc-organization-lable">角色：</p>
 							<Select
 								size="large"
 								style={{ width: 100 }}
-								placeholder="请选择"
+								placeholder="请选择角色"
 								onChange={(val) => {
 									this.change(val, 'role');
 								}}
@@ -182,11 +181,11 @@ class DetailModal extends React.Component {
 							</Select>
 						</div>
 						<div className="line">
-							<p>邮箱：</p>
+							<p className="yc-organization-lable">邮箱：</p>
 							<Input
 								size="large"
 								style={{ width: 340 }}
-								placeholder="请输入"
+								placeholder="请输入邮箱"
 								{...getFieldProps('email', {
 									initialValue: propsData && propsData.email,
 								})}
