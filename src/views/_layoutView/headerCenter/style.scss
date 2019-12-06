@@ -15,6 +15,14 @@
     width: 60px;
     background: #fff;
   }
+  .yc-header-placeholder {
+    position: absolute;
+    top: 113px;
+    z-index: 999;
+    font-size: 12px;
+    left: 29px;
+    color: #b2b8c9;
+  }
   .yc-search-container {
     margin: 30px 20px 30px 20px;
     height: 340px;
