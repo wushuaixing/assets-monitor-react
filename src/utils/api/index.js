@@ -7,4 +7,7 @@ export const login = params => service.post('/yc/open/login', params);
 
 // authRule
 export const authRule = params => service.get('/api/auth/authRule', { params })
-	.then(res => res.data);
+	.then((res) => {
+		global.authRule = (res.data || {}).data;
+		return res.data;
+	});

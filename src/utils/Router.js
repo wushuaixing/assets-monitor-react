@@ -34,6 +34,7 @@ const Router = (props) => {
 				childrenDOM = item;
 			}
 		});
+		childrenDOM = childrenDOM || childList[0];
 	}
 	return childrenDOM;
 };
