@@ -1,9 +1,10 @@
 import React from 'react';
 import {
-	Tree, Input, message, Icon,
+	Tree, message, Icon,
 } from 'antd';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
+import { Input } from '@/common';
 import { generateUrlWithParams } from '@/utils';
 import {
 	userInfo, // tree
@@ -24,7 +25,6 @@ export default class HeaderMessage extends React.Component {
 			treeData: [],
 			treeList: [],
 			valueList: '',
-			isHasValue: '',
 		};
 	}
 
@@ -62,17 +62,15 @@ export default class HeaderMessage extends React.Component {
 	// 根据单个名字筛选
 	filterByName = (aim, name) => 	aim.filter(item => item.orgName.indexOf(name) !== -1);
 
-	ycHeaderInput = (e) => {
-		const newInputValue = e && e.target ? e.target.value : ''; // 获取document 对象的引用
-		const hasValue = document.getElementById('headerInput');
+	ycHeaderInput = (value) => {
+		// const newInputValue = e && e.target ? e.target.value : ''; // 获取document 对象的引用
+		// const hasValue = document.getElementById('headerInput');
 		// console.log(newInputValue, hasValue.value);
-
 		const { treeList } = this.state;
 		const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
 		this.setState({
-			valueList: newInputValue,
-			isHasValue: hasValue.value,
-			selectList: this.filterByName(arr, newInputValue),
+			valueList: value,
+			selectList: this.filterByName(arr, value),
 		});
 	};
 
@@ -130,15 +128,9 @@ export default class HeaderMessage extends React.Component {
 		});
 	};
 
-	onPlaceholder=() => {
-		if (global.GLOBAL_MEIE_BROWSER) {
-			document.getElementById('headerInput').focus();
-		}
-	};
-
 	render() {
 		const {
-			treeList, treeData, valueList, selectList, passwordModalVisible, isHasValue,
+			treeList, treeData, valueList, selectList, passwordModalVisible,
 		} = this.state;
 
 		const loop = tree => tree && tree.length > 0
@@ -189,22 +181,16 @@ export default class HeaderMessage extends React.Component {
 				</div>
 				{treeList && treeList.length > 0 && (
 				<div className="yc-search-container">
+					<Icon className="yc-search-icon" type="search" />
 					<Input
-						id="headerInput"
 						className="yc-group-input"
-						addonAfter={<Icon type="search" />}
-						oninput={e => this.ycHeaderInput(e)}
+						defaultValue={valueList}
+						onChange={e => this.ycHeaderInput(e)}
 						placeholder="请输入机构名称"
 						size="large"
 						// type="text"
 						// value={value}
 					/>
-					<div
-						className={`yc-header-placeholder ${!isHasValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
-						onClick={this.onPlaceholder}
-					>
-						{'请输入机构名称' || '请输入'}
-					</div>
 					<div style={{ height: 304, overflow: 'auto' }}>
 						{valueList && valueList.length > 0 ? (
 							<div>
