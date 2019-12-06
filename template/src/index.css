@@ -20,8 +20,8 @@ body {
 }
 .name-dishonest .img-icon{
   position: absolute;
-  bottom: 0;
-  right: -50px;
+  bottom: 2px;
+  right: -34px;
   width: 45px;
   height: 33px;
   background-image:url("../img/icon_shixin.png") ;
@@ -32,7 +32,21 @@ span {
 
 a {
   font-size: inherit; }
-
+.regStatus-green{
+  border: 1px solid #3DBD7D;
+  background-color: #f4fffa;
+  color: #3DBD7D;
+}
+.regStatus-red{
+  border: 1px solid #F82626;
+  background-color: #fff4f3;
+  color: #F82626;
+}
+.regStatus-orange{
+  border: 1px solid #FB8E3C;
+  background-color: #fef9f3;
+  color: #FB8E3C;
+}
 .display-none {
   display: none; }
 
@@ -100,7 +114,16 @@ table {
   border-collapse: collapse;
   width: 100%; }
   table tr {
+    page-break-before: always;
+    page-break-after: always;
+    page-break-inside: avoid;
     text-align: left; }
+
+  .page-break-style tr{
+    page-break-before: initial!important;
+    page-break-after: initial!important;
+    page-break-inside: initial!important;
+  }
   table th {
     text-align: left; }
   table th, table td {
@@ -163,6 +186,7 @@ table {
   .nAndI span {
     display: inline-block;
     vertical-align: middle; }
+
   .nAndI .n-icon {
     border-radius: 50%;
     width: 6px;
@@ -201,6 +225,12 @@ table {
 
 .exp-info {
   padding: 22px 0 15px 0; }
+.exp-info .n-regStatus{
+  height: 26px;
+  margin-left: 40px;
+  font-size: 12px;
+  padding: 2px 5px;
+}
   .exp-info .icon {
     width: 67px;
     height: 67px;

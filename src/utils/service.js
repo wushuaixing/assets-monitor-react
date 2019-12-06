@@ -53,16 +53,17 @@ const responseMethods = {
 		// 在login界面不弹弹框
 		const hash = window.location.hash.slice(1);
 		// console.log(response);
+		if (res.code === 403) {
+			window.location.reload();
+			return false;
+		}
 		if ((res.code === 401 || res.code === 5002) && hash !== '/login') {
 			// 把其余的请求取消掉
 			axiosPromiseArr.forEach((ele, index) => {
 				ele.cancel('请求取消');
 				delete axiosPromiseArr[index];
 			});
-			if (res.code === 401) {
-				window.location.reload();
-				return false;
-			}
+
 			// 如果没有token直接返回到登陆界面
 			if (cookies.get('token') !== undefined) {
 				message.error(res.message);
