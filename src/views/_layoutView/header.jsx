@@ -170,13 +170,22 @@ export default class Headers extends React.Component {
 					</div>
 					<div className="header-else">
 						{
-							data && data.expire && data.expire > 0 && (
+							data && data.expire && data.expire >= 0 && (
 							<div className="header-else-left">
-								<div className="yc-leftTime">
-									帐号到期还剩：
-									{data.expire}
-									天
-								</div>
+								{
+									data.expire === 1 ? (
+										<div className="yc-leftTime">
+											今日到期
+										</div>
+									) : (
+										<div className="yc-leftTime">
+											帐号到期还剩：
+											{data.expire}
+											天
+										</div>
+									)
+								}
+
 								<div className="else-child else-line" />
 
 							</div>

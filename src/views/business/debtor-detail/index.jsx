@@ -45,14 +45,6 @@ export default class DebtorDetail extends React.Component {
 				render: text => (
 					<p>{text || '-'}</p>
 				),
-			},
-			{
-				title: '担保方式',
-				dataIndex: 'guaranteeString',
-				key: 'guaranteeString',
-				render: text => (
-					<p>{text || '-'}</p>
-				),
 			}, {
 				title: '操作',
 				key: 'operation',

@@ -31,7 +31,7 @@ const obligor = {
 
 	// 代位权-裁判列表
 	judgmentD: (params, businessId) => service
-		.get(`/yc/obligor/monitor/lawsuit/judgment-document/${businessId}`, { params })
+		.get(`/yc/obligor/monitor/subrogation/judgment-document/${businessId}`, { params })
 		.then(res => res.data),
 
 	// 涉诉-开庭列表
