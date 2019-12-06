@@ -203,10 +203,11 @@ function exportTemplate(source,exportType) {
 			htmlTemp = htmlTemp.replace("{info.name}", source.name||'--');
 			["name","legalPersonName","regCapital","establishTime"].forEach(function (item) {
 				htmlTemp = htmlTemp.replace("{info." + item + "}", source[item]||'--');
-
 			});
+
 			var formerNames= (source.formerNames.length)?source.formerNames.join('、'):'--';
 			htmlTemp = htmlTemp.replace("{info.formerNames}", formerNames);
+			htmlTemp = htmlTemp.replace("{info.logoUrl}", (source.logoUrl?("<img src=\""+source.logoUrl+"\" alt=\"\" width=\"67\">"):""));
 		};
 		infoInput(data.A10101);
 		htmlTemp = htmlTemp.replace("{info.dishonest}", (data.A10102?"<span class=\"img-icon\"></span>":""));
@@ -217,6 +218,8 @@ function exportTemplate(source,exportType) {
 		};
 		infoInput2(data.B10101);
 		htmlTemp = htmlTemp.replace("{info.dishonest}", (data.B10102?"<span class=\"img-icon\"></span>":""));
+		htmlTemp = htmlTemp.replace("{info.logoUrl}", (source.logoUrl?("<img src=\""+source.logoUrl+"\" alt=\"\" width=\"67\">"):""));
+
 	}
 
 	/* 概览模块 */

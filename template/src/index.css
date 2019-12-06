@@ -4,12 +4,14 @@
   margin: 0;
   color: #20242e;
   font-size: 13px;
-  list-style: none; }
+  list-style: none;
+  font-family: "Alibaba PuHuiTi R", Arial, serif;
+}
 
 body {
   padding: 2px;
   background: #ffffff url("../img/watermark.png") repeat-y center top;
-  background-size: 80%; }
+  background-size: 85%; }
 
 
 .name-dishonest{
