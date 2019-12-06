@@ -18,8 +18,9 @@ import {
 	fullAssetSearch, // 列表
 	fullAssetSearchExport, // 导出
 } from '@/utils/api/search';
-import './style.scss';
 import { ScrollAnimation } from '@/utils/changeTime';
+import defaultOrder from '@/assets/img/icon/icon_arrow.png';
+import './style.scss';
 
 const _style1 = { width: 278 };
 const _style2 = { width: 120 };
@@ -510,19 +511,22 @@ class AUCTION extends React.Component {
 							默认排序
 						</Button>
 						<div className="yc-right-order" onClick={() => this.auctionSort('DESC')}>
-							{auctionSort === undefined && <span className="sort th-sort-default" />}
+							{/* {auctionSort === undefined && <span className="sort th-sort-default" />} */}
+							{auctionSort === undefined && <img src={defaultOrder} alt="" className="sort th-sort-default" /> }
 							{auctionSort === 'DESC' && <span className="sort th-sort-down" />}
 							{auctionSort === 'ASC' && <span className="sort th-sort-up" />}
 							拍卖时间
 						</div>
 						<div className="yc-right-order" onClick={() => this.currentSort('DESC')}>
-							{currentSort === undefined && <span className="sort th-sort-default" />}
+							{/* {currentSort === undefined && <span className="sort th-sort-default" />} */}
+							{currentSort === undefined && <img src={defaultOrder} alt="" className="sort th-sort-default" /> }
 							{currentSort === 'DESC' && <span className="sort th-sort-down" />}
 							{currentSort === 'ASC' && <span className="sort th-sort-up" />}
 							当前价格
 						</div>
 						<div className="yc-right-order" onClick={() => this.assessmentSort('DESC')}>
-							{assessmentSort === undefined && <span className="sort th-sort-default" />}
+							{/* {assessmentSort === undefined && <span className="sort th-sort-default" />} */}
+							{assessmentSort === undefined && <img src={defaultOrder} alt="" className="sort th-sort-default" /> }
 							{assessmentSort === 'DESC' && <span className="sort th-sort-down" />}
 							{assessmentSort === 'ASC' && <span className="sort th-sort-up" />}
 							评估价格

@@ -3,6 +3,7 @@ import { Tooltip, Form } from 'antd';
 import Link from '@/assets/img/icon/icon_link_normal.png';
 import { Table } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
+import order from '@/assets/img/icon/icon_arrow.png';
 import './style.scss';
 
 class BusinessView extends React.Component {
@@ -18,7 +19,7 @@ class BusinessView extends React.Component {
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
 						发布日期
-						{Sort === undefined && <span className="sort th-sort-default" />}
+						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
 					</div>),

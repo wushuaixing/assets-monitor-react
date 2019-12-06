@@ -29,9 +29,9 @@
     }
     &:hover {
       cursor: pointer;
-      .th-sort-default {
-        background-image: url("../../../../assets/img/icon/icon_arrow.png");
-      }
+      //.th-sort-default {
+      //  background-image: url("../../../../assets/img/icon/icon_arrow.png");
+      //}
       .th-sort-down {
         background-image: url("../../../../assets/img/icon/icon_arrow_asc.png");
       }
@@ -39,9 +39,9 @@
         background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
       }
     }
-    .th-sort-default {
-      background-image: url("../../../../assets/img/icon/icon_arrow.png");
-    }
+    //.th-sort-default {
+    //  background-image: url("../../../../assets/img/icon/icon_arrow.png");
+    //}
     .th-sort-down {
       background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
     }
