@@ -1,5 +1,6 @@
 node_modules/
 docs/
+template/
 patchs/*
 scripts/*
 src/static

@@ -1,0 +1,7 @@
+{
+  "方法名": "exportTemplate",
+  "参数类型": "json",
+  "字典文件": "dd.json",
+  "方法文件": "outputHtml.js",
+  "方法文件压缩版": "outputHtml.min.js"
+}

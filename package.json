@@ -24,9 +24,12 @@
     "build:index": "webpack --config ./scripts/index.js",
     "scp": "yarn build:index && scp -r -p ./docs/* work@172.18.255.251:/disk/web/front/asset-monitor-dev/web",
     "ie": "set ENV=local&& yarn build:index && node ./express/server.js",
+    "ie:build": "set ENV=local&& yarn build:index",
     "ie:server": "node ./express/server.js",
     "lint": "eslint ./src --ext .js --ext .jsx",
-    "lintfix": "eslint --fix ./src"
+    "lintfix": "eslint --fix ./src",
+    "tl:dev": "node ./template/sever/dev.js",
+    "tl:build": "node ./template/sever/build.js"
   },
   "dependencies": {
     "anujs": "1.5.0",
