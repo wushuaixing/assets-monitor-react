@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Modal, Tooltip } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
 import { Table } from '@/common';
+import order from '@/assets/img/icon/icon_arrow.png';
 import './style.scss';
 
 const toClick = row => Modal.info({
@@ -80,7 +81,8 @@ class BusinessView extends React.Component {
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
 						{type === 1 ? '立案日期' : '开庭日期'}
-						{Sort === undefined && <span className="sort th-sort-default" />}
+						{/* {Sort === undefined && <span className="sort th-sort-default" />} */}
+						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
 					</div>),

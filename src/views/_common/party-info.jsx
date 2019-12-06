@@ -44,7 +44,7 @@ export default class PartyInfoDetail extends React.Component {
 		} = item;
 		const { row: { unifiedSocialCreditCode } } = this.props;
 		if (certificateNumber) return `${name}（${certificateNumber}）`;
-		const genderType = typeof gender;
+		const genderType = gender && typeof gender;
 		if (birthday || genderType === 'number') {
 			const res = [];
 			if (gender && gender === 1) res.push('男');

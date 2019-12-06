@@ -9,7 +9,6 @@ import {
 import { Table, Spin } from '@/common';
 import '../style.scss';
 
-const { Option } = Select;
 export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
@@ -108,7 +107,7 @@ export default class BasicTable extends React.Component {
 				});
 			}
 		}).catch(() => {});
-	}
+	};
 
 	// 列表数据
 	getTableData=(data) => {
@@ -131,7 +130,7 @@ export default class BasicTable extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	// 匹配角色
 	// eslint-disable-next-line consistent-return
@@ -141,7 +140,7 @@ export default class BasicTable extends React.Component {
 			const list = roleData.filter(item => item.id === roleId);
 			return list[0].title;
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage=(val) => {
@@ -155,7 +154,7 @@ export default class BasicTable extends React.Component {
 			...searchValue,
 		};
 		this.getTableData(params);
-	}
+	};
 
 	// 下拉选中
 	handleChange = (id) => {
@@ -171,7 +170,7 @@ export default class BasicTable extends React.Component {
 			searchValue: params,
 		});
 		this.getTableData(params);
-	}
+	};
 
 	onKeyup = (e) => {
 		const { role } = this.state;
@@ -187,26 +186,26 @@ export default class BasicTable extends React.Component {
 		if (e.keyCode === 13) {
 			this.getTableData(params);
 		}
-	}
+	};
 
 	clearInput = () => {
 		this.setState({
 			keyword: '',
 		});
-	}
+	};
 
 	getSearchValue = (value) => {
 		this.setState({
 			searchValue: value,
 		});
-	}
+	};
 
 	handleOpeanLog=(row) => {
 		// 跳转详情
 		console.log(row.id);
 		const w = window.open('about:blank');
 		w.location.href = `#/organization/operate/log?userId=${row.id}&&name=${row.name}`;
-	}
+	};
 
 	render() {
 		const {
@@ -225,12 +224,12 @@ export default class BasicTable extends React.Component {
 					clearInput={this.clearInput}
 					getSearchValue={this.getSearchValue}
 				/>
-				<div className="search-item">
-					<p>角色：</p>
-					<Select placeholder="请选择角色" size="large" allowClear onChange={this.handleChange}>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">角色：</span>
+					<Select placeholder="请选择角色" size="large" allowClear onChange={this.handleChange} style={{ width: 100 }}>
 						{
 							roleData && roleData.length > 0 && roleData.map(item => (
-								<Option value={item.id}>{item.title}</Option>
+								<Select.Option value={item.id}>{item.title}</Select.Option>
 							))
 						}
 					</Select>

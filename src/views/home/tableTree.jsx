@@ -38,7 +38,7 @@ const skip = (text, row) => {
 
 				const hide = message.loading('正在切换机构,请稍后...', 0);
 				setTimeout(() => {
-					// window.location.reload(); // 实现页面重新加载/
+					window.location.reload(); // 实现页面重新加载/
 
 					// const a = document.createElement('a');
 					// a.setAttribute('href', text);
@@ -148,6 +148,7 @@ class Login extends React.Component {
 			isOpen: false,
 			treeList: [],
 			dataListArray: null,
+			isHasValue: '',
 		};
 	}
 
@@ -228,15 +229,17 @@ class Login extends React.Component {
 		// const event = e || window.event;
 		const newInputValue = e && e.target ? e.target.value : ''; // 获取document 对象的引用
 		const arr = treeList && flat(treeList) && flat(treeList).filter(item => item !== undefined);
+		const hasValue = document.getElementById('inputFocus');
 		if (global.GLOBAL_MEIE_BROWSER) {
 			this.setState({
 				selectList: this.filterByName(arr, newInputValue),
-				// searchValue: !global.GLOBAL_MEIE_BROWSER && newInputValue,
+				isHasValue: hasValue.value,
 			});
 		} else {
 			this.setState({
 				selectList: this.filterByName(arr, newInputValue),
 				searchValue: newInputValue,
+				isHasValue: hasValue.value,
 			});
 		}
 	};
@@ -310,7 +313,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			treeList, selectList, isOpen, searchValue,
+			treeList, selectList, isOpen, searchValue, isHasValue,
 		} = this.state;
 
 		return (
@@ -332,7 +335,7 @@ class Login extends React.Component {
 						onBlur={e => this.inputSearchBlur(e)}
 					/>
 					<div
-						className={`yc-home-placeholder ${!searchValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
+						className={`yc-home-placeholder ${!isHasValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
 						onClick={this.onPlaceholder}
 					>
 						{'请输入机构名称' || '请输入'}

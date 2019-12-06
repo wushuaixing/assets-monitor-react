@@ -24,7 +24,7 @@ export default class HeaderMessage extends React.Component {
 			treeData: [],
 			treeList: [],
 			valueList: '',
-			value: '',
+			isHasValue: '',
 		};
 	}
 
@@ -62,14 +62,16 @@ export default class HeaderMessage extends React.Component {
 	// 根据单个名字筛选
 	filterByName = (aim, name) => 	aim.filter(item => item.orgName.indexOf(name) !== -1);
 
-	ycInputValue = (e) => {
+	ycHeaderInput = (e) => {
 		const newInputValue = e && e.target ? e.target.value : ''; // 获取document 对象的引用
-		console.log(newInputValue);
+		const hasValue = document.getElementById('headerInput');
+		// console.log(newInputValue, hasValue.value);
+
 		const { treeList } = this.state;
 		const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
 		this.setState({
 			valueList: newInputValue,
-			value: newInputValue.trim(),
+			isHasValue: hasValue.value,
 			selectList: this.filterByName(arr, newInputValue),
 		});
 	};
@@ -128,14 +130,15 @@ export default class HeaderMessage extends React.Component {
 		});
 	};
 
+	onPlaceholder=() => {
+		if (global.GLOBAL_MEIE_BROWSER) {
+			document.getElementById('headerInput').focus();
+		}
+	};
+
 	render() {
 		const {
-			treeList,
-			treeData,
-			valueList,
-			selectList,
-			passwordModalVisible,
-			value,
+			treeList, treeData, valueList, selectList, passwordModalVisible, isHasValue,
 		} = this.state;
 
 		const loop = tree => tree && tree.length > 0
@@ -187,14 +190,21 @@ export default class HeaderMessage extends React.Component {
 				{treeList && treeList.length > 0 && (
 				<div className="yc-search-container">
 					<Input
+						id="headerInput"
 						className="yc-group-input"
 						addonAfter={<Icon type="search" />}
-						onInput={e => this.ycInputValue(e)}
+						oninput={e => this.ycHeaderInput(e)}
 						placeholder="请输入机构名称"
 						size="large"
-						type="text"
-						value={value}
+						// type="text"
+						// value={value}
 					/>
+					<div
+						className={`yc-header-placeholder ${!isHasValue && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
+						onClick={this.onPlaceholder}
+					>
+						{'请输入机构名称' || '请输入'}
+					</div>
 					<div style={{ height: 304, overflow: 'auto' }}>
 						{valueList && valueList.length > 0 ? (
 							<div>

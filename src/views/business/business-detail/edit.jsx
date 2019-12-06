@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-	Form, Button, Input, Modal,
+	Form, Button, Modal,
 } from 'antd';
+import { Input } from '@/common';
 import './style.scss';
 
 const { confirm } = Modal;
@@ -22,9 +23,7 @@ class DebtorDetail extends React.Component {
 	}
 
 	// 相关人名称
-	handleInputName = (e, id) => {
-		const event = e || window.event;
-		const target = event.target || event.srcElement; // 获取document 对象的引用
+	handleInputName = (value, id) => {
 		const { dataList } = this.state;
 		const that = this;
 		const { isEdit } = this.props;
@@ -33,7 +32,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorName = target.value.trim();
+					dataList[index].obligorName = value.trim();
 				}
 			});
 			that.setState({
@@ -43,9 +42,7 @@ class DebtorDetail extends React.Component {
 	};
 
 	// 身份证号/统一社会信用代码
-	handleInputNumber = (e, id) => {
-		const event = e || window.event;
-		const target = event.target || event.srcElement; // 获取document 对象的引用
+	handleInputNumber = (value, id) => {
 		const { dataList } = this.state;
 		const { isEdit } = this.props;
 		isEdit();
@@ -53,7 +50,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorNumber = target.value.trim();
+					dataList[index].obligorNumber = value.trim();
 				}
 			});
 			that.setState({
@@ -63,10 +60,7 @@ class DebtorDetail extends React.Component {
 	};
 
 	// 角色
-	changeValue = (e, id) => {
-		// const { value } = e.target;
-		const event = e || window.event;
-		const target = event.target || event.srcElement; // 获取document 对象的引用
+	changeValue = (value, id) => {
 		const { dataList } = this.state;
 		const that = this;
 		const { isEdit } = this.props;
@@ -74,7 +68,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].roleText = target.value;
+					dataList[index].roleText = value;
 				}
 			});
 			that.setState({
@@ -148,14 +142,13 @@ class DebtorDetail extends React.Component {
 									<Input
 										size="large"
 										placeholder="请输入相关人名称"
-										// onchange={e => this.handleInputName(e, item.id)}
 										{...getFieldProps(`obligorName${item.id}`, {
 											id: item.id,
 											initialValue: item && item.obligorName,
 											onChange: (e) => {
 												this.handleInputName(e, item.id);
 											},
-											getValueFromEvent: e => e.target.value.trim(),
+											getValueFromEvent: value => value.trim(),
 										})}
 										className="yc-from-input"
 									/>
@@ -169,7 +162,7 @@ class DebtorDetail extends React.Component {
 											onChange: (e) => {
 												this.handleInputNumber(e, item.id);
 											},
-											getValueFromEvent: e => e.target.value.trim(),
+											getValueFromEvent: value => value.trim(),
 										})}
 										className="yc-from-input"
 									/>
@@ -185,7 +178,7 @@ class DebtorDetail extends React.Component {
 											onChange: (e) => {
 												this.changeValue(e, item.id);
 											},
-											getValueFromEvent: e => e.target.value.trim(),
+											getValueFromEvent: value => value.trim(),
 										})}
 									/>
 								</td>

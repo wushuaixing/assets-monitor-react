@@ -1,9 +1,9 @@
 import React from 'react';
 
 import {
-	Icon, Input, Button, Form,
+	Icon, Button, Form,
 } from 'antd';
-
+import { Input } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
@@ -69,7 +69,6 @@ class BasicTable extends React.Component {
 	};
 
 	render() {
-		const { data } = this.state;
 		const { placeholder, form } = this.props;
 		const { getFieldProps } = form;
 		return (
@@ -78,27 +77,21 @@ class BasicTable extends React.Component {
 					size="large"
 					autocomplete="off"
 					id="inputFocus"
-					value={data}
 					placeholder={placeholder}
 					{...this.props}
 					{...getFieldProps('obligorName', {
-						onChange: (event) => {
-							// console.log(value);
-							this.onInput(event);
+						onChange: (value) => {
+							console.log(value);
+							this.setState({ data: value });
+							// this.onInput(event);
 						},
-						getValueFromEvent: e => e.target.value.trim(),
+						getValueFromEvent: value => value.trim(),
 					})}
 				/>
-				<div
-					className={`yc-search-placeholder ${!data && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-visibility-none'}`}
-					onClick={this.onPlaceholder}
-				>
-					{placeholder || '请输入'}
-				</div>
 				{
 					this.renderIcon()
 				}
-				<Button type="ghost" className="search-click" onClick={() => this.onSearch()}>搜索</Button>
+				<Button type="ghost" style={global.GLOBAL_MEIE_BROWSER && { height: 35 }} className="search-click" onClick={() => this.onSearch()}>搜索</Button>
 			</div>
 		);
 	}

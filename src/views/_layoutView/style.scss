@@ -173,6 +173,7 @@
       }
 
       .else-username {
+        width: 175px;
         line-height: 18px;
         padding: 7px 20px;
 
@@ -190,6 +191,9 @@
           font-size: 12px;
           line-height: 18px;
           text-align: right;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
     }
