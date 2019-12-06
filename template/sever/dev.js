@@ -152,9 +152,18 @@ function exportTemplate(source,exportType) {
 				}).join('、'), "</label></span></div></li>");
 			})).join('') : "";
 		},
+		toRegStatus:function(val){
+			if (val) {
+				if (val.match(/(存续|在业)/)) return ' regStatus-green';
+				if (val.match(/(迁出|其他)/)) return ' regStatus-orange';
+				if (val.match(/(撤销|吊销|清算|停业|注销)/)) return ' regStatus-red';
+				return "";
+			}
+			return '';
+		},
 		toGetCaseType:function methods(value) {
 			if(value){
-				var res ='';
+				var res =value;
 				switch (value) {
 					case 1:res='普通案件';break;
 					case 2:res='破产案件';break;
@@ -208,6 +217,8 @@ function exportTemplate(source,exportType) {
 			var formerNames= (source.formerNames.length)?source.formerNames.join('、'):'--';
 			htmlTemp = htmlTemp.replace("{info.formerNames}", formerNames);
 			htmlTemp = htmlTemp.replace("{info.logoUrl}", (source.logoUrl?("<img src=\""+source.logoUrl+"\" alt=\"\" width=\"67\">"):""));
+			var regStatus =fun.toRegStatus(source.regStatus);
+			htmlTemp = htmlTemp.replace("{info.regStatus}", (regStatus?"<span class=\"n-regStatus"+regStatus+"\">"+source.regStatus+"</span>":""));
 		};
 		infoInput(data.A10101);
 		htmlTemp = htmlTemp.replace("{info.dishonest}", (data.A10102?"<span class=\"img-icon\"></span>":""));
@@ -695,7 +706,6 @@ function exportTemplate(source,exportType) {
 		overView(data.B10205,"overview.B10205");
 
 	}
-
 
 	/* table列表，选项 */
 	var tableList = function (source,viewName) {

@@ -57,7 +57,7 @@ var htmlPersonal = ${JSON.stringify(html_P)};
 var backgroundImgData = "${backgroundImgData}";
 var iconImgData = "${iconImgData}";
 
-${methods.exportTemplate};`;
+${methods.exportTemplate}`;
 
 fs.writeFileSync("./template/result/outputHtml.js",resultCode);
 fs.writeFileSync("./template/result/outputHtml.min.js",UglifyJS.minify(resultCode).code);
