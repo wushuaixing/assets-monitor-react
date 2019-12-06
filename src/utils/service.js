@@ -59,6 +59,10 @@ const responseMethods = {
 				ele.cancel('请求取消');
 				delete axiosPromiseArr[index];
 			});
+			if (res.code === 401) {
+				window.location.reload();
+				return false;
+			}
 			// 如果没有token直接返回到登陆界面
 			if (cookies.get('token') !== undefined) {
 				message.error(res.message);
