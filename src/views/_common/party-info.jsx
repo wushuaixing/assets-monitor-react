@@ -87,7 +87,7 @@ export default class PartyInfoDetail extends React.Component {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',
 		};
-		const maxWidth = (detailWidth || 230) - (width * 1 < 40 ? 40 : width) || 40;
+		const maxWidth = (detailWidth || 237) - (width * 1 < 40 ? 40 : width) || 40;
 		const obValue = (i, v) => (i.obligorId && noLink ? linkDetail(i.obligorId, v, '_target') : v);
 		// console.log(noLink);
 
