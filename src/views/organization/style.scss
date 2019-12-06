@@ -5,6 +5,22 @@
   span{
     font-size: 12px;
   }
+  .ant-select-arrow {
+    font-size: 8px !important;
+  }
+  .yc-query-item {
+    position: relative;
+    margin-right: 16px;
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 16px;
+    .yc-query-item-title {
+      padding: 9px 3px;
+      height: 34px;
+      line-height: 14px;
+      font-size: 12px;
+    }
+  }
   .search-item{
     display: inline-block;
     vertical-align: top;
