@@ -313,7 +313,7 @@ class BANKRUPTCY extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">发布日期: </span>
 						<DatePicker
-							{...getFieldProps('publishDateStart', timeOption, {
+							{...getFieldProps('publishDateStart', {
 								initialValue: params.publishDateStart,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -321,6 +321,7 @@ class BANKRUPTCY extends React.Component {
 										publishDateStart: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishDateEnd'))}
 							size="large"
@@ -329,7 +330,7 @@ class BANKRUPTCY extends React.Component {
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('publishDateEnd', timeOption, {
+							{...getFieldProps('publishDateEnd', {
 								initialValue: params.publishDateEnd,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -337,6 +338,7 @@ class BANKRUPTCY extends React.Component {
 										publishDateEnd: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishDateStart'))}
 							size="large"

@@ -120,13 +120,14 @@ class WRIT extends React.Component {
 						size="large"
 						style={_style2}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
-						{...getFieldProps('publishStart', timeOption, {
+						{...getFieldProps('publishStart', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
 									startTime: dateString,
 								});
 							},
+							...timeOption,
 						})}
 						allowClear
 					/>
@@ -136,13 +137,14 @@ class WRIT extends React.Component {
 						size="large"
 						style={_style2}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
-						{...getFieldProps('publishEnd', timeOption, {
+						{...getFieldProps('publishEnd', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
 									endTime: dateString,
 								});
 							},
+							...timeOption,
 						})}
 						allowClear
 					/>

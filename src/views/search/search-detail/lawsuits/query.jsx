@@ -237,13 +237,14 @@ class QUERYLAWSUITS extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">日期选择: </span>
 						<DatePicker
-							{...getFieldProps('startLarq', timeOption, {
+							{...getFieldProps('startLarq', {
 								initialValue: urlObj.startLarq,
 								onChange: (value, dateString) => {
 									this.setState({
 										startLarq: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endLarq'))}
 							size="large"
@@ -252,13 +253,14 @@ class QUERYLAWSUITS extends React.Component {
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('endLarq', timeOption, {
+							{...getFieldProps('endLarq', {
 								initialValue: urlObj.endLarq,
 								onChange: (value, dateString) => {
 									this.setState({
 										endLarq: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startLarq'))}
 							size="large"

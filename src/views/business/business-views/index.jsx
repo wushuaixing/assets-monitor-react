@@ -476,12 +476,13 @@ class BusinessView extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">上传时间：</span>
 						<DatePicker
-							{...getFieldProps('uploadTimeStart', timeOption, {
+							{...getFieldProps('uploadTimeStart', {
 								onChange: (value, dateString) => {
 									this.setState({
 										startTime: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
 							size="large"
@@ -490,12 +491,13 @@ class BusinessView extends React.Component {
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('uploadTimeEnd', timeOption, {
+							{...getFieldProps('uploadTimeEnd', {
 								onChange: (value, dateString) => {
 									this.setState({
 										endTime: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
 							size="large"

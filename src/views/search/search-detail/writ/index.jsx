@@ -337,13 +337,14 @@ class WRIT extends React.Component {
 								allowClear
 								style={_style2}
 								placeholder="开始日期"
-								{...getFieldProps('publishStart', timeOption, {
+								{...getFieldProps('publishStart', {
 									initialValue: params ? params.publishStart : '',
 									onChange: (value, dateString) => {
 										this.setState({
 											startTime: dateString,
 										});
 									},
+									...timeOption,
 								})}
 								disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))
 						}
@@ -354,13 +355,14 @@ class WRIT extends React.Component {
 								allowClear
 								style={_style2}
 								placeholder="结束日期"
-								{...getFieldProps('publishEnd', timeOption, {
+								{...getFieldProps('publishEnd', {
 									initialValue: params ? params.publishEnd : '',
 									onChange: (value, dateString) => {
 										this.setState({
 											endTime: dateString,
 										});
 									},
+									...timeOption,
 								})}
 								disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))
 							}
