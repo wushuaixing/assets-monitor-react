@@ -107,13 +107,14 @@ class BANKRUPTCY extends React.Component {
 						size="large"
 						style={_style1}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishDateEnd'))}
-						{...getFieldProps('publishDateStart', timeOption, {
+						{...getFieldProps('publishDateStart', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
 									publishDateStart: dateString,
 								});
 							},
+							...timeOption,
 						})}
 						allowClear
 					/>
@@ -123,13 +124,14 @@ class BANKRUPTCY extends React.Component {
 						size="large"
 						style={_style1}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishDateStart'))}
-						{...getFieldProps('publishDateEnd', timeOption, {
+						{...getFieldProps('publishDateEnd', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
 									publishDateEnd: dateString,
 								});
 							},
+							...timeOption,
 						})}
 						allowClear
 					/>

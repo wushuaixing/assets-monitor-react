@@ -134,10 +134,16 @@ class AUCTION extends React.PureComponent {
 							inputFirstProps={getFieldProps('lowestConsultPrice', {
 								validateTrigger: 'onBlur',
 								getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+								rules: [
+									{ required: true },
+								],
 							})}
 							inputSecondProps={getFieldProps('highestConsultPrice', {
 								validateTrigger: 'onBlur',
 								getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+								rules: [
+									{ required: true },
+								],
 							})}
 						/>
 					</div>
@@ -158,13 +164,14 @@ class AUCTION extends React.PureComponent {
 						placeholder="开始日期"
 						size="large"
 						allowClear
-						{...getFieldProps('startTime', timeOption, {
+						{...getFieldProps('startTime', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
 									startTime: dateString,
 								});
 							},
+							...timeOption,
 						})}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
 					/>
@@ -174,13 +181,14 @@ class AUCTION extends React.PureComponent {
 						placeholder="结束日期"
 						size="large"
 						allowClear
-						{...getFieldProps('endTime', timeOption, {
+						{...getFieldProps('endTime', {
 							onChange: (value, dateString) => {
 								console.log(value, dateString);
 								this.setState({
 									endTime: dateString,
 								});
 							},
+							...timeOption,
 						})}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
 					/>

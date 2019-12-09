@@ -316,13 +316,14 @@ class LAWSUITS extends React.Component {
 							placeholder="开始日期"
 							size="large"
 							style={_style1}
-							{...getFieldProps('uploadTimeStart', timeOption, {
+							{...getFieldProps('uploadTimeStart', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
 										startTime: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
 							allowClear
@@ -332,13 +333,14 @@ class LAWSUITS extends React.Component {
 							placeholder="结束日期"
 							size="large"
 							style={_style1}
-							{...getFieldProps('uploadTimeEnd', timeOption, {
+							{...getFieldProps('uploadTimeEnd', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
 										endTime: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
 							allowClear

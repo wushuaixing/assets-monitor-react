@@ -409,11 +409,19 @@ class AUCTION extends React.Component {
 						suffix="万元"
 						inputFirstProps={getFieldProps('lowestConsultPrice', {
 							initialValue: params.lowestConsultPrice,
+							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+							rules: [
+								{ required: true },
+							],
 						})}
 						inputSecondProps={getFieldProps('highestConsultPrice', {
 							initialValue: params.highestConsultPrice,
+							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+							rules: [
+								{ required: true },
+							],
 						})}
 					/>
 				</div>
@@ -445,7 +453,7 @@ class AUCTION extends React.Component {
 					<div className="yc-query-item">
 						<span className="yc-query-item-title">开拍时间: </span>
 						<DatePicker
-							{...getFieldProps('startTime', timeOption, {
+							{...getFieldProps('startTime', {
 								initialValue: params.startTime,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -453,6 +461,7 @@ class AUCTION extends React.Component {
 										startTime: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
 							size="large"
@@ -461,7 +470,7 @@ class AUCTION extends React.Component {
 						/>
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
-							{...getFieldProps('endTime', timeOption, {
+							{...getFieldProps('endTime', {
 								initialValue: params.endTime,
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -469,6 +478,7 @@ class AUCTION extends React.Component {
 										endTime: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
 							size="large"

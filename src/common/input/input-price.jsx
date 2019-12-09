@@ -57,6 +57,7 @@ class comInput extends React.Component {
 		const s = inputSecondProps;
 		// console.log(inputFirstProps);
 		const { focus, value1, value2 } = this.state;
+
 		const classList = ['yc-price'];
 		if (size) classList.push(size ? `yc-input-${size}` : '');
 		if (disabled)classList.push('yc-input-disabled');
