@@ -508,8 +508,9 @@ export default class FollowInfo extends React.Component {
 															{
 																dataSource.map(item => (
 																	<Select.Option key={item.id} value={item.id}>
-																		<span className="select-option-name">{item.name}</span>
-																		<span className="select-option-mark" style={{ marginLeft: 10 }}>{markContent(item)}</span>
+																		{item.name}
+																		{' '}
+																		{markContent(item)}
 																	</Select.Option>
 																))
 															}

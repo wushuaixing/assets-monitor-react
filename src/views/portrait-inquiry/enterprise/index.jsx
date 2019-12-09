@@ -1,5 +1,6 @@
 import React from 'react';
 import { Affix, Icon, message } from 'antd';
+import { exportListEnp } from 'api/portrait-inquiry';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { requestAll } from '@/utils/promise';
@@ -7,7 +8,9 @@ import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import QueryView from '../common/queryView';
-import { Tabs, Button, Spin } from '@/common';
+import {
+	Tabs, Button, Spin, Download, Icon as IconType,
+} from '@/common';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
@@ -19,6 +22,7 @@ import Manage from './manage';
 import Info from './info';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
 import './style.scss';
+
 
 /* 基本选项 */
 const source = () => [
@@ -67,7 +71,7 @@ const getRegStatusClass = (val) => {
 /* 企业概要 */
 const EnterpriseInfo = (props) => {
 	const {
-		download, data: {
+		data: {
 			name, regStatus, legalPersonName, regCapital, formerNames, establishTime,
 		}, isDishonest,
 	} = props;
@@ -117,10 +121,18 @@ const EnterpriseInfo = (props) => {
 					</li>
 				</div>
 			</div>
-			<Button className="intro-download" onClick={download}>
-				<Icon type="download" />
-				下载
-			</Button>
+			<div className="intro-download">
+				<Download
+					style={{ width: 84 }}
+					condition={{
+						companyId: getQueryByName(window.location.href, 'id'),
+					}}
+					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+					api={exportListEnp}
+					normal
+					text="下载"
+				/>
+			</div>
 		</div>
 	);
 };
@@ -138,6 +150,18 @@ const EnterpriseInfoSimple = (props) => {
 					data.regStatus
 						? <span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={{ marginTop: 2 }}>{data.regStatus}</span> : ''
 				}
+			</div>
+			<div className="intro-download">
+				<Download
+					style={{ width: 84 }}
+					condition={{
+						companyId: getQueryByName(window.location.href, 'id'),
+					}}
+					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+					api={exportListEnp}
+					normal
+					text="下载"
+				/>
 			</div>
 			<Button className="intro-download" onClick={download}>
 				<Icon type="download" />

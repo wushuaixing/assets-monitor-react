@@ -19,7 +19,7 @@ export default class Download extends React.Component {
 
 	handleDownload=() => {
 		const {
-			api, condition, all, field, current, page, num, selectIds, selectData, selectedRowKeys,
+			api, condition, all, field, current, page, num, selectIds, selectData, selectedRowKeys, normal,
 		} = this.props;
 
 		// 处理变量参数
@@ -105,6 +105,8 @@ export default class Download extends React.Component {
 				message.warning('未选中业务');
 			}
 			// window.open(`${api}?${urlEncode(clearEmpty(_condition))}`, '_self');
+		} else if (normal) {
+			toOkClick();
 		} else {
 			message.warning('未选中业务');
 		}
@@ -114,14 +116,12 @@ export default class Download extends React.Component {
 	render() {
 		const { loadingStatus } = this.state;
 		const {
-			text, all, style, disabled, iconClass,
+			text, all, style, disabled, icon,
 		} = this.props;
-
+		const iconType = icon || <span className={all ? 'yc-export-img' : ''} />;
 		return (
 			<Button className={all && 'yc-all-export'} disabled={loadingStatus === 'loading' || disabled} onClick={this.handleDownload} style={style}>
-				{
-					loadingStatus === 'loading' ? <Icon type="loading" /> : <span className={all ? (iconClass || 'yc-export-img') : ''} />
-				}
+				{ loadingStatus === 'loading' ? <Icon type="loading" /> : iconType }
 				<span style={loadingStatus === 'loading' || all ? { marginLeft: 5 } : ''}>{text || '一键导出'}</span>
 			</Button>
 		);

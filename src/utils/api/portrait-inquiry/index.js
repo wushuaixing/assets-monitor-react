@@ -9,4 +9,9 @@ const companyInfo = params => service.get('/yc/search/portrait/company/info', { 
 const dishonestStatus = params => service.get('/yc/search/portrait/company/dishonest-status', { params })
 	.then(res => res.data);
 
-export { inquiryList, companyInfo, dishonestStatus };
+const exportListEnp = '/yc/search/portrait/company/export/download';
+const exportListPer = '/yc/search/portrait/personal/export/download';
+
+export {
+	inquiryList, companyInfo, dishonestStatus, exportListEnp, exportListPer,
+};
