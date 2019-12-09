@@ -17,6 +17,8 @@ import ruleMethods from '@/utils/rule';
 const mR = (id, childId) => ruleMethods.toGetRuleSource(global.ruleSource, id, childId);
 
 const toGetDefaultConfig = (c) => {
+	const riskOpr = mR('YC03', 'YC0303');
+	const riskRule = id => (riskOpr ? (riskOpr.children.filter(i => i.id === id)).length : false);
 	const base = [
 		{
 			id: 1,
@@ -69,9 +71,9 @@ const toGetDefaultConfig = (c) => {
 			field: 'publicPro',
 			status: Boolean(c.biddingCount || c.epbCount || c.taxCount),
 			child: [
-				{ id: 61, name: '招标中标', status: Boolean(c.biddingCount) },
-				{ id: 62, name: '重大税收违法', status: Boolean(c.taxCount) },
-				{ id: 63, name: '环境行政处罚', status: Boolean(c.epbCount) },
+				{ id: 61, name: '招标中标', status: Boolean(c.biddingCount) && mR('YC02', 'YC0204') },
+				{ id: 62, name: '重大税收违法', status: Boolean(c.taxCount) && riskRule('YC030304') },
+				{ id: 63, name: '环境行政处罚', status: Boolean(c.epbCount) && riskRule('YC030306') },
 			],
 		},
 		{
@@ -183,6 +185,7 @@ export default class HTMLTableElement extends React.Component {
 				this.setState({ config });
 			}
 		});
+		// console.log(mR('YC03', 'YC0303'));
 	}
 
 	onSourceType=(val, field) => {
@@ -194,7 +197,6 @@ export default class HTMLTableElement extends React.Component {
 	render() {
 		const { loading, config } = this.state;
 		const { model } = this.props;
-		console.log(config);
 		return (
 			<Spin visable={loading}>
 				<div className="yc-business-detail-table-list">
