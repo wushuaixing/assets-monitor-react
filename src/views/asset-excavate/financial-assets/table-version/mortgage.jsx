@@ -30,7 +30,8 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.companyName) ? <Ellipsis content={row.companyName} tooltip width={600} font={15} /> : '未公示' }
+						{ toEmpty(row.companyName)
+							? <Ellipsis content={`股权标的企业：${row.companyName}`} tooltip width={600} font={15} /> : '股权标的企业：未公示' }
 					</li>
 					<li>
 						<span className="list list-title align-justify">登记日期</span>

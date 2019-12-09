@@ -114,19 +114,20 @@ export default class Download extends React.Component {
 	render() {
 		const { loadingStatus } = this.state;
 		const {
-			text, all, style, disabled,
+			text, all, style, disabled, iconClass,
 		} = this.props;
 
 		return (
 			<Button className={all && 'yc-all-export'} disabled={loadingStatus === 'loading' || disabled} onClick={this.handleDownload} style={style}>
 				{
-					loadingStatus === 'loading' ? <Icon type="loading" /> : <span className={all ? 'yc-export-img' : ''} />
+					loadingStatus === 'loading' ? <Icon type="loading" /> : <span className={all ? (iconClass || 'yc-export-img') : ''} />
 				}
 				<span style={loadingStatus === 'loading' || all ? { marginLeft: 5 } : ''}>{text || '一键导出'}</span>
 			</Button>
 		);
 	}
 }
+
 Download.propTypes = {
 	style: PropTypes.obj,
 	// 是否添加style样式
