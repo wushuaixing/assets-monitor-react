@@ -12,6 +12,9 @@ import Table0050 from '../risk-monitor/bankruptcy/table-intact';
 import Table0060 from '../asset-excavate/public-proclamation/table-intact';
 import Table0070 from './table-dishonest';
 import './style.scss';
+import ruleMethods from '@/utils/rule';
+
+const mR = (id, childId) => ruleMethods.toGetRuleSource(global.ruleSource, id, childId);
 
 const toGetDefaultConfig = (c) => {
 	const base = [
@@ -19,13 +22,13 @@ const toGetDefaultConfig = (c) => {
 			id: 1,
 			name: '资产拍卖',
 			field: 'auction',
-			status: Boolean(c.auctionCount),
+			status: Boolean(c.auctionCount) && mR('YC02', 'YC0201'),
 		},
 		{
 			id: 2,
 			name: '代位权',
 			field: 'subrogation',
-			status: Boolean(c.subrogationFilingCount || c.subrogationCourtSessionCount || c.subrogationJudgmentCourt),
+			status: Boolean(c.subrogationFilingCount || c.subrogationCourtSessionCount || c.subrogationJudgmentCourt) && mR('YC02', 'YC0202'),
 			child: [
 				{ id: 21, name: '立案信息', status: Boolean(c.subrogationFilingCount) },
 				{ id: 22, name: '开庭公告', status: Boolean(c.subrogationCourtSessionCount) },
@@ -36,7 +39,7 @@ const toGetDefaultConfig = (c) => {
 			id: 3,
 			name: '金融资产',
 			field: 'assets',
-			status: Boolean(c.financeCount || c.auctionBiddingCount),
+			status: Boolean(c.financeCount || c.auctionBiddingCount) && mR('YC02', 'YC0202'),
 			child: [
 				{ id: 31, name: '股权质押', status: Boolean(c.auctionBiddingCount) },
 				{ id: 32, name: '竞价项目', status: Boolean(c.auctionBiddingCount) },
@@ -47,7 +50,7 @@ const toGetDefaultConfig = (c) => {
 			id: 4,
 			name: '涉诉监控',
 			field: 'monitor',
-			status: Boolean(c.trialCourtSessionCount || c.trialFilingCount || c.trialJudgmentCount),
+			status: Boolean(c.trialCourtSessionCount || c.trialFilingCount || c.trialJudgmentCount) && mR('YC03', 'YC0301'),
 			child: [
 				{ id: 41, name: '立案信息', status: Boolean(c.trialFilingCount) },
 				{ id: 42, name: '开庭公告', status: Boolean(c.trialCourtSessionCount) },
@@ -58,7 +61,7 @@ const toGetDefaultConfig = (c) => {
 			id: 5,
 			name: '企业破产重组',
 			field: 'bankrupt',
-			status: Boolean(c.bankruptcyCount),
+			status: Boolean(c.bankruptcyCount) && mR('YC03', 'YC0302'),
 		},
 		{
 			id: 6,
@@ -191,6 +194,7 @@ export default class HTMLTableElement extends React.Component {
 	render() {
 		const { loading, config } = this.state;
 		const { model } = this.props;
+		console.log(config);
 		return (
 			<Spin visable={loading}>
 				<div className="yc-business-detail-table-list">
