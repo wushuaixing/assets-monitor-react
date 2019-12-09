@@ -41,7 +41,7 @@ const toGetDefaultConfig = (c) => {
 			field: 'assets',
 			status: Boolean(c.financeCount || c.auctionBiddingCount) && mR('YC02', 'YC0202'),
 			child: [
-				{ id: 31, name: '股权质押', status: Boolean(c.auctionBiddingCount) },
+				// { id: 31, name: '股权质押', status: Boolean(c.auctionBiddingCount) },
 				{ id: 32, name: '竞价项目', status: Boolean(c.auctionBiddingCount) },
 				{ id: 33, name: '公示项目', status: Boolean(c.financeCount) },
 			],
@@ -61,7 +61,7 @@ const toGetDefaultConfig = (c) => {
 			id: 5,
 			name: '企业破产重组',
 			field: 'bankrupt',
-			status: Boolean(c.bankruptcyCount) && mR('YC03', 'YC0302'),
+			status: true,
 		},
 		{
 			id: 6,

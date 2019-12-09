@@ -180,8 +180,9 @@ class comInput extends React.Component {
 					type={type || 'text'}
 					ref={e => this.ref = e}
 					className={classList.join(' ')}
-					autoComplete="off"
+					// autoComplete="off"
 					value={_value}
+					autoComplete="new-password"
 					disabled={disabled || false}
 					placeholder={placeholder || '请输入'}
 					{...inputChange}
