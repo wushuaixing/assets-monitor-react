@@ -409,11 +409,19 @@ class AUCTION extends React.Component {
 						suffix="万元"
 						inputFirstProps={getFieldProps('lowestConsultPrice', {
 							initialValue: params.lowestConsultPrice,
+							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+							rules: [
+								{ required: true },
+							],
 						})}
 						inputSecondProps={getFieldProps('highestConsultPrice', {
 							initialValue: params.highestConsultPrice,
+							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+							rules: [
+								{ required: true },
+							],
 						})}
 					/>
 				</div>

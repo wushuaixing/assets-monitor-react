@@ -104,10 +104,16 @@ class QueryCondition extends React.Component {
 						inputFirstProps={getFieldProps('lowPrice', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+							rules: [
+								{ required: true },
+							],
 						})}
 						inputSecondProps={getFieldProps('highPrice', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+							rules: [
+								{ required: true },
+							],
 						})}
 					/>
 				</div>
