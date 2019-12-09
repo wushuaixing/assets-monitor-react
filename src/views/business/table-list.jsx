@@ -194,7 +194,6 @@ export default class HTMLTableElement extends React.Component {
 	render() {
 		const { loading, config } = this.state;
 		const { model } = this.props;
-		console.log(config);
 		return (
 			<Spin visable={loading}>
 				<div className="yc-business-detail-table-list">
