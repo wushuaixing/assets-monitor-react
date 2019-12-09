@@ -42,6 +42,9 @@ const ruleList = (props) => {
 	l.push(<Attention path="my/attention/*" />);
 	l.push(<Message path="message/*" />);
 	l.push(<ChangePassword path="change/password/*" />);
+	if (!rule.menu_sy) {
+		l[0].props.path = '/*';
+	}
 	return l;
 };
 

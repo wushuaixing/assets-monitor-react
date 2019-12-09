@@ -74,6 +74,7 @@ class RiskMonitor extends React.Component {
 	render() {
 		const { source } = this.state;
 		const { rule } = this.props;
+		const _source = source.filter(item => item.status);
 
 		return (
 			<React.Fragment>
@@ -97,7 +98,7 @@ class RiskMonitor extends React.Component {
 				<div className="yc-monitor yc-page-content">
 					<Router>
 						{
-							source.map(Item => <Item.components path={`${Item.url}/*`} rule={rule} />)
+							_source.map(Item => <Item.components path={`${Item.url}/*`} rule={rule} />)
 						}
 					</Router>
 				</div>

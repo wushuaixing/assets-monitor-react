@@ -107,6 +107,8 @@ class MonitorMain extends React.Component {
 	render() {
 		const { source } = this.state;
 		const { rule } = this.props;
+		const _source = source.filter(item => item.status);
+		// 		// console.log(_source);
 		return (
 			<React.Fragment>
 				<Tabs
@@ -145,7 +147,7 @@ class MonitorMain extends React.Component {
 				<div className="yc-monitor yc-page-content">
 					<Router>
 						{
-							source.map(Item => (
+							_source.map(Item => (
 								<Item.components
 									path={`${Item.url}/*`}
 									rule={rule}
