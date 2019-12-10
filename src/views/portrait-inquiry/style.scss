@@ -12,13 +12,13 @@
     border: 1px solid $border-base;
   }
   .regStatus-green{
-    border: 1px solid $common-success;
-    background-color: #f4fffa;
+    border: 1px solid #94D6B5;
+    background-color: #F4FFF9;
     color: $common-success;
   }
   .regStatus-red{
-    border: 1px solid $common-error;
-    background-color: #fff4f3;
+    border: 1px solid #FF9293;
+    background-color: #FFF3F3;
     color: $common-error;
   }
   .regStatus-orange{
@@ -31,7 +31,7 @@
     .yc-query-item{
       display: inline-block;
       vertical-align: top;
-      margin-right: 10px;
+      margin-right: 20px;
     }
   }
   .yc-inquiry-view{

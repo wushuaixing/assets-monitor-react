@@ -30,7 +30,7 @@ const StepDesc = (props) => {
 	}(remindMobiles));
 
 	return (
-		<React.Fragment>
+		<div className="font-desc">
 			{
 				recovery || expend ? (
 					<li>
@@ -50,7 +50,7 @@ const StepDesc = (props) => {
 					</li>
 				) : null
 			}
-		</React.Fragment>
+		</div>
 	);
 };
 
@@ -391,18 +391,12 @@ export default class FollowInfo extends React.Component {
 				footer={[
 					<p className="yc-public-floatLeft">
 						{
-							process !== 15 ? <Btn type="warning-text" size="normal" onClick={() => this.handleProcessSave(15)}>放弃跟进</Btn> : ''
+							process !== 15
+								? <Btn onClick={() => this.handleProcessSave(15)} style={{ width: 100 }} title="放弃跟进" /> : ''
 						}
 					</p>,
-					<Button key="back" type="ghost" size="large" onClick={onClose}>取 消</Button>,
-					<Btn
-						type="primary"
-						loading={loading}
-						size="large"
-						onClick={() => this.handleProcessSave()}
-						style={{ width: 100 }}
-						title="确定"
-					/>,
+					<Btn onClick={onClose} style={{ width: 100 }} title="取 消" />,
+					<Btn type="primary" loading={loading} onClick={() => this.handleProcessSave()} style={{ width: 100 }} title="确 认" />,
 				]}
 			>
 				<div className="yc-assets-follow-body" id="yc-assets-follow-body">
@@ -508,9 +502,7 @@ export default class FollowInfo extends React.Component {
 															{
 																dataSource.map(item => (
 																	<Select.Option key={item.id} value={item.id}>
-																		{item.name}
-																		{' '}
-																		{markContent(item)}
+																		{`${item.name} ${markContent(item)}`}
 																	</Select.Option>
 																))
 															}
@@ -612,7 +604,7 @@ export default class FollowInfo extends React.Component {
 						process !== 0 ? (
 							<div className="yc-follow-list">
 								<Spin visible={loadingList} minHeight={100}>
-									<div className="follow-add-title">跟进记录</div>
+									<div className="follow-add-title" style={{ paddingTop: 20 }}>跟进记录</div>
 									{
 										processSource.length ? (
 											<Steps direction="vertical" size="small" className="follow-list-step">
@@ -621,7 +613,7 @@ export default class FollowInfo extends React.Component {
 														<Steps.Step
 															status="process"
 															title={([
-																<span>{item.username}</span>,
+																<span className="font-title">{item.username}</span>,
 																<React.Fragment>
 																	{
 																		item.self ? (
