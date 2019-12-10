@@ -18,7 +18,7 @@ const mR = (id, childId) => ruleMethods.toGetRuleSource(global.ruleSource, id, c
 
 const toGetDefaultConfig = (c) => {
 	const riskOpr = mR('YC03', 'YC0303');
-	const riskRule = id => (riskOpr ? (riskOpr.children.filter(i => i.id === id)).length : false);
+	const riskRule = id => (riskOpr ? (riskOpr.child.filter(i => i.id === id)).length : false);
 	const base = [
 		{
 			id: 1,
@@ -41,7 +41,7 @@ const toGetDefaultConfig = (c) => {
 			id: 3,
 			name: '金融资产',
 			field: 'assets',
-			status: Boolean(c.financeCount || c.auctionBiddingCount) && mR('YC02', 'YC0202'),
+			status: Boolean(c.financeCount || c.auctionBiddingCount) && mR('YC02', 'YC0205'),
 			child: [
 				// { id: 31, name: '股权质押', status: Boolean(c.auctionBiddingCount) },
 				{ id: 32, name: '竞价项目', status: Boolean(c.auctionBiddingCount) },
@@ -63,7 +63,7 @@ const toGetDefaultConfig = (c) => {
 			id: 5,
 			name: '企业破产重组',
 			field: 'bankrupt',
-			status: true,
+			status: Boolean(c.bankruptcyCount) && mR('YC03', 'YC0302'),
 		},
 		{
 			id: 6,
