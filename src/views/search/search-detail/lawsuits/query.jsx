@@ -63,21 +63,17 @@ class QUERYLAWSUITS extends React.Component {
 		fildes.defendant0 = defendant[0] ? defendant[0].name : undefined;
 		fildes.defendant1 = defendant[1] ? defendant[1].name : undefined;
 		fildes.defendant2 = defendant[2] ? defendant[2].name : undefined;
-		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fildes)) {
-			// 将值传到URL
-			navigate(generateUrlWithParams('/search/detail/lawsuits', fildes));
-		} else {
-			queryReset();
-		}
+
 		const { hash } = window.location;
 		const urlObj = parseQuery(hash);
 
 		const defendantArray = ([urlObj.defendant0 || undefined, urlObj.defendant1 || undefined, urlObj.defendant2 || undefined]);
 		const plaintiffArray = ([urlObj.plaintiff0 || undefined, urlObj.plaintiff1 || undefined, urlObj.plaintiff2 || undefined]);
+		const fildesDefendantArray = ([fildes.defendant0 || undefined, fildes.defendant1 || undefined, fildes.defendant2 || undefined]);
+		const fildesiffArray = ([fildes.plaintiff0 || undefined, fildes.plaintiff1 || undefined, fildes.plaintiff2 || undefined]);
 		const Params = {
-			bgList: defendantArray,
-			ygList: plaintiffArray,
+			bgList: fildesDefendantArray || defendantArray,
+			ygList: fildesiffArray || plaintiffArray,
 			ah: urlObj.ah || undefined,
 			court: urlObj.court || undefined,
 			endLarq: urlObj.endLarq || undefined,
@@ -85,12 +81,17 @@ class QUERYLAWSUITS extends React.Component {
 			page: 1,
 			num: pageSize,
 			Sort: undefined,
-			// current: 1,
+			...fildes,
 		};
 		// 判断是否为空对象,非空请求接口
-		if (Object.keys(urlObj).length !== 0) {
+		if (!objectKeyIsEmpty(fildes)) {
+			// 将值传到URL
+			navigate(generateUrlWithParams('/search/detail/lawsuits', fildes));
 			getData(Params, type); // 进入页面请求数据
 			getCount(Params);
+		} else {
+			queryReset();
+			// message.error('请至少输入一个搜索条件');
 		}
 		getQueryData(Params);
 	};
