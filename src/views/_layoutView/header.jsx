@@ -30,9 +30,11 @@ const Item = (props) => {
 		});
 		event.stopPropagation();
 	};
+	const toHref = items => `#${items.url}${items.param ? items.param : ''}`;
+
 	const parentChoose = active.p === id ? 'header-item-active' : 'header-item-normal';
 	return (
-		<li className={`header-item header-item-${id} ${parentChoose}`} onClick={e => toNavigate(e, props)}>
+		<a className={`header-item header-item-${id} ${parentChoose}`} onClick={e => toNavigate(e, props)} href={toHref(props)}>
 			<Badge dot={dot}>
 				<span>{name}</span>
 			</Badge>
@@ -49,7 +51,7 @@ const Item = (props) => {
 					))
 					}
 			</ul>
-		</li>
+		</a>
 	);
 };
 
