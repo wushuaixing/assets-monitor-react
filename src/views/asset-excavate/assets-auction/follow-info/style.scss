@@ -2,24 +2,31 @@
   .ant-modal-body{
     padding: 0!important;
   }
+  .font-title{
+    color: $text-title;
+    font-size: 14px;
+  }
+  .font-desc {
+    color: $text-content;
+    font-size: 14px;
+  }
   .yc-assets-follow-body {
     position: relative;
     max-height: 520px;
-    padding: 16px;
+    padding: 30px 30px 0 30px;
     overflow: auto;
     .yc-follow-line {
       margin: 10px 0;
       height: 1px;
       width: 100%;
-      background-color: $background-border;
+      background-color: $border-base;
     }
 
     .follow-add-title {
-      padding: 10px 0;
       font-size: 14px;
       line-height: 16px;
       font-weight: bold;
-      padding-left: 2px;
+      padding-bottom: 10px;
 
       .anticon-plus-circle {
         line-height: 15px;
@@ -138,10 +145,13 @@
           cursor: pointer;
         }
         .list-step-title-mark-status{
+          margin-left: 10px;
           @extend .list-step-title-normal;
 
         }
         .list-step-title-mark-time{
+          font-size: 14px;
+          color: $text-remark;
           @extend .list-step-title-normal;
 
         }
