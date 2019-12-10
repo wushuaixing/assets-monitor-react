@@ -159,7 +159,7 @@ export default class QueryView extends React.Component {
 						</div>
 					) : null
 				}
-				<div className="yc-query-item" style={{ float: 'right' }}>
+				<div className="yc-query-item" style={{ float: 'right', marginRight: 0 }}>
 					<Button type="primary" style={{ width: 85 }} size="large" onClick={this.handleQuery}>查询</Button>
 				</div>
 			</div>

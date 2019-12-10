@@ -128,9 +128,9 @@ export default class InitView extends React.Component {
 						) : null
 					}
 					<div className="yc-query-item" style={{ textAlign: 'center', marginTop: 80 }}>
-						<Button type="primary" style={{ width: 186 }} size="large" onClick={this.handleQuery}>
-							<Icon type="search" style={{ marginRight: 10 }} />
-							一键查询债务人画像
+						<Button type="primary" style={{ width: 200 }} size="large" onClick={this.handleQuery}>
+							<Icon type="search" style={{ marginRight: 6 }} />
+							<span style={{ fontSize: 14 }}>一键查询债务人画像</span>
 						</Button>
 					</div>
 				</div>
