@@ -1,3 +1,5 @@
+@font-face{font-family: "Alibaba PuHuiTi R";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Regular.otf")}
+@font-face{font-family: "Alibaba PuHuiTi M";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Medium.otf")}
 * {
   line-height: 1.45;
   padding: 0;
@@ -6,6 +8,14 @@
   font-size: 13px;
   list-style: none;
   font-family: "Alibaba PuHuiTi R", Arial, serif;
+}
+
+.firstName{
+  font-size: 30px;
+  line-height: 67px;
+  color: #ffffff;
+  text-align: center;
+  vertical-align: middle;
 }
 
 body {
@@ -215,7 +225,7 @@ table {
   .exp-title .name, .exp-title .number {
     font-size: 27px; }
   .exp-title .time {
-    margin: 700px 0 50px 0;
+    margin: 650px 0 50px 0;
     font-size: 18px; }
   .exp-title p {
     text-align: left;
@@ -235,7 +245,8 @@ table {
     width: 67px;
     height: 67px;
     float: left;
-    background-color: #E6EEFF;
+    background-color: #1e8cfa;
+    border-radius: 5px;
     border: 1px solid #a8c8ff; }
   .exp-info .info {
     margin-left: 85px; }
