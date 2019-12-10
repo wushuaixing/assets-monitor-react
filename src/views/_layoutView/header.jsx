@@ -34,9 +34,9 @@ const Item = (props) => {
 
 	const parentChoose = active.p === id ? 'header-item-active' : 'header-item-normal';
 	return (
-		<a className={`header-item header-item-${id} ${parentChoose}`} onClick={e => toNavigate(e, props)} href={toHref(props)}>
+		<li className={`header-item header-item-${id} ${parentChoose}`} onClick={e => toNavigate(e, props)}>
 			<Badge dot={dot}>
-				<span>{name}</span>
+				<a href={toHref(props)} style={{ color: '#FFFFFF' }}>{name}</a>
 			</Badge>
 			<ul className="header-child-item">
 				{
@@ -51,7 +51,7 @@ const Item = (props) => {
 					))
 					}
 			</ul>
-		</a>
+		</li>
 	);
 };
 
