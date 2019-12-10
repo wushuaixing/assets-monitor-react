@@ -55,7 +55,6 @@ const source = rule => ([
 
 const SearchBase = (props) => {
 	const { rule } = props && props;
-	console.log(rule, 111);
 	const displayArray = source(rule).filter(item => item.open === true); // 过滤权限
 
 	return (
