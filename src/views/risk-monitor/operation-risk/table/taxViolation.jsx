@@ -13,24 +13,20 @@ const columns = (props) => {
 	const sort = { sortField, sortOrder };
 
 	// 含操作等...
+	const _style = { paddingLeft: 11 };
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
-			dataIndex: 'gmtPublish',
+			title: (noSort ? <span style={_style}>发布日期</span>
+				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={_style} {...sort}>发布日期</SortVessel>),
+			dataIndex: 'publishDate',
 			width: 113,
-			render: (text, record) => ReadStatus(text || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text || '--'), record),
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
 			width: 300,
 			render: partyInfo,
 		},
-		// {
-		// 	title: '统一社会信用代码',
-		// 	dataIndex: 'unifiedSocialCreditCode',
-		// 	width: 190,
-		// 	render: text => text || '--',
-		// },
 		{
 			title: '案件性质',
 			dataIndex: 'caseNature',
