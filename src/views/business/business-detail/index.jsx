@@ -33,7 +33,14 @@ class DebtorDetail extends React.Component {
 				key: 'obligorName',
 				width: 375,
 				render: (text, row) => (
-					<p style={{ position: 'relative' }}>
+					<p
+						onClick={() => {
+							const w = window.open('about:blank');
+							w.location.href = `#/business/debtor/detail?id=${row.obligorId}`;
+						}}
+						className="yc-table-text-link"
+						style={{ position: 'relative' }}
+					>
 						{text || '-'}
 						{
 								row && row.dishonestStatus === 1 ? <img className="yc-item-break" src={isBreak} alt="" /> : null
