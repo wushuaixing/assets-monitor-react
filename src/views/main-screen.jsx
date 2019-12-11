@@ -108,7 +108,10 @@ export default class Screen extends React.Component {
 		// 判断是否是第一次登录
 		// console.log('main-screen:componentWillReceiveProps');
 		const firstLogin = cookie.get('firstLogin');
-		if (props.location.hash !== '#/change/password' && firstLogin === 'ture') {
+		if (props.location && props.location.hash !== '#/change/password' && firstLogin === 'true') {
+			this.setState({
+				loading: 'hidden',
+			});
 			navigate('/change/password');
 		}
 	}

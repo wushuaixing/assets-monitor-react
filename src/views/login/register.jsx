@@ -111,16 +111,16 @@ class Login extends React.Component {
 							if (rememberPassword === 'false') {
 								cookie.remove('userName');
 							} else {
-								cookie.set('userName', fields.username, { SameSite: 'none' });
+								cookie.set('userName', fields.username);
 							}
 							message.success('登陆成功');
-							cookie.set('token', res.data.token, { SameSite: 'none' });
-							cookie.set('firstLogin', res.data.firstLogin, { SameSite: 'none' });
+							cookie.set('token', res.data.token);
+							cookie.set('firstLogin', res.data.firstLogin);
 							const rule = handleRule(res.data.rules);
 
 							// 判断是否是第一次登录
 							if (res.data.firstLogin === true) {
-								navigate('/changepassword');
+								navigate('/change/password');
 							} else {
 								this.setState({
 									loading: false,
