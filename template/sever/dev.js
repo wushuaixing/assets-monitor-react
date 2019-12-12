@@ -8,6 +8,7 @@ var backgroundImg  = fs.readFileSync('./template/img/watermark.png',);
 var iconImg  = fs.readFileSync('./template/img/icon_shixin.png',);
 
 // 转换为 data:image/jpeg;base64,***** 格式的字符串
+var defaultIcon ="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAA+xJREFUeAHtndtO20AQQMeXJISLAAFNkYBCkfpSVZV46De0P9KP6n/0tR9QXkrV0gfUC20aWkWkpBBIcGx3xsTgbnHi1cbejTqDrN3ZnbHXx2PvxRaxjtrhs9CHFwCwhhtLdgJ1y4HnVqMVfkMfhpcdXNKyTgDDZAnn5QjYcuZsLRJggCIRSZ0BSgITzRmgSERSZ4CSwERzBigSkdQZoCQw0ZwBikQkdQYoCUw0Z4AiEUmdAUoCE80ZoEhEUmeAksBEcwYoEpHUGaAkMNGcAYpEJHUGKAlMNGeAIhFJnQFKAhPNXbEgL333oAv1Zh9C/AvwIPQmJt6C6K0M1mBK+bg8SsljUBbXra+48HRnJq+mSu23MIBvPvUIm1Tj0oy/Nb20qsLLCwMYw7u/UgJrcJrWIBMlA8UiyFhAZXF5lA70/aPLwiENO2CBAK+aMVWKcaQ1a1R9mp+ecu5EFLkzQEWAhd/CyfZ+Pvbg9IL65HSZq9qwtVRKN9BcY3wEWuPpuHPDrDUCTY6srMSNj8CsJ6LLjgEqkmeADFCRgKK71k6EhzGKVy+LOw9jhlBSGca83O3AwowNC7NOlC5iOl0pfh6t9RYewnZkVaPlQaP1t1nJtRDmFdCtu2W4h+uGecvE9sIbSy7U5h1YRGAUeY5tgdcPodnuw0HjEl7tdfJmF+0//0uU02nMVmyYrcQ7d6KMj0vWPVxr/YJz7L5fzBxwYgHG6JIpReH0NdRkTX55IwD2MXLef+/Br9OA3oDA/LQDD9cqUMFnmulixDOQ4DXbPhBIH1e3Wmc+7H3tms4uap92gPTG7fjU/wfW7/MAetgpmC7aAVLUBSlrqtSrmi7aAZYcC1x8+N8mo19A3eZVbJl2gHS6tYWrYUjy1JfnXHARruliBMDtO2Wolm9glRHcg1Vz34MkL6oRw5iuF8LOZhV+tL3oeVibd7E3Nv/5RyC1AaTet3HiwSF+L3N+GcDMlA2PNyrRtzFvD7tYFuJMw4aN5RKsLrrXXzMkr74JeW0A39W78BPHfrF0ugG8/ohjPyTbH/TKZ70A9nGMeIzjwkfrBU8x4oaNSLUBbOM4T5S0+etJ5wa06KNb1wbwyXYVLvA2zSI61vmytItstAEs4zyXtkkXbQBVwVEnZIIUDnAfFzvHIR8M+U6wsIH0On5YOQ6hm56+xaS1v2HbZq08jsON3Af/35iRiIYbFBaBw5sxubUMUPHaMUAGqEhA0Z0jkAEqElB05whkgIoEFN05AhmgIgFFd45ABqhIQNGdI5ABKhJQdOcIZICKBBTdOQIZoCIBRXeOwDEArCvu4392r9v0kw5IgCHKh0H0cxh/AGhL8KPsv+MKAAAAAElFTkSuQmCC";
 
 var backgroundImgData = 'data:image/png;base64,' +  new Buffer.alloc(65*1024,backgroundImg).toString('base64');
 
@@ -216,7 +217,7 @@ function exportTemplate(source,exportType) {
 
 			var formerNames= (source.formerNames.length)?source.formerNames.join('、'):'--';
 			htmlTemp = htmlTemp.replace("{info.formerNames}", formerNames);
-			htmlTemp = htmlTemp.replace("{info.logoUrl}", (source.logoUrl?("<img src=\""+source.logoUrl+"\" alt=\"\" width=\"67\">"):""));
+			htmlTemp = htmlTemp.replace("{info.logoUrl}", (source.logoUrl?("<img src=\""+source.logoUrl+"\" alt=\"\">"):("<img src=\""+defaultIcon+"\" alt=\"\" >")));
 			var regStatus =fun.toRegStatus(source.regStatus);
 			htmlTemp = htmlTemp.replace("{info.regStatus}", (regStatus?"<span class=\"n-regStatus"+regStatus+"\">"+source.regStatus+"</span>":""));
 		};
@@ -228,9 +229,10 @@ function exportTemplate(source,exportType) {
 			htmlTemp = htmlTemp.replace(/{info.number}/g, source.number||'--');
 		};
 		infoInput2(data.B10101);
+		console.log(data.B10101.name);
+		htmlTemp = htmlTemp.replace("{info.firstName}", data.B10101.name?data.B10101.name[0]:'');
 		htmlTemp = htmlTemp.replace("{info.dishonest}", (data.B10102?"<span class=\"img-icon\"></span>":""));
 		htmlTemp = htmlTemp.replace("{info.logoUrl}", (source.logoUrl?("<img src=\""+source.logoUrl+"\" alt=\"\" width=\"67\">"):""));
-
 	}
 
 	/* 概览模块 */
@@ -991,7 +993,7 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
 						"<td>" +
-						"<li class='mg8-0 font-m'>" +(item.companyName||'--') +"</li>"+
+						"<li class='mg8-0 font-m wordBreak'>" +(item.companyName||'--') +"</li>"+
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>登记日期：</span>" +
@@ -1035,7 +1037,7 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
 						"<td>" +
-						"<li class='mg8-0 font-m'>" +(item.companyName||'--') + "</li>"+
+						"<li class='mg8-0 font-m wordBreak'>" +(item.companyName||'--') + "</li>"+
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>登记日期：</span>" +
@@ -1079,7 +1081,7 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
 						"<td>" +
-						"<li class='mg8-0 font-m'>" +(item.pawnName||'--') + "</li>"+
+						"<li class='mg8-0 font-m wordBreak'>" +(item.pawnName||'--') + "</li>"+
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>登记日期：</span>" +
@@ -1135,7 +1137,7 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
 						"<td>" +
-						"<li class='mg8-0 font-m'>" +(item.pawnName||'--') + "</li>"+
+						"<li class='mg8-0 font-m wordBreak'>" +(item.pawnName||'--') + "</li>"+
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>登记日期：</span>" +
