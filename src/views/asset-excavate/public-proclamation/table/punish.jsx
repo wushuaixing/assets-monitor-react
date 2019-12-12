@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Pagination } from 'antd';
+import { Table } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDom, timeStandard } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';

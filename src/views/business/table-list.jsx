@@ -18,7 +18,7 @@ const mR = (id, childId) => ruleMethods.toGetRuleSource(global.ruleSource, id, c
 
 const toGetDefaultConfig = (c) => {
 	const riskOpr = mR('YC03', 'YC0303');
-	const riskRule = id => (riskOpr ? (riskOpr.child.filter(i => i.id === id)).length : false);
+	const riskRule = id => (riskOpr ? (riskOpr.child.filter(i => i.id === id && i.status)).length : false);
 	const base = [
 		{
 			id: 1,
@@ -69,7 +69,7 @@ const toGetDefaultConfig = (c) => {
 			id: 6,
 			name: '公示公告',
 			field: 'publicPro',
-			status: Boolean(c.biddingCount || c.epbCount || c.taxCount),
+			status: Boolean(c.biddingCount || c.epbCount || c.taxCount) && mR('YC02', 'YC0204') && riskRule('YC030304') && riskRule('YC030306'),
 			child: [
 				{ id: 61, name: '招标中标', status: Boolean(c.biddingCount) && mR('YC02', 'YC0204') },
 				{ id: 62, name: '重大税收违法', status: Boolean(c.taxCount) && riskRule('YC030304') },
