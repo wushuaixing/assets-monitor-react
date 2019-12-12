@@ -5,7 +5,15 @@ import {
 } from '@/common';
 
 
-const options = [2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2004];
+const getSelectOption = () => {
+	const myDate = new Date();
+	const tYear = myDate.getFullYear();
+	const selectOption = [];
+	for (let i = 2000; i <= tYear; i += 1) {
+		selectOption.unshift(i);
+	}
+	return selectOption;
+};
 class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
@@ -62,7 +70,7 @@ class QueryCondition extends React.Component {
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">发布年份：</span>
 					<Select size="large" style={_style2} {...getFieldProps('gmtPublishYear')} placeholder="请选择" allowClear>
-						{options.map(item => <Select.Option value={item} key={item}>{`${item}年`}</Select.Option>)}
+						{getSelectOption().map(item => <Select.Option value={item} key={item}>{`${item}年`}</Select.Option>)}
 					</Select>
 				</div>
 
