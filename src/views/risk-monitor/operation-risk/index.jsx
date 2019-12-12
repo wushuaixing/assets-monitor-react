@@ -220,7 +220,6 @@ export default class BusinessRisk extends React.Component {
 	};
 
 	render() {
-		console.log('render');
 		const {
 			sourceType, isRead, dataSource, current, total, manage, loading,
 		} = this.state;

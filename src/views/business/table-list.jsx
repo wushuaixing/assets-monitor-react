@@ -11,8 +11,8 @@ import Table0040 from '../risk-monitor/lawsuits-monitor/table-intact';
 import Table0050 from '../risk-monitor/bankruptcy/table-intact';
 import Table0060 from '../asset-excavate/public-proclamation/table-intact';
 import Table0070 from './table-dishonest';
-import './style.scss';
 import ruleMethods from '@/utils/rule';
+import './style.scss';
 
 const mR = (id, childId) => ruleMethods.toGetRuleSource(global.ruleSource, id, childId);
 
@@ -69,7 +69,7 @@ const toGetDefaultConfig = (c) => {
 			id: 6,
 			name: '公示公告',
 			field: 'publicPro',
-			status: Boolean(c.biddingCount || c.epbCount || c.taxCount) && mR('YC02', 'YC0204') && riskRule('YC030304') && riskRule('YC030306'),
+			status: Boolean(c.biddingCount || c.epbCount || c.taxCount) && (mR('YC02', 'YC0204') || riskRule('YC030304') || riskRule('YC030306')),
 			child: [
 				{ id: 61, name: '招标中标', status: Boolean(c.biddingCount) && mR('YC02', 'YC0204') },
 				{ id: 62, name: '重大税收违法', status: Boolean(c.taxCount) && riskRule('YC030304') },

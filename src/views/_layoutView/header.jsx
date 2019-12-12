@@ -97,15 +97,17 @@ export default class Headers extends React.Component {
 	componentDidMount() {
 		// const { hash } = window.location;
 		// console.log(hash);
-
+		const { rule } = this.props;
 		window.scrollTo(0, 0);
-		unreadCount().then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					Surplus: res.data,
-				});
-			}
-		});
+		if (rule.menu_sy) {
+			unreadCount().then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						Surplus: res.data,
+					});
+				}
+			});
+		}
 	}
 
 	componentWillReceiveProps() {
@@ -143,7 +145,7 @@ export default class Headers extends React.Component {
 		const {
 			active, config, num, data, Surplus,
 		} = this.state;
-
+		const { rule } = this.props;
 		return (
 			<div className="yc-header-wrapper">
 				<div
@@ -194,20 +196,25 @@ export default class Headers extends React.Component {
 							)
 
 						}
-						<div
-							className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
-							onClick={(event) => {
-								this.setState({ active: { p: 101, c: '' } });
-								navigate('/message');
-								event.stopPropagation();
-							}}
-						>
-							<Badge dot={Surplus && Surplus > 0} style={{ top: 0, right: 0 }}>
-								<div className="notice-icon yc-notice-img" />
-							</Badge>
-							<span className="notice-number">{num && num > 0 ? `(${num})` : ''}</span>
-							<HeaderMessage getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" />
-						</div>
+						{
+							rule.menu_sy && (
+							<div
+								className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
+								onClick={(event) => {
+									this.setState({ active: { p: 101, c: '' } });
+									navigate('/message');
+									event.stopPropagation();
+								}}
+							>
+								<Badge dot={Surplus && Surplus > 0} style={{ top: 0, right: 0 }}>
+									<div className="notice-icon yc-notice-img" />
+								</Badge>
+								<span className="notice-number">{num && num > 0 ? `(${num})` : ''}</span>
+								<HeaderMessage getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" />
+							</div>
+							)
+						}
+
 						{/* <HeaderMessage mark="消息中心大概预览" /> */}
 						<div className="else-child else-line" />
 						<div className="else-child else-username header-item-normal">

@@ -85,23 +85,17 @@ class InformCenter extends React.Component {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
 		if (params.page) {
-			console.log(12);
-
 			this.getData(params);
 			this.setState({
 				current: Number(params.page),
 			});
 		} else {
-			console.log(123);
-
 			this.getData();
 		}
 
 		userInfo().then((res) => {
 			if (res.code === 200) {
 				const isInstitution = res.data.currentOrgId === res.data.masterOrgId;
-				console.log(isInstitution);
-
 				if (isInstitution === false && columns.length > 0) {
 					columns.pop(); // 删掉最后一项
 				}
