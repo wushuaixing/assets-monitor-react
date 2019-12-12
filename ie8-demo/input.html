@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+<body>
+<script>
+	function methods() {
+
+		var file = document.getElementById("inputFile").value;
+		console.log(file);
+		var formData=new FormData();
+		formData.append("file",file);
+		$.ajax({
+			type: 'POST',
+			url: "http://172.18.255.251:8588/yc/business/importExcel?token=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4MDciLCJzdWIiOiIxNTE2ODI3MTkwMiIsImlhdCI6MTU3NTk4MzY1Mywicm9sZXMiOlsi566h55CG5ZGY55So5oi3Il0sImF1dGhvcml0aWVzIjpbXSwiaG9zdCI6IjE3Mi4xOC4yNTUuMjUxOjgwIiwidXVpZCI6ImI1NDdjNTg3LTMxYjctNDIxMy1iNjMyLTA1ZDZmNDJjNmYxZiIsImV4cGlyZSI6MTU3NjUxMTk5OSwiZXhwIjoxNTc2MjQyODUzfQ.L1CXVK6uXPSnwcJKJiBZmw9Pz9lY6F89Gf35RHhzyWc",
+			// contentType:"multipart/form-data",
+			contentType: false,
+			data: formData,
+			processData:false,
+			success: function (data) {
+				console.log("success");
+				console.log(JSON.toString(data));
+			},
+			error:function (er) {
+				console.log("error");
+
+				console.log(er);
+			}
+		});
+	}
+</script>
+<!--<form-->
+<!--	id="temp"-->
+<!--	action="http://172.18.255.251:8588/yc/business/importExcel?token=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4MDciLCJzdWIiOiIxNTE2ODI3MTkwMiIsImlhdCI6MTU3NTk4MzY1Mywicm9sZXMiOlsi566h55CG5ZGY55So5oi3Il0sImF1dGhvcml0aWVzIjpbXSwiaG9zdCI6IjE3Mi4xOC4yNTUuMjUxOjgwIiwidXVpZCI6ImI1NDdjNTg3LTMxYjctNDIxMy1iNjMyLTA1ZDZmNDJjNmYxZiIsImV4cGlyZSI6MTU3NjUxMTk5OSwiZXhwIjoxNTc2MjQyODUzfQ.L1CXVK6uXPSnwcJKJiBZmw9Pz9lY6F89Gf35RHhzyWc"-->
+<!--	method="post"-->
+<!--	encType="multipart/form-data">-->
+<!--	<label>-->
+		<input type="file" id="inputFile">
+	<button onclick="methods()">测试</button>
+</body>
+</html>

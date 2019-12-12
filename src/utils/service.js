@@ -53,10 +53,10 @@ const responseMethods = {
 		// 在login界面不弹弹框
 		const hash = window.location.hash.slice(1);
 		// console.log(response);
-		// if (res.code === 403) {
-		// 	navigate('/');
-		// 	return false;
-		// }
+		if (res.code === 403) {
+			navigate('/');
+			return false;
+		}
 		if ((res.code === 401 || res.code === 5002) && hash !== '/login') {
 			// 把其余的请求取消掉
 			axiosPromiseArr.forEach((ele, index) => {
