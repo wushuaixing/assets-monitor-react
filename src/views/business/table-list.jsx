@@ -61,7 +61,7 @@ const toGetDefaultConfig = (c) => {
 		},
 		{
 			id: 5,
-			name: '企业破产重组',
+			name: '破产重组',
 			field: 'bankrupt',
 			status: Boolean(c.bankruptcyCount) && mR('YC03', 'YC0302'),
 		},

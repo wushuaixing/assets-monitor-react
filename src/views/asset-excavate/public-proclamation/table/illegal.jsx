@@ -1,8 +1,10 @@
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDom } from '@/utils';
-import Api from '@/utils/api/monitor-info/public';
+import { linkDom, timeStandard } from '@/utils';
+import { Violation } from '@/utils/api/risk-monitor/operation-risk';
+import { SelectedNum, Table } from '@/common';
+import { partyInfo } from '@/views/_common';
 // { attention, readStatus }
 // 获取表格配置
 const columns = (props) => {
@@ -14,33 +16,35 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
-			dataIndex: 'publishTime',
+			dataIndex: 'gmtPublish',
 			width: 113,
 			render: (text, record) => ReadStatus(text || '--', record),
 		}, {
-			title: '纳税人',
-			dataIndex: 'obName',
-			width: 226,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
-		}, {
-			title: '统一社会信用代码',
-			dataIndex: 'number',
-			width: 190,
-			render: text => text || '--',
-		}, {
+			title: '当事人',
+			dataIndex: 'parties',
+			width: 300,
+			render: partyInfo,
+		},
+		// {
+		// 	title: '统一社会信用代码',
+		// 	dataIndex: 'unifiedSocialCreditCode',
+		// 	width: 190,
+		// 	render: text => text || '--',
+		// },
+		{
 			title: '案件性质',
-			dataIndex: 'property',
+			dataIndex: 'caseNature',
 			width: 403,
 			render: text => text || '--',
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
+				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'gmtCreate',
 			width: 90,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			render: value => timeStandard(value),
 		}, {
 			title: '源链接',
-			dataIndex: 'obName',
+			dataIndex: 'url',
 			className: 'tAlignCenter_important',
 			width: 75,
 			render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '--'),
@@ -54,7 +58,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={Api.attentionIllegal}
+					api={row.isAttention ? Violation.unAttention : Violation.attention}
 					index={index}
 				/>
 			),
@@ -83,7 +87,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
 		if (!isRead && !manage) {
-			Api.readStatusIllegal({ idList: [id] }).then((res) => {
+			Violation.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}
@@ -92,12 +96,10 @@ export default class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
-		// console.log(selectedRowKeys, record);
-		const _selectedRowKeys = record.map(item => item.id);
+	onSelectChange=(selectedRowKeys) => {
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(_selectedRowKeys);
+		if (onSelect)onSelect(selectedRowKeys);
 	};
 
 	render() {
@@ -113,24 +115,26 @@ export default class TableView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
+					rowKey={record => record.id}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
 				{dataSource && dataSource.length > 0 && (
-				<div className="yc-table-pagination">
-					<Pagination
-						showQuickJumper
-						current={current || 1}
-						total={total || 0}
-						onChange={onPageChange}
-						showTotal={totalCount => `共 ${totalCount} 条信息`}
-					/>
-				</div>
+					<div className="yc-table-pagination">
+						<Pagination
+							showQuickJumper
+							current={current || 1}
+							total={total || 0}
+							onChange={onPageChange}
+							showTotal={totalCount => `共 ${totalCount} 条信息`}
+						/>
+					</div>
 				)}
 			</React.Fragment>
 		);
