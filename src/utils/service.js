@@ -54,7 +54,7 @@ const responseMethods = {
 		const hash = window.location.hash.slice(1);
 		// console.log(response);
 		if (res.code === 403) {
-			navigate('/');
+			window.location.reload();
 			return false;
 		}
 		if ((res.code === 401 || res.code === 5002) && hash !== '/login') {
@@ -95,7 +95,6 @@ const service = axios.create({
 	headers: {
 		'Content-Type': 'application/json;charset=utf-8',
 		'Content-Encoding': 'gzip,compress,deflate,identity',
-
 	},
 });
 
