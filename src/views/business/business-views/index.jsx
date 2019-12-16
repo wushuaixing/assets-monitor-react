@@ -102,7 +102,7 @@ class BusinessView extends React.Component {
 		const that = this;
 		return {
 			name: 'file',
-			action: `${BASE_URL}/yc/business/importExcel?token=${cookies.get('token') || ''}`,
+			action: `${BASE_URL}/yc/business/importExcelText?token=${cookies.get('token') || ''}`,
 			beforeUpload(file) {
 				const type = file.name.split('.');
 				const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
