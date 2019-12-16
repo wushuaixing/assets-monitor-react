@@ -229,7 +229,6 @@ function exportTemplate(source,exportType) {
 			htmlTemp = htmlTemp.replace(/{info.number}/g, source.number||'--');
 		};
 		infoInput2(data.B10101);
-		console.log(data.B10101.name);
 		htmlTemp = htmlTemp.replace("{info.firstName}", data.B10101.name?data.B10101.name[0]:'');
 		htmlTemp = htmlTemp.replace("{info.dishonest}", (data.B10102?"<span class=\"img-icon\"></span>":""));
 		htmlTemp = htmlTemp.replace("{info.logoUrl}", (source.logoUrl?("<img src=\""+source.logoUrl+"\" alt=\"\" width=\"67\">"):""));
@@ -1515,7 +1514,7 @@ function exportTemplate(source,exportType) {
 }
 
 function writeFile() {
-	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, true), (error) => {
+	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, false), (error) => {
 		error && console.log('error');
 	});
 }

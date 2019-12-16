@@ -1,9 +1,9 @@
 import React from 'react';
-import { Affix, Icon } from 'antd';
+import { Affix } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import QueryView from '../common/queryView';
-import { Tabs, Button } from '@/common';
+import { Tabs, Download, Icon as IconType } from '@/common';
 import OverView from './overview';
 import Assets from './assets';
 import Risk from './risk';
@@ -14,6 +14,7 @@ import { getInfo } from '@/utils/api/portrait-inquiry/personal/overview';
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
 import { requestAll } from '@/utils/promise';
+import { exportListPer } from '@/utils/api/portrait-inquiry';
 import './style.scss';
 
 const source = () => [
@@ -39,7 +40,7 @@ const source = () => [
 /* 企业概要 */
 const PersonalInfo = (props) => {
 	const {
-		download, info, urlInfo, visible,
+		info, urlInfo, visible,
 	} = props;
 	return (
 		<div className="personal-info">
@@ -60,10 +61,20 @@ const PersonalInfo = (props) => {
 					</li>
 				</div>
 			</div>
-			<Button className="intro-download" onClick={download}>
-				<Icon type="download" />
-				下载
-			</Button>
+
+			<div className="intro-download">
+				<Download
+					style={{ width: 84 }}
+					condition={{
+						obligorName: getQueryByName(window.location.href, 'name'),
+						obligorNumber: getQueryByName(window.location.href, 'num'),
+					}}
+					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+					api={exportListPer}
+					normal
+					text="下载"
+				/>
+			</div>
 		</div>
 	);
 };
@@ -71,9 +82,8 @@ const PersonalInfo = (props) => {
 /* 企业概要-简单版 */
 const PersonalInfoSimple = (props) => {
 	const {
-		download, info, urlInfo, visible,
+		info, urlInfo, visible,
 	} = props;
-
 	return (
 		<div className="personal-info">
 			<div className="intro-title">
@@ -82,10 +92,19 @@ const PersonalInfoSimple = (props) => {
 					{info.isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 				</span>
 			</div>
-			<Button className="intro-download" onClick={download}>
-				<Icon type="download" />
-				下载
-			</Button>
+			<div className="intro-download">
+				<Download
+					style={{ width: 84 }}
+					condition={{
+						obligorName: getQueryByName(window.location.href, 'name'),
+						obligorNumber: getQueryByName(window.location.href, 'num'),
+					}}
+					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+					api={exportListPer}
+					normal
+					text="下载"
+				/>
+			</div>
 		</div>
 	);
 };
