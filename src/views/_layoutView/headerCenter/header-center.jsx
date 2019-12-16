@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Tree, message, Icon,
+	Tree, message, Icon, Modal,
 } from 'antd';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
@@ -33,7 +33,7 @@ export default class HeaderMessage extends React.Component {
 		this.checkId = setInterval(() => {
 			// 获取机构id
 			this.checkOrgId();
-		}, 30 * 1000);
+		}, 5 * 1000);
 	}
 
 	componentDidMount() {
@@ -60,10 +60,33 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	checkOrgId = () => {
+		const { hash } = window.location;
+
 		currentOrg().then((res) => {
 			if (res.code === 200) {
-				console.log(res.data.orgId, window.globle);
-				if (res.data.orgId !== window.globle) {
+				// console.log(res.data.orgId, window.globle);
+				if (hash && hash.indexOf('debtor/detail') !== -1) {
+					Modal.warning({
+						title: '您已切换机构，当前机构下该债务人不存在',
+						onOk() {
+							navigate('/business/debtor');
+							window.location.reload(); // 退出登录刷新页面
+						},
+					});
+					window.clearInterval(this.checkId);
+				}
+				if (hash && hash.indexOf('business/detail') !== -1) {
+					Modal.warning({
+						title: '您已切换机构，当前机构下该笔业务不存在',
+						onOk() {
+							navigate('/business');
+							window.location.reload(); // 退出登录刷新页面
+						},
+					});
+					window.clearInterval(this.checkId);
+				}
+				const isBusiness = hash && hash.indexOf('business/detail') === -1 && hash.indexOf('debtor/detail') === -1;
+				if (isBusiness && res.data.orgId !== window.globle) {
 					window.location.reload(); // 退出登录刷新页面
 				}
 			}
