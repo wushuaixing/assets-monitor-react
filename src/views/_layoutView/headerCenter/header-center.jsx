@@ -65,7 +65,7 @@ export default class HeaderMessage extends React.Component {
 		currentOrg().then((res) => {
 			if (res.code === 200) {
 				// console.log(res.data.orgId, window.globle);
-				if (hash && hash.indexOf('debtor/detail') !== -1) {
+				if (hash && hash.indexOf('debtor/detail') !== -1 && res.data.orgId !== window.globle) {
 					Modal.warning({
 						title: '您已切换机构，当前机构下该债务人不存在',
 						onOk() {
@@ -75,7 +75,7 @@ export default class HeaderMessage extends React.Component {
 					});
 					window.clearInterval(this.checkId);
 				}
-				if (hash && hash.indexOf('business/detail') !== -1) {
+				if (hash && hash.indexOf('business/detail') !== -1 && res.data.orgId !== window.globle) {
 					Modal.warning({
 						title: '您已切换机构，当前机构下该笔业务不存在',
 						onOk() {
@@ -121,10 +121,11 @@ export default class HeaderMessage extends React.Component {
 		// const hasValue = document.getElementById('headerInput');
 		// console.log(newInputValue, hasValue.value);
 		const { treeList } = this.state;
+		const clearTirm = value && value.trim();
 		const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
 		this.setState({
-			valueList: value,
-			selectList: this.filterByName(arr, value),
+			valueList: clearTirm,
+			selectList: this.filterByName(arr, clearTirm),
 		});
 	};
 
