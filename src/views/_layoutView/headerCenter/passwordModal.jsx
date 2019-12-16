@@ -329,7 +329,7 @@ class ChangeWorldModal extends React.PureComponent {
 		);
 		// ==========
 		return (
-			<Modal title="修改密码" width={600} visible={passwordModalVisible} onCancel={this.handleCancel} onOk={this.handleOk}>
+			<Modal title="修改密码" width={600} visible={passwordModalVisible} onCancel={this.handleCancel} onOk={this.handleOk} maskClosable={false}>
 				<div className="yc-form-wapper">
 					<FormItem
 						{...formItemLayout}

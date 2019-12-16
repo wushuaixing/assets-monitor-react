@@ -72,8 +72,8 @@ const toGetDefaultConfig = (c) => {
 			status: Boolean(c.biddingCount || c.epbCount || c.taxCount) && (mR('YC02', 'YC0204') || riskRule('YC030304') || riskRule('YC030306')),
 			child: [
 				{ id: 61, name: '招标中标', status: Boolean(c.biddingCount) && mR('YC02', 'YC0204') },
-				{ id: 62, name: '重大税收违法', status: Boolean(c.taxCount) && riskRule('YC030304') },
-				{ id: 63, name: '环境行政处罚', status: Boolean(c.epbCount) && riskRule('YC030306') },
+				{ id: 62, name: '税收违法', status: Boolean(c.taxCount) && riskRule('YC030304') },
+				{ id: 63, name: '环保处罚', status: Boolean(c.epbCount) && riskRule('YC030306') },
 			],
 		},
 		{
