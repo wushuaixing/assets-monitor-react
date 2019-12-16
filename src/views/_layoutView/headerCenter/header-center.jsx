@@ -10,6 +10,7 @@ import {
 	userInfo, // tree
 	loginOut, // login
 	switchOrg, // 切换机构
+	currentOrg, // 获取机构id
 } from '@/utils/api/user';
 import PasswordModal from './passwordModal';
 import flat from '../../../utils/flatArray';
@@ -28,11 +29,22 @@ export default class HeaderMessage extends React.Component {
 		};
 	}
 
+	componentWillMount() {
+		this.checkId = setInterval(() => {
+			// 获取机构id
+			this.checkOrgId();
+		}, 30 * 1000);
+	}
+
 	componentDidMount() {
 		const { getData } = this.props;
 		userInfo().then((res) => {
 			if (res.code === 200) {
 				getData(res.data);
+				// 获取机构id
+				const { currentOrgId } = res.data;
+				// 定义全局变量
+				window.globle = currentOrgId;
 				this.setState({
 					treeData: res.data,
 					treeList: res.data.orgTree ? [res.data.orgTree] : [],
@@ -40,6 +52,25 @@ export default class HeaderMessage extends React.Component {
 			}
 		});
 	}
+
+	componentWillUnmount() {
+		if (this.checkId) {
+			window.clearInterval(this.checkId);
+		}
+	}
+
+	checkOrgId = () => {
+		currentOrg().then((res) => {
+			if (res.code === 200) {
+				console.log(res.data.orgId, window.globle);
+				if (res.data.orgId !== window.globle) {
+					window.location.reload(); // 退出登录刷新页面
+				}
+			}
+		}).catch(() => {
+			console.log('服务器出错');
+		});
+	};
 
 	// 退出登录
 	handleClick = () => {
@@ -84,8 +115,15 @@ export default class HeaderMessage extends React.Component {
 		const params = {
 			orgId: num,
 		};
+
 		const { hash } = window.location;
-		console.log(hash.indexOf('message') !== -1);
+		if (hash && hash.indexOf('debtor/detail') !== -1) {
+			navigate('/business/debtor');
+		}
+		if (hash && hash.indexOf('business/detail') !== -1) {
+			navigate('/business');
+		}
+		// console.log(hash.indexOf('message') !== -1);
 		// 在消息中心切换时
 		if (hash.indexOf('message') !== -1) {
 			const urlObj = {

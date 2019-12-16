@@ -133,7 +133,7 @@ export default class HeaderMessage extends React.Component {
 							<div className="notice-station-wrapper">
 								<div className="notice notice-station-img" />
 								<span className="notice-text">
-								暂无新消息，已读信息请至
+									暂无新消息，已读信息请至
 									<a
 										onClick={() => {
 											navigate('/message');

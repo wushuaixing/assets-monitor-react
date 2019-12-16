@@ -77,3 +77,9 @@ export const initUser = async (params) => {
 	const response = await service.post('/api/auth/initUser', params);
 	return response.data;
 };
+
+// 获取当前机构 [zhousai]
+export const currentOrg = async (params) => {
+	const response = await service.get('/api/auth/currentOrg', params);
+	return response.data;
+};
