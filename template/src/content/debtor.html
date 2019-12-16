@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<meta charset="UTF-8">
+	<title>债务人详情报告</title>
+</head>
+<body>
+
+<!-- 封面 -->
+<div class="exp-title">
+	<div class="title">债务人详情</div>
+	<div class="name">{info.name}</div>
+	<div class="time">{base.dateTime}</div>
+</div>
+
+<!-- 基本信息 -->
+<div class="exp-info border-b">
+	<div class="icon firstName">
+		{info.firstName}
+	</div>
+	<div class="info">
+		<li class="font-l">
+			<span class="n-title name-dishonest">
+				{info.name}
+				{info.dishonest}
+			</span>
+		</li>
+		<li class="mg8-0">
+			<div class="nAndI">
+				<span class="n-title">证件号：</span>
+				<span class="n-desc">{info.number}</span>
+			</div>
+		</li>
+		<li>
+			<div class="nAndI ">
+				<!--				<span class="n-title">证件号：</span>-->
+				<!--				<span class="n-desc">{info.formerNames}</span>-->
+			</div>
+		</li>
+	</div>
+</div>
+
+<!-- 资产拍卖类目 -->
+<div class="{asset.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">资产拍卖（智能精准匹配 {asset.total}）</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			<!-- 资产拍卖列表 -->
+			{asset.list}
+		</table>
+	</div>
+</div>
+
+<!-- 代位权【裁判文书】类目 -->
+<div class="{subrogation.judgment.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">代位权（裁判文书 {subrogation.judgment.total}）</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{subrogation.judgment.list}
+		</table>
+	</div>
+</div>
+
+<!-- 【涉诉文书】类目 -->
+<div class="{lawsuit.judgment.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">涉诉文书 {lawsuit.judgment.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{lawsuit.judgment.list}
+		</table>
+	</div>
+</div>
+
+<!-- 【失信记录】类目 -->
+<div class="{lawsuit.dishonest.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">失信记录 {lawsuit.dishonest.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{lawsuit.dishonest.list}
+		</table>
+	</div>
+</div>
+
+<!-- 经营【税收违法 】类目 -->
+<div class="{tax.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">税收违法 {tax.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{tax.list}
+		</table>
+	</div>
+</div>
+
+</body>
+
+</html>

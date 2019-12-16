@@ -1,0 +1,51 @@
+* {
+  line-height: 1.45;
+  padding: 0;
+  margin: 0;
+  color: #20242e;
+  font-size: 13px;
+  list-style: none;
+  font-family: "Alibaba PuHuiTi R", Arial, serif;
+}
+
+.firstName{
+  font-size: 30px;
+  line-height: 67px;
+  color: #ffffff;
+  text-align: center;
+  vertical-align: middle;
+}
+
+body {
+  padding: 2px;
+  background: #ffffff url("../../img/watermark.png") repeat-y center top;
+  background-size: 85%; }
+.exp-title{
+  height: 1300px;
+}
+.exp-title .title{
+  margin-top: 90px;
+  display: block;
+  text-align: center;
+  line-height: 400px;
+  height: 400px;
+  font-size: 80px;
+  color: #384482;
+}
+.exp-title .name{
+  display: block;
+  text-align: center;
+  line-height: 50px;
+  height: 50px;
+  font-size: 50px;
+  color: #20242E;
+}
+.exp-title .time{
+  margin-top: 450px;
+  display: block;
+  text-align: center;
+  line-height: 50px;
+  height: 50px;
+  font-size: 36px;
+  color: #20242E;
+}
