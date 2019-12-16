@@ -1,6 +1,5 @@
 import React from 'react';
-import { Affix, Icon, message } from 'antd';
-import { exportListEnp } from 'api/portrait-inquiry';
+import { Affix, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { requestAll } from '@/utils/promise';
@@ -9,12 +8,12 @@ import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import QueryView from '../common/queryView';
 import {
-	Tabs, Button, Spin, Download, Icon as IconType,
+	Tabs, Spin, Download, Icon as IconType,
 } from '@/common';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
-import { companyInfo, dishonestStatus } from '@/utils/api/portrait-inquiry';
+import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
 import Overview from './overview';
 import Assets from './assets';
 import Lawsuits from './lawsuits';
@@ -138,7 +137,7 @@ const EnterpriseInfo = (props) => {
 };
 /* 企业概要-简单版 */
 const EnterpriseInfoSimple = (props) => {
-	const { download, data, isDishonest } = props;
+	const { data, isDishonest } = props;
 	return (
 		<div className="enterprise-info">
 			<div className="intro-title">
@@ -163,10 +162,6 @@ const EnterpriseInfoSimple = (props) => {
 					text="下载"
 				/>
 			</div>
-			<Button className="intro-download" onClick={download}>
-				<Icon type="download" />
-				下载
-			</Button>
 		</div>
 	);
 };
