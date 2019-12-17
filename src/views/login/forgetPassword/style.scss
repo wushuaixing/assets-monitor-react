@@ -1,5 +1,5 @@
 .yc-verifyAccount-main {
-  text-align: center;
+  //text-align: center;
   height: 360px;
   width: 446px;
   background: #FFFFFF;
@@ -74,8 +74,6 @@
       line-height: 38px;
       font-size: 14px;
       vertical-align: middle;
-      position: relative;
-      right: 110px;
     }
     .yc-form-writeCode {
       position: absolute;
@@ -98,6 +96,7 @@
     cursor: pointer;
   }
   .yc-login-btn {
+    margin-left: 33px;
     font-size: 14px;
     width: 320px;
     //margin-left: 80px;
