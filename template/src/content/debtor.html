@@ -98,11 +98,11 @@
 		</div>
 		<!-- 类目表格 -->
 		<div class="entry-table border-t">
-			<table>
+			<table class="vertical-align-top">
 				<tr>
-					<th>资产信息</th>
+					<th style="width: 200px">资产信息</th>
 					<th>匹配原因</th>
-					<th>拍卖信息</th>
+					<th style="width: 360px">拍卖信息</th>
 				</tr>
 				<!-- 资产拍卖列表 -->
 				{asset.list}
@@ -118,11 +118,11 @@
 		</div>
 		<!-- 类目表格 -->
 		<div class="entry-table border-t">
-			<table>
+			<table class="vertical-align-top">
 				<tr>
-					<th>资产信息</th>
+					<th style="width: 200px">资产信息</th>
 					<th>匹配原因</th>
-					<th>拍卖信息</th>
+					<th style="width: 360px">拍卖信息</th>
 				</tr>
 				<!-- 资产拍卖列表 -->
 				{assetsBidding.list}
@@ -140,11 +140,12 @@
 		<div class="entry-table border-t">
 			<table>
 				<tr>
-					<th>起始时间</th>
+					<th style="width: 70px;">起始时间</th>
 					<th>相关单位</th>
 					<th>项目名称</th>
 					<th>挂牌价格</th>
-					<th>期满日期</th>
+					<th style="width: 70px;">期满日期</th>
+					<th style="width: 70px;">更新日期</th>
 				</tr>
 				<!-- 资产拍卖列表 -->
 				{publicity.list}
@@ -163,10 +164,11 @@
 			<table>
 				<tr>
 					<th style="width: 70px;">立案日期</th>
-					<th>原告</th>
-					<th>被告</th>
-					<th>起诉法院</th>
+					<th colspan="2">当事人</th>
+					<th>法院</th>
 					<th>案号</th>
+					<th>案件类型</th>
+					<th style="width: 70px;">更新日期</th>
 				</tr>
 				{lawsuit.trial.list}
 			</table>
@@ -183,12 +185,12 @@
 		<div class="entry-table border-t">
 			<table>
 				<tr>
-					<th style="width: 70px;">立案日期</th>
-					<th>原告</th>
-					<th>被告</th>
-					<th>起诉法院</th>
+					<th style="width: 70px;">开庭日期</th>
+					<th colspan="2">当事人</th>
+					<th>法院</th>
 					<th>案号</th>
 					<th>案由</th>
+					<th style="width: 70px;">更新日期</th>
 				</tr>
 				{lawsuit.court.list}
 			</table>
@@ -207,10 +209,11 @@
 			<table>
 				<tr>
 					<th style="width: 70px;">立案日期</th>
-					<th>原告</th>
-					<th>被告</th>
-					<th>起诉法院</th>
+					<th colspan="2">当事人</th>
+					<th>法院</th>
 					<th>案号</th>
+					<th>案件类型</th>
+					<th style="width: 70px;">更新日期</th>
 				</tr>
 				{subrogation.trial.list}
 			</table>
@@ -227,12 +230,12 @@
 		<div class="entry-table border-t">
 			<table>
 				<tr>
-					<th style="width: 70px;">立案日期</th>
-					<th>原告</th>
-					<th>被告</th>
-					<th>起诉法院</th>
+					<th style="width: 70px;">开庭日期</th>
+					<th colspan="2">当事人</th>
+					<th>法院</th>
 					<th>案号</th>
 					<th>案由</th>
+					<th style="width: 70px;">更新日期</th>
 				</tr>
 				{subrogation.court.list}
 			</table>
@@ -292,8 +295,7 @@
 			<table>
 				<tr>
 					<th style="width: 70px;">发布日期</th>
-					<th>纳税人名称</th>
-					<th>统一社会信用代码</th>
+					<th colspan="2">当事人</th>
 					<th>案件性质</th>
 					<th style="width: 70px;">更新日期</th>
 				</tr>
