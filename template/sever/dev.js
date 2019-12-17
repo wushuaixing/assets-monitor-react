@@ -35,10 +35,10 @@ function exportTemplate(source,exportType) {
 			],
 			auctionType:[
 				{id: 1, value: "即将开始"},
-				{id: 3, value: "拍卖中"},
-				{id: 5, value: "成功交易"},
+				{id: 3, value: "正在进行"},
+				{id: 5, value: "已成交"},
 				{id: 7, value: "已流拍"},
-				{id: 9, value: "终止"},
+				{id: 9, value: "中止"},
 				{id: 11, value: "撤回"},
 			],
 			mortgage:[
@@ -111,9 +111,9 @@ function exportTemplate(source,exportType) {
 			return '--';
 		},
 		toShowPrice:function (item) {
-			if(item.process===1){
+			if(item.status===1){
 				return "<span class='n-title'>起拍价：</span><span class='n-desc'>"+this.toNumberStr(item.initialPrice) +"</span>";
-			}else if(item.process===5){
+			}else if(item.status===5){
 				return "<span class='n-title'>成交价：</span><span class='n-desc'>"+this.toNumberStr(item.currentPrice) +"</span>";
 			}
 			return "<span class='n-title'>当前价：</span><span class='n-desc'>"+this.toNumberStr(item.currentPrice) +"</span>";
@@ -289,7 +289,7 @@ function exportTemplate(source,exportType) {
 										name: "type",
 										count: "count",
 										options: fun.source.auctionType,
-									}))
+									}));
 							}
 						}else{
 							htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
@@ -419,8 +419,9 @@ function exportTemplate(source,exportType) {
 					htmlTemp = htmlTemp.replace("{" + viewName + ".year.display}", "display-none");
 				}
 				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", landTotal || 0);
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
 			}
-			htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
 		}
 		else if(viewName==="overview.B10203"){
 			if(source.litigationInfos){
@@ -657,13 +658,11 @@ function exportTemplate(source,exportType) {
 				}
 			}
 			if((source.shareholderInfos||[]).length){
-				htmlTemp = htmlTemp.replace("{" + viewName + ".shareholderInfos.list}",
-					overViewTable(source.shareholderInfos, 2, {
-						name: "investorName",
-						count: "subscribeAmountRate",
-						numberUnit:"%",
-						unit:"&nbsp",
-					}))
+				var shareholderInfosList = "";
+				source.shareholderInfos.forEach(function (i) {
+					shareholderInfosList+="<tr><td>"+i.investorName+"</td><td class=\"fw-bold\">"+(i.subscribeAmountRate+"%")+"</td></tr>"
+				});
+				htmlTemp = htmlTemp.replace("{" + viewName + ".shareholderInfos.list}",shareholderInfosList)
 
 			}else{
 				htmlTemp = htmlTemp.replace("{" + viewName + ".shareholderInfos.display}", "display-none");
@@ -673,7 +672,7 @@ function exportTemplate(source,exportType) {
 			if(source){
 				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
 					htmlTemp = htmlTemp.replace("{baseInfo."+item+"}", source[item]||'-');
-					var timeLimit=(source.fromTime || source.toTime)?("自 "+(source.fromTime||'--')+" 至 "+(source.toTime||'--')):"--";
+					var timeLimit=(source.fromTime && source.toTime)?("自 "+(source.fromTime||'--')+" 至 "+(source.toTime||'--')):"--";
 					htmlTemp = htmlTemp.replace("{baseInfo.timeLimit}", timeLimit);
 				})
 			}
@@ -721,6 +720,7 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0'><div class='nAndI'><span class='n-desc'>· 匹配原因："+fun.toGetType(item.obligors,fun.source.labelType,"labelType",true)+"</span></div></li>" +
 						"<li class='mg8-0'><div class='nAndI'><span class='n-desc'>"+item.matchRemark+"</span></div></li>" +
 						"</td><td>" +
+						"<li class='mg8-0'><div class='nAndI'>● "+fun.toGetType(item.status,fun.source.auctionType)+"</div></li>" +
 						"<li class='mg8-0'><div class='nAndI'>"+fun.toShowPrice(item)+"</div></li>" +
 						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>评估价：</span><span class='n-desc'>"+fun.toNumberStr(item.consultPrice)+"</span></div></li>" +
 						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>拍卖时间：</span><span class='n-desc'>"+item.start+"</span></div></li>" +
@@ -863,11 +863,11 @@ function exportTemplate(source,exportType) {
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>面积：</span>" +
-						"<span class='n-desc'>"+(item.landArea||'--')+"</span>" +
+						"<span class='n-desc'>"+(item.landArea||'--')+"公顷</span>" +
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>使用年限：</span>" +
-						"<span class='n-desc'>"+(item.transferTerm||'--')+"</span>" +
+						"<span class='n-desc'>"+(item.transferTerm||'--')+"年</span>" +
 						"</div>" +
 						"</li>" +
 						"</td>" +
@@ -909,7 +909,7 @@ function exportTemplate(source,exportType) {
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>使用年限：</span>" +
-						"<span class='n-desc'>"+(item.landUsageTerm||'--')+"</span>" +
+						"<span class='n-desc'>"+(item.landUsageTerm||'--')+"年</span>" +
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>行政区域：</span>" +
@@ -921,7 +921,7 @@ function exportTemplate(source,exportType) {
 						"<td>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
-						"<span class='n-title'>转让价格：<label class='n-desc'>"+((item.transferPrice===0 || item.transferPrice)?item.transferPrice:'--')+"</label></span>" +
+						"<span class='n-title'>转让价格：<label class='n-desc'>"+((item.transferPrice===0 || item.transferPrice)?(item.transferPrice?(item.transferPrice+'万元'):item.transferPrice):'--')+"</label></span>" +
 						"</div></li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
@@ -974,7 +974,7 @@ function exportTemplate(source,exportType) {
 						"</div></li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
-						"<span class='n-title'>抵押面积：<label class='n-desc'>"+((item.transferPrice===0 || item.transferPrice)?item.transferPrice:'--')+"</label></span>" +
+						"<span class='n-title'>抵押面积：<label class='n-desc'>"+(item.mortgageArea||'--')+"</label></span>" +
 						"</div></li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
@@ -992,7 +992,7 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
 						"<td>" +
-						"<li class='mg8-0 font-m wordBreak'>" +(item.companyName||'--') +"</li>"+
+						"<li class='mg8-0 font-m wordBreak'>股权标的企业：" +(item.companyName||'未公示') +"</li>"+
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>登记日期：</span>" +
@@ -1002,11 +1002,11 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>质权人：</span>" +
-						"<span class='n-desc'>"+(item.pledgeeList?item.pledgeeList.push('、'):'--')+"</span>" +
+						"<span class='n-desc'>"+(item.pledgeeList?item.pledgeeList.join('、'):'--')+"</span>" +
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>出质股权数额：</span>" +
-						"<span class='n-desc'>"+(item.equityAmount||'--')+"万人民币</span>" +
+						"<span class='n-desc'>"+(item.equityAmount||'--')+"</span>" +
 						"</div>" +
 						"</li>" +
 						"</td>" +
@@ -1036,7 +1036,7 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
 						"<td>" +
-						"<li class='mg8-0 font-m wordBreak'>" +(item.companyName||'--') + "</li>"+
+						"<li class='mg8-0 font-m wordBreak'>股权标的企业：" +(item.companyName||'未公示') + "</li>"+
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>登记日期：</span>" +
@@ -1046,11 +1046,11 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>出质人：</span>" +
-						"<span class='n-desc'>"+(item.pledgorList?item.pledgorList.push('、'):'--')+"</span>" +
+						"<span class='n-desc'>"+(item.pledgorList?item.pledgorList.join('、'):'--')+"</span>" +
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>出质股权数额：</span>" +
-						"<span class='n-desc'>"+(item.equityAmount||'--')+"万人民币</span>" +
+						"<span class='n-desc'>"+(item.equityAmount||'--')+"</span>" +
 						"</div>" +
 						"</li>" +
 						"</td>" +
@@ -1151,6 +1151,10 @@ function exportTemplate(source,exportType) {
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>担保债权数额：</span>" +
 						"<span class='n-desc'>"+(item.amount||'--')+"元</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>债务人履行债务的期限：</span>" +
+						"<span class='n-desc'>"+(item.term ||'--')+"</span>" +
 						"</div>" +
 						"</li>" +
 						"</td>" +
@@ -1278,6 +1282,12 @@ function exportTemplate(source,exportType) {
 						"<div class='nAndI'>" +
 						"<span class='n-title'>列入原因：</span>" +
 						"<span class='n-desc'>"+(item.putReason||'--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>具体事实：</span>" +
+						"<span class='n-desc'>"+(item.fact||'--')+"</span>" +
 						"</div>" +
 						"</li>" +
 						"</td>" +
@@ -1514,7 +1524,7 @@ function exportTemplate(source,exportType) {
 }
 
 function writeFile() {
-	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, false), (error) => {
+	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, true), (error) => {
 		error && console.log('error');
 	});
 }

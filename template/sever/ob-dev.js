@@ -17,7 +17,6 @@ let htmlResult = htmlResultStr.replace(/<link rel="stylesheet" type="text\/css" 
 htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px">`);
 
 function exportTemplate(source, exportType) {
-
 	var d = JSON.parse(source);
 	var type = exportType || false; // default business(false); debtor(true)
 	var field = type ? "BA" : "BB";
@@ -264,115 +263,117 @@ function exportTemplate(source, exportType) {
 	};
 
 	var drawList = function methods(data, taxon) {
-		if ((data.list || []).length) {
-			var tableList = "";
-			switch (taxon) {
-				case "assetsBidding":
-				case "asset": {
-					data.list.forEach(function (i) {
-						var auctionStatus = "<font class='auctionStatus-" + i.status + "'>" + (s.auction[i.status] || '未知') + "</font>";
-						var signPrice = {t: f.floatFormat(i.currentPrice, " 元"), d: "当前价"};
-						if (i.status === 1) {
-							signPrice.t = "<font class='auctionStatus-error'>" + signPrice.t + "</font>";
-							signPrice.d = "起拍价";
-						}
-						if (i.status === 5) {
-							signPrice.t = "<font class='auctionStatus-error'>" + signPrice.t + "</font>";
-							signPrice.d = "成交价";
-						}
-						tableList += "<tr>" +
-							"<td>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
-								{t: w(i.orgName), d: "机构名称"}, {t: f.format(i.createTime,"m"), d: "更新时间"}],65) + "</td>" +
-							"<td>" + matchReason(i) + "</td>" +
-							"<td><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
-							f.infoList([{t: w(i.obligorName), d: "处置机关"}],65) +
-							"<div class='list-half'>"+ f.infoList([
-								{t: f.format(i.start,"m"), d: "开拍时间"},
-								{t: f.floatFormat(i.consultPrice," 元"), d: "评估价"},
-								{t: auctionStatus, d: "拍卖状态"},signPrice]) +"</div>" +
-							"</td></tr>";
-					});
-					break;
+		if(data){
+			if ((data.list || []).length) {
+				var tableList = "";
+				switch (taxon) {
+					case "assetsBidding":
+					case "asset": {
+						data.list.forEach(function (i) {
+							var auctionStatus = "<font class='auctionStatus-" + i.status + "'>" + (s.auction[i.status] || '未知') + "</font>";
+							var signPrice = {t: f.floatFormat(i.currentPrice, " 元"), d: "当前价"};
+							if (i.status === 1) {
+								signPrice.t = "<font class='auctionStatus-error'>" + signPrice.t + "</font>";
+								signPrice.d = "起拍价";
+							}
+							if (i.status === 5) {
+								signPrice.t = "<font class='auctionStatus-error'>" + signPrice.t + "</font>";
+								signPrice.d = "成交价";
+							}
+							tableList += "<tr>" +
+								"<td>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
+									{t: w(i.orgName), d: "机构名称"}, {t: f.format(i.createTime,"m"), d: "更新时间"}],65) + "</td>" +
+								"<td>" + matchReason(i) + "</td>" +
+								"<td><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
+								f.infoList([{t: w(i.obligorName), d: "处置机关"}],65) +
+								"<div class='list-half'>"+ f.infoList([
+									{t: f.format(i.start,"m"), d: "开拍时间"},
+									{t: f.floatFormat(i.consultPrice," 元"), d: "评估价"},
+									{t: auctionStatus, d: "拍卖状态"},signPrice]) +"</div>" +
+								"</td></tr>";
+						});
+						break;
+					}
+					case "publicity": {
+						data.list.forEach(function (i) {
+							tableList += "<tr>" +
+								"<td>" + f.format(i.startTime) + "</td><td>" + w(i.obligorName) + "</td>" +
+								"<td>" + f.urlDom(i.title, i.sourceUrl) + "</td><td>" + f.floatFormat(i.price) + "</td>" +
+								"<td>" + f.format(i.endTime) + "</td><td>" + f.format(i.createTime) + "</td></tr>";
+						});
+						break;
+					}
+					case "lawsuit.trial":
+					case "subrogation.trial":{
+						data.list.forEach(function (i) {
+							var _caseType = (i.restore ? "99" : "") || i.caseType || 0;
+							var pR = parties(i.parties);
+							var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
+							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtRegister) + "</td>" + pR.fill +
+								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
+								"<td " + pRow + ">" + s.caseType[_caseType] + "</td><td " + pRow + ">" + f.format(i.gmtCreate) + "</td></tr>";
+							tableList += pR.appendDom;
+						});
+						break;
+					}
+					case "lawsuit.court":
+					case "subrogation.court":{
+						data.list.forEach(function (i) {
+							var pR = parties(i.parties);
+							var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
+							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtRegister) + "</td>" + pR.fill +
+								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
+								"<td " + pRow + ">" + w(i.caseReason) + "</td><td " + pRow + ">" + f.format(i.gmtCreate) + "</td></tr>";
+							tableList += pR.appendDom;
+						});
+						break;
+					}
+					case "bankrupt": {
+						data.list.forEach(function (i) {
+							tableList += "<tr><td>" + (f.format(i.publishDate)) + "</td><td>" + w(i.obligorName) + "</td><td>" + w(i.court) + "</td>" +
+								"<td>" + f.urlDom(i.title, i.url) + "</td><td>" + (f.format(i.createTime)) + "</td></tr>";
+						});
+						break;
+					}
+					case "epb":
+					case "bidding": {
+						data.list.forEach(function (i) {
+							tableList += "<tr><td>" + f.format(i.publishDate) + "</td><td>" + w(i.obName) + "</td>" +
+								"<td>" + f.urlDom(i.title, i.url) + "</td><td>" + (f.format(i.createTime)) + "</td></tr>";
+						});
+						break;
+					}
+					case "tax": {
+						data.list.forEach(function (i) {
+							var taxRes = taxParties(i.parties);
+							var taxRow = taxRes.length > 1 ? ("rowspan=\"" + taxRes.length + "\"") : "";
+							tableList += "<tr><td " + taxRow + ">" + w(i.publishDate) + "</td>" + taxRes.fill +
+								"<td " + taxRow + ">" + f.urlDom(i.caseNature, i.url) + "</td><td " + taxRow + ">" + w(i.gmtCreate) + "</td></tr>";
+							tableList += taxRes.appendDom;
+						});
+						break;
+					}
+					case "dishonest": {
+						data.list.forEach(function (i) {
+							tableList += "<tr><td>" +
+								f.infoList([{t: w(i.courtName), d: "机构名称"}, {t: w(i.caseCode), d: "案号"},
+									{t: w(i.areaName), d: "省份"}, {t: w(i.publishDate), d: "发布时间"}])
+								+ "</td><td>" +
+								f.infoList([
+									{t: w(i.performance), d: "被执行人的履行情况"},
+									{t: w(i.disruptTypeName), d: "失信被执行人行为具体情形"},
+									{t: w(i.businessEntity), d: "法定代表人/负责人姓名"}])
+								+ "</td><td>" + w(i.duty) + "</td></tr>";
+						});
+						break;
+					}
+					default:
+						tableList = "";
 				}
-				case "publicity": {
-					data.list.forEach(function (i) {
-						tableList += "<tr>" +
-							"<td>" + f.format(i.startTime) + "</td><td>" + w(i.obligorName) + "</td>" +
-							"<td>" + f.urlDom(i.title, i.sourceUrl) + "</td><td>" + f.floatFormat(i.price) + "</td>" +
-							"<td>" + f.format(i.endTime) + "</td><td>" + f.format(i.createTime) + "</td></tr>";
-					});
-					break;
-				}
-				case "lawsuit.trial":
-				case "subrogation.trial":{
-					data.list.forEach(function (i) {
-						var _caseType = (i.restore ? "99" : "") || i.caseType || 0;
-						var pR = parties(i.parties);
-						var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
-						tableList += "<tr><td " + pRow + ">" + f.format(i.gmtRegister) + "</td>" + pR.fill +
-							"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
-							"<td " + pRow + ">" + s.caseType[_caseType] + "</td><td " + pRow + ">" + f.format(i.gmtCreate) + "</td></tr>";
-						tableList += pR.appendDom;
-					});
-					break;
-				}
-				case "lawsuit.court":
-				case "subrogation.court":{
-					data.list.forEach(function (i) {
-						var pR = parties(i.parties);
-						var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
-						tableList += "<tr><td " + pRow + ">" + f.format(i.gmtRegister) + "</td>" + pR.fill +
-							"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
-							"<td " + pRow + ">" + w(i.caseReason) + "</td><td " + pRow + ">" + f.format(i.gmtCreate) + "</td></tr>";
-						tableList += pR.appendDom;
-					});
-					break;
-				}
-				case "bankrupt": {
-					data.list.forEach(function (i) {
-						tableList += "<tr><td>" + (f.format(i.publishDate)) + "</td><td>" + w(i.obligorName) + "</td><td>" + w(i.court) + "</td>" +
-							"<td>" + f.urlDom(i.title, i.url) + "</td><td>" + (f.format(i.createTime)) + "</td></tr>";
-					});
-					break;
-				}
-				case "epb":
-				case "bidding": {
-					data.list.forEach(function (i) {
-						tableList += "<tr><td>" + f.format(i.publishDate) + "</td><td>" + w(i.obName) + "</td>" +
-							"<td>" + f.urlDom(i.title, i.url) + "</td><td>" + (f.format(i.createTime)) + "</td></tr>";
-					});
-					break;
-				}
-				case "tax": {
-					data.list.forEach(function (i) {
-						var taxRes = taxParties(i.parties);
-						var taxRow = taxRes.length > 1 ? ("rowspan=\"" + taxRes.length + "\"") : "";
-						tableList += "<tr><td " + taxRow + ">" + w(i.publishDate) + "</td>" + taxRes.fill +
-							"<td " + taxRow + ">" + f.urlDom(i.caseNature, i.url) + "</td><td " + taxRow + ">" + w(i.gmtCreate) + "</td></tr>";
-						tableList += taxRes.appendDom;
-					});
-					break;
-				}
-				case "dishonest": {
-					data.list.forEach(function (i) {
-						tableList += "<tr><td>" +
-							f.infoList([{t: w(i.courtName), d: "机构名称"}, {t: w(i.caseCode), d: "案号"},
-								{t: w(i.areaName), d: "省份"}, {t: w(i.publishDate), d: "发布时间"}])
-							+ "</td><td>" +
-							f.infoList([
-								{t: w(i.performance), d: "被执行人的履行情况"},
-								{t: w(i.disruptTypeName), d: "失信被执行人行为具体情形"},
-								{t: w(i.businessEntity), d: "法定代表人/负责人姓名"}])
-							+ "</td><td>" + w(i.duty) + "</td></tr>";
-					});
-					break;
-				}
-				default:
-					tableList = "";
+				f.replaceHtml([{f: "{" + taxon + ".list}", v: tableList}, {f: "{" + taxon + ".total}", v: data.list.length}])
+			} else {
+				f.replaceHtml([{f: "{" + taxon + ".display}", v: "display-none"}])
 			}
-			f.replaceHtml([{f: "{" + taxon + ".list}", v: tableList}, {f: "{" + taxon + ".total}", v: data.list.length}])
-		} else {
-			f.replaceHtml([{f: "{" + taxon + ".display}", v: "display-none"}])
 		}
 	};
 	drawList(d[field + '02'], "asset");
@@ -395,4 +396,4 @@ fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, true),
 	error && console.log('error');
 });
 
-module.exports = {exportTemplate};
+module.exports = {exportTemplate, bgImgData, deIconData, disIconData, disEdIconData,htmlResultStr,cssResult};
