@@ -16,11 +16,11 @@ const columns = (props) => {
 				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishTime',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'obName',
-			width: 160,
+			width: 240,
 			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '标题',

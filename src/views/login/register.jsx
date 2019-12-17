@@ -9,7 +9,7 @@ import Cookies from 'universal-cookie';
 import {
 	Form, Button, Checkbox, message, Spin,
 } from 'antd';
-import { Input } from '@/common';
+import { Input, Icon } from '@/common';
 import {
 	login, // login
 	loginPreCheck, // 登录前校验
@@ -212,18 +212,22 @@ class Login extends React.Component {
 			form: { getFieldProps }, changeType, btnColor,
 		} = this.props; // 会提示props is not defined
 		return (
-			<div className="yc-login-main">
+			<div className="yc-login-main" style={errorTime >= 2 && errorTime < 10 && { height: 424 }}>
 
 				<Form>
 					<Spin spinning={loading}>
 						<li className="yc-card-title">用户登录</li>
 						<div className="yc-form-wapper">
 							<Form.Item>
+								<Icon
+									type="icon-username"
+									className="yc-form-icon"
+								/>
 								<Input
 									className="yc-login-input"
 									placeholder="请输入11位数字"
 									maxLength="11"
-									title={(<span className="yc-form-userName yc-form-icon" />)}
+									// title={(<span className="yc-form-userName yc-form-icon" />)}
 									titleWidth={40}
 									style={{ fontSize: 14 }}
 									unSplitLine
@@ -241,13 +245,17 @@ class Login extends React.Component {
 						</div>
 						<div className="yc-form-wapper">
 							<Form.Item>
+								<Icon
+									type="icon-password"
+									className="yc-form-icon"
+								/>
 								<Input
 									className="yc-login-input"
 									type="password"
 									placeholder="请输入密码"
 									// onKeyUp={this.onKeyup}
 									style={{ fontSize: 14 }}
-									title={(<span className="yc-form-passWord yc-form-icon" />)}
+									// title={(<span className="yc-form-passWord yc-form-icon" />)}
 									titleWidth={40}
 									unSplitLine
 									{...getFieldProps('password', {
@@ -266,6 +274,10 @@ class Login extends React.Component {
 							errorTime >= 2 && errorTime < 10 && (
 							<div className="yc-form-wapper">
 								<Form.Item>
+									<Icon
+										type="icon-resetImg"
+										className="yc-form-icon"
+									/>
 									<Input
 										className="yc-login-input"
 										placeholder="请输入验证码"
@@ -278,7 +290,7 @@ class Login extends React.Component {
 											],
 										})}
 									/>
-									<span className="yc-form-resetImg yc-form-icon" />
+									{/* <span className="yc-form-resetImg yc-form-icon" /> */}
 									<img onClick={this.verificationCode} className="yc-verificationCode" src={codeImg} alt="" referrerPolicy="no-referrer" />
 								</Form.Item>
 							</div>

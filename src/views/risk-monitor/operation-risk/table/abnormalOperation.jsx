@@ -54,7 +54,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_PUT_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>列入日期</SortVessel>),
 			dataIndex: 'gmtPutDate',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'name',

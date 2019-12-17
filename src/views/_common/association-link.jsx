@@ -78,7 +78,7 @@ const defaultColumns = {
 			title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
 			dataIndex: 'gmtRegister',
 			width: 100,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		},
 		{
 			title: '当事人',

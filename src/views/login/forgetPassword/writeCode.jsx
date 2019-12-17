@@ -111,7 +111,7 @@ openModal = () => {
 							<span className="yc-form-lable">手机号</span>
 							<FormItem>
 								<span className="yc-writeCode-phone">{phoneNum && phoneNum}</span>
-								<Button disabled={btnDisabled} onClick={this.getCode} className="yc-form-writeCode">{phoneCode}</Button>
+								<Button type="primary" disabled={btnDisabled} onClick={this.getCode} className="yc-form-writeCode">{phoneCode}</Button>
 							</FormItem>
 						</div>
 						<div className="yc-form-wapper">
@@ -132,7 +132,7 @@ openModal = () => {
 							</FormItem>
 						</div>
 						<div onClick={this.openModal} className="yc-from-noPhone">手机号不可用?</div>
-						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>下一步</Button>
+						<Button type="primary" className="yc-login-btn" style={{ marginTop: 25 }} onClick={this.handleSubmit}>下一步</Button>
 					</Spin>
 				</Form>
 				{/** 新增跟进Modal */}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Tree, message, Icon,
+	Tree, message, Icon, Modal,
 } from 'antd';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
@@ -60,10 +60,33 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	checkOrgId = () => {
+		const { hash } = window.location;
+
 		currentOrg().then((res) => {
 			if (res.code === 200) {
-				console.log(res.data.orgId, window.globle);
-				if (res.data.orgId !== window.globle) {
+				// console.log(res.data.orgId, window.globle);
+				if (hash && hash.indexOf('debtor/detail') !== -1 && res.data.orgId !== window.globle) {
+					Modal.warning({
+						title: '您已切换机构，当前机构下该债务人不存在',
+						onOk() {
+							navigate('/business/debtor');
+							window.location.reload(); // 退出登录刷新页面
+						},
+					});
+					window.clearInterval(this.checkId);
+				}
+				if (hash && hash.indexOf('business/detail') !== -1 && res.data.orgId !== window.globle) {
+					Modal.warning({
+						title: '您已切换机构，当前机构下该笔业务不存在',
+						onOk() {
+							navigate('/business');
+							window.location.reload(); // 退出登录刷新页面
+						},
+					});
+					window.clearInterval(this.checkId);
+				}
+				const isBusiness = hash && hash.indexOf('business/detail') === -1 && hash.indexOf('debtor/detail') === -1;
+				if (isBusiness && res.data.orgId !== window.globle) {
 					window.location.reload(); // 退出登录刷新页面
 				}
 			}
@@ -98,10 +121,11 @@ export default class HeaderMessage extends React.Component {
 		// const hasValue = document.getElementById('headerInput');
 		// console.log(newInputValue, hasValue.value);
 		const { treeList } = this.state;
+		const clearTirm = value && value.trim();
 		const arr = flat(treeList) && flat(treeList).filter(item => item !== undefined);
 		this.setState({
-			valueList: value,
-			selectList: this.filterByName(arr, value),
+			valueList: clearTirm,
+			selectList: this.filterByName(arr, clearTirm),
 		});
 	};
 

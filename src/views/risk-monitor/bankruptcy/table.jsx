@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
-import { linkDom } from '@/utils';
+import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import RegisterModal from './registerModal';
 // 获取表格配置
@@ -20,7 +20,7 @@ const columns = (props, openRegisterModalFunc) => {
 				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishDate',
 			width: 115,
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '企业',
 			dataIndex: 'obligorName',

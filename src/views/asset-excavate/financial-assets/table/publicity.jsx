@@ -4,7 +4,7 @@ import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
 import { floatFormat } from '@/utils/format';
-import { linkDom } from '@/utils';
+import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 // 获取表格配置
 const columns = (props) => {
@@ -23,7 +23,7 @@ const columns = (props) => {
 				: <SortVessel field="START_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>起始日期</SortVessel>),
 			dataIndex: 'startTime',
 			width: 110,
-			render: (text, record) => ReadStatus(text ? new Date(text * 1000).format('yyyy-MM-dd') : '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'obligorName',
