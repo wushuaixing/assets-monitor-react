@@ -82,7 +82,7 @@ function exportTemplate(source, exportType) {
 			})
 		},
 		urlDom: function (title, url, defaultWord) {
-			const dW = defaultWord || "-";
+			var dW = defaultWord || "-";
 			return (url ? "<a href=\"" + url + "\" target=\"_blank\" class=\"base-b fw-bold\">" + (title || dW) + "</a>" : (title || dW));
 		},
 		textDesc: function (text, desc, colon, width) {
@@ -100,8 +100,8 @@ function exportTemplate(source, exportType) {
 		},
 		floatFormat: function (item,unit) {
 			if (!item && item !== 0) return '-';
-			var type = Number.parseFloat(item);
-			if (Number.isNaN(type)) return item;
+			var type = parseFloat(item);
+			if (isNaN(type)) return item;
 			var num1 = type.toFixed(2);
 			var str = "".concat(num1);
 			if (str.length <= 3) return str;
@@ -285,7 +285,7 @@ function exportTemplate(source, exportType) {
 									{t: w(i.orgName), d: "机构名称"}, {t: f.format(i.createTime,"m"), d: "更新时间"}],65) + "</td>" +
 								"<td>" + matchReason(i) + "</td>" +
 								"<td><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
-								f.infoList([{t: w(i.obligorName), d: "处置机关"}],65) +
+								f.infoList([{t: w(i.obligorName), d: "处置机关"}]) +
 								"<div class='list-half'>"+ f.infoList([
 									{t: f.format(i.start,"m"), d: "开拍时间"},
 									{t: f.floatFormat(i.consultPrice," 元"), d: "评估价"},

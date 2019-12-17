@@ -1,7 +1,7 @@
 
 var fs =require('fs');
 // var cleanCSS = require('clean-css');
-var dataSource = require('./data');
+var dataSource = require('./data2');
 var _dataSource = JSON.stringify(dataSource);
 
 var backgroundImg  = fs.readFileSync('./template/img/watermark.png',);
@@ -146,12 +146,19 @@ function exportTemplate(source,exportType) {
 			return source;
 		},
 		partiesList:function methods(data) {
-
-			return data.length ? (data.map(function (item) {
-				return "<li class='mg8-0'><div class='nAndI'><span class='n-title'>".concat(item.role, "：<label class='n-desc'>").concat(item.child.map(function (i) {
-					return i.name;
-				}).join('、'), "</label></span></div></li>");
-			})).join('') : "";
+			var res = '';
+			if(data.length && typeof data === 'object'){
+				(data||[]).forEach(function (item) {
+					res+=("<li class='mg8-0'><div class='nAndI'><span class='n-title'>"+item.role+"：<label class='n-desc'>");
+					var childStr =[];
+					item.child.forEach(function (i) {
+						childStr.push(i.name);
+					});
+					res+=childStr.join('、');
+					res+=("</label></span></div></li>");
+				})
+			}
+			return res;
 		},
 		toRegStatus:function(val){
 			if (val) {
@@ -660,7 +667,7 @@ function exportTemplate(source,exportType) {
 			if((source.shareholderInfos||[]).length){
 				var shareholderInfosList = "";
 				source.shareholderInfos.forEach(function (i) {
-					shareholderInfosList+="<tr><td>"+i.investorName+"</td><td class=\"fw-bold\">"+(i.subscribeAmountRate+"%")+"</td></tr>"
+					shareholderInfosList+="<tr><td>"+i.name+"</td><td class=\"fw-bold\">"+(i.rate+"%")+"</td></tr>"
 				});
 				htmlTemp = htmlTemp.replace("{" + viewName + ".shareholderInfos.list}",shareholderInfosList)
 
@@ -1412,9 +1419,12 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item,index) {
 					listAry.push("<tr>" +
 						"<td>"+(index+1)+"</td>" +
+						"<td>"+(item.companyName||'--')+"</td>" +
 						"<td>"+(item.legalName||'--')+"</td>" +
+						"<td>"+(item.regCapital||'--')+"</td>" +
 						"<td>"+(item.rate||'--')+"</td>" +
-						"<td>"+(item.amount||'--')+"</td>" +
+						"<td>"+(item.regTime||'--')+"</td>" +
+						"<td>"+(item.regStatus||'--')+"</td>" +
 						"</tr>")
 				});
 				break;
@@ -1433,7 +1443,7 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item,index) {
 					listAry.push("<tr>" +
 						"<td>"+(index+1)+"</td>" +
-						"<td>"+(item.legalName||'--')+"</td>" +
+						"<td>"+(item.name||'--')+"</td>" +
 						"<td>"+(item.rate||'--')+"</td>" +
 						"<td>"+(item.amount||'--')+"</td>" +
 						"</tr>")
@@ -1515,8 +1525,8 @@ function exportTemplate(source,exportType) {
 	}else{
 		listView(data.B10301,"asset");
 		listView(data.B10302,"subrogation.judgment");
-		listView(data.B10401,"lawsuit.judgment");
-		listView(data.B10402,"lawsuit.dishonest");
+		listView(data.B10402,"lawsuit.judgment");
+		listView(data.B10401,"lawsuit.dishonest");
 		listView(data.B10403,"tax");
 	}
 
@@ -1524,7 +1534,7 @@ function exportTemplate(source,exportType) {
 }
 
 function writeFile() {
-	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, true), (error) => {
+	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, false), (error) => {
 		error && console.log('error');
 	});
 }

@@ -1,3 +1,5 @@
+@font-face{font-family: "Alibaba PuHuiTi R";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Regular.otf")}
+@font-face{font-family: "Alibaba PuHuiTi M";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Medium.otf")}
 * {
   line-height: 1.45;
   padding: 0;
@@ -8,7 +10,6 @@
   font-family: "Alibaba PuHuiTi R", Arial, serif;
 }
 body {
-  max-width: 904px;
   margin: 0 auto;
   padding: 2px;
   background: #ffffff url("../../img/watermark.png") repeat-y center top;
@@ -91,7 +92,7 @@ a {
   color: #7d8699; }
 /* 通用样式*/
 .exp-title{
-  height: 1300px;
+  height: 1240px;
 }
 .exp-title .title{
   margin-top: 90px;
@@ -141,6 +142,7 @@ a {
   width: 67px;
   height: 67px;
   float: left;
+  margin-left: 4px;
   background-color: #1e8cfa;
   border-radius: 5px;
   border: 1px solid #a8c8ff; }

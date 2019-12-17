@@ -25,7 +25,6 @@ var html =minify(htmlResult, {
 const resultCode = `"use strict";
 
 var htmlResult = ${JSON.stringify(html)};
-
 var bgImgData = "${methods.bgImgData}";
 var deIconData = "${methods.deIconData}";
 var disIconData = "${methods.disIconData}";
