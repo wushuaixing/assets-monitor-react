@@ -19,7 +19,7 @@ const columns = (props) => {
 				: <SortVessel field="DECISION_DATE" onClick={onSortChange} style={_style} {...sort}>决定日期</SortVessel>),
 			dataIndex: 'decisionDate',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'obligorName',

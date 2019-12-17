@@ -33,7 +33,7 @@ export default class HeaderMessage extends React.Component {
 		this.checkId = setInterval(() => {
 			// 获取机构id
 			this.checkOrgId();
-		}, 5 * 1000);
+		}, 30 * 1000);
 	}
 
 	componentDidMount() {

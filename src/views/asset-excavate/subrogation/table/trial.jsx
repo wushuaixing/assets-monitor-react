@@ -22,7 +22,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_REGISTER" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
 			dataIndex: 'gmtRegister',
 			width: 100,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',

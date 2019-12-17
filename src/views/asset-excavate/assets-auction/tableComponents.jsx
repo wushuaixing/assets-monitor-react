@@ -6,6 +6,7 @@ import dishonest2 from '@/assets/img/icon/icon_cengshixin.png';
 import Matching from './matching-reason';
 import { floatFormat } from '@/utils/format';
 import { linkDom } from '@/utils';
+import { formatDateTime } from '@/utils/changeTime';
 
 const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 	const {
@@ -43,7 +44,7 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 				</li>
 				<li className="list-dishonest">
 					<span className="list list-title">更新时间：</span>
-					<span className="list list-content">{updateTime ? new Date(updateTime * 1000).format('yyyy-MM-dd hh:mm') : '--'}</span>
+					<span className="list list-content">{updateTime ? formatDateTime(updateTime) : '--'}</span>
 					{ dishonestStatus === 1 ? <img src={dishonest1} alt="" className="list-dishonest-status" /> : ''}
 					{ dishonestStatus === 2 ? <img src={dishonest2} alt="" className="list-dishonest-status" /> : ''}
 				</li>
@@ -159,7 +160,7 @@ const AuctionInfo = (text, rowContent) => {
 			<br />
 			<li className="table-info-list list-width-180">
 				<span className="info info-title">开拍时间：</span>
-				<span className="info info-content">{start ? new Date(start * 1000).format('yyyy-MM-dd hh:mm') : '未知'}</span>
+				<span className="info info-content">{start ? formatDateTime(start) : '未知'}</span>
 			</li>
 			{
 				{

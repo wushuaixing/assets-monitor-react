@@ -19,7 +19,7 @@ const columns = (props) => {
 				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>变更日期</SortVessel>),
 			dataIndex: 'changeTime',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text), record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
 		}, {
 			title: '企业名称',
 			dataIndex: 'obligorName',
