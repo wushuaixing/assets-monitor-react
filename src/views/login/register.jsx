@@ -209,7 +209,7 @@ class Login extends React.Component {
 			loading, userName, rememberPassword, codeImg, passwordModalVisible, errorTime,
 		} = this.state;
 		const {
-			form: { getFieldProps }, changeType, btnColor,
+			form: { getFieldProps, setFieldsValue }, changeType, btnColor,
 		} = this.props; // 会提示props is not defined
 		return (
 			<div className="yc-login-main" style={errorTime >= 2 && errorTime < 10 && { height: 424 }}>
@@ -238,7 +238,12 @@ class Login extends React.Component {
 												required: true,
 												message: '请输入用户名',
 											},
+											{
+												pattern: /^[^\s]*$/,
+												message: '禁止输入空格',
+											},
 										],
+										// getValueFromEvent: e => e.replace(/\s+/g, ''),
 									})}
 								/>
 							</Form.Item>
