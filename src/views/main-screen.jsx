@@ -67,6 +67,8 @@ export default class Screen extends React.Component {
 			loading: 'show',
 			rule: [],
 			errorCode: '',
+			beforeToken: null,
+			tokenText: '',
 		};
 	}
 
@@ -77,7 +79,10 @@ export default class Screen extends React.Component {
 			navigate('/change/password');
 		}
 		const token = cookie.get('token');
-		if (!token) { navigate('/login'); return; }
+		this.setState({
+			beforeToken: token,
+		});
+		// if (!token) { navigate('/login'); return; }
 
 		this.clientHeight = 500 || document.body.clientHeight;
 		// console.log('componentWillMount:', document.body.clientHeight);
@@ -105,6 +110,15 @@ export default class Screen extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
+		const { beforeToken } = this.state;
+		const token = cookie.get('token');
+		if (token !== beforeToken) {
+			this.setState({
+				loading: 'error',
+				errorCode: '401',
+				tokenText: '您的登录已过期，请重新登录',
+			});
+		}
 		// 判断是否是第一次登录
 		// console.log('main-screen:componentWillReceiveProps');
 		const firstLogin = cookie.get('firstLogin');
@@ -117,7 +131,9 @@ export default class Screen extends React.Component {
 	}
 
 	render() {
-		const { loading, rule, errorCode } = this.state;
+		const {
+			loading, rule, errorCode, tokenText,
+		} = this.state;
 		if (loading === 'show') {
 			return <Spin visible={loading} text=" " transparent><div style={{ height: this.clientHeight || 500 }} /></Spin>;
 		}
@@ -131,8 +147,15 @@ export default class Screen extends React.Component {
 						<img src={Error500} alt="" className="yc-error-img" />
 						<div className="yc-error-text">
 							<li className="error-code">{errorCode}</li>
-							<li className="error-text">抱歉，服务器出错了</li>
-							<Button title="返回登录页面" style={{ width: 120 }} onClick={() => navigate('/login')} />
+							<li className="error-text">{tokenText || '抱歉，服务器出错了'}</li>
+							<Button
+								title="返回登录页面"
+								style={{ width: 120 }}
+								onClick={() => {
+									navigate('/login');
+									window.location.reload(); // 退出登录刷新页面
+								}}
+							/>
 						</div>
 					</div>
 				</div>
