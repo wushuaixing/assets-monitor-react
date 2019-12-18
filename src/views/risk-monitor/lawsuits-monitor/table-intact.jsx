@@ -47,6 +47,8 @@ export default class TableIntact extends React.Component {
 		this.condition.sortOrder = order;
 		this.condition.page = 1;
 		this.toGetData();
+		const { onPageChange } = this.props;
+		if (onPageChange)onPageChange();
 	};
 
 	// 表格发生变化
@@ -64,6 +66,8 @@ export default class TableIntact extends React.Component {
 	onPageChange=(val) => {
 		this.condition.page = val;
 		this.toGetData();
+		const { onPageChange } = this.props;
+		if (onPageChange)onPageChange();
 	};
 
 	// 查询数据methods

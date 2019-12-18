@@ -95,19 +95,24 @@ const toGetDefaultConfig = (c) => {
 
 const ItemTable = (props) => {
 	const {
-		field, source, subrogation, assets, monitor, publicPro, model, id,
+		field, source, subrogation, assets, monitor, publicPro, model, id, onPageChange,
 	} = props;
-	if (field === 'auction') return <Table0010 normal noSort reqUrl={API[model].auctionList} id={id} />;
+	const arg = {
+		normal: true,
+		noSort: true,
+		onPageChange,
+	};
+	if (field === 'auction') return <Table0010 {...arg} reqUrl={API[model].auctionList} id={id} />;
 	if (field === 'subrogation') {
 		const _subrogation = subrogation || source[0].id;
 		if (_subrogation) {
 			switch (_subrogation) {
 			case 21:
-				return <Table0020 normal noSort sourceType={1} reqUrl={API[model].trialListD} id={id} />;
+				return <Table0020 {...arg} sourceType={1} reqUrl={API[model].trialListD} id={id} />;
 			case 22:
-				return <Table0020 normal noSort sourceType={2} reqUrl={API[model].courtSessionListD} id={id} />;
+				return <Table0020 {...arg} sourceType={2} reqUrl={API[model].courtSessionListD} id={id} />;
 			case 23:
-				return <Table0020 normal noSort sourceType={3} reqUrl={API[model].judgmentD} id={id} />;
+				return <Table0020 {...arg} sourceType={3} reqUrl={API[model].judgmentD} id={id} />;
 			default:
 				return null;
 			}
@@ -119,11 +124,11 @@ const ItemTable = (props) => {
 		if (_assets) {
 			switch (_assets) {
 			case 31:
-				return <Table0031 normal noSort reqUrl={API[model].auctionBiddingList} id={id} />;
+				return <Table0031 {...arg} reqUrl={API[model].auctionBiddingList} id={id} />;
 			case 32:
-				return <Table0032 normal noSort reqUrl={API[model].auctionBiddingList} id={id} />;
+				return <Table0032 {...arg} reqUrl={API[model].auctionBiddingList} id={id} />;
 			case 33:
-				return <Table0033 normal noSort reqUrl={API[model].financeList} id={id} />;
+				return <Table0033 {...arg} reqUrl={API[model].financeList} id={id} />;
 			default:
 				return null;
 			}
@@ -135,29 +140,29 @@ const ItemTable = (props) => {
 		if (_monitor) {
 			switch (_monitor) {
 			case 41:
-				return <Table0040 normal noSort sourceType={1} reqUrl={API[model].trialListS} id={id} />;
+				return <Table0040 {...arg} sourceType={1} reqUrl={API[model].trialListS} id={id} />;
 			case 42:
-				return <Table0040 normal noSort sourceType={2} reqUrl={API[model].courtSessionListS} id={id} />;
+				return <Table0040 {...arg} sourceType={2} reqUrl={API[model].courtSessionListS} id={id} />;
 			case 43:
-				return <Table0040 normal noSort sourceType={3} reqUrl={API[model].judgmentS} id={id} />;
+				return <Table0040 {...arg} sourceType={3} reqUrl={API[model].judgmentS} id={id} />;
 			default:
 				return null;
 			}
 		}
 		return null;
 	}
-	if (field === 'bankrupt') return <Table0050 normal noSort reqUrl={API[model].bankruptcyList} id={id} />;
+	if (field === 'bankrupt') return <Table0050 {...arg} reqUrl={API[model].bankruptcyList} id={id} />;
 	if (field === 'publicPro') {
 		const _publicPro = publicPro || source[0].id;
 		if (_publicPro) {
-			if (_publicPro === 61) return <Table0060 normal noSort sourceType={1} reqUrl={API[model].biddingList} id={id} />;
-			if (_publicPro === 62) return <Table0060 normal noSort sourceType={2} reqUrl={API[model].taxList} id={id} />;
-			if (_publicPro === 63) return <Table0060 normal noSort sourceType={3} reqUrl={API[model].epbList} id={id} />;
+			if (_publicPro === 61) return <Table0060 {...arg} sourceType={1} reqUrl={API[model].biddingList} id={id} />;
+			if (_publicPro === 62) return <Table0060 {...arg} sourceType={2} reqUrl={API[model].taxList} id={id} />;
+			if (_publicPro === 63) return <Table0060 {...arg} sourceType={3} reqUrl={API[model].epbList} id={id} />;
 			return null;
 		}
 		return null;
 	}
-	if (field === 'dishonest') return <Table0070 normal noSort id={id} />;
+	if (field === 'dishonest') return <Table0070 {...arg} id={id} />;
 	return null;
 };
 
@@ -194,6 +199,16 @@ export default class HTMLTableElement extends React.Component {
 		});
 	};
 
+	handlePageChange=(field) => {
+		const dom = document.getElementById(`detail-${field}`);
+		// const _height = document.getElementById('enterprise-intro').clientHeight;
+		if (dom) {
+			dom.scrollIntoView();
+			// console.log(document.getElementById(`detail-${field}`).offsetTop);
+			// window.scrollTo(0, document.getElementById(`detail-${field}`).offsetTop - 168);
+		}
+	};
+
 	render() {
 		const { loading, config } = this.state;
 		const { model } = this.props;
@@ -202,14 +217,21 @@ export default class HTMLTableElement extends React.Component {
 				<div className="yc-business-detail-table-list">
 					{
 						config && config.map(item => (
-							<div className="yc-detail-table-item">
+							<div className="yc-detail-table-item" id={`detail-${item.field}`}>
 								<Tabs.Simple
 									onChange={val => this.onSourceType(val, item.field)}
 									source={item.child}
 									prefix={<div className="yc-tabs-simple-prefix">{item.name}</div>}
 								/>
 								<br />
-								<ItemTable {...this.state} field={item.field} source={item.child} model={model} id={this.ID} />
+								<ItemTable
+									{...this.state}
+									field={item.field}
+									source={item.child}
+									model={model}
+									id={this.ID}
+									onPageChange={() => this.handlePageChange(item.field)}
+								/>
 							</div>
 						))
 					}
