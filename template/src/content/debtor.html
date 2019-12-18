@@ -11,7 +11,9 @@
 	<!-- 封面 -->
 	<div class="exp-title">
 		<div class="title">{base.title}</div>
-		<div class="name">{base.name}</div>
+		<div class="name-content">
+			{base.userInfo}
+		</div>
 		<div class="time">{base.queryTime}</div>
 	</div>
 
@@ -312,7 +314,7 @@
 			<table>
 				<tr>
 					<th style="width: 10%">发布日期</th>
-					<th>相关单位</th>
+					<th style="width: 200px;">相关单位</th>
 					<th>标题</th>
 					<th style="width: 10%">更新日期</th>
 				</tr>
@@ -341,11 +343,11 @@
 		</div>
 	</div>
 
-	<!-- 环境行政处罚类目 -->
+	<!-- 环保处罚 -->
 	<div class="{epb.display}">
 		<!-- 类目标题 -->
 		<div class="entry-title">
-			<div class="et-cot fw-bold font-l">环境行政处罚 {epb.total}</div>
+			<div class="et-cot fw-bold font-l">环保处罚 {epb.total}</div>
 		</div>
 		<!-- 类目表格 -->
 		<div class="entry-table border-t">
@@ -371,9 +373,9 @@
 		<div class="entry-table border-t">
 			<table>
 				<tr>
-					<th>判决信息</th>
-					<th>执行情况</th>
-					<th>生效法律文书确定的义务</th>
+					<th style="width: 30%;">判决信息</th>
+					<th style="width: 30%;">执行情况</th>
+					<th >生效法律文书确定的义务</th>
 				</tr>
 				{dishonest.list}
 			</table>

@@ -29,7 +29,7 @@ var bgImgData = "${methods.bgImgData}";
 var deIconData = "${methods.deIconData}";
 var disIconData = "${methods.disIconData}";
 var disEdIconData = "${methods.disEdIconData}";
-
+var accurateImgData = "${methods.accurateImgData}";
 ${methods.exportTemplate}`;
 
 fs.writeFileSync("./template/result/outputBusiness.js",resultCode);

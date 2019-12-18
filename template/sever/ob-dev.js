@@ -151,78 +151,15 @@ function exportTemplate(source, exportType) {
 				});
 				return source;
 			},
+		disStatus: function (value) {
+			var dishonestStatus = '';
+			if (value === 1) dishonestStatus = "<span class=\"img-icon-dishonest\"></span>";
+			if (value === 2) dishonestStatus = "<span class=\"img-icon-dishonest-ed\"></span>";
+			return dishonestStatus;
+		},
 	};
 	var w = function (value, defaultWord) {
 		return value ? value : (defaultWord || '-');
-	};
-	f.replaceHtml([
-		{f: "../../img/watermark.png", v: bgImgData},
-		{f: "../../img/debtor.png", v: deIconData},
-		{f: "../../img/icon_dishonest_ed.png", v: disIconData},
-		{f: "../../img/icon_shixin.png", v: disEdIconData},
-		{f: "../../img/icon-accurate.png", v: accurateImgData},
-		{f: "{base.queryTime}", v: f.format()}]);
-
-	var baseInfo = function method(data, status) {
-		var list = (data.businessList) ||(data.obligorList)|| [];
-		var obj = (data.detail) || {};
-		if (status) {
-			var usedLengthFlag = Boolean((obj.usedName || []).length);
-			var dishonestStatus = '';
-			if (obj.dishonestStatus === 1) dishonestStatus = "<span class=\"img-icon-dishonest\"></span>";
-			if (obj.dishonestStatus === 2) dishonestStatus = "<span class=\"img-icon-dishonest-ed\"></span>";
-			f.replaceHtml([
-				{f: "{business.display}", v: "display-none"},
-				{f: "{base.title}", v: "债务人详情"},
-				{f: "{about.title}", v: "相关业务列表"},
-				{f: "{base.name}", v: obj.obligorName},
-				{f: "{debtor.obligorName}", v: obj.obligorName},
-				{f: "{debtor.obligorNumber}", v: obj.obligorNumber},
-				{f: "{debtor.dishonest}", v: dishonestStatus},
-				{f: "{debtor.formerNames}", v: (usedLengthFlag ? obj.usedName.join('、') : '-')}]);
-		} else {
-			f.replaceHtml([
-				{f: "{debtor.display}", v: "display-none"},
-				{f: "{base.title}", v: "业务详情"},
-				{f: "{about.title}", v: "业务相关人列表"},
-				{f: "{base.name}", v: obj.obligorName}]);
-			f.replaceHtml(["caseNumber", "obligorName", "obligorNumber", "orgName", "guaranteeString"], {
-				field: "business",
-				source: obj
-			});
-		}
-		var listDom = status ? "<tr><th>业务编号</th><th>角色</th><th>机构名称</th></tr>" : "<tr><th>相关人名称</th><th>身份证号/统一社会信用代码</th><th>角色</th></tr>";
-		if (list.length) {
-			list.forEach(function (item) {
-				listDom += (status ? ("<tr><td>" + item.caseNumber + "</td><td>" + item.roleText + "</td><td>" + item.orgName + "</td></tr>")
-					: ("<tr><td>" + item.obligorName + "</td><td>" + (item.obligorNumber || '-') + "</td><td>" + item.roleText + "</td></tr>"));
-			});
-			f.replaceHtml([{f: "{about.list}", v: listDom}, {f: "{about.total}", v: list.length}]);
-		} else {
-			f.replaceHtml([{
-				f: "{about.list}",
-				v: (listDom+"<tr><td colspan='3' style='text-align: center;'>暂无数据</td></tr>")
-			}, {f: "{about.total}", v: ""}]);
-		}
-	};
-	baseInfo((type ? d.BA01 : d.BB01), type);
-
-	var taxParties = function (data) {
-		var res = {
-			length: (data || []).length,
-			fill: "",
-			appendDom: "",
-		};
-		if (res.length) {
-			data.forEach(function (i, index) {
-				var text = w(i.name)+(i.idNumber?("("+w(i.idNumber)+")"):"");
-				if (index === 0) res.fill = "<td style='padding-right: 0'>" + s.identity[i.identityType||0] + "：</td><td style='padding-left: 0'>" + text + "</td>";
-				else res.appendDom += "<tr><td style='padding-right: 0'>" + s.identity[i.identityType||0] + "：</td><td style='padding-left: 0'>" + text + "</td></tr>"
-			});
-		} else {
-			res.fill = "<td>-</td><td></td>";
-		}
-		return res;
 	};
 	var parties =function (data) {
 		var res = {
@@ -240,7 +177,7 @@ function exportTemplate(source, exportType) {
 						var result = [];
 						if (item.gender === 1) result.push('男');
 						if (item.gender === 2) result.push('女');
-						if (item.birthday) result.push(item.birthday);
+						if (item.birthday) result.push((typeof item.birthday=== "number"?f.format(item.birthday):item.birthday));
 						childStr.push(item.name + "(" + result.join(" ") + ")");
 					} else {
 						childStr.push(item.name)
@@ -255,12 +192,29 @@ function exportTemplate(source, exportType) {
 		}
 		return res;
 	};
+	var taxParties = function (data) {
+		var res = {
+			length: (data || []).length,
+			fill: "",
+			appendDom: "",
+		};
+		if (res.length) {
+			data.forEach(function (i, index) {
+				var text = w(i.name)+(i.idNumber?("("+w(i.idNumber)+")"):"");
+				if (index === 0) res.fill = "<td style='padding-right: 0'>" + s.identity[i.identityType||0] + "：</td><td style='padding-left: 0'>" + text + "</td>";
+				else res.appendDom += "<tr><td style='padding-right: 0'>" + s.identity[i.identityType||0] + "：</td><td style='padding-left: 0'>" + text + "</td></tr>"
+			});
+		} else {
+			res.fill = "<td>-</td><td></td>";
+		}
+		return res;
+	};
 	var matchReason = function (data) {
 		var reason = data.reason;
 		if (reason || data.remark) {
 			var matchReasonStr = '';
 			if (data.remark) {
-				matchReasonStr += "<li class=\"mg8-0\">● 审核备注 | " + f.format(i.approveTime, "m") + "</li><li class=\"mg8-0\">" + w(i.remark) + "</li>";
+				matchReasonStr += "<li class=\"mg8-0\">● 审核备注 | " + f.format(data.approveTime, "m") + "</li><li class=\"mg8-0\">" + w(data.remark) + "</li>";
 			}
 			try {
 				var _reason = JSON.parse(reason);
@@ -283,7 +237,59 @@ function exportTemplate(source, exportType) {
 		}
 		return "--";
 	};
+	f.replaceHtml([
+		{f: "../../img/watermark.png", v: bgImgData},
+		{f: "../../img/debtor.png", v: deIconData},
+		{f: "../../img/icon_dishonest_ed.png", v: disEdIconData},
+		{f: "../../img/icon_shixin.png", v: disIconData},
+		{f: "../../img/icon-accurate.png", v: accurateImgData},
+		{f: "{base.queryTime}", v: f.format()}]);
+	/* baseInfo -- fill */
+	var baseInfo = function method(data, status) {
+		var list = ((data||{}).businessList) ||((data||{}).obligorList)|| [];
+		var obj = (data.detail) || {};
+		var userInfo ='';
+		if (status) {
+			var usedLengthFlag = Boolean((obj.usedName || []).length);
+			userInfo = ("<div class='name'>" + obj.obligorName + (obj.obligorNumber ? ("(" + obj.obligorNumber + ")") : "") + "</div>");
+			f.replaceHtml([
+				{f: "{business.display}", v: "display-none"},
+				{f: "{base.title}", v: "债务人详情"},
+				{f: "{about.title}", v: "相关业务列表"},
+				{f: "{base.userInfo}", v: userInfo},
+				{f: "{debtor.obligorName}", v: w(obj.obligorName)},
+				{f: "{debtor.obligorNumber}", v: w(obj.obligorNumber)},
+				{f: "{debtor.dishonest}", v: f.disStatus(obj.dishonestStatus)},
+				{f: "{debtor.formerNames}", v: (usedLengthFlag ? obj.usedName.join('、') : '-')}]);
+		} else {
+			userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + obj.id + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
+			f.replaceHtml([
+				{f: "{debtor.display}", v: "display-none"},
+				{f: "{base.title}", v: "业务详情"},
+				{f: "{about.title}", v: "业务相关人列表"},
+				{f: "{base.userInfo}", v: userInfo}]);
+			f.replaceHtml(["caseNumber", "obligorName", "obligorNumber", "orgName", "guaranteeString"], {
+				field: "business",
+				source: obj
+			});
+		}
+		var listDom = status ? "<tr><th>业务编号</th><th>角色</th><th>机构名称</th></tr>" : "<tr><th>相关人名称</th><th>身份证号/统一社会信用代码</th><th>角色</th></tr>";
+		if (list.length) {
+			list.forEach(function (item) {
+				listDom += (status ? ("<tr><td>" + w(item.caseNumber) + "</td><td>" + w(item.roleText) + "</td><td>" + w(item.orgName) + "</td></tr>")
+					: ("<tr><td>" + w(item.obligorName) + "</td><td>" + (item.obligorNumber || '-') + "</td><td>" + w(item.roleText) + "</td></tr>"));
+			});
+			f.replaceHtml([{f: "{about.list}", v: listDom}, {f: "{about.total}", v: list.length}]);
+		} else {
+			f.replaceHtml([{
+				f: "{about.list}",
+				v: (listDom+"<tr><td colspan='3' style='text-align: center;'>暂无数据</td></tr>")
+			}, {f: "{about.total}", v: ""}]);
+		}
+	};
+	baseInfo((type ? d.BA01 : d.BB01), type);
 
+	/* table content list -- fill */
 	var drawList = function methods(data, taxon) {
 		if(data){
 			if ((data.list || []).length) {
@@ -292,9 +298,6 @@ function exportTemplate(source, exportType) {
 					case "assetsBidding":
 					case "asset": {
 						data.list.forEach(function (i) {
-							var dishonestStatus = '';
-							if (i.dishonestStatus === 1) dishonestStatus = "<span class=\"icon-dishonest img-icon-dishonest\"></span>";
-							if (i.dishonestStatus === 2) dishonestStatus = "<span class=\"icon-dishonest img-icon-dishonest-ed\"></span>";
 							var auctionStatus = "<font class='auctionStatus-" + i.status + "'>" + (s.auction[i.status] || '未知') + "</font>";
 							var signPrice = {t: f.floatFormat(i.currentPrice, " 元"), d: "当前价"};
 							if (i.status === 1) {
@@ -309,8 +312,8 @@ function exportTemplate(source, exportType) {
 								"<td class='pr'>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
 									{t: w(i.orgName), d: "机构名称"}],65) +
 								"<li class=\"mg8-0 pr\"><div class=\"nAndI\"><span class=\"n-title\">更新时间：</span>" +
-								"<span class=\"n-desc\">" + f.format(i.createTime,"m") + "</span></div>"+ dishonestStatus +"</li>" +
-								(i.important ? "<div class='accurate-img'></div>" : "2") + "</td>" +
+								"<span class=\"n-desc\">" + f.format(i.updateTime,"m") + "</span></div>"+ f.disStatus(i.dishonestStatus) +"</li>" +
+								(i.important ? "<div class='accurate-img'></div>" : "") + "</td>" +
 								"<td>" + matchReason(i) + "</td>" +
 								"<td><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
 								f.infoList([{t: w(i.court), d: "处置机关"}]) +
@@ -362,7 +365,7 @@ function exportTemplate(source, exportType) {
 						data.list.forEach(function (i) {
 							var pR = parties(i.parties);
 							var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
-							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtRegister) + "</td>" + pR.fill +
+							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtPublish) + "</td>" + pR.fill +
 								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
 								"<td " + pRow + "><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
 								f.infoList([{t: w(i.caseReason), d: "　案　由"}, {t: w(i.caseType), d: "案件类型"},
@@ -381,7 +384,7 @@ function exportTemplate(source, exportType) {
 					case "epb":
 					case "bidding": {
 						data.list.forEach(function (i) {
-							tableList += "<tr><td>" + f.format(i.publishDate) + "</td><td>" + w(i.obName) + "</td>" +
+							tableList += "<tr><td>" + f.format(i.publishTime) + "</td><td>" + w(i.obName) + "</td>" +
 								"<td>" + f.urlDom(i.title, i.url) + "</td><td>" + (f.format(i.createTime)) + "</td></tr>";
 						});
 						break;
@@ -431,13 +434,23 @@ function exportTemplate(source, exportType) {
 	drawList(d[field + '11'], "tax");
 	drawList(d[field + '12'], "epb");
 	drawList({list: (((d.BA13 || [])[0] || {}).result || [])}, "dishonest");
-	drawList(d[field + 'A1'], "lawsuit.judgment");
-	drawList(d[field + 'A2'], "subrogation.judgment");
+	drawList(d[field + 'A1'], "subrogation.judgment");
+	drawList(d[field + 'A2'], "lawsuit.judgment");
+
 	return htmlResult;
 }
 
-fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, false), (error) => {
+fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, true), (error) => {
 	error && console.log('error');
 });
 
-module.exports = {exportTemplate, bgImgData, deIconData, disIconData, disEdIconData,htmlResultStr,cssResult};
+module.exports = {
+	exportTemplate,
+	bgImgData,
+	deIconData,
+	disIconData,
+	disEdIconData,
+	accurateImgData,
+	htmlResultStr,
+	cssResult
+};

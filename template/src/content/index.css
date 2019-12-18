@@ -116,16 +116,19 @@ a {
   font-size: 80px;
   color: #384482;
 }
+.name-content{
+  height: 200px;
+}
 .exp-title .name{
   display: block;
   text-align: center;
-  line-height: 50px;
+  line-height: 60px;
   height: 50px;
   font-size: 50px;
   color: #20242E;
 }
 .exp-title .time{
-  margin-top: 450px;
+  margin-top: 300px;
   display: block;
   text-align: center;
   line-height: 50px;
