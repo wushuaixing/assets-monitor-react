@@ -67,7 +67,7 @@ export default class HeaderMessage extends React.Component {
 				// console.log(res.data.orgId, window.globle);
 				if (hash && hash.indexOf('debtor/detail') !== -1 && res.data.orgId !== window.globle) {
 					Modal.warning({
-						title: '您已切换机构，当前机构下该债务人不存在',
+						title: '您已切换机构，请查看当前机构下债务人',
 						onOk() {
 							navigate('/business/debtor');
 							window.location.reload(); // 退出登录刷新页面
