@@ -88,13 +88,13 @@ const RegisterDetail = (text, rowContent) => {
 					)
 				}
 				{
-					rowContent.cancelDate && (
-					<li>
-						<span className="list list-title align-justify" style={{ width: 'auto' }}>注销时间</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{formatDateTime(rowContent.cancelDate, 'onlyYear') || '-'}</span>
-					</li>
-					)
+					rowContent.cancelDate ? (
+						<li>
+							<span className="list list-title align-justify" style={{ width: 'auto' }}>注销时间</span>
+							<span className="list list-title-colon">:</span>
+							<span className="list list-content">{formatDateTime(rowContent.cancelDate, 'onlyYear') || '-'}</span>
+						</li>
+					) : ''
 				}
 			</div>
 		</React.Fragment>
