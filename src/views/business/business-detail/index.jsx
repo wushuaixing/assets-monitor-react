@@ -6,12 +6,15 @@ import {
 import {
 	getDetail, // 详情
 	save, // 编辑
+	exportListBusiness, // 导出pdf
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import Edit from './edit';
-import { Table, Spin } from '@/common';
+import {
+	Table, Spin, Download, Icon as IconType,
+} from '@/common';
 import TableList from '../table-list';
 import './style.scss';
 
@@ -224,10 +227,16 @@ class DebtorDetail extends React.Component {
 									<Button onClick={this.changeList} className="yc-btn">
 										变更记录
 									</Button>
-									<Button className="yc-btn">
-										<span className="yc-icon-export" />
-										下载
-									</Button>
+									<Download
+										style={{ width: 70 }}
+										condition={{
+											businessId: getQueryByName(window.location.href, 'id'),
+										}}
+										icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+										api={exportListBusiness}
+										normal
+										text="下载"
+									/>
 								</React.Fragment>
 							) : (
 								<Button onClick={() => this.handleCancal()} className="yc-btn">

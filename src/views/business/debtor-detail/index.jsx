@@ -5,9 +5,12 @@ import {
 } from 'antd';
 import {
 	detail, // 详情
+	exportListDebator,
 } from '@/utils/api/business';
 import { getQueryByName } from '@/utils';
-import { Table, Spin } from '@/common';
+import {
+	Table, Spin, Icon as IconType, Download,
+} from '@/common';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
 import TableList from '../table-list';
@@ -145,6 +148,18 @@ export default class DebtorDetail extends React.Component {
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/business/debtor')}>债务人</a></Breadcrumb.Item>
 						<Breadcrumb.Item><span style={{ 'font-weight': 400, color: '#20242E' }}>债务人详情</span></Breadcrumb.Item>
+						<div className="yc-public-floatRight">
+							<Download
+								style={{ width: 70 }}
+								condition={{
+									obligorId: getQueryByName(window.location.href, 'id'),
+								}}
+								icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+								api={exportListDebator}
+								normal
+								text="下载"
+							/>
+						</div>
 					</Breadcrumb>
 				</div>
 				<Spin visible={loading}>

@@ -561,20 +561,21 @@ td.column-left20 {
 }
 
 .has-error{
+
   .yc-select-content-wrapper{
-    border-color: #f50!important;
-    box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+    border-color: $common-error !important;
+    box-shadow: 0 0 0 2px rgba(251, 90, 92, 0.43) !important;
   }
   .yc-input  {
-    border-color: #f50!important;
-    box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+    border-color: $common-error !important;
+    box-shadow: 0 0 0 2px rgba(251, 90, 92, 0.43) !important;
     &:hover {
-      border-color: #f50!important;
-      box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+      border-color: $common-error !important;
+      box-shadow: 0 0 0 2px rgba(251, 90, 92, 0.43) !important;
     }
     &:focus {
-      border-color: #f50!important;
-      box-shadow: 0 0 0 2px rgba(255,85,0,.2) !important;
+      border-color: $common-error !important;
+      box-shadow: 0 0 0 2px rgba(251, 90, 92, 0.43) !important;
     }
   }
 }

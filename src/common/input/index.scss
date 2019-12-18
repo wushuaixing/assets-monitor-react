@@ -1,8 +1,8 @@
 html {
   // input 高度出现误差。height和line-height 不统一；
   .has-error .yc-input, .has-error .yc-input:focus, .has-error .yc-input:hover {
-    border-color: #f50;
-    box-shadow: 0 0 0 2px rgba(255,85,0,.2);
+    border-color: $common-error !important;
+    box-shadow: 0 0 0 2px rgba(251, 90, 92, 0.43) !important;
   }
 
   .yc-input-wrapper {

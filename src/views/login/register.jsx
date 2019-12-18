@@ -253,6 +253,7 @@ class Login extends React.Component {
 								<Icon
 									type="icon-password"
 									className="yc-form-icon"
+									style={{ fontSize: 19 }}
 								/>
 								<Input
 									className="yc-login-input"

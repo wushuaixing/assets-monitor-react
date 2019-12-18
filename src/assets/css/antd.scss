@@ -157,3 +157,8 @@
 .ant-timeline-item-tail {
   left: 4px;
 }
+
+// 输入框报错
+.has-error .ant-form-explain, .has-error .ant-form-split {
+  color: $common-error !important;
+}
