@@ -1,7 +1,7 @@
 
 var fs =require('fs');
 // var cleanCSS = require('clean-css');
-var dataSource = require('./data2');
+var dataSource = require('./data');
 var _dataSource = JSON.stringify(dataSource);
 
 var backgroundImg  = fs.readFileSync('./template/img/watermark.png',);
@@ -152,7 +152,15 @@ function exportTemplate(source,exportType) {
 					res+=("<li class='mg8-0'><div class='nAndI'><span class='n-title'>"+item.role+"：<label class='n-desc'>");
 					var childStr =[];
 					item.child.forEach(function (i) {
-						childStr.push(i.name);
+						if (i.birthday || i.gender) {
+							var result = [];
+							if (i.gender === 1) result.push('男');
+							if (i.gender === 2) result.push('女');
+							if (i.birthday) result.push(i.birthday);
+							childStr.push(i.name + "(" + result.join(" ") + ")");
+						} else {
+							childStr.push(i.name)
+						}
 					});
 					res+=childStr.join('、');
 					res+=("</label></span></div></li>");
@@ -168,6 +176,19 @@ function exportTemplate(source,exportType) {
 				return "";
 			}
 			return '';
+		},
+		toGetAsUser:function methods(value) {
+			if(value){
+				var res =value;
+				switch (value) {
+					case 1:res='作为纳税人';break;
+					case 2:res='作为法定代表人';break;
+					case 3:res='作为财务';break;
+					case 9:res='其他';break;
+				}
+				return res;
+			}
+			return ''
 		},
 		toGetCaseType:function methods(value) {
 			if(value){
@@ -222,8 +243,13 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{info." + item + "}", source[item]||'--');
 			});
 
-			var formerNames= (source.formerNames.length)?source.formerNames.join('、'):'--';
-			htmlTemp = htmlTemp.replace("{info.formerNames}", formerNames);
+			var formerNames= (source.formerNames.length)?source.formerNames.join('、'):'';
+			if(formerNames){
+				htmlTemp = htmlTemp.replace("{info.formerNames}", formerNames);
+			}else{
+				htmlTemp = htmlTemp.replace("{info.formerNames.display}", "display-none");
+			}
+
 			htmlTemp = htmlTemp.replace("{info.logoUrl}", (source.logoUrl?("<img src=\""+source.logoUrl+"\" alt=\"\">"):("<img src=\""+defaultIcon+"\" alt=\"\" >")));
 			var regStatus =fun.toRegStatus(source.regStatus);
 			htmlTemp = htmlTemp.replace("{info.regStatus}", (regStatus?"<span class=\"n-regStatus"+regStatus+"\">"+source.regStatus+"</span>":""));
@@ -256,7 +282,7 @@ function exportTemplate(source,exportType) {
 					var childName = option.options
 						?fun.toGetType(item[option.name],option.options,option.field,option.isAry,option.fillText)
 						:item[option.name];
-					childRes += ("<td><span class=\"mg-r\">" + childName + "：</span>" +
+					childRes += ("<td><span class=\"mg-r\">" + childName +(option.nameUnit||'')+ "：</span>" +
 						"<span class=\"fw-bold \">" + item[option.count]+(option.numberUnit||'') +
 						"</span><span>"+(option.unit||" 条")+"</span>" +
 						(option.remark ? eval(option.remark) : '') + "</td>");
@@ -336,6 +362,7 @@ function exportTemplate(source,exportType) {
 										overViewTable(fun.toGetYearList(item.yearDistribution), 5, {
 											name: "year",
 											count: "count",
+											nameUnit:"年"
 										}))
 
 								}
@@ -353,8 +380,8 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		else if(viewName==="overview.B10202"){
-			if(source.subrogationInfos){
-				itemData =source.subrogationInfos;
+			if(source.subrogationInfo){
+				itemData =source.subrogationInfo;
 				if(itemData.count){
 					result =true;
 					htmlTemp = htmlTemp.replace("{" + viewName +  ".total}", itemData.count);
@@ -372,11 +399,12 @@ function exportTemplate(source,exportType) {
 								count: "count",
 							}))
 					}
-					if(itemData.yearDistribution.length){
+					if(itemData.yearDistributions.length){
 						htmlTemp = htmlTemp.replace("{" + viewName +  ".year.list}",
-							overViewTable(fun.toGetYearList(itemData.yearDistribution), 5, {
+							overViewTable(fun.toGetYearList(itemData.yearDistributions), 5, {
 								name: "year",
 								count: "count",
+								nameUnit:"年"
 							}))
 
 					}
@@ -421,6 +449,7 @@ function exportTemplate(source,exportType) {
 						overViewTable(fun.toGetYearList(source.yearDistributions, "year"), 5, {
 							name: "year",
 							count: "count",
+							nameUnit:"年"
 						}))
 				} else {
 					htmlTemp = htmlTemp.replace("{" + viewName + ".year.display}", "display-none");
@@ -431,8 +460,8 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		else if(viewName==="overview.B10203"){
-			if(source.litigationInfos){
-				 itemData =source.litigationInfos;
+			if(source.litigationInfo){
+				 itemData =source.litigationInfo;
 				if(itemData.count){
 					result =true;
 					htmlTemp = htmlTemp.replace("{" + viewName +  ".total}", itemData.count);
@@ -450,11 +479,12 @@ function exportTemplate(source,exportType) {
 								count: "count",
 							}))
 					}
-					if(itemData.yearDistribution.length){
+					if(itemData.yearDistributions.length){
 						htmlTemp = htmlTemp.replace("{" + viewName +  ".year.list}",
-							overViewTable(fun.toGetYearList(itemData.yearDistribution), 5, {
+							overViewTable(fun.toGetYearList(itemData.yearDistributions), 5, {
 								name: "year",
 								count: "count",
+								nameUnit:"年"
 							}))
 
 					}
@@ -492,6 +522,7 @@ function exportTemplate(source,exportType) {
 						overViewTable(fun.toGetYearList(source.yearDistributions, "year"), 5, {
 							name: "year",
 							count: "count",
+							nameUnit:"年"
 						}))
 				} else {
 					htmlTemp = htmlTemp.replace("{" + viewName + ".year.display}", "display-none");
@@ -514,6 +545,7 @@ function exportTemplate(source,exportType) {
 					overViewTable(fun.toGetYearList(source.assetOverviewDishonestInfo.yearDistributions,'year'), 5, {
 						name: "year",
 						count: "count",
+						nameUnit:"年"
 					}))
 			}else{
 				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
@@ -560,6 +592,7 @@ function exportTemplate(source,exportType) {
 						overViewTable(fun.toGetYearList(source.yearDistributions, "year"), 5, {
 							name: "year",
 							count: "count",
+							nameUnit:"年"
 						}))
 				} else {
 					htmlTemp = htmlTemp.replace("{" + viewName + ".year.display}", "display-none");
@@ -601,8 +634,8 @@ function exportTemplate(source,exportType) {
 											overViewTable(fun.toGetYearList(item.yearDistribution), 5, {
 												name: "year",
 												count: "count",
+												nameUnit:"年"
 											}))
-
 									}
 								}
 							}
@@ -626,6 +659,7 @@ function exportTemplate(source,exportType) {
 						overViewTable(fun.toGetYearList(source.assetOverviewDishonestInfo.yearDistributions,'year'), 5, {
 							name: "year",
 							count: "count",
+							nameUnit:"年"
 						}))
 				}else{
 					htmlTemp = htmlTemp.replace("{" + viewName + ".dishonest.display}", "display-none");
@@ -724,7 +758,7 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0 font-m'>" +
 						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.title||'--')+"</a>":(item.title||'--')) +
 						"</li>" +
-						"<li class='mg8-0'><div class='nAndI'><span class='n-desc'>· 匹配原因："+fun.toGetType(item.obligors,fun.source.labelType,"labelType",true)+"</span></div></li>" +
+						"<li class='mg8-0'><div class='nAndI'><span class='n-desc'>● 匹配原因："+fun.toGetType(item.obligors,fun.source.labelType,"labelType",true)+"</span></div></li>" +
 						"<li class='mg8-0'><div class='nAndI'><span class='n-desc'>"+item.matchRemark+"</span></div></li>" +
 						"</td><td>" +
 						"<li class='mg8-0'><div class='nAndI'>● "+fun.toGetType(item.status,fun.source.auctionType)+"</div></li>" +
@@ -1334,6 +1368,7 @@ function exportTemplate(source,exportType) {
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
 						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.caseNature||'--')+"</a>":(item.caseNature||'--')) +
+						(fun.toGetAsUser(item.identityType)?"<span class=\"case-tag\">"+fun.toGetAsUser(item.identityType)+"</span>":"") +
 						"</li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
@@ -1349,6 +1384,10 @@ function exportTemplate(source,exportType) {
 						"</li>" +
 						"</td>" +
 						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>纳税人：<label class='n-desc'>"+(item.offender||'--')+"</label></span>" +
+						"</div></li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>发布日期：<label class='n-desc'>"+(item.gmtPublish||'--')+"</label></span>" +
@@ -1525,8 +1564,8 @@ function exportTemplate(source,exportType) {
 	}else{
 		listView(data.B10301,"asset");
 		listView(data.B10302,"subrogation.judgment");
-		listView(data.B10402,"lawsuit.judgment");
 		listView(data.B10401,"lawsuit.dishonest");
+		listView(data.B10402,"lawsuit.judgment");
 		listView(data.B10403,"tax");
 	}
 
@@ -1534,7 +1573,7 @@ function exportTemplate(source,exportType) {
 }
 
 function writeFile() {
-	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, false), (error) => {
+	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, true), (error) => {
 		error && console.log('error');
 	});
 }
