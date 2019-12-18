@@ -50,28 +50,23 @@
 		</div>
 		<!-- 类目表格 -->
 		<div class="entry-table border-t">
-			<table class="table-1-td-right">
-				<!-- 资产拍卖列表 -->
+			<table class="table-border table-baseInfo">
 				<tr>
-					<td style="width: 200px;">业务编号：</td>
+					<td>业务编号</td>
 					<td>{business.caseNumber}</td>
-				</tr>
-				<tr>
-					<td>借款人名称：</td>
+					<td>借款人名称</td>
 					<td>{business.obligorName}</td>
 				</tr>
 				<tr>
-					<td>身份证号/统一社会信用代码：</td>
+					<td>身份证号/统一社会信用代码</td>
 					<td>{business.obligorNumber}</td>
-				</tr>
-				<tr>
-					<td>机构名称：</td>
+					<td>机构名称</td>
 					<td>{business.orgName}</td>
 				</tr>
 				<tr>
-					<td>担保方式：</td>
-					<td>{business.guaranteeString}</td>
-				</tr>
+					<td>担保方式</td>
+					<td colspan="3">{business.guaranteeString}</td>
+				</tr> 
 			</table>
 		</div>
 	</div>
@@ -155,6 +150,27 @@
 		</div>
 	</div>
 
+	<!-- 代位权【涉诉文书】类目 -->
+	<div class="{subrogation.judgment.display}">
+		<!-- 类目标题 -->
+		<div class="entry-title">
+			<div class="et-cot fw-bold font-l">代位权_裁判文书 {subrogation.judgment.total}</div>
+		</div>
+		<!-- 类目表格 -->
+		<div class="entry-table border-t">
+			<table>
+				<tr>
+					<th style="width: 10%">发布日期</th>
+					<th colspan="2">当事人</th>
+					<th>法院</th>
+					<th>案号</th>
+					<th>文书信息</th>
+				</tr>
+				{subrogation.judgment.list}
+			</table>
+		</div>
+	</div>
+
 	<!-- 金融资产_竞价项目类目 -->
 	<div class="{assetsBidding.display}">
 		<!-- 类目标题 -->
@@ -188,7 +204,7 @@
 					<th style="width: 10%">起始时间</th>
 					<th>相关单位</th>
 					<th>项目名称</th>
-					<th>挂牌价格</th>
+					<th>挂牌价格（元）</th>
 					<th style="width: 10%">期满日期</th>
 					<th style="width: 10%">更新日期</th>
 				</tr>
@@ -242,7 +258,26 @@
 		</div>
 	</div>
 
-
+	<!-- 涉诉【涉诉文书】类目 -->
+	<div class="{lawsuit.judgment.display}">
+		<!-- 类目标题 -->
+		<div class="entry-title">
+			<div class="et-cot fw-bold font-l">涉诉监控_裁判文书 {lawsuit.judgment.total}</div>
+		</div>
+		<!-- 类目表格 -->
+		<div class="entry-table border-t">
+			<table>
+				<tr>
+					<th style="width: 10%">发布日期</th>
+					<th colspan="2">当事人</th>
+					<th>法院</th>
+					<th>案号</th>
+					<th>文书信息</th>
+				</tr>
+				{lawsuit.judgment.list}
+			</table>
+		</div>
+	</div>
 
 	<!-- 企业破产重组 类目 -->
 	<div class="{bankrupt.display}">

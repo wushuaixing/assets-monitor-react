@@ -123,7 +123,34 @@ function exportTemplate(source, exportType) {
 				arr1.push(pointer);
 			}
 			return arr1.join('') + (unit||'');
-		}
+		},
+		handleParties:function (data) {
+				if(!data) return '--';
+				var source = [];
+				data.forEach(function (i) {
+					if (source.length === 0) {
+						source.push({
+							index: source.length,
+							role: i.role,
+							child: [i]
+						});
+					} else {
+						var _result = source.filter(function (item) {
+							return item.role === i.role;
+						})[0];
+						if (_result) {
+							source[_result.index].child.push(i);
+						} else {
+							source.push({
+								index: source.length,
+								role: i.role,
+								child: [i]
+							});
+						}
+					}
+				});
+				return source;
+			},
 	};
 	var w = function (value, defaultWord) {
 		return value ? value : (defaultWord || '-');
@@ -164,8 +191,8 @@ function exportTemplate(source, exportType) {
 				source: obj
 			});
 		}
+		var listDom = status ? "<tr><th>业务编号</th><th>角色</th><th>机构名称</th></tr>" : "<tr><th>相关人名称</th><th>身份证号/统一社会信用代码</th><th>角色</th></tr>";
 		if (list.length) {
-			var listDom = status ? "<tr><th>业务编号</th><th>角色</th><th>机构名称</th></tr>" : "<tr><th>相关人名称</th><th>身份证号/统一社会信用代码</th><th>角色</th></tr>";
 			list.forEach(function (item) {
 				listDom += (status ? ("<tr><td>" + item.caseNumber + "</td><td>" + item.roleText + "</td><td>" + item.orgName + "</td></tr>")
 					: ("<tr><td>" + item.obligorName + "</td><td>" + (item.obligorNumber || '-') + "</td><td>" + item.roleText + "</td></tr>"));
@@ -174,7 +201,7 @@ function exportTemplate(source, exportType) {
 		} else {
 			f.replaceHtml([{
 				f: "{about.list}",
-				v: "<tr><td colspan='3' style='text-align: center;'>暂无数据</td></tr>"
+				v: (listDom+"<tr><td colspan='3' style='text-align: center;'>暂无数据</td></tr>")
 			}, {f: "{about.total}", v: ""}]);
 		}
 	};
@@ -204,32 +231,25 @@ function exportTemplate(source, exportType) {
 			appendDom: "",
 		};
 		if(res.length){
-			var ro = {};
-			data.forEach(function (i) {
-				// 1：原告 2：被告 3：第三人 0：其他
-				if (i.roleType === 1) {
-					if (ro.a) ro.a.desc += (i.name ? ("、" + i.name) : '');
-					else ro.a = {type: "原告", desc: i.name};
-				} else if (i.roleType === 2) {
-					if (ro.b) ro.b.desc += (i.name ? ("、" + i.name) : '');
-					else ro.b = {type: "被告", desc: i.name};
-				} else if (i.roleType === 3) {
-					if (ro.c) ro.c.desc += (i.name ? ("、" + i.name) : '');
-					else ro.c = {type: "第三人", desc: i.name};
-				} else {
-					if (ro.d) ro.d.desc += (i.name ? ("、" + i.name) : '');
-					else ro.d = {type: "其他", desc: i.name};
-				}
+			var result = f.handleParties(data);
+			res.length=result.length;
+			result.forEach(function (i, index) {
+				var childStr =[];
+				i.child.forEach(function (item) {
+					if (item.birthday || item.gender) {
+						var result = [];
+						if (item.gender === 1) result.push('男');
+						if (item.gender === 2) result.push('女');
+						if (item.birthday) result.push(item.birthday);
+						childStr.push(item.name + "(" + result.join(" ") + ")");
+					} else {
+						childStr.push(item.name)
+					}
+				});
+				if (index === 0) res.fill = "<td style='padding-right: 3px;min-width:60px;'>" + i.role + "：</td><td style='padding-left: 0;width: 200px'>" + (childStr.join('、')) + "</td>";
+				else res.appendDom += "<tr><td style='padding-right: 0;'>" + i.role + "：</td><td style='padding-left: 0'>" + (childStr.join('、')) + "</td></tr>"
 			});
-			var roleList =[];
-			["a", "b", "c", "d"].forEach(function (i) {
-				if (ro[i]) roleList.push(ro[i]);
-			});
-			roleList.forEach(function (i, index) {
-				if (index === 0) res.fill = "<td style='padding-right: 0;width:50px '>" + i.type + "：</td><td style='padding-left: 0;width: 200px'>" + i.desc + "</td>";
-				else res.appendDom += "<tr><td style='padding-right: 0'>" + i.type + "：</td><td style='padding-left: 0'>" + i.desc + "</td></tr>"
-			});
-			res.length=roleList.length;
+
 		}else{
 			res.fill = "<td>-</td><td></td>";
 		}
@@ -272,6 +292,9 @@ function exportTemplate(source, exportType) {
 					case "assetsBidding":
 					case "asset": {
 						data.list.forEach(function (i) {
+							var dishonestStatus = '';
+							if (i.dishonestStatus === 1) dishonestStatus = "<span class=\"icon-dishonest img-icon-dishonest\"></span>";
+							if (i.dishonestStatus === 2) dishonestStatus = "<span class=\"icon-dishonest img-icon-dishonest-ed\"></span>";
 							var auctionStatus = "<font class='auctionStatus-" + i.status + "'>" + (s.auction[i.status] || '未知') + "</font>";
 							var signPrice = {t: f.floatFormat(i.currentPrice, " 元"), d: "当前价"};
 							if (i.status === 1) {
@@ -284,7 +307,9 @@ function exportTemplate(source, exportType) {
 							}
 							tableList += "<tr>" +
 								"<td class='pr'>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
-									{t: w(i.orgName), d: "机构名称"}, {t: f.format(i.createTime,"m"), d: "更新时间"}],65) +
+									{t: w(i.orgName), d: "机构名称"}],65) +
+								"<li class=\"mg8-0 pr\"><div class=\"nAndI\"><span class=\"n-title\">更新时间：</span>" +
+								"<span class=\"n-desc\">" + f.format(i.createTime,"m") + "</span></div>"+ dishonestStatus +"</li>" +
 								(i.important ? "<div class='accurate-img'></div>" : "2") + "</td>" +
 								"<td>" + matchReason(i) + "</td>" +
 								"<td><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
@@ -328,6 +353,20 @@ function exportTemplate(source, exportType) {
 							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtRegister) + "</td>" + pR.fill +
 								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
 								"<td " + pRow + ">" + w(i.caseReason) + "</td><td " + pRow + ">" + f.format(i.gmtCreate) + "</td></tr>";
+							tableList += pR.appendDom;
+						});
+						break;
+					}
+					case "lawsuit.judgment":
+					case "subrogation.judgment":{
+						data.list.forEach(function (i) {
+							var pR = parties(i.parties);
+							var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
+							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtRegister) + "</td>" + pR.fill +
+								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
+								"<td " + pRow + "><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
+								f.infoList([{t: w(i.caseReason), d: "　案　由"}, {t: w(i.caseType), d: "案件类型"},
+									{t: f.format(i.gmtJudgment), d: "判决日期"},{t: f.format(i.gmtCreate), d: "更新日期"}]) + "</td></tr>";
 							tableList += pR.appendDom;
 						});
 						break;
@@ -392,7 +431,8 @@ function exportTemplate(source, exportType) {
 	drawList(d[field + '11'], "tax");
 	drawList(d[field + '12'], "epb");
 	drawList({list: (((d.BA13 || [])[0] || {}).result || [])}, "dishonest");
-
+	drawList(d[field + 'A1'], "lawsuit.judgment");
+	drawList(d[field + 'A2'], "subrogation.judgment");
 	return htmlResult;
 }
 
