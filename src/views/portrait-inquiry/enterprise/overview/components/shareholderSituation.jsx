@@ -8,8 +8,8 @@ export default class ShareholderSituation extends React.Component {
 			loading: false,
 			columns: [{
 				title: '股东名称',
-				dataIndex: 'investorName',
-				key: 'investorName',
+				dataIndex: 'name',
+				key: 'name',
 				width: 264,
 				render: text => (
 					<p>
@@ -18,12 +18,12 @@ export default class ShareholderSituation extends React.Component {
 				),
 			}, {
 				title: '持股比',
-				dataIndex: 'subscribeAmountRate',
-				key: 'subscribeAmountRate',
+				dataIndex: 'rate',
+				key: 'rate',
 				className: 'column-right',
 				width: 230,
 				render(text) {
-					return <div>{text ? `${text} %` : '-'}</div>;
+					return <div>{text || '-'}</div>;
 				},
 			},
 			{

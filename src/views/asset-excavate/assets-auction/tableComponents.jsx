@@ -160,7 +160,7 @@ const AuctionInfo = (text, rowContent) => {
 			<br />
 			<li className="table-info-list list-width-180">
 				<span className="info info-title">开拍时间：</span>
-				<span className="info info-content">{start ? formatDateTime(start) : '未知'}</span>
+				<span className="info info-content">{start !== null ? formatDateTime(start) : '未知'}</span>
 			</li>
 			{
 				{
