@@ -256,6 +256,7 @@ table {
   border-radius:4px;
 }
   .exp-info .info {
+    min-height: 70px;
     margin-left: 85px; }
 
 .case-tag {
