@@ -186,7 +186,19 @@ table th {
 table em {
   color: #F82626;
   font-style: normal; }
-
+.pr{
+  position: relative;
+}
+.accurate-img{
+  height: 30px;
+  width: 30px;
+  top: 0;
+  left: 0;
+  border: 0;
+  position: absolute;
+  background-image:url("../../img/icon-accurate.png") ;
+  background-size: 30px 30px;
+}
 .entry-title {
   padding: 15px 0 10px 0; }
 .entry-title .et-cot {

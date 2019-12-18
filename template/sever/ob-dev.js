@@ -10,6 +10,7 @@ const bgImgData = toBase64(fs.readFileSync('./template/img/watermark.png'), 60 *
 const deIconData = toBase64(fs.readFileSync('./template/img/debtor.png'), 2 * 1024);
 const disIconData = toBase64(fs.readFileSync('./template/img/icon_shixin.png'), 4 * 1024);
 const disEdIconData = toBase64(fs.readFileSync('./template/img/icon_dishonest_ed.png'), 4 * 1024);
+const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.png'), 4 * 1024);
 
 let htmlResultStr = fs.readFileSync('./template/src/content/debtor.html', 'utf8');
 const cssResult = fs.readFileSync('./template/src/content/index.css', 'utf8');
@@ -132,10 +133,11 @@ function exportTemplate(source, exportType) {
 		{f: "../../img/debtor.png", v: deIconData},
 		{f: "../../img/icon_dishonest_ed.png", v: disIconData},
 		{f: "../../img/icon_shixin.png", v: disEdIconData},
+		{f: "../../img/icon-accurate.png", v: accurateImgData},
 		{f: "{base.queryTime}", v: f.format()}]);
 
 	var baseInfo = function method(data, status) {
-		var list = (data.businessList) || [];
+		var list = (data.businessList) ||(data.obligorList)|| [];
 		var obj = (data.detail) || {};
 		if (status) {
 			var usedLengthFlag = Boolean((obj.usedName || []).length);
@@ -281,15 +283,17 @@ function exportTemplate(source, exportType) {
 								signPrice.d = "成交价";
 							}
 							tableList += "<tr>" +
-								"<td>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
-									{t: w(i.orgName), d: "机构名称"}, {t: f.format(i.createTime,"m"), d: "更新时间"}],65) + "</td>" +
+								"<td class='pr'>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
+									{t: w(i.orgName), d: "机构名称"}, {t: f.format(i.createTime,"m"), d: "更新时间"}],65) +
+								(i.important ? "<div class='accurate-img'></div>" : "2") + "</td>" +
 								"<td>" + matchReason(i) + "</td>" +
 								"<td><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
-								f.infoList([{t: w(i.obligorName), d: "处置机关"}]) +
+								f.infoList([{t: w(i.court), d: "处置机关"}]) +
 								"<div class='list-half'>"+ f.infoList([
 									{t: f.format(i.start,"m"), d: "开拍时间"},
 									{t: f.floatFormat(i.consultPrice," 元"), d: "评估价"},
 									{t: auctionStatus, d: "拍卖状态"},signPrice]) +"</div>" +
+
 								"</td></tr>";
 						});
 						break;
@@ -392,7 +396,7 @@ function exportTemplate(source, exportType) {
 	return htmlResult;
 }
 
-fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, true), (error) => {
+fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, false), (error) => {
 	error && console.log('error');
 });
 
