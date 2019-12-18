@@ -55,6 +55,8 @@ export default class TableIntact extends React.Component {
 	onPageChange=(val) => {
 		this.condition.page = val;
 		this.toGetData();
+		const { onPageChange } = this.props;
+		if (onPageChange)onPageChange();
 	};
 
 	// 表格发生变化
