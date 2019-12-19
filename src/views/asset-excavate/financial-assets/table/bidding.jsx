@@ -24,7 +24,7 @@ const columns = (props) => {
 			title: (noSort ? '资产信息'
 				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort}>资产信息</SortVessel>),
 			width: 274,
-			render: (text, row) => AssetsInfo(text, row, true),
+			render: (text, row) => AssetsInfo(text, row, true, true),
 		}, {
 			title: '匹配原因',
 			dataIndex: 'reason',
