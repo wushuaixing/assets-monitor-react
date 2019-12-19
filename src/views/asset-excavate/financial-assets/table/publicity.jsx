@@ -6,6 +6,7 @@ import api from '@/utils/api/monitor-info/finance';
 import { floatFormat } from '@/utils/format';
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
+import { formatDateTime } from '@/utils/changeTime';
 // 获取表格配置
 const columns = (props) => {
 	const {
@@ -33,7 +34,7 @@ const columns = (props) => {
 			dataIndex: 'title',
 			render: (text, row) => (text ? linkDom(row.sourceUrl, text) : '--'),
 		}, {
-			title: '挂拍价格(元)',
+			title: '挂牌价格(元)',
 			dataIndex: 'price',
 			width: 120,
 			className: 'tAlignRight_important',
@@ -44,14 +45,14 @@ const columns = (props) => {
 			dataIndex: 'endTime',
 			className: 'tAlignCenter_important',
 			width: 120,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			render: value => <span>{formatDateTime(value, 'onlyYear') || '--'}</span>,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'createTime',
 			className: 'tAlignCenter_important',
 			width: 120,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			render: value => <span>{formatDateTime(value, 'onlyYear') || '--'}</span>,
 		}, {
 			title: '操作',
 			width: 60,

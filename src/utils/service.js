@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { message } from 'antd';
 import Cookies from 'universal-cookie';
-import { navigate } from '@reach/router';
+// import { navigate } from '@reach/router';
 import BASE_URL_INDEX from './api/config';
 import BASE_URL_LOCAL from './api/config/local';
 
@@ -68,7 +68,7 @@ const responseMethods = {
 			if (cookies.get('token') !== undefined) {
 				message.error(res.message);
 			}
-			navigate('/login');
+			// navigate('/login');
 			return Promise.reject(new Error('token失效'));
 		}
 		return response;
@@ -77,7 +77,7 @@ const responseMethods = {
 		// console.log(error);
 		// 如果没有token直接返回到登陆界面
 		if (cookies.get('token') === undefined) {
-			navigate('/login');
+			// navigate('/login');
 		} else if (axios.isCancel(error)) {
 			console.log('isCancel error:', error);
 		} else {

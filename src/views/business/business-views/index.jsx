@@ -585,7 +585,7 @@ class BusinessView extends React.Component {
 					onCancel={this.handleCancel}
 					footer={false}
 					width={500}
-					closable={false}
+					// closable={false}
 				>
 
 					<div className="yc-confirm-body">
