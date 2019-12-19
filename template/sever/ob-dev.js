@@ -6,7 +6,7 @@ var dataSource = JSON.stringify(require('./data-ob'));
 
 const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(size, file).toString('base64');
 
-const bgImgData = toBase64(fs.readFileSync('./template/img/watermark.png'), 60 * 1024);
+const bgImgData = toBase64(fs.readFileSync('./template/img/watermark.png'), 65 * 1024);
 const deIconData = toBase64(fs.readFileSync('./template/img/debtor.png'), 2 * 1024);
 const disIconData = toBase64(fs.readFileSync('./template/img/icon_shixin.png'), 4 * 1024);
 const disEdIconData = toBase64(fs.readFileSync('./template/img/icon_dishonest_ed.png'), 4 * 1024);
@@ -15,8 +15,8 @@ const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.p
 let htmlResultStr = fs.readFileSync('./template/src/content/debtor.html', 'utf8');
 const cssResult = fs.readFileSync('./template/src/content/index.css', 'utf8');
 let htmlResult = htmlResultStr.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g, `<style>${cssResult}</style>`);
-htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px">`);
-
+htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
+htmlResult = htmlResult.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
 function exportTemplate(source, exportType) {
 	var d = JSON.parse(source);
 	var type = exportType || false; // default business(false); debtor(true)
@@ -313,7 +313,7 @@ function exportTemplate(source, exportType) {
 									{t: w(i.orgName), d: "机构名称"}],65) +
 								"<li class=\"mg8-0 pr\"><div class=\"nAndI\"><span class=\"n-title\">更新时间：</span>" +
 								"<span class=\"n-desc\">" + f.format(i.updateTime,"m") + "</span></div>"+ f.disStatus(i.dishonestStatus) +"</li>" +
-								(i.important ? "<div class='accurate-img'></div>" : "") + "</td>" +
+								((i.important&& taxon==="asset")? "<div class='accurate-img'></div>" : "") + "</td>" +
 								"<td>" + matchReason(i) + "</td>" +
 								"<td><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
 								f.infoList([{t: w(i.court), d: "处置机关"}]) +

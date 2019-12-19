@@ -10,9 +10,9 @@
   font-family: "Alibaba PuHuiTi R", Arial, serif;
 }
 body {
-  margin: 0 auto;
   padding: 2px;
   background: #ffffff url("../../img/watermark.png") repeat-y center top;
+  background-size: 85%;
 }
 .name-dishonest{
   position: relative;
@@ -78,10 +78,6 @@ a {
 .font-xl {font-size: 16px;}
 .fw-bold {font-weight: bold;}
 .border-t {border-top: 1px solid #E5E5E5; }
-.content-wrapper {
-  font-size: 13px;
-  position: relative;
-}
 .nAndI {
   position: relative;
   display: inline-block; }
