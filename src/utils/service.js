@@ -57,7 +57,11 @@ const responseMethods = {
 			window.location.reload();
 			return res;
 		}
-		if ((res.code === 401 || res.code === 5002) && hash !== '/login') {
+		if (res.code === 401 || res.code === 15003) {
+			navigate('/login');
+			return res;
+		}
+		if ((res.code === 5002) && hash !== '/login') {
 			// 把其余的请求取消掉
 			axiosPromiseArr.forEach((ele, index) => {
 				ele.cancel('请求取消');
@@ -67,13 +71,11 @@ const responseMethods = {
 			if (cookies.get('token') !== undefined) {
 				message.error(res.message);
 			}
-			// navigate('/login');
 			return Promise.reject(new Error('token失效'));
 		}
 		return response;
 	},
 	onRejected: (error) => {
-
 		if (!error.response) {
 			navigate('/login');
 		}
