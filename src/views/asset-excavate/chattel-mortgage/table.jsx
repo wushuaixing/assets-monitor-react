@@ -88,7 +88,7 @@ const RegisterDetail = (text, rowContent) => {
 					)
 				}
 				{
-					rowContent.cancelDate ? (
+					rowContent.cancelDate || rowContent.cancelDate === 0 ? (
 						<li>
 							<span className="list list-title align-justify" style={{ width: 'auto' }}>注销时间</span>
 							<span className="list list-title-colon">:</span>
