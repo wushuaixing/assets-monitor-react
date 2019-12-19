@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { message } from 'antd';
 import Cookies from 'universal-cookie';
-// import { navigate } from '@reach/router';
+import { navigate } from '@reach/router';
 import BASE_URL_INDEX from './api/config';
 import BASE_URL_LOCAL from './api/config/local';
 
@@ -55,7 +55,7 @@ const responseMethods = {
 		// console.log(response);
 		if (res.code === 403) {
 			window.location.reload();
-			return false;
+			return res;
 		}
 		if ((res.code === 401 || res.code === 5002) && hash !== '/login') {
 			// 把其余的请求取消掉
@@ -63,7 +63,6 @@ const responseMethods = {
 				ele.cancel('请求取消');
 				delete axiosPromiseArr[index];
 			});
-
 			// 如果没有token直接返回到登陆界面
 			if (cookies.get('token') !== undefined) {
 				message.error(res.message);
@@ -74,7 +73,10 @@ const responseMethods = {
 		return response;
 	},
 	onRejected: (error) => {
-		// console.log(error);
+
+		if (!error.response) {
+			navigate('/login');
+		}
 		// 如果没有token直接返回到登陆界面
 		if (cookies.get('token') === undefined) {
 			// navigate('/login');
