@@ -6,16 +6,17 @@ var dataSource = JSON.stringify(require('./data-ob'));
 
 const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(size, file).toString('base64');
 
-const bgImgData = toBase64(fs.readFileSync('./template/img/watermark.png'), 60 * 1024);
+const bgImgData = toBase64(fs.readFileSync('./template/img/watermark.png'), 65 * 1024);
 const deIconData = toBase64(fs.readFileSync('./template/img/debtor.png'), 2 * 1024);
 const disIconData = toBase64(fs.readFileSync('./template/img/icon_shixin.png'), 4 * 1024);
 const disEdIconData = toBase64(fs.readFileSync('./template/img/icon_dishonest_ed.png'), 4 * 1024);
+const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.png'), 4 * 1024);
 
 let htmlResultStr = fs.readFileSync('./template/src/content/debtor.html', 'utf8');
 const cssResult = fs.readFileSync('./template/src/content/index.css', 'utf8');
 let htmlResult = htmlResultStr.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g, `<style>${cssResult}</style>`);
-htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px">`);
-
+htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
+htmlResult = htmlResult.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
 function exportTemplate(source, exportType) {
 	var d = JSON.parse(source);
 	var type = exportType || false; // default business(false); debtor(true)
@@ -122,62 +123,75 @@ function exportTemplate(source, exportType) {
 				arr1.push(pointer);
 			}
 			return arr1.join('') + (unit||'');
-		}
+		},
+		handleParties:function (data) {
+				if(!data) return '--';
+				var source = [];
+				data.forEach(function (i) {
+					if (source.length === 0) {
+						source.push({
+							index: source.length,
+							role: i.role,
+							child: [i]
+						});
+					} else {
+						var _result = source.filter(function (item) {
+							return item.role === i.role;
+						})[0];
+						if (_result) {
+							source[_result.index].child.push(i);
+						} else {
+							source.push({
+								index: source.length,
+								role: i.role,
+								child: [i]
+							});
+						}
+					}
+				});
+				return source;
+			},
+		disStatus: function (value) {
+			var dishonestStatus = '';
+			if (value === 1) dishonestStatus = "<span class=\"img-icon-dishonest\"></span>";
+			if (value === 2) dishonestStatus = "<span class=\"img-icon-dishonest-ed\"></span>";
+			return dishonestStatus;
+		},
 	};
 	var w = function (value, defaultWord) {
 		return value ? value : (defaultWord || '-');
 	};
-	f.replaceHtml([
-		{f: "../../img/watermark.png", v: bgImgData},
-		{f: "../../img/debtor.png", v: deIconData},
-		{f: "../../img/icon_dishonest_ed.png", v: disIconData},
-		{f: "../../img/icon_shixin.png", v: disEdIconData},
-		{f: "{base.queryTime}", v: f.format()}]);
+	var parties =function (data) {
+		var res = {
+			length: (data || []).length,
+			fill: "",
+			appendDom: "",
+		};
+		if(res.length){
+			var result = f.handleParties(data);
+			res.length=result.length;
+			result.forEach(function (i, index) {
+				var childStr =[];
+				i.child.forEach(function (item) {
+					if (item.birthday || item.gender) {
+						var result = [];
+						if (item.gender === 1) result.push('男');
+						if (item.gender === 2) result.push('女');
+						if (item.birthday) result.push((typeof item.birthday=== "number"?f.format(item.birthday):item.birthday));
+						childStr.push(item.name + "(" + result.join(" ") + ")");
+					} else {
+						childStr.push(item.name)
+					}
+				});
+				if (index === 0) res.fill = "<td style='padding-right: 3px;min-width:60px;'>" + i.role + "：</td><td style='padding-left: 0;width: 200px'>" + (childStr.join('、')) + "</td>";
+				else res.appendDom += "<tr><td style='padding-right: 0;'>" + i.role + "：</td><td style='padding-left: 0'>" + (childStr.join('、')) + "</td></tr>"
+			});
 
-	var baseInfo = function method(data, status) {
-		var list = (data.businessList) || [];
-		var obj = (data.detail) || {};
-		if (status) {
-			var usedLengthFlag = Boolean((obj.usedName || []).length);
-			var dishonestStatus = '';
-			if (obj.dishonestStatus === 1) dishonestStatus = "<span class=\"img-icon-dishonest\"></span>";
-			if (obj.dishonestStatus === 2) dishonestStatus = "<span class=\"img-icon-dishonest-ed\"></span>";
-			f.replaceHtml([
-				{f: "{business.display}", v: "display-none"},
-				{f: "{base.title}", v: "债务人详情"},
-				{f: "{about.title}", v: "相关业务列表"},
-				{f: "{base.name}", v: obj.obligorName},
-				{f: "{debtor.obligorName}", v: obj.obligorName},
-				{f: "{debtor.obligorNumber}", v: obj.obligorNumber},
-				{f: "{debtor.dishonest}", v: dishonestStatus},
-				{f: "{debtor.formerNames}", v: (usedLengthFlag ? obj.usedName.join('、') : '-')}]);
-		} else {
-			f.replaceHtml([
-				{f: "{debtor.display}", v: "display-none"},
-				{f: "{base.title}", v: "业务详情"},
-				{f: "{about.title}", v: "业务相关人列表"},
-				{f: "{base.name}", v: obj.obligorName}]);
-			f.replaceHtml(["caseNumber", "obligorName", "obligorNumber", "orgName", "guaranteeString"], {
-				field: "business",
-				source: obj
-			});
+		}else{
+			res.fill = "<td>-</td><td></td>";
 		}
-		if (list.length) {
-			var listDom = status ? "<tr><th>业务编号</th><th>角色</th><th>机构名称</th></tr>" : "<tr><th>相关人名称</th><th>身份证号/统一社会信用代码</th><th>角色</th></tr>";
-			list.forEach(function (item) {
-				listDom += (status ? ("<tr><td>" + item.caseNumber + "</td><td>" + item.roleText + "</td><td>" + item.orgName + "</td></tr>")
-					: ("<tr><td>" + item.obligorName + "</td><td>" + (item.obligorNumber || '-') + "</td><td>" + item.roleText + "</td></tr>"));
-			});
-			f.replaceHtml([{f: "{about.list}", v: listDom}, {f: "{about.total}", v: list.length}]);
-		} else {
-			f.replaceHtml([{
-				f: "{about.list}",
-				v: "<tr><td colspan='3' style='text-align: center;'>暂无数据</td></tr>"
-			}, {f: "{about.total}", v: ""}]);
-		}
+		return res;
 	};
-	baseInfo((type ? d.BA01 : d.BB01), type);
-
 	var taxParties = function (data) {
 		var res = {
 			length: (data || []).length,
@@ -195,50 +209,12 @@ function exportTemplate(source, exportType) {
 		}
 		return res;
 	};
-	var parties =function (data) {
-		var res = {
-			length: (data || []).length,
-			fill: "",
-			appendDom: "",
-		};
-		if(res.length){
-			var ro = {};
-			data.forEach(function (i) {
-				// 1：原告 2：被告 3：第三人 0：其他
-				if (i.roleType === 1) {
-					if (ro.a) ro.a.desc += (i.name ? ("、" + i.name) : '');
-					else ro.a = {type: "原告", desc: i.name};
-				} else if (i.roleType === 2) {
-					if (ro.b) ro.b.desc += (i.name ? ("、" + i.name) : '');
-					else ro.b = {type: "被告", desc: i.name};
-				} else if (i.roleType === 3) {
-					if (ro.c) ro.c.desc += (i.name ? ("、" + i.name) : '');
-					else ro.c = {type: "第三人", desc: i.name};
-				} else {
-					if (ro.d) ro.d.desc += (i.name ? ("、" + i.name) : '');
-					else ro.d = {type: "其他", desc: i.name};
-				}
-			});
-			var roleList =[];
-			["a", "b", "c", "d"].forEach(function (i) {
-				if (ro[i]) roleList.push(ro[i]);
-			});
-			roleList.forEach(function (i, index) {
-				if (index === 0) res.fill = "<td style='padding-right: 0;width:50px '>" + i.type + "：</td><td style='padding-left: 0;width: 200px'>" + i.desc + "</td>";
-				else res.appendDom += "<tr><td style='padding-right: 0'>" + i.type + "：</td><td style='padding-left: 0'>" + i.desc + "</td></tr>"
-			});
-			res.length=roleList.length;
-		}else{
-			res.fill = "<td>-</td><td></td>";
-		}
-		return res;
-	};
 	var matchReason = function (data) {
 		var reason = data.reason;
 		if (reason || data.remark) {
 			var matchReasonStr = '';
 			if (data.remark) {
-				matchReasonStr += "<li class=\"mg8-0\">● 审核备注 | " + f.format(i.approveTime, "m") + "</li><li class=\"mg8-0\">" + w(i.remark) + "</li>";
+				matchReasonStr += "<li class=\"mg8-0\">● 审核备注 | " + f.format(data.approveTime, "m") + "</li><li class=\"mg8-0\">" + w(data.remark) + "</li>";
 			}
 			try {
 				var _reason = JSON.parse(reason);
@@ -261,7 +237,59 @@ function exportTemplate(source, exportType) {
 		}
 		return "--";
 	};
+	f.replaceHtml([
+		{f: "../../img/watermark.png", v: bgImgData},
+		{f: "../../img/debtor.png", v: deIconData},
+		{f: "../../img/icon_dishonest_ed.png", v: disEdIconData},
+		{f: "../../img/icon_shixin.png", v: disIconData},
+		{f: "../../img/icon-accurate.png", v: accurateImgData},
+		{f: "{base.queryTime}", v: f.format()}]);
+	/* baseInfo -- fill */
+	var baseInfo = function method(data, status) {
+		var list = ((data||{}).businessList) ||((data||{}).obligorList)|| [];
+		var obj = (data.detail) || {};
+		var userInfo ='';
+		if (status) {
+			var usedLengthFlag = Boolean((obj.usedName || []).length);
+			userInfo = ("<div class='name'>" + obj.obligorName + (obj.obligorNumber ? ("(" + obj.obligorNumber + ")") : "") + "</div>");
+			f.replaceHtml([
+				{f: "{business.display}", v: "display-none"},
+				{f: "{base.title}", v: "债务人详情"},
+				{f: "{about.title}", v: "相关业务列表"},
+				{f: "{base.userInfo}", v: userInfo},
+				{f: "{debtor.obligorName}", v: w(obj.obligorName)},
+				{f: "{debtor.obligorNumber}", v: w(obj.obligorNumber)},
+				{f: "{debtor.dishonest}", v: f.disStatus(obj.dishonestStatus)},
+				{f: "{debtor.formerNames}", v: (usedLengthFlag ? obj.usedName.join('、') : '-')}]);
+		} else {
+			userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + obj.id + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
+			f.replaceHtml([
+				{f: "{debtor.display}", v: "display-none"},
+				{f: "{base.title}", v: "业务详情"},
+				{f: "{about.title}", v: "业务相关人列表"},
+				{f: "{base.userInfo}", v: userInfo}]);
+			f.replaceHtml(["caseNumber", "obligorName", "obligorNumber", "orgName", "guaranteeString"], {
+				field: "business",
+				source: obj
+			});
+		}
+		var listDom = status ? "<tr><th>业务编号</th><th>角色</th><th>机构名称</th></tr>" : "<tr><th>相关人名称</th><th>身份证号/统一社会信用代码</th><th>角色</th></tr>";
+		if (list.length) {
+			list.forEach(function (item) {
+				listDom += (status ? ("<tr><td>" + w(item.caseNumber) + "</td><td>" + w(item.roleText) + "</td><td>" + w(item.orgName) + "</td></tr>")
+					: ("<tr><td>" + w(item.obligorName) + "</td><td>" + (item.obligorNumber || '-') + "</td><td>" + w(item.roleText) + "</td></tr>"));
+			});
+			f.replaceHtml([{f: "{about.list}", v: listDom}, {f: "{about.total}", v: list.length}]);
+		} else {
+			f.replaceHtml([{
+				f: "{about.list}",
+				v: (listDom+"<tr><td colspan='3' style='text-align: center;'>暂无数据</td></tr>")
+			}, {f: "{about.total}", v: ""}]);
+		}
+	};
+	baseInfo((type ? d.BA01 : d.BB01), type);
 
+	/* table content list -- fill */
 	var drawList = function methods(data, taxon) {
 		if(data){
 			if ((data.list || []).length) {
@@ -281,15 +309,19 @@ function exportTemplate(source, exportType) {
 								signPrice.d = "成交价";
 							}
 							tableList += "<tr>" +
-								"<td>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
-									{t: w(i.orgName), d: "机构名称"}, {t: f.format(i.createTime,"m"), d: "更新时间"}],65) + "</td>" +
+								"<td class='pr'>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
+									{t: w(i.orgName), d: "机构名称"}],65) +
+								"<li class=\"mg8-0 pr\"><div class=\"nAndI\"><span class=\"n-title\">更新时间：</span>" +
+								"<span class=\"n-desc\">" + f.format(i.updateTime,"m") + "</span></div>"+ f.disStatus(i.dishonestStatus) +"</li>" +
+								((i.important&& taxon==="asset")? "<div class='accurate-img'></div>" : "") + "</td>" +
 								"<td>" + matchReason(i) + "</td>" +
 								"<td><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
-								f.infoList([{t: w(i.obligorName), d: "处置机关"}]) +
+								f.infoList([{t: w(i.court), d: "处置机关"}]) +
 								"<div class='list-half'>"+ f.infoList([
 									{t: f.format(i.start,"m"), d: "开拍时间"},
 									{t: f.floatFormat(i.consultPrice," 元"), d: "评估价"},
 									{t: auctionStatus, d: "拍卖状态"},signPrice]) +"</div>" +
+
 								"</td></tr>";
 						});
 						break;
@@ -328,6 +360,20 @@ function exportTemplate(source, exportType) {
 						});
 						break;
 					}
+					case "lawsuit.judgment":
+					case "subrogation.judgment":{
+						data.list.forEach(function (i) {
+							var pR = parties(i.parties);
+							var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
+							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtPublish) + "</td>" + pR.fill +
+								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
+								"<td " + pRow + "><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
+								f.infoList([{t: w(i.caseReason), d: "　案　由"}, {t: w(i.caseType), d: "案件类型"},
+									{t: f.format(i.gmtJudgment), d: "判决日期"},{t: f.format(i.gmtCreate), d: "更新日期"}]) + "</td></tr>";
+							tableList += pR.appendDom;
+						});
+						break;
+					}
 					case "bankrupt": {
 						data.list.forEach(function (i) {
 							tableList += "<tr><td>" + (f.format(i.publishDate)) + "</td><td>" + w(i.obligorName) + "</td><td>" + w(i.court) + "</td>" +
@@ -338,7 +384,7 @@ function exportTemplate(source, exportType) {
 					case "epb":
 					case "bidding": {
 						data.list.forEach(function (i) {
-							tableList += "<tr><td>" + f.format(i.publishDate) + "</td><td>" + w(i.obName) + "</td>" +
+							tableList += "<tr><td>" + f.format(i.publishTime) + "</td><td>" + w(i.obName) + "</td>" +
 								"<td>" + f.urlDom(i.title, i.url) + "</td><td>" + (f.format(i.createTime)) + "</td></tr>";
 						});
 						break;
@@ -388,6 +434,8 @@ function exportTemplate(source, exportType) {
 	drawList(d[field + '11'], "tax");
 	drawList(d[field + '12'], "epb");
 	drawList({list: (((d.BA13 || [])[0] || {}).result || [])}, "dishonest");
+	drawList(d[field + 'A1'], "subrogation.judgment");
+	drawList(d[field + 'A2'], "lawsuit.judgment");
 
 	return htmlResult;
 }
@@ -396,4 +444,13 @@ fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, true),
 	error && console.log('error');
 });
 
-module.exports = {exportTemplate, bgImgData, deIconData, disIconData, disEdIconData,htmlResultStr,cssResult};
+module.exports = {
+	exportTemplate,
+	bgImgData,
+	deIconData,
+	disIconData,
+	disEdIconData,
+	accurateImgData,
+	htmlResultStr,
+	cssResult
+};

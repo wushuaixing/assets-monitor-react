@@ -120,6 +120,7 @@ a {
   width: 50%; }
 
 table {
+  margin-top: 3px;
   margin-bottom: 15px;
   border-collapse: collapse;
   width: 100%; }

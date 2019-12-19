@@ -1,7 +1,7 @@
 @font-face{font-family: "Alibaba PuHuiTi R";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Regular.otf")}
 @font-face{font-family: "Alibaba PuHuiTi M";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Medium.otf")}
 * {
-  line-height: 1.45;
+  line-height: 1.5;
   padding: 0;
   margin: 0;
   color: #20242e;
@@ -10,13 +10,20 @@
   font-family: "Alibaba PuHuiTi R", Arial, serif;
 }
 body {
-  margin: 0 auto;
   padding: 2px;
   background: #ffffff url("../../img/watermark.png") repeat-y center top;
+  background-size: 85%;
 }
 .name-dishonest{
   position: relative;
 
+}
+.icon-dishonest{
+  position: absolute;
+  bottom: 2px;
+  right: 0;
+  width: 45px;
+  height: 33px;
 }
 .name-dishonest .img-icon-dishonest{
   position: absolute;
@@ -24,15 +31,20 @@ body {
   right: -34px;
   width: 45px;
   height: 33px;
-  background-image:url("../../img/icon_shixin.png") ;
-  background-size: 100%;
 }
+
 .name-dishonest .img-icon-dishonest-ed{
   position: absolute;
   bottom: 2px;
   right: -34px;
   width: 45px;
   height: 33px;
+}
+.img-icon-dishonest{
+  background-image:url("../../img/icon_shixin.png") ;
+  background-size: 100%;
+}
+.img-icon-dishonest-ed{
   background-image:url("../../img/icon_dishonest_ed.png") ;
   background-size: 100%;
 }
@@ -66,15 +78,12 @@ a {
 .font-xl {font-size: 16px;}
 .fw-bold {font-weight: bold;}
 .border-t {border-top: 1px solid #E5E5E5; }
-.content-wrapper {
-  font-size: 13px;
-  position: relative;
-}
 .nAndI {
   position: relative;
   display: inline-block; }
 .nAndI .po{
   position: absolute;
+  top:1px ;
   z-index: 1; }
 .nAndI span {
   display: inline-block;
@@ -103,16 +112,19 @@ a {
   font-size: 80px;
   color: #384482;
 }
+.name-content{
+  height: 200px;
+}
 .exp-title .name{
   display: block;
   text-align: center;
-  line-height: 50px;
+  line-height: 60px;
   height: 50px;
   font-size: 50px;
   color: #20242E;
 }
 .exp-title .time{
-  margin-top: 450px;
+  margin-top: 300px;
   display: block;
   text-align: center;
   line-height: 50px;
@@ -186,7 +198,31 @@ table th {
 table em {
   color: #F82626;
   font-style: normal; }
-
+.table-border {
+  border: 1px solid #DADDE6; }
+.table-baseInfo tr td:first-child {
+  text-align: right;
+  background: #f0f1f5;
+  width: 200px !important; }
+.table-baseInfo tr td:first-child+td {
+  width: 250px !important; }
+.table-baseInfo tr td:first-child + td + td {
+  text-align: right;
+  background: #f0f1f5;
+  width: 100px !important; }
+.pr{
+  position: relative;
+}
+.accurate-img{
+  height: 30px;
+  width: 30px;
+  top: 1px;
+  left: 0;
+  border: 0;
+  position: absolute;
+  background-image:url("../../img/icon-accurate.png") ;
+  background-size: 30px 30px;
+}
 .entry-title {
   padding: 15px 0 10px 0; }
 .entry-title .et-cot {

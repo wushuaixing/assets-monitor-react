@@ -35,8 +35,9 @@ export default class InquiryList extends React.Component {
 		return '';
 	};
 
-	toDetailInfo=(id) => {
-		navigate(`/inquiry/enterprise?id=${id}`);
+	toDetailInfo=(row) => {
+		const name = row.name.replace(/<(\/|)em>/g, '');
+		navigate(`/inquiry/enterprise?id=${row.companyId}&name=${name}`);
 	};
 
 	toGetColumns=() => [
@@ -49,7 +50,7 @@ export default class InquiryList extends React.Component {
 						<span
 							className="cursor-pointer"
 							dangerouslySetInnerHTML={{ __html: value }}
-							onClick={() => this.toDetailInfo(row.companyId)}
+							onClick={() => this.toDetailInfo(row)}
 						/>
 						<span className={`inquiry-list-regStatus${this.getRegStatusClass(row.regStatus)}`}>{row.regStatus}</span>
 					</li>
