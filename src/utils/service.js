@@ -76,9 +76,6 @@ const responseMethods = {
 		return response;
 	},
 	onRejected: (error) => {
-		if (!error.response) {
-			navigate('/login');
-		}
 		// 如果没有token直接返回到登陆界面
 		if (cookies.get('token') === undefined) {
 			// navigate('/login');
