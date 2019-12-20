@@ -1,6 +1,6 @@
 import React from 'react';
 import { Popover } from 'antd';
-import footerImg from '../../assets/img/login/weixin.png';
+import footerImg from '../../assets/img/login/img_footer_qrcode.png';
 import phone from '../../assets/img/login/icon_telephone.png';
 import address from '../../assets/img/login/icon_address.png';
 import email from '../../assets/img/login/icon_contact_email.png';
@@ -57,7 +57,7 @@ const Footer = () => (
 				</div>
 				<div className="right">
 					<div className="copyright-item">
-						<img src={footerImg} alt="" style={{ width: 80, height: 80 }} />
+						<img src={footerImg} alt="" style={{ width: 60, height: 60 }} />
 						<div className="copyright-code-text">微信公众号每月更新全国及各省司法拍卖统计报告；绑定账号可实时查看平台监控信息</div>
 					</div>
 				</div>
