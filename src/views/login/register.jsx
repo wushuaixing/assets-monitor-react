@@ -116,6 +116,7 @@ class Login extends React.Component {
 							message.success('登陆成功');
 							cookie.set('token', res.data.token);
 							cookie.set('firstLogin', res.data.firstLogin);
+							cookie.set('versionUpdate', res.data.versionUpdate);
 							const rule = handleRule(res.data.rules);
 
 							// 判断是否是第一次登录
@@ -209,7 +210,7 @@ class Login extends React.Component {
 			loading, userName, rememberPassword, codeImg, passwordModalVisible, errorTime,
 		} = this.state;
 		const {
-			form: { getFieldProps, setFieldsValue }, changeType, btnColor,
+			form: { getFieldProps }, changeType, btnColor,
 		} = this.props; // 会提示props is not defined
 		return (
 			<div className="yc-login-main" style={errorTime >= 2 && errorTime < 10 && { height: 424 }}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { navigate } from '@reach/router';
+import Cookies from 'universal-cookie';
 import Router from '@/utils/Router';
 import { Button, Tabs } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
@@ -13,8 +14,11 @@ import Financial from './financial-assets'; // 金融资产
 import Mortgage from './chattel-mortgage'; // 动产抵押
 // import Public from './public-proclamation'; // 公示公告
 // import Attention from '../my-attention'; // 我的关注
+import VersionUpdateModal from '../_layoutView/versionUpdateModal';
 import ClearProcess from './assets-auction/clearProcess'; // 资产清收流程
 import Star from '@/assets/img/icon/btn_attention16_n.png';
+
+const cookie = new Cookies();
 
 const noPage = () => <div>暂未开发</div>;
 
@@ -53,15 +57,22 @@ class MonitorMain extends React.Component {
 		const _source = toGetRuth('YC02');
 		this.state = {
 			source: _source,
+			VersionUpdateModalVisible: false,
 		};
 		this.sourceType = '';
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.onUnReadCount();
 		this.setUnReadCount = setInterval(() => {
 			this.onUnReadCount();
 		}, 30 * 1000);
+		const versionUpdate = cookie.get('versionUpdate');
+		if (versionUpdate === 'true') {
+			this.setState({
+				VersionUpdateModalVisible: true,
+			});
+		}
 	}
 
 	componentWillUnmount() {
@@ -104,8 +115,15 @@ class MonitorMain extends React.Component {
 		navigate(`/my/attention?init=YC02${this.sourceType ? `&process=${this.sourceType}` : ''}`);
 	};
 
+	onCancel = () => {
+		this.setState({
+			VersionUpdateModalVisible: false,
+		});
+		cookie.set('versionUpdate', false);
+	};
+
 	render() {
-		const { source } = this.state;
+		const { source, VersionUpdateModalVisible } = this.state;
 		const { rule } = this.props;
 		const _source = source.filter(item => item.status);
 		// 		// console.log(_source);
@@ -157,6 +175,14 @@ class MonitorMain extends React.Component {
 						}
 					</Router>
 				</div>
+				{/** 版本更新Modal */}
+				{VersionUpdateModalVisible && (
+					<VersionUpdateModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						VersionUpdateModalVisible={VersionUpdateModalVisible}
+					/>
+				)}
 			</React.Fragment>
 		);
 	}
