@@ -71,7 +71,7 @@ const getRegStatusClass = (val) => {
 const EnterpriseInfo = (props) => {
 	const {
 		data: {
-			name, regStatus, legalPersonName, regCapital, formerNames, establishTime,
+			name, regStatus, legalPersonName, regCapital, formerNames, establishTime, logoUrl,
 		}, isDishonest,
 	} = props;
 	const _formerNames = (formerNames || []).join('、');
@@ -83,7 +83,9 @@ const EnterpriseInfo = (props) => {
 	return (
 		<div className="enterprise-info">
 			<div className="intro-icon">
-				<span>{name && name.slice(0, 4)}</span>
+				{
+					logoUrl ? <img className="intro-icon-img" src={logoUrl} alt="" /> : <span>{name && name.slice(0, 4)}</span>
+				}
 			</div>
 			<div className="intro-content">
 				<div className="intro-title">

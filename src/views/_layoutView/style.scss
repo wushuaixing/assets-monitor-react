@@ -272,3 +272,54 @@
     }
   }
 }
+// 版本更新
+.yc-versionUpdate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .ant-modal-body {
+    padding: 0 !important;
+  }
+  .ant-modal-content {
+    border-radius: 5px;
+  }
+  .yc-modal-content {
+    padding: 10px 50px 30px 50px;
+    .yc-modal-title {
+      margin-bottom: 30px;
+      line-height: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: $text-title;
+    }
+    .yc-label-title {
+      margin-bottom: 20px;
+      line-height: 16px;
+      font-size: 16px;
+      font-weight: 400;
+      color: $text-title;
+    }
+    .yc-label-text {
+      font-size: 14px;
+      font-weight: 400;
+      color: $text-content;
+      margin-bottom: 16px;
+      width: 420px;
+      .yc-modal-icon {
+        display: inline-block;
+        margin-right: 8px;
+        margin-bottom: 3px;
+        border-radius: 50%;
+        width:5px;
+        height:5px;
+        background: $text-link;
+      }
+    }
+    .yc-modal-btn {
+      width: 320px;
+      height: 44px;
+      margin-left: 50px;
+      margin-top: 21px;
+    }
+  }
+}
