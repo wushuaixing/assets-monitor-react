@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import Cookies from 'universal-cookie';
 import { navigate } from '@reach/router';
 import BASE_URL_INDEX from './api/config';
@@ -44,12 +44,12 @@ const requestMethods = {
 };
 /* 请求返回后的处理 */
 const responseMethods = {
-	onFulfilled:	(response) => {
+	onFulfilled: (response) => {
 		/**
 		 * 下面的注释为通过response自定义code来标示请求状态，当code返回如下情况为权限有问题，登出并返回到登录页
 		 * 如通过 xmlHttpRequest 状态码标识 逻辑可写在下面error中
 		 */
-		const res = response.data;
+		const res = response;
 		// 在login界面不弹弹框
 		const hash = window.location.hash.slice(1);
 		// console.log(response);
@@ -57,8 +57,21 @@ const responseMethods = {
 			window.location.reload();
 			return res;
 		}
-		if (res.code === 401 || res.code === 15003) {
+		if (res.code === 401) {
 			navigate('/login');
+			window.location.reload();
+			return res;
+		}
+		if (res.code === 15002 || res.code === 15003) {
+			// navigate('/login');
+			Modal.warning({
+				title: '您的登录已过期，请重新登录',
+				onOk() {
+					navigate('/login');
+					window.location.reload(); // 退出登录刷新页面
+				},
+			});
+			window.location.reload();
 			return res;
 		}
 		if ((res.code === 5002) && hash !== '/login') {

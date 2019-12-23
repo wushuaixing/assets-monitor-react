@@ -113,7 +113,7 @@ class Login extends React.Component {
 							} else {
 								cookie.set('userName', fields.username);
 							}
-							message.success('登陆成功');
+							message.success('登录成功');
 							cookie.set('token', res.data.token);
 							cookie.set('firstLogin', res.data.firstLogin);
 							cookie.set('versionUpdate', res.data.versionUpdate);

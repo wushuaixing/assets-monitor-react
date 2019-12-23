@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, navigate } from '@reach/router';
+// import { Modal } from 'antd';
 import Cookies from 'universal-cookie';
 /* 子路由模块  */
 import Loadable from '@/common/loadable';
@@ -113,6 +114,13 @@ export default class Screen extends React.Component {
 		const { beforeToken } = this.state;
 		const token = cookie.get('token');
 		if (token !== beforeToken) {
+			// Modal.warning({
+			// 	title: '您的登录已过期，请重新登录',
+			// 	onOk() {
+			// 		navigate('/login');
+			// 		window.location.reload(); // 退出登录刷新页面
+			// 	},
+			// });
 			this.setState({
 				loading: 'error',
 				errorCode: '401',
