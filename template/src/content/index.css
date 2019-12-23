@@ -1,5 +1,5 @@
-@font-face{font-family: "Alibaba PuHuiTi R";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Regular.otf")}
-@font-face{font-family: "Alibaba PuHuiTi M";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Medium.otf")}
+@font-face{font-family: "Alibaba PuHuiTi R";src:url('/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Regular.otf')}
+@font-face{font-family: "Alibaba PuHuiTi M";src:url('/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Medium.otf')}
 * {
   line-height: 1.5;
   padding: 0;
