@@ -1540,6 +1540,7 @@ function exportTemplate(source,exportType) {
 		listView(data.A10505,"punishment");
 
 		overView(data.A10103,"baseInfo");
+
 		if(data.A10106){
 			var tD = data.A10106;
 			if(tD.branch>0){

@@ -60,7 +60,7 @@ class QueryCondition extends React.Component {
 					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('name')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="列入原因" style={_style1} size="large" placeholder="列入经营异常原因" {...getFieldProps('putReason')} />
+					<Input title="列入原因" style={_style1} size="large" placeholder="列入严重违法原因" {...getFieldProps('putReason')} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">移除情况：</span>
