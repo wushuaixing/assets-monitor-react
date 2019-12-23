@@ -268,7 +268,7 @@ function exportTemplate(source, exportType) {
 				{f: "{base.title}", v: "业务详情"},
 				{f: "{about.title}", v: "业务相关人列表"},
 				{f: "{base.userInfo}", v: userInfo}]);
-			f.replaceHtml(["caseNumber", "obligorName", "obligorNumber", "orgName", "guaranteeString"], {
+			f.replaceHtml(["caseNumber", "obligorName", "obligorNumber", "orgName"], {
 				field: "business",
 				source: obj
 			});
@@ -440,7 +440,7 @@ function exportTemplate(source, exportType) {
 	return htmlResult;
 }
 
-fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, true), (error) => {
+fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, false), (error) => {
 	error && console.log('error');
 });
 
