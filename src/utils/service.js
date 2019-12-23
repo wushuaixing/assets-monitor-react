@@ -71,7 +71,7 @@ const responseMethods = {
 					window.location.reload(); // 退出登录刷新页面
 				},
 			});
-			window.location.reload();
+			// window.location.reload();
 			return res;
 		}
 		if ((res.code === 5002) && hash !== '/login') {
