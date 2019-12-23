@@ -99,8 +99,9 @@ function exportTemplate(source, exportType) {
 			});
 			return res;
 		},
-		floatFormat: function (item,unit) {
-			if (!item && item !== 0) return '-';
+		floatFormat: function (item,unit,include,defaultWord) {
+			if(include && !item ) return (defaultWord||'-');
+			else if (!item && item !== 0) return (defaultWord || '-');
 			var type = parseFloat(item);
 			if (isNaN(type)) return item;
 			var num1 = type.toFixed(2);
@@ -268,7 +269,7 @@ function exportTemplate(source, exportType) {
 				{f: "{base.title}", v: "业务详情"},
 				{f: "{about.title}", v: "业务相关人列表"},
 				{f: "{base.userInfo}", v: userInfo}]);
-			f.replaceHtml(["caseNumber", "obligorName", "obligorNumber", "orgName", "guaranteeString"], {
+			f.replaceHtml(["caseNumber", "obligorName", "obligorNumber", "orgName"], {
 				field: "business",
 				source: obj
 			});
@@ -299,9 +300,9 @@ function exportTemplate(source, exportType) {
 					case "asset": {
 						data.list.forEach(function (i) {
 							var auctionStatus = "<font class='auctionStatus-" + i.status + "'>" + (s.auction[i.status] || '未知') + "</font>";
-							var signPrice = {t: f.floatFormat(i.currentPrice, " 元"), d: "当前价"};
+							var signPrice = {t: f.floatFormat(i.currentPrice, " 元",true,'未知'), d: "当前价"};
 							if (i.status === 1) {
-								signPrice.t = "<font class='auctionStatus-error'>" + signPrice.t + "</font>";
+								signPrice.t = "<font class='auctionStatus-error'>" + f.floatFormat(i.initialPrice, " 元",true,'未知') + "</font>";
 								signPrice.d = "起拍价";
 							}
 							if (i.status === 5) {
@@ -319,7 +320,7 @@ function exportTemplate(source, exportType) {
 								f.infoList([{t: w(i.court), d: "处置机关"}]) +
 								"<div class='list-half'>"+ f.infoList([
 									{t: f.format(i.start,"m"), d: "开拍时间"},
-									{t: f.floatFormat(i.consultPrice," 元"), d: "评估价"},
+									{t: f.floatFormat(i.consultPrice," 元",true,'未知'), d: "评估价"},
 									{t: auctionStatus, d: "拍卖状态"},signPrice]) +"</div>" +
 
 								"</td></tr>";
@@ -330,7 +331,7 @@ function exportTemplate(source, exportType) {
 						data.list.forEach(function (i) {
 							tableList += "<tr>" +
 								"<td>" + f.format(i.startTime) + "</td><td>" + w(i.obligorName) + "</td>" +
-								"<td>" + f.urlDom(i.title, i.sourceUrl) + "</td><td>" + f.floatFormat(i.price) + "</td>" +
+								"<td>" + f.urlDom(i.title, i.sourceUrl) + "</td><td>" + f.floatFormat(i.price,true,'未知') + "</td>" +
 								"<td>" + f.format(i.endTime) + "</td><td>" + f.format(i.createTime) + "</td></tr>";
 						});
 						break;
@@ -353,7 +354,7 @@ function exportTemplate(source, exportType) {
 						data.list.forEach(function (i) {
 							var pR = parties(i.parties);
 							var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
-							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtRegister) + "</td>" + pR.fill +
+							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtTrial) + "</td>" + pR.fill +
 								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
 								"<td " + pRow + ">" + w(i.caseReason) + "</td><td " + pRow + ">" + f.format(i.gmtCreate) + "</td></tr>";
 							tableList += pR.appendDom;
@@ -440,7 +441,7 @@ function exportTemplate(source, exportType) {
 	return htmlResult;
 }
 
-fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, true), (error) => {
+fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, false), (error) => {
 	error && console.log('error');
 });
 

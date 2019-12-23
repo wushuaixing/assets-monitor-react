@@ -268,7 +268,10 @@ function exportTemplate(source,exportType) {
 	}
 
 	/* 概览模块 */
-	var overViewTable = function (list,columns,option) {
+	var overViewTable = function (_list,columns,option) {
+		var list= _list.filter(function (item) {
+			return item[option.count]>0;
+		});
 		var trLength= Math.ceil(list.length/columns);
 		var res = [];
 		for(var i = 1;i<=trLength;i+=1){
@@ -670,7 +673,10 @@ function exportTemplate(source,exportType) {
 		}
 		else if(viewName==="overview.A10207"){
 			if(source.businessRiskInfos){
-				if(source.businessRiskInfos.length){
+				var A10207List= source.businessRiskInfos.filter(function (item) {
+					return item.count
+				});
+				if(A10207List.length){
 					source.businessRiskInfos.forEach(function (item) {
 						yearTotal += item.count;
 					});
@@ -726,11 +732,11 @@ function exportTemplate(source,exportType) {
 		overView(data.A10203,"overview.A10203");
 		overView(data.A10204,"overview.A10204");
 		overView(data.A10205,"overview.A10205");
-		if(!(/padding6 {overview\.A1020([12345])\..{0,12}\.display/.test(htmlTemp))){
+		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
 		}
 		overView(data.A10206,"overview.A10206");
-		if(!(/A10206\..{0,12}\.display/.test(htmlTemp))){
+		if(!(/A10206.{0,12}\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.lawsuit.display}", "display-none");
 		}
 		overView(data.A10207,"overview.A10207");
@@ -764,7 +770,7 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0'><div class='nAndI'>● "+fun.toGetType(item.status,fun.source.auctionType)+"</div></li>" +
 						"<li class='mg8-0'><div class='nAndI'>"+fun.toShowPrice(item)+"</div></li>" +
 						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>评估价：</span><span class='n-desc'>"+fun.toNumberStr(item.consultPrice)+"</span></div></li>" +
-						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>拍卖时间：</span><span class='n-desc'>"+item.start+"</span></div></li>" +
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>开拍时间：</span><span class='n-desc'>"+item.start+"</span></div></li>" +
 						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>处置单位：</span><span class='n-desc' style='max-width: 220px'>" +
 						item.court
 						+"</span></div></li></td></tr>");
@@ -1138,6 +1144,12 @@ function exportTemplate(source,exportType) {
 						"<span class='n-desc'>"+(item.amount||'--')+"元</span>" +
 						"</div>" +
 						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>债务人履行债务的期限：</span>" +
+						"<span class='n-desc'>"+(item.term||'--')+"</span>" +
+						"</div>" +
+						"</li>" +
 						"</td>" +
 						"<td>" +
 						(item.status === "有效" ? (
@@ -1193,7 +1205,9 @@ function exportTemplate(source,exportType) {
 						"<span class='n-title'>担保债权数额：</span>" +
 						"<span class='n-desc'>"+(item.amount||'--')+"元</span>" +
 						"</div>" +
-						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
 						"<span class='n-title'>债务人履行债务的期限：</span>" +
 						"<span class='n-desc'>"+(item.term ||'--')+"</span>" +
 						"</div>" +

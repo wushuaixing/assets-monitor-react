@@ -356,52 +356,45 @@ module.exports = {
 	},
 	// 资产概况 => 土地信息
 	A10203:{
-		infoTypes: [
+		"infoTypes": [
 			{
-				count: 42,
-				type: 1,
-				typeName: '土地出让',
+				"count": 0,
+				"type": 1,
+				"typeName": "土地出让"
 			},
 			{
-				count: 0,
-				type: 2,
-				typeName: '土地转让',
+				"count": 12,
+				"type": 2,
+				"typeName": "土地转让"
 			},
 			{
-				count: 0,
-				type: 3,
-				typeName: '土地抵押',
-			},
+				"count": 0,
+				"type": 3,
+				"typeName": "土地抵押"
+			}
 		],
-		roleDistributions: [
+		"roleDistributions": [
 			{
-				count: 42,
-				type: 1,
-				typeName: '出让结果中的受让方',
+				"count": 9,
+				"type": 2,
+				"typeName": "转让信息中的原土地使用权人"
 			},
+			{
+				"count": 3,
+				"type": 3,
+				"typeName": "转让信息中的受让方"
+			}
 		],
-		yearDistributions: [
+		"yearDistributions": [
 			{
-				count: 4,
-				year: 2019,
+				"count": 3,
+				"year": 2006
 			},
 			{
-				count: 4,
-				year: 2018,
-			},
-			{
-				count: 15,
-				year: 2017,
-			},
-			{
-				count: 13,
-				year: 2016,
-			},
-			{
-				count: 6,
-				year: 2015,
-			},
-		],
+				"count": 9,
+				"year": 2005
+			}
+		]
 	},
 	// 资产概况 => 股权质押
 	A10204:{

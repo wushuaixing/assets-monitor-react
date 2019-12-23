@@ -87,7 +87,7 @@ export default class PartyInfoDetail extends React.Component {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',
 		};
-		const maxWidth = (detailWidth || 250) - (width * 1 < 40 ? 40 : width) || 40;
+		const maxWidth = (detailWidth || 250) - ((width * 1 < 40 ? 40 : width) || 40) - 12;
 		const obValue = (i, v) => (i.obligorId && noLink ? linkDetail(i.obligorId, v, '_blank') : v);
 		// console.log(noLink);
 
@@ -108,7 +108,7 @@ export default class PartyInfoDetail extends React.Component {
 					{
 						source.map((i) => {
 							const content = this.toHandleName(i);
-							if (getByteLength(content) * 6 >= maxWidth) {
+							if (getByteLength(content) * 6 > maxWidth) {
 								return (
 									<Tooltip placement="top" title={content}>
 										<li className={`text-ellipsis ${i.obligorId && i.obligorId !== 0 && !noLink ? 'click-link' : ''}`} style={{ maxWidth }}>
