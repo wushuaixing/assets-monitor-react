@@ -75,7 +75,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 							</li>
 						</ul>
 					</div>
-					<Button type="primary" className="yc-modal-btn" onClick={this.handleCancel}>知道了</Button>
+					<Button type="primary" className="yc-modal-btn" onClick={this.handleCancel}>我知道了</Button>
 				</div>
 			</Modal>
 		);

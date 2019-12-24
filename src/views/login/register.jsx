@@ -305,11 +305,11 @@ class Login extends React.Component {
 									}
 						<div className="yc-login-clearfix">
 							<li className="yc-checked">
-								<div className="yc-checked-left">
-									<Checkbox defaultChecked={rememberPassword === 'true'} onChange={this.checkboxChange}>
-										下次自动登录
-									</Checkbox>
-								</div>
+								{/* <div className="yc-checked-left"> */}
+								{/*	<Checkbox defaultChecked={rememberPassword === 'true'} onChange={this.checkboxChange}> */}
+								{/*		下次自动登录 */}
+								{/*	</Checkbox> */}
+								{/* </div> */}
 								<div className="yc-checked-right">
 									<span onClick={() => changeType(2)} className="yc-forget-password">忘记密码？</span>
 								</div>
