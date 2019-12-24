@@ -34,7 +34,7 @@ function exportCover(source,exportType) {
 	var data = type ? d.BA01 : d.BB01;
 	var obj = (data.detail) || {};
 	var userInfo='';
-	if(!type){
+	if(type){
 		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
 		userInfo = ("<div class='name'>" + obj.obligorName + (obj.obligorNumber ? ("(" + obj.obligorNumber + ")") : "") + "</div>");
 	}else{
