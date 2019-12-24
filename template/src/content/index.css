@@ -18,6 +18,13 @@ body {
   position: relative;
 
 }
+.pl .icon-dishonest{
+  position: absolute;
+  bottom: 2px;
+  right: -32px;
+  width: 45px;
+  height: 33px;
+}
 .po .icon-dishonest{
   position: absolute;
   bottom: 2px;
