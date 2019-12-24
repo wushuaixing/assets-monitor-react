@@ -1,7 +1,57 @@
 {
-  "方法名": "exportTemplate",
-  "参数类型": "json",
-  "字典文件": "dd.json",
-  "方法文件": "outputHtml.js",
-  "方法文件压缩版": "outputHtml.min.js"
+  "methods": [
+  {
+    "type": "导出模板封面",
+    "name": "exportCover"
+  },
+  {
+    "type": "导出模板内容",
+    "name": "exportTemplate"
+  }
+],
+  "params":[
+    {
+
+
+      "dataType": "JSON",
+      "desc": "数据内容=>字典内容见字段 dd "
+    },
+    {
+      "dataType": "Boolean",
+      "desc": "默认是业务，为true是债务人"
+    }
+  ],
+  "dd": {
+    "BA01": "/yc/obligor/detail/{id}",
+    "BA02": "/yc/obligor/monitor/auctionList/{obligorId}",
+    "BA03": "/yc/obligor/monitor/auctionBiddingList/{obligorId}",
+    "BA04": "/yc/obligor/monitor/financeList/{obligorId}",
+    "BA05": "/yc/obligor/monitor/lawsuit/trial/{obligorId}",
+    "BA06": "/yc/obligor/monitor/lawsuit/court-notice/{obligorId}",
+    "BA07": "/yc/obligor/monitor/subrogation/trial/{obligorId}",
+    "BA08": "/yc/obligor/monitor/subrogation/court-notice/{obligorId}",
+    "BA09": "/yc/obligor/monitor/bankruptcyList/{obligorId}",
+    "BA10": "/yc/obligor/monitor/biddingList/{obligorId}",
+    "BA11": "/yc/obligor/monitor/taxList/{obligorId}",
+    "BA12": "/yc/obligor/monitor/epbList/{obligorId}",
+    "BA13": "/yc/obligor/monitor/dishonestList/{obligorId}",
+    "BAA1": "/yc/obligor/monitor/subrogation/judgment-document/{obligorId}",
+    "BAA2": "/yc/obligor/monitor/lawsuit/judgment-document/{obligorId}",
+
+    "BB01": "/yc/business/detail/{id}",
+    "BB02": "/yc/business/monitor/auctionList/{businessId}",
+    "BB03": "/yc/business/monitor/auctionBiddingList/{businessId}",
+    "BB04": "/yc/business/monitor/financeList/{businessId}",
+    "BB05": "/yc/business/monitor/lawsuit/trial/{businessId}",
+    "BB06": "/yc/business/monitor/lawsuit/court-notice/{businessId}",
+    "BB07": "/yc/business/monitor/subrogation/trial/{businessId}",
+    "BB08": "/yc/business/monitor/subrogation/court-notice/{businessId}",
+    "BB09": "/yc/business/monitor/bankruptcyList/{businessId}",
+    "BB10": "/yc/business/monitor/biddingList/{businessId}",
+    "BB11": "/yc/business/monitor/taxList/{businessId}",
+    "BB12": "/yc/business/monitor/epbList/{businessId}",
+    "BBA1": "/yc/business/monitor/subrogation/judgment-document/{businessId}",
+    "BBA2": "/yc/business/monitor/lawsuit/judgment-document/{businessId}"
+  },
+  "fileName": "outputBusiness.min.js"
 }

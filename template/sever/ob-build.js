@@ -21,15 +21,33 @@ var html =minify(htmlResult, {
 	removeComments: true, //删除注释
 	removeCommentsFromCDATA: true,
 });
+
+var htmlCover =minify(methods.htmlCoverStr, {
+	processScripts: ['text/html'],
+	collapseWhitespace: true,
+	minifyJS: {
+		compress: {
+			warnings: false,
+			drop_debugger: true,
+			drop_console: true
+		}
+	},
+	minifyCSS: true,
+	removeComments: true, //删除注释
+	removeCommentsFromCDATA: true,
+});
 // bgImgData, deIconData, disIconData, disEdIconData
 const resultCode = `"use strict";
 
+var htmlCover = ${JSON.stringify(htmlCover)};
 var htmlResult = ${JSON.stringify(html)};
 var bgImgData = "${methods.bgImgData}";
 var deIconData = "${methods.deIconData}";
 var disIconData = "${methods.disIconData}";
 var disEdIconData = "${methods.disEdIconData}";
 var accurateImgData = "${methods.accurateImgData}";
+
+${methods.exportCover}
 ${methods.exportTemplate}`;
 
 fs.writeFileSync("./template/result/outputBusiness.js",resultCode);

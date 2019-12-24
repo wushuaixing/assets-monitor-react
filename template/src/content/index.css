@@ -100,38 +100,6 @@ a {
 .nAndI .n-title {
   color: #7d8699; }
 /* 通用样式*/
-.exp-title{
-  height: 1240px;
-}
-.exp-title .title{
-  margin-top: 90px;
-  display: block;
-  text-align: center;
-  line-height: 400px;
-  height: 400px;
-  font-size: 80px;
-  color: #384482;
-}
-.name-content{
-  height: 200px;
-}
-.exp-title .name{
-  display: block;
-  text-align: center;
-  line-height: 60px;
-  height: 50px;
-  font-size: 50px;
-  color: #20242E;
-}
-.exp-title .time{
-  margin-top: 300px;
-  display: block;
-  text-align: center;
-  line-height: 50px;
-  height: 50px;
-  font-size: 36px;
-  color: #20242E;
-}
 
 .firstName{
   font-size: 30px;

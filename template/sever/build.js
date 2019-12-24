@@ -18,6 +18,7 @@ const minifyCss = new cleanCSS().minify(cssResult);
 
 const htmlEnterprise  = fs.readFileSync('./template/src/enterprise.html','utf8');
 const htmlPersonal  = fs.readFileSync('./template/src/personal.html','utf8');
+const htmlCover  = fs.readFileSync('./template/src/cover.html','utf8');
 
 const htmlEnterpriseTxt = htmlEnterprise.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___",minifyCss.styles);
 const htmlPersonalTxt = htmlPersonal.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___",minifyCss.styles);
@@ -51,14 +52,30 @@ var html_P =minify(htmlPersonalTxt, {
 	removeComments: true, //删除注释
 	removeCommentsFromCDATA: true,
 });
+var html_cover = minify(htmlCover, {
+	processScripts: ['text/html'],
+	collapseWhitespace: true,
+	minifyJS: {
+		compress: {
+			warnings: false,
+			drop_debugger: true,
+			drop_console: true
+		}
+	},
+	minifyCSS: true,
+	removeComments: true, //删除注释
+	removeCommentsFromCDATA: true,
+});
 const resultCode = `"use strict";
 
+var htmlCover = ${JSON.stringify(html_cover)};
 var htmlEnterprise = ${JSON.stringify(html_E)};
 var htmlPersonal = ${JSON.stringify(html_P)};
 var backgroundImgData = "${backgroundImgData}";
 var iconImgData = "${iconImgData}";
 var defaultIcon = "${defaultIcon}";
 
+${methods.exportCover};
 ${methods.exportTemplate}`;
 
 fs.writeFileSync("./template/result/outputHtml.js",resultCode);

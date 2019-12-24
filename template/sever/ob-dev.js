@@ -13,10 +13,38 @@ const disEdIconData = toBase64(fs.readFileSync('./template/img/icon_dishonest_ed
 const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.png'), 3 * 1024);
 
 let htmlResultStr = fs.readFileSync('./template/src/content/debtor.html', 'utf8');
+let htmlCoverStr = fs.readFileSync('./template/src/content/cover.html', 'utf8');
+
 const cssResult = fs.readFileSync('./template/src/content/index.css', 'utf8');
 let htmlResult = htmlResultStr.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g, `<style>${cssResult}</style>`);
 htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
 htmlResult = htmlResult.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
+
+let htmlCover = htmlCoverStr.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
+htmlCover = htmlCover.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
+
+
+/* 导出画像模板-封面 */
+function exportCover(source,exportType) {
+	var d = JSON.parse(source)||{};
+	var type = exportType || false; // default business(false); debtor(true)
+	htmlCover=htmlCover.replace("../../img/watermark.png",bgImgData);
+	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
+	htmlCover = htmlCover.replace(/{base.queryTime}/g, dataTime);
+	var data = type ? d.BA01 : d.BB01;
+	var obj = (data.detail) || {};
+	var userInfo='';
+	if(!type){
+		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
+		userInfo = ("<div class='name'>" + obj.obligorName + (obj.obligorNumber ? ("(" + obj.obligorNumber + ")") : "") + "</div>");
+	}else{
+		htmlCover = htmlCover.replace(/{base.title}/, "业务详情");
+		userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + obj.id + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
+	}
+	htmlCover = htmlCover.replace(/{base.userInfo}/,userInfo);
+	return htmlCover;
+}
+/* 导出画像模板-内容 */
 function exportTemplate(source, exportType) {
 	var d = JSON.parse(source);
 	var type = exportType || false; // default business(false); debtor(true)
@@ -440,12 +468,13 @@ function exportTemplate(source, exportType) {
 
 	return htmlResult;
 }
-
-fs.writeFile("./template/result/demo-ob.html", exportTemplate(dataSource, false), (error) => {
+var str =(flag)=>exportCover(dataSource, flag)+exportTemplate(dataSource, flag);
+fs.writeFile("./template/result/demo-ob.html",str(false), (error) => {
 	error && console.log('error');
 });
 
 module.exports = {
+	exportCover,
 	exportTemplate,
 	bgImgData,
 	deIconData,
@@ -453,5 +482,6 @@ module.exports = {
 	disEdIconData,
 	accurateImgData,
 	htmlResultStr,
+	htmlCoverStr,
 	cssResult
 };

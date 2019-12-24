@@ -16,15 +16,35 @@ var iconImgData = 'data:image/png;base64,' +  new Buffer.alloc(4*1024,iconImg).t
 
 var htmlResultStr1  = fs.readFileSync('./template/src/enterprise.html','utf8');
 var htmlResultStr2  = fs.readFileSync('./template/src/personal.html','utf8');
+var htmlCover  = fs.readFileSync('./template/src/cover.html','utf8');
 
 const cssResult  = fs.readFileSync('./template/src/index.css','utf8');
-// const minifyCss = new cleanCSS().minify(cssResult);
 
 var htmlEnterprise = htmlResultStr1.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___",cssResult);
 var htmlPersonal = htmlResultStr2.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___",cssResult);
+
 htmlEnterprise = htmlEnterprise.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
 htmlPersonal = htmlPersonal.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
+htmlEnterprise = htmlEnterprise.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
+htmlPersonal = htmlPersonal.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
+htmlCover = htmlCover.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
 
+/* 导出画像模板-封面 */
+function exportCover(source,exportType) {
+	var data = JSON.parse(source)||{};
+	htmlCover=htmlCover.replace("../img/watermark.png",backgroundImgData);
+	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
+	htmlCover = htmlCover.replace(/{base.dateTime}/g, dataTime);
+	var info='';
+	if(exportType){
+		info  = "<div class=\"name\">"+(data.A10101.name||'--')+"</div>";
+	}else{
+		info  = "<div class=\"name\">"+(data.B10101.name||'--')+"</div><div class=\"number\">"+(data.B10101.number||'--')+"</div>";
+	}
+	htmlCover = htmlCover.replace(/{base.info}/,info);
+	return htmlCover;
+}
+/* 导出画像模板-内容 */
 function exportTemplate(source,exportType) {
 	var data = JSON.parse(source);
 	var fun = {
@@ -1594,9 +1614,11 @@ function exportTemplate(source,exportType) {
 }
 
 function writeFile() {
-	fs.writeFile("./template/result/demo.html", exportTemplate(_dataSource, true), (error) => {
+
+	var str =(flag)=>exportCover(_dataSource, flag)+exportTemplate(_dataSource, flag);
+	fs.writeFile("./template/result/demo.html", str(true), (error) => {
 		error && console.log('error');
 	});
 }
 writeFile();
-module.exports = {exportTemplate, writeFile};
+module.exports = {exportTemplate,exportCover, writeFile};

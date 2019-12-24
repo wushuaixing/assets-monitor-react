@@ -219,24 +219,6 @@ table {
   height: 12px;
   background: #DADDE6; }
 
-.exp-title {
-  text-align: center;
-  padding: 200px 0 150px 0; }
-  .exp-title .title {
-    margin: 100px 0 50px 0;
-    font-size: 40px;
-    color: #384482; }
-  .exp-title .name, .exp-title .number {
-    font-size: 27px; }
-  .exp-title .time {
-    margin: 650px 0 50px 0;
-    font-size: 18px; }
-  .exp-title p {
-    text-align: left;
-    font-size: 11px;
-    line-height: 18px;
-    color: #7d8699; }
-
 .exp-info {
   padding: 22px 0 15px 0; }
 .exp-info .n-regStatus{
