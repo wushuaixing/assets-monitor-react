@@ -112,7 +112,7 @@ export default class HeaderMessage extends React.Component {
 				// message.error(res.message);
 			}
 		}).catch(() => {
-			message.error('服务器出错');
+			// message.error('服务器出错');
 		});
 	};
 
