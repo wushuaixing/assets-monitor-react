@@ -73,7 +73,7 @@ const responseMethods = {
 				Modal.warning({
 					title: '您的账号已过期，请联系客服',
 					onOk() {
-						window.location.reload(); // 退出登录刷新页面
+						// window.location.reload(); // 退出登录刷新页面
 					},
 				});
 			}
@@ -82,7 +82,7 @@ const responseMethods = {
 				Modal.warning({
 					title: '登录失效，请重新登录',
 					onOk() {
-						window.location.reload(); // 退出登录刷新页面
+						// window.location.reload(); // 退出登录刷新页面
 					},
 				});
 			}
@@ -91,7 +91,7 @@ const responseMethods = {
 				Modal.warning({
 					title: '账号与当前域名对应机构不匹配，请切换到对应机构二级域名下登录',
 					onOk() {
-						window.location.reload(); // 退出登录刷新页面
+						// window.location.reload(); // 退出登录刷新页面
 					},
 				});
 			}
