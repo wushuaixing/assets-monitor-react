@@ -109,10 +109,10 @@ export default class HeaderMessage extends React.Component {
 				navigate('/login');
 				window.location.reload(); // 退出登录刷新页面
 			} else {
-				message.error(res.message);
+				// message.error(res.message);
 			}
 		}).catch(() => {
-			message.error('服务器出错');
+			// message.error('服务器出错');
 		});
 	};
 
