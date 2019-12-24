@@ -20,7 +20,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 		const { VersionUpdateModalVisible } = this.props;
 		return (
 			<Modal
-				width={520}
+				width={600}
 				style={{ 'max-height': 770 }}
 				className="yc-versionUpdate"
 				closable={false}
@@ -30,9 +30,9 @@ export default class VersionUpdateModal extends React.PureComponent {
 			>
 				<img src={VersionUpdate} alt="" />
 				<div className="yc-modal-content">
-					<div className="yc-modal-title">更新内容</div>
+					<div className="yc-modal-title">【新版本特性】</div>
 					<div>
-						<p className="yc-label-title">监控信息模块</p>
+						<p className="yc-label-title">监控信息</p>
 						<ul>
 							<li className="yc-label-text">
 								<span className="yc-modal-icon" />
@@ -49,7 +49,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 						</ul>
 					</div>
 					<div>
-						<p className="yc-label-title">信息搜索模块</p>
+						<p className="yc-label-title">信息搜索</p>
 						<ul>
 							<li className="yc-label-text">
 								<span className="yc-modal-icon" />
@@ -58,7 +58,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 						</ul>
 					</div>
 					<div>
-						<p className="yc-label-title">画像查询模块</p>
+						<p className="yc-label-title">画像查询</p>
 						<ul>
 							<li className="yc-label-text">
 								<span className="yc-modal-icon" />
