@@ -56,11 +56,12 @@ const responseMethods = {
 		if (res.code === 401) {
 			navigate('/login');
 			window.location.reload();
-			return res;
+			return response;
 		}
 		if (res.code === 403) {
+			navigate('/');
 			window.location.reload();
-			return res;
+			return response;
 		}
 		if ((res.code === 15002 || res.code === 5002 || res.code === 15003 || res.code === 20039) && hash !== '/login') {
 			axiosPromiseArr.forEach((ele, index) => {

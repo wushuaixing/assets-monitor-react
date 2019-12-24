@@ -306,7 +306,7 @@ function exportTemplate(source, exportType) {
 		if (list.length) {
 			list.forEach(function (item) {
 				listDom += (status ? ("<tr><td>" + w(item.caseNumber) + "</td><td>" + w(item.roleText) + "</td><td>" + w(item.orgName) + "</td></tr>")
-					: ("<tr><td>" + w(item.obligorName) + "</td><td>" + (item.obligorNumber || '-') + "</td><td>" + w(item.roleText) + "</td></tr>"));
+					: ("<tr><td><span class='pr pl'>" + w(item.obligorName) +f.disStatus(item.dishonestStatus)+ "</span></td><td>" + (item.obligorNumber || '-') + "</td><td>" + w(item.roleText) + "</td></tr>"));
 			});
 			f.replaceHtml([{f: "{about.list}", v: listDom}, {f: "{about.total}", v: list.length}]);
 		} else {
@@ -470,7 +470,7 @@ function exportTemplate(source, exportType) {
 }
 
 var str = (flag) => exportCover(dataSource, flag) + exportTemplate(dataSource, flag);
-fs.writeFile("./template/result/demo-ob.html",str(true), (error) => {
+fs.writeFile("./template/result/demo-ob.html",str(false), (error) => {
 	error && console.log('error');
 });
 
