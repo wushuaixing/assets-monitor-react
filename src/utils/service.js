@@ -53,41 +53,48 @@ const responseMethods = {
 		// 在login界面不弹弹框
 		const hash = window.location.hash.slice(1);
 		// console.log(response);
-		if (res.code === 403) {
-			window.location.reload();
-			return res;
-		}
-		if (res.code === 401 || res.code === 15003) {
+		if (res.code === 401) {
 			navigate('/login');
 			window.location.reload();
 			return res;
 		}
-		if ((res.code === 15002 || res.code === 15003) && hash !== '/login') {
-			// 把其余的请求取消掉
-			axiosPromiseArr.forEach((ele, index) => {
-				ele.cancel('请求取消');
-				delete axiosPromiseArr[index];
-			});
-			Modal.warning({
-				title: '您的登录已过期，请重新登录',
-				onOk() {
-					navigate('/login');
-					window.location.reload(); // 退出登录刷新页面
-				},
-			});
-			// return res;
+		if (res.code === 403) {
+			window.location.reload();
+			return res;
 		}
-		if ((res.code === 5002) && hash !== '/login') {
-			// 把其余的请求取消掉
+		if ((res.code === 15002 || res.code === 5002 || res.code === 15003 || res.code === 20039) && hash !== '/login') {
 			axiosPromiseArr.forEach((ele, index) => {
 				ele.cancel('请求取消');
 				delete axiosPromiseArr[index];
 			});
-			// 如果没有token直接返回到登陆界面
-			if (cookies.get('token') !== undefined) {
-				message.error(res.message);
+			if (res.code === 15002) {
+				navigate('/login');
+				Modal.warning({
+					title: '您的账号已过期，请联系客服',
+					onOk() {
+						window.location.reload(); // 退出登录刷新页面
+					},
+				});
 			}
-			return Promise.reject(new Error('token失效'));
+			if (res.code === 5002 || res.code === 15003) {
+				navigate('/login');
+				Modal.warning({
+					title: '登录失效，请重新登录',
+					onOk() {
+						window.location.reload(); // 退出登录刷新页面
+					},
+				});
+			}
+			if (res.code === 20039) {
+				navigate('/login');
+				Modal.warning({
+					title: '账号与当前域名对应机构不匹配，请切换到对应机构二级域名下登录',
+					onOk() {
+						window.location.reload(); // 退出登录刷新页面
+					},
+				});
+			}
+			return response;
 		}
 		return response;
 	},

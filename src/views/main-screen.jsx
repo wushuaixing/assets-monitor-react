@@ -93,12 +93,14 @@ export default class Screen extends React.Component {
 					loading: 'hidden',
 					rule,
 					errorCode: res.code,
+					tokenText: res.message,
 				});
 				global.ruleSource = rule;
 			} else {
 				this.setState({
 					loading: 'error',
 					errorCode: res.code,
+					tokenText: res.message,
 				});
 			}
 		}).catch(() => {

@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 
-var dataSource = JSON.stringify(require('./data-ob'));
+var dataSource = JSON.stringify(require('./data2'));
 
 const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(size, file).toString('base64');
 
@@ -31,7 +31,7 @@ function exportCover(source,exportType) {
 	htmlCover=htmlCover.replace("../../img/watermark.png",bgImgData);
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlCover = htmlCover.replace(/{base.queryTime}/g, dataTime);
-	var data = type ? d.BA01 : d.BB01;
+	var data = (type ? d.BA01 : d.BB01);
 	var obj = (data.detail) || {};
 	var userInfo='';
 	if(type){
@@ -39,7 +39,7 @@ function exportCover(source,exportType) {
 		userInfo = ("<div class='name'>" + obj.obligorName + (obj.obligorNumber ? ("(" + obj.obligorNumber + ")") : "") + "</div>");
 	}else{
 		htmlCover = htmlCover.replace(/{base.title}/, "业务详情");
-		userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + obj.id + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
+		userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + obj.caseNumber + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
 	}
 	htmlCover = htmlCover.replace(/{base.userInfo}/,userInfo);
 	return htmlCover;
@@ -468,8 +468,9 @@ function exportTemplate(source, exportType) {
 
 	return htmlResult;
 }
-var str =(flag)=>exportCover(dataSource, flag)+exportTemplate(dataSource, flag);
-fs.writeFile("./template/result/demo-ob.html",str(false), (error) => {
+
+var str = (flag) => exportCover(dataSource, flag) + exportTemplate(dataSource, flag);
+fs.writeFile("./template/result/demo-ob.html",str(true), (error) => {
 	error && console.log('error');
 });
 
