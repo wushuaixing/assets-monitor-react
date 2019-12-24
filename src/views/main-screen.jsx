@@ -112,15 +112,15 @@ export default class Screen extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		const { beforeToken } = this.state;
-		const token = cookie.get('token');
-		if (token !== beforeToken) {
-			this.setState({
-				loading: 'error',
-				errorCode: '401',
-				tokenText: '您的登录已过期，请重新登录',
-			});
-		}
+		// const { beforeToken } = this.state;
+		// const token = cookie.get('token');
+		// if (token !== beforeToken) {
+		// 	this.setState({
+		// 		loading: 'error',
+		// 		errorCode: '401',
+		// 		tokenText: '您的登录已过期，请重新登录',
+		// 	});
+		// }
 		// 判断是否是第一次登录
 		// console.log('main-screen:componentWillReceiveProps');
 		const firstLogin = cookie.get('firstLogin');
