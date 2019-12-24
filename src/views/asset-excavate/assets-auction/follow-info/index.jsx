@@ -277,7 +277,7 @@ export default class FollowInfo extends React.Component {
 		processSave(param).then((res) => {
 			const { code } = res;
 			if (code === 200) {
-				message.success('添加跟进信息成功！');
+				message.success('操作成功！');
 				const _rec = ((_recovery > -1 ? _recovery : 0) + Number(param.recovery || 0)) || -1;
 				// console.log(_recovery, param.recovery, _rec);
 				if (param.recovery > 0 && onRefresh) {

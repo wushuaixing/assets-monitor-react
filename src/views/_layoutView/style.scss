@@ -288,37 +288,42 @@
     .yc-modal-title {
       margin-bottom: 30px;
       line-height: 20px;
+      margin-left: -11px;
       font-size: 20px;
       font-weight: bold;
       color: $text-title;
     }
     .yc-label-title {
+      margin-top: 30px;
       margin-bottom: 20px;
       line-height: 16px;
       font-size: 16px;
-      font-weight: 400;
+      font-weight: bold;
       color: $text-title;
     }
     .yc-label-text {
+      position: relative;
+      line-height: 20px;
       font-size: 14px;
       font-weight: 400;
       color: $text-content;
-      margin-bottom: 16px;
-      width: 420px;
+      margin-bottom: 10px;
+      padding-left: 18px;
+      width: 500px;
       .yc-modal-icon {
-        display: inline-block;
-        margin-right: 8px;
-        margin-bottom: 3px;
+        position: absolute;
         border-radius: 50%;
-        width:5px;
-        height:5px;
+        width: 5px;
+        height: 5px;
+        top: 7px;
+        left: 0;
         background: $text-link;
       }
     }
     .yc-modal-btn {
       width: 320px;
       height: 44px;
-      margin-left: 50px;
+      margin-left: 90px;
       margin-top: 21px;
     }
   }
