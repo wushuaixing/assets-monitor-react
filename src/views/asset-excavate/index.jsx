@@ -68,7 +68,7 @@ class MonitorMain extends React.Component {
 			this.onUnReadCount();
 		}, 30 * 1000);
 		const versionUpdate = cookie.get('versionUpdate');
-		if (versionUpdate === 'false') {
+		if (versionUpdate === 'true') {
 			this.setState({
 				VersionUpdateModalVisible: true,
 			});
