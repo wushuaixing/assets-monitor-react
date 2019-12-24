@@ -32,7 +32,10 @@ export default class HeaderMessage extends React.Component {
 	componentWillMount() {
 		this.checkId = setInterval(() => {
 			// 获取机构id
-			this.checkOrgId();
+			const token = cookie.get('token');
+			if (token) {
+				this.checkOrgId();
+			}
 		}, 30 * 1000);
 	}
 

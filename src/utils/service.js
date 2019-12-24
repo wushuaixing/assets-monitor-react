@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import Cookies from 'universal-cookie';
 import { navigate } from '@reach/router';
 import BASE_URL_INDEX from './api/config';
@@ -59,7 +59,23 @@ const responseMethods = {
 		}
 		if (res.code === 401 || res.code === 15003) {
 			navigate('/login');
+			window.location.reload();
 			return res;
+		}
+		if ((res.code === 15002 || res.code === 15003) && hash !== '/login') {
+			// 把其余的请求取消掉
+			axiosPromiseArr.forEach((ele, index) => {
+				ele.cancel('请求取消');
+				delete axiosPromiseArr[index];
+			});
+			Modal.warning({
+				title: '您的登录已过期，请重新登录',
+				onOk() {
+					navigate('/login');
+					window.location.reload(); // 退出登录刷新页面
+				},
+			});
+			// return res;
 		}
 		if ((res.code === 5002) && hash !== '/login') {
 			// 把其余的请求取消掉
