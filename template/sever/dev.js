@@ -1,7 +1,7 @@
 
 var fs =require('fs');
 // var cleanCSS = require('clean-css');
-var dataSource = require('./data3');
+var dataSource = require('./data');
 var _dataSource = JSON.stringify(dataSource);
 
 var backgroundImg  = fs.readFileSync('./template/img/watermark.png',);
@@ -1619,7 +1619,7 @@ function exportTemplate(source,exportType) {
 function writeFile() {
 
 	var str =(flag)=>exportCover(_dataSource, flag)+exportTemplate(_dataSource, flag);
-	fs.writeFile("./template/result/demo.html", str(false), (error) => {
+	fs.writeFile("./template/result/demo.html", str(true), (error) => {
 		error && console.log('error');
 	});
 }
