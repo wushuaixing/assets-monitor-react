@@ -10,7 +10,7 @@ const bgImgData = toBase64(fs.readFileSync('./template/img/watermark.png'), 65 *
 const deIconData = toBase64(fs.readFileSync('./template/img/debtor.png'), 2 * 1024);
 const disIconData = toBase64(fs.readFileSync('./template/img/icon_shixin.png'), 4 * 1024);
 const disEdIconData = toBase64(fs.readFileSync('./template/img/icon_dishonest_ed.png'), 4 * 1024);
-const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.png'), 4 * 1024);
+const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.png'), 3 * 1024);
 
 let htmlResultStr = fs.readFileSync('./template/src/content/debtor.html', 'utf8');
 const cssResult = fs.readFileSync('./template/src/content/index.css', 'utf8');
@@ -154,8 +154,8 @@ function exportTemplate(source, exportType) {
 			},
 		disStatus: function (value) {
 			var dishonestStatus = '';
-			if (value === 1) dishonestStatus = "<span class=\"img-icon-dishonest\"></span>";
-			if (value === 2) dishonestStatus = "<span class=\"img-icon-dishonest-ed\"></span>";
+			if (value === 1) dishonestStatus = "<span class=\"img-icon-size-dishonest img-icon-dishonest icon-dishonest\"></span>";
+			if (value === 2) dishonestStatus = "<span class=\"img-icon-size-dishonest-ed img-icon-dishonest-ed icon-dishonest\"></span>";
 			return dishonestStatus;
 		},
 	};
@@ -312,7 +312,7 @@ function exportTemplate(source, exportType) {
 							tableList += "<tr>" +
 								"<td class='pr'>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
 									{t: w(i.orgName), d: "机构名称"}],65) +
-								"<li class=\"mg8-0 pr\"><div class=\"nAndI\"><span class=\"n-title\">更新时间：</span>" +
+								"<li class=\"mg8-0 pr po\"><div class=\"nAndI\"><span class=\"n-title\">更新时间：</span>" +
 								"<span class=\"n-desc\">" + f.format(i.updateTime,"m") + "</span></div>"+ f.disStatus(i.dishonestStatus) +"</li>" +
 								((i.important&& taxon==="asset")? "<div class='accurate-img'></div>" : "") + "</td>" +
 								"<td>" + matchReason(i) + "</td>" +

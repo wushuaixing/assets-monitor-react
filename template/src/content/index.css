@@ -18,14 +18,14 @@ body {
   position: relative;
 
 }
-.icon-dishonest{
+.po .icon-dishonest{
   position: absolute;
   bottom: 2px;
   right: 0;
   width: 45px;
   height: 33px;
 }
-.name-dishonest .img-icon-dishonest{
+.name-dishonest .img-icon-size-dishonest{
   position: absolute;
   bottom: 2px;
   right: -34px;
@@ -33,7 +33,7 @@ body {
   height: 33px;
 }
 
-.name-dishonest .img-icon-dishonest-ed{
+.name-dishonest .img-icon-size-dishonest-ed{
   position: absolute;
   bottom: 2px;
   right: -34px;

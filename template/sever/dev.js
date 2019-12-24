@@ -707,7 +707,7 @@ function exportTemplate(source,exportType) {
 			if((source.shareholderInfos||[]).length){
 				var shareholderInfosList = "";
 				source.shareholderInfos.forEach(function (i) {
-					shareholderInfosList+="<tr><td>"+i.name+"</td><td class=\"fw-bold\">"+(i.rate+"%")+"</td></tr>"
+					shareholderInfosList+="<tr><td>"+i.name+"</td><td class=\"fw-bold\">"+(i.rate)+"</td></tr>"
 				});
 				htmlTemp = htmlTemp.replace("{" + viewName + ".shareholderInfos.list}",shareholderInfosList)
 
@@ -753,7 +753,7 @@ function exportTemplate(source,exportType) {
 		overView(data.B10205,"overview.B10205");
 
 	}
-
+	htmlTemp = htmlTemp.replace(/及以前年/g, "年及以前");
 	/* table列表，选项 */
 	var tableList = function (source,viewName) {
 		var listAry =[];
@@ -1021,7 +1021,7 @@ function exportTemplate(source,exportType) {
 						"</div></li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
-						"<span class='n-title'>抵押面积：<label class='n-desc'>"+(item.mortgageArea||'--')+"</label></span>" +
+						"<span class='n-title'>抵押面积：<label class='n-desc'>"+(item.mortgageArea?(item.mortgageArea+'公顷'):'--')+"</label></span>" +
 						"</div></li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
