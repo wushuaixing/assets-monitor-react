@@ -75,6 +75,10 @@ const responseMethods = {
 			if (res.code === 15002) { titleText = '您的账号已过期，请联系客服'; }
 			if (res.code === 5002 || res.code === 15003) { titleText = '登录失效，请重新登录'; }
 			if (res.code === 20039) { titleText = '账号与当前域名对应机构不匹配，请切换到对应机构二级域名下登录'; }
+			if (/api\/auth\/logout/.test(reqUrl)) {
+				navigate('/login');
+				return Promise.reject(new Error(null));
+			}
 			if (/api\/auth\/authRule/.test(reqUrl)) {
 			//	权限接口
 				navigate('/login');
