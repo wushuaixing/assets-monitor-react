@@ -22,6 +22,8 @@ const cssResult  = fs.readFileSync('./template/src/index.css','utf8');
 
 var htmlEnterprise = htmlResultStr1.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___",cssResult);
 var htmlPersonal = htmlResultStr2.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___",cssResult);
+htmlEnterprise = htmlEnterprise.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
+htmlPersonal = htmlPersonal.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
 
 function exportTemplate(source,exportType) {
 	var data = JSON.parse(source);
@@ -297,7 +299,7 @@ function exportTemplate(source,exportType) {
 			childRes+="</tr>";
 			res.push(childRes);
 		}
-		return res.length>0?res.join(""):null;
+		return res.length > 0 ? res.join("") : null;
 	};
 
 	var overView = function (source,viewName) {
@@ -457,7 +459,11 @@ function exportTemplate(source,exportType) {
 				} else {
 					htmlTemp = htmlTemp.replace("{" + viewName + ".year.display}", "display-none");
 				}
-				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", landTotal || 0);
+				if (landTotal) {
+					htmlTemp = htmlTemp.replace("{" + viewName + ".total}", landTotal || 0);
+				} else {
+					htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+				}
 			}else{
 				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
 			}

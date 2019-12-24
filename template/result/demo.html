@@ -284,14 +284,14 @@ table {
 	<meta charset="UTF-8">
 	<title>债务人画像查询报告</title>
 </head>
-<body>
+<body style="max-width: 904px;margin:0 auto">
 <!-- 封面 -->
 <div class="exp-title">
 	<div class="title">债务人画像查询报告</div>
 	<div class="name">重庆文化产业融资担保有限责任公司</div>
-	<div class="time">2019年12月23日 查询</div>
+	<div class="time">2019年12月24日 查询</div>
 	<p>
-		· 本报告内容为 2019年12月23日 查询的版本，您所看到的内容为该截止时间的数据快照。
+		· 本报告内容为 2019年12月24日 查询的版本，您所看到的内容为该截止时间的数据快照。
 	</p>
 	<p>
 		· 本报告内容是源诚资产监控平台接受您的委托，基于公开信息挖掘的结果。源诚资产监控平台不对该查询结果的全面、准确、真实性负责。本报告应仅为您提供参考，真实结果请以各官方网站的公布结果为准。
@@ -436,29 +436,29 @@ table {
 	</div>
 
 	<!-- 土地信息 -->
-	<div class="padding6 {overview.A10203.display}">
+	<div class="padding6 display-none">
 		<div class="entry-title">
 			<div class="et-cot font-l">
-				<span class="fw-bold mg-r">12条</span>
+				<span class="fw-bold mg-r">{overview.A10203.total}条</span>
 				<span>土地信息</span>
 			</div>
 		</div>
 		<div class="{overview.A10203.type.display}">
 			<div class="fw-bold second-title">信息类型分布</div>
 			<table class="table-td-25 table-border mg8-0">
-				<tr><td><span class="mg-r">土地转让：</span><span class="fw-bold ">12</span><span> 条</span></td></tr>
+				null
 			</table>
 		</div>
-		<div class="{overview.A10203.year.display}">
+		<div class="display-none">
 			<div class="fw-bold second-title">年份分布</div>
 			<table class="table-td-20 table-border mg8-0">
-				<tr><td><span class="mg-r">2005年：</span><span class="fw-bold ">9</span><span> 条</span></td><td><span class="mg-r">2006年：</span><span class="fw-bold ">3</span><span> 条</span></td></tr>
+				{overview.A10203.year.list}
 			</table>
 		</div>
-		<div class="{overview.A10203.role.display}">
+		<div class="display-none">
 			<div class="fw-bold second-title">角色分布</div>
 			<table class="table-td-25 table-border mg8-0">
-				<tr><td><span class="mg-r">转让信息中的原土地使用权人：</span><span class="fw-bold ">9</span><span> 条</span></td><td><span class="mg-r">转让信息中的受让方：</span><span class="fw-bold ">3</span><span> 条</span></td></tr>
+				{overview.A10203.role.list}
 			</table>
 		</div>
 	</div>
@@ -664,7 +664,7 @@ table {
 					<th>股东名称</th>
 					<th>持股比</th>
 				</tr>
-				<tr><td>undefined</td><td class="fw-bold">undefined%</td></tr><tr><td>undefined</td><td class="fw-bold">undefined%</td></tr>
+				<tr><td>undefined</td><td class="fw-bold">undefined</td></tr><tr><td>undefined</td><td class="fw-bold">undefined</td></tr>
 			</table>
 		</div>
 	</div>

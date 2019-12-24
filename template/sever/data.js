@@ -363,7 +363,7 @@ module.exports = {
 				"typeName": "土地出让"
 			},
 			{
-				"count": 12,
+				"count": 0,
 				"type": 2,
 				"typeName": "土地转让"
 			},
@@ -373,28 +373,8 @@ module.exports = {
 				"typeName": "土地抵押"
 			}
 		],
-		"roleDistributions": [
-			{
-				"count": 9,
-				"type": 2,
-				"typeName": "转让信息中的原土地使用权人"
-			},
-			{
-				"count": 3,
-				"type": 3,
-				"typeName": "转让信息中的受让方"
-			}
-		],
-		"yearDistributions": [
-			{
-				"count": 3,
-				"year": 2006
-			},
-			{
-				"count": 9,
-				"year": 2005
-			}
-		]
+		"roleDistributions": [],
+		"yearDistributions": []
 	},
 	// 资产概况 => 股权质押
 	A10204:{
