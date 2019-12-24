@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 // 所需的所有组件
 // ==================
 import {
-	Form, Button, Checkbox, message, Spin,
+	Form, Button, message, Spin,
 } from 'antd';
 import { Input, Icon } from '@/common';
 import {
@@ -207,7 +207,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, rememberPassword, codeImg, passwordModalVisible, errorTime,
+			loading, userName, codeImg, passwordModalVisible, errorTime,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType, btnColor,

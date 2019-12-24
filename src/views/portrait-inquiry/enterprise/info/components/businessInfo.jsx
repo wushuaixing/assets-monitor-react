@@ -41,7 +41,7 @@ export default class BusinessInfo extends React.Component {
 			.catch(() => {
 				this.setState({ loading: false });
 			});
-	}
+	};
 
 	render() {
 		const { id } = this.props;
@@ -119,7 +119,17 @@ export default class BusinessInfo extends React.Component {
 						<div className="yc-base-infoTitle">参保人数</div>
 						<div className="yc-base-infoName">{dataObj.insuranceNum && dataObj.insuranceNum.trim().length > 0 ? dataObj.insuranceNum : '-'}</div>
 						<div className="yc-base-infoTitle">英文名</div>
-						<div className="yc-base-infoName">{dataObj.englishName && dataObj.englishName.trim().length > 0 ? dataObj.englishName : '-'}</div>
+						<div className="yc-base-infoName">
+							{
+								dataObj.englishName && dataObj.englishName.length > 45
+									? (
+										<Tooltip placement="top" title={dataObj.englishName}>
+											<p style={{ cursor: 'pointer' }}>{`${dataObj.englishName.substr(0, 45)}...`}</p>
+										</Tooltip>
+									)
+									: <p>{dataObj.englishName && dataObj.englishName.trim().length > 0 ? dataObj.englishName : '-'}</p>
+							}
+						</div>
 						<div className="yc-base-infoTitle">注册地址</div>
 						<div className="yc-base-infoName">
 							{
