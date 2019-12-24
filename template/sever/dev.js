@@ -1,7 +1,7 @@
 
 var fs =require('fs');
 // var cleanCSS = require('clean-css');
-var dataSource = require('./data');
+var dataSource = require('./data3');
 var _dataSource = JSON.stringify(dataSource);
 
 var backgroundImg  = fs.readFileSync('./template/img/watermark.png',);
@@ -773,7 +773,10 @@ function exportTemplate(source,exportType) {
 		overView(data.B10202,"overview.B10202");
 		overView(data.B10203,"overview.B10203");
 		overView(data.B10204,"overview.B10204");
-		if(!(/padding6 {overview\.B1020([345]).display/.test(htmlTemp))){
+		if(!(/padding6 {overview\.B1020[12].{0,12}\.display/.test(htmlTemp))){
+			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
+		}
+		if(!(/padding6 {overview\.B1020([345])\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.lawsuit.display}", "display-none");
 		}
 		overView(data.B10205,"overview.B10205");
@@ -1616,7 +1619,7 @@ function exportTemplate(source,exportType) {
 function writeFile() {
 
 	var str =(flag)=>exportCover(_dataSource, flag)+exportTemplate(_dataSource, flag);
-	fs.writeFile("./template/result/demo.html", str(true), (error) => {
+	fs.writeFile("./template/result/demo.html", str(false), (error) => {
 		error && console.log('error');
 	});
 }

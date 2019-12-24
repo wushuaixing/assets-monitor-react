@@ -84,7 +84,8 @@ const EnterpriseInfo = (props) => {
 		<div className="enterprise-info">
 			<div className="intro-icon">
 				{
-					logoUrl ? <img className="intro-icon-img" src={logoUrl} alt="" /> : <span>{name && name.slice(0, 4)}</span>
+					logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
+						: <span>{name && name.slice(0, 4)}</span>
 				}
 			</div>
 			<div className="intro-content">
