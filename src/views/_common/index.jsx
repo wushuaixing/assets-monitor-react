@@ -82,7 +82,7 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
 			const _role = _site ? role.slice(0, _site) : role;
 			maxRoleName = _role.length > maxRoleName.length ? _role : maxRoleName;
 		});
-		return getByteLength(maxRoleName) * 6 * 1.05 + 12;
+		return getByteLength(maxRoleName) * 6 ;
 	};
 	if (typeof value === 'object') {
 		if (value.length) {
@@ -111,7 +111,7 @@ export const PartyCrosswise = (props) => {
 			const _role = _site ? role.slice(0, _site) : role;
 			maxRoleName = _role.length > maxRoleName.length ? _role : maxRoleName;
 		});
-		return getByteLength(maxRoleName) * 6 * 1.05;
+		return getByteLength(maxRoleName) * 6;
 	};
 	const toShowDetail =	() => Modal.info({
 		title: '当事人详情',

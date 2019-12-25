@@ -1,8 +1,8 @@
 import React from 'react';
-import { Pagination, Tooltip } from 'antd';
+import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
-import { Table, SelectedNum } from '@/common';
+import { timeStandard } from '@/utils';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
 import { Result } from './common';
 // 获取表格配置
@@ -22,19 +22,12 @@ const columns = (props) => {
 		}, {
 			title: '土地使用人',
 			dataIndex: 'obligorName',
-			width: 230,
 			render: (text, row) => (
-				<span>
-					{
-						text && text.length > 10
-							? (
-								<Tooltip placement="topLeft" title={text}>
-									<p>{row.obligorId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, `${text.substr(0, 10)}...`)}</p>
-								</Tooltip>
-							)
-							: <p>{row.obligorId === 0 ? `${text || '-'}` : linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, `${text || '-'}`)}</p>
-					}
-				</span>
+				<Ellipsis
+					content={text}
+					url={row.obligorId !== 0 ? `/#/business/debtor/detail?id=${row.obligorId}` : false}
+					tooltip
+				/>
 			),
 		}, {
 			title: '项目信息',
