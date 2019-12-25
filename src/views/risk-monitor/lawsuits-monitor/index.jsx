@@ -254,26 +254,29 @@ export default class Subrogation extends React.Component {
 		this.toInfoCount(type, isRead);
 
 		// 主要请求
-		const params = Object.assign({},
+		const params = Object.assign({ selectType: type },
 			this.toHandleReqTime(type, this.condition), this.condition, this.readStatus);
 		delete params.startGmt;
 		delete params.endGmt;
 		API(type, 'list')(clearEmpty(params)).then((res) => {
-			if (res.code === 200) {
-				tabConfig[type - 1].number = res.data.total;
-				// this.setState({ tabConfig });
-				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
-					tabConfig,
-					loading: false,
-				});
-			} else {
-				message.error(res.message || '网络请求异常请稍后再试！');
-				this.setState({
-					loading: false,
-				});
+			const { sourceType: selectType } = this.state;
+			if (res.selectType === selectType) {
+				if (res.code === 200) {
+					tabConfig[type - 1].number = res.data.total;
+					// this.setState({ tabConfig });
+					this.setState({
+						dataSource: res.data.list,
+						current: res.data.page,
+						total: res.data.total,
+						tabConfig,
+						loading: false,
+					});
+				} else {
+					message.error(res.message || '网络请求异常请稍后再试！');
+					this.setState({
+						loading: false,
+					});
+				}
 			}
 		}).catch(() => {
 			this.setState({
