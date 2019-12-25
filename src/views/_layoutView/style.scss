@@ -141,13 +141,30 @@
       .else-notice {
         line-height: 30px;
         padding: 10px;
-
+        padding-right: 20px;
         &:hover {
           .yc-header-message {
             display: block;
           }
         }
-
+        .yc-ant-badge {
+          .current {
+            transform: scale(0.8); // 缩放
+            font-size: 10px;
+            height: 10px;
+            position: relative;
+            bottom: 3px;
+          }
+          .ant-scroll-number {
+            //transform: scale(0.8); // 缩放
+          }
+          .ant-badge-count {
+            min-width: 12px;
+            padding: 0 2px;
+            background: $common-error;
+            box-shadow: 0 0 0 1px $common-base;
+          }
+        }
         .yc-header-message {
           display: none;
         }
