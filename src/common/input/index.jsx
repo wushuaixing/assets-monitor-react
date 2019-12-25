@@ -119,7 +119,7 @@ class comInput extends React.Component {
 
 	render() {
 		const {
-			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth, maxLength, type, unSplitLine,
+			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth, maxLength, type, unSplitLine, otherAttribute,
 		} = this.props;
 		// console.log(this.props, maxLength);
 		const {
@@ -190,6 +190,7 @@ class comInput extends React.Component {
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
 					maxLength={maxLength}
+					{...otherAttribute}
 				/>
 
 				{
