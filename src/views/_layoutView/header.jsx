@@ -1,6 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
-import Badge from '@/common/badge';
+import { Badge } from 'antd';
+// import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo_white.png';
 import { unreadCount } from '@/utils/api/inform';
 import HeaderCenter from './headerCenter/header-center';
@@ -8,7 +9,20 @@ import HeaderMessage from './headerMessage/header-message';
 import { toGetRuleSource } from '@/utils';
 
 const logoText = '源诚资产监控平台';
-
+const _style = (value) => {
+	if (value > 99) {
+		return {
+			top: -4, minWidth: 14, height: 14, lineHeight: 1, right: -35,
+		};
+	} if (value > 9) {
+		return {
+			top: -4, minWidth: 14, height: 14, right: -29,
+		};
+	}
+	return {
+		top: -4, minWidth: 14, height: 14, right: -8,
+	};
+};
 /* 导航项目 */
 const Item = (props) => {
 	const {
@@ -143,7 +157,7 @@ export default class Headers extends React.Component {
 
 	render() {
 		const {
-			active, config, num, data, Surplus,
+			active, config, data, num, Surplus,
 		} = this.state;
 		const { rule } = this.props;
 		return (
@@ -206,10 +220,14 @@ export default class Headers extends React.Component {
 									event.stopPropagation();
 								}}
 							>
-								<Badge dot={Surplus && Surplus > 0} style={{ top: 0, right: 0 }}>
+								<Badge
+									count={Surplus && num && num > 0 ? `${num}` : ''}
+									className="yc-ant-badge"
+									style={_style(num)}
+								>
 									<div className="notice-icon yc-notice-img" />
 								</Badge>
-								<span className="notice-number">{num && num > 0 ? `(${num})` : ''}</span>
+								{/* <span className="notice-number">{num && num > 0 ? `(${num})` : ''}</span> */}
 								<HeaderMessage getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" />
 							</div>
 							)

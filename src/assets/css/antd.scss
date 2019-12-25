@@ -162,3 +162,7 @@
 .has-error .ant-form-explain, .has-error .ant-form-split {
   color: $common-error !important;
 }
+
+.ant-table-tbody>tr>td, .ant-table-thead>tr>th>span {
+  color: #4E5566;
+}

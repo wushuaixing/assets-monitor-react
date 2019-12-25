@@ -120,10 +120,10 @@ export const PartyCrosswise = (props) => {
 		className: 'assets-an-info',
 		content: (
 			<div style={{ marginLeft: -28, maxHeight: 400, overflow: 'auto' }}>
-				<div style={{ padding: 15 }}>
+				<div style={{ padding: '15px 0' }}>
 					<div className="assets-info-content">
-						<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-							<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>{row.caseNumber || '--'}</span>
+						<li className="yc-public-normal-bold" style={{ marginBottom: 10 }}>
+							<span className="list list-content text-ellipsis" style={{ maxWidth: 300, color: '#20242e' }}>{row.caseNumber || '--'}</span>
 						</li>
 						<li>
 							{ type === 'trial' ? [
@@ -142,15 +142,14 @@ export const PartyCrosswise = (props) => {
 								<span className="list list-content">{timeStandard(row.gmtJudgment)}</span>,
 							] : '' }
 							<span className="list-split" style={{ height: 16 }} />
-							<span className="list list-title align-justify" style={{ width: 'auto' }}>处置单位</span>
+							<span className="list list-title align-justify" style={{ width: 'auto', color: '#20242e' }}>处置单位</span>
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content" style={{ maxWidth: 300 }}>{row.court || '-'}</span>
 						</li>
 					</div>
-					<hr />
-					<div style={{ maxHeight: 400, overflow: 'auto' }}>
+					<hr style={{ color: '#EBEEF5', marginBottom: 20 }} />
+					<div style={{ maxHeight: 400, overflow: 'auto', color: '#20242e' }}>
 						{partyInfo(value, row, true, true, 400)}
-
 					</div>
 				</div>
 			</div>
