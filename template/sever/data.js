@@ -9,7 +9,7 @@ module.exports = {
 		formerNames: [],
 		isDishonest: false,
 		legalPersonName: '陈余莉',
-		logoUrl: 'http://img3.tianyancha.com/api/9ad29007de3d79ef17200540ed2abb7e.png',
+		logoUrl: 'http://img3.tianyancha.com/api/5af066d8c6d183c58628103b8ebd90c8.png',
 		name: '重庆文化产业融资担保有限责任公司',
 		regCapital: '70000.000000万',
 		regLocation: '重庆市渝北区洪湖东路9号财富大厦B座12楼1号、8号',

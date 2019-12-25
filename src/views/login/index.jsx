@@ -33,6 +33,7 @@ class Login extends React.Component {
 	}
 
 	componentDidMount() {
+		global.REQ_STATUS = '';
 		bankConf().then((_res) => {
 			if (_res.code === 200) {
 				this.setState({

@@ -773,11 +773,13 @@ function exportTemplate(source,exportType) {
 		overView(data.B10202,"overview.B10202");
 		overView(data.B10203,"overview.B10203");
 		overView(data.B10204,"overview.B10204");
-		if(!(/padding6 {overview\.B1020([345]).display/.test(htmlTemp))){
+		overView(data.B10205,"overview.B10205");
+		if(!(/padding6 {overview\.B1020[12].{0,12}\.display/.test(htmlTemp))){
+			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
+		}
+		if(!(/padding6 {overview\.B1020[345]\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.lawsuit.display}", "display-none");
 		}
-		overView(data.B10205,"overview.B10205");
-
 	}
 	htmlTemp = htmlTemp.replace(/及以前年/g, "年及以前");
 	/* table列表，选项 */

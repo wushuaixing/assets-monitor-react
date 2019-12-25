@@ -63,39 +63,37 @@ const responseMethods = {
 			window.location.reload();
 			return response;
 		}
+
 		if ((res.code === 15002 || res.code === 5002 || res.code === 15003 || res.code === 20039) && hash !== '/login') {
 			axiosPromiseArr.forEach((ele, index) => {
 				ele.cancel('请求取消');
 				delete axiosPromiseArr[index];
 			});
-			if (res.code === 15002) {
+			const reqUrl = response.request.responseURL;
+			let titleText = '';
+			global.REQ_STATUS = 'stop';
+			if (res.code === 15002) { titleText = '您的账号已过期，请联系客服'; }
+			if (res.code === 5002 || res.code === 15003) { titleText = '登录失效，请重新登录'; }
+			if (res.code === 20039) { titleText = '账号与当前域名对应机构不匹配，请切换到对应机构二级域名下登录'; }
+			if (/api\/auth\/logout/.test(reqUrl)) {
+				navigate('/login');
+				return Promise.reject(new Error(null));
+			}
+			if (/api\/auth\/authRule/.test(reqUrl)) {
+			//	权限接口
 				navigate('/login');
 				Modal.warning({
-					title: '您的账号已过期，请联系客服',
-					onOk() {
-						// window.location.reload(); // 退出登录刷新页面
-					},
+					title: titleText,
+					onOk() {},
 				});
-			}
-			if (res.code === 5002 || res.code === 15003) {
-				navigate('/login');
+			} else {
+				// 非权限接口
 				Modal.warning({
-					title: '登录失效，请重新登录',
-					onOk() {
-						// window.location.reload(); // 退出登录刷新页面
-					},
+					title: titleText,
+					onOk() { navigate('/login'); },
 				});
 			}
-			if (res.code === 20039) {
-				navigate('/login');
-				Modal.warning({
-					title: '账号与当前域名对应机构不匹配，请切换到对应机构二级域名下登录',
-					onOk() {
-						// window.location.reload(); // 退出登录刷新页面
-					},
-				});
-			}
-			return response;
+			return Promise.reject(new Error(null));
 		}
 		return response;
 	},
@@ -105,9 +103,7 @@ const responseMethods = {
 			// navigate('/login');
 		} else if (axios.isCancel(error)) {
 			console.log('isCancel error:', error);
-		} else {
-			message.error(error.message);
-		}
+		} else if (error) message.error(error.message);
 	},
 };
 

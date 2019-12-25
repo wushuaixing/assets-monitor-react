@@ -359,7 +359,8 @@ function exportTemplate(source, exportType) {
 						data.list.forEach(function (i) {
 							tableList += "<tr>" +
 								"<td>" + f.format(i.startTime) + "</td><td>" + w(i.obligorName) + "</td>" +
-								"<td>" + f.urlDom(i.title, i.sourceUrl) + "</td><td>" + f.floatFormat(i.price,true,'未知') + "</td>" +
+								"<td>" + f.urlDom(i.title, i.sourceUrl) + "</td>" +
+								"<td style='text-align: right'>" + f.floatFormat(i.price,null,true,'未知') + "</td>" +
 								"<td>" + f.format(i.endTime) + "</td><td>" + f.format(i.createTime) + "</td></tr>";
 						});
 						break;

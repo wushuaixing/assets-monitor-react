@@ -32,15 +32,23 @@
         border-radius: 5px;
         color: #FFFFFF;
         position: relative;
-        .intro-icon-img {
+        .intro-icon-img-w {
           background-color: #FFFFFF;
           position: absolute;
-          width: 78px;
-          height: 78px;
-          left: 1px;
-          top: 1px;
+          width: 80px;
+          height: 80px;
+          left: 0;
+          top: 0;
+          line-height: 70px;
+          border: 1px solid #1E8CFA;
           border-radius: 4px;
+          .intro-icon-img {
+            vertical-align: middle;
+            width: 100%;
+            border-radius: 4px;
+          }
         }
+
       }
       .intro-content {
         margin-left: 96px;
