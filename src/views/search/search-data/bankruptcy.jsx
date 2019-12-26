@@ -78,21 +78,21 @@ class BANKRUPTCY extends React.Component {
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
-					<div className="item" style={{ marginRight: 16, width: 243 }}>
+					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
 							title="企业"
 							placeholder="企业名称"
 							{...getFieldProps('brcompanyname', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item" style={{ marginRight: 16, width: 243 }}>
+					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
 							title="案号/标题"
 							placeholder="破产案号/公告标题"
 							{...getFieldProps('title', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item" style={{ width: 243 }}>
+					<div className="item" style={{ width: 259 }}>
 						<Input
 							title="受理法院"
 							placeholder="破产案件受理法院"

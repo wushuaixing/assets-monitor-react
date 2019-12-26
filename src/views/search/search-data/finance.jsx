@@ -80,7 +80,7 @@ class FINANCE extends React.Component {
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
-					<div className="item" style={{ marginRight: 16, width: 243 }}>
+					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
 							title="全文"
 							placeholder="全文搜索关键词"

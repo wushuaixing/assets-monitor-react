@@ -82,6 +82,9 @@
       top: 0;
       //background-color: transparent;
       height: 38px;
+      &:hover {
+        background-color: $text-btn-hover;
+      }
     }
   }
   .ant-form-explain {
@@ -94,6 +97,10 @@
     margin-bottom: 23px;
     color: #428bca;
     cursor: pointer;
+    &:hover {
+      color: $text-link-hover;
+      text-decoration: underline;
+    }
   }
   .yc-login-btn {
     margin-left: 33px;
@@ -184,6 +191,9 @@
       top: 0;
       //background-color: transparent;
       height: 38px;
+      &:hover {
+        background-color: $text-btn-hover;
+      }
     }
   }
   .ant-form-explain {
@@ -196,6 +206,10 @@
     margin-bottom: 23px;
     color: #428bca;
     cursor: pointer;
+    &:hover {
+      color: $text-link-hover;
+      text-decoration: underline;
+    }
   }
   .yc-login-btn {
     font-size: 14px;
