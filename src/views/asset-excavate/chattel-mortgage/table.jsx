@@ -2,10 +2,10 @@ import React from 'react';
 import {
 	Pagination, message, Tooltip,
 } from 'antd';
-import { Table, SelectedNum } from '@/common';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
-import { linkDom, timeStandard } from '@/utils';
+import { timeStandard } from '@/utils';
 import { formatDateTime } from '@/utils/changeTime';
 
 
@@ -121,42 +121,33 @@ const columns = (props) => {
 			dataIndex: 'owner',
 			width: 190,
 			render: (text, row) => (
-				<span>
-					{
-						text && text.length > 10
-							? (
-								<Tooltip placement="topLeft" title={text}>
-									<p>{row.ownerId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.ownerId}`, `${text.substr(0, 10)}...`)}</p>
-								</Tooltip>
-							)
-							: <p>{row.ownerId === 0 ? `${text || '-'}` : linkDom(`/#/business/debtor/detail?id=${row.ownerId}`, `${text || '-'}`)}</p>
-					}
-				</span>
+				<Ellipsis content={text} tooltip width={170} url={row.ownerId ? `/#/business/debtor/detail?id=${row.ownerId}` : ''} />
 			),
 		}, {
 			title: '抵押权人',
 			dataIndex: 'people',
 			width: 190,
 			render: (text, row) => (
-				<span>
-					{
-						text && text.length > 10
-							? (
-								<Tooltip placement="topLeft" title={text}>
-									<p>{row.peopleId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.peopleId}`, `${text.substr(0, 10)}...`)}</p>
-								</Tooltip>
-							)
-							: <p>{row.peopleId === 0 ? `${text || '-'}` : linkDom(`/#/business/debtor/detail?id=${row.peopleId}`, `${text || '-'}`)}</p>
-					}
-				</span>
+				<Ellipsis content={text} tooltip width={170} url={row.peopleId ? `/#/business/debtor/detail?id=${row.peopleId}` : ''} />
+				// <span>
+				// 	{
+				// 		text && text.length > 10
+				// 			? (
+				// 				<Tooltip placement="topLeft" title={text}>
+				// 					<p>{row.peopleId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.peopleId}`, `${text.substr(0, 10)}...`)}</p>
+				// 				</Tooltip>
+				// 			)
+				// 			: <p>{row.peopleId === 0 ? `${text || '-'}` : linkDom(`/#/business/debtor/detail?id=${row.peopleId}`, `${text || '-'}`)}</p>
+				// 	}
+				// </span>
 			),
 		}, {
 			title: '抵押详情',
-			width: 300,
+			width: 250,
 			render: MortgageDetail,
 		}, {
 			title: '登记状态',
-			width: 180,
+			width: 110,
 			render: RegisterDetail,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
@@ -166,7 +157,7 @@ const columns = (props) => {
 			render: text => timeStandard(text) || '-',
 		}, {
 			title: '操作',
-			// width: 55,
+			width: 55,
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
