@@ -71,7 +71,7 @@ class RegisterModal extends React.PureComponent {
 		const { data, columns, loading } = this.state;
 
 		return (
-			<Modal title={rowObj && rowObj.title} width={835} visible={registerModalVisible} onCancel={onCancel} onOk={this.handleOk} footer={false}>
+			<Modal title={rowObj && rowObj.title} width={835} visible={registerModalVisible} onCancel={onCancel} maskClosable={false} onOk={this.handleOk} footer={false}>
 				<Spin visible={loading}>
 					<Table
 						columns={columns}
@@ -79,7 +79,6 @@ class RegisterModal extends React.PureComponent {
 						pagination={false}
 					/>
 				</Spin>
-				{data && <div style={{ borderTop: '1px solid #f0f2f5' }} />}
 				<div style={{ marginTop: 60, textAlign: 'center' }}><Button onClick={onCancel} type="common" style={{ width: 120 }}>关闭</Button></div>
 			</Modal>
 		);
