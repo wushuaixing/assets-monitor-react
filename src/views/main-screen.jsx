@@ -83,7 +83,7 @@ export default class Screen extends React.Component {
 			beforeToken: token,
 		});
 		// if (!token) { navigate('/login'); return; }
-
+		document.body.style.overflowY = 'scroll';
 		this.clientHeight = 500 || document.body.clientHeight;
 		// console.log('componentWillMount:', document.body.clientHeight);
 		authRule().then((res) => {
@@ -130,6 +130,10 @@ export default class Screen extends React.Component {
 			});
 			navigate('/change/password');
 		}
+	}
+
+	componentWillUnmount() {
+		document.body.style.overflowY = 'auto';
 	}
 
 	render() {

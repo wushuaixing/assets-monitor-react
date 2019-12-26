@@ -17,21 +17,15 @@ const columns = (props) => {
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>签订日期</span>
 				: <SortVessel field="SIGNED_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>签订日期</SortVessel>),
 			dataIndex: 'singedTime',
-			width: 120,
+			width: 100,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '土地使用人',
+			width: 190,
 			dataIndex: 'obligorName',
-			render: (text, row) => (
-				<Ellipsis
-					content={text}
-					url={row.obligorId !== 0 ? `/#/business/debtor/detail?id=${row.obligorId}` : false}
-					tooltip
-				/>
-			),
+			render: (text, row) => <Ellipsis content={text} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
 		}, {
 			title: '项目信息',
-			width: 240,
 			render: Result.InfoProject,
 		}, {
 			title: '土地信息',
@@ -39,14 +33,14 @@ const columns = (props) => {
 			render: Result.InfoLand,
 		}, {
 			title: '出让信息',
-			width: 190,
+			width: 250,
 			render: Result.InfoTransfer,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
-			width: 120,
-			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+			width: 93,
+			render: text => timeStandard(text),
 		}, {
 			title: '操作',
 			unNormal: true,

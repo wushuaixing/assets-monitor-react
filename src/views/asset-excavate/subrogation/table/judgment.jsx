@@ -55,7 +55,6 @@ const columns = (props) => {
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
-			width: 280,
 			render: partyInfo,
 		}, {
 			title: '法院',
@@ -69,7 +68,7 @@ const columns = (props) => {
 			title: (noSort ? <span>文书信息</span>
 				: <SortVessel field="GMT_JUDGMENT" onClick={onSortChange} mark="(判决日期)" {...sort}>文书信息</SortVessel>),
 			dataIndex: 'associatedInfo1',
-			width: 350,
+			width: 300,
 			render: documentInfo,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text

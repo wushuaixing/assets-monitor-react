@@ -1,5 +1,4 @@
 import React from 'react';
-import { Tooltip } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
 import { Ellipsis } from '@/common';
 // import { linkDom } from '@/utils';
@@ -11,7 +10,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">项目名称：</span>
 					<span className="list list-content" style={{ color: '#186fc7' }}>
-						<Ellipsis content={rowContent.projectName} url={rowContent.url} tooltip width={160} />
+						<Ellipsis content={rowContent.projectName} url={rowContent.url} tooltip width={200} />
 					</span>
 				</li>
 				<li>
@@ -21,7 +20,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">具体坐落：</span>
 					<span className="list list-content">
-						<Ellipsis content={rowContent.landAddress} tooltip width={160} />
+						<Ellipsis content={rowContent.landAddress} tooltip width={200} />
 					</span>
 				</li>
 			</div>
@@ -47,11 +46,11 @@ const Result = {
 					<span className="list list-title align-justify">使用年限：</span>
 					{rowContent.transferTerm ? (
 						<span className="list list-content">
-							{`${rowContent.transferTerm} 年` || '-'}
+							{rowContent.transferTerm ? `${rowContent.transferTerm} 年` : '-'}
 						</span>
 					) : (
 						<span className="list list-content">
-							{`${rowContent.landUsageTerm} 年` || '-'}
+							{rowContent.landUsageTerm ? `${rowContent.landUsageTerm} 年` : '-'}
 						</span>
 					)}
 				</li>
@@ -67,7 +66,9 @@ const Result = {
 				</li>
 				<li>
 					<span className="list list-title align-justify">批准单位：</span>
-					<span className="list list-content">{rowContent.approver || '-'}</span>
+					<span className="list list-content">
+						<Ellipsis content={rowContent.approver || '-'} tooltip width={170} />
+					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">成交价格：</span>
@@ -78,114 +79,19 @@ const Result = {
 			</div>
 		</React.Fragment>
 	),
-	landUser: (text, rowContent) => (
-		<React.Fragment>
-			<div className="assets-info-content">
-				<li>
-					<span className="list list-title align-justify" style={{ width: 90 }}>原土地使用权人：</span>
-					<span className="list list-content text-ellipsis">
-						{/* {rowContent.landUse || '-'} */}
-						{
-							rowContent.landUse && rowContent.landUse.length > 6
-								? (
-									<Tooltip placement="topLeft" title={rowContent.landUse}>
-										<span>
-											{`${rowContent.landUse.substr(0, 6)}...`}
-										</span>
-									</Tooltip>
-								)
-								: (
-									<span>
-										{rowContent.landUse || '-'}
-									</span>
-								)
-						}
-					</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 90 }}>现土地使用权人：</span>
-					<span className="list list-content">
-						{rowContent.area || '-'}
-					</span>
-				</li>
-			</div>
-		</React.Fragment>
-	),
-	landOwner: (text, rowContent) => (
-		<React.Fragment>
-			<div className="assets-info-content">
-				<li>
-					<span className="list list-title align-justify" style={{ width: 90 }}>土地抵押人：</span>
-					<span className="list list-content text-ellipsis">
-						{/* {rowContent.landUse || '-'} */}
-						{
-							rowContent.landUse && rowContent.landUse.length > 6
-								? (
-									<Tooltip placement="topLeft" title={rowContent.landUse}>
-										<span>
-											{`${rowContent.landUse.substr(0, 6)}...`}
-										</span>
-									</Tooltip>
-								)
-								: (
-									<span>
-										{rowContent.landUse || '-'}
-									</span>
-								)
-						}
-					</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 90 }}>土地抵押权人：</span>
-					<span className="list list-content">
-						{rowContent.area || '-'}
-					</span>
-				</li>
-			</div>
-		</React.Fragment>
-	),
 	InfoTransferProject: (text, rowContent) => (
 		<React.Fragment>
-			<div className="assets-info-content">
+			<div className="assets-info-content yc-space-nowrap">
 				<li>
 					<span className="list list-title align-justify">宗地坐落：</span>
 					<span className="list list-content text-ellipsis">
-						{
-							rowContent.landAddress && rowContent.landAddress.length > 6
-								? (
-									<Tooltip placement="topLeft" title={rowContent.landAddress}>
-										<a href={rowContent.url.length > 1 && rowContent.url} target="_blank" rel="noopener noreferrer" className={rowContent.url.length > 1 ? 'yc-table-text-link' : ''}>
-											{`${rowContent.landAddress.substr(0, 6)}...`}
-										</a>
-									</Tooltip>
-								)
-								: (
-									<a href={rowContent.url.length > 1 && rowContent.url} target="_blank" rel="noopener noreferrer" className={rowContent.url.length > 1 ? 'yc-table-text-link' : ''}>
-										{rowContent.landAddress || '-'}
-									</a>
-								)
-						}
+						<Ellipsis content={rowContent.landAddress || '-'} url={rowContent.url} tooltip width={110} />
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">行政区划：</span>
 					<span className="list list-content text-ellipsis">
-						{/* {rowContent.landUse || '-'} */}
-						{
-							rowContent.administrativeRegion && rowContent.administrativeRegion.length > 10
-								? (
-									<Tooltip placement="topLeft" title={rowContent.administrativeRegion}>
-										<span>
-											{`${rowContent.administrativeRegion.substr(0, 10)}...`}
-										</span>
-									</Tooltip>
-								)
-								: (
-									<span>
-										{rowContent.administrativeRegion || '-'}
-									</span>
-								)
-						}
+						<Ellipsis content={rowContent.administrativeRegion || '-'} tooltip width={110} />
 					</span>
 				</li>
 			</div>
@@ -209,26 +115,11 @@ const Result = {
 	),
 	InfoMortgageLand: (text, rowContent) => (
 		<React.Fragment>
-			<div className="assets-info-content">
+			<div className="assets-info-content  yc-space-nowrap">
 				<li>
 					<span className="list list-title align-justify">土地用途：</span>
 					<span className="list list-content text-ellipsis">
-						{/* {rowContent.landUse || '-'} */}
-						{
-							rowContent.landUse && rowContent.landUse.length > 6
-								? (
-									<Tooltip placement="topLeft" title={rowContent.landUse}>
-										<span>
-											{`${rowContent.landUse.substr(0, 6)}...`}
-										</span>
-									</Tooltip>
-								)
-								: (
-									<span>
-										{rowContent.landUse || '-'}
-									</span>
-								)
-						}
+						<Ellipsis content={rowContent.landUse || '-'} tooltip width={110} />
 					</span>
 				</li>
 				<li>
@@ -247,7 +138,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify" style={{ width: 96 }}>土地使用权证号：</span>
 					<span className="list list-content">
-						{rowContent.landUseCertificateNumber || '-'}
+						<Ellipsis content={rowContent.landUseCertificateNumber || '-'} tooltip width={100} />
 					</span>
 				</li>
 			</div>
@@ -255,7 +146,7 @@ const Result = {
 	),
 	InfoMortgage: (text, rowContent) => (
 		<React.Fragment>
-			<div className="assets-info-content">
+			<div className="assets-info-content yc-space-nowrap">
 				<li>
 					<span className="list list-title align-justify">抵押面积：</span>
 					<span className="list list-content">
@@ -272,7 +163,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify" style={{ width: 96 }}>土地他项权证号：</span>
 					<span className="list list-content">
-						{rowContent.otherObligeeCertificateNumber || '-'}
+						<Ellipsis content={rowContent.otherObligeeCertificateNumber || '-'} tooltip width={100} />
 					</span>
 				</li>
 				<li>

@@ -23,12 +23,10 @@ const columns = (props) => {
 		}, {
 			title: '土地权利人',
 			dataIndex: 'parties',
-			width: 300,
 			render: partyInfo,
 		}, {
 			title: '项目信息',
 			dataIndex: 'title',
-			width: 200,
 			render: Result.InfoTransferProject,
 		}, {
 			title: '土地信息',
