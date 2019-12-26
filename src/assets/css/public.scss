@@ -9,6 +9,12 @@ body,td,th{font-size:14px;color:#20242e}
   margin-top: 1px;
   border-left: 1px solid $background-border;
 }
+.yc-space-nowrap{
+  white-space: nowrap;
+}
+.yc-space-normal{
+  white-space: normal;
+}
 .yc-none-background{
   tr,th{
     background: none!important;

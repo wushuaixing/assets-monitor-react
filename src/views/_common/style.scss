@@ -1,5 +1,6 @@
 
 .yc-party-info-list {
+  white-space: nowrap;
   &:last-child{
     margin-bottom: 0;
   }
@@ -32,9 +33,8 @@
   }
 
   .party-info-content {
-    padding-right: 30px;
     position: relative;
-
+    white-space: normal;
     li {
       max-width: 140px;
     }
@@ -42,15 +42,16 @@
     .party-info-status {
       position: absolute;
       bottom: 0;
-      right: -15px;
+      right: -5px;
       height: 18px;
       width: auto;
-      text-align: center;
+      text-align: left;
       cursor: pointer;
       color: $text-link;
 
       &:hover {
         color: $text-link-hover;
+        text-decoration: underline;
       }
 
       &:active {

@@ -26,7 +26,6 @@ const columns = (props) => {
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
-			width: 300,
 			render: partyInfo,
 		}, {
 			title: '法院',

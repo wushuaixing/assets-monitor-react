@@ -15,6 +15,7 @@ export default class PartyInfoDetail extends React.Component {
 		this.maxShowLength = props.noStatus ? 99999 : 3;
 		this.state = {
 			status: props.child.length <= this.maxShowLength ? 'none' : 'toOpen',
+			extraDis: props.child.length <= this.maxShowLength ? 0 : 30,
 		//	none 无  toOpen 点击展开 toClose 点击收起
 		};
 	}
@@ -64,15 +65,15 @@ export default class PartyInfoDetail extends React.Component {
 	};
 
 	render() {
-		const { status } = this.state;
+		const { status, extraDis } = this.state;
 		const { role, child, width } = this.props;
 		const { noLink, detailWidth } = this.props;
 		const source = status === 'toOpen' ? child.slice(0, this.maxShowLength) : child;
 
 		// icon-arrow-up
 		const statusText = status === 'toOpen'
-			? [<span>展开</span>, <Icon type="down" style={{ paddingTop: 2 }} />]
-			: [<span>收起</span>, <Icon type="up" style={{ paddingTop: 2 }} />];
+			? [<span>展开</span>, <Icon type="down1" style={{ paddingTop: 2 }} />]
+			: [<span>收起</span>, <Icon type="up2" style={{ paddingTop: 2 }} />];
 
 		// 收起↓↓
 		const _site = role.indexOf('（') > -1 ? role.indexOf('（') : '';
@@ -80,17 +81,16 @@ export default class PartyInfoDetail extends React.Component {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',
 		};
-		const maxWidth = (detailWidth || 300) - 12 - width - 50;
-		console.log(maxWidth);
+		const maxWidth = (detailWidth || 300) - 12 - width - 20 - extraDis;
 		// const obValue = (i, v) => (i.obligorId && noLink ? linkDetail(i.obligorId, v, '_blank') : v);
 		// console.log(noLink);
-		let contentWidth = '';
+		let maxName = '';
 		child.forEach((item) => {
 			const content = this.toHandleName(item);
 			const l = (getByteLength(content) + 3) * 6;
-			contentWidth = contentWidth < l ? l : contentWidth;
+			maxName = maxName < l ? l : maxName;
 		});
-		contentWidth = contentWidth > maxWidth ? maxWidth : contentWidth;
+		maxName = maxName > maxWidth ? maxWidth : maxName;
 		return (
 			<div className="yc-party-info-list">
 				<span className="party-info party-info-title" style={width ? { width } : ''}>
@@ -104,7 +104,7 @@ export default class PartyInfoDetail extends React.Component {
 					}
 				</span>
 				<span className="party-info party-info-colon">：</span>
-				<div className="party-info party-info-content" style={{ width: maxWidth + 30 }}>
+				<div className="party-info party-info-content" style={{ width: maxName + extraDis, paddingRight: extraDis }}>
 					{
 						source.map((i) => {
 							const content = this.toHandleName(i);
@@ -113,7 +113,7 @@ export default class PartyInfoDetail extends React.Component {
 									content={content}
 									url={i.obligorId && noLink ? `#/business/debtor/detail?id=${i.obligorId}` : ''}
 									tooltip
-									width={maxWidth}
+									width={maxName}
 									// width={getByteLength(content) * 6 > maxWidth ? maxWidth : (getByteLength(content) + 3) * 6}
 								/>
 							);
