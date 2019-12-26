@@ -16,7 +16,7 @@ const _style = (value) => {
 		};
 	} if (value > 9) {
 		return {
-			top: -4, minWidth: 14, height: 14, right: -29,
+			top: -4, minWidth: 14, height: 14, right: -17,
 		};
 	}
 	return {

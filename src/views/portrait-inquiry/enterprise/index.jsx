@@ -95,7 +95,7 @@ const EnterpriseInfo = (props) => {
 						{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 					</span>
 					{
-						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 45 } : { marginTop: 2 }}>{regStatus}</span> : null
+						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{regStatus}</span> : null
 					}
 				</div>
 				<div className="intro-base-info">
@@ -150,7 +150,7 @@ const EnterpriseInfoSimple = (props) => {
 				</span>
 				{
 					data.regStatus
-						? <span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 45 } : { marginTop: 2 }}>{data.regStatus}</span> : ''
+						? <span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{data.regStatus}</span> : ''
 				}
 			</div>
 			<div className="intro-download">
