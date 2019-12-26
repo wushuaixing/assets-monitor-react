@@ -15,7 +15,8 @@ const Trial = {
 	// POST关注 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/trial/subrogation/follow/un-attention', params).then(res => res.data),
 	// GET列表
-	list: params => s.get('/yc/monitor/trial/subrogation/list', { params }).then(res => res.data),
+	list: params => s.get('/yc/monitor/trial/subrogation/list', { params }).then(res => Object.assign(res.data,
+		{ selectType: params.selectType })),
 	// GET列表count
 	listCount: params => s.get('/yc/monitor/trial/subrogation/list-count', { params }).then(res => res.data),
 	// POST已读
@@ -52,7 +53,8 @@ const Court = {
 	// POST关注 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/court/subrogation/follow/un-attention', params).then(res => res.data),
 	// GET列表
-	list: params => s.get('/yc/monitor/court/subrogation/list', { params }).then(res => res.data),
+	list: params => s.get('/yc/monitor/court/subrogation/list', { params }).then(res => Object.assign(res.data,
+		{ selectType: params.selectType })),
 	// GET列表count
 	listCount: params => s.get('/yc/monitor/court/subrogation/list-count', { params }).then(res => res.data),
 	// POST已读
@@ -89,7 +91,8 @@ const Judgment = {
 	// POST关注 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/judgment/subrogation/follow/un-attention', params).then(res => res.data),
 	// GET列表
-	list: params => s.get('/yc/monitor/judgment/subrogation/list', { params }).then(res => res.data),
+	list: params => s.get('/yc/monitor/judgment/subrogation/list', { params }).then(res => Object.assign(res.data,
+		{ selectType: params.selectType })),
 	// GET列表count
 	listCount: params => s.get('/yc/monitor/judgment/subrogation/list-count', { params }).then(res => res.data),
 	// POST已读

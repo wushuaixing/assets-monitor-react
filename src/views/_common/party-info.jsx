@@ -72,12 +72,12 @@ export default class PartyInfoDetail extends React.Component {
 			? (
 				<span>
 					展开
-					<Icon type="down" />
+					<Icon type="down" style={{ paddingTop: 2 }} />
 				</span>
 			) : (
 				<span>
 					收起
-					<Icon type="up" />
+					<Icon type="up" style={{ paddingTop: 2 }} />
 				</span>
 			);
 
@@ -87,13 +87,13 @@ export default class PartyInfoDetail extends React.Component {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',
 		};
-		const maxWidth = (detailWidth || 250) - ((width * 1 < 40 ? 40 : width) || 40) - 12;
+		const maxWidth = (detailWidth || 250) - (Number(width));
 		const obValue = (i, v) => (i.obligorId && noLink ? linkDetail(i.obligorId, v, '_blank') : v);
 		// console.log(noLink);
 
 		return (
 			<div className="yc-party-info-list">
-				<span className="party-info party-info-title" style={width ? { width: width < 40 ? 40 : width } : ''}>
+				<span className="party-info party-info-title" style={width ? { width } : ''}>
 					<li className="li-role">{roleContent.role}</li>
 					{
 						roleContent.mark ? (

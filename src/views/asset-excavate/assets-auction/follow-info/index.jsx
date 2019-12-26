@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Modal, Button, Icon, Steps, Select, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
+	Modal, Button, Icon, Steps, Select, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm, InputNumber,
 } from 'antd';
 import { Spin, Button as Btn, Input as ComInput } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
@@ -332,9 +332,18 @@ export default class FollowInfo extends React.Component {
 		}
 	};
 
-	onInputChangeNew =(value, field) => {
+	onInputChangeNew =(e, field) => {
+		//
+		const { value } = e.target;
+		// onkeyup="this.value=this.value.toString().match(/^\d+(?:\.\d{0,2})?/)"
+		e.target.value = value.toString().match(/^\d+(?:\.\d{0,2})?/);
+		// const { state } = this;
+		// console.log(val, state[field]);
+		// if ((value.match(/\./g) || {}).length > 1) {
+		// 	console.log('MATCH');
+		// }
 		this.setState({
-			[field]: value,
+			[field]: e.target.value,
 		});
 	};
 
@@ -409,10 +418,11 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">收入金额(元)：</div>
 										<div className="list-item-content">
-											<ComInput
+											<Input
 												style={{ width: '100%' }}
-												maxlength={10}
-												defaultValue={recovery}
+												maxlength={14}
+												// value={recovery}
+												// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
 												onChange={e => this.onInputChangeNew(e, 'recovery')}
 												placeholder="请输入收入金额"
 											/>
@@ -421,10 +431,11 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">支出金额(元)：</div>
 										<div className="list-item-content">
-											<ComInput
+											<Input
 												style={{ width: '100%' }}
-												maxlength={10}
-												defaultValue={expend}
+												// type="number"
+												maxlength={14}
+												// value={expend}
 												onChange={e => this.onInputChangeNew(e, 'expend')}
 												placeholder="请输入支出金额"
 											/>
