@@ -159,6 +159,7 @@ body,td,th{font-size:14px;color:#20242e}
   background-image: url('../img/icon/icon_export.png');
   height: 16px;
   width: 16px;
+  margin-bottom: 4px;
 }
 
 .yc-add-img {
@@ -584,4 +585,8 @@ td.column-left20 {
       box-shadow: 0 0 0 2px rgba(251, 90, 92, 0.43) !important;
     }
   }
+}
+
+.yc-btn-icon {
+  font-size: 14px;
 }

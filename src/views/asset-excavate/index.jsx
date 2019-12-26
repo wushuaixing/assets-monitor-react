@@ -2,7 +2,7 @@ import React from 'react';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 import Router from '@/utils/Router';
-import { Button, Tabs } from '@/common';
+import { Button, Tabs, Icon } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
 import { toGetRuleSource } from '@/utils';
 // 主要内容模块
@@ -16,7 +16,6 @@ import Mortgage from './chattel-mortgage'; // 动产抵押
 // import Attention from '../my-attention'; // 我的关注
 import VersionUpdateModal from '../_layoutView/versionUpdateModal';
 import ClearProcess from './assets-auction/clearProcess'; // 资产清收流程
-import Star from '@/assets/img/icon/btn_attention16_n.png';
 
 const cookie = new Cookies();
 
@@ -143,14 +142,10 @@ class MonitorMain extends React.Component {
 							onClick={this.toNavigate}
 							size="large"
 							icon={() => (
-								<img
-									src={Star}
-									alt=""
-									className="yc-img-normal"
-									style={{
-										width: 14,
-										marginTop: -2,
-									}}
+								<Icon
+									type="icon-follow"
+									// style={{ fontsize: 14, color: '#7D8699' }}
+									className="yc-btn-icon"
 								/>
 							)}
 							title="我的关注"
