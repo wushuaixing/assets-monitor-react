@@ -82,16 +82,14 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
 			const _role = _site ? role.slice(0, _site) : role;
 			maxRoleName = _role.length > maxRoleName.length ? _role : maxRoleName;
 		});
-		return getByteLength(maxRoleName) * 6 ;
+		return getByteLength(maxRoleName) * 6;
 	};
-	if (typeof value === 'object') {
-		if (value.length) {
-			const source = handleParties(value);
-			const maxWidth = toGetStrWidth(source);
-			return source.map(item => (
-				<PartyInfoDetail {...item} id={row.id} row={row} key={row.id} width={maxWidth} noLink noStatus={noStatus} detailWidth={detailWidth} />
-			));
-		}
+	if ((value || {}).length) {
+		const source = handleParties(value);
+		const maxWidth = toGetStrWidth(source);
+		return source.map(item => (
+			<PartyInfoDetail {...item} id={row.id} row={row} key={row.id} width={maxWidth} noLink noStatus={noStatus} detailWidth={detailWidth} />
+		));
 	}
 	return '--';
 };

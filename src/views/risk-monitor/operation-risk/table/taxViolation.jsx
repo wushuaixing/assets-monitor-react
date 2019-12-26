@@ -30,7 +30,6 @@ const columns = (props) => {
 		{
 			title: '案件性质',
 			dataIndex: 'caseNature',
-			width: 403,
 			render: text => text || '--',
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text

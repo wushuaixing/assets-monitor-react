@@ -131,6 +131,7 @@ export const getByteLength = (val) => {
 export const toCutString = (str, len, suffix) => {
 	if (!str) return '';
 	if (len <= 0) return '';
+	if (getByteLength(str) <= len) return str;
 	const _suffix = suffix || '';
 	let template = 0;
 	for (let i = 0; i < str.length; i += 1) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
-import { getByteLength, linkDetail, timeStandard } from '@/utils';
+import { getByteLength, timeStandard } from '@/utils';
+import { Ellipsis } from '@/common';
 
 
 /**
@@ -68,18 +69,10 @@ export default class PartyInfoDetail extends React.Component {
 		const { noLink, detailWidth } = this.props;
 		const source = status === 'toOpen' ? child.slice(0, this.maxShowLength) : child;
 
+		// icon-arrow-up
 		const statusText = status === 'toOpen'
-			? (
-				<span>
-					展开
-					<Icon type="down" style={{ paddingTop: 2 }} />
-				</span>
-			) : (
-				<span>
-					收起
-					<Icon type="up" style={{ paddingTop: 2 }} />
-				</span>
-			);
+			? [<span>展开</span>, <Icon type="down" style={{ paddingTop: 2 }} />]
+			: [<span>收起</span>, <Icon type="up" style={{ paddingTop: 2 }} />];
 
 		// 收起↓↓
 		const _site = role.indexOf('（') > -1 ? role.indexOf('（') : '';
@@ -87,10 +80,17 @@ export default class PartyInfoDetail extends React.Component {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',
 		};
-		const maxWidth = (detailWidth || 250) - (Number(width));
-		const obValue = (i, v) => (i.obligorId && noLink ? linkDetail(i.obligorId, v, '_blank') : v);
+		const maxWidth = (detailWidth || 300) - 12 - width - 50;
+		console.log(maxWidth);
+		// const obValue = (i, v) => (i.obligorId && noLink ? linkDetail(i.obligorId, v, '_blank') : v);
 		// console.log(noLink);
-
+		let contentWidth = '';
+		child.forEach((item) => {
+			const content = this.toHandleName(item);
+			const l = (getByteLength(content) + 3) * 6;
+			contentWidth = contentWidth < l ? l : contentWidth;
+		});
+		contentWidth = contentWidth > maxWidth ? maxWidth : contentWidth;
 		return (
 			<div className="yc-party-info-list">
 				<span className="party-info party-info-title" style={width ? { width } : ''}>
@@ -104,24 +104,34 @@ export default class PartyInfoDetail extends React.Component {
 					}
 				</span>
 				<span className="party-info party-info-colon">：</span>
-				<div className="party-info party-info-content">
+				<div className="party-info party-info-content" style={{ width: maxWidth + 30 }}>
 					{
 						source.map((i) => {
 							const content = this.toHandleName(i);
-							if (getByteLength(content) * 6 > maxWidth) {
-								return (
-									<Tooltip placement="top" title={content}>
-										<li className={`text-ellipsis ${i.obligorId && i.obligorId !== 0 && !noLink ? 'click-link' : ''}`} style={{ maxWidth }}>
-											{obValue(i, content)}
-										</li>
-									</Tooltip>
-								);
-							}
 							return (
-								<li className={`text-ellipsis ${i.obligorId && i.obligorId !== 0 && !noLink ? 'click-link' : ''}`} style={{ maxWidth }}>
-									{obValue(i, content)}
-								</li>
+								<Ellipsis
+									content={content}
+									url={i.obligorId && noLink ? `#/business/debtor/detail?id=${i.obligorId}` : ''}
+									tooltip
+									width={maxWidth}
+									// width={getByteLength(content) * 6 > maxWidth ? maxWidth : (getByteLength(content) + 3) * 6}
+								/>
 							);
+
+							// if (getByteLength(content) * 6 > maxWidth) {
+							// 	return (
+							// 		<Tooltip placement="top" title={content}>
+							// 			<li className={`text-ellipsis ${i.obligorId && i.obligorId !== 0 && !noLink ? 'click-link' : ''}`} style={{ maxWidth }}>
+							// 				{obValue(i, content)}
+							// 			</li>
+							// 		</Tooltip>
+							// 	);
+							// }
+							// return (
+							// 	<li className={`text-ellipsis ${i.obligorId && i.obligorId !== 0 && !noLink ? 'click-link' : ''}`} style={{ maxWidth }}>
+							// 		{obValue(i, content)}
+							// 	</li>
+							// );
 						})
 					}
 					{

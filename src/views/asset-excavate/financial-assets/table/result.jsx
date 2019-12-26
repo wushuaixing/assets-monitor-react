@@ -1,49 +1,37 @@
 import React from 'react';
-import { Pagination, Tooltip } from 'antd';
+import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatusResult } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
-import { Table, SelectedNum } from '@/common';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 // import { floatFormat } from '@/utils/format';
-import { linkDom, timeStandard } from '@/utils';
+import { timeStandard } from '@/utils';
 
 // 出质详情
 const PledgeDetail = (text, rowContent) => (
 	<React.Fragment>
 		<div className="assets-info-content">
 			<li>
-				<span className="list list-title align-justify " style={{ width: 80 }}>股权标的企业</span>
+				<span className="list list-title align-justify " style={{ width: 72 }}>股权标的企业</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content text-ellipsis">
-					{
-						rowContent.companyName && rowContent.companyName.length > 12
-							? (
-								<Tooltip placement="topLeft" title={rowContent.companyName}>
-									<p>{`${rowContent.companyName.substr(0, 12)}...`}</p>
-								</Tooltip>
-							)
-							: <p>{rowContent.companyName || '-'}</p>
-					}
+				<span className="list list-content">
+					<Ellipsis content={rowContent.companyName} tooltip width={250} />
 				</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify" style={{ width: 80 }}>登记编号</span>
+				<span className="list list-title align-justify" style={{ width: 72 }}>登记编号</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">{rowContent.regNumber || '-'}</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify" style={{ width: 80 }}>出质股权数额</span>
+				<span className="list list-title align-justify" style={{ width: 72 }}>出质股权数额</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">
-					{rowContent.equityAmount || '-'}
-				</span>
+				<span className="list list-content">{rowContent.equityAmount || '-'}</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify" style={{ width: 80 }}>状 态</span>
+				<span className="list list-title align-justify" style={{ width: 72 }}>状 态</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">
-					{rowContent.state === 1 ? '无效' : '有效'}
-				</span>
+				<span className="list list-content">{rowContent.state === 1 ? '无效' : '有效'}</span>
 			</li>
 		</div>
 	</React.Fragment>
@@ -71,44 +59,16 @@ const columns = (props) => {
 			title: '出质人',
 			dataIndex: 'pledgorList',
 			width: 250,
-			render: (text, row) => (
-				<span>
-					{row.pledgorList && row.pledgorList.length > 0 && row.pledgorList.map(item => (
-						<span>
-							{
-								item.pledgor && item.pledgor.length > 12
-									? (
-										<Tooltip placement="topLeft" title={item.pledgor}>
-											<p>{item.pledgorId === 0 ? `${item.pledgor.substr(0, 12)}...` : linkDom(`/#/business/debtor/detail?id=${item.pledgorId}`, `${item.pledgor.substr(0, 12)}...`)}</p>
-										</Tooltip>
-									)
-									: <p>{item.pledgorId === 0 ? `${item.pledgor || '-'}` : linkDom(`/#/business/debtor/detail?id=${item.pledgorId}`, `${item.pledgor || '-'}`)}</p>
-							}
-						</span>
-					))}
-				</span>
-			),
+			render: (text, row) => row.pledgorList && row.pledgorList.length > 0 && row.pledgorList.map(item => (
+				<Ellipsis content={item.pledgor || '-'} url={item.pledgorId ? `/#/business/debtor/detail?id=${item.pledgorId}` : ''} tooltip width={230} />
+			)),
 		}, {
 			title: '质权人',
 			dataIndex: 'pledgeeList',
 			width: 250,
-			render: (text, row) => (
-				<span>
-					{row.pledgeeList && row.pledgeeList.length > 0 && row.pledgeeList.map(item => (
-						<span>
-							{
-								item.pledgee && item.pledgee.length > 12
-									? (
-										<Tooltip placement="topLeft" title={item.pledgee}>
-											<p>{item.pledgeeId === 0 ? `${item.pledgee.substr(0, 12)}...` : linkDom(`/#/business/debtor/detail?id=${item.pledgeeId}`, `${item.pledgee.substr(0, 12)}...`)}</p>
-										</Tooltip>
-									)
-									: <p>{item.pledgeeId === 0 ? `${item.pledgee || '-'}` : linkDom(`/#/business/debtor/detail?id=${item.pledgeeId}`, `${item.pledgee || '-'}`)}</p>
-							}
-						</span>
-					))}
-				</span>
-			),
+			render: (text, row) => row.pledgeeList && row.pledgeeList.length > 0 && row.pledgeeList.map(item => (
+				<Ellipsis content={item.pledgee || '-'} url={item.pledgeeId ? `/#/business/debtor/detail?id=${item.pledgorId}` : ''} tooltip width={230} />
+			)),
 		}, {
 			title: '出质详情',
 			render: PledgeDetail,
