@@ -145,6 +145,7 @@ export default class InquiryList extends React.Component {
 								dataSource={dataSource}
 								showHeader={false}
 								pagination={false}
+								visible={loading}
 							/>
 							{/* {dataSource && dataSource.length > 0 && ( */}
 							{/* <div className="yc-table-pagination"> */}

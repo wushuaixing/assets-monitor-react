@@ -29,6 +29,7 @@ class DebtorDetail extends React.Component {
 			edit: false,
 			detail: null,
 			isEdit: false,
+			codeLoading: false,
 			data: [],
 			columns: [{
 				title: '相关人名称',
@@ -120,6 +121,7 @@ class DebtorDetail extends React.Component {
 		const { hash } = window.location;
 		const userId = getQueryByName(hash, 'id');
 		const fields = getFieldsValue();
+		const that = this;
 		const value = data && data.filter(res => res.obligorName === ''); // 过滤相关人内容为空
 		const obligorNameLength = data && data.filter(res => res.obligorName.length < 5 && res.obligorNumber === ''); // 过滤相关人内容小于5身份证为空
 		if (!fields.obligorName) {
@@ -152,12 +154,14 @@ class DebtorDetail extends React.Component {
 					},
 					obligorList: data,
 				};
+				that.setState({
+					codeLoading: true,
+				});
 				const start = new Date().getTime(); // 获取接口响应时间
 				save(userId, params).then((res) => {
 					if (res.code === 200) {
 						const now = new Date().getTime();
 						const latency = now - start;
-
 						const hide = message.loading('正在刷新,请稍后...', 0);
 						setTimeout(() => {
 							window.location.reload(); // 实现页面重新加载
@@ -167,6 +171,9 @@ class DebtorDetail extends React.Component {
 						// that.getTableData();
 					} else {
 						message.error(res.message);
+						that.setState({
+							codeLoading: false,
+						});
 					}
 				}).catch(() => {
 					message.error('服务端错误');
@@ -198,7 +205,7 @@ class DebtorDetail extends React.Component {
 	// 变更记录
 	render() {
 		const {
-			edit, detail, loading, columns, data, isEdit,
+			edit, detail, loading, columns, data, isEdit, codeLoading,
 		} = this.state;
 		const { form, parent, parentUrL } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -216,7 +223,7 @@ class DebtorDetail extends React.Component {
 								编辑
 							</Button>
 						) : (
-							<Button disabled={!isEdit} onClick={() => this.handleSave()} className="yc-btn">
+							<Button disabled={!isEdit || codeLoading} onClick={() => this.handleSave()} className="yc-btn">
 								保存
 							</Button>
 						)

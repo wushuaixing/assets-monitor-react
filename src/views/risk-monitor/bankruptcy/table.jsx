@@ -157,7 +157,6 @@ export default class TableView extends React.Component {
 						/>
 					</div>
 				)}
-				{/** 修改密码Modal */}
 				{registerModalVisible && (
 					<RegisterModal
 						onCancel={this.onCancel}

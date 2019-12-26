@@ -3,101 +3,119 @@ import { Form, Tooltip } from 'antd';
 import { Table } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import order from '@/assets/img/icon/icon_arrow.png';
+import RegisterModal from '@/views/risk-monitor/bankruptcy/registerModal';
+import { linkDom } from '@/utils';
+
+// 获取表格配置
+const columns = (props, openRegisterModalFunc) => {
+	const { Sort, SortTime } = props;
+	// 含操作等...
+	const defColumns = [
+		{
+			title: (
+				<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
+					发布日期
+					{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
+					{Sort === 'DESC' && <span className="sort th-sort-down" />}
+					{Sort === 'ASC' && <span className="sort th-sort-up" />}
+				</div>),
+			dataIndex: 'publishDate',
+			key: 'publishDate',
+			width: 120,
+			render(text, row) {
+				return (
+					<div className="table-column">
+						{formatDateTime(row.publishDate, 'onlyYear') || '-'}
+					</div>
+				);
+			},
+		},
+		{
+			title: '相关企业',
+			dataIndex: 'brcompanyname',
+			key: 'brcompanyname',
+			width: 250,
+			render(text) {
+				return (
+					<div>
+						{
+							text && text.length > 18
+								? (
+									<Tooltip placement="topLeft" title={text}>
+										<p>{`${text.substr(0, 18)}...`}</p>
+									</Tooltip>
+								)
+								: <p>{text || '-'}</p>
+						}
+					</div>
+				);
+			},
+		}, {
+			title: '受理法院',
+			dataIndex: 'court',
+			key: 'court',
+			width: 250,
+			render(text, row) {
+				return (
+					<div className="table-column">
+						{row.court || '-'}
+					</div>
+				);
+			},
+		}, {
+			title: '标题',
+			dataIndex: 'title',
+			key: 'title',
+			// width: 360,
+			render(text, row) {
+				if (row.url) {
+					return (
+						<span>{text ? linkDom(row.url, text) : '--'}</span>
+					);
+				}
+				return (
+					<span className="click-link" onClick={() => openRegisterModalFunc(row)}>{text || '--'}</span>
+				);
+			},
+		},
+	];
+	return defColumns;
+};
 
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			registerModalVisible: false,
+			rowObj: {},
+		};
 	}
 
+	// 打开立案弹框
+	openRegisterModal = (rowObj) => {
+		// console.log(rowObj);
+		this.setState({
+			registerModalVisible: true,
+			rowObj,
+		});
+	};
+
+	// 关闭弹窗
+	onCancel = () => {
+		this.setState({
+			registerModalVisible: false,
+		});
+	};
+
 	render() {
-		const { dataList, Sort, SortTime } = this.props;
-		const columns = [
-			{
-				title: (
-					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						发布日期
-						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
-						{Sort === 'DESC' && <span className="sort th-sort-down" />}
-						{Sort === 'ASC' && <span className="sort th-sort-up" />}
-					</div>),
-				dataIndex: 'publishDate',
-				key: 'publishDate',
-				width: 120,
-				render(text, row) {
-					return (
-						<div className="table-column">
-							{formatDateTime(row.publishDate, 'onlyYear') || '-'}
-							{/* {row.publishDate || '-'} */}
-						</div>
-					);
-				},
-			},
-			{
-				title: '相关企业',
-				dataIndex: 'brcompanyname',
-				key: 'brcompanyname',
-				width: 250,
-				render(text) {
-					return (
-						<div>
-							{/* <a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
-							<div dangerouslySetInnerHTML={{ __html: row.hl }} /> */}
-							{/* {row.brcompanyname || '-'} */}
-							{
-									text && text.length > 18
-										? (
-											<Tooltip placement="topLeft" title={text}>
-												<p>{`${text.substr(0, 18)}...`}</p>
-											</Tooltip>
-										)
-										: <p>{text || '-'}</p>
-								}
-						</div>
-					);
-				},
-			}, {
-				title: '受理法院',
-				dataIndex: 'court',
-				key: 'court',
-				width: 250,
-				render(text, row) {
-					return (
-						<div className="table-column">
-							{row.court || '-'}
-						</div>
-					);
-				},
-			}, {
-				title: '标题',
-				dataIndex: 'title',
-				key: 'title',
-				// width: 360,
-				render(text, row) {
-					return (
-						<div className="yc-table-text-link">
-							<a href={row.url} target="_blank" rel="noopener noreferrer">
-								{
-									text && text.length > 40
-										? (
-											<Tooltip placement="topLeft" title={text}>
-												<p>{`${text.substr(0, 40)}...`}</p>
-											</Tooltip>
-										)
-										: <p>{text || '-'}</p>
-								}
-							</a>
-						</div>
-					);
-				},
-			},
-		];
+		const { dataList } = this.props;
+		const { registerModalVisible, rowObj } = this.state;
 		return (
 			<React.Fragment>
 				<Table
 					rowKey={record => record.id}
 					dataSource={dataList.length > 0 && dataList}
-					columns={columns}
+					columns={columns(this.props, this.openRegisterModal)}
 					style={{ width: '100%' }}
 					defaultExpandAllRows
 					pagination={false}
@@ -108,6 +126,14 @@ class BusinessView extends React.Component {
 						// }
 					}}
 				/>
+				{registerModalVisible && (
+					<RegisterModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						rowObj={rowObj}
+						registerModalVisible={registerModalVisible}
+					/>
+				)}
 			</React.Fragment>
 		);
 	}

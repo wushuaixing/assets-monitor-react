@@ -113,7 +113,7 @@ export const PartyCrosswise = (props) => {
 	};
 	const toShowDetail =	() => Modal.info({
 		title: '当事人详情',
-		okText: '确定',
+		okText: '关闭',
 		iconType: 'null',
 		className: 'assets-an-info',
 		content: (
@@ -140,12 +140,15 @@ export const PartyCrosswise = (props) => {
 								<span className="list list-content">{timeStandard(row.gmtJudgment)}</span>,
 							] : '' }
 							<span className="list-split" style={{ height: 16 }} />
-							<span className="list list-title align-justify" style={{ width: 'auto', color: '#20242e' }}>处置单位</span>
+							<span className="list list-title align-justify" style={{ width: 'auto' }}>处置单位</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content" style={{ maxWidth: 300 }}>{row.court || '-'}</span>
+							<span className="list list-content" style={{ maxWidth: 300, color: '#20242e' }}>{row.court || '-'}</span>
 						</li>
 					</div>
-					<hr style={{ color: '#EBEEF5', marginBottom: 20 }} />
+					<div style={{
+						background: '#EBEEF5', margin: '20px 0', height: 1,
+					}}
+					/>
 					<div style={{ maxHeight: 400, overflow: 'auto', color: '#20242e' }}>
 						{partyInfo(value, row, true, true, 400)}
 					</div>

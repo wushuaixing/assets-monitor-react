@@ -49,7 +49,8 @@ class RegisterModal extends React.PureComponent {
 		this.setState({
 			loading: true,
 		});
-		trialDetail({ id }).then((res) => {
+		const param = { id: id || 1 };
+		trialDetail(param).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					data: [res.data],
