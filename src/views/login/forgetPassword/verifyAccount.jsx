@@ -88,7 +88,7 @@ class Login extends React.Component {
 								<Input
 									className="yc-login-input"
 									placeholder="请输入11位数字"
-									// maxlength="11"
+									maxlength="11"
 									{...getFieldProps('phone', {
 										// initialValue: userName && userName.length > 0 ? userName : '',
 										rules: [

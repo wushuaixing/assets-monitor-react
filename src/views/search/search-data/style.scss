@@ -1,6 +1,7 @@
 .yc-datas {
   border: 1px solid $common-base;
-  padding: 16px 0;
+  padding: 26px 0 40px 0;
+  height: 320px;
   p {
     font-size: 12px;
   }
@@ -11,7 +12,7 @@
     font-size: 8px !important;
   }
   .yc-tabs-data {
-    padding: 0 46px;
+    padding: 0 22px;
     width: 855px;
     text-align: left;
     .yc-tabs-items {
@@ -54,8 +55,9 @@
     }
   }
   .btn {
-    text-align: center;
-    margin: 30px 0 40px;
+    position: absolute;
+    bottom: 40px;
+    left: 308px;
     .yc-high-search {
       margin-right: 20px;
       width: 110px;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
-import { Tabs, Button } from '@/common';
+import { Tabs, Button, Icon } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
 /* 主要内容模块 */
 import Lawsuits from './lawsuits-monitor';
@@ -87,7 +87,13 @@ class RiskMonitor extends React.Component {
 							}}
 							onClick={this.toNavigate}
 							size="large"
-							icon={() => <img src={Star} alt="" className="yc-img-normal" style={{ width: 14, marginTop: -2 }} />}
+							icon={() => (
+								<Icon
+									type="icon-follow"
+								// style={{ fontsize: 14, color: '#7D8699' }}
+									className="yc-btn-icon"
+								/>
+							)}
 							title="我的关注"
 						/>
 					)}

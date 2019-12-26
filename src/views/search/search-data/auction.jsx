@@ -11,9 +11,9 @@ import InputPrice from '@/common/input/input-price';
 import './style.scss';
 
 const createForm = Form.create;
-const _style1 = { marginRight: 27, width: 240 };
+const _style1 = { marginRight: 16, width: 259 };
 const _style2 = { width: 116 };
-const _style3 = { width: 240 };
+const _style3 = { width: 259 };
 class AUCTION extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -87,7 +87,7 @@ class AUCTION extends React.PureComponent {
 			},
 		};
 		return (
-			<div className="yc-tabs-data" style={{ padding: '0 40px' }}>
+			<div className="yc-tabs-data" style={{ padding: '0 22px' }}>
 				<div className="yc-tabs-items">
 					<div style={_style1} className="item">
 						<Input
