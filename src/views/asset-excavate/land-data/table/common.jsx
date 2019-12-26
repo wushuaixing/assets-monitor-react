@@ -1,5 +1,4 @@
 import React from 'react';
-import { Tooltip } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
 import { Ellipsis } from '@/common';
 // import { linkDom } from '@/utils';
@@ -47,11 +46,11 @@ const Result = {
 					<span className="list list-title align-justify">使用年限：</span>
 					{rowContent.transferTerm ? (
 						<span className="list list-content">
-							{`${rowContent.transferTerm} 年` || '-'}
+							{rowContent.transferTerm ? `${rowContent.transferTerm} 年` : '-'}
 						</span>
 					) : (
 						<span className="list list-content">
-							{`${rowContent.landUsageTerm} 年` || '-'}
+							{rowContent.landUsageTerm ? `${rowContent.landUsageTerm} 年` : '-'}
 						</span>
 					)}
 				</li>
@@ -75,72 +74,6 @@ const Result = {
 					<span className="list list-title align-justify">成交价格：</span>
 					<span className="list list-content">
 						{rowContent.finalPrice ? `${rowContent.finalPrice} 万元` : '-'}
-					</span>
-				</li>
-			</div>
-		</React.Fragment>
-	),
-	landUser: (text, rowContent) => (
-		<React.Fragment>
-			<div className="assets-info-content">
-				<li>
-					<span className="list list-title align-justify" style={{ width: 90 }}>原土地使用权人：</span>
-					<span className="list list-content text-ellipsis">
-						{/* {rowContent.landUse || '-'} */}
-						{
-							rowContent.landUse && rowContent.landUse.length > 6
-								? (
-									<Tooltip placement="topLeft" title={rowContent.landUse}>
-										<span>
-											{`${rowContent.landUse.substr(0, 6)}...`}
-										</span>
-									</Tooltip>
-								)
-								: (
-									<span>
-										{rowContent.landUse || '-'}
-									</span>
-								)
-						}
-					</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 90 }}>现土地使用权人：</span>
-					<span className="list list-content">
-						{rowContent.area || '-'}
-					</span>
-				</li>
-			</div>
-		</React.Fragment>
-	),
-	landOwner: (text, rowContent) => (
-		<React.Fragment>
-			<div className="assets-info-content">
-				<li>
-					<span className="list list-title align-justify" style={{ width: 90 }}>土地抵押人：</span>
-					<span className="list list-content text-ellipsis">
-						{/* {rowContent.landUse || '-'} */}
-						{
-							rowContent.landUse && rowContent.landUse.length > 6
-								? (
-									<Tooltip placement="topLeft" title={rowContent.landUse}>
-										<span>
-											{`${rowContent.landUse.substr(0, 6)}...`}
-										</span>
-									</Tooltip>
-								)
-								: (
-									<span>
-										{rowContent.landUse || '-'}
-									</span>
-								)
-						}
-					</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify" style={{ width: 90 }}>土地抵押权人：</span>
-					<span className="list list-content">
-						{rowContent.area || '-'}
 					</span>
 				</li>
 			</div>
