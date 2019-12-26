@@ -33,3 +33,7 @@ export const exportList = '/yc/monitor/bankruptcy/exportExcel';
 // 立案弹窗
 export const trialDetail = params => service.get('/yc/monitor/bankruptcy/trialDetail', { params })
 	.then(res => res.data);
+
+// 信息立案
+export const infoTrialDetail = params => service.get('/yc/information/bankruptcy/trialDetail', { params })
+	.then(res => res.data);

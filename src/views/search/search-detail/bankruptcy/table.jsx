@@ -132,6 +132,7 @@ class BusinessView extends React.Component {
 						onOk={this.onOk}
 						rowObj={rowObj}
 						registerModalVisible={registerModalVisible}
+						type="information"
 					/>
 				)}
 			</React.Fragment>

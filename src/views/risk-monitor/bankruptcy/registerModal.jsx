@@ -3,7 +3,7 @@ import {
 	Modal, Form, message,
 } from 'antd';
 import { Button, Spin, Table } from '@/common';
-import { trialDetail } from '@/utils/api/monitor-info/bankruptcy';
+import { trialDetail, infoTrialDetail } from '@/utils/api/monitor-info/bankruptcy';
 import { formatDateTime } from '@/utils/changeTime';
 import { partyInfo } from '@/views/_common';
 
@@ -44,13 +44,14 @@ class RegisterModal extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		const { rowObj } = this.props;
+		const { rowObj, type } = this.props;
 		const { id } = rowObj;
 		this.setState({
 			loading: true,
 		});
 		const param = { id: id || 1 };
-		trialDetail(param).then((res) => {
+		const api = type === 'information' ? infoTrialDetail : trialDetail;
+		api(param).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					data: [res.data],

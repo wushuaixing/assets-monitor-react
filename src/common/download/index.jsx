@@ -89,8 +89,8 @@ export default class Download extends React.Component {
 		} else if (all) {
 			console.log('一键导出');
 			Modal.confirm({
-				title: '确认导出选中的所有信息吗？',
-				content: '点击确定，将为您导出所有选中的信息',
+				title: '确认导出所有信息吗？',
+				content: '点击确定，将为您导出所有信息',
 				iconType: 'exclamation-circle',
 				onOk() {
 					toOkClick();
