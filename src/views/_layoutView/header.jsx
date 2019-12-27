@@ -7,6 +7,7 @@ import { unreadCount } from '@/utils/api/inform';
 import HeaderCenter from './headerCenter/header-center';
 import HeaderMessage from './headerMessage/header-message';
 import { toGetRuleSource } from '@/utils';
+import './style.scss';
 
 const logoText = '源诚资产监控平台';
 const _style = (value) => {
@@ -50,7 +51,7 @@ const Item = (props) => {
 	return (
 		<li className={`header-item header-item-${id} ${parentChoose}`} onClick={e => toNavigate(e, props)}>
 			<Badge dot={dot}>
-				<a href={toHref(props)} style={{ color: '#FFFFFF' }}>{name}</a>
+				<a href={toHref(props)} style={active.p === id ? { color: '#fff' } : { color: 'rgba(255,255,255,0.8)' }}>{name}</a>
 			</Badge>
 			<ul className="header-child-item">
 				{
@@ -174,7 +175,7 @@ export default class Headers extends React.Component {
 				<div className="yc-header-content">
 					<div className="header-logo">
 						<img src={logoImg} alt="" />
-						<span className="yc-public-white-large-bold">{logoText}</span>
+						<span className="yc-public-white-large">{logoText}</span>
 					</div>
 					<div className="header-menu">
 						{ config.map(items => (
@@ -240,7 +241,7 @@ export default class Headers extends React.Component {
 								您好，
 								{data && data.name}
 							</li>
-							<li className="else-child-li">{data && data.orgName}</li>
+							<li className="else-child-li-orgName">{data && data.orgName}</li>
 							<HeaderCenter getData={this.getData} mark="个人中心大概" />
 						</div>
 						{/* <HeaderCenter mark="个人中心大概" /> */}

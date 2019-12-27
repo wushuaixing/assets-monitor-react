@@ -20,7 +20,7 @@ const getOption = (Data, id, title, newColumArray) => ({
 	grid: { // 绘图区调整
 		height: newColumArray.length * 35,
 		x: 20, // 左留白
-		y: 10, // 上留白
+		y: 5, // 上留白
 		x2: 10, // 右留白
 		y2: 20, // 下留白
 		borderWidth: '0',
@@ -99,7 +99,7 @@ class ColumnarEcharts extends React.Component {
 		window.myChart = myChart;
 		const base = {
 			x: 20,
-			y: 17,
+			y: 14,
 		};
 		const newDataList = dataList.slice().reverse();
 		const list = [];
@@ -134,7 +134,7 @@ class ColumnarEcharts extends React.Component {
 				<div className="yc-columnar-title">{title}</div>
 				<div className="yc-position">
 					{list}
-					<div className="yc-columnar-echarts" style={{ width: 532, height: newArray.length * 38 || 50 }} id={`${id}ColumnarEcharts`} />
+					<div className="yc-columnar-echarts" style={{ width: 532, height: (newArray.length * 37) || 50 }} id={`${id}ColumnarEcharts`} />
 				</div>
 			</div>
 		);

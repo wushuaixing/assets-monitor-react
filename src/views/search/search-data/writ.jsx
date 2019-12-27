@@ -80,7 +80,7 @@ class WRIT extends React.Component {
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
-					<div className="item" style={{ width: 761 }}>
+					<div className="item" style={{ width: 810 }}>
 						<Input
 							title="全文"
 							placeholder="姓名、公司名称、关键字"
@@ -91,21 +91,21 @@ class WRIT extends React.Component {
 					</div>
 				</div>
 				<div className="yc-tabs-items">
-					<div className="item" style={{ marginRight: 16, width: 243 }}>
+					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
 							title="案号"
 							placeholder="案件编号"
 							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item" style={{ marginRight: 16, width: 243 }}>
+					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
 							title="案由"
 							placeholder="案件内容提要"
 							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="item" style={{ width: 243 }}>
+					<div className="item" style={{ width: 259 }}>
 						<Input
 							title="起诉法院"
 							placeholder="法院名称"
