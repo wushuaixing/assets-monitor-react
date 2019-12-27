@@ -2,8 +2,8 @@ import React from 'react';
 import { Modal, message } from 'antd';
 import QueryBidding from './query/bidding';
 import TableBidding from './table/bidding';
-import QueryResult from './query/result';
-import TableResult from './table/result';
+import QueryResult from './query/stock';
+import TableResult from './table/stock';
 import QueryPublicity from './query/publicity';
 import TablePublicity from './table/publicity';
 import {

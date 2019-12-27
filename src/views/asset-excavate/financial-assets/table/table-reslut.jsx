@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from './result';
+import Table from './stock';
 import api from '@/utils/api/monitor-info/finance';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
