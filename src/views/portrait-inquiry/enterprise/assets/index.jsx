@@ -125,7 +125,6 @@ export default class Assets extends React.Component {
 		const { config, loading } = this.state;
 		const { count } = this.props;
 		const aryResult = (subItems(count).filter(i => i.total > 0)).length;
-		console.log(loading);
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
 				<Spin visible={loading} minHeight={350}>
