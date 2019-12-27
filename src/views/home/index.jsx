@@ -29,8 +29,9 @@ class HomeRouter extends React.Component {
 
 	componentDidMount() {
 		const { hash } = window.location;
+		const { rule } = this.props;
 		// 避免在登录页请求
-		if (hash !== '#/login') {
+		if (hash !== '#/login' && rule && rule.groupName === 'menu_sy') {
 			this.getData();
 		}
 	}
@@ -63,6 +64,7 @@ class HomeRouter extends React.Component {
 
 	render() {
 		const { orgDetail, tree, errorLoading } = this.state;
+		const { rule } = this.props;
 		return (
 			<div className="yc-home">
 				<Spin visible={errorLoading} modal />
@@ -135,7 +137,7 @@ class HomeRouter extends React.Component {
 					<div className="yc-content-title">
 							机构统计
 					</div>
-					<TableTree tree={tree && tree} />
+					<TableTree rule={rule} tree={tree && tree} />
 				</div>
 			</div>
 		);

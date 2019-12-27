@@ -229,7 +229,7 @@ export default class Headers extends React.Component {
 									<div className="notice-icon yc-notice-img" />
 								</Badge>
 								{/* <span className="notice-number">{num && num > 0 ? `(${num})` : ''}</span> */}
-								<HeaderMessage getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" />
+								<HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" />
 							</div>
 							)
 						}

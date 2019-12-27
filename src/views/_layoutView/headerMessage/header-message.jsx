@@ -19,7 +19,10 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	componentDidMount() {
-		this.informCenter();
+		const { rule } = this.props;
+		if (rule && rule.menu_sy) {
+			this.informCenter();
+		}
 	}
 
 	informCenter = () => {
