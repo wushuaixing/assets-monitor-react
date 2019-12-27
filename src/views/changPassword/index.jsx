@@ -401,7 +401,7 @@ class ChangeWorldModal extends React.PureComponent {
 						}}
 						onClick={this.handleOk}
 					>
-						登录
+						确认修改
 					</Button>
 				</div>
 			</div>
