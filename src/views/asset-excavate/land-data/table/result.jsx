@@ -23,13 +23,12 @@ const columns = (props) => {
 			title: '土地使用人',
 			width: 190,
 			dataIndex: 'obligorName',
-			render: (text, row) => <Ellipsis content={text} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
+			render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
 		}, {
 			title: '项目信息',
 			render: Result.InfoProject,
 		}, {
 			title: '土地信息',
-			width: 170,
 			render: Result.InfoLand,
 		}, {
 			title: '出让信息',

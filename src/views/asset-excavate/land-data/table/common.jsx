@@ -6,7 +6,7 @@ import { Ellipsis } from '@/common';
 const Result = {
 	InfoProject: (text, rowContent) => (
 		<React.Fragment>
-			<div className="assets-info-content">
+			<div className="assets-info-content yc-space-nowrap">
 				<li>
 					<span className="list list-title align-justify">项目名称：</span>
 					<span className="list list-content" style={{ color: '#186fc7' }}>
@@ -15,7 +15,9 @@ const Result = {
 				</li>
 				<li>
 					<span className="list list-title align-justify">行政区划：</span>
-					<span className="list list-content">{rowContent.administrativeRegion || '-'}</span>
+					<span className="list list-content">
+						<Ellipsis content={rowContent.administrativeRegion || '-'} tooltip width={200} />
+					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">具体坐落：</span>
@@ -46,11 +48,11 @@ const Result = {
 					<span className="list list-title align-justify">使用年限：</span>
 					{rowContent.transferTerm ? (
 						<span className="list list-content">
-							{rowContent.transferTerm ? `${rowContent.transferTerm} 年` : '-'}
+							<Ellipsis content={rowContent.transferTerm ? `${rowContent.transferTerm} 年` : '-'} tooltip width={90} />
 						</span>
 					) : (
 						<span className="list list-content">
-							{rowContent.landUsageTerm ? `${rowContent.landUsageTerm} 年` : '-'}
+							<Ellipsis content={rowContent.landUsageTerm ? `${rowContent.landUsageTerm} 年` : '-'} tooltip width={90} />
 						</span>
 					)}
 				</li>
@@ -85,13 +87,13 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">宗地坐落：</span>
 					<span className="list list-content text-ellipsis">
-						<Ellipsis content={rowContent.landAddress || '-'} url={rowContent.url} tooltip width={110} />
+						<Ellipsis content={rowContent.landAddress || '-'} url={rowContent.url} tooltip width={130} />
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">行政区划：</span>
 					<span className="list list-content text-ellipsis">
-						<Ellipsis content={rowContent.administrativeRegion || '-'} tooltip width={110} />
+						<Ellipsis content={rowContent.administrativeRegion || '-'} tooltip width={130} />
 					</span>
 				</li>
 			</div>
