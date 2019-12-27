@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service, { serviceFile } from '@/utils/service';
 
 
 /**
@@ -26,13 +26,13 @@ export const closePush = async (params) => {
 
 // 删除一条记录[C.H Wong]
 export const postDelete = async (params) => {
-	const response = await service.post('/yc/business/delete', params);
+	const response = await serviceFile.post('/yc/business/delete', params);
 	return response.data;
 };
 
 // 批量删除记录[C.H Wong]
 export const postDeleteBatch = async (params) => {
-	const response = await service.post('/yc/business/deleteBatch', params);
+	const response = await serviceFile.post('/yc/business/deleteBatch', params);
 	return response.data;
 };
 
@@ -59,7 +59,7 @@ export const detail = async (id) => {
 
 // 编辑业务[C.H Wong]
 export const save = async (id, params) => {
-	const response = await service.post(`/yc/business/save/${id}`, params);
+	const response = await serviceFile.post(`/yc/business/save/${id}`, params);
 	return response.data;
 };
 
