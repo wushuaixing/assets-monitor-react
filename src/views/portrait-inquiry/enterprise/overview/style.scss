@@ -12,6 +12,13 @@
     color: $text-title;
     height: 16px;
     line-height: 16px;
+    .yc-business-icon {
+      width: 16px;
+      position: relative;
+      top: 3px;
+      cursor: pointer;
+      margin-left: 6px;
+    }
     .container-title-num {
       display: inline-block;
       font-weight: 500;

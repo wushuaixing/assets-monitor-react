@@ -71,7 +71,7 @@ class RegisterModal extends React.PureComponent {
 		const { data, columns, loading } = this.state;
 
 		return (
-			<Modal title={rowObj && rowObj.title} width={835} visible={registerModalVisible} onCancel={onCancel} maskClosable={false} onOk={this.handleOk} footer={false}>
+			<Modal title={rowObj && rowObj.title} width={835} visible={registerModalVisible} onCancel={onCancel} wrapClassName="vertical-center-modal" maskClosable={false} onOk={this.handleOk} footer={false}>
 				<Spin visible={loading}>
 					<Table
 						columns={columns}
