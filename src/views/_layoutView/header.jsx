@@ -74,10 +74,7 @@ const Item = (props) => {
 const defaultRouter = (source) => {
 	const { hash } = window.location;
 	const res = { p: '', c: '' };
-	// console.log('source:', source);
-	// console.log('hash:', hash);
 	source.forEach((item) => {
-		// console.log('item.url:', item.url, hash);
 		if (new RegExp(item.url).test(hash)) {
 			if (item.children) {
 				res.p = item.id;
@@ -89,8 +86,10 @@ const defaultRouter = (source) => {
 			}
 		}
 	});
+	if (res.p) return res;
 	if (new RegExp('/my/attention').test(hash))res.p = '';
-	if (new RegExp('/message').test(hash))res.p = 101;
+	else if (new RegExp('/message').test(hash))res.p = 101;
+	else { res.p = source[0].id; }
 	return res;
 };
 

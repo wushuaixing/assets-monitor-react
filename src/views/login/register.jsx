@@ -129,7 +129,7 @@ class Login extends React.Component {
 								if (rule.menu_zcwj) {
 									navigate('/monitor?process=-1');
 								} else if (rule.menu_xxss) {
-									navigate('/search');
+									navigate('/');
 								} else {
 									navigate('/');
 								}
