@@ -67,7 +67,7 @@ const columns = (props) => {
 			dataIndex: 'pledgeeList',
 			width: 250,
 			render: (text, row) => row.pledgeeList && row.pledgeeList.length > 0 && row.pledgeeList.map(item => (
-				<Ellipsis content={item.pledgee || '-'} url={item.pledgeeId ? `/#/business/debtor/detail?id=${item.pledgorId}` : ''} tooltip width={230} />
+				<Ellipsis content={item.pledgee || '-'} url={item.pledgeeId ? `/#/business/debtor/detail?id=${item.pledgeeId}` : ''} tooltip width={230} />
 			)),
 		}, {
 			title: '出质详情',

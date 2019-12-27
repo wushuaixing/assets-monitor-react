@@ -27,7 +27,7 @@ const api = (field, type) => {
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '金融资产-监控信息';
+		document.title = '金融资产-资产挖掘';
 		// 获取当前页面路由配置
 		const _rule = () => ([
 			{
