@@ -1,6 +1,11 @@
 //  画像查询 样式
 .yc-portrait-inquiry{
-
+  .ant-table-body tbody tr:nth-child(2n), .cTableContent tbody tr:nth-child(2n) {
+    background: #ffffff;
+  }
+  .ant-table-body tbody tr:nth-child(2n):hover, .cTableContent tbody tr:nth-child(2n):hover {
+    background: #ebf1fa;
+  }
   .inquiry-list-regStatus{
     display: inline-block;
     vertical-align: top;

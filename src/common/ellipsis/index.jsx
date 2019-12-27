@@ -1,12 +1,12 @@
 import React from 'react';
 import { Tooltip } from 'antd';
-import { toCutString, linkDom } from '@/utils';
+import { toCutString, linkDom, getByteLength } from '@/utils';
 import './style.scss';
 
 /**
  * @author: async
- * @date: 2019-10-15
- * @version: v1.0
+ * @date: 2019-12-27
+ * @version: v1.1
  * @Description: 多行省略号
  */
 export default class Ellipsis extends React.Component {
@@ -48,12 +48,15 @@ export default class Ellipsis extends React.Component {
 		} = this.props;
 		const _line = line || 1;
 		const _width = width || this.maxWidth;
+		const size = ((font || 12) / 2);
 		const showContent = _width
-			? toCutString(content, (_width * _line) / ((font || 12) / 2) - (3 * _line), '...') : '';
+			? toCutString(content, (_width * _line) / size - (3 * _line), '...') : '';
 		const ContentText = url ? linkDom(url, showContent) : showContent;
 		const _tooltip = showContent === content ? false : tooltip;
+		const contentSize = (getByteLength(showContent || content) + 3) * size;
+		const __width = contentSize < _width ? contentSize : _width;
 		const style = _width ? {
-			width: _width,
+			width: __width,
 			display: 'inline-block',
 		} : '';
 
