@@ -58,13 +58,11 @@ const columns = (props) => {
 		}, {
 			title: '相关单位',
 			dataIndex: 'name',
-			width: 150,
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '列入原因',
-			width: 300,
 			dataIndex: 'putReason',
-			render: text => <Ellipsis content={text} tooltip width={250} line={2} />,
+			render: text => <Ellipsis content={text} tooltip width={300} line={2} />,
 		}, {
 			title: '决定机关名称',
 			dataIndex: 'putDepartment',
