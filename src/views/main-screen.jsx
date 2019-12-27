@@ -67,7 +67,6 @@ export default class Screen extends React.Component {
 			loading: 'show',
 			rule: [],
 			errorCode: '',
-			beforeToken: null,
 			tokenText: '',
 		};
 	}
@@ -78,11 +77,6 @@ export default class Screen extends React.Component {
 		if (firstLogin === 'true') {
 			navigate('/change/password');
 		}
-		const token = cookie.get('token');
-		this.setState({
-			beforeToken: token,
-		});
-		// if (!token) { navigate('/login'); return; }
 		document.body.style.overflowY = 'scroll';
 		this.clientHeight = 500 || document.body.clientHeight;
 		// console.log('componentWillMount:', document.body.clientHeight);

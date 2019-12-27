@@ -121,10 +121,10 @@ export default class BusinessInfo extends React.Component {
 						<div className="yc-base-infoTitle">英文名</div>
 						<div className="yc-base-infoName">
 							{
-								dataObj.englishName && dataObj.englishName.length > 45
+								dataObj.englishName && dataObj.englishName.length > 35
 									? (
 										<Tooltip placement="top" title={dataObj.englishName}>
-											<p style={{ cursor: 'pointer' }}>{`${dataObj.englishName.substr(0, 45)}...`}</p>
+											<p style={{ cursor: 'pointer' }}>{`${dataObj.englishName.substr(0, 35)}...`}</p>
 										</Tooltip>
 									)
 									: <p>{dataObj.englishName && dataObj.englishName.trim().length > 0 ? dataObj.englishName : '-'}</p>
