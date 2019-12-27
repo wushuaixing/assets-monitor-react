@@ -69,9 +69,9 @@ class BusinessView extends React.Component {
 			searchValue: null, // 输入框内容
 			errorModalVisible: false,
 			uploadErrorData: '',
-			page: '',
 			errorLoading: false,
 			_selectedRowKeys: [],
+			reqLoading: false,
 		};
 	}
 
@@ -302,21 +302,22 @@ class BusinessView extends React.Component {
 	// 批量删除
 	handledDeleteBatch = () => {
 		const {
-			selectedRowKeys, page, totals, current, selectData, _selectedRowKeys,
+			selectedRowKeys, totals, current, selectData, _selectedRowKeys, reqLoading,
 		} = this.state;
 		const that = this;
 		if (selectedRowKeys.length === 0) {
 			message.warning('未选中业务');
 			return;
 		}
-		console.log(page);
-
 		confirm({
 			title: '确认删除选中业务吗?',
 			content: (
 				<div style={{ marginLeft: -37 }}>
-					<div style={{ fontSize: 14, marginBottom: 20 }}>点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据</div>
-					<ModalTable selectData={selectData} getData={this.getData} />
+					<Spin visible={reqLoading}>
+						<div style={{ fontSize: 14, marginBottom: 20 }}>点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据</div>
+						<ModalTable selectData={selectData} getData={this.getData} />
+					</Spin>
+
 				</div>
 			),
 			iconType: 'exclamation-circle',
@@ -337,6 +338,9 @@ class BusinessView extends React.Component {
 					page: currentLength || current,
 				};
 				const start = new Date().getTime(); // 获取接口响应时间
+				that.setState({
+					reqLoading: true,
+				});
 				return postDeleteBatch(params).then((res) => {
 					if (res.code === 200) {
 						const now = new Date().getTime();
@@ -344,12 +348,20 @@ class BusinessView extends React.Component {
 						setTimeout(res.data, latency);
 						that.setState({
 							selectedRowKeys: [],
+							reqLoading: false,
 						});
 						message.success(res.message);
 						that.getData(otherParams);
 					} else {
 						message.error(res.message);
+						that.setState({
+							reqLoading: false,
+						});
 					}
+				}).catch(() => {
+					that.setState({
+						reqLoading: false,
+					});
 				});
 			},
 			onCancel() {},
@@ -409,7 +421,7 @@ class BusinessView extends React.Component {
 
 	render() {
 		const {
-			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading,
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -425,6 +437,7 @@ class BusinessView extends React.Component {
 		};
 		return (
 			<div className="yc-content-query">
+				<Spin visible={reqLoading} modal text="正在删除中，请稍后..." />
 				<Spin visible={errorLoading} modal text="正在为您上传文件，请稍后..." />
 				<Form layout="inline">
 					<div className="yc-query-item">
