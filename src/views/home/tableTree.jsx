@@ -48,7 +48,7 @@ const skip = (text, row) => {
 					// }
 					// document.body.appendChild(a);
 					// a.click();
-					window.open(`${window.location.origin}/#/${text}`, 'about:blank');
+					window.open(`${window.location.origin}/#/${text}`, '_blank');
 					window.location.reload(); // 实现页面重新加载/
 				}, latency);
 				// 异步手动移除
