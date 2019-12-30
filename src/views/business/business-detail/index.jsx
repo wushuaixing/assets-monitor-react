@@ -158,10 +158,10 @@ class DebtorDetail extends React.Component {
 					codeLoading: true,
 				});
 				const start = new Date().getTime(); // 获取接口响应时间
-				const hide = message.loading('正在刷新,请稍后...', 0);
-
 				save(userId, params).then((res) => {
 					if (res.code === 200) {
+						const hide = message.loading('正在刷新,请稍后...', 0);
+
 						const now = new Date().getTime();
 						const latency = now - start;
 						setTimeout(() => {
@@ -173,7 +173,7 @@ class DebtorDetail extends React.Component {
 					} else {
 						message.error(res.message);
 						// 异步手动移除
-						setTimeout(hide, 0);
+						// setTimeout(hide, 0);
 						that.setState({
 							codeLoading: false,
 						});
