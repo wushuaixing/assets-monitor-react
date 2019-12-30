@@ -234,7 +234,9 @@ export default class Subrogation extends React.Component {
 			sourceType: type, isRead, current, tabConfig,
 		} = this.state;
 
-		this.condition = Object.assign({}, con || this.condition, {
+		this.condition = Object.assign({
+			filterCurrentOrg: false,
+		}, con || this.condition, {
 			page: page || current,
 			num: 10,
 		});

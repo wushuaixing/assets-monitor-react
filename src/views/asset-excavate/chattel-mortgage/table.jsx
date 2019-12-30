@@ -79,22 +79,18 @@ const RegisterDetail = (text, rowContent) => {
 					</span>
 				</li>
 				{
-					rowContent.cancelReason && rowContent.cancelReason.length > 1 && (
-					<li>
-						<span className="list list-title align-justify" style={{ width: 'auto' }}>注销原因</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{rowContent.cancelReason }</span>
-					</li>
-					)
-				}
-				{
-					rowContent.cancelDate || rowContent.cancelDate === 0 ? (
+					status === '无效' ? [
+						<li>
+							<span className="list list-title align-justify" style={{ width: 'auto' }}>注销原因</span>
+							<span className="list list-title-colon">:</span>
+							<span className="list list-content">{rowContent.cancelReason }</span>
+						</li>,
 						<li>
 							<span className="list list-title align-justify" style={{ width: 'auto' }}>注销时间</span>
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content">{formatDateTime(rowContent.cancelDate, 'onlyYear') || '-'}</span>
-						</li>
-					) : ''
+						</li>,
+					] : null
 				}
 			</div>
 		</React.Fragment>
