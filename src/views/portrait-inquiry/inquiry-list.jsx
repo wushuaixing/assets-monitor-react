@@ -49,6 +49,7 @@ export default class InquiryList extends React.Component {
 					<li className="yc-public-large-bold yc-em-tag" style={{ margin: '10px 0' }}>
 						<span
 							className="cursor-pointer"
+							style={{ lineHeight: '21px' }}
 							dangerouslySetInnerHTML={{ __html: value }}
 							onClick={() => this.toDetailInfo(row)}
 						/>
