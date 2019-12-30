@@ -44,14 +44,14 @@ export default class Ellipsis extends React.Component {
 
 	render() {
 		const {
-			tooltip, url, font, line, content, width, className,
+			tooltip, url, font, line, content, width, className, onClick,
 		} = this.props;
 		const _line = line || 1;
 		const _width = width || this.maxWidth;
 		const size = ((font || 12) / 2);
 		const showContent = _width
 			? toCutString(content, (_width * _line) / size - (3 * _line), '...') : '';
-		const ContentText = url ? linkDom(url, showContent) : showContent;
+		const ContentText = url ? linkDom(url, showContent, '', '', '', (onClick || '')) : showContent;
 		const _tooltip = showContent === content ? false : tooltip;
 		const contentSize = (getByteLength(showContent || content) + 3) * size;
 		const __width = contentSize < _width ? contentSize : _width;

@@ -280,7 +280,7 @@ export const DownloadFile = (url, target) => {
 
 
 //	返回a标签，可点击链接
-export const linkDom = (url, text, target, className, style) => (url ? React.createElement(
+export const linkDom = (url, text, target, className, style, click) => (url ? React.createElement(
 	'a',
 	{
 		href: url,
@@ -288,6 +288,7 @@ export const linkDom = (url, text, target, className, style) => (url ? React.cre
 		rel: 'noopener noreferrer',
 		target: target || '_blank',
 		style,
+		onClick: click,
 	},
 	text,
 ) : text);

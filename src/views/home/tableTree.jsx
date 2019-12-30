@@ -6,14 +6,11 @@ import React from 'react';
 // ==================
 
 import {
-	Form, Input, Table, Affix, Tooltip, Icon, message,
+	Form, Input, Table, Affix, Icon, message,
 } from 'antd';
-import {
-	selfTree, // login
-} from '@/utils/api/home';
-import {
-	switchOrg, // 切换机构
-} from '@/utils/api/user';
+import { selfTree } from '@/utils/api/home';
+import { switchOrg } from '@/utils/api/user';
+import { Ellipsis } from '@/common';
 import flat from '../../utils/flatArray';
 import { toThousands } from '@/utils/changeTime';
 import './style.scss';
@@ -39,6 +36,7 @@ const skip = (text, row) => {
 				const hide = message.loading('正在切换机构,请稍后...', 0);
 				setTimeout(() => {
 					// const a = document.createElement('a');
+
 					// a.setAttribute('href', text);
 					// a.setAttribute('target', '_blank');
 					// a.setAttribute('id', 'startTelMedicine');
@@ -60,6 +58,22 @@ const skip = (text, row) => {
 	}
 };
 
+// 切换机构
+const handleSwitchOrg = async (e, orgId) => {
+	if (orgId) {
+		const hide = message.loading('正在切换机构,请稍后...', 0);
+		const res = await switchOrg({ orgId });
+		setTimeout(hide, 0);
+		if (res.code !== 200) {
+			message.error(res.message);
+			e.preventDefault();
+		}
+	} else {
+		e.preventDefault();
+	}
+};
+
+
 const columns = [
 	{
 		title: '机构名称',
@@ -67,19 +81,14 @@ const columns = [
 		key: 'name',
 		id: 'name',
 		width: 400,
-		render: (text, row) => (
-			<span className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>
-				{
-					text && text.length > 25
-						? (
-							<Tooltip placement="topLeft" title={text}>
-								<span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{`${text.substr(0, 25)}...`}</span>
-							</Tooltip>
-						)
-						: <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text || '--'}</span>
-				}
-			</span>
-		),
+		render: (text, row) => {
+			const isChild = !(row.children && row.children.length > 0);
+			return (
+				<span className={isChild ? 'yc-table-body' : null}>
+					<Ellipsis content={text} url={isChild ? '/#/monitor' : ''} width={300} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
+				</span>
+			);
+		},
 	},
 	{
 		title: '监控债务人数',
