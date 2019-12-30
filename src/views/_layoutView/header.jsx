@@ -126,12 +126,16 @@ export default class Headers extends React.Component {
 
 	componentWillReceiveProps() {
 		const { rule } = this.props;
+		const { Surplus } = this.state;
 		if (rule.menu_sy) {
 			unreadCount().then((res) => {
 				if (res.code === 200) {
-					this.setState({
-						num: res.data,
-					});
+					if (Surplus !== res.data) {
+						window.location.reload(); // 实现页面重新加载/
+					}
+					// this.setState({
+					// 					// 	num: res.data,
+					// 					// });
 				}
 			});
 		}
@@ -207,7 +211,7 @@ export default class Headers extends React.Component {
 										</div>
 									) : (
 										<div className="yc-leftTime">
-											帐号到期还剩：
+											账号到期还剩：
 											{data.expire}
 											天
 										</div>

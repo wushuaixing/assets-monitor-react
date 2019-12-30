@@ -172,6 +172,7 @@ class DebtorDetail extends React.Component {
 						// that.getTableData();
 					} else {
 						message.error(res.message);
+						window.location.reload(); // 实现页面重新加载
 						that.setState({
 							codeLoading: false,
 						});
