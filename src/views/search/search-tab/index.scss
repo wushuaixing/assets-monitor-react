@@ -7,13 +7,14 @@
     padding: 12px 23px;
     font-size: 16px;
     line-height: 14px;
-    color: #4A4A4A;
+    color: $text-title;
     position: relative;
     margin-right: -1px;
     cursor: pointer;
     &:hover{
       border: 1px solid $common-base;
       z-index:999;
+      color: $common-base;
     }
   }
   .active {
@@ -21,5 +22,8 @@
     border-color: $common-base;
     background-color: $common-base;
     text-decoration: none;
+    &:hover{
+      color: #fff;
+    }
   }
 }

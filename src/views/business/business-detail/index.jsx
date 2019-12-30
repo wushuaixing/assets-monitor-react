@@ -158,11 +158,12 @@ class DebtorDetail extends React.Component {
 					codeLoading: true,
 				});
 				const start = new Date().getTime(); // 获取接口响应时间
+				const hide = message.loading('正在刷新,请稍后...', 0);
+
 				save(userId, params).then((res) => {
 					if (res.code === 200) {
 						const now = new Date().getTime();
 						const latency = now - start;
-						const hide = message.loading('正在刷新,请稍后...', 0);
 						setTimeout(() => {
 							window.location.reload(); // 实现页面重新加载
 						}, latency);

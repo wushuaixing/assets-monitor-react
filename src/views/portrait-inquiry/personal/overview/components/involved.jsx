@@ -50,7 +50,7 @@ export default class Subrogation extends React.Component {
 			.catch(() => {
 				// this.setState({ loading: false });
 			});
-	}
+	};
 
 	render() {
 		const {
@@ -72,7 +72,9 @@ export default class Subrogation extends React.Component {
 							</div>
 							<div className="overview-container-content">
 								{timeLineData && getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
-								{columnarData && getCount(columnarData) > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}
+								<div style={{ marginBottom: 20 }}>
+									{columnarData && getCount(columnarData) > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}
+								</div>
 								{RingData && getCount(RingData) > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="subrogation" colorArray={colorArray} />}
 							</div>
 						</div>

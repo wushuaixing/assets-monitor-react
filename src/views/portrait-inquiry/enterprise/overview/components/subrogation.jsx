@@ -187,7 +187,9 @@ export default class Subrogation extends React.Component {
 								/>
 							</div>
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
-							{selectType !== 'Filing' && columnarDataNum > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}
+							<div style={{ marginBottom: 20 }}>
+								{selectType !== 'Filing' && columnarDataNum > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}
+							</div>
 							{RingDataNum > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="subrogation" />}
 						</div>
 					</div>

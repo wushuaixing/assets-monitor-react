@@ -352,6 +352,7 @@ class ChangeWorldModal extends React.PureComponent {
 									onInput={e => this.changeValue(e)}
 									onBlur={e => this.onBlurValue(e)}
 									onFocus={e => this.newPasswordFoucs(e)}
+									unSplitLine
 									{...getFieldProps('Password', {
 										initialValue: '',
 									})}
@@ -378,6 +379,7 @@ class ChangeWorldModal extends React.PureComponent {
 									style={{ width: 340, height: 40 }}
 									placeholder="请再次输入新密码"
 									maxlength="20"
+									unSplitLine
 									onInput={e => this.againPasswordValue(e)}
 									onBlur={e => this.onAgainBlurValue(e)}
 									onFocus={e => this.againPasswordFoucs(e)}
