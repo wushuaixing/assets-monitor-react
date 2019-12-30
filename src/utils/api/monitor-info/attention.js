@@ -11,10 +11,10 @@ import {
 	attentionFollowPubCount, // 公示项目 数量统计
 	attentionFollowResultCount, // 股权质押 数量统计
 } from './finance';
-//
 import {
 	Abnormal, Change, Illegal, Punishment, Violation, Environment,
 } from '../risk-monitor/operation-risk';
+import { requestAll } from '@/utils/promise';
 
 // 我的关注
 
@@ -56,34 +56,25 @@ export const subrogationCount = () => {
 };
 
 /* 经营风险 - 关注列表 - 数量统计 */
-export const operationCount = () => {
+export const operationCount = (source) => {
+	const list = [];
+	source.child.forEach((item) => {
+		if (item.status) {
+			if (item.id === 'YC030301') list.push({ info: { field: 'Abnormal' }, api: Abnormal.followListCount() });
+			else if (item.id === 'YC030302') list.push({ info: { field: 'Change' }, api: Change.followListCount() });
+			else if (item.id === 'YC030303') list.push({ info: { field: 'Illegal' }, api: Illegal.followListCount() });
+			else if (item.id === 'YC030304') list.push({ info: { field: 'Violation' }, api: Violation.followListCount() });
+			else if (item.id === 'YC030305') list.push({ info: { field: 'Punishment' }, api: Punishment.followListCount() });
+			else if (item.id === 'YC030306') list.push({ info: { field: 'Environment' }, api: Environment.followListCount() });
+		}
+	});
 	const result = {};
-	return Abnormal.followListCount()
-		.then((res) => {
-			if (res.code === 200) result.Abnormal = res.data;
-			return Change.followListCount();
-		}).then((res) => {
-			if (res.code === 200) result.Change = res.data;
-			return Illegal.followListCount();
-		}).then((res) => {
-			if (res.code === 200) result.Illegal = res.data;
-			return Environment.followListCount();
-		})
-		.then((res) => {
-			if (res.code === 200) result.Environment = res.data;
-			return Punishment.followListCount();
-		})
-		.then((res) => {
-			if (res.code === 200) result.Punishment = res.data;
-			return Violation.followListCount();
-		})
-		.then((res) => {
-			if (res.code === 200) result.Violation = res.data;
-			return result;
-		})
-		.catch(() => {
-			// 异常处理
+	return requestAll(list).then((res) => {
+		res.forEach((item) => {
+			result[item.field] = item.data;
 		});
+		return result;
+	});
 };
 
 /* 涉诉监控 - 关注列表 - 数量统计 */

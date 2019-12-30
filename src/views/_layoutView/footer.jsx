@@ -52,7 +52,9 @@ const Footer = () => (
 						</Popover>
 					</div>
 					<div className="copyright-item">
-						<span>Copyright © 2018 杭州源诚科技有限公司 浙ICP备17030014号 </span>
+						<span>Copyright © 2018 杭州源诚科技有限公司 </span>
+						{/* eslint-disable-next-line react/jsx-no-target-blank */}
+						<a target="_blank" href="http://beian.miit.gov.cn" rel="nofollow" style={{ color: 'inherit' }}>浙ICP备17030014号</a>
 					</div>
 				</div>
 				<div className="right">

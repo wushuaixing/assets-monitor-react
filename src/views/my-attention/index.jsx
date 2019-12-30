@@ -47,7 +47,6 @@ export default class MyAttention extends React.Component {
 				// console.log(res);
 				_source.child = _source.child.map((item) => {
 					const _item = item;
-					// console.log(item);
 					if (item.id === 'YC020201') _item.number = res.Trial;
 					else if (item.id === 'YC020202') _item.number = res.Court;
 					else if (item.id === 'YC020203') _item.number = res.Judgment;
@@ -57,25 +56,20 @@ export default class MyAttention extends React.Component {
 			});
 		} else if (type === 'YC0301') {
 			lawsuitCount().then((res) => {
-				// console.log(res);
 				_source.child = _source.child.map((item) => {
 					const _item = item;
-					// console.log(item);
 					if (item.id === 'YC030101') _item.number = res.Trial;
 					else if (item.id === 'YC030102') _item.number = res.Court;
 					else if (item.id === 'YC030103') _item.number = res.Judgment;
 					return _item;
 				});
-				// console.log(_source);
 				this.setState({ source: _source });
 			});
 		} else if (type === 'YC0303') {
-			operationCount().then((res) => {
-				// console.log(res);
+			operationCount(source).then((res) => {
 				_source.child = _source.child.map((item) => {
 					const _item = item;
 					// Abnormal, Change, Illegal, Punishment,
-					console.log(res, 123);
 					if (item.id === 'YC030301') _item.number = res.Abnormal;
 					else if (item.id === 'YC030302') _item.number = res.Change;
 					else if (item.id === 'YC030303') _item.number = res.Illegal;
