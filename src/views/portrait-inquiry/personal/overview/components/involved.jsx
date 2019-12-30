@@ -50,7 +50,7 @@ export default class Subrogation extends React.Component {
 			.catch(() => {
 				// this.setState({ loading: false });
 			});
-	}
+	};
 
 	render() {
 		const {
