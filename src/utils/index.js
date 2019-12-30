@@ -252,11 +252,13 @@ export const timeStandard = (text, mark) => {
 	return text;
 };
 
-export const DownloadFile = (url) => {
+export const DownloadFile = (url, target) => {
 	if (url) {
 		const download = window.parent.document.createElement('a');
 		download.id = Math.floor(Math.random() * 5000);
+		download.rel = 'noopener noreferrer';
 		download.href = url;
+		if (target) download.target = '_blank';
 		if (global.GLOBAL_MEIE_BROWSER) {
 			window.parent.document.body.appendChild(download);
 			download.click();
