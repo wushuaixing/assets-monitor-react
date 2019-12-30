@@ -214,7 +214,7 @@ class QUERYLAWSUITS extends React.Component {
 							size="large"
 							placeholder="法院名称"
 							{...getFieldProps('court', {
-								initialValue: urlObj.court,
+								initialValue: urlObj.court || undefined,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -226,7 +226,7 @@ class QUERYLAWSUITS extends React.Component {
 							size="large"
 							placeholder="案件编号"
 							{...getFieldProps('ah', {
-								initialValue: urlObj.ah,
+								initialValue: urlObj.ah || undefined,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -251,7 +251,7 @@ class QUERYLAWSUITS extends React.Component {
 						<span className="yc-query-item-title">至</span>
 						<DatePicker
 							{...getFieldProps('endLarq', {
-								initialValue: urlObj.endLarq,
+								initialValue: urlObj.endLarq || undefined,
 								// onChange: (value, dateString) => {
 								// 	this.setState({
 								// 		endLarq: dateString,

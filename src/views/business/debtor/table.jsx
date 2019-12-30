@@ -73,7 +73,7 @@ class BusinessView extends React.Component {
 					if (text === '0' || !text) {
 						return <div>0</div>;
 					}
-					return <a>{text}</a>;
+					return <p>{text}</p>;
 				},
 			}, {
 				title: '推送状态',
