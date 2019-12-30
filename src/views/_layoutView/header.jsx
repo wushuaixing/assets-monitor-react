@@ -125,6 +125,16 @@ export default class Headers extends React.Component {
 	}
 
 	componentWillReceiveProps() {
+		const { rule } = this.props;
+		if (rule.menu_sy) {
+			unreadCount().then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						num: res.data,
+					});
+				}
+			});
+		}
 		const { active } = this.state;
 		const _active = defaultRouter(this.source);
 		if (active !== _active) {
