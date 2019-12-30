@@ -36,7 +36,7 @@ class Login extends React.Component {
 			codeImg: verificationCodeImg,
 			passwordModalVisible: false,
 			errorTime: '',
-
+			inputType: 'text',
 		};
 	}
 
@@ -207,7 +207,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, codeImg, passwordModalVisible, errorTime,
+			loading, userName, codeImg, passwordModalVisible, errorTime, inputType,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType, btnColor,
@@ -258,8 +258,9 @@ class Login extends React.Component {
 								/>
 								<Input
 									className="yc-login-input"
-									type="password"
+									type={inputType}
 									placeholder="请输入密码"
+									maxLength="16"
 									// onKeyUp={this.onKeyup}
 									style={{ fontSize: 14 }}
 									// title={(<span className="yc-form-passWord yc-form-icon" />)}
@@ -267,6 +268,13 @@ class Login extends React.Component {
 									unSplitLine
 									{...getFieldProps('password', {
 										// initialValue: true,
+										onChange: (e) => {
+											if (e > 0) {
+												this.setState({
+													inputType: 'password',
+												});
+											}
+										},
 										rules: [
 											{
 												required: true,

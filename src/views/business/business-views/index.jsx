@@ -207,7 +207,7 @@ class BusinessView extends React.Component {
 			page: val,
 		};
 		this.setState({
-			page: val,
+			// page: val,
 			loading: true,
 		});
 

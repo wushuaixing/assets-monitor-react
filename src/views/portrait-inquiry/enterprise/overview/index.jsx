@@ -69,9 +69,16 @@ export default class OverView extends React.Component {
 						],
 					});
 				}
-			})
-			.catch(() => {
-				this.setState({ litigationLoading: false });
+			}).catch(() => {
+				this.setState({
+					litigationLoading: false,
+					yearDistributions: [],
+					litigationInfos: [
+						{ count: 0 },
+						{ count: 0 },
+						{ count: 0 },
+					],
+				});
 			});
 
 		// 获取工商基本信息

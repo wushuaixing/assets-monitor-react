@@ -100,10 +100,15 @@ export default class HeaderMessage extends React.Component {
 
 	// 退出登录
 	handleClick = () => {
-		cookie.remove('token');
-		navigate('/login');
-		loginOut();
-		window.location.reload();
+		loginOut().then(() => {
+			cookie.remove('token');
+			navigate('/login');
+			window.location.reload();
+		}).catch(() => {
+			cookie.remove('token');
+			navigate('/login');
+			window.location.reload();
+		});
 	};
 
 	// 根据单个名字筛选
