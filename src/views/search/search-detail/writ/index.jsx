@@ -13,7 +13,7 @@ import {
 	exportWritCurrent, // 本页导出
 } from '@/utils/api/search';
 import {
-	Spin, Input, Button, timeRule, Download, ReactDocumentTitle, DatePicker,
+	Spin, Input, Button, timeRule, Download, DatePicker,
 } from '@/common';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import WritTable from './table';
@@ -279,7 +279,7 @@ class WRIT extends React.Component {
 			},
 		};
 		return (
-			<ReactDocumentTitle title="文档标题">
+			<React.Fragment>
 				<div className="yc-content-query">
 					<div className="yc-query-item">
 						<Input
@@ -464,7 +464,7 @@ class WRIT extends React.Component {
 						)}
 					</Spin>
 				</div>
-			</ReactDocumentTitle>
+			</React.Fragment>
 		);
 	}
 }
