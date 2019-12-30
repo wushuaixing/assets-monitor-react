@@ -16,7 +16,7 @@ const Spin = (props) => {
 						<div className="yc-mask-wrapper-modal">
 							<div className="yc-mask-content">
 								<img src={loading} alt="" />
-								<div>{content}</div>
+								<div dangerouslySetInnerHTML={{ __html: content }} />
 							</div>
 						</div>
 					</div>
@@ -31,7 +31,7 @@ const Spin = (props) => {
 				<div className="yc-mask-wrapper">
 					<div className="yc-mask-content">
 						<img src={loading} alt="" />
-						<div>{content}</div>
+						<div dangerouslySetInnerHTML={{ __html: content }} />
 					</div>
 				</div>
 			</div>

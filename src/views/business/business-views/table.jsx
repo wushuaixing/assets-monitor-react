@@ -9,7 +9,7 @@ import {
 } from '@/utils/api/business';
 import { formatDateTime } from '@/utils/changeTime';
 
-import { Table } from '@/common';
+import { Spin, Table } from '@/common';
 
 const { confirm } = Modal;
 
@@ -19,6 +19,7 @@ class BusinessView extends React.Component {
 		const { openPeopleModal } = props;
 
 		this.state = {
+			reqLoading: false,
 			columns: [{
 				title: '业务编号',
 				dataIndex: 'caseNumber',
@@ -164,6 +165,7 @@ class BusinessView extends React.Component {
 	// 删除一条业务
 	showDeleteConfirm = (row) => {
 		const { getData, stateObj } = this.props; // 刷新列表
+		const that = this;
 		const { selectedRowKeys } = stateObj;
 		confirm({
 			title: '确认删除选中业务吗?',
@@ -174,6 +176,9 @@ class BusinessView extends React.Component {
 					id: row.id,
 				};
 				const start = new Date().getTime(); // 获取接口响应时间
+				that.setState({
+					reqLoading: true,
+				});
 				return postDelete(params).then((res) => {
 					if (res.code === 200) {
 						if (!global.GLOBAL_MEIE_BROWSER) {
@@ -191,6 +196,13 @@ class BusinessView extends React.Component {
 						message.success(res.message);
 						getData();
 					}
+					that.setState({
+						reqLoading: false,
+					});
+				}).catch(() => {
+					that.setState({
+						reqLoading: false,
+					});
 				});
 			},
 			onCancel() {},
@@ -233,9 +245,10 @@ class BusinessView extends React.Component {
 
 	render() {
 		const { stateObj, rowSelection } = this.props;
-		const { columns } = this.state;
+		const { columns, reqLoading } = this.state;
 		return (
 			<React.Fragment>
+				<Spin visible={reqLoading} modal text="正在删除中，请稍后..." />
 				<Table
 					rowSelection={stateObj.openRowSelection ? rowSelection : null}
 					bordered={false}

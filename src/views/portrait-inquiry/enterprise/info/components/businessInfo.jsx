@@ -46,7 +46,9 @@ export default class BusinessInfo extends React.Component {
 		const { dataObj } = this.state;
 		const w = f => ((dataObj || {})[f] || '').trim();
 		if (typeof field === 'string') return w(field) || '-';
-		if (typeof field === 'object') return (w(field[0]) && w(field)[1]) ? `自${w(field[0])}至${field[1]}` : '-';
+		if (typeof field === 'object') {
+			return w(field[0]) && w(field[1]) ? `自 ${w(field[0])} 至 ${w(field[1])}` : '-';
+		}
 		return '-';
 	};
 
