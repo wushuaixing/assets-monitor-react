@@ -174,12 +174,15 @@ class DebtorDetail extends React.Component {
 						message.error(res.message);
 						// 异步手动移除
 						// setTimeout(hide, 0);
-						that.setState({
-							codeLoading: false,
-						});
 					}
+					that.setState({
+						codeLoading: false,
+					});
 				}).catch(() => {
 					message.error('服务端错误');
+					that.setState({
+						codeLoading: false,
+					});
 				});
 			},
 			onCancel() {},
