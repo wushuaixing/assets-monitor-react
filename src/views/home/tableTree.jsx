@@ -1,10 +1,5 @@
 /** 登录页 * */
-
 import React from 'react';
-// ==================
-// 所需的所有组件
-// ==================
-
 import {
 	Form, Input, Table, Affix, Icon, message,
 } from 'antd';
@@ -20,44 +15,6 @@ import './style.scss';
 
 const createForm = Form.create;
 
-// 首页跳转
-const skip = (text, row) => {
-	const params = {
-		orgId: row.id,
-	};
-
-	const start = new Date().getTime(); // 获取接口响应时间
-	if (row.id !== 0) {
-		switchOrg(params).then((res) => {
-			if (res.code === 200) {
-				const now = new Date().getTime();
-				const latency = now - start;
-
-				const hide = message.loading('正在切换机构,请稍后...', 0);
-				setTimeout(() => {
-					// const a = document.createElement('a');
-
-					// a.setAttribute('href', text);
-					// a.setAttribute('target', '_blank');
-					// a.setAttribute('id', 'startTelMedicine');
-					// // 防止反复添加
-					// if (document.getElementById('startTelMedicine')) {
-					// 	document.body.removeChild(document.getElementById('startTelMedicine'));
-					// }
-					// document.body.appendChild(a);
-					// a.click();
-					window.open(`${window.location.origin}/#/${text}`, '_blank');
-					window.location.reload(); // 实现页面重新加载/
-				}, latency);
-				// 异步手动移除
-				setTimeout(hide, latency);
-			} else {
-				message.error(res.message);
-			}
-		});
-	}
-};
-
 // 切换机构
 const handleSwitchOrg = async (e, orgId) => {
 	if (orgId) {
@@ -67,6 +24,8 @@ const handleSwitchOrg = async (e, orgId) => {
 		if (res.code !== 200) {
 			message.error(res.message);
 			e.preventDefault();
+		} else {
+			window.location.reload();
 		}
 	} else {
 		e.preventDefault();
@@ -97,7 +56,14 @@ const columns = [
 		id: 'obligorCount',
 		className: 'column-center',
 		width: 174,
-		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('business/debtor', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
+		render: (text, row) => {
+			const isChild = !(row.children && row.children.length > 0);
+			return (
+				<span className={isChild ? 'yc-table-body' : null}>
+					<Ellipsis content={text} url={isChild ? '/#/business/debtor' : ''} width={50} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
+				</span>
+			);
+		},
 	},
 	{
 		title: '全部',
@@ -106,7 +72,14 @@ const columns = [
 		id: 'monitorTotalCount',
 		className: 'column-center',
 		width: 92,
-		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=1', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
+		render: (text, row) => {
+			const isChild = !(row.children && row.children.length > 0);
+			return (
+				<span className={isChild ? 'yc-table-body' : null}>
+					<Ellipsis content={text} url={isChild ? '/#/monitor?process=1' : ''} width={50} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
+				</span>
+			);
+		},
 	},
 	{
 		title: '未跟进',
@@ -115,7 +88,14 @@ const columns = [
 		id: 'monitorUnfollowedCount',
 		className: 'column-center',
 		width: 112,
-		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=-1', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
+		render: (text, row) => {
+			const isChild = !(row.children && row.children.length > 0);
+			return (
+				<span className={isChild ? 'yc-table-body' : null}>
+					<Ellipsis content={text} url={isChild ? '/#/monitor?process=1' : ''} width={50} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
+				</span>
+			);
+		},
 	},
 	{
 		title: '跟进',
@@ -124,7 +104,14 @@ const columns = [
 		id: 'monitorFollowedCount',
 		className: 'column-center',
 		width: 92,
-		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=3', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
+		render: (text, row) => {
+			const isChild = !(row.children && row.children.length > 0);
+			return (
+				<span className={isChild ? 'yc-table-body' : null}>
+					<Ellipsis content={text} url={isChild ? '/#/monitor?process=3' : ''} width={50} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
+				</span>
+			);
+		},
 	},
 	{
 		title: '完成',
@@ -133,7 +120,14 @@ const columns = [
 		id: 'monitorDoneCount',
 		className: 'column-center',
 		width: 92,
-		render: (text, row) => <span onClick={row.children && row.children.length > 0 ? null : () => skip('monitor?process=9', row)} className={row.children && row.children.length > 0 ? null : 'yc-table-body'}>{text}</span>,
+		render: (text, row) => {
+			const isChild = !(row.children && row.children.length > 0);
+			return (
+				<span className={isChild ? 'yc-table-body' : null}>
+					<Ellipsis content={text} url={isChild ? '/#/monitor?process=9' : ''} width={50} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
+				</span>
+			);
+		},
 	},
 	{
 		title: '追回总金额(元)',
