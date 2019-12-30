@@ -159,7 +159,11 @@ export const toCutString = (str, len, suffix) => {
 export const getQueryByName = (url, name) => {
 	const reg = new RegExp(`[?&]${name}=([^&#]+)`);
 	const query = url.match(reg);
-	return query ? window.decodeURI(query[1]) : null;
+	try {
+		return query ? window.decodeURI(query[1]) : null;
+	} catch (e) {
+		return query ? query[1] : null;
+	}
 };
 
 /**
