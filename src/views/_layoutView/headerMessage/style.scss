@@ -60,6 +60,7 @@
       position: relative;
       display: block;
       text-decoration: none;
+      overflow: hidden;
       &:hover {
         background: $background-list-hover;
         text-decoration: none;
