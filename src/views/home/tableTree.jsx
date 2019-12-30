@@ -48,8 +48,7 @@ const skip = (text, row) => {
 					// }
 					// document.body.appendChild(a);
 					// a.click();
-					const w = window.open('about:blank');
-					w.location.href = `#/${text}`;
+					window.open(`${window.location.origin}/#/${text}`, 'about:blank');
 					window.location.reload(); // 实现页面重新加载/
 				}, latency);
 				// 异步手动移除
