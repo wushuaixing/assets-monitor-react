@@ -6,7 +6,7 @@ import ColumnarEcharts from '../../../common/columnarEcharts';
 import { TagOneSide, TagTwoSide } from '../../../common/label-tag';
 import { getSubrogation } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import getCount from '../../../common/getCount';
-import businessImg from '@/assets/img/business/icon_recovery_n.png';
+import { Icon } from '@/common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -149,7 +149,7 @@ export default class Subrogation extends React.Component {
 							<span className="container-title-name">
 								代位权信息
 								<Tooltip placement="top" title="查询主体作为原告起诉他人的案件" arrowPointAtCenter>
-									<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
+									<span><Icon type="icon-question" style={{ fontSize: 16, marginLeft: 5, cursor: 'pointer' }} /></span>
 								</Tooltip>
 							</span>
 						</div>
