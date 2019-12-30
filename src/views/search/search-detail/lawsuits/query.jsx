@@ -45,17 +45,16 @@ class QUERYLAWSUITS extends React.Component {
 
 	// 搜索
 	search = () => {
-		const {
-			endLarq, startLarq, pageSize,
-		} = this.state;
+		const { pageSize } = this.state;
 		const {
 			type, plaintiff, defendant, getData, getCount, queryReset, getQueryData,
 		} = this.props;
+		const { hash } = window.location;
+		const urlObj = parseQuery(hash);
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		fildes.startLarq = startLarq;
-		fildes.endLarq = endLarq;
+
 		fildes.type = type;
 		fildes.plaintiff0 = plaintiff[0] ? plaintiff[0].name : undefined;
 		fildes.plaintiff1 = plaintiff[1] ? plaintiff[1].name : undefined;
@@ -63,9 +62,6 @@ class QUERYLAWSUITS extends React.Component {
 		fildes.defendant0 = defendant[0] ? defendant[0].name : undefined;
 		fildes.defendant1 = defendant[1] ? defendant[1].name : undefined;
 		fildes.defendant2 = defendant[2] ? defendant[2].name : undefined;
-
-		const { hash } = window.location;
-		const urlObj = parseQuery(hash);
 
 		const defendantArray = ([urlObj.defendant0 || undefined, urlObj.defendant1 || undefined, urlObj.defendant2 || undefined]);
 		const plaintiffArray = ([urlObj.plaintiff0 || undefined, urlObj.plaintiff1 || undefined, urlObj.plaintiff2 || undefined]);
@@ -240,11 +236,11 @@ class QUERYLAWSUITS extends React.Component {
 						<DatePicker
 							{...getFieldProps('startLarq', {
 								initialValue: urlObj.startLarq,
-								onChange: (value, dateString) => {
-									this.setState({
-										startLarq: dateString,
-									});
-								},
+								// onChange: (value, dateString) => {
+								// 	this.setState({
+								// 		startLarq: dateString,
+								// 	});
+								// },
 								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endLarq'))}
@@ -256,11 +252,11 @@ class QUERYLAWSUITS extends React.Component {
 						<DatePicker
 							{...getFieldProps('endLarq', {
 								initialValue: urlObj.endLarq,
-								onChange: (value, dateString) => {
-									this.setState({
-										endLarq: dateString,
-									});
-								},
+								// onChange: (value, dateString) => {
+								// 	this.setState({
+								// 		endLarq: dateString,
+								// 	});
+								// },
 								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startLarq'))}
