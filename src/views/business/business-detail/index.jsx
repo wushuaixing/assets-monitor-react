@@ -215,6 +215,7 @@ class DebtorDetail extends React.Component {
 
 		return (
 			<div className="yc-business-wrapper">
+				<Spin visible={codeLoading} modal text="请稍等..." />
 				<div className="yc-content-breadcrumb">
 					<Breadcrumb>
 						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate(parentUrL || '/business')}>{parent || '业务视图'}</a></Breadcrumb.Item>
