@@ -269,7 +269,7 @@ class Login extends React.Component {
 									{...getFieldProps('password', {
 										// initialValue: true,
 										onChange: (e) => {
-											if (e > 0) {
+											if (e > 0 || e.length > 0) {
 												this.setState({
 													inputType: 'password',
 												});
