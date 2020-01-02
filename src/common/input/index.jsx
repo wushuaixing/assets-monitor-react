@@ -123,7 +123,7 @@ class comInput extends React.Component {
 		} = this.props;
 		// console.log(this.props, maxLength);
 		const {
-			size, disabled, suffix, title,
+			size, disabled, suffix, title, titleIcon,
 		} = this.props;
 		const { inputValue } = this.state;
 		const classList = ['yc-input'];
@@ -154,7 +154,7 @@ class comInput extends React.Component {
 		// }
 		// console.log(this.ref ? this.ref.value : '');
 		const pStyle = { paddingLeft: 7 };
-		if (title) {
+		if (title || titleIcon) {
 			pStyle.paddingLeft = titleWidth ? titleWidth + 7 : 78;
 		}
 		const displayRes = (!_value && global.GLOBAL_MEIE_BROWSER && placeholder);
@@ -169,7 +169,7 @@ class comInput extends React.Component {
 					) : ''
 				}
 				<div
-					style={pStyle}
+					style={titleIcon ? { paddingLeft: titleWidth + 7, lineHeight: '25px' } : pStyle}
 					className={`yc-placeholder ${!displayRes ? 'yc-visibility-none' : ''}`}
 					onClick={this.onPlaceholder}
 				>

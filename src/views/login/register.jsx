@@ -230,6 +230,7 @@ class Login extends React.Component {
 									maxLength="11"
 									// title={(<span className="yc-form-userName yc-form-icon" />)}
 									titleWidth={40}
+									titleIcon
 									style={{ fontSize: 14 }}
 									unSplitLine
 									{...getFieldProps('username', {
@@ -258,22 +259,20 @@ class Login extends React.Component {
 								/>
 								<Input
 									className="yc-login-input"
-									type={inputType}
+									type={global.GLOBAL_MEIE_BROWSER ? 'password' : inputType}
 									placeholder="请输入密码"
 									maxLength="16"
 									// onKeyUp={this.onKeyup}
 									style={{ fontSize: 14 }}
-									// title={(<span className="yc-form-passWord yc-form-icon" />)}
 									titleWidth={40}
+									titleIcon
 									unSplitLine
 									{...getFieldProps('password', {
 										// initialValue: true,
-										onChange: (e) => {
-											if (e > 0 || e.length > 0) {
-												this.setState({
-													inputType: 'password',
-												});
-											}
+										onChange: () => {
+											this.setState({
+												inputType: 'password',
+											});
 										},
 										rules: [
 											{
@@ -296,6 +295,8 @@ class Login extends React.Component {
 									<Input
 										className="yc-login-input"
 										placeholder="请输入验证码"
+										titleWidth={40}
+										titleIcon
 										{...getFieldProps('imageVerifyCode', {
 											rules: [
 												{
