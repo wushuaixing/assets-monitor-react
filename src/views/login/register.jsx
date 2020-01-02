@@ -210,8 +210,10 @@ class Login extends React.Component {
 			loading, userName, codeImg, passwordModalVisible, errorTime, inputType,
 		} = this.state;
 		const {
-			form: { getFieldProps }, changeType, btnColor,
-		} = this.props; // 会提示props is not defined
+			form: { getFieldProps, getFieldsValue }, changeType, btnColor,
+		} = this.props; // 会提示props is not definedC
+		const fields = getFieldsValue();
+		const passWordType = fields.password && fields.password.length > 0 ? 'password' : inputType;
 		return (
 			<div className="yc-login-main" style={errorTime >= 2 && errorTime < 10 && { height: 424 }}>
 
@@ -259,7 +261,8 @@ class Login extends React.Component {
 								/>
 								<Input
 									className="yc-login-input"
-									type={global.GLOBAL_MEIE_BROWSER ? 'password' : inputType}
+									type={global.GLOBAL_MEIE_BROWSER ? 'password' : passWordType}
+									// type={fields.password ? inputType : 'password'}
 									placeholder="请输入密码"
 									maxLength="16"
 									// onKeyUp={this.onKeyup}
