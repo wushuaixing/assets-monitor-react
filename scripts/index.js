@@ -172,6 +172,10 @@ module.exports = {
 			context: ROOT,
 			from: 'src/static',
 			to: 'static',
+		},{
+			context: ROOT,
+			from: 'not-found.html',
+			to: '/',
 		}], {}),
 		new MiniCssExtractPlugin({
 			// Options similar to the same options in webpackOptions.output
