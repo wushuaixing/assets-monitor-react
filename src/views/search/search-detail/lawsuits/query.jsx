@@ -15,7 +15,7 @@ import './style.scss';
 
 const createForm = Form.create;
 const _style1 = { width: 278 };
-const _style2 = { width: 100 };
+const _style2 = { width: 116 };
 
 class QUERYLAWSUITS extends React.Component {
 	constructor(props) {
@@ -232,7 +232,7 @@ class QUERYLAWSUITS extends React.Component {
 						/>
 					</div>
 					<div className="yc-query-item">
-						<span className="yc-query-item-title">日期选择: </span>
+						<span className="yc-query-item-lable">日期选择: </span>
 						<DatePicker
 							{...getFieldProps('startLarq', {
 								initialValue: urlObj.startLarq,
@@ -248,7 +248,7 @@ class QUERYLAWSUITS extends React.Component {
 							style={_style2}
 							placeholder="开始日期"
 						/>
-						<span className="yc-query-item-title">至</span>
+						<span className="yc-query-item-lable">至</span>
 						<DatePicker
 							{...getFieldProps('endLarq', {
 								initialValue: urlObj.endLarq || undefined,

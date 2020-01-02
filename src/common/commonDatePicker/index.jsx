@@ -33,15 +33,16 @@ class commonDatePicker extends React.Component {
 		return (
 			<div
 				className="yc-datePicker-container"
-				onClick={ this.onPlaceholder}
+				onClick={this.onPlaceholder}
 			>
 				<DatePicker
 					{...propsObj}
 					toggleOpen={this.onHandle}
 					open={openModal}
 				/>
+				{/* DatePicker 支持ie10及以上，通過document.documentMode来判断是否是ie10是的话，不加placeholder */}
 				<span
-					className={`yc-datePicker-placeholder ${!propsObj.value && global.GLOBAL_MEIE_BROWSER ? '' : 'yc-datePicker-none'}`}
+					className={`yc-datePicker-placeholder ${!propsObj.value && global.GLOBAL_MEIE_BROWSER && document.documentMode !== 10 ? '' : 'yc-datePicker-none'}`}
 					style={propsObj.placeholder ? { width: propsObj.placeholder.length * 15 } : ''}
 				>
 					{propsObj.placeholder || '请输入日期'}

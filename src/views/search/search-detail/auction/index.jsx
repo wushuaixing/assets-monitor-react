@@ -23,7 +23,7 @@ import defaultOrder from '@/assets/img/icon/icon_arrow.png';
 import './style.scss';
 
 const _style1 = { width: 278 };
-const _style2 = { width: 120 };
+const _style2 = { width: 116 };
 const createForm = Form.create;
 
 class AUCTION extends React.Component {
@@ -451,7 +451,7 @@ class AUCTION extends React.Component {
 				</div>
 				<div>
 					<div className="yc-query-item">
-						<span className="yc-query-item-title">开拍时间: </span>
+						<span className="yc-query-item-lable">开拍时间: </span>
 						<DatePicker
 							{...getFieldProps('startTime', {
 								initialValue: params.startTime,
@@ -468,7 +468,7 @@ class AUCTION extends React.Component {
 							style={_style2}
 							placeholder="开始日期"
 						/>
-						<span className="yc-query-item-title">至</span>
+						<span className="yc-query-item-lable">至</span>
 						<DatePicker
 							{...getFieldProps('endTime', {
 								initialValue: params.endTime,
@@ -566,12 +566,12 @@ class AUCTION extends React.Component {
 					</div>
 					)}
 					{page === 100 && (
-					<span style={{
-						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
-					}}
-					>
-					如需更多数据请联系：186-5718-6471
-					</span>
+						<div style={{
+							color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
+						}}
+						>
+							如需更多数据请联系：186-5718-6471
+						</div>
 					)}
 				</Spin>
 			</div>

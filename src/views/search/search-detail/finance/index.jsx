@@ -387,12 +387,12 @@ class FINANCE extends React.Component {
 					</div>
 					)}
 					{page === 100 && (
-					<span style={{
-						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
-					}}
-					>
-						如需更多数据请联系：186-5718-6471
-					</span>
+						<div style={{
+							color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
+						}}
+						>
+							如需更多数据请联系：186-5718-6471
+						</div>
 					)}
 				</Spin>
 

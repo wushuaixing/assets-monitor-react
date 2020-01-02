@@ -23,7 +23,7 @@ import { ScrollAnimation } from '@/utils/changeTime';
 
 const createForm = Form.create;
 const _style1 = { width: 278 };
-const _style2 = { width: 100 };
+const _style2 = { width: 116 };
 class BANKRUPTCY extends React.Component {
 	constructor(props) {
 		super(props);
@@ -311,7 +311,7 @@ class BANKRUPTCY extends React.Component {
 						/>
 					</div>
 					<div className="yc-query-item">
-						<span className="yc-query-item-title">发布日期: </span>
+						<span className="yc-query-item-lable">发布日期: </span>
 						<DatePicker
 							{...getFieldProps('publishDateStart', {
 								initialValue: params.publishDateStart,
@@ -328,7 +328,7 @@ class BANKRUPTCY extends React.Component {
 							style={_style2}
 							placeholder="开始日期"
 						/>
-						<span className="yc-query-item-title">至</span>
+						<span className="yc-query-item-lable">至</span>
 						<DatePicker
 							{...getFieldProps('publishDateEnd', {
 								initialValue: params.publishDateEnd,
@@ -393,12 +393,12 @@ class BANKRUPTCY extends React.Component {
 						</div>
 					)}
 					{page === 100 && (
-						<span style={{
-							color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
+						<div style={{
+							color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
 						}}
 						>
-						如需更多数据请联系：186-5718-6471
-						</span>
+							如需更多数据请联系：186-5718-6471
+						</div>
 					)}
 				</Spin>
 			</div>

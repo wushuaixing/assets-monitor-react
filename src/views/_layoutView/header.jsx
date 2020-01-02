@@ -75,9 +75,9 @@ const defaultRouter = (source) => {
 			}
 		}
 	});
+	if (new RegExp('/message').test(hash))res.p = 101;
 	if (res.p) return res;
 	if (new RegExp('/my/attention').test(hash))res.p = '';
-	else if (new RegExp('/message').test(hash))res.p = 101;
 	else { res.p = source[0].id; }
 	return res;
 };
