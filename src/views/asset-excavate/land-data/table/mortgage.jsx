@@ -23,7 +23,7 @@ const columns = (props) => {
 		}, {
 			title: '土地权利人',
 			dataIndex: 'parties',
-			render: partyInfo,
+			render: (text, row) => partyInfo(text, row, false, false, 223),
 		}, {
 			title: '项目信息',
 			dataIndex: 'title',
