@@ -216,7 +216,6 @@ class Login extends React.Component {
 		const passWordType = fields.password && fields.password.length > 0 ? 'password' : inputType;
 		return (
 			<div className="yc-login-main" style={errorTime >= 2 && errorTime < 10 && { height: 424 }}>
-
 				<Form>
 					<Spin spinning={loading}>
 						<li className="yc-card-title">用户登录</li>

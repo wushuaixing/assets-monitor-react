@@ -157,7 +157,7 @@ class comInput extends React.Component {
 		if (title || titleIcon) {
 			pStyle.paddingLeft = titleWidth ? titleWidth + 7 : 78;
 		}
-		const displayRes = (!_value && global.GLOBAL_MEIE_BROWSER && placeholder);
+		const displayRes = (!_value && global.GLOBAL_MEIE_BROWSER && placeholder && document.documentMode !== 10);
 		return (
 			<div className="yc-input-wrapper" style={style}>
 				{
