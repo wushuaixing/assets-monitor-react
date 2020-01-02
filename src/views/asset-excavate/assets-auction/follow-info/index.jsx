@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-	Modal, Button, Icon, Steps, Select, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm, InputNumber,
+	Modal, Button, Icon, Steps, Select, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
 } from 'antd';
-import { Spin, Button as Btn, Input as ComInput } from '@/common';
+import { Spin, Button as Btn } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
 import {
 	pushList as pushListApi, pushSave, processList, processSave, processDel,
@@ -133,7 +133,6 @@ export default class FollowInfo extends React.Component {
 		if (val) {
 			const value = val.target ? val.target.value : val;
 			const data = this.state;
-			console.log(data.add_way);
 			if (data.add_way === 1 && value) {
 				const res = /^1[34578][0-9]\d{8}$/.test(value);
 				if (!res) {
@@ -333,23 +332,23 @@ export default class FollowInfo extends React.Component {
 	};
 
 	onInputChangeNew =(e, field) => {
-		//
-		const { value } = e.target;
-		// onkeyup="this.value=this.value.toString().match(/^\d+(?:\.\d{0,2})?/)"
-		e.target.value = value.toString().match(/^\d+(?:\.\d{0,2})?/);
-		// const { state } = this;
-		// console.log(val, state[field]);
-		// if ((value.match(/\./g) || {}).length > 1) {
-		// 	console.log('MATCH');
-		// }
+		let result = '';
+		if (e.target) {
+			const { value } = e.target;
+			result = value.toString().match(/^\d+(?:\.\d{0,2})?/);
+			e.target.value = value;
+		} else {
+			result = e.value.toString().match(/^\d+(?:\.\d{0,2})?/);
+			e.value = result;
+		}
 		this.setState({
-			[field]: e.target.value,
+			[field]: result,
 		});
 	};
 
 	render() {
 		const {
-			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList, recovery, expend,
+			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList,
 		} = this.state;
 		const {
 			visible, onClose, source: { process }, source,
