@@ -210,8 +210,10 @@ class Login extends React.Component {
 			loading, userName, codeImg, passwordModalVisible, errorTime, inputType,
 		} = this.state;
 		const {
-			form: { getFieldProps }, changeType, btnColor,
-		} = this.props; // 会提示props is not defined
+			form: { getFieldProps, getFieldsValue }, changeType, btnColor,
+		} = this.props; // 会提示props is not definedC
+		const fields = getFieldsValue();
+		const passWordType = fields.password && fields.password.length > 0 ? 'password' : inputType;
 		return (
 			<div className="yc-login-main" style={errorTime >= 2 && errorTime < 10 && { height: 424 }}>
 
@@ -230,6 +232,7 @@ class Login extends React.Component {
 									maxLength="11"
 									// title={(<span className="yc-form-userName yc-form-icon" />)}
 									titleWidth={40}
+									titleIcon
 									style={{ fontSize: 14 }}
 									unSplitLine
 									{...getFieldProps('username', {
@@ -258,22 +261,21 @@ class Login extends React.Component {
 								/>
 								<Input
 									className="yc-login-input"
-									type={inputType}
+									type={global.GLOBAL_MEIE_BROWSER ? 'password' : passWordType}
+									// type={fields.password ? inputType : 'password'}
 									placeholder="请输入密码"
 									maxLength="16"
 									// onKeyUp={this.onKeyup}
 									style={{ fontSize: 14 }}
-									// title={(<span className="yc-form-passWord yc-form-icon" />)}
 									titleWidth={40}
+									titleIcon
 									unSplitLine
 									{...getFieldProps('password', {
 										// initialValue: true,
-										onChange: (e) => {
-											if (e > 0 || e.length > 0) {
-												this.setState({
-													inputType: 'password',
-												});
-											}
+										onChange: () => {
+											this.setState({
+												inputType: 'password',
+											});
 										},
 										rules: [
 											{
@@ -296,6 +298,8 @@ class Login extends React.Component {
 									<Input
 										className="yc-login-input"
 										placeholder="请输入验证码"
+										titleWidth={40}
+										titleIcon
 										{...getFieldProps('imageVerifyCode', {
 											rules: [
 												{

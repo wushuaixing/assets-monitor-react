@@ -9,6 +9,8 @@ import {
 } from 'antd';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
+import { Icon } from '@/common';
+
 import './style.scss';
 
 const createForm = Form.create;
@@ -26,6 +28,10 @@ class Login extends React.Component {
 				<div className="yc-footer-content">
 					<span className="yc-footer-text">
 						<span className="yc-footer-img" />
+						<Icon
+							type="icon-logo"
+							className="yc-logo-icon"
+						/>
 							杭州源诚科技有限公司  技术支持
 					</span>
 					<span className="yc-footer-text">
