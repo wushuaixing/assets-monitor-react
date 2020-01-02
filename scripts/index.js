@@ -174,7 +174,7 @@ module.exports = {
 			to: 'static',
 		},{
 			context: ROOT,
-			from: 'not-found.html',
+			from: 'src/not-found.html',
 			to: '/',
 		}], {}),
 		new MiniCssExtractPlugin({
