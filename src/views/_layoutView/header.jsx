@@ -3,6 +3,8 @@ import { navigate } from '@reach/router';
 import { Badge } from 'antd';
 // import Badge from '@/common/badge';
 import logoImg from '@/assets/img/logo_white.png';
+import Ellipse from '../../assets/img/icon/icon_unread99.png';
+import Circular from '../../assets/img/icon/icon_unread.png';
 import { unreadCount } from '@/utils/api/inform';
 import HeaderCenter from './headerCenter/header-center';
 import HeaderMessage from './headerMessage/header-message';
@@ -10,20 +12,7 @@ import { toGetRuleSource } from '@/utils';
 import './style.scss';
 
 const logoText = '源诚资产监控平台';
-const _style = (value) => {
-	if (value > 99) {
-		return {
-			top: -4, minWidth: 14, height: 14, lineHeight: 1, right: -35,
-		};
-	} if (value > 9) {
-		return {
-			top: -4, minWidth: 14, height: 14, right: -17,
-		};
-	}
-	return {
-		top: -4, minWidth: 14, height: 14, right: -8,
-	};
-};
+
 /* 导航项目 */
 const Item = (props) => {
 	const {
@@ -51,7 +40,7 @@ const Item = (props) => {
 	return (
 		<li className={`header-item header-item-${id} ${parentChoose}`} onClick={e => toNavigate(e, props)}>
 			<Badge dot={dot}>
-				<a href={toHref(props)} style={active.p === id ? { color: '#fff' } : { color: 'rgba(255,255,255,0.8)' }}>{name}</a>
+				<a href={toHref(props)} style={active.p === id ? { color: '#fff' } : { color: '#fff', opacity: '0.8' }}>{name}</a>
 			</Badge>
 			<ul className="header-child-item">
 				{
@@ -171,9 +160,10 @@ export default class Headers extends React.Component {
 
 	render() {
 		const {
-			active, config, data, num, Surplus,
+			active, config, data, num,
 		} = this.state;
 		const { rule } = this.props;
+		const haveNum = (num < 10 ? <img className="yc-Circular-icon" src={Circular} alt="" /> : <img className="yc-Ellipse-icon" src={Ellipse} alt="" />);
 		return (
 			<div className="yc-header-wrapper">
 				<div
@@ -234,13 +224,20 @@ export default class Headers extends React.Component {
 									event.stopPropagation();
 								}}
 							>
-								<Badge
-									count={Surplus && num && num > 0 ? `${num}` : ''}
-									className="yc-ant-badge"
-									style={_style(num)}
-								>
-									<div className="notice-icon yc-notice-img" />
-								</Badge>
+								<div className="notice-icon yc-notice-img" />
+								{
+									num ? haveNum : ''
+								}
+								{
+									num ? <span className="yc-badge-num">{num > 99 ? '99+' : num}</span> : ''
+								}
+								{/* <Badge */}
+								{/*	count={Surplus && num && num > 0 ? `${num}` : ''} */}
+								{/*	className="yc-ant-badge" */}
+								{/*	style={_style(num)} */}
+								{/* > */}
+								{/*	*/}
+								{/* </Badge> */}
 								{/* <span className="notice-number">{num && num > 0 ? `(${num})` : ''}</span> */}
 								<HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" />
 							</div>
