@@ -163,6 +163,7 @@ export default class Headers extends React.Component {
 			active, config, data, num,
 		} = this.state;
 		const { rule } = this.props;
+		const haveNum = (num < 10 ? <img className="yc-Circular-icon" src={Circular} alt="" /> : <img className="yc-Ellipse-icon" src={Ellipse} alt="" />);
 		return (
 			<div className="yc-header-wrapper">
 				<div
@@ -225,10 +226,10 @@ export default class Headers extends React.Component {
 							>
 								<div className="notice-icon yc-notice-img" />
 								{
-									num && num < 10 ? <img className="yc-Circular-icon" src={Circular} alt="" /> : <img className="yc-Ellipse-icon" src={Ellipse} alt="" />
+									num ? haveNum : ''
 								}
 								{
-									num && <span className="yc-badge-num">{num > 99 ? '99+' : num}</span>
+									num ? <span className="yc-badge-num">{num > 99 ? '99+' : num}</span> : ''
 								}
 								{/* <Badge */}
 								{/*	count={Surplus && num && num > 0 ? `${num}` : ''} */}
