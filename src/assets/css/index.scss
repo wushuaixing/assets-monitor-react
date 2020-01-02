@@ -37,6 +37,10 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/** 文本输入框的 X  **/input::-ms-clear{display: none;}
+/** 密码输入框的 X  **/input::-ms-reveal{display: none;}
+
+
 hr {
   margin: 10px 0;
 }

@@ -46,21 +46,21 @@ const columns = (props, onFollowClick) => {
 		{
 			title: (noSort ? '资产信息'
 				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>资产信息</SortVessel>),
-			width: 274,
+			width: '23%',
 			render: AssetsInfo,
 		}, {
 			title: '匹配原因',
 			dataIndex: 'reason',
-			width: 367,
+			width: '33%',
 			render: MatchingReason,
 		}, {
 			title: (noSort ? '拍卖信息'
 				: <SortVessel field="START" onClick={onSortChange} mark="(开拍时间)" {...sort}>拍卖信息</SortVessel>),
-			width: 392,
+			width: '33%',
 			render: AuctionInfo,
 		}, {
 			title: '操作',
-			width: 127,
+			width: '11%',
 			unNormal: true,
 			className: 'tAlignCenter_important yc-assets-auction-action',
 			render: (text, row, index) => {
@@ -70,7 +70,13 @@ const columns = (props, onFollowClick) => {
 				};
 				return (
 					<React.Fragment>
-						{recovery > 0 ?	<div className="auction-recovery">{`追回金额：${floatFormat(recovery)}元`}</div> : ''}
+						{recovery > 0 ?	(
+							<div className="auction-recovery">
+								追回金额
+								<br />
+								{`${floatFormat(recovery)}元`}
+							</div>
+						) : ''}
 						{{
 							0: (
 								<React.Fragment>
