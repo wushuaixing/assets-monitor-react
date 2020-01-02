@@ -1,5 +1,5 @@
 
-const _msieBrowser = /msie/i.test(navigator.userAgent);
+const _msieBrowser = /msie/i.test(navigator.userAgent) && !(/msie 10/i.test(navigator.userAgent));
 
 const _tableCreateTimeText = '更新日期';
 
