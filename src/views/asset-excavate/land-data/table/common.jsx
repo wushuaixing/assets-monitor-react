@@ -87,13 +87,13 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">宗地坐落：</span>
 					<span className="list list-content text-ellipsis">
-						<Ellipsis content={rowContent.landAddress || '-'} url={rowContent.url} tooltip width={130} />
+						<Ellipsis content={rowContent.landAddress || '-'} url={rowContent.url} tooltip width={90} />
 					</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">行政区划：</span>
 					<span className="list list-content text-ellipsis">
-						<Ellipsis content={rowContent.administrativeRegion || '-'} tooltip width={130} />
+						<Ellipsis content={rowContent.administrativeRegion || '-'} tooltip width={90} />
 					</span>
 				</li>
 			</div>
@@ -121,7 +121,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">土地用途：</span>
 					<span className="list list-content text-ellipsis">
-						<Ellipsis content={rowContent.landUse || '-'} tooltip width={110} />
+						<Ellipsis content={rowContent.landUse || '-'} tooltip width={90} />
 					</span>
 				</li>
 				<li>
@@ -140,7 +140,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify" style={{ width: 96 }}>土地使用权证号：</span>
 					<span className="list list-content">
-						<Ellipsis content={rowContent.landUseCertificateNumber || '-'} tooltip width={100} />
+						<Ellipsis content={rowContent.landUseCertificateNumber || '-'} tooltip width={90} />
 					</span>
 				</li>
 			</div>
@@ -165,7 +165,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify" style={{ width: 96 }}>土地他项权证号：</span>
 					<span className="list list-content">
-						<Ellipsis content={rowContent.otherObligeeCertificateNumber || '-'} tooltip width={100} />
+						<Ellipsis content={rowContent.otherObligeeCertificateNumber || '-'} tooltip width={90} />
 					</span>
 				</li>
 				<li>

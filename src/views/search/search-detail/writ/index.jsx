@@ -21,7 +21,7 @@ import './style.scss';
 import { ScrollAnimation } from '@/utils/changeTime';
 
 const _style1 = { width: 278 };
-const _style2 = { width: 100 };
+const _style2 = { width: 116 };
 const _style3 = { width: 120 };
 const _style4 = { width: 1160 };
 const { Option } = Select;
@@ -331,7 +331,7 @@ class WRIT extends React.Component {
 					</div>
 					<div>
 						<div className="yc-query-item">
-							<span className="yc-query-item-title">发布时间: </span>
+							<span className="yc-query-item-lable">发布时间: </span>
 							<DatePicker
 								size="large"
 								allowClear
@@ -349,7 +349,7 @@ class WRIT extends React.Component {
 								disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))
 						}
 							/>
-							<span className="yc-query-item-title">至</span>
+							<span className="yc-query-item-lable">至</span>
 							<DatePicker
 								size="large"
 								allowClear
@@ -455,12 +455,12 @@ class WRIT extends React.Component {
 						</div>
 						)}
 						{page === 100 && (
-						<span style={{
-							color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
+						<div style={{
+							color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
 						}}
 						>
-					如需更多数据请联系：186-5718-6471
-						</span>
+							如需更多数据请联系：186-5718-6471
+						</div>
 						)}
 					</Spin>
 				</div>
