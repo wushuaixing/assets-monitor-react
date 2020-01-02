@@ -8,17 +8,17 @@
 
 /* 修改默认基本样式 */
 input::-webkit-input-placeholder {
-  color: $text-placeholder !important;
+  color: $text-placeholder;
 }
 
 input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
-  color: $text-placeholder !important;
+  color: $text-placeholder;
 }
 
 input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
-  color: $text-placeholder !important;
+  color: $text-placeholder;
 }
 
 input:-ms-input-placeholder {
@@ -36,10 +36,6 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-
-/** 文本输入框的 X  **/input::-ms-clear{display: none;}
-/** 密码输入框的 X  **/input::-ms-reveal{display: none;}
-
 
 hr {
   margin: 10px 0;
