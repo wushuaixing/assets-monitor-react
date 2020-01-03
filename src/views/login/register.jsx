@@ -42,18 +42,10 @@ class Login extends React.Component {
 
 	componentDidMount() {
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
-		const rememberPassword = cookie.get('rememberPassword');
-		if (rememberPassword === 'true') {
-			const userName = cookie.get('userName');
-			this.setState({
-				userName,
-			});
-		}
 	}
 
 	componentWillUnmount() {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
-		this.setState = () => null;
 	}
 
 	toKeyCode13=(e) => {
@@ -105,7 +97,6 @@ class Login extends React.Component {
 					this.setState({
 						errorTime: _res.data && _res.data.errorTime,
 					});
-
 					login(params).then((res) => {
 						if (res.code === 200) {
 							if (rememberPassword === 'false') {
