@@ -61,7 +61,7 @@ class QueryCondition extends React.Component {
 					<Input title="变更事项" style={_style1} size="large" placeholder="工商变更事项" {...getFieldProps('changeItem')} />
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">变更日期：</span>
+					<span className="yc-query-item-lable">变更日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
@@ -69,7 +69,7 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('changeTimeStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('changeTimeEnd'))}
 					/>
-					<span className="yc-query-item-title">至</span>
+					<span className="yc-query-item-lable">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
@@ -79,7 +79,7 @@ class QueryCondition extends React.Component {
 					/>
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">{`${global.Table_CreateTime_Text}：`}</span>
+					<span className="yc-query-item-lable">{`${global.Table_CreateTime_Text}：`}</span>
 					<DatePicker
 						size="large"
 						style={_style2}
@@ -87,7 +87,7 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('gmtCreateStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtCreateEnd'))}
 					/>
-					<span className="yc-query-item-title">至</span>
+					<span className="yc-query-item-lable">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}

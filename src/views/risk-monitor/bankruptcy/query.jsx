@@ -68,7 +68,7 @@ class QueryCondition extends React.Component {
 				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">发布日期：</span>
+					<span className="yc-query-item-lable">发布日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
@@ -76,7 +76,7 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('publishDateStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishDateEnd'))}
 					/>
-					<span className="yc-query-item-title">至</span>
+					<span className="yc-query-item-lable">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
@@ -87,7 +87,7 @@ class QueryCondition extends React.Component {
 				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">更新日期：</span>
+					<span className="yc-query-item-lable">更新日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
@@ -95,7 +95,7 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('createTimeStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createTimeEnd'))}
 					/>
-					<span className="yc-query-item-title">至</span>
+					<span className="yc-query-item-lable">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}

@@ -100,7 +100,6 @@ class Login extends React.Component {
 						codeStatus: mustVerifyImageCode,
 					});
 					if (errorTime >= 3 && !status) return;
-					console.log(status, errorTime);
 					login(params).then((res) => {
 						if (res.code === 200) {
 							if (rememberPassword === 'false') {
@@ -139,7 +138,7 @@ class Login extends React.Component {
 							} else {
 								message.error(res.message);
 							}
-							console.log(res.data.mustVerifyImageCode);
+							this.verificationCode();
 							this.setState({
 								loading: false,
 								codeStatus: res.data.errorTime >= 3,
@@ -205,15 +204,16 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, codeImg, passwordModalVisible, errorTime, inputType,			codeStatus,
+			loading, userName, codeImg, passwordModalVisible, inputType,	codeStatus,
 		} = this.state;
 		const {
 			form: { getFieldProps, getFieldsValue }, changeType, btnColor,
 		} = this.props; // 会提示props is not definedC
 		const fields = getFieldsValue();
 		const passWordType = fields.password && fields.password.length > 0 ? 'password' : inputType;
+		const imgCodeHeight = codeStatus && 424;
 		return (
-			<div className="yc-login-main" style={errorTime >= 2 && errorTime < 10 && { height: 424 }}>
+			<div style={{ height: imgCodeHeight }} className="yc-login-main">
 
 				<Form>
 					<Spin spinning={loading}>
