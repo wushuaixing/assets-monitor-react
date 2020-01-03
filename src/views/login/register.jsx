@@ -34,7 +34,6 @@ class Login extends React.Component {
 			userName: '',
 			codeImg: verificationCodeImg,
 			passwordModalVisible: false,
-			errorTime: '',
 			inputType: 'text',
 			codeStatus: false,
 		};
@@ -96,7 +95,7 @@ class Login extends React.Component {
 				if (_res.code === 200) {
 					const { mustVerifyImageCode, errorTime } = (_res.data) || {};
 					this.setState({
-						errorTime,
+						// errorTime,
 						codeStatus: mustVerifyImageCode,
 					});
 					if (errorTime >= 3 && !status) return;
@@ -235,6 +234,7 @@ class Login extends React.Component {
 									unSplitLine
 									{...getFieldProps('username', {
 										initialValue: userName && userName.length > 0 ? userName : '',
+										validateTrigger: 'onBlur',
 										rules: [
 											{
 												required: true,
@@ -267,7 +267,7 @@ class Login extends React.Component {
 									titleIcon
 									unSplitLine
 									{...getFieldProps('password', {
-										// initialValue: true,
+										validateTrigger: 'onBlur',
 										onChange: () => {
 											this.setState({
 												inputType: 'password',
@@ -294,6 +294,7 @@ class Login extends React.Component {
 										titleWidth={40}
 										titleIcon
 										{...getFieldProps('imageVerifyCode', {
+											validateTrigger: 'onBlur',
 											rules: [
 												{
 													required: true,
