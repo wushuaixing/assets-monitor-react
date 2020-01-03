@@ -35,11 +35,12 @@ export default class Download extends React.Component {
 
 
 		// 点击确定 btn
-		const toOkClick = () => {
+		const toOkClick = async () => {
 			this.setState({ loadingStatus: 'loading' });
 			message.warning('正在下载请稍等...');
-			_request().then((res) => {
-				const { code, data } = res;
+			const result = await _request();
+			const { code, data, message: mes } = result || {};
+			if (result) {
 				if (code === 200) {
 					this.setState({ loadingStatus: 'normal' });
 					// console.log(baseUrl, `${baseUrl}${exportFile(data)}?token=${token}`);
@@ -47,11 +48,11 @@ export default class Download extends React.Component {
 					DownloadFile(`${baseUrl}${exportFile(data)}?token=${token}`);
 				} else {
 					this.setState({ loadingStatus: 'normal' });
-					message.error(res.message || '网络异常请稍后再试!111');
+					message.error(mes || '网络异常请稍后再试!');
 				}
-			}).catch(() => {
-				message.warning('网络异常请稍后再试222！');
-			});
+			} else {
+				message.warning('网络异常,请稍后再试！');
+			}
 		};
 
 		if (current) {
