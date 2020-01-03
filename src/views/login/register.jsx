@@ -77,6 +77,7 @@ class Login extends React.Component {
 		const fields = getFieldsValue();
 		const beforeLogin = {
 			username: fields.username,
+			random: (Math.random().toString(36).slice(-8)),
 		};
 		const params = {
 			...fields,
