@@ -12,3 +12,5 @@ src/utils/api/index.js
 jsconfig.json
 /template/src/.sass-cache/
 /template/result/
+/history-ol/
+/history/

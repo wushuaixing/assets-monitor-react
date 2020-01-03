@@ -267,7 +267,7 @@ export const DownloadFile = (url, target) => {
 			window.parent.document.body.appendChild(download);
 			download.click();
 		} else {
-			document.body.append(download);
+			document.body.appendChild(download);
 			const e = document.createEvent('MouseEvent');
 			e.initEvent('click', false, false);
 			download.dispatchEvent(e);
