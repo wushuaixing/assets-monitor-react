@@ -75,6 +75,7 @@ class Login extends React.Component {
 		} = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
+		console.log(Math.random().toString(36).slice(-8));
 		const beforeLogin = {
 			username: fields.username,
 			random: (Math.random().toString(36).slice(-8)),
@@ -212,6 +213,8 @@ class Login extends React.Component {
 		const fields = getFieldsValue();
 		const passWordType = fields.password && fields.password.length > 0 ? 'password' : inputType;
 		const imgCodeHeight = codeStatus && 424;
+		// 判断ie8到11
+		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		return (
 			<div style={{ height: imgCodeHeight }} className="yc-login-main">
 
@@ -233,9 +236,10 @@ class Login extends React.Component {
 									titleIcon
 									style={{ fontSize: 14 }}
 									unSplitLine
+									username
 									{...getFieldProps('username', {
 										initialValue: userName && userName.length > 0 ? userName : '',
-										validateTrigger: 'onBlur',
+										validateTrigger: isIe ? 'onBlur' : 'onChange',
 										rules: [
 											{
 												required: true,
@@ -260,7 +264,7 @@ class Login extends React.Component {
 								/>
 								<Input
 									className="yc-login-input"
-									type={global.GLOBAL_MEIE_BROWSER ? 'password' : passWordType}
+									type={isIe || global.GLOBAL_MEIE_BROWSER ? 'password' : passWordType}
 									placeholder="请输入密码"
 									maxLength="16"
 									style={{ fontSize: 14 }}
@@ -268,7 +272,7 @@ class Login extends React.Component {
 									titleIcon
 									unSplitLine
 									{...getFieldProps('password', {
-										validateTrigger: 'onBlur',
+										validateTrigger: isIe ? 'onBlur' : 'onChange',
 										onChange: () => {
 											this.setState({
 												inputType: 'password',
@@ -295,7 +299,7 @@ class Login extends React.Component {
 										titleWidth={40}
 										titleIcon
 										{...getFieldProps('imageVerifyCode', {
-											validateTrigger: 'onBlur',
+											validateTrigger: isIe ? 'onBlur' : 'onChange',
 											rules: [
 												{
 													required: true,

@@ -90,6 +90,7 @@ class Login extends React.Component {
 									placeholder="请输入11位数字"
 									maxlength="11"
 									{...getFieldProps('phone', {
+										validateTrigger: 'onBlur',
 										// initialValue: userName && userName.length > 0 ? userName : '',
 										rules: [
 											{
@@ -110,6 +111,7 @@ class Login extends React.Component {
 									maxlength={4}
 									style={{ parringRight: 160 }}
 									{...getFieldProps('code', {
+										validateTrigger: 'onBlur',
 										rules: [
 											{
 												required: true,

@@ -121,6 +121,7 @@ openModal = () => {
 									className="yc-login-input"
 									placeholder="请输入验证码"
 									{...getFieldProps('phoneCode', {
+										validateTrigger: 'onBlur',
 										// rules: [
 										// 	{
 										// 		required: true,

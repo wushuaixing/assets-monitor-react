@@ -371,6 +371,7 @@ class Login extends React.Component {
 										// onFocus={e => this.newPasswordFoucs(e)}
 										{...getFieldProps('newPassword', {
 											initialValue: userName && userName.length > 0 ? userName : '',
+											validateTrigger: 'onBlur',
 											// rules: [
 											// 	{
 											// 		required: true,
@@ -404,6 +405,7 @@ class Login extends React.Component {
 										onBlur={e => this.onAgainBlurValue(e)}
 										onFocus={e => this.againPasswordFoucs(e)}
 										{...getFieldProps('newPasswordAgain', {
+											validateTrigger: 'onBlur',
 											// rules: [
 											// 	{
 											// 		required: true,
