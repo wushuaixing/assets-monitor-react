@@ -20,10 +20,9 @@ import PasswordModal from './passwordModal';
 import { handleRule } from '@/utils';
 import './style.scss';
 
-const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
-
 const cookie = new Cookies();
 const createForm = Form.create;
+const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
 
 class Login extends React.Component {
 	constructor(props) {
@@ -37,23 +36,16 @@ class Login extends React.Component {
 			passwordModalVisible: false,
 			errorTime: '',
 			inputType: 'text',
+			codeStatus: false,
 		};
 	}
 
 	componentDidMount() {
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
-		const rememberPassword = cookie.get('rememberPassword');
-		if (rememberPassword === 'true') {
-			const userName = cookie.get('userName');
-			this.setState({
-				userName,
-			});
-		}
 	}
 
 	componentWillUnmount() {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
-		this.setState = () => null;
 	}
 
 	toKeyCode13=(e) => {
@@ -98,14 +90,17 @@ class Login extends React.Component {
 			this.setState({
 				loading: false,
 			});
+			const { codeStatus: status } = this.state;
 
 			loginPreCheck(beforeLogin).then((_res) => {
 				if (_res.code === 200) {
-					console.log(_res);
+					const { mustVerifyImageCode, errorTime } = (_res.data) || {};
 					this.setState({
-						errorTime: _res.data && _res.data.errorTime,
+						errorTime,
+						codeStatus: mustVerifyImageCode,
 					});
-
+					if (errorTime >= 3 && !status) return;
+					console.log(status, errorTime);
 					login(params).then((res) => {
 						if (res.code === 200) {
 							if (rememberPassword === 'false') {
@@ -144,9 +139,12 @@ class Login extends React.Component {
 							} else {
 								message.error(res.message);
 							}
-							this.verificationCode();
+							console.log(res.data.mustVerifyImageCode);
 							this.setState({
 								loading: false,
+								codeStatus: res.data.errorTime >= 3,
+							}, () => {
+								this.verificationCode();
 							});
 						}
 					}).catch(() => {
@@ -207,7 +205,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, codeImg, passwordModalVisible, errorTime, inputType,
+			loading, userName, codeImg, passwordModalVisible, errorTime, inputType,			codeStatus,
 		} = this.state;
 		const {
 			form: { getFieldProps, getFieldsValue }, changeType, btnColor,
@@ -262,10 +260,8 @@ class Login extends React.Component {
 								<Input
 									className="yc-login-input"
 									type={global.GLOBAL_MEIE_BROWSER ? 'password' : passWordType}
-									// type={fields.password ? inputType : 'password'}
 									placeholder="请输入密码"
 									maxLength="16"
-									// onKeyUp={this.onKeyup}
 									style={{ fontSize: 14 }}
 									titleWidth={40}
 									titleIcon
@@ -288,13 +284,10 @@ class Login extends React.Component {
 							</Form.Item>
 						</div>
 						{
-							errorTime >= 2 && errorTime < 10 && (
+							codeStatus && (
 							<div className="yc-form-wapper">
 								<Form.Item>
-									<Icon
-										type="icon-resetImg"
-										className="yc-form-icon"
-									/>
+									<Icon type="icon-resetImg" className="yc-form-icon" />
 									<Input
 										className="yc-login-input"
 										placeholder="请输入验证码"
@@ -309,7 +302,6 @@ class Login extends React.Component {
 											],
 										})}
 									/>
-									{/* <span className="yc-form-resetImg yc-form-icon" /> */}
 									<img onClick={this.verificationCode} className="yc-verificationCode" src={codeImg} alt="" referrerPolicy="no-referrer" />
 								</Form.Item>
 							</div>

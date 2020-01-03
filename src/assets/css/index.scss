@@ -23,7 +23,7 @@ input:-moz-placeholder {
 
 input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
-  color: $text-placeholder !important;
+  color: $text-placeholder ;
 }
 
 input::-webkit-outer-spin-button,
