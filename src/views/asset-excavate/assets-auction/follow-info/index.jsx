@@ -335,11 +335,11 @@ export default class FollowInfo extends React.Component {
 		let result = '';
 		if (e.target) {
 			const { value } = e.target;
-			result = value.toString().match(/^\d+(?:\.\d{0,2})?/);
-			e.target.value = value;
+			e.target.value = value.toString().match(/^\d+(?:\.\d{0,2})?/);
+			result = e.target.value;
 		} else {
-			result = e.value.toString().match(/^\d+(?:\.\d{0,2})?/);
-			e.value = result;
+			e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/);
+			result = e.value;
 		}
 		this.setState({
 			[field]: result,

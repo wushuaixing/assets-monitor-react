@@ -9,7 +9,7 @@ import './assets/css';
 import './utils/config';
 
 message.config({ top: 300 });
-const Version = '4.0.1';
+const Version = 'v4.0.2';
 if (process.env.NODE_ENV === 'production') {
 	window.nowVersion = Version;
 	global.console = {
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 		error: () => { },
 	};
 } else {
-	console.info(`Version:${Version} Beta`);
+	console.info(`Version：${Version}-Beta`);
 }
 
 
