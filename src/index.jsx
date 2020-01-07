@@ -8,10 +8,14 @@ import App from './views/app';
 import './assets/css';
 import './utils/config';
 
-message.config({ top: 300 });
 const Version = 'v4.0.2';
+window.CurrentVersions = Version;
+if (window.location.protocol === 'http:') {
+	const BetaNumber = '.1';
+	console.info(`Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`);
+}
+
 if (process.env.NODE_ENV === 'production') {
-	window.nowVersion = Version;
 	global.console = {
 		info: () => { },
 		log: () => { },
@@ -19,10 +23,9 @@ if (process.env.NODE_ENV === 'production') {
 		debug: () => { },
 		error: () => { },
 	};
-} else {
-	console.info(`Version：${Version}-Beta`);
 }
 
+message.config({ top: 300 });
 
 ReactDOM.render(
 	<Provider store={store} className="Provider">
