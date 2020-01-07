@@ -277,12 +277,11 @@ export default class FollowInfo extends React.Component {
 			const { code } = res;
 			if (code === 200) {
 				message.success('操作成功！');
-				const _rec = ((_recovery > -1 ? _recovery : 0) + Number(param.recovery || 0)) || -1;
-				// console.log(_recovery, param.recovery, _rec);
+				const _rec = Number(_recovery) + Number(param.recovery || 0);
 				if (param.recovery > 0 && onRefresh) {
 					onRefresh({
 						id,
-						recovery: _rec,
+						recovery: _rec > 0 ? _rec : null,
 						index,
 					}, 'recovery');
 				}
