@@ -9,8 +9,9 @@ import './assets/css';
 import './utils/config';
 
 message.config({ top: 300 });
-//
+const Version = '4.0.1';
 if (process.env.NODE_ENV === 'production') {
+	window.nowVersion = Version;
 	global.console = {
 		info: () => { },
 		log: () => { },
@@ -18,7 +19,10 @@ if (process.env.NODE_ENV === 'production') {
 		debug: () => { },
 		error: () => { },
 	};
+} else {
+	console.info(`Version:${Version} Beta`);
 }
+
 
 ReactDOM.render(
 	<Provider store={store} className="Provider">
