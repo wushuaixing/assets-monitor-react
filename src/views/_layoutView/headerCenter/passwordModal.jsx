@@ -162,7 +162,6 @@ class ChangeWorldModal extends React.PureComponent {
 		}
 		// 重置输入样式
 		if (e.target.value.length === 0) {
-			console.log(1123);
 			this.setState({
 				fouthVali: null,
 				againText: '请再次输入密码',
@@ -243,10 +242,12 @@ class ChangeWorldModal extends React.PureComponent {
 	handleCancel=() => {
 		const { onCancel } = this.props;
 		this.setState({
-			// PopoverVisible: false,
+			PopoverVisible: false,
 			againPasswordVisible: false,
 		}, () => {
-			onCancel();
+			setTimeout(() => {
+				onCancel();
+			}, 100);
 		});
 	};
 
