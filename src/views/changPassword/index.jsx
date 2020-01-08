@@ -31,6 +31,7 @@ class ChangeWorldModal extends React.PureComponent {
 			secondVali: null,
 			thirdVali: null,
 			fouthVali: null,
+			newPasswordLength: null,
 			againText: '请再次输入密码',
 		};
 	}
@@ -48,6 +49,11 @@ class ChangeWorldModal extends React.PureComponent {
 	// 实时输入新密码
 	changeValue = (e) => {
 		const newWorld = e.target.value;
+		const {
+			form: { getFieldsValue },
+		} = this.props; // 会提示props is not defined
+		const { newPasswordLength } = this.state;
+		const fields = getFieldsValue();
 		// 第1个节点变化，判断是否正确
 		if (!regx.test(newWorld)) {
 			this.setState({
@@ -86,6 +92,18 @@ class ChangeWorldModal extends React.PureComponent {
 				thirdVali: null,
 			});
 		}
+		if (fields.Password === fields.newPassword) {
+			this.setState({
+				fouthVali: true,
+				againText: '两次密码输入一致',
+			});
+		} else if (fields.newPassword && newPasswordLength) {
+			this.setState({
+				fouthVali: false,
+				againText: '密码不一致，请重新输入',
+				againPasswordVisible: true,
+			});
+		}
 	};
 
 	onBlurValue = (e) => {
@@ -101,6 +119,8 @@ class ChangeWorldModal extends React.PureComponent {
 				PopoverVisible: false,
 			});
 		}
+
+		this.onAgainBlurValue();
 	};
 
 	newPasswordFoucs = (e) => {
@@ -131,6 +151,9 @@ class ChangeWorldModal extends React.PureComponent {
 			form: { getFieldsValue },
 		} = this.props; // 会提示props is not defined
 		const fields = getFieldsValue();
+		this.setState({
+			newPasswordLength: e.target.value.length,
+		});
 		if (fields.Password === fields.newPassword) {
 			this.setState({
 				fouthVali: true,
@@ -146,6 +169,7 @@ class ChangeWorldModal extends React.PureComponent {
 		if (e.target.value.length === 0) {
 			this.setState({
 				fouthVali: null,
+				againText: '请再次输入密码',
 			});
 		}
 	};
@@ -155,8 +179,6 @@ class ChangeWorldModal extends React.PureComponent {
 			form: { getFieldsValue },
 		} = this.props; // 会提示props is not defined
 		const fields = getFieldsValue();
-		console.log(1, fields);
-
 		if (fields.Password === fields.newPassword) {
 			this.setState({
 				againPasswordVisible: false,
@@ -288,6 +310,7 @@ class ChangeWorldModal extends React.PureComponent {
 		const {
 			firstVali, secondVali, thirdVali, fouthVali, againText, PopoverVisible, againPasswordVisible,
 		} = this.state;
+		console.log(PopoverVisible); // 控制提示显隐
 		const popverTypes = (type) => {
 			let popverType;
 			if (type === true) {
@@ -338,13 +361,14 @@ class ChangeWorldModal extends React.PureComponent {
 						>
 							<Popover
 								content={newPassword}
-								trigger="click"
-								visible={PopoverVisible}
+								trigger="focus"
+								visible
 								onVisibleChange={this.handleNewPassword}
 								placement="right"
 							>
 								<Input
-									autocomplete="off"
+									autocomplete="new-password"
+									// autocomplete="off"
 									type="password"
 									style={{ width: 340, height: 40 }}
 									placeholder="请输入新密码"
@@ -367,7 +391,7 @@ class ChangeWorldModal extends React.PureComponent {
 						>
 							<Popover
 								content={newAgainPassword}
-								trigger="click"
+								trigger="focus"
 								visible={againPasswordVisible}
 								onVisibleChange={this.handleAgainPassword}
 								placement="right"

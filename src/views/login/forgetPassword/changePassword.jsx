@@ -26,7 +26,7 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			loading: false,
-			PopoverVisible: false,
+			// PopoverVisible: false,
 			againPasswordVisible: false,
 			firstClearIcon: false,
 			secondClearIcon: false,
@@ -34,6 +34,7 @@ class Login extends React.Component {
 			secondVali: null,
 			thirdVali: null,
 			fouthVali: null,
+			newPasswordLength: null,
 			againText: '请再次输入密码',
 		};
 	}
@@ -42,15 +43,20 @@ class Login extends React.Component {
 	// 新密码验证
 
 	// 第一个输入框
-	handleNewPassword= () => {
-		this.setState({
-			PopoverVisible: true,
-		});
-	};
+	// handleNewPassword= () => {
+	// 	this.setState({
+	// 		PopoverVisible: true,
+	// 	});
+	// };
 
 	// 实时输入新密码
 	changeValue = (e) => {
 		const newWorld = e.target.value;
+		const { newPasswordLength } = this.state;
+		const {
+			form: { getFieldsValue },
+		} = this.props; // 会提示props is not defined
+		const fields = getFieldsValue();
 		// 第1个节点变化，判断是否正确
 		if (!regx.test(newWorld)) {
 			this.setState({
@@ -81,6 +87,18 @@ class Login extends React.Component {
 				thirdVali: true,
 			});
 		}
+		if (fields.newPassword === fields.newPasswordAgain) {
+			this.setState({
+				fouthVali: true,
+				againText: '两次密码输入一致',
+			});
+		} else if (fields.newPassword && newPasswordLength) {
+			this.setState({
+				fouthVali: false,
+				againText: '密码不一致，请重新输入',
+				againPasswordVisible: true,
+			});
+		}
 		// 重置输入样式
 		if (newWorld.length === 0) {
 			this.setState({
@@ -96,11 +114,20 @@ class Login extends React.Component {
 		}
 	};
 
-	onBlurValue = (e) => {
-		const newWorld = e.target.value;
-		if (!newWorld) {
+	onBlurValue = () => {
+		// const newWorld = e.target.value;
+		// if (!newWorld) {
+		// 	this.setState({
+		// 		PopoverVisible: false,
+		// 	});
+		// }
+		const {
+			form: { getFieldsValue },
+		} = this.props; // 会提示props is not defined
+		const fields = getFieldsValue();
+		if (fields.newPassword === fields.newPasswordAgain) {
 			this.setState({
-				PopoverVisible: false,
+				againPasswordVisible: false,
 			});
 		}
 		setTimeout(() => {
@@ -110,11 +137,11 @@ class Login extends React.Component {
 		}, 200);
 
 		// 三个都输入正确时
-		if (regx.test(newWorld) && numAndWorld.test(newWorld) && regx1.test(newWorld)) {
-			this.setState({
-				PopoverVisible: false,
-			});
-		}
+		// if (regx.test(newWorld) && numAndWorld.test(newWorld) && regx1.test(newWorld)) {
+		// 	this.setState({
+		// 		PopoverVisible: false,
+		// 	});
+		// }
 	};
 
 	newPasswordFoucs = (e) => {
@@ -150,6 +177,9 @@ class Login extends React.Component {
 			form: { getFieldsValue },
 		} = this.props; // 会提示props is not defined
 		const fields = getFieldsValue();
+		this.setState({
+			newPasswordLength: e.target.value.length,
+		});
 		if (fields.newPassword === fields.newPasswordAgain) {
 			this.setState({
 				fouthVali: true,
@@ -165,6 +195,7 @@ class Login extends React.Component {
 		if (e.target.value.length === 0) {
 			this.setState({
 				fouthVali: null,
+				againText: '请再次输入密码',
 			});
 		} else {
 			this.setState({
@@ -206,15 +237,16 @@ class Login extends React.Component {
 				againText: '密码不一致，请重新输入',
 			});
 		}
-
+		console.log(e.target.value.length);
+		if (e.target.value.length > 0) {
+			this.setState({
+				secondClearIcon: true,
+			});
+		}
 		if (e.target.value.length === 0) {
 			this.setState({
 				fouthVali: null,
 				againText: '请再次输入密码',
-			});
-		} else {
-			this.setState({
-				secondClearIcon: true,
 			});
 		}
 	};
@@ -234,7 +266,6 @@ class Login extends React.Component {
 					firstVali: null, // 第一次～第四次验证判断
 					secondVali: null,
 					thirdVali: null,
-					PopoverVisible: false,
 				});
 			}
 		}
@@ -243,8 +274,9 @@ class Login extends React.Component {
 			if (fields.newPasswordAgain && fields.newPasswordAgain.length) {
 				resetFields(['newPasswordAgain']);
 				this.setState({
-					fouthVali: null,
-					againText: '请再次输入密码',
+					// fouthVali: null,
+					// againText: '请再次输入密码',
+					newPasswordLength: 0,
 					againPasswordVisible: false,
 				});
 			}
@@ -264,7 +296,7 @@ class Login extends React.Component {
 			const firstWorld = fields.newPassword;
 			const newWorld = fields.newPasswordAgain;
 			// && numAndWorld.test(newWorld) && regx1.test(newWorld)
-			console.log(regx, newWorld, regx.test(newWorld));
+			// console.log(regx, newWorld, regx.test(newWorld));
 
 			if (!firstWorld || !newWorld) {
 				message.warning('必须新输入密码');
@@ -307,12 +339,12 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, againPasswordVisible, firstVali, secondVali, thirdVali, fouthVali, againText, firstClearIcon, secondClearIcon, PopoverVisible,
+			loading, userName, againPasswordVisible, firstVali, secondVali, thirdVali, fouthVali, againText, firstClearIcon, secondClearIcon,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType,
 		} = this.props; // 会提示props is not defined
-		console.log(PopoverVisible); // 控制提示显隐
+		// console.log(PopoverVisible); // 控制提示显隐
 		const popverTypes = (type) => {
 			let popverType;
 			if (type === true) {
@@ -354,7 +386,7 @@ class Login extends React.Component {
 							<FormItem>
 								<Popover
 									content={newPassword}
-									trigger="click"
+									trigger="focus"
 									visible
 									onVisibleChange={this.handleNewPassword}
 									placement="right"
@@ -390,7 +422,7 @@ class Login extends React.Component {
 							<FormItem>
 								<Popover
 									content={newAgainPassword}
-									trigger="click"
+									trigger="focus"
 									visible={againPasswordVisible}
 									onVisibleChange={this.handleAgainPassword}
 									placement="right"

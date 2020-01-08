@@ -237,9 +237,13 @@
   }
   .ant-popover-inner {
     color: #181D27;
-    min-width: 157px;
+    min-width: 165px;
     background-color: #F0F2F5;
     box-shadow: none;
+    .ant-popover-inner-content {
+      color: #181D27;
+      min-width: 165px;
+    }
   }
 }
 .yc-login-back {

@@ -28,6 +28,7 @@ class ChangeWorldModal extends React.PureComponent {
 			secondVali: null,
 			thirdVali: null,
 			fouthVali: null,
+			newPasswordLength: null,
 			againText: '请再次输入密码',
 		};
 	}
@@ -44,6 +45,11 @@ class ChangeWorldModal extends React.PureComponent {
 	// 实时输入新密码
 	changeValue = (e) => {
 		const newWorld = e.target.value;
+		const {
+			form: { getFieldsValue },
+		} = this.props; // 会提示props is not defined
+		const { newPasswordLength } = this.state;
+		const fields = getFieldsValue();
 		// 第1个节点变化，判断是否正确
 		if (!regx.test(newWorld)) {
 			this.setState({
@@ -82,21 +88,34 @@ class ChangeWorldModal extends React.PureComponent {
 				thirdVali: null,
 			});
 		}
+		if (fields.Password === fields.newPassword) {
+			this.setState({
+				fouthVali: true,
+				againText: '两次密码输入一致',
+			});
+		} else if (fields.newPassword && newPasswordLength) {
+			this.setState({
+				fouthVali: false,
+				againText: '密码不一致，请重新输入',
+				againPasswordVisible: true,
+			});
+		}
 	};
 
-	onBlurValue = (e) => {
-		const newWorld = e.target.value;
-		if (!newWorld) {
-			this.setState({
-				PopoverVisible: false,
-			});
-		}
-		// 三个都输入正确时
-		if (regx.test(newWorld) && numAndWorld.test(newWorld) && regx1.test(newWorld)) {
-			this.setState({
-				PopoverVisible: false,
-			});
-		}
+	onBlurValue = () => {
+		// const newWorld = e.target.value;
+		// if (!newWorld) {
+		// 	this.setState({
+		// 		// PopoverVisible: false,
+		// 	});
+		// }
+		// // 三个都输入正确时
+		// if (regx.test(newWorld) && numAndWorld.test(newWorld) && regx1.test(newWorld)) {
+		// 	this.setState({
+		// 		// PopoverVisible: false,
+		// 	});
+		// }
+		this.onAgainBlurValue();
 	};
 
 	newPasswordFoucs = (e) => {
@@ -127,6 +146,9 @@ class ChangeWorldModal extends React.PureComponent {
 			form: { getFieldsValue },
 		} = this.props; // 会提示props is not defined
 		const fields = getFieldsValue();
+		this.setState({
+			newPasswordLength: e.target.value.length,
+		});
 		if (fields.Password === fields.newPassword) {
 			this.setState({
 				fouthVali: true,
@@ -140,8 +162,10 @@ class ChangeWorldModal extends React.PureComponent {
 		}
 		// 重置输入样式
 		if (e.target.value.length === 0) {
+			console.log(1123);
 			this.setState({
 				fouthVali: null,
+				againText: '请再次输入密码',
 			});
 		}
 	};
@@ -199,7 +223,7 @@ class ChangeWorldModal extends React.PureComponent {
 					firstVali: null, // 第一次～第四次验证判断
 					secondVali: null,
 					thirdVali: null,
-					PopoverVisible: false,
+					// PopoverVisible: false,
 				});
 			}
 		}
@@ -219,12 +243,11 @@ class ChangeWorldModal extends React.PureComponent {
 	handleCancel=() => {
 		const { onCancel } = this.props;
 		this.setState({
-			PopoverVisible: false,
+			// PopoverVisible: false,
 			againPasswordVisible: false,
-		});
-		setTimeout(() => {
+		}, () => {
 			onCancel();
-		}, 0);
+		});
 	};
 
 	// 确认修改密码
@@ -352,7 +375,7 @@ class ChangeWorldModal extends React.PureComponent {
 					>
 						<Popover
 							content={newPassword}
-							trigger="click"
+							trigger="focus"
 							visible={PopoverVisible}
 							onVisibleChange={this.handleNewPassword}
 							placement="right"
@@ -378,7 +401,7 @@ class ChangeWorldModal extends React.PureComponent {
 					>
 						<Popover
 							content={newAgainPassword}
-							trigger="click"
+							trigger="focus"
 							visible={againPasswordVisible}
 							onVisibleChange={this.handleAgainPassword}
 							placement="right"
