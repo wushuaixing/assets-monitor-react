@@ -11,7 +11,7 @@ import './utils/config';
 const Version = 'v4.0.2';
 window.CurrentVersions = Version;
 if (window.location.protocol === 'http:') {
-	const BetaNumber = '.1';
+	const BetaNumber = '.2';
 	console.info(`Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`);
 }
 
