@@ -98,7 +98,7 @@ openModal = () => {
 			loading, phoneCode, btnDisabled, noPhoneModalVisible,
 		} = this.state;
 		const {
-			form: { getFieldProps }, phoneNum,
+			form: { getFieldProps }, phoneNum, changeType,
 		} = this.props; // 会提示props is not defined
 
 		return (
@@ -115,11 +115,11 @@ openModal = () => {
 							</FormItem>
 						</div>
 						<div className="yc-form-wapper">
-							<span className="yc-form-lable">验证码</span>
+							<span className="yc-form-lable">短信验证码</span>
 							<FormItem style={{ marginBottom: 16 }}>
 								<Input
 									className="yc-login-input"
-									placeholder="请输入验证码"
+									placeholder="请输入短信验证码"
 									{...getFieldProps('phoneCode', {
 										validateTrigger: 'onBlur',
 										// rules: [
@@ -134,6 +134,7 @@ openModal = () => {
 						</div>
 						<div onClick={this.openModal} className="yc-from-noPhone">手机号不可用?</div>
 						<Button type="primary" className="yc-login-btn" style={{ marginTop: 25 }} onClick={this.handleSubmit}>下一步</Button>
+						<div className="yc-login-back" onClick={() => changeType(1)}>返回登录</div>
 					</Spin>
 				</Form>
 				{/** 新增跟进Modal */}

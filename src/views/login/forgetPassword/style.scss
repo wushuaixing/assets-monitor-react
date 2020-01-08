@@ -1,6 +1,6 @@
 .yc-verifyAccount-main {
   //text-align: center;
-  height: 360px;
+  height: 390px;
   width: 446px;
   background: #FFFFFF;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
@@ -103,9 +103,8 @@
     }
   }
   .yc-login-btn {
-    margin-left: 33px;
     font-size: 14px;
-    width: 320px;
+    width: 380px;
     //margin-left: 80px;
     margin-top: 50px;
     text-align: center;
@@ -117,8 +116,8 @@
 }
 .yc-changePassword-main{
 
-  height: 360px;
-  width: 630px;
+  height: 390px;
+  width: 610px;
   background: #FFFFFF;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 4px;
@@ -137,6 +136,7 @@
     font-size: 16px;
     line-height: 16px;
     text-align: center;
+    width: 440px;
   }
   .yc-form-wapper {
     position: relative;
@@ -213,8 +213,8 @@
   }
   .yc-login-btn {
     font-size: 14px;
-    width: 320px;
-    margin-left: 130px;
+    width: 300px;
+    margin-left: 80px;
     margin-top: 40px;
     height: 44px;
     line-height: 26px;
@@ -230,7 +230,27 @@
   .yc-poprver-false {
     color: red;
   }
+  .ant-popover-arrow {
+    &:after {
+      border-right-color: #F0F2F5;
+    }
+  }
   .ant-popover-inner {
     color: #181D27;
+    min-width: 157px;
+    background-color: #F0F2F5;
+    box-shadow: none;
   }
+}
+.yc-login-back {
+  color: $text-link;
+  margin-top: 20px;
+  text-align: right;
+  font-size: 14px;
+  cursor: pointer;
+  width: 380px;
+ &:hover {
+   text-decoration: underline;
+   color: $text-link-hover;
+ }
 }

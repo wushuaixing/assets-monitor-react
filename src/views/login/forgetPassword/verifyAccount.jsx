@@ -72,7 +72,7 @@ class Login extends React.Component {
 			loading, codeImg,
 		} = this.state;
 		const {
-			form: { getFieldProps },
+			form: { getFieldProps }, changeType,
 		} = this.props; // 会提示props is not defined
 		console.log(codeImg);
 
@@ -124,6 +124,7 @@ class Login extends React.Component {
 							</FormItem>
 						</div>
 						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>下一步</Button>
+						<div className="yc-login-back" onClick={() => changeType(1)}>返回登录</div>
 					</Spin>
 				</Form>
 			</div>

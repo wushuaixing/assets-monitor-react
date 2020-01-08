@@ -266,7 +266,7 @@ class Login extends React.Component {
 			// && numAndWorld.test(newWorld) && regx1.test(newWorld)
 			console.log(regx, newWorld, regx.test(newWorld));
 
-			if (!firstWorld && !newWorld) {
+			if (!firstWorld || !newWorld) {
 				message.warning('必须新输入密码');
 				return;
 			}
@@ -307,11 +307,12 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, PopoverVisible, againPasswordVisible, firstVali, secondVali, thirdVali, fouthVali, againText, firstClearIcon, secondClearIcon,
+			loading, userName, againPasswordVisible, firstVali, secondVali, thirdVali, fouthVali, againText, firstClearIcon, secondClearIcon, PopoverVisible,
 		} = this.state;
 		const {
-			form: { getFieldProps },
+			form: { getFieldProps }, changeType,
 		} = this.props; // 会提示props is not defined
+		console.log(PopoverVisible); // 控制提示显隐
 		const popverTypes = (type) => {
 			let popverType;
 			if (type === true) {
@@ -354,7 +355,7 @@ class Login extends React.Component {
 								<Popover
 									content={newPassword}
 									trigger="click"
-									visible={PopoverVisible}
+									visible
 									onVisibleChange={this.handleNewPassword}
 									placement="right"
 									className="yc-form-popover"
@@ -419,6 +420,7 @@ class Login extends React.Component {
 							</FormItem>
 						</div>
 						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>确定</Button>
+						<div className="yc-login-back" onClick={() => changeType(1)}>返回登录</div>
 					</Spin>
 				</Form>
 			</div>
