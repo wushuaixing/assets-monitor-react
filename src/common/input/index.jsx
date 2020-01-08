@@ -65,7 +65,16 @@ class comInput extends React.Component {
 
 	onBlur=() => {
 		// console.log('onBlur');
-		const { money, onChange, decimal } = this.props;
+		const {
+			money, onChange, decimal, onBlur, loginBlur,
+		} = this.props;
+		if (loginBlur) {
+			const str = this.ref.value;
+			this.setState({
+				inputValue: str,
+			});
+			onBlur(str);
+		}
 		// 上次的结果
 		const { oldValue } = this.state;
 

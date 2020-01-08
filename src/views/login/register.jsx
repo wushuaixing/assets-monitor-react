@@ -237,9 +237,11 @@ class Login extends React.Component {
 									style={{ fontSize: 14 }}
 									unSplitLine
 									username
+									loginBlur
 									{...getFieldProps('username', {
 										initialValue: userName && userName.length > 0 ? userName : '',
 										validateTrigger: isIe ? 'onBlur' : 'onChange',
+										// validateTrigger: 'onBlur',
 										rules: [
 											{
 												required: true,
@@ -271,6 +273,7 @@ class Login extends React.Component {
 									titleWidth={40}
 									titleIcon
 									unSplitLine
+									loginBlur
 									{...getFieldProps('password', {
 										validateTrigger: isIe ? 'onBlur' : 'onChange',
 										onChange: () => {
