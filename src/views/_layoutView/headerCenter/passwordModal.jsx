@@ -361,7 +361,7 @@ class ChangeWorldModal extends React.PureComponent {
 					>
 						<Input
 							type="password"
-							autocomplete="off"
+							autocomplete="new-password"
 							style={{ width: 234, height: 34 }}
 							placeholder="请输入原密码"
 							maxlength="20"
@@ -382,7 +382,7 @@ class ChangeWorldModal extends React.PureComponent {
 							placement="right"
 						>
 							<Input
-								autocomplete="off"
+								autocomplete="new-password"
 								type="password"
 								style={{ width: 234, height: 34 }}
 								placeholder="请输入新密码"
@@ -410,7 +410,7 @@ class ChangeWorldModal extends React.PureComponent {
 						>
 							<Input
 								type="password"
-								autocomplete="off"
+								autocomplete="new-password"
 								style={{ width: 234, height: 34 }}
 								placeholder="请再次输入新密码"
 								maxlength="20"
