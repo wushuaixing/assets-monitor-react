@@ -110,7 +110,7 @@ const responseMethods = {
 /* =========  常规请求   ========= */
 const service = axios.create({
 	baseURL: BASE_URL || process.env.BASE_URL,
-	timeout: 5000 * 4,
+	timeout: 1000 * 30,
 	withCredentials: true,
 	credentials: 'include',
 	headers: {
