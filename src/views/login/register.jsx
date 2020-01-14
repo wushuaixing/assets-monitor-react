@@ -34,6 +34,7 @@ class Login extends React.Component {
 			codeImg: verificationCodeImg,
 			passwordModalVisible: false,
 			codeStatus: false,
+			autocompleteType: 'off',
 		};
 	}
 
@@ -50,7 +51,7 @@ class Login extends React.Component {
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
 			const { className } = document.activeElement.offsetParent;
-			if (/yc-input-wrapper/.test(className)) {
+			if (/ant-form-item-control/.test(className)) {
 				this.handleSubmit();
 				document.activeElement.blur();
 			}
@@ -203,7 +204,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, codeImg, passwordModalVisible, codeStatus,
+			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType, btnColor,
@@ -215,6 +216,10 @@ class Login extends React.Component {
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		return (
 			<div style={{ height: imgCodeHeight }} className="yc-login-main">
+				<div style={{ opacity: 0, height: 0, display: 'none' }}>
+					<input type="text" />
+					<input type="password" />
+				</div>
 
 				<Form>
 					<Spin spinning={loading}>
@@ -230,12 +235,11 @@ class Login extends React.Component {
 									className="yc-login-input"
 									placeholder="请输入11位数字"
 									maxLength="11"
-									autoComplete="on"
-									// type="text"
+									autocomplete="new-password"
+									type="text"
 									style={{ fontSize: 14 }}
 									// value={userName}
 									{...getFieldProps('username', {
-										// initialValue: userName && userName.length > 0 ? userName : '',
 										validateTrigger: isIe ? 'onBlur' : 'onChange',
 										rules: [
 											{
@@ -258,19 +262,15 @@ class Login extends React.Component {
 									className="yc-form-icon"
 									style={{ fontSize: 19 }}
 								/>
-								<Input style={{ opacity: 0, height: 0, display: 'none' }} />
+								<Input type="text" autocomplete="new-password" style={{ opacity: 0, height: 0, display: 'none' }} />
 								<Input
 									className="yc-login-input"
-									// type={isIe || global.GLOBAL_MEIE_BROWSER ? 'password' : passWordType}
 									type="password"
-									autoComplete="new-password"
+									autocomplete={autocompleteType}
 									placeholder="请输入密码"
 									maxLength="16"
 									style={{ fontSize: 14 }}
 									titleWidth={40}
-									titleIcon
-									unSplitLine
-									loginBlur
 									{...getFieldProps('password', {
 										validateTrigger: isIe ? 'onBlur' : 'onChange',
 										rules: [
