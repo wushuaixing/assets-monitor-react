@@ -437,7 +437,7 @@ class BusinessView extends React.Component {
 		};
 		return (
 			<div className="yc-content-query">
-				<Spin visible={reqLoading} modal text={'业务删除中...<br />选中业务量较大时可能需要一段时间<br />若5分钟后界面未刷新请手动刷新界面'} />
+				<Spin visible={reqLoading} modal text="正在删除中,请稍后..." />
 				<Spin visible={errorLoading} modal text="正在为您上传文件，请稍后..." />
 				<Form layout="inline">
 					<div className="yc-query-item">
