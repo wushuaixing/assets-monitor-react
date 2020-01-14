@@ -7,9 +7,9 @@ import Cookies from 'universal-cookie';
 // 所需的所有组件
 // ==================
 import {
-	Form, Button, message, Spin,
+	Form, Button, message, Spin, Input,
 } from 'antd';
-import { Input, Icon } from '@/common';
+import { Icon } from '@/common';
 import {
 	login, // login
 	loginPreCheck, // 登录前校验
@@ -31,10 +31,8 @@ class Login extends React.Component {
 		this.state = {
 			loading: false,
 			rememberPassword: cookie.get('rememberPassword'),
-			userName: '',
 			codeImg: verificationCodeImg,
 			passwordModalVisible: false,
-			inputType: 'text',
 			codeStatus: false,
 		};
 	}
@@ -205,13 +203,13 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, codeImg, passwordModalVisible, inputType,	codeStatus,
+			loading, codeImg, passwordModalVisible, codeStatus,
 		} = this.state;
 		const {
-			form: { getFieldProps, getFieldsValue }, changeType, btnColor,
+			form: { getFieldProps }, changeType, btnColor,
 		} = this.props; // 会提示props is not definedC
-		const fields = getFieldsValue();
-		const passWordType = fields.password && fields.password.length > 0 ? 'password' : inputType;
+		// const fields = getFieldsValue();
+		// const passWordType = fields.password && fields.password.length > 0 ? 'password' : inputType;
 		const imgCodeHeight = codeStatus && 424;
 		// 判断ie8到11
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
@@ -220,6 +218,7 @@ class Login extends React.Component {
 
 				<Form>
 					<Spin spinning={loading}>
+
 						<li className="yc-card-title">用户登录</li>
 						<div className="yc-form-wapper">
 							<Form.Item>
@@ -231,17 +230,13 @@ class Login extends React.Component {
 									className="yc-login-input"
 									placeholder="请输入11位数字"
 									maxLength="11"
-									// title={(<span className="yc-form-userName yc-form-icon" />)}
-									titleWidth={40}
-									titleIcon
+									autoComplete="on"
+									// type="text"
 									style={{ fontSize: 14 }}
-									unSplitLine
-									username
-									loginBlur
+									// value={userName}
 									{...getFieldProps('username', {
-										initialValue: userName && userName.length > 0 ? userName : '',
+										// initialValue: userName && userName.length > 0 ? userName : '',
 										validateTrigger: isIe ? 'onBlur' : 'onChange',
-										// validateTrigger: 'onBlur',
 										rules: [
 											{
 												required: true,
@@ -252,7 +247,6 @@ class Login extends React.Component {
 												message: '禁止输入空格',
 											},
 										],
-										// getValueFromEvent: e => e.replace(/\s+/g, ''),
 									})}
 								/>
 							</Form.Item>
@@ -264,9 +258,12 @@ class Login extends React.Component {
 									className="yc-form-icon"
 									style={{ fontSize: 19 }}
 								/>
+								<Input style={{ opacity: 0, height: 0, display: 'none' }} />
 								<Input
 									className="yc-login-input"
-									type={isIe || global.GLOBAL_MEIE_BROWSER ? 'password' : passWordType}
+									// type={isIe || global.GLOBAL_MEIE_BROWSER ? 'password' : passWordType}
+									type="password"
+									autoComplete="new-password"
 									placeholder="请输入密码"
 									maxLength="16"
 									style={{ fontSize: 14 }}
@@ -276,11 +273,6 @@ class Login extends React.Component {
 									loginBlur
 									{...getFieldProps('password', {
 										validateTrigger: isIe ? 'onBlur' : 'onChange',
-										onChange: () => {
-											this.setState({
-												inputType: 'password',
-											});
-										},
 										rules: [
 											{
 												required: true,

@@ -20,7 +20,7 @@ const columns = (props) => {
 			width: 100,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
-			title: '土地使用人',
+			title: '土地使用权人',
 			width: 190,
 			dataIndex: 'obligorName',
 			render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,

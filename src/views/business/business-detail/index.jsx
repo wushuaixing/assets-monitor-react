@@ -17,6 +17,7 @@ import {
 } from '@/common';
 import TableList from '../table-list';
 import './style.scss';
+import { Icon } from '../../../../patchs/antd';
 
 const { confirm } = Modal;
 const createForm = Form.create;
@@ -30,6 +31,8 @@ class DebtorDetail extends React.Component {
 			detail: null,
 			isEdit: false,
 			codeLoading: false,
+			errorModalVisible: false,
+			timeLeft: 3,
 			data: [],
 			columns: [{
 				title: '相关人名称',
@@ -91,10 +94,36 @@ class DebtorDetail extends React.Component {
 					loading: false,
 				});
 			} else {
-				message.error(res.message);
+				// message.error();
+				let time = 3;
+				const timer = setInterval(() => {
+					time -= 1;
+					this.setState({
+						timeLeft: time,
+					});
+					if (time === 0) {
+						this.closeErrorModal();
+						clearInterval(timer);
+					}
+				}, 1000);
+				this.openErrorModal();
+				this.setState({ loading: false });
 			}
 		}).catch(() => {
 			this.setState({ loading: false });
+		});
+	};
+
+	openErrorModal = () => {
+		this.setState({
+			errorModalVisible: true,
+		});
+	};
+
+	closeErrorModal = () => {
+		window.close();
+		this.setState({
+			errorModalVisible: false,
 		});
 	};
 
@@ -211,7 +240,7 @@ class DebtorDetail extends React.Component {
 	// 变更记录
 	render() {
 		const {
-			edit, detail, loading, columns, data, isEdit, codeLoading,
+			edit, detail, loading, columns, data, isEdit, codeLoading, timeLeft, errorModalVisible,
 		} = this.state;
 		const { form, parent, parentUrL } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -358,6 +387,31 @@ class DebtorDetail extends React.Component {
 					)
 						: <Edit editSave={this.editSave} isEdit={this.isEdit} data={data} />}
 				</div>
+				{errorModalVisible && 	(
+					<Modal
+						visible={errorModalVisible}
+						onCancel={this.handleCancel}
+						footer={false}
+						width={500}
+						closable={false}
+					>
+
+						<div className="yc-confirm-body">
+							<div className="yc-confirm-header">
+								<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle-o" />
+								<span className="yc-confirm-title">业务已删除</span>
+							</div>
+							<div className="yc-confirm-content">
+								<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
+								秒后自动关闭页面
+							</div>
+							<div className="yc-confirm-btn">
+								<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">知道了</Button>
+							</div>
+						</div>
+
+					</Modal>
+				)}
 				<TableList model="business" />
 			</div>
 		);
