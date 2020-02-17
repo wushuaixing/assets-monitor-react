@@ -12,6 +12,7 @@ import LandData from './land-data'; // 土地数据
 import Tender from './tender-bid'; // 招标中标
 import Financial from './financial-assets'; // 金融资产
 import Mortgage from './chattel-mortgage'; // 动产抵押
+import Intangible from './intangible-assets'; // 无形资产
 // import Public from './public-proclamation'; // 公示公告
 // import Attention from '../my-attention'; // 我的关注
 import VersionUpdateModal from '../_layoutView/versionUpdateModal';
@@ -40,6 +41,8 @@ const toGetRuth = (moduleID) => {
 			components = Financial;
 		} else if (item.id === `${moduleID}06`) {
 			components = Mortgage;
+		} else if (item.id === `${moduleID}07`) {
+			components = Intangible;
 		} else {
 			components = noPage;
 		}

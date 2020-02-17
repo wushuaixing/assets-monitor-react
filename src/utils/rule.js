@@ -224,6 +224,12 @@ export default {
 						url: '/monitor/mortgage',
 						status: toStatus(rule.menu_zcwj, 'zcwjdcdy'),
 					},
+					{
+						id: 'YC0207',
+						name: '无形资产',
+						url: '/monitor/intangible',
+						status: toStatus(rule.menu_zcwj, 'zcwjwxzc') || true,
+					},
 				],
 			},
 			{
