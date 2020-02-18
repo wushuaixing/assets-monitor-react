@@ -1,6 +1,6 @@
 import React from 'react';
-/*import API from '@/utils/api/monitor-info/intangible';*/
-import API from '@/utils/api/risk-monitor/operation-risk';
+import API from '@/utils/api/monitor-info/intangible';
+/*import API from '@/utils/api/risk-monitor/operation-risk';*/
 import { message, Modal } from 'antd';
 import {
 	Tabs, Button, Spin, Download,
@@ -143,6 +143,7 @@ export default class IntangibleAssets extends React.Component {
 
     // sourceType变化
     onSourceType=(sourceType) => {
+        debugger
     	this.setState({
     		sourceType,
     		dataSource: '',
@@ -181,6 +182,7 @@ export default class IntangibleAssets extends React.Component {
 
     // 发起查询请求
     onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
+        debugger
     	const { sourceType, isRead, current } = this.state;
     	const __isRead = _isRead || isRead;
     	const __type = _sourceType || sourceType;

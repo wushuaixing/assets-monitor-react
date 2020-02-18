@@ -3,7 +3,7 @@ import { Pagination,Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
 import { Table, Ellipsis, SelectedNum } from '@/common';
-import { Change } from '@/utils/api/risk-monitor/operation-risk';
+import { Copyright } from '@/utils/api/monitor-info/intangible';
 
 const status = {
     1: {
@@ -123,7 +123,7 @@ export default class BusinessChange extends Component {
         const { id, isRead } = record;
         const { onRefresh, manage } = this.props;
         if (!isRead && !manage) {
-            Change.read({ id }).then((res) => {
+            Copyright.read({ id }).then((res) => {
                 if (res.code === 200) {
                     onRefresh({ id, isRead: !isRead, index }, 'isRead');
                 }

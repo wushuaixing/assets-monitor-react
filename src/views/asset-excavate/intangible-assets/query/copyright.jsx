@@ -57,18 +57,18 @@ class QueryCondition extends React.Component {
         return (
             <div className="yc-content-query">
                 <div className="yc-query-item">
-                    <Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('name')} />
+                    <Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
                 </div>
                 <div className="yc-query-item">
-                    <Input title="商标/专利名称" style={_style1} size="large" placeholder="商标/专利名称" {...getFieldProps('putReason')} />
+                    <Input title="商标/专利名称" style={_style1} size="large" placeholder="商标/专利名称" {...getFieldProps('rightsName')} />
                 </div>
                 <div className="yc-query-item">
-                    <span className="yc-query-item-title">权证类型：</span>
-                    <Select size="large" style={_style3} placeholder="请选择矿业权类型" {...getFieldProps('isRemove')} allowClear>
+                    <span className="yc-query-item-title">权利类型：</span>
+                    <Select size="large" style={_style3} placeholder="请选择矿业权类型" {...getFieldProps('rightsType')} allowClear>
                         //todo
                         {/* 类型现在不知道等后台接口文档 */}
-                        <Select.Option value={false}>未移除</Select.Option>
-                        <Select.Option value>已移除</Select.Option>
+                        <Select.Option value={1}>商标</Select.Option>
+                        <Select.Option value={2}>专利</Select.Option>
                     </Select>
                 </div>
                 <div className="yc-query-item">
@@ -77,16 +77,16 @@ class QueryCondition extends React.Component {
                         size="large"
                         style={_style2}
                         placeholder="起始日期"
-                        {...getFieldProps('startGmtPutDate', timeOption)}
-                        disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtPutDate'))}
+                        {...getFieldProps('noticeTimeStart', timeOption)}
+                        disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('noticeTimeStart'))}
                     />
                     <span className="yc-query-item-title">至</span>
                     <DatePicker
                         size="large"
                         style={_style2}
                         placeholder="截止日期"
-                        {...getFieldProps('endGmtPutDate', timeOption)}
-                        disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtPutDate'))}
+                        {...getFieldProps('noticeTimeEnd', timeOption)}
+                        disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('noticeTimeEnd'))}
                     />
                 </div>
                 <div className="yc-query-item">
@@ -95,16 +95,16 @@ class QueryCondition extends React.Component {
                         size="large"
                         style={_style2}
                         placeholder="起始日期"
-                        {...getFieldProps('startGmtCreate', timeOption)}
-                        disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtCreate'))}
+                        {...getFieldProps('gmtCreateStart', timeOption)}
+                        disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtCreateStart'))}
                     />
                     <span className="yc-query-item-title">至</span>
                     <DatePicker
                         size="large"
                         style={_style2}
                         placeholder="截止日期"
-                        {...getFieldProps('endGmtCreate', timeOption)}
-                        disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtCreate'))}
+                        {...getFieldProps('gmtCreateEnd', timeOption)}
+                        disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtCreateEnd'))}
                     />
                 </div>
 

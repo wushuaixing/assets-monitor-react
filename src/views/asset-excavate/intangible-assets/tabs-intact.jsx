@@ -35,7 +35,7 @@ export default class TabsIntact extends React.Component {
 
     toGetUnReadCount=(config) => {
         const { onRefresh } = this.props;
-        unReadCount().then((res) => {
+       /* unReadCount().then((res) => {
             const { data, code } = res;
             if (code === 200) {
                 const result = config.map((item) => {
@@ -49,7 +49,7 @@ export default class TabsIntact extends React.Component {
                 this.setState({ _source: result });
                 if (onRefresh)onRefresh(result);
             }
-        });
+        });*/
     };
 
     render() {

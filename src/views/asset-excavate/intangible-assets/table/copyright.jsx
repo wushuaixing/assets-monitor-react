@@ -3,7 +3,7 @@ import { Pagination,Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
 import { Table, Ellipsis, SelectedNum } from '@/common';
-import { Change } from '@/utils/api/risk-monitor/operation-risk';
+import { Copyright } from '@/utils/api/monitor-info/intangible';
 
 
 const status = {
@@ -31,8 +31,8 @@ const columns = (props) => {
     const defaultColumns = [
         {
             title: (noSort ? <span style={{ paddingLeft: 11 }}>公告日期</span>
-                : <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发证日期</SortVessel>),
-            dataIndex: 'changeTime',
+                : <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>公告日期</SortVessel>),
+            dataIndex: 'noticeTime',
             width: 113,
             render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
         }, {
@@ -43,19 +43,19 @@ const columns = (props) => {
         }, {
             title: '商标/专利名称',
             width: 200,
-            dataIndex: 'changeItem',
+            dataIndex: 'rightsName',
             render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
         }, {
-            title: '权证类型',
+            title: '权利类型',
             width: 260,
-            dataIndex: 'contentBefore',
+            dataIndex: 'rightsType',
             render: (text, row) => (
                 <span>商标</span>
             ),
         },  {
             title: (noSort ? global.Table_CreateTime_Text
                 : <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-            dataIndex: 'gmtCreate',
+            dataIndex: 'gmtModified',
             width: 90,
             render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
         }, {
@@ -68,7 +68,7 @@ const columns = (props) => {
                     text={text}
                     row={row}
                     onClick={onRefresh}
-                    api={row.isAttention ? Change.unAttention : Change.attention}
+                    api={row.isAttention ? Copyright.unAttention : Copyright.attention}
                     index={index}
                 />
             ),
@@ -97,7 +97,7 @@ export default class BusinessChange extends Component {
         const { id, isRead } = record;
         const { onRefresh, manage } = this.props;
         if (!isRead && !manage) {
-            Change.read({ id }).then((res) => {
+            Copyright.read({ id }).then((res) => {
                 if (res.code === 200) {
                     onRefresh({ id, isRead: !isRead, index }, 'isRead');
                 }
