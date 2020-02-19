@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Pagination,Tooltip } from 'antd';
+import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
 import { Table, Ellipsis, SelectedNum } from '@/common';
@@ -129,7 +129,7 @@ export default class BusinessChange extends Component {
     	const { id, isRead } = record;
     	const { onRefresh, manage } = this.props;
     	if (!isRead && !manage) {
-            Copyright.read({ id }).then((res) => {
+    		Copyright.read({ id }).then((res) => {
     			if (res.code === 200) {
     				onRefresh({ id, isRead: !isRead, index }, 'isRead');
     			}
