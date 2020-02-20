@@ -270,37 +270,27 @@ export default class Enterprise extends React.Component {
 		const {
 			tabConfig, childDom, sourceType, affixStatus, loading, infoSource, countSource, isDishonest,
 		} = this.state;
-		const classList = ['enterprise-intro'];
-		if (!childDom) classList.push('enterprise-intro-child');
-		if (affixStatus) classList.push('enterprise-intro-affix');
+		// const classList = ['enterprise-intro'];
+		// if (!childDom) classList.push('enterprise-intro-child');
+		// if (affixStatus) classList.push('enterprise-intro-affix');
 		return (
-			<div className="yc-inquiry-enterprise">
+			<div className="yc-information-detail-wrapper">
+				<div className="info-navigation info-wrapper">导航模块</div>
 				<div className="mark-line" />
-				<div className="inquiry-enterprise-content">
-					<Affix onChange={this.onChangeAffix}>
-						<Spin visible={loading}>
-							<div className={classList.push(' ')} id="enterprise-intro">
-								{
-									affixStatus
-										? <EnterpriseInfoSimple download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
-										: <EnterpriseInfo download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
-								}
-								<Tabs.Simple
-									onChange={this.onSourceType}
-									source={tabConfig}
-									symbol="none"
-									defaultCurrent={sourceType}
-								/>
-								{childDom}
-							</div>
-						</Spin>
-					</Affix>
+				<div className="info-detail info-wrapper">
+					<EnterpriseInfo download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
+					<Tabs.Simple
+						onChange={this.onSourceType}
+						source={tabConfig}
+						symbol="none"
+						defaultCurrent={sourceType}
+					/>
+				</div>
+				<div className="mark-line" />
+				<div className="info-content info-wrapper">
+					<span>模块内容</span>
 					<Router>
-						{/* <Overview toPushChild={this.handleAddChild} path="/*" /> */}
 						<Assets toPushChild={this.handleAddChild} path="/business/detail/info/102/*" count={countSource.assets} />
-						{/* <Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} /> */}
-						{/* <Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} /> */}
-						{/* <Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" detailObj={infoSource} /> */}
 					</Router>
 				</div>
 			</div>

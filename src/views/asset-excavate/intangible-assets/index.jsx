@@ -1,7 +1,7 @@
 import React from 'react';
-/*import API from '@/utils/api/monitor-info/intangible';*/
-import API from '@/utils/api/risk-monitor/operation-risk';
+/* import API from '@/utils/api/monitor-info/intangible'; */
 import { message, Modal } from 'antd';
+import API from '@/utils/api/risk-monitor/operation-risk';
 import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
@@ -192,32 +192,32 @@ export default class IntangibleAssets extends React.Component {
     	if (__isRead === 'all') delete this.condition.isRead;
     	if (__isRead === 'unread') this.condition.isRead = 0;
     	 this.setState({
-            loading: true,
-            manage: _manage || false,
-        });
+    		loading: true,
+    		manage: _manage || false,
+    	});
     	this.toInfoCount(__type);
     	 API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
-            if (res.code === 200) {
-                this.config[toGetProcess(__type, this.config)].number = res.data.total;
-                // tabConfig[toGetProcess(__type, tabConfig)].number = res.data.total;
-                this.setState({
-                    // tabConfig,
-                    dataSource: res.data.list,
-                    current: res.data.page,
-                    total: res.data.total,
-                    loading: false,
-                });
-            } else {
-                message.error(res.message || '网络请求异常请稍后再试！');
-                this.setState({
-                    loading: false,
-                });
-            }
-        }).catch(() => {
-            this.setState({
-                loading: false,
-            });
-        });
+    		if (res.code === 200) {
+    			this.config[toGetProcess(__type, this.config)].number = res.data.total;
+    			// tabConfig[toGetProcess(__type, tabConfig)].number = res.data.total;
+    			this.setState({
+    				// tabConfig,
+    				dataSource: res.data.list,
+    				current: res.data.page,
+    				total: res.data.total,
+    				loading: false,
+    			});
+    		} else {
+    			message.error(res.message || '网络请求异常请稍后再试！');
+    			this.setState({
+    				loading: false,
+    			});
+    		}
+    	}).catch(() => {
+    		this.setState({
+    			loading: false,
+    		});
+    	});
     };
 
     render() {

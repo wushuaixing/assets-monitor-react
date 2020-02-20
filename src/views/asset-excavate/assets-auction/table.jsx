@@ -12,6 +12,7 @@ import { Button, Table, SelectedNum } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
 import FollowModel from './follow-info';
+import TableVersionModal from './tableVersionModal';
 
 
 // 忽略操作
@@ -33,7 +34,7 @@ const handleIgnore = (row, index, onRefresh) => {
 };
 
 // 获取表格配置
-const columns = (props, onFollowClick) => {
+const columns = (props, onFollowClick, toOpenHistory) => {
 	const {
 		normal, onRefresh, onSortChange, sortField, sortOrder, noSort,
 	} = props;
@@ -44,7 +45,7 @@ const columns = (props, onFollowClick) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? '资产信息'
+			title: (noSort ? '业务信息'
 				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>资产信息</SortVessel>),
 			width: '23%',
 			render: AssetsInfo,
@@ -57,7 +58,7 @@ const columns = (props, onFollowClick) => {
 			title: (noSort ? '拍卖信息'
 				: <SortVessel field="START" onClick={onSortChange} mark="(开拍时间)" {...sort}>拍卖信息</SortVessel>),
 			width: '33%',
-			render: AuctionInfo,
+			render: (text, row) => AuctionInfo(text, row, toOpenHistory),
 		}, {
 			title: '操作',
 			width: '11%',
@@ -120,6 +121,9 @@ export default class TableView extends React.Component {
 			selectedRowKeys: [],
 			visible: false,
 			source: {},
+			historyInfoModalVisible: false,
+			historyInfoModalData: {},
+
 		};
 	}
 
@@ -149,12 +153,22 @@ export default class TableView extends React.Component {
 		});
 	};
 
+	// 点击历史拍卖信息
+	toOpenHistory=(source = {}) => {
+		this.setState({
+			historyInfoModalVisible: true,
+			historyInfoModalData: source,
+		});
+	};
+
 	render() {
 		const {
 			total, current, dataSource, manage, onPageChange, onRefresh, loading,
 		} = this.props;
-		const { selectedRowKeys, visible, source } = this.state;
-
+		const {
+			selectedRowKeys, visible, source, historyInfoModalVisible, historyInfoModalData,
+		} = this.state;
+		console.log(historyInfoModalVisible);
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,
@@ -170,7 +184,7 @@ export default class TableView extends React.Component {
 					visible={loading}
 					rowKey={record => record.id}
 					rowClassName={() => 'yc-assets-auction-table-row'}
-					columns={columns(this.props, this.toFollowClick)}
+					columns={columns(this.props, this.toFollowClick, this.toOpenHistory)}
 					dataSource={dataSource}
 					pagination={false}
 					onRowClick={this.toRowClick}
@@ -198,6 +212,14 @@ export default class TableView extends React.Component {
 					)
 						: null
 				}
+				{historyInfoModalVisible && (
+					<TableVersionModal
+						onCancel={() => this.setState({ historyInfoModalVisible: false })}
+						onOk={() => this.setState({ historyInfoModalVisible: false })}
+						data={historyInfoModalData}
+						historyInfoModalVisible={historyInfoModalVisible}
+					/>
+				)}
 			</React.Fragment>
 		);
 	}

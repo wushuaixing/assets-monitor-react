@@ -1,134 +1,113 @@
-//  画像查询 样式
-.yc-portrait-inquiry{
-  .ant-table-body tbody tr:nth-child(2n), .cTableContent tbody tr:nth-child(2n) {
-    background: #ffffff;
-  }
-  .ant-table-body tbody tr:nth-child(2n):hover, .cTableContent tbody tr:nth-child(2n):hover {
-    background: #ebf1fa;
-  }
-  .inquiry-list-regStatus{
-    display: inline-block;
-    vertical-align: top;
-    position: relative;
-    font-size: 12px;
-    line-height: 18px;
-    padding: 0 10px;
-    margin-left: 10px;
-    font-weight: normal;
-    border: 1px solid $border-base;
-  }
-  .regStatus-green{
-    border: 1px solid #94D6B5;
-    background-color: #F4FFF9;
-    color: $common-success;
-  }
-  .regStatus-red{
-    border: 1px solid #FF9293;
-    background-color: #FFF3F3;
-    color: $common-error;
-  }
-  .regStatus-orange{
-    border: 1px solid $common-warning;
-    background-color: #fef9f3;
-    color: $common-warning;
-  }
-  .yc-inquiry-common{
+/* 详情页「新」2020.02.19 */
+.yc-information-detail-wrapper {
+  .info-wrapper {
     padding: 20px;
-    .yc-query-item{
-      display: inline-block;
-      vertical-align: top;
-      margin-right: 20px;
-    }
   }
-  .yc-inquiry-view{
-    padding: 20px 0;
-    .yc-inquiry-title{
-      padding: 80px 0 50px 0;
-      font-size: 36px;
-      color: $common-base;
-      text-align: center;
-    }
-    .yc-inquiry-content{
-      padding: 36px;
-      width: 800px;
-      margin: 0 auto;
-      border: 1px solid $common-base;
-      .yc-query-item{
-        margin:12px 0;
-        .ant-radio-wrapper{
-          font-size: 14px;
 
-        }
-      }
-      .yc-query-item-text1{
-        margin-right: 20px;
-      }
-      .yc-query-item-text1,.yc-query-item-text2{
-        display: inline-block;
-      }
-    }
-    .yc-to-go-list{
-      text-align: center;
-      button{
-        display: inline-block;
-        margin: 20px 20px 20px 0;
-      }
-    }
-  }
-  .yc-inquiry-list{
-
-   .assets-info-content li {
-     .list-title{
-       width: auto;
-     }
-   }
-    .list-content-total{
-      padding:16px 20px;
-      border-bottom: 1px solid $border-base;
-      span{
-        @extend .yc-public-normal
-      }
-    }
-    .content-list{
-      padding: 20px;
-    }
-
-
-  }
-  .mark-line{
-    height:12px ;
+  .mark-line {
+    height: 12px;
     width: 100%;
     background-color: #F2F2F2;
   }
-  .yc-intro-sub-items{
-    padding: 16px 0 12px 0;
-    // border-bottom: 1px solid $border-base;
-    .intro-btn-items{
-      margin-right: 16px;
-      min-width: 92px;
-    }
-  }
-  .yc-inquiry-public-table{
-    .yc-tabs-simple-prefix{
-      @extend .yc-public-normal-bold;
-      min-width:90px;
-      width: auto;
-      line-height: 14px;
-      border-right: 1px solid $border-base;
-      border-left: 3px solid $text-link;
-      margin: 12px 15px 12px 0;
-      padding-right: 20px;
-      padding-left: 7px;
+
+  .enterprise-info {
+    padding: 5px 0 20px 0;
+    border-bottom: 1px solid $border-base;
+    position: relative;
+
+    .intro-icon {
+      width: 80px;
+      height: 80px;
       float: left;
+      background-color: #1E8CFA;
+      padding: 10px;
+      font-size: 24px;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 5px;
+      color: #FFFFFF;
+      position: relative;
+
+      .intro-icon-img-w {
+        overflow: hidden;
+        background-color: #FFFFFF;
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        left: 0;
+        top: 0;
+        line-height: 70px;
+        border: 1px solid #1E8CFA;
+        border-radius: 4px;
+
+        .intro-icon-img {
+          vertical-align: middle;
+          width: 100%;
+          border-radius: 4px;
+        }
+      }
+
     }
-    .inquiry-public-table{
-      padding-top: 5px;
+
+    .intro-content {
+      margin-left: 96px;
+
+      .intro-base-info, .intro-used {
+        margin-top: 7px;
+      }
+
+    }
+
+    .intro-title {
+
+      span {
+        display: inline-block;
+      }
+
+      .intro-title-name {
+        font-size: 17px;
+        position: relative;
+        //margin-right: 10px;
+
+        .intro-title-tag {
+          position: absolute;
+          //right: -10px;
+          bottom: 0;
+        }
+      }
+
+      .intro-title-status {
+        width: 44px;
+        height: 20px;
+        text-align: center;
+        color: $common-success;
+        border: 1px solid $common-success;
+        line-height: 18px;
+      }
+    }
+
+    .intro-download {
+      position: absolute;
+      right: 10px;
+      top: 0;
+      width: 84px;
+      z-index: 1;
+
+      i {
+        margin-right: 4px;
+      }
     }
   }
-  .yc-table-pagination{
-    padding-bottom: 10px;
+
+  .intro-list-border {
+    line-height: 1;
+    padding-right: 10px;
+    border-right: 1px solid $border-base;
   }
-  .yc-assets-auction .assets-info-content li .list-title {
-    width:auto;
+
+  .intro-info-list {
+    display: inline-block;
+    margin-right: 10px;
+
   }
 }

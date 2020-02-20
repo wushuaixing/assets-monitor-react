@@ -50,7 +50,7 @@ export default class DetailModal extends React.PureComponent {
 			<Modal title="历史拍卖信息" width={880} style={{ 'max-height': 650 }} visible={historyInfoModalVisible} footer={null} onCancel={this.handleCancel}>
 				<Spin visible={loading}>
 					<div className="yc-history-concent">
-						<div className="yc-history-title">{data.parsingTitle || '-'}</div>
+						<div className="yc-history-title">{data.title || '-'}</div>
 						<div className="yc-history-item">
 							<span>
 								<span className="yc-history-lable">评估价：</span>
@@ -59,13 +59,13 @@ export default class DetailModal extends React.PureComponent {
 							<div className="yc-table-line" />
 							<span>
 								<span className="yc-history-lable">处置单位：</span>
-								{data.court}
+								{data.court || '-'}
 							</span>
 						</div>
 						<div className="yc-Timeline-content">
 							<Timeline>
 								{
-									data && data.historyAuctions.map(item => (
+									data && (data.historyAuctions || data.historyAuction).map(item => (
 										<Timeline.Item>
 											<div className="yc-Timeline-item TimelineName">{item.round ? item.round : '拍卖轮次未公示'}</div>
 											<div className="yc-Timeline-lable">

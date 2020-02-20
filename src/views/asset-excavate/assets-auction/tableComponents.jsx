@@ -7,6 +7,7 @@ import Matching from './matching-reason';
 import { floatFormat } from '@/utils/format';
 import { linkDom } from '@/utils';
 import { formatDateTime } from '@/utils/changeTime';
+import { Button, Icon } from '@/common';
 
 const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 	const {
@@ -33,7 +34,7 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 					<span className="list list-content">{obligorNumber || '--'}</span>
 				</li>
 				<li>
-					<span className="list list-title">机构名称：</span>
+					<span className="list list-title" style={{ width: 80 }}>负责人/机构：</span>
 					{
 						orgName ? (
 							<Tooltip placement="top" title={orgName}>
@@ -110,9 +111,9 @@ const ExecuteInfo = (text, rowContent) => {
 // 失信记录-生效法律文书确定的义务
 const DishonestInfo = (text, content) => <Matching content={content} dishonest />;
 
-const AuctionInfo = (text, rowContent) => {
+const AuctionInfo = (text, rowContent, toOpenHistory) => {
 	const {
-		title, url, court, consultPrice, start, currentPrice, status, initialPrice,
+		title, url, court, consultPrice, start, currentPrice, status, initialPrice, roundTag, auctionStatusTag, historyAuction,
 	} = rowContent;
 	const auctionStatus = (s) => {
 		let res = '--';
@@ -190,9 +191,31 @@ const AuctionInfo = (text, rowContent) => {
 				)
 			}
 			<br />
-			<li className="table-info-list list-width-180">
-				<span className="info info-title">拍卖状态：</span>
-				<span className={`info info-content${status ? ` info-auction-${status}` : ''}`}>{auctionStatus(status)}</span>
+			<li className="table-info-list list-width-180 yc-text-normal">
+				<li className="table-info-list list-width-180">
+					<span className="info info-title">拍卖状态：</span>
+					<span className={`info info-content${status ? ` info-auction-${status}` : ''}`}>{auctionStatus(status)}</span>
+				</li>
+				{
+					auctionStatusTag
+						? <li className="table-info-list list-width-180"><span className="info-tag">拍卖状态变更</span></li> : null
+				}
+			</li>
+			<li className="table-info-list list-width-180 yc-text-normal">
+				{
+					(historyAuction || []).length ? (
+						<li className="table-info-list list-width-180">
+							<Button className="table-info-list-history" onClick={() => toOpenHistory(rowContent)}>
+								<Icon type="icon-history" style={{ fontSize: 11, marginRight: 5 }} />
+								查看历史拍卖信息
+							</Button>
+						</li>
+					) : null
+				}
+				{
+					roundTag
+						? <li className="table-info-list list-width-180"><span className="info-tag">新增拍卖轮次</span></li> : null
+				}
 			</li>
 		</div>
 	);
