@@ -5,7 +5,7 @@ import { linkDetail, timeStandard } from '@/utils';
 import { Table, Ellipsis, SelectedNum } from '@/common';
 import { Copyright } from '@/utils/api/monitor-info/intangible';
 
-const mineralSpeciesStatus = {
+const certificateTypeStatus = {
 	1: '采矿权',
 	2: '探矿权',
 	3: '未知',
@@ -40,7 +40,7 @@ const columns = (props) => {
 			width: 260,
 			dataIndex: 'certificateType',
 			render: (text, row) => (
-				<span>探矿权</span>
+				<span>{certificateTypeStatus[text]}</span>
 			),
 		}, {
 			title: '权证信息',
@@ -52,19 +52,19 @@ const columns = (props) => {
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>矿种:</span>
 							<span>
-								{mineralSpeciesStatus[text]}
+								{text||'--'}
 							</span>
 						</div>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>矿山名称:</span>
 							<span>
-								{row.projectName}
+								{row.projectName||'--'}
 							</span>
 						</div>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>面积:</span>
 							<span>
-								{row.area}
+								{row.area||'--'}
 							</span>
 						</div>
 						<div>

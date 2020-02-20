@@ -58,7 +58,6 @@ export default class IntangibleAssets extends React.Component {
 
 	// 获取统计信息
 	toInfoCount=(nextSourceType) => {
-		debugger
 		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
 	};
 
@@ -144,7 +143,6 @@ export default class IntangibleAssets extends React.Component {
 
 	// sourceType变化
 	onSourceType=(sourceType) => {
-		debugger;
 		this.setState({
 			sourceType,
 			dataSource: '',
@@ -183,7 +181,6 @@ export default class IntangibleAssets extends React.Component {
 
 	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
-		debugger;
 		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
 		const __type = _sourceType || sourceType;

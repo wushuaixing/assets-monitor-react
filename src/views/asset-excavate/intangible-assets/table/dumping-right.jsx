@@ -79,11 +79,11 @@ const columns = (props) => {
 							<React.Fragment>
 								<div>
 									<span className="yc-public-remark" style={{ marginRight: '6px' }}>{`${status[text].reasonName}:`}</span>
-									<span>{row.reason}</span>
+									<span>{row.reason||'--'}</span>
 								</div>
 								<div>
 									<span className="yc-public-remark" style={{ marginRight: '6px' }}>{`${status[text].dateName}:`}</span>
-									<span>{row.gmtIssueTime}</span>
+									<span>{row.gmtIssueTime||'--'}</span>
 								</div>
 							</React.Fragment>
 						)
