@@ -44,7 +44,7 @@ const columns = (props) => {
 			title: '商标/专利名称',
 			width: 200,
 			dataIndex: 'rightsName',
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (text ? (<a href={row.url} target="_blank" rel="noopener noreferrer">{text}</a>) : '--'),
 		}, {
 			title: '权利类型',
 			width: 260,
@@ -57,7 +57,6 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {
 			title: '操作',
 			width: 60,

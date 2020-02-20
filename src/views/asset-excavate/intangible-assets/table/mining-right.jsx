@@ -5,20 +5,10 @@ import { linkDetail, timeStandard } from '@/utils';
 import { Table, Ellipsis, SelectedNum } from '@/common';
 import { Copyright } from '@/utils/api/monitor-info/intangible';
 
-
-const status = {
-	1: {
-		reasonName: '注销原因',
-		dateName: '注销时间',
-	},
-	2: {
-		reasonName: '撤销原因',
-		dateName: '撤销时间',
-	},
-	3: {
-		reasonName: '遗失原因',
-		dateName: '遗失时间',
-	},
+const mineralSpeciesStatus = {
+	1: '采矿权',
+	2: '探矿权',
+	3: '未知',
 };
 
 // 获取表格配置
@@ -30,58 +20,58 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>发证日期</span>
-				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发证日期</SortVessel>),
-			dataIndex: 'changeTime',
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
+				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+			dataIndex: 'gmtPublishTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
 		}, {
 			title: '探/采矿权人',
-			dataIndex: 'obligorName',
+			dataIndex: 'rightsHolder',
 			width: 150,
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '许可证编号',
 			width: 200,
-			dataIndex: 'changeItem',
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			dataIndex: 'licenseNumber',
+			render: (text, row) => (text ? (<a href={row.url} target="_blank" rel="noopener noreferrer">{text}</a>) : '--'),
 		}, {
 			title: '权证类型',
 			width: 260,
-			dataIndex: 'contentBefore',
+			dataIndex: 'certificateType',
 			render: (text, row) => (
 				<span>探矿权</span>
 			),
 		}, {
 			title: '权证信息',
 			width: 260,
-			dataIndex: 'contentBefore',
+			dataIndex: 'mineralSpecies',
 			render: (text, row) => (
 				<div className="table-column">
 					<div style={{ display: 'inline-block', float: 'left' }}>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>矿种:</span>
 							<span>
-								{text && text.length > 12 ? (<Tooltip placement="topLeft" title={text}><p>{`${text.substr(0, 12)}...`}</p></Tooltip>) : <p>{text || '-'}</p>}
+								{mineralSpeciesStatus[text]}
 							</span>
 						</div>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>矿山名称:</span>
 							<span>
-								{text && text.length > 12 ? (<Tooltip placement="topLeft" title={text}><p>{`${text.substr(0, 12)}...`}</p></Tooltip>) : <p>{text || '-'}</p>}
+								{row.projectName}
 							</span>
 						</div>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>面积:</span>
 							<span>
-								{text && text.length > 12 ? (<Tooltip placement="topLeft" title={text}><p>{`${text.substr(0, 12)}...`}</p></Tooltip>) : <p>{text || '-'}</p>}
+								{row.area}
 							</span>
 						</div>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>有效期:</span>
-							<p style={{ display: 'inline-block' }}>
-								{row.obligorNumber || '-'}
-							</p>
+							<span style={{ display: 'inline-block' }}>
+								{`${row.gmtValidityPeriodStart ? row.gmtValidityPeriodStart : '--'}至${row.gmtValidityPeriodEnd ? row.gmtValidityPeriodEnd : '--'}` }
+							</span>
 						</div>
 					</div>
 				</div>
@@ -91,7 +81,6 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {
 			title: '操作',
 			width: 60,
