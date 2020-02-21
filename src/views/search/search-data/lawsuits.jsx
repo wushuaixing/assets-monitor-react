@@ -347,7 +347,7 @@ class LAWSUITS extends React.Component {
 						/>
 					</div>
 				</div>
-				<div className="others">
+				{/*<div className="others">
 					<span>信息类型：</span>
 					<span>
 						<Button
@@ -371,7 +371,7 @@ class LAWSUITS extends React.Component {
 						{checkedType === 2 ? <img src={checkoutIcon} alt="" /> : ''}
 						开庭公告
 					</Button>
-				</div>
+				</div>*/}
 				<div className="btn">
 					<Button
 						type="primary"
