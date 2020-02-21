@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Select } from 'antd';
+import { Form } from 'antd';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
@@ -46,7 +46,6 @@ class QueryCondition extends React.Component {
 	render() {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
-		const _style3 = { width: 210 };
 
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {

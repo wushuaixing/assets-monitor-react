@@ -15,7 +15,7 @@ const addAttribute = (value, field) => {
 const Dump = {
 	attention: params => s.post('/yc/monitor/intangible/emission/attention', params).then(res => res.data),
 	// GET导出
-	exportList: '/yc/monitor/intangible/trademarkRight/export',
+	exportList: '/yc/monitor/intangible/emission/export',
 	// POST关注 => 收藏<
 	followAttention: params => s.post('/yc/monitor/intangible/emission/follow/attention', params).then(res => res.data),
 	// GET关注 => 列表

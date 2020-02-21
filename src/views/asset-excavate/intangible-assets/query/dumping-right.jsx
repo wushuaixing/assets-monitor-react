@@ -46,7 +46,6 @@ class QueryCondition extends React.Component {
 	render() {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
-		const _style3 = { width: 210 };
 
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
@@ -65,8 +64,6 @@ class QueryCondition extends React.Component {
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">状态：</span>
 					<Select size="large" style={_style1} placeholder="请选择证书当前状态" {...getFieldProps('status')} allowClear>
-						//todo
-						{/* 注销、撤销、遗失 正常 */}
 						<Select.Option value="注销">注销</Select.Option>
 						<Select.Option value="撤销">撤销</Select.Option>
 						<Select.Option value="遗失">遗失</Select.Option>

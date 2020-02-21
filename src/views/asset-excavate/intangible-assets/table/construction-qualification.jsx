@@ -2,23 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
-import { Table, Ellipsis, SelectedNum } from '@/common';
-import { Copyright } from '@/utils/api/monitor-info/intangible';
-
-const status = {
-	1: {
-		reasonName: '注销原因',
-		dateName: '注销时间',
-	},
-	2: {
-		reasonName: '撤销原因',
-		dateName: '撤销时间',
-	},
-	3: {
-		reasonName: '遗失原因',
-		dateName: '遗失时间',
-	},
-};
+import { Table, SelectedNum } from '@/common';
+import { Construction } from '@/utils/api/monitor-info/intangible';
 
 // 获取表格配置
 const columns = (props) => {
@@ -94,7 +79,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? Change.unAttention : Change.attention}
+					api={row.isAttention ? Construction.unAttention : Construction.attention}
 					index={index}
 				/>
 			),
@@ -118,61 +103,61 @@ export default class BusinessChange extends Component {
 		}
 	}
 
-    // 行点击操作
-    toRowClick = (record, index) => {
-    	const { id, isRead } = record;
-    	const { onRefresh, manage } = this.props;
-    	if (!isRead && !manage) {
-    		Copyright.read({ id }).then((res) => {
-    			if (res.code === 200) {
-    				onRefresh({ id, isRead: !isRead, index }, 'isRead');
-    			}
-    		});
-    	}
-    };
+	// 行点击操作
+	toRowClick = (record, index) => {
+		const { id, isRead } = record;
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
+			Construction.read({ id }).then((res) => {
+				if (res.code === 200) {
+					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				}
+			});
+		}
+	};
 
-    // 选择框
-    onSelectChange=(selectedRowKeys) => {
-    	const { onSelect } = this.props;
-    	this.setState({ selectedRowKeys });
-    	if (onSelect)onSelect(selectedRowKeys);
-    };
+	// 选择框
+	onSelectChange=(selectedRowKeys) => {
+		const { onSelect } = this.props;
+		this.setState({ selectedRowKeys });
+		if (onSelect)onSelect(selectedRowKeys);
+	};
 
-    render() {
-    	const {
-    		total, current, dataSource, manage, onPageChange,
-    	} = this.props;
-    	const { selectedRowKeys } = this.state;
-    	const rowSelection = manage ? {
-    		rowSelection: {
-    			selectedRowKeys,
-    			onChange: this.onSelectChange,
-    		},
-    	} : null;
-    	return (
-	<Fragment>
-		{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
-		<Table
-			{...rowSelection}
-			columns={columns(this.props)}
-			dataSource={dataSource}
-			pagination={false}
-			rowKey={record => record.id}
-			rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
-			onRowClick={this.toRowClick}
-		/>
-		{dataSource && dataSource.length > 0 && (
-		<div className="yc-table-pagination">
-			<Pagination
-				showQuickJumper
-				current={current || 1}
-				total={total || 0}
-				onChange={onPageChange}
-				showTotal={totalCount => `共 ${totalCount} 条信息`}
-			/>
-		</div>
-		)}
-	</Fragment>
-    	);
-    }
+	render() {
+		const {
+			total, current, dataSource, manage, onPageChange,
+		} = this.props;
+		const { selectedRowKeys } = this.state;
+		const rowSelection = manage ? {
+			rowSelection: {
+				selectedRowKeys,
+				onChange: this.onSelectChange,
+			},
+		} : null;
+		return (
+			<Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
+				<Table
+					{...rowSelection}
+					columns={columns(this.props)}
+					dataSource={dataSource}
+					pagination={false}
+					rowKey={record => record.id}
+					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
+					onRowClick={this.toRowClick}
+				/>
+				{dataSource && dataSource.length > 0 && (
+				<div className="yc-table-pagination">
+					<Pagination
+						showQuickJumper
+						current={current || 1}
+						total={total || 0}
+						onChange={onPageChange}
+						showTotal={totalCount => `共 ${totalCount} 条信息`}
+					/>
+				</div>
+				)}
+			</Fragment>
+		);
+	}
 }
