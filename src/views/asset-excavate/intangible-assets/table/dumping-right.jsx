@@ -37,7 +37,7 @@ const columns = (props) => {
 		}, {
 			title: '持证单位',
 			dataIndex: 'companyName',
-			width: 150,
+			width: 200,
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '许可证编号',

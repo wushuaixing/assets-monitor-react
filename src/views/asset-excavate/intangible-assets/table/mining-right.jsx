@@ -28,7 +28,7 @@ const columns = (props) => {
 		}, {
 			title: '探/采矿权人',
 			dataIndex: 'rightsHolder',
-			width: 150,
+			width: 200,
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '许可证编号',
@@ -37,7 +37,7 @@ const columns = (props) => {
 			render: (text, row) => (text ? (<a href={row.url} target="_blank" rel="noopener noreferrer">{text}</a>) : '--'),
 		}, {
 			title: '权证类型',
-			width: 260,
+			width: 100,
 			dataIndex: 'certificateType',
 			render: text => (
 				<span>{certificateTypeStatus[text]}</span>

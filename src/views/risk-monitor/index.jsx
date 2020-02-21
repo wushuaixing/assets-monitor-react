@@ -15,7 +15,6 @@ import './style.scss';
 /* 获取展示配置 */
 const toGetRuth = (moduleID) => {
 	const result = ruleMethods.toGetRuleSource(global.ruleSource, moduleID);
-	debugger
 	const noPage = () => <div>暂未开发</div>;
 	return result.children.map((item) => {
 		let components = '';
