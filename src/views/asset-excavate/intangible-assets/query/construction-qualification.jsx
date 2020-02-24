@@ -56,13 +56,13 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('name')} />
+					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="证书编号" style={_style1} size="large" placeholder="资质证书编号" {...getFieldProps('putReason')} />
+					<Input title="证书编号" style={_style1} size="large" placeholder="资质证书编号" {...getFieldProps('certificateNumber')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="资质名称" style={_style1} size="large" placeholder="资质名称" {...getFieldProps('putReason')} />
+					<Input title="资质名称" style={_style1} size="large" placeholder="资质名称" {...getFieldProps('qualificationName')} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">发布日期：</span>
@@ -70,16 +70,16 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="起始日期"
-						{...getFieldProps('startGmtPutDate', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtPutDate'))}
+						{...getFieldProps('issueTimeStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('issueTimeEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="截止日期"
-						{...getFieldProps('endGmtPutDate', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtPutDate'))}
+						{...getFieldProps('issueTimeEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('issueTimeStart'))}
 					/>
 				</div>
 				<div className="yc-query-item">
@@ -88,16 +88,16 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="起始日期"
-						{...getFieldProps('startGmtCreate', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtCreate'))}
+						{...getFieldProps('gmtCreateStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtCreateEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="截止日期"
-						{...getFieldProps('endGmtCreate', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtCreate'))}
+						{...getFieldProps('gmtCreateEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtCreateStart'))}
 					/>
 				</div>
 

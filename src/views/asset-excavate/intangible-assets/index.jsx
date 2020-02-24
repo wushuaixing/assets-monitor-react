@@ -10,6 +10,7 @@ import ruleMethods from '@/utils/rule';
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
 import Table from './table'; /* Table 展示列表 */
+import TableVersion from './table-version'; /* Table 展示列表 */
 
 const toGetConfig = () => {
 	const rule = ruleMethods.toGetRuleSource('', 'YC02', 'YC0207');
@@ -239,6 +240,7 @@ export default class IntangibleAssets extends React.Component {
 		};
 		const QueryView = Query[sourceType];
 		const TableView = Table[sourceType];
+		const TableVersionView = TableVersion[sourceType];
 		return (
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}
@@ -301,6 +303,7 @@ export default class IntangibleAssets extends React.Component {
 				{/* 表格数据展示模块 */}
 				<Spin visible={loading}>
 					<TableView {...tableProps} />
+					<TableVersionView {...tableProps} />
 				</Spin>
 
 			</div>

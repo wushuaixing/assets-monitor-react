@@ -87,6 +87,27 @@ const Copyright = {
 };
 // 无形资产=》建筑建造资质
 const Construction = {
+	attention: params => s.post('/yc/monitor/intangible/construct/follow', params).then(res => res.data),
+	// GET导出
+	exportList: '/yc/monitor/intangible/construct/export',
+	// POST关注 => 收藏<
+	followAttention: params => s.post('/yc/monitor/intangible/construct/follow/follow', params).then(res => res.data),
+	// GET关注 => 列表
+	followList: params => s.get('/yc/monitor/intangible/construct/follow/list', { params }).then(res => res.data),
+	// GET关注 => 列表Count
+	followListCount: () => s.get('/yc/monitor/intangible/construct/follow/list-count', {}).then(res => res.data),
+	// POST关注 => 取消收藏
+	followUnAttention: params => s.post('/yc/monitor/intangible/construct/follow/unFollow', params).then(res => res.data),
+	// GET列表
+	list: params => s.get('/yc/monitor/intangible/construct/list', { params }).then(res => res.data),
+	// GET列表count
+	listCount: params => s.get('/yc/monitor/intangible/construct/list-count', { params }).then(res => res.data),
+	// POST已读
+	read: params => s.post('/yc/monitor/intangible/construct/markRead', params).then(res => res.data),
+	// POST全部已读
+	readAll: () => s.post('/yc/monitor/intangible/construct/markReadAll', {}).then(res => res.data),
+	// POST取消收藏
+	unAttention: params => s.post('/yc/monitor/intangible/construct/unFollow', params).then(res => res.data),
 
 };
 

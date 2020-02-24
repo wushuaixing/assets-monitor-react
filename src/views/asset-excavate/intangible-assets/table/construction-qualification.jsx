@@ -16,7 +16,7 @@ const columns = (props) => {
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
 				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发证日期</SortVessel>),
-			dataIndex: 'changeTime',
+			dataIndex: 'issueTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
 		}, {
@@ -27,37 +27,37 @@ const columns = (props) => {
 		}, {
 			title: '证书编号',
 			width: 200,
-			dataIndex: 'changeItem',
+			dataIndex: 'certificateNumber',
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '资质信息',
-			width: 260,
-			dataIndex: 'contentBefore',
+			width: 300,
+			dataIndex: 'qualificationName',
 			render: (text, row) => (
 				<div className="table-column">
 					<div style={{ display: 'inline-block', float: 'left' }}>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>资质名称:</span>
 							<span>
-								{text && text.length > 12 ? (<Tooltip placement="topLeft" title={text}><p>{`${text.substr(0, 12)}...`}</p></Tooltip>) : <p>{text || '-'}</p>}
+								{text && text.length > 12 ? (<Tooltip placement="topLeft" title={text}><p>{`${text.substr(0, 12)}...`}</p></Tooltip>) : <span>{text || '-'}</span>}
 							</span>
 						</div>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>资质类别:</span>
 							<span>
-								{text && text.length > 12 ? (<Tooltip placement="topLeft" title={text}><p>{`${text.substr(0, 12)}...`}</p></Tooltip>) : <p>{text || '-'}</p>}
+								{row.qualificationType && row.qualificationType.length > 12 ? (<Tooltip placement="topLeft" title={row.qualificationType}><span>{`${row.qualificationType.substr(0, 12)}...`}</span></Tooltip>) : <span>{row.qualificationType || '-'}</span>}
 							</span>
 						</div>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>资质等级:</span>
 							<span>
-								{text && text.length > 12 ? (<Tooltip placement="topLeft" title={text}><p>{`${text.substr(0, 12)}...`}</p></Tooltip>) : <p>{text || '-'}</p>}
+								{row.qualificationLevel && row.qualificationLevel.length > 12 ? (<Tooltip placement="topLeft" title={row.qualificationLevel}><span>{`${row.qualificationLevel.substr(0, 12)}...`}</span></Tooltip>) : <span>{row.qualificationLevel || '-'}</span>}
 							</span>
 						</div>
 						<div>
 							<span className="yc-public-remark" style={{ marginRight: '6px' }}>有效期:</span>
 							<p style={{ display: 'inline-block' }}>
-								{row.obligorNumber || '-'}
+								{row.validityPeriod}
 							</p>
 						</div>
 					</div>
@@ -68,7 +68,6 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {
 			title: '操作',
 			width: 60,
