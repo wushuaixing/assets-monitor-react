@@ -3,9 +3,9 @@ import { Affix, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { requestAll } from '@/utils/promise';
-import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
-import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
-import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
+import assets from '@/utils/api/detail/assets';
+// import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
+// import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import {
 	Tabs, Spin, Download, Icon as IconType,
 } from '@/common';
@@ -13,8 +13,12 @@ import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
 import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
-// import Overview from './overview';
-import Assets from '../../../portrait-inquiry/enterprise/assets';
+import Overview from '../overview';
+// import OverView from '@/views/_common-portrait/overview';
+import Assets from '@/views/business-detail/_common/assets';
+// import Risk from '@/views/_common-portrait/risk';
+// import Info from '@/views/_common-portrait/info';
+
 // import Lawsuits from './lawsuits';
 // import Manage from './manage';
 // import Info from './info';
@@ -163,10 +167,9 @@ const EnterpriseInfoSimple = (props) => {
 
 export default class Enterprise extends React.Component {
 	constructor(props) {
-		document.title = '企业详情-画像查询';
+		document.title = '债务人详情';
 		// const defaultSourceType = window.location.hash.match(/\d{3}?(\?)/);
-		const defaultSourceType = window.location.hash.match(/\/enterprise\/(\d{3})\/?/);
-
+		const defaultSourceType = window.location.hash.match(/\/detail\/info\/(\d{3})\/?/);
 		super(props);
 		this.state = {
 			tabConfig: source(),
@@ -192,8 +195,9 @@ export default class Enterprise extends React.Component {
 					infoSource: res.data,
 					loading: false,
 				});
-				[{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
-					.forEach(item => this.toGetChildCount(companyId, item.d, item.f, item.i));
+				// [{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
+				[{ d: assets, f: 'assets', i: 1 }]
+					.forEach(item => this.toGetChildCount(companyId, item));
 			} else {
 				message.error('网络请求失败！');
 				this.setState({
@@ -215,16 +219,17 @@ export default class Enterprise extends React.Component {
 	}
 
 	/* 获取子项统计 */
-	toGetChildCount=(companyId, apiData, field, index) => {
+	toGetChildCount=(id, itemSource) => {
 		/* ...... */
-		return false;
+		const { d: apiData, f: field, i: index } = itemSource;
 		const { tabConfig: con, countSource: cou } = this.state;
 		const reqList = Object.keys(apiData).map(item => ({
-			api: apiData[item].count({ companyId }, apiData[item].id),
+			api: apiData[item].count({ }),
 			info: { id: apiData[item].id },
 		}));
 
 		requestAll(reqList).then((res) => {
+			console.log(res);
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
 			con[index].number = count;
@@ -252,6 +257,7 @@ export default class Enterprise extends React.Component {
 		// console.log('onChangeAffix:', val);
 	};
 
+	/* tab change */
 	onSourceType=(val) => {
 		const { sourceType } = this.state;
 		const { href } = window.location;
@@ -285,11 +291,12 @@ export default class Enterprise extends React.Component {
 						symbol="none"
 						defaultCurrent={sourceType}
 					/>
+					{childDom}
 				</div>
 				<div className="mark-line" />
-				<div className="info-content info-wrapper">
-					<span>模块内容</span>
+				<div className="info-content">
 					<Router>
+						<Overview path="/*" />
 						<Assets toPushChild={this.handleAddChild} path="/business/detail/info/102/*" count={countSource.assets} />
 					</Router>
 				</div>

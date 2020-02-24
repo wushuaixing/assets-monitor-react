@@ -10,7 +10,7 @@ import Debtor from './debtor';
 import DebtorDetail from './debtor-detail';
 import ChangeList from './business-detail/changeList';
 // import Asset from './asset-information';
-import Detail from '../business-detail/debtor';
+import Detail from '../business-detail';
 
 const source = rule => ([
 	{
