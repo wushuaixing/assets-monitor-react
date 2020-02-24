@@ -1,12 +1,11 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import assetsDetail from 'api/detail/assets';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import { getQueryByName, timeStandard, toEmpty } from '@/utils';
-
-const api = assets.pledge;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -22,6 +21,15 @@ export default class TableIntact extends React.Component {
 	componentWillMount() {
 		this.toGetData();
 	}
+
+	getListStr= (val = []) => {
+		const { portrait } = this.props;
+		if (val.length) {
+			if (portrait === 'detail') return (val.map(i => i.pledgee)).join('、');
+			return val.join('、');
+		}
+		return '';
+	};
 
 	toGetColumns=() => [
 		{
@@ -42,7 +50,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">质权人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
-							{ (value || []).length ? <Ellipsis content={value.join('、')} tooltip width={200} /> : '--'}
+							{ this.getListStr(value) ? <Ellipsis content={this.getListStr(value)} tooltip width={200} /> : '--'}
 						</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">出质股权数额</span>
@@ -80,12 +88,24 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = {};
+		let api = '';
+		if (portrait === 'personal') {
+			params.obligorName = getQueryByName(window.location.href, 'name');
+			params.obligorNumber = getQueryByName(window.location.href, 'num');
+		} else if (portrait === 'detail') {
+			params.id = getQueryByName(window.location.href, 'id');
+			api = assetsDetail.pledge;
+		} else {
+			params.companyId = getQueryByName(window.location.href, 'id');
+			api = assets.pledge;
+		}
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
-			companyId,
 			num: 5,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

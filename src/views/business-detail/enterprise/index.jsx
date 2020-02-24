@@ -15,10 +15,9 @@ import {
 import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
 import Overview from '../overview';
 // import OverView from '@/views/_common-portrait/overview';
-import Assets from '@/views/business-detail/_common/assets';
+import Assets from '@/views/business-detail/table-version/assets';
 // import Risk from '@/views/_common-portrait/risk';
 // import Info from '@/views/_common-portrait/info';
-
 // import Lawsuits from './lawsuits';
 // import Manage from './manage';
 // import Info from './info';

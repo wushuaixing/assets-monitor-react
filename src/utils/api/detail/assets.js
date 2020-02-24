@@ -152,7 +152,7 @@ const assets = {
 		},
 	},
 	bidding: {
-		id: 10602,
+		id: 10801,
 		name: '资产-招标中标',
 		list: params => service.get('/yc/monitor/bidding/list', { params }).then(res => res.data),
 		count(params) {
