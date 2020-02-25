@@ -17,7 +17,9 @@ export default class EquityPenetration extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab" style={{ borderBottom: 0 }}>
-					<div className="yc-tabs-simple-prefix">股权穿透图</div>
+					<div className="yc-tabs-simple-prefix">
+						股权穿透图
+					</div>
 				</div>
 				<div style={{ height: 546, border: '1px solid #DADDE6', marginBottom: 35 }}>
 					<div className="yc-Stock-name">{name && name}</div>

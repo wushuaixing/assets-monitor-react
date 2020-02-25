@@ -6,21 +6,22 @@ import { requestAll } from '@/utils/promise';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
+import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
+
 import {
 	Tabs, Spin, Download, Icon as IconType,
 } from '@/common';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
-import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
-// import Overview from './overview';
-import Assets from '../../../portrait-inquiry/enterprise/assets';
-// import Lawsuits from './lawsuits';
-// import Manage from './manage';
-// import Info from './info';
+
+import Overview from './overview';
+import Assets from './assets';
+import Risk from './risk';
+import Info from './info';
+
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
 import './style.scss';
-
 
 /* 基本选项 */
 const source = () => [
@@ -36,7 +37,7 @@ const source = () => [
 		showNumber: false,
 	},
 	{
-		id: 103,
+		id: 106,
 		name: '风险',
 		number: 0,
 		showNumber: false,
@@ -223,7 +224,6 @@ export default class Enterprise extends React.Component {
 			api: apiData[item].count({ companyId }, apiData[item].id),
 			info: { id: apiData[item].id },
 		}));
-
 		requestAll(reqList).then((res) => {
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
@@ -285,12 +285,16 @@ export default class Enterprise extends React.Component {
 						symbol="none"
 						defaultCurrent={sourceType}
 					/>
+					{childDom}
 				</div>
 				<div className="mark-line" />
 				<div className="info-content info-wrapper">
 					<span>模块内容</span>
 					<Router>
+						<Overview path="/*" />
 						<Assets toPushChild={this.handleAddChild} path="/business/detail/info/102/*" count={countSource.assets} />
+						<Info toPushChild={this.handleAddChild} path="/business/detail/info/105/*" count={countSource.assets} />
+						<Risk toPushChild={this.handleAddChild} path="/business/detail/info/106/*" count={countSource.assets} />
 					</Router>
 				</div>
 			</div>

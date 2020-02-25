@@ -1,5 +1,13 @@
 /* 详情页「新」2020.02.19 */
 .yc-information-detail-wrapper {
+  .yc-intro-sub-items{
+    padding: 16px 0 12px 0;
+    // border-bottom: 1px solid $border-base;
+    .intro-btn-items{
+      margin-right: 16px;
+      min-width: 92px;
+    }
+  }
   .info-wrapper {
     padding: 20px;
   }
