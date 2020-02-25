@@ -3,10 +3,10 @@ import { Button, NoContent, Spin } from '@/common';
 import Auction from './auction';
 import Subrogation from './subrogation';
 import Land from './land';
-// import Intangible from './intangible';
+import Intangible from './intangible';
 import Stock from './stock';
 import Chattel from './chattel';
-
+import Bidding from './bidding';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -43,14 +43,15 @@ const subItems = data => ([
 		tagName: 'e-assets-land',
 		component: Land,
 	},
-	// {
-	// 	id: 10400,
-	// 	name: '无形资产',
-	// 	total: 0,
-	// 	disabled: true,
-	// 	tagName: 'e-assets-intangible',
-	// 	component: Intangible,
-	// },
+	{
+		id: 10400,
+		name: '无形资产',
+		total: data ? toGetTotal('1040', data) : 0,
+		info: data ? data.filter(i => /1040/.test(i.id)) : '',
+		disabled: true,
+		tagName: 'e-assets-intangible',
+		component: Intangible,
+	},
 	{
 		id: 10500,
 		name: '股权质押',
@@ -66,6 +67,15 @@ const subItems = data => ([
 		info: data ? data.filter(i => /1060/.test(i.id)) : '',
 		tagName: 'e-assets-chattel',
 		component: Chattel,
+	},
+	{
+		id: 10700,
+		name: '招投标',
+		total: data ? toGetTotal('1070', data) : 0,
+		info: data ? data.filter(i => /1070/.test(i.id)) : '',
+		disabled: true,
+		tagName: 'e-assets-bidding',
+		component: Bidding,
 	},
 ]);
 

@@ -3,7 +3,7 @@ import service from '@/utils/service';
 /* 无形资产 */
 const intangible = {
 	emission: {
-		id: 10701,
+		id: 10401,
 		name: '无形资产-排污权许可证',
 		list: params => service.get('/yc/monitor/intangible/emission/list', { params }).then(res => res.data),
 		count(params) {
@@ -12,7 +12,7 @@ const intangible = {
 		},
 	},
 	mining: {
-		id: 10702,
+		id: 10402,
 		name: '无形资产-采矿权许可证',
 		list: params => service.get('/yc/monitor/intangible/mining/list', { params }).then(res => res.data),
 		count(params) {
@@ -21,7 +21,7 @@ const intangible = {
 		},
 	},
 	trademarkRight: {
-		id: 10703,
+		id: 10403,
 		name: '无形资产-商标专利',
 		list: params => service.get('/yc/monitor/intangible/trademarkRight/list', { params }).then(res => res.data),
 		count(params) {
@@ -30,7 +30,7 @@ const intangible = {
 		},
 	},
 	construct: {
-		id: 10704,
+		id: 10404,
 		name: '无形资产-建筑建造资质',
 		list: params => service.get('/yc/monitor/intangible/construct/list', { params }).then(res => res.data),
 		count(params) {
@@ -152,7 +152,7 @@ const assets = {
 		},
 	},
 	bidding: {
-		id: 10801,
+		id: 10701,
 		name: '资产-招标中标',
 		list: params => service.get('/yc/monitor/bidding/list', { params }).then(res => res.data),
 		count(params) {
