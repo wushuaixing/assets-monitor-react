@@ -141,16 +141,16 @@ export default class TableIntact extends React.Component {
 						pagination={false}
 					/>
 					{dataSource && dataSource.length > 0 && (
-						<div className="yc-table-pagination">
-							<Pagination
-								pageSize={5}
-								showQuickJumper
-								current={current || 1}
-								total={total || 0}
-								onChange={this.onPageChange}
-								showTotal={totalCount => `共 ${totalCount} 条信息`}
-							/>
-						</div>
+					<div className="yc-table-pagination">
+						<Pagination
+							pageSize={5}
+							showQuickJumper
+							current={current || 1}
+							total={total || 0}
+							onChange={this.onPageChange}
+							showTotal={totalCount => `共 ${totalCount} 条信息`}
+						/>
+					</div>
 					)}
 				</Spin>
 			</div>
