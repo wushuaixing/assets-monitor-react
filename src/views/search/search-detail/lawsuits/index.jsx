@@ -17,6 +17,7 @@ import LawsuitsTable from './table';
 import Query from './query';
 import './style.scss';
 import { ScrollAnimation } from '@/utils/changeTime';
+import { TableCourt, TableTrial } from './table/index';
 
 const createForm = Form.create;
 
@@ -306,7 +307,16 @@ class LAWSUITS extends React.Component {
 
 	// 获取查询参数
 	getQueryData = (obj) => { this.setState({ Params: obj }); };
-
+	// 表格发生变化
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = dataSource;
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
 	render() {
 		const {
 			plaintiff, defendant, dataList, loading, urlObj, totals, current, page, pageSize, ktggRelationCount, trialRelationCount, Sort, type,
@@ -343,6 +353,14 @@ class LAWSUITS extends React.Component {
 			plaintiff,
 			defendant,
 		};
+		const tableProps = {
+			loading,
+			manage: false,
+			dataSource: dataList,
+			current,
+			total: totals,
+			onRefresh: this.onRefresh,
+		};
 		return (
 			<div className="yc-content-query">
 				{/* 搜索栏 */}
@@ -368,13 +386,19 @@ class LAWSUITS extends React.Component {
 					)}
 				</div>
 				<Spin visible={loading}>
-					<LawsuitsTable
+					{
+						type === 1 ? (<TableTrial {...tableProps} />) : null
+					}
+					{
+						type === 2 ? (<TableCourt {...tableProps} />) : null
+					}
+					{/*	<LawsuitsTable
 						stateObj={this.state}
 						dataList={dataList}
 						SortTime={this.SortTime}
 						Sort={Sort}
 						type={type}
-					/>
+					/> */}
 					{
 						dataList && dataList.length > 0
 						&& (
