@@ -10,6 +10,7 @@ import ruleMethods from '@/utils/rule';
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
 import Table from './table'; /* Table 展示列表 */
+import TableVersion from './table-version'; /* Table 展示列表 */
 
 const toGetConfig = () => {
 	const rule = ruleMethods.toGetRuleSource('', 'YC02', 'YC0207');
@@ -58,7 +59,6 @@ export default class IntangibleAssets extends React.Component {
 
 	// 获取统计信息
 	toInfoCount=(nextSourceType) => {
-		debugger
 		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
 	};
 
@@ -144,7 +144,6 @@ export default class IntangibleAssets extends React.Component {
 
 	// sourceType变化
 	onSourceType=(sourceType) => {
-		debugger;
 		this.setState({
 			sourceType,
 			dataSource: '',
@@ -183,7 +182,6 @@ export default class IntangibleAssets extends React.Component {
 
 	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
-		debugger;
 		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
 		const __type = _sourceType || sourceType;
@@ -242,6 +240,7 @@ export default class IntangibleAssets extends React.Component {
 		};
 		const QueryView = Query[sourceType];
 		const TableView = Table[sourceType];
+		const TableVersionView = TableVersion[sourceType];
 		return (
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}
@@ -304,6 +303,7 @@ export default class IntangibleAssets extends React.Component {
 				{/* 表格数据展示模块 */}
 				<Spin visible={loading}>
 					<TableView {...tableProps} />
+					<TableVersionView {...tableProps} />
 				</Spin>
 
 			</div>

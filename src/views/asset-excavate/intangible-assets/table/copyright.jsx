@@ -1,26 +1,15 @@
 import React, { Component, Fragment } from 'react';
-import { Pagination, Tooltip } from 'antd';
+import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
-import { Table, Ellipsis, SelectedNum } from '@/common';
+import { Table, SelectedNum } from '@/common';
 import { Copyright } from '@/utils/api/monitor-info/intangible';
 
-
-const status = {
-	1: {
-		reasonName: '注销原因',
-		dateName: '注销时间',
-	},
-	2: {
-		reasonName: '撤销原因',
-		dateName: '撤销时间',
-	},
-	3: {
-		reasonName: '遗失原因',
-		dateName: '遗失时间',
-	},
+const rightsTypeStatus = {
+	0: '未知',
+	1: '商标',
+	2: '专利',
 };
-
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -44,20 +33,19 @@ const columns = (props) => {
 			title: '商标/专利名称',
 			width: 200,
 			dataIndex: 'rightsName',
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (text ? (<a href={row.url} target="_blank" rel="noopener noreferrer">{text}</a>) : '--'),
 		}, {
 			title: '权利类型',
-			width: 260,
+			width: 160,
 			dataIndex: 'rightsType',
-			render: (text, row) => (
-				<span>商标</span>
+			render: text => (
+				<span>{rightsTypeStatus[text]}</span>
 			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
 		}, {
 			title: '操作',
 			width: 60,

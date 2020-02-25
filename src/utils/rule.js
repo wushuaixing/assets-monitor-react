@@ -229,12 +229,12 @@ export default {
 						name: '无形资产',
 						url: '/monitor/intangible',
 						status: toStatus(rule.menu_zcwj, ['zcwjpwq', 'zcwjkyq', 'zcwjsbzl', 'zcwjjzjszz']) || true,
-                        child: [
-                            { id: 'YC020701', name: '排污权', status: true },
-                            { id: 'YC020702', name: '矿业权', status: true },
-                            { id: 'YC020703', name: '商标专利', status: true },
-                            { id: 'YC020704', name: '建筑建造资质', status: true },
-                        ],
+						child: [
+							{ id: 'YC020701', name: '排污权', status: true },
+							{ id: 'YC020702', name: '矿业权', status: true },
+							{ id: 'YC020703', name: '商标专利', status: true },
+							{ id: 'YC020704', name: '建筑建造资质', status: true },
+						],
 					},
 				],
 			},
@@ -260,6 +260,12 @@ export default {
 						name: '企业破产重组',
 						url: '/risk/bankruptcy',
 						status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
+					},
+					{
+						id: 'YC0304',
+						name: '失信记录',
+						url: '/risk/brokenRecord',
+						status: true,
 					},
 					{
 						id: 'YC0303',

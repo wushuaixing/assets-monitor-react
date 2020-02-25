@@ -31,22 +31,24 @@ class QueryCondition extends React.Component {
 	};
 
 	handleSubmit=() => {
-		const { form: { getFieldsValue }, onQueryChange } = this.props;
+		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
+		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
-		if (onQueryChange)onQueryChange(condition);
+		if (onQueryChange)onQueryChange(condition, '', '', 1);
 	};
 
 	handleReset=() => {
-		const { form, onQueryChange } = this.props;
+		const { form, onQueryChange, clearSelectRowNum } = this.props;
+		clearSelectRowNum();// 清除选中项
 		form.resetFields();
-		const condition = 	form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition);
+		const condition = form.getFieldsValue();
+		if (onQueryChange)onQueryChange(condition, '', '', 1);
+		// console.log(form.getFieldsValue());
 	};
 
 	render() {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
-
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
 			normalize(n) {
@@ -56,58 +58,58 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('name')} />
+					<Input title="债务人" style={_style1} size="large" placeholder="债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="许可证编号" style={_style1} size="large" placeholder="许可证编号" {...getFieldProps('licenseNumber')} />
+					<Input title="相关案号" style={_style1} size="large" placeholder="失信相关案号" {...getFieldProps('title')} />
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">状态：</span>
-					<Select size="large" style={_style1} placeholder="请选择证书当前状态" {...getFieldProps('status')} allowClear>
-						<Select.Option value="注销">注销</Select.Option>
-						<Select.Option value="撤销">撤销</Select.Option>
-						<Select.Option value="遗失">遗失</Select.Option>
-						<Select.Option value="正常">正常</Select.Option>
+					<span className="yc-query-item-title">移除情况：</span>
+					<Select size="large" style={_style2} {...getFieldProps('gmtPublishYear')} placeholder="请选择失信记录移除情况" allowClear>
+						<Select.Option value={1} key={1}>1</Select.Option>
 					</Select>
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">发证日期：</span>
-					<DatePicker
-						size="large"
-						style={_style2}
-						placeholder="起始日期"
-						{...getFieldProps('startGmtIssueTime', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtIssueTime'))}
-					/>
-					<span className="yc-query-item-title">至</span>
-					<DatePicker
-						size="large"
-						style={_style2}
-						placeholder="截止日期"
-						{...getFieldProps('endGmtIssueTime', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtIssueTime'))}
-					/>
+					<Input title="执行法院" style={_style1} size="large" placeholder="列入失信法院" {...getFieldProps('court')} />
 				</div>
+
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">更新日期：</span>
+					<span className="yc-query-item-lable">发布日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="起始日期"
-						{...getFieldProps('startGmtModified', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtModified'))}
+						placeholder="开始日期"
+						{...getFieldProps('publishDateStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishDateEnd'))}
 					/>
-					<span className="yc-query-item-title">至</span>
+					<span className="yc-query-item-lable">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="截止日期"
-						{...getFieldProps('endGmtModified', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtModified'))}
+						placeholder="结束日期"
+						{...getFieldProps('publishDateEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishDateStart'))}
 					/>
 				</div>
 
-
+				<div className="yc-query-item">
+					<span className="yc-query-item-lable">更新日期：</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="开始日期"
+						{...getFieldProps('createTimeStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createTimeEnd'))}
+					/>
+					<span className="yc-query-item-lable">至</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="结束日期"
+						{...getFieldProps('createTimeEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('createTimeStart'))}
+					/>
+				</div>
 				<div className="yc-query-item yc-query-item-btn">
 					<Button size="large" type="common" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
 					<Button size="large" style={{ width: 120 }} onClick={this.handleReset}>重置查询条件</Button>

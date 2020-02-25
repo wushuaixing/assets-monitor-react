@@ -7,6 +7,7 @@ import { unReadCount } from '@/utils/api/monitor-info';
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import Operation from './operation-risk';
+import BrokenRecord from './broken-record';
 import Star from '@/assets/img/icon/btn_attention16_n.png';
 import ruleMethods from '@/utils/rule';
 import './style.scss';
@@ -20,6 +21,7 @@ const toGetRuth = (moduleID) => {
 		if (item.id === `${moduleID}01`) components = Lawsuits;
 		else if (item.id === `${moduleID}02`) components = Bankruptcy;
 		else if (item.id === `${moduleID}03`) components = Operation;
+		else if (item.id === `${moduleID}04`) components = BrokenRecord;
 		else components = noPage;
 		return Object.assign({}, item, {
 			components,
@@ -59,6 +61,7 @@ class RiskMonitor extends React.Component {
 					if (_item.id === 'YC0301')_item.dot = data.trialCourtSessionCount || data.trialFilingCount || data.trialJudgmentCount;
 					if (_item.id === 'YC0302')_item.dot = data.bankruptcyCount;
 					if (_item.id === 'YC0303')_item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag || data.taxCount || data.epbCount;
+					if (_item.id === 'YC0304')_item.dot = data.bankruptcyCount;
 					return _item;
 				});
 				// console.log(_source);
