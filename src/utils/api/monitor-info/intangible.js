@@ -1,4 +1,7 @@
 import s from '@/utils/service';
+import {
+	Abnormal, Change, Environment, Illegal, Punishment, Violation,
+} from '../risk-monitor/operation-risk';
 
 const addAttribute = (value, field) => {
 	if (typeof value === 'object') {
@@ -8,9 +11,73 @@ const addAttribute = (value, field) => {
 };
 
 /* 所有无形资产的子接口，按类别分好写入对象中 */
-const intangible = {
-	name: '无形资产',
-	id: 'YC0207',
+// 无形资产=》排污权
+const Dump = {
+    attention: params => s.post('/yc/monitor/intangible/trademarkRight/follow', params).then(res => res.data),
+    // GET导出
+    exportList: '/yc/monitor/intangible/trademarkRight/export',
+    // POST关注 => 收藏<
+    followAttention: params => s.post('/yc/monitor/intangible/trademarkRight/follow/follow', params).then(res => res.data),
+    // GET关注 => 列表
+    followList: params => s.get('/yc/monitor/intangible/trademarkRight/follow/list', { params }).then(res => res.data),
+    // GET关注 => 列表Count
+    followListCount: () => s.get('/yc/monitor/intangible/trademarkRight/follow/list-count', {}).then(res => res.data),
+    // POST关注 => 取消收藏
+    followUnAttention: params => s.post('/yc/monitor/intangible/trademarkRight/follow/unFollow', params).then(res => res.data),
+    // GET列表
+    list: params => s.get('/yc/monitor/intangible/trademarkRight/list', { params }).then(res => res.data),
+    // GET列表count
+    listCount: params => s.get('/yc/monitor/intangible/trademarkRight/list-count', { params }).then(res => res.data),
+    // POST已读
+    read: params => s.post('/yc/monitor/intangible/trademarkRight/markRead', params).then(res => res.data),
+    // POST全部已读
+    readAll: () => s.post('/yc/monitor/intangible/trademarkRight/markReadAll', {}).then(res => res.data),
+    // POST取消收藏
+    unAttention: params => s.post('/yc/monitor/intangible/trademarkRight/unFollow', params).then(res => res.data),
+};
+// 无形资产=》矿业权
+const Mining = {
+
+};
+// 无形资产=》商标专利
+const Copyright = {
+// POST收藏
+	attention: params => s.post('/yc/monitor/intangible/trademarkRight/follow', params).then(res => res.data),
+	// GET导出
+	exportList: '/yc/monitor/intangible/trademarkRight/export',
+	// POST关注 => 收藏<
+	followAttention: params => s.post('/yc/monitor/intangible/trademarkRight/follow/follow', params).then(res => res.data),
+	// GET关注 => 列表
+	followList: params => s.get('/yc/monitor/intangible/trademarkRight/follow/list', { params }).then(res => res.data),
+	// GET关注 => 列表Count
+	followListCount: () => s.get('/yc/monitor/intangible/trademarkRight/follow/list-count', {}).then(res => res.data),
+	// POST关注 => 取消收藏
+	followUnAttention: params => s.post('/yc/monitor/intangible/trademarkRight/follow/unFollow', params).then(res => res.data),
+	// GET列表
+	list: params => s.get('/yc/monitor/intangible/trademarkRight/list', { params }).then(res => res.data),
+	// GET列表count
+	listCount: params => s.get('/yc/monitor/intangible/trademarkRight/list-count', { params }).then(res => res.data),
+	// POST已读
+	read: params => s.post('/yc/monitor/intangible/trademarkRight/markRead', params).then(res => res.data),
+	// POST全部已读
+	readAll: () => s.post('/yc/monitor/intangible/trademarkRight/markReadAll', {}).then(res => res.data),
+	// POST取消收藏
+	unAttention: params => s.post('/yc/monitor/intangible/trademarkRight/unFollow', params).then(res => res.data),
+};
+// 无形资产=》建筑建造资质
+const Construction = {
+
 };
 
-export default intangible;
+// 获取不同类型的 api 接口
+const Api = (type, res) => {
+	if (type === 'YC020701') return Dump[res];
+	if (type === 'YC020702') return Mining[res];
+	if (type === 'YC020703') return Copyright[res];
+	if (type === 'YC020704') return Construction[res];
+	return Dump[res];
+};
+export {
+	Dump, Mining, Copyright, Construction,
+};
+export default Api;
