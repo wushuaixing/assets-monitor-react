@@ -16,7 +16,21 @@ export const fullAssetSearchExport = '/yc/doc/search/fullAssetSearchExport';
 
 // 涉诉信息 => 数量 [zhousai]
 export const relationSearchCount = async (params) => {
-	const response = await service.get('/yc/doc/search/relationSearchCount',
+	const response = await service.get('/yc/doc/search/trialSearchListCount',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+// 涉诉信息 => 开庭数量 [zhousai]
+export const courtSearchListCount = async (params) => {
+	const response = await service.get('/yc/doc/search/courtSearchListCount',
 		{
 			params,
 			paramsSerializer: () => {
@@ -30,7 +44,7 @@ export const relationSearchCount = async (params) => {
 };
 // 涉诉信息 => 开庭公告 [zhousai]
 export const ktggRelationSearch = async (params) => {
-	const response = await service.get('/yc/doc/search/ktggRelationSearch',
+	const response = await service.get('/yc/doc/search/courtSearchList',
 		{
 			params,
 			paramsSerializer: () => {
@@ -43,11 +57,11 @@ export const ktggRelationSearch = async (params) => {
 	return response.data;
 };
 // 涉诉信息 => 开庭公告导出 [zhousai]
-export const ktggRelationSerachExport = '/yc/doc/search/ktggRelationSerachExport';
+export const ktggRelationSerachExport = '/yc/doc/search/courtSearchExport';
 
 // 涉诉信息 => 立案信息 [zhousai]
 export const trialRelationSearch = async (params) => {
-	const response = await service.get('/yc/doc/search/trialRelationSearch',
+	const response = await service.get('/yc/doc/search/trialSearchList',
 		{
 			params,
 			paramsSerializer: () => {
@@ -60,7 +74,7 @@ export const trialRelationSearch = async (params) => {
 	return response.data;
 };
 // 涉诉信息 => 立案信息导出 [zhousai]
-export const trialRelationSearchExport = '/yc/doc/search/trialRelationSearchExport';
+export const trialRelationSearchExport = '/yc/doc/search/trialSearchExport';
 
 // 文书全文搜索
 export const judgement = async (params) => {
