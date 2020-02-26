@@ -133,6 +133,7 @@ export default class IntangibleAssets extends React.Component {
 
 	// 表格发生变化
 	onRefresh=(data, type) => {
+		debugger
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;

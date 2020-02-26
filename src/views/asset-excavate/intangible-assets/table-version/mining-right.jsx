@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import {
-	Ellipsis, Icon, Spin, Table,
+	Ellipsis, Spin, Table,
 } from '@/common';
 import { Mining } from '@/utils/api/monitor-info/intangible';
 import { getQueryByName, timeStandard, toEmpty } from '@/utils';

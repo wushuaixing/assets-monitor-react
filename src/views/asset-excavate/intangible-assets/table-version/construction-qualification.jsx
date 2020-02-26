@@ -1,17 +1,11 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import {
-	Ellipsis, Icon, Spin, Table,
+	Ellipsis, Spin, Table,
 } from '@/common';
-import { Mining } from '@/utils/api/monitor-info/intangible';
+import { Construction } from '@/utils/api/monitor-info/intangible';
 import { getQueryByName, timeStandard, toEmpty } from '@/utils';
 
-
-const certificateTypeStatus = {
-	1: '采矿权',
-	2: '探矿权',
-	3: '未知',
-};
 export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -72,7 +66,7 @@ export default class TableIntact extends React.Component {
 	toGetData=(page) => {
 		const companyId = getQueryByName(window.location.href, 'id');
 		this.setState({ loading: true });
-		Mining.list({
+		Construction.list({
 			page: page || 1,
 			num: 5,
 			companyId,

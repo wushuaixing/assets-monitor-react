@@ -80,61 +80,61 @@ export default class BusinessChange extends Component {
 		}
 	}
 
-    // 行点击操作
-    toRowClick = (record, index) => {
-    	const { id, isRead } = record;
-    	const { onRefresh, manage } = this.props;
-    	if (!isRead && !manage) {
-    		Copyright.read({ id }).then((res) => {
-    			if (res.code === 200) {
-    				onRefresh({ id, isRead: !isRead, index }, 'isRead');
-    			}
-    		});
-    	}
-    };
+	// 行点击操作
+	toRowClick = (record, index) => {
+		const { id, isRead } = record;
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
+			Copyright.read({ id }).then((res) => {
+				if (res.code === 200) {
+					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				}
+			});
+		}
+	};
 
-    // 选择框
-    onSelectChange=(selectedRowKeys) => {
-    	const { onSelect } = this.props;
-    	this.setState({ selectedRowKeys });
-    	if (onSelect)onSelect(selectedRowKeys);
-    };
+	// 选择框
+	onSelectChange=(selectedRowKeys) => {
+		const { onSelect } = this.props;
+		this.setState({ selectedRowKeys });
+		if (onSelect)onSelect(selectedRowKeys);
+	};
 
-    render() {
-    	const {
-    		total, current, dataSource, manage, onPageChange,
-    	} = this.props;
-    	const { selectedRowKeys } = this.state;
-    	const rowSelection = manage ? {
-    		rowSelection: {
-    			selectedRowKeys,
-    			onChange: this.onSelectChange,
-    		},
-    	} : null;
-    	return (
-	<Fragment>
-		{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
-		<Table
-			{...rowSelection}
-			columns={columns(this.props)}
-			dataSource={dataSource}
-			pagination={false}
-			rowKey={record => record.id}
-			rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
-			onRowClick={this.toRowClick}
-		/>
-		{dataSource && dataSource.length > 0 && (
-		<div className="yc-table-pagination">
-			<Pagination
-				showQuickJumper
-				current={current || 1}
-				total={total || 0}
-				onChange={onPageChange}
-				showTotal={totalCount => `共 ${totalCount} 条信息`}
-			/>
-		</div>
-		)}
-	</Fragment>
-    	);
-    }
+	render() {
+		const {
+			total, current, dataSource, manage, onPageChange,
+		} = this.props;
+		const { selectedRowKeys } = this.state;
+		const rowSelection = manage ? {
+			rowSelection: {
+				selectedRowKeys,
+				onChange: this.onSelectChange,
+			},
+		} : null;
+		return (
+			<Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
+				<Table
+					{...rowSelection}
+					columns={columns(this.props)}
+					dataSource={dataSource}
+					pagination={false}
+					rowKey={record => record.id}
+					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
+					onRowClick={this.toRowClick}
+				/>
+				{dataSource && dataSource.length > 0 && (
+				<div className="yc-table-pagination">
+					<Pagination
+						showQuickJumper
+						current={current || 1}
+						total={total || 0}
+						onChange={onPageChange}
+						showTotal={totalCount => `共 ${totalCount} 条信息`}
+					/>
+				</div>
+				)}
+			</Fragment>
+		);
+	}
 }
