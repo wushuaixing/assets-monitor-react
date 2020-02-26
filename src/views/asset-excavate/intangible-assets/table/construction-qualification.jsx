@@ -34,33 +34,27 @@ const columns = (props) => {
 			width: 300,
 			dataIndex: 'qualificationName',
 			render: (text, row) => (
-				<div className="table-column">
-					<div style={{ display: 'inline-block', float: 'left' }}>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>资质名称:</span>
-							<span>
-								{text && text.length > 12 ? (<Tooltip placement="topLeft" title={text}><p>{`${text.substr(0, 12)}...`}</p></Tooltip>) : <span>{text || '-'}</span>}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>资质类别:</span>
-							<span>
-								{row.qualificationType && row.qualificationType.length > 12 ? (<Tooltip placement="topLeft" title={row.qualificationType}><span>{`${row.qualificationType.substr(0, 12)}...`}</span></Tooltip>) : <span>{row.qualificationType || '-'}</span>}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>资质等级:</span>
-							<span>
-								{row.qualificationLevel && row.qualificationLevel.length > 12 ? (<Tooltip placement="topLeft" title={row.qualificationLevel}><span>{`${row.qualificationLevel.substr(0, 12)}...`}</span></Tooltip>) : <span>{row.qualificationLevel || '-'}</span>}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>有效期:</span>
-							<p style={{ display: 'inline-block' }}>
-								{row.validityPeriod}
-							</p>
-						</div>
-					</div>
+				<div className="assets-info-content">
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>资质名称</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{text || '--'}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>资质类别</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.qualificationTyp || '--'}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>资质等级</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.qualificationLevel || '--'}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.validityPeriod}</span>
+					</li>
 				</div>
 			),
 		}, {

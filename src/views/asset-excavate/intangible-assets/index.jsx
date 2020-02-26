@@ -196,7 +196,7 @@ export default class IntangibleAssets extends React.Component {
 			loading: true,
 			manage: _manage || false,
 		});
-		//this.toInfoCount(__type);
+		this.toInfoCount(__type);
 		API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.config[toGetProcess(__type, this.config)].number = res.data.total;

@@ -27,7 +27,7 @@ const Dump = {
 	// GET列表
 	list: params => s.get('/yc/monitor/intangible/emission/list', { params }).then(res => res.data),
 	// GET列表count
-	listCount: params => s.get('/yc/monitor/intangible/emission/attention', { params }).then(res => res.data),
+	listCount: params => s.get('/yc/monitor/intangible/emission/list-count', { params }).then(res => res.data),
 	// POST已读
 	read: params => s.post('/yc/monitor/intangible/emission/read', params).then(res => res.data),
 	// POST全部已读
