@@ -8,19 +8,32 @@ import { getQueryByName, timeStandard, toEmpty } from '@/utils';
 
 
 const status = {
-	注销: {
+	1: {
 		reasonName: '注销原因',
 		dateName: '注销时间',
 	},
-	撤销: {
+	2: {
 		reasonName: '撤销原因',
 		dateName: '撤销时间',
 	},
-	遗失: {
+	3: {
 		reasonName: '遗失原因',
 		dateName: '遗失时间',
 	},
 };
+
+function keyToVAlue(key) {
+	if (key === '注销') {
+		return 1;
+	}
+	if (key === '撤销') {
+		return 2;
+	}
+	if (key === '遗失') {
+		return 3;
+	}
+	return 0;
+}
 export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -53,7 +66,11 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">有效期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{`${row.gmtValidityPeriodStart ? row.gmtValidityPeriodStart : '--'}至${row.gmtValidityPeriodEnd ? row.gmtValidityPeriodEnd : '--'}` }</span>
+						{
+							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
+								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+							) : '--'
+						}
 					</li>
 				</div>
 			),
@@ -71,12 +88,14 @@ export default class TableIntact extends React.Component {
 						row.status !== '正常' ? (
 							<React.Fragment>
 								<li>
-									<span className="list list-title align-justify">{`${status[row.status].reasonName}`}</span>
+									<span className="list list-title align-justify">{`${status[keyToVAlue(row.status)].reasonName}`}</span>
 									<span className="list list-title-colon">:</span>
-									<span className="list list-content">{row.reason || '-'}</span>
+									<span className="list list-content">
+										<Ellipsis content={row.reason || '-'} tooltip width={130} />
+									</span>
 								</li>
 								<li>
-									<span className="list list-title align-justify">{`${status[row.status].dateName}`}</span>
+									<span className="list list-title align-justify">{`${status[keyToVAlue(row.status)].dateName}`}</span>
 									<span className="list list-title-colon">:</span>
 									<span className="list list-content">{row.gmtIssueTime || '-'}</span>
 								</li>

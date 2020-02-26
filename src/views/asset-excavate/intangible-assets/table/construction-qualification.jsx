@@ -26,9 +26,16 @@ const columns = (props) => {
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '证书编号',
-			width: 150,
+			width: 200,
 			dataIndex: 'certificateNumber',
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (
+				<div className="assets-info-content">
+					<li>
+						<span className="list list-content">{text || '--'}</span>
+						{ row.gmtDeleted ? <span className="yc-case-reason text-ellipsis">已过期</span> : ''}
+					</li>
+				</div>
+			),
 		}, {
 			title: '资质信息',
 			width: 270,
