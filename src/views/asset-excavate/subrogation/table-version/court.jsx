@@ -1,12 +1,11 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import assetsDetail from 'api/detail/assets';
+import assetsPortrait from 'api/portrait-inquiry/enterprise/assets';
 import { Spin, Table } from '@/common';
-import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import associationLink from '@/views/_common/association-link';
 import { getQueryByName, linkDom, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
-
-const { court } = assets;
 
 
 export default class TableIntact extends React.Component {
@@ -73,14 +72,18 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		const params = portrait === 'personal' ? {
-			obligorName: getQueryByName(window.location.href, 'name'),
-			obligorNumber: getQueryByName(window.location.href, 'num'),
-		} : {
-			companyId: getQueryByName(window.location.href, 'id'),
-		};
+		const params = {};
+		if (portrait === 'personal') {
+			params.obligorName = getQueryByName(window.location.href, 'name');
+			params.obligorNumber = getQueryByName(window.location.href, 'num');
+		} else if (portrait === 'detail') {
+			params.id = getQueryByName(window.location.href, 'id');
+		} else {
+			params.companyId = getQueryByName(window.location.href, 'id');
+		}
+		const api = portrait === 'detail' ? assetsDetail[10202] : assetsPortrait.court;
 		this.setState({ loading: true });
-		court.list({
+		api.list({
 			page: page || 1,
 			num: 5,
 			...params,

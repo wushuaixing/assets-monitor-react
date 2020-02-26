@@ -78,24 +78,32 @@ export default class MatchingReason extends React.Component {
 	render() {
 		const {
 			content: {
-				reason, remark, duty, approveTime,
+				reason, remark, duty, approveTime, pushType,
 			}, dishonest,
 		} = this.props;
+		// console.log(pushType);		// 类型 1 结构化 0 全文
+		const remarkOrder = pushType ? 'last' : 'first';
 		const { status } = this.state;
 		return (
 			<div className="assets-matching-reason-wrapper">
 				<div className={`reason-content-wrapper content-${status}`}>
 					<div className="reason-content" ref={e => this.dom = e}>
 						{
-							remark ? (
+							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
 									<div>{`● 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
 									<p dangerouslySetInnerHTML={{ __html: remark }} />
 								</div>
 							) : null
 						}
+						{ dishonest ? this.toGetReason(duty) : this.toGetReasonList(reason) }
 						{
-							dishonest ? this.toGetReason(duty) : this.toGetReasonList(reason)
+							remark && remarkOrder === 'last' ? (
+								<div className="reason-list">
+									<div>{`● 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
+									<p dangerouslySetInnerHTML={{ __html: remark }} />
+								</div>
+							) : null
 						}
 					</div>
 				</div>

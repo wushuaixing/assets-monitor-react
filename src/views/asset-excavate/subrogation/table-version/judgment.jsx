@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import assetsDetail from 'api/detail/assets';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
@@ -82,17 +83,21 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		const params = portrait === 'personal' ? {
-			obligorName: getQueryByName(window.location.href, 'name'),
-			obligorNumber: getQueryByName(window.location.href, 'num'),
-		} : {
-			companyId: getQueryByName(window.location.href, 'id'),
-		};
+		const params = {};
+		let api = '';
+		if (portrait === 'personal') {
+			params.obligorName = getQueryByName(window.location.href, 'name');
+			params.obligorNumber = getQueryByName(window.location.href, 'num');
+			api = personalJudgment;
+		} else if (portrait === 'detail') {
+			params.id = getQueryByName(window.location.href, 'id');
+			api = judgment;
+		} else {
+			params.companyId = getQueryByName(window.location.href, 'id');
+			api = assetsDetail['10203'];
+		}
 		this.setState({ loading: true });
-		// 判断是个人还是企业
-		const commonJudgment = portrait === 'personal' ? personalJudgment : judgment;
-
-		commonJudgment.list({
+		api.list({
 			page: page || 1,
 			num: 5,
 			...params,

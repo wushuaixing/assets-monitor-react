@@ -10,6 +10,7 @@ import Debtor from './debtor';
 import DebtorDetail from './debtor-detail';
 import ChangeList from './business-detail/changeList';
 // import Asset from './asset-information';
+import Detail from '../business-detail';
 
 const source = rule => ([
 	{
@@ -72,6 +73,7 @@ const BusinessRouter = (props) => {
 		<Router>
 			<BusinessBase rule={children} path="/*" />
 			<BusinessDetail rule={children} path="/business/detail/*" />
+			<Detail rule={children} path="/business/detail/info/*" />
 			<DebtorDetail rule={children} path="/business/debtor/detail/*" />
 			<ChangeList rule={children} path="/business/detail/changeList/*" />
 		</Router>
