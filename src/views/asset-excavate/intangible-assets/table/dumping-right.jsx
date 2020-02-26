@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Pagination, Tooltip } from 'antd';
+import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
@@ -7,19 +7,32 @@ import { Ellipsis } from '@/common';
 import { Dump } from '@/utils/api/monitor-info/intangible';
 
 const status = {
-	注销: {
+	1: {
 		reasonName: '注销原因',
 		dateName: '注销时间',
 	},
-	撤销: {
+	2: {
 		reasonName: '撤销原因',
 		dateName: '撤销时间',
 	},
-	遗失: {
+	3: {
 		reasonName: '遗失原因',
 		dateName: '遗失时间',
 	},
 };
+
+function keyToVAlue(key) {
+	if (key === '注销') {
+		return 1;
+	}
+	if (key === '撤销') {
+		return 2;
+	}
+	if (key === '遗失') {
+		return 3;
+	}
+	return 0;
+}
 
 // 获取表格配置
 const columns = (props) => {
@@ -80,12 +93,12 @@ const columns = (props) => {
 						text !== '正常' ? (
 							<Fragment>
 								<li>
-									<span className="list list-title align-justify" style={{ width: 50 }}>{status[text].reasonName}</span>
+									<span className="list list-title align-justify" style={{ width: 50 }}>{status[keyToVAlue(text)].reasonName}</span>
 									<span className="list list-title-colon">:</span>
 									<span className="list list-content"><Ellipsis content={row.reason || '-'} tooltip width={200} /></span>
 								</li>
 								<li>
-									<span className="list list-title align-justify" style={{ width: 50 }}>{status[text].dateName}</span>
+									<span className="list list-title align-justify" style={{ width: 50 }}>{status[keyToVAlue(text)].dateName}</span>
 									<span className="list list-title-colon">:</span>
 									<span className="list list-content">{row.gmtIssueTime || '--'}</span>
 								</li>
@@ -137,8 +150,10 @@ export default class BusinessChange extends Component {
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
+		const idList = [];
+		idList.push(id);
 		if (!isRead && !manage) {
-			Dump.read({ id }).then((res) => {
+			Dump.read({ idList }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Pagination, Tooltip } from 'antd';
+import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';

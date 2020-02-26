@@ -117,8 +117,10 @@ export default class BusinessChange extends Component {
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
+		const idList = [];
+		idList.push(id);
 		if (!isRead && !manage) {
-			Mining.read({ id }).then((res) => {
+			Mining.read({ idList }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}
