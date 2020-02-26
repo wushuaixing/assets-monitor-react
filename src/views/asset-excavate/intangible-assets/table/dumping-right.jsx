@@ -59,7 +59,11 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{`${row.gmtValidityPeriodStart ? row.gmtValidityPeriodStart : '--'}至${row.gmtValidityPeriodEnd ? row.gmtValidityPeriodEnd : '--'}` }</span>
+						{
+							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
+								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+							) : '--'
+						}
 					</li>
 				</div>
 			),

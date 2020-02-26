@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
-import { Table, SelectedNum,Ellipsis } from '@/common';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Mining } from '@/utils/api/monitor-info/intangible';
 
 const certificateTypeStatus = {
@@ -66,7 +66,11 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{`${row.gmtValidityPeriodStart ? row.gmtValidityPeriodStart : '--'}至${row.gmtValidityPeriodEnd ? row.gmtValidityPeriodEnd : '--'}` }</span>
+						{
+							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
+								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+							) : '--'
+						}
 					</li>
 				</div>
 			),
