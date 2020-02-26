@@ -42,7 +42,7 @@ const intangible = {
 
 /* 债务人、业务详情- 资产 */
 const assets = {
-	auctionA: {
+	10101: {
 		id: 10101,
 		name: '资产-资产拍卖-精准匹配',
 		list: params => service.get('/yc/monitor/auction/list?important=1', { params }).then(res => res.data),
@@ -51,7 +51,7 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id, field: 'totalCount' }));
 		},
 	},
-	auctionV: {
+	10102: {
 		id: 10102,
 		name: '资产-资产拍卖-模糊匹配',
 		list: params => service.get('/yc/monitor/auction/list?important=0', { params }).then(res => res.data),
@@ -61,7 +61,7 @@ const assets = {
 		},
 	},
 	...intangible,
-	trial: {
+	10201: {
 		id: 10201,
 		name: '资产-代位权-立案',
 		list: params => service.get('/yc/monitor/trial/subrogation/list', { params }).then(res => res.data),
@@ -70,16 +70,16 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	court: {
+	10202: {
 		id: 10202,
 		name: '资产-代位权-开庭',
-		list: params => service.get('/yc/monitor/judgment/subrogation/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/monitor/court/subrogation/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/monitor/judgment/subrogation/list-count', { params })
+			return service.get('/yc/monitor/court/subrogation/list-count', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	judgment: {
+	10203: {
 		id: 10203,
 		name: '资产-代位权-裁判文书',
 		list: params => service.get('/yc/monitor/judgment/subrogation/list', { params }).then(res => res.data),
@@ -88,7 +88,7 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	landTransfer: {
+	10301: {
 		id: 10301,
 		name: '资产-土地信息-出让结果',
 		list: params => service.get('/yc/monitor/land/transfer/list', { params }).then(res => res.data),
@@ -97,7 +97,7 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	landTransaction: {
+	10302: {
 		id: 10302,
 		name: '资产-土地信息-土地转让',
 		list: params => service.get('/yc/monitor/land/transaction/list', { params }).then(res => res.data),
@@ -106,7 +106,7 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	landMortgage: {
+	10303: {
 		id: 10303,
 		name: '资产-土地信息-土地抵押',
 		list: params => service.get('/yc/monitor/land/mortgage/list', { params }).then(res => res.data),
@@ -115,7 +115,7 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	pledge: {
+	10501: {
 		id: 10501,
 		name: '资产-股权质押-出质',
 		list: params => service.get('/yc/monitor/finance/pledge/list?role=0', { params }).then(res => res.data),
@@ -124,7 +124,7 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	mortgage: {
+	10502: {
 		id: 10502,
 		name: '资产-股权质押-质权',
 		list: params => service.get('/yc/monitor/finance/pledge/list?role=1', { params }).then(res => res.data),
@@ -133,7 +133,7 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	pledgeD: {
+	10601: {
 		id: 10601,
 		name: '资产-动产抵押-抵押物',
 		list: params => service.get('/yc/monitor/mortgage/list?role=0', { params }).then(res => res.data),
@@ -142,7 +142,7 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	mortgageD: {
+	10602: {
 		id: 10602,
 		name: '资产-动产抵押-抵押权',
 		list: params => service.get('/yc/monitor/mortgage/list?role=1', { params }).then(res => res.data),
@@ -151,7 +151,7 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	bidding: {
+	10701: {
 		id: 10701,
 		name: '资产-招标中标',
 		list: params => service.get('/yc/monitor/bidding/list', { params }).then(res => res.data),

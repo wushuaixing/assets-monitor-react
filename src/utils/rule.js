@@ -376,4 +376,19 @@ export default {
 		if (childID) return ((ruleObj || {}).children || []).filter(item => item.id === childID)[0];
 		return ruleObj;
 	},
+
+
+};
+
+/**
+ * 返回对应的权限是否存在
+ * @param field
+ * @param childField
+ */
+export const	roleState = (field, childField) => {
+	const rule = global.ruleSource || {};
+	const _field = `menu_${field || ''}`;
+	const _childField = `zcwj${childField || ''}`;
+	const ruleObject = rule[_field];
+	return ruleObject ? Boolean(ruleObject.children[_childField]) : false;
 };

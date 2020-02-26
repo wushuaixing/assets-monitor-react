@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, NoContent, Spin } from '@/common';
+import { roleState } from '@/utils/rule';
 import Auction from './auction';
 import Subrogation from './subrogation';
 import Land from './land';
@@ -18,68 +19,82 @@ const toGetTotal = (field, data) => {
 	});
 	return count;
 };
+
 const subItems = data => ([
 	{
 		id: 10100,
+		baseId: 1010,
 		name: '资产拍卖',
 		total: data ? toGetTotal('1010', data) : 0,
 		info: data ? data.filter(i => /1010/.test(i.id)) : '',
 		tagName: 'e-assets-auction',
 		component: Auction,
+		role: roleState('zcwj', 'zcpm'),
 	},
 	{
 		id: 10200,
+		baseId: 1020,
 		name: '代位权',
 		total: data ? toGetTotal('1020', data) : 0,
 		info: data ? data.filter(i => /1020/.test(i.id)) : '',
 		tagName: 'e-assets-subrogation',
 		component: Subrogation,
+		role: roleState('zcwj', 'dwq'),
+
 	},
 	{
 		id: 10300,
+		baseId: 1030,
 		name: '土地信息',
 		total: data ? toGetTotal('1030', data) : 0,
 		info: data ? data.filter(i => /1030/.test(i.id)) : '',
 		tagName: 'e-assets-land',
 		component: Land,
+		role: roleState('zcwj', 'tdsj'),
+
 	},
 	{
 		id: 10400,
+		baseId: 1040,
 		name: '无形资产',
 		total: data ? toGetTotal('1040', data) : 0,
 		info: data ? data.filter(i => /1040/.test(i.id)) : '',
 		disabled: true,
 		tagName: 'e-assets-intangible',
 		component: Intangible,
+		role: roleState('zcwj', 'wxzc'),
 	},
-	{
-		id: 10500,
-		name: '股权质押',
-		total: data ? toGetTotal('1050', data) : 0,
-		info: data ? data.filter(i => /1050/.test(i.id)) : '',
-		tagName: 'e-assets-stock',
-		component: Stock,
-	},
-	{
-		id: 10600,
-		name: '动产抵押',
-		total: data ? toGetTotal('1060', data) : 0,
-		info: data ? data.filter(i => /1060/.test(i.id)) : '',
-		tagName: 'e-assets-chattel',
-		component: Chattel,
-	},
-	{
-		id: 10700,
-		name: '招投标',
-		total: data ? toGetTotal('1070', data) : 0,
-		info: data ? data.filter(i => /1070/.test(i.id)) : '',
-		disabled: true,
-		tagName: 'e-assets-bidding',
-		component: Bidding,
-	},
+	// {
+	// 	id: 10500,
+	// baseId: 1050,
+	// 	name: '股权质押',
+	// 	total: data ? toGetTotal('1050', data) : 0,
+	// 	info: data ? data.filter(i => /1050/.test(i.id)) : '',
+	// 	tagName: 'e-assets-stock',
+	// 	component: Stock,
+	// },
+	// {
+	// 	id: 10600,
+	// baseId: 1060,
+	// 	name: '动产抵押',
+	// 	total: data ? toGetTotal('1060', data) : 0,
+	// 	info: data ? data.filter(i => /1060/.test(i.id)) : '',
+	// 	tagName: 'e-assets-chattel',
+	// 	component: Chattel,
+	// },
+	// {
+	// 	id: 10700,
+	// baseId: 1070,
+	// 	name: '招投标',
+	// 	total: data ? toGetTotal('1070', data) : 0,
+	// 	info: data ? data.filter(i => /1070/.test(i.id)) : '',
+	// 	disabled: true,
+	// 	tagName: 'e-assets-bidding',
+	// 	component: Bidding,
+	// },
 ]);
 
-export default class Assets extends React.Component {
+class Assets extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -149,3 +164,9 @@ export default class Assets extends React.Component {
 		);
 	}
 }
+Assets.config = {
+	items: subItems(),
+	idList: (subItems().filter(i => i.role)).map(i => i.baseId),
+	status: Boolean((subItems().filter(i => i.role)).length),
+};
+export default Assets;

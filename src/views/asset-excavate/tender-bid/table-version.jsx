@@ -59,7 +59,7 @@ export default class TableVersion extends React.Component {
 		switch (portrait) {
 		case 'detail':
 			params = { id: companyId };
-			api = assetsDetail.bidding;
+			api = assetsDetail['10701'];
 			break;
 		default:
 			params = { id: companyId };

@@ -50,7 +50,7 @@ export default class TableIntact extends React.Component {
 		} else {
 			params.companyId = getQueryByName(window.location.href, 'id');
 		}
-		const api = portrait === 'detail' ? assetsDetail.landMortgage : assetsPortrait.landMortgage;
+		const api = portrait === 'detail' ? assetsDetail[10303] : assetsPortrait.landMortgage;
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

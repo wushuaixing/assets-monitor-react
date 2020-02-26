@@ -104,7 +104,7 @@ export default class TableIntact extends React.Component {
 			params.obligorNumber = getQueryByName(window.location.href, 'num');
 		} else if (portrait === 'detail') {
 			params.id = getQueryByName(window.location.href, 'id');
-			api = assetsDetail.pledgeD;
+			api = assetsDetail['10601'];
 		} else {
 			params.companyId = getQueryByName(window.location.href, 'id');
 		}

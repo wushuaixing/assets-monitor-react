@@ -94,7 +94,7 @@ export default class TableIntact extends React.Component {
 			api = judgment;
 		} else {
 			params.companyId = getQueryByName(window.location.href, 'id');
-			api = assetsDetail.judgment;
+			api = assetsDetail['10203'];
 		}
 		this.setState({ loading: true });
 		api.list({

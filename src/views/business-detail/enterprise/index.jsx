@@ -2,17 +2,20 @@ import React from 'react';
 import { Affix, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
+/* utils */
 import { requestAll } from '@/utils/promise';
-import assets from '@/utils/api/detail/assets';
-// import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
-// import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
-import {
-	Tabs, Spin, Download, Icon as IconType,
-} from '@/common';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
+/* api collection */
+import assets from '@/utils/api/detail/assets';
+// import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
+// import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
+/* components */
+import {
+	Tabs, Spin, Download, Icon as IconType,
+} from '@/common';
 import Overview from '../overview';
 // import OverView from '@/views/_common-portrait/overview';
 import Assets from '@/views/business-detail/table-version/assets';
@@ -24,19 +27,28 @@ import Assets from '@/views/business-detail/table-version/assets';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
 import './style.scss';
 
-
 /* 基本选项 */
 const source = () => [
 	{
 		id: 101,
 		name: '概览',
-		field: 'totalCount',
+		number: 0,
+		showNumber: false,
+		path: '/*',
+		status: true,
+		component: Overview,
+		source: [],
 	},
 	{
 		id: 102,
 		name: '资产',
-		number: 0,
 		showNumber: false,
+		path: '/business/detail/info/102/*',
+		config: Assets.config,
+		status: Assets.config.status,
+		component: Assets,
+		apiData: assets,
+		source: [],
 	},
 	{
 		id: 103,
@@ -50,7 +62,7 @@ const source = () => [
 		name: '工商基本信息',
 		field: 'ignoreCount',
 	},
-];
+].filter(i => i.status);
 
 /* 获取注册状态样式 */
 const getRegStatusClass = (val) => {
@@ -187,6 +199,7 @@ export default class Enterprise extends React.Component {
 	}
 
 	componentWillMount() {
+		const { tabConfig } = this.state;
 		const companyId = getQueryByName(window.location.href, 'id') || 494493;
 		companyInfo({ companyId }).then((res) => {
 			if (res.code === 200) {
@@ -194,9 +207,7 @@ export default class Enterprise extends React.Component {
 					infoSource: res.data,
 					loading: false,
 				});
-				// [{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
-				[{ d: assets, f: 'assets', i: 1 }]
-					.forEach(item => this.toGetChildCount(companyId, item));
+				tabConfig.forEach((item, index) => this.toGetSubItemsTotal(item, index));
 			} else {
 				message.error('网络请求失败！');
 				this.setState({
@@ -217,29 +228,38 @@ export default class Enterprise extends React.Component {
 		});
 	}
 
-	/* 获取子项统计 */
-	toGetChildCount=(id, itemSource) => {
-		/* ...... */
-		const { d: apiData, f: field, i: index } = itemSource;
-		const { tabConfig: con, countSource: cou } = this.state;
-		const reqList = Object.keys(apiData).map(item => ({
-			api: apiData[item].count({ }),
-			info: { id: apiData[item].id },
-		}));
-
-		requestAll(reqList).then((res) => {
-			console.log(res);
-			let count = 0;
-			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
-			con[index].number = count;
-			con[index].showNumber = true;
-			cou[field] = res;
-			this.setState({
-				tabConfig: con,
-				countSource: cou,
-			});
-		});
-	};
+	/* 获取各类子项总数 */
+	toGetSubItemsTotal=((item, index) => {
+		if (item.config) {
+			const { apiData, config: { idList, status } } = item;
+			const { tabConfig } = this.state;
+			const apiArray = [];
+			if (idList.length > 0 && status) {
+				Object.keys(apiData).forEach((k) => {
+					idList.forEach((i) => {
+						const tempRep = new RegExp(`^${i}`);
+						if (tempRep.test(k)) {
+							apiArray.push({
+								api: apiData[k].count({}),
+								info: { id: apiData[k].id },
+							});
+						}
+					});
+				});
+			}
+			if (apiArray.length) {
+				requestAll(apiArray).then((res) => {
+					let count = 0;
+					res.forEach(i => count += i.field ? i.data[i.field] : i.data);
+					tabConfig[index].number = count;
+					tabConfig[index].showNumber = true;
+					tabConfig[index].source = res;
+					console.log(tabConfig);
+					this.setState({ tabConfig });
+				});
+			}
+		}
+	});
 
 	handleDownload=() => {
 		console.log('handleDownload');
@@ -295,8 +315,7 @@ export default class Enterprise extends React.Component {
 				<div className="mark-line" />
 				<div className="info-content">
 					<Router>
-						<Overview path="/*" />
-						<Assets toPushChild={this.handleAddChild} path="/business/detail/info/102/*" count={countSource.assets} />
+						{ tabConfig.map(I => <I.component count={I.source} path={I.path} toPushChild={this.handleAddChild} />) }
 					</Router>
 				</div>
 			</div>

@@ -69,7 +69,7 @@
     padding-bottom: 40px;
   }
 }
-.yc-history-concent {
+.yc-history-content {
   padding-top: 14px;
   padding-left: 24px;
   .yc-history-title {
@@ -83,7 +83,7 @@
   .yc-history-item {
     margin-bottom: 24px;
   }
-  .yc-history-lable {
+  .yc-history-label {
     width: 48px;
     height: 12px;
     font-size: 12px;
@@ -94,13 +94,13 @@
   .yc-Timeline-content {
     max-height: 600px;
     overflow: auto;
-    .yc-Timeline-lable{
+    .yc-Timeline-label{
       margin-bottom: 10px;
     }
     .yc-Timeline-item {
       margin-bottom: 10px;
 
-      .yc-item-lable {
+      .yc-item-label {
         display: inline-block;
         width: 140px;
       }
