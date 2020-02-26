@@ -22,16 +22,16 @@ const columns = (props) => {
 		}, {
 			title: '持证单位',
 			dataIndex: 'obligorName',
-			width: 150,
+			width: 200,
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '证书编号',
-			width: 200,
+			width: 150,
 			dataIndex: 'certificateNumber',
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '资质信息',
-			width: 300,
+			width: 270,
 			dataIndex: 'qualificationName',
 			render: (text, row) => (
 				<div className="assets-info-content">
