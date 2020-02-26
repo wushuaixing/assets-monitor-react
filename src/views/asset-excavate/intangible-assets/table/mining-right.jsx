@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
-import { Table, SelectedNum } from '@/common';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Mining } from '@/utils/api/monitor-info/intangible';
 
 const certificateTypeStatus = {
@@ -47,33 +47,31 @@ const columns = (props) => {
 			width: 260,
 			dataIndex: 'mineralSpecies',
 			render: (text, row) => (
-				<div className="table-column">
-					<div style={{ display: 'inline-block', float: 'left' }}>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>矿种:</span>
-							<span>
-								{text || '--'}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>矿山名称:</span>
-							<span>
-								{row.projectName || '--'}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>面积:</span>
-							<span>
-								{row.area || '--'}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>有效期:</span>
-							<span style={{ display: 'inline-block' }}>
-								{`${row.gmtValidityPeriodStart ? row.gmtValidityPeriodStart : '--'}至${row.gmtValidityPeriodEnd ? row.gmtValidityPeriodEnd : '--'}` }
-							</span>
-						</div>
-					</div>
+				<div className="assets-info-content">
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>矿种</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{text || '--'}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>矿山名称</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content"><Ellipsis content={row.projectName || '-'} tooltip width={200} /></span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>面积</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.area || '--'}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
+						<span className="list list-title-colon">:</span>
+						{
+							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
+								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+							) : '--'
+						}
+					</li>
 				</div>
 			),
 		}, {

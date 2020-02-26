@@ -18,6 +18,7 @@ export default class TabsIntact extends React.Component {
 
 	toRefreshCount=(config, type) => {
 		const { onRefresh } = this.props;
+
 		const _source =	config;
 		this.toGetUnReadCount(_source);
 		config.forEach((i, index) => {

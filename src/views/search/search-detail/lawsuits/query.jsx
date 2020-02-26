@@ -68,12 +68,12 @@ class QUERYLAWSUITS extends React.Component {
 		const fildesDefendantArray = ([fildes.defendant0 || undefined, fildes.defendant1 || undefined, fildes.defendant2 || undefined]);
 		const fildesiffArray = ([fildes.plaintiff0 || undefined, fildes.plaintiff1 || undefined, fildes.plaintiff2 || undefined]);
 		const Params = {
-			bgList: fildesDefendantArray || defendantArray,
-			ygList: fildesiffArray || plaintiffArray,
-			ah: urlObj.ah || undefined,
+			defendantList: fildesDefendantArray || defendantArray,
+			plaintiffList: fildesiffArray || plaintiffArray,
+			caseNumber: urlObj.ah || undefined,
 			court: urlObj.court || undefined,
-			endLarq: urlObj.endLarq || undefined,
-			startLarq: urlObj.startLarq || undefined,
+			endGmtRegister: urlObj.endLarq || undefined,
+			startGmtRegister: urlObj.startLarq || undefined,
 			page: 1,
 			num: pageSize,
 			Sort: undefined,

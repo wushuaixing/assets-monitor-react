@@ -9,15 +9,15 @@ import {
 	ktggRelationSearch, // 开庭列表
 	trialRelationSearch, // 立案列表
 	relationSearchCount, // 数量
+	courtSearchListCount, // 开庭数量
 	trialRelationSearchExport, // 立案导出
 	ktggRelationSerachExport, // 开庭导出
 } from '@/utils/api/search';
 import { objectKeyIsEmpty } from '@/utils';
+import { ScrollAnimation } from '@/utils/changeTime';
 import LawsuitsTable from './table';
 import Query from './query';
 import './style.scss';
-import { ScrollAnimation } from '@/utils/changeTime';
-import { TableCourt, TableTrial } from './table/index';
 
 const createForm = Form.create;
 
@@ -52,12 +52,12 @@ class LAWSUITS extends React.Component {
 		const defendantArray = ([urlObj.defendant0 || undefined, urlObj.defendant1 || undefined, urlObj.defendant2 || undefined]);
 		const plaintiffArray = ([urlObj.plaintiff0 || undefined, urlObj.plaintiff1 || undefined, urlObj.plaintiff2 || undefined]);
 		const Params = {
-			bgList: defendantArray,
-			ygList: plaintiffArray,
-			ah: urlObj.ah || undefined,
+			defendantList: defendantArray,
+			plaintiffList: plaintiffArray,
+			caseNumber: urlObj.ah || undefined,
 			court: urlObj.court || undefined,
-			endLarq: urlObj.endLarq || undefined,
-			startLarq: urlObj.startLarq || undefined,
+			endGmtRegister: urlObj.endLarq || undefined,
+			startGmtRegister: urlObj.startLarq || undefined,
 			page: 1,
 			num: pageSize,
 		};
@@ -99,8 +99,14 @@ class LAWSUITS extends React.Component {
 		relationSearchCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					trialRelationCount: res.data[0].count,
-					ktggRelationCount: res.data[1].count,
+					trialRelationCount: res.data,
+				});
+			}
+		});
+		courtSearchListCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					ktggRelationCount: res.data,
 				});
 			}
 		});
@@ -307,6 +313,7 @@ class LAWSUITS extends React.Component {
 
 	// 获取查询参数
 	getQueryData = (obj) => { this.setState({ Params: obj }); };
+
 	// 表格发生变化
 	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
@@ -317,6 +324,7 @@ class LAWSUITS extends React.Component {
 			dataSource: _dataSource,
 		});
 	};
+
 	render() {
 		const {
 			plaintiff, defendant, dataList, loading, urlObj, totals, current, page, pageSize, ktggRelationCount, trialRelationCount, Sort, type,
@@ -353,14 +361,14 @@ class LAWSUITS extends React.Component {
 			plaintiff,
 			defendant,
 		};
-		const tableProps = {
+		/* const tableProps = {
 			loading,
 			manage: false,
 			dataSource: dataList,
 			current,
 			total: totals,
 			onRefresh: this.onRefresh,
-		};
+		}; */
 		return (
 			<div className="yc-content-query">
 				{/* 搜索栏 */}
@@ -386,19 +394,13 @@ class LAWSUITS extends React.Component {
 					)}
 				</div>
 				<Spin visible={loading}>
-					{
-						type === 1 ? (<TableTrial {...tableProps} />) : null
-					}
-					{
-						type === 2 ? (<TableCourt {...tableProps} />) : null
-					}
-					{/*	<LawsuitsTable
+					<LawsuitsTable
 						stateObj={this.state}
 						dataList={dataList}
 						SortTime={this.SortTime}
 						Sort={Sort}
 						type={type}
-					/> */}
+					/>
 					{
 						dataList && dataList.length > 0
 						&& (

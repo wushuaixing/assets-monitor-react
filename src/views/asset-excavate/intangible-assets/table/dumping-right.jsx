@@ -3,6 +3,7 @@ import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
+import { Ellipsis } from '@/common';
 import { Dump } from '@/utils/api/monitor-info/intangible';
 
 const status = {
@@ -49,46 +50,50 @@ const columns = (props) => {
 			width: 260,
 			dataIndex: 'industry',
 			render: (text, row) => (
-				<div className="table-column">
-					<div style={{ display: 'inline-block', float: 'left' }}>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>行业分类:</span>
-							<span>
-								{text && text.length > 12 ? (<Tooltip placement="top" title={text}>{`${text.substr(0, 12)}...`}</Tooltip>) : <span>{text || '-'}</span>}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>有效期:</span>
-							<span style={{ display: 'inline-block' }}>
-								{`${row.gmtValidityPeriodStart ? row.gmtValidityPeriodStart : '--'}至${row.gmtValidityPeriodEnd ? row.gmtValidityPeriodEnd : '--'}` }
-							</span>
-						</div>
-					</div>
+				<div className="assets-info-content">
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>行业分类</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content"><Ellipsis content={text || '-'} tooltip width={200} /></span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
+						<span className="list list-title-colon">:</span>
+						{
+							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
+								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+							) : '--'
+						}
+					</li>
 				</div>
 			),
 		}, {
 			title: '当前状态',
-			width: 260,
+			width: 280,
 			dataIndex: 'status',
-			render: (text, row) => (text ? (
-				<div>
-					<span>{text}</span>
+			render: (text, row) => (
+				<div className="assets-info-content">
+					<li>
+						<span className="list list-content">{text}</span>
+					</li>
 					{
-text !== '正常' && (
-<React.Fragment>
-	<div>
-		<span className="yc-public-remark" style={{ marginRight: '6px' }}>{`${status[text].reasonName}:`}</span>
-		<span>{row.reason || '--'}</span>
-	</div>
-	<div>
-		<span className="yc-public-remark" style={{ marginRight: '6px' }}>{`${status[text].dateName}:`}</span>
-		<span>{row.gmtIssueTime || '--'}</span>
-	</div>
-</React.Fragment>
-)
-}
+						text !== '正常' ? (
+							<Fragment>
+								<li>
+									<span className="list list-title align-justify" style={{ width: 50 }}>{status[text].reasonName}</span>
+									<span className="list list-title-colon">:</span>
+									<span className="list list-content"><Ellipsis content={row.reason || '-'} tooltip width={200} /></span>
+								</li>
+								<li>
+									<span className="list list-title align-justify" style={{ width: 50 }}>{status[text].dateName}</span>
+									<span className="list list-title-colon">:</span>
+									<span className="list list-content">{row.gmtIssueTime || '--'}</span>
+								</li>
+							</Fragment>
+						) : null
+					}
 				</div>
-			) : '--'),
+			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

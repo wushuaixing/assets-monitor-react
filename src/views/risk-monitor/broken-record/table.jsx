@@ -4,6 +4,7 @@ import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
+import { Ellipsis } from '@/common';
 // 获取表格配置
 const columns = (props, openRegisterModalFunc) => {
 	const { normal, onRefresh, noSort } = props;
@@ -52,27 +53,27 @@ const columns = (props, openRegisterModalFunc) => {
 			dataIndex: 'title',
 			width: 506,
 			render: (text, row) => (
-				<div className="table-column">
-					<div style={{ display: 'inline-block', float: 'left' }}>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>失信行为具体情形:</span>
-							<span>
-								{text || '--'}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>生效文书确定义务:</span>
-							<span>
-								{row.projectName || '--'}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>被执行人履行情况:</span>
-							<span>
-								{row.area || '--'}
-							</span>
-						</div>
-					</div>
+				<div className="assets-info-content">
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>失信行为具体情形</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content"><Ellipsis content={text || '-'} tooltip width={200} /></span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>生效文书确定义务</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content"><Ellipsis content={row.projectName || '-'} tooltip width={200} /></span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>被执行人履行情况</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.qualificationLevel || '--'}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.validityPeriod}</span>
+					</li>
 				</div>
 			),
 		}, {
