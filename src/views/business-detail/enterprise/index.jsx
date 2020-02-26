@@ -207,6 +207,7 @@ export default class Enterprise extends React.Component {
 					infoSource: res.data,
 					loading: false,
 				});
+				console.log(tabConfig);
 				tabConfig.forEach((item, index) => this.toGetSubItemsTotal(item, index));
 			} else {
 				message.error('网络请求失败！');
@@ -247,6 +248,7 @@ export default class Enterprise extends React.Component {
 					});
 				});
 			}
+			console.log(apiArray);
 			if (apiArray.length) {
 				requestAll(apiArray).then((res) => {
 					let count = 0;
