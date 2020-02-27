@@ -41,7 +41,7 @@ class BusinessView extends React.Component {
 					);
 				},
 			}, {
-				title: '机构名称',
+				title: '负责人/机构',
 				dataIndex: 'orgName',
 				key: 'orgName',
 				width: 120,

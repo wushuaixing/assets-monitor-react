@@ -477,10 +477,10 @@ class BusinessView extends React.Component {
 					</div>
 					<div className="yc-query-item" style={{ marginRight: 0 }}>
 						<Input
-							title="机构名称"
+							title="负责人/机构"
 							style={_style1}
 							size="large"
-							placeholder="机构名称"
+							placeholder="负责人/机构"
 							{...getFieldProps('orgName', {
 								getValueFromEvent: e => e.trim(),
 							})}
