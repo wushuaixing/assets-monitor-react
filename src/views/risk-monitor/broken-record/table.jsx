@@ -5,6 +5,8 @@ import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-in
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import { Ellipsis } from '@/common';
+import isBreak from '@/assets/img/business/status_shixin.png';
+import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 // 获取表格配置
 const columns = (props, openRegisterModalFunc) => {
 	const { normal, onRefresh, noSort } = props;
@@ -24,8 +26,21 @@ const columns = (props, openRegisterModalFunc) => {
 		}, {
 			title: '债务人',
 			dataIndex: 'name',
-			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			width: 250,
+			render: (text, row) => (
+				<React.Fragment>
+
+					{
+						text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, <Ellipsis content={text || '-'} tooltip width={160} />) : '--'
+					}
+					{row && row.dishonestStatus === 1 ? (
+						<img className="yc-item-break" src={isBreak} alt="" />
+					) : null}
+					{row && row.dishonestStatus === 2 ? (
+						<img className="yc-item-break" src={beforeBreak} alt="" />
+					) : null}
+				</React.Fragment>
+			),
 		}, {
 			title: '案件信息',
 			dataIndex: 'caseCode',
@@ -158,8 +173,8 @@ export default class TableView extends React.Component {
 				onChange: this.onSelectChange,
 			},
 		} : null;
-		console.log('xx',columns(this.props))
-		console.log('cc',dataSource)
+		console.log('xx', columns(this.props));
+		console.log('cc', dataSource);
 		return (
 			<React.Fragment>
 				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
