@@ -1,5 +1,4 @@
 import React from 'react';
-import Item from './item';
 import { Tabs } from '@/common';
 import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import {
@@ -8,6 +7,7 @@ import {
 import Intangible from '@/utils/api/monitor-info/intangible';
 import './style.scss';
 import { requestAll } from '@/utils/promise';
+import Item from './item';
 
 export default class MyAttention extends React.Component {
 	constructor(props) {
@@ -43,7 +43,6 @@ export default class MyAttention extends React.Component {
 
 	// 获取数据统计
 	toGetTotal=(type, source) => {
-		debugger;
 		const _source = source;
 		if (type === 'YC0202') {
 			subrogationCount().then((res) => {

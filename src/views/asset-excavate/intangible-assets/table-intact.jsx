@@ -1,8 +1,8 @@
 import React from 'react';
-import Table from './table';
 import API from '@/utils/api/monitor-info/intangible';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
+import Table from './table';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -68,7 +68,6 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(nextProps) => {
-		debugger
 		this.setState({ loading: true });
 		const { reqUrl, id, sourceType } = nextProps || this.props;
 		const toApi = reqUrl || API(sourceType, 'followList');
@@ -100,7 +99,6 @@ export default class TableIntact extends React.Component {
 			dataSource, current, total, loading,
 		} = this.state;
 		const { normal, noSort, sourceType } = this.props;
-		debugger
 		const TableView = Table[sourceType || 'YC020701'];
 		const tableProps = {
 			noSort,
