@@ -10,22 +10,18 @@ import {
 /* api collection */
 import assets from '@/utils/api/detail/assets';
 import risk from '@/utils/api/detail/risk';
-// import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
-// import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
 /* components */
 import {
 	Tabs, Download, Icon as IconType,
 } from '@/common';
-import Overview from '../overview';
+import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
 import Risk from '@/views/business-detail/table-version/risk';
-// import Info from '@/views/_common-portrait/info';
-// import Lawsuits from './lawsuits';
-// import Manage from './manage';
-// import Info from './info';
-import Dishonest from '@/assets/img/icon/icon_shixin.png';
+import Info from '@/views/business-detail/table-version/info';
 import './style.scss';
+
+import Dishonest from '@/assets/img/icon/icon_shixin.png';
 
 /* 基本选项 */
 const source = () => [
@@ -64,7 +60,9 @@ const source = () => [
 	{
 		id: 105,
 		name: '工商基本信息',
-		field: 'ignoreCount',
+		path: '/business/detail/info/105/*',
+		status: true,
+		component: Info,
 	},
 ].filter(i => i.status);
 

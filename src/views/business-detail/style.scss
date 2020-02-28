@@ -1,7 +1,40 @@
 /* 详情页「新」2020.02.19 */
 .yc-information-detail-wrapper {
+  border-bottom: 1px solid #f0f1f5;
+  .ant-table-body tbody tr:nth-child(2n), .cTableContent tbody tr:nth-child(2n) {
+    background: #ffffff;
+  }
+  .ant-table-body tbody tr:nth-child(2n):hover, .cTableContent tbody tr:nth-child(2n):hover {
+    background: #ebf1fa;
+  }
   .info-detail{
-    border-bottom: 1px solid #f0f1f5;
+    padding-bottom: 15px!important;
+    .inquiry-list-regStatus{
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      font-size: 12px;
+      line-height: 18px;
+      padding: 0 10px;
+      margin-left: 10px;
+      font-weight: normal;
+      border: 1px solid $border-base;
+    }
+    .regStatus-green{
+      border: 1px solid #94D6B5;
+      background-color: #F4FFF9;
+      color: $common-success;
+    }
+    .regStatus-red{
+      border: 1px solid #FF9293;
+      background-color: #FFF3F3;
+      color: $common-error;
+    }
+    .regStatus-orange{
+      border: 1px solid $common-warning;
+      background-color: #fef9f3;
+      color: $common-warning;
+    }
   }
   .info-content{
     .inquiry-assets{
@@ -142,6 +175,7 @@
 
   .yc-intro-sub-items{
     padding: 16px 0 12px 0;
+    padding-bottom: 0;
     // border-bottom: 1px solid $border-base;
     .intro-btn-items{
       margin-right: 16px;
