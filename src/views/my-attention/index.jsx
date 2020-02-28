@@ -122,8 +122,8 @@ export default class MyAttention extends React.Component {
 					});
 					return _item;
 				});
+				this.setState({ source: _source });
 			});
-			this.setState({ source: _source });
 		}
 	};
 
