@@ -5,7 +5,9 @@ import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import {
 	subrogationCount, financeCount, landCount, lawsuitCount, operationCount,
 } from '@/utils/api/monitor-info/attention';
+import Intangible from '@/utils/api/monitor-info/intangible';
 import './style.scss';
+import { requestAll } from '@/utils/promise';
 
 export default class MyAttention extends React.Component {
 	constructor(props) {
@@ -41,6 +43,7 @@ export default class MyAttention extends React.Component {
 
 	// 获取数据统计
 	toGetTotal=(type, source) => {
+		debugger;
 		const _source = source;
 		if (type === 'YC0202') {
 			subrogationCount().then((res) => {
@@ -104,6 +107,24 @@ export default class MyAttention extends React.Component {
 				});
 				this.setState({ source: _source });
 			});
+		} else if (type === 'YC0207') {
+			const urlList = source.child.map(item => ({
+				api: Intangible(item.id, 'followListCount')(),
+				info: { id: item.id },
+			}));
+			requestAll(urlList).then((res) => {
+				_source.child = _source.child.map((item) => {
+					const _item = item;
+					res.map((i) => {
+						if (item.id === i.id) {
+							_item.number = i.data;
+						}
+						return i;
+					});
+					return _item;
+				});
+			});
+			this.setState({ source: _source });
 		}
 	};
 

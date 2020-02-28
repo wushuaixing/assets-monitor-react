@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from './table';
-import { attentionList } from '@/utils/api/monitor-info/broken-record';
+import API from '@/utils/api/monitor-info/intangible';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
 
@@ -14,7 +14,6 @@ export default class TableIntact extends React.Component {
 			loading: true,
 		};
 		this.condition = {
-			isAttention: 1,
 			sortColumn: '',
 			sortOrder: '',
 			page: 1,
@@ -25,6 +24,30 @@ export default class TableIntact extends React.Component {
 	componentWillMount() {
 		this.toGetData();
 	}
+
+	componentWillReceiveProps(nextProps) {
+		const { sourceType } = this.props;
+		if (sourceType !== nextProps.sourceType) {
+			this.condition.sortColumn = '';
+			this.condition.sortOrder = '';
+			this.condition.page = 1;
+			this.condition.sourceType = nextProps.sourceType;
+			this.setState({
+				dataSource: '',
+				current: 1,
+				total: 0,
+			});
+			this.toGetData(nextProps);
+		}
+	}
+
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
+		this.condition.page = 1;
+		this.toGetData();
+	};
 
 	// 表格发生变化
 	onRefresh=(data, type) => {
@@ -37,58 +60,48 @@ export default class TableIntact extends React.Component {
 		});
 	};
 
-	// 排序触发
-	onSortChange=(field, order) => {
-		this.condition.sortColumn = field;
-		this.condition.sortOrder = order;
-		this.condition.page = 1;
-		this.toGetData();
-	};
-
 	// 当前页数变化
 	onPageChange=(val) => {
 		this.condition.page = val;
 		this.toGetData();
-		const { onPageChange } = this.props;
-		if (onPageChange)onPageChange();
 	};
 
 	// 查询数据methods
-	toGetData=() => {
+	toGetData=(nextProps) => {
 		debugger
 		this.setState({ loading: true });
-		const { reqUrl, id } = this.props;
-		const toApi = reqUrl || attentionList;
-		toApi(clearEmpty(this.condition), id)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						dataSource: res.data.list,
-						current: res.data.page,
-						total: res.data.total,
-						loading: false,
-					});
-				} else {
-					this.setState({
-						dataSource: '',
-						current: 1,
-						total: 0,
-						loading: false,
-					});
-				}
-			})
-			.catch(() => {
+		const { reqUrl, id, sourceType } = nextProps || this.props;
+		const toApi = reqUrl || API(sourceType, 'followList');
+		toApi(clearEmpty(this.condition), id).then((res) => {
+			if (res.code === 200) {
 				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
 					loading: false,
 				});
+			} else {
+				this.setState({
+					dataSource: [],
+					current: 1,
+					total: 0,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({
+				loading: false,
 			});
+		});
 	};
 
 	render() {
 		const {
 			dataSource, current, total, loading,
 		} = this.state;
-		const { normal, noSort } = this.props;
+		const { normal, noSort, sourceType } = this.props;
+		debugger
+		const TableView = Table[sourceType || 'YC020701'];
 		const tableProps = {
 			noSort,
 			normal,
@@ -97,16 +110,18 @@ export default class TableIntact extends React.Component {
 			current,
 			total,
 			onRefresh: this.onRefresh,
-			onSelect: this.onSelect,
+			onSelect: () => {},
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
+			sourceType: this.condition.sourceType,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
+
 		return (
 			<div className="yc-assets-auction">
 				<Spin visible={loading}>
-					<Table {...tableProps} />
+					<TableView {...tableProps} />
 				</Spin>
 			</div>
 

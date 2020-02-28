@@ -1,13 +1,13 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import Query from './query';
-import Table from './table';
 import { Button, Download, Spin } from '@/common';
 import {
-	infoList, readStatus, exportList, follow,
-} from '@/utils/api/monitor-info/bankruptcy';
+	infoList, readStatus, exportList, follow, readAll,listCount
+} from '@/utils/api/monitor-info/broken-record';
 import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
+import Query from './query';
+import Table from './table';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -52,7 +52,7 @@ export default class Subrogation extends React.Component {
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					readStatus({}).then((res) => {
+					readAll({}).then((res) => {
 						if (res.code === 200) {
 							_this.onQueryChange();
 							_this.onUnReadCount();
@@ -203,47 +203,47 @@ export default class Subrogation extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 				{
-					!manage ? (
-						<div className="assets-auction-action">
-							<Button
-								active={isRead === 'all'}
-								onClick={() => this.handleReadChange('all')}
-								title="全部"
-							/>
-							<Button
-								active={isRead === 'else'}
-								onClick={() => this.handleReadChange('else')}
-								title="只显示未读"
-							/>
-							<Button onClick={this.handleAllRead}>全部标为已读</Button>
-							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-							<div className="yc-public-floatRight">
-								<Download condition={() => this.condition} api={exportList} all text="一键导出" />
-							</div>
-						</div>
-					) : (
-						<div className="assets-auction-action">
-							<Button onClick={this.handleAttention} title="关注" />
-							<Download
-								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
-								api={exportList}
-								selectIds
-								selectedRowKeys={() => this.selectRow}
-								field="idList"
-								text="导出"
-							/>
+	!manage ? (
+		<div className="assets-auction-action">
+			<Button
+				active={isRead === 'all'}
+				onClick={() => this.handleReadChange('all')}
+				title="全部"
+			/>
+			<Button
+				active={isRead === 'else'}
+				onClick={() => this.handleReadChange('else')}
+				title="只显示未读"
+			/>
+			<Button onClick={this.handleAllRead}>全部标为已读</Button>
+			<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+			<div className="yc-public-floatRight">
+				<Download condition={() => this.condition} api={exportList} all text="一键导出" />
+			</div>
+		</div>
+	) : (
+		<div className="assets-auction-action">
+			<Button onClick={this.handleAttention} title="关注" />
+			<Download
+				condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
+				api={exportList}
+				selectIds
+				selectedRowKeys={() => this.selectRow}
+				field="idList"
+				text="导出"
+			/>
 
-							{/* <Button onClick={this.handleExport} title="导出" /> */}
-							<Button
-								onClick={() => {
-									this.setState({ manage: false });
-									this.selectRow = [];
-								}}
-								title="取消管理"
-							/>
-						</div>
-					)
-				}
+			{/* <Button onClick={this.handleExport} title="导出" /> */}
+			<Button
+				onClick={() => {
+					this.setState({ manage: false });
+					this.selectRow = [];
+				}}
+				title="取消管理"
+			/>
+		</div>
+	)
+	}
 				<Spin visible={loading}>
 					<Table {...tableProps} />
 				</Spin>
