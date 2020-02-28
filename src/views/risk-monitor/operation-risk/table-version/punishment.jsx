@@ -1,10 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import riskDetail from 'api/detail/risk';
 import { Ellipsis, Spin, Table } from '@/common';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import { getQueryByName, timeStandard, toEmpty } from '@/utils';
-
-const api = manage.punishment;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -79,12 +78,20 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		let api = '';
+		const params = {};
+		if (portrait === 'detail') {
+			api = riskDetail['30601'];
+		} else {
+			api = manage.punishment;
+			params.companyId = getQueryByName(window.location.href, 'id');
+		}
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
 			num: 5,
-			companyId,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

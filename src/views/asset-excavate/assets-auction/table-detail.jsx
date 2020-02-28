@@ -9,6 +9,31 @@ import TableVersionModal from './tableVersionModal';
 import { toEmpty, timeStandard } from '@/utils';
 import './style.scss';
 
+
+/* 跟进状态 */
+const processStatus = (s) => {
+	let res = '';
+	switch (s) {
+	// case 0: res = { text: '未跟进', color: '#FB5A5C' }; break;
+	case 3:
+	case 6: res = { text: '跟进中', color: '#FB8E3C' }; break;
+	case 9: res = { text: '已完成', color: '#3DBD7D' }; break;
+	case 12: res = { text: '已忽略', color: '#7D8699' }; break;
+	case 15: res = { text: '已放弃', color: '#7D8699' }; break;
+	default: res = '';
+	}
+	if (res) {
+		res.style = {
+			borderColor: res.color,
+			color: res.color,
+			minWidth: 80,
+			backgroundColor: '#FFFFFF',
+			borderRadius: '2px',
+		};
+	}
+	return res;
+};
+
 const AuctionInfo = (text, row, method) => {
 	const {
 		court, consultPrice, start, currentPrice, initialPrice, status, historyAuction = [],
@@ -114,7 +139,7 @@ export default class TableIntact extends React.Component {
 
 	shouldComponentUpdate(nextProps) {
 		if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
-			this.toGetData(1);
+			this.toGetData(1, nextProps.sourceType);
 		}
 		return true;
 	}
@@ -135,7 +160,7 @@ export default class TableIntact extends React.Component {
 				const name = (_reason.filter(i => i.name))[0];
 				const usedName = (_reason.filter(i => i.used_name))[0];
 				if (pushType === 0) {
-					return '● 匹配原因：全文匹配';
+					return '全文匹配';
 				} if (name || usedName) {
 					if (name) str += name.hl.join('、');
 					else str += usedName.hl.join('、');
@@ -153,23 +178,27 @@ export default class TableIntact extends React.Component {
 		{
 			title: '拍卖信息',
 			dataIndex: 'title',
-			render: (value, row) => (
-				<div className="assets-info-content">
-					<li style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.title)
-							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '--' }
-					</li>
-					<li>
-						<span className="list list-title align-justify">● 匹配原因</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ width: 660, maxWidth: 'none' }}>{this.getMatchReason(row.reason, row.pushType)}</span>
-					</li>
-					<li>
-						{ toEmpty(row.matchRemark)
-							? <Ellipsis content={`审核备注：${row.matchRemark}`} tooltip width={600} font={15} /> : '审核备注：-' }
-					</li>
-				</div>
-			),
+			render: (value, row) => {
+				const process = processStatus(row.process);
+				return (
+					<div className="assets-info-content">
+						<li style={{ lineHeight: '24px' }}>
+							{ toEmpty(row.title)
+								? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={14} className="yc-public-title-normal-bold" /> : '--' }
+							{process ? <span className="yc-case-reason text-ellipsis" style={process.style}>{process.text}</span> : ''}
+						</li>
+						<li>
+							<span className="list list-title align-justify">● 匹配原因</span>
+							<span className="list list-title-colon">:</span>
+							<span className="list list-content" style={{ width: 640, maxWidth: 'none' }}>{this.getMatchReason(row.reason, row.pushType)}</span>
+						</li>
+						<li>
+							{ toEmpty(row.matchRemark)
+								? <Ellipsis content={`审核备注：${row.matchRemark}`} tooltip width={600} font={15} /> : '审核备注：-' }
+						</li>
+					</div>
+				);
+			},
 		}, {
 			title: '拍卖状况',
 			width: 360,
@@ -190,8 +219,8 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=(page) => {
-		const { portrait, sourceType } = this.props;
+	toGetData=(page, sourceType) => {
+		const { sourceType: type } = this.props;
 		// const params = portrait === 'personal' ? {
 		// 	obligorName: getQueryByName(window.location.href, 'name'),
 		// 	obligorNumber: getQueryByName(window.location.href, 'num'),
@@ -202,11 +231,12 @@ export default class TableIntact extends React.Component {
 		//
 		// // 判断是个人还是企业
 		// const commonAuction = portrait === 'personal' ? personalAuction : auction;
-		const api = assets[sourceType];
+		const _sourceType = sourceType || type;
+		const api = assets[_sourceType];
+		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
 			num: 5,
-			obligorName: '上汽通用汽车金融有限责任公司',
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

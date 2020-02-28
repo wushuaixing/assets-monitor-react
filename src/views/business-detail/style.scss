@@ -1,6 +1,8 @@
 /* 详情页「新」2020.02.19 */
 .yc-information-detail-wrapper {
-
+  .info-detail{
+    border-bottom: 1px solid #f0f1f5;
+  }
   .info-content{
     .inquiry-assets{
       padding: 10px 0;
@@ -33,6 +35,7 @@
 
   .info-wrapper {
     padding: 20px;
+    background-color: #FFFFFF;
   }
 
   .mark-line {

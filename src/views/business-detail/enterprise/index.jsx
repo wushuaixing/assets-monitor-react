@@ -9,17 +9,17 @@ import {
 } from '@/utils';
 /* api collection */
 import assets from '@/utils/api/detail/assets';
+import risk from '@/utils/api/detail/risk';
 // import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
 // import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
 /* components */
 import {
-	Tabs, Spin, Download, Icon as IconType,
+	Tabs, Download, Icon as IconType,
 } from '@/common';
 import Overview from '../overview';
-// import OverView from '@/views/_common-portrait/overview';
 import Assets from '@/views/business-detail/table-version/assets';
-// import Risk from '@/views/_common-portrait/risk';
+import Risk from '@/views/business-detail/table-version/risk';
 // import Info from '@/views/_common-portrait/info';
 // import Lawsuits from './lawsuits';
 // import Manage from './manage';
@@ -53,9 +53,13 @@ const source = () => [
 	{
 		id: 103,
 		name: '风险',
-		number: 0,
 		showNumber: false,
-		field: 'followingCount',
+		path: '/business/detail/info/103/*',
+		config: Risk.config,
+		status: Risk.config.status,
+		component: Risk,
+		apiData: risk,
+		source: [],
 	},
 	{
 		id: 105,
@@ -190,11 +194,6 @@ export default class Enterprise extends React.Component {
 			loading: true,
 			infoSource: {},
 			isDishonest: false,
-			countSource: {
-				assets: [],
-				lawsuits: [],
-				manage: [],
-			},
 		};
 	}
 
@@ -207,7 +206,7 @@ export default class Enterprise extends React.Component {
 					infoSource: res.data,
 					loading: false,
 				});
-				console.log(tabConfig);
+				/* 请求子项数据 */
 				tabConfig.forEach((item, index) => this.toGetSubItemsTotal(item, index));
 			} else {
 				message.error('网络请求失败！');
@@ -248,7 +247,6 @@ export default class Enterprise extends React.Component {
 					});
 				});
 			}
-			console.log(apiArray);
 			if (apiArray.length) {
 				requestAll(apiArray).then((res) => {
 					let count = 0;
@@ -256,7 +254,6 @@ export default class Enterprise extends React.Component {
 					tabConfig[index].number = count;
 					tabConfig[index].showNumber = true;
 					tabConfig[index].source = res;
-					console.log(tabConfig);
 					this.setState({ tabConfig });
 				});
 			}
@@ -275,7 +272,7 @@ export default class Enterprise extends React.Component {
 
 	onChangeAffix=(val) => {
 		this.setState({ affixStatus: val });
-		// console.log('onChangeAffix:', val);
+		console.log('onChangeAffix:', val);
 	};
 
 	/* tab change */
@@ -295,8 +292,11 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, affixStatus, loading, infoSource, countSource, isDishonest,
+			tabConfig, childDom, sourceType, infoSource, isDishonest,
 		} = this.state;
+		const { affixStatus, loading } = this.state;
+		// console.log(affixStatus, loading);
+		// ,countSource
 		// const classList = ['enterprise-intro'];
 		// if (!childDom) classList.push('enterprise-intro-child');
 		// if (affixStatus) classList.push('enterprise-intro-affix');
@@ -304,20 +304,22 @@ export default class Enterprise extends React.Component {
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">导航模块</div>
 				<div className="mark-line" />
-				<div className="info-detail info-wrapper">
-					<EnterpriseInfo download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
-					<Tabs.Simple
-						onChange={this.onSourceType}
-						source={tabConfig}
-						symbol="none"
-						defaultCurrent={sourceType}
-					/>
-					{childDom}
-				</div>
+				<Affix>
+					<div className="info-detail info-wrapper">
+						<EnterpriseInfo download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
+						<Tabs.Simple
+							onChange={this.onSourceType}
+							source={tabConfig}
+							symbol="none"
+							defaultCurrent={sourceType}
+						/>
+						{childDom}
+					</div>
+				</Affix>
 				<div className="mark-line" />
 				<div className="info-content">
 					<Router>
-						{ tabConfig.map(I => <I.component count={I.source} path={I.path} toPushChild={this.handleAddChild} />) }
+						{ tabConfig.map(I => <I.component count={I.source} path={I.path} toPushChild={this.handleAddChild} portrait="detail" />) }
 					</Router>
 				</div>
 			</div>

@@ -2,14 +2,12 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Ellipsis, Spin, Table } from '@/common';
 import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
+import riskDetail from '@/utils/api/detail/risk';
 import associationLink from '@/views/_common/association-link';
 import {
 	timeStandard, toEmpty, linkDom, getCaseType, getQueryByName,
 } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
-
-const { trial } = lawsuits;
-
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -76,12 +74,20 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		let api = '';
+		const params = {};
+		if (portrait === 'detail') {
+			api = riskDetail['20601'];
+		} else {
+			api = lawsuits.trial;
+			params.companyId = getQueryByName(window.location.href, 'id');
+		}
 		this.setState({ loading: true });
-		trial.list({
+		api.list({
 			page: page || 1,
-			companyId,
 			num: 5,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

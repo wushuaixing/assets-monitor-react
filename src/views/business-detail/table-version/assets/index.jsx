@@ -29,7 +29,7 @@ const subItems = data => ([
 		info: data ? data.filter(i => /1010/.test(i.id)) : '',
 		tagName: 'e-assets-auction',
 		component: Auction,
-		role: roleState('zcwj', 'zcpm'),
+		role: roleState('zcwj', 'zcwjzcpm'),
 	},
 	{
 		id: 10200,
@@ -39,8 +39,7 @@ const subItems = data => ([
 		info: data ? data.filter(i => /1020/.test(i.id)) : '',
 		tagName: 'e-assets-subrogation',
 		component: Subrogation,
-		role: roleState('zcwj', 'dwq'),
-
+		role: roleState('zcwj', 'zcwjdwq'),
 	},
 	{
 		id: 10300,
@@ -50,8 +49,7 @@ const subItems = data => ([
 		info: data ? data.filter(i => /1030/.test(i.id)) : '',
 		tagName: 'e-assets-land',
 		component: Land,
-		role: roleState('zcwj', 'tdsj'),
-
+		role: roleState('zcwj', 'zcwjtdsj'),
 	},
 	{
 		id: 10400,
@@ -62,7 +60,7 @@ const subItems = data => ([
 		disabled: true,
 		tagName: 'e-assets-intangible',
 		component: Intangible,
-		role: roleState('zcwj', 'wxzc'),
+		role: roleState('zcwj', 'zcwjwxzc'),
 	},
 	// {
 	// 	id: 10500,
@@ -82,16 +80,17 @@ const subItems = data => ([
 	// 	tagName: 'e-assets-chattel',
 	// 	component: Chattel,
 	// },
-	// {
-	// 	id: 10700,
-	// baseId: 1070,
-	// 	name: '招投标',
-	// 	total: data ? toGetTotal('1070', data) : 0,
-	// 	info: data ? data.filter(i => /1070/.test(i.id)) : '',
-	// 	disabled: true,
-	// 	tagName: 'e-assets-bidding',
-	// 	component: Bidding,
-	// },
+	{
+		id: 10700,
+		baseId: 1070,
+		name: '招投标',
+		total: data ? toGetTotal('1070', data) : 0,
+		info: data ? data.filter(i => /1070/.test(i.id)) : '',
+		role: roleState('zcwj', 'zcwjzbzb'),
+		disabled: true,
+		tagName: 'e-assets-bidding',
+		component: Bidding,
+	},
 ]);
 
 class Assets extends React.Component {
@@ -149,14 +148,14 @@ class Assets extends React.Component {
 
 	render() {
 		const { config, loading } = this.state;
-		const { count } = this.props;
+		const { count, portrait } = this.props;
 		const aryResult = (subItems(count).filter(i => i.total > 0)).length;
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
 				<Spin visible={loading} minHeight={350}>
 					{
 						aryResult ? config.map(Item => (
-							Item.total ? <Item.component id={Item.tagName} data={Item.info} portrait="detail" /> : ''))
+							Item.total && Item.role ? <Item.component id={Item.tagName} data={Item.info} portrait={portrait} /> : ''))
 							: <NoContent />
 					}
 				</Spin>

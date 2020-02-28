@@ -1,13 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import riskDetail from 'api/detail/risk';
-import { Spin, Table } from '@/common';
-import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
-import associationLink from '@/views/_common/association-link';
-import { getQueryByName, linkDom, timeStandard } from '@/utils';
-import { PartyCrosswise } from '@/views/_common';
+import { Spin, Table, Ellipsis } from '@/common';
+import { getQueryByName, timeStandard, toEmpty } from '@/utils';
 
-export default class TableIntact extends React.Component {
+export default class TableVersion extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -22,41 +19,26 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
-	toGetColumns=() => [
+	toGetColumns = () => [
 		{
-			title: '拍卖信息',
-			dataIndex: 'caseNumber',
+			title: '主要信息',
+			dataIndex: 'title',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							{row.caseNumber ? linkDom(row.url, row.caseNumber.replace('（', '( ')) : '--'}
-						</span>
-						{ row.caseReason ? <span className="yc-case-reason text-ellipsis">{row.caseReason}</span> : ''}
+					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
+						{ toEmpty(value) ? <Ellipsis content={value} url={row.url} width={600} font={15} /> : '--' }
 					</li>
-					<li>
-						<span className="list list-title align-justify">开庭日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtTrial)}</span>
-					</li>
-					<PartyCrosswise value={row.parties} row={row} type="court" />
 				</div>
 			),
 		}, {
-			title: '关联信息',
-			width: 270,
+			title: '辅助信息',
+			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li style={{ height: 24 }} />
 					<li>
-						<span className="list list-title align-justify">审理法院</span>
+						<span className="list list-title align-justify">发布日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
-					</li>
-					<li>
-						<span className="list list-title align-justify">关联信息</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{associationLink(value, row, 'Court')}</span>
+						<span className="list list-content">{timeStandard(row.publishTime)}</span>
 					</li>
 				</div>
 			),
@@ -64,21 +46,21 @@ export default class TableIntact extends React.Component {
 	];
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		this.toGetData(val);
 	};
 
 	// 查询数据methods
-	toGetData=(page) => {
+	toGetData = (page) => {
 		const { portrait } = this.props;
 		let api = '';
 		const params = {};
 		if (portrait === 'detail') {
-			api = riskDetail['20602'];
+			api = riskDetail['30701'];
 		} else {
-			api = lawsuits.court;
 			params.companyId = getQueryByName(window.location.href, 'id');
 		}
+		if (!api) return;
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
@@ -100,9 +82,10 @@ export default class TableIntact extends React.Component {
 					loading: false,
 				});
 			}
-		}).catch(() => {
-			this.setState({ loading: false });
-		});
+		})
+			.catch(() => {
+				this.setState({ loading: false });
+			});
 	};
 
 	render() {

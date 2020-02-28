@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { Tabs, Icon } from '@/common';
-import { Court, Trial, Judgment } from '@/views/asset-excavate/subrogation/table-version';
+import { Court, Trial, Judgment } from '@/views/risk-monitor/lawsuits-monitor/table-version';
 import { toGetNumber, toGetDefaultId } from '@/utils/promise';
 
 
@@ -13,25 +13,25 @@ export default class Subrogation extends React.Component {
 			sourceType: defaultID,
 			config: [
 				{
-					id: 10201,
+					id: 20601,
 					name: '立案',
-					number: toGetNumber(props.data, 10201),
+					number: toGetNumber(props.data, 20601),
 					showNumber: true,
-					disabled: !toGetNumber(props.data, 10201),
+					disabled: !toGetNumber(props.data, 20601),
 				},
 				{
-					id: 10202,
+					id: 20602,
 					name: '开庭',
-					number: toGetNumber(props.data, 10202),
+					number: toGetNumber(props.data, 20602),
 					showNumber: true,
-					disabled: !toGetNumber(props.data, 10202),
+					disabled: !toGetNumber(props.data, 20602),
 				},
 				{
-					id: 10203,
+					id: 20603,
 					name: '裁判文书',
-					number: toGetNumber(props.data, 10203),
+					number: toGetNumber(props.data, 20603),
 					showNumber: true,
-					disabled: !toGetNumber(props.data, 10203),
+					disabled: !toGetNumber(props.data, 20603),
 				}],
 		};
 	}
@@ -45,7 +45,7 @@ export default class Subrogation extends React.Component {
 
 	render() {
 		const { config, sourceType } = this.state;
-		const { id, portrait } = this.props;
+		const { id } = this.props;
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
@@ -54,18 +54,18 @@ export default class Subrogation extends React.Component {
 					symbol="none"
 					defaultCurrent={sourceType}
 					prefix={(
-						<div className="yc-tabs-simple-prefix" style={{ width: 100 }}>
-							<span>代位权</span>
-							<Tooltip placement="top" title="债务人作为原告起诉他人的案件">
+						<div className="yc-tabs-simple-prefix" style={{ width: 120 }}>
+							<span>涉诉信息</span>
+							<Tooltip placement="top" title="债务人作为被告被他人起诉的案件">
 								<span><Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} /></span>
 							</Tooltip>
 						</div>
 					)}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 10201 ? <Trial portrait={portrait} /> : null}
-					{sourceType === 10202 ? <Court portrait={portrait} /> : null}
-					{sourceType === 10203 ? <Judgment portrait={portrait} /> : null}
+					{sourceType === 20601 ? <Trial {...this.props} /> : null}
+					{sourceType === 20602 ? <Court {...this.props} /> : null}
+					{sourceType === 20603 ? <Judgment {...this.props} /> : null}
 				</div>
 			</div>
 		);

@@ -2,9 +2,8 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Spin, Table, Ellipsis } from '@/common';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
+import riskDetail from '@/utils/api/detail/risk';
 import { getQueryByName, timeStandard, toEmpty } from '@/utils';
-
-const api = manage.bankruptcy;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -60,30 +59,37 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData = (page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		let api = '';
+		const params = {};
+		if (portrait === 'detail') {
+			api = riskDetail['30201'];
+		} else {
+			api = manage.bankruptcy;
+			params.companyId = getQueryByName(window.location.href, 'id');
+		}
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
 			num: 5,
-			companyId,
+			...params,
+		}).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
+					loading: false,
+				});
+			} else {
+				this.setState({
+					dataSource: '',
+					current: 1,
+					total: 0,
+					loading: false,
+				});
+			}
 		})
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						dataSource: res.data.list,
-						current: res.data.page,
-						total: res.data.total,
-						loading: false,
-					});
-				} else {
-					this.setState({
-						dataSource: '',
-						current: 1,
-						total: 0,
-						loading: false,
-					});
-				}
-			})
 			.catch(() => {
 				this.setState({ loading: false });
 			});

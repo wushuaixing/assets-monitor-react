@@ -6,3 +6,4 @@ const _tableCreateTimeText = '更新日期';
 global.REQ_STATUS = '';
 global.GLOBAL_MEIE_BROWSER = _msieBrowser;
 global.Table_CreateTime_Text = _tableCreateTimeText;
+global.lTable = f => console.table(Object.keys(global.ruleSource[f].children).map(i => global.ruleSource[f].children[i]));

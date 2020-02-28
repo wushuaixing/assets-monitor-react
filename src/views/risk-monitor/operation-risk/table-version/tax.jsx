@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import riskDetail from 'api/detail/risk';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
@@ -7,7 +8,6 @@ import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import risk from '@/utils/api/portrait-inquiry/personal/risk';
 import { getQueryByName, toEmpty } from '@/utils';
 
-const api = manage.tax;
 const { personalTax } = risk;
 
 const toGetIdentityType = (value) => {
@@ -98,17 +98,20 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		const params = portrait === 'personal' ? {
-			obligorName: getQueryByName(window.location.href, 'name'),
-			obligorNumber: getQueryByName(window.location.href, 'num'),
-		} : {
-			companyId: getQueryByName(window.location.href, 'id'),
-		};
+		let api = '';
+		const params = {};
+		if (portrait === 'detail') {
+			api = riskDetail['30501'];
+		} else 	if (portrait === 'personal') {
+			params.obligorName = getQueryByName(window.location.href, 'name');
+			params.obligorNumber = getQueryByName(window.location.href, 'num');
+			api = personalTax;
+		} else {
+			api = manage.tax;
+			params.companyId = getQueryByName(window.location.href, 'id');
+		}
 		this.setState({ loading: true });
-		// 判断是个人还是企业
-		const commonTax = portrait === 'personal' ? personalTax : api;
-		console.log(commonTax, 11);
-		commonTax.list({
+		api.list({
 			page: page || 1,
 			num: 5,
 			...params,

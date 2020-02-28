@@ -388,7 +388,6 @@ export default {
 export const	roleState = (field, childField) => {
 	const rule = global.ruleSource || {};
 	const _field = `menu_${field || ''}`;
-	const _childField = `zcwj${childField || ''}`;
 	const ruleObject = rule[_field];
-	return ruleObject ? Boolean(ruleObject.children[_childField]) : false;
+	return ruleObject ? Boolean(ruleObject.children[childField]) : false;
 };
