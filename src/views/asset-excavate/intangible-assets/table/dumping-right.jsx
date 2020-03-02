@@ -2,8 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
-import { Table, SelectedNum } from '@/common';
-import { Ellipsis } from '@/common';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Dump } from '@/utils/api/monitor-info/intangible';
 
 const status = {

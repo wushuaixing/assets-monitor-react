@@ -47,13 +47,17 @@ export default class TableIntact extends React.Component {
 						</span>
 					</li>
 					<li>
-						<span className="list list-title align-justify">发证日期</span>
+						<span className="list list-title align-justify">发布日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtIssueTime)}</span>
+						<span className="list list-content">{timeStandard(row.gmtPublishTime)}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">有效期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{`${row.gmtValidityPeriodStart ? row.gmtValidityPeriodStart : '--'}至${row.gmtValidityPeriodEnd ? row.gmtValidityPeriodEnd : '--'}` }</span>
+						{
+							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
+								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+							) : '--'
+						}
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">面积</span>
 						<span className="list list-title-colon">:</span>

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
+import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/broken-record';
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import { Ellipsis } from '@/common';
+import isBreak from '@/assets/img/business/status_shixin.png';
+import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 // 获取表格配置
 const columns = (props, openRegisterModalFunc) => {
 	const { normal, onRefresh, noSort } = props;
@@ -18,72 +20,76 @@ const columns = (props, openRegisterModalFunc) => {
 		{
 			title: (noSort ? '发布日期'
 				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
-			dataIndex: 'publishDate',
+			dataIndex: 'gmtPublishDate',
 			width: 115,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '债务人',
-			dataIndex: 'obligorName',
-			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
-		}, {
-			title: '案件信息',
-			dataIndex: 'court',
-			width: 180,
+			dataIndex: 'name',
+			width: 250,
 			render: (text, row) => (
-				<div className="table-column">
-					<div style={{ display: 'inline-block', float: 'left' }}>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>案号:</span>
-							<span>
-								{text || '--'}
-							</span>
-						</div>
-						<div>
-							<span className="yc-public-remark" style={{ marginRight: '6px' }}>执行法院:</span>
-							<span>
-								{row.projectName || '--'}
-							</span>
-						</div>
-					</div>
-				</div>
+				<React.Fragment>
+
+					{
+						text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, <Ellipsis content={text || '-'} tooltip width={160} />) : '--'
+					}
+					{row && row.dishonestStatus === 1 ? (
+						<img className="yc-item-break" src={isBreak} alt="" />
+					) : null}
+					{row && row.dishonestStatus === 2 ? (
+						<img className="yc-item-break" src={beforeBreak} alt="" />
+					) : null}
+				</React.Fragment>
 			),
 		}, {
-			title: '失信信息',
-			dataIndex: 'title',
-			width: 506,
+			title: '案件信息',
+			dataIndex: 'caseCode',
+			width: 250,
 			render: (text, row) => (
 				<div className="assets-info-content">
 					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>失信行为具体情形</span>
+						<span className="list list-title align-justify" style={{ width: 50 }}>案号</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content"><Ellipsis content={text || '-'} tooltip width={200} /></span>
 					</li>
 					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>生效文书确定义务</span>
+						<span className="list list-title align-justify" style={{ width: 50 }}>执行法院</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content"><Ellipsis content={row.projectName || '-'} tooltip width={200} /></span>
+						<span className="list list-content"><Ellipsis content={row.court || '-'} tooltip width={200} /></span>
+					</li>
+				</div>
+			),
+		}, {
+			title: '失信信息',
+			dataIndex: 'disruptType',
+			width: 350,
+			render: (text, row) => (
+				<div className="assets-info-content">
+					<li>
+						<span className="list list-title align-justify" style={{ width: 100 }}>失信行为具体情形</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content"><Ellipsis content={text || '-'} tooltip width={200} /></span>
 					</li>
 					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>被执行人履行情况</span>
+						<span className="list list-title align-justify" style={{ width: 100 }}>生效文书确定义务</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.qualificationLevel || '--'}</span>
+						<span className="list list-content"><Ellipsis content={row.duty || '-'} tooltip width={200} /></span>
 					</li>
 					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
+						<span className="list list-title align-justify" style={{ width: 100 }}>被执行人履行情况</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.validityPeriod}</span>
+						<span className="list list-content">{row.performance || '--'}</span>
 					</li>
 				</div>
 			),
 		}, {
 			title: '记录移除情况',
-			dataIndex: 'title',
-			width: 100,
+			dataIndex: 'removeStatus',
+			width: 120,
 			render: (text, record) => (
 				<React.Fragment>
 					{
-						text === 1 ? (
+						text ? (
 							<React.Fragment>
 								<p className="circle-item">已移除</p>
 							</React.Fragment>
@@ -110,7 +116,6 @@ const columns = (props, openRegisterModalFunc) => {
 				<Attentions
 					text={text}
 					row={row}
-					single
 					onClick={onRefresh}
 					api={row.isAttention ? unFollowSingle : followSingle}
 					index={index}
@@ -168,6 +173,8 @@ export default class TableView extends React.Component {
 				onChange: this.onSelectChange,
 			},
 		} : null;
+		console.log('xx', columns(this.props));
+		console.log('cc', dataSource);
 		return (
 			<React.Fragment>
 				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
