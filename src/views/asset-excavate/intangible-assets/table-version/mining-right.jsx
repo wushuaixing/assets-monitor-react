@@ -1,9 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import assetsD from 'api/professional-work/debtor/assets';
+import assetsB from 'api/professional-work/business/assets';
 import {
 	Ellipsis, Spin, Table,
 } from '@/common';
-import { Mining } from '@/utils/api/monitor-info/intangible';
 import { getQueryByName, timeStandard, toEmpty } from '@/utils';
 
 
@@ -75,12 +76,21 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = {};
+		let api = assetsD['10402'];
+		if (portrait === 'debtor_enterprise' || portrait === 'debtor_personal') {
+			api = assetsD['10402'];
+			params.obligorId = getQueryByName(window.location.href, 'id');
+		} else if (portrait === 'business') {
+			api = assetsB['10402'];
+			params.obligorId = getQueryByName(window.location.href, 'id');
+		}
 		this.setState({ loading: true });
-		Mining.list({
+		api.list({
 			page: page || 1,
 			num: 5,
-			companyId,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

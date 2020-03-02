@@ -1,11 +1,11 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import assetsD from 'api/professional-work/debtor/assets';
+import assetsB from 'api/professional-work/business/assets';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
-import { Dump } from '@/utils/api/monitor-info/intangible';
 import { getQueryByName, timeStandard, toEmpty } from '@/utils';
-
 
 const status = {
 	1: {
@@ -114,12 +114,21 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = {};
+		let api = assetsD['10401'];
+		if (portrait === 'debtor_enterprise' || portrait === 'debtor_personal') {
+			api = assetsD['10401'];
+			params.obligorId = getQueryByName(window.location.href, 'id');
+		} else if (portrait === 'business') {
+			api = assetsB['10401'];
+			params.obligorId = getQueryByName(window.location.href, 'id');
+		}
 		this.setState({ loading: true });
-		Dump.list({
+		api.list({
 			page: page || 1,
 			num: 5,
-			companyId,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({

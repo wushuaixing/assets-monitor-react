@@ -1,9 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import assetsD from 'api/professional-work/debtor/assets';
+import assetsB from 'api/professional-work/business/assets';
 import {
 	Spin, Table,
 } from '@/common';
-import { Copyright } from '@/utils/api/monitor-info/intangible';
 import { getQueryByName } from '@/utils';
 
 
@@ -62,12 +63,21 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const companyId = getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = {};
+		let api = assetsD['10403'];
+		if (portrait === 'debtor_enterprise' || portrait === 'debtor_personal') {
+			api = assetsD['10403'];
+			params.obligorId = getQueryByName(window.location.href, 'id');
+		} else if (portrait === 'business') {
+			api = assetsB['10403'];
+			params.obligorId = getQueryByName(window.location.href, 'id');
+		}
 		this.setState({ loading: true });
-		Copyright.list({
+		api.list({
 			page: page || 1,
 			num: 5,
-			companyId,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
