@@ -1,5 +1,5 @@
 import React from 'react';
-import Enterprise from './enterprise';
+import Enterprise from './debtor';
 import './style.scss';
 
 export default class BusinessDetail extends React.Component {

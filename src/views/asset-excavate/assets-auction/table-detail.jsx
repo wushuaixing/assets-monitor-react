@@ -1,12 +1,13 @@
 import React from 'react';
 import { Pagination, Tooltip } from 'antd';
-import assets from 'api/detail/assets';
+import assetsD from 'api/professional-work/debtor/assets';
+import assetsB from 'api/professional-work/business/assets';
 import {
 	Ellipsis, Icon, Spin, Table, Button,
 } from '@/common';
 import { floatFormat } from '@/utils/format';
 import TableVersionModal from './tableVersionModal';
-import { toEmpty, timeStandard } from '@/utils';
+import { toEmpty, timeStandard, getQueryByName } from '@/utils';
 import './style.scss';
 
 
@@ -220,19 +221,18 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page, sourceType) => {
-		const { sourceType: type } = this.props;
-		// const params = portrait === 'personal' ? {
-		// 	obligorName: getQueryByName(window.location.href, 'name'),
-		// 	obligorNumber: getQueryByName(window.location.href, 'num'),
-		// } : {
-		// 	companyId: getQueryByName(window.location.href, 'id'),
-		// };
-		// this.setState({ loading: true });
-		//
-		// // 判断是个人还是企业
-		// const commonAuction = portrait === 'personal' ? personalAuction : auction;
+		const { sourceType: type, portrait } = this.props;
+		// debtor_enterprise business
 		const _sourceType = sourceType || type;
-		const api = assets[_sourceType];
+		const params = {};
+		let api = assetsD[_sourceType];
+		if (portrait === 'debtor_enterprise' || portrait === 'debtor_personal') {
+			api = assetsD[_sourceType];
+			params.obligorId = getQueryByName(window.location.href, 'id');
+		} else if (portrait === 'business') {
+			api = assetsB[_sourceType];
+			params.obligorId = getQueryByName(window.location.href, 'id');
+		}
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

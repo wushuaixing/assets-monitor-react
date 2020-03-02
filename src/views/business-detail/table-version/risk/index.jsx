@@ -8,7 +8,6 @@ import Tax from './tax';
 import Dishonest from './dishonest';
 import Lawsuit from './lawsuit';
 import Environment from './environment';
-
 import { roleState } from '@/utils/rule';
 
 const toGetTotal = (field, data) => {
@@ -22,98 +21,114 @@ const toGetTotal = (field, data) => {
 	return count;
 };
 
-const subItems = data => ([
-	{
-		id: 30200,
-		baseId: 3020,
-		name: '破产重组',
-		total: data ? toGetTotal('3020', data) : 0,
-		info: data ? data.filter(i => /3020/.test(i.id)) : '',
-		role: roleState('fxjk', 'fxjkqypccz') && false,
-		component: Bankruptcy,
-		tagName: 'e-manage-bankruptcy',
-	},
-	{
-		id: 20400,
-		baseId: 2040,
-		name: '失信记录',
-		total: data ? toGetTotal('2040', data) : 0,
-		info: data ? data.filter(i => /2040/.test(i.id)) : '',
-		tagName: 'e-manage-dishonest',
-		role: false,
-		// component: Dishonest,
-	},
-	{
-		id: 20500,
-		baseId: 2050,
-		name: '限高记录',
-		total: data ? toGetTotal('2050', data) : 0,
-		info: data ? data.filter(i => /2050/.test(i.id)) : '',
-		tagName: 'e-manage-limitHeight',
-		role: false,
-		component: Dishonest,
-	},
-	{
-		id: 20600,
-		baseId: 2060,
-		name: '涉诉信息',
-		total: data ? toGetTotal('2060', data) : 0,
-		info: data ? data.filter(i => /2060/.test(i.id)) : '',
-		tagName: 'e-manage-lawsuits',
-		role: roleState('fxjk', 'fxjkssjk'),
-		component: Lawsuit,
-	},
-	{
-		id: 30300,
-		baseId: 3030,
-		name: '经营异常',
-		total: data ? toGetTotal('3030', data) : 0,
-		info: data ? data.filter(i => /3030/.test(i.id)) : '',
-		role: roleState('fxjk', 'jyfxjyyc'),
-		component: Abnormal,
-		tagName: 'e-manage-abnormal',
-	},
-	{
-		id: 30400,
-		baseId: 3040,
-		name: '严重违法',
-		total: data ? toGetTotal('3040', data) : 0,
-		info: data ? data.filter(i => /3040/.test(i.id)) : '',
-		role: roleState('fxjk', 'jyfxyzwf'),
-		component: Illegal,
-		tagName: 'e-manage-illegal',
-	},
-	{
-		id: 30500,
-		baseId: 3060,
-		name: '税收违法',
-		total: data ? toGetTotal('3050', data) : 0,
-		info: data ? data.filter(i => /3050/.test(i.id)) : '',
-		role: roleState('fxjk', 'jyfxsswf'),
-		component: Tax,
-		tagName: 'e-manage-tax',
-	},
-	{
-		id: 30600,
-		baseId: 3060,
-		name: '行政处罚',
-		total: data ? toGetTotal('3060', data) : 0,
-		info: data ? data.filter(i => /3060/.test(i.id)) : '',
-		role: roleState('fxjk', 'jyfxxzcf'),
-		component: Punishment,
-		tagName: 'e-manage-punishment',
-	},
-	{
-		id: 30700,
-		baseId: 3070,
-		name: '环保处罚',
-		total: data ? toGetTotal('3070', data) : 0,
-		info: data ? data.filter(i => /3070/.test(i.id)) : '',
-		role: roleState('fxjk', 'jyfxhbcf'),
-		component: Environment,
-		tagName: 'e-manage-environment',
-	},
-]);
+const subItems = (data, portrait) => {
+	let status = 'normal';
+	if (portrait === 'business') status = false;
+	if (portrait === 'debtor_enterprise') status = false;
+	if (portrait === 'debtor_personal') status = 'normal';
+	return [
+		{
+			id: 30200,
+			baseId: 3020,
+			name: '破产重组',
+			total: data ? toGetTotal('3020', data) : 0,
+			info: data ? data.filter(i => /3020/.test(i.id)) : '',
+			role: roleState('fxjk', 'fxjkqypccz') && false,
+			component: Bankruptcy,
+			isStatus: 'only',
+			tagName: 'e-manage-bankruptcy',
+		},
+		{
+			id: 20400,
+			baseId: 2040,
+			name: '失信记录',
+			total: data ? toGetTotal('2040', data) : 0,
+			info: data ? data.filter(i => /2040/.test(i.id)) : '',
+			tagName: 'e-manage-dishonest',
+			role: false,
+			isStatus: 'normal',
+			// component: Dishonest,
+		},
+		{
+			id: 20500,
+			baseId: 2050,
+			name: '限高记录',
+			total: data ? toGetTotal('2050', data) : 0,
+			info: data ? data.filter(i => /2050/.test(i.id)) : '',
+			tagName: 'e-manage-limitHeight',
+			isStatus: 'normal',
+			role: false,
+			component: Dishonest,
+		},
+		{
+			id: 20600,
+			baseId: 2060,
+			name: '涉诉信息',
+			total: data ? toGetTotal('2060', data) : 0,
+			info: data ? data.filter(i => /2060/.test(i.id)) : '',
+			tagName: 'e-manage-lawsuits',
+			role: roleState('fxjk', 'fxjkssjk'),
+			component: Lawsuit,
+			isStatus: 'normal',
+		},
+		{
+			id: 30300,
+			baseId: 3030,
+			name: '经营异常',
+			total: data ? toGetTotal('3030', data) : 0,
+			info: data ? data.filter(i => /3030/.test(i.id)) : '',
+			role: roleState('fxjk', 'jyfxjyyc'),
+			component: Abnormal,
+			isStatus: 'only',
+			tagName: 'e-manage-abnormal',
+		},
+		{
+			id: 30400,
+			baseId: 3040,
+			name: '严重违法',
+			total: data ? toGetTotal('3040', data) : 0,
+			info: data ? data.filter(i => /3040/.test(i.id)) : '',
+			role: roleState('fxjk', 'jyfxyzwf'),
+			component: Illegal,
+			isStatus: 'only',
+			tagName: 'e-manage-illegal',
+		},
+		{
+			id: 30500,
+			baseId: 3060,
+			name: '税收违法',
+			total: data ? toGetTotal('3050', data) : 0,
+			info: data ? data.filter(i => /3050/.test(i.id)) : '',
+			role: roleState('fxjk', 'jyfxsswf'),
+			component: Tax,
+			isStatus: 'normal',
+			tagName: 'e-manage-tax',
+		},
+		{
+			id: 30600,
+			baseId: 3060,
+			name: '行政处罚',
+			total: data ? toGetTotal('3060', data) : 0,
+			info: data ? data.filter(i => /3060/.test(i.id)) : '',
+			role: roleState('fxjk', 'jyfxxzcf'),
+			component: Punishment,
+			isStatus: 'only',
+			tagName: 'e-manage-punishment',
+		},
+		{
+			id: 30700,
+			baseId: 3070,
+			name: '环保处罚',
+			total: data ? toGetTotal('3070', data) : 0,
+			info: data ? data.filter(i => /3070/.test(i.id)) : '',
+			role: roleState('fxjk', 'jyfxhbcf'),
+			component: Environment,
+			isStatus: 'only',
+			tagName: 'e-manage-environment',
+		},
+	].filter(i => (status ? i.isStatus === status : i.isStatus));
+};
+
 class Risk extends React.Component {
 	constructor(props) {
 		super(props);
@@ -194,9 +209,9 @@ class Risk extends React.Component {
 	}
 }
 Risk.config = {
-	items: subItems(),
-	idList: (subItems().filter(i => i.role)).map(i => i.baseId),
-	status: Boolean((subItems().filter(i => i.role)).length),
+	items: p => subItems('', p),
+	idList: p => (subItems('', p).filter(i => i.role)).map(i => i.baseId),
+	status: p => Boolean((subItems('', p).filter(i => i.role)).length),
 };
 
 export default Risk;

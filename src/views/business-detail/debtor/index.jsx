@@ -190,6 +190,7 @@ export default class Enterprise extends React.Component {
 			sourceType: defaultSourceType ? Number(defaultSourceType[1]) : 101,
 			affixStatus: false,
 			loading: true,
+			countLoading: true,
 			infoSource: {},
 			isDishonest: false,
 		};
@@ -210,11 +211,13 @@ export default class Enterprise extends React.Component {
 				message.error('网络请求失败！');
 				this.setState({
 					loading: false,
+					countLoading: false,
 				});
 			}
 		}).catch(() => {
 			this.setState({
 				loading: false,
+				countLoading: false,
 			});
 		});
 		dishonestStatus({ companyId }).then((res) => {
@@ -229,9 +232,11 @@ export default class Enterprise extends React.Component {
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index) => {
 		if (item.config) {
-			const { apiData, config: { idList, status } } = item;
+			const { apiData, config: { idList: _idList, status: _status } } = item;
 			const { tabConfig } = this.state;
 			const apiArray = [];
+			const idList = _idList();
+			const status = _status();
 			if (idList.length > 0 && status) {
 				Object.keys(apiData).forEach((k) => {
 					idList.forEach((i) => {
@@ -252,7 +257,7 @@ export default class Enterprise extends React.Component {
 					tabConfig[index].number = count;
 					tabConfig[index].showNumber = true;
 					tabConfig[index].source = res;
-					this.setState({ tabConfig });
+					this.setState({ tabConfig, countLoading: false });
 				});
 			}
 		}
@@ -292,18 +297,21 @@ export default class Enterprise extends React.Component {
 		const {
 			tabConfig, childDom, sourceType, infoSource, isDishonest,
 		} = this.state;
-		const { affixStatus, loading } = this.state;
+		const { affixStatus, loading, countLoading } = this.state;
 		// console.log(affixStatus, loading);
 		// ,countSource
 		// const classList = ['enterprise-intro'];
 		// if (!childDom) classList.push('enterprise-intro-child');
 		// if (affixStatus) classList.push('enterprise-intro-affix');
+		const params = {
+			loading: countLoading,
+			toPushChild: this.handleAddChild, // tab 追加子项
+			portrait: 'debtor_enterprise', // 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
+		};
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">导航模块</div>
-				<div style={{ margin: '0 15px' }}>
-					<div className="mark-line" style={{ height: 1 }} />
-				</div>
+				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<Affix>
 					<div className="info-detail info-wrapper">
 						<EnterpriseInfo download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
@@ -316,10 +324,10 @@ export default class Enterprise extends React.Component {
 						{childDom}
 					</div>
 				</Affix>
-				<div className="mark-line" />
+				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<div className="info-content">
 					<Router>
-						{ tabConfig.map(I => <I.component count={I.source} path={I.path} toPushChild={this.handleAddChild} portrait="detail" />) }
+						{ tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} portrait="detail" />) }
 					</Router>
 				</div>
 			</div>

@@ -135,8 +135,8 @@ export default class TableView extends React.Component {
 	}
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
-		console.log(record);
+	onSelectChange=(selectedRowKeys) => {
+		// console.log(record);
 		// const _selectedRowKeys = record.map(item => item.id);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
@@ -168,7 +168,7 @@ export default class TableView extends React.Component {
 		const {
 			selectedRowKeys, visible, source, historyInfoModalVisible, historyInfoModalData,
 		} = this.state;
-		console.log(historyInfoModalVisible);
+		// console.log(historyInfoModalVisible);
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,
