@@ -1,8 +1,8 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import { getDynamicAsset } from 'api/dynamic';
 import { Spin, Table, Ellipsis } from '@/common';
-import assetsDetail from '@/utils/api/detail/assets';
-import { getQueryByName, timeStandard, toEmpty } from '@/utils';
+import { timeStandard, toEmpty } from '@/utils';
 
 export default class TableVersion extends React.Component {
 	constructor(props) {
@@ -53,18 +53,9 @@ export default class TableVersion extends React.Component {
 	// 查询数据methods
 	toGetData = (page) => {
 		const { portrait } = this.props;
-		const companyId = getQueryByName(window.location.href, 'id');
-		let params = {};
-		let api = '';
-		switch (portrait) {
-		case 'detail':
-			params = { id: companyId };
-			api = assetsDetail['10701'];
-			break;
-		default:
-			params = { id: companyId };
-			api = assetsDetail.bidding;
-		}
+		const { api, params } = getDynamicAsset(portrait, {
+			b: 10701,
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

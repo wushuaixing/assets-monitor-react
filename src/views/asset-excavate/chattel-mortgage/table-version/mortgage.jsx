@@ -1,11 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import assetsDetail from 'api/detail/assets';
+import { getDynamicAsset } from 'api/dynamic';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
-import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
-import { getQueryByName, timeStandard, toEmpty } from '@/utils';
+import { timeStandard, toEmpty } from '@/utils';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -97,17 +96,10 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		const params = {};
-		let api = assets.mortgageD;
-		if (portrait === 'personal') {
-			params.obligorName = getQueryByName(window.location.href, 'name');
-			params.obligorNumber = getQueryByName(window.location.href, 'num');
-		} else if (portrait === 'detail') {
-			params.id = getQueryByName(window.location.href, 'id');
-			api = assetsDetail['10602'];
-		} else {
-			params.companyId = getQueryByName(window.location.href, 'id');
-		}
+		const { api, params } = getDynamicAsset(portrait, {
+			b: 10602,
+			e: 'mortgageD',
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

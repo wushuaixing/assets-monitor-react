@@ -1,10 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import riskDetail from 'api/detail/risk';
+import { getDynamicRisk } from 'api/dynamic';
 import { Spin, Table } from '@/common';
-import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
 import associationLink from '@/views/_common/association-link';
-import { getQueryByName, linkDom, timeStandard } from '@/utils';
+import { linkDom, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 export default class TableIntact extends React.Component {
@@ -71,14 +70,10 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		let api = '';
-		const params = {};
-		if (portrait === 'detail') {
-			api = riskDetail['20602'];
-		} else {
-			api = lawsuits.court;
-			params.companyId = getQueryByName(window.location.href, 'id');
-		}
+		const { api, params } = getDynamicRisk(portrait, {
+			b: 20602,
+			e: 'court',
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

@@ -1,14 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import riskDetail from 'api/detail/risk';
+import { getDynamicRisk } from 'api/dynamic';
 import { Icon, Spin, Table } from '@/common';
-import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
-import risk from '@/utils/api/portrait-inquiry/personal/risk';
-import { getQueryByName, linkDom, timeStandard } from '@/utils';
+import { linkDom, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
-
-const { judgment } = lawsuits;
-const { personalJudgment } = risk;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -79,18 +74,11 @@ export default class TableIntact extends React.Component {
 	toGetData=(page) => {
 		// 判断是个人还是企业
 		const { portrait } = this.props;
-		let api = '';
-		const params = {};
-		if (portrait === 'detail') {
-			api = riskDetail['20603'];
-		} else if (portrait === 'personal') {
-			api = personalJudgment;
-			params.obligorName = getQueryByName(window.location.href, 'name');
-			params.obligorNumber = getQueryByName(window.location.href, 'num');
-		} else {
-			api = judgment;
-			params.companyId = getQueryByName(window.location.href, 'id');
-		}
+		const { api, params } = getDynamicRisk(portrait, {
+			b: 20603,
+			e: 'judgment',
+			p: 'personalJudgment',
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

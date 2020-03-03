@@ -161,11 +161,11 @@ class Assets extends React.Component {
 
 	render() {
 		const { config } = this.state;
-		const { count, portrait, loading } = this.props;
+		const { count, portrait, assetLoading } = this.props;
 		const aryResult = (subItems(count, portrait).filter(i => i.total > 0)).length;
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
-				<Spin visible={loading} minHeight={350}>
+				<Spin visible={assetLoading} minHeight={350}>
 					{
 						aryResult ? config.map(Item => (
 							Item.total && Item.role ? <Item.component id={Item.tagName} data={Item.info} portrait={portrait} /> : ''))

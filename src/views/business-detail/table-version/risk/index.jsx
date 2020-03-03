@@ -7,6 +7,7 @@ import Punishment from './punishment';
 import Tax from './tax';
 import Dishonest from './dishonest';
 import Lawsuit from './lawsuit';
+import LawsuitJudgment from './lawsuit-judgment';
 import Environment from './environment';
 import { roleState } from '@/utils/rule';
 
@@ -23,9 +24,10 @@ const toGetTotal = (field, data) => {
 
 const subItems = (data, portrait) => {
 	let status = 'normal';
+	let onlyStatus = '';
 	if (portrait === 'business') status = false;
 	if (portrait === 'debtor_enterprise') status = false;
-	if (portrait === 'debtor_personal') status = 'normal';
+	if (portrait === 'debtor_personal') { status = 'normal'; onlyStatus = 'person'; }
 	return [
 		{
 			id: 30200,
@@ -37,6 +39,17 @@ const subItems = (data, portrait) => {
 			component: Bankruptcy,
 			isStatus: 'only',
 			tagName: 'e-manage-bankruptcy',
+		},
+		{
+			id: 20603,
+			baseId: 20603,
+			name: '涉诉文书',
+			total: data ? toGetTotal('20603', data) : 0,
+			info: data ? data.filter(i => /20603/.test(i.id)) : '',
+			tagName: 'e-manage-lawsuits',
+			role: roleState('fxjk', 'fxjkssjk'),
+			component: LawsuitJudgment,
+			isOnlyStatus: 'person',
 		},
 		{
 			id: 20400,
@@ -69,7 +82,7 @@ const subItems = (data, portrait) => {
 			tagName: 'e-manage-lawsuits',
 			role: roleState('fxjk', 'fxjkssjk'),
 			component: Lawsuit,
-			isStatus: 'normal',
+			isStatus: 'only',
 		},
 		{
 			id: 30300,
@@ -95,7 +108,7 @@ const subItems = (data, portrait) => {
 		},
 		{
 			id: 30500,
-			baseId: 3060,
+			baseId: 3050,
 			name: '税收违法',
 			total: data ? toGetTotal('3050', data) : 0,
 			info: data ? data.filter(i => /3050/.test(i.id)) : '',
@@ -126,15 +139,14 @@ const subItems = (data, portrait) => {
 			isStatus: 'only',
 			tagName: 'e-manage-environment',
 		},
-	].filter(i => (status ? i.isStatus === status : i.isStatus));
+	].filter(i => (status ? (i.isStatus === status || i.isOnlyStatus === onlyStatus) : i.isStatus));
 };
 
 class Risk extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			config: subItems(props.count),
-			loading: Boolean(props.count.length === 0),
+			config: subItems(props.count, props.portrait),
 		};
 	}
 
@@ -149,8 +161,7 @@ class Risk extends React.Component {
 		if (nextProps.count.length) {
 			if (JSON.stringify(nextProps.count) !== JSON.stringify(count)) {
 				this.setState({
-					loading: nextProps.count.length === 0,
-					config: subItems(nextProps.count),
+					config: subItems(nextProps.count, nextProps.portrait),
 				}, () => {
 					const { toPushChild } = this.props;
 					toPushChild(this.toGetSubItems());
@@ -188,13 +199,13 @@ class Risk extends React.Component {
 	};
 
 	render() {
-		const { config, loading } = this.state;
-		const { count, portrait } = this.props;
-		const aryResult = (subItems(count).filter(i => i.total > 0)).length;
+		const { config } = this.state;
+		const { count, portrait, riskLoading } = this.props;
+		const aryResult = (subItems(count, portrait).filter(i => i.total > 0)).length;
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
 				{
-					loading ? <Spin visible minHeight={350} /> : (
+					riskLoading ? <Spin visible minHeight={350} /> : (
 						<div>
 							{
 								aryResult ? config.map(Item => (

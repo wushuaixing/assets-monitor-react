@@ -1,11 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import { getDynamicAsset } from 'api/dynamic';
 import { Ellipsis, Spin, Table } from '@/common';
-import assetsPortrait from '@/utils/api/portrait-inquiry/enterprise/assets';
-import assetsDetail from '@/utils/api/detail/assets';
 import associationLink from '@/views/_common/association-link';
 import {
-	timeStandard, toEmpty, linkDom, getCaseType, getQueryByName,
+	timeStandard, toEmpty, linkDom, getCaseType,
 } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
@@ -77,16 +76,10 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		const params = {};
-		if (portrait === 'personal') {
-			params.obligorName = getQueryByName(window.location.href, 'name');
-			params.obligorNumber = getQueryByName(window.location.href, 'num');
-		} else if (portrait === 'detail') {
-			params.id = getQueryByName(window.location.href, 'id');
-		} else {
-			params.companyId = getQueryByName(window.location.href, 'id');
-		}
-		const api = portrait === 'detail' ? assetsDetail['10201'] : assetsPortrait.trial;
+		const { api, params } = getDynamicAsset(portrait, {
+			b: 10201,
+			e: 'trial',
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

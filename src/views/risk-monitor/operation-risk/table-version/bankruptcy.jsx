@@ -1,9 +1,8 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import { getDynamicRisk } from 'api/dynamic';
 import { Spin, Table, Ellipsis } from '@/common';
-import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
-import riskDetail from '@/utils/api/detail/risk';
-import { getQueryByName, timeStandard, toEmpty } from '@/utils';
+import { timeStandard, toEmpty } from '@/utils';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -60,14 +59,10 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData = (page) => {
 		const { portrait } = this.props;
-		let api = '';
-		const params = {};
-		if (portrait === 'detail') {
-			api = riskDetail['30201'];
-		} else {
-			api = manage.bankruptcy;
-			params.companyId = getQueryByName(window.location.href, 'id');
-		}
+		const { api, params } = getDynamicRisk(portrait, {
+			b: 30201,
+			e: 'bankruptcy',
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

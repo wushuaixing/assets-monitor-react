@@ -19,7 +19,6 @@ import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
 import Risk from '@/views/business-detail/table-version/risk';
 import Info from '@/views/business-detail/table-version/info';
-import './style.scss';
 
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
 
@@ -190,10 +189,14 @@ export default class Enterprise extends React.Component {
 			sourceType: defaultSourceType ? Number(defaultSourceType[1]) : 101,
 			affixStatus: false,
 			loading: true,
-			countLoading: true,
 			infoSource: {},
 			isDishonest: false,
+			// loading
+			assetLoading: true,
+			riskLoading: true,
 		};
+		this.portrait = 'debtor_personal';
+		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
 	}
 
 	componentWillMount() {
@@ -206,18 +209,20 @@ export default class Enterprise extends React.Component {
 					loading: false,
 				});
 				/* 请求子项数据 */
-				tabConfig.forEach((item, index) => this.toGetSubItemsTotal(item, index));
+				tabConfig.forEach((item, index) => this.toGetSubItemsTotal(item, index, this.portrait));
 			} else {
 				message.error('网络请求失败！');
 				this.setState({
 					loading: false,
-					countLoading: false,
+					assetLoading: false,
+					riskLoading: false,
 				});
 			}
 		}).catch(() => {
 			this.setState({
 				loading: false,
-				countLoading: false,
+				assetLoading: false,
+				riskLoading: false,
 			});
 		});
 		dishonestStatus({ companyId }).then((res) => {
@@ -230,13 +235,13 @@ export default class Enterprise extends React.Component {
 	}
 
 	/* 获取各类子项总数 */
-	toGetSubItemsTotal=((item, index) => {
+	toGetSubItemsTotal=((item, index, portrait) => {
 		if (item.config) {
-			const { apiData, config: { idList: _idList, status: _status } } = item;
+			const { apiData, config: { idList: _idList, status: _status, items: _item } } = item;
 			const { tabConfig } = this.state;
 			const apiArray = [];
-			const idList = _idList();
-			const status = _status();
+			const idList = _idList(portrait);
+			const status = _status(portrait);
 			if (idList.length > 0 && status) {
 				Object.keys(apiData).forEach((k) => {
 					idList.forEach((i) => {
@@ -252,12 +257,16 @@ export default class Enterprise extends React.Component {
 			}
 			if (apiArray.length) {
 				requestAll(apiArray).then((res) => {
+
 					let count = 0;
 					res.forEach(i => count += i.field ? i.data[i.field] : i.data);
 					tabConfig[index].number = count;
 					tabConfig[index].showNumber = true;
 					tabConfig[index].source = res;
-					this.setState({ tabConfig, countLoading: false });
+					const l = {};
+					if (item.id === 102) l.assetLoading = false;
+					if (item.id === 103) l.riskLoading = false;
+					this.setState({ tabConfig, ...l });
 				});
 			}
 		}
@@ -297,16 +306,19 @@ export default class Enterprise extends React.Component {
 		const {
 			tabConfig, childDom, sourceType, infoSource, isDishonest,
 		} = this.state;
-		const { affixStatus, loading, countLoading } = this.state;
+		const {
+			affixStatus, loading, assetLoading, riskLoading,
+		} = this.state;
 		// console.log(affixStatus, loading);
 		// ,countSource
 		// const classList = ['enterprise-intro'];
 		// if (!childDom) classList.push('enterprise-intro-child');
 		// if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
-			loading: countLoading,
+			assetLoading,
+			riskLoading,
 			toPushChild: this.handleAddChild, // tab 追加子项
-			portrait: 'debtor_enterprise', // 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
+			portrait: this.portrait,
 		};
 		return (
 			<div className="yc-information-detail-wrapper">
@@ -327,7 +339,7 @@ export default class Enterprise extends React.Component {
 				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<div className="info-content">
 					<Router>
-						{ tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} portrait="detail" />) }
+						{ tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
 					</Router>
 				</div>
 			</div>

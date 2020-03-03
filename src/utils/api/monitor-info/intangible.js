@@ -1,15 +1,4 @@
 import s from '@/utils/service';
-import {
-	Abnormal, Change, Environment, Illegal, Punishment, Violation,
-} from '../risk-monitor/operation-risk';
-
-const addAttribute = (value, field) => {
-	if (typeof value === 'object') {
-		return Object.assign(value, { field: field || 'intangible' });
-	}
-	return value;
-};
-
 /* 所有无形资产的子接口，按类别分好写入对象中 */
 // 无形资产=》排污权
 const Dump = {

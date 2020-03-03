@@ -1,11 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import riskDetail from 'api/detail/risk';
+import { getDynamicRisk } from 'api/dynamic';
 import {
 	Spin, Table, Ellipsis, Icon,
 } from '@/common';
-import { getQueryByName, timeStandard, toEmpty } from '@/utils';
-import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
+import { timeStandard, toEmpty } from '@/utils';
 
 // removeSituation 移除情况
 const removeSituation = (val, row) => {
@@ -128,14 +127,10 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		let api = '';
-		const params = {};
-		if (portrait === 'detail') {
-			api = riskDetail['30401'];
-		} else {
-			api = manage.illegal;
-			params.companyId = getQueryByName(window.location.href, 'id');
-		}
+		const { api, params } = getDynamicRisk(portrait, {
+			b: 30401,
+			e: 'illegal',
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

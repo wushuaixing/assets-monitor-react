@@ -166,6 +166,12 @@ export const getQueryByName = (url, name) => {
 	}
 };
 
+export const getHrefQuery = (name) => {
+	if (name) {
+		return getQueryByName(window.location.href, name);
+	}
+	return null;
+};
 /**
  * 对象里面有需要过滤的属性的时候调用
  * @param obj

@@ -1,11 +1,8 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import assetsDetail from 'api/detail/assets';
-import assetsPortrait from 'api/portrait-inquiry/enterprise/assets';
+import { getDynamicAsset } from 'api/dynamic';
 import { Spin, Table } from '@/common';
 import { Transfer } from './common';
-import { getQueryByName } from '@/utils';
-
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -42,16 +39,10 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		const params = {};
-		if (portrait === 'personal') {
-			params.obligorName = getQueryByName(window.location.href, 'name');
-			params.obligorNumber = getQueryByName(window.location.href, 'num');
-		} else if (portrait === 'detail') {
-			params.id = getQueryByName(window.location.href, 'id');
-		} else {
-			params.companyId = getQueryByName(window.location.href, 'id');
-		}
-		const api = portrait === 'detail' ? assetsDetail[10302] : assetsPortrait.transfer;
+		const { api, params } = getDynamicAsset(portrait, {
+			b: 10302,
+			e: 'transfer',
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

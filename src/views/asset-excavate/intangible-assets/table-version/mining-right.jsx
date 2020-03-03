@@ -6,6 +6,7 @@ import {
 	Ellipsis, Spin, Table,
 } from '@/common';
 import { getQueryByName, timeStandard, toEmpty } from '@/utils';
+import {getDynamicAsset} from "api/dynamic";
 
 
 const certificateTypeStatus = {
@@ -77,15 +78,9 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		const params = {};
-		let api = assetsD['10402'];
-		if (portrait === 'debtor_enterprise' || portrait === 'debtor_personal') {
-			api = assetsD['10402'];
-			params.obligorId = getQueryByName(window.location.href, 'id');
-		} else if (portrait === 'business') {
-			api = assetsB['10402'];
-			params.obligorId = getQueryByName(window.location.href, 'id');
-		}
+		const { api, params } = getDynamicAsset(portrait, {
+			b: 10402,
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

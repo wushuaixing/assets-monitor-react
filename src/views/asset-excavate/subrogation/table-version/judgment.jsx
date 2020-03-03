@@ -1,18 +1,12 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import assetsDetail from 'api/detail/assets';
+import { getDynamicAsset } from 'api/dynamic';
+import { PartyCrosswise } from '@/views/_common';
+import { timeStandard, toEmpty } from '@/utils';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
-import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
-import personalAssets from '@/utils/api/portrait-inquiry/personal/assets';
-import {
-	getQueryByName, timeStandard, toEmpty,
-} from '@/utils';
-import { PartyCrosswise } from '@/views/_common';
 
-const { judgment } = assets;
-const { personalJudgment } = personalAssets;
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -83,19 +77,11 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		const { portrait } = this.props;
-		const params = {};
-		let api = '';
-		if (portrait === 'personal') {
-			params.obligorName = getQueryByName(window.location.href, 'name');
-			params.obligorNumber = getQueryByName(window.location.href, 'num');
-			api = personalJudgment;
-		} else if (portrait === 'detail') {
-			params.id = getQueryByName(window.location.href, 'id');
-			api = judgment;
-		} else {
-			params.companyId = getQueryByName(window.location.href, 'id');
-			api = assetsDetail['10203'];
-		}
+		const { api, params } = getDynamicAsset(portrait, {
+			b: 10203,
+			e: 'judgment',
+			p: 'personalJudgment',
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

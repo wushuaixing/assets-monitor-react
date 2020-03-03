@@ -9,6 +9,7 @@ import { floatFormat } from '@/utils/format';
 import TableVersionModal from './tableVersionModal';
 import { toEmpty, timeStandard, getQueryByName } from '@/utils';
 import './style.scss';
+import { getDynamicAsset } from 'api/dynamic';
 
 
 /* 跟进状态 */
@@ -224,19 +225,14 @@ export default class TableIntact extends React.Component {
 		const { sourceType: type, portrait } = this.props;
 		// debtor_enterprise business
 		const _sourceType = sourceType || type;
-		const params = {};
-		let api = assetsD[_sourceType];
-		if (portrait === 'debtor_enterprise' || portrait === 'debtor_personal') {
-			api = assetsD[_sourceType];
-			params.obligorId = getQueryByName(window.location.href, 'id');
-		} else if (portrait === 'business') {
-			api = assetsB[_sourceType];
-			params.obligorId = getQueryByName(window.location.href, 'id');
-		}
+		const { api, params } = getDynamicAsset(portrait, {
+			b: _sourceType,
+		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
 			num: 5,
+			...params,
 		}).then((res) => {
 			if (res.code === 200) {
 				this.setState({
