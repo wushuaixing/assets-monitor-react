@@ -165,13 +165,13 @@ class Assets extends React.Component {
 		const aryResult = (subItems(count, portrait).filter(i => i.total > 0)).length;
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
-				<Spin visible={assetLoading} minHeight={350}>
-					{
+				{ assetLoading ? <Spin minHeight={350} />
+					: (
 						aryResult ? config.map(Item => (
 							Item.total && Item.role ? <Item.component id={Item.tagName} data={Item.info} portrait={portrait} /> : ''))
 							: <NoContent />
-					}
-				</Spin>
+					)
+				}
 			</div>
 		);
 	}

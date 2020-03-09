@@ -204,15 +204,11 @@ class Risk extends React.Component {
 		const aryResult = (subItems(count, portrait).filter(i => i.total > 0)).length;
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
-				{
-					riskLoading ? <Spin visible minHeight={350} /> : (
-						<div>
-							{
-								aryResult ? config.map(Item => (
-									Item.total && Item.role ? <Item.component id={Item.tagName} data={Item.info} portrait={portrait} /> : ''))
-									: <NoContent />
-							}
-						</div>
+				{ riskLoading ? <Spin minHeight={350} />
+					: (
+						aryResult ? config.map(Item => (
+							Item.total && Item.role ? <Item.component id={Item.tagName} data={Item.info} portrait={portrait} /> : ''))
+							: <NoContent />
 					)
 				}
 			</div>

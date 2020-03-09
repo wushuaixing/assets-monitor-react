@@ -10,7 +10,7 @@ import {
 /* api collection */
 import assets from '@/utils/api/detail/assets';
 import risk from '@/utils/api/detail/risk';
-import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
+import { debtorInfo, dishonestStatus, exportListEnp } from '@/utils/api/detail';
 /* components */
 import {
 	Tabs, Download, Icon as IconType,
@@ -76,13 +76,14 @@ const getRegStatusClass = (val) => {
 };
 
 /* 企业概要 */
-const EnterpriseInfo = (props) => {
+const EnterpriseInfo = (arg = {}) => {
 	const {
-		data: {
-			name, regStatus, legalPersonName, regCapital, formerNames, establishTime, logoUrl,
-		}, isDishonest,
-	} = props;
-	const _formerNames = (formerNames || []).join('、');
+		bankruptcy, dishonestStatus: isDishonest, pushState, limitConsumption,
+	} = arg.data;
+	const {
+		obligorName: name, legalPersonName, regCapital, regStatus, establishTime, usedName, logoUrl,
+	} = arg.data;
+	const _formerNames = (usedName || []).join('、');
 	const style = {
 		minWidth: 80,
 		display: 'inline-block',
@@ -103,7 +104,21 @@ const EnterpriseInfo = (props) => {
 						{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 					</span>
 					{
-						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{regStatus}</span> : null
+						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}>{regStatus}</span> : null
+					}
+					{
+						!limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
+					}
+					{
+						!bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
+					}
+					{
+						pushState ? (
+							<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
+								{'当前推送状态：'}
+								{pushState ? '开启' : '关闭'}
+							</span>
+						) : null
 					}
 				</div>
 				<div className="intro-base-info">
@@ -195,15 +210,16 @@ export default class Enterprise extends React.Component {
 			assetLoading: true,
 			riskLoading: true,
 		};
-		this.portrait = 'debtor_personal';
+		this.portrait = 'debtor_enterprise';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
 	}
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const companyId = getQueryByName(window.location.href, 'id') || 494493;
-		companyInfo({ companyId }).then((res) => {
+		const obligorId = getQueryByName(window.location.href, 'id') || 348229;
+		debtorInfo({ obligorId }).then((res) => {
 			if (res.code === 200) {
+				console.log(res.data);
 				this.setState({
 					infoSource: res.data,
 					loading: false,
@@ -224,13 +240,6 @@ export default class Enterprise extends React.Component {
 				assetLoading: false,
 				riskLoading: false,
 			});
-		});
-		dishonestStatus({ companyId }).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					isDishonest: res.data,
-				});
-			}
 		});
 	}
 
@@ -257,7 +266,6 @@ export default class Enterprise extends React.Component {
 			}
 			if (apiArray.length) {
 				requestAll(apiArray).then((res) => {
-
 					let count = 0;
 					res.forEach(i => count += i.field ? i.data[i.field] : i.data);
 					tabConfig[index].number = count;
@@ -326,7 +334,7 @@ export default class Enterprise extends React.Component {
 				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<Affix>
 					<div className="info-detail info-wrapper">
-						<EnterpriseInfo download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
+						<EnterpriseInfo download={this.handleDownload} data={infoSource} />
 						<Tabs.Simple
 							onChange={this.onSourceType}
 							source={tabConfig}
