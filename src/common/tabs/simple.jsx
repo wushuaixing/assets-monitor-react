@@ -64,7 +64,7 @@ class SimpleTab extends React.Component {
 
 	render() {
 		const {
-			rightRender, source, prefix, type, symbol,
+			rightRender, source, prefix, type, symbol, suffix,
 		} = this.props;
 		let symbolAry = ['（', '）'];
 		if (symbol === 'none')symbolAry = [' ', ''];
@@ -98,6 +98,7 @@ class SimpleTab extends React.Component {
 							}
 						</li>
 					))}
+					{suffix || ''}
 				</ul>
 				<div className="yc-tabs-right">
 					{ rightRender ? rightRender() : '' }

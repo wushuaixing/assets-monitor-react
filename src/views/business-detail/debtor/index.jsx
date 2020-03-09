@@ -10,7 +10,7 @@ import {
 /* api collection */
 import assets from '@/utils/api/detail/assets';
 import risk from '@/utils/api/detail/risk';
-import { debtorInfo, dishonestStatus, exportListEnp } from '@/utils/api/detail';
+import { debtorInfo, exportListEnp } from '@/utils/api/detail';
 /* components */
 import {
 	Tabs, Download, Icon as IconType,
@@ -21,6 +21,7 @@ import Risk from '@/views/business-detail/table-version/risk';
 import Info from '@/views/business-detail/table-version/info';
 
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
+import PublicImg from '@/assets/img/business/icon_zwrpeople.png';
 
 /* 基本选项 */
 const source = () => [
@@ -94,7 +95,7 @@ const EnterpriseInfo = (arg = {}) => {
 			<div className="intro-icon">
 				{
 					logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
-						: <span>{name && name.slice(0, 4)}</span>
+						: <img className="intro-icon-img-auto" src={PublicImg} alt="" />
 				}
 			</div>
 			<div className="intro-content">
@@ -163,17 +164,35 @@ const EnterpriseInfo = (arg = {}) => {
 };
 /* 企业概要-简单版 */
 const EnterpriseInfoSimple = (props) => {
-	const { data, isDishonest } = props;
+	const {
+		data: {
+			bankruptcy, dishonestStatus: isDishonest, pushState, limitConsumption, regStatus, obligorName,
+		},
+	} = props;
 	return (
 		<div className="enterprise-info">
 			<div className="intro-title">
 				<span className="yc-public-title-large-bold intro-title-name">
-					{data.name}
+					{obligorName}
 					{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
 				</span>
 				{
-					data.regStatus
-						? <span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{data.regStatus}</span> : ''
+					regStatus
+						? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{regStatus}</span> : ''
+				}
+				{
+					limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
+				}
+				{
+					bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
+				}
+				{
+					pushState ? (
+						<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
+							{'当前推送状态：'}
+							{pushState ? '开启' : '关闭'}
+						</span>
+					) : null
 				}
 			</div>
 			<div className="intro-download">
@@ -192,6 +211,130 @@ const EnterpriseInfoSimple = (props) => {
 	);
 };
 
+/* 个人概要 */
+const PersonalInfo = (arg = {}) => {
+	const {
+		bankruptcy, dishonestStatus: isDishonest, pushState, limitConsumption,
+	} = arg.data;
+	const {
+		obligorName: name, regStatus, logoUrl, obligorNumber,
+	} = arg.data;
+	const style = {
+		minWidth: 80,
+		display: 'inline-block',
+	};
+
+	return (
+		<div className="enterprise-info">
+			<div className="intro-icon intro-icon-per">
+				{
+					logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
+						: <img className="intro-icon-img-auto" src={PublicImg} alt="" />
+				}
+			</div>
+			<div className="intro-content">
+				<div className="intro-title">
+					<span className="yc-public-title-large-bold intro-title-name">
+						{name}
+						{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
+					</span>
+					{
+						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}>{regStatus}</span> : null
+					}
+					{
+						!limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
+					}
+					{
+						!bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
+					}
+					{
+						pushState ? (
+							<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
+								{'当前推送状态：'}
+								{pushState ? '开启' : '关闭'}
+							</span>
+						) : null
+					}
+				</div>
+				<div className="intro-base-info">
+					<li className="intro-info-list intro-list-border">
+						<span className="yc-public-remark">证件号：</span>
+						<span className="yc-public-title" style={style}>{obligorNumber || '-'}</span>
+					</li>
+				</div>
+			</div>
+			<div className="intro-download">
+				<Download
+					style={{ width: 84 }}
+					condition={{
+						companyId: getQueryByName(window.location.href, 'id'),
+					}}
+					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+					api={exportListEnp}
+					normal
+					text="下载"
+				/>
+			</div>
+		</div>
+	);
+};
+/* 个人概要-简单版 */
+const PersonalInfoSimple = (props) => {
+	const {
+		data: {
+			bankruptcy, dishonestStatus: isDishonest, pushState, limitConsumption, regStatus, obligorName,
+		},
+	} = props;
+	return (
+		<div className="enterprise-info">
+			<div className="intro-title">
+				<span className="yc-public-title-large-bold intro-title-name">
+					{obligorName}
+					{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
+				</span>
+				{
+					regStatus
+						? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{regStatus}</span> : ''
+				}
+				{
+					limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
+				}
+				{
+					bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
+				}
+				{
+					pushState ? (
+						<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
+							{'当前推送状态：'}
+							{pushState ? '开启' : '关闭'}
+						</span>
+					) : null
+				}
+			</div>
+			<div className="intro-download">
+				<Download
+					style={{ width: 84 }}
+					condition={{
+						companyId: getQueryByName(window.location.href, 'id'),
+					}}
+					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+					api={exportListEnp}
+					normal
+					text="下载"
+				/>
+			</div>
+		</div>
+	);
+};
+
+const DebtorInfo = (props) => {
+	const { data, portrait, affixStatus } = props;
+	if (/enterprise/.test(portrait)) {
+		return affixStatus ? <EnterpriseInfoSimple data={data} /> : <EnterpriseInfo data={data} />;
+	}
+	return affixStatus ? <PersonalInfoSimple data={data} /> : <PersonalInfo data={data} />;
+};
+
 export default class Enterprise extends React.Component {
 	constructor(props) {
 		document.title = '债务人详情';
@@ -205,12 +348,11 @@ export default class Enterprise extends React.Component {
 			affixStatus: false,
 			loading: true,
 			infoSource: {},
-			isDishonest: false,
 			// loading
 			assetLoading: true,
 			riskLoading: true,
 		};
-		this.portrait = 'debtor_enterprise';
+		this.portrait = 'debtor_personal';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
 	}
 
@@ -219,7 +361,6 @@ export default class Enterprise extends React.Component {
 		const obligorId = getQueryByName(window.location.href, 'id') || 348229;
 		debtorInfo({ obligorId }).then((res) => {
 			if (res.code === 200) {
-				console.log(res.data);
 				this.setState({
 					infoSource: res.data,
 					loading: false,
@@ -246,7 +387,7 @@ export default class Enterprise extends React.Component {
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index, portrait) => {
 		if (item.config) {
-			const { apiData, config: { idList: _idList, status: _status, items: _item } } = item;
+			const { apiData, config: { idList: _idList, status: _status } } = item;
 			const { tabConfig } = this.state;
 			const apiArray = [];
 			const idList = _idList(portrait);
@@ -312,7 +453,7 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, isDishonest,
+			tabConfig, childDom, sourceType, infoSource,
 		} = this.state;
 		const {
 			affixStatus, loading, assetLoading, riskLoading,
@@ -323,6 +464,7 @@ export default class Enterprise extends React.Component {
 		// if (!childDom) classList.push('enterprise-intro-child');
 		// if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
+			loading,
 			assetLoading,
 			riskLoading,
 			toPushChild: this.handleAddChild, // tab 追加子项
@@ -332,9 +474,9 @@ export default class Enterprise extends React.Component {
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">导航模块</div>
 				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
-				<Affix>
+				<Affix onChange={this.onChangeAffix}>
 					<div className="info-detail info-wrapper">
-						<EnterpriseInfo download={this.handleDownload} data={infoSource} />
+						<DebtorInfo data={infoSource} affixStatus={affixStatus} portrait={this.portrait} />
 						<Tabs.Simple
 							onChange={this.onSourceType}
 							source={tabConfig}
@@ -344,10 +486,9 @@ export default class Enterprise extends React.Component {
 						{childDom}
 					</div>
 				</Affix>
-				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<div className="info-content">
 					<Router>
-						{ tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
+						{ !loading && tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
 					</Router>
 				</div>
 			</div>

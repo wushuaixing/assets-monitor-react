@@ -8,7 +8,7 @@
     background: #ebf1fa;
   }
   .info-detail{
-    padding-bottom: 15px!important;
+    padding-bottom: 0px!important;
     .inquiry-list-regStatus{
       display: inline-block;
       vertical-align: top;
@@ -40,9 +40,43 @@
     .inquiry-assets{
       padding: 10px 0;
     }
+    .info-assets-padding{
+      padding: 0 20px 20px 20px;
+    }
   }
 
   .yc-inquiry-public-table{
+    .yc-tabs-suffix-ignore{
+      .ant-switch{
+        height: 18px;
+        width: 40px;
+        line-height: 16px;
+        border-radius: 2px;
+        .ant-switch-inner{
+          left: 21px;
+        }
+        &:after{
+          height: 14px;
+          width: 14px;
+          left: 1px;
+          border-radius: 2px;
+        }
+      }
+      .ant-switch-checked{
+        &:after{
+          left: 23px;
+        }
+      }
+      .ant-switch-checked .ant-switch-inner {
+        left: 5px;
+      }
+      .ignore-text{
+        @extend .yc-public-remark;
+        margin-right: 6px;
+      }
+      margin-left: 25px;
+      display: inline-block;
+    }
     .yc-tabs-simple-prefix{
       @extend .yc-public-normal-bold;
       min-width:90px;
@@ -94,7 +128,16 @@
       border-radius: 5px;
       color: #FFFFFF;
       position: relative;
-
+      .intro-icon-img-auto{
+        overflow: hidden;
+        background-color: #FFFFFF;
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        left: 0;
+        top: 0;
+        border-radius: 4px;
+      }
       .intro-icon-img-w {
         overflow: hidden;
         background-color: #FFFFFF;
@@ -115,7 +158,10 @@
       }
 
     }
-
+    .intro-icon-per{
+      height: 52px;
+      overflow: hidden;
+    }
     .intro-content {
       margin-left: 96px;
 
@@ -175,7 +221,6 @@
 
   .yc-intro-sub-items{
     padding: 16px 0 12px 0;
-    padding-bottom: 0;
     // border-bottom: 1px solid $border-base;
     .intro-btn-items{
       margin-right: 16px;

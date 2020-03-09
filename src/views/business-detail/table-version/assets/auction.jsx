@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch } from 'antd';
 import { Tabs } from '@/common';
 import Table from '@/views/asset-excavate/assets-auction/table-detail';
 import { toGetDefaultId, toGetNumber } from '@/utils/promise';
@@ -7,6 +8,7 @@ export default class Auction extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			ignored: false,
 			sourceType: toGetDefaultId(props.data),
 			config: [{
 				id: 10101,
@@ -31,9 +33,24 @@ export default class Auction extends React.Component {
 		}
 	};
 
+	onCountChange=(count, sourceType) => {
+		const { config } = this.state;
+		const index = sourceType === 10101 ? 0 : 1;
+		config[index].number = count;
+		this.setState({
+			config,
+		});
+	};
+
 	render() {
-		const { config, sourceType } = this.state;
+		const { config, sourceType, ignored } = this.state;
 		const { id, portrait } = this.props;
+		const params = {
+			ignored,
+			portrait,
+			sourceType,
+			onCountChange: this.onCountChange,
+		};
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
@@ -42,9 +59,15 @@ export default class Auction extends React.Component {
 					symbol="none"
 					defaultCurrent={sourceType}
 					prefix={<div className="yc-tabs-simple-prefix">资产拍卖</div>}
+					suffix={(
+						<div className="yc-tabs-suffix-ignore">
+							<span className="ignore-text">过滤已忽略数据</span>
+							<Switch checkedChildren="开" unCheckedChildren="关" onChange={v => this.setState({ ignored: v })} />
+						</div>
+					)}
 				/>
 				<div className="inquiry-public-table">
-					<Table portrait={portrait} sourceType={sourceType} />
+					<Table {...params} />
 				</div>
 			</div>
 		);
