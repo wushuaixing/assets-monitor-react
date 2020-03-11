@@ -99,6 +99,7 @@ class SimpleTab extends React.Component {
 						</li>
 					))}
 					{suffix || ''}
+					<div style={{ clear: 'both' }} />
 				</ul>
 				<div className="yc-tabs-right">
 					{ rightRender ? rightRender() : '' }
