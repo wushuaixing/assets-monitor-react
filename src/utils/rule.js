@@ -230,10 +230,10 @@ export default {
 						url: '/monitor/intangible',
 						status: toStatus(rule.menu_zcwj, ['zcwjpwq', 'zcwjkyq', 'zcwjsbzl', 'zcwjjzjszz']) || true,
 						child: [
-							{ id: 'YC020701', name: '排污权', status: true },
-							{ id: 'YC020702', name: '矿业权', status: true },
-							{ id: 'YC020703', name: '商标专利', status: true },
-							{ id: 'YC020704', name: '建筑建造资质', status: true },
+							{ id: 'YC020701', name: '排污权', status: toStatus(rule.menu_zcwj, 'zcwjpwq') },
+							{ id: 'YC020702', name: '矿业权', status: toStatus(rule.menu_zcwj, 'zcwjkyq') },
+							{ id: 'YC020703', name: '商标专利', status: toStatus(rule.menu_zcwj, 'zcwjsbzl') },
+							{ id: 'YC020704', name: '建筑建造资质', status: toStatus(rule.menu_zcwj, 'zcwjjzjszz') },
 						],
 					},
 				],
@@ -265,7 +265,7 @@ export default {
 						id: 'YC0304',
 						name: '失信记录',
 						url: '/risk/broken',
-						status: true,
+						status: toStatus(rule.menu_fxjk, 'jkxxsxjl'),
 					},
 					{
 						id: 'YC0303',
