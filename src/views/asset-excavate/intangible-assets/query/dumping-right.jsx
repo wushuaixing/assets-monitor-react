@@ -46,7 +46,7 @@ class QueryCondition extends React.Component {
 	render() {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
-
+		const _style3 = { width: 210 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
 			normalize(n) {
@@ -59,11 +59,11 @@ class QueryCondition extends React.Component {
 					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('name')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="许可证编号" style={_style1} size="large" placeholder="许可证编号" {...getFieldProps('licenseNumber')} />
+					<Input title="许可证编号" titleWidth={90} style={_style1} size="large" placeholder="许可证编号" {...getFieldProps('licenseNumber')} />
 				</div>
-				<div className="yc-query-item">
+				<div className="yc-query-item" style={{ marginRight: 30 }}>
 					<span className="yc-query-item-title">状态：</span>
-					<Select size="large" style={_style1} placeholder="请选择证书当前状态" {...getFieldProps('status')} allowClear>
+					<Select size="large" style={_style3} placeholder="请选择证书当前状态" {...getFieldProps('status')} allowClear>
 						<Select.Option value="注销">注销</Select.Option>
 						<Select.Option value="撤销">撤销</Select.Option>
 						<Select.Option value="遗失">遗失</Select.Option>

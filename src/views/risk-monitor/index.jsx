@@ -8,7 +8,6 @@ import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import Operation from './operation-risk';
 import BrokenRecord from './broken-record';
-import Star from '@/assets/img/icon/btn_attention16_n.png';
 import ruleMethods from '@/utils/rule';
 import './style.scss';
 

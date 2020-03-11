@@ -264,7 +264,7 @@ export default {
 					{
 						id: 'YC0304',
 						name: '失信记录',
-						url: '/risk/brokenRecord',
+						url: '/risk/broken',
 						status: true,
 					},
 					{

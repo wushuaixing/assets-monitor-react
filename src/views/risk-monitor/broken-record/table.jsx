@@ -8,7 +8,7 @@ import { Ellipsis } from '@/common';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 // 获取表格配置
-const columns = (props, openRegisterModalFunc) => {
+const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
@@ -86,7 +86,7 @@ const columns = (props, openRegisterModalFunc) => {
 			title: '记录移除情况',
 			dataIndex: 'removeStatus',
 			width: 120,
-			render: (text, record) => (
+			render: text => (
 				<React.Fragment>
 					{
 						text ? (
@@ -130,8 +130,8 @@ export default class TableView extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			registerModalVisible: false,
-			rowObj: {},
+			// registerModalVisible: false,
+			// rowObj: {},
 		};
 	}
 
@@ -166,15 +166,15 @@ export default class TableView extends React.Component {
 		const {
 			total, current, dataSource, manage, onPageChange,
 		} = this.props;
-		const { selectedRowKeys, rowObj } = this.state;
+		const { selectedRowKeys } = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,
 				onChange: this.onSelectChange,
 			},
 		} : null;
-		console.log('xx', columns(this.props));
-		console.log('cc', dataSource);
+		// console.log('xx', columns(this.props));
+		// console.log('cc', dataSource);
 		return (
 			<React.Fragment>
 				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
