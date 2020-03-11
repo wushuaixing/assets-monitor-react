@@ -180,7 +180,7 @@
       .intro-title-name {
         font-size: 17px;
         position: relative;
-        //margin-right: 10px;
+        margin-right: 10px;
 
         .intro-title-tag {
           position: absolute;
@@ -212,6 +212,9 @@
     }
   }
 
+  .enterprise-info-simple{
+    padding-bottom: 5px;
+  }
   .enterprise-info{
     border-bottom:none;
     .yc-intro-sub-items{

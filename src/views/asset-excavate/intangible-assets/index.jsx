@@ -1,7 +1,7 @@
 import React from 'react';
+import { message, Modal } from 'antd';
 import API from '@/utils/api/monitor-info/intangible';
 /* import API from '@/utils/api/risk-monitor/operation-risk'; */
-import { message, Modal } from 'antd';
 import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
@@ -10,7 +10,7 @@ import ruleMethods from '@/utils/rule';
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
 import Table from './table'; /* Table 展示列表 */
-import TableVersion from './table-version'; /* Table 展示列表 */
+// import TableVersion from './table-version'; /* Table 展示列表 */
 
 const toGetConfig = () => {
 	const rule = ruleMethods.toGetRuleSource('', 'YC02', 'YC0207');
@@ -240,7 +240,6 @@ export default class IntangibleAssets extends React.Component {
 		};
 		const QueryView = Query[sourceType];
 		const TableView = Table[sourceType];
-		const TableVersionView = TableVersion[sourceType];
 		return (
 			<div className="yc-assets-auction">
 				{/* 查询模块 */}
@@ -256,54 +255,53 @@ export default class IntangibleAssets extends React.Component {
 				/>
 				{/* 操作栏 */}
 				{
-	!manage ? (
-		<div className="assets-auction-action">
-			<Button
-				active={isRead === 'all'}
-				onClick={() => this.handleReadChange('all')}
-				title="全部"
-			/>
-			<Button
-				active={isRead === 'unread'}
-				onClick={() => this.handleReadChange('unread')}
-				title="只显示未读"
-			/>
-			<Button onClick={this.handleAllRead}>全部标为已读</Button>
-			<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
-			<div className="yc-public-floatRight">
-				<Download
-					all
-					text="一键导出"
-					condition={() => this.condition}
-					api={API(sourceType, 'exportList')}
-				/>
-			</div>
-		</div>
-	) : (
-		<div className="assets-auction-action">
-			<Button onClick={this.handleAttention} title="关注" />
-			<Download
-				text="导出"
-				field="idList"
-				selectIds
-				selectedRowKeys={() => this.selectRow}
-				api={API(sourceType, 'exportList')}
-				condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
-			/>
-			<Button
-				onClick={() => {
-					this.setState({ manage: false });
-					this.selectRow = [];
-				}}
-				title="取消管理"
-			/>
-		</div>
-	)
-	}
+					!manage ? (
+						<div className="assets-auction-action">
+							<Button
+								active={isRead === 'all'}
+								onClick={() => this.handleReadChange('all')}
+								title="全部"
+							/>
+							<Button
+								active={isRead === 'unread'}
+								onClick={() => this.handleReadChange('unread')}
+								title="只显示未读"
+							/>
+							<Button onClick={this.handleAllRead}>全部标为已读</Button>
+							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							<div className="yc-public-floatRight">
+								<Download
+									all
+									text="一键导出"
+									condition={() => this.condition}
+									api={API(sourceType, 'exportList')}
+								/>
+							</div>
+						</div>
+					) : (
+						<div className="assets-auction-action">
+							<Button onClick={this.handleAttention} title="关注" />
+							<Download
+								text="导出"
+								field="idList"
+								selectIds
+								selectedRowKeys={() => this.selectRow}
+								api={API(sourceType, 'exportList')}
+								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
+							/>
+							<Button
+								onClick={() => {
+									this.setState({ manage: false });
+									this.selectRow = [];
+								}}
+								title="取消管理"
+							/>
+						</div>
+					)
+					}
 				{/* 表格数据展示模块 */}
 				<Spin visible={loading}>
 					<TableView {...tableProps} />
-					<TableVersionView {...tableProps} />
 				</Spin>
 
 			</div>

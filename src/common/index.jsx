@@ -10,6 +10,7 @@ import Ellipsis from './ellipsis';
 import Icon from './icon';
 import NoContent from './noContent';
 import DatePicker from './commonDatePicker';
+import BreadCrumb from './bread-crumb';
 
 const timeRule = {
 	disabledStartDate: (startValue, endValue) => {
@@ -44,5 +45,5 @@ const timeRule = {
 };
 
 export {
-	Tabs, Badge, Button, Input, Spin, timeRule, Download, Table, SelectedNum, Ellipsis, Icon, NoContent, DatePicker,
+	Tabs, Badge, Button, Input, Spin, timeRule, Download, Table, SelectedNum, Ellipsis, Icon, NoContent, DatePicker, BreadCrumb,
 };
