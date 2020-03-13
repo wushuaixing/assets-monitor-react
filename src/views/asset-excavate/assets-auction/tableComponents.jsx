@@ -198,7 +198,7 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 				</li>
 				{
 					auctionStatusTag
-						? <li className="table-info-list list-width-180"><span className="info-tag">拍卖状态变更</span></li> : null
+						? <li className="table-info-list list-width-180"><span className="info-tag info-tag_change">拍卖状态变更</span></li> : null
 				}
 			</li>
 			<li className="table-info-list list-width-180 yc-text-normal">
@@ -214,7 +214,7 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 				}
 				{
 					roundTag
-						? <li className="table-info-list list-width-180"><span className="info-tag">新增拍卖轮次</span></li> : null
+						? <li className="table-info-list list-width-180"><span className="info-tag info-tag_add">新增拍卖轮次</span></li> : null
 				}
 			</li>
 		</div>
