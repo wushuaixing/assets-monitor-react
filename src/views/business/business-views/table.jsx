@@ -24,7 +24,7 @@ class BusinessView extends React.Component {
 				title: '业务编号',
 				dataIndex: 'caseNumber',
 				key: 'caseNumber',
-				width: 120,
+				width: 80,
 				render: text => (
 					<p>{text || '-'}</p>
 				),
@@ -69,7 +69,7 @@ class BusinessView extends React.Component {
 					);
 				},
 			}, {
-				title: '机构名称',
+				title: '负责人/机构',
 				dataIndex: 'orgName',
 				key: 'orgName',
 				width: 150,
@@ -105,7 +105,7 @@ class BusinessView extends React.Component {
 				title: '上传人员',
 				dataIndex: 'uploadName',
 				key: 'uploadName',
-				width: 80,
+				width: 100,
 				render: text => (
 					<p>{text || '-'}</p>
 				),
@@ -142,6 +142,7 @@ class BusinessView extends React.Component {
 			}, {
 				title: '操作',
 				key: 'operation',
+				width: 200,
 				className: 'column-center',
 				render: (text, row) => (
 					<span>
