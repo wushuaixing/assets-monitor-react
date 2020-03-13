@@ -18,6 +18,8 @@ const comButton = (props) => {
 	} else {
 		classList.push(type ? `yc-btn-${type}` : 'yc-btn-default');
 	}
+	const childrenDom = React.Children.map(children, i => i);
+	console.log();
 	return (
 		<React.Fragment>
 			<button
@@ -28,7 +30,10 @@ const comButton = (props) => {
 				onClick={(e) => { if (onClick && !disabled)onClick(e); }}
 			>
 				{ icon ? icon() : null}
-				<span style={icon ? { marginLeft: 3 } : ''}>{children || title}</span>
+				{
+					childrenDom.length > 1
+						? childrenDom : <span style={icon ? { marginLeft: 3 } : ''}>{childrenDom || title}</span>
+				}
 			</button>
 		</React.Fragment>
 	);

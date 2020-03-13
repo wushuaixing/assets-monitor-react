@@ -3,7 +3,6 @@ import { navigate } from '@reach/router';
 import './style.scss';
 
 
-
 export default class BreadCrumb extends React.Component {
 	constructor(props) {
 		super(props);
@@ -35,7 +34,7 @@ export default class BreadCrumb extends React.Component {
 							return <span className="crumb-last">{i.name}</span>;
 						}
 						return [
-							(i.link ? <a className="crumb-link" onClick={e => this.onClick(e.i)}>{i.name}</a>
+							(i.link ? <a className="crumb-link" onClick={e => this.onClick(e, i)}>{i.name}</a>
 								: <span className="crumb-normal">{i.name}</span>),
 							<span className="bread-crumb-delimiter">/</span>,
 						];
