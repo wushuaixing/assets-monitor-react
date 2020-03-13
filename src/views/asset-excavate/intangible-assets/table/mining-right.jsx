@@ -8,7 +8,7 @@ import { Mining } from '@/utils/api/monitor-info/intangible';
 const certificateTypeStatus = {
 	1: '采矿权',
 	2: '探矿权',
-	3: '未知',
+	0: '未知',
 };
 
 // 获取表格配置
@@ -39,9 +39,7 @@ const columns = (props) => {
 			title: '权证类型',
 			width: 100,
 			dataIndex: 'certificateType',
-			render: text => (
-				<span>{certificateTypeStatus[text]}</span>
-			),
+			render: text => (text !== '' ? certificateTypeStatus[text] : '--'),
 		}, {
 			title: '权证信息',
 			width: 260,
