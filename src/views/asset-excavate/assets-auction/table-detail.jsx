@@ -1,15 +1,13 @@
 import React from 'react';
 import { Pagination, Tooltip } from 'antd';
-import assetsD from 'api/professional-work/debtor/assets';
-import assetsB from 'api/professional-work/business/assets';
+import { getDynamicAsset } from 'api/dynamic';
 import {
 	Ellipsis, Icon, Spin, Table, Button,
 } from '@/common';
 import { floatFormat } from '@/utils/format';
 import TableVersionModal from './tableVersionModal';
-import { toEmpty, timeStandard, getQueryByName } from '@/utils';
+import { toEmpty, timeStandard } from '@/utils';
 import './style.scss';
-import { getDynamicAsset } from 'api/dynamic';
 
 
 /* 跟进状态 */
@@ -28,7 +26,7 @@ const processStatus = (s) => {
 		res.style = {
 			borderColor: res.color,
 			color: res.color,
-			minWidth: 80,
+			minWidth: 56,
 			backgroundColor: '#FFFFFF',
 			borderRadius: '2px',
 		};
@@ -141,7 +139,7 @@ export default class TableIntact extends React.Component {
 
 	shouldComponentUpdate(nextProps) {
 		if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
-			this.toGetData(1, nextProps.sourceType);
+			this.toGetData(1, nextProps);
 		}
 		return true;
 	}
@@ -221,8 +219,10 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=(page, sourceType) => {
-		const { sourceType: type, portrait } = this.props;
+	toGetData=(page, nextProps = {}) => {
+		const { sourceType, ignored } = nextProps;
+		const processString = ignored ? '0,3,6,9,15' : '';
+		const { sourceType: type, portrait, onCountChange } = this.props;
 		// debtor_enterprise business
 		const _sourceType = sourceType || type;
 		const { api, params } = getDynamicAsset(portrait, {
@@ -232,6 +232,7 @@ export default class TableIntact extends React.Component {
 		api.list({
 			page: page || 1,
 			num: 5,
+			processString,
 			...params,
 		}).then((res) => {
 			if (res.code === 200) {
@@ -241,6 +242,7 @@ export default class TableIntact extends React.Component {
 					total: res.data.total,
 					loading: false,
 				});
+				if (onCountChange)onCountChange(res.data.total, _sourceType);
 			} else {
 				this.setState({
 					dataSource: '',

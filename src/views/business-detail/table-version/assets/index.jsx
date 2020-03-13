@@ -164,7 +164,7 @@ class Assets extends React.Component {
 		const { count, portrait, assetLoading } = this.props;
 		const aryResult = (subItems(count, portrait).filter(i => i.total > 0)).length;
 		return (
-			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
+			<div className="inquiry-assets info-assets-padding">
 				{ assetLoading ? <Spin minHeight={350} />
 					: (
 						aryResult ? config.map(Item => (

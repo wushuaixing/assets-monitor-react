@@ -49,6 +49,7 @@ class QueryCondition extends React.Component {
 	render() {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
+		const _style3 = { width: 150 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
 			normalize(n) {
@@ -64,18 +65,15 @@ class QueryCondition extends React.Component {
 					<Input title="相关案号" style={_style1} size="large" placeholder="失信相关案号" {...getFieldProps('caseCode')} />
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">移除情况：</span>
-					<Select size="large" style={_style2} {...getFieldProps('status')} placeholder="请选择失信记录移除情况" allowClear>
-						<Select.Option value={-1} key={-1}>已移除</Select.Option>
-						<Select.Option value={0} key={0}>未失信</Select.Option>
-						<Select.Option value={1} key={1}>曾失信</Select.Option>
-						<Select.Option value={2} key={2}>已失信</Select.Option>
-					</Select>
-				</div>
-				<div className="yc-query-item">
 					<Input title="执行法院" style={_style1} size="large" placeholder="列入失信法院" {...getFieldProps('court')} />
 				</div>
-
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">移除情况：</span>
+					<Select size="large" style={_style3} {...getFieldProps('removeStatus')} placeholder="失信记录移除情况" allowClear>
+						<Select.Option value={false} key={2}>未移除</Select.Option>
+						<Select.Option value key={1}>已移除</Select.Option>
+					</Select>
+				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-lable">发布日期：</span>
 					<DatePicker

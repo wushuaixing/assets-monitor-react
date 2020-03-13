@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDetail, timeStandard } from '@/utils';
+import { linkDetail, linkDom, timeStandard } from '@/utils';
+import { floatFormat } from '@/utils/format';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Mining } from '@/utils/api/monitor-info/intangible';
 
 const certificateTypeStatus = {
 	1: '采矿权',
 	2: '探矿权',
-	3: '未知',
+	0: '未知',
 };
 
 // 获取表格配置
@@ -21,7 +22,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+				: <SortVessel field="GMT_PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublishTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
@@ -34,14 +35,12 @@ const columns = (props) => {
 			title: '许可证编号',
 			width: 200,
 			dataIndex: 'licenseNumber',
-			render: (text, row) => (text ? (<a href={row.url} target="_blank" rel="noopener noreferrer">{text}</a>) : '--'),
+			render: (text, row) => (text ? linkDom(row.url, text) : '--'),
 		}, {
 			title: '权证类型',
 			width: 100,
 			dataIndex: 'certificateType',
-			render: text => (
-				<span>{certificateTypeStatus[text]}</span>
-			),
+			render: text => (text !== '' ? certificateTypeStatus[text] : '--'),
 		}, {
 			title: '权证信息',
 			width: 260,
@@ -61,14 +60,14 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>面积</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.area || '--'}</span>
+						<span className="list list-content">{row.area ? `${floatFormat(row.area)} 平方米` : '--'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
 						<span className="list list-title-colon">:</span>
 						{
 							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
-								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+								<span className="list list-content">{`${row.gmtValidityPeriodStart} 至 ${row.gmtValidityPeriodEnd}` }</span>
 							) : '--'
 						}
 					</li>

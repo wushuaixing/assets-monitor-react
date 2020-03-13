@@ -65,7 +65,7 @@ export default class Overview extends React.Component {
 		const { active } = this.state;
 		const { portrait } = this.props;
 		return (
-			<div>
+			<div className="inquiry-assets info-assets-padding">
 				{ active === 1 ? <Portrait portrait={portrait} /> : null }
 				{ active === 2 ? <Visualize portrait={portrait} /> : null }
 			</div>

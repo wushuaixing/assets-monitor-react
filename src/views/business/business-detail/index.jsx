@@ -306,7 +306,7 @@ class DebtorDetail extends React.Component {
 								<div className="yc-basic-msg-inner">{detail && detail.obligorNumber.length > 0 ? detail.obligorNumber : '-'}</div>
 							</div>
 							<div className="yc-form-group">
-								<div className="yc-basic-msg-title">机构名称:</div>
+								<div className="yc-basic-msg-title">负责人/机构:</div>
 								<div className="yc-basic-msg-inner">{detail && detail.orgName.length > 0 ? detail.orgName : '-'}</div>
 							</div>
 							{/* <div className="yc-form-group"> */}

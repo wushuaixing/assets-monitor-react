@@ -186,9 +186,17 @@
         line-height: 1;
         font-size: 12px;
         color: #FFFFFF;
-        background-color: $common-warning;
       }
-
+      .info-tag_add{
+        color: $common-warning;
+        border: 1px solid $common-warning;
+        background-color:#fff4eb ;
+      }
+      .info-tag_change{
+        color: $text-link;
+        border: 1px solid $text-link;
+        background-color:#ecf6ff ;
+      }
       .table-info-list-history{
         line-height: 1;
       }

@@ -480,6 +480,7 @@ class BusinessView extends React.Component {
 							title="负责人/机构"
 							style={_style1}
 							size="large"
+							titleWidth={88}
 							placeholder="负责人/机构"
 							{...getFieldProps('orgName', {
 								getValueFromEvent: e => e.trim(),

@@ -60,7 +60,7 @@ class QueryCondition extends React.Component {
 					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('rightsHolder')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="许可证编号" style={_style1} size="large" placeholder="许可证编号" {...getFieldProps('licenseNumber')} />
+					<Input title="许可证编号" titleWidth={90} style={_style1} size="large" placeholder="许可证编号" {...getFieldProps('licenseNumber')} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">权证类型：</span>
@@ -75,7 +75,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="起始日期"
+						placeholder="开始日期"
 						{...getFieldProps('startGmtPublishTime', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtPublishTime'))}
 					/>
@@ -83,7 +83,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="截止日期"
+						placeholder="结束日期"
 						{...getFieldProps('endGmtPublishTime', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtPublishTime'))}
 					/>
@@ -93,17 +93,17 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="起始日期"
-						{...getFieldProps('startGmtModified', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtModified'))}
+						placeholder="开始日期"
+						{...getFieldProps('startGmtCreate', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtCreate'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="截止日期"
-						{...getFieldProps('endGmtModified', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtModified'))}
+						placeholder="结束日期"
+						{...getFieldProps('endGmtCreate', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtCreate'))}
 					/>
 				</div>
 

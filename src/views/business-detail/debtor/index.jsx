@@ -4,23 +4,18 @@ import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 /* utils */
 import { requestAll } from '@/utils/promise';
-import {
-	getQueryByName, timeStandard, toEmpty, reviseNum,
-} from '@/utils';
+import { getQueryByName } from '@/utils';
 /* api collection */
 import assets from '@/utils/api/detail/assets';
 import risk from '@/utils/api/detail/risk';
-import { debtorInfo, exportListEnp } from '@/utils/api/detail';
+import { debtorInfo } from '@/utils/api/detail';
 /* components */
-import {
-	Tabs, Download, Icon as IconType,
-} from '@/common';
+import { Tabs, BreadCrumb } from '@/common';
+import DebtorInfo from '@/views/business-detail/table-version/debtor-info';
 import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
 import Risk from '@/views/business-detail/table-version/risk';
 import Info from '@/views/business-detail/table-version/info';
-
-import Dishonest from '@/assets/img/icon/icon_shixin.png';
 
 /* 基本选项 */
 const source = () => [
@@ -65,133 +60,6 @@ const source = () => [
 	},
 ].filter(i => i.status);
 
-/* 获取注册状态样式 */
-const getRegStatusClass = (val) => {
-	if (val) {
-		if (val.match(/(存续|在业)/)) return ' regStatus-green';
-		if (val.match(/(迁出|其他)/)) return ' regStatus-orange';
-		if (val.match(/(撤销|吊销|清算|停业|注销)/)) return ' regStatus-red';
-	}
-	return '';
-};
-
-/* 企业概要 */
-const EnterpriseInfo = (arg = {}) => {
-	const {
-		bankruptcy, dishonestStatus: isDishonest, pushState, limitConsumption,
-	} = arg.data;
-	const {
-		obligorName: name, legalPersonName, regCapital, regStatus, establishTime, usedName, logoUrl,
-	} = arg.data;
-	const _formerNames = (usedName || []).join('、');
-	const style = {
-		minWidth: 80,
-		display: 'inline-block',
-	};
-
-	return (
-		<div className="enterprise-info">
-			<div className="intro-icon">
-				{
-					logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
-						: <span>{name && name.slice(0, 4)}</span>
-				}
-			</div>
-			<div className="intro-content">
-				<div className="intro-title">
-					<span className="yc-public-title-large-bold intro-title-name">
-						{name}
-						{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
-					</span>
-					{
-						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}>{regStatus}</span> : null
-					}
-					{
-						!limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
-					}
-					{
-						!bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
-					}
-					{
-						pushState ? (
-							<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
-								{'当前推送状态：'}
-								{pushState ? '开启' : '关闭'}
-							</span>
-						) : null
-					}
-				</div>
-				<div className="intro-base-info">
-					<li className="intro-info-list intro-list-border">
-						<span className="yc-public-remark">法定代表人：</span>
-						<span className="yc-public-title" style={style}>{legalPersonName || '--'}</span>
-					</li>
-					<li className="intro-info-list intro-list-border">
-						<span className="yc-public-remark">注册资本：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? reviseNum(regCapital) : '--'}</span>
-					</li>
-					<li className="intro-info-list">
-						<span className="yc-public-remark">成立日期：</span>
-						<span className="yc-public-title">{timeStandard(establishTime)}</span>
-					</li>
-				</div>
-				<div className="intro-used">
-					<li className="intro-info-list">
-						{
-						toEmpty(_formerNames) ? [
-							<span className="yc-public-remark">曾用名：</span>,
-							<span className="yc-public-title">{_formerNames}</span>,
-						] : null
-					}
-					</li>
-				</div>
-			</div>
-			<div className="intro-download">
-				<Download
-					style={{ width: 84 }}
-					condition={{
-						companyId: getQueryByName(window.location.href, 'id'),
-					}}
-					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-					api={exportListEnp}
-					normal
-					text="下载"
-				/>
-			</div>
-		</div>
-	);
-};
-/* 企业概要-简单版 */
-const EnterpriseInfoSimple = (props) => {
-	const { data, isDishonest } = props;
-	return (
-		<div className="enterprise-info">
-			<div className="intro-title">
-				<span className="yc-public-title-large-bold intro-title-name">
-					{data.name}
-					{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
-				</span>
-				{
-					data.regStatus
-						? <span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{data.regStatus}</span> : ''
-				}
-			</div>
-			<div className="intro-download">
-				<Download
-					style={{ width: 84 }}
-					condition={{
-						companyId: getQueryByName(window.location.href, 'id'),
-					}}
-					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-					api={exportListEnp}
-					normal
-					text="下载"
-				/>
-			</div>
-		</div>
-	);
-};
-
 export default class Enterprise extends React.Component {
 	constructor(props) {
 		document.title = '债务人详情';
@@ -205,7 +73,6 @@ export default class Enterprise extends React.Component {
 			affixStatus: false,
 			loading: true,
 			infoSource: {},
-			isDishonest: false,
 			// loading
 			assetLoading: true,
 			riskLoading: true,
@@ -219,7 +86,6 @@ export default class Enterprise extends React.Component {
 		const obligorId = getQueryByName(window.location.href, 'id') || 348229;
 		debtorInfo({ obligorId }).then((res) => {
 			if (res.code === 200) {
-				// console.log(res.data);
 				this.setState({
 					infoSource: res.data,
 					loading: false,
@@ -246,7 +112,7 @@ export default class Enterprise extends React.Component {
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index, portrait) => {
 		if (item.config) {
-			const { apiData, config: { idList: _idList, status: _status, items: _item } } = item;
+			const { apiData, config: { idList: _idList, status: _status } } = item;
 			const { tabConfig } = this.state;
 			const apiArray = [];
 			const idList = _idList(portrait);
@@ -312,17 +178,13 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, isDishonest,
+			tabConfig, childDom, sourceType, infoSource, affixStatus,
 		} = this.state;
-		const {
-			affixStatus, loading, assetLoading, riskLoading,
-		} = this.state;
-		// console.log(affixStatus, loading);
-		// ,countSource
-		// const classList = ['enterprise-intro'];
-		// if (!childDom) classList.push('enterprise-intro-child');
-		// if (affixStatus) classList.push('enterprise-intro-affix');
+		const { loading, assetLoading, riskLoading } = this.state;
+		const classList = ['info-detail', 'info-wrapper'];
+		if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
+			loading,
 			assetLoading,
 			riskLoading,
 			toPushChild: this.handleAddChild, // tab 追加子项
@@ -330,11 +192,17 @@ export default class Enterprise extends React.Component {
 		};
 		return (
 			<div className="yc-information-detail-wrapper">
-				<div className="info-navigation info-wrapper">导航模块</div>
+				<div className="info-navigation info-wrapper">
+					<BreadCrumb list={[
+						{ id: 1, name: '债务人', link: '/123123/123123' },
+						{ id: 2, name: '债务人详情', link: '' },
+					]}
+					/>
+				</div>
 				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
-				<Affix>
-					<div className="info-detail info-wrapper">
-						<EnterpriseInfo download={this.handleDownload} data={infoSource} />
+				<Affix onChange={this.onChangeAffix}>
+					<div className={classList.join(' ')}>
+						<DebtorInfo data={infoSource} affixStatus={affixStatus} portrait={this.portrait} />
 						<Tabs.Simple
 							onChange={this.onSourceType}
 							source={tabConfig}
@@ -343,12 +211,10 @@ export default class Enterprise extends React.Component {
 						/>
 						{childDom}
 					</div>
-					<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				</Affix>
-				{/* <div style={{ margin: '0 20px' }}><div className="mark-line" /></div> */}
 				<div className="info-content">
 					<Router>
-						{ tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
+						{ !loading && tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
 					</Router>
 				</div>
 			</div>

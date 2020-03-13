@@ -19,7 +19,6 @@ import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
 import Risk from '@/views/business-detail/table-version/risk';
 import Info from '@/views/business-detail/table-version/info';
-import './style.scss';
 
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
 
@@ -294,7 +293,6 @@ export default class Enterprise extends React.Component {
 		} = this.state;
 		const { affixStatus, loading } = this.state;
 		// console.log(affixStatus, loading);
-		// ,countSource
 		// const classList = ['enterprise-intro'];
 		// if (!childDom) classList.push('enterprise-intro-child');
 		// if (affixStatus) classList.push('enterprise-intro-affix');
@@ -314,9 +312,9 @@ export default class Enterprise extends React.Component {
 							defaultCurrent={sourceType}
 						/>
 						{childDom}
+
 					</div>
 				</Affix>
-				<div className="mark-line" />
 				<div className="info-content">
 					<Router>
 						{ tabConfig.map(I => <I.component count={I.source} path={I.path} toPushChild={this.handleAddChild} portrait="detail" />) }

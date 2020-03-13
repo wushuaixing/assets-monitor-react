@@ -60,7 +60,7 @@ class QueryCondition extends React.Component {
 					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="商标/专利名称" style={_style1} size="large" placeholder="商标/专利名称" {...getFieldProps('rightsName')} />
+					<Input title="商标/专利名称" titleWidth={100} style={_style1} size="large" placeholder="商标/专利名称" {...getFieldProps('rightsName')} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">权利类型：</span>
@@ -74,7 +74,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="起始日期"
+						placeholder="开始日期"
 						{...getFieldProps('noticeTimeStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('noticeTimeStart'))}
 					/>
@@ -82,7 +82,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="截止日期"
+						placeholder="结束日期"
 						{...getFieldProps('noticeTimeEnd', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('noticeTimeEnd'))}
 					/>
@@ -92,7 +92,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="起始日期"
+						placeholder="开始日期"
 						{...getFieldProps('gmtCreateStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtCreateStart'))}
 					/>
@@ -100,7 +100,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="截止日期"
+						placeholder="结束日期"
 						{...getFieldProps('gmtCreateEnd', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtCreateEnd'))}
 					/>

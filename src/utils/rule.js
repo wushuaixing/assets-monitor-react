@@ -228,7 +228,7 @@ export default {
 						id: 'YC0207',
 						name: '无形资产',
 						url: '/monitor/intangible',
-						status: toStatus(rule.menu_zcwj, ['zcwjpwq', 'zcwjkyq', 'zcwjsbzl', 'zcwjjzjszz']) || true,
+						status: toStatus(rule.menu_zcwj, 'zcwjwxzc'),
 						child: [
 							{ id: 'YC020701', name: '排污权', status: true },
 							{ id: 'YC020702', name: '矿业权', status: true },
@@ -264,8 +264,8 @@ export default {
 					{
 						id: 'YC0304',
 						name: '失信记录',
-						url: '/risk/brokenRecord',
-						status: true,
+						url: '/risk/broken',
+						status: toStatus(rule.menu_fxjk, 'jkxxsxjl'),
 					},
 					{
 						id: 'YC0303',
