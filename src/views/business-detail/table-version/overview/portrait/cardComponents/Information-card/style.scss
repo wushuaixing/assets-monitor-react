@@ -1,0 +1,62 @@
+.information-card {
+  width: 366px;
+  height: 119px;
+  margin-right: 20px;
+  display: inline-block;
+  border:1px solid #E8E8E8;
+  vertical-align: top;
+  .card-content {
+    padding: 16px 10px 20px 34px;
+    position: relative;
+    height: 91px;
+    line-height: 16px;
+    .card-content-role {
+      display: inline-block;
+      position: absolute;
+      height: 48px;
+      .card-content-role-text {
+        display: inline-block;
+        width: 60px;
+        text-align: justify;
+        text-justify: distribute-all-lines;
+        text-align-last: justify;
+      }
+      .card-content-role-info {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .card-content-role-num {
+        display: inline-block;
+      }
+      .card-content-role-itemLeft {
+        padding-top: 9px;
+        font-size: 12px;
+        color: #4E5566;
+
+        &:first-child {
+          padding-top: 0;
+        }
+      }
+      .card-content-role-itemRight {
+        padding-top: 9px;
+        font-size: 12px;
+        color: #4E5566;
+        margin-left: 160px;
+        position: relative;
+        bottom: 75px;
+        &:first-child {
+          padding-top: 0;
+        }
+      }
+    }
+  }
+  &:hover {
+    width:366px;
+    height:119px;
+    background:rgba(255,255,255,1);
+    box-shadow:0 6px 10px 0 rgba(3,31,59,0.1);
+    border-radius:2px;
+    cursor: pointer;
+  }
+}
+

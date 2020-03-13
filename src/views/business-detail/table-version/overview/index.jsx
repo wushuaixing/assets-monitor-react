@@ -3,6 +3,8 @@ import Portrait from './portrait';
 import Visualize from './visualize';
 import { Button } from '@/common';
 
+const ButtonGroup = Button.Group;
+
 const subItems = [
 	{
 		id: 1,
@@ -44,15 +46,17 @@ export default class Overview extends React.Component {
 		const { active } = this.state;
 		return (
 			<div className="yc-intro-sub-items">
-				{ subItems.map(item => (
-					<Button
-						className="intro-btn-items"
-						active={item.id === active}
-						onClick={() => this.toChangeItemType(item)}
-					>
-						{item.name}
-					</Button>
-				))}
+				<ButtonGroup>
+					{ subItems.map(item => (
+						<Button
+							className="yc-intro-btn-items"
+							active={item.id === active}
+							onClick={() => this.toChangeItemType(item)}
+						>
+							{item.name}
+						</Button>
+					))}
+				</ButtonGroup>
 			</div>
 		);
 	};
@@ -61,7 +65,7 @@ export default class Overview extends React.Component {
 		const { active } = this.state;
 		const { portrait } = this.props;
 		return (
-			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
+			<div>
 				{ active === 1 ? <Portrait portrait={portrait} /> : null }
 				{ active === 2 ? <Visualize portrait={portrait} /> : null }
 			</div>

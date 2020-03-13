@@ -1,18 +1,11 @@
 /** 首页 * */
 
 import React from 'react';
-// import rsaEncrypt from '@/utils/encryp';
-// import { Button } from '@/components';
 import { message } from 'antd';
 import TableTree from './tableTree';
-import {
-	selfTree, // login
-} from '@/utils/api/home';
+import { selfTree } from '@/utils/api/home';
 import { toThousands } from '@/utils/changeTime';
-
-import {
-	Spin,
-} from '@/common';
+import { Spin } from '@/common';
 import './style.scss';
 
 

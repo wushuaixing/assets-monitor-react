@@ -10,7 +10,7 @@ import {
 /* api collection */
 import assets from '@/utils/api/detail/assets';
 import risk from '@/utils/api/detail/risk';
-import { debtorInfo, dishonestStatus, exportListEnp } from '@/utils/api/detail';
+import { debtorInfo, exportListEnp } from '@/utils/api/detail';
 /* components */
 import {
 	Tabs, Download, Icon as IconType,
@@ -219,7 +219,7 @@ export default class Enterprise extends React.Component {
 		const obligorId = getQueryByName(window.location.href, 'id') || 348229;
 		debtorInfo({ obligorId }).then((res) => {
 			if (res.code === 200) {
-				console.log(res.data);
+				// console.log(res.data);
 				this.setState({
 					infoSource: res.data,
 					loading: false,
@@ -343,8 +343,9 @@ export default class Enterprise extends React.Component {
 						/>
 						{childDom}
 					</div>
+					<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				</Affix>
-				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
+				{/* <div style={{ margin: '0 20px' }}><div className="mark-line" /></div> */}
 				<div className="info-content">
 					<Router>
 						{ tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }

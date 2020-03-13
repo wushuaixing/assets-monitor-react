@@ -97,7 +97,7 @@ export default class AssetAuction extends React.Component {
 									{`全部 ${all.count}`}
 								</Button>
 							</div>
-							<ColumnarEcharts title="角色分布" Data={columnarData} id="assetAuction" />
+							<ColumnarEcharts title="角色分布" Data={columnarData && columnarData.length > 0 && columnarData} id="assetAuction" />
 							<RingEcharts title="拍卖结果分布" Data={RingData} id="assetAuction" />
 						</div>
 					</Spin>

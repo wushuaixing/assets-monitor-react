@@ -82,23 +82,21 @@ export default class OverView extends React.Component {
 			});
 
 		// 获取工商基本信息
-		getBusiness(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						baseInfo: res.data.baseInfo, // 工商基本信息
-						shareholderInfos: res.data.shareholderInfos, // 股东情况
-						businessScaleInfo: res.data.businessScaleInfo, // 人员规模
+		getBusiness(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					baseInfo: res.data.baseInfo, // 工商基本信息
+					shareholderInfos: res.data.shareholderInfos, // 股东情况
+					businessScaleInfo: res.data.businessScaleInfo, // 人员规模
 
-						loading: false,
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+					loading: false,
+				});
+			} else {
 				this.setState({ loading: false });
-			});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	// 获取资产监控可模块数量

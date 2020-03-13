@@ -1,0 +1,53 @@
+.Involved-card{
+  width: 366px;
+  height: 120px;
+  margin-right: 20px;
+  vertical-align: top;
+  border:1px solid #E8E8E8;
+  display: inline-block;
+  .card-content {
+    padding: 30px 10px 20px 34px;
+    position: relative;
+    line-height: 12px;
+
+    .card-content-role {
+      display: inline-block;
+      height: 40px;
+      .card-content-role-itemLeft {
+        padding-top: 13px;
+        font-size: 12px;
+        color: #4E5566;
+        .card-content-role-text {
+          display: inline-block;
+          width: 60px;
+          text-align: justify;
+          text-justify: distribute-all-lines;
+          text-align-last: justify;
+        }
+        .card-content-role-info {
+          display: inline-block;
+          vertical-align: top;
+        }
+        .card-content-role-num {
+          display: inline-block;
+        }
+        &:first-child {
+          padding-top: 0;
+        }
+      }
+    }
+    .card-content-rightArrow {
+      text-align: right;
+      line-height: 62px;
+    }
+  }
+  &:hover {
+    width:366px;
+    height:120px;
+    background:rgba(255,255,255,1);
+    box-shadow:0 6px 10px 0 rgba(3,31,59,0.1);
+    border-radius:2px;
+    cursor: pointer;
+  }
+}
+

@@ -1,0 +1,75 @@
+.assets-card {
+  width: 754px;
+  height: 120px;
+  margin-right: 20px;
+  display: inline-block;
+  border:1px solid #E8E8E8;
+  vertical-align: top;
+  .card-content {
+    padding: 11px 0;
+    position: relative;
+    .card-content-price {
+      width: 174px;
+      margin-right: 35px;
+      font-size: 12px;
+      line-height: 16px;
+      display: inline-block;
+      text-align: center;
+      border-right: 1px solid #F0F0F0;
+      .card-content-left-img {
+        width: 22px;
+        height: 22px;
+      }
+    }
+    .card-content-role {
+      display: inline-block;
+      position: absolute;
+      .card-content-role-text {
+        display: inline-block;
+        width: 60px;
+        text-align: justify;
+        text-justify: distribute-all-lines;
+        text-align-last: justify;
+      }
+      .card-content-role-info {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .card-content-role-num {
+        display: inline-block;
+      }
+
+      .card-content-role-itemLeft {
+        padding-top: 9px;
+        font-size: 12px;
+        color: #4E5566;
+      }
+      .card-content-role-itemMiddle {
+        padding-top: 9px;
+        font-size: 12px;
+        color: #4E5566;
+        margin-left: 160px;
+        position: relative;
+        bottom: 54px;
+      }
+      .card-content-role-itemRight {
+        padding-top: 9px;
+        font-size: 12px;
+        color: #4E5566;
+        margin-left: 320px;
+        position: relative;
+        bottom: 108px;
+      }
+
+    }
+  }
+  &:hover {
+    width:754px;
+    height:120px;
+    background:rgba(255,255,255,1);
+    box-shadow:0 6px 10px 0 rgba(3,31,59,0.1);
+    border-radius:2px;
+    cursor: pointer;
+  }
+}
+
