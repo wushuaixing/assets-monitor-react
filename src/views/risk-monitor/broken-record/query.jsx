@@ -69,15 +69,11 @@ class QueryCondition extends React.Component {
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">移除情况：</span>
-					<Select size="large" style={_style3} {...getFieldProps('status')} placeholder="失信记录移除情况" allowClear>
-						<Select.Option value={-1} key={-1}>已移除</Select.Option>
-						<Select.Option value={0} key={0}>未失信</Select.Option>
-						<Select.Option value={1} key={1}>曾失信</Select.Option>
-						<Select.Option value={2} key={2}>已失信</Select.Option>
+					<Select size="large" style={_style3} {...getFieldProps('removeStatus')} placeholder="失信记录移除情况" allowClear>
+						<Select.Option value={false} key={2}>未移除</Select.Option>
+						<Select.Option value key={1}>已移除</Select.Option>
 					</Select>
 				</div>
-
-
 				<div className="yc-query-item">
 					<span className="yc-query-item-lable">发布日期：</span>
 					<DatePicker

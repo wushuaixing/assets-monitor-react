@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, linkDom, timeStandard } from '@/utils';
+import { floatFormat } from '@/utils/format';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Mining } from '@/utils/api/monitor-info/intangible';
 
@@ -59,14 +60,14 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>面积</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.area ? `${row.area}平方米` : '--'}</span>
+						<span className="list list-content">{row.area ? `${floatFormat(row.area)} 平方米` : '--'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
 						<span className="list list-title-colon">:</span>
 						{
 							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
-								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+								<span className="list list-content">{`${row.gmtValidityPeriodStart} 至 ${row.gmtValidityPeriodEnd}` }</span>
 							) : '--'
 						}
 					</li>
