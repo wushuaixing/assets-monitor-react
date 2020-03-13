@@ -74,7 +74,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="起始日期"
+						placeholder="开始日期"
 						{...getFieldProps('noticeTimeStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('noticeTimeStart'))}
 					/>
@@ -82,7 +82,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="截止日期"
+						placeholder="结束日期"
 						{...getFieldProps('noticeTimeEnd', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('noticeTimeEnd'))}
 					/>
@@ -92,7 +92,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="起始日期"
+						placeholder="开始日期"
 						{...getFieldProps('gmtCreateStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtCreateStart'))}
 					/>
@@ -100,7 +100,7 @@ class QueryCondition extends React.Component {
 					<DatePicker
 						size="large"
 						style={_style2}
-						placeholder="截止日期"
+						placeholder="结束日期"
 						{...getFieldProps('gmtCreateEnd', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtCreateEnd'))}
 					/>

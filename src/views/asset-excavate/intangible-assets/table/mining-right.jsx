@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDetail, timeStandard } from '@/utils';
+import { linkDetail, linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Mining } from '@/utils/api/monitor-info/intangible';
 
@@ -21,7 +21,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+				: <SortVessel field="GMT_PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublishTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
@@ -34,7 +34,7 @@ const columns = (props) => {
 			title: '许可证编号',
 			width: 200,
 			dataIndex: 'licenseNumber',
-			render: (text, row) => (text ? (<a href={row.url} target="_blank" rel="noopener noreferrer">{text}</a>) : '--'),
+			render: (text, row) => (text ? linkDom(row.url, text) : '--'),
 		}, {
 			title: '权证类型',
 			width: 100,
@@ -61,7 +61,7 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>面积</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.area || '--'}</span>
+						<span className="list list-content">{row.area ? `${row.area}平方米` : '--'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>

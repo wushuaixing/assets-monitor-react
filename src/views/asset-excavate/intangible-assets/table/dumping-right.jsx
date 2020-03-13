@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDetail, timeStandard } from '@/utils';
+import { linkDetail, linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Dump } from '@/utils/api/monitor-info/intangible';
 
@@ -56,7 +56,7 @@ const columns = (props) => {
 			title: '许可证编号',
 			width: 200,
 			dataIndex: 'licenseNumber',
-			render: (text, row) => (text ? (<a href={row.url} target="_blank" rel="noopener noreferrer">{text}</a>) : '--'),
+			render: (text, row) => (text ? linkDom(row.url, text) : '--'),
 		}, {
 			title: '权证信息',
 			width: 260,
