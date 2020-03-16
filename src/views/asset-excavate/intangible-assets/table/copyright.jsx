@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDetail, timeStandard } from '@/utils';
+import { linkDetail, linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import { Copyright } from '@/utils/api/monitor-info/intangible';
 
@@ -27,16 +27,16 @@ const columns = (props) => {
 		}, {
 			title: '申请人/权利人',
 			dataIndex: 'obligorName',
-			width: 150,
+			width: 200,
 			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
 		}, {
 			title: '商标/专利名称',
 			width: 200,
 			dataIndex: 'rightsName',
-			render: (text, row) => (text ? (<a href={row.url} target="_blank" rel="noopener noreferrer">{text}</a>) : '--'),
+			render: (text, row) => (text ? linkDom(row.url, text) : '--'),
 		}, {
 			title: '权利类型',
-			width: 160,
+			width: 100,
 			dataIndex: 'rightsType',
 			render: text => (
 				<span>{rightsTypeStatus[text]}</span>
@@ -44,7 +44,7 @@ const columns = (props) => {
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'gmtModified',
+			dataIndex: 'gmtCreate',
 			width: 90,
 		}, {
 			title: '操作',

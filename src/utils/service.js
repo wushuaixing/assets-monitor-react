@@ -115,7 +115,7 @@ const service = axios.create({
 	credentials: 'include',
 	headers: {
 		'Content-Type': 'application/json;charset=utf-8',
-		'Content-Encoding': 'gzip,compress,deflate,identity',
+		'Content-Encoding': 'gzip',
 	},
 });
 

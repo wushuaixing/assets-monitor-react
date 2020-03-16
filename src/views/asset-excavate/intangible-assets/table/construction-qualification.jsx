@@ -14,8 +14,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>发证日期</span>
-				: <SortVessel field="gmtPublishTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发证日期</SortVessel>),
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
+				: <SortVessel field="gmtPublishTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'issueTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
@@ -50,7 +50,7 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>资质类别</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.qualificationTyp || '--'}</span>
+						<span className="list list-content">{row.qualificationType || '--'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>资质等级</span>

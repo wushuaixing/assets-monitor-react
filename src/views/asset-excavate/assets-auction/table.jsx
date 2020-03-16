@@ -74,7 +74,7 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 						{recovery > 0 ?	(
 							<div className="auction-recovery">
 								追回金额
-								<br />
+								{floatFormat(recovery).length > 12 ? <br /> : '：'}
 								{`${floatFormat(recovery)}元`}
 							</div>
 						) : ''}
