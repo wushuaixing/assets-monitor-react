@@ -10,7 +10,10 @@ import Debtor from './debtor';
 import DebtorDetail from './debtor-detail';
 import ChangeList from './business-detail/changeList';
 // import Asset from './asset-information';
-import Detail from '../business-detail';
+import NewDetailDebtor from '@/views/business-detail/debtor';
+import NewDetailBusiness from '@/views/business-detail/business';
+import NewDetailEdit from '@/views/business-detail/edit-info';
+
 
 const source = rule => ([
 	{
@@ -71,11 +74,14 @@ const BusinessRouter = (props) => {
 	const { rule: { children } } = props;
 	return (
 		<Router>
-			<BusinessBase rule={children} path="/*" />
-			<BusinessDetail rule={children} path="/business/detail/*" />
-			<Detail rule={children} path="/business/detail/info/*" />
-			<DebtorDetail rule={children} path="/business/debtor/detail/*" />
-			<ChangeList rule={children} path="/business/detail/changeList/*" />
+			<BusinessBase rule={children} path="/*" remark="业务（债务人）视图列表" />
+			<BusinessDetail rule={children} path="/business/detail/*" remark="业务详情" />
+			<ChangeList rule={children} path="/business/detail/changeList/*" remark="业务详情-变更记录" />
+			<DebtorDetail rule={children} path="/business/debtor/detail/*" remark="债务人详情" />
+			{/* 新路由 */}
+			<NewDetailBusiness rule={children} path="/business/detail/info/*" remark="业务详情（新）" />
+			<NewDetailEdit rule={children} path="/business/detail/edit/info/*" remark="业务详情-编辑（新）" />
+			<NewDetailDebtor rule={children} path="/business/debtor/detail/info/*" remark="债务人详情（新）" />
 		</Router>
 	);
 };

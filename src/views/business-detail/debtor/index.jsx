@@ -16,6 +16,7 @@ import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
 import Risk from '@/views/business-detail/table-version/risk';
 import Info from '@/views/business-detail/table-version/info';
+import '../style.scss';
 
 /* 基本选项 */
 const source = () => [
@@ -33,7 +34,7 @@ const source = () => [
 		id: 102,
 		name: '资产',
 		showNumber: false,
-		path: '/business/detail/info/102/*',
+		path: '/business/debtor/detail/info/102/*',
 		config: Assets.config,
 		status: Assets.config.status,
 		component: Assets,
@@ -44,7 +45,7 @@ const source = () => [
 		id: 103,
 		name: '风险',
 		showNumber: false,
-		path: '/business/detail/info/103/*',
+		path: '/business/debtor/detail/info/103/*',
 		config: Risk.config,
 		status: Risk.config.status,
 		component: Risk,
@@ -54,7 +55,7 @@ const source = () => [
 	{
 		id: 105,
 		name: '工商基本信息',
-		path: '/business/detail/info/105/*',
+		path: '/business/debtor/detail/info/105/*',
 		status: true,
 		component: Info,
 	},
@@ -66,10 +67,12 @@ export default class Enterprise extends React.Component {
 		// const defaultSourceType = window.location.hash.match(/\d{3}?(\?)/);
 		const defaultSourceType = window.location.hash.match(/\/detail\/info\/(\d{3})\/?/);
 		super(props);
+		const tabConfig = source();
+		const typeStr = tabConfig.map(i => i.id).join('/') || '';
 		this.state = {
 			tabConfig: source(),
 			childDom: '',
-			sourceType: defaultSourceType ? Number(defaultSourceType[1]) : 101,
+			sourceType: defaultSourceType && typeStr.match(defaultSourceType) ? Number(defaultSourceType[1]) : 101,
 			affixStatus: false,
 			loading: true,
 			infoSource: {},
@@ -171,7 +174,7 @@ export default class Enterprise extends React.Component {
 				sourceType: val,
 				childDom: '',
 			}, () => {
-				navigate(`/business/detail/info/${val}${params}`);
+				navigate(`/business/debtor/detail/info/${val}${params}`);
 			});
 		}
 	};
@@ -194,7 +197,7 @@ export default class Enterprise extends React.Component {
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">
 					<BreadCrumb list={[
-						{ id: 1, name: '债务人', link: '/123123/123123' },
+						{ id: 1, name: '债务人', link: '/business/debtor' },
 						{ id: 2, name: '债务人详情', link: '' },
 					]}
 					/>

@@ -43,7 +43,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发证日期</span>
-				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发证日期</SortVessel>),
+				: <SortVessel field="GMT_ISSUE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发证日期</SortVessel>),
 			dataIndex: 'gmtIssueTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
