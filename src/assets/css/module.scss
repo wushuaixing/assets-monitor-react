@@ -229,11 +229,11 @@
 }
 .yc-assets-auction-action {
   .auction-recovery {
-    background-color: $color-alert-error;
+    background-color: $common-error;
     color: #fff;
-    padding: 5px 8px;
+    padding: 5px 5px;
     font-size: 12px;
-    line-height: 15px;
+    line-height: 14px;
     white-space: nowrap;
     margin-bottom: 10px;
   }
