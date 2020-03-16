@@ -88,8 +88,8 @@ const columns = (props) => {
 			render: text => (text ? <p className="no-attention">已移除</p> : <p className="circle-item">未移除</p>),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'updateTime',
 			width: 90,
 		}, {
 			title: '操作',

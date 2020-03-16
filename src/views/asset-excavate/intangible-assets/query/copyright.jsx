@@ -64,7 +64,7 @@ class QueryCondition extends React.Component {
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">权利类型：</span>
-					<Select size="large" style={_style3} placeholder="请选择矿业权类型" {...getFieldProps('rightsType')} allowClear>
+					<Select size="large" style={_style3} placeholder="请选择权利类型" {...getFieldProps('rightsType')} allowClear>
 						<Select.Option value={1}>商标</Select.Option>
 						<Select.Option value={2}>专利</Select.Option>
 					</Select>
@@ -76,7 +76,7 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="开始日期"
 						{...getFieldProps('noticeTimeStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('noticeTimeStart'))}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('noticeTimeEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
@@ -84,7 +84,7 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="结束日期"
 						{...getFieldProps('noticeTimeEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('noticeTimeEnd'))}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('noticeTimeStart'))}
 					/>
 				</div>
 				<div className="yc-query-item">
@@ -94,7 +94,7 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="开始日期"
 						{...getFieldProps('gmtCreateStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtCreateStart'))}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtCreateEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
@@ -102,7 +102,7 @@ class QueryCondition extends React.Component {
 						style={_style2}
 						placeholder="结束日期"
 						{...getFieldProps('gmtCreateEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtCreateEnd'))}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtCreateStart'))}
 					/>
 				</div>
 
