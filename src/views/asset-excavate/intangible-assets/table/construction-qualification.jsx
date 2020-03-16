@@ -14,8 +14,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>发证日期</span>
-				: <SortVessel field="gmtPublishTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发证日期</SortVessel>),
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
+				: <SortVessel field="gmtPublishTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'issueTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
