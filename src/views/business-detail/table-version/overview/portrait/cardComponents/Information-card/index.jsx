@@ -2,9 +2,10 @@ import React from 'react';
 import { overviewRisk } from 'api/detail/overview';
 import { getQueryByName } from '@/utils';
 import getCount from '@/views/portrait-inquiry/common/getCount';
-import intangibleImg from '@/assets/img/business/intangibleCard.png';
+import informationImg from '@/assets/img/business/InformationCard.png';
 import Card from '../card';
 import './style.scss';
+import matching from '@/assets/img/business/matching.png';
 
 export default class Information extends React.Component {
 	constructor(props) {
@@ -52,22 +53,39 @@ export default class Information extends React.Component {
 
 	render() {
 		const { dataSource, dataSourceNum, gmtCreate } = this.state;
+		const { portrait } = this.props;
+		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
+		// const newDataSource = [
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// ];
 		return (
 			<span>
 				{dataSourceNum > 0
 					? (
 						<Card
-							imgCard={intangibleImg}
+							imgCard={informationImg}
 							count={dataSourceNum}
 							gmtCreate={gmtCreate}
-							customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
+							customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 							text="经营风险"
 							styleName="information-card"
 						>
-							<div className="card-content">
+							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
 								<div className="card-content-role">
+									{isBusiness ? (
+										<div className="card-content-role-itemLeft">
+											<img className="card-left-img" src={matching} alt="" />
+											<span style={{ marginRight: '2px', fontWeight: 'bold' }}>3</span>
+											人匹配到资产拍卖信息
+										</div>
+									) : null}
 									{
 										newDataSource && newDataSource.map((item, index) => {
 											if (index > 2) {

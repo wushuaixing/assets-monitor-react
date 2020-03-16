@@ -4,6 +4,7 @@ import { getQueryByName } from '@/utils';
 import SubrogationImg from '@/assets/img/business/subCard.png';
 import Card from '../card';
 import './style.scss';
+import matching from '@/assets/img/business/matching.png';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -50,7 +51,8 @@ export default class Subrogation extends React.Component {
 		const {
 			execute, gmtCreate, restore, allNum, otherCase,
 		} = this.state;
-
+		const { portrait } = this.props;
+		const isBusiness = portrait && portrait === 'business';
 		return (
 			<span>
 				{
@@ -59,13 +61,19 @@ export default class Subrogation extends React.Component {
 							imgCard={SubrogationImg}
 							count={allNum}
 							gmtCreate={gmtCreate}
-							customStyle={{ width: '366px', height: '120px', marginBottom: '20px' }}
+							customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
 							text="代位权"
 							styleName="subrogation-card"
 						>
-							<div className="card-content">
+							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
 								<div className="card-content-role">
-
+									{isBusiness ? (
+										<div className="card-content-role-itemLeft">
+											<img className="card-left-img" src={matching} alt="" />
+											<span style={{ marginRight: '2px', fontWeight: 'bold' }}>3</span>
+											人匹配到无形资产
+										</div>
+									) : null}
 									{execute > 0 ? (
 										<div className="card-content-role-itemLeft">
 											<span className="card-content-role-text">执行案件</span>

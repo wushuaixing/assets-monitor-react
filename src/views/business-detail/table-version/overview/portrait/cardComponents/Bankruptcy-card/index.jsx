@@ -38,6 +38,8 @@ export default class Bankruptcy extends React.Component {
 
 	render() {
 		const { bankruptcyNum, gmtCreate } = this.state;
+		const { portrait } = this.props;
+		const isBusiness = portrait && portrait === 'business';
 		return (
 			<span>
 				{bankruptcyNum > 0 ? (
@@ -45,7 +47,7 @@ export default class Bankruptcy extends React.Component {
 						imgCard={bankruptcyImg}
 						count={bankruptcyNum}
 						gmtCreate={gmtCreate}
-						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
+						customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 						text="破产重组"
 						styleName="bankruptcy-card"
 					>

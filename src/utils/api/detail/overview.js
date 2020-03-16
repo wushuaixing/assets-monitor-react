@@ -71,3 +71,9 @@ export const overviewBusiness = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/business', { params });
 	return response.data;
 };
+
+// 业务详情-土地信息
+export const businessOverviewLand = async (params) => {
+	const response = await service.get('/yc/business/monitor/overview/land', { params });
+	return response.data;
+};

@@ -66,6 +66,7 @@ export default class Enterprise extends React.Component {
 		document.title = '债务人详情';
 		// const defaultSourceType = window.location.hash.match(/\d{3}?(\?)/);
 		const defaultSourceType = window.location.hash.match(/\/detail\/info\/(\d{3})\/?/);
+
 		super(props);
 		const tabConfig = source();
 		const typeStr = tabConfig.map(i => i.id).join('/') || '';
@@ -85,6 +86,7 @@ export default class Enterprise extends React.Component {
 	}
 
 	componentWillMount() {
+		console.log(window.location.hash.match(/\/detail\/info\/(\d{3})\/?/), 123123);
 		const { tabConfig } = this.state;
 		const obligorId = getQueryByName(window.location.href, 'id') || 348229;
 		debtorInfo({ obligorId }).then((res) => {

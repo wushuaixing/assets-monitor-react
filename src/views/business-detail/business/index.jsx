@@ -155,7 +155,7 @@ export default class Enterprise extends React.Component {
 			assetLoading: true,
 			riskLoading: true,
 		};
-		this.portrait = 'debtor_personal';
+		this.portrait = 'business';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
 	}
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import AssociatedBusiness from './associated-business';
 import AssetProfile from './asset-profile';
+import BusinessRelated from './business-related';
 import RiskInformation from './risk-information';
 import {
 	getQueryByName,
@@ -13,6 +14,7 @@ export default class Portrait extends React.Component {
 		super(props);
 		this.state = {
 			businessData: [],
+			loading: false,
 		};
 	}
 
@@ -25,30 +27,37 @@ export default class Portrait extends React.Component {
 		const params = {
 			obligorId,
 		};
+		this.setState({ loading: true });
 		// 业务列表信息
 		businessList(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					businessData: res.data,
+					loading: false,
 				});
 			} else {
 				this.setState({ businessData: [] });
 			}
-		}).catch(() => {});
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {
-		const { businessData } = this.state;
+		const { businessData, loading } = this.state;
+		const { portrait } = this.props;
 		// const isbusinessData = Array.isArray(businessData) && businessData.length > 0; // 业务列表
 		// console.log(businessData, isbusinessData);
 		return (
 			<div className="yc-portrait-container">
 				{/* 关联业务 */}
-				<AssociatedBusiness dataSource={businessData} />
+				{
+					portrait && portrait === 'business' ? <BusinessRelated dataSource={businessData} loading={loading} /> : <AssociatedBusiness dataSource={businessData} loading={loading} />
+				}
 				{/* 资产概况 */}
-				<AssetProfile />
+				<AssetProfile portrait={portrait} loading={loading} />
 				{/* 风险信息 */}
-				<RiskInformation />
+				<RiskInformation portrait={portrait} loading={loading} />
 			</div>
 		);
 	}

@@ -6,6 +6,7 @@ import getCount from '@/views/portrait-inquiry/common/getCount';
 import chattelMortgageImg from '@/assets/img/business/chattelMortgageCard.png';
 import Card from '../card';
 import './style.scss';
+import matching from '@/assets/img/business/matching.png';
 
 export default class ChattelMortgage extends React.Component {
 	constructor(props) {
@@ -22,7 +23,7 @@ export default class ChattelMortgage extends React.Component {
 	}
 
 	getData = () => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 348897;
+		const obligorId = getQueryByName(window.location.href, 'id') || 322304;
 		const params = {
 			obligorId,
 			type: 1,
@@ -43,6 +44,8 @@ export default class ChattelMortgage extends React.Component {
 
 	render() {
 		const { dataSource, dataSourceNum, gmtCreate } = this.state;
+		const { portrait } = this.props;
+		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
 		return (
@@ -52,12 +55,19 @@ export default class ChattelMortgage extends React.Component {
 						imgCard={chattelMortgageImg}
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
-						customStyle={{ width: '366px', height: '120px', marginBottom: '20px' }}
+						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
 						text="动产抵押"
 						styleName="chattelMortgage-card"
 					>
-						<div className="card-content">
+						<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
 							<div className="card-content-role">
+								{isBusiness ? (
+									<div className="card-content-role-itemLeft">
+										<img className="card-left-img" src={matching} alt="" />
+										<span style={{ marginRight: '2px', fontWeight: 'bold' }}>3</span>
+										人匹配到动产抵押信息
+									</div>
+								) : null}
 								{
 									newDataSource && newDataSource.map(item => (
 										<div className="card-content-role-itemLeft" key={item.type} style={item.amount && item.amount > 100000000 ? { position: 'relative', left: '-20px' } : {}}>

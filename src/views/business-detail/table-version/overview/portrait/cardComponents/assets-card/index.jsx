@@ -31,10 +31,7 @@ export default class RiskInformation extends React.Component {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data,
-					// businessData: res.data,
 				});
-			} else {
-				// this.setState({ businessData: [] });
 			}
 		}).catch(() => {});
 	};
@@ -45,14 +42,15 @@ export default class RiskInformation extends React.Component {
 
 	render() {
 		const { dataSource } = this.state;
+		const { portrait } = this.props;
 		const roleDistributions = dataSource && Array.isArray((dataSource.roleDistributions)) && dataSource.roleDistributions.length > 0;
-		// dataSource.roleDistributions = [
-		// 	{ count: 1, type: -1, typeName: '未知角色' },
-		// 	{ count: 1, type: -1, typeName: '未知角色' },
-		// 	{ count: 1, type: -1, typeName: '未知角色' },
-		// 	{ count: 1, type: -1, typeName: '未知角色' },
-		// 	{ count: 1, type: -1, typeName: '未知角色' },
-		// ];
+		dataSource.roleDistributions = [
+			{ count: 1, type: -1, typeName: '未知角色' },
+			{ count: 1, type: -1, typeName: '未知角色' },
+			{ count: 1, type: -1, typeName: '未知角色' },
+			{ count: 1, type: -1, typeName: '未知角色' },
+			{ count: 1, type: -1, typeName: '未知角色' },
+		];
 		return (
 			<span>
 				{
@@ -62,11 +60,11 @@ export default class RiskInformation extends React.Component {
 								imgCard={img}
 								count={dataSource.count}
 								gmtCreate={dataSource.gmtCreate}
-								customStyle={{ width: '754px', height: '120px', marginBottom: '20px' }}
+								customStyle={portrait === 'business' ? { width: '754px', height: '140px', marginBottom: '20px' } : { width: '754px', height: '120px', marginBottom: '20px' }}
 								text="资产拍卖"
 								styleName="assets-card"
 							>
-								<div className="card-content" onClick={this.handleNavigation}>
+								<div className="card-content" onClick={this.handleNavigation} style={portrait === 'business' ? { padding: '20px 0' } : {}}>
 									<div className="card-content-price">
 										<img className="card-content-left-img" src={assetsPrice} alt="" />
 										<div>相关资产价值约</div>

@@ -5,15 +5,13 @@
   display: inline-block;
   border:1px solid #E8E8E8;
   vertical-align: top;
+  position: relative;
   .card-content {
-    padding: 16px 10px 20px 34px;
+    padding: 15px 10px 20px 34px;
     position: relative;
-    height: 91px;
+    //height: 102px;
     line-height: 16px;
     .card-content-role {
-      display: inline-block;
-      position: absolute;
-      height: 48px;
       .card-content-role-text {
         display: inline-block;
         width: 60px;
@@ -29,21 +27,26 @@
         display: inline-block;
       }
       .card-content-role-itemLeft {
-        padding-top: 9px;
+        padding-top: 13px;
         font-size: 12px;
         color: #4E5566;
-
+        .card-left-img {
+          position: absolute;
+          left: 15px;
+          top: 12px;
+          width: 14px;
+        }
         &:first-child {
           padding-top: 0;
         }
       }
       .card-content-role-itemRight {
-        padding-top: 9px;
+        padding-top: 13px;
         font-size: 12px;
         color: #4E5566;
         margin-left: 160px;
         position: relative;
-        bottom: 75px;
+        bottom: 87px;
         &:first-child {
           padding-top: 0;
         }

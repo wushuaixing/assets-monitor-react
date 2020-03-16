@@ -143,8 +143,8 @@ class Assets extends React.Component {
 	handleScroll=(eleID) => {
 		const dom = document.getElementById(eleID);
 		const _height = 168 || document.getElementById('enterprise-intro').clientHeight;
-
 		if (dom) {
+			// window.scrollTo(0, document.getElementById(eleID).offsetTop - 168);
 			window.scrollTo(0, document.getElementById(eleID).offsetTop + _height);
 		}
 	};

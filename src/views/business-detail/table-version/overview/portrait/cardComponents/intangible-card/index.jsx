@@ -4,6 +4,7 @@ import { getQueryByName } from '@/utils';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import intangibleImg from '@/assets/img/business/intangibleCard.png';
 import Card from '../card';
+import matching from '@/assets/img/business/matching.png';
 import './style.scss';
 
 export default class Intangible extends React.Component {
@@ -50,8 +51,16 @@ export default class Intangible extends React.Component {
 
 	render() {
 		const { dataSource, dataSourceNum, gmtCreate } = this.state;
+		const { portrait } = this.props;
+		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
+		// const newDataSource = [
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// 	{ count: 1, type: -1, typeName: '未知角色' },
+		// ];
 		return (
 			<span>
 				{dataSourceNum > 0
@@ -60,13 +69,19 @@ export default class Intangible extends React.Component {
 							imgCard={intangibleImg}
 							count={dataSourceNum}
 							gmtCreate={gmtCreate}
-							customStyle={{ width: '366px', height: '120px', marginBottom: '20px' }}
+							customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
 							text="无形资产"
 							styleName="intangible-card"
 						>
-							<div className="card-content">
-								<div className="card-content-role">
-									{
+							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
+								{isBusiness ? (
+									<div className="card-content-role-itemLeft">
+										<img className="card-left-img" src={matching} alt="" />
+										<span style={{ marginRight: '2px', fontWeight: 'bold' }}>3</span>
+									人匹配到无形资产
+									</div>
+								) : null}
+								{
 									newDataSource && newDataSource.map((item, index) => {
 										if (index > 1) {
 											return (
@@ -92,7 +107,6 @@ export default class Intangible extends React.Component {
 										);
 									})
 								}
-								</div>
 							</div>
 						</Card>
 					) : null

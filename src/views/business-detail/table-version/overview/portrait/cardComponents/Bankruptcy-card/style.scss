@@ -5,19 +5,17 @@
   vertical-align: top;
   border:1px solid #E8E8E8;
   display: inline-block;
+  position: relative;
   .card-content {
-    padding: 30px 10px 20px 34px;
-    position: relative;
-    line-height: 12px;
-
+    position: absolute;
+    top: 38px;
+    bottom: 0;
+    left: 34px;
+    width: 366px;
+    height: 20px;
+    margin: auto;
     .card-content-role {
       display: inline-block;
-      height: 40px;
-      line-height: 40px;
-    }
-    .card-content-rightArrow {
-      text-align: right;
-      line-height: 62px;
     }
   }
   &:hover {

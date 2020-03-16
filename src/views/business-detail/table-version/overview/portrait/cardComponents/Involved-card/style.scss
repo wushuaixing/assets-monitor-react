@@ -5,10 +5,16 @@
   vertical-align: top;
   border:1px solid #E8E8E8;
   display: inline-block;
+  position: relative;
   .card-content {
-    padding: 30px 10px 20px 34px;
-    position: relative;
-    line-height: 12px;
+    position: absolute;
+    line-height: 16px;
+    left: 34px;
+    top: 38px;
+    bottom: 0;
+    width: 332px;
+    height: 70px;
+    margin: auto;
 
     .card-content-role {
       display: inline-block;

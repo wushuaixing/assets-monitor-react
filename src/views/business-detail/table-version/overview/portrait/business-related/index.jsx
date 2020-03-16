@@ -1,12 +1,12 @@
 import React from 'react';
 import { Spin, Table } from '@/common';
 
-export default class associatedBusiness extends React.Component {
+export default class BusinessRelated extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			columns: [{
-				title: '业务编号',
+				title: '相关人名称',
 				dataIndex: 'caseNumber',
 				key: 'caseNumber',
 				width: 264,
@@ -16,7 +16,7 @@ export default class associatedBusiness extends React.Component {
 					</p>
 				),
 			}, {
-				title: '债务人角色',
+				title: '证件号/统一社会信用代码',
 				dataIndex: 'role',
 				key: 'role',
 				width: 230,
@@ -24,11 +24,11 @@ export default class associatedBusiness extends React.Component {
 					return <div>{text || '-'}</div>;
 				},
 			}, {
-				title: '负责人/机构',
+				title: '角色',
 				dataIndex: 'orgName',
 				key: 'orgName',
 			}, {
-				title: '操作',
+				title: '推送状态',
 				key: 'operation',
 				dataIndex: 'operation',
 				render() {
