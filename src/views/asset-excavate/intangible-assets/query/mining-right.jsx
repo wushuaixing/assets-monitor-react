@@ -67,7 +67,6 @@ class QueryCondition extends React.Component {
 					<Select size="large" style={_style3} placeholder="请选择矿业权类型" {...getFieldProps('certificateType')} allowClear>
 						<Select.Option value={1}>采矿权</Select.Option>
 						<Select.Option value={2}>探矿权</Select.Option>
-						<Select.Option value={0}>未知</Select.Option>
 					</Select>
 				</div>
 				<div className="yc-query-item">
