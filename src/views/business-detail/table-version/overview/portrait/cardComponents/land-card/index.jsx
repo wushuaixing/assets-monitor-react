@@ -1,5 +1,6 @@
 import React from 'react';
 import { overviewLand } from 'api/detail/overview';
+import { navigate } from '@reach/router';
 import { getQueryByName } from '@/utils';
 import { toThousands } from '@/utils/changeTime';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -41,6 +42,10 @@ export default class Land extends React.Component {
 		}).catch(() => { this.setState({ dataSource: [] }); });
 	};
 
+	handleNavigation = () => {
+		navigate('/business/detail/info/102?eleID=e-assets-land');
+	};
+
 	render() {
 		const { dataSource, dataSourceNum, gmtCreate } = this.state;
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
@@ -56,7 +61,7 @@ export default class Land extends React.Component {
 						text="土地信息"
 						styleName="land-card"
 					>
-						<div className="card-content">
+						<div className="card-content" onClick={this.handleNavigation}>
 							<div className="card-content-role">
 								{
 								newDataSource && newDataSource.map(item => (

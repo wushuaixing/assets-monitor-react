@@ -30,7 +30,6 @@ export default class BusinessRisk extends React.Component {
 		};
 		overviewRisk(params).then((res) => {
 			if (res.code === 200) {
-				console.log(res);
 				const columnarData = [];
 				columnarData.push({ count: res.data.abnormal, typeName: '经营异常' });
 				columnarData.push({ count: res.data.tax, typeName: '税收违法' });
@@ -56,7 +55,6 @@ export default class BusinessRisk extends React.Component {
 
 	render() {
 		const { columnarData, loading, columnarNum } = this.state;
-		console.log(columnarData, columnarData && getCount(columnarData) === 0);
 		return (
 			<div>
 				<Spin visible={loading}>

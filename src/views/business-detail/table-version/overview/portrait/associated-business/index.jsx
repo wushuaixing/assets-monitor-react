@@ -1,10 +1,11 @@
 import React from 'react';
-import { Table } from '@/common';
+import { Spin, Table } from '@/common';
 
 export default class associatedBusiness extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			loading: false,
 			columns: [{
 				title: '业务编号',
 				dataIndex: 'caseNumber',
@@ -39,7 +40,7 @@ export default class associatedBusiness extends React.Component {
 	}
 
 	render() {
-		const { columns } = this.state;
+		const { columns, loading } = this.state;
 		const { dataSource } = this.props;
 		return (
 			<div>
@@ -48,13 +49,17 @@ export default class associatedBusiness extends React.Component {
 					<span className="container-title-name">关联业务列表</span>
 				</div>
 				<div className="overview-container-content" style={{ padding: '0 20px' }}>
-					<Table
-						scroll={dataSource.length > 8 ? { y: 440 } : {}}
-						columns={columns}
-						dataSource={dataSource}
-						pagination={false}
-						className="table"
-					/>
+					{dataSource && dataSource.length > 0 ? (
+						<Spin visible={loading}>
+							<Table
+								scroll={dataSource.length > 8 ? { y: 440 } : {}}
+								columns={columns}
+								dataSource={dataSource}
+								pagination={false}
+								className="table"
+							/>
+						</Spin>
+					) : null}
 				</div>
 			</div>
 		);

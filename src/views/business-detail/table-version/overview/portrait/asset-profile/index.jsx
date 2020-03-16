@@ -14,6 +14,8 @@ export default class AssetProfile extends React.Component {
 		this.state = {};
 	}
 
+
+
 	render() {
 		return (
 			<div>
@@ -23,7 +25,7 @@ export default class AssetProfile extends React.Component {
 				</div>
 				<div className="overview-container-cardContent">
 					{/* 资产拍卖 */}
-					<AssetsCard />
+					<AssetsCard onClick={this.handleNavigation} />
 					{/* 土地信息 */}
 					<LandCard />
 					{/* 无形资产 */}

@@ -8,6 +8,7 @@ import Intangible from './intangible';
 import Stock from './stock';
 import Chattel from './chattel';
 import Bidding from './bidding';
+import { getQueryByName } from '@/utils';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -119,6 +120,10 @@ class Assets extends React.Component {
 	componentDidMount() {
 		const { toPushChild } = this.props;
 		toPushChild(this.toGetSubItems());
+		const eleID = getQueryByName(window.location.href, 'eleID');
+		if (eleID) {
+			this.handleScroll(`${eleID}`);
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -138,6 +143,7 @@ class Assets extends React.Component {
 	handleScroll=(eleID) => {
 		const dom = document.getElementById(eleID);
 		const _height = 168 || document.getElementById('enterprise-intro').clientHeight;
+
 		if (dom) {
 			window.scrollTo(0, document.getElementById(eleID).offsetTop + _height);
 		}

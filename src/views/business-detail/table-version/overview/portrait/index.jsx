@@ -42,7 +42,7 @@ export default class Portrait extends React.Component {
 		// const isbusinessData = Array.isArray(businessData) && businessData.length > 0; // 业务列表
 		// console.log(businessData, isbusinessData);
 		return (
-			<div className="yc-overview-container">
+			<div className="yc-portrait-container">
 				{/* 关联业务 */}
 				<AssociatedBusiness dataSource={businessData} />
 				{/* 资产概况 */}

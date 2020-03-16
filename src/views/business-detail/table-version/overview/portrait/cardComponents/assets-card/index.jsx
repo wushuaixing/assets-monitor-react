@@ -1,12 +1,12 @@
 import React from 'react';
-import './style.scss';
+import { navigate } from '@reach/router';
 import { overviewAuction } from 'api/detail/overview';
 import { getQueryByName } from '@/utils';
-// import Card from
 import { toThousands } from '@/utils/changeTime';
 import Card from '../card';
 import img from '@/assets/img/business/assestCard.png';
 import assetsPrice from '@/assets/img/business/assets_price.png';
+import './style.scss';
 
 export default class RiskInformation extends React.Component {
 	constructor(props) {
@@ -39,6 +39,10 @@ export default class RiskInformation extends React.Component {
 		}).catch(() => {});
 	};
 
+	handleNavigation = () => {
+		navigate('/business/detail/info/102?eleID=e-assets-auction');
+	};
+
 	render() {
 		const { dataSource } = this.state;
 		const roleDistributions = dataSource && Array.isArray((dataSource.roleDistributions)) && dataSource.roleDistributions.length > 0;
@@ -62,7 +66,7 @@ export default class RiskInformation extends React.Component {
 								text="资产拍卖"
 								styleName="assets-card"
 							>
-								<div className="card-content">
+								<div className="card-content" onClick={this.handleNavigation}>
 									<div className="card-content-price">
 										<img className="card-content-left-img" src={assetsPrice} alt="" />
 										<div>相关资产价值约</div>
