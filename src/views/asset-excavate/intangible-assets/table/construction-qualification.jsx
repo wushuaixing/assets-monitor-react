@@ -50,7 +50,7 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>资质类别</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.qualificationTyp || '--'}</span>
+						<span className="list list-content">{row.qualificationType || '--'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>资质等级</span>
