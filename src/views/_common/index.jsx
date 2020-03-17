@@ -78,8 +78,9 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
 		let maxRoleName = '';
 		list.forEach((item) => {
 			const { role } = item;
-			const _site = role.indexOf('（') > -1 ? role.indexOf('（') : '';
-			const _role = _site ? role.slice(0, _site) : role;
+			const _site1 = role.indexOf('（') > -1 ? role.indexOf('（') : '';
+			const _site2 = role.indexOf('(') > -1 ? role.indexOf('(') : '';
+			const _role = (_site1 || _site2) ? role.slice(0, _site1 || _site2) : role;
 			maxRoleName = _role.length > maxRoleName.length ? _role : maxRoleName;
 		});
 		return getByteLength(maxRoleName) * 6;

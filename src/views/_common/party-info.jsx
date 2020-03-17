@@ -76,7 +76,9 @@ export default class PartyInfoDetail extends React.Component {
 			: [<span>收起</span>, <Icon type="up2" style={{ paddingTop: 2 }} />];
 
 		// 收起↓↓
-		const _site = role.indexOf('（') > -1 ? role.indexOf('（') : '';
+		const _site1 = role.indexOf('（') > -1 ? role.indexOf('（') : '';
+		const _site2 = role.indexOf('(') > -1 ? role.indexOf('(') : '';
+		const _site = _site1 || _site2;
 		const roleContent = {
 			role: _site ? role.slice(0, _site) : role,
 			mark: _site ? role.slice(_site) : '',

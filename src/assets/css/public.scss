@@ -87,7 +87,14 @@ body,td,th{font-size:14px;color:#20242e}
   border: 1px solid $text-link;
   color: $text-link;
   margin:0 10px;
+  &__invalid{
+    min-width: 60px;
+    border: 1px solid #dadde6;
+    background-color: #f0f1f5;
+    color: #7d8699;
+  }
 }
+
 
 .yc-table-read {
   background-image: url('../img/icon/icon_reddot.png');

@@ -1,12 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import assetsD from 'api/professional-work/debtor/assets';
-import assetsB from 'api/professional-work/business/assets';
+import { getDynamicAsset } from 'api/dynamic';
 import {
 	Ellipsis, Spin, Table,
 } from '@/common';
-import { getQueryByName, timeStandard, toEmpty } from '@/utils';
-import {getDynamicAsset} from "api/dynamic";
+import { timeStandard, toEmpty } from '@/utils';
 
 
 const certificateTypeStatus = {

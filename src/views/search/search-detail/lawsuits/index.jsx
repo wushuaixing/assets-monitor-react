@@ -13,7 +13,7 @@ import {
 	trialRelationSearchExport, // 立案导出
 	ktggRelationSerachExport, // 开庭导出
 } from '@/utils/api/search';
-import { objectKeyIsEmpty } from '@/utils';
+import { objectKeyIsEmpty, clearEmpty } from '@/utils';
 import { ScrollAnimation } from '@/utils/changeTime';
 import LawsuitsTable from './table';
 import Query from './query';
@@ -125,7 +125,7 @@ class LAWSUITS extends React.Component {
 		});
 		const type = Number(selectType);
 		if (type === 2) {
-			ktggRelationSearch(params).then((res) => {
+			ktggRelationSearch(clearEmpty(params)).then((res) => {
 				// 获取当前高度，动态移动滚动条
 				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
 				ScrollAnimation(currentY, 0);
@@ -143,7 +143,7 @@ class LAWSUITS extends React.Component {
 				this.setState({ loading: false });
 			});
 		} else {
-			trialRelationSearch(params).then((res) => {
+			trialRelationSearch(clearEmpty(params)).then((res) => {
 				if (res && res.data) {
 					// 获取当前高度，动态移动滚动条
 					const currentY = document.documentElement.scrollTop || document.body.scrollTop;
@@ -201,8 +201,8 @@ class LAWSUITS extends React.Component {
 			Params, type, Sort, dataList, pageSize, page,
 		} = this.state;
 		const params = {
-			field: 'gmtRegister',
-			order: Sort === 'DESC' ? 'ASC' : 'DESC',
+			sortColumn: 'gmtRegister',
+			sortOrder: Sort === 'DESC' ? 'ASC' : 'DESC',
 			...Params,
 			page,
 			num: pageSize,
