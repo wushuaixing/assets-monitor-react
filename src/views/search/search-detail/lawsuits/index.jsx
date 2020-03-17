@@ -201,7 +201,7 @@ class LAWSUITS extends React.Component {
 			Params, type, Sort, dataList, pageSize, page,
 		} = this.state;
 		const params = {
-			field: 'LARQ',
+			field: 'gmtRegister',
 			order: Sort === 'DESC' ? 'ASC' : 'DESC',
 			...Params,
 			page,
