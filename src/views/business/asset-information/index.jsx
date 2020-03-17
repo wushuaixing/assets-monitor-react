@@ -32,7 +32,7 @@ class AssetInformation extends React.Component {
 					<Input title="资产信息" style={_style1} size="large" placeholder="资产基本信息" />
 				</div>
 				<div className="yc-query-item">
-					<Input title="机构名称" style={_style1} size="large" placeholder="机构名称" />
+					<Input title="负责人/机构" style={_style1} size="large" placeholder="负责人/机构" />
 				</div>
 				<div className="yc-query-item">
 					<Input title="债务人" style={_style1} size="large" placeholder="姓名/公司名称" />

@@ -284,7 +284,7 @@ class DebtorDetail extends React.Component {
 								</div>
 							</div>
 							<div className="yc-form-group">
-								<div className="yc-basic-msg-title">机构名称:</div>
+								<div className="yc-basic-msg-title">负责人/机构:</div>
 								<div className="yc-basic-msg-inner">
 									{detail && detail.orgName.length > 0 ? detail.orgName : '-'}
 								</div>
@@ -318,7 +318,7 @@ class DebtorDetail extends React.Component {
 								/>
 							</div>
 							<div className="yc-from-container">
-								<span className="yc-from-lable1">机构名称:</span>
+								<span className="yc-from-lable1">负责人/机构:</span>
 								<Input
 									onInput={this.isEdit}
 									{...getFieldProps('orgName', {

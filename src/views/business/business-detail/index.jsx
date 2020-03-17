@@ -342,7 +342,7 @@ class DebtorDetail extends React.Component {
 								/>
 							</div>
 							<div className="yc-from-container">
-								<span className="yc-from-lable1">机构名称:</span>
+								<span className="yc-from-lable1">负责人/机构:</span>
 								<Input
 									onInput={this.isEdit}
 									{...getFieldProps('orgName', {
