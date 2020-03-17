@@ -70,10 +70,10 @@ class QUERYLAWSUITS extends React.Component {
 		const Params = {
 			defendantList: fildesDefendantArray || defendantArray,
 			plaintiffList: fildesiffArray || plaintiffArray,
-			caseNumber: urlObj.ah || undefined,
-			court: urlObj.court || undefined,
-			endGmtRegister: urlObj.endLarq || undefined,
-			startGmtRegister: urlObj.startLarq || undefined,
+			caseNumber: urlObj.ah || fildes.ah || undefined,
+			court: urlObj.court || fildes.court || undefined,
+			endGmtRegister: urlObj.endLarq || fildes.endLarq || undefined,
+			startGmtRegister: urlObj.startLarq || fildes.startLarq || undefined,
 			page: 1,
 			num: pageSize,
 			Sort: undefined,
@@ -89,6 +89,7 @@ class QUERYLAWSUITS extends React.Component {
 			queryReset();
 			// message.error('请至少输入一个搜索条件');
 		}
+		console.log('Params:', Params);
 		getQueryData(Params);
 	};
 
