@@ -53,43 +53,48 @@ class QUERYLAWSUITS extends React.Component {
 		const urlObj = parseQuery(hash);
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-		const fildes = getFieldsValue();
+		const fields = getFieldsValue();
 
-		fildes.type = type;
-		fildes.plaintiff0 = plaintiff[0] ? plaintiff[0].name : undefined;
-		fildes.plaintiff1 = plaintiff[1] ? plaintiff[1].name : undefined;
-		fildes.plaintiff2 = plaintiff[2] ? plaintiff[2].name : undefined;
-		fildes.defendant0 = defendant[0] ? defendant[0].name : undefined;
-		fildes.defendant1 = defendant[1] ? defendant[1].name : undefined;
-		fildes.defendant2 = defendant[2] ? defendant[2].name : undefined;
+		fields.type = type;
+
+		fields.plaintiff0 = plaintiff[0] ? plaintiff[0].name : undefined;
+		fields.plaintiff1 = plaintiff[1] ? plaintiff[1].name : undefined;
+		fields.plaintiff2 = plaintiff[2] ? plaintiff[2].name : undefined;
+		fields.defendant0 = defendant[0] ? defendant[0].name : undefined;
+		fields.defendant1 = defendant[1] ? defendant[1].name : undefined;
+		fields.defendant2 = defendant[2] ? defendant[2].name : undefined;
 
 		const defendantArray = ([urlObj.defendant0 || undefined, urlObj.defendant1 || undefined, urlObj.defendant2 || undefined]);
 		const plaintiffArray = ([urlObj.plaintiff0 || undefined, urlObj.plaintiff1 || undefined, urlObj.plaintiff2 || undefined]);
-		const fildesDefendantArray = ([fildes.defendant0 || undefined, fildes.defendant1 || undefined, fildes.defendant2 || undefined]);
-		const fildesiffArray = ([fildes.plaintiff0 || undefined, fildes.plaintiff1 || undefined, fildes.plaintiff2 || undefined]);
-		const Params = {
-			defendantList: fildesDefendantArray || defendantArray,
-			plaintiffList: fildesiffArray || plaintiffArray,
-			caseNumber: urlObj.ah || undefined,
-			court: urlObj.court || undefined,
-			endGmtRegister: urlObj.endLarq || undefined,
-			startGmtRegister: urlObj.startLarq || undefined,
+		const fieldsDefendantArray = ([fields.defendant0 || undefined, fields.defendant1 || undefined, fields.defendant2 || undefined]);
+		const fieldsiffArray = ([fields.plaintiff0 || undefined, fields.plaintiff1 || undefined, fields.plaintiff2 || undefined]);
+
+		const queryParams = {
+			defendantList: fieldsDefendantArray || defendantArray,
+			plaintiffList: fieldsiffArray || plaintiffArray,
+			caseNumber: fields.ah,
+			court: fields.court,
+			startGmtRegister: fields.startLarq,
+			endGmtRegister: fields.endLarq,
 			page: 1,
 			num: pageSize,
-			Sort: undefined,
-			...fildes,
 		};
+
+
+		console.log(fields);
+
+		console.log('queryParams:', queryParams);
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fildes)) {
+		if (!objectKeyIsEmpty(fields)) {
 			// 将值传到URL
-			navigate(generateUrlWithParams('/search/detail/lawsuits', fildes));
-			getData(Params, type); // 进入页面请求数据
-			getCount(Params);
+			navigate(generateUrlWithParams('/search/detail/lawsuits', fields));
+			getData(queryParams, type); // 进入页面请求数据
+			getCount(queryParams);
 		} else {
 			queryReset();
 			// message.error('请至少输入一个搜索条件');
 		}
-		getQueryData(Params);
+		getQueryData(queryParams);
 	};
 
 	// 重置输入框

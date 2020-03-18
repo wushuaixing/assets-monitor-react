@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, timeStandard } from '@/utils';
-import { Table, SelectedNum } from '@/common';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Construction } from '@/utils/api/monitor-info/intangible';
 
 // 获取表格配置
@@ -15,7 +15,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="gmtPublishTime" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+				: <SortVessel field="ISSUE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'issueTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
@@ -32,20 +32,22 @@ const columns = (props) => {
 				<div className="assets-info-content">
 					<li>
 						<span className="list list-content">{text || '--'}</span>
-						{ row.gmtDeleted ? <span className="yc-case-reason text-ellipsis">已过期</span> : ''}
+						{ row.gmtDeleted ? <span className="yc-case-reason text-ellipsis yc-case-reason__invalid">已过期</span> : ''}
 					</li>
 				</div>
 			),
 		}, {
 			title: '资质信息',
-			width: 270,
+			width: 400,
 			dataIndex: 'qualificationName',
 			render: (text, row) => (
 				<div className="assets-info-content">
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>资质名称</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{text || '--'}</span>
+						<span className="list list-content">
+							<Ellipsis content={row.qualificationName || '-'} tooltip width={380} />
+						</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>资质类别</span>

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import assetsD from 'api/professional-work/debtor/assets';
-import assetsB from 'api/professional-work/business/assets';
 import { getDynamicAsset } from 'api/dynamic';
-import { getQueryByName, timeStandard, toEmpty } from '@/utils';
+import { timeStandard, toEmpty } from '@/utils';
 import {
 	Ellipsis, Spin, Table,
 } from '@/common';

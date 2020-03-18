@@ -20,7 +20,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>公告日期</span>
-				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>公告日期</SortVessel>),
+				: <SortVessel field="NOTICE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>公告日期</SortVessel>),
 			dataIndex: 'noticeTime',
 			width: 113,
 			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
