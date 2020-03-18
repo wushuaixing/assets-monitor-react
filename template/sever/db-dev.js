@@ -1,8 +1,8 @@
- "use strict";
+"use strict";
 
 var fs = require('fs');
 
-var dataSource = JSON.stringify(require('./data-ob'));
+var dataSource = JSON.stringify(require('./data2'));
 
 const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(size, file).toString('base64');
 
@@ -75,9 +75,7 @@ function exportTemplate(source, exportType) {
 			11: "撤回",
 		}
 	};
-
-	// public function object
-	var f = {
+	var f = {	// public function object
 		format: function (date, formatStr, isSelf) {
 			var _this = "";
 			if (date === 0) _this = new Date(null);
@@ -156,32 +154,32 @@ function exportTemplate(source, exportType) {
 			return arr1.join('') + (unit||'');
 		},
 		handleParties:function (data) {
-				if(!data) return '--';
-				var source = [];
-				data.forEach(function (i) {
-					if (source.length === 0) {
+			if(!data) return '--';
+			var source = [];
+			data.forEach(function (i) {
+				if (source.length === 0) {
+					source.push({
+						index: source.length,
+						role: i.role,
+						child: [i]
+					});
+				} else {
+					var _result = source.filter(function (item) {
+						return item.role === i.role;
+					})[0];
+					if (_result) {
+						source[_result.index].child.push(i);
+					} else {
 						source.push({
 							index: source.length,
 							role: i.role,
 							child: [i]
 						});
-					} else {
-						var _result = source.filter(function (item) {
-							return item.role === i.role;
-						})[0];
-						if (_result) {
-							source[_result.index].child.push(i);
-						} else {
-							source.push({
-								index: source.length,
-								role: i.role,
-								child: [i]
-							});
-						}
 					}
-				});
-				return source;
-			},
+				}
+			});
+			return source;
+		},
 		disStatus: function (value) {
 			var dishonestStatus = '';
 			if (value === 1) dishonestStatus = "<span class=\"img-icon-size-dishonest img-icon-dishonest icon-dishonest\"></span>";
@@ -223,7 +221,7 @@ function exportTemplate(source, exportType) {
 		}
 		return res;
 	};
-	var taxParties = function (data)  {
+	var taxParties = function (data) {
 		var res = {
 			length: (data || []).length,
 			fill: "",

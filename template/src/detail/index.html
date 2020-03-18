@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<style>
+		___style___
+	</style>
+	<meta charset="UTF-8">
+	<title>详情页内容</title>
+</head>
+<body>
+
+<div style="display: none">
+	<div class="t1 b-b">Demo 样式</div>
+	<div class="content">
+		<div class="title b-b">
+			<div class="t2 f-b">资产拍卖（智能精准匹配 {asset.total}）</div>
+			<div class="content">
+				<li><i></i><u>标签体</u>色撒旦飞 <span class="tag">测试标签</span><span class="tag case-tag">测试标签</span></li>
+				<table class="table-border">
+					<tr>
+						<td><u>标签体</u>色撒旦飞</td>
+						<td><u>标签体</u>色撒旦飞</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
+<div class="{overview.1001.display}">
+	<div class="t1 b-b">概览</div>
+	<div class="wrapper">
+
+	</div>
+</div>
+
+<div class="{overview.1001.display}">
+	<div class="t1 b-b">资产</div>
+	<div class="wrapper">
+		<!-- 资产拍卖类目 -->
+		<div class="{asset.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">资产拍卖 {asset.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table class="vertical-align-top">
+					<!-- 资产拍卖列表 -->
+					{asset.list}
+				</table>
+			</div>
+		</div>
+
+		<!-- 代位权【立案】类目 -->
+		<div class="{subrogation.trial.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">代位权_立案信息 {subrogation.trial.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{subrogation.trial.list}
+				</table>
+			</div>
+		</div>
+
+		<!-- 代位权【开庭】类目 -->
+		<div class="{subrogation.court.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">代位权_开庭公告 {subrogation.court.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{subrogation.court.list}
+				</table>
+			</div>
+		</div>
+
+		<!-- 代位权【涉诉文书】类目 -->
+		<div class="{subrogation.judgment.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">代位权_裁判文书 {subrogation.judgment.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{subrogation.judgment.list}
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="{overview.1001.display} template">
+	<div class="t1 b-b">风险</div>
+	<div class="wrapper">
+
+		<!-- 涉诉【开庭】类目 -->
+		<div class="{lawsuit.court.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">涉诉监控_开庭公告 {lawsuit.court.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{lawsuit.court.list}
+				</table>
+			</div>
+		</div>
+
+		<!-- 涉诉【涉诉文书】类目 -->
+		<div class="{lawsuit.judgment.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">涉诉监控_裁判文书 {lawsuit.judgment.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{lawsuit.judgment.list}
+				</table>
+			</div>
+		</div>
+
+		<!-- 涉诉【立案】类目 -->
+		<div class="{lawsuit.trial.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">涉诉监控_立案信息 {lawsuit.trial.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{lawsuit.trial.list}
+				</table>
+			</div>
+		</div>
+
+		<!-- 环保处罚 -->
+		<div class="{epb.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">环保处罚 {epb.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{epb.list}
+				</table>
+			</div>
+		</div>
+
+		<!-- 企业破产重组 类目 -->
+		<div class="{bankrupt.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">企业破产重组 {bankrupt.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{bankrupt.list}
+				</table>
+			</div>
+		</div>
+
+		<!-- 招标中标 类目 -->
+		<div class="{bidding.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">招标中标 {bidding.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{bidding.list}
+				</table>
+			</div>
+		</div>
+
+		<!-- 重大税收违法 】类目 -->
+		<div class="{tax.display}">
+			<!-- 类目标题 -->
+			<div class="title">
+				<div class="t2">重大税收违法 {tax.total}</div>
+			</div>
+			<!-- 类目表格 -->
+			<div class="content">
+				<table>
+					{tax.list}
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="{overview.1001.display}">
+	<div class="t1 b-b">工商基本详情</div>
+	<div class="wrapper">
+
+	</div>
+</div>
+
+</body>
+</html>
