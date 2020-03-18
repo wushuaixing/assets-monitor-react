@@ -279,6 +279,7 @@ class BANKRUPTCY extends React.Component {
 							title="企业"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							placeholder="企业债务人名称"
 							{...getFieldProps('brcompanyname', {
 								initialValue: params.brcompanyname,
@@ -291,6 +292,7 @@ class BANKRUPTCY extends React.Component {
 							title="案号/标题"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							placeholder="破产案号/公告标题"
 							{...getFieldProps('title', {
 								initialValue: params.title,
@@ -303,6 +305,7 @@ class BANKRUPTCY extends React.Component {
 							title="受理法院"
 							style={_style1}
 							size="large"
+							maxLength="20"
 							placeholder="案件受理法院名称"
 							{...getFieldProps('court', {
 								initialValue: params.court,

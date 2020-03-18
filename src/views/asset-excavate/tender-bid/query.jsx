@@ -6,7 +6,7 @@ import {
 
 class QueryCondition extends React.Component {
 	constructor(props) {
-		super(props); 1;
+		super(props);
 		this.state = {};
 	}
 
@@ -57,10 +57,10 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="相关单位" style={_style1} size="large" placeholder="单位名称" {...getFieldProps('obName')} />
+					<Input title="相关单位" style={_style1} size="large" maxLength="40" placeholder="单位名称" {...getFieldProps('obName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="标题" style={_style1} size="large" placeholder="标题信息" {...getFieldProps('title')} />
+					<Input title="标题" style={_style1} size="large" maxLength="40" placeholder="标题信息" {...getFieldProps('title')} />
 				</div>
 
 				<div className="yc-query-item">

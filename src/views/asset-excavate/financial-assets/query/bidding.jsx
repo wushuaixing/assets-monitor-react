@@ -71,13 +71,14 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="姓名/公司名称" {...getFieldProps('obligorName')} />
+					<Input title="债务人" style={_style1} size="large" maxLength="40" placeholder="姓名/公司名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
 					<Input
 						title="证件号"
 						style={_style1}
 						size="large"
+						maxLength="18"
 						placeholder="身份证号/统一社会信用代码"
 						{...getFieldProps('obligorNumber')}
 					/>
@@ -101,7 +102,7 @@ class QueryCondition extends React.Component {
 				<br />
 				<div className={`${moreOption ? '' : 'displayNoneImportant'}`}>
 					<div className="yc-query-item">
-						<Input title="机构名称" style={_style1} size="large" placeholder="机构名称" {...getFieldProps('orgName')} />
+						<Input title="机构名称" style={_style1} size="large" maxLength="40" placeholder="机构名称" {...getFieldProps('orgName')} />
 					</div>
 					<div className="yc-query-item">
 						<InputPrice
@@ -109,6 +110,7 @@ class QueryCondition extends React.Component {
 							style={_style1}
 							size="large"
 							suffix="万元"
+							maxLength="10"
 							inputFirstProps={getFieldProps('consultPriceStart', {
 								validateTrigger: 'onBlur',
 								getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
@@ -164,10 +166,10 @@ class QueryCondition extends React.Component {
 						/>
 					</div>
 					<div className="yc-query-item">
-						<Input title="信息标题" style={_style1} size="large" placeholder="拍卖信息标题" {...getFieldProps('title')} />
+						<Input title="信息标题" style={_style1} size="large" maxLength="40" placeholder="拍卖信息标题" {...getFieldProps('title')} />
 					</div>
 					<div className="yc-query-item" style={{ marginRight: 0 }}>
-						<Input title="处置机关" style={_style1} size="large" placeholder="处置法院/单位" {...getFieldProps('court')} />
+						<Input title="处置机关" style={_style1} size="large" maxLength="20" placeholder="处置法院/单位" {...getFieldProps('court')} />
 					</div>
 				</div>
 

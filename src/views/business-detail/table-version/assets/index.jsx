@@ -15,7 +15,15 @@ const toGetTotal = (field, data) => {
 	const reg = new RegExp(field);
 	data.forEach((item) => {
 		if (reg.test(item.id)) {
-			count += item.field ? item.data[item.field] : item.data;
+			const isObj = item.data instanceof Object;
+			const isNum = typeof item.data === 'number';
+			if (isObj) {
+				count += item.field ? item.data[item.field] : item.data;
+			} else if (isNum) {
+				count += item.data;
+			} else {
+				count = 0;
+			}
 		}
 	});
 	return count;

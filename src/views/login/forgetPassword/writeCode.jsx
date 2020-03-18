@@ -120,6 +120,7 @@ openModal = () => {
 								<Input
 									className="yc-login-input"
 									placeholder="请输入短信验证码"
+									maxlength={4}
 									{...getFieldProps('phoneCode', {
 										validateTrigger: 'onBlur',
 										// rules: [

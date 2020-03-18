@@ -218,6 +218,7 @@ export default class BasicTable extends React.Component {
 					placeholder="姓名/手机号"
 					onSearch={(val) => { this.search(val); }}
 					onKeyUp={this.onKeyup}
+					maxLength="20"
 					getTableData={this.getTableData}
 					keyword={keyword}
 					role={role}

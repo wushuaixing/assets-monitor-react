@@ -94,6 +94,7 @@ class WRIT extends React.Component {
 					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
 							title="案号"
+							maxLength="40"
 							placeholder="案件编号"
 							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
 						/>
@@ -101,6 +102,7 @@ class WRIT extends React.Component {
 					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
 							title="案由"
+							maxLength="40"
 							placeholder="案件内容提要"
 							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
 						/>
@@ -108,6 +110,7 @@ class WRIT extends React.Component {
 					<div className="item" style={{ width: 259 }}>
 						<Input
 							title="起诉法院"
+							maxLength="20"
 							placeholder="法院名称"
 							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
 						/>

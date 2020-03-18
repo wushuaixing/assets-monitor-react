@@ -2,9 +2,11 @@
   display: inline-block;
   font-size: 0;
   position: relative;
+  z-index: 10;
 
   .yc-label-tag-content {
     //width: 140px;
+    margin-left: -1px;
     display: inline-block;
     font-size: 12px;
     height: 24px;
@@ -19,7 +21,7 @@
   display: inline-block;
   font-size: 0;
   position: relative;
-
+  z-index: 1;
   &:hover {
     .yc-label-tag-content {
       cursor: pointer;
@@ -30,6 +32,7 @@
   }
   .yc-label-tag-content {
     //width: 140px;
+    margin-left: -1px;
     display: inline-block;
     font-size: 12px;
     height: 24px;
@@ -62,6 +65,7 @@
   display: inline-block;
   position: relative;
   .yc-label-tag-content {
+    margin-left: -1px;
     cursor: not-allowed;
     display: inline-block;
     font-size: 12px;

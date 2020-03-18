@@ -370,6 +370,7 @@ class AUCTION extends React.Component {
 						title="债务人"
 						style={_style1}
 						size="large"
+						maxLength="40"
 						placeholder="姓名/公司名称"
 						{...getFieldProps('name', {
 							initialValue: params.name,
@@ -380,6 +381,7 @@ class AUCTION extends React.Component {
 				<div className="yc-query-item">
 					<Input
 						title="证件号"
+						maxLength="18"
 						style={_style1}
 						size="large"
 						placeholder="身份证号/统一社会信用代码"
@@ -392,6 +394,7 @@ class AUCTION extends React.Component {
 				<div className="yc-query-item">
 					<Input
 						title="产权证"
+						maxLength="40"
 						style={_style1}
 						size="large"
 						placeholder="房产证/土地证号"
@@ -405,6 +408,7 @@ class AUCTION extends React.Component {
 					<InputPrice
 						title="评估价"
 						style={_style1}
+						maxLength="10"
 						size="large"
 						suffix="万元"
 						inputFirstProps={getFieldProps('lowestConsultPrice', {
@@ -428,6 +432,7 @@ class AUCTION extends React.Component {
 				<div className="yc-query-item">
 					<Input
 						title="处置机关"
+						maxLength="20"
 						style={_style1}
 						size="large"
 						placeholder="处置法院/单位"

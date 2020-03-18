@@ -1,9 +1,8 @@
 import React from 'react';
+// import { Button } from 'antd';
 import Portrait from './portrait';
 import Visualize from './visualize';
 import { Button } from '@/common';
-
-const ButtonGroup = Button.Group;
 
 const subItems = [
 	{
@@ -46,17 +45,17 @@ export default class Overview extends React.Component {
 		const { active } = this.state;
 		return (
 			<div className="yc-intro-sub-items">
-				<ButtonGroup>
-					{ subItems.map(item => (
-						<Button
-							className="yc-intro-btn-items"
-							active={item.id === active}
-							onClick={() => this.toChangeItemType(item)}
-						>
-							{item.name}
-						</Button>
-					))}
-				</ButtonGroup>
+				{ subItems.map(item => (
+					<Button
+						className="yc-intro-btn-items"
+							// type={item.id === active ? 'primary' : 'ghost'}
+						active={item.id === active}
+						onClick={() => this.toChangeItemType(item)}
+						style={item.id === active ? { zIndex: '1' } : { }}
+					>
+						{item.name}
+					</Button>
+				))}
 			</div>
 		);
 	};

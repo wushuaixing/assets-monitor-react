@@ -326,7 +326,7 @@ class Login extends React.Component {
 						className="yc-group-input"
 						placeholder="请输入机构名称"
 						autoComplete="off"
-						maxLength="16"
+						maxLength="20"
 						// type="input"
 						onInput={e => this.ycInputValue(e)}
 						// oninput={e => this.inputValue(e)}

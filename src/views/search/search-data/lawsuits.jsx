@@ -7,7 +7,6 @@ import { Input, timeRule, DatePicker } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
-import checkoutIcon from '@/assets/img/icon/icon_checked.png';
 import './style.scss';
 
 const createForm = Form.create;
@@ -207,7 +206,7 @@ class LAWSUITS extends React.Component {
 
 	render() {
 		const {
-			plaintiff, defendant, checkedType,
+			plaintiff, defendant,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -226,6 +225,7 @@ class LAWSUITS extends React.Component {
 								value={item.name}
 								placeholder="姓名/公司名称"
 								onChange={e => this.handlePlaintiff(e, item.id)}
+								maxLength="40"
 							/>
 							{plaintiff.length > 1 ? (
 								<Tooltip placement="top" title="删除">
@@ -262,6 +262,7 @@ class LAWSUITS extends React.Component {
 							<Input
 								key={item.id}
 								title="被告"
+								maxLength="40"
 								value={item.name}
 								placeholder="姓名/公司名称"
 								onChange={e => this.handleDefendant(e, item.id)}
@@ -300,12 +301,14 @@ class LAWSUITS extends React.Component {
 						<Input
 							title="起诉法院"
 							placeholder="法院名称"
+							maxLength="20"
 							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
 					<div className="item" style={{ 'margin-right': 16 }}>
 						<Input
 							title="案号"
+							maxLength="40"
 							placeholder="案件编号"
 							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
 						/>
@@ -347,7 +350,7 @@ class LAWSUITS extends React.Component {
 						/>
 					</div>
 				</div>
-				{/*<div className="others">
+				{/* <div className="others">
 					<span>信息类型：</span>
 					<span>
 						<Button
@@ -360,7 +363,6 @@ class LAWSUITS extends React.Component {
 							{checkedType === 1 ? <img src={checkoutIcon} alt="" /> : ''}
 							立案信息
 						</Button>
-
 					</span>
 					<Button
 						size="large"
@@ -371,7 +373,7 @@ class LAWSUITS extends React.Component {
 						{checkedType === 2 ? <img src={checkoutIcon} alt="" /> : ''}
 						开庭公告
 					</Button>
-				</div>*/}
+				</div> */}
 				<div className="btn">
 					<Button
 						type="primary"
