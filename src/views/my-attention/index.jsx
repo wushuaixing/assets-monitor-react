@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs } from '@/common';
+import { Tabs, Spin } from '@/common';
 import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import {
 	subrogationCount, financeCount, landCount, lawsuitCount, operationCount,
@@ -20,6 +20,7 @@ export default class MyAttention extends React.Component {
 			sourceType: 1,
 			childType: 1,
 			source: '',
+			loading: false,
 		};
 	}
 
@@ -164,12 +165,17 @@ export default class MyAttention extends React.Component {
 			childType: val.id,
 		});
 		this.toGetTotal(sourceType, source);
+		this.setState({
+			loading: true,
+		}, () => {
+			this.setState({ loading: false });
+		});
 		window.location.href = changeURLArg(window.location.href, 'type', val.id);
 	};
 
 	render() {
 		const {
-			config, sourceType, source, childType, initConfig,
+			config, sourceType, source, childType, initConfig, loading,
 		} = this.state;
 		const content = {
 			source,
@@ -188,7 +194,7 @@ export default class MyAttention extends React.Component {
 				/>
 				<div className="yc-monitor-attention-content">
 					<Tabs.Simple onChange={this.onSourceType} source={config} field="process" />
-					<Item {...content} mark="子模块展示内容" />
+					{ loading ? <Spin visible /> : <Item {...content} mark="子模块展示内容" /> }
 				</div>
 
 			</div>
