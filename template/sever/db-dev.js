@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 
-var dataSource = JSON.stringify(require('./data2'));
+var dataSource = JSON.stringify(require('./data-db'));
 
 const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(size, file).toString('base64');
 
@@ -12,44 +12,104 @@ const disIconData = toBase64(fs.readFileSync('./template/img/icon_shixin.png'), 
 const disEdIconData = toBase64(fs.readFileSync('./template/img/icon_dishonest_ed.png'), 4 * 1024);
 const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.png'), 3 * 1024);
 
-let htmlResultStr = fs.readFileSync('./template/src/content/debtor.html', 'utf8');
+let htmlResultStr = fs.readFileSync('./template/src/detail/index.html', 'utf8');
 let htmlCoverStr = fs.readFileSync('./template/src/content/cover.html', 'utf8');
+let cssResult = fs.readFileSync('./template/src/detail/index.css', 'utf8');
 
-const cssResult = fs.readFileSync('./template/src/content/index.css', 'utf8');
 let htmlResult = htmlResultStr.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g, `<style>${cssResult}</style>`);
-htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
-htmlResult = htmlResult.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
+htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`).replace(/\/usr\/share\/fonts\/zh_CN/g, "./fonts");
 
 let htmlCover = htmlCoverStr.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
-htmlCover = htmlCover.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
-
+htmlCover = htmlCover.replace(/\/usr\/share\/fonts\/zh_CN/g, "./fonts");
 
 /* 导出画像模板-封面 */
-function exportCover(source,exportType) {
-	var d = JSON.parse(source)||{};
+function exportCover(source, exportType) {
+	var d = JSON.parse(source) || {};
 	var type = exportType || false; // default business(false); debtor(true)
-	htmlCover=htmlCover.replace("../../img/watermark.png",bgImgData);
-	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
+	htmlCover = htmlCover.replace("../../img/watermark.png", bgImgData);
+	var dataTime = new Date().getFullYear() + '年' + (new Date().getMonth() + 1) + "月" + new Date().getDate() + "日";
 	htmlCover = htmlCover.replace(/{base.queryTime}/g, dataTime);
 	var data = (type ? d.BA01 : d.BB01);
 	var obj = (data.detail) || {};
-	var userInfo='';
-	if(type){
+	var userInfo = '';
+	if (type) {
 		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
 		userInfo = ("<div class='name'>" + obj.obligorName + (obj.obligorNumber ? ("(" + obj.obligorNumber + ")") : "") + "</div>");
-	}else{
+	} else {
 		htmlCover = htmlCover.replace(/{base.title}/, "业务详情");
 		userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + obj.caseNumber + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
 	}
-	htmlCover = htmlCover.replace(/{base.userInfo}/,userInfo);
+	htmlCover = htmlCover.replace(/{base.userInfo}/, userInfo);
 	return htmlCover;
 }
+
 /* 导出画像模板-内容 */
-function exportTemplate(source, exportType) {
-	var d = JSON.parse(source);
-	var type = exportType || false; // default business(false); debtor(true)
-	var field = type ? "BA" : "BB";
-	var s = { // public enumeration object
+function exportTemplate(source, exportType, name) {
+	var dd = {
+		overview: {
+			name: '概览',
+			about: '{overview.content}',
+			child: []
+		},
+		assets: {
+			name: '资产',
+			about: '{assets.content}',
+			child: [
+				{id: 'A10101', title: '资产拍卖_精准匹配', status: 'bep'},
+				{id: 'A10102', title: '资产拍卖_模糊匹配', status: 'bep'},
+				{id: 'A10401', title: '无形资产_排污权', status: 'be'},
+				{id: 'A10402', title: '无形资产_矿业权', status: 'be'},
+				{id: 'A10403', title: '无形资产_商标专利', status: 'be'},
+				{id: 'A10404', title: '无形资产_建筑建造资质', status: 'be'},
+				{id: 'A10301', title: '土地信息_出让结果', status: 'be'},
+				{id: 'A10302', title: '土地信息_土地转让', status: 'be'},
+				{id: 'A10303', title: '土地信息_土地抵押', status: 'be'},
+				{id: 'A10201', title: '代位权_立案', status: 'bep'},
+				{id: 'A10202', title: '代位权_开庭', status: 'bep'},
+				{id: 'A10203', title: '代位权_裁判文书', status: 'bep'},
+				{id: 'A10501', title: '股权质押_股权出质', status: 'be'},
+				{id: 'A10502', title: '股权质押_股权质权', status: 'be'},
+				{id: 'A10601', title: '动产抵押_抵押', status: 'be'},
+				{id: 'A10602', title: '动产抵押_抵押权', status: 'be'},
+				{id: 'A10701', title: '招投标', status: 'be'},
+			]
+		},
+		risk: {
+			name: '风险',
+			about: '{risk.content}',
+			child: [
+				{id: 'R30201', title: '破产重组', status: 'be'},
+				{id: 'R20603', title: '涉诉文书', status: 'p'},
+				// {id: 'R20401', title: '失信记录',desc: '列入', status: 'bep'},
+				// {id: 'R20402', title: '失信记录',desc: '已移除',status: 'bep'},
+				// {id: 'R20502', title: '限高记录', status: 'bep'},
+				{id: 'R20601', title: '涉诉信息_立案', status: 'be'},
+				{id: 'R20602', title: '涉诉信息_开庭', status: 'be'},
+				{id: 'R20603', title: '涉诉信息_裁判文书', status: 'be'},
+				{id: 'R30301', title: '经营异常', status: 'be'},
+				{id: 'R30401', title: '严重违法', status: 'be'},
+				{id: 'R30501', title: '税收违法', status: 'bep'},
+				{id: 'R30601', title: '行政处罚', status: 'be'},
+				{id: 'R30701', title: '环保处罚', status: 'be'},
+			]
+		},
+		info: {
+			name: '工商基本详情',
+			about: '{info.content}',
+			child: [
+				{id: 'I50101', title: '基本信息', status: 'e', show: true, className: 'table-baseInfo'},
+				{id: 'I50201', title: '主要人员', status: 'e'},
+				{id: 'I50301', title: '股东信息', status: 'e'},
+				{id: 'I50501', title: '分支机构', status: 'e'},
+				{id: 'I50601', title: '对外投资', status: 'e'},
+				{id: 'I50701', title: '工商变更', status: 'e', className: 'page-break-style'},
+			]
+		},
+	};
+	var _dataSource = JSON.parse(source);
+	var field = "BB";
+	// public enumeration object
+	var s = {
 		identity: {
 			0: "未知",
 			1: "纳税人",
@@ -58,15 +118,15 @@ function exportTemplate(source, exportType) {
 			9: "其他"
 		},
 		// 案件类型 1：普通 2：破产 3：执行 4：终本
-		caseType:{
-			1:"普通案件",
-			2:"破产案件",
-			3:"执行案件",
-			4:"终本案件",
-			99:"执恢案件"
+		caseType: {
+			1: "普通案件",
+			2: "破产案件",
+			3: "执行案件",
+			4: "终本案件",
+			99: "执恢案件"
 		},
 		// （1-即将开始、3-正在进行、5-已成交、7-已流拍、9-中止、11-撤回）
-		auction:{
+		auction: {
 			1: "即将开始",
 			3: "正在进行",
 			5: "已成交",
@@ -75,7 +135,8 @@ function exportTemplate(source, exportType) {
 			11: "撤回",
 		}
 	};
-	var f = {	// public function object
+	// public function object
+	var f = {
 		format: function (date, formatStr, isSelf) {
 			var _this = "";
 			if (date === 0) _this = new Date(null);
@@ -120,15 +181,15 @@ function exportTemplate(source, exportType) {
 				(desc ? ("<span class=\"n-title " + (width ? "po" : "") + "\">" + (desc + _colon) + "</span>") : '') +
 				"<span class=\"n-desc\" " + (width ? ("style='margin-left:" + width + "px';") : "") + ">" + text + "</span></div></li>";
 		},
-		infoList: function (source,width) {
+		infoList: function (source, width) {
 			var res = '';
 			source.forEach(function (i) {
-				res += f.textDesc(i.t, i.d,i.colon, i.width || width)
+				res += f.textDesc(i.t, i.d, i.colon, i.width || width)
 			});
 			return res;
 		},
-		floatFormat: function (item,unit,include,defaultWord) {
-			if(include && !item ) return (defaultWord||'-');
+		floatFormat: function (item, unit, include, defaultWord) {
+			if (include && !item) return (defaultWord || '-');
 			else if (!item && item !== 0) return (defaultWord || '-');
 			var type = parseFloat(item);
 			if (isNaN(type)) return item;
@@ -151,10 +212,10 @@ function exportTemplate(source, exportType) {
 				arr1.push('.');
 				arr1.push(pointer);
 			}
-			return arr1.join('') + (unit||'');
+			return arr1.join('') + (unit || '');
 		},
-		handleParties:function (data) {
-			if(!data) return '--';
+		handleParties: function (data) {
+			if (!data) return '--';
 			var source = [];
 			data.forEach(function (i) {
 				if (source.length === 0) {
@@ -190,23 +251,24 @@ function exportTemplate(source, exportType) {
 	var w = function (value, defaultWord) {
 		return value ? value : (defaultWord || '-');
 	};
-	var parties =function (data) {
+
+	var parties = function (data) {
 		var res = {
 			length: (data || []).length,
 			fill: "",
 			appendDom: "",
 		};
-		if(res.length){
+		if (res.length) {
 			var result = f.handleParties(data);
-			res.length=result.length;
+			res.length = result.length;
 			result.forEach(function (i, index) {
-				var childStr =[];
+				var childStr = [];
 				i.child.forEach(function (item) {
 					if (item.birthday || item.gender) {
 						var result = [];
 						if (item.gender === 1) result.push('男');
 						if (item.gender === 2) result.push('女');
-						if (item.birthday) result.push((typeof item.birthday=== "number"?f.format(item.birthday):item.birthday));
+						if (item.birthday) result.push((typeof item.birthday === "number" ? f.format(item.birthday) : item.birthday));
 						childStr.push(item.name + "(" + result.join(" ") + ")");
 					} else {
 						childStr.push(item.name)
@@ -216,7 +278,7 @@ function exportTemplate(source, exportType) {
 				else res.appendDom += "<tr><td style='padding-right: 0;'>" + i.role + "：</td><td style='padding-left: 0'>" + (childStr.join('、')) + "</td></tr>"
 			});
 
-		}else{
+		} else {
 			res.fill = "<td>-</td><td></td>";
 		}
 		return res;
@@ -229,9 +291,9 @@ function exportTemplate(source, exportType) {
 		};
 		if (res.length) {
 			data.forEach(function (i, index) {
-				var text = w(i.name)+(i.idNumber?("("+w(i.idNumber)+")"):"");
-				if (index === 0) res.fill = "<td style='padding-right: 0'>" + s.identity[i.identityType||0] + "：</td><td style='padding-left: 0'>" + text + "</td>";
-				else res.appendDom += "<tr><td style='padding-right: 0'>" + s.identity[i.identityType||0] + "：</td><td style='padding-left: 0'>" + text + "</td></tr>"
+				var text = w(i.name) + (i.idNumber ? ("(" + w(i.idNumber) + ")") : "");
+				if (index === 0) res.fill = "<td style='padding-right: 0'>" + s.identity[i.identityType || 0] + "：</td><td style='padding-left: 0'>" + text + "</td>";
+				else res.appendDom += "<tr><td style='padding-right: 0'>" + s.identity[i.identityType || 0] + "：</td><td style='padding-left: 0'>" + text + "</td></tr>"
 			});
 		} else {
 			res.fill = "<td>-</td><td></td>";
@@ -261,11 +323,13 @@ function exportTemplate(source, exportType) {
 						else matchReasonStr += "<li class=\"mg8-0\">--</li>";
 					}
 				})
-			} catch (e) {}
+			} catch (e) {
+			}
 			return matchReasonStr;
 		}
 		return "--";
 	};
+
 	f.replaceHtml([
 		{f: "../../img/watermark.png", v: bgImgData},
 		{f: "../../img/debtor.png", v: deIconData},
@@ -275,9 +339,9 @@ function exportTemplate(source, exportType) {
 		{f: "{base.queryTime}", v: f.format()}]);
 	/* baseInfo -- fill */
 	var baseInfo = function method(data, status) {
-		var list = ((data||{}).businessList) ||((data||{}).obligorList)|| [];
+		var list = ((data || {}).businessList) || ((data || {}).obligorList) || [];
 		var obj = (data.detail) || {};
-		var userInfo ='';
+		var userInfo = '';
 		if (status) {
 			var usedLengthFlag = Boolean((obj.usedName || []).length);
 			userInfo = ("<div class='name'>" + obj.obligorName + (obj.obligorNumber ? ("(" + obj.obligorNumber + ")") : "") + "</div>");
@@ -306,172 +370,129 @@ function exportTemplate(source, exportType) {
 		if (list.length) {
 			list.forEach(function (item) {
 				listDom += (status ? ("<tr><td>" + w(item.caseNumber) + "</td><td>" + w(item.roleText) + "</td><td>" + w(item.orgName) + "</td></tr>")
-					: ("<tr><td><span class='pr pl'>" + w(item.obligorName) +f.disStatus(item.dishonestStatus)+ "</span></td><td>" + (item.obligorNumber || '-') + "</td><td>" + w(item.roleText) + "</td></tr>"));
+					: ("<tr><td><span class='pr pl'>" + w(item.obligorName) + f.disStatus(item.dishonestStatus) + "</span></td><td>" + (item.obligorNumber || '-') + "</td><td>" + w(item.roleText) + "</td></tr>"));
 			});
 			f.replaceHtml([{f: "{about.list}", v: listDom}, {f: "{about.total}", v: list.length}]);
 		} else {
 			f.replaceHtml([{
 				f: "{about.list}",
-				v: (listDom+"<tr><td colspan='3' style='text-align: center;'>暂无数据</td></tr>")
+				v: (listDom + "<tr><td colspan='3' style='text-align: center;'>暂无数据</td></tr>")
 			}, {f: "{about.total}", v: ""}]);
 		}
 	};
-	baseInfo((type ? d.BA01 : d.BB01), type);
+	// baseInfo((type ? d.BA01 : d.BB01), type);
 
-	/* table content list -- fill */
-	var drawList = function methods(data, taxon) {
-		if(data){
-			if ((data.list || []).length) {
-				var tableList = "";
-				switch (taxon) {
-					case "assetsBidding":
-					case "asset": {
-						data.list.forEach(function (i) {
-							var auctionStatus = "<font class='auctionStatus-" + i.status + "'>" + (s.auction[i.status] || '未知') + "</font>";
-							var signPrice = {t: f.floatFormat(i.currentPrice, " 元",true,'未知'), d: "当前价"};
-							if (i.status === 1) {
-								signPrice.t = "<font class='auctionStatus-error'>" + f.floatFormat(i.initialPrice, " 元",true,'未知') + "</font>";
-								signPrice.d = "起拍价";
-							}
-							if (i.status === 5) {
-								signPrice.t = "<font class='auctionStatus-error'>" + signPrice.t + "</font>";
-								signPrice.d = "成交价";
-							}
-							tableList += "<tr>" +
-								"<td class='pr'>" + 	f.infoList([{t: w(i.obligorName), d: "　债务人"}, {t: w(i.obligorNumber), d: "　证件号"},
-									{t: w(i.orgName), d: "机构名称"}],65) +
-								"<li class=\"mg8-0 pr po\"><div class=\"nAndI\"><span class=\"n-title\">更新时间：</span>" +
-								"<span class=\"n-desc\">" + f.format(i.updateTime,"m") + "</span></div>"+ f.disStatus(i.dishonestStatus) +"</li>" +
-								((i.important&& taxon==="asset")? "<div class='accurate-img'></div>" : "") + "</td>" +
-								"<td>" + matchReason(i) + "</td>" +
-								"<td><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
-								f.infoList([{t: w(i.court), d: "处置机关"}]) +
-								"<div class='list-half'>"+ f.infoList([
-									{t: f.format(i.start,"m"), d: "开拍时间"},
-									{t: f.floatFormat(i.consultPrice," 元",true,'未知'), d: "评估价"},
-									{t: auctionStatus, d: "拍卖状态"},signPrice]) +"</div>" +
+	var drawTable = function (data, option) {
+		var thStr = "<tr>";
+		var trArray = [];
+		option.forEach(function (i) {
+			trArray.push(i.f);
+			thStr += "<th " + (i.w ? ("style=\"width:" + i.w + "px\"") : '') + ">" + i.t + "</th>"
+		});
+		thStr += "</tr>";
+		var trStr = '';
 
-								"</td></tr>";
-						});
-						break;
-					}
-					case "publicity": {
-						data.list.forEach(function (i) {
-							tableList += "<tr>" +
-								"<td>" + f.format(i.startTime) + "</td><td>" + w(i.obligorName) + "</td>" +
-								"<td>" + f.urlDom(i.title, i.sourceUrl) + "</td>" +
-								"<td style='text-align: right'>" + f.floatFormat(i.price,null,true,'未知') + "</td>" +
-								"<td>" + f.format(i.endTime) + "</td><td>" + f.format(i.createTime) + "</td></tr>";
-						});
-						break;
-					}
-					case "lawsuit.trial":
-					case "subrogation.trial":{
-						data.list.forEach(function (i) {
-							var _caseType = (i.restore ? "99" : "") || i.caseType || 0;
-							var pR = parties(i.parties);
-							var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
-							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtRegister) + "</td>" + pR.fill +
-								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
-								"<td " + pRow + ">" + s.caseType[_caseType] + "</td><td " + pRow + ">" + f.format(i.gmtCreate) + "</td></tr>";
-							tableList += pR.appendDom;
-						});
-						break;
-					}
-					case "lawsuit.court":
-					case "subrogation.court":{
-						data.list.forEach(function (i) {
-							var pR = parties(i.parties);
-							var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
-							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtTrial) + "</td>" + pR.fill +
-								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
-								"<td " + pRow + ">" + w(i.caseReason) + "</td><td " + pRow + ">" + f.format(i.gmtCreate) + "</td></tr>";
-							tableList += pR.appendDom;
-						});
-						break;
-					}
-					case "lawsuit.judgment":
-					case "subrogation.judgment":{
-						data.list.forEach(function (i) {
-							var pR = parties(i.parties);
-							var pRow = pR.length > 1 ? ("rowspan=\"" + pR.length + "\"") : "";
-							tableList += "<tr><td " + pRow + ">" + f.format(i.gmtPublish) + "</td>" + pR.fill +
-								"<td " + pRow + ">" + w(i.court) + "</td><td " + pRow + ">" + w(i.caseNumber) + "</td>" +
-								"<td " + pRow + "><li class=\"mg8-0\"><div class=\"nAndI\">"+ f.urlDom(i.title, i.url) +"</div></li>" +
-								f.infoList([{t: w(i.caseReason), d: "　案　由"}, {t: w(i.caseType), d: "案件类型"},
-									{t: f.format(i.gmtJudgment), d: "判决日期"},{t: f.format(i.gmtCreate), d: "更新日期"}]) + "</td></tr>";
-							tableList += pR.appendDom;
-						});
-						break;
-					}
-					case "bankrupt": {
-						data.list.forEach(function (i) {
-							tableList += "<tr><td>" + (f.format(i.publishDate)) + "</td><td>" + w(i.obligorName) + "</td><td>" + w(i.court) + "</td>" +
-								"<td>" + f.urlDom(i.title, i.url) + "</td><td>" + (f.format(i.createTime)) + "</td></tr>";
-						});
-						break;
-					}
-					case "epb":
-					case "bidding": {
-						data.list.forEach(function (i) {
-							tableList += "<tr><td>" + f.format(i.publishTime) + "</td><td>" + w(i.obName) + "</td>" +
-								"<td>" + f.urlDom(i.title, i.url) + "</td><td>" + (f.format(i.createTime)) + "</td></tr>";
-						});
-						break;
-					}
-					case "tax": {
-						data.list.forEach(function (i) {
-							var taxRes = taxParties(i.parties);
-							var taxRow = taxRes.length > 1 ? ("rowspan=\"" + taxRes.length + "\"") : "";
-							tableList += "<tr><td " + taxRow + ">" + w(i.publishDate) + "</td>" + taxRes.fill +
-								"<td " + taxRow + ">" + f.urlDom(i.caseNature, i.url) + "</td><td " + taxRow + ">" + w(i.gmtCreate) + "</td></tr>";
-							tableList += taxRes.appendDom;
-						});
-						break;
-					}
-					case "dishonest": {
-						data.list.forEach(function (i) {
-							tableList += "<tr><td>" +
-								f.infoList([{t: w(i.courtName), d: "机构名称"}, {t: w(i.caseCode), d: "案号"},
-									{t: w(i.areaName), d: "省份"}, {t: w(i.publishDate), d: "发布时间"}])
-								+ "</td><td>" +
-								f.infoList([
-									{t: w(i.performance), d: "被执行人的履行情况"},
-									{t: w(i.disruptTypeName), d: "失信被执行人行为具体情形"},
-									{t: w(i.businessEntity), d: "法定代表人/负责人姓名"}])
-								+ "</td><td>" + w(i.duty) + "</td></tr>";
-						});
-						break;
-					}
-					default:
-						tableList = "";
-				}
-				f.replaceHtml([{f: "{" + taxon + ".list}", v: tableList}, {f: "{" + taxon + ".total}", v: data.list.length}])
-			} else {
-				f.replaceHtml([{f: "{" + taxon + ".display}", v: "display-none"}])
+		data.forEach(function (i, index) {
+			trStr += '<tr>';
+			trArray.forEach(function (f) {
+				var value = f === 'index' ? index + 1 : i[f];
+				trStr += ('<td>' + (value || '-') + '</td>')
+			});
+			trStr += '</tr>';
+		});
+		return thStr + trStr;
+	};
+
+	/* return taxon html */
+	var drawContent = function methods(option, data) {
+		var taxon = option.id;
+		var tableClass = (option.className || '') + (/I/.test(option.id) ? ' table-border' : '');
+		var list = '';
+		switch (taxon) {
+			case 'I50101': {
+				list = "<tr><td>法定代表人</td><td>{legalPerson}</td><td>组织机构代码</td><td>{orgNumber}</td></tr><tr><td>统一社会信用代码</td><td>{creditCode}</td><td>纳税人识别号</td><td>{taxNumber}</td></tr><tr><td>成立日期</td><td>{establishTime}</td><td>营业期限</td><td>{timeLimit}</td></tr><tr><td>注册资本</td><td>{regCapital}</td><td>实缴资本</td><td>{actualCapital}</td></tr><tr><td>经营状态</td><td>{regStatus}</td><td>登记机关</td><td>{regInstitute}</td></tr><tr><td>企业类型</td><td>{companyOrgType}</td><td>核准日期</td><td>{approvedTime}</td></tr><tr><td>所属行业</td><td>{industry}</td><td>工商注册号</td><td>{regNumber}</td></tr><tr><td>人员规模</td><td>{scale}</td><td>参保人数</td><td>{insuranceNum}</td></tr><tr><td>英文名</td><td>{englishName}</td><td>注册地址</td><td>{regLocation}</td></tr><tr><td>经营范围</td><td colspan='3'>{businessScope}</td></tr>";
+				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
+					list = list.replace("{" + item + "}", data[item] || '-')
+				});
+				var timeLimit = (source.fromTime && source.toTime) ? ("自 " + (source.fromTime || '-') + " 至 " + (source.toTime || '-')) : "-";
+				list = list.replace("{timeLimit}", timeLimit);
+				break;
+			}
+			case 'I50201': {
+				list = drawTable(data, [
+					{t: '序号', f: 'index', w: '40'},
+					{t: '姓名', f: 'name'},
+					{t: '职务', f: 'job'}
+				]);
+				break;
+			}
+			case 'I50301': {
+				list = "<tr><th style=\"width: 40px\">序号</th><th>姓名</th><th>职务</th></tr>";
+				data.forEach(function (i, index) {
+					list += ("<tr><td>" + (index + 1) + "</td><td>" + (i.name || '--') + "</td><td>" + (i.job || '--') + "</td></tr>");
+				});
+				break;
+			}
+			case 'I50501': {
+				list = "<tr><th style=\"width: 40px\">序号</th><th>姓名</th><th>职务</th></tr>";
+				data.list.forEach(function (i, index) {
+					list += ("<tr><td>" + (index + 1) + "</td><td>" + (i.name || '--') + "</td><td>" + (i.job || '--') + "</td></tr>");
+				});
+				break;
+			}
+			case 'I50601': {
+				list = drawTable(data.list, [
+					{t: '序号', f: 'index', w: 40},
+					{t: '对外投资企业名称', f: 'companyName'},
+					{t: '法定代表人', f: 'legalName'},
+					{t: '注册资本', f: 'regCapital'},
+					{t: '投资占比', f: 'rate'},
+					{t: '注册时间', f: 'regTime'},
+					{t: '经营状态', f: 'regStatus'}
+				]);
+				break;
+			}
+			case 'I50701': {
+				list = drawTable(data.list, [
+					{t: '序号', f: 'index', w: 30},
+					{t: '变更日期', f: 'changeTime', w: 90},
+					{t: '变更事项', f: 'changItem', w: 70},
+					{t: '变更前内容', f: 'contentBefore'},
+					{t: '变更后内容', f: 'contentAfter'}
+				]);
+				break;
 			}
 		}
+		return tableClass ? ("<table class='" + tableClass + "'>" + list + "</table>") : ("<table>" + list + "</table>");
 	};
-	drawList(d[field + '02'], "asset");
-	drawList(d[field + '03'], "assetsBidding");
-	drawList(d[field + '04'], "publicity");
-	drawList(d[field + '05'], "lawsuit.trial");
-	drawList(d[field + '06'], "lawsuit.court");
-	drawList(d[field + '07'], "subrogation.trial");
-	drawList(d[field + '08'], "subrogation.court");
-	drawList(d[field + '09'], "bankrupt");
-	drawList(d[field + '10'], "bidding");
-	drawList(d[field + '11'], "tax");
-	drawList(d[field + '12'], "epb");
-	drawList({list: (((d.BA13 || [])[0] || {}).result || [])}, "dishonest");
-	drawList(d[field + 'A1'], "subrogation.judgment");
-	drawList(d[field + 'A2'], "lawsuit.judgment");
+
+	/* creat child Container  */
+	var childContainer = function (option, source) {
+		var count = typeof source === 'object' ? (source.total || source.length || 0) : 0;
+		if (count !== 0 || option.show) {
+			var title = option.title + (count ? '  ' + count : '');
+			return "<div><div class=\"title\"><div class=\"t2\">" + title + "</div>" +
+				"</div><div class=\"content\">" + drawContent(option, source) + "</div></div>"
+		}
+		return ''
+	};
+
+	/* main logic entry */
+	Object.keys(dd).forEach(function (field) {
+		var item = dd[field];
+		var child = '';
+		item.child.forEach(function (i) {
+			child += childContainer(i, _dataSource[i.id])
+		});
+		var wrapper = child ? ("<div><div class=\"t1 b-b\">" + item.name + "</div><div class=\"wrapper\">" + child + "</div></div>") : '';
+		f.replaceHtml([{f: item.about, v: wrapper}]);
+	});
 
 	return htmlResult;
 }
 
-var str = (flag) => exportCover(dataSource, flag) + exportTemplate(dataSource, flag);
-fs.writeFile("./template/result/demo-ob.html",str(false), (error) => {
+var str = (flag) => exportTemplate(dataSource, flag);
+fs.writeFile("./template/result/demo-db.html", str(false), (error) => {
 	error && console.log('error');
 });
 

@@ -92,6 +92,16 @@ table em {
   font-style: normal;
 }
 
+.table-baseInfo tr td:first-child {
+  text-align: right;
+  background: #f0f1f5;
+  width: 140px !important; }
+
+.table-baseInfo tr td:first-child + td + td {
+  text-align: right;
+  background: #f0f1f5;
+  width: 100px !important; }
+
 .table-border {
   border: 1px solid #DADDE6;
 }
@@ -173,6 +183,6 @@ table em {
   border: 1px solid #fb8e3c;
 }
 
-.template *{
+.displayNone *{
   display: none;
 }
