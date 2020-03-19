@@ -108,8 +108,8 @@ const columns = (props) => {
 			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'gmtCreate',
+				: <SortVessel field="gmtModified" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'GMT_MODIFIED',
 			width: 90,
 		}, {
 			title: '操作',
