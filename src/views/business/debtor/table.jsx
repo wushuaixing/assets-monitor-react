@@ -142,10 +142,19 @@ class BusinessView extends React.Component {
 	// 关闭, 开启推送
 	handlePut = (row) => {
 		const that = this;
+		const content = row.openBusinessCount === 0 && row.pushState === 0 ? (
+			<span>
+				该债务人当前所有相关业务均为推送关闭状态，开启该债务人的推送将把
+				<b>全部相关业务推送状态置为开启</b>
+				，确定要开启推送吗？
+			</span>
+		) : `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本债务人相关的监控信息。`;
+		const iconType = row.openBusinessCount === 0 ? 'exclamation-circle-o' : 'none';
 		confirm({
 			title: `确认${row.pushState === 1 ? '关闭' : '开启'}本债务人的推送功能吗?`,
-			content: `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本债务人相关的监控信息。`,
-			iconType: 'exclamation-circle-o',
+			content,
+			iconType,
+			className: iconType === 'none' ? 'message-confirm-no-icon' : '',
 			onOk() {
 				that.commonPushState(row);
 			},

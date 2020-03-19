@@ -184,3 +184,9 @@
 //.ant-modal {
 //  top: 260px;
 //}
+
+.message-confirm-no-icon {
+  .ant-confirm-content{
+    margin-left: 10px!important;
+  }
+}
