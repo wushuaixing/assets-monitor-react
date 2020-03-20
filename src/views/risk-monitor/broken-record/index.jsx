@@ -2,10 +2,9 @@ import React from 'react';
 import { Modal, message } from 'antd';
 import { Button, Download, Spin } from '@/common';
 import {
-	infoList, readStatus, exportList, follow, readAll,listCount
+	infoList, exportList, follow, readAll, listCount,
 } from '@/utils/api/monitor-info/broken-record';
 import { clearEmpty } from '@/utils';
-import { unReadCount } from '@/utils/api/monitor-info';
 import Query from './query';
 import Table from './table';
 
@@ -118,10 +117,9 @@ export default class Subrogation extends React.Component {
 
 	// 查询是否有未读消息
 	onUnReadCount=() => {
-		unReadCount().then((res) => {
-			const { data, code } = res;
-			if (code === 200) {
-				this.unReadCount = data.bankruptcyCount;
+		listCount({ isRead: false }).then((res) => {
+			if (res.code === 200) {
+				this.unReadCount = Boolean(res.data);
 			}
 		});
 	};

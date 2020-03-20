@@ -7,6 +7,11 @@ import service from '@/utils/service';
 export const infoList = params => service.get('/yc/monitor/dishonest/list', { params })
 	.then(res => res.data);
 
+// 失信列表数量
+export const listCount = params => service.get('/yc/monitor/dishonest/list-count', { params })
+	.then(res => res.data);
+
+
 // 关注列表
 export const attentionList = params => service.get('/yc/monitor/dishonest/follow/list', { params })
 	.then(res => res.data);
