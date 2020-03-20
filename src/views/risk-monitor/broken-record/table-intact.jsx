@@ -55,7 +55,6 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=() => {
-		debugger
 		this.setState({ loading: true });
 		const { reqUrl, id } = this.props;
 		const toApi = reqUrl || attentionList;
