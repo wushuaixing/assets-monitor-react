@@ -1,45 +1,17 @@
 import React from 'react';
-import { overviewBidding } from 'api/detail/overview';
-import { getQueryByName } from '@/utils';
 import biddingImg from '@/assets/img/business/BiddingCard.png';
+import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
 import './style.scss';
-import matching from '@/assets/img/business/matching.png';
 
 export default class Bidding extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			biddingNum: 0,
-			gmtCreate: '',
-		};
+		this.state = {};
 	}
-
-	componentDidMount() {
-		this.getData();
-	}
-
-	getData = () => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 353121;
-		const params = {
-			obligorId,
-			type: 1,
-		};
-		// 业务列表信息
-		overviewBidding(params).then((res) => {
-			if (res.code === 200) {
-				const { bidding, gmtCreate } = res.data;
-				this.setState({
-					biddingNum: bidding,
-					gmtCreate,
-				});
-			}
-		}).catch(() => {});
-	};
 
 	render() {
-		const { biddingNum, gmtCreate } = this.state;
-		const { portrait } = this.props;
+		const { portrait, dataSource: { biddingNum, gmtCreate } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		return (
 			<span>
@@ -56,13 +28,13 @@ export default class Bidding extends React.Component {
 							{isBusiness ? (
 								<div className="card-content-role-itemLeft">
 									<img className="card-left-img" src={matching} alt="" />
-									<span style={{ marginRight: '2px', fontWeight: 'bold' }}>3</span>
+									<span className="portrait-card-num">3</span>
 									人匹配到招投标信息
 								</div>
 							) : null}
 							<div className="card-content-role">
-								{biddingNum}
-								<span style={{ fontSize: '12px', color: '#4E5566', paddingLeft: '5px' }}>条相关匹配信息，请核实</span>
+								<span className="portrait-card-num">{biddingNum}</span>
+								<span style={{ fontSize: '12px', color: '#4E5566', paddingLeft: '3px' }}>条相关匹配信息，请核实</span>
 							</div>
 						</div>
 					</Card>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spin, Table } from '@/common';
+import { Table } from '@/common';
 
 export default class associatedBusiness extends React.Component {
 	constructor(props) {
@@ -40,26 +40,24 @@ export default class associatedBusiness extends React.Component {
 
 	render() {
 		const { columns } = this.state;
-		const { dataSource, loading } = this.props;
+		const { dataSource } = this.props;
 		return (
 			<div>
 				<div className="overview-container-title">
 					<div className="overview-left-item" />
 					<span className="container-title-name">关联业务列表</span>
 				</div>
-				<Spin visible={loading} minHeight={80}>
-					<div className="overview-container-content" style={{ padding: '0 20px' }}>
-						{dataSource && dataSource.length > 0 ? (
-							<Table
-								scroll={dataSource.length > 8 ? { y: 440 } : {}}
-								columns={columns}
-								dataSource={dataSource}
-								pagination={false}
-								className="table"
-							/>
-						) : null}
-					</div>
-				</Spin>
+				<div className="overview-container-content" style={{ padding: '0 20px' }}>
+					{dataSource && dataSource.length > 0 ? (
+						<Table
+							scroll={dataSource.length > 8 ? { y: 440 } : {}}
+							columns={columns}
+							dataSource={dataSource}
+							pagination={false}
+							className="table"
+						/>
+					) : null}
+				</div>
 			</div>
 		);
 	}

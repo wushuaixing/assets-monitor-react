@@ -1,55 +1,24 @@
 import React from 'react';
-import { overviewMortgage } from 'api/detail/overview';
-import { getQueryByName } from '@/utils';
 import { toThousands } from '@/utils/changeTime';
-import getCount from '@/views/portrait-inquiry/common/getCount';
 import chattelMortgageImg from '@/assets/img/business/chattelMortgageCard.png';
+import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
 import './style.scss';
-import matching from '@/assets/img/business/matching.png';
 
 export default class ChattelMortgage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			dataSource: [],
-			dataSourceNum: 0,
-			gmtCreate: '',
-		};
+		this.state = {};
 	}
-
-	componentDidMount() {
-		this.getData();
-	}
-
-	getData = () => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 322304;
-		const params = {
-			obligorId,
-			type: 1,
-		};
-		// 业务列表信息
-		overviewMortgage(params).then((res) => {
-			if (res.code === 200) {
-				const dataSource = res.data.roleDistributions;
-				const dataSourceNum = getCount(dataSource);
-				this.setState({
-					dataSource,
-					dataSourceNum,
-					gmtCreate: res.data.gmtCreate,
-				});
-			}
-		}).catch(() => { this.setState({ dataSource: [] }); });
-	};
 
 	render() {
-		const { dataSource, dataSourceNum, gmtCreate } = this.state;
-		const { portrait } = this.props;
+		const { portrait, dataSource: { dataSource, dataSourceNum, gmtCreate } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
 		return (
 			<span>
+
 				{dataSourceNum > 0 ? (
 					<Card
 						imgCard={chattelMortgageImg}
@@ -64,17 +33,22 @@ export default class ChattelMortgage extends React.Component {
 								{isBusiness ? (
 									<div className="card-content-role-itemLeft">
 										<img className="card-left-img" src={matching} alt="" />
-										<span style={{ marginRight: '2px', fontWeight: 'bold' }}>3</span>
+										<span className="portrait-card-num">3</span>
 										人匹配到动产抵押信息
 									</div>
 								) : null}
 								{
 									newDataSource && newDataSource.map(item => (
-										<div className="card-content-role-itemLeft" key={item.type} style={item.amount && item.amount > 100000000 ? { position: 'relative', left: '-20px' } : {}}>
+										<div
+											className="card-content-role-itemLeft"
+											key={item.type}
+											style={newDataSource[0].amount > 10000000000 || (newDataSource[1] && newDataSource[1].amount > 10000000000)
+												? { position: 'relative', left: '-20px' } : null}
+										>
 											<span className="card-content-role-text">{item.type === 1 ? '抵押物所有人' : '抵押权人'}</span>
 											<span className="card-content-role-info">：</span>
 											<span className="card-content-role-num">
-												{item.count}
+												<span className="portrait-card-num">{item.count}</span>
 												条
 											</span>
 											{item.type === 2 && item.amount ? (
@@ -92,7 +66,6 @@ export default class ChattelMortgage extends React.Component {
 					</Card>
 				) : null}
 			</span>
-
 		);
 	}
 }

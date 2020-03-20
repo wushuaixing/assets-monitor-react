@@ -242,6 +242,7 @@ class DebtorDetail extends React.Component {
 		const {
 			edit, detail, loading, columns, data, isEdit, codeLoading, timeLeft, errorModalVisible,
 		} = this.state;
+		console.log(data, 123);
 		const { form, parent, parentUrL } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 

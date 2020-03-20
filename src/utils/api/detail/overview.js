@@ -1,10 +1,9 @@
 import service from '@/utils/service';
 
 // 债务人-业务列表
-export const businessList = async (params) => {
-	const response = await service.get('/yc/obligor/monitor/overview/relation', { params });
-	return response.data;
-};
+export const businessList = async params => service.get('/yc/obligor/monitor/overview/relation', { params }).then(res => res.data);
+// const response = await service.get('/yc/obligor/monitor/overview/relation', { params });
+// return response.data;
 
 // 资产拍卖
 export const overviewAuction = async (params) => {
@@ -13,10 +12,11 @@ export const overviewAuction = async (params) => {
 };
 
 // 土地信息
-export const overviewLand = async (params) => {
-	const response = await service.get('/yc/obligor/monitor/overview/land', { params });
-	return response.data;
-};
+export const overviewLand = async params => service.get('/yc/obligor/monitor/overview/land', { params }).then(res => res.data);
+// export const overviewLand = async (params) => {
+// 	const response = await service.get('/yc/obligor/monitor/overview/land', { params });
+// 	return response.data;
+// };
 
 // 无形资产
 export const overviewIntangible = async (params) => {

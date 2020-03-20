@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin } from '@/common';
 import { parseQuery } from '@/utils';
-import { getBaseInfo } from '@/utils/api/portrait-inquiry/enterprise/info';
+import { getBaseInfo } from '@/utils/api/detail/info';
 import './style.scss';
 
 export default class BusinessInfo extends React.Component {

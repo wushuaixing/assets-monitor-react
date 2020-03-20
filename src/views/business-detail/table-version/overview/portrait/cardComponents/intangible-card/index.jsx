@@ -1,57 +1,17 @@
 import React from 'react';
-import { overviewIntangible } from 'api/detail/overview';
-import { getQueryByName } from '@/utils';
-import getCount from '@/views/portrait-inquiry/common/getCount';
 import intangibleImg from '@/assets/img/business/intangibleCard.png';
-import Card from '../card';
 import matching from '@/assets/img/business/matching.png';
+import Card from '../card';
 import './style.scss';
 
 export default class Intangible extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			dataSource: [],
-			dataSourceNum: 0,
-			gmtCreate: '',
-		};
+		this.state = {};
 	}
-
-	componentDidMount() {
-		this.getData();
-	}
-
-	getData = () => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 326740;
-		const params = {
-			obligorId,
-			type: 1,
-		};
-		// 业务列表信息
-		overviewIntangible(params).then((res) => {
-			if (res.code === 200) {
-				const dataSource = [];
-				dataSource.push({ count: res.data.construct, typeName: '建造资质' });
-				dataSource.push({ count: res.data.emission, typeName: '排污权发证' });
-				dataSource.push({ count: res.data.mining, typeName: '矿业权发证' });
-				dataSource.push({ count: res.data.trademark, typeName: '商标专利' });
-				const dataSourceNum = getCount(dataSource);
-				this.setState({
-					dataSource,
-					dataSourceNum,
-					gmtCreate: res.data.gmtCreate,
-				});
-			}
-		}).catch(() => {
-			this.setState({
-				dataSource: [],
-			});
-		});
-	};
 
 	render() {
-		const { dataSource, dataSourceNum, gmtCreate } = this.state;
-		const { portrait } = this.props;
+		const { portrait, dataSource: { dataSource, dataSourceNum, gmtCreate } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
@@ -77,7 +37,7 @@ export default class Intangible extends React.Component {
 								{isBusiness ? (
 									<div className="card-content-role-itemLeft">
 										<img className="card-left-img" src={matching} alt="" />
-										<span style={{ marginRight: '2px', fontWeight: 'bold' }}>3</span>
+										<span className="portrait-card-num">3</span>
 									人匹配到无形资产
 									</div>
 								) : null}
@@ -89,7 +49,7 @@ export default class Intangible extends React.Component {
 													<span className="card-content-role-text">{item.typeName}</span>
 													<span className="card-content-role-info">：</span>
 													<span className="card-content-role-num">
-														{item.count}
+														<span className="portrait-card-num">{item.count}</span>
 														条
 													</span>
 												</div>
@@ -100,7 +60,7 @@ export default class Intangible extends React.Component {
 												<span className="card-content-role-text">{item.typeName}</span>
 												<span className="card-content-role-info">：</span>
 												<span className="card-content-role-num">
-													{item.count}
+													<span className="portrait-card-num">{item.count}</span>
 													条
 												</span>
 											</div>

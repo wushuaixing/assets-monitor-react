@@ -3,6 +3,7 @@ import React from 'react';
 import './style.scss';
 // import eData, { imitateSource } from './data';
 import { stockChart } from '@/utils/api/portrait-inquiry/enterprise/info';
+import { businessStockChart } from '@/utils/api/detail/info';
 import back from './logo.png';
 import { toEmpty } from '@/utils/';
 import { Spin } from '@/common';
@@ -147,7 +148,7 @@ export default class StockRight extends React.Component {
 	}
 
 	componentDidMount() {
-		const { stockChartId } = this.props;
+		const { stockChartId, isBusiness } = this.props;
 
 		const params = {
 			id: stockChartId, // 269766 京东 54780232 网商 1585000 天赐
@@ -157,11 +158,12 @@ export default class StockRight extends React.Component {
 			loading: true,
 		});
 		this.myChart = ec.init(document.getElementById('zRenderEcharts'));
+		const api = isBusiness ? businessStockChart : stockChart;
 		/* this.myChart.showLoading({
 			text: '加载中，请稍后...',
 			effect: 'spin',
 		}); */
-		stockChart(params)
+		api(params)
 			.then((res) => {
 				if (res.code === 200) {
 					// console.log(params);

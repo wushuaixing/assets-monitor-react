@@ -66,14 +66,13 @@ export default class Enterprise extends React.Component {
 		document.title = '债务人详情';
 		// const defaultSourceType = window.location.hash.match(/\d{3}?(\?)/);
 		const defaultSourceType = window.location.hash.match(/\/detail\/info\/(\d{3})\/?/);
-
 		super(props);
 		const tabConfig = source();
 		const typeStr = tabConfig.map(i => i.id).join('/') || '';
 		this.state = {
 			tabConfig: source(),
 			childDom: '',
-			sourceType: defaultSourceType && typeStr.match(defaultSourceType) ? Number(defaultSourceType[1]) : 101,
+			sourceType: defaultSourceType && typeStr.match(defaultSourceType[1])[0] ? Number(defaultSourceType[1]) : 101,
 			affixStatus: false,
 			loading: true,
 			infoSource: {},

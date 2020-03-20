@@ -80,7 +80,7 @@ class QueryCondition extends React.Component {
 						size="large"
 						maxLength="18"
 						placeholder="身份证号/统一社会信用代码"
-						{...getFieldProps('obligorNumber')}
+						{...getFieldProps('obligorNumber', { getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-]/g, '') })}
 					/>
 				</div>
 				<div className="yc-more-option inline-block cursor-pointer" style={{ marginLeft: 0 }}>

@@ -35,11 +35,11 @@ const columns = (props) => {
 			dataIndex: 'title',
 			render: (text, row) => (text ? linkDom(row.sourceUrl, text) : '--'),
 		}, {
-			title: '挂牌价格(元)',
-			dataIndex: 'price',
+			title: '挂牌价格',
+			dataIndex: 'listingPrice',
 			width: 120,
 			className: 'tAlignRight_important',
-			render: value => <span>{value ? `${floatFormat(value)}` : '--'}</span>,
+			render: (value, row) => <span>{value || row.price ? (value ? `${floatFormat(value)} ${row.listingUnit}` : `${floatFormat(row.price)} ${row.listingUnit}`) : '未知'}</span>,
 		}, {
 			title: (noSort ? '期满日期'
 				: <SortVessel field="END_TIME" onClick={onSortChange} {...sort}>期满日期</SortVessel>),

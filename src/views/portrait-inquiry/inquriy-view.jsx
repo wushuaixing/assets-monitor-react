@@ -58,7 +58,7 @@ export default class InitView extends React.Component {
 	handleQuery=() => {
 		const reg = new RegExp(/^[a-zA-Z0-9/-]{1,20}$/);
 		const { obligorType: type, obligorName: name, obligorNumber: num } = this.state;
-		console.log(reg.test(num), 123);
+		// console.log(reg.test(num), 123);
 		if (type === 1) {
 			if (!name) {
 				message.error('请输入债务人名称');
@@ -71,7 +71,7 @@ export default class InitView extends React.Component {
 			if (!name || !num) {
 				message.error('债务人名称 或 债务人证件号 不能为空！');
 			} else if (!reg.test(num)) {
-				message.error('个人债务人证件号输入错误');
+				message.error('债务人证件号输入错误');
 			} else if (name.length < 2) {
 				message.error('债务人名称请至少输入两个字');
 			} else if (num.length < 7) {

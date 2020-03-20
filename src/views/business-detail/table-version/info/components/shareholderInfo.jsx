@@ -1,7 +1,7 @@
 import React from 'react';
 import { parseQuery } from '@/utils';
 import { Spin, Table } from '@/common';
-import { getStockholder } from '@/utils/api/portrait-inquiry/enterprise/info';
+import { getStockholder } from '@/utils/api/detail/info';
 
 export default class ShareholderInfo extends React.Component {
 	constructor(props) {

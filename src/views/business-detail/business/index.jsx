@@ -225,7 +225,9 @@ export default class Enterprise extends React.Component {
 	});
 
 
-	handleEdit=() => {};
+	handleEdit=() => {
+		navigate('/business/detail/edit/info?id=22634');
+	};
 
 	handleRecord=() => {};
 

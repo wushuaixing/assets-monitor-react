@@ -229,7 +229,7 @@ export default class Headers extends React.Component {
 									num ? haveNum : ''
 								}
 								{
-									num ? <span className="yc-badge-num">{num > 99 ? '99+' : num}</span> : ''
+									num ? <span className="yc-badge-num" style={num > 99 ? { left: '28px' } : { left: '30px' }}>{num > 99 ? '99+' : num}</span> : ''
 								}
 								{/* <Badge */}
 								{/*	count={Surplus && num && num > 0 ? `${num}` : ''} */}
