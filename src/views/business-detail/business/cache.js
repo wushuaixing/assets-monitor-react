@@ -1,6 +1,4 @@
-let source = {
-
-};
+let source = {};
 
 export const getSource = () => source;
 

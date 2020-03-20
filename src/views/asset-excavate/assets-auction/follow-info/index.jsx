@@ -522,6 +522,7 @@ export default class FollowInfo extends React.Component {
 															placeholder="请输入姓名"
 															style={{ width: 78, marginRight: 3 }}
 															className="item-class"
+															maxLength="20"
 															{...getField('add_name')}
 														/>
 														<Select

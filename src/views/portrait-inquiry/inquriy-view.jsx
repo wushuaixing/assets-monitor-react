@@ -56,7 +56,9 @@ export default class InitView extends React.Component {
 
 	/* 一键查询债务人画像 */
 	handleQuery=() => {
+		const reg = new RegExp(/^[a-zA-Z0-9/-]{1,20}$/);
 		const { obligorType: type, obligorName: name, obligorNumber: num } = this.state;
+		// console.log(reg.test(num), 123);
 		if (type === 1) {
 			if (!name) {
 				message.error('请输入债务人名称');
@@ -68,6 +70,8 @@ export default class InitView extends React.Component {
 		} else if (type === 2) {
 			if (!name || !num) {
 				message.error('债务人名称 或 债务人证件号 不能为空！');
+			} else if (!reg.test(num)) {
+				message.error('债务人证件号输入错误');
 			} else if (name.length < 2) {
 				message.error('债务人名称请至少输入两个字');
 			} else if (num.length < 7) {
@@ -103,6 +107,7 @@ export default class InitView extends React.Component {
 							size="large"
 							style={{ width: 350 }}
 							placeholder="请输入债务人名称"
+							maxLength="40"
 							titleWidth={100}
 							onChange={e => this.onHandleChange(e, 'obligorName')}
 							value={obligorName}
@@ -118,6 +123,7 @@ export default class InitView extends React.Component {
 										' 债务人证件号',
 									]}
 									size="large"
+									maxLength="18"
 									placeholder="请输入债务人证件号"
 									titleWidth={120}
 									style={{ width: 350 }}

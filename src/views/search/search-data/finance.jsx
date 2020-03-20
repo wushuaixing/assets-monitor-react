@@ -91,6 +91,7 @@ class FINANCE extends React.Component {
 						<Input
 							title="项目名称"
 							placeholder="项目标题"
+							maxLength="40"
 							{...getFieldProps('projectName', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>

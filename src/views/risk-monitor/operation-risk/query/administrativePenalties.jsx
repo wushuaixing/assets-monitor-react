@@ -55,16 +55,16 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
+					<Input title="债务人" style={_style1} size="large" maxLength="40" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="违法类型" style={_style1} size="large" placeholder="违法行为类型" {...getFieldProps('type')} />
+					<Input title="违法类型" style={_style1} size="large" maxLength="20" placeholder="违法行为类型" {...getFieldProps('type')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="决定文书号" style={_style1} size="large" placeholder="处罚决定文书号" {...getFieldProps('punishNumber')} />
+					<Input title="决定文书号" style={_style1} size="large" maxLength="40" placeholder="处罚决定文书号" {...getFieldProps('punishNumber')} />
 				</div>
 				<div className="yc-query-item" style={{ marginRight: 0 }}>
-					<Input title="决定机关" style={_style1} size="large" placeholder="作出处罚决定机关" {...getFieldProps('departmentName')} />
+					<Input title="决定机关" style={_style1} size="large" maxLength="40" placeholder="作出处罚决定机关" {...getFieldProps('departmentName')} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">决定日期：</span>

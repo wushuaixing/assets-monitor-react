@@ -268,6 +268,7 @@ class FINANCE extends React.Component {
 							title="项目名称"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							placeholder="项目标题"
 							{...getFieldProps('projectName', {
 								initialValue: params.projectName,

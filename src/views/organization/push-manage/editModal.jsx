@@ -145,6 +145,7 @@ class DetailModal extends React.Component {
 							<Input
 								size="large"
 								placeholder="请输入姓名"
+								maxLength="20"
 								style={{ width: 340 }}
 								{...getFieldProps('name', {
 									initialValue: propsData && propsData.name,
@@ -185,6 +186,7 @@ class DetailModal extends React.Component {
 							<Input
 								size="large"
 								style={{ width: 340 }}
+								maxLength="40"
 								placeholder="请输入邮箱"
 								{...getFieldProps('email', {
 									initialValue: propsData && propsData.email,

@@ -23,7 +23,7 @@ export default class EquityPenetration extends React.Component {
 				</div>
 				<div style={{ height: 546, border: '1px solid #DADDE6', marginBottom: 35 }}>
 					<div className="yc-Stock-name">{name && name}</div>
-					<Stock stockChartId={stockChartId && stockChartId} />
+					<Stock isBusiness stockChartId={stockChartId && stockChartId} />
 				</div>
 			</div>
 		);

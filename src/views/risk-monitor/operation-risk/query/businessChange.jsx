@@ -55,10 +55,10 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
+					<Input title="债务人" style={_style1} size="large" maxLength="40" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="变更事项" style={_style1} size="large" placeholder="工商变更事项" {...getFieldProps('changeItem')} />
+					<Input title="变更事项" style={_style1} size="large" maxLength="20" placeholder="工商变更事项" {...getFieldProps('changeItem')} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-lable">变更日期：</span>

@@ -1,34 +1,146 @@
 import React from 'react';
+import {
+	overviewBankruptcy, // 债务人破产重组
+	overviewLitigation, // 债务人涉诉信息
+	overviewRisk, // 债务人经营风险
+} from 'api/detail/overview';
+import { Spin } from '@/common';
 import Bankruptcy from '../cardComponents/Bankruptcy-card';
 import Involved from '../cardComponents/Involved-card';
 import Information from '../cardComponents/Information-card';
 import './style.scss';
-import { Spin } from '@/common';
+import { getQueryByName } from '@/utils';
+import getCount from '@/views/portrait-inquiry/common/getCount';
 
 export default class RiskInformation extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			bankruptcyPropsData: {}, // 破产重组
+			litigationPropsData: {}, // 涉诉信息
+			riskPropsData: {}, // 经营风险
+		};
 	}
 
+	componentDidMount() {
+		const obligorId = getQueryByName(window.location.href, 'id') || 0;
+		const params = { obligorId, type: 1 };
+
+
+		Promise.all([this.getBankruptcyData(params), this.getLitigationData(params), this.getRiskData(params)]).then((res) => {
+			this.setState({
+				bankruptcyPropsData: res[0],
+				litigationPropsData: res[1],
+				riskPropsData: res[2],
+			});
+		});
+	}
+
+	// 破产重组
+	getBankruptcyData = (value) => {
+		const params = { ...value, obligorId: 319839 };
+		return overviewBankruptcy(params).then((res) => {
+			let bankruptcyPropsData = {};
+			if (res.code === 200) {
+				const { bankruptcy, gmtCreate } = res.data;
+				bankruptcyPropsData = {
+					bankruptcyNum: bankruptcy,
+					gmtCreate,
+				};
+			}
+			return bankruptcyPropsData;
+		}).catch(() => { this.setState({ bankruptcyPropsData: {} }); });
+	};
+
+	// 涉诉信息
+	getLitigationData = (value) => {
+		const params = { ...value, obligorId: 326793 };
+		return overviewLitigation(params).then((res) => {
+			let litigationPropsData = {};
+			if (res.code === 200) {
+				const dataSource = [];
+				dataSource.push({ count: res.data.trial, typeName: '立案' });
+				dataSource.push({ count: res.data.courtNotice, typeName: '开庭' });
+				dataSource.push({ count: res.data.judgment, typeName: '裁判文书' });
+				const dataSourceNum = getCount(dataSource);
+				litigationPropsData = {
+					dataSource,
+					dataSourceNum,
+					gmtCreate: res.data.gmtCreate,
+				};
+			}
+			return litigationPropsData;
+		}).catch(() => { this.setState({ litigationPropsData: {} }); });
+	};
+
+	// 经营风险
+	getRiskData = (value) => {
+		const params = { ...value, obligorId: 324155 };
+		return overviewRisk(params).then((res) => {
+			let riskPropsData = {};
+			if (res.code === 200) {
+				const dataSource = [];
+				dataSource.push({ count: res.data.abnormal, typeName: '经营异常' });
+				dataSource.push({ count: res.data.tax, typeName: '税收违法' });
+				dataSource.push({ count: res.data.punishment, typeName: '行政处罚' });
+				dataSource.push({ count: res.data.change, typeName: '工商变更' });
+				dataSource.push({ count: res.data.illegal, typeName: '严重违法' });
+				dataSource.push({ count: res.data.epb, typeName: '环保处罚' });
+				const dataSourceNum = getCount(dataSource);
+				riskPropsData = {
+					dataSource,
+					dataSourceNum,
+					gmtCreate: res.data.gmtCreate,
+				};
+			}
+			return riskPropsData;
+		}).catch(() => {
+			this.setState({ riskPropsData: {} });
+		});
+	};
+
+	// 判断对象是否为空
+	isEmptyObject = () => {
+		const {
+			bankruptcyPropsData, litigationPropsData, riskPropsData,
+		} = this.state;
+		return Object.keys(bankruptcyPropsData).length === 0 && Object.keys(litigationPropsData).length === 0 && Object.keys(riskPropsData).length === 0;
+	};
+
+	// 判断内部是否存数据
+	isHasValue = () => {
+		const {
+			bankruptcyPropsData, litigationPropsData, riskPropsData,
+		} = this.state;
+		return bankruptcyPropsData.bankruptcyNum > 0 || litigationPropsData.dataSourceNum > 0 || riskPropsData.dataSourceNum > 0;
+	};
+
 	render() {
-		const { portrait, loading } = this.props;
+		const { portrait } = this.props;
+		const { bankruptcyPropsData, litigationPropsData, riskPropsData } = this.state;
+		const isLoading = this.isEmptyObject();
+		const isHasValue = this.isHasValue();
 		return (
 			<div>
-				<div className="overview-container-title" style={{ marginTop: '20px' }}>
-					<div className="overview-left-item" />
-					<span className="container-title-name">风险信息</span>
-				</div>
-				<Spin visible={loading}>
-					<div className="overview-container-cardContent">
-						{/* 破产重组 */}
-						<Bankruptcy portrait={portrait} />
-						{/* 涉诉信息 */}
-						<Involved portrait={portrait} />
-						{/* 经营风险 */}
-						<Information portrait={portrait} />
-					</div>
+				<Spin visible={isLoading}>
+					{isHasValue ? (
+						<div>
+							<div className="overview-container-title" style={{ marginTop: '20px' }}>
+								<div className="overview-left-item" />
+								<span className="container-title-name">风险信息</span>
+							</div>
+							<div className="overview-container-cardContent">
+								{/* 破产重组 */}
+								<Bankruptcy dataSource={bankruptcyPropsData} portrait={portrait} />
+								{/* 涉诉信息 */}
+								<Involved dataSource={litigationPropsData} portrait={portrait} />
+								{/* 经营风险 */}
+								<Information dataSource={riskPropsData} portrait={portrait} />
+							</div>
+						</div>
+					) : null}
 				</Spin>
+
 			</div>
 		);
 	}

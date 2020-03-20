@@ -1,49 +1,17 @@
 import React from 'react';
-import { overviewStock } from 'api/detail/overview';
-import { getQueryByName } from '@/utils';
-import getCount from '@/views/portrait-inquiry/common/getCount';
 import EquityPledgeImg from '@/assets/img/business/EquityPledgeCard.png';
+import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
 import './style.scss';
-import matching from '@/assets/img/business/matching.png';
 
 export default class EquityPledge extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			dataSource: [],
-			dataSourceNum: 0,
-			gmtCreate: '',
-		};
+		this.state = {};
 	}
-
-	componentDidMount() {
-		this.getData();
-	}
-
-	getData = () => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 348812;
-		const params = {
-			obligorId,
-			type: 1,
-		};
-		// 业务列表信息
-		overviewStock(params).then((res) => {
-			if (res.code === 200) {
-				const dataSource = res.data.roleDistributions;
-				const dataSourceNum = getCount(dataSource);
-				this.setState({
-					dataSource,
-					dataSourceNum,
-					gmtCreate: res.data.gmtCreate,
-				});
-			}
-		}).catch(() => { this.setState({ dataSource: [] }); });
-	};
 
 	render() {
-		const { dataSource, dataSourceNum, gmtCreate } = this.state;
-		const { portrait } = this.props;
+		const { portrait, dataSource: { dataSource, dataSourceNum, gmtCreate } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
@@ -63,7 +31,7 @@ export default class EquityPledge extends React.Component {
 								{isBusiness ? (
 									<div className="card-content-role-itemLeft">
 										<img className="card-left-img" src={matching} alt="" />
-										<span style={{ marginRight: '2px', fontWeight: 'bold' }}>3</span>
+										<span className="portrait-card-num">3</span>
 										人匹配到无形资产
 									</div>
 								) : null}
@@ -73,7 +41,7 @@ export default class EquityPledge extends React.Component {
 											<span className="card-content-role-text">{item.type === 1 ? '股权持有人' : '股权质权人'}</span>
 											<span className="card-content-role-info">：</span>
 											<span className="card-content-role-num">
-												{item.count}
+												<span className="portrait-card-num">{item.count}</span>
 												条
 											</span>
 										</div>

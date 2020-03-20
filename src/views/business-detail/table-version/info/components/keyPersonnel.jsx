@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin, Table } from '@/common';
 import { parseQuery } from '@/utils';
-import { getMainPerson } from '@/utils/api/portrait-inquiry/enterprise/info';
+import { getMainPerson } from '@/utils/api/detail/info';
 
 export default class KeyPersonnel extends React.Component {
 	constructor(props) {

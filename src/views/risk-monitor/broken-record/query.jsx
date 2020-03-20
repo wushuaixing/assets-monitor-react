@@ -59,13 +59,13 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="债务人名称" {...getFieldProps('name')} />
+					<Input title="债务人" style={_style1} size="large" maxLength="40" placeholder="债务人名称" {...getFieldProps('name')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="相关案号" style={_style1} size="large" placeholder="失信相关案号" {...getFieldProps('caseCode')} />
+					<Input title="相关案号" style={_style1} size="large" maxLength="20" placeholder="失信相关案号" {...getFieldProps('caseCode')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="执行法院" style={_style1} size="large" placeholder="列入失信法院" {...getFieldProps('court')} />
+					<Input title="执行法院" style={_style1} size="large" maxLength="40" placeholder="列入失信法院" {...getFieldProps('court')} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">移除情况：</span>

@@ -93,6 +93,7 @@ class AUCTION extends React.PureComponent {
 						<Input
 							title="债务人"
 							placeholder="姓名/公司名称"
+							maxLength="40"
 							{...getFieldProps('name', {
 								getValueFromEvent: e => e.trim(),
 							})}
@@ -101,15 +102,18 @@ class AUCTION extends React.PureComponent {
 					<div style={_style1} className="item">
 						<Input
 							title="证件号"
+							maxLength="18"
 							placeholder="身份证号/统一社会信用代码"
 							{...getFieldProps('number', {
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-]/g, ''),
+								// getValueFromEvent: e => e.trim(),
 							})}
 						/>
 					</div>
 					<div style={_style3} className="item">
 						<Input
 							title="产权证"
+							maxLength="40"
 							placeholder="房产证/土地证号"
 							{...getFieldProps('certificate', {
 								getValueFromEvent: e => e.trim(),
@@ -119,6 +123,7 @@ class AUCTION extends React.PureComponent {
 					<div style={_style1} className="item">
 						<Input
 							title="处置机关"
+							maxLength="20"
 							placeholder="处置法院/单位"
 							{...getFieldProps('court', {
 								getValueFromEvent: e => e.trim(),
@@ -131,6 +136,7 @@ class AUCTION extends React.PureComponent {
 							style={_style1}
 							size="large"
 							suffix="万元"
+							maxLength="10"
 							inputFirstProps={getFieldProps('lowestConsultPrice', {
 								validateTrigger: 'onBlur',
 								getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),

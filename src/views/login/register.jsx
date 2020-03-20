@@ -268,7 +268,7 @@ class Login extends React.Component {
 									type="password"
 									autocomplete={autocompleteType}
 									placeholder="请输入密码"
-									maxLength="16"
+									maxLength="20"
 									style={{ fontSize: 14 }}
 									titleWidth={40}
 									{...getFieldProps('password', {

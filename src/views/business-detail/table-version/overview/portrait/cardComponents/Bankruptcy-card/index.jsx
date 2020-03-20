@@ -1,6 +1,4 @@
 import React from 'react';
-import { overviewBankruptcy } from 'api/detail/overview';
-import { getQueryByName } from '@/utils';
 import bankruptcyImg from '@/assets/img/business/BankruptcyCard.png';
 import Card from '../card';
 import './style.scss';
@@ -8,37 +6,11 @@ import './style.scss';
 export default class Bankruptcy extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			bankruptcyNum: 0,
-			gmtCreate: '',
-		};
+		this.state = {};
 	}
-
-	componentDidMount() {
-		this.getData();
-	}
-
-	getData = () => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 319839;
-		const params = {
-			obligorId,
-			type: 1,
-		};
-		// 业务列表信息
-		overviewBankruptcy(params).then((res) => {
-			if (res.code === 200) {
-				const { bankruptcy, gmtCreate } = res.data;
-				this.setState({
-					bankruptcyNum: bankruptcy,
-					gmtCreate,
-				});
-			}
-		}).catch(() => {});
-	};
 
 	render() {
-		const { bankruptcyNum, gmtCreate } = this.state;
-		const { portrait } = this.props;
+		const { portrait, dataSource: { bankruptcyNum, gmtCreate } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		return (
 			<span>
@@ -60,7 +32,6 @@ export default class Bankruptcy extends React.Component {
 					</Card>
 				) : null}
 			</span>
-
 		);
 	}
 }

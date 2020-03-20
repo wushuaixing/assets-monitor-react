@@ -73,13 +73,13 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="当事人" style={_style1} size="large" placeholder="姓名/公司" {...getFieldProps('partiesName')} />
+					<Input title="当事人" style={_style1} size="large" maxLength="40" placeholder="姓名/公司" {...getFieldProps('partiesName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="案号" style={_style1} size="large" placeholder="案号" {...getFieldProps('caseNumber')} />
+					<Input title="案号" style={_style1} size="large" maxLength="40" placeholder="案号" {...getFieldProps('caseNumber')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="法院" style={_style1} size="large" placeholder="法院名称" {...getFieldProps('court')} />
+					<Input title="法院" style={_style1} size="large" maxLength="20" placeholder="法院名称" {...getFieldProps('court')} />
 				</div>
 				<div className="yc-query-item" style={{ height: 34, paddingTop: 9 }}>
 					<span className="yc-query-item-title">是否过滤本级机构：</span>

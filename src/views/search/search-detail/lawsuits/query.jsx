@@ -124,6 +124,7 @@ class QUERYLAWSUITS extends React.Component {
 						<div key={item.id} className="item" style={{ 'margin-right': 15 }}>
 							<Input
 								title="原告"
+								maxLength="40"
 								style={_style1}
 								value={item.name}
 								placeholder="姓名/公司名称"
@@ -172,6 +173,7 @@ class QUERYLAWSUITS extends React.Component {
 									key={item.id}
 									style={_style1}
 									title="被告"
+									maxLength="40"
 									value={item.name}
 									placeholder="姓名/公司名称"
 									onChange={e => inputChange(2, e, item.id)}
@@ -217,6 +219,7 @@ class QUERYLAWSUITS extends React.Component {
 							title="起诉法院"
 							style={_style1}
 							size="large"
+							maxLength="20"
 							placeholder="法院名称"
 							{...getFieldProps('court', {
 								initialValue: urlObj.court || undefined,
@@ -229,6 +232,7 @@ class QUERYLAWSUITS extends React.Component {
 							title="案号"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							placeholder="案件编号"
 							{...getFieldProps('ah', {
 								initialValue: urlObj.ah || undefined,

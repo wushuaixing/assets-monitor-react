@@ -64,7 +64,7 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
+					<Input title="债务人" style={_style1} maxLength="40" size="large" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
 				</div>
 
 				<div className="yc-query-item">
@@ -101,6 +101,7 @@ class QueryCondition extends React.Component {
 						style={_style1}
 						size="large"
 						suffix="万元"
+						maxLength="10"
 						inputFirstProps={getFieldProps('lowPrice', {
 							validateTrigger: 'onBlur',
 							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),

@@ -72,7 +72,7 @@ export default class Break extends React.Component {
 														<span className="card-content-role-text">{item.typeName}</span>
 														<span className="card-content-role-info">：</span>
 														<span className="card-content-role-num">
-															{item.count}
+															<span className="portrait-card-num">{item.count}</span>
 															条
 														</span>
 													</div>
@@ -83,7 +83,7 @@ export default class Break extends React.Component {
 													<span className="card-content-role-text">{item.typeName}</span>
 													<span className="card-content-role-info">：</span>
 													<span className="card-content-role-num">
-														{item.count}
+														<span className="portrait-card-num">{item.count}</span>
 														条
 													</span>
 												</div>

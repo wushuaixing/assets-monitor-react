@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { Spin, Table } from '@/common';
 import { parseQuery } from '@/utils';
-import { getBranch } from '@/utils/api/portrait-inquiry/enterprise/info';
+import { getBranch } from '@/utils/api/detail/info';
 
 export default class Branch extends React.Component {
 	constructor(props) {

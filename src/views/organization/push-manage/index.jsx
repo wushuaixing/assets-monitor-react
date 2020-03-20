@@ -236,6 +236,7 @@ class BasicTable extends React.Component {
 					role={role}
 					clearInput={this.clearInput}
 					getSearchValue={this.getSearchValue}
+					maxLength="40"
 				/>
 				<div className="search-item">
 					<p>角色：</p>

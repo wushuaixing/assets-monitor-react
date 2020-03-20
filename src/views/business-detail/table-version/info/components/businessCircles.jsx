@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { parseQuery } from '@/utils';
 import { Spin, Table } from '@/common';
-import { getChange } from '@/utils/api/portrait-inquiry/enterprise/info';
+import { getChange } from '@/utils/api/detail/info';
 
 export default class BusinessCircles extends React.Component {
 	constructor(props) {
@@ -32,7 +32,7 @@ export default class BusinessCircles extends React.Component {
 		const urlValue = parseQuery(hash);
 		const params = {
 			num: 5,
-			id: urlValue.id || '',
+			obligorId: urlValue.id || '',
 			page: value > 200 ? 200 : value,
 		};
 		getChange(params)

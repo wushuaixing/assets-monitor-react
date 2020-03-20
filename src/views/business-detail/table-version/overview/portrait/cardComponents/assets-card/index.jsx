@@ -1,56 +1,24 @@
 import React from 'react';
 import { navigate } from '@reach/router';
-import { overviewAuction } from 'api/detail/overview';
-import { getQueryByName } from '@/utils';
 import { toThousands } from '@/utils/changeTime';
-import Card from '../card';
 import img from '@/assets/img/business/assestCard.png';
 import assetsPrice from '@/assets/img/business/assets_price.png';
+import Card from '../card';
 import './style.scss';
 
 export default class RiskInformation extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			dataSource: {},
-		};
+		this.state = {};
 	}
-
-	componentDidMount() {
-		this.getData();
-	}
-
-	getData = () => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 348229;
-		const params = {
-			obligorId,
-			type: 1,
-		};
-		// 业务列表信息
-		overviewAuction(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					dataSource: res.data,
-				});
-			}
-		}).catch(() => {});
-	};
 
 	handleNavigation = () => {
 		navigate('/business/detail/info/102?eleID=e-assets-auction');
 	};
 
 	render() {
-		const { dataSource } = this.state;
-		const { portrait } = this.props;
+		const { portrait, dataSource } = this.props;
 		const roleDistributions = dataSource && Array.isArray((dataSource.roleDistributions)) && dataSource.roleDistributions.length > 0;
-		dataSource.roleDistributions = [
-			{ count: 1, type: -1, typeName: '未知角色' },
-			{ count: 1, type: -1, typeName: '未知角色' },
-			{ count: 1, type: -1, typeName: '未知角色' },
-			{ count: 1, type: -1, typeName: '未知角色' },
-			{ count: 1, type: -1, typeName: '未知角色' },
-		];
 		return (
 			<span>
 				{
@@ -70,7 +38,7 @@ export default class RiskInformation extends React.Component {
 										<div>相关资产价值约</div>
 										<div>
 											<span style={{ color: '#FB5A5C', fontSize: '16px', marginRight: '5px' }}>{dataSource.assetTotal ? toThousands(dataSource.assetTotal) : '-'}</span>
-										元
+											元
 										</div>
 									</div>
 									<div className="card-content-role">
@@ -83,7 +51,7 @@ export default class RiskInformation extends React.Component {
 															<span className="card-content-role-text">{item.typeName}</span>
 															<span className="card-content-role-info">：</span>
 															<span className="card-content-role-num">
-																{item.count}
+																<span className="portrait-card-num">{item.count}</span>
 																条
 															</span>
 														</div>
@@ -94,7 +62,7 @@ export default class RiskInformation extends React.Component {
 														<span className="card-content-role-text">{item.typeName}</span>
 														<span className="card-content-role-info">：</span>
 														<span className="card-content-role-num">
-															{item.count}
+															<span className="portrait-card-num">{item.count}</span>
 															条
 														</span>
 													</div>
@@ -105,7 +73,7 @@ export default class RiskInformation extends React.Component {
 													<span className="card-content-role-text">{item.typeName}</span>
 													<span className="card-content-role-info">：</span>
 													<span className="card-content-role-num">
-														{item.count}
+														<span className="portrait-card-num">{item.count}</span>
 														条
 													</span>
 												</div>

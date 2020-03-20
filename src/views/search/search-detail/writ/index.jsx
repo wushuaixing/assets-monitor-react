@@ -298,6 +298,7 @@ class WRIT extends React.Component {
 							title="案号"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							placeholder="案件编号"
 							{...getFieldProps('ah', {
 								initialValue: params ? params.ah : '',
@@ -310,6 +311,7 @@ class WRIT extends React.Component {
 							title="案由"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							placeholder="案件内容提要"
 							{...getFieldProps('reason', {
 								initialValue: params ? params.reason : '',
@@ -322,6 +324,7 @@ class WRIT extends React.Component {
 							title="起诉法院"
 							style={_style1}
 							size="large"
+							maxLength="20"
 							placeholder="法院名称"
 							{...getFieldProps('court', {
 								initialValue: params ? params.court : '',
