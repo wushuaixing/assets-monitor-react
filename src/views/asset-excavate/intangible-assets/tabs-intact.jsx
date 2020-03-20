@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs } from '@/common';
-import API from '@/utils/api/monitor-info/intangible';
+import { requestAll } from '@/utils/promise';
+import APISource from '@/utils/api/monitor-info/intangible';
 import { unReadCount } from '@/utils/api/monitor-info';
 
 export default class TabsIntact extends React.Component {
@@ -22,7 +23,7 @@ export default class TabsIntact extends React.Component {
 		this.toGetUnReadCount(_source);
 		config.forEach((i, index) => {
 			if (i.id !== type) {
-				API(i.id, 'listCount')({}).then((res) => {
+				APISource(i.id, 'listCount')({}).then((res) => {
 					if (res.code === 200) {
 						_source[index].number = res.data;
 						this.setState({ _source });
@@ -35,30 +36,17 @@ export default class TabsIntact extends React.Component {
 
 	toGetUnReadCount=(config) => {
 		const { onRefresh } = this.props;
-		const result = config.map((item) => {
-			const key = item;
-			API(key.id, 'listCount')({ isRead: 0 }).then((res) => {
-				key.dot = res.data;
+		const { _source } = this.state;
+		const apiList = config.map(i => ({ api: APISource(i.id, 'listCount')({ isRead: 0 }), info: { id: i.id } }));
+		requestAll(apiList).then((res) => {
+			res.forEach((item, index) => {
+				_source[index].dot = item.data;
 			});
-			return key;
+			this.setState({ _source });
+			if (onRefresh)onRefresh(_source);
+		}).catch(() => {
+		    // 异常处理
 		});
-		this.setState({ _source: result });
-		if (onRefresh)onRefresh(result);
-		/* unReadCount().then((res) => {
-			const { data, code } = res;
-			if (code === 200) {
-				const result = config.map((item) => {
-					const _item = item;
-					if (_item.id === 'YC020701')_item.dot = data.companyAbnormalCount;
-					if (_item.id === 'YC020702')_item.dot = data.changeFlag;
-					if (_item.id === 'YC020703')_item.dot = data.companyIllegalCount;
-					if (_item.id === 'YC020704')_item.dot = data.taxCount;
-					return _item;
-				});
-				this.setState({ _source: result });
-				if (onRefresh)onRefresh(result);
-			}
-		}); */
 	};
 
 	render() {
