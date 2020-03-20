@@ -200,8 +200,9 @@ class LAWSUITS extends React.Component {
 		const {
 			Params, type, Sort, dataList, pageSize, page,
 		} = this.state;
+		// gmtTrial
 		const params = {
-			sortColumn: 'gmtRegister',
+			sortColumn: type === 1 ? 'gmtRegister' : 'gmtTrial',
 			sortOrder: Sort === 'DESC' ? 'ASC' : 'DESC',
 			...Params,
 			page,
