@@ -107,6 +107,7 @@ function exportTemplate(source, exportType, name) {
 		},
 	};
 	var _dataSource = JSON.parse(source);
+
 	var field = "BB";
 	// public enumeration object
 	var s = {
@@ -172,23 +173,16 @@ function exportTemplate(source, exportType, name) {
 			})
 		},
 		urlDom: function (title, url, defaultWord) {
-			var dW = defaultWord || "-";
-			return (url ? "<a href=\"" + url + "\" target=\"_blank\" class=\"base-b fw-bold\">" + (title || dW) + "</a>" : (title || dW));
+			var content = title || defaultWord || "-";
+			return (url ? "<a href=\"" + url + "\" target=\"_blank\" class=\"t3\">" + content + "</a>"
+				: ("<span class='t2'>"+content+"</span>"));
 		},
-		textDesc: function (text, desc, colon, width) {
-			var _colon = colon || "：";
-			return "<li class=\"mg8-0\"><div class=\"nAndI\">" +
-				(desc ? ("<span class=\"n-title " + (width ? "po" : "") + "\">" + (desc + _colon) + "</span>") : '') +
-				"<span class=\"n-desc\" " + (width ? ("style='margin-left:" + width + "px';") : "") + ">" + text + "</span></div></li>";
+		tag(value,className){
+			if (!value) return '';
+			var _className = className ? ('tag ' + className) : 'tag';
+			return "<span class=\"" + _className + "\">" + value + "</span>";
 		},
-		infoList: function (source, width) {
-			var res = '';
-			source.forEach(function (i) {
-				res += f.textDesc(i.t, i.d, i.colon, i.width || width)
-			});
-			return res;
-		},
-		floatFormat: function (item, unit, include, defaultWord) {
+		threeDigit: function (item, unit, include, defaultWord) {
 			if (include && !item) return (defaultWord || '-');
 			else if (!item && item !== 0) return (defaultWord || '-');
 			var type = parseFloat(item);
@@ -213,6 +207,44 @@ function exportTemplate(source, exportType, name) {
 				arr1.push(pointer);
 			}
 			return arr1.join('') + (unit || '');
+		},
+		normalList(list) {
+			var listLineInline = false;
+			var result = '';
+			list.forEach(function (i) {
+				var dot = i.dot ? ("<i class=\"" + i.dot + "\"></i>") : '';
+				var desc = (dot + (i.t ? ("<u>" + i.t + "</u>") : '') + (i.cot || '-'));
+				if (i.inline) {
+					result +=  (i.inline && !listLineInline)?'<li>':'';
+					result += ((listLineInline ? '<div class=\"n-line\"></div>' : '<li>') + desc);
+				} else {
+					result += ((listLineInline ? '</li><li>' : '<li>') + desc + '</li>');
+				}
+				listLineInline = Boolean(i.inline);
+			});
+			return result;
+		},
+		partiesList(data) {
+			var res = '';
+			if (data.length && typeof data === 'object') {
+				(data || []).forEach(function (item) {
+					res += ("<li><u>" + item.role + "</u>");
+					var childStr = [];
+					item.child.forEach(function (i) {
+						if (i.birthday || i.gender) {
+							var result = [];
+							if (i.gender === 1) result.push('男');
+							if (i.gender === 2) result.push('女');
+							if (i.birthday) result.push(i.birthday);
+							childStr.push(i.name + "(" + result.join(" ") + ")");
+						} else {
+							childStr.push(i.name)
+						}
+					});
+					res += (childStr.join('、') + '</li>');
+				})
+			}
+			return res;
 		},
 		handleParties: function (data) {
 			if (!data) return '--';
@@ -252,37 +284,6 @@ function exportTemplate(source, exportType, name) {
 		return value ? value : (defaultWord || '-');
 	};
 
-	var parties = function (data) {
-		var res = {
-			length: (data || []).length,
-			fill: "",
-			appendDom: "",
-		};
-		if (res.length) {
-			var result = f.handleParties(data);
-			res.length = result.length;
-			result.forEach(function (i, index) {
-				var childStr = [];
-				i.child.forEach(function (item) {
-					if (item.birthday || item.gender) {
-						var result = [];
-						if (item.gender === 1) result.push('男');
-						if (item.gender === 2) result.push('女');
-						if (item.birthday) result.push((typeof item.birthday === "number" ? f.format(item.birthday) : item.birthday));
-						childStr.push(item.name + "(" + result.join(" ") + ")");
-					} else {
-						childStr.push(item.name)
-					}
-				});
-				if (index === 0) res.fill = "<td style='padding-right: 3px;min-width:60px;'>" + i.role + "：</td><td style='padding-left: 0;width: 200px'>" + (childStr.join('、')) + "</td>";
-				else res.appendDom += "<tr><td style='padding-right: 0;'>" + i.role + "：</td><td style='padding-left: 0'>" + (childStr.join('、')) + "</td></tr>"
-			});
-
-		} else {
-			res.fill = "<td>-</td><td></td>";
-		}
-		return res;
-	};
 	var taxParties = function (data) {
 		var res = {
 			length: (data || []).length,
@@ -337,8 +338,11 @@ function exportTemplate(source, exportType, name) {
 		{f: "../../img/icon_shixin.png", v: disIconData},
 		{f: "../../img/icon-accurate.png", v: accurateImgData},
 		{f: "{base.queryTime}", v: f.format()}]);
+
 	/* baseInfo -- fill */
-	var baseInfo = function method(data, status) {
+	var baseInfo = function method(data, status)
+
+	{
 		var list = ((data || {}).businessList) || ((data || {}).obligorList) || [];
 		var obj = (data.detail) || {};
 		var userInfo = '';
@@ -382,6 +386,7 @@ function exportTemplate(source, exportType, name) {
 	};
 	// baseInfo((type ? d.BA01 : d.BB01), type);
 
+	/* draw normal table */
 	var drawTable = function (data, option) {
 		var thStr = "<tr>";
 		var trArray = [];
@@ -408,7 +413,57 @@ function exportTemplate(source, exportType, name) {
 		var taxon = option.id;
 		var tableClass = (option.className || '') + (/I/.test(option.id) ? ' table-border' : '');
 		var list = '';
+		var inline = true;
+		var dot = true;
 		switch (taxon) {
+			case 'A10201': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.caseNumber, i.url)
+						+ f.tag(s.caseType[i.caseType], 'case-tag')
+						+ f.normalList([
+							{t: '立案日期', cot: i.gmtRegister},
+						])
+						+ f.partiesList(f.handleParties(i.parties))
+						+ "</td><td>" + f.normalList([
+							{t: '审理法院', cot: i.court}
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			case 'A10202': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.caseNumber, i.url)
+						+ f.tag(i.caseReason)
+						+ f.normalList([
+							{t: '开庭日期', cot: i.gmtTrial},
+						])
+						+ f.partiesList(f.handleParties(i.parties))
+						+ "</td><td>" + f.normalList([
+							{t: '审理法院', cot: i.court}
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			case 'A10203': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.title, i.url)
+						+ f.tag(i.caseType, 'case-tag')
+						+ f.tag(i.caseReason)
+						+ f.normalList([
+							{t: '判决日期', cot: i.gmtJudgment, inline},
+							{t: '发布日期', cot: i.gmtPublish, inline}
+						])
+						+ f.partiesList(f.handleParties(i.parties))
+						+ "</td><td>" + f.normalList([
+							{cot: i.caseNumber, dot},
+							{t: '审理法院', cot: i.court}
+						]) + "</td></tr>";
+				});
+				break;
+			}
 			case 'I50101': {
 				list = "<tr><td>法定代表人</td><td>{legalPerson}</td><td>组织机构代码</td><td>{orgNumber}</td></tr><tr><td>统一社会信用代码</td><td>{creditCode}</td><td>纳税人识别号</td><td>{taxNumber}</td></tr><tr><td>成立日期</td><td>{establishTime}</td><td>营业期限</td><td>{timeLimit}</td></tr><tr><td>注册资本</td><td>{regCapital}</td><td>实缴资本</td><td>{actualCapital}</td></tr><tr><td>经营状态</td><td>{regStatus}</td><td>登记机关</td><td>{regInstitute}</td></tr><tr><td>企业类型</td><td>{companyOrgType}</td><td>核准日期</td><td>{approvedTime}</td></tr><tr><td>所属行业</td><td>{industry}</td><td>工商注册号</td><td>{regNumber}</td></tr><tr><td>人员规模</td><td>{scale}</td><td>参保人数</td><td>{insuranceNum}</td></tr><tr><td>英文名</td><td>{englishName}</td><td>注册地址</td><td>{regLocation}</td></tr><tr><td>经营范围</td><td colspan='3'>{businessScope}</td></tr>";
 				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
@@ -427,17 +482,23 @@ function exportTemplate(source, exportType, name) {
 				break;
 			}
 			case 'I50301': {
-				list = "<tr><th style=\"width: 40px\">序号</th><th>姓名</th><th>职务</th></tr>";
-				data.forEach(function (i, index) {
-					list += ("<tr><td>" + (index + 1) + "</td><td>" + (i.name || '--') + "</td><td>" + (i.job || '--') + "</td></tr>");
-				});
+				list = drawTable(data, [
+					{t: '序号', f: 'index', w: 40},
+					{t: '股东基本信息', f: 'name'},
+					{t: '出资比例', f: 'rate'},
+					{t: '认缴出资额', f: 'amount'},
+				]);
 				break;
 			}
 			case 'I50501': {
-				list = "<tr><th style=\"width: 40px\">序号</th><th>姓名</th><th>职务</th></tr>";
-				data.list.forEach(function (i, index) {
-					list += ("<tr><td>" + (index + 1) + "</td><td>" + (i.name || '--') + "</td><td>" + (i.job || '--') + "</td></tr>");
-				});
+				list = drawTable(data.list, [
+					{t: '序号', f: 'index', w: 40},
+					{t: '机构名称', f: 'companyName'},
+					{t: '法定代表人', f: 'legalName'},
+					{t: '注册资本', f: 'regCapital'},
+					{t: '注册时间', f: 'regTime'},
+					{t: '经营状态', f: 'regStatus'}
+				]);
 				break;
 			}
 			case 'I50601': {
@@ -462,6 +523,7 @@ function exportTemplate(source, exportType, name) {
 				]);
 				break;
 			}
+			default :{}
 		}
 		return tableClass ? ("<table class='" + tableClass + "'>" + list + "</table>") : ("<table>" + list + "</table>");
 	};
