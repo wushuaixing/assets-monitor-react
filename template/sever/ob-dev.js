@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 
-var dataSource = JSON.stringify(require('./data2'));
+var dataSource = JSON.stringify(require('./data-ob'));
 
 const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(size, file).toString('base64');
 
@@ -75,7 +75,9 @@ function exportTemplate(source, exportType) {
 			11: "撤回",
 		}
 	};
-	var f = {	// public function object
+
+	// public function object
+	var f = {
 		format: function (date, formatStr, isSelf) {
 			var _this = "";
 			if (date === 0) _this = new Date(null);
@@ -221,7 +223,7 @@ function exportTemplate(source, exportType) {
 		}
 		return res;
 	};
-	var taxParties = function (data) {
+	var taxParties = function (data)  {
 		var res = {
 			length: (data || []).length,
 			fill: "",
