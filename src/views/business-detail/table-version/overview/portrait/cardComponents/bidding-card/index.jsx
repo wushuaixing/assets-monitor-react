@@ -11,7 +11,7 @@ export default class Bidding extends React.Component {
 	}
 
 	render() {
-		const { portrait, dataSource: { biddingNum, gmtCreate } } = this.props;
+		const { portrait, dataSource: { biddingNum, gmtCreate, obligorTotal } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		return (
 			<span>
@@ -25,10 +25,10 @@ export default class Bidding extends React.Component {
 						styleName="bidding-card"
 					>
 						<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
-							{isBusiness ? (
+							{isBusiness && obligorTotal ? (
 								<div className="card-content-role-itemLeft">
 									<img className="card-left-img" src={matching} alt="" />
-									<span className="portrait-card-num">3</span>
+									<span className="portrait-card-num">{obligorTotal}</span>
 									人匹配到招投标信息
 								</div>
 							) : null}

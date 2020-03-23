@@ -1,5 +1,9 @@
 import React from 'react';
-import { overviewLitigation, overviewBusiness } from 'api/detail/overview';
+import {
+	overviewLitigation, // 债务人涉诉
+	businessOverviewLitigation, // 业务涉诉
+	overviewBusiness,
+} from 'api/detail/overview';
 import { parseQuery } from '@/utils';
 import AssetAuction from './components/assetAuction';
 import Land from './components/land';
@@ -66,24 +70,13 @@ export default class Visualize extends React.Component {
 			this.setState({ loading: false });
 		});
 		// 获取涉诉信息
-		overviewLitigation(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						litigationInfos: res.data.litigationInfos,
-						litigationLoading: false,
-					});
-				} else {
-					this.setState({
-						litigationLoading: false,
-						litigationInfos: [
-							{ count: 0 },
-							{ count: 0 },
-							{ count: 0 },
-						],
-					});
-				}
-			}).catch(() => {
+		overviewLitigation(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					litigationInfos: res.data.litigationInfos,
+					litigationLoading: false,
+				});
+			} else {
 				this.setState({
 					litigationLoading: false,
 					litigationInfos: [
@@ -92,7 +85,17 @@ export default class Visualize extends React.Component {
 						{ count: 0 },
 					],
 				});
+			}
+		}).catch(() => {
+			this.setState({
+				litigationLoading: false,
+				litigationInfos: [
+					{ count: 0 },
+					{ count: 0 },
+					{ count: 0 },
+				],
 			});
+		});
 	};
 
 	// 获取资产监控可模块数量
@@ -145,6 +148,7 @@ export default class Visualize extends React.Component {
 	};
 
 	render() {
+		const { portrait } = this.props;
 		const {
 			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, loading, IntangibleCount, BiddingCount,
 		} = this.state;
@@ -156,17 +160,17 @@ export default class Visualize extends React.Component {
 					<div className="yc-overview-title">资产概况</div>
 					<div className="yc-overview-container">
 						{/* 相关资产拍卖 */}
-						<AssetAuction obligorId={348229} getAssetProfile={this.getAssetProfile} />
+						<AssetAuction portrait={portrait} obligorId={348229} getAssetProfile={this.getAssetProfile} />
 						{/* 无形资产 */}
-						<Intangible obligorId={326740} getAssetProfile={this.getAssetProfile} />
+						<Intangible portrait={portrait} obligorId={326740} getAssetProfile={this.getAssetProfile} />
 						 {/* 土地信息 */}
-						 <Land obligorId={353121} getAssetProfile={this.getAssetProfile} />
+						 <Land portrait={portrait} obligorId={353121} getAssetProfile={this.getAssetProfile} />
 						{/* 代位权信息 (裁判文书) */}
-						 <Subrogation obligorId={348350} getAssetProfile={this.getAssetProfile} />
+						 <Subrogation portrait={portrait} obligorId={348350} getAssetProfile={this.getAssetProfile} />
 						{/* /!* 股权质押 *!/ */}
-						 <EquityPledge obligorId={348812} getAssetProfile={this.getAssetProfile} />
+						 <EquityPledge portrait={portrait} obligorId={348812} getAssetProfile={this.getAssetProfile} />
 						{/* /!* 动产抵押信息 *!/ */}
-						 <ChattelMortgage obligorId={348897} getAssetProfile={this.getAssetProfile} />
+						 <ChattelMortgage portrait={portrait} obligorId={348897} getAssetProfile={this.getAssetProfile} />
 						 {/* 招标中标 */}
 						 <Bidding obligorId={353121} getAssetProfile={this.getAssetProfile} />
 					</div>
@@ -190,11 +194,11 @@ export default class Visualize extends React.Component {
 							<Spin visible={litigationLoading}>
 								<div>
 									{/* 破产重组 */}
-									<Bankruptcy obligorId={319839} />
+									<Bankruptcy portrait={portrait} obligorId={319839} />
 									{/* 涉诉信息 */}
-									{litigationInfos && litigationInfos.length > 0 && <Information litigationInfosArray={litigationInfos} />}
+									{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
 									{/* 经营风险 */}
-									<BusinessRisk obligorId={324155} />
+									<BusinessRisk portrait={portrait} obligorId={324155} />
 								</div>
 							</Spin>
 						)}

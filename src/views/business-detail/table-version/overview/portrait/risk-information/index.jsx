@@ -1,8 +1,11 @@
 import React from 'react';
 import {
 	overviewBankruptcy, // 债务人破产重组
+	businessOverviewBankruptcy, // 业务破产重组
 	overviewLitigation, // 债务人涉诉信息
+	businessOverviewLitigation, // 业务涉诉
 	overviewRisk, // 债务人经营风险
+	businessOverviewRisk, // 业务经营风险
 } from 'api/detail/overview';
 import { Spin } from '@/common';
 import Bankruptcy from '../cardComponents/Bankruptcy-card';
@@ -23,11 +26,13 @@ export default class RiskInformation extends React.Component {
 	}
 
 	componentDidMount() {
-		const obligorId = getQueryByName(window.location.href, 'id') || 0;
-		const params = { obligorId, type: 1 };
+		const obligorId = getQueryByName(window.location.href, 'id');
+		const businessId = 22584 || getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };
 
 
-		Promise.all([this.getBankruptcyData(params), this.getLitigationData(params), this.getRiskData(params)]).then((res) => {
+		Promise.all([this.getBankruptcyData(params, portrait), this.getLitigationData(params, portrait), this.getRiskData(params, portrait)]).then((res) => {
 			this.setState({
 				bankruptcyPropsData: res[0],
 				litigationPropsData: res[1],
@@ -37,9 +42,10 @@ export default class RiskInformation extends React.Component {
 	}
 
 	// 破产重组
-	getBankruptcyData = (value) => {
-		const params = { ...value, obligorId: 319839 };
-		return overviewBankruptcy(params).then((res) => {
+	getBankruptcyData = (value, portrait) => {
+		const params = { ...value };
+		const api = portrait === 'business' ? businessOverviewBankruptcy : overviewBankruptcy;
+		return api(params).then((res) => {
 			let bankruptcyPropsData = {};
 			if (res.code === 200) {
 				const { bankruptcy, gmtCreate } = res.data;
@@ -53,9 +59,10 @@ export default class RiskInformation extends React.Component {
 	};
 
 	// 涉诉信息
-	getLitigationData = (value) => {
-		const params = { ...value, obligorId: 326793 };
-		return overviewLitigation(params).then((res) => {
+	getLitigationData = (value, portrait) => {
+		const params = { ...value };
+		const api = portrait === 'business' ? businessOverviewLitigation : overviewLitigation;
+		return api(params).then((res) => {
 			let litigationPropsData = {};
 			if (res.code === 200) {
 				const dataSource = [];
@@ -74,9 +81,10 @@ export default class RiskInformation extends React.Component {
 	};
 
 	// 经营风险
-	getRiskData = (value) => {
-		const params = { ...value, obligorId: 324155 };
-		return overviewRisk(params).then((res) => {
+	getRiskData = (value, portrait) => {
+		const params = { ...value };
+		const api = portrait === 'business' ? businessOverviewRisk : overviewRisk;
+		return api(params).then((res) => {
 			let riskPropsData = {};
 			if (res.code === 200) {
 				const dataSource = [];
@@ -91,6 +99,7 @@ export default class RiskInformation extends React.Component {
 					dataSource,
 					dataSourceNum,
 					gmtCreate: res.data.gmtCreate,
+					obligorTotal: res.data.obligorTotal || null,
 				};
 			}
 			return riskPropsData;

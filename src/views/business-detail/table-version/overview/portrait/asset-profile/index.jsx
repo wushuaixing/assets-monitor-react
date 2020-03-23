@@ -2,10 +2,17 @@ import React from 'react';
 import {
 	overviewAuction, // 债务人资产拍卖
 	overviewLand, // 债务人土地信息
+	businessOverviewLand, // 业务土地信息
 	overviewIntangible, // 债务人无形资产
+	businessOverviewIntangible, // 业务无形资产
 	overviewSubrogation, // 债务人代位权
+	businessOverviewSubrogation, // 业务代位权
 	overviewStock, // 债务人股权质押
-	overviewBidding, overviewMortgage, // 债务人招投标
+	businessOverviewStock, // 业务股权质押
+	overviewMortgage, // 债务人动产抵押
+	businessOverviewMortgage, // 业务动产抵押
+	overviewBidding, // 债务人招投标
+	businessOverviewBidding, // 业务招投标
 } from 'api/detail/overview';
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
@@ -34,17 +41,12 @@ export default class AssetProfile extends React.Component {
 	}
 
 	componentDidMount() {
-		const obligorId = getQueryByName(window.location.href, 'id') || 353121;
-		const params = { obligorId, type: 1 };
-		// this.getAuctionData(params);
-		// this.getLandData(params);
-		// this.getIntangibleData(params);
-		// this.getSubrogationData(params);
-		// this.getStockData(params);
-		// this.getBiddingData(params);
-		// this.getMortgageData(params);
-		Promise.all([this.getAuctionData(params), this.getLandData(params), this.getIntangibleData(params), this.getSubrogationData(params),
-			this.getStockData(params), this.getMortgageData(params), this.getBiddingData(params)]).then((res) => {
+		const obligorId = getQueryByName(window.location.href, 'id');
+		const businessId = 22584 || getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };
+		Promise.all([this.getAuctionData(params, portrait), this.getLandData(params, portrait), this.getIntangibleData(params, portrait), this.getSubrogationData(params, portrait),
+			this.getStockData(params, portrait), this.getMortgageData(params, portrait), this.getBiddingData(params, portrait)]).then((res) => {
 			this.setState({
 				auctionPropsData: res[0],
 				landPropsData: res[1],
@@ -73,10 +75,11 @@ export default class AssetProfile extends React.Component {
 	};
 
 	// 土地信息
-	getLandData = (value) => {
-		const params = { obligorId: 353121, ...value };
-		// const api = portrait === 'business' ? businessOverviewLand : overviewLand;
-		return overviewLand(params).then((res) => {
+	getLandData = (value, portrait) => {
+		console.log(portrait);
+		const params = { ...value };
+		const api = portrait === 'business' ? businessOverviewLand : overviewLand;
+		return api(params).then((res) => {
 			let landPropsData = {};
 			if (res.code === 200) {
 				const dataSource = res.data.roleDistributions;
@@ -85,6 +88,7 @@ export default class AssetProfile extends React.Component {
 					dataSource,
 					dataSourceNum,
 					gmtCreate: res.data.gmtCreate,
+					obligorTotal: res.data.obligorTotal || null,
 				};
 				// this.setState({
 				// 	landPropsData,
@@ -95,9 +99,10 @@ export default class AssetProfile extends React.Component {
 	};
 
 	// 无形资产
-	getIntangibleData = (value) => {
-		const params = { obligorId: 326740, ...value };
-		return overviewIntangible(params).then((res) => {
+	getIntangibleData = (value, portrait) => {
+		const params = { ...value };
+		const api = portrait === 'business' ? businessOverviewIntangible : overviewIntangible;
+		return api(params).then((res) => {
 			let intangiblePropsData = {};
 			if (res.code === 200) {
 				const dataSource = [];
@@ -110,6 +115,7 @@ export default class AssetProfile extends React.Component {
 					dataSource,
 					dataSourceNum,
 					gmtCreate: res.data.gmtCreate,
+					obligorTotal: res.data.obligorTotal || null,
 				};
 				// this.setState({
 				// 	intangiblePropsData,
@@ -122,9 +128,10 @@ export default class AssetProfile extends React.Component {
 	};
 
 	// 代位权
-	getSubrogationData = (value) => {
-		const params = { obligorId: 348350, ...value };
-		return overviewSubrogation(params).then((res) => {
+	getSubrogationData = (value, portrait) => {
+		const api = portrait === 'business' ? businessOverviewSubrogation : overviewSubrogation;
+		const params = { ...value };
+		return api(params).then((res) => {
 			let subrogationPropsData = {};
 			if (res.code === 200) {
 				const {
@@ -138,6 +145,7 @@ export default class AssetProfile extends React.Component {
 					allNum,
 					otherCase,
 					gmtCreate,
+					obligorTotal: res.data.obligorTotal || null,
 				};
 				// this.setState({ subrogationPropsData });
 			}
@@ -146,9 +154,10 @@ export default class AssetProfile extends React.Component {
 	};
 
 	// 股权质押
-	getStockData = (value) => {
-		const params = { obligorId: 348812, ...value };
-		return overviewStock(params).then((res) => {
+	getStockData = (value, portrait) => {
+		const params = { ...value };
+		const api = portrait === 'business' ? businessOverviewStock : overviewStock;
+		return api(params).then((res) => {
 			let stockPropsData = {};
 			if (res.code === 200) {
 				const dataSource = res.data.roleDistributions;
@@ -157,6 +166,7 @@ export default class AssetProfile extends React.Component {
 					dataSource,
 					dataSourceNum,
 					gmtCreate: res.data.gmtCreate,
+					obligorTotal: res.data.obligorTotal || null,
 				};
 				// this.setState({
 				// 	stockPropsData,
@@ -167,9 +177,10 @@ export default class AssetProfile extends React.Component {
 	};
 
 	// 动产抵押
-	getMortgageData = (value) => {
-		const params = { obligorId: 322304, ...value };
-		return overviewMortgage(params).then((res) => {
+	getMortgageData = (value, portrait) => {
+		const params = { ...value };
+		const api = portrait === 'business' ? businessOverviewMortgage : overviewMortgage;
+		return api(params).then((res) => {
 			let mortgagePropsData = {};
 			if (res.code === 200) {
 				const dataSource = res.data.roleDistributions;
@@ -178,6 +189,7 @@ export default class AssetProfile extends React.Component {
 					dataSource,
 					dataSourceNum,
 					gmtCreate: res.data.gmtCreate,
+					obligorTotal: res.data.obligorTotal || null,
 				};
 				// this.setState({
 				// 	mortgagePropsData,
@@ -188,15 +200,17 @@ export default class AssetProfile extends React.Component {
 	};
 
 	// 招投标
-	getBiddingData = (value) => {
-		const params = { obligorId: 353121, ...value };
-		return overviewBidding(params).then((res) => {
+	getBiddingData = (value, portrait) => {
+		const params = { ...value };
+		const api = portrait === 'business' ? businessOverviewBidding : overviewBidding;
+		return api(params).then((res) => {
 			let biddingPropsData = {};
 			if (res.code === 200) {
 				const { bidding, gmtCreate } = res.data;
 				biddingPropsData = {
 					biddingNum: bidding,
 					gmtCreate,
+					obligorTotal: res.data.obligorTotal || null,
 				};
 				// this.setState({
 				// 	biddingPropsData,
@@ -221,8 +235,8 @@ export default class AssetProfile extends React.Component {
 		const {
 			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData,
 		} = this.state;
-		return auctionPropsData.count > 0 || landPropsData.dataSourceNum > 0 || intangiblePropsData.dataSourceNum > 0 || subrogationPropsData.allNum > 0
-			|| stockPropsData.dataSourceNum > 0 || biddingPropsData.biddingNum > 0 || mortgagePropsData.dataSourceNum > 0;
+		return (Object.keys(auctionPropsData).length > 0 && auctionPropsData.auctionPropsData.count > 0) || landPropsData.dataSourceNum > 0 || intangiblePropsData.dataSourceNum > 0
+			|| subrogationPropsData.allNum > 0 || stockPropsData.dataSourceNum > 0 || biddingPropsData.biddingNum > 0 || mortgagePropsData.dataSourceNum > 0;
 	};
 
 	render() {

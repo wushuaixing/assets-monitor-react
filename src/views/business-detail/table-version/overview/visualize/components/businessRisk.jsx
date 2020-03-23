@@ -74,7 +74,7 @@ export default class BusinessRisk extends React.Component {
 										</span>
 										<span className="container-title-name">经营风险信息</span>
 									</div>
-									<div className="overview-container-content">
+									<div className="overview-container-content" style={{ marginLeft: '-20px' }}>
 										<ColumnarEcharts title="" Data={columnarData} id="BusinessRisk" />
 									</div>
 								</div>

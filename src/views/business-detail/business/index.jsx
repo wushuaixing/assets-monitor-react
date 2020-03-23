@@ -189,6 +189,7 @@ export default class Enterprise extends React.Component {
 
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index, portrait) => {
+		const obligorId = getQueryByName(window.location.href, 'id');
 		if (item.config) {
 			const { apiData, config: { idList: _idList, status: _status } } = item;
 			const { tabConfig } = this.state;
@@ -201,7 +202,9 @@ export default class Enterprise extends React.Component {
 						const tempRep = new RegExp(`^${i}`);
 						if (tempRep.test(k)) {
 							apiArray.push({
-								api: apiData[k].count({}),
+								api: apiData[k].count({
+									obligorId,
+								}),
 								info: { id: apiData[k].id },
 							});
 						}
@@ -211,7 +214,7 @@ export default class Enterprise extends React.Component {
 			if (apiArray.length) {
 				requestAll(apiArray).then((res) => {
 					let count = 0;
-					res.forEach(i => count += i.field ? i.data[i.field] : i.data);
+					res.forEach(i => count += i.data);
 					tabConfig[index].number = count;
 					tabConfig[index].showNumber = true;
 					tabConfig[index].source = res;

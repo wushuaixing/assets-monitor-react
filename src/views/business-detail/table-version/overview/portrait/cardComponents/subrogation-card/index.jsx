@@ -13,7 +13,7 @@ export default class Subrogation extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				execute, gmtCreate, restore, allNum, otherCase,
+				execute, gmtCreate, restore, allNum, otherCase, obligorTotal,
 			},
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
@@ -31,10 +31,10 @@ export default class Subrogation extends React.Component {
 						>
 							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
 								<div className="card-content-role">
-									{isBusiness ? (
+									{isBusiness && obligorTotal ? (
 										<div className="card-content-role-itemLeft">
 											<img className="card-left-img" src={matching} alt="" />
-											<span className="portrait-card-num">3</span>
+											<span className="portrait-card-num">{obligorTotal}</span>
 											人匹配到无形资产
 										</div>
 									) : null}
@@ -50,7 +50,9 @@ export default class Subrogation extends React.Component {
 											{restore > 0 ? (
 												<div className="card-content-left-arrow">
 													<div className="card-content-popover-content">
-													5 笔执恢案件
+														{restore}
+														{' '}
+														笔执恢案件
 													</div>
 												</div>
 											) : null}

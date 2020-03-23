@@ -11,7 +11,11 @@ export default class Information extends React.Component {
 	}
 
 	render() {
-		const { portrait, dataSource: { dataSource, dataSourceNum, gmtCreate } } = this.props;
+		const {
+			portrait, dataSource: {
+				dataSource, dataSourceNum, gmtCreate, obligorTotal,
+			},
+		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
@@ -29,10 +33,10 @@ export default class Information extends React.Component {
 						>
 							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
 								<div className="card-content-role">
-									{isBusiness ? (
+									{isBusiness && obligorTotal ? (
 										<div className="card-content-role-itemLeft">
 											<img className="card-left-img" src={matching} alt="" />
-											<span className="portrait-card-num">3</span>
+											<span className="portrait-card-num">{obligorTotal}</span>
 											人匹配到资产拍卖信息
 										</div>
 									) : null}
