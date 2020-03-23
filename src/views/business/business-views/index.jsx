@@ -130,7 +130,7 @@ class BusinessView extends React.Component {
 						const { form: { resetFields } } = that.props; // 会提示props is not defined
 						resetFields('');
 						that.getData();
-						message.success(`${info.file.name} 导入${info.file.response.message}${info.file.response.data.businessCount}笔`);
+						message.success(`${info.file.name} ${info.file.response.message}${info.file.response.data.businessCount}笔`);
 						that.handleCancel();
 					} else if (info.file.response.code === 9001) {
 						message.error('服务器出错');
