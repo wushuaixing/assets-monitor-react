@@ -5,7 +5,7 @@ import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import './style.scss';
 
-export default class Bankruptcy extends React.Component {
+export default class Bidding extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {

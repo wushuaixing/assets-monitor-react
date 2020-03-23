@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewRisk } from 'api/detail/overview';
+import { overviewRisk, businessOverviewRisk } from 'api/detail/overview';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -20,15 +20,13 @@ export default class BusinessRisk extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId } = this.props;
-		this.setState({
-			loading: true,
-		});
-		const params = {
-			obligorId,
-			type: 2,
-		};
-		overviewRisk(params).then((res) => {
+		const {
+			businessId, obligorId, portrait,
+		} = this.props;
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
+		const api = portrait === 'business' ? businessOverviewRisk : overviewRisk;
+		this.setState({ loading: true });
+		api(params).then((res) => {
 			if (res.code === 200) {
 				const columnarData = [];
 				columnarData.push({ count: res.data.abnormal, typeName: '经营异常' });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewMortgage } from 'api/detail/overview';
+import { overviewMortgage, businessOverviewMortgage } from 'api/detail/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -28,30 +28,27 @@ export default class ChattelMortgage extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId, getAssetProfile } = this.props;
-		this.setState({
-			loading: true,
-		});
-		const params = {
-			obligorId,
-			type: 2,
-		};
-		overviewMortgage(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const { roleDistributions } = res.data;
-					const timeLineData = res.data.yearDistributions;
-					const allNum = getCount(roleDistributions) + getCount(timeLineData);
-					getAssetProfile(allNum, 'ChattelMortgage');
-					this.setState({
-						loading: false,
-						roleDistributions,
-						timeLineData, // 年份分布
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
+		const {
+			businessId, obligorId, getAssetProfile, portrait,
+		} = this.props;
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
+		const api = portrait === 'business' ? businessOverviewMortgage : overviewMortgage;
+		this.setState({ loading: true });
+		api(params).then((res) => {
+			if (res.code === 200) {
+				const { roleDistributions } = res.data;
+				const timeLineData = res.data.yearDistributions;
+				const allNum = getCount(roleDistributions) + getCount(timeLineData);
+				getAssetProfile(allNum, 'ChattelMortgage');
+				this.setState({
+					loading: false,
+					roleDistributions,
+					timeLineData, // 年份分布
+				});
+			} else {
+				this.setState({ loading: false });
+			}
+		})
 			.catch(() => {
 				this.setState({ loading: false });
 			});

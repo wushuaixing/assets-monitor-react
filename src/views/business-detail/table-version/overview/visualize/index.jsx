@@ -29,6 +29,7 @@ export default class Visualize extends React.Component {
 		super(props);
 		this.state = {
 			obligorId: parseQuery(window.location.hash).id || 347639,
+			businessId: 22584 || parseQuery(window.location.hash).id,
 			loading: false,
 			litigationInfos: null,
 			baseInfo: {},
@@ -50,27 +51,33 @@ export default class Visualize extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId } = this.state;
+		const { obligorId, businessId } = this.state;
+		const { portrait } = this.props;
 		this.setState({ loading: true });
-		const params = { obligorId, type: 2 };
-		// 获取工商基本信息
-		overviewBusiness(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					baseInfo: res.data.baseInfo, // 工商基本信息
-					shareholderInfos: res.data.shareholderInfos, // 股东情况
-					businessScaleInfo: res.data.businessScaleInfo, // 人员规模
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
+		const api = portrait === 'business' ? businessOverviewLitigation : overviewLitigation;
 
-					loading: false,
-				});
-			} else {
+		if (portrait === 'debtor_enterprise') {
+			// 获取工商基本信息
+			overviewBusiness(params).then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						baseInfo: res.data.baseInfo, // 工商基本信息
+						shareholderInfos: res.data.shareholderInfos, // 股东情况
+						businessScaleInfo: res.data.businessScaleInfo, // 人员规模
+
+						loading: false,
+					});
+				} else {
+					this.setState({ loading: false });
+				}
+			}).catch(() => {
 				this.setState({ loading: false });
-			}
-		}).catch(() => {
-			this.setState({ loading: false });
-		});
+			});
+		}
+
 		// 获取涉诉信息
-		overviewLitigation(params).then((res) => {
+		api(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					litigationInfos: res.data.litigationInfos,
@@ -160,19 +167,19 @@ export default class Visualize extends React.Component {
 					<div className="yc-overview-title">资产概况</div>
 					<div className="yc-overview-container">
 						{/* 相关资产拍卖 */}
-						<AssetAuction portrait={portrait} obligorId={348229} getAssetProfile={this.getAssetProfile} />
+						<AssetAuction portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* 无形资产 */}
-						<Intangible portrait={portrait} obligorId={326740} getAssetProfile={this.getAssetProfile} />
+						<Intangible portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						 {/* 土地信息 */}
-						 <Land portrait={portrait} obligorId={353121} getAssetProfile={this.getAssetProfile} />
+						 <Land portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* 代位权信息 (裁判文书) */}
-						 <Subrogation portrait={portrait} obligorId={348350} getAssetProfile={this.getAssetProfile} />
+						 <Subrogation portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* /!* 股权质押 *!/ */}
-						 <EquityPledge portrait={portrait} obligorId={348812} getAssetProfile={this.getAssetProfile} />
+						 <EquityPledge portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* /!* 动产抵押信息 *!/ */}
-						 <ChattelMortgage portrait={portrait} obligorId={348897} getAssetProfile={this.getAssetProfile} />
+						 <ChattelMortgage portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						 {/* 招标中标 */}
-						 <Bidding obligorId={353121} getAssetProfile={this.getAssetProfile} />
+						 <Bidding businessId={22584} obligorId={353121} getAssetProfile={this.getAssetProfile} />
 					</div>
 					{
 						AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
@@ -194,28 +201,33 @@ export default class Visualize extends React.Component {
 							<Spin visible={litigationLoading}>
 								<div>
 									{/* 破产重组 */}
-									<Bankruptcy portrait={portrait} obligorId={319839} />
+									<Bankruptcy portrait={portrait} businessId={772} obligorId={obligorId} />
 									{/* 涉诉信息 */}
 									{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
 									{/* 经营风险 */}
-									<BusinessRisk portrait={portrait} obligorId={324155} />
+									<BusinessRisk portrait={portrait} businessId={22584} obligorId={obligorId} />
 								</div>
 							</Spin>
 						)}
 
 						{/* <BusinessRisk companyId={companyId} /> */}
 					</div>
-
 					<div className="visualize-overview-line" />
-					<div className="yc-overview-title">工商基本信息</div>
-					<div className="yc-overview-container">
-						{/*  基本信息 */}
-						<Basic baseInfo={baseInfo} />
-						{/*  股东情况 */}
-						{shareholderInfos && shareholderInfos.length > 0 && <ShareholderSituation shareholderInfos={shareholderInfos} />}
-						{/* 企业规模 */}
-						<BusinessScale businessScaleInfo={businessScaleInfo} />
-					</div>
+					{portrait === 'debtor_enterprise'
+						? (
+							<div>
+								<div className="yc-overview-title">工商基本信息</div>
+								<div className="yc-overview-container">
+									{/*  基本信息 */}
+									<Basic baseInfo={baseInfo} />
+									{/*  股东情况 */}
+									{shareholderInfos && shareholderInfos.length > 0 && <ShareholderSituation shareholderInfos={shareholderInfos} />}
+									{/* 企业规模 */}
+									<BusinessScale businessScaleInfo={businessScaleInfo} />
+								</div>
+							</div>
+						) : null
+					}
 				</div>
 			</div>
 		);

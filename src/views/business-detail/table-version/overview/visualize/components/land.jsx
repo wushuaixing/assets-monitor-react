@@ -1,5 +1,7 @@
 import React from 'react';
-import { overviewLand } from 'api/detail/overview';
+import {
+	overviewLand, businessOverviewLand,
+} from 'api/detail/overview';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import RingEcharts from '@/views/portrait-inquiry/common/ringEcharts';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
@@ -21,15 +23,14 @@ export default class Land extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId, getAssetProfile } = this.props;
-		this.setState({
-			loading: true,
-		});
-		const params = {
-			obligorId,
-			type: 2,
-		};
-		overviewLand(params).then((res) => {
+		const {
+			businessId, obligorId, getAssetProfile, portrait,
+		} = this.props;
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
+		const api = portrait === 'business' ? businessOverviewLand : overviewLand;
+		this.setState({ loading: true });
+
+		api(params).then((res) => {
 			if (res.code === 200) {
 				const RingData = res.data.infoTypes;
 				const columnarData = res.data.visualRoleDistributions;

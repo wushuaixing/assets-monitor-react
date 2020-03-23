@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewBankruptcy } from 'api/detail/overview';
+import { overviewBankruptcy, businessOverviewBankruptcy } from 'api/detail/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -11,6 +11,7 @@ export default class Bankruptcy extends React.Component {
 		this.state = {
 			loading: false,
 			timeLineData: [],
+			detail: [],
 		};
 	}
 
@@ -19,21 +20,18 @@ export default class Bankruptcy extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId, getAssetProfile } = this.props;
-		this.setState({
-			loading: true,
-		});
-		const params = {
-			obligorId,
-			type: 2,
-		};
-		overviewBankruptcy(params).then((res) => {
+		const {
+			businessId, obligorId, portrait,
+		} = this.props;
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
+		const api = portrait === 'business' ? businessOverviewBankruptcy : overviewBankruptcy;
+		this.setState({ loading: true });
+		api(params).then((res) => {
 			if (res.code === 200) {
 				const timeLineData = res.data.yearDistributions;
-				const allNum = getCount(timeLineData);
-				// getAssetProfile(allNum, 'ChattelMortgage');
 				this.setState({
 					loading: false,
+					detail: res.data.detail || [],
 					timeLineData, // 年份分布
 				});
 			} else {
@@ -45,7 +43,7 @@ export default class Bankruptcy extends React.Component {
 	};
 
 	render() {
-		const { timeLineData, loading } = this.state;
+		const { timeLineData, loading, detail } = this.state;
 		return (
 			<div>
 				{
@@ -59,6 +57,22 @@ export default class Bankruptcy extends React.Component {
 								</span>
 								<span className="container-title-name">破产重组信息</span>
 							</div>
+
+							{detail ? (
+								<div style={{ marginBottom: '12px' }}>
+								涉及企业：
+									{detail && detail.length > 0 && detail.map((item, index) => {
+										const key = item.obligorId;
+										return (
+											<span key={key} className="click-link">
+												{item.obligorName}
+												{detail.length - index !== 1 && '、'}
+											</span>
+										);
+									})}
+								</div>
+							) : null}
+
 							<div className="overview-container-content">
 								{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="ChattelMortgage" />}
 							</div>

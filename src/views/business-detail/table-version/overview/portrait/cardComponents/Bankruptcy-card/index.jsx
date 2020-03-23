@@ -10,7 +10,7 @@ export default class Bankruptcy extends React.Component {
 	}
 
 	render() {
-		const { portrait, dataSource: { bankruptcyNum, gmtCreate } } = this.props;
+		const { portrait, dataSource: { bankruptcyNum, gmtCreate, obligorTotal } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		return (
 			<span>
@@ -25,8 +25,23 @@ export default class Bankruptcy extends React.Component {
 					>
 						<div className="card-content">
 							<div className="card-content-role">
-								{bankruptcyNum}
-								<span style={{ fontSize: '12px', color: '#4E5566', paddingLeft: '5px' }}>条破产重组风险信息</span>
+								{
+									isBusiness ? (
+										<div>
+										破产/重整风险企业：
+											<span style={{ fontSize: '12px', color: '#4E5566', paddingLeft: '5px' }}>
+												{obligorTotal}
+												{' '}
+												家
+											</span>
+										</div>
+									) : (
+										<div>
+											{bankruptcyNum}
+											<span style={{ fontSize: '12px', color: '#4E5566', paddingLeft: '5px' }}>条破产重组风险信息</span>
+										</div>
+									)
+								}
 							</div>
 						</div>
 					</Card>

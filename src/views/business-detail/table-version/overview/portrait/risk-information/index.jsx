@@ -52,6 +52,7 @@ export default class RiskInformation extends React.Component {
 				bankruptcyPropsData = {
 					bankruptcyNum: bankruptcy,
 					gmtCreate,
+					obligorTotal: res.data.obligorTotal || null,
 				};
 			}
 			return bankruptcyPropsData;
@@ -74,6 +75,7 @@ export default class RiskInformation extends React.Component {
 					dataSource,
 					dataSourceNum,
 					gmtCreate: res.data.gmtCreate,
+					obligorTotal: res.data.obligorTotal || null,
 				};
 			}
 			return litigationPropsData;

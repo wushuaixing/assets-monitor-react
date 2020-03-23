@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewIntangible } from 'api/detail/overview';
+import { overviewIntangible, businessOverviewIntangible } from 'api/detail/overview';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import { Spin } from '@/common';
@@ -19,15 +19,13 @@ export default class BusinessRisk extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId, getAssetProfile } = this.props;
-		this.setState({
-			loading: true,
-		});
-		const params = {
-			obligorId,
-			type: 2,
-		};
-		overviewIntangible(params).then((res) => {
+		const {
+			businessId, obligorId, getAssetProfile, portrait,
+		} = this.props;
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
+		const api = portrait === 'business' ? businessOverviewIntangible : overviewIntangible;
+		this.setState({ loading: true });
+		api(params).then((res) => {
 			if (res.code === 200) {
 				const columnarData = [];
 				columnarData.push({ count: res.data.construct, typeName: '建筑建造资质' });
