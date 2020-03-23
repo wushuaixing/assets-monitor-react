@@ -40,6 +40,7 @@ const handleParties = (data) => {
 			}
 		}
 	});
+	source.sort((a, b) => a.roleType - b.roleType);
 	return source;
 };
 /* // 案号 - 弹窗 */

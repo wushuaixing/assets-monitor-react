@@ -98,6 +98,11 @@ table em {
   font-style: normal;
 }
 
+.nextLine{
+  border: none;
+}
+.table-td-s-30 tr td:first-child {
+  width: 73%;   max-width: 200px;}
 .table-baseInfo tr td:first-child {
   text-align: right;
   background: #f0f1f5;
