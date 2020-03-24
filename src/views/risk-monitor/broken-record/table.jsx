@@ -34,7 +34,12 @@ const columns = (props) => {
 			width: 200,
 			render: (text, row = {}) => (
 				<div style={{ position: 'relative' }}>
-					<Ellipsis content={text || '-'} tooltip width={160} url={`/#/business/debtor/detail?id=${row.obligorId}`} />
+					<Ellipsis
+						content={(text || '-') + (text.length <= 4 ? `（${row.number}）` : '')}
+						tooltip
+						width={160}
+						url={`/#/business/debtor/detail?id=${row.obligorId}`}
+					/>
 					{row.status === 1 && <img style={imgStyle} src={isBreak} alt="" />}
 					{row.status === 2 && <img style={imgStyle} src={beforeBreak} alt="" />}
 				</div>
