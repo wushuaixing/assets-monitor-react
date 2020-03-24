@@ -1,6 +1,20 @@
 module.exports = {
+	/* 基本 */
+	"B10102":[
+		{
+			"businessId": 1,
+			"caseNumber": 1001,
+			"guarantee": 1,
+			"guaranteeString": "",
+			"obligorName": "sy",
+			"obligorNumber": "",
+			"orgName": "tt",
+			"role": 1,
+			"roleText": "担保人"
+		}
+	],
 	/* 资产*/
-// 资产拍卖_精准匹配
+	// 资产拍卖_精准匹配
 	"A10101": {},
 	// 资产拍卖_模糊匹配
 	"A10102": {},

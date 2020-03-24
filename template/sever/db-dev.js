@@ -446,6 +446,14 @@ function exportTemplate(source, exportType, name) {
 		var list = '';
 		var dot = true;
 		switch (taxon) {
+			case 'B10101':{
+				list = drawTable(data.list, [
+					{t: '业务编号', f: 'caseNumber'},
+					{t: '债务人角色', f: 'role'},
+					{t: '负责人/机构', f: 'orgName'},
+				]);
+				break;
+			}
 			case 'A10201': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -819,6 +827,11 @@ function exportTemplate(source, exportType, name) {
 	};
 
 	/* main logic entry */
+	var aboutList = function(title,source){
+		return "<div><div class=\"title\"><div class=\"t2\">" + title + "</div>" +
+			"</div><div class=\"content\">" + drawContent(option, source) + "</div></div>"
+	};
+
 	Object.keys(dd).forEach(function (field) {
 		var item = dd[field];
 		var child = '';
