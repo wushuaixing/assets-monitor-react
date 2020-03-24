@@ -97,7 +97,8 @@ class BusinessView extends React.Component {
 										{
 											row.obligors.length > 0 && row.obligors.map(item => (
 												<div>
-													{`${type(item.type)}: ${item.name} ${item.birthday || item.gender !== 0 || item.number ? `(${item.gender === 0 ? '' : ` ${item.number ? '' : `${sex(item.gender)}`} `}  ${item.number ? `${item.number}` : `${item.birthday ? `${item.birthday}` : ''}`} ${item.notes})` : ''}`}
+													{`${type(item.type)}: ${item.name} ${item.birthday || item.gender !== 0 || item.number ? `(${item.gender === 0 ? '' : ` ${item.number ? ''
+														: `${sex(item.gender)}`} `}  ${item.number ? `${item.number}` : `${item.birthday ? `${item.birthday}` : ''}`} ${item.notes})` : ''}`}
 												</div>
 											))
 										}

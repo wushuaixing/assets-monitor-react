@@ -598,13 +598,13 @@ class BusinessView extends React.Component {
 					visible={errorModalVisible}
 					onCancel={this.handleCancel}
 					footer={false}
-					width={500}
+					width={420}
 					// closable={false}
 				>
 
 					<div className="yc-confirm-body">
 						<div className="yc-confirm-header">
-							<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle-o" />
+							<Icon style={{ fontSize: 24, color: '#f66c5b', marginRight: 8 }} type="cross-circle" />
 							<span className="yc-confirm-title">{uploadErrorData.errorType}</span>
 						</div>
 						<div className="yc-confirm-content">
