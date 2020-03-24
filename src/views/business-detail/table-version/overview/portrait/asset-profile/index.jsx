@@ -41,7 +41,7 @@ export default class AssetProfile extends React.Component {
 	}
 
 	componentDidMount() {
-		const obligorId = getQueryByName(window.location.href, 'id');
+		const obligorId = getQueryByName(window.location.href, 'id') || 347917;
 		const businessId = 22584 || getQueryByName(window.location.href, 'id');
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };

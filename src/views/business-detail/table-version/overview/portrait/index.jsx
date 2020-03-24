@@ -23,7 +23,7 @@ export default class Portrait extends React.Component {
 	}
 
 	getData = () => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 348229;
+		const obligorId = 22584 || getQueryByName(window.location.href, 'id');
 		const params = {
 			obligorId,
 		};
@@ -46,13 +46,12 @@ export default class Portrait extends React.Component {
 	render() {
 		const { businessData, loading } = this.state;
 		const { portrait } = this.props;
-		const isBusinessData = Array.isArray(businessData) && businessData.length > 0; // 业务列表
+		// const isBusinessData = Array.isArray(businessData) && businessData.length > 0; // 业务列表
 		return (
 			<div className="yc-portrait-container">
 				{/* 关联业务 */}
 				{
-					isBusinessData ? (portrait && portrait === 'business' ? <BusinessRelated dataSource={businessData} loading={loading} />
-						: <AssociatedBusiness dataSource={businessData} loading={loading} />) : null
+				 portrait && portrait === 'business' ? <BusinessRelated dataSource={businessData} loading={loading} /> : <AssociatedBusiness dataSource={businessData} loading={loading} />
 				}
 				{/* 资产概况 */}
 				<AssetProfile portrait={portrait} loading={loading} />

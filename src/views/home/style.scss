@@ -254,7 +254,7 @@
     padding: 12px 15px;
   }
 }
-.treetable {
+.treeTable {
   background-repeat: repeat;
   // background-image: url("../../assets/img/home/img_bg.png");
 }
@@ -288,7 +288,7 @@
   color: $text-content;
   white-space: nowrap;
 }
-.treetable tr > th:last-child {
+.treeTable tr > th:last-child {
   border-right: 0;
 }
 .title-name {
