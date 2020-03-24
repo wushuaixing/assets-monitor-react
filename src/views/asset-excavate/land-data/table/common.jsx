@@ -48,11 +48,11 @@ const Result = {
 					<span className="list list-title align-justify">使用年限：</span>
 					{rowContent.transferTerm ? (
 						<span className="list list-content">
-							<Ellipsis content={rowContent.transferTerm ? `${rowContent.transferTerm} 年` : '-'} tooltip width={90} />
+							<Ellipsis content={rowContent.transferTerm ? `${rowContent.transferTerm}` : '-'} tooltip width={90} />
 						</span>
 					) : (
 						<span className="list list-content">
-							<Ellipsis content={rowContent.landUsageTerm ? `${rowContent.landUsageTerm} 年` : '-'} tooltip width={90} />
+							<Ellipsis content={rowContent.landUsageTerm ? `${rowContent.landUsageTerm}` : '-'} tooltip width={90} />
 						</span>
 					)}
 				</li>
