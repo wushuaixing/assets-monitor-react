@@ -12,7 +12,7 @@ const defaultColumns = {
 		{
 			title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
 			dataIndex: 'gmtRegister',
-			width: 100,
+			width: 103,
 			render: text => ReadStatus(timeStandard(text), {}),
 		},
 		{
@@ -48,7 +48,7 @@ const defaultColumns = {
 		{
 			title: <span style={{ paddingLeft: 11 }}>开庭日期</span>,
 			dataIndex: 'gmtTrial',
-			width: 100,
+			width: 103,
 			render: text => ReadStatus(timeStandard(text)),
 		},
 		{
@@ -77,7 +77,7 @@ const defaultColumns = {
 		{
 			title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
 			dataIndex: 'gmtRegister',
-			width: 100,
+			width: 103,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		},
 		{
