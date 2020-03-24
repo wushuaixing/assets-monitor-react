@@ -633,7 +633,7 @@ class BusinessView extends React.Component {
 										<a href="../../../static/template.xlsx" style={{ color: '#fff' }}>模版下载</a>
 									</Button>
 								)
-									: <Button onClick={this.handleCancel} className="yc-confirm-footer-btn" type="primary">知道了</Button>
+									: <Button onClick={this.handleCancel} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
 								}
 
 						</div>
