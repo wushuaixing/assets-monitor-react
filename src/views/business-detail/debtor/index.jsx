@@ -121,6 +121,7 @@ export default class Enterprise extends React.Component {
 			const apiArray = [];
 			const idList = _idList(portrait);
 			const status = _status(portrait);
+
 			if (idList.length > 0 && status) {
 				Object.keys(apiData).forEach((k) => {
 					idList.forEach((i) => {

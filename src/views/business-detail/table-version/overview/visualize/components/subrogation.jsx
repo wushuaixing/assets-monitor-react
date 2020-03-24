@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tooltip } from 'antd';
-import { overviewSubrogation } from 'api/detail/overview';
+import { businessOverviewSubrogation, overviewSubrogation } from 'api/detail/overview';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import RingEcharts from '@/views/portrait-inquiry/common/ringEcharts';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
@@ -34,12 +34,12 @@ export default class Subrogation extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId, getAssetProfile } = this.props;
-		const params = {
-			obligorId,
-			type: 2,
-		};
-		overviewSubrogation(params).then((res) => {
+		const {
+			businessId, obligorId, getAssetProfile, portrait,
+		} = this.props;
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
+		const api = portrait === 'business' ? businessOverviewSubrogation : overviewSubrogation;
+		api(params).then((res) => {
 			if (res.code === 200) {
 				const FilingArray = res.data.subrogationInfos[0];
 				const CourtArray = res.data.subrogationInfos[1];

@@ -154,7 +154,9 @@ class AUCTION extends React.Component {
 
 	// page翻页
 	handleChangePage = (val) => {
-		const { pageSize, startTime, endTime } = this.state;
+		const {
+			pageSize, startTime, endTime, field, order,
+		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
@@ -162,6 +164,8 @@ class AUCTION extends React.Component {
 			...fildes,
 			num: pageSize,
 			page: val,
+			field,
+			order,
 			startTime,
 			endTime,
 		};
@@ -289,6 +293,8 @@ class AUCTION extends React.Component {
 			auctionSort: undefined,
 			currentSort: undefined,
 			assessmentSort: undefined,
+			field: undefined,
+			order: undefined,
 		});
 	};
 

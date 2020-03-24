@@ -147,13 +147,16 @@ class WRIT extends React.Component {
 
 	// page翻页
 	handleChangePage = (val) => {
-		const { pageSize, startTime, endTime } = this.state;
+		const {
+			pageSize, startTime, endTime, SortTime,
+		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 
 		const fildes = getFieldsValue();
 		const params = {
 			...fildes,
+			sort: SortTime,
 			publishStart: startTime,
 			publishEnd: endTime,
 			num: pageSize,

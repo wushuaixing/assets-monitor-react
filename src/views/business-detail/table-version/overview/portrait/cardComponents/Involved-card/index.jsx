@@ -10,7 +10,11 @@ export default class Involved extends React.Component {
 	}
 
 	render() {
-		const { portrait, dataSource: { dataSource, dataSourceNum, gmtCreate } } = this.props;
+		const {
+			portrait, dataSource: {
+				dataSource, dataSourceNum, gmtCreate, obligorTotal,
+			},
+		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
@@ -32,7 +36,7 @@ export default class Involved extends React.Component {
 										? (
 											<div>
 												<span style={{ fontSize: '12px', color: '#4E5566', paddingRight: '5px' }}>涉诉风险债务人：</span>
-												<span className="portrait-card-num">{dataSourceNum}</span>
+												<span className="portrait-card-num">{obligorTotal}</span>
 												名
 											</div>
 										) : newDataSource && newDataSource.map(item => (

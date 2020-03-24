@@ -172,6 +172,7 @@ class BANKRUPTCY extends React.Component {
 			page: 1,
 			publishDateStart: undefined,
 			publishDateEnd: undefined,
+			Sort: undefined,
 			params: {},
 		});
 		navigate(generateUrlWithParams('/search/detail/bankruptcy', {}));
@@ -203,7 +204,7 @@ class BANKRUPTCY extends React.Component {
 
 	// page翻页
 	handleChangePage = (val) => {
-		const { pageSize } = this.state;
+		const { pageSize, SortTime } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
@@ -212,6 +213,7 @@ class BANKRUPTCY extends React.Component {
 		fildes.publishDateEnd = publishDateEnd;
 		const params = {
 			...fildes,
+			sort: SortTime,
 			current: val,
 			num: pageSize,
 			page: val,

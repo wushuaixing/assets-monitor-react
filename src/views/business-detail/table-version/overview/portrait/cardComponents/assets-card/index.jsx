@@ -17,17 +17,17 @@ export default class RiskInformation extends React.Component {
 	};
 
 	render() {
-		const { portrait, dataSource } = this.props;
-		const roleDistributions = dataSource && Array.isArray((dataSource.roleDistributions)) && dataSource.roleDistributions.length > 0;
+		const { portrait, dataSource: { auctionPropsData } } = this.props;
+		const roleDistributions = auctionPropsData && Array.isArray((auctionPropsData.roleDistributions)) && auctionPropsData.roleDistributions.length > 0;
 		return (
 			<span>
 				{
-					dataSource.count > 0
+					auctionPropsData.count > 0
 						? (
 							<Card
 								imgCard={img}
-								count={dataSource.count}
-								gmtCreate={dataSource.gmtCreate}
+								count={auctionPropsData.count}
+								gmtCreate={auctionPropsData.gmtCreate}
 								customStyle={portrait === 'business' ? { width: '754px', height: '140px', marginBottom: '20px' } : { width: '754px', height: '120px', marginBottom: '20px' }}
 								text="资产拍卖"
 								styleName="assets-card"
@@ -37,13 +37,13 @@ export default class RiskInformation extends React.Component {
 										<img className="card-content-left-img" src={assetsPrice} alt="" />
 										<div>相关资产价值约</div>
 										<div>
-											<span style={{ color: '#FB5A5C', fontSize: '16px', marginRight: '5px' }}>{dataSource.assetTotal ? toThousands(dataSource.assetTotal) : '-'}</span>
+											<span style={{ color: '#FB5A5C', fontSize: '16px', marginRight: '5px' }}>{auctionPropsData.assetTotal ? toThousands(auctionPropsData.assetTotal) : '-'}</span>
 											元
 										</div>
 									</div>
 									<div className="card-content-role">
 										{
-										roleDistributions && dataSource.roleDistributions.map((item, index) => {
+										roleDistributions && auctionPropsData.roleDistributions.map((item, index) => {
 											if (index > 1) {
 												if (index > 3) {
 													return (
