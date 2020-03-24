@@ -46,7 +46,7 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? '业务信息'
-				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>资产信息</SortVessel>),
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>业务信息</SortVessel>),
 			width: '23%',
 			render: AssetsInfo,
 		}, {

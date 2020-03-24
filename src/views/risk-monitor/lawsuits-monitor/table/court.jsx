@@ -21,7 +21,7 @@ const columns = (props) => {
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>开庭日期</span>
 				: <SortVessel field="GMT_TRIAL" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>开庭日期</SortVessel>),
 			dataIndex: 'gmtTrial',
-			width: 100,
+			width: 103,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '当事人',

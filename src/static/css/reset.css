@@ -20,7 +20,7 @@ body {
   -ms-touch-action: manipulation; /* 允许触摸驱动的平移和拖拽缩放 */
   touch-action: manipulation; /* 允许触摸驱动的平移和拖拽缩放 */
   -webkit-text-size-adjust: 100%; /* 关闭IOS横屏时，自动调整字体大小的功能 */
-  font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", "Arial", serif;
+  font-family: "Microsoft YaHei", "PingFang SC", "Arial", serif;
   /*font-family: Myriad Pro, Helvetica Neue, Arial, Helvetica, sans-serif;*/
   font-size: 14px;
 }

@@ -5,9 +5,8 @@ import dishonest1 from '@/assets/img/icon/icon_shixin.png';
 import dishonest2 from '@/assets/img/icon/icon_cengshixin.png';
 import Matching from './matching-reason';
 import { floatFormat } from '@/utils/format';
-import { linkDom } from '@/utils';
 import { formatDateTime } from '@/utils/changeTime';
-import { Button, Icon } from '@/common';
+import { Button, Icon, Ellipsis } from '@/common';
 
 const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 	const {
@@ -19,15 +18,13 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 			<div className="assets-info-content" style={{ marginLeft: 10 }}>
 				<li>
 					<span className="list list-title align-justify">债 务 人：</span>
-					{
-						obligorName ? (
-							<Tooltip placement="top" title={obligorName}>
-								<span className="list list-content text-ellipsis click-link">
-									{linkDom(`/#/business/debtor/detail?id=${obligorId}`, obligorName)}
-								</span>
-							</Tooltip>
-						) : <span className="list list-content text-ellipsis">-- </span>
-					}
+					<Ellipsis
+						content={obligorName}
+						url={obligorId ? `#/business/debtor/detail?id=${obligorId}` : ''}
+						tooltip
+						width={150}
+						// width={getByteLength(content) * 6 > maxWidth ? maxWidth : (getByteLength(content) + 3) * 6}
+					/>
 				</li>
 				<li>
 					<span className="list list-title align-justify">证 件 号：</span>
