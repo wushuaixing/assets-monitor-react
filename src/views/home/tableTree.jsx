@@ -355,7 +355,7 @@ class Login extends React.Component {
 					}
 				</div>
 				<Affix>
-					<table className="table table-striped treetable" style={{ marginBottom: 0 }}>
+					<table className="table table-striped treeTable" style={{ marginBottom: 0 }}>
 						<tbody>
 							<tr className="tr-table">
 								<th rowSpan=" 2 " style={{ width: 400, textAlign: 'left' }}>机构名称</th>
