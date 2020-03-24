@@ -87,12 +87,12 @@ class WRIT extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 
 		const params = {
 			num: pageSize,
 			page: current,
-			...fildes,
+			...Fields,
 			publishStart: startTime,
 			publishEnd: endTime,
 			...value,
@@ -126,13 +126,15 @@ class WRIT extends React.Component {
 			pageSize,
 			current: 1,
 			page: 1,
+			Sort: undefined,
+			SortTime: undefined,
 		});
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const { startTime, endTime } = this.state;
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 		const params = {
-			...fildes,
+			...Fields,
 			current: 1,
 			num: pageSize,
 			page: 1,
@@ -140,7 +142,7 @@ class WRIT extends React.Component {
 			publishEnd: endTime,
 		};
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fildes)) {
+		if (!objectKeyIsEmpty(Fields)) {
 			this.getData(params); // 进入页面请求数据
 		}
 	};
@@ -153,9 +155,9 @@ class WRIT extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 		const params = {
-			...fildes,
+			...Fields,
 			sort: SortTime,
 			publishStart: startTime,
 			publishEnd: endTime,
@@ -206,25 +208,26 @@ class WRIT extends React.Component {
 	search = () => {
 		const { form: { getFieldsValue } } = this.props; // 会提示props is not defined
 		const { startTime, endTime } = this.state;
-		const fildes = getFieldsValue();
-		fildes.publishStart = startTime;
-		fildes.publishEnd = endTime;
+		const Fields = getFieldsValue();
+		Fields.publishStart = startTime;
+		Fields.publishEnd = endTime;
 		const { pageSize } = this.state;
-		navigate(generateUrlWithParams('/search/detail/writ', fildes));
+		navigate(generateUrlWithParams('/search/detail/writ', Fields));
 		this.setState({
 			page: 1,
-			inputSearch: fildes,
+			inputSearch: Fields,
 			Sort: undefined,
+			SortTime: undefined,
 		});
 
 		const params = {
-			...fildes,
+			...Fields,
 			page: 1,
 			num: pageSize,
 		};
 
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fildes)) {
+		if (!objectKeyIsEmpty(Fields)) {
 			this.getData(params); // 进入页面请求数据
 		} else {
 			this.queryReset();
@@ -244,6 +247,7 @@ class WRIT extends React.Component {
 			pageSize: 10,
 			page: 1,
 			Sort: undefined,
+			SortTime: undefined,
 			startTime: undefined,
 			endTime: undefined,
 		});

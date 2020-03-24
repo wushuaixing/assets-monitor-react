@@ -34,8 +34,8 @@ class AUCTION extends React.Component {
 			dataList: [],
 			params: {},
 			inputSearch: {},
-			field: '',
-			order: '',
+			field: undefined,
+			order: undefined,
 			loading: false,
 			auctionSort: undefined,
 			currentSort: undefined,
@@ -93,12 +93,12 @@ class AUCTION extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 
 		const params = {
 			num: pageSize,
 			page: current,
-			...fildes,
+			...Fields,
 			startTime,
 			endTime,
 			...value,
@@ -137,9 +137,9 @@ class AUCTION extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const { startTime, endTime } = this.state;
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 		const params = {
-			...fildes,
+			...Fields,
 			current: 1,
 			num: pageSize,
 			page: 1,
@@ -147,7 +147,7 @@ class AUCTION extends React.Component {
 			endTime,
 		};
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fildes)) {
+		if (!objectKeyIsEmpty(Fields)) {
 			this.getData(params); // 进入页面请求数据
 		}
 	};
@@ -159,9 +159,9 @@ class AUCTION extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 		const params = {
-			...fildes,
+			...Fields,
 			num: pageSize,
 			page: val,
 			field,
@@ -197,39 +197,35 @@ class AUCTION extends React.Component {
 	search = () => {
 		const { form: { getFieldsValue } } = this.props; // 会提示props is not defined
 		const { startTime, endTime } = this.state;
-		const fildes = getFieldsValue();
-		fildes.startTime = startTime;
-		fildes.endTime = endTime;
-		if (fildes.lowestConsultPrice && Number(fildes.lowestConsultPrice) > fildes.highestConsultPrice && Number(fildes.highestConsultPrice)) {
+		const Fields = getFieldsValue();
+		Fields.startTime = startTime;
+		Fields.endTime = endTime;
+		if (Fields.lowestConsultPrice && Number(Fields.lowestConsultPrice) > Fields.highestConsultPrice && Number(Fields.highestConsultPrice)) {
 			message.error('评估价格最低价不能高于评估价格最高价！');
 			return;
 		}
 		const { pageSize } = this.state;
-		navigate(generateUrlWithParams('/search/detail/auction', fildes));
+		navigate(generateUrlWithParams('/search/detail/auction', Fields));
 		this.setState({
 			page: 1,
 			current: 1,
-			inputSearch: fildes,
+			inputSearch: Fields,
 			auctionSort: undefined,
 			currentSort: undefined,
 			assessmentSort: undefined,
+			field: undefined,
+			order: undefined,
 		});
-		// if (fildes.lowestConsultPrice || undefined) {
-		// 	fildes.lowestConsultPrice *= 10000;
-		// }
-		// if (fildes.highestConsultPrice || undefined) {
-		// 	fildes.highestConsultPrice *= 10000;
-		// }
 		const params = {
-			...fildes,
+			...Fields,
 			page: 1,
 			num: pageSize,
-			lowestConsultPrice: fildes.lowestConsultPrice ? fildes.lowestConsultPrice *= 10000 : undefined,
-			highestConsultPrice: fildes.highestConsultPrice ? fildes.highestConsultPrice *= 10000 : undefined,
+			lowestConsultPrice: Fields.lowestConsultPrice ? Fields.lowestConsultPrice *= 10000 : undefined,
+			highestConsultPrice: Fields.highestConsultPrice ? Fields.highestConsultPrice *= 10000 : undefined,
 		};
 
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fildes)) {
+		if (!objectKeyIsEmpty(Fields)) {
 			this.getData(params); // 进入页面请求数据
 		} else {
 			this.queryReset();
@@ -251,6 +247,8 @@ class AUCTION extends React.Component {
 			auctionSort: undefined,
 			currentSort: undefined,
 			assessmentSort: undefined,
+			field: undefined,
+			order: undefined,
 			startTime: undefined,
 			endTime: undefined,
 			inputSearch: {},

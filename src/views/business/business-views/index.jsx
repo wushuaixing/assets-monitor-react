@@ -130,7 +130,8 @@ class BusinessView extends React.Component {
 						const { form: { resetFields } } = that.props; // 会提示props is not defined
 						resetFields('');
 						that.getData();
-						message.success(`${info.file.name} ${info.file.response.message}${info.file.response.data.businessCount}笔`);
+						const successMessage = info.file.response.data.type !== 2 ? '成功导入' : '成功转移';
+						message.success(`${info.file.name} ${successMessage}${info.file.response.data.businessCount}笔`);
 						that.handleCancel();
 					} else if (info.file.response.code === 9001) {
 						message.error('服务器出错');
@@ -598,28 +599,32 @@ class BusinessView extends React.Component {
 					visible={errorModalVisible}
 					onCancel={this.handleCancel}
 					footer={false}
-					width={500}
+					width={420}
 					// closable={false}
 				>
 
 					<div className="yc-confirm-body">
 						<div className="yc-confirm-header">
-							<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle-o" />
+							<Icon style={{ fontSize: 24, color: '#f66c5b', marginRight: 8 }} type="cross-circle" />
 							<span className="yc-confirm-title">{uploadErrorData.errorType}</span>
 						</div>
 						<div className="yc-confirm-content">
 							{uploadErrorData.errorMessage}
 						</div>
 						<div className="yc-confirm-btn">
-							<Upload className="yc-upload" showUploadList={false} {...this.uploadAttachmentParam()}>
-								<Button
-									style={{ height: 34, marginRight: 10 }}
-								>
-									重新上传
-								</Button>
-							</Upload>
+							{/* type===2时为业务转移，为1或null时为业务导入 */}
+							{uploadErrorData.type !== 2 && (
+								<Upload className="yc-upload" showUploadList={false} {...this.uploadAttachmentParam()}>
+									<Button
+										style={{ height: 34, marginRight: 10 }}
+									>
+										重新上传
+									</Button>
+								</Upload>
+							)}
+
 							{
-								uploadErrorData.errorType === '文件格式错误' ? (
+								uploadErrorData.errorType === '文件格式错误' && uploadErrorData.type !== 2 ? (
 									<Button
 										onClick={() => this.handleCancel('down')}
 										className="yc-confirm-footer-btn"

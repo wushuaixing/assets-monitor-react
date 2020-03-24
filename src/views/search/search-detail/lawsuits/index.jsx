@@ -30,6 +30,8 @@ class LAWSUITS extends React.Component {
 			dataList: [],
 			loading: false,
 			Sort: undefined,
+			sortColumn: undefined,
+			sortOrder: undefined,
 			Params: {},
 			totals: 0,
 			pageSize: 10,
@@ -201,9 +203,11 @@ class LAWSUITS extends React.Component {
 			Params, type, Sort, dataList, pageSize, page,
 		} = this.state;
 		// gmtTrial
+		const sortColumn = type === 1 ? 'gmtRegister' : 'gmtTrial';
+		const sortOrder = Sort === 'DESC' ? 'ASC' : 'DESC';
 		const params = {
-			sortColumn: type === 1 ? 'gmtRegister' : 'gmtTrial',
-			sortOrder: Sort === 'DESC' ? 'ASC' : 'DESC',
+			sortColumn,
+			sortOrder,
 			...Params,
 			page,
 			num: pageSize,
@@ -211,12 +215,14 @@ class LAWSUITS extends React.Component {
 		// 判断是否为空对象,非空请求接口
 		if (dataList.length > 0) {
 			this.getData(params, type); // 进入页面请求数据
-			this.getCount(params);
+			// this.getCount(params);
 		}
 		this.setState({
 			field: 'LARQ',
 			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
 			order: Sort === 'DESC' ? 'ASC' : 'DESC',
+			sortColumn,
+			sortOrder,
 		});
 	};
 
@@ -226,6 +232,8 @@ class LAWSUITS extends React.Component {
 			plaintiff: [{ name: '', id: 1 }],
 			defendant: [{ name: '', id: 1 }],
 			Sort: undefined,
+			sortColumn: undefined,
+			sortOrder: undefined,
 			ktggRelationCount: '', // 开庭
 			trialRelationCount: '', // 立案
 			urlObj: {},
@@ -255,11 +263,16 @@ class LAWSUITS extends React.Component {
 
 	// page翻页
 	handleChangePage = (val) => {
-		const { Params, type, pageSize } = this.state;
+		const {
+			Params, type, pageSize, sortColumn,
+			sortOrder,
+		} = this.state;
 		const ParamsObj = {
 			...Params,
 			page: val,
 			num: pageSize,
+			sortColumn,
+			sortOrder,
 		};
 		this.setState({ current: val, page: val });
 		// 判断是否为空对象,非空请求接口
@@ -313,7 +326,16 @@ class LAWSUITS extends React.Component {
 	};
 
 	// 获取查询参数
-	getQueryData = (obj) => { this.setState({ Params: obj }); };
+	getQueryData = (obj) => {
+		this.setState({
+			Params: obj,
+			page: 1,
+			current: 1,
+			Sort: undefined,
+			sortColumn: undefined,
+			sortOrder: undefined,
+		});
+	};
 
 	// 表格发生变化
 	onRefresh=(data, type) => {

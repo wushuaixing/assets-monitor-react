@@ -28,7 +28,7 @@ class BANKRUPTCY extends React.Component {
 	constructor(props) {
 		super(props);
 		this.scrollTop = React.createRef();
-		document.title = '金融资产-信息搜索';
+		document.title = '破产重组-信息搜索';
 		this.state = {
 			dataList: [],
 			params: {},
@@ -83,12 +83,12 @@ class BANKRUPTCY extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 
 		const params = {
 			num: pageSize,
 			page: current,
-			...fildes,
+			...Fields,
 			...value,
 		};
 		this.setState({
@@ -137,22 +137,23 @@ class BANKRUPTCY extends React.Component {
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 		const { pageSize, publishDateStart, publishDateEnd } = this.state;
-		fildes.publishDateStart = publishDateStart;
-		fildes.publishDateEnd = publishDateEnd;
-		navigate(generateUrlWithParams('/search/detail/bankruptcy', fildes));
+		Fields.publishDateStart = publishDateStart;
+		Fields.publishDateEnd = publishDateEnd;
+		navigate(generateUrlWithParams('/search/detail/bankruptcy', Fields));
 		this.setState({
 			page: 1,
 			Sort: undefined,
+			SortTime: undefined,
 		});
 		const params = {
-			...fildes,
+			...Fields,
 			page: 1,
 			num: pageSize,
 		};
 
-		if (!objectKeyIsEmpty(fildes)) {
+		if (!objectKeyIsEmpty(Fields)) {
 			this.getData(params);
 		} else {
 			this.queryReset();
@@ -173,6 +174,7 @@ class BANKRUPTCY extends React.Component {
 			publishDateStart: undefined,
 			publishDateEnd: undefined,
 			Sort: undefined,
+			SortTime: undefined,
 			params: {},
 		});
 		navigate(generateUrlWithParams('/search/detail/bankruptcy', {}));
@@ -185,19 +187,20 @@ class BANKRUPTCY extends React.Component {
 			current: 1,
 			page: 1,
 			Sort: undefined,
+			SortTime: undefined,
 		});
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-		const fields = getFieldsValue();
+		const Fields = getFieldsValue();
 		const { publishDateStart, publishDateEnd } = this.state;
-		fields.publishDateStart = publishDateStart;
-		fields.publishDateEnd = publishDateEnd;
+		Fields.publishDateStart = publishDateStart;
+		Fields.publishDateEnd = publishDateEnd;
 		const params = {
-			...fields,
+			...Fields,
 			num: pageSize,
 			page: 1,
 		};
-		if (!objectKeyIsEmpty(fields)) {
+		if (!objectKeyIsEmpty(Fields)) {
 			this.getData(params);
 		}
 	};
@@ -207,12 +210,12 @@ class BANKRUPTCY extends React.Component {
 		const { pageSize, SortTime } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 		const { publishDateStart, publishDateEnd } = this.state;
-		fildes.publishDateStart = publishDateStart;
-		fildes.publishDateEnd = publishDateEnd;
+		Fields.publishDateStart = publishDateStart;
+		Fields.publishDateEnd = publishDateEnd;
 		const params = {
-			...fildes,
+			...Fields,
 			sort: SortTime,
 			current: val,
 			num: pageSize,
