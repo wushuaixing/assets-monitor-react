@@ -60,7 +60,7 @@ const columns = (props) => {
 						<span className="list list-content">{row.qualificationLevel || '--'}</span>
 					</li>
 					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
+						<span className="list list-title align-justify" style={{ width: 50 }}>有效期至</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{row.validityPeriod}</span>
 					</li>

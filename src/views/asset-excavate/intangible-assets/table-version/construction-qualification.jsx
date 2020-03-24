@@ -44,7 +44,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{timeStandard(row.issueTime)}</span>
 						<span className="list-split" style={{ height: 16 }} />
-						<span className="list list-title align-justify">有效期</span>
+						<span className="list list-title align-justify">有效期至</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{row.validityPeriod}</span>
 						<span className="list-split" style={{ height: 16 }} />
