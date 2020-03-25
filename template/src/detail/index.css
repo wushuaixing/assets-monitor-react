@@ -226,3 +226,20 @@ li .n-line:first-child{
 .success {
   color: #3DBD7D;
 }
+
+.base-info{
+  padding: 22px 0;
+}
+.base-info .logo{
+  width: 67px;
+  height: 67px;
+  float: left;
+  line-height: 67px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #a8c8ff;
+}
+.base-info .content {
+  min-height: 70px;
+  margin-left: 85px;
+}

@@ -446,6 +446,14 @@ function exportTemplate(source, exportType, name) {
 		var list = '';
 		var dot = true;
 		switch (taxon) {
+			case 'B10101':{
+				list = drawTable(data.list, [
+					{t: '业务编号', f: 'caseNumber'},
+					{t: '债务人角色', f: 'role'},
+					{t: '负责人/机构', f: 'orgName'},
+				]);
+				break;
+			}
 			case 'A10201': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -740,6 +748,8 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+
+
 			case 'I50101': {
 				list = "<tr><td>法定代表人</td><td>{legalPerson}</td><td>组织机构代码</td><td>{orgNumber}</td></tr><tr><td>统一社会信用代码</td><td>{creditCode}</td><td>纳税人识别号</td><td>{taxNumber}</td></tr><tr><td>成立日期</td><td>{establishTime}</td><td>营业期限</td><td>{timeLimit}</td></tr><tr><td>注册资本</td><td>{regCapital}</td><td>实缴资本</td><td>{actualCapital}</td></tr><tr><td>经营状态</td><td>{regStatus}</td><td>登记机关</td><td>{regInstitute}</td></tr><tr><td>企业类型</td><td>{companyOrgType}</td><td>核准日期</td><td>{approvedTime}</td></tr><tr><td>所属行业</td><td>{industry}</td><td>工商注册号</td><td>{regNumber}</td></tr><tr><td>人员规模</td><td>{scale}</td><td>参保人数</td><td>{insuranceNum}</td></tr><tr><td>英文名</td><td>{englishName}</td><td>注册地址</td><td>{regLocation}</td></tr><tr><td>经营范围</td><td colspan='3'>{businessScope}</td></tr>";
 				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
@@ -817,6 +827,11 @@ function exportTemplate(source, exportType, name) {
 	};
 
 	/* main logic entry */
+	var aboutList = function(title,source){
+		return "<div><div class=\"title\"><div class=\"t2\">" + title + "</div>" +
+			"</div><div class=\"content\">" + drawContent(option, source) + "</div></div>"
+	};
+
 	Object.keys(dd).forEach(function (field) {
 		var item = dd[field];
 		var child = '';

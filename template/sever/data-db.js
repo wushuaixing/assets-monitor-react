@@ -1,6 +1,20 @@
 module.exports = {
+	/* 基本 */
+	"B10102":[
+		{
+			"businessId": 1,
+			"caseNumber": 1001,
+			"guarantee": 1,
+			"guaranteeString": "",
+			"obligorName": "sy",
+			"obligorNumber": "",
+			"orgName": "tt",
+			"role": 1,
+			"roleText": "担保人"
+		}
+	],
 	/* 资产*/
-// 资产拍卖_精准匹配
+	// 资产拍卖_精准匹配
 	"A10101": {},
 	// 资产拍卖_模糊匹配
 	"A10102": {},
@@ -2072,7 +2086,7 @@ module.exports = {
 				"isRead": 0,
 				"owner": "舟山市民富水产有限公司",
 				"ownerId": 0,
-				"pawnName": "75千瓦氨机5.8,高压清洗剂,通风机1FF-6,集油箱0.6立方,热水器,不锈钢高温蒸馏器70升/时,制冷系统阀,直式冷凝器150平方,单边带AT-120,高压循环箱3立方,温度记录仪,低压循环箱3.5立方,分级机,电容柜,压力表24KG,高压灭菌器YXO-SD46-280S,氨泵,空调RF-16W,精滤机,活动速冻库房次结冻7T,￠38以上系统管,搅拌桶,洗虾机,金属探测仪G3-IA5020,淋浇式冷凝器180平方,液压搬运车,锅炉LHS0.3-0.4-XC,库房门,片冰机XYD-5,真空机,变压器160KW,变压器315KV,蟹肉机,测温仪,冷却塔Y2T-132M-12,油分离器0.2立方,分光光度仪,120T库房,中间冷却桶0.7立方,100T活动冷库,干燥机101-2-5,恒温箱S.SW,55千瓦氨机56-12.5,培养箱PYX-DHS,显微镜XS-212-202,离心式清水泵1.100-80-125,库房风门,蒸汽烤箱,活动速冻库房次结冻5T,均质器,计量柜,37千瓦氨机54-12.5,电动柜BSL-1-03",
+				"pawnName": "75千瓦氨机5.8,高压清洗剂,通风机1FF-6,集油箱0.6立方,热水器,不锈钢高温蒸馏器70升/时,制冷系统阀,直式冷凝器150平方,单边带AT-120,高压循环箱3立方,温度记录仪,低压循环箱3.5立方,分级机,电容柜,压力表24KG,高压灭菌器YXO-SD46-280S,氨泵,空调RF-16W,精滤机,库房风门,蒸汽烤箱,活动速冻库房次结冻5T,均质器,计量柜,37千瓦氨机54-12.5,电动柜BSL-1-03",
 				"people": "岱山县信用担保有限公司",
 				"peopleId": 320322,
 				"regDate": 1525968000,
@@ -2091,7 +2105,7 @@ module.exports = {
 				"isRead": 0,
 				"owner": "浙江省岱山县海舟修造船有限公司",
 				"ownerId": 0,
-				"pawnName": "牛刨,登船梯,4035锯床,减速带,自驱动式台车干燥箱,绘图仪HPDesignjet510,电焊机,热泵执水系统,变压器,吊机,喷砂机,配电箱一批,电动弯管机,车床、机床,剪板机,水密橡胶止水设备,引船系统设备,燃油蒸汽锅炉,4102BG-B8柴油机,扬帆远航雕塑,乙炔发生器,卷板机,护舷,变压器,自行式高空作业平台,电焊机,车间轨道制作,水泵,压缩机,发电机组,电焊机,登船梯,电焊机,电焊条烘箱,DUF超声波探伤仪,水泵,TKT电梯,输气设备,卷扬机,车,岸用变频电源,切割机,汽车衡,行车,逆变式自动埋弧焊机",
+				"pawnName": "牛刨,登船梯,4035锯床,减速带,自驱动式台车干燥箱,逆变式自动埋弧焊机",
 				"people": "岱山县信用担保有限公司",
 				"peopleId": 320322,
 				"regDate": 1496937600,
@@ -2106,7 +2120,90 @@ module.exports = {
 		"total": 133
 	},
 	// 招投标
-	"A10701": {},
+	"A10701": {
+		"hasNext": true,
+		"list": [
+			{
+				"createTime": 1568750435,
+				"dishonestStatus": 0,
+				"id": 26626,
+				"isAttention": false,
+				"isRead": true,
+				"obName": "东莞市太粮米业有限公司",
+				"obNumber": "",
+				"obligorId": 319894,
+				"publishTime": 1547654400,
+				"title": "河口区新户镇果园村坑塘治理工程",
+				"type": 1,
+				"updateTime": 1581574798,
+				"url": "http://www.sdbidding.org.cn/bulletins/tender/2315073"
+			},
+			{
+				"createTime": 1568750435,
+				"dishonestStatus": 0,
+				"id": 26627,
+				"isAttention": false,
+				"isRead": true,
+				"obName": "东莞市莞洋实业投资有限公司",
+				"obNumber": "",
+				"obligorId": 319895,
+				"publishTime": 1547654400,
+				"title": "河口区新户镇果园村坑塘治理工程",
+				"type": 1,
+				"updateTime": 1581574798,
+				"url": "http://www.sdbidding.org.cn/bulletins/tender/2315073"
+			},
+			{
+				"createTime": 1568750482,
+				"dishonestStatus": 0,
+				"id": 26883,
+				"isAttention": false,
+				"isRead": true,
+				"obName": "浙江新禾建设有限公司",
+				"obNumber": "",
+				"obligorId": 320587,
+				"publishTime": 1547654400,
+				"title": "河口区新户镇果园村坑塘治理工程",
+				"type": 1,
+				"updateTime": 1581574798,
+				"url": "http://www.sdbidding.org.cn/bulletins/tender/2315073"
+			},
+			{
+				"createTime": 1568750435,
+				"dishonestStatus": 0,
+				"id": 26628,
+				"isAttention": false,
+				"isRead": true,
+				"obName": "东莞市嘉鹏达建设工程有限公司",
+				"obNumber": "",
+				"obligorId": 319896,
+				"publishTime": 1547654400,
+				"title": "河口区新户镇果园村坑塘治理工程",
+				"type": 1,
+				"updateTime": 1581574798,
+				"url": "http://www.sdbidding.org.cn/bulletins/tender/2315073"
+			},
+			{
+				"createTime": 1568750436,
+				"dishonestStatus": 0,
+				"id": 26629,
+				"isAttention": false,
+				"isRead": true,
+				"obName": "东莞协成织带有限公司",
+				"obNumber": "",
+				"obligorId": 319897,
+				"publishTime": 1547654400,
+				"title": "河口区新户镇果园村坑塘治理工程",
+				"type": 1,
+				"updateTime": 1581574798,
+				"url": "http://www.sdbidding.org.cn/bulletins/tender/2315073"
+			}
+		],
+		"num": 10,
+		"page": 1,
+		"pages": 377,
+		"total": 3767
+	},
 
 	/* 风险 */
 	// 破产重组
@@ -2114,9 +2211,9 @@ module.exports = {
 	// 涉诉文书
 	"R20604": {},
 	//  失信记录-列入
-	// "R2040 { },
+	"R20401": { },
 	//  失信记录-已移除
-	// "R2040 { },
+	"R20402": { },
 	//  限高
 	// "R2050 { },
 	// 涉诉信息_立案

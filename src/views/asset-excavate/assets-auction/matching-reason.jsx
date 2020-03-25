@@ -32,7 +32,7 @@ export default class MatchingReason extends React.Component {
 	};
 
 	// 资产拍卖
-	toGetReasonList=(reason) => {
+	toGetReasonList=(reason, pushType) => {
 		if (reason) {
 			const _reason = JSON.parse(reason);
 			return _reason.map((item) => {
@@ -51,6 +51,7 @@ export default class MatchingReason extends React.Component {
 						</div>
 					);
 				}
+				if (pushType && /<em/.test(JSON.stringify(item.hl))) return null;
 				return (
 					<div className="reason-list">
 						<div>{`● 根据"${item.name || item.number}"匹配`}</div>
@@ -96,7 +97,7 @@ export default class MatchingReason extends React.Component {
 								</div>
 							) : null
 						}
-						{ dishonest ? this.toGetReason(duty) : this.toGetReasonList(reason) }
+						{ dishonest ? this.toGetReason(duty) : this.toGetReasonList(reason, pushType) }
 						{
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">
