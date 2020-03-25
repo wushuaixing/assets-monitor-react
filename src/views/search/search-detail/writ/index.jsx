@@ -191,15 +191,19 @@ class WRIT extends React.Component {
 	// 时间排序
 	SortTime = () => {
 		const { dataList, Sort, inputSearch } = this.state;
+		let _Sort;
+		if (Sort === undefined)_Sort = 'DESC';
+		if (Sort === 'DESC')_Sort = 'ASC';
+		if (Sort === 'ASC') _Sort = undefined;
 		const params = {
-			sort: Sort === 'DESC' ? 1 : 0,
+			sort: _Sort === undefined ? undefined : _Sort === 'DESC' ? 0 : 1,
 			...inputSearch,
 		};
 		if (dataList.length > 0) {
 			this.getData(params); // 进入页面请求数据
 		}
 		this.setState({
-			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
+			Sort: _Sort,
 			SortTime: params.sort,
 		});
 	};
