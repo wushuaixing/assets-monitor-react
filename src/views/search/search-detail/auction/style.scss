@@ -29,15 +29,16 @@
     }
     &:hover {
       cursor: pointer;
+      //border-bottom: 1px solid #e5e5e5;
       //.th-sort-default {
       //  background-image: url("../../../../assets/img/icon/icon_arrow.png");
       //}
-      .th-sort-down {
-        background-image: url("../../../../assets/img/icon/icon_arrow_asc.png");
-      }
-      .th-sort-up {
-        background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
-      }
+      //.th-sort-down {
+      //  background-image: url("../../../../assets/img/icon/icon_arrow_asc.png");
+      //}
+      //.th-sort-up {
+      //  background-image: url("../../../../assets/img/icon/icon_arrow_desc.png");
+      //}
     }
     //.th-sort-default {
     //  background-image: url("../../../../assets/img/icon/icon_arrow.png");
