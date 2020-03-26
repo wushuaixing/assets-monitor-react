@@ -202,9 +202,13 @@ class LAWSUITS extends React.Component {
 		const {
 			Params, type, Sort, dataList, pageSize, page,
 		} = this.state;
+		let _Sort;
+		if (Sort === undefined)_Sort = 'DESC';
+		if (Sort === 'DESC')_Sort = 'ASC';
+		if (Sort === 'ASC') _Sort = undefined;
 		// gmtTrial
-		const sortColumn = type === 1 ? 'gmtRegister' : 'gmtTrial';
-		const sortOrder = Sort === 'DESC' ? 'ASC' : 'DESC';
+		const sortColumn = _Sort === undefined ? undefined : (type === 1 ? 'gmtRegister' : 'gmtTrial');
+		const sortOrder = _Sort;
 		const params = {
 			sortColumn,
 			sortOrder,
@@ -219,8 +223,8 @@ class LAWSUITS extends React.Component {
 		}
 		this.setState({
 			field: 'LARQ',
-			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
-			order: Sort === 'DESC' ? 'ASC' : 'DESC',
+			Sort: _Sort,
+			order: _Sort,
 			sortColumn,
 			sortOrder,
 		});
