@@ -32,19 +32,19 @@ const removeSituation = (val, row) => {
 				<span className="list list-content">已移除</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify list-title-50">移除日期</span>
+				<span className="list list-title align-justify list-title-50" style={{ width: 'auto' }}>移除日期</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">{timeStandard(gmtRemoveDate)}</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify list-title-50">移除原因</span>
+				<span className="list list-title align-justify list-title-50" style={{ width: 'auto' }}>移除原因</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">
 					<Ellipsis content={removeReason} tooltip line={1} width={200} />
 				</span>
 			</li>
 			<li>
-				<span className="list list-title align-justify list-title-50">移除机关</span>
+				<span className="list list-title align-justify list-title-50" style={{ width: 'auto' }}>移除机关</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">
 					<Ellipsis content={removeDepartment} tooltip line={1} width={200} />
