@@ -106,8 +106,8 @@ export default class FollowInfo extends React.Component {
 	}
 
 	componentWillMount() {
-		const { source: { process } } = this.props;
-		if (process === 0) {
+		const { source: { process, commentTotal } } = this.props;
+		if (process === 0 && commentTotal === 0) {
 			this.setState({ addStatus: true });
 		} else {
 			this.toGetProcessList();
@@ -350,7 +350,7 @@ export default class FollowInfo extends React.Component {
 			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList,
 		} = this.state;
 		const {
-			visible, onClose, source: { process }, source,
+			visible, onClose, source: { process, commentTotal }, source,
 		} = this.props;
 		const data = this.state;
 		const plainOptions = [
@@ -608,10 +608,10 @@ export default class FollowInfo extends React.Component {
 						}
 					</div>
 					{
-						process !== 0 ? <div className="yc-follow-line" /> : ''
+						process !== 0 || commentTotal !== 0 ? <div className="yc-follow-line" /> : ''
 					}
 					{
-						process !== 0 ? (
+						process !== 0 || commentTotal !== 0 ? (
 							<div className="yc-follow-list">
 								<Spin visible={loadingList} minHeight={100}>
 									<div className="follow-add-title" style={{ paddingTop: 20 }}>跟进记录</div>
