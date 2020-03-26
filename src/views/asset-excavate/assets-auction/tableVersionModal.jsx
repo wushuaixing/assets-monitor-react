@@ -44,11 +44,12 @@ export default class DetailModal extends React.PureComponent {
 	render() {
 		const { loading } = this.state;
 		const { historyInfoModalVisible, data } = this.props;
+		const parsingTitle = (data.title || '').replace(/^【([^】])*】/, '');
 		return (
 			<Modal title="历史拍卖信息" width={880} style={{ 'max-height': 650 }} visible={historyInfoModalVisible} footer={null} onCancel={this.handleCancel}>
 				<Spin visible={loading}>
 					<div className="yc-history-content">
-						<div className="yc-history-title">{data.title || '-'}</div>
+						<div className="yc-history-title">{data.parsingTitle || parsingTitle || data.title || '-'}</div>
 						<div className="yc-history-item">
 							<span>
 								<span className="yc-history-label">评估价：</span>
