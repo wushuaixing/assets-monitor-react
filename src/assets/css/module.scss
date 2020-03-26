@@ -202,6 +202,9 @@
       .table-info-list-history{
         line-height: 1;
         height: 24px;
+        span {
+          line-height: 0
+        }
       }
       .info {
         line-height: 22px;
