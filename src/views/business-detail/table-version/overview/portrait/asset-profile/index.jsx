@@ -79,7 +79,7 @@ export default class AssetProfile extends React.Component {
 
 	// 土地信息
 	getLandData = (value, portrait) => {
-		console.log(portrait);
+		// console.log(portrait);
 		const params = { ...value };
 		const api = portrait === 'business' ? businessOverviewLand : overviewLand;
 		return api(params).then((res) => {

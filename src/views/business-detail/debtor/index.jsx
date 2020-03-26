@@ -206,7 +206,6 @@ export default class Enterprise extends React.Component {
 			toPushChild: this.handleAddChild, // tab 追加子项
 			portrait: this.portrait,
 		};
-		console.log(tabConfig);
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">
