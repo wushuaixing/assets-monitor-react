@@ -8,6 +8,8 @@ const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(siz
 
 const bgImgData = toBase64(fs.readFileSync('./template/img/watermark.png'), 65 * 1024);
 const deIconData = toBase64(fs.readFileSync('./template/img/debtor.png'), 2 * 1024);
+const personData = toBase64(fs.readFileSync('./template/img/person.png'), 2 * 1024);
+const businessData = toBase64(fs.readFileSync('./template/img/business.png'), 2 * 1024);
 const disIconData = toBase64(fs.readFileSync('./template/img/icon_shixin.png'), 4 * 1024);
 const disEdIconData = toBase64(fs.readFileSync('./template/img/icon_dishonest_ed.png'), 4 * 1024);
 const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.png'), 3 * 1024);
@@ -107,9 +109,20 @@ function exportTemplate(source, exportType, name) {
 		},
 	};
 	var _dataSource = JSON.parse(source);
+
 	// 导出类型
-	var ET = exportType;
-	var field = "BB";
+	var _exportType = exportType;
+	var TYPE = '';
+	var DB = '';
+	if (exportType === 'debtor') {
+		TYPE = 'D';
+		var debtorName = _dataSource['DB10101'].obligorName;
+		DB = debtorName.length > 4 ? 'E' : 'P';
+	} else {
+		TYPE = 'B';
+	}
+	var ET = DB === 'P';
+
 	// public enumeration object
 	var s = {
 		identity: {
@@ -309,6 +322,15 @@ function exportTemplate(source, exportType, name) {
 			if (value === 2) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest-ed\"></span></div>>";
 			return dishonestStatus;
 		},
+		toRegStatus: function (val) {
+			if (val) {
+				if (val.match(/(存续|在业)/)) return 'regStatus-green';
+				if (val.match(/(迁出|其他)/)) return 'regStatus-orange';
+				if (val.match(/(撤销|吊销|清算|停业|注销)/)) return 'regStatus-red';
+				return "";
+			}
+			return '';
+		},
 	};
 	var w = function (value, o) {
 		var option = o || {};
@@ -371,6 +393,8 @@ function exportTemplate(source, exportType, name) {
 	f.replaceHtml([
 		{f: "../../img/watermark.png", v: bgImgData},
 		{f: "../../img/debtor.png", v: deIconData},
+		{f: "../../img/person.png", v: personData},
+		{f: "../../img/business.png", v: businessData},
 		{f: "../../img/icon_dishonest_ed.png", v: disEdIconData},
 		{f: "../../img/icon_shixin.png", v: disIconData},
 		{f: "../../img/icon-accurate.png", v: accurateImgData},
@@ -834,52 +858,85 @@ function exportTemplate(source, exportType, name) {
 			"</div><div class=\"content\">" + drawContent(option, source) + "</div></div>"
 	};
 
-
-	var i = {
-		"bankruptcy": false,
-		"dishonestStatus": 0,
-		"establishTime": "2000-05-12",
-		"id": 347804,
-		"legalPersonName": "张大林",
-		"limitConsumption": null,
-		"logoUrl": "",
-		"obligorName": "成都海科投资有限责任公司",
-		"obligorNumber": "",
-		"pushState": 1,
-		"regCapital": "198703.700000",
-		"regStatus": "存续",
-		"usedName": []
-	};
-	f.replaceHtml([{f: '{base.logo}', v: i.url || ''}]);
-	f.replaceHtml([{
-		f: '{base.content}', v: (
-			f.urlDom(i.obligorName, i.url) +
-			f.disStatus(i.dishonestStatus) +
-			f.tag(i.bankruptcy) +
-			f.normalList([
-				[
-					{t: '法定代表人', cot: i.legalPersonName},
-					{t: '注册资本', cot: w(i.regCapital, {unit: '万人民币'})},
-					{t: '成立日期', cot: w(i.establishTime)},
-				],
-				(i.usedName || []).length ? {t: '曾用名', cot: (i.usedName.join('、'))} : null])
-		)
-	}]);
-
-	// 关联业务列表
-	f.replaceHtml([{
-		f: '{about.list}', v: aboutList(
-			'关联业务列表',
-			{list: _dataSource["B10102"]},
-			{id: 'B10102', className: 'table-border',show:true}
-		)
-	}]);
+	var item = _dataSource[TYPE + 'B10101'] || {};
+	if (TYPE === 'B') {
+		f.replaceHtml([
+			{f: '{base.logo}', v: item.logoUrl || ''},
+			{f: '{base.logo-icon}', v: 'business-img'},
+			{f: '{base.content-type}', v: 'content-max'},
+			{
+				f: '{base.content}', v: (
+					f.urlDom(item.obligorName) +
+					f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
+					f.normalList([
+						[
+							{t: '借款人', cot: item.legalPersonName},
+							{t: '证件号/统一社会信用代码', cot: w(item.regCapital, {unit: '万人民币'})},
+							{t: '借款人推送状态', cot: w(item.establishTime)},
+						],
+						[
+							{t: '负责人/机构', cot: item.legalPersonName},
+							{t: '上传时间', cot: item.legalPersonName},
+						],
+					])
+				)
+			}]);
+	}
+	if (TYPE === 'D') {
+		if (DB === 'E') {
+			f.replaceHtml([
+				{f: '{base.logo}', v: item.logoUrl || ''},
+				{f: '{base.logo-icon}', v: 'debtor-img'},
+				{f: '{base.content-type}', v: 'content-max'},
+				{
+					f: '{base.content}', v: (
+						f.urlDom(item.obligorName) +
+						f.disStatus(item.dishonestStatus) +
+						f.tag(item.regStatus, f.toRegStatus(item.regStatus)) +
+						f.tag(!item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
+						f.tag(!item.bankruptcy ? '破产/重整风险' : '', 'regStatus-red') +
+						f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
+						f.normalList([
+							[
+								{t: '法定代表人', cot: item.legalPersonName},
+								{t: '注册资本', cot: w(item.regCapital, {unit: '万人民币'})},
+								{t: '成立日期', cot: w(item.establishTime)},
+							],
+							(item.usedName || []).length ? {t: '曾用名', cot: (item.usedName.join('、'))} : null])
+					)
+				}
+			]);
+		} else {
+			f.replaceHtml([
+				{f: '{base.logo}', v: ''},
+				{f: '{base.logo-icon}', v: 'person-img'},
+				{f: '{base.content-type}', v: 'content-min'},
+				{
+					f: '{base.content}', v: (
+						f.urlDom(item.obligorName) +
+						f.disStatus(item.dishonestStatus) +
+						f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
+						f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
+						f.normalList([{t: '证件号', cot: item.obligorNumber}])
+					)
+				}
+			]);
+		}
+		// 关联业务列表
+		f.replaceHtml([{
+			f: '{about.list}', v: aboutList(
+				(DB === 'E' ? '关联业务列表' : '相关业务列表'),
+				{list: _dataSource["DB10102"]},
+				{id: 'B10102', className: 'table-border', show: true}
+			)
+		}]);
+	}
 
 	Object.keys(dd).forEach(function (field) {
 		var item = dd[field];
 		var child = '';
 		item.child.forEach(function (i) {
-			child += childContainer(i, _dataSource[i.id])
+			child += childContainer(i, _dataSource[TYPE + i.id])
 		});
 		var wrapper = child ? ("<div><div class=\"t1 b-b\">" + item.name + "</div><div class=\"wrapper\">" + child + "</div></div>") : '';
 		f.replaceHtml([{f: item.about, v: wrapper}]);
@@ -888,8 +945,8 @@ function exportTemplate(source, exportType, name) {
 	return htmlResult;
 }
 
-var str = (flag) => exportTemplate(dataSource, flag);
-fs.writeFile("./template/result/demo-db.html", str(false), (error) => {
+var str = (exportType) => exportTemplate(dataSource, exportType);
+fs.writeFile("./template/result/demo-db.html", str('debtor'), (error) => {
 	error && console.log('error');
 });
 

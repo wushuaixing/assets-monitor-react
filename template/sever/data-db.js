@@ -1,6 +1,22 @@
 module.exports = {
 	/* 基本 */
-	"B10102":[
+	"DB10101":{
+		"bankruptcy": false,
+		"dishonestStatus": 0,
+		"establishTime": "2000-05-12",
+		"id": 347804,
+		"legalPersonName": "张大林",
+		"limitConsumption": null,
+		"logoUrl": "",
+		"obligorName": "张大林",
+		"obligorNumber": "330702198702091982",
+		"pushState": 1,
+		"regCapital": "198703.700000",
+		"regStatus": "存续",
+		"usedName": []
+	},
+	// 关联数据
+	"DB10102":[
 		{
 			"businessId": 1,
 			"caseNumber": 1001,
@@ -13,13 +29,14 @@ module.exports = {
 			"roleText": "担保人"
 		}
 	],
+
 	/* 资产*/
 	// 资产拍卖_精准匹配
-	"A10101": {},
+	"DA10101": {},
 	// 资产拍卖_模糊匹配
-	"A10102": {},
+	"DA10102": {},
 	// 无形资产_排污权
-	"A10401": {
+	"DA10401": {
 		"hasNext": true,
 		"list": [
 			{
@@ -209,7 +226,7 @@ module.exports = {
 		"total": 18
 	},
 	// 无形资产_矿业权
-	"A10402": {
+	"DA10402": {
 		"hasNext": true,
 		"list": [
 			{
@@ -409,7 +426,7 @@ module.exports = {
 		"total": 18
 	},
 	// 无形资产_商标专利
-	"A10403": {
+	"DA10403": {
 		"hasNext": true,
 		"list": [
 			{
@@ -549,7 +566,7 @@ module.exports = {
 		"total": 1880
 	},
 	// 无形资产_建筑建造资质
-	"A10404": {
+	"DA10404": {
 		"hasNext": true,
 		"list": [
 			{
@@ -719,7 +736,7 @@ module.exports = {
 		"total": 227
 	},
 	// 土地信息_出让结果
-	"A10301": {
+	"DA10301": {
 		hasNext: true,
 		list: [
 			{
@@ -829,7 +846,7 @@ module.exports = {
 		total: 42,
 	},
 	// 土地信息_土地转让
-	"A10302": {
+	"DA10302": {
 		hasNext: false,
 		list:  [
 			{
@@ -1121,7 +1138,7 @@ module.exports = {
 		total: 11,
 	},
 	// 土地信息_土地抵押
-	"A10303": {
+	"DA10303": {
 		hasNext: true,
 		list: [ {
 			"administrativeRegion": "北京市北京市东城区",
@@ -1294,7 +1311,7 @@ module.exports = {
 		total: 12,
 	},
 	// 代位权_立案
-	"A10201": {
+	"DA10201": {
 		"hasNext": true,
 		"list": [
 			{
@@ -1486,7 +1503,7 @@ module.exports = {
 		"total": 28
 	},
 	// 代位权_开庭
-	"A10202": {
+	"DA10202": {
 		hasNext: true,
 		list: [{
 			associatedInfo: {
@@ -1600,7 +1617,7 @@ module.exports = {
 		total: 10,
 	},
 	// 代位权_裁判文书
-	"A10203": {
+	"DA10203": {
 		hasNext: false,
 		list: [{
 			caseNumber: '（2017）桂04民初60号',
@@ -1698,7 +1715,7 @@ module.exports = {
 		total: 5,
 	},
 	// 股权质押_股权出质
-	"A10501": {
+	"DA10501": {
 		"hasNext": true,
 		"list": [
 			{
@@ -1804,7 +1821,7 @@ module.exports = {
 		"total": 218
 	},
 	// 股权质押_股权质权
-	"A10502": {
+	"DA10502": {
 		"hasNext": true,
 		"list": [
 			{
@@ -1910,7 +1927,7 @@ module.exports = {
 		"total": 222
 	},
 	// 动产抵押_抵押
-	"A10601": {
+	"DA10601": {
 		"hasNext": true,
 		"list": [
 			{
@@ -2015,7 +2032,7 @@ module.exports = {
 		"total": 133
 	},
 	// 动产抵押_抵押权
-	"A10602": {
+	"DA10602": {
 		"hasNext": true,
 		"list": [
 			{
@@ -2120,7 +2137,7 @@ module.exports = {
 		"total": 133
 	},
 	// 招投标
-	"A10701": {
+	"DA10701": {
 		"hasNext": true,
 		"list": [
 			{
@@ -2209,33 +2226,33 @@ module.exports = {
 	// 破产重组
 	"R30201": {},
 	// 涉诉文书
-	"R20604": {},
+	"DR20604": {},
 	//  失信记录-列入
-	"R20401": { },
+	"DR20401": { },
 	//  失信记录-已移除
-	"R20402": { },
+	"DR20402": { },
 	//  限高
-	// "R2050 { },
+	// "DR2050 { },
 	// 涉诉信息_立案
-	"R20601": {},
+	"DR20601": {},
 	// 涉诉信息_开庭
-	"R20602": {},
+	"DR20602": {},
 	// 涉诉信息_裁判文书
-	"R20603": {},
+	"DR20603": {},
 	// 经营异常
-	"R30301": {},
+	"DR30301": {},
 	// 严重违法
-	"R30401": {},
+	"DR30401": {},
 	// 税收违法
-	"R30501": {},
+	"DR30501": {},
 	// 行政处罚
-	"R30601": {},
+	"DR30601": {},
 	// 环保处罚
-	"R30701": {},
+	"DR30701": {},
 
 	/*工商基本信息*/
 	// 基本信息
-	"I50101": {
+	"DI50101": {
 		"actualCapital": "",
 		"approvedTime": "2008-03-14",
 		"businessScope": "销售：服装鞋帽、针纺织品、日用百货、五金工具、电子产品、电工器材、化工原料（不含危险品）、汽车配件、文化用品、工艺美术品（除金银）、陶瓷、玻璃制品、皮革制品、矿产品（法律法规禁止的除外）、金属材料（除稀贵）、钢材、建筑装饰材料、普通机械设备、水产品，农副产品收购（国家专项规定除外），货物及技术进出口（法律法规禁止经营的不得经营，法律法规限制经营的取得许可证后方可经营）。",
@@ -2260,7 +2277,7 @@ module.exports = {
 		"toTime": "2016-06-29"
 	},
 	// 主要人员
-	"I50201": [
+	"DI50201": [
 		{
 			"job": "执行董事",
 			"name": "李国哲"
@@ -2271,7 +2288,7 @@ module.exports = {
 		}
 	],
 	// 股东信息
-	"I50301": [
+	"DI50301": [
 		{
 			"amount": "30.0万人民币",
 			"name": "李国哲",
@@ -2280,9 +2297,9 @@ module.exports = {
 		}
 	],
 	// 股权穿透
-	// "I5040 { },
+	// "DI5040 { },
 	// 分支机构
-	"I50501": {
+	"DI50501": {
 		hasNext: true,
 		list: [
 			{
@@ -2327,7 +2344,7 @@ module.exports = {
 		total: 10,
 	},
 	// 对外投资
-	"I50601": {
+	"DI50601": {
 		hasNext: true,
 		list: [
 			{
@@ -2382,7 +2399,7 @@ module.exports = {
 		total: 87,
 	},
 	// 工商变更
-	"I50701": {
+	"DI50701": {
 		hasNext: true,
 		list: [
 			{

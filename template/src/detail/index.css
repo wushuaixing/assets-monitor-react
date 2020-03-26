@@ -231,20 +231,45 @@ li .n-line:first-child{
   padding: 22px 0;
 }
 .base-info .logo{
-  width: 72px;
-  height: 72px;
   float: left;
-  line-height: 72px;
   background-color: #ffffff;
   border-radius: 5px;
   border: 1px solid #a8c8ff;
   background-size: 100%;
+}
+.debtor-img{
+  width: 78px;
+  height: 78px;
+  line-height: 78px;
   background-image:url("../../img/debtor.png") ;
 }
+
+.business-img{
+  width: 78px;
+  height: 78px;
+  line-height: 78px;
+  background-image:url("../../img/business.png") ;
+}
+
+.person-img{
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  background-image:url("../../img/person.png") ;
+}
+
 .base-info .content {
-  min-height: 70px;
-  margin-left: 85px;
-  padding-top: 0;
+  padding: 5px 0;
+}
+.content-max{
+  margin-left: 95px;
+}
+.content-min{
+  margin-left: 75px;
+}
+
+.base-info .content .tag{
+  margin-left: 8px;
 }
 .base-info .content .t2{
   font-size: 17px;
@@ -270,4 +295,26 @@ li .n-line:first-child{
 .img-icon-dishonest-ed{
   background-image:url("../../img/icon_dishonest_ed.png") ;
   background-size: 100%;
+}
+
+.regStatus-green{
+  border: 1px solid #3DBD7D;
+  background-color: #f4fffa;
+  color: #3DBD7D;
+}
+.regStatus-red{
+  border: 1px solid #F82626;
+  background-color: #fff4f3;
+  color: #F82626;
+}
+.regStatus-orange{
+  border: 1px solid #FB8E3C;
+  background-color: #fef9f3;
+  color: #FB8E3C;
+}
+
+.regStatus-gray{
+  border: 1px solid #7D8699;
+  background-color: #F0F1F5;
+  color: #7D8699;
 }
