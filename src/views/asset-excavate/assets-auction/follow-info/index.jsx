@@ -608,10 +608,8 @@ export default class FollowInfo extends React.Component {
 						}
 					</div>
 					{
-						process !== 0 || commentTotal !== 0 ? <div className="yc-follow-line" /> : ''
-					}
-					{
-						process !== 0 || commentTotal !== 0 ? (
+						process !== 0 || commentTotal !== 0 ? [
+							<div className="yc-follow-line" />,
 							<div className="yc-follow-list">
 								<Spin visible={loadingList} minHeight={100}>
 									<div className="follow-add-title" style={{ paddingTop: 20 }}>跟进记录</div>
@@ -655,8 +653,8 @@ export default class FollowInfo extends React.Component {
 										) : <div>暂无跟进记录</div>
 									}
 								</Spin>
-							</div>
-						) : null
+							</div>,
+						] : ''
 					}
 
 				</div>
