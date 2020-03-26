@@ -221,7 +221,7 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 				{
 					(historyAuction || []).length ? (
 						<li className="table-info-list list-width-180">
-							<Button className="table-info-list-history" onClick={() => toOpenHistory(rowContent)} customStyle>
+							<Button className="table-info-list-history" onClick={() => toOpenHistory(rowContent)}>
 								<Icon type="icon-history" style={{ fontSize: 11, marginRight: 5 }} />
 								查看历史拍卖信息
 							</Button>

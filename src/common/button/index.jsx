@@ -3,7 +3,7 @@ import './style.scss';
 
 const comButton = (props) => {
 	const {
-		style, customStyle, children, className,
+		style, children, className,
 	} = props;
 	const {
 		size, type, disabled, onClick, icon, active, title,
@@ -32,7 +32,7 @@ const comButton = (props) => {
 				onClick={(e) => { if (onClick && !disabled)onClick(e); }}
 			>
 				{ icon ? icon() : null}
-				<span style={icon ? { marginLeft: 3 } : (customStyle ? { lineHeight: 0 } : '')}>{children || title}</span>
+				<span style={icon ? { marginLeft: 3 } : ''}>{children || title}</span>
 
 			</button>
 		</React.Fragment>
