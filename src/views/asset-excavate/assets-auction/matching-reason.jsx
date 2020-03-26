@@ -82,6 +82,7 @@ export default class MatchingReason extends React.Component {
 				reason, remark, duty, approveTime, pushType,
 			}, dishonest,
 		} = this.props;
+		// console.log(pushType, 3333);
 		// console.log(pushType);		// 类型 1 结构化 0 全文
 		const remarkOrder = pushType ? 'last' : 'first';
 		const { status } = this.state;

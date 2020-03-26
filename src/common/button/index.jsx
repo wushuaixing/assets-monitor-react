@@ -2,7 +2,9 @@ import React from 'react';
 import './style.scss';
 
 const comButton = (props) => {
-	const { style, children, className } = props;
+	const {
+		style, customStyle, children, className,
+	} = props;
 	const {
 		size, type, disabled, onClick, icon, active, title,
 	} = props;
@@ -30,7 +32,7 @@ const comButton = (props) => {
 				onClick={(e) => { if (onClick && !disabled)onClick(e); }}
 			>
 				{ icon ? icon() : null}
-				<span style={icon ? { marginLeft: 3 } : ''}>{children || title}</span>
+				<span style={icon ? { marginLeft: 3 } : (customStyle ? { lineHeight: 0 } : '')}>{children || title}</span>
 
 			</button>
 		</React.Fragment>
