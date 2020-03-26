@@ -231,14 +231,17 @@ function exportTemplate(source, exportType, name) {
 				return (dot + (item.t ? ("<u>" + item.t + "</u>") : '') + (item.cot || '-'));
 			};
 			list.forEach(function (i) {
-				if (i.length !== undefined) {
-					result += "<li>";
-					i.forEach(function (childItem) {
-						result += (separator + getDesc(childItem));
-					});
-					result += "</li>";
-				} else {
-					result += ("<li>" + getDesc(i) + "</li>")
+				if (!i) result += '';
+				else {
+					if (i.length !== undefined) {
+						result += "<li>";
+						i.forEach(function (childItem) {
+							result += (separator + getDesc(childItem));
+						});
+						result += "</li>";
+					} else {
+						result += ("<li>" + getDesc(i) + "</li>")
+					}
 				}
 			});
 			return result;
@@ -302,8 +305,8 @@ function exportTemplate(source, exportType, name) {
 		},
 		disStatus: function (value) {
 			var dishonestStatus = '';
-			if (value === 1) dishonestStatus = "<span class=\"img-icon-size-dishonest img-icon-dishonest icon-dishonest\"></span>";
-			if (value === 2) dishonestStatus = "<span class=\"img-icon-size-dishonest-ed img-icon-dishonest-ed icon-dishonest\"></span>";
+			if (value === 1) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest\"></span></div>";
+			if (value === 2) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest-ed\"></span></div>>";
 			return dishonestStatus;
 		},
 	};
@@ -358,12 +361,13 @@ function exportTemplate(source, exportType, name) {
 		}
 		return "--";
 	};
-	var map = function(ary,field){
-		var array = ary ||[];
+	var map = function (ary, field) {
+		var array = ary || [];
 		return array.map(function (i) {
-			return field?i[field]:i
+			return field ? i[field] : i
 		})
 	};
+
 	f.replaceHtml([
 		{f: "../../img/watermark.png", v: bgImgData},
 		{f: "../../img/debtor.png", v: deIconData},
@@ -446,7 +450,7 @@ function exportTemplate(source, exportType, name) {
 		var list = '';
 		var dot = true;
 		switch (taxon) {
-			case 'B10101':{
+			case 'B10102': {
 				list = drawTable(data.list, [
 					{t: '业务编号', f: 'caseNumber'},
 					{t: '债务人角色', f: 'role'},
@@ -646,14 +650,14 @@ function exportTemplate(source, exportType, name) {
 						+ f.normalList([
 							{t: '登记日期', cot: f.time(i.regDate)},
 							[
-								{t: '出质人', cot: (i.pledgorList ? map(i.pledgorList,'pledgor').join('、') : '-'), ET},
-								{t: '质权人', cot: (i.pledgeeList ? map(i.pledgeeList,'pledgee').join('、') : '-')},
+								{t: '出质人', cot: (i.pledgorList ? map(i.pledgorList, 'pledgor').join('、') : '-'), ET},
+								{t: '质权人', cot: (i.pledgeeList ? map(i.pledgeeList, 'pledgee').join('、') : '-')},
 								{t: '出质股权数额', cot: w(i.consultPrice, {unit: '万人民币'})},
 							],
 						])
 						+ "</td><td>" + f.normalList([
 							{
-								cot: w((i.state===0 ? '有效' : '无效'), {unit: (i.state===0 ? '（<u>匹配日期:</u>****）' : '')}),
+								cot: w((i.state === 0 ? '有效' : '无效'), {unit: (i.state === 0 ? '（<u>匹配日期:</u>****）' : '')}),
 								dot: i.state === 0 ? 'success' : 'dot'
 							},
 							{t: '登记编号', cot: w(i.regNumber)},
@@ -748,8 +752,6 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
-
-
 			case 'I50101': {
 				list = "<tr><td>法定代表人</td><td>{legalPerson}</td><td>组织机构代码</td><td>{orgNumber}</td></tr><tr><td>统一社会信用代码</td><td>{creditCode}</td><td>纳税人识别号</td><td>{taxNumber}</td></tr><tr><td>成立日期</td><td>{establishTime}</td><td>营业期限</td><td>{timeLimit}</td></tr><tr><td>注册资本</td><td>{regCapital}</td><td>实缴资本</td><td>{actualCapital}</td></tr><tr><td>经营状态</td><td>{regStatus}</td><td>登记机关</td><td>{regInstitute}</td></tr><tr><td>企业类型</td><td>{companyOrgType}</td><td>核准日期</td><td>{approvedTime}</td></tr><tr><td>所属行业</td><td>{industry}</td><td>工商注册号</td><td>{regNumber}</td></tr><tr><td>人员规模</td><td>{scale}</td><td>参保人数</td><td>{insuranceNum}</td></tr><tr><td>英文名</td><td>{englishName}</td><td>注册地址</td><td>{regLocation}</td></tr><tr><td>经营范围</td><td colspan='3'>{businessScope}</td></tr>";
 				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
@@ -827,10 +829,51 @@ function exportTemplate(source, exportType, name) {
 	};
 
 	/* main logic entry */
-	var aboutList = function(title,source){
+	var aboutList = function (title, source, option) {
 		return "<div><div class=\"title\"><div class=\"t2\">" + title + "</div>" +
 			"</div><div class=\"content\">" + drawContent(option, source) + "</div></div>"
 	};
+
+
+	var i = {
+		"bankruptcy": false,
+		"dishonestStatus": 0,
+		"establishTime": "2000-05-12",
+		"id": 347804,
+		"legalPersonName": "张大林",
+		"limitConsumption": null,
+		"logoUrl": "",
+		"obligorName": "成都海科投资有限责任公司",
+		"obligorNumber": "",
+		"pushState": 1,
+		"regCapital": "198703.700000",
+		"regStatus": "存续",
+		"usedName": []
+	};
+	f.replaceHtml([{f: '{base.logo}', v: i.url || ''}]);
+	f.replaceHtml([{
+		f: '{base.content}', v: (
+			f.urlDom(i.obligorName, i.url) +
+			f.disStatus(i.dishonestStatus) +
+			f.tag(i.bankruptcy) +
+			f.normalList([
+				[
+					{t: '法定代表人', cot: i.legalPersonName},
+					{t: '注册资本', cot: w(i.regCapital, {unit: '万人民币'})},
+					{t: '成立日期', cot: w(i.establishTime)},
+				],
+				(i.usedName || []).length ? {t: '曾用名', cot: (i.usedName.join('、'))} : null])
+		)
+	}]);
+
+	// 关联业务列表
+	f.replaceHtml([{
+		f: '{about.list}', v: aboutList(
+			'关联业务列表',
+			{list: _dataSource["B10102"]},
+			{id: 'B10102', className: 'table-border',show:true}
+		)
+	}]);
 
 	Object.keys(dd).forEach(function (field) {
 		var item = dd[field];
