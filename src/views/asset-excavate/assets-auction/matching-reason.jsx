@@ -51,7 +51,7 @@ export default class MatchingReason extends React.Component {
 						</div>
 					);
 				}
-				if (pushType && /<em/.test(JSON.stringify(item.hl))) return null;
+				if (pushType === 1 && /<em/.test(JSON.stringify(item.hl))) return null;
 				return (
 					<div className="reason-list">
 						<div>{`● 根据"${item.name || item.number}"匹配`}</div>
