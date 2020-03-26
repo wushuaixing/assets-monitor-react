@@ -25,6 +25,11 @@
       background-color: #F4FFF9;
       color: $common-success;
     }
+    .regStatus-blue{
+      border: 1px solid #77B9F9;
+      background-color: #F0F7FF;
+      color: #1C80E1;
+    }
     .regStatus-red{
       border: 1px solid #FF9293;
       background-color: #FFF3F3;
@@ -184,8 +189,8 @@
 
         .intro-title-tag {
           position: absolute;
-          //right: -10px;
-          bottom: 0;
+          //right: 0;
+          bottom: 5px;
         }
       }
 
@@ -336,6 +341,7 @@
           .intro-title-tag {
             position: absolute;
             //right: -10px;
+
             bottom: 0;
           }
         }

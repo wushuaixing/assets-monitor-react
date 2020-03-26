@@ -10,16 +10,19 @@ import {
 /* api collection */
 import assets from '@/utils/api/detail/assets';
 import risk from '@/utils/api/detail/risk';
-import { companyInfo, exportListEnp } from '@/utils/api/portrait-inquiry';
+import { businessInfo } from '@/utils/api/detail';
+import { exportListEnp } from '@/utils/api/portrait-inquiry';
 /* components */
 import {
 	Tabs, Download, Icon as IconType, BreadCrumb, Button,
 } from '@/common';
+import ShapeImg from '@/assets/img/business/Shape.png';
 import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
 import Risk from '@/views/business-detail/table-version/risk';
 import PublicImg from '@/assets/img/business/icon_zwrpeople.png';
-import Dishonest from '@/assets/img/icon/icon_shixin.png';
+import isBreak from '@/assets/img/business/status_shixin.png';
+import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import '../style.scss';
 
 /* 基本选项 */
@@ -66,7 +69,7 @@ const EnterpriseInfo = (props) => {
 		dishonestStatus: isDishonest, pushState,
 	} = data;
 	const {
-		obligorName: name, legalPersonName, regCapital, establishTime,
+		obligorName: name, orgName, obligorNumber, uploadTime, caseNumber, obligorPushType,
 	} = data;
 
 	const style = {
@@ -81,10 +84,16 @@ const EnterpriseInfo = (props) => {
 			</div>
 			<div className="intro-content">
 				<div className="intro-title">
-					<span className="yc-public-title-large-bold">{name}</span>
+					<span className="yc-public-title-large-bold">
+						业务编号：
+						{caseNumber}
+					</span>
 					{
 						pushState !== null ? (
-							<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
+							<span
+								className="inquiry-list-regStatus regStatus-blue"
+								style={pushState ? {} : { color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6' }}
+							>
 								{'当前推送状态：'}
 								{pushState ? '开启' : '关闭'}
 							</span>
@@ -93,30 +102,49 @@ const EnterpriseInfo = (props) => {
 				</div>
 				<div className="intro-base-info">
 					<li className="intro-info-list intro-list-border">
+						{name ? <img src={ShapeImg} style={{ position: 'relative', top: '2px', marginRight: '5px' }} alt="" /> : null}
 						<span className="yc-public-remark">借款人：</span>
 						<span className="yc-public-title intro-title-name" style={style}>
-							{legalPersonName || '--'}
-							{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
+							{name || '--'}
+							{
+								isDishonest === 1 ? (
+									<img
+										style={{ width: '28px' }}
+										src={isBreak}
+										alt=""
+									/>
+								) : null
+							}
+							{
+								isDishonest === 2 ? (
+									<img
+										style={{ width: '28px' }}
+										src={beforeBreak}
+										alt=""
+									/>
+								) : null
+							}
+							{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" style={{ width: '28px' }} /> : null} */}
 						</span>
 					</li>
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">证件号/统一社会信用代码：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? reviseNum(regCapital) : '--'}</span>
+						<span className="yc-public-title" style={style}>{toEmpty(obligorNumber) ? reviseNum(obligorNumber) : '--'}</span>
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">借款人推送状态：</span>
-						<span className="yc-public-title">{timeStandard(establishTime)}</span>
+						<span className="yc-public-title">{obligorPushType !== null ? (obligorPushType ? '开启' : '关闭') : '--'}</span>
 					</li>
 				</div>
 				<div className="intro-used">
 
 					<li className="intro-info-list intro-list-border">
-						<span className="yc-public-remark">负责人/机构：</span>
-						<span className="yc-public-title" style={style}>{legalPersonName || '--'}</span>
+						<span className="yc-public-remark">负责人/机构名：</span>
+						<span className="yc-public-title" style={style}>{orgName || '--'}</span>
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">上传时间：</span>
-						<span className="yc-public-title">{timeStandard(establishTime)}</span>
+						<span className="yc-public-title">{timeStandard(uploadTime)}</span>
 					</li>
 				</div>
 			</div>
@@ -161,8 +189,9 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const companyId = getQueryByName(window.location.href, 'id') || 494493;
-		companyInfo({ companyId }).then((res) => {
+		const businessId = getQueryByName(window.location.href, 'id') || 22604;
+		this.setState({ loading: true });
+		businessInfo({ businessId }).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					infoSource: res.data,

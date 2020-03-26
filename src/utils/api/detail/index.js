@@ -3,7 +3,7 @@ import service from '@/utils/service';
 const debtorInfo = params => service.get('/yc/obligor/monitor/overview/detail', { params })
 	.then(res => res.data);
 
-const businessInfo = params => service.get('/yc/search/portrait/company/info', { params })
+const businessInfo = params => service.get('/yc/business/monitor/overview/detail', { params })
 	.then(res => res.data);
 
 const dishonestStatus = params => service.get('/yc/search/portrait/company/dishonest-status', { params })

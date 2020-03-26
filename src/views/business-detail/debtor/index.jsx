@@ -86,9 +86,18 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const obligorId = getQueryByName(window.location.href, 'id') || 348229;
+		const obligorId = getQueryByName(window.location.href, 'id') || 353323;
 		debtorInfo({ obligorId }).then((res) => {
 			if (res.code === 200) {
+				const { obligorName } = res.data;
+				if (obligorName && obligorName.length > 4) {
+					this.portrait = 'debtor_enterprise';
+				} else {
+					this.portrait = 'debtor_personal';
+					if (tabConfig && tabConfig.length === 4) {
+						tabConfig.pop();
+					}
+				}
 				this.setState({
 					infoSource: res.data,
 					loading: false,
@@ -197,6 +206,7 @@ export default class Enterprise extends React.Component {
 			toPushChild: this.handleAddChild, // tab 追加子项
 			portrait: this.portrait,
 		};
+		console.log(tabConfig);
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">
