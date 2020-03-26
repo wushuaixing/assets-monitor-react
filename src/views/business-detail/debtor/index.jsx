@@ -10,7 +10,7 @@ import assets from '@/utils/api/detail/assets';
 import risk from '@/utils/api/detail/risk';
 import { debtorInfo } from '@/utils/api/detail';
 /* components */
-import { Tabs, BreadCrumb } from '@/common';
+import { Tabs, BreadCrumb, Spin } from '@/common';
 import DebtorInfo from '@/views/business-detail/table-version/debtor-info';
 import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
@@ -217,16 +217,18 @@ export default class Enterprise extends React.Component {
 				</div>
 				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<Affix onChange={this.onChangeAffix}>
-					<div className={classList.join(' ')}>
-						<DebtorInfo data={infoSource} affixStatus={affixStatus} portrait={this.portrait} />
-						<Tabs.Simple
-							onChange={this.onSourceType}
-							source={tabConfig}
-							symbol="none"
-							defaultCurrent={sourceType}
-						/>
-						{childDom}
-					</div>
+					<Spin visible={loading}>
+						<div className={classList.join(' ')}>
+							<DebtorInfo data={infoSource} affixStatus={affixStatus} portrait={this.portrait} />
+							<Tabs.Simple
+								onChange={this.onSourceType}
+								source={tabConfig}
+								symbol="none"
+								defaultCurrent={sourceType}
+							/>
+							{childDom}
+						</div>
+					</Spin>
 				</Affix>
 				<div className="info-content">
 					<Router>

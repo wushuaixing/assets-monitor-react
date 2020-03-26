@@ -14,7 +14,7 @@ import { businessInfo } from '@/utils/api/detail';
 import { exportListEnp } from '@/utils/api/portrait-inquiry';
 /* components */
 import {
-	Tabs, Download, Icon as IconType, BreadCrumb, Button,
+	Tabs, Download, Icon as IconType, BreadCrumb, Button, Spin,
 } from '@/common';
 import ShapeImg from '@/assets/img/business/Shape.png';
 import Overview from '@/views/business-detail/table-version/overview';
@@ -318,11 +318,13 @@ export default class Enterprise extends React.Component {
 				</div>
 				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<Affix onChange={this.onChangeAffix}>
-					<div className={classList.join(' ')}>
-						<EnterpriseInfo data={infoSource} onEdit={this.handleEdit} onRcord={this.handleRecord} affixStatus={affixStatus} />
-						<Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} />
-						{childDom}
-					</div>
+					<Spin visible={loading}>
+						<div className={classList.join(' ')}>
+							<EnterpriseInfo data={infoSource} onEdit={this.handleEdit} onRcord={this.handleRecord} affixStatus={affixStatus} />
+							<Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} />
+							{childDom}
+						</div>
+					</Spin>
 				</Affix>
 				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<div className="info-content">
