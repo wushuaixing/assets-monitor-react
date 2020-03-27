@@ -1,6 +1,7 @@
 import React from 'react';
 import {
 	overviewAuction, // 债务人资产拍卖
+	businessOverviewAuction, // 业务资产拍卖
 	overviewLand, // 债务人土地信息
 	businessOverviewLand, // 业务土地信息
 	overviewIntangible, // 债务人无形资产
@@ -42,7 +43,7 @@ export default class AssetProfile extends React.Component {
 
 	componentDidMount() {
 		const obligorId = getQueryByName(window.location.href, 'id') || 347917;
-		const businessId = 22584 || getQueryByName(window.location.href, 'id');
+		const businessId = 21640 || getQueryByName(window.location.href, 'id');
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };
 		Promise.all([this.getAuctionData(params, portrait), this.getLandData(params, portrait), this.getIntangibleData(params, portrait), this.getSubrogationData(params, portrait),
@@ -60,10 +61,12 @@ export default class AssetProfile extends React.Component {
 	}
 
 	// 资产拍卖
-	getAuctionData = (value) => {
-		const params = { obligorId: 347917, ...value };
+	getAuctionData = (value, portrait) => {
+		const params = { ...value };
+		const api = portrait === 'business' ? businessOverviewAuction : overviewAuction;
+		// const params = { obligorId: 347917, ...value };
 		let auctionPropsData = {};
-		return overviewAuction(params).then((res) => {
+		return api(params).then((res) => {
 			if (res.code === 200) {
 				auctionPropsData = {
 					auctionPropsData: res.data,
@@ -76,7 +79,7 @@ export default class AssetProfile extends React.Component {
 
 	// 土地信息
 	getLandData = (value, portrait) => {
-		console.log(portrait);
+		// console.log(portrait);
 		const params = { ...value };
 		const api = portrait === 'business' ? businessOverviewLand : overviewLand;
 		return api(params).then((res) => {

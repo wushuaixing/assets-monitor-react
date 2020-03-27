@@ -25,7 +25,9 @@ export default class RiskInformation extends React.Component {
 					auctionPropsData.count > 0
 						? (
 							<Card
+								portrait={portrait}
 								imgCard={img}
+								obligorTotal={auctionPropsData.obligorTotal}
 								count={auctionPropsData.count}
 								gmtCreate={auctionPropsData.gmtCreate}
 								customStyle={portrait === 'business' ? { width: '754px', height: '140px', marginBottom: '20px' } : { width: '754px', height: '120px', marginBottom: '20px' }}

@@ -28,7 +28,7 @@ export default class Visualize extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			obligorId: parseQuery(window.location.hash).id || 347639,
+			obligorId: parseQuery(window.location.hash).id || 353323,
 			businessId: 22584 || parseQuery(window.location.hash).id,
 			loading: false,
 			litigationInfos: null,
@@ -53,11 +53,12 @@ export default class Visualize extends React.Component {
 	getData = () => {
 		const { obligorId, businessId } = this.state;
 		const { portrait } = this.props;
-		this.setState({ loading: true });
 		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
 		const api = portrait === 'business' ? businessOverviewLitigation : overviewLitigation;
 
 		if (portrait === 'debtor_enterprise') {
+			this.setState({ loading: true });
+
 			// 获取工商基本信息
 			overviewBusiness(params).then((res) => {
 				if (res.code === 200) {
@@ -212,10 +213,10 @@ export default class Visualize extends React.Component {
 
 						{/* <BusinessRisk companyId={companyId} /> */}
 					</div>
-					<div className="visualize-overview-line" />
 					{portrait === 'debtor_enterprise'
 						? (
 							<div>
+								<div className="visualize-overview-line" />
 								<div className="yc-overview-title">工商基本信息</div>
 								<div className="yc-overview-container">
 									{/*  基本信息 */}

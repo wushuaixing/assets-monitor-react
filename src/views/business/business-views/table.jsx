@@ -122,23 +122,32 @@ class BusinessView extends React.Component {
 				dataIndex: 'pushState',
 				key: 'pushState',
 				width: 80,
-				render: text => (
-					<React.Fragment>
-						{
-							text === 1 ? (
-								<React.Fragment>
-									<p className="circle-item">启用</p>
-								</React.Fragment>
-
-							) : (
-								<React.Fragment>
-									<p className="no-attention">关闭</p>
-								</React.Fragment>
-							)
+				render(text) {
+					return (
+						<React.Fragment>
+							{
+							text === 1 ? <p className="circle-item">启用</p> : <p className="no-attention">关闭</p>
 						}
-					</React.Fragment>
-
-				),
+						</React.Fragment>
+					);
+				},
+				// render: text => (
+				// 	<React.Fragment>
+				// 		{
+				// 			text === 1 ? (
+				// 				<React.Fragment>
+				// 					<p className="circle-item">启用</p>
+				// 				</React.Fragment>
+				//
+				// 			) : (
+				// 				<React.Fragment>
+				// 					<p className="no-attention">关闭</p>
+				// 				</React.Fragment>
+				// 			)
+				// 		}
+				// 	</React.Fragment>
+				//
+				// ),
 			}, {
 				title: '操作',
 				key: 'operation',

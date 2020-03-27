@@ -6,7 +6,10 @@ import RiskInformation from './risk-information';
 import {
 	getQueryByName,
 } from '@/utils';
-import { businessList } from '@/utils/api/detail/overview';
+import {
+	obligorList, // 债务人列表
+	businessList, // 业务列表
+} from '@/utils/api/detail/overview';
 import './style.scss';
 
 export default class Portrait extends React.Component {
@@ -19,17 +22,19 @@ export default class Portrait extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getData();
+		const obligorId = getQueryByName(window.location.href, 'id') || 347917;
+		const businessId = 22584 || getQueryByName(window.location.href, 'id');
+		const { portrait } = this.props;
+		const params = portrait === 'business' ? { businessId } : { obligorId };
+		this.getData(params, portrait);
 	}
 
-	getData = () => {
-		const obligorId = 22584 || getQueryByName(window.location.href, 'id');
-		const params = {
-			obligorId,
-		};
+	getData = (value, portrait) => {
+		const params = { ...value };
+		const api = portrait === 'business' ? businessList : obligorList;
 		this.setState({ loading: true });
 		// 业务列表信息
-		businessList(params).then((res) => {
+		api(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					businessData: res.data,

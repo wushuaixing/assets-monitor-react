@@ -26,8 +26,8 @@ export default class RiskInformation extends React.Component {
 	}
 
 	componentDidMount() {
-		const obligorId = getQueryByName(window.location.href, 'id');
-		const businessId = 22584 || getQueryByName(window.location.href, 'id');
+		const obligorId = getQueryByName(window.location.href, 'id') || 347917;
+		const businessId = getQueryByName(window.location.href, 'id') || 22584;
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };
 

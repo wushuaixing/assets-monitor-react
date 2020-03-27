@@ -1,6 +1,9 @@
 import React from 'react';
 import { Table, Button } from '@/common';
 import noData from '@/assets/img/business/noData.png';
+import isBreak from '@/assets/img/business/status_shixin.png';
+import beforeBreak from '@/assets/img/business/status_cengshixin.png';
+import './style.scss';
 
 export default class BusinessRelated extends React.Component {
 	constructor(props) {
@@ -8,33 +11,49 @@ export default class BusinessRelated extends React.Component {
 		this.state = {
 			columns: [{
 				title: '相关人名称',
-				dataIndex: 'caseNumber',
-				key: 'caseNumber',
-				render: text => (
+				dataIndex: 'obligorName',
+				key: 'obligorName',
+				render: (text, row) => (
 					<p>
 						{text || '-'}
+						<span className="yc-item-break">
+							 {
+								row && row.dishonestStatus === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null
+							 }
+							 {
+								row && row.dishonestStatus === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null
+							 }
+						</span>
+						{row.limitConsumption ? <span className="business-related-tag limit-height">已限高</span> : null}
+						{row.bankruptcy ? <span className="business-related-tag bankruptcy-reorganization">破产/重整风险</span> : null}
 					</p>
 				),
 			}, {
 				title: '证件号/统一社会信用代码',
-				dataIndex: 'role',
-				key: 'role',
+				dataIndex: 'obligorNumber',
+				key: 'obligorNumber',
 				width: 300,
 				render(text) {
 					return <div>{text || '-'}</div>;
 				},
 			}, {
 				title: '角色',
-				dataIndex: 'orgName',
-				key: 'orgName',
+				dataIndex: 'roleText',
+				key: 'roleText',
 				width: 250,
 			}, {
 				title: '推送状态',
-				key: 'operation',
-				dataIndex: 'operation',
+				key: 'obligorPushType',
+				dataIndex: 'obligorPushType',
 				width: 200,
-				render() {
-					return <div className="yc-table-text-link">查看</div>;
+				render(text) {
+					return (
+						<React.Fragment>
+							{
+								text === 1 ? <p className="circle-item">开启</p> : <p className="no-attention">关闭</p>
+							}
+						</React.Fragment>
+					);
 				},
 			}],
 		};
@@ -53,7 +72,7 @@ export default class BusinessRelated extends React.Component {
 					<div className="overview-container-content" style={{ padding: '0 20px' }}>
 						{dataSource && dataSource.length > 0 ? (
 							<Table
-								scroll={dataSource.length > 8 ? { y: 440 } : {}}
+								scroll={dataSource.length > 10 ? { y: 440 } : {}}
 								columns={columns}
 								dataSource={dataSource}
 								pagination={false}
@@ -71,7 +90,7 @@ export default class BusinessRelated extends React.Component {
 									</tr>
 								</tbody>
 							</table>
-							<div style={{ textAlign: 'center' }}>
+							<div style={{ textAlign: 'center', marginBottom: '30px' }}>
 								<img style={{ marginTop: '50px' }} src={noData} alt="" />
 								<div>暂未导入相关人，建议去编辑添加相关人，以形成完整业务画像</div>
 								<Button size="large" type="common" style={{ width: 160, height: 34, marginTop: 40 }} onClick={this.handleSubmit}>添加相关人</Button>

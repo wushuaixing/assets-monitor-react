@@ -1,13 +1,26 @@
 import service from '@/utils/service';
 
 // 债务人-业务列表
-export const businessList = async params => service.get('/yc/obligor/monitor/overview/relation', { params }).then(res => res.data);
-// const response = await service.get('/yc/obligor/monitor/overview/relation', { params });
-// return response.data;
+export const obligorList = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/relation', { params });
+	return response.data;
+};
 
+// 业务-业务列表
+// export const businessList = async params => service.get('/yc/business/monitor/overview/relation', { params }).then(res => res.data);
+export const businessList = async (params) => {
+	const response = await service.get('/yc/business/monitor/overview/relation', { params });
+	return response.data;
+};
 // 资产拍卖
 export const overviewAuction = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/auction', { params });
+	return response.data;
+};
+
+// 业务资产拍卖
+export const businessOverviewAuction = async (params) => {
+	const response = await service.get('/yc/business/monitor/overview/auction', { params });
 	return response.data;
 };
 

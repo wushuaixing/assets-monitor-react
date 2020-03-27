@@ -4,8 +4,9 @@ import { exportListEnp } from '@/utils/api/detail';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
-import Dishonest from '@/assets/img/icon/icon_shixin.png';
 import PublicImg from '@/assets/img/business/icon_zwrpeople.png';
+import isBreak from '@/assets/img/business/status_shixin.png';
+import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 
 /* 获取注册状态样式 */
 const getRegStatusClass = (val) => {
@@ -57,22 +58,40 @@ const EnterpriseInfo = (arg = {}) => {
 			</div>
 			<div className="intro-content">
 				<div className="intro-title">
-					<span className="yc-public-title-large-bold intro-title-name">
+					<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
 						{name}
-						{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
+						{
+							isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+						}
+						{
+							isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
+						}
+						{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null} */}
 					</span>
 					{
-						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}>{regStatus}</span> : null
+						regStatus ? (
+							<span
+								className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`}
+								style={isDishonest ? { marginTop: 2, marginLeft: 58, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}
+							>
+								{regStatus}
+							</span>
+						) : null
 					}
 					{
-						!limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
+						limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
 					}
 					{
-						!bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
+						bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
 					}
 					{
 						pushState ? (
-							<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
+							<span
+								className="inquiry-list-regStatus regStatus-blue"
+								style={pushState ? { marginTop: 2, marginRight: 5 } : {
+									marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+								}}
+							>
 								{'当前推送状态：'}
 								{pushState ? '开启' : '关闭'}
 							</span>
@@ -90,7 +109,7 @@ const EnterpriseInfo = (arg = {}) => {
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">成立日期：</span>
-						<span className="yc-public-title">{timeStandard(establishTime)}</span>
+						<span className="yc-public-title">{establishTime ? timeStandard(establishTime) : '--'}</span>
 					</li>
 				</div>
 				<div className="intro-used">
@@ -118,13 +137,26 @@ const EnterpriseInfoSimple = (props) => {
 	return (
 		<div className="enterprise-info enterprise-info-simple">
 			<div className="intro-title">
-				<span className="yc-public-title-large-bold intro-title-name">
+				<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
 					{obligorName}
-					{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
+					{
+						isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+					}
+					{
+						isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
+					}
+					{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null} */}
 				</span>
 				{
 					regStatus
-						? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{regStatus}</span> : ''
+						? (
+							<span
+								className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`}
+								style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}
+							>
+								{regStatus}
+							</span>
+						) : ''
 				}
 				{
 					limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
@@ -134,7 +166,12 @@ const EnterpriseInfoSimple = (props) => {
 				}
 				{
 					pushState ? (
-						<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
+						<span
+							className="inquiry-list-regStatus regStatus-blue"
+							style={pushState ? { marginTop: 2, marginRight: 5 } : {
+								marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+							}}
+						>
 							{'当前推送状态：'}
 							{pushState ? '开启' : '关闭'}
 						</span>
@@ -149,10 +186,10 @@ const EnterpriseInfoSimple = (props) => {
 /* 个人概要 */
 const PersonalInfo = (arg = {}) => {
 	const {
-		bankruptcy, dishonestStatus: isDishonest, pushState, limitConsumption,
+		 dishonestStatus: isDishonest, pushState, limitConsumption,
 	} = arg.data;
 	const {
-		obligorName: name, regStatus, logoUrl, obligorNumber,
+		obligorName: name, logoUrl, obligorNumber,
 	} = arg.data;
 	const style = {
 		minWidth: 80,
@@ -169,22 +206,26 @@ const PersonalInfo = (arg = {}) => {
 			</div>
 			<div className="intro-content">
 				<div className="intro-title">
-					<span className="yc-public-title-large-bold intro-title-name">
+					<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
 						{name}
-						{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
+						{
+							isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+						}
+						{
+							isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
+						}
 					</span>
 					{
-						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}>{regStatus}</span> : null
-					}
-					{
-						!limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
-					}
-					{
-						!bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
+						limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
 					}
 					{
 						pushState ? (
-							<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
+							<span
+								className="inquiry-list-regStatus regStatus-blue"
+								style={pushState ? { marginTop: 2, marginRight: 5 } : {
+									marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+								}}
+							>
 								{'当前推送状态：'}
 								{pushState ? '开启' : '关闭'}
 							</span>
@@ -192,7 +233,7 @@ const PersonalInfo = (arg = {}) => {
 					}
 				</div>
 				<div className="intro-base-info">
-					<li className="intro-info-list intro-list-border">
+					<li className="intro-info-list">
 						<span className="yc-public-remark">证件号：</span>
 						<span className="yc-public-title" style={style}>{obligorNumber || '-'}</span>
 					</li>
@@ -212,16 +253,26 @@ const PersonalInfoSimple = (props) => {
 	return (
 		<div className="enterprise-info enterprise-info-simple">
 			<div className="intro-title">
-				<span className="yc-public-title-large-bold intro-title-name">
+				<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
 					{obligorName}
-					{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
+					{
+						isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+					}
+					{
+						isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
+					}
 				</span>
 				{
 					limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
 				}
 				{
 					pushState ? (
-						<span className="inquiry-list-regStatus regStatus-green" style={{ marginTop: 2, marginRight: 5 }}>
+						<span
+							className="inquiry-list-regStatus regStatus-blue"
+							style={pushState ? { marginTop: 2, marginRight: 5 } : {
+								marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+							}}
+						>
 							{'当前推送状态：'}
 							{pushState ? '开启' : '关闭'}
 						</span>
