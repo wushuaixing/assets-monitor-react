@@ -48,80 +48,84 @@ function exportCover(source, exportType) {
 /* 导出画像模板-内容 */
 function exportTemplate(source, exportType, name) {
 	var dd = {
-		overview: {
-			name: '概览',
-			about: '{overview.content}',
-			child: []
-		},
+		// overview: {
+		// 	name: '概览',
+		// 	about: '{overview.content}',
+		// 	child: []
+		// },
 		assets: {
 			name: '资产',
 			about: '{assets.content}',
+			status: 'BEP',
 			child: [
-				{id: 'A10101', title: '资产拍卖_精准匹配', status: 'bep'},
-				{id: 'A10102', title: '资产拍卖_模糊匹配', status: 'bep'},
-				{id: 'A10401', title: '无形资产_排污权', status: 'be'},
-				{id: 'A10402', title: '无形资产_矿业权', status: 'be'},
-				{id: 'A10403', title: '无形资产_商标专利', status: 'be'},
-				{id: 'A10404', title: '无形资产_建筑建造资质', status: 'be'},
-				{id: 'A10301', title: '土地信息_出让结果', status: 'be'},
-				{id: 'A10302', title: '土地信息_土地转让', status: 'be'},
-				{id: 'A10303', title: '土地信息_土地抵押', status: 'be'},
-				{id: 'A10201', title: '代位权_立案', status: 'bep'},
-				{id: 'A10202', title: '代位权_开庭', status: 'bep'},
-				{id: 'A10203', title: '代位权_裁判文书', status: 'bep'},
-				{id: 'A10501', title: '股权质押_股权出质', status: 'be'},
-				{id: 'A10502', title: '股权质押_股权质权', status: 'be'},
-				{id: 'A10601', title: '动产抵押_抵押', status: 'be'},
-				{id: 'A10602', title: '动产抵押_抵押权', status: 'be'},
-				{id: 'A10701', title: '招投标', status: 'be'},
+				{id: 'A10101', title: '资产拍卖_精准匹配', status: 'BEP'},
+				{id: 'A10102', title: '资产拍卖_模糊匹配', status: 'BEP'},
+				{id: 'A10401', title: '无形资产_排污权', status: 'BE'},
+				{id: 'A10402', title: '无形资产_矿业权', status: 'BE'},
+				{id: 'A10403', title: '无形资产_商标专利', status: 'BE'},
+				{id: 'A10404', title: '无形资产_建筑建造资质', status: 'BE'},
+				{id: 'A10301', title: '土地信息_出让结果', status: 'BE'},
+				{id: 'A10302', title: '土地信息_土地转让', status: 'BE'},
+				{id: 'A10303', title: '土地信息_土地抵押', status: 'BE'},
+				{id: 'A10201', title: '代位权_立案', status: 'BEP'},
+				{id: 'A10202', title: '代位权_开庭', status: 'BEP'},
+				{id: 'A10203', title: '代位权_裁判文书', status: 'BEP'},
+				{id: 'A10501', title: '股权质押_股权出质', status: 'BE'},
+				{id: 'A10502', title: '股权质押_股权质权', status: 'BE'},
+				{id: 'A10601', title: '动产抵押_抵押', status: 'BE'},
+				{id: 'A10602', title: '动产抵押_抵押权', status: 'BE'},
+				{id: 'A10701', title: '招投标', status: 'BE'},
 			]
 		},
 		risk: {
 			name: '风险',
 			about: '{risk.content}',
+			status: 'BEP',
 			child: [
-				{id: 'R30201', title: '破产重组', status: 'be'},
-				{id: 'R20603', title: '涉诉文书', status: 'p'},
-				// {id: 'R20401', title: '失信记录',desc: '列入', status: 'bep'},
-				// {id: 'R20402', title: '失信记录',desc: '已移除',status: 'bep'},
-				// {id: 'R20502', title: '限高记录', status: 'bep'},
-				{id: 'R20601', title: '涉诉信息_立案', status: 'be'},
-				{id: 'R20602', title: '涉诉信息_开庭', status: 'be'},
-				{id: 'R20603', title: '涉诉信息_裁判文书', status: 'be'},
-				{id: 'R30301', title: '经营异常', status: 'be'},
-				{id: 'R30401', title: '严重违法', status: 'be'},
-				{id: 'R30501', title: '税收违法', status: 'bep'},
-				{id: 'R30601', title: '行政处罚', status: 'be'},
-				{id: 'R30701', title: '环保处罚', status: 'be'},
+				{id: 'R30201', title: '破产重组', status: 'BE'},
+				{id: 'R20603', title: '涉诉文书', status: 'P'},
+				// {id: 'R20401', title: '失信记录',desc: '列入', status: 'BEP'	},
+				// {id: 'R20402', title: '失信记录',desc: '已移除',status: 'BEP'	},
+				// {id: 'R20502', title: '限高记录', status: 'BEP'	},
+				{id: 'R20601', title: '涉诉信息_立案', status: 'BE'},
+				{id: 'R20602', title: '涉诉信息_开庭', status: 'BE'},
+				{id: 'R20603', title: '涉诉信息_裁判文书', status: 'BE'},
+				{id: 'R30301', title: '经营异常', status: 'BE'},
+				{id: 'R30401', title: '严重违法', status: 'BE'},
+				{id: 'R30501', title: '税收违法', status: 'BEP'},
+				{id: 'R30601', title: '行政处罚', status: 'BE'},
+				{id: 'R30701', title: '环保处罚', status: 'BE'},
 			]
 		},
 		info: {
 			name: '工商基本详情',
 			about: '{info.content}',
+			field: 'info',
+			status: 'E',
 			child: [
-				{id: 'I50101', title: '基本信息', status: 'e', show: true, className: 'table-baseInfo'},
-				{id: 'I50201', title: '主要人员', status: 'e'},
-				{id: 'I50301', title: '股东信息', status: 'e'},
-				{id: 'I50501', title: '分支机构', status: 'e'},
-				{id: 'I50601', title: '对外投资', status: 'e'},
-				{id: 'I50701', title: '工商变更', status: 'e', className: 'page-break-style'},
+				{id: 'I50101', title: '基本信息', status: 'E', show: true, className: 'table-baseInfo'},
+				{id: 'I50201', title: '主要人员', status: 'E'},
+				{id: 'I50301', title: '股东信息', status: 'E'},
+				{id: 'I50501', title: '分支机构', status: 'E'},
+				{id: 'I50601', title: '对外投资', status: 'E'},
+				{id: 'I50701', title: '工商变更', status: 'E', className: 'page-break-style'},
 			]
 		},
 	};
 	var _dataSource = JSON.parse(source);
 
 	// 导出类型
-	var _exportType = exportType;
 	var TYPE = '';
-	var DB = '';
+	var Status = '';
 	if (exportType === 'debtor') {
 		TYPE = 'D';
 		var debtorName = _dataSource['DB10101'].obligorName;
-		DB = debtorName.length > 4 ? 'E' : 'P';
+		Status = debtorName.length > 4 ? 'E' : 'P';
 	} else {
 		TYPE = 'B';
+		Status = 'B';
 	}
-	var ET = DB === 'P';
+	var ET = Status;
 
 	// public enumeration object
 	var s = {
@@ -142,12 +146,20 @@ function exportTemplate(source, exportType, name) {
 		},
 		// （1-即将开始、3-正在进行、5-已成交、7-已流拍、9-中止、11-撤回）
 		auction: {
-			1: "即将开始",
-			3: "正在进行",
-			5: "已成交",
-			7: "已流拍",
-			9: "中止",
-			11: "撤回",
+			1: {t: '即将开始', dot: 'warning'},
+			3: {t: '正在进行', dot: 'warning'},
+			5: {t: '已成交', dot: 'success'},
+			7: {t: '已流拍', dot: 'gary'},
+			9: {t: '中止', dot: 'gary'},
+			11: {t: '撤回', dot: 'gary'},
+		},
+		process: {
+			0: {t: '未跟进', tag: ''},
+			3: {t: '跟进中', tag: 'regStatus-orange'},
+			6: {t: '跟进中', tag: 'regStatus-orange'},
+			9: {t: '已完成', tag: 'regStatus-green'},
+			12: {t: '已忽略', tag: 'regStatus-gray'},
+			15: {t: '已放弃', tag: 'regStatus-gray'},
 		},
 		certificateType: {
 			0: "未知",
@@ -354,34 +366,32 @@ function exportTemplate(source, exportType, name) {
 		}
 		return res;
 	};
+
 	var matchReason = function (data) {
 		var reason = data.reason;
-		if (reason || data.remark) {
+		var pushType = data.pushType;
+		if (reason) {
 			var matchReasonStr = '';
-			if (data.remark) {
-				matchReasonStr += "<li class=\"mg8-0\">● 审核备注 | " + f.format(data.approveTime, "m") + "</li><li class=\"mg8-0\">" + w(data.remark) + "</li>";
-			}
 			try {
 				var _reason = JSON.parse(reason);
 				_reason.forEach(function (item) {
 					if (item.used_name) {
-						matchReasonStr += "<li class=\"mg8-0\">● 根据曾用名\"" + item.used_name + "\"匹配</li>";
-						if ((item.hl || []).length) matchReasonStr += ("<li class=\"mg8-0\">" + item.hl.join("</li><li class=\"mg8-0\">") + "</li>");
-						else matchReasonStr += "<li class=\"mg8-0\">--</li>";
+						if ((item.hl || []).length) matchReasonStr += item.hl.join("、");
 					} else if (item.birth) {
-						matchReasonStr += "<li class=\"mg8-0\">● 根据\"" + item.birth + "\"匹配</li>";
-						matchReasonStr += "<li class=\"mg8-0\">" + (item.desc || '--') + "</li>";
+						matchReasonStr += (item.desc || '-');
 					} else {
-						matchReasonStr += "<li class=\"mg8-0\">● 根据\"" + (item.name || item.number) + "\"匹配</li>";
-						if ((item.hl || []).length) matchReasonStr += ("<li class=\"mg8-0\">" + item.hl.join("</li><li class=\"mg8-0\">") + "</li>");
-						else matchReasonStr += "<li class=\"mg8-0\">--</li>";
+						// 全文匹配
+						if (pushType === 1 && /<em/.test(JSON.stringify(item.hl))) matchReasonStr += '';
+						else {
+							if ((item.hl || []).length) matchReasonStr += item.hl.join("、");
+						}
 					}
 				})
 			} catch (e) {
 			}
-			return matchReasonStr;
+			return matchReasonStr || '-';
 		}
-		return "--";
+		return "-";
 	};
 	var map = function (ary, field) {
 		var array = ary || [];
@@ -399,51 +409,6 @@ function exportTemplate(source, exportType, name) {
 		{f: "../../img/icon_shixin.png", v: disIconData},
 		{f: "../../img/icon-accurate.png", v: accurateImgData},
 		{f: "{base.queryTime}", v: f.time()}]);
-
-	/* baseInfo -- fill */
-	var baseInfo = function method(data, status) {
-		var list = ((data || {}).businessList) || ((data || {}).obligorList) || [];
-		var obj = (data.detail) || {};
-		var userInfo = '';
-		if (status) {
-			var usedLengthFlag = Boolean((obj.usedName || []).length);
-			userInfo = ("<div class='name'>" + obj.obligorName + (obj.obligorNumber ? ("(" + obj.obligorNumber + ")") : "") + "</div>");
-			f.replaceHtml([
-				{f: "{business.display}", v: "display-none"},
-				{f: "{base.title}", v: "债务人详情"},
-				{f: "{about.title}", v: "相关业务列表"},
-				{f: "{base.userInfo}", v: userInfo},
-				{f: "{debtor.obligorName}", v: w(obj.obligorName)},
-				{f: "{debtor.obligorNumber}", v: w(obj.obligorNumber)},
-				{f: "{debtor.dishonest}", v: f.disStatus(obj.dishonestStatus)},
-				{f: "{debtor.formerNames}", v: (usedLengthFlag ? obj.usedName.join('、') : '-')}]);
-		} else {
-			userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + obj.id + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
-			f.replaceHtml([
-				{f: "{debtor.display}", v: "display-none"},
-				{f: "{base.title}", v: "业务详情"},
-				{f: "{about.title}", v: "业务相关人列表"},
-				{f: "{base.userInfo}", v: userInfo}]);
-			f.replaceHtml(["caseNumber", "obligorName", "obligorNumber", "orgName"], {
-				field: "business",
-				source: obj
-			});
-		}
-		var listDom = status ? "<tr><th>业务编号</th><th>角色</th><th>机构名称</th></tr>" : "<tr><th>相关人名称</th><th>身份证号/统一社会信用代码</th><th>角色</th></tr>";
-		if (list.length) {
-			list.forEach(function (item) {
-				listDom += (status ? ("<tr><td>" + w(item.caseNumber) + "</td><td>" + w(item.roleText) + "</td><td>" + w(item.orgName) + "</td></tr>")
-					: ("<tr><td><span class='pr pl'>" + w(item.obligorName) + f.disStatus(item.dishonestStatus) + "</span></td><td>" + (item.obligorNumber || '-') + "</td><td>" + w(item.roleText) + "</td></tr>"));
-			});
-			f.replaceHtml([{f: "{about.list}", v: listDom}, {f: "{about.total}", v: list.length}]);
-		} else {
-			f.replaceHtml([{
-				f: "{about.list}",
-				v: (listDom + "<tr><td colspan='3' style='text-align: center;'>暂无数据</td></tr>")
-			}, {f: "{about.total}", v: ""}]);
-		}
-	};
-	// baseInfo((type ? d.BA01 : d.BB01), type);
 
 	/* draw normal table */
 	var drawTable = function (data, option) {
@@ -474,12 +439,35 @@ function exportTemplate(source, exportType, name) {
 		var list = '';
 		var dot = true;
 		switch (taxon) {
-			case 'B10102': {
+			case 'DB10102': {
 				list = drawTable(data.list, [
 					{t: '业务编号', f: 'caseNumber'},
 					{t: '债务人角色', f: 'role'},
 					{t: '负责人/机构', f: 'orgName'},
 				]);
+				break;
+			}
+			case 'A10101':
+			case 'A10102': {
+				data.list.forEach(function (i) {
+					var process = i.process !== 0 ? (s.process[i.process] || {}) : {};
+					var auction = s.auction[i.status] || {};
+					list += "<tr><td>"
+						+ f.urlDom(i.title, i.url)
+						+ f.tag(process.t, process.tag)
+						+ f.normalList([
+							{t: '匹配原因', cot: matchReason(i), dot},
+							{t: '审核备注', cot: i.remark},
+						])
+						+ "</td><td>"
+						+ f.normalList([
+							{cot: auction.t, dot: auction.dot},
+							{t: '成交价', cot: w(f.threeDigit(i.currentPrice), {unit: '元'})},
+							{t: '评估价', cot: w(f.threeDigit(i.consultPrice), {unit: '元'})},
+							{t: '拍卖时间', cot: f.time(i.start)},
+							{t: '处置单位', cot: i.court},
+						]) + "</td></tr>";
+				});
 				break;
 			}
 			case 'A10201': {
@@ -859,6 +847,7 @@ function exportTemplate(source, exportType, name) {
 	};
 
 	var item = _dataSource[TYPE + 'B10101'] || {};
+	// 基本信息
 	if (TYPE === 'B') {
 		f.replaceHtml([
 			{f: '{base.logo}', v: item.logoUrl || ''},
@@ -883,7 +872,7 @@ function exportTemplate(source, exportType, name) {
 			}]);
 	}
 	if (TYPE === 'D') {
-		if (DB === 'E') {
+		if (Status === 'E') {
 			f.replaceHtml([
 				{f: '{base.logo}', v: item.logoUrl || ''},
 				{f: '{base.logo-icon}', v: 'debtor-img'},
@@ -925,9 +914,9 @@ function exportTemplate(source, exportType, name) {
 		// 关联业务列表
 		f.replaceHtml([{
 			f: '{about.list}', v: aboutList(
-				(DB === 'E' ? '关联业务列表' : '相关业务列表'),
+				(Status === 'E' ? '关联业务列表' : '相关业务列表'),
 				{list: _dataSource["DB10102"]},
-				{id: 'B10102', className: 'table-border', show: true}
+				{id: 'DB10102', className: 'table-border', show: true}
 			)
 		}]);
 	}
@@ -935,9 +924,11 @@ function exportTemplate(source, exportType, name) {
 	Object.keys(dd).forEach(function (field) {
 		var item = dd[field];
 		var child = '';
-		item.child.forEach(function (i) {
-			child += childContainer(i, _dataSource[TYPE + i.id])
-		});
+		if (new RegExp(Status).test(item.status)) {
+			item.child.forEach(function (i) {
+				child += childContainer(i, _dataSource[TYPE + i.id])
+			});
+		}
 		var wrapper = child ? ("<div><div class=\"t1 b-b\">" + item.name + "</div><div class=\"wrapper\">" + child + "</div></div>") : '';
 		f.replaceHtml([{f: item.about, v: wrapper}]);
 	});
