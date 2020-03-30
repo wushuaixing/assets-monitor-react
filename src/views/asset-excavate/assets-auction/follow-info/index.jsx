@@ -45,7 +45,7 @@ const StepDesc = (props) => {
 			{
 				remindingTime || remindType ? (
 					<li>
-						{ remindingTime ? `提醒日期：${new Date(remindingTime * 1000).format('yyyy-MM-dd (早上10点)')}； ` : null}
+						{ remindingTime ? `提醒日期：${new Date(remindingTime * 1000).format('yyyy-MM-dd (早上9点)')}； ` : null}
 						{ remindType ? `提醒方式：${remindTypeContent(remindType)}${remindMobilesContent ? `(${remindMobilesContent})` : ''}` : ''}
 					</li>
 				) : null
