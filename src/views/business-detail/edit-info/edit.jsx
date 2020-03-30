@@ -16,11 +16,13 @@ class DebtorDetail extends React.Component {
 		};
 	}
 
-	componentDidMount() {
+	componentWillReceiveProps(nextProps) {
 		const { data } = this.props; // 会提示props is not defined
-		this.setState({
-			dataList: data,
-		});
+		if (nextProps.data !== data) {
+			this.setState({
+				dataList: nextProps.data,
+			});
+		}
 	}
 
 	// 相关人名称
@@ -96,13 +98,13 @@ class DebtorDetail extends React.Component {
 	// 删除
 	delete = (id) => {
 		const { dataList } = this.state;
-		// const { isEdit } = this.props;
+		const { isEdit } = this.props;
 		const that = this;
 		confirm({
 			title: '您是否确认要删除该条业务相关人？',
 			iconType: 'exclamation-circle-o',
 			onOk() {
-				// isEdit();
+				isEdit();
 
 				if (dataList && dataList.length > 0) {
 					dataList.forEach((i, index) => {
@@ -125,7 +127,7 @@ class DebtorDetail extends React.Component {
 		const { dataList } = this.state;
 
 		return (
-			<div className="ant-table-body">
+			<div>
 				<table className="table" style={{ marginBottom: 0 }}>
 					<thead className="ant-table-thead">
 						<tr>

@@ -1,6 +1,11 @@
 import React from 'react';
-import { Form, Input } from 'antd';
+import {
+	Form, Input, message, Modal,
+} from 'antd';
 import { navigate } from '@reach/router';
+import { businessList } from 'api/detail/overview';
+import { businessInfo } from 'api/detail';
+import { save } from 'api/business';
 import { getQueryByName } from '@/utils';
 import {
 	 BreadCrumb, Button,
@@ -10,6 +15,7 @@ import Edit from './edit';
 import './style.scss';
 
 const createForm = Form.create;
+const { confirm } = Modal;
 
 class EditBusiness extends React.Component {
 	constructor(props) {
@@ -19,34 +25,141 @@ class EditBusiness extends React.Component {
 		this.state = {
 			id: getQueryByName(window.location.href, 'id'),
 			source: getSource() || {},
+			loading: false,
+			businessData: [],
 		};
-		this.portrait = 'debtor_personal';
-		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
 	}
 
-	componentWillMount() {
+	componentDidMount() {
+		const businessId = getQueryByName(window.location.href, 'id') || 22604;
+		const { source } = this.state;
+		const params = { businessId };
+		if (Object.keys(source).length === 0) {
+			businessInfo({ businessId }).then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						source: res.data,
+						loading: false,
+					});
+				}
+			}).catch(() => {});
+		}
 
+		this.getData(params);
 	}
+
+	getData = (value) => {
+		const params = { ...value };
+		this.setState({ loading: true });
+		// 业务列表信息
+		businessList(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					businessData: res.data,
+					loading: false,
+				});
+			} else {
+				this.setState({ businessData: [] });
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	};
+
+	// 保存
+	handleSave = () => {
+		const { businessData } = this.state;
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const { hash } = window.location;
+		const userId = getQueryByName(hash, 'id');
+		const fields = getFieldsValue();
+		const that = this;
+		const value = businessData && businessData.filter(res => res.obligorName === ''); // 过滤相关人内容为空
+		const obligorNameLength = businessData && businessData.filter(res => res.obligorName.length < 5 && res.obligorNumber === ''); // 过滤相关人内容小于5身份证为空
+		if (!fields.obligorName) {
+			message.error('请填写借款人名称');
+			return;
+		}
+		if (fields.obligorName.length < 5 && !fields.obligorNumber) {
+			message.error('借款人为自然人时证件号不能为空！');
+			return;
+		}
+
+		if (value.length > 0) {
+			message.error('业务人相关列表中，相关人名称不能为空!');
+			return;
+		}
+		if (obligorNameLength.length > 0) {
+			message.error('业务人相关列表中，当相关人为自然人时证件号不可为空！');
+			return;
+		}
+		confirm({
+			title: '确认修改债务人名称/身份信息?',
+			iconType: 'exclamation-circle-o',
+			width: 500,
+			content: '若本次编辑涉及债务人名称或身份证号，该债务人的历史数据匹配将被删除，并以新名称、身份证号重新进行匹配。',
+			onOk() {
+				const params = {
+					detail: {
+						...fields,
+						id: Number(userId),
+					},
+					obligorList: businessData,
+				};
+				that.setState({
+					codeLoading: true,
+				});
+				const start = new Date().getTime(); // 获取接口响应时间
+				save(userId, params).then((res) => {
+					if (res.code === 200) {
+						const hide = message.loading('正在刷新,请稍后...', 0);
+
+						const now = new Date().getTime();
+						const latency = now - start;
+						setTimeout(() => {
+							that.handleBack();
+							// window.location.reload(); // 实现页面重新加载
+						}, latency);
+						// 异步手动移除
+						setTimeout(hide, latency);
+						// that.getTableData();
+					} else {
+						message.error(res.message);
+						// 异步手动移除
+						// setTimeout(hide, 0);
+					}
+					that.setState({
+						codeLoading: false,
+					});
+				}).catch(() => {
+					message.error('服务端错误');
+					that.setState({
+						codeLoading: false,
+					});
+				});
+			},
+			onCancel() {},
+		});
+	};
 
 	handleBack = () => {
-		navigate('/business/detail/info?id=22634');
+		navigate('/business/detail/info?id=22604');
+	};
+
+	// 判断是否已经编辑
+	isEdit = () => {
+		this.setState({
+			isEdit: true,
+		});
 	};
 
 	render() {
-		const { id, source } = this.state;
+		const {
+			id, source, businessData, loading, isEdit,
+		} = this.state;
 		const { form: { getFieldProps } } = this.props; // 会提示props is not defined
-		const data = [
-			{
-				dishonestStatus: null,
-				id: 340033,
-				obligorId: 353533,
-				obligorName: '照照',
-				obligorNumber: '142622199902023333',
-				role: 2,
-				roleText: '担保人',
-			},
-		];
-		console.log(source, 123123);
+
 		return (
 			<div className="edit-info-wrapper">
 				<div className="info-navigation info-wrapper">
@@ -57,8 +170,8 @@ class EditBusiness extends React.Component {
 							{ id: 3, name: '编辑', link: '' },
 						]}
 						suffix={(
-							<div className="info-navigation-suffix">
-								<Button className="info-navigation-suffix__button" type="primary">保存</Button>
+							<div className="info-navigation-suffix" style={{ zIndex: 1 }}>
+								<Button disabled={!isEdit || loading} className="info-navigation-suffix__button" type="primary" onClick={() => this.handleSave()}>保存</Button>
 								<Button className="info-navigation-suffix__button" onClick={this.handleBack}>取消</Button>
 							</div>
 						)}
@@ -79,7 +192,7 @@ class EditBusiness extends React.Component {
 								maxLength="32"
 								autocomplete="off"
 								{...getFieldProps('caseNumber', {
-									// initialValue: detail && detail.caseNumber,
+									initialValue: source && source.caseNumber,
 									getValueFromEvent: e => e.target.value.trim(),
 								})}
 								className="yc-from-input"
@@ -96,7 +209,7 @@ class EditBusiness extends React.Component {
 								maxLength="40"
 								autocomplete="off"
 								{...getFieldProps('obligorName', {
-									// initialValue: detail && detail.obligorName,
+									initialValue: source && source.obligorName,
 									getValueFromEvent: e => e.target.value.trim(),
 								})}
 								className="yc-from-input"
@@ -110,7 +223,7 @@ class EditBusiness extends React.Component {
 								autocomplete="off"
 								maxLength="40"
 								{...getFieldProps('orgName', {
-									// initialValue: detail && detail.orgName,
+									initialValue: source && source.orgName,
 									getValueFromEvent: e => e.target.value.trim(),
 								})}
 								className="yc-from-input"
@@ -124,8 +237,8 @@ class EditBusiness extends React.Component {
 								placeholder="请输入身份证号/统一社会信用代码"
 								autocomplete="off"
 								{...getFieldProps('obligorNumber', {
-									// initialValue: detail && detail.obligorNumber,
-									getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-]/g, ''),
+									initialValue: source && source.obligorNumber,
+									getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z-]/g, ''),
 									// getValueFromEvent: e => e.target.value.trim(),
 								})}
 								className="yc-from-input"
@@ -136,7 +249,7 @@ class EditBusiness extends React.Component {
 						<div className="info-edit-left-item" />
 						<span className="info-edit-title-name">业务相关人列表</span>
 					</div>
-					<Edit editSave={this.editSave} isEdit={this.isEdit} data={data} />
+					<Edit editSave={this.editSave} isEdit={this.isEdit} data={businessData} loading={loading} />
 				</div>
 			</div>
 		);

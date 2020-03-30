@@ -1,6 +1,7 @@
 import React from 'react';
 import { Affix, message } from 'antd';
 import { navigate } from '@reach/router';
+import { setSource } from './cache';
 import Router from '@/utils/Router';
 /* utils */
 import { requestAll } from '@/utils/promise';
@@ -16,11 +17,12 @@ import { exportListEnp } from '@/utils/api/portrait-inquiry';
 import {
 	Tabs, Download, Icon as IconType, BreadCrumb, Button, Spin,
 } from '@/common';
+import ChangeModal from './change-modal/changeList';
 import ShapeImg from '@/assets/img/business/Shape.png';
 import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
 import Risk from '@/views/business-detail/table-version/risk';
-import PublicImg from '@/assets/img/business/icon_zwrpeople.png';
+import BusinessImg from '@/assets/img/business/icon_business.png';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import '../style.scss';
@@ -76,11 +78,11 @@ const EnterpriseInfo = (props) => {
 		minWidth: 80,
 		display: 'inline-block',
 	};
-
+	console.log(affixStatus);
 	return (
 		<div className={`enterprise-info${affixStatus ? ' enterprise-info__simple' : ''}`}>
 			<div className="intro-icon">
-				<img className="intro-icon-img-auto" src={PublicImg} alt="" />
+				<img className="intro-icon-img-auto" src={BusinessImg} alt="" />
 			</div>
 			<div className="intro-content">
 				<div className="intro-title">
@@ -148,24 +150,30 @@ const EnterpriseInfo = (props) => {
 					</li>
 				</div>
 			</div>
-			<div className="intro-download">
-				<Button className="intro-download-button" onClick={onEdit}>编辑</Button>
-				<Button className="intro-download-button" onClick={onRecord}>变更记录</Button>
-				<Download
-					style={{ width: 84, height: 30 }}
-					condition={{
-						companyId: getQueryByName(window.location.href, 'id'),
-					}}
-					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-					api={exportListEnp}
-					normal
-					text="下载"
-				/>
-			</div>
+			{affixStatus ? <Operation onEdit={onEdit} onRecord={onRecord} customStyle={{ top: '4px' }} /> : null }
 		</div>
 	);
 };
 
+const Operation = (props) => {
+	const { onEdit, onRecord, customStyle } = props;
+	return (
+		<div className="intro-download" style={customStyle}>
+			<Button className="intro-download-button" onClick={onEdit}>编辑</Button>
+			<Button className="intro-download-button" onClick={onRecord}>变更记录</Button>
+			<Download
+				style={{ width: 84, height: 30 }}
+				condition={{
+					companyId: getQueryByName(window.location.href, 'id'),
+				}}
+				icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+				api={exportListEnp}
+				normal
+				text="下载"
+			/>
+		</div>
+	);
+};
 export default class Enterprise extends React.Component {
 	constructor(props) {
 		document.title = '业务详情';
@@ -182,6 +190,7 @@ export default class Enterprise extends React.Component {
 			// loading
 			assetLoading: true,
 			riskLoading: true,
+			changeListModalVisible: false,
 		};
 		this.portrait = 'business';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
@@ -258,10 +267,25 @@ export default class Enterprise extends React.Component {
 
 
 	handleEdit=() => {
-		navigate('/business/detail/edit/info?id=22634');
+		const { infoSource } = this.state;
+		setSource(infoSource);
+		navigate('/business/detail/edit/info?id=22604');
 	};
 
-	handleRecord=() => {};
+	// 打开担保人弹窗
+	openPeopleModal = (id) => {
+		this.setState({
+			changeListModalVisible: true,
+			businessId: id,
+		});
+	};
+
+	// 关闭弹窗
+	onCancel = () => {
+		this.setState({
+			changeListModalVisible: false,
+		});
+	};
 
 	handleDownload=() => {
 		console.log('handleDownload');
@@ -294,7 +318,7 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource,
+			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId,
 		} = this.state;
 		const {
 			affixStatus, loading, assetLoading, riskLoading,
@@ -310,17 +334,24 @@ export default class Enterprise extends React.Component {
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">
-					<BreadCrumb list={[
-						{ id: 1, name: '业务视图', link: '/business' },
-						{ id: 2, name: '业务详情', link: '' },
-					]}
+					<BreadCrumb
+						list={[
+							{ id: 1, name: '业务视图', link: '/business' },
+							{ id: 2, name: '业务详情', link: '' },
+						]}
+						suffix={(
+							<div className="info-navigation-suffix" style={{ zIndex: 1 }}>
+								<Operation onEdit={this.handleEdit} onRecord={this.openPeopleModal} />
+							</div>
+						)}
 					/>
+					{/* <Operation onEdit={this.onEdit} onRcord={this.onRecord} /> */}
 				</div>
 				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<Affix onChange={this.onChangeAffix}>
 					<Spin visible={loading}>
 						<div className={classList.join(' ')}>
-							<EnterpriseInfo data={infoSource} onEdit={this.handleEdit} onRcord={this.handleRecord} affixStatus={affixStatus} />
+							<EnterpriseInfo data={infoSource} onEdit={this.handleEdit} onRecord={this.openPeopleModal} affixStatus={affixStatus} />
 							<Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} />
 							{childDom}
 						</div>
@@ -332,6 +363,15 @@ export default class Enterprise extends React.Component {
 						{ !loading && tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
 					</Router>
 				</div>
+				{/** 担保人Modal */}
+				{changeListModalVisible && (
+					<ChangeModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						businessId={businessId}
+						changeListModalVisible={changeListModalVisible}
+					/>
+				)}
 			</div>
 		);
 	}
