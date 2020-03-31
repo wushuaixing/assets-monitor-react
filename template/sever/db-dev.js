@@ -15,31 +15,29 @@ const disEdIconData = toBase64(fs.readFileSync('./template/img/icon_dishonest_ed
 const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.png'), 3 * 1024);
 
 let htmlResultStr = fs.readFileSync('./template/src/detail/index.html', 'utf8');
-let htmlCoverStr = fs.readFileSync('./template/src/content/cover.html', 'utf8');
+let htmlCoverStr = fs.readFileSync('./template/src/detail/cover.html', 'utf8');
 let cssResult = fs.readFileSync('./template/src/detail/index.css', 'utf8');
 
 let htmlResult = htmlResultStr.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g, `<style>${cssResult}</style>`);
 htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`).replace(/\/usr\/share\/fonts\/zh_CN/g, "./fonts");
 
-let htmlCover = htmlCoverStr.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
-htmlCover = htmlCover.replace(/\/usr\/share\/fonts\/zh_CN/g, "./fonts");
+let htmlCover = htmlCoverStr.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`).replace(/\/usr\/share\/fonts\/zh_CN/g, "./fonts");
 
 /* 导出画像模板-封面 */
 function exportCover(source, exportType) {
 	var d = JSON.parse(source) || {};
-	var type = exportType || false; // default business(false); debtor(true)
 	htmlCover = htmlCover.replace("../../img/watermark.png", bgImgData);
 	var dataTime = new Date().getFullYear() + '年' + (new Date().getMonth() + 1) + "月" + new Date().getDate() + "日";
 	htmlCover = htmlCover.replace(/{base.queryTime}/g, dataTime);
-	var data = (type ? d.BA01 : d.BB01);
-	var obj = (data.detail) || {};
-	var userInfo = '';
-	if (type) {
+	var userInfo = '', data = '';
+	if (exportType === 'debtor') {
+		data = d.DB10101 || {};
 		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
-		userInfo = ("<div class='name'>" + obj.obligorName + (obj.obligorNumber ? ("(" + obj.obligorNumber + ")") : "") + "</div>");
+		userInfo = ("<div class='exp-name'>" + data.obligorName||'-' + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
 	} else {
+		data = d.BB10101 || {};
 		htmlCover = htmlCover.replace(/{base.title}/, "业务详情");
-		userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + obj.caseNumber + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
+		userInfo = ("<div class='exp-name' style='margin-bottom: 30px'>业务编号：" + (data.caseNumber || '-') + "</div><div class='exp-name'>借款人：" + data.obligorName + "</div>");
 	}
 	htmlCover = htmlCover.replace(/{base.userInfo}/, userInfo);
 	return htmlCover;
@@ -83,7 +81,7 @@ function exportTemplate(source, exportType, name) {
 			status: 'BEP',
 			child: [
 				{id: 'R30201', title: '破产重组', status: 'BE'},
-				{id: 'R20603', title: '涉诉文书', status: 'P'},
+				{id: 'R20604', title: '涉诉文书', status: 'P'},
 				// {id: 'R20401', title: '失信记录',desc: '列入', status: 'BEP'	},
 				// {id: 'R20402', title: '失信记录',desc: '已移除',status: 'BEP'	},
 				// {id: 'R20502', title: '限高记录', status: 'BEP'	},
@@ -131,9 +129,9 @@ function exportTemplate(source, exportType, name) {
 	var s = {
 		identity: {
 			0: "未知",
-			1: "纳税人",
-			2: "法定代表人",
-			3: "财务",
+			1: "作为纳税人",
+			2: "作为法定代表人",
+			3: "作为财务",
 			9: "其他"
 		},
 		// 案件类型 1：普通 2：破产 3：执行 4：终本
@@ -212,7 +210,7 @@ function exportTemplate(source, exportType, name) {
 		urlDom: function (title, url, defaultWord) {
 			var content = title || defaultWord || "-";
 			return (url ? "<a href=\"" + url + "\" target=\"_blank\" class=\"t3\">" + content + "</a>"
-				: ("<span class='t2'>" + content + "</span>"));
+				: ("<span class='t2 f-b-400'>" + content + "</span>"));
 		},
 		tag(value, className) {
 			if (!value) return '';
@@ -261,7 +259,11 @@ function exportTemplate(source, exportType, name) {
 					if (i.length !== undefined) {
 						result += "<li>";
 						i.forEach(function (childItem) {
-							result += (separator + getDesc(childItem));
+							if (childItem.ET) {
+								result += (childItem.ET !== 'B' ? (separator + getDesc(childItem)) : '')
+							} else {
+								result += (separator + getDesc(childItem));
+							}
 						});
 						result += "</li>";
 					} else {
@@ -347,24 +349,6 @@ function exportTemplate(source, exportType, name) {
 	var w = function (value, o) {
 		var option = o || {};
 		return value ? ((option.prefix || '') + value + (option.unit || '')) : (option.defaultWord || '-');
-	};
-
-	var taxParties = function (data) {
-		var res = {
-			length: (data || []).length,
-			fill: "",
-			appendDom: "",
-		};
-		if (res.length) {
-			data.forEach(function (i, index) {
-				var text = w(i.name) + (i.idNumber ? ("(" + w(i.idNumber) + ")") : "");
-				if (index === 0) res.fill = "<td style='padding-right: 0'>" + s.identity[i.identityType || 0] + "：</td><td style='padding-left: 0'>" + text + "</td>";
-				else res.appendDom += "<tr><td style='padding-right: 0'>" + s.identity[i.identityType || 0] + "：</td><td style='padding-left: 0'>" + text + "</td></tr>"
-			});
-		} else {
-			res.fill = "<td>-</td><td></td>";
-		}
-		return res;
 	};
 
 	var matchReason = function (data) {
@@ -470,6 +454,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			case 'R20601':
 			case 'A10201': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -485,6 +470,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			case 'R20602':
 			case 'A10202': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -500,6 +486,8 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			case 'R20603':
+			case 'R20604':
 			case 'A10203': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -755,12 +743,129 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
-			case 'A10701': {
+			case 'A10701':
+			case 'R30701': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
 						+ f.normalList([{t: '相关单位', cot: i.obName, ET},])
 						+ "</td><td>" + f.normalList([{t: '发布日期', cot: f.time(i.publishTime)}]) + "</td></tr>";
+				});
+				break;
+			}
+			case 'R30201': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.title, i.url)
+						+ f.normalList([[
+							{t: '破产/重整风险企业', cot: i.obligorName, ET},
+							{t: '发布日期', cot: f.time(i.publishDate)}
+						]])
+						+ "</td><td>" + f.normalList([{t: '受理法院', cot: i.court}]) + "</td></tr>";
+				});
+				break;
+			}
+			case 'R20401':
+			case 'R20402': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.caseCode, i.url)
+						+ f.normalList([
+							[
+								{t: '债务人', cot: i.name, ET},
+								{t: '失信被执行人行为具体情形', cot: i.disruptType}
+							],
+							{t: '生效法律文书确定义务', cot: i.duty},
+							{t: '被执行人的履行情况', cot: i.performance}
+						])
+						+ "</td><td>" + f.normalList([
+							{t: '执行法院', cot: f.time(i.court)},
+							{t: '发布日期', cot: f.time(i.publishTime)},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			case 'R30301': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.putReason)
+						+ f.normalList([
+							[
+								{t: '相关单位', cot: i.name, ET},
+								{t: '列入日期', cot: f.time(i.gmtPutDate)},
+							],
+							{t: '决定机关', cot: i.putDepartment},
+						])
+						+ "</td><td>" + f.normalList(i.gmtRemoveDate ? [
+							{dot, cot: '已移除'},
+							{t: '移除日期', cot: f.time(i.gmtRemoveDate)},
+							{t: '移除原因', cot: i.removeReason},
+							{t: '移除机关', cot: i.removeDepartment},
+						] : []) + "</td></tr>";
+				});
+				break;
+			}
+			case 'R30401': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.type)
+						+ f.normalList([
+							{t: '相关单位', cot: i.name, ET},
+							[
+								{t: '列入日期', cot: f.time(i.gmtPutDate)},
+								{t: '决定机关', cot: i.putDepartment},
+							],
+							{t: '列入原因', cot: i.putReason},
+							{t: '具体事实', cot: i.fact},
+						])
+						+ "</td><td>" + f.normalList(i.gmtRemoveDate ? [
+							{dot, cot: '已移除'},
+							{t: '移除日期', cot: f.time(i.gmtRemoveDate)},
+							{t: '移除原因', cot: i.removeReason},
+							{t: '移除机关', cot: i.removeDepartment},
+						] : []) + "</td></tr>";
+				});
+				break;
+			}
+			case 'R30501': {
+				data.list.forEach(function (i) {
+					var parties = ((i.parties || [])[0]) || {name: ''};
+					list += "<tr><td>"
+						+ f.urlDom(i.caseNature, i.url)
+						+ (ET !== 'B' ? f.tag(s.identity[parties.identityType], 'case-tag') : '')
+						+ f.normalList([
+							[
+								{
+									t: '当事人',
+									cot: w(parties.name, {unit: (parties.name.length <= 4 ? ('（' + parties.idNumber + '）') : '')}),
+									ET
+								},
+								{cot: f.tag(s.identity[parties.identityType], 'case-tag marginLeft0'), ET}
+							],
+							{t: '违法事实', cot: i.illegalFacts},
+							{t: '处罚情况', cot: i.punish},
+						])
+						+ "</td><td>" + f.normalList([
+							{dot, cot: w('-', {prefix: '纳税人：'})},
+							{t: '检查机关', cot: i.removeReason},
+							{t: '发布日期', cot: f.time(i.gmtRemoveDate)},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			case 'R30601': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.content)
+						+ f.normalList([
+							{t: '相关单位', cot: i.obligorName, ET},
+							{t: '决定文书号', cot: i.punishNumber},
+							{t: '处罚内容', cot: i.type},
+						])
+						+ "</td><td>" + f.normalList([
+							{t: '决定机关', cot: i.departmentName},
+							{t: '决定日期', cot: f.time(i.decisionDate)},
+						]) + "</td></tr>";
 				});
 				break;
 			}

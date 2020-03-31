@@ -18,9 +18,10 @@
 			background: #ffffff url("../../img/watermark.png") repeat-y center top;
 			background-size: 85%; }
 		/* 通用样式*/
-		.exp-title{
+		.exp{
+
 		}
-		.exp-title .title{
+		.exp-title{
 			margin-top: 90px;
 			display: block;
 			text-align: center;
@@ -29,11 +30,11 @@
 			font-size: 80px;
 			color: #384482;
 		}
-		.name-content{
+		.exp-content{
 			text-align: center;
 			height: 200px;
 		}
-		.exp-title .name{
+		.exp-name{
 			display: block;
 			text-align: center;
 			line-height: 60px;
@@ -41,8 +42,8 @@
 			font-size: 50px;
 			color: #20242E;
 		}
-		.exp-title .time{
-			margin-top: 300px;
+		.exp-time{
+			padding-top: 300px;
 			display: block;
 			text-align: center;
 			line-height: 50px;
@@ -57,10 +58,10 @@
 </head>
 <body>
 <!-- 封面 -->
-<div class="exp-title">
-	<div class="title">{base.title}</div>
-	<div class="name-content">{base.userInfo}</div>
-	<div class="time">{base.queryTime}</div>
+<div class="exp">
+	<div class="exp-title">{base.title}</div>
+	<div class="exp-content">{base.userInfo}</div>
+	<div class="exp-time">{base.queryTime}</div>
 </div>
 </body>
 
