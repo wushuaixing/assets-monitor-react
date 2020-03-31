@@ -8,9 +8,11 @@ import { getQueryByName } from '@/utils';
 /* api collection */
 import assets from '@/utils/api/detail/assets';
 import risk from '@/utils/api/detail/risk';
-import { debtorInfo } from '@/utils/api/detail';
+import { debtorInfo, exportListEnp } from '@/utils/api/detail';
 /* components */
-import { Tabs, BreadCrumb, Spin } from '@/common';
+import {
+	Tabs, BreadCrumb, Spin, Icon as IconType, Download,
+} from '@/common';
 import DebtorInfo from '@/views/business-detail/table-version/debtor-info';
 import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
@@ -209,17 +211,33 @@ export default class Enterprise extends React.Component {
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">
-					<BreadCrumb list={[
-						{ id: 1, name: '债务人', link: '/business/debtor' },
-						{ id: 2, name: '债务人详情', link: '' },
-					]}
+					<BreadCrumb
+						list={[
+							{ id: 1, name: '债务人', link: '/business/debtor' },
+							{ id: 2, name: '债务人详情', link: '' },
+						]}
+						suffix={(
+							<div className="intro-download" style={{ zIndex: 1 }}>
+								<Download
+									style={{ width: 84 }}
+									condition={{
+										companyId: getQueryByName(window.location.href, 'id'),
+									}}
+									icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+									api={exportListEnp}
+									normal
+									text="下载"
+								/>
+							</div>
+						)}
 					/>
 				</div>
-				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
+				<div className="mark-line" />
 				<Affix onChange={this.onChangeAffix}>
 					<Spin visible={loading}>
 						<div className={classList.join(' ')}>
 							<DebtorInfo data={infoSource} affixStatus={affixStatus} portrait={this.portrait} />
+							{/* <div className="debtor-visualize-overview-line" /> */}
 							<Tabs.Simple
 								onChange={this.onSourceType}
 								source={tabConfig}

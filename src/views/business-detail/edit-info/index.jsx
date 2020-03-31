@@ -185,7 +185,7 @@ class EditBusiness extends React.Component {
 					</div>
 					<div style={{ padding: '0 10px' }}>
 						<div className="yc-from-container">
-							<span className="yc-from-lable1">业务编号：</span>
+							<span className="yc-from-label1">业务编号：</span>
 							<Input
 								onInput={this.isEdit}
 								placeholder="请输入业务编号"
@@ -199,7 +199,7 @@ class EditBusiness extends React.Component {
 							/>
 						</div>
 						<div className="yc-from-container">
-							<span className="yc-from-lable2">
+							<span className="yc-from-label2">
 								<span className="yc-red">*</span>
 									借款人名称：
 							</span>
@@ -216,7 +216,7 @@ class EditBusiness extends React.Component {
 							/>
 						</div>
 						<div className="yc-from-container">
-							<span className="yc-from-lable1">负责人/机构：</span>
+							<span className="yc-from-label1">负责人/机构：</span>
 							<Input
 								onInput={this.isEdit}
 								placeholder="请输入负责人/机构"
@@ -230,7 +230,7 @@ class EditBusiness extends React.Component {
 							/>
 						</div>
 						<div className="yc-from-container">
-							<span className="yc-from-lable2">身份证号/统一社会信用代码：</span>
+							<span className="yc-from-label2">身份证号/统一社会信用代码：</span>
 							<Input
 								onInput={this.isEdit}
 								maxLength="18"

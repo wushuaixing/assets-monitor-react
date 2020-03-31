@@ -79,10 +79,10 @@ const EnterpriseInfo = (arg = {}) => {
 						) : null
 					}
 					{
-						limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
+						!limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
 					}
 					{
-						bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
+						!bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
 					}
 					{
 						pushState ? (
@@ -123,7 +123,7 @@ const EnterpriseInfo = (arg = {}) => {
 					</li>
 				</div>
 			</div>
-			<DownloadButton />
+			{/* <DownloadButton /> */}
 		</div>
 	);
 };
@@ -239,7 +239,7 @@ const PersonalInfo = (arg = {}) => {
 					</li>
 				</div>
 			</div>
-			<DownloadButton />
+			{/* <DownloadButton /> */}
 		</div>
 	);
 };

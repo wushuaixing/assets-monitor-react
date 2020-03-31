@@ -27,14 +27,14 @@
       width: 500px;
       display: inline-block;
       margin-top: 20px;
-      .yc-from-lable1 {
+      .yc-from-label1 {
         font-size: 12px;
         display: inline-block;
         color: $text-title;
         width: 80px;
         text-align: right;
       }
-      .yc-from-lable2 {
+      .yc-from-label2 {
         font-size: 12px;
         display: inline-block;
         color: $text-title;
@@ -62,6 +62,9 @@
       border-radius: 2px;
       border: 1px dashed #DADDE6;
       cursor: pointer;
+      &:hover {
+        border: 1px dashed $text-link;
+      }
       .yc-table-addList-img {
         margin-right: 6px;
         width: 14px;

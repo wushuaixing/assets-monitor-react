@@ -78,7 +78,7 @@ const EnterpriseInfo = (props) => {
 		minWidth: 80,
 		display: 'inline-block',
 	};
-	console.log(affixStatus);
+	// console.log(affixStatus);
 	return (
 		<div className={`enterprise-info${affixStatus ? ' enterprise-info__simple' : ''}`}>
 			<div className="intro-icon">
