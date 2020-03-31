@@ -22,8 +22,8 @@ export default class Portrait extends React.Component {
 	}
 
 	componentDidMount() {
-		const obligorId = getQueryByName(window.location.href, 'id') || 347917;
-		const businessId = getQueryByName(window.location.href, 'id') || 22584;
+		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
+		const businessId = getQueryByName(window.location.href, 'id') || 9999999;
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId } : { obligorId };
 		this.getData(params, portrait);

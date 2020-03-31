@@ -5,7 +5,7 @@ import Bankruptcy from './bankruptcy';
 import Illegal from './illegal';
 import Punishment from './punishment';
 import Tax from './tax';
-import Dishonest from './dishonest';
+// import Dishonest from './dishonest';
 import Lawsuit from './lawsuit';
 import LawsuitJudgment from './lawsuit-judgment';
 import Environment from './environment';
@@ -62,17 +62,17 @@ const subItems = (data, portrait) => {
 			isStatus: 'normal',
 			// component: Dishonest,
 		},
-		{
-			id: 20500,
-			baseId: 2050,
-			name: '限高记录',
-			total: data ? toGetTotal('2050', data) : 0,
-			info: data ? data.filter(i => /2050/.test(i.id)) : '',
-			tagName: 'e-manage-limitHeight',
-			isStatus: 'normal',
-			role: false,
-			component: Dishonest,
-		},
+		// {
+		// 	id: 20500,
+		// 	baseId: 2050,
+		// 	name: '限高记录',
+		// 	total: data ? toGetTotal('2050', data) : 0,
+		// 	info: data ? data.filter(i => /2050/.test(i.id)) : '',
+		// 	tagName: 'e-manage-limitHeight',
+		// 	isStatus: 'normal',
+		// 	role: false,
+		// 	component: Dishonest,
+		// },
 		{
 			id: 20600,
 			baseId: 2060,

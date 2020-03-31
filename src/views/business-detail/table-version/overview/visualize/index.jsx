@@ -28,8 +28,8 @@ export default class Visualize extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			obligorId: parseQuery(window.location.hash).id || 353323,
-			businessId: 22584 || parseQuery(window.location.hash).id,
+			obligorId: parseQuery(window.location.hash).id || 999999,
+			businessId: parseQuery(window.location.hash).id || 999999,
 			loading: false,
 			litigationInfos: null,
 			baseInfo: {},
@@ -158,8 +158,9 @@ export default class Visualize extends React.Component {
 	render() {
 		const { portrait } = this.props;
 		const {
-			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, loading, IntangibleCount, BiddingCount,
+			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, loading, IntangibleCount, BiddingCount, businessId,
 		} = this.state;
+		console.log(litigationLoading, 1);
 		return (
 			<div className="visualize-overview">
 				<div className="visualize-overview-line" />
@@ -168,19 +169,19 @@ export default class Visualize extends React.Component {
 					<div className="yc-overview-title">资产概况</div>
 					<div className="yc-overview-container">
 						{/* 相关资产拍卖 */}
-						<AssetAuction portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						<AssetAuction portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* 无形资产 */}
-						<Intangible portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						<Intangible portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						 {/* 土地信息 */}
-						 <Land portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <Land portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* 代位权信息 (裁判文书) */}
-						 <Subrogation portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <Subrogation portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* /!* 股权质押 *!/ */}
-						 <EquityPledge portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <EquityPledge portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* /!* 动产抵押信息 *!/ */}
-						 <ChattelMortgage portrait={portrait} businessId={22584} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <ChattelMortgage portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						 {/* 招标中标 */}
-						 <Bidding businessId={22584} obligorId={353121} getAssetProfile={this.getAssetProfile} />
+						 <Bidding businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 					</div>
 					{
 						AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
@@ -202,11 +203,11 @@ export default class Visualize extends React.Component {
 							<Spin visible={litigationLoading}>
 								<div>
 									{/* 破产重组 */}
-									<Bankruptcy portrait={portrait} businessId={772} obligorId={obligorId} />
+									<Bankruptcy portrait={portrait} businessId={businessId} obligorId={obligorId} />
 									{/* 涉诉信息 */}
 									{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
 									{/* 经营风险 */}
-									<BusinessRisk portrait={portrait} businessId={22584} obligorId={obligorId} />
+									<BusinessRisk portrait={portrait} businessId={businessId} obligorId={obligorId} />
 								</div>
 							</Spin>
 						)}

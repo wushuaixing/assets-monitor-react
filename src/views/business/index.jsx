@@ -74,14 +74,15 @@ const BusinessRouter = (props) => {
 	const { rule: { children } } = props;
 	return (
 		<Router>
-			<BusinessBase rule={children} path="/*" remark="业务（债务人）视图列表" />
+			{/* <BusinessBase rule={children} path="/*" remark="业务（债务人）视图列表" />
 			<BusinessDetail rule={children} path="/business/detail/*" remark="业务详情" />
 			<ChangeList rule={children} path="/business/detail/changeList/*" remark="业务详情-变更记录" />
-			<DebtorDetail rule={children} path="/business/debtor/detail/*" remark="债务人详情" />
+			<DebtorDetail rule={children} path="/business/debtor/detail/*" remark="债务人详情" /> */}
 			{/* 新路由 */}
-			<NewDetailBusiness rule={children} path="/business/detail/info/*" remark="业务详情（新）" />
+			<BusinessBase rule={children} path="/*" remark="业务（债务人）视图列表" />
+			<NewDetailBusiness rule={children} path="/business/detail/*" remark="业务详情（新）" />
 			<NewDetailEdit rule={children} path="/business/detail/edit/info/*" remark="业务详情-编辑（新）" />
-			<NewDetailDebtor rule={children} path="/business/debtor/detail/info/*" remark="债务人详情（新）" />
+			<NewDetailDebtor rule={children} path="/business/debtor/detail/*" remark="债务人详情（新）" />
 		</Router>
 	);
 };

@@ -40,7 +40,7 @@ const intangible = {
 	},
 };
 
-/* 债务人- 资产 */
+/* 业务详情- 资产 */
 const assets = {
 	10101: {
 		id: 10101,
@@ -64,27 +64,27 @@ const assets = {
 	10201: {
 		id: 10201,
 		name: '资产-代位权-立案',
-		list: params => service.get('/yc/obligor/monitor/subrogation/trial/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/trial/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/subrogation/trial/list-count', { params })
+			return service.get('/yc/business/monitor/asset/trial/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10202: {
 		id: 10202,
 		name: '资产-代位权-开庭',
-		list: params => service.get('/yc/obligor/monitor/subrogation/court-notice/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/court/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/subrogation/court-notice/list-count', { params })
+			return service.get('/yc/business/monitor/asset/court/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10203: {
 		id: 10203,
 		name: '资产-代位权-裁判文书',
-		list: params => service.get('/yc/obligor/monitor/subrogation/judgment-document/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/judgment/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/subrogation/judgment-document/list-count', { params })
+			return service.get('/yc/business/monitor/asset/judgment/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
@@ -154,9 +154,9 @@ const assets = {
 	10701: {
 		id: 10701,
 		name: '资产-招标中标',
-		list: params => service.get('/yc/obligor/monitor/bidding/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/bidding/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/bidding/list-count', { params })
+			return service.get('/yc/business/monitor/asset/bidding/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},

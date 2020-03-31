@@ -31,7 +31,7 @@ class EditBusiness extends React.Component {
 	}
 
 	componentDidMount() {
-		const businessId = getQueryByName(window.location.href, 'id') || 22604;
+		const businessId = getQueryByName(window.location.href, 'id') || 9999999;
 		const { source } = this.state;
 		const params = { businessId };
 		if (Object.keys(source).length === 0) {
@@ -144,7 +144,9 @@ class EditBusiness extends React.Component {
 	};
 
 	handleBack = () => {
-		navigate('/business/detail/info?id=22604');
+		const { hash } = window.location;
+		const id = getQueryByName(hash, 'id');
+		navigate(`/business/detail/info?id=${id}`);
 	};
 
 	// 判断是否已经编辑
