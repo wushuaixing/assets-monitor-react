@@ -244,6 +244,27 @@ export default class FollowInfo extends React.Component {
 				return false;
 			}
 		}
+		if (recovery || expend) {
+			const regExp = /^\d+(?:\.\d{0,2})?/;
+			if (recovery) {
+				const rStr = recovery.toString();
+				const matchRes = (rStr.match(regExp) || [])[0];
+				const str = matchRes !== rStr ? '收入金额输入有误，请输入有效的金额数值！' : '';
+				if (str) {
+					message.error(str, 2);
+					return true;
+				}
+			}
+			if (expend) {
+				const rStr = expend.toString();
+				const matchRes = (rStr.match(regExp) || [])[0];
+				const str = matchRes !== rStr ? '支出金额输入有误，请输入有效的金额数值！' : '';
+				if (str) {
+					message.error(str, 2);
+					return true;
+				}
+			}
+		}
 
 
 		const param = toProcess === 15 ? {
@@ -340,8 +361,7 @@ export default class FollowInfo extends React.Component {
 		const event = e || window.event;
 		const target = event.target || event.srcElement;
 		const matchRes = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
-		const _value = matchRes ? matchRes[0] : target.value;
-		console.log(_value);
+		const _value = matchRes && !global.GLOBAL_MEIE_BROWSER ? matchRes[0] : target.value;
 		this.setState({
 			[field]: _value,
 		});
@@ -424,27 +444,53 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">收入金额(元)：</div>
 										<div className="list-item-content">
-											<Input
-												style={{ width: '100%' }}
-												maxlength={14}
-												value={recovery}
-												// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
-												onChange={e => this.onInputChangeNew(e, 'recovery')}
-												placeholder="请输入收入金额"
-											/>
+											{
+												global.GLOBAL_MEIE_BROWSER
+													? (
+														<input
+															style={{ width: 430, padding: '0px 7px' }}
+															maxLength={14}
+															onChange={e => this.onInputChangeNew(e, 'recovery')}
+															placeholder="请输入收入金额"
+														/>
+													)
+													: (
+														<Input
+															style={{ width: '100%' }}
+															maxlength={14}
+															value={recovery}
+														// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
+															onChange={e => this.onInputChangeNew(e, 'recovery')}
+															placeholder="请输入收入金额"
+														/>
+													)
+											}
 										</div>
 									</li>
 									<li className="follow-list-item">
 										<div className="list-item-title">支出金额(元)：</div>
 										<div className="list-item-content">
-											<Input
-												style={{ width: '100%' }}
-												// type="number"
-												maxlength={14}
-												value={expend}
-												onChange={e => this.onInputChangeNew(e, 'expend')}
-												placeholder="请输入支出金额"
-											/>
+											{
+												global.GLOBAL_MEIE_BROWSER
+													? (
+														<input
+															style={{ width: 430, padding: '0px 7px' }}
+															maxLength={14}
+															onChange={e => this.onInputChangeNew(e, 'expend')}
+															placeholder="请输入支出金额"
+														/>
+													)
+													: (
+														<Input
+															style={{ width: '100%' }}
+															maxlength={14}
+															value={expend}
+															// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
+															onChange={e => this.onInputChangeNew(e, 'expend')}
+															placeholder="请输入支出金额"
+														/>
+													)
+											}
 										</div>
 									</li>
 									<li className="follow-list-item">
