@@ -450,7 +450,7 @@ export default class FollowInfo extends React.Component {
 												global.GLOBAL_MEIE_BROWSER
 													? (
 														<input
-															style={{ width: 430, padding: '0px 7px' }}
+															style={{ width: 430, padding: '0px 7px', height: '28px' }}
 															maxLength={14}
 															onChange={e => this.onInputChangeNew(e, 'recovery')}
 															placeholder="请输入收入金额"
@@ -476,7 +476,7 @@ export default class FollowInfo extends React.Component {
 												global.GLOBAL_MEIE_BROWSER
 													? (
 														<input
-															style={{ width: 430, padding: '0px 7px' }}
+															style={{ width: 430, padding: '0px 7px', height: '28px' }}
 															maxLength={14}
 															onChange={e => this.onInputChangeNew(e, 'expend')}
 															placeholder="请输入支出金额"
