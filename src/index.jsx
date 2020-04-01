@@ -16,15 +16,15 @@ if (window.location.protocol === 'http:') {
 	console.info(info);
 }
 
-if (process.env.NODE_ENV === 'production') {
-	global.console = {
-		info: () => { },
-		log: () => { },
-		warn: () => { },
-		debug: () => { },
-		error: () => { },
-	};
-}
+// if (process.env.NODE_ENV === 'production') {
+// 	global.console = {
+// 		info: () => { },
+// 		log: () => { },
+// 		warn: () => { },
+// 		debug: () => { },
+// 		error: () => { },
+// 	};
+// }
 
 message.config({ top: 300 });
 

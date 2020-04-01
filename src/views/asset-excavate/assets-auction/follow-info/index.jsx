@@ -249,6 +249,7 @@ export default class FollowInfo extends React.Component {
 			if (recovery) {
 				const rStr = recovery.toString();
 				const matchRes = (rStr.match(regExp) || [])[0];
+				console.log(rStr, matchRes);
 				const str = matchRes !== rStr ? '收入金额输入有误，请输入有效的金额数值！' : '';
 				if (str) {
 					message.error(str, 2);
@@ -362,6 +363,7 @@ export default class FollowInfo extends React.Component {
 		const target = event.target || event.srcElement;
 		const matchRes = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
 		const _value = matchRes && !global.GLOBAL_MEIE_BROWSER ? matchRes[0] : target.value;
+		console.log('onInputChangeNew:', _value);
 		this.setState({
 			[field]: _value,
 		});
