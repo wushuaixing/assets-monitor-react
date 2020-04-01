@@ -342,7 +342,6 @@ export default class FollowInfo extends React.Component {
 		const matchRes = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
 		const _value = matchRes ? matchRes[0] : target.value;
 		console.log(_value);
-		event.srcElement.value = _value;
 		this.setState({
 			[field]: _value,
 		});
@@ -350,7 +349,7 @@ export default class FollowInfo extends React.Component {
 
 	render() {
 		const {
-			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList,
+			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList, recovery, expend,
 		} = this.state;
 		const {
 			visible, onClose, source: { process, commentTotal }, source,
@@ -428,7 +427,7 @@ export default class FollowInfo extends React.Component {
 											<Input
 												style={{ width: '100%' }}
 												maxlength={14}
-												// value={recovery}
+												value={recovery}
 												// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
 												onChange={e => this.onInputChangeNew(e, 'recovery')}
 												placeholder="请输入收入金额"
@@ -442,7 +441,7 @@ export default class FollowInfo extends React.Component {
 												style={{ width: '100%' }}
 												// type="number"
 												maxlength={14}
-												// value={expend}
+												value={expend}
 												onChange={e => this.onInputChangeNew(e, 'expend')}
 												placeholder="请输入支出金额"
 											/>
