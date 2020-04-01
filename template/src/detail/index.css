@@ -149,6 +149,10 @@ table em {
   border-bottom: 1px solid #E5E5E5;
 }
 
+.f-b-400{
+  font-weight: 400;
+}
+
 .f-b{
   font-weight: bold;
 }
@@ -271,6 +275,11 @@ li .n-line:first-child{
 .base-info .content .tag{
   margin-left: 8px;
 }
+
+.marginLeft0{
+  margin-left: 0px;
+}
+
 .base-info .content .t2{
   font-size: 17px;
 }

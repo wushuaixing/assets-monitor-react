@@ -34,8 +34,8 @@ const StepDesc = (props) => {
 			{
 				recovery || expend ? (
 					<li>
-						{ recovery ? `收入金额/元：${recovery !== -1 ? floatFormat(recovery.toFixed(2)) : '--'}；  ` : null}
-						{ expend ? `支出金额/元：${expend !== -1 ? floatFormat(expend.toFixed(2)) : '--'} ；` : null}
+						{recovery ? `收入金额/元：${recovery !== -1 ? floatFormat(recovery.toFixed(2)) : '--'}；  ` : null}
+						{expend ? `支出金额/元：${expend !== -1 ? floatFormat(expend.toFixed(2)) : '--'} ；` : null}
 					</li>
 				) : null
 			}
@@ -45,8 +45,8 @@ const StepDesc = (props) => {
 			{
 				remindingTime || remindType ? (
 					<li>
-						{ remindingTime ? `提醒日期：${new Date(remindingTime * 1000).format('yyyy-MM-dd (早上10点)')}； ` : null}
-						{ remindType ? `提醒方式：${remindTypeContent(remindType)}${remindMobilesContent ? `(${remindMobilesContent})` : ''}` : ''}
+						{remindingTime ? `提醒日期：${new Date(remindingTime * 1000).format('yyyy-MM-dd (早上9点)')}； ` : null}
+						{remindType ? `提醒方式：${remindTypeContent(remindType)}${remindMobilesContent ? `(${remindMobilesContent})` : ''}` : ''}
 					</li>
 				) : null
 			}
@@ -114,7 +114,7 @@ export default class FollowInfo extends React.Component {
 		}
 	}
 
-	onChangeValue=(event, field) => {
+	onChangeValue = (event, field) => {
 		if (event) {
 			let value;
 			value = event.target ? event.target.value : event;
@@ -129,7 +129,7 @@ export default class FollowInfo extends React.Component {
 		}
 	};
 
-	onAddContentBlurEvent=(val) => {
+	onAddContentBlurEvent = (val) => {
 		if (val) {
 			const value = val.target ? val.target.value : val;
 			const data = this.state;
@@ -139,7 +139,8 @@ export default class FollowInfo extends React.Component {
 					message.error('请输入正确的手机号码！');
 					return false;
 				}
-			} if (data.add_way === 2 && value) {
+			}
+			if (data.add_way === 2 && value) {
 				const res = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value);
 				if (!res) {
 					message.error('请输入正确的邮箱！');
@@ -152,7 +153,7 @@ export default class FollowInfo extends React.Component {
 	};
 
 	// 获取推送人列表
-	toGetPushList=(refresh) => {
+	toGetPushList = (refresh) => {
 		const { dataSource } = this.state;
 		if (dataSource.length === 0 || refresh) {
 			pushListApi({ num: 20, page: 1 }).then((res) => {
@@ -167,7 +168,7 @@ export default class FollowInfo extends React.Component {
 	};
 
 	// 获取跟进信息
-	toGetProcessList=() => {
+	toGetProcessList = () => {
 		const { source: { id } } = this.props;
 		processList({ id }).then((res) => {
 			const { data, code } = res;
@@ -189,7 +190,7 @@ export default class FollowInfo extends React.Component {
 	};
 
 	// 新增推送人
-	handlePushSave =() => {
+	handlePushSave = () => {
 		const data = this.state;
 		if (data.add_name === '' || data.add_content === '') {
 			message.error('新增推送人的姓名或提醒方式相关内容不能为空！', 2);
@@ -230,7 +231,7 @@ export default class FollowInfo extends React.Component {
 	};
 
 	// 新增推送信息
-	handleProcessSave =(toProcess) => {
+	handleProcessSave = (toProcess) => {
 		const {
 			loading, recovery, expend, remark, remindTime, remindWay, pushList, status, addStatus,
 		} = this.state;
@@ -238,7 +239,10 @@ export default class FollowInfo extends React.Component {
 
 		// 未点击 新增跟进记录 直接关闭弹窗
 		if (toProcess !== 15) {
-			if (!addStatus) { onClose(); return false; }
+			if (!addStatus) {
+				onClose();
+				return false;
+			}
 		}
 
 
@@ -285,8 +289,10 @@ export default class FollowInfo extends React.Component {
 						index,
 					}, 'recovery');
 				}
-				if (onRefresh)onRefresh({ id, process: toProcess || status, index }, 'process');
-				if (onClose) { onClose(); }
+				if (onRefresh) onRefresh({ id, process: toProcess || status, index }, 'process');
+				if (onClose) {
+					onClose();
+				}
 			} else {
 				this.setState({ loading: false });
 				message.error(res.message || '网络异常请稍后再试！');
@@ -298,7 +304,7 @@ export default class FollowInfo extends React.Component {
 	};
 
 	// 删除推送记录
-	handleStepConfirm=(item, index) => {
+	handleStepConfirm = (item, index) => {
 		const { id } = item;
 		const { processSource } = this.state;
 		processDel({ id }).then((res) => {
@@ -316,7 +322,7 @@ export default class FollowInfo extends React.Component {
 	};
 
 	// onInputChangeField
-	onInputChangeField=(event, field) => {
+	onInputChangeField = (event, field) => {
 		const { value } = event.srcElement;
 		if (value) {
 			if (value.length > 160) {
@@ -330,18 +336,15 @@ export default class FollowInfo extends React.Component {
 		}
 	};
 
-	onInputChangeNew =(e, field) => {
-		let result = '';
-		if (e.target) {
-			const { value } = e.target;
-			e.target.value = value.toString().match(/^\d+(?:\.\d{0,2})?/);
-			result = e.target.value;
-		} else {
-			e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/);
-			result = e.value;
-		}
+	onInputChangeNew = (e, field) => {
+		const event = e || window.event;
+		const target = event.target || event.srcElement;
+		const matchRes = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
+		const _value = matchRes ? matchRes[0] : target.value;
+		console.log(_value);
+		event.srcElement.value = _value;
 		this.setState({
-			[field]: result,
+			[field]: _value,
 		});
 	};
 
@@ -403,7 +406,13 @@ export default class FollowInfo extends React.Component {
 						}
 					</p>,
 					<Btn onClick={onClose} style={{ width: 100 }} title="取 消" />,
-					<Btn type="primary" loading={loading} onClick={() => this.handleProcessSave()} style={{ width: 100 }} title="确 认" />,
+					<Btn
+						type="primary"
+						loading={loading}
+						onClick={() => this.handleProcessSave()}
+						style={{ width: 100 }}
+						title="确 认"
+					/>,
 				]}
 			>
 				<div className="yc-assets-follow-body" id="yc-assets-follow-body">
@@ -632,7 +641,8 @@ export default class FollowInfo extends React.Component {
 																			>
 																				<Icon type="delete" className="list-step-title-icon" />
 																			</PopConfirm>
-																		) : <Icon type="delete" className="list-step-title-icon" style={{ color: '#ffffff' }} />
+																		)
+																			: <Icon type="delete" className="list-step-title-icon" style={{ color: '#ffffff' }} />
 																	}
 																</React.Fragment>,
 																<span
