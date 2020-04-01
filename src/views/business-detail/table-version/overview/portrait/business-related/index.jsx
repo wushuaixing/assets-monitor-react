@@ -1,9 +1,11 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import { Table, Button } from '@/common';
 import noData from '@/assets/img/business/noData.png';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import './style.scss';
+import { getQueryByName } from '@/utils';
 
 export default class BusinessRelated extends React.Component {
 	constructor(props) {
@@ -58,6 +60,11 @@ export default class BusinessRelated extends React.Component {
 			}],
 		};
 	}
+
+	handleSubmit = () => {
+		const businessId = getQueryByName(window.location.href, 'id') || 999999;
+		navigate(`/business/detail/edit/info?id=${businessId}`);
+	};
 
 	render() {
 		const { columns } = this.state;

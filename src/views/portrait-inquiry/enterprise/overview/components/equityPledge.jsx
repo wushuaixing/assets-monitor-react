@@ -1,7 +1,7 @@
 import React from 'react';
-import TimeLine from '../../../common/timeLine';
 import { getStock } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import { Spin } from '@/common';
+import TimeLine from '../../../common/timeLine';
 import getCount from '../../../common/getCount';
 import './style.scss';
 
@@ -35,25 +35,23 @@ export default class EquityPledge extends React.Component {
 		const params = {
 			companyId,
 		};
-		getStock(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const { roleDistributions } = res.data;
-					const timeLineData = res.data.yearDistributions;
-					const allNum = getCount(roleDistributions) + getCount(timeLineData);
-					getAssetProfile(allNum, 'EquityPledge');
-					this.setState({
-						loading: false,
-						roleDistributions,
-						timeLineData, // 年份分布
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+		getStock(params).then((res) => {
+			if (res.code === 200) {
+				const { roleDistributions } = res.data;
+				const timeLineData = res.data.yearDistributions;
+				const allNum = getCount(roleDistributions) + getCount(timeLineData);
+				getAssetProfile(allNum, 'EquityPledge');
+				this.setState({
+					loading: false,
+					roleDistributions,
+					timeLineData, // 年份分布
+				});
+			} else {
 				this.setState({ loading: false });
-			});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {

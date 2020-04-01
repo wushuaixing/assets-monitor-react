@@ -1,9 +1,9 @@
 import React from 'react';
+import { getLitigation } from '@/utils/api/portrait-inquiry/personal/overview';
+import { getQueryByName } from '@/utils';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
-import { getLitigation } from '@/utils/api/portrait-inquiry/personal/overview';
-import { getQueryByName } from '@/utils';
 import getCount from '../../../common/getCount';
 
 export default class Subrogation extends React.Component {
@@ -29,27 +29,25 @@ export default class Subrogation extends React.Component {
 	getData = () => {
 		const params = this.info;
 		const { getAssetProfile } = this.props;
-		getLitigation(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const timeLineData = res.data.litigationInfo.yearDistributions;
-					const columnarData = res.data.litigationInfo.caseReasons;
-					const RingData = res.data.litigationInfo.caseTypes;
-					const allNum = res.data.litigationInfo.count;
-					getAssetProfile(allNum, 'Involved', false);
-					this.setState({
-						allNum,
-						RingData,
-						columnarData,
-						timeLineData,
-					});
-				} else {
-					// this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+		getLitigation(params).then((res) => {
+			if (res.code === 200) {
+				const timeLineData = res.data.litigationInfo.yearDistributions;
+				const columnarData = res.data.litigationInfo.caseReasons;
+				const RingData = res.data.litigationInfo.caseTypes;
+				const allNum = res.data.litigationInfo.count;
+				getAssetProfile(allNum, 'Involved', false);
+				this.setState({
+					allNum,
+					RingData,
+					columnarData,
+					timeLineData,
+				});
+			} else {
 				// this.setState({ loading: false });
-			});
+			}
+		}).catch(() => {
+			// this.setState({ loading: false });
+		});
 	};
 
 	render() {
@@ -81,7 +79,6 @@ export default class Subrogation extends React.Component {
 						)
 					}
 				</div>
-
 			</div>
 		);
 	}

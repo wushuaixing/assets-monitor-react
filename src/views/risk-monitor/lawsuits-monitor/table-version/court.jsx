@@ -18,6 +18,8 @@ export default class TableIntact extends React.Component {
 	}
 
 	componentWillMount() {
+		console.log(this.props, 123);
+
 		this.toGetData();
 	}
 

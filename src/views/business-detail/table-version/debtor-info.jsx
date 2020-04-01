@@ -72,17 +72,17 @@ const EnterpriseInfo = (arg = {}) => {
 						regStatus ? (
 							<span
 								className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`}
-								style={isDishonest ? { marginTop: 2, marginLeft: 58, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}
+								style={isDishonest ? { marginTop: 2, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}
 							>
 								{regStatus}
 							</span>
 						) : null
 					}
 					{
-						!limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
+						limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
 					}
 					{
-						!bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
+						bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
 					}
 					{
 						pushState ? (

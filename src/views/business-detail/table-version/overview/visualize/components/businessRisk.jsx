@@ -81,7 +81,6 @@ export default class BusinessRisk extends React.Component {
 						</div>
 					)}
 				</Spin>
-
 			</div>
 		);
 	}

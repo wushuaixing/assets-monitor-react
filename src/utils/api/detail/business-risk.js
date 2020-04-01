@@ -1,6 +1,6 @@
 import service from '@/utils/service';
 
-const manage = {
+const businessRisk = {
 	30201: {
 		id: 30201,
 		name: '经营-破产重组',
@@ -104,4 +104,4 @@ const manage = {
 	},
 };
 
-export default manage;
+export default businessRisk;

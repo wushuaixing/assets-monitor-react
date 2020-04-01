@@ -1,7 +1,7 @@
 import React from 'react';
-import TimeLine from '../../../common/timeLine';
 import { getDishonest } from '@/utils/api/portrait-inquiry/personal/overview';
 import { getQueryByName } from '@/utils';
+import TimeLine from '../../../common/timeLine';
 import getCount from '../../../common/getCount';
 
 export default class LostLetter extends React.Component {
@@ -26,22 +26,20 @@ export default class LostLetter extends React.Component {
 	getData = () => {
 		const { getAssetProfile } = this.props;
 		const params = this.info;
-		getDishonest(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const timeLineData = res.data.assetOverviewDishonestInfo.yearDistributions;
-					getAssetProfile(getCount(timeLineData), 'LostLetter', false);
-					this.setState({
-						timeLineData,
-					});
-				} else {
-					// this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+		getDishonest(params).then((res) => {
+			if (res.code === 200) {
+				const timeLineData = res.data.assetOverviewDishonestInfo.yearDistributions;
+				getAssetProfile(getCount(timeLineData), 'LostLetter', false);
+				this.setState({
+					timeLineData,
+				});
+			} else {
 				// this.setState({ loading: false });
-			});
-	}
+			}
+		}).catch(() => {
+			// this.setState({ loading: false });
+		});
+	};
 
 	render() {
 		const { timeLineData } = this.state;

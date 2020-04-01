@@ -1,9 +1,9 @@
 import React from 'react';
+import { getLand } from '@/utils/api/portrait-inquiry/enterprise/overview';
+import { Spin } from '@/common';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
-import { getLand } from '@/utils/api/portrait-inquiry/enterprise/overview';
-import { Spin } from '@/common';
 import getCount from '../../../common/getCount';
 
 export default class Land extends React.Component {
@@ -28,29 +28,27 @@ export default class Land extends React.Component {
 		const params = {
 			companyId,
 		};
-		getLand(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const RingData = res.data.infoTypes;
-					const columnarData = res.data.roleDistributions;
-					const timeLineData = res.data.yearDistributions;
-					const allNum = getCount(columnarData) + getCount(RingData) + getCount(timeLineData);
-					getAssetProfile(allNum, 'Land');
+		getLand(params).then((res) => {
+			if (res.code === 200) {
+				const RingData = res.data.infoTypes;
+				const columnarData = res.data.roleDistributions;
+				const timeLineData = res.data.yearDistributions;
+				const allNum = getCount(columnarData) + getCount(RingData) + getCount(timeLineData);
+				getAssetProfile(allNum, 'Land');
 
-					this.setState({
-						loading: false,
-						RingData, // 信息类型
-						columnarData, // 角色分布
-						timeLineData, // 年份分布
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+				this.setState({
+					loading: false,
+					RingData, // 信息类型
+					columnarData, // 角色分布
+					timeLineData, // 年份分布
+				});
+			} else {
 				this.setState({ loading: false });
-			});
-	}
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	};
 
 
 	render() {
@@ -79,7 +77,6 @@ export default class Land extends React.Component {
 					</Spin>
 					)
 				}
-
 			</div>
 		);
 	}

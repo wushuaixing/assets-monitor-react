@@ -1,7 +1,7 @@
 import React from 'react';
-import RingEcharts from '../../../common/ringEcharts';
 import { getTaxIllegal } from '@/utils/api/portrait-inquiry/personal/overview';
 import { getQueryByName } from '@/utils';
+import RingEcharts from '../../../common/ringEcharts';
 import getCount from '../../../common/getCount';
 
 export default class TaxViolation extends React.Component {
@@ -24,22 +24,20 @@ export default class TaxViolation extends React.Component {
 	getData = () => {
 		const params = this.info;
 		const { getAssetProfile } = this.props;
-		getTaxIllegal(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const RingData = res.data.taxIllegalInfoVO;
-					getAssetProfile(getCount(RingData), 'TaxViolation', false);
-					this.setState({
-						RingData,
-					});
-				} else {
-					// this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+		getTaxIllegal(params).then((res) => {
+			if (res.code === 200) {
+				const RingData = res.data.taxIllegalInfoVO;
+				getAssetProfile(getCount(RingData), 'TaxViolation', false);
+				this.setState({
+					RingData,
+				});
+			} else {
 				// this.setState({ loading: false });
-			});
-	}
+			}
+		}).catch(() => {
+			// this.setState({ loading: false });
+		});
+	};
 
 	render() {
 		const { RingData, colorArray } = this.state;

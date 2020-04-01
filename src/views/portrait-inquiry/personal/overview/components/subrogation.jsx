@@ -1,10 +1,10 @@
 import React from 'react';
+import { Spin } from '@/common';
+import { getQueryByName } from '@/utils';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
 import { getSubrogation } from '@/utils/api/portrait-inquiry/personal/overview';
-import { Spin } from '@/common';
-import { getQueryByName } from '@/utils';
 import getCount from '../../../common/getCount';
 
 export default class Subrogation extends React.Component {
@@ -30,32 +30,28 @@ export default class Subrogation extends React.Component {
 	getData = () => {
 		const params = this.info;
 		const { getAssetProfile } = this.props;
-		this.setState({
-			loading: true,
-		});
-		getSubrogation(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const timeLineData = res.data.subrogationInfo.yearDistributions;
-					const columnarData = res.data.subrogationInfo.caseReasons;
-					const RingData = res.data.subrogationInfo.caseTypes;
-					const allNum = res.data.subrogationInfo.count;
-					getAssetProfile(allNum, 'Subrogation', false);
-					this.setState({
-						allNum,
-						RingData,
-						columnarData,
-						timeLineData,
-						loading: false,
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+		this.setState({ loading: true });
+		getSubrogation(params).then((res) => {
+			if (res.code === 200) {
+				const timeLineData = res.data.subrogationInfo.yearDistributions;
+				const columnarData = res.data.subrogationInfo.caseReasons;
+				const RingData = res.data.subrogationInfo.caseTypes;
+				const allNum = res.data.subrogationInfo.count;
+				getAssetProfile(allNum, 'Subrogation', false);
+				this.setState({
+					allNum,
+					RingData,
+					columnarData,
+					timeLineData,
+					loading: false,
+				});
+			} else {
 				this.setState({ loading: false });
-			});
-	}
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	};
 
 	render() {
 		const {
@@ -84,7 +80,6 @@ export default class Subrogation extends React.Component {
 						)
 					}
 				</div>
-
 			</div>
 		);
 	}

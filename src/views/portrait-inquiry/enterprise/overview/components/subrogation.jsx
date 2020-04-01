@@ -1,12 +1,12 @@
 import React from 'react';
 import { Tooltip } from 'antd';
+import TagSide from '@/views/portrait-inquiry/common/checkBtn';
+import { getSubrogation } from '@/utils/api/portrait-inquiry/enterprise/overview';
+import { Icon } from '@/common';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
 import ColumnarEcharts from '../../../common/columnarEcharts';
-import { TagOneSide, TagTwoSide } from '../../../common/label-tag';
-import { getSubrogation } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import getCount from '../../../common/getCount';
-import { Icon } from '@/common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -37,64 +37,62 @@ export default class Subrogation extends React.Component {
 		const params = {
 			companyId,
 		};
-		getSubrogation(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const FilingArray = res.data.subrogationInfos[0];
-					const CourtArray = res.data.subrogationInfos[1];
-					const refereeArray = res.data.subrogationInfos[2];
-					const FilingNum = FilingArray.count;
-					const CourtNum = CourtArray.count;
-					const refereeNum = refereeArray.count;
-					const allNum = FilingArray.count + CourtArray.count + refereeArray.count;
-					getAssetProfile(allNum, 'Subrogation');
+		getSubrogation(params).then((res) => {
+			if (res.code === 200) {
+				const FilingArray = res.data.subrogationInfos[0];
+				const CourtArray = res.data.subrogationInfos[1];
+				const refereeArray = res.data.subrogationInfos[2];
+				const FilingNum = FilingArray.count;
+				const CourtNum = CourtArray.count;
+				const refereeNum = refereeArray.count;
+				const allNum = FilingArray.count + CourtArray.count + refereeArray.count;
+				getAssetProfile(allNum, 'Subrogation');
 
-					if (FilingNum > 0) {
-						this.setState({
-							selectType: 'Filing',
-							RingData: FilingArray.caseTypes,
-							columnarData: FilingArray.caseReasons,
-							timeLineData: FilingArray.yearDistribution,
-							RingDataNum: getCount(FilingArray.caseTypes),
-							columnarDataNum: getCount(FilingArray.caseReasons),
-							timeLineDataNum: getCount(FilingArray.yearDistribution),
-						});
-					} else if (CourtNum > 0) {
-						this.setState({
-							selectType: 'Court',
-							RingData: CourtArray.caseTypes,
-							columnarData: CourtArray.caseReasons,
-							timeLineData: CourtArray.yearDistribution,
-							RingDataNum: getCount(CourtArray.caseTypes),
-							columnarDataNum: getCount(CourtArray.caseReasons),
-							timeLineDataNum: getCount(CourtArray.yearDistribution),
-						});
-					} else {
-						this.setState({
-							selectType: 'referee',
-							RingData: refereeArray.caseTypes,
-							columnarData: refereeArray.caseReasons,
-							timeLineData: refereeArray.yearDistribution,
-							RingDataNum: getCount(refereeArray.caseTypes),
-							columnarDataNum: getCount(refereeArray.caseReasons),
-							timeLineDataNum: getCount(refereeArray.yearDistribution),
-						});
-					}
+				if (FilingNum > 0) {
 					this.setState({
-						FilingArray, // 立案信息
-						CourtArray, // 开庭信息
-						refereeArray, // 裁判文书
-						FilingNum,
-						CourtNum,
-						refereeNum,
+						selectType: 'Filing',
+						RingData: FilingArray.caseTypes,
+						columnarData: FilingArray.caseReasons,
+						timeLineData: FilingArray.yearDistribution,
+						RingDataNum: getCount(FilingArray.caseTypes),
+						columnarDataNum: getCount(FilingArray.caseReasons),
+						timeLineDataNum: getCount(FilingArray.yearDistribution),
+					});
+				} else if (CourtNum > 0) {
+					this.setState({
+						selectType: 'Court',
+						RingData: CourtArray.caseTypes,
+						columnarData: CourtArray.caseReasons,
+						timeLineData: CourtArray.yearDistribution,
+						RingDataNum: getCount(CourtArray.caseTypes),
+						columnarDataNum: getCount(CourtArray.caseReasons),
+						timeLineDataNum: getCount(CourtArray.yearDistribution),
 					});
 				} else {
-					// this.setState({ loading: false });
+					this.setState({
+						selectType: 'referee',
+						RingData: refereeArray.caseTypes,
+						columnarData: refereeArray.caseReasons,
+						timeLineData: refereeArray.yearDistribution,
+						RingDataNum: getCount(refereeArray.caseTypes),
+						columnarDataNum: getCount(refereeArray.caseReasons),
+						timeLineDataNum: getCount(refereeArray.yearDistribution),
+					});
 				}
-			})
-			.catch(() => {
+				this.setState({
+					FilingArray, // 立案信息
+					CourtArray, // 开庭信息
+					refereeArray, // 裁判文书
+					FilingNum,
+					CourtNum,
+					refereeNum,
+				});
+			} else {
 				// this.setState({ loading: false });
-			});
+			}
+		}).catch(() => {
+			// this.setState({ loading: false });
+		});
 	};
 
 	checkTime = (selectType) => {
@@ -155,7 +153,7 @@ export default class Subrogation extends React.Component {
 						</div>
 						<div className="overview-container-content">
 							<div style={{ marginBottom: 20 }}>
-								<TagOneSide
+								<TagSide
 									content="立案信息"
 									num={FilingNum}
 									onClick={() => {
@@ -165,7 +163,7 @@ export default class Subrogation extends React.Component {
 									}}
 									tag={selectType === 'Filing' ? 'yc-tag-active' : ''}
 								/>
-								<TagTwoSide
+								<TagSide
 									content="开庭信息"
 									num={CourtNum}
 									onClick={() => {
@@ -175,7 +173,7 @@ export default class Subrogation extends React.Component {
 									}}
 									tag={selectType === 'Court' ? 'yc-tag-active' : ''}
 								/>
-								<TagTwoSide
+								<TagSide
 									content="裁判文书"
 									num={refereeNum}
 									onClick={() => {

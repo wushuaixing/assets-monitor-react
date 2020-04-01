@@ -1,9 +1,9 @@
 import React from 'react';
+import TagSide from '@/views/portrait-inquiry/common/checkBtn';
+import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
-import { TagOneSide, TagTwoSide } from '../../../common/label-tag';
 import getCount from '../../../common/getCount';
-import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 
 export default class Information extends React.Component {
 	constructor(props) {
@@ -136,7 +136,7 @@ export default class Information extends React.Component {
 						</div>
 						<div className="overview-container-content">
 							<div style={{ marginBottom: 20 }}>
-								<TagOneSide
+								<TagSide
 									content="立案信息"
 									num={FilingNum}
 									onClick={() => {
@@ -146,7 +146,7 @@ export default class Information extends React.Component {
 									}}
 									tag={selectType === 'Filing' ? 'yc-tag-active' : ''}
 								/>
-								<TagTwoSide
+								<TagSide
 									content="开庭信息"
 									num={CourtNum}
 									onClick={() => {
@@ -156,7 +156,7 @@ export default class Information extends React.Component {
 									}}
 									tag={selectType === 'Court' ? 'yc-tag-active' : ''}
 								/>
-								<TagTwoSide
+								<TagSide
 									content="裁判文书"
 									num={refereeNum}
 									onClick={() => {

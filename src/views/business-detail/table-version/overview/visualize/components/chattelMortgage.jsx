@@ -48,10 +48,9 @@ export default class ChattelMortgage extends React.Component {
 			} else {
 				this.setState({ loading: false });
 			}
-		})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {

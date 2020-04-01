@@ -49,10 +49,9 @@ export default class EquityPledge extends React.Component {
 			} else {
 				this.setState({ loading: false });
 			}
-		})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {

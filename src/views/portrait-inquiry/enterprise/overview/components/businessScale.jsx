@@ -16,7 +16,6 @@ export default class BusinessScale extends React.Component {
 					<span className="container-title-name"> 企业规模</span>
 				</div>
 				<div>
-
 					<div className="yc-role-container">
 						<span className="yc-role-icon" />
 						<div className="yc-role-name">
@@ -26,7 +25,6 @@ export default class BusinessScale extends React.Component {
 							{businessScaleInfo.employeeNum || '未知'}
 						</div>
 					</div>
-
 				</div>
 			</div>
 		);

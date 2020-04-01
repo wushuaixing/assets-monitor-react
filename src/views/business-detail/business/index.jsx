@@ -10,7 +10,7 @@ import {
 } from '@/utils';
 /* api collection */
 import assets from '@/utils/api/detail/assets';
-import risk from '@/utils/api/detail/business-risk';
+import businessRisk from '@/utils/api/detail/business-risk';
 import { businessInfo } from '@/utils/api/detail';
 import { exportListEnp } from '@/utils/api/portrait-inquiry';
 /* components */
@@ -58,7 +58,7 @@ const source = () => [
 		config: Risk.config,
 		status: Risk.config.status,
 		component: Risk,
-		apiData: risk,
+		apiData: businessRisk,
 		source: [],
 	},
 ].filter(i => i.status);
@@ -200,7 +200,7 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const businessId = getQueryByName(window.location.href, 'id') || 22604;
+		const businessId = getQueryByName(window.location.href, 'id') || 999999;
 		this.setState({ loading: true });
 		businessInfo({ businessId }).then((res) => {
 			if (res.code === 200) {

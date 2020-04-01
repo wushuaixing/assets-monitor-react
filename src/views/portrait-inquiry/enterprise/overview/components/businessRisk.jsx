@@ -1,9 +1,9 @@
 import React from 'react';
-import ColumnarEcharts from '../../../common/columnarEcharts';
-import { getRisk } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import { Spin } from '@/common';
-import getCount from '../../../common/getCount';
 import NoContent from '@/common/noContent';
+import { getRisk } from '@/utils/api/portrait-inquiry/enterprise/overview';
+import ColumnarEcharts from '../../../common/columnarEcharts';
+import getCount from '../../../common/getCount';
 
 export default class BusinessRisk extends React.Component {
 	constructor(props) {
@@ -27,23 +27,21 @@ export default class BusinessRisk extends React.Component {
 		const params = {
 			companyId,
 		};
-		getRisk(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const columnarData = res.data.businessRiskInfos;
-					const columnarNum = getCount(columnarData);
-					this.setState({
-						columnarNum,
-						columnarData,
-						loading: false,
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+		getRisk(params).then((res) => {
+			if (res.code === 200) {
+				const columnarData = res.data.businessRiskInfos;
+				const columnarNum = getCount(columnarData);
+				this.setState({
+					columnarNum,
+					columnarData,
+					loading: false,
+				});
+			} else {
 				this.setState({ loading: false });
-			});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {
@@ -77,7 +75,6 @@ export default class BusinessRisk extends React.Component {
 						</div>
 					)}
 				</Spin>
-
 			</div>
 		);
 	}

@@ -1,6 +1,9 @@
 /* 详情页「新」2020.02.19 */
 .yc-information-detail-wrapper {
-  border-bottom: 1px solid #f0f1f5;
+  //border-bottom: 1px solid #f0f1f5;
+  .ant-table-tbody>tr>td, .ant-table-thead>tr {
+    border-bottom: 1px solid #E5E5E5;
+  }
   .ant-table-body tbody tr:nth-child(2n), .cTableContent tbody tr:nth-child(2n) {
     background: #ffffff;
   }
@@ -138,7 +141,7 @@
   .mark-line {
     height: 1px;
     width: 100%;
-    background-color: #F2F2F2;
+    background-color: #E5E5E5;
   }
 
   .enterprise-info {
