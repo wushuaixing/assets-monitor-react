@@ -296,7 +296,7 @@ function exportTemplate(source, exportType) {
 				{f: "{debtor.dishonest}", v: f.disStatus(obj.dishonestStatus)},
 				{f: "{debtor.formerNames}", v: (usedLengthFlag ? obj.usedName.join('、') : '-')}]);
 		} else {
-			userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + obj.id + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
+			userInfo = ("<div class='name' style='margin-bottom: 30px'>业务编号：" + (obj.id||'-') + "</div><div class='name'>借款人：" + obj.obligorName + "</div>");
 			f.replaceHtml([
 				{f: "{debtor.display}", v: "display-none"},
 				{f: "{base.title}", v: "业务详情"},
@@ -307,7 +307,7 @@ function exportTemplate(source, exportType) {
 				source: obj
 			});
 		}
-		var listDom = status ? "<tr><th>业务编号</th><th>角色</th><th>机构名称</th></tr>" : "<tr><th>相关人名称</th><th>身份证号/统一社会信用代码</th><th>角色</th></tr>";
+		var listDom = status ? "<tr><th>业务编号</th><th>角色</th><th>负责人/机构</th></tr>" : "<tr><th>相关人名称</th><th>身份证号/统一社会信用代码</th><th>角色</th></tr>";
 		if (list.length) {
 			list.forEach(function (item) {
 				listDom += (status ? ("<tr><td>" + w(item.caseNumber) + "</td><td>" + w(item.roleText) + "</td><td>" + w(item.orgName) + "</td></tr>")
@@ -437,7 +437,7 @@ function exportTemplate(source, exportType) {
 					case "dishonest": {
 						data.list.forEach(function (i) {
 							tableList += "<tr><td>" +
-								f.infoList([{t: w(i.courtName), d: "机构名称"}, {t: w(i.caseCode), d: "案号"},
+								f.infoList([{t: w(i.courtName), d: "负责人/机构"}, {t: w(i.caseCode), d: "案号"},
 									{t: w(i.areaName), d: "省份"}, {t: w(i.publishDate), d: "发布时间"}])
 								+ "</td><td>" +
 								f.infoList([
