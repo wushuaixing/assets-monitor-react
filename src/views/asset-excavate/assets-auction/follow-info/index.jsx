@@ -339,9 +339,12 @@ export default class FollowInfo extends React.Component {
 	onInputChangeNew = (e, field) => {
 		const event = e || window.event;
 		const target = event.target || event.srcElement;
-		event.srcElement.value = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
+		const matchRes = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
+		const _value = matchRes ? matchRes[0] : target.value;
+		console.log(_value);
+		event.srcElement.value = _value;
 		this.setState({
-			[field]: event.srcElement.value,
+			[field]: _value,
 		});
 	};
 
