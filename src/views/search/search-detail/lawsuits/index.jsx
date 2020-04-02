@@ -73,24 +73,48 @@ class LAWSUITS extends React.Component {
 		this.initialValue(urlObj);
 		// 输入框默认值
 		const { plaintiff, defendant } = this.state;
-		if (plaintiff[0]) { plaintiff[0].name = urlObj.plaintiff0 ? urlObj.plaintiff0 : undefined; }
-		if (plaintiff[1]) { plaintiff[1].name = urlObj.plaintiff1 ? urlObj.plaintiff1 : undefined; }
-		if (plaintiff[2]) { plaintiff[2].name = urlObj.plaintiff2 ? urlObj.plaintiff2 : undefined; }
-		if (defendant[0]) { defendant[0].name = urlObj.defendant0 ? urlObj.defendant0 : undefined; }
-		if (defendant[1]) { defendant[1].name = urlObj.defendant1 ? urlObj.defendant1 : undefined; }
-		if (defendant[2]) { defendant[2].name = urlObj.defendant2 ? urlObj.defendant2 : undefined; }
+		if (plaintiff[0]) {
+			plaintiff[0].name = urlObj.plaintiff0 ? urlObj.plaintiff0 : undefined;
+		}
+		if (plaintiff[1]) {
+			plaintiff[1].name = urlObj.plaintiff1 ? urlObj.plaintiff1 : undefined;
+		}
+		if (plaintiff[2]) {
+			plaintiff[2].name = urlObj.plaintiff2 ? urlObj.plaintiff2 : undefined;
+		}
+		if (defendant[0]) {
+			defendant[0].name = urlObj.defendant0 ? urlObj.defendant0 : undefined;
+		}
+		if (defendant[1]) {
+			defendant[1].name = urlObj.defendant1 ? urlObj.defendant1 : undefined;
+		}
+		if (defendant[2]) {
+			defendant[2].name = urlObj.defendant2 ? urlObj.defendant2 : undefined;
+		}
 		this.setState({
 			plaintiff, defendant, urlObj, Params, type: urlObj.type ? Number(urlObj.type) : 1,
 		});
 	}
 
 	initialValue = (urlObj) => {
-		if (urlObj.plaintiff1) { this.addPlaintiff(); }
-		if (!urlObj.plaintiff1 && urlObj.plaintiff2) { this.addPlaintiff(); }
-		if (urlObj.plaintiff2) { this.addPlaintiff(); }
-		if (urlObj.defendant1) { this.addDefendant(); }
-		if (!urlObj.defendant1 && urlObj.defendant2) { this.addDefendant(); }
-		if (urlObj.defendant2) { this.addDefendant(urlObj.defendant2); }
+		if (urlObj.plaintiff1) {
+			this.addPlaintiff();
+		}
+		if (!urlObj.plaintiff1 && urlObj.plaintiff2) {
+			this.addPlaintiff();
+		}
+		if (urlObj.plaintiff2) {
+			this.addPlaintiff();
+		}
+		if (urlObj.defendant1) {
+			this.addDefendant();
+		}
+		if (!urlObj.defendant1 && urlObj.defendant2) {
+			this.addDefendant();
+		}
+		if (urlObj.defendant2) {
+			this.addDefendant(urlObj.defendant2);
+		}
 	};
 
 	// 获取数量
@@ -166,7 +190,7 @@ class LAWSUITS extends React.Component {
 	};
 
 	// 切换立案开庭
-	onSourceType=(val) => {
+	onSourceType = (val) => {
 		const { Params, pageSize } = this.state;
 		const { hash } = window.location;
 		const urlObj = parseQuery(hash);
@@ -179,11 +203,13 @@ class LAWSUITS extends React.Component {
 		if (Object.keys(urlObj).length !== 0) {
 			this.getData(ParamsObj, val);
 		}
-		this.setState({ type: val, current: 1, Sort: undefined });
+		this.setState({
+			type: val, current: 1, Sort: undefined, sortColumn: '',
+		});
 	};
 
 	// 导出
-	toExportCondition=(type) => {
+	toExportCondition = (type) => {
 		const {
 			pageSize, current, field, order, Params,
 		} = this.state;
@@ -203,8 +229,8 @@ class LAWSUITS extends React.Component {
 			Params, type, Sort, dataList, pageSize, page,
 		} = this.state;
 		let _Sort;
-		if (Sort === undefined)_Sort = 'DESC';
-		if (Sort === 'DESC')_Sort = 'ASC';
+		if (Sort === undefined) _Sort = 'DESC';
+		if (Sort === 'DESC') _Sort = 'ASC';
 		if (Sort === 'ASC') _Sort = undefined;
 		// gmtTrial
 		const sortColumn = _Sort === undefined ? undefined : (type === 1 ? 'gmtRegister' : 'gmtTrial');
@@ -310,7 +336,10 @@ class LAWSUITS extends React.Component {
 	deletePlaintiff = (id) => {
 		let { plaintiff } = this.state;
 		plaintiff = plaintiff.filter(key => key.id !== id);
-		plaintiff.map((item, index) => { const _item = item; return _item.id = index + 1; });
+		plaintiff.map((item, index) => {
+			const _item = item;
+			return _item.id = index + 1;
+		});
 		this.setState({ plaintiff });
 	};
 
@@ -325,7 +354,10 @@ class LAWSUITS extends React.Component {
 	deleteDefendant = (id) => {
 		let { defendant } = this.state;
 		defendant = defendant.filter(key => key.id !== id);
-		defendant.map((item, index) => { const _item = item; return _item.id = index + 1; });
+		defendant.map((item, index) => {
+			const _item = item;
+			return _item.id = index + 1;
+		});
 		this.setState({ defendant });
 	};
 
@@ -342,7 +374,7 @@ class LAWSUITS extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -407,17 +439,36 @@ class LAWSUITS extends React.Component {
 					field="type"
 				/>
 				<div className="yc-writ-tablebtn">
-					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport} current page num text="本页导出" />}
-					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport} all page num text="全部导出" />
+					{dataList.length > 0
+					&& (
+					<Download
+						condition={() => this.toExportCondition('current')}
+						style={{ marginRight: 10 }}
+						api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport}
+						current
+						page
+						num
+						text="本页导出"
+					/>
+					)}
+					<Download
+						disabled={dataList.length === 0}
+						condition={() => this.toExportCondition('all')}
+						api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport}
+						all
+						page
+						num
+						text="全部导出"
+					/>
 					{dataList.length > 0 && (
-					<div
-						className="yc-public-floatRight"
-						style={{
-							lineHeight: '30px', color: '#929292', fontSize: '12px',
-						}}
-					>
-						{`源诚科技为您找到${totals}条信息`}
-					</div>
+						<div
+							className="yc-public-floatRight"
+							style={{
+								lineHeight: '30px', color: '#929292', fontSize: '12px',
+							}}
+						>
+							{`源诚科技为您找到${totals}条信息`}
+						</div>
 					)}
 				</div>
 				<Spin visible={loading}>
@@ -431,19 +482,21 @@ class LAWSUITS extends React.Component {
 					{
 						dataList && dataList.length > 0
 						&& (
-						<div className="yc-table-pagination">
-							<Pagination
-								total={totals && totals > 1000 ? 1000 : totals}
-								current={current}
-								pageSize={pageSize} // 默认条数
-								pageSizeOptions={['10', '25', '50']}
-								showQuickJumper
-								showSizeChanger
-								onShowSizeChange={this.onShowSizeChange}
-								showTotal={() => `共 ${totals} 条记录`}
-								onChange={(val) => { this.handleChangePage(val); }}
-							/>
-						</div>
+							<div className="yc-table-pagination">
+								<Pagination
+									total={totals && totals > 1000 ? 1000 : totals}
+									current={current}
+									pageSize={pageSize} // 默认条数
+									pageSizeOptions={['10', '25', '50']}
+									showQuickJumper
+									showSizeChanger
+									onShowSizeChange={this.onShowSizeChange}
+									showTotal={() => `共 ${totals} 条记录`}
+									onChange={(val) => {
+										this.handleChangePage(val);
+									}}
+								/>
+							</div>
 						)}
 					{
 						page === 100
