@@ -136,18 +136,18 @@ const assets = {
 	10601: {
 		id: 10601,
 		name: '资产-动产抵押-抵押物',
-		list: params => service.get('/yc/monitor/mortgage/list?role=0', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/mortgage/pawn/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/monitor/mortgage/list-count?role=0', { params })
+			return service.get('/yc/business/monitor/asset/mortgage/pawn/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10602: {
 		id: 10602,
 		name: '资产-动产抵押-抵押权',
-		list: params => service.get('/yc/monitor/mortgage/list?role=1', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/mortgage/owner/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/monitor/mortgage/list-count?role=1', { params })
+			return service.get('/yc/business/monitor/asset/mortgage/owner/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
