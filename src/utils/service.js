@@ -98,12 +98,15 @@ const responseMethods = {
 		return response;
 	},
 	onRejected: (error) => {
+		const notShow = (error.config.params || {}).event === 'loop';
 		// 如果没有token直接返回到登陆界面
 		if (cookies.get('token') === undefined) {
 			// navigate('/login');
 		} else if (axios.isCancel(error)) {
 			console.log('isCancel error:', error);
-		} else if (error) message.error(error.message);
+		} else if (error && !notShow) {
+			message.error(error.message);
+		}
 	},
 };
 
