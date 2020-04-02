@@ -28,6 +28,7 @@ const toGetRuth = (moduleID) => {
 		});
 	});
 };
+
 // 主界面
 class RiskMonitor extends React.Component {
 	constructor(props) {
@@ -50,17 +51,17 @@ class RiskMonitor extends React.Component {
 	}
 
 	// 一级tab未读消息统计
-	onUnReadCount=() => {
+	onUnReadCount = () => {
 		const { source } = this.state;
-		unReadCount().then((res) => {
+		unReadCount({ event: 'loop' }).then((res) => {
 			const { data, code } = res;
 			if (code === 200) {
 				const _source = source.map((item) => {
 					const _item = item;
-					if (_item.id === 'YC0301')_item.dot = data.trialCourtSessionCount || data.trialFilingCount || data.trialJudgmentCount;
-					if (_item.id === 'YC0302')_item.dot = data.bankruptcyCount;
-					if (_item.id === 'YC0303')_item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag || data.taxCount || data.epbCount;
-					if (_item.id === 'YC0304')_item.dot = data.dishonestCount;
+					if (_item.id === 'YC0301') _item.dot = data.trialCourtSessionCount || data.trialFilingCount || data.trialJudgmentCount;
+					if (_item.id === 'YC0302') _item.dot = data.bankruptcyCount;
+					if (_item.id === 'YC0303') _item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag || data.taxCount || data.epbCount;
+					if (_item.id === 'YC0304') _item.dot = data.dishonestCount;
 					return _item;
 				});
 				// console.log(_source);
@@ -69,7 +70,7 @@ class RiskMonitor extends React.Component {
 		});
 	};
 
-	toNavigate=() => {
+	toNavigate = () => {
 		navigate(`/my/attention?init=YC03${this.sourceType ? `&process=${this.sourceType}` : ''}`);
 	};
 
@@ -92,7 +93,7 @@ class RiskMonitor extends React.Component {
 							icon={() => (
 								<Icon
 									type="icon-follow"
-								// style={{ fontsize: 14, color: '#7D8699' }}
+									// style={{ fontsize: 14, color: '#7D8699' }}
 									className="yc-btn-icon"
 								/>
 							)}

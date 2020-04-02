@@ -252,7 +252,7 @@ export default class FollowInfo extends React.Component {
 				console.log(rStr, matchRes);
 				const str = matchRes !== rStr ? '收入金额输入有误，请输入有效的金额数值！' : '';
 				if (str) {
-					message.error(str, 2);
+					message.warning(str, 2);
 					return true;
 				}
 			}
@@ -261,7 +261,7 @@ export default class FollowInfo extends React.Component {
 				const matchRes = (rStr.match(regExp) || [])[0];
 				const str = matchRes !== rStr ? '支出金额输入有误，请输入有效的金额数值！' : '';
 				if (str) {
-					message.error(str, 2);
+					message.warning(str, 2);
 					return true;
 				}
 			}
@@ -285,13 +285,13 @@ export default class FollowInfo extends React.Component {
 		// 字段校验
 		if (toProcess !== 15) {
 			if (!param.remindingTime && param.remindType) {
-				return message.error('已选择提醒方式，提醒时间不能为空', 2);
+				return message.warning('请选择提醒时间（已选择提醒方式）', 2);
 			}
 			if (param.remindingTime && !param.remindType) {
-				return message.error('已填写提醒时间，提醒方式不能为空', 2);
+				return message.warning('请选择提醒方式间（已填写提醒时间）', 2);
 			}
 			if ((param.remindType === 3 || param.remindType === 2) && !param.remindSetIdList) {
-				return message.error('当推送方式勾选，短信/邮件，推送人不能为空', 2);
+				return message.warning('当推送方式勾选，短信/邮件，推送人不能为空', 2);
 			}
 		}
 
@@ -617,7 +617,7 @@ export default class FollowInfo extends React.Component {
 															onBlur={this.onAddContentBlurEvent}
 														/>
 														<Button
-															style={{ width: 66 }}
+															style={{ width: 66, backgroundColor: '#fff' }}
 															className="item-class"
 															loading={loadingChild}
 															onClick={this.handlePushSave}
