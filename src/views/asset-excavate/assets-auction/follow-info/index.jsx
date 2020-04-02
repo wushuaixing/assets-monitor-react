@@ -617,7 +617,7 @@ export default class FollowInfo extends React.Component {
 															onBlur={this.onAddContentBlurEvent}
 														/>
 														<Button
-															style={{ width: 66 }}
+															style={{ width: 66, backgroundColor: '#fff' }}
 															className="item-class"
 															loading={loadingChild}
 															onClick={this.handlePushSave}

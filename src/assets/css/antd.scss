@@ -70,14 +70,9 @@
   color: $text-remark;
 }
 
-.ant-calendar-picker {
-  input::-webkit-input-placeholder {
-    color: $text-placeholder;
-  }
-}
 
 .ant-select-selection__placeholder {
-  color: $text-placeholder;
+  color: #c8c8c8;
 }
 
 // 弹框样式
