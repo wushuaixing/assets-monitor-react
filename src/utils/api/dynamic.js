@@ -24,9 +24,11 @@ export const getDynamicAsset = (portrait = 'enterprise', option) => {
 	if ((portrait === 'debtor_enterprise' || portrait === 'debtor_personal') && b) {
 		api = assetsDebtor[b];
 		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'business' && b) {
 		api = assetsBusiness[b];
 		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'personal' && p) {
 		api = assetsPersonal[p];
 		params.obligorName = getHrefQuery('name');
@@ -34,6 +36,8 @@ export const getDynamicAsset = (portrait = 'enterprise', option) => {
 	} else if (portrait === 'enterprise' && e) {
 		api = assetsPortrait[e];
 		params.companyId = getHrefQuery('id');
+		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	}
 	return { api, params };
 };

@@ -3,7 +3,7 @@ import { overviewRisk, businessOverviewRisk } from 'api/detail/overview';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
-import NoContent from '@/common/noContent';
+// import NoContent from '@/common/noContent';
 
 export default class BusinessRisk extends React.Component {
 	constructor(props) {
@@ -45,10 +45,9 @@ export default class BusinessRisk extends React.Component {
 			} else {
 				this.setState({ loading: false });
 			}
-		})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {
@@ -58,7 +57,7 @@ export default class BusinessRisk extends React.Component {
 				<Spin visible={loading}>
 					{columnarData && getCount(columnarData) === 0 ? (
 						<div>
-							{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到经营风险信息" />}
+							{/* {loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到经营风险信息" />} */}
 						</div>
 					) : (
 						<div>

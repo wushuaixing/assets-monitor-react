@@ -5,36 +5,36 @@ const intangible = {
 	10401: {
 		id: 10401,
 		name: '无形资产-排污权许可证',
-		list: params => service.get('/yc/obligor/monitor/intangible/emission/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/intangible/emission/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/intangible/emission/list-count', { params })
+			return service.get('/yc/business/monitor/asset/intangible/emission/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10402: {
 		id: 10402,
 		name: '无形资产-采矿权许可证',
-		list: params => service.get('/yc/obligor/monitor/intangible/mining/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/intangible/mining/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/intangible/mining/list-count', { params })
+			return service.get('/yc/business/monitor/asset/intangible/mining/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10403: {
 		id: 10403,
 		name: '无形资产-商标专利',
-		list: params => service.get('/yc/obligor/monitor/intangible/trademarkRight/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/intangible/trademark/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/intangible/trademarkRight/list-count', { params })
+			return service.get('/yc/business/monitor/asset/intangible/trademark/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10404: {
 		id: 10404,
 		name: '无形资产-建筑建造资质',
-		list: params => service.get('/yc/obligor/monitor/intangible/construct/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/intangible/construct/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/intangible/construct/list-count', { params })
+			return service.get('/yc/business/monitor/asset/intangible/construct/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
@@ -45,18 +45,18 @@ const assets = {
 	10101: {
 		id: 10101,
 		name: '资产-资产拍卖-精准匹配',
-		list: params => service.get('/yc/obligor/monitor/auction/list?important=1', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/auction/accurate/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/auction/list-count?important=1', { params })
+			return service.get('/yc/business/monitor/asset/auction/accurate/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id, field: 'totalCount' }));
 		},
 	},
 	10102: {
 		id: 10102,
 		name: '资产-资产拍卖-模糊匹配',
-		list: params => service.get('/yc/obligor/monitor/auction/list?important=0', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/auction/fuzzy/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/auction/list-count?important=0', { params })
+			return service.get('/yc/business/monitor/asset/auction/fuzzy/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id, field: 'totalCount' }));
 		},
 	},
@@ -91,27 +91,27 @@ const assets = {
 	10301: {
 		id: 10301,
 		name: '资产-土地信息-出让结果',
-		list: params => service.get('/yc/obligor/monitor/land/transfer/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/land/transfer/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/land/transfer/list-count', { params })
+			return service.get('/yc/business/monitor/asset/land/transfer/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10302: {
 		id: 10302,
 		name: '资产-土地信息-土地转让',
-		list: params => service.get('/yc/obligor/monitor/land/transaction/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/land/transaction/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/land/transaction/list-count', { params })
+			return service.get('/yc/business/monitor/asset/land/transaction/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10303: {
 		id: 10303,
 		name: '资产-土地信息-土地抵押',
-		list: params => service.get('/yc/obligor/monitor/land/mortgage/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/asset/land/mortgage/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/land/mortgage/list-count', { params })
+			return service.get('/yc/business/monitor/asset/land/mortgage/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},

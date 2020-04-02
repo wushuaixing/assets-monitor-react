@@ -53,7 +53,7 @@ const businessRisk = {
 		name: '风险-涉诉-裁判文书',
 		list: params => service.get('/yc/business/monitor/risk/judgment/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/business/monitor/risk/judgmeng/listCount', { params })
+			return service.get('/yc/business/monitor/risk/judgment/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
@@ -78,9 +78,9 @@ const businessRisk = {
 	30501: {
 		id: 30501,
 		name: '经营-税收违法',
-		list: params => service.get('/yc/obligor/monitor/tax/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/risk/tax/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/tax/list-count', { params })
+			return service.get('/yc/business/monitor/risk/tax/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
@@ -96,9 +96,9 @@ const businessRisk = {
 	30701: {
 		id: 30701,
 		name: '经营-环保处罚',
-		list: params => service.get('/yc/obligor/monitor/epb/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/business/monitor/risk/epb/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/epb/list-count', { params })
+			return service.get('/yc/business/monitor/risk/epb/listCount', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},

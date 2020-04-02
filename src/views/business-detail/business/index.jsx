@@ -9,8 +9,8 @@ import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
 /* api collection */
-import assets from '@/utils/api/detail/assets';
-import businessRisk from '@/utils/api/detail/business-risk';
+import businessAssets from '@/utils/api/professional-work/business/assets';
+import businessRisk from '@/utils/api/professional-work/business/risk';
 import { businessInfo } from '@/utils/api/detail';
 import { exportListEnp } from '@/utils/api/portrait-inquiry';
 /* components */
@@ -47,7 +47,7 @@ const source = () => [
 		config: Assets.config,
 		status: Assets.config.status,
 		component: Assets,
-		apiData: assets,
+		apiData: businessAssets,
 		source: [],
 	},
 	{

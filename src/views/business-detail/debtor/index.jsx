@@ -6,8 +6,8 @@ import Router from '@/utils/Router';
 import { requestAll } from '@/utils/promise';
 import { getQueryByName } from '@/utils';
 /* api collection */
-import assets from '@/utils/api/detail/assets';
-import risk from '@/utils/api/detail/risk';
+import assets from '@/utils/api/professional-work/debtor/assets';
+import risk from '@/utils/api/professional-work/debtor/risk';
 import { debtorInfo, exportListEnp } from '@/utils/api/detail';
 /* components */
 import {
