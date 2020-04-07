@@ -197,7 +197,7 @@ export default class Visualize extends React.Component {
 					<div className="yc-overview-title">风险信息</div>
 					<div className="yc-overview-container">
 						{litigationInfos && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0 ? (
-							<NoContent style={{ paddingBottom: 60 }} font="暂未匹配到涉诉信息" />
+							<NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />
 						) : (
 							<Spin visible={litigationLoading}>
 								<div>

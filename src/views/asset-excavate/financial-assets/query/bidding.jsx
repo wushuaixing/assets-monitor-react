@@ -169,7 +169,7 @@ class QueryCondition extends React.Component {
 						<Input title="信息标题" style={_style1} size="large" maxLength="40" placeholder="拍卖信息标题" {...getFieldProps('title')} />
 					</div>
 					<div className="yc-query-item" style={{ marginRight: 0 }}>
-						<Input title="处置机关" style={_style1} size="large" maxLength="20" placeholder="处置法院/单位" {...getFieldProps('court')} />
+						<Input title="处置机关" style={_style1} size="large" maxLength="40" placeholder="处置法院/单位" {...getFieldProps('court')} />
 					</div>
 				</div>
 
