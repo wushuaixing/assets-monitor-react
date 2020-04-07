@@ -25,6 +25,7 @@ const handleParties = (data) => {
 			source.push({
 				index: source.length,
 				role: i.role || roleType(i.identityType),
+				roleType: i.roleType,
 				child: [i],
 			});
 		} else {
@@ -35,6 +36,7 @@ const handleParties = (data) => {
 				source.push({
 					index: source.length,
 					role: i.role || roleType(i.identityType),
+					roleType: i.roleType,
 					child: [i],
 				});
 			}

@@ -21,8 +21,8 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? '资产信息'
-				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort}>资产信息</SortVessel>),
+			title: (noSort ? '业务信息'
+				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort}>业务信息</SortVessel>),
 			width: 274,
 			render: (text, row) => AssetsInfo(text, row, true, true),
 		}, {

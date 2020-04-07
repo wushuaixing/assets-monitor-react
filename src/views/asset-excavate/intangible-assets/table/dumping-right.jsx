@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDetail, linkDom, timeStandard } from '@/utils';
+import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Dump } from '@/utils/api/monitor-info/intangible';
 
@@ -51,7 +51,14 @@ const columns = (props) => {
 			title: '持证单位',
 			dataIndex: 'companyName',
 			width: 200,
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (
+				<Ellipsis
+					content={text || '-'}
+					tooltip
+					width={180}
+					url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+				/>
+			),
 		}, {
 			title: '许可证编号',
 			width: 200,
