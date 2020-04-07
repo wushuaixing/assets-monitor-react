@@ -1,13 +1,12 @@
 import React from 'react';
-import {
-	Form, Button, Modal,
-} from 'antd';
+import { Form, Button, Modal } from 'antd';
 import { Input } from '@/common';
 import addImg from '@/assets/img/business/icon_follow_add_n.png';
 import './style.scss';
 
 const { confirm } = Modal;
 const createForm = Form.create;
+
 class DebtorDetail extends React.Component {
 	constructor(props) {
 		super(props);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewAuction } from 'api/detail/overview';
+import { overviewAuction } from '@/utils/api/professional-work/overview';
 import TagSide from '@/views/portrait-inquiry/common/checkBtn';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import RingEcharts from '@/views/portrait-inquiry/common/ringEcharts';

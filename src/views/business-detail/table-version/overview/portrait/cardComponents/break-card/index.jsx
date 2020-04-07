@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewIntangible } from 'api/detail/overview';
+import { overviewIntangible } from '@/utils/api/professional-work/overview';
 import { getQueryByName } from '@/utils';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import breakImg from '@/assets/img/business/breakCard.png';

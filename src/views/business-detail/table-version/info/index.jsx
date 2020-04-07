@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCount } from '@/utils/api/detail/info';
+import { getCount } from '@/utils/api/professional-work/info';
 import { Button } from '@/common';
 import { parseQuery } from '@/utils';
 import BusinessInfo from './components/businessInfo';

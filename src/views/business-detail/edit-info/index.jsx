@@ -3,13 +3,11 @@ import {
 	Form, Input, message, Modal,
 } from 'antd';
 import { navigate } from '@reach/router';
-import { businessList } from 'api/detail/overview';
-import { businessInfo } from 'api/detail';
-import { save } from 'api/business';
+import { businessInfo } from '@/utils/api/professional-work';
+import { save } from '@/utils/api/business'; // 保存使用原接口
+import { businessList } from '@/utils/api/professional-work/overview';
 import { getQueryByName } from '@/utils';
-import {
-	 BreadCrumb, Button,
-} from '@/common';
+import { BreadCrumb, Button } from '@/common';
 import { getSource } from '@/views/business-detail/business/cache';
 import Edit from './edit';
 import './style.scss';
@@ -241,7 +239,6 @@ class EditBusiness extends React.Component {
 								{...getFieldProps('obligorNumber', {
 									initialValue: source && source.obligorNumber,
 									getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z-]/g, ''),
-									// getValueFromEvent: e => e.target.value.trim(),
 								})}
 								className="yc-from-input"
 							/>

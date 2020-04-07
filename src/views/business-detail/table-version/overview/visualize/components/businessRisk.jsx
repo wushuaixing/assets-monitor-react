@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewRisk, businessOverviewRisk } from 'api/detail/overview';
+import { overviewRisk, businessOverviewRisk } from '@/utils/api/professional-work/overview';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';

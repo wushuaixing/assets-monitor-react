@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tooltip } from 'antd';
-import { businessOverviewSubrogation, overviewSubrogation } from 'api/detail/overview';
+import { businessOverviewSubrogation, overviewSubrogation } from '@/utils/api/professional-work/overview';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import RingEcharts from '@/views/portrait-inquiry/common/ringEcharts';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';

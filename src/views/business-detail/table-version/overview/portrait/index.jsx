@@ -9,7 +9,8 @@ import {
 import {
 	obligorList, // 债务人列表
 	businessList, // 业务列表
-} from '@/utils/api/detail/overview';
+} from '@/utils/api/professional-work/overview';
+// '@/utils/api/professional-work/overview';
 import './style.scss';
 
 export default class Portrait extends React.Component {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Download, Icon as IconType } from '@/common';
-import { exportListEnp } from '@/utils/api/detail';
+import { exportListEnp } from '@/utils/api/professional-work';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';

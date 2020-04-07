@@ -14,7 +14,7 @@ import {
 	businessOverviewMortgage, // 业务动产抵押
 	overviewBidding, // 债务人招投标
 	businessOverviewBidding, // 业务招投标
-} from 'api/detail/overview';
+} from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
 import getCount from '@/views/portrait-inquiry/common/getCount';

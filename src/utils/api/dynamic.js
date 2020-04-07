@@ -54,16 +54,20 @@ export const getDynamicRisk = (portrait = 'enterprise', option) => {
 	if ((portrait === 'debtor_enterprise' || portrait === 'debtor_personal') && b) {
 		api = riskDebtor[b];
 		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'business' && b) {
 		api = riskBusiness[b];
 		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'personal' && p) {
 		api = riskPersonal[p];
 		params.obligorName = getHrefQuery('name');
 		params.obligorNumber = getHrefQuery('num');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'enterprise' && e) {
 		api = riskPortrait[e];
 		params.companyId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	}
 	return { api, params };
 };

@@ -3,7 +3,7 @@ import {
 	overviewLitigation, // 债务人涉诉
 	businessOverviewLitigation, // 业务涉诉
 	overviewBusiness,
-} from 'api/detail/overview';
+} from '@/utils/api/professional-work/overview';
 import { parseQuery } from '@/utils';
 import AssetAuction from './components/assetAuction';
 import Land from './components/land';

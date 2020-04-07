@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewBankruptcy } from 'api/detail/overview';
+import { overviewBankruptcy } from '@/utils/api/professional-work/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -19,7 +19,7 @@ export default class Bankruptcy extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId, getAssetProfile } = this.props;
+		const { obligorId } = this.props;
 		this.setState({
 			loading: true,
 		});
@@ -30,7 +30,7 @@ export default class Bankruptcy extends React.Component {
 		overviewBankruptcy(params).then((res) => {
 			if (res.code === 200) {
 				const timeLineData = res.data.yearDistributions;
-				const allNum = getCount(timeLineData);
+				// const allNum = getCount(timeLineData);
 				// getAssetProfile(allNum, 'ChattelMortgage');
 				this.setState({
 					loading: false,

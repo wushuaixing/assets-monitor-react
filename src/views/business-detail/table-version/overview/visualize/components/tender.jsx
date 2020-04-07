@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewBidding } from 'api/detail/overview';
+import { overviewBidding } from '@/utils/api/professional-work/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';

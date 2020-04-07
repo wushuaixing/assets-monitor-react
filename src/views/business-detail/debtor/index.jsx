@@ -8,7 +8,7 @@ import { getQueryByName } from '@/utils';
 /* api collection */
 import assets from '@/utils/api/professional-work/debtor/assets';
 import risk from '@/utils/api/professional-work/debtor/risk';
-import { debtorInfo, exportListEnp } from '@/utils/api/detail';
+import { debtorInfo, exportListEnp } from '@/utils/api/professional-work';
 /* components */
 import {
 	Tabs, BreadCrumb, Spin, Icon as IconType, Download, Button,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewBankruptcy, businessOverviewBankruptcy } from 'api/detail/overview';
+import { overviewBankruptcy, businessOverviewBankruptcy } from '@/utils/api/professional-work/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';

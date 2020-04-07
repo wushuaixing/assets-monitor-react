@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewIntangible, businessOverviewIntangible } from 'api/detail/overview';
+import { overviewIntangible, businessOverviewIntangible } from '@/utils/api/professional-work/overview';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import { Spin } from '@/common';
