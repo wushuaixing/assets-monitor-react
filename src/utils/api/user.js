@@ -81,6 +81,6 @@ export const initUser = async (params) => {
 // 获取当前机构 [zhousai]
 export const currentOrg = async (params) => {
 	if (global.REQ_STATUS) return false;
-	const response = await service.get('/api/auth/currentOrg', params);
+	const response = await service.get('/api/auth/currentOrg', { params });
 	return response.data;
 };

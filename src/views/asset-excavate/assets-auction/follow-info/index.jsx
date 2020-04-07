@@ -244,6 +244,28 @@ export default class FollowInfo extends React.Component {
 				return false;
 			}
 		}
+		if (recovery || expend) {
+			const regExp = /^\d+(?:\.\d{0,2})?/;
+			if (recovery) {
+				const rStr = recovery.toString();
+				const matchRes = (rStr.match(regExp) || [])[0];
+				console.log(rStr, matchRes);
+				const str = matchRes !== rStr ? '收入金额输入有误，请输入有效的金额数值！' : '';
+				if (str) {
+					message.warning(str, 2);
+					return true;
+				}
+			}
+			if (expend) {
+				const rStr = expend.toString();
+				const matchRes = (rStr.match(regExp) || [])[0];
+				const str = matchRes !== rStr ? '支出金额输入有误，请输入有效的金额数值！' : '';
+				if (str) {
+					message.warning(str, 2);
+					return true;
+				}
+			}
+		}
 
 
 		const param = toProcess === 15 ? {
@@ -263,13 +285,13 @@ export default class FollowInfo extends React.Component {
 		// 字段校验
 		if (toProcess !== 15) {
 			if (!param.remindingTime && param.remindType) {
-				return message.error('已选择提醒方式，提醒时间不能为空', 2);
+				return message.warning('请选择提醒时间（已选择提醒方式）', 2);
 			}
 			if (param.remindingTime && !param.remindType) {
-				return message.error('已填写提醒时间，提醒方式不能为空', 2);
+				return message.warning('请选择提醒方式间（已填写提醒时间）', 2);
 			}
 			if ((param.remindType === 3 || param.remindType === 2) && !param.remindSetIdList) {
-				return message.error('当推送方式勾选，短信/邮件，推送人不能为空', 2);
+				return message.warning('当推送方式勾选，短信/邮件，推送人不能为空', 2);
 			}
 		}
 
@@ -340,9 +362,8 @@ export default class FollowInfo extends React.Component {
 		const event = e || window.event;
 		const target = event.target || event.srcElement;
 		const matchRes = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
-		const _value = matchRes ? matchRes[0] : target.value;
-		console.log(_value);
-		event.srcElement.value = _value;
+		const _value = matchRes && !global.GLOBAL_MEIE_BROWSER ? matchRes[0] : target.value;
+		console.log('onInputChangeNew:', _value);
 		this.setState({
 			[field]: _value,
 		});
@@ -350,7 +371,7 @@ export default class FollowInfo extends React.Component {
 
 	render() {
 		const {
-			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList,
+			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList, recovery, expend,
 		} = this.state;
 		const {
 			visible, onClose, source: { process, commentTotal }, source,
@@ -425,27 +446,53 @@ export default class FollowInfo extends React.Component {
 									<li className="follow-list-item">
 										<div className="list-item-title">收入金额(元)：</div>
 										<div className="list-item-content">
-											<Input
-												style={{ width: '100%' }}
-												maxlength={14}
-												// value={recovery}
-												// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
-												onChange={e => this.onInputChangeNew(e, 'recovery')}
-												placeholder="请输入收入金额"
-											/>
+											{
+												global.GLOBAL_MEIE_BROWSER
+													? (
+														<input
+															style={{ width: 430, padding: '0px 7px', height: '28px' }}
+															maxLength={14}
+															onChange={e => this.onInputChangeNew(e, 'recovery')}
+															placeholder="请输入收入金额"
+														/>
+													)
+													: (
+														<Input
+															style={{ width: '100%' }}
+															maxlength={14}
+															value={recovery}
+														// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
+															onChange={e => this.onInputChangeNew(e, 'recovery')}
+															placeholder="请输入收入金额"
+														/>
+													)
+											}
 										</div>
 									</li>
 									<li className="follow-list-item">
 										<div className="list-item-title">支出金额(元)：</div>
 										<div className="list-item-content">
-											<Input
-												style={{ width: '100%' }}
-												// type="number"
-												maxlength={14}
-												// value={expend}
-												onChange={e => this.onInputChangeNew(e, 'expend')}
-												placeholder="请输入支出金额"
-											/>
+											{
+												global.GLOBAL_MEIE_BROWSER
+													? (
+														<input
+															style={{ width: 430, padding: '0px 7px', height: '28px' }}
+															maxLength={14}
+															onChange={e => this.onInputChangeNew(e, 'expend')}
+															placeholder="请输入支出金额"
+														/>
+													)
+													: (
+														<Input
+															style={{ width: '100%' }}
+															maxlength={14}
+															value={expend}
+															// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
+															onChange={e => this.onInputChangeNew(e, 'expend')}
+															placeholder="请输入支出金额"
+														/>
+													)
+											}
 										</div>
 									</li>
 									<li className="follow-list-item">
@@ -570,7 +617,7 @@ export default class FollowInfo extends React.Component {
 															onBlur={this.onAddContentBlurEvent}
 														/>
 														<Button
-															style={{ width: 66 }}
+															style={{ width: 66, backgroundColor: '#fff' }}
 															className="item-class"
 															loading={loadingChild}
 															onClick={this.handlePushSave}

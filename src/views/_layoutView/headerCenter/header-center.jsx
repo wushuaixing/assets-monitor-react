@@ -65,7 +65,7 @@ export default class HeaderMessage extends React.Component {
 	checkOrgId = () => {
 		const { hash } = window.location;
 
-		currentOrg().then((res) => {
+		currentOrg({ event: 'loop' }).then((res) => {
 			if (res.code === 200) {
 				// console.log(res.data.orgId, window.globle);
 				if (hash && hash.indexOf('debtor/detail') !== -1 && res.data.orgId !== window.globle) {

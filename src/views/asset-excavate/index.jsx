@@ -95,7 +95,7 @@ class MonitorMain extends React.Component {
 
 	onUnReadCount = () => {
 		const { source } = this.state;
-		unReadCount().then((res) => {
+		unReadCount({ event: 'loop' }).then((res) => {
 			const { data, code } = res;
 			if (code === 200) {
 				const _source = source.map((item) => {
