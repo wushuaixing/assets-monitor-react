@@ -39,7 +39,7 @@ const columns = (props) => {
 				<div className="assets-info-content">
 					<li>
 						<span className="list list-content">{text || '--'}</span>
-						{ row.gmtDeleted ? <span className="yc-case-reason text-ellipsis yc-case-reason__invalid">已过期</span> : ''}
+						{ row.gmtDeleted ? <span className="yc-case-reason text-ellipsis yc-case-reason__invalid">已失效</span> : ''}
 					</li>
 				</div>
 			),
