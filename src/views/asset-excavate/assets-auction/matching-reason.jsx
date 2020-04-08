@@ -40,14 +40,14 @@ export default class MatchingReason extends React.Component {
 					return (
 						<div className="reason-list">
 							<div>{`● 根据曾用名"${item.used_name}"匹配`}</div>
-							{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} />) }
+							{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
 						</div>
 					);
 				} if (item.birth) {
 					return (
 						<div className="reason-list">
 							<div>{`● 根据"${item.birth}"匹配`}</div>
-							<p dangerouslySetInnerHTML={{ __html: item.desc }} />
+							<p dangerouslySetInnerHTML={{ __html: item.desc }} className="yc-text-content" />
 						</div>
 					);
 				}
@@ -55,7 +55,7 @@ export default class MatchingReason extends React.Component {
 				return (
 					<div className="reason-list">
 						<div>{`● 根据"${item.name || item.number}"匹配`}</div>
-						{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} />) }
+						{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
 					</div>
 				);
 			});
@@ -69,7 +69,7 @@ export default class MatchingReason extends React.Component {
 			// const _reason = JSON.parse(reason);
 			return (
 				<div className="reason-list">
-					<p dangerouslySetInnerHTML={{ __html: reason }} />
+					<p dangerouslySetInnerHTML={{ __html: reason }} className="yc-text-content" />
 				</div>
 			);
 		}
@@ -94,7 +94,7 @@ export default class MatchingReason extends React.Component {
 							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
 									<div>{`● 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
-									<p dangerouslySetInnerHTML={{ __html: remark }} />
+									<p dangerouslySetInnerHTML={{ __html: remark }} className="yc-text-content" />
 								</div>
 							) : null
 						}
@@ -103,7 +103,7 @@ export default class MatchingReason extends React.Component {
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">
 									<div>{`● 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
-									<p dangerouslySetInnerHTML={{ __html: remark }} />
+									<p dangerouslySetInnerHTML={{ __html: remark }} className="yc-text-content" />
 								</div>
 							) : null
 						}

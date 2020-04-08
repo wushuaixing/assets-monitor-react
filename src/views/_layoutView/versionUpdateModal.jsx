@@ -1,15 +1,25 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import VersionUpdate from '../../assets/img/icon/versionUpdate.png';
+import WeChatUpdate from '../../assets/img/icon/wechatUpdate.png';
+import QRCode from '../../assets/img/icon/QRCode.png';
 import './style.scss';
 
 export default class VersionUpdateModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			isWeChat: false,
+		};
 	}
 
 	componentDidMount() {}
+
+	handleNext = () => {
+		this.setState(() => ({
+			isWeChat: true,
+		}));
+	};
 
 	handleCancel=() => {
 		const { onCancel } = this.props;
@@ -18,6 +28,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 
 	render() {
 		const { VersionUpdateModalVisible } = this.props;
+		const { isWeChat } = this.state;
 		return (
 			<Modal
 				width={600}
@@ -28,55 +39,70 @@ export default class VersionUpdateModal extends React.PureComponent {
 				footer={null}
 				// onCancel={this.handleCancel}
 			>
-				<img src={VersionUpdate} alt="" />
-				<div className="yc-modal-content">
-					<div className="yc-modal-title">【新版本特性】</div>
+				{!isWeChat ? (
 					<div>
-						<p className="yc-label-title">监控信息</p>
-						<ul>
-							<li className="yc-label-text">
-								<span className="yc-modal-icon" />
-								原监控信息重新分类，拆分为资产挖掘、风险监控两大模块。
-							</li>
-							<li className="yc-label-text">
-								<span className="yc-modal-icon" />
-									涉诉监控、代位权监控全新改版，解决信息展示、统计冗余问题。
-							</li>
-							<li className="yc-label-text">
-								<span className="yc-modal-icon" />
-									新增土地信息、股权质押、动产抵押、裁判文书、经营异常、严重违法、工商变更、行政处罚等维度数据监控。
-							</li>
-						</ul>
+						<img src={VersionUpdate} alt="" />
+						<div className="yc-modal-content">
+							<div className="yc-modal-title">【版本更新通知】</div>
+							<div>
+								<p className="yc-label-title">
+									<span className="yc-modal-icon" />
+								上新四类无形资产：排污权、矿业权、商标专利、建筑建造资质
+								</p>
+								<ul>
+									<li className="yc-label-text">
+									新的财产抓手，可查封处置且存在巨大价值!
+									</li>
+								</ul>
+							</div>
+							<div>
+								<p className="yc-label-title">
+									<span className="yc-modal-icon" />
+								同一资产的多轮拍卖数据合并，并增加“拍卖轮次新增”提醒标签
+								</p>
+								<ul>
+									<li className="yc-label-text">
+									跟进记录一串到底，再也不用同一资产重复跟进.
+									</li>
+								</ul>
+							</div>
+							<div>
+								<p className="yc-label-title">
+									<span className="yc-modal-icon" />
+								新增跟进中（或已收藏）数据“拍卖状态变更”提醒标签及相应的短信提醒
+								</p>
+								<ul>
+									<li className="yc-label-text">
+									成交、流拍早知道.
+									</li>
+								</ul>
+							</div>
+							<div>
+								<p className="yc-label-title">
+									<span className="yc-modal-icon" />
+								上线失信记录匹配列表
+								</p>
+								<ul>
+									<li className="yc-label-text">
+									失信详情全知道.
+									</li>
+								</ul>
+							</div>
+							<Button type="primary" className="yc-modal-btn" onClick={this.handleNext}>继续探索</Button>
+						</div>
 					</div>
+				) : (
 					<div>
-						<p className="yc-label-title">信息搜索</p>
-						<ul>
-							<li className="yc-label-text">
-								<span className="yc-modal-icon" />
-									新增破产信息搜索功能。
-							</li>
-						</ul>
+						<img src={WeChatUpdate} alt="" />
+						<div className="yc-modal-weChat-content">
+							<div className="yc-modal-weChat-title">拒绝内网限制，随时随地移动办公！</div>
+							<div className="yc-modal-weChat-img-title">扫描下方二维码开启全新体验</div>
+							<img src={QRCode} alt="" />
+							<Button type="primary" className="yc-modal-btn" onClick={this.handleCancel}>我知道了</Button>
+						</div>
 					</div>
-					<div>
-						<p className="yc-label-title">画像查询</p>
-						<ul>
-							<li className="yc-label-text">
-								<span className="yc-modal-icon" />
-									新增债务人画像查询功能，支持债务人全维度画像的临时查询。
-							</li>
-						</ul>
-					</div>
-					<div>
-						<p className="yc-label-title">交互体验优化</p>
-						<ul>
-							<li className="yc-label-text">
-								<span className="yc-modal-icon" />
-								批量管理功能优化，支持翻页管理。
-							</li>
-						</ul>
-					</div>
-					<Button type="primary" className="yc-modal-btn" onClick={this.handleCancel}>我知道了</Button>
-				</div>
+				)}
+
 			</Modal>
 		);
 	}
