@@ -51,7 +51,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 								</p>
 								<ul>
 									<li className="yc-label-text">
-									新的财产抓手，可查封处置且存在巨大价值!
+									新的财产抓手，可查封处置且存在巨大价值！
 									</li>
 								</ul>
 							</div>
@@ -62,7 +62,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 								</p>
 								<ul>
 									<li className="yc-label-text">
-									跟进记录一串到底，再也不用同一资产重复跟进.
+									跟进记录一串到底，再也不用同一资产重复跟进！
 									</li>
 								</ul>
 							</div>
@@ -73,18 +73,18 @@ export default class VersionUpdateModal extends React.PureComponent {
 								</p>
 								<ul>
 									<li className="yc-label-text">
-									成交、流拍早知道.
+									成交、流拍早知道！
 									</li>
 								</ul>
 							</div>
 							<div>
 								<p className="yc-label-title">
 									<span className="yc-modal-icon" />
-								上线失信记录匹配列表
+									上线失信记录匹配列表
 								</p>
 								<ul>
 									<li className="yc-label-text">
-									失信详情全知道.
+									失信详情全知道！
 									</li>
 								</ul>
 							</div>
