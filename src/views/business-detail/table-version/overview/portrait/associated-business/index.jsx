@@ -62,15 +62,15 @@ export default class associatedBusiness extends React.Component {
 					<span className="container-title-name">关联业务列表</span>
 				</div>
 				<div className="overview-container-content" style={{ padding: '0 20px' }}>
-					{dataSource && dataSource.length > 0 ? (
-						<Table
-							scroll={dataSource.length > 8 ? { y: 440 } : {}}
-							columns={columns}
-							dataSource={dataSource}
-							pagination={false}
-							className="table"
-						/>
-					) : null}
+					{/* {dataSource && dataSource.length > 0 ? ( */}
+					<Table
+						scroll={dataSource.length > 8 ? { y: 440 } : {}}
+						columns={columns}
+						dataSource={dataSource}
+						pagination={false}
+						className="table"
+					/>
+					{/* ) : null} */}
 				</div>
 			</div>
 		);

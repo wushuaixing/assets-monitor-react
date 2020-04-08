@@ -93,7 +93,7 @@ export default class RiskInformation extends React.Component {
 				dataSource.push({ count: res.data.abnormal, typeName: '经营异常' });
 				dataSource.push({ count: res.data.tax, typeName: '税收违法' });
 				dataSource.push({ count: res.data.punishment, typeName: '行政处罚' });
-				dataSource.push({ count: res.data.change, typeName: '工商变更' });
+				// dataSource.push({ count: res.data.change, typeName: '工商变更' });
 				dataSource.push({ count: res.data.illegal, typeName: '严重违法' });
 				dataSource.push({ count: res.data.epb, typeName: '环保处罚' });
 				const dataSourceNum = getCount(dataSource);
