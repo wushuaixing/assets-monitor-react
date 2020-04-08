@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDetail, timeStandard } from '@/utils';
+import { timeStandard } from '@/utils';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Construction } from '@/utils/api/monitor-info/intangible';
 
@@ -23,7 +23,14 @@ const columns = (props) => {
 			title: '持证单位',
 			dataIndex: 'obligorName',
 			width: 200,
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (
+				<Ellipsis
+					content={text || '-'}
+					tooltip
+					width={200}
+					url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+				/>
+			),
 		}, {
 			title: '证书编号',
 			width: 200,
@@ -32,7 +39,7 @@ const columns = (props) => {
 				<div className="assets-info-content">
 					<li>
 						<span className="list list-content">{text || '--'}</span>
-						{ row.gmtDeleted ? <span className="yc-case-reason text-ellipsis yc-case-reason__invalid">已过期</span> : ''}
+						{ row.gmtDeleted ? <span className="yc-case-reason text-ellipsis yc-case-reason__invalid">已失效</span> : ''}
 					</li>
 				</div>
 			),
