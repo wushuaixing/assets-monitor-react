@@ -37,7 +37,7 @@ export default class Information extends React.Component {
 										<div className="card-content-role-itemLeft">
 											<img className="card-left-img" src={matching} alt="" />
 											<span className="portrait-card-num">{obligorTotal}</span>
-											人匹配到资产拍卖信息
+											人匹配到经营风险信息
 										</div>
 									) : null}
 									{
