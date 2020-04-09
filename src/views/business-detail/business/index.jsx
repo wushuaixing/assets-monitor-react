@@ -386,7 +386,6 @@ export default class Enterprise extends React.Component {
 						</div>
 					</Spin>
 				</Affix>
-				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
 				<div className="info-content">
 					<Router>
 						{ !loading && tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
