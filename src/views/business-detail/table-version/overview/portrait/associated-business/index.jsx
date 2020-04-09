@@ -18,8 +18,8 @@ export default class associatedBusiness extends React.Component {
 				),
 			}, {
 				title: '债务人角色',
-				dataIndex: 'role',
-				key: 'role',
+				dataIndex: 'roleText',
+				key: 'roleText',
 				width: 230,
 				render(text) {
 					return <div>{text || '-'}</div>;
