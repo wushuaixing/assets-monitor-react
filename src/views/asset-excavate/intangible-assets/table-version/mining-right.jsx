@@ -27,6 +27,25 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toShowExtraField=(row = {}) => {
+		const { portrait } = this.props;
+		if (portrait === 'business') {
+			return [
+				<span className="list list-title align-justify">探/采矿权人</span>,
+				<span className="list list-title-colon">:</span>,
+				<span className="list list-content">
+					<Ellipsis
+						content={row.rightsHolder}
+						url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+						tooltip
+						width={120}
+					/>
+				</span>,
+				<span className="list-split" style={{ height: 16 }} />];
+		}
+		return null;
+	};
+
 	toGetColumns=() => [
 		{
 			title: '信息',
@@ -47,6 +66,7 @@ export default class TableIntact extends React.Component {
 						</span>
 					</li>
 					<li>
+						{this.toShowExtraField(row)}
 						<span className="list list-title align-justify">发布日期</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{timeStandard(row.gmtPublishTime)}</span>

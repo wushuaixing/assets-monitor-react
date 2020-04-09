@@ -2,6 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
 import {
+	Ellipsis,
 	Spin, Table,
 } from '@/common';
 
@@ -26,6 +27,28 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toShowExtraField=(row = {}) => {
+		const { portrait } = this.props;
+		if (portrait === 'business') {
+			return (
+				<li>
+					<span className="list list-title align-justify">申请人/权利人</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">
+						<Ellipsis
+							content={row.obligorName}
+							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+							tooltip
+							width={120}
+						/>
+					</span>
+					<span className="list-split" style={{ height: 16 }} />
+				</li>
+			);
+		}
+		return null;
+	};
+
 	toGetColumns=() => [
 		{
 			title: '信息',
@@ -36,6 +59,7 @@ export default class TableIntact extends React.Component {
 						<a href={row.url} target="_blank" rel="noopener noreferrer">{value}</a>
 						{ row.certificateType ? <span className="yc-case-reason text-ellipsis">{certificateTypeStatus[row.certificateType]}</span> : ''}
 					</li>
+					{this.toShowExtraField(row)}
 				</div>
 			),
 		},
