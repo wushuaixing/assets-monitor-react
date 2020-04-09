@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { Spin, Table } from '@/common';
+import { Ellipsis, Spin, Table } from '@/common';
 import { Result } from './common';
 
 export default class TableIntact extends React.Component {
@@ -19,11 +19,33 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toShowExtraField=(row = {}) => {
+		const { portrait } = this.props;
+		if (portrait === 'business') {
+			return (
+				<li>
+					<span className="list list-title align-justify">土地使用权人</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">
+						<Ellipsis
+							content={row.obligorName}
+							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+							tooltip
+							width={120}
+						/>
+					</span>
+					{/* <span className="list-split" style={{ height: 16 }} /> */}
+				</li>
+			);
+		}
+		return null;
+	};
+
 	toGetColumns=() => [
 		{
 			title: '信息',
 			dataIndex: 'projectName',
-			render: Result.resultDetail,
+			render: (value, row) => Result.resultDetail(value, row, this.toShowExtraField),
 		}, {
 			title: '关联信息',
 			width: 360,

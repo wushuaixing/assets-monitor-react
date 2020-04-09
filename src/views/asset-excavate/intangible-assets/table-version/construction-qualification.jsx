@@ -36,7 +36,7 @@ export default class TableIntact extends React.Component {
 							width={120}
 						/>
 					</span>
-					<span className="list-split" style={{ height: 16 }} />
+					{/* <span className="list-split" style={{ height: 16 }} /> */}
 				</React.Fragment>
 			);
 		}

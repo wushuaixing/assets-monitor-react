@@ -85,7 +85,7 @@ export const PartyCrosswise = (props) => {
 };
 
 const Result = {
-	resultDetail: (text, row) => (
+	resultDetail: (text, row, extraContent) => (
 		<React.Fragment>
 			<div className="assets-info-content">
 				<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
@@ -108,6 +108,7 @@ const Result = {
 					</span>
 					{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : '-'}
 				</li>
+				{extraContent(row)}
 				<li>
 					<span className="list">
 						<span>

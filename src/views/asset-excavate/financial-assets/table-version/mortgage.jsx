@@ -30,6 +30,30 @@ export default class TableIntact extends React.Component {
 		return '-';
 	};
 
+
+	toShowExtraField=(row = {}) => {
+		const { portrait } = this.props;
+		if (portrait === 'business') {
+			const item = (row.pledgeeList || [])[0] || {};
+			return (
+				<React.Fragment>
+					<span className="list list-title align-justify">质权人</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">
+						<Ellipsis
+							content={item.pledgee}
+							url={item.pledgeeId ? `#/business/debtor/detail?id=${item.pledgeeId}` : ''}
+							tooltip
+							width={120}
+						/>
+					</span>
+					<span className="list-split" style={{ height: 16 }} />
+				</React.Fragment>
+			);
+		}
+		return null;
+	};
+
 	toGetColumns=() => [
 		{
 			title: '信息',
@@ -46,6 +70,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-content">{timeStandard(row.regDate)}</span>
 					</li>
 					<li>
+						{this.toShowExtraField(row)}
 						<span className="list list-title align-justify">出质人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
