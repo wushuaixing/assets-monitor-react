@@ -94,17 +94,16 @@ export default class Info extends React.Component {
 		const params = {
 			id: urlValue.id || -999999,
 		};
-		getCount(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						data: res.data,
-						tabConfig: subItems(res.data),
-					}, () => {
-						toPushChild(this.toGetSubItems());
-					});
-				}
-			});
+		getCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data,
+					tabConfig: subItems(res.data),
+				}, () => {
+					toPushChild(this.toGetSubItems());
+				});
+			}
+		});
 	}
 
 	handleScroll=(eleID) => {

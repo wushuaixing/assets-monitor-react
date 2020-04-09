@@ -181,7 +181,7 @@ module.exports = {
 			// Options similar to the same options in webpackOptions.output
 			// all options are optional
 			filename: 'main.[hash].css',
-			chunkFilename: '[id].css',
+			chunkFilename: '[id].[hash].css',
 			ignoreOrder: false, // Enable to remove warnings about conflicting order
 		}),
 		new OptimizeCssAssetsPlugin({

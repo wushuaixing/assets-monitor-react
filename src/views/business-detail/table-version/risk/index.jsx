@@ -5,7 +5,7 @@ import Bankruptcy from './bankruptcy';
 import Illegal from './illegal';
 import Punishment from './punishment';
 import Tax from './tax';
-// import Dishonest from './dishonest';
+import Dishonest from './dishonest';
 import Lawsuit from './lawsuit';
 import LawsuitJudgment from './lawsuit-judgment';
 import Environment from './environment';
@@ -58,9 +58,9 @@ const subItems = (data, portrait) => {
 			total: data ? toGetTotal('2040', data) : 0,
 			info: data ? data.filter(i => /2040/.test(i.id)) : '',
 			tagName: 'e-manage-dishonest',
-			role: false,
+			role: roleState('fxjk', 'jkxxsxjl'),
 			isStatus: 'normal',
-			// component: Dishonest,
+			component: Dishonest,
 		},
 		// {
 		// 	id: 20500,

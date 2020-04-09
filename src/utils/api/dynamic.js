@@ -1,11 +1,16 @@
 import assetsDebtor from './professional-work/debtor/assets';
 import assetsBusiness from './professional-work/business/assets';
+
 import assetsPortrait from './portrait-inquiry/enterprise/assets';
 import assetsPersonal from './portrait-inquiry/personal/assets';
+
 import riskDebtor from './professional-work/debtor/risk';
 import riskBusiness from './professional-work/business/risk';
+
 import riskPersonal from './portrait-inquiry/personal/risk';
+
 import portraitLawsuits from './portrait-inquiry/enterprise/lawsuits';
+
 import portraitManage from './portrait-inquiry/enterprise/manage';
 
 import { getHrefQuery } from '@/utils';
