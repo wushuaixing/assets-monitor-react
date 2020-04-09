@@ -21,13 +21,13 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
-	getListStr= (val = []) => {
+	getListStr= (val = [], field) => {
 		const { portrait } = this.props;
 		if (val.length) {
-			if (portrait === 'detail') return (val.map(i => i.pledgor)).join('、');
+			if (portrait) return (val.map(i => i[field])).join('、');
 			return val.join('、');
 		}
-		return '';
+		return '-';
 	};
 
 	toGetColumns=() => [
@@ -49,7 +49,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">出质人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
-							{ this.getListStr(value) ? <Ellipsis content={this.getListStr(value)} tooltip width={200} /> : '-'}
+							<Ellipsis content={this.getListStr(row.pledgorList, 'pledgor')} tooltip width={200} />
 						</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">出质股权数额</span>

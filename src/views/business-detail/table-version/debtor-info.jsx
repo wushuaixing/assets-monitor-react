@@ -4,7 +4,8 @@ import { exportListEnp } from '@/utils/api/professional-work';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
-import PublicImg from '@/assets/img/business/icon_zwrpeople.png';
+import PublicImg from '@/assets/img/business/icon_zwr_company.png';
+import PublicPerImg from '@/assets/img/business/icon_zwrpeople.png';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 
@@ -201,10 +202,10 @@ const PersonalInfo = (arg = {}) => {
 			<div className="intro-icon intro-icon-per">
 				{
 					logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
-						: <img className="intro-icon-img-auto" src={PublicImg} alt="" />
+						: <img className="intro-icon-img-auto" src={PublicPerImg} alt="" />
 				}
 			</div>
-			<div className="intro-content">
+			<div className="intro-content" style={{ marginTop: 4, marginLeft: 76 }}>
 				<div className="intro-title">
 					<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
 						{name}
