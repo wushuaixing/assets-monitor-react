@@ -79,9 +79,18 @@ export default class Visualize extends React.Component {
 
 		// 获取涉诉信息
 		api(params).then((res) => {
+			const newLitigationInfosArray = [
+				{
+					caseReasons: [], caseTypes: [], count: 0, type: 1, yearDistribution: [],
+				},
+				{
+					caseReasons: [], caseTypes: [], count: 0, type: 2, yearDistribution: [],
+				},
+				...res.data.litigationInfos,
+			];
 			if (res.code === 200) {
 				this.setState({
-					litigationInfos: res.data.litigationInfos,
+					litigationInfos: res.data.litigationInfos.length === 3 ? res.data.litigationInfos : newLitigationInfosArray,
 					litigationLoading: false,
 				});
 			} else {
