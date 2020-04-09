@@ -1,11 +1,28 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { timeStandard, toEmpty } from '@/utils';
+import { timeStandard, toEmpty, w } from '@/utils';
+import { floatFormat } from '@/utils/format';
+
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
 
+const toGetStatusText = (val) => {
+	const res = {
+		text: '--',
+		status: true,
+	};
+	if (typeof val === 'string') {
+		res.text = val;
+		res.status = val === '有效';
+	}
+	if (typeof val === 'number') {
+		res.text = val ? '有效' : '无效';
+		res.status = Boolean(val);
+	}
+	return res;
+};
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -45,7 +62,7 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">担保债权数额</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content " style={{ width: 120 }}>{row.amount ? `${row.amount}元` : '--'}</span>
+						<span className="list list-content">{row.amount && w(floatFormat(row.amount.toFixed(2)), { suffix: ' 元' })}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">债务人履行债务的期限</span>
 						<span className="list list-title-colon">:</span>
@@ -60,11 +77,11 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ lineHeight: '20px' }}>
-						<Icon type="icon-dot" style={{ fontSize: 12, color: row.status === '有效' ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
-						<span className="list list-content ">{row.status}</span>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetStatusText(row.status).status ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
+						<span className="list list-content ">{toGetStatusText(row.status).text}</span>
 					</li>
 					{
-						row.status === '无效' ? [
+						!toGetStatusText(row.status).status ? [
 							<li>
 								<span className="list list-title align-justify">注销时间</span>
 								<span className="list list-title-colon">:</span>

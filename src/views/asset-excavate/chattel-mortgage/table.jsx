@@ -5,8 +5,9 @@ import {
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
-import { timeStandard } from '@/utils';
+import { timeStandard, w } from '@/utils';
 import { formatDateTime } from '@/utils/changeTime';
+import { floatFormat } from '@/utils/format';
 
 
 // 抵押详情
@@ -47,7 +48,7 @@ const MortgageDetail = (text, rowContent) => (
 			<li>
 				<span className="list list-title align-justify" style={{ width: 80 }}>担保债权数额</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{rowContent.amount ? `${rowContent.amount} 元` : '-'}</span>
+				<span className="list list-content">{rowContent.amount && w(floatFormat(rowContent.amount.toFixed(2)), { suffix: ' 元' })}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 130 }}>债务人履行债务的期限</span>

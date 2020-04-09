@@ -4,7 +4,8 @@ import { getDynamicAsset } from 'api/dynamic';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
-import { timeStandard, toEmpty } from '@/utils';
+import { timeStandard, toEmpty, w } from '@/utils';
+import { floatFormat } from '@/utils/format';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -44,7 +45,7 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">担保债权数额</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content " style={{ width: 120 }}>{row.amount ? `${row.amount}元` : '--'}</span>
+						<span className="list list-content">{row.amount && w(floatFormat(row.amount.toFixed(2)), { suffix: ' 元' })}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">债务人履行债务的期限</span>
 						<span className="list list-title-colon">:</span>

@@ -108,7 +108,7 @@ export default class Info extends React.Component {
 
 	handleScroll=(eleID) => {
 		const dom = document.getElementById(eleID);
-		const _height = 150 || document.getElementById('enterprise-intro').clientHeight;
+		const _height = 155 || document.getElementById('enterprise-intro').clientHeight;
 		if (dom) {
 			window.scrollTo(0, document.getElementById(eleID).offsetTop - _height);
 		}

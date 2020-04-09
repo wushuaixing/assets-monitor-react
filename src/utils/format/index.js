@@ -18,8 +18,7 @@ export const numberFormat = function method(num) {
 export const floatFormat = (item) => {
 	let result = null;
 	if (!item && item !== 0) {
-		result = '--';
-		return result;
+		return '-';
 	}
 	const type = Number.parseFloat(item);
 	const bol = Number.isNaN(type);
