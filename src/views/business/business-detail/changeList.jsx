@@ -293,7 +293,7 @@ class DebtorDetail extends React.Component {
 					) : (
 						<div style={{ padding: '0 35px' }}>
 							<div className="yc-from-container">
-								<span className="yc-from-lable1">业务编号:</span>
+								<span className="yc-from-label1">业务编号:</span>
 								<Input
 									onInput={this.isEdit}
 									{...getFieldProps('caseNumber', {
@@ -304,7 +304,7 @@ class DebtorDetail extends React.Component {
 								/>
 							</div>
 							<div className="yc-from-container">
-								<span className="yc-from-lable2">
+								<span className="yc-from-label2">
 									<span className="yc-red">*</span>
 									借款人名称:
 								</span>
@@ -318,7 +318,7 @@ class DebtorDetail extends React.Component {
 								/>
 							</div>
 							<div className="yc-from-container">
-								<span className="yc-from-lable1">负责人/机构:</span>
+								<span className="yc-from-label1">负责人/机构:</span>
 								<Input
 									onInput={this.isEdit}
 									{...getFieldProps('orgName', {
@@ -329,7 +329,7 @@ class DebtorDetail extends React.Component {
 								/>
 							</div>
 							<div className="yc-from-container">
-								<span className="yc-from-lable2">
+								<span className="yc-from-label2">
 									身份证号/统一社会信用代码:
 								</span>
 								<Input

@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewAuction } from 'api/detail/overview';
+import { overviewAuction } from '@/utils/api/professional-work/overview';
 import TagSide from '@/views/portrait-inquiry/common/checkBtn';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import RingEcharts from '@/views/portrait-inquiry/common/ringEcharts';
@@ -107,12 +107,6 @@ export default class AssetAuction extends React.Component {
 										}}
 										tag={selectType === 'all' ? 'yc-tag-active' : ''}
 									/>
-									{/* <Button disabled={threeMonth && threeMonth.count === 0} type={selectType === 'threeMonth' ? 'warning' : 'select'} onClick={() => this.checkTime('threeMonth')}> */}
-									{/*	{`三个月内 ${threeMonth.count}`} */}
-									{/* </Button> */}
-									{/* <Button disabled={all && all.count === 0} type={selectType === 'all' ? 'warning' : 'select'} onClick={() => this.checkTime('all')}> */}
-									{/*	{`全部 ${all.count}`} */}
-									{/* </Button> */}
 								</div>
 								<div style={{ marginBottom: 20 }}>
 									<ColumnarEcharts title="角色分布" Data={columnarData} id="assetAuction" />

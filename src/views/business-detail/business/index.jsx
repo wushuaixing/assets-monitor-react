@@ -1,5 +1,5 @@
 import React from 'react';
-import { Affix, message } from 'antd';
+import { Affix, Modal, Icon } from 'antd';
 import { navigate } from '@reach/router';
 import { setSource } from './cache';
 import Router from '@/utils/Router';
@@ -9,9 +9,9 @@ import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
 /* api collection */
-import assets from '@/utils/api/detail/assets';
-import risk from '@/utils/api/detail/risk';
-import { businessInfo } from '@/utils/api/detail';
+import businessAssets from '@/utils/api/professional-work/business/assets';
+import businessRisk from '@/utils/api/professional-work/business/risk';
+import { businessInfo } from '@/utils/api/professional-work';
 import { exportListEnp } from '@/utils/api/portrait-inquiry';
 /* components */
 import {
@@ -47,7 +47,7 @@ const source = () => [
 		config: Assets.config,
 		status: Assets.config.status,
 		component: Assets,
-		apiData: assets,
+		apiData: businessAssets,
 		source: [],
 	},
 	{
@@ -58,7 +58,7 @@ const source = () => [
 		config: Risk.config,
 		status: Risk.config.status,
 		component: Risk,
-		apiData: risk,
+		apiData: businessRisk,
 		source: [],
 	},
 ].filter(i => i.status);
@@ -78,7 +78,7 @@ const EnterpriseInfo = (props) => {
 		minWidth: 80,
 		display: 'inline-block',
 	};
-	console.log(affixStatus);
+	// console.log(affixStatus);
 	return (
 		<div className={`enterprise-info${affixStatus ? ' enterprise-info__simple' : ''}`}>
 			<div className="intro-icon">
@@ -88,7 +88,7 @@ const EnterpriseInfo = (props) => {
 				<div className="intro-title">
 					<span className="yc-public-title-large-bold">
 						业务编号：
-						{caseNumber}
+						{caseNumber || '-'}
 					</span>
 					{
 						pushState !== null ? (
@@ -191,6 +191,8 @@ export default class Enterprise extends React.Component {
 			assetLoading: true,
 			riskLoading: true,
 			changeListModalVisible: false,
+			errorModalVisible: false,
+			timeLeft: 3,
 		};
 		this.portrait = 'business';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
@@ -198,7 +200,7 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const businessId = getQueryByName(window.location.href, 'id') || 22604;
+		const businessId = getQueryByName(window.location.href, 'id') || 999999;
 		this.setState({ loading: true });
 		businessInfo({ businessId }).then((res) => {
 			if (res.code === 200) {
@@ -209,7 +211,19 @@ export default class Enterprise extends React.Component {
 				/* 请求子项数据 */
 				tabConfig.forEach((item, index) => this.toGetSubItemsTotal(item, index, this.portrait));
 			} else {
-				message.error('网络请求失败！');
+				// message.error('网络请求失败！');
+				let time = 3;
+				const timer = setInterval(() => {
+					time -= 1;
+					this.setState({
+						timeLeft: time,
+					});
+					if (time === 0) {
+						this.closeErrorModal();
+						clearInterval(timer);
+					}
+				}, 1000);
+				this.openErrorModal();
 				this.setState({
 					loading: false,
 					assetLoading: false,
@@ -242,6 +256,7 @@ export default class Enterprise extends React.Component {
 							apiArray.push({
 								api: apiData[k].count({
 									obligorId,
+									businessId: obligorId,
 								}),
 								info: { id: apiData[k].id },
 							});
@@ -268,8 +283,9 @@ export default class Enterprise extends React.Component {
 
 	handleEdit=() => {
 		const { infoSource } = this.state;
+		const businessId = getQueryByName(window.location.href, 'id') || 999999;
 		setSource(infoSource);
-		navigate('/business/detail/edit/info?id=22604');
+		navigate(`/business/detail/edit/info?id=${businessId}`);
 	};
 
 	// 打开担保人弹窗
@@ -301,6 +317,19 @@ export default class Enterprise extends React.Component {
 		this.setState({ affixStatus: val });
 	};
 
+	openErrorModal = () => {
+		this.setState({
+			errorModalVisible: true,
+		});
+	};
+
+	closeErrorModal = () => {
+		window.close();
+		this.setState({
+			errorModalVisible: false,
+		});
+	};
+
 	/* tab change */
 	onSourceType=(val) => {
 		const { sourceType } = this.state;
@@ -318,7 +347,7 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId,
+			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible,
 		} = this.state;
 		const {
 			affixStatus, loading, assetLoading, riskLoading,
@@ -371,6 +400,31 @@ export default class Enterprise extends React.Component {
 						businessId={businessId}
 						changeListModalVisible={changeListModalVisible}
 					/>
+				)}
+				{errorModalVisible && 	(
+					<Modal
+						visible={errorModalVisible}
+						onCancel={this.handleCancel}
+						footer={false}
+						width={500}
+						closable={false}
+					>
+
+						<div className="yc-confirm-body">
+							<div className="yc-confirm-header">
+								<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle-o" />
+								<span className="yc-confirm-title">业务已删除</span>
+							</div>
+							<div className="yc-confirm-content">
+								<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
+								秒后自动关闭页面
+							</div>
+							<div className="yc-confirm-btn">
+								<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">知道了</Button>
+							</div>
+						</div>
+
+					</Modal>
 				)}
 			</div>
 		);

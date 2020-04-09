@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 	overviewStock, businessOverviewStock,
-} from 'api/detail/overview';
+} from '@/utils/api/professional-work/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -49,10 +49,9 @@ export default class EquityPledge extends React.Component {
 			} else {
 				this.setState({ loading: false });
 			}
-		})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {

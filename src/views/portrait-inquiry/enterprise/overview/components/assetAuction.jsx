@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button } from '@/common';
+import { Spin } from '@/common';
 import { getAuction } from '@/utils/api/portrait-inquiry/enterprise/overview';
+import TagSide from '@/views/portrait-inquiry/common/checkBtn';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
-import { Spin } from '@/common';
+
 
 export default class AssetAuction extends React.Component {
 	constructor(props) {
@@ -30,22 +31,21 @@ export default class AssetAuction extends React.Component {
 		const params = {
 			companyId,
 		};
-		getAuction(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						columnarData: res.data.auctionInfos[1].count > 0 ? res.data.auctionInfos[1].roleDistributions : res.data.auctionInfos[0].roleDistributions,
-						RingData: res.data.auctionInfos[1].count > 0 ? res.data.auctionInfos[1].auctionResults : res.data.auctionInfos[0].auctionResults,
-						all: res.data.auctionInfos[0],
-						threeMonth: res.data.auctionInfos[1],
-						selectType: res.data.auctionInfos[1].count > 0 ? 'threeMonth' : 'all',
-						loading: false,
-					});
-					getAssetProfile(res.data.auctionInfos[0].count, 'AssetAuction');
-				} else {
-					this.setState({ loading: false });
-				}
-			})
+		getAuction(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					columnarData: res.data.auctionInfos[1].count > 0 ? res.data.auctionInfos[1].roleDistributions : res.data.auctionInfos[0].roleDistributions,
+					RingData: res.data.auctionInfos[1].count > 0 ? res.data.auctionInfos[1].auctionResults : res.data.auctionInfos[0].auctionResults,
+					all: res.data.auctionInfos[0],
+					threeMonth: res.data.auctionInfos[1],
+					selectType: res.data.auctionInfos[1].count > 0 ? 'threeMonth' : 'all',
+					loading: false,
+				});
+				getAssetProfile(res.data.auctionInfos[0].count, 'AssetAuction');
+			} else {
+				this.setState({ loading: false });
+			}
+		})
 			.catch(() => {
 				this.setState({ loading: false });
 			});
@@ -87,12 +87,26 @@ export default class AssetAuction extends React.Component {
 						</div>
 						<div className="overview-container-content">
 							<div style={{ marginBottom: 20 }}>
-								<Button disabled={threeMonth && threeMonth.count === 0} type={selectType === 'threeMonth' ? 'warning' : 'select'} style={{ marginRight: 10 }} onClick={() => this.checkTime('threeMonth')}>
-									{`三个月内 ${threeMonth.count}`}
-								</Button>
-								<Button disabled={all && all.count === 0} type={selectType === 'all' ? 'warning' : 'select'} onClick={() => this.checkTime('all')}>
-									{`全部 ${all.count}`}
-								</Button>
+								<TagSide
+									content="三个月内"
+									num={threeMonth.count}
+									onClick={() => {
+										if (threeMonth.count > 0) {
+											this.checkTime('threeMonth');
+										}
+									}}
+									tag={selectType === 'threeMonth' ? 'yc-tag-active' : ''}
+								/>
+								<TagSide
+									content="全部"
+									num={all.count}
+									onClick={() => {
+										if (all.count > 0) {
+											this.checkTime('all');
+										}
+									}}
+									tag={selectType === 'all' ? 'yc-tag-active' : ''}
+								/>
 							</div>
 							<div style={{ marginBottom: 20 }}>
 								<ColumnarEcharts title="角色分布" Data={columnarData} id="assetAuction" />

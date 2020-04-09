@@ -1,6 +1,6 @@
 import React from 'react';
 import { Download, Icon as IconType } from '@/common';
-import { exportListEnp } from '@/utils/api/detail';
+import { exportListEnp } from '@/utils/api/professional-work';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
@@ -72,7 +72,7 @@ const EnterpriseInfo = (arg = {}) => {
 						regStatus ? (
 							<span
 								className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`}
-								style={isDishonest ? { marginTop: 2, marginLeft: 58, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}
+								style={isDishonest ? { marginTop: 2, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}
 							>
 								{regStatus}
 							</span>
@@ -123,7 +123,7 @@ const EnterpriseInfo = (arg = {}) => {
 					</li>
 				</div>
 			</div>
-			<DownloadButton />
+			{/* <DownloadButton /> */}
 		</div>
 	);
 };
@@ -239,7 +239,7 @@ const PersonalInfo = (arg = {}) => {
 					</li>
 				</div>
 			</div>
-			<DownloadButton />
+			{/* <DownloadButton /> */}
 		</div>
 	);
 };

@@ -37,7 +37,7 @@ export const getInvestment = async (params) => {
 
 // 工商变更
 export const getChange = async (params) => {
-	const response = await service.get('/yc/obligor/monitor/change/list', { params });
+	const response = await service.get('/yc/obligor/monitor/risk/change/list', { params });
 	return response.data;
 };
 

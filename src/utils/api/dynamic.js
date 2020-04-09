@@ -1,11 +1,16 @@
 import assetsDebtor from './professional-work/debtor/assets';
 import assetsBusiness from './professional-work/business/assets';
+
 import assetsPortrait from './portrait-inquiry/enterprise/assets';
 import assetsPersonal from './portrait-inquiry/personal/assets';
+
 import riskDebtor from './professional-work/debtor/risk';
 import riskBusiness from './professional-work/business/risk';
+
 import riskPersonal from './portrait-inquiry/personal/risk';
+
 import portraitLawsuits from './portrait-inquiry/enterprise/lawsuits';
+
 import portraitManage from './portrait-inquiry/enterprise/manage';
 
 import { getHrefQuery } from '@/utils';
@@ -24,9 +29,11 @@ export const getDynamicAsset = (portrait = 'enterprise', option) => {
 	if ((portrait === 'debtor_enterprise' || portrait === 'debtor_personal') && b) {
 		api = assetsDebtor[b];
 		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'business' && b) {
 		api = assetsBusiness[b];
 		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'personal' && p) {
 		api = assetsPersonal[p];
 		params.obligorName = getHrefQuery('name');
@@ -34,6 +41,8 @@ export const getDynamicAsset = (portrait = 'enterprise', option) => {
 	} else if (portrait === 'enterprise' && e) {
 		api = assetsPortrait[e];
 		params.companyId = getHrefQuery('id');
+		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	}
 	return { api, params };
 };
@@ -50,16 +59,20 @@ export const getDynamicRisk = (portrait = 'enterprise', option) => {
 	if ((portrait === 'debtor_enterprise' || portrait === 'debtor_personal') && b) {
 		api = riskDebtor[b];
 		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'business' && b) {
 		api = riskBusiness[b];
 		params.obligorId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'personal' && p) {
 		api = riskPersonal[p];
 		params.obligorName = getHrefQuery('name');
 		params.obligorNumber = getHrefQuery('num');
+		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'enterprise' && e) {
 		api = riskPortrait[e];
 		params.companyId = getHrefQuery('id');
+		params.businessId = getHrefQuery('id');
 	}
 	return { api, params };
 };

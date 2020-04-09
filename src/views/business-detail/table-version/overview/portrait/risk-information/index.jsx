@@ -6,7 +6,7 @@ import {
 	businessOverviewLitigation, // 业务涉诉
 	overviewRisk, // 债务人经营风险
 	businessOverviewRisk, // 业务经营风险
-} from 'api/detail/overview';
+} from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
 import Bankruptcy from '../cardComponents/Bankruptcy-card';
 import Involved from '../cardComponents/Involved-card';

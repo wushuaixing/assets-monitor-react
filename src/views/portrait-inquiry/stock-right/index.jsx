@@ -3,7 +3,7 @@ import React from 'react';
 import './style.scss';
 // import eData, { imitateSource } from './data';
 import { stockChart } from '@/utils/api/portrait-inquiry/enterprise/info';
-import { businessStockChart } from '@/utils/api/detail/info';
+import { businessStockChart } from '@/utils/api/professional-work/info';
 import back from './logo.png';
 import { toEmpty } from '@/utils/';
 import { Spin } from '@/common';

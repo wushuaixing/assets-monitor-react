@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 	overviewLand, businessOverviewLand,
-} from 'api/detail/overview';
+} from '@/utils/api/professional-work/overview';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import RingEcharts from '@/views/portrait-inquiry/common/ringEcharts';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';

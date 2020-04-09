@@ -1,7 +1,7 @@
 import React from 'react';
-import TimeLine from '../../../common/timeLine';
 import { getMortgage } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import { Spin } from '@/common';
+import TimeLine from '../../../common/timeLine';
 import getCount from '../../../common/getCount';
 
 const roleDistributionsType = (value) => {
@@ -28,32 +28,26 @@ export default class ChattelMortgage extends React.Component {
 
 	getData = () => {
 		const { companyId, getAssetProfile } = this.props;
-		this.setState({
-			loading: true,
-		});
-		const params = {
-			companyId,
-		};
-		getMortgage(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const { roleDistributions } = res.data;
-					const timeLineData = res.data.yearDistributions;
-					const allNum = getCount(roleDistributions) + getCount(timeLineData);
-					getAssetProfile(allNum, 'ChattelMortgage');
-					this.setState({
-						loading: false,
-						roleDistributions,
-						timeLineData, // 年份分布
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+		this.setState({ loading: true });
+		const params = { companyId };
+		getMortgage(params).then((res) => {
+			if (res.code === 200) {
+				const { roleDistributions } = res.data;
+				const timeLineData = res.data.yearDistributions;
+				const allNum = getCount(roleDistributions) + getCount(timeLineData);
+				getAssetProfile(allNum, 'ChattelMortgage');
+				this.setState({
+					loading: false,
+					roleDistributions,
+					timeLineData, // 年份分布
+				});
+			} else {
 				this.setState({ loading: false });
-			});
-	}
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	};
 
 	render() {
 		const {
@@ -77,20 +71,20 @@ export default class ChattelMortgage extends React.Component {
 								<div>
 									<div className="yc-timeline-title">角色分布</div>
 									{
-									roleDistributions && roleDistributions.filter(item => item.count > 0).map(item => (
-										<div className="yc-role-container">
-											<span className="yc-role-icon" />
-											<div className="yc-role-name">
-												{roleDistributionsType(item.type)}
+										roleDistributions && roleDistributions.filter(item => item.count > 0).map(item => (
+											<div className="yc-role-container">
+												<span className="yc-role-icon" />
+												<div className="yc-role-name">
+													{roleDistributionsType(item.type)}
+												</div>
+												<div className="yc-role-num">
+													{`${item.count} 条`}
+												</div>
+												<div className="yc-role-description">{`(其中${item.invalidCount}条质押登记状态为无效)`}</div>
+												<div className="yc-role-warning">{`*当前有效担保债权数额${item.amount}元`}</div>
 											</div>
-											<div className="yc-role-num">
-												{`${item.count} 条`}
-											</div>
-											<div className="yc-role-description">{`(其中${item.invalidCount}条质押登记状态为无效)`}</div>
-											<div className="yc-role-warning">{`*当前有效担保债权数额${item.amount}元`}</div>
-										</div>
-									))
-								}
+										))
+									}
 								</div>
 							)}
 							{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="ChattelMortgage" />}

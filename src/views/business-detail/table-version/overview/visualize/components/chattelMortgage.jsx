@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewMortgage, businessOverviewMortgage } from 'api/detail/overview';
+import { overviewMortgage, businessOverviewMortgage } from '@/utils/api/professional-work/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -48,10 +48,9 @@ export default class ChattelMortgage extends React.Component {
 			} else {
 				this.setState({ loading: false });
 			}
-		})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {

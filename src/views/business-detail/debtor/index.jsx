@@ -1,16 +1,18 @@
 import React from 'react';
-import { Affix, message } from 'antd';
+import { Affix, Modal, Icon } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 /* utils */
 import { requestAll } from '@/utils/promise';
 import { getQueryByName } from '@/utils';
 /* api collection */
-import assets from '@/utils/api/detail/assets';
-import risk from '@/utils/api/detail/risk';
-import { debtorInfo } from '@/utils/api/detail';
+import assets from '@/utils/api/professional-work/debtor/assets';
+import risk from '@/utils/api/professional-work/debtor/risk';
+import { debtorInfo, exportListEnp } from '@/utils/api/professional-work';
 /* components */
-import { Tabs, BreadCrumb, Spin } from '@/common';
+import {
+	Tabs, BreadCrumb, Spin, Icon as IconType, Download, Button,
+} from '@/common';
 import DebtorInfo from '@/views/business-detail/table-version/debtor-info';
 import Overview from '@/views/business-detail/table-version/overview';
 import Assets from '@/views/business-detail/table-version/assets';
@@ -79,6 +81,8 @@ export default class Enterprise extends React.Component {
 			// loading
 			assetLoading: true,
 			riskLoading: true,
+			errorModalVisible: false,
+			timeLeft: 3,
 		};
 		this.portrait = 'debtor_enterprise';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
@@ -86,7 +90,7 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const obligorId = getQueryByName(window.location.href, 'id') || 353323;
+		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
 		debtorInfo({ obligorId }).then((res) => {
 			if (res.code === 200) {
 				const { obligorName } = res.data;
@@ -105,7 +109,19 @@ export default class Enterprise extends React.Component {
 				/* 请求子项数据 */
 				tabConfig.forEach((item, index) => this.toGetSubItemsTotal(item, index, this.portrait));
 			} else {
-				message.error('网络请求失败！');
+				// message.error('网络请求失败！');
+				let time = 3;
+				const timer = setInterval(() => {
+					time -= 1;
+					this.setState({
+						timeLeft: time,
+					});
+					if (time === 0) {
+						this.closeErrorModal();
+						clearInterval(timer);
+					}
+				}, 1000);
+				this.openErrorModal();
 				this.setState({
 					loading: false,
 					assetLoading: false,
@@ -123,7 +139,7 @@ export default class Enterprise extends React.Component {
 
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index, portrait) => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 348229;
+		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
 		if (item.config) {
 			const { apiData, config: { idList: _idList, status: _status } } = item;
 			const { tabConfig } = this.state;
@@ -177,6 +193,19 @@ export default class Enterprise extends React.Component {
 		console.log('onChangeAffix:', val);
 	};
 
+	openErrorModal = () => {
+		this.setState({
+			errorModalVisible: true,
+		});
+	};
+
+	closeErrorModal = () => {
+		window.close();
+		this.setState({
+			errorModalVisible: false,
+		});
+	};
+
 	/* tab change */
 	onSourceType=(val) => {
 		const { sourceType } = this.state;
@@ -194,7 +223,7 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, affixStatus,
+			tabConfig, childDom, sourceType, infoSource, affixStatus, timeLeft, errorModalVisible,
 		} = this.state;
 		const { loading, assetLoading, riskLoading } = this.state;
 		const classList = ['info-detail', 'info-wrapper'];
@@ -209,17 +238,33 @@ export default class Enterprise extends React.Component {
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">
-					<BreadCrumb list={[
-						{ id: 1, name: '债务人', link: '/business/debtor' },
-						{ id: 2, name: '债务人详情', link: '' },
-					]}
+					<BreadCrumb
+						list={[
+							{ id: 1, name: '债务人', link: '/business/debtor' },
+							{ id: 2, name: '债务人详情', link: '' },
+						]}
+						suffix={(
+							<div className="intro-download" style={{ zIndex: 1 }}>
+								<Download
+									style={{ width: 84 }}
+									condition={{
+										companyId: getQueryByName(window.location.href, 'id'),
+									}}
+									icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+									api={exportListEnp}
+									normal
+									text="下载"
+								/>
+							</div>
+						)}
 					/>
 				</div>
-				<div style={{ margin: '0 20px' }}><div className="mark-line" /></div>
+				<div className="mark-line" />
 				<Affix onChange={this.onChangeAffix}>
 					<Spin visible={loading}>
 						<div className={classList.join(' ')}>
 							<DebtorInfo data={infoSource} affixStatus={affixStatus} portrait={this.portrait} />
+							{/* <div className="debtor-visualize-overview-line" /> */}
 							<Tabs.Simple
 								onChange={this.onSourceType}
 								source={tabConfig}
@@ -235,6 +280,31 @@ export default class Enterprise extends React.Component {
 						{ !loading && tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
 					</Router>
 				</div>
+				{errorModalVisible && 	(
+					<Modal
+						visible={errorModalVisible}
+						onCancel={this.handleCancel}
+						footer={false}
+						width={500}
+						closable={false}
+					>
+
+						<div className="yc-confirm-body">
+							<div className="yc-confirm-header">
+								<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle-o" />
+								<span className="yc-confirm-title">债务人不存在，可能关联的业务已经被删除</span>
+							</div>
+							<div className="yc-confirm-content">
+								<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
+								秒后自动关闭页面
+							</div>
+							<div className="yc-confirm-btn">
+								<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">知道了</Button>
+							</div>
+						</div>
+
+					</Modal>
+				)}
 			</div>
 		);
 	}

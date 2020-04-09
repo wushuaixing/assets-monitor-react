@@ -1,11 +1,11 @@
 import React from 'react';
+import { Spin } from '@/common';
+import NoContent from '@/common/noContent';
 import AssetAuction from './components/assetAuction';
 import Subrogation from './components/subrogation';
 import Involved from './components/involved';
 import LostLetter from './components/lostLetter';
 import TaxViolation from './components/taxVolation';
-import { Spin } from '@/common';
-import NoContent from '@/common/noContent';
 import './style.scss';
 
 export default class OverView extends React.Component {
@@ -107,7 +107,6 @@ export default class OverView extends React.Component {
 						{/* 税收违法 */}
 						<TaxViolation getAssetProfile={this.getAssetProfile} />
 					</div>
-
 					{
 						InvolvedCount === 0 && LostLetterCount === 0 && TaxViolationCount === 0
 							&& (

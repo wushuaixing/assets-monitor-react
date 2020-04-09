@@ -1,6 +1,9 @@
 /* 详情页「新」2020.02.19 */
 .yc-information-detail-wrapper {
-  border-bottom: 1px solid #f0f1f5;
+  //border-bottom: 1px solid #f0f1f5;
+  .ant-table-tbody>tr>td, .ant-table-thead>tr {
+    border-bottom: 1px solid #E5E5E5;
+  }
   .ant-table-body tbody tr:nth-child(2n), .cTableContent tbody tr:nth-child(2n) {
     background: #ffffff;
   }
@@ -14,6 +17,9 @@
     top: -7px;
     bottom:0;
     //z-index: 3;
+    span {
+      line-height: 22px;
+    }
     &-button{
       min-width: 84px;
       height: 30px;
@@ -26,6 +32,11 @@
   }
   .info-detail{
     padding-bottom: 0!important;
+    .debtor-visualize-overview-line {
+      height: 10px;
+      width: 100%;
+      background: #f2f2f2
+    }
     .inquiry-list-regStatus{
       display: inline-block;
       vertical-align: top;
@@ -59,9 +70,9 @@
     }
   }
   .info-content{
-    .inquiry-assets{
-      padding: 10px 0 0;
-    }
+    //.inquiry-assets{
+    //  padding: 10px 0 0;
+    //}
     .info-assets-padding{
       padding: 0 20px 20px 20px;
     }
@@ -130,7 +141,7 @@
   .mark-line {
     height: 1px;
     width: 100%;
-    background-color: #F2F2F2;
+    background-color: #E5E5E5;
   }
 
   .enterprise-info {
@@ -245,7 +256,7 @@
   }
 
   .yc-intro-sub-items{
-    padding: 16px 0 12px 0;
+    padding: 16px 0 15px 0;
     // border-bottom: 1px solid $border-base;
     .intro-btn-items{
       margin-right: 16px;

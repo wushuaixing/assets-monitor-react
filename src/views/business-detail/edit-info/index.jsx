@@ -3,13 +3,11 @@ import {
 	Form, Input, message, Modal,
 } from 'antd';
 import { navigate } from '@reach/router';
-import { businessList } from 'api/detail/overview';
-import { businessInfo } from 'api/detail';
-import { save } from 'api/business';
+import { businessInfo } from '@/utils/api/professional-work';
+import { save } from '@/utils/api/business'; // 保存使用原接口
+import { businessList } from '@/utils/api/professional-work/overview';
 import { getQueryByName } from '@/utils';
-import {
-	 BreadCrumb, Button,
-} from '@/common';
+import { BreadCrumb, Button } from '@/common';
 import { getSource } from '@/views/business-detail/business/cache';
 import Edit from './edit';
 import './style.scss';
@@ -31,7 +29,7 @@ class EditBusiness extends React.Component {
 	}
 
 	componentDidMount() {
-		const businessId = getQueryByName(window.location.href, 'id') || 22604;
+		const businessId = getQueryByName(window.location.href, 'id') || 9999999;
 		const { source } = this.state;
 		const params = { businessId };
 		if (Object.keys(source).length === 0) {
@@ -144,7 +142,9 @@ class EditBusiness extends React.Component {
 	};
 
 	handleBack = () => {
-		navigate('/business/detail/info?id=22604');
+		const { hash } = window.location;
+		const id = getQueryByName(hash, 'id');
+		navigate(`/business/detail/info?id=${id}`);
 	};
 
 	// 判断是否已经编辑
@@ -185,7 +185,7 @@ class EditBusiness extends React.Component {
 					</div>
 					<div style={{ padding: '0 10px' }}>
 						<div className="yc-from-container">
-							<span className="yc-from-lable1">业务编号：</span>
+							<span className="yc-from-label1">业务编号：</span>
 							<Input
 								onInput={this.isEdit}
 								placeholder="请输入业务编号"
@@ -199,7 +199,7 @@ class EditBusiness extends React.Component {
 							/>
 						</div>
 						<div className="yc-from-container">
-							<span className="yc-from-lable2">
+							<span className="yc-from-label2">
 								<span className="yc-red">*</span>
 									借款人名称：
 							</span>
@@ -216,7 +216,7 @@ class EditBusiness extends React.Component {
 							/>
 						</div>
 						<div className="yc-from-container">
-							<span className="yc-from-lable1">负责人/机构：</span>
+							<span className="yc-from-label1">负责人/机构：</span>
 							<Input
 								onInput={this.isEdit}
 								placeholder="请输入负责人/机构"
@@ -230,7 +230,7 @@ class EditBusiness extends React.Component {
 							/>
 						</div>
 						<div className="yc-from-container">
-							<span className="yc-from-lable2">身份证号/统一社会信用代码：</span>
+							<span className="yc-from-label2">身份证号/统一社会信用代码：</span>
 							<Input
 								onInput={this.isEdit}
 								maxLength="18"
@@ -239,7 +239,6 @@ class EditBusiness extends React.Component {
 								{...getFieldProps('obligorNumber', {
 									initialValue: source && source.obligorNumber,
 									getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z-]/g, ''),
-									// getValueFromEvent: e => e.target.value.trim(),
 								})}
 								className="yc-from-input"
 							/>

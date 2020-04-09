@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { parseQuery } from '@/utils';
 import { Spin, Table } from '@/common';
-import { getInvestment } from '@/utils/api/detail/info';
+import { getInvestment } from '@/utils/api/professional-work/info';
 
 export default class OutboundInvestment extends React.Component {
 	constructor(props) {

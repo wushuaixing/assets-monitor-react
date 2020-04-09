@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCount } from '@/utils/api/detail/info';
+import { getCount } from '@/utils/api/professional-work/info';
 import { Button } from '@/common';
 import { parseQuery } from '@/utils';
 import BusinessInfo from './components/businessInfo';
@@ -94,17 +94,16 @@ export default class Info extends React.Component {
 		const params = {
 			id: urlValue.id || -999999,
 		};
-		getCount(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						data: res.data,
-						tabConfig: subItems(res.data),
-					}, () => {
-						toPushChild(this.toGetSubItems());
-					});
-				}
-			});
+		getCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data,
+					tabConfig: subItems(res.data),
+				}, () => {
+					toPushChild(this.toGetSubItems());
+				});
+			}
+		});
 	}
 
 	handleScroll=(eleID) => {

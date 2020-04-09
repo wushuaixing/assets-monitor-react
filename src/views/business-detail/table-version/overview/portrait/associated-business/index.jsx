@@ -27,12 +27,26 @@ export default class associatedBusiness extends React.Component {
 				title: '负责人/机构',
 				dataIndex: 'orgName',
 				key: 'orgName',
+				render(text) {
+					return <div>{text || '-'}</div>;
+				},
 			}, {
 				title: '操作',
 				key: 'operation',
 				dataIndex: 'operation',
-				render() {
-					return <div className="yc-table-text-link">查看</div>;
+				render(text, row) {
+					return (
+						<div
+							className="yc-table-text-link"
+							onClick={() => {
+								const w = window.open('about:blank');
+								w.location.href = `#/business/detail?id=${row.businessId}`;
+							}
+						}
+						>
+						查看
+						</div>
+					);
 				},
 			}],
 		};

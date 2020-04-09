@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { parseQuery } from '@/utils';
 import { Spin, Table } from '@/common';
-import { getChange } from '@/utils/api/detail/info';
+import { getChange } from '@/utils/api/professional-work/info';
 
 export default class BusinessCircles extends React.Component {
 	constructor(props) {
@@ -35,22 +35,20 @@ export default class BusinessCircles extends React.Component {
 			obligorId: urlValue.id || '',
 			page: value > 200 ? 200 : value,
 		};
-		getChange(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						data: res.data.list,
-						current: res.data.page,
-						total: res.data.total,
-						loading: false,
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
-			.catch(() => {
+		getChange(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
+					loading: false,
+				});
+			} else {
 				this.setState({ loading: false });
-			});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	toGetColumns = () => [
