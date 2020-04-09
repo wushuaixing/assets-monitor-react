@@ -20,7 +20,7 @@ const columns = (props) => {
 				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={_style} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishDate',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text || '--'), record),
+			render: (text, record) => ReadStatus(timeStandard(text || '-'), record),
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
@@ -30,7 +30,7 @@ const columns = (props) => {
 		{
 			title: '案件性质',
 			dataIndex: 'caseNature',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
@@ -42,7 +42,7 @@ const columns = (props) => {
 			dataIndex: 'url',
 			className: 'tAlignCenter_important',
 			width: 75,
-			render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '--'),
+			render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '-'),
 		}, {
 			title: '操作',
 			width: 60,

@@ -19,12 +19,12 @@ const columns = (props) => {
 				: <SortVessel field="CHANGE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>变更日期</SortVessel>),
 			dataIndex: 'changeTime',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '企业名称',
 			dataIndex: 'obligorName',
 			width: 150,
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
 		}, {
 			title: '变更事项',
 			width: 200,
@@ -34,18 +34,18 @@ const columns = (props) => {
 			title: '变更前内容',
 			width: 260,
 			dataIndex: 'contentBefore',
-			render: (text, row) => (text ? <ChangeItem content={text} type="before" key="before" row={row} /> : '--'),
+			render: (text, row) => (text ? <ChangeItem content={text} type="before" key="before" row={row} /> : '-'),
 		}, {
 			title: '变更后内容',
 			width: 260,
 			dataIndex: 'contentAfter',
-			render: (text, row) => (text ? <ChangeItem content={text} key="afters" row={row} /> : '--'),
+			render: (text, row) => (text ? <ChangeItem content={text} key="afters" row={row} /> : '-'),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
+			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
 		}, {
 			title: '操作',
 			width: 60,

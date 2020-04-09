@@ -34,7 +34,7 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.licenseNumber) ? <Ellipsis content={row.licenseNumber} width={400} tooltip font={16} /> : '--' }
+						{ toEmpty(row.licenseNumber) ? <Ellipsis content={row.licenseNumber} width={400} tooltip font={16} /> : '-' }
 						{ row.certificateType ? <span className="yc-case-reason text-ellipsis">{certificateTypeStatus[row.certificateType]}</span> : ''}
 					</li>
 
@@ -56,7 +56,7 @@ export default class TableIntact extends React.Component {
 						{
 							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
 								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
-							) : '--'
+							) : '-'
 						}
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">面积</span>

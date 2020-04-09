@@ -24,7 +24,7 @@ const removeSituation = (val, row) => {
 			<li>
 				<span className="list list-title align-justify list-title-50" style={{ width: 'auto' }}>移除日期</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{timeStandard(gmtRemoveDate) || '--'}</span>
+				<span className="list list-content">{timeStandard(gmtRemoveDate) || '-'}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify list-title-50" style={{ width: 'auto' }}>移除原因</span>
@@ -56,11 +56,11 @@ const columns = (props) => {
 				: <SortVessel field="GMT_PUT_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>列入日期</SortVessel>),
 			dataIndex: 'gmtPutDate',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'name',
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
 		}, {
 			title: '列入原因',
 			dataIndex: 'putReason',
@@ -68,7 +68,7 @@ const columns = (props) => {
 		}, {
 			title: '决定机关名称',
 			dataIndex: 'putDepartment',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '移除情况',
 			dataIndex: 'gmtRemoveDate',
@@ -79,7 +79,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
+			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
 		}, {
 			title: '操作',
 			width: 60,

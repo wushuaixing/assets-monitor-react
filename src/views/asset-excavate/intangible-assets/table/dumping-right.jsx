@@ -63,7 +63,7 @@ const columns = (props) => {
 			title: '许可证编号',
 			width: 200,
 			dataIndex: 'licenseNumber',
-			render: (text, row) => (text ? linkDom(row.url, text) : '--'),
+			render: (text, row) => (text ? linkDom(row.url, text) : '-'),
 		}, {
 			title: '权证信息',
 			width: 260,
@@ -81,7 +81,7 @@ const columns = (props) => {
 						{
 							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
 								<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
-							) : '--'
+							) : '-'
 						}
 					</li>
 				</div>
@@ -106,7 +106,7 @@ const columns = (props) => {
 								<li>
 									<span className="list list-title align-justify" style={{ width: 50 }}>{status[keyToVAlue(text)].dateName}</span>
 									<span className="list list-title-colon">:</span>
-									<span className="list list-content">{row.gmtIssueTime || '--'}</span>
+									<span className="list list-content">{row.gmtIssueTime || '-'}</span>
 								</li>
 							</Fragment>
 						) : null

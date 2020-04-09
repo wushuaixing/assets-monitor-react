@@ -32,7 +32,7 @@ export default class TableIntact extends React.Component {
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 400 }}>
 							{ toEmpty(row.title)
-								? <Ellipsis content={row.title} url={row.url} tooltip width={400} font={15} /> : '--' }
+								? <Ellipsis content={row.title} url={row.url} tooltip width={400} font={15} /> : '-' }
 						</span>
 						{ row.caseType ? <span className="yc-case-type">{(row.caseType)}</span> : ''}
 						{ row.caseReason ? <span className="yc-case-reason text-ellipsis">{row.caseReason}</span> : ''}

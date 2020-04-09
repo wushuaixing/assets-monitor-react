@@ -29,11 +29,11 @@ const columns = (props) => {
 			title: '相关单位',
 			dataIndex: 'obligorName',
 			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
 		}, {
 			title: '项目名称',
 			dataIndex: 'title',
-			render: (text, row) => (text ? linkDom(row.sourceUrl, text) : '--'),
+			render: (text, row) => (text ? linkDom(row.sourceUrl, text) : '-'),
 		}, {
 			title: '挂牌价格',
 			dataIndex: 'listingPrice',
@@ -46,14 +46,14 @@ const columns = (props) => {
 			dataIndex: 'endTime',
 			className: 'tAlignCenter_important',
 			width: 93,
-			render: value => <span>{formatDateTime(value, 'onlyYear') || '--'}</span>,
+			render: value => <span>{formatDateTime(value, 'onlyYear') || '-'}</span>,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'createTime',
 			className: 'tAlignCenter_important',
 			width: 93,
-			render: value => <span>{formatDateTime(value, 'onlyYear') || '--'}</span>,
+			render: value => <span>{formatDateTime(value, 'onlyYear') || '-'}</span>,
 		}, {
 			title: '操作',
 			width: 60,

@@ -10,7 +10,7 @@ import {
 
 const toGetStatusText = (val) => {
 	const res = {
-		text: '--',
+		text: '-',
 		status: true,
 	};
 	if (typeof val === 'string') {
@@ -46,7 +46,7 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.pawnName) ? <Ellipsis content={row.pawnName} tooltip width={600} font={15} /> : '--' }
+						{ toEmpty(row.pawnName) ? <Ellipsis content={row.pawnName} tooltip width={600} font={15} /> : '-' }
 					</li>
 					<li>
 						<span className="list list-title align-justify">登记日期</span>
@@ -57,7 +57,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">抵押权人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
-							{ toEmpty(row.people) ? <Ellipsis content={row.people} tooltip width={200} /> : '--'}
+							{ toEmpty(row.people) ? <Ellipsis content={row.people} tooltip width={200} /> : '-'}
 						</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">担保债权数额</span>
@@ -66,7 +66,7 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">债务人履行债务的期限</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content " style={{ maxWidth: 'none' }}>{row.term || '--'}</span>
+						<span className="list list-content " style={{ maxWidth: 'none' }}>{row.term || '-'}</span>
 					</li>
 				</div>
 			),
@@ -98,7 +98,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">登记编号</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">
-							{ toEmpty(row.regNum) ? <Ellipsis content={row.regNum} tooltip width={130} /> : '--'}
+							{ toEmpty(row.regNum) ? <Ellipsis content={row.regNum} tooltip width={130} /> : '-'}
 						</span>
 					</li>
 				</div>

@@ -33,7 +33,7 @@ export default class BasicTable extends React.Component {
 					key: 'createTime',
 					width: 733,
 					render: text => (
-						<p>{formatDateTime(text) || '--'}</p>
+						<p>{formatDateTime(text) || '-'}</p>
 					),
 				},
 				{
@@ -41,7 +41,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'targetName',
 					key: 'targetName',
 					render: text => (
-						<p>{(text) || '--'}</p>
+						<p>{(text) || '-'}</p>
 					),
 				},
 			],

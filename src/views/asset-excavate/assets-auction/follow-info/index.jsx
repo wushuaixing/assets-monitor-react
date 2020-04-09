@@ -34,8 +34,8 @@ const StepDesc = (props) => {
 			{
 				recovery || expend ? (
 					<li>
-						{recovery ? `收入金额/元：${recovery !== -1 ? floatFormat(recovery.toFixed(2)) : '--'}；  ` : null}
-						{expend ? `支出金额/元：${expend !== -1 ? floatFormat(expend.toFixed(2)) : '--'} ；` : null}
+						{recovery ? `收入金额/元：${recovery !== -1 ? floatFormat(recovery.toFixed(2)) : '-'}；  ` : null}
+						{expend ? `支出金额/元：${expend !== -1 ? floatFormat(expend.toFixed(2)) : '-'} ；` : null}
 					</li>
 				) : null
 			}

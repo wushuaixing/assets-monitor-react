@@ -19,17 +19,17 @@ const columns = (props) => {
 				: <SortVessel field="DECISION_DATE" onClick={onSortChange} style={_style} {...sort}>决定日期</SortVessel>),
 			dataIndex: 'decisionDate',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'obligorName',
 			width: 150,
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
 		}, {
 			title: '决定文书号',
 			dataIndex: 'punishNumber',
 			width: 125,
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '违法行为类型',
 			dataIndex: 'type',
@@ -41,13 +41,13 @@ const columns = (props) => {
 		}, {
 			title: '决定机关名称',
 			dataIndex: 'departmentName',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
+			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
 		}, {
 			title: '操作',
 			width: 60,

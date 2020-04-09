@@ -26,7 +26,7 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						{ toEmpty(value) ? <Ellipsis content={value} url={row.url} width={600} font={15} /> : '--' }
+						{ toEmpty(value) ? <Ellipsis content={value} url={row.url} width={600} font={15} /> : '-' }
 					</li>
 					<li>
 						<span className="list list-title align-justify">发布日期</span>

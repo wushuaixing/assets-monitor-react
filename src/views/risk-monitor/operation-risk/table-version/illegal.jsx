@@ -47,7 +47,7 @@ const removeSituation = (val, row) => {
 				<span className="list list-title align-justify list-title-50">移除机关</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content none-width">
-					{toEmpty(removeDepartment) ? <Ellipsis content={removeDepartment} tooltip line={1} width={180} /> : '--'}
+					{toEmpty(removeDepartment) ? <Ellipsis content={removeDepartment} tooltip line={1} width={180} /> : '-'}
 				</span>
 			</li>
 		</div>
@@ -76,7 +76,7 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						{ toEmpty(value) ? <Ellipsis content={value} tooltip width={600} font={15} /> : '--' }
+						{ toEmpty(value) ? <Ellipsis content={value} tooltip width={600} font={15} /> : '-' }
 					</li>
 					<li>
 						<span className="list list-title align-justify">列入日期</span>
@@ -95,7 +95,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-content" style={{ minWidth: 600 }}>
 							{
 								row.putReason.trim()
-									? <Ellipsis content={row.putReason} tooltip width={600} /> : '--'
+									? <Ellipsis content={row.putReason} tooltip width={600} /> : '-'
 							}
 						</span>
 					</li>
@@ -106,7 +106,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-content none-width">
 							{
 								toEmpty(row.fact)
-									? <Ellipsis content={row.fact} tooltip width={600} /> : '--'
+									? <Ellipsis content={row.fact} tooltip width={600} /> : '-'
 							}
 						</span>
 					</li>

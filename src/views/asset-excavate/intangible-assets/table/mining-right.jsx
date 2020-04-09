@@ -25,22 +25,22 @@ const columns = (props) => {
 				: <SortVessel field="GMT_PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublishTime',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '探/采矿权人',
 			dataIndex: 'rightsHolder',
 			width: 200,
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
 		}, {
 			title: '许可证编号',
 			width: 200,
 			dataIndex: 'licenseNumber',
-			render: (text, row) => (text ? linkDom(row.url, text) : '--'),
+			render: (text, row) => (text ? linkDom(row.url, text) : '-'),
 		}, {
 			title: '权证类型',
 			width: 100,
 			dataIndex: 'certificateType',
-			render: text => (text !== '' ? certificateTypeStatus[text] : '--'),
+			render: text => (text !== '' ? certificateTypeStatus[text] : '-'),
 		}, {
 			title: '权证信息',
 			width: 260,
@@ -50,7 +50,7 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>矿种</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{text || '--'}</span>
+						<span className="list list-content">{text || '-'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>矿山名称</span>
@@ -60,7 +60,7 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>面积</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.area ? `${floatFormat(row.area)} 平方米` : '--'}</span>
+						<span className="list list-content">{row.area ? `${floatFormat(row.area)} 平方米` : '-'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
@@ -68,7 +68,7 @@ const columns = (props) => {
 						{
 							row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
 								<span className="list list-content">{`${row.gmtValidityPeriodStart} 至 ${row.gmtValidityPeriodEnd}` }</span>
-							) : '--'
+							) : '-'
 						}
 					</li>
 				</div>
