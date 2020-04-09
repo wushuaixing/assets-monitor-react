@@ -2,14 +2,14 @@ import React from 'react';
 import { Switch } from 'antd';
 import { Tabs } from '@/common';
 import Table from '@/views/asset-excavate/assets-auction/table-detail';
-import { toGetDefaultId, toGetNumber } from '@/utils/promise';
+import { toGetNumber } from '@/utils/promise';
 
 export default class Auction extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			ignored: false,
-			sourceType: toGetDefaultId(props.data),
+			sourceType: 10101,
 			config: [{
 				id: 10101,
 				name: '精准匹配',

@@ -48,7 +48,7 @@ const assets = {
 		list: params => service.get('/yc/obligor/monitor/asset/auction/list?important=1', { params }).then(res => res.data),
 		count(params) {
 			return service.get('/yc/obligor/monitor/asset/auction/list-count?important=1', { params })
-				.then(res => Object.assign(res.data, { id: this.id, field: 'totalCount' }));
+				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10102: {
@@ -57,7 +57,7 @@ const assets = {
 		list: params => service.get('/yc/obligor/monitor/asset/auction/list?important=0', { params }).then(res => res.data),
 		count(params) {
 			return service.get('/yc/obligor/monitor/asset/auction/list-count?important=0', { params })
-				.then(res => Object.assign(res.data, { id: this.id, field: 'totalCount' }));
+				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	...intangible,
