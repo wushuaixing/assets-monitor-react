@@ -135,7 +135,6 @@ export default class Info extends React.Component {
 	render() {
 		const { data } = this.state;
 		const { infoSource } = this.props;
-		console.log(infoSource, 312);
 		return (
 			<div className="inquiry-assets info-assets-padding">
 				{

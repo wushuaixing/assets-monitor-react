@@ -185,7 +185,7 @@ export default class StockRight extends React.Component {
 				const data = name || '债务人不存在股权穿透图';
 				this.setState({ loading: false });
 				this.myChart.hideLoading();
-				const source = this.initOption({ data });
+				const source = this.initOption({ name: data });
 				this.resultSource = source;
 				this.myChart.setOption(optionMethods(source));
 				this.myZrender();
