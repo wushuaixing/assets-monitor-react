@@ -21,7 +21,7 @@ class RegisterModal extends React.PureComponent {
 					dataIndex: 'publishDate',
 					width: 100,
 					render(text) {
-						return <span>{formatDateTime(text, 'onlyYear') || '--'}</span>;
+						return <span>{formatDateTime(text, 'onlyYear') || '-'}</span>;
 					},
 				},
 				{
@@ -33,11 +33,11 @@ class RegisterModal extends React.PureComponent {
 					title: '法院',
 					dataIndex: 'court',
 					width: 300,
-					render: text => text || '--',
+					render: text => text || '-',
 				}, {
 					title: '案件状态',
 					dataIndex: 'state',
-					render: text => text || '--',
+					render: text => text || '-',
 				},
 			],
 		};

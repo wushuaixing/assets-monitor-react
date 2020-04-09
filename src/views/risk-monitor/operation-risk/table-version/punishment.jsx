@@ -28,20 +28,20 @@ export default class TableIntact extends React.Component {
 				return (
 					<div className="assets-info-content">
 						<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-							{ toEmpty(type) ? <Ellipsis content={type} tooltip width={600} font={15} /> : '--' }
+							{ toEmpty(type) ? <Ellipsis content={type} tooltip width={600} font={15} /> : '-' }
 						</li>
 						<li>
 							<span className="list list-title align-justify">决定文书号</span>
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content">
-								{ toEmpty(punishNumber) ? <Ellipsis content={punishNumber} width={600} tooltip /> : '--' }
+								{ toEmpty(punishNumber) ? <Ellipsis content={punishNumber} width={600} tooltip /> : '-' }
 							</span>
 						</li>
 						<li>
 							<span className="list list-title align-justify">处罚内容</span>
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content">
-								{ toEmpty(content) ? <Ellipsis content={content} width={600} tooltip /> : '--' }
+								{ toEmpty(content) ? <Ellipsis content={content} width={600} tooltip /> : '-' }
 							</span>
 						</li>
 					</div>
@@ -57,7 +57,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">决定机关</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">
-							{ toEmpty(row.departmentName) ? <Ellipsis content={row.departmentName} width={200} /> : '--' }
+							{ toEmpty(row.departmentName) ? <Ellipsis content={row.departmentName} width={200} /> : '-' }
 						</span>
 					</li>
 					<li>

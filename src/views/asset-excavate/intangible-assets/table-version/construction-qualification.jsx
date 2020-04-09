@@ -28,7 +28,7 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.qualificationName) ? <Ellipsis content={row.qualificationName} width={400} tooltip font={16} /> : '--' }
+						{ toEmpty(row.qualificationName) ? <Ellipsis content={row.qualificationName} width={400} tooltip font={16} /> : '-' }
 					</li>
 
 					<li>

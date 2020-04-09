@@ -81,7 +81,7 @@ export const PartyCrosswise = (props) => {
 			);
 		}
 	}
-	return '--';
+	return '-';
 };
 
 const Result = {

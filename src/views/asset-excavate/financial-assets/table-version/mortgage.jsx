@@ -49,12 +49,12 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">出质人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
-							{ this.getListStr(value) ? <Ellipsis content={this.getListStr(value)} tooltip width={200} /> : '--'}
+							{ this.getListStr(value) ? <Ellipsis content={this.getListStr(value)} tooltip width={200} /> : '-'}
 						</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">出质股权数额</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content none-width">{toEmpty(row.equityAmount) || '--'}</span>
+						<span className="list list-content none-width">{toEmpty(row.equityAmount) || '-'}</span>
 					</li>
 				</div>
 			),
@@ -71,7 +71,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">登记编号</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content none-width">
-							{ toEmpty(row.regNumber) ? <Ellipsis content={row.regNumber} tooltip width={250} /> : '--'}
+							{ toEmpty(row.regNumber) ? <Ellipsis content={row.regNumber} tooltip width={250} /> : '-'}
 						</span>
 					</li>
 				</div>

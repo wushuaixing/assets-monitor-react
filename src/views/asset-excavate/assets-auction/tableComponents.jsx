@@ -28,7 +28,7 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 				</li>
 				<li>
 					<span className="list list-title align-justify">证 件 号：</span>
-					<span className="list list-content">{obligorNumber || '--'}</span>
+					<span className="list list-content">{obligorNumber || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title" style={{ width: 80 }}>负责人/机构：</span>
@@ -37,12 +37,12 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 							<Tooltip placement="top" title={orgName}>
 								<span className="list list-content text-ellipsis ">{orgName}</span>
 							</Tooltip>
-						) : <span className="list list-content text-ellipsis">-- </span>
+						) : <span className="list list-content text-ellipsis">- </span>
 					}
 				</li>
 				<li className="list-dishonest">
 					<span className="list list-title">更新时间：</span>
-					<span className="list list-content">{updateTime ? formatDateTime(updateTime) : '--'}</span>
+					<span className="list list-content">{updateTime ? formatDateTime(updateTime) : '-'}</span>
 					{ dishonestStatus === 1 ? <img src={dishonest1} alt="" className="list-dishonest-status" /> : ''}
 					{ dishonestStatus === 2 ? <img src={dishonest2} alt="" className="list-dishonest-status" /> : ''}
 				</li>
@@ -63,19 +63,19 @@ const JudgmentInfo = (text, rowContent) => {
 			<div className="assets-info-content">
 				<li>
 					<span className="list list-title align-justify">机构名称：</span>
-					<span className="list list-content">{courtName || '--'}</span>
+					<span className="list list-content">{courtName || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">案号：</span>
-					<span className="list list-content">{caseCode || '--'}</span>
+					<span className="list list-content">{caseCode || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">省份：</span>
-					<span className="list list-content">{areaName || '--'}</span>
+					<span className="list list-content">{areaName || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">发布时间：</span>
-					<span className="list list-content">{publishDate || '--'}</span>
+					<span className="list list-content">{publishDate || '-'}</span>
 				</li>
 			</div>
 		</React.Fragment>
@@ -91,15 +91,15 @@ const ExecuteInfo = (text, rowContent) => {
 			<div className="assets-info-content">
 				<li>
 					<span className="list list-title align-justify" style={{ width: 'auto' }}>被执行人的履行情况：</span>
-					<span className="list list-content">{performance || '--'}</span>
+					<span className="list list-content">{performance || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify" style={{ width: 'auto' }}>失信被执行人行为具体情形：</span>
-					<span className="list list-content" style={{ maxWidth: 250 }}>{disruptTypeName || '--'}</span>
+					<span className="list list-content" style={{ maxWidth: 250 }}>{disruptTypeName || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify" style={{ width: 'auto' }}>法定代表人/负责人姓名：</span>
-					<span className="list list-content">{businessEntity || '--'}</span>
+					<span className="list list-content">{businessEntity || '-'}</span>
 				</li>
 			</div>
 		</React.Fragment>
@@ -113,7 +113,7 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 		title, url, court, consultPrice, start, currentPrice, status, initialPrice, roundTag, auctionStatusTag, historyAuction,
 	} = rowContent;
 	const auctionStatus = (s) => {
-		let res = '--';
+		let res = '-';
 		switch (s) {
 		case 1: res = '即将开始'; break;
 		case 3: res = '正在进行'; break;
@@ -121,7 +121,7 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 		case 7: res = '已流拍'; break;
 		case 9: res = '中止'; break;
 		case 11: res = '撤回'; break;
-		default: res = '--';
+		default: res = '-';
 		}
 		return res;
 	};
@@ -139,7 +139,7 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 							{title || url}
 						</a>
 					</Tooltip>
-				) : <div className="table-info-title ">--</div>
+				) : <div className="table-info-title ">-</div>
 			}
 			<li className="table-info-list list-width-180">
 				<span className="info info-title">处置机关：</span>

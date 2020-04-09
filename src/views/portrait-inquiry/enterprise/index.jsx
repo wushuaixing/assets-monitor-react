@@ -101,11 +101,11 @@ const EnterpriseInfo = (props) => {
 				<div className="intro-base-info">
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">法定代表人：</span>
-						<span className="yc-public-title" style={style}>{legalPersonName || '--'}</span>
+						<span className="yc-public-title" style={style}>{legalPersonName || '-'}</span>
 					</li>
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">注册资本：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? reviseNum(regCapital) : '--'}</span>
+						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? reviseNum(regCapital) : '-'}</span>
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">成立日期：</span>

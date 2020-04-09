@@ -23,7 +23,7 @@ const removeSituation = (val, row) => {
 			<li>
 				<span className="list list-title align-justify list-title-50">移除日期</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{timeStandard(gmtRemoveDate) || '--'}</span>
+				<span className="list list-content">{timeStandard(gmtRemoveDate) || '-'}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify list-title-50">移除原因</span>
@@ -35,7 +35,7 @@ const removeSituation = (val, row) => {
 			<li>
 				<span className="list list-title align-justify list-title-50">决定机关</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{removeDepartment || '--'}</span>
+				<span className="list list-content">{removeDepartment || '-'}</span>
 			</li>
 		</div>
 	);
@@ -55,12 +55,12 @@ const toSeasonShow = (source) => {
 				<li>
 					<span className="list list-title align-justify">违法类型</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content" style={style}>{source.type.replace(/(^\s*)|(\s*$)/g, '') || '--'}</span>
+					<span className="list list-content" style={style}>{source.type.replace(/(^\s*)|(\s*$)/g, '') || '-'}</span>
 				</li>
 				<li>
 					<span className="list list-title align-justify">具体情形</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content" style={style}>{source.fact.replace(/(^\s*)|(\s*$)/g, '') || '--'}</span>
+					<span className="list list-content" style={style}>{source.fact.replace(/(^\s*)|(\s*$)/g, '') || '-'}</span>
 				</li>
 			</div>
 		),
@@ -81,12 +81,12 @@ const columns = (props) => {
 				: <SortVessel field="GMT_PUT_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>列入日期</SortVessel>),
 			dataIndex: 'gmtPutDate',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '相关单位',
 			dataIndex: 'name',
 			width: 200,
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
 		}, {
 			title: '列入原因',
 			dataIndex: 'putReason',
@@ -95,7 +95,7 @@ const columns = (props) => {
 				const _type = row.type.replace(/(^\s*)|(\s*$)/g, '');
 				const _fact = row.fact.replace(/(^\s*)|(\s*$)/g, '');
 				return [
-					_text ? <Ellipsis content={text.replace(/(^\s*)|(\s*$)/g, '')} tooltip width={250} /> : <div>--</div>,
+					_text ? <Ellipsis content={text.replace(/(^\s*)|(\s*$)/g, '')} tooltip width={250} /> : <div>-</div>,
 					_type || _fact
 						? <div><span className="click-link" onClick={() => toSeasonShow(row)}>点击查看具体违法事实</span></div> : '',
 				];
@@ -103,7 +103,7 @@ const columns = (props) => {
 		}, {
 			title: '决定机关名称',
 			dataIndex: 'putDepartment',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '移除情况',
 			render: removeSituation,

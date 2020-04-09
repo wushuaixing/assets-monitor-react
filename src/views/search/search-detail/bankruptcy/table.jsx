@@ -70,11 +70,11 @@ const columns = (props, openRegisterModalFunc) => {
 			render(text, row) {
 				if (row.url) {
 					return (
-						<span>{text ? linkDom(row.url, text) : '--'}</span>
+						<span>{text ? linkDom(row.url, text) : '-'}</span>
 					);
 				}
 				return (
-					<span className="click-link" onClick={() => openRegisterModalFunc(row)}>{text || '--'}</span>
+					<span className="click-link" onClick={() => openRegisterModalFunc(row)}>{text || '-'}</span>
 				);
 			},
 		},

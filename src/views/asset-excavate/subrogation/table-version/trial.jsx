@@ -31,7 +31,7 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							{row.caseNumber ? linkDom(row.url, row.caseNumber.replace('（', '( ')) : '--'}
+							{row.caseNumber ? linkDom(row.url, row.caseNumber.replace('（', '( ')) : '-'}
 						</span>
 						{
 							row.caseType ? <span className="yc-case-type">{getCaseType(row.caseType)}</span> : ''
@@ -55,7 +55,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">审理法院</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">
-							{ toEmpty(row.court) ? <Ellipsis content={row.court} width={200} font={12} /> : '--' }
+							{ toEmpty(row.court) ? <Ellipsis content={row.court} width={200} font={12} /> : '-' }
 						</span>
 					</li>
 					<li>

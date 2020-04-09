@@ -14,7 +14,7 @@ const roleType = (value) => {
 	case 3:
 		return '财务';
 	default:
-		return '--';
+		return '-';
 	}
 };
 // 处理 当事人数据列表，分类
@@ -49,7 +49,7 @@ const handleParties = (data) => {
 export const caseInfo = (content, row) => {
 	const { isDelete, ygList } = row;
 	const ygListLength = window._.isArray(ygList) ? ygList.length : 0;
-	if (isDelete || !ygListLength) return content || '--';
+	if (isDelete || !ygListLength) return content || '-';
 	const toClick =	() => Modal.info({
 		title: '当事人详情',
 		okText: '确定',
@@ -95,7 +95,7 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
 			<PartyInfoDetail {...item} id={row.id} row={row} key={row.id} width={maxWidth} noLink noStatus={noStatus} detailWidth={detailWidth} />
 		));
 	}
-	return '--';
+	return '-';
 };
 
 /**
@@ -125,7 +125,7 @@ export const PartyCrosswise = (props) => {
 				<div style={{ padding: '15px 0' }}>
 					<div className="assets-info-content">
 						<li className="yc-public-normal-bold" style={{ marginBottom: 10 }}>
-							<span className="list list-content text-ellipsis" style={{ maxWidth: 300, color: '#20242e' }}>{row.caseNumber || '--'}</span>
+							<span className="list list-content text-ellipsis" style={{ maxWidth: 300, color: '#20242e' }}>{row.caseNumber || '-'}</span>
 						</li>
 						<li>
 							{ type === 'trial' ? [
@@ -181,5 +181,5 @@ export const PartyCrosswise = (props) => {
 			);
 		}
 	}
-	return '--';
+	return '-';
 };

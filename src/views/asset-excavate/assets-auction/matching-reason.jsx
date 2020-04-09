@@ -60,7 +60,7 @@ export default class MatchingReason extends React.Component {
 				);
 			});
 		}
-		return '--';
+		return '-';
 	};
 
 	// 生效法律文书确定的义务
@@ -73,7 +73,7 @@ export default class MatchingReason extends React.Component {
 				</div>
 			);
 		}
-		return '--';
+		return '-';
 	};
 
 	render() {

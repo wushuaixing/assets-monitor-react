@@ -107,7 +107,7 @@ const EnterpriseInfo = (props) => {
 						{name ? <img src={ShapeImg} style={{ position: 'relative', top: '2px', marginRight: '5px' }} alt="" /> : null}
 						<span className="yc-public-remark">借款人：</span>
 						<span className="yc-public-title intro-title-name" style={style}>
-							{name || '--'}
+							{name || '-'}
 							{
 								isDishonest === 1 ? (
 									<img
@@ -131,18 +131,18 @@ const EnterpriseInfo = (props) => {
 					</li>
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">证件号/统一社会信用代码：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(obligorNumber) ? reviseNum(obligorNumber) : '--'}</span>
+						<span className="yc-public-title" style={style}>{toEmpty(obligorNumber) ? reviseNum(obligorNumber) : '-'}</span>
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">借款人推送状态：</span>
-						<span className="yc-public-title">{obligorPushType !== null ? (obligorPushType ? '开启' : '关闭') : '--'}</span>
+						<span className="yc-public-title">{obligorPushType !== null ? (obligorPushType ? '开启' : '关闭') : '-'}</span>
 					</li>
 				</div>
 				<div className="intro-used">
 
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">负责人/机构名：</span>
-						<span className="yc-public-title" style={style}>{orgName || '--'}</span>
+						<span className="yc-public-title" style={style}>{orgName || '-'}</span>
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">上传时间：</span>

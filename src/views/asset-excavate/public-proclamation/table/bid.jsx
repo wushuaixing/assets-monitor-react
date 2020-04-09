@@ -21,17 +21,17 @@ const columns = (props) => {
 			title: '相关单位',
 			dataIndex: 'obName',
 			width: 240,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
 		}, {
 			title: '标题',
 			dataIndex: 'title',
-			render: (text, record) => (record.url ? linkDom(record.url, text || '--') : <span>{text || '--'}</span>),
+			render: (text, record) => (record.url ? linkDom(record.url, text || '-') : <span>{text || '-'}</span>),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'createTime',
 			width: 90,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
+			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
 		}, {
 			title: '操作',
 			width: 60,

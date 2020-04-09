@@ -24,12 +24,12 @@ const defaultColumns = {
 		{
 			title: '法院',
 			dataIndex: 'court',
-			render: text => text || '--',
+			render: text => text || '-',
 		},
 		{
 			title: '案号',
 			dataIndex: 'caseNumber',
-			render: text => text || '--',
+			render: text => text || '-',
 		},
 		{
 			title: '案件类型',
@@ -40,7 +40,7 @@ const defaultColumns = {
 				if (caseType === 2) return '破产案件';
 				if (caseType === 3) return '执行案件';
 				if (caseType === 4) return '终本案件';
-				return '--';
+				return '-';
 			},
 		},
 	],
@@ -60,17 +60,17 @@ const defaultColumns = {
 		{
 			title: '法院',
 			dataIndex: 'court',
-			render: text => text || '--',
+			render: text => text || '-',
 		},
 		{
 			title: '案号',
 			dataIndex: 'caseNumber',
-			render: text => text || '--',
+			render: text => text || '-',
 		},
 		{
 			title: '案由',
 			dataIndex: 'caseReason',
-			render: text => text || '--',
+			render: text => text || '-',
 		},
 	],
 	Judgment: [
@@ -89,12 +89,12 @@ const defaultColumns = {
 		{
 			title: '法院',
 			dataIndex: 'court',
-			render: text => text || '--',
+			render: text => text || '-',
 		},
 		{
 			title: '案号',
 			dataIndex: 'caseNumber',
-			render: text => text || '--',
+			render: text => text || '-',
 		},
 		{
 			title: '案件类型',
@@ -105,7 +105,7 @@ const defaultColumns = {
 				if (caseType === 2) return '破产案件';
 				if (caseType === 3) return '执行案件';
 				if (caseType === 4) return '终本案件';
-				return '--';
+				return '-';
 			},
 		},
 	],
@@ -214,7 +214,7 @@ class AssociationLink extends React.Component {
 		const list = this.handleSource(source);
 		return (
 			<React.Fragment>
-				{ list.length ? list.map(i => i) : '--'}
+				{ list.length ? list.map(i => i) : '-'}
 				<Modal
 					title={`关联${text.c}信息`}
 					onCancel={this.toClose}

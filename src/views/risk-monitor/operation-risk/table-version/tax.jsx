@@ -41,7 +41,7 @@ export default class TableIntact extends React.Component {
 						<div className="assets-info-content">
 							<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
 								{ toEmpty(ca || value)
-									? <Ellipsis content={ca || value} tooltip url={row.url} width={600} font={15} /> : '--' }
+									? <Ellipsis content={ca || value} tooltip url={row.url} width={600} font={15} /> : '-' }
 								{ toGetIdentityType(row.identityType) && portrait === 'personal'
 									? <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span> : ''}
 							</li>
@@ -49,14 +49,14 @@ export default class TableIntact extends React.Component {
 								<span className="list list-title align-justify">违法事实</span>
 								<span className="list list-title-colon">:</span>
 								<span className="list list-content">
-									{ toEmpty(ill) ? <Ellipsis content={ill} width={600} tooltip /> : '--' }
+									{ toEmpty(ill) ? <Ellipsis content={ill} width={600} tooltip /> : '-' }
 								</span>
 							</li>
 							<li>
 								<span className="list list-title align-justify">处罚情况</span>
 								<span className="list list-title-colon">:</span>
 								<span className="list list-content">
-									{ toEmpty(punish) ? <Ellipsis content={punish} width={600} tooltip /> : '--' }
+									{ toEmpty(punish) ? <Ellipsis content={punish} width={600} tooltip /> : '-' }
 								</span>
 							</li>
 						</div>
@@ -72,14 +72,14 @@ export default class TableIntact extends React.Component {
 								<li style={{ height: 24 }}>
 									<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 5 }} />
 									{/* eslint-disable-next-line no-irregular-whitespace */}
-									<Ellipsis content={`纳税人　${row.offender || '--'}`} tooltip width={240} />
+									<Ellipsis content={`纳税人　${row.offender || '-'}`} tooltip width={240} />
 								</li>
 							) : <li style={{ height: 24 }} />
 						}
 						<li>
 							<span className="list list-title align-justify">发布日期</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content">{row.gmtPublish || '--'}</span>
+							<span className="list list-content">{row.gmtPublish || '-'}</span>
 						</li>
 					</div>
 				),

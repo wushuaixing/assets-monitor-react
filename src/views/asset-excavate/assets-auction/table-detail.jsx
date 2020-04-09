@@ -39,7 +39,7 @@ const AuctionInfo = (text, row, method) => {
 		court, consultPrice, start, currentPrice, initialPrice, status, historyAuction = [],
 	} = row;
 	const auctionStatus = (s) => {
-		let res = { text: '--', color: '#7D8699' };
+		let res = { text: '-', color: '#7D8699' };
 		switch (s) {
 		case 1: res = { text: '即将开始', color: '#FB8E3C' }; break;
 		case 3: res = { text: '正在进行', color: '#45A1FF' }; break;
@@ -47,7 +47,7 @@ const AuctionInfo = (text, row, method) => {
 		case 7: res = { text: '已流拍', color: '#7D8699' }; break;
 		case 9: res = { text: '中止', color: '#7D8699' }; break;
 		case 11: res = { text: '撤回', color: '#7D8699' }; break;
-		default: res = { text: '--', color: '#7D8699' };
+		default: res = { text: '-', color: '#7D8699' };
 		}
 		return res;
 	};
@@ -184,7 +184,7 @@ export default class TableIntact extends React.Component {
 					<div className="assets-info-content">
 						<li style={{ lineHeight: '24px' }}>
 							{ toEmpty(row.title)
-								? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={14} className="yc-public-title-normal-bold" /> : '--' }
+								? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={14} className="yc-public-title-normal-bold" /> : '-' }
 							{process ? <span className="yc-case-reason text-ellipsis" style={process.style}>{process.text}</span> : ''}
 						</li>
 						<li>

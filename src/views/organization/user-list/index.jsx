@@ -21,7 +21,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'mobile',
 					key: 'mobile',
 					render: text => (
-						<p>{text || '--'}</p>
+						<p>{text || '-'}</p>
 					),
 				},
 				{
@@ -29,7 +29,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'name',
 					key: 'name',
 					render: text => (
-						<p>{text || '--'}</p>
+						<p>{text || '-'}</p>
 					),
 				},
 				{
@@ -37,7 +37,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'groupId',
 					key: 'groupId',
 					render: text => (
-						<p>{this.matchingRoles(text) || '--'}</p>
+						<p>{this.matchingRoles(text) || '-'}</p>
 					),
 				},
 				{
@@ -45,7 +45,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'lastDate',
 					key: 'lastDate',
 					render: text => (
-						<p>{formatDateTime(text) || '--'}</p>
+						<p>{formatDateTime(text) || '-'}</p>
 					),
 				},
 				{

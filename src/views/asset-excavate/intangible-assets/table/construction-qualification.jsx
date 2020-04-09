@@ -18,7 +18,7 @@ const columns = (props) => {
 				: <SortVessel field="ISSUE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'issueTime',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '持证单位',
 			dataIndex: 'obligorName',
@@ -38,7 +38,7 @@ const columns = (props) => {
 			render: (text, row) => (
 				<div className="assets-info-content">
 					<li>
-						<span className="list list-content">{text || '--'}</span>
+						<span className="list list-content">{text || '-'}</span>
 						{ row.gmtDeleted ? <span className="yc-case-reason text-ellipsis yc-case-reason__invalid">已失效</span> : ''}
 					</li>
 				</div>
@@ -59,12 +59,12 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>资质类别</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.qualificationType || '--'}</span>
+						<span className="list list-content">{row.qualificationType || '-'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>资质等级</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.qualificationLevel || '--'}</span>
+						<span className="list list-content">{row.qualificationLevel || '-'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>有效期至</span>

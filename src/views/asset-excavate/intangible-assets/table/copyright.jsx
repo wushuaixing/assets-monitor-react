@@ -23,17 +23,17 @@ const columns = (props) => {
 				: <SortVessel field="NOTICE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>公告日期</SortVessel>),
 			dataIndex: 'noticeTime',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '申请人/权利人',
 			dataIndex: 'obligorName',
 			width: 200,
-			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '--'),
+			render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
 		}, {
 			title: '商标/专利名称',
 			width: 200,
 			dataIndex: 'rightsName',
-			render: (text, row) => (text ? linkDom(row.url, text) : '--'),
+			render: (text, row) => (text ? linkDom(row.url, text) : '-'),
 		}, {
 			title: '权利类型',
 			width: 100,

@@ -59,13 +59,13 @@ export default class InquiryList extends React.Component {
 						<span className="list list-title">法定代表人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 40 }}>
-							{row.legalPersonName || '--'}
+							{row.legalPersonName || '-'}
 						</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title">注册资本</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 130 }}>
-							{row.regCapital || '--'}
+							{row.regCapital || '-'}
 						</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title ">成立日期</span>

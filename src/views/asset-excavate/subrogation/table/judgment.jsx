@@ -20,12 +20,12 @@ const documentInfo = (value, row) => {
 			<li>
 				<span className="list list-title align-justify" style={{ width: 50 }}>案由</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{caseReason || '--'}</span>
+				<span className="list list-content">{caseReason || '-'}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 50 }}>案件类型</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{isRestore ? '执恢案件' : (caseType || '--')}</span>
+				<span className="list list-content">{isRestore ? '执恢案件' : (caseType || '-')}</span>
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
@@ -59,11 +59,11 @@ const columns = (props) => {
 		}, {
 			title: '法院',
 			dataIndex: 'court',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: (noSort ? <span>文书信息</span>
 				: <SortVessel field="GMT_JUDGMENT" onClick={onSortChange} mark="(判决日期)" {...sort}>文书信息</SortVessel>),
@@ -75,7 +75,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 93,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
+			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
 		}, {
 			title: '操作',
 			unNormal: true,

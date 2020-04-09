@@ -30,11 +30,11 @@ const columns = (props) => {
 		}, {
 			title: '法院',
 			dataIndex: 'court',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '案件类型',
 			render: (value, row) => {
@@ -44,7 +44,7 @@ const columns = (props) => {
 				if (caseType === 2) return '破产案件';
 				if (caseType === 3) return '执行案件';
 				if (caseType === 4) return '终本案件';
-				return '--';
+				return '-';
 			},
 		}, {
 			title: '关联链接',
@@ -56,7 +56,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 93,
-			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'),
+			render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
 		}, {
 			title: '操作',
 			unNormal: true,

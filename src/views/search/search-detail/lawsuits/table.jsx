@@ -41,11 +41,11 @@ class BusinessView extends React.Component {
 			}, {
 				title: '法院',
 				dataIndex: 'court',
-				render: text => text || '--',
+				render: text => text || '-',
 			}, {
 				title: '案号',
 				dataIndex: 'caseNumber',
-				render: text => text || '--',
+				render: text => text || '-',
 			},
 			{
 				title: '案件类型',
@@ -56,7 +56,7 @@ class BusinessView extends React.Component {
 					if (caseType === 2) return '破产案件';
 					if (caseType === 3) return '执行案件';
 					if (caseType === 4) return '终本案件';
-					return '--';
+					return '-';
 				},
 			}, {
 				title: '关联链接',
@@ -90,15 +90,15 @@ class BusinessView extends React.Component {
 			}, {
 				title: '法院',
 				dataIndex: 'court',
-				render: text => text || '--',
+				render: text => text || '-',
 			}, {
 				title: '案号',
 				dataIndex: 'caseNumber',
-				render: text => text || '--',
+				render: text => text || '-',
 			}, {
 				title: '案由',
 				dataIndex: 'caseReason',
-				render: text => text || '--',
+				render: text => text || '-',
 			},
 			{
 				title: '关联链接',

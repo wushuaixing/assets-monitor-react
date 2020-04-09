@@ -30,16 +30,16 @@ const columns = (props) => {
 		}, {
 			title: '法院',
 			dataIndex: 'court',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '案由',
 			dataIndex: 'caseReason',
 			className: 'min-width-80-normal',
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '关联信息',
 			dataIndex: 'associatedInfo',
@@ -66,7 +66,7 @@ const columns = (props) => {
 				/>
 			),
 		}];
-	// <a href={url} className="click-link">{text || '--'}</a>
+	// <a href={url} className="click-link">{text || '-'}</a>
 	// const base = defaultColumns.filter(item => item.sourceType !== sourceType);
 	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };

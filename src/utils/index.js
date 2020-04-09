@@ -87,6 +87,16 @@ export default {
 
 };
 
+
+/* 填写数据
+ * 如果没有填写默认值 */
+export const w = (v = '', option) => {
+	const { prefix = '', suffix = '', mark = '' } = option || {};
+	const value = (`${v}`).trim();
+	if (value && value !== '-' && value !== '-') return `${prefix}${value}${suffix}`;
+	return value || mark || '-';
+};
+
 export const parseQuery = (url) => {
 	const queryObj = {};
 	const reg = /[?&]([^=&#]+)=([^&#]*)/g;
@@ -258,7 +268,7 @@ Date.prototype.format = function method(format) {
 };
 export const timeStandard = (text, mark) => {
 	if (typeof text === 'number' && text === 0) return '1970-01-01';
-	if (typeof text === 'number') return (text ? new Date(text * 1000).format('yyyy-MM-dd') : mark || '--');
+	if (typeof text === 'number') return (text ? new Date(text * 1000).format('yyyy-MM-dd') : mark || '-');
 	return text;
 };
 

@@ -25,12 +25,12 @@ const columns = (props, openRegisterModalFunc) => {
 			title: '企业',
 			dataIndex: 'obligorName',
 			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
 		}, {
 			title: '起诉法院',
 			dataIndex: 'court',
 			width: 180,
-			render: text => text || '--',
+			render: text => text || '-',
 		}, {
 			title: '标题',
 			dataIndex: 'title',
@@ -38,11 +38,11 @@ const columns = (props, openRegisterModalFunc) => {
 			render: (text, record) => {
 				if (record.url) {
 					return (
-						<span>{text ? linkDom(record.url, text) : '--'}</span>
+						<span>{text ? linkDom(record.url, text) : '-'}</span>
 					);
 				}
 				return (
-					<span className="click-link" onClick={() => openRegisterModalFunc(record)}>{text || '--'}</span>
+					<span className="click-link" onClick={() => openRegisterModalFunc(record)}>{text || '-'}</span>
 				);
 			},
 		}, {
@@ -50,7 +50,7 @@ const columns = (props, openRegisterModalFunc) => {
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'createTime',
 			width: 90,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '--'}</span>,
+			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'}</span>,
 		}, {
 			title: '操作',
 			width: 55,
