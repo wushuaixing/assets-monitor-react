@@ -190,7 +190,6 @@ export default class Enterprise extends React.Component {
 
 	onChangeAffix=(val) => {
 		this.setState({ affixStatus: val });
-		console.log('onChangeAffix:', val);
 	};
 
 	openErrorModal = () => {
@@ -263,7 +262,7 @@ export default class Enterprise extends React.Component {
 				<div className="mark-line" />
 				<Affix onChange={this.onChangeAffix}>
 					<Spin visible={loading}>
-						<div className={classList.join(' ')}>
+						<div className={classList.join(' ')} id="enterprise-intro-affix">
 							<DebtorInfo data={infoSource} affixStatus={affixStatus} portrait={this.portrait} />
 							{/* <div className="debtor-visualize-overview-line" /> */}
 							<Tabs.Simple
