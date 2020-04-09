@@ -36,6 +36,7 @@ export default class Overview extends React.Component {
 		const { active } = this.state;
 		if (active === item.id) return;
 		this.setState({ active: item.id }, () => {
+			window.scrollTo(0, 0);
 			const { toPushChild } = this.props;
 			toPushChild(this.toGetSubItems());
 		});

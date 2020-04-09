@@ -232,6 +232,7 @@ export default class Enterprise extends React.Component {
 			loading,
 			assetLoading,
 			riskLoading,
+			infoSource,
 			toPushChild: this.handleAddChild, // tab 追加子项
 			portrait: this.portrait,
 		};

@@ -148,7 +148,7 @@ export default class StockRight extends React.Component {
 	}
 
 	componentDidMount() {
-		const { stockChartId, isBusiness } = this.props;
+		const { stockChartId, isBusiness, name } = this.props;
 
 		const params = {
 			id: stockChartId, // 269766 京东 54780232 网商 1585000 天赐
@@ -163,29 +163,34 @@ export default class StockRight extends React.Component {
 			text: '加载中，请稍后...',
 			effect: 'spin',
 		}); */
-		api(params)
-			.then((res) => {
-				if (res.code === 200) {
-					// console.log(params);
-					this.setState({ loading: false });
-					this.myChart.hideLoading();
-					const source = this.initOption(res.data);
-					this.resultSource = source;
-					this.myChart.setOption(optionMethods(source));
-					this.myZrender();
-					this.myChart.getZrender().on('click', (e) => {
-						if (e.target) {
-							// console.log(e.target.info, 11);
-							const { isCollapse, info } = e.target;
-							if (isCollapse) {
-								this.handleOption(info);
-							}
+		api(params).then((res) => {
+			if (res.code === 200) {
+				// console.log(params);
+				this.setState({ loading: false });
+				this.myChart.hideLoading();
+				const source = this.initOption(res.data);
+				this.resultSource = source;
+				this.myChart.setOption(optionMethods(source));
+				this.myZrender();
+				this.myChart.getZrender().on('click', (e) => {
+					if (e.target) {
+						// console.log(e.target.info, 11);
+						const { isCollapse, info } = e.target;
+						if (isCollapse) {
+							this.handleOption(info);
 						}
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
+					}
+				});
+			} else {
+				const data = name || '债务人不存在股权穿透图';
+				this.setState({ loading: false });
+				this.myChart.hideLoading();
+				const source = this.initOption({ data });
+				this.resultSource = source;
+				this.myChart.setOption(optionMethods(source));
+				this.myZrender();
+			}
+		})
 			.catch(() => {
 				this.setState({ loading: false });
 			});
@@ -511,28 +516,7 @@ export default class StockRight extends React.Component {
 					shapeCircle.hoverable = false;
 					shapeCircle.isCollapse = true;
 					shapeCircle.clickable = true;
-					// myZr.addShape(Object.assign(shapeCircle, style.zLevel));
 					myZr.addShape(shapeCircle);
-					// + - 文本
-					/* const shapeCollapse = new Text({
-						style: {
-							x: iconStatus === 'add' ? locationX - 9 : locationX - 5,
-							y: type === 1 ? locationY - 45 : locationY - 39,
-							color: 'white',
-							textFont: iconStatus === 'add' ? 'bold 20px verdana' : 'bold 22px verdana',
-							text: iconStatus === 'add' ? '+' : '-',
-						},
-					});
-					shapeCollapse.info = {
-						hasNode, id, dataType, iconStatus, treeName,
-					};
-					shapeCollapse.zlevel = 1;
-					shapeCollapse.z = 5;
-					shapeCollapse.ndelete = true;
-					shapeCollapse.hoverable = false;
-					shapeCollapse.isCollapse = true;
-					shapeCollapse.clickable = true; */
-					// myZr.addShape(shapeCollapse);
 				}
 			}
 		}
