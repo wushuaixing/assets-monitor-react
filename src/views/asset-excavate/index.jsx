@@ -144,10 +144,11 @@ class MonitorMain extends React.Component {
 								padding: '2px 9px',
 							}}
 							onClick={this.toNavigate}
+							className="attention-btn-icon"
 							size="large"
 							icon={() => (
 								<Icon
-									type="icon-follow"
+									type="icon-follow-ed"
 									// style={{ fontsize: 14, color: '#7D8699' }}
 									className="yc-btn-icon"
 								/>

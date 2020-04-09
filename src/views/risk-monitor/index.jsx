@@ -90,9 +90,10 @@ class RiskMonitor extends React.Component {
 							}}
 							onClick={this.toNavigate}
 							size="large"
+							className="attention-btn-icon"
 							icon={() => (
 								<Icon
-									type="icon-follow"
+									type="icon-follow-ed"
 									// style={{ fontsize: 14, color: '#7D8699' }}
 									className="yc-btn-icon"
 								/>
