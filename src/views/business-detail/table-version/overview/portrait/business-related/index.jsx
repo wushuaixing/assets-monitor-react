@@ -77,13 +77,6 @@ export default class BusinessRelated extends React.Component {
 		navigate(`/business/detail/edit/info?id=${businessId}`);
 	};
 
-	// 图片加载完成
-	imgLoad = () => {
-		this.setState(() => ({
-			imgLoading: true,
-		}));
-	};
-
 	render() {
 		const { columns, imgLoading } = this.state;
 		const { dataSource, loading } = this.props;
@@ -117,7 +110,7 @@ export default class BusinessRelated extends React.Component {
 								</tbody>
 							</table>
 							<div style={{ textAlign: 'center', marginBottom: '30px' }}>
-								<img style={imgLoading ? { marginTop: '50px' } : {}} src={noData} onLoad={this.imgLoad} alt="" />
+								<img style={imgLoading ? { marginTop: '50px' } : {}} src={noData} alt="" />
 								<div>暂未导入相关人，建议去编辑添加相关人，以形成完整业务画像</div>
 								<Button size="large" type="common" style={{ width: 160, height: 34, marginTop: 40 }} onClick={this.handleSubmit}>添加相关人</Button>
 							</div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { navigate } from '@reach/router';
 import {
 	overviewAuction, // 债务人资产拍卖
 	businessOverviewAuction, // 业务资产拍卖
@@ -65,14 +64,12 @@ export default class AssetProfile extends React.Component {
 	getAuctionData = (value, portrait) => {
 		const params = { ...value };
 		const api = portrait === 'business' ? businessOverviewAuction : overviewAuction;
-		// const params = { obligorId: 347917, ...value };
 		let auctionPropsData = {};
 		return api(params).then((res) => {
 			if (res.code === 200) {
 				auctionPropsData = {
 					auctionPropsData: res.data,
 				};
-				// this.setState({ auctionPropsData: res.data });
 			}
 			return auctionPropsData;
 		}).catch(() => { this.setState({ auctionPropsData: {} }); });
@@ -94,9 +91,6 @@ export default class AssetProfile extends React.Component {
 					gmtCreate: res.data.gmtCreate,
 					obligorTotal: res.data.obligorTotal || null,
 				};
-				// this.setState({
-				// 	landPropsData,
-				// });
 			}
 			return landPropsData;
 		}).catch(() => { this.setState({ landPropsData: {} }); });
@@ -121,9 +115,6 @@ export default class AssetProfile extends React.Component {
 					gmtCreate: res.data.gmtCreate,
 					obligorTotal: res.data.obligorTotal || null,
 				};
-				// this.setState({
-				// 	intangiblePropsData,
-				// });
 			}
 			return intangiblePropsData;
 		}).catch(() => {
@@ -151,7 +142,6 @@ export default class AssetProfile extends React.Component {
 					gmtCreate,
 					obligorTotal: res.data.obligorTotal || null,
 				};
-				// this.setState({ subrogationPropsData });
 			}
 			return subrogationPropsData;
 		}).catch();
@@ -172,9 +162,6 @@ export default class AssetProfile extends React.Component {
 					gmtCreate: res.data.gmtCreate,
 					obligorTotal: res.data.obligorTotal || null,
 				};
-				// this.setState({
-				// 	stockPropsData,
-				// });
 			}
 			return stockPropsData;
 		}).catch(() => { this.setState({ stockPropsData: {} }); });
@@ -195,9 +182,6 @@ export default class AssetProfile extends React.Component {
 					gmtCreate: res.data.gmtCreate,
 					obligorTotal: res.data.obligorTotal || null,
 				};
-				// this.setState({
-				// 	mortgagePropsData,
-				// });
 			}
 			return mortgagePropsData;
 		}).catch(() => { this.setState({ mortgagePropsData: {} }); });
@@ -216,9 +200,6 @@ export default class AssetProfile extends React.Component {
 					gmtCreate,
 					obligorTotal: res.data.obligorTotal || null,
 				};
-				// this.setState({
-				// 	biddingPropsData,
-				// });
 			}
 			return biddingPropsData;
 		}).catch(() => { this.setState({ biddingPropsData: {} }); });
@@ -243,10 +224,10 @@ export default class AssetProfile extends React.Component {
 			|| subrogationPropsData.allNum > 0 || stockPropsData.dataSourceNum > 0 || biddingPropsData.biddingNum > 0 || mortgagePropsData.dataSourceNum > 0;
 	};
 
-	handleNavigation = (eleID) => {
-		const Id = getQueryByName(window.location.href, 'id') || 9999999;
-		navigate(`/business/debtor/detail/info/102?id=${Id}&eleID=${eleID}`);
-	};
+	// handleNavigation = (eleID) => {
+	// 	const Id = getQueryByName(window.location.href, 'id') || 9999999;
+	// 	navigate(`/business/debtor/detail/info/102?id=${Id}&eleID=${eleID}`);
+	// };
 
 	render() {
 		const { portrait } = this.props;
@@ -267,13 +248,13 @@ export default class AssetProfile extends React.Component {
 						<Spin visible={isLoading}>
 							<div className="overview-container-cardContent">
 								{/* 资产拍卖 */}
-								<AssetsCard dataSource={auctionPropsData} portrait={portrait} onClick={() => this.handleNavigation('hello')} />
+								<AssetsCard dataSource={auctionPropsData} portrait={portrait} />
 								{/* 土地信息 */}
 								<LandCard dataSource={landPropsData} portrait={portrait} />
 								{/* 无形资产 */}
 								<Intangible dataSource={intangiblePropsData} portrait={portrait} />
 								{/* 代位权 */}
-								<Subrogation dataSource={subrogationPropsData} portrait={portrait} onClick={() => this.handleNavigation('e-assets-subrogation')} />
+								<Subrogation dataSource={subrogationPropsData} portrait={portrait} />
 								{/* 股权质押 */}
 								<EquityPledge dataSource={stockPropsData} portrait={portrait} />
 								{/* 动产抵押 */}

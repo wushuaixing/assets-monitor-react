@@ -96,7 +96,6 @@ export default class Break extends React.Component {
 					) : null
 				}
 			</span>
-
 		);
 	}
 }
