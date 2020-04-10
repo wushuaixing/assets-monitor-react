@@ -22,6 +22,24 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toShowExtraField=(row = {}) => {
+		const { portrait } = this.props;
+		return portrait === 'business' && (
+			<li>
+				<span className="list list-title align-justify">抵押权人</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">
+					<Ellipsis
+						content={toEmpty(row.people)}
+						url={row.peopleId ? `#/business/debtor/detail?id=${row.peopleId}` : ''}
+						tooltip
+						width={200}
+					/>
+				</span>
+			</li>
+		);
+	};
+
 	toGetColumns=() => [
 		{
 			title: '信息',
@@ -36,6 +54,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{timeStandard(row.regDate)}</span>
 					</li>
+					{this.toShowExtraField(row)}
 					<li>
 						<span className="list list-title align-justify">抵押物所有人</span>
 						<span className="list list-title-colon">:</span>
