@@ -66,11 +66,11 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">面积</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{w(row.landArea, { unix: '公顷' })}</span>
+						<span className="list list-content">{w(row.landArea, { suffix: '公顷' })}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">使用年限</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{w(row.transferTerm, { unix: '年' })}</span>
+						<span className="list list-content">{w(row.transferTerm, { suffix: '年' })}</span>
 					</li>
 				</div>
 			),
