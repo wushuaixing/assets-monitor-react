@@ -1,7 +1,6 @@
 import React from 'react';
 import { formatDateTime } from '@/utils/changeTime';
 import { Ellipsis } from '@/common';
-// import { linkDom } from '@/utils';
 
 const Result = {
 	InfoProject: (text, rowContent) => (

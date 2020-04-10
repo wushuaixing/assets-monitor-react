@@ -42,7 +42,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 93,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'}</span>,
+			render: value => <span>{timeStandard(value)}</span>,
 		}, {
 			title: '操作',
 			unNormal: true,

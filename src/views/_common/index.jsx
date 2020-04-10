@@ -102,7 +102,9 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
  * 数据列表 - 当事人 - 横向
  * */
 export const PartyCrosswise = (props) => {
-	const { value, row, type } = props;
+	const {
+		value, row, type, land, name,
+	} = props;
 
 	// 获取 字符最大长度
 	const toGetStrWidth = (list) => {
@@ -116,57 +118,64 @@ export const PartyCrosswise = (props) => {
 		return getByteLength(maxRoleName) * 6;
 	};
 	const toShowDetail =	() => Modal.info({
-		title: '当事人详情',
-		okText: '关闭',
+		title: `${land ? name : '当事人详情'}`,
+		okText: `${land ? '确定' : '关闭'}`,
 		iconType: 'null',
 		className: 'assets-an-info',
 		content: (
 			<div style={{ marginLeft: -28, maxHeight: 400, overflow: 'auto' }}>
 				<div style={{ padding: '15px 0' }}>
-					<div className="assets-info-content">
-						<li className="yc-public-normal-bold" style={{ marginBottom: 10 }}>
-							<span className="list list-content text-ellipsis" style={{ maxWidth: 300, color: '#20242e' }}>{row.caseNumber || '-'}</span>
-						</li>
-						<li>
-							{ type === 'trial' ? [
-								<span className="list list-title align-justify" style={{ width: 'auto' }}>立案日期</span>,
-								<span className="list list-title-colon">:</span>,
-								<span className="list list-content">{timeStandard(row.gmtRegister)}</span>,
-							] : '' }
-							{ type === 'court' ? [
-								<span className="list list-title align-justify" style={{ width: 'auto' }}>开庭日期</span>,
-								<span className="list list-title-colon">:</span>,
-								<span className="list list-content">{timeStandard(row.gmtTrial)}</span>,
-							] : '' }
-							{ type === 'judgment' ? [
-								<span className="list list-title align-justify" style={{ width: 'auto' }}>判决日期</span>,
-								<span className="list list-title-colon">:</span>,
-								<span className="list list-content">{timeStandard(row.gmtJudgment)}</span>,
-							] : '' }
-							<span className="list-split" style={{ height: 16 }} />
-							<span className="list list-title align-justify" style={{ width: 'auto' }}>处置单位</span>
-							<span className="list list-title-colon">:</span>
-							<span className="list list-content" style={{ maxWidth: 300, color: '#20242e' }}>{row.court || '-'}</span>
-						</li>
-					</div>
-					<div style={{
-						background: '#EBEEF5', margin: '20px 0', height: 1,
-					}}
-					/>
-					<div style={{ maxHeight: 400, overflow: 'auto', color: '#20242e' }}>
-						{partyInfo(value, row, true, true, 400)}
-					</div>
+					{land ? (
+						<div style={{ maxHeight: 400, overflow: 'auto' }}>
+							{partyInfo(value, row, true, true, 400)}
+						</div>
+					)
+						: (
+							<div>
+								<div className="assets-info-content">
+									<li className="yc-public-normal-bold" style={{ marginBottom: 10 }}>
+										<span className="list list-content text-ellipsis" style={{ maxWidth: 300, color: '#20242e' }}>{row.caseNumber || '-'}</span>
+									</li>
+									<li>
+										{ type === 'trial' ? [
+											<span className="list list-title align-justify" style={{ width: 'auto' }}>立案日期</span>,
+											<span className="list list-title-colon">:</span>,
+											<span className="list list-content">{timeStandard(row.gmtRegister)}</span>,
+										] : '' }
+										{ type === 'court' ? [
+											<span className="list list-title align-justify" style={{ width: 'auto' }}>开庭日期</span>,
+											<span className="list list-title-colon">:</span>,
+											<span className="list list-content">{timeStandard(row.gmtTrial)}</span>,
+										] : '' }
+										{ type === 'judgment' ? [
+											<span className="list list-title align-justify" style={{ width: 'auto' }}>判决日期</span>,
+											<span className="list list-title-colon">:</span>,
+											<span className="list list-content">{timeStandard(row.gmtJudgment)}</span>,
+										] : '' }
+										<span className="list-split" style={{ height: 16 }} />
+										<span className="list list-title align-justify" style={{ width: 'auto' }}>处置单位</span>
+										<span className="list list-title-colon">:</span>
+										<span className="list list-content" style={{ maxWidth: 300, color: '#20242e' }}>{row.court || '-'}</span>
+									</li>
+								</div>
+								<div style={{ background: '#EBEEF5', margin: '20px 0', height: 1 }} />
+								<div style={{ maxHeight: 400, overflow: 'auto', color: '#20242e' }}>
+									{partyInfo(value, row, true, true, 400)}
+								</div>
+							</div>
+						)}
 				</div>
 			</div>
 		),
 		onOk() {},
 	});
+
 	if (typeof value === 'object') {
 		if (value.length) {
 			const source = handleParties(value);
 			const maxWidth = toGetStrWidth(source);
 			const detailStatus = Boolean(source.filter(i => i.child.length > 1).length);
-			console.log(source);
+			// console.log(source);
 			return (
 				<div className="yc-party-crosswise">
 					{
