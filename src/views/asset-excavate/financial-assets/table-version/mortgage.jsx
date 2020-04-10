@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { timeStandard, toEmpty } from '@/utils';
+import { timeStandard, toEmpty, toGetStatusText } from '@/utils';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
@@ -89,8 +89,8 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ lineHeight: '20px' }}>
-						<Icon type="icon-dot" style={{ fontSize: 12, color: row.state === 0 ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
-						<span className="list list-content ">{row.state === 0 ? '有效' : '无效'}</span>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetStatusText(row.state).status ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
+						<span className="list list-content ">{toGetStatusText(row.state).text}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">登记编号</span>

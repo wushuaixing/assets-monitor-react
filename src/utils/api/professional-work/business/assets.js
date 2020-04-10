@@ -48,7 +48,7 @@ const assets = {
 		list: params => service.get('/yc/business/monitor/asset/auction/accurate/list', { params }).then(res => res.data),
 		count(params) {
 			return service.get('/yc/business/monitor/asset/auction/accurate/listCount', { params })
-				.then(res => Object.assign(res.data, { id: this.id, field: 'totalCount' }));
+				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10102: {
@@ -57,7 +57,7 @@ const assets = {
 		list: params => service.get('/yc/business/monitor/asset/auction/fuzzy/list', { params }).then(res => res.data),
 		count(params) {
 			return service.get('/yc/business/monitor/asset/auction/fuzzy/listCount', { params })
-				.then(res => Object.assign(res.data, { id: this.id, field: 'totalCount' }));
+				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	...intangible,

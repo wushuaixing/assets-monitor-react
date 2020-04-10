@@ -86,7 +86,28 @@ export default {
 
 
 };
-
+/**
+ * 有效无效，字段状态统一
+ * @param val
+ * @returns {{color: string, text: string, status: boolean}}
+ */
+export const toGetStatusText = (val) => {
+	const res = {
+		text: '-',
+		status: true,
+		color: '#3DBD7D',
+	};
+	if (typeof val === 'string') {
+		res.text = val;
+		res.status = val === '有效';
+	}
+	if (typeof val === 'number') {
+		res.text = val ? '有效' : '无效';
+		res.status = Boolean(val);
+	}
+	res.color = res.status ?	'#3DBD7D' : '#7D8699';
+	return res;
+};
 
 /* 填写数据
  * 如果没有填写默认值 */
