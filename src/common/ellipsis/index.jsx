@@ -64,8 +64,8 @@ export default class Ellipsis extends React.Component {
 			<div ref={e => this.element = e} className={`yc-ellipsis-element${className ? ` ${className}` : ''}`} style={style}>
 				{
 					_tooltip
-						? <Tooltip placement="top" title={content}>{url ? ContentText : <span>{ContentText}</span>}</Tooltip>
-						: ContentText
+						? <Tooltip placement="top" title={content}>{url ? (ContentText || '-') : <span>{(ContentText || '-')}</span>}</Tooltip>
+						: (ContentText || '-')
 				}
 			</div>
 		);

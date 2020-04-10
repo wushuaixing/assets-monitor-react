@@ -191,19 +191,26 @@
       }
 
     }
-    .intro-icon-per{
-      height: 52px;
-      overflow: hidden;
-    }
+
     .intro-content {
       margin-left: 96px;
-
       .intro-base-info, .intro-used {
         margin-top: 7px;
       }
 
     }
-
+    .intro-icon-per{
+      height: 60px;
+      width: 60px;
+      overflow: hidden;
+      .intro-icon-img-auto{
+        width: 60px;
+        height: 60px;
+      }
+      .intro-content{
+        margin-left: 75px;
+      }
+    }
     .intro-title {
 
       span {

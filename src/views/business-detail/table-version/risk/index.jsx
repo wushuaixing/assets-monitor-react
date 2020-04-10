@@ -35,7 +35,7 @@ const subItems = (data, portrait) => {
 			name: '破产重组',
 			total: data ? toGetTotal('3020', data) : 0,
 			info: data ? data.filter(i => /3020/.test(i.id)) : '',
-			role: roleState('fxjk', 'fxjkqypccz') && false,
+			role: roleState('fxjk', 'fxjkqypccz'),
 			component: Bankruptcy,
 			isStatus: 'only',
 			tagName: 'e-manage-bankruptcy',

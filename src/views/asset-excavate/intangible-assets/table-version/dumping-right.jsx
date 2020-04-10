@@ -21,7 +21,7 @@ const status = {
 	},
 };
 
-function keyToVAlue(key) {
+function keyToValue(key) {
 	if (key === '注销') {
 		return 1;
 	}
@@ -48,6 +48,25 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toShowExtraField=(row = {}) => {
+		const { portrait } = this.props;
+		if (portrait === 'business') {
+			return [
+				<span className="list list-title align-justify">持证单位</span>,
+				<span className="list list-title-colon">:</span>,
+				<span className="list list-content">
+					<Ellipsis
+						content={row.companyName}
+						url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+						tooltip
+						width={120}
+					/>
+				</span>,
+				<span className="list-split" style={{ height: 16 }} />];
+		}
+		return null;
+	};
+
 	toGetColumns=() => [
 		{
 			title: '信息',
@@ -59,6 +78,7 @@ export default class TableIntact extends React.Component {
 					</li>
 					<li>{row.industry}</li>
 					<li>
+						{this.toShowExtraField(row)}
 						<span className="list list-title align-justify">发证日期</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{timeStandard(row.gmtPublishTime)}</span>
@@ -87,14 +107,14 @@ export default class TableIntact extends React.Component {
 						row.status !== '正常' ? (
 							<React.Fragment>
 								<li>
-									<span className="list list-title align-justify">{`${status[keyToVAlue(row.status)].reasonName}`}</span>
+									<span className="list list-title align-justify">{`${status[keyToValue(row.status)].reasonName}`}</span>
 									<span className="list list-title-colon">:</span>
 									<span className="list list-content">
 										<Ellipsis content={row.reason || '-'} tooltip width={130} />
 									</span>
 								</li>
 								<li>
-									<span className="list list-title align-justify">{`${status[keyToVAlue(row.status)].dateName}`}</span>
+									<span className="list list-title align-justify">{`${status[keyToValue(row.status)].dateName}`}</span>
 									<span className="list list-title-colon">:</span>
 									<span className="list list-content">{row.gmtIssueTime || '-'}</span>
 								</li>

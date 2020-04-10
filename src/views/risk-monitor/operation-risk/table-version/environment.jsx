@@ -19,6 +19,28 @@ export default class TableVersion extends React.Component {
 		this.toGetData();
 	}
 
+	toShowExtraField=(item = {}) => {
+		const { portrait } = this.props;
+		if (portrait === 'business') {
+			return (
+				<li>
+					<span className="list list-title align-justify">相关单位</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">
+						<Ellipsis
+							content={item.obName}
+							url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
+							tooltip
+							width={250}
+						/>
+					</span>
+					{/* <span className="list-split" style={{ height: 16 }} /> */}
+				</li>
+			);
+		}
+		return null;
+	};
+
 	toGetColumns = () => [
 		{
 			title: '主要信息',
@@ -28,11 +50,12 @@ export default class TableVersion extends React.Component {
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
 						{ toEmpty(value) ? <Ellipsis content={value} url={row.url} width={600} font={15} /> : '-' }
 					</li>
+					{this.toShowExtraField(row)}
 				</div>
 			),
 		}, {
 			title: '辅助信息',
-			width: 360,
+			width: 300,
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li>

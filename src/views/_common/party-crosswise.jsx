@@ -70,23 +70,16 @@ export default class PartyInfoDetail extends React.Component {
 					{
 						source.map((i) => {
 							const content = this.toHandleName(i);
-							if (getByteLength(content) * 6 >= maxWidth) {
-								return (
-									<Tooltip placement="top" title={content}>
-										<li className="text-ellipsis" style={{ maxWidth }}>{content}</li>
-									</Tooltip>
-								);
-							}
-							return (
+							return getByteLength(content) * 6 >= maxWidth ? (
+								<Tooltip placement="top" title={content}>
+									<li className="text-ellipsis" style={{ maxWidth }}>{content}</li>
+								</Tooltip>
+							) : (
 								<li className="text-ellipsis" style={{ maxWidth }}>{content}</li>
 							);
 						})
 					}
-					{
-						status !== 'none'
-							? <div className="party-info-status-wait">等</div>
-							: null
-					}
+					{ status !== 'none' && <div className="party-info-status-wait">等</div> }
 				</div>
 			</div>
 		);

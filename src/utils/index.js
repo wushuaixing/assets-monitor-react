@@ -267,6 +267,7 @@ Date.prototype.format = function method(format) {
 	return fmt;
 };
 export const timeStandard = (text, mark) => {
+	if (text === null || text === undefined) return '-';
 	if (typeof text === 'number' && text === 0) return '1970-01-01';
 	if (typeof text === 'number') return (text ? new Date(text * 1000).format('yyyy-MM-dd') : mark || '-');
 	return text;

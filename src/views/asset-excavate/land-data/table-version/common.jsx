@@ -84,84 +84,6 @@ export const PartyCrosswise = (props) => {
 	return '-';
 };
 
-const Result = {
-	resultDetail: (text, row) => (
-		<React.Fragment>
-			<div className="assets-info-content">
-				<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-					<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-						{
-								row.projectName && row.projectName.length > 20
-									? (
-										<Tooltip placement="topLeft" title={row.projectName}>
-											<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
-												{`${row.projectName.substr(0, 20)}...`}
-											</a>
-										</Tooltip>
-									)
-									: (
-										<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
-											{row.projectName || '-'}
-										</a>
-									)
-							}
-					</span>
-					{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : '-'}
-				</li>
-				<li>
-					<span className="list">
-						<span>
-							{row.administrativeRegion || '-'}
-						</span>
-						<span style={{ marginLeft: 20 }}>{row.landAddress || '-'}</span>
-					</span>
-				</li>
-				<div className="yc-table-content">
-					<span className="list list-title align-justify">签订日期</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.singedTime || '-'}</span>
-					<div className="yc-table-line" />
-					<span className="list list-title align-justify">面积</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
-						{row.landArea || '-'}
-						公顷
-					</span>
-					<div className="yc-table-line" />
-					<span className="list list-title align-justify">使用年限</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
-						{`${row.transferTerm} 年` || '-'}
-					</span>
-				</div>
-
-			</div>
-		</React.Fragment>
-	),
-	resultRelatedInfo: (text, row) => (
-		<React.Fragment>
-			<div className="assets-info-content">
-				<li>
-					<span className="list list-content">
-						<span className="yc-purchasePrice-icon" />
-						{`成交价格 ${row.finalPrice || '-'}万元`}
-					</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify">批准单位</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.approver || '-'}</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify">供地方式</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{row.supplyWay || '-'}</span>
-				</li>
-			</div>
-		</React.Fragment>
-	),
-};
-
 const Transfer = {
 	transferDetail: (text, row) => (
 		<React.Fragment>
@@ -326,4 +248,4 @@ const Mortgage = {
 		</React.Fragment>
 	),
 };
-export { Result, Transfer, Mortgage };
+export { Transfer, Mortgage };
