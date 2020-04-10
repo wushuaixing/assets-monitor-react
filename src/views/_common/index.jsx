@@ -166,6 +166,7 @@ export const PartyCrosswise = (props) => {
 			const source = handleParties(value);
 			const maxWidth = toGetStrWidth(source);
 			const detailStatus = Boolean(source.filter(i => i.child.length > 1).length);
+			console.log(source);
 			return (
 				<div className="yc-party-crosswise">
 					{
