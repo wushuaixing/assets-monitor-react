@@ -1,4 +1,5 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import {
 	overviewAuction, // 债务人资产拍卖
 	businessOverviewAuction, // 业务资产拍卖
@@ -42,8 +43,8 @@ export default class AssetProfile extends React.Component {
 	}
 
 	componentDidMount() {
-		const obligorId = getQueryByName(window.location.href, 'id') || 347917;
-		const businessId = 21640 || getQueryByName(window.location.href, 'id');
+		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
+		const businessId = getQueryByName(window.location.href, 'id') || 9999999;
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };
 		Promise.all([this.getAuctionData(params, portrait), this.getLandData(params, portrait), this.getIntangibleData(params, portrait), this.getSubrogationData(params, portrait),
@@ -242,6 +243,11 @@ export default class AssetProfile extends React.Component {
 			|| subrogationPropsData.allNum > 0 || stockPropsData.dataSourceNum > 0 || biddingPropsData.biddingNum > 0 || mortgagePropsData.dataSourceNum > 0;
 	};
 
+	handleNavigation = (eleID) => {
+		const Id = getQueryByName(window.location.href, 'id') || 9999999;
+		navigate(`/business/debtor/detail/info/102?id=${Id}&eleID=${eleID}`);
+	};
+
 	render() {
 		const { portrait } = this.props;
 		const {
@@ -261,13 +267,13 @@ export default class AssetProfile extends React.Component {
 						<Spin visible={isLoading}>
 							<div className="overview-container-cardContent">
 								{/* 资产拍卖 */}
-								<AssetsCard dataSource={auctionPropsData} portrait={portrait} />
+								<AssetsCard dataSource={auctionPropsData} portrait={portrait} onClick={() => this.handleNavigation('hello')} />
 								{/* 土地信息 */}
 								<LandCard dataSource={landPropsData} portrait={portrait} />
 								{/* 无形资产 */}
 								<Intangible dataSource={intangiblePropsData} portrait={portrait} />
 								{/* 代位权 */}
-								<Subrogation dataSource={subrogationPropsData} portrait={portrait} />
+								<Subrogation dataSource={subrogationPropsData} portrait={portrait} onClick={() => this.handleNavigation('e-assets-subrogation')} />
 								{/* 股权质押 */}
 								<EquityPledge dataSource={stockPropsData} portrait={portrait} />
 								{/* 动产抵押 */}

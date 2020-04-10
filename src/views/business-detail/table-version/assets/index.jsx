@@ -8,7 +8,6 @@ import Intangible from './intangible';
 import Stock from './stock';
 import Chattel from './chattel';
 import Bidding from './bidding';
-import { getQueryByName } from '@/utils';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -128,10 +127,6 @@ class Assets extends React.Component {
 	componentDidMount() {
 		const { toPushChild } = this.props;
 		toPushChild(this.toGetSubItems());
-		const eleID = getQueryByName(window.location.href, 'eleID');
-		if (eleID) {
-			this.handleScroll(`${eleID}`);
-		}
 	}
 
 	componentWillReceiveProps(nextProps) {

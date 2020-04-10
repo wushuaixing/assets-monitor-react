@@ -10,6 +10,11 @@ export default class Subrogation extends React.Component {
 		this.state = {};
 	}
 
+	handleClick = () => {
+		const { onClick } = this.props;
+		if (onClick) { onClick(); }
+	};
+
 	render() {
 		const {
 			portrait, dataSource: {
@@ -17,8 +22,9 @@ export default class Subrogation extends React.Component {
 			},
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
+
 		return (
-			<span>
+			<span onClick={this.handleClick}>
 				{
 					allNum > 0 ? (
 						<Card

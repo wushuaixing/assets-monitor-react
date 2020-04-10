@@ -1,5 +1,4 @@
 import React from 'react';
-import { navigate } from '@reach/router';
 import { toThousands } from '@/utils/changeTime';
 import img from '@/assets/img/business/assestCard.png';
 import assetsPrice from '@/assets/img/business/assets_price.png';
@@ -12,15 +11,16 @@ export default class RiskInformation extends React.Component {
 		this.state = {};
 	}
 
-	handleNavigation = () => {
-		navigate('/business/detail/info/102?eleID=e-assets-auction');
+	handleClick = () => {
+		const { onClick } = this.props;
+		if (onClick) { onClick(); }
 	};
 
 	render() {
 		const { portrait, dataSource: { auctionPropsData } } = this.props;
 		const roleDistributions = auctionPropsData && Array.isArray((auctionPropsData.roleDistributions)) && auctionPropsData.roleDistributions.length > 0;
 		return (
-			<span>
+			<span onClick={this.handleClick}>
 				{
 					auctionPropsData.count > 0
 						? (
@@ -34,7 +34,7 @@ export default class RiskInformation extends React.Component {
 								text="资产拍卖"
 								styleName="assets-card"
 							>
-								<div className="card-content" onClick={this.handleNavigation} style={portrait === 'business' ? { padding: '20px 0' } : {}}>
+								<div className="card-content" style={portrait === 'business' ? { padding: '20px 0' } : {}}>
 									<div className="card-content-price">
 										<img className="card-content-left-img" src={assetsPrice} alt="" />
 										<div>相关资产价值约</div>

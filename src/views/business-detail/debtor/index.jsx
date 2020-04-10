@@ -137,6 +137,21 @@ export default class Enterprise extends React.Component {
 		});
 	}
 
+	// componentDidUpdate(prevState) {
+	// 	const { sourceType } = this.state;
+	// 	if (prevState.sourceType !== sourceType) {
+	// 		const { href } = window.location;
+	// 		console.log(href.indexOf('info') !== -1);
+	// 		if (href.indexOf('info') !== -1) {
+	// 			const type = href.match(/info\/(\S*)\?/)[1];
+	// 			console.log(type);
+	// 			if (type) {
+	// 				this.onSourceType(type);
+	// 			}
+	// 		}
+	// 	}
+	// }
+
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index, portrait) => {
 		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;

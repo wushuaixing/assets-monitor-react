@@ -15,7 +15,7 @@ const subItems = (data) => {
 		{
 			id: 1,
 			name: '基本信息',
-			disabled: false,
+			disabled: data && data.BusinessInfo <= 0,
 			tagName: 'e-assets-businessInfo',
 			component: BusinessInfo,
 		},
@@ -38,7 +38,7 @@ const subItems = (data) => {
 		{
 			id: 4,
 			name: '股权穿透图',
-			disabled: false,
+			disabled: data && data.EquityPenetration <= 0,
 			tagName: 'e-assets-equityPenetration',
 			component: EquityPenetration,
 		},
@@ -78,6 +78,7 @@ export default class Info extends React.Component {
 		this.state = {
 			data: {},
 			tabConfig: subItems(),
+			loading: false,
 		};
 	}
 
@@ -98,7 +99,25 @@ export default class Info extends React.Component {
 			if (res.code === 200) {
 				this.setState({
 					data: res.data,
+					loading: true,
 					tabConfig: subItems(res.data),
+				}, () => {
+					toPushChild(this.toGetSubItems());
+				});
+			} else {
+				const data = {
+					BusinessInfo: 0,
+					branch: 0,
+					change: 0,
+					investment: 0,
+					EquityPenetration: 0,
+					mainPerson: 0,
+					stockholder: 0,
+				};
+				this.setState({
+					data,
+					loading: true,
+					tabConfig: subItems(data),
 				}, () => {
 					toPushChild(this.toGetSubItems());
 				});
@@ -122,7 +141,7 @@ export default class Info extends React.Component {
 					tabConfig.map(item => (
 						<Button className="intro-btn-items" disabled={item.disabled} onClick={() => this.handleScroll(item.tagName)}>
 							{
-								item.id === 1 || item.id === 4 ? `${item.name}` : `${item.name}${item.total ? ` ${item.total}` : ' 0'}`
+								item.id === 1 || item.id === 4 ? `${item.name}` : (`${item.name}${item.total ? ` ${item.total}` : ' 0'}`)
 							}
 						</Button>
 					))
@@ -133,12 +152,12 @@ export default class Info extends React.Component {
 
 
 	render() {
-		const { data } = this.state;
+		const { data, loading } = this.state;
 		const { infoSource } = this.props;
 		return (
 			<div className="inquiry-assets info-assets-padding">
 				{
-					data && subItems(data).map(Item => (
+					loading && data && subItems(data).map(Item => (
 						data && Item.disabled === false ? <Item.component name={infoSource && infoSource.obligorName} id={Item.tagName} /> : ''))
 				}
 			</div>

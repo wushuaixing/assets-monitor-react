@@ -26,17 +26,16 @@ export default class BusinessInfo extends React.Component {
 		const params = {
 			...value,
 		};
-		getBaseInfo(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						loading: false,
-						dataObj: res.data,
-					});
-				} else {
-					this.setState({ loading: false });
-				}
-			})
+		getBaseInfo(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					loading: false,
+					dataObj: res.data,
+				});
+			} else {
+				this.setState({ loading: false });
+			}
+		})
 			.catch(() => {
 				this.setState({ loading: false });
 			});
