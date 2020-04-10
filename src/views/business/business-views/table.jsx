@@ -9,7 +9,7 @@ import {
 } from '@/utils/api/business';
 import { formatDateTime } from '@/utils/changeTime';
 
-import { Spin, Table } from '@/common';
+import { Icon, Spin, Table } from '@/common';
 
 const { confirm } = Modal;
 
@@ -126,28 +126,22 @@ class BusinessView extends React.Component {
 					return (
 						<React.Fragment>
 							{
-							text === 1 ? <p className="circle-item">启用</p> : <p className="no-attention">关闭</p>
+								text === 1 ? (
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
+										启用
+									</span>
+								) : (
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
+										关闭
+									</span>
+								)
 						}
 						</React.Fragment>
 					);
 				},
-				// render: text => (
-				// 	<React.Fragment>
-				// 		{
-				// 			text === 1 ? (
-				// 				<React.Fragment>
-				// 					<p className="circle-item">启用</p>
-				// 				</React.Fragment>
-				//
-				// 			) : (
-				// 				<React.Fragment>
-				// 					<p className="no-attention">关闭</p>
-				// 				</React.Fragment>
-				// 			)
-				// 		}
-				// 	</React.Fragment>
-				//
-				// ),
+
 			}, {
 				title: '操作',
 				key: 'operation',

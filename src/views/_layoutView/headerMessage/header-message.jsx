@@ -5,7 +5,7 @@ import {
 	notify, // 消息提醒
 	isRead, // 标记已读
 } from '@/utils/api/inform';
-import { Spin } from '@/common';
+import { Icon, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
@@ -125,7 +125,14 @@ export default class HeaderMessage extends React.Component {
 					<div className="yc-station-list">
 						{dataList && dataList.length > 0 ? dataList.map(item => (
 							<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId, item.id, item.operateType)}>
-								{item.isRead === false && <div className="yc-badge-tab-red" />}
+								{item.isRead === false && (
+								<Icon
+									type="icon-dot"
+									style={{
+										fontSize: 12, color: 'red', position: 'absolute', top: '10px', left: '8px',
+									}}
+								/>
+								)}
 								<div className="yc-station-item-title">
 									{item.title}
 									<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>

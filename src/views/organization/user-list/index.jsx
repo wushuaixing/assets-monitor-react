@@ -6,7 +6,7 @@ import {
 	userManageList, // liebiao
 	RoleList, // 角色列表
 } from '@/utils/api/organization';
-import { Table, Spin } from '@/common';
+import { Table, Spin, Icon } from '@/common';
 import '../style.scss';
 
 export default class BasicTable extends React.Component {
@@ -56,14 +56,15 @@ export default class BasicTable extends React.Component {
 						<React.Fragment>
 							{
 								text === 1 ? (
-									<React.Fragment>
-										<p className="circle-item">启用</p>
-									</React.Fragment>
-
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
+										启用
+									</span>
 								) : (
-									<React.Fragment>
-										<p className="no-attention">禁用</p>
-									</React.Fragment>
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
+										禁用
+									</span>
 								)
 							}
 						</React.Fragment>

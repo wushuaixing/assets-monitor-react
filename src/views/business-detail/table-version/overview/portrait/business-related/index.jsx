@@ -1,6 +1,6 @@
 import React from 'react';
 import { navigate } from '@reach/router';
-import { Table, Button } from '@/common';
+import { Table, Button, Icon } from '@/common';
 import noData from '@/assets/img/business/noData.png';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
@@ -53,7 +53,17 @@ export default class BusinessRelated extends React.Component {
 					return (
 						<React.Fragment>
 							{
-								text === 1 ? <p className="circle-item">开启</p> : <p className="no-attention">关闭</p>
+								text === 1 ? (
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
+										启用
+									</span>
+								) : (
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
+										关闭
+									</span>
+								)
 							}
 						</React.Fragment>
 					);
