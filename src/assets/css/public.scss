@@ -563,7 +563,7 @@ td.column-left20 {
 // 关注icon
 .yc-normal-isAttention {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   color: $text-remark;
   &:hover {
     color: $text-btn-hover;
@@ -572,7 +572,7 @@ td.column-left20 {
 
 .yc-isAttention {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   color: $common-warning;
 }
 
@@ -595,7 +595,11 @@ td.column-left20 {
     }
   }
 }
-
+.attention-btn-icon {
+  .yc-btn-icon {
+    color: #fb8e3c;
+  }
+}
 .yc-btn-icon {
   font-size: 14px;
 }
