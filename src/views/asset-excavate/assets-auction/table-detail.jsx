@@ -229,7 +229,6 @@ export default class TableIntact extends React.Component {
 			b: _sourceType,
 		});
 		this.setState({ loading: true });
-		console.log(api, params, 123);
 		api.list({
 			page: page || 1,
 			num: 5,

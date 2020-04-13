@@ -19,7 +19,7 @@ module.exports = {
 	output: {
 		path: `${ROOT}/${ENV_VALUE?"dist":"docs"}`,
 		filename: 'index.[contenthash].js',
-		chunkFilename: '[name].[chunkhash].js',
+		chunkFilename: '[name].[contenthash].js',
 	},
 	resolve: {
 		alias: {

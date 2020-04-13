@@ -4,7 +4,9 @@ import { getDynamicAsset } from 'api/dynamic';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
-import { timeStandard, toEmpty, w } from '@/utils';
+import {
+	timeStandard, toEmpty, toGetStatusText, w,
+} from '@/utils';
 import { floatFormat } from '@/utils/format';
 
 export default class TableIntact extends React.Component {
@@ -25,7 +27,7 @@ export default class TableIntact extends React.Component {
 	toShowExtraField=(row = {}) => {
 		const { portrait } = this.props;
 		return portrait === 'business' && (
-			<li>
+			<>
 				<span className="list list-title align-justify">抵押权人</span>
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">
@@ -36,7 +38,8 @@ export default class TableIntact extends React.Component {
 						width={200}
 					/>
 				</span>
-			</li>
+				<span className="list-split" style={{ height: 16 }} />
+			</>
 		);
 	};
 
@@ -47,24 +50,25 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.pawnName) ? <Ellipsis content={row.pawnName} tooltip width={600} font={15} /> : '-' }
+						<Ellipsis content={toEmpty(row.pawnName)} tooltip width={700} font={15} />
 					</li>
 					<li>
 						<span className="list list-title align-justify">登记日期</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{timeStandard(row.regDate)}</span>
 					</li>
-					{this.toShowExtraField(row)}
 					<li>
+						{this.toShowExtraField(row)}
 						<span className="list list-title align-justify">抵押物所有人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
-							{ toEmpty(row.owner) ? <Ellipsis content={row.owner} tooltip width={200} /> : '-'}
+							<Ellipsis content={toEmpty(row.owner)} tooltip width={200} />
 						</span>
-						<span className="list-split" style={{ height: 16 }} />
+					</li>
+					<li>
 						<span className="list list-title align-justify">担保债权数额</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.amount && w(floatFormat(row.amount.toFixed(2)), { suffix: ' 元' })}</span>
+						<span className="list list-content" style={{ minWidth: 170 }}>{row.amount && w(floatFormat(row.amount.toFixed(2)), { suffix: ' 元' })}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">债务人履行债务的期限</span>
 						<span className="list list-title-colon">:</span>
@@ -75,15 +79,15 @@ export default class TableIntact extends React.Component {
 		},
 		{
 			title: '关联信息',
-			width: 240,
+			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ lineHeight: '20px' }}>
-						<Icon type="icon-dot" style={{ fontSize: 12, color: row.status === '有效' ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
-						<span className="list list-content ">{row.status}</span>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetStatusText(row.status).status ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
+						<span className="list list-content ">{toGetStatusText(row.status).text}</span>
 					</li>
 					{
-						row.status === '无效' ? [
+						!toGetStatusText(row.status).status ? [
 							<li>
 								<span className="list list-title align-justify">注销时间</span>
 								<span className="list list-title-colon">:</span>
@@ -100,7 +104,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">登记编号</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">
-							{ toEmpty(row.regNum) ? <Ellipsis content={row.regNum} tooltip width={130} /> : '-'}
+							{ toEmpty(row.regNum) ? <Ellipsis content={row.regNum} tooltip width={250} /> : '-'}
 						</span>
 					</li>
 				</div>

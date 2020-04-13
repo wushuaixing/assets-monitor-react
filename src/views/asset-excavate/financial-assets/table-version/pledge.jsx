@@ -6,6 +6,23 @@ import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
 
+const toGetStatusText = (val) => {
+	const res = {
+		text: '-',
+		status: true,
+	};
+	if (typeof val === 'string') {
+		res.text = val;
+		res.status = val === '有效';
+	}
+	if (typeof val === 'number') {
+		res.text = val ? '有效' : '无效';
+		res.status = Boolean(val);
+	}
+	console.log(res);
+	return res;
+};
+
 export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -89,8 +106,8 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ lineHeight: '20px' }}>
-						<Icon type="icon-dot" style={{ fontSize: 12, color: row.state === 0 ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
-						<span className="list list-content ">{row.state === 0 ? '有效' : '无效'}</span>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetStatusText(row.state).color, marginRight: 2 }} />
+						<span className="list list-content ">{toGetStatusText(row.state).text}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">登记编号</span>
