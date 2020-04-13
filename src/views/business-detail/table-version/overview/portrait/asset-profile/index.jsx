@@ -18,19 +18,21 @@ import {
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
 import getCount from '@/views/portrait-inquiry/common/getCount';
-import AssetsCard from '../cardComponents/assets-card';
-import LandCard from '../cardComponents/land-card';
-import Intangible from '../cardComponents/intangible-card';
-import Subrogation from '../cardComponents/subrogation-card';
-import EquityPledge from '../cardComponents/EquityPledge-card';
-import ChattelMortgage from '../cardComponents/chattelMortgage-card';
-import Bidding from '../cardComponents/bidding-card';
+import AssetsCard from '../card-components/assets-card';
+import LandCard from '../card-components/land-card';
+import Intangible from '../card-components/intangible-card';
+import Subrogation from '../card-components/subrogation-card';
+import EquityPledge from '../card-components/EquityPledge-card';
+import ChattelMortgage from '../card-components/chattelMortgage-card';
+import Bidding from '../card-components/bidding-card';
 import './style.scss';
 
+const constantNumber = 99999999; // 默认值
 export default class AssetProfile extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isLoading: false,
 			auctionPropsData: {}, // 资产拍卖
 			landPropsData: {}, // 土地信息
 			intangiblePropsData: {}, // 无形资产
@@ -42,10 +44,14 @@ export default class AssetProfile extends React.Component {
 	}
 
 	componentDidMount() {
-		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
-		const businessId = getQueryByName(window.location.href, 'id') || 9999999;
+		const urlId = getQueryByName(window.location.href, 'id') || constantNumber;
+		const obligorId = urlId;
+		const businessId = urlId;
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };
+		this.setState(() => ({
+			isLoading: true,
+		}));
 		Promise.all([this.getAuctionData(params, portrait), this.getLandData(params, portrait), this.getIntangibleData(params, portrait), this.getSubrogationData(params, portrait),
 			this.getStockData(params, portrait), this.getMortgageData(params, portrait), this.getBiddingData(params, portrait)]).then((res) => {
 			this.setState({
@@ -56,6 +62,7 @@ export default class AssetProfile extends React.Component {
 				stockPropsData: res[4],
 				mortgagePropsData: res[5],
 				biddingPropsData: res[6],
+				isLoading: false,
 			});
 		});
 	}
@@ -72,7 +79,7 @@ export default class AssetProfile extends React.Component {
 				};
 			}
 			return auctionPropsData;
-		}).catch(() => { this.setState({ auctionPropsData: {} }); });
+		}).catch(() => {});
 	};
 
 	// 土地信息
@@ -93,7 +100,7 @@ export default class AssetProfile extends React.Component {
 				};
 			}
 			return landPropsData;
-		}).catch(() => { this.setState({ landPropsData: {} }); });
+		}).catch(() => {});
 	};
 
 	// 无形资产
@@ -117,9 +124,7 @@ export default class AssetProfile extends React.Component {
 				};
 			}
 			return intangiblePropsData;
-		}).catch(() => {
-			this.setState({ intangiblePropsData: {} });
-		});
+		}).catch(() => {});
 	};
 
 	// 代位权
@@ -164,7 +169,7 @@ export default class AssetProfile extends React.Component {
 				};
 			}
 			return stockPropsData;
-		}).catch(() => { this.setState({ stockPropsData: {} }); });
+		}).catch(() => {});
 	};
 
 	// 动产抵押
@@ -184,7 +189,7 @@ export default class AssetProfile extends React.Component {
 				};
 			}
 			return mortgagePropsData;
-		}).catch(() => { this.setState({ mortgagePropsData: {} }); });
+		}).catch(() => {});
 	};
 
 	// 招投标
@@ -202,18 +207,18 @@ export default class AssetProfile extends React.Component {
 				};
 			}
 			return biddingPropsData;
-		}).catch(() => { this.setState({ biddingPropsData: {} }); });
+		}).catch(() => {});
 	};
 
 	// 判断对象是否为空
-	isEmptyObject = () => {
-		const {
-			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData,
-		} = this.state;
-		return Object.keys(auctionPropsData).length === 0 && Object.keys(landPropsData).length === 0 && Object.keys(intangiblePropsData).length === 0
-			&& Object.keys(subrogationPropsData).length === 0 && Object.keys(stockPropsData).length === 0 && Object.keys(biddingPropsData).length === 0
-			&& Object.keys(mortgagePropsData).length === 0;
-	};
+	// isEmptyObject = () => {
+	// 	const {
+	// 		auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData,
+	// 	} = this.state;
+	// 	return Object.keys(auctionPropsData).length === 0 && Object.keys(landPropsData).length === 0 && Object.keys(intangiblePropsData).length === 0
+	// 		&& Object.keys(subrogationPropsData).length === 0 && Object.keys(stockPropsData).length === 0 && Object.keys(biddingPropsData).length === 0
+	// 		&& Object.keys(mortgagePropsData).length === 0;
+	// };
 
 	// 判断内部是否存数据
 	isHasValue = () => {
@@ -224,17 +229,11 @@ export default class AssetProfile extends React.Component {
 			|| subrogationPropsData.allNum > 0 || stockPropsData.dataSourceNum > 0 || biddingPropsData.biddingNum > 0 || mortgagePropsData.dataSourceNum > 0;
 	};
 
-	// handleNavigation = (eleID) => {
-	// 	const Id = getQueryByName(window.location.href, 'id') || 9999999;
-	// 	navigate(`/business/debtor/detail/info/102?id=${Id}&eleID=${eleID}`);
-	// };
-
 	render() {
 		const { portrait } = this.props;
 		const {
-			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData,
+			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData, isLoading,
 		} = this.state;
-		const isLoading = this.isEmptyObject();
 		const isHasValue = this.isHasValue();
 		return (
 			<div>

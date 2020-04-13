@@ -18,18 +18,17 @@ import BusinessRisk from './components/businessRisk';
 import Basic from '@/views/portrait-inquiry/enterprise/overview/components/basic';
 import ShareholderSituation from '@/views/portrait-inquiry/enterprise/overview/components/shareholderSituation';
 import BusinessScale from '@/views/portrait-inquiry/enterprise/overview/components/businessScale';
-
 import NoContent from '@/common/noContent';
 import { Spin } from '@/common';
 import './style.scss';
 
-
+const constantNumber = 99999999; // 默认值
 export default class Visualize extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			obligorId: parseQuery(window.location.hash).id || 999999,
-			businessId: parseQuery(window.location.hash).id || 999999,
+			obligorId: parseQuery(window.location.hash).id || constantNumber,
+			businessId: parseQuery(window.location.hash).id || constantNumber,
 			loading: false,
 			litigationInfos: null,
 			baseInfo: {},

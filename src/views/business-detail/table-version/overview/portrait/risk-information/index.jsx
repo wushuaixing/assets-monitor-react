@@ -8,13 +8,14 @@ import {
 	businessOverviewRisk, // 业务经营风险
 } from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
-import Bankruptcy from '../cardComponents/Bankruptcy-card';
-import Involved from '../cardComponents/Involved-card';
-import Information from '../cardComponents/Information-card';
+import Bankruptcy from '../card-components/Bankruptcy-card';
+import Involved from '../card-components/Involved-card';
+import Information from '../card-components/Information-card';
 import './style.scss';
 import { getQueryByName } from '@/utils';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 
+const constantNumber = 99999999; // 默认值
 export default class RiskInformation extends React.Component {
 	constructor(props) {
 		super(props);
@@ -26,8 +27,9 @@ export default class RiskInformation extends React.Component {
 	}
 
 	componentDidMount() {
-		const obligorId = getQueryByName(window.location.href, 'id') || 347917;
-		const businessId = getQueryByName(window.location.href, 'id') || 22584;
+		const urlId = getQueryByName(window.location.href, 'id') || constantNumber;
+		const obligorId = urlId;
+		const businessId = urlId;
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };
 
