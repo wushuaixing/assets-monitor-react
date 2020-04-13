@@ -90,7 +90,6 @@ class RingEcharts extends React.Component {
 		const {
 			Data, id, title, customColorArray,
 		} = this.props;
-		console.log(customColorArray, 1231);
 
 		// 添加需要的字段名称
 		const newRingArray = [];
@@ -171,8 +170,7 @@ class RingEcharts extends React.Component {
 	};
 
 	render() {
-		const { id, title, customColorArray } = this.props;
-		console.log(customColorArray, title, 333);
+		const { id, title } = this.props;
 		return (
 			<div>
 				<div className="yc-ring-title">{title}</div>

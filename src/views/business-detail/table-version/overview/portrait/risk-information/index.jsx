@@ -65,7 +65,7 @@ export default class RiskInformation extends React.Component {
 			// // 经营风险
 			this.getRiskData(isArray, values);
 
-			console.log('all promise are resolved', values);
+			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
 		});

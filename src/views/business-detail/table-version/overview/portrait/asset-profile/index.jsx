@@ -96,7 +96,7 @@ export default class AssetProfile extends React.Component {
 			this.getMortgageData(isArray, values);
 			// 招投标
 			this.getBiddingData(isArray, values);
-			console.log('all promise are resolved', values);
+			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
 		});
