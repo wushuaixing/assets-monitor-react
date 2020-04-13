@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
 import { Ellipsis, Spin, Table } from '@/common';
-import { w } from '@/utils';
+import { w, timeStandard } from '@/utils';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -46,23 +46,20 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							<Ellipsis content={row.projectName} url={row.url} tooltip width={300} />
+							<Ellipsis content={row.projectName} url={row.url} tooltip width={300} font={14} />
 						</span>
 						{ row.landUse && <span className="yc-case-reason text-ellipsis">{row.landUse}</span>}
 					</li>
 					<li>
-						<span className="list">
-							<span>
-								{row.administrativeRegion || '-'}
-							</span>
-							<span style={{ marginLeft: 20 }}>{row.landAddress || '-'}</span>
-						</span>
+						<span className="list list-content">{w(row.administrativeRegion)}</span>
+						<span className="list-split" style={{ height: 16, background: '#fff' }} />
+						<span className="list list-content">{w(row.landAddress)}</span>
 					</li>
 					{this.toShowExtraField(row)}
 					<li>
 						<span className="list list-title align-justify">签订日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.singedTime || '-'}</span>
+						<span className="list list-content">{timeStandard(row.singedTime) || '-'}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">面积</span>
 						<span className="list list-title-colon">:</span>

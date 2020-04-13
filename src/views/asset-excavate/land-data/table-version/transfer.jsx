@@ -1,7 +1,9 @@
 import React from 'react';
-import { Pagination, Tooltip } from 'antd';
+import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { Spin, Table } from '@/common';
+import {
+	Spin, Table, Ellipsis, LiItem,
+} from '@/common';
 import { w, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
@@ -28,51 +30,22 @@ export default class TableIntact extends React.Component {
 				<React.Fragment>
 					<div className="assets-info-content">
 						<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-							<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-								{
-									row.landAddress && row.landAddress.length > 20
-										? (
-											<Tooltip placement="topLeft" title={row.landAddress}>
-												<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
-													{`${row.landAddress.substr(0, 20)}...`}
-												</a>
-											</Tooltip>
-										)
-										: (
-											<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
-												{row.landAddress || '-'}
-											</a>
-										)
-								}
+							<span className="list list-content" style={{ maxWidth: 300 }}>
+								<Ellipsis content={row.landAddress} url={row.url} tooltip font={15} width={300} />
 							</span>
 							{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse || '-'}</span> : ''}
 						</li>
+						<LiItem Li>{w(row.administrativeRegion)}</LiItem>
 						<li>
-							<span className="list">
-								<span>
-									{row.administrativeRegion || '-'}
-								</span>
-							</span>
+							<PartyCrosswise value={row.parties} land row={row} name="土地转让" type="transfer" linkDetail />
 						</li>
-						<PartyCrosswise value={row.parties} land row={row} name="土地转让" type="transfer" />
-						<div className="yc-table-content">
-							<span className="list list-title align-justify">成交日期</span>
-							<span className="list list-title-colon">：</span>
-							<span className="list list-content">{timeStandard(row.dealingTime)}</span>
-							<div className="yc-table-line" />
-							<span className="list list-title align-justify">面积</span>
-							<span className="list list-title-colon">：</span>
-							<span className="list list-content">
-								{w(row.landArea, { suffix: '公顷' })}
-							</span>
-							<div className="yc-table-line" />
-							<span className="list list-title align-justify">使用年限</span>
-							<span className="list list-title-colon">：</span>
-							<span className="list list-content">
-								{w(row.landUsageTerm, { suffix: '年' })}
-							</span>
-						</div>
-
+						<li>
+							<LiItem title="成交日期">{timeStandard(row.dealingTime)}</LiItem>
+							<span className="list-split" style={{ height: 16 }} />
+							<LiItem title="面积">{w(row.landArea, { suffix: '公顷' })}</LiItem>
+							<span className="list-split" style={{ height: 16 }} />
+							<LiItem title="使用年限">{w(row.landUsageTerm, { suffix: '年' })}</LiItem>
+						</li>
 					</div>
 				</React.Fragment>
 			),
@@ -82,17 +55,11 @@ export default class TableIntact extends React.Component {
 			render: (text, row) => (
 				<React.Fragment>
 					<div className="assets-info-content">
-						<li>
-							<span className="list list-content">
-								<span className="yc-purchasePrice-icon" />
-								{w(row.transferPrice, { prefix: '转让价格：', suffix: '万元' })}
-							</span>
-						</li>
-						<li>
-							<span className="list list-title align-justify">转让方式</span>
-							<span className="list list-title-colon">：</span>
-							<span className="list list-content">{row.transferMode || '-'}</span>
-						</li>
+						<LiItem Li>
+							<span className="yc-purchasePrice-icon" />
+							{w(row.transferPrice, { prefix: '转让价格：', suffix: '万元' })}
+						</LiItem>
+						<LiItem Li title="转让方式">{w(row.transferMode)}</LiItem>
 					</div>
 				</React.Fragment>
 			),
