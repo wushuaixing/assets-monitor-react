@@ -72,7 +72,15 @@ export default class PartyInfoDetail extends React.Component {
 						source.map((i) => {
 							const content = this.toHandleName(i);
 							if (linkDetail) {
-								return <Ellipsis content={content} width={maxWidth} url={i.obligorId ? `#/business/debtor/detail?id=${i.obligorId}` : ''} tooltip />;
+								return (
+									<Ellipsis
+										content={content}
+										width={maxWidth}
+										className="yc-line-height-16"
+										url={i.obligorId ? `#/business/debtor/detail?id=${i.obligorId}` : ''}
+										tooltip
+									/>
+								);
 							}
 							return getByteLength(content) * 6 >= maxWidth ? (
 								<Tooltip placement="top" title={content}>
