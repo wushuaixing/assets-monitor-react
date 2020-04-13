@@ -3,6 +3,7 @@ import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
 import { Ellipsis, Spin, Table } from '@/common';
 import { w, timeStandard } from '@/utils';
+import './style.scss';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -33,7 +34,6 @@ export default class TableIntact extends React.Component {
 						width={500}
 					/>
 				</span>
-				{/* <span className="list-split" style={{ height: 16 }} /> */}
 			</li>
 		);
 	};
@@ -53,7 +53,7 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-content">{w(row.administrativeRegion)}</span>
 						<span className="list-split" style={{ height: 16, background: '#fff' }} />
-						<span className="list list-content">{w(row.landAddress)}</span>
+						<Ellipsis content={w(row.landAddress)} tooltip width={200} customColor="#20242E" font={14} />
 					</li>
 					{this.toShowExtraField(row)}
 					<li>
@@ -85,12 +85,12 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">批准单位</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.approver || '-'}</span>
+						<Ellipsis content={w(row.approver)} tooltip width={240} customColor="#20242E" font={14} />
 					</li>
 					<li>
 						<span className="list list-title align-justify">供地方式</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.supplyWay || '-'}</span>
+						<Ellipsis content={w(row.supplyWay)} tooltip width={240} customColor="#20242E" font={14} />
 					</li>
 				</div>
 			),
