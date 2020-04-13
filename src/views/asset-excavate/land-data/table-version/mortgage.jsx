@@ -1,9 +1,10 @@
 import React from 'react';
-import { Pagination, Tooltip } from 'antd';
+import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
 import { Ellipsis, Spin, Table } from '@/common';
 import { w, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
+import './style.scss';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -29,30 +30,12 @@ export default class TableIntact extends React.Component {
 					<div className="assets-info-content">
 						<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 							<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-								{
-									row.landAddress && row.landAddress.length > 20
-										? (
-											<Tooltip placement="topLeft" title={row.landAddress}>
-												<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
-													{`${row.landAddress.substr(0, 20)}...`}
-												</a>
-											</Tooltip>
-										)
-										: (
-											<a href={row.url.length > 1 && row.url} target="_blank" rel="noopener noreferrer" className={row.url.length > 1 ? 'yc-table-text-link' : ''}>
-												{row.landAddress || '-'}
-											</a>
-										)
-								}
+								<Ellipsis content={row.landAddress} url={row.url} tooltip width={300} font={14} />
 							</span>
 							{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : ''}
 						</li>
 						<li>
-							<span className="list">
-								<span>
-									{row.administrativeRegion || '-'}
-								</span>
-							</span>
+							<span className="list list-content" style={{ maxWidth: 300 }}>{w(row.administrativeRegion)}</span>
 						</li>
 						<PartyCrosswise value={row.parties} row={row} name="土地抵押" type="mortgage" land />
 						<div className="yc-table-content">
@@ -74,9 +57,8 @@ export default class TableIntact extends React.Component {
 							<div className="yc-table-line" />
 							<span className="list list-title align-justify">土地使用权证号</span>
 							<span className="list list-title-colon">：</span>
-							<Ellipsis content={row.landUseCertificateNumber || '-'} tooltip width={200} />
+							<Ellipsis content={w(row.landUseCertificateNumber)} tooltip width={200} />
 						</div>
-
 					</div>
 				</React.Fragment>
 			),
@@ -97,13 +79,12 @@ export default class TableIntact extends React.Component {
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content">
 								{w(row.mortgageArea, { suffix: '公顷' })}
-								公顷
 							</span>
 						</li>
 						<li>
 							<span className="list list-title align-justify">土地他项权证号</span>
 							<span className="list list-title-colon">:</span>
-							<Ellipsis content={row.otherObligeeCertificateNumber || '-'} tooltip width={180} />
+							<Ellipsis content={w(row.otherObligeeCertificateNumber)} customColor="#20242E" tooltip width={180} />
 						</li>
 						<li>
 							<span className="list list-title align-justify">登记结束日期</span>

@@ -7,6 +7,7 @@ import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import './style.scss';
 import { getQueryByName } from '@/utils';
 
+const constantNumber = 99999999; // 默认值
 export default class BusinessRelated extends React.Component {
 	constructor(props) {
 		super(props);
@@ -73,7 +74,7 @@ export default class BusinessRelated extends React.Component {
 	}
 
 	handleSubmit = () => {
-		const businessId = getQueryByName(window.location.href, 'id') || 999999;
+		const businessId = getQueryByName(window.location.href, 'id') || constantNumber;
 		navigate(`/business/detail/edit/info?id=${businessId}`);
 	};
 

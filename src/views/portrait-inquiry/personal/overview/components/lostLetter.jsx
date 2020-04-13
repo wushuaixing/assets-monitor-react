@@ -33,11 +33,8 @@ export default class LostLetter extends React.Component {
 				this.setState({
 					timeLineData,
 				});
-			} else {
-				// this.setState({ loading: false });
 			}
 		}).catch(() => {
-			// this.setState({ loading: false });
 		});
 	};
 

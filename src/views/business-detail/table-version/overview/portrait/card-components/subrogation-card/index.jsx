@@ -24,7 +24,7 @@ export default class Subrogation extends React.Component {
 		const isBusiness = portrait && portrait === 'business';
 
 		return (
-			<span onClick={this.handleClick}>
+			<React.Fragment>
 				{
 					allNum > 0 ? (
 						<Card
@@ -83,7 +83,7 @@ export default class Subrogation extends React.Component {
 						</Card>
 					) : null
 				}
-			</span>
+			</React.Fragment>
 		);
 	}
 }

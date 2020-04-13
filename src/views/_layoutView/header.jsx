@@ -1,18 +1,16 @@
 import React from 'react';
-import { navigate } from '@reach/router';
 import { Badge } from 'antd';
-// import Badge from '@/common/badge';
+import { navigate } from '@reach/router';
 import logoImg from '@/assets/img/logo_white.png';
+import { unreadCount } from '@/utils/api/inform';
+import { toGetRuleSource } from '@/utils';
 import Ellipse from '../../assets/img/icon/icon_unread99.png';
 import Circular from '../../assets/img/icon/icon_unread.png';
-import { unreadCount } from '@/utils/api/inform';
 import HeaderCenter from './headerCenter/header-center';
 import HeaderMessage from './headerMessage/header-message';
-import { toGetRuleSource } from '@/utils';
 import './style.scss';
 
-const logoText = '源诚资产监控平台';
-
+// const logoText = '源诚资产监控平台';
 /* 导航项目 */
 const Item = (props) => {
 	const {
@@ -96,10 +94,7 @@ export default class Headers extends React.Component {
 		};
 	}
 
-
 	componentDidMount() {
-		// const { hash } = window.location;
-		// console.log(hash);
 		const { rule } = this.props;
 		window.scrollTo(0, 0);
 		if (rule.menu_sy) {
@@ -115,30 +110,27 @@ export default class Headers extends React.Component {
 
 	componentWillReceiveProps() {
 		const { rule } = this.props;
-		const { Surplus } = this.state;
+		const { Surplus, active } = this.state;
+		const _active = defaultRouter(this.source);
 		if (rule.menu_sy) {
 			unreadCount().then((res) => {
 				if (res.code === 200) {
 					if (Surplus !== res.data) {
 						window.location.reload(); // 实现页面重新加载/
 					}
-					// this.setState({
-					// 					// 	num: res.data,
-					// 					// });
 				}
 			});
 		}
-		const { active } = this.state;
-		const _active = defaultRouter(this.source);
 		if (active !== _active) {
-			this.setState({ active: _active });
+			this.setState({
+				active: _active,
+			});
 		}
 	}
 
 	componentDidUpdate() {
 		window.scrollTo(0, 0);
 	}
-
 
 	componentWillUnmount() {
 		window.scrollTo(0, 0);
@@ -163,7 +155,6 @@ export default class Headers extends React.Component {
 			active, config, data, num,
 		} = this.state;
 		const { rule } = this.props;
-		const haveNum = (num < 10 ? <img className="yc-Circular-icon" src={Circular} alt="" /> : <img className="yc-Ellipse-icon" src={Ellipse} alt="" />);
 		return (
 			<div className="yc-header-wrapper">
 				<div
@@ -178,41 +169,28 @@ export default class Headers extends React.Component {
 				<div className="yc-header-content">
 					<div className="header-logo">
 						<img src={logoImg} alt="" />
-						<span className="yc-public-white-large">{logoText}</span>
+						<span className="yc-public-white-large">源诚资产监控平台</span>
 					</div>
 					<div className="header-menu">
-						{ config.map(items => (
+						{config.map(items => (
 							<Item
 								key={items.id}
 								{...items}
 								set={val => this.setState({ active: val })}
 								active={active}
 							/>
-						)) }
+						))}
 					</div>
 					<div className="header-else">
 						{
 							data && data.expire && data.expire >= 0 && (
 							<div className="header-else-left">
 								{
-									data.expire === 1 ? (
-										<div className="yc-leftTime">
-											今日到期
-										</div>
-									) : (
-										<div className="yc-leftTime">
-											账号到期还剩：
-											{data.expire}
-											天
-										</div>
-									)
+									data.expire === 1 ? (<div className="yc-leftTime">今日到期</div>) : (<div className="yc-leftTime">{`账号到期还剩：${data.expire}天`}</div>)
 								}
-
 								<div className="else-child else-line" />
-
 							</div>
 							)
-
 						}
 						{
 							rule.menu_sy && (
@@ -226,35 +204,24 @@ export default class Headers extends React.Component {
 							>
 								<div className="notice-icon yc-notice-img" />
 								{
-									num ? haveNum : ''
+									num ? (num < 10 ? <img className="yc-Circular-icon" src={Circular} alt="" /> : <img className="yc-Ellipse-icon" src={Ellipse} alt="" />) : ''
 								}
 								{
 									num ? <span className="yc-badge-num" style={num > 99 ? { left: '28px' } : { left: '30px' }}>{num > 99 ? '99+' : num}</span> : ''
 								}
-								{/* <Badge */}
-								{/*	count={Surplus && num && num > 0 ? `${num}` : ''} */}
-								{/*	className="yc-ant-badge" */}
-								{/*	style={_style(num)} */}
-								{/* > */}
-								{/*	*/}
-								{/* </Badge> */}
-								{/* <span className="notice-number">{num && num > 0 ? `(${num})` : ''}</span> */}
 								<HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" />
 							</div>
 							)
 						}
-
 						{/* <HeaderMessage mark="消息中心大概预览" /> */}
 						<div className="else-child else-line" />
 						<div className="else-child else-username header-item-normal">
 							<li className="else-child-li">
-								您好，
-								{data && data.name}
+								{`您好, ${data && data.name}`}
 							</li>
 							<li className="else-child-li-orgName">{data && data.orgName}</li>
 							<HeaderCenter getData={this.getData} mark="个人中心大概" />
 						</div>
-						{/* <HeaderCenter mark="个人中心大概" /> */}
 					</div>
 				</div>
 			</div>

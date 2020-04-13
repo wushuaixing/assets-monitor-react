@@ -1,12 +1,12 @@
 import React from 'react';
 import './style.scss';
 
-const getOption = (Data, id, title, newRingArray) => ({
+const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 	tooltip: {
 		trigger: 'item',
 		formatter: '{a} <br/>{b} : {c} ({d}%)',
 	},
-	color: ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
+	color: customColorArray || ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
 	legend: {
 		selectedMode: false, // 取消图例上的点击事件
 		orient: 'vertical',
@@ -87,7 +87,10 @@ class RingEcharts extends React.Component {
 	}
 
 	toDrawEcharts =() => {
-		const { Data, id, title } = this.props;
+		const {
+			Data, id, title, customColorArray,
+		} = this.props;
+
 		// 添加需要的字段名称
 		const newRingArray = [];
 		if (Data) {
@@ -98,7 +101,7 @@ class RingEcharts extends React.Component {
 		}
 		const DOM = document.getElementById(`${id}RingEcharts`);
 		const myChart = window.echarts.init(DOM);
-		const option = getOption(Data, id, title, newRingArray);
+		const option = getOption(Data, id, title, newRingArray, customColorArray);
 		const { color, series: { 0: { data: dataList } } } = option;
 		if (!global.GLOBAL_MEIE_BROWSER) {
 			delete option.legend;

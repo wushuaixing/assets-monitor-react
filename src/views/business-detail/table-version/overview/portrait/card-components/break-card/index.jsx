@@ -51,7 +51,7 @@ export default class Break extends React.Component {
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
 		return (
-			<span>
+			<React.Fragment>
 				{dataSourceNum > 0
 					? (
 						<Card
@@ -95,7 +95,7 @@ export default class Break extends React.Component {
 						</Card>
 					) : null
 				}
-			</span>
+			</React.Fragment>
 		);
 	}
 }

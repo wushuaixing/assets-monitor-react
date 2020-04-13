@@ -20,7 +20,7 @@ export default class RiskInformation extends React.Component {
 		const { portrait, dataSource: { auctionPropsData } } = this.props;
 		const roleDistributions = auctionPropsData && Array.isArray((auctionPropsData.roleDistributions)) && auctionPropsData.roleDistributions.length > 0;
 		return (
-			<span onClick={this.handleClick}>
+			<React.Fragment>
 				{
 					auctionPropsData.count > 0
 						? (
@@ -87,7 +87,7 @@ export default class RiskInformation extends React.Component {
 							</Card>
 						) : null
 				}
-			</span>
+			</React.Fragment>
 		);
 	}
 }

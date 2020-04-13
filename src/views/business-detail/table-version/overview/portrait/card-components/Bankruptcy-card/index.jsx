@@ -13,7 +13,7 @@ export default class Bankruptcy extends React.Component {
 		const { portrait, dataSource: { bankruptcyNum, gmtCreate, obligorTotal } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		return (
-			<span>
+			<React.Fragment>
 				{bankruptcyNum > 0 ? (
 					<Card
 						imgCard={bankruptcyImg}
@@ -46,7 +46,7 @@ export default class Bankruptcy extends React.Component {
 						</div>
 					</Card>
 				) : null}
-			</span>
+			</React.Fragment>
 		);
 	}
 }
