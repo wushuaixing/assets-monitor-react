@@ -183,7 +183,7 @@ export default class Information extends React.Component {
 							</div>
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="Information" />}
 							{selectType !== 'Filing' && columnarDataNum > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="Information" />}
-							{RingDataNum > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="Information" />}
+							{RingDataNum > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="Information" customColorArray={['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A']} />}
 						</div>
 					</div>
 				) : null}
