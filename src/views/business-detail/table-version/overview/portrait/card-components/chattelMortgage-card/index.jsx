@@ -21,8 +21,7 @@ export default class ChattelMortgage extends React.Component {
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
 		return (
-			<span>
-
+			<React.Fragment>
 				{dataSourceNum > 0 ? (
 					<Card
 						imgCard={chattelMortgageImg}
@@ -69,7 +68,7 @@ export default class ChattelMortgage extends React.Component {
 						</div>
 					</Card>
 				) : null}
-			</span>
+			</React.Fragment>
 		);
 	}
 }

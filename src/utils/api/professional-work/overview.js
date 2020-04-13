@@ -7,7 +7,6 @@ export const obligorList = async (params) => {
 };
 
 // 业务-业务列表
-// export const businessList = async params => service.get('/yc/business/monitor/overview/relation', { params }).then(res => res.data);
 export const businessList = async (params) => {
 	const response = await service.get('/yc/business/monitor/overview/relation', { params });
 	return response.data;
@@ -25,7 +24,6 @@ export const businessOverviewAuction = async (params) => {
 };
 
 // 债务人土地信息
-// export const overviewLand = async params => service.get('/yc/obligor/monitor/overview/land', { params }).then(res => res.data);
 export const overviewLand = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/land', { params });
 	return response.data;

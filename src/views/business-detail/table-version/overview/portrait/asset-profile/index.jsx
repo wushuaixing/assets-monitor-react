@@ -16,7 +16,7 @@ import {
 	businessOverviewBidding, // 业务招投标
 } from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
-import { getQueryByName } from '@/utils';
+import { getQueryByName, promiseAll } from '@/utils';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import AssetsCard from '../card-components/assets-card';
 import LandCard from '../card-components/land-card';
@@ -28,6 +28,18 @@ import Bidding from '../card-components/bidding-card';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值
+const apiType = (value, portrait) => {
+	switch (value) {
+	case 'Auction': return portrait === 'business' ? businessOverviewAuction : overviewAuction;
+	case 'Land': return portrait === 'business' ? businessOverviewLand : overviewLand;
+	case 'Intangible': return portrait === 'business' ? businessOverviewIntangible : overviewIntangible;
+	case 'Subrogation': return portrait === 'business' ? businessOverviewSubrogation : overviewSubrogation;
+	case 'Stock': return portrait === 'business' ? businessOverviewStock : overviewStock;
+	case 'Mortgage': return portrait === 'business' ? businessOverviewMortgage : overviewMortgage;
+	case 'Bidding': return portrait === 'business' ? businessOverviewBidding : overviewBidding;
+	default: return {};
+	}
+};
 export default class AssetProfile extends React.Component {
 	constructor(props) {
 		super(props);
@@ -49,176 +61,174 @@ export default class AssetProfile extends React.Component {
 		const businessId = urlId;
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };
-		this.setState(() => ({
-			isLoading: true,
-		}));
-		Promise.all([this.getAuctionData(params, portrait), this.getLandData(params, portrait), this.getIntangibleData(params, portrait), this.getSubrogationData(params, portrait),
-			this.getStockData(params, portrait), this.getMortgageData(params, portrait), this.getBiddingData(params, portrait)]).then((res) => {
-			this.setState({
-				auctionPropsData: res[0],
-				landPropsData: res[1],
-				intangiblePropsData: res[2],
-				subrogationPropsData: res[3],
-				stockPropsData: res[4],
-				mortgagePropsData: res[5],
-				biddingPropsData: res[6],
-				isLoading: false,
-			});
-		});
+		this.setState(() => ({ isLoading: true }));
+		// 资产卡片列表
+		this.getData(params, portrait);
 	}
 
-	// 资产拍卖
-	getAuctionData = (value, portrait) => {
+	getData = (value, portrait) => {
 		const params = { ...value };
-		const api = portrait === 'business' ? businessOverviewAuction : overviewAuction;
-		let auctionPropsData = {};
-		return api(params).then((res) => {
-			if (res.code === 200) {
-				auctionPropsData = {
-					auctionPropsData: res.data,
-				};
-			}
-			return auctionPropsData;
-		}).catch(() => {});
+		const promiseArray = [];
+		promiseArray.push(apiType('Auction', portrait)(params)); // 资产拍卖
+		promiseArray.push(apiType('Land', portrait)(params)); // 土地信息
+		promiseArray.push(apiType('Intangible', portrait)(params)); // 无形资产
+		promiseArray.push(apiType('Subrogation', portrait)(params)); // 代位权
+		promiseArray.push(apiType('Stock', portrait)(params)); // 股权质押
+		promiseArray.push(apiType('Mortgage', portrait)(params)); // 动产抵押
+		promiseArray.push(apiType('Bidding', portrait)(params)); // 招投标
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+		handlePromise.then((values) => {
+			const isArray = Array.isArray(values) && values.length > 0;
+			this.setState({ isLoading: false });
+			// 资产拍卖
+			this.getAuctionData(isArray, values);
+			// 土地信息
+			this.getLandData(isArray, values);
+			// 无形资产
+			this.getIntangibleData(isArray, values);
+			// 代位权
+			this.getSubrogationData(isArray, values);
+			// 股权质押
+			this.getStockData(isArray, values);
+			// 动产抵押
+			this.getMortgageData(isArray, values);
+			// 招投标
+			this.getBiddingData(isArray, values);
+			console.log('all promise are resolved', values);
+		}).catch((reason) => {
+			console.log('promise reject failed reason', reason);
+		});
+	};
+
+	// 资产拍卖
+	getAuctionData = (isArray, values) => {
+		const res = values[0];
+		if (isArray && res && res.code === 200) {
+			const auctionPropsData = {
+				auctionPropsData: res.data,
+			};
+			this.setState(() => ({
+				auctionPropsData,
+			}));
+		}
 	};
 
 	// 土地信息
-	getLandData = (value, portrait) => {
-		// console.log(portrait);
-		const params = { ...value };
-		const api = portrait === 'business' ? businessOverviewLand : overviewLand;
-		return api(params).then((res) => {
-			let landPropsData = {};
-			if (res.code === 200) {
-				const dataSource = res.data.roleDistributions;
-				const dataSourceNum = getCount(dataSource);
-				landPropsData = {
-					dataSource,
-					dataSourceNum,
-					gmtCreate: res.data.gmtCreate,
-					obligorTotal: res.data.obligorTotal || null,
-				};
-			}
-			return landPropsData;
-		}).catch(() => {});
+	getLandData = (isArray, values) => {
+		const res = values[1];
+		if (isArray && res && res.code === 200) {
+			const dataSource = res.data.roleDistributions;
+			const dataSourceNum = getCount(dataSource);
+			const landPropsData = {
+				dataSource,
+				dataSourceNum,
+				gmtCreate: res.data.gmtCreate,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				landPropsData,
+			}));
+		}
 	};
 
 	// 无形资产
-	getIntangibleData = (value, portrait) => {
-		const params = { ...value };
-		const api = portrait === 'business' ? businessOverviewIntangible : overviewIntangible;
-		return api(params).then((res) => {
-			let intangiblePropsData = {};
-			if (res.code === 200) {
-				const dataSource = [];
-				dataSource.push({ count: res.data.construct, typeName: '建造资质' });
-				dataSource.push({ count: res.data.emission, typeName: '排污权发证' });
-				dataSource.push({ count: res.data.mining, typeName: '矿业权发证' });
-				dataSource.push({ count: res.data.trademark, typeName: '商标专利' });
-				const dataSourceNum = getCount(dataSource);
-				intangiblePropsData = {
-					dataSource,
-					dataSourceNum,
-					gmtCreate: res.data.gmtCreate,
-					obligorTotal: res.data.obligorTotal || null,
-				};
-			}
-			return intangiblePropsData;
-		}).catch(() => {});
+	getIntangibleData = (isArray, values) => {
+		const res = values[2];
+		if (isArray && res && res.code === 200) {
+			const dataSource = [];
+			dataSource.push({ count: res.data.construct, typeName: '建造资质' });
+			dataSource.push({ count: res.data.emission, typeName: '排污权发证' });
+			dataSource.push({ count: res.data.mining, typeName: '矿业权发证' });
+			dataSource.push({ count: res.data.trademark, typeName: '商标专利' });
+			const dataSourceNum = getCount(dataSource);
+			const intangiblePropsData = {
+				dataSource,
+				dataSourceNum,
+				gmtCreate: res.data.gmtCreate,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				intangiblePropsData,
+			}));
+		}
 	};
 
 	// 代位权
-	getSubrogationData = (value, portrait) => {
-		const api = portrait === 'business' ? businessOverviewSubrogation : overviewSubrogation;
-		const params = { ...value };
-		return api(params).then((res) => {
-			let subrogationPropsData = {};
-			if (res.code === 200) {
-				const {
-					restore, execute, trial, judgment, courtNotice, gmtCreate,
-				} = res.data;
-				const allNum = trial + judgment + courtNotice;
-				const otherCase = (trial + judgment + courtNotice) - execute;
-				 subrogationPropsData = {
-					restore,
-					execute,
-					allNum,
-					otherCase,
-					gmtCreate,
-					obligorTotal: res.data.obligorTotal || null,
-				};
-			}
-			return subrogationPropsData;
-		}).catch();
+	getSubrogationData = (isArray, values) => {
+		const res = values[3];
+		if (isArray && res && res.code === 200) {
+			const {
+				restore, execute, trial, judgment, courtNotice, gmtCreate,
+			} = res.data;
+			const allNum = trial + judgment + courtNotice;
+			const otherCase = (trial + judgment + courtNotice) - execute;
+			const subrogationPropsData = {
+				restore,
+				execute,
+				allNum,
+				otherCase,
+				gmtCreate,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				subrogationPropsData,
+			}));
+		}
 	};
 
 	// 股权质押
-	getStockData = (value, portrait) => {
-		const params = { ...value };
-		const api = portrait === 'business' ? businessOverviewStock : overviewStock;
-		return api(params).then((res) => {
-			let stockPropsData = {};
-			if (res.code === 200) {
-				const dataSource = res.data.roleDistributions;
-				const dataSourceNum = getCount(dataSource);
-				stockPropsData = {
-					dataSource,
-					dataSourceNum,
-					gmtCreate: res.data.gmtCreate,
-					obligorTotal: res.data.obligorTotal || null,
-				};
-			}
-			return stockPropsData;
-		}).catch(() => {});
+	getStockData = (isArray, values) => {
+		const res = values[4];
+		if (isArray && res && res.code === 200) {
+			const dataSource = res.data.roleDistributions;
+			const dataSourceNum = getCount(dataSource);
+			const stockPropsData = {
+				dataSource,
+				dataSourceNum,
+				gmtCreate: res.data.gmtCreate,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				stockPropsData,
+			}));
+		}
 	};
 
 	// 动产抵押
-	getMortgageData = (value, portrait) => {
-		const params = { ...value };
-		const api = portrait === 'business' ? businessOverviewMortgage : overviewMortgage;
-		return api(params).then((res) => {
-			let mortgagePropsData = {};
-			if (res.code === 200) {
-				const dataSource = res.data.roleDistributions;
-				const dataSourceNum = getCount(dataSource);
-				mortgagePropsData = {
-					dataSource,
-					dataSourceNum,
-					gmtCreate: res.data.gmtCreate,
-					obligorTotal: res.data.obligorTotal || null,
-				};
-			}
-			return mortgagePropsData;
-		}).catch(() => {});
+	getMortgageData = (isArray, values) => {
+		const res = values[5];
+		if (isArray && res && res.code === 200) {
+			const dataSource = res.data.roleDistributions;
+			const dataSourceNum = getCount(dataSource);
+			const mortgagePropsData = {
+				dataSource,
+				dataSourceNum,
+				gmtCreate: res.data.gmtCreate,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				mortgagePropsData,
+			}));
+		}
 	};
 
 	// 招投标
-	getBiddingData = (value, portrait) => {
-		const params = { ...value };
-		const api = portrait === 'business' ? businessOverviewBidding : overviewBidding;
-		return api(params).then((res) => {
-			let biddingPropsData = {};
-			if (res.code === 200) {
-				const { bidding, gmtCreate } = res.data;
-				biddingPropsData = {
-					biddingNum: bidding,
-					gmtCreate,
-					obligorTotal: res.data.obligorTotal || null,
-				};
-			}
-			return biddingPropsData;
-		}).catch(() => {});
+	getBiddingData = (isArray, values) => {
+		const res = values[6];
+		if (isArray && res && res.code === 200) {
+			const { bidding, gmtCreate } = res.data;
+			const biddingPropsData = {
+				biddingNum: bidding,
+				gmtCreate,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				biddingPropsData,
+			}));
+		}
 	};
-
-	// 判断对象是否为空
-	// isEmptyObject = () => {
-	// 	const {
-	// 		auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData,
-	// 	} = this.state;
-	// 	return Object.keys(auctionPropsData).length === 0 && Object.keys(landPropsData).length === 0 && Object.keys(intangiblePropsData).length === 0
-	// 		&& Object.keys(subrogationPropsData).length === 0 && Object.keys(stockPropsData).length === 0 && Object.keys(biddingPropsData).length === 0
-	// 		&& Object.keys(mortgagePropsData).length === 0;
-	// };
 
 	// 判断内部是否存数据
 	isHasValue = () => {
@@ -236,14 +246,13 @@ export default class AssetProfile extends React.Component {
 		} = this.state;
 		const isHasValue = this.isHasValue();
 		return (
-			<div>
+			<React.Fragment>
 				{isHasValue ? (
 					<div>
 						<div className="overview-container-title" style={{ marginTop: '40px' }}>
 							<div className="overview-left-item" />
 							<span className="container-title-name">资产概况</span>
 						</div>
-
 						<Spin visible={isLoading}>
 							<div className="overview-container-cardContent">
 								{/* 资产拍卖 */}
@@ -264,7 +273,7 @@ export default class AssetProfile extends React.Component {
 						</Spin>
 					</div>
 				) : null}
-			</div>
+			</React.Fragment>
 		);
 	}
 }

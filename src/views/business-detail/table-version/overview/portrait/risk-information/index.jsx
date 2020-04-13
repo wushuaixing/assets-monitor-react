@@ -8,18 +8,27 @@ import {
 	businessOverviewRisk, // 业务经营风险
 } from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
+import { getQueryByName, promiseAll } from '@/utils';
+import getCount from '@/views/portrait-inquiry/common/getCount';
 import Bankruptcy from '../card-components/Bankruptcy-card';
 import Involved from '../card-components/Involved-card';
 import Information from '../card-components/Information-card';
 import './style.scss';
-import { getQueryByName } from '@/utils';
-import getCount from '@/views/portrait-inquiry/common/getCount';
 
 const constantNumber = 99999999; // 默认值
+const apiType = (value, portrait) => {
+	switch (value) {
+	case 'Bankruptcy': return portrait === 'business' ? businessOverviewBankruptcy : overviewBankruptcy;
+	case 'Litigation': return portrait === 'business' ? businessOverviewLitigation : overviewLitigation;
+	case 'Risk': return portrait === 'business' ? businessOverviewRisk : overviewRisk;
+	default: return {};
+	}
+};
 export default class RiskInformation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isLoading: false,
 			bankruptcyPropsData: {}, // 破产重组
 			litigationPropsData: {}, // 涉诉信息
 			riskPropsData: {}, // 经营风险
@@ -32,92 +41,95 @@ export default class RiskInformation extends React.Component {
 		const businessId = urlId;
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId, type: 1 } : { obligorId, type: 1 };
-
-
-		Promise.all([this.getBankruptcyData(params, portrait), this.getLitigationData(params, portrait), this.getRiskData(params, portrait)]).then((res) => {
-			this.setState({
-				bankruptcyPropsData: res[0],
-				litigationPropsData: res[1],
-				riskPropsData: res[2],
-			});
-		});
+		this.setState(() => ({ isLoading: true }));
+		// 风险卡片列表
+		this.getData(params, portrait);
 	}
 
-	// 破产重组
-	getBankruptcyData = (value, portrait) => {
+	getData = (value, portrait) => {
 		const params = { ...value };
-		const api = portrait === 'business' ? businessOverviewBankruptcy : overviewBankruptcy;
-		return api(params).then((res) => {
-			let bankruptcyPropsData = {};
-			if (res.code === 200) {
-				const { bankruptcy, gmtCreate } = res.data;
-				bankruptcyPropsData = {
-					bankruptcyNum: bankruptcy,
-					gmtCreate,
-					obligorTotal: res.data.obligorTotal || null,
-				};
-			}
-			return bankruptcyPropsData;
-		}).catch(() => { this.setState({ bankruptcyPropsData: {} }); });
+		const promiseArray = [];
+		promiseArray.push(apiType('Bankruptcy', portrait)(params)); // 破产重组
+		promiseArray.push(apiType('Litigation', portrait)(params)); // 涉诉信息
+		promiseArray.push(apiType('Risk', portrait)(params)); // 经营风险
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+		handlePromise.then((values) => {
+			const isArray = Array.isArray(values) && values.length > 0;
+			this.setState({ isLoading: false });
+			// // 破产重组
+			this.getBankruptcyData(isArray, values);
+			// // 涉诉信息
+			this.getLitigationData(isArray, values);
+			// // 经营风险
+			this.getRiskData(isArray, values);
+
+			console.log('all promise are resolved', values);
+		}).catch((reason) => {
+			console.log('promise reject failed reason', reason);
+		});
+	};
+
+	// 破产重组
+	getBankruptcyData = (isArray, values) => {
+		const res = values[0];
+		if (isArray && res && res.code === 200) {
+			const { bankruptcy, gmtCreate } = res.data;
+			const bankruptcyPropsData = {
+				bankruptcyNum: bankruptcy,
+				gmtCreate,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				bankruptcyPropsData,
+			}));
+		}
 	};
 
 	// 涉诉信息
-	getLitigationData = (value, portrait) => {
-		const params = { ...value };
-		const api = portrait === 'business' ? businessOverviewLitigation : overviewLitigation;
-		return api(params).then((res) => {
-			let litigationPropsData = {};
-			if (res.code === 200) {
-				const dataSource = [];
-				dataSource.push({ count: res.data.trial, typeName: '立案' });
-				dataSource.push({ count: res.data.courtNotice, typeName: '开庭' });
-				dataSource.push({ count: res.data.judgment, typeName: '裁判文书' });
-				const dataSourceNum = getCount(dataSource);
-				litigationPropsData = {
-					dataSource,
-					dataSourceNum,
-					gmtCreate: res.data.gmtCreate,
-					obligorTotal: res.data.obligorTotal || null,
-				};
-			}
-			return litigationPropsData;
-		}).catch(() => { this.setState({ litigationPropsData: {} }); });
+	getLitigationData = (isArray, values) => {
+		const res = values[1];
+		if (isArray && res && res.code === 200) {
+			const dataSource = [];
+			dataSource.push({ count: res.data.trial, typeName: '立案' });
+			dataSource.push({ count: res.data.courtNotice, typeName: '开庭' });
+			dataSource.push({ count: res.data.judgment, typeName: '裁判文书' });
+			const dataSourceNum = getCount(dataSource);
+			const litigationPropsData = {
+				dataSource,
+				dataSourceNum,
+				gmtCreate: res.data.gmtCreate,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				litigationPropsData,
+			}));
+		}
 	};
 
 	// 经营风险
-	getRiskData = (value, portrait) => {
-		const params = { ...value };
-		const api = portrait === 'business' ? businessOverviewRisk : overviewRisk;
-		return api(params).then((res) => {
-			let riskPropsData = {};
-			if (res.code === 200) {
-				const dataSource = [];
-				dataSource.push({ count: res.data.abnormal, typeName: '经营异常' });
-				dataSource.push({ count: res.data.tax, typeName: '税收违法' });
-				dataSource.push({ count: res.data.punishment, typeName: '行政处罚' });
-				// dataSource.push({ count: res.data.change, typeName: '工商变更' });
-				dataSource.push({ count: res.data.illegal, typeName: '严重违法' });
-				dataSource.push({ count: res.data.epb, typeName: '环保处罚' });
-				const dataSourceNum = getCount(dataSource);
-				riskPropsData = {
-					dataSource,
-					dataSourceNum,
-					gmtCreate: res.data.gmtCreate,
-					obligorTotal: res.data.obligorTotal || null,
-				};
-			}
-			return riskPropsData;
-		}).catch(() => {
-			this.setState({ riskPropsData: {} });
-		});
-	};
-
-	// 判断对象是否为空
-	isEmptyObject = () => {
-		const {
-			bankruptcyPropsData, litigationPropsData, riskPropsData,
-		} = this.state;
-		return Object.keys(bankruptcyPropsData).length === 0 && Object.keys(litigationPropsData).length === 0 && Object.keys(riskPropsData).length === 0;
+	getRiskData = (isArray, values) => {
+		const res = values[2];
+		if (isArray && res && res.code === 200) {
+			const dataSource = [];
+			dataSource.push({ count: res.data.abnormal, typeName: '经营异常' });
+			dataSource.push({ count: res.data.tax, typeName: '税收违法' });
+			dataSource.push({ count: res.data.punishment, typeName: '行政处罚' });
+			// dataSource.push({ count: res.data.change, typeName: '工商变更' });
+			dataSource.push({ count: res.data.illegal, typeName: '严重违法' });
+			dataSource.push({ count: res.data.epb, typeName: '环保处罚' });
+			const dataSourceNum = getCount(dataSource);
+			const riskPropsData = {
+				dataSource,
+				dataSourceNum,
+				gmtCreate: res.data.gmtCreate,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				riskPropsData,
+			}));
+		}
 	};
 
 	// 判断内部是否存数据
@@ -130,8 +142,9 @@ export default class RiskInformation extends React.Component {
 
 	render() {
 		const { portrait } = this.props;
-		const { bankruptcyPropsData, litigationPropsData, riskPropsData } = this.state;
-		const isLoading = this.isEmptyObject();
+		const {
+			bankruptcyPropsData, litigationPropsData, riskPropsData, isLoading,
+		} = this.state;
 		const isHasValue = this.isHasValue();
 		return (
 			<div>
@@ -153,7 +166,6 @@ export default class RiskInformation extends React.Component {
 						</div>
 					) : null}
 				</Spin>
-
 			</div>
 		);
 	}
