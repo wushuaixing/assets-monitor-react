@@ -461,20 +461,3 @@ export const reviseNum = (value) => {
 	}
 	return value;
 };
-
-export const promiseAll = (promiseAry = []) => {
-	let index = 0;
-	const result = [];
-	return new Promise((resolve, reject) => {
-		for (let i = 0; i < promiseAry.length; i += 1) {
-			// eslint-disable-next-line no-loop-func
-			promiseAry[i].then((val) => {
-				index += 1;
-				result[i] = val;
-				if (index === promiseAry.length) {
-					resolve(result);
-				}
-			}, reject);
-		}
-	});
-};

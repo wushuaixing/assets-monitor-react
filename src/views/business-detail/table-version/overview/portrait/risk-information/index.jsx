@@ -8,7 +8,8 @@ import {
 	businessOverviewRisk, // 业务经营风险
 } from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
-import { getQueryByName, promiseAll } from '@/utils';
+import { getQueryByName } from '@/utils';
+import { promiseAll } from '@/utils/promise';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import Bankruptcy from '../card-components/Bankruptcy-card';
 import Involved from '../card-components/Involved-card';
