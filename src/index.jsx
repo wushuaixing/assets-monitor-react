@@ -8,7 +8,7 @@ import App from './views/app';
 import './assets/css';
 import './utils/config';
 
-const Version = 'v4.2.0';
+const Version = 'v1.5.2';
 const BetaNumber = '.2';
 const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
 window.CurrentVersions = info;
