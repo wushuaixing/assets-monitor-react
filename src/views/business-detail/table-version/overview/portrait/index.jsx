@@ -1,3 +1,4 @@
+
 import React from 'react';
 import AssociatedBusiness from './associated-business';
 import AssetProfile from './asset-profile';
@@ -10,9 +11,9 @@ import {
 	obligorList, // 债务人列表
 	businessList, // 业务列表
 } from '@/utils/api/professional-work/overview';
-// '@/utils/api/professional-work/overview';
 import './style.scss';
 
+const constantNumber = 99999999; // 默认值
 export default class Portrait extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,8 +24,9 @@ export default class Portrait extends React.Component {
 	}
 
 	componentDidMount() {
-		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
-		const businessId = getQueryByName(window.location.href, 'id') || 9999999;
+		const urlId = getQueryByName(window.location.href, 'id') || constantNumber;
+		const obligorId = urlId;
+		const businessId = urlId;
 		const { portrait } = this.props;
 		const params = portrait === 'business' ? { businessId } : { obligorId };
 		this.getData(params, portrait);

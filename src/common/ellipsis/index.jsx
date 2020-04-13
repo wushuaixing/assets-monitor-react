@@ -44,7 +44,7 @@ export default class Ellipsis extends React.Component {
 
 	render() {
 		const {
-			tooltip, url, font, line, content, width, className, onClick,
+			tooltip, url, font, line, content, width, className, onClick, customColor,
 		} = this.props;
 		const _line = line || 1;
 		const _width = width || this.maxWidth;
@@ -56,6 +56,7 @@ export default class Ellipsis extends React.Component {
 		const contentSize = (getByteLength(showContent || content) + 3) * size;
 		const __width = contentSize < _width ? contentSize : _width;
 		const style = _width ? {
+			color: customColor || undefined,
 			width: __width,
 			display: 'inline-block',
 		} : '';

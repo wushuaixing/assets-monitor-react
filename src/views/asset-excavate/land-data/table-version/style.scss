@@ -1,6 +1,8 @@
 .yc-table-content {
   display: inline-block;
-  min-width: 210px !important;
+  .list-content {
+    color: $text-title;
+  }
   .list-title {
     color: #7d8699;
     width: 60px;
@@ -16,6 +18,7 @@
     vertical-align: top;
   }
 }
+
 .yc-table-line {
   display: inline-block;
   width: 1px;

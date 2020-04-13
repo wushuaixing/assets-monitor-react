@@ -15,7 +15,6 @@ export default class Subrogation extends React.Component {
 			columnarData: [],
 			RingData: [],
 			timeLineData: [],
-			colorArray: ['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A'],
 		};
 		this.info = {
 			obligorName: getQueryByName(window.location.href, 'name'),
@@ -55,7 +54,7 @@ export default class Subrogation extends React.Component {
 
 	render() {
 		const {
-			columnarData, RingData, timeLineData, colorArray, loading, allNum,
+			columnarData, RingData, timeLineData, loading, allNum,
 		} = this.state;
 
 		return (
@@ -74,7 +73,7 @@ export default class Subrogation extends React.Component {
 							<div className="overview-container-content">
 								{timeLineData && getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
 								{columnarData && getCount(columnarData) > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}
-								{RingData && getCount(RingData) > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="subrogation" colorArray={colorArray} />}
+								{RingData && getCount(RingData) > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="subrogation" customColorArray={['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A']} />}
 							</div>
 						</Spin>
 						)

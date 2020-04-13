@@ -72,7 +72,7 @@ export default class Land extends React.Component {
 									<span className="container-title-name">土地信息</span>
 								</div>
 								<div className="overview-container-content">
-									{getCount(RingData) && <RingEcharts title="信息类型分布" Data={RingData} id="Land" />}
+									{getCount(RingData) && <RingEcharts title="信息类型分布" Data={RingData} id="Land" customColorArray={['#45A1FF', '#F2657A', '#FCD44A']} />}
 									{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="Land" />}
 									{getCount(columnarData) > 0 && <ColumnarEcharts title="角色分布" Data={columnarData} id="Land" /> }
 								</div>

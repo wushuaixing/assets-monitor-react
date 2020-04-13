@@ -14,7 +14,7 @@ export default class Bidding extends React.Component {
 		const { portrait, dataSource: { biddingNum, gmtCreate, obligorTotal } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		return (
-			<span>
+			<React.Fragment>
 				{biddingNum > 0 ? (
 					<Card
 						imgCard={biddingImg}
@@ -39,8 +39,7 @@ export default class Bidding extends React.Component {
 						</div>
 					</Card>
 				) : null}
-			</span>
-
+			</React.Fragment>
 		);
 	}
 }

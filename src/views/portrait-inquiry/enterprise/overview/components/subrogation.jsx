@@ -188,7 +188,7 @@ export default class Subrogation extends React.Component {
 							<div style={{ marginBottom: 20 }}>
 								{selectType !== 'Filing' && columnarDataNum > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}
 							</div>
-							{RingDataNum > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="subrogation" />}
+							{RingDataNum > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="subrogation" customColorArray={['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A']} />}
 						</div>
 					</div>
 				) : null }

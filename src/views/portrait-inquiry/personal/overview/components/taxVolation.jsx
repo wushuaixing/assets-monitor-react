@@ -9,7 +9,6 @@ export default class TaxViolation extends React.Component {
 		super(props);
 		this.state = {
 			RingData: [],
-			colorArray: ['#45A1FF', '#F2657A', '#FCD44A'],
 		};
 		this.info = {
 			obligorName: getQueryByName(window.location.href, 'name'),
@@ -31,16 +30,13 @@ export default class TaxViolation extends React.Component {
 				this.setState({
 					RingData,
 				});
-			} else {
-				// this.setState({ loading: false });
 			}
 		}).catch(() => {
-			// this.setState({ loading: false });
 		});
 	};
 
 	render() {
-		const { RingData, colorArray } = this.state;
+		const { RingData } = this.state;
 		return (
 			<div>
 				{RingData && getCount(RingData) > 0 && (
@@ -53,7 +49,7 @@ export default class TaxViolation extends React.Component {
 						<span className="container-title-name">税收违法</span>
 					</div>
 					<div className="overview-container-content">
-						<RingEcharts title="角色分布" Data={RingData} id="taxVolation" colorArray={colorArray} />
+						<RingEcharts title="角色分布" Data={RingData} id="taxVolation" customColorArray={['#45A1FF', '#F2657A', '#FCD44A']} />
 					</div>
 				</div>
 				)}
