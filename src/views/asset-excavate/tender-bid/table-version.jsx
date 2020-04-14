@@ -19,7 +19,6 @@ export default class TableVersion extends React.Component {
 		this.toGetData();
 	}
 
-
 	toShowExtraField=(row = {}) => {
 		const { portrait } = this.props;
 		if (portrait === 'business') {
@@ -27,12 +26,12 @@ export default class TableVersion extends React.Component {
 				<li>
 					<span className="list list-title align-justify">相关单位</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
+					<span className="list list-content" style={{ minWidth: 400 }}>
 						<Ellipsis
 							content={row.obName}
 							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
 							tooltip
-							width={200}
+							width={400}
 						/>
 					</span>
 					{/* <span className="list-split" style={{ height: 16 }} /> */}
