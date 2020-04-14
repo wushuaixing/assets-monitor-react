@@ -103,7 +103,7 @@ export const partyInfo = (value, row, noLink, noStatus, detailWidth) => {
  * */
 export const PartyCrosswise = (props) => {
 	const {
-		value, row, type, land, name,
+		value, row, type, land, name, linkDetail,
 	} = props;
 
 	// 获取 字符最大长度
@@ -180,7 +180,7 @@ export const PartyCrosswise = (props) => {
 				<div className="yc-party-crosswise">
 					{
 						source.map((item, index) => [
-							<PartyCrosswiseDetail {...item} id={item.id} key={item.id} width={maxWidth} items={value} max={9999} />,
+							<PartyCrosswiseDetail {...item} id={item.id} key={item.id} width={maxWidth} items={value} max={9999} linkDetail={linkDetail} />,
 							index !== source.length - 1 ? <span className="yc-split-line yc-split-line-info" /> : null,
 						])
 					}

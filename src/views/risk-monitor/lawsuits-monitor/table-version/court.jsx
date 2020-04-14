@@ -18,10 +18,13 @@ export default class TableIntact extends React.Component {
 	}
 
 	componentWillMount() {
-		console.log(this.props, 123);
-
 		this.toGetData();
 	}
+
+	toGetPortrait =() => {
+		const { portrait } = this.props;
+		return portrait === 'business';
+	};
 
 	toGetColumns=() => [
 		{
@@ -40,7 +43,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{timeStandard(row.gmtTrial)}</span>
 					</li>
-					<PartyCrosswise value={row.parties} row={row} type="court" />
+					<PartyCrosswise value={row.parties} row={row} type="court" linkDetail={this.toGetPortrait()} />
 				</div>
 			),
 		}, {

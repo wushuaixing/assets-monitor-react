@@ -168,9 +168,7 @@ export default class Enterprise extends React.Component {
 						const tempRep = new RegExp(`^${i}`);
 						if (tempRep.test(k)) {
 							apiArray.push({
-								api: apiData[k].count({
-									obligorId,
-								}),
+								api: apiData[k].count({ obligorId }),
 								info: { id: apiData[k].id },
 							});
 						}
