@@ -45,11 +45,12 @@
         }
       }
       .card-content-left-arrow {
-        position: relative;
+        position: absolute;
         background: #FFF9F4;
         border: 1px solid #FB8E3C;
         display: inline-block;
         margin-left: 13px;
+        top: 18px;
         .card-content-popover-content {
           height: 20px;
           line-height: 20px;
