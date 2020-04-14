@@ -16,16 +16,16 @@ const manage = {
 		id: 20401,
 		name: '风险-失信记录-列入',
 		params: {},
-		list: params => service.get('/yc/business/monitor/risk/risk/dishonest/list?removeStatus=false', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/business/monitor/risk/risk/dishonest/list?removeStatus=false', { params })
+		list: params => service.get('/yc/business/monitor/risk/dishonest/list?removeStatus=false', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/business/monitor/risk/dishonest/listCount?removeStatus=false', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 	20402: {
 		id: 20402,
 		name: '风险-失信记录-已移除',
 		params: {},
-		list: params => service.get('/yc/business/monitor/risk/risk/dishonest/list?removeStatus=true', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/business/monitor/risk/risk/dishonest/list?removeStatus=true', { params })
+		list: params => service.get('/yc/business/monitor/risk/dishonest/list?removeStatus=true', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/business/monitor/risk/dishonest/listCount?removeStatus=true', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 	20601: {

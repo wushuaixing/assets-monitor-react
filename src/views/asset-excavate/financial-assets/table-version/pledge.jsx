@@ -1,27 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { timeStandard, toEmpty } from '@/utils';
+import { timeStandard, toEmpty, toGetStatusText } from '@/utils';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
-
-const toGetStatusText = (val) => {
-	const res = {
-		text: '-',
-		status: true,
-	};
-	if (typeof val === 'string') {
-		res.text = val;
-		res.status = val === '有效';
-	}
-	if (typeof val === 'number') {
-		res.text = val ? '有效' : '无效';
-		res.status = Boolean(val);
-	}
-	console.log(res);
-	return res;
-};
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
