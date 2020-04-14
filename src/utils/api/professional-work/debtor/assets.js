@@ -135,7 +135,7 @@ const assets = {
 	},
 	10601: {
 		id: 10601,
-		name: '资产-动产抵押-抵押物',
+		name: '资产-动产抵押-抵押物所有人',
 		list: params => service.get('/yc/obligor/monitor/asset/mortgage/owner/list', { params }).then(res => res.data),
 		count(params) {
 			return service.get('/yc/obligor/monitor/asset/mortgage/owner/list-count', { params })

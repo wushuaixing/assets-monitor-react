@@ -34,15 +34,14 @@ export default class TableIntact extends React.Component {
 				<li>
 					<span className="list list-title align-justify">申请人/权利人</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
+					<span className="list list-content" style={{ minWidth: 400 }}>
 						<Ellipsis
 							content={row.obligorName}
 							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
 							tooltip
-							width={120}
+							width={400}
 						/>
 					</span>
-					<span className="list-split" style={{ height: 16 }} />
 				</li>
 			);
 		}

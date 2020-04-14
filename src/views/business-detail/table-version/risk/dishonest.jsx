@@ -7,7 +7,7 @@ export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sourceType: 20401,
+			sourceType: toGetNumber(props.data, 20401) ? 20401 : 20402,
 			config: [
 				{
 					id: 20401,
@@ -23,6 +23,12 @@ export default class Subrogation extends React.Component {
 					showNumber: true,
 					disabled: !toGetNumber(props.data, 20402),
 				}],
+			brokenCount: {
+				status: props.portrait === 'business',
+				loading: true,
+				once: 0,
+				has: 0,
+			},
 		};
 	}
 
@@ -34,7 +40,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	render() {
-		const { config, sourceType } = this.state;
+		const { config, sourceType, brokenCount: b } = this.state;
 		const { id, portrait } = this.props;
 		const params = {
 			portrait,
@@ -52,13 +58,19 @@ export default class Subrogation extends React.Component {
 							<span>失信列表</span>
 						</div>
 					)}
-					suffix={(
+					suffix={portrait === 'business' && (
 						<div className="yc-tabs-suffix-dishonest">
-							<Spin simple visible text="loading..."><span className="dishonest-spin" /></Spin>
-							<div className="dishonest-count">
-								<span>已失信债务人：5</span>
-								<span>曾失信债务人：5</span>
-							</div>
+							{
+								b.status && (
+									b.loading ? <Spin simple visible text="loading..."><span className="dishonest-spin" /></Spin>
+										: (
+											<div className="dishonest-count">
+												<span>{`已失信债务人：${b.has}`}</span>
+												<span>{`曾失信债务人：${b.has}`}</span>
+											</div>
+										)
+								)
+							}
 						</div>
 					)}
 				/>

@@ -26,6 +26,28 @@ export default class TableIntact extends React.Component {
 		return true;
 	}
 
+	toShowExtraField=(item = {}) => {
+		const { portrait } = this.props;
+		if (portrait === 'business') {
+			return (
+				<React.Fragment>
+					<span className="list list-title align-justify">债务人</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">
+						<Ellipsis
+							content={item.name}
+							url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
+							tooltip
+							width={300}
+						/>
+					</span>
+					<span className="list-split" style={{ height: 16 }} />
+				</React.Fragment>
+			);
+		}
+		return null;
+	};
+
 	toGetColumns=() => [
 		{
 			title: '信息',
@@ -37,6 +59,7 @@ export default class TableIntact extends React.Component {
 							? <Ellipsis content={row.caseCode} url={row.url} tooltip width={600} font={15} /> : '-' }
 					</li>
 					<li>
+						{this.toShowExtraField(row)}
 						<span className="list list-title align-justify">失信被执行人行为具体情形</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 300 }}>
@@ -91,7 +114,6 @@ export default class TableIntact extends React.Component {
 		const { api, params } = getDynamicRisk(portrait, {
 			b: _sourceType,
 		});
-		console.log(params);
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

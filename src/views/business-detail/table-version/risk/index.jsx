@@ -58,7 +58,7 @@ const subItems = (data, portrait) => {
 			total: data ? toGetTotal('2040', data) : 0,
 			info: data ? data.filter(i => /2040/.test(i.id)) : '',
 			tagName: 'e-manage-dishonest',
-			role: roleState('fxjk', 'jkxxsxjl') && false,
+			role: roleState('fxjk', 'jkxxsxjl'),
 			isStatus: 'normal',
 			component: Dishonest,
 		},
