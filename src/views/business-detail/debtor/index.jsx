@@ -186,7 +186,7 @@ export default class Enterprise extends React.Component {
 					if (item.id === 102) l.assetLoading = false;
 					if (item.id === 103) l.riskLoading = false;
 					this.setState({ tabConfig, ...l });
-					console.log(tabConfig);
+					// console.log(tabConfig);
 				});
 			}
 		}

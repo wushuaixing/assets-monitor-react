@@ -13,6 +13,7 @@ import EquityPledge from './components/equityPledge';
 import ChattelMortgage from './components/chattelMortgage';
 import Bidding from './components/tender';
 import Bankruptcy from './components/bankruptcy';
+import Dishonest from './components/dishonest';
 import Information from './components/information';
 import BusinessRisk from './components/businessRisk';
 import Basic from '@/views/portrait-inquiry/enterprise/overview/components/basic';
@@ -211,6 +212,8 @@ export default class Visualize extends React.Component {
 								<div>
 									{/* 破产重组 */}
 									<Bankruptcy portrait={portrait} businessId={businessId} obligorId={obligorId} />
+									{/* 失信记录 */}
+									<Dishonest portrait={portrait} businessId={businessId} obligorId={obligorId} />
 									{/* 涉诉信息 */}
 									{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
 									{/* 经营风险 */}

@@ -74,7 +74,7 @@ export default class RiskInformation extends React.Component {
 			// 经营风险
 			this.getRiskData(isArray, values);
 
-			console.log('all promise are resolved', values);
+			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
 		});
@@ -98,14 +98,28 @@ export default class RiskInformation extends React.Component {
 
 	// 失信记录
 	getDishonestData = (isArray, values) => {
+		const { portrait } = this.props;
+		const isBusiness = portrait && portrait === 'business';
 		const res = values[1];
-		console.log(res, 333);
 		if (isArray && res && res.code === 200) {
-			const { remove, gmtCreate, included } = res.data;
+			const {
+				remove, gmtCreate, included, obligorStatusList,
+			} = res.data;
 
 			const dataSource = [];
-			dataSource.push({ count: included, typeName: '列入' });
-			dataSource.push({ count: remove, typeName: '已移除' });
+			const isDishonest = obligorStatusList.filter(item => item.dishonestStatus === 1).length || 0; // 已失信
+			const beforeDishonest = obligorStatusList.filter(item => item.dishonestStatus === 2).length || 0; // 曾失信
+			// console.log(isDishonest, 11, beforeDishonest);
+			if (isBusiness) {
+				dataSource.push({ count: beforeDishonest, typeName: '曾失信债务人' });
+				dataSource.push({ count: isDishonest, typeName: '已失信债务人' });
+				dataSource.push({ count: included, typeName: '列入' });
+				dataSource.push({ count: remove, typeName: '已移除' });
+			} else {
+				dataSource.push({ count: included, typeName: '列入' });
+				dataSource.push({ count: remove, typeName: '已移除' });
+			}
+
 			const dataSourceNum = getCount(dataSource);
 			const dishonestPropsData = {
 				removeNum: remove, // 移除数量
@@ -113,7 +127,7 @@ export default class RiskInformation extends React.Component {
 				dataSource,
 				gmtCreate,
 				dataSourceNum,
-				dishonestStatusArray: res.data.obligorStatusList,
+				dishonestStatusArray: obligorStatusList,
 			};
 			this.setState(() => ({
 				dishonestPropsData,
@@ -171,7 +185,7 @@ export default class RiskInformation extends React.Component {
 		const {
 			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData,
 		} = this.state;
-		return bankruptcyPropsData.bankruptcyNum > 0 || litigationPropsData.dataSourceNum > 0 || riskPropsData.dataSourceNum > 0;
+		return bankruptcyPropsData.bankruptcyNum > 0 || litigationPropsData.dataSourceNum > 0 || riskPropsData.dataSourceNum > 0 || dishonestPropsData.dataSourceNum > 0;
 	};
 
 	render() {

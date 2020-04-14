@@ -217,7 +217,8 @@ export default class Headers extends React.Component {
 						<div className="else-child else-line" />
 						<div className="else-child else-username header-item-normal">
 							<li className="else-child-li">
-								{`您好, ${data && data.name}`}
+								您好，
+								{data && data.name}
 							</li>
 							<li className="else-child-li-orgName">{data && data.orgName}</li>
 							<HeaderCenter getData={this.getData} mark="个人中心大概" />

@@ -32,18 +32,19 @@ export default class Break extends React.Component {
 							text="失信记录"
 							styleName="break-card"
 						>
+							{!isBusiness && (
 							<div className="card-content">
 								<div className="card-content-role">
-									{!isBusiness && (
-									<span style={{ fontSize: '12px' }}>
+									{
+										<span style={{ fontSize: '12px' }}>
 										当前失信状态：
-										<span
-											style={isDishonest ? { color: '#FB5A5C' } : { color: '#B2B8C9' }}
-										>
-											{isDishonest ? '已失信' : '曾失信'}
+											<span
+												style={isDishonest ? { color: '#FB5A5C' } : { color: '#B2B8C9' }}
+											>
+												{isDishonest ? '已失信' : '曾失信'}
+											</span>
 										</span>
-									</span>
-									)}
+									}
 									{
 										newDataSource && newDataSource.map((item, index) => {
 											if (index > 0) {
@@ -72,6 +73,39 @@ export default class Break extends React.Component {
 									}
 								</div>
 							</div>
+							)}
+							{isBusiness && (
+								<div className="business-card-content">
+									<div className="card-content-role">
+										{
+											newDataSource && newDataSource.map((item, index) => {
+												if (index > 1) {
+													return (
+														<div className="card-content-role-itemRight">
+															<span className="card-content-role-text">{item.typeName}</span>
+															<span className="card-content-role-info">：</span>
+															<span className="card-content-role-num">
+																<span className="portrait-card-num">{item.count}</span>
+																条
+															</span>
+														</div>
+													);
+												}
+												return (
+													<div className="card-content-role-itemLeft">
+														<span className="card-content-role-text">{item.typeName}</span>
+														<span className="card-content-role-info">：</span>
+														<span className="card-content-role-num">
+															<span className="portrait-card-num">{item.count}</span>
+															条
+														</span>
+													</div>
+												);
+											})
+										}
+									</div>
+								</div>
+							)}
 						</Card>
 					) : null
 				}
