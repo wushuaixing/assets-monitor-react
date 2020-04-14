@@ -79,6 +79,19 @@
   }
 
   .yc-inquiry-public-table{
+    .yc-tabs-suffix-dishonest{
+      float: right;
+      height: 37px;
+      line-height: 37px;
+      .dishonest-spin{
+        width:120px;
+        display: inline-block;
+      }
+      .dishonest-count{
+        display: inline-block;
+        padding: 0 10px;
+      }
+    }
     .yc-tabs-suffix-ignore{
       .ant-switch{
         height: 18px;
