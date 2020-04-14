@@ -241,7 +241,7 @@ export default class Enterprise extends React.Component {
 
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index, portrait) => {
-		const obligorId = getQueryByName(window.location.href, 'id');
+		const businessId = getQueryByName(window.location.href, 'id');
 		if (item.config) {
 			const { apiData, config: { idList: _idList, status: _status } } = item;
 			const { tabConfig } = this.state;
@@ -254,10 +254,7 @@ export default class Enterprise extends React.Component {
 						const tempRep = new RegExp(`^${i}`);
 						if (tempRep.test(k)) {
 							apiArray.push({
-								api: apiData[k].count({
-									obligorId,
-									businessId: obligorId,
-								}),
+								api: apiData[k].count({ businessId }),
 								info: { id: apiData[k].id },
 							});
 						}
