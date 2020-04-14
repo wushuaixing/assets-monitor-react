@@ -99,7 +99,6 @@ export default class Info extends React.Component {
 		};
 		getCount(params).then((res) => {
 			if (res.code === 200) {
-				console.log(res.data, res);
 				this.setState({
 					data: res.data,
 					loading: true,
