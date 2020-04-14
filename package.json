@@ -32,7 +32,8 @@
     "tl:dev": "node ./template/sever/dev.js",
     "tl:build": "node ./template/sever/build.js",
     "tl:ob-dev": "node ./template/sever/ob-dev.js",
-    "tl:ob-build": "node ./template/sever/ob-build.js"
+    "tl:ob-build": "node ./template/sever/ob-build.js",
+    "tl:db-dev": "node ./template/sever/db-dev.js"
   },
   "dependencies": {
     "anujs": "1.5.0",
