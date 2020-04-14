@@ -74,8 +74,12 @@
   min-height: 30px!important;
   .yc-mask-content{
     height: 30px!important;
+    width: auto!important;
     img{
       display: none!important;
+    }
+    div{
+      margin-top: 5px!important;
     }
   }
 }

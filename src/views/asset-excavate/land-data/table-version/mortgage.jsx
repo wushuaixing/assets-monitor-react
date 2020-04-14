@@ -1,7 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { Ellipsis, Spin, Table } from '@/common';
+import {
+	Ellipsis, LiItem, Spin, Table,
+} from '@/common';
 import { w, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 import './style.scss';
@@ -21,6 +23,11 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toGetPortrait =() => {
+		const { portrait } = this.props;
+		return portrait === 'business';
+	};
+
 	toGetColumns=() => [
 		{
 			title: '信息',
@@ -34,31 +41,21 @@ export default class TableIntact extends React.Component {
 							</span>
 							{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse}</span> : ''}
 						</li>
+						<LiItem Li cotStyle={{ minWidth: 500 }}>{w(row.administrativeRegion)}</LiItem>
 						<li>
-							<span className="list list-content" style={{ maxWidth: 300 }}>{w(row.administrativeRegion)}</span>
+							<PartyCrosswise value={row.parties} row={row} name="土地抵押" type="mortgage" land linkDetail={this.toGetPortrait()} />
 						</li>
-						<PartyCrosswise value={row.parties} row={row} name="土地抵押" type="mortgage" land />
-						<div className="yc-table-content">
-							<span className="list list-title align-justify">登记日期</span>
-							<span className="list list-title-colon">：</span>
-							<span className="list list-content">{timeStandard(row.startTime)}</span>
-							<div className="yc-table-line" />
-							<span className="list list-title align-justify">面积</span>
-							<span className="list list-title-colon">：</span>
-							<span className="list list-content">
-								{w(row.landArea, { suffix: '公顷' })}
-							</span>
-							<div className="yc-table-line" />
-							<span className="list list-title align-justify">评估金额</span>
-							<span className="list list-title-colon">：</span>
-							<span className="list list-content">
-								{w(row.consultPrice, { suffix: '万元' })}
-							</span>
-							<div className="yc-table-line" />
-							<span className="list list-title align-justify">土地使用权证号</span>
-							<span className="list list-title-colon">：</span>
-							<Ellipsis content={w(row.landUseCertificateNumber)} tooltip width={200} />
-						</div>
+						<li>
+							<LiItem title="登记日期">{timeStandard(row.startTime)}</LiItem>
+							<span className="list-split" style={{ height: 16 }} />
+							<LiItem title="面积">{w(row.landArea, { suffix: '公顷' })}</LiItem>
+							<span className="list-split" style={{ height: 16 }} />
+							<LiItem title="评估金额">{w(row.consultPrice, { suffix: '万元' })}</LiItem>
+							<span className="list-split" style={{ height: 16 }} />
+							<LiItem title="土地使用权证号" cotStyle={{ width: 200 }}>
+								<Ellipsis content={w(row.landUseCertificateNumber)} tooltip width={200} />
+							</LiItem>
+						</li>
 					</div>
 				</React.Fragment>
 			),

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs } from '@/common';
+import { Spin, Tabs } from '@/common';
 import BrokenVersion from '@/views/risk-monitor/broken-record/table-version';
 import { toGetNumber } from '@/utils/promise';
 
@@ -50,6 +50,15 @@ export default class Subrogation extends React.Component {
 					prefix={(
 						<div className="yc-tabs-simple-prefix" style={{ width: 120 }}>
 							<span>失信列表</span>
+						</div>
+					)}
+					suffix={(
+						<div className="yc-tabs-suffix-dishonest">
+							<Spin simple visible text="loading..."><span className="dishonest-spin" /></Spin>
+							<div className="dishonest-count">
+								<span>已失信债务人：5</span>
+								<span>曾失信债务人：5</span>
+							</div>
 						</div>
 					)}
 				/>

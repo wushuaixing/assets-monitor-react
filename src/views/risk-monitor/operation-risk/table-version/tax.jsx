@@ -29,6 +29,41 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toShowExtraField=(row = {}) => {
+		const { portrait } = this.props;
+		if (portrait === 'business') {
+			return (
+				<li>
+					<span className="list list-title align-justify">当事人</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">
+						<Ellipsis
+							content={row.name}
+							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+							tooltip
+							width={250}
+						/>
+					</span>
+					{
+						toGetIdentityType(row.identityType)
+						&& <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span>
+					}
+					{/* <span className="list-split" style={{ height: 16 }} /> */}
+				</li>
+			);
+		}
+		return null;
+	};
+
+	toShowIdentityType=(row) => {
+		// const { portrait } = this.props;
+		// const { parties = [] } = row;
+		// const identityType = '';
+		// parties.forEach((item) => {
+		//
+		// });
+	};
+
 	toGetColumns=() => {
 		const { portrait } = this.props;
 		return ([
