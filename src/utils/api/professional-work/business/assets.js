@@ -138,7 +138,7 @@ const assets = {
 		name: '资产-动产抵押-抵押物所有人',
 		list: params => service.get('/yc/business/monitor/asset/mortgage/owner/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/business/monitor/asset/mortgage/owner/listCount', { params })
+			return service.get('/yc/business/monitor/asset/mortgage/owner/list-count', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
@@ -147,7 +147,7 @@ const assets = {
 		name: '资产-动产抵押-抵押权人',
 		list: params => service.get('/yc/business/monitor/asset/mortgage/people/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/business/monitor/asset/mortgage/people/listCount', { params })
+			return service.get('/yc/business/monitor/asset/mortgage/people/list-count', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
