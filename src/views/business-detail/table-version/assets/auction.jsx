@@ -9,7 +9,7 @@ export default class Auction extends React.Component {
 		super(props);
 		this.state = {
 			ignored: false,
-			sourceType: 10101,
+			sourceType: toGetNumber(props.data, 10101) ? 10101 : 10102,
 			config: [{
 				id: 10101,
 				name: '精准匹配',
