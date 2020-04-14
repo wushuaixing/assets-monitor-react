@@ -55,7 +55,7 @@ export default class Portrait extends React.Component {
 		const { businessData, loading } = this.state;
 		const { portrait, allRule } = this.props;
 		const assetMiningRule = (allRule && allRule.menu_zcwj && allRule.menu_zcwj.children) || {};
-		console.log(assetMiningRule);
+		// console.log(assetMiningRule);
 
 		return (
 			<div className="yc-portrait-container">

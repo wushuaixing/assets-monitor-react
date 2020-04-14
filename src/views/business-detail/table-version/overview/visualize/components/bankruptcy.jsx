@@ -42,8 +42,16 @@ export default class Bankruptcy extends React.Component {
 		});
 	};
 
+	handleOnClick = (value) => {
+		if (value) {
+			const w = window.open('about:blank');
+			w.location.href = `#/business/debtor/detail?id=${value}`;
+		}
+	};
+
 	render() {
 		const { timeLineData, loading, detail } = this.state;
+		const hasDetail = Array.isArray(detail) && detail.length > 0;
 		return (
 			<div>
 				{
@@ -58,13 +66,13 @@ export default class Bankruptcy extends React.Component {
 								<span className="container-title-name">破产重组信息</span>
 							</div>
 
-							{detail ? (
+							{hasDetail ? (
 								<div style={{ marginBottom: '12px' }}>
 								涉及企业：
-									{detail && detail.length > 0 && detail.map((item, index) => {
+									{hasDetail && detail.map((item, index) => {
 										const key = item.obligorId;
 										return (
-											<span key={key} className="click-link">
+											<span key={key} className="click-link" onClick={() => this.handleOnClick(item.obligorId)}>
 												{item.obligorName}
 												{detail.length - index !== 1 && '、'}
 											</span>
