@@ -1,7 +1,4 @@
 import React from 'react';
-import { overviewIntangible } from '@/utils/api/professional-work/overview';
-import { getQueryByName } from '@/utils';
-import getCount from '@/views/portrait-inquiry/common/getCount';
 import breakImg from '@/assets/img/business/breakCard.png';
 import Card from '../card';
 import './style.scss';
@@ -9,47 +6,20 @@ import './style.scss';
 export default class Break extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			dataSource: [],
-			dataSourceNum: 0,
-		};
+		this.state = {};
 	}
 
-	componentDidMount() {
-		this.getData();
-	}
-
-	getData = () => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 326740;
-		const params = {
-			obligorId,
-			type: 1,
-		};
-		// 业务列表信息
-		overviewIntangible(params).then((res) => {
-			if (res.code === 200) {
-				const dataSource = [];
-				dataSource.push({ count: res.data.construct, typeName: '建造资质' });
-				dataSource.push({ count: res.data.emission, typeName: '排污权发证' });
-				dataSource.push({ count: res.data.mining, typeName: '矿业权发证' });
-				dataSource.push({ count: res.data.trademark, typeName: '商标专利' });
-				const dataSourceNum = getCount(dataSource);
-				this.setState({
-					dataSource,
-					dataSourceNum,
-				});
-			}
-		}).catch(() => {
-			this.setState({
-				dataSource: [],
-			});
-		});
-	};
 
 	render() {
-		const { dataSource, dataSourceNum } = this.state;
+		const {
+			portrait, dataSource: {
+				dataSource, gmtCreate, dishonestStatusArray, dataSourceNum,
+			},
+		} = this.props;
+		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
+		const isDishonest = dishonestStatusArray[0].dishonestStatus === 1;
 		return (
 			<React.Fragment>
 				{dataSourceNum > 0
@@ -57,23 +27,33 @@ export default class Break extends React.Component {
 						<Card
 							imgCard={breakImg}
 							count={dataSourceNum}
-							gmtCreate={dataSource.gmtCreate}
-							customStyle={{ width: '366px', height: '120px', marginBottom: '20px' }}
+							gmtCreate={gmtCreate}
+							customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 							text="失信记录"
-							styleName="intangible-card"
+							styleName="break-card"
 						>
 							<div className="card-content">
 								<div className="card-content-role">
+									{!isBusiness && (
+									<span style={{ fontSize: '12px' }}>
+										当前失信状态：
+										<span
+											style={isDishonest ? { color: '#FB5A5C' } : { color: '#B2B8C9' }}
+										>
+											{isDishonest ? '已失信' : '曾失信'}
+										</span>
+									</span>
+									)}
 									{
 										newDataSource && newDataSource.map((item, index) => {
-											if (index > 1) {
+											if (index > 0) {
 												return (
 													<div className="card-content-role-itemRight">
 														<span className="card-content-role-text">{item.typeName}</span>
 														<span className="card-content-role-info">：</span>
 														<span className="card-content-role-num">
 															<span className="portrait-card-num">{item.count}</span>
-															条
+														条
 														</span>
 													</div>
 												);
@@ -84,7 +64,7 @@ export default class Break extends React.Component {
 													<span className="card-content-role-info">：</span>
 													<span className="card-content-role-num">
 														<span className="portrait-card-num">{item.count}</span>
-														条
+													条
 													</span>
 												</div>
 											);

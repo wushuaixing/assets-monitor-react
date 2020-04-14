@@ -237,11 +237,11 @@ export default class Enterprise extends React.Component {
 		const {
 			tabConfig, childDom, sourceType, infoSource, affixStatus, timeLeft, errorModalVisible, loading, assetLoading, riskLoading,
 		} = this.state;
-		const { allRule } = this.props;
+		const { baseRule } = this.props;
 		const classList = ['info-detail', 'info-wrapper'];
 		if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
-			allRule,
+			baseRule,
 			loading,
 			assetLoading,
 			riskLoading,

@@ -35,7 +35,7 @@ const ruleList = (props) => {
 	if (rule.menu_sy)l.push(<Home path="/*" rule={rule.menu_sy} baseRule={rule} />);
 	if (rule.menu_zcwj)l.push(<Monitor path="monitor/*" rule={rule.menu_zcwj} baseRule={rule} />);
 	if (rule.menu_fxjk)l.push(<Risk path="risk/*" rule={rule.menu_fxjk} baseRule={rule} />);
-	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} allRule={rule} baseRule={rule} />);
+	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} />);
 	if (rule.menu_hxcx)l.push(<Inquiry path="inquiry/*" rule={rule.menu_hxcx} baseRule={rule} />);
 	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} baseRule={rule} />);
 	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} />);
