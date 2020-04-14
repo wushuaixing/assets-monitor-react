@@ -237,12 +237,13 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, affixStatus, timeLeft, errorModalVisible,
+			tabConfig, childDom, sourceType, infoSource, affixStatus, timeLeft, errorModalVisible, loading, assetLoading, riskLoading,
 		} = this.state;
-		const { loading, assetLoading, riskLoading } = this.state;
+		const { allRule } = this.props;
 		const classList = ['info-detail', 'info-wrapper'];
 		if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
+			allRule,
 			loading,
 			assetLoading,
 			riskLoading,
@@ -250,6 +251,7 @@ export default class Enterprise extends React.Component {
 			toPushChild: this.handleAddChild, // tab 追加子项
 			portrait: this.portrait,
 		};
+
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">
@@ -303,7 +305,6 @@ export default class Enterprise extends React.Component {
 						width={500}
 						closable={false}
 					>
-
 						<div className="yc-confirm-body">
 							<div className="yc-confirm-header">
 								<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle-o" />
@@ -317,7 +318,6 @@ export default class Enterprise extends React.Component {
 								<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">知道了</Button>
 							</div>
 						</div>
-
 					</Modal>
 				)}
 			</div>

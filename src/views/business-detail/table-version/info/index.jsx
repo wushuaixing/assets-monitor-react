@@ -9,6 +9,7 @@ import EquityPenetration from './components/equityPenetration';
 import Branch from './components/branch';
 import OutboundInvestment from './components/outboundInvestment';
 import BusinessCircles from './components/businessCircles';
+import NoContent from '@/common/noContent';
 
 const subItems = (data) => {
 	const result = [
@@ -79,6 +80,7 @@ export default class Info extends React.Component {
 			data: {},
 			tabConfig: subItems(),
 			loading: false,
+			isEmptyObject: false,
 		};
 	}
 
@@ -97,6 +99,7 @@ export default class Info extends React.Component {
 		};
 		getCount(params).then((res) => {
 			if (res.code === 200) {
+				console.log(res.data, res);
 				this.setState({
 					data: res.data,
 					loading: true,
@@ -116,6 +119,7 @@ export default class Info extends React.Component {
 				};
 				this.setState({
 					data,
+					isEmptyObject: true,
 					loading: true,
 					tabConfig: subItems(data),
 				}, () => {
@@ -152,7 +156,7 @@ export default class Info extends React.Component {
 
 
 	render() {
-		const { data, loading } = this.state;
+		const { data, loading, isEmptyObject } = this.state;
 		const { infoSource } = this.props;
 		return (
 			<div className="inquiry-assets info-assets-padding">
@@ -160,6 +164,7 @@ export default class Info extends React.Component {
 					loading && data && subItems(data).map(Item => (
 						data && Item.disabled === false ? <Item.component name={infoSource && infoSource.obligorName} id={Item.tagName} /> : ''))
 				}
+				{isEmptyObject && loading && <NoContent style={{ paddingBottom: 60 }} font="暂无数据" />}
 			</div>
 		);
 	}
