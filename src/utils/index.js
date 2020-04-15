@@ -113,6 +113,7 @@ export const toGetStatusText = (val) => {
  * 如果没有填写默认值 */
 export const w = (v = '', option) => {
 	const { prefix = '', suffix = '', mark = '' } = option || {};
+	if (v === null) return mark || '-';
 	const value = (`${v}`).trim();
 	if (value && value !== '-' && value !== '-') return `${prefix}${value}${suffix}`;
 	return value || mark || '-';

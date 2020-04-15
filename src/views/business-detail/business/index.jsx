@@ -68,7 +68,7 @@ const EnterpriseInfo = (props) => {
 		data, onEdit, onRecord, affixStatus,
 	} = props;
 	const {
-		dishonestStatus: isDishonest, pushState,
+		dishonestStatus: isDishonest, businessPushType,
 	} = data;
 	const {
 		obligorName: name, orgName, obligorNumber, uploadTime, caseNumber, obligorPushType,
@@ -91,13 +91,13 @@ const EnterpriseInfo = (props) => {
 						{caseNumber || '-'}
 					</span>
 					{
-						pushState !== null ? (
+						businessPushType !== null ? (
 							<span
 								className="inquiry-list-regStatus regStatus-blue"
-								style={pushState ? {} : { color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6' }}
+								style={businessPushType ? {} : { color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6' }}
 							>
 								{'当前推送状态：'}
-								{pushState ? '开启' : '关闭'}
+								{businessPushType ? '开启' : '关闭'}
 							</span>
 						) : null
 					}
