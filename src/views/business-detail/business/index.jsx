@@ -6,7 +6,7 @@ import Router from '@/utils/Router';
 /* utils */
 import { requestAll } from '@/utils/promise';
 import {
-	getQueryByName, timeStandard, toEmpty, reviseNum,
+	getQueryByName, timeStandard, toEmpty, reviseNum, linkDetail,
 } from '@/utils';
 /* api collection */
 import businessAssets from '@/utils/api/professional-work/business/assets';
@@ -107,17 +107,7 @@ const EnterpriseInfo = (props) => {
 						{name ? <img src={ShapeImg} style={{ position: 'relative', top: '2px', marginRight: '5px' }} alt="" /> : null}
 						<span className="yc-public-remark">借款人：</span>
 						<span className="yc-public-title intro-title-name" style={style}>
-							<span
-								style={obligorId ? { color: '#1C80E1', cursor: 'pointer' } : {}}
-								onClick={() => {
-									if (obligorId) {
-										const w = window.open('about:blank');
-										w.location.href = `#/business/debtor/detail?id=${obligorId}`;
-									}
-								}}
-							>
-								{name || '-'}
-							</span>
+							{name ? linkDetail(obligorId, name) : '-'}
 							{
 								isDishonest === 1 ? (
 									<img
