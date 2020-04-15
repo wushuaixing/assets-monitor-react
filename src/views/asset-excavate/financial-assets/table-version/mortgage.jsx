@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { timeStandard, toEmpty, toGetStatusText } from '@/utils';
+import { timeStandard, toEmpty, toGetUnStatusText } from '@/utils';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
@@ -30,6 +30,10 @@ export default class TableIntact extends React.Component {
 		return '-';
 	};
 
+	toGetPortraitStatus=() => {
+		const { portrait } = this.props;
+		return portrait === 'business';
+	};
 
 	toShowExtraField=(row = {}) => {
 		const { portrait } = this.props;
@@ -89,8 +93,17 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ lineHeight: '20px' }}>
-						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetStatusText(row.state).status ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
-						<span className="list list-content ">{toGetStatusText(row.state).text}</span>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetUnStatusText(row.state).status ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
+						<span className="list list-content ">{toGetUnStatusText(row.state).text}</span>
+						{
+							toGetUnStatusText(row.state).status && this.toGetPortraitStatus() ? [
+								<span>（</span>,
+								<span className="list list-title align-justify">匹配时间</span>,
+								<span className="list list-title-colon">:</span>,
+								<span className="list list-content none-width">{timeStandard(row.gmtCreate)}</span>,
+								<span>）</span>,
+							] : null
+						}
 					</li>
 					<li>
 						<span className="list list-title align-justify">登记编号</span>

@@ -109,6 +109,24 @@ export const toGetStatusText = (val) => {
 	return res;
 };
 
+export const toGetUnStatusText = (val) => {
+	const res = {
+		text: '-',
+		status: true,
+		color: '#3DBD7D',
+	};
+	if (typeof val === 'string') {
+		res.text = val;
+		res.status = val === '有效';
+	}
+	if (typeof val === 'number') {
+		res.text = !val ? '有效' : '无效';
+		res.status = !val;
+	}
+	res.color = res.status ?	'#3DBD7D' : '#7D8699';
+	return res;
+};
+
 /* 填写数据
  * 如果没有填写默认值 */
 export const w = (v = '', option) => {

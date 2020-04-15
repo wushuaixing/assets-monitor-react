@@ -24,6 +24,11 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toGetPortraitStatus=() => {
+		const { portrait } = this.props;
+		return portrait === 'business';
+	};
+
 	toShowExtraField=(row = {}) => {
 		const { portrait } = this.props;
 		return portrait === 'business' && (
@@ -85,6 +90,15 @@ export default class TableIntact extends React.Component {
 					<li style={{ lineHeight: '20px' }}>
 						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetStatusText(row.status).status ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
 						<span className="list list-content ">{toGetStatusText(row.status).text}</span>
+						{
+							toGetStatusText(row.state).status && this.toGetPortraitStatus() ? [
+								<span>（</span>,
+								<span className="list list-title align-justify">匹配时间</span>,
+								<span className="list list-title-colon">:</span>,
+								<span className="list list-content none-width">{timeStandard(row.gmtCreate)}</span>,
+								<span>）</span>,
+							] : null
+						}
 					</li>
 					{
 						!toGetStatusText(row.status).status ? [
