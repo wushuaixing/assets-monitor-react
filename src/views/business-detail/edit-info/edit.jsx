@@ -101,7 +101,7 @@ class DebtorDetail extends React.Component {
 		const that = this;
 		confirm({
 			title: '您是否确认要删除该条业务相关人？',
-			iconType: 'exclamation-circle-o',
+			iconType: 'exclamation-circle',
 			onOk() {
 				isEdit();
 
@@ -130,10 +130,10 @@ class DebtorDetail extends React.Component {
 				<table className="table" style={{ marginBottom: 0 }}>
 					<thead className="ant-table-thead">
 						<tr>
-							<th style={{ width: 400 }}>相关人名称</th>
-							<th style={{ width: 400 }}>身份证号/统一社会信用代码</th>
-							<th style={{ width: 250 }}>角色</th>
-							<th style={{ width: 110 }}>操作</th>
+							<th style={{ width: 400, color: '#4E5566' }}>相关人名称</th>
+							<th style={{ width: 400, color: '#4E5566' }}>身份证号/统一社会信用代码</th>
+							<th style={{ width: 250, color: '#4E5566' }}>角色</th>
+							<th style={{ width: 110, color: '#4E5566', textAlign: 'center' }}>操作</th>
 						</tr>
 					</thead>
 					<tbody className="ant-table-tbody">
@@ -185,7 +185,7 @@ class DebtorDetail extends React.Component {
 										})}
 									/>
 								</td>
-								<td>
+								<td style={{ textAlign: 'center' }}>
 									<Button type="ghost" onClick={() => this.delete(item.id)}>
 										删除
 									</Button>

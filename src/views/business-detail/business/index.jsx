@@ -75,7 +75,7 @@ const EnterpriseInfo = (props) => {
 	} = data;
 
 	const style = {
-		minWidth: 80,
+		// minWidth: 80,
 		display: 'inline-block',
 	};
 	// console.log(affixStatus);
@@ -159,8 +159,14 @@ const Operation = (props) => {
 	const { onEdit, onRecord, customStyle } = props;
 	return (
 		<div className="intro-download" style={customStyle}>
-			<Button className="intro-download-button" onClick={onEdit}>编辑</Button>
-			<Button className="intro-download-button" onClick={onRecord}>变更记录</Button>
+			<Button className="intro-download-button" onClick={onEdit}>
+				<IconType type="icon-edit" style={{ marginRight: 5 }} />
+				编辑
+			</Button>
+			<Button className="intro-download-button" onClick={onRecord}>
+				<IconType type="icon-change-record" style={{ marginRight: 5 }} />
+				变更记录
+			</Button>
 			<Download
 				style={{ width: 84, height: 30 }}
 				condition={{

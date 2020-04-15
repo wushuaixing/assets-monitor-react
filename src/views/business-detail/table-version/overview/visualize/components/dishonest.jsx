@@ -4,6 +4,7 @@ import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import './style.scss';
+import RingEcharts from '@/views/portrait-inquiry/common/ringEcharts';
 
 export default class Dishonest extends React.Component {
 	constructor(props) {
@@ -11,7 +12,10 @@ export default class Dishonest extends React.Component {
 		this.state = {
 			loading: false,
 			timeLineData: [],
-			detail: [],
+			DishonestList: [],
+			beforeDishonestList: [],
+			RingData: [],
+			RingDataNum: 0,
 		};
 	}
 
@@ -28,12 +32,22 @@ export default class Dishonest extends React.Component {
 		this.setState({ loading: true });
 		api(params).then((res) => {
 			if (res.code === 200) {
+				const RingData = [];
 				const timeLineData = res.data.yearDistributions;
-				const obligorStatusList = res.data.obligorStatusList && res.data.obligorStatusList.length > 0 && res.data.obligorStatusList.filter(item => item.dishonestStatus === 1);
+				const DishonestList = res.data.obligorStatusList && res.data.obligorStatusList.length > 0 && res.data.obligorStatusList.filter(item => item.dishonestStatus === 1);
+				const beforeDishonestList = res.data.obligorStatusList && res.data.obligorStatusList.length > 0 && res.data.obligorStatusList.filter(item => item.dishonestStatus === 2);
+				RingData.push({ count: res.data.included || 0, type: '未移除' });
+				RingData.push({ count: res.data.remove || 0, type: '已移除' });
+				const RingDataNum = getCount(RingData);
+
+
 				this.setState({
 					loading: false,
-					detail: obligorStatusList || [],
+					DishonestList: DishonestList || [], // 已失信
+					beforeDishonestList: beforeDishonestList || [], // 曾失信
 					timeLineData, // 年份分布
+					RingData,
+					RingDataNum,
 				});
 			} else {
 				this.setState({ loading: false });
@@ -51,10 +65,13 @@ export default class Dishonest extends React.Component {
 	};
 
 	render() {
-		const { timeLineData, loading, detail } = this.state;
+		const {
+			timeLineData, loading, DishonestList, beforeDishonestList, RingData, RingDataNum,
+		} = this.state;
 		const { portrait } = this.props;
 		const isBusiness = portrait === 'business';
-		const hasDetail = Array.isArray(detail) && detail.length > 0;
+		const isDishonestList = Array.isArray(DishonestList) && DishonestList.length > 0;
+		const isBeforeDishonestList = Array.isArray(beforeDishonestList) && beforeDishonestList.length > 0;
 		return (
 			<div>
 				{
@@ -69,15 +86,29 @@ export default class Dishonest extends React.Component {
 								<span className="container-title-name"> 失信记录</span>
 							</div>
 
-							{hasDetail && isBusiness ? (
-								<div style={{ marginBottom: '12px', fontSize: '12px', marginLeft: '10px' }}>
+							{isDishonestList && isBusiness ? (
+								<div style={{ marginBottom: '16px', fontSize: '12px', marginLeft: '10px' }}>
 									已失信债务人：
-									{hasDetail && detail.map((item, index) => {
+									{DishonestList.map((item, index) => {
 										const key = item.obligorId;
 										return (
 											<span key={key} className="click-link" onClick={() => this.handleOnClick(item.obligorId)}>
 												{item.obligorName}
-												{detail.length - index !== 1 && '、'}
+												{DishonestList.length - index !== 1 && '、'}
+											</span>
+										);
+									})}
+								</div>
+							) : null}
+							{isBeforeDishonestList && isBusiness ? (
+								<div style={{ marginBottom: '20px', fontSize: '12px', marginLeft: '10px' }}>
+									曾失信债务人：
+									{beforeDishonestList.map((item, index) => {
+										const key = item.obligorId;
+										return (
+											<span key={key} className="click-link" onClick={() => this.handleOnClick(item.obligorId)}>
+												{item.obligorName}
+												{beforeDishonestList.length - index !== 1 && '、'}
 											</span>
 										);
 									})}
@@ -86,6 +117,7 @@ export default class Dishonest extends React.Component {
 
 							<div className="overview-container-content">
 								{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="ChattelMortgage" />}
+								{RingDataNum > 0 && isBusiness && <RingEcharts title="移除状态分布" Data={RingData} id="Dishonest" customColorArray={['#45A1FF', '#F2657A']} />}
 							</div>
 						</Spin>
 					)}
