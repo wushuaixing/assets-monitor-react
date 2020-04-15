@@ -2,9 +2,9 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
 import {
-	Ellipsis, Icon, Spin, Table,
+	Ellipsis, Icon, Spin, Table, LiItem,
 } from '@/common';
-import { toEmpty } from '@/utils';
+import { toEmpty, w, getHrefQuery } from '@/utils';
 
 
 const toGetIdentityType = (value) => {
@@ -29,39 +29,47 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
-	toShowExtraField=(row = {}) => {
+	toShowExtraField=(row, source = {}) => {
 		const { portrait } = this.props;
 		if (portrait === 'business') {
-			return (
-				<li>
-					<span className="list list-title align-justify">当事人</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
-						<Ellipsis
-							content={row.name}
-							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
-							tooltip
-							width={250}
-						/>
-					</span>
-					{
-						toGetIdentityType(row.identityType)
-						&& <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span>
-					}
-					{/* <span className="list-split" style={{ height: 16 }} /> */}
-				</li>
-			);
+			return source.party && source.party.map(i => (
+				<LiItem
+					Li
+					title="当事人"
+					suffix={i.identityStr && <span className="yc-case-reason text-ellipsis">{i.identityStr}</span>}
+				>
+					<Ellipsis
+						content={i.party}
+						url={i.obligorId ? `#/business/debtor/detail?id=${i.obligorId}` : ''}
+						tooltip
+						width={250}
+					/>
+				</LiItem>
+			));
 		}
 		return null;
 	};
 
 	toShowIdentityType=(row) => {
-		// const { portrait } = this.props;
-		// const { parties = [] } = row;
-		// const identityType = '';
-		// parties.forEach((item) => {
-		//
-		// });
+		const { parties = [] } = row;
+		let taxpayer = '';
+		const id = getHrefQuery('id');
+		const res = {
+			identityType: '',
+			identityTypePartyStr: '',
+		};
+		const party = parties.map((i) => {
+			const r = i;
+			if (i.identityType === 1) taxpayer = i.name;
+			if (i.obligorId) res.identityType = i.identityType;
+			r.party = r.name <= 4 ? `${r.name + r.idNumber && `(${r.idNumber})`}` : r.name;
+			r.identityStr = toGetIdentityType(r.identityType);
+			if (i.obligorId === Number(id))res.identityTypePartyStr = r.identityStr;
+			return r;
+		});
+		if (party.length)res.party = party;
+		if (taxpayer) res.taxpayer = taxpayer;
+		return res;
 	};
 
 	toGetColumns=() => {
@@ -72,52 +80,47 @@ export default class TableIntact extends React.Component {
 				dataIndex: 'property',
 				render: (value, row) => {
 					const { caseNature: ca, illegalFacts: ill, punish } = row;
+					const source = this.toShowIdentityType(row);
 					return (
 						<div className="assets-info-content">
 							<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-								{ toEmpty(ca || value)
-									? <Ellipsis content={ca || value} tooltip url={row.url} width={600} font={15} /> : '-' }
+								<Ellipsis content={toEmpty(ca || value)} tooltip url={row.url} width={600} font={15} />
 								{ toGetIdentityType(row.identityType) && portrait === 'personal'
-									? <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span> : ''}
+									? <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span> : '' }
+								{ portrait === 'debtor_personal' && source.identityTypePartyStr
+									&& <span className="yc-case-reason text-ellipsis">{source.identityTypePartyStr}</span> }
 							</li>
-							<li>
-								<span className="list list-title align-justify">违法事实</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">
-									{ toEmpty(ill) ? <Ellipsis content={ill} width={600} tooltip /> : '-' }
-								</span>
-							</li>
-							<li>
-								<span className="list list-title align-justify">处罚情况</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">
-									{ toEmpty(punish) ? <Ellipsis content={punish} width={600} tooltip /> : '-' }
-								</span>
-							</li>
+							{this.toShowExtraField(row, source)}
+							<LiItem title="违法事实" Li><Ellipsis content={toEmpty(ill)} width={600} tooltip /></LiItem>
+							<LiItem title="处罚情况" Li><Ellipsis content={toEmpty(punish)} width={600} tooltip /></LiItem>
 						</div>
 					);
 				},
 			}, {
 				title: '辅助信息',
 				width: 300,
-				render: (value, row) => (
-					<div className="assets-info-content">
-						{
-							portrait === 'personal' ? (
-								<li style={{ height: 24 }}>
-									<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 5 }} />
-									{/* eslint-disable-next-line no-irregular-whitespace */}
-									<Ellipsis content={`纳税人　${row.offender || '-'}`} tooltip width={240} />
-								</li>
-							) : <li style={{ height: 24 }} />
-						}
-						<li>
-							<span className="list list-title align-justify">发布日期</span>
-							<span className="list list-title-colon">:</span>
-							<span className="list list-content">{row.gmtPublish || '-'}</span>
-						</li>
-					</div>
-				),
+				render: (value, row) => {
+					const source = this.toShowIdentityType(row);
+					return (
+						<div className="assets-info-content">
+							<li style={{ height: 24 }}>
+								{
+									portrait === 'personal' && [
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 5 }} />,
+										<Ellipsis content={`纳税人：${row.offender || '-'}`} tooltip width={240} />,
+									]
+								}
+								{
+									(portrait === 'business' || portrait === 'debtor_personal') && source.taxpayer && [
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 5 }} />,
+										<Ellipsis content={`纳税人：${row.offender || '-'}`} tooltip width={240} />,
+									]
+								}
+							</li>
+							<LiItem title="发布日期" Li>{w(row.gmtPublish)}</LiItem>
+						</div>
+					);
+				},
 			},
 		]);
 	};
