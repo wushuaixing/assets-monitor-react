@@ -90,6 +90,10 @@
       .dishonest-count{
         display: inline-block;
         padding: 0 10px;
+        span{
+          font-size: 12px;
+          margin-left: 15px;
+        }
       }
     }
     .yc-tabs-suffix-ignore{
