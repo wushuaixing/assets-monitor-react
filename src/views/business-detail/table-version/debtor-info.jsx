@@ -45,7 +45,7 @@ const EnterpriseInfo = (arg = {}) => {
 	} = arg.data;
 	const _formerNames = (usedName || []).join('、');
 	const style = {
-		minWidth: 80,
+		// minWidth: 80,
 		display: 'inline-block',
 	};
 

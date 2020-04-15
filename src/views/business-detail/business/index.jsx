@@ -69,12 +69,11 @@ const EnterpriseInfo = (props) => {
 		data, onEdit, onRecord, affixStatus,
 	} = props;
 	const {
-		dishonestStatus: isDishonest, businessPushType,
+		dishonestStatus: isDishonest, businessPushType, obligorId,
 	} = data;
 	const {
 		obligorName: name, orgName, obligorNumber, uploadTime, caseNumber, obligorPushType,
 	} = data;
-
 	const style = {
 		// minWidth: 80,
 		display: 'inline-block',
@@ -108,7 +107,17 @@ const EnterpriseInfo = (props) => {
 						{name ? <img src={ShapeImg} style={{ position: 'relative', top: '2px', marginRight: '5px' }} alt="" /> : null}
 						<span className="yc-public-remark">借款人：</span>
 						<span className="yc-public-title intro-title-name" style={style}>
-							{name || '-'}
+							<span
+								style={obligorId ? { color: '#1C80E1', cursor: 'pointer' } : {}}
+								onClick={() => {
+									if (obligorId) {
+										const w = window.open('about:blank');
+										w.location.href = `#/business/debtor/detail?id=${obligorId}`;
+									}
+								}}
+							>
+								{name || '-'}
+							</span>
 							{
 								isDishonest === 1 ? (
 									<img

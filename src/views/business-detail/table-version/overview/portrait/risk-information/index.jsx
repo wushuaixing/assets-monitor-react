@@ -62,8 +62,6 @@ export default class RiskInformation extends React.Component {
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
-		// console.log(promiseArray, handlePromise, 333);
-
 		handlePromise.then((values) => {
 			const isArray = Array.isArray(values) && values.length > 0;
 			this.setState({ isLoading: false });
@@ -86,11 +84,13 @@ export default class RiskInformation extends React.Component {
 	getBankruptcyData = (isArray, values) => {
 		const res = values[0];
 		if (isArray && res && res.code === 200) {
-			const { bankruptcy, gmtCreate } = res.data;
+			const { gmtCreate } = res.data;
+			// console.log(bankruptcy);
+			const dataSourceNum = res.data.bankruptcy || 0;
 			const bankruptcyPropsData = {
-				bankruptcyNum: bankruptcy,
+				bankruptcyNum: dataSourceNum,
 				gmtCreate,
-				obligorTotal: res.data.obligorTotal || null,
+				obligorTotal: res.data.obligorTotal || 0,
 			};
 			this.setState(() => ({
 				bankruptcyPropsData,
@@ -207,13 +207,13 @@ export default class RiskInformation extends React.Component {
 							</div>
 							<div className="overview-container-cardContent">
 								{/* 破产重组 */}
-								<Bankruptcy dataSource={bankruptcyPropsData} portrait={portrait} />
+								{Object.keys(bankruptcyPropsData).length !== 0 && <Bankruptcy dataSource={bankruptcyPropsData} portrait={portrait} />}
 								{/* 失信记录 */}
-								<Break portrait={portrait} dataSource={dishonestPropsData} />
+								{Object.keys(dishonestPropsData).length !== 0 && <Break dataSource={dishonestPropsData} portrait={portrait} />}
 								{/* 涉诉信息 */}
-								<Involved dataSource={litigationPropsData} portrait={portrait} />
+								{Object.keys(litigationPropsData).length !== 0 && <Involved dataSource={litigationPropsData} portrait={portrait} />}
 								{/* 经营风险 */}
-								<Information dataSource={riskPropsData} portrait={portrait} />
+								{Object.keys(riskPropsData).length !== 0 && <Information dataSource={riskPropsData} portrait={portrait} />}
 							</div>
 						</div>
 					) : null}
