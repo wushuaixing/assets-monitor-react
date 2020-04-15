@@ -13,6 +13,7 @@ import EquityPledge from './components/equityPledge';
 import ChattelMortgage from './components/chattelMortgage';
 import Bidding from './components/tender';
 import Bankruptcy from './components/bankruptcy';
+import Dishonest from './components/dishonest';
 import Information from './components/information';
 import BusinessRisk from './components/businessRisk';
 import Basic from '@/views/portrait-inquiry/enterprise/overview/components/basic';
@@ -171,7 +172,7 @@ export default class Visualize extends React.Component {
 		return (
 			<div className="visualize-overview">
 				<div className="visualize-overview-line" />
-				<div className="overview-left" style={{ minHeight: 1000 }}>
+				<div className="overview-left">
 
 					<div className="yc-overview-title">资产概况</div>
 					<div className="yc-overview-container">
@@ -189,16 +190,17 @@ export default class Visualize extends React.Component {
 						 <ChattelMortgage portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						 {/* 招标中标 */}
 						 <Bidding businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						{
+							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
+							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0
+							&& (
+								<Spin visible={loading}>
+									{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}
+								</Spin>
+							)
+						}
 					</div>
-					{
-						AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
-						&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0
-						&& (
-							<Spin visible={loading}>
-								{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}
-							</Spin>
-						)
-					}
+
 				</div>
 				<div className="overview-line" />
 				<div className="overview-right">
@@ -211,6 +213,8 @@ export default class Visualize extends React.Component {
 								<div>
 									{/* 破产重组 */}
 									<Bankruptcy portrait={portrait} businessId={businessId} obligorId={obligorId} />
+									{/* 失信记录 */}
+									<Dishonest portrait={portrait} businessId={businessId} obligorId={obligorId} />
 									{/* 涉诉信息 */}
 									{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
 									{/* 经营风险 */}

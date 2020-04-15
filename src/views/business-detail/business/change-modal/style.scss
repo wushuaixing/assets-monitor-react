@@ -1,6 +1,12 @@
 .change-modal {
   .ant-modal-body {
-    padding: 24px;
+    padding: 24px 24px 44px 24px;
+  }
+  .ant-modal-title {
+    font-size: 16px;
+  }
+  .ant-table-tbody>tr>td, .ant-table-thead>tr>th {
+    padding: 12px 20px;
   }
   .ant-table-body {
     &::-webkit-scrollbar-thumb {

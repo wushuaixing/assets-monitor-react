@@ -190,3 +190,12 @@
     margin-left: 10px!important;
   }
 }
+// 输入框颜色
+.ant-input {
+  color: $text-title;;
+}
+
+// table header border-radius
+.ant-table, .ant-table-header,.ant-table-header table {
+  border-radius: 0 !important;
+}

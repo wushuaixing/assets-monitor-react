@@ -123,8 +123,6 @@ export default class Information extends React.Component {
 		const {
 			RingData, timeLineData, selectType, timeLineDataNum, RingDataNum, FilingNum, CourtNum, refereeNum, columnarDataNum, columnarData,
 		} = this.state;
-
-
 		return (
 			<div>
 				{timeLineDataNum > 0 || RingDataNum > 0 ? (

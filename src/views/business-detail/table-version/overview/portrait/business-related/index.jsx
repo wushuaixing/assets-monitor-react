@@ -110,10 +110,19 @@ export default class BusinessRelated extends React.Component {
 									</tr>
 								</tbody>
 							</table>
-							<div style={{ textAlign: 'center', marginBottom: '30px' }}>
+							<div style={{ textAlign: 'center', marginBottom: '30px', marginTop: '20px' }}>
 								<img style={imgLoading ? { marginTop: '50px' } : {}} src={noData} alt="" />
-								<div>暂未导入相关人，建议去编辑添加相关人，以形成完整业务画像</div>
-								<Button size="large" type="common" style={{ width: 160, height: 34, marginTop: 40 }} onClick={this.handleSubmit}>添加相关人</Button>
+								<div style={{ color: '#4E5566' }}>暂未导入相关人，建议去编辑添加相关人，以形成完整业务画像</div>
+								<Button
+									size="large"
+									type="common"
+									style={{
+										width: 160, height: 34, marginTop: 40, fontSize: '14px',
+									}}
+									onClick={this.handleSubmit}
+								>
+								添加相关人
+								</Button>
 							</div>
 						</div>
 					 )}

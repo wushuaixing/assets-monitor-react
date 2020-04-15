@@ -6,6 +6,8 @@ import {
 	businessOverviewLitigation, // 业务涉诉
 	overviewRisk, // 债务人经营风险
 	businessOverviewRisk, // 业务经营风险
+	overviewDishonest, // 债务人失信
+	businessOverviewDishonest, // 业务失信
 } from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
@@ -14,12 +16,14 @@ import getCount from '@/views/portrait-inquiry/common/getCount';
 import Bankruptcy from '../card-components/Bankruptcy-card';
 import Involved from '../card-components/Involved-card';
 import Information from '../card-components/Information-card';
+import Break from '../card-components/break-card';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值
 const apiType = (value, portrait) => {
 	switch (value) {
 	case 'Bankruptcy': return portrait === 'business' ? businessOverviewBankruptcy : overviewBankruptcy;
+	case 'Dishonest': return portrait === 'business' ? businessOverviewDishonest : overviewDishonest;
 	case 'Litigation': return portrait === 'business' ? businessOverviewLitigation : overviewLitigation;
 	case 'Risk': return portrait === 'business' ? businessOverviewRisk : overviewRisk;
 	default: return {};
@@ -31,6 +35,7 @@ export default class RiskInformation extends React.Component {
 		this.state = {
 			isLoading: false,
 			bankruptcyPropsData: {}, // 破产重组
+			dishonestPropsData: {}, // 失信记录
 			litigationPropsData: {}, // 涉诉信息
 			riskPropsData: {}, // 经营风险
 		};
@@ -51,6 +56,7 @@ export default class RiskInformation extends React.Component {
 		const params = { ...value };
 		const promiseArray = [];
 		promiseArray.push(apiType('Bankruptcy', portrait)(params)); // 破产重组
+		promiseArray.push(apiType('Dishonest', portrait)(params)); // 失信记录
 		promiseArray.push(apiType('Litigation', portrait)(params)); // 涉诉信息
 		promiseArray.push(apiType('Risk', portrait)(params)); // 经营风险
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
@@ -59,11 +65,13 @@ export default class RiskInformation extends React.Component {
 		handlePromise.then((values) => {
 			const isArray = Array.isArray(values) && values.length > 0;
 			this.setState({ isLoading: false });
-			// // 破产重组
+			// 破产重组
 			this.getBankruptcyData(isArray, values);
-			// // 涉诉信息
+			// 失信记录
+			this.getDishonestData(isArray, values);
+			// 涉诉信息
 			this.getLitigationData(isArray, values);
-			// // 经营风险
+			// 经营风险
 			this.getRiskData(isArray, values);
 
 			// console.log('all promise are resolved', values);
@@ -88,9 +96,48 @@ export default class RiskInformation extends React.Component {
 		}
 	};
 
+	// 失信记录
+	getDishonestData = (isArray, values) => {
+		const { portrait } = this.props;
+		const isBusiness = portrait && portrait === 'business';
+		const res = values[1];
+		if (isArray && res && res.code === 200) {
+			const {
+				remove, gmtCreate, included, obligorStatusList,
+			} = res.data;
+
+			const dataSource = [];
+			const isDishonest = obligorStatusList.filter(item => item.dishonestStatus === 1).length || 0; // 已失信
+			const beforeDishonest = obligorStatusList.filter(item => item.dishonestStatus === 2).length || 0; // 曾失信
+			// console.log(isDishonest, 11, beforeDishonest);
+			if (isBusiness) {
+				dataSource.push({ count: beforeDishonest, typeName: '曾失信债务人' });
+				dataSource.push({ count: isDishonest, typeName: '已失信债务人' });
+				dataSource.push({ count: included, typeName: '列入' });
+				dataSource.push({ count: remove, typeName: '已移除' });
+			} else {
+				dataSource.push({ count: included, typeName: '列入' });
+				dataSource.push({ count: remove, typeName: '已移除' });
+			}
+
+			const dataSourceNum = getCount(dataSource);
+			const dishonestPropsData = {
+				removeNum: remove, // 移除数量
+				includedNum: included, // 列入数量
+				dataSource,
+				gmtCreate,
+				dataSourceNum,
+				dishonestStatusArray: obligorStatusList,
+			};
+			this.setState(() => ({
+				dishonestPropsData,
+			}));
+		}
+	};
+
 	// 涉诉信息
 	getLitigationData = (isArray, values) => {
-		const res = values[1];
+		const res = values[2];
 		if (isArray && res && res.code === 200) {
 			const dataSource = [];
 			dataSource.push({ count: res.data.trial, typeName: '立案' });
@@ -111,7 +158,7 @@ export default class RiskInformation extends React.Component {
 
 	// 经营风险
 	getRiskData = (isArray, values) => {
-		const res = values[2];
+		const res = values[3];
 		if (isArray && res && res.code === 200) {
 			const dataSource = [];
 			dataSource.push({ count: res.data.abnormal, typeName: '经营异常' });
@@ -136,15 +183,15 @@ export default class RiskInformation extends React.Component {
 	// 判断内部是否存数据
 	isHasValue = () => {
 		const {
-			bankruptcyPropsData, litigationPropsData, riskPropsData,
+			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData,
 		} = this.state;
-		return bankruptcyPropsData.bankruptcyNum > 0 || litigationPropsData.dataSourceNum > 0 || riskPropsData.dataSourceNum > 0;
+		return bankruptcyPropsData.bankruptcyNum > 0 || litigationPropsData.dataSourceNum > 0 || riskPropsData.dataSourceNum > 0 || dishonestPropsData.dataSourceNum > 0;
 	};
 
 	render() {
 		const { portrait } = this.props;
 		const {
-			bankruptcyPropsData, litigationPropsData, riskPropsData, isLoading,
+			bankruptcyPropsData, dishonestPropsData, litigationPropsData, riskPropsData, isLoading,
 		} = this.state;
 		const isHasValue = this.isHasValue();
 		return (
@@ -159,6 +206,8 @@ export default class RiskInformation extends React.Component {
 							<div className="overview-container-cardContent">
 								{/* 破产重组 */}
 								<Bankruptcy dataSource={bankruptcyPropsData} portrait={portrait} />
+								{/* 失信记录 */}
+								<Break portrait={portrait} dataSource={dishonestPropsData} />
 								{/* 涉诉信息 */}
 								<Involved dataSource={litigationPropsData} portrait={portrait} />
 								{/* 经营风险 */}
