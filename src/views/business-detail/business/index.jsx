@@ -27,6 +27,7 @@ import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import '../style.scss';
 
+const constantNumber = 99999999; // 默认值
 /* 基本选项 */
 const source = () => [
 	{
@@ -199,6 +200,7 @@ export default class Enterprise extends React.Component {
 			changeListModalVisible: false,
 			errorModalVisible: false,
 			timeLeft: 3,
+			apiError: false,
 		};
 		this.portrait = 'business';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
@@ -206,7 +208,7 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const businessId = getQueryByName(window.location.href, 'id') || 999999;
+		const businessId = getQueryByName(window.location.href, 'id') || constantNumber;
 		this.setState({ loading: true });
 		businessInfo({ businessId }).then((res) => {
 			if (res.code === 200) {
@@ -234,6 +236,7 @@ export default class Enterprise extends React.Component {
 					loading: false,
 					assetLoading: false,
 					riskLoading: false,
+					apiError: true,
 				});
 			}
 		}).catch(() => {
@@ -286,7 +289,7 @@ export default class Enterprise extends React.Component {
 
 	handleEdit=() => {
 		const { infoSource } = this.state;
-		const businessId = getQueryByName(window.location.href, 'id') || 999999;
+		const businessId = getQueryByName(window.location.href, 'id') || constantNumber;
 		setSource(infoSource);
 		navigate(`/business/detail/edit/info?id=${businessId}`);
 	};
@@ -350,11 +353,12 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible, affixStatus, loading, assetLoading, riskLoading,
+			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible, affixStatus, loading, assetLoading, riskLoading, apiError,
 		} = this.state;
 		const classList = ['info-detail', 'info-wrapper'];
 		if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
+			apiError,
 			assetLoading,
 			riskLoading,
 			toPushChild: this.handleAddChild, // tab 追加子项

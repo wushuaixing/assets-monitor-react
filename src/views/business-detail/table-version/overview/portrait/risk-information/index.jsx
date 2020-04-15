@@ -62,6 +62,8 @@ export default class RiskInformation extends React.Component {
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+		// console.log(promiseArray, handlePromise, 333);
+
 		handlePromise.then((values) => {
 			const isArray = Array.isArray(values) && values.length > 0;
 			this.setState({ isLoading: false });
