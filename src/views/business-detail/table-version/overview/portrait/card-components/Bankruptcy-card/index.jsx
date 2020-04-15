@@ -12,6 +12,7 @@ export default class Bankruptcy extends React.Component {
 	render() {
 		const { portrait, dataSource: { bankruptcyNum, gmtCreate, obligorTotal } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
+
 		return (
 			<React.Fragment>
 				{bankruptcyNum > 0 ? (
@@ -28,7 +29,7 @@ export default class Bankruptcy extends React.Component {
 								{
 									isBusiness ? (
 										<div>
-										破产/重整风险企业：
+											破产/重整风险企业：
 											<span style={{ fontSize: '12px', color: '#4E5566', paddingLeft: '5px' }}>
 												{obligorTotal}
 												{' '}

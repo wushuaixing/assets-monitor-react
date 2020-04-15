@@ -20,6 +20,7 @@ import Risk from '@/views/business-detail/table-version/risk';
 import Info from '@/views/business-detail/table-version/info';
 import '../style.scss';
 
+const constantNumber = 99999999; // 默认值
 /* 基本选项 */
 const source = () => [
 	{
@@ -82,6 +83,7 @@ export default class Enterprise extends React.Component {
 			assetLoading: true,
 			riskLoading: true,
 			errorModalVisible: false,
+			apiError: false,
 			timeLeft: 3,
 		};
 		this.portrait = 'debtor_enterprise';
@@ -90,7 +92,7 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
+		const obligorId = getQueryByName(window.location.href, 'id') || constantNumber;
 		debtorInfo({ obligorId }).then((res) => {
 			if (res.code === 200) {
 				const { obligorName } = res.data;
@@ -124,6 +126,7 @@ export default class Enterprise extends React.Component {
 				this.openErrorModal();
 				this.setState({
 					loading: false,
+					apiError: true,
 					assetLoading: false,
 					riskLoading: false,
 				});
@@ -154,7 +157,7 @@ export default class Enterprise extends React.Component {
 
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index, portrait) => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
+		const obligorId = getQueryByName(window.location.href, 'id') || constantNumber;
 		if (item.config) {
 			const { apiData, config: { idList: _idList, status: _status } } = item;
 			const { tabConfig } = this.state;
@@ -236,12 +239,13 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, affixStatus, timeLeft, errorModalVisible, loading, assetLoading, riskLoading,
+			tabConfig, childDom, sourceType, infoSource, affixStatus, timeLeft, errorModalVisible, loading, assetLoading, riskLoading, apiError,
 		} = this.state;
 		const { baseRule } = this.props;
 		const classList = ['info-detail', 'info-wrapper'];
 		if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
+			apiError,
 			baseRule,
 			loading,
 			assetLoading,
@@ -250,7 +254,6 @@ export default class Enterprise extends React.Component {
 			toPushChild: this.handleAddChild, // tab 追加子项
 			portrait: this.portrait,
 		};
-
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">

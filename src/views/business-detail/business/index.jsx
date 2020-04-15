@@ -6,7 +6,7 @@ import Router from '@/utils/Router';
 /* utils */
 import { requestAll } from '@/utils/promise';
 import {
-	getQueryByName, timeStandard, toEmpty, reviseNum,
+	getQueryByName, timeStandard, toEmpty, reviseNum, linkDetail,
 } from '@/utils';
 /* api collection */
 import businessAssets from '@/utils/api/professional-work/business/assets';
@@ -27,6 +27,7 @@ import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import '../style.scss';
 
+const constantNumber = 99999999; // 默认值
 /* 基本选项 */
 const source = () => [
 	{
@@ -68,12 +69,11 @@ const EnterpriseInfo = (props) => {
 		data, onEdit, onRecord, affixStatus,
 	} = props;
 	const {
-		dishonestStatus: isDishonest, businessPushType,
+		dishonestStatus: isDishonest, businessPushType, obligorId,
 	} = data;
 	const {
 		obligorName: name, orgName, obligorNumber, uploadTime, caseNumber, obligorPushType,
 	} = data;
-
 	const style = {
 		// minWidth: 80,
 		display: 'inline-block',
@@ -107,7 +107,7 @@ const EnterpriseInfo = (props) => {
 						{name ? <img src={ShapeImg} style={{ position: 'relative', top: '2px', marginRight: '5px' }} alt="" /> : null}
 						<span className="yc-public-remark">借款人：</span>
 						<span className="yc-public-title intro-title-name" style={style}>
-							{name || '-'}
+							{name ? linkDetail(obligorId, name) : '-'}
 							{
 								isDishonest === 1 ? (
 									<img
@@ -199,6 +199,7 @@ export default class Enterprise extends React.Component {
 			changeListModalVisible: false,
 			errorModalVisible: false,
 			timeLeft: 3,
+			apiError: false,
 		};
 		this.portrait = 'business';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
@@ -206,7 +207,7 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const businessId = getQueryByName(window.location.href, 'id') || 999999;
+		const businessId = getQueryByName(window.location.href, 'id') || constantNumber;
 		this.setState({ loading: true });
 		businessInfo({ businessId }).then((res) => {
 			if (res.code === 200) {
@@ -234,6 +235,7 @@ export default class Enterprise extends React.Component {
 					loading: false,
 					assetLoading: false,
 					riskLoading: false,
+					apiError: true,
 				});
 			}
 		}).catch(() => {
@@ -286,7 +288,7 @@ export default class Enterprise extends React.Component {
 
 	handleEdit=() => {
 		const { infoSource } = this.state;
-		const businessId = getQueryByName(window.location.href, 'id') || 999999;
+		const businessId = getQueryByName(window.location.href, 'id') || constantNumber;
 		setSource(infoSource);
 		navigate(`/business/detail/edit/info?id=${businessId}`);
 	};
@@ -350,11 +352,12 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible, affixStatus, loading, assetLoading, riskLoading,
+			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible, affixStatus, loading, assetLoading, riskLoading, apiError,
 		} = this.state;
 		const classList = ['info-detail', 'info-wrapper'];
 		if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
+			apiError,
 			assetLoading,
 			riskLoading,
 			toPushChild: this.handleAddChild, // tab 追加子项

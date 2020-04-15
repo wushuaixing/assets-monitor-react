@@ -19,7 +19,7 @@ export default class Break extends React.Component {
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
-		const isDishonest = dishonestStatusArray[0].dishonestStatus === 1;
+		const isDishonest = dishonestStatusArray && dishonestStatusArray[0].dishonestStatus === 1;
 		return (
 			<React.Fragment>
 				{dataSourceNum > 0
