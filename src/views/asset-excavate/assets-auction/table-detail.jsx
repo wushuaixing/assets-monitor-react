@@ -193,8 +193,8 @@ export default class TableIntact extends React.Component {
 							<span className="list list-content" style={{ width: 640, maxWidth: 'none' }}>{this.getMatchReason(row.reason, row.pushType)}</span>
 						</li>
 						<li>
-							{ toEmpty(row.matchRemark)
-								? <Ellipsis content={`审核备注：${row.matchRemark}`} tooltip width={600} font={15} /> : '审核备注：-' }
+							{ toEmpty(row.remark)
+								? <Ellipsis content={`审核备注：${row.remark}`} tooltip width={600} font={15} /> : '审核备注：-' }
 						</li>
 					</div>
 				);

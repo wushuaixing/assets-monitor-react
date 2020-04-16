@@ -5,6 +5,7 @@ import {
 	Ellipsis, Spin, Table,
 } from '@/common';
 import { timeStandard, toEmpty } from '@/utils';
+import { floatFormat } from '@/utils/format';
 
 
 const certificateTypeStatus = {
@@ -81,7 +82,7 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">面积</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.area}</span>
+						<span className="list list-content">{row.area ? `${floatFormat(row.area)} 平方米` : '-'}</span>
 					</li>
 				</div>
 			),

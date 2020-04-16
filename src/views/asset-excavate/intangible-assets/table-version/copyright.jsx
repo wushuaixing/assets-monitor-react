@@ -7,10 +7,10 @@ import {
 } from '@/common';
 
 
-const certificateTypeStatus = {
-	1: '采矿权',
-	2: '探矿权',
-	3: '未知',
+const rightsTypeStatus = {
+	0: '未知',
+	1: '商标',
+	2: '专利',
 };
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -56,7 +56,7 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
 						<a href={row.url} target="_blank" rel="noopener noreferrer">{value}</a>
-						{ row.certificateType ? <span className="yc-case-reason text-ellipsis">{certificateTypeStatus[row.certificateType]}</span> : ''}
+						{ row.rightsType ? <span className="yc-case-reason text-ellipsis" style={{ minWidth: 50 }}>{rightsTypeStatus[row.rightsType]}</span> : ''}
 					</li>
 					{this.toShowExtraField(row)}
 				</div>

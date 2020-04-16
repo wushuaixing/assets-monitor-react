@@ -132,6 +132,11 @@ export const toGetUnStatusText = (val) => {
 export const w = (v = '', option) => {
 	const { prefix = '', suffix = '', mark = '' } = option || {};
 	if (v === null) return mark || '-';
+	if (typeof v === 'number') {
+		const value = v;
+		if (value && value !== '-' && value !== '-') return `${prefix}${value}${suffix}`;
+		return `${prefix}${value || mark || '-'}`;
+	}
 	const value = (`${v}`).trim();
 	if (value && value !== '-' && value !== '-') return `${prefix}${value}${suffix}`;
 	return value || mark || '-';
