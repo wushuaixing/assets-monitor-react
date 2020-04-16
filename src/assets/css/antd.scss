@@ -184,10 +184,42 @@
 //.ant-modal {
 //  top: 260px;
 //}
-
 .message-confirm-no-icon {
+  button {
+    width: 84px;
+    height: 34px;
+  }
+  .ant-modal-body {
+    padding: 30px;
+  }
+  .ant-confirm-btns button+button {
+    margin-left: 20px;
+  }
+  .ant-confirm-title {
+    font-size: 16px;
+  }
   .ant-confirm-content{
-    margin-left: 10px!important;
+    margin-left: 12px !important;
+    margin-top: 24px !important;
+  }
+}
+.message-confirm-icon {
+  button {
+    width: 84px;
+    height: 34px;
+  }
+  .ant-modal-body {
+    padding: 30px;
+  }
+  .ant-confirm-btns button+button {
+    margin-left: 20px;
+  }
+  .ant-confirm-title {
+    font-size: 16px;
+  }
+  .ant-confirm-content{
+    margin-left: 38px !important;
+    margin-top: 24px !important;
   }
 }
 // 输入框颜色

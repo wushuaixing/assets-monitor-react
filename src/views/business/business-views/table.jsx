@@ -174,7 +174,7 @@ class BusinessView extends React.Component {
 		confirm({
 			title: '确认删除选中业务吗?',
 			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
-			iconType: 'exclamation-circle-o',
+			iconType: 'exclamation-circle',
 			onOk() {
 				const params = {
 					id: row.id,
@@ -239,7 +239,8 @@ class BusinessView extends React.Component {
 		confirm({
 			title: `确认${row.pushState === 1 ? '关闭' : '开启'}本条业务的推送功能吗?`,
 			content: `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本条业务相关的监控信息。`,
-			iconType: 'exclamation-circle-o',
+			iconType: 'none',
+			className: 'message-confirm-no-icon',
 			onOk() {
 				that.commonPushState(row);
 			},
