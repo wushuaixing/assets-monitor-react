@@ -25,7 +25,7 @@ export default class Dishonest extends React.Component {
 
 	getData = () => {
 		const {
-			businessId, obligorId, portrait,
+			businessId, obligorId, portrait, getAssetProfile,
 		} = this.props;
 		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
 		const api = portrait === 'business' ? businessOverviewDishonest : overviewDishonest;
@@ -39,7 +39,8 @@ export default class Dishonest extends React.Component {
 				RingData.push({ count: res.data.included || 0, type: '未移除' });
 				RingData.push({ count: res.data.remove || 0, type: '已移除' });
 				const RingDataNum = getCount(RingData);
-
+				const allNum = getCount(timeLineData);
+				getAssetProfile(allNum, 'Dishonest');
 
 				this.setState({
 					loading: false,
