@@ -101,7 +101,7 @@ export default class Assets extends React.Component {
 		const dom = document.getElementById(eleID);
 		// const _height = document.getElementById('enterprise-intro').clientHeight;
 		if (dom) {
-			window.scrollTo(0, document.getElementById(eleID).offsetTop - 168);
+			window.scrollTo(0, document.getElementById(eleID).offsetTop + 220);
 		}
 	};
 

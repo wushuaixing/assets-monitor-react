@@ -11,7 +11,7 @@ import { floatFormat } from '@/utils/format';
 import './style.scss';
 
 // step的描述内容
-const StepDesc = (props) => {
+export const StepDesc = (props) => {
 	const {
 		recovery, expend, content, remindingTime, remindType, remindMobiles,
 	} = props;
@@ -55,7 +55,7 @@ const StepDesc = (props) => {
 };
 
 // process 的 状态转移
-const ProcessTran = (type) => {
+export const ProcessTran = (type) => {
 // （6-跟进中、9-已完成、12-已忽略、15-已放弃）
 	if (type === 6 || type === 3) return '跟进中';
 	if (type === 9) return '已完成';

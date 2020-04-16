@@ -6,6 +6,7 @@ import {
 } from '@/common';
 import { floatFormat } from '@/utils/format';
 import TableVersionModal from './tableVersionModal';
+import SimplyFollow from './follow-info/simply';
 import { toEmpty, timeStandard } from '@/utils';
 import './style.scss';
 
@@ -130,6 +131,8 @@ export default class TableIntact extends React.Component {
 			loading: false,
 			historyInfoModalVisible: false,
 			historyInfoModalData: [],
+			followVisible: false,
+			followInfoID: '',
 		};
 	}
 
@@ -152,7 +155,18 @@ export default class TableIntact extends React.Component {
 		});
 	};
 
-	getMatchReason=(reason, pushType) => {
+	toCreatALink=(str, row) => {
+		if (row.obligorId) {
+			const baseDom = `<a href="#/business/debtor/detail?id=${row.obligorId}" class="click-link" rel="noopener noreferrer" target="_blank">${row.obligorName}</a>`;
+			const Reg = new RegExp(row.obligorName, 'g');
+			console.log(Reg);
+			return str.replace(Reg, baseDom);
+		}
+		return str;
+	};
+
+	getMatchReason=(reason, pushType, row) => {
+		const { portrait } = this.props;
 		if (reason) {
 			try {
 				let str = '';
@@ -160,18 +174,33 @@ export default class TableIntact extends React.Component {
 				const name = (_reason.filter(i => i.name))[0];
 				const usedName = (_reason.filter(i => i.used_name))[0];
 				if (pushType === 0) {
-					return '全文匹配';
+					const allDoc = portrait === 'business' && row.obligorName ? `全文匹配，匹配债务人为${row.obligorName}` : '全文匹配';
+					const allStr = portrait === 'business' ? this.toCreatALink(allDoc, row) : allDoc;
+					return <p dangerouslySetInnerHTML={{ __html: allStr }} />;
 				} if (name || usedName) {
 					if (name) str += name.hl.join('、');
 					else str += usedName.hl.join('、');
 				}
-				if (str) return <p dangerouslySetInnerHTML={{ __html: str }} />;
+				if (str) {
+					if (portrait === 'business')str = this.toCreatALink(str, row);
+					console.log(str, row);
+					return <p dangerouslySetInnerHTML={{ __html: str }} />;
+				}
 				return '-';
 			} catch (e) {
 				return '-';
 			}
 		}
 		return '-';
+	};
+
+	toShowFollowList=(row) => {
+		if (row.id) {
+			this.setState({
+				followVisible: true,
+				followInfoID: row.id,
+			});
+		}
 	};
 
 	toGetColumns=() => [
@@ -185,12 +214,12 @@ export default class TableIntact extends React.Component {
 						<li style={{ lineHeight: '24px' }}>
 							{ toEmpty(row.title)
 								? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={14} className="yc-public-title-normal-bold" /> : '-' }
-							{process ? <span className="yc-case-reason text-ellipsis" style={process.style}>{process.text}</span> : ''}
+							{process ? <span className="yc-case-reason text-ellipsis cursor-pointer" onClick={() => this.toShowFollowList(row)} style={process.style}>{process.text}</span> : ''}
 						</li>
 						<li>
 							<span className="list list-title align-justify">● 匹配原因</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content" style={{ width: 640, maxWidth: 'none' }}>{this.getMatchReason(row.reason, row.pushType)}</span>
+							<span className="list list-content" style={{ width: 640, maxWidth: 'none' }}>{this.getMatchReason(row.reason, row.pushType, row)}</span>
 						</li>
 						<li>
 							{ toEmpty(row.remark)
@@ -258,7 +287,7 @@ export default class TableIntact extends React.Component {
 
 	render() {
 		const {
-			dataSource, current, total, historyInfoModalData, loading, historyInfoModalVisible,
+			dataSource, current, total, historyInfoModalData, loading, historyInfoModalVisible, followInfoID, followVisible,
 		} = this.state;
 		return (
 			<div className="yc-assets-auction ">
@@ -292,6 +321,7 @@ export default class TableIntact extends React.Component {
 						historyInfoModalVisible={historyInfoModalVisible}
 					/>
 				)}
+				{followVisible && <SimplyFollow onCancel={() => this.setState({ followVisible: false })} id={followInfoID} />}
 			</div>
 		);
 	}
