@@ -81,7 +81,7 @@ export default class ChattelMortgage extends React.Component {
 													{`${item.count} 条`}
 												</div>
 												<div className="yc-role-description">{`(其中${item.invalidCount}条质押登记状态为无效)`}</div>
-												<div className="yc-role-warning">{`*当前有效担保债权数额${item.amount}元`}</div>
+												<div className="yc-role-warning">{`*平台内发现当前有效担保债权数额${item.amount}元`}</div>
 											</div>
 										))
 									}
