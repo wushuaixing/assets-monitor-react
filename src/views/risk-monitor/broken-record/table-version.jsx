@@ -1,7 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
-import { Ellipsis, Spin, Table } from '@/common';
+import {
+	Ellipsis, Spin, Table, LiItem,
+} from '@/common';
 import { toEmpty } from '@/utils';
 
 export default class TableIntact extends React.Component {
@@ -52,33 +54,35 @@ export default class TableIntact extends React.Component {
 		{
 			title: '信息',
 			dataIndex: 'pledgeeList',
-			render: (value, row) => (
-				<div className="assets-info-content">
-					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.caseCode)
-							? <Ellipsis content={row.caseCode} url={row.url} tooltip width={600} font={15} /> : '-' }
-					</li>
-					<li>
-						{this.toShowExtraField(row)}
-						<span className="list list-title align-justify">失信被执行人行为具体情形</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ minWidth: 300 }}>
-							{ toEmpty(row.fact) ? <Ellipsis content={row.fact} tooltip width={300} /> : '-'}
-						</span>
-					</li>
-					<li>
-						<span className="list list-title align-justify">生效法律文书确定义务</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ minWidth: 300 }}>
-							{ toEmpty(row.duty) ? <Ellipsis content={row.duty} tooltip width={300} /> : '-'}
-						</span>
-						<span className="list-split" style={{ height: 16 }} />
-						<span className="list list-title align-justify">被执行人的履行情况</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content none-width">{row.performance}</span>
-					</li>
-				</div>
-			),
+			render: (value, row) => {
+				const { portrait } = this.props;
+				const fact = (portrait === 'business' || portrait === 'debtor_enterprise' || portrait === 'debtor_personal') ? row.disruptType : row.fact;
+				return (
+					<div className="assets-info-content">
+						<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
+							{ toEmpty(row.caseCode)
+								? <Ellipsis content={row.caseCode} url={row.url} tooltip width={600} font={15} /> : '-' }
+						</li>
+						<li>
+							{this.toShowExtraField(row)}
+							<LiItem title="失信被执行人行为具体情形" cotStyle={{ minWidth: 300 }}>
+								<Ellipsis content={toEmpty(fact)} tooltip width={300} />
+							</LiItem>
+						</li>
+						<li>
+							<span className="list list-title align-justify">生效法律文书确定义务</span>
+							<span className="list list-title-colon">:</span>
+							<span className="list list-content" style={{ minWidth: 300 }}>
+								<Ellipsis content={toEmpty(row.duty)} tooltip width={300} />
+							</span>
+							<span className="list-split" style={{ height: 16 }} />
+							<span className="list list-title align-justify">被执行人的履行情况</span>
+							<span className="list list-title-colon">:</span>
+							<span className="list list-content none-width">{row.performance}</span>
+						</li>
+					</div>
+				);
+			},
 		},
 		{
 			title: '关联信息',
