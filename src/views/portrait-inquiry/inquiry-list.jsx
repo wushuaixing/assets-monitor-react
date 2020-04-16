@@ -106,7 +106,6 @@ export default class InquiryList extends React.Component {
 				res.forEach((i) => {
 					if (i.code === 200) source.push(...i.data.list);
 				});
-				console.log(source);
 				this.setState({
 					dataSource: source,
 					loading: false,

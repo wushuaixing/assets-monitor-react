@@ -82,8 +82,8 @@ function exportTemplate(source, exportType, name) {
 			child: [
 				{id: 'R30201', title: '破产重组', status: 'BE'},
 				{id: 'R20604', title: '涉诉文书', status: 'P'},
-				// {id: 'R20401', title: '失信记录',desc: '列入', status: 'BEP'	},
-				// {id: 'R20402', title: '失信记录',desc: '已移除',status: 'BEP'	},
+				{id: 'R20401', title: '失信记录',desc: '列入', status: 'BEP'	},
+				{id: 'R20402', title: '失信记录',desc: '已移除',status: 'BEP'	},
 				// {id: 'R20502', title: '限高记录', status: 'BEP'	},
 				{id: 'R20601', title: '涉诉信息_立案', status: 'BE'},
 				{id: 'R20602', title: '涉诉信息_开庭', status: 'BE'},
@@ -117,7 +117,7 @@ function exportTemplate(source, exportType, name) {
 	var Status = '';
 	if (exportType === 'debtor') {
 		TYPE = 'D';
-		var debtorName = _dataSource['DB10101'].obligorName;
+		var debtorName = name || _dataSource['DB10101'].obligorName;
 		Status = debtorName.length > 4 ? 'E' : 'P';
 	} else {
 		TYPE = 'B';
@@ -174,7 +174,7 @@ function exportTemplate(source, exportType, name) {
 	var f = {
 		time: function (date, formatStr, isSelf) {
 			var _this = "";
-			if (typeof date === 'string') return data;
+			if (typeof date === 'string') return date;
 			if (date === 0) _this = new Date(null);
 			else if (date) _this = new Date((isSelf ? date : date * 1000));
 			else _this = new Date();
@@ -1042,6 +1042,7 @@ function exportTemplate(source, exportType, name) {
 }
 
 var str = (exportType) => exportTemplate(dataSource, exportType);
+console.warn('**************** output file link: /template/result/demo-db.html ');
 fs.writeFile("./template/result/demo-db.html", str('debtor'), (error) => {
 	error && console.log('error');
 });
@@ -1051,6 +1052,8 @@ module.exports = {
 	exportTemplate,
 	bgImgData,
 	deIconData,
+	personData,
+	businessData,
 	disIconData,
 	disEdIconData,
 	accurateImgData,
