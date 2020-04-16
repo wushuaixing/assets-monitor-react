@@ -1,5 +1,6 @@
 import React from 'react';
 import { getMortgage } from '@/utils/api/portrait-inquiry/enterprise/overview';
+import { toThousands } from '@/utils/changeTime';
 import { Spin } from '@/common';
 import TimeLine from '../../../common/timeLine';
 import getCount from '../../../common/getCount';
@@ -81,7 +82,7 @@ export default class ChattelMortgage extends React.Component {
 													{`${item.count} 条`}
 												</div>
 												<div className="yc-role-description">{`(其中${item.invalidCount}条质押登记状态为无效)`}</div>
-												<div className="yc-role-warning">{`*平台内发现当前有效担保债权数额${item.amount}元`}</div>
+												<div className="yc-role-warning">{`*平台内发现当前有效担保债权数额${toThousands(item.amount)}元`}</div>
 											</div>
 										))
 									}
