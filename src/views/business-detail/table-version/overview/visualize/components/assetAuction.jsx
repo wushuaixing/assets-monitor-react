@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewAuction } from '@/utils/api/professional-work/overview';
+import { overviewAuction, businessOverviewAuction } from '@/utils/api/professional-work/overview';
 import TagSide from '@/views/portrait-inquiry/common/checkBtn';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import RingEcharts from '@/views/portrait-inquiry/common/ringEcharts';
@@ -23,15 +23,19 @@ export default class AssetAuction extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId, getAssetProfile } = this.props;
+		const {
+			businessId, obligorId, getAssetProfile, portrait,
+		} = this.props;
 		this.setState({
 			loading: true,
 		});
-		const params = {
-			obligorId,
-			type: 2,
-		};
-		overviewAuction(params).then((res) => {
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
+		const api = portrait === 'business' ? businessOverviewAuction : overviewAuction;
+		// const params = {
+		// 	obligorId,
+		// 	type: 2,
+		// };
+		api(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					columnarData: res.data.auctionInfos[1].count > 0 ? res.data.auctionInfos[1].roleDistributions : res.data.auctionInfos[0].roleDistributions,
