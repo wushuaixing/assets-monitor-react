@@ -159,19 +159,17 @@ class InformCenter extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		centerList(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						data: res.data.list,
-						tabTotal: res.data.total,
-						loading: false,
-					});
-				}
-			})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		centerList(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.list,
+					tabTotal: res.data.total,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	// 批量删除
@@ -226,19 +224,10 @@ class InformCenter extends React.Component {
 									selectedRowKeys.splice(index, 1);
 								}
 							});
-
 							that.setState({
 								selectedRowKeys,
 							});
 						}
-						// if (!row.id) {
-						// 	that.setState({
-						// 		selectedRowKeys: [],
-						// 	});
-						// }
-
-						// that.getData();
-						// message.success(res.message);
 					} else {
 						message.error(res.message);
 					}
@@ -259,9 +248,6 @@ class InformCenter extends React.Component {
 		const params = {
 			idList: selectedRowKeys,
 		};
-		// const page = {
-		// 	page: current,
-		// };
 		Modal.confirm({
 			title: '确认将消息标记为已读？',
 			content: '点击确定，将为您标记为已读。',
@@ -280,10 +266,6 @@ class InformCenter extends React.Component {
 						};
 						navigate(generateUrlWithParams('/message', urlValue));
 						// 异步手动移除
-						// that.getData(page);
-						// that.setState({
-						// 	selectedRowKeys: [],
-						// });
 					} else {
 						message.warning(res.message);
 					}

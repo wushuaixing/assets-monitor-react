@@ -397,7 +397,7 @@ class BANKRUPTCY extends React.Component {
 								onShowSizeChange={this.onShowSizeChange}
 								showTotal={() => `共 ${totals} 条记录`}
 								onChange={(val) => {
-								// 存在数据才允许翻页
+									// 存在数据才允许翻页
 									if (dataList.length > 0) {
 										this.handleChangePage(val);
 									}

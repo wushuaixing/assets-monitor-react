@@ -1,10 +1,8 @@
 import React from 'react';
-import {
-	Breadcrumb,
-} from 'antd';
-import './style.scss';
+import { Breadcrumb } from 'antd';
 import { navigate } from '@reach/router';
 import clearProcess from '../../../assets/img/img_flowchart.png';
+import './style.scss';
 
 export default class BasicTable extends React.Component {
 	constructor(props) {
