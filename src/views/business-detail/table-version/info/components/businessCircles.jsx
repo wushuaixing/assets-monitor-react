@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { parseQuery } from '@/utils';
+import { parseQuery, timeStandard } from '@/utils';
 import { Spin, Table } from '@/common';
 import { getChange } from '@/utils/api/professional-work/info';
 
@@ -67,12 +67,12 @@ export default class BusinessCircles extends React.Component {
 			key: 'changeTime',
 			width: 200,
 			render(text) {
-				return <div>{text || '-'}</div>;
+				return <div>{timeStandard(text)}</div>;
 			},
 		}, {
 			title: '变更事项',
-			dataIndex: 'changItem',
-			key: 'changItem',
+			dataIndex: 'changeItem',
+			key: 'changeItem',
 			width: 300,
 			render(text) {
 				return <div>{text || '-'}</div>;
