@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 
-var dataSource = JSON.stringify(require('./data-db'));
+var dataSource = JSON.stringify(require('./test_appendfile.json'));
 
 const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(size, file).toString('base64');
 
@@ -33,7 +33,7 @@ function exportCover(source, exportType) {
 	if (exportType === 'debtor') {
 		data = d.DB10101 || {};
 		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
-		userInfo = ("<div class='exp-name'>" + data.obligorName||'-' + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
+		userInfo = ("<div class='exp-name'>" + data.obligorName || '-' + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
 	} else {
 		data = d.BB10101 || {};
 		htmlCover = htmlCover.replace(/{base.title}/, "业务详情");
@@ -82,8 +82,8 @@ function exportTemplate(source, exportType, name) {
 			child: [
 				{id: 'R30201', title: '破产重组', status: 'BE'},
 				{id: 'R20604', title: '涉诉文书', status: 'P'},
-				{id: 'R20401', title: '失信记录',desc: '列入', status: 'BEP'	},
-				{id: 'R20402', title: '失信记录',desc: '已移除',status: 'BEP'	},
+				{id: 'R20401', title: '失信记录', desc: '列入', status: 'BEP'},
+				{id: 'R20402', title: '失信记录', desc: '已移除', status: 'BEP'},
 				// {id: 'R20502', title: '限高记录', status: 'BEP'	},
 				{id: 'R20601', title: '涉诉信息_立案', status: 'BE'},
 				{id: 'R20602', title: '涉诉信息_开庭', status: 'BE'},
@@ -124,7 +124,7 @@ function exportTemplate(source, exportType, name) {
 		Status = 'B';
 	}
 	var ET = Status;
-
+	console.log(ET);
 	// public enumeration object
 	var s = {
 		identity: {
@@ -260,14 +260,18 @@ function exportTemplate(source, exportType, name) {
 						result += "<li>";
 						i.forEach(function (childItem) {
 							if (childItem.ET) {
-								result += (childItem.ET !== 'B' ? (separator + getDesc(childItem)) : '')
+								result += (childItem.ET === 'B' ? (separator + getDesc(childItem)) : '')
 							} else {
 								result += (separator + getDesc(childItem));
 							}
 						});
 						result += "</li>";
 					} else {
-						result += ("<li>" + getDesc(i) + "</li>")
+						if (i.ET) {
+							result += (i.ET === 'B' ? ("<li>" + getDesc(i) + "</li>") : '')
+						} else {
+							result += ("<li>" + getDesc(i) + "</li>")
+						}
 					}
 				}
 			});
@@ -617,6 +621,7 @@ function exportTemplate(source, exportType, name) {
 				break;
 			}
 			case 'A10403': {
+				console.log('A10403');
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
 						+ f.urlDom(i.rightsName, i.url)
@@ -690,7 +695,7 @@ function exportTemplate(source, exportType, name) {
 			case 'A10601': {
 				data.list.forEach(function (i) {
 					var statusInfo = i.status ? [
-						{cot: w('有效', {unit: '（<u>匹配日期:</u>****）'}), dot: 'success'},
+						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success', ET},
 						{t: '登记编号', cot: i.regNum},
 					] : [
 						{cot: '无效', dot},
@@ -718,7 +723,7 @@ function exportTemplate(source, exportType, name) {
 			case 'A10602': {
 				data.list.forEach(function (i) {
 					var statusInfo = i.status ? [
-						{cot: w('有效', {unit: '（<u>匹配日期:</u>****）'}), dot: 'success'},
+						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success', ET},
 						{t: '登记编号', cot: i.regNum},
 					] : [
 						{cot: '无效', dot},
