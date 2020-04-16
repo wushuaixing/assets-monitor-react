@@ -71,10 +71,10 @@ export const businessChange = async (businessId, params) => {
 
 // 机构未读数量统计总览[C.H Wong]
 export const viewCount = businessId => service.get(`/yc/business/monitor/overview/${businessId}`, { })
-	.then(res => res.data)
+	.then(res => res.data);
 
 // 导出业务视图pdf
 export const exportListBusiness = '/yc/business/monitor/download';
 
 // 导出债务人pdf
-export const exportListDebator = '/yc/obligor/monitor/download';
+export const exportListDebtor = '/yc/obligor/monitor/download';

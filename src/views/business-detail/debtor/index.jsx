@@ -8,7 +8,7 @@ import { getQueryByName } from '@/utils';
 /* api collection */
 import assets from '@/utils/api/professional-work/debtor/assets';
 import risk from '@/utils/api/professional-work/debtor/risk';
-import { debtorInfo, exportListEnp } from '@/utils/api/professional-work';
+import { debtorInfo, exportListDebtor } from '@/utils/api/professional-work';
 /* components */
 import {
 	Tabs, BreadCrumb, Spin, Icon as IconType, Download, Button,
@@ -267,10 +267,10 @@ export default class Enterprise extends React.Component {
 								<Download
 									style={{ width: 84 }}
 									condition={{
-										companyId: getQueryByName(window.location.href, 'id'),
+										obligorId: getQueryByName(window.location.href, 'id'),
 									}}
 									icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-									api={exportListEnp}
+									api={exportListDebtor}
 									normal
 									text="下载"
 								/>

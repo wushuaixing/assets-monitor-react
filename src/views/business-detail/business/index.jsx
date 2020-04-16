@@ -11,8 +11,7 @@ import {
 /* api collection */
 import businessAssets from '@/utils/api/professional-work/business/assets';
 import businessRisk from '@/utils/api/professional-work/business/risk';
-import { businessInfo } from '@/utils/api/professional-work';
-import { exportListEnp } from '@/utils/api/portrait-inquiry';
+import { businessInfo, exportListBusiness } from '@/utils/api/professional-work';
 /* components */
 import {
 	Tabs, Download, Icon as IconType, BreadCrumb, Button, Spin,
@@ -170,10 +169,10 @@ const Operation = (props) => {
 			<Download
 				style={{ width: 84, height: 30 }}
 				condition={{
-					companyId: getQueryByName(window.location.href, 'id'),
+					businessId: getQueryByName(window.location.href, 'id'),
 				}}
 				icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-				api={exportListEnp}
+				api={exportListBusiness}
 				normal
 				text="下载"
 			/>
