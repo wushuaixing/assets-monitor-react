@@ -194,6 +194,7 @@ class BusinessDebtor extends React.Component {
 						title="债务人"
 						style={_style1}
 						size="large"
+						maxLength="40"
 						placeholder="姓名/公司名称"
 						onkeydown={e => this.handleKeyDown(e)}
 						onFocus={e => this.handleKeyDown(e)}
@@ -210,14 +211,11 @@ class BusinessDebtor extends React.Component {
 					<Input
 						title="证件号"
 						style={_style1}
+						maxLength="18"
 						size="large"
 						placeholder="身份证号/统一社会信用代码"
 						{...getFieldProps('obligorNumber', {
-							// initialValue: true,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
-							getValueFromEvent: e => e.trim(),
+							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-]/g, ''),
 						})}
 					/>
 				</div>
