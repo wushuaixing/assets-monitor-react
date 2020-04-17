@@ -105,7 +105,7 @@ class AUCTION extends React.PureComponent {
 							maxLength="18"
 							placeholder="身份证号/统一社会信用代码"
 							{...getFieldProps('number', {
-								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-]/g, ''),
+								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
 								// getValueFromEvent: e => e.trim(),
 							})}
 						/>

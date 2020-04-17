@@ -238,7 +238,7 @@ class EditBusiness extends React.Component {
 								autocomplete="off"
 								{...getFieldProps('obligorNumber', {
 									initialValue: source && source.obligorNumber,
-									getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z-]/g, ''),
+									getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
 								})}
 								className="yc-from-input"
 							/>

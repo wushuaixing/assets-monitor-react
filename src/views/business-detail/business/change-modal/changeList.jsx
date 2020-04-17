@@ -204,8 +204,8 @@ export default class DetailModal extends React.PureComponent {
 			loading: true,
 		});
 		const params = {
-			num: 10,
-			page: 1,
+			num: 10000,
+			// page: 1,
 			...value,
 		};
 		businessChange(userId, params).then((res) => {
