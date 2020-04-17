@@ -11,8 +11,7 @@ import {
 /* api collection */
 import businessAssets from '@/utils/api/professional-work/business/assets';
 import businessRisk from '@/utils/api/professional-work/business/risk';
-import { businessInfo } from '@/utils/api/professional-work';
-import { exportListEnp } from '@/utils/api/portrait-inquiry';
+import { businessInfo, exportListBusiness } from '@/utils/api/professional-work';
 /* components */
 import {
 	Tabs, Download, Icon as IconType, BreadCrumb, Button, Spin,
@@ -69,7 +68,7 @@ const EnterpriseInfo = (props) => {
 		data, onEdit, onRecord, affixStatus,
 	} = props;
 	const {
-		dishonestStatus: isDishonest, businessPushType, obligorId,
+		dishonestStatus: isDishonest, businessPushType, obligorId, bankruptcyStatus,
 	} = data;
 	const {
 		obligorName: name, orgName, obligorNumber, uploadTime, caseNumber, obligorPushType,
@@ -108,24 +107,9 @@ const EnterpriseInfo = (props) => {
 						<span className="yc-public-remark">借款人：</span>
 						<span className="yc-public-title intro-title-name" style={style}>
 							{name ? linkDetail(obligorId, name) : '-'}
-							{
-								isDishonest === 1 ? (
-									<img
-										style={{ width: '28px' }}
-										src={isBreak}
-										alt=""
-									/>
-								) : null
-							}
-							{
-								isDishonest === 2 ? (
-									<img
-										style={{ width: '28px' }}
-										src={beforeBreak}
-										alt=""
-									/>
-								) : null
-							}
+							{ isDishonest === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null }
+							{ isDishonest === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null }
+							{ bankruptcyStatus ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : ''}
 							{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" style={{ width: '28px' }} /> : null} */}
 						</span>
 					</li>
@@ -170,10 +154,10 @@ const Operation = (props) => {
 			<Download
 				style={{ width: 84, height: 30 }}
 				condition={{
-					companyId: getQueryByName(window.location.href, 'id'),
+					businessId: getQueryByName(window.location.href, 'id'),
 				}}
 				icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-				api={exportListEnp}
+				api={exportListBusiness}
 				normal
 				text="下载"
 			/>

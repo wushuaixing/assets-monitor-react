@@ -146,7 +146,7 @@ class Assets extends React.Component {
 	handleScroll=(eleID) => {
 		const dom = document.getElementById(eleID);
 		const { portrait } = this.props;
-		const _height = portrait === 'business' ? 185 : 155;
+		const _height = portrait === 'business' ? 190 : 155;
 		if (dom) {
 			// window.scrollTo(0, document.getElementById(eleID).offsetTop - 168);
 			window.scrollTo(0, document.getElementById(eleID).offsetTop - _height);

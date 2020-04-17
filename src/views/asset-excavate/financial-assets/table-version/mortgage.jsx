@@ -32,7 +32,7 @@ export default class TableIntact extends React.Component {
 
 	toGetPortraitStatus=() => {
 		const { portrait } = this.props;
-		return portrait === 'business';
+		return portrait === 'business' || portrait === 'debtor_enterprise';
 	};
 
 	toShowExtraField=(row = {}) => {
