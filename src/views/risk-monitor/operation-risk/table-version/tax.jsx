@@ -29,7 +29,7 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
-	toShowExtraField=(row, source = {}) => {
+	toShowExtraField = (row, source = {}) => {
 		const { portrait } = this.props;
 		if (portrait === 'business') {
 			return source.party && source.party.map(i => (
@@ -50,29 +50,28 @@ export default class TableIntact extends React.Component {
 		return null;
 	};
 
-	toShowIdentityType=(row) => {
+	toShowIdentityType = (row) => {
 		const { parties = [] } = row;
-		let taxpayer = '';
 		const id = getHrefQuery('id');
 		const res = {
+			showTaxpayer: true,
 			identityType: '',
 			identityTypePartyStr: '',
 		};
 		const party = parties.map((i) => {
 			const r = i;
-			if (i.identityType === 1) taxpayer = i.name;
+			if (i.identityType === 1) res.showTaxpayer = false;
 			if (i.obligorId) res.identityType = i.identityType;
 			r.party = r.name <= 4 ? `${r.name + r.idNumber && `(${r.idNumber})`}` : r.name;
-			r.identityStr = toGetIdentityType(r.identityType);
-			if (i.obligorId === Number(id))res.identityTypePartyStr = r.identityStr;
+			r.identityStr = r.identityType !== 1 ? toGetIdentityType(r.identityType) : '';
+			if (i.obligorId === Number(id)) res.identityTypePartyStr = r.identityStr;
 			return r;
 		});
-		if (party.length)res.party = party;
-		if (taxpayer) res.taxpayer = taxpayer;
+		if (party.length) res.party = party;
 		return res;
 	};
 
-	toGetColumns=() => {
+	toGetColumns = () => {
 		const { portrait } = this.props;
 		return ([
 			{
@@ -85,10 +84,10 @@ export default class TableIntact extends React.Component {
 						<div className="assets-info-content">
 							<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
 								<Ellipsis content={toEmpty(ca || value)} tooltip url={row.url} width={600} font={15} />
-								{ toGetIdentityType(row.identityType) && portrait === 'personal'
-									? <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span> : '' }
-								{ portrait === 'debtor_personal' && source.identityTypePartyStr
-									&& <span className="yc-case-reason text-ellipsis">{source.identityTypePartyStr}</span> }
+								{toGetIdentityType(row.identityType) && portrait === 'personal'
+									? <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span> : ''}
+								{portrait === 'debtor_personal' && source.identityTypePartyStr
+								&& <span className="yc-case-reason text-ellipsis">{source.identityTypePartyStr}</span>}
 							</li>
 							{this.toShowExtraField(row, source)}
 							<LiItem title="违法事实" Li><Ellipsis content={toEmpty(ill)} width={600} tooltip /></LiItem>
@@ -101,6 +100,7 @@ export default class TableIntact extends React.Component {
 				width: 300,
 				render: (value, row) => {
 					const source = this.toShowIdentityType(row);
+					const taxpayer = row.taxpayers.join('、');
 					return (
 						<div className="assets-info-content">
 							<li style={{ height: 24 }}>
@@ -111,9 +111,9 @@ export default class TableIntact extends React.Component {
 									]
 								}
 								{
-									(portrait === 'business' || portrait === 'debtor_personal') && source.taxpayer && [
+									(portrait === 'business' || portrait === 'debtor_personal') && taxpayer && source.showTaxpayer && [
 										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 5 }} />,
-										<Ellipsis content={`纳税人：${row.offender || '-'}`} tooltip width={240} />,
+										<Ellipsis content={`纳税人：${taxpayer || '-'}`} tooltip width={240} />,
 									]
 								}
 							</li>
@@ -126,12 +126,12 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		this.toGetData(val);
 	};
 
 	// 查询数据methods
-	toGetData=(page) => {
+	toGetData = (page) => {
 		const { portrait } = this.props;
 		const { api, params } = getDynamicRisk(portrait, {
 			b: 30501,

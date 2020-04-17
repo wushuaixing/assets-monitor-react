@@ -159,7 +159,6 @@ export default class TableIntact extends React.Component {
 		if (row.obligorId) {
 			const baseDom = `<a href="#/business/debtor/detail?id=${row.obligorId}" class="click-link" rel="noopener noreferrer" target="_blank">${row.obligorName}</a>`;
 			const Reg = new RegExp(row.obligorName, 'g');
-			console.log(Reg);
 			return str.replace(Reg, baseDom);
 		}
 		return str;
