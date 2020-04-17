@@ -109,7 +109,7 @@ const EnterpriseInfo = (props) => {
 							{name ? linkDetail(obligorId, name) : '-'}
 							{ isDishonest === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null }
 							{ isDishonest === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null }
-							{ bankruptcyStatus ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : ''}
+							{ bankruptcyStatus ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: -1, marginRight: 5 }}>破产/重整风险</span> : ''}
 							{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" style={{ width: '28px' }} /> : null} */}
 						</span>
 					</li>
