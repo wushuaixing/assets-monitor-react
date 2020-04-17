@@ -1,5 +1,4 @@
 import React from 'react';
-import { navigate } from '@reach/router';
 import { toThousands } from '@/utils/changeTime';
 import landImg from '@/assets/img/business/landCard.png';
 import matching from '@/assets/img/business/matching.png';
@@ -12,9 +11,9 @@ export default class Land extends React.Component {
 		this.state = {};
 	}
 
-	handleNavigation = () => {
-		navigate('/business/detail/info/102?eleID=e-assets-land');
-	};
+	// handleNavigation = () => {
+	// 	navigate('/business/detail/info/102?eleID=e-assets-land');
+	// };
 
 	render() {
 		const {
