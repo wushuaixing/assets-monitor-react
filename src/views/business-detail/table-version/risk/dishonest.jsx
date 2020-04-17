@@ -45,17 +45,17 @@ export default class Subrogation extends React.Component {
 		const businessId = getHrefQuery('id');
 		if (brokenInfo.status) {
 			requestAll([{
-				api: brokenCount['20404'].count({ businessId }),
-				info: { id: 20404 },
-			}, {
 				api: brokenCount['20403'].count({ businessId }),
 				info: { id: 20403 },
+			}, {
+				api: brokenCount['20404'].count({ businessId }),
+				info: { id: 20404 },
 			}]).then((res) => {
 				this.setState({
 					brokenInfo: Object.assign({}, brokenInfo, {
 						loading: false,
-						once: res[0].data,
-						yet: res[1].data,
+						yet: res[0].data,
+						once: res[1].data,
 					}),
 				});
 			});

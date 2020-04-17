@@ -53,7 +53,7 @@ export default class BrokenList extends React.Component {
 		const { type } = this.props;
 		if (!type) return;
 		const _type = nextType || type;
-		const api = _type === 1 ? brokenCount['20404'] : brokenCount['20403'];
+		const api = _type === 1 ? brokenCount['20403'] : brokenCount['20404'];
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
