@@ -31,10 +31,7 @@ export default class AssetAuction extends React.Component {
 		});
 		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
 		const api = portrait === 'business' ? businessOverviewAuction : overviewAuction;
-		// const params = {
-		// 	obligorId,
-		// 	type: 2,
-		// };
+
 		api(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({

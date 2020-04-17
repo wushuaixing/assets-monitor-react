@@ -210,7 +210,7 @@ export default class Visualize extends React.Component {
 						{/* /!* 动产抵押信息 *!/ */}
 						 <ChattelMortgage portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						 {/* 招标中标 */}
-						 <Bidding businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <Bidding portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{
 							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
 							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0

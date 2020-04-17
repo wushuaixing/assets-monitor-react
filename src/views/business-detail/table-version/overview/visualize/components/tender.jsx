@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewBidding } from '@/utils/api/professional-work/overview';
+import { businessOverviewBidding, overviewBidding } from '@/utils/api/professional-work/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -19,15 +19,19 @@ export default class Bidding extends React.Component {
 	}
 
 	getData = () => {
-		const { obligorId, getAssetProfile } = this.props;
+		const {
+			businessId, obligorId, getAssetProfile, portrait,
+		} = this.props;
 		this.setState({
 			loading: true,
 		});
-		const params = {
-			obligorId,
-			type: 2,
-		};
-		overviewBidding(params).then((res) => {
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
+		const api = portrait === 'business' ? businessOverviewBidding : overviewBidding;
+		// const params = {
+		// 	obligorId,
+		// 	type: 2,
+		// };
+		api(params).then((res) => {
 			if (res.code === 200) {
 				const timeLineData = res.data.yearDistributions;
 				const allNum = getCount(timeLineData);
