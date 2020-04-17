@@ -1,6 +1,6 @@
 import React from 'react';
 import { getCount } from '@/utils/api/professional-work/info';
-import { Button } from '@/common';
+import { Button, Spin } from '@/common';
 import { parseQuery } from '@/utils';
 import BusinessInfo from './components/businessInfo';
 import KeyPersonnel from './components/keyPersonnel';
@@ -79,7 +79,7 @@ export default class Info extends React.Component {
 		this.state = {
 			data: {},
 			tabConfig: subItems(),
-			loading: false,
+			loading: true,
 			isEmptyObject: false,
 		};
 	}
@@ -98,10 +98,11 @@ export default class Info extends React.Component {
 			id: urlValue.id || -999999,
 		};
 		getCount(params).then((res) => {
+			console.log(res);
 			if (res.code === 200) {
 				this.setState({
 					data: res.data,
-					loading: true,
+					loading: false,
 					tabConfig: subItems(res.data),
 				}, () => {
 					toPushChild(this.toGetSubItems());
@@ -119,7 +120,7 @@ export default class Info extends React.Component {
 				this.setState({
 					data,
 					isEmptyObject: true,
-					loading: true,
+					loading: false,
 					tabConfig: subItems(data),
 				}, () => {
 					toPushChild(this.toGetSubItems());
@@ -160,10 +161,12 @@ export default class Info extends React.Component {
 		return (
 			<div className="inquiry-assets info-assets-padding">
 				{
-					loading && data && subItems(data).map(Item => (
-						data && Item.disabled === false ? <Item.component name={infoSource && infoSource.obligorName} id={Item.tagName} /> : ''))
+					loading ? <Spin visible /> : (
+						data && subItems(data).map(Item => (
+							data && Item.disabled === false ? <Item.component name={infoSource && infoSource.obligorName} id={Item.tagName} /> : ''))
+					)
 				}
-				{isEmptyObject && loading && <NoContent style={{ paddingBottom: 60 }} font="暂无数据" />}
+				{isEmptyObject && !loading && <NoContent style={{ paddingBottom: 60 }} font="暂无数据" />}
 			</div>
 		);
 	}
