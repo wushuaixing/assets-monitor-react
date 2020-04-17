@@ -19,6 +19,15 @@ export default class BrokenList extends React.Component {
 		this.toGetData();
 	}
 
+	shouldComponentUpdate(nextProps) {
+		const { type } = this.props;
+		if (nextProps.type !== type) {
+			this.toGetData(1, nextProps.type);
+		}
+		return true;
+	}
+
+
 	toGetColumns=() => [
 		{
 			title: '债务人名称',
@@ -40,10 +49,11 @@ export default class BrokenList extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=(page) => {
+	toGetData=(page, nextType) => {
 		const { type } = this.props;
 		if (!type) return;
-		const api = type === 1 ? brokenCount['20404'] : brokenCount['20403'];
+		const _type = nextType || type;
+		const api = _type === 1 ? brokenCount['20404'] : brokenCount['20403'];
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,

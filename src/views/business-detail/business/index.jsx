@@ -68,7 +68,7 @@ const EnterpriseInfo = (props) => {
 		data, onEdit, onRecord, affixStatus,
 	} = props;
 	const {
-		dishonestStatus: isDishonest, businessPushType, obligorId,
+		dishonestStatus: isDishonest, businessPushType, obligorId, bankruptcyStatus,
 	} = data;
 	const {
 		obligorName: name, orgName, obligorNumber, uploadTime, caseNumber, obligorPushType,
@@ -107,24 +107,9 @@ const EnterpriseInfo = (props) => {
 						<span className="yc-public-remark">借款人：</span>
 						<span className="yc-public-title intro-title-name" style={style}>
 							{name ? linkDetail(obligorId, name) : '-'}
-							{
-								isDishonest === 1 ? (
-									<img
-										style={{ width: '28px' }}
-										src={isBreak}
-										alt=""
-									/>
-								) : null
-							}
-							{
-								isDishonest === 2 ? (
-									<img
-										style={{ width: '28px' }}
-										src={beforeBreak}
-										alt=""
-									/>
-								) : null
-							}
+							{ isDishonest === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null }
+							{ isDishonest === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null }
+							{ bankruptcyStatus ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : ''}
 							{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" style={{ width: '28px' }} /> : null} */}
 						</span>
 					</li>

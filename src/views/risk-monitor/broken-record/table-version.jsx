@@ -98,7 +98,7 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">发布日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.publishDate || '-'}</span>
+						<span className="list list-content">{row.gmtPublishDate || row.publishDate || '-'}</span>
 					</li>
 				</div>
 			),

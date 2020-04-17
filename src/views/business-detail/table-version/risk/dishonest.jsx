@@ -76,7 +76,7 @@ export default class Subrogation extends React.Component {
 			modalInfo: Object.assign({}, modalInfo, {
 				visible: true,
 				type: field === 'yet' ? 1 : 2,
-				title: field === 'yet' ? '已失信债务人列表' : '曾失信债务人数',
+				title: field === 'yet' ? '已失信债务人列表' : '曾失信债务人列表',
 			}),
 		});
 	};
@@ -98,7 +98,6 @@ export default class Subrogation extends React.Component {
 			portrait,
 			sourceType,
 		};
-		console.log('render:', b);
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
@@ -115,7 +114,7 @@ export default class Subrogation extends React.Component {
 						<div className="yc-tabs-suffix-dishonest" style={{ display: b.status ? '' : 'none' }}>
 							<Spin simple visible={b.loading} text="loading...">
 								<div className="dishonest-count">
-									<span className={b.yet && 'yc-table-text-link'} onClick={() => this.toShowList(b.yet, 'has')}>{`已失信债务人：${b.yet}`}</span>
+									<span className={b.yet && 'yc-table-text-link'} onClick={() => this.toShowList(b.yet, 'yet')}>{`已失信债务人：${b.yet}`}</span>
 									<span className={b.once && 'yc-table-text-link'} onClick={() => this.toShowList(b.once, 'once')}>{`曾失信债务人：${b.once}`}</span>
 								</div>
 							</Spin>
