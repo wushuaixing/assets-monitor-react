@@ -1,11 +1,11 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import { Table, Button, Icon } from '@/common';
+import { getQueryByName, linkDetail } from '@/utils';
 import noData from '@/assets/img/business/noData.png';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import './style.scss';
-import { getQueryByName } from '@/utils';
 
 const constantNumber = 99999999; // 默认值
 export default class BusinessRelated extends React.Component {
@@ -19,7 +19,7 @@ export default class BusinessRelated extends React.Component {
 				key: 'obligorName',
 				render: (text, row) => (
 					<p>
-						{text || '-'}
+						{row.obligorId ? linkDetail(row.obligorId, text) : text}
 						<span className="yc-item-break">
 							 {
 								row && row.dishonestStatus === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null

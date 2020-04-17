@@ -3,6 +3,7 @@ import { Icon, Modal, message } from 'antd';
 import Cookies from 'universal-cookie';
 import PropTypes from 'reactPropTypes';
 import { exportFile, normalGet } from '@/utils/api/home';
+import { Icon as IconType } from '@/common';
 import { clearEmpty, urlEncode, DownloadFile } from '@/utils';
 import Button from '../button';
 import baseUrl from '@/utils/api/config';
@@ -119,7 +120,9 @@ export default class Download extends React.Component {
 		const {
 			text, all, style, disabled, icon,
 		} = this.props;
-		const iconType = icon || <span className={all ? 'yc-export-img' : ''} />;
+
+		// const iconType = icon || <span className={all ? 'yc-export-img' : ''} />;
+		const iconType = icon || (all ? <IconType type="icon-export" style={{ position: 'relative', top: '1px' }} /> : null);
 		return (
 			<Button className={all && 'yc-all-export'} disabled={loadingStatus === 'loading' || disabled} onClick={this.handleDownload} style={style}>
 				{ loadingStatus === 'loading' ? <Icon type="loading" /> : iconType }

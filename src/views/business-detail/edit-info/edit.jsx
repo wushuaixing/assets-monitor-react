@@ -6,7 +6,7 @@ import './style.scss';
 
 const { confirm } = Modal;
 const createForm = Form.create;
-
+let uuid = 0; // 定义uuid为添加唯一id
 class DebtorDetail extends React.Component {
 	constructor(props) {
 		super(props);
@@ -52,7 +52,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorNumber = value.trim();
+					dataList[index].obligorNumber = value.replace(/[^0-9a-zA-Z-*]/g, '');
 				}
 			});
 			that.setState({
@@ -80,10 +80,13 @@ class DebtorDetail extends React.Component {
 	};
 
 	add = () => {
+		uuid += 1;
+		// keys = keys.concat(uuid);
 		const { dataList } = this.state;
+		// console.log(dataList, uuid, 333);
 		dataList.push({
 			dishonestStatus: null,
-			id: -(dataList.length + 1),
+			id: -(uuid),
 			obligorName: '',
 			obligorNumber: '',
 			role: 2,
@@ -164,8 +167,7 @@ class DebtorDetail extends React.Component {
 											onChange: (e) => {
 												this.handleInputNumber(e, item.id);
 											},
-											getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-]/g, ''),
-											// getValueFromEvent: value => value.trim(),
+											getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
 										})}
 										className="yc-from-input"
 									/>

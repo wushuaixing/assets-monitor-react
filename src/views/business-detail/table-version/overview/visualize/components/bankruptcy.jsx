@@ -21,7 +21,7 @@ export default class Bankruptcy extends React.Component {
 
 	getData = () => {
 		const {
-			businessId, obligorId, portrait,
+			businessId, obligorId, portrait, getAssetProfile,
 		} = this.props;
 		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
 		const api = portrait === 'business' ? businessOverviewBankruptcy : overviewBankruptcy;
@@ -29,6 +29,8 @@ export default class Bankruptcy extends React.Component {
 		api(params).then((res) => {
 			if (res.code === 200) {
 				const timeLineData = res.data.yearDistributions;
+				const allNum = getCount(timeLineData);
+				getAssetProfile(allNum, 'ChattelMortgage');
 				this.setState({
 					loading: false,
 					detail: res.data.detail || [],
@@ -58,36 +60,36 @@ export default class Bankruptcy extends React.Component {
 			<div>
 				{
 					getCount(timeLineData) > 0
-					&& (
-						<Spin visible={loading}>
-							<div className="overview-container-title">
-								<div className="overview-left-item" />
-								<span className="container-title-num">
-									{`${getCount(timeLineData)} 条`}
-								</span>
-								<span className="container-title-name">破产重组信息</span>
-							</div>
-
-							{hasDetail && isBusiness ? (
-								<div style={{ marginBottom: '12px', fontSize: '12px', marginLeft: '10px' }}>
-								涉及企业：
-									{hasDetail && detail.map((item, index) => {
-										const key = item.obligorId;
-										return (
-											<span key={key} className="click-link" onClick={() => this.handleOnClick(item.obligorId)}>
-												{item.obligorName}
-												{detail.length - index !== 1 && '、'}
-											</span>
-										);
-									})}
+						? (
+							<Spin visible={loading}>
+								<div className="overview-container-title">
+									<div className="overview-left-item" />
+									<span className="container-title-num">
+										{`${getCount(timeLineData)} 条`}
+									</span>
+									<span className="container-title-name">破产重组信息</span>
 								</div>
-							) : null}
 
-							<div className="overview-container-content">
-								{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="ChattelMortgage" />}
-							</div>
-						</Spin>
-					)}
+								{hasDetail && isBusiness ? (
+									<div style={{ marginBottom: '12px', fontSize: '12px', marginLeft: '10px' }}>
+								涉及企业：
+										{hasDetail && detail.map((item, index) => {
+											const key = item.obligorId;
+											return (
+												<span key={key} className="click-link" onClick={() => this.handleOnClick(item.obligorId)}>
+													{item.obligorName}
+													{detail.length - index !== 1 && '、'}
+												</span>
+											);
+										})}
+									</div>
+								) : null}
+
+								<div className="overview-container-content">
+									{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="ChattelMortgage" />}
+								</div>
+							</Spin>
+						) : null}
 			</div>
 		);
 	}

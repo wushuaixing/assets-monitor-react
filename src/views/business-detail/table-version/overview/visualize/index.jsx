@@ -43,6 +43,9 @@ export default class Visualize extends React.Component {
 			ChattelMortgageCount: 0,
 			IntangibleCount: 0,
 			BiddingCount: 0,
+			BankruptcyCount: 0,
+			DishonestCount: 0,
+			BusinessRiskCount: 0,
 		};
 	}
 
@@ -76,7 +79,7 @@ export default class Visualize extends React.Component {
 				this.setState({ loading: false });
 			});
 		}
-
+		this.setState({ litigationLoading: true });
 		// 获取涉诉信息
 		api(params).then((res) => {
 			const newLitigationInfosArray = [
@@ -160,6 +163,24 @@ export default class Visualize extends React.Component {
 					BiddingCount: AssetProfileCountValue,
 				})
 			);
+		case 'Bankruptcy':
+			return (
+				this.setState({
+					BankruptcyCount: AssetProfileCountValue,
+				})
+			);
+		case 'Dishonest':
+			return (
+				this.setState({
+					DishonestCount: AssetProfileCountValue,
+				})
+			);
+		case 'BusinessRisk':
+			return (
+				this.setState({
+					BusinessRiskCount: AssetProfileCountValue,
+				})
+			);
 		default: return '-';
 		}
 	};
@@ -167,7 +188,7 @@ export default class Visualize extends React.Component {
 	render() {
 		const { portrait } = this.props;
 		const {
-			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, loading, IntangibleCount, BiddingCount, businessId,
+			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
 		} = this.state;
 		return (
 			<div className="visualize-overview">
@@ -189,7 +210,7 @@ export default class Visualize extends React.Component {
 						{/* /!* 动产抵押信息 *!/ */}
 						 <ChattelMortgage portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						 {/* 招标中标 */}
-						 <Bidding businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <Bidding portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{
 							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
 							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0
@@ -206,23 +227,23 @@ export default class Visualize extends React.Component {
 				<div className="overview-right">
 					<div className="yc-overview-title">风险信息</div>
 					<div className="yc-overview-container">
-						{litigationInfos && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0 ? (
-							<NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />
-						) : (
-							<Spin visible={litigationLoading}>
-								<div>
-									{/* 破产重组 */}
-									<Bankruptcy portrait={portrait} businessId={businessId} obligorId={obligorId} />
-									{/* 失信记录 */}
-									<Dishonest portrait={portrait} businessId={businessId} obligorId={obligorId} />
-									{/* 涉诉信息 */}
-									{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
-									{/* 经营风险 */}
-									<BusinessRisk portrait={portrait} businessId={businessId} obligorId={obligorId} />
-								</div>
-							</Spin>
-						)}
-
+						{
+							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0
+							&& litigationInfos && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0
+							&& (
+								<Spin visible={litigationLoading}>
+									{litigationLoading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />}
+								</Spin>
+							)
+						}
+						{/* 破产重组 */}
+						<Bankruptcy portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						{/* 失信记录 */}
+						<Dishonest portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						{/* 涉诉信息 */}
+						{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
+						{/* 经营风险 */}
+						<BusinessRisk portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* <BusinessRisk companyId={companyId} /> */}
 					</div>
 					{portrait === 'debtor_enterprise'

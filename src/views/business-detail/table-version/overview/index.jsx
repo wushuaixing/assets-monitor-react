@@ -52,7 +52,7 @@ export default class Overview extends React.Component {
 							// type={item.id === active ? 'primary' : 'ghost'}
 						active={item.id === active}
 						onClick={() => this.toChangeItemType(item)}
-						style={item.id === active ? { zIndex: '1' } : { }}
+						style={{ marginRight: '16px' }}
 					>
 						{item.name}
 					</Button>
