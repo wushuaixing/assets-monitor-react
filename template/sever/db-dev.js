@@ -1011,7 +1011,7 @@ function exportTemplate(source, exportType, name) {
 			},
 			{
 				f: '{about.list}', v: aboutList('业务相关人列表',
-					{list: _dataSource["BB10102"]},
+					{list: _dataSource["BB10102"]||[]},
 					{id: 'BB10102', className: 'table-border', show: true}
 				)
 			}]);
@@ -1060,7 +1060,7 @@ function exportTemplate(source, exportType, name) {
 		f.replaceHtml([{
 			f: '{about.list}', v: aboutList(
 				(Status === 'E' ? '关联业务列表' : '业务相关业务列表'),
-				{list: _dataSource["DB10102"]},
+				{list: _dataSource["DB10102"]||[]},
 				{id: 'DB10102', className: 'table-border', show: true}
 			)
 		}]);
@@ -1082,10 +1082,10 @@ function exportTemplate(source, exportType, name) {
 }
 
 if (ENV === 'dev') {
-	var dataSource = JSON.stringify(require('./test_appendfile(3).json'));
+	var dataSource = JSON.stringify(require('./test_appendfile(5).json'));
 	var str = (exportType) => exportTemplate(dataSource, exportType);
 	console.warn('************************* output: ./template/result/demo-db.html *************************');
-	fs.writeFile("./template/result/demo-db.html", str('business'), (error) => {
+	fs.writeFile("./template/result/demo-db.html", str('debtor'), (error) => {
 		error && console.log('error');
 	});
 }
