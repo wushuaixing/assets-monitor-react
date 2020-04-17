@@ -3,7 +3,6 @@
 var fs = require('fs');
 const ENV = process.env.NODE_ENV;
 
-var dataSource = JSON.stringify(require('./test_appendfile.json'));
 
 const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(size, file).toString('base64');
 
@@ -334,10 +333,11 @@ function exportTemplate(source, exportType, name) {
 			});
 			return source;
 		},
-		disStatus: function (value) {
+		disStatus: function (value, close) {
+			var style = close ? 'right:-8px' : '';
 			var dishonestStatus = '';
-			if (value === 1) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest\"></span></div>";
-			if (value === 2) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest-ed\"></span></div>>";
+			if (value === 1) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest\" style=" + style + "></span></div>";
+			if (value === 2) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest-ed\" style=" + style + "></span></div>>";
 			return dishonestStatus;
 		},
 		toRegStatus: function (val) {
@@ -412,12 +412,33 @@ function exportTemplate(source, exportType, name) {
 		data.forEach(function (i, index) {
 			trStr += '<tr>';
 			trArray.forEach(function (f) {
-				var value = f === 'index' ? index + 1 : i[f];
+				var value = '';
+				if (typeof f === 'function') value = f(i);
+				else value = f === 'index' ? index + 1 : i[f];
 				trStr += ('<td>' + (value || '-') + '</td>')
 			});
 			trStr += '</tr>';
 		});
 		return thStr + trStr;
+	};
+
+	var BB = {
+		obligorName: function (item) {
+			if (item) {
+				var str = item.obligorName;
+				str += (f.disStatus(item.dishonestStatus || 1, 'close') +
+					f.tag(!item.bankruptcy ? '破产/重整风险' : '', 'regStatus-red'));
+				return str;
+			}
+			return '-';
+
+		},
+		obligorPushType: function (item) {
+			if (item) {
+				return item.obligorPushType ? '开启' : '关闭';
+			}
+			return '-';
+		}
 	};
 
 	/* return taxon html */
@@ -427,6 +448,15 @@ function exportTemplate(source, exportType, name) {
 		var list = '';
 		var dot = true;
 		switch (taxon) {
+			case 'BB10102': {
+				list = drawTable(data.list, [
+					{t: '相关人名称', f: BB.obligorName},
+					{t: '证件号/统一社会信用代码', f: 'obligorNumber'},
+					{t: '角色', f: 'roleText'},
+					{t: '推送状态', f: BB.obligorPushType},
+				]);
+				break;
+			}
 			case 'DB10102': {
 				list = drawTable(data.list, [
 					{t: '业务编号', f: 'caseNumber'},
@@ -444,7 +474,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.urlDom(i.title, i.url)
 						+ f.tag(process.t, process.tag)
 						+ f.normalList([
-							{t: '匹配原因', cot: matchReason(i), dot:dot},
+							{t: '匹配原因', cot: matchReason(i), dot: dot},
 							{t: '审核备注', cot: i.remark},
 						])
 						+ "</td><td>"
@@ -503,7 +533,7 @@ function exportTemplate(source, exportType, name) {
 						])
 						+ f.partiesList(f.handleParties(i.parties))
 						+ "</td><td>" + f.normalList([
-							{cot: i.caseNumber, dot : dot},
+							{cot: i.caseNumber, dot: dot},
 							{t: '审理法院', cot: i.court}
 						]) + "</td></tr>";
 				});
@@ -516,7 +546,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.tag(i.landUse)
 						+ f.normalList([
 							{cot: (w(i.administrativeRegion) + ' ' + w(i.landAddress))},
-							{t: '土地使用权人', cot: i.obligorName, ET:ET},
+							{t: '土地使用权人', cot: i.obligorName, ET: ET},
 							[
 								{t: '签订日期', cot: i.singedTime},
 								{t: '面积', cot: w(i.landArea, {unit: '公顷'})},
@@ -582,7 +612,7 @@ function exportTemplate(source, exportType, name) {
 					var gmtValidityPeriod = (i.gmtValidityPeriodEnd && i.gmtValidityPeriodStart)
 						? (i.gmtValidityPeriodStart + ' 至 ' + i.gmtValidityPeriodEnd) : '-';
 					var statusInfo = i.status === '正常' ? [{cot: '正常', dot: 'success'}] : [
-						{cot: i.status, dot : dot},
+						{cot: i.status, dot: dot},
 						{t: (i.status + '原因'), cot: i.reason},
 						{t: (i.status + '时间'), cot: i.gmtIssueTime},
 					];
@@ -591,7 +621,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.normalList([
 							{cot: i.industry},
 							[
-								{t: '持证单位', cot: i.companyName, ET:ET},
+								{t: '持证单位', cot: i.companyName, ET: ET},
 								{t: '发证日期', cot: i.gmtPublishTime},
 								{t: '有效期', cot: gmtValidityPeriod}
 							]
@@ -610,7 +640,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.normalList([
 							{cot: (w(i.mineralSpecies) + ' ' + w(i.projectName))},
 							[
-								{t: '探/采矿权人', cot: i.rightsHolder, ET:ET},
+								{t: '探/采矿权人', cot: i.rightsHolder, ET: ET},
 								{t: '发布日期', cot: i.gmtPublishTime},
 								{t: '有效期', cot: gmtValidityPeriod},
 								{t: '面积', cot: i.area ? f.threeDigit(i.area, '平方米') : '-'},
@@ -625,7 +655,7 @@ function exportTemplate(source, exportType, name) {
 					list += "<tr><td>"
 						+ f.urlDom(i.rightsName, i.url)
 						+ f.tag(s.rightsType[i.rightsType])
-						+ f.normalList([{t: '申请人/权利人', cot: i.obligorName, ET:ET},])
+						+ f.normalList([{t: '申请人/权利人', cot: i.obligorName, ET: ET},])
 						+ "</td><td>" + f.normalList([{t: '公告日期', cot: i.noticeTime}]) + "</td></tr>";
 				});
 				break;
@@ -637,7 +667,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.normalList([
 							{cot: (w(i.qualificationType) + ' ' + w(i.qualificationLevel))},
 							[
-								{t: '持证单位', cot: i.obligorName, ET:ET},
+								{t: '持证单位', cot: i.obligorName, ET: ET},
 								{t: '发布日期', cot: i.issueTime},
 								{t: '有效期', cot: i.validityPeriod},
 								{t: '证书编号', cot: i.certificateNumber},
@@ -654,7 +684,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.normalList([
 							{t: '登记日期', cot: f.time(i.regDate)},
 							[
-								{t: '出质人', cot: (i.pledgorList ? map(i.pledgorList, 'pledgor').join('、') : '-'), ET:ET},
+								{t: '出质人', cot: (i.pledgorList ? map(i.pledgorList, 'pledgor').join('、') : '-'), ET: ET},
 								{t: '质权人', cot: (i.pledgeeList ? map(i.pledgeeList, 'pledgee').join('、') : '-')},
 								{t: '出质股权数额', cot: w(i.consultPrice, {unit: '万人民币'})},
 							],
@@ -676,7 +706,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.normalList([
 							{t: '登记日期', cot: f.time(i.regDate)},
 							[
-								{t: '质权人', cot: (i.pledgeeList ? map(i.pledgeeList, 'pledgee').join('、') : '-'), ET:ET},
+								{t: '质权人', cot: (i.pledgeeList ? map(i.pledgeeList, 'pledgee').join('、') : '-'), ET: ET},
 								{t: '出质人', cot: (i.pledgorList ? map(i.pledgorList, 'pledgor').join('、') : '-')},
 								{t: '出质股权数额', cot: w(i.consultPrice, {unit: '万人民币'})},
 							],
@@ -694,10 +724,10 @@ function exportTemplate(source, exportType, name) {
 			case 'A10601': {
 				data.list.forEach(function (i) {
 					var statusInfo = i.status ? [
-						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success', ET:ET},
+						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success', ET: ET},
 						{t: '登记编号', cot: i.regNum},
 					] : [
-						{cot: '无效', dot:dot},
+						{cot: '无效', dot: dot},
 						{t: '注销时间', cot: i.reason},
 						{t: '注销原因', cot: i.gmtIssueTime},
 						{t: '登记编号', cot: i.regNum},
@@ -707,7 +737,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.normalList([
 							{t: '登记日期', cot: f.time(i.regDate)},
 							[
-								{t: '抵押物所有人', cot: i.owner, ET:ET},
+								{t: '抵押物所有人', cot: i.owner, ET: ET},
 								{t: '抵押权人', cot: i.people},
 							],
 							[
@@ -722,10 +752,10 @@ function exportTemplate(source, exportType, name) {
 			case 'A10602': {
 				data.list.forEach(function (i) {
 					var statusInfo = i.status ? [
-						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success', ET:ET},
+						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success', ET: ET},
 						{t: '登记编号', cot: i.regNum},
 					] : [
-						{cot: '无效', dot:dot},
+						{cot: '无效', dot: dot},
 						{t: '注销时间', cot: i.reason},
 						{t: '注销原因', cot: i.gmtIssueTime},
 						{t: '登记编号', cot: i.regNum},
@@ -735,7 +765,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.normalList([
 							{t: '登记日期', cot: f.time(i.regDate)},
 							[
-								{t: '抵押权人', cot: i.people, ET:ET},
+								{t: '抵押权人', cot: i.people, ET: ET},
 								{t: '抵押物所有人', cot: i.owner},
 							],
 							[
@@ -752,7 +782,7 @@ function exportTemplate(source, exportType, name) {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
-						+ f.normalList([{t: '相关单位', cot: i.obName, ET:ET},])
+						+ f.normalList([{t: '相关单位', cot: i.obName, ET: ET},])
 						+ "</td><td>" + f.normalList([{t: '发布日期', cot: f.time(i.publishTime)}]) + "</td></tr>";
 				});
 				break;
@@ -762,7 +792,7 @@ function exportTemplate(source, exportType, name) {
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
 						+ f.normalList([[
-							{t: '破产/重整风险企业', cot: i.obligorName, ET:ET},
+							{t: '破产/重整风险企业', cot: i.obligorName, ET: ET},
 							{t: '发布日期', cot: f.time(i.publishDate)}
 						]])
 						+ "</td><td>" + f.normalList([{t: '受理法院', cot: i.court}]) + "</td></tr>";
@@ -776,7 +806,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.urlDom(i.caseCode, i.url)
 						+ f.normalList([
 							[
-								{t: '债务人', cot: i.name, ET:ET},
+								{t: '债务人', cot: i.name, ET: ET},
 								{t: '失信被执行人行为具体情形', cot: i.disruptType}
 							],
 							{t: '生效法律文书确定义务', cot: i.duty},
@@ -795,13 +825,13 @@ function exportTemplate(source, exportType, name) {
 						+ f.urlDom(i.putReason)
 						+ f.normalList([
 							[
-								{t: '相关单位', cot: i.name, ET:ET},
+								{t: '相关单位', cot: i.name, ET: ET},
 								{t: '列入日期', cot: f.time(i.gmtPutDate)},
 							],
 							{t: '决定机关', cot: i.putDepartment},
 						])
 						+ "</td><td>" + f.normalList(i.gmtRemoveDate ? [
-							{dot:dot, cot: '已移除'},
+							{dot: dot, cot: '已移除'},
 							{t: '移除日期', cot: f.time(i.gmtRemoveDate)},
 							{t: '移除原因', cot: i.removeReason},
 							{t: '移除机关', cot: i.removeDepartment},
@@ -814,7 +844,7 @@ function exportTemplate(source, exportType, name) {
 					list += "<tr><td>"
 						+ f.urlDom(i.type)
 						+ f.normalList([
-							{t: '相关单位', cot: i.name, ET:ET},
+							{t: '相关单位', cot: i.name, ET: ET},
 							[
 								{t: '列入日期', cot: f.time(i.gmtPutDate)},
 								{t: '决定机关', cot: i.putDepartment},
@@ -823,7 +853,7 @@ function exportTemplate(source, exportType, name) {
 							{t: '具体事实', cot: i.fact},
 						])
 						+ "</td><td>" + f.normalList(i.gmtRemoveDate ? [
-							{dot:dot, cot: '已移除'},
+							{dot: dot, cot: '已移除'},
 							{t: '移除日期', cot: f.time(i.gmtRemoveDate)},
 							{t: '移除原因', cot: i.removeReason},
 							{t: '移除机关', cot: i.removeDepartment},
@@ -842,15 +872,15 @@ function exportTemplate(source, exportType, name) {
 								{
 									t: '当事人',
 									cot: w(parties.name, {unit: (parties.name.length <= 4 ? ('（' + parties.idNumber + '）') : '')}),
-									ET:ET
+									ET: ET
 								},
-								{cot: f.tag(s.identity[parties.identityType], 'case-tag marginLeft0'), ET:ET}
+								{cot: f.tag(s.identity[parties.identityType], 'case-tag marginLeft0'), ET: ET}
 							],
 							{t: '违法事实', cot: i.illegalFacts},
 							{t: '处罚情况', cot: i.punish},
 						])
 						+ "</td><td>" + f.normalList([
-							{dot:dot, cot: w('-', {prefix: '纳税人：'})},
+							{dot: dot, cot: w('-', {prefix: '纳税人：'})},
 							{t: '检查机关', cot: i.removeReason},
 							{t: '发布日期', cot: f.time(i.gmtRemoveDate)},
 						]) + "</td></tr>";
@@ -862,7 +892,7 @@ function exportTemplate(source, exportType, name) {
 					list += "<tr><td>"
 						+ f.urlDom(i.content)
 						+ f.normalList([
-							{t: '相关单位', cot: i.obligorName, ET:ET},
+							{t: '相关单位', cot: i.obligorName, ET: ET},
 							{t: '决定文书号', cot: i.punishNumber},
 							{t: '处罚内容', cot: i.type},
 						])
@@ -970,7 +1000,7 @@ function exportTemplate(source, exportType, name) {
 						[
 							{t: '借款人', cot: item.legalPersonName},
 							{t: '证件号/统一社会信用代码', cot: w(item.regCapital, {unit: '万人民币'})},
-							{t: '借款人推送状态', cot: w(item.obligorPushType?'开启':'关闭')},
+							{t: '借款人推送状态', cot: w(item.obligorPushType ? '开启' : '关闭')},
 						],
 						[
 							{t: '负责人/机构', cot: item.legalPersonName},
@@ -980,8 +1010,7 @@ function exportTemplate(source, exportType, name) {
 				)
 			},
 			{
-				f: '{about.list}', v: aboutList(
-					(Status === 'E' ? '关联业务列表' : '相关业务列表'),
+				f: '{about.list}', v: aboutList('业务相关人列表',
 					{list: _dataSource["BB10102"]},
 					{id: 'BB10102', className: 'table-border', show: true}
 				)
@@ -1052,10 +1081,11 @@ function exportTemplate(source, exportType, name) {
 	return htmlResult;
 }
 
-if(ENV ==='dev'){
-	var str = (exportType) => exportCover(dataSource, exportType);
+if (ENV === 'dev') {
+	var dataSource = JSON.stringify(require('./test_appendfile(3).json'));
+	var str = (exportType) => exportTemplate(dataSource, exportType);
 	console.warn('************************* output: ./template/result/demo-db.html *************************');
-	fs.writeFile("./template/result/demo-db.html", str('debtor'), (error) => {
+	fs.writeFile("./template/result/demo-db.html", str('business'), (error) => {
 		error && console.log('error');
 	});
 }
