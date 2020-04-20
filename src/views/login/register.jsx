@@ -248,7 +248,11 @@ class Login extends React.Component {
 											},
 											{
 												pattern: /^[^\s]*$/,
-												message: '禁止输入空格',
+												message: '请勿输入空格',
+											},
+											{
+												pattern: /^[0-9a-zA-Z- ]*$/,
+												message: '请勿输入特殊字符',
 											},
 										],
 									})}

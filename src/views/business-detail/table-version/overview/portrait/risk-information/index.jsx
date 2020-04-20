@@ -109,8 +109,10 @@ export default class RiskInformation extends React.Component {
 			} = res.data;
 
 			const dataSource = [];
-			const isDishonest = obligorStatusList.filter(item => item.dishonestStatus === 1).length || 0; // 已失信
-			const beforeDishonest = obligorStatusList.filter(item => item.dishonestStatus === 2).length || 0; // 曾失信
+			const isOligorStatusList = Array.isArray(obligorStatusList) && obligorStatusList.length > 0;
+			const isDishonest = isOligorStatusList ? obligorStatusList.filter(item => item.dishonestStatus === 1).length : 0; // 已失信
+			const beforeDishonest = isOligorStatusList ? obligorStatusList.filter(item => item.dishonestStatus === 2).length : 0; // 曾失信
+
 			// console.log(isDishonest, 11, beforeDishonest);
 			if (isBusiness) {
 				dataSource.push({ count: beforeDishonest, typeName: '曾失信债务人' });
@@ -129,7 +131,7 @@ export default class RiskInformation extends React.Component {
 				dataSource,
 				gmtCreate,
 				dataSourceNum,
-				dishonestStatusArray: obligorStatusList,
+				dishonestStatusArray: obligorStatusList || [],
 			};
 			this.setState(() => ({
 				dishonestPropsData,
@@ -141,14 +143,20 @@ export default class RiskInformation extends React.Component {
 	getLitigationData = (isArray, values) => {
 		const res = values[2];
 		if (isArray && res && res.code === 200) {
+			const {
+				 execute, trial, judgment, courtNotice,
+			} = res.data;
 			const dataSource = [];
 			dataSource.push({ count: res.data.trial, typeName: '立案' });
 			dataSource.push({ count: res.data.courtNotice, typeName: '开庭' });
 			dataSource.push({ count: res.data.judgment, typeName: '裁判文书' });
 			const dataSourceNum = getCount(dataSource);
+			const otherCase = (trial + judgment + courtNotice) - execute;
 			const litigationPropsData = {
 				dataSource,
+				otherCase,
 				dataSourceNum,
+				execute,
 				gmtCreate: res.data.gmtCreate,
 				obligorTotal: res.data.obligorTotal || null,
 			};
@@ -184,10 +192,12 @@ export default class RiskInformation extends React.Component {
 
 	// 判断内部是否存数据
 	isHasValue = () => {
+		const { portrait } = this.props;
 		const {
 			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData,
 		} = this.state;
-		return bankruptcyPropsData.bankruptcyNum > 0 || litigationPropsData.dataSourceNum > 0 || riskPropsData.dataSourceNum > 0 || dishonestPropsData.dataSourceNum > 0;
+		return (bankruptcyPropsData.bankruptcyNum > 0 && portrait !== 'debtor_personal') || litigationPropsData.dataSourceNum > 0
+			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0;
 	};
 
 	render() {

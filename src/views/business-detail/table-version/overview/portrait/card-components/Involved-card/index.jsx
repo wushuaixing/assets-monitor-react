@@ -12,7 +12,7 @@ export default class Involved extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				dataSource, dataSourceNum, gmtCreate, obligorTotal,
+				dataSource, dataSourceNum, gmtCreate, obligorTotal, otherCase, execute, restore,
 			},
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
@@ -26,7 +26,7 @@ export default class Involved extends React.Component {
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
 						customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
-						text="涉诉信息"
+						text={portrait === 'debtor_personal' ? '涉诉信息-裁判文书' : '涉诉信息'}
 						styleName="Involved-card"
 					>
 						<div className="card-content" style={isBusiness ? { height: '20px' } : {}}>
@@ -39,6 +39,42 @@ export default class Involved extends React.Component {
 												<span className="portrait-card-num">{obligorTotal}</span>
 												名
 											</div>
+										) : (portrait === 'debtor_personal' ? (
+											<div>
+												{execute > 0 ? (
+													<div className="card-content-role-itemLeft">
+														<span className="card-content-role-text">执行案件</span>
+														<span className="card-content-role-info">：</span>
+														<span className="card-content-role-num">
+															<span className="portrait-card-num">{execute}</span>
+															条
+														</span>
+
+														{restore > 0 ? (
+															<div className="card-content-left-arrow">
+																<div className="card-content-popover-content">
+																	{restore}
+																	{' '}
+																笔执恢案件
+																</div>
+															</div>
+														) : null}
+
+													</div>
+												) : null}
+
+												{otherCase > 0 ? (
+													<div className="card-content-role-itemLeft">
+														<span className="card-content-role-text">其他案件</span>
+														<span className="card-content-role-info">：</span>
+														<span className="card-content-role-num">
+
+															<span className="portrait-card-num">{otherCase}</span>
+															条
+														</span>
+													</div>
+												) : null}
+											</div>
 										) : newDataSource && newDataSource.map(item => (
 											<div className="card-content-role-itemLeft" key={item.type}>
 												<span className="card-content-role-text">{item.typeName}</span>
@@ -48,7 +84,7 @@ export default class Involved extends React.Component {
 													笔
 												</span>
 											</div>
-										))
+										)))
 								}
 							</div>
 						</div>

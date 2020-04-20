@@ -233,11 +233,14 @@ export default class AssetProfile extends React.Component {
 
 	// 判断内部是否存数据
 	isHasValue = () => {
+		const { portrait } = this.props;
 		const {
 			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData,
 		} = this.state;
-		return (Object.keys(auctionPropsData).length > 0 && auctionPropsData.auctionPropsData.count > 0) || landPropsData.dataSourceNum > 0 || intangiblePropsData.dataSourceNum > 0
-			|| subrogationPropsData.allNum > 0 || stockPropsData.dataSourceNum > 0 || biddingPropsData.biddingNum > 0 || mortgagePropsData.dataSourceNum > 0;
+		return (Object.keys(auctionPropsData).length > 0 && auctionPropsData.auctionPropsData.count > 0) || (landPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal')
+			|| (intangiblePropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || subrogationPropsData.allNum > 0
+			|| (stockPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || (biddingPropsData.biddingNum > 0 && portrait !== 'debtor_personal')
+			|| (mortgagePropsData.dataSourceNum > 0 && portrait !== 'debtor_personal');
 	};
 
 	render() {
@@ -246,6 +249,7 @@ export default class AssetProfile extends React.Component {
 			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData, isLoading,
 		} = this.state;
 		const isHasValue = this.isHasValue();
+		// console.log(portrait, 13);
 		return (
 			<React.Fragment>
 				{isHasValue ? (
