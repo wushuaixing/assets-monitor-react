@@ -38,6 +38,23 @@
   transition: -webkit-transform .2s ease;
 }
 
+.ant-table-body {
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px #7D8699;
+    background: #7D8699;
+  }
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px #B2B8C9;
+    border-radius: 0;
+    background: #B2B8C9;
+  }
+  &::-webkit-scrollbar {
+    width: 4px;
+    //height: 10px;
+  }
+}
+
 // 降低下拉框层级
 .ant-select-dropdown {
   z-index: 1050;

@@ -190,6 +190,8 @@ export default class Visualize extends React.Component {
 		const {
 			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
 		} = this.state;
+
+		console.log(BankruptcyCount, 111);
 		return (
 			<div className="visualize-overview">
 				<div className="visualize-overview-line" />

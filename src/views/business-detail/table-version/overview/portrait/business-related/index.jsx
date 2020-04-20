@@ -116,12 +116,10 @@ export default class BusinessRelated extends React.Component {
 								<Button
 									size="large"
 									type="common"
-									style={{
-										width: 160, height: 34, marginTop: 40, fontSize: '14px',
-									}}
+									className="business-table-edit-btn"
 									onClick={this.handleSubmit}
 								>
-								添加相关人
+									添加相关人
 								</Button>
 							</div>
 						</div>

@@ -106,6 +106,7 @@
         width: 40px;
         line-height: 16px;
         border-radius: 2px;
+        border: 1px solid $border-base;
         .ant-switch-inner{
           left: 21px;
         }
@@ -127,6 +128,7 @@
       .ignore-text{
         @extend .yc-public-remark;
         margin-right: 6px;
+        color: #4E5566;
       }
       margin-left: 25px;
       display: inline-block;

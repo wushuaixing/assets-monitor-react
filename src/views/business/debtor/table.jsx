@@ -21,6 +21,7 @@ class BusinessView extends React.Component {
 				dataIndex: 'obligorName',
 				key: 'obligorName',
 				width: 254,
+				className: 'column-left20',
 				render: (text, row) => (
 					<div style={{ position: 'relative' }}>
 						<span>
