@@ -30,7 +30,7 @@ export default class Bankruptcy extends React.Component {
 			if (res.code === 200) {
 				const timeLineData = res.data.yearDistributions;
 				const allNum = getCount(timeLineData);
-				getAssetProfile(allNum, 'Bankruptcy');
+				getAssetProfile(allNum, 'ChattelMortgage');
 				this.setState({
 					loading: false,
 					detail: res.data.detail || [],
