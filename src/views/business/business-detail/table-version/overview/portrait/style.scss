@@ -1,0 +1,54 @@
+.yc-portrait-container {
+  //padding: 0 20px;
+  .overview-container-title {
+    font-size: 14px;
+    color: $text-title;
+    height: 16px;
+    line-height: 16px;
+    margin: 10px 20px 20px;
+    .overview-left-item {
+      width: 3px;
+      height: 16px;
+      background: $text-link;
+      display: inline-block;
+      margin-right: 7px;
+    }
+    .yc-business-icon {
+      width: 16px;
+      position: relative;
+      top: 3px;
+      cursor: pointer;
+      margin-left: 6px;
+    }
+    .container-title-num {
+      display: inline-block;
+      font-weight: 500;
+      margin-right: 6px;
+      height: 14px;
+      line-height: 14px;
+      position: relative;
+      bottom: 3px;
+    }
+    .container-title-name {
+      display: inline-block;
+      height: 14px;
+      line-height: 14px;
+      position: relative;
+      bottom: 3px;
+      font-weight: bold;
+    }
+  }
+  .overview-container-cardContent {
+    padding: 0 10px 0 30px;
+  }
+  .portrait-card-item {
+    display: inline-block;
+  }
+}
+
+.portrait-card-num {
+  font-size: 12px;
+  font-weight: bold;
+  color: $text-title;
+  margin-right: 2px;
+}
