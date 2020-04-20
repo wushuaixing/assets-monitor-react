@@ -82,6 +82,8 @@ export default class Visualize extends React.Component {
 		this.setState({ litigationLoading: true });
 		// 获取涉诉信息
 		api(params).then((res) => {
+			const isLitigationInfos = res.data.litigationInfos && res.data.litigationInfos.length > 0;
+
 			const newLitigationInfosArray = [
 				{
 					caseReasons: [], caseTypes: [], count: 0, type: 1, yearDistribution: [],
@@ -91,9 +93,20 @@ export default class Visualize extends React.Component {
 				},
 				...res.data.litigationInfos,
 			];
+			const noData = [
+				{
+					caseReasons: [], caseTypes: [], count: 0, type: 1, yearDistribution: [],
+				},
+				{
+					caseReasons: [], caseTypes: [], count: 0, type: 2, yearDistribution: [],
+				},
+				{
+					caseReasons: [], caseTypes: [], count: 0, type: 3, yearDistribution: [],
+				},
+			];
 			if (res.code === 200) {
 				this.setState({
-					litigationInfos: res.data.litigationInfos.length === 3 ? res.data.litigationInfos : newLitigationInfosArray,
+					litigationInfos: isLitigationInfos ? (res.data.litigationInfos.length === 3 ? res.data.litigationInfos : newLitigationInfosArray) : noData,
 					litigationLoading: false,
 				});
 			} else {
@@ -190,8 +203,7 @@ export default class Visualize extends React.Component {
 		const {
 			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
 		} = this.state;
-
-		console.log(BankruptcyCount, 111);
+		// console.log(litigationInfos, 123123);
 		return (
 			<div className="visualize-overview">
 				<div className="visualize-overview-line" />

@@ -16,10 +16,6 @@ export default class RiskInformation extends React.Component {
 		if (onClick) { onClick(); }
 	};
 
-	sortNumbers = (num) => {
-		console.log(num);
-	};
-
 	render() {
 		const { portrait, dataSource: { auctionPropsData } } = this.props;
 		const roleDistributions = auctionPropsData && Array.isArray((auctionPropsData.roleDistributions)) && auctionPropsData.roleDistributions.length > 0;

@@ -97,6 +97,14 @@ class Login extends React.Component {
 												required: true,
 												message: '请输入账号',
 											},
+											{
+												pattern: /^[^\s]*$/,
+												message: '请勿输入空格',
+											},
+											{
+												pattern: /^[0-9a-zA-Z- ]*$/,
+												message: '请勿输入特殊字符',
+											},
 										],
 									})}
 								/>
@@ -111,6 +119,7 @@ class Login extends React.Component {
 									maxlength={4}
 									style={{ parringRight: 160 }}
 									{...getFieldProps('code', {
+										getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
 										validateTrigger: 'onBlur',
 										rules: [
 											{
