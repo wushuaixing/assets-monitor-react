@@ -13,11 +13,11 @@ import { debtorInfo, exportListDebtor } from '@/utils/api/professional-work';
 import {
 	Tabs, BreadCrumb, Spin, Icon as IconType, Download, Button,
 } from '@/common';
-import DebtorInfo from '@/views/business/business-detail/table-version/debtor-info';
-import Overview from '@/views/business/business-detail/table-version/overview';
-import Assets from '@/views/business/business-detail/table-version/assets';
-import Risk from '@/views/business/business-detail/table-version/risk';
-import Info from '@/views/business/business-detail/table-version/info';
+import DebtorInfo from '@/views/business-detail/table-version/debtor-info';
+import Overview from '@/views/business-detail/table-version/overview';
+import Assets from '@/views/business-detail/table-version/assets';
+import Risk from '@/views/business-detail/table-version/risk';
+import Info from '@/views/business-detail/table-version/info';
 import '../style.scss';
 
 const constantNumber = 99999999; // 默认值

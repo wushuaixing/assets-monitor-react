@@ -74,6 +74,7 @@ class Login extends React.Component {
 		} = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
+		console.log(Math.random().toString(36).slice(-8));
 		const beforeLogin = {
 			username: fields.username,
 			random: (Math.random().toString(36).slice(-8)),

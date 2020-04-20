@@ -18,9 +18,9 @@ import {
 } from '@/common';
 import ChangeModal from './change-modal/changeList';
 import ShapeImg from '@/assets/img/business/Shape.png';
-import Overview from '@/views/business/business-detail/table-version/overview';
-import Assets from '@/views/business/business-detail/table-version/assets';
-import Risk from '@/views/business/business-detail/table-version/risk';
+import Overview from '@/views/business-detail/table-version/overview';
+import Assets from '@/views/business-detail/table-version/assets';
+import Risk from '@/views/business-detail/table-version/risk';
 import BusinessImg from '@/assets/img/business/icon_business.png';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';

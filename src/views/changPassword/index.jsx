@@ -6,7 +6,7 @@ import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 import {
 	initUser, // 修改密码,
-} from 'api/user';
+} from '@/utils/api/user';
 import rsaEncrypt from '@/utils/encrypt';
 import './style.scss';
 

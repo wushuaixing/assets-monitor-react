@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import { brokenCount } from 'api/professional-work/business/risk';
 import { Spin, Tabs, Button } from '@/common';
 import BrokenVersion from '@/views/risk-monitor/broken-record/table-version';
-import BrokenList from '@/views/business/business-detail/table-version/broken-list';
+import BrokenList from '@/views/business-detail/table-version/broken-list';
 import { toGetNumber, requestAll } from '@/utils/promise';
 import { getHrefQuery } from '@/utils';
 
