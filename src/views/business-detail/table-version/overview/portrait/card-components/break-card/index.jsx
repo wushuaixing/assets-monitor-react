@@ -54,7 +54,7 @@ export default class Break extends React.Component {
 														<span className="card-content-role-info">：</span>
 														<span className="card-content-role-num">
 															<span className="portrait-card-num">{item.count}</span>
-														条
+															条
 														</span>
 													</div>
 												);
@@ -65,7 +65,7 @@ export default class Break extends React.Component {
 													<span className="card-content-role-info">：</span>
 													<span className="card-content-role-num">
 														<span className="portrait-card-num">{item.count}</span>
-													条
+														条
 													</span>
 												</div>
 											);
@@ -79,6 +79,7 @@ export default class Break extends React.Component {
 									<div className="card-content-role">
 										{
 											newDataSource && newDataSource.map((item, index) => {
+												console.log(item.typeName && item.typeName.length);
 												if (index > 1) {
 													return (
 														<div className="card-content-role-itemRight">
@@ -97,7 +98,7 @@ export default class Break extends React.Component {
 														<span className="card-content-role-info">：</span>
 														<span className="card-content-role-num">
 															<span className="portrait-card-num">{item.count}</span>
-															条
+															{item.typeName && item.typeName.length > 4 ? '名' : '条'}
 														</span>
 													</div>
 												);
