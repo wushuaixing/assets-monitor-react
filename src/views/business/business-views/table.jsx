@@ -24,7 +24,8 @@ class BusinessView extends React.Component {
 				title: '业务编号',
 				dataIndex: 'caseNumber',
 				key: 'caseNumber',
-				width: 80,
+				width: 100,
+				className: 'column-left20',
 				render: text => (
 					<p>{text || '-'}</p>
 				),
