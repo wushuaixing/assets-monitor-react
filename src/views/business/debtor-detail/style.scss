@@ -1,0 +1,103 @@
+.yc-debtor-wrapper {
+  color: $fontColor-base;
+  padding: 0 20px 20px;
+  box-sizing: border-box;
+  .yc-content-breadcrumb {
+    padding: 24px 0;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    margin-bottom: 0;
+    list-style: none;
+    border-radius: 4px;
+    border-bottom: 1px solid $background-line;
+    .ant-breadcrumb {
+      font-size: 14px;
+    }
+  }
+  .yc-item-ob {
+    display: block;
+    margin: 0;
+    padding: 24px 20px;
+    // border-bottom: 1px solid $background-base;
+    .yc-item-icon {
+      background-image: url("../../../assets/img/business/icon_zwrpeople.png");
+      height: 80px;
+      width: 80px;
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 20px;
+    }
+    .yc-search-content {
+      vertical-align: top;
+      display: inline-block;
+      max-width: 750px;
+      position: relative;
+     
+      .yc-item-title {
+        position: relative;
+        font-size: 16px;
+        margin-bottom: 16px;
+        display: inline-block;
+        color: $fontColor-base;
+        .yc-item-break {
+          position: absolute;
+          top: -17px;
+          // right: -14px;
+          img {
+            position: relative;
+          }
+        }
+      }
+      .search-item-text {
+        font-size: 12px;
+        margin-top: 12px;
+        line-height: 1;
+        .search-item-text-header {
+          color: $text-remark;
+        }
+      }
+    }
+    .yc-search-right {
+      float: right;
+      margin: 15px 0;
+      .yc-btn {
+        background: #FFFFFF;
+        height: 30px;
+        margin-right: 10px;
+      }
+      .yc-icon-export {
+        display: inline-block;
+        position: relative;
+        top: 3px;
+        margin-right: 6px;
+        width: 16px;
+        height: 16px;
+        background-image: url("../../../assets/img/icon/icon_export.png");
+      }
+    }
+  }
+  .yc-debtor-table {
+    padding-top: 30px;
+    padding-bottom: 15px;
+    .yc-table-header {
+      overflow: hidden;
+      padding: 0;
+      margin-bottom: 20px;
+      .table-header-left {
+        font-size: 14px;
+        color: $fontColor-base;
+        padding-right: 20px;
+        line-height: 14px;
+        margin: 14px 0;
+        margin-right: 20px;
+        float: left;
+      }
+    }
+  }
+}
+.yc-bread-hover {
+  color: $text-remark;
+  &:hover {
+    text-decoration: underline;
+  }
+}

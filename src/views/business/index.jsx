@@ -5,10 +5,15 @@ import Router from '@/utils/Router';
 import Tabs from '@/common/tabs';
 
 import Business from './business-views';
+import BusinessDetail from './business-detail';
 import Debtor from './debtor';
-import NewDetailDebtor from '@/views/business/business-detail/debtor';
-import NewDetailBusiness from '@/views/business/business-detail/business';
-import NewDetailEdit from '@/views/business/business-detail/edit-info';
+import DebtorDetail from './debtor-detail';
+import ChangeList from './business-detail/changeList';
+// import Asset from './asset-information';
+import NewDetailDebtor from '@/views/business-detail/debtor';
+import NewDetailBusiness from '@/views/business-detail/business';
+import NewDetailEdit from '@/views/business-detail/edit-info';
+
 
 const source = rule => ([
 	{
