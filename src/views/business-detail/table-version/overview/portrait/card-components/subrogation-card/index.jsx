@@ -22,7 +22,6 @@ export default class Subrogation extends React.Component {
 			},
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
-		console.log(portrait);
 		return (
 			<React.Fragment>
 				{

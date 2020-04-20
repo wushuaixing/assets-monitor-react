@@ -12,7 +12,7 @@ export default class Involved extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				dataSource, dataSourceNum, gmtCreate, obligorTotal, otherCase, execute, restore,
+				dataSource, dataSourceNum, gmtCreate, obligorTotal, otherCase, execute,
 			},
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
@@ -49,17 +49,6 @@ export default class Involved extends React.Component {
 															<span className="portrait-card-num">{execute}</span>
 															条
 														</span>
-
-														{restore > 0 ? (
-															<div className="card-content-left-arrow">
-																<div className="card-content-popover-content">
-																	{restore}
-																	{' '}
-																笔执恢案件
-																</div>
-															</div>
-														) : null}
-
 													</div>
 												) : null}
 
