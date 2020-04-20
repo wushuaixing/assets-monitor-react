@@ -2,7 +2,7 @@ import React from 'react';
 import { Router } from '@reach/router';
 import MainScreen from './main-screen';
 import LoginScreen from './login';
-import NoPermission from './noPermission';
+import NoPermission from './_others/noPermission';
 
 export default class BaseRouter extends React.PureComponent {
 	render() {

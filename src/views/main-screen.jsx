@@ -9,8 +9,8 @@ import Home from './home';
 // import Business from './business';
 // import Company from './company';
 // import Search from './search';
-import Message from './message';
-import ChangePassword from './changPassword';
+import Message from './_others/message';
+import ChangePassword from './_others/changPassword';
 import { Spin, Button } from '@/common';
 import { Header, Container, Footer } from '@/views/_layoutView';
 import { authRule } from '@/utils/api';
@@ -23,8 +23,8 @@ const Risk = Loadable(() => import('./risk-monitor'));
 const Business = Loadable(() => import('./business'));
 const Search = Loadable(() => import('./search'));
 const Organization = Loadable(() => import('./organization'));
-const Attention = Loadable(() => import('./my-attention'));
 const Inquiry = Loadable(() => import('./portrait-inquiry'));
+const Attention = Loadable(() => import('./_others/my-attention'));
 
 const cookie = new Cookies();
 

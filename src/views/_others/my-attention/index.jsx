@@ -1,10 +1,10 @@
 import React from 'react';
-import { Tabs, Spin } from '@/common';
-import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import {
 	subrogationCount, financeCount, landCount, lawsuitCount, operationCount,
-} from '@/utils/api/monitor-info/attention';
-import Intangible from '@/utils/api/monitor-info/intangible';
+} from 'api/monitor-info/attention';
+import Intangible from 'api/monitor-info/intangible';
+import { Tabs, Spin } from '@/common';
+import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import './style.scss';
 import { requestAll } from '@/utils/promise';
 import Item from './item';

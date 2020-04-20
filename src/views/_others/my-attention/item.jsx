@@ -1,16 +1,16 @@
 import React from 'react';
 import { Button } from '@/common';
-import AssetsAuction from '../asset-excavate/assets-auction/table-intact';
-import Subrogation from '../asset-excavate/subrogation/table-intact';
-import LandData from '../asset-excavate/land-data/table-intact';
-import TenderBid from '../asset-excavate/tender-bid/table-intact';
-import FinancialAssets from '../asset-excavate/financial-assets/table';
-import ChattelMortgage from '../asset-excavate/chattel-mortgage/table-intact';
-import Lawsuit from '../risk-monitor/lawsuits-monitor/table-intact';
-import Operation from '../risk-monitor/operation-risk/table-intact';
-import Bankruptcy from '../risk-monitor/bankruptcy/table-intact';
-import BrokenRecord from '../risk-monitor/broken-record/table-intact';
-import IntangibleAssets from '../asset-excavate/intangible-assets/table-intact';
+import AssetsAuction from '../../asset-excavate/assets-auction/table-intact';
+import Subrogation from '../../asset-excavate/subrogation/table-intact';
+import LandData from '../../asset-excavate/land-data/table-intact';
+import TenderBid from '../../asset-excavate/tender-bid/table-intact';
+import FinancialAssets from '../../asset-excavate/financial-assets/table';
+import ChattelMortgage from '../../asset-excavate/chattel-mortgage/table-intact';
+import Lawsuit from '../../risk-monitor/lawsuits-monitor/table-intact';
+import Operation from '../../risk-monitor/operation-risk/table-intact';
+import Bankruptcy from '../../risk-monitor/bankruptcy/table-intact';
+import BrokenRecord from '../../risk-monitor/broken-record/table-intact';
+import IntangibleAssets from '../../asset-excavate/intangible-assets/table-intact';
 
 const TableItem	= (props) => {
 	const { source, childType, sourceType } = props;

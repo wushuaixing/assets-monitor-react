@@ -7,15 +7,15 @@ import {
 	centerList, // 消息提醒
 	getDelete, // 删除
 	isRead, // 标记已读
-} from '@/utils/api/inform';
+} from 'api/inform';
 import {
 	userInfo, // 通知中心数据
-} from '@/utils/api/user';
+} from 'api/user';
 import { generateUrlWithParams, parseQuery } from '@/utils';
 import { Table, Spin, SelectedNum } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
-import imgUnread from '../../assets/img/inform/icon_message_unread.png';
-import imgReade from '../../assets/img/inform/icon_message_read.png';
+import imgUnread from '../../../assets/img/inform/icon_message_unread.png';
+import imgReade from '../../../assets/img/inform/icon_message_read.png';
 import './style.scss';
 
 const { confirm } = Modal;

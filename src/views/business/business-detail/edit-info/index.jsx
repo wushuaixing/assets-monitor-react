@@ -8,7 +8,7 @@ import { save } from '@/utils/api/business'; // 保存使用原接口
 import { businessList } from '@/utils/api/professional-work/overview';
 import { getQueryByName } from '@/utils';
 import { BreadCrumb, Button } from '@/common';
-import { getSource } from '@/views/business-detail/business/cache';
+import { getSource } from '@/views/business/business-detail/business/cache';
 import Edit from './edit';
 import './style.scss';
 

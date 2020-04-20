@@ -1,10 +1,7 @@
 import React from 'react';
-import { Form } from 'antd';
 import './style.scss';
 
-const createForm = Form.create;
-
-class NoPermission extends React.PureComponent {
+export default class NoPermission extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -40,13 +37,10 @@ class NoPermission extends React.PureComponent {
 					<div>
 						页面自动
 						<span className="yc-NoPermission-skip" onClick={this.skip}>跳转</span>
-						等待时间:
-						{' '}
-						{timeLeft}
+						{`等待时间：${timeLeft}`}
 					</div>
 				</div>
 			</div>
 		);
 	}
 }
-export default createForm()(NoPermission);
