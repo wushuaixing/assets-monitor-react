@@ -74,7 +74,7 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.licenseNumber) ? <Ellipsis content={row.licenseNumber} width={400} tooltip font={16} /> : '-' }
+						<Ellipsis content={toEmpty(row.licenseNumber)} width={400} tooltip font={16} url={row.url} />
 					</li>
 					<li>{row.industry}</li>
 					<li>

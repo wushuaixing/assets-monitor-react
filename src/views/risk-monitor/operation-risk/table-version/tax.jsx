@@ -55,6 +55,7 @@ export default class TableIntact extends React.Component {
 		const id = getHrefQuery('id');
 		const res = {
 			showTaxpayer: true,
+			showTaxpayerDebtor: true,
 			identityType: '',
 			identityTypePartyStr: '',
 		};
@@ -64,7 +65,10 @@ export default class TableIntact extends React.Component {
 			if (i.obligorId) res.identityType = i.identityType;
 			r.party = r.name <= 4 ? `${r.name + r.idNumber && `(${r.idNumber})`}` : r.name;
 			r.identityStr = r.identityType !== 1 ? toGetIdentityType(r.identityType) : '';
-			if (i.obligorId === Number(id)) res.identityTypePartyStr = r.identityStr;
+			if (i.obligorId === Number(id)) {
+				if (i.identityType === 1) res.showTaxpayerDebtor = false;
+				res.identityTypePartyStr = r.identityStr;
+			}
 			return r;
 		});
 		if (party.length) res.party = party;
@@ -90,7 +94,7 @@ export default class TableIntact extends React.Component {
 								&& <span className="yc-case-reason text-ellipsis">{source.identityTypePartyStr}</span>}
 							</li>
 							{this.toShowExtraField(row, source)}
-							<LiItem title="违法事实" Li><Ellipsis content={toEmpty(ill)} width={600} tooltip /></LiItem>
+							<LiItem title="违法事实" Li><Ellipsis content={toEmpty(ill)} width={601} tooltip /></LiItem>
 							<LiItem title="处罚情况" Li><Ellipsis content={toEmpty(punish)} width={600} tooltip /></LiItem>
 						</div>
 					);
@@ -111,7 +115,13 @@ export default class TableIntact extends React.Component {
 									]
 								}
 								{
-									(portrait === 'business' || portrait === 'debtor_personal') && taxpayer && source.showTaxpayer && [
+									portrait === 'business' && taxpayer && source.showTaxpayer && [
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 5 }} />,
+										<Ellipsis content={`纳税人：${taxpayer || '-'}`} tooltip width={240} />,
+									]
+								}
+								{
+									portrait === 'debtor_personal' && taxpayer && source.showTaxpayerDebtor && [
 										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 5 }} />,
 										<Ellipsis content={`纳税人：${taxpayer || '-'}`} tooltip width={240} />,
 									]
