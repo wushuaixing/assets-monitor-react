@@ -16,6 +16,7 @@ import Bankruptcy from './components/bankruptcy';
 import Dishonest from './components/dishonest';
 import Information from './components/information';
 import BusinessRisk from './components/businessRisk';
+import Tax from './components/tax';
 import Basic from '@/views/portrait-inquiry/enterprise/overview/components/basic';
 import ShareholderSituation from '@/views/portrait-inquiry/enterprise/overview/components/shareholderSituation';
 import BusinessScale from '@/views/portrait-inquiry/enterprise/overview/components/businessScale';
@@ -194,6 +195,12 @@ export default class Visualize extends React.Component {
 					BusinessRiskCount: AssetProfileCountValue,
 				})
 			);
+		case 'Tax':
+			return (
+				this.setState({
+					TaxCount: AssetProfileCountValue,
+				})
+			);
 		default: return '-';
 		}
 	};
@@ -201,7 +208,7 @@ export default class Visualize extends React.Component {
 	render() {
 		const { portrait } = this.props;
 		const {
-			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
+			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, TaxCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
 		} = this.state;
 		// console.log(litigationInfos, 123123);
 		return (
@@ -242,7 +249,7 @@ export default class Visualize extends React.Component {
 					<div className="yc-overview-title">风险信息</div>
 					<div className="yc-overview-container">
 						{
-							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0
+							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0 && (portrait === 'debtor_personal' && TaxCount === 0)
 							&& litigationInfos && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0
 							&& (
 								<Spin visible={litigationLoading}>
@@ -257,7 +264,9 @@ export default class Visualize extends React.Component {
 						{/* 涉诉信息 */}
 						{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
 						{/* 经营风险 */}
-						<BusinessRisk portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						{portrait !== 'debtor_personal' && <BusinessRisk portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
+						{/* 税收违法 */}
+						{portrait === 'debtor_personal' && <Tax portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
 						{/* <BusinessRisk companyId={companyId} /> */}
 					</div>
 					{portrait === 'debtor_enterprise'

@@ -3,7 +3,7 @@ import taxImg from '@/assets/img/business/taxCard.png';
 import Card from '../card';
 import './style.scss';
 
-export default class Information extends React.Component {
+export default class Tax extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -11,11 +11,10 @@ export default class Information extends React.Component {
 
 	render() {
 		const {
-			portrait, dataSource: {
+			 dataSource: {
 				roleDistributions, dataSourceNum, gmtCreate,
 			},
 		} = this.props;
-		const isBusiness = portrait && portrait === 'business';
 		const isArray = roleDistributions && Array.isArray((roleDistributions)) && roleDistributions.length > 0;
 		return (
 			<React.Fragment>
@@ -25,11 +24,11 @@ export default class Information extends React.Component {
 							imgCard={taxImg}
 							count={dataSourceNum}
 							gmtCreate={gmtCreate}
-							customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
+							customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 							text="税收违法"
 							styleName="taxViolation-card"
 						>
-							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
+							<div className="card-content">
 								<div className="card-content-role">
 									{
 										isArray && roleDistributions.map(item => (
@@ -49,7 +48,6 @@ export default class Information extends React.Component {
 					) : null
 				}
 			</React.Fragment>
-
 		);
 	}
 }

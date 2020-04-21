@@ -207,7 +207,7 @@ export default class RiskInformation extends React.Component {
 			const taxPropsData = {
 				roleDistributions,
 				dataSourceNum,
-				gmtCreate: res.data.gmtCreate,
+				gmtCreate: res.data.gmtCreate || '2020-04-01',
 			};
 			this.setState(() => ({
 				taxPropsData,
@@ -219,10 +219,10 @@ export default class RiskInformation extends React.Component {
 	isHasValue = () => {
 		const { portrait } = this.props;
 		const {
-			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData,
+			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData, taxPropsData,
 		} = this.state;
 		return (bankruptcyPropsData.bankruptcyNum > 0 && portrait !== 'debtor_personal') || litigationPropsData.dataSourceNum > 0
-			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0;
+			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0 || taxPropsData.dataSourceNum > 0;
 	};
 
 	render() {
