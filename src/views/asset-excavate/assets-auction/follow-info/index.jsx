@@ -555,6 +555,7 @@ export default class FollowInfo extends React.Component {
 															multiple
 															style={{ width: '100%' }}
 															placeholder="请选择相关推送人（最多选择3个）"
+															notFoundContent="未找到"
 															getPopupContainer={getContainer}
 															{...getField('pushList', {
 																onChange: (val) => {
