@@ -91,7 +91,7 @@ export default class TableIntact extends React.Component {
 						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetStatusText(row.status).color, marginRight: 2 }} />
 						<span className="list list-content ">{toGetStatusText(row.status).text}</span>
 						{
-							toGetStatusText(row.state).status && this.toGetPortraitStatus() ? [
+							toGetStatusText(row.status).status && this.toGetPortraitStatus() ? [
 								<span>（</span>,
 								<span className="list list-title align-justify">匹配时间</span>,
 								<span className="list list-title-colon">:</span>,
@@ -105,7 +105,7 @@ export default class TableIntact extends React.Component {
 							<li>
 								<span className="list list-title align-justify">注销时间</span>
 								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{row.cancelDate || '-'}</span>
+								<span className="list list-content">{timeStandard(row.cancelDate)}</span>
 							</li>,
 							<li>
 								<span className="list list-title align-justify">注销原因</span>

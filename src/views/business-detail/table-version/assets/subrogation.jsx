@@ -9,8 +9,18 @@ export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		const defaultID = toGetDefaultId(props.data);
+		console.log(props.portrait);
 		this.state = {
 			sourceType: defaultID,
+			configPersonal: [
+				{
+					id: 10203,
+					name: '裁判文书',
+					number: toGetNumber(props.data, 10203),
+					showNumber: true,
+					disabled: !toGetNumber(props.data, 10203),
+				},
+			],
 			config: [
 				{
 					id: 10201,
@@ -44,13 +54,13 @@ export default class Subrogation extends React.Component {
 	};
 
 	render() {
-		const { config, sourceType } = this.state;
+		const { config, configPersonal, sourceType } = this.state;
 		const { id, portrait } = this.props;
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
 					onChange={this.onSourceType}
-					source={config}
+					source={portrait === 'debtor_personal' ? configPersonal : config}
 					symbol="none"
 					defaultCurrent={sourceType}
 					prefix={(
