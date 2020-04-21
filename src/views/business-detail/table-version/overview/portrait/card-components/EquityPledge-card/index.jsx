@@ -2,6 +2,7 @@ import React from 'react';
 import EquityPledgeImg from '@/assets/img/business/EquityPledgeCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
+import { navigateDetail } from '@/utils';
 import './style.scss';
 
 export default class EquityPledge extends React.Component {
@@ -26,6 +27,7 @@ export default class EquityPledge extends React.Component {
 						imgCard={EquityPledgeImg}
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
+						onClick={() => navigateDetail('e-assets-stock')}
 						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
 						text="股权质押"
 						styleName="equityPledge-card"

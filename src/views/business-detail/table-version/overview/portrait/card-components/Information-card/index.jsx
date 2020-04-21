@@ -3,6 +3,7 @@ import informationImg from '@/assets/img/business/InformationCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
 import './style.scss';
+import { navigateDetailRisk } from '@/utils';
 
 export default class Information extends React.Component {
 	constructor(props) {
@@ -29,6 +30,7 @@ export default class Information extends React.Component {
 							gmtCreate={gmtCreate}
 							customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 							text="经营风险"
+							onClick={() => navigateDetailRisk('e-manage')}
 							styleName="information-card"
 						>
 							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>

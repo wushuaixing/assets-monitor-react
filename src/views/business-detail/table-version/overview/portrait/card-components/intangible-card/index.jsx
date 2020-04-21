@@ -1,7 +1,9 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import intangibleImg from '@/assets/img/business/intangibleCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
+import { generateUrlWithParams, getHrefQuery } from '@/utils';
 import './style.scss';
 
 export default class Intangible extends React.Component {
@@ -9,6 +11,16 @@ export default class Intangible extends React.Component {
 		super(props);
 		this.state = {};
 	}
+
+	handleClick = () => {
+		const id = getHrefQuery('id');
+		if (id) {
+			navigate(generateUrlWithParams('/business/debtor/detail/info/102', {
+				id,
+				ele: 'e-assets-intangible',
+			}));
+		}
+	};
 
 	render() {
 		const {
@@ -29,6 +41,7 @@ export default class Intangible extends React.Component {
 							gmtCreate={gmtCreate}
 							customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
 							text="无形资产"
+							onClick={this.handleClick}
 							styleName="intangible-card"
 						>
 							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>

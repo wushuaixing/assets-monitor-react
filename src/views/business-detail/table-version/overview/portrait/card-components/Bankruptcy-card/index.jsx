@@ -1,6 +1,7 @@
 import React from 'react';
 import bankruptcyImg from '@/assets/img/business/BankruptcyCard.png';
 import Card from '../card';
+import { navigateDetailRisk } from '@/utils';
 import './style.scss';
 
 export default class Bankruptcy extends React.Component {
@@ -22,6 +23,7 @@ export default class Bankruptcy extends React.Component {
 						gmtCreate={gmtCreate}
 						customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 						text="破产重组"
+						onClick={() => navigateDetailRisk('e-manage-bankruptcy')}
 						styleName="bankruptcy-card"
 					>
 						<div className="card-content">

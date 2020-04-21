@@ -1,8 +1,10 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import { toThousands } from '@/utils/changeTime';
 import landImg from '@/assets/img/business/landCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
+import { generateUrlWithParams, getHrefQuery } from '@/utils';
 import './style.scss';
 
 export default class Land extends React.Component {
@@ -11,9 +13,15 @@ export default class Land extends React.Component {
 		this.state = {};
 	}
 
-	// handleNavigation = () => {
-	// 	navigate('/business/detail/info/102?eleID=e-assets-land');
-	// };
+	handleClick = () => {
+		const id = getHrefQuery('id');
+		if (id) {
+			navigate(generateUrlWithParams('/business/debtor/detail/info/102', {
+				id,
+				ele: 'e-assets-land',
+			}));
+		}
+	};
 
 	render() {
 		const {
@@ -33,6 +41,7 @@ export default class Land extends React.Component {
 						gmtCreate={gmtCreate}
 						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
 						text="土地信息"
+						onClick={this.handleClick}
 						styleName="land-card"
 					>
 						<div className="card-content" onClick={this.handleNavigation} style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>

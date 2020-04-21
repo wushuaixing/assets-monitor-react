@@ -2,6 +2,7 @@ import React from 'react';
 import breakImg from '@/assets/img/business/breakCard.png';
 import Card from '../card';
 import './style.scss';
+import { navigateDetailRisk } from '@/utils';
 
 export default class Break extends React.Component {
 	constructor(props) {
@@ -34,6 +35,7 @@ export default class Break extends React.Component {
 							gmtCreate={gmtCreate}
 							customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 							text="失信记录"
+							onClick={() => navigateDetailRisk('e-manage-dishonest')}
 							styleName="break-card"
 						>
 							{!isBusiness && (

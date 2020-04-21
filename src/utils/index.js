@@ -1,4 +1,5 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import ruleMethods from './rule';
 
 export default {
@@ -227,6 +228,8 @@ export const getHrefQuery = (name) => {
 	}
 	return null;
 };
+
+
 /**
  * 对象里面有需要过滤的属性的时候调用
  * @param obj
@@ -414,6 +417,35 @@ export const generateUrlWithParams = (url, params) => {
 		urlList += `?${urlParams.join('&')}`;
 	}
 	return urlList;
+};
+
+
+/**
+ * 跳转资产的ele节点ID
+ * @param ele
+ */
+export const navigateDetail = (ele) => {
+	const id = getHrefQuery('id');
+	if (id) {
+		navigate(generateUrlWithParams('/business/debtor/detail/info/102', {
+			id,
+			ele,
+		}));
+	}
+};
+
+/**
+ * 跳转风险的ele节点ID
+ * @param ele
+ */
+export const navigateDetailRisk = (ele) => {
+	const id = getHrefQuery('id');
+	if (id) {
+		navigate(generateUrlWithParams('/business/debtor/detail/info/103', {
+			id,
+			ele,
+		}));
+	}
 };
 
 // 判断对象内属性是否为空

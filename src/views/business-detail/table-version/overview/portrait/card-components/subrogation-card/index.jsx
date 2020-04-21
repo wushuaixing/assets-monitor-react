@@ -2,6 +2,7 @@ import React from 'react';
 import SubrogationImg from '@/assets/img/business/subCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
+import { navigateDetail } from '@/utils';
 import './style.scss';
 
 export default class Subrogation extends React.Component {
@@ -9,11 +10,6 @@ export default class Subrogation extends React.Component {
 		super(props);
 		this.state = {};
 	}
-
-	handleClick = () => {
-		const { onClick } = this.props;
-		if (onClick) { onClick(); }
-	};
 
 	render() {
 		const {
@@ -30,6 +26,7 @@ export default class Subrogation extends React.Component {
 							imgCard={SubrogationImg}
 							count={allNum}
 							gmtCreate={gmtCreate}
+							onClick={() => navigateDetail('e-assets-subrogation')}
 							customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
 							text={portrait === 'debtor_personal' ? '代位权-裁判文书' : '代位权'}
 							styleName="subrogation-card"

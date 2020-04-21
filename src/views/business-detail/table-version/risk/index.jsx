@@ -179,11 +179,23 @@ class Risk extends React.Component {
 	};
 
 	handleScroll=(eleID) => {
-		const dom = document.getElementById(eleID);
+		const eList = ['e-manage-abnormal', 'e-manage-illegal', 'e-manage-tax', 'e-manage-punishment', 'e-manage-environment'];
+		let dom = '';
+		if (eleID === 'e-manage') {
+			for (let i = 0; i <= 4; i += 1) {
+				const eleIdDom = document.getElementById(eList[i]);
+				if (eleIdDom) {
+					dom = eleIdDom;
+					break;
+				}
+			}
+		} else {
+			dom = document.getElementById(eleID);
+		}
 		const { portrait } = this.props;
 		const _height = portrait === 'business' ? 190 : 155;
 		if (dom) {
-			window.scrollTo(0, document.getElementById(eleID).offsetTop - _height);
+			window.scrollTo(0, dom.offsetTop - _height);
 		}
 	};
 
