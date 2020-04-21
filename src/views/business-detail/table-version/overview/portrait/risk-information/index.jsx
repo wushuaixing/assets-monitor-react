@@ -80,7 +80,7 @@ export default class RiskInformation extends React.Component {
 			this.getRiskData(isArray, values);
 			// 个人债务人税收违法
 			this.getTaxViolationData(isArray, values);
-			console.log('all promise are resolved', values);
+			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
 		});
