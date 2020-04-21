@@ -5,7 +5,7 @@ import { Spin, Tabs, Button } from '@/common';
 import BrokenVersion from '@/views/risk-monitor/broken-record/table-version';
 import BrokenList from '@/views/business-detail/table-version/broken-list';
 import { toGetNumber, requestAll } from '@/utils/promise';
-import { getHrefQuery } from '@/utils';
+import { getHrefQuery, toGetModuleHeight as toH } from '@/utils';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -93,10 +93,12 @@ export default class Subrogation extends React.Component {
 		const {
 			config, sourceType, brokenInfo: b, modalInfo: m,
 		} = this.state;
-		const { id, portrait } = this.props;
+		const { id, portrait, data } = this.props;
+		const h = toH(sourceType, toGetNumber(data, sourceType), portrait);
 		const params = {
 			portrait,
 			sourceType,
+			loadingHeight: h,
 		};
 		return (
 			<div className="yc-inquiry-public-table" id={id}>

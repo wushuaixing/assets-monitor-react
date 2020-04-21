@@ -3,6 +3,7 @@ import { Tooltip } from 'antd';
 import { Tabs, Icon } from '@/common';
 import { Court, Trial, Judgment } from '@/views/risk-monitor/lawsuits-monitor/table-version';
 import { toGetNumber, toGetDefaultId } from '@/utils/promise';
+import { toGetModuleHeight as toH } from '@/utils';
 
 
 export default class Subrogation extends React.Component {
@@ -45,7 +46,9 @@ export default class Subrogation extends React.Component {
 
 	render() {
 		const { config, sourceType } = this.state;
-		const { id } = this.props;
+		const { id, data, portrait } = this.props;
+		const h = toH(sourceType, toGetNumber(data, sourceType), portrait);
+
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
@@ -63,9 +66,9 @@ export default class Subrogation extends React.Component {
 					)}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 20601 ? <Trial {...this.props} /> : null}
-					{sourceType === 20602 ? <Court {...this.props} /> : null}
-					{sourceType === 20603 ? <Judgment {...this.props} /> : null}
+					{sourceType === 20601 ? <Trial {...this.props} loadingHeight={h} /> : null}
+					{sourceType === 20602 ? <Court {...this.props} loadingHeight={h} /> : null}
+					{sourceType === 20603 ? <Judgment {...this.props} loadingHeight={h} /> : null}
 				</div>
 			</div>
 		);

@@ -83,10 +83,10 @@ export default class BrokenList extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

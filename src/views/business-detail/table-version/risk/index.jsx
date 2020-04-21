@@ -152,12 +152,7 @@ class Risk extends React.Component {
 	}
 
 	componentDidMount() {
-		const { toPushChild } = this.props;
-		toPushChild(this.toGetSubItems(), 103);
-		setTimeout(() => {
-			const ele = getHrefQuery('ele');
-			if (ele) this.handleScroll(ele);
-		}, 666);
+		this.toPushAndScroll();
 	}
 
 
@@ -168,12 +163,20 @@ class Risk extends React.Component {
 				this.setState({
 					config: subItems(nextProps.count, nextProps.portrait),
 				}, () => {
-					const { toPushChild } = this.props;
-					toPushChild(this.toGetSubItems(), 103);
+					this.toPushAndScroll();
 				});
 			}
 		}
 	}
+
+	toPushAndScroll = () => {
+		const { toPushChild } = this.props;
+		toPushChild(this.toGetSubItems(), 103);
+		setTimeout(() => {
+			const ele = getHrefQuery('ele');
+			if (ele) this.handleScroll(ele);
+		}, 150);
+	};
 
 	handleScroll=(eleID) => {
 		const dom = document.getElementById(eleID);
