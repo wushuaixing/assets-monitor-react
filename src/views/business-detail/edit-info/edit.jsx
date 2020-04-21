@@ -147,6 +147,7 @@ class DebtorDetail extends React.Component {
 									<Input
 										size="large"
 										placeholder="请输入相关人名称"
+										maxLength="40"
 										{...getFieldProps(`obligorName${item.id}`, {
 											id: item.id,
 											initialValue: item && item.obligorName,
@@ -162,6 +163,7 @@ class DebtorDetail extends React.Component {
 									<Input
 										size="large"
 										placeholder="请输入身份证号/统一社会信用代码"
+										maxLength="18"
 										{...getFieldProps(`obligorNumber${item.id}`, {
 											initialValue: item && item.obligorNumber,
 											onChange: (e) => {
@@ -177,7 +179,7 @@ class DebtorDetail extends React.Component {
 										style={{ width: 200 }}
 										placeholder="请选择人员"
 										size="large"
-										maxLength={30}
+										maxLength={20}
 										{...getFieldProps(`roleText${item.id}`, {
 											initialValue: item && item.roleText,
 											onChange: (e) => {
