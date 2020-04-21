@@ -2,6 +2,7 @@ import React from 'react';
 import { Affix, Modal, Icon } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
+import { getHrefQuery } from '@/utils';
 /* utils */
 import { requestAll } from '@/utils/promise';
 import { getQueryByName } from '@/utils';
@@ -75,6 +76,7 @@ export default class Enterprise extends React.Component {
 		this.state = {
 			tabConfig: source(),
 			childDom: '',
+			childDomId: '',
 			sourceType: defaultSourceType && typeStr.match(defaultSourceType[1])[0] ? Number(defaultSourceType[1]) : 101,
 			affixStatus: false,
 			loading: true,
@@ -199,9 +201,10 @@ export default class Enterprise extends React.Component {
 		console.log('handleDownload');
 	};
 
-	handleAddChild=(val) => {
+	handleAddChild=(val, id) => {
 		this.setState({
 			childDom: val,
+			childDomId: id,
 		});
 	};
 
@@ -224,13 +227,18 @@ export default class Enterprise extends React.Component {
 
 	/* tab change */
 	onSourceType=(val) => {
-		const { sourceType } = this.state;
+		const { sourceType, childDomId, childDom } = this.state;
+		console.log(val);
 		const { href } = window.location;
-		const params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
+		const eleStr = getHrefQuery('ele');
+		let params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
+		if (childDomId !== val) {
+			params = eleStr ? params.replace(eleStr, '') : params;
+		}
 		if (val !== sourceType) {
 			this.setState({
 				sourceType: val,
-				childDom: '',
+				childDom: childDomId !== val ? '' : childDom,
 			}, () => {
 				navigate(`/business/debtor/detail/info/${val}${params}`);
 			});
@@ -287,6 +295,7 @@ export default class Enterprise extends React.Component {
 							<Tabs.Simple
 								onChange={this.onSourceType}
 								source={tabConfig}
+								hashUrl
 								symbol="none"
 								defaultCurrent={sourceType}
 							/>

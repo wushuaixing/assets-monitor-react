@@ -10,6 +10,7 @@ import Lawsuit from './lawsuit';
 import LawsuitJudgment from './lawsuit-judgment';
 import Environment from './environment';
 import { roleState } from '@/utils/rule';
+import { getHrefQuery } from '@/utils';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -152,7 +153,11 @@ class Risk extends React.Component {
 
 	componentDidMount() {
 		const { toPushChild } = this.props;
-		toPushChild(this.toGetSubItems());
+		toPushChild(this.toGetSubItems(), 103);
+		setTimeout(() => {
+			const ele = getHrefQuery('ele');
+			if (ele) this.handleScroll(ele);
+		}, 500);
 	}
 
 
@@ -164,7 +169,7 @@ class Risk extends React.Component {
 					config: subItems(nextProps.count, nextProps.portrait),
 				}, () => {
 					const { toPushChild } = this.props;
-					toPushChild(this.toGetSubItems());
+					toPushChild(this.toGetSubItems(), 103);
 				});
 			}
 		}

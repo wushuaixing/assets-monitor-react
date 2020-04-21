@@ -6,7 +6,7 @@ import Router from '@/utils/Router';
 /* utils */
 import { requestAll } from '@/utils/promise';
 import {
-	getQueryByName, timeStandard, toEmpty, reviseNum, linkDetail,
+	getQueryByName, timeStandard, toEmpty, reviseNum, linkDetail, getHrefQuery,
 } from '@/utils';
 /* api collection */
 import businessAssets from '@/utils/api/professional-work/business/assets';
@@ -93,7 +93,9 @@ const EnterpriseInfo = (props) => {
 						businessPushType !== null ? (
 							<span
 								className="inquiry-list-regStatus regStatus-blue"
-								style={businessPushType ? {} : { color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6' }}
+								style={businessPushType ? { marginTop: 2 } : {
+									marginTop: 2, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+								}}
 							>
 								{'当前推送状态：'}
 								{businessPushType ? '开启' : '关闭'}
@@ -323,7 +325,9 @@ export default class Enterprise extends React.Component {
 	onSourceType=(val) => {
 		const { sourceType } = this.state;
 		const { href } = window.location;
-		const params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
+		const eleStr = getHrefQuery('ele');
+		let params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
+		params = eleStr ? params.replace(eleStr, '') : params;
 		if (val !== sourceType) {
 			this.setState({
 				sourceType: val,

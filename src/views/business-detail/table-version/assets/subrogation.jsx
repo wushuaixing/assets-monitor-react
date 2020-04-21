@@ -9,7 +9,6 @@ export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		const defaultID = toGetDefaultId(props.data);
-		console.log(props.portrait);
 		this.state = {
 			sourceType: defaultID,
 			configPersonal: [

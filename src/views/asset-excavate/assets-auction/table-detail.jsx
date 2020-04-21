@@ -182,7 +182,6 @@ export default class TableIntact extends React.Component {
 				}
 				if (str) {
 					if (portrait === 'business')str = this.toCreatALink(str, row);
-					console.log(str, row);
 					return <p dangerouslySetInnerHTML={{ __html: str }} />;
 				}
 				return '-';
