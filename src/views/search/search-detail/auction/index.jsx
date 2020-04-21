@@ -437,7 +437,7 @@ class AUCTION extends React.Component {
 				<div className="yc-query-item">
 					<Input
 						title="处置机关"
-						maxLength="40"
+						maxLength="20"
 						style={_style1}
 						size="large"
 						placeholder="处置法院/单位"

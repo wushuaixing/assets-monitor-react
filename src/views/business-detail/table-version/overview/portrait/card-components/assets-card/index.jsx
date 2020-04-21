@@ -7,6 +7,7 @@ import Card from '../card';
 import { generateUrlWithParams, getHrefQuery } from '@/utils';
 import './style.scss';
 
+
 export default class RiskInformation extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,10 +24,25 @@ export default class RiskInformation extends React.Component {
 		}
 	};
 
+	newRoleDistributions = () => {
+		const { dataSource: { auctionPropsData } } = this.props;
+		const unKnownRoleArray = [];
+		const newArray = [];
+		auctionPropsData.roleDistributions.forEach((item) => {
+			if (item.type === -1) {
+				unKnownRoleArray.push(item);
+			}
+			if (item.type !== -1) {
+				newArray.push(item);
+			}
+		});
+		return [...newArray, ...unKnownRoleArray];
+	};
+
 	render() {
 		const { portrait, dataSource: { auctionPropsData } } = this.props;
 		const roleDistributions = auctionPropsData && Array.isArray((auctionPropsData.roleDistributions)) && auctionPropsData.roleDistributions.length > 0;
-		// console.log(auctionPropsData.roleDistributions.sort(this.sortNumbers('type')));
+
 		return (
 			<React.Fragment>
 				{
@@ -54,42 +70,42 @@ export default class RiskInformation extends React.Component {
 									</div>
 									<div className="card-content-role">
 										{
-										roleDistributions && auctionPropsData.roleDistributions.map((item, index) => {
-											if (index > 1) {
-												if (index > 3) {
+											roleDistributions && this.newRoleDistributions().map((item, index) => {
+												if (index > 1) {
+													if (index > 3) {
+														return (
+															<div className="card-content-role-itemRight">
+																<span className="card-content-role-text">{item.typeName}</span>
+																<span className="card-content-role-info">：</span>
+																<span className="card-content-role-num">
+																	<span className="portrait-card-num">{item.count}</span>
+																条
+																</span>
+															</div>
+														);
+													}
 													return (
-														<div className="card-content-role-itemRight">
+														<div className="card-content-role-itemMiddle">
 															<span className="card-content-role-text">{item.typeName}</span>
 															<span className="card-content-role-info">：</span>
 															<span className="card-content-role-num">
 																<span className="portrait-card-num">{item.count}</span>
-																条
+															条
 															</span>
 														</div>
 													);
 												}
 												return (
-													<div className="card-content-role-itemMiddle">
+													<div className="card-content-role-itemLeft">
 														<span className="card-content-role-text">{item.typeName}</span>
 														<span className="card-content-role-info">：</span>
 														<span className="card-content-role-num">
 															<span className="portrait-card-num">{item.count}</span>
-															条
+														条
 														</span>
 													</div>
 												);
-											}
-											return (
-												<div className="card-content-role-itemLeft">
-													<span className="card-content-role-text">{item.typeName}</span>
-													<span className="card-content-role-info">：</span>
-													<span className="card-content-role-num">
-														<span className="portrait-card-num">{item.count}</span>
-														条
-													</span>
-												</div>
-											);
-										})
+											})
 									}
 									</div>
 								</div>

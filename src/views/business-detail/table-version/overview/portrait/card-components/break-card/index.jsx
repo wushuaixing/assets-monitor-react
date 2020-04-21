@@ -13,14 +13,17 @@ export default class Break extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				dataSource, gmtCreate, dishonestStatusArray, dataSourceNum,
+				dataSource, gmtCreate, dishonestStatusArray, dataSourceNum, debtorArray,
 			},
 		} = this.props;
 		const isDishonestStatusArray = Array.isArray(dishonestStatusArray) && dishonestStatusArray.length > 0;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
+		const isDebtorArray = debtorArray && Array.isArray((debtorArray)) && debtorArray.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
+		const newDebtorArray = isDebtorArray && debtorArray.filter(i => i.count > 0);
 		const isDishonest = isDishonestStatusArray && dishonestStatusArray && dishonestStatusArray[0].dishonestStatus === 1;
+
 		return (
 			<React.Fragment>
 				{dataSourceNum > 0
@@ -77,33 +80,32 @@ export default class Break extends React.Component {
 							)}
 							{isBusiness && (
 								<div className="business-card-content">
-									<div className="card-content-role">
+									<div className="business-card-content-role">
 										{
-											newDataSource && newDataSource.map((item, index) => {
-												console.log(item.typeName && item.typeName.length);
-												if (index > 1) {
-													return (
-														<div className="card-content-role-itemRight">
-															<span className="card-content-role-text">{item.typeName}</span>
-															<span className="card-content-role-info">：</span>
-															<span className="card-content-role-num">
-																<span className="portrait-card-num">{item.count}</span>
-																条
-															</span>
-														</div>
-													);
-												}
-												return (
-													<div className="card-content-role-itemLeft">
-														<span className="card-content-role-text">{item.typeName}</span>
-														<span className="card-content-role-info">：</span>
-														<span className="card-content-role-num">
-															<span className="portrait-card-num">{item.count}</span>
-															{item.typeName && item.typeName.length > 4 ? '名' : '条'}
-														</span>
-													</div>
-												);
-											})
+											newDebtorArray && newDebtorArray.map(item => (
+												<div className="card-content-role-itemLeft">
+													<span className="card-content-role-debtor-text">{item.typeName}</span>
+													<span className="card-content-role-info">：</span>
+													<span className="card-content-role-num">
+														<span className="portrait-card-num">{item.count}</span>
+														{/* {item.typeName && item.typeName.length > 4 ? '名' : '条'} */}
+														名
+													</span>
+												</div>
+											))
+										}
+										<div className="card-content-role-line" />
+										{
+											newDataSource && newDataSource.map(item => (
+												<div className="card-content-role-itemRight" style={newDebtorArray && newDebtorArray.length === 1 ? { bottom: '26px' } : { bottom: '56px' }}>
+													<span className="card-content-role-text">{item.typeName}</span>
+													<span className="card-content-role-info">：</span>
+													<span className="card-content-role-num">
+														<span className="portrait-card-num">{item.count}</span>
+														条
+													</span>
+												</div>
+											))
 										}
 									</div>
 								</div>
