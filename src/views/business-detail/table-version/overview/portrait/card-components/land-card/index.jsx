@@ -31,7 +31,7 @@ export default class Land extends React.Component {
 						imgCard={landImg}
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
-						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
+						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 						text="土地信息"
 						styleName="land-card"
 					>

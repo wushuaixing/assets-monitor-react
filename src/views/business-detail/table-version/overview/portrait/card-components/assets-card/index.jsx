@@ -47,11 +47,11 @@ export default class RiskInformation extends React.Component {
 								obligorTotal={auctionPropsData.obligorTotal}
 								count={auctionPropsData.count}
 								gmtCreate={auctionPropsData.gmtCreate}
-								customStyle={portrait === 'business' ? { width: '754px', height: '140px', marginBottom: '20px' } : { width: '754px', height: '120px', marginBottom: '20px' }}
+								customStyle={{ width: '754px', height: '140px', marginBottom: '20px' }}
 								text="资产拍卖"
 								styleName="assets-card"
 							>
-								<div className="card-content" style={portrait === 'business' ? { padding: '20px 0' } : {}}>
+								<div className="card-content">
 									<div className="card-content-price">
 										<img className="card-content-left-img" src={assetsPrice} alt="" />
 										<div>相关资产价值约</div>

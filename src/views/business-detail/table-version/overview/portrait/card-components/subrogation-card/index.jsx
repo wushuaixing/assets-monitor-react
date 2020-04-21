@@ -30,7 +30,7 @@ export default class Subrogation extends React.Component {
 							imgCard={SubrogationImg}
 							count={allNum}
 							gmtCreate={gmtCreate}
-							customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
+							customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 							text={portrait === 'debtor_personal' ? '代位权-裁判文书' : '代位权'}
 							styleName="subrogation-card"
 						>

@@ -20,7 +20,7 @@ export default class Bidding extends React.Component {
 						imgCard={biddingImg}
 						count={biddingNum}
 						gmtCreate={gmtCreate}
-						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
+						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 						text="招投标"
 						styleName="bidding-card"
 					>

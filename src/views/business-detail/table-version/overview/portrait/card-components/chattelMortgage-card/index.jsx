@@ -27,7 +27,7 @@ export default class ChattelMortgage extends React.Component {
 						imgCard={chattelMortgageImg}
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
-						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
+						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 						text="动产抵押"
 						styleName="chattelMortgage-card"
 					>
