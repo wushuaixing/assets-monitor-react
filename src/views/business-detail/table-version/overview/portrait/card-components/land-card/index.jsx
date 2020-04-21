@@ -31,7 +31,7 @@ export default class Land extends React.Component {
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
-		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
+		const newDataSource = isArray && dataSource.filter(i => i.count > 0).slice(0, 2);
 		return (
 			<React.Fragment>
 				{dataSourceNum > 0 ? (
