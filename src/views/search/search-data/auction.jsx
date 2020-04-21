@@ -123,7 +123,7 @@ class AUCTION extends React.PureComponent {
 					<div style={_style1} className="item">
 						<Input
 							title="处置机关"
-							maxLength="40"
+							maxLength="20"
 							placeholder="处置法院/单位"
 							{...getFieldProps('court', {
 								getValueFromEvent: e => e.trim(),

@@ -296,6 +296,7 @@ class Login extends React.Component {
 										className="yc-login-input"
 										placeholder="请输入验证码"
 										titleWidth={40}
+										maxLength="4"
 										titleIcon
 										{...getFieldProps('imageVerifyCode', {
 											validateTrigger: isIe ? 'onBlur' : 'onChange',

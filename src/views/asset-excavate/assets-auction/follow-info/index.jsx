@@ -451,7 +451,7 @@ export default class FollowInfo extends React.Component {
 													? (
 														<input
 															style={{ width: 430, padding: '0px 7px', height: '28px' }}
-															maxLength={14}
+															maxLength={12}
 															onChange={e => this.onInputChangeNew(e, 'recovery')}
 															placeholder="请输入收入金额"
 														/>

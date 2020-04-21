@@ -62,7 +62,6 @@ export default class QueryView extends React.Component {
 	/* 一键查询债务人画像 */
 	handleQuery=() => {
 		const { onQuery } = this.props;
-		const reg = new RegExp(/^[a-zA-Z0-9/-]{1,20}$/);
 		const { obligorType: type, obligorName: name, obligorNumber: number } = this.state;
 		if (type === 1) {
 			if (!name) {
@@ -82,8 +81,6 @@ export default class QueryView extends React.Component {
 		} else if (type === 2) {
 			if (!name || !number) {
 				message.error('债务人名称 或 债务人证件号 不能为空！');
-			} else if (!reg.test(number)) {
-				message.error('债务人证件号输入错误');
 			} else if (name.length < 2) {
 				message.error('债务人名称请至少输入两个字');
 			} else if (number.length < 7) {
@@ -138,6 +135,7 @@ export default class QueryView extends React.Component {
 						style={{ width: 350 }}
 						placeholder="请输入债务人名称"
 						titleWidth={100}
+						maxLength="40"
 						onChange={e => this.onHandleChange(e, 'obligorName')}
 						value={obligorName}
 					/>
@@ -154,6 +152,7 @@ export default class QueryView extends React.Component {
 								size="large"
 								placeholder="请输入债务人证件号"
 								titleWidth={100}
+								maxLength="18"
 								style={{ width: 350 }}
 								onChange={e => this.onHandleChange(e, 'obligorNumber')}
 								value={obligorNumber}

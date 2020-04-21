@@ -109,14 +109,15 @@ export default class RiskInformation extends React.Component {
 			} = res.data;
 
 			const dataSource = [];
+			const debtorArray = [];
 			const isOligorStatusList = Array.isArray(obligorStatusList) && obligorStatusList.length > 0;
 			const isDishonest = isOligorStatusList ? obligorStatusList.filter(item => item.dishonestStatus === 1).length : 0; // 已失信
 			const beforeDishonest = isOligorStatusList ? obligorStatusList.filter(item => item.dishonestStatus === 2).length : 0; // 曾失信
 
 			// console.log(isDishonest, 11, beforeDishonest);
 			if (isBusiness) {
-				dataSource.push({ count: beforeDishonest, typeName: '曾失信债务人' });
-				dataSource.push({ count: isDishonest, typeName: '已失信债务人' });
+				debtorArray.push({ count: beforeDishonest, typeName: '曾失信债务人' });
+				debtorArray.push({ count: isDishonest, typeName: '已失信债务人' });
 				dataSource.push({ count: included, typeName: '列入' });
 				dataSource.push({ count: remove, typeName: '已移除' });
 			} else {
@@ -129,6 +130,7 @@ export default class RiskInformation extends React.Component {
 				removeNum: remove, // 移除数量
 				includedNum: included, // 列入数量
 				dataSource,
+				debtorArray,
 				gmtCreate,
 				dataSourceNum,
 				dishonestStatusArray: obligorStatusList || [],

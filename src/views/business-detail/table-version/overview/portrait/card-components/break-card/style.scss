@@ -57,10 +57,12 @@
     padding: 43px 0 43px 34px;
     position: relative;
     line-height: 16px;
-
+    .business-card-content-role {
+      position: relative;
+    }
     .card-content-role-text {
       display: inline-block;
-      width: 75px;
+      width: 45px;
       text-align: justify;
       text-justify: distribute-all-lines;
       text-align-last: justify;
@@ -88,15 +90,22 @@
         padding-top: 0;
       }
     }
-
+    .card-content-role-line {
+      width: 1px;
+      height: 46px;
+      background-color: #f0f0f0;
+      position: absolute;
+      left: 140px;
+      top: 0;
+    }
     .card-content-role-itemRight {
       padding-top: 16px;
       font-size: 12px;
       line-height: 12px;
       color: #4E5566;
-      margin-left: 160px;
+      margin-left: 180px;
       position: relative;
-      bottom: 56px;
+      //bottom: 56px;
       &:first-child {
         padding-top: 0;
       }

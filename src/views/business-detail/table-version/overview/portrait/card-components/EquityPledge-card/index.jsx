@@ -36,7 +36,7 @@ export default class EquityPledge extends React.Component {
 									<div className="card-content-role-itemLeft">
 										<img className="card-left-img" src={matching} alt="" />
 										<span className="portrait-card-num">{obligorTotal}</span>
-										人匹配到无形资产
+										人匹配到股权质押信息
 									</div>
 								) : null}
 								{
