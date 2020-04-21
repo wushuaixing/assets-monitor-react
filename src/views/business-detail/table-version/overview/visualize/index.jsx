@@ -47,6 +47,7 @@ export default class Visualize extends React.Component {
 			BankruptcyCount: 0,
 			DishonestCount: 0,
 			BusinessRiskCount: 0,
+			TaxCount: 0,
 		};
 	}
 
@@ -210,7 +211,6 @@ export default class Visualize extends React.Component {
 		const {
 			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, TaxCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
 		} = this.state;
-		// console.log(litigationInfos, 123123);
 		return (
 			<div className="visualize-overview">
 				<div className="visualize-overview-line" />
@@ -249,7 +249,7 @@ export default class Visualize extends React.Component {
 					<div className="yc-overview-title">风险信息</div>
 					<div className="yc-overview-container">
 						{
-							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0 && (portrait === 'debtor_personal' && TaxCount === 0)
+							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0 && TaxCount === 0
 							&& litigationInfos && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0
 							&& (
 								<Spin visible={litigationLoading}>
