@@ -16,10 +16,11 @@ export default class Break extends React.Component {
 				dataSource, gmtCreate, dishonestStatusArray, dataSourceNum,
 			},
 		} = this.props;
+		const isDishonestStatusArray = Array.isArray(dishonestStatusArray) && dishonestStatusArray.length > 0;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
-		const isDishonest = dishonestStatusArray && dishonestStatusArray[0].dishonestStatus === 1;
+		const isDishonest = isDishonestStatusArray && dishonestStatusArray && dishonestStatusArray[0].dishonestStatus === 1;
 		return (
 			<React.Fragment>
 				{dataSourceNum > 0

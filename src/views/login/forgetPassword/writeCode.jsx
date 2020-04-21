@@ -123,6 +123,7 @@ openModal = () => {
 									maxlength={4}
 									{...getFieldProps('phoneCode', {
 										validateTrigger: 'onBlur',
+										getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z]/g, ''),
 										// rules: [
 										// 	{
 										// 		required: true,

@@ -22,7 +22,6 @@ export default class Subrogation extends React.Component {
 			},
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
-
 		return (
 			<React.Fragment>
 				{
@@ -32,7 +31,7 @@ export default class Subrogation extends React.Component {
 							count={allNum}
 							gmtCreate={gmtCreate}
 							customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
-							text="代位权"
+							text={portrait === 'debtor_personal' ? '代位权-裁判文书' : '代位权'}
 							styleName="subrogation-card"
 						>
 							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
@@ -50,7 +49,7 @@ export default class Subrogation extends React.Component {
 											<span className="card-content-role-info">：</span>
 											<span className="card-content-role-num">
 												<span className="portrait-card-num">{execute}</span>
-											条
+												条
 											</span>
 
 											{restore > 0 ? (
