@@ -4,10 +4,7 @@ import { parseQuery } from '@/utils';
 import Badge from '../badge';
 import './style.scss';
 
-const toGetDefaultActive = (props = {}) => {
-	const {
-		source, field, defaultCurrent, hashUrl,
-	} = props;
+const toGetDefaultActive = (source, field, defaultCurrent, hashUrl) => {
 	const { hash } = window.location;
 	if (source && source.length > 0) {
 		if (hashUrl) {
@@ -30,7 +27,10 @@ const numUnit = val => (val > 10000 ? `${(val / 10000).toFixed(1)}万` : val);
 class SimpleTab extends React.Component {
 	constructor(props) {
 		super(props);
-		const active = toGetDefaultActive(props) || props.defaultCurrent;
+		const {
+			source, field, defaultCurrent, hashUrl,
+		} = props;
+		const active = toGetDefaultActive(source, field, defaultCurrent, hashUrl) || props.defaultCurrent;
 		this.state = {
 			active,
 		};
@@ -52,7 +52,10 @@ class SimpleTab extends React.Component {
 	onHashChange=() => {
 		const { active } = this.state;
 		const { onChange } = this.props;
-		const res = toGetDefaultActive(this.props);
+		const {
+			source, field, defaultCurrent, hashUrl,
+		} = this.props;
+		const res = toGetDefaultActive(source, field, defaultCurrent, hashUrl);
 		if (res !== active) {
 			this.setState({ active: res });
 			this.active = res;

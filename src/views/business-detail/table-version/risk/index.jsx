@@ -157,7 +157,7 @@ class Risk extends React.Component {
 		setTimeout(() => {
 			const ele = getHrefQuery('ele');
 			if (ele) this.handleScroll(ele);
-		}, 500);
+		}, 666);
 	}
 
 

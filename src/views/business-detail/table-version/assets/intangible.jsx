@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs } from '@/common';
 import { toGetDefaultId, toGetNumber } from '@/utils/promise';
 import IntAssets from '@/views/asset-excavate/intangible-assets/table-version';
+import { toGetModuleHeight as toH } from '@/utils';
 
 export default class Intangible extends React.Component {
 	constructor(props) {
@@ -49,7 +50,8 @@ export default class Intangible extends React.Component {
 
 	render() {
 		const { config, type: sourceType } = this.state;
-		const { id, portrait } = this.props;
+		const { id, portrait, data } = this.props;
+		const h = toH(sourceType, toGetNumber(data, sourceType), portrait);
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
@@ -60,10 +62,10 @@ export default class Intangible extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">无形资产</div>}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 10401 ? <IntAssets.YC020701 portrait={portrait} /> : null}
-					{sourceType === 10402 ? <IntAssets.YC020702 portrait={portrait} /> : null}
-					{sourceType === 10403 ? <IntAssets.YC020703 portrait={portrait} /> : null}
-					{sourceType === 10404 ? <IntAssets.YC020704 portrait={portrait} /> : null}
+					{sourceType === 10401 ? <IntAssets.YC020701 portrait={portrait} loadingHeight={h} /> : null}
+					{sourceType === 10402 ? <IntAssets.YC020702 portrait={portrait} loadingHeight={h} /> : null}
+					{sourceType === 10403 ? <IntAssets.YC020703 portrait={portrait} loadingHeight={h} /> : null}
+					{sourceType === 10404 ? <IntAssets.YC020704 portrait={portrait} loadingHeight={h} /> : null}
 				</div>
 			</div>
 		);

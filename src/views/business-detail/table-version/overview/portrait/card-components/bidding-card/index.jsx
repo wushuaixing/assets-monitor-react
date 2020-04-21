@@ -1,4 +1,6 @@
 import React from 'react';
+import { navigate } from '@reach/router';
+import { generateUrlWithParams, getHrefQuery } from '@/utils';
 import biddingImg from '@/assets/img/business/BiddingCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
@@ -9,6 +11,16 @@ export default class Bidding extends React.Component {
 		super(props);
 		this.state = {};
 	}
+
+	handleClick = () => {
+		const id = getHrefQuery('id');
+		if (id) {
+			navigate(generateUrlWithParams('/business/debtor/detail/info/102', {
+				id,
+				ele: 'e-assets-bidding',
+			}));
+		}
+	};
 
 	render() {
 		const { portrait, dataSource: { biddingNum, gmtCreate, obligorTotal } } = this.props;
@@ -22,6 +34,7 @@ export default class Bidding extends React.Component {
 						gmtCreate={gmtCreate}
 						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
 						text="招投标"
+						onClick={this.handleClick}
 						styleName="bidding-card"
 					>
 						<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>

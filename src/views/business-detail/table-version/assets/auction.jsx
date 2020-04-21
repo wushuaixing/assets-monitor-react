@@ -3,13 +3,16 @@ import { Switch } from 'antd';
 import { Tabs } from '@/common';
 import Table from '@/views/asset-excavate/assets-auction/table-detail';
 import { toGetNumber } from '@/utils/promise';
+import { toGetModuleHeight } from '@/utils';
 
 export default class Auction extends React.Component {
 	constructor(props) {
 		super(props);
+		const sourceType = toGetNumber(props.data, 10101) ? 10101 : 10102;
+		this.sourceNumber = toGetNumber(props.data, sourceType);
 		this.state = {
 			ignored: false,
-			sourceType: toGetNumber(props.data, 10101) ? 10101 : 10102,
+			sourceType,
 			config: [{
 				id: 10101,
 				name: '精准匹配',
@@ -51,6 +54,7 @@ export default class Auction extends React.Component {
 			sourceType,
 			onCountChange: this.onCountChange,
 		};
+		const h = toGetModuleHeight(sourceType, this.sourceNumber, portrait);
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
@@ -67,7 +71,7 @@ export default class Auction extends React.Component {
 					)}
 				/>
 				<div className="inquiry-public-table">
-					<Table {...params} />
+					<Table {...params} loadingHeight={h} />
 				</div>
 			</div>
 		);

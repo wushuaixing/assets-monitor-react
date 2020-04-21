@@ -1,15 +1,28 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import { toThousands } from '@/utils/changeTime';
 import chattelMortgageImg from '@/assets/img/business/chattelMortgageCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
+import { generateUrlWithParams, getHrefQuery } from '@/utils';
 import './style.scss';
+
 
 export default class ChattelMortgage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
 	}
+
+	handleClick = () => {
+		const id = getHrefQuery('id');
+		if (id) {
+			navigate(generateUrlWithParams('/business/debtor/detail/info/102', {
+				id,
+				ele: 'e-assets-chattel',
+			}));
+		}
+	};
 
 	render() {
 		const {
@@ -24,6 +37,7 @@ export default class ChattelMortgage extends React.Component {
 			<React.Fragment>
 				{dataSourceNum > 0 ? (
 					<Card
+						onClick={this.handleClick}
 						imgCard={chattelMortgageImg}
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}

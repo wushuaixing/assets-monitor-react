@@ -131,7 +131,7 @@ class Assets extends React.Component {
 		setTimeout(() => {
 			const ele = getHrefQuery('ele');
 			if (ele) this.handleScroll(ele);
-		}, 1000);
+		}, 400);
 	}
 
 	componentWillReceiveProps(nextProps) {

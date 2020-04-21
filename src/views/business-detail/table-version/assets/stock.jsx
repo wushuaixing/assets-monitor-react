@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs } from '@/common';
 import { Pledge, Mortgage } from '@/views/asset-excavate/financial-assets/table-version';
 import { toGetNumber, toGetDefaultId } from '@/utils/promise';
+import { toGetModuleHeight as toH } from '@/utils';
 
 export default class Stock extends React.Component {
 	constructor(props) {
@@ -37,7 +38,8 @@ export default class Stock extends React.Component {
 
 	render() {
 		const { config, sourceType } = this.state;
-		const { id, portrait } = this.props;
+		const { id, portrait, data } = this.props;
+		const h = toH(sourceType, toGetNumber(data, sourceType), portrait);
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
@@ -48,8 +50,8 @@ export default class Stock extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">股权质押</div>}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 10501 ? <Pledge portrait={portrait} /> : null}
-					{sourceType === 10502 ? <Mortgage portrait={portrait} /> : null}
+					{sourceType === 10501 ? <Pledge portrait={portrait} loadingHeight={h} /> : null}
+					{sourceType === 10502 ? <Mortgage portrait={portrait} loadingHeight={h} /> : null}
 				</div>
 			</div>
 		);
