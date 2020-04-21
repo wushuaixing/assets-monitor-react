@@ -288,7 +288,7 @@ function exportTemplate(source, exportType, name) {
 								var result = [];
 								if (i.gender === 1) result.push('男');
 								if (i.gender === 2) result.push('女');
-								if (i.birthday) result.push(i.birthday);
+								if (i.birthday) result.push(f.time(i.birthday));
 								childStr.push(i.name + "(" + result.join(" ") + ")");
 							} else {
 								childStr.push(i.name)
@@ -529,7 +529,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.tag(i.caseType, 'case-tag')
 						+ f.tag(i.caseReason)
 						+ f.normalList([
-							[{t: '判决日期', cot: i.gmtJudgment}, {t: '发布日期', cot: i.gmtPublish}],
+							[{t: '判决日期', cot: f.time(i.gmtJudgment)}, {t: '发布日期', cot: f.time(i.gmtPublish)}],
 						])
 						+ f.partiesList(f.handleParties(i.parties))
 						+ "</td><td>" + f.normalList([
@@ -548,7 +548,7 @@ function exportTemplate(source, exportType, name) {
 							{cot: (w(i.administrativeRegion) + ' ' + w(i.landAddress))},
 							{t: '土地使用权人', cot: i.obligorName, ET: ET},
 							[
-								{t: '签订日期', cot: i.singedTime},
+								{t: '签订日期', cot: f.time(i.singedTime)},
 								{t: '面积', cot: w(i.landArea, {unit: '公顷'})},
 								{t: '使用年限', cot: w(i.transferTerm, {unit: '年'})},
 							]
@@ -571,7 +571,7 @@ function exportTemplate(source, exportType, name) {
 						+ f.partiesList(f.handleParties(i.parties))
 						+ f.normalList([
 							[
-								{t: '成交日期', cot: i.dealingTime,},
+								{t: '成交日期', cot: f.time(i.dealingTime),},
 								{t: '面积', cot: w(i.landArea, {unit: '公顷'})},
 								{t: '使用年限', cot: w(i.transferTerm, {unit: '年'})}
 							]
@@ -686,12 +686,12 @@ function exportTemplate(source, exportType, name) {
 							[
 								{t: '出质人', cot: (i.pledgorList ? map(i.pledgorList, 'pledgor').join('、') : '-'), ET: ET},
 								{t: '质权人', cot: (i.pledgeeList ? map(i.pledgeeList, 'pledgee').join('、') : '-')},
-								{t: '出质股权数额', cot: w(i.consultPrice, {unit: '万人民币'})},
+								{t: '出质股权数额', cot: w(i.equityAmount)},
 							],
 						])
 						+ "</td><td>" + f.normalList([
 							{
-								cot: w((i.state === 0 ? '有效' : '无效'), {unit: (i.state === 0 ? '（<u>匹配日期:</u>****）' : '')}),
+								cot: w((i.state === 0 ? '有效' : '无效'), {unit: (i.state === 0 ? '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）' : '')}),
 								dot: i.state === 0 ? 'success' : 'dot'
 							},
 							{t: '登记编号', cot: w(i.regNumber)},
@@ -708,12 +708,12 @@ function exportTemplate(source, exportType, name) {
 							[
 								{t: '质权人', cot: (i.pledgeeList ? map(i.pledgeeList, 'pledgee').join('、') : '-'), ET: ET},
 								{t: '出质人', cot: (i.pledgorList ? map(i.pledgorList, 'pledgor').join('、') : '-')},
-								{t: '出质股权数额', cot: w(i.consultPrice, {unit: '万人民币'})},
+								{t: '出质股权数额', cot: w(i.equityAmount)},
 							],
 						])
 						+ "</td><td>" + f.normalList([
 							{
-								cot: w((i.state === 0 ? '有效' : '无效'), {unit: (i.state === 0 ? '（<u>匹配日期:</u>****）' : '')}),
+								cot: w((i.state === 0 ? '有效' : '无效'), {unit: (i.state === 0 ? '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）' : '')}),
 								dot: i.state === 0 ? 'success' : 'dot'
 							},
 							{t: '登记编号', cot: w(i.regNumber)},
@@ -999,7 +999,7 @@ function exportTemplate(source, exportType, name) {
 					f.normalList([
 						[
 							{t: '借款人', cot: item.legalPersonName},
-							{t: '证件号/统一社会信用代码', cot: w(item.regCapital, {unit: '万人民币'})},
+							{t: '证件号/统一社会信用代码', cot: w(item.regCapital)},
 							{t: '借款人推送状态', cot: w(item.obligorPushType ? '开启' : '关闭')},
 						],
 						[

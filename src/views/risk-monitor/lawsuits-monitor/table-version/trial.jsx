@@ -3,9 +3,7 @@ import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
 import { Ellipsis, Spin, Table } from '@/common';
 import associationLink from '@/views/_common/association-link';
-import {
-	timeStandard, toEmpty, linkDom, getCaseType,
-} from '@/utils';
+import { timeStandard, toEmpty, getCaseType } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 export default class TableIntact extends React.Component {
@@ -36,7 +34,7 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							{row.caseNumber ? linkDom(row.url, row.caseNumber.replace('（', '( ')) : '-'}
+							<Ellipsis content={toEmpty(row.title)} url={row.url} tooltip width={300} />
 						</span>
 						{ row.caseType ? <span className="yc-case-type">{getCaseType(row.caseType)}</span> : ''}
 					</li>
@@ -112,10 +110,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

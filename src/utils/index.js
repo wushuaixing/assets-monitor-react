@@ -1,4 +1,5 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import ruleMethods from './rule';
 
 export default {
@@ -227,6 +228,8 @@ export const getHrefQuery = (name) => {
 	}
 	return null;
 };
+
+
 /**
  * 对象里面有需要过滤的属性的时候调用
  * @param obj
@@ -416,6 +419,35 @@ export const generateUrlWithParams = (url, params) => {
 	return urlList;
 };
 
+
+/**
+ * 跳转资产的ele节点ID
+ * @param ele
+ */
+export const navigateDetail = (ele) => {
+	const id = getHrefQuery('id');
+	if (id) {
+		navigate(generateUrlWithParams('/business/debtor/detail/info/102', {
+			id,
+			ele,
+		}));
+	}
+};
+
+/**
+ * 跳转风险的ele节点ID
+ * @param ele
+ */
+export const navigateDetailRisk = (ele) => {
+	const id = getHrefQuery('id');
+	if (id) {
+		navigate(generateUrlWithParams('/business/debtor/detail/info/103', {
+			id,
+			ele,
+		}));
+	}
+};
+
 // 判断对象内属性是否为空
 export const objectKeyIsEmpty = (obj) => {
 	let empty;
@@ -484,4 +516,52 @@ export const reviseNum = (value) => {
 		return value;
 	}
 	return value;
+};
+
+
+/**
+ * 获取指定模块高度，仅业务详情页有效
+ * @param id
+ * @param number
+ * @param portrait
+ */
+export const toGetModuleHeight = (id = 0, number = 0, portrait = '') => {
+	const paginationHeight = 76;
+	if (/business|debtor_(enterprise|personal)/.test(portrait) && number && id) {
+		const isD = portrait !== 'business';
+		let sH = 0;
+		switch (id) {
+		case 10101:
+		case 10102: sH = 102; break;
+		case 10401: sH = 90; break;
+		case 10402: sH = 89; break;
+		case 10403: sH = isD ? 45 : 67; break;
+		case 10404: sH = isD ? 89 : 112; break;
+		case 10301: sH = isD ? 91 : 113; break;
+		case 10302: sH = isD ? 89 : 112; break;
+		case 10303: sH = isD ? 89 : 112; break;
+		case 10201:
+		case 10202:
+		case 10203: sH = 91; break;
+		case 10501:
+		case 10502: sH = 89; break;
+		case 10601:
+		case 10602: sH = 111; break;
+		case 10701: sH = isD ? 48 : 70; break;
+		case 30201: sH = 69; break;
+		case 20401: sH = 89; break;
+		case 20402: sH = 89; break;
+		case 20601:
+		case 20602:
+		case 20603: sH = 91; break;
+		case 30301: sH = 113; break;
+		case 30401: sH = isD ? 91 : 113; break;
+		case 30501: sH = isD ? 91 : 113; break;
+		case 30601: sH = isD ? 91 : 113; break;
+		case 30701: sH = isD ? 48 : 70; break;
+		default: sH = 0;
+		}
+		return sH ? (number >= 5 ? 5 : number) * sH + paginationHeight : null;
+	}
+	return null;
 };

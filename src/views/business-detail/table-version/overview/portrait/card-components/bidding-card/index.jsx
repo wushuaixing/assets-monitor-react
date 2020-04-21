@@ -1,4 +1,5 @@
 import React from 'react';
+import { navigateDetail } from '@/utils';
 import biddingImg from '@/assets/img/business/BiddingCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
@@ -22,6 +23,7 @@ export default class Bidding extends React.Component {
 						gmtCreate={gmtCreate}
 						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 						text="招投标"
+						onClick={() => navigateDetail('e-assets-bidding')}
 						styleName="bidding-card"
 					>
 						<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>

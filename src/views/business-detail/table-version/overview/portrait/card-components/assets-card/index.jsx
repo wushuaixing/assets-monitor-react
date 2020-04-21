@@ -1,8 +1,10 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import { toThousands } from '@/utils/changeTime';
 import img from '@/assets/img/business/assestCard.png';
 import assetsPrice from '@/assets/img/business/assets_price.png';
 import Card from '../card';
+import { generateUrlWithParams, getHrefQuery } from '@/utils';
 import './style.scss';
 
 
@@ -13,8 +15,13 @@ export default class RiskInformation extends React.Component {
 	}
 
 	handleClick = () => {
-		const { onClick } = this.props;
-		if (onClick) { onClick(); }
+		const id = getHrefQuery('id');
+		if (id) {
+			navigate(generateUrlWithParams('/business/debtor/detail/info/102', {
+				id,
+				ele: 'e-assets-auction',
+			}));
+		}
 	};
 
 	newRoleDistributions = () => {
@@ -49,6 +56,7 @@ export default class RiskInformation extends React.Component {
 								gmtCreate={auctionPropsData.gmtCreate}
 								customStyle={{ width: '754px', height: '140px', marginBottom: '20px' }}
 								text="资产拍卖"
+								onClick={this.handleClick}
 								styleName="assets-card"
 							>
 								<div className="card-content">

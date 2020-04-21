@@ -86,7 +86,7 @@ export default class Info extends React.Component {
 
 	componentWillMount() {
 		const { toPushChild } = this.props;
-		toPushChild(this.toGetSubItems());
+		toPushChild(this.toGetSubItems(), 105);
 	}
 
 	componentDidMount() {
@@ -98,14 +98,13 @@ export default class Info extends React.Component {
 			id: urlValue.id || -999999,
 		};
 		getCount(params).then((res) => {
-			console.log(res);
 			if (res.code === 200) {
 				this.setState({
 					data: res.data,
 					loading: false,
 					tabConfig: subItems(res.data),
 				}, () => {
-					toPushChild(this.toGetSubItems());
+					toPushChild(this.toGetSubItems(), 105);
 				});
 			} else {
 				const data = {
@@ -123,7 +122,7 @@ export default class Info extends React.Component {
 					loading: false,
 					tabConfig: subItems(data),
 				}, () => {
-					toPushChild(this.toGetSubItems());
+					toPushChild(this.toGetSubItems(), 105);
 				});
 			}
 		});

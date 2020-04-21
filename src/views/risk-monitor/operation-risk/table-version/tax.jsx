@@ -64,7 +64,7 @@ export default class TableIntact extends React.Component {
 			if (i.identityType === 1) res.showTaxpayer = false;
 			if (i.obligorId) res.identityType = i.identityType;
 			r.party = r.name <= 4 ? `${r.name + r.idNumber && `(${r.idNumber})`}` : r.name;
-			r.identityStr = r.identityType !== 1 ? toGetIdentityType(r.identityType) : '';
+			r.identityStr = toGetIdentityType(r.identityType);
 			if (i.obligorId === Number(id)) {
 				if (i.identityType === 1) res.showTaxpayerDebtor = false;
 				res.identityTypePartyStr = r.identityStr;
@@ -101,7 +101,7 @@ export default class TableIntact extends React.Component {
 				},
 			}, {
 				title: '辅助信息',
-				width: 300,
+				width: 360,
 				render: (value, row) => {
 					const source = this.toShowIdentityType(row);
 					const taxpayer = row.taxpayers.join('、');
@@ -177,10 +177,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

@@ -29,7 +29,7 @@ export default class Overview extends React.Component {
 
 	componentDidMount() {
 		const { toPushChild } = this.props;
-		toPushChild(this.toGetSubItems());
+		toPushChild(this.toGetSubItems(), 101);
 	}
 
 	toChangeItemType = (item) => {
@@ -38,7 +38,7 @@ export default class Overview extends React.Component {
 		this.setState({ active: item.id }, () => {
 			window.scrollTo(0, 0);
 			const { toPushChild } = this.props;
-			toPushChild(this.toGetSubItems());
+			toPushChild(this.toGetSubItems(), 101);
 		});
 	};
 

@@ -3,13 +3,12 @@ import { Tooltip } from 'antd';
 import { Tabs, Icon } from '@/common';
 import { Court, Trial, Judgment } from '@/views/asset-excavate/subrogation/table-version';
 import { toGetNumber, toGetDefaultId } from '@/utils/promise';
-
+import { toGetModuleHeight as toH } from '@/utils';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
 		const defaultID = toGetDefaultId(props.data);
-		console.log(props.portrait);
 		this.state = {
 			sourceType: defaultID,
 			configPersonal: [
@@ -55,7 +54,8 @@ export default class Subrogation extends React.Component {
 
 	render() {
 		const { config, configPersonal, sourceType } = this.state;
-		const { id, portrait } = this.props;
+		const { id, portrait, data } = this.props;
+		const h = toH(sourceType, toGetNumber(data, sourceType), portrait);
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
@@ -73,9 +73,9 @@ export default class Subrogation extends React.Component {
 					)}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 10201 ? <Trial portrait={portrait} /> : null}
-					{sourceType === 10202 ? <Court portrait={portrait} /> : null}
-					{sourceType === 10203 ? <Judgment portrait={portrait} /> : null}
+					{sourceType === 10201 ? <Trial portrait={portrait} loadingHeight={h} /> : null}
+					{sourceType === 10202 ? <Court portrait={portrait} loadingHeight={h} /> : null}
+					{sourceType === 10203 ? <Judgment portrait={portrait} loadingHeight={h} /> : null}
 				</div>
 			</div>
 		);

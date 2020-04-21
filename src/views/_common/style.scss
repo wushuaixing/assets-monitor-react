@@ -68,10 +68,9 @@
   }
 }
 .yc-party-crosswise{
-  line-height: 1;
+  line-height: 20px;
   .detail-style{
-    vertical-align: top;
-    line-height: 17px;
+    line-height: 20px;
     display: inline-block;
     margin-left: 5px;
   }
@@ -92,7 +91,7 @@
     }
     .party-info-status-wait{
       position: absolute;
-      top: 2px;
+      top: 0;
       right: -13px;
       height: 16px;
       width: auto;

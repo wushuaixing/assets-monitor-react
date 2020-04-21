@@ -182,7 +182,6 @@ export default class TableIntact extends React.Component {
 				}
 				if (str) {
 					if (portrait === 'business')str = this.toCreatALink(str, row);
-					console.log(str, row);
 					return <p dangerouslySetInnerHTML={{ __html: str }} />;
 				}
 				return '-';
@@ -288,9 +287,10 @@ export default class TableIntact extends React.Component {
 		const {
 			dataSource, current, total, historyInfoModalData, loading, historyInfoModalVisible, followInfoID, followVisible,
 		} = this.state;
+		const { loadingHeight } = this.props;
 		return (
 			<div className="yc-assets-auction ">
-				<Spin visible={loading}>
+				<Spin visible={loading} minHeight={loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

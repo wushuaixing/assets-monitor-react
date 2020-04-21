@@ -1,6 +1,7 @@
 import React from 'react';
 import involvedImg from '@/assets/img/business/InvolvedCard.png';
 import Card from '../card';
+import { navigateDetailRisk } from '@/utils';
 import './style.scss';
 
 export default class Involved extends React.Component {
@@ -27,6 +28,7 @@ export default class Involved extends React.Component {
 						gmtCreate={gmtCreate}
 						customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 						text={portrait === 'debtor_personal' ? '涉诉信息-裁判文书' : '涉诉信息'}
+						onClick={() => navigateDetailRisk('e-manage-lawsuits')}
 						styleName="Involved-card"
 					>
 						<div className="card-content" style={isBusiness ? { height: '20px' } : {}}>

@@ -14,11 +14,11 @@ export default class RiskInformation extends React.Component {
 
 	render() {
 		const {
-			imgCard, gmtCreate, count, text, children, styleName, customStyle, tooltipText, portrait, obligorTotal,
+			imgCard, gmtCreate, count, text, children, styleName, customStyle, tooltipText, portrait, obligorTotal, onClick,
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		return (
-			<div className={styleName || 'business-card-content'} style={customStyle}>
+			<div className={styleName || 'business-card-content'} style={customStyle} onClick={() => onClick && onClick()}>
 				<div className="card-header">
 					<div className="card-header-left">
 						<img className="card-left-img" src={imgCard || img} alt="" />

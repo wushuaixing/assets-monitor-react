@@ -4,9 +4,15 @@ import { parseQuery } from '@/utils';
 import Badge from '../badge';
 import './style.scss';
 
-const toGetDefaultActive = (source, field, defaultCurrent) => {
+const toGetDefaultActive = (source, field, defaultCurrent, hashUrl) => {
 	const { hash } = window.location;
 	if (source && source.length > 0) {
+		if (hashUrl) {
+			const toTest = path => new RegExp(path.replace(/\/\*/, '')).test(hash);
+			const res = source.filter(i => toTest(i.path));
+			if (res.length > 1) return res[1].id;
+			return res[0].id;
+		}
 		if (field) {
 			const res = parseQuery(hash)[field];
 			const r = (Number.isNaN(res * 1) ? res : Number(res)) || -100;
@@ -21,7 +27,10 @@ const numUnit = val => (val > 10000 ? `${(val / 10000).toFixed(1)}万` : val);
 class SimpleTab extends React.Component {
 	constructor(props) {
 		super(props);
-		const active = toGetDefaultActive(props.source, props.field, props.defaultCurrent) || props.defaultCurrent;
+		const {
+			source, field, defaultCurrent, hashUrl,
+		} = props;
+		const active = toGetDefaultActive(source, field, defaultCurrent, hashUrl) || props.defaultCurrent;
 		this.state = {
 			active,
 		};
@@ -42,10 +51,11 @@ class SimpleTab extends React.Component {
 
 	onHashChange=() => {
 		const { active } = this.state;
+		const { onChange } = this.props;
 		const {
-			source, field, onChange, defaultCurrent,
+			source, field, defaultCurrent, hashUrl,
 		} = this.props;
-		const res = toGetDefaultActive(source, field, defaultCurrent);
+		const res = toGetDefaultActive(source, field, defaultCurrent, hashUrl);
 		if (res !== active) {
 			this.setState({ active: res });
 			this.active = res;
