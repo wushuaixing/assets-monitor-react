@@ -427,7 +427,9 @@ export const generateUrlWithParams = (url, params) => {
 export const navigateDetail = (ele) => {
 	const id = getHrefQuery('id');
 	if (id) {
-		navigate(generateUrlWithParams('/business/debtor/detail/info/102', {
+		const { hash } = window.location;
+		const base = /business\/debtor\/detail/.test(hash) ? '/business/debtor/detail' : '/business/detail';
+		navigate(generateUrlWithParams(`${base}/info/102`, {
 			id,
 			ele,
 		}));
@@ -441,7 +443,9 @@ export const navigateDetail = (ele) => {
 export const navigateDetailRisk = (ele) => {
 	const id = getHrefQuery('id');
 	if (id) {
-		navigate(generateUrlWithParams('/business/debtor/detail/info/103', {
+		const { hash } = window.location;
+		const base = /business\/debtor\/detail/.test(hash) ? '/business/debtor/detail' : '/business/detail';
+		navigate(generateUrlWithParams(`${base}/info/103`, {
 			id,
 			ele,
 		}));
