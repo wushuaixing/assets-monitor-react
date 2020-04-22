@@ -225,13 +225,12 @@ export default class Enterprise extends React.Component {
 	};
 
 	/* tab change */
-	onSourceType=(val) => {
+	onSourceType=(val, item) => {
 		const { sourceType, childDom } = this.state;
-		console.log(val);
 		const { href } = window.location;
 		const eleStr = getHrefQuery('ele');
 		let params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
-		if (this.childDomId !== val) {
+		if (item) {
 			params = eleStr ? params.replace(eleStr, '') : params;
 		}
 		if (val !== sourceType) {
