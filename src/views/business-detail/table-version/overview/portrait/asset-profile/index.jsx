@@ -263,17 +263,17 @@ export default class AssetProfile extends React.Component {
 								{/* 资产拍卖 */}
 								{Object.keys(auctionPropsData).length !== 0 && <AssetsCard dataSource={auctionPropsData} portrait={portrait} />}
 								{/* 土地信息 */}
-								{Object.keys(landPropsData).length !== 0 && <LandCard dataSource={landPropsData} portrait={portrait} />}
+								{portrait !== 'debtor_personal' && Object.keys(landPropsData).length !== 0 && <LandCard dataSource={landPropsData} portrait={portrait} />}
 								{/* 无形资产 */}
-								{Object.keys(intangiblePropsData).length !== 0 && <Intangible dataSource={intangiblePropsData} portrait={portrait} />}
+								{portrait !== 'debtor_personal' && Object.keys(intangiblePropsData).length !== 0 && <Intangible dataSource={intangiblePropsData} portrait={portrait} />}
 								{/* 代位权 */}
 								{Object.keys(subrogationPropsData).length !== 0 && <Subrogation dataSource={subrogationPropsData} portrait={portrait} />}
 								{/* 股权质押 */}
-								{Object.keys(stockPropsData).length !== 0 && <EquityPledge dataSource={stockPropsData} portrait={portrait} />}
+								{portrait !== 'debtor_personal' && Object.keys(stockPropsData).length !== 0 && <EquityPledge dataSource={stockPropsData} portrait={portrait} />}
 								{/* 动产抵押 */}
-								{Object.keys(mortgagePropsData).length !== 0 && <ChattelMortgage dataSource={mortgagePropsData} portrait={portrait} />}
+								{portrait !== 'debtor_personal' && Object.keys(mortgagePropsData).length !== 0 && <ChattelMortgage dataSource={mortgagePropsData} portrait={portrait} />}
 								{/* 招投标 */}
-								{Object.keys(biddingPropsData).length !== 0 && <Bidding dataSource={biddingPropsData} portrait={portrait} />}
+								{portrait !== 'debtor_personal' && Object.keys(biddingPropsData).length !== 0 && <Bidding dataSource={biddingPropsData} portrait={portrait} />}
 							</div>
 						</Spin>
 					</div>
