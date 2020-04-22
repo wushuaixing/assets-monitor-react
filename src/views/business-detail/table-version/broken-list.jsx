@@ -86,7 +86,7 @@ export default class BrokenList extends React.Component {
 		const { loadingHeight } = this.props;
 		return (
 			<div className="yc-assets-auction ">
-				<Spin visible={loading} minHeight={loadingHeight}>
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}
