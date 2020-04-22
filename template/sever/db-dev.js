@@ -82,8 +82,8 @@ function exportTemplate(source, exportType, name) {
 			child: [
 				{id: 'R30201', title: '破产重组', status: 'BE'},
 				{id: 'R20604', title: '涉诉文书', status: 'P'},
-				{id: 'R20401', title: '失信记录', desc: '列入', status: 'BEP'},
-				{id: 'R20402', title: '失信记录', desc: '已移除', status: 'BEP'},
+				{id: 'R20401', title: '失信记录_列入', desc: '列入', status: 'BEP'},
+				{id: 'R20402', title: '失信记录_已移除', desc: '已移除', status: 'BEP'},
 				// {id: 'R20502', title: '限高记录', status: 'BEP'	},
 				{id: 'R20601', title: '涉诉信息_立案', status: 'BE'},
 				{id: 'R20602', title: '涉诉信息_开庭', status: 'BE'},
@@ -353,7 +353,8 @@ function exportTemplate(source, exportType, name) {
 	var w = function (value, o) {
 		var option = o || {};
 		if (value === '-') return '-';
-		return value ? ((option.prefix || '') + value + (option.unit || '')) : (option.defaultWord || '-');
+		var showStr = option.show ? option.prefix : '';
+		return value ? ((option.prefix || '') + value + (option.unit || '')) : (showStr + (option.defaultWord || '-'));
 	};
 
 	var matchReason = function (data) {
@@ -585,7 +586,7 @@ function exportTemplate(source, exportType, name) {
 						])
 						+ f.partiesList(f.handleParties(i.parties))
 						+ "</td><td>" + f.normalList([
-							{cot: w(i.finalPrice, {unit: '万元', prefix: '成交价格：'}), dot: 'success'},
+							{cot: w(i.finalPrice, {unit: '万元', prefix: '成交价格：', show: true}), dot: 'success'},
 							{t: '批准单位', cot: i.approver},
 							{t: '供地方式', cot: i.supplyWay},
 						]) + "</td></tr>";
@@ -603,11 +604,11 @@ function exportTemplate(source, exportType, name) {
 							[
 								{t: '成交日期', cot: f.time(i.dealingTime),},
 								{t: '面积', cot: w(i.landArea, {unit: '公顷'})},
-								{t: '使用年限', cot: w(i.transferTerm, {unit: '年'})}
+								{t: '使用年限', cot: w(i.landUsageTerm, {unit: '年'})}
 							]
 						])
 						+ "</td><td>" + f.normalList([
-							{cot: w(i.transferPrice, {unit: '万元', prefix: '转让价格：'}), dot: 'success'},
+							{cot: w(i.transferPrice, {unit: '万元', prefix: '转让价格：', show: true}), dot: 'success'},
 							{t: '转让方式', cot: i.transferMode},
 						]) + "</td></tr>";
 				});
@@ -629,9 +630,9 @@ function exportTemplate(source, exportType, name) {
 							{t: '土地使用权证号', cot: w(i.landUseCertificateNumber)}
 						])
 						+ "</td><td>" + f.normalList([
-							{cot: w(i.mortgageAmount, {unit: "万元", prefix: '抵押金额：'}), dot: 'success'},
+							{cot: w(i.mortgageAmount, {unit: "万元", prefix: '抵押金额：', show: true}), dot: 'success'},
 							{t: '抵押面积', cot: w(i.mortgageArea, {unit: '公顷'})},
-							{t: '土地他项权证号', cot: w(i.transferTerm)},
+							{t: '土地他项权证号', cot: w(i.otherObligeeCertificateNumber)},
 							{t: '登记结束日期', cot: f.time(i.endTime)},
 						]) + "</td></tr>";
 				});
@@ -758,8 +759,8 @@ function exportTemplate(source, exportType, name) {
 						{t: '登记编号', cot: i.regNum},
 					] : [
 						{cot: '无效', dot: dot},
-						{t: '注销时间', cot: i.reason},
-						{t: '注销原因', cot: i.gmtIssueTime},
+						{t: '注销时间', cot:  f.time(i.cancelDate)},
+						{t: '注销原因', cot: i.cancelReason},
 						{t: '登记编号', cot: i.regNum},
 					];
 					list += "<tr><td>"
@@ -771,7 +772,7 @@ function exportTemplate(source, exportType, name) {
 								{t: '抵押权人', cot: i.people},
 							],
 							[
-								{t: '担保债权数额', cot: w(i.amount, {unit: '元'})},
+								{t: '担保债权数额', cot: w(f.threeDigit(i.amount), {unit: '元'})},
 								{t: '债务人履行债务的期限', cot: w(i.term)},
 							]
 						])
@@ -786,8 +787,8 @@ function exportTemplate(source, exportType, name) {
 						{t: '登记编号', cot: i.regNum},
 					] : [
 						{cot: '无效', dot: dot},
-						{t: '注销时间', cot: i.reason},
-						{t: '注销原因', cot: i.gmtIssueTime},
+						{t: '注销时间', cot:  f.time(i.cancelDate)},
+						{t: '注销原因', cot: i.cancelReason},
 						{t: '登记编号', cot: i.regNum},
 					];
 					list += "<tr><td>"
@@ -865,7 +866,9 @@ function exportTemplate(source, exportType, name) {
 							{t: '移除日期', cot: f.time(i.gmtRemoveDate)},
 							{t: '移除原因', cot: i.removeReason},
 							{t: '移除机关', cot: i.removeDepartment},
-						] : []) + "</td></tr>";
+						] : [
+							{dot: 'success', cot: '未移除'},
+						]) + "</td></tr>";
 				});
 				break;
 			}
@@ -879,7 +882,7 @@ function exportTemplate(source, exportType, name) {
 								{t: '列入日期', cot: f.time(i.gmtPutDate)},
 								{t: '决定机关', cot: i.putDepartment},
 							],
-							{t: '列入原因', cot: i.putReason},
+							{t: '列入原因', cot: w(i.putReason)},
 							{t: '具体事实', cot: i.fact},
 						])
 						+ "</td><td>" + f.normalList(i.gmtRemoveDate ? [
@@ -887,7 +890,9 @@ function exportTemplate(source, exportType, name) {
 							{t: '移除日期', cot: f.time(i.gmtRemoveDate)},
 							{t: '移除原因', cot: i.removeReason},
 							{t: '移除机关', cot: i.removeDepartment},
-						] : []) + "</td></tr>";
+						] : [
+							{dot: 'success', cot: '未移除'},
+						]) + "</td></tr>";
 				});
 				break;
 			}
@@ -905,8 +910,7 @@ function exportTemplate(source, exportType, name) {
 						])
 						+ "</td><td>" + f.normalList([
 							(resParty.showTaxpayer ? {dot: dot, cot: w(taxStr, {prefix: '纳税人：'})} : ''),
-							{t: '检查机关', cot: i.removeReason},
-							{t: '发布日期', cot: f.time(i.gmtRemoveDate)},
+							{t: '发布日期', cot: f.time(i.publishDate)},
 						]) + "</td></tr>";
 				});
 				break;
@@ -914,11 +918,11 @@ function exportTemplate(source, exportType, name) {
 			case 'R30601': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
-						+ f.urlDom(i.content)
+						+ f.urlDom(i.type)
 						+ f.normalList([
 							{t: '相关单位', cot: i.obligorName, ET: ET},
 							{t: '决定文书号', cot: i.punishNumber},
-							{t: '处罚内容', cot: i.type},
+							{t: '处罚内容', cot: i.content},
 						])
 						+ "</td><td>" + f.normalList([
 							{t: '决定机关', cot: i.departmentName},
@@ -1030,14 +1034,14 @@ function exportTemplate(source, exportType, name) {
 							{t: '借款人推送状态', cot: w(item.obligorPushType ? '开启' : '关闭')},
 						],
 						[
-							{t: '负责人/机构', cot: item.legalPersonName},
+							{t: '负责人/机构', cot: item.orgName},
 							{t: '上传时间', cot: item.uploadTime},
 						],
 					])
 				)
 			},
 			{
-				f: '{about.list}', v: aboutList('业务相关人列表',
+				f: '{about.list}', v: aboutList('关联业务列表',
 					{list: _dataSource["BB10102"] || []},
 					{id: 'BB10102', className: 'table-border', show: true}
 				)

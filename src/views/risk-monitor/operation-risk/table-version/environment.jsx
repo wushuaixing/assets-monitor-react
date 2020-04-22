@@ -26,7 +26,7 @@ export default class TableVersion extends React.Component {
 				<li>
 					<span className="list list-title align-justify">相关单位</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
+					<span className="list list-content-auto">
 						<Ellipsis
 							content={item.obName}
 							url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}

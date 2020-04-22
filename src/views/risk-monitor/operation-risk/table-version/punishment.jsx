@@ -80,7 +80,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">决定机关</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">
-							{ toEmpty(row.departmentName) ? <Ellipsis content={row.departmentName} width={200} /> : '-' }
+							{ toEmpty(row.departmentName) ? <Ellipsis content={row.departmentName} width={200} tooltip /> : '-' }
 						</span>
 					</li>
 					<li>

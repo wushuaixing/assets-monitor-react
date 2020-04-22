@@ -4,7 +4,7 @@ import { getDynamicRisk } from 'api/dynamic';
 import {
 	Ellipsis, Icon, Spin, Table, LiItem,
 } from '@/common';
-import { toEmpty, w, getHrefQuery } from '@/utils';
+import { toEmpty, getHrefQuery, timeStandard } from '@/utils';
 
 
 const toGetIdentityType = (value) => {
@@ -127,7 +127,7 @@ export default class TableIntact extends React.Component {
 									]
 								}
 							</li>
-							<LiItem title="发布日期" Li>{w(row.gmtPublish)}</LiItem>
+							<LiItem title="发布日期" Li>{timeStandard(row.publishDate) || '-'}</LiItem>
 						</div>
 					);
 				},
