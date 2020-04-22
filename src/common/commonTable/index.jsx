@@ -8,20 +8,17 @@ class commonTable extends React.Component {
 		this.state = {};
 	}
 
-
 	render() {
 		const propsObj = this.props;
-		const { dataSource } = propsObj;
-		const isDataSource = propsObj && Array.isArray(dataSource) && dataSource.length > 0;
+		// const { initial } = this.state;
+		// const { dataSource } = propsObj;
+		// const isDataSource = propsObj && Array.isArray(dataSource) && dataSource.length > 0;
+
 		return (
-			<React.Fragment>
-				{isDataSource ? (
-					<Table
-						{...propsObj}
-						locale={{ emptyText: <NoContent /> }}
-					/>
-				) : null}
-			</React.Fragment>
+			<Table
+				{...propsObj}
+				locale={{ emptyText: <NoContent /> }}
+			/>
 		);
 	}
 }
