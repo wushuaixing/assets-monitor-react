@@ -211,6 +211,12 @@ export default class Visualize extends React.Component {
 		const {
 			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, TaxCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
 		} = this.state;
+		const params = {
+			portrait,
+			businessId,
+			obligorId,
+			getAssetProfile: this.getAssetProfile,
+		};
 		return (
 			<div className="visualize-overview">
 				<div className="visualize-overview-line" />
@@ -219,19 +225,19 @@ export default class Visualize extends React.Component {
 					<div className="yc-overview-title">资产概况</div>
 					<div className="yc-overview-container">
 						{/* 相关资产拍卖 */}
-						<AssetAuction portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						<AssetAuction {...params} />
 						{/* 无形资产 */}
-						<Intangible portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						<Intangible {...params} />
 						 {/* 土地信息 */}
-						 <Land portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <Land {...params} />
 						{/* 代位权信息 (裁判文书) */}
-						 <Subrogation portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <Subrogation {...params} />
 						{/* /!* 股权质押 *!/ */}
-						 <EquityPledge portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <EquityPledge {...params} />
 						{/* /!* 动产抵押信息 *!/ */}
-						 <ChattelMortgage portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <ChattelMortgage {...params} />
 						 {/* 招标中标 */}
-						 <Bidding portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 <Bidding {...params} />
 						{
 							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
 							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0
@@ -258,15 +264,15 @@ export default class Visualize extends React.Component {
 							)
 						}
 						{/* 破产重组 */}
-						<Bankruptcy portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						<Bankruptcy {...params} />
 						{/* 失信记录 */}
-						<Dishonest portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						<Dishonest {...params} />
 						{/* 涉诉信息 */}
 						{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
 						{/* 经营风险 */}
-						{portrait !== 'debtor_personal' && <BusinessRisk portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
+						{portrait !== 'debtor_personal' && <BusinessRisk {...params} />}
 						{/* 税收违法 */}
-						{portrait === 'debtor_personal' && <Tax portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
+						{portrait === 'debtor_personal' && <Tax {...params} />}
 						{/* <BusinessRisk companyId={companyId} /> */}
 					</div>
 					{portrait === 'debtor_enterprise'
