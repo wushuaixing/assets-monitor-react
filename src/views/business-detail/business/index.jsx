@@ -299,9 +299,9 @@ export default class Enterprise extends React.Component {
 	};
 
 	handleAddChild=(val, id) => {
+		this.childDomId = id;
 		this.setState({
 			childDom: val,
-			childDomId: id,
 		});
 	};
 
@@ -324,17 +324,17 @@ export default class Enterprise extends React.Component {
 
 	/* tab change */
 	onSourceType=(val) => {
-		const { sourceType, childDomId, childDom } = this.state;
+		const { sourceType, childDom } = this.state;
 		const { href } = window.location;
 		const eleStr = getHrefQuery('ele');
 		let params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
-		if (childDomId !== val) {
+		if (this.childDomId !== val) {
 			params = eleStr ? params.replace(eleStr, '') : params;
 		}
 		if (val !== sourceType) {
 			this.setState({
 				sourceType: val,
-				childDom: childDomId !== val ? '' : childDom,
+				childDom: this.childDomId !== val ? '' : childDom,
 			}, () => {
 				navigate(`/business/detail/info/${val}${params}`);
 			});
