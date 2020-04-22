@@ -129,7 +129,7 @@ function exportTemplate(source, exportType, name) {
 		identity: {
 			0: "未知",
 			1: "作为违法人",
-			2: "作为法定人",
+			2: "作为法人",
 			3: "作为财务",
 			9: "其他"
 		},
@@ -174,6 +174,7 @@ function exportTemplate(source, exportType, name) {
 		time: function (date, formatStr, isSelf) {
 			var _this = "";
 			if (typeof date === 'string') return date;
+			if (!date && date !== 0) return '-';
 			if (date === 0) _this = new Date(null);
 			else if (date) _this = new Date((isSelf ? date : date * 1000));
 			else _this = new Date();
@@ -217,7 +218,7 @@ function exportTemplate(source, exportType, name) {
 			return "<span class=\"" + _className + "\">" + value + "</span>";
 		},
 		threeDigit: function (item, unit, num, defaultWord) {
-			if (!item && item !== 0) return (defaultWord || '-');
+			if (!item && item === 0) return (defaultWord || '-');
 			var type = parseFloat(item);
 			if (isNaN(type)) return item;
 			var num1 = type;
@@ -470,7 +471,7 @@ function exportTemplate(source, exportType, name) {
 					cot: w(i.name, {unit: (i.name.length <= 4 ? ('（' + i.idNumber + '）') : '')}),
 					ET: ET
 				},
-				{cot: f.tag(s.identity[i.identityType], 'case-tag marginLeft0'), ET: ET}
+				{cot: f.tag(s.identity[i.identityType], 'marginLeft0')}
 			])
 		});
 		return result;
@@ -718,7 +719,7 @@ function exportTemplate(source, exportType, name) {
 			case 'A10501': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
-						+ f.urlDom('股权标的企业 ' + i.companyName || '-')
+						+ f.urlDom('股权标的企业 ' + (i.companyName || '未公示'))
 						+ f.normalList([
 							{t: '登记日期', cot: f.time(i.regDate)},
 							[
@@ -740,7 +741,7 @@ function exportTemplate(source, exportType, name) {
 			case 'A10502': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
-						+ f.urlDom('股权标的企业 ' + i.companyName || '未公示')
+						+ f.urlDom('股权标的企业 ' + (i.companyName || '未公示'))
 						+ f.normalList([
 							{t: '登记日期', cot: f.time(i.regDate)},
 							[
@@ -909,7 +910,7 @@ function exportTemplate(source, exportType, name) {
 					var taxStr = (i.taxpayers || []).join('、');
 					list += "<tr><td>"
 						+ f.urlDom(i.caseNature, i.url)
-						+ (ET !== 'B' ? f.tag(resParty.debtorIdentityTypeStr, 'case-tag') : '')
+						+ (ET !== 'B' ? f.tag(resParty.debtorIdentityTypeStr, '') : '')
 						+ (ET === 'B' ? f.normalList(resParty.parties) : '')
 						+ f.normalList([
 							{t: '违法事实', cot: i.illegalFacts},
@@ -970,7 +971,7 @@ function exportTemplate(source, exportType, name) {
 					{t: '机构名称', f: 'companyName'},
 					{t: '法定代表人', f: 'legalName'},
 					{t: '注册资本', f: 'regCapital'},
-					{t: '注册时间', f: 'regTime'},
+					{t: '注册时间', f: 'regTime',w: 90},
 					{t: '经营状态', f: 'regStatus'}
 				]);
 				break;
@@ -982,7 +983,7 @@ function exportTemplate(source, exportType, name) {
 					{t: '法定代表人', f: 'legalName'},
 					{t: '注册资本', f: 'regCapital'},
 					{t: '投资占比', f: 'rate'},
-					{t: '注册时间', f: 'regTime'},
+					{t: '注册时间', f: 'regTime',w: 90},
 					{t: '经营状态', f: 'regStatus'}
 				]);
 				break;
