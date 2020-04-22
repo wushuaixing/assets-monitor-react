@@ -1,8 +1,11 @@
 const { series, task } = require('gulp');
-const browserSync = require('browser-sync');
 const watch = require('gulp-watch');
+const browserSync = require('browser-sync');
 
-task('watchFun', browserSync.reload);
+task('watchFun', () => {
+	console.log('watchFun');
+	browserSync.reload();
+});
 task('browserSyncFun', () => {
 	browserSync.init({
 		server: {
@@ -10,8 +13,7 @@ task('browserSyncFun', () => {
 		},
 	});
 
-	watch('./template/src/*.css', series('watchFun'));
-	watch('./template/result/*.js', series(['watchFun']));
+	watch(['template/src/**/*.css', 'template/result/**/*.js'], series(['watchFun']));
 	watch('src/index.html', series(['watchFun']));
 });
 
