@@ -32,8 +32,10 @@ function exportCover(source, exportType) {
 	var userInfo = '', data = '';
 	if (exportType === 'debtor') {
 		data = d.DB10101 || {};
+		console.log(data);
 		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
-		userInfo = ("<div class='exp-name'>" + data.obligorName || '-' + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
+		userInfo = ("<div class='exp-name'>" + (data.obligorName || '-') + "<br/>" + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
+		console.log(userInfo);
 	} else {
 		data = d.BB10101 || {};
 		htmlCover = htmlCover.replace(/{base.title}/, "业务详情");
@@ -101,7 +103,7 @@ function exportTemplate(source, exportType, name) {
 			field: 'info',
 			status: 'E',
 			child: [
-				{id: 'I50101', title: '基本信息', status: 'E', show: true, className: 'table-baseInfo'},
+				{id: 'I50101', title: '基本信息', status: 'E', className: 'table-baseInfo'},
 				{id: 'I50201', title: '主要人员', status: 'E'},
 				{id: 'I50301', title: '股东信息', status: 'E'},
 				{id: 'I50501', title: '分支机构', status: 'E'},
@@ -128,7 +130,7 @@ function exportTemplate(source, exportType, name) {
 	var s = {
 		identity: {
 			0: "未知",
-			1: "作为纳税人",
+			1: "作为违法人",
 			2: "作为法定代表人",
 			3: "作为财务",
 			9: "其他"
@@ -334,10 +336,10 @@ function exportTemplate(source, exportType, name) {
 			return source;
 		},
 		disStatus: function (value, close) {
-			var style = close ? 'right:-8px' : '';
+			var style = close ? 'right:-4px' : '';
 			var dishonestStatus = '';
 			if (value === 1) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest\" style=" + style + "></span></div>";
-			if (value === 2) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest-ed\" style=" + style + "></span></div>>";
+			if (value === 2) dishonestStatus = "<div class='img-icon'><span class=\"img-icon-dishonest img-icon-dishonest-ed\" style=" + style + "></span></div>";
 			return dishonestStatus;
 		},
 		toRegStatus: function (val) {
@@ -352,6 +354,7 @@ function exportTemplate(source, exportType, name) {
 	};
 	var w = function (value, o) {
 		var option = o || {};
+		if (value === '-') return '-';
 		return value ? ((option.prefix || '') + value + (option.unit || '')) : (option.defaultWord || '-');
 	};
 
@@ -359,25 +362,26 @@ function exportTemplate(source, exportType, name) {
 		var reason = data.reason;
 		var pushType = data.pushType;
 		if (reason) {
-			var matchReasonStr = '';
+			var mStr = '';
 			try {
 				var _reason = JSON.parse(reason);
+				var rs = {
+					name: '',
+					user_name: '',
+				};
 				_reason.forEach(function (item) {
-					if (item.used_name) {
-						if ((item.hl || []).length) matchReasonStr += item.hl.join("、");
-					} else if (item.birth) {
-						matchReasonStr += (item.desc || '-');
-					} else {
-						// 全文匹配
-						if (pushType === 1 && /<em/.test(JSON.stringify(item.hl))) matchReasonStr += '';
-						else {
-							if ((item.hl || []).length) matchReasonStr += item.hl.join("、");
-						}
-					}
-				})
+					if (item.name) rs.name = item;
+					if (item.used_name) rs.used_name = item;
+				});
+				if (pushType === 0) {
+					mStr = (data.obligorName && TYPE === 'B' ? ("全文匹配，匹配债务人为" + data.obligorName) : '全文匹配')
+				} else if (pushType === 1) {
+					if (rs.name) mStr += rs.name.hl.join('、');
+					if (rs.user_name) mStr += rs.user_name.hl.join('、');
+				}
 			} catch (e) {
 			}
-			return matchReasonStr || '-';
+			return mStr || '-';
 		}
 		return "-";
 	};
@@ -426,8 +430,8 @@ function exportTemplate(source, exportType, name) {
 		obligorName: function (item) {
 			if (item) {
 				var str = item.obligorName;
-				str += (f.disStatus(item.dishonestStatus || 1, 'close') +
-					f.tag(!item.bankruptcy ? '破产/重整风险' : '', 'regStatus-red'));
+				str += (f.disStatus(item.dishonestStatus, 'close') +
+					f.tag(item.bankruptcy ? '破产/重整风险' : '', 'regStatus-red'));
 				return str;
 			}
 			return '-';
@@ -439,6 +443,32 @@ function exportTemplate(source, exportType, name) {
 			}
 			return '-';
 		}
+	};
+
+	/* handle tax parties */
+	var handleTax = function (ary) {
+		var id = TYPE === 'D' ? _dataSource['DB10101'].id : _dataSource['BB10101'].id;
+		var result = {
+			debtorIdentityTypeStr: '',
+			parties: [],
+			showTaxpayer: true,
+		};
+		(ary || []).forEach(function (i) {
+			if (TYPE === 'B' && i.identityType === 1) result.showTaxpayer = false;
+			if (i.obligorId === id) {
+				if (i.identityType === 1) result.showTaxpayer = false;
+				result.debtorIdentityTypeStr = (i.identityType ? s.identity[i.identityType] : '');
+			}
+			result.parties.push([
+				{
+					t: '当事人',
+					cot: w(i.name, {unit: (i.name.length <= 4 ? ('（' + i.idNumber + '）') : '')}),
+					ET: ET
+				},
+				{cot: f.tag(s.identity[i.identityType], 'case-tag marginLeft0'), ET: ET}
+			])
+		});
+		return result;
 	};
 
 	/* return taxon html */
@@ -460,7 +490,7 @@ function exportTemplate(source, exportType, name) {
 			case 'DB10102': {
 				list = drawTable(data.list, [
 					{t: '业务编号', f: 'caseNumber'},
-					{t: '债务人角色', f: 'role'},
+					{t: '债务人角色', f: 'roleText'},
 					{t: '负责人/机构', f: 'orgName'},
 				]);
 				break;
@@ -480,10 +510,12 @@ function exportTemplate(source, exportType, name) {
 						+ "</td><td>"
 						+ f.normalList([
 							{cot: auction.t, dot: auction.dot},
-							{t: '成交价', cot: w(f.threeDigit(i.currentPrice), {unit: '元'})},
-							{t: '评估价', cot: w(f.threeDigit(i.consultPrice), {unit: '元'})},
-							{t: '拍卖时间', cot: f.time(i.start)},
 							{t: '处置单位', cot: i.court},
+							{t: '拍卖时间', cot: f.time(i.start)},
+							{t: '评估价', cot: w(f.threeDigit(i.consultPrice), {unit: '元'})},
+							(i.status === 1 ? {t: '起拍价', cot: w(f.threeDigit(i.initialPrice), {unit: '元'})} : ''),
+							(i.status === 5 ? {t: '成交价', cot: w(f.threeDigit(i.currentPrice), {unit: '元'})} : ''),
+							((i.status !== 5 && i.status !== 1) ? {t: '当前价', cot: w(f.threeDigit(i.currentPrice), {unit: '元'})} : ''),
 						]) + "</td></tr>";
 				});
 				break;
@@ -814,7 +846,7 @@ function exportTemplate(source, exportType, name) {
 						])
 						+ "</td><td>" + f.normalList([
 							{t: '执行法院', cot: f.time(i.court)},
-							{t: '发布日期', cot: f.time(i.publishTime)},
+							{t: '发布日期', cot: f.time(i.gmtPublishDate)},
 						]) + "</td></tr>";
 				});
 				break;
@@ -863,24 +895,18 @@ function exportTemplate(source, exportType, name) {
 			}
 			case 'R30501': {
 				data.list.forEach(function (i) {
-					var parties = ((i.parties || [])[0]) || {name: ''};
+					var resParty = handleTax(i.parties);
+					var taxStr = (i.taxpayers || []).join('、');
 					list += "<tr><td>"
 						+ f.urlDom(i.caseNature, i.url)
-						+ (ET !== 'B' ? f.tag(s.identity[parties.identityType], 'case-tag') : '')
+						+ (ET !== 'B' ? f.tag(resParty.debtorIdentityTypeStr, 'case-tag') : '')
+						+ (ET === 'B' ? f.normalList(resParty.parties) : '')
 						+ f.normalList([
-							[
-								{
-									t: '当事人',
-									cot: w(parties.name, {unit: (parties.name.length <= 4 ? ('（' + parties.idNumber + '）') : '')}),
-									ET: ET
-								},
-								{cot: f.tag(s.identity[parties.identityType], 'case-tag marginLeft0'), ET: ET}
-							],
 							{t: '违法事实', cot: i.illegalFacts},
 							{t: '处罚情况', cot: i.punish},
 						])
 						+ "</td><td>" + f.normalList([
-							{dot: dot, cot: w('-', {prefix: '纳税人：'})},
+							(resParty.showTaxpayer ? {dot: dot, cot: w(taxStr, {prefix: '纳税人：'})} : ''),
 							{t: '检查机关', cot: i.removeReason},
 							{t: '发布日期', cot: f.time(i.gmtRemoveDate)},
 						]) + "</td></tr>";
@@ -994,12 +1020,15 @@ function exportTemplate(source, exportType, name) {
 			{f: '{base.content-type}', v: 'content-max'},
 			{
 				f: '{base.content}', v: (
-					f.urlDom(item.obligorName) +
+					f.urlDom(('业务编号：' + item.caseNumber || '-')) +
 					f.tag(item.businessPushType ? '当前推送状态：开启' : '当前推送状态：关闭', !item.businessPushType ? 'regStatus-gray' : '') +
 					f.normalList([
 						[
-							{t: '借款人', cot: item.legalPersonName},
-							{t: '证件号/统一社会信用代码', cot: w(item.regCapital)},
+							{
+								t: '借款人',
+								cot: w(item.obligorName) + f.disStatus(item.dishonestStatus, 'close') + f.tag(item.bankruptcyStatus ? '破产/重整风险' : '', 'regStatus-red')
+							},
+							{t: '证件号/统一社会信用代码', cot: w(item.obligorNumber)},
 							{t: '借款人推送状态', cot: w(item.obligorPushType ? '开启' : '关闭')},
 						],
 						[
@@ -1011,7 +1040,7 @@ function exportTemplate(source, exportType, name) {
 			},
 			{
 				f: '{about.list}', v: aboutList('业务相关人列表',
-					{list: _dataSource["BB10102"]||[]},
+					{list: _dataSource["BB10102"] || []},
 					{id: 'BB10102', className: 'table-border', show: true}
 				)
 			}]);
@@ -1025,7 +1054,7 @@ function exportTemplate(source, exportType, name) {
 				{
 					f: '{base.content}', v: (
 						f.urlDom(item.obligorName) +
-						f.disStatus(item.dishonestStatus) +
+						f.disStatus(item.dishonestStatus, 'close') +
 						f.tag(item.regStatus, f.toRegStatus(item.regStatus)) +
 						f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
 						f.tag(item.bankruptcy ? '破产/重整风险' : '', 'regStatus-red') +
@@ -1033,7 +1062,7 @@ function exportTemplate(source, exportType, name) {
 						f.normalList([
 							[
 								{t: '法定代表人', cot: item.legalPersonName},
-								{t: '注册资本', cot: w(item.regCapital, {unit: '万人民币'})},
+								{t: '注册资本', cot: w(item.regCapital)},
 								{t: '成立日期', cot: w(item.establishTime)},
 							],
 							(item.usedName || []).length ? {t: '曾用名', cot: (item.usedName.join('、'))} : null])
@@ -1048,7 +1077,7 @@ function exportTemplate(source, exportType, name) {
 				{
 					f: '{base.content}', v: (
 						f.urlDom(item.obligorName) +
-						f.disStatus(item.dishonestStatus) +
+						f.disStatus(item.dishonestStatus, 'close') +
 						f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
 						f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
 						f.normalList([{t: '证件号', cot: item.obligorNumber}])
@@ -1059,8 +1088,8 @@ function exportTemplate(source, exportType, name) {
 		// 关联业务列表
 		f.replaceHtml([{
 			f: '{about.list}', v: aboutList(
-				(Status === 'E' ? '关联业务列表' : '业务相关业务列表'),
-				{list: _dataSource["DB10102"]||[]},
+				(Status === 'E' ? '关联业务列表' : '相关业务列表'),
+				{list: _dataSource["DB10102"] || []},
 				{id: 'DB10102', className: 'table-border', show: true}
 			)
 		}]);
@@ -1082,11 +1111,14 @@ function exportTemplate(source, exportType, name) {
 }
 
 if (ENV === 'dev') {
-	var dataSource = JSON.stringify(require('./test_appendfile(5).json'));
+	var dataSource = JSON.stringify(require('../source/test_appendfile(7).json'));
 	var str = (exportType) => exportTemplate(dataSource, exportType);
 	console.warn('************************* output: ./template/result/demo-db.html *************************');
-	fs.writeFile("./template/result/demo-db.html", str('debtor'), (error) => {
-		error && console.log('error');
+	fs.writeFile("./template/result/demo-db.html", str('business'), (error) => {
+		if (error) console.log('error');
+		else {
+			console.log('文件成功输出！');
+		}
 	});
 }
 

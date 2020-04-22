@@ -298,9 +298,10 @@ export default class Enterprise extends React.Component {
 		console.log('handleDownload');
 	};
 
-	handleAddChild=(val) => {
+	handleAddChild=(val, id) => {
 		this.setState({
 			childDom: val,
+			childDomId: id,
 		});
 	};
 
@@ -323,15 +324,17 @@ export default class Enterprise extends React.Component {
 
 	/* tab change */
 	onSourceType=(val) => {
-		const { sourceType } = this.state;
+		const { sourceType, childDomId, childDom } = this.state;
 		const { href } = window.location;
 		const eleStr = getHrefQuery('ele');
 		let params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
-		params = eleStr ? params.replace(eleStr, '') : params;
+		if (childDomId !== val) {
+			params = eleStr ? params.replace(eleStr, '') : params;
+		}
 		if (val !== sourceType) {
 			this.setState({
 				sourceType: val,
-				childDom: '',
+				childDom: childDomId !== val ? '' : childDom,
 			}, () => {
 				navigate(`/business/detail/info/${val}${params}`);
 			});
@@ -372,7 +375,7 @@ export default class Enterprise extends React.Component {
 					<Spin visible={loading}>
 						<div className={classList.join(' ')}>
 							<EnterpriseInfo data={infoSource} onEdit={this.handleEdit} onRecord={this.openPeopleModal} affixStatus={affixStatus} />
-							<Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} />
+							<Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} hashUrl />
 							{childDom}
 						</div>
 					</Spin>
