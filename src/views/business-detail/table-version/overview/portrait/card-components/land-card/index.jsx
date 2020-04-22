@@ -20,7 +20,7 @@ export default class Land extends React.Component {
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
-		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
+		const newDataSource = isArray && dataSource.filter(i => i.count > 0).slice(0, 2);
 		return (
 			<React.Fragment>
 				{dataSourceNum > 0 ? (
@@ -28,7 +28,7 @@ export default class Land extends React.Component {
 						imgCard={landImg}
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
-						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
+						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 						text="土地信息"
 						onClick={() => navigateDetail('e-assets-land')}
 						styleName="land-card"

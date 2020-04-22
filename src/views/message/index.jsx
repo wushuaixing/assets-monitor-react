@@ -41,6 +41,7 @@ class InformCenter extends React.Component {
 								onClick={() => {
 									this.skip(row);
 								}}
+								// className={(row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') && row.obligorId ? 'yc-message-content' : ''}
 								className="yc-message-content"
 							>
 							[
@@ -108,21 +109,12 @@ class InformCenter extends React.Component {
 
 	// 跳转
 	skip = (row) => {
-		if (row.operateType === 'auctionProcessAlert') {
+		if (row.operateType === 'auctionProcessAlert' || row.operateType === 'newAuctionProcessAlert') {
 			const w = window.open('about:blank');
 			w.location.href = '#/monitor?process=1';
 		}
-		if (row.operateType === 'newAuctionProcessAlert') {
-			const w = window.open('about:blank');
-			w.location.href = '#/monitor?process=1';
-		}
-		if (row.operateType === 'dishonestAdd') {
-			const w = window.open('about:blank');
-			w.location.href = `#/business/debtor/detail?id=${
-				row.obligorId
-			}`;
-		}
-		if (row.operateType === 'dishonestRemove') {
+
+		if (row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') {
 			const w = window.open('about:blank');
 			w.location.href = `#/business/debtor/detail?id=${
 				row.obligorId

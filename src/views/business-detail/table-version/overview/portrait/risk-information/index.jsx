@@ -8,6 +8,7 @@ import {
 	businessOverviewRisk, // 业务经营风险
 	overviewDishonest, // 债务人失信
 	businessOverviewDishonest, // 业务失信
+	OverviewTax, // 个人债务人税收违法
 } from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
@@ -17,6 +18,7 @@ import Bankruptcy from '../card-components/Bankruptcy-card';
 import Involved from '../card-components/Involved-card';
 import Information from '../card-components/Information-card';
 import Break from '../card-components/break-card';
+import Tax from '../card-components/taxViolation-card';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值
@@ -26,6 +28,7 @@ const apiType = (value, portrait) => {
 	case 'Dishonest': return portrait === 'business' ? businessOverviewDishonest : overviewDishonest;
 	case 'Litigation': return portrait === 'business' ? businessOverviewLitigation : overviewLitigation;
 	case 'Risk': return portrait === 'business' ? businessOverviewRisk : overviewRisk;
+	case 'Tax': return OverviewTax;
 	default: return {};
 	}
 };
@@ -38,6 +41,7 @@ export default class RiskInformation extends React.Component {
 			dishonestPropsData: {}, // 失信记录
 			litigationPropsData: {}, // 涉诉信息
 			riskPropsData: {}, // 经营风险
+			taxPropsData: {}, // 税收违法
 		};
 	}
 
@@ -59,6 +63,9 @@ export default class RiskInformation extends React.Component {
 		promiseArray.push(apiType('Dishonest', portrait)(params)); // 失信记录
 		promiseArray.push(apiType('Litigation', portrait)(params)); // 涉诉信息
 		promiseArray.push(apiType('Risk', portrait)(params)); // 经营风险
+		if (portrait === 'debtor_personal') {
+			promiseArray.push(apiType('Tax', portrait)(params)); // 税收违法
+		}
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
@@ -73,7 +80,8 @@ export default class RiskInformation extends React.Component {
 			this.getLitigationData(isArray, values);
 			// 经营风险
 			this.getRiskData(isArray, values);
-
+			// 个人债务人税收违法
+			this.getTaxViolationData(isArray, values);
 			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
@@ -192,20 +200,37 @@ export default class RiskInformation extends React.Component {
 		}
 	};
 
+	// 税收违法
+	getTaxViolationData = (isArray, values) => {
+		const res = values[4];
+		if (isArray && res && res.code === 200) {
+			const { roleDistributions } = res.data;
+			const dataSourceNum = getCount(roleDistributions);
+			const taxPropsData = {
+				roleDistributions,
+				dataSourceNum,
+				gmtCreate: res.data.gmtCreate || '2020-04-01',
+			};
+			this.setState(() => ({
+				taxPropsData,
+			}));
+		}
+	};
+
 	// 判断内部是否存数据
 	isHasValue = () => {
 		const { portrait } = this.props;
 		const {
-			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData,
+			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData, taxPropsData,
 		} = this.state;
 		return (bankruptcyPropsData.bankruptcyNum > 0 && portrait !== 'debtor_personal') || litigationPropsData.dataSourceNum > 0
-			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0;
+			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0 || taxPropsData.dataSourceNum > 0;
 	};
 
 	render() {
 		const { portrait } = this.props;
 		const {
-			bankruptcyPropsData, dishonestPropsData, litigationPropsData, riskPropsData, isLoading,
+			bankruptcyPropsData, dishonestPropsData, litigationPropsData, riskPropsData, taxPropsData, isLoading,
 		} = this.state;
 		const isHasValue = this.isHasValue();
 		return (
@@ -225,7 +250,9 @@ export default class RiskInformation extends React.Component {
 								{/* 涉诉信息 */}
 								{Object.keys(litigationPropsData).length !== 0 && <Involved dataSource={litigationPropsData} portrait={portrait} />}
 								{/* 经营风险 */}
-								{Object.keys(riskPropsData).length !== 0 && <Information dataSource={riskPropsData} portrait={portrait} />}
+								{portrait !== 'debtor_personal' && Object.keys(riskPropsData).length !== 0 && <Information dataSource={riskPropsData} portrait={portrait} />}
+								{/* 税收违法 */}
+								{portrait === 'debtor_personal' && Object.keys(taxPropsData).length !== 0 && <Tax dataSource={taxPropsData} />}
 							</div>
 						</div>
 					) : null}

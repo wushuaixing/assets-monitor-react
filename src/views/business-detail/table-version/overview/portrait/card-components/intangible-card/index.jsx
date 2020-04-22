@@ -28,11 +28,7 @@ export default class Intangible extends React.Component {
 							imgCard={intangibleImg}
 							count={dataSourceNum}
 							gmtCreate={gmtCreate}
-							customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : {
-								width: '366px',
-								height: '120px',
-								marginBottom: '20px',
-							}}
+							customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 							text="无形资产"
 							onClick={() => navigateDetail('e-assets-intangible')}
 							styleName="intangible-card"

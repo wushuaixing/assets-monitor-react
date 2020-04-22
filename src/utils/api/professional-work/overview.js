@@ -142,6 +142,13 @@ export const businessOverviewRisk = async (params) => {
 	const response = await service.get('/yc/business/monitor/overview/risk', { params });
 	return response.data;
 };
+
+// 个人债务人税收违法
+export const OverviewTax = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/tax', { params });
+	return response.data;
+};
+
 // 债务人工商基本情况
 export const overviewBusiness = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/business', { params });

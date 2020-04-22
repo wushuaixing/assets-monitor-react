@@ -28,7 +28,7 @@ export default class EquityPledge extends React.Component {
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
 						onClick={() => navigateDetail('e-assets-stock')}
-						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
+						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 						text="股权质押"
 						styleName="equityPledge-card"
 					>
