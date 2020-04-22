@@ -462,7 +462,7 @@ function exportTemplate(source, exportType, name) {
 			if (TYPE === 'B' && i.identityType === 1) result.showTaxpayer = false;
 			if (i.obligorId === id) {
 				if (i.identityType === 1) result.showTaxpayer = false;
-				result.debtorIdentityTypeStr = (i.identityType ? s.identity[i.identityType] : '');
+				result.debtorIdentityTypeStr = (i.identityType !== 1 ? s.identity[i.identityType] : '');
 			}
 			result.parties.push([
 				{
