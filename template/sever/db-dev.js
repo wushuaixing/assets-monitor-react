@@ -101,7 +101,7 @@ function exportTemplate(source, exportType, name) {
 			field: 'info',
 			status: 'E',
 			child: [
-				{id: 'I50101', title: '基本信息', status: 'E', className: 'table-baseInfo'},
+				{id: 'I50101', title: '基本信息', status: 'E', show: true, className: 'table-baseInfo'},
 				{id: 'I50201', title: '主要人员', status: 'E'},
 				{id: 'I50301', title: '股东信息', status: 'E'},
 				{id: 'I50501', title: '分支机构', status: 'E'},
@@ -441,6 +441,12 @@ function exportTemplate(source, exportType, name) {
 				return item.obligorPushType ? '开启' : '关闭';
 			}
 			return '-';
+		},
+		time: function (item) {
+			if (item) {
+				return f.time(item.changeTime) || "-";
+			}
+			return '-';
 		}
 	};
 
@@ -510,8 +516,8 @@ function exportTemplate(source, exportType, name) {
 						+ "</td><td>"
 						+ f.normalList([
 							{cot: auction.t, dot: auction.dot},
-							{t: '处置机关', cot: w(i.court,{defaultWord: "未知"})},
-							{t: '开拍时间', cot: f.time(i.start,'s')},
+							{t: '处置机关', cot: w(i.court, {defaultWord: "未知"})},
+							{t: '开拍时间', cot: f.time(i.start, 's')},
 							{t: '评估价', cot: w(f.threeDigit(i.consultPrice), optionPrice)},
 							(i.status === 1 ? {t: '起拍价', cot: w(f.threeDigit(i.initialPrice), optionPrice)} : ''),
 							(i.status === 5 ? {t: '成交价', cot: w(f.threeDigit(i.currentPrice), optionPrice)} : ''),
@@ -734,7 +740,7 @@ function exportTemplate(source, exportType, name) {
 			case 'A10502': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
-						+ f.urlDom('股权标的企业 ' + i.companyName || '-')
+						+ f.urlDom('股权标的企业 ' + i.companyName || '未公示')
 						+ f.normalList([
 							{t: '登记日期', cot: f.time(i.regDate)},
 							[
@@ -756,7 +762,7 @@ function exportTemplate(source, exportType, name) {
 			case 'A10601': {
 				data.list.forEach(function (i) {
 					var statusInfo = i.status ? [
-						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success', ET: ET},
+						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success'},
 						{t: '登记编号', cot: i.regNum},
 					] : [
 						{cot: '无效', dot: dot},
@@ -784,7 +790,7 @@ function exportTemplate(source, exportType, name) {
 			case 'A10602': {
 				data.list.forEach(function (i) {
 					var statusInfo = i.status ? [
-						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success', ET: ET},
+						{cot: w('有效', {unit: '（<u>匹配时间</u>' + f.time(i.gmtCreate) + '）'}), dot: 'success'},
 						{t: '登记编号', cot: i.regNum},
 					] : [
 						{cot: '无效', dot: dot},
@@ -934,7 +940,7 @@ function exportTemplate(source, exportType, name) {
 			}
 			case 'I50101': {
 				list = "<tr><td>法定代表人</td><td>{legalPerson}</td><td>组织机构代码</td><td>{orgNumber}</td></tr><tr><td>统一社会信用代码</td><td>{creditCode}</td><td>纳税人识别号</td><td>{taxNumber}</td></tr><tr><td>成立日期</td><td>{establishTime}</td><td>营业期限</td><td>{timeLimit}</td></tr><tr><td>注册资本</td><td>{regCapital}</td><td>实缴资本</td><td>{actualCapital}</td></tr><tr><td>经营状态</td><td>{regStatus}</td><td>登记机关</td><td>{regInstitute}</td></tr><tr><td>企业类型</td><td>{companyOrgType}</td><td>核准日期</td><td>{approvedTime}</td></tr><tr><td>所属行业</td><td>{industry}</td><td>工商注册号</td><td>{regNumber}</td></tr><tr><td>人员规模</td><td>{scale}</td><td>参保人数</td><td>{insuranceNum}</td></tr><tr><td>英文名</td><td>{englishName}</td><td>注册地址</td><td>{regLocation}</td></tr><tr><td>经营范围</td><td colspan='3'>{businessScope}</td></tr>";
-				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
+				["legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
 					list = list.replace("{" + item + "}", data[item] || '-')
 				});
 				var timeLimit = (source.fromTime && source.toTime) ? ("自 " + (source.fromTime || '-') + " 至 " + (source.toTime || '-')) : "-";
@@ -984,8 +990,8 @@ function exportTemplate(source, exportType, name) {
 			case 'I50701': {
 				list = drawTable(data.list, [
 					{t: '序号', f: 'index', w: 30},
-					{t: '变更日期', f: 'changeTime', w: 90},
-					{t: '变更事项', f: 'changItem', w: 70},
+					{t: '变更日期', f: BB.time, w: 90},
+					{t: '变更事项', f: 'changeItem', w: 70},
 					{t: '变更前内容', f: 'contentBefore'},
 					{t: '变更后内容', f: 'contentAfter'}
 				]);
@@ -1000,7 +1006,7 @@ function exportTemplate(source, exportType, name) {
 	/* creat child Container  */
 	var childContainer = function (option, source) {
 		var count = typeof source === 'object' ? (source.total || source.length || 0) : 0;
-		if (count !== 0 || option.show) {
+		if ((count !== 0 || option.show) && source) {
 			var title = option.title + (count ? '  ' + count : '');
 			return "<div><div class=\"title\"><div class=\"t2\">" + title + "</div>" +
 				"</div><div class=\"content\">" + drawContent(option, source) + "</div></div>"
@@ -1098,6 +1104,7 @@ function exportTemplate(source, exportType, name) {
 		}]);
 	}
 
+
 	Object.keys(dd).forEach(function (field) {
 		var item = dd[field];
 		var child = '';
@@ -1114,10 +1121,10 @@ function exportTemplate(source, exportType, name) {
 }
 
 if (ENV === 'dev') {
-	var dataSource = JSON.stringify(require('../source/test_appendfile(7).json'));
+	var dataSource = JSON.stringify(require('../source/test_appendfile(10).json'));
 	var str = (exportType) => exportTemplate(dataSource, exportType);
 	console.warn('************************* output: ./template/result/demo-db.html *************************');
-	fs.writeFile("./template/result/demo-db.html", str('business'), (error) => {
+	fs.writeFile("./template/result/demo-db.html", str('debtor'), (error) => {
 		if (error) console.log('error');
 		else {
 			console.log('文件成功输出！');
