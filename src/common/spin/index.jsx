@@ -36,7 +36,8 @@ const Spin = (props) => {
 				</div>
 			</div>
 			<div className={`yc-spin-content ${visible ? 'yc-spin-blur' : ''}`} id="yc-spin-content">
-				{children}
+				{/* visible 存在判断是否加载完，不存在直接显示children */}
+				{visible ? (visible ? null : children) : children}
 			</div>
 		</div>
 	);
