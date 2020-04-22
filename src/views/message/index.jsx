@@ -113,27 +113,27 @@ class InformCenter extends React.Component {
 			idList: [row.id],
 		};
 		isRead(params);
-		if (row.operateType === 'auctionProcessAlert' || row.operateType === 'newAuctionProcessAlert') {
-			const w = window.open('about:blank');
-			w.location.href = '#/monitor?process=1';
-		}
-
-		if (row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') {
-			if (row.obligorId) {
+		if (row.obligorId) {
+			if (row.operateType === 'auctionProcessAlert' || row.operateType === 'newAuctionProcessAlert') {
+				const w = window.open('about:blank');
+				w.location.href = '#/monitor?process=1';
+			}
+			if (row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') {
 				const w = window.open('about:blank');
 				w.location.href = `#/business/debtor/detail?id=${
 					row.obligorId
 				}`;
-			} else {
-				Modal.error({
-					title: '该债务人已经被删除！',
-					onOk: () => {
-						window.location.reload(); // 实现页面重新加载/
-					},
-				});
-				return;
 			}
+		} else {
+			Modal.error({
+				title: '该债务人已经被删除！',
+				onOk: () => {
+					window.location.reload(); // 实现页面重新加载/
+				},
+			});
+			return;
 		}
+
 		window.location.reload(); // 实现页面重新加载/
 	};
 
