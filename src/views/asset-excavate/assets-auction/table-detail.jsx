@@ -88,7 +88,7 @@ const AuctionInfo = (text, row, method) => {
 			<br />
 			<li className="table-info-list list-width-180">
 				<span className="info info-title">开拍时间：</span>
-				<span className="info info-content">{timeStandard(start, '未知')}</span>
+				<span className="info info-content">{timeStandard(start, '未知', 'yyyy-MM-dd hh:mm')}</span>
 			</li>
 			{
 				{
