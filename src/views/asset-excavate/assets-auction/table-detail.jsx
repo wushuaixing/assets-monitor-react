@@ -64,7 +64,7 @@ const AuctionInfo = (text, row, method) => {
 				</div>
 				{
 					historyAuction.length > 0 && (
-						<Button onClick={() => method(row)} style={{ padding: '1px 9px' }}>
+						<Button onClick={() => method(row)} style={{ padding: '1px 9px' }} className="auction-history-btn">
 							<Icon type="icon-history" style={{ fontSize: 13, marginRight: 4 }} />
 							查看历史拍卖信息
 						</Button>
