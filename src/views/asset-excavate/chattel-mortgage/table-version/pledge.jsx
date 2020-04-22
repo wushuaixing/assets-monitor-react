@@ -73,7 +73,7 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">担保债权数额</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ minWidth: 170 }}>{row.amount && w(floatFormat(row.amount.toFixed(2)), { suffix: ' 元' })}</span>
+						<span className="list list-content" style={{ minWidth: 170 }}>{row.amount ? w(floatFormat(row.amount.toFixed(2)), { suffix: ' 元' }) : '-'}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">债务人履行债务的期限</span>
 						<span className="list list-title-colon">:</span>
