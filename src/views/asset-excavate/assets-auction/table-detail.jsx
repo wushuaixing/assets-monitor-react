@@ -17,10 +17,10 @@ const processStatus = (s) => {
 	switch (s) {
 	// case 0: res = { text: '未跟进', color: '#FB5A5C' }; break;
 	case 3:
-	case 6: res = { text: '跟进中', color: '#FB8E3C' }; break;
-	case 9: res = { text: '已完成', color: '#3DBD7D' }; break;
-	case 12: res = { text: '已忽略', color: '#7D8699' }; break;
-	case 15: res = { text: '已放弃', color: '#7D8699' }; break;
+	case 6: res = { text: '跟进中', color: '#FB8E3C', bgc: '#FDF8F4' }; break;
+	case 9: res = { text: '已完成', color: '#3DBD7D', bgc: '#F4FFF9' }; break;
+	case 12: res = { text: '已忽略', color: '#7D8699', bgc: '#F0F1F5' }; break;
+	case 15: res = { text: '已放弃', color: '#7D8699', bgc: '#F0F1F5' }; break;
 	default: res = '';
 	}
 	if (res) {
@@ -28,8 +28,10 @@ const processStatus = (s) => {
 			borderColor: res.color,
 			color: res.color,
 			minWidth: 56,
-			backgroundColor: '#FFFFFF',
+			backgroundColor: res.bgc || '#FFFFFF',
 			borderRadius: '2px',
+
+			marginTop: 1,
 		};
 	}
 	return res;
@@ -62,8 +64,8 @@ const AuctionInfo = (text, row, method) => {
 				</div>
 				{
 					historyAuction.length > 0 && (
-						<Button onClick={() => method(row)}>
-							<Icon type="file-text" />
+						<Button onClick={() => method(row)} style={{ padding: '1px 9px' }}>
+							<Icon type="icon-history" style={{ fontSize: 13, marginRight: 4 }} />
 							查看历史拍卖信息
 						</Button>
 					)
@@ -210,9 +212,8 @@ export default class TableIntact extends React.Component {
 				return (
 					<div className="assets-info-content">
 						<li style={{ lineHeight: '24px' }}>
-							{ toEmpty(row.title)
-								? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={14} className="yc-public-title-normal-bold" /> : '-' }
-							{process ? <span className="yc-case-reason text-ellipsis cursor-pointer" onClick={() => this.toShowFollowList(row)} style={process.style}>{process.text}</span> : ''}
+							<Ellipsis content={toEmpty(row.title)} url={row.url} tooltip width={650} font={14} auto className="yc-public-title-normal-bold" />
+							{process && <span className="yc-case-reason text-ellipsis cursor-pointer" onClick={() => this.toShowFollowList(row)} style={process.style}>{process.text}</span>}
 						</li>
 						<li>
 							<span className="list list-title align-justify">● 匹配原因</span>
@@ -228,7 +229,7 @@ export default class TableIntact extends React.Component {
 			},
 		}, {
 			title: '拍卖状况',
-			width: 360,
+			width: 380,
 			render: (value, row) => AuctionInfo(value, row, this.historyInfoModal),
 		},
 	];
@@ -290,7 +291,7 @@ export default class TableIntact extends React.Component {
 		const { loadingHeight } = this.props;
 		return (
 			<div className="yc-assets-auction ">
-				<Spin visible={loading} minHeight={loadingHeight}>
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

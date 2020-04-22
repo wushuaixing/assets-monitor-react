@@ -67,7 +67,7 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">审理法院</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
+						<span className="list list-content"><Ellipsis content={toEmpty(row.court)} tooltip width={160} /></span>
 					</li>
 				</div>
 			),
@@ -119,7 +119,7 @@ export default class TableIntact extends React.Component {
 		const { loadingHeight } = this.props;
 		return (
 			<div className="yc-assets-auction ">
-				<Spin visible={loading} minHeight={loadingHeight}>
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

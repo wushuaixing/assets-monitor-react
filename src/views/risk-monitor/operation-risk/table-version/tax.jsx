@@ -4,7 +4,7 @@ import { getDynamicRisk } from 'api/dynamic';
 import {
 	Ellipsis, Icon, Spin, Table, LiItem,
 } from '@/common';
-import { toEmpty, w, getHrefQuery } from '@/utils';
+import { toEmpty, getHrefQuery, timeStandard } from '@/utils';
 
 
 const toGetIdentityType = (value) => {
@@ -127,7 +127,7 @@ export default class TableIntact extends React.Component {
 									]
 								}
 							</li>
-							<LiItem title="发布日期" Li>{w(row.gmtPublish)}</LiItem>
+							<LiItem title="发布日期" Li>{timeStandard(row.publishDate) || '-'}</LiItem>
 						</div>
 					);
 				},
@@ -180,7 +180,7 @@ export default class TableIntact extends React.Component {
 		const { loadingHeight } = this.props;
 		return (
 			<div className="yc-assets-auction ">
-				<Spin visible={loading} minHeight={loadingHeight}>
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}
