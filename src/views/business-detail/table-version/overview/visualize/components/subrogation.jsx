@@ -148,9 +148,8 @@ export default class Subrogation extends React.Component {
 							<span className="container-title-name">
 								{portrait === 'debtor_personal' ? '代位权信息 (裁判文书)' : '代位权信息'}
 
-								{portrait !== 'debtor_personal' && (
-								<Tooltip placement="top" title="查询主体作为原告起诉他人的案件" arrowPointAtCenter>
-									<span>
+								<Tooltip placement="top" title="债务人作为原告起诉他人的案件" arrowPointAtCenter>
+									<span style={{ verticalAlign: 'middle' }}>
 										<Icon
 											type="icon-question"
 											style={{
@@ -159,7 +158,6 @@ export default class Subrogation extends React.Component {
 										/>
 									</span>
 								</Tooltip>
-								)}
 							</span>
 						</div>
 						<div className="overview-container-content">

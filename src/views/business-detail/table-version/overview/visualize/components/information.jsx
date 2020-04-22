@@ -136,9 +136,8 @@ export default class Information extends React.Component {
 							<span className="container-title-name">
 								{portrait === 'debtor_personal' ? '涉诉信息 (裁判文书)' : '涉诉信息'}
 
-								{portrait !== 'debtor_personal' && (
 								<Tooltip placement="top" title="债务人作为被告被起诉的案件" arrowPointAtCenter>
-									<span>
+									<span style={{ verticalAlign: 'middle' }}>
 										<Icon
 											type="icon-question"
 											style={{
@@ -147,7 +146,6 @@ export default class Information extends React.Component {
 										/>
 									</span>
 								</Tooltip>
-								)}
 							</span>
 						</div>
 						<div className="overview-container-content">

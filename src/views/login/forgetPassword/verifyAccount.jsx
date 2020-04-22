@@ -98,12 +98,8 @@ class Login extends React.Component {
 												message: '请输入账号',
 											},
 											{
-												pattern: /^[^\s]*$/,
-												message: '请勿输入空格',
-											},
-											{
-												pattern: /^[0-9a-zA-Z- ]*$/,
-												message: '请勿输入特殊字符',
+												pattern: new RegExp('^[0-9a-zA-Z-]{1,}$', 'g'),
+												message: '请勿输入空格,中文和特殊字符',
 											},
 										],
 									})}
@@ -119,12 +115,16 @@ class Login extends React.Component {
 									maxlength={4}
 									style={{ parringRight: 160 }}
 									{...getFieldProps('code', {
-										getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
+										// getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z]/g, ''),
 										validateTrigger: 'onBlur',
 										rules: [
 											{
 												required: true,
 												message: '请输入验证码',
+											},
+											{
+												pattern: new RegExp('^[0-9a-zA-Z-]{1,}$', 'g'),
+												message: '请勿输入空格,中文和特殊字符',
 											},
 										],
 									})}

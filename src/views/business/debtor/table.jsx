@@ -179,10 +179,7 @@ class BusinessView extends React.Component {
 					defaultExpandAllRows
 					pagination={false}
 					onRowClick={() => {
-						// if (!record.children) {
-						// 	const w = window.open('about:blank');
-						// 	w.location.href = '#/monitor';
-						// }
+
 					}}
 				/>
 			</React.Fragment>

@@ -1,11 +1,11 @@
 import React from 'react';
-import loading from '@/assets/img/loading.gif';
+import loading from '@/assets/img/circle-loading.gif';
 import Portal from './portal';
 import './index.scss';
 
 const Spin = (props) => {
 	const {
-		children, modal, visible, text, id, simple, transparent, minHeight,
+		children, modal, visible, text, id, simple, transparent, minHeight, customStyle,
 	} = props;
 	const content = text || '加载中，请稍后...';
 	if (modal) {
@@ -30,7 +30,7 @@ const Spin = (props) => {
 			<div className={`yc-spin-mask ${visible ? '' : 'displayNone'}${transparent ? ' yc-spin-mask-transparent' : ''}`}>
 				<div className="yc-mask-wrapper">
 					<div className="yc-mask-content">
-						<img src={loading} alt="" />
+						<img src={loading} alt="" style={customStyle} />
 						<div dangerouslySetInnerHTML={{ __html: content }} />
 					</div>
 				</div>

@@ -127,6 +127,9 @@ class InformCenter extends React.Component {
 			} else {
 				Modal.error({
 					title: '该债务人已经被删除！',
+					onOk: () => {
+						window.location.reload(); // 实现页面重新加载/
+					},
 				});
 				return;
 			}
