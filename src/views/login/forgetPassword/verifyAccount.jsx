@@ -123,7 +123,7 @@ class Login extends React.Component {
 												message: '请输入验证码',
 											},
 											{
-												pattern: new RegExp('^[0-9a-zA-Z-]{1,}$', 'g'),
+												pattern: new RegExp('^[0-9a-zA-Z]{1,}$', 'g'),
 												message: '请勿输入空格,中文和特殊字符',
 											},
 										],
