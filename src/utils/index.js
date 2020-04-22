@@ -522,6 +522,49 @@ export const reviseNum = (value) => {
 	return value;
 };
 
+// 防抖
+export const debounce = (fn, delay) => {
+	// 定时器；
+	let timer = null;
+	// eslint-disable-next-line func-names
+	return function () {
+		// 保存上下文的this
+		const context = this;
+		// 保存传入的参数
+		// eslint-disable-next-line prefer-rest-params
+		const args = arguments;
+		// 每次调用前都清空定时器
+		if (timer) {
+			clearTimeout(timer);
+		}
+		// 去设立一个新的定时器
+		timer = setTimeout(() => {
+			fn.apply(context, args);
+		}, delay);
+	};
+};
+
+// 节流
+export const throttle = (fn, Interval) => {
+	// 定时器；
+	let last = 0;
+	// eslint-disable-next-line func-names
+	return function () {
+		// 保存上下文的this
+		const context = this;
+		// 保存传入的参数
+		// eslint-disable-next-line prefer-rest-params
+		const args = arguments;
+		// 保存调用时的时间;
+		const now = +new Date();
+		// 判断上一次调用时间和当前调用时间对比
+		if (now - last > Interval) {
+			// 更新最后一次调用时间;
+			last = now;
+			fn.apply(context, args);
+		}
+	};
+};
 
 /**
  * 获取指定模块高度，仅业务详情页有效
