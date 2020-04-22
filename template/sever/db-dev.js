@@ -32,10 +32,8 @@ function exportCover(source, exportType) {
 	var userInfo = '', data = '';
 	if (exportType === 'debtor') {
 		data = d.DB10101 || {};
-		console.log(data);
 		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
 		userInfo = ("<div class='exp-name'>" + (data.obligorName || '-') + "<br/>" + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
-		console.log(userInfo);
 	} else {
 		data = d.BB10101 || {};
 		htmlCover = htmlCover.replace(/{base.title}/, "业务详情");
