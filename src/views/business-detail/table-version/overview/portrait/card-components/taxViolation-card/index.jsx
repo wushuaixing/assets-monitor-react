@@ -2,6 +2,7 @@ import React from 'react';
 import taxImg from '@/assets/img/business/taxCard.png';
 import Card from '../card';
 import './style.scss';
+import { navigateDetailRisk } from '@/utils';
 
 export default class Tax extends React.Component {
 	constructor(props) {
@@ -26,6 +27,7 @@ export default class Tax extends React.Component {
 							gmtCreate={gmtCreate}
 							customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 							text="税收违法"
+							onClick={() => navigateDetailRisk('e-manage-tax')}
 							styleName="taxViolation-card"
 						>
 							<div className="card-content">
