@@ -227,17 +227,17 @@ export default class Visualize extends React.Component {
 						{/* 相关资产拍卖 */}
 						<AssetAuction {...params} />
 						{/* 无形资产 */}
-						<Intangible {...params} />
-						 {/* 土地信息 */}
-						 <Land {...params} />
+						{portrait !== 'debtor_personal' && <Intangible {...params} />}
+						{/* 土地信息 */}
+						{portrait !== 'debtor_personal' && <Land {...params} />}
 						{/* 代位权信息 (裁判文书) */}
-						 <Subrogation {...params} />
+						<Subrogation {...params} />
 						{/* /!* 股权质押 *!/ */}
-						 <EquityPledge {...params} />
+						{portrait !== 'debtor_personal' && <EquityPledge {...params} />}
 						{/* /!* 动产抵押信息 *!/ */}
-						 <ChattelMortgage {...params} />
-						 {/* 招标中标 */}
-						 <Bidding {...params} />
+						{portrait !== 'debtor_personal' && <ChattelMortgage {...params} />}
+						{/* 招标中标 */}
+						{portrait !== 'debtor_personal' && <Bidding {...params} />}
 						{
 							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
 							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0
@@ -264,7 +264,7 @@ export default class Visualize extends React.Component {
 							)
 						}
 						{/* 破产重组 */}
-						<Bankruptcy {...params} />
+						{portrait !== 'debtor_personal' && <Bankruptcy {...params} />}
 						{/* 失信记录 */}
 						<Dishonest {...params} />
 						{/* 涉诉信息 */}

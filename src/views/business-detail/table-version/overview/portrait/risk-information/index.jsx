@@ -244,7 +244,7 @@ export default class RiskInformation extends React.Component {
 							</div>
 							<div className="overview-container-cardContent">
 								{/* 破产重组 */}
-								{Object.keys(bankruptcyPropsData).length !== 0 && <Bankruptcy dataSource={bankruptcyPropsData} portrait={portrait} />}
+								{portrait !== 'debtor_personal' && Object.keys(bankruptcyPropsData).length !== 0 && <Bankruptcy dataSource={bankruptcyPropsData} portrait={portrait} />}
 								{/* 失信记录 */}
 								{Object.keys(dishonestPropsData).length !== 0 && <Break dataSource={dishonestPropsData} portrait={portrait} />}
 								{/* 涉诉信息 */}
