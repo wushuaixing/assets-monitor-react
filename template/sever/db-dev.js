@@ -129,7 +129,7 @@ function exportTemplate(source, exportType, name) {
 		identity: {
 			0: "未知",
 			1: "作为违法人",
-			2: "作为法定代表人",
+			2: "作为法定人",
 			3: "作为财务",
 			9: "其他"
 		},
@@ -352,7 +352,7 @@ function exportTemplate(source, exportType, name) {
 	};
 	var w = function (value, o) {
 		var option = o || {};
-		if (value === '-') return '-';
+		if (value === '-') return (option.defaultWord || '-');
 		var showStr = option.show ? option.prefix : '';
 		return value ? ((option.prefix || '') + value + (option.unit || '')) : (showStr + (option.defaultWord || '-'));
 	};
@@ -499,6 +499,7 @@ function exportTemplate(source, exportType, name) {
 				data.list.forEach(function (i) {
 					var process = i.process !== 0 ? (s.process[i.process] || {}) : {};
 					var auction = s.auction[i.status] || {};
+					var optionPrice = {unit: '元', defaultWord: '未知'};
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
 						+ f.tag(process.t, process.tag)
@@ -509,12 +510,12 @@ function exportTemplate(source, exportType, name) {
 						+ "</td><td>"
 						+ f.normalList([
 							{cot: auction.t, dot: auction.dot},
-							{t: '处置单位', cot: i.court},
-							{t: '拍卖时间', cot: f.time(i.start)},
-							{t: '评估价', cot: w(f.threeDigit(i.consultPrice), {unit: '元'})},
-							(i.status === 1 ? {t: '起拍价', cot: w(f.threeDigit(i.initialPrice), {unit: '元'})} : ''),
-							(i.status === 5 ? {t: '成交价', cot: w(f.threeDigit(i.currentPrice), {unit: '元'})} : ''),
-							((i.status !== 5 && i.status !== 1) ? {t: '当前价', cot: w(f.threeDigit(i.currentPrice), {unit: '元'})} : ''),
+							{t: '处置机关', cot: w(i.court,{defaultWord: "未知"})},
+							{t: '开拍时间', cot: f.time(i.start,'s')},
+							{t: '评估价', cot: w(f.threeDigit(i.consultPrice), optionPrice)},
+							(i.status === 1 ? {t: '起拍价', cot: w(f.threeDigit(i.initialPrice), optionPrice)} : ''),
+							(i.status === 5 ? {t: '成交价', cot: w(f.threeDigit(i.currentPrice), optionPrice)} : ''),
+							((i.status !== 5 && i.status !== 1) ? {t: '当前价', cot: w(f.threeDigit(i.currentPrice), optionPrice)} : ''),
 						]) + "</td></tr>";
 				});
 				break;
@@ -759,7 +760,7 @@ function exportTemplate(source, exportType, name) {
 						{t: '登记编号', cot: i.regNum},
 					] : [
 						{cot: '无效', dot: dot},
-						{t: '注销时间', cot:  f.time(i.cancelDate)},
+						{t: '注销时间', cot: f.time(i.cancelDate)},
 						{t: '注销原因', cot: i.cancelReason},
 						{t: '登记编号', cot: i.regNum},
 					];
@@ -787,7 +788,7 @@ function exportTemplate(source, exportType, name) {
 						{t: '登记编号', cot: i.regNum},
 					] : [
 						{cot: '无效', dot: dot},
-						{t: '注销时间', cot:  f.time(i.cancelDate)},
+						{t: '注销时间', cot: f.time(i.cancelDate)},
 						{t: '注销原因', cot: i.cancelReason},
 						{t: '登记编号', cot: i.regNum},
 					];
