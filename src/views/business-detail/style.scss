@@ -120,15 +120,17 @@
       .ant-switch-checked{
         &:after{
           left: 23px;
+          color: $text-remark;
         }
       }
       .ant-switch-checked .ant-switch-inner {
         left: 5px;
+        color: $background-base;
       }
       .ignore-text{
         @extend .yc-public-remark;
         margin-right: 6px;
-        color: #4E5566;
+        color: $text-content;
       }
       margin-left: 25px;
       display: inline-block;

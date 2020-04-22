@@ -60,7 +60,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">审理法院</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">
-							{ toEmpty(row.court) ? <Ellipsis content={row.court} width={200} font={12} /> : '-' }
+							{ toEmpty(row.court) ? <Ellipsis content={row.court} width={200} font={12} tooltip /> : '-' }
 						</span>
 					</li>
 					<li>

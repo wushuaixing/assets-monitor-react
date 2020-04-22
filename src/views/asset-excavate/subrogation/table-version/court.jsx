@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { Spin, Table } from '@/common';
+import { Ellipsis, Spin, Table } from '@/common';
 import associationLink from '@/views/_common/association-link';
 import { linkDom, timeStandard } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
@@ -56,7 +56,7 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">审理法院</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
+						<span className="list list-content"><Ellipsis content={row.court} width={200} font={12} tooltip /></span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">关联信息</span>

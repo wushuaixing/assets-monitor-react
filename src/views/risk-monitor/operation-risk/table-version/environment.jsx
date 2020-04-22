@@ -48,7 +48,7 @@ export default class TableVersion extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						{ toEmpty(value) ? <Ellipsis content={value} url={row.url} width={600} font={15} /> : '-' }
+						<Ellipsis content={toEmpty(value)} url={row.url} width={600} font={15} tooltip />
 					</li>
 					{this.toShowExtraField(row)}
 				</div>

@@ -35,7 +35,7 @@ export default class TableIntact extends React.Component {
 			<>
 				<span className="list list-title align-justify">抵押权人</span>
 				<span className="list list-title-colon">:</span>
-				<span className="list list-content">
+				<span className="list list-content" style={{ minWidth: 200 }}>
 					<Ellipsis
 						content={toEmpty(row.people)}
 						url={row.peopleId ? `#/business/debtor/detail?id=${row.peopleId}` : ''}
@@ -91,7 +91,7 @@ export default class TableIntact extends React.Component {
 						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetStatusText(row.status).status ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
 						<span className="list list-content ">{toGetStatusText(row.status).text}</span>
 						{
-							toGetStatusText(row.state).status && this.toGetPortraitStatus() ? [
+							toGetStatusText(row.status).status && this.toGetPortraitStatus() ? [
 								<span>（</span>,
 								<span className="list list-title align-justify">匹配时间</span>,
 								<span className="list list-title-colon">:</span>,
@@ -105,7 +105,7 @@ export default class TableIntact extends React.Component {
 							<li>
 								<span className="list list-title align-justify">注销时间</span>
 								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{row.cancelDate || '-'}</span>
+								<span className="list list-content">{timeStandard(row.cancelDate)}</span>
 							</li>,
 							<li>
 								<span className="list list-title align-justify">注销原因</span>

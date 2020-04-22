@@ -1,7 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
-import { Ellipsis, Spin, Table } from '@/common';
+import {
+	Ellipsis, LiItem, Spin, Table,
+} from '@/common';
 import associationLink from '@/views/_common/association-link';
 import { timeStandard, toEmpty, getCaseType } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
@@ -34,15 +36,11 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							<Ellipsis content={toEmpty(row.title)} url={row.url} tooltip width={300} />
+							<Ellipsis content={toEmpty(row.caseNumber)} url={row.url} tooltip width={300} font={14} />
 						</span>
 						{ row.caseType ? <span className="yc-case-type">{getCaseType(row.caseType)}</span> : ''}
 					</li>
-					<li>
-						<span className="list list-title align-justify">立案日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtRegister)}</span>
-					</li>
+					<LiItem Li title="立案日期">{timeStandard(row.gmtRegister)}</LiItem>
 					<PartyCrosswise value={row.parties} row={row} type="trial" linkDetail={this.toGetPortrait()} />
 				</div>
 			),
@@ -52,18 +50,8 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ height: 24 }} />
-					<li>
-						<span className="list list-title align-justify">审理法院</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">
-							{ toEmpty(row.court) ? <Ellipsis content={row.court} width={200} font={12} /> : '-' }
-						</span>
-					</li>
-					<li>
-						<span className="list list-title align-justify">关联信息</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{associationLink(value, row, 'Court')}</span>
-					</li>
+					<LiItem Li title="审理法院"><Ellipsis content={toEmpty(row.court)} tooltip width={160} /></LiItem>
+					<LiItem Li title="关联信息">{associationLink(value, row, 'Court')}</LiItem>
 				</div>
 			),
 		},

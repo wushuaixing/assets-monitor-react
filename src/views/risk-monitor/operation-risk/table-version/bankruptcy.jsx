@@ -1,7 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
-import { Spin, Table, Ellipsis } from '@/common';
+import {
+	Spin, Table, Ellipsis, LiItem,
+} from '@/common';
 import { timeStandard, toEmpty } from '@/utils';
 
 export default class TableIntact extends React.Component {
@@ -52,9 +54,7 @@ export default class TableIntact extends React.Component {
 					</li>
 					<li>
 						{this.toShowExtraField(row)}
-						<span className="list list-title align-justify">发布日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.publishDate)}</span>
+						<LiItem title="发布日期">{timeStandard(row.publishDate)}</LiItem>
 					</li>
 				</div>
 			),
@@ -64,11 +64,7 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<br />
-					<li>
-						<span className="list list-title align-justify">受理法院</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ maxWidth: 200 }}>{row.court || '-'}</span>
-					</li>
+					<LiItem Li title="受理法院" auto><Ellipsis content={toEmpty(row.court)} tooltip width={240} /></LiItem>
 				</div>
 			),
 		},

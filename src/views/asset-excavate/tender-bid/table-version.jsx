@@ -1,7 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { Spin, Table, Ellipsis } from '@/common';
+import {
+	Spin, Table, Ellipsis, LiItem,
+} from '@/common';
 import { timeStandard, toEmpty } from '@/utils';
 
 export default class TableVersion extends React.Component {
@@ -26,7 +28,7 @@ export default class TableVersion extends React.Component {
 				<li>
 					<span className="list list-title align-justify">相关单位</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content" style={{ minWidth: 400 }}>
+					<span className="list list-content-auto">
 						<Ellipsis
 							content={row.obName}
 							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
@@ -48,7 +50,7 @@ export default class TableVersion extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						{ toEmpty(value) ? <Ellipsis content={value} url={row.url} width={600} font={15} /> : '-' }
+						<Ellipsis content={toEmpty(value)} url={row.url} width={600} font={15} tooltip />
 					</li>
 					{this.toShowExtraField(row)}
 				</div>
@@ -58,11 +60,7 @@ export default class TableVersion extends React.Component {
 			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li>
-						<span className="list list-title align-justify">发布日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.publishTime)}</span>
-					</li>
+					<LiItem Li title="发布日期">{timeStandard(row.publishTime)}</LiItem>
 				</div>
 			),
 		},

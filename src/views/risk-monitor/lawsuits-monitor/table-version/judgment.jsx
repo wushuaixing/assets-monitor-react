@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
 import {
-	Ellipsis, Icon, Spin, Table,
+	Ellipsis, Icon, LiItem, Spin, Table,
 } from '@/common';
 import { timeStandard, toEmpty } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
@@ -34,20 +34,16 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-						<span className="list list-content text-ellipsis" style={{ maxWidth: 400 }}>
-							<Ellipsis content={toEmpty(row.title)} url={row.url} tooltip width={400} />
+						<span className="list list-content-auto">
+							<Ellipsis content={row.title} url={row.url} tooltip width={400} font={14} auto />
 						</span>
 						{ row.caseType ? <span className="yc-case-type">{row.caseType}</span> : ''}
 						{ row.caseReason ? <span className="yc-case-reason text-ellipsis">{row.caseReason}</span> : ''}
 					</li>
 					<li>
-						<span className="list list-title align-justify">判决日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ minWidth: 80 }}>{timeStandard(row.gmtJudgment)}</span>
+						<LiItem title="判决日期" cotStyle={{ minWidth: 80 }}>{timeStandard(row.gmtJudgment)}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
-						<span className="list list-title align-justify">发布日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtPublish)}</span>
+						<LiItem title="发布日期">{timeStandard(row.gmtPublish)}</LiItem>
 					</li>
 					<PartyCrosswise value={row.parties} row={row} type="judgment" linkDetail={this.toGetPortrait()} />
 
@@ -63,11 +59,7 @@ export default class TableIntact extends React.Component {
 						<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 2 }} />
 						<span className="list list-content">{value}</span>
 					</li>
-					<li>
-						<span className="list list-title align-justify">审理法院</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
-					</li>
+					<LiItem Li title="审理法院"><Ellipsis content={toEmpty(row.court)} tooltip width={160} /></LiItem>
 				</div>
 			),
 		},
