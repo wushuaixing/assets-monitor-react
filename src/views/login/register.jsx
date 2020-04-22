@@ -17,7 +17,7 @@ import {
 import BASE_URL from '@/utils/api/config';
 import rsaEncrypt from '@/utils/encrypt';
 import PasswordModal from './passwordModal';
-import { handleRule } from '@/utils';
+import { handleRule, debounce } from '@/utils';
 import './style.scss';
 
 const cookie = new Cookies();
@@ -225,7 +225,7 @@ class Login extends React.Component {
 					<Spin spinning={loading}>
 
 						<li className="yc-card-title">用户登录</li>
-						<div className="yc-form-wapper">
+						<div className="yc-form-wrapper">
 							<Form.Item>
 								<Icon
 									type="icon-username"
@@ -259,7 +259,7 @@ class Login extends React.Component {
 								/>
 							</Form.Item>
 						</div>
-						<div className="yc-form-wapper">
+						<div className="yc-form-wrapper">
 							<Form.Item>
 								<Icon
 									type="icon-password"
@@ -289,7 +289,7 @@ class Login extends React.Component {
 						</div>
 						{
 							codeStatus && (
-							<div className="yc-form-wapper">
+							<div className="yc-form-wrapper">
 								<Form.Item>
 									<Icon type="icon-resetImg" className="yc-form-icon" />
 									<Input
@@ -325,7 +325,7 @@ class Login extends React.Component {
 								</div>
 							</li>
 						</div>
-						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit} style={{ backgroundColor: btnColor, border: `1px solid ${btnColor}` }}>登录</Button>
+						<Button type="primary" className="yc-login-btn" onClick={debounce(this.handleSubmit, 300)} style={{ backgroundColor: btnColor, border: `1px solid ${btnColor}` }}>登录</Button>
 					</Spin>
 				</Form>
 				{/** 修改密码Modal */}

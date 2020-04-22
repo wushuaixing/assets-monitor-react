@@ -20,7 +20,7 @@ export default class Land extends React.Component {
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
-		const newDataSource = isArray && dataSource.filter(i => i.count > 0).slice(0, 2);
+		const newDataSource = isArray && dataSource.slice(0, 2).filter(i => i.count > 0);
 		return (
 			<React.Fragment>
 				{dataSourceNum > 0 ? (
@@ -33,6 +33,12 @@ export default class Land extends React.Component {
 						onClick={() => navigateDetail('e-assets-land')}
 						styleName="land-card"
 					>
+						{!isBusiness && (
+						<div className="before-land-use" style={newDataSource.length === 0 && { top: '82px' }}>
+							<span style={{ color: 'red' }}>*</span>
+							原土地使用权人不计入角色统计
+						</div>
+						)}
 						<div className="card-content" onClick={this.handleNavigation} style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
 							<div className="card-content-role">
 								{isBusiness && obligorTotal ? (
@@ -40,6 +46,10 @@ export default class Land extends React.Component {
 										<img className="card-left-img" src={matching} alt="" />
 										<span className="portrait-card-num">{obligorTotal}</span>
 										人匹配到土地信息
+										<div className="business-before-land-use" style={newDataSource.length === 0 && { top: '82px' }}>
+											<span style={{ color: 'red' }}>*</span>
+											原土地使用权人不计入角色统计
+										</div>
 									</div>
 								) : null}
 								{
