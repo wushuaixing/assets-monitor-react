@@ -221,17 +221,17 @@ export default class Visualize extends React.Component {
 						{/* 相关资产拍卖 */}
 						<AssetAuction portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* 无形资产 */}
-						<Intangible portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						{portrait !== 'debtor_personal' && <Intangible portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
 						 {/* 土地信息 */}
-						 <Land portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 {portrait !== 'debtor_personal' && <Land portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
 						{/* 代位权信息 (裁判文书) */}
 						 <Subrogation portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* /!* 股权质押 *!/ */}
-						 <EquityPledge portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						{portrait !== 'debtor_personal' && <EquityPledge portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
 						{/* /!* 动产抵押信息 *!/ */}
-						 <ChattelMortgage portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						{portrait !== 'debtor_personal' && <ChattelMortgage portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
 						 {/* 招标中标 */}
-						 <Bidding portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						 {portrait !== 'debtor_personal' && <Bidding portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
 						{
 							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
 							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0
@@ -258,7 +258,7 @@ export default class Visualize extends React.Component {
 							)
 						}
 						{/* 破产重组 */}
-						<Bankruptcy portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
+						{portrait !== 'debtor_personal' && <Bankruptcy portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />}
 						{/* 失信记录 */}
 						<Dishonest portrait={portrait} businessId={businessId} obligorId={obligorId} getAssetProfile={this.getAssetProfile} />
 						{/* 涉诉信息 */}
