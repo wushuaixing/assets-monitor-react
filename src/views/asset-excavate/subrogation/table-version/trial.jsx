@@ -23,6 +23,11 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toGetPortrait =() => {
+		const { portrait } = this.props;
+		return portrait === 'business';
+	};
+
 	toGetColumns=() => [
 		{
 			title: '拍卖信息',
@@ -42,7 +47,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{timeStandard(row.gmtRegister)}</span>
 					</li>
-					<PartyCrosswise value={row.parties} row={row} type="trial" />
+					<PartyCrosswise value={row.parties} row={row} type="trial" linkDetail={this.toGetPortrait()} />
 				</div>
 			),
 		}, {
@@ -55,7 +60,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-title align-justify">审理法院</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">
-							{ toEmpty(row.court) ? <Ellipsis content={row.court} width={200} font={12} /> : '-' }
+							{ toEmpty(row.court) ? <Ellipsis content={row.court} width={200} font={12} tooltip /> : '-' }
 						</span>
 					</li>
 					<li>
@@ -110,10 +115,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

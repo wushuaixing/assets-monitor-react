@@ -1,6 +1,7 @@
 import React from 'react';
 import bankruptcyImg from '@/assets/img/business/BankruptcyCard.png';
 import Card from '../card';
+import { navigateDetailRisk } from '@/utils';
 import './style.scss';
 
 export default class Bankruptcy extends React.Component {
@@ -12,6 +13,7 @@ export default class Bankruptcy extends React.Component {
 	render() {
 		const { portrait, dataSource: { bankruptcyNum, gmtCreate, obligorTotal } } = this.props;
 		const isBusiness = portrait && portrait === 'business';
+
 		return (
 			<React.Fragment>
 				{bankruptcyNum > 0 ? (
@@ -21,6 +23,7 @@ export default class Bankruptcy extends React.Component {
 						gmtCreate={gmtCreate}
 						customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 						text="破产重组"
+						onClick={() => navigateDetailRisk('e-manage-bankruptcy')}
 						styleName="bankruptcy-card"
 					>
 						<div className="card-content">
@@ -28,7 +31,7 @@ export default class Bankruptcy extends React.Component {
 								{
 									isBusiness ? (
 										<div>
-										破产/重整风险企业：
+											破产/重整风险企业：
 											<span style={{ fontSize: '12px', color: '#4E5566', paddingLeft: '5px' }}>
 												{obligorTotal}
 												{' '}

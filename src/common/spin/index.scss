@@ -17,7 +17,7 @@
   }
   .yc-spin-mask{
     position: absolute;
-    z-index: 200;
+    z-index: 5;
     top: 0;
     right: 0;
     left: 0;
@@ -62,7 +62,7 @@
         line-height: 20px;
         font-size: 14px;
         text-align: center;
-        font-weight:bold;
+        //font-weight:bold;
         color: $text-link;
       }
     }
@@ -74,8 +74,12 @@
   min-height: 30px!important;
   .yc-mask-content{
     height: 30px!important;
+    width: auto!important;
     img{
       display: none!important;
+    }
+    div{
+      margin-top: 5px!important;
     }
   }
 }

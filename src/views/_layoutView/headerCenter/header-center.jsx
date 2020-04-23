@@ -248,6 +248,7 @@ export default class HeaderMessage extends React.Component {
 						onChange={e => this.ycHeaderInput(e)}
 						placeholder="请输入机构名称"
 						size="large"
+						maxLength="20"
 						// type="text"
 						// value={value}
 					/>

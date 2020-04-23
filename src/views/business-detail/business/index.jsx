@@ -6,13 +6,12 @@ import Router from '@/utils/Router';
 /* utils */
 import { requestAll } from '@/utils/promise';
 import {
-	getQueryByName, timeStandard, toEmpty, reviseNum,
+	getQueryByName, timeStandard, toEmpty, reviseNum, linkDetail, getHrefQuery,
 } from '@/utils';
 /* api collection */
 import businessAssets from '@/utils/api/professional-work/business/assets';
 import businessRisk from '@/utils/api/professional-work/business/risk';
-import { businessInfo } from '@/utils/api/professional-work';
-import { exportListEnp } from '@/utils/api/portrait-inquiry';
+import { businessInfo, exportListBusiness } from '@/utils/api/professional-work';
 /* components */
 import {
 	Tabs, Download, Icon as IconType, BreadCrumb, Button, Spin,
@@ -27,6 +26,7 @@ import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import '../style.scss';
 
+const constantNumber = 99999999; // 默认值
 /* 基本选项 */
 const source = () => [
 	{
@@ -68,14 +68,13 @@ const EnterpriseInfo = (props) => {
 		data, onEdit, onRecord, affixStatus,
 	} = props;
 	const {
-		dishonestStatus: isDishonest, pushState,
+		dishonestStatus: isDishonest, businessPushType, obligorId, bankruptcyStatus,
 	} = data;
 	const {
 		obligorName: name, orgName, obligorNumber, uploadTime, caseNumber, obligorPushType,
 	} = data;
-
 	const style = {
-		minWidth: 80,
+		// minWidth: 80,
 		display: 'inline-block',
 	};
 	// console.log(affixStatus);
@@ -91,13 +90,15 @@ const EnterpriseInfo = (props) => {
 						{caseNumber || '-'}
 					</span>
 					{
-						pushState !== null ? (
+						businessPushType !== null ? (
 							<span
 								className="inquiry-list-regStatus regStatus-blue"
-								style={pushState ? {} : { color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6' }}
+								style={businessPushType ? { marginTop: 2 } : {
+									marginTop: 2, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+								}}
 							>
 								{'当前推送状态：'}
-								{pushState ? '开启' : '关闭'}
+								{businessPushType ? '开启' : '关闭'}
 							</span>
 						) : null
 					}
@@ -107,25 +108,10 @@ const EnterpriseInfo = (props) => {
 						{name ? <img src={ShapeImg} style={{ position: 'relative', top: '2px', marginRight: '5px' }} alt="" /> : null}
 						<span className="yc-public-remark">借款人：</span>
 						<span className="yc-public-title intro-title-name" style={style}>
-							{name || '-'}
-							{
-								isDishonest === 1 ? (
-									<img
-										style={{ width: '28px' }}
-										src={isBreak}
-										alt=""
-									/>
-								) : null
-							}
-							{
-								isDishonest === 2 ? (
-									<img
-										style={{ width: '28px' }}
-										src={beforeBreak}
-										alt=""
-									/>
-								) : null
-							}
+							{name ? linkDetail(obligorId, name) : '-'}
+							{ isDishonest === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null }
+							{ isDishonest === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null }
+							{ bankruptcyStatus ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: -1, marginRight: 5 }}>破产/重整风险</span> : ''}
 							{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" style={{ width: '28px' }} /> : null} */}
 						</span>
 					</li>
@@ -159,15 +145,21 @@ const Operation = (props) => {
 	const { onEdit, onRecord, customStyle } = props;
 	return (
 		<div className="intro-download" style={customStyle}>
-			<Button className="intro-download-button" onClick={onEdit}>编辑</Button>
-			<Button className="intro-download-button" onClick={onRecord}>变更记录</Button>
+			<Button className="intro-download-button" onClick={onEdit}>
+				<IconType type="icon-edit" style={{ marginRight: 5 }} />
+				编辑
+			</Button>
+			<Button className="intro-download-button" onClick={onRecord}>
+				<IconType type="icon-change-record" style={{ marginRight: 5 }} />
+				变更记录
+			</Button>
 			<Download
 				style={{ width: 84, height: 30 }}
 				condition={{
-					companyId: getQueryByName(window.location.href, 'id'),
+					businessId: getQueryByName(window.location.href, 'id'),
 				}}
 				icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-				api={exportListEnp}
+				api={exportListBusiness}
 				normal
 				text="下载"
 			/>
@@ -193,6 +185,7 @@ export default class Enterprise extends React.Component {
 			changeListModalVisible: false,
 			errorModalVisible: false,
 			timeLeft: 3,
+			apiError: false,
 		};
 		this.portrait = 'business';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
@@ -200,7 +193,7 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const businessId = getQueryByName(window.location.href, 'id') || 999999;
+		const businessId = getQueryByName(window.location.href, 'id') || constantNumber;
 		this.setState({ loading: true });
 		businessInfo({ businessId }).then((res) => {
 			if (res.code === 200) {
@@ -228,6 +221,7 @@ export default class Enterprise extends React.Component {
 					loading: false,
 					assetLoading: false,
 					riskLoading: false,
+					apiError: true,
 				});
 			}
 		}).catch(() => {
@@ -241,7 +235,7 @@ export default class Enterprise extends React.Component {
 
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index, portrait) => {
-		const obligorId = getQueryByName(window.location.href, 'id');
+		const businessId = getQueryByName(window.location.href, 'id');
 		if (item.config) {
 			const { apiData, config: { idList: _idList, status: _status } } = item;
 			const { tabConfig } = this.state;
@@ -254,10 +248,7 @@ export default class Enterprise extends React.Component {
 						const tempRep = new RegExp(`^${i}`);
 						if (tempRep.test(k)) {
 							apiArray.push({
-								api: apiData[k].count({
-									obligorId,
-									businessId: obligorId,
-								}),
+								api: apiData[k].count({ businessId }),
 								info: { id: apiData[k].id },
 							});
 						}
@@ -283,7 +274,7 @@ export default class Enterprise extends React.Component {
 
 	handleEdit=() => {
 		const { infoSource } = this.state;
-		const businessId = getQueryByName(window.location.href, 'id') || 999999;
+		const businessId = getQueryByName(window.location.href, 'id') || constantNumber;
 		setSource(infoSource);
 		navigate(`/business/detail/edit/info?id=${businessId}`);
 	};
@@ -307,7 +298,8 @@ export default class Enterprise extends React.Component {
 		console.log('handleDownload');
 	};
 
-	handleAddChild=(val) => {
+	handleAddChild=(val, id) => {
+		this.childDomId = id;
 		this.setState({
 			childDom: val,
 		});
@@ -331,14 +323,18 @@ export default class Enterprise extends React.Component {
 	};
 
 	/* tab change */
-	onSourceType=(val) => {
-		const { sourceType } = this.state;
+	onSourceType=(val, item) => {
+		const { sourceType, childDom } = this.state;
 		const { href } = window.location;
-		const params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
+		const eleStr = getHrefQuery('ele');
+		let params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
+		if (item) {
+			params = eleStr ? params.replace(eleStr, '') : params;
+		}
 		if (val !== sourceType) {
 			this.setState({
 				sourceType: val,
-				childDom: '',
+				childDom: this.childDomId !== val ? '' : childDom,
 			}, () => {
 				navigate(`/business/detail/info/${val}${params}`);
 			});
@@ -347,11 +343,12 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible, affixStatus, loading, assetLoading, riskLoading,
+			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible, affixStatus, loading, assetLoading, riskLoading, apiError,
 		} = this.state;
 		const classList = ['info-detail', 'info-wrapper'];
 		if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
+			apiError,
 			assetLoading,
 			riskLoading,
 			toPushChild: this.handleAddChild, // tab 追加子项
@@ -378,7 +375,7 @@ export default class Enterprise extends React.Component {
 					<Spin visible={loading}>
 						<div className={classList.join(' ')}>
 							<EnterpriseInfo data={infoSource} onEdit={this.handleEdit} onRecord={this.openPeopleModal} affixStatus={affixStatus} />
-							<Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} />
+							<Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} hashUrl />
 							{childDom}
 						</div>
 					</Spin>

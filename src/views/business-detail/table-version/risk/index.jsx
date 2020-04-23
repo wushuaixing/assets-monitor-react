@@ -10,6 +10,7 @@ import Lawsuit from './lawsuit';
 import LawsuitJudgment from './lawsuit-judgment';
 import Environment from './environment';
 import { roleState } from '@/utils/rule';
+import { getHrefQuery } from '@/utils';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -58,7 +59,7 @@ const subItems = (data, portrait) => {
 			total: data ? toGetTotal('2040', data) : 0,
 			info: data ? data.filter(i => /2040/.test(i.id)) : '',
 			tagName: 'e-manage-dishonest',
-			role: roleState('fxjk', 'jkxxsxjl') && false,
+			role: roleState('fxjk', 'jkxxsxjl'),
 			isStatus: 'normal',
 			component: Dishonest,
 		},
@@ -151,8 +152,7 @@ class Risk extends React.Component {
 	}
 
 	componentDidMount() {
-		const { toPushChild } = this.props;
-		toPushChild(this.toGetSubItems());
+		this.toPushAndScroll();
 	}
 
 
@@ -163,19 +163,39 @@ class Risk extends React.Component {
 				this.setState({
 					config: subItems(nextProps.count, nextProps.portrait),
 				}, () => {
-					const { toPushChild } = this.props;
-					toPushChild(this.toGetSubItems());
+					this.toPushAndScroll();
 				});
 			}
 		}
 	}
 
+	toPushAndScroll = () => {
+		const { toPushChild } = this.props;
+		toPushChild(this.toGetSubItems(), 103);
+		setTimeout(() => {
+			const ele = getHrefQuery('ele');
+			if (ele) this.handleScroll(ele);
+		}, 150);
+	};
+
 	handleScroll=(eleID) => {
-		const dom = document.getElementById(eleID);
+		const eList = ['e-manage-abnormal', 'e-manage-illegal', 'e-manage-tax', 'e-manage-punishment', 'e-manage-environment'];
+		let dom = '';
+		if (eleID === 'e-manage') {
+			for (let i = 0; i <= 4; i += 1) {
+				const eleIdDom = document.getElementById(eList[i]);
+				if (eleIdDom) {
+					dom = eleIdDom;
+					break;
+				}
+			}
+		} else {
+			dom = document.getElementById(eleID);
+		}
 		const { portrait } = this.props;
-		const _height = portrait === 'business' ? 185 : 155;
+		const _height = portrait === 'business' ? 190 : 155;
 		if (dom) {
-			window.scrollTo(0, document.getElementById(eleID).offsetTop - _height);
+			window.scrollTo(0, dom.offsetTop - _height);
 		}
 	};
 

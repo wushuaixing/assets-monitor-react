@@ -446,6 +446,7 @@ class BusinessView extends React.Component {
 							title="业务编号"
 							style={_style1}
 							size="large"
+							maxLength="32"
 							placeholder="业务编号"
 							{...getFieldProps('caseNumber', {
 
@@ -458,6 +459,7 @@ class BusinessView extends React.Component {
 							title="借款人"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							placeholder="姓名/公司名称"
 							{...getFieldProps('obligorName', {
 
@@ -470,9 +472,10 @@ class BusinessView extends React.Component {
 							title="证件号"
 							style={_style1}
 							size="large"
+							maxLength="18"
 							placeholder="身份证号/统一社会信用代码"
 							{...getFieldProps('obligorNumber', {
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
 							})}
 						/>
 					</div>
@@ -481,6 +484,7 @@ class BusinessView extends React.Component {
 							title="负责人/机构"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							titleWidth={88}
 							placeholder="负责人/机构"
 							{...getFieldProps('orgName', {

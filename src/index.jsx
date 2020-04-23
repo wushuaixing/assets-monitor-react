@@ -9,12 +9,13 @@ import './assets/css';
 import './utils/config';
 
 const Version = 'v1.5.2';
-const BetaNumber = '.2';
+const BetaNumber = '.16';
 const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
 window.CurrentVersions = info;
 if (window.location.protocol === 'http:') {
 	console.info(info);
 }
+
 
 if (process.env.NODE_ENV === 'production') {
 	global.console = {

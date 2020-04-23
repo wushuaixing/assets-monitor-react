@@ -21,7 +21,7 @@ export default class BusinessRisk extends React.Component {
 
 	getData = () => {
 		const {
-			businessId, obligorId, portrait,
+			businessId, obligorId, portrait, getAssetProfile,
 		} = this.props;
 		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
 		const api = portrait === 'business' ? businessOverviewRisk : overviewRisk;
@@ -37,6 +37,7 @@ export default class BusinessRisk extends React.Component {
 				columnarData.push({ count: res.data.epb, typeName: '环保处罚' });
 				// const columnarData = res.data.businessRiskInfos;
 				const columnarNum = getCount(columnarData);
+				getAssetProfile(columnarNum, 'BusinessRisk');
 				this.setState({
 					columnarNum,
 					columnarData,
@@ -55,30 +56,20 @@ export default class BusinessRisk extends React.Component {
 		return (
 			<div>
 				<Spin visible={loading}>
-					{columnarData && getCount(columnarData) === 0 ? (
+					{columnarData && columnarNum > 0 ? (
 						<div>
-							{/* {loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到经营风险信息" />} */}
+							<div className="overview-container-title">
+								<div className="overview-left-item" />
+								<span className="container-title-num">
+									{`${getCount(columnarData)} 条`}
+								</span>
+								<span className="container-title-name">经营风险信息</span>
+							</div>
+							<div className="overview-container-content" style={{ marginLeft: '-20px' }}>
+								<ColumnarEcharts title="" Data={columnarData} id="BusinessRisk" />
+							</div>
 						</div>
-					) : (
-						<div>
-							{
-								columnarNum > 0 && (
-								<div>
-									<div className="overview-container-title">
-										<div className="overview-left-item" />
-										<span className="container-title-num">
-											{`${getCount(columnarData)} 条`}
-										</span>
-										<span className="container-title-name">经营风险信息</span>
-									</div>
-									<div className="overview-container-content" style={{ marginLeft: '-20px' }}>
-										<ColumnarEcharts title="" Data={columnarData} id="BusinessRisk" />
-									</div>
-								</div>
-								)
-							}
-						</div>
-					)}
+					) : null}
 				</Spin>
 			</div>
 		);

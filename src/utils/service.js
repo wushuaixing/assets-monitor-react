@@ -17,7 +17,10 @@ const requestMethods = {
 	onFulfilled: (config) => {
 		// 在请求发出之前做拦截工作
 		// 这块需要做一些用户验证的工作，需要带上用户凭证
-		const configNew = Object.assign({}, config);
+		const _params = Object.assign({}, config.params);
+		// eslint-disable-next-line radix
+		if (_params.page)_params.page = parseInt(_params.page);
+		const configNew = Object.assign({}, config, { params: _params });
 		// 在发送请求设置cancel token
 		configNew.cancelToken = new axios.CancelToken((cancel) => {
 			axiosPromiseArr.push({ cancel });

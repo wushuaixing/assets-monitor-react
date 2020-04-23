@@ -120,11 +120,10 @@ export default class Information extends React.Component {
 	};
 
 	render() {
+		const { portrait } = this.props;
 		const {
 			RingData, timeLineData, selectType, timeLineDataNum, RingDataNum, FilingNum, CourtNum, refereeNum, columnarDataNum, columnarData,
 		} = this.state;
-
-
 		return (
 			<div>
 				{timeLineDataNum > 0 || RingDataNum > 0 ? (
@@ -135,9 +134,10 @@ export default class Information extends React.Component {
 								{FilingNum || CourtNum || refereeNum ? `${FilingNum + CourtNum + refereeNum}  条` : ''}
 							</span>
 							<span className="container-title-name">
-								涉诉信息
+								{portrait === 'debtor_personal' ? '涉诉信息 (裁判文书)' : '涉诉信息'}
+
 								<Tooltip placement="top" title="债务人作为被告被起诉的案件" arrowPointAtCenter>
-									<span>
+									<span style={{ verticalAlign: 'middle' }}>
 										<Icon
 											type="icon-question"
 											style={{
@@ -149,6 +149,7 @@ export default class Information extends React.Component {
 							</span>
 						</div>
 						<div className="overview-container-content">
+							{portrait !== 'debtor_personal' && (
 							<div style={{ marginBottom: 20 }}>
 								<TagSide
 									content="立案信息"
@@ -181,6 +182,7 @@ export default class Information extends React.Component {
 									tag={selectType === 'referee' ? 'yc-tag-active' : ''}
 								/>
 							</div>
+							)}
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="Information" />}
 							{selectType !== 'Filing' && columnarDataNum > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="Information" />}
 							{RingDataNum > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="Information" customColorArray={['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A']} />}

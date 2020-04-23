@@ -46,7 +46,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发证日期</SortVessel>),
 			dataIndex: 'gmtPublishTime',
 			width: 113,
-			render: (text, record) => ReadStatus(timeStandard(text) || '未公开', record),
+			render: (text, record) => ReadStatus(timeStandard(text, '未公开'), record),
 		}, {
 			title: '持证单位',
 			dataIndex: 'companyName',

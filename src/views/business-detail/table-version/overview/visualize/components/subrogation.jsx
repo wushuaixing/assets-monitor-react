@@ -131,6 +131,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	render() {
+		const { portrait } = this.props;
 		const {
 			RingData, columnarData, timeLineData, selectType, FilingArray, CourtArray, refereeArray, FilingNum, CourtNum, refereeNum, RingDataNum, timeLineDataNum, columnarDataNum,
 		} = this.state;
@@ -145,9 +146,10 @@ export default class Subrogation extends React.Component {
 								{FilingArray.count || CourtArray.count || refereeArray.count ? `${FilingArray.count + CourtArray.count + refereeArray.count} 条` : '-'}
 							</span>
 							<span className="container-title-name">
-								代位权信息
-								<Tooltip placement="top" title="查询主体作为原告起诉他人的案件" arrowPointAtCenter>
-									<span>
+								{portrait === 'debtor_personal' ? '代位权信息 (裁判文书)' : '代位权信息'}
+
+								<Tooltip placement="top" title="债务人作为原告起诉他人的案件" arrowPointAtCenter>
+									<span style={{ verticalAlign: 'middle' }}>
 										<Icon
 											type="icon-question"
 											style={{
@@ -159,6 +161,7 @@ export default class Subrogation extends React.Component {
 							</span>
 						</div>
 						<div className="overview-container-content">
+							{portrait !== 'debtor_personal' && (
 							<div style={{ marginBottom: 20 }}>
 								<TagSide
 									content="立案信息"
@@ -191,6 +194,7 @@ export default class Subrogation extends React.Component {
 									tag={selectType === 'referee' ? 'yc-tag-active' : ''}
 								/>
 							</div>
+							)}
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
 							<div style={{ marginBottom: 20 }}>
 								{selectType !== 'Filing' && columnarDataNum > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}

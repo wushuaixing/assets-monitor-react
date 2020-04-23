@@ -1,9 +1,9 @@
 import React from 'react';
-import { navigate } from '@reach/router';
 import { toThousands } from '@/utils/changeTime';
 import landImg from '@/assets/img/business/landCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
+import { navigateDetail } from '@/utils';
 import './style.scss';
 
 export default class Land extends React.Component {
@@ -11,10 +11,6 @@ export default class Land extends React.Component {
 		super(props);
 		this.state = {};
 	}
-
-	handleNavigation = () => {
-		navigate('/business/detail/info/102?eleID=e-assets-land');
-	};
 
 	render() {
 		const {
@@ -24,7 +20,7 @@ export default class Land extends React.Component {
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
-		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
+		const newDataSource = isArray && dataSource.slice(0, 2).filter(i => i.count > 0);
 		return (
 			<React.Fragment>
 				{dataSourceNum > 0 ? (
@@ -32,17 +28,28 @@ export default class Land extends React.Component {
 						imgCard={landImg}
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
-						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
+						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 						text="土地信息"
+						onClick={() => navigateDetail('e-assets-land')}
 						styleName="land-card"
 					>
+						{!isBusiness && (
+						<div className="before-land-use" style={newDataSource.length === 0 && { top: '82px' }}>
+							<span style={{ color: 'red' }}>*</span>
+							原土地使用权人不计入角色统计
+						</div>
+						)}
 						<div className="card-content" onClick={this.handleNavigation} style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
 							<div className="card-content-role">
 								{isBusiness && obligorTotal ? (
 									<div className="card-content-role-itemLeft">
 										<img className="card-left-img" src={matching} alt="" />
 										<span className="portrait-card-num">{obligorTotal}</span>
-									人匹配到无形资产
+										人匹配到土地信息
+										<div className="business-before-land-use" style={newDataSource.length === 0 && { top: '82px' }}>
+											<span style={{ color: 'red' }}>*</span>
+											原土地使用权人不计入角色统计
+										</div>
 									</div>
 								) : null}
 								{

@@ -1,11 +1,11 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import { Table, Button, Icon } from '@/common';
+import { getQueryByName, linkDetail } from '@/utils';
 import noData from '@/assets/img/business/noData.png';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import './style.scss';
-import { getQueryByName } from '@/utils';
 
 const constantNumber = 99999999; // 默认值
 export default class BusinessRelated extends React.Component {
@@ -19,7 +19,7 @@ export default class BusinessRelated extends React.Component {
 				key: 'obligorName',
 				render: (text, row) => (
 					<p>
-						{text || '-'}
+						{row.obligorId ? linkDetail(row.obligorId, text) : text}
 						<span className="yc-item-break">
 							 {
 								row && row.dishonestStatus === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null
@@ -110,10 +110,17 @@ export default class BusinessRelated extends React.Component {
 									</tr>
 								</tbody>
 							</table>
-							<div style={{ textAlign: 'center', marginBottom: '30px' }}>
+							<div style={{ textAlign: 'center', marginBottom: '30px', marginTop: '20px' }}>
 								<img style={imgLoading ? { marginTop: '50px' } : {}} src={noData} alt="" />
-								<div>暂未导入相关人，建议去编辑添加相关人，以形成完整业务画像</div>
-								<Button size="large" type="common" style={{ width: 160, height: 34, marginTop: 40 }} onClick={this.handleSubmit}>添加相关人</Button>
+								<div style={{ color: '#4E5566' }}>暂未导入相关人，建议去编辑添加相关人，以形成完整业务画像</div>
+								<Button
+									size="large"
+									type="common"
+									className="business-table-edit-btn"
+									onClick={this.handleSubmit}
+								>
+									添加相关人
+								</Button>
 							</div>
 						</div>
 					 )}

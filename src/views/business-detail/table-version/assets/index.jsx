@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, NoContent, Spin } from '@/common';
 import { roleState } from '@/utils/rule';
+import { getHrefQuery } from '@/utils';
 import Auction from './auction';
 import Subrogation from './subrogation';
 import Land from './land';
@@ -126,7 +127,11 @@ class Assets extends React.Component {
 
 	componentDidMount() {
 		const { toPushChild } = this.props;
-		toPushChild(this.toGetSubItems());
+		toPushChild(this.toGetSubItems(), 102);
+		setTimeout(() => {
+			const ele = getHrefQuery('ele');
+			if (ele) this.handleScroll(ele);
+		}, 400);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -137,7 +142,7 @@ class Assets extends React.Component {
 					config: subItems(nextProps.count, nextProps.portrait),
 				}, () => {
 					const { toPushChild } = this.props;
-					toPushChild(this.toGetSubItems());
+					toPushChild(this.toGetSubItems(), 102);
 				});
 			}
 		}
@@ -146,7 +151,7 @@ class Assets extends React.Component {
 	handleScroll=(eleID) => {
 		const dom = document.getElementById(eleID);
 		const { portrait } = this.props;
-		const _height = portrait === 'business' ? 185 : 155;
+		const _height = portrait === 'business' ? 190 : 155;
 		if (dom) {
 			// window.scrollTo(0, document.getElementById(eleID).offsetTop - 168);
 			window.scrollTo(0, document.getElementById(eleID).offsetTop - _height);

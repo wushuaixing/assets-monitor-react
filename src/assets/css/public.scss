@@ -78,7 +78,7 @@ body,td,th{font-size:14px;color:#20242e}
   vertical-align: top;
   padding: 0 10px;
   height: 20px;
-  min-width: 100px;
+  min-width: 80px;
   line-height: 19px;
   text-align: center;
   font-size: 12px;
@@ -617,4 +617,8 @@ td.column-left20 {
 
 .yc-text-content{
   color: #5b5b5b;
+}
+
+.yc-line-height-16{
+  line-height: 16px;
 }

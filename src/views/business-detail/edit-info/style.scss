@@ -1,5 +1,11 @@
 
 .edit-info-wrapper{
+  .ant-table-tbody>tr>td {
+    border-bottom: 1px solid #E5E5E5;
+  }
+  .ant-table-tbody>tr>td, .ant-table-thead>tr>th {
+    padding: 12px 20px;
+  }
   .info-wrapper{
     padding: 20px;
     .info-edit-title {
@@ -65,6 +71,7 @@
       cursor: pointer;
       &:hover {
         border: 1px dashed $text-link;
+        color: $text-link;
       }
       .yc-table-addList-img {
         margin-right: 6px;

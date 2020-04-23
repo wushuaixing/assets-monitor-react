@@ -2,13 +2,14 @@ import React from 'react';
 import { Affix, Modal, Icon } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
+import { getHrefQuery } from '@/utils';
 /* utils */
 import { requestAll } from '@/utils/promise';
 import { getQueryByName } from '@/utils';
 /* api collection */
 import assets from '@/utils/api/professional-work/debtor/assets';
 import risk from '@/utils/api/professional-work/debtor/risk';
-import { debtorInfo, exportListEnp } from '@/utils/api/professional-work';
+import { debtorInfo, exportListDebtor } from '@/utils/api/professional-work';
 /* components */
 import {
 	Tabs, BreadCrumb, Spin, Icon as IconType, Download, Button,
@@ -20,6 +21,7 @@ import Risk from '@/views/business-detail/table-version/risk';
 import Info from '@/views/business-detail/table-version/info';
 import '../style.scss';
 
+const constantNumber = 99999999; // 默认值
 /* 基本选项 */
 const source = () => [
 	{
@@ -82,6 +84,7 @@ export default class Enterprise extends React.Component {
 			assetLoading: true,
 			riskLoading: true,
 			errorModalVisible: false,
+			apiError: false,
 			timeLeft: 3,
 		};
 		this.portrait = 'debtor_enterprise';
@@ -90,7 +93,7 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
+		const obligorId = getQueryByName(window.location.href, 'id') || constantNumber;
 		debtorInfo({ obligorId }).then((res) => {
 			if (res.code === 200) {
 				const { obligorName } = res.data;
@@ -124,6 +127,7 @@ export default class Enterprise extends React.Component {
 				this.openErrorModal();
 				this.setState({
 					loading: false,
+					apiError: true,
 					assetLoading: false,
 					riskLoading: false,
 				});
@@ -154,7 +158,7 @@ export default class Enterprise extends React.Component {
 
 	/* 获取各类子项总数 */
 	toGetSubItemsTotal=((item, index, portrait) => {
-		const obligorId = getQueryByName(window.location.href, 'id') || 9999999;
+		const obligorId = getQueryByName(window.location.href, 'id') || constantNumber;
 		if (item.config) {
 			const { apiData, config: { idList: _idList, status: _status } } = item;
 			const { tabConfig } = this.state;
@@ -168,9 +172,7 @@ export default class Enterprise extends React.Component {
 						const tempRep = new RegExp(`^${i}`);
 						if (tempRep.test(k)) {
 							apiArray.push({
-								api: apiData[k].count({
-									obligorId,
-								}),
+								api: apiData[k].count({ obligorId }),
 								info: { id: apiData[k].id },
 							});
 						}
@@ -188,6 +190,7 @@ export default class Enterprise extends React.Component {
 					if (item.id === 102) l.assetLoading = false;
 					if (item.id === 103) l.riskLoading = false;
 					this.setState({ tabConfig, ...l });
+					// console.log(tabConfig);
 				});
 			}
 		}
@@ -197,7 +200,8 @@ export default class Enterprise extends React.Component {
 		console.log('handleDownload');
 	};
 
-	handleAddChild=(val) => {
+	handleAddChild=(val, id) => {
+		this.childDomId = id;
 		this.setState({
 			childDom: val,
 		});
@@ -221,14 +225,18 @@ export default class Enterprise extends React.Component {
 	};
 
 	/* tab change */
-	onSourceType=(val) => {
-		const { sourceType } = this.state;
+	onSourceType=(val, item) => {
+		const { sourceType, childDom } = this.state;
 		const { href } = window.location;
-		const params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
+		const eleStr = getHrefQuery('ele');
+		let params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
+		if (item) {
+			params = eleStr ? params.replace(eleStr, '') : params;
+		}
 		if (val !== sourceType) {
 			this.setState({
 				sourceType: val,
-				childDom: '',
+				childDom: this.childDomId !== val ? '' : childDom,
 			}, () => {
 				navigate(`/business/debtor/detail/info/${val}${params}`);
 			});
@@ -237,13 +245,14 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, affixStatus, timeLeft, errorModalVisible, loading, assetLoading, riskLoading,
+			tabConfig, childDom, sourceType, infoSource, affixStatus, timeLeft, errorModalVisible, loading, assetLoading, riskLoading, apiError,
 		} = this.state;
-		const { allRule } = this.props;
+		const { baseRule } = this.props;
 		const classList = ['info-detail', 'info-wrapper'];
 		if (affixStatus) classList.push('enterprise-intro-affix');
 		const params = {
-			allRule,
+			apiError,
+			baseRule,
 			loading,
 			assetLoading,
 			riskLoading,
@@ -251,7 +260,6 @@ export default class Enterprise extends React.Component {
 			toPushChild: this.handleAddChild, // tab 追加子项
 			portrait: this.portrait,
 		};
-
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation info-wrapper">
@@ -265,10 +273,10 @@ export default class Enterprise extends React.Component {
 								<Download
 									style={{ width: 84 }}
 									condition={{
-										companyId: getQueryByName(window.location.href, 'id'),
+										obligorId: getQueryByName(window.location.href, 'id'),
 									}}
 									icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-									api={exportListEnp}
+									api={exportListDebtor}
 									normal
 									text="下载"
 								/>
@@ -285,6 +293,7 @@ export default class Enterprise extends React.Component {
 							<Tabs.Simple
 								onChange={this.onSourceType}
 								source={tabConfig}
+								hashUrl
 								symbol="none"
 								defaultCurrent={sourceType}
 							/>

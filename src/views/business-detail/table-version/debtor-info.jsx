@@ -2,7 +2,7 @@ import React from 'react';
 import { Download, Icon as IconType } from '@/common';
 import { exportListEnp } from '@/utils/api/professional-work';
 import {
-	getQueryByName, timeStandard, toEmpty, reviseNum,
+	getQueryByName, timeStandard, toEmpty, reviseNum, w,
 } from '@/utils';
 import PublicImg from '@/assets/img/business/icon_zwr_company.png';
 import PublicPerImg from '@/assets/img/business/icon_zwrpeople.png';
@@ -45,7 +45,7 @@ const EnterpriseInfo = (arg = {}) => {
 	} = arg.data;
 	const _formerNames = (usedName || []).join('、');
 	const style = {
-		minWidth: 80,
+		// minWidth: 80,
 		display: 'inline-block',
 	};
 
@@ -102,7 +102,7 @@ const EnterpriseInfo = (arg = {}) => {
 				<div className="intro-base-info">
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">法定代表人：</span>
-						<span className="yc-public-title" style={style}>{legalPersonName || '-'}</span>
+						<span className="yc-public-title" style={style}>{w(legalPersonName)}</span>
 					</li>
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">注册资本：</span>

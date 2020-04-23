@@ -105,7 +105,7 @@ class AUCTION extends React.PureComponent {
 							maxLength="18"
 							placeholder="身份证号/统一社会信用代码"
 							{...getFieldProps('number', {
-								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-]/g, ''),
+								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
 								// getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -123,7 +123,7 @@ class AUCTION extends React.PureComponent {
 					<div style={_style1} className="item">
 						<Input
 							title="处置机关"
-							maxLength="40"
+							maxLength="20"
 							placeholder="处置法院/单位"
 							{...getFieldProps('court', {
 								getValueFromEvent: e => e.trim(),

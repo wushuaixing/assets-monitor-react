@@ -17,7 +17,7 @@ import {
 import BASE_URL from '@/utils/api/config';
 import rsaEncrypt from '@/utils/encrypt';
 import PasswordModal from './passwordModal';
-import { handleRule } from '@/utils';
+import { handleRule, debounce } from '@/utils';
 import './style.scss';
 
 const cookie = new Cookies();
@@ -225,7 +225,7 @@ class Login extends React.Component {
 					<Spin spinning={loading}>
 
 						<li className="yc-card-title">用户登录</li>
-						<div className="yc-form-wapper">
+						<div className="yc-form-wrapper">
 							<Form.Item>
 								<Icon
 									type="icon-username"
@@ -241,21 +241,26 @@ class Login extends React.Component {
 									// value={userName}
 									{...getFieldProps('username', {
 										validateTrigger: isIe ? 'onBlur' : 'onChange',
+										// getValueFromEvent: event => event.target.value.replace(/[\u4E00-\u9FA5]/g, ''),
 										rules: [
 											{
 												required: true,
 												message: '请输入用户名',
 											},
+											// {
+											// 	pattern: /^[^\s]*$/,
+											// 	message: '请勿输入空格',
+											// },
 											{
-												pattern: /^[^\s]*$/,
-												message: '禁止输入空格',
+												pattern: new RegExp('^[0-9a-zA-Z-]{1,}$', 'g'),
+												message: '请勿输入空格,中文和特殊字符',
 											},
 										],
 									})}
 								/>
 							</Form.Item>
 						</div>
-						<div className="yc-form-wapper">
+						<div className="yc-form-wrapper">
 							<Form.Item>
 								<Icon
 									type="icon-password"
@@ -285,13 +290,14 @@ class Login extends React.Component {
 						</div>
 						{
 							codeStatus && (
-							<div className="yc-form-wapper">
+							<div className="yc-form-wrapper">
 								<Form.Item>
 									<Icon type="icon-resetImg" className="yc-form-icon" />
 									<Input
 										className="yc-login-input"
 										placeholder="请输入验证码"
 										titleWidth={40}
+										maxLength="4"
 										titleIcon
 										{...getFieldProps('imageVerifyCode', {
 											validateTrigger: isIe ? 'onBlur' : 'onChange',
@@ -310,17 +316,19 @@ class Login extends React.Component {
 									}
 						<div className="yc-login-clearfix">
 							<li className="yc-checked">
-								{/* <div className="yc-checked-left"> */}
-								{/*	<Checkbox defaultChecked={rememberPassword === 'true'} onChange={this.checkboxChange}> */}
-								{/*		下次自动登录 */}
-								{/*	</Checkbox> */}
-								{/* </div> */}
 								<div className="yc-checked-right">
 									<span onClick={() => changeType(2)} className="yc-forget-password">忘记密码？</span>
 								</div>
 							</li>
 						</div>
-						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit} style={{ backgroundColor: btnColor, border: `1px solid ${btnColor}` }}>登录</Button>
+						<Button
+							type="primary"
+							className="yc-login-btn"
+							onClick={debounce(this.handleSubmit, 300)}
+							style={{ backgroundColor: btnColor, border: `1px solid ${btnColor}` }}
+						>
+							登录
+						</Button>
 					</Spin>
 				</Form>
 				{/** 修改密码Modal */}

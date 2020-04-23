@@ -94,7 +94,7 @@ class EditBusiness extends React.Component {
 		}
 		confirm({
 			title: '确认修改债务人名称/身份信息?',
-			iconType: 'exclamation-circle-o',
+			iconType: 'exclamation-circle',
 			width: 500,
 			content: '若本次编辑涉及债务人名称或身份证号，该债务人的历史数据匹配将被删除，并以新名称、身份证号重新进行匹配。',
 			onOk() {
@@ -238,7 +238,7 @@ class EditBusiness extends React.Component {
 								autocomplete="off"
 								{...getFieldProps('obligorNumber', {
 									initialValue: source && source.obligorNumber,
-									getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z-]/g, ''),
+									getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
 								})}
 								className="yc-from-input"
 							/>

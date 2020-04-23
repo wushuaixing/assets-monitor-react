@@ -119,6 +119,18 @@ export const businessOverviewLitigation = async (params) => {
 	return response.data;
 };
 
+// 债务人失信
+export const overviewDishonest = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/dishonest', { params });
+	return response.data;
+};
+
+// 业务失信
+export const businessOverviewDishonest = async (params) => {
+	const response = await service.get('/yc/business/monitor/overview/dishonest', { params });
+	return response.data;
+};
+
 // 债务人经营风险
 export const overviewRisk = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/risk', { params });
@@ -130,6 +142,13 @@ export const businessOverviewRisk = async (params) => {
 	const response = await service.get('/yc/business/monitor/overview/risk', { params });
 	return response.data;
 };
+
+// 个人债务人税收违法
+export const OverviewTax = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/tax', { params });
+	return response.data;
+};
+
 // 债务人工商基本情况
 export const overviewBusiness = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/business', { params });

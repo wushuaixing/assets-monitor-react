@@ -5,6 +5,7 @@ import {
 	Ellipsis, Spin, Table,
 } from '@/common';
 import { timeStandard, toEmpty } from '@/utils';
+import { floatFormat } from '@/utils/format';
 
 
 const certificateTypeStatus = {
@@ -53,15 +54,12 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.licenseNumber) ? <Ellipsis content={row.licenseNumber} width={400} tooltip font={16} /> : '-' }
+						<Ellipsis content={toEmpty(row.licenseNumber)} width={400} tooltip font={16} url={row.url} />
 						{ row.certificateType ? <span className="yc-case-reason text-ellipsis">{certificateTypeStatus[row.certificateType]}</span> : ''}
 					</li>
-
 					<li>
 						<span className="list">
-							<span>
-								{row.mineralSpecies || '-'}
-							</span>
+							<span>{row.mineralSpecies || '-'}</span>
 							<span style={{ marginLeft: 20 }}>{row.projectName || '-'}</span>
 						</span>
 					</li>
@@ -81,7 +79,7 @@ export default class TableIntact extends React.Component {
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">面积</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.area}</span>
+						<span className="list list-content">{row.area ? `${floatFormat(row.area)} 平方米` : '-'}</span>
 					</li>
 				</div>
 			),
@@ -128,10 +126,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

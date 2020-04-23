@@ -1,7 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { Spin, Table, Ellipsis } from '@/common';
+import {
+	Spin, Table, Ellipsis, LiItem,
+} from '@/common';
 import { timeStandard, toEmpty } from '@/utils';
 
 export default class TableVersion extends React.Component {
@@ -19,7 +21,6 @@ export default class TableVersion extends React.Component {
 		this.toGetData();
 	}
 
-
 	toShowExtraField=(row = {}) => {
 		const { portrait } = this.props;
 		if (portrait === 'business') {
@@ -27,12 +28,12 @@ export default class TableVersion extends React.Component {
 				<li>
 					<span className="list list-title align-justify">相关单位</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
+					<span className="list list-content-auto">
 						<Ellipsis
 							content={row.obName}
 							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
 							tooltip
-							width={200}
+							width={400}
 						/>
 					</span>
 					{/* <span className="list-split" style={{ height: 16 }} /> */}
@@ -49,7 +50,7 @@ export default class TableVersion extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						{ toEmpty(value) ? <Ellipsis content={value} url={row.url} width={600} font={15} /> : '-' }
+						<Ellipsis content={toEmpty(value)} url={row.url} width={600} font={15} tooltip />
 					</li>
 					{this.toShowExtraField(row)}
 				</div>
@@ -59,11 +60,7 @@ export default class TableVersion extends React.Component {
 			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li>
-						<span className="list list-title align-justify">发布日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.publishTime)}</span>
-					</li>
+					<LiItem Li title="发布日期">{timeStandard(row.publishTime)}</LiItem>
 				</div>
 			),
 		},
@@ -111,10 +108,10 @@ export default class TableVersion extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

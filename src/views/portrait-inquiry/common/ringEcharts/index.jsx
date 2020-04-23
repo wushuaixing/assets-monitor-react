@@ -174,7 +174,7 @@ class RingEcharts extends React.Component {
 		return (
 			<div>
 				<div className="yc-ring-title">{title}</div>
-				<div className="yc-ring-rcharts" style={{ width: 532, height: 150 }} id={`${id}RingEcharts`} />
+				<div className="yc-ring-echarts" style={{ width: 532, height: 150 }} id={`${id}RingEcharts`} />
 			</div>
 		);
 	}

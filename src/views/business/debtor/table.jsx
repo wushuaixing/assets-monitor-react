@@ -21,6 +21,7 @@ class BusinessView extends React.Component {
 				dataIndex: 'obligorName',
 				key: 'obligorName',
 				width: 254,
+				className: 'column-left20',
 				render: (text, row) => (
 					<div style={{ position: 'relative' }}>
 						<span>
@@ -58,6 +59,7 @@ class BusinessView extends React.Component {
 				dataIndex: 'businessCount',
 				key: 'businessCount',
 				width: 133,
+				className: 'column-center',
 				render(text) {
 					if (text === '0' || !text) {
 						return <div>0</div>;
@@ -69,6 +71,7 @@ class BusinessView extends React.Component {
 				dataIndex: 'pushCount',
 				key: 'pushCount',
 				width: 133,
+				className: 'column-center',
 				render(text) {
 					if (text === '0' || !text) {
 						return <div>0</div>;
@@ -146,16 +149,16 @@ class BusinessView extends React.Component {
 		const content = row.openBusinessCount === 0 && row.pushState === 0 ? (
 			<span>
 				该债务人当前所有相关业务均为推送关闭状态，开启该债务人的推送将把
-				<b>全部相关业务推送状态置为开启</b>
+				<b style={{ fontWeight: 'bold', color: '#20242E' }}>全部相关业务推送状态置为开启</b>
 				，确定要开启推送吗？
 			</span>
 		) : `点击确定，系统将${row.pushState === 1 ? '不再' : ''}为您推送本债务人相关的监控信息。`;
-		const iconType = row.openBusinessCount === 0 ? 'exclamation-circle-o' : 'none';
+		const iconType = row.openBusinessCount === 0 ? 'exclamation-circle' : 'none';
 		confirm({
 			title: `确认${row.pushState === 1 ? '关闭' : '开启'}本债务人的推送功能吗?`,
 			content,
 			iconType,
-			className: iconType === 'none' ? 'message-confirm-no-icon' : '',
+			className: iconType === 'none' ? 'message-confirm-no-icon' : 'message-confirm-icon',
 			onOk() {
 				that.commonPushState(row);
 			},
@@ -176,10 +179,7 @@ class BusinessView extends React.Component {
 					defaultExpandAllRows
 					pagination={false}
 					onRowClick={() => {
-						// if (!record.children) {
-						// 	const w = window.open('about:blank');
-						// 	w.location.href = '#/monitor';
-						// }
+
 					}}
 				/>
 			</React.Fragment>

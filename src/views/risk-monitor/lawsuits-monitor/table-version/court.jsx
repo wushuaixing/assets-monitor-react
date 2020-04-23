@@ -1,9 +1,11 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
-import { Spin, Table } from '@/common';
+import {
+	Ellipsis, Spin, Table, LiItem,
+} from '@/common';
 import associationLink from '@/views/_common/association-link';
-import { linkDom, timeStandard } from '@/utils';
+import { timeStandard, toEmpty } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
 export default class TableIntact extends React.Component {
@@ -18,10 +20,13 @@ export default class TableIntact extends React.Component {
 	}
 
 	componentWillMount() {
-		console.log(this.props, 123);
-
 		this.toGetData();
 	}
+
+	toGetPortrait =() => {
+		const { portrait } = this.props;
+		return portrait === 'business';
+	};
 
 	toGetColumns=() => [
 		{
@@ -31,16 +36,12 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							{row.caseNumber ? linkDom(row.url, row.caseNumber.replace('（', '( ')) : '-'}
+							<Ellipsis content={toEmpty(row.caseNumber)} url={row.url} tooltip width={300} font={14} auto />
 						</span>
 						{ row.caseReason ? <span className="yc-case-reason text-ellipsis">{row.caseReason}</span> : ''}
 					</li>
-					<li>
-						<span className="list list-title align-justify">开庭日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtTrial)}</span>
-					</li>
-					<PartyCrosswise value={row.parties} row={row} type="court" />
+					<LiItem Li title="开庭日期">{timeStandard(row.gmtTrial)}</LiItem>
+					<PartyCrosswise value={row.parties} row={row} type="court" linkDetail={this.toGetPortrait()} />
 				</div>
 			),
 		}, {
@@ -49,16 +50,8 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ height: 24 }} />
-					<li>
-						<span className="list list-title align-justify">审理法院</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court || '-'}</span>
-					</li>
-					<li>
-						<span className="list list-title align-justify">关联信息</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{associationLink(value, row, 'Court')}</span>
-					</li>
+					<LiItem Li title="审理法院"><Ellipsis content={toEmpty(row.court)} tooltip width={160} /></LiItem>
+					<LiItem Li title="关联信息">{associationLink(value, row, 'Trial')}</LiItem>
 				</div>
 			),
 		},
@@ -105,10 +98,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

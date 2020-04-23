@@ -41,6 +41,7 @@ class InformCenter extends React.Component {
 								onClick={() => {
 									this.skip(row);
 								}}
+								// className={(row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') && row.obligorId ? 'yc-message-content' : ''}
 								className="yc-message-content"
 							>
 							[
@@ -108,30 +109,31 @@ class InformCenter extends React.Component {
 
 	// 跳转
 	skip = (row) => {
-		if (row.operateType === 'auctionProcessAlert') {
-			const w = window.open('about:blank');
-			w.location.href = '#/monitor?process=1';
-		}
-		if (row.operateType === 'newAuctionProcessAlert') {
-			const w = window.open('about:blank');
-			w.location.href = '#/monitor?process=1';
-		}
-		if (row.operateType === 'dishonestAdd') {
-			const w = window.open('about:blank');
-			w.location.href = `#/business/debtor/detail?id=${
-				row.obligorId
-			}`;
-		}
-		if (row.operateType === 'dishonestRemove') {
-			const w = window.open('about:blank');
-			w.location.href = `#/business/debtor/detail?id=${
-				row.obligorId
-			}`;
-		}
 		const params = {
 			idList: [row.id],
 		};
 		isRead(params);
+		if (row.obligorId) {
+			if (row.operateType === 'auctionProcessAlert' || row.operateType === 'newAuctionProcessAlert') {
+				const w = window.open('about:blank');
+				w.location.href = '#/monitor?process=1';
+			}
+			if (row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') {
+				const w = window.open('about:blank');
+				w.location.href = `#/business/debtor/detail?id=${
+					row.obligorId
+				}`;
+			}
+		} else {
+			Modal.error({
+				title: '该债务人已经被删除！',
+				onOk: () => {
+					window.location.reload(); // 实现页面重新加载/
+				},
+			});
+			return;
+		}
+
 		window.location.reload(); // 实现页面重新加载/
 	};
 
@@ -159,19 +161,17 @@ class InformCenter extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		centerList(params)
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						data: res.data.list,
-						tabTotal: res.data.total,
-						loading: false,
-					});
-				}
-			})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		centerList(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					data: res.data.list,
+					tabTotal: res.data.total,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	// 批量删除
@@ -226,19 +226,10 @@ class InformCenter extends React.Component {
 									selectedRowKeys.splice(index, 1);
 								}
 							});
-
 							that.setState({
 								selectedRowKeys,
 							});
 						}
-						// if (!row.id) {
-						// 	that.setState({
-						// 		selectedRowKeys: [],
-						// 	});
-						// }
-
-						// that.getData();
-						// message.success(res.message);
 					} else {
 						message.error(res.message);
 					}
@@ -259,9 +250,6 @@ class InformCenter extends React.Component {
 		const params = {
 			idList: selectedRowKeys,
 		};
-		// const page = {
-		// 	page: current,
-		// };
 		Modal.confirm({
 			title: '确认将消息标记为已读？',
 			content: '点击确定，将为您标记为已读。',
@@ -280,10 +268,6 @@ class InformCenter extends React.Component {
 						};
 						navigate(generateUrlWithParams('/message', urlValue));
 						// 异步手动移除
-						// that.getData(page);
-						// that.setState({
-						// 	selectedRowKeys: [],
-						// });
 					} else {
 						message.warning(res.message);
 					}

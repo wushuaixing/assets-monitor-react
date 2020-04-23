@@ -6,8 +6,23 @@
   border:1px solid #E8E8E8;
   display: inline-block;
   position: relative;
+  .before-land-use {
+    position: absolute;
+    top: 52px;
+    color: #7D8699;
+    font-size: 12px;
+    line-height: 12px;
+    left: 34px;
+  }
+  .business-before-land-use {
+    position: absolute;
+    color: #7d8699;
+    font-size: 12px;
+    display: inline-block;
+    right: 10px;
+  }
   .card-content {
-    padding: 20px 10px 20px 34px;
+    padding: 40px 10px 20px 34px;
     position: relative;
     line-height: 16px;
 
@@ -26,7 +41,7 @@
         }
         .card-content-role-text {
           display: inline-block;
-          width: 60px;
+          width: 50px;
           text-align: justify;
           text-justify: distribute-all-lines;
           text-align-last: justify;

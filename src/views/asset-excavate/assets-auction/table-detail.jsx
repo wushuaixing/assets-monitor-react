@@ -6,6 +6,7 @@ import {
 } from '@/common';
 import { floatFormat } from '@/utils/format';
 import TableVersionModal from './tableVersionModal';
+import SimplyFollow from './follow-info/simply';
 import { toEmpty, timeStandard } from '@/utils';
 import './style.scss';
 
@@ -16,10 +17,10 @@ const processStatus = (s) => {
 	switch (s) {
 	// case 0: res = { text: '未跟进', color: '#FB5A5C' }; break;
 	case 3:
-	case 6: res = { text: '跟进中', color: '#FB8E3C' }; break;
-	case 9: res = { text: '已完成', color: '#3DBD7D' }; break;
-	case 12: res = { text: '已忽略', color: '#7D8699' }; break;
-	case 15: res = { text: '已放弃', color: '#7D8699' }; break;
+	case 6: res = { text: '跟进中', color: '#FB8E3C', bgc: '#FDF8F4' }; break;
+	case 9: res = { text: '已完成', color: '#3DBD7D', bgc: '#F4FFF9' }; break;
+	case 12: res = { text: '已忽略', color: '#7D8699', bgc: '#F0F1F5' }; break;
+	case 15: res = { text: '已放弃', color: '#7D8699', bgc: '#F0F1F5' }; break;
 	default: res = '';
 	}
 	if (res) {
@@ -27,8 +28,10 @@ const processStatus = (s) => {
 			borderColor: res.color,
 			color: res.color,
 			minWidth: 56,
-			backgroundColor: '#FFFFFF',
+			backgroundColor: res.bgc || '#FFFFFF',
 			borderRadius: '2px',
+
+			marginTop: 1,
 		};
 	}
 	return res;
@@ -61,8 +64,8 @@ const AuctionInfo = (text, row, method) => {
 				</div>
 				{
 					historyAuction.length > 0 && (
-						<Button onClick={() => method(row)}>
-							<Icon type="file-text" />
+						<Button onClick={() => method(row)} style={{ padding: '1px 9px' }} className="auction-history-btn">
+							<Icon type="icon-history" style={{ fontSize: 13, marginRight: 4 }} />
 							查看历史拍卖信息
 						</Button>
 					)
@@ -85,7 +88,7 @@ const AuctionInfo = (text, row, method) => {
 			<br />
 			<li className="table-info-list list-width-180">
 				<span className="info info-title">开拍时间：</span>
-				<span className="info info-content">{timeStandard(start, '未知')}</span>
+				<span className="info info-content">{timeStandard(start, '未知', 'yyyy-MM-dd hh:mm')}</span>
 			</li>
 			{
 				{
@@ -130,6 +133,8 @@ export default class TableIntact extends React.Component {
 			loading: false,
 			historyInfoModalVisible: false,
 			historyInfoModalData: [],
+			followVisible: false,
+			followInfoID: '',
 		};
 	}
 
@@ -152,7 +157,17 @@ export default class TableIntact extends React.Component {
 		});
 	};
 
-	getMatchReason=(reason, pushType) => {
+	toCreatALink=(str, row) => {
+		if (row.obligorId) {
+			const baseDom = `<a href="#/business/debtor/detail?id=${row.obligorId}" class="click-link" rel="noopener noreferrer" target="_blank">${row.obligorName}</a>`;
+			const Reg = new RegExp(row.obligorName, 'g');
+			return str.replace(Reg, baseDom);
+		}
+		return str;
+	};
+
+	getMatchReason=(reason, pushType, row) => {
+		const { portrait } = this.props;
 		if (reason) {
 			try {
 				let str = '';
@@ -160,18 +175,32 @@ export default class TableIntact extends React.Component {
 				const name = (_reason.filter(i => i.name))[0];
 				const usedName = (_reason.filter(i => i.used_name))[0];
 				if (pushType === 0) {
-					return '全文匹配';
+					const allDoc = portrait === 'business' && row.obligorName ? `全文匹配，匹配债务人为${row.obligorName}` : '全文匹配';
+					const allStr = portrait === 'business' ? this.toCreatALink(allDoc, row) : allDoc;
+					return <p dangerouslySetInnerHTML={{ __html: allStr }} />;
 				} if (name || usedName) {
 					if (name) str += name.hl.join('、');
 					else str += usedName.hl.join('、');
 				}
-				if (str) return <p dangerouslySetInnerHTML={{ __html: str }} />;
+				if (str) {
+					if (portrait === 'business')str = this.toCreatALink(str, row);
+					return <p dangerouslySetInnerHTML={{ __html: str }} />;
+				}
 				return '-';
 			} catch (e) {
 				return '-';
 			}
 		}
 		return '-';
+	};
+
+	toShowFollowList=(row) => {
+		if (row.id) {
+			this.setState({
+				followVisible: true,
+				followInfoID: row.id,
+			});
+		}
 	};
 
 	toGetColumns=() => [
@@ -183,25 +212,24 @@ export default class TableIntact extends React.Component {
 				return (
 					<div className="assets-info-content">
 						<li style={{ lineHeight: '24px' }}>
-							{ toEmpty(row.title)
-								? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={14} className="yc-public-title-normal-bold" /> : '-' }
-							{process ? <span className="yc-case-reason text-ellipsis" style={process.style}>{process.text}</span> : ''}
+							<Ellipsis content={toEmpty(row.title)} url={row.url} tooltip width={650} font={14} auto className="yc-public-title-normal-bold" />
+							{process && <span className="yc-case-reason text-ellipsis cursor-pointer" onClick={() => this.toShowFollowList(row)} style={process.style}>{process.text}</span>}
 						</li>
 						<li>
 							<span className="list list-title align-justify">● 匹配原因</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content" style={{ width: 640, maxWidth: 'none' }}>{this.getMatchReason(row.reason, row.pushType)}</span>
+							<span className="list list-content" style={{ width: 640, maxWidth: 'none' }}>{this.getMatchReason(row.reason, row.pushType, row)}</span>
 						</li>
 						<li>
-							{ toEmpty(row.matchRemark)
-								? <Ellipsis content={`审核备注：${row.matchRemark}`} tooltip width={600} font={15} /> : '审核备注：-' }
+							{ toEmpty(row.remark)
+								? <Ellipsis content={`审核备注：${row.remark}`} tooltip width={600} font={15} /> : '审核备注：-' }
 						</li>
 					</div>
 				);
 			},
 		}, {
 			title: '拍卖状况',
-			width: 360,
+			width: 380,
 			render: (value, row) => AuctionInfo(value, row, this.historyInfoModal),
 		},
 	];
@@ -258,11 +286,12 @@ export default class TableIntact extends React.Component {
 
 	render() {
 		const {
-			dataSource, current, total, historyInfoModalData, loading, historyInfoModalVisible,
+			dataSource, current, total, historyInfoModalData, loading, historyInfoModalVisible, followInfoID, followVisible,
 		} = this.state;
+		const { loadingHeight } = this.props;
 		return (
 			<div className="yc-assets-auction ">
-				<Spin visible={loading}>
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}
@@ -292,6 +321,7 @@ export default class TableIntact extends React.Component {
 						historyInfoModalVisible={historyInfoModalVisible}
 					/>
 				)}
+				{followVisible && <SimplyFollow onCancel={() => this.setState({ followVisible: false })} id={followInfoID} />}
 			</div>
 		);
 	}

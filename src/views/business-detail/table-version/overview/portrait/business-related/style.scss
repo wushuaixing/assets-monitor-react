@@ -18,3 +18,12 @@
   border: 1px solid $common-error;
   background-color: #FFE7E7;
 }
+
+.business-table-edit-btn {
+  width: 160px;
+  height: 34px;
+  margin-top: 40px;
+  span {
+    font-size: 14px !important;
+  }
+}

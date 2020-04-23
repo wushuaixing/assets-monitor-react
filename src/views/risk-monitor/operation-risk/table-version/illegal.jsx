@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
 import {
-	Spin, Table, Ellipsis, Icon,
+	Spin, Table, Ellipsis, Icon, LiItem,
 } from '@/common';
 import { timeStandard, toEmpty } from '@/utils';
 
@@ -13,10 +13,7 @@ const removeSituation = (val, row) => {
 		return (
 			<div className="assets-info-content">
 				<li>
-					<Icon
-						type="icon-dot"
-						style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }}
-					/>
+					<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
 					<span className="list list-content">未移除</span>
 				</li>
 			</div>
@@ -25,31 +22,16 @@ const removeSituation = (val, row) => {
 	return (
 		<div className="assets-info-content">
 			<li>
-				<Icon
-					type="icon-dot"
-					style={{ fontSize: 12, color: '#7c7c7c', marginRight: 3 }}
-				/>
+				<Icon type="icon-dot" style={{ fontSize: 12, color: '#7c7c7c', marginRight: 3 }} />
 				<span className="list list-content">已移除</span>
 			</li>
-			<li>
-				<span className="list list-title align-justify list-title-50">移除日期</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{timeStandard(gmtRemoveDate)}</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify list-title-50">移除原因</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">
-					<Ellipsis content={removeReason} tooltip line={1} width={180} />
-				</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify list-title-50">移除机关</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content none-width">
-					{toEmpty(removeDepartment) ? <Ellipsis content={removeDepartment} tooltip line={1} width={180} /> : '-'}
-				</span>
-			</li>
+			<LiItem Li title="移除日期" titleStyle={{ width: 50 }}>{timeStandard(gmtRemoveDate)}</LiItem>
+			<LiItem Li title="移除原因" auto titleStyle={{ width: 50 }}>
+				<Ellipsis content={toEmpty(removeReason)} tooltip width={180} />
+			</LiItem>
+			<LiItem Li title="移除机关" titleStyle={{ width: 50 }} auto>
+				<Ellipsis content={toEmpty(removeDepartment)} tooltip width={180} />
+			</LiItem>
 		</div>
 	);
 };
@@ -98,41 +80,16 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						{ toEmpty(value) ? <Ellipsis content={value} tooltip width={600} font={15} /> : '-' }
+						<Ellipsis content={toEmpty(value)} tooltip width={600} font={15} />
 					</li>
 					<li>
 						{this.toShowExtraField(row)}
-						<span className="list list-title align-justify">列入日期</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ minWidth: 100 }}>{timeStandard(row.gmtPutDate)}</span>
+						<LiItem title="列入日期" cotStyle={{ minWidth: 100 }}>{timeStandard(row.gmtPutDate)}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
-						<span className="list list-title align-justify">决定机关</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ maxWidth: 300 }}>
-							{row.putDepartment || '-'}
-						</span>
+						<LiItem title="决定机关" auto><Ellipsis content={toEmpty(row.putDepartment)} width={300} tooltip /></LiItem>
 					</li>
-					<li>
-						<span className="list list-title align-justify">列入原因</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ minWidth: 600 }}>
-							{
-								row.putReason.trim()
-									? <Ellipsis content={row.putReason} tooltip width={600} /> : '-'
-							}
-						</span>
-					</li>
-					<li>
-
-						<span className="list list-title align-justify">具体事实</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content none-width">
-							{
-								toEmpty(row.fact)
-									? <Ellipsis content={row.fact} tooltip width={600} /> : '-'
-							}
-						</span>
-					</li>
+					<LiItem Li title="列入原因" auto><Ellipsis content={toEmpty(row.putReason)} tooltip width={600} /></LiItem>
+					<LiItem Li title="具体事实" auto><Ellipsis content={toEmpty(row.fact)} tooltip width={600} /></LiItem>
 				</div>
 			),
 		}, {
@@ -183,10 +140,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

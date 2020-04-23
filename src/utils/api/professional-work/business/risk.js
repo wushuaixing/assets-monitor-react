@@ -1,5 +1,6 @@
 import service from '@/utils/service';
 
+
 const manage = {
 	30201: {
 		id: 30201,
@@ -16,16 +17,16 @@ const manage = {
 		id: 20401,
 		name: '风险-失信记录-列入',
 		params: {},
-		list: params => service.get('/yc/business/monitor/risk/risk/dishonest/list?removeStatus=false', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/business/monitor/risk/risk/dishonest/list?removeStatus=false', { params })
+		list: params => service.get('/yc/business/monitor/risk/dishonest/list?removeStatus=false', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/business/monitor/risk/dishonest/listCount?removeStatus=false', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 	20402: {
 		id: 20402,
 		name: '风险-失信记录-已移除',
 		params: {},
-		list: params => service.get('/yc/business/monitor/risk/risk/dishonest/list?removeStatus=true', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/business/monitor/risk/risk/dishonest/list?removeStatus=true', { params })
+		list: params => service.get('/yc/business/monitor/risk/dishonest/list?removeStatus=true', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/business/monitor/risk/dishonest/listCount?removeStatus=true', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 	20601: {
@@ -103,3 +104,19 @@ const manage = {
 };
 
 export default manage;
+export const brokenCount = {
+	20403: {
+		id: 20403,
+		name: '失信列表 => 已失信债务人',
+		list: params => service.get('/yc/business/monitor/risk/dishonest/obligor?status=1', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/business/monitor/risk/dishonest/obligorCount?status=1', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	20404: {
+		id: 20404,
+		name: '失信列表 => 曾失信债务人',
+		list: params => service.get('/yc/business/monitor/risk/dishonest/obligor?status=2', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/business/monitor/risk/dishonest/obligorCount?status=2', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
+};

@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs } from '@/common';
 import { Pledge, Mortgage } from '@/views/asset-excavate/chattel-mortgage/table-version';
 import { toGetNumber, toGetDefaultId } from '@/utils/promise';
+import { toGetModuleHeight } from '@/utils';
 
 export default class Chattel extends React.Component {
 	constructor(props) {
@@ -38,7 +39,8 @@ export default class Chattel extends React.Component {
 
 	render() {
 		const { config, type } = this.state;
-		const { id, portrait } = this.props;
+		const { id, portrait, data } = this.props;
+		const h = toGetModuleHeight(type, toGetNumber(data, type), portrait);
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
@@ -49,8 +51,8 @@ export default class Chattel extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">动产抵押</div>}
 				/>
 				<div className="inquiry-public-table">
-					{type === 10601 ? <Pledge portrait={portrait} /> : null}
-					{type === 10602 ? <Mortgage portrait={portrait} /> : null}
+					{type === 10601 ? <Pledge portrait={portrait} loadingHeight={h} /> : null}
+					{type === 10602 ? <Mortgage portrait={portrait} loadingHeight={h} /> : null}
 				</div>
 			</div>
 		);

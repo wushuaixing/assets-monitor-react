@@ -67,11 +67,11 @@ export default class DetailModal extends React.PureComponent {
 											<span className="change-modal-colon">:</span>
 											<span className="change-modal-name">
 												{
-													item.name && item.name.length > 7
+													item.name && item.name.length > 5
 														? (
 															<Tooltip placement="topLeft" title={item.name}>
 																<span>
-																	{`${item.name.substr(0, 7)}...`}
+																	{`${item.name.substr(0, 5)}...`}
 																</span>
 															</Tooltip>
 														)
@@ -91,11 +91,11 @@ export default class DetailModal extends React.PureComponent {
 											<span className="change-modal-colon">:</span>
 											<span className="change-modal-name">
 												{
-													item.number && item.number.length > 12
+													item.number && item.number.length > 10
 														? (
 															<Tooltip placement="topLeft" title={item.number}>
 																<span>
-																	{`${item.number.substr(0, 12)}...`}
+																	{`${item.number.substr(0, 10)}...`}
 																</span>
 															</Tooltip>
 														)
@@ -115,11 +115,11 @@ export default class DetailModal extends React.PureComponent {
 											<span className="change-modal-colon">:</span>
 											<span className="change-modal-name">
 												{
-													item.role && item.role.length > 7
+													item.role && item.role.length > 5
 														? (
 															<Tooltip placement="topLeft" title={item.role}>
 																<span>
-																	{`${item.role.substr(0, 7)}...`}
+																	{`${item.role.substr(0, 5)}...`}
 																</span>
 															</Tooltip>
 														)
@@ -204,8 +204,8 @@ export default class DetailModal extends React.PureComponent {
 			loading: true,
 		});
 		const params = {
-			num: 10,
-			page: 1,
+			num: 10000,
+			// page: 1,
 			...value,
 		};
 		businessChange(userId, params).then((res) => {

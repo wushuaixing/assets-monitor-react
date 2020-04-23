@@ -3,11 +3,17 @@ import { navigate } from '@reach/router';
 
 import Router from '@/utils/Router';
 import Tabs from '@/common/tabs';
+
+import Business from './business-views';
+import BusinessDetail from './business-detail';
+import Debtor from './debtor';
+import DebtorDetail from './debtor-detail';
+import ChangeList from './business-detail/changeList';
+// import Asset from './asset-information';
 import NewDetailDebtor from '@/views/business-detail/debtor';
 import NewDetailBusiness from '@/views/business-detail/business';
 import NewDetailEdit from '@/views/business-detail/edit-info';
-import Business from './business-views';
-import Debtor from './debtor';
+
 
 const source = rule => ([
 	{
@@ -65,7 +71,7 @@ class BusinessBase extends React.Component {
 }
 
 const BusinessRouter = (props) => {
-	const { rule: { children }, allRule } = props;
+	const { rule: { children } } = props;
 	return (
 		<Router>
 			{/* <BusinessBase rule={children} path="/*" remark="业务（债务人）视图列表" />
@@ -74,9 +80,9 @@ const BusinessRouter = (props) => {
 			<DebtorDetail rule={children} path="/business/debtor/detail/*" remark="债务人详情" /> */}
 			{/* 新路由 */}
 			<BusinessBase rule={children} path="/*" remark="业务（债务人）视图列表" />
-			<NewDetailBusiness rule={children} allRule={allRule} path="/business/detail/*" remark="业务详情（新）" />
+			<NewDetailBusiness rule={children} path="/business/detail/*" remark="业务详情（新）" />
 			<NewDetailEdit rule={children} path="/business/detail/edit/info/*" remark="业务详情-编辑（新）" />
-			<NewDetailDebtor rule={children} allRule={allRule} path="/business/debtor/detail/*" remark="债务人详情（新）" />
+			<NewDetailDebtor rule={children} path="/business/debtor/detail/*" remark="债务人详情（新）" />
 		</Router>
 	);
 };

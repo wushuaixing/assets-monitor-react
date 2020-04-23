@@ -8,16 +8,16 @@ class commonTable extends React.Component {
 		this.state = {};
 	}
 
-
 	render() {
 		const propsObj = this.props;
-		// const { visible } = propsObj;
-		// console.log(visible);
+		// const { initial } = this.state;
+		// const { dataSource } = propsObj;
+		// const isDataSource = propsObj && Array.isArray(dataSource) && dataSource.length > 0;
+
 		return (
 			<Table
 				{...propsObj}
 				locale={{ emptyText: <NoContent /> }}
-				// locale={visible === false ? { emptyText: <NoContent /> } : { emptyText: '' }}
 			/>
 		);
 	}

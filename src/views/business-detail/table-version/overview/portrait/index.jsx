@@ -53,10 +53,8 @@ export default class Portrait extends React.Component {
 
 	render() {
 		const { businessData, loading } = this.state;
-		const { portrait, allRule } = this.props;
-		const assetMiningRule = (allRule && allRule.menu_zcwj && allRule.menu_zcwj.children) || {};
-		console.log(assetMiningRule);
-
+		const { portrait } = this.props;
+		// const isBusinessData = Array.isArray(businessData) && businessData.length > 0; // 业务列表
 		return (
 			<div className="yc-portrait-container">
 				{/* 关联业务 */}
@@ -64,7 +62,7 @@ export default class Portrait extends React.Component {
 				 portrait && portrait === 'business' ? <BusinessRelated dataSource={businessData} loading={loading} /> : <AssociatedBusiness dataSource={businessData} loading={loading} />
 				}
 				{/* 资产概况 */}
-				<AssetProfile assetMiningRule={assetMiningRule} portrait={portrait} loading={loading} />
+				<AssetProfile portrait={portrait} loading={loading} />
 				{/* 风险信息 */}
 				<RiskInformation portrait={portrait} loading={loading} />
 			</div>

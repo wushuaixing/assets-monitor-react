@@ -2,6 +2,7 @@ import React from 'react';
 import intangibleImg from '@/assets/img/business/intangibleCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
+import { navigateDetail } from '@/utils';
 import './style.scss';
 
 export default class Intangible extends React.Component {
@@ -27,8 +28,9 @@ export default class Intangible extends React.Component {
 							imgCard={intangibleImg}
 							count={dataSourceNum}
 							gmtCreate={gmtCreate}
-							customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
+							customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 							text="无形资产"
+							onClick={() => navigateDetail('e-assets-intangible')}
 							styleName="intangible-card"
 						>
 							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
@@ -36,7 +38,7 @@ export default class Intangible extends React.Component {
 									<div className="card-content-role-itemLeft">
 										<img className="card-left-img" src={matching} alt="" />
 										<span className="portrait-card-num">{obligorTotal}</span>
-									人匹配到无形资产
+										人匹配到无形资产信息
 									</div>
 								) : null}
 								{

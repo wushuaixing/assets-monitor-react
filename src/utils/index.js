@@ -1,4 +1,5 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import ruleMethods from './rule';
 
 export default {
@@ -109,10 +110,34 @@ export const toGetStatusText = (val) => {
 	return res;
 };
 
+export const toGetUnStatusText = (val) => {
+	const res = {
+		text: '-',
+		status: true,
+		color: '#3DBD7D',
+	};
+	if (typeof val === 'string') {
+		res.text = val;
+		res.status = val === '有效';
+	}
+	if (typeof val === 'number') {
+		res.text = !val ? '有效' : '无效';
+		res.status = !val;
+	}
+	res.color = res.status ?	'#3DBD7D' : '#7D8699';
+	return res;
+};
+
 /* 填写数据
  * 如果没有填写默认值 */
 export const w = (v = '', option) => {
 	const { prefix = '', suffix = '', mark = '' } = option || {};
+	if (v === null) return mark || '-';
+	if (typeof v === 'number') {
+		const value = v;
+		if (value && value !== '-' && value !== '-') return `${prefix}${value}${suffix}`;
+		return `${prefix}${value || mark || '-'}`;
+	}
 	const value = (`${v}`).trim();
 	if (value && value !== '-' && value !== '-') return `${prefix}${value}${suffix}`;
 	return value || mark || '-';
@@ -203,6 +228,8 @@ export const getHrefQuery = (name) => {
 	}
 	return null;
 };
+
+
 /**
  * 对象里面有需要过滤的属性的时候调用
  * @param obj
@@ -287,10 +314,10 @@ Date.prototype.format = function method(format) {
 	});
 	return fmt;
 };
-export const timeStandard = (text, mark) => {
-	if (text === null || text === undefined) return '-';
+export const timeStandard = (text, mark, format) => {
+	if (text === null || text === undefined) return mark || '-';
 	if (typeof text === 'number' && text === 0) return '1970-01-01';
-	if (typeof text === 'number') return (text ? new Date(text * 1000).format('yyyy-MM-dd') : mark || '-');
+	if (typeof text === 'number') return (text ? new Date(text * 1000).format(format || 'yyyy-MM-dd') : mark || '-');
 	return text;
 };
 
@@ -392,6 +419,39 @@ export const generateUrlWithParams = (url, params) => {
 	return urlList;
 };
 
+
+/**
+ * 跳转资产的ele节点ID
+ * @param ele
+ */
+export const navigateDetail = (ele) => {
+	const id = getHrefQuery('id');
+	if (id) {
+		const { hash } = window.location;
+		const base = /business\/debtor\/detail/.test(hash) ? '/business/debtor/detail' : '/business/detail';
+		navigate(generateUrlWithParams(`${base}/info/102`, {
+			id,
+			ele,
+		}));
+	}
+};
+
+/**
+ * 跳转风险的ele节点ID
+ * @param ele
+ */
+export const navigateDetailRisk = (ele) => {
+	const id = getHrefQuery('id');
+	if (id) {
+		const { hash } = window.location;
+		const base = /business\/debtor\/detail/.test(hash) ? '/business/debtor/detail' : '/business/detail';
+		navigate(generateUrlWithParams(`${base}/info/103`, {
+			id,
+			ele,
+		}));
+	}
+};
+
 // 判断对象内属性是否为空
 export const objectKeyIsEmpty = (obj) => {
 	let empty;
@@ -460,4 +520,95 @@ export const reviseNum = (value) => {
 		return value;
 	}
 	return value;
+};
+
+// 防抖
+export const debounce = (fn, delay) => {
+	// 定时器；
+	let timer = null;
+	// eslint-disable-next-line func-names
+	return function () {
+		// 保存上下文的this
+		const context = this;
+		// 保存传入的参数
+		// eslint-disable-next-line prefer-rest-params
+		const args = arguments;
+		// 每次调用前都清空定时器
+		if (timer) {
+			clearTimeout(timer);
+		}
+		// 去设立一个新的定时器
+		timer = setTimeout(() => {
+			fn.apply(context, args);
+		}, delay);
+	};
+};
+
+// 节流
+export const throttle = (fn, Interval) => {
+	// 定时器；
+	let last = 0;
+	// eslint-disable-next-line func-names
+	return function () {
+		// 保存上下文的this
+		const context = this;
+		// 保存传入的参数
+		// eslint-disable-next-line prefer-rest-params
+		const args = arguments;
+		// 保存调用时的时间;
+		const now = +new Date();
+		// 判断上一次调用时间和当前调用时间对比
+		if (now - last > Interval) {
+			// 更新最后一次调用时间;
+			last = now;
+			fn.apply(context, args);
+		}
+	};
+};
+
+/**
+ * 获取指定模块高度，仅业务详情页有效
+ * @param id
+ * @param number
+ * @param portrait
+ */
+export const toGetModuleHeight = (id = 0, number = 0, portrait = '') => {
+	const paginationHeight = 76;
+	if (/business|debtor_(enterprise|personal)/.test(portrait) && number && id) {
+		const isD = portrait !== 'business';
+		let sH = 0;
+		switch (id) {
+		case 10101:
+		case 10102: sH = 102; break;
+		case 10401: sH = 90; break;
+		case 10402: sH = 89; break;
+		case 10403: sH = isD ? 45 : 67; break;
+		case 10404: sH = isD ? 89 : 112; break;
+		case 10301: sH = isD ? 91 : 113; break;
+		case 10302: sH = isD ? 89 : 112; break;
+		case 10303: sH = isD ? 89 : 112; break;
+		case 10201:
+		case 10202:
+		case 10203: sH = 91; break;
+		case 10501:
+		case 10502: sH = 89; break;
+		case 10601:
+		case 10602: sH = 111; break;
+		case 10701: sH = isD ? 48 : 70; break;
+		case 30201: sH = 69; break;
+		case 20401: sH = 89; break;
+		case 20402: sH = 89; break;
+		case 20601:
+		case 20602:
+		case 20603: sH = 91; break;
+		case 30301: sH = 113; break;
+		case 30401: sH = isD ? 91 : 113; break;
+		case 30501: sH = isD ? 91 : 113; break;
+		case 30601: sH = isD ? 91 : 113; break;
+		case 30701: sH = isD ? 48 : 70; break;
+		default: sH = 0;
+		}
+		return sH ? (number >= 5 ? 5 : number) * sH + paginationHeight : null;
+	}
+	return null;
 };

@@ -23,6 +23,11 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	toGetPortrait =() => {
+		const { portrait } = this.props;
+		return portrait === 'business';
+	};
+
 	toGetColumns=() => [
 		{
 			title: '信息',
@@ -38,7 +43,7 @@ export default class TableIntact extends React.Component {
 						</li>
 						<LiItem Li>{w(row.administrativeRegion)}</LiItem>
 						<li>
-							<PartyCrosswise value={row.parties} land row={row} name="土地转让" type="transfer" linkDetail />
+							<PartyCrosswise value={row.parties} land row={row} name="土地转让" type="transfer" linkDetail={this.toGetPortrait()} />
 						</li>
 						<li>
 							<LiItem title="成交日期">{timeStandard(row.dealingTime)}</LiItem>
@@ -108,10 +113,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

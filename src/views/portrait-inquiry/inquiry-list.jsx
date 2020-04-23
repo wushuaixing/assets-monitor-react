@@ -2,9 +2,10 @@ import React from 'react';
 import { navigate } from '@reach/router';
 // import { Pagination } from 'antd';
 import QueryView from './common/queryView';
-import { inquiryList } from '@/utils/api/portrait-inquiry';
+import { inquiryList, inquiryPriorityList } from '@/utils/api/portrait-inquiry';
 import { Spin, Table } from '@/common';
 import { timeStandard, clearEmpty } from '@/utils';
+import { requestAll } from '@/utils/promise';
 
 export default class InquiryList extends React.Component {
 	constructor(props) {
@@ -92,29 +93,24 @@ export default class InquiryList extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		this.setState({ loading: true });
-		inquiryList(clearEmpty({
+		const param = clearEmpty({
 			page: page || 1,
 			num: 20,
 			name: this.condition.name,
-		})).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					dataSource: res.data.list,
-					// current: res.data.page,
-					// total: res.data.total,
-					loading: false,
-				});
-			} else {
-				this.setState({
-					dataSource: '',
-					// current: 1,
-					// total: 0,
-					loading: false,
-				});
-			}
-		}).catch(() => {
-			this.setState({ loading: false });
 		});
+		requestAll([
+			{	api: inquiryPriorityList(param) },
+			{	api: inquiryList(param) }])
+			.then((res) => {
+				const source = [];
+				res.forEach((i) => {
+					if (i.code === 200) source.push(...i.data.list);
+				});
+				this.setState({
+					dataSource: source,
+					loading: false,
+				});
+			});
 	};
 
 	render() {

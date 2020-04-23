@@ -1,29 +1,14 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { timeStandard, toEmpty } from '@/utils';
+import { timeStandard, toEmpty, toGetUnStatusText } from '@/utils';
 import {
 	Ellipsis, Icon, Spin, Table,
 } from '@/common';
 
-const toGetStatusText = (val) => {
-	const res = {
-		text: '-',
-		status: true,
-	};
-	if (typeof val === 'string') {
-		res.text = val;
-		res.status = val === '有效';
-	}
-	if (typeof val === 'number') {
-		res.text = val ? '有效' : '无效';
-		res.status = Boolean(val);
-	}
-	console.log(res);
-	return res;
-};
+export default class
 
-export default class TableIntact extends React.Component {
+TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -45,6 +30,11 @@ export default class TableIntact extends React.Component {
 			return val.join('、');
 		}
 		return '-';
+	};
+
+	toGetPortraitStatus=() => {
+		const { portrait } = this.props;
+		return portrait === 'business' || portrait === 'debtor_enterprise';
 	};
 
 	toShowExtraField=(row = {}) => {
@@ -106,8 +96,17 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ lineHeight: '20px' }}>
-						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetStatusText(row.state).color, marginRight: 2 }} />
-						<span className="list list-content ">{toGetStatusText(row.state).text}</span>
+						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetUnStatusText(row.state).color, marginRight: 2 }} />
+						<span className="list list-content ">{toGetUnStatusText(row.state).text}</span>
+						{
+							toGetUnStatusText(row.state).status && this.toGetPortraitStatus() ? [
+								<span>（</span>,
+								<span className="list list-title align-justify">匹配时间</span>,
+								<span className="list list-title-colon">:</span>,
+								<span className="list list-content none-width">{timeStandard(row.gmtCreate)}</span>,
+								<span>）</span>,
+							] : null
+						}
 					</li>
 					<li>
 						<span className="list list-title align-justify">登记编号</span>
@@ -162,10 +161,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

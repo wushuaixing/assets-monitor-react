@@ -26,7 +26,7 @@ export default class TableVersion extends React.Component {
 				<li>
 					<span className="list list-title align-justify">相关单位</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
+					<span className="list list-content-auto">
 						<Ellipsis
 							content={item.obName}
 							url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
@@ -48,7 +48,7 @@ export default class TableVersion extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						{ toEmpty(value) ? <Ellipsis content={value} url={row.url} width={600} font={15} /> : '-' }
+						<Ellipsis content={toEmpty(value)} url={row.url} width={600} font={15} tooltip />
 					</li>
 					{this.toShowExtraField(row)}
 				</div>
@@ -110,10 +110,10 @@ export default class TableVersion extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

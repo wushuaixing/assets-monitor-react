@@ -74,14 +74,14 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.licenseNumber) ? <Ellipsis content={row.licenseNumber} width={400} tooltip font={16} /> : '-' }
+						<Ellipsis content={toEmpty(row.licenseNumber)} width={400} tooltip font={16} url={row.url} />
 					</li>
 					<li>{row.industry}</li>
 					<li>
 						{this.toShowExtraField(row)}
 						<span className="list list-title align-justify">发证日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtPublishTime)}</span>
+						<span className="list list-content">{timeStandard(row.gmtPublishTime, '未公开')}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">有效期</span>
 						<span className="list list-title-colon">:</span>
@@ -166,10 +166,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

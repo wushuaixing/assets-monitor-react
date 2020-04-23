@@ -2,6 +2,7 @@ import React from 'react';
 import SubrogationImg from '@/assets/img/business/subCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
+import { navigateDetail } from '@/utils';
 import './style.scss';
 
 export default class Subrogation extends React.Component {
@@ -10,11 +11,6 @@ export default class Subrogation extends React.Component {
 		this.state = {};
 	}
 
-	handleClick = () => {
-		const { onClick } = this.props;
-		if (onClick) { onClick(); }
-	};
-
 	render() {
 		const {
 			portrait, dataSource: {
@@ -22,7 +18,6 @@ export default class Subrogation extends React.Component {
 			},
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
-
 		return (
 			<React.Fragment>
 				{
@@ -31,8 +26,9 @@ export default class Subrogation extends React.Component {
 							imgCard={SubrogationImg}
 							count={allNum}
 							gmtCreate={gmtCreate}
-							customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
-							text="代位权"
+							customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
+							onClick={() => navigateDetail('e-assets-subrogation')}
+							text={portrait === 'debtor_personal' ? '代位权-裁判文书' : '代位权'}
 							styleName="subrogation-card"
 						>
 							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
@@ -41,7 +37,7 @@ export default class Subrogation extends React.Component {
 										<div className="card-content-role-itemLeft">
 											<img className="card-left-img" src={matching} alt="" />
 											<span className="portrait-card-num">{obligorTotal}</span>
-											人匹配到无形资产
+											人匹配到代位权信息
 										</div>
 									) : null}
 									{execute > 0 ? (
@@ -50,7 +46,7 @@ export default class Subrogation extends React.Component {
 											<span className="card-content-role-info">：</span>
 											<span className="card-content-role-num">
 												<span className="portrait-card-num">{execute}</span>
-											条
+												条
 											</span>
 
 											{restore > 0 ? (

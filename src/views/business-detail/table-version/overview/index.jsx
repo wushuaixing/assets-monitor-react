@@ -29,7 +29,7 @@ export default class Overview extends React.Component {
 
 	componentDidMount() {
 		const { toPushChild } = this.props;
-		toPushChild(this.toGetSubItems());
+		toPushChild(this.toGetSubItems(), 101);
 	}
 
 	toChangeItemType = (item) => {
@@ -38,7 +38,7 @@ export default class Overview extends React.Component {
 		this.setState({ active: item.id }, () => {
 			window.scrollTo(0, 0);
 			const { toPushChild } = this.props;
-			toPushChild(this.toGetSubItems());
+			toPushChild(this.toGetSubItems(), 101);
 		});
 	};
 
@@ -52,7 +52,7 @@ export default class Overview extends React.Component {
 							// type={item.id === active ? 'primary' : 'ghost'}
 						active={item.id === active}
 						onClick={() => this.toChangeItemType(item)}
-						style={item.id === active ? { zIndex: '1' } : { }}
+						style={{ marginRight: '16px' }}
 					>
 						{item.name}
 					</Button>
@@ -63,11 +63,11 @@ export default class Overview extends React.Component {
 
 	render() {
 		const { active } = this.state;
-		const { portrait, allRule } = this.props;
+		const { portrait, apiError } = this.props;
 		return (
 			<div className="inquiry-assets">
-				{ active === 1 ? <Portrait allRule={allRule} portrait={portrait} /> : null }
-				{ active === 2 ? <Visualize allRule={allRule} portrait={portrait} /> : null }
+				{ !apiError && active === 1 ? <Portrait portrait={portrait} /> : null }
+				{ !apiError && active === 2 ? <Visualize portrait={portrait} /> : null }
 			</div>
 		);
 	}

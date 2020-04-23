@@ -4,6 +4,10 @@
   .ant-table-tbody>tr>td, .ant-table-thead>tr {
     border-bottom: 1px solid #E5E5E5;
   }
+  .ant-table-tbody>tr>td, .ant-table-thead>tr>th {
+    padding: 12px 20px;
+    color: $text-title;
+  }
   .ant-table-body tbody tr:nth-child(2n), .cTableContent tbody tr:nth-child(2n) {
     background: #ffffff;
   }
@@ -44,7 +48,7 @@
       font-size: 12px;
       line-height: 18px;
       padding: 0 10px;
-      margin-left: 5px;
+      margin-left: 10px;
       font-weight: normal;
       border: 1px solid $border-base;
     }
@@ -79,12 +83,30 @@
   }
 
   .yc-inquiry-public-table{
+    .yc-tabs-suffix-dishonest{
+      float: right;
+      height: 37px;
+      line-height: 37px;
+      .dishonest-spin{
+        width:120px;
+        display: inline-block;
+      }
+      .dishonest-count{
+        display: inline-block;
+        padding: 0 10px;
+        span{
+          font-size: 12px;
+          margin-left: 15px;
+        }
+      }
+    }
     .yc-tabs-suffix-ignore{
       .ant-switch{
         height: 18px;
         width: 40px;
         line-height: 16px;
         border-radius: 2px;
+        border: 1px solid $border-base;
         .ant-switch-inner{
           left: 21px;
         }
@@ -98,14 +120,17 @@
       .ant-switch-checked{
         &:after{
           left: 23px;
+          color: $text-remark;
         }
       }
       .ant-switch-checked .ant-switch-inner {
         left: 5px;
+        color: $background-base;
       }
       .ignore-text{
         @extend .yc-public-remark;
         margin-right: 6px;
+        color: $text-content;
       }
       margin-left: 25px;
       display: inline-block;
@@ -278,7 +303,7 @@
   }
   .intro-list-border {
     line-height: 1;
-    padding-right: 10px;
+    padding-right: 12px;
     border-right: 1px solid $border-base;
   }
 

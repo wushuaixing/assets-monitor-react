@@ -7,10 +7,10 @@ import {
 } from '@/common';
 
 
-const certificateTypeStatus = {
-	1: '采矿权',
-	2: '探矿权',
-	3: '未知',
+const rightsTypeStatus = {
+	0: '未知',
+	1: '商标',
+	2: '专利',
 };
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -34,15 +34,14 @@ export default class TableIntact extends React.Component {
 				<li>
 					<span className="list list-title align-justify">申请人/权利人</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
+					<span className="list list-content" style={{ minWidth: 400 }}>
 						<Ellipsis
 							content={row.obligorName}
 							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
 							tooltip
-							width={120}
+							width={400}
 						/>
 					</span>
-					<span className="list-split" style={{ height: 16 }} />
 				</li>
 			);
 		}
@@ -57,7 +56,7 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
 						<a href={row.url} target="_blank" rel="noopener noreferrer">{value}</a>
-						{ row.certificateType ? <span className="yc-case-reason text-ellipsis">{certificateTypeStatus[row.certificateType]}</span> : ''}
+						{ row.rightsType ? <span className="yc-case-reason text-ellipsis" style={{ minWidth: 50 }}>{rightsTypeStatus[row.rightsType]}</span> : ''}
 					</li>
 					{this.toShowExtraField(row)}
 				</div>
@@ -118,10 +117,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

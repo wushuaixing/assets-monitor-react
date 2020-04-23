@@ -25,19 +25,19 @@ export default class TableIntact extends React.Component {
 		const { portrait } = this.props;
 		if (portrait === 'business') {
 			return (
-				<React.Fragment>
+				<li>
 					<span className="list list-title align-justify">持证单位</span>
 					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
+					<span className="list list-content" style={{ minWidth: 400 }}>
 						<Ellipsis
 							content={row.obligorName}
 							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
 							tooltip
-							width={120}
+							width={400}
 						/>
 					</span>
 					{/* <span className="list-split" style={{ height: 16 }} /> */}
-				</React.Fragment>
+				</li>
 			);
 		}
 		return null;
@@ -61,8 +61,8 @@ export default class TableIntact extends React.Component {
 							<span style={{ marginLeft: 20 }}>{row.qualificationLevel || '-'}</span>
 						</span>
 					</li>
+					{this.toShowExtraField(row)}
 					<li>
-						{this.toShowExtraField(row)}
 						<span className="list list-title align-justify">发布日期</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{timeStandard(row.issueTime)}</span>
@@ -120,10 +120,10 @@ export default class TableIntact extends React.Component {
 	render() {
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-
+		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction">
-				<Spin visible={loading}>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

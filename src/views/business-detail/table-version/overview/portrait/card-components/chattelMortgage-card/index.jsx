@@ -3,7 +3,9 @@ import { toThousands } from '@/utils/changeTime';
 import chattelMortgageImg from '@/assets/img/business/chattelMortgageCard.png';
 import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
+import { navigateDetail } from '@/utils';
 import './style.scss';
+
 
 export default class ChattelMortgage extends React.Component {
 	constructor(props) {
@@ -27,7 +29,8 @@ export default class ChattelMortgage extends React.Component {
 						imgCard={chattelMortgageImg}
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
-						customStyle={isBusiness ? { width: '366px', height: '140px', marginBottom: '20px' } : { width: '366px', height: '120px', marginBottom: '20px' }}
+						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
+						onClick={() => navigateDetail('e-assets-chattel')}
 						text="动产抵押"
 						styleName="chattelMortgage-card"
 					>

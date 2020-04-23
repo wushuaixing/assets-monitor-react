@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { getByteLength, timeStandard } from '@/utils';
+import { Ellipsis } from '@/common';
 
 const maxShowLength = 1;
 
@@ -53,7 +54,7 @@ export default class PartyInfoDetail extends React.Component {
 
 	render() {
 		const { status } = this.state;
-		const { role, child } = this.props;
+		const { role, child, linkDetail } = this.props;
 		const source = status === 'toOpen' ? child.slice(0, maxShowLength) : child;
 
 		const roleWidth = getByteLength(role) * 6 < 48 ? 48 : (getByteLength(role) * 6);
@@ -70,6 +71,17 @@ export default class PartyInfoDetail extends React.Component {
 					{
 						source.map((i) => {
 							const content = this.toHandleName(i);
+							if (linkDetail) {
+								return (
+									<Ellipsis
+										content={content}
+										width={maxWidth}
+										className="yc-line-height-16"
+										url={i.obligorId ? `#/business/debtor/detail?id=${i.obligorId}` : ''}
+										tooltip
+									/>
+								);
+							}
 							return getByteLength(content) * 6 >= maxWidth ? (
 								<Tooltip placement="top" title={content}>
 									<li className="text-ellipsis" style={{ maxWidth }}>{content}</li>

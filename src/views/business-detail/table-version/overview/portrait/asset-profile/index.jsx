@@ -233,11 +233,14 @@ export default class AssetProfile extends React.Component {
 
 	// 判断内部是否存数据
 	isHasValue = () => {
+		const { portrait } = this.props;
 		const {
 			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData,
 		} = this.state;
-		return (Object.keys(auctionPropsData).length > 0 && auctionPropsData.auctionPropsData.count > 0) || landPropsData.dataSourceNum > 0 || intangiblePropsData.dataSourceNum > 0
-			|| subrogationPropsData.allNum > 0 || stockPropsData.dataSourceNum > 0 || biddingPropsData.biddingNum > 0 || mortgagePropsData.dataSourceNum > 0;
+		return (Object.keys(auctionPropsData).length > 0 && auctionPropsData.auctionPropsData.count > 0) || (landPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal')
+			|| (intangiblePropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || subrogationPropsData.allNum > 0
+			|| (stockPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || (biddingPropsData.biddingNum > 0 && portrait !== 'debtor_personal')
+			|| (mortgagePropsData.dataSourceNum > 0 && portrait !== 'debtor_personal');
 	};
 
 	render() {
@@ -246,6 +249,7 @@ export default class AssetProfile extends React.Component {
 			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData, isLoading,
 		} = this.state;
 		const isHasValue = this.isHasValue();
+		// console.log(portrait, 13);
 		return (
 			<React.Fragment>
 				{isHasValue ? (
@@ -257,19 +261,19 @@ export default class AssetProfile extends React.Component {
 						<Spin visible={isLoading}>
 							<div className="overview-container-cardContent">
 								{/* 资产拍卖 */}
-								<AssetsCard dataSource={auctionPropsData} portrait={portrait} />
+								{Object.keys(auctionPropsData).length !== 0 && <AssetsCard dataSource={auctionPropsData} portrait={portrait} />}
 								{/* 土地信息 */}
-								<LandCard dataSource={landPropsData} portrait={portrait} />
+								{portrait !== 'debtor_personal' && Object.keys(landPropsData).length !== 0 && <LandCard dataSource={landPropsData} portrait={portrait} />}
 								{/* 无形资产 */}
-								<Intangible dataSource={intangiblePropsData} portrait={portrait} />
+								{portrait !== 'debtor_personal' && Object.keys(intangiblePropsData).length !== 0 && <Intangible dataSource={intangiblePropsData} portrait={portrait} />}
 								{/* 代位权 */}
-								<Subrogation dataSource={subrogationPropsData} portrait={portrait} />
+								{Object.keys(subrogationPropsData).length !== 0 && <Subrogation dataSource={subrogationPropsData} portrait={portrait} />}
 								{/* 股权质押 */}
-								<EquityPledge dataSource={stockPropsData} portrait={portrait} />
+								{portrait !== 'debtor_personal' && Object.keys(stockPropsData).length !== 0 && <EquityPledge dataSource={stockPropsData} portrait={portrait} />}
 								{/* 动产抵押 */}
-								<ChattelMortgage dataSource={mortgagePropsData} portrait={portrait} />
+								{portrait !== 'debtor_personal' && Object.keys(mortgagePropsData).length !== 0 && <ChattelMortgage dataSource={mortgagePropsData} portrait={portrait} />}
 								{/* 招投标 */}
-								<Bidding dataSource={biddingPropsData} portrait={portrait} />
+								{portrait !== 'debtor_personal' && Object.keys(biddingPropsData).length !== 0 && <Bidding dataSource={biddingPropsData} portrait={portrait} />}
 							</div>
 						</Spin>
 					</div>
