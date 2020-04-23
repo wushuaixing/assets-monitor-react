@@ -912,7 +912,7 @@ function exportTemplate(source, exportType, name) {
 					var taxStr = (i.taxpayers || []).join('、');
 					var TypeStr = '';
 					resParty.debtorIdentityTypeStr.forEach(function (i) {
-						if (i && ET !== 'B') TypeStr += f.tag(resParty.debtorIdentityTypeStr, '')
+						if (i && ET !== 'B') TypeStr += f.tag(i, '')
 					});
 					list += "<tr><td>"
 						+ f.urlDom(i.caseNature, i.url)
