@@ -67,7 +67,9 @@ export default class TableIntact extends React.Component {
 			r.identityStr = toGetIdentityType(r.identityType);
 			if (i.obligorId === Number(id)) {
 				if (i.identityType === 1) res.showTaxpayerDebtor = false;
-				res.identityTypePartyStr.push(r.identityStr);
+				else {
+					res.identityTypePartyStr.push(r.identityStr);
+				}
 			}
 			return r;
 		});
