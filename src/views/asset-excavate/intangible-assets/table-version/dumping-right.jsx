@@ -81,7 +81,7 @@ export default class TableIntact extends React.Component {
 						{this.toShowExtraField(row)}
 						<span className="list list-title align-justify">发证日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtPublishTime)}</span>
+						<span className="list list-content">{timeStandard(row.gmtPublishTime, '未公开')}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">有效期</span>
 						<span className="list list-title-colon">:</span>
