@@ -92,8 +92,8 @@ export default class TableIntact extends React.Component {
 								<Ellipsis content={toEmpty(ca || value)} tooltip url={row.url} width={600} font={15} auto />
 								{toGetIdentityType(row.identityType) && portrait === 'personal'
 									? <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span> : ''}
-								{portrait === 'debtor_personal' && source.identityTypePartyStr.length
-								&& source.identityTypePartyStr.map(i => <span className="yc-case-reason text-ellipsis" style={{ marginRight: 0 }}>{i}</span>)}
+								{(portrait === 'debtor_personal' && source.identityTypePartyStr.length)
+									? source.identityTypePartyStr.map(i => <span className="yc-case-reason text-ellipsis" style={{ marginRight: 0 }}>{i}</span>) : ''}
 							</li>
 							{this.toShowExtraField(row, source)}
 							<LiItem title="违法事实" Li><Ellipsis content={toEmpty(ill)} width={601} tooltip /></LiItem>
