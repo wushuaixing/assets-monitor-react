@@ -455,7 +455,7 @@ function exportTemplate(source, exportType, name) {
 	var handleTax = function (ary) {
 		var id = TYPE === 'D' ? _dataSource['DB10101'].id : _dataSource['BB10101'].id;
 		var result = {
-			debtorIdentityTypeStr: '',
+			debtorIdentityTypeStr: [],
 			parties: [],
 			showTaxpayer: true,
 		};
@@ -463,7 +463,9 @@ function exportTemplate(source, exportType, name) {
 			if (TYPE === 'B' && i.identityType === 1) result.showTaxpayer = false;
 			if (i.obligorId === id) {
 				if (i.identityType === 1) result.showTaxpayer = false;
-				result.debtorIdentityTypeStr = (i.identityType !== 1 ? s.identity[i.identityType] : '');
+				else {
+					result.debtorIdentityTypeStr.push(s.identity[i.identityType])
+				}
 			}
 			result.parties.push([
 				{
@@ -896,8 +898,8 @@ function exportTemplate(source, exportType, name) {
 						+ "</td><td>" + f.normalList(i.gmtRemoveDate ? [
 							{dot: dot, cot: '已移除'},
 							{t: '移除日期', cot: f.time(i.gmtRemoveDate)},
-							{t: '移除原因', cot: i.removeReason},
-							{t: '移除机关', cot: i.removeDepartment},
+							{t: '移除原因', cot: w(i.removeReason)},
+							{t: '移除机关', cot: w(i.removeDepartment)},
 						] : [
 							{dot: 'success', cot: '未移除'},
 						]) + "</td></tr>";
@@ -908,13 +910,17 @@ function exportTemplate(source, exportType, name) {
 				data.list.forEach(function (i) {
 					var resParty = handleTax(i.parties);
 					var taxStr = (i.taxpayers || []).join('、');
+					var TypeStr = '';
+					resParty.debtorIdentityTypeStr.forEach(function (i) {
+						if (i && ET !== 'B') TypeStr += f.tag(resParty.debtorIdentityTypeStr, '')
+					});
 					list += "<tr><td>"
 						+ f.urlDom(i.caseNature, i.url)
-						+ (ET !== 'B' ? f.tag(resParty.debtorIdentityTypeStr, '') : '')
+						+ TypeStr
 						+ (ET === 'B' ? f.normalList(resParty.parties) : '')
 						+ f.normalList([
-							{t: '违法事实', cot: i.illegalFacts},
-							{t: '处罚情况', cot: i.punish},
+							{t: '违法事实', cot: w(i.illegalFacts)},
+							{t: '处罚情况', cot: w(i.punish)},
 						])
 						+ "</td><td>" + f.normalList([
 							(resParty.showTaxpayer ? {dot: dot, cot: w(taxStr, {prefix: '纳税人：'})} : ''),
@@ -971,7 +977,7 @@ function exportTemplate(source, exportType, name) {
 					{t: '机构名称', f: 'companyName'},
 					{t: '法定代表人', f: 'legalName'},
 					{t: '注册资本', f: 'regCapital'},
-					{t: '注册时间', f: 'regTime',w: 90},
+					{t: '注册时间', f: 'regTime', w: 90},
 					{t: '经营状态', f: 'regStatus'}
 				]);
 				break;
@@ -983,7 +989,7 @@ function exportTemplate(source, exportType, name) {
 					{t: '法定代表人', f: 'legalName'},
 					{t: '注册资本', f: 'regCapital'},
 					{t: '投资占比', f: 'rate'},
-					{t: '注册时间', f: 'regTime',w: 90},
+					{t: '注册时间', f: 'regTime', w: 90},
 					{t: '经营状态', f: 'regStatus'}
 				]);
 				break;
