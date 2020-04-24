@@ -20,13 +20,13 @@ export default class BreadCrumb extends React.Component {
 
 	render() {
 		const {
-			suffix, className, style, font, list = [],
+			suffix, className, style, font, list = [], line,
 		} = this.props;
 		const classList = ['yc-bread-crumb'];
 		if (className) classList.push(className);
 		const _style = Object.assign({}, style, font ? { fontSize: font || 14 } : {});
 		const { length } = list || [];
-		return (
+		return [
 			<div className={classList.join(' ')} style={_style}>
 				{
 					list.map((i, index) => {
@@ -41,7 +41,8 @@ export default class BreadCrumb extends React.Component {
 					})
 				}
 				{suffix || ''}
-			</div>
-		);
+			</div>,
+			line ? <div className="yc-line" /> : null,
+		];
 	}
 }

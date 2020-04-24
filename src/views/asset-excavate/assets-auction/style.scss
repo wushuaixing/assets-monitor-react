@@ -16,28 +16,11 @@
 
 .yc-operate-log {
   color: #20242e;
-  padding: 0 20px 20px;
   box-sizing: border-box;
-
-  .yc-bread-crumb {
-    padding: 24px 0;
-    background-color: #fff;
-    font-size: 14px;
-    margin-bottom: 0;
-    list-style: none;
-    border-radius: 4px;
-    border-bottom: 1px solid $background-line;
-    .yc-bread-hover {
-      font-size: 14px;
-    }
-    a {
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
 }
 .yc-module {
+  padding: 20px;
+  padding-top: 0;
   .yc-module-title {
     color: #20242e;
     padding-top: 40px;

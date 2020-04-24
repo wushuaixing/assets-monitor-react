@@ -61,6 +61,7 @@ const Item = (props) => {
 const defaultRouter = (source) => {
 	const { hash } = window.location;
 	const res = { p: '', c: '' };
+	// 获取 备份 路由地址
 	const backupUrl = (item) => {
 		let result = false;
 		if (item.backup) {
@@ -72,11 +73,16 @@ const defaultRouter = (source) => {
 	};
 	source.forEach((item) => {
 		if (new RegExp(item.url).test(hash) || backupUrl(item)) {
+			res.p = '';
+			res.c = '';
 			if (item.children) {
 				res.p = item.id;
+				let rootUrlId = '';
 				item.children.forEach((itemChild) => {
+					if (itemChild.rootUrl)rootUrlId = itemChild.id;
 					if (new RegExp(itemChild.url).test(hash) || backupUrl(itemChild))res.c = itemChild.id;
 				});
+				res.c = res.c || rootUrlId;
 			} else {
 				res.p = item.id;
 			}
