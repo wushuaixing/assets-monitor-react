@@ -1128,13 +1128,22 @@ function exportTemplate(source, exportType, name) {
 }
 
 if (ENV === 'dev') {
-	var dataSource = JSON.stringify(require('../source/test_appendfile(10).json'));
-	var str = (exportType) => exportTemplate(dataSource, exportType);
-	console.warn('************************* output: ./template/result/demo-db.html *************************');
-	fs.writeFile("./template/result/demo-db.html", str('debtor'), (error) => {
+	var dataSource = JSON.stringify(require('../source/test_appendfile(9).json'));
+	const exportType= 'business';
+	var strCover = (exportType) => exportCover(dataSource, exportType);
+	var strTemplate = (exportType) => exportTemplate(dataSource, exportType);
+	fs.writeFile("./template/result/demo-db-cover.html", strCover(exportType), (error) => {
 		if (error) console.log('error');
 		else {
-			console.log('文件成功输出！');
+			console.log('导出模板：封面成功输出！');
+			console.warn('*************** file: ./template/result/demo-db-cover.html ****************');
+		}
+	});
+	fs.writeFile("./template/result/demo-db.html", strTemplate(exportType), (error) => {
+		if (error) console.log('error');
+		else {
+			console.log('导出模板：内容成功输出！');
+			console.warn('************** file: ./template/result/demo-db.html *******************');
 		}
 	});
 }
