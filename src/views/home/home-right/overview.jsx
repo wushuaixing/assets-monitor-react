@@ -6,21 +6,27 @@ class HomeOverview extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			assestArray: [
-				{ name: '资产挖掘', count: 103 },
-				{ name: '土地信息', count: 26 },
-				{ name: '无形资产', count: 13 },
-				{ name: '代位权', count: 73 },
-				{ name: '股权质押', count: 11 },
-				{ name: '动产抵押', count: 103 },
-				{ name: '金融资产', count: 13 },
-				{ name: '招投标', count: 63 },
+			assetArray: [
+				{ name: '资产挖掘', count: 103, color: '#FB8E3C' },
+				{ name: '土地信息', count: 26, color: '#1C80E1' },
+				{ name: '无形资产', count: 13, color: '#FFC531' },
+				{ name: '代位权', count: null, color: '#B2B8C9' },
+				{ name: '股权质押', count: 11, color: '#FB5A5C' },
+				{ name: '动产抵押', count: 0, color: '#B2B8C9' },
+				{ name: '金融资产', count: 13, color: '#FB8E3C' },
+				{ name: '招投标', count: 63, color: '#3DBD7D' },
+			],
+			riskArray: [
+				{ name: '破产重组', count: 103, color: '#948BFF' },
+				{ name: '失信记录', count: 26, color: '#FB5A5C' },
+				{ name: '涉诉信息', count: 13, color: '#FB8E3C' },
+				{ name: '经营风险', count: null, color: '#B2B8C9' },
 			],
 		};
 	}
 
 	render() {
-		const { assestArray } = this.state;
+		const { assetArray, riskArray } = this.state;
 		return (
 			<div className="overview-container">
 				<div className="overview-container-header">
@@ -37,24 +43,39 @@ class HomeOverview extends React.Component {
 					</div>
 					<div className="overview-container-content-asset">
 						{
-							assestArray.map(item => (
-								<div className="overview-container-content-asset-item">
-									<Icon type="icon-checked" className="overview-container-content-asset-item-icon" />
-									<div className="overview-container-content-asset-item-text">
-										{item.name}
-										{item.count ? `（${item.count}）` : null}
+							assetArray.map((item) => {
+								const { color } = item;
+								return (
+									<div className="overview-container-content-asset-item">
+										<Icon type="icon-checked" className="overview-container-content-asset-item-icon" style={{ color }} />
+										<div className="overview-container-content-asset-item-text">
+											{item.name}
+											{item.count ? `（${item.count}）` : null}
+										</div>
 									</div>
-								</div>
-							))
+								);
+							})
 						}
-
 					</div>
 					<div className="overview-container-content-title">
 						<div className="content-title-item" />
 						<div className="content-title-name">风险参考</div>
 					</div>
 					<div className="overview-container-content-risk">
-						风险参考
+						{
+							riskArray.map((item) => {
+								const { color } = item;
+								return (
+									<div className="overview-container-content-asset-item">
+										<Icon type="icon-checked" className="overview-container-content-asset-item-icon" style={{ color }} />
+										<div className="overview-container-content-asset-item-text">
+											{item.name}
+											{item.count ? `（${item.count}）` : null}
+										</div>
+									</div>
+								);
+							})
+						}
 					</div>
 				</div>
 			</div>
