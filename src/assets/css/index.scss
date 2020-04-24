@@ -15,20 +15,17 @@ input::-webkit-input-placeholder {
 
 input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
-  color: $text-placeholder;
-  opacity: 1;
+  color: $text-placeholder!important;
 }
 
 input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
-  color: $text-placeholder;
-  opacity: 1;
+  color: $text-placeholder!important;
 }
 
 input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
-  color: $text-placeholder;
-  opacity: 1;
+  color: $text-placeholder!important;
 }
 
 input::-webkit-outer-spin-button,
@@ -37,7 +34,6 @@ input::-webkit-inner-spin-button {
 }
 .yc-input-placeholder {
   color: $text-placeholder !important;
-  opacity: 1;
 }
 input[type="number"] {
   -moz-appearance: textfield;
