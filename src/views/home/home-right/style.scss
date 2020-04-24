@@ -93,8 +93,21 @@
     }
     &-asset {
       height: 220px;
-      padding-top: 24px;
-      padding-left: 10px;
+      &-item {
+        display: inline-block;
+        text-align: center;
+        width: 139px;
+        padding-top: 24px;
+        &-icon {
+          font-size: 40px;
+          line-height: 40px;
+          color: #FB8E3C;
+        }
+        &-text {
+          line-height: 14px;
+          padding-top: 12px;
+        }
+      }
     }
   }
 }
