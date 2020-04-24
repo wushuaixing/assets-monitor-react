@@ -11,8 +11,9 @@ import ruleMethods from '@/utils/rule';
 import API from '@/utils/api/risk-monitor/operation-risk';
 
 const toGetConfig = () => {
-	const rule = ruleMethods.toGetRuleSource('', 'YC03', 'YC0303');
-	return rule.child.filter(item => item.status).map(item => Object.assign(item, {
+	const rule = ruleMethods.toGetRuleSource('', 'YC10', 'YC03');
+	const ruleChild = (rule.child.filter(i => i.id === 'YC0303')[0]) || {};
+	return (ruleChild.child || []).filter(item => item.status).map(item => Object.assign(item, {
 		number: 0,
 		showNumber: true,
 	}));
@@ -24,7 +25,7 @@ const toGetProcess = (sourceType, source) => {
 	return site;
 };
 
-export default class BusinessRisk extends React.Component {
+export default class OperationRisk extends React.Component {
 	constructor(props) {
 		super(props);
 		document.title = '经营风险-风险监控';
