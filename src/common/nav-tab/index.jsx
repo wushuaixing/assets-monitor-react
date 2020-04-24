@@ -56,18 +56,15 @@ export default class NavTab extends React.Component {
 		const { source = [] } = this.props;
 		const { hash } = window.location;
 		if (source.length) {
-			let _current = source[0].id;
-			try {
-				source.forEach((i) => {
-					if (new RegExp(i.url.replace('/*', '')).test(hash)) {
-						_current = i.id;
-						throw Error();
-					}
-				});
-				// eslint-disable-next-line no-empty
-			} catch (e) {
-			}
-			return _current;
+			let _current = '';
+			let _default = '';
+			source.forEach((i) => {
+				if (i.root) _default = i.id;
+				if (new RegExp(i.url.replace('/*', '')).test(hash) && !i.root) {
+					_current = i.id;
+				}
+			});
+			return _current || _default || source[0].id;
 		}
 		return null;
 	};

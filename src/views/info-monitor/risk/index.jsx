@@ -3,6 +3,7 @@ import React from 'react';
 export default class Risk extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '风险监控';
 		this.state = {};
 	}
 

@@ -3,6 +3,7 @@ import React from 'react';
 export default class Excavate extends React.Component {
 	constructor(props) {
 		super(props);
+		document.title = '资产挖掘';
 		this.state = {};
 	}
 
