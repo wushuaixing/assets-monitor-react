@@ -51,7 +51,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 93,
-			render: timeStandard,
+			render: val => timeStandard(val),
 		}, {
 			title: '操作',
 			unNormal: true,

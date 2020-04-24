@@ -164,9 +164,11 @@ class Assets extends React.Component {
 			<div className="yc-intro-sub-items">
 				{
 					config.map(item => (
+						item.role && (
 						<Button className="intro-btn-items" disabled={item.total === 0} onClick={() => this.handleScroll(item.tagName)}>
 							{`${item.name}${item.total ? ` ${item.total}` : ' 0'}`}
 						</Button>
+						)
 					))
 				}
 			</div>

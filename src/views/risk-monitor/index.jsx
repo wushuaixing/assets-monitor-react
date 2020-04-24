@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
-import { Tabs, Button, Icon } from '@/common';
+import { Button, Icon, BreadCrumb } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
 /* 主要内容模块 */
 import Lawsuits from './lawsuits-monitor';
@@ -78,38 +78,33 @@ class RiskMonitor extends React.Component {
 		const { source } = this.state;
 		const { rule } = this.props;
 		const _source = source.filter(item => item.status);
-
+		let text = _source[0].name;
+		_source.forEach((i) => { if (new RegExp(i.url).test(window.location.hash))text = i.name; });
 		return (
 			<React.Fragment>
-				<Tabs
-					id="TABS"
-					rightRender={() => (
-						<Button
-							style={{
-								marginTop: 8, marginRight: 20, width: 95, padding: '2px 9px',
-							}}
-							onClick={this.toNavigate}
-							size="large"
-							className="attention-btn-icon"
-							icon={() => (
-								<Icon
-									type="icon-follow-ed"
-									// style={{ fontsize: 14, color: '#7D8699' }}
-									className="yc-btn-icon"
-								/>
-							)}
-							title="我的关注"
-						/>
+				<BreadCrumb
+					list={[
+						{ id: 1, name: '信息监控', link: '/info/monitor' },
+						{ id: 2, name: '风险监控', link: '/info/monitor/risk' },
+						{ id: 3, name: text },
+					]}
+					suffix={(
+						<div className="yc-suffix-wrapper">
+							<Button
+								style={{ margin: '12px 20px', width: 95, padding: '2px 9px' }}
+								onClick={this.toNavigate}
+								size="large"
+								className="attention-btn-icon"
+								icon={() => <Icon type="icon-follow-ed" className="yc-btn-icon" />}
+								title="我的关注"
+							/>
+						</div>
 					)}
-					onActive={val => this.sourceType = val}
-					onChange={res => navigate(res.url + res.paramUrl || '')}
-					source={source}
 				/>
+				<div className="yc-line" />
 				<div className="yc-monitor yc-page-content">
 					<Router>
-						{
-							_source.map(Item => <Item.components path={`${Item.url}/*`} rule={rule} />)
-						}
+						{ _source.map(Item => <Item.components path={`${Item.url}/*`} rule={rule} />) }
 					</Router>
 				</div>
 			</React.Fragment>

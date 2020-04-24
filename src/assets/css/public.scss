@@ -622,3 +622,18 @@ td.column-left20 {
 .yc-line-height-16{
   line-height: 16px;
 }
+
+.yc-line{
+  width: 100%;
+  height: 1px;
+  background-color: $background-line;
+}
+
+.yc-suffix-wrapper{
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: auto;
+}

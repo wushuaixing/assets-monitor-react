@@ -205,7 +205,7 @@ export default class BasicTable extends React.Component {
 		// 跳转详情
 		console.log(row.id);
 		const w = window.open('about:blank');
-		w.location.href = `#/organization/operate/log?userId=${row.id}&&name=${row.name}`;
+		w.location.href = `#/organization/user/log?userId=${row.id}&&name=${row.name}`;
 	};
 
 	render() {

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Breadcrumb } from 'antd';
-import { navigate } from '@reach/router';
 import clearProcess from '../../../assets/img/img_flowchart.png';
+import { BreadCrumb } from '@/common';
 import './style.scss';
 
 export default class BasicTable extends React.Component {
@@ -11,20 +10,18 @@ export default class BasicTable extends React.Component {
 		this.state = {};
 	}
 
-
 	render() {
 		return (
 			<div className="yc-operate-log">
-				<div className="yc-bread-crumb">
-					<Breadcrumb>
-						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/monitor?process=-1')}>资产拍卖</a></Breadcrumb.Item>
-						<Breadcrumb.Item>
-							<span className="yc-bread-hover" style={{ 'font-weight': 400, color: '#20242E' }}>
-								资产清收流程
-							</span>
-						</Breadcrumb.Item>
-					</Breadcrumb>
-				</div>
+				<BreadCrumb
+					line
+					list={[
+						{ id: 1, name: '信息监控', link: '/info/monitor' },
+						{ id: 2, name: '资产挖掘', link: '/info/monitor/excavate' },
+						{ id: 3, name: '资产拍卖', link: '/monitor?process=-1' },
+						{ id: 4, name: '资产清收流程' },
+					]}
+				/>
 				<div className="yc-module">
 					<div className="yc-module-title">资产清收流程图</div>
 					<div className="img-wrapper">

@@ -57,7 +57,7 @@ export default class TableIntact extends React.Component {
 			showTaxpayer: true,
 			showTaxpayerDebtor: true,
 			identityType: '',
-			identityTypePartyStr: '',
+			identityTypePartyStr: [],
 		};
 		const party = parties.map((i) => {
 			const r = i;
@@ -67,7 +67,9 @@ export default class TableIntact extends React.Component {
 			r.identityStr = toGetIdentityType(r.identityType);
 			if (i.obligorId === Number(id)) {
 				if (i.identityType === 1) res.showTaxpayerDebtor = false;
-				res.identityTypePartyStr = r.identityStr;
+				else {
+					res.identityTypePartyStr.push(r.identityStr);
+				}
 			}
 			return r;
 		});
@@ -87,11 +89,11 @@ export default class TableIntact extends React.Component {
 					return (
 						<div className="assets-info-content">
 							<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-								<Ellipsis content={toEmpty(ca || value)} tooltip url={row.url} width={600} font={15} />
+								<Ellipsis content={toEmpty(ca || value)} tooltip url={row.url} width={600} font={15} auto />
 								{toGetIdentityType(row.identityType) && portrait === 'personal'
 									? <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span> : ''}
-								{portrait === 'debtor_personal' && source.identityTypePartyStr
-								&& <span className="yc-case-reason text-ellipsis">{source.identityTypePartyStr}</span>}
+								{(portrait === 'debtor_personal' && source.identityTypePartyStr.length)
+									? source.identityTypePartyStr.map(i => <span className="yc-case-reason text-ellipsis" style={{ marginRight: 0 }}>{i}</span>) : ''}
 							</li>
 							{this.toShowExtraField(row, source)}
 							<LiItem title="违法事实" Li><Ellipsis content={toEmpty(ill)} width={601} tooltip /></LiItem>

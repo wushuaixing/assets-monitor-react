@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-	Breadcrumb, Select, Pagination,
-} from 'antd';
-import { navigate } from '@reach/router';
+import { Select, Pagination } from 'antd';
 import {
 	userOperateList, // 操作列表
 	operateTypeList, // 操作类型
 } from '@/utils/api/organization';
-import { Table, Spin } from '@/common';
+import { Table, Spin, BreadCrumb } from '@/common';
 import { formatDateTime } from '../../../utils/changeTime';
 import { getQueryByName } from '@/utils';
 import './style.scss';
@@ -138,48 +135,48 @@ export default class BasicTable extends React.Component {
 
 		return (
 			<div className="operate-log">
-				<div className="yc-bread-crumb">
-					<Breadcrumb>
-						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/organization/user')}>账号列表</a></Breadcrumb.Item>
-						<Breadcrumb.Item>
-							<span style={{ 'font-weight': 400, color: '#20242E' }}>
-								{`${getQueryByName(hash, 'name')}_历史操作记录`}
+				<BreadCrumb
+					line
+					list={[
+						{ id: 1, name: '机构管理', link: '/organization' },
+						{ id: 2, name: '账号列表', link: '/organization/user' },
+						{ id: 3, name: `${getQueryByName(hash, 'name')}_历史操作记录` },
+					]}
+				/>
+				<div style={{ padding: '0 20px 20px' }}>
+					<div className="search-item">
+						<Select placeholder="请选择操作类型" size="large" onChange={this.handleChange} allowClear style={{ width: 185, 'margin-right': 10 }}>
+							{
+								operateList && operateList.length > 0 && operateList.map(item => (<Option value={item.target}>{item.type}</Option>))
+							}
+						</Select>
+					</div>
+					<div className="table">
+						<Spin visible={loading}>
+							<Table
+								columns={columns}
+								dataSource={data}
+								className="table"
+								pagination={false}
+							/>
+							{data && data.length > 0 && (
+								<div className="yc-table-pagination ">
+									<Pagination
+										current={current}
+										pageSize={pageSize}
+										total={total}
+										showTotal={val => `共 ${val} 条记录`}
+										showQuickJumper
+										onChange={(val) => {
+											this.handleChangePage(val);
+										}}
+									/>
+								</div>
+							)}
+						</Spin>
+					</div>
+				</div>
 
-							</span>
-						</Breadcrumb.Item>
-					</Breadcrumb>
-				</div>
-				<div className="search-item">
-					<Select placeholder="请选择操作类型" size="large" onChange={this.handleChange} allowClear style={{ width: 185, 'margin-right': 10 }}>
-						{
-							operateList && operateList.length > 0 && operateList.map(item => (<Option value={item.target}>{item.type}</Option>))
-						}
-					</Select>
-				</div>
-				<div className="table">
-					<Spin visible={loading}>
-						<Table
-							columns={columns}
-							dataSource={data}
-							className="table"
-							pagination={false}
-						/>
-						{data && data.length > 0 && (
-							<div className="yc-table-pagination ">
-								<Pagination
-									current={current}
-									pageSize={pageSize}
-									total={total}
-									showTotal={val => `共 ${val} 条记录`}
-									showQuickJumper
-									onChange={(val) => {
-										this.handleChangePage(val);
-									}}
-								/>
-							</div>
-						)}
-					</Spin>
-				</div>
 			</div>
 		);
 	}

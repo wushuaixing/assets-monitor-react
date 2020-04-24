@@ -127,7 +127,7 @@ const EnterpriseInfo = (props) => {
 				<div className="intro-used">
 
 					<li className="intro-info-list intro-list-border">
-						<span className="yc-public-remark">负责人/机构名：</span>
+						<span className="yc-public-remark">负责人/机构：</span>
 						<span className="yc-public-title" style={style}>{orgName || '-'}</span>
 					</li>
 					<li className="intro-info-list">
@@ -356,7 +356,7 @@ export default class Enterprise extends React.Component {
 		};
 		return (
 			<div className="yc-information-detail-wrapper">
-				<div className="info-navigation info-wrapper">
+				<div className="info-navigation">
 					<BreadCrumb
 						list={[
 							{ id: 1, name: '业务视图', link: '/business' },

@@ -12,7 +12,7 @@ import Item from './item';
 export default class MyAttention extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '我的关注-监控信息';
+		document.title = '我的关注-信息监控';
 		this.state = {
 			initConfig: toGetRuleSource(global.ruleSource, ['YC02', 'YC03']),
 			initType: 1,

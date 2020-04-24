@@ -1,14 +1,11 @@
 import React from 'react';
-import { navigate } from '@reach/router';
-
 import Router from '@/utils/Router';
-import Tabs from '@/common/tabs';
-
 import Write from './writ';
 import Auction from './auction';
 import Finance from './finance';
 import Lawsuits from './lawsuits';
 import Bankruptcy from './bankruptcy';
+import { BreadCrumb } from '@/common';
 
 const source = rule => ([
 	{
@@ -56,18 +53,20 @@ const source = rule => ([
 const SearchBase = (props) => {
 	const { rule } = props && props;
 	const displayArray = source(rule).filter(item => item.open === true); // 过滤权限
-
+	let text = '拍卖信息';
+	displayArray.forEach((i) => { if (new RegExp(i.url).test(window.location.hash))text = i.name; });
 	return (
 		<React.Fragment>
-			<Tabs
-				onChange={res => navigate(res.url)}
-				source={displayArray}
+			<BreadCrumb list={[
+				{ id: 1, name: '信息搜索', link: '/info/search' },
+				{ id: 2, name: '分类搜索', link: '/info/search/several' },
+				{ id: 3, name: text },
+			]}
 			/>
+			<div className="yc-line" />
 			<div className="yc-business yc-page-content">
 				<Router>
-					{
-					displayArray.map(Item => <Item.components path={`${Item.url}/*`} />)
-				}
+					{ displayArray.map(Item => <Item.components path={`${Item.url}/*`} />) }
 				</Router>
 			</div>
 		</React.Fragment>

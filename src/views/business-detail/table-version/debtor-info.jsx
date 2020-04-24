@@ -85,19 +85,15 @@ const EnterpriseInfo = (arg = {}) => {
 					{
 						bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
 					}
-					{
-						pushState ? (
-							<span
-								className="inquiry-list-regStatus regStatus-blue"
-								style={pushState ? { marginTop: 2, marginRight: 5 } : {
-									marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
-								}}
-							>
-								{'当前推送状态：'}
-								{pushState ? '开启' : '关闭'}
-							</span>
-						) : null
-					}
+					<span
+						className="inquiry-list-regStatus regStatus-blue"
+						style={pushState ? { marginTop: 2, marginRight: 5 } : {
+							marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+						}}
+					>
+						{'当前推送状态：'}
+						{pushState ? '开启' : '关闭'}
+					</span>
 				</div>
 				<div className="intro-base-info">
 					<li className="intro-info-list intro-list-border">
@@ -165,19 +161,15 @@ const EnterpriseInfoSimple = (props) => {
 				{
 					bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
 				}
-				{
-					pushState ? (
-						<span
-							className="inquiry-list-regStatus regStatus-blue"
-							style={pushState ? { marginTop: 2, marginRight: 5 } : {
-								marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
-							}}
-						>
-							{'当前推送状态：'}
-							{pushState ? '开启' : '关闭'}
-						</span>
-					) : null
-				}
+				<span
+					className="inquiry-list-regStatus regStatus-blue"
+					style={pushState ? { marginTop: 2, marginRight: 5 } : {
+						marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+					}}
+				>
+					{'当前推送状态：'}
+					{pushState ? '开启' : '关闭'}
+				</span>
 			</div>
 			<DownloadButton />
 		</div>
@@ -219,19 +211,15 @@ const PersonalInfo = (arg = {}) => {
 					{
 						limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
 					}
-					{
-						pushState ? (
-							<span
-								className="inquiry-list-regStatus regStatus-blue"
-								style={pushState ? { marginTop: 2, marginRight: 5 } : {
-									marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
-								}}
-							>
-								{'当前推送状态：'}
-								{pushState ? '开启' : '关闭'}
-							</span>
-						) : null
-					}
+					<span
+						className="inquiry-list-regStatus regStatus-blue"
+						style={pushState ? { marginTop: 2, marginRight: 5 } : {
+							marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+						}}
+					>
+						{'当前推送状态：'}
+						{pushState ? '开启' : '关闭'}
+					</span>
 				</div>
 				<div className="intro-base-info">
 					<li className="intro-info-list">
@@ -266,19 +254,15 @@ const PersonalInfoSimple = (props) => {
 				{
 					limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
 				}
-				{
-					pushState ? (
-						<span
-							className="inquiry-list-regStatus regStatus-blue"
-							style={pushState ? { marginTop: 2, marginRight: 5 } : {
-								marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
-							}}
-						>
-							{'当前推送状态：'}
-							{pushState ? '开启' : '关闭'}
-						</span>
-					) : null
-				}
+				<span
+					className="inquiry-list-regStatus regStatus-blue"
+					style={pushState ? { marginTop: 2, marginRight: 5 } : {
+						marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+					}}
+				>
+					{'当前推送状态：'}
+					{pushState ? '开启' : '关闭'}
+				</span>
 			</div>
 			<DownloadButton />
 		</div>
