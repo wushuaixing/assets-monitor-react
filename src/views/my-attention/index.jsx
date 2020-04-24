@@ -14,7 +14,10 @@ export default class MyAttention extends React.Component {
 		super(props);
 		document.title = '我的关注-信息监控';
 		this.state = {
-			initConfig: toGetRuleSource(global.ruleSource, ['YC02', 'YC03']),
+			initConfig: [
+				toGetRuleSource(global.ruleSource, 'YC10', 'YC02'),
+				toGetRuleSource(global.ruleSource, 'YC10', 'YC03'),
+			],
 			initType: 1,
 			config: [],
 			sourceType: 1,
@@ -27,7 +30,7 @@ export default class MyAttention extends React.Component {
 	componentWillMount() {
 		const { initConfig } = this.state;
 		const initType = Tabs.Simple.toGetDefaultActive(initConfig, 'init');
-		const config = (toGetRuleSource(global.ruleSource, initType) || {}).children;
+		const config = (toGetRuleSource(global.ruleSource, 'YC10', initType) || {}).child;
 		const sourceType = Tabs.Simple.toGetDefaultActive(config, 'process');
 		const source = (config.filter(i => i.id === sourceType))[0];
 		const childAry = source.child ? source.child.filter(i => i.status) : '';
@@ -132,7 +135,7 @@ export default class MyAttention extends React.Component {
 	onType=(nextType) => {
 		const { initType } = this.state;
 		if (nextType !== initType) {
-			const config = (toGetRuleSource(global.ruleSource, nextType) || {}).children;
+			const config = (toGetRuleSource(global.ruleSource, 'YC10', nextType) || {}).child;
 			this.setState({ initType: nextType, config });
 			// console.log('_type:change', _type);
 			window.location.href = changeURLArg(window.location.href, 'init', nextType);

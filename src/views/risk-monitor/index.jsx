@@ -13,14 +13,15 @@ import './style.scss';
 
 /* 获取展示配置 */
 const toGetRuth = (moduleID) => {
-	const result = ruleMethods.toGetRuleSource(global.ruleSource, moduleID);
+	const result = ruleMethods.toGetRuleSource(global.ruleSource, moduleID, 'YC03');
 	const noPage = () => <div>暂未开发</div>;
-	return result.children.map((item) => {
+	const baseID = 'YC03';
+	return result.child.map((item) => {
 		let components = '';
-		if (item.id === `${moduleID}01`) components = Lawsuits;
-		else if (item.id === `${moduleID}02`) components = Bankruptcy;
-		else if (item.id === `${moduleID}03`) components = Operation;
-		else if (item.id === `${moduleID}04`) components = BrokenRecord;
+		if (item.id === `${baseID}01`) components = Lawsuits;
+		else if (item.id === `${baseID}02`) components = Bankruptcy;
+		else if (item.id === `${baseID}03`) components = Operation;
+		else if (item.id === `${baseID}04`) components = BrokenRecord;
 		else components = noPage;
 		return Object.assign({}, item, {
 			components,
@@ -34,7 +35,7 @@ class RiskMonitor extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			source: toGetRuth('YC03'),
+			source: toGetRuth('YC10'),
 		};
 		this.sourceType = '';
 	}
