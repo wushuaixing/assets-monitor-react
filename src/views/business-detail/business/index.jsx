@@ -356,7 +356,7 @@ export default class Enterprise extends React.Component {
 		};
 		return (
 			<div className="yc-information-detail-wrapper">
-				<div className="info-navigation info-wrapper">
+				<div className="info-navigation">
 					<BreadCrumb
 						list={[
 							{ id: 1, name: '业务视图', link: '/business' },

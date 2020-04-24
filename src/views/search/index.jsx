@@ -46,11 +46,11 @@ const HomeRouter = (props) => {
 	const [active, setActive] = useState(displayArray[0]);
 	useEffect(() => {
 		// Update the document title using the browser API
-		document.title = '信息搜索';
+		document.title = '信息分类搜索';
 	});
 	return (
 		<div className="search-wrapper">
-			<p>信息搜索</p>
+			<p>信息分类搜索</p>
 			<div className="tab-search">
 				<Tabs
 					simple

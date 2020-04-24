@@ -343,7 +343,7 @@ export default {
 				id: 'YC06',
 				name: '机构管理',
 				url: '/organization',
-				status: rule.menu_jjgl,
+				status: rule.menu_jjgl || rule.menu_sy,
 				dot: false,
 				children: [
 					{
