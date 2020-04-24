@@ -1055,7 +1055,7 @@ function exportTemplate(source, exportType, name) {
 				)
 			},
 			{
-				f: '{about.list}', v: aboutList('关联业务列表',
+				f: '{about.list}', v: aboutList('业务相关人列表',
 					{list: _dataSource["BB10102"] || []},
 					{id: 'BB10102', className: 'table-border', show: true}
 				)
