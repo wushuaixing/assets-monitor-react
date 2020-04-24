@@ -38,7 +38,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 								债务人/业务画像自动生成
 							</p>
 							<span className="yc-label-text">
-								新的财产抓手，可查封处置且存在巨大价值！
+								相关资产抓手及风险参考情况一目了然！
 							</span>
 						</div>
 						<div>
@@ -47,7 +47,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 								数据分类导航
 							</p>
 							<span className="yc-label-text">
-								跟进记录一串到底，再也不用同一资产重复跟进！
+								快速定位关键信息详情！
 							</span>
 						</div>
 						<div>
@@ -56,7 +56,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 								债务人/业务画像报告一键导出
 							</p>
 							<span className="yc-label-text">
-								失信详情全知道！
+								便捷支持信息集成、传递与交流！
 							</span>
 						</div>
 						<Button type="primary" className="yc-modal-btn" onClick={this.handleCancel}>我知道了</Button>
