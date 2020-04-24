@@ -26,6 +26,9 @@ const Organization = Loadable(() => import('./organization'));
 const Attention = Loadable(() => import('./my-attention'));
 const Inquiry = Loadable(() => import('./portrait-inquiry'));
 
+const InfoSearch = Loadable(() => import('./info-search'));
+
+
 const cookie = new Cookies();
 
 // 返回路由表
@@ -41,6 +44,7 @@ const ruleList = (props) => {
 	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} />);
 	l.push(<Attention path="my/attention/*" />);
 	l.push(<Message path="message/*" />);
+	l.push(<InfoSearch path="info/search/*" rule={rule} />);
 	l.push(<ChangePassword path="change/password/*" />);
 	if (!rule.menu_sy) {
 		l[0].props.path = '/*';

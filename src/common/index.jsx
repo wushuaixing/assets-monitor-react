@@ -12,6 +12,7 @@ import NoContent from './noContent';
 import DatePicker from './commonDatePicker';
 import BreadCrumb from './bread-crumb';
 import LiItem from './li-item';
+import NavTab from './nav-tab';
 
 const timeRule = {
 	disabledStartDate: (startValue, endValue) => {
@@ -46,5 +47,5 @@ const timeRule = {
 };
 
 export {
-	Tabs, Badge, Button, Input, Spin, timeRule, Download, Table, SelectedNum, Ellipsis, Icon, NoContent, DatePicker, BreadCrumb, LiItem,
+	Tabs, Badge, Button, Input, Spin, timeRule, Download, Table, SelectedNum, Ellipsis, Icon, NoContent, DatePicker, BreadCrumb, LiItem, NavTab,
 };

@@ -68,12 +68,11 @@ const HomeRouter = (props) => {
 	);
 };
 const BaseRouter = (props) => {
-	const { rule: { children } } = props;
-
+	const { rule = {} } = props;
 	return (
 		<Router>
-			<HomeRouter rule={children} path="/*" />
-			<Detail rule={children} path="/search/detail/*" />
+			<HomeRouter rule={rule.children} path="/*" />
+			<Detail rule={rule.children} path="/search/detail/*" />
 		</Router>
 	);
 };

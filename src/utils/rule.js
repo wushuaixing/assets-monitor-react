@@ -304,17 +304,40 @@ export default {
 					},
 				],
 			},
+			// {
+			// 	id: 'YC07',
+			// 	name: '画像查询',
+			// 	url: '/inquiry',
+			// 	status: rule.menu_hxcx,
+			// },
+			// {
+			// 	id: 'YC05',
+			// 	name: '信息搜索',
+			// 	url: '/search',
+			// 	status: rule.menu_xxss,
+			// },
 			{
-				id: 'YC07',
-				name: '画像查询',
-				url: '/inquiry',
-				status: rule.menu_hxcx,
-			},
-			{
-				id: 'YC05',
+				id: 'YC11',
 				name: '信息搜索',
-				url: '/search',
-				status: rule.menu_xxss,
+				url: '/info/search',
+				status: rule.menu_hxcx || rule.menu_xxss,
+				backup: ['/inquiry', '/search'],
+				children: [
+					{
+						id: 'YC07',
+						name: '画像查询',
+						url: '/info/search/portrait',
+						backup: ['/inquiry'],
+						status: rule.menu_hxcx,
+					},
+					{
+						id: 'YC05',
+						name: '分类搜索',
+						url: '/info/search/several',
+						backup: ['/search'],
+						status: rule.menu_xxss,
+					},
+				],
 			},
 			{
 				id: 'YC06',
@@ -347,6 +370,7 @@ export default {
 					url: item.url,
 					status: true,
 					dot: item.dot,
+					backup: item.backup,
 				};
 				if (item.children) {
 					_item.children = item.children.filter(it => it.status);
