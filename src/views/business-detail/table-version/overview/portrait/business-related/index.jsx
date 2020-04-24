@@ -86,7 +86,7 @@ export default class BusinessRelated extends React.Component {
 			<div>
 				<div className="overview-container-title">
 					<div className="overview-left-item" />
-					<span className="container-title-name">关联业务列表</span>
+					<span className="container-title-name">业务相关人列表</span>
 				</div>
 				{!loading ? (
 					<div className="overview-container-content" style={{ padding: '0 20px' }}>
