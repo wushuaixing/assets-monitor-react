@@ -33,7 +33,7 @@ class HomeDynamic extends React.Component {
 								key={item.type}
 								onClick={() => this.handleClick(index)}
 								className="dynamic-container-header-type"
-								style={checkType === index ? { borderBottom: '2px solid #fb8e3c' } : {}}
+								style={checkType === index ? { borderBottom: '2px solid #fb8e3c', color: '#FB8E3C' } : {}}
 							>
 								{item.name}
 							</div>
