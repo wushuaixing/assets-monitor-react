@@ -57,7 +57,7 @@ export default class BusinessRelated extends React.Component {
 								text === 1 ? (
 									<span>
 										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
-										启用
+										开启
 									</span>
 								) : (
 									<span>
