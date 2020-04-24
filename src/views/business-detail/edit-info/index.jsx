@@ -93,10 +93,18 @@ class EditBusiness extends React.Component {
 			return;
 		}
 		confirm({
-			title: '确认修改债务人名称/身份信息?',
+			title: '确认修改业务信息?',
 			iconType: 'exclamation-circle',
 			width: 500,
-			content: '若本次编辑涉及债务人名称或身份证号，该债务人的历史数据匹配将被删除，并以新名称、身份证号重新进行匹配。',
+			// content: '若本次编辑涉及债务人名称或身份证号，该债务人的<span style="color: red">历史数据匹配将被删除</span>，并以新名称、身份证号重新进行匹配。',
+			content:
+				(
+					<div>
+						若本次编辑涉及债务人名称或身份证号，该债务人的
+						<span style={{ color: 'red' }}>历史数据匹配将被删除</span>
+						，并以新名称、身份证号重新进行匹配。
+					</div>
+				),
 			onOk() {
 				const params = {
 					detail: {
