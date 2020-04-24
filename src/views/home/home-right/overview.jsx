@@ -14,7 +14,7 @@ class HomeOverview extends React.Component {
 				{ name: '股权质押', count: 11, color: '#FB5A5C' },
 				{ name: '动产抵押', count: 0, color: '#B2B8C9' },
 				{ name: '金融资产', count: 13, color: '#FB8E3C' },
-				{ name: '招投标', count: 63, color: '#3DBD7D' },
+				{ name: '招投标', count: 11163, color: '#3DBD7D' },
 			],
 			riskArray: [
 				{ name: '破产重组', count: 103, color: '#948BFF' },
@@ -33,7 +33,7 @@ class HomeOverview extends React.Component {
 					监控概览
 					<div className="overview-container-header-detail">
 						详情
-						 <Icon type="icon-arrow-line-copy" className="overview-container-header-detail-icon" />
+						 {/* <Icon type="icon-arrow-line-copy" className="overview-container-header-detail-icon" /> */}
 					</div>
 				</div>
 				<div className="overview-container-content">
@@ -49,7 +49,7 @@ class HomeOverview extends React.Component {
 									<div className="overview-container-content-asset-item">
 										<Icon type="icon-checked" className="overview-container-content-asset-item-icon" style={{ color }} />
 										<div className="overview-container-content-asset-item-text">
-											{item.name}
+											{item.count ? item.name : <span style={{ color: '#B2B8C9' }}>{item.name}</span>}
 											{item.count ? `（${item.count}）` : null}
 										</div>
 									</div>
@@ -69,7 +69,7 @@ class HomeOverview extends React.Component {
 									<div className="overview-container-content-asset-item">
 										<Icon type="icon-checked" className="overview-container-content-asset-item-icon" style={{ color }} />
 										<div className="overview-container-content-asset-item-text">
-											{item.name}
+											{item.count ? item.name : <span style={{ color: '#B2B8C9' }}>{item.name}</span>}
 											{item.count ? `（${item.count}）` : null}
 										</div>
 									</div>
