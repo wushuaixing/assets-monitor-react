@@ -98,6 +98,10 @@
         text-align: center;
         width: 139px;
         padding-top: 24px;
+        &:hover {
+          color: $text-link;
+          cursor: pointer;
+        }
         &-icon {
           font-size: 40px;
           line-height: 40px;
