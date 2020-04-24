@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './home-header';
 import QuickStart from './home-right/quick-start';
 import Overview from './home-right/overview';
+import Dynamic from './home-left/index';
 import './index.scss';
 
 
@@ -21,7 +22,9 @@ class HomeRouter extends React.Component {
 				</div>
 				<div className="home-container-horizontal-mark-line" />
 				<div className="home-container-content">
-					<div className="home-container-content-left">left</div>
+					<div className="home-container-content-left">
+						<Dynamic />
+					</div>
 					<div className="home-container-content-middle" />
 					<div className="home-container-content-right">
 						<div className="home-container-content-right-quickStart">

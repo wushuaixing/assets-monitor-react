@@ -7,20 +7,44 @@ class HomeOverview extends React.Component {
 		super(props);
 		this.state = {
 			assetArray: [
-				{ name: '资产挖掘', count: 103, color: '#FB8E3C' },
-				{ name: '土地信息', count: 26, color: '#1C80E1' },
-				{ name: '无形资产', count: 13, color: '#FFC531' },
-				{ name: '代位权', count: null, color: '#B2B8C9' },
-				{ name: '股权质押', count: 11, color: '#FB5A5C' },
-				{ name: '动产抵押', count: 0, color: '#B2B8C9' },
-				{ name: '金融资产', count: 13, color: '#FB8E3C' },
-				{ name: '招投标', count: 11163, color: '#3DBD7D' },
+				{
+					name: '资产挖掘', count: 103, color: '#FB8E3C', icon: 'auction',
+				},
+				{
+					name: '土地信息', count: 26, color: '#1C80E1', icon: 'land',
+				},
+				{
+					name: '无形资产', count: 13, color: '#FFC531', icon: 'intangible',
+				},
+				{
+					name: '代位权', count: null, color: '#B2B8C9', icon: 'subrogation',
+				},
+				{
+					name: '股权质押', count: 11, color: '#FB5A5C', icon: 'auction',
+				},
+				{
+					name: '动产抵押', count: 0, color: '#B2B8C9', icon: 'auction',
+				},
+				{
+					name: '金融资产', count: 13, color: '#FB8E3C', icon: 'auction',
+				},
+				{
+					name: '招投标', count: 11163, color: '#3DBD7D', icon: 'auction',
+				},
 			],
 			riskArray: [
-				{ name: '破产重组', count: 103, color: '#948BFF' },
-				{ name: '失信记录', count: 26, color: '#FB5A5C' },
-				{ name: '涉诉信息', count: 13, color: '#FB8E3C' },
-				{ name: '经营风险', count: null, color: '#B2B8C9' },
+				{
+					name: '破产重组', count: 103, color: '#948BFF', icon: 'auction',
+				},
+				{
+					name: '失信记录', count: 26, color: '#FB5A5C', icon: 'auction',
+				},
+				{
+					name: '涉诉信息', count: 13, color: '#FB8E3C', icon: 'auction',
+				},
+				{
+					name: '经营风险', count: null, color: '#B2B8C9', icon: 'auction',
+				},
 			],
 		};
 	}
@@ -47,7 +71,7 @@ class HomeOverview extends React.Component {
 								const { color } = item;
 								return (
 									<div className="overview-container-content-asset-item">
-										<Icon type="icon-checked" className="overview-container-content-asset-item-icon" style={{ color }} />
+										<Icon type={`icon-${item.icon}`} className="overview-container-content-asset-item-icon" style={{ color }} />
 										<div className="overview-container-content-asset-item-text">
 											{item.count ? item.name : <span style={{ color: '#B2B8C9' }}>{item.name}</span>}
 											{item.count ? `（${item.count}）` : null}
