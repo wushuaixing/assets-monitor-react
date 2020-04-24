@@ -65,6 +65,17 @@
   border-bottom: 1px solid #f7f7f7;
 }
 
+.ant-table-tbody > tr > td {
+  position: relative;
+}
+// table字体大小
+.ant-table-tbody > tr > td,
+.ant-table-thead > tr > th {
+  padding: 12px 10px;
+  height: 44px;
+  font-size: 12px;
+}
+
 // 限制tooltip最大高度
 .ant-tooltip-inner {
   max-height: 700px;

@@ -1,0 +1,39 @@
+.home-container {
+  &-header {
+    height: 116px;
+  }
+  &-horizontal-mark-line {
+    height: 12px;
+    width: 100%;
+    background-color: $background-base;
+  }
+  &-content {
+    background-color: $background-base;
+    height: 711px;
+    &-left {
+      vertical-align: top;
+      background-color: #FFFFFF;
+      display: inline-block;
+      height: 100%;
+      width: 594px
+    }
+    &-middle {
+      vertical-align: top;
+      display: inline-block;
+      width: 12px
+    }
+    &-right {
+      vertical-align: top;
+      background-color: #FFFFFF;
+      display: inline-block;
+      height: 100%;
+      width: 594px;
+      &-quickStart {
+        height: 121px;
+      }
+      &-overview {
+        height: 578px;
+      }
+    }
+  }
+}
