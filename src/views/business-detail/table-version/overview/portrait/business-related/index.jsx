@@ -57,7 +57,7 @@ export default class BusinessRelated extends React.Component {
 								text === 1 ? (
 									<span>
 										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
-										启用
+										开启
 									</span>
 								) : (
 									<span>
@@ -86,7 +86,7 @@ export default class BusinessRelated extends React.Component {
 			<div>
 				<div className="overview-container-title">
 					<div className="overview-left-item" />
-					<span className="container-title-name">关联业务列表</span>
+					<span className="container-title-name">业务相关人列表</span>
 				</div>
 				{!loading ? (
 					<div className="overview-container-content" style={{ padding: '0 20px' }}>
