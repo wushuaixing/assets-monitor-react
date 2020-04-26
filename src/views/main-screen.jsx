@@ -18,17 +18,21 @@ import { handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
 
 // 新的引用方式，分割代码，懒加载
-const Monitor = Loadable(() => import('./asset-excavate'));
-const Risk = Loadable(() => import('./risk-monitor'));
-const Business = Loadable(() => import('./business'));
-const Search = Loadable(() => import('./search'));
-const Organization = Loadable(() => import('./organization'));
-const Attention = Loadable(() => import('./info-monitor/attention'));
-const Inquiry = Loadable(() => import('./portrait-inquiry'));
+
 
 const InfoMonitor = Loadable(() => import('./info-monitor'));
-const InfoSearch = Loadable(() => import('./info-search'));
+const Monitor = Loadable(() => import('./asset-excavate'));
+const Risk = Loadable(() => import('./risk-monitor'));
+const Attention = Loadable(() => import('./info-monitor/attention'));
 
+
+const InfoSearch = Loadable(() => import('./info-search'));
+const Inquiry = Loadable(() => import('./portrait-inquiry'));
+const Search = Loadable(() => import('./search'));
+
+const Business = Loadable(() => import('./business'));
+
+const Organization = Loadable(() => import('./organization'));
 
 const cookie = new Cookies();
 
@@ -36,23 +40,22 @@ const cookie = new Cookies();
 const ruleList = (props) => {
 	const l = [];
 	const { rule } = props;
-	if (rule.menu_sy)l.push(<Home path="/*" rule={rule.menu_sy} baseRule={rule} />);
-	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} />);
-	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} />);
+	if (rule.menu_sy)l.push(<Home path="/*" rule={rule.menu_sy} baseRule={rule} remark="首页" />);
+	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
+	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} remark="机构管理" />);
 
 	/* 信息监控 [资产挖掘、风险监控] */
 	if (rule.menu_zcwj || rule.menu_fxjk) {
 		if (rule.menu_zcwj)l.push(<Monitor path="monitor/*" rule={rule.menu_zcwj} baseRule={rule} remark="信息监控-资产挖掘" />);
-		if (rule.menu_fxjk)l.push(<Risk path="risk/*" rule={rule.menu_fxjk} baseRule={rule} />);
+		if (rule.menu_fxjk)l.push(<Risk path="risk/*" rule={rule.menu_fxjk} baseRule={rule} remark="信息监控-风险监控" />);
 		l.push(<InfoMonitor path="info/monitor/*" rule={rule} remark="信息监控-概览" />);
 		l.push(<Attention path="info/monitor/attention/*" remark="信息监控-我的关注" />);
 	}
 
-
 	/* 信息搜索 [画像查询、分类搜索] */
-	if (rule.menu_hxcx || rule.menu_xxss)l.push(<InfoSearch path="info/search/*" rule={rule} />);
-	if (rule.menu_hxcx)l.push(<Inquiry path="inquiry/*" rule={rule.menu_hxcx} baseRule={rule} />);
-	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} baseRule={rule} />);
+	if (rule.menu_hxcx || rule.menu_xxss)l.push(<InfoSearch path="info/search/*" rule={rule} remark="信息搜索-导航" />);
+	if (rule.menu_hxcx)l.push(<Inquiry path="inquiry/*" rule={rule.menu_hxcx} baseRule={rule} remark="信息搜索-画像" />);
+	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} baseRule={rule} remark="信息搜索-分类" />);
 
 	l.push(<Message path="message/*" />);
 	l.push(<ChangePassword path="change/password/*" />);

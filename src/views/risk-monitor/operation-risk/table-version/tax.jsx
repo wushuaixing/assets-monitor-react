@@ -106,7 +106,7 @@ export default class TableIntact extends React.Component {
 				width: 360,
 				render: (value, row) => {
 					const source = this.toShowIdentityType(row);
-					const taxpayer = row.taxpayers.join('、');
+					const taxpayer = (row.taxpayers || []).join('、');
 					return (
 						<div className="assets-info-content">
 							<li style={{ height: 24 }}>
