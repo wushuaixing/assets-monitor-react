@@ -1,4 +1,5 @@
 import React from 'react';
+import { navigate } from '@reach/router';
 import { NavTab, Button, Icon } from '@/common';
 import {
 	excavate, excavateEd, risk, riskEd,
@@ -39,6 +40,7 @@ export default class InfoSearch extends React.Component {
 
 	toGoAttentionPage =() => {
 		console.log('It\'s about to go to my-attention page;');
+		navigate('/info/monitor/attention?init=YC02');
 	};
 
 	render() {

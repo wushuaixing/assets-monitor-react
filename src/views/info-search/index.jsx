@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavTab, Button } from '@/common';
+import { NavTab } from '@/common';
 import {
 	portrait, portraitEd, search, searchEd,
 } from '@/assets/img/nav-tab';
@@ -39,10 +39,7 @@ export default class InfoSearch extends React.Component {
 	render() {
 		const { config } = this.state;
 		return [
-			<NavTab
-				source={config}
-				suffix={<div style={{ margin: '13px 20px' }}><Button>我的收藏</Button></div>}
-			/>,
+			<NavTab source={config} />,
 			<Router>
 				{ config.map(Item => <Item.Component path={Item.url} rule={Item.rule} />)}
 			</Router>,

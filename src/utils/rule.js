@@ -280,14 +280,14 @@ export default {
 				name: '信息监控',
 				url: '/info/monitor',
 				status: rule.menu_zcwj || rule.menu_xxss,
-				backup: ['/monitor', '/risk', '/my/attention'],
+				backup: ['/monitor', '/risk', '/info/monitor/attention'],
 				children: [
 					{
 						id: 'YC02',
 						name: '资产挖掘',
 						url: '/info/monitor/excavate',
 						rootUrl: true,
-						backup: ['/monitor', '/my/attention\\?init=YC02'],
+						backup: ['/monitor', '/info/monitor/attention\\?init=YC02'],
 						status: rule.menu_zcwj,
 						child: [
 							{
@@ -360,7 +360,7 @@ export default {
 						id: 'YC03',
 						name: '风险监控',
 						url: '/info/monitor/risk',
-						backup: ['/risk', '/my/attention\\?init=YC03'],
+						backup: ['/risk', '/info/monitor/attention\\?init=YC03'],
 						status: rule.menu_xxss,
 						child: [
 							{

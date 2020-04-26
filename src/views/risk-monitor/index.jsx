@@ -72,7 +72,7 @@ class RiskMonitor extends React.Component {
 	};
 
 	toNavigate = () => {
-		navigate(`/my/attention?init=YC03${this.sourceType ? `&process=${this.sourceType}` : ''}`);
+		navigate(`/info/monitor/attention?init=YC03${this.sourceType ? `&process=${this.sourceType}` : ''}`);
 	};
 
 	render() {

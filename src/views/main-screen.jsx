@@ -9,10 +9,10 @@ import Home from './home';
 // import Business from './business';
 // import Company from './company';
 // import Search from './search';
-import Message from './message';
-import ChangePassword from './changPassword';
+import Message from './_others/message';
+import ChangePassword from './_others/changPassword';
 import { Spin, Button } from '@/common';
-import { Header, Container, Footer } from '@/views/_layoutView';
+import { Header, Container, Footer } from './_others/layout';
 import { authRule } from '@/utils/api';
 import { handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
@@ -23,7 +23,7 @@ const Risk = Loadable(() => import('./risk-monitor'));
 const Business = Loadable(() => import('./business'));
 const Search = Loadable(() => import('./search'));
 const Organization = Loadable(() => import('./organization'));
-const Attention = Loadable(() => import('./my-attention'));
+const Attention = Loadable(() => import('./info-monitor/attention'));
 const Inquiry = Loadable(() => import('./portrait-inquiry'));
 
 const InfoMonitor = Loadable(() => import('./info-monitor'));
@@ -41,16 +41,19 @@ const ruleList = (props) => {
 	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} />);
 
 	/* 信息监控 [资产挖掘、风险监控] */
-	if (rule.menu_zcwj || rule.menu_fxjk)l.push(<InfoMonitor path="info/monitor/*" rule={rule} />);
-	if (rule.menu_zcwj)l.push(<Monitor path="monitor/*" rule={rule.menu_zcwj} baseRule={rule} />);
-	if (rule.menu_fxjk)l.push(<Risk path="risk/*" rule={rule.menu_fxjk} baseRule={rule} />);
+	if (rule.menu_zcwj || rule.menu_fxjk) {
+		if (rule.menu_zcwj)l.push(<Monitor path="monitor/*" rule={rule.menu_zcwj} baseRule={rule} remark="信息监控-资产挖掘" />);
+		if (rule.menu_fxjk)l.push(<Risk path="risk/*" rule={rule.menu_fxjk} baseRule={rule} />);
+		l.push(<InfoMonitor path="info/monitor/*" rule={rule} remark="信息监控-概览" />);
+		l.push(<Attention path="info/monitor/attention/*" remark="信息监控-我的关注" />);
+	}
+
 
 	/* 信息搜索 [画像查询、分类搜索] */
 	if (rule.menu_hxcx || rule.menu_xxss)l.push(<InfoSearch path="info/search/*" rule={rule} />);
 	if (rule.menu_hxcx)l.push(<Inquiry path="inquiry/*" rule={rule.menu_hxcx} baseRule={rule} />);
 	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} baseRule={rule} />);
 
-	l.push(<Attention path="my/attention/*" />);
 	l.push(<Message path="message/*" />);
 	l.push(<ChangePassword path="change/password/*" />);
 	if (!rule.menu_sy) {
