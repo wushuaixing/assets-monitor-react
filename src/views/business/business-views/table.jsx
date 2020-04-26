@@ -1,19 +1,16 @@
 import React from 'react';
-import {
-	Modal, message, Tooltip, Form,
-} from 'antd';
+import { Modal, message, Tooltip } from 'antd';
 import {
 	openPush, // 打开推送
 	closePush, // 关闭推送
 	postDelete, // 删除一条记录
 } from '@/utils/api/business';
 import { formatDateTime } from '@/utils/changeTime';
-
 import { Icon, Spin, Table } from '@/common';
 
 const { confirm } = Modal;
 
-class BusinessView extends React.Component {
+export default class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
 		const { openPeopleModal } = props;
@@ -130,7 +127,7 @@ class BusinessView extends React.Component {
 								text === 1 ? (
 									<span>
 										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
-										启用
+										开启
 									</span>
 								) : (
 									<span>
@@ -269,4 +266,3 @@ class BusinessView extends React.Component {
 		);
 	}
 }
-export default Form.create()(BusinessView);

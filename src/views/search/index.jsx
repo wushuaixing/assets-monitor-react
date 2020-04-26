@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Tabs from './search-tab';
-import Datas from './search-data';
+import Data from './search-data';
 import Router from '@/utils/Router';
 import Detail from './search-detail';
 import './index.scss';
@@ -52,16 +52,9 @@ const HomeRouter = (props) => {
 		<div className="search-wrapper">
 			<p>信息分类搜索</p>
 			<div className="tab-search">
-				<Tabs
-					simple
-					source={displayArray}
-					onChange={(item) => {
-						setActive(item);
-					}}
-				/>
-
+				<Tabs simple source={displayArray} onChange={(item) => { setActive(item); }}	/>
 				<div>
-					<Datas active={active} highSearch />
+					<Data active={active} highSearch />
 				</div>
 			</div>
 		</div>

@@ -15,7 +15,7 @@ import Mortgage from './chattel-mortgage'; // 动产抵押
 import Intangible from './intangible-assets'; // 无形资产
 // import Public from './public-proclamation'; // 公示公告
 // import Attention from '../my-attention'; // 我的关注
-import VersionUpdateModal from '../_layoutView/versionUpdateModal';
+import VersionUpdateModal from '../_others/layout/versionUpdateModal';
 import ClearProcess from './assets-auction/clearProcess'; // 资产清收流程
 
 const cookie = new Cookies();
@@ -116,7 +116,7 @@ class MonitorMain extends React.Component {
 	};
 
 	toNavigate = () => {
-		navigate(`/my/attention?init=YC02${this.sourceType ? `&process=${this.sourceType}` : ''}`);
+		navigate(`/info/monitor/attention?init=YC02${this.sourceType ? `&process=${this.sourceType}` : ''}`);
 	};
 
 	onCancel = () => {
