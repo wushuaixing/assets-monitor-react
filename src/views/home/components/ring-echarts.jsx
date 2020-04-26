@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import echarts from '@/static/echarts/echarts4.7/echarts.min';
 
 const getOption = (Data, id, title, newRingArray, customColorArray) => ({
@@ -6,7 +6,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 		trigger: 'item',
 		formatter: '{a} <br/>{b}: {c} ({d}%)',
 	},
-	color: customColorArray || ['#45A1FF', '#4DCAC9', '#59C874', '#FCD44A', '#F2657A', '#965EE3'],
+	color: customColorArray || ['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#F2657A', '#965EE3', '#4561FF'],
 	legend: {
 		itemWidth: 6, // 图例大小  我这里用的是圆
 		itemGap: 16, // 图例之间的间隔
@@ -50,6 +50,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					width: 40,
 					fontSize: 12,
 					color: '#20242E',
+					fontWeight: 700,
 					padding: [0, 0, 0, 12],
 					textAlign: 'left',
 				},
@@ -64,6 +65,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					width: 40,
 					fontSize: 12,
 					color: '#20242E',
+					fontWeight: 700,
 					padding: [0, 20, 0, 12],
 					textAlign: 'left',
 				},
@@ -97,7 +99,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 	],
 });
 
-class RingEcharts extends React.Component {
+class RingEcharts extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -117,31 +119,9 @@ class RingEcharts extends React.Component {
 
 	toDrawEcharts =() => {
 		const {
-			id, title, customColorArray,
+			id, title, customColorArray, Data,
 		} = this.props;
-		const Data = [
-			{
-				count: 22, type: 3, typeName: '资产拍卖', name: '资产拍卖', value: 2,
-			},
-			{
-				count: 2, type: 3, typeName: '代位权', name: '代位权', value: 2,
-			},
-			{
-				count: 2, type: 3, typeName: '土地信息', name: '土地信息', value: 2,
-			},
-			{
-				count: 2, type: 3, typeName: '股权质押', name: '股权质押', value: 2,
-			},
-			{
-				count: 2, type: 3, typeName: '动产抵押', name: '动产抵押', value: 2,
-			},
-			{
-				count: 33, type: 3, typeName: '招投标', name: '招投标', value: 2,
-			},
-			{
-				count: 2, type: 3, typeName: '无形资产', name: '无形资产', value: 2,
-			},
-		];
+
 		// 添加需要的字段名称
 		const newRingArray = [];
 		if (Data) {

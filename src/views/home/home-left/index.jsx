@@ -1,8 +1,10 @@
-import React from 'react';
-import { Icon } from '@/common';
+import React, { PureComponent } from 'react';
+import SevenUpdate from './seven-update';
+import ThirtyUpdate from './thirty-update';
 import './style.scss';
 
-class HomeDynamic extends React.Component {
+const customStyle = { padding: '20px' };
+class HomeDynamic extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -40,8 +42,16 @@ class HomeDynamic extends React.Component {
 						))
 					}
 				</div>
-				{checkType === 0 ? <div>7天</div> : null}
-				{checkType === 1 ? <div>30天</div> : null}
+				{checkType === 0 ? (
+					<div style={customStyle}>
+						<SevenUpdate />
+					</div>
+				) : null}
+				{checkType === 1 ? (
+					<div style={customStyle}>
+						<ThirtyUpdate />
+					</div>
+				) : null}
 			</div>
 		);
 	}

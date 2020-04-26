@@ -1,0 +1,111 @@
+.dynamic-checked {
+  position: relative;
+  &-line {
+    position: absolute;
+    height: 2px;
+    bottom: 0;
+    width: 100%;
+    background-color: $text-link;
+  }
+  &-active {
+    position: relative;
+    border: 2px solid $text-link;
+    color: $text-link;
+    border-bottom: 2px solid #FFFFFF;
+    border-radius: 2px;
+    z-index: 1;
+  }
+  &-unActive {
+    border: 2px solid #FFFFFF;
+  }
+  &-type {
+    display: inline-block;
+    height: 36px;
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: bold;
+    padding: 10px 20px;
+    &-num {
+      color: #FB5A5C;
+      font-size: 12px;
+      line-height: 12px;
+      margin-left: 5px;
+    }
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.detail-container {
+  padding-top: 20px;
+  &-content {
+    height: 90px;
+    padding: 17px 0 14px;
+    border-bottom: 1px solid $background-line;
+    &-left {
+      text-align: left;
+      display: inline-block;
+      vertical-align: top;
+      &-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        text-align: center;
+        background-color: $text-link;
+        color: #FFFFFF;
+      }
+    }
+    &-right {
+      display: inline-block;
+      width: 494px;
+      &-header {
+        line-height: 14px;
+        height: 14px;
+        overflow: hidden;
+        &-name {
+          display: inline-block;
+          font-size: 14px;
+          font-weight: bold;
+        }
+        &-time {
+          display: inline-block;
+          float: right;
+          font-size: 12px;
+          color: #7D8699;
+        }
+      }
+      &-item {
+        margin-top: 10px;
+        height: 36px;
+        &-detail {
+          color: $text-content;
+          display: inline-block;
+          font-size: 12px;
+          width: 364px;
+        }
+        &-tag {
+          display: inline-block;
+          text-align: center;
+          float: right;
+          font-size: 12px;
+          line-height: 22px;
+          width: 90px;
+          height: 22px;
+          background-color: #FDF8F4;
+          color: #FB8E3C;
+          border: 1px solid #FDB681;
+          vertical-align: top;
+          &-icon {
+            font-size: 12px;
+            margin-right: 2px;
+          }
+        }
+      }
+    }
+    &:hover {
+      color: $text-link;
+      cursor: pointer;
+    }
+  }
+}

@@ -32,4 +32,32 @@
       background-color: $background-line;
     }
   }
+  .seven-update-container {
+    .seven-update-content {
+      margin-top: 20px;
+      &-title {
+        height: 24px;
+        line-height: 20px;
+        &-item {
+          background: $text-link;
+          display: inline-block;
+          vertical-align: bottom;
+          width: 3px;
+          height: 20px;
+          margin-right: 10px;
+        }
+        &-name { color: $text-title;
+          display: inline-block;
+          font-size: 14px;
+          font-weight: 400;
+        }
+        &-num {
+          font-size: 20px;
+          line-height: 20px;
+          font-weight: 700;
+          padding: 0 5px;
+        }
+      }
+    }
+  }
 }
