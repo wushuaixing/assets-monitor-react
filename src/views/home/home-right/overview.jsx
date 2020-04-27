@@ -52,27 +52,27 @@ class HomeOverview extends React.Component {
 	render() {
 		const { assetArray, riskArray } = this.state;
 		return (
-			<div className="overview-container">
-				<div className="overview-container-header">
+			<div className="home-overview-container">
+				<div className="home-overview-container-header">
 					监控概览
-					<div className="overview-container-header-detail">
-						<span className="overview-container-header-detail-text">详情</span>
-						<Icon type="icon-icon_arrow" className="overview-container-header-detail-icon" />
+					<div className="home-overview-container-header-detail">
+						<span className="home-overview-container-header-detail-text">详情</span>
+						<Icon type="icon-icon_arrow" className="home-overview-container-header-detail-icon" />
 					</div>
 				</div>
-				<div className="overview-container-content">
-					<div className="overview-container-content-title">
+				<div className="home-overview-container-content">
+					<div className="home-overview-container-content-title">
 						<div className="content-title-item" />
 						<div className="content-title-name">资产挖掘</div>
 					</div>
-					<div className="overview-container-content-asset">
+					<div className="home-overview-container-content-asset">
 						{
 							assetArray.map((item) => {
 								const { color } = item;
 								return (
-									<div className="overview-container-content-asset-item">
-										<Icon type={`icon-${item.icon}`} className="overview-container-content-asset-item-icon" style={{ color }} />
-										<div className="overview-container-content-asset-item-text">
+									<div className="home-overview-container-content-asset-item">
+										<Icon type={`icon-${item.icon}`} className="home-overview-container-content-asset-item-icon" style={{ color }} />
+										<div className="home-overview-container-content-asset-item-text">
 											{item.count ? item.name : <span style={{ color: '#B2B8C9' }}>{item.name}</span>}
 											{item.count ? `（${item.count}）` : null}
 										</div>
@@ -81,18 +81,18 @@ class HomeOverview extends React.Component {
 							})
 						}
 					</div>
-					<div className="overview-container-content-title">
+					<div className="home-overview-container-content-title">
 						<div className="content-title-item" />
 						<div className="content-title-name">风险参考</div>
 					</div>
-					<div className="overview-container-content-risk">
+					<div className="home-overview-container-content-risk">
 						{
 							riskArray.map((item) => {
 								const { color } = item;
 								return (
-									<div className="overview-container-content-asset-item">
-										<Icon type={`icon-${item.icon}`} className="overview-container-content-asset-item-icon" style={{ color }} />
-										<div className="overview-container-content-asset-item-text">
+									<div className="home-overview-container-content-asset-item">
+										<Icon type={`icon-${item.icon}`} className="home-overview-container-content-asset-item-icon" style={{ color }} />
+										<div className="home-overview-container-content-asset-item-text">
 											{item.count ? item.name : <span style={{ color: '#B2B8C9' }}>{item.name}</span>}
 											{item.count ? `（${item.count}）` : null}
 										</div>

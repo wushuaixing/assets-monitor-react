@@ -1,19 +1,32 @@
-.operate-log{
+.push-manage{
   padding: 20px;
-  font-size: 14px;
   p{
-    font-size: 14px;
+    font-size: 12px;
   }
   span{
-    font-size: 14px;
+    font-size: 12px;
   }
   .ant-select-arrow {
     font-size: 8px !important;
   }
+  .yc-query-item {
+    position: relative;
+    margin-right: 16px;
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 16px;
+    .yc-query-item-title {
+      padding: 9px 3px;
+      height: 34px;
+      line-height: 14px;
+      font-size: 12px;
+    }
+  }
   .search-item{
     display: inline-block;
     vertical-align: top;
-    margin: 20px 0 ;
+    margin-right: 20px;
+    margin-bottom: 20px;
     .ant-input-group-wrap{
       position: absolute;
       left: 246px;
@@ -25,7 +38,7 @@
     }
     >p{
       display: inline-block;
-      margin-right: 10px;
+      // margin-right: 10px;
     }
     .ant-input-group{
       width: 310px;

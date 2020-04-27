@@ -3,6 +3,7 @@ import { NavTab } from '@/common';
 import Router from '@/utils/Router';
 import PushManage from './push-manage';
 import UserList from './user-list';
+import OrganizationStatistics from './organization-statistics';
 import OperateLog from './operate-log';
 import {
 	setting, settingEd, orgCount, orgCountEd, userList, userListEd,
@@ -28,7 +29,7 @@ const source = rule => ([
 		selectImg: userListEd,
 		root: true,
 		status: true,
-		components: () => <div>机构统计</div>,
+		components: OrganizationStatistics,
 	},
 	{
 		id: 2,
@@ -56,7 +57,7 @@ class BusinessBase extends React.Component {
 		return (
 			<React.Fragment>
 				<NavTab source={_source} line />
-				<div className="yc-business yc-page-content">
+				<div className="yc-business">
 					<Router>
 						{ _source.map(Item => <Item.components path={Item.url} root={Item.root} />) }
 					</Router>

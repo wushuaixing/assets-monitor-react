@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import SevenUpdate from './seven-update';
-import ThirtyUpdate from './thirty-update';
+import DynamicUpdate from './dynamic-update';
 import './style.scss';
 
 const customStyle = { padding: '20px' };
@@ -44,12 +43,12 @@ class HomeDynamic extends PureComponent {
 				</div>
 				{checkType === 0 ? (
 					<div style={customStyle}>
-						<SevenUpdate />
+						<DynamicUpdate />
 					</div>
 				) : null}
 				{checkType === 1 ? (
 					<div style={customStyle}>
-						<ThirtyUpdate />
+						<DynamicUpdate />
 					</div>
 				) : null}
 			</div>

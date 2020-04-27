@@ -4,7 +4,12 @@ import RingEcharts from '../components/ring-echarts';
 import DetailItem from '../components/detail-item';
 import './style.scss';
 
-class sevenUpdate extends PureComponent {
+const compare = property => (a, b) => {
+	const first = a[property];
+	const second = b[property];
+	return first - second;
+};
+class dynamicUpdate extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -46,6 +51,24 @@ class sevenUpdate extends PureComponent {
 					count: 10, type: 3, typeName: '经营风险', name: '经营风险', value: 2,
 				},
 			],
+			remindArray: [
+				{
+					name: '东阳市罗山矿业有限公司', time: '2020-04-26', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 1, timeStamp: 1587830400,
+				},
+				{
+					name: '东阳市罗山矿业有限公司', time: '2019-04-26', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 2, timeStamp: 1556208000,
+				},
+				{
+					name: '东阳市罗山矿业有限公司', time: '2020-04-20', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 1, timeStamp: 1587312000,
+				},
+				{
+					name: '东阳市罗山矿业有限公司', time: '2020-04-26', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 3, timeStamp: 1587830400,
+				},
+				{
+					name: '东阳市罗山矿业有限公司', time: '2020-04-26', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 1, timeStamp: 1587830400,
+				},
+			],
+			RingEchartsObj: {},
 		};
 	}
 
@@ -55,12 +78,45 @@ class sevenUpdate extends PureComponent {
 		}));
 	};
 
+	getRingEchartsType = (val) => {
+		this.setState(() => ({
+			RingEchartsObj: val,
+		}));
+	};
+
 	render() {
-		const { typeNum, assetData, riskData } = this.state;
+		const {
+			typeNum, assetData, riskData, remindArray, RingEchartsObj,
+		} = this.state;
+		const newAssetArr = [...remindArray];
+
+		let assetArr = newAssetArr.sort(compare('timeStamp'));
+
 		const params = {
 			getDynamicType: this.getDynamicType,
 		};
+		const assetParams = {
+			getRingEchartsType: this.getRingEchartsType,
+			Data: assetData,
+		};
+		const riskParams = {
+			getRingEchartsType: this.getRingEchartsType,
+			Data: riskData,
+		};
 
+		if (Object.keys(RingEchartsObj).length !== 0) {
+			const { name, selected } = RingEchartsObj;
+			if (name === '资产拍卖') {
+				if (selected[name] === false) {
+					assetArr = remindArray.filter(item => item.type !== 3).sort(compare('timeStamp'));
+				}
+			}
+			if (name === '无形资产') {
+				if (selected[name] === false) {
+					assetArr = remindArray.filter(item => item.type !== 1).sort(compare('timeStamp'));
+				}
+			}
+		}
 		return (
 			<div className="seven-update-container">
 				<DynamicTab {...params} />
@@ -74,21 +130,20 @@ class sevenUpdate extends PureComponent {
 							<span className="seven-update-content-title-num">12</span>
 							条资产挖掘信息
 						</div>
-						<RingEcharts id="assetAuction" Data={assetData} />
+						<RingEcharts id="assetAuction" {...assetParams} />
 
 						<div className="seven-update-content-title">
 							<div className="seven-update-content-title-item" />
 							<div className="seven-update-content-title-name">
-								<span className="seven-update-content-title-num">66</span>
+								<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>66</span>
 								名债务人有资产信息更新，以下为重要信息提醒
 							</div>
 						</div>
-						<DetailItem />
-
+						<DetailItem data={assetArr} />
 					</div>
-
 				</div>
 				)}
+
 				{typeNum === 1
 				&& (
 					<div className="seven-update-content">
@@ -97,22 +152,21 @@ class sevenUpdate extends PureComponent {
 							<div className="seven-update-content-title-item" />
 							<div className="seven-update-content-title-name">
 								新增
-								<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>17</span>
+								<span className="seven-update-content-title-num">17</span>
 								条风险参考信息
 							</div>
 
-							<RingEcharts id="assetAuction" Data={riskData} />
+							<RingEcharts id="assetAuction" {...riskParams} />
 
 							<div className="seven-update-content-title">
 								<div className="seven-update-content-title-item" />
 								<div className="seven-update-content-title-name">
-									<span className="seven-update-content-title-num">60</span>
+									<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>60</span>
 									名债务人有风险信息更新，以下为重要信息提醒
 								</div>
 							</div>
+							<DetailItem data={remindArray} />
 						</div>
-
-
 					</div>
 				)}
 			</div>
@@ -120,4 +174,4 @@ class sevenUpdate extends PureComponent {
 	}
 }
 
-export default sevenUpdate;
+export default dynamicUpdate;
