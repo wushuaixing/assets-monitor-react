@@ -38,12 +38,7 @@ export default class TableIntact extends React.Component {
 					title="当事人"
 					suffix={i.identityStr && <span className="yc-case-reason text-ellipsis">{i.identityStr}</span>}
 				>
-					<Ellipsis
-						content={i.party}
-						url={i.obligorId ? `#/business/debtor/detail?id=${i.obligorId}` : ''}
-						tooltip
-						width={250}
-					/>
+					<Ellipsis content={i.party} obligorId={i.obligorId} tooltip width={250}	/>
 				</LiItem>
 			));
 		}

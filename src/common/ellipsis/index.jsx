@@ -44,14 +44,16 @@ export default class Ellipsis extends React.Component {
 
 	render() {
 		const {
-			tooltip, url, font, line, content, width, className, onClick, customColor, auto,
+			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
 		} = this.props;
+
+		const _url = obligorId ? `#/business/debtor/detail?id=${obligorId}` : url;
 		const _line = line || 1;
 		const _width = width || this.maxWidth;
 		const size = ((font || 12) / 2);
 		const showContent = _width
 			? toCutString(content, (_width * _line) / size - (3 * _line), '...') : '';
-		const ContentText = url ? linkDom(url, showContent, '', '', '', (onClick || '')) : showContent;
+		const ContentText = url ? linkDom(_url, showContent, '', '', '', (onClick || '')) : showContent;
 
 		// tooltip 的状态
 		const _tooltip = showContent === content ? false : tooltip;
@@ -68,7 +70,7 @@ export default class Ellipsis extends React.Component {
 			<div ref={e => this.element = e} className={`yc-ellipsis-element${className ? ` ${className}` : ''}`} style={style}>
 				{
 					_tooltip
-						? <Tooltip placement="top" title={content}>{url ? (ContentText || '-') : <span>{(ContentText || '-')}</span>}</Tooltip>
+						? <Tooltip placement="top" title={content}>{_url ? (ContentText || '-') : <span>{(ContentText || '-')}</span>}</Tooltip>
 						: (ContentText || '-')
 				}
 			</div>
