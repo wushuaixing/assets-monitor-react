@@ -36,24 +36,11 @@ export default class HeaderMessage extends React.Component {
 			if (token) {
 				this.checkOrgId();
 			}
-		}, 30 * 1000);
+		}, 20 * 1000);
 	}
 
 	componentDidMount() {
-		const { getData } = this.props;
-		userInfo().then((res) => {
-			if (res.code === 200) {
-				getData(res.data);
-				// 获取机构id
-				const { currentOrgId } = res.data;
-				// 定义全局变量
-				window.globle = currentOrgId;
-				this.setState({
-					treeData: res.data,
-					treeList: res.data.orgTree ? [res.data.orgTree] : [],
-				});
-			}
-		});
+		this.toGetUserInfo();
 	}
 
 	componentWillUnmount() {
@@ -62,35 +49,57 @@ export default class HeaderMessage extends React.Component {
 		}
 	}
 
-	checkOrgId = () => {
-		const { hash } = window.location;
-
-		currentOrg({ event: 'loop' }).then((res) => {
+	toGetUserInfo=() => {
+		const { getData } = this.props;
+		userInfo().then((res) => {
 			if (res.code === 200) {
-				// console.log(res.data.orgId, window.globle);
-				if (hash && hash.indexOf('debtor/detail') !== -1 && res.data.orgId !== window.globle) {
-					Modal.warning({
-						title: '您已切换机构，请查看当前机构下债务人',
-						onOk() {
-							navigate('/business/debtor');
-							window.location.reload(); // 退出登录刷新页面
-						},
-					});
-					window.clearInterval(this.checkId);
-				}
-				if (hash && hash.indexOf('business/detail') !== -1 && res.data.orgId !== window.globle) {
-					Modal.warning({
-						title: '您已切换机构，当前机构下该笔业务不存在',
-						onOk() {
-							navigate('/business');
-							window.location.reload(); // 退出登录刷新页面
-						},
-					});
-					window.clearInterval(this.checkId);
-				}
-				const isBusiness = hash && hash.indexOf('business/detail') === -1 && hash.indexOf('debtor/detail') === -1;
-				if (isBusiness && res.data.orgId !== window.globle) {
-					window.location.reload(); // 退出登录刷新页面
+				getData(res.data);
+				// 获取机构id
+				const { currentOrgId } = res.data;
+				// 定义全局变量
+				global.CURRENT_0RG = currentOrgId;
+				this.setState({
+					treeData: res.data,
+					treeList: res.data.orgTree ? [res.data.orgTree] : [],
+				});
+			}
+		});
+	};
+
+	checkOrgId = () => {
+		currentOrg({ event: 'loop' }).then((res) => {
+			const { hash } = window.location;
+			if (res.code === 200) {
+				if (res.data.orgId !== global.CURRENT_0RG) {
+					if (/#\/debtor\/detail/.test(hash)) {
+						window.clearInterval(this.checkId);
+						Modal.warning({
+							title: '您已切换机构，请查看当前机构下债务人',
+							onOk() {
+								navigate('/business/debtor');
+								window.location.reload(); // 退出登录刷新页面
+							},
+						});
+					} else if (/#\/business\/detail/.test(hash)) {
+						window.clearInterval(this.checkId);
+						Modal.warning({
+							title: '您已切换机构，当前机构下该笔业务不存在',
+							onOk() {
+								navigate('/business');
+								window.location.reload(); // 退出登录刷新页面
+							},
+						});
+					} else if (/#\/inquiry\/(enterprise|personal)/.test(hash)) {
+						this.toGetUserInfo();
+					} else {
+						window.clearInterval(this.checkId);
+						Modal.warning({
+							title: '您已切换机构,请刷新界面！',
+							onOk() {
+								window.location.reload(); // 退出登录刷新页面
+							},
+						});
+					}
 				}
 			}
 		}).catch(() => {

@@ -16,6 +16,7 @@ import { getQueryByName } from '@/utils';
 import { requestAll } from '@/utils/promise';
 import { exportListPer } from '@/utils/api/portrait-inquiry';
 import './style.scss';
+import { noneRemind } from '@/views/portrait-inquiry/inquiry-check';
 
 const source = () => [
 	{
@@ -112,6 +113,7 @@ export default class Personal extends React.Component {
 	constructor(props) {
 		document.title = '个人详情-画像查询';
 		super(props);
+		const _hash = window.location.hash;
 		const defaultSourceType = window.location.hash.match(/\/personal\/(\d{3})\/?/);
 		this.state = {
 			loading: true,
@@ -129,26 +131,36 @@ export default class Personal extends React.Component {
 			obligorName: getQueryByName(window.location.href, 'name'),
 			obligorNumber: getQueryByName(window.location.href, 'num'),
 		};
+		this.hash = JSON.stringify(_hash);
 	}
 
 	componentWillMount() {
-		this.toTouchCount();
-		this.getData();
+		noneRemind(global.PORTRAIT_INQUIRY_AFFIRM).then(() => {
+			this.toTouchCount();
+			this.getData();
+		});
 	}
 
 	componentWillReceiveProps() {
+		const { hash } = window.location;
 		const { sourceType, childDom } = this.state;
 		const defaultSourceType = Number((window.location.hash.match(/\/personal\/(\d{3})\/?/) || [])[1]) || 201;
-
-		if (sourceType !== defaultSourceType || JSON.stringify(this.info) !== JSON.stringify(this.toGetInfo())) {
+		if (sourceType !== defaultSourceType || JSON.stringify(this.info) !== JSON.stringify(this.toGetInfo()) || hash !== this.hash) {
 			this.info = this.toGetInfo();
+			this.hash = hash;
+			console.log('hash:change');
 			this.setState({
 				sourceType: defaultSourceType,
 				childDom: defaultSourceType === 201 ? '' : childDom,
 			}, () => {
+				this.getData();
 				this.toTouchCount();
 			});
 		}
+	}
+
+	componentWillUnmount() {
+		global.PORTRAIT_INQUIRY_AFFIRM = true;
 	}
 
 	getData = () => {

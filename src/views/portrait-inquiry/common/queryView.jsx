@@ -1,8 +1,9 @@
 import React from 'react';
-import { message, Radio } from 'antd';
+import { message, Radio, Icon } from 'antd';
 import { navigate } from '@reach/router';
 import { Button, Icon as Iconfont, Input } from '@/common';
 import { clearEmpty, getQueryByName } from '@/utils';
+import { inquiryCheck } from '../inquiry-check';
 
 export default class QueryView extends React.Component {
 	constructor(props) {
@@ -12,6 +13,7 @@ export default class QueryView extends React.Component {
 			obligorType: props.type || res.type || 1,
 			obligorName: res.name || '',
 			obligorNumber: res.num || '',
+			loading: false,
 		};
 	}
 
@@ -88,8 +90,17 @@ export default class QueryView extends React.Component {
 			} else if (!name && !number) {
 				message.error('请输入债务人名称及证据号');
 			} else if (name && number) {
-				navigate(`/inquiry/personal?type=2&name=${name.trim()}&num=${number.trim()}`);
-				window.location.reload(); // 退出登录刷新页面
+				this.setState({ loading: true });
+				// eslint-disable-next-line radix
+				const _dd = Number.parseInt(Math.random() * 1000);
+				inquiryCheck(`/inquiry/personal?type=2&name=${name.trim()}&num=${number.trim()}&dd=${_dd}`, 2)
+					.then(() => {
+						global.PORTRAIT_INQUIRY_AFFIRM = false;
+						this.setState({ loading: false });
+					})
+					.catch(() => {
+						this.setState({ loading: false });
+					});
 			}
 			// if (name && number) {
 			// 	navigate(`/inquiry/personal?type=2&name=${name}&num=${number}`);
@@ -114,7 +125,9 @@ export default class QueryView extends React.Component {
 	};
 
 	render() {
-		const { obligorType, obligorName, obligorNumber } = this.state;
+		const {
+			obligorType, obligorName, obligorNumber, loading,
+		} = this.state;
 		return (
 			<div className="yc-inquiry-common">
 				<div className="yc-query-item" style={{ height: 34, paddingTop: 7 }}>
@@ -161,7 +174,10 @@ export default class QueryView extends React.Component {
 					) : null
 				}
 				<div className="yc-query-item" style={{ float: 'right', marginRight: 0 }}>
-					<Button type="primary" style={{ width: 85 }} size="large" onClick={this.handleQuery}>查询</Button>
+					<Button type="primary" style={{ width: 100 }} size="large" onClick={this.handleQuery} disabled={loading}>
+						{loading && <Icon type="loading" style={{ marginRight: 8 }} />}
+						<span style={{ fontSize: 14, letterSpacing: 1 }}>查询</span>
+					</Button>
 				</div>
 			</div>
 		);
