@@ -1,5 +1,5 @@
 import React from 'react';
-import { Affix } from 'antd';
+import { Affix, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import QueryView from '../common/queryView';
@@ -138,6 +138,8 @@ export default class Personal extends React.Component {
 		noneRemind(global.PORTRAIT_INQUIRY_AFFIRM).then(() => {
 			this.toTouchCount();
 			this.getData();
+		}).catch(() => {
+			message.warning('请求异常，请刷新页面');
 		});
 	}
 
@@ -268,7 +270,7 @@ export default class Personal extends React.Component {
 
 					</Spin>
 					<Router>
-						<OverView toPushChild={this.handleAddChild} path="/*" />
+						<OverView toPushChild={this.handleAddChild} path="/*" viewLoading={loading} />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/personal/202/*" count={countSource.assets} />
 						<Risk toPushChild={this.handleAddChild} path="/inquiry/personal/203/*" count={countSource.risk} />
 					</Router>

@@ -76,45 +76,51 @@ export default class OverView extends React.Component {
 		const {
 			AssetAuctionCount, SubrogationCount, AssetAuctionLoading, InvolvedCount, LostLetterCount, TaxViolationCount, RiskSituation,
 		} = this.state;
+		const { viewLoading } = this.props;
 		return (
 			<div className="inquiry-overview">
 				<div className="mark-line" />
 				<div className="overview-left">
 					<div className="yc-overview-title">资产概况</div>
-					<div className="yc-overview-container">
-						{/* 相关资产拍卖 */}
-						<AssetAuction getAssetProfile={this.getAssetProfile} />
-						{/* 代位权信息 (裁判文书) */}
-						<Subrogation getAssetProfile={this.getAssetProfile} />
-					</div>
 					{
-					AssetAuctionCount === 0 && SubrogationCount === 0
-						&& (
-						<Spin visible={AssetAuctionLoading}>
-							{AssetAuctionLoading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}
-						</Spin>
-						)
+						viewLoading ? <Spin visible /> : [
+							<div className="yc-overview-container">
+								{/* 相关资产拍卖 */}
+								<AssetAuction getAssetProfile={this.getAssetProfile} />
+								{/* 代位权信息 (裁判文书) */}
+								<Subrogation getAssetProfile={this.getAssetProfile} />
+							</div>,
+							AssetAuctionCount === 0 && SubrogationCount === 0
+							&& (
+								<Spin visible={AssetAuctionLoading}>
+									{AssetAuctionLoading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}
+								</Spin>
+							),
+						]
 					}
+
 				</div>
 				<div className="overview-line" />
 				<div className="overview-right">
 					<div className="yc-overview-title">风险情况</div>
-					<div className="yc-overview-container">
-						{/*  涉诉信息 (涉诉文书) */}
-						<Involved getAssetProfile={this.getAssetProfile} />
-						{/*  失信记录 */}
-						<LostLetter getAssetProfile={this.getAssetProfile} />
-						{/* 税收违法 */}
-						<TaxViolation getAssetProfile={this.getAssetProfile} />
-					</div>
 					{
-						InvolvedCount === 0 && LostLetterCount === 0 && TaxViolationCount === 0
+						viewLoading ? <Spin visible /> : [
+							<div className="yc-overview-container">
+								{/*  涉诉信息 (涉诉文书) */}
+								<Involved getAssetProfile={this.getAssetProfile} />
+								{/*  失信记录 */}
+								<LostLetter getAssetProfile={this.getAssetProfile} />
+								{/* 税收违法 */}
+								<TaxViolation getAssetProfile={this.getAssetProfile} />
+							</div>,
+							InvolvedCount === 0 && LostLetterCount === 0 && TaxViolationCount === 0
 							&& (
-							<Spin visible={RiskSituation}>
-								{RiskSituation ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />}
-							</Spin>
-							)
-						}
+								<Spin visible={RiskSituation}>
+									{RiskSituation ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />}
+								</Spin>
+							),
+						]
+					}
 				</div>
 			</div>
 		);

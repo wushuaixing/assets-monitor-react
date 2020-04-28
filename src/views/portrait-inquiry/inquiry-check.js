@@ -10,6 +10,16 @@ const contentStr = num => React.createElement('p', { style: { fontSize: 14 } },
 	React.createElement('span', {}, '当前查询剩余次数：'),
 	React.createElement('b', { color: '#4E5566' }, ` ${num || 5555} 次`));
 
+const contentStrRemind = num => React.createElement('p', { style: { fontSize: 14 } },
+	React.createElement('span', { style: { marginBottom: 6 } }, '刷新后将消耗1次查询次数，并返回最新画像查询结果；'),
+	React.createElement('br', null),
+	React.createElement('br', null),
+	React.createElement('span', { style: { marginBottom: 6 } }, '点击取消将返回画像查询首页。'),
+	React.createElement('br', null),
+	React.createElement('br', null),
+	React.createElement('span', {}, '当前查询剩余次数：'),
+	React.createElement('b', { color: '#4E5566' }, ` ${num || 5555} 次`));
+
 export const inquiryCheck = (url, type, remind = true) => {
 	if (global.PORTRAIT_INQUIRY_ALLOW && type === 2) {
 		return inquiryLimit().then((res) => {
@@ -27,7 +37,7 @@ export const inquiryCheck = (url, type, remind = true) => {
 					onCancel() {},
 				});
 			} else {
-				message.warning('画像查询次数已用完，若需获取更多查询次数请联系销售或客服！', 50);
+				message.warning('画像查询次数已用完，若需获取更多查询次数请联系销售或客服！');
 			}
 		});
 	}
@@ -43,8 +53,8 @@ export const noneRemind = affirm => inquiryLimit().then((res) => {
 	return new Promise((resolve, reject) => {
 		if (affirm) {
 			Modal.confirm({
-				title: '确定查询此债务人画像？',
-				content: contentStr(degree),
+				title: '刷新后将重新获取债务人画像！',
+				content: contentStrRemind(degree),
 				iconType: 'exclamation-circle',
 				className: 'message-confirm-icon',
 				onOk() {

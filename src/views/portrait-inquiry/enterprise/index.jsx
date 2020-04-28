@@ -307,7 +307,7 @@ export default class Enterprise extends React.Component {
 						</Spin>
 					</Affix>
 					<Router>
-						<Overview toPushChild={this.handleAddChild} path="/*" />
+						<Overview toPushChild={this.handleAddChild} path="/*" viewLoading={loading} />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" count={countSource.assets} />
 						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} />
 						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} />
