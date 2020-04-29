@@ -121,7 +121,6 @@ class RingEcharts extends PureComponent {
 		const {
 			id, title, customColorArray, Data, getRingEchartsType,
 		} = this.props;
-
 		// 添加需要的字段名称
 		const newRingArray = [];
 		if (Data) {
@@ -137,7 +136,6 @@ class RingEcharts extends PureComponent {
 			// const legend = obj.name; // 使用 legendToggleSelect Action 会重新触发 legendSelectChanged Event，导致本函数重复运行 // 使得 无 selected 对象
 			if (name && selected !== undefined) {
 				getRingEchartsType(obj);
-				// console.log(selected[name], obj, 123);
 			}
 		});
 		const option = getOption(Data, id, title, newRingArray, customColorArray);

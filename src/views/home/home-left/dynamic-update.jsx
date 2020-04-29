@@ -9,6 +9,45 @@ const compare = property => (a, b) => {
 	const second = b[property];
 	return first - second;
 };
+
+
+let newRemindArray = [];
+const assetMap = new Map([
+	['资产拍卖', ['资产拍卖', 1]],
+	['代位权', ['代位权', 2]],
+	['土地信息', ['土地信息', 3]],
+	['股权质押', ['股权质押', 4]],
+	['动产抵押', ['动产抵押', 5]],
+	['招投标', ['招投标', 6]],
+	['无形资产', ['无形资产', 7]],
+	['default', ['资产拍卖', 1]],
+]);
+
+const assetArray = (selected, name, remindArray) => {
+	const actionType = assetMap.get(name) || assetMap.get('default');
+	const asset = [...remindArray.filter(item => item.type === actionType[1])];
+	if (name === actionType[0]) {
+		if (selected[name] === false) {
+			newRemindArray = newRemindArray.filter(item => item.type !== actionType[1]);
+		} else {
+			newRemindArray = newRemindArray.concat(asset);
+		}
+	}
+	return newRemindArray;
+};
+// const riskArray = (selected, name, remindArray) => {
+// 	const actionType = assetMap.get(name) || assetMap.get('default');
+// 	const asset = [...remindArray.filter(item => item.type === actionType[1])];
+// 	if (name === actionType[0]) {
+// 		if (selected[name] === false) {
+// 			newRemindArray = newRemindArray.filter(item => item.type !== actionType[1]);
+// 		} else {
+// 			newRemindArray = newRemindArray.concat(asset);
+// 		}
+// 	}
+// 	return newRemindArray;
+// };
+
 class dynamicUpdate extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -53,24 +92,60 @@ class dynamicUpdate extends PureComponent {
 			],
 			remindArray: [
 				{
-					name: '东阳市罗山矿业有限公司', time: '2020-04-26', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 1, timeStamp: 1587830400,
+					name: '1东阳市罗山矿业有限公司', time: '1', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 1, timeStamp: 1,
 				},
 				{
-					name: '东阳市罗山矿业有限公司', time: '2019-04-26', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 2, timeStamp: 1556208000,
+					name: '2东阳市罗山矿业有限公司', time: '2', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 2, timeStamp: 2,
 				},
 				{
-					name: '东阳市罗山矿业有限公司', time: '2020-04-20', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 1, timeStamp: 1587312000,
+					name: '3东阳市罗山矿业有限公司', time: '3', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 3, timeStamp: 3,
 				},
 				{
-					name: '东阳市罗山矿业有限公司', time: '2020-04-26', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 3, timeStamp: 1587830400,
+					name: '4东阳市罗山矿业有限公司', time: '4', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 4, timeStamp: 4,
 				},
 				{
-					name: '东阳市罗山矿业有限公司', time: '2020-04-26', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 1, timeStamp: 1587830400,
+					name: '5东阳市罗山矿业有限公司', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 5, timeStamp: 5,
+				},
+				{
+					name: '1东阳市罗山矿业有限公司', time: '1', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 6, timeStamp: 1,
+				},
+				{
+					name: '2东阳市罗山矿业有限公司', time: '2', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 7, timeStamp: 2,
+				},
+				{
+					name: '3东阳市罗山矿业有限公司', time: '3', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 8, timeStamp: 3,
+				},
+				{
+					name: '4东阳市罗山矿业有限公司', time: '4', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 9, timeStamp: 4,
+				},
+				{
+					name: '5东阳市罗山矿业有限公司', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 10, timeStamp: 5,
+				},
+				{
+					name: '1东阳市罗山矿业有限公司', time: '1', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 11, timeStamp: 1,
+				},
+				{
+					name: '2东阳市罗山矿业有限公司', time: '2', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 12, timeStamp: 2,
+				},
+				{
+					name: '3东阳市罗山矿业有限公司', time: '3', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 13, timeStamp: 3,
+				},
+				{
+					name: '4东阳市罗山矿业有限公司', time: '4', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 14, timeStamp: 4,
+				},
+				{
+					name: '5东阳市罗山矿业有限公司', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 15, timeStamp: 5,
 				},
 			],
 			RingEchartsObj: {},
 		};
 	}
+
+	componentDidMount() {
+		const { remindArray } = this.state;
+		newRemindArray = [...remindArray];
+	}
+
 
 	getDynamicType = (val) => {
 		this.setState(() => ({
@@ -84,20 +159,23 @@ class dynamicUpdate extends PureComponent {
 		}));
 	};
 
+
 	render() {
 		const {
 			typeNum, assetData, riskData, remindArray, RingEchartsObj,
 		} = this.state;
 		const newAssetArr = [...remindArray];
 
-		let assetArr = newAssetArr.sort(compare('timeStamp'));
+		let assetArr = (newAssetArr.sort(compare('timeStamp')));
 
 		const params = {
 			getDynamicType: this.getDynamicType,
 		};
 		const assetParams = {
 			getRingEchartsType: this.getRingEchartsType,
+			setRemindArray: this.setRemindArray,
 			Data: assetData,
+			remindArray,
 		};
 		const riskParams = {
 			getRingEchartsType: this.getRingEchartsType,
@@ -105,18 +183,10 @@ class dynamicUpdate extends PureComponent {
 		};
 
 		if (Object.keys(RingEchartsObj).length !== 0) {
-			const { name, selected } = RingEchartsObj;
-			if (name === '资产拍卖') {
-				if (selected[name] === false) {
-					assetArr = remindArray.filter(item => item.type !== 3).sort(compare('timeStamp'));
-				}
-			}
-			if (name === '无形资产') {
-				if (selected[name] === false) {
-					assetArr = remindArray.filter(item => item.type !== 1).sort(compare('timeStamp'));
-				}
-			}
+			const { selected, name } = RingEchartsObj;
+			assetArr = assetArray(selected, name, remindArray);
 		}
+
 		return (
 			<div className="seven-update-container">
 				<DynamicTab {...params} />
@@ -135,7 +205,7 @@ class dynamicUpdate extends PureComponent {
 						<div className="seven-update-content-title">
 							<div className="seven-update-content-title-item" />
 							<div className="seven-update-content-title-name">
-								<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>66</span>
+								<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>{assetArr.length}</span>
 								名债务人有资产信息更新，以下为重要信息提醒
 							</div>
 						</div>
