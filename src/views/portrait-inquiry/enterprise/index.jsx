@@ -240,7 +240,6 @@ export default class Enterprise extends React.Component {
 			info: { id: apiData[item].id },
 		}));
 		requestAll(reqList).then((res) => {
-			console.log(res);
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
 			con[index].number = count;
@@ -315,7 +314,7 @@ export default class Enterprise extends React.Component {
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" count={countSource.assets} />
 						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} />
 						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} />
-						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" detailObj={infoSource} />
+						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" detailObj={infoSource} viewLoading={loading} />
 					</Router>
 				</div>
 			</div>

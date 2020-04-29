@@ -24,6 +24,8 @@ export default class ShareholderInfo extends React.Component {
 		});
 		const params = {
 			...value,
+			companyId: value.id,
+
 		};
 		getStockholder(params)
 			.then((res) => {
