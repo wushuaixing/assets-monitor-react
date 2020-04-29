@@ -8,7 +8,7 @@ const contentStr = num => React.createElement('p', { style: { fontSize: 14 } },
 	React.createElement('br', null),
 	React.createElement('br', null),
 	React.createElement('span', {}, '当前查询剩余次数：'),
-	React.createElement('b', { color: '#4E5566' }, ` ${num || 5555} 次`));
+	React.createElement('b', { color: '#4E5566' }, ` ${num || 0} 次`));
 
 const contentStrRemind = num => React.createElement('p', { style: { fontSize: 14 } },
 	React.createElement('span', { style: { marginBottom: 6 } }, '刷新后将消耗1次查询次数，并返回最新画像查询结果；'),
@@ -18,7 +18,7 @@ const contentStrRemind = num => React.createElement('p', { style: { fontSize: 14
 	React.createElement('br', null),
 	React.createElement('br', null),
 	React.createElement('span', {}, '当前查询剩余次数：'),
-	React.createElement('b', { color: '#4E5566' }, ` ${num || 5555} 次`));
+	React.createElement('b', { color: '#4E5566' }, ` ${num || 0} 次`));
 
 export const inquiryCheck = (url, type, remind = true) => {
 	if (global.PORTRAIT_INQUIRY_ALLOW && type === 2) {
@@ -50,22 +50,34 @@ export const noneRemind = affirm => inquiryLimit().then((res) => {
 	const { portraitLimitCount, portraitLimitUseCount } = res.data;
 	const degree = portraitLimitCount - portraitLimitUseCount;
 	// eslint-disable-next-line no-shadow
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		if (affirm) {
-			Modal.confirm({
-				title: '刷新后将重新获取债务人画像！',
-				content: contentStrRemind(degree),
-				iconType: 'exclamation-circle',
-				className: 'message-confirm-icon',
-				onOk() {
-					resolve();
-				},
-				onCancel() {
-					navigate('/inquiry');
-					// eslint-disable-next-line prefer-promise-reject-errors
-					return reject('出错了');
-				},
-			});
+			if (degree > 0) {
+				Modal.confirm({
+					title: '刷新后将重新获取债务人画像！',
+					content: contentStrRemind(degree),
+					iconType: 'exclamation-circle',
+					className: 'message-confirm-icon',
+					onOk() {
+						resolve();
+					},
+					onCancel() {
+						navigate('/inquiry');
+						// eslint-disable-next-line prefer-promise-reject-errors
+					},
+				});
+			} else {
+				Modal.warning({
+					title: '画像查询次数已用完',
+					content: '若需获取更多查询次数请联系销售或客服！',
+					iconType: 'exclamation-circle',
+					className: 'message-confirm-icon',
+					onOk() {
+						navigate('/inquiry');
+						// eslint-disable-next-line prefer-promise-reject-errors
+					},
+				});
+			}
 		} else {
 			resolve();
 		}

@@ -135,12 +135,7 @@ export default class Personal extends React.Component {
 	}
 
 	componentWillMount() {
-		noneRemind(global.PORTRAIT_INQUIRY_AFFIRM).then(() => {
-			this.toTouchCount();
-			this.getData();
-		}).catch(() => {
-			message.warning('请求异常，请刷新页面');
-		});
+		this.toAffirmGet();
 	}
 
 	componentWillReceiveProps() {
@@ -150,13 +145,12 @@ export default class Personal extends React.Component {
 		if (sourceType !== defaultSourceType || JSON.stringify(this.info) !== JSON.stringify(this.toGetInfo()) || hash !== this.hash) {
 			this.info = this.toGetInfo();
 			this.hash = hash;
-			console.log('hash:change');
 			this.setState({
 				sourceType: defaultSourceType,
 				childDom: defaultSourceType === 201 ? '' : childDom,
+				loading: true,
 			}, () => {
-				this.getData();
-				this.toTouchCount();
+				this.toAffirmGet();
 			});
 		}
 	}
@@ -164,6 +158,14 @@ export default class Personal extends React.Component {
 	componentWillUnmount() {
 		global.PORTRAIT_INQUIRY_AFFIRM = true;
 	}
+
+	toAffirmGet = () => {
+		noneRemind(global.PORTRAIT_INQUIRY_AFFIRM).then(() => {
+			this.getData();
+		}).catch(() => {
+			message.warning('请求异常，请刷新页面');
+		});
+	};
 
 	getData = () => {
 		const params = this.info;
@@ -173,6 +175,7 @@ export default class Personal extends React.Component {
 					infoSource: res.data,
 					loading: false,
 				});
+				this.toTouchCount();
 			} else {
 				this.setState({ loading: false });
 			}

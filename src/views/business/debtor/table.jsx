@@ -139,6 +139,8 @@ class BusinessView extends React.Component {
 				}
 				message.success(`${row.pushState === 1 ? '关闭成功' : '开启成功'}`);
 				getData();
+			} else if (res.code === 9003) {
+				message.error(res.message);
 			}
 		});
 	};

@@ -201,8 +201,11 @@ export default class Enterprise extends React.Component {
 						infoSource: res.data,
 						loading: false,
 					});
-					[{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
-						.forEach(item => this.toGetChildCount(companyId, item.d, item.f, item.i));
+					// debugger;
+					setTimeout(() => {
+						[{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
+							.forEach(item => this.toGetChildCount(companyId, item.d, item.f, item.i));
+					}, 1000);
 				} else {
 					message.error('网络请求失败！');
 					this.setState({
@@ -237,6 +240,7 @@ export default class Enterprise extends React.Component {
 			info: { id: apiData[item].id },
 		}));
 		requestAll(reqList).then((res) => {
+			console.log(res);
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
 			con[index].number = count;
