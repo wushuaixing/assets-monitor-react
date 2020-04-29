@@ -45,7 +45,7 @@ export default class OverView extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { viewLoading } = this.props;
-		if (!nextProps.viewLoading && nextProps.viewLoading === viewLoading) {
+		if (!nextProps.viewLoading && nextProps.viewLoading !== viewLoading) {
 			this.getData();
 		}
 	}

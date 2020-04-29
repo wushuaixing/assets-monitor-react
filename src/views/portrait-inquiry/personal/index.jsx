@@ -148,9 +148,8 @@ export default class Personal extends React.Component {
 			this.setState({
 				sourceType: defaultSourceType,
 				childDom: defaultSourceType === 201 ? '' : childDom,
-				loading: true,
 			}, () => {
-				this.toAffirmGet();
+				if (hash !== this.hash) this.toAffirmGet();
 			});
 		}
 	}

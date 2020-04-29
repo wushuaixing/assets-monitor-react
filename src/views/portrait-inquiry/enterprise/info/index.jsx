@@ -87,11 +87,14 @@ export default class Info extends React.Component {
 	}
 
 	componentDidMount() {
+		const { viewLoading } = this.props;
+		if (!viewLoading) this.toGetCount();
 	}
 
 	componentWillReceiveProps(nextProps) {
 		const { viewLoading } = this.props;
-		if (!nextProps.viewLoading && nextProps.viewLoading === viewLoading) {
+		console.log(viewLoading);
+		if (!nextProps.viewLoading && nextProps.viewLoading !== viewLoading) {
 			this.toGetCount();
 		}
 	}
