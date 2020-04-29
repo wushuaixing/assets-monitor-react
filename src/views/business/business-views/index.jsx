@@ -138,6 +138,11 @@ class BusinessView extends React.Component {
 						that.setState({
 							errorLoading: false,
 						});
+					} else if (info.file.response.code === 9003) {
+						message.error(info.file.response.message);
+						that.setState({
+							errorLoading: false,
+						});
 					} else {
 						info.fileList.pop();
 						// 主动刷新页面，更新文件列表
