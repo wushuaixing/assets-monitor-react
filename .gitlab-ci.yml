@@ -54,7 +54,7 @@ deploy_step:
     - chmod 700 ~/.ssh
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
-    - ssh -o StrictHostKeyChecking=no -p 22 work@$DEPLOY_SERVER "cd $DEPLOY_RESOURCE_PATH; chmod +x $DEPLOY_SHELL; ./$DEPLOY_SHELL"
+    - ssh -o StrictHostKeyChecking=no -p 22 work@$DEPLOY_SERVER "cd $DEPLOY_RESOURCE_PATH; chmod +x $DEPLOY_SHELL; ./$DEPLOY_SHELL; exit"
     - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-monitor/web
 
 # 拷贝
@@ -71,6 +71,6 @@ deploy_step_dev:
     - chmod 700 ~/.ssh
     - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
-    - ssh -o StrictHostKeyChecking=no -p 22 work@$DEPLOY_SERVER "cd $DEPLOY_RESOURCE_PATH_DEV; chmod +x $DEPLOY_SHELL; ./$DEPLOY_SHELL"
+    - ssh -o StrictHostKeyChecking=no -p 22 work@$DEPLOY_SERVER "cd $DEPLOY_RESOURCE_PATH_DEV; chmod +x $DEPLOY_SHELL; ./$DEPLOY_SHELL; exit"
     - scp -o StrictHostKeyChecking=no -r -P 22 ./docs/* work@172.18.255.251:/disk/web/front/asset-monitor-dev/web
 
