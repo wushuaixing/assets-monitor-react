@@ -32,7 +32,7 @@ export default class OutboundInvestment extends React.Component {
 		const urlValue = parseQuery(hash);
 		const params = {
 			num: 5,
-			id: urlValue.id || '',
+			companyId: urlValue.id || '',
 			page: value > 200 ? 200 : value,
 		};
 		getInvestment(params)

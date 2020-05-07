@@ -1,5 +1,5 @@
 import React from 'react';
-import { Affix } from 'antd';
+import { Affix, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import QueryView from '../common/queryView';
@@ -16,6 +16,7 @@ import { getQueryByName } from '@/utils';
 import { requestAll } from '@/utils/promise';
 import { exportListPer } from '@/utils/api/portrait-inquiry';
 import './style.scss';
+import { noneRemind } from '@/views/portrait-inquiry/inquiry-check';
 
 const source = () => [
 	{
@@ -112,6 +113,7 @@ export default class Personal extends React.Component {
 	constructor(props) {
 		document.title = '个人详情-画像查询';
 		super(props);
+		const _hash = window.location.hash;
 		const defaultSourceType = window.location.hash.match(/\/personal\/(\d{3})\/?/);
 		this.state = {
 			loading: true,
@@ -129,27 +131,40 @@ export default class Personal extends React.Component {
 			obligorName: getQueryByName(window.location.href, 'name'),
 			obligorNumber: getQueryByName(window.location.href, 'num'),
 		};
+		this.hash = JSON.stringify(_hash);
 	}
 
 	componentWillMount() {
-		this.toTouchCount();
-		this.getData();
+		this.toAffirmGet();
 	}
 
 	componentWillReceiveProps() {
+		const { hash } = window.location;
 		const { sourceType, childDom } = this.state;
 		const defaultSourceType = Number((window.location.hash.match(/\/personal\/(\d{3})\/?/) || [])[1]) || 201;
-
-		if (sourceType !== defaultSourceType || JSON.stringify(this.info) !== JSON.stringify(this.toGetInfo())) {
+		if (sourceType !== defaultSourceType || JSON.stringify(this.info) !== JSON.stringify(this.toGetInfo()) || hash !== this.hash) {
 			this.info = this.toGetInfo();
+			this.hash = hash;
 			this.setState({
 				sourceType: defaultSourceType,
 				childDom: defaultSourceType === 201 ? '' : childDom,
 			}, () => {
-				this.toTouchCount();
+				if (hash !== this.hash) this.toAffirmGet();
 			});
 		}
 	}
+
+	componentWillUnmount() {
+		global.PORTRAIT_INQUIRY_AFFIRM = true;
+	}
+
+	toAffirmGet = () => {
+		noneRemind(global.PORTRAIT_INQUIRY_AFFIRM).then(() => {
+			this.getData();
+		}).catch(() => {
+			message.warning('请求异常，请刷新页面');
+		});
+	};
 
 	getData = () => {
 		const params = this.info;
@@ -159,6 +174,7 @@ export default class Personal extends React.Component {
 					infoSource: res.data,
 					loading: false,
 				});
+				this.toTouchCount();
 			} else {
 				this.setState({ loading: false });
 			}
@@ -256,7 +272,7 @@ export default class Personal extends React.Component {
 
 					</Spin>
 					<Router>
-						<OverView toPushChild={this.handleAddChild} path="/*" />
+						<OverView toPushChild={this.handleAddChild} path="/*" viewLoading={loading} />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/personal/202/*" count={countSource.assets} />
 						<Risk toPushChild={this.handleAddChild} path="/inquiry/personal/203/*" count={countSource.risk} />
 					</Router>

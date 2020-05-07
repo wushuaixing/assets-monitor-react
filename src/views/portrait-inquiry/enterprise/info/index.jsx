@@ -1,6 +1,6 @@
 import React from 'react';
 import { getCount } from '@/utils/api/portrait-inquiry/enterprise/info';
-import { Button } from '@/common';
+import { Button, Spin } from '@/common';
 import { parseQuery } from '@/utils';
 import BusinessInfo from './components/businessInfo';
 import KeyPersonnel from './components/keyPersonnel';
@@ -87,12 +87,25 @@ export default class Info extends React.Component {
 	}
 
 	componentDidMount() {
+		const { viewLoading } = this.props;
+		if (!viewLoading) this.toGetCount();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { viewLoading } = this.props;
+		console.log(viewLoading);
+		if (!nextProps.viewLoading && nextProps.viewLoading !== viewLoading) {
+			this.toGetCount();
+		}
+	}
+
+	toGetCount = () => {
 		const { toPushChild } = this.props;
 		const { hash } = window.location;
 		const urlValue = parseQuery(hash);
 
 		const params = {
-			id: urlValue.id || -999999,
+			companyId: urlValue.id || -999999,
 		};
 		getCount(params)
 			.then((res) => {
@@ -105,7 +118,7 @@ export default class Info extends React.Component {
 					});
 				}
 			});
-	}
+	};
 
 	handleScroll=(eleID) => {
 		const dom = document.getElementById(eleID);
@@ -135,13 +148,14 @@ export default class Info extends React.Component {
 
 	render() {
 		const { data } = this.state;
-		const { detailObj } = this.props;
+		const { detailObj, viewLoading } = this.props;
 
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
 				{
-					data && subItems(data).map(Item => (
-						data && Item.disabled === false ? <Item.component name={detailObj && detailObj.name} id={Item.tagName} /> : ''))
+					viewLoading ? <Spin visible />
+						: data && subItems(data).map(Item => (
+							data && Item.disabled === false ? <Item.component name={detailObj && detailObj.name} id={Item.tagName} /> : ''))
 				}
 			</div>
 		);

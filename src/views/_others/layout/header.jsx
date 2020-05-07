@@ -163,6 +163,7 @@ export default class Headers extends React.Component {
 		this.setState({
 			data,
 		});
+		this.headerMes.informCenter();
 	};
 
 	render() {
@@ -224,7 +225,7 @@ export default class Headers extends React.Component {
 								{
 									num ? <span className="yc-badge-num" style={num > 99 ? { left: '28px' } : { left: '30px' }}>{num > 99 ? '99+' : num}</span> : ''
 								}
-								<HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" />
+								<HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" ref={e => this.headerMes = e} />
 							</div>
 							)
 						}

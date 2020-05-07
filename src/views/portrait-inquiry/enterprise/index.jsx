@@ -20,8 +20,8 @@ import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
+import { noneRemind } from '@/views/portrait-inquiry/inquiry-check';
 import './style.scss';
-
 
 /* 基本选项 */
 const source = () => [
@@ -194,32 +194,41 @@ export default class Enterprise extends React.Component {
 
 	componentWillMount() {
 		const companyId = getQueryByName(window.location.href, 'id');
-		companyInfo({ companyId }).then((res) => {
-			if (res.code === 200) {
+		noneRemind(global.PORTRAIT_INQUIRY_AFFIRM).then(() => {
+			companyInfo({ companyId }).then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						infoSource: res.data,
+						loading: false,
+					});
+					// debugger;
+					setTimeout(() => {
+						[{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
+							.forEach(item => this.toGetChildCount(companyId, item.d, item.f, item.i));
+					}, 1000);
+				} else {
+					message.error('网络请求失败！');
+					this.setState({
+						loading: false,
+					});
+				}
+			}).catch(() => {
 				this.setState({
-					infoSource: res.data,
 					loading: false,
 				});
-				[{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
-					.forEach(item => this.toGetChildCount(companyId, item.d, item.f, item.i));
-			} else {
-				message.error('网络请求失败！');
-				this.setState({
-					loading: false,
-				});
-			}
-		}).catch(() => {
-			this.setState({
-				loading: false,
+			});
+			dishonestStatus({ companyId }).then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						isDishonest: res.data,
+					});
+				}
 			});
 		});
-		dishonestStatus({ companyId }).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					isDishonest: res.data,
-				});
-			}
-		});
+	}
+
+	componentWillUnmount() {
+		global.PORTRAIT_INQUIRY_AFFIRM = true;
 	}
 
 	/* 获取子项统计 */
@@ -301,11 +310,11 @@ export default class Enterprise extends React.Component {
 						</Spin>
 					</Affix>
 					<Router>
-						<Overview toPushChild={this.handleAddChild} path="/*" />
+						<Overview toPushChild={this.handleAddChild} path="/*" viewLoading={loading} />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" count={countSource.assets} />
 						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} />
 						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} />
-						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" detailObj={infoSource} />
+						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" detailObj={infoSource} viewLoading={loading} />
 					</Router>
 				</div>
 			</div>

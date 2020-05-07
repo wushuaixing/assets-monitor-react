@@ -148,10 +148,12 @@ export default class StockRight extends React.Component {
 	}
 
 	componentDidMount() {
-		const { stockChartId, isBusiness, name } = this.props;
-
+		const {
+			stockChartId, isBusiness, name, field,
+		} = this.props;
+		const _field = field || 'companyId';
 		const params = {
-			id: stockChartId, // 269766 京东 54780232 网商 1585000 天赐
+			[_field]: stockChartId, // 269766 京东 54780232 网商 1585000 天赐
 			// type: 1,
 		};
 		this.setState({
