@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import { Modal, Button } from 'antd';
 import { Dump } from 'api/monitor-info/intangible';
 import { Ellipsis, Spin, Table } from '@/common';
-import { Attentions, ReadStatus, SortVessel } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
+import { Attentions } from '@/common/table';
+import { linkDom } from '@/utils';
 
 const status = {
 	1: {
@@ -153,13 +153,13 @@ export default class DetailModal extends React.PureComponent {
 
 	render() {
 		const { columns, dataSource, loading } = this.state;
-		const { emissionModalVisible } = this.props;
+		const { chattelMortgageModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-排污权"
+				title="匹配详情-动产抵押"
 				width={1100}
 				style={{ height: 320 }}
-				visible={emissionModalVisible}
+				visible={chattelMortgageModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"

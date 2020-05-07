@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { Row, Col } from 'antd';
-import { intangibleCard } from '@/utils/api/monitor-info/excavate/index';
-import getCount from '@/views/portrait-inquiry/common/getCount';
 import Card from '../card';
 import './style.scss';
 
@@ -10,48 +8,17 @@ const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
 export default class Intangible extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			loading: false,
-			gmtUpdate: '',
-			intangibleArray: [],
-			totalCount: 0,
-		};
+		this.state = {};
 	}
 
-	componentDidMount() {
-		this.getCardData();
-	}
-
-	// 获取消息列表
-	getCardData = () => {
-		this.setState({ loading: true });
-		intangibleCard().then((res) => {
-			if (res.code === 200) {
-				const dataSource = [];
-				dataSource.push({ count: res.data.emission || 0, typeName: '排污权发证' });
-				dataSource.push({ count: res.data.trademark || 0, typeName: '商标专利' });
-				dataSource.push({ count: res.data.mining || 0, typeName: '矿业权发证' });
-				dataSource.push({ count: res.data.construct || 0, typeName: '建造资质' });
-				const dataSourceNum = getCount(dataSource);
-				this.setState({
-					loading: false,
-					intangibleArray: dataSource,
-					totalCount: dataSourceNum,
-					gmtUpdate: res.data.gmtUpdate,
-				});
-			} else {
-				this.setState({ loading: false });
-			}
-		}).catch(() => {
-			this.setState({ loading: false });
-		});
-	};
 
 	render() {
-		const { url } = this.props;
 		const {
-			intangibleArray, totalCount, loading, gmtUpdate,
-		} = this.state;
+			url, intangiblePropsData, intangiblePropsData: {
+				intangibleArray, totalCount, loading, gmtUpdate,
+			},
+		} = this.props;
+
 		return (
 			<Card
 				IconType="intangible"
@@ -63,8 +30,9 @@ export default class Intangible extends PureComponent {
 				totalCount={totalCount}
 				updateTime={gmtUpdate}
 			>
-				<Row gutter={24} className="risk-intangible-container">
-					{
+				{Object.keys(intangiblePropsData).length !== 0 && (
+					<Row gutter={24} className="risk-intangible-container">
+						{
 							intangibleArray.map((item, index) => (
 								<div>
 									{
@@ -89,10 +57,10 @@ export default class Intangible extends PureComponent {
 										)
 									}
 								</div>
-
 							))
 						}
-				</Row>
+					</Row>
+				)}
 			</Card>
 		);
 	}

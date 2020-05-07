@@ -153,13 +153,13 @@ export default class DetailModal extends React.PureComponent {
 
 	render() {
 		const { columns, dataSource, loading } = this.state;
-		const { emissionModalVisible } = this.props;
+		const { equityPledgeModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-排污权"
+				title="匹配详情-股权质押"
 				width={1100}
 				style={{ height: 320 }}
-				visible={emissionModalVisible}
+				visible={equityPledgeModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"

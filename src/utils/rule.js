@@ -213,7 +213,7 @@ export default {
 						url: '/monitor/financial',
 						status: toStatus(rule.menu_zcwj, 'zcwjjrzj'),
 						child: [
-							{ id: 'YC020503', name: '股权质押', status: true },
+							// { id: 'YC020503', name: '股权质押', status: true },
 							{ id: 'YC020501', name: '竞价项目', status: true },
 							{ id: 'YC020502', name: '公示项目', status: true },
 						],
@@ -235,6 +235,12 @@ export default {
 							{ id: 'YC020703', name: '商标专利', status: true },
 							{ id: 'YC020704', name: '建筑建造资质', status: true },
 						],
+					},
+					{
+						id: 'YC0208',
+						name: '股权质押',
+						url: '/monitor/pledge',
+						status: toStatus(rule.menu_zcwj, 'zcwjdcdy'),
 					},
 					{
 						id: 'YC0301',
@@ -331,7 +337,7 @@ export default {
 								url: '/monitor/financial',
 								status: toStatus(rule.menu_zcwj, 'zcwjjrzj'),
 								child: [
-									{ id: 'YC020503', name: '股权质押', status: true },
+									// { id: 'YC020503', name: '股权质押', status: true },
 									{ id: 'YC020501', name: '竞价项目', status: true },
 									{ id: 'YC020502', name: '公示项目', status: true },
 								],
@@ -353,6 +359,12 @@ export default {
 									{ id: 'YC020703', name: '商标专利', status: true },
 									{ id: 'YC020704', name: '建筑建造资质', status: true },
 								],
+							},
+							{
+								id: 'YC0208',
+								name: '股权质押',
+								url: '/monitor/pledge',
+								status: toStatus(rule.menu_zcwj, 'zcwjdcdy'),
 							},
 						],
 					},
@@ -532,135 +544,3 @@ export const	roleState = (field, childField) => {
 	const ruleObject = rule[_field];
 	return ruleObject ? Boolean(ruleObject.children[childField]) : false;
 };
-
-
-// {
-// 	id: 'YC02',
-// 	name: '资产挖掘',
-// 	url: '/monitor',
-// 	status: rule.menu_zcwj,
-// 	dot: false,
-// 	children: [
-// 		{
-// 			id: 'YC0201',
-// 			name: '资产拍卖',
-// 			url: '/monitor',
-// 			param: '?process=-1',
-// 			status: toStatus(rule.menu_zcwj, 'zcwjzcpm'),
-// 		},
-// 		{
-// 			id: 'YC0202',
-// 			name: '代位权',
-// 			url: '/monitor/subrogation',
-// 			status: toStatus(rule.menu_zcwj, 'zcwjdwq'),
-// 			child: [
-// 				{ id: 'YC020201', name: '立案信息', status: true },
-// 				{ id: 'YC020202', name: '开庭公告', status: true },
-// 				{ id: 'YC020203', name: '裁判文书', status: true },
-// 			],
-// 		},
-// 		{
-// 			id: 'YC0203',
-// 			name: '土地数据',
-// 			url: '/monitor/land',
-// 			status: toStatus(rule.menu_zcwj, 'zcwjtdsj'),
-// 			child: [
-// 				{ id: 'YC020301', name: '出让结果', status: true },
-// 				{ id: 'YC020302', name: '土地转让', status: true },
-// 				{ id: 'YC020303', name: '土地抵押', status: true },
-// 			],
-// 		},
-// 		{
-// 			id: 'YC0204',
-// 			name: '招标中标',
-// 			url: '/monitor/tender',
-// 			status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
-// 		},
-// 		{
-// 			id: 'YC0205',
-// 			name: '金融资产',
-// 			url: '/monitor/financial',
-// 			status: toStatus(rule.menu_zcwj, 'zcwjjrzj'),
-// 			child: [
-// 				{ id: 'YC020503', name: '股权质押', status: true },
-// 				{ id: 'YC020501', name: '竞价项目', status: true },
-// 				{ id: 'YC020502', name: '公示项目', status: true },
-// 			],
-// 		},
-// 		{
-// 			id: 'YC0206',
-// 			name: '动产抵押',
-// 			url: '/monitor/mortgage',
-// 			status: toStatus(rule.menu_zcwj, 'zcwjdcdy'),
-// 		},
-// 		{
-// 			id: 'YC0207',
-// 			name: '无形资产',
-// 			url: '/monitor/intangible',
-// 			status: toStatus(rule.menu_zcwj, 'zcwjwxzc'),
-// 			child: [
-// 				{ id: 'YC020701', name: '排污权', status: true },
-// 				{ id: 'YC020702', name: '矿业权', status: true },
-// 				{ id: 'YC020703', name: '商标专利', status: true },
-// 				{ id: 'YC020704', name: '建筑建造资质', status: true },
-// 			],
-// 		},
-// 	],
-// },
-// {
-// 	id: 'YC03',
-// 	name: '风险监控',
-// 	url: '/risk',
-// 	status: rule.menu_fxjk,
-// 	children: [
-// 		{
-// 			id: 'YC0301',
-// 			name: '涉诉监控',
-// 			url: '/risk',
-// 			status: toStatus(rule.menu_fxjk, 'fxjkssjk'),
-// 			child: [
-// 				{ id: 'YC030101', name: '立案信息', status: true },
-// 				{ id: 'YC030102', name: '开庭公告', status: true },
-// 				{ id: 'YC030103', name: '裁判文书', status: true },
-// 			],
-// 		},
-// 		{
-// 			id: 'YC0302',
-// 			name: '企业破产重组',
-// 			url: '/risk/bankruptcy',
-// 			status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
-// 		},
-// 		{
-// 			id: 'YC0304',
-// 			name: '失信记录',
-// 			url: '/risk/broken',
-// 			status: toStatus(rule.menu_fxjk, 'jkxxsxjl'),
-// 		},
-// 		{
-// 			id: 'YC0303',
-// 			name: '经营风险',
-// 			url: '/risk/operation',
-// 			status: toStatus(rule.menu_fxjk, ['jyfxyzwf', 'jyfxsswf', 'jyfxjyyc', 'jyfxhbcf', 'jyfxxzcf', 'jyfxgsbg']),
-// 			child: [
-// 				{ id: 'YC030301', name: '经营异常', status: toStatus(rule.menu_fxjk, 'jyfxjyyc') },
-// 				{ id: 'YC030302', name: '工商变更', status: toStatus(rule.menu_fxjk, 'jyfxgsbg') },
-// 				{ id: 'YC030303', name: '严重违法', status: toStatus(rule.menu_fxjk, 'jyfxyzwf') },
-// 				{ id: 'YC030304', name: '税收违法', status: toStatus(rule.menu_fxjk, 'jyfxsswf') },
-// 				{ id: 'YC030305', name: '行政处罚', status: toStatus(rule.menu_fxjk, 'jyfxxzcf') },
-// 				{ id: 'YC030306', name: '环保处罚', status: toStatus(rule.menu_fxjk, 'jyfxhbcf') },
-// 			],
-// 		},
-// 	],
-// },
-// {
-// 	id: 'YC07',
-// 	name: '画像查询',
-// 	url: '/inquiry',
-// 	status: rule.menu_hxcx,
-// },
-// {
-// 	id: 'YC05',
-// 	name: '信息搜索',
-// 	url: '/search',
-// 	status: rule.menu_xxss,
-// },

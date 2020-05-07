@@ -32,6 +32,7 @@ const Item = (props) => {
 		});
 		event.stopPropagation();
 	};
+
 	const toHref = items => `#${items.url}${items.param ? items.param : ''}`;
 
 	const parentChoose = active.p === id ? 'header-item-active' : 'header-item-normal';

@@ -3,6 +3,18 @@ import { Button } from 'antd';
 import { navigate } from '@reach/router';
 import { Icon } from '@/common';
 import EmissionModal from './dynamic-modal/emission-modal';
+import AssetAuctionModal from './dynamic-modal/assets-auction-modal';
+import LandTransferModal from './dynamic-modal/land-transfer-modal';
+import LandMortgageModal from './dynamic-modal/land-mortgage-modal';
+import MiningModal from './dynamic-modal/mining-modal';
+import TrademarkModal from './dynamic-modal/trademark-modal';
+import Construction from './dynamic-modal/construction-modal';
+import ChattelMortgageModal from './dynamic-modal/chattel-mortgage-modal';
+import EquityPledgeModal from './dynamic-modal/equity-pledge-modal';
+import SubrogationTrialModal from './dynamic-modal/subrogation-trial-modal';
+import SubrogationJudgmentModal from './dynamic-modal/subrogation-judgment-modal';
+import SubrogationCourtModal from './dynamic-modal/subrogation-court-modal';
+import BrokenModal from './dynamic-modal/broken-record-modal';
 import './style.scss';
 
 const tag = (value) => {
@@ -17,13 +29,14 @@ const tag = (value) => {
 	case 8: return '动产抵押';
 	case 9: return '股权质押';
 	case 10: return '代位权(立案)';
-	case 11: return '代位权(文书)';
-	case 12: return '失信（列入）';
-	case 13: return '失信（移除）';
-	case 14: return '涉诉（立案）';
-	case 15: return '涉诉（文书）';
-	case 16: return '经营异常';
-	case 17: return '税收违法';
+	case 11: return '代位权(开庭)';
+	case 12: return '代位权(文书)';
+	case 13: return '失信（列入）';
+	case 14: return '失信（移除）';
+	case 15: return '涉诉（立案）';
+	case 16: return '涉诉（文书）';
+	case 17: return '经营异常';
+	case 18: return '税收违法';
 	default: return '-';
 	}
 };
@@ -47,26 +60,29 @@ const icon = (value) => {
 	case 15: return 'lawsuit-judgment';
 	case 16: return 'abnormal';
 	case 17: return 'tax';
+	case 18: return 'tax';
 	default: return '-';
 	}
 };
 
-const modalMap = new Map([
-	[1, ['assetModalVisible', 'assetModalVisible']],
-	[2, ['代位权', 2]],
-	[3, ['土地信息', 3]],
-	[4, ['股权质押', 4]],
-	[5, ['动产抵押', 5]],
-	[6, ['招投标', 6]],
-	[7, ['无形资产', 7]],
-	['default', ['资产拍卖', 1]],
-]);
 
 class DetailItem extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
+			assetAuctionModalVisible: false,
+			landTransferModalVisible: false,
+			landMortgageModalVisible: false,
+			miningModalVisible: false,
 			emissionModalVisible: false,
+			trademarkModalVisible: false,
+			constructionModalVisible: false,
+			chattelMortgageModalVisible: false,
+			equityPledgeModalVisible: false,
+			subrogationTrialModalVisible: false,
+			subrogationJudgmentModalVisible: false,
+			subrogationCourtModalVisible: false,
+			brokenModalVisible: false,
 			data: props.data || [],
 		};
 	}
@@ -81,17 +97,44 @@ class DetailItem extends PureComponent {
 	}
 
 	handleClick = (item) => {
-		if (item.type === 2) {
-			this.setState(() => ({
-				emissionModalVisible: true,
-			}));
-		}
+		const openModalMap = new Map([
+			[1, () => { this.setState(() => ({ assetAuctionModalVisible: true })); }],
+			[2, () => { this.setState(() => ({ landTransferModalVisible: true })); }],
+			[3, () => { this.setState(() => ({ landMortgageModalVisible: true })); }],
+			[4, () => { this.setState(() => ({ miningModalVisible: true })); }],
+			[5, () => { this.setState(() => ({ emissionModalVisible: true })); }],
+			[6, () => { this.setState(() => ({ trademarkModalVisible: true })); }],
+			[7, () => { this.setState(() => ({ constructionModalVisible: true })); }],
+			[8, () => { this.setState(() => ({ chattelMortgageModalVisible: true })); }],
+			[9, () => { this.setState(() => ({ equityPledgeModalVisible: true })); }],
+			[10, () => { this.setState(() => ({ subrogationTrialModalVisible: true })); }],
+			[11, () => { this.setState(() => ({ subrogationCourtModalVisible: true })); }],
+			[12, () => { this.setState(() => ({ subrogationJudgmentModalVisible: true })); }],
+
+			[13, () => { this.setState(() => ({ brokenModalVisible: true })); }],
+			[14, () => { this.setState(() => ({ brokenModalVisible: true })); }],
+			['default', ['资产拍卖', 1]],
+		]);
+		const openModalMapType = openModalMap.get(item.type) || openModalMap.get('default');
+		openModalMapType.call(this);
 	};
 
 	// 关闭弹窗
 	onCancel = () => {
 		this.setState({
 			emissionModalVisible: false,
+			landTransferModalVisible: false,
+			assetAuctionModalVisible: false,
+			landMortgageModalVisible: false,
+			miningModalVisible: false,
+			trademarkModalVisible: false,
+			constructionModalVisible: false,
+			chattelMortgageModalVisible: false,
+			equityPledgeModalVisible: false,
+			subrogationTrialModalVisible: false,
+			subrogationJudgmentModalVisible: false,
+			subrogationCourtModalVisible: false,
+			brokenModalVisible: false,
 		});
 	};
 
@@ -102,8 +145,10 @@ class DetailItem extends PureComponent {
 
 	render() {
 		const {
-			emissionModalVisible, data,
+			data, emissionModalVisible, assetAuctionModalVisible, landTransferModalVisible, landMortgageModalVisible, miningModalVisible, trademarkModalVisible, constructionModalVisible,
+			chattelMortgageModalVisible, equityPledgeModalVisible, subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible,
 		} = this.state;
+
 		// const { data } = this.props;
 		const isData = Array.isArray(data) && data.length > 0;
 		return (
@@ -149,12 +194,126 @@ class DetailItem extends PureComponent {
 						</div>
 					)
 				}
+				{/** 资产拍卖Modal */}
+				{assetAuctionModalVisible && (
+					<AssetAuctionModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						assetAuctionModalVisible={assetAuctionModalVisible}
+					/>
+				)}
+				{/** 土地出让Modal */}
+				{landTransferModalVisible && (
+					<LandTransferModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						landTransferModalVisible={landTransferModalVisible}
+					/>
+				)}
+				{/** 土地抵押Modal */}
+				{landMortgageModalVisible && (
+					<LandMortgageModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						landMortgageModalVisible={landMortgageModalVisible}
+					/>
+				)}
+				{/** 采矿权发证Modal */}
+				{miningModalVisible && (
+					<MiningModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						miningModalVisible={miningModalVisible}
+					/>
+				)}
 				{/** 排污权Modal */}
 				{emissionModalVisible && (
 					<EmissionModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
 						emissionModalVisible={emissionModalVisible}
+					/>
+				)}
+				{/** 商标专利Modal */}
+				{trademarkModalVisible && (
+					<TrademarkModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						trademarkModalVisible={trademarkModalVisible}
+					/>
+				)}
+				{/** 建筑建造Modal */}
+				{constructionModalVisible && (
+					<Construction
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						constructionModalVisible={constructionModalVisible}
+					/>
+				)}
+
+				{/** 动产抵押Modal */}
+				{chattelMortgageModalVisible && (
+					<ChattelMortgageModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						chattelMortgageModalVisible={chattelMortgageModalVisible}
+					/>
+				)}
+				{/** 股权质押Modal */}
+				{equityPledgeModalVisible && (
+					<EquityPledgeModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						equityPledgeModalVisible={equityPledgeModalVisible}
+					/>
+				)}
+				{/** 代位权(立案)Modal */}
+				{subrogationTrialModalVisible && (
+					<SubrogationTrialModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						subrogationTrialModalVisible={subrogationTrialModalVisible}
+					/>
+				)}
+				{/** 代位权(开庭)Modal */}
+				{subrogationCourtModalVisible && (
+					<SubrogationCourtModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						subrogationCourtModalVisible={subrogationCourtModalVisible}
+					/>
+				)}
+
+				{/** 代位权(文书)Modal */}
+				{subrogationJudgmentModalVisible && (
+					<SubrogationJudgmentModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						subrogationJudgmentModalVisible={subrogationJudgmentModalVisible}
+					/>
+				)}
+				{/** 失信（列入）Modal */}
+				{brokenModalVisible && (
+					<BrokenModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						brokenModalVisible={brokenModalVisible}
+					/>
+				)}
+				{/** 失信（移除）Modal */}
+				{brokenModalVisible && (
+					<SubrogationJudgmentModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						brokenModalVisible={brokenModalVisible}
+					/>
+				)}
+				{/** 代位权(文书)Modal */}
+				{subrogationJudgmentModalVisible && (
+					<SubrogationJudgmentModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						subrogationJudgmentModal={subrogationJudgmentModalVisible}
 					/>
 				)}
 			</div>

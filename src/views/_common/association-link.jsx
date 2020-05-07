@@ -211,7 +211,8 @@ class AssociationLink extends React.Component {
 			if (value === 'Judgment') return { c: '文书', t: '判决日期' };
 			return '';
 		})(type || 'Trial') || { c: '立案', t: '立案日期' };
-		const list = this.handleSource(source);
+
+		const list = this.handleSource(source) || [];
 		return (
 			<React.Fragment>
 				{ list.length ? list.map(i => i) : '-'}
