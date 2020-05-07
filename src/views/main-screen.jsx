@@ -100,6 +100,7 @@ export default class Screen extends React.Component {
 		authRule().then((res) => {
 			if (res.code === 200) {
 				const rule = handleRule(res.data.orgPageGroups);
+				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 				this.setState({
 					loading: 'hidden',
 					rule,

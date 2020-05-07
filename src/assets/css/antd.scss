@@ -226,6 +226,7 @@
   }
 }
 .message-confirm-icon {
+  width: 460px!important;
   button {
     width: 84px;
     height: 34px;
@@ -241,7 +242,7 @@
   }
   .ant-confirm-content{
     margin-left: 38px !important;
-    margin-top: 24px !important;
+    margin-top: 16px !important;
   }
 }
 // 输入框颜色
@@ -252,4 +253,12 @@
 // table header border-radius
 .ant-table, .ant-table-header,.ant-table-header table {
   border-radius: 0 !important;
+}
+
+.ant-message-notice-content{
+  padding: 12px 16px;
+  font-size: 14px;
+  i{
+    font-size: 18px;
+  }
 }

@@ -25,6 +25,7 @@ export default class BusinessInfo extends React.Component {
 		});
 		const params = {
 			...value,
+			companyId: value.id,
 		};
 		getBaseInfo(params)
 			.then((res) => {

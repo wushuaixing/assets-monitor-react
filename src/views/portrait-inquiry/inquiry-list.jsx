@@ -1,11 +1,10 @@
 import React from 'react';
-import { navigate } from '@reach/router';
-// import { Pagination } from 'antd';
 import QueryView from './common/queryView';
 import { inquiryList, inquiryPriorityList } from '@/utils/api/portrait-inquiry';
 import { Spin, Table } from '@/common';
 import { timeStandard, clearEmpty } from '@/utils';
 import { requestAll } from '@/utils/promise';
+import { inquiryCheck } from './inquiry-check';
 
 export default class InquiryList extends React.Component {
 	constructor(props) {
@@ -37,8 +36,8 @@ export default class InquiryList extends React.Component {
 	};
 
 	toDetailInfo=(row) => {
-		const name = row.name.replace(/<(\/|)em>/g, '');
-		navigate(`/inquiry/enterprise?id=${row.companyId}&name=${name}`);
+		global.PORTRAIT_INQUIRY_AFFIRM = false;
+		inquiryCheck(`/inquiry/enterprise?id=${row.companyId}&name=${row.name.replace(/<(\/|)em>/g, '')}`, 2);
 	};
 
 	toGetColumns=() => [
@@ -80,8 +79,8 @@ export default class InquiryList extends React.Component {
 		},
 	];
 
-	onRowClick=(record, index) => {
-		console.log(record, index);
+	onRowClick=() => {
+		// console.log(record, index);
 	};
 
 	/* 默认查询 */

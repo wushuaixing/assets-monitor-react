@@ -24,6 +24,8 @@ export default class KeyPersonnel extends React.Component {
 		});
 		const params = {
 			...value,
+			companyId: value.id,
+
 		};
 		getMainPerson(params)
 			.then((res) => {
