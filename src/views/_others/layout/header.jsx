@@ -80,8 +80,9 @@ const defaultRouter = (source) => {
 				res.p = item.id;
 				let rootUrlId = '';
 				item.children.forEach((itemChild) => {
+					const RegExpStr = itemChild.reg || new RegExp(itemChild.url);
 					if (itemChild.rootUrl)rootUrlId = itemChild.id;
-					if (new RegExp(itemChild.url).test(hash) || backupUrl(itemChild))res.c = itemChild.id;
+					if (RegExpStr.test(hash) || backupUrl(itemChild))res.c = itemChild.id;
 				});
 				res.c = res.c || rootUrlId;
 			} else {
