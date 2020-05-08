@@ -91,6 +91,8 @@ export default class Excavate extends PureComponent {
 			subrogationPropsData: {},
 			stockPropsData: {},
 			mortgagePropsData: {},
+			financePropsData: {},
+			biddingPropsData: {},
 		};
 	}
 
@@ -109,7 +111,7 @@ export default class Excavate extends PureComponent {
 			['mortgage', this.getMortgageData],
 			['finance', this.getFinanceData],
 			['bidding', this.getBiddingData],
-			['default', () => { console.log(4); }],
+			['default', () => { console.log('未匹配'); }],
 		]);
 
 		const promiseArray = [];
@@ -259,57 +261,75 @@ export default class Excavate extends PureComponent {
 			}));
 		}
 	};
-	//
-	// // 招投标
-	// getBiddingData = (isArray, values) => {
-	// 	const res = values[6];
-	// 	if (isArray && res && res.code === 200) {
-	// 		const { bidding, gmtCreate } = res.data;
-	// 		const biddingPropsData = {
-	// 			biddingNum: bidding,
-	// 			gmtCreate,
-	// 			obligorTotal: res.data.obligorTotal || null,
-	// 		};
-	// 		this.setState(() => ({
-	// 			biddingPropsData,
-	// 		}));
-	// 	}
-	// };
+
+	// 金融资产
+	getFinanceData = (res) => {
+		if (res && res.code === 200) {
+			const {
+				auctionBidding, finance, gmtUpdate,
+			} = res.data;
+
+			const totalCount = auctionBidding + finance;
+			const financePropsData = {
+				totalCount,
+				auctionBidding,
+				finance,
+				gmtUpdate,
+			};
+			this.setState(() => ({
+				financePropsData,
+			}));
+		}
+	};
+
+	// 招投标
+	getBiddingData = (res) => {
+		if (res && res.code === 200) {
+			const { bidding, gmtUpdate } = res.data;
+			const biddingPropsData = {
+				bidding,
+				totalCount: bidding,
+				gmtUpdate,
+			};
+			this.setState(() => ({
+				biddingPropsData,
+			}));
+		}
+	};
 
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
-	handleNavigate = (url) => {
-		navigate(url);
-	};
+	handleNavigate = (url) => { navigate(url); };
 
 	render() {
 		const {
-			config, loading, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData,
+			config, loading, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData,
 		} = this.state;
 
 		const allNumber = auctionPropsData.totalCount && landPropsData.totalCount && intangiblePropsData.totalCount
-			&& subrogationPropsData.totalCount && stockPropsData.totalCount && mortgagePropsData.totalCount;
+			&& subrogationPropsData.totalCount && stockPropsData.totalCount && mortgagePropsData.totalCount && financePropsData.totalCount && biddingPropsData.totalCount;
 		// 权限过滤
 		// const ruleResultArr = config.filter(i => this.isObject(i.rule));
 		const params = {
-			getAssetLoading: this.getAssetLoading,
 			auctionPropsData,
 			landPropsData,
 			intangiblePropsData,
 			subrogationPropsData,
 			stockPropsData,
 			mortgagePropsData,
+			financePropsData,
+			biddingPropsData,
 		};
 
 		return (
 			<Spin visible={loading} minHeight={540}>
 				<div className="monitor-excavate-container">
 					{allNumber && allNumber === 0 &&	(
-					<span className="monitor-excavate-container-nodata">
+					<div className="monitor-excavate-container-nodata">
 						暂未匹配到资产线索信息，建议
 						<span className="monitor-excavate-container-findMore" onClick={() => this.handleNavigate('/business')}>去导入更多债务人</span>
 						，以匹配更多价值信息
-					</span>
+					</div>
 					)}
 					{
 						loading ? null : config.map(Item => <Item.Component {...params} title={Item.title} url={Item.url} />)

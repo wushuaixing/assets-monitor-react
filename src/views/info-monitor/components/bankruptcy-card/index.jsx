@@ -7,14 +7,15 @@ const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
 export default class Bankruptcy extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			totalCount: 0,
-		};
+		this.state = {};
 	}
 
 	render() {
-		const { url } = this.props;
-		const { totalCount } = this.state;
+		const {
+			url, bankruptcyPropsData, bankruptcyPropsData: {
+				totalCount, gmtUpdate, obligorTotal,
+			},
+		} = this.props;
 		return (
 			<Card
 				Risk
@@ -24,12 +25,15 @@ export default class Bankruptcy extends PureComponent {
 				text="破产重组"
 				onClick={() => navigate(url)}
 				totalCount={totalCount}
+				updateTime={gmtUpdate}
 			>
-				<div className={`risk-bankruptcy-card ${!totalCount && 'monitor-card-noCount-color'}`}>
+				{Object.keys(bankruptcyPropsData).length !== 0 && (
+					<div className={`risk-bankruptcy-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 						破产/重整风险企业：
-					<span className={`risk-bankruptcy-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>0</span>
-						家
-				</div>
+						<span className={`risk-bankruptcy-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{obligorTotal || 0}</span>
+							家
+					</div>
+				)}
 			</Card>
 		);
 	}

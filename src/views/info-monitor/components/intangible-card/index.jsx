@@ -41,7 +41,7 @@ export default class Intangible extends PureComponent {
 												<div className="risk-intangible-container-card">
 													{item.typeName}
 													：
-													<span className="risk-intangible-container-card-num">{item.count}</span>
+													<span className="risk-intangible-container-card-num">{item.count || 0}</span>
 													条
 												</div>
 											</Col>
@@ -50,7 +50,7 @@ export default class Intangible extends PureComponent {
 												<div className="risk-intangible-container-card">
 													{item.typeName}
 													：
-													<span className="risk-intangible-container-card-num">{item.count}</span>
+													<span className="risk-intangible-container-card-num">{item.count || 0}</span>
 													条
 												</div>
 											</Col>

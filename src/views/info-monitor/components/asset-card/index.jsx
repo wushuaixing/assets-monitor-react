@@ -62,7 +62,7 @@ export default class Asset extends PureComponent {
 														<div className="risk-auction-container-card">
 															<span className="risk-auction-container-card-name">{item.typeName}</span>
 															<span className="risk-auction-container-card-info">：</span>
-															<span className="risk-auction-container-card-num">{item.count}</span>
+															<span className="risk-auction-container-card-num">{item.count || 0}</span>
 															条
 														</div>
 													</Col>
@@ -72,7 +72,7 @@ export default class Asset extends PureComponent {
 													<div className="risk-auction-container-card">
 														<span className="risk-auction-container-card-name">{item.typeName}</span>
 														<span className="risk-auction-container-card-info">：</span>
-														<span className="risk-auction-container-card-num">{item.count}</span>
+														<span className="risk-auction-container-card-num">{item.count || 0}</span>
 														条
 													</div>
 												</Col>

@@ -135,7 +135,7 @@ const columns = [
 		id: 'readRate',
 		width: 80,
 		className: 'column-right',
-		render: text => <span>{text ? `${(Number(text).toFixed(2) * 100)}%` : '-'}</span>,
+		render: text => <span>{text ? `${(Number(text).toFixed(3) * 100)}%` : '-'}</span>,
 	},
 	{
 		title: '追回总金额(元)',
@@ -144,10 +144,10 @@ const columns = [
 		id: 'recovery',
 		className: 'column-right',
 		width: 200,
-		render: text => <span>{text ? toThousands(text) : '-'}</span>,
+		render: text => <span>{text ? toThousands(text) : '0.00'}</span>,
 	},
 	{
-		title: '最近一次登录时间',
+		title: '最近一次查阅时间',
 		dataIndex: 'lastViewTime',
 		key: 'lastViewTime',
 		id: 'lastViewTime',
@@ -379,7 +379,7 @@ class Login extends React.Component {
 								<th style={{ width: 80, textAlign: 'center' }}>跟进完成</th>
 								<th style={{ width: 80, textAlign: 'right' }}>阅读率</th>
 								<th style={{ width: 200, textAlign: 'right' }}>追回总金额 (元)</th>
-								<th style={{ width: 160, textAlign: 'right' }}>最近一次登录时间</th>
+								<th style={{ width: 160, textAlign: 'right' }}>最近一次查阅时间</th>
 							</tr>
 						</tbody>
 					</table>

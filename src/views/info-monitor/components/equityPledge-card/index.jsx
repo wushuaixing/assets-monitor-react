@@ -30,13 +30,13 @@ export default class Stock extends PureComponent {
 					<div className="risk-stock-container">
 						<div className={`risk-stock-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 							股权持有人：
-							<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{stockOwner}</span>
+							<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{stockOwner || 0}</span>
 							条
 						</div>
 
 						<div className={`risk-stock-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 							股权质权人：
-							<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{stockUser}</span>
+							<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{stockUser || 0}</span>
 							条
 						</div>
 					</div>

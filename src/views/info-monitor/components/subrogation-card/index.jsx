@@ -29,14 +29,13 @@ export default class Subrogation extends PureComponent {
 					<div className="risk-subrogation-container">
 						<div className={`risk-subrogation-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 							执行案件：
-							<span className={`risk-subrogation-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{execute}</span>
+							<span className={`risk-subrogation-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{execute || 0}</span>
 							笔
 
 							{restore > 0 ? (
 								<div className="card-content-left-arrow">
 									<div className="card-content-popover-content">
 										{restore}
-										{' '}
 										笔执恢案件
 									</div>
 								</div>
@@ -45,7 +44,7 @@ export default class Subrogation extends PureComponent {
 
 						<div className={`risk-subrogation-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 							其他案件：
-							<span className={`risk-subrogation-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{otherCase}</span>
+							<span className={`risk-subrogation-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{otherCase || 0}</span>
 							笔
 						</div>
 					</div>

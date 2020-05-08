@@ -1,12 +1,10 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { ReadStatus, Attentions, SortVessel } from '@/common/table';
+import { Attentions, SortVessel } from '@/common/table';
 import { readStatus } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
-import { floatFormat } from '@/utils/format';
-import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
-import { formatDateTime } from '@/utils/changeTime';
+import { AssetsInfo, ProjectInfo, ListingInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
 // 获取表格配置
 const columns = (props) => {
 	const {
@@ -20,41 +18,24 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? '起始日期'
-				: <SortVessel field="START_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>起始日期</SortVessel>),
-			dataIndex: 'startTime',
-			width: 110,
-			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
-		}, {
-			title: '相关单位',
-			dataIndex: 'obligorName',
-			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
-		}, {
-			title: '项目名称',
-			dataIndex: 'title',
-			render: (text, row) => (text ? linkDom(row.sourceUrl, text) : '-'),
-		}, {
-			title: '挂牌价格',
-			dataIndex: 'listingPrice',
-			width: 120,
-			className: 'tAlignRight_important',
-			render: (value, row) => <span>{value || row.price ? (value ? `${floatFormat(value)} ${row.listingUnit}` : `${floatFormat(row.price)} ${row.listingUnit}`) : '未知'}</span>,
-		}, {
-			title: (noSort ? '期满日期'
-				: <SortVessel field="END_TIME" onClick={onSortChange} {...sort}>期满日期</SortVessel>),
-			dataIndex: 'endTime',
-			className: 'tAlignCenter_important',
-			width: 93,
-			render: value => <span>{formatDateTime(value, 'onlyYear') || '-'}</span>,
-		}, {
-			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
-			className: 'tAlignCenter_important',
-			width: 93,
-			render: value => <span>{formatDateTime(value, 'onlyYear') || '-'}</span>,
-		}, {
+			title: (noSort ? '业务信息'
+				: <SortVessel field="CREATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort}>业务信息</SortVessel>),
+			width: 400,
+			render: (text, row) => AssetsInfo(text, row, true, true),
+		},
+		{
+			title: (noSort ? '项目信息 '
+				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} mark="(发布日期)" {...sort}>项目信息</SortVessel>),
+			width: 300,
+			render: (text, row) => ProjectInfo(text, row, true, true),
+		},
+		{
+			title: (noSort ? '挂牌信息'
+				: <SortVessel field="START_TIME" onClick={onSortChange} mark="(挂牌起始日期)" {...sort}>挂牌信息</SortVessel>),
+			width: 300,
+			render: (text, row) => ListingInfo(text, row, true, true),
+		},
+		{
 			title: '操作',
 			width: 60,
 			unNormal: true,
@@ -66,7 +47,7 @@ const columns = (props) => {
 					onClick={onRefresh}
 					api={row.isAttention ? api.unFollowSinglePub : api.followSinglePub}
 					index={index}
-					single
+					// single
 				/>
 			),
 		}];

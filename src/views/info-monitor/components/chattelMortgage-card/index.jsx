@@ -31,13 +31,13 @@ export default class Chattel extends PureComponent {
 					<div className="risk-chattel-container">
 						<div className={`risk-chattel-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 							抵押物所有人：
-							<span className={`risk-chattel-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{owner}</span>
+							<span className={`risk-chattel-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{owner || 0}</span>
 							条
 						</div>
 
 						<div className={`risk-chattel-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 							抵押权人：
-							<span className={`risk-chattel-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{people}</span>
+							<span className={`risk-chattel-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{people || 0}</span>
 							条
 							{peopleAmount ? (
 								<span style={{ paddingLeft: '5px' }}>

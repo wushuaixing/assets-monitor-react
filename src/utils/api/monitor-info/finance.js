@@ -36,11 +36,11 @@ export const infoListPub = params => service.get('/yc/monitor/finance/finance/li
 	.then(res => res.data);
 
 // 关注列表
-export const attentionListPub = params => service.get('/yc/monitor/finance/finance/attentionList', { params })
+export const attentionListPub = params => service.get('/yc/monitor/finance/finance/follow/list', { params })
 	.then(res => res.data);
 
 // 公示项目 数量统计
-export const attentionFollowPubCount = params => service.get('/yc/monitor/finance/finance/attentionList-count', { params })
+export const attentionFollowPubCount = params => service.get('/yc/monitor/finance/finance/follow/listCount', { params })
 	.then(res => res.data);
 
 // 已读
@@ -57,7 +57,7 @@ export const readStatusBatch = params => service.post('/yc/monitor/finance/finan
 
 
 // 关注 [批量]
-export const followPub = params => service.post('/yc/monitor/finance/finance/followBatch', params)
+export const followPub = params => service.post('/yc/monitor/finance/finance/follow', params)
 	.then(res => res.data);
 
 // 关注 [单个]
@@ -65,11 +65,11 @@ export const followSinglePub = params => service.post('/yc/monitor/finance/finan
 	.then(res => res.data);
 
 // 取消关注 [单个]
-export const unFollowSinglePub = params => service.post('/yc/monitor/finance/finance/unfollow', params)
+export const unFollowSinglePub = params => service.post('/yc/monitor/finance/finance/unFollow', params)
 	.then(res => res.data);
 
 // 导出excel
-export const exportListPub = '/yc/monitor/finance/finance/exportExcel';
+export const exportListPub = '/yc/monitor/finance/finance/export';
 
 // =============== 金融资产 ==============
 
