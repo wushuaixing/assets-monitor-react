@@ -321,6 +321,7 @@ export default class StockRight extends React.Component {
 	// 处理点击后数据
 	handleOption=(params) => {
 		const { id, iconStatus, treeName } = params;
+		const { isBusiness } = this.props;
 		let idItem = this.toGetIdItem(id, treeName);
 		// console.log(idItem);
 		if (typeof idItem === 'object') {
@@ -336,7 +337,8 @@ export default class StockRight extends React.Component {
 					idItem.children = idItem.backup;
 					idItem.backup = [];
 				} else {
-					stockChart({ id })
+					const api = isBusiness ? businessStockChart : stockChart;
+					api({ id, companyId: id })
 						.then((res) => {
 							if (res.code === 200) {
 								if (treeName === 'investor') {
