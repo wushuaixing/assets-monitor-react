@@ -46,7 +46,7 @@ export default class Subrogation extends React.Component {
 											<span className="card-content-role-info">：</span>
 											<span className="card-content-role-num">
 												<span className="portrait-card-num">{execute}</span>
-												条
+												笔
 											</span>
 
 											{restore > 0 ? (
@@ -69,7 +69,7 @@ export default class Subrogation extends React.Component {
 											<span className="card-content-role-num">
 
 												<span className="portrait-card-num">{otherCase}</span>
-											条
+												笔
 											</span>
 										</div>
 									) : null}

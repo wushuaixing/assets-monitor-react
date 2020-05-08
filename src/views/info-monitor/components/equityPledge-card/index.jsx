@@ -7,14 +7,15 @@ const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
 export default class Stock extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			totalCount: 24,
-		};
+		this.state = {};
 	}
 
 	render() {
-		const { url } = this.props;
-		const { totalCount } = this.state;
+		const {
+			url, stockPropsData, stockPropsData: {
+				stockOwner, stockUser, gmtUpdate, totalCount,
+			},
+		} = this.props;
 		return (
 			<Card
 				IconType="stock"
@@ -23,20 +24,23 @@ export default class Stock extends PureComponent {
 				customStyle={hasCountStyle}
 				text="股权质押"
 				totalCount={totalCount}
+				updateTime={gmtUpdate}
 			>
-				<div className="risk-stock-container">
-					<div className={`risk-stock-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
-						股权持有人：
-						<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>12</span>
-						条
-					</div>
+				{Object.keys(stockPropsData).length !== 0 && (
+					<div className="risk-stock-container">
+						<div className={`risk-stock-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
+							股权持有人：
+							<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{stockOwner}</span>
+							条
+						</div>
 
-					<div className={`risk-stock-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-						股权质权人：
-						<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>12</span>
-						条
+						<div className={`risk-stock-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
+							股权质权人：
+							<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{stockUser}</span>
+							条
+						</div>
 					</div>
-				</div>
+				)}
 			</Card>
 		);
 	}

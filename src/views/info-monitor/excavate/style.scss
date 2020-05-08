@@ -1,3 +1,15 @@
 .monitor-excavate-container {
   margin: 30px 30px 0 10px;
+  &-nodata {
+    display: inline-block;
+    font-size: 14px;
+    color: $text-title;
+    line-height: 14px;
+    margin-bottom: 25px;
+    margin-left: 20px;
+  }
+  &-findMore {
+    cursor: pointer;
+    color: $text-link;
+  }
 }

@@ -8,7 +8,7 @@ export default class Risk extends PureComponent {
 	constructor(props) {
 		super(props);
 		document.title = '资产挖掘';
-		console.log(props.rule, 123);
+		// console.log(props.rule, 123);
 		const isRule = props && props.rule && props.rule.children;
 		this.state = {
 			config: [

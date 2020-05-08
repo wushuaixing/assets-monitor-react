@@ -151,6 +151,7 @@ class DetailItem extends PureComponent {
 
 		// const { data } = this.props;
 		const isData = Array.isArray(data) && data.length > 0;
+		// console.log(isData, data, 333);
 		return (
 			<div className="detail-container">
 				{/* <Button type="primary" onClick={this.startScrollUp}>向上滚动</Button> */}

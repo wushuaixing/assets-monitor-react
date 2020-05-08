@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
+import { navigate } from '@reach/router';
 import { Spin } from '@/common';
-import { auctionCard, landCard, intangibleCard } from '@/utils/api/monitor-info/excavate/index';
+import {
+	auctionCard, landCard, intangibleCard, subrogationCard, stockCard, mortgageCard, financeCard, biddingCard,
+} from '@/utils/api/monitor-info/excavate/index';
+import getCount from '@/views/portrait-inquiry/common/getCount';
 import { promiseAll } from '@/utils/promise';
 import {
 	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding,
 } from '../components';
 import './style.scss';
-import getCount from '@/views/portrait-inquiry/common/getCount';
 
 export default class Excavate extends PureComponent {
 	constructor(props) {
@@ -46,7 +49,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjtdsj,
 					url: '/monitor/subrogation',
 					Component: Subrogation,
-					API: auctionCard(),
+					API: subrogationCard(),
 				},
 				{
 					id: 5,
@@ -54,7 +57,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjzcpm,
 					url: '/risk/operation',
 					Component: Stock,
-					API: auctionCard(),
+					API: stockCard(),
 				},
 				{
 					id: 6,
@@ -62,7 +65,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjdcdy,
 					url: '/monitor/mortgage',
 					Component: Chattel,
-					API: auctionCard(),
+					API: mortgageCard(),
 				},
 				{
 					id: 7,
@@ -70,7 +73,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjjrzj,
 					url: '/monitor/financial',
 					Component: Finance,
-					API: auctionCard(),
+					API: financeCard(),
 				},
 				{
 					id: 8,
@@ -78,13 +81,16 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjzbzb,
 					url: '/monitor/tender',
 					Component: Bidding,
-					API: auctionCard(),
+					API: biddingCard(),
 				},
 			].filter(i => this.isObject(i.rule)),
 			loading: false,
 			auctionPropsData: {},
 			landPropsData: {},
 			intangiblePropsData: {},
+			subrogationPropsData: {},
+			stockPropsData: {},
+			mortgagePropsData: {},
 		};
 	}
 
@@ -98,6 +104,11 @@ export default class Excavate extends PureComponent {
 			['asset', this.getAuctionData],
 			['land', this.getLandData],
 			['intangible', this.getIntangibleData],
+			['subrogation', this.getSubrogationData],
+			['stock', this.getStockData],
+			['mortgage', this.getMortgageData],
+			['finance', this.getFinanceData],
+			['bidding', this.getBiddingData],
 			['default', () => { console.log(4); }],
 		]);
 
@@ -190,12 +201,94 @@ export default class Excavate extends PureComponent {
 		}
 	};
 
+	// 代位权
+	getSubrogationData = (res) => {
+		if (res && res.code === 200) {
+			const {
+				courtNotice, execute, trial, judgment, restore, gmtUpdate,
+			} = res.data;
+			const dataSourceNum = trial + judgment + courtNotice;
+			const otherCase = (trial + judgment + courtNotice) - execute;
+			const subrogationPropsData = {
+				restore,
+				execute,
+				otherCase,
+				gmtUpdate,
+				totalCount: dataSourceNum,
+			};
+			this.setState(() => ({
+				subrogationPropsData,
+			}));
+		}
+	};
+
+	// 股权质押
+	getStockData = (res) => {
+		if (res && res.code === 200) {
+			const { stockOwner, stockUser, gmtUpdate } = res.data;
+			const totalCount = stockOwner + stockUser;
+			const stockPropsData = {
+				totalCount,
+				stockOwner,
+				stockUser,
+				gmtUpdate,
+			};
+			this.setState(() => ({
+				stockPropsData,
+			}));
+		}
+	};
+
+	// 动产抵押
+	getMortgageData = (res) => {
+		if (res && res.code === 200) {
+			const {
+				owner, people, peopleAmount, gmtUpdate,
+			} = res.data;
+
+			const totalCount = owner + people;
+			const mortgagePropsData = {
+				totalCount,
+				peopleAmount,
+				owner,
+				people,
+				gmtUpdate,
+			};
+			this.setState(() => ({
+				mortgagePropsData,
+			}));
+		}
+	};
+	//
+	// // 招投标
+	// getBiddingData = (isArray, values) => {
+	// 	const res = values[6];
+	// 	if (isArray && res && res.code === 200) {
+	// 		const { bidding, gmtCreate } = res.data;
+	// 		const biddingPropsData = {
+	// 			biddingNum: bidding,
+	// 			gmtCreate,
+	// 			obligorTotal: res.data.obligorTotal || null,
+	// 		};
+	// 		this.setState(() => ({
+	// 			biddingPropsData,
+	// 		}));
+	// 	}
+	// };
+
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
+
+	handleNavigate = (url) => {
+		navigate(url);
+	};
 
 	render() {
 		const {
-			config, loading, auctionPropsData, landPropsData, intangiblePropsData,
+			config, loading, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData,
 		} = this.state;
+
+		const allNumber = auctionPropsData.totalCount && landPropsData.totalCount && intangiblePropsData.totalCount
+			&& subrogationPropsData.totalCount && stockPropsData.totalCount && mortgagePropsData.totalCount;
 		// 权限过滤
 		// const ruleResultArr = config.filter(i => this.isObject(i.rule));
 		const params = {
@@ -203,12 +296,21 @@ export default class Excavate extends PureComponent {
 			auctionPropsData,
 			landPropsData,
 			intangiblePropsData,
+			subrogationPropsData,
+			stockPropsData,
+			mortgagePropsData,
 		};
-
 
 		return (
 			<Spin visible={loading} minHeight={540}>
 				<div className="monitor-excavate-container">
+					{allNumber && allNumber === 0 &&	(
+					<span className="monitor-excavate-container-nodata">
+						暂未匹配到资产线索信息，建议
+						<span className="monitor-excavate-container-findMore" onClick={() => this.handleNavigate('/business')}>去导入更多债务人</span>
+						，以匹配更多价值信息
+					</span>
+					)}
 					{
 						loading ? null : config.map(Item => <Item.Component {...params} title={Item.title} url={Item.url} />)
 					}
