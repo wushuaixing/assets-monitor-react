@@ -7,7 +7,7 @@ import {
 	RoleList, // 角色列表
 } from '@/utils/api/organization';
 import { Table, Spin, Icon } from '@/common';
-import '../style.scss';
+import './style.scss';
 
 export default class BasicTable extends React.Component {
 	constructor(props) {

@@ -8,13 +8,27 @@ import { floatFormat } from '@/utils/format';
 import { formatDateTime } from '@/utils/changeTime';
 import { Button, Icon, Ellipsis } from '@/common';
 
+const statusType = (value) => {
+	switch (value) {
+	case -1: return '未知';
+	case 1: return '股权项目';
+	case 2: return '债权项目';
+	case 3: return '资产项目';
+	case 4: return '租赁项目';
+	case 5: return '增资项目';
+	case 6: return '其他项目';
+	default: return '-';
+	}
+};
+
 const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 	const {
-		obligorName, obligorNumber, orgName, updateTime, important, dishonestStatus, obligorId,
+		obligorName, obligorNumber, orgName, updateTime, important, dishonestStatus, obligorId, isRead,
 	} = rowContent;
 	return (
 		<React.Fragment>
 			{important === 1 && !noMatching ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
+			<span className={!isRead && isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'} style={!isRead && isRead !== undefined ? { position: 'absolute', top: '50%' } : {}} />
 			<div className="assets-info-content" style={{ marginLeft: 10 }}>
 				<li>
 					<span className="list list-title align-justify">债 务 人：</span>
@@ -45,6 +59,65 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 					<span className="list list-content">{updateTime ? formatDateTime(updateTime) : '-'}</span>
 					{ dishonestStatus === 1 ? <img src={dishonest1} alt="" className="list-dishonest-status" /> : ''}
 					{ dishonestStatus === 2 ? <img src={dishonest2} alt="" className="list-dishonest-status" /> : ''}
+				</li>
+			</div>
+		</React.Fragment>
+	);
+};
+
+const ProjectInfo = (text, rowContent) => {
+	const {
+		 obligorId, projectNumber, projectType, gmtPublish, title,
+	} = rowContent;
+	return (
+		<React.Fragment>
+			<div className="assets-info-content">
+				<li>
+					<span className="list list-title align-justify">项目名称：</span>
+					<Ellipsis
+						content={title}
+						url={obligorId ? `#/business/debtor/detail?id=${obligorId}` : ''}
+						tooltip
+						width={150}
+						// width={getByteLength(content) * 6 > maxWidth ? maxWidth : (getByteLength(content) + 3) * 6}
+					/>
+				</li>
+				<li>
+					<span className="list list-title align-justify">项目类型：</span>
+					<span className="list list-content">{statusType(projectType) || '-'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">项目编号：</span>
+					<span className="list list-content">{projectNumber || '-'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify">发布日期：</span>
+					<span className="list list-content">{gmtPublish || '-'}</span>
+				</li>
+			</div>
+		</React.Fragment>
+	);
+};
+
+const ListingInfo = (text, rowContent) => {
+	const {
+		price, listingPrice, listingUnit, startTime, endTime,
+	} = rowContent;
+	return (
+		<React.Fragment>
+			<div className="assets-info-content">
+
+				<li>
+					<span className="list list-title align-justify" style={{ width: 100 }}>挂牌起始日期：</span>
+					<span className="list list-content">{startTime || '-'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 100 }}>挂牌期满日期：</span>
+					<span className="list list-content">{endTime || '-'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify" style={{ width: 100 }}>挂  牌  价  格：</span>
+					<span>{listingPrice || price ? (listingPrice ? `${floatFormat(listingPrice)} ${listingUnit}` : `${floatFormat(price)} ${listingUnit}`) : '未知'}</span>
 				</li>
 			</div>
 		</React.Fragment>
@@ -234,5 +307,5 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 };
 
 export {
-	AssetsInfo, MatchingReason, AuctionInfo, DishonestInfo, JudgmentInfo, ExecuteInfo,
+	AssetsInfo, ProjectInfo, MatchingReason, AuctionInfo, DishonestInfo, JudgmentInfo, ExecuteInfo, ListingInfo,
 };

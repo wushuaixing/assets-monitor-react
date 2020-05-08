@@ -54,7 +54,6 @@ export default class Ellipsis extends React.Component {
 		const showContent = _width
 			? toCutString(content, (_width * _line) / size - (3 * _line), '...') : '';
 		const ContentText = url ? linkDom(_url, showContent, '', '', '', (onClick || '')) : showContent;
-
 		// tooltip 的状态
 		const _tooltip = showContent === content ? false : tooltip;
 

@@ -1,4 +1,3 @@
-/** 登录页 * */
 import React from 'react';
 import {
 	Form, Input, Table, Affix, Icon, message,
@@ -6,13 +5,13 @@ import {
 import { selfTree } from '@/utils/api/home';
 import { switchOrg } from '@/utils/api/user';
 import { Ellipsis } from '@/common';
-import flat from '../../utils/flatArray';
+import flat from '@/utils/flatArray';
 import { toThousands } from '@/utils/changeTime';
 import './style.scss';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
 // 是否为IE
-
+const api = { selfTree };
 const createForm = Form.create;
 
 // 切换机构
@@ -39,12 +38,12 @@ const columns = [
 		dataIndex: 'name',
 		key: 'name',
 		id: 'name',
-		width: 400,
+		width: 300,
 		render: (text, row) => {
 			const isChild = !(row.children && row.children.length > 0);
 			return (
 				<span className={isChild ? 'yc-table-body' : null}>
-					<Ellipsis content={text} url={isChild ? '/#/monitor' : ''} width={300} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
+					<Ellipsis content={text} url={isChild ? '/#/monitor' : ''} width={200} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
 				</span>
 			);
 		},
@@ -55,7 +54,7 @@ const columns = [
 		dataIndex: 'obligorCount',
 		id: 'obligorCount',
 		className: 'column-center',
-		width: 174,
+		width: 100,
 		render: (text, row) => {
 			const isChild = !(row.children && row.children.length > 0);
 			return (
@@ -66,12 +65,12 @@ const columns = [
 		},
 	},
 	{
-		title: '全部',
+		title: '推送总量',
 		key: 'monitorTotalCount',
 		dataIndex: 'monitorTotalCount',
 		id: 'monitorTotalCount',
 		className: 'column-center',
-		width: 92,
+		width: 80,
 		render: (text, row) => {
 			const isChild = !(row.children && row.children.length > 0);
 			return (
@@ -87,7 +86,7 @@ const columns = [
 		dataIndex: 'monitorUnfollowedCount',
 		id: 'monitorUnfollowedCount',
 		className: 'column-center',
-		width: 112,
+		width: 60,
 		render: (text, row) => {
 			const isChild = !(row.children && row.children.length > 0);
 			return (
@@ -98,12 +97,12 @@ const columns = [
 		},
 	},
 	{
-		title: '跟进',
+		title: '跟进中',
 		key: 'monitorFollowedCount',
 		dataIndex: 'monitorFollowedCount',
 		id: 'monitorFollowedCount',
 		className: 'column-center',
-		width: 92,
+		width: 60,
 		render: (text, row) => {
 			const isChild = !(row.children && row.children.length > 0);
 			return (
@@ -114,12 +113,12 @@ const columns = [
 		},
 	},
 	{
-		title: '完成',
+		title: '跟进完成',
 		key: 'monitorDoneCount',
 		dataIndex: 'monitorDoneCount',
 		id: 'monitorDoneCount',
 		className: 'column-center',
-		width: 92,
+		width: 80,
 		render: (text, row) => {
 			const isChild = !(row.children && row.children.length > 0);
 			return (
@@ -130,12 +129,31 @@ const columns = [
 		},
 	},
 	{
+		title: '阅读率',
+		dataIndex: 'readRate',
+		key: 'readRate',
+		id: 'readRate',
+		width: 80,
+		className: 'column-right',
+		render: text => <span>{text ? `${(Number(text).toFixed(3) * 100)}%` : '-'}</span>,
+	},
+	{
 		title: '追回总金额(元)',
 		dataIndex: 'recovery',
 		key: 'recovery',
 		id: 'recovery',
 		className: 'column-right',
-		render: text => <span>{toThousands(text)}</span>,
+		width: 200,
+		render: text => <span>{text ? toThousands(text) : '0.00'}</span>,
+	},
+	{
+		title: '最近一次查阅时间',
+		dataIndex: 'lastViewTime',
+		key: 'lastViewTime',
+		id: 'lastViewTime',
+		className: 'column-right',
+		width: 160,
+		render: text => <span>{text || '-'}</span>,
 	},
 ];
 
@@ -147,18 +165,13 @@ class Login extends React.Component {
 			selectList: [],
 			isOpen: false,
 			treeList: [],
-			dataListArray: null,
+			dataListArray: [],
 			isHasValue: '',
 		};
 	}
 
 	componentDidMount() {
-		// 避免在登录页请求
-		const { rule } = this.props;
-		const { hash } = window.location;
-		if (hash !== '#/login' && rule && rule.groupName === 'menu_sy') {
-			this.getData();
-		}
+		this.getData();
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
 		const selectId = document.getElementById('select');
 
@@ -194,7 +207,7 @@ class Login extends React.Component {
 	// 获取消息列表
 	getData = () => {
 		const that = this;
-		selfTree().then((res) => {
+		api.selfTree().then((res) => {
 			if (res && res.data) {
 				const dataListArray = JSON.parse(JSON.stringify(that.IterationDeleteMenuChildren([res.data.tree])));
 
@@ -358,16 +371,15 @@ class Login extends React.Component {
 					<table className="table table-striped treeTable" style={{ marginBottom: 0 }}>
 						<tbody>
 							<tr className="tr-table">
-								<th rowSpan=" 2 " style={{ width: 400, textAlign: 'left' }}>机构名称</th>
-								<th rowSpan=" 2 " style={{ width: 174 }}>监控债务人数</th>
-								<th colSpan="4" style={{ width: 388 }}>监控信息数</th>
-								<th rowSpan=" 2 " style={{ width: 198, textAlign: 'right' }}>追回总金额 (元)</th>
-							</tr>
-							<tr className="tr-table">
-								<th style={{ width: 92 }}>全部</th>
-								<th style={{ width: 112 }}>未跟进</th>
-								<th style={{ width: 92 }}>跟进</th>
-								<th style={{ width: 92 }}>完成</th>
+								<th style={{ width: 300, textAlign: 'left' }}>机构名称</th>
+								<th style={{ width: 100, textAlign: 'center' }}>监控债务人数</th>
+								<th style={{ width: 80, textAlign: 'center' }}>推送总量</th>
+								<th style={{ width: 60, textAlign: 'center' }}>未跟进</th>
+								<th style={{ width: 60, textAlign: 'center' }}>跟进中</th>
+								<th style={{ width: 80, textAlign: 'center' }}>跟进完成</th>
+								<th style={{ width: 80, textAlign: 'right' }}>阅读率</th>
+								<th style={{ width: 200, textAlign: 'right' }}>追回总金额 (元)</th>
+								<th style={{ width: 160, textAlign: 'right' }}>最近一次查阅时间</th>
 							</tr>
 						</tbody>
 					</table>
