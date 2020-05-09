@@ -12,6 +12,7 @@ import './style.scss';
 export default class InfoSearch extends React.Component {
 	constructor(props) {
 		super(props);
+		// console.log(props.rule, 333);
 		this.state = {
 			config: [
 				{
@@ -34,7 +35,7 @@ export default class InfoSearch extends React.Component {
 					status: true,
 					Component: RiskOverview,
 				},
-			],
+			].filter(i => this.isObject(i.rule)),
 		};
 	}
 
@@ -43,27 +44,31 @@ export default class InfoSearch extends React.Component {
 		navigate('/info/monitor/attention?init=YC02');
 	};
 
+	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
+
 	render() {
 		const { config } = this.state;
-		return [
-			<NavTab
-				source={config}
-				suffix={(
-					<div className="yc-suffix-wrapper">
-						<Button
-							style={{ margin: '14px 20px 10px', width: 95, padding: '2px 9px' }}
-							onClick={this.toGoAttentionPage}
-							size="large"
-							className="attention-btn-icon"
-							icon={() => <Icon type="icon-follow-ed" className="yc-btn-icon" />}
-							title="我的关注"
-						/>
-					</div>
+		return (
+			<div style={{ fontFamily: 'Microsoft YaHei' }}>
+				<NavTab
+					source={config}
+					suffix={(
+						<div className="yc-suffix-wrapper">
+							<Button
+								style={{ margin: '14px 20px 10px', width: 95, padding: '2px 9px' }}
+								onClick={this.toGoAttentionPage}
+								size="large"
+								className="attention-btn-icon"
+								icon={() => <Icon type="icon-follow-ed" className="yc-btn-icon" />}
+								title="我的关注"
+							/>
+						</div>
 				)}
-			/>,
-			<Router>
-				{ config.map(Item => <Item.Component path={Item.url} rule={Item.rule} />)}
-			</Router>,
-		];
+				/>
+				<Router>
+					{ config.map(Item => <Item.Component path={Item.url} rule={Item.rule} />)}
+				</Router>
+			</div>
+		);
 	}
 }

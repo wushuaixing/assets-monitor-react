@@ -62,8 +62,8 @@ const responseMethods = {
 			return response;
 		}
 		if (res.code === 403) {
-			navigate('/');
-			window.location.reload();
+			// navigate('/');
+			// window.location.reload();
 			return response;
 		}
 

@@ -74,13 +74,14 @@ const ProjectInfo = (text, rowContent) => {
 			<div className="assets-info-content">
 				<li>
 					<span className="list list-title align-justify">项目名称：</span>
-					<Ellipsis
-						content={title}
-						url={obligorId ? `#/business/debtor/detail?id=${obligorId}` : ''}
-						tooltip
-						width={150}
-						// width={getByteLength(content) * 6 > maxWidth ? maxWidth : (getByteLength(content) + 3) * 6}
-					/>
+					{title ? (
+						<Ellipsis
+							content={title}
+							url={obligorId ? `#/business/debtor/detail?id=${obligorId}` : ''}
+							tooltip
+							width={150}
+						/>
+					) : '-'}
 				</li>
 				<li>
 					<span className="list list-title align-justify">项目类型：</span>

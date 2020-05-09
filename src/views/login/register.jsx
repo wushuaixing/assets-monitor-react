@@ -121,7 +121,8 @@ class Login extends React.Component {
 									loading: false,
 								});
 								if (rule.menu_zcwj) {
-									navigate('/monitor?process=-1');
+									// navigate('/monitor?process=-1');
+									navigate('/');
 								} else if (rule.menu_xxss) {
 									navigate('/');
 								} else {

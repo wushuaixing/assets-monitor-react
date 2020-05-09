@@ -43,7 +43,7 @@ const columns = [
 			const isChild = !(row.children && row.children.length > 0);
 			return (
 				<span className={isChild ? 'yc-table-body' : null}>
-					<Ellipsis content={text} url={isChild ? '/#/monitor' : ''} width={200} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
+					<Ellipsis content={text} url={isChild ? '/#/monitor' : ''} width={185} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
 				</span>
 			);
 		},
@@ -135,7 +135,8 @@ const columns = [
 		id: 'readRate',
 		width: 80,
 		className: 'column-right',
-		render: text => <span>{text ? `${(Number(text).toFixed(3) * 100)}%` : '-'}</span>,
+		render: text => <span>{text || '-'}</span>,
+		// render: text => <span>{text ? `${text.substring(0, 5)}%` : '-'}</span>,
 	},
 	{
 		title: '追回总金额(元)',

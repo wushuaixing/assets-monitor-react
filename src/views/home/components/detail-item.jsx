@@ -19,48 +19,58 @@ import './style.scss';
 
 const tag = (value) => {
 	switch (value) {
-	case 1: return '资产拍卖';
-	case 2: return '土地出让';
-	case 3: return '土地抵押';
-	case 4: return '采矿权发证';
-	case 5: return '排污权发证';
-	case 6: return '商标专利';
-	case 7: return '建筑建造资质';
-	case 8: return '动产抵押';
-	case 9: return '股权质押';
-	case 10: return '代位权(立案)';
-	case 11: return '代位权(开庭)';
-	case 12: return '代位权(文书)';
-	case 13: return '失信（列入）';
-	case 14: return '失信（移除）';
-	case 15: return '涉诉（立案）';
-	case 16: return '涉诉（文书）';
-	case 17: return '经营异常';
-	case 18: return '税收违法';
+	case 101: return '资产拍卖';
+	case 201: return '出让结果';
+	case 202: return '土地转让';
+	case 203: return '土地抵押';
+	case 301: return '排污权发证';
+	case 302: return '采矿权发证';
+	case 303: return '商标专利';
+	case 304: return '建筑建造资质';
+	case 401: return '动产抵押';
+	case 501: return '股权质押';
+	case 601: return '代位权(开庭)';
+	case 602: return '代位权(立案)';
+	case 603: return '代位权(文书)';
+	case 701: return '破产重组';
+	case 801: return '失信（列入）';
+	case 802: return '失信（移除）';
+	case 901: return '涉诉(开庭)';
+	case 902: return '涉诉（立案）';
+	case 903: return '涉诉（文书）';
+	case 1001: return '经营异常';
+	case 1002: return '严重违法';
+	case 1003: return '税收违法';
+	case 1004: return '行政处罚';
 	default: return '-';
 	}
 };
 
 const icon = (value) => {
 	switch (value) {
-	case 1: return 'auction-2';
-	case 2: return 'land-transfer';
-	case 3: return 'land-mortgage';
-	case 4: return 'intangible-mining';
-	case 5: return 'intangible-dump';
-	case 6: return 'intangible-trademark';
-	case 7: return 'intangible-build';
-	case 8: return 'chattel-2';
-	case 9: return 'stock-2';
-	case 10: return 'subrogation-2';
-	case 11: return 'subrogation-2';
-	case 12: return 'broken-add';
-	case 13: return 'broken-remove';
-	case 14: return 'lawsuit-trial';
-	case 15: return 'lawsuit-judgment';
-	case 16: return 'abnormal';
-	case 17: return 'tax';
-	case 18: return 'tax';
+	case 101: return 'auction-2';
+	case 201: return 'land-result';
+	case 202: return 'land-transfer';
+	case 203: return 'land-mortgage';
+	case 301: return 'intangible-dump';
+	case 302: return 'intangible-mining';
+	case 303: return 'intangible-trademark';
+	case 304: return 'intangible-build';
+	case 401: return 'chattel-2';
+	case 501: return 'stock-2';
+	case 601: return 'subrogation-court';
+	case 602: return 'subrogation-trial';
+	case 603: return 'subrogation-judgment';
+	case 701: return 'bankruptcy-2';
+	case 801: return 'broken-add';
+	case 802: return 'broken-remove';
+	case 901: return 'lawsuit-court';
+	case 902: return 'lawsuit-trial';
+	case 903: return 'lawsuit-judgment';
+	case 1001: return 'abnormal';
+	case 1002: return 'illegal';
+	case 1003: return 'tax';
+	case 1004: return 'punishment';
 	default: return '-';
 	}
 };
@@ -98,7 +108,7 @@ class DetailItem extends PureComponent {
 
 	handleClick = (item) => {
 		const openModalMap = new Map([
-			[1, () => { this.setState(() => ({ assetAuctionModalVisible: true })); }],
+			[101, () => { this.setState(() => ({ assetAuctionModalVisible: true })); }],
 			[2, () => { this.setState(() => ({ landTransferModalVisible: true })); }],
 			[3, () => { this.setState(() => ({ landMortgageModalVisible: true })); }],
 			[4, () => { this.setState(() => ({ miningModalVisible: true })); }],
@@ -151,7 +161,6 @@ class DetailItem extends PureComponent {
 
 		// const { data } = this.props;
 		const isData = Array.isArray(data) && data.length > 0;
-		// console.log(isData, data, 333);
 		return (
 			<div className="detail-container">
 				{/* <Button type="primary" onClick={this.startScrollUp}>向上滚动</Button> */}
@@ -179,8 +188,8 @@ class DetailItem extends PureComponent {
 										{item.content}
 									</div>
 									<div className={`detail-container-content-right-item-tag ${(item.type === 12 || item.type === 13) ? 'red' : 'yellow'}`}>
-										<Icon type={`icon-${icon(item.type)}`} className="detail-container-content-right-item-tag-icon" />
-										{tag(item.type)}
+										<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-item-tag-icon" />
+										{tag(item.detailType)}
 									</div>
 								</div>
 							</div>

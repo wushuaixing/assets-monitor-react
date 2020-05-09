@@ -9,6 +9,7 @@ import {
 	Bankruptcy, Broken, Lawsuit, Operation,
 } from '../components';
 import './style.scss';
+import getCount from '@/views/portrait-inquiry/common/getCount';
 
 export default class Risk extends PureComponent {
 	constructor(props) {
@@ -16,44 +17,54 @@ export default class Risk extends PureComponent {
 		document.title = '资产挖掘';
 		// console.log(props.rule, 123);
 		const isRule = props && props.rule && props.rule.children;
+		const children = isRule && props.rule.children;
+		const {
+			jyfxgsbg, jyfxhbcf, jyfxjyyc, jyfxsswf, jyfxxzcf, jyfxyzwf,
+		} = children;
+		const operatingRisk = {
+			jyfxgsbg, jyfxhbcf, jyfxjyyc, jyfxsswf, jyfxxzcf, jyfxyzwf,
+		};
+		// console.log(Object.values(operatingRisk).filter((i => i !== undefined)), 3331);
 		this.state = {
 			config: [
 				{
 					id: 1,
 					title: '破产重组',
-					rule: isRule && props.rule.children.fxjkqypccz,
+					rule: children.fxjkqypccz,
 					url: '/risk/bankruptcy',
 					Component: Bankruptcy,
-					API: bankruptcyCard(),
+					API: bankruptcyCard,
 				},
 				{
 					id: 2,
 					title: '失信记录',
-					rule: isRule && props.rule.children.jkxxsxjl,
+					rule: children.jkxxsxjl,
 					url: '/risk/broken',
 					Component: Broken,
-					API: dishonestCard(),
+					API: dishonestCard,
 				},
 				{
 					id: 3,
 					title: '涉诉信息',
-					rule: isRule && props.rule.children.fxjkssjk,
+					rule: children.fxjkssjk,
 					url: '/risk',
 					Component: Lawsuit,
-					API: litigationCard(),
+					API: litigationCard,
 				},
 				{
 					id: 4,
 					title: '经营风险',
-					rule: isRule && props.rule.children.fxjkssjk,
+					rule: Object.values(operatingRisk).filter((i => i !== undefined)).length > 0 && operatingRisk,
 					url: '/risk/operation',
 					Component: Operation,
-					API: riskCard(),
+					API: riskCard,
 				},
 			].filter(i => this.isObject(i.rule)),
 			loading: false,
 			bankruptcyPropsData: {},
 			dishonestPropsData: {},
+			litigationPropsData: {},
+			riskPropsData: {},
 		};
 	}
 
@@ -63,7 +74,7 @@ export default class Risk extends PureComponent {
 	}
 
 	getData = () => {
-		const excavate = new Map([
+		const risk = new Map([
 			['bankruptcy', this.getBankruptcyData],
 			['dishonest', this.getDishonestData],
 			['litigation', this.getLitigationData],
@@ -74,7 +85,7 @@ export default class Risk extends PureComponent {
 		const promiseArray = [];
 		const { config } = this.state;
 		config.forEach((item) => {
-			promiseArray.push(item.API);
+			promiseArray.push(item.API());
 		});
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
@@ -86,7 +97,7 @@ export default class Risk extends PureComponent {
 			this.setState({ loading: false });
 			if (isArray) {
 				res.forEach((item) => {
-					const excavateMap = excavate.get(item.name) || excavate.get('default');
+					const excavateMap = risk.get(item.name) || risk.get('default');
 					excavateMap.call(this, item);
 				});
 			}
@@ -130,18 +141,65 @@ export default class Risk extends PureComponent {
 		}
 	};
 
+	// 涉诉信息
+	getLitigationData = (res) => {
+		if (res && res.code === 200) {
+			const {
+				courtNotice, judgment, trial, gmtUpdate, obligorTotal,
+			} = res.data;
+			const dataSourceNum = courtNotice + judgment + trial;
+			const litigationPropsData = {
+				totalCount: dataSourceNum,
+				gmtUpdate,
+				obligorTotal,
+			};
+			this.setState(() => ({
+				litigationPropsData,
+			}));
+		}
+	};
+
+	// 经营风险
+	getRiskData = (res) => {
+		if (res && res.code === 200) {
+			const {
+				abnormal, change, epb, gmtUpdate, illegal, punishment, tax,
+			} = res.data;
+
+			const dataSource = [];
+			dataSource.push({ count: abnormal, typeName: '经营异常' });
+			dataSource.push({ count: change, typeName: '工商变更' });
+			dataSource.push({ count: tax, typeName: '税收违法' });
+			dataSource.push({ count: illegal, typeName: '严重违法' });
+			dataSource.push({ count: punishment, typeName: '行政处罚' });
+			dataSource.push({ count: epb, typeName: '环保处罚' });
+			const dataSourceNum = getCount(dataSource);
+
+			const riskPropsData = {
+				dataSource,
+				totalCount: dataSourceNum,
+				gmtUpdate,
+			};
+			this.setState(() => ({
+				riskPropsData,
+			}));
+		}
+	};
+
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
 	handleNavigate = (url) => { navigate(url); };
 
 	render() {
 		const {
-			config, loading, bankruptcyPropsData, dishonestPropsData,
+			config, loading, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData,
 		} = this.state;
-		const allNumber = bankruptcyPropsData.totalCount && dishonestPropsData.totalCount;
+		const allNumber = bankruptcyPropsData.totalCount && dishonestPropsData.totalCount && riskPropsData.totalCount;
 		const params = {
 			bankruptcyPropsData,
 			dishonestPropsData,
+			litigationPropsData,
+			riskPropsData,
 		};
 		return (
 			<Spin visible={loading} minHeight={540}>
