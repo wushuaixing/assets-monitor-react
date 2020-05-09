@@ -90,7 +90,7 @@ class HomeRouter extends PureComponent {
 								<span className="right-statistics-name">下级机构数</span>
 								<div className="right-statistics-text">
 									<span className="right-statistics-text-num">
-										{orgDetail ? orgDetail.totalCount : '-'}
+										{orgDetail ? orgDetail.totalCount - 1 : '-'}
 									</span>
 								</div>
 							</div>

@@ -7,14 +7,15 @@ const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
 export default class Lawsuit extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			totalCount: 12,
-		};
+		this.state = {};
 	}
 
 	render() {
-		const { url } = this.props;
-		const { totalCount } = this.state;
+		const {
+			url, litigationPropsData, litigationPropsData: {
+				gmtUpdate, obligorTotal, totalCount,
+			},
+		} = this.props;
 		return (
 			<Card
 				Risk
@@ -24,12 +25,15 @@ export default class Lawsuit extends PureComponent {
 				customStyle={hasCountStyle}
 				text="涉诉信息"
 				totalCount={totalCount}
+				updateTime={gmtUpdate}
 			>
-				<div className="risk-lawsuit-card">
-					涉诉风险债务人：
-					<span className="risk-lawsuit-card-num">12</span>
-					名，点击查看涉诉详情
-				</div>
+				{Object.keys(litigationPropsData).length !== 0 && (
+					<div className="risk-lawsuit-card">
+						涉诉风险债务人：
+						<span className="risk-lawsuit-card-num">{obligorTotal || 0}</span>
+						名，点击查看涉诉详情
+					</div>
+				)}
 			</Card>
 		);
 	}

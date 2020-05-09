@@ -25,7 +25,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjzcpm,
 					url: '/monitor?process=1',
 					Component: AssetCard,
-					API: auctionCard(),
+					API: auctionCard,
 				},
 				{
 					id: 2,
@@ -33,7 +33,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjtdsj,
 					url: '/monitor/land',
 					Component: LandCard,
-					API: landCard(),
+					API: landCard,
 				},
 				{
 					id: 3,
@@ -41,15 +41,15 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjwxzc,
 					url: '/monitor/intangible',
 					Component: Intangible,
-					API: intangibleCard(),
+					API: intangibleCard,
 				},
 				{
 					id: 4,
 					title: '代位权',
-					rule: isRule && props.rule.children.zcwjtdsj,
+					rule: isRule && props.rule.children.zcwjdwq,
 					url: '/monitor/subrogation',
 					Component: Subrogation,
-					API: subrogationCard(),
+					API: subrogationCard,
 				},
 				{
 					id: 5,
@@ -57,7 +57,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjzcpm,
 					url: '/risk/operation',
 					Component: Stock,
-					API: stockCard(),
+					API: stockCard,
 				},
 				{
 					id: 6,
@@ -65,7 +65,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjdcdy,
 					url: '/monitor/mortgage',
 					Component: Chattel,
-					API: mortgageCard(),
+					API: mortgageCard,
 				},
 				{
 					id: 7,
@@ -73,7 +73,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjjrzj,
 					url: '/monitor/financial',
 					Component: Finance,
-					API: financeCard(),
+					API: financeCard,
 				},
 				{
 					id: 8,
@@ -81,7 +81,7 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjzbzb,
 					url: '/monitor/tender',
 					Component: Bidding,
-					API: biddingCard(),
+					API: biddingCard,
 				},
 			].filter(i => this.isObject(i.rule)),
 			loading: false,
@@ -93,6 +93,14 @@ export default class Excavate extends PureComponent {
 			mortgagePropsData: {},
 			financePropsData: {},
 			biddingPropsData: {},
+			auctionCount: undefined,
+			landCount: undefined,
+			intangibleCount: undefined,
+			subrogationCount: undefined,
+			stockCount: undefined,
+			mortgageCount: undefined,
+			financeCount: undefined,
+			biddingCount: undefined,
 		};
 	}
 
@@ -117,7 +125,7 @@ export default class Excavate extends PureComponent {
 		const promiseArray = [];
 		const { config } = this.state;
 		config.forEach((item) => {
-			promiseArray.push(item.API);
+			promiseArray.push(item.API());
 		});
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
@@ -158,6 +166,7 @@ export default class Excavate extends PureComponent {
 			};
 			this.setState(() => ({
 				auctionPropsData,
+				auctionCount: dataSourceNum,
 			}));
 		}
 	};
@@ -179,6 +188,7 @@ export default class Excavate extends PureComponent {
 			};
 			this.setState(() => ({
 				landPropsData,
+				landCount: dataSourceNum,
 			}));
 		}
 	};
@@ -199,6 +209,7 @@ export default class Excavate extends PureComponent {
 			};
 			this.setState(() => ({
 				intangiblePropsData,
+				intangibleCount: dataSourceNum,
 			}));
 		}
 	};
@@ -220,6 +231,7 @@ export default class Excavate extends PureComponent {
 			};
 			this.setState(() => ({
 				subrogationPropsData,
+				subrogationCount: dataSourceNum,
 			}));
 		}
 	};
@@ -237,6 +249,7 @@ export default class Excavate extends PureComponent {
 			};
 			this.setState(() => ({
 				stockPropsData,
+				stockCount: totalCount,
 			}));
 		}
 	};
@@ -258,6 +271,7 @@ export default class Excavate extends PureComponent {
 			};
 			this.setState(() => ({
 				mortgagePropsData,
+				mortgageCount: totalCount,
 			}));
 		}
 	};
@@ -278,6 +292,7 @@ export default class Excavate extends PureComponent {
 			};
 			this.setState(() => ({
 				financePropsData,
+				financeCount: totalCount,
 			}));
 		}
 	};
@@ -293,6 +308,7 @@ export default class Excavate extends PureComponent {
 			};
 			this.setState(() => ({
 				biddingPropsData,
+				biddingCount: bidding,
 			}));
 		}
 	};
@@ -304,10 +320,10 @@ export default class Excavate extends PureComponent {
 	render() {
 		const {
 			config, loading, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData,
+			auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount,
 		} = this.state;
 
-		const allNumber = auctionPropsData.totalCount && landPropsData.totalCount && intangiblePropsData.totalCount
-			&& subrogationPropsData.totalCount && stockPropsData.totalCount && mortgagePropsData.totalCount && financePropsData.totalCount && biddingPropsData.totalCount;
+		const allNumber = auctionCount + landCount + intangibleCount + subrogationCount + stockCount + mortgageCount + financeCount + biddingCount;
 		// 权限过滤
 		// const ruleResultArr = config.filter(i => this.isObject(i.rule));
 		const params = {
@@ -320,17 +336,17 @@ export default class Excavate extends PureComponent {
 			financePropsData,
 			biddingPropsData,
 		};
-
+		// console.log(allNumber, allNumber === 0, 123);
 		return (
 			<Spin visible={loading} minHeight={540}>
 				<div className="monitor-excavate-container">
-					{allNumber && allNumber === 0 &&	(
-					<div className="monitor-excavate-container-nodata">
+					{allNumber === 0 ?	(
+						<div className="monitor-excavate-container-nodata">
 						暂未匹配到资产线索信息，建议
-						<span className="monitor-excavate-container-findMore" onClick={() => this.handleNavigate('/business')}>去导入更多债务人</span>
+							<span className="monitor-excavate-container-findMore" onClick={() => this.handleNavigate('/business')}>去导入更多债务人</span>
 						，以匹配更多价值信息
-					</div>
-					)}
+						</div>
+					) : null}
 					{
 						loading ? null : config.map(Item => <Item.Component {...params} title={Item.title} url={Item.url} />)
 					}

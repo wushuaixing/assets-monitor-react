@@ -8,22 +8,17 @@ const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
 export default class Operation extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			operationArray: [
-				{ name: '经营异常', num: 12 },
-				{ name: '工商变更', num: 12 },
-				{ name: '税收违法', num: 12 },
-				{ name: '严重违法', num: 12 },
-				{ name: '行政处罚', num: 12 },
-				{ name: '环保处罚', num: 12 },
-			],
-			totalCount: 72,
-		};
+		this.state = {};
 	}
 
 	render() {
-		const { url } = this.props;
-		const { operationArray, totalCount } = this.state;
+		const {
+			url, riskPropsData, riskPropsData: {
+				dataSource, totalCount, gmtUpdate,
+			},
+		} = this.props;
+		// console.log(dataSource);
+		const newData = dataSource && dataSource.length > 0 && dataSource.filter((i => i.count !== null));
 		return (
 			<Card
 				Risk
@@ -33,37 +28,39 @@ export default class Operation extends PureComponent {
 				customStyle={hasCountStyle}
 				text="经营风险"
 				totalCount={totalCount}
+				updateTime={gmtUpdate}
 			>
-				<Row gutter={24} className="risk-operation-container">
-					{
-						operationArray.map((item, index) => (
-							<div>
-								{
-									index > 2 ? (
-										<Col className="gutter-row" span={12}>
-											<div className="risk-operation-container-card">
-												{item.name}
-												：
-												<span className="risk-operation-container-card-num">{item.num}</span>
-												条
-											</div>
-										</Col>
-									) : (
-										<Col className="gutter-row" span={12}>
-											<div className="risk-operation-container-card">
-												{item.name}
-												：
-												<span className="risk-operation-container-card-num">{item.num}</span>
-												条
-											</div>
-										</Col>
-									)
-								}
-							</div>
-
-						))
-					}
-				</Row>
+				{Object.keys(riskPropsData).length !== 0 && (
+					<Row gutter={24} className="risk-operation-container">
+						{
+							newData.map((item, index) => (
+								<div>
+									{
+										index > 2 ? (
+											<Col className="gutter-row" span={12}>
+												<div className="risk-operation-container-card">
+													{item.typeName}
+													：
+													<span className="risk-operation-container-card-num">{item.count}</span>
+													条
+												</div>
+											</Col>
+										) : (
+											<Col className="gutter-row" span={12}>
+												<div className="risk-operation-container-card">
+													{item.typeName}
+													：
+													<span className="risk-operation-container-card-num">{item.count}</span>
+													条
+												</div>
+											</Col>
+										)
+									}
+								</div>
+							))
+						}
+					</Row>
+				)}
 			</Card>
 		);
 	}

@@ -45,7 +45,7 @@ export default class Asset extends PureComponent {
 										<div>相关资产价值约</div>
 										<div>
 											<span style={{ color: '#FB5A5C', fontSize: '16px', marginRight: '5px' }}>
-												{assetTotal ? toThousands(assetTotal) : '-'}
+												{assetTotal ? toThousands(assetTotal) : '0'}
 											</span>
 										元
 										</div>

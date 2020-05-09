@@ -20,11 +20,11 @@ class HomeQuickStart extends React.Component {
 						快速开始
 				</div>
 				<div className="quick-start-container-content">
-					<div className="quick-start-container-content-btn" onClick={() => this.handleNavigate('/info/search/portrait')}>
+					<div className="quick-start-container-content-btn" onClick={() => this.handleNavigate('/business')}>
 						<Icon type="icon-append" className="quick-start-container-content-btn-icon" />
 						<span className="quick-start-container-content-btn-name">添加/管理监控债务人名单</span>
 					</div>
-					<div className="quick-start-container-content-btn" onClick={() => this.handleNavigate('/business')}>
+					<div className="quick-start-container-content-btn" onClick={() => this.handleNavigate('/info/search/portrait')}>
 						<Icon type="icon-query" className="quick-start-container-content-btn-icon" />
 						<span className="quick-start-container-content-btn-name">未监控债务人临时查询</span>
 					</div>

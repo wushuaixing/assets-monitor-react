@@ -14,12 +14,12 @@ const compare = property => (a, b) => {
 let newRemindArray = [];
 const assetMap = new Map([
 	['资产拍卖', ['资产拍卖', 1]],
-	['代位权', ['代位权', 2]],
-	['土地信息', ['土地信息', 3]],
-	['股权质押', ['股权质押', 4]],
-	['动产抵押', ['动产抵押', 5]],
-	['招投标', ['招投标', 6]],
-	['无形资产', ['无形资产', 7]],
+	['土地信息', ['土地信息', 2]],
+	['无形资产', ['无形资产', 3]],
+	['动产抵押', ['动产抵押', 4]],
+	['股权质押', ['股权质押', 5]],
+	['代位权', ['代位权', 6]],
+	['招投标', ['招投标', 7]],
 	['default', ['资产拍卖', 1]],
 ]);
 
@@ -80,49 +80,73 @@ class dynamicUpdate extends PureComponent {
 			],
 			remindArray: [
 				{
-					name: '1东阳市罗山矿业有限公司', time: '1', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 1, timeStamp: 1,
+					name: '资产拍卖', time: '1', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 1, detailType: 101, timeStamp: 1,
 				},
 				{
-					name: '2东阳市罗山矿业有限公司', time: '2', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 2, timeStamp: 2,
+					name: '土地出让结果', time: '2', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 2, detailType: 201, timeStamp: 2,
 				},
 				{
-					name: '3东阳市罗山矿业有限公司', time: '3', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 3, timeStamp: 3,
+					name: '土地转让', time: '3', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 2, detailType: 202, timeStamp: 3,
 				},
 				{
-					name: '4东阳市罗山矿业有限公司', time: '4', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 4, timeStamp: 4,
+					name: '土地抵押', time: '4', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 2, detailType: 203, timeStamp: 4,
 				},
 				{
-					name: '5东阳市罗山矿业有限公司', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 5, timeStamp: 5,
+					name: '排污权', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 3, detailType: 301, timeStamp: 5,
 				},
 				{
-					name: '6东阳市罗山矿业有限公司', time: '6', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 6, timeStamp: 6,
+					name: '矿业权', time: '6', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 3, detailType: 302, timeStamp: 6,
 				},
 				{
-					name: '7东阳市罗山矿业有限公司', time: '7', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 7, timeStamp: 7,
+					name: '商标专利', time: '7', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 3, detailType: 303, timeStamp: 7,
 				},
 				{
-					name: '8东阳市罗山矿业有限公司', time: '8', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 8, timeStamp: 8,
+					name: '建筑建造资质', time: '8', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 3, detailType: 304, timeStamp: 8,
 				},
 				{
-					name: '9东阳市罗山矿业有限公司', time: '9', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 9, timeStamp: 9,
+					name: '动产抵押', time: '9', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 4, detailType: 401, timeStamp: 9,
 				},
 				{
-					name: '10东阳市罗山矿业有限公司', time: '10', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 10, timeStamp: 10,
+					name: '股权质押', time: '10', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 5, detailType: 501, timeStamp: 10,
 				},
 				{
-					name: '11东阳市罗山矿业有限公司', time: '11', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 11, timeStamp: 11,
+					name: '代位权开庭', time: '11', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 6, detailType: 601, timeStamp: 11,
 				},
 				{
-					name: '12东阳市罗山矿业有限公司', time: '12', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 12, timeStamp: 12,
+					name: '代位权立案', time: '12', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 6, detailType: 602, timeStamp: 12,
 				},
 				{
-					name: '13东阳市罗山矿业有限公司', time: '13', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 13, timeStamp: 13,
+					name: '代位权裁判文书', time: '13', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 6, detailType: 603, timeStamp: 13,
 				},
 				{
-					name: '14东阳市罗山矿业有限公司', time: '14', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 14, timeStamp: 14,
+					name: '破产重组', time: '14', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 7, detailType: 701, timeStamp: 14,
 				},
 				{
-					name: '15东阳市罗山矿业有限公司', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 15, timeStamp: 15,
+					name: '失信列入', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 8, detailType: 801, timeStamp: 15,
+				},
+				{
+					name: '失信移除', time: '11', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 8, detailType: 802, timeStamp: 11,
+				},
+				{
+					name: '涉诉开庭', time: '12', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 9, detailType: 901, timeStamp: 12,
+				},
+				{
+					name: '涉诉立案', time: '13', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 9, detailType: 902, timeStamp: 13,
+				},
+				{
+					name: '涉诉裁判文书', time: '14', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 9, detailType: 903, timeStamp: 14,
+				},
+				{
+					name: '经营异常', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 10, detailType: 1001, timeStamp: 15,
+				},
+				{
+					name: '严重违法', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 10, detailType: 1002, timeStamp: 15,
+				},
+				{
+					name: '税收违法', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 10, detailType: 1003, timeStamp: 15,
+				},
+				{
+					name: '行政处罚', time: '5', content: '2020年1月2日取得“仙居县湫山乡深里坑萤石矿”采矿权，建议及时核实并查封', type: 10, detailType: 1004, timeStamp: 15,
 				},
 			],
 			RingEchartsObj: {},
