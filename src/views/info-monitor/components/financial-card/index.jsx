@@ -37,7 +37,8 @@ export default class Finance extends PureComponent {
 						<div className={`risk-finance-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 							公示项目：
 							<span className={`risk-finance-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{finance || 0}</span>
-							条相关匹配信息，请核实
+							条相关匹配信息
+							{totalCount ? '，请核实' : ''}
 						</div>
 					</div>
 				)}

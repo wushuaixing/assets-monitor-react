@@ -85,6 +85,7 @@ export default class Excavate extends PureComponent {
 				},
 			].filter(i => this.isObject(i.rule)),
 			loading: false,
+			finish: false,
 			auctionPropsData: {},
 			landPropsData: {},
 			intangiblePropsData: {},
@@ -134,7 +135,7 @@ export default class Excavate extends PureComponent {
 		this.setState({ loading: true });
 		handlePromise.then((res) => {
 			const isArray = Array.isArray(res) && res.length > 0;
-			this.setState({ loading: false });
+			this.setState({ loading: false, finish: true });
 			if (isArray) {
 				res.forEach((item) => {
 					const excavateMap = excavate.get(item.name) || excavate.get('default');
@@ -175,9 +176,9 @@ export default class Excavate extends PureComponent {
 	getLandData = (res) => {
 		if (res && res.code === 200) {
 			const {
-				gmtUpdate, mortgagee, mortgageeAmount, owner, ownerAmount,
+				gmtUpdate, mortgagee, mortgageeAmount, owner, ownerAmount, originUser,
 			} = res.data;
-			const dataSourceNum = Number(mortgagee || 0) + Number(owner || 0);
+			const dataSourceNum = Number(mortgagee || 0) + Number(owner || 0) + Number(originUser || 0);
 			const landPropsData = {
 				gmtUpdate,
 				mortgagee, // 抵押权人
@@ -329,7 +330,7 @@ export default class Excavate extends PureComponent {
 
 	render() {
 		const {
-			config, loading, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData,
+			config, loading, finish, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData,
 			auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount,
 		} = this.state;
 
@@ -357,7 +358,7 @@ export default class Excavate extends PureComponent {
 						</div>
 					) : null}
 					{
-						loading ? null : config.map(Item => <Item.Component {...params} title={Item.title} url={Item.url} />)
+						!finish ? null : config.map(Item => <Item.Component {...params} title={Item.title} url={Item.url} />)
 					}
 				</div>
 			</Spin>

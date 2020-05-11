@@ -72,7 +72,8 @@ export default class Lawsuit extends PureComponent {
 					<div className="risk-lawsuit-card">
 						涉诉风险债务人：
 						<span className={`risk-lawsuit-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{obligorTotal || 0}</span>
-						名，点击查看涉诉详情
+						名
+						{totalCount ? '，点击查看涉诉详情' : ''}
 					</div>
 				)}
 			</Card>

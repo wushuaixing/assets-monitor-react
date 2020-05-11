@@ -61,6 +61,7 @@ export default class Risk extends PureComponent {
 				},
 			].filter(i => this.isObject(i.rule)),
 			loading: false,
+			finish: false,
 			bankruptcyPropsData: {},
 			dishonestPropsData: {},
 			litigationPropsData: {},
@@ -98,7 +99,7 @@ export default class Risk extends PureComponent {
 		this.setState({ loading: true });
 		handlePromise.then((res) => {
 			const isArray = Array.isArray(res) && res.length > 0;
-			this.setState({ loading: false });
+			this.setState({ loading: false, finish: true });
 			if (isArray) {
 				res.forEach((item) => {
 					const excavateMap = risk.get(item.name) || risk.get('default');
@@ -210,7 +211,7 @@ export default class Risk extends PureComponent {
 
 	render() {
 		const {
-			config, loading, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData, bankruptcyCount, dishonestCount, litigationCount, riskCount,
+			config, loading, finish, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData, bankruptcyCount, dishonestCount, litigationCount, riskCount,
 		} = this.state;
 		const allNumber = this.getNumber([bankruptcyCount, dishonestCount, litigationCount, riskCount]);
 		const params = {
@@ -229,9 +230,9 @@ export default class Risk extends PureComponent {
 							，以匹配更多价值信息
 						</div>
 					)}
-					{
-						loading ? null : config.map(Item => <Item.Component {...params} title={Item.title} url={Item.url} rule={Item.rule} />)
-					}
+					 {
+						 !finish ? null : config.map(Item => <Item.Component {...params} title={Item.title} url={Item.url} rule={Item.rule} />)
+					 }
 				</div>
 			</Spin>
 		);
