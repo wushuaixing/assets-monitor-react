@@ -1,15 +1,37 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
+import { mortgageCount } from 'api/monitor-info/excavate/count';
 import { toThousands } from '@/utils/changeTime';
 import Card from '../card';
 import './style.scss';
+
 
 const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
 export default class Chattel extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			mortgageNum: 0,
+		};
 	}
+
+	componentDidMount() {
+		this.toInfoCount();
+	}
+
+	// 获取统计信息
+	toInfoCount=() => {
+		const params = {
+			isRead: 0,
+		};
+		mortgageCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					mortgageNum: res.data,
+				});
+			}
+		});
+	};
 
 	render() {
 		const {
@@ -17,6 +39,7 @@ export default class Chattel extends PureComponent {
 				owner, people, peopleAmount, gmtUpdate, totalCount,
 			},
 		} = this.props;
+		const { mortgageNum } = this.state;
 		return (
 			<Card
 				IconType="chattel"
@@ -26,6 +49,8 @@ export default class Chattel extends PureComponent {
 				text="动产抵押"
 				totalCount={totalCount}
 				updateTime={gmtUpdate}
+				unReadText="条未读信息"
+				unReadNum={mortgageNum}
 			>
 				{Object.keys(mortgagePropsData).length !== 0 && (
 					<div className="risk-chattel-container">

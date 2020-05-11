@@ -65,6 +65,10 @@ export default class Risk extends PureComponent {
 			dishonestPropsData: {},
 			litigationPropsData: {},
 			riskPropsData: {},
+			bankruptcyCount: undefined,
+			dishonestCount: undefined,
+			litigationCount: undefined,
+			riskCount: undefined,
 		};
 	}
 
@@ -119,6 +123,7 @@ export default class Risk extends PureComponent {
 			};
 			this.setState(() => ({
 				bankruptcyPropsData,
+				bankruptcyCount: bankruptcy,
 			}));
 		}
 	};
@@ -137,6 +142,7 @@ export default class Risk extends PureComponent {
 			};
 			this.setState(() => ({
 				dishonestPropsData,
+				dishonestCount: total,
 			}));
 		}
 	};
@@ -155,6 +161,7 @@ export default class Risk extends PureComponent {
 			};
 			this.setState(() => ({
 				litigationPropsData,
+				litigationCount: dataSourceNum,
 			}));
 		}
 	};
@@ -182,6 +189,7 @@ export default class Risk extends PureComponent {
 			};
 			this.setState(() => ({
 				riskPropsData,
+				riskCount: dataSourceNum,
 			}));
 		}
 	};
@@ -190,11 +198,21 @@ export default class Risk extends PureComponent {
 
 	handleNavigate = (url) => { navigate(url); };
 
+	getNumber = (arr) => {
+		let sum = 0;
+		const newArr = arr && Array.isArray(arr) && arr.length > 0;
+		const arrTotalArr = newArr && arr.filter(item => item !== undefined);
+		arrTotalArr.forEach((ele) => {
+			sum += ele;
+		});
+		return sum;
+	};
+
 	render() {
 		const {
-			config, loading, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData,
+			config, loading, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData, bankruptcyCount, dishonestCount, litigationCount, riskCount,
 		} = this.state;
-		const allNumber = bankruptcyPropsData.totalCount && dishonestPropsData.totalCount && riskPropsData.totalCount;
+		const allNumber = this.getNumber([bankruptcyCount, dishonestCount, litigationCount, riskCount]);
 		const params = {
 			bankruptcyPropsData,
 			dishonestPropsData,
@@ -204,7 +222,7 @@ export default class Risk extends PureComponent {
 		return (
 			<Spin visible={loading} minHeight={540}>
 				<div className="monitor-risk-container">
-					{allNumber && allNumber === 0 &&	(
+					{!loading && allNumber === 0 &&	(
 						<div className="monitor-risk-container-nodata">
 						暂未匹配到风险参考信息，建议
 							<span className="monitor-risk-container-findMore" onClick={() => this.handleNavigate('/business')}>去导入更多债务人</span>
@@ -212,7 +230,7 @@ export default class Risk extends PureComponent {
 						</div>
 					)}
 					{
-						loading ? null : config.map(Item => <Item.Component {...params} title={Item.title} url={Item.url} />)
+						loading ? null : config.map(Item => <Item.Component {...params} title={Item.title} url={Item.url} rule={Item.rule} />)
 					}
 				</div>
 			</Spin>

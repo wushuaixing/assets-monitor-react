@@ -91,7 +91,7 @@ const columns = [
 			const isChild = !(row.children && row.children.length > 0);
 			return (
 				<span className={isChild ? 'yc-table-body' : null}>
-					<Ellipsis content={text} url={isChild ? '/#/monitor?process=1' : ''} width={50} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
+					<Ellipsis content={text} url={isChild ? '/#/monitor?process=-1' : ''} width={50} tooltip onClick={e => handleSwitchOrg(e, row.id)} />
 				</span>
 			);
 		},
