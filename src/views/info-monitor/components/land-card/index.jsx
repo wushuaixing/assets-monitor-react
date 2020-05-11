@@ -67,7 +67,7 @@ export default class Land extends PureComponent {
 				unReadNum={unReadCount}
 			>
 				{Object.keys(landPropsData).length !== 0 && (
-					<div className="risk-land-container">
+					<div className="risk-land-container" style={ownerAmount > 10000000000 || mortgageeAmount > 10000000000 ? { position: 'relative', left: '-24px' } : {}}>
 						<div className="risk-land-container-card" style={{ paddingBottom: '10px', color: '#7D8699' }}>
 							<span style={{ color: '#FB5A5C' }}>*</span>
 							原土地使用权人不计入角色统计

@@ -53,7 +53,8 @@ export default class Bidding extends PureComponent {
 				{Object.keys(biddingPropsData).length !== 0 && (
 				<div className={`risk-bankruptcy-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 					<span className={`risk-bankruptcy-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{bidding || 0}</span>
-					条相关匹配信息，请核实
+					条相关匹配信息
+					{totalCount ? '，请核实' : ''}
 				</div>
 				)}
 			</Card>

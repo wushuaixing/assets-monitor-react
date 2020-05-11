@@ -2,21 +2,21 @@
   position: relative;
   &-line {
     position: absolute;
-    height: 2px;
+    height: 1px;
     bottom: 0;
     width: 100%;
     background-color: $text-link;
   }
   &-active {
     position: relative;
-    border: 2px solid $text-link;
+    border: 1px solid $text-link;
     color: $text-link;
-    border-bottom: 2px solid #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
     border-radius: 2px;
     z-index: 1;
   }
   &-unActive {
-    border: 2px solid #FFFFFF;
+    border: 1px solid #FFFFFF;
   }
   &-type {
     display: inline-block;
@@ -43,7 +43,7 @@
 .detail-container {
   padding-top: 7px;
   height: 367px;
-  overflow: hidden;
+  overflow: auto;
   .opacityAnimation{
     animation:opacityAnimation 1s 1;
     -webkit-animation:opacityAnimation 1s 1;
