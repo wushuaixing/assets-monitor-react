@@ -44,11 +44,20 @@
         }
       }
     }
-    &-right {
+    &-monitor-right {
       float: right;
-      margin-right: 10px;
-      color: #7D8699;
+      margin-right: 14px;
+      color: #FB5A5C !important;
       font-size: 12px;
+      background-color: #FFE7E7;
+      height: 22px;
+      line-height: 22px;
+      margin-top: 8px;
+      padding: 0 5px;
+      text-align: center;
+      &-text {
+        display: inline-block;
+      }
     }
     &-icon {
       font-size: 18px;

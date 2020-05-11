@@ -317,13 +317,23 @@ export default class Excavate extends PureComponent {
 
 	handleNavigate = (url) => { navigate(url); };
 
+	getNumber = (arr) => {
+		let sum = 0;
+		const newArr = arr && Array.isArray(arr) && arr.length > 0;
+		const arrTotalArr = newArr && arr.filter(item => item !== undefined);
+		arrTotalArr.forEach((ele) => {
+			sum += ele;
+		});
+		return sum;
+	};
+
 	render() {
 		const {
 			config, loading, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData,
 			auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount,
 		} = this.state;
 
-		const allNumber = auctionCount + landCount + intangibleCount + subrogationCount + stockCount + mortgageCount + financeCount + biddingCount;
+		const allNumber = this.getNumber([auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount]);
 		// 权限过滤
 		// const ruleResultArr = config.filter(i => this.isObject(i.rule));
 		const params = {
@@ -336,11 +346,10 @@ export default class Excavate extends PureComponent {
 			financePropsData,
 			biddingPropsData,
 		};
-		// console.log(allNumber, allNumber === 0, 123);
 		return (
 			<Spin visible={loading} minHeight={540}>
 				<div className="monitor-excavate-container">
-					{allNumber === 0 ?	(
+					{!loading && allNumber === 0 ?	(
 						<div className="monitor-excavate-container-nodata">
 						暂未匹配到资产线索信息，建议
 							<span className="monitor-excavate-container-findMore" onClick={() => this.handleNavigate('/business')}>去导入更多债务人</span>

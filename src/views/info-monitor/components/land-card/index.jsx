@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
+import { landTransferCount, landMortgageCount, landTransactionCount } from 'api/monitor-info/excavate/count';
 import { toThousands } from '@/utils/changeTime';
 import Card from '../card';
 import './style.scss';
@@ -8,8 +9,44 @@ const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
 export default class Land extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			transferNum: 0,
+			mortgageNum: 0,
+			transactionNum: 0,
+		};
 	}
+
+	componentDidMount() {
+		this.toInfoCount();
+	}
+
+	// 获取统计信息
+	toInfoCount=() => {
+		const params = {
+			isRead: 0,
+		};
+		landTransferCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					transferNum: res.data,
+				});
+			}
+		});
+		landMortgageCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					mortgageNum: res.data,
+				});
+			}
+		});
+		landTransactionCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					transactionNum: res.data,
+				});
+			}
+		});
+	};
 
 	render() {
 		const {
@@ -17,7 +54,8 @@ export default class Land extends PureComponent {
 				totalCount, loading, gmtUpdate, mortgagee, mortgageeAmount, owner, ownerAmount,
 			},
 		} = this.props;
-
+		const { transferNum, mortgageNum, transactionNum } = this.state;
+		const unReadCount = transferNum + mortgageNum + transactionNum;
 		return (
 			<Card
 				IconType="land"
@@ -28,6 +66,8 @@ export default class Land extends PureComponent {
 				text="土地信息"
 				totalCount={totalCount}
 				updateTime={gmtUpdate}
+				unReadText="条未读信息"
+				unReadNum={unReadCount}
 			>
 				{Object.keys(landPropsData).length !== 0 && (
 					<div className="risk-land-container">

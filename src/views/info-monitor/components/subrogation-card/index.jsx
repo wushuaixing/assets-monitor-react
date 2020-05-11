@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { subrogationTrialCount, subrogationCourtCount, subrogationJudgmentCount } from 'api/monitor-info/excavate/count';
 import { navigate } from '@reach/router';
 import Card from '../card';
 import './style.scss';
@@ -6,8 +7,44 @@ import './style.scss';
 export default class Subrogation extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			trialNum: 0,
+			courtNum: 0,
+			judgmentNum: 0,
+		};
 	}
+
+	componentDidMount() {
+		this.toInfoCount();
+	}
+
+	// 获取统计信息
+	toInfoCount=() => {
+		const params = {
+			isRead: 0,
+		};
+		subrogationTrialCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					trialNum: res.data,
+				});
+			}
+		});
+		subrogationCourtCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					courtNum: res.data,
+				});
+			}
+		});
+		subrogationJudgmentCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					judgmentNum: res.data,
+				});
+			}
+		});
+	};
 
 	render() {
 		const {
@@ -15,6 +52,8 @@ export default class Subrogation extends PureComponent {
 				restore, execute, otherCase, gmtUpdate, totalCount,
 			},
 		} = this.props;
+		const { trialNum, courtNum, judgmentNum } = this.state;
+		const unReadCount = trialNum + courtNum + judgmentNum;
 		return (
 			<Card
 				IconType="subrogation"
@@ -24,6 +63,8 @@ export default class Subrogation extends PureComponent {
 				text="代位权"
 				totalCount={totalCount}
 				updateTime={gmtUpdate}
+				unReadText="条未读信息"
+				unReadNum={unReadCount}
 			>
 				{Object.keys(subrogationPropsData).length !== 0 && (
 					<div className="risk-subrogation-container">

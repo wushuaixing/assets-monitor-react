@@ -67,7 +67,7 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 
 const ProjectInfo = (text, rowContent) => {
 	const {
-		 obligorId, projectNumber, projectType, gmtPublish, title,
+		 projectNumber, projectType, gmtPublish, title, sourceUrl,
 	} = rowContent;
 	return (
 		<React.Fragment>
@@ -77,7 +77,7 @@ const ProjectInfo = (text, rowContent) => {
 					{title ? (
 						<Ellipsis
 							content={title}
-							url={obligorId ? `#/business/debtor/detail?id=${obligorId}` : ''}
+							url={sourceUrl ? `${sourceUrl}` : ''}
 							tooltip
 							width={150}
 						/>

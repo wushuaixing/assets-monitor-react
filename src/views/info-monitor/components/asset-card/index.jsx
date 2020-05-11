@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Row, Col } from 'antd';
 import { navigate } from '@reach/router';
+import { infoCount } from '@/utils/api/monitor-info/assets';
 import { toThousands } from '@/utils/changeTime';
 import { Icon } from '@/common';
 import Card from '../card';
@@ -10,8 +11,26 @@ const hasCountStyle = { width: '754px', height: '155px', marginBottom: '20px' };
 export default class Asset extends PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			unReadCount: 0,
+		};
 	}
+
+	componentDidMount() {
+		this.toInfoCount();
+	}
+
+	// 获取统计信息
+	toInfoCount=() => {
+		infoCount(this.condition).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					unReadCount: res.data.unfollowedCount,
+				});
+			}
+		});
+	};
+
 
 	render() {
 		const {
@@ -19,9 +38,7 @@ export default class Asset extends PureComponent {
 				totalCount, auctionArray, assetTotal, loading, gmtUpdate,
 			},
 		} = this.props;
-		// const {
-		// 	totalCount, auctionArray, assetTotal, loading, gmtUpdate,
-		// } = this.state;
+		const { unReadCount } = this.state;
 		// console.log(auctionPropsData);
 		return (
 			<React.Fragment>
@@ -35,6 +52,8 @@ export default class Asset extends PureComponent {
 					text="资产拍卖"
 					totalCount={totalCount}
 					updateTime={gmtUpdate}
+					unReadText="条未跟进信息"
+					unReadNum={unReadCount}
 				>
 					{Object.keys(auctionPropsData).length !== 0 && (
 						<div className="risk-auction-container">
@@ -44,10 +63,10 @@ export default class Asset extends PureComponent {
 										<Icon className={`risk-auction-container-price-icon ${!totalCount && 'monitor-card-noCount-color'}`} type="icon-assets" style={{ color: '#FB8E3C' }} />
 										<div>相关资产价值约</div>
 										<div>
-											<span style={{ color: '#FB5A5C', fontSize: '16px', marginRight: '5px' }}>
+											<span style={!totalCount ? { color: '#7d8699' } : { color: '#FB5A5C', fontSize: '16px', marginRight: '5px' }}>
 												{assetTotal ? toThousands(assetTotal) : '0'}
 											</span>
-										元
+											元
 										</div>
 										<span className="risk-auction-container-price-line" />
 									</div>
@@ -62,7 +81,7 @@ export default class Asset extends PureComponent {
 														<div className="risk-auction-container-card">
 															<span className="risk-auction-container-card-name">{item.typeName}</span>
 															<span className="risk-auction-container-card-info">：</span>
-															<span className="risk-auction-container-card-num">{item.count || 0}</span>
+															<span className={`risk-auction-container-card-num  ${!totalCount && 'monitor-card-noCount-color'}`}>{item.count || 0}</span>
 															条
 														</div>
 													</Col>
@@ -72,7 +91,7 @@ export default class Asset extends PureComponent {
 													<div className="risk-auction-container-card">
 														<span className="risk-auction-container-card-name">{item.typeName}</span>
 														<span className="risk-auction-container-card-info">：</span>
-														<span className="risk-auction-container-card-num">{item.count || 0}</span>
+														<span className={`risk-auction-container-card-num  ${!totalCount && 'monitor-card-noCount-color'}`}>{item.count || 0}</span>
 														条
 													</div>
 												</Col>
