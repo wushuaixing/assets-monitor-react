@@ -4,6 +4,7 @@ import { Row, Col } from 'antd';
 import {
 	emissionCount, miningCount, trademarkRightCount, constructCount,
 } from 'api/monitor-info/excavate/count';
+import { promiseAll } from '@/utils/promise';
 import Card from '../card';
 import './style.scss';
 
@@ -12,10 +13,7 @@ export default class Intangible extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			emissionNum: 0,
-			miningNum: 0,
-			trademarkRightNum: 0,
-			constructNum: 0,
+			unReadCount: 0,
 		};
 	}
 
@@ -28,33 +26,26 @@ export default class Intangible extends PureComponent {
 		const params = {
 			isRead: 0,
 		};
-		emissionCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					emissionNum: res.data,
-				});
-			}
-		});
-		miningCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					miningNum: res.data,
-				});
-			}
-		});
-		trademarkRightCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					trademarkRightNum: res.data,
-				});
-			}
-		});
-		constructCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					constructNum: res.data,
-				});
-			}
+		const promiseArray = [];
+		promiseArray.push(emissionCount(params));
+		promiseArray.push(miningCount(params));
+		promiseArray.push(trademarkRightCount(params));
+		promiseArray.push(constructCount(params));
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		// console.log(promiseArray, 123);
+		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+		handlePromise.then((res) => {
+			let total = 0;
+			res.forEach((i) => {
+				total += i.data;
+			});
+			this.setState(() => ({
+				unReadCount: total,
+			}));
+			// console.log('all promise are resolved', values);
+		}).catch((reason) => {
+			console.log('promise reject failed reason', reason);
 		});
 	};
 
@@ -64,10 +55,7 @@ export default class Intangible extends PureComponent {
 				intangibleArray, totalCount, loading, gmtUpdate,
 			},
 		} = this.props;
-		const {
-			emissionNum, miningNum, trademarkRightNum, constructNum,
-		} = this.state;
-		const unReadCount = emissionNum + miningNum + trademarkRightNum + constructNum;
+		const { unReadCount } = this.state;
 		return (
 			<Card
 				IconType="intangible"

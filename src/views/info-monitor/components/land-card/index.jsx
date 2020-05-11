@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { landTransferCount, landMortgageCount, landTransactionCount } from 'api/monitor-info/excavate/count';
 import { toThousands } from '@/utils/changeTime';
+import { promiseAll } from '@/utils/promise';
 import Card from '../card';
 import './style.scss';
 
@@ -10,9 +11,7 @@ export default class Land extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			transferNum: 0,
-			mortgageNum: 0,
-			transactionNum: 0,
+			unReadCount: 0,
 		};
 	}
 
@@ -25,26 +24,25 @@ export default class Land extends PureComponent {
 		const params = {
 			isRead: 0,
 		};
-		landTransferCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					transferNum: res.data,
-				});
-			}
-		});
-		landMortgageCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					mortgageNum: res.data,
-				});
-			}
-		});
-		landTransactionCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					transactionNum: res.data,
-				});
-			}
+		const promiseArray = [];
+		promiseArray.push(landTransferCount(params));
+		promiseArray.push(landMortgageCount(params));
+		promiseArray.push(landTransactionCount(params));
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		// console.log(promiseArray, 123);
+		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+		handlePromise.then((res) => {
+			let total = 0;
+			res.forEach((i) => {
+				total += i.data;
+			});
+			this.setState(() => ({
+				unReadCount: total,
+			}));
+			// console.log('all promise are resolved', values);
+		}).catch((reason) => {
+			console.log('promise reject failed reason', reason);
 		});
 	};
 
@@ -54,8 +52,7 @@ export default class Land extends PureComponent {
 				totalCount, loading, gmtUpdate, mortgagee, mortgageeAmount, owner, ownerAmount,
 			},
 		} = this.props;
-		const { transferNum, mortgageNum, transactionNum } = this.state;
-		const unReadCount = transferNum + mortgageNum + transactionNum;
+		const { unReadCount } = this.state;
 		return (
 			<Card
 				IconType="land"

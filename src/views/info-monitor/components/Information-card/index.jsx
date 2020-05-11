@@ -6,6 +6,7 @@ import {
 } from 'api/monitor-info/excavate/count';
 import Card from '../card';
 import './style.scss';
+import { promiseAll } from '@/utils/promise';
 
 
 const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
@@ -13,12 +14,7 @@ export default class Operation extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			riskChangeNum: 0,
-			riskPunishmentNum: 0,
-			riskEpbNum: 0,
-			riskIllegalNum: 0,
-			riskAbnormalNum: 0,
-			riskTaxNum: 0,
+			unReadCount: 0,
 		};
 	}
 
@@ -33,68 +29,38 @@ export default class Operation extends PureComponent {
 				jyfxgsbg, jyfxhbcf, jyfxjyyc, jyfxsswf, jyfxxzcf, jyfxyzwf,
 			},
 		} = this.props;
-		// console.log(jyfxgsbg, jyfxhbcf, jyfxjyyc, jyfxsswf, jyfxxzcf, jyfxyzwf);
+		const config = [
+			{ rule: jyfxgsbg, API: riskChangeCount },
+			{ rule: jyfxxzcf, API: riskPunishmentCount },
+			{ rule: jyfxhbcf, API: riskEpbCount },
+			{ rule: jyfxyzwf, API: riskIllegalCount },
+			{ rule: jyfxjyyc, API: riskAbnormalCount },
+			{ rule: jyfxsswf, API: riskTaxCount },
+		].filter(i => i.rule !== undefined);
 		const params = {
 			isRead: 0,
 		};
-		if (jyfxgsbg) {
-			riskChangeCount(params).then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						riskChangeNum: res.data,
-					});
-				}
+		const promiseArray = [];
+		config.forEach((item) => {
+			promiseArray.push(item.API(params));
+		});
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		// console.log(promiseArray, 123);
+		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+		handlePromise.then((res) => {
+			// console.log(res);
+			let total = 0;
+			res.forEach((i) => {
+				total += i.data;
 			});
-		}
-		if (jyfxxzcf) {
-			riskPunishmentCount(params).then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						riskPunishmentNum: res.data,
-					});
-				}
-			});
-		}
-
-		if (jyfxhbcf) {
-			riskEpbCount(params).then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						riskEpbNum: res.data,
-					});
-				}
-			});
-		}
-
-		if (jyfxyzwf) {
-			riskIllegalCount(params).then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						riskIllegalNum: res.data,
-					});
-				}
-			});
-		}
-
-		if (jyfxjyyc) {
-			riskAbnormalCount(params).then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						riskAbnormalNum: res.data,
-					});
-				}
-			});
-		}
-
-		if (jyfxsswf) {
-			riskTaxCount(params).then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						riskTaxNum: res.data,
-					});
-				}
-			});
-		}
+			this.setState(() => ({
+				unReadCount: total,
+			}));
+			// console.log('all promise are resolved', values);
+		}).catch((reason) => {
+			console.log('promise reject failed reason', reason);
+		});
 	};
 
 	render() {
@@ -104,10 +70,7 @@ export default class Operation extends PureComponent {
 			},
 		} = this.props;
 
-		const {
-			riskChangeNum, riskPunishmentNum, riskEpbNum, riskIllegalNum, riskAbnormalNum, riskTaxNum,
-		} = this.state;
-		const unReadCount = riskChangeNum + riskPunishmentNum + riskEpbNum + riskIllegalNum + riskAbnormalNum + riskTaxNum;
+		const { unReadCount } = this.state;
 		const newData = dataSource && dataSource.length > 0 && dataSource.filter((i => i.count !== null));
 		if (newData && newData.length === 0) {
 			navigate('/');

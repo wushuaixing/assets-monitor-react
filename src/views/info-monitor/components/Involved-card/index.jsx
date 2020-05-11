@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
-import { lawsuitCourtCount, lawsuitJudgmentCount, lawsuitTrialCount } from 'api/monitor-info/excavate/count';
+import {
+	lawsuitCourtCount, lawsuitJudgmentCount, lawsuitTrialCount,
+} from 'api/monitor-info/excavate/count';
+import { promiseAll } from '@/utils/promise';
 import Card from '../card';
 import './style.scss';
 
@@ -10,9 +13,7 @@ export default class Lawsuit extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			trialNum: 0,
-			courtNum: 0,
-			judgmentNum: 0,
+			unReadCount: 0,
 		};
 	}
 
@@ -25,26 +26,25 @@ export default class Lawsuit extends PureComponent {
 		const params = {
 			isRead: 0,
 		};
-		lawsuitTrialCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					trialNum: res.data,
-				});
-			}
-		});
-		lawsuitCourtCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					courtNum: res.data,
-				});
-			}
-		});
-		lawsuitJudgmentCount(params).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					judgmentNum: res.data,
-				});
-			}
+		const promiseArray = [];
+		promiseArray.push(lawsuitTrialCount(params));
+		promiseArray.push(lawsuitCourtCount(params));
+		promiseArray.push(lawsuitJudgmentCount(params));
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		// console.log(promiseArray, 123);
+		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+		handlePromise.then((res) => {
+			let total = 0;
+			res.forEach((i) => {
+				total += i.data;
+			});
+			this.setState(() => ({
+				unReadCount: total,
+			}));
+			// console.log('all promise are resolved', values);
+		}).catch((reason) => {
+			console.log('promise reject failed reason', reason);
 		});
 	};
 
@@ -54,8 +54,7 @@ export default class Lawsuit extends PureComponent {
 				gmtUpdate, obligorTotal, totalCount,
 			},
 		} = this.props;
-		const { trialNum, courtNum, judgmentNum } = this.state;
-		const unReadCount = trialNum + courtNum + judgmentNum;
+		const { unReadCount } = this.state;
 		return (
 			<Card
 				Risk
