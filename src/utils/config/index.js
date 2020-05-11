@@ -9,6 +9,5 @@ global.Table_CreateTime_Text = _tableCreateTimeText;
 
 global.lTable = f => console.table(Object.keys(global.ruleSource[f].children).map(i => global.ruleSource[f].children[i]));
 global.CURRENT_0RG = '';
-
 global.PORTRAIT_INQUIRY_ALLOW = false;
 global.PORTRAIT_INQUIRY_AFFIRM = true;

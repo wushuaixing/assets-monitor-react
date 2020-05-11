@@ -26,3 +26,9 @@ export const exportFile = id => `/yc/export/file/excel/${id}`;
 
 // 导出Excel文件
 export const normalGet = url => params => serviceFile.get(url, { params }).then(res => res.data);
+
+// 当前机构统计信息
+export const currentOrganization = async (params) => {
+	const response = await service.get('/yc/index/information/overview/currentOrganization', { params });
+	return response.data;
+};

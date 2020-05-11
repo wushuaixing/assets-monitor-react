@@ -44,8 +44,47 @@
       background-color: $background-line;
     }
     .right-organization {
-     line-height: 16px;
+      line-height: 16px;
       display: inline-block;
+      position: relative;
+      .card-content-left-arrow {
+        position: absolute;
+        background: #FFF3F3;
+        border: 1px solid #FF9293;
+        display: inline-block;
+        top: 70px;
+        left: -28px;
+        .card-content-popover-content {
+          height: 20px;
+          line-height: 20px;
+          font-size: 12px;
+          color: #FB5A5C;
+          padding-left: 5px;
+          width: 230px;
+        }
+        &:before, &:after {
+          left: 66px;
+          border: solid transparent;
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          pointer-events: none;
+        }
+        &:after {
+          border-color: rgba(255, 249, 244, 0);
+          border-bottom-color: #FFF3F3;
+          border-width: 6px;
+          margin-top: -31px;
+        }
+        &:before {
+          border-color: rgba(251, 142, 60, 0);
+          border-bottom-color: #FF9293;
+          border-width: 6px;
+          margin-top: -12px;
+        }
+      }
+
       &-icon {
         font-size: 16px;
         margin-right: 6px;
