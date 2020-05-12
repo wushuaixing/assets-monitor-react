@@ -38,6 +38,19 @@
       &-title {
         height: 24px;
         line-height: 20px;
+        position: relative;
+        &-noNum {
+          position: absolute;
+          left: 153px;
+          top: 115px;
+          font-size: 12px;
+          &-findMore {
+            color: $text-link;
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
         &-item {
           background: $text-link;
           display: inline-block;

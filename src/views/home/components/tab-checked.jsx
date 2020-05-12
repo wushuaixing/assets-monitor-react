@@ -5,13 +5,10 @@ class sevenUpdate extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			checkArray: [
-				{ name: '资产挖掘', type: 1, num: 12 },
-				{ name: '风险参考', type: 2, num: 17 },
-			],
 			checkType: 0,
 		};
 	}
+
 
 	handleClick = (index) => {
 		const { getDynamicType } = this.props;
@@ -22,7 +19,12 @@ class sevenUpdate extends PureComponent {
 	};
 
 	render() {
-		const { checkArray, checkType } = this.state;
+		const { checkType } = this.state;
+		const { assetTotalNum, riskTotalNum } = this.props;
+		const checkArray = [
+			{ name: '资产挖掘', type: 1, num: assetTotalNum || 0 },
+			{ name: '风险参考', type: 2, num: riskTotalNum || 0 },
+		];
 		return (
 			<div className="dynamic-checked">
 				{
@@ -33,10 +35,12 @@ class sevenUpdate extends PureComponent {
 							className={`dynamic-checked-type ${checkType === index ? 'dynamic-checked-active' : 'dynamic-checked-unActive'}`}
 						>
 							{item.name}
-							<span className="dynamic-checked-type-num">
-								+
-								{item.num}
-							</span>
+							{item.num !== 0 && (
+								<span className="dynamic-checked-type-num">
+									+
+									{item.num}
+								</span>
+							)}
 							{checkType === index ? <div className="dynamic-checked-active-line" /> : ''}
 						</div>
 					))

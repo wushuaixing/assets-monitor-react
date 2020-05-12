@@ -58,7 +58,7 @@ class HomeHeader extends React.Component {
 							<div className="card-content-left-arrow">
 								<div className="card-content-popover-content" style={{ width: '350px' }}>
 									{percentageBorrowers}
-									%业务只导入了借款人，建议导入保证人，便于形成业务画像
+									%的业务只导入了借款人，建议导入保证人，便于形成业务画像
 								</div>
 							</div>
 						) : null}
