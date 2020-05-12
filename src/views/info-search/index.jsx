@@ -32,9 +32,11 @@ export default class InfoSearch extends React.Component {
 					status: true,
 					Component: Search,
 				},
-			],
+			].filter(i => this.isObject(i.rule)),
 		};
 	}
+
+	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
 	render() {
 		const { config } = this.state;

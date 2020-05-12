@@ -165,6 +165,14 @@
       background-repeat: no-repeat;
       background-size: 100%;
     }
+    &-allImg {
+      background-image: url("../../../assets/img/home/img_blank_noAll.png");
+      margin: 0 auto;
+      width: 300px;
+      height: 180px;
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
     &-text {
       color: $text-content;
       font-size: 12px;

@@ -42,13 +42,15 @@ const source = rule => ([
 		status: !!(rule && rule.jgglzhlb),
 		components: UserList,
 	},
-]);
+].filter(i => i.status));
 class BusinessBase extends React.Component {
 	constructor(props) {
 		super(props);
 		document.title = '机构管理';
 		this.state = {};
 	}
+
+	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
 	render() {
 		const { rule } = this.props;

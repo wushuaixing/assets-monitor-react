@@ -58,6 +58,8 @@ export default class Asset extends PureComponent {
 					{Object.keys(auctionPropsData).length !== 0 && (
 						<div className="risk-auction-container">
 							<Row gutter={20}>
+
+								{assetTotal && (
 								<Col className="gutter-row" span={8}>
 									<div className="risk-auction-container-price">
 										<Icon className={`risk-auction-container-price-icon ${!totalCount && 'monitor-card-noCount-color'}`} type="icon-assets" style={{ color: '#FB8E3C' }} />
@@ -71,9 +73,11 @@ export default class Asset extends PureComponent {
 										<span className="risk-auction-container-price-line" />
 									</div>
 								</Col>
+								)}
+
 								{
 								auctionArray.map((item, index) => (
-									<div>
+									<div style={assetTotal ? {} : { paddingLeft: '34px' }}>
 										{
 											index > 2 ? (
 												 (

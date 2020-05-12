@@ -96,6 +96,7 @@
     }
     &-asset {
       height: 220px;
+
       &-item {
         display: inline-block;
         text-align: center;
@@ -115,6 +116,12 @@
           padding-top: 12px;
         }
       }
+    }
+  }
+  .home-overview-container-default {
+    &:hover {
+      color: $text-title;
+      cursor: default;
     }
   }
 }

@@ -6,7 +6,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 		trigger: 'item',
 		formatter: '{a} <br/>{b}: {c} ({d}%)',
 	},
-	color: customColorArray || ['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#F2657A', '#965EE3', '#4561FF'],
+	color: customColorArray || ['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#FB8E3C', '#F2657A', '#965EE3', '#4561FF'],
 	legend: {
 		itemWidth: 6, // 图例大小  我这里用的是圆
 		itemGap: 16, // 图例之间的间隔

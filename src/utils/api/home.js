@@ -32,3 +32,15 @@ export const currentOrganization = async (params) => {
 	const response = await service.get('/yc/index/information/overview/currentOrganization', { params });
 	return response.data;
 };
+
+// 资产挖掘
+export const homeAssetDig = async (params) => {
+	const response = await service.get('/yc/index/information/overview/assetDig', { params });
+	return Object.assign(response.data, { name: 'homeAsset' });
+};
+
+// 风险参考
+export const riskReference = async (params) => {
+	const response = await service.get('/yc/index/information/overview/riskReference', { params });
+	return Object.assign(response.data, { name: 'homeRisk' });
+};
