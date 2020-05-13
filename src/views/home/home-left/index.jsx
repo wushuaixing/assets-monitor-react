@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
-import { homeAssetDig, riskReference } from 'api/home';
-import DynamicUpdate from './dynamic-update';
-import './style.scss';
+import {
+	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction,
+} from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
+import DynamicUpdate from './dynamic-update';
+import './style.scss';
 
 const customStyle = { padding: '20px' };
 class HomeDynamic extends PureComponent {
@@ -17,7 +19,10 @@ class HomeDynamic extends PureComponent {
 			checkType: 0,
 			assetPropsData: {},
 			riskPropsData: {},
+			AssetImportantReminderList: [],
+			AssetImportantReminderObligorIdList: [],
 			loading: false,
+			finish: false,
 		};
 	}
 
@@ -53,16 +58,17 @@ class HomeDynamic extends PureComponent {
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
 		handlePromise.then((res) => {
 			const isArray = Array.isArray(res) && res.length > 0;
-			this.setState({ loading: false });
+			// this.setState({ loading: false, finish: true });
 			if (isArray) {
 				res.forEach((item) => {
+					const value = { ...item, ...params };
 					const excavateMap = excavate.get(item.name) || excavate.get('default');
-					excavateMap.call(this, item);
+					excavateMap.call(this, value);
 				});
 			}
 			// console.log('all promise are resolved', res);
 		}).catch((reason) => {
-			this.setState({ loading: false });
+			this.setState({ loading: false, finish: false });
 			console.log('promise reject failed reason', reason);
 		});
 	};
@@ -109,11 +115,68 @@ class HomeDynamic extends PureComponent {
 				totalNum,
 				assetDataArray,
 			};
+			this.getAssetImportantReminder(res);
 			this.setState({
 				assetPropsData,
-				loading: false,
+				// loading: false,
 			});
 		}
+	};
+
+	getAssetImportantReminder = (objValue) => {
+		const {
+			auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
+			mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark,
+		} = objValue.data;
+		const params = {
+			num: 10,
+			type: objValue.type,
+		};
+		const auctionParams = {
+			num: 30,
+			type: objValue.type,
+		};
+		const apiArray = [
+			{ count: auction, Api: importantListAuction, auction: true },
+			{ count: landTransfer, Api: importantListLandTransfer },
+			{ count: landMortgage, Api: importantListLandMortgage },
+			{ count: landTransaction, Api: importantListLandTransaction },
+		];
+		const AssetImportantReminderArray = [];
+		apiArray.filter(i => i.count).forEach((item) => {
+			AssetImportantReminderArray.push(item.Api(item.auction ? auctionParams : params));
+		});
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		// console.log(promiseArray, 123);
+		const handlePromise = promiseAll(AssetImportantReminderArray.map(promiseItem => promiseItem.catch(err => err)));
+		if (AssetImportantReminderArray.length === 0) {
+			this.setState({ loading: false, finish: true });
+		}
+		handlePromise.then((res) => {
+			const isArray = Array.isArray(res) && res.length > 0;
+			this.setState({ loading: false, finish: true });
+			const AssetImportantReminderList = [];
+			const AssetImportantReminderObligorIdList = [];
+			if (isArray) {
+				res.forEach((item) => {
+					if (item.code === 200) {
+						const { importantList, obligorId } = item.data;
+						AssetImportantReminderList.push(...importantList);
+						AssetImportantReminderObligorIdList.push(...obligorId);
+					}
+				});
+			}
+			this.setState(() => ({
+				AssetImportantReminderList,
+				AssetImportantReminderObligorIdList,
+			}));
+			// console.log(AssetImportantReminderList, AssetImportantReminderObligorIdList);
+			// console.log('all promise are resolved', res);
+		}).catch((reason) => {
+			this.setState({ loading: false, finish: false });
+			console.log('promise reject failed reason', reason);
+		});
 	};
 
 	getRiskData = (res) => {
@@ -154,19 +217,23 @@ class HomeDynamic extends PureComponent {
 		const params = {
 			type: index + 1,
 		};
-		this.getData(params);
 		this.setState(() => ({
 			checkType: index,
+			AssetImportantReminderList: [],
+			finish: false,
 		}));
+		this.getData(params);
 	};
 
 	render() {
 		const {
-			checkArray, checkType, loading, assetPropsData, riskPropsData,
+			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList,
 		} = this.state;
 		const params = {
 			assetPropsData,
 			riskPropsData,
+			AssetImportantReminderList,
+			AssetImportantReminderObligorIdList,
 		};
 		return (
 			<div className="dynamic-container">
@@ -187,7 +254,7 @@ class HomeDynamic extends PureComponent {
 					}
 				</div>
 				<Spin visible={loading} minHeight={663}>
-					{loading ? null : (
+					{!finish ? null : (
 						<div>
 							{checkType === 0 ? (
 								<div style={customStyle}>

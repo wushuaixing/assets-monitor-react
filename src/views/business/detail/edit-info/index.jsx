@@ -74,9 +74,14 @@ class EditBusiness extends React.Component {
 		const fields = getFieldsValue();
 		const that = this;
 		const value = businessData && businessData.filter(res => res.obligorName === ''); // 过滤相关人内容为空
+		const roleText = businessData && businessData.filter(res => res.roleText === '借款人'); // 输入角色不能为借款人
 		const obligorNameLength = businessData && businessData.filter(res => res.obligorName.length < 5 && res.obligorNumber === ''); // 过滤相关人内容小于5身份证为空
 		if (!fields.obligorName) {
 			message.error('请填写借款人名称');
+			return;
+		}
+		if (roleText.length > 0) {
+			message.error('输入角色不能为借款人！');
 			return;
 		}
 		if (fields.obligorName.length < 5 && !fields.obligorNumber) {
@@ -85,7 +90,7 @@ class EditBusiness extends React.Component {
 		}
 
 		if (value.length > 0) {
-			message.error('业务人相关列表中，相关人名称不能为空!');
+			message.error('业务人相关列表中，相关人名称不能为空！');
 			return;
 		}
 		if (obligorNameLength.length > 0) {

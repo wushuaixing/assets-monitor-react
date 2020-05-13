@@ -40,14 +40,14 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 		textStyle: {
 			rich: {
 				a: {
-					width: 48,
+					width: 40,
 					fontSize: 12,
 					color: '#4E5566',
 					padding: [0, 0, 0, 6],
 					textAlign: 'left',
 				},
 				b: {
-					width: 40,
+					width: 42,
 					fontSize: 12,
 					color: '#20242E',
 					fontWeight: 700,
@@ -55,14 +55,14 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					textAlign: 'left',
 				},
 				c: {
-					width: 48,
+					width: 40,
 					fontSize: 12,
 					color: '#4E5566',
 					padding: [0, 20, 0, 6],
 					textAlign: 'left',
 				},
 				d: {
-					width: 40,
+					width: 42,
 					fontSize: 12,
 					color: '#20242E',
 					fontWeight: 700,

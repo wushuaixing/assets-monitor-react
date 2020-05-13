@@ -304,7 +304,7 @@ export default class Subrogation extends React.Component {
 					!manage ? (
 						<div className="assets-auction-action">
 							{
-								sourceType === 2 || sourceType === 3 ? [
+								sourceType === 1 || sourceType === 2 ? [
 									<Button
 										active={isRead === 'all'}
 										onClick={() => this.handleReadChange('all')}

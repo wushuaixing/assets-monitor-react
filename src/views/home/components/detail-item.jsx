@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 import { navigate } from '@reach/router';
+import { timeStandard } from '@/utils';
 import { Icon } from '@/common';
+import borrow from '@/assets/img/home/icon-borrow.png';
 import EmissionModal from './dynamic-modal/emission-modal';
 import AssetAuctionModal from './dynamic-modal/assets-auction-modal';
 import LandTransferModal from './dynamic-modal/land-transfer-modal';
@@ -94,6 +96,7 @@ class DetailItem extends PureComponent {
 			subrogationCourtModalVisible: false,
 			brokenModalVisible: false,
 			data: props.data || [],
+			dataSource: [],
 		};
 	}
 
@@ -108,24 +111,24 @@ class DetailItem extends PureComponent {
 
 	handleClick = (item) => {
 		const openModalMap = new Map([
-			[101, () => { this.setState(() => ({ assetAuctionModalVisible: true })); }],
-			[2, () => { this.setState(() => ({ landTransferModalVisible: true })); }],
-			[3, () => { this.setState(() => ({ landMortgageModalVisible: true })); }],
-			[4, () => { this.setState(() => ({ miningModalVisible: true })); }],
-			[5, () => { this.setState(() => ({ emissionModalVisible: true })); }],
-			[6, () => { this.setState(() => ({ trademarkModalVisible: true })); }],
-			[7, () => { this.setState(() => ({ constructionModalVisible: true })); }],
-			[8, () => { this.setState(() => ({ chattelMortgageModalVisible: true })); }],
-			[9, () => { this.setState(() => ({ equityPledgeModalVisible: true })); }],
-			[10, () => { this.setState(() => ({ subrogationTrialModalVisible: true })); }],
-			[11, () => { this.setState(() => ({ subrogationCourtModalVisible: true })); }],
-			[12, () => { this.setState(() => ({ subrogationJudgmentModalVisible: true })); }],
+			[101, () => { this.setState(() => ({ assetAuctionModalVisible: true, dataSource: item.detailList })); }],
+			[2, () => { this.setState(() => ({ landTransferModalVisible: true, dataSource: item.detailList })); }],
+			[3, () => { this.setState(() => ({ landMortgageModalVisible: true, dataSource: item.detailList })); }],
+			[4, () => { this.setState(() => ({ miningModalVisible: true, dataSource: item.detailList })); }],
+			[5, () => { this.setState(() => ({ emissionModalVisible: true, dataSource: item.detailList })); }],
+			[6, () => { this.setState(() => ({ trademarkModalVisible: true, dataSource: item.detailList })); }],
+			[7, () => { this.setState(() => ({ constructionModalVisible: true, dataSource: item.detailList })); }],
+			[8, () => { this.setState(() => ({ chattelMortgageModalVisible: true, dataSource: item.detailList })); }],
+			[9, () => { this.setState(() => ({ equityPledgeModalVisible: true, dataSource: item.detailList })); }],
+			[10, () => { this.setState(() => ({ subrogationTrialModalVisible: true, dataSource: item.detailList })); }],
+			[11, () => { this.setState(() => ({ subrogationCourtModalVisible: true, dataSource: item.detailList })); }],
+			[12, () => { this.setState(() => ({ subrogationJudgmentModalVisible: true, dataSource: item.detailList })); }],
 
 			[13, () => { this.setState(() => ({ brokenModalVisible: true })); }],
 			[14, () => { this.setState(() => ({ brokenModalVisible: true })); }],
 			['default', ['资产拍卖', 1]],
 		]);
-		const openModalMapType = openModalMap.get(item.type) || openModalMap.get('default');
+		const openModalMapType = openModalMap.get(item.detailType) || openModalMap.get('default');
 		openModalMapType.call(this);
 	};
 
@@ -155,11 +158,9 @@ class DetailItem extends PureComponent {
 
 	render() {
 		const {
-			data, emissionModalVisible, assetAuctionModalVisible, landTransferModalVisible, landMortgageModalVisible, miningModalVisible, trademarkModalVisible, constructionModalVisible,
-			chattelMortgageModalVisible, equityPledgeModalVisible, subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible,
+			dataSource, data, emissionModalVisible, assetAuctionModalVisible, landTransferModalVisible, landMortgageModalVisible, miningModalVisible, trademarkModalVisible, 		constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible,
 		} = this.state;
 
-		// const { data } = this.props;
 		const isData = Array.isArray(data) && data.length > 0;
 		return (
 			<div className="detail-container">
@@ -169,23 +170,25 @@ class DetailItem extends PureComponent {
 				{
 					isData ? data.map(item => (
 						<div className="detail-container-content" onClick={() => this.handleClick(item)}>
+							{item.isRead === 0 ? <div className="detail-container-content-icon" /> : null}
 							<div className="detail-container-content-left">
 								<div className="detail-container-content-left-icon">
-										罗山矿业
+									{item.obligorName && item.obligorName.slice(0, 4)}
 								</div>
 							</div>
 							<div className="detail-container-content-right">
 								<div className="detail-container-content-right-header">
 									<div className="detail-container-content-right-header-name">
-										{item.name}
+										{item.obligorName || '-'}
+										{item.mainObligor ? <img src={borrow} alt="" /> : null}
 									</div>
 									<div className="detail-container-content-right-header-time">
-										{item.time}
+										{item.timestamp ? timeStandard(item.timestamp) : '-'}
 									</div>
 								</div>
 								<div className="detail-container-content-right-item">
 									<div className="detail-container-content-right-item-detail">
-										{item.content}
+										{item.description || '-'}
 									</div>
 									<div className={`detail-container-content-right-item-tag ${(item.type === 12 || item.type === 13) ? 'red' : 'yellow'}`}>
 										<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-item-tag-icon" />
@@ -209,6 +212,7 @@ class DetailItem extends PureComponent {
 					<AssetAuctionModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						assetAuctionModalVisible={assetAuctionModalVisible}
 					/>
 				)}
@@ -217,6 +221,7 @@ class DetailItem extends PureComponent {
 					<LandTransferModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						landTransferModalVisible={landTransferModalVisible}
 					/>
 				)}
@@ -225,6 +230,7 @@ class DetailItem extends PureComponent {
 					<LandMortgageModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						landMortgageModalVisible={landMortgageModalVisible}
 					/>
 				)}
@@ -233,6 +239,7 @@ class DetailItem extends PureComponent {
 					<MiningModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						miningModalVisible={miningModalVisible}
 					/>
 				)}
@@ -241,6 +248,7 @@ class DetailItem extends PureComponent {
 					<EmissionModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						emissionModalVisible={emissionModalVisible}
 					/>
 				)}
@@ -249,6 +257,7 @@ class DetailItem extends PureComponent {
 					<TrademarkModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						trademarkModalVisible={trademarkModalVisible}
 					/>
 				)}
@@ -257,6 +266,7 @@ class DetailItem extends PureComponent {
 					<Construction
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						constructionModalVisible={constructionModalVisible}
 					/>
 				)}
@@ -266,6 +276,7 @@ class DetailItem extends PureComponent {
 					<ChattelMortgageModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						chattelMortgageModalVisible={chattelMortgageModalVisible}
 					/>
 				)}
@@ -274,6 +285,7 @@ class DetailItem extends PureComponent {
 					<EquityPledgeModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						equityPledgeModalVisible={equityPledgeModalVisible}
 					/>
 				)}
@@ -282,6 +294,7 @@ class DetailItem extends PureComponent {
 					<SubrogationTrialModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						subrogationTrialModalVisible={subrogationTrialModalVisible}
 					/>
 				)}
@@ -290,6 +303,7 @@ class DetailItem extends PureComponent {
 					<SubrogationCourtModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						subrogationCourtModalVisible={subrogationCourtModalVisible}
 					/>
 				)}
@@ -299,6 +313,7 @@ class DetailItem extends PureComponent {
 					<SubrogationJudgmentModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						subrogationJudgmentModalVisible={subrogationJudgmentModalVisible}
 					/>
 				)}
@@ -307,6 +322,7 @@ class DetailItem extends PureComponent {
 					<BrokenModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						brokenModalVisible={brokenModalVisible}
 					/>
 				)}
@@ -315,6 +331,7 @@ class DetailItem extends PureComponent {
 					<SubrogationJudgmentModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						brokenModalVisible={brokenModalVisible}
 					/>
 				)}
@@ -323,6 +340,7 @@ class DetailItem extends PureComponent {
 					<SubrogationJudgmentModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
+						dataSource={dataSource}
 						subrogationJudgmentModal={subrogationJudgmentModalVisible}
 					/>
 				)}

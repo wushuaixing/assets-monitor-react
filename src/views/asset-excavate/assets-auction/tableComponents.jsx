@@ -28,7 +28,13 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 	return (
 		<React.Fragment>
 			{important === 1 && !noMatching ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
-			<span className={!isRead && isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'} style={!isRead && isRead !== undefined ? { position: 'absolute', top: '50%' } : {}} />
+			{isRead === 0
+				? (
+					<span
+						className={!isRead && isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'}
+						style={!isRead && isRead !== undefined ? { position: 'absolute', top: '45%' } : {}}
+					/>
+				) : null}
 			<div className="assets-info-content" style={{ marginLeft: 10 }}>
 				<li>
 					<span className="list list-title align-justify">债 务 人：</span>

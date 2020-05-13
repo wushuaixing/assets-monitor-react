@@ -88,7 +88,7 @@ class HomeRouter extends React.Component {
 			const financeNum = this.getTotal([auctionBidding, finance]);
 			const assetArray = [
 				{
-					name: '资产挖掘', count: auction, color: '#FB8E3C', icon: 'auction',
+					name: '资产拍卖', count: auction, color: '#FB8E3C', icon: 'auction',
 				},
 				{
 					name: '土地信息', count: landNum, color: '#1C80E1', icon: 'land',
