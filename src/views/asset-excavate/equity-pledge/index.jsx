@@ -8,17 +8,13 @@ import {
 } from '@/common';
 import { readStatusAll, readAllStatusResult } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
-import { clearEmpty, changeURLArg } from '@/utils';
+import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
-
-// const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 
 // 获取api具体
 const api = (field, type) => {
-	if (type === 1) return Apis[`${field}Bid`];
-	if (type === 2) return Apis[`${field}Pub`];
 	if (type === 3) return Apis[`${field}Result`];
-	return Apis[`${field}Bid`];
+	return Apis[`${field}Result`];
 };
 
 export default class Subrogation extends React.Component {
@@ -28,7 +24,7 @@ export default class Subrogation extends React.Component {
 		// 获取当前页面路由配置
 		const _rule = () => ([
 			{
-				id: 1,
+				id: 3,
 				name: '股权质押',
 				dot: false,
 				status: true,
@@ -36,7 +32,7 @@ export default class Subrogation extends React.Component {
 		]).filter(item => item.status);
 
 		this.state = {
-			sourceType: 1,
+			sourceType: 3,
 			isRead: 'all',
 			dataSource: '',
 			current: 1,
@@ -165,21 +161,6 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
-	// sourceType变化
-	onSourceType=(val) => {
-		this.setState({
-			sourceType: val,
-			dataSource: '',
-			isRead: 'all',
-			current: 1,
-			total: '',
-		});
-		this.toClearSortStatus();
-		this.onQueryChange({}, val, 'all', 1);
-		this.selectRow = [];
-		window.location.href = changeURLArg(window.location.href, 'project', val);
-	};
-
 	// 排序触发
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
@@ -256,7 +237,7 @@ export default class Subrogation extends React.Component {
 
 	render() {
 		const {
-			sourceType, isRead, dataSource, current, total, tabConfig, manage, loading,
+			sourceType, isRead, dataSource, current, total, manage, loading,
 		} = this.state;
 		const tableProps = {
 			manage,
@@ -271,7 +252,6 @@ export default class Subrogation extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-
 		return (
 			<div className="yc-assets-auction">
 				<QueryResult onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />

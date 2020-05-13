@@ -2,9 +2,7 @@ import React from 'react';
 import { Modal, message } from 'antd';
 import { followSingle, unFollowSingle } from 'api/monitor-info/assets';
 import { processSave } from '@/utils/api/monitor-info/assets-follow';
-import {
-	Spin, Table, Button,
-} from '@/common';
+import { Spin, Table, Button } from '@/common';
 import { Attentions } from '@/common/table';
 import { AssetsInfo, AuctionInfo, MatchingReason } from '@/views/asset-excavate/assets-auction/tableComponents';
 import { floatFormat } from '@/utils/format';
@@ -38,64 +36,8 @@ export default class DetailModal extends React.PureComponent {
 			source: {},
 			historyInfoModalVisible: false,
 			historyInfoModalData: {},
-			dataSource: [
-				{
-					approveTime: 1588233834,
-					auctionId: 3460498,
-					auctionStatusTag: null,
-					commentTotal: 1,
-					consultPrice: 120000,
-					court: '北海市中级人民法院',
-					currentPrice: 96000,
-					dishonestStatus: null,
-					expend: 1100,
-					historyAuction: [
-						{
-							consultPrice: 120000,
-							court: '北海市中级人民法院',
-							currentPrice: 120000,
-							initialPrice: 120000,
-							round: '一拍',
-							start: '2018-03-06 10:00',
-							status: 7,
-							title: '【第一次拍卖】北海市长青路6号“领秀一方”-02069号地下车位（13.94㎡）',
-							url: 'https://sf-item.taobao.com/sf_item/562526905975.htm',
-						},
-						{
-							consultPrice: 120000,
-							court: '北海市中级人民法院',
-							currentPrice: 96000,
-							initialPrice: 96000,
-							round: '变卖',
-							start: '2018-06-19 10:00',
-							status: 7,
-							title: '【变卖】北海市长青路6号“领秀一方”-02069号地下车位（13.94㎡）',
-							url: 'https://sf-item.taobao.com/sf_item/570373413186.htm',
-						},
-					],
-					id: 1010017,
-					important: 1,
-					initialPrice: 96000,
-					isAttention: 1,
-					obligorId: 354373,
-					obligorName: '哈哈',
-					obligorNumber: '340111197901278012',
-					orgName: '',
-					orgNameList: '',
-					process: 6,
-					pushType: 1,
-					// reason: "[{"number":"340111197901278012","hl":["秦睿为拍卖资产的所有人"]}]",
-					recovery: 1200,
-					remark: '11',
-					roundTag: null,
-					start: 1524189600,
-					status: 7,
-					title: '【第二次拍卖】北海市长青路6号“领秀一方”-02069号地下车位（13.94㎡）',
-					updateTime: 1588838014,
-					url: 'https://sf-item.taobao.com/sf_item/566527197927.htm',
-				},
-			], // 列表数据
 			loading: false,
+			dataSource: [],
 			columns: [
 				{
 					title: '登记日期',
@@ -134,7 +76,7 @@ export default class DetailModal extends React.PureComponent {
 										<React.Fragment>
 											<Button className="auction-button" type="ghost-other" title="跟进" {...event} />
 											<br />
-											<Button className="auction-button" title="忽略" onClick={() => handleIgnore(row, index)} />
+											<Button className="auction-button" title="忽略" onClick={() => handleIgnore(row, index, this.onRefresh)} />
 										</React.Fragment>
 									),
 									3: <Button className="auction-button" type="ghost-ing" title="跟进中" {...event} />,
@@ -164,6 +106,14 @@ export default class DetailModal extends React.PureComponent {
 		};
 	}
 
+	componentDidMount() {
+		const { dataSource } = this.props;
+		this.setState(() => ({
+			dataSource,
+		}));
+	}
+
+
 	// 跟进点击效果
 	toFollowClick=(source, index) => {
 		const _source = source;
@@ -184,7 +134,8 @@ export default class DetailModal extends React.PureComponent {
 
 	// 表格发生变化
 	onRefresh=(data, type) => {
-		// console.log('onRefresh:', data, type);
+		console.log('onRefresh:', data, type);
+
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -201,7 +152,7 @@ export default class DetailModal extends React.PureComponent {
 
 	render() {
 		const {
-			columns, dataSource, loading, visible, historyInfoModalVisible, historyInfoModalData, source,
+			dataSource, columns, loading, visible, historyInfoModalVisible, historyInfoModalData, source,
 		} = this.state;
 		const { assetAuctionModalVisible } = this.props;
 		return (
@@ -234,6 +185,7 @@ export default class DetailModal extends React.PureComponent {
 								visible={visible}
 								source={source}
 								onClose={() => this.setState({ visible: false })}
+								onRefresh={this.onRefresh}
 							/>
 						)
 							: null

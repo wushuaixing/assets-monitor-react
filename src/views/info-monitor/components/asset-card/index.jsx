@@ -57,7 +57,7 @@ export default class Asset extends PureComponent {
 				>
 					{Object.keys(auctionPropsData).length !== 0 && (
 						<div className="risk-auction-container">
-							<Row gutter={20}>
+							<Row gutter={20} style={totalCount ? {} : { marginRight: '185px', marginLeft: '0' }}>
 
 								{assetTotal && (
 								<Col className="gutter-row" span={8}>
@@ -81,7 +81,7 @@ export default class Asset extends PureComponent {
 										{
 											index > 2 ? (
 												 (
-													<Col className="gutter-row" span={5}>
+													<Col className="gutter-row" span={totalCount ? 5 : 7}>
 														<div className="risk-auction-container-card">
 															<span className="risk-auction-container-card-name">{item.typeName}</span>
 															<span className="risk-auction-container-card-info">：</span>
@@ -91,7 +91,7 @@ export default class Asset extends PureComponent {
 													</Col>
 												)
 											) : (
-												<Col className="gutter-row" span={5}>
+												<Col className="gutter-row" span={totalCount ? 5 : 7}>
 													<div className="risk-auction-container-card">
 														<span className="risk-auction-container-card-name">{item.typeName}</span>
 														<span className="risk-auction-container-card-info">：</span>

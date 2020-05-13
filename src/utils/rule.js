@@ -373,7 +373,7 @@ export default {
 						name: '风险监控',
 						url: '/info/monitor/risk',
 						backup: ['/risk', '/info/monitor/attention\\?init=YC03'],
-						status: rule.menu_xxss,
+						status: rule.menu_fxjk,
 						child: [
 							{
 								id: 'YC0301',
@@ -420,7 +420,7 @@ export default {
 				id: 'YC11',
 				name: '信息搜索',
 				url: '/info/search',
-				status: rule.menu_hxcx || rule.menu_fxjk,
+				status: rule.menu_hxcx || rule.menu_xxss,
 				backup: ['/inquiry', '/search'],
 				children: [
 					{
@@ -436,7 +436,7 @@ export default {
 						name: '分类搜索',
 						url: '/info/search/several',
 						backup: ['/search'],
-						status: rule.menu_fxjk,
+						status: rule.menu_xxss,
 					},
 				],
 			},

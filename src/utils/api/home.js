@@ -44,3 +44,25 @@ export const riskReference = async (params) => {
 	const response = await service.get('/yc/index/information/overview/riskReference', { params });
 	return Object.assign(response.data, { name: 'homeRisk' });
 };
+
+// [v2.0]重要信息提醒
+// 资产拍卖
+export const importantListAuction = async (params) => {
+	const response = await service.get('/yc/monitor/auction/importantList', { params });
+	return Object.assign(response.data, { name: 'action' });
+};
+// 土地出让结果
+export const importantListLandTransfer = async (params) => {
+	const response = await service.get('/yc/monitor/land/transfer/importantList', { params });
+	return Object.assign(response.data, { name: 'LandTransfer' });
+};
+// 土地抵押
+export const importantListLandMortgage = async (params) => {
+	const response = await service.get('/yc/monitor/land/mortgage/importantList', { params });
+	return Object.assign(response.data, { name: 'LandMortgage' });
+};
+// 土地转让
+export const importantListLandTransaction = async (params) => {
+	const response = await service.get('/yc/monitor/land/transaction/importantList', { params });
+	return Object.assign(response.data, { name: 'LandTransaction' });
+};

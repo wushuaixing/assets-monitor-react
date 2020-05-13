@@ -55,7 +55,7 @@ export default class Excavate extends PureComponent {
 					id: 5,
 					title: '股权质押',
 					rule: isRule && props.rule.children.zcwjzcpm,
-					url: '/risk/operation',
+					url: '/monitor/pledge',
 					Component: Stock,
 					API: stockCard,
 				},
@@ -144,7 +144,7 @@ export default class Excavate extends PureComponent {
 			}
 			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
-			this.setState({ loading: false });
+			this.setState({ loading: false, finish: false });
 			console.log('promise reject failed reason', reason);
 		});
 	};
