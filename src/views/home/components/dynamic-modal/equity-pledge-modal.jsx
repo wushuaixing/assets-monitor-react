@@ -1,7 +1,9 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import api from '@/utils/api/monitor-info/finance';
-import { Ellipsis, Spin, Table } from '@/common';
+import {
+	Ellipsis, LiItem, Spin, Table,
+} from '@/common';
 import { Attentions } from '@/common/table';
 import { timeStandard } from '@/utils';
 
@@ -9,28 +11,10 @@ import { timeStandard } from '@/utils';
 const PledgeDetail = (text, rowContent) => (
 	<React.Fragment>
 		<div className="assets-info-content">
-			<li>
-				<span className="list list-title align-justify " style={{ width: 72 }}>股权标的企业</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">
-					<Ellipsis content={rowContent.companyName} tooltip width={250} />
-				</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify" style={{ width: 72 }}>登记编号</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{rowContent.regNumber || '-'}</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify" style={{ width: 72 }}>出质股权数额</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{rowContent.equityAmount || '-'}</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify" style={{ width: 72 }}>状 态</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{rowContent.state === 1 ? '无效' : '有效'}</span>
-			</li>
+			<LiItem Li title="股权标的企业" auto titleStyle={{ width: 72 }}><Ellipsis content={rowContent.companyName} tooltip width={250} /></LiItem>
+			<LiItem Li title="登记编号" auto titleStyle={{ width: 72 }}>{rowContent.regNumber || '-'}</LiItem>
+			<LiItem Li title="出质股权数额" auto titleStyle={{ width: 72 }}>{rowContent.equityAmount || '-'}</LiItem>
+			<LiItem Li title="状 态" auto titleStyle={{ width: 72 }}>{rowContent.state === 1 ? '无效' : '有效'}</LiItem>
 		</div>
 	</React.Fragment>
 );

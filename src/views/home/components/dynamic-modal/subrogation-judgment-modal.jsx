@@ -1,7 +1,9 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import { Judgment } from 'api/monitor-info/subrogation';
-import { Ellipsis, Spin, Table } from '@/common';
+import {
+	Ellipsis, LiItem, Spin, Table,
+} from '@/common';
 import { Attentions } from '@/common/table';
 import { timeStandard } from '@/utils';
 import { partyInfo } from '@/views/_common';
@@ -16,21 +18,9 @@ const documentInfo = (value, row) => {
 			<li>
 				<Ellipsis content={title} line={2} tooltip url={url} />
 			</li>
-			<li>
-				<span className="list list-title align-justify" style={{ width: 50 }}>案由</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{caseReason || '-'}</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify" style={{ width: 50 }}>案件类型</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{isRestore ? '执恢案件' : (caseType || '-')}</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{timeStandard(gmtJudgment)}</span>
-			</li>
+			<LiItem Li title="案由" auto>{caseReason || '-'}</LiItem>
+			<LiItem Li title="案件类型" auto>{isRestore ? '执恢案件' : (caseType || '-')}</LiItem>
+			<LiItem Li title="判决日期" auto>{timeStandard(gmtJudgment)}</LiItem>
 		</div>
 	);
 };

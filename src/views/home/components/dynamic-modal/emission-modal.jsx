@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import { Modal, Button } from 'antd';
 import { Dump } from 'api/monitor-info/intangible';
-import { Ellipsis, Spin, Table } from '@/common';
+import {
+	Ellipsis, LiItem, Spin, Table,
+} from '@/common';
 import { Attentions } from '@/common/table';
 import { linkDom } from '@/utils';
 
@@ -64,20 +66,14 @@ export default class DetailModal extends React.PureComponent {
 					dataIndex: 'industry',
 					render: (text, row) => (
 						<div className="assets-info-content">
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>行业分类</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content"><Ellipsis content={text || '-'} tooltip width={200} /></span>
-							</li>
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
-								<span className="list list-title-colon">:</span>
+							<LiItem Li title="行业分类" auto><Ellipsis content={text || '-'} tooltip width={200} /></LiItem>
+							<LiItem Li title="资质类别" auto>
 								{
-									row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
-										<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
-									) : '-'
-								}
-							</li>
+										row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
+											<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+										) : '-'
+									}
+							</LiItem>
 						</div>
 					),
 				}, {

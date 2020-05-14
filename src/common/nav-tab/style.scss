@@ -23,6 +23,9 @@
     position: relative;
     margin-right: 60px;
     height: 58px;
+    &:last-child {
+      margin-right: 0;
+    }
     &-span{
       height: 28px;
       display: inline-block;

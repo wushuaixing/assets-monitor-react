@@ -1,9 +1,11 @@
 import React from 'react';
-import { Modal, Button, Tooltip } from 'antd';
+import { Modal, Button } from 'antd';
 import { postFollow, postUnFollow } from 'api/monitor-info/mortgage';
-import { Ellipsis, Spin, Table } from '@/common';
+import {
+	Ellipsis, Spin, Table, LiItem,
+} from '@/common';
 import { Attentions } from '@/common/table';
-import { timeStandard, w } from '@/utils';
+import { timeStandard, toEmpty, w } from '@/utils';
 import { floatFormat } from '@/utils/format';
 import { formatDateTime } from '@/utils/changeTime';
 
@@ -11,36 +13,12 @@ import { formatDateTime } from '@/utils/changeTime';
 const MortgageDetail = (text, rowContent) => (
 	<React.Fragment>
 		<div className="assets-info-content">
+			<LiItem Li title="抵押物名称" auto titleStyle={{ width: 80 }}><Ellipsis content={toEmpty(rowContent.pawnName)} width={120} tooltip /></LiItem>
+			<LiItem Li title="登记编号" auto titleStyle={{ width: 80 }}><Ellipsis content={toEmpty(rowContent.regNum)} tooltip /></LiItem>
+			<LiItem Li title="担保债权数额" titleStyle={{ width: 80 }}>{rowContent.amount && w(floatFormat(rowContent.amount.toFixed(2)), { suffix: ' 元' })}</LiItem>
 			<li>
-				<span className="list list-title align-justify " style={{ width: 80 }}>抵押物名称</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content text-ellipsis">
-					{
-						rowContent.pawnName && rowContent.pawnName.length > 10
-							? (
-								<Tooltip placement="topLeft" title={rowContent.pawnName}>
-									<p>{`${rowContent.pawnName.substr(0, 10)}...`}</p>
-								</Tooltip>
-							)
-							: <p>{rowContent.pawnName || '-'}</p>
-					}
-				</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify" style={{ width: 80 }}>登记编号</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">
-					{rowContent.regNum || '-'}
-				</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify" style={{ width: 80 }}>担保债权数额</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{rowContent.amount && w(floatFormat(rowContent.amount.toFixed(2)), { suffix: ' 元' })}</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify" style={{ width: 130 }}>债务人履行债务的期限</span>
-				<span className="list list-title-colon">:</span>
+				 <span className="list list-title align-justify" style={{ width: 130 }}>债务人履行债务的期限</span>
+				 <span className="list list-title-colon">:</span>
 			</li>
 			<li>
 				<span className="list list-content" style={{ maxWidth: 'none' }}>{rowContent.term || '-'}</span>

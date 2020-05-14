@@ -64,6 +64,8 @@ class dynamicUpdate extends PureComponent {
 	}
 
 	getDynamicType = (val) => {
+		const { assetRemindArray } = this.state;
+		newAssetRemindArray = [...assetRemindArray];
 		this.setState(() => ({
 			typeNum: val,
 		}));

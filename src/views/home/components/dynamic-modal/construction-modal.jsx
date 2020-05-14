@@ -1,36 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Modal, Button } from 'antd';
-import { Construction, Dump } from 'api/monitor-info/intangible';
-import { Ellipsis, Spin, Table } from '@/common';
-import { Attentions, ReadStatus, SortVessel } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
+import { Construction } from 'api/monitor-info/intangible';
+import {
+	Ellipsis, LiItem, Spin, Table,
+} from '@/common';
+import { Attentions } from '@/common/table';
+import { timeStandard } from '@/utils';
 
-const status = {
-	1: {
-		reasonName: '注销原因',
-		dateName: '注销时间',
-	},
-	2: {
-		reasonName: '撤销原因',
-		dateName: '撤销时间',
-	},
-	3: {
-		reasonName: '遗失原因',
-		dateName: '遗失时间',
-	},
-};
-function keyToValue(key) {
-	if (key === '注销') {
-		return 1;
-	}
-	if (key === '撤销') {
-		return 2;
-	}
-	if (key === '遗失') {
-		return 3;
-	}
-	return 0;
-}
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -69,28 +45,10 @@ export default class DetailModal extends React.PureComponent {
 					dataIndex: 'qualificationName',
 					render: (text, row) => (
 						<div className="assets-info-content">
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>资质名称</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">
-									<Ellipsis content={row.qualificationName || '-'} tooltip width={380} />
-								</span>
-							</li>
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>资质类别</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{row.qualificationType || '-'}</span>
-							</li>
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>资质等级</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{row.qualificationLevel || '-'}</span>
-							</li>
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>有效期至</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{row.validityPeriod}</span>
-							</li>
+							<LiItem Li title="资质名称" auto><Ellipsis content={row.qualificationName || '-'} tooltip width={380} /></LiItem>
+							<LiItem Li title="资质类别" auto>{row.qualificationType || '-'}</LiItem>
+							<LiItem Li title="资质等级" auto>{row.qualificationLevel || '-'}</LiItem>
+							<LiItem Li title="有效期至" auto>{row.validityPeriod || '-'}</LiItem>
 						</div>
 					),
 				}, {
