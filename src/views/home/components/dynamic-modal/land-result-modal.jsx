@@ -1,15 +1,11 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { Copyright } from 'api/monitor-info/intangible';
-import { Spin, Table } from '@/common';
+import Api from 'api/monitor-info/public';
+import { Ellipsis, Spin, Table } from '@/common';
 import { Attentions } from '@/common/table';
-import { linkDetail, linkDom, timeStandard } from '@/utils';
+import { timeStandard } from '@/utils';
+import { Result } from '@/views/asset-excavate/land-data/table/common';
 
-const rightsTypeStatus = {
-	0: '未知',
-	1: '商标',
-	2: '专利',
-};
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -18,23 +14,24 @@ export default class DetailModal extends React.PureComponent {
 			loading: false,
 			columns: [
 				{
-					title: '公告日期',
-					dataIndex: 'noticeTime',
+					title: '签订日期',
+					dataIndex: 'singedTime',
 					render: text => timeStandard(text) || '-',
 				}, {
-					title: '申请人/权利人',
+					title: '土地使用权人',
+					width: 190,
 					dataIndex: 'obligorName',
-					render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
+					render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
 				}, {
-					title: '商标/专利名称',
-					dataIndex: 'rightsName',
-					render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+					title: '项目信息',
+					render: Result.InfoProject,
 				}, {
-					title: '权利类型',
-					dataIndex: 'rightsType',
-					render: text => (
-						<span>{rightsTypeStatus[text]}</span>
-					),
+					title: '土地信息',
+					render: Result.InfoLand,
+				}, {
+					title: '出让信息',
+					width: 250,
+					render: Result.InfoTransfer,
 				}, {
 					title: '更新日期',
 					dataIndex: 'gmtCreate',
@@ -48,7 +45,7 @@ export default class DetailModal extends React.PureComponent {
 							text={text}
 							row={row}
 							onClick={this.onRefresh}
-							api={row.isAttention ? Copyright.unAttention : Copyright.attention}
+							api={row.isAttention ? Api.attentionUnFollowResult : Api.attentionFollowResult}
 							index={index}
 						/>
 					),
@@ -81,13 +78,13 @@ export default class DetailModal extends React.PureComponent {
 
 	render() {
 		const { columns, dataSource, loading } = this.state;
-		const { trademarkModalVisible } = this.props;
+		const { LandResultModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-商标专利"
+				title="匹配详情-出让结果"
 				width={1100}
 				style={{ height: 320 }}
-				visible={trademarkModalVisible}
+				visible={LandResultModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"

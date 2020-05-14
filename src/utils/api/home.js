@@ -66,3 +66,28 @@ export const importantListLandTransaction = async (params) => {
 	const response = await service.get('/yc/monitor/land/transaction/importantList', { params });
 	return Object.assign(response.data, { name: 'LandTransaction' });
 };
+// 排污权发证
+export const importantListIntangibleEmission = async (params) => {
+	const response = await service.get('/yc/monitor/intangible/emission/importantList', { params });
+	return Object.assign(response.data, { name: 'IntangibleEmission' });
+};
+// 采矿权发证
+export const importantListIntangibleMining = async (params) => {
+	const response = await service.get('/yc/monitor/intangible/mining/importantList', { params });
+	return Object.assign(response.data, { name: 'IntangibleMining' });
+};
+// 商标专利
+export const importantListIntangibleTrademarkRight = async (params) => {
+	const response = await service.get('/yc/monitor/intangible/trademarkRight/importantList', { params });
+	return Object.assign(response.data, { name: 'IntangibleTrademarkRight' });
+};
+// 建筑建造资质
+export const importantListIntangibleConstruct = async (params) => {
+	const response = await service.get('/yc/monitor/intangible/construct/importantList', { params });
+	return Object.assign(response.data, { name: 'IntangibleConstruct' });
+};
+// 建筑建造资质
+export const importantListMortgage = async (params) => {
+	const response = await service.get('/yc/monitor/mortgage/importantList', { params });
+	return Object.assign(response.data, { name: 'mortgage' });
+};

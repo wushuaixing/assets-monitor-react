@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import {
 	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction,
+	importantListIntangibleEmission, importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage,
 } from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -138,9 +139,17 @@ class HomeDynamic extends PureComponent {
 		};
 		const apiArray = [
 			{ count: auction, Api: importantListAuction, auction: true },
+
 			{ count: landTransfer, Api: importantListLandTransfer },
 			{ count: landMortgage, Api: importantListLandMortgage },
 			{ count: landTransaction, Api: importantListLandTransaction },
+
+			{ count: emission, Api: importantListIntangibleEmission },
+			{ count: mining, Api: importantListIntangibleMining },
+			{ count: trademark, Api: importantListIntangibleTrademarkRight },
+			{ count: construct, Api: importantListIntangibleConstruct },
+
+			{ count: mortgage, Api: importantListMortgage },
 		];
 		const AssetImportantReminderArray = [];
 		apiArray.filter(i => i.count).forEach((item) => {

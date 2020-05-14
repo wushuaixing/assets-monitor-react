@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Modal, Button } from 'antd';
-import { Dump, Mining } from 'api/monitor-info/intangible';
+import { Mining } from 'api/monitor-info/intangible';
 import { Ellipsis, Spin, Table } from '@/common';
-import { Attentions, ReadStatus, SortVessel } from '@/common/table';
+import { Attentions } from '@/common/table';
 import { linkDetail, linkDom, timeStandard } from '@/utils';
 import { floatFormat } from '@/utils/format';
 
@@ -16,27 +16,7 @@ export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [
-				{
-					area: 2820000,
-					certificateType: 2,
-					certificateTypeString: '',
-					gmtCreate: '2020-02-22',
-					gmtModified: '2020-03-28',
-					gmtPublishTime: '2019-07-31',
-					gmtValidityPeriodEnd: '2021-06-06',
-					gmtValidityPeriodStart: '2019-06-07',
-					id: 171,
-					isAttention: true,
-					isRead: true,
-					licenseNumber: 'T46120090602030083',
-					mineralSpecies: '金矿',
-					obligorId: 325952,
-					projectName: '海南省乐东县抱伦金矿详查（保留）',
-					rightsHolder: '海南山金矿业有限公司',
-					url: '',
-				},
-			], // 列表数据
+			dataSource: [], // 列表数据
 			loading: false,
 			columns: [
 				{
@@ -103,7 +83,7 @@ export default class DetailModal extends React.PureComponent {
 						<Attentions
 							text={text}
 							row={row}
-							// onClick={onRefresh}
+							onClick={this.onRefresh}
 							api={row.isAttention ? Mining.unAttention : Mining.attention}
 							index={index}
 						/>
@@ -111,6 +91,24 @@ export default class DetailModal extends React.PureComponent {
 				}],
 		};
 	}
+
+	componentDidMount() {
+		const { dataSource } = this.props;
+		this.setState(() => ({
+			dataSource,
+		}));
+	}
+
+	// 表格发生变化
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = [...dataSource];
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
 
 	handleCancel=() => {
 		const { onCancel } = this.props;

@@ -35,7 +35,7 @@ const assetArray = (selected, name, remindArray) => {
 			newAssetRemindArray = newAssetRemindArray.concat(asset);
 		}
 	}
-	return newAssetRemindArray.sort(compare('timeStamp'));
+	return newAssetRemindArray.sort(compare('timestamp'));
 };
 
 class dynamicUpdate extends PureComponent {

@@ -1,11 +1,17 @@
 import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 import { navigate } from '@reach/router';
+import { postMarkRead } from 'api/monitor-info/mortgage'; // 动产抵押已读
+import Api from '@/utils/api/monitor-info/public'; // 土地数据已读
+import {
+	Mining, Construction as apiConstruction, Copyright, Dump,
+} from '@/utils/api/monitor-info/intangible'; // 无形资产已读
 import { timeStandard } from '@/utils';
 import { Icon } from '@/common';
 import borrow from '@/assets/img/home/icon-borrow.png';
 import EmissionModal from './dynamic-modal/emission-modal';
 import AssetAuctionModal from './dynamic-modal/assets-auction-modal';
+import LandResultModal from './dynamic-modal/land-result-modal';
 import LandTransferModal from './dynamic-modal/land-transfer-modal';
 import LandMortgageModal from './dynamic-modal/land-mortgage-modal';
 import MiningModal from './dynamic-modal/mining-modal';
@@ -17,6 +23,7 @@ import SubrogationTrialModal from './dynamic-modal/subrogation-trial-modal';
 import SubrogationJudgmentModal from './dynamic-modal/subrogation-judgment-modal';
 import SubrogationCourtModal from './dynamic-modal/subrogation-court-modal';
 import BrokenModal from './dynamic-modal/broken-record-modal';
+
 import './style.scss';
 
 const tag = (value) => {
@@ -83,6 +90,7 @@ class DetailItem extends PureComponent {
 		super(props);
 		this.state = {
 			assetAuctionModalVisible: false,
+			LandResultModalVisible: false,
 			landTransferModalVisible: false,
 			landMortgageModalVisible: false,
 			miningModalVisible: false,
@@ -109,16 +117,72 @@ class DetailItem extends PureComponent {
 		}
 	}
 
-	handleClick = (item) => {
+
+	// 表格发生变化
+	onRefresh=(objValue, type) => {
+		const { data } = this.state;
+		const { index } = objValue;
+		const _dataSource = [...data];
+		_dataSource[index][type] = objValue[type];
+		this.setState({
+			data: _dataSource,
+		});
+	};
+
+	isReadList = (item, index, api, type) => {
+		const { id, isRead } = item;
+		const idList = [];
+		idList.push(id);
+		if (!isRead) {
+			api(type === 'idList' ? { idList } : { id }).then((res) => {
+				if (res.code === 200) {
+					this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				} else {
+					console.error(res.data.message);
+				}
+			});
+		}
+	};
+
+	handleClick = (item, index) => {
 		const openModalMap = new Map([
 			[101, () => { this.setState(() => ({ assetAuctionModalVisible: true, dataSource: item.detailList })); }],
-			[2, () => { this.setState(() => ({ landTransferModalVisible: true, dataSource: item.detailList })); }],
-			[3, () => { this.setState(() => ({ landMortgageModalVisible: true, dataSource: item.detailList })); }],
-			[4, () => { this.setState(() => ({ miningModalVisible: true, dataSource: item.detailList })); }],
-			[5, () => { this.setState(() => ({ emissionModalVisible: true, dataSource: item.detailList })); }],
-			[6, () => { this.setState(() => ({ trademarkModalVisible: true, dataSource: item.detailList })); }],
-			[7, () => { this.setState(() => ({ constructionModalVisible: true, dataSource: item.detailList })); }],
-			[8, () => { this.setState(() => ({ chattelMortgageModalVisible: true, dataSource: item.detailList })); }],
+
+			[201, () => {
+				this.isReadList(item, index, Api.readStatusResult);
+				this.setState(() => ({ LandResultModalVisible: true, dataSource: item.detailList }));
+			}],
+			[202, () => {
+				this.isReadList(item, index, Api.readStatusTransfer);
+				this.setState(() => ({ landTransferModalVisible: true, dataSource: item.detailList }));
+			}],
+			[203, () => {
+				this.isReadList(item, index, Api.readStatusMortgage);
+				this.setState(() => ({ landMortgageModalVisible: true, dataSource: item.detailList }));
+			}],
+
+			[301, () => {
+				this.isReadList(item, index, Dump.read, 'idList');
+				this.setState(() => ({ emissionModalVisible: true, dataSource: item.detailList }));
+			}],
+			[302, () => {
+				this.isReadList(item, index, Mining.read, 'idList');
+				this.setState(() => ({ miningModalVisible: true, dataSource: item.detailList }));
+			}],
+			[303, () => {
+				this.isReadList(item, index, Copyright.read);
+				this.setState(() => ({ trademarkModalVisible: true, dataSource: item.detailList }));
+			}],
+			[304, () => {
+				this.isReadList(item, index, apiConstruction.read);
+			  this.setState(() => ({ constructionModalVisible: true, dataSource: item.detailList }));
+			}],
+
+			[401, () => {
+				this.isReadList(item, index, postMarkRead);
+				this.setState(() => ({ chattelMortgageModalVisible: true, dataSource: item.detailList }));
+			}],
+
 			[9, () => { this.setState(() => ({ equityPledgeModalVisible: true, dataSource: item.detailList })); }],
 			[10, () => { this.setState(() => ({ subrogationTrialModalVisible: true, dataSource: item.detailList })); }],
 			[11, () => { this.setState(() => ({ subrogationCourtModalVisible: true, dataSource: item.detailList })); }],
@@ -136,6 +200,7 @@ class DetailItem extends PureComponent {
 	onCancel = () => {
 		this.setState({
 			emissionModalVisible: false,
+			LandResultModalVisible: false,
 			landTransferModalVisible: false,
 			assetAuctionModalVisible: false,
 			landMortgageModalVisible: false,
@@ -158,7 +223,7 @@ class DetailItem extends PureComponent {
 
 	render() {
 		const {
-			dataSource, data, emissionModalVisible, assetAuctionModalVisible, landTransferModalVisible, landMortgageModalVisible, miningModalVisible, trademarkModalVisible, 		constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible,
+			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible, miningModalVisible, trademarkModalVisible, 		constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible,
 		} = this.state;
 
 		const isData = Array.isArray(data) && data.length > 0;
@@ -168,8 +233,8 @@ class DetailItem extends PureComponent {
 				{/* <Button type="primary" onClick={this.startScrollDown}>向下滚动</Button> */}
 				{/* <Button type="danger" onClick={this.endScroll}>停止滚动</Button> */}
 				{
-					isData ? data.map(item => (
-						<div className="detail-container-content" onClick={() => this.handleClick(item)}>
+					isData ? data.map((item, index) => (
+						<div className="detail-container-content" onClick={() => this.handleClick(item, index)}>
 							{item.isRead === 0 ? <div className="detail-container-content-icon" /> : null}
 							<div className="detail-container-content-left">
 								<div className="detail-container-content-left-icon">
@@ -216,7 +281,16 @@ class DetailItem extends PureComponent {
 						assetAuctionModalVisible={assetAuctionModalVisible}
 					/>
 				)}
-				{/** 土地出让Modal */}
+				{/** 土地出让结果Modal */}
+				{LandResultModalVisible && (
+					<LandResultModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						LandResultModalVisible={LandResultModalVisible}
+					/>
+				)}
+				{/** 土地转让Modal */}
 				{landTransferModalVisible && (
 					<LandTransferModal
 						onCancel={this.onCancel}

@@ -35,24 +35,7 @@ export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [
-				{
-					certificateNumber: 'D343021876',
-					gmtCreate: '2020-02-20',
-					gmtDeleted: null,
-					gmtModified: '2020-04-09 ',
-					id: 60,
-					isAttention: 1,
-					isRead: 1,
-					issueTime: '2019-12-05',
-					obligorId: 348177,
-					obligorName: '湖南省第三工程有限公司',
-					qualificationLevel: '三级',
-					qualificationName: '环保工程专业承包',
-					qualificationType: '建筑业企业资质',
-					validityPeriod: '2024-12-07',
-				},
-			], // 列表数据
+			dataSource: [], // 列表数据
 			loading: false,
 			columns: [
 				{
@@ -122,7 +105,7 @@ export default class DetailModal extends React.PureComponent {
 						<Attentions
 							text={text}
 							row={row}
-							// onClick={onRefresh}
+							onClick={this.onRefresh}
 							api={row.isAttention ? Construction.unAttention : Construction.attention}
 							index={index}
 						/>
@@ -130,6 +113,24 @@ export default class DetailModal extends React.PureComponent {
 				}],
 		};
 	}
+
+	componentDidMount() {
+		const { dataSource } = this.props;
+		this.setState(() => ({
+			dataSource,
+		}));
+	}
+
+	// 表格发生变化
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = [...dataSource];
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
 
 	handleCancel=() => {
 		const { onCancel } = this.props;
