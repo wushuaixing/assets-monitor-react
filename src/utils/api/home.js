@@ -91,3 +91,24 @@ export const importantListMortgage = async (params) => {
 	const response = await service.get('/yc/monitor/mortgage/importantList', { params });
 	return Object.assign(response.data, { name: 'mortgage' });
 };
+// 股权质押
+export const importantListPledge = async (params) => {
+	const response = await service.get('/yc/monitor/finance/pledge/importantList', { params });
+	return Object.assign(response.data, { name: 'pledge' });
+};
+
+// 代位权开庭
+export const importantListSubrogationCourt = async (params) => {
+	const response = await service.get('/yc/monitor/court/subrogation/importantList', { params });
+	return Object.assign(response.data, { name: 'SubrogationCourt' });
+};
+// 代位权立案
+export const importantListSubrogationTrial = async (params) => {
+	const response = await service.get('/yc/monitor/trial/subrogation/importantList', { params });
+	return Object.assign(response.data, { name: 'SubrogationTrial' });
+};
+// 代位权裁判文书
+export const importantListSubrogationJudgment = async (params) => {
+	const response = await service.get('/yc/monitor/judgment/subrogation/importantList', { params });
+	return Object.assign(response.data, { name: 'SubrogationJudgment' });
+};

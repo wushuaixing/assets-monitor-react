@@ -2,10 +2,12 @@ import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 import { navigate } from '@reach/router';
 import { postMarkRead } from 'api/monitor-info/mortgage'; // 动产抵押已读
+import { readStatusResult } from '@/utils/api/monitor-info/finance'; // 股权质押
 import Api from '@/utils/api/monitor-info/public'; // 土地数据已读
 import {
 	Mining, Construction as apiConstruction, Copyright, Dump,
 } from '@/utils/api/monitor-info/intangible'; // 无形资产已读
+import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; // 代位权
 import { timeStandard } from '@/utils';
 import { Icon } from '@/common';
 import borrow from '@/assets/img/home/icon-borrow.png';
@@ -84,7 +86,7 @@ const icon = (value) => {
 	}
 };
 
-
+let scrollInterval = '';
 class DetailItem extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -105,6 +107,8 @@ class DetailItem extends PureComponent {
 			brokenModalVisible: false,
 			data: props.data || [],
 			dataSource: [],
+			listMarginTop: '0',
+			animate: false,
 		};
 	}
 
@@ -116,7 +120,6 @@ class DetailItem extends PureComponent {
 			}));
 		}
 	}
-
 
 	// 表格发生变化
 	onRefresh=(objValue, type) => {
@@ -147,7 +150,6 @@ class DetailItem extends PureComponent {
 	handleClick = (item, index) => {
 		const openModalMap = new Map([
 			[101, () => { this.setState(() => ({ assetAuctionModalVisible: true, dataSource: item.detailList })); }],
-
 			[201, () => {
 				this.isReadList(item, index, Api.readStatusResult);
 				this.setState(() => ({ LandResultModalVisible: true, dataSource: item.detailList }));
@@ -160,7 +162,6 @@ class DetailItem extends PureComponent {
 				this.isReadList(item, index, Api.readStatusMortgage);
 				this.setState(() => ({ landMortgageModalVisible: true, dataSource: item.detailList }));
 			}],
-
 			[301, () => {
 				this.isReadList(item, index, Dump.read, 'idList');
 				this.setState(() => ({ emissionModalVisible: true, dataSource: item.detailList }));
@@ -177,17 +178,26 @@ class DetailItem extends PureComponent {
 				this.isReadList(item, index, apiConstruction.read);
 			  this.setState(() => ({ constructionModalVisible: true, dataSource: item.detailList }));
 			}],
-
 			[401, () => {
 				this.isReadList(item, index, postMarkRead);
 				this.setState(() => ({ chattelMortgageModalVisible: true, dataSource: item.detailList }));
 			}],
-
-			[9, () => { this.setState(() => ({ equityPledgeModalVisible: true, dataSource: item.detailList })); }],
-			[10, () => { this.setState(() => ({ subrogationTrialModalVisible: true, dataSource: item.detailList })); }],
-			[11, () => { this.setState(() => ({ subrogationCourtModalVisible: true, dataSource: item.detailList })); }],
-			[12, () => { this.setState(() => ({ subrogationJudgmentModalVisible: true, dataSource: item.detailList })); }],
-
+			[501, () => {
+				this.isReadList(item, index, readStatusResult);
+				this.setState(() => ({ equityPledgeModalVisible: true, dataSource: item.detailList }));
+			}],
+			[601, () => {
+				this.isReadList(item, index, Court.read, 'idList');
+				this.setState(() => ({ subrogationCourtModalVisible: true, dataSource: item.detailList }));
+			}],
+			[602, () => {
+				this.isReadList(item, index, Trial.read, 'idList');
+				this.setState(() => ({ subrogationTrialModalVisible: true, dataSource: item.detailList }));
+			}],
+			[603, () => {
+				this.isReadList(item, index, Judgment.read, 'idList');
+				this.setState(() => ({ subrogationJudgmentModalVisible: true, dataSource: item.detailList }));
+			}],
 			[13, () => { this.setState(() => ({ brokenModalVisible: true })); }],
 			[14, () => { this.setState(() => ({ brokenModalVisible: true })); }],
 			['default', ['资产拍卖', 1]],
@@ -220,18 +230,76 @@ class DetailItem extends PureComponent {
 		navigate('/info/monitor');
 	};
 
+	scrollUp= () => {
+		const { data } = this.state;
+		data.push(data[0]);
+		const height = document.getElementById('scrollList').getElementsByTagName('div')[0].scrollHeight + 1;
+		console.log(height);
+		this.setState({
+			animate: true,
+			listMarginTop: `-${height}px`,
+		});
+		setTimeout(() => {
+			data.shift();
+			this.setState({
+				animate: false,
+				listMarginTop: '0',
+			});
+			this.forceUpdate();
+		}, 2000);
+	};
+
+	scrollDown= () => {
+		const { data } = this.state;
+		const ulNode = document.getElementById('scrollList').getElementsByTagName('div')[0];
+		ulNode.classList.remove('opacityAnimation');
+		this.setState({
+			// animate: true,
+			// listMarginTop: `${ulNode.lastChild.scrollHeight}px`,
+		});
+		setTimeout(() => {
+			data.unshift(data[data.length - 1]);
+			ulNode.classList.add('opacityAnimation');
+			console.log(ulNode.firstChild.classList);
+			data.pop();
+			this.setState({
+				animate: false,
+				// listMarginTop: '0',
+			});
+			this.forceUpdate();
+		}, 1000);
+	};
+
+	startScrollUp= () => {
+		this.endScroll();
+		this.scrollUp();
+		scrollInterval = setInterval(this.scrollUp, 3000);
+	};
+
+	startScrollDown= () => {
+		this.endScroll();
+		this.scrollDown();
+		scrollInterval = setInterval(this.scrollDown, 3000);
+	};
+
+	endScroll= () => {
+		clearInterval(scrollInterval);
+	};
 
 	render() {
 		const {
-			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible, miningModalVisible, trademarkModalVisible, 		constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible,
+			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible,
+			miningModalVisible, trademarkModalVisible, 		constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible,
+			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, listMarginTop, animate,
+
 		} = this.state;
 
 		const isData = Array.isArray(data) && data.length > 0;
 		return (
-			<div className="detail-container">
-				{/* <Button type="primary" onClick={this.startScrollUp}>向上滚动</Button> */}
-				{/* <Button type="primary" onClick={this.startScrollDown}>向下滚动</Button> */}
-				{/* <Button type="danger" onClick={this.endScroll}>停止滚动</Button> */}
+			<div className={`detail-container ${animate && 'animate'}`} id="scrollList" style={{ marginTop: listMarginTop }}>
+				  {/* <Button type="primary" onClick={this.startScrollUp}>向上滚动</Button> */}
+				  {/* <Button type="primary" onClick={this.startScrollDown}>向下滚动</Button> */}
+				  {/* <Button type="danger" onClick={this.endScroll}>停止滚动</Button> */}
 				{
 					isData ? data.map((item, index) => (
 						<div className="detail-container-content" onClick={() => this.handleClick(item, index)}>

@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Modal, Button } from 'antd';
-import { Dump } from 'api/monitor-info/intangible';
 import { Trial } from 'api/monitor-info/subrogation';
-import { Ellipsis, Spin, Table } from '@/common';
-import { Attentions, ReadStatus, SortVessel } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
+import { Spin, Table } from '@/common';
+import { Attentions } from '@/common/table';
+import { timeStandard } from '@/utils';
 import { partyInfo } from '@/views/_common';
 import associationLink from '@/views/_common/association-link';
 
@@ -12,74 +11,12 @@ export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [
-				{
-					associatedInfo: {
-						courtAssociatedInfo: [],
-						judgmentAssociatedInfo: [],
-						trialAssociatedInfo: [
-							{
-								caseNumber: '（2020）川01民初2660号',
-								caseReason: '侵害商标权纠纷',
-								caseType: 1,
-								court: '成都市中级人民法院',
-								deleted: false,
-								gmtRegister: 1587916800,
-								id: 25290281,
-								parties: [{ name: '中顺洁柔纸业股份有限公司', role: '原告', roleType: 1 }, { name: '彭州市濛阳镇芒果超市', role: '被告', roleType: 2 }],
-								restore: false,
-								url: 'http://cdfy12368.gov.cn:8141/sfgk/webapp/area/cdsfgk/splc/splcView.jsp?lsh=300120200301003145',
-							},
-							{
-								caseNumber: '（2020）川01民初2660号',
-								caseReason: '侵害商标权纠纷',
-								caseType: 1,
-								court: '成都市中级人民法院',
-								deleted: false,
-								gmtRegister: 1587916800,
-								id: 25321952,
-								parties: [{ name: '中顺洁柔纸业股份有限公司', role: '原告', roleType: 1 }, { name: '彭州市濛阳镇芒果超市', role: '被告', roleType: 2 }],
-								restore: false,
-								url: 'http://cdfy12368.gov.cn:8141/sfgk/webapp/area/cdsfgk/splc/splcView.jsp?lsh=300120200301003145',
-							},
-						],
-					},
-					caseNumber: '（2020）川01民初2660号',
-					caseType: 1,
-					court: '成都市中级人民法院',
-					gmtCreate: 1588765552,
-					gmtModified: 1588765552,
-					gmtRegister: '2020-04-27',
-					id: 81722,
-					isAttention: false,
-					isDeleted: false,
-					isRead: false,
-					isRestore: false,
-					parties: [
-						{
-							name: '中顺洁柔纸业股份有限公司',
-							obligorId: 354304,
-							role: '原告',
-							roleType: 1,
-							sid: 81722,
-						},
-						{
-							name: '彭州市濛阳镇芒果超市',
-							obligorId: null,
-							role: '被告',
-							roleType: 2,
-							sid: 81722,
-						},
-					],
-					url: 'http://cdfy12368.gov.cn:8141/sfgk/webapp/area/cdsfgk/splc/splcView.jsp?lsh=300120200301003145',
-				},
-			], // 列表数据
+			dataSource: [], // 列表数据
 			loading: false,
 			columns: [
 				{
 					title: '立案日期',
 					dataIndex: 'gmtRegister',
-					width: 103,
 					render: text => timeStandard(text) || '-',
 				}, {
 					title: '当事人',
@@ -117,7 +54,6 @@ export default class DetailModal extends React.PureComponent {
 					title: '操作',
 					unNormal: true,
 					className: 'tAlignCenter_important',
-					width: 60,
 					render: (text, row, index) => (
 						<Attentions
 							text={text}
@@ -131,12 +67,18 @@ export default class DetailModal extends React.PureComponent {
 		};
 	}
 
+	componentDidMount() {
+		const { dataSource } = this.props;
+		this.setState(() => ({
+			dataSource,
+		}));
+	}
+
 	// 表格发生变化
 	onRefresh=(data, type) => {
-		// console.log('onRefresh:', data, type);
 		const { dataSource } = this.state;
 		const { index } = data;
-		const _dataSource = dataSource;
+		const _dataSource = [...dataSource];
 		_dataSource[index][type] = data[type];
 		this.setState({
 			dataSource: _dataSource,

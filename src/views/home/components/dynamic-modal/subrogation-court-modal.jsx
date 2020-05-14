@@ -11,54 +11,7 @@ export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [
-				{
-					associatedInfo: {
-						courtAssociatedInfo: [
-							{
-								caseNumber: '（2020）粤05民初181号',
-								caseReason: '侵害商标权纠纷',
-								court: '汕头市中级人民法院',
-								deleted: false,
-								gmtTrial: 1596038400,
-								id: 12318313,
-								parties: [{ name: '张勇滨', role: '被告', roleType: 2 }, { name: '深圳罗马仕科技有限公司', role: '原告', roleType: 1 }],
-								url: 'http://www.gdcourts.gov.cn/index.php?v=index_ktgg_detail&pid=330185',
-							},
-						],
-						judgmentAssociatedInfo: [],
-						trialAssociatedInfo: [],
-					},
-
-					caseNumber: '（2020）粤05民初181号',
-					caseReason: '侵害商标权纠纷',
-					court: '汕头市中级人民法院',
-					gmtCreate: 1587479679,
-					gmtModified: 1588766131,
-					gmtTrial: '2020-07-30',
-					id: 196015,
-					isAttention: false,
-					isDeleted: false,
-					isRead: true,
-					parties: [
-						{
-							name: '深圳罗马仕科技有限公司',
-							obligorId: 324164,
-							role: '原告',
-							roleType: 1,
-							sid: 196015,
-						},
-						{
-							name: '张勇滨',
-							obligorId: null,
-							role: '被告',
-							roleType: 2,
-							sid: 196015,
-						},
-					],
-					url: 'http://www.gdcourts.gov.cn/index.php?v=index_ktgg_detail&pid=330185',
-				},
-			], // 列表数据
+			dataSource: [], // 列表数据
 			loading: false,
 			columns: [
 				{
@@ -95,7 +48,6 @@ export default class DetailModal extends React.PureComponent {
 					title: '操作',
 					unNormal: true,
 					className: 'tAlignCenter_important',
-					width: 60,
 					render: (text, row, index) => (
 						<Attentions
 							text={text}
@@ -109,12 +61,18 @@ export default class DetailModal extends React.PureComponent {
 		};
 	}
 
+	componentDidMount() {
+		const { dataSource } = this.props;
+		this.setState(() => ({
+			dataSource,
+		}));
+	}
+
 	// 表格发生变化
 	onRefresh=(data, type) => {
-		// console.log('onRefresh:', data, type);
 		const { dataSource } = this.state;
 		const { index } = data;
-		const _dataSource = dataSource;
+		const _dataSource = [...dataSource];
 		_dataSource[index][type] = data[type];
 		this.setState({
 			dataSource: _dataSource,

@@ -47,7 +47,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					textAlign: 'left',
 				},
 				b: {
-					width: 42,
+					width: 45,
 					fontSize: 12,
 					color: '#20242E',
 					fontWeight: 700,
@@ -62,7 +62,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					textAlign: 'left',
 				},
 				d: {
-					width: 42,
+					width: 45,
 					fontSize: 12,
 					color: '#20242E',
 					fontWeight: 700,

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import {
 	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction,
 	importantListIntangibleEmission, importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage,
+	importantListPledge, importantListSubrogationCourt, importantListSubrogationTrial, importantListSubrogationJudgment,
 } from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -88,28 +89,28 @@ class HomeDynamic extends PureComponent {
 				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark]);
 			const assetDataArray = [
 				{
-					count: auction, type: 3, typeName: '资产拍卖', name: '资产拍卖', value: 2,
+					count: auction, type: 1, typeName: '资产拍卖', name: '资产拍卖', value: 1,
 				},
 				{
-					count: subrogationNum, type: 3, typeName: '代位权', name: '代位权', value: 2,
+					count: subrogationNum, type: 2, typeName: '代位权', name: '代位权', value: 2,
 				},
 				{
-					count: landNum, type: 3, typeName: '土地信息', name: '土地信息', value: 2,
+					count: landNum, type: 3, typeName: '土地信息', name: '土地信息', value: 3,
 				},
 				{
-					count: stock, type: 3, typeName: '股权质押', name: '股权质押', value: 2,
+					count: stock, type: 4, typeName: '股权质押', name: '股权质押', value: 4,
 				},
 				{
-					count: financeNum, type: 3, typeName: '金融资产', name: '金融资产', value: 2,
+					count: financeNum, type: 5, typeName: '金融资产', name: '金融资产', value: 5,
 				},
 				{
-					count: mortgage, type: 3, typeName: '动产抵押', name: '动产抵押', value: 2,
+					count: mortgage, type: 6, typeName: '动产抵押', name: '动产抵押', value: 6,
 				},
 				{
-					count: bidding, type: 3, typeName: '招投标', name: '招投标', value: 2,
+					count: bidding, type: 7, typeName: '招投标', name: '招投标', value: 7,
 				},
 				{
-					count: intangibleNum, type: 3, typeName: '无形资产', name: '无形资产', value: 2,
+					count: intangibleNum, type: 8, typeName: '无形资产', name: '无形资产', value: 8,
 				},
 			];
 			const assetPropsData = {
@@ -126,7 +127,7 @@ class HomeDynamic extends PureComponent {
 
 	getAssetImportantReminder = (objValue) => {
 		const {
-			auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
+			auction, construct, emission, landMortgage, landTransaction, landTransfer,
 			mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark,
 		} = objValue.data;
 		const params = {
@@ -150,6 +151,11 @@ class HomeDynamic extends PureComponent {
 			{ count: construct, Api: importantListIntangibleConstruct },
 
 			{ count: mortgage, Api: importantListMortgage },
+			{ count: stock, Api: importantListPledge },
+
+			{ count: subrogationCourt, Api: importantListSubrogationCourt },
+			{ count: subrogationTrial, Api: importantListSubrogationTrial },
+			{ count: subrogationJudgement, Api: importantListSubrogationJudgment },
 		];
 		const AssetImportantReminderArray = [];
 		apiArray.filter(i => i.count).forEach((item) => {

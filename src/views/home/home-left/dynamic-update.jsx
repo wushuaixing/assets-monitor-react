@@ -81,7 +81,7 @@ class dynamicUpdate extends PureComponent {
 
 	render() {
 		const {
-			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray
+			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray,
 		} = this.state;
 		const { assetPropsData, riskPropsData } = this.props;
 		const hasAssetPropsData = Object.keys(assetPropsData).length !== 0;
@@ -128,7 +128,7 @@ class dynamicUpdate extends PureComponent {
 									<span className="seven-update-content-title-num">{hasAssetPropsData && assetPropsData.totalNum}</span>
 								条资产挖掘信息
 								</div>
-								<RingEcharts id="assetAuction" {...assetParams} />
+								<RingEcharts id="assetAuction" {...assetParams} title="资产挖掘" />
 								{lessAssetNum && (
 									<div className="seven-update-content-title-noNum">
 										数据太少？建议
@@ -168,7 +168,7 @@ class dynamicUpdate extends PureComponent {
 									<span className="seven-update-content-title-num">{hasRiskPropsData && riskPropsData.totalNum}</span>
 								条风险参考信息
 								</div>
-								<RingEcharts id="assetAuction" {...riskParams} />
+								<RingEcharts id="assetAuction" {...riskParams} title="风险参考" />
 								{lessRiskNum && (
 									<div className="seven-update-content-title-noNum">
 										数据太少？建议
