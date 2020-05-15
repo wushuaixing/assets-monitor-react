@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import {
 	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction,
 	importantListIntangibleEmission, importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage,
-	importantListPledge, importantListSubrogationCourt, importantListSubrogationTrial, importantListSubrogationJudgment,
+	importantListPledge, importantListSubrogationCourt, importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment,
 } from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -22,7 +22,9 @@ class HomeDynamic extends PureComponent {
 			assetPropsData: {},
 			riskPropsData: {},
 			AssetImportantReminderList: [],
+			RiskImportantReminderList: [],
 			AssetImportantReminderObligorIdList: [],
+			RiskImportantReminderObligorIdList: [],
 			loading: false,
 			finish: false,
 		};
@@ -222,10 +224,64 @@ class HomeDynamic extends PureComponent {
 				totalNum,
 				riskDataArray,
 			};
+			this.getRiskImportantReminder(res);
 			this.setState({
 				riskPropsData,
 			});
 		}
+	};
+
+	getRiskImportantReminder = (objValue) => {
+		const {
+			abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
+			punishment, tax,
+		} = objValue.data;
+		const params = {
+			num: 10,
+			type: objValue.type,
+		};
+		const auctionParams = {
+			num: 30,
+			type: objValue.type,
+		};
+		const apiArray = [
+			{ count: punishment, Api: importantListRiskPunishment },
+			// { count: landTransfer, Api: importantListLandTransfer },
+			// { count: landMortgage, Api: importantListLandMortgage },
+			// { count: landTransaction, Api: importantListLandTransaction },
+		];
+		const RiskImportantReminderArray = [];
+		apiArray.filter(i => i.count).forEach((item) => {
+			RiskImportantReminderArray.push(item.Api(item.auction ? auctionParams : params));
+		});
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		const handlePromise = promiseAll(RiskImportantReminderArray.map(promiseItem => promiseItem.catch(err => err)));
+		// if (RiskImportantReminderArray.length === 0) {
+		// 	this.setState({ loading: false, finish: true });
+		// }
+		handlePromise.then((res) => {
+			const isArray = Array.isArray(res) && res.length > 0;
+
+			const RiskImportantReminderList = [];
+			const RiskImportantReminderObligorIdList = [];
+			if (isArray) {
+				res.forEach((item) => {
+					if (item.code === 200) {
+						const { importantList, obligorId } = item.data;
+						RiskImportantReminderList.push(...importantList);
+						RiskImportantReminderObligorIdList.push(...obligorId);
+					}
+				});
+			}
+			this.setState(() => ({
+				RiskImportantReminderList,
+				RiskImportantReminderObligorIdList,
+			}));
+		}).catch((reason) => {
+			this.setState({ loading: false, finish: false });
+			console.log('promise reject failed reason', reason);
+		});
 	};
 
 	handleClick = (index) => {
@@ -235,6 +291,7 @@ class HomeDynamic extends PureComponent {
 		this.setState(() => ({
 			checkType: index,
 			AssetImportantReminderList: [],
+			RiskImportantReminderList: [],
 			finish: false,
 		}));
 		this.getData(params);
@@ -242,13 +299,16 @@ class HomeDynamic extends PureComponent {
 
 	render() {
 		const {
-			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList,
+			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
+			RiskImportantReminderObligorIdList,
 		} = this.state;
 		const params = {
 			assetPropsData,
 			riskPropsData,
 			AssetImportantReminderList,
 			AssetImportantReminderObligorIdList,
+			RiskImportantReminderList,
+			RiskImportantReminderObligorIdList,
 		};
 		return (
 			<div className="dynamic-container">

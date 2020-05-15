@@ -9,7 +9,7 @@ import {
 } from '@/utils/api/monitor-info/intangible'; // 无形资产已读
 import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; // 代位权
 import { timeStandard } from '@/utils';
-import { Icon } from '@/common';
+import { Ellipsis, Icon } from '@/common';
 import borrow from '@/assets/img/home/icon-borrow.png';
 import EmissionModal from './dynamic-modal/emission-modal';
 import AssetAuctionModal from './dynamic-modal/assets-auction-modal';
@@ -312,7 +312,14 @@ class DetailItem extends PureComponent {
 							<div className="detail-container-content-right">
 								<div className="detail-container-content-right-header">
 									<div className="detail-container-content-right-header-name">
-										{item.obligorName || '-'}
+										{/* {item.obligorName || '-'} */}
+										<Ellipsis
+											auto
+											content={item.obligorName || '-'}
+											tooltip
+											font={14}
+											width={370}
+										/>
 										{item.mainObligor ? <img src={borrow} alt="" /> : null}
 									</div>
 									<div className="detail-container-content-right-header-time">

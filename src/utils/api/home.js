@@ -112,3 +112,8 @@ export const importantListSubrogationJudgment = async (params) => {
 	const response = await service.get('/yc/monitor/judgment/subrogation/importantList', { params });
 	return Object.assign(response.data, { name: 'SubrogationJudgment' });
 };
+// 经营风险行政处罚
+export const importantListRiskPunishment = async (params) => {
+	const response = await service.get('/yc/monitor/risk/punishment/importantList', { params });
+	return Object.assign(response.data, { name: 'punishment' });
+};
