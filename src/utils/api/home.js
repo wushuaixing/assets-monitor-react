@@ -66,3 +66,54 @@ export const importantListLandTransaction = async (params) => {
 	const response = await service.get('/yc/monitor/land/transaction/importantList', { params });
 	return Object.assign(response.data, { name: 'LandTransaction' });
 };
+// 排污权发证
+export const importantListIntangibleEmission = async (params) => {
+	const response = await service.get('/yc/monitor/intangible/emission/importantList', { params });
+	return Object.assign(response.data, { name: 'IntangibleEmission' });
+};
+// 采矿权发证
+export const importantListIntangibleMining = async (params) => {
+	const response = await service.get('/yc/monitor/intangible/mining/importantList', { params });
+	return Object.assign(response.data, { name: 'IntangibleMining' });
+};
+// 商标专利
+export const importantListIntangibleTrademarkRight = async (params) => {
+	const response = await service.get('/yc/monitor/intangible/trademarkRight/importantList', { params });
+	return Object.assign(response.data, { name: 'IntangibleTrademarkRight' });
+};
+// 建筑建造资质
+export const importantListIntangibleConstruct = async (params) => {
+	const response = await service.get('/yc/monitor/intangible/construct/importantList', { params });
+	return Object.assign(response.data, { name: 'IntangibleConstruct' });
+};
+// 建筑建造资质
+export const importantListMortgage = async (params) => {
+	const response = await service.get('/yc/monitor/mortgage/importantList', { params });
+	return Object.assign(response.data, { name: 'mortgage' });
+};
+// 股权质押
+export const importantListPledge = async (params) => {
+	const response = await service.get('/yc/monitor/finance/pledge/importantList', { params });
+	return Object.assign(response.data, { name: 'pledge' });
+};
+
+// 代位权开庭
+export const importantListSubrogationCourt = async (params) => {
+	const response = await service.get('/yc/monitor/court/subrogation/importantList', { params });
+	return Object.assign(response.data, { name: 'SubrogationCourt' });
+};
+// 代位权立案
+export const importantListSubrogationTrial = async (params) => {
+	const response = await service.get('/yc/monitor/trial/subrogation/importantList', { params });
+	return Object.assign(response.data, { name: 'SubrogationTrial' });
+};
+// 代位权裁判文书
+export const importantListSubrogationJudgment = async (params) => {
+	const response = await service.get('/yc/monitor/judgment/subrogation/importantList', { params });
+	return Object.assign(response.data, { name: 'SubrogationJudgment' });
+};
+// 经营风险行政处罚
+export const importantListRiskPunishment = async (params) => {
+	const response = await service.get('/yc/monitor/risk/punishment/importantList', { params });
+	return Object.assign(response.data, { name: 'punishment' });
+};

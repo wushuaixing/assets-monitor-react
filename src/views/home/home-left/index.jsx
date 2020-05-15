@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import {
 	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction,
+	importantListIntangibleEmission, importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage,
+	importantListPledge, importantListSubrogationCourt, importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment,
 } from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -20,7 +22,9 @@ class HomeDynamic extends PureComponent {
 			assetPropsData: {},
 			riskPropsData: {},
 			AssetImportantReminderList: [],
+			RiskImportantReminderList: [],
 			AssetImportantReminderObligorIdList: [],
+			RiskImportantReminderObligorIdList: [],
 			loading: false,
 			finish: false,
 		};
@@ -87,28 +91,28 @@ class HomeDynamic extends PureComponent {
 				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark]);
 			const assetDataArray = [
 				{
-					count: auction, type: 3, typeName: '资产拍卖', name: '资产拍卖', value: 2,
+					count: auction, type: 1, typeName: '资产拍卖', name: '资产拍卖', value: 1,
 				},
 				{
-					count: subrogationNum, type: 3, typeName: '代位权', name: '代位权', value: 2,
+					count: subrogationNum, type: 2, typeName: '代位权', name: '代位权', value: 2,
 				},
 				{
-					count: landNum, type: 3, typeName: '土地信息', name: '土地信息', value: 2,
+					count: landNum, type: 3, typeName: '土地信息', name: '土地信息', value: 3,
 				},
 				{
-					count: stock, type: 3, typeName: '股权质押', name: '股权质押', value: 2,
+					count: stock, type: 4, typeName: '股权质押', name: '股权质押', value: 4,
 				},
 				{
-					count: financeNum, type: 3, typeName: '金融资产', name: '金融资产', value: 2,
+					count: financeNum, type: 5, typeName: '金融资产', name: '金融资产', value: 5,
 				},
 				{
-					count: mortgage, type: 3, typeName: '动产抵押', name: '动产抵押', value: 2,
+					count: mortgage, type: 6, typeName: '动产抵押', name: '动产抵押', value: 6,
 				},
 				{
-					count: bidding, type: 3, typeName: '招投标', name: '招投标', value: 2,
+					count: bidding, type: 7, typeName: '招投标', name: '招投标', value: 7,
 				},
 				{
-					count: intangibleNum, type: 3, typeName: '无形资产', name: '无形资产', value: 2,
+					count: intangibleNum, type: 8, typeName: '无形资产', name: '无形资产', value: 8,
 				},
 			];
 			const assetPropsData = {
@@ -125,7 +129,7 @@ class HomeDynamic extends PureComponent {
 
 	getAssetImportantReminder = (objValue) => {
 		const {
-			auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
+			auction, construct, emission, landMortgage, landTransaction, landTransfer,
 			mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark,
 		} = objValue.data;
 		const params = {
@@ -138,9 +142,22 @@ class HomeDynamic extends PureComponent {
 		};
 		const apiArray = [
 			{ count: auction, Api: importantListAuction, auction: true },
+
 			{ count: landTransfer, Api: importantListLandTransfer },
 			{ count: landMortgage, Api: importantListLandMortgage },
 			{ count: landTransaction, Api: importantListLandTransaction },
+
+			{ count: emission, Api: importantListIntangibleEmission },
+			{ count: mining, Api: importantListIntangibleMining },
+			{ count: trademark, Api: importantListIntangibleTrademarkRight },
+			{ count: construct, Api: importantListIntangibleConstruct },
+
+			{ count: mortgage, Api: importantListMortgage },
+			{ count: stock, Api: importantListPledge },
+
+			{ count: subrogationCourt, Api: importantListSubrogationCourt },
+			{ count: subrogationTrial, Api: importantListSubrogationTrial },
+			{ count: subrogationJudgement, Api: importantListSubrogationJudgment },
 		];
 		const AssetImportantReminderArray = [];
 		apiArray.filter(i => i.count).forEach((item) => {
@@ -207,10 +224,64 @@ class HomeDynamic extends PureComponent {
 				totalNum,
 				riskDataArray,
 			};
+			this.getRiskImportantReminder(res);
 			this.setState({
 				riskPropsData,
 			});
 		}
+	};
+
+	getRiskImportantReminder = (objValue) => {
+		const {
+			abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
+			punishment, tax,
+		} = objValue.data;
+		const params = {
+			num: 10,
+			type: objValue.type,
+		};
+		const auctionParams = {
+			num: 30,
+			type: objValue.type,
+		};
+		const apiArray = [
+			{ count: punishment, Api: importantListRiskPunishment },
+			// { count: landTransfer, Api: importantListLandTransfer },
+			// { count: landMortgage, Api: importantListLandMortgage },
+			// { count: landTransaction, Api: importantListLandTransaction },
+		];
+		const RiskImportantReminderArray = [];
+		apiArray.filter(i => i.count).forEach((item) => {
+			RiskImportantReminderArray.push(item.Api(item.auction ? auctionParams : params));
+		});
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		const handlePromise = promiseAll(RiskImportantReminderArray.map(promiseItem => promiseItem.catch(err => err)));
+		// if (RiskImportantReminderArray.length === 0) {
+		// 	this.setState({ loading: false, finish: true });
+		// }
+		handlePromise.then((res) => {
+			const isArray = Array.isArray(res) && res.length > 0;
+
+			const RiskImportantReminderList = [];
+			const RiskImportantReminderObligorIdList = [];
+			if (isArray) {
+				res.forEach((item) => {
+					if (item.code === 200) {
+						const { importantList, obligorId } = item.data;
+						RiskImportantReminderList.push(...importantList);
+						RiskImportantReminderObligorIdList.push(...obligorId);
+					}
+				});
+			}
+			this.setState(() => ({
+				RiskImportantReminderList,
+				RiskImportantReminderObligorIdList,
+			}));
+		}).catch((reason) => {
+			this.setState({ loading: false, finish: false });
+			console.log('promise reject failed reason', reason);
+		});
 	};
 
 	handleClick = (index) => {
@@ -220,6 +291,7 @@ class HomeDynamic extends PureComponent {
 		this.setState(() => ({
 			checkType: index,
 			AssetImportantReminderList: [],
+			RiskImportantReminderList: [],
 			finish: false,
 		}));
 		this.getData(params);
@@ -227,13 +299,16 @@ class HomeDynamic extends PureComponent {
 
 	render() {
 		const {
-			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList,
+			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
+			RiskImportantReminderObligorIdList,
 		} = this.state;
 		const params = {
 			assetPropsData,
 			riskPropsData,
 			AssetImportantReminderList,
 			AssetImportantReminderObligorIdList,
+			RiskImportantReminderList,
+			RiskImportantReminderObligorIdList,
 		};
 		return (
 			<div className="dynamic-container">

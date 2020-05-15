@@ -34,15 +34,6 @@ const MortgageDetail = (text, rowContent) => (
 				<span className="list list-title-colon">:</span>
 				<span className="list list-content">
 					{rowContent.regNum || '-'}
-					{/* {
-						rowContent.regNum && rowContent.regNum.length > 10
-							? (
-								<Tooltip placement="topLeft" title={rowContent.regNum}>
-									<p>{`${rowContent.regNum.substr(0, 10)}...`}</p>
-								</Tooltip>
-							)
-							: <p>{rowContent.regNum || '-'}</p>
-					} */}
 				</span>
 			</li>
 			<li>
@@ -126,17 +117,6 @@ const columns = (props) => {
 			width: 190,
 			render: (text, row) => (
 				<Ellipsis content={text} tooltip width={170} url={row.peopleId ? `/#/business/debtor/detail?id=${row.peopleId}` : ''} />
-				// <span>
-				// 	{
-				// 		text && text.length > 10
-				// 			? (
-				// 				<Tooltip placement="topLeft" title={text}>
-				// 					<p>{row.peopleId === 0 ? `${text.substr(0, 10)}...` : linkDom(`/#/business/debtor/detail?id=${row.peopleId}`, `${text.substr(0, 10)}...`)}</p>
-				// 				</Tooltip>
-				// 			)
-				// 			: <p>{row.peopleId === 0 ? `${text || '-'}` : linkDom(`/#/business/debtor/detail?id=${row.peopleId}`, `${text || '-'}`)}</p>
-				// 	}
-				// </span>
 			),
 		}, {
 			title: '抵押详情',

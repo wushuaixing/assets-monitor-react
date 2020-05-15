@@ -134,11 +134,9 @@ export default class DetailModal extends React.PureComponent {
 
 	// 表格发生变化
 	onRefresh=(data, type) => {
-		console.log('onRefresh:', data, type);
-
 		const { dataSource } = this.state;
 		const { index } = data;
-		const _dataSource = dataSource;
+		const _dataSource = [...dataSource];
 		_dataSource[index][type] = data[type];
 		this.setState({
 			dataSource: _dataSource,
@@ -174,6 +172,7 @@ export default class DetailModal extends React.PureComponent {
 							dataSource={dataSource}
 							pagination={false}
 							className="table"
+							rowClassName={() => 'yc-assets-auction-table-row'}
 						/>
 						<div style={{ width: '100%', textAlign: 'center' }}>
 							<Button onClick={this.handleCancel} type="primary" style={{ width: 180, height: 34, margin: '50px 0' }}>关闭</Button>

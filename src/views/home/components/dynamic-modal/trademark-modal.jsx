@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Modal, Button } from 'antd';
-import { Copyright, Dump } from 'api/monitor-info/intangible';
-import { Ellipsis, Spin, Table } from '@/common';
-import { Attentions, ReadStatus, SortVessel } from '@/common/table';
+import { Copyright } from 'api/monitor-info/intangible';
+import { Spin, Table } from '@/common';
+import { Attentions } from '@/common/table';
 import { linkDetail, linkDom, timeStandard } from '@/utils';
 
 const rightsTypeStatus = {
@@ -14,21 +14,7 @@ export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [
-				{
-					gmtCreate: '2020-04-21',
-					gmtModified: '2020-04-22 ',
-					id: 238153,
-					isAttention: 0,
-					isRead: 1,
-					noticeTime: '2020-01-06',
-					obligorId: 354314,
-					obligorName: '徽商银行股份有限公司',
-					rightsName: '雏鹰 ',
-					rightsType: 1,
-					url: 'http://wsgg.sbj.cnipa.gov.cn:9080/tmann/annInfoView/annSearch.html?annNum=1678',
-				},
-			], // 列表数据
+			dataSource: [], // 列表数据
 			loading: false,
 			columns: [
 				{
@@ -61,7 +47,7 @@ export default class DetailModal extends React.PureComponent {
 						<Attentions
 							text={text}
 							row={row}
-							// onClick={onRefresh}
+							onClick={this.onRefresh}
 							api={row.isAttention ? Copyright.unAttention : Copyright.attention}
 							index={index}
 						/>
@@ -69,6 +55,24 @@ export default class DetailModal extends React.PureComponent {
 				}],
 		};
 	}
+
+	componentDidMount() {
+		const { dataSource } = this.props;
+		this.setState(() => ({
+			dataSource,
+		}));
+	}
+
+	// 表格发生变化
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = [...dataSource];
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
 
 	handleCancel=() => {
 		const { onCancel } = this.props;

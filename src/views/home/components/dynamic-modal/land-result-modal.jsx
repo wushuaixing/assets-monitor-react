@@ -1,29 +1,11 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { Judgment } from 'api/monitor-info/subrogation';
-import {
-	Ellipsis, LiItem, Spin, Table,
-} from '@/common';
+import Api from 'api/monitor-info/public';
+import { Ellipsis, Spin, Table } from '@/common';
 import { Attentions } from '@/common/table';
 import { timeStandard } from '@/utils';
-import { partyInfo } from '@/views/_common';
+import { Result } from '@/views/asset-excavate/land-data/table/common';
 
-/* 文书信息 */
-const documentInfo = (value, row) => {
-	const {
-		caseReason, caseType, gmtJudgment, title, url, isRestore,
-	} = row;
-	return (
-		<div className="assets-info-content">
-			<li>
-				<Ellipsis content={title} line={2} tooltip url={url} />
-			</li>
-			<LiItem Li title="案由" auto>{caseReason || '-'}</LiItem>
-			<LiItem Li title="案件类型" auto>{isRestore ? '执恢案件' : (caseType || '-')}</LiItem>
-			<LiItem Li title="判决日期" auto>{timeStandard(gmtJudgment)}</LiItem>
-		</div>
-	);
-};
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -32,30 +14,28 @@ export default class DetailModal extends React.PureComponent {
 			loading: false,
 			columns: [
 				{
-					title: '发布日期',
-					dataIndex: 'gmtPublish',
-					render: text => timeStandard(text),
+					title: '签订日期',
+					dataIndex: 'singedTime',
+					render: text => timeStandard(text) || '-',
 				}, {
-					title: '当事人',
-					dataIndex: 'parties',
-					render: partyInfo,
+					title: '土地使用权人',
+					width: 190,
+					dataIndex: 'obligorName',
+					render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
 				}, {
-					title: '法院',
-					dataIndex: 'court',
-					render: text => text || '-',
+					title: '项目信息',
+					render: Result.InfoProject,
 				}, {
-					title: '案号',
-					dataIndex: 'caseNumber',
-					render: text => text || '-',
+					title: '土地信息',
+					render: Result.InfoLand,
 				}, {
-					title: '文书信息',
-					dataIndex: 'associatedInfo1',
-					width: 200,
-					render: documentInfo,
+					title: '出让信息',
+					width: 250,
+					render: Result.InfoTransfer,
 				}, {
 					title: '更新日期',
 					dataIndex: 'gmtCreate',
-					render: val => timeStandard(val),
+					render: text => timeStandard(text) || '-',
 				}, {
 					title: '操作',
 					unNormal: true,
@@ -65,7 +45,7 @@ export default class DetailModal extends React.PureComponent {
 							text={text}
 							row={row}
 							onClick={this.onRefresh}
-							api={row.isAttention ? Judgment.unAttention : Judgment.attention}
+							api={row.isAttention ? Api.attentionUnFollowResult : Api.attentionFollowResult}
 							index={index}
 						/>
 					),
@@ -98,13 +78,13 @@ export default class DetailModal extends React.PureComponent {
 
 	render() {
 		const { columns, dataSource, loading } = this.state;
-		const { subrogationJudgmentModal } = this.props;
+		const { LandResultModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-代位权(文书)"
+				title="匹配详情-出让结果"
 				width={1100}
 				style={{ height: 320 }}
-				visible={subrogationJudgmentModal}
+				visible={LandResultModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"

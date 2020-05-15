@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 import { Modal, Button } from 'antd';
 import { Dump } from 'api/monitor-info/intangible';
-import { Ellipsis, Spin, Table } from '@/common';
-import { Attentions, ReadStatus, SortVessel } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
+import {
+	Ellipsis, LiItem, Spin, Table,
+} from '@/common';
+import { Attentions } from '@/common/table';
+import { linkDom } from '@/utils';
 
 const status = {
 	1: {
@@ -35,26 +37,7 @@ export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [
-				{
-					companyName: '江苏腾达缸泵机械股份有限公司',
-					gmtCreate: '2020-04-17',
-					gmtIssueTime: '2019-12-06',
-					gmtModified: '2020-04-17',
-					gmtPublishTime: '2019-12-06',
-					gmtValidityPeriodEnd: '2022-12-05',
-					gmtValidityPeriodStart: '2019-12-06',
-					id: 103,
-					industry: '黑色金属铸造',
-					isAttention: false,
-					isRead: true,
-					licenseNumber: '91321000552508646B001R',
-					obligorId: 353301,
-					reason: '应当注销的其他情形',
-					status: '注销',
-					url: 'http://permit.mee.gov.cn/permitExt/xkgkAction!xkgk.action?xkgk=getxxgkContent&dataid=f9c7c29498e54ea39eb4469966efb555',
-				},
-			], // 列表数据
+			dataSource: [], // 列表数据
 			loading: false,
 			columns: [
 				{
@@ -83,20 +66,14 @@ export default class DetailModal extends React.PureComponent {
 					dataIndex: 'industry',
 					render: (text, row) => (
 						<div className="assets-info-content">
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>行业分类</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content"><Ellipsis content={text || '-'} tooltip width={200} /></span>
-							</li>
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>有效期</span>
-								<span className="list list-title-colon">:</span>
+							<LiItem Li title="行业分类" auto><Ellipsis content={text || '-'} tooltip width={200} /></LiItem>
+							<LiItem Li title="资质类别" auto>
 								{
-									row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
-										<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
-									) : '-'
-								}
-							</li>
+										row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
+											<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
+										) : '-'
+									}
+							</LiItem>
 						</div>
 					),
 				}, {
@@ -137,7 +114,7 @@ export default class DetailModal extends React.PureComponent {
 						<Attentions
 							text={text}
 							row={row}
-							// onClick={onRefresh}
+							onClick={this.onRefresh}
 							api={row.isAttention ? Dump.unAttention : Dump.attention}
 							index={index}
 						/>
@@ -145,6 +122,24 @@ export default class DetailModal extends React.PureComponent {
 				}],
 		};
 	}
+
+	componentDidMount() {
+		const { dataSource } = this.props;
+		this.setState(() => ({
+			dataSource,
+		}));
+	}
+
+	// 表格发生变化
+	onRefresh=(data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = [...dataSource];
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
 
 	handleCancel=() => {
 		const { onCancel } = this.props;
