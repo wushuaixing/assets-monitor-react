@@ -21,14 +21,14 @@ const statusType = (value) => {
 	}
 };
 
-const AssetsInfo = (text, rowContent, index, noMatching = false) => {
+const AssetsInfo = (text, rowContent, index, noMatching = false, asset) => {
 	const {
 		obligorName, obligorNumber, orgName, updateTime, important, dishonestStatus, obligorId, isRead,
 	} = rowContent;
 	return (
 		<React.Fragment>
 			{important === 1 && !noMatching ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
-			{!isRead
+			{!asset && !isRead
 				? (
 					<span
 						className={!isRead && isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'}
