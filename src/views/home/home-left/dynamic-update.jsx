@@ -168,7 +168,7 @@ class dynamicUpdate extends PureComponent {
 		if (Object.keys(RingEchartsObj).length !== 0) {
 			const { selected, name } = RingEchartsObj;
 			assetArr = this.assetArray(selected, name, assetRemindArray, clear);
-			riskArr = this.riskArray(selected, name, riskRemindArray);
+			riskArr = this.riskArray(selected, name, riskRemindArray, clear);
 		}
 		return (
 			<div className="seven-update-container">
