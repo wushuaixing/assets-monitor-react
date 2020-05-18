@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import {
 	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction,
 	importantListIntangibleEmission, importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage,
-	importantListPledge, importantListSubrogationCourt, importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment,
+	importantListPledge, importantListSubrogationCourt, importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax,
+	importantListRiskIllegal, importantListRiskAbnormal, importantListRiskDishonest, importantListRiskBankruptcy,
 } from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -245,10 +246,12 @@ class HomeDynamic extends PureComponent {
 			type: objValue.type,
 		};
 		const apiArray = [
+			{ count: bankruptcy, Api: importantListRiskBankruptcy },
 			{ count: punishment, Api: importantListRiskPunishment },
-			// { count: landTransfer, Api: importantListLandTransfer },
-			// { count: landMortgage, Api: importantListLandMortgage },
-			// { count: landTransaction, Api: importantListLandTransaction },
+			{ count: tax, Api: importantListRiskTax },
+			{ count: illegal, Api: importantListRiskIllegal },
+			{ count: abnormal, Api: importantListRiskAbnormal },
+			{ count: dishonest, Api: importantListRiskDishonest },
 		];
 		const RiskImportantReminderArray = [];
 		apiArray.filter(i => i.count).forEach((item) => {

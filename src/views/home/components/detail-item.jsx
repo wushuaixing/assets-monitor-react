@@ -7,6 +7,8 @@ import Api from '@/utils/api/monitor-info/public'; // 土地数据已读
 import {
 	Mining, Construction as apiConstruction, Copyright, Dump,
 } from '@/utils/api/monitor-info/intangible'; // 无形资产已读
+import { readStatus as bankruptcyReadStatus } from '@/utils/api/monitor-info/bankruptcy';
+import { readStatus } from '@/utils/api/monitor-info/broken-record'; // 失信记录已读
 import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; // 代位权
 import { timeStandard } from '@/utils';
 import { Ellipsis, Icon } from '@/common';
@@ -24,6 +26,7 @@ import EquityPledgeModal from './dynamic-modal/equity-pledge-modal';
 import SubrogationTrialModal from './dynamic-modal/subrogation-trial-modal';
 import SubrogationJudgmentModal from './dynamic-modal/subrogation-judgment-modal';
 import SubrogationCourtModal from './dynamic-modal/subrogation-court-modal';
+import BankruptcyModal from './dynamic-modal/bankruptcy-modal';
 import BrokenModal from './dynamic-modal/broken-record-modal';
 
 import './style.scss';
@@ -40,14 +43,14 @@ const tag = (value) => {
 	case 304: return '建筑建造资质';
 	case 401: return '动产抵押';
 	case 501: return '股权质押';
-	case 601: return '代位权(开庭)';
-	case 602: return '代位权(立案)';
+	case 601: return '代位权(立案)';
+	case 602: return '代位权(开庭)';
 	case 603: return '代位权(文书)';
 	case 701: return '破产重组';
 	case 801: return '失信（列入）';
 	case 802: return '失信（移除）';
-	case 901: return '涉诉(开庭)';
-	case 902: return '涉诉（立案）';
+	case 901: return '涉诉(立案)';
+	case 902: return '涉诉（开庭）';
 	case 903: return '涉诉（文书）';
 	case 1001: return '经营异常';
 	case 1002: return '严重违法';
@@ -69,14 +72,14 @@ const icon = (value) => {
 	case 304: return 'intangible-build';
 	case 401: return 'chattel-2';
 	case 501: return 'stock-2';
-	case 601: return 'subrogation-court';
-	case 602: return 'subrogation-trial';
+	case 601: return 'subrogation-trial';
+	case 602: return 'subrogation-court';
 	case 603: return 'subrogation-judgment';
 	case 701: return 'bankruptcy-2';
 	case 801: return 'broken-add';
 	case 802: return 'broken-remove';
-	case 901: return 'lawsuit-court';
-	case 902: return 'lawsuit-trial';
+	case 901: return 'lawsuit-trial';
+	case 902: return 'lawsuit-court';
 	case 903: return 'lawsuit-judgment';
 	case 1001: return 'abnormal';
 	case 1002: return 'illegal';
@@ -104,6 +107,7 @@ class DetailItem extends PureComponent {
 			subrogationTrialModalVisible: false,
 			subrogationJudgmentModalVisible: false,
 			subrogationCourtModalVisible: false,
+			bankruptcyModalVisible: false,
 			brokenModalVisible: false,
 			data: props.data || [],
 			dataSource: [],
@@ -184,22 +188,33 @@ class DetailItem extends PureComponent {
 			}],
 			[501, () => {
 				this.isReadList(item, index, readStatusResult);
-				this.setState(() => ({ equityPledgeModalVisible: true, dataSource: item.detailList }));
+				this.setState(() => ({ subrogationTrialModalVisible: true, dataSource: item.detailList }));
 			}],
 			[601, () => {
-				this.isReadList(item, index, Court.read, 'idList');
-				this.setState(() => ({ subrogationCourtModalVisible: true, dataSource: item.detailList }));
-			}],
-			[602, () => {
 				this.isReadList(item, index, Trial.read, 'idList');
 				this.setState(() => ({ subrogationTrialModalVisible: true, dataSource: item.detailList }));
+			}],
+			[602, () => {
+				this.isReadList(item, index, Court.read, 'idList');
+				this.setState(() => ({ subrogationCourtModalVisible: true, dataSource: item.detailList }));
 			}],
 			[603, () => {
 				this.isReadList(item, index, Judgment.read, 'idList');
 				this.setState(() => ({ subrogationJudgmentModalVisible: true, dataSource: item.detailList }));
 			}],
-			[13, () => { this.setState(() => ({ brokenModalVisible: true })); }],
-			[14, () => { this.setState(() => ({ brokenModalVisible: true })); }],
+
+			[701, () => {
+				this.isReadList(item, index, bankruptcyReadStatus, 'idList');
+				this.setState(() => ({ bankruptcyModalVisible: true, dataSource: item.detailList }));
+			}],
+			[801, () => {
+				this.isReadList(item, index, readStatus, 'idList');
+				this.setState(() => ({ brokenModalVisible: true, dataSource: item.detailList }));
+			}],
+			[802, () => {
+				this.isReadList(item, index, readStatus, 'idList');
+				this.setState(() => ({ brokenModalVisible: true, dataSource: item.detailList }));
+			}],
 			['default', ['资产拍卖', 1]],
 		]);
 		const openModalMapType = openModalMap.get(item.detailType) || openModalMap.get('default');
@@ -222,6 +237,8 @@ class DetailItem extends PureComponent {
 			subrogationTrialModalVisible: false,
 			subrogationJudgmentModalVisible: false,
 			subrogationCourtModalVisible: false,
+
+			bankruptcyModalVisible: false,
 			brokenModalVisible: false,
 		});
 	};
@@ -289,7 +306,7 @@ class DetailItem extends PureComponent {
 	render() {
 		const {
 			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible,
-			miningModalVisible, trademarkModalVisible, 		constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible,
+			miningModalVisible, trademarkModalVisible, 		constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, listMarginTop, animate,
 
 		} = this.state;
@@ -484,13 +501,13 @@ class DetailItem extends PureComponent {
 						brokenModalVisible={brokenModalVisible}
 					/>
 				)}
-				{/** 代位权(文书)Modal */}
-				{subrogationJudgmentModalVisible && (
-					<SubrogationJudgmentModal
+				{/** 破产重组Modal */}
+				{bankruptcyModalVisible && (
+					<BankruptcyModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
 						dataSource={dataSource}
-						subrogationJudgmentModal={subrogationJudgmentModalVisible}
+						bankruptcyModalVisible={bankruptcyModalVisible}
 					/>
 				)}
 			</div>

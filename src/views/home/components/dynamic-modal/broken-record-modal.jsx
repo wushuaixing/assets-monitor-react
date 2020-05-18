@@ -1,12 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Modal, Button } from 'antd';
-import { Copyright, Dump } from 'api/monitor-info/intangible';
 import isBreak from 'img/business/status_shixin.png';
 import beforeBreak from 'img/business/status_cengshixin.png';
 import { followSingle, unFollowSingle } from 'api/monitor-info/broken-record';
 import { Ellipsis, Spin, Table } from '@/common';
-import { Attentions, ReadStatus, SortVessel } from '@/common/table';
-import { linkDetail, linkDom, timeStandard } from '@/utils';
+import { Attentions } from '@/common/table';
+import { timeStandard } from '@/utils';
 
 const imgStyle = {
 	position: 'absolute',
@@ -17,26 +16,7 @@ export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [
-				{
-					caseCode: '(2019)豫1082执恢782号',
-					court: '长葛市人民法院',
-					createTime: '2020-03-20',
-					disruptType: '有履行能力而拒不履行生效法律文书确定义务',
-					duty: '一、被告辉县市盛源纺织有限公司、河南凯迪药用特种包装材料有限公司、新乡市汇丰纺织有限公司、徐道平、郭照虎、徐艳君、宋连陆于本判决生效之日起十日内偿还原告贾保平借款本金150万元及利息（自2013年4月22日起至本判决确定的履行期限届满之日按中国人民银行同期同类人民币贷款利率的四倍计算），被告对该笔债务承担保证责任后，有权向获嘉县万得沣纺织有限公司及王士祥、宋清平、安国栋进行追偿。',
-					gmtPublishDate: '2019-12-16',
-					id: 25789,
-					isAttention: true,
-					isRead: true,
-					name: '徐道平',
-					number: '410724196201123514',
-					obligorId: 321906,
-					performance: '全部未履行',
-					removeStatus: false,
-					status: 1,
-					updateTime: '2020-03-21',
-				},
-			], // 列表数据
+			dataSource: [], // 列表数据
 			loading: false,
 			columns: [
 				{
@@ -125,12 +105,18 @@ export default class DetailModal extends React.PureComponent {
 		};
 	}
 
+	componentDidMount() {
+		const { dataSource } = this.props;
+		this.setState(() => ({
+			dataSource,
+		}));
+	}
+
 	// 表格发生变化
 	onRefresh=(data, type) => {
-		// console.log('onRefresh:', data, type);
 		const { dataSource } = this.state;
 		const { index } = data;
-		const _dataSource = dataSource;
+		const _dataSource = [...dataSource];
 		_dataSource[index][type] = data[type];
 		this.setState({
 			dataSource: _dataSource,
@@ -147,7 +133,7 @@ export default class DetailModal extends React.PureComponent {
 		const { brokenModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-商标专利"
+				title="匹配详情-失信记录"
 				width={1100}
 				style={{ height: 320 }}
 				visible={brokenModalVisible}
