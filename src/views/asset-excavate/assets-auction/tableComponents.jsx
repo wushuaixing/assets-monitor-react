@@ -28,7 +28,7 @@ const AssetsInfo = (text, rowContent, index, noMatching = false) => {
 	return (
 		<React.Fragment>
 			{important === 1 && !noMatching ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
-			{isRead === 0
+			{!isRead
 				? (
 					<span
 						className={!isRead && isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'}

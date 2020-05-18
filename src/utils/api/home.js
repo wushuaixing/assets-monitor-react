@@ -112,8 +112,48 @@ export const importantListSubrogationJudgment = async (params) => {
 	const response = await service.get('/yc/monitor/judgment/subrogation/importantList', { params });
 	return Object.assign(response.data, { name: 'SubrogationJudgment' });
 };
+// 破产重组
+export const importantListRiskBankruptcy = async (params) => {
+	const response = await service.get('/yc/monitor/bankruptcy/importantList', { params });
+	return Object.assign(response.data, { name: 'bankruptcy' });
+};
 // 经营风险行政处罚
 export const importantListRiskPunishment = async (params) => {
 	const response = await service.get('/yc/monitor/risk/punishment/importantList', { params });
 	return Object.assign(response.data, { name: 'punishment' });
+};
+// 经营风险重大税收违法
+export const importantListRiskTax = async (params) => {
+	const response = await service.get('/yc/monitor/risk/tax/importantList', { params });
+	return Object.assign(response.data, { name: 'tax' });
+};
+// 经营风险严重违法
+export const importantListRiskIllegal = async (params) => {
+	const response = await service.get('/yc/monitor/risk/illegal/importantList', { params });
+	return Object.assign(response.data, { name: 'illegal' });
+};
+// 经营风险经营异常
+export const importantListRiskAbnormal = async (params) => {
+	const response = await service.get('/yc/monitor/risk/abnormal/importantList', { params });
+	return Object.assign(response.data, { name: 'abnormal' });
+};
+// 失信记录
+export const importantListRiskDishonest = async (params) => {
+	const response = await service.get('/yc/monitor/dishonest/importantList', { params });
+	return Object.assign(response.data, { name: 'dishonest' });
+};
+// 涉诉信息开庭
+export const importantListLawsuitCourt = async (params) => {
+	const response = await service.get('/yc/monitor/court/lawsuit/importantList', { params });
+	return Object.assign(response.data, { name: 'LawsuitCourt' });
+};
+// 涉诉信息立案
+export const importantListLawsuitTrial = async (params) => {
+	const response = await service.get('/yc/monitor/trial/lawsuit/importantList', { params });
+	return Object.assign(response.data, { name: 'LawsuitTrial' });
+};
+// 涉诉信息裁判文书
+export const importantListLawsuitJudgment = async (params) => {
+	const response = await service.get('/yc/monitor/judgment/lawsuit/importantList', { params });
+	return Object.assign(response.data, { name: 'LawsuitJudgment' });
 };

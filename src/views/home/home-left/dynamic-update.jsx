@@ -25,7 +25,7 @@ const ringMap = new Map([
 	['招投标', ['招投标', 11]],
 	['破产重组', ['破产重组', 7]],
 	['失信记录', ['失信记录', 8]],
-	['涉诉风险', ['涉诉风险', 9]],
+	['涉诉信息', ['涉诉信息', 9]],
 	['经营风险', ['经营风险', 10]],
 	['default', ['资产拍卖', 1]],
 ]);
@@ -168,7 +168,7 @@ class dynamicUpdate extends PureComponent {
 		if (Object.keys(RingEchartsObj).length !== 0) {
 			const { selected, name } = RingEchartsObj;
 			assetArr = this.assetArray(selected, name, assetRemindArray, clear);
-			riskArr = this.riskArray(selected, name, riskRemindArray);
+			riskArr = this.riskArray(selected, name, riskRemindArray, clear);
 		}
 		return (
 			<div className="seven-update-container">

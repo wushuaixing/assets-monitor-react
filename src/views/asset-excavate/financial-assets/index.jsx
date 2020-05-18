@@ -9,7 +9,7 @@ import TablePublicity from './table/publicity';
 import {
 	Button, Tabs, Spin, Download,
 } from '@/common';
-import { readStatusAll, readAllStatusResult } from '@/utils/api/monitor-info/finance';
+import { readAllStatusBid, readStatusAll, readAllStatusResult } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
@@ -108,7 +108,14 @@ export default class Subrogation extends React.Component {
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					if (sourceType === 2) {
+					if (sourceType === 1) {
+						readAllStatusBid({}).then((res) => {
+							if (res.code === 200) {
+								_this.onQueryChange();
+								_this.onUnReadCount();
+							}
+						});
+					} else if (sourceType === 2) {
 						readStatusAll({}).then((res) => {
 							if (res.code === 200) {
 								_this.onQueryChange();
@@ -258,9 +265,9 @@ export default class Subrogation extends React.Component {
 			if (code === 200) {
 				const _tabConfig = tabConfig.map((item) => {
 					const _item = item;
-
+					if (_item.id === 1)_item.dot = data.biddingCount;
 					if (_item.id === 2)_item.dot = data.financeCount;
-					if (_item.id === 3)_item.dot = data.stockPledgeFlag;
+
 					return _item;
 				});
 				this.setState({ tabConfig: _tabConfig });

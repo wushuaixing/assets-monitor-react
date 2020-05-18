@@ -29,7 +29,7 @@ const toGetProcess = (sourceType, source) => {
 export default class IntangibleAssets extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '经营风险-无形资产';
+		document.title = '无形资产-资产挖掘';
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',

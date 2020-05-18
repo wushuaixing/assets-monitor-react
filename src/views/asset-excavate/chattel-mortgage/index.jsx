@@ -12,7 +12,7 @@ import { clearEmpty } from '@/utils';
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '动产抵押-监控信息';
+		document.title = '动产抵押-资产挖掘';
 		this.state = {
 			isRead: 'all',
 			dataSource: [],

@@ -58,7 +58,7 @@
 .detail-container {
   padding-top: 7px;
   height: 367px;
-  overflow: hidden;
+  overflow: auto;
 
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;

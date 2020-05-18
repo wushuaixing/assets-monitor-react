@@ -7,8 +7,20 @@ export const infoListBid = params => service.get('/yc/monitor/finance/auctionBid
 	.then(res => res.data);
 
 // 关注列表
-export const attentionListBid = params => service.get('/yc/monitor/finance/auctionBidding/attentionList', { params })
+export const attentionListBid = params => service.get('/yc/monitor/finance/auctionBidding/follow/list', { params })
 	.then(res => res.data);
+
+// 标记为已读
+export const readStatusBid = async (params) => {
+	const response = await service.post('/yc/monitor/finance/auctionBidding/markRead', params);
+	return response.data;
+};
+
+// 全部标记为已读
+export const readAllStatusBid = async (params) => {
+	const response = await service.post('/yc/monitor/finance/auctionBidding/markReadAll', params);
+	return response.data;
+};
 
 // 关注 [批量]
 export const followBid = params => service.post('/yc/monitor/finance/auctionBidding/followBatch', params)
@@ -18,16 +30,16 @@ export const followBid = params => service.post('/yc/monitor/finance/auctionBidd
 export const followSingleBid = params => service.post('/yc/monitor/finance/auctionBidding/follow', params)
 	.then(res => res.data);
 
-// 竞价项目 数量统计
-export const attentionFollowBidCount = params => service.get('/yc/monitor/finance/auctionBidding/attentionList-count', { params })
+// 竞价项目 关注列表数量统计
+export const attentionFollowBidCount = params => service.get('/yc/monitor/finance/auctionBidding/follow/listCount', { params })
 	.then(res => res.data);
 
 // 取消关注 [单个]
-export const unFollowSingleBid = params => service.post('/yc/monitor/finance/auctionBidding/unfollow', params)
+export const unFollowSingleBid = params => service.post('/yc/monitor/finance/auctionBidding/unFollow', params)
 	.then(res => res.data);
 
 // 导出excel
-export const exportListBid = '/yc/monitor/finance/auctionBidding/exportExcel';
+export const exportListBid = '/yc/monitor/finance/auctionBidding/export';
 
 
 /* 监控信息=>金融资产=>公示项目 监控[C.H Wong] 9 */

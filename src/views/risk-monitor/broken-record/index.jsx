@@ -11,7 +11,7 @@ import Table from './table';
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '失信记录';
+		document.title = '失信记录-风险监控';
 		this.state = {
 			isRead: 'all',
 			dataSource: '',

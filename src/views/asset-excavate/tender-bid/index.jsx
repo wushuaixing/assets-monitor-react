@@ -12,7 +12,7 @@ import './style.scss';
 export default class Lawsuits extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '招标中标-监控信息';
+		document.title = '招标中标-资产挖掘';
 		this.state = {
 			isRead: 'all',
 			dataSource: '',

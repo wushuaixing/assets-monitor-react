@@ -630,7 +630,7 @@ export default class FollowInfo extends React.Component {
 													<p style={{ overflow: 'hidden' }}>
 														<div className="yc-follow-line" style={{ margin: '3px 0' }} />
 														<div style={{ textAlign: 'right', lineHeight: '16px' }}>
-															{linkDom('#/organization', '推送设置中心')}
+															{linkDom('#/organization/setting', '推送设置中心')}
 														</div>
 													</p>
 												</div>

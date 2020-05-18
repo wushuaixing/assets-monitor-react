@@ -173,6 +173,7 @@ export default class BusinessView extends React.Component {
 			title: '确认删除选中业务吗?',
 			content: '点击确认删除，业务相关债务人的所有数据(除已完成的数据外)将被清空，无法恢复，请确认是否存在仍需继续跟进的数据',
 			iconType: 'exclamation-circle',
+			className: 'business-delete-modal',
 			onOk() {
 				const params = {
 					id: row.id,

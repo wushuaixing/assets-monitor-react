@@ -7,7 +7,13 @@ import Api from '@/utils/api/monitor-info/public'; // 土地数据已读
 import {
 	Mining, Construction as apiConstruction, Copyright, Dump,
 } from '@/utils/api/monitor-info/intangible'; // 无形资产已读
+import { readStatus as bankruptcyReadStatus } from '@/utils/api/monitor-info/bankruptcy';
+import { readStatus } from '@/utils/api/monitor-info/broken-record'; // 失信记录已读
 import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; // 代位权
+import { Court as lawsuitCourt, Trial as lawsuitTrial, Judgment as lawsuitJudgment } from '@/utils/api/risk-monitor/lawsuit'; // 涉诉信息
+import {
+	Abnormal, Illegal, Violation, Punishment,
+} from '@/utils/api/risk-monitor/operation-risk'; // 经营异常
 import { timeStandard } from '@/utils';
 import { Ellipsis, Icon } from '@/common';
 import borrow from '@/assets/img/home/icon-borrow.png';
@@ -24,8 +30,15 @@ import EquityPledgeModal from './dynamic-modal/equity-pledge-modal';
 import SubrogationTrialModal from './dynamic-modal/subrogation-trial-modal';
 import SubrogationJudgmentModal from './dynamic-modal/subrogation-judgment-modal';
 import SubrogationCourtModal from './dynamic-modal/subrogation-court-modal';
+import BankruptcyModal from './dynamic-modal/bankruptcy-modal';
 import BrokenModal from './dynamic-modal/broken-record-modal';
-
+import AbnormalModal from './dynamic-modal/abnormal-modal';
+import IllegalModal from './dynamic-modal/illegal-modal';
+import TaxModal from './dynamic-modal/tax-modal';
+import PunishmentModal from './dynamic-modal/punishment-modal';
+import LawsuitTrialModal from './dynamic-modal/lawsuit-trial-modal';
+import LawsuitCourtModal from './dynamic-modal/lawsuit-court-modal';
+import LawsuitJudgmentModal from './dynamic-modal/lawsuit-judgment-modal';
 import './style.scss';
 
 const tag = (value) => {
@@ -40,14 +53,14 @@ const tag = (value) => {
 	case 304: return '建筑建造资质';
 	case 401: return '动产抵押';
 	case 501: return '股权质押';
-	case 601: return '代位权(开庭)';
-	case 602: return '代位权(立案)';
+	case 601: return '代位权(立案)';
+	case 602: return '代位权(开庭)';
 	case 603: return '代位权(文书)';
 	case 701: return '破产重组';
 	case 801: return '失信（列入）';
 	case 802: return '失信（移除）';
-	case 901: return '涉诉(开庭)';
-	case 902: return '涉诉（立案）';
+	case 901: return '涉诉(立案)';
+	case 902: return '涉诉（开庭）';
 	case 903: return '涉诉（文书）';
 	case 1001: return '经营异常';
 	case 1002: return '严重违法';
@@ -69,14 +82,14 @@ const icon = (value) => {
 	case 304: return 'intangible-build';
 	case 401: return 'chattel-2';
 	case 501: return 'stock-2';
-	case 601: return 'subrogation-court';
-	case 602: return 'subrogation-trial';
+	case 601: return 'subrogation-trial';
+	case 602: return 'subrogation-court';
 	case 603: return 'subrogation-judgment';
 	case 701: return 'bankruptcy-2';
 	case 801: return 'broken-add';
 	case 802: return 'broken-remove';
-	case 901: return 'lawsuit-court';
-	case 902: return 'lawsuit-trial';
+	case 901: return 'lawsuit-trial';
+	case 902: return 'lawsuit-court';
 	case 903: return 'lawsuit-judgment';
 	case 1001: return 'abnormal';
 	case 1002: return 'illegal';
@@ -104,7 +117,16 @@ class DetailItem extends PureComponent {
 			subrogationTrialModalVisible: false,
 			subrogationJudgmentModalVisible: false,
 			subrogationCourtModalVisible: false,
+			bankruptcyModalVisible: false,
 			brokenModalVisible: false,
+			abnormalModalVisible: false,
+			illegalModalVisible: false,
+			taxModalVisible: false,
+			punishmentModalVisible: false,
+
+			lawsuitTrialModalVisible: false,
+			lawsuitCourtModalVisible: false,
+			lawsuitJudgmentModalVisible: false,
 			data: props.data || [],
 			dataSource: [],
 			listMarginTop: '0',
@@ -187,19 +209,61 @@ class DetailItem extends PureComponent {
 				this.setState(() => ({ equityPledgeModalVisible: true, dataSource: item.detailList }));
 			}],
 			[601, () => {
-				this.isReadList(item, index, Court.read, 'idList');
-				this.setState(() => ({ subrogationCourtModalVisible: true, dataSource: item.detailList }));
-			}],
-			[602, () => {
 				this.isReadList(item, index, Trial.read, 'idList');
 				this.setState(() => ({ subrogationTrialModalVisible: true, dataSource: item.detailList }));
+			}],
+			[602, () => {
+				this.isReadList(item, index, Court.read, 'idList');
+				this.setState(() => ({ subrogationCourtModalVisible: true, dataSource: item.detailList }));
 			}],
 			[603, () => {
 				this.isReadList(item, index, Judgment.read, 'idList');
 				this.setState(() => ({ subrogationJudgmentModalVisible: true, dataSource: item.detailList }));
 			}],
-			[13, () => { this.setState(() => ({ brokenModalVisible: true })); }],
-			[14, () => { this.setState(() => ({ brokenModalVisible: true })); }],
+
+			[701, () => {
+				this.isReadList(item, index, bankruptcyReadStatus, 'idList');
+				this.setState(() => ({ bankruptcyModalVisible: true, dataSource: item.detailList }));
+			}],
+			[801, () => {
+				this.isReadList(item, index, readStatus, 'idList');
+				this.setState(() => ({ brokenModalVisible: true, dataSource: item.detailList }));
+			}],
+			[802, () => {
+				this.isReadList(item, index, readStatus, 'idList');
+				this.setState(() => ({ brokenModalVisible: true, dataSource: item.detailList }));
+			}],
+
+			[901, () => {
+				this.isReadList(item, index, lawsuitTrial.read, 'idList');
+				this.setState(() => ({ lawsuitTrialModalVisible: true, dataSource: item.detailList }));
+			}],
+			[902, () => {
+				this.isReadList(item, index, lawsuitCourt.read, 'idList');
+				this.setState(() => ({ lawsuitCourtModalVisible: true, dataSource: item.detailList }));
+			}],
+			[903, () => {
+				this.isReadList(item, index, lawsuitJudgment.read, 'idList');
+				this.setState(() => ({ lawsuitJudgmentModalVisible: true, dataSource: item.detailList }));
+			}],
+
+			[1001, () => {
+				this.isReadList(item, index, Abnormal.read, 'idList');
+				this.setState(() => ({ abnormalModalVisible: true, dataSource: item.detailList }));
+			}],
+
+			[1002, () => {
+				this.isReadList(item, index, Illegal.read, 'idList');
+				this.setState(() => ({ illegalModalVisible: true, dataSource: item.detailList }));
+			}],
+			[1003, () => {
+				this.isReadList(item, index, Violation.read, 'idList');
+				this.setState(() => ({ taxModalVisible: true, dataSource: item.detailList }));
+			}],
+			[1004, () => {
+				this.isReadList(item, index, Punishment.read);
+				this.setState(() => ({ punishmentModalVisible: true, dataSource: item.detailList }));
+			}],
 			['default', ['资产拍卖', 1]],
 		]);
 		const openModalMapType = openModalMap.get(item.detailType) || openModalMap.get('default');
@@ -222,7 +286,16 @@ class DetailItem extends PureComponent {
 			subrogationTrialModalVisible: false,
 			subrogationJudgmentModalVisible: false,
 			subrogationCourtModalVisible: false,
+
+			bankruptcyModalVisible: false,
 			brokenModalVisible: false,
+			abnormalModalVisible: false,
+			illegalModalVisible: false,
+			taxModalVisible: false,
+			punishmentModalVisible: false,
+			lawsuitTrialModalVisible: false,
+			lawsuitCourtModalVisible: false,
+			lawsuitJudgmentModalVisible: false,
 		});
 	};
 
@@ -289,9 +362,9 @@ class DetailItem extends PureComponent {
 	render() {
 		const {
 			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible,
-			miningModalVisible, trademarkModalVisible, 		constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible,
-			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, listMarginTop, animate,
-
+			miningModalVisible, trademarkModalVisible, constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
+			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, listMarginTop, animate,
+			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, lawsuitJudgmentModalVisible,
 		} = this.state;
 
 		const isData = Array.isArray(data) && data.length > 0;
@@ -484,13 +557,77 @@ class DetailItem extends PureComponent {
 						brokenModalVisible={brokenModalVisible}
 					/>
 				)}
-				{/** 代位权(文书)Modal */}
-				{subrogationJudgmentModalVisible && (
-					<SubrogationJudgmentModal
+				{/** 破产重组Modal */}
+				{bankruptcyModalVisible && (
+					<BankruptcyModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
 						dataSource={dataSource}
-						subrogationJudgmentModal={subrogationJudgmentModalVisible}
+						bankruptcyModalVisible={bankruptcyModalVisible}
+					/>
+				)}
+				{/** 经营异常Modal */}
+				{abnormalModalVisible && (
+					<AbnormalModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						abnormalModalVisible={abnormalModalVisible}
+					/>
+				)}
+				{/** 严重违法Modal */}
+				 {illegalModalVisible && (
+					<IllegalModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						illegalModalVisible={illegalModalVisible}
+					/>
+				 )}
+				{/* /!** 税收违法Modal *!/ */}
+				 {taxModalVisible && (
+					<TaxModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						taxModalVisible={taxModalVisible}
+					/>
+				 )}
+				{/* /!** 行政处罚Modal *!/ */}
+				 {punishmentModalVisible && (
+					<PunishmentModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						punishmentModalVisible={punishmentModalVisible}
+					/>
+				 )}
+				{/** 涉诉信息(立案)Modal */}
+				{lawsuitTrialModalVisible && (
+					<LawsuitTrialModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						lawsuitTrialModalVisible={lawsuitTrialModalVisible}
+					/>
+				)}
+				{/** 涉诉信息(开庭)Modal */}
+				{lawsuitCourtModalVisible && (
+					<LawsuitCourtModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						lawsuitCourtModalVisible={lawsuitCourtModalVisible}
+					/>
+				)}
+
+				{/** 涉诉信息(文书)Modal */}
+				{lawsuitJudgmentModalVisible && (
+					<LawsuitJudgmentModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						lawsuitJudgmentModalVisible={lawsuitJudgmentModalVisible}
 					/>
 				)}
 			</div>

@@ -1,23 +1,33 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import api from '@/utils/api/monitor-info/finance';
 import {
-	Ellipsis, LiItem, Spin, Table,
+	Spin, Table, Ellipsis, LiItem,
 } from '@/common';
 import { Attentions } from '@/common/table';
-import { timeStandard } from '@/utils';
+import { linkDetail, timeStandard } from '@/utils';
+import { Abnormal } from '@/utils/api/risk-monitor/operation-risk';
 
-// 出质详情
-const PledgeDetail = (text, rowContent) => (
-	<React.Fragment>
+// removeSituation 移除情况
+const removeSituation = (val, row) => {
+	const { gmtRemoveDate, removeReason, removeDepartment } = row;
+	if (!gmtRemoveDate) {
+		return (
+			<div className="assets-info-content">
+				<li><span className="list list-content">未移除</span></li>
+			</div>
+		);
+	}
+	return (
 		<div className="assets-info-content">
-			<LiItem Li title="股权标的企业" auto titleStyle={{ width: 72 }}><Ellipsis content={rowContent.companyName} tooltip width={250} /></LiItem>
-			<LiItem Li title="登记编号" auto titleStyle={{ width: 72 }}>{rowContent.regNumber || '-'}</LiItem>
-			<LiItem Li title="出质股权数额" auto titleStyle={{ width: 72 }}>{rowContent.equityAmount || '-'}</LiItem>
-			<LiItem Li title="状 态" auto titleStyle={{ width: 72 }}>{rowContent.state === 1 ? '无效' : '有效'}</LiItem>
+			<li>
+				<span className="list list-content">已移除</span>
+			</li>
+			<LiItem Li title="移除日期" auto>{timeStandard(gmtRemoveDate) || '-'}</LiItem>
+			<LiItem Li title="移除原因" auto><Ellipsis content={removeReason} tooltip line={2} width={150} /></LiItem>
+			<LiItem Li title="移除机关" auto><Ellipsis content={removeDepartment} tooltip line={1} width={150} /></LiItem>
 		</div>
-	</React.Fragment>
-);
+	);
+};
 
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
@@ -27,42 +37,40 @@ export default class DetailModal extends React.PureComponent {
 			loading: false,
 			columns: [
 				{
-					title: '登记日期',
-					dataIndex: 'regDate',
+					title: '列入日期',
+					dataIndex: 'gmtPutDate',
 					render: text => timeStandard(text) || '-',
 				}, {
-					title: '出质人',
-					dataIndex: 'pledgorList',
-					width: 250,
-					render: (text, row) => row.pledgorList && row.pledgorList.length > 0 && row.pledgorList.map(item => (
-						<Ellipsis content={item.pledgor || '-'} url={item.pledgorId ? `/#/business/debtor/detail?id=${item.pledgorId}` : ''} tooltip width={230} />
-					)),
+					title: '相关单位',
+					dataIndex: 'name',
+					render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
 				}, {
-					title: '质权人',
-					dataIndex: 'pledgeeList',
-					width: 250,
-					render: (text, row) => row.pledgeeList && row.pledgeeList.length > 0 && row.pledgeeList.map(item => (
-						<Ellipsis content={item.pledgee || '-'} url={item.pledgeeId ? `/#/business/debtor/detail?id=${item.pledgeeId}` : ''} tooltip width={230} />
-					)),
+					title: '列入原因',
+					dataIndex: 'putReason',
+					render: text => <Ellipsis content={text} tooltip width={300} line={2} />,
 				}, {
-					title: '出质详情',
-					render: PledgeDetail,
+					title: '决定机关名称',
+					dataIndex: 'putDepartment',
+					render: text => text || '-',
+				}, {
+					title: '移除情况',
+					dataIndex: 'gmtRemoveDate',
+					render: removeSituation,
 				}, {
 					title: '更新日期',
-					className: 'tAlignCenter_important',
 					dataIndex: 'gmtCreate',
 					render: text => timeStandard(text),
 				}, {
 					title: '操作',
-					unNormal: true,
 					width: 60,
+					unNormal: true,
 					className: 'tAlignCenter_important',
 					render: (text, row, index) => (
 						<Attentions
 							text={text}
 							row={row}
 							onClick={this.onRefresh}
-							api={row.isAttention ? api.unFollowResult : api.followResult}
+							api={row.isAttention ? Abnormal.unAttention : Abnormal.attention}
 							index={index}
 						/>
 					),
@@ -94,14 +102,16 @@ export default class DetailModal extends React.PureComponent {
 	};
 
 	render() {
-		const { columns, dataSource, loading } = this.state;
-		const { equityPledgeModalVisible } = this.props;
+		const {
+			columns, dataSource, loading,
+		} = this.state;
+		const { abnormalModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-股权质押"
+				title="匹配详情-经营异常"
 				width={1100}
 				style={{ height: 320 }}
-				visible={equityPledgeModalVisible}
+				visible={abnormalModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"

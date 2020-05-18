@@ -1,23 +1,11 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import api from '@/utils/api/monitor-info/finance';
-import {
-	Ellipsis, LiItem, Spin, Table,
-} from '@/common';
+import { Trial } from '@/utils/api/risk-monitor/lawsuit';
+import { Spin, Table } from '@/common';
 import { Attentions } from '@/common/table';
 import { timeStandard } from '@/utils';
-
-// 出质详情
-const PledgeDetail = (text, rowContent) => (
-	<React.Fragment>
-		<div className="assets-info-content">
-			<LiItem Li title="股权标的企业" auto titleStyle={{ width: 72 }}><Ellipsis content={rowContent.companyName} tooltip width={250} /></LiItem>
-			<LiItem Li title="登记编号" auto titleStyle={{ width: 72 }}>{rowContent.regNumber || '-'}</LiItem>
-			<LiItem Li title="出质股权数额" auto titleStyle={{ width: 72 }}>{rowContent.equityAmount || '-'}</LiItem>
-			<LiItem Li title="状 态" auto titleStyle={{ width: 72 }}>{rowContent.state === 1 ? '无效' : '有效'}</LiItem>
-		</div>
-	</React.Fragment>
-);
+import { partyInfo } from '@/views/_common';
+import associationLink from '@/views/_common/association-link';
 
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
@@ -27,42 +15,51 @@ export default class DetailModal extends React.PureComponent {
 			loading: false,
 			columns: [
 				{
-					title: '登记日期',
-					dataIndex: 'regDate',
+					title: '立案日期',
+					dataIndex: 'gmtRegister',
 					render: text => timeStandard(text) || '-',
 				}, {
-					title: '出质人',
-					dataIndex: 'pledgorList',
-					width: 250,
-					render: (text, row) => row.pledgorList && row.pledgorList.length > 0 && row.pledgorList.map(item => (
-						<Ellipsis content={item.pledgor || '-'} url={item.pledgorId ? `/#/business/debtor/detail?id=${item.pledgorId}` : ''} tooltip width={230} />
-					)),
+					title: '当事人',
+					dataIndex: 'parties',
+					render: partyInfo,
 				}, {
-					title: '质权人',
-					dataIndex: 'pledgeeList',
-					width: 250,
-					render: (text, row) => row.pledgeeList && row.pledgeeList.length > 0 && row.pledgeeList.map(item => (
-						<Ellipsis content={item.pledgee || '-'} url={item.pledgeeId ? `/#/business/debtor/detail?id=${item.pledgeeId}` : ''} tooltip width={230} />
-					)),
+					title: '法院',
+					dataIndex: 'court',
+					render: text => text || '-',
 				}, {
-					title: '出质详情',
-					render: PledgeDetail,
+					title: '案号',
+					dataIndex: 'caseNumber',
+					render: text => text || '-',
+				}, {
+					title: '案件类型',
+					render: (value, row) => {
+						const { isRestore, caseType } = row;
+						if (isRestore) return '执恢案件';
+						if (caseType === 1) return '普通案件';
+						if (caseType === 2) return '破产案件';
+						if (caseType === 3) return '执行案件';
+						if (caseType === 4) return '终本案件';
+						return '-';
+					},
+				}, {
+					title: '关联链接',
+					dataIndex: 'associatedInfo',
+					className: 'tAlignCenter_important min-width-80',
+					render: (value, row) => associationLink(value, row, 'Trial'),
 				}, {
 					title: '更新日期',
-					className: 'tAlignCenter_important',
 					dataIndex: 'gmtCreate',
-					render: text => timeStandard(text),
+					render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
 				}, {
 					title: '操作',
 					unNormal: true,
-					width: 60,
 					className: 'tAlignCenter_important',
 					render: (text, row, index) => (
 						<Attentions
 							text={text}
 							row={row}
 							onClick={this.onRefresh}
-							api={row.isAttention ? api.unFollowResult : api.followResult}
+							api={row.isAttention ? Trial.unAttention : Trial.attention}
 							index={index}
 						/>
 					),
@@ -95,13 +92,13 @@ export default class DetailModal extends React.PureComponent {
 
 	render() {
 		const { columns, dataSource, loading } = this.state;
-		const { equityPledgeModalVisible } = this.props;
+		const { lawsuitTrialModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-股权质押"
+				title="匹配详情-涉诉信息(立案)"
 				width={1100}
 				style={{ height: 320 }}
-				visible={equityPledgeModalVisible}
+				visible={lawsuitTrialModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"

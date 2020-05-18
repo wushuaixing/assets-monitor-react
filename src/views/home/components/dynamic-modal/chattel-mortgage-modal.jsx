@@ -14,7 +14,7 @@ const MortgageDetail = (text, rowContent) => (
 	<React.Fragment>
 		<div className="assets-info-content">
 			<LiItem Li title="抵押物名称" auto titleStyle={{ width: 80 }}><Ellipsis content={toEmpty(rowContent.pawnName)} width={120} tooltip /></LiItem>
-			<LiItem Li title="登记编号" auto titleStyle={{ width: 80 }}><Ellipsis content={toEmpty(rowContent.regNum)} tooltip /></LiItem>
+			<LiItem Li title="登记编号" auto titleStyle={{ width: 80 }}>{rowContent.regNum || '-'}</LiItem>
 			<LiItem Li title="担保债权数额" titleStyle={{ width: 80 }}>{rowContent.amount && w(floatFormat(rowContent.amount.toFixed(2)), { suffix: ' 元' })}</LiItem>
 			<li>
 				 <span className="list list-title align-justify" style={{ width: 130 }}>债务人履行债务的期限</span>

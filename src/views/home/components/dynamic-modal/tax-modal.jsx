@@ -1,29 +1,11 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { Judgment } from 'api/monitor-info/subrogation';
-import {
-	Ellipsis, LiItem, Spin, Table,
-} from '@/common';
+import { Spin, Table } from '@/common';
 import { Attentions } from '@/common/table';
-import { timeStandard } from '@/utils';
+import { Violation } from '@/utils/api/risk-monitor/operation-risk';
+import { linkDom, timeStandard } from '@/utils';
 import { partyInfo } from '@/views/_common';
 
-/* 文书信息 */
-const documentInfo = (value, row) => {
-	const {
-		caseReason, caseType, gmtJudgment, title, url, isRestore,
-	} = row;
-	return (
-		<div className="assets-info-content">
-			<li>
-				<Ellipsis content={title} line={2} tooltip url={url} />
-			</li>
-			<LiItem Li title="案由" auto>{caseReason || '-'}</LiItem>
-			<LiItem Li title="案件类型" auto>{isRestore ? '执恢案件' : (caseType || '-')}</LiItem>
-			<LiItem Li title="判决日期" auto>{timeStandard(gmtJudgment)}</LiItem>
-		</div>
-	);
-};
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -33,29 +15,26 @@ export default class DetailModal extends React.PureComponent {
 			columns: [
 				{
 					title: '发布日期',
-					dataIndex: 'gmtPublish',
-					render: text => timeStandard(text),
+					dataIndex: 'publishDate',
+					render: text => timeStandard(text) || '-',
 				}, {
 					title: '当事人',
 					dataIndex: 'parties',
 					render: partyInfo,
-				}, {
-					title: '法院',
-					dataIndex: 'court',
+				},
+				{
+					title: '案件性质',
+					dataIndex: 'caseNature',
 					render: text => text || '-',
-				}, {
-					title: '案号',
-					dataIndex: 'caseNumber',
-					render: text => text || '-',
-				}, {
-					title: '文书信息',
-					dataIndex: 'associatedInfo1',
-					width: 200,
-					render: documentInfo,
 				}, {
 					title: '更新日期',
 					dataIndex: 'gmtCreate',
-					render: val => timeStandard(val),
+					render: text => timeStandard(text),
+				}, {
+					title: '源链接',
+					dataIndex: 'url',
+					className: 'tAlignCenter_important',
+					render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '-'),
 				}, {
 					title: '操作',
 					unNormal: true,
@@ -65,7 +44,7 @@ export default class DetailModal extends React.PureComponent {
 							text={text}
 							row={row}
 							onClick={this.onRefresh}
-							api={row.isAttention ? Judgment.unAttention : Judgment.attention}
+							api={row.isAttention ? Violation.unAttention : Violation.attention}
 							index={index}
 						/>
 					),
@@ -97,14 +76,16 @@ export default class DetailModal extends React.PureComponent {
 	};
 
 	render() {
-		const { columns, dataSource, loading } = this.state;
-		const { subrogationJudgmentModalVisible } = this.props;
+		const {
+			columns, dataSource, loading,
+		} = this.state;
+		const { taxModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-代位权(文书)"
+				title="匹配详情-税收违法"
 				width={1100}
 				style={{ height: 320 }}
-				visible={subrogationJudgmentModalVisible}
+				visible={taxModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"
