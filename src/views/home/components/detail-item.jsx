@@ -206,7 +206,7 @@ class DetailItem extends PureComponent {
 			}],
 			[501, () => {
 				this.isReadList(item, index, readStatusResult);
-				this.setState(() => ({ subrogationTrialModalVisible: true, dataSource: item.detailList }));
+				this.setState(() => ({ equityPledgeModalVisible: true, dataSource: item.detailList }));
 			}],
 			[601, () => {
 				this.isReadList(item, index, Trial.read, 'idList');

@@ -57,7 +57,7 @@ const toGetConfig = () => {
 export default class Lawsuits extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '土地数据-监控信息';
+		document.title = '土地数据-资产挖掘';
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',

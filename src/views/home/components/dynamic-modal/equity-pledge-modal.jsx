@@ -29,7 +29,7 @@ export default class DetailModal extends React.PureComponent {
 				{
 					title: '登记日期',
 					dataIndex: 'regDate',
-					render: text => (text || '-'),
+					render: text => timeStandard(text) || '-',
 				}, {
 					title: '出质人',
 					dataIndex: 'pledgorList',

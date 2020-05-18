@@ -314,12 +314,12 @@ export default class Enterprise extends React.Component {
 						width={500}
 						closable={false}
 					>
-						<div className="yc-confirm-body">
+						<div className="yc-confirm-body" style={{ padding: '14px 0' }}>
 							<div className="yc-confirm-header">
-								<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle-o" />
+								<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle" />
 								<span className="yc-confirm-title">债务人不存在，可能关联的业务已经被删除</span>
 							</div>
-							<div className="yc-confirm-content">
+							<div className="yc-confirm-content" style={{ marginTop: 10 }}>
 								<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
 								秒后自动关闭页面
 							</div>

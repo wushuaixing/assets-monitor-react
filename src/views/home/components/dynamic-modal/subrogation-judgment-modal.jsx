@@ -98,13 +98,13 @@ export default class DetailModal extends React.PureComponent {
 
 	render() {
 		const { columns, dataSource, loading } = this.state;
-		const { subrogationJudgmentModal } = this.props;
+		const { subrogationJudgmentModalVisible } = this.props;
 		return (
 			<Modal
 				title="匹配详情-代位权(文书)"
 				width={1100}
 				style={{ height: 320 }}
-				visible={subrogationJudgmentModal}
+				visible={subrogationJudgmentModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"

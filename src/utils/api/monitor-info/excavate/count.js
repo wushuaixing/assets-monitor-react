@@ -76,6 +76,18 @@ export const mortgageCount = async (params) => {
 	return response.data;
 };
 
+// 金融资产-竞价项目
+export const auctionBiddingCount = async (params) => {
+	const response = await service.get('/yc/monitor/finance/auctionBidding/listCount', { params });
+	return response.data;
+};
+
+// 金融资产-公示项目
+export const auctionFinanceCount = async (params) => {
+	const response = await service.get('/yc/monitor/finance/finance/listCount', { params });
+	return response.data;
+};
+
 // 招投标 => 数量统计
 export const assetBiddingCount = async (params) => {
 	const response = await service.get('/yc/monitor/bidding/list-count', { params });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { Attentions } from '@/common/table';
-import api from '@/utils/api/monitor-info/finance';
+import api, { readStatusBid } from '@/utils/api/monitor-info/finance';
 import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
 import { SortVessel } from '@/common/table';
 import { Table, SelectedNum } from '@/common';
@@ -47,7 +47,7 @@ const columns = (props) => {
 					onClick={onRefresh}
 					index={index}
 					api={row.isAttention ? api.unFollowSingleBid : api.followSingleBid}
-					single
+					// single
 				/>
 			),
 		}];
@@ -68,6 +68,19 @@ export default class TableView extends React.Component {
 			this.setState({ selectedRowKeys: [] });
 		}
 	}
+
+	// 行点击操作
+	toRowClick = (record, index) => {
+		const { id, isRead } = record;
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
+			readStatusBid({ id }).then((res) => {
+				if (res.code === 200) {
+					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				}
+			});
+		}
+	};
 
 	// 选择框
 	onSelectChange=(selectedRowKeys, record) => {
@@ -95,12 +108,11 @@ export default class TableView extends React.Component {
 				<Table
 					{...rowSelection}
 					rowKey={record => record.id}
-					rowClassName={() => 'yc-assets-auction-table-row'}
 					columns={columns(this.props)}
 					dataSource={dataSource}
 					pagination={false}
 					onRowClick={this.toRowClick}
-					// rowClassName="yc-assets-auction-table-row"
+					rowClassName={record => (record.isRead ? 'yc-assets-auction-table-row' : 'yc-assets-auction-table-row yc-row-bold cursor-pointer')}
 				/>
 				{dataSource && dataSource.length > 0 && (
 				<div className="yc-table-pagination">
