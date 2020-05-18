@@ -96,7 +96,7 @@
     }
     &-asset {
       height: 220px;
-
+      width: 574px;
       &-item {
         display: inline-block;
         text-align: center;
@@ -116,6 +116,9 @@
           padding-top: 12px;
         }
       }
+    }
+    &-risk {
+      width: 574px;
     }
   }
   .home-overview-container-default {
