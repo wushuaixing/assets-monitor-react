@@ -142,3 +142,18 @@ export const importantListRiskDishonest = async (params) => {
 	const response = await service.get('/yc/monitor/dishonest/importantList', { params });
 	return Object.assign(response.data, { name: 'dishonest' });
 };
+// 涉诉信息开庭
+export const importantListLawsuitCourt = async (params) => {
+	const response = await service.get('/yc/monitor/court/lawsuit/importantList', { params });
+	return Object.assign(response.data, { name: 'LawsuitCourt' });
+};
+// 涉诉信息立案
+export const importantListLawsuitTrial = async (params) => {
+	const response = await service.get('/yc/monitor/trial/lawsuit/importantList', { params });
+	return Object.assign(response.data, { name: 'LawsuitTrial' });
+};
+// 涉诉信息裁判文书
+export const importantListLawsuitJudgment = async (params) => {
+	const response = await service.get('/yc/monitor/judgment/lawsuit/importantList', { params });
+	return Object.assign(response.data, { name: 'LawsuitJudgment' });
+};

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import {
-	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction,
-	importantListIntangibleEmission, importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage,
-	importantListPledge, importantListSubrogationCourt, importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax,
-	importantListRiskIllegal, importantListRiskAbnormal, importantListRiskDishonest, importantListRiskBankruptcy,
+	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction, importantListIntangibleEmission,
+	importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage, importantListPledge, importantListSubrogationCourt,
+	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
+	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment,
 } from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -234,7 +234,7 @@ class HomeDynamic extends PureComponent {
 
 	getRiskImportantReminder = (objValue) => {
 		const {
-			abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
+			abnormal, bankruptcy, dishonest, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
 			punishment, tax,
 		} = objValue.data;
 		const params = {
@@ -252,6 +252,10 @@ class HomeDynamic extends PureComponent {
 			{ count: illegal, Api: importantListRiskIllegal },
 			{ count: abnormal, Api: importantListRiskAbnormal },
 			{ count: dishonest, Api: importantListRiskDishonest },
+
+			{ count: lawsuitTrial, Api: importantListLawsuitTrial },
+			{ count: lawsuitCourt, Api: importantListLawsuitCourt },
+			{ count: lawsuitJudgement, Api: importantListLawsuitJudgment },
 		];
 		const RiskImportantReminderArray = [];
 		apiArray.filter(i => i.count).forEach((item) => {

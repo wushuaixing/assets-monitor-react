@@ -67,7 +67,7 @@ export default class DetailModal extends React.PureComponent {
 					render: (text, row) => (
 						<div className="assets-info-content">
 							<LiItem Li title="行业分类" auto><Ellipsis content={text || '-'} tooltip width={200} /></LiItem>
-							<LiItem Li title="资质类别" auto>
+							<LiItem Li title="有效期" auto>
 								{
 										row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
 											<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
