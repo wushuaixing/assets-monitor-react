@@ -265,7 +265,7 @@ export default class Subrogation extends React.Component {
 			if (code === 200) {
 				const _tabConfig = tabConfig.map((item) => {
 					const _item = item;
-					if (_item.id === 1)_item.dot = data.biddingCount;
+					if (_item.id === 1)_item.dot = data.auctionBiddingCount;
 					if (_item.id === 2)_item.dot = data.financeCount;
 
 					return _item;

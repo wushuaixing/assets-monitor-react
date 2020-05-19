@@ -173,6 +173,7 @@ export default class Headers extends React.Component {
 			active, config, data, num,
 		} = this.state;
 		const { rule } = this.props;
+		const newConfig = config && config.length > 0 && config.filter(i => i.name !== null);
 		return (
 			<div className="yc-header-wrapper">
 				<div
@@ -190,7 +191,7 @@ export default class Headers extends React.Component {
 						<span className="yc-public-white-large">源诚资产监控平台</span>
 					</div>
 					<div className="header-menu">
-						{config.map(items => (
+						{newConfig.map(items => (
 							<Item
 								key={items.id}
 								{...items}

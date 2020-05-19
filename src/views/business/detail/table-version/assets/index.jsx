@@ -86,7 +86,7 @@ const subItems = (data, portrait) => {
 			name: '股权质押',
 			total: data ? toGetTotal('1050', data) : 0,
 			info: data ? data.filter(i => /1050/.test(i.id)) : '',
-			role: roleState('zcwj', 'zcwjjrzj'),
+			role: roleState('zcwj', 'zcwjgqzy'),
 			tagName: 'e-assets-stock',
 			component: Stock,
 			isStatus: 'only',

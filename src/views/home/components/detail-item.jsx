@@ -11,6 +11,7 @@ import { readStatus as bankruptcyReadStatus } from '@/utils/api/monitor-info/ban
 import { readStatus } from '@/utils/api/monitor-info/broken-record'; // 失信记录已读
 import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; // 代位权
 import { Court as lawsuitCourt, Trial as lawsuitTrial, Judgment as lawsuitJudgment } from '@/utils/api/risk-monitor/lawsuit'; // 涉诉信息
+import { markReadStatus } from '@/utils/api/monitor-info/assets'; // 资产拍卖已读
 import {
 	Abnormal, Illegal, Violation, Punishment,
 } from '@/utils/api/risk-monitor/operation-risk'; // 经营异常
@@ -98,8 +99,7 @@ const icon = (value) => {
 	default: return '-';
 	}
 };
-
-let scrollInterval = '';
+let flag = true;
 class DetailItem extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -129,7 +129,6 @@ class DetailItem extends PureComponent {
 			lawsuitJudgmentModalVisible: false,
 			data: props.data || [],
 			dataSource: [],
-			listMarginTop: '0',
 			animate: false,
 		};
 	}
@@ -137,11 +136,20 @@ class DetailItem extends PureComponent {
 	componentWillReceiveProps(nextProps) {
 		const { data } = this.props;
 		if (data !== nextProps.data) {
+			// 判断是否是ie8
+			const isIe = document.documentMode === 8;
+			const isData = Array.isArray(nextProps.data) && nextProps.data.length > 0;
+
 			this.setState(() => ({
 				data: nextProps.data,
-			}));
+			}), () => {
+				if (!isIe && isData && flag) {
+					// this.roll(50, data);
+				}
+			});
 		}
 	}
+
 
 	// 表格发生变化
 	onRefresh=(objValue, type) => {
@@ -171,7 +179,10 @@ class DetailItem extends PureComponent {
 
 	handleClick = (item, index) => {
 		const openModalMap = new Map([
-			[101, () => { this.setState(() => ({ assetAuctionModalVisible: true, dataSource: item.detailList })); }],
+			[101, () => {
+				this.isReadList(item, index, markReadStatus);
+				this.setState(() => ({ assetAuctionModalVisible: true, dataSource: item.detailList }));
+			}],
 			[201, () => {
 				this.isReadList(item, index, Api.readStatusResult);
 				this.setState(() => ({ LandResultModalVisible: true, dataSource: item.detailList }));
@@ -303,114 +314,101 @@ class DetailItem extends PureComponent {
 		navigate('/info/monitor');
 	};
 
-	scrollUp= () => {
-		const { data } = this.state;
-		data.push(data[0]);
-		const height = document.getElementById('scrollList').getElementsByTagName('div')[0].scrollHeight + 1;
-		console.log(height);
-		this.setState({
-			animate: true,
-			listMarginTop: `-${height}px`,
-		});
-		setTimeout(() => {
-			data.shift();
-			this.setState({
-				animate: false,
-				listMarginTop: '0',
-			});
-			this.forceUpdate();
-		}, 2000);
+	roll = (t, data) => {
+		const isData = Array.isArray(data) && data.length > 0;
+		if (isData) {
+			const ulBox = document.getElementById('detail-container_box');
+			if (ulBox) {
+				const ul1 = document.getElementById('detail-container_box').getElementsByTagName('ul')[0];
+				// const ul2 = document.getElementById('detail-container_box').getElementsByTagName('ul')[1];
+				// ul2.innerHTML = ul1.innerHTML;
+				ulBox.scrollTop = 0; // 开始无滚动时设为0
+				let timer = setInterval(this.rollStart, t); // 设置定时器，参数t用在这为间隔时间（单位毫秒），参数t越小，滚动速度越快
+				// 鼠标移入div时暂停滚动
+				ulBox.onmouseover = () => {
+					clearInterval(timer);
+				};
+				// 鼠标移出div后继续滚动
+				ulBox.onmouseout = () => {
+					timer = setInterval(this.rollStart, t);
+				};
+			}
+			flag = false;
+		}
 	};
 
-	scrollDown= () => {
-		const { data } = this.state;
-		const ulNode = document.getElementById('scrollList').getElementsByTagName('div')[0];
-		ulNode.classList.remove('opacityAnimation');
-		this.setState({
-			// animate: true,
-			// listMarginTop: `${ulNode.lastChild.scrollHeight}px`,
-		});
-		setTimeout(() => {
-			data.unshift(data[data.length - 1]);
-			ulNode.classList.add('opacityAnimation');
-			console.log(ulNode.firstChild.classList);
-			data.pop();
-			this.setState({
-				animate: false,
-				// listMarginTop: '0',
-			});
-			this.forceUpdate();
-		}, 1000);
-	};
-
-	startScrollUp= () => {
-		this.endScroll();
-		this.scrollUp();
-		scrollInterval = setInterval(this.scrollUp, 3000);
-	};
-
-	startScrollDown= () => {
-		this.endScroll();
-		this.scrollDown();
-		scrollInterval = setInterval(this.scrollDown, 3000);
-	};
-
-	endScroll= () => {
-		clearInterval(scrollInterval);
+	rollStart = () => {
+		// 上面声明的DOM对象为局部对象需要再次声明
+		const ulBox = document.getElementById('detail-container_box');
+		if (ulBox) {
+			const ul1 = document.getElementById('detail-container_box').getElementsByTagName('ul')[0];
+			// 正常滚动不断给scrollTop的值+1,当滚动高度大于列表内容高度时恢复为0
+			if (ulBox.scrollTop >= ul1.scrollHeight) {
+				ulBox.scrollTop = 0;
+			} else {
+				ulBox.scrollTop += 1;
+			}
+		}
 	};
 
 	render() {
 		const {
 			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible,
 			miningModalVisible, trademarkModalVisible, constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
-			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, listMarginTop, animate,
+			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
 			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, lawsuitJudgmentModalVisible,
 		} = this.state;
 
 		const isData = Array.isArray(data) && data.length > 0;
 		return (
-			<div className={`detail-container ${animate && 'animate'}`} id="scrollList" style={{ marginTop: listMarginTop }}>
-				  {/* <Button type="primary" onClick={this.startScrollUp}>向上滚动</Button> */}
-				  {/* <Button type="primary" onClick={this.startScrollDown}>向下滚动</Button> */}
-				  {/* <Button type="danger" onClick={this.endScroll}>停止滚动</Button> */}
+			<div className={`detail-container ${animate && 'animate'}`} id="scrollList">
 				{
-					isData ? data.map((item, index) => (
-						<div className="detail-container-content" onClick={() => this.handleClick(item, index)}>
-							{item.isRead === 0 ? <div className="detail-container-content-icon" /> : null}
-							<div className="detail-container-content-left">
-								<div className="detail-container-content-left-icon">
-									{item.obligorName && item.obligorName.slice(0, 4)}
-								</div>
-							</div>
-							<div className="detail-container-content-right">
-								<div className="detail-container-content-right-header">
-									<div className="detail-container-content-right-header-name">
-										{/* {item.obligorName || '-'} */}
-										<Ellipsis
-											auto
-											content={item.obligorName || '-'}
-											tooltip
-											font={14}
-											width={370}
-										/>
-										{item.mainObligor ? <img src={borrow} alt="" /> : null}
-									</div>
-									<div className="detail-container-content-right-header-time">
-										{item.timestamp ? timeStandard(item.timestamp) : '-'}
-									</div>
-								</div>
-								<div className="detail-container-content-right-item">
-									<div className="detail-container-content-right-item-detail">
-										{item.description || '-'}
-									</div>
-									<div className={`detail-container-content-right-item-tag ${(item.type === 12 || item.type === 13) ? 'red' : 'yellow'}`}>
-										<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-item-tag-icon" />
-										{tag(item.detailType)}
-									</div>
-								</div>
-							</div>
+					isData ? (
+						<div id="detail-container_box" className="detail-container-box">
+							<ul id="box1">
+								{
+									data.map((item, index) => (
+										<li className="detail-container-content" onClick={() => this.handleClick(item, index)}>
+											{item.isRead === 0 ? <div className="detail-container-content-icon" /> : null}
+											<div className="detail-container-content-left">
+												<div className="detail-container-content-left-icon">
+													{item.obligorName && item.obligorName.slice(0, 4)}
+												</div>
+											</div>
+											<div className="detail-container-content-right">
+												<div className="detail-container-content-right-header">
+													<div className="detail-container-content-right-header-name">
+														{/* {item.obligorName || '-'} */}
+														<Ellipsis
+															auto
+															content={item.obligorName || '-'}
+															tooltip
+															font={14}
+															width={370}
+														/>
+														{item.mainObligor ? <img src={borrow} alt="" /> : null}
+													</div>
+													<div className="detail-container-content-right-header-time">
+														{item.timestamp ? timeStandard(item.timestamp) : '-'}
+													</div>
+												</div>
+												<div className="detail-container-content-right-item">
+													<div className="detail-container-content-right-item-detail">
+														{item.description || '-'}
+													</div>
+													<div className={`detail-container-content-right-item-tag ${(item.type === 12 || item.type === 13) ? 'red' : 'yellow'}`}>
+														<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-item-tag-icon" />
+														{tag(item.detailType)}
+													</div>
+												</div>
+											</div>
+										</li>
+									))
+								}
+							</ul>
+							<ul id="box2" />
 						</div>
-					)) : (
+					) : (
 						<div className="detail-container-noData">
 							<div className="detail-container-noData-img" />
 							<span className="detail-container-noData-text">暂无重要数据提醒</span>

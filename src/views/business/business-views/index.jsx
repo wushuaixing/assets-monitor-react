@@ -112,12 +112,13 @@ class BusinessView extends React.Component {
 				return isTypeRight;
 			},
 			onChange(info) {
-				if (info.file.status !== 'uploading') {
-					console.log(info.file, info.fileList);
-				}
+				// if (info.file.status !== 'uploading') {
+				// 	console.log(info.file, info.fileList);
+				// }
 				that.setState({
 					errorLoading: true,
 				});
+
 				that.handleCancel();
 				if (info.file.status === 'done') {
 					if (info.file.response.code === 200) {

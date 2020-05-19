@@ -69,6 +69,7 @@ export default class Finance extends PureComponent {
 							竞价项目：
 							<span className={`risk-finance-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{auctionBidding || 0}</span>
 							条相关匹配信息
+							{totalCount ? '，请核实' : ''}
 						</div>
 
 						<div className={`risk-finance-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>

@@ -108,7 +108,7 @@ class MonitorMain extends React.Component {
 					if (_item.id === 'YC0202') _item.dot = data.subrogationCourtSessionCount || data.subrogationFilingCount || data.subrogationJudgmentCourt;
 					if (_item.id === 'YC0203') _item.dot = data.landTransferFlag || data.landTransactionFlag || data.landMortgageFlag; // 土地数据
 					if (_item.id === 'YC0204') _item.dot = data.biddingCount; // 招标中标
-					if (_item.id === 'YC0205') _item.dot = data.financeCount || data.stockPledgeFlag; // 金融资产
+					if (_item.id === 'YC0205') _item.dot = data.financeCount || data.auctionBiddingCount; // 金融资产
 					if (_item.id === 'YC0206') _item.dot = data.mortgageFlag; // 动产抵押
 					if (_item.id === 'YC0207') _item.dot = data.intangibleConstructFlag || data.intangibleEmissionFlag || data.intangibleMiningFlag || data.intangibleTrademarkFlag; // 动产抵押
 					return _item;

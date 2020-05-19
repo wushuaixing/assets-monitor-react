@@ -88,47 +88,47 @@ export const exportListPub = '/yc/monitor/finance/finance/export';
 // 金融资产 股权质押 列表 ===========
 // 股权质押 列表
 export const infoListResult = async (params) => {
-	const response = await service.get('/yc/monitor/finance/pledge/list', { params });
+	const response = await service.get('/yc/monitor/pledge/list', { params });
 	return response.data;
 };
 // 股权质押 关注列表
 export const attentionFollowListResult = async (params) => {
-	const response = await service.get('/yc/monitor/finance/pledge/follow/list', { params });
+	const response = await service.get('/yc/monitor/pledge/follow/list', { params });
 	return response.data;
 };
 
 // 关注list数量
 export const attentionFollowResultCount = async (params) => {
-	const response = await service.get('/yc/monitor/finance/pledge/follow/list-count', { params });
+	const response = await service.get('/yc/monitor/pledge/follow/list-count', { params });
 	return response.data;
 };
 
 // 标记为已读
 export const readStatusResult = async (params) => {
-	const response = await service.post('/yc/monitor/finance/pledge/markRead', params);
+	const response = await service.post('/yc/monitor/pledge/markRead', params);
 	return response.data;
 };
 
 // 全部标记为已读
 export const readAllStatusResult = async (params) => {
-	const response = await service.post('/yc/monitor/finance/pledge/markReadAll', params);
+	const response = await service.post('/yc/monitor/pledge/markReadAll', params);
 	return response.data;
 };
 
 // 关注
 export const followResult = async (params) => {
-	const response = await service.post('/yc/monitor/finance/pledge/follow', params);
+	const response = await service.post('/yc/monitor/pledge/follow', params);
 	return response.data;
 };
 
 // 取消关注
 export const unFollowResult = async (params) => {
-	const response = await service.post('/yc/monitor/finance/pledge/unFollow', params);
+	const response = await service.post('/yc/monitor/pledge/unFollow', params);
 	return response.data;
 };
 
 // 导出excel
-export const exportListResult = '/yc/monitor/finance/pledge/export';
+export const exportListResult = '/yc/monitor/pledge/export';
 
 export default {
 	infoListBid,
