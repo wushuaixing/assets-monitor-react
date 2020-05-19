@@ -28,7 +28,8 @@ const source = rule => ([
 		img: userList,
 		selectImg: userListEd,
 		root: true,
-		status: true,
+		display: !!(rule && rule.jggljgtj),
+		status: !!(rule && rule.jggljgtj),
 		components: OrganizationStatistics,
 	},
 	{

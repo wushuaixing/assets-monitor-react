@@ -66,7 +66,6 @@ const responseMethods = {
 			window.location.reload();
 			return response;
 		}
-
 		if ((res.code === 15002 || res.code === 5002 || res.code === 15003 || res.code === 20039) && hash !== '/login') {
 			axiosPromiseArr.forEach((ele, index) => {
 				ele.cancel('请求取消');

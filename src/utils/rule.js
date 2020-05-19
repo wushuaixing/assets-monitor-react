@@ -167,7 +167,7 @@ export default {
 			},
 			{
 				id: 'YC02',
-				name: 'Entry',
+				name: null,
 				url: '/monitor',
 				status: rule.menu_zcwj,
 				dot: false,
@@ -240,7 +240,7 @@ export default {
 						id: 'YC0208',
 						name: '股权质押',
 						url: '/monitor/pledge',
-						status: toStatus(rule.menu_zcwj, 'zcwjdcdy'),
+						status: toStatus(rule.menu_zcwj, 'zcwjgqzy'),
 					},
 					{
 						id: 'YC0301',
@@ -364,7 +364,7 @@ export default {
 								id: 'YC0208',
 								name: '股权质押',
 								url: '/monitor/pledge',
-								status: toStatus(rule.menu_zcwj, 'zcwjdcdy'),
+								status: toStatus(rule.menu_zcwj, 'zcwjgqzy'),
 							},
 						],
 					},
@@ -481,7 +481,7 @@ export default {
 						url: '/organization',
 						reg: /\/organization(?!\/setting|(?!\/user))/,
 						rootUrl: true,
-						status: true,
+						status: toStatus(rule.menu_jjgl, 'jggljgtj'),
 					},
 					{
 						id: 'YC0602',

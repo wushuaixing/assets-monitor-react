@@ -3,7 +3,8 @@ import {
 	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction, importantListIntangibleEmission,
 	importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage, importantListPledge, importantListSubrogationCourt,
 	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
-	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment,
+	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
+	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding,
 } from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -130,7 +131,7 @@ class HomeDynamic extends PureComponent {
 
 	getAssetImportantReminder = (objValue) => {
 		const {
-			auction, construct, emission, landMortgage, landTransaction, landTransfer,
+			auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
 			mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark,
 		} = objValue.data;
 		const params = {
@@ -144,9 +145,13 @@ class HomeDynamic extends PureComponent {
 		const apiArray = [
 			{ count: auction, Api: importantListAuction, auction: true },
 
+			{ count: bidding, Api: importantListBidding },
 			{ count: landTransfer, Api: importantListLandTransfer },
 			{ count: landMortgage, Api: importantListLandMortgage },
 			{ count: landTransaction, Api: importantListLandTransaction },
+
+			{ count: auctionBidding, Api: importantListAuctionBidding },
+			{ count: finance, Api: importantListFinance },
 
 			{ count: emission, Api: importantListIntangibleEmission },
 			{ count: mining, Api: importantListIntangibleMining },
@@ -234,8 +239,8 @@ class HomeDynamic extends PureComponent {
 
 	getRiskImportantReminder = (objValue) => {
 		const {
-			abnormal, bankruptcy, dishonest, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
-			punishment, tax,
+			abnormal, bankruptcy, dishonest, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, change,
+			punishment, tax, epb,
 		} = objValue.data;
 		const params = {
 			num: 10,
@@ -251,6 +256,8 @@ class HomeDynamic extends PureComponent {
 			{ count: tax, Api: importantListRiskTax },
 			{ count: illegal, Api: importantListRiskIllegal },
 			{ count: abnormal, Api: importantListRiskAbnormal },
+			{ count: change, Api: importantListRiskChange },
+			{ count: epb, Api: importantListRiskEpb },
 			{ count: dishonest, Api: importantListRiskDishonest },
 
 			{ count: lawsuitTrial, Api: importantListLawsuitTrial },

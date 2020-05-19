@@ -31,3 +31,6 @@ export const exportList = '/yc/monitor/auction/exportExcel';
 // 司法拍卖监控搜索统计数字
 export const infoCount = params => service.get('/yc/monitor/auction/processCount', { params })
 	.then(res => res.data);
+// 首页重要信息提醒列表已读
+export const markReadStatus = params => service.post('/yc/monitor/auction/markRead', params)
+	.then(res => res.data);

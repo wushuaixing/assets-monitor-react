@@ -66,7 +66,7 @@ export const subrogationJudgmentCount = async (params) => {
 
 // 股权质押
 export const pledgeCount = async (params) => {
-	const response = await service.get('/yc/monitor/finance/pledge/list-count', { params });
+	const response = await service.get('/yc/monitor/pledge/list-count', { params });
 	return response.data;
 };
 

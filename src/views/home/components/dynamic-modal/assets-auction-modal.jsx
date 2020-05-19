@@ -40,9 +40,9 @@ export default class DetailModal extends React.PureComponent {
 			dataSource: [],
 			columns: [
 				{
-					title: '登记日期',
+					title: '业务信息',
 					width: '23%',
-					render: AssetsInfo,
+					render: (text, row, index, noMatching, asset = true) => AssetsInfo(text, row, index, noMatching, asset),
 				}, {
 					title: '匹配原因',
 					dataIndex: 'reason',

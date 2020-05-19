@@ -66,6 +66,21 @@ export const importantListLandTransaction = async (params) => {
 	const response = await service.get('/yc/monitor/land/transaction/importantList', { params });
 	return Object.assign(response.data, { name: 'LandTransaction' });
 };
+// 招投标
+export const importantListBidding = async (params) => {
+	const response = await service.get('/yc/monitor/bidding/importantList', { params });
+	return Object.assign(response.data, { name: 'bidding' });
+};
+// 金融资产-竞价项目
+export const importantListAuctionBidding = async (params) => {
+	const response = await service.get('/yc/monitor/finance/auctionBidding/importantList', { params });
+	return Object.assign(response.data, { name: 'auctionBidding' });
+};
+// 金融资产-公示项目
+export const importantListFinance = async (params) => {
+	const response = await service.get('/yc/monitor/finance/finance/importantList', { params });
+	return Object.assign(response.data, { name: 'finance' });
+};
 // 排污权发证
 export const importantListIntangibleEmission = async (params) => {
 	const response = await service.get('/yc/monitor/intangible/emission/importantList', { params });
@@ -93,7 +108,7 @@ export const importantListMortgage = async (params) => {
 };
 // 股权质押
 export const importantListPledge = async (params) => {
-	const response = await service.get('/yc/monitor/finance/pledge/importantList', { params });
+	const response = await service.get('/yc/monitor/pledge/importantList', { params });
 	return Object.assign(response.data, { name: 'pledge' });
 };
 
@@ -136,6 +151,16 @@ export const importantListRiskIllegal = async (params) => {
 export const importantListRiskAbnormal = async (params) => {
 	const response = await service.get('/yc/monitor/risk/abnormal/importantList', { params });
 	return Object.assign(response.data, { name: 'abnormal' });
+};
+// 经营风险工商变更
+export const importantListRiskChange = async (params) => {
+	const response = await service.get('/yc/monitor/risk/change/importantList', { params });
+	return Object.assign(response.data, { name: 'change' });
+};
+// 经营风险经营异常
+export const importantListRiskEpb = async (params) => {
+	const response = await service.get('/yc/monitor/risk/epb/importantList', { params });
+	return Object.assign(response.data, { name: 'epb' });
 };
 // 失信记录
 export const importantListRiskDishonest = async (params) => {

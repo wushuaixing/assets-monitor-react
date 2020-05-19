@@ -118,18 +118,18 @@ const assets = {
 	10501: {
 		id: 10501,
 		name: '资产-股权质押-出质',
-		list: params => service.get('/yc/obligor/monitor/asset/finance/pledgor/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/obligor/monitor/asset/pledgee/pledgor/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/asset/finance/pledgor/list-count', { params })
+			return service.get('/yc/obligor/monitor/asset/pledgee/pledgor/list-count', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
 	10502: {
 		id: 10502,
 		name: '资产-股权质押-质权',
-		list: params => service.get('/yc/obligor/monitor/asset/finance/pledgee/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/obligor/monitor/asset/pledgee/pledgee/list', { params }).then(res => res.data),
 		count(params) {
-			return service.get('/yc/obligor/monitor/asset/finance/pledgee/list-count', { params })
+			return service.get('/yc/obligor/monitor/asset/pledgee/pledgee/list-count', { params })
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
