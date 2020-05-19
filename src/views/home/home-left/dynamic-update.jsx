@@ -48,7 +48,7 @@ class dynamicUpdate extends PureComponent {
 		const {
 			AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList, RiskImportantReminderObligorIdList,
 		} = nextProps;
-		if (AssetImportantReminderList && Array.isArray(AssetImportantReminderList) && AssetImportantReminderList.length > 0) {
+		if ((AssetImportantReminderList && Array.isArray(AssetImportantReminderList) && AssetImportantReminderList.length > 0) || AssetImportantReminderObligorIdList) {
 			newAssetRemindArray = [...AssetImportantReminderList];
 			const newAssetImportantReminderObligorIdList = AssetImportantReminderObligorIdList.filter(i => i !== 0);
 			const newAssetImportantReminderObligorIdListNum = new Set([...newAssetImportantReminderObligorIdList]).size;
@@ -58,7 +58,7 @@ class dynamicUpdate extends PureComponent {
 			}));
 		}
 
-		if (RiskImportantReminderList && Array.isArray(RiskImportantReminderList) && RiskImportantReminderList.length > 0) {
+		if ((RiskImportantReminderList && Array.isArray(RiskImportantReminderList) && RiskImportantReminderList.length > 0) || RiskImportantReminderObligorIdList) {
 			newRiskRemindArray = [...RiskImportantReminderList];
 			const newRiskImportantReminderObligorIdList = RiskImportantReminderObligorIdList.filter(i => i !== 0);
 			const newRiskImportantReminderObligorIdListNum = new Set([...newRiskImportantReminderObligorIdList]).size;
