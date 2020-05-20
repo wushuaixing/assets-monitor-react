@@ -27,11 +27,11 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 			let arr = [];
 			if (newRingArray.length === 4) {
 				arr = [
-					`{c|${name}} {d|${number}条}`,
+					`{c|${name}} {d|${number}} {f|条}`,
 				];
 			} else {
 				arr = [
-					`{a|${name}} {b|${number}条}`,
+					`{a|${name}} {b|${number}} {f|条}`,
 				];
 			}
 
@@ -44,30 +44,31 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					fontSize: 12,
 					color: '#4E5566',
 					padding: [0, 0, 0, 6],
-					textAlign: 'left',
 				},
 				b: {
 					width: 45,
 					fontSize: 12,
 					color: '#20242E',
 					fontWeight: 700,
-					padding: [0, 0, 0, 12],
-					textAlign: 'left',
+					// padding: [0, 0, 0, 0],
+					align: 'center',
 				},
 				c: {
 					width: 40,
 					fontSize: 12,
 					color: '#4E5566',
-					padding: [0, 20, 0, 6],
-					textAlign: 'left',
+					padding: [0, 0, 0, 6],
 				},
 				d: {
 					width: 45,
 					fontSize: 12,
 					color: '#20242E',
 					fontWeight: 700,
-					padding: [0, 20, 0, 12],
-					textAlign: 'left',
+					padding: [0, 0, 0, 12],
+					align: 'center',
+				},
+				f: {
+					color: '#4e5566',
 				},
 			},
 		},

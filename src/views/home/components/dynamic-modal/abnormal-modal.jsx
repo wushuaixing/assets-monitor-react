@@ -125,7 +125,7 @@ export default class DetailModal extends React.PureComponent {
 						className="table"
 					/>
 					<div style={{ width: '100%', textAlign: 'center' }}>
-						<Button onClick={this.handleCancel} type="primary" style={{ width: 180, height: 34, margin: '50px 0' }}>关闭</Button>
+						<Button onClick={this.handleCancel} type="primary" className="dynamic-modal-btn">关闭</Button>
 					</div>
 				</Spin>
 			</Modal>

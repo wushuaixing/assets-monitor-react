@@ -375,7 +375,7 @@ class DetailItem extends PureComponent {
 													{item.obligorName && item.obligorName.slice(0, 4)}
 												</div>
 											</div>
-											<div className="detail-container-content-right">
+											<div className="detail-container-content-right" style={item.isRead === 0 ? { fontWeight: 700 } : {}}>
 												<div className="detail-container-content-right-header">
 													<div className="detail-container-content-right-header-name">
 														{/* {item.obligorName || '-'} */}

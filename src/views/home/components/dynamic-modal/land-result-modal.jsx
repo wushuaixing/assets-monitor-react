@@ -19,7 +19,6 @@ export default class DetailModal extends React.PureComponent {
 					render: text => timeStandard(text) || '-',
 				}, {
 					title: '土地使用权人',
-					width: 190,
 					dataIndex: 'obligorName',
 					render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
 				}, {
@@ -30,7 +29,6 @@ export default class DetailModal extends React.PureComponent {
 					render: Result.InfoLand,
 				}, {
 					title: '出让信息',
-					width: 250,
 					render: Result.InfoTransfer,
 				}, {
 					title: '更新日期',
@@ -98,7 +96,7 @@ export default class DetailModal extends React.PureComponent {
 						className="table"
 					/>
 					<div style={{ width: '100%', textAlign: 'center' }}>
-						<Button onClick={this.handleCancel} type="primary" style={{ width: 180, height: 34, margin: '50px 0' }}>关闭</Button>
+						<Button onClick={this.handleCancel} type="primary" className="dynamic-modal-btn">关闭</Button>
 					</div>
 				</Spin>
 			</Modal>
