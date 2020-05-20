@@ -55,7 +55,6 @@ const TableItem	= (props) => {
 };
 const Item = (props) => {
 	const { source, childType, onBtnChange } = props;
-
 	return (
 		<div className="yc-attention-item">
 			{

@@ -173,7 +173,7 @@ export default class Headers extends React.Component {
 			active, config, data, num,
 		} = this.state;
 		const { rule } = this.props;
-		const newConfig = config && config.length > 0 && config.filter(i => i.name !== null);
+		const newConfig = config && config.length > 0 && config.filter(i => i.name !== null && i.status);
 		return (
 			<div className="yc-header-wrapper">
 				<div

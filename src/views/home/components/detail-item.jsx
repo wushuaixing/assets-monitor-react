@@ -209,7 +209,7 @@ class DetailItem extends PureComponent {
 			}],
 			[304, () => {
 				this.isReadList(item, index, apiConstruction.read);
-			  this.setState(() => ({ constructionModalVisible: true, dataSource: item.detailList }));
+				this.setState(() => ({ constructionModalVisible: true, dataSource: item.detailList }));
 			}],
 			[401, () => {
 				this.isReadList(item, index, postMarkRead);
@@ -574,32 +574,32 @@ class DetailItem extends PureComponent {
 					/>
 				)}
 				{/** 严重违法Modal */}
-				 {illegalModalVisible && (
+				{illegalModalVisible && (
 					<IllegalModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
 						dataSource={dataSource}
 						illegalModalVisible={illegalModalVisible}
 					/>
-				 )}
+				)}
 				{/* /!** 税收违法Modal *!/ */}
-				 {taxModalVisible && (
+				{taxModalVisible && (
 					<TaxModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
 						dataSource={dataSource}
 						taxModalVisible={taxModalVisible}
 					/>
-				 )}
+				)}
 				{/* /!** 行政处罚Modal *!/ */}
-				 {punishmentModalVisible && (
+				{punishmentModalVisible && (
 					<PunishmentModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
 						dataSource={dataSource}
 						punishmentModalVisible={punishmentModalVisible}
 					/>
-				 )}
+				)}
 				{/** 涉诉信息(立案)Modal */}
 				{lawsuitTrialModalVisible && (
 					<LawsuitTrialModal

@@ -285,7 +285,7 @@ export default {
 				id: 'YC10',
 				name: '信息监控',
 				url: '/info/monitor',
-				status: rule.menu_zcwj || rule.menu_xxss,
+				status: rule.menu_zcwj || rule.menu_fxjk,
 				backup: ['/monitor', '/risk', '/info/monitor/attention'],
 				children: [
 					{
@@ -465,7 +465,7 @@ export default {
 				id: 'YC06',
 				name: '机构管理',
 				url: '/organization',
-				status: rule.menu_jjgl || rule.menu_sy,
+				status: rule.menu_jjgl,
 				dot: false,
 				children: [
 					{

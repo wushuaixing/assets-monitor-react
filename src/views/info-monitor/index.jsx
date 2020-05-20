@@ -21,6 +21,7 @@ export default class InfoSearch extends React.Component {
 					img: excavate,
 					selectImg: excavateEd,
 					url: '/info/monitor/excavate/*',
+					attention: '/info/monitor/attention?init=YC02',
 					status: true,
 					rule: props.rule.menu_zcwj,
 					Component: ExcavateOverview,
@@ -32,6 +33,7 @@ export default class InfoSearch extends React.Component {
 					selectImg: riskEd,
 					url: '/info/monitor/risk/*',
 					rule: props.rule.menu_fxjk,
+					attention: '/info/monitor/attention?init=YC03',
 					status: true,
 					Component: RiskOverview,
 				},
@@ -40,8 +42,13 @@ export default class InfoSearch extends React.Component {
 	}
 
 	toGoAttentionPage =() => {
-		console.log('It\'s about to go to my-attention page;');
-		navigate('/info/monitor/attention?init=YC02');
+		const { hash } = window.location;
+		if (hash === '#/info/monitor/excavate' || hash === '#/info/monitor') {
+			navigate('/info/monitor/attention?init=YC02');
+		}
+		if (hash === '#/info/monitor/risk') {
+			navigate('/info/monitor/attention?init=YC03');
+		}
 	};
 
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
