@@ -150,6 +150,7 @@ class HomeRouter extends React.Component {
 		const {
 			headerPropsData, assetArray, riskArray, loading,
 		} = this.state;
+		const { baseRule } = this.props;
 		const params = {
 			headerPropsData,
 		};
@@ -171,7 +172,7 @@ class HomeRouter extends React.Component {
 					<div className="home-container-content-middle" />
 					<div className="home-container-content-right">
 						<div className="home-container-content-right-quickStart">
-							<QuickStart />
+							<QuickStart rule={baseRule} />
 						</div>
 						<div className="home-container-horizontal-mark-line" />
 						<div className="home-container-content-right-overview">

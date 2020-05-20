@@ -80,7 +80,12 @@ class RiskMonitor extends React.Component {
 		const { rule } = this.props;
 		const _source = source.filter(item => item.status);
 		let text = _source[0].name;
-		_source.forEach((i) => { if (new RegExp(i.url).test(window.location.hash))text = i.name; });
+		_source.forEach((i) => {
+			if (new RegExp(i.url).test(window.location.hash)) {
+				text = i.name;
+				this.sourceType = i.id;
+			}
+		});
 		return (
 			<React.Fragment>
 				<BreadCrumb

@@ -30,7 +30,7 @@ export default class MyAttention extends React.Component {
 	componentWillMount() {
 		const { initConfig } = this.state;
 		const initType = Tabs.Simple.toGetDefaultActive(initConfig, 'init');
-		const config = (toGetRuleSource(global.ruleSource, 'YC10', initType) || {}).child;
+		const config = (toGetRuleSource(global.ruleSource, 'YC10', initType) || {}).child.filter(i => i.status);
 		const sourceType = Tabs.Simple.toGetDefaultActive(config, 'process');
 		const source = (config.filter(i => i.id === sourceType))[0];
 		const childAry = source.child ? source.child.filter(i => i.status) : '';
@@ -135,7 +135,7 @@ export default class MyAttention extends React.Component {
 	onType=(nextType) => {
 		const { initType } = this.state;
 		if (nextType !== initType) {
-			const config = (toGetRuleSource(global.ruleSource, 'YC10', nextType) || {}).child;
+			const config = (toGetRuleSource(global.ruleSource, 'YC10', nextType) || {}).child.filter(i => i.status);
 			this.setState({ initType: nextType, config });
 			// console.log('_type:change', _type);
 			window.location.href = changeURLArg(window.location.href, 'init', nextType);
@@ -186,6 +186,8 @@ export default class MyAttention extends React.Component {
 			childType,
 			onBtnChange: this.onBtnChange,
 		};
+		const newConfig = config && config.filter(i => i.status);
+		// const newInitConfig = initConfig && initConfig.map(i => i).filter(l => l.status);
 		return (
 			<div className="yc-monitor-attention">
 				<Tabs.Simple
@@ -196,7 +198,7 @@ export default class MyAttention extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">我的关注</div>}
 				/>
 				<div className="yc-monitor-attention-content">
-					<Tabs.Simple onChange={this.onSourceType} source={config} field="process" />
+					<Tabs.Simple onChange={this.onSourceType} source={newConfig} field="process" />
 					{ loading ? <Spin visible /> : <Item {...content} mark="子模块展示内容" /> }
 				</div>
 
