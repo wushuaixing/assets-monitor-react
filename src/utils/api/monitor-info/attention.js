@@ -123,9 +123,6 @@ export const financeCount = () => {
 			if (res.code === 200) result.Bid = res.data;
 			return attentionFollowPubCount();
 		}).then((res) => {
-			if (res.code === 200) result.Pub = res.data;
-			return attentionFollowResultCount();
-		}).then((res) => {
 			if (res.code === 200) result.Result = res.data;
 			return result;
 		})

@@ -30,7 +30,7 @@ const TableItem	= (props) => {
 					YC0204: <TenderBid />,
 					YC020501: <FinancialAssets sourceType={1} />,
 					YC020502: <FinancialAssets sourceType={2} />,
-					YC020503: <FinancialAssets sourceType={3} />,
+					// YC020503: <FinancialAssets sourceType={3} />,
 					YC0206: <ChattelMortgage />,
 					YC020701: <IntangibleAssets sourceType="YC020701" />,
 					YC020702: <IntangibleAssets sourceType="YC020702" />,

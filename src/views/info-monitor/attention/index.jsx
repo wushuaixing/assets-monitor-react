@@ -105,7 +105,7 @@ export default class MyAttention extends React.Component {
 					const _item = item;
 					if (item.id === 'YC020501') _item.number = res.Bid;
 					else if (item.id === 'YC020502') _item.number = res.Pub;
-					else if (item.id === 'YC020503') _item.number = res.Result;
+					// else if (item.id === 'YC020503') _item.number = res.Result;
 					return _item;
 				});
 				this.setState({ source: _source });
