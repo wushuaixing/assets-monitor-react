@@ -19,7 +19,6 @@ class LAWSUITS extends React.Component {
 			startTime: undefined,
 			endTime: undefined,
 			type: 1,
-			checkedType: 1,
 			plaintiff: [
 				{
 					name: '',
@@ -60,13 +59,11 @@ class LAWSUITS extends React.Component {
 		switch (type) {
 		case 1:
 			this.setState({
-				checkedType: type,
 				type,
 			});
 			break;
 		case 2:
 			this.setState({
-				checkedType: type,
 				type,
 			});
 			break;

@@ -29,7 +29,7 @@
           top: -6px;
         }
         .yc-price {
-          padding: 9px 0px 9px 5px;
+          padding: 9px 0 9px 5px;
           width: 40px;
         }
       }
@@ -58,6 +58,11 @@
     position: absolute;
     bottom: 40px;
     left: 308px;
+    button {
+      span {
+        font-size: 14px;
+      }
+    }
     .yc-high-search {
       margin-right: 20px;
       width: 110px;
