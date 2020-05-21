@@ -70,7 +70,7 @@ class HomeOverview extends React.Component {
 														<Icon type={`icon-${item.icon}`} className="home-overview-container-content-asset-item-icon" style={item.count === 0 ? { color: '#B2B8C9' } : { color }} />
 														<div className="home-overview-container-content-asset-item-text">
 															{item.count ? item.name : <span style={{ color: '#B2B8C9' }}>{item.name}</span>}
-															{item.count ? `（ ${item.count} ）` : null}
+															{item.count ? ` (${item.count})` : null}
 														</div>
 													</div>
 												);
