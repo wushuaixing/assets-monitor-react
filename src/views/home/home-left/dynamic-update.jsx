@@ -51,9 +51,12 @@ class dynamicUpdate extends PureComponent {
 		const {
 			assetPropsData, riskPropsData, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList, RiskImportantReminderObligorIdList,
 		} = nextProps;
-
-		newAssetTotalNumArray = JSON.parse(JSON.stringify(assetPropsData && assetPropsData.assetDataArray));
-		newRiskTotalNumArray = JSON.parse(JSON.stringify(riskPropsData && riskPropsData.riskDataArray));
+		if (assetPropsData && assetPropsData.assetDataArray && assetPropsData.assetDataArray.length !== 0) {
+			newAssetTotalNumArray = JSON.parse(JSON.stringify(assetPropsData && assetPropsData.assetDataArray));
+		}
+		if (riskPropsData && riskPropsData.riskDataArray && riskPropsData.riskDataArray.length !== 0) {
+			newRiskTotalNumArray = JSON.parse(JSON.stringify(riskPropsData && riskPropsData.riskDataArray));
+		}
 		if ((AssetImportantReminderList && Array.isArray(AssetImportantReminderList) && AssetImportantReminderList.length > 0) || AssetImportantReminderObligorIdList) {
 			newAssetRemindArray = [...AssetImportantReminderList];
 			const newAssetImportantReminderObligorIdList = AssetImportantReminderObligorIdList.filter(i => i !== 0);
