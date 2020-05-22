@@ -42,6 +42,7 @@ import LawsuitCourtModal from './dynamic-modal/lawsuit-court-modal';
 import LawsuitJudgmentModal from './dynamic-modal/lawsuit-judgment-modal';
 import './style.scss';
 
+let scrollInterval = '';
 const tag = (value) => {
 	switch (value) {
 	case 101: return '资产拍卖';
@@ -99,7 +100,6 @@ const icon = (value) => {
 	default: return '-';
 	}
 };
-let flag = true;
 class DetailItem extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -130,23 +130,23 @@ class DetailItem extends PureComponent {
 			data: props.data || [],
 			dataSource: [],
 			animate: false,
+			listMarginTop: 0,
 		};
+		this.content = '';
 	}
+
+	// componentDidMount() {
+	// 	setTimeout(() => {
+	// 		this.startScrollUp();
+	// 	}, 500);
+	// }
 
 	componentWillReceiveProps(nextProps) {
 		const { data } = this.props;
 		if (data !== nextProps.data) {
-			// 判断是否是ie8
-			const isIe = document.documentMode === 8;
-			const isData = Array.isArray(nextProps.data) && nextProps.data.length > 0;
-
 			this.setState(() => ({
 				data: nextProps.data,
-			}), () => {
-				if (!isIe && isData && flag) {
-					// this.roll(50, data);
-				}
-			});
+			}));
 		}
 	}
 
@@ -314,41 +314,43 @@ class DetailItem extends PureComponent {
 		navigate('/info/monitor');
 	};
 
-	roll = (t, data) => {
-		const isData = Array.isArray(data) && data.length > 0;
-		if (isData) {
-			const ulBox = document.getElementById('detail-container_box');
-			if (ulBox) {
-				const ul1 = document.getElementById('detail-container_box').getElementsByTagName('ul')[0];
-				// const ul2 = document.getElementById('detail-container_box').getElementsByTagName('ul')[1];
-				// ul2.innerHTML = ul1.innerHTML;
-				ulBox.scrollTop = 0; // 开始无滚动时设为0
-				let timer = setInterval(this.rollStart, t); // 设置定时器，参数t用在这为间隔时间（单位毫秒），参数t越小，滚动速度越快
-				// 鼠标移入div时暂停滚动
-				ulBox.onmouseover = () => {
-					clearInterval(timer);
-				};
-				// 鼠标移出div后继续滚动
-				ulBox.onmouseout = () => {
-					timer = setInterval(this.rollStart, t);
-				};
-			}
-			flag = false;
+	scrollUp= () => {
+		const { data } = this.state;
+		const wrap = this.content;
+		if (wrap && data && data.length > 4) {
+			const con2 = this.content2;
+			const height = con2.scrollHeight + 1;
+			// console.log(data, height);
+			data.push(data[0]);
+			this.setState({
+				animate: true,
+				listMarginTop: `-${height}px`,
+			});
+			// wrap.onmouseover = () => {
+			// 	clearInterval(scrollInterval);
+			// };
+			// wrap.onmouseout = () => {
+			// 	scrollInterval = setInterval(this.scrollUp, 2000);
+			// };
+			setTimeout(() => {
+				data.shift();
+				this.setState({
+					animate: false,
+					listMarginTop: 0,
+				});
+				this.forceUpdate();
+			}, 2000);
 		}
 	};
 
-	rollStart = () => {
-		// 上面声明的DOM对象为局部对象需要再次声明
-		const ulBox = document.getElementById('detail-container_box');
-		if (ulBox) {
-			const ul1 = document.getElementById('detail-container_box').getElementsByTagName('ul')[0];
-			// 正常滚动不断给scrollTop的值+1,当滚动高度大于列表内容高度时恢复为0
-			if (ulBox.scrollTop >= ul1.scrollHeight) {
-				ulBox.scrollTop = 0;
-			} else {
-				ulBox.scrollTop += 1;
-			}
-		}
+	endScroll= () => {
+		clearInterval(scrollInterval);
+	};
+
+	startScrollUp= () => {
+		this.endScroll();
+		this.scrollUp();
+		scrollInterval = setInterval(this.scrollUp, 3000);
 	};
 
 	render() {
@@ -356,19 +358,26 @@ class DetailItem extends PureComponent {
 			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible,
 			miningModalVisible, trademarkModalVisible, constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
-			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, lawsuitJudgmentModalVisible,
+			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, lawsuitJudgmentModalVisible, listMarginTop,
 		} = this.state;
 
 		const isData = Array.isArray(data) && data.length > 0;
+
 		return (
-			<div className={`detail-container ${animate && 'animate'}`} id="scrollList">
+			<div
+				className="detail-container"
+				id="scrollList"
+			>
 				{
 					isData ? (
-						<div id="detail-container_box" className="detail-container-box">
-							<ul id="box1">
+						<div id="detail-container_box" className="detail-container-box" ref={(c) => { this.content = c; }}>
+							<ul
+								className={animate ? 'animate' : ''}
+								style={{ marginTop: listMarginTop }}
+							>
 								{
 									data.map((item, index) => (
-										<li className="detail-container-content" onClick={() => this.handleClick(item, index)}>
+										<li ref={(c) => { this.content2 = c; }} className="detail-container-content" onClick={() => this.handleClick(item, index)}>
 											{item.isRead === 0 ? <div className="detail-container-content-icon" /> : null}
 											<div className="detail-container-content-left">
 												<div className="detail-container-content-left-icon">
@@ -397,7 +406,7 @@ class DetailItem extends PureComponent {
 														{item.description || '-'}
 													</div>
 													<div className={`detail-container-content-right-item-tag ${(item.type === 12 || item.type === 13) ? 'red' : 'yellow'}`}>
-														<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-item-tag-icon" />
+														<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-item-tag-icon" style={{ fontWeight: 400 }} />
 														{tag(item.detailType)}
 													</div>
 												</div>
@@ -406,7 +415,6 @@ class DetailItem extends PureComponent {
 									))
 								}
 							</ul>
-							<ul id="box2" />
 						</div>
 					) : (
 						<div className="detail-container-noData">

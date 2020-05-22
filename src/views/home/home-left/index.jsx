@@ -335,7 +335,7 @@ class HomeDynamic extends PureComponent {
 								key={item.type}
 								onClick={() => this.handleClick(index)}
 								className="dynamic-container-header-type"
-								style={checkType === index ? { borderBottom: '2px solid #fb8e3c', color: '#FB8E3C' } : {}}
+								style={checkType === index ? { borderBottom: '2px solid #fb8e3c', color: '#FB8E3C', fontWeight: '500' } : {}}
 							>
 								{item.name}
 							</div>

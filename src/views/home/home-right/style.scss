@@ -72,6 +72,7 @@
         font-size: 12px;
         margin-left: 6px;
         color: $text-link;
+        font-weight: 400;
       }
     }
   }
@@ -107,8 +108,10 @@
         width: 139px;
         padding-top: 24px;
         &:hover {
-          color: $text-link;
           cursor: pointer;
+          .home-overview-container-content-asset-item-text {
+            color: $text-link;
+          }
         }
         &-icon {
           font-size: 40px;

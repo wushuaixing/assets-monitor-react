@@ -109,7 +109,7 @@ class HomeRouter extends PureComponent {
 							未跟进信息数 (条)
 							</div>
 							<div className="statistics-container-content-left-item-num">
-								{tree ? tree.monitorUnfollowedCount : '-'}
+								<span style={{ fontWeight: 'bold' }}>{tree ? tree.monitorUnfollowedCount : '-'}</span>
 								<div className="statistics-container-content-left-item-num-distribution">
 									<span className="statistic-distribution-name">
 									其他状态分布：
