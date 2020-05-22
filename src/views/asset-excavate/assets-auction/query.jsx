@@ -125,7 +125,7 @@ class QueryCondition extends React.Component {
 							title="评估价"
 							style={_style1}
 							size="large"
-							maxLength="10"
+							maxLength="9"
 							suffix="万元"
 							inputFirstProps={getFieldProps('consultPriceStart', {
 								validateTrigger: 'onBlur',

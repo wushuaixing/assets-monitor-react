@@ -15,6 +15,8 @@ const compare = property => (a, b) => {
 
 let newAssetRemindArray = [];
 let newRiskRemindArray = [];
+let newAssetTotalNumArray = [];
+let newRiskTotalNumArray = [];
 const ringMap = new Map([
 	['资产拍卖', ['资产拍卖', 1]],
 	['土地信息', ['土地信息', 2]],
@@ -27,6 +29,7 @@ const ringMap = new Map([
 	['失信记录', ['失信记录', 8]],
 	['涉诉信息', ['涉诉信息', 9]],
 	['经营风险', ['经营风险', 10]],
+	['金融资产', ['金融资产', 12]],
 	['default', ['资产拍卖', 1]],
 ]);
 
@@ -46,8 +49,11 @@ class dynamicUpdate extends PureComponent {
 
 	componentWillReceiveProps(nextProps) {
 		const {
-			AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList, RiskImportantReminderObligorIdList,
+			assetPropsData, riskPropsData, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList, RiskImportantReminderObligorIdList,
 		} = nextProps;
+
+		newAssetTotalNumArray = JSON.parse(JSON.stringify(assetPropsData && assetPropsData.assetDataArray));
+		newRiskTotalNumArray = JSON.parse(JSON.stringify(riskPropsData && riskPropsData.riskDataArray));
 		if ((AssetImportantReminderList && Array.isArray(AssetImportantReminderList) && AssetImportantReminderList.length > 0) || AssetImportantReminderObligorIdList) {
 			newAssetRemindArray = [...AssetImportantReminderList];
 			const newAssetImportantReminderObligorIdList = AssetImportantReminderObligorIdList.filter(i => i !== 0);
@@ -106,6 +112,52 @@ class dynamicUpdate extends PureComponent {
 		return newRiskRemindArray.sort(compare('timestamp'));
 	};
 
+	getTotal = (arr) => {
+		const newArr = arr && arr.filter(i => i !== null);
+		if (newArr.length === 0) { return null; }
+		let total = 0;
+		newArr.forEach((i) => {
+			total += i.count;
+		});
+		return total;
+	};
+
+	assetArrayNum = (selected, name, remindArray, clear) => {
+		const actionType = ringMap.get(name) || ringMap.get('default');
+		let asset = [...remindArray.filter(item => item.type === actionType[1])];
+		if (clear) {
+			asset = [];
+			newAssetTotalNumArray = remindArray;
+		}
+		if (name === actionType[0]) {
+			if (selected[name] === false) {
+				this.setState(() => ({ clear: false }));
+				newAssetTotalNumArray = newAssetTotalNumArray.filter(item => item.type !== actionType[1]);
+			} else {
+				newAssetTotalNumArray = asset && asset.length > 0 ? newAssetTotalNumArray.concat(asset) : newAssetTotalNumArray;
+			}
+		}
+		return newAssetTotalNumArray;
+	};
+
+	riskArrayNum = (selected, name, remindArray, clear) => {
+		const actionType = ringMap.get(name) || ringMap.get('default');
+		let asset = [...remindArray.filter(item => item.type === actionType[1])];
+		if (clear) {
+			asset = [];
+			newRiskTotalNumArray = remindArray;
+		}
+		if (name === actionType[0]) {
+			if (selected[name] === false) {
+				this.setState(() => ({ clear: false }));
+				newRiskTotalNumArray = newRiskTotalNumArray.filter(item => item.type !== actionType[1]);
+			} else {
+				newRiskTotalNumArray = asset && asset.length > 0 ? newRiskTotalNumArray.concat(asset) : newRiskTotalNumArray;
+			}
+		}
+		return newRiskTotalNumArray;
+	};
+
 	getDynamicType = (val) => {
 		const { RingEchartsObj } = this.state;
 		const { selected } = RingEchartsObj;
@@ -149,6 +201,9 @@ class dynamicUpdate extends PureComponent {
 		let assetArr = (newAssetArr.sort(compare('timestamp')));
 		let riskArr = (newRiskArr.sort(compare('timestamp')));
 
+		let assetArrNum = (newAssetTotalNumArray);
+		let riskArrNum = (newRiskTotalNumArray);
+
 		const params = {
 			getDynamicType: this.getDynamicType,
 			assetTotalNum: hasAssetPropsData ? assetPropsData.totalNum : 0,
@@ -164,12 +219,14 @@ class dynamicUpdate extends PureComponent {
 			Data: riskPropsDataArray,
 			riskRemindArray,
 		};
-
 		if (Object.keys(RingEchartsObj).length !== 0) {
 			const { selected, name } = RingEchartsObj;
 			assetArr = this.assetArray(selected, name, assetRemindArray, clear);
 			riskArr = this.riskArray(selected, name, riskRemindArray, clear);
+			assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear);
+			riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear);
 		}
+
 		return (
 			<div className="seven-update-container">
 				<DynamicTab {...params} />
@@ -180,7 +237,7 @@ class dynamicUpdate extends PureComponent {
 								<div className="seven-update-content-title-item" />
 								<div className="seven-update-content-title-name">
 								新增
-									<span className="seven-update-content-title-num">{hasAssetPropsData && assetPropsData.totalNum}</span>
+									<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
 								条资产挖掘信息
 								</div>
 								<RingEcharts id="assetAuction" {...assetParams} title="资产挖掘" />
@@ -220,7 +277,7 @@ class dynamicUpdate extends PureComponent {
 								<div className="seven-update-content-title-item" />
 								<div className="seven-update-content-title-name">
 								新增
-									<span className="seven-update-content-title-num">{hasRiskPropsData && riskPropsData.totalNum}</span>
+									<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
 								条风险参考信息
 								</div>
 								<RingEcharts id="assetAuction" {...riskParams} title="风险参考" />

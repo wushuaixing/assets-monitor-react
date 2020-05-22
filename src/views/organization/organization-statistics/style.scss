@@ -84,6 +84,7 @@
         color: #7D8699;
         font-size: 12px;
         margin-left: 10px;
+        font-weight: 400;
       }
     }
     &-left-item {
@@ -146,7 +147,7 @@
         &-name {
           font-size: 14px;
           line-height: 14px;
-          font-weight: 500;
+          font-weight: 400;
           color: $text-content;
         }
         &-text {

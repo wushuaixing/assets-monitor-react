@@ -136,7 +136,7 @@ class AUCTION extends React.PureComponent {
 							style={_style1}
 							size="large"
 							suffix="万元"
-							maxLength="10"
+							maxLength="9"
 							inputFirstProps={getFieldProps('lowestConsultPrice', {
 								validateTrigger: 'onBlur',
 								getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),

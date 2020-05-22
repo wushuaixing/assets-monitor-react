@@ -413,7 +413,7 @@ class AUCTION extends React.Component {
 					<InputPrice
 						title="评估价"
 						style={_style1}
-						maxLength="10"
+						maxLength="9"
 						size="large"
 						suffix="万元"
 						inputFirstProps={getFieldProps('lowestConsultPrice', {
