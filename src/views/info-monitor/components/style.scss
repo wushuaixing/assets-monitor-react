@@ -57,11 +57,11 @@
       text-align: center;
       border-radius: 2px;
       &-icon {
+        background-size: 5px 5px;
+        background-image: url('../../../assets/img/icon/home-readIcon.png');
         width: 5px;
         height: 5px;
-        background-color: #FB5A5C;
         display: inline-block;
-        border-radius: 50%;
         vertical-align: middle;
         margin-right: 5px;;
       }
