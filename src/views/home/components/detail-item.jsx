@@ -42,7 +42,7 @@ import LawsuitCourtModal from './dynamic-modal/lawsuit-court-modal';
 import LawsuitJudgmentModal from './dynamic-modal/lawsuit-judgment-modal';
 import './style.scss';
 
-let scrollInterval = '';
+// let scrollInterval = '';
 const tag = (value) => {
 	switch (value) {
 	case 101: return '资产拍卖';
@@ -104,6 +104,7 @@ class DetailItem extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
+			// openModal: false,
 			assetAuctionModalVisible: false,
 			LandResultModalVisible: false,
 			landTransferModalVisible: false,
@@ -136,9 +137,7 @@ class DetailItem extends PureComponent {
 	}
 
 	// componentDidMount() {
-	// 	setTimeout(() => {
-	// 		this.startScrollUp();
-	// 	}, 500);
+	// 	this.startScrollUp();
 	// }
 
 	componentWillReceiveProps(nextProps) {
@@ -149,7 +148,6 @@ class DetailItem extends PureComponent {
 			}));
 		}
 	}
-
 
 	// 表格发生变化
 	onRefresh=(objValue, type) => {
@@ -178,6 +176,10 @@ class DetailItem extends PureComponent {
 	};
 
 	handleClick = (item, index) => {
+		// this.setState(() => ({
+		// 	openModal: true,
+		// }));
+		// clearInterval(scrollInterval);
 		const openModalMap = new Map([
 			[101, () => {
 				this.isReadList(item, index, markReadStatus);
@@ -283,7 +285,11 @@ class DetailItem extends PureComponent {
 
 	// 关闭弹窗
 	onCancel = () => {
+		setTimeout(() => {
+			this.startScrollUp();
+		}, 500);
 		this.setState({
+			// openModal: false,
 			emissionModalVisible: false,
 			LandResultModalVisible: false,
 			landTransferModalVisible: false,
@@ -314,44 +320,50 @@ class DetailItem extends PureComponent {
 		navigate('/info/monitor');
 	};
 
-	scrollUp= () => {
-		const { data } = this.state;
-		const wrap = this.content;
-		if (wrap && data && data.length > 4) {
-			const con2 = this.content2;
-			const height = con2.scrollHeight + 1;
-			// console.log(data, height);
-			data.push(data[0]);
-			this.setState({
-				animate: true,
-				listMarginTop: `-${height}px`,
-			});
-			// wrap.onmouseover = () => {
-			// 	clearInterval(scrollInterval);
-			// };
-			// wrap.onmouseout = () => {
-			// 	scrollInterval = setInterval(this.scrollUp, 2000);
-			// };
-			setTimeout(() => {
-				data.shift();
-				this.setState({
-					animate: false,
-					listMarginTop: 0,
-				});
-				this.forceUpdate();
-			}, 2000);
-		}
-	};
-
-	endScroll= () => {
-		clearInterval(scrollInterval);
-	};
-
-	startScrollUp= () => {
-		this.endScroll();
-		this.scrollUp();
-		scrollInterval = setInterval(this.scrollUp, 3000);
-	};
+	// scrollUp= () => {
+	// 	const wrap = this.content;
+	// 	if (wrap && this.state.data && this.state.data.length > 4) {
+	// 		const con2 = this.content2;
+	// 		const height = con2.scrollHeight + 1;
+	// 		this.state.data.push(this.state.data[0]);
+	// 		// console.log(newData);
+	//
+	// 		this.setState(() => ({
+	// 			animate: true,
+	// 			listMarginTop: `-${height}px`,
+	// 		}));
+	//
+	// 		wrap.onmouseover = () => {
+	// 			clearInterval(scrollInterval);
+	// 		};
+	// 		setTimeout(() => {
+	// 			this.state.data.shift();
+	//
+	// 			this.setState(() => ({
+	// 				animate: false,
+	// 				listMarginTop: 0,
+	// 			}));
+	// 			this.forceUpdate();
+	// 		}, 2000);
+	// 	}
+	// };
+	//
+	// endScroll= () => {
+	// 	clearInterval(scrollInterval);
+	// };
+	//
+	// startScrollUp= () => {
+	// 	this.endScroll();
+	// 	this.scrollUp();
+	// 	scrollInterval = setInterval(this.scrollUp, 3000);
+	// };
+	//
+	// handleMouseLeave = () => {
+	// 	const { openModal } = this.state;
+	// 	if (!openModal) {
+	// 		this.startScrollUp();
+	// 	}
+	// };
 
 	render() {
 		const {
@@ -362,15 +374,23 @@ class DetailItem extends PureComponent {
 		} = this.state;
 
 		const isData = Array.isArray(data) && data.length > 0;
-
+		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		return (
 			<div
 				className="detail-container"
 				id="scrollList"
+				onBlur={this.handleBlur}
+				onMouseLeave={this.handleMouseLeave}
 			>
 				{
 					isData ? (
-						<div id="detail-container_box" className="detail-container-box" ref={(c) => { this.content = c; }}>
+						<div
+							id="detail-container_box"
+							className="detail-container-box"
+							ref={(c) => { this.content = c; }}
+							onBlur={this.handleBlur}
+							onMouseOut={this.handleMouseOut}
+						>
 							<ul
 								className={animate ? 'animate' : ''}
 								style={{ marginTop: listMarginTop }}
@@ -384,7 +404,7 @@ class DetailItem extends PureComponent {
 													{item.obligorName && item.obligorName.slice(0, 4)}
 												</div>
 											</div>
-											<div className="detail-container-content-right" style={item.isRead === 0 ? { fontWeight: 700 } : {}}>
+											<div className={`detail-container-content-right ${!isIe && 'ieWidth'}`} style={item.isRead === 0 ? { fontWeight: 700 } : {}}>
 												<div className="detail-container-content-right-header">
 													<div className="detail-container-content-right-header-name">
 														{/* {item.obligorName || '-'} */}

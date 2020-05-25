@@ -76,7 +76,9 @@
   }
   &-content {
     height: 100%;
-    padding: 17px 0 14px 14px;
+    padding: 17px 0 14px 0;
+    margin-left: 14px;
+    margin-right: 10px;
     border-bottom: 1px solid $background-line;
     position: relative;
     &-icon {
@@ -85,7 +87,7 @@
       height:8px;
       background-color: #FB5A5C;
       border-radius: 100%;
-      left: 0;
+      left: -14px;
       top: 35px;
     }
     &-left {
@@ -104,6 +106,9 @@
         padding: 8px;
         line-height: 12px;
       }
+    }
+    .ieWidth {
+      width: 476px;
     }
     &-right {
       display: inline-block;

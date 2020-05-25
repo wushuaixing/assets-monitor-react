@@ -85,16 +85,18 @@ class dynamicUpdate extends PureComponent {
 			asset = [];
 			newAssetRemindArray = remindArray;
 		}
+		let newList = [];
 		if (name === actionType[0]) {
 			if (selected[name] === false) {
 				this.setState(() => ({ clear: false }));
-				newAssetRemindArray = newAssetRemindArray.filter(item => item.type !== actionType[1]);
+				newList = newAssetRemindArray.filter(item => item.type !== actionType[1]);
 			} else {
-				newAssetRemindArray = asset && asset.length > 0 ? newAssetRemindArray.concat(asset) : newAssetRemindArray;
+				newList = asset && asset.length > 0 ? newAssetRemindArray.concat(asset) : newAssetRemindArray;
 			}
 		}
-
-		return newAssetRemindArray.sort(compare('timestamp'));
+		newAssetRemindArray = newList.sort(compare('timestamp'));
+		return newAssetRemindArray;
+		// return newAssetRemindArray;
 	};
 
 	riskArray = (selected, name, remindArray, clear) => {
@@ -104,15 +106,18 @@ class dynamicUpdate extends PureComponent {
 			risk = [];
 			newRiskRemindArray = remindArray;
 		}
+		let newList = [];
 		if (name === actionType[0]) {
 			if (selected[name] === false) {
 				this.setState(() => ({ clear: false }));
-				newRiskRemindArray = newRiskRemindArray.filter(item => item.type !== actionType[1]);
+				newList = newRiskRemindArray.filter(item => item.type !== actionType[1]);
 			} else {
-				newRiskRemindArray = risk && risk.length > 0 ? newRiskRemindArray.concat(risk) : newRiskRemindArray;
+				newList = risk && risk.length > 0 ? newRiskRemindArray.concat(risk) : newRiskRemindArray;
 			}
 		}
-		return newRiskRemindArray.sort(compare('timestamp'));
+		newRiskRemindArray = newList.sort(compare('timestamp'));
+		return newRiskRemindArray;
+		// return newRiskRemindArray;
 	};
 
 	getTotal = (arr) => {
@@ -229,7 +234,6 @@ class dynamicUpdate extends PureComponent {
 			assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear);
 			riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear);
 		}
-
 		return (
 			<div className="seven-update-container">
 				<DynamicTab {...params} />
