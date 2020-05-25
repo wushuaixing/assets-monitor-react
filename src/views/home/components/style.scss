@@ -91,11 +91,12 @@
     }
 
     &-icon {
+      background-image: url('../../../assets/img/icon/home-readIcon.png');
+      vertical-align: top;
       position: absolute;
       width:8px;
       height:8px;
-      background-color: #FB5A5C;
-      border-radius: 100%;
+      background-size: 8px 8px;
       left: -14px;
       top: 35px;
     }
@@ -196,7 +197,7 @@
     &:hover {
       color: $text-link;
       cursor: pointer;
-      .detail-container-content-right-item-detail {
+      .detail-container-content-middle-item-detail {
         color: $text-link;
       }
     }

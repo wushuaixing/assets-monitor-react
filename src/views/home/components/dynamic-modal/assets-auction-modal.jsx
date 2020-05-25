@@ -16,6 +16,7 @@ const handleIgnore = (row, index, onRefresh) => {
 		title: '确认忽略本条推送信息吗？',
 		content: '点击确定，本条推送信息将被标记为忽略。',
 		iconType: 'exclamation-circle',
+		style: { top: '29%' },
 		onOk() {
 			processSave({ monitorId: row.id, process: 12 }, true).then((res) => {
 				if (res.code === 200) {
@@ -195,6 +196,8 @@ export default class DetailModal extends React.PureComponent {
 							onOk={() => this.setState({ historyInfoModalVisible: false })}
 							data={historyInfoModalData}
 							historyInfoModalVisible={historyInfoModalVisible}
+							customStyle
+							wrapClassName="vertical-center-modal"
 						/>
 					)}
 				</div>
