@@ -115,13 +115,15 @@ class HomeRouter extends PureComponent {
 									其他状态分布：
 									</span>
 									<span className="statistic-distribution-text">
-									跟进中
+										跟进中
 										<span className="statistic-distribution-text-normal">{tree ? tree.monitorFollowedCount : '-'}</span>
 									</span>
+									<span className="statistic-distribution-line" />
 									<span className="statistic-distribution-text">
-									已完成
+										已完成
 										<span className="statistic-distribution-text-normal">{tree ? tree.monitorDoneCount : '-'}</span>
 									</span>
+									<span className="statistic-distribution-line" />
 									<span className="statistic-distribution-text">
 									全部
 										<span className="statistic-distribution-text-normal">{tree ? tree.monitorTotalCount : '-'}</span>
