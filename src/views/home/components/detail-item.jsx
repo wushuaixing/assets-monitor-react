@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 import { navigate } from '@reach/router';
 import { postMarkRead } from 'api/monitor-info/mortgage'; // 动产抵押已读
+import PublicPerImg from '@/assets/img/business/icon_zwrpeople.png';
 import { readStatusResult } from '@/utils/api/monitor-info/finance'; // 股权质押
 import Api from '@/utils/api/monitor-info/public'; // 土地数据已读
 import {
@@ -285,9 +286,9 @@ class DetailItem extends PureComponent {
 
 	// 关闭弹窗
 	onCancel = () => {
-		setTimeout(() => {
-			this.startScrollUp();
-		}, 500);
+		// setTimeout(() => {
+		// 	this.startScrollUp();
+		// }, 500);
 		this.setState({
 			// openModal: false,
 			emissionModalVisible: false,
@@ -374,7 +375,7 @@ class DetailItem extends PureComponent {
 		} = this.state;
 
 		const isData = Array.isArray(data) && data.length > 0;
-		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
+		// const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		return (
 			<div
 				className="detail-container"
@@ -399,15 +400,21 @@ class DetailItem extends PureComponent {
 									data.map((item, index) => (
 										<li ref={(c) => { this.content2 = c; }} className="detail-container-content" onClick={() => this.handleClick(item, index)}>
 											{item.isRead === 0 ? <div className="detail-container-content-icon" /> : null}
-											<div className="detail-container-content-left">
-												<div className="detail-container-content-left-icon">
-													{item.obligorName && item.obligorName.slice(0, 4)}
-												</div>
+											<div className="detail-container-content-left" style={item.logoUrl ? { border: '1px solid #ccc' } : {}}>
+												{
+													item.logoUrl ? <img src={item.logoUrl} alt="" /> : (
+														item.obligorName && item.obligorName.length > 4 ? (
+															<div className="detail-container-content-left-icon">
+																{item.obligorName.slice(0, 4)}
+															</div>
+														) : <img style={{ borderRadius: '20px' }} src={PublicPerImg} alt="" />
+													)
+												}
+
 											</div>
-											<div className={`detail-container-content-right ${!isIe && 'ieWidth'}`} style={item.isRead === 0 ? { fontWeight: 700 } : {}}>
-												<div className="detail-container-content-right-header">
-													<div className="detail-container-content-right-header-name">
-														{/* {item.obligorName || '-'} */}
+											<div className="detail-container-content-middle" style={item.isRead === 0 ? { fontWeight: 700 } : {}}>
+												<div className="detail-container-content-middle-header">
+													<div className="detail-container-content-middle-header-name">
 														<Ellipsis
 															auto
 															content={item.obligorName || '-'}
@@ -417,18 +424,21 @@ class DetailItem extends PureComponent {
 														/>
 														{item.mainObligor ? <img src={borrow} alt="" /> : null}
 													</div>
-													<div className="detail-container-content-right-header-time">
-														{item.timestamp ? timeStandard(item.timestamp) : '-'}
-													</div>
 												</div>
-												<div className="detail-container-content-right-item">
-													<div className="detail-container-content-right-item-detail">
+												<div className="detail-container-content-middle-item">
+													<div className="detail-container-content-middle-item-detail">
 														{item.description || '-'}
 													</div>
-													<div className={`detail-container-content-right-item-tag ${(item.type === 12 || item.type === 13) ? 'red' : 'yellow'}`}>
-														<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-item-tag-icon" style={{ fontWeight: 400 }} />
-														{tag(item.detailType)}
-													</div>
+
+												</div>
+											</div>
+											<div className="detail-container-content-right">
+												<div className="detail-container-content-right-time">
+													{item.timestamp ? timeStandard(item.timestamp) : '-'}
+												</div>
+												<div className={`detail-container-content-right-tag ${(item.type === 12 || item.type === 13) ? 'red' : 'yellow'}`}>
+													<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />
+													{tag(item.detailType)}
 												</div>
 											</div>
 										</li>

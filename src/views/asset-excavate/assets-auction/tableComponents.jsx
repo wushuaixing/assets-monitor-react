@@ -87,7 +87,18 @@ const ProjectInfo = (text, rowContent) => {
 							tooltip
 							width={150}
 						/>
-					) : '-'}
+					) : (
+						<span>
+							{sourceUrl ? (
+								<Ellipsis
+									content="-"
+									url={sourceUrl ? `${sourceUrl}` : ''}
+									tooltip
+									width={150}
+								/>
+							) : '-'}
+						</span>
+					)}
 				</li>
 				<li>
 					<span className="list list-title align-justify">项目类型：</span>

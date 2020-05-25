@@ -110,13 +110,19 @@
           color: $text-content;
           font-size: 12px;
           .statistic-distribution-name {
-            padding-right: 20px;
             color: $text-content;
+          }
+          .statistic-distribution-line {
+            width: 1px;
+            height: 14px;
+            background: $background-line;
+            padding-left: 1px;
           }
           .statistic-distribution-text {
             display: inline-block;
-            min-width: 95px;
+            //min-width: 95px;
             color: #7D8699;
+            padding: 0 20px;
             &-normal {
               margin-left: 10px;
               color: $text-title;
