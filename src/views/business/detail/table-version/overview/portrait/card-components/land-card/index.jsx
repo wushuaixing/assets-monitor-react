@@ -1,11 +1,10 @@
 import React from 'react';
 import { toThousands } from '@/utils/changeTime';
-import landImg from '@/assets/img/business/landCard.png';
-import matching from '@/assets/img/business/matching.png';
-import Card from '../card';
 import { navigateDetail } from '@/utils';
+import Card from '../card';
 import './style.scss';
 
+const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
 export default class Land extends React.Component {
 	constructor(props) {
 		super(props);
@@ -18,72 +17,62 @@ export default class Land extends React.Component {
 				dataSource, dataSourceNum, gmtCreate, obligorTotal,
 			},
 		} = this.props;
-		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.slice(0, 2).filter(i => i.count > 0);
+		const owner = newDataSource && newDataSource[0];
+		const mortgagee = newDataSource && newDataSource[1];
+
 		return (
 			<React.Fragment>
 				{dataSourceNum > 0 ? (
 					<Card
-						imgCard={landImg}
+						IconType="land"
+						portrait={portrait}
 						count={dataSourceNum}
+						IconColor={{ color: '#1C80E1' }}
 						gmtCreate={gmtCreate}
-						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
+						customStyle={hasCountStyle}
+						obligorTotal={obligorTotal}
 						text="土地信息"
 						onClick={() => navigateDetail('e-assets-land')}
-						styleName="land-card"
 					>
-						{!isBusiness && (
-						<div className="before-land-use" style={newDataSource.length === 0 && { top: '82px' }}>
-							<span style={{ color: 'red' }}>*</span>
-							原土地使用权人不计入角色统计
-						</div>
-						)}
-						<div className="card-content" onClick={this.handleNavigation} style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
-							<div className="card-content-role">
-								{isBusiness && obligorTotal ? (
-									<div className="card-content-role-itemLeft">
-										<img className="card-left-img" src={matching} alt="" />
-										<span className="portrait-card-num">{obligorTotal}</span>
-										人匹配到土地信息
-										<div className="business-before-land-use" style={newDataSource.length === 0 && { top: '82px' }}>
-											<span style={{ color: 'red' }}>*</span>
-											原土地使用权人不计入角色统计
-										</div>
-									</div>
-								) : null}
-								{
-								newDataSource && newDataSource.map(item => (
-									<div
-										className="card-content-role-itemLeft"
-										key={item.type}
-										style={newDataSource[0].amount > 10000000000 || (newDataSource[1] && newDataSource[1].amount > 10000000000)
-											? { position: 'relative', left: '-20px' } : null}
-									>
-										<span className="card-content-role-text">{item.typeName}</span>
-										<span className="card-content-role-info">：</span>
-										<span className="card-content-role-num">
-											<span className="portrait-card-num">{item.count}</span>
-											条
-										</span>
-										{item.type === 1 && item.amount ? (
-											<span style={{ paddingLeft: '5px' }}>
-										(涉及土地价值
-												<span style={{ color: '#FB5A5C', padding: '0 5px' }}>{ toThousands(item.amount)}</span>
-										元)
-											</span>
-										) : null }
-										{item.type === 2 && item.amount ? (
-											<span style={{ paddingLeft: '5px' }}>
-										(涉及抵押额
-												<span style={{ color: '#FB5A5C', padding: '0 5px' }}>{ toThousands(item.amount)}</span>
-										元)
-											</span>
-										) : null}
-									</div>
-								))
-							}
+						<div
+							className="business-land-container"
+							style={(owner && owner.amount > 10000000000) || (mortgagee && mortgagee.amount > 10000000000) ? { position: 'relative', left: '-24px' } : {}}
+						>
+							<div className="business-land-container-card" style={{ paddingBottom: '10px', color: '#7D8699' }}>
+								<span style={{ color: '#FB5A5C' }}>*</span>
+									原土地使用权人不计入角色统计
 							</div>
+							{owner ? (
+								<div className="business-land-container-card" style={{ paddingBottom: '16px' }}>
+									使用权人：
+									<span className="business-land-container-card-num">{owner.count || 0}</span>
+									条
+									{owner.amount ? (
+										<span style={{ paddingLeft: '5px' }}>
+											(涉及土地价值
+											<span style={{ color: '#FB5A5C', padding: '0 5px' }}>{ toThousands(owner.amount)}</span>
+											元)
+										</span>
+									) : null}
+								</div>
+							) : null}
+
+							{mortgagee ? (
+								<div className="business-land-container-card ">
+									抵押权人：
+									<span className="business-land-container-card-num ">{mortgagee.count || 0}</span>
+									条
+									{mortgagee.amount ? (
+										<span style={{ paddingLeft: '5px' }}>
+											(涉及抵押额
+											<span style={{ color: '#FB5A5C', padding: '0 5px' }}>{ toThousands(mortgagee.amount)}</span>
+											元)
+										</span>
+									) : null}
+								</div>
+							) : null}
 						</div>
 					</Card>
 				) : null}

@@ -1,77 +1,50 @@
-.assets-card {
-  width: 754px;
-  height: 120px;
-  margin-right: 20px;
+.business-auction-container {
   display: inline-block;
-  border:1px solid #E8E8E8;
-  vertical-align: top;
-  position: relative;
-  border-radius: 2px;
-  .card-content {
-    padding: 20px 0;
+  line-height: 12px;  /*单独给子元素设置行高，覆盖父级元素的行高*/
+  vertical-align: middle;  /*基线居中对齐*/
+  width: 100%;
+  padding-top: 16px;
+  &-price {
+    color: #4E5566;
+    font-size: 12px;
+    width: 200px;
+    margin-right: 35px;
+    line-height: 18px;
+    display: inline-block;
+    text-align: center;
     position: relative;
-    .card-content-price {
-      width: 200px;
-      margin-right: 35px;
-      font-size: 12px;
-      line-height: 18px;
-      display: inline-block;
-      text-align: center;
-      border-right: 1px solid #F0F0F0;
-      .card-content-left-img {
-        width: 22px;
-        height: 22px;
-      }
-    }
-    .card-content-role {
-      display: inline-block;
+    bottom: 5px;
+    &-line {
+      height: 68px;
+      width: 1px;
+      background: #F0F0F0;
+      right: 0;
+      top: -5px;
       position: absolute;
-      .card-content-role-text {
-        display: inline-block;
-        width: 60px;
-        text-align: justify;
-        text-justify: distribute-all-lines;
-        text-align-last: justify;
-      }
-      .card-content-role-info {
-        display: inline-block;
-        vertical-align: top;
-      }
-      .card-content-role-num {
-        display: inline-block;
-      }
-
-      .card-content-role-itemLeft {
-        padding-top: 9px;
-        font-size: 12px;
-        color: #4E5566;
-      }
-      .card-content-role-itemMiddle {
-        padding-top: 9px;
-        font-size: 12px;
-        color: #4E5566;
-        margin-left: 160px;
-        position: relative;
-        bottom: 54px;
-      }
-      .card-content-role-itemRight {
-        padding-top: 9px;
-        font-size: 12px;
-        color: #4E5566;
-        margin-left: 320px;
-        position: relative;
-        bottom: 108px;
-      }
-
+    }
+    &-icon {
+      font-size: 20px;
     }
   }
-  &:hover {
-    width:754px;
-    height:120px;
-    background:rgba(255,255,255,1);
-    box-shadow:0 6px 10px 0 rgba(3,31,59,0.1);
-    border-radius:2px;
-    cursor: pointer;
+  &-card {
+    color: #4E5566;
+    font-size: 12px;
+    padding-bottom: 16px;
+    &-name {
+      display: inline-block;
+      width: 60px;
+      text-align: justify;
+      text-justify: distribute-all-lines;
+      text-align-last: justify;
+    }
+    &-info {
+      display: inline-block;
+      vertical-align: top;
+    }
+    &-num {
+      color: $text-title;
+      padding-right: 5px;
+      font-weight: bold;
+    }
   }
 }
-

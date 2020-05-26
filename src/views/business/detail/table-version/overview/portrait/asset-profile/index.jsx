@@ -139,10 +139,10 @@ export default class AssetProfile extends React.Component {
 		const res = values[2];
 		if (isArray && res && res.code === 200) {
 			const dataSource = [];
-			dataSource.push({ count: res.data.construct, typeName: '建造资质' });
 			dataSource.push({ count: res.data.emission, typeName: '排污权发证' });
-			dataSource.push({ count: res.data.mining, typeName: '矿业权发证' });
 			dataSource.push({ count: res.data.trademark, typeName: '商标专利' });
+			dataSource.push({ count: res.data.mining, typeName: '矿业权发证' });
+			dataSource.push({ count: res.data.construct, typeName: '建造资质' });
 			const dataSourceNum = getCount(dataSource);
 			const intangiblePropsData = {
 				dataSource,

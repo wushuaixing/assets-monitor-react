@@ -1,10 +1,10 @@
 import React from 'react';
-import informationImg from '@/assets/img/business/InformationCard.png';
-import matching from '@/assets/img/business/matching.png';
+import { Row, Col } from 'antd';
+import { navigateDetailRisk } from '@/utils';
 import Card from '../card';
 import './style.scss';
-import { navigateDetailRisk } from '@/utils';
 
+const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
 export default class Information extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +17,6 @@ export default class Information extends React.Component {
 				dataSource, dataSourceNum, gmtCreate, obligorTotal,
 			},
 		} = this.props;
-		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
 		return (
@@ -25,51 +24,47 @@ export default class Information extends React.Component {
 				{dataSourceNum > 0
 					? (
 						<Card
-							imgCard={informationImg}
+							Risk
+							IconType="operation-risk"
+							IconColor={{ color: '#FB5A5C' }}
+							customStyle={hasCountStyle}
+							portrait={portrait}
+							obligorTotal={obligorTotal}
 							count={dataSourceNum}
 							gmtCreate={gmtCreate}
-							customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 							text="经营风险"
 							onClick={() => navigateDetailRisk('e-manage')}
 							styleName="information-card"
 						>
-							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
-								<div className="card-content-role">
-									{isBusiness && obligorTotal ? (
-										<div className="card-content-role-itemLeft">
-											<img className="card-left-img" src={matching} alt="" />
-											<span className="portrait-card-num">{obligorTotal}</span>
-											人匹配到经营风险信息
-										</div>
-									) : null}
-									{
-										newDataSource && newDataSource.map((item, index) => {
-											if (index > 2) {
-												return (
-													<div className="card-content-role-itemRight">
-														<span className="card-content-role-text">{item.typeName}</span>
-														<span className="card-content-role-info">：</span>
-														<span className="card-content-role-num">
-															<span className="portrait-card-num">{item.count}</span>
+							<Row gutter={24} className="business-operation-container">
+								{
+									newDataSource && newDataSource.map((item, index) => (
+										<div>
+											{
+												index > 2 ? (
+													<Col className="gutter-row" span={12}>
+														<div className="business-operation-container-card">
+															{item.typeName}
+															：
+															<span className="business-operation-container-card-num ">{item.count}</span>
 															条
-														</span>
-													</div>
-												);
+														</div>
+													</Col>
+												) : (
+													<Col className="gutter-row" span={12}>
+														<div className="business-operation-container-card">
+															{item.typeName}
+															：
+															<span className="business-operation-container-card-num ">{item.count}</span>
+															条
+														</div>
+													</Col>
+												)
 											}
-											return (
-												<div className="card-content-role-itemLeft">
-													<span className="card-content-role-text">{item.typeName}</span>
-													<span className="card-content-role-info">：</span>
-													<span className="card-content-role-num">
-														<span className="portrait-card-num">{item.count}</span>
-														条
-													</span>
-												</div>
-											);
-										})
-									}
-								</div>
-							</div>
+										</div>
+									))
+								}
+							</Row>
 						</Card>
 					) : null
 				}

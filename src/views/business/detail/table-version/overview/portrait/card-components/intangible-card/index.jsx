@@ -1,10 +1,11 @@
 import React from 'react';
+import { Row, Col } from 'antd';
 import intangibleImg from '@/assets/img/business/intangibleCard.png';
-import matching from '@/assets/img/business/matching.png';
-import Card from '../card';
 import { navigateDetail } from '@/utils';
+import Card from '../card';
 import './style.scss';
 
+const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
 export default class Intangible extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +18,6 @@ export default class Intangible extends React.Component {
 				dataSource, dataSourceNum, gmtCreate, obligorTotal,
 			},
 		} = this.props;
-		const isBusiness = portrait && portrait === 'business';
 		const isArray = dataSource && Array.isArray((dataSource)) && dataSource.length > 0;
 		const newDataSource = isArray && dataSource.filter(i => i.count > 0);
 		return (
@@ -25,49 +25,47 @@ export default class Intangible extends React.Component {
 				{dataSourceNum > 0
 					? (
 						<Card
+							IconType="intangible"
+							IconColor={{ color: '#FFC531' }}
+							portrait={portrait}
 							imgCard={intangibleImg}
 							count={dataSourceNum}
 							gmtCreate={gmtCreate}
-							customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
+							obligorTotal={obligorTotal}
+							customStyle={hasCountStyle}
 							text="无形资产"
 							onClick={() => navigateDetail('e-assets-intangible')}
 							styleName="intangible-card"
 						>
-							<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
-								{isBusiness && obligorTotal ? (
-									<div className="card-content-role-itemLeft">
-										<img className="card-left-img" src={matching} alt="" />
-										<span className="portrait-card-num">{obligorTotal}</span>
-										人匹配到无形资产信息
-									</div>
-								) : null}
+							<Row gutter={24} className="business-intangible-container">
 								{
-									newDataSource && newDataSource.map((item, index) => {
-										if (index > 1) {
-											return (
-												<div className="card-content-role-itemRight">
-													<span className="card-content-role-text">{item.typeName}</span>
-													<span className="card-content-role-info">：</span>
-													<span className="card-content-role-num">
-														<span className="portrait-card-num">{item.count}</span>
-														条
-													</span>
-												</div>
-											);
-										}
-										return (
-											<div className="card-content-role-itemLeft">
-												<span className="card-content-role-text">{item.typeName}</span>
-												<span className="card-content-role-info">：</span>
-												<span className="card-content-role-num">
-													<span className="portrait-card-num">{item.count}</span>
-													条
-												</span>
-											</div>
-										);
-									})
-								}
-							</div>
+									newDataSource && newDataSource.map((item, index) => (
+										<div>
+											{
+													index > 2 ? (
+														<Col className="gutter-row" span={12}>
+															<div className="business-intangible-container-card">
+																<span className="business-intangible-container-card-name">{item.typeName}</span>
+																：
+																<span className="business-intangible-container-card-num">{item.count || 0}</span>
+																条
+															</div>
+														</Col>
+													) : (
+														<Col className="gutter-row" span={12}>
+															<div className="business-intangible-container-card">
+																<span className="business-intangible-container-card-name">{item.typeName}</span>
+																：
+																<span className="business-intangible-container-card-num">{item.count || 0}</span>
+																条
+															</div>
+														</Col>
+													)
+												}
+										</div>
+									))
+									}
+							</Row>
 						</Card>
 					) : null
 				}

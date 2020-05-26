@@ -1,9 +1,10 @@
 import React from 'react';
-import breakImg from '@/assets/img/business/breakCard.png';
+import { Row, Col } from 'antd';
 import Card from '../card';
 import './style.scss';
 import { navigateDetailRisk } from '@/utils';
 
+const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
 export default class Break extends React.Component {
 	constructor(props) {
 		super(props);
@@ -30,17 +31,17 @@ export default class Break extends React.Component {
 				{dataSourceNum > 0
 					? (
 						<Card
-							imgCard={breakImg}
-							count={dataSourceNum}
+							Risk
+							IconType="broken"
+							IconColor={{ color: '#FB5A5C' }}
+							customStyle={hasCountStyle}
 							gmtCreate={gmtCreate}
-							customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
+							count={dataSourceNum}
 							text="失信记录"
 							onClick={() => navigateDetailRisk('e-manage-dishonest')}
-							styleName="break-card"
 						>
 							{!isBusiness && (
-							<div className="card-content">
-								<div className="card-content-role">
+								<div className="business-broken-container">
 									{
 										<span style={{ fontSize: '12px' }}>
 										当前失信状态：
@@ -52,64 +53,59 @@ export default class Break extends React.Component {
 										</span>
 									}
 									{
-										newDataSource && newDataSource.map((item, index) => {
-											if (index > 0) {
-												return (
-													<div className="card-content-role-itemRight">
-														<span className="card-content-role-text">{item.typeName}</span>
-														<span className="card-content-role-info">：</span>
-														<span className="card-content-role-num">
-															<span className="portrait-card-num">{item.count}</span>
-															条
-														</span>
-													</div>
-												);
-											}
-											return (
-												<div className="card-content-role-itemLeft">
-													<span className="card-content-role-text">{item.typeName}</span>
-													<span className="card-content-role-info">：</span>
-													<span className="card-content-role-num">
-														<span className="portrait-card-num">{item.count}</span>
-														条
-													</span>
-												</div>
-											);
-										})
+										<Row gutter={24} className="business-intangible-container">
+											{
+													newDataSource && newDataSource.map(item => (
+														<Col className="gutter-row" span={12}>
+															<div className="business-broken-container-card">
+																<span className="business-broken-container-card-name">{item.typeName}</span>
+																<span className="card-content-role-info">：</span>
+																<span className="business-broken-container-card-num">{item.count || 0}</span>
+																条
+															</div>
+														</Col>
+													))
+												}
+										</Row>
 									}
 								</div>
-							</div>
 							)}
+
 							{isBusiness && (
-								<div className="business-card-content">
-									<div className="business-card-content-role">
-										{
-											newDebtorArray && newDebtorArray.map(item => (
-												<div className="card-content-role-itemLeft">
-													<span className="card-content-role-debtor-text">{item.typeName}</span>
-													<span className="card-content-role-info">：</span>
-													<span className="card-content-role-num">
-														<span className="portrait-card-num">{item.count}</span>
-														{/* {item.typeName && item.typeName.length > 4 ? '名' : '条'} */}
-														名
-													</span>
-												</div>
-											))
-										}
-										<div className="card-content-role-line" />
-										{
-											newDataSource && newDataSource.map(item => (
-												<div className="card-content-role-itemRight" style={newDebtorArray && newDebtorArray.length === 1 ? { bottom: '26px' } : { bottom: '56px' }}>
-													<span className="card-content-role-text">{item.typeName}</span>
-													<span className="card-content-role-info">：</span>
-													<span className="card-content-role-num">
-														<span className="portrait-card-num">{item.count}</span>
-														条
-													</span>
-												</div>
-											))
-										}
-									</div>
+								<div className="business-broken-container">
+									<Row gutter={24} className="business-intangible-container">
+										<Col className="gutter-row" span={10}>
+											{
+												newDebtorArray && newDebtorArray.map(item => (
+													<Row className="gutter-row" span={12}>
+														<div className="business-broken-container-card" style={{ paddingBottom: '16px' }}>
+															<span className="business-broken-container-card-name">{item.typeName}</span>
+															：
+															<span className="business-broken-container-card-num">{item.count || 0}</span>
+															名
+														</div>
+													</Row>
+												))
+											}
+										</Col>
+										<Col className="gutter-row" span={2}>
+											<div className="card-content-role-line" />
+										</Col>
+										<Col className="gutter-row" span={10}>
+											{
+												newDataSource && newDataSource.map(item => (
+													<Row className="gutter-row" span={12}>
+														<div className="business-broken-container-card" style={{ paddingBottom: '16px' }}>
+															<span className="business-broken-container-card-name typeName">{item.typeName}</span>
+															：
+															<span className="business-broken-container-card-num">{item.count || 0}</span>
+															条
+														</div>
+													</Row>
+												))
+											}
+										</Col>
+									</Row>
 								</div>
 							)}
 						</Card>

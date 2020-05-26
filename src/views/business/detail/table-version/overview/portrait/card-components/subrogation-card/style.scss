@@ -1,95 +1,52 @@
-.subrogation-card {
-  width: 366px;
-  height: 120px;
-  margin-right: 20px;
-  vertical-align: top;
-  border:1px solid #E8E8E8;
+.business-subrogation-container {
   display: inline-block;
-  position: relative;
-  .card-content {
-    padding: 26px 10px 26px 34px;
-    position: relative;
-    line-height: 16px;
+  line-height: 12px;  /*单独给子元素设置行高，覆盖父级元素的行高*/
+  vertical-align: middle;  /*基线居中对齐*/
 
-    .card-content-role {
+  &-card {
+    color: #4E5566;
+    font-size: 12px;
+    .card-content-left-arrow {
+      position: relative;
+      background: #FFF9F4;
+      border: 1px solid #FB8E3C;
       display: inline-block;
-      height: 40px;
-      .card-content-role-itemLeft {
-        padding-top: 13px;
+      margin-left: 13px;
+      .card-content-popover-content {
+        height: 20px;
+        line-height: 20px;
         font-size: 12px;
-        line-height: 12px;
-        color: #4E5566;
-        .card-left-img {
-          position: absolute;
-          left: 15px;
-          top: 12px;
-          width: 14px;
-        }
-        .card-content-role-text {
-          display: inline-block;
-          width: 50px;
-          text-align: justify;
-          text-justify: distribute-all-lines;
-          text-align-last: justify;
-        }
-        .card-content-role-info {
-          display: inline-block;
-          vertical-align: baseline;
-        }
-        .card-content-role-num {
-          display: inline-block;
-        }
-        &:first-child {
-          padding-top: 0;
-          display: inline-block;
-        }
+        color: #FB8E3C;
+        padding-left: 5px;
+        width: 100px;
       }
-      .card-content-left-arrow {
-        position: relative;
-        background: #FFF9F4;
-        border: 1px solid #FB8E3C;
-        display: inline-block;
-        margin-left: 13px;
-        .card-content-popover-content {
-          height: 20px;
-          line-height: 20px;
-          font-size: 12px;
-          color: #FB8E3C;
-          padding-left: 5px;
-          width: 100px;
-        }
-        &:before, &:after {
-          right: 100%;
-          top: 50%;
-          border: solid transparent;
-          content: " ";
-          height: 0;
-          width: 0;
-          position: absolute;
-          pointer-events: none;
-        }
-        &:after {
-          border-color: rgba(255, 249, 244, 0);
-          border-right-color: #FFF9F4;
-          border-width: 5px;
-          margin-top: -5px;
-        }
-        &:before {
-          border-color: rgba(251, 142, 60, 0);
-          border-right-color: #FB8E3C;
-          border-width: 6px;
-          margin-top: -6px;
-        }
+      &:before, &:after {
+        right: 100%;
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+      &:after {
+        border-color: rgba(255, 249, 244, 0);
+        border-right-color: #FFF9F4;
+        border-width: 5px;
+        margin-top: -5px;
+      }
+      &:before {
+        border-color: rgba(251, 142, 60, 0);
+        border-right-color: #FB8E3C;
+        border-width: 6px;
+        margin-top: -6px;
       }
     }
-
-  }
-  &:hover {
-    width:366px;
-    height:120px;
-    background:rgba(255,255,255,1);
-    box-shadow:0 6px 10px 0 rgba(3,31,59,0.1);
-    border-radius:2px;
-    cursor: pointer;
+    &-num {
+      color: $text-title;
+      padding-right: 5px;
+      font-weight: bold;
+    }
   }
 }
