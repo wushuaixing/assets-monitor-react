@@ -1,10 +1,9 @@
 import React from 'react';
 import { navigateDetail } from '@/utils';
-import biddingImg from '@/assets/img/business/BiddingCard.png';
-import matching from '@/assets/img/business/matching.png';
 import Card from '../card';
 import './style.scss';
 
+const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
 export default class Bidding extends React.Component {
 	constructor(props) {
 		super(props);
@@ -13,31 +12,24 @@ export default class Bidding extends React.Component {
 
 	render() {
 		const { portrait, dataSource: { biddingNum, gmtCreate, obligorTotal } } = this.props;
-		const isBusiness = portrait && portrait === 'business';
 		return (
 			<React.Fragment>
 				{biddingNum > 0 ? (
 					<Card
-						imgCard={biddingImg}
+						portrait={portrait}
+						obligorTotal={obligorTotal}
+						IconType="bidding"
+						IconColor={{ color: '#3DBD7D' }}
+						customStyle={hasCountStyle}
 						count={biddingNum}
 						gmtCreate={gmtCreate}
-						customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 						text="招投标"
 						onClick={() => navigateDetail('e-assets-bidding')}
 						styleName="bidding-card"
 					>
-						<div className="card-content" style={isBusiness ? { padding: '13px 10px 13px 34px' } : {}}>
-							{isBusiness && obligorTotal ? (
-								<div className="card-content-role-itemLeft">
-									<img className="card-left-img" src={matching} alt="" />
-									<span className="portrait-card-num">{obligorTotal}</span>
-									人匹配到招投标信息
-								</div>
-							) : null}
-							<div className="card-content-role">
-								<span className="portrait-card-num">{biddingNum}</span>
-								<span style={{ fontSize: '12px', color: '#4E5566', paddingLeft: '3px' }}>条相关匹配信息，请核实</span>
-							</div>
+						<div className="business-bankruptcy-card">
+							<span className="business-bankruptcy-card-num">{biddingNum || 0}</span>
+							条相关匹配信息，请核实
 						</div>
 					</Card>
 				) : null}

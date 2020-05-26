@@ -1,9 +1,9 @@
 import React from 'react';
-import involvedImg from '@/assets/img/business/InvolvedCard.png';
 import Card from '../card';
 import { navigateDetailRisk } from '@/utils';
 import './style.scss';
 
+const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
 export default class Involved extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,61 +23,53 @@ export default class Involved extends React.Component {
 			<React.Fragment>
 				{dataSourceNum > 0 ? (
 					<Card
-						imgCard={involvedImg}
+						Risk
+						IconType="lawsuit"
+						IconColor={{ color: '#FB8E3C' }}
+						customStyle={hasCountStyle}
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
-						customStyle={isBusiness ? { width: '366px', height: '165px', marginBottom: '20px' } : { width: '366px', height: '140px', marginBottom: '20px' }}
 						text={portrait === 'debtor_personal' ? '涉诉信息-裁判文书' : '涉诉信息'}
 						onClick={() => navigateDetailRisk('e-manage-lawsuits')}
-						styleName="Involved-card"
 					>
-						<div className="card-content" style={isBusiness ? { height: '20px' } : {}}>
-							<div className="card-content-role">
-								{
+						<div className="business-lawsuit-container">
+							{
 									isBusiness
 										? (
-											<div>
+											<div className="business-lawsuit-card">
 												<span style={{ fontSize: '12px', color: '#4E5566', paddingRight: '5px' }}>涉诉风险债务人：</span>
-												<span className="portrait-card-num">{obligorTotal}</span>
-												名
+												<span className="business-bankruptcy-card-num">{obligorTotal || 0}</span>
+											名
 											</div>
 										) : (portrait === 'debtor_personal' ? (
 											<div>
 												{execute > 0 ? (
-													<div className="card-content-role-itemLeft">
+													<div className="business-lawsuit-container-card" style={{ paddingBottom: '16px' }}>
 														<span className="card-content-role-text">执行案件</span>
 														<span className="card-content-role-info">：</span>
-														<span className="card-content-role-num">
-															<span className="portrait-card-num">{execute}</span>
-															条
-														</span>
+														<span className="business-lawsuit-container-card-num ">{execute || 0}</span>
+														条
 													</div>
 												) : null}
 
 												{otherCase > 0 ? (
-													<div className="card-content-role-itemLeft">
+													<div className="business-lawsuit-container-card" style={{ paddingBottom: '16px' }}>
 														<span className="card-content-role-text">其他案件</span>
 														<span className="card-content-role-info">：</span>
-														<span className="card-content-role-num">
-
-															<span className="portrait-card-num">{otherCase}</span>
-															条
-														</span>
+														<span className="business-lawsuit-container-card-num ">{otherCase || 0}</span>
+														条
 													</div>
 												) : null}
 											</div>
 										) : newDataSource && newDataSource.map(item => (
-											<div className="card-content-role-itemLeft" key={item.type}>
+											<div className="business-lawsuit-container-card" style={{ paddingBottom: '16px' }}>
 												<span className="card-content-role-text">{item.typeName}</span>
 												<span className="card-content-role-info">：</span>
-												<span className="card-content-role-num">
-													<span className="portrait-card-num">{item.count}</span>
-													笔
-												</span>
+												<span className="business-lawsuit-container-card-num ">{item.count || 0}</span>
+											条
 											</div>
 										)))
 								}
-							</div>
 						</div>
 					</Card>
 				) : null}

@@ -4,6 +4,7 @@ import Card from '../card';
 import './style.scss';
 import { navigateDetailRisk } from '@/utils';
 
+const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
 export default class Tax extends React.Component {
 	constructor(props) {
 		super(props);
@@ -22,29 +23,27 @@ export default class Tax extends React.Component {
 				{dataSourceNum > 0
 					? (
 						<Card
+							Risk
+							IconType="tax"
+							IconColor={{ color: '#FB5A5C' }}
+							customStyle={hasCountStyle}
 							imgCard={taxImg}
 							count={dataSourceNum}
 							gmtCreate={gmtCreate}
-							customStyle={{ width: '366px', height: '140px', marginBottom: '20px' }}
 							text="税收违法"
 							onClick={() => navigateDetailRisk('e-manage-tax')}
-							styleName="taxViolation-card"
 						>
-							<div className="card-content">
-								<div className="card-content-role">
-									{
+							<div className="business-tax-container">
+								{
 										isArray && roleDistributions.map(item => (
-											<div className="card-content-role-itemLeft">
+											<div className="business-tax-container-card" style={{ paddingBottom: '16px' }}>
 												<span className="card-content-role-text">{item.typeName}</span>
 												<span className="card-content-role-info">：</span>
-												<span className="card-content-role-num">
-													<span className="portrait-card-num">{item.count}</span>
-														条
-												</span>
+												<span className="business-tax-container-card-num ">{item.count || 0}</span>
+												条
 											</div>
 										))
 									}
-								</div>
 							</div>
 						</Card>
 					) : null
