@@ -45,6 +45,7 @@ export default class RiskInformation extends React.Component {
 						IconColor={{ color: '#FB8E3C' }}
 						gmtCreate={auctionPropsData.gmtCreate}
 						obligorTotal={auctionPropsData.obligorTotal}
+						obligorName="人匹配到资产拍卖信息"
 						onClick={() => navigateDetail('e-assets-auction')}
 					>
 						{

@@ -30,6 +30,7 @@ export default class EquityPledge extends React.Component {
 						gmtCreate={gmtCreate}
 						onClick={() => navigateDetail('e-assets-stock')}
 						customStyle={hasCountStyle}
+						obligorName="人匹配到股权质押"
 						text="股权质押"
 						styleName="equityPledge-card"
 					>

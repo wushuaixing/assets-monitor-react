@@ -12,7 +12,7 @@ export default class RiskInformation extends React.Component {
 
 	render() {
 		const {
-			IconType, IconColor, gmtCreate, count, text, children, asset, customStyle, portrait, obligorTotal, onClick, Risk,
+			IconType, IconColor, gmtCreate, count, text, children, asset, customStyle, portrait, obligorTotal, onClick, Risk, obligorName,
 		} = this.props;
 		const isBusiness = portrait && portrait === 'business';
 		return (
@@ -25,7 +25,8 @@ export default class RiskInformation extends React.Component {
 							<div className="card-content-role-itemLeft">
 								<img className="card-role-itemLeft-img" src={matching} alt="" />
 								<span className="portrait-card-num">{obligorTotal}</span>
-								人匹配到资产拍卖信息
+								{obligorName}
+								{/* 人匹配到资产拍卖信息 */}
 							</div>
 						) : null}
 					</div>

@@ -34,6 +34,7 @@ export default class Land extends React.Component {
 						customStyle={hasCountStyle}
 						obligorTotal={obligorTotal}
 						text="土地信息"
+						obligorName="人匹配到土地信息"
 						onClick={() => navigateDetail('e-assets-land')}
 					>
 						<div

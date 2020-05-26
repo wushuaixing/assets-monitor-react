@@ -32,6 +32,7 @@ export default class Information extends React.Component {
 							obligorTotal={obligorTotal}
 							count={dataSourceNum}
 							gmtCreate={gmtCreate}
+							obligorName="人匹配到经营风险信息"
 							text="经营风险"
 							onClick={() => navigateDetailRisk('e-manage')}
 							styleName="information-card"

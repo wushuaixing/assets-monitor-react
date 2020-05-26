@@ -1,6 +1,5 @@
 import React from 'react';
 import { navigate } from '@reach/router';
-import Cookies from 'universal-cookie';
 import Router from '@/utils/Router';
 import { Button, Icon, BreadCrumb } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
@@ -16,11 +15,9 @@ import Intangible from './intangible-assets'; // 无形资产
 import EquityPledge from './equity-pledge'; // 股权质押
 // import Public from './public-proclamation'; // 公示公告
 // import Attention from '../my-attention'; // 我的关注
-import VersionUpdateModal from '../_others/layout/versionUpdateModal';
-import ClearProcess from './assets-auction/clearProcess'; // 资产清收流程
-
-const cookie = new Cookies();
-
+// import VersionUpdateModal from '../_others/layout/versionUpdateModal';
+import ClearProcess from './assets-auction/clearProcess';
+// 资产清收流程
 const noPage = () => <div>暂未开发</div>;
 
 // 获取展示配置
@@ -62,7 +59,6 @@ class MonitorMain extends React.Component {
 		const _source = toGetRuth('YC02');
 		this.state = {
 			source: _source,
-			VersionUpdateModalVisible: false,
 		};
 		this.sourceType = '';
 	}
@@ -76,13 +72,6 @@ class MonitorMain extends React.Component {
 		this.setUnReadCount = setInterval(() => {
 			this.onUnReadCount();
 		}, 30 * 1000);
-		const versionUpdate = cookie.get('versionUpdate');
-		// console.log(versionUpdate === 'false');
-		if (versionUpdate === 'true') {
-			this.setState({
-				VersionUpdateModalVisible: true,
-			});
-		}
 	}
 
 	componentWillUnmount() {
@@ -126,15 +115,9 @@ class MonitorMain extends React.Component {
 		navigate(`/info/monitor/attention?init=YC02${this.sourceType ? `&process=${this.sourceType}` : ''}`);
 	};
 
-	onCancel = () => {
-		this.setState({
-			VersionUpdateModalVisible: false,
-		});
-		cookie.set('versionUpdate', false);
-	};
 
 	render() {
-		const { source, VersionUpdateModalVisible } = this.state;
+		const { source } = this.state;
 		const { rule } = this.props;
 		const _source = source.filter(item => item.status);
 		let text = _source[0].name;
@@ -179,14 +162,7 @@ class MonitorMain extends React.Component {
 						}
 					</Router>
 				</div>
-				{/** 版本更新Modal */}
-				{VersionUpdateModalVisible && (
-					<VersionUpdateModal
-						onCancel={this.onCancel}
-						onOk={this.onOk}
-						VersionUpdateModalVisible={VersionUpdateModalVisible}
-					/>
-				)}
+
 			</React.Fragment>
 		);
 	}

@@ -33,6 +33,7 @@ export default class ChattelMortgage extends React.Component {
 						count={dataSourceNum}
 						gmtCreate={gmtCreate}
 						customStyle={hasCountStyle}
+						obligorName="人匹配到动产抵押信息"
 						onClick={() => navigateDetail('e-assets-chattel')}
 						text="动产抵押"
 					>
