@@ -26,6 +26,7 @@ export default class Subrogation extends React.Component {
 							portrait={portrait}
 							count={allNum}
 							gmtCreate={gmtCreate}
+							obligorName="人匹配到代位权信息"
 							customStyle={{ width: '366px', height: '155px', marginBottom: '20px' }}
 							onClick={() => navigateDetail('e-assets-subrogation')}
 							text={portrait === 'debtor_personal' ? '代位权-裁判文书' : '代位权'}

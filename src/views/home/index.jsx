@@ -1,13 +1,15 @@
 import React from 'react';
 import { currentOrganization, homeAssetDig, riskReference } from 'api/home';
+import Cookies from 'universal-cookie';
 import { promiseAll } from '@/utils/promise';
 import Header from './home-header';
 import QuickStart from './home-right/quick-start';
 import Overview from './home-right/overview';
 import Dynamic from './home-left/index';
+import VersionUpdateModal from '../_others/layout/versionUpdateModal';
 import './index.scss';
 
-
+const cookie = new Cookies();
 class HomeRouter extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,13 +19,28 @@ class HomeRouter extends React.Component {
 			assetArray: [],
 			riskArray: [],
 			loading: false,
+			VersionUpdateModalVisible: false,
 		};
 	}
 
 	componentDidMount() {
 		this.getHeaderData();
 		this.getData();
+		const versionUpdate = cookie.get('versionUpdate');
+		// console.log(versionUpdate === 'false');
+		if (versionUpdate === 'true') {
+			this.setState({
+				VersionUpdateModalVisible: true,
+			});
+		}
 	}
+
+	onCancel = () => {
+		this.setState({
+			VersionUpdateModalVisible: false,
+		});
+		cookie.set('versionUpdate', false);
+	};
 
 	// 获取统计信息
 	getHeaderData=() => {
@@ -148,7 +165,7 @@ class HomeRouter extends React.Component {
 
 	render() {
 		const {
-			headerPropsData, assetArray, riskArray, loading,
+			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible,
 		} = this.state;
 		const { baseRule } = this.props;
 		const params = {
@@ -180,6 +197,14 @@ class HomeRouter extends React.Component {
 						</div>
 					</div>
 				</div>
+				{/** 版本更新Modal */}
+				{VersionUpdateModalVisible && (
+					<VersionUpdateModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						VersionUpdateModalVisible={VersionUpdateModalVisible}
+					/>
+				)}
 			</div>
 		);
 	}

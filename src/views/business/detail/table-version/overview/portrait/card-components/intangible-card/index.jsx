@@ -33,6 +33,7 @@ export default class Intangible extends React.Component {
 							gmtCreate={gmtCreate}
 							obligorTotal={obligorTotal}
 							customStyle={hasCountStyle}
+							obligorName="人匹配到无形资产"
 							text="无形资产"
 							onClick={() => navigateDetail('e-assets-intangible')}
 							styleName="intangible-card"

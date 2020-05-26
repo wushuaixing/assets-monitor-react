@@ -304,19 +304,20 @@
 }
 // 版本更新
 .yc-versionUpdate {
-  //display: flex;
-  //align-items: center;
-  //justify-content: center;
+
   .ant-modal-body {
     padding: 0 !important;
+    img {
+      position: relative;
+      margin-top: -57px;
+    }
   }
   .ant-modal-content {
     border-radius: 5px;
   }
   .yc-modal-weChat-content {
-    padding: 40px 30px 70px 36px;
+    padding: 26px 30px 44px 36px;
     text-align: center;
-    height: 520px;
     .yc-modal-weChat-title {
       font-size: 26px;
       line-height: 26px;
@@ -330,20 +331,11 @@
       color: #4E5566;
       margin-bottom: 40px;
     }
-    .yc-modal-btn {
-      width: 320px;
-      height: 44px;
-      margin-left: 107px;
-      margin-top: 51px;
-      display: block;
-      span {
-        font-size: 14px;
-      }
-    }
+
   }
   .yc-modal-content {
-    padding: 40px 0 70px 70px;
-    height: 520px;
+    padding: 26px 0 44px 70px;
+
     .yc-modal-header {
       height:22px;
       font-size:22px;
@@ -358,18 +350,19 @@
       line-height: 18px;
     }
     .yc-modal-title {
-      margin-top: 40px;
+      //margin-top: 40px;
       line-height: 20px;
       font-size: 20px;
       position: relative;
       left: -10px;
-      font-weight: bold;
+      font-weight: 500;
       color: $text-title;
     }
     .yc-label-title {
       display: inline-block;
       position: relative;
-      margin-top: 36px;
+      margin-top: 30px;
+      margin-bottom: 6px;
       line-height: 16px;
       font-size: 16px;
       padding-left: 12px;
@@ -382,7 +375,18 @@
         height: 7px;
         top: 5px;
         left: 0;
-        background: $text-link;
+        background: #FF6971;
+      }
+    }
+    .yc-modal-list {
+      margin-top: 10px;
+      color: #4E5566;
+      font-size: 14px;
+      line-height: 14px;
+      margin-left: 14px;
+      .yc-modal-list-detail {
+        color: #FF6D10;
+        margin-left: 2px;
       }
     }
     .yc-label-text {
@@ -399,9 +403,17 @@
       width: 320px;
       height: 44px;
       margin-left: 70px;
-      margin-top: 74px;
+      margin-top: 44px;
+      display: block;
+      background-color: #FF6971;
+      color: #FFFFFF;
+      border: 1px solid #FF6971;
+      &:hover {
+        border: 1px solid #FF5059;
+        background-color: #FF5059;
+      }
       span {
-        font-size: 14px;
+        font-size: 16px;
       }
     }
   }

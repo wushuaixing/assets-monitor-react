@@ -23,6 +23,7 @@ export default class Bidding extends React.Component {
 						customStyle={hasCountStyle}
 						count={biddingNum}
 						gmtCreate={gmtCreate}
+						obligorName="人匹配到招投标信息"
 						text="招投标"
 						onClick={() => navigateDetail('e-assets-bidding')}
 						styleName="bidding-card"
