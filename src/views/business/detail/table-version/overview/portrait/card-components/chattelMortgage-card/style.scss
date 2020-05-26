@@ -6,6 +6,9 @@
   &-card {
     color: #4E5566;
     font-size: 12px;
+    &:last-child {
+      padding-bottom: 0 !important;
+    }
     &-num {
       color: $text-title;
       padding-right: 5px;
