@@ -56,15 +56,15 @@ const tag = (value) => {
 	case 304: return '建筑建造资质';
 	case 401: return '动产抵押';
 	case 501: return '股权质押';
-	case 601: return '代位权(立案)';
-	case 602: return '代位权(开庭)';
-	case 603: return '代位权(文书)';
+	case 601: return '代位权( 立案 )';
+	case 602: return '代位权( 开庭 )';
+	case 603: return '代位权( 文书 )';
 	case 701: return '破产重组';
-	case 801: return '失信（列入）';
-	case 802: return '失信（移除）';
-	case 901: return '涉诉(立案)';
-	case 902: return '涉诉（开庭）';
-	case 903: return '涉诉（文书）';
+	case 801: return '失信( 列入 )';
+	case 802: return '失信( 移除 )';
+	case 901: return '涉诉( 立案 )';
+	case 902: return '涉诉( 开庭 )';
+	case 903: return '涉诉( 文书 )';
 	case 1001: return '经营异常';
 	case 1002: return '严重违法';
 	case 1003: return '税收违法';
@@ -145,6 +145,7 @@ class DetailItem extends PureComponent {
 
 	componentWillReceiveProps(nextProps) {
 		const { data } = this.props;
+		// console.log(nextProps.arr, 2);
 		if (data !== nextProps.data) {
 			this.setState(() => ({
 				data: nextProps.data,
@@ -296,9 +297,9 @@ class DetailItem extends PureComponent {
 
 	// 关闭弹窗
 	onCancel = () => {
-		// setTimeout(() => {
-		// 	this.startScrollUp();
-		// }, 500);
+		setTimeout(() => {
+			this.startScrollUp();
+		}, 500);
 		this.setState({
 			// openModal: false,
 			emissionModalVisible: false,
@@ -336,25 +337,24 @@ class DetailItem extends PureComponent {
 	// 	const wrap = this.content;
 	// 	if (wrap && data && data.length > 4) {
 	// 		const height = document.getElementById('scrollList').getElementsByTagName('li')[0].scrollHeight + 1;
+	// 		wrap.onmouseover = () => {
+	// 			clearInterval(scrollInterval);
+	// 		};
 	// 		data.push(data[0]);
-	//
+	// 		console.log(3);
 	// 		this.setState(() => ({
 	// 			animate: true,
 	// 			listMarginTop: `-${height}px`,
 	// 		}));
-	// 		// console.log(height);
-	// 		wrap.onmouseover = () => {
-	// 			clearInterval(scrollInterval);
-	// 		};
+	//
 	// 		setTimeout(() => {
 	// 			data.shift();
-	//
 	// 			this.setState(() => ({
 	// 				animate: false,
 	// 				listMarginTop: 0,
 	// 			}));
 	// 			this.forceUpdate();
-	// 		}, 2000);
+	// 		}, 1500);
 	// 	}
 	// };
 	//
@@ -364,8 +364,8 @@ class DetailItem extends PureComponent {
 	//
 	// startScrollUp= () => {
 	// 	this.endScroll();
-	// 	this.scrollUp();
-	// 	scrollInterval = setInterval(this.scrollUp, 3000);
+	// 	// this.scrollUp();
+	// 	scrollInterval = setInterval(this.scrollUp, 2000);
 	// };
 	//
 	// handleMouseLeave = () => {
@@ -445,7 +445,7 @@ class DetailItem extends PureComponent {
 												<div className="detail-container-content-right-time">
 													{item.timestamp ? timeStandard(item.timestamp) : '-'}
 												</div>
-												<div className={`detail-container-content-right-tag ${(item.type === 12 || item.type === 13) ? 'red' : 'yellow'}`}>
+												<div className={`detail-container-content-right-tag ${(item.detailType === 701 || item.detailType === 801) ? 'red' : 'yellow'} ${(item.detailType === 802 ? 'green' : '')}`}>
 													<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />
 													{tag(item.detailType)}
 												</div>

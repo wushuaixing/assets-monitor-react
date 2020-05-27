@@ -297,7 +297,7 @@ class dynamicUpdate extends PureComponent {
 										{UnReadNum ?	<span className="seven-update-content-title-icon" /> : null}
 									</div>
 								</div>
-								<DetailItem data={assetArr} getUnReadNum={this.getUnReadNum} />
+								<DetailItem data={assetArr} arr={newAssetArr} getUnReadNum={this.getUnReadNum} />
 							</div>
 						) : (
 							<div className="detail-container-noData">
@@ -339,7 +339,7 @@ class dynamicUpdate extends PureComponent {
 										<span className="seven-update-content-title-addNum-icon" />
 										<span className="seven-update-content-title-addNum-text">
 											{riskObligorIdNum}
-											名债务人有资产信息更新
+											名债务人有风险信息更新
 										</span>
 									</span>
 								</div>
@@ -360,7 +360,7 @@ class dynamicUpdate extends PureComponent {
 										{UnReadNum ?	<span className="seven-update-content-title-icon" /> : null}
 									</div>
 								</div>
-								<DetailItem data={riskArr} getUnReadNum={this.getUnReadNum} />
+								<DetailItem data={riskArr} arr={newRiskArr} getUnReadNum={this.getUnReadNum} />
 							</div>
 						) : (
 							<div className="detail-container-noData">
