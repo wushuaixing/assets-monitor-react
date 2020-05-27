@@ -137,9 +137,11 @@ class DetailItem extends PureComponent {
 		this.content = '';
 	}
 
-	// componentDidMount() {
-	// 	this.startScrollUp();
-	// }
+	componentDidMount() {
+		const { data, getUnReadNum } = this.props;
+		const hasUnRead = data && data.filter(i => i.isRead === 0).length;
+		getUnReadNum(hasUnRead);
+	}
 
 	componentWillReceiveProps(nextProps) {
 		const { data } = this.props;
@@ -162,12 +164,20 @@ class DetailItem extends PureComponent {
 	};
 
 	isReadList = (item, index, api, type) => {
+		const { getUnReadNum } = this.props;
+		const { data } = this.state;
+		let value;
+		const hasUnRead = data && data.filter(i => i.isRead === 0).length;
+		if (hasUnRead <= 0) { value = 0; }
+		if (hasUnRead > 0) { value = hasUnRead - 1; }
+
 		const { id, isRead } = item;
 		const idList = [];
 		idList.push(id);
 		if (!isRead) {
 			api(type === 'idList' ? { idList } : { id }).then((res) => {
 				if (res.code === 200) {
+					getUnReadNum(value);
 					this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				} else {
 					console.error(res.data.message);
@@ -322,12 +332,13 @@ class DetailItem extends PureComponent {
 	};
 
 	// scrollUp= () => {
+	// 	const { data } = this.state;
 	// 	const wrap = this.content;
-	// 	if (wrap && this.state.data && this.state.data.length > 4) {
+	// 	if (wrap && data && data.length > 4) {
 	// 		const con2 = this.content2;
 	// 		const height = con2.scrollHeight + 1;
-	// 		this.state.data.push(this.state.data[0]);
-	// 		// console.log(newData);
+	// 		data.push(data[0]);
+	// 		console.log(height);
 	//
 	// 		this.setState(() => ({
 	// 			animate: true,
@@ -338,7 +349,7 @@ class DetailItem extends PureComponent {
 	// 			clearInterval(scrollInterval);
 	// 		};
 	// 		setTimeout(() => {
-	// 			this.state.data.shift();
+	// 			data.shift();
 	//
 	// 			this.setState(() => ({
 	// 				animate: false,
