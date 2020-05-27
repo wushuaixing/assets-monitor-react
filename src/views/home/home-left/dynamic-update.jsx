@@ -43,6 +43,7 @@ class dynamicUpdate extends PureComponent {
 			assetObligorIdNum: 0,
 			riskObligorIdNum: 0,
 			RingEchartsObj: {},
+			UnReadNum: 0,
 			clear: false,
 		};
 	}
@@ -59,6 +60,8 @@ class dynamicUpdate extends PureComponent {
 		}
 		if ((AssetImportantReminderList && Array.isArray(AssetImportantReminderList) && AssetImportantReminderList.length > 0) || AssetImportantReminderObligorIdList) {
 			newAssetRemindArray = [...AssetImportantReminderList];
+			const hasUnRead = AssetImportantReminderList && AssetImportantReminderList.filter(i => i.isRead === 0).length;
+			this.getUnReadNum(hasUnRead);
 			const newAssetImportantReminderObligorIdList = AssetImportantReminderObligorIdList.filter(i => i !== 0);
 			const newAssetImportantReminderObligorIdListNum = new Set([...newAssetImportantReminderObligorIdList]).size;
 			this.setState(() => ({
@@ -192,9 +195,16 @@ class dynamicUpdate extends PureComponent {
 		navigate('/business');
 	};
 
+	getUnReadNum = (value) => {
+		console.log(value);
+		this.setState(() => ({
+			UnReadNum: value,
+		}));
+	};
+
 	render() {
 		const {
-			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, clear,
+			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, clear, UnReadNum,
 		} = this.state;
 		const { assetPropsData, riskPropsData } = this.props;
 		const hasAssetPropsData = Object.keys(assetPropsData).length !== 0;
@@ -234,6 +244,7 @@ class dynamicUpdate extends PureComponent {
 			assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear);
 			riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear);
 		}
+
 		return (
 			<div className="seven-update-container">
 				<DynamicTab {...params} />
@@ -246,6 +257,13 @@ class dynamicUpdate extends PureComponent {
 								新增
 									<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
 								条资产挖掘信息
+									<span className="seven-update-content-title-addNum">
+										<span className="seven-update-content-title-addNum-icon" />
+										<span className="seven-update-content-title-addNum-text">
+											{assetObligorIdNum}
+											名债务人有资产信息更新
+										</span>
+									</span>
 								</div>
 								<RingEcharts id="assetAuction" {...assetParams} title="资产挖掘" />
 								{lessAssetNum && (
@@ -258,11 +276,13 @@ class dynamicUpdate extends PureComponent {
 								<div className="seven-update-content-title">
 									<div className="seven-update-content-title-item" />
 									<div className="seven-update-content-title-name">
-										<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>{assetObligorIdNum}</span>
-									名债务人有资产信息更新，以下为重要信息提醒
+										{/* assetObligorIdNum */}
+										<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>{assetArr && assetArr.length}</span>
+										条重要信息提醒
+										{UnReadNum ?	<span className="seven-update-content-title-icon" /> : null}
 									</div>
 								</div>
-								<DetailItem data={assetArr} />
+								<DetailItem data={assetArr} getUnReadNum={this.getUnReadNum} />
 							</div>
 						) : (
 							<div className="detail-container-noData">
@@ -286,6 +306,13 @@ class dynamicUpdate extends PureComponent {
 								新增
 									<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
 								条风险参考信息
+									<span className="seven-update-content-title-addNum">
+										<span className="seven-update-content-title-addNum-icon" />
+										<span className="seven-update-content-title-addNum-text">
+											{riskObligorIdNum}
+											名债务人有资产信息更新
+										</span>
+									</span>
 								</div>
 								<RingEcharts id="assetAuction" {...riskParams} title="风险参考" />
 								{lessRiskNum && (
@@ -298,11 +325,13 @@ class dynamicUpdate extends PureComponent {
 								<div className="seven-update-content-title">
 									<div className="seven-update-content-title-item" />
 									<div className="seven-update-content-title-name">
-										<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>{riskObligorIdNum}</span>
-									名债务人有风险信息更新，以下为重要信息提醒
+										{/* riskObligorIdNum */}
+										<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>{riskArr && riskArr.length}</span>
+										条重要信息提醒
+										{UnReadNum ?	<span className="seven-update-content-title-icon" /> : null}
 									</div>
 								</div>
-								<DetailItem data={riskArr} />
+								<DetailItem data={riskArr} getUnReadNum={this.getUnReadNum} />
 							</div>
 						) : (
 							<div className="detail-container-noData">
