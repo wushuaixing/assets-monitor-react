@@ -335,16 +335,14 @@ class DetailItem extends PureComponent {
 	// 	const { data } = this.state;
 	// 	const wrap = this.content;
 	// 	if (wrap && data && data.length > 4) {
-	// 		const con2 = this.content2;
-	// 		const height = con2.scrollHeight + 1;
+	// 		const height = document.getElementById('scrollList').getElementsByTagName('li')[0].scrollHeight + 1;
 	// 		data.push(data[0]);
-	// 		console.log(height);
 	//
 	// 		this.setState(() => ({
 	// 			animate: true,
 	// 			listMarginTop: `-${height}px`,
 	// 		}));
-	//
+	// 		// console.log(height);
 	// 		wrap.onmouseover = () => {
 	// 			clearInterval(scrollInterval);
 	// 		};
@@ -409,7 +407,7 @@ class DetailItem extends PureComponent {
 							>
 								{
 									data.map((item, index) => (
-										<li ref={(c) => { this.content2 = c; }} className="detail-container-content" onClick={() => this.handleClick(item, index)}>
+										<li className="detail-container-content" onClick={() => this.handleClick(item, index)}>
 											{item.isRead === 0 ? <div className="detail-container-content-icon" /> : null}
 											<div className="detail-container-content-left" style={item.logoUrl ? { border: '1px solid #ccc' } : {}}>
 												{

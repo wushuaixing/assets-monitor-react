@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { navigate } from '@reach/router';
 import DynamicTab from '../components/tab-checked';
 import RingEcharts from '../components/ring-echarts';
 import DetailItem from '../components/detail-item';
 import './style.scss';
+import { Icon } from '@/common';
 
 const compare = property => (a, b) => {
 	const first = a[property];
@@ -196,7 +197,6 @@ class dynamicUpdate extends PureComponent {
 	};
 
 	getUnReadNum = (value) => {
-		console.log(value);
 		this.setState(() => ({
 			UnReadNum: value,
 		}));
@@ -244,7 +244,6 @@ class dynamicUpdate extends PureComponent {
 			assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear);
 			riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear);
 		}
-
 		return (
 			<div className="seven-update-container">
 				<DynamicTab {...params} />
@@ -256,7 +255,23 @@ class dynamicUpdate extends PureComponent {
 								<div className="seven-update-content-title-name">
 								新增
 									<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
-								条资产挖掘信息
+									条资产挖掘信息
+
+									<Tooltip
+										placement="top"
+										title="点击图例，显示/隐藏不同数据类型的重要信息提醒"
+										arrowPointAtCenter
+									>
+										<span style={{ marginLeft: 5 }}>
+											<Icon
+												type="icon-question"
+												style={{
+													color: '#7D8699', fontSize: 16, cursor: 'pointer',
+												}}
+											/>
+										</span>
+									</Tooltip>
+
 									<span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
 										<span className="seven-update-content-title-addNum-text">
@@ -306,6 +321,20 @@ class dynamicUpdate extends PureComponent {
 								新增
 									<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
 								条风险参考信息
+									<Tooltip
+										placement="top"
+										title="点击图例，显示/隐藏不同数据类型的重要信息提醒"
+										arrowPointAtCenter
+									>
+										<span style={{ marginLeft: 5 }}>
+											<Icon
+												type="icon-question"
+												style={{
+													color: '#7D8699', fontSize: 16, cursor: 'pointer',
+												}}
+											/>
+										</span>
+									</Tooltip>
 									<span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
 										<span className="seven-update-content-title-addNum-text">
