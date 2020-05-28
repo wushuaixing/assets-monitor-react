@@ -27,8 +27,10 @@ class HomeRouter extends React.Component {
 		this.getHeaderData();
 		this.getData();
 		const versionUpdate = cookie.get('versionUpdate');
+		const { hash } = window.location;
+		// console.log(hash);
 		// console.log(versionUpdate === 'false');
-		if (versionUpdate === 'true') {
+		if (versionUpdate === 'true' && hash !== '#/login') {
 			this.setState({
 				VersionUpdateModalVisible: true,
 			});
