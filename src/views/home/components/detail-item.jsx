@@ -382,7 +382,7 @@ class DetailItem extends PureComponent {
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
 			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, lawsuitJudgmentModalVisible, listMarginTop,
 		} = this.state;
-
+		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		const isData = Array.isArray(data) && data.length > 0;
 
 		return (
@@ -400,6 +400,7 @@ class DetailItem extends PureComponent {
 							onBlur={this.handleBlur}
 							onMouseOut={this.handleMouseOut}
 							id="scrollList"
+							style={isIe ? { overflow: 'auto' } : {}}
 						>
 							<ul
 								id="detail-container_box1"
