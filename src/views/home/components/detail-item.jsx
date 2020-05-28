@@ -43,7 +43,7 @@ import LawsuitCourtModal from './dynamic-modal/lawsuit-court-modal';
 import LawsuitJudgmentModal from './dynamic-modal/lawsuit-judgment-modal';
 import './style.scss';
 
-// let scrollInterval = '';
+let scrollInterval = '';
 const tag = (value) => {
 	switch (value) {
 	case 101: return '资产拍卖';
@@ -105,7 +105,7 @@ class DetailItem extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// openModal: false,
+			openModal: false,
 			assetAuctionModalVisible: false,
 			LandResultModalVisible: false,
 			landTransferModalVisible: false,
@@ -141,11 +141,12 @@ class DetailItem extends PureComponent {
 		const { data, getUnReadNum } = this.props;
 		const hasUnRead = data && data.filter(i => i.isRead === 0).length;
 		getUnReadNum(hasUnRead);
+		this.startScrollUp();
 	}
 
 	componentWillReceiveProps(nextProps) {
 		const { data } = this.props;
-		// console.log(nextProps.arr, 2);
+		this.startScrollUp();
 		if (data !== nextProps.data) {
 			this.setState(() => ({
 				data: nextProps.data,
@@ -188,10 +189,10 @@ class DetailItem extends PureComponent {
 	};
 
 	handleClick = (item, index) => {
-		// this.setState(() => ({
-		// 	openModal: true,
-		// }));
-		// clearInterval(scrollInterval);
+		this.setState(() => ({
+			openModal: true,
+		}));
+		clearInterval(scrollInterval);
 		const openModalMap = new Map([
 			[101, () => {
 				this.isReadList(item, index, markReadStatus);
@@ -301,7 +302,7 @@ class DetailItem extends PureComponent {
 			this.startScrollUp();
 		}, 500);
 		this.setState({
-			// openModal: false,
+			openModal: false,
 			emissionModalVisible: false,
 			LandResultModalVisible: false,
 			landTransferModalVisible: false,
@@ -332,48 +333,47 @@ class DetailItem extends PureComponent {
 		navigate('/info/monitor');
 	};
 
-	// scrollUp= () => {
-	// 	const { data } = this.state;
-	// 	const wrap = this.content;
-	// 	if (wrap && data && data.length > 4) {
-	// 		const height = document.getElementById('scrollList').getElementsByTagName('li')[0].scrollHeight + 1;
-	// 		wrap.onmouseover = () => {
-	// 			clearInterval(scrollInterval);
-	// 		};
-	// 		data.push(data[0]);
-	// 		console.log(3);
-	// 		this.setState(() => ({
-	// 			animate: true,
-	// 			listMarginTop: `-${height}px`,
-	// 		}));
-	//
-	// 		setTimeout(() => {
-	// 			data.shift();
-	// 			this.setState(() => ({
-	// 				animate: false,
-	// 				listMarginTop: 0,
-	// 			}));
-	// 			this.forceUpdate();
-	// 		}, 1500);
-	// 	}
-	// };
-	//
-	// endScroll= () => {
-	// 	clearInterval(scrollInterval);
-	// };
-	//
-	// startScrollUp= () => {
-	// 	this.endScroll();
-	// 	// this.scrollUp();
-	// 	scrollInterval = setInterval(this.scrollUp, 2000);
-	// };
-	//
-	// handleMouseLeave = () => {
-	// 	const { openModal } = this.state;
-	// 	if (!openModal) {
-	// 		this.startScrollUp();
-	// 	}
-	// };
+	// 开始滚动
+	rollStart = () => {
+		const { data } = this.state;
+		const wrap = this.content;
+		if (wrap && data && data.length > 4) {
+			const box = document.getElementById('scrollList');
+			const box1 = document.getElementById('detail-container_box1');
+			const box2 = document.getElementById('detail-container_box2');
+			wrap.onmouseover = () => {
+				clearInterval(scrollInterval);
+			};
+
+			if (box.scrollTop + 335 >= box1.scrollHeight) {
+				box2.innerHTML = box1.innerHTML;
+				box.scrollTop = 0;
+				box2.innerHTML = '';
+			} else {
+				box.scrollTop += 1;
+			}
+		}
+	};
+
+	endScroll= () => {
+		clearInterval(scrollInterval);
+	};
+
+	startScrollUp= () => {
+		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
+		this.endScroll();
+		if (!isIe) {
+			this.rollStart();
+			scrollInterval = setInterval(this.rollStart, 40); // 设置定时器，参数t用在这为间隔时间（单位毫秒），参数t越小，滚动速度越快
+		}
+	};
+
+	handleMouseLeave = () => {
+		const { openModal } = this.state;
+		if (!openModal) {
+			this.startScrollUp();
+		}
+	};
 
 	render() {
 		const {
@@ -384,24 +384,25 @@ class DetailItem extends PureComponent {
 		} = this.state;
 
 		const isData = Array.isArray(data) && data.length > 0;
-		// const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
+
 		return (
 			<div
 				className="detail-container"
-				id="scrollList"
 				onBlur={this.handleBlur}
+
 				onMouseLeave={this.handleMouseLeave}
 			>
 				{
 					isData ? (
 						<div
-							id="detail-container_box"
 							className="detail-container-box"
 							ref={(c) => { this.content = c; }}
 							onBlur={this.handleBlur}
 							onMouseOut={this.handleMouseOut}
+							id="scrollList"
 						>
 							<ul
+								id="detail-container_box1"
 								className={animate ? 'animate' : ''}
 								style={{ marginTop: listMarginTop }}
 							>
@@ -445,7 +446,11 @@ class DetailItem extends PureComponent {
 												<div className="detail-container-content-right-time">
 													{item.timestamp ? timeStandard(item.timestamp) : '-'}
 												</div>
-												<div className={`detail-container-content-right-tag ${(item.detailType === 701 || item.detailType === 801) ? 'red' : 'yellow'} ${(item.detailType === 802 ? 'green' : '')}`}>
+												<div
+													className={`detail-container-content-right-tag 
+													${(item.detailType === 701 || item.detailType === 801) ? 'red' : 'yellow'} 
+													${(item.detailType === 802 ? 'green' : '')}`}
+												>
 													<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />
 													{tag(item.detailType)}
 												</div>
@@ -453,7 +458,9 @@ class DetailItem extends PureComponent {
 										</li>
 									))
 								}
+								{/* <p>暂无重要数据提醒</p> */}
 							</ul>
+							<ul id="detail-container_box2" />
 						</div>
 					) : (
 						<div className="detail-container-noData">
