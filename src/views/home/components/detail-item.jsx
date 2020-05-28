@@ -133,6 +133,7 @@ class DetailItem extends PureComponent {
 			dataSource: [],
 			animate: false,
 			listMarginTop: 0,
+			openMessage: false,
 		};
 		this.content = '';
 	}
@@ -340,15 +341,22 @@ class DetailItem extends PureComponent {
 		if (wrap && data && data.length > 4) {
 			const box = document.getElementById('scrollList');
 			const box1 = document.getElementById('detail-container_box1');
-			const box2 = document.getElementById('detail-container_box2');
+			// const box2 = document.getElementById('detail-container_box2');
 			wrap.onmouseover = () => {
 				clearInterval(scrollInterval);
 			};
-
 			if (box.scrollTop + 335 >= box1.scrollHeight) {
-				box2.innerHTML = box1.innerHTML;
-				box.scrollTop = 0;
-				box2.innerHTML = '';
+				this.setState(() => ({
+					openMessage: true,
+				}));
+				clearInterval(scrollInterval);
+				setTimeout(() => {
+					this.setState(() => ({
+						openMessage: false,
+					}));
+					box.scrollTop = 0;
+					this.startScrollUp();
+				}, 1500);
 			} else {
 				box.scrollTop += 1;
 			}
@@ -361,8 +369,8 @@ class DetailItem extends PureComponent {
 
 	startScrollUp= () => {
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
-		this.endScroll();
 		if (!isIe) {
+			this.endScroll();
 			this.rollStart();
 			scrollInterval = setInterval(this.rollStart, 40); // 设置定时器，参数t用在这为间隔时间（单位毫秒），参数t越小，滚动速度越快
 		}
@@ -380,7 +388,7 @@ class DetailItem extends PureComponent {
 			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible,
 			miningModalVisible, trademarkModalVisible, constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
-			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, lawsuitJudgmentModalVisible, listMarginTop,
+			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, lawsuitJudgmentModalVisible, listMarginTop, openMessage,
 		} = this.state;
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		const isData = Array.isArray(data) && data.length > 0;
@@ -459,7 +467,7 @@ class DetailItem extends PureComponent {
 										</li>
 									))
 								}
-								{/* <p>暂无重要数据提醒</p> */}
+								{openMessage ? <p className={`detail-openMessage ${openMessage ? 'opacityAnimation' : ''}`}>即将开始重新滚动</p> : null }
 							</ul>
 							<ul id="detail-container_box2" />
 						</div>
