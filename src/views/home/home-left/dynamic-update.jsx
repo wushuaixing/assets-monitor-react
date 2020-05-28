@@ -199,6 +199,7 @@ class dynamicUpdate extends PureComponent {
 	getUnReadNum = (value) => {
 		this.setState(() => ({
 			UnReadNum: value,
+			clear: true,
 		}));
 	};
 
