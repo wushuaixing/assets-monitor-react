@@ -176,13 +176,14 @@ class DetailItem extends PureComponent {
 		const { id, isRead } = item;
 		const idList = [];
 		idList.push(id);
+
 		if (!isRead) {
 			api(type === 'idList' ? { idList } : { id }).then((res) => {
 				if (res.code === 200) {
-					getUnReadNum(value);
 					this.setState(() => ({
 						openModal: true,
 					}));
+					getUnReadNum(value);
 					clearInterval(scrollInterval);
 					this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				} else {

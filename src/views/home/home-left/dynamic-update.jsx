@@ -18,6 +18,10 @@ let newAssetRemindArray = [];
 let newRiskRemindArray = [];
 let newAssetTotalNumArray = [];
 let newRiskTotalNumArray = [];
+let clearAsset = false;
+let clearRisk = false;
+let clearAssetNum = false;
+let clearRiskNum = false;
 const ringMap = new Map([
 	['资产拍卖', ['资产拍卖', 1]],
 	['土地信息', ['土地信息', 2]],
@@ -47,6 +51,12 @@ class dynamicUpdate extends PureComponent {
 			UnReadNum: 0,
 			clear: false,
 		};
+	}
+
+	componentDidMount() {
+		const { AssetImportantReminderList } = this.props;
+		const hasUnRead = AssetImportantReminderList && AssetImportantReminderList.filter(i => i.isRead === 0).length;
+		this.getUnReadNum(hasUnRead);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -89,18 +99,19 @@ class dynamicUpdate extends PureComponent {
 			asset = [];
 			newAssetRemindArray = remindArray;
 		}
-		let newList = [];
+		if (clearAsset) {
+			asset = [];
+		}
+		clearAsset = false;
 		if (name === actionType[0]) {
 			if (selected[name] === false) {
+				newAssetRemindArray = newAssetRemindArray.filter(item => item.type !== actionType[1]);
 				this.setState(() => ({ clear: false }));
-				newList = newAssetRemindArray.filter(item => item.type !== actionType[1]);
 			} else {
-				newList = asset && asset.length > 0 ? newAssetRemindArray.concat(asset) : newAssetRemindArray;
+				newAssetRemindArray = asset && asset.length > 0 ? newAssetRemindArray.concat(asset) : newAssetRemindArray;
 			}
 		}
-		newAssetRemindArray = newList.sort(compare('timestamp'));
-		return newAssetRemindArray;
-		// return newAssetRemindArray;
+		return newAssetRemindArray.sort(compare('timestamp'));
 	};
 
 	riskArray = (selected, name, remindArray, clear) => {
@@ -110,18 +121,19 @@ class dynamicUpdate extends PureComponent {
 			risk = [];
 			newRiskRemindArray = remindArray;
 		}
-		let newList = [];
+		if (clearRisk) {
+			risk = [];
+		}
+		clearRisk = false;
 		if (name === actionType[0]) {
 			if (selected[name] === false) {
+				newRiskRemindArray = newRiskRemindArray.filter(item => item.type !== actionType[1]);
 				this.setState(() => ({ clear: false }));
-				newList = newRiskRemindArray.filter(item => item.type !== actionType[1]);
 			} else {
-				newList = risk && risk.length > 0 ? newRiskRemindArray.concat(risk) : newRiskRemindArray;
+				newRiskRemindArray = risk && risk.length > 0 ? newRiskRemindArray.concat(risk) : newRiskRemindArray;
 			}
 		}
-		newRiskRemindArray = newList.sort(compare('timestamp'));
-		return newRiskRemindArray;
-		// return newRiskRemindArray;
+		return newRiskRemindArray.sort(compare('timestamp'));
 	};
 
 	getTotal = (arr) => {
@@ -141,30 +153,40 @@ class dynamicUpdate extends PureComponent {
 			asset = [];
 			newAssetTotalNumArray = remindArray;
 		}
+		// console.log(clearAssetNum);
+		if (clearAssetNum) {
+			asset = [];
+		}
+		clearAssetNum = false;
 		if (name === actionType[0]) {
 			if (selected[name] === false) {
-				this.setState(() => ({ clear: false }));
 				newAssetTotalNumArray = newAssetTotalNumArray.filter(item => item.type !== actionType[1]);
+				this.setState(() => ({ clear: false }));
 			} else {
 				newAssetTotalNumArray = asset && asset.length > 0 ? newAssetTotalNumArray.concat(asset) : newAssetTotalNumArray;
 			}
 		}
+		// console.log(clear, clearAssetNum, asset, newAssetTotalNumArray);
 		return newAssetTotalNumArray;
 	};
 
 	riskArrayNum = (selected, name, remindArray, clear) => {
 		const actionType = ringMap.get(name) || ringMap.get('default');
-		let asset = [...remindArray.filter(item => item.type === actionType[1])];
+		let risk = [...remindArray.filter(item => item.type === actionType[1])];
 		if (clear) {
-			asset = [];
+			risk = [];
 			newRiskTotalNumArray = remindArray;
 		}
+		if (clearRiskNum) {
+			risk = [];
+		}
+		clearRiskNum = false;
 		if (name === actionType[0]) {
 			if (selected[name] === false) {
-				this.setState(() => ({ clear: false }));
 				newRiskTotalNumArray = newRiskTotalNumArray.filter(item => item.type !== actionType[1]);
+				this.setState(() => ({ clear: false }));
 			} else {
-				newRiskTotalNumArray = asset && asset.length > 0 ? newRiskTotalNumArray.concat(asset) : newRiskTotalNumArray;
+				newRiskTotalNumArray = risk && risk.length > 0 ? newRiskTotalNumArray.concat(risk) : newRiskTotalNumArray;
 			}
 		}
 		return newRiskTotalNumArray;
@@ -178,7 +200,10 @@ class dynamicUpdate extends PureComponent {
 				selected[key] = true;
 			});
 		}
-
+		clearAsset = true;
+		clearRisk = true;
+		clearAssetNum = true;
+		clearRiskNum = true;
 		this.setState(() => ({
 			typeNum: val,
 			clear: true,
@@ -197,16 +222,20 @@ class dynamicUpdate extends PureComponent {
 	};
 
 	getUnReadNum = (value) => {
-		this.setState(() => ({
+		clearAsset = true;
+		clearRisk = true;
+		clearAssetNum = true;
+		clearRiskNum = true;
+		this.setState({
 			UnReadNum: value,
-			clear: true,
-		}));
+		});
 	};
 
 	render() {
 		const {
-			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, clear, UnReadNum,
+			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, clear, UnReadNum, clearNum,
 		} = this.state;
+		// console.log(UnReadNum);
 		const { assetPropsData, riskPropsData } = this.props;
 		const hasAssetPropsData = Object.keys(assetPropsData).length !== 0;
 		const hasRiskPropsData = Object.keys(riskPropsData).length !== 0;
@@ -240,10 +269,10 @@ class dynamicUpdate extends PureComponent {
 		};
 		if (Object.keys(RingEchartsObj).length !== 0) {
 			const { selected, name } = RingEchartsObj;
-			assetArr = this.assetArray(selected, name, assetRemindArray, clear);
-			riskArr = this.riskArray(selected, name, riskRemindArray, clear);
-			assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear);
-			riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear);
+			assetArr = this.assetArray(selected, name, assetRemindArray, clear, clearNum);
+			riskArr = this.riskArray(selected, name, riskRemindArray, clear, clearNum);
+			assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear, clearNum);
+			riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear, clearNum);
 		}
 		return (
 			<div className="seven-update-container">
