@@ -142,12 +142,16 @@ class DetailItem extends PureComponent {
 		const { data, getUnReadNum } = this.props;
 		const hasUnRead = data && data.filter(i => i.isRead === 0).length;
 		getUnReadNum(hasUnRead);
-		this.startScrollUp();
+		setTimeout(() => {
+			this.startScrollUp();
+		}, 500);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		const { data } = this.props;
-		this.startScrollUp();
+		setTimeout(() => {
+			this.startScrollUp();
+		}, 500);
 		if (data !== nextProps.data) {
 			this.setState(() => ({
 				data: nextProps.data,

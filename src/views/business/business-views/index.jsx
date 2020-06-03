@@ -118,7 +118,7 @@ class BusinessView extends React.Component {
 				that.setState({
 					errorLoading: true,
 				});
-
+				// console.log(info.file.status, 12312);
 				that.handleCancel();
 				if (info.file.status === 'done') {
 					if (info.file.response.code === 200) {
