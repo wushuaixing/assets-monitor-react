@@ -391,7 +391,7 @@ class AUCTION extends React.Component {
 						placeholder="身份证号/统一社会信用代码"
 						{...getFieldProps('number', {
 							initialValue: params.number,
-							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
+							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, ''),
 							// getValueFromEvent: e => e.trim(),
 						})}
 					/>

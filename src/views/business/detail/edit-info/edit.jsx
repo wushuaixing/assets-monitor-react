@@ -52,7 +52,7 @@ class DebtorDetail extends React.Component {
 		if (dataList && dataList.length > 0) {
 			dataList.forEach((i, index) => {
 				if (i.id === id) {
-					dataList[index].obligorNumber = value.replace(/[^0-9a-zA-Z-*]/g, '');
+					dataList[index].obligorNumber = value.replace(/[^0-9a-zA-Z-*()（）]/g, '');
 				}
 			});
 			that.setState({
@@ -169,7 +169,7 @@ class DebtorDetail extends React.Component {
 											onChange: (e) => {
 												this.handleInputNumber(e, item.id);
 											},
-											getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
+											getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*()（）]/g, ''),
 										})}
 										className="yc-from-input"
 									/>
