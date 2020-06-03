@@ -481,7 +481,7 @@ class BusinessView extends React.Component {
 							maxLength="18"
 							placeholder="身份证号/统一社会信用代码"
 							{...getFieldProps('obligorNumber', {
-								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*]/g, ''),
+								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, ''),
 							})}
 						/>
 					</div>
