@@ -55,7 +55,7 @@ class dynamicUpdate extends PureComponent {
 
 	componentDidMount() {
 		const { AssetImportantReminderList } = this.props;
-		const hasUnRead = AssetImportantReminderList && AssetImportantReminderList.filter(i => i.isRead === 0).length;
+		const hasUnRead = AssetImportantReminderList && AssetImportantReminderList.filter(i => i.isRead === false).length;
 		this.getUnReadNum(hasUnRead);
 	}
 
@@ -71,7 +71,7 @@ class dynamicUpdate extends PureComponent {
 		}
 		if ((AssetImportantReminderList && Array.isArray(AssetImportantReminderList) && AssetImportantReminderList.length > 0) || AssetImportantReminderObligorIdList) {
 			newAssetRemindArray = [...AssetImportantReminderList];
-			const hasUnRead = AssetImportantReminderList && AssetImportantReminderList.filter(i => i.isRead === 0).length;
+			const hasUnRead = AssetImportantReminderList && AssetImportantReminderList.filter(i => i.isRead === false).length;
 			this.getUnReadNum(hasUnRead);
 			const newAssetImportantReminderObligorIdList = AssetImportantReminderObligorIdList.filter(i => i !== 0);
 			const newAssetImportantReminderObligorIdListNum = new Set([...newAssetImportantReminderObligorIdList]).size;

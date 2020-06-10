@@ -140,7 +140,7 @@ class DetailItem extends PureComponent {
 
 	componentDidMount() {
 		const { data, getUnReadNum } = this.props;
-		const hasUnRead = data && data.filter(i => i.isRead === 0).length;
+		const hasUnRead = data && data.filter(i => i.isRead === false).length;
 		getUnReadNum(hasUnRead);
 		setTimeout(() => {
 			this.startScrollUp();
@@ -174,7 +174,7 @@ class DetailItem extends PureComponent {
 		const { getUnReadNum } = this.props;
 		const { data } = this.state;
 		let value;
-		const hasUnRead = data && data.filter(i => i.isRead === 0).length;
+		const hasUnRead = data && data.filter(i => i.isRead === false).length;
 		if (hasUnRead <= 0) { value = 0; }
 		if (hasUnRead > 0) { value = hasUnRead - 1; }
 		const { id, isRead } = item;
