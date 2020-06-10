@@ -9,7 +9,7 @@ import {
 import {
 	attentionFollowBidCount, // 竞价项目 数量统计
 	attentionFollowPubCount, // 公示项目 数量统计
-	attentionFollowResultCount, // 股权质押 数量统计
+	// attentionFollowResultCount, // 股权质押 数量统计
 } from './finance';
 import {
 	Abnormal, Change, Illegal, Punishment, Violation, Environment,
@@ -123,10 +123,9 @@ export const financeCount = () => {
 			if (res.code === 200) result.Bid = res.data;
 			return attentionFollowPubCount();
 		}).then((res) => {
-			if (res.code === 200) result.Result = res.data;
+			if (res.code === 200) result.Pub = res.data;
 			return result;
-		})
-		.catch(() => {
+		}).catch(() => {
 			// 异常处理
 		});
 };

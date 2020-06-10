@@ -103,6 +103,7 @@ export default class MyAttention extends React.Component {
 			financeCount().then((res) => {
 				_source.child = _source.child.map((item) => {
 					const _item = item;
+					// console.log(item, 1);
 					if (item.id === 'YC020501') _item.number = res.Bid;
 					else if (item.id === 'YC020502') _item.number = res.Pub;
 					// else if (item.id === 'YC020503') _item.number = res.Result;

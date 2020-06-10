@@ -426,7 +426,7 @@ class DetailItem extends PureComponent {
 								{
 									data.map((item, index) => (
 										<li className="detail-container-content" onClick={() => this.handleClick(item, index)}>
-											{item.isRead === 0 ? <div className="detail-container-content-icon" /> : null}
+											{item.isRead === false ? <div className="detail-container-content-icon" /> : null}
 											<div className="detail-container-content-left" style={item.logoUrl ? { border: '1px solid #ccc' } : {}}>
 												{
 													item.logoUrl ? <img src={item.logoUrl} alt="" /> : (
@@ -439,7 +439,7 @@ class DetailItem extends PureComponent {
 												}
 
 											</div>
-											<div className="detail-container-content-middle" style={item.isRead === 0 ? { fontWeight: 700 } : {}}>
+											<div className="detail-container-content-middle" style={item.isRead === false ? { fontWeight: 700 } : {}}>
 												<div className="detail-container-content-middle-header">
 													<div className="detail-container-content-middle-header-name">
 														<Ellipsis
