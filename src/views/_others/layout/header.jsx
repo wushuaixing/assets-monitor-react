@@ -36,6 +36,7 @@ const Item = (props) => {
 	const toHref = items => `#${items.url}${items.param ? items.param : ''}`;
 
 	const parentChoose = active.p === id ? 'header-item-active' : 'header-item-normal';
+	const { hash } = window.location;
 	return (
 		<li className={`header-item header-item-${id} ${parentChoose}`} onClick={e => toNavigate(e, props)}>
 			<Badge dot={dot}>
@@ -50,6 +51,20 @@ const Item = (props) => {
 							onClick={e => toNavigate(e, item, props)}
 						>
 							{item.name}
+							<div className="header-child-item_remark" />
+							<ul className="header-child-item_child">
+								{
+									item.child && item.child.map(i => (
+										<li
+											className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'child-item-active' : 'child-item-normal'}`}
+											key={i.id}
+											onClick={e => toNavigate(e, i, props)}
+										>
+											{i.name}
+										</li>
+									))
+								}
+							</ul>
 						</li>
 					))
 					}
