@@ -30,6 +30,7 @@ const source = rule => ([
 	},
 ]);
 
+// eslint-disable-next-line no-unused-vars
 const MainRouter = (props) => {
 	const { rule } = props;
 	const displayArray = source(rule).filter(item => item.display === true); // 过滤权限
@@ -47,7 +48,7 @@ const BusinessRouter = (props) => {
 	const { rule: { children } } = props;
 	return (
 		<Router>
-			<MainRouter rule={children} path="/*" remark="业务（债务人）视图列表" />
+			{/* <MainRouter rule={children} path="/*" remark="业务（债务人）视图列表" /> */}
 			<DetailBusiness rule={children} path="/business/detail/*" remark="业务详情（新）" />
 			<DetailEdit rule={children} path="/business/detail/edit/info/*" remark="业务详情-编辑（新）" />
 			<DetailDebtor rule={children} path="/business/debtor/detail/*" remark="债务人详情（新）" />

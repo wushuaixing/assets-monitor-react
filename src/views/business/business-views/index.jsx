@@ -443,7 +443,7 @@ class BusinessView extends React.Component {
 			},
 		};
 		return (
-			<div className="yc-content-query">
+			<div className="yc-content-query" style={{ padding: 20 }}>
 				<Spin visible={reqLoading} modal text="正在删除中,请稍后..." />
 				<Spin visible={errorLoading} modal text="正在为您上传文件，请稍后..." />
 				<Form layout="inline">

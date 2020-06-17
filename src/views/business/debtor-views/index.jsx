@@ -188,7 +188,7 @@ class BusinessDebtor extends React.Component {
 		const { getFieldProps } = form;
 
 		return (
-			<div className="yc-content-query">
+			<div className="yc-content-query" style={{ padding: 20 }}>
 				<div className="yc-query-item">
 					<Input
 						title="债务人"

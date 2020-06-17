@@ -30,6 +30,7 @@ const InfoSearch = Loadable(() => import('./info-search'));
 const Inquiry = Loadable(() => import('./portrait-inquiry'));
 const Search = Loadable(() => import('./search'));
 
+const InfoBusiness = Loadable(() => import('./info-business'));
 const Business = Loadable(() => import('./business'));
 
 const Organization = Loadable(() => import('./organization'));
@@ -41,7 +42,9 @@ const ruleList = (props) => {
 	const l = [];
 	const { rule } = props;
 	if (rule.menu_sy)l.push(<Home path="/*" rule={rule.menu_sy} baseRule={rule} remark="首页" />);
+	if (rule.menu_ywgl)l.push(<InfoBusiness path="business/view/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
 	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
+
 	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} remark="机构管理" />);
 
 	/* 信息监控 [资产挖掘、风险监控] */
@@ -56,6 +59,7 @@ const ruleList = (props) => {
 	if (rule.menu_hxcx || rule.menu_xxss)l.push(<InfoSearch path="info/search/*" rule={rule} remark="信息搜索-导航" />);
 	if (rule.menu_hxcx)l.push(<Inquiry path="inquiry/*" rule={rule.menu_hxcx} baseRule={rule} remark="信息搜索-画像" />);
 	if (rule.menu_xxss)l.push(<Search path="search/*" rule={rule.menu_xxss} baseRule={rule} remark="信息搜索-分类" />);
+
 
 	l.push(<Message path="message/*" />);
 	l.push(<ChangePassword path="change/password/*" />);

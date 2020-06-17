@@ -444,20 +444,20 @@ export default {
 			{
 				id: 'YC04',
 				name: '业务管理',
-				url: '/business',
+				url: '/business/view',
 				status: rule.menu_ywgl,
 				dot: false,
 				children: [
 					{
 						id: 'YC0401',
 						name: '业务视图',
-						url: '/business',
+						url: '/business/view',
 						status: toStatus(rule.menu_ywgl, 'ywglywst'),
 					},
 					{
 						id: 'YC0402',
 						name: '债务人',
-						url: '/business/debtor',
+						url: '/business/view/debtor',
 						status: toStatus(rule.menu_ywgl, 'ywglzwr'),
 					},
 				],

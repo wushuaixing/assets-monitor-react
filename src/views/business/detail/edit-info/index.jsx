@@ -81,7 +81,7 @@ class EditBusiness extends React.Component {
 			message.error('请填写借款人名称');
 			return;
 		}
-		if (roleText.length > 0 ) {
+		if (roleText.length > 0) {
 			message.error('输入角色不能为借款人！');
 			return;
 		}
@@ -183,7 +183,7 @@ class EditBusiness extends React.Component {
 				<div className="info-navigation info-wrapper">
 					<BreadCrumb
 						list={[
-							{ id: 1, name: '业务视图', link: '/business' },
+							{ id: 1, name: '业务视图', link: '/business/view' },
 							{ id: 2, name: '业务详情', link: `/business/detail/info?id=${id}` },
 							{ id: 3, name: '编辑', link: '' },
 						]}
