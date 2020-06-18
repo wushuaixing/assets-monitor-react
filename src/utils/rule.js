@@ -446,18 +446,21 @@ export default {
 				name: '业务管理',
 				url: '/business/view',
 				status: rule.menu_ywgl,
+				backup: ['/business/debtor/detail', '/business/detail'],
 				dot: false,
 				children: [
 					{
 						id: 'YC0401',
 						name: '业务视图',
 						url: '/business/view',
+						backup: ['/business/detail'],
 						status: toStatus(rule.menu_ywgl, 'ywglywst'),
 					},
 					{
 						id: 'YC0402',
 						name: '债务人',
 						url: '/business/view/debtor',
+						backup: ['/business/debtor/detail'],
 						status: toStatus(rule.menu_ywgl, 'ywglzwr'),
 					},
 				],

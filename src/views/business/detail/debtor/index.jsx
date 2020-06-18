@@ -265,7 +265,8 @@ export default class Enterprise extends React.Component {
 				<div className="info-navigation">
 					<BreadCrumb
 						list={[
-							{ id: 1, name: '债务人', link: '/business/debtor' },
+							{ id: -1, name: '业务管理', link: '/business/view/' },
+							{ id: 1, name: '债务人', link: '/business/view/debtor' },
 							{ id: 2, name: '债务人详情', link: '' },
 						]}
 						suffix={(
