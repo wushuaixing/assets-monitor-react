@@ -4,25 +4,28 @@ import {
 } from 'antd';
 import TableList from './table';
 import {
-	obligorList, // 列表
-	exportExcel, // 导出
-} from '@/utils/api/debator';
-
-import {
 	Spin, Input, Button, Download,
 } from '@/common';
+import { obligorList, exportExcel } from '@/utils/api/debator';
+
 import './style.scss';
 
-const createForm = Form.create;
-const { Option } = Select;
+
 const _style1 = { width: 278 };
+const _style2 = { width: 150 };
 const _style3 = { width: 80 };
-const dishonstList = [
-	{ id: 1, name: '全部', value: '' },
-	{ id: 2, name: '未失信', value: 0 },
-	{ id: 3, name: '已失信', value: 1 },
-	{ id: 4, name: '曾失信', value: 2 },
-];
+
+// const dishonestList = [
+// 	{ id: 1, name: '全部', value: '' },
+// 	{ id: 2, name: '未失信', value: 0 },
+// 	{ id: 3, name: '已失信', value: 1 },
+// 	{ id: 4, name: '曾失信', value: 2 },
+// ];
+// const bankruptList = [
+// 	{ id: 1, name: '全部', value: '' },
+// 	{ id: 2, name: '存在破产/重整风险', value: 0 },
+// 	{ id: 3, name: '暂未匹配破产风险', value: 1 },
+// ];
 
 class BusinessDebtor extends React.Component {
 	constructor(props) {
@@ -31,7 +34,7 @@ class BusinessDebtor extends React.Component {
 		this.state = {
 			totals: 0,
 			current: 1, // 当前页
-			pageSize: 10, // 默认展示条数
+			pageSize: 5, // 默认展示条数
 			loading: false,
 			searchValue: null,
 			dataList: [],
@@ -67,12 +70,11 @@ class BusinessDebtor extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-
-		const fildes = getFieldsValue();
+		const fieldsValue = getFieldsValue();
 		const params = {
 			num: pageSize,
 			page: current,
-			...fildes,
+			...fieldsValue,
 			...value,
 			uploadTimeStart: startTime, // 搜索时间
 			uploadTimeEnd: endTime,
@@ -119,10 +121,10 @@ class BusinessDebtor extends React.Component {
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
-		const fildes = getFieldsValue();
+		const values = getFieldsValue();
 
 		const params = {
-			...fildes,
+			...values,
 			page: 1,
 			num: 10,
 		};
@@ -174,15 +176,9 @@ class BusinessDebtor extends React.Component {
 		});
 	};
 
-
-	handleKeyDown = (e) => {
-		console.log(1, e);
-	};
-
-
 	render() {
 		const {
-			totals, current, loading, dataList,
+			totals, current, loading, dataList, pageSize,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -196,15 +192,7 @@ class BusinessDebtor extends React.Component {
 						size="large"
 						maxLength="40"
 						placeholder="姓名/公司名称"
-						onkeydown={e => this.handleKeyDown(e)}
-						onFocus={e => this.handleKeyDown(e)}
-						{...getFieldProps('obligorName', {
-							// initialValue: true,
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
-							getValueFromEvent: e => e.trim(),
-						})}
+						{...getFieldProps('obligorName', { getValueFromEvent: e => e.trim() })}
 					/>
 				</div>
 				<div className="yc-query-item">
@@ -214,9 +202,7 @@ class BusinessDebtor extends React.Component {
 						maxLength="18"
 						size="large"
 						placeholder="身份证号/统一社会信用代码"
-						{...getFieldProps('obligorNumber', {
-							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, ''),
-						})}
+						{...getFieldProps('obligorNumber', { getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, '') })}
 					/>
 				</div>
 
@@ -226,14 +212,61 @@ class BusinessDebtor extends React.Component {
 						size="large"
 						defaultValue="all"
 						style={_style3}
-						{...getFieldProps('dishonestStatus', {
+						{...getFieldProps('dishonestStatus', { initialValue: '' })}
+					>
+						{[
+							{ id: 1, name: '全部', value: '' },
+							{ id: 2, name: '未失信', value: 0 },
+							{ id: 3, name: '已失信', value: 1 },
+							{ id: 4, name: '曾失信', value: 2 },
+						].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
+					</Select>
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">破产情况: </span>
+					<Select
+						size="large"
+						defaultValue="all"
+						style={_style2}
+						{...getFieldProps('bankruptStatus', {
 							initialValue: '',
-							// rules: [
-							// 	{ required: true, whitespace: true, message: '请填写密码' },
-							// ],
 						})}
 					>
-						{dishonstList.map(item => <Option key={item.key} value={item.value}>{item.name}</Option>)}
+						{[
+							{ id: 1, name: '全部', value: '' },
+							{ id: 2, name: '存在破产/重整风险', value: 0 },
+							{ id: 3, name: '暂未匹配破产风险', value: 1 },
+						].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
+					</Select>
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">是否借款人: </span>
+					<Select
+						size="large"
+						defaultValue="all"
+						style={_style3}
+						{...getFieldProps('isBorrower', { initialValue: '' })}
+					>
+						{[
+							{ id: 1, name: '全部', value: '' },
+							{ id: 2, name: '是', value: 0 },
+							{ id: 3, name: '否', value: 1 },
+						].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
+					</Select>
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">推送状态: </span>
+					<Select
+						size="large"
+						defaultValue="all"
+						style={_style3}
+						{...getFieldProps('pushStatus', { initialValue: '' })}
+					>
+						{[
+							{ id: 1, name: '全部', value: '' },
+							{ id: 2, name: '开启', value: 0 },
+							{ id: 3, name: '关闭', value: 1 },
+						].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
 					</Select>
 				</div>
 				<div className="yc-query-item yc-query-item-btn">
@@ -243,7 +276,7 @@ class BusinessDebtor extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
 
-				<div className="yc-business-tablebtn">
+				<div className="yc-business-table-btn">
 					<div className="yc-public-floatRight">
 						<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
 					</div>
@@ -255,7 +288,7 @@ class BusinessDebtor extends React.Component {
 							<Pagination
 								total={totals}
 								current={current}
-								defaultPageSize={10} // 默认条数
+								defaultPageSize={pageSize} // 默认条数
 								showQuickJumper
 								showTotal={total => `共 ${total} 条记录`}
 								onChange={(val) => {
@@ -269,4 +302,4 @@ class BusinessDebtor extends React.Component {
 		);
 	}
 }
-export default createForm()(BusinessDebtor);
+export default Form.create()(BusinessDebtor);
