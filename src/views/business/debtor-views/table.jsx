@@ -1,20 +1,21 @@
 import React from 'react';
-import {
-	Modal, Form, message, Tooltip,
-} from 'antd';
-import {
-	openPush, // 打开推送
-	closePush, // 关闭推送
-} from '@/utils/api/debator';
-import { Icon, Table } from '@/common';
+import { Modal, Form, message } from 'antd';
+import { openPush, closePush } from '@/utils/api/debator';
+import { Ellipsis, Icon, Table } from '@/common';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
+import { SortVessel } from '@/common/table';
 
 const { confirm } = Modal;
 
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
+		const { onSortChange, sortField, sortOrder } = props;
+		const sort = {
+			sortField,
+			sortOrder,
+		};
 		this.state = {
 			columns: [{
 				title: '债务人',
@@ -24,24 +25,10 @@ class BusinessView extends React.Component {
 				className: 'column-left20',
 				render: (text, row) => (
 					<div style={{ position: 'relative' }}>
-						<span>
-							{
-								text && text.length > 16
-									? (
-										<Tooltip placement="topLeft" title={text}>
-											<span>{`${text.substr(0, 16)}...`}</span>
-										</Tooltip>
-									)
-									: <span>{text || '-'}</span>
-							}
-						</span>
+						<Ellipsis content={row.obligorName} tooltip width={150} url obligorId={row.id} />
 						<span className="yc-item-break">
-							{
-								row && row.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null
-							}
-							{
-								row && row.dishonestStatus === 2 ? <img src={beforeBreak} alt="" /> : null
-							}
+							{ row && row.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null }
+							{ row && row.dishonestStatus === 2 ? <img src={beforeBreak} alt="" /> : null}
 						</span>
 					</div>
 				),
@@ -67,17 +54,19 @@ class BusinessView extends React.Component {
 					return <p>{text}</p>;
 				},
 			}, {
-				title: '相关推送',
+				title: <SortVessel field="START" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
 				dataIndex: 'pushCount',
 				key: 'pushCount',
-				width: 133,
+				width: 100,
 				className: 'column-center',
-				render(text) {
-					if (text === '0' || !text) {
-						return <div>0</div>;
-					}
-					return <p>{text}</p>;
-				},
+				render: text => ((text === '0' || !text) ? '0' : text),
+			}, {
+				title: <SortVessel field="START" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
+				dataIndex: 'pushCount',
+				key: 'pushCount',
+				width: 100,
+				className: 'column-center',
+				render: text => ((text === '0' || !text) ? '0' : text),
 			}, {
 				title: '推送状态',
 				dataIndex: 'pushState',

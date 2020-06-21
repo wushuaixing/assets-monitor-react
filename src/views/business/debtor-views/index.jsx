@@ -39,6 +39,7 @@ class BusinessDebtor extends React.Component {
 			searchValue: null,
 			dataList: [],
 		};
+		this.condition = {};
 	}
 
 	componentDidMount() {
@@ -61,6 +62,13 @@ class BusinessDebtor extends React.Component {
 				document.activeElement.blur();
 			}
 		}
+	};
+
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
+		this.search();
 	};
 
 	// 获取消息列表
@@ -182,7 +190,12 @@ class BusinessDebtor extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
-
+		// 排序相关字段
+		const sortInfo = {
+			onSortChange: this.onSortChange,
+			sortField: this.condition.sortColumn,
+			sortOrder: this.condition.sortOrder,
+		};
 		return (
 			<div className="yc-content-query" style={{ padding: 20 }}>
 				<div className="yc-query-item">
@@ -282,7 +295,7 @@ class BusinessDebtor extends React.Component {
 					</div>
 				</div>
 				<Spin visible={loading}>
-					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} />
+					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} {...sortInfo} />
 					{dataList && dataList.length > 0 && (
 						<div className="yc-table-pagination">
 							<Pagination

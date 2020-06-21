@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Form, message, Tooltip, Icon, Pagination, Modal, Upload,
+	Form, message, Tooltip, Icon, Pagination, Modal, Upload, Select,
 } from 'antd';
 
 import Cookies from 'universal-cookie';
@@ -26,6 +26,8 @@ const createForm = Form.create;
 
 const _style1 = { width: 278 };
 const _style2 = { width: 100 };
+const _style3 = { width: 80 };
+
 const text = (
 	<div style={{
 		width: 250, height: 150,
@@ -73,6 +75,7 @@ class BusinessView extends React.Component {
 			_selectedRowKeys: [],
 			reqLoading: false,
 		};
+		this.condition = {};
 	}
 
 	componentDidMount() {
@@ -183,6 +186,7 @@ class BusinessView extends React.Component {
 			page: totals % 10 === 1 ? current - 1 : current,
 			...fildes,
 			...value,
+			...this.condition,
 		};
 		this.setState({
 			loading: true,
@@ -212,6 +216,7 @@ class BusinessView extends React.Component {
 			current: val,
 			num: pageSize,
 			page: val,
+			...this.condition,
 		};
 		this.setState({
 			// page: val,
@@ -234,6 +239,12 @@ class BusinessView extends React.Component {
 		});
 	};
 
+	// 排序触发
+	onSortChange=(field, order) => {
+		this.condition.sortColumn = field;
+		this.condition.sortOrder = order;
+		this.search();
+	};
 
 	// 搜索
 	search = () => {
@@ -442,6 +453,12 @@ class BusinessView extends React.Component {
 				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
 			},
 		};
+		// 排序相关字段
+		const sortInfo = {
+			onSortChange: this.onSortChange,
+			sortField: this.condition.sortColumn,
+			sortOrder: this.condition.sortOrder,
+		};
 		return (
 			<div className="yc-content-query" style={{ padding: 20 }}>
 				<Spin visible={reqLoading} modal text="正在删除中,请稍后..." />
@@ -530,6 +547,21 @@ class BusinessView extends React.Component {
 							placeholder="结束日期"
 						/>
 					</div>
+					<div className="yc-query-item">
+						<span className="yc-query-item-title">推送状态: </span>
+						<Select
+							size="large"
+							defaultValue="all"
+							style={_style3}
+							{...getFieldProps('pushStatus', { initialValue: '' })}
+						>
+							{[
+								{ id: 1, name: '全部', value: '' },
+								{ id: 2, name: '开启', value: 0 },
+								{ id: 3, name: '关闭', value: 1 },
+							].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
+						</Select>
+					</div>
 
 					<div className="yc-query-item yc-query-item-btn">
 						<Button onClick={this.search} size="large" type="common" style={{ width: 84 }}>查询</Button>
@@ -571,6 +603,7 @@ class BusinessView extends React.Component {
 							rowSelection={rowSelection}
 							getData={this.getData}
 							openPeopleModal={this.openPeopleModal}
+							{...sortInfo}
 						/>
 						{dataList && dataList.length > 0 && (
 							<div className="yc-table-pagination">
