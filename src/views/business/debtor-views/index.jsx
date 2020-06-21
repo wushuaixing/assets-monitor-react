@@ -34,7 +34,7 @@ class BusinessDebtor extends React.Component {
 		this.state = {
 			totals: 0,
 			current: 1, // 当前页
-			pageSize: 5, // 默认展示条数
+			pageSize: 10, // 默认展示条数
 			loading: false,
 			searchValue: null,
 			dataList: [],
