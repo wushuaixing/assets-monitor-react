@@ -1,42 +1,40 @@
 import React from 'react';
 import { NavTab } from '@/common';
-import {
-	portrait, portraitEd, search, searchEd,
-} from '@/assets/img/nav-tab';
+import * as NavTabImg from '@/assets/img/nav-tab';
 import Router from '@/utils/Router';
-import Business from '../business/business-views';
-import Debtor from '../business/debtor-views';
+import Business from './business-views';
+import Debtor from './debtor-views';
 
-export default class InfoSearch extends React.Component {
+// 业务管理-主首页
+export default class InfoBusiness extends React.Component {
 	constructor(props) {
 		super(props);
+		const childRule = props.rule.children || {};
 		this.state = {
 			config: [
 				{
 					id: 1,
 					title: '业务视图',
-					img: portrait,
-					selectImg: portraitEd,
+					img: NavTabImg.portrait,
+					selectImg: NavTabImg.portraitEd,
 					url: '/business/view/*',
+					rule: childRule.ywglywst,
 					status: true,
-					rule: props.rule,
 					Component: Business,
 				},
 				{
 					id: 2,
 					title: '债务人',
-					img: search,
-					selectImg: searchEd,
+					img: NavTabImg.search,
+					selectImg: NavTabImg.searchEd,
 					url: '/business/view/debtor/*',
-					rule: props.rule,
+					rule: childRule.ywglzwr,
 					status: true,
 					Component: Debtor,
 				},
-			].filter(i => this.isObject(i.rule)),
+			].filter(i => i.rule),
 		};
 	}
-
-	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
 	render() {
 		const { config } = this.state;

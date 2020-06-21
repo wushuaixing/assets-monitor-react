@@ -538,47 +538,40 @@ class BusinessView extends React.Component {
 					{/* 分隔下划线 */}
 					<div className="yc-noTab-hr" />
 
-					<div className="yc-business-tablebtn">
-						{openRowSelection && (
-						<React.Fragment>
-							<Button onClick={this.handledDeleteBatch} className="yc-business-btn">
-								删除
-							</Button>
-							{/* <Button onClick={this.handledExport} className="yc-business-btn">
-								导出
-							</Button> */}
-							<Download selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
-						</React.Fragment>
-						)}
-						{!openRowSelection && (
-						<React.Fragment>
-							{/* <Button className="yc-business-btn"> */}
-							<a className="yc-aButton" href="../../../static/template.xlsx">模版下载</a>
-							{/* </Button> */}
+					<div className="yc-business-table-btn" style={{ minHeight: 32 }}>
+						{ openRowSelection ? [
+							<Button onClick={this.handledDeleteBatch} className="yc-business-btn">删除</Button>,
+							<Download selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />,
+						] : [
+							<a className="yc-aButton" href="../../../static/template.xlsx">模版下载</a>,
 							<Upload className={!global.GLOBAL_MEIE_BROWSER ? 'yc-upload' : 'yc-ie-upload'} showUploadList={false} {...this.uploadAttachmentParam()}>
 								<Button className="yc-business-btn">
 									导入业务
 								</Button>
-							</Upload>
+							</Upload>,
+							<div className="yc-public-floatRight">
+								<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
+							</div>,
+						]}
 
-						</React.Fragment>
-						)}
 						<Button className="yc-business-btn" onClick={() => this.openManagement(openRowSelection)}>
 							{openRowSelection ? '取消管理' : '批量管理'}
 						</Button>
 
-						{!openRowSelection && (
-							<div className="yc-public-floatRight">
-								<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
-							</div>
-						)}
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
 							<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
 						</Tooltip>
 					</div>
 					{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 					<Spin visible={loading}>
-						<TableList stateObj={this.state} selectData={selectData} dataList={dataList} rowSelection={rowSelection} getData={this.getData} openPeopleModal={this.openPeopleModal} />
+						<TableList
+							stateObj={this.state}
+							selectData={selectData}
+							dataList={dataList}
+							rowSelection={rowSelection}
+							getData={this.getData}
+							openPeopleModal={this.openPeopleModal}
+						/>
 						{dataList && dataList.length > 0 && (
 							<div className="yc-table-pagination">
 								<Pagination
@@ -596,23 +589,11 @@ class BusinessView extends React.Component {
 					</Spin>
 				</Form>
 				{/** 担保人Modal */}
-				{PeopleListModalVisible && (
-				<PeopleListModal
-					onCancel={this.onCancel}
-					onOk={this.onOk}
-					businessId={businessId}
-					PeopleListModalVisible={PeopleListModalVisible}
-				/>
+				{ PeopleListModalVisible && (
+					<PeopleListModal onCancel={this.onCancel} onOk={this.onOk} businessId={businessId} PeopleListModalVisible={PeopleListModalVisible} />
 				)}
-				{errorModalVisible && 	(
-				<Modal
-					visible={errorModalVisible}
-					onCancel={this.handleCancel}
-					footer={false}
-					width={420}
-					// closable={false}
-				>
-
+				{ errorModalVisible && 	(
+				<Modal visible={errorModalVisible} onCancel={this.handleCancel} footer={false} width={420}>
 					<div className="yc-confirm-body">
 						<div className="yc-confirm-header">
 							<Icon style={{ fontSize: 24, color: '#f66c5b', marginRight: 8 }} type="cross-circle" />
@@ -625,14 +606,9 @@ class BusinessView extends React.Component {
 							{/* type===2时为业务转移，为1或null时为业务导入 */}
 							{uploadErrorData.type !== 2 && (
 								<Upload className="yc-upload" showUploadList={false} {...this.uploadAttachmentParam()}>
-									<Button
-										style={{ height: 34, marginRight: 10 }}
-									>
-										重新上传
-									</Button>
+									<Button style={{ height: 34, marginRight: 10 }}>重新上传</Button>
 								</Upload>
 							)}
-
 							{
 								uploadErrorData.errorType === '文件格式错误' && uploadErrorData.type !== 2 ? (
 									<Button
@@ -642,13 +618,10 @@ class BusinessView extends React.Component {
 									>
 										<a href="../../../static/template.xlsx" style={{ color: '#fff' }}>模板下载</a>
 									</Button>
-								)
-									: <Button onClick={this.handleCancel} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
-								}
-
+								) : <Button onClick={this.handleCancel} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
+							}
 						</div>
 					</div>
-
 				</Modal>
 				)}
 			</div>

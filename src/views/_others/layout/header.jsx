@@ -51,20 +51,25 @@ const Item = (props) => {
 							onClick={e => toNavigate(e, item, props)}
 						>
 							{item.name}
-							<div className="header-child-item_remark" />
-							<ul className="header-child-item_child">
-								{
-									item.child && item.child.map(i => (
-										<li
-											className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'child-item-active' : 'child-item-normal'}`}
-											key={i.id}
-											onClick={e => toNavigate(e, i, props)}
-										>
-											{i.name}
-										</li>
-									))
-								}
-							</ul>
+							{
+								item.child && (
+									<div className="header-itemChild_wrapper">
+										<div className="header-itemChild_content">
+											{
+												item.child.map(i => (
+													<li
+														className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
+														key={i.id}
+														onClick={e => toNavigate(e, i, props)}
+													>
+														{i.name}
+													</li>
+												))
+											}
+										</div>
+									</div>
+								)
+							}
 						</li>
 					))
 					}

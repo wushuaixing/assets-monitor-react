@@ -19,18 +19,16 @@ import Error500 from '@/assets/img/error/500@2x.png';
 
 // 新的引用方式，分割代码，懒加载
 
-
 const InfoMonitor = Loadable(() => import('./info-monitor'));
 const Monitor = Loadable(() => import('./asset-excavate'));
 const Risk = Loadable(() => import('./risk-monitor'));
 const Attention = Loadable(() => import('./info-monitor/attention'));
 
-
 const InfoSearch = Loadable(() => import('./info-search'));
 const Inquiry = Loadable(() => import('./portrait-inquiry'));
 const Search = Loadable(() => import('./search'));
 
-const InfoBusiness = Loadable(() => import('./info-business'));
+const InfoBusiness = Loadable(() => import('./business/view'));
 const Business = Loadable(() => import('./business'));
 
 const Organization = Loadable(() => import('./organization'));

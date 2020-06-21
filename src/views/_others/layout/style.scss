@@ -66,7 +66,7 @@
         min-width: 120px;
         height: auto;
         background-color: #FFFFFF;
-        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+        box-shadow:0 2px 6px 0 rgba(3,8,35,0.13);
         border: 1px solid $border-base;
         border-radius: 0 0 2px 2px;
 
@@ -75,55 +75,55 @@
           height: 40px;
           padding: 0 20px;
           line-height: 40px;
-          font-size: 12px;
+          font-size: 14px;
           cursor: pointer;
-          color: $text-title;
-
+          color: $text-content;
           &:hover {
             background-color: $background-list-hover;
-            .header-child-item_child{
+            .header-itemChild_wrapper{
               display:inline-block;
             }
           }
         }
-        .header-child-item_remark{
-          position: absolute;
-          top: -1px;
-          height: 40px;
-          width: 5px;
-          left: 118px;
-          z-index: 4;
-          background: transparent;
-        }
-        .header-child-item_child{
+        .header-itemChild_wrapper{
           display: none;
           position: absolute;
-          top: 1px;
-          left: 122px;
-          z-index: 3;
+          top: -1px;
+          left: 118px;
+          z-index: -1;
           height: auto;
-          background-color: #FFFFFF;
-          border: 1px solid $border-base;
-          box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-          border-radius: 2px;
+          width: 120px;
+          font-weight: 400;
+          .header-itemChild_content{
+            height: auto;
+            min-width: 96px;
+            display: inline-block;
+            background-color: #FFFFFF;
+            border: 1px solid $border-base;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+          }
           .itemChild-item{
             position: relative;
-            min-width: 100px;
+            min-width: 96px;
             height: 40px;
             padding: 0 20px;
             line-height: 40px;
             font-size: 12px;
             cursor: pointer;
-            color: $text-title;
+            font-weight: 400;
+            color: $text-content;
           }
         }
-
-        .child-item-active {
-          font-weight: bold;
+        .child-item-active,
+        .itemChild-active {
+          color:$text-title!important;
+          font-weight: 700!important;;
           background-color: $background-list-hover;
         }
 
-        .child-item-normal {
+        .child-item-normal,
+        .itemChild-normal {
           &:hover {
             background-color: $background-list-hover;
           }
