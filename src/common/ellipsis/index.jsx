@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { toCutString, linkDom, getByteLength } from '@/utils';
+import { Borrower } from '../icon';
 import './style.scss';
 
 /**
@@ -44,7 +45,7 @@ export default class Ellipsis extends React.Component {
 
 	render() {
 		const {
-			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
+			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId, isBorrower = false,
 		} = this.props;
 
 		const _url = obligorId ? `#/business/debtor/detail?id=${obligorId}` : url;
@@ -53,6 +54,7 @@ export default class Ellipsis extends React.Component {
 		const size = ((font || 12) / 2);
 		const showContent = _width
 			? toCutString(content, (_width * _line) / size - (3 * _line), '...') : '';
+
 		const ContentText = url ? linkDom(_url, showContent, '', '', '', (onClick || '')) : showContent;
 		// tooltip 的状态
 		const _tooltip = showContent === content ? false : tooltip;
@@ -68,9 +70,14 @@ export default class Ellipsis extends React.Component {
 			<div ref={e => this.element = e} className={`yc-ellipsis-element${className ? ` ${className}` : ''}`} style={style}>
 				{
 					_tooltip
-						? <Tooltip placement="top" title={content}>{_url ? (ContentText || '-') : <span>{(ContentText || '-')}</span>}</Tooltip>
+						? (
+							<Tooltip placement="top" title={content}>
+								{_url ? (ContentText || '-') : <span>{(ContentText || '-')}</span>}
+							</Tooltip>
+						)
 						: (ContentText || '-')
 				}
+				{Boolean(isBorrower) && <Borrower />}
 			</div>
 		);
 	}
