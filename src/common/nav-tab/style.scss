@@ -54,6 +54,7 @@
   .nt-item_active{
     .nt-item-span,.nt-item-icon{
       color: $text-link;
+      font-weight: 700;
     }
     .active-status{
       position: absolute;
