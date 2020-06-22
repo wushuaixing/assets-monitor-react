@@ -553,12 +553,12 @@ class BusinessView extends React.Component {
 							size="large"
 							defaultValue="all"
 							style={_style3}
-							{...getFieldProps('pushStatus', { initialValue: '' })}
+							{...getFieldProps('pushState', { initialValue: '' })}
 						>
 							{[
 								{ id: 1, name: '全部', value: '' },
-								{ id: 2, name: '开启', value: 0 },
-								{ id: 3, name: '关闭', value: 1 },
+								{ id: 2, name: '开启', value: 1 },
+								{ id: 3, name: '关闭', value: 0 },
 							].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
 						</Select>
 					</div>

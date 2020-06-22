@@ -16,103 +16,10 @@ const { confirm } = Modal;
 export default class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
-		const { openPeopleModal } = props;
-		const { onSortChange, sortField, sortOrder } = props;
-		const sort = {
-			sortField,
-			sortOrder,
-		};
 		this.state = {
 			reqLoading: false,
-			columns: [{
-				title: '业务编号',
-				dataIndex: 'caseNumber',
-				key: 'caseNumber',
-				width: 100,
-				className: 'column-left20',
-				render: text => text || '-',
-			}, {
-				title: '借款人',
-				dataIndex: 'obligorName',
-				key: 'obligorName',
-				width: 190,
-				render: (text, { obligorName, obligorId = '', obligorNumber }) => (
-					<div className="assets-info-content yc-space-nowrap">
-						<LiItem Li title="借款人" titleStyle={{ width: 36 }}>
-							<Ellipsis content={obligorName} tooltip width={150} url obligorId={obligorId} />
-						</LiItem>
-						<LiItem Li title="证件号" titleStyle={{ width: 36 }}>{obligorNumber || '-'}</LiItem>
-					</div>
-				),
-			}, {
-				title: '负责人/机构',
-				dataIndex: 'orgName',
-				key: 'orgName',
-				width: 150,
-				render: text => text || '-',
-			},
-			{
-				title: '担保人',
-				dataIndex: 'guarantorCount',
-				key: 'guarantorCount',
-				width: 68,
-				className: 'column-center',
-				render: (text, row) => ((text === '0' || !text) ? '0'
-					: <span className="yc-table-text-link" onClick={() => openPeopleModal(row.id)}>{text}</span>),
-			}, {
-				title: <SortVessel field="START" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
-				dataIndex: 'pushCount',
-				key: 'pushCount',
-				width: 100,
-				className: 'column-center',
-				render: text => ((text === '0' || !text) ? '0' : text),
-			}, {
-				title: <SortVessel field="START" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
-				dataIndex: 'pushCount',
-				key: 'pushCount',
-				width: 100,
-				className: 'column-center',
-				render: text => ((text === '0' || !text) ? '0' : text),
-			}, {
-				title: '上传信息',
-				dataIndex: 'uploadName',
-				key: 'uploadName',
-				width: 200,
-				render: (text, { uploadName, uploadTime }) => (
-					<div className="assets-info-content yc-space-nowrap">
-						<LiItem Li title="上传人员" titleStyle={{ width: 48 }}>
-							<Ellipsis content={uploadName} tooltip width={150} />
-						</LiItem>
-						<LiItem Li title="上传时间" titleStyle={{ width: 48 }}>
-							{timeStandard(uploadTime, '--', 'yyyy-MM-dd hh:mm')}
-						</LiItem>
-					</div>
-				),
-			}, {
-				title: '推送状态',
-				dataIndex: 'pushState',
-				key: 'pushState',
-				width: 80,
-				render: value => [
-					<Icon type="icon-dot" style={{ fontSize: 12, color: value === 1 ? '#3DBD7D' : '#bcc1cc', marginRight: 3 }} />,
-					<span>{value === 1 ? '开启' : '关闭'}</span>,
-				],
-			}, {
-				title: '操作',
-				key: 'operation',
-				width: 120,
-				className: 'column-center',
-				render: (text, row) => [
-					linkBusiness(row.id, '查看详情'),
-					<br />,
-					<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>,
-					<span className="ant-divider" />,
-					<span className="yc-table-text-link" onClick={() => this.showDeleteConfirm(row)}>删除</span>,
-				],
-			}],
 		};
 	}
-	// Todo 相关字段没有对接；
 
 	// 删除一条业务
 	showDeleteConfirm = (row) => {
@@ -199,9 +106,105 @@ export default class BusinessView extends React.Component {
 		});
 	};
 
+
+	getColumns=() => {
+		const { openPeopleModal } = this.props;
+		const { onSortChange, sortField, sortOrder } = this.props;
+		const sort = {
+			sortField,
+			sortOrder,
+		};
+		return [{
+			title: '业务编号',
+			dataIndex: 'caseNumber',
+			key: 'caseNumber',
+			width: 100,
+			className: 'column-left20',
+			render: text => text || '-',
+		}, {
+			title: '借款人',
+			dataIndex: 'obligorName',
+			key: 'obligorName',
+			width: 190,
+			render: (text, { obligorName, obligorId = '', obligorNumber }) => (
+				<div className="assets-info-content yc-space-nowrap">
+					<LiItem Li title="借款人" titleStyle={{ width: 36 }}>
+						<Ellipsis content={obligorName} tooltip width={150} url obligorId={obligorId} />
+					</LiItem>
+					<LiItem Li title="证件号" titleStyle={{ width: 36 }}>{obligorNumber || '-'}</LiItem>
+				</div>
+			),
+		}, {
+			title: '负责人/机构',
+			dataIndex: 'orgName',
+			key: 'orgName',
+			width: 135,
+			render: text => text || '-',
+		},
+		{
+			title: '担保人',
+			dataIndex: 'guarantorCount',
+			key: 'guarantorCount',
+			width: 68,
+			className: 'column-center',
+			render: (text, row) => ((text === '0' || !text) ? '0'
+				: <span className="yc-table-text-link" onClick={() => openPeopleModal(row.id)}>{text}</span>),
+		}, {
+			title: <SortVessel field="ASSET_TOTAL" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
+			dataIndex: 'assetTotal',
+			key: 'assetTotal',
+			width: 90,
+			className: 'column-center',
+			render: text => ((text === '0' || !text) ? '0' : text),
+		}, {
+			title: <SortVessel field="RISK_TOTAL" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
+			dataIndex: 'riskTotal',
+			key: 'riskTotal',
+			width: 90,
+			className: 'column-center',
+			render: text => ((text === '0' || !text) ? '0' : text),
+		}, {
+			title: '上传信息',
+			dataIndex: 'uploadName',
+			key: 'uploadName',
+			width: 150,
+			render: (text, { uploadName, uploadTime }) => (
+				<div className="assets-info-content yc-space-nowrap">
+					<LiItem Li title="上传人员" titleStyle={{ width: 48 }}>
+						<Ellipsis content={uploadName} tooltip width={100} />
+					</LiItem>
+					<LiItem Li title="上传时间" titleStyle={{ width: 48 }}>
+						{timeStandard(uploadTime, '--', 'yyyy-MM-dd hh:mm')}
+					</LiItem>
+				</div>
+			),
+		}, {
+			title: '推送状态',
+			dataIndex: 'pushState',
+			key: 'pushState',
+			width: 80,
+			render: value => [
+				<Icon type="icon-dot" style={{ fontSize: 12, color: value === 1 ? '#3DBD7D' : '#bcc1cc', marginRight: 3 }} />,
+				<span>{value === 1 ? '开启' : '关闭'}</span>,
+			],
+		}, {
+			title: '操作',
+			key: 'operation',
+			width: 135,
+			className: 'column-center',
+			render: (text, row) => [
+				linkBusiness(row.id, '查看'),
+				<span className="ant-divider" />,
+				<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>,
+				<span className="ant-divider" />,
+				<span className="yc-table-text-link" onClick={() => this.showDeleteConfirm(row)}>删除</span>,
+			],
+		}];
+	};
+
 	render() {
 		const { stateObj, rowSelection } = this.props;
-		const { columns, reqLoading } = this.state;
+		const { reqLoading } = this.state;
 		return (
 			<React.Fragment>
 				<Spin visible={reqLoading} modal text="正在删除中，请稍后..." />
@@ -209,7 +212,7 @@ export default class BusinessView extends React.Component {
 					rowSelection={stateObj.openRowSelection ? rowSelection : null}
 					bordered={false}
 					rowKey={record => JSON.stringify(record)}
-					columns={columns}
+					columns={this.getColumns()}
 					dataSource={stateObj.dataList}
 					style={{ width: '100%' }}
 					defaultExpandAllRows
