@@ -61,9 +61,10 @@ export default class Ellipsis extends React.Component {
 
 		const contentSize = (getByteLength(showContent || content) + 3) * size;
 		const __width = contentSize < _width ? (auto ? 'auto' : contentSize) : _width;
+		const _isBorrower = Boolean(isBorrower);
 		const style = _width ? {
 			color: customColor || undefined,
-			width: __width,
+			width: _isBorrower ? __width + 15 : __width,
 			display: 'inline-block',
 		} : '';
 		return (
@@ -77,7 +78,7 @@ export default class Ellipsis extends React.Component {
 						)
 						: (ContentText || '-')
 				}
-				{Boolean(isBorrower) && <Borrower />}
+				{ _isBorrower && <Borrower />}
 			</div>
 		);
 	}

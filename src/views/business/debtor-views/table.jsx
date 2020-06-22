@@ -11,97 +11,7 @@ const { confirm } = Modal;
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
-		const { onSortChange, sortField, sortOrder } = props;
-		const sort = {
-			sortField,
-			sortOrder,
-		};
 		this.state = {
-			columns: [{
-				title: '债务人',
-				dataIndex: 'obligorName',
-				key: 'obligorName',
-				width: 254,
-				className: 'column-left20',
-				render: (text, row) => (
-					<div style={{ position: 'relative' }}>
-						<Ellipsis content={row.obligorName} tooltip width={150} url obligorId={row.id} />
-						<span className="yc-item-break">
-							{ row && row.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null }
-							{ row && row.dishonestStatus === 2 ? <img src={beforeBreak} alt="" /> : null}
-						</span>
-					</div>
-				),
-			}, {
-				title: '身份证号/统一社会信用代码',
-				dataIndex: 'obligorNumber',
-				key: 'obligorNumber',
-				width: 308,
-				render: text => (
-					<p>{text || '-'}</p>
-				),
-			},
-			{
-				title: '当前业务',
-				dataIndex: 'businessCount',
-				key: 'businessCount',
-				width: 133,
-				className: 'column-center',
-				render(text) {
-					if (text === '0' || !text) {
-						return <div>0</div>;
-					}
-					return <p>{text}</p>;
-				},
-			}, {
-				title: <SortVessel field="START" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
-				dataIndex: 'pushCount',
-				key: 'pushCount',
-				width: 100,
-				className: 'column-center',
-				render: text => ((text === '0' || !text) ? '0' : text),
-			}, {
-				title: <SortVessel field="START" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
-				dataIndex: 'pushCount',
-				key: 'pushCount',
-				width: 100,
-				className: 'column-center',
-				render: text => ((text === '0' || !text) ? '0' : text),
-			}, {
-				title: '推送状态',
-				dataIndex: 'pushState',
-				key: 'pushState',
-				width: 133,
-				render: text => (
-					<React.Fragment>
-						{
-							text === 1 ? (
-								<span>
-									<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
-										开启
-								</span>
-							) : (
-								<span>
-									<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
-										关闭
-								</span>
-							)
-						}
-					</React.Fragment>
-
-				),
-			}, {
-				title: '操作',
-				key: 'operation',
-				className: 'column-center',
-				render: (text, row) => (
-					<span>
-						<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>
-						<span className="ant-divider" />
-						<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>
-					</span>
-				),
-			}],
 		};
 	}
 
@@ -159,8 +69,96 @@ class BusinessView extends React.Component {
 
 	render() {
 		const { stateObj } = this.props;
-		const { columns } = this.state;
+		const { onSortChange, sortField, sortOrder } = this.props;
+		const sort = {
+			sortField,
+			sortOrder,
+		};
+		const columns = [{
+			title: '债务人',
+			dataIndex: 'obligorName',
+			key: 'obligorName',
+			width: 254,
+			className: 'column-left20',
+			render: (text, row) => (
+				<div style={{ position: 'relative' }}>
+					<Ellipsis content={row.obligorName} tooltip width={150} url obligorId={row.id} isBorrower={row.isBorrower} />
+					<span className="yc-item-break">
+						{ row && row.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null }
+						{ row && row.dishonestStatus === 2 ? <img src={beforeBreak} alt="" /> : null}
+					</span>
+				</div>
+			),
+		}, {
+			title: '身份证号/统一社会信用代码',
+			dataIndex: 'obligorNumber',
+			key: 'obligorNumber',
+			width: 308,
+			render: text => (
+				<p>{text || '-'}</p>
+			),
+		},
+		{
+			title: '当前业务',
+			dataIndex: 'businessCount',
+			key: 'businessCount',
+			width: 133,
+			className: 'column-center',
+			render(text) {
+				if (text === '0' || !text) {
+					return <div>0</div>;
+				}
+				return <p>{text}</p>;
+			},
+		}, {
+			title: <SortVessel field="ASSET_TOTAL" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
+			dataIndex: 'assetTotal',
+			key: 'assetTotal',
+			width: 100,
+			className: 'column-center',
+			render: text => ((text === '0' || !text) ? '0' : text),
+		}, {
+			title: <SortVessel field="RISK_TOTAL" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
+			dataIndex: 'riskTotal',
+			key: 'riskTotal',
+			width: 100,
+			className: 'column-center',
+			render: text => ((text === '0' || !text) ? '0' : text),
+		}, {
+			title: '推送状态',
+			dataIndex: 'pushState',
+			key: 'pushState',
+			width: 133,
+			render: text => (
+				<React.Fragment>
+					{
+							text === 1 ? (
+								<span>
+									<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
+										开启
+								</span>
+							) : (
+								<span>
+									<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
+										关闭
+								</span>
+							)
+						}
+				</React.Fragment>
 
+			),
+		}, {
+			title: '操作',
+			key: 'operation',
+			className: 'column-center',
+			render: (text, row) => (
+				<span>
+					<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>
+					<span className="ant-divider" />
+					<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>
+				</span>
+			),
+		}];
 		return (
 			<React.Fragment>
 				<Table

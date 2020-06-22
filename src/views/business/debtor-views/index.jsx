@@ -7,13 +7,11 @@ import {
 	Spin, Input, Button, Download,
 } from '@/common';
 import { obligorList, exportExcel } from '@/utils/api/debator';
-
 import './style.scss';
-
 
 const _style1 = { width: 278 };
 const _style2 = { width: 150 };
-const _style3 = { width: 80 };
+const _style3 = { width: 120 };
 
 // const dishonestList = [
 // 	{ id: 1, name: '全部', value: '' },
@@ -135,6 +133,7 @@ class BusinessDebtor extends React.Component {
 			...values,
 			page: 1,
 			num: 10,
+			...this.condition,
 		};
 		this.getData(params);
 		this.setState({
@@ -241,7 +240,7 @@ class BusinessDebtor extends React.Component {
 						size="large"
 						defaultValue="all"
 						style={_style2}
-						{...getFieldProps('bankruptStatus', {
+						{...getFieldProps('bankruptcyStatus', {
 							initialValue: '',
 						})}
 					>
@@ -262,8 +261,8 @@ class BusinessDebtor extends React.Component {
 					>
 						{[
 							{ id: 1, name: '全部', value: '' },
-							{ id: 2, name: '是', value: 0 },
-							{ id: 3, name: '否', value: 1 },
+							{ id: 2, name: '是', value: true },
+							{ id: 3, name: '否', value: false },
 						].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
 					</Select>
 				</div>
@@ -273,12 +272,12 @@ class BusinessDebtor extends React.Component {
 						size="large"
 						defaultValue="all"
 						style={_style3}
-						{...getFieldProps('pushStatus', { initialValue: '' })}
+						{...getFieldProps('pushState', { initialValue: '' })}
 					>
 						{[
 							{ id: 1, name: '全部', value: '' },
-							{ id: 2, name: '开启', value: 0 },
-							{ id: 3, name: '关闭', value: 1 },
+							{ id: 2, name: '开启', value: 1 },
+							{ id: 3, name: '关闭', value: 0 },
 						].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
 					</Select>
 				</div>
