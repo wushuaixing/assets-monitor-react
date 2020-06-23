@@ -380,8 +380,9 @@ export default {
 								id: 'YC0301',
 								name: '涉诉监控',
 								url: '/risk',
-								reg: /#\/risk[^/]?/,
+								reg: /#\/risk(?!\/)/,
 								status: toStatus(rule.menu_fxjk, 'fxjkssjk'),
+								backup: ['/risk'],
 								child: [
 									{ id: 'YC030101', name: '立案信息', status: true },
 									{ id: 'YC030102', name: '开庭公告', status: true },
