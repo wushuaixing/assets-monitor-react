@@ -7,6 +7,7 @@ import {
 	Spin, Input, Button, Download,
 } from '@/common';
 import { obligorList, exportExcel } from '@/utils/api/debator';
+import { clearEmpty } from '@/utils';
 import './style.scss';
 
 const _style1 = { width: 278 };
@@ -149,7 +150,7 @@ class BusinessDebtor extends React.Component {
 		const params = {
 			page: 1,
 		};
-		this.getData(params);
+		this.getData(clearEmpty(params));
 		this.setState({
 			searchValue: '',
 		});
@@ -246,8 +247,8 @@ class BusinessDebtor extends React.Component {
 					>
 						{[
 							{ id: 1, name: '全部', value: '' },
-							{ id: 2, name: '存在破产/重整风险', value: 0 },
-							{ id: 3, name: '暂未匹配破产风险', value: 1 },
+							{ id: 2, name: '存在破产/重整风险', value: 1 },
+							{ id: 3, name: '暂未匹配破产风险', value: 0 },
 						].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
 					</Select>
 				</div>
