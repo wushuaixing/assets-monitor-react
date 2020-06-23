@@ -78,11 +78,19 @@ class BusinessView extends React.Component {
 			title: '债务人',
 			dataIndex: 'obligorName',
 			key: 'obligorName',
-			width: 254,
+			width: 300,
 			className: 'column-left20',
 			render: (text, row) => (
 				<div style={{ position: 'relative' }}>
-					<Ellipsis content={row.obligorName} tooltip width={150} url obligorId={row.id} isBorrower={row.isBorrower} />
+					<Ellipsis
+						content={row.obligorName}
+						tooltip
+						width={150}
+						url
+						obligorId={row.id}
+						isBorrower={row.isBorrower}
+						isBankruptcy={row.bankruptcyStatus}
+					/>
 					<span className="yc-item-break">
 						{ row && row.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null }
 						{ row && row.dishonestStatus === 2 ? <img src={beforeBreak} alt="" /> : null}
@@ -93,7 +101,7 @@ class BusinessView extends React.Component {
 			title: '身份证号/统一社会信用代码',
 			dataIndex: 'obligorNumber',
 			key: 'obligorNumber',
-			width: 308,
+			width: 250,
 			render: text => (
 				<p>{text || '-'}</p>
 			),

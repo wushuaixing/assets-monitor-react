@@ -45,7 +45,8 @@ export default class Ellipsis extends React.Component {
 
 	render() {
 		const {
-			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId, isBorrower = false,
+			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
+			isBorrower = false, isBankruptcy = false,
 		} = this.props;
 
 		const _url = obligorId ? `#/business/debtor/detail?id=${obligorId}` : url;
@@ -62,9 +63,11 @@ export default class Ellipsis extends React.Component {
 		const contentSize = (getByteLength(showContent || content) + 3) * size;
 		const __width = contentSize < _width ? (auto ? 'auto' : contentSize) : _width;
 		const _isBorrower = Boolean(isBorrower);
+		const _isBankruptcy = Boolean(isBankruptcy);
+		const addWidth = (_isBorrower ? 18 : 0) + (_isBankruptcy ? 18 : 0);
 		const style = _width ? {
 			color: customColor || undefined,
-			width: _isBorrower ? __width + 15 : __width,
+			width: __width + addWidth,
 			display: 'inline-block',
 		} : '';
 		return (
@@ -79,6 +82,7 @@ export default class Ellipsis extends React.Component {
 						: (ContentText || '-')
 				}
 				{ _isBorrower && <Borrower />}
+				{ _isBankruptcy && <Borrower text="破" style={{ background: '#948BFF' }} />}
 			</div>
 		);
 	}
