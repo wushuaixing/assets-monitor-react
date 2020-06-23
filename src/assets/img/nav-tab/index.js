@@ -13,7 +13,14 @@ import settingEd from './setting-ed.png';
 import setting from './setting.png';
 import userListEd from './user-list-ed.png';
 import userList from './user-list.png';
+import businessEd from './business-ed.png';
+import business from './business.png';
+import debtorEd from './debtor-ed.png';
+import debtor from './debtor.png';
 
 export {
-	bankruptcy, excavateEd, excavate, orgCountEd, orgCount, portraitEd, portrait, riskEd, risk, searchEd, search, settingEd, setting, userListEd, userList,
+	businessEd, business, debtorEd, debtor,
+	bankruptcy, excavateEd, excavate, orgCountEd, orgCount,
+	portraitEd, portrait, riskEd, risk, searchEd, search,
+	settingEd, setting, userListEd, userList,
 };

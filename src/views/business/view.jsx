@@ -15,8 +15,8 @@ export default class InfoBusiness extends React.Component {
 				{
 					id: 1,
 					title: '业务视图',
-					img: NavTabImg.portrait,
-					selectImg: NavTabImg.portraitEd,
+					img: NavTabImg.business,
+					selectImg: NavTabImg.businessEd,
 					url: '/business/view/*',
 					rule: childRule.ywglywst,
 					status: true,
@@ -25,8 +25,8 @@ export default class InfoBusiness extends React.Component {
 				{
 					id: 2,
 					title: '债务人',
-					img: NavTabImg.search,
-					selectImg: NavTabImg.searchEd,
+					img: NavTabImg.debtor,
+					selectImg: NavTabImg.debtorEd,
 					url: '/business/view/debtor/*',
 					rule: childRule.ywglzwr,
 					status: true,
