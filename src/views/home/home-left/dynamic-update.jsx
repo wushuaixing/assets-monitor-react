@@ -314,7 +314,7 @@ class dynamicUpdate extends PureComponent {
 								{lessAssetNum && (
 									<div className="seven-update-content-title-noNum">
 										数据太少？建议
-										<span className="seven-update-content-title-noNum-findMore" onClick={() => this.handleNavigate('/business')}>去导入更多债务人</span>
+										<span className="seven-update-content-title-noNum-findMore" onClick={() => this.handleNavigate('/business/view')}>去导入更多债务人</span>
 										，以匹配更多价值信息
 									</div>
 								)}
