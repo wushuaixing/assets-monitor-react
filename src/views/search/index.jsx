@@ -39,6 +39,13 @@ const tabSource = rule => ([
 		display: !!(rule && rule.xxsspccz),
 		types: [],
 	},
+	{
+		id: 11,
+		name: '土地数据',
+		router: 'land',
+		display: !!(rule && rule.xxsspccz),
+		types: [],
+	},
 ]);
 const HomeRouter = (props) => {
 	const { rule } = props && props;
@@ -53,9 +60,7 @@ const HomeRouter = (props) => {
 			<p>信息分类搜索</p>
 			<div className="tab-search">
 				<Tabs simple source={displayArray} onChange={(item) => { setActive(item); }}	/>
-				<div>
-					<Data active={active} highSearch />
-				</div>
+				<Data active={active} highSearch />
 			</div>
 		</div>
 	);

@@ -4,33 +4,24 @@ import Lawsuits from './lawsuits';
 import Writ from './writ';
 import Finance from './finance';
 import Bankruptcy from './bankruptcy';
+import Land from './land';
+import './style.scss';
 
-const Datas = (props) => {
+const View = {
+	1: Auction,
+	2: Lawsuits,
+	3: Writ,
+	4: Finance,
+	5: Bankruptcy,
+	11: Land,
+};
+const QueryView = (props) => {
 	const { active } = props;
-
+	const ViewPage = View[active.id];
 	return (
-		<React.Fragment>
-			<div className="yc-datas">
-				{
-					active.id === 1 ? (<Auction />) : null
-				}
-				{
-					active.id === 2 ? (<Lawsuits />) : null
-				}
-				{
-					active.id === 3 ? (<Writ />) : null
-				}
-				{
-					active.id === 4 ? (<Finance />) : null
-				}
-				{
-					active.id === 5 ? (<Bankruptcy />) : null
-				}
-			</div>
-			{/* {
-				active.id === 4 ? (<Finance router={active.router} />) : null
-			} */}
-		</React.Fragment>
+		<div className="yc-query-data">
+			<ViewPage />
+		</div>
 	);
 };
-export default Datas;
+export default QueryView;
