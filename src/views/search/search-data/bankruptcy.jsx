@@ -157,3 +157,4 @@ class BANKRUPTCY extends React.Component {
 	}
 }
 export default createForm()(BANKRUPTCY);
+export const Name = 'BANKRUPTCY';

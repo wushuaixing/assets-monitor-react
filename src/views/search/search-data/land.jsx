@@ -6,7 +6,7 @@ import { Input, timeRule, DatePicker } from '@/common';
 
 const createForm = Form.create;
 const _style1 = { width: 116 };
-class BANKRUPTCY extends React.Component {
+class LAND extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -153,4 +153,5 @@ class BANKRUPTCY extends React.Component {
 		);
 	}
 }
-export default createForm()(BANKRUPTCY);
+export default createForm()(LAND);
+export const Name = 'LAND';

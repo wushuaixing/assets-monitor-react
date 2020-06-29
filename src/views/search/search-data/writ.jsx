@@ -191,3 +191,4 @@ class WRIT extends React.Component {
 	}
 }
 export default createForm()(WRIT);
+export const Name = 'WRIT';

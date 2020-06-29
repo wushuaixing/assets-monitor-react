@@ -182,3 +182,4 @@ class FINANCE extends React.Component {
 	}
 }
 export default createForm()(FINANCE);
+export const Name = 'FINANCE';

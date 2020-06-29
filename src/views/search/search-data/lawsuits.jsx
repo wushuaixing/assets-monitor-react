@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-	Button, Form, Tooltip, message,
+	Button, Form, message, Tooltip,
 } from 'antd';
 import { navigate } from '@reach/router';
-import { Input, timeRule, DatePicker } from '@/common';
+import { DatePicker, Input, timeRule } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
@@ -153,10 +153,9 @@ class LAWSUITS extends React.Component {
 		let { plaintiff } = this.state;
 		plaintiff = plaintiff.filter(key => key.id !== id);
 		// console.log(id);
-		plaintiff.map((item, index) => {
-			const _item = item;
-			return (_item.id = index + 1);
-		});
+		// Todo  array.map 修改原数据
+		// eslint-disable-next-line no-param-reassign
+		plaintiff.map((item, index) => (item.id = index + 1));
 		this.setState({
 			plaintiff,
 		});
@@ -192,10 +191,10 @@ class LAWSUITS extends React.Component {
 		let { defendant } = this.state;
 		defendant = defendant.filter(key => key.id !== id);
 		// console.log(id);
-		defendant.map((item, index) => {
-			const _item = item;
-			return (_item.id = index + 1);
-		});
+		// Todo  array.map 修改原数据
+		// eslint-disable-next-line no-param-reassign
+		defendant.map((item, index) => (item.id = index + 1));
+
 		this.setState({
 			defendant,
 		});
@@ -389,3 +388,4 @@ class LAWSUITS extends React.Component {
 	}
 }
 export default createForm()(LAWSUITS);
+export const Name = 'LAWSUITS';

@@ -234,3 +234,4 @@ class AUCTION extends React.PureComponent {
 	}
 }
 export default createForm()(AUCTION);
+export const Name = 'AUCTION';
