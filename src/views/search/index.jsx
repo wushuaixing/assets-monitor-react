@@ -39,13 +39,13 @@ const tabSource = rule => ([
 		display: !!(rule && rule.xxsspccz),
 		types: [],
 	},
-	{
-		id: 11,
-		name: '土地数据',
-		router: 'land',
-		display: !!(rule && rule.xxsspccz),
-		types: [],
-	},
+	// {
+	// 	id: 11,
+	// 	name: '土地数据',
+	// 	router: 'land',
+	// 	display: !!(rule && rule.xxsspccz),
+	// 	types: [],
+	// },
 ]);
 const HomeRouter = (props) => {
 	const { rule } = props && props;
