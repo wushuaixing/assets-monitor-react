@@ -4,6 +4,7 @@ import Auction from './search-detail/auction';
 import Finance from './search-detail/finance';
 import Lawsuits from './search-detail/lawsuits';
 import Bankruptcy from './search-detail/bankruptcy';
+import Land from './search-detail/land';
 
 
 export default {
@@ -38,6 +39,15 @@ export default {
 			},
 			{
 				id: 4,
+				name: '土地数据',
+				router: 'land',
+				url: '/search/detail/land',
+				status: !!(rule && rule.xxsspccz),
+				search: Components.LAND,
+				components: Land,
+			},
+			{
+				id: 7,
 				type: 'content',
 				name: '金融资产',
 				router: 'finance',
@@ -47,7 +57,7 @@ export default {
 				components: Finance,
 			},
 			{
-				id: 5,
+				id: 8,
 				name: '破产重组',
 				router: 'bankruptcy',
 				url: '/search/detail/bankruptcy',
@@ -55,14 +65,7 @@ export default {
 				search: Components.BANKRUPTCY,
 				components: Bankruptcy,
 			},
-			{
-				id: 11,
-				name: '土地数据',
-				router: 'land',
-				url: '/search/detail/land',
-				status: !!(rule && rule.xxsspccz),
-				search: Components.LAND,
-			},
+
 		];
 	},
 	getIdSource(id) {
