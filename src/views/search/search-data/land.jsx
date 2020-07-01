@@ -13,8 +13,9 @@ class LAND extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			publishDateStart: undefined,
-			publishDateEnd: undefined,
+			startTime: undefined,
+			endTime: undefined,
+			type: 1,
 		};
 	}
 
@@ -40,16 +41,16 @@ class LAND extends React.Component {
 
 	// 搜索
 	search = () => {
-		const { form } = this.props; // 会提示props is not defined
-		const { publishDateStart, publishDateEnd } = this.state;
+		const { form } = this.props;
+		const { startTime, endTime, type } = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		fildes.publishDateStart = publishDateStart;
-		fildes.publishDateEnd = publishDateEnd;
+		fildes.startTime = startTime;
+		fildes.endTime = endTime;
+		fildes.type = type;
 
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
-			// 将值传到URL
 			navigate(generateUrlWithParams('/search/detail/land', fildes));
 		} else {
 			message.error('请至少输入一个搜索条件');
@@ -58,17 +59,17 @@ class LAND extends React.Component {
 
 	// 重置输入框
 	queryReset = () => {
-		const { form } = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { resetFields } = form;
 		this.setState({
-			publishDateStart: undefined,
-			publishDateEnd: undefined,
+			startTime: undefined,
+			endTime: undefined,
 		});
 		resetFields('');
 	};
 
 	render() {
-		const { form } = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { getFieldProps, getFieldValue } = form;
 		const timeOption = {
 			normalize(n) {
@@ -123,7 +124,7 @@ class LAND extends React.Component {
 							placeholder="开始日期"
 							size="large"
 							style={_style1}
-							{...getFieldProps('signedTimeStart', {
+							{...getFieldProps('startTime', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
@@ -132,7 +133,7 @@ class LAND extends React.Component {
 								},
 								...timeOption,
 							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
 							allowClear
 						/>
 						<span style={{ margin: '0 2px ' }}>至</span>
@@ -140,7 +141,7 @@ class LAND extends React.Component {
 							placeholder="结束日期"
 							size="large"
 							style={_style1}
-							{...getFieldProps('signedTimeEnd', {
+							{...getFieldProps('endTime', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
@@ -149,7 +150,7 @@ class LAND extends React.Component {
 								},
 								...timeOption,
 							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
 							allowClear
 						/>
 					</div>

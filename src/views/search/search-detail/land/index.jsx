@@ -3,12 +3,18 @@ import { Form, message, Pagination } from 'antd';
 import { Spin, Tabs, Download } from '@/common';
 import { parseQuery } from '@/utils';
 import {
-	ktggRelationSearch, // 开庭列表
-	trialRelationSearch, // 立案列表
-	relationSearchCount, // 数量
-	courtSearchListCount, // 开庭数量
-	trialRelationSearchExport, // 立案导出
-	ktggRelationSerachExport, // 开庭导出
+	landSellExport, // 出让结果 -- 本页导出
+	landSellExportAll, // 出让结果 -- 导出全部
+	landTransferExport, // 土地转让 -- 本页导出
+	landTransferExportAll, // 土地转让 -- 导出全部
+	landMortgageExport, // 土地抵押 -- 本页导出
+	landMortgageExportAll, // 土地抵押 -- 导出全部
+	landSellSearch, // 土地出让
+	landTransferSearch, // 土地转让
+	landMortgageSearch, // 土地抵押
+	landSellCount, // 土地出让数量
+	landTransferCount, // 土地转让数量
+	landMortgageCount, // 土地抵押数量
 } from '@/utils/api/search';
 import { objectKeyIsEmpty, clearEmpty } from '@/utils';
 import { ScrollAnimation } from '@/utils/changeTime';
@@ -23,9 +29,9 @@ class LAND extends React.Component {
 		super(props);
 		document.title = '土地数据-信息搜索';
 		this.state = {
-			sellCount: 2, // 出让结果数量
-			transferCount: 3, // 土地转让数量
-			mortgageCount: 10, // 土地抵押数量
+			sellCount: '', // 出让结果数量
+			transferCount: '', // 土地转让数量
+			mortgageCount: '', // 土地抵押数量
 			urlObj: {},
 			dataList: [],
 			loading: false,
@@ -40,8 +46,6 @@ class LAND extends React.Component {
 			field: '',
 			order: '',
 			type: 1,
-			plaintiff: [{ name: '', id: 1 }],
-			defendant: [{ name: '', id: 1 }],
 		};
 	}
 
@@ -50,10 +54,12 @@ class LAND extends React.Component {
 		const urlObj = parseQuery(hash);
 		const { pageSize } = this.state;
 		const Params = {
-			caseNumber: urlObj.ah || undefined,
-			court: urlObj.court || undefined,
-			endGmtRegister: urlObj.endLarq || undefined,
-			startGmtRegister: urlObj.startLarq || undefined,
+			name: urlObj.name || undefined,
+			province: urlObj.province || undefined,
+			landAddress: urlObj.landAddress || undefined,
+			startTime: urlObj.signedTimeStart || undefined,
+			endTime: urlObj.signedTimeEnd || undefined,
+			landUse: urlObj.landUse || undefined,
 			page: 1,
 			num: pageSize,
 		};
@@ -63,70 +69,36 @@ class LAND extends React.Component {
 			this.getData(Params, urlObj.type); // 进入页面请求数据
 			this.getCount(Params);
 		}
-		// 如果存在就增加输入栏
-		this.initialValue(urlObj);
 		// 输入框默认值
-		const { plaintiff, defendant } = this.state;
-		if (plaintiff[0]) {
-			plaintiff[0].name = urlObj.plaintiff0 ? urlObj.plaintiff0 : undefined;
-		}
-		if (plaintiff[1]) {
-			plaintiff[1].name = urlObj.plaintiff1 ? urlObj.plaintiff1 : undefined;
-		}
-		if (plaintiff[2]) {
-			plaintiff[2].name = urlObj.plaintiff2 ? urlObj.plaintiff2 : undefined;
-		}
-		if (defendant[0]) {
-			defendant[0].name = urlObj.defendant0 ? urlObj.defendant0 : undefined;
-		}
-		if (defendant[1]) {
-			defendant[1].name = urlObj.defendant1 ? urlObj.defendant1 : undefined;
-		}
-		if (defendant[2]) {
-			defendant[2].name = urlObj.defendant2 ? urlObj.defendant2 : undefined;
-		}
 		this.setState({
-			plaintiff, defendant, urlObj, Params, type: urlObj.type ? Number(urlObj.type) : 1,
+			urlObj, Params, type: urlObj.type ? Number(urlObj.type) : 1,
 		});
 	}
 
-	initialValue = (urlObj) => {
-		if (urlObj.plaintiff1) {
-			this.addPlaintiff();
-		}
-		if (!urlObj.plaintiff1 && urlObj.plaintiff2) {
-			this.addPlaintiff();
-		}
-		if (urlObj.plaintiff2) {
-			this.addPlaintiff();
-		}
-		if (urlObj.defendant1) {
-			this.addDefendant();
-		}
-		if (!urlObj.defendant1 && urlObj.defendant2) {
-			this.addDefendant();
-		}
-		if (urlObj.defendant2) {
-			this.addDefendant(urlObj.defendant2);
-		}
-	};
-
 	// 获取数量
 	getCount = (value) => {
+		console.log('getCount value === ', value);
 		const params = {
 			...value,
 		};
-		relationSearchCount(params).then((res) => {
+		landSellCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					trialRelationCount: res.data,
+					sellCount: res.data || '',
 				});
 			}
 		});
-		courtSearchListCount(params).then((res) => {
+		landTransferCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					ktggRelationCount: res.data,
+					transferCount: res.data || '',
+				});
+			}
+		});
+		landMortgageCount(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					mortgageCount: res.data || '',
 				});
 			}
 		});
@@ -144,15 +116,34 @@ class LAND extends React.Component {
 			loading: true,
 		});
 		const type = Number(selectType);
-		if (type === 2) {
-			ktggRelationSearch(clearEmpty(params)).then((res) => {
+		console.log('getData ===>>>', params, selectType);
+		if (type === 1) {
+			landSellSearch(clearEmpty(params)).then((res) => {
 				// 获取当前高度，动态移动滚动条
 				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
 				ScrollAnimation(currentY, 0);
 				if (res && res.data) {
 					this.setState({
 						dataList: res.data.list,
-						totals: res.data.total,
+						totals: res.data.totalCount,
+						loading: false,
+					});
+				} else {
+					message.error(res.message);
+					this.setState({ loading: false });
+				}
+			}).catch(() => {
+				this.setState({ loading: false });
+			});
+		} else if (type === 2) {
+			landTransferSearch(clearEmpty(params)).then((res) => {
+				// 获取当前高度，动态移动滚动条
+				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+				ScrollAnimation(currentY, 0);
+				if (res && res.data) {
+					this.setState({
+						dataList: res.data.list,
+						totals: res.data.totalCount,
 						loading: false,
 					});
 				} else {
@@ -163,14 +154,14 @@ class LAND extends React.Component {
 				this.setState({ loading: false });
 			});
 		} else {
-			trialRelationSearch(clearEmpty(params)).then((res) => {
+			landMortgageSearch(clearEmpty(params)).then((res) => {
 				if (res && res.data) {
 					// 获取当前高度，动态移动滚动条
 					const currentY = document.documentElement.scrollTop || document.body.scrollTop;
 					ScrollAnimation(currentY, 0);
 					this.setState({
 						dataList: res.data.list,
-						totals: res.data.total,
+						totals: res.data.totalCount,
 						loading: false,
 					});
 				} else {
@@ -227,8 +218,8 @@ class LAND extends React.Component {
 		if (Sort === undefined) _Sort = 'DESC';
 		if (Sort === 'DESC') _Sort = 'ASC';
 		if (Sort === 'ASC') _Sort = undefined;
-		// gmtTrial
-		const sortColumn = _Sort === undefined ? undefined : (type === 1 ? 'gmtRegister' : 'gmtTrial');
+		const sortColumn = _Sort === undefined ? undefined : ({ 1: 'singedTime', 2: 'dealingTime', 3: 'registrationStartTime' }[type] || 'singedTime');
+
 		const sortOrder = _Sort;
 		const params = {
 			sortColumn,
@@ -237,6 +228,7 @@ class LAND extends React.Component {
 			page,
 			num: pageSize,
 		};
+		console.log('sort params ===', params);
 		// 判断是否为空对象,非空请求接口
 		if (dataList.length > 0) {
 			this.getData(params, type); // 进入页面请求数据
@@ -254,8 +246,6 @@ class LAND extends React.Component {
 	// 重置输入框
 	queryReset = () => {
 		this.setState({
-			plaintiff: [{ name: '', id: 1 }],
-			defendant: [{ name: '', id: 1 }],
 			Sort: undefined,
 			sortColumn: undefined,
 			sortOrder: undefined,
@@ -304,19 +294,6 @@ class LAND extends React.Component {
 		}
 	};
 
-	// 输入原告被告
-	inputChange = (value, e, id) => {
-		const { plaintiff, defendant } = this.state;
-		const inputArray = value === 1 ? plaintiff : defendant;
-		if (inputArray && inputArray.length > 0) {
-			inputArray.forEach((i, index) => {
-				if (i.id === id) {
-					inputArray[index].name = e.trim();
-				}
-			});
-			this.setState({ plaintiff, defendant });
-		}
-	};
 
 	// 获取查询参数
 	getQueryData = (obj) => {
@@ -341,9 +318,29 @@ class LAND extends React.Component {
 		});
 	};
 
+	getExportApi = (type) => {
+		if (type === 1) {
+			return landSellExport;
+		}
+		if (type === 2) {
+			return landTransferExport;
+		}
+		return landMortgageExport;
+	};
+
+	getAllExportApi = (type) => {
+		if (type === 1) {
+			return landSellExportAll;
+		}
+		if (type === 2) {
+			return landTransferExportAll;
+		}
+		return landMortgageExportAll;
+	};
+
 	render() {
 		const {
-			plaintiff, defendant, dataList, loading, urlObj, totals, current, page, pageSize, sellCount, transferCount, mortgageCount, Sort, type,
+			dataList, loading, urlObj, totals, current, page, pageSize, sellCount, transferCount, mortgageCount, Sort, type,
 		} = this.state;
 
 		const tabConfig = [
@@ -369,8 +366,8 @@ class LAND extends React.Component {
 				showNumber: !!mortgageCount,
 			},
 		];
+
 		const queryProps = {
-			inputChange: this.inputChange,
 			queryReset: this.queryReset,
 			getData: this.getData,
 			getCount: this.getCount,
@@ -378,6 +375,7 @@ class LAND extends React.Component {
 			urlObj,
 			type,
 		};
+
 		return (
 			<div className="yc-content-query">
 				<Query {...queryProps} />
@@ -392,7 +390,7 @@ class LAND extends React.Component {
 					<Download
 						condition={() => this.toExportCondition('current')}
 						style={{ marginRight: 10 }}
-						api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport}
+						api={this.getExportApi(type)}
 						current
 						page
 						num
@@ -402,7 +400,7 @@ class LAND extends React.Component {
 					<Download
 						disabled={dataList.length === 0}
 						condition={() => this.toExportCondition('all')}
-						api={type === 1 ? trialRelationSearchExport : ktggRelationSerachExport}
+						api={this.getAllExportApi(type)}
 						all
 						page
 						num

@@ -76,6 +76,115 @@ export const trialRelationSearch = async (params) => {
 // 涉诉信息 => 立案信息导出 [zhousai]
 export const trialRelationSearchExport = '/yc/doc/search/trialSearchExport';
 
+// 土地数据 => 出让结果 -- 本页导出
+export const landSellExport = '/yc/information/land/landTransfer/export';
+
+// 土地数据 => 出让结果 -- 导出全部
+export const landSellExportAll = '/yc/information/land/landTransfer/exportAll';
+
+// 土地数据 => 土地转让 -- 本页导出
+export const landTransferExport = '/yc/information/land/landTransaction/export';
+
+// 土地数据 => 土地转让 -- 导出全部
+export const landTransferExportAll = '/yc/information/land/landTransaction/exportAll';
+
+// 土地数据 => 土地抵押 -- 本页导出
+export const landMortgageExport = '/yc/information/land/landMortgage/export';
+
+// 土地数据 => 土地抵押 -- 导出全部
+export const landMortgageExportAll = '/yc/information/land/landMortgage/exportAll';
+
+// 土地数据 => 出让结果数量
+export const landSellCount = async (params) => {
+	const response = await service.get('/yc/information/land/landTransfer/searchCount',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
+// 土地数据 => 出让转让数量
+export const landTransferCount = async (params) => {
+	const response = await service.get('/yc/information/land/landTransaction/searchCount',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
+// 土地数据 => 土地抵押数量
+export const landMortgageCount = async (params) => {
+	const response = await service.get('/yc/information/land/landMortgage/searchCount',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
+// 信息搜索 => 土地出让
+export const landSellSearch = async (params) => {
+	const response = await service.get('/yc/information/land/landTransfer/search',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
+// 信息搜索 => 土地转让
+export const landTransferSearch = async (params) => {
+	const response = await service.get('/yc/information/land/landTransaction/search',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
+// 信息搜索 => 土地抵押
+export const landMortgageSearch = async (params) => {
+	const response = await service.get('/yc/information/land/landMortgage/search',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
+
 // 文书全文搜索
 export const judgement = async (params) => {
 	const response = await service.get('/yc/information/judgement/search', { params });

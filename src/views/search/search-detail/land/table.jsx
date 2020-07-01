@@ -1,10 +1,10 @@
 import React from 'react';
 import { Form } from 'antd';
-import { Table } from '@/common';
+import { Ellipsis, Table } from '@/common';
 import { partyInfo } from '@/views/_common';
-import associationLink from '@/views/_common/association-link';
 import order from '@/assets/img/icon/icon_arrow.png';
 import './style.scss';
+import { Result } from '@/views/asset-excavate/land-data/table/common';
 
 class LandView extends React.Component {
 	constructor(props) {
@@ -16,7 +16,6 @@ class LandView extends React.Component {
 		const {
 			Sort, dataList, SortTime, type,
 		} = this.props;
-		console.log('type ==== ', type);
 		const sellColumns = [
 			{
 				title: (
@@ -27,123 +26,171 @@ class LandView extends React.Component {
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
 					</div>),
-				dataIndex: 'gmtRegister',
-				key: 'gmtRegister',
+				dataIndex: 'singedTime',
+				key: 'singedTime',
 				width: 122,
 				render: (text, row) => (
-					<span>{row.gmtRegister || '-'}</span>
+					<span>{row.singedTime || '-'}</span>
 				),
 			}, {
-				title: '土地使用人',
-				dataIndex: 'parties',
-				key: 'parties',
+				title: '土地使用权人',
+				dataIndex: 'obligorName',
+				key: 'obligorName',
 				width: 241,
-				render: text => <span>{text}</span>,
+				render: text => <span>{text || '-'}</span>,
 			}, {
 				title: '项目信息',
-				dataIndex: 'court',
-				render: text => <span>{text}</span>,
+				dataIndex: 'projectName',
+				key: 'projectName',
+				render: (text, rowContent) => (
+					<React.Fragment>
+						<div className="assets-info-content yc-space-nowrap">
+							<li>
+								<span className="list list-title align-justify">项目名称：</span>
+								<span className="list list-content" style={{ color: '#186fc7' }}>
+									<Ellipsis content={rowContent.projectName} url={rowContent.url} tooltip width={200} />
+								</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify">行政区划：</span>
+								<span className="list list-content">
+									<Ellipsis content={rowContent.administrativeRegion || '-'} tooltip width={200} />
+								</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify">宗地坐落：</span>
+								<span className="list list-content">
+									<Ellipsis content={rowContent.landAddress} tooltip width={200} />
+								</span>
+							</li>
+						</div>
+					</React.Fragment>
+				),
 			},
 			{
 				title: '土地信息',
-				dataIndex: 'caseNumber',
-				render: text => text || '-',
+				dataIndex: 'landUse',
+				key: 'landUse',
+				render: (text, rowContent) => (
+					<React.Fragment>
+						<div className="assets-info-content  yc-space-nowrap">
+							<li>
+								<span className="list list-title align-justify">土地用途：</span>
+								<span className="list list-content text-ellipsis">
+									<Ellipsis content={rowContent.landUse || '-'} tooltip width={110} />
+								</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify">面　　积：</span>
+								<span className="list list-content">
+									{rowContent.landArea ? `${rowContent.landArea}公顷` : '-' }
+								</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify">使用年限：</span>
+								<span className="list list-content">
+									{rowContent.transferTerm || '-'}
+								</span>
+							</li>
+						</div>
+					</React.Fragment>
+				),
 			},
 			{
 				title: '出让信息',
-				render: (value, row) => {
-					const { isRestore, caseType } = row;
-					if (isRestore) return '执恢案件';
-					if (caseType === 1) return '普通案件';
-					if (caseType === 2) return '破产案件';
-					if (caseType === 3) return '执行案件';
-					if (caseType === 4) return '终本案件';
-					return '-';
-				},
+				dataIndex: 'supplyWay',
+				key: 'supplyWay',
+				render: (text, rowContent) => (
+					<React.Fragment>
+						<div className="assets-info-content">
+							<li>
+								<span className="list list-title align-justify">供地方式：</span>
+								<span className="list list-content text-ellipsis">{rowContent.supplyWay || '-'}</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify">批准单位：</span>
+								<span className="list list-content">
+									<Ellipsis content={rowContent.approver || '-'} tooltip width={170} />
+								</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify">成交价格：</span>
+								<span className="list list-content">
+									{rowContent.finalPrice ? `${rowContent.finalPrice} 万元` : '-'}
+								</span>
+							</li>
+						</div>
+					</React.Fragment>
+				),
 			},
 		];
-		const courtColumns = [
+		const transferColumns = [
 			{
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						{'开庭日期222'}
+						{'成交日期'}
 						{/* {Sort === undefined && <span className="sort th-sort-default" />} */}
 						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
 					</div>),
-				dataIndex: 'gmtTrial',
-				key: 'gmtTrial',
+				dataIndex: 'dealingTime',
+				key: 'dealingTime',
 				width: 122,
 				render: (text, row) => (
-					<span>{row.gmtTrial || '-'}</span>
+					<span>{row.dealingTime || '-'}</span>
 				),
 			}, {
-				title: '当事人',
+				title: '土地使用权人',
 				dataIndex: 'parties',
-				key: 'parties',
 				width: 241,
 				render: partyInfo,
 			}, {
-				title: '法院',
+				title: '项目信息',
 				dataIndex: 'court',
-				render: text => text || '-',
+				render: Result.InfoTransferProject,
 			}, {
-				title: '案号',
+				title: '土地信息',
 				dataIndex: 'caseNumber',
-				render: text => text || '-',
+				render: Result.InfoLand,
 			}, {
-				title: '案由',
+				title: '转让信息',
 				dataIndex: 'caseReason',
-				render: text => text || '-',
-			},
-			{
-				title: '关联链接',
-				dataIndex: 'associatedInfo',
-				className: 'tAlignCenter_important min-width-80',
-				render: (value, row) => associationLink(value, row, 'Trial'),
+				render: Result.transferInfo,
 			},
 		];
-		const teeaColumns = [
+		const mortgageColumns = [
 			{
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						{'开庭日期23333'}
+						{'登记日期'}
 						{/* {Sort === undefined && <span className="sort th-sort-default" />} */}
 						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
 					</div>),
-				dataIndex: 'gmtTrial',
-				key: 'gmtTrial',
+				dataIndex: 'registrationStartTime',
+				key: 'registrationStartTime',
 				width: 122,
 				render: (text, row) => (
-					<span>{row.gmtTrial || '-'}</span>
+					<span>{row.registrationStartTime || '-'}</span>
 				),
 			}, {
-				title: '当事人',
+				title: '土地权利人',
 				dataIndex: 'parties',
-				key: 'parties',
-				width: 241,
-				render: partyInfo,
+				render: (text, row) => partyInfo(text, row, false, false, 223),
 			}, {
-				title: '法院',
+				title: '项目信息',
 				dataIndex: 'court',
-				render: text => text || '-',
+				render: Result.InfoTransferProject,
 			}, {
-				title: '案号',
+				title: '土地信息',
 				dataIndex: 'caseNumber',
-				render: text => text || '-',
+				render: Result.InfoMortgageLand,
 			}, {
-				title: '案由',
+				title: '抵押信息',
 				dataIndex: 'caseReason',
-				render: text => text || '-',
-			},
-			{
-				title: '关联链接',
-				dataIndex: 'associatedInfo',
-				className: 'tAlignCenter_important min-width-80',
-				render: (value, row) => associationLink(value, row, 'Trial'),
+				render: Result.InfoMortgage,
 			},
 		];
 
@@ -164,7 +211,7 @@ class LandView extends React.Component {
 					<Table
 						rowKey={record => record.id}
 						dataSource={dataList.length > 0 && dataList}
-						columns={courtColumns}
+						columns={transferColumns}
 						style={{ width: '100%' }}
 						defaultExpandAllRows
 						pagination={false}
@@ -175,7 +222,7 @@ class LandView extends React.Component {
 					<Table
 						rowKey={record => record.id}
 						dataSource={dataList.length > 0 && dataList}
-						columns={teeaColumns}
+						columns={mortgageColumns}
 						style={{ width: '100%' }}
 						defaultExpandAllRows
 						pagination={false}

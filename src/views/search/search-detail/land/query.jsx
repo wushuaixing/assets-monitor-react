@@ -4,7 +4,6 @@ import { Form, Select } from 'antd';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
-import { parseQuery } from '@/utils';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import './style.scss';
 import provinceList from '@/utils/provinceList';
@@ -13,7 +12,7 @@ const createForm = Form.create;
 const _style1 = { width: 278 };
 const _style2 = { width: 140 };
 
-class QUERYLAWSUITS extends React.Component {
+class QUERYLAND extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -41,51 +40,37 @@ class QUERYLAWSUITS extends React.Component {
 
 	// 搜索
 	search = () => {
-		const { pageSize } = this.state;
 		const {
-			type, getData, getCount, queryReset, getQueryData,
+			form: { getFieldsValue }, type, getQueryData, getData,
 		} = this.props;
-		const { hash } = window.location;
-		const urlObj = parseQuery(hash);
-		const { form } = this.props; // 会提示props is not defined
-		const { getFieldsValue } = form;
-		const fields = getFieldsValue();
+		const Fields = getFieldsValue();
+		const { pageSize } = this.state;
+		Fields.type = type;
+		console.log('search Fields ===>>>', Fields);
+		navigate(generateUrlWithParams('/search/detail/land', Fields));
 
-		fields.type = type;
-
-		const queryParams = {
-			caseNumber: fields.ah,
-			court: fields.court,
-			startGmtRegister: fields.startLarq,
-			endGmtRegister: fields.endLarq,
-			startGmtTrial: fields.startLarq,
-			endGmtTrial: fields.endLarq,
+		const params = {
+			...Fields,
 			page: 1,
 			num: pageSize,
 		};
-
-
-		console.log(fields);
-
-		console.log('queryParams:', queryParams);
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fields)) {
-			// 将值传到URL
-			navigate(generateUrlWithParams('/yc/information/land/landTransfer/search', fields));
-			getData(queryParams, type); // 进入页面请求数据
-			getCount(queryParams);
+		if (!objectKeyIsEmpty(Fields)) {
+			getData(params, type); // 进入页面请求数据
 		} else {
-			queryReset();
-			// message.error('请至少输入一个搜索条件');
+			this.queryReset();
 		}
-		getQueryData(queryParams);
+		getQueryData(params);
 	};
 
 	// 重置输入框
 	queryReset = () => {
-		const { form, queryReset } = this.props; // 会提示props is not defined
+		const { form, queryReset } = this.props;
 		const { resetFields } = form;
-		navigate('/search/detail/lawsuits');
+		this.setState({
+			pageSize: 10,
+		});
+		navigate(generateUrlWithParams('/search/detail/land', {}));
 		resetFields('');
 		queryReset();
 	};
@@ -125,9 +110,6 @@ class QUERYLAWSUITS extends React.Component {
 							{...getFieldProps('province', { initialValue: urlObj.province })}
 						>
 							{
-								<Select.Option key="-1" value="-1">全国</Select.Option>
-							}
-							{
 								provinceList && provinceList.provinceList.map(city => <Select.Option key={city.id} value={city.name}>{city.name}</Select.Option>)
 							}
 						</Select>
@@ -159,34 +141,24 @@ class QUERYLAWSUITS extends React.Component {
 						/>
 					</div>
 					<div className="yc-query-item">
-						<span className="yc-query-item-lable">出让/转让/抵押日期: </span>
+						<span className="yc-query-item-lable">日期选择: </span>
 						<DatePicker
-							{...getFieldProps('signedTimeStart', {
-								initialValue: urlObj.signedTimeStart,
-								// onChange: (value, dateString) => {
-								// 	this.setState({
-								// 		startLarq: dateString,
-								// 	});
-								// },
+							{...getFieldProps('startTime', {
+								initialValue: urlObj.startTime,
 								...timeOption,
 							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endLarq'))}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
 							size="large"
 							style={_style2}
 							placeholder="开始日期"
 						/>
 						<span className="yc-query-item-lable">至</span>
 						<DatePicker
-							{...getFieldProps('signedTimeEnd', {
-								initialValue: urlObj.signedTimeEnd || undefined,
-								// onChange: (value, dateString) => {
-								// 	this.setState({
-								// 		endLarq: dateString,
-								// 	});
-								// },
+							{...getFieldProps('endTime', {
+								initialValue: urlObj.endTime || undefined,
 								...timeOption,
 							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startLarq'))}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
 							size="large"
 							style={_style2}
 							placeholder="结束日期"
@@ -204,4 +176,4 @@ class QUERYLAWSUITS extends React.Component {
 	}
 }
 
-export default createForm()(QUERYLAWSUITS);
+export default createForm()(QUERYLAND);
