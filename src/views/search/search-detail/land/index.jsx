@@ -78,6 +78,7 @@ class LAND extends React.Component {
 		const params = {
 			...value,
 		};
+		delete params.type;
 		landSellCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({

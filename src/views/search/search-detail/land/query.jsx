@@ -52,14 +52,14 @@ class QUERYLAND extends React.Component {
 			page: 1,
 			num: pageSize,
 		};
-
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(Fields)) {
 			getData(params, type); // 进入页面请求数据
-			getCount(params);
+			getCount(Fields);
 		} else {
 			this.queryReset();
 		}
+		// 实际上就是把查询的表单参数给父组件，改变父组件里面的state的值
 		getQueryData(params);
 	};
 
@@ -105,7 +105,7 @@ class QUERYLAND extends React.Component {
 						<span>土地省份：</span>
 						<Select
 							style={{ width: 120 }}
-							placeholder="请选择拍卖状态"
+							placeholder="请选择"
 							size="large"
 							{...getFieldProps('province', { initialValue: urlObj.province })}
 						>
@@ -120,7 +120,7 @@ class QUERYLAND extends React.Component {
 							style={_style1}
 							size="large"
 							maxLength="20"
-							placeholder="宗地坐落"
+							placeholder="土地具体坐落位置"
 							{...getFieldProps('landAddress', {
 								initialValue: urlObj.landAddress || undefined,
 								getValueFromEvent: e => e.trim(),

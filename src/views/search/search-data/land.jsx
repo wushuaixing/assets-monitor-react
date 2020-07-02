@@ -91,7 +91,7 @@ class LAND extends React.Component {
 						<span>土地省份：</span>
 						<Select
 							style={{ width: 120 }}
-							placeholder="请选择土地省份"
+							placeholder="请选择"
 							size="large"
 							{...getFieldProps('province')}
 						>
@@ -104,7 +104,7 @@ class LAND extends React.Component {
 						<Input
 							title="宗地坐落"
 							maxLength="20"
-							placeholder="破产案件受理法院"
+							placeholder="宗地坐落具体位置"
 							{...getFieldProps('landAddress', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
@@ -119,7 +119,7 @@ class LAND extends React.Component {
 						/>
 					</div>
 					<div className="item" style={{ 'margin-right': 0, width: 400 }}>
-						<span>出让/转让/抵押日期：</span>
+						<span>日期选择：</span>
 						<DatePicker
 							placeholder="开始日期"
 							size="large"
