@@ -276,8 +276,7 @@ class LAND extends React.Component {
 	// page翻页
 	handleChangePage = (val) => {
 		const {
-			Params, type, pageSize, sortColumn,
-			sortOrder,
+			Params, type, pageSize, sortColumn, sortOrder,
 		} = this.state;
 		const ParamsObj = {
 			...Params,

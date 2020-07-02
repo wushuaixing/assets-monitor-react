@@ -78,7 +78,7 @@ class QUERYLAND extends React.Component {
 	render() {
 		const {
 			form, urlObj,
-		} = this.props; // 会提示props is not defined
+		} = this.props;
 		const { getFieldProps, getFieldValue } = form;
 		const timeOption = {
 			normalize(n) {

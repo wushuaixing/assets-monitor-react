@@ -5,6 +5,7 @@ import { partyInfo } from '@/views/_common';
 import order from '@/assets/img/icon/icon_arrow.png';
 import { Result } from '@/views/asset-excavate/land-data/table/common';
 import { formatDateTime } from '@/utils/changeTime';
+import { toFormatArrayToString } from '@/utils';
 
 class LandView extends React.Component {
 	constructor(props) {
@@ -37,7 +38,7 @@ class LandView extends React.Component {
 				dataIndex: 'obligorName',
 				key: 'obligorName',
 				width: 241,
-				render: text => <span>{text || '-'}</span>,
+				render: text => <span>{toFormatArrayToString(text)}</span>,
 			}, {
 				title: '项目信息',
 				dataIndex: 'projectName',
