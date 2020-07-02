@@ -71,57 +71,13 @@ class LandView extends React.Component {
 				title: '土地信息',
 				dataIndex: 'landUse',
 				key: 'landUse',
-				render: (text, rowContent) => (
-					<React.Fragment>
-						<div className="assets-info-content  yc-space-nowrap">
-							<li>
-								<span className="list list-title align-justify">土地用途：</span>
-								<span className="list list-content text-ellipsis">
-									<Ellipsis content={rowContent.landUse || '-'} tooltip width={110} />
-								</span>
-							</li>
-							<li>
-								<span className="list list-title align-justify">面　　积：</span>
-								<span className="list list-content">
-									{rowContent.landArea ? `${rowContent.landArea}公顷` : '-' }
-								</span>
-							</li>
-							<li>
-								<span className="list list-title align-justify">使用年限：</span>
-								<span className="list list-content">
-									{rowContent.transferTerm || '-'}
-								</span>
-							</li>
-						</div>
-					</React.Fragment>
-				),
+				render: Result.InfoLand,
 			},
 			{
 				title: '出让信息',
 				dataIndex: 'supplyWay',
 				key: 'supplyWay',
-				render: (text, rowContent) => (
-					<React.Fragment>
-						<div className="assets-info-content">
-							<li>
-								<span className="list list-title align-justify">供地方式：</span>
-								<span className="list list-content text-ellipsis">{rowContent.supplyWay || '-'}</span>
-							</li>
-							<li>
-								<span className="list list-title align-justify">批准单位：</span>
-								<span className="list list-content">
-									<Ellipsis content={rowContent.approver || '-'} tooltip width={170} />
-								</span>
-							</li>
-							<li>
-								<span className="list list-title align-justify">成交价格：</span>
-								<span className="list list-content">
-									{rowContent.finalPrice ? `${rowContent.finalPrice} 万元` : '-'}
-								</span>
-							</li>
-						</div>
-					</React.Fragment>
-				),
+				render: Result.InfoTransfer,
 			},
 		];
 		const transferColumns = [
