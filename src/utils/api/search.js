@@ -76,25 +76,25 @@ export const trialRelationSearch = async (params) => {
 // 涉诉信息 => 立案信息导出 [zhousai]
 export const trialRelationSearchExport = '/yc/doc/search/trialSearchExport';
 
-// 土地数据 => 出让结果 -- 本页导出
+// 土地数据 => 出让结果 -- 本页导出 [youyu]
 export const landSellExport = '/yc/information/land/landTransfer/export';
 
-// 土地数据 => 出让结果 -- 导出全部
+// 土地数据 => 出让结果 -- 导出全部 [youyu]
 export const landSellExportAll = '/yc/information/land/landTransfer/exportAll';
 
-// 土地数据 => 土地转让 -- 本页导出
+// 土地数据 => 土地转让 -- 本页导出 [youyu]
 export const landTransferExport = '/yc/information/land/landTransaction/export';
 
-// 土地数据 => 土地转让 -- 导出全部
+// 土地数据 => 土地转让 -- 导出全部 [youyu]
 export const landTransferExportAll = '/yc/information/land/landTransaction/exportAll';
 
-// 土地数据 => 土地抵押 -- 本页导出
+// 土地数据 => 土地抵押 -- 本页导出 [youyu]
 export const landMortgageExport = '/yc/information/land/landMortgage/export';
 
-// 土地数据 => 土地抵押 -- 导出全部
+// 土地数据 => 土地抵押 -- 导出全部 [youyu]
 export const landMortgageExportAll = '/yc/information/land/landMortgage/exportAll';
 
-// 土地数据 => 出让结果数量
+// 土地数据 => 出让结果数量 [youyu]
 export const landSellCount = async (params) => {
 	const response = await service.get('/yc/information/land/landTransfer/searchCount',
 		{
@@ -109,7 +109,7 @@ export const landSellCount = async (params) => {
 	return response.data;
 };
 
-// 土地数据 => 出让转让数量
+// 土地数据 => 出让转让数量 [youyu]
 export const landTransferCount = async (params) => {
 	const response = await service.get('/yc/information/land/landTransaction/searchCount',
 		{
@@ -124,7 +124,7 @@ export const landTransferCount = async (params) => {
 	return response.data;
 };
 
-// 土地数据 => 土地抵押数量
+// 土地数据 => 土地抵押数量 [youyu]
 export const landMortgageCount = async (params) => {
 	const response = await service.get('/yc/information/land/landMortgage/searchCount',
 		{
@@ -139,7 +139,7 @@ export const landMortgageCount = async (params) => {
 	return response.data;
 };
 
-// 信息搜索 => 土地出让
+// 信息搜索 => 土地出让 [youyu]
 export const landSellSearch = async (params) => {
 	const response = await service.get('/yc/information/land/landTransfer/search',
 		{
@@ -154,7 +154,7 @@ export const landSellSearch = async (params) => {
 	return response.data;
 };
 
-// 信息搜索 => 土地转让
+// 信息搜索 => 土地转让 [youyu]
 export const landTransferSearch = async (params) => {
 	const response = await service.get('/yc/information/land/landTransaction/search',
 		{
@@ -169,7 +169,7 @@ export const landTransferSearch = async (params) => {
 	return response.data;
 };
 
-// 信息搜索 => 土地抵押
+// 信息搜索 => 土地抵押 [youyu]
 export const landMortgageSearch = async (params) => {
 	const response = await service.get('/yc/information/land/landMortgage/search',
 		{

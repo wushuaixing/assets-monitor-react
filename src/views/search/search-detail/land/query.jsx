@@ -5,7 +5,6 @@ import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
-import './style.scss';
 import provinceList from '@/utils/provinceList';
 
 const createForm = Form.create;
@@ -41,12 +40,11 @@ class QUERYLAND extends React.Component {
 	// 搜索
 	search = () => {
 		const {
-			form: { getFieldsValue }, type, getQueryData, getData,
+			form: { getFieldsValue }, type, getQueryData, getData, getCount,
 		} = this.props;
 		const Fields = getFieldsValue();
 		const { pageSize } = this.state;
 		Fields.type = type;
-		console.log('search Fields ===>>>', Fields);
 		navigate(generateUrlWithParams('/search/detail/land', Fields));
 
 		const params = {
@@ -54,9 +52,11 @@ class QUERYLAND extends React.Component {
 			page: 1,
 			num: pageSize,
 		};
+
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(Fields)) {
 			getData(params, type); // 进入页面请求数据
+			getCount(params);
 		} else {
 			this.queryReset();
 		}
@@ -70,7 +70,7 @@ class QUERYLAND extends React.Component {
 		this.setState({
 			pageSize: 10,
 		});
-		navigate(generateUrlWithParams('/search/detail/land', {}));
+		navigate(generateUrlWithParams('/search/detail/land', { }));
 		resetFields('');
 		queryReset();
 	};
@@ -141,7 +141,7 @@ class QUERYLAND extends React.Component {
 						/>
 					</div>
 					<div className="yc-query-item">
-						<span className="yc-query-item-lable">日期选择: </span>
+						<span className="yc-query-item-lable" style={{ fontSize: 14 }}>日期选择: </span>
 						<DatePicker
 							{...getFieldProps('startTime', {
 								initialValue: urlObj.startTime,
@@ -152,7 +152,7 @@ class QUERYLAND extends React.Component {
 							style={_style2}
 							placeholder="开始日期"
 						/>
-						<span className="yc-query-item-lable">至</span>
+						<span className="yc-query-item-lable" style={{ fontSize: 14 }}>至</span>
 						<DatePicker
 							{...getFieldProps('endTime', {
 								initialValue: urlObj.endTime || undefined,

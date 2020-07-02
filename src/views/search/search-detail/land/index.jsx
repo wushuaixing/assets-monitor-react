@@ -20,7 +20,6 @@ import { objectKeyIsEmpty, clearEmpty } from '@/utils';
 import { ScrollAnimation } from '@/utils/changeTime';
 import LandTable from './table';
 import Query from './query';
-import './style.scss';
 
 const createForm = Form.create;
 
@@ -43,7 +42,6 @@ class LAND extends React.Component {
 			pageSize: 10,
 			current: 1, // 当前页
 			page: 1,
-			field: '',
 			order: '',
 			type: 1,
 		};
@@ -57,8 +55,8 @@ class LAND extends React.Component {
 			name: urlObj.name || undefined,
 			province: urlObj.province || undefined,
 			landAddress: urlObj.landAddress || undefined,
-			startTime: urlObj.signedTimeStart || undefined,
-			endTime: urlObj.signedTimeEnd || undefined,
+			startTime: urlObj.startTime || undefined,
+			endTime: urlObj.endTime || undefined,
 			landUse: urlObj.landUse || undefined,
 			page: 1,
 			num: pageSize,
@@ -77,7 +75,6 @@ class LAND extends React.Component {
 
 	// 获取数量
 	getCount = (value) => {
-		console.log('getCount value === ', value);
 		const params = {
 			...value,
 		};
@@ -116,7 +113,6 @@ class LAND extends React.Component {
 			loading: true,
 		});
 		const type = Number(selectType);
-		console.log('getData ===>>>', params, selectType);
 		if (type === 1) {
 			landSellSearch(clearEmpty(params)).then((res) => {
 				// 获取当前高度，动态移动滚动条
@@ -197,15 +193,16 @@ class LAND extends React.Component {
 	// 导出
 	toExportCondition = (type) => {
 		const {
-			pageSize, current, field, order, Params,
+			pageSize, current, order, Params, sortColumn,
 		} = this.state;
 		const params = {
 			...Params,
 			page: type === 'current' ? current : undefined,
 			num: type === 'current' ? pageSize : 1000,
-			field: field || undefined,
-			order: order || undefined,
+			sortOrder: order || undefined,
+			sortColumn: sortColumn || undefined,
 		};
+		delete params.type;
 		return Object.assign({}, params);
 	};
 
@@ -228,14 +225,12 @@ class LAND extends React.Component {
 			page,
 			num: pageSize,
 		};
-		console.log('sort params ===', params);
 		// 判断是否为空对象,非空请求接口
 		if (dataList.length > 0) {
 			this.getData(params, type); // 进入页面请求数据
-			// this.getCount(params);
+			this.getCount(params);
 		}
 		this.setState({
-			field: 'LARQ',
 			Sort: _Sort,
 			order: _Sort,
 			sortColumn,
@@ -249,6 +244,9 @@ class LAND extends React.Component {
 			Sort: undefined,
 			sortColumn: undefined,
 			sortOrder: undefined,
+			sellCount: '',
+			transferCount: '',
+			mortgageCount: '',
 			urlObj: {},
 			dataList: [],
 			Params: {},

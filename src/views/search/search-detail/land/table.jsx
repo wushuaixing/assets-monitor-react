@@ -3,8 +3,8 @@ import { Form } from 'antd';
 import { Ellipsis, Table } from '@/common';
 import { partyInfo } from '@/views/_common';
 import order from '@/assets/img/icon/icon_arrow.png';
-import './style.scss';
 import { Result } from '@/views/asset-excavate/land-data/table/common';
+import { formatDateTime } from '@/utils/changeTime';
 
 class LandView extends React.Component {
 	constructor(props) {
@@ -190,7 +190,37 @@ class LandView extends React.Component {
 			}, {
 				title: '抵押信息',
 				dataIndex: 'caseReason',
-				render: Result.InfoMortgage,
+				render: (text, rowContent) => (
+					<React.Fragment>
+						<div className="assets-info-content yc-space-nowrap">
+							<li>
+								<span className="list list-title align-justify">抵押面积：</span>
+								<span className="list list-content">
+									{rowContent.mortgageArea || '-'}
+									公顷
+								</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify">抵押金额：</span>
+								<span className="list list-content">
+									{rowContent.mortgageAmount ? `${rowContent.mortgageAmount} 万元` : '-'}
+								</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify" style={{ width: 96 }}>土地他项权证号：</span>
+								<span className="list list-content">
+									<Ellipsis content={rowContent.otherObligeeCertificateNumber || '-'} tooltip width={100} />
+								</span>
+							</li>
+							<li>
+								<span className="list list-title align-justify" style={{ width: 96 }}>登记结束日期：</span>
+								<span className="list list-content">
+									{`${formatDateTime(rowContent.registrationEndTime, 'onlyYear')}` || '-'}
+								</span>
+							</li>
+						</div>
+					</React.Fragment>
+				),
 			},
 		];
 
