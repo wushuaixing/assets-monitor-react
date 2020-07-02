@@ -216,7 +216,7 @@ class LAND extends React.Component {
 		if (Sort === undefined) _Sort = 'DESC';
 		if (Sort === 'DESC') _Sort = 'ASC';
 		if (Sort === 'ASC') _Sort = undefined;
-		const sortColumn = _Sort === undefined ? undefined : ({ 1: 'singedTime', 2: 'dealingTime', 3: 'registrationStartTime' }[type] || 'singedTime');
+		const sortColumn = _Sort === undefined ? undefined : ({ 1: 'CONTRACT_SIGNED_TIME', 2: 'DEALING_TIME', 3: 'REGISTRATION_START_TIME' }[type] || 'CONTRACT_SIGNED_TIME');
 
 		const sortOrder = _Sort;
 		const params = {
