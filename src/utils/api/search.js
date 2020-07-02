@@ -184,6 +184,27 @@ export const landMortgageSearch = async (params) => {
 	return response.data;
 };
 
+// 股权质押 -- 本页导出 [youyu]
+export const equityPledgeExport = '/yc/information/pledge/export';
+
+// 股权质押 -- 导出全部 [youyu]
+export const equityPledgeExportAll = '/yc/information/pledge/exportAll';
+
+// 股权质押 => 全文搜索 [youyu]
+export const equityPledgeSearch = async (params) => {
+	const response = await service.get('/yc/information/pledge/search',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
 
 // 文书全文搜索
 export const judgement = async (params) => {

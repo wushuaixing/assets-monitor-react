@@ -1,0 +1,176 @@
+import React from 'react';
+import {
+	Button, Form, message, Select,
+} from 'antd';
+import { navigate } from '@reach/router';
+import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
+import { Input, timeRule, DatePicker } from '@/common';
+
+const createForm = Form.create;
+const _style1 = { width: 116 };
+class EQUITYPLEDGE extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			regDateStart: undefined,
+			regDateEnd: undefined,
+		};
+	}
+
+	componentDidMount() {
+		window._addEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	componentWillUnmount() {
+		window._removeEventListener(document, 'keyup', this.toKeyCode13);
+	}
+
+	toKeyCode13=(e) => {
+		const event = e || window.event;
+		const key = event.keyCode || event.which || event.charCode;
+		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
+			const { className } = document.activeElement.offsetParent;
+			if (/yc-input-wrapper/.test(className)) {
+				this.search();
+				document.activeElement.blur();
+			}
+		}
+	};
+
+	// 搜索
+	search = () => {
+		const { form } = this.props;
+		const { regDateStart, regDateEnd } = this.state;
+		const { getFieldsValue } = form;
+		const fildes = getFieldsValue();
+		fildes.regDateStart = regDateStart;
+		fildes.regDateEnd = regDateEnd;
+
+		// 判断是否为空对象,非空请求接口
+		if (!objectKeyIsEmpty(fildes)) {
+			navigate(generateUrlWithParams('/search/detail/equityPledge', fildes));
+		} else {
+			message.error('请至少输入一个搜索条件');
+		}
+	};
+
+	// 重置输入框
+	queryReset = () => {
+		const { form } = this.props;
+		const { resetFields } = form;
+		this.setState({
+			regDateStart: undefined,
+			regDateEnd: undefined,
+		});
+		resetFields('');
+	};
+
+	render() {
+		const { form } = this.props;
+		const { getFieldProps, getFieldValue } = form;
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
+		return (
+			<div className="yc-tabs-data">
+				<div className="yc-tabs-items">
+					<div className="item" style={{ marginRight: 16, width: 259 }}>
+						<Input
+							title="个人/企业"
+							placeholder="个人/企业名称"
+							maxLength="40"
+							{...getFieldProps('name', { getValueFromEvent: e => e.trim() })}
+						/>
+					</div>
+					<div className="other">
+						<span>质押角色：</span>
+						<Select
+							style={{ width: 120 }}
+							placeholder="请选择质押角色"
+							size="large"
+							{...getFieldProps('role')}
+						>
+							<Select.Option key="0" value="0">出质人</Select.Option>
+							<Select.Option key="1" value="1">质权人</Select.Option>
+						</Select>
+					</div>
+					<div className="item" style={{ width: 259 }}>
+						<Input
+							title="标的企业"
+							maxLength="20"
+							placeholder="股权标的企业"
+							{...getFieldProps('companyName', { getValueFromEvent: e => e.trim() })}
+						/>
+					</div>
+				</div>
+				<div className="yc-tabs-items">
+					<div className="item" style={{ 'margin-right': 0, width: 325 }}>
+						<span>登记日期：</span>
+						<DatePicker
+							placeholder="开始日期"
+							size="large"
+							style={_style1}
+							{...getFieldProps('regDateStart', {
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										regDateStart: dateString,
+									});
+								},
+								...timeOption,
+							})}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('regDateEnd'))}
+							allowClear
+						/>
+						<span style={{ margin: '0 2px ' }}>至</span>
+						<DatePicker
+							placeholder="结束日期"
+							size="large"
+							style={_style1}
+							{...getFieldProps('endTime', {
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										regDateEnd: dateString,
+									});
+								},
+								...timeOption,
+							})}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('regDateStart'))}
+							allowClear
+						/>
+					</div>
+					<div className="other">
+						<span>登记状态：</span>
+						<Select
+							style={{ width: 120 }}
+							placeholder="请选择登记状态"
+							size="large"
+							{...getFieldProps('state')}
+						>
+							<Select.Option key="0" value="0">有效</Select.Option>
+							<Select.Option key="1" value="1">无效</Select.Option>
+						</Select>
+					</div>
+				</div>
+				<div className="btn">
+					<Button
+						type="primary"
+						size="large"
+						className="yc-high-search"
+						onClick={this.search}
+					>
+						搜索
+					</Button>
+					<Button onClick={this.queryReset} type="ghost" size="large">
+						重置搜索条件
+					</Button>
+				</div>
+			</div>
+		);
+	}
+}
+export default createForm()(EQUITYPLEDGE);
+export const Name = 'EQUITYPLEDGE';

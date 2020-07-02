@@ -5,6 +5,7 @@ import Finance from './search-detail/finance';
 import Lawsuits from './search-detail/lawsuits';
 import Bankruptcy from './search-detail/bankruptcy';
 import Land from './search-detail/land';
+import EquityPledge from './search-detail/equityPledge';
 
 
 export default {
@@ -45,6 +46,15 @@ export default {
 				status: !!(rule && rule.xxsspccz),
 				search: Components.LAND,
 				components: Land,
+			},
+			{
+				id: 5,
+				name: '股权质押',
+				router: 'equityPledge',
+				url: '/search/detail/equityPledge',
+				status: !!(rule && rule.xxssgqzy),
+				search: Components.EQUITYPLEDGE,
+				components: EquityPledge,
 			},
 			{
 				id: 7,
