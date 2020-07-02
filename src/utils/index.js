@@ -613,3 +613,15 @@ export const toGetModuleHeight = (id = 0, number = 0, portrait = '') => {
 	}
 	return null;
 };
+
+/**
+ * 将一个字符串转换成数组，用逗号隔开，删除最后一个逗号
+ */
+export const toFormatArrayToString = (arr) => {
+	if (!Array.isArray(arr)) return '';
+	const str = arr.toString();
+	if (arr.length > 1) {
+		return str.substr(0, str.length - 1);
+	}
+	return str;
+};
