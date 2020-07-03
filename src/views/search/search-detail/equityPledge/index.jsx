@@ -16,8 +16,6 @@ import {
 } from '@/utils/api/search';
 import { ScrollAnimation } from '@/utils/changeTime';
 import EquityPledgeTable from './table';
-import './style.scss';
-import LandTable from '@/views/search/search-detail/land/table';
 
 const _style1 = { width: 278 };
 const _style2 = { width: 180 };
