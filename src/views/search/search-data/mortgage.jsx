@@ -5,18 +5,13 @@ import {
 import { navigate } from '@reach/router';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import { Input, timeRule, DatePicker } from '@/common';
-import provinceList from '@/utils/provinceList';
 
 const createForm = Form.create;
 const _style1 = { width: 116 };
-class LAND extends React.Component {
+class MORTGAGE extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			startTime: undefined,
-			endTime: undefined,
-			type: 1,
-		};
+		this.state = {};
 	}
 
 	componentDidMount() {
@@ -42,16 +37,11 @@ class LAND extends React.Component {
 	// 搜索
 	search = () => {
 		const { form } = this.props;
-		const { startTime, endTime, type } = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		fildes.startTime = startTime;
-		fildes.endTime = endTime;
-		fildes.type = type;
-
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
-			navigate(generateUrlWithParams('/search/detail/land', fildes));
+			navigate(generateUrlWithParams('/search/detail/mortgage', fildes));
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
@@ -61,10 +51,6 @@ class LAND extends React.Component {
 	queryReset = () => {
 		const { form } = this.props;
 		const { resetFields } = form;
-		this.setState({
-			startTime: undefined,
-			endTime: undefined,
-		});
 		resetFields('');
 	};
 
@@ -88,53 +74,43 @@ class LAND extends React.Component {
 						/>
 					</div>
 					<div className="other">
-						<span>土地省份：</span>
+						<span>抵押角色：</span>
 						<Select
 							allowClear
-							style={{ width: 140 }}
-							placeholder="请选择"
+							style={{ width: 120 }}
+							placeholder="请选择抵押角色"
 							size="large"
-							{...getFieldProps('province')}
+							{...getFieldProps('role')}
 						>
-							{
-								provinceList && provinceList.provinceList.map(city => <Select.Option key={city.id} value={city.name}>{city.name}</Select.Option>)
-							}
+							<Select.Option key="0" value="0">抵押物所有人</Select.Option>
+							<Select.Option key="1" value="1">抵押权人</Select.Option>
 						</Select>
 					</div>
-					<div className="item" style={{ width: 259 }}>
-						<Input
-							title="宗地坐落"
-							maxLength="20"
-							placeholder="宗地坐落具体位置"
-							{...getFieldProps('landAddress', { getValueFromEvent: e => e.trim() })}
-						/>
+					<div className="other">
+						<span>登记状态：</span>
+						<Select
+							allowClear
+							style={{ width: 120 }}
+							placeholder="请选择登记状态"
+							size="large"
+							{...getFieldProps('status')}
+						>
+							<Select.Option key="0" value="0">无效</Select.Option>
+							<Select.Option key="1" value="1">有效</Select.Option>
+						</Select>
 					</div>
 				</div>
 				<div className="yc-tabs-items">
-					<div className="item" style={{ 'margin-right': 16 }}>
-						<Input
-							title="土地用途"
-							placeholder="土地用途"
-							maxLength="20"
-							{...getFieldProps('landUse', { getValueFromEvent: e => e.trim() })}
-						/>
-					</div>
-					<div className="item" style={{ 'margin-right': 0, width: 400 }}>
-						<span>日期选择：</span>
+					<div className="item" style={{ 'margin-right': 0, width: 325 }}>
+						<span>登记日期：</span>
 						<DatePicker
 							placeholder="开始日期"
 							size="large"
 							style={_style1}
-							{...getFieldProps('startTime', {
-								onChange: (value, dateString) => {
-									console.log(value, dateString);
-									this.setState({
-										startTime: dateString,
-									});
-								},
+							{...getFieldProps('regDateStart', {
 								...timeOption,
 							})}
-							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('regDateEnd'))}
 							allowClear
 						/>
 						<span style={{ margin: '0 2px ' }}>至</span>
@@ -142,16 +118,10 @@ class LAND extends React.Component {
 							placeholder="结束日期"
 							size="large"
 							style={_style1}
-							{...getFieldProps('endTime', {
-								onChange: (value, dateString) => {
-									console.log(value, dateString);
-									this.setState({
-										endTime: dateString,
-									});
-								},
+							{...getFieldProps('regDateEnd', {
 								...timeOption,
 							})}
-							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('regDateStart'))}
 							allowClear
 						/>
 					</div>
@@ -173,5 +143,5 @@ class LAND extends React.Component {
 		);
 	}
 }
-export default createForm()(LAND);
-export const Name = 'LAND';
+export default createForm()(MORTGAGE);
+export const Name = 'MORTGAGE';

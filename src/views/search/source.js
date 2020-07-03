@@ -5,6 +5,9 @@ import Finance from './search-detail/finance';
 import Lawsuits from './search-detail/lawsuits';
 import Bankruptcy from './search-detail/bankruptcy';
 import Land from './search-detail/land';
+import EquityPledge from './search-detail/equityPledge';
+import Mortgage from './search-detail/mortgage';
+import Dishonesty from './search-detail/dishonesty';
 
 
 export default {
@@ -42,9 +45,27 @@ export default {
 				name: '土地数据',
 				router: 'land',
 				url: '/search/detail/land',
-				status: !!(rule && rule.xxsspccz),
+				status: !!(rule && rule.xxsstdsj),
 				search: Components.LAND,
 				components: Land,
+			},
+			{
+				id: 5,
+				name: '股权质押',
+				router: 'equityPledge',
+				url: '/search/detail/equityPledge',
+				status: !!(rule && rule.xxssgqzy),
+				search: Components.EQUITYPLEDGE,
+				components: EquityPledge,
+			},
+			{
+				id: 6,
+				name: '动产抵押',
+				router: 'mortgage',
+				url: '/search/detail/mortgage',
+				status: !!(rule && rule.xxssdcdy),
+				search: Components.MORTGAGE,
+				components: Mortgage,
 			},
 			{
 				id: 7,
@@ -64,6 +85,15 @@ export default {
 				status: !!(rule && rule.xxsspccz),
 				search: Components.BANKRUPTCY,
 				components: Bankruptcy,
+			},
+			{
+				id: 9,
+				name: '失信记录',
+				router: 'bankruptcy',
+				url: '/search/detail/dishonesty',
+				status: !!(rule && rule.xxsssxjl),
+				search: Components.DISHONESTY,
+				components: Dishonesty,
 			},
 
 		];

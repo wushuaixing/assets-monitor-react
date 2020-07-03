@@ -417,7 +417,6 @@ class LAND extends React.Component {
 				</div>
 				<Spin visible={loading}>
 					<LandTable
-						stateObj={this.state}
 						dataList={dataList}
 						SortTime={this.SortTime}
 						Sort={Sort}

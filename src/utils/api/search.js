@@ -184,6 +184,69 @@ export const landMortgageSearch = async (params) => {
 	return response.data;
 };
 
+// 股权质押 -- 本页导出 [youyu]
+export const equityPledgeExport = '/yc/information/pledge/export';
+
+// 股权质押 -- 导出全部 [youyu]
+export const equityPledgeExportAll = '/yc/information/pledge/exportAll';
+
+// 股权质押 => 全文搜索 [youyu]
+export const equityPledgeSearch = async (params) => {
+	const response = await service.get('/yc/information/pledge/search',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
+// 动产抵押 -- 本页导出 [youyu]
+export const mortgageExport = '/yc/information/mortgage/export';
+
+// 动产抵押 -- 导出全部 [youyu]
+export const mortgageExportAll = '/yc/information/mortgage/exportAll';
+
+// 动产抵押 => 全文搜索 [youyu]
+export const mortgageSearch = async (params) => {
+	const response = await service.get('/yc/information/mortgage/search',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
+// 失信记录 -- 本页导出 [huxin]
+export const dishonestyExport = '/yc/information/dishonest/export';
+
+// 动产抵押 -- 导出全部 [youyu]
+export const dishonestyExportAll = '/yc/information/dishonest/exportAll';
+
+// 动产抵押 => 全文搜索 [youyu]
+export const dishonestySearch = async (params) => {
+	const response = await service.get('/yc/information/dishonest/search',
+		{
+			params,
+			paramsSerializer: () => {
+				// 拼接对象到url
+				let NewParams = urlEncode(params);
+				NewParams = NewParams.substr(1); // 删除第一个字符
+				return NewParams;
+			},
+		});
+	return response.data;
+};
+
 
 // 文书全文搜索
 export const judgement = async (params) => {
