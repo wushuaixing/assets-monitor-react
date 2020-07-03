@@ -43,7 +43,7 @@ export default {
 				name: '土地数据',
 				router: 'land',
 				url: '/search/detail/land',
-				status: !!(rule && rule.xxsspccz),
+				status: !!(rule && rule.xxsstdsj),
 				search: Components.LAND,
 				components: Land,
 			},
