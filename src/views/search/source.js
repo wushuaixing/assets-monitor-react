@@ -6,6 +6,8 @@ import Lawsuits from './search-detail/lawsuits';
 import Bankruptcy from './search-detail/bankruptcy';
 import Land from './search-detail/land';
 import EquityPledge from './search-detail/equityPledge';
+import Mortgage from './search-detail/mortgage';
+import Dishonesty from './search-detail/dishonesty';
 
 
 export default {
@@ -57,6 +59,15 @@ export default {
 				components: EquityPledge,
 			},
 			{
+				id: 6,
+				name: '动产抵押',
+				router: 'mortgage',
+				url: '/search/detail/mortgage',
+				status: !!(rule && rule.xxssdcdy),
+				search: Components.MORTGAGE,
+				components: Mortgage,
+			},
+			{
 				id: 7,
 				type: 'content',
 				name: '金融资产',
@@ -74,6 +85,15 @@ export default {
 				status: !!(rule && rule.xxsspccz),
 				search: Components.BANKRUPTCY,
 				components: Bankruptcy,
+			},
+			{
+				id: 9,
+				name: '失信记录',
+				router: 'bankruptcy',
+				url: '/search/detail/dishonesty',
+				status: !!(rule && rule.xxsssxjl),
+				search: Components.DISHONESTY,
+				components: Dishonesty,
 			},
 
 		];

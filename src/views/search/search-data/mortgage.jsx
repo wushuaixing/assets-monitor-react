@@ -8,7 +8,7 @@ import { Input, timeRule, DatePicker } from '@/common';
 
 const createForm = Form.create;
 const _style1 = { width: 116 };
-class EQUITYPLEDGE extends React.Component {
+class MORTGAGE extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -41,7 +41,7 @@ class EQUITYPLEDGE extends React.Component {
 		const fildes = getFieldsValue();
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
-			navigate(generateUrlWithParams('/search/detail/equityPledge', fildes));
+			navigate(generateUrlWithParams('/search/detail/mortgage', fildes));
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
@@ -74,25 +74,30 @@ class EQUITYPLEDGE extends React.Component {
 						/>
 					</div>
 					<div className="other">
-						<span>质押角色：</span>
+						<span>抵押角色：</span>
 						<Select
 							allowClear
 							style={{ width: 120 }}
-							placeholder="请选择质押角色"
+							placeholder="请选择抵押角色"
 							size="large"
 							{...getFieldProps('role')}
 						>
-							<Select.Option key="0" value="0">出质人</Select.Option>
-							<Select.Option key="1" value="1">质权人</Select.Option>
+							<Select.Option key="0" value="0">抵押物所有人</Select.Option>
+							<Select.Option key="1" value="1">抵押权人</Select.Option>
 						</Select>
 					</div>
-					<div className="item" style={{ width: 259 }}>
-						<Input
-							title="标的企业"
-							maxLength="20"
-							placeholder="股权标的企业"
-							{...getFieldProps('companyName', { getValueFromEvent: e => e.trim() })}
-						/>
+					<div className="other">
+						<span>登记状态：</span>
+						<Select
+							allowClear
+							style={{ width: 120 }}
+							placeholder="请选择登记状态"
+							size="large"
+							{...getFieldProps('status')}
+						>
+							<Select.Option key="0" value="0">无效</Select.Option>
+							<Select.Option key="1" value="1">有效</Select.Option>
+						</Select>
 					</div>
 				</div>
 				<div className="yc-tabs-items">
@@ -138,5 +143,5 @@ class EQUITYPLEDGE extends React.Component {
 		);
 	}
 }
-export default createForm()(EQUITYPLEDGE);
-export const Name = 'EQUITYPLEDGE';
+export default createForm()(MORTGAGE);
+export const Name = 'MORTGAGE';
