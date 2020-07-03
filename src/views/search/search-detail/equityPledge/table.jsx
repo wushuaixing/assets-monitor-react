@@ -1,11 +1,7 @@
 import React from 'react';
 import { Form } from 'antd';
 import { Ellipsis, Table } from '@/common';
-import { partyInfo } from '@/views/_common';
 import order from '@/assets/img/icon/icon_arrow.png';
-import { Result } from '@/views/asset-excavate/land-data/table/common';
-import { formatDateTime } from '@/utils/changeTime';
-import { toFormatArrayToString } from '@/utils';
 
 class EquityPledgeView extends React.Component {
 	constructor(props) {
@@ -17,12 +13,12 @@ class EquityPledgeView extends React.Component {
 		const {
 			Sort, dataList, SortTime,
 		} = this.props;
+		// console.log('table props === ', this.props);
 		const columns = [
 			{
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
 						{ '签订日期' }
-						{/* {Sort === undefined && <span className="sort th-sort-default" />} */}
 						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
@@ -38,13 +34,17 @@ class EquityPledgeView extends React.Component {
 				dataIndex: 'pledgorList',
 				key: 'pledgorList',
 				width: 241,
-				render: text => <span>{text}</span>,
+				render: (text, row) => row.pledgorList && row.pledgorList.length > 0 && row.pledgorList.map(item => (
+					<Ellipsis content={item.pledgor || '-'} tooltip width={230} />
+				)),
 			}, {
 				title: '质权人',
 				dataIndex: 'pledgeeList',
 				key: 'pledgeeList',
 				width: 241,
-				render: text => <span>{text}</span>,
+				render: (text, row) => row.pledgeeList && row.pledgeeList.length > 0 && row.pledgeeList.map(item => (
+					<Ellipsis content={item.pledgee || '-'} tooltip width={230} />
+				)),
 			}, {
 				title: '项目信息',
 				dataIndex: 'projectName',
@@ -77,7 +77,7 @@ class EquityPledgeView extends React.Component {
 				title: '登记状态',
 				dataIndex: 'state',
 				key: 'state',
-				render: (text) => <span>{text === 1 || text === '1' ? '无效' : '有效'}</span>,
+				render: text => <span>{text === 1 || text === '1' ? '无效' : '有效'}</span>,
 			},
 		];
 

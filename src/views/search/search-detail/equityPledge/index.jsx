@@ -1,7 +1,4 @@
 import React from 'react';
-// ==================
-// 所需的所有组件
-// ==================
 import {
 	Form, Select, message, Pagination,
 } from 'antd';
@@ -9,22 +6,18 @@ import { navigate } from '@reach/router';
 import {
 	Spin, Input, Button, timeRule, Download, DatePicker,
 } from '@/common';
-import InputPrice from '@/common/input/input-price';
-import AuctionTable from './table';
 import {
 	parseQuery, generateUrlWithParams, objectKeyIsEmpty,
 } from '@/utils';
 import {
-	fullAssetSearch, // 列表
-	fullAssetSearchExport, // 导出
 	equityPledgeExport, // 本页导出
 	equityPledgeExportAll, // 导出全部
 	equityPledgeSearch, // 全文搜索
 } from '@/utils/api/search';
 import { ScrollAnimation } from '@/utils/changeTime';
-import defaultOrder from '@/assets/img/icon/icon_arrow.png';
 import EquityPledgeTable from './table';
 import './style.scss';
+import LandTable from '@/views/search/search-detail/land/table';
 
 const _style1 = { width: 278 };
 const _style2 = { width: 180 };
@@ -37,29 +30,23 @@ class EquityPledge extends React.Component {
 		this.state = {
 			dataList: [],
 			params: {},
-			inputSearch: {},
-			field: undefined,
-			order: undefined,
 			loading: false,
-			auctionSort: undefined,
-			currentSort: undefined,
-			assessmentSort: undefined,
-			startTime: undefined,
-			endTime: undefined,
 			totals: 0,
 			pageSize: 10,
 			current: 1, // 当前页
 			page: 1,
+			sortColumn: undefined,
+			sortOrder: undefined,
+			Sort: undefined,
 		};
 	}
 
 	componentDidMount() {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
+		console.log('params === ', params);
 		this.setState({
 			params,
-			regDateStart: params.regDateStart,
-			regDateEnd: params.regDateEnd,
 		});
 		// 判断是否为空对象,非空请求接口
 		if (Object.keys(params).length !== 0) {
@@ -87,34 +74,29 @@ class EquityPledge extends React.Component {
 	// 获取消息列表
 	getData = (value) => {
 		const {
-			current, pageSize, regDateStart, regDateEnd,
+			current, pageSize,
 		} = this.state;
-		const { form } = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { getFieldsValue } = form;
-
 		const Fields = getFieldsValue();
-
 		const params = {
 			num: pageSize,
 			page: current,
 			...Fields,
-			regDateStart,
-			regDateEnd,
 			...value,
 		};
 		this.setState({
 			loading: true,
 		});
+		console.log('request params ==== ', params);
 		equityPledgeSearch(params).then((res) => {
-			this.setState({ loading: false });
-
 			if (res && res.data) {
 				// 获取当前高度，动态移动滚动条
 				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
 				ScrollAnimation(currentY, 0);
 				this.setState({
 					dataList: res.data.list,
-					totals: res.data.total,
+					totals: res.data.totalCount,
 					current: res.data.page, // 翻页传选中页数，其他重置为1
 					loading: false,
 				});
@@ -127,36 +109,33 @@ class EquityPledge extends React.Component {
 		});
 	};
 
-	//  pagesize页面翻页可选
 	onShowSizeChange = (current, pageSize) => {
 		this.setState({
 			pageSize,
-			current: 1,
-			page: 1,
+			current,
+			page: current,
 		});
 
-		const { form } = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { getFieldsValue } = form;
-		const { regDateStart, regDateEnd } = this.state;
-		const Fields = getFieldsValue();
+		const fields = getFieldsValue();
 		const params = {
-			...Fields,
-			current: 1,
+			...fields,
+			current,
 			num: pageSize,
-			page: 1,
-			regDateStart,
-			regDateEnd,
+			page: current,
 		};
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(Fields)) {
+		if (!objectKeyIsEmpty(fields)) {
 			this.getData(params); // 进入页面请求数据
 		}
 	};
 
 	// page翻页
 	handleChangePage = (val) => {
+		console.log('handleChangePage val === ', val);
 		const {
-			pageSize, regDateStart, regDateEnd, field, order,
+			pageSize, sortColumn, sortOrder,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
@@ -165,63 +144,40 @@ class EquityPledge extends React.Component {
 			...Fields,
 			num: pageSize,
 			page: val,
-			field,
-			order,
-			regDateStart,
-			regDateEnd,
+			sortColumn,
+			sortOrder,
 		};
 		this.setState({
 			current: val,
 			page: val,
 			loading: true,
 		});
-		// 获取当前高度，动态移动滚动条
-		const currentY = document.documentElement.scrollTop || document.body.scrollTop;
-		ScrollAnimation(currentY, 0);
-		equityPledgeSearch(params).then((res) => {
-			if (res && res.data) {
-				this.setState({
-					dataList: res.data.list,
-					totals: res.data.total,
-					loading: false,
-				});
-			} else {
-				message.error(res.message);
-				this.setState({ loading: false });
-			}
-		}).catch(() => {
-			this.setState({ loading: false });
-		});
+		console.log('handleChangePage params === ', params);
+		this.getData(params);
 	};
 
 	// 搜索
 	search = () => {
 		const { form: { getFieldsValue } } = this.props;
-		const { regDateStart, regDateEnd } = this.state;
-		const Fields = getFieldsValue();
-		Fields.regDateStart = regDateStart;
-		Fields.regDateEnd = regDateEnd;
+		const fields = getFieldsValue();
 		const { pageSize } = this.state;
-		navigate(generateUrlWithParams('/search/detail/auction', Fields));
+		navigate(generateUrlWithParams('/search/detail/equityPledge', fields));
 		this.setState({
 			page: 1,
 			current: 1,
-			inputSearch: Fields,
-			auctionSort: undefined,
-			currentSort: undefined,
-			assessmentSort: undefined,
-			field: undefined,
-			order: undefined,
+			params: fields,
+			sortOrder: undefined,
+			Sort: undefined,
 		});
 		const params = {
-			...Fields,
+			...fields,
 			page: 1,
 			num: pageSize,
 		};
 
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(Fields)) {
-			this.getData(params); // 进入页面请求数据
+		if (!objectKeyIsEmpty(fields)) {
+			this.getData(params);
 		} else {
 			this.queryReset();
 			// message.error('请至少输入一个搜索条件');
@@ -230,130 +186,72 @@ class EquityPledge extends React.Component {
 
 	// 重置输入框
 	queryReset = () => {
-		const { form } = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { resetFields } = form;
-		navigate('/search/detail/auction');
+		navigate('/search/detail/equityPledge');
 		this.setState({
 			params: {},
 			dataList: [],
 			totals: 0,
 			pageSize: 10,
 			page: 1,
-			auctionSort: undefined,
-			currentSort: undefined,
-			assessmentSort: undefined,
-			field: undefined,
-			order: undefined,
-			regDateStart: undefined,
-			regDateEnd: undefined,
-			inputSearch: {},
+			sortOrder: undefined,
+			Sort: undefined,
 		});
 		resetFields('');
 	};
 
-
 	// 导出
 	toExportCondition=(type) => {
 		const {
-			pageSize, current, field, order, regDateStart, regDateEnd,
+			pageSize, current, sortOrder, sortColumn,
 		} = this.state;
-		const { form } = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		const params = {
 			...fields,
 			page: type === 'current' ? current : undefined,
 			num: type === 'current' ? pageSize : 1000,
-			field,
-			order,
-			regDateStart,
-			regDateEnd,
+			sortOrder,
+			sortColumn,
 		};
-
 		return Object.assign({}, params);
 	};
 
-	// 默认排序
-	defaultSort = () => {
-		const { inputSearch, dataList } = this.state;
-		const params = {
-			...inputSearch,
-		};
-		if (dataList.length > 0) {
-			this.getData(params); // 进入页面请求数据
-		}
-		this.setState({
-			auctionSort: undefined,
-			currentSort: undefined,
-			assessmentSort: undefined,
-			field: undefined,
-			order: undefined,
-		});
-	};
-
 	// 时间排序
-	auctionSort = () => {
-		const { inputSearch, auctionSort, dataList } = this.state;
-		const params = {
-			field: 'START',
-			order: auctionSort === 'DESC' ? 'ASC' : 'DESC',
-			...inputSearch,
+	SortTime = () => {
+		const {
+			params, Sort, dataList, pageSize, page,
+		} = this.state;
+		let _Sort;
+		if (Sort === undefined) _Sort = 'DESC';
+		if (Sort === 'DESC') _Sort = 'ASC';
+		if (Sort === 'ASC') _Sort = undefined;
+		const sortColumn = _Sort === undefined ? undefined : 'REG_DATE';
+		const sortOrder = _Sort;
+		const Params = {
+			sortColumn,
+			sortOrder,
+			...params,
+			page,
+			num: pageSize,
 		};
+		// 判断是否为空对象,非空请求接口
+		console.log('sort Params === ', Params);
 		if (dataList.length > 0) {
-			this.getData(params); // 进入页面请求数据
+			this.getData(Params);
 		}
 		this.setState({
-			auctionSort: auctionSort === 'DESC' ? 'ASC' : 'DESC',
-			field: 'START',
-			order: auctionSort === 'DESC' ? 'ASC' : 'DESC',
-			currentSort: undefined,
-			assessmentSort: undefined,
-		});
-	};
-
-	// 当前价格排序
-	currentSort = () => {
-		const { inputSearch, currentSort, dataList } = this.state;
-		const params = {
-			field: 'CURRENT_PRICE',
-			order: currentSort === 'DESC' ? 'ASC' : 'DESC',
-			...inputSearch,
-		};
-		if (dataList.length > 0) {
-			this.getData(params); // 进入页面请求数据
-		}
-		this.setState({
-			currentSort: currentSort === 'DESC' ? 'ASC' : 'DESC',
-			field: 'CURRENT_PRICE',
-			order: currentSort === 'DESC' ? 'ASC' : 'DESC',
-			auctionSort: undefined,
-			assessmentSort: undefined,
-		});
-	};
-
-	// 评估价格排序
-	assessmentSort = () => {
-		const { inputSearch, assessmentSort, dataList } = this.state;
-		const params = {
-			field: 'CONSULT_PRICE',
-			order: assessmentSort === 'DESC' ? 'ASC' : 'DESC',
-			...inputSearch,
-		};
-		if (dataList.length > 0) {
-			this.getData(params); // 进入页面请求数据
-		}
-		this.setState({
-			assessmentSort: assessmentSort === 'DESC' ? 'ASC' : 'DESC',
-			field: 'CONSULT_PRICE',
-			order: assessmentSort === 'DESC' ? 'ASC' : 'DESC',
-			auctionSort: undefined,
-			currentSort: undefined,
+			Sort: _Sort,
+			sortOrder: _Sort,
+			sortColumn,
 		});
 	};
 
 	render() {
 		const {
-			loading, dataList, params, totals, current, page, pageSize, auctionSort, currentSort, assessmentSort, inputSearch,
+			loading, dataList, params, totals, current, page, pageSize, Sort,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -425,13 +323,7 @@ class EquityPledge extends React.Component {
 						<span className="yc-query-item-lable">登记日期: </span>
 						<DatePicker
 							{...getFieldProps('regDateStart', {
-								initialValue: params.startTime,
-								onChange: (value, dateString) => {
-									console.log(value, dateString);
-									this.setState({
-										regDateStart: dateString,
-									});
-								},
+								initialValue: params.regDateStart,
 								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('regDateEnd'))}
@@ -442,13 +334,7 @@ class EquityPledge extends React.Component {
 						<span className="yc-query-item-lable">至</span>
 						<DatePicker
 							{...getFieldProps('regDateEnd', {
-								initialValue: params.endTime,
-								onChange: (value, dateString) => {
-									console.log(value, dateString);
-									this.setState({
-										regDateEnd: dateString,
-									});
-								},
+								initialValue: params.regDateEnd,
 								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('regDateStart'))}
@@ -493,10 +379,10 @@ class EquityPledge extends React.Component {
 				</div>
 				<Spin visible={loading}>
 					<EquityPledgeTable
-						stateObj={this.state}
 						dataList={dataList}
 						getData={this.getData}
-						openPeopleModal={this.openPeopleModal}
+						SortTime={this.SortTime}
+						Sort={Sort}
 					/>
 					{dataList && dataList.length > 0 && (
 					<div className="yc-table-pagination">

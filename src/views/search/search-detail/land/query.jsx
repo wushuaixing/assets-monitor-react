@@ -104,6 +104,7 @@ class QUERYLAND extends React.Component {
 					<div className="yc-query-item">
 						<span>土地省份：</span>
 						<Select
+							allowClear
 							style={{ width: 120 }}
 							placeholder="请选择"
 							size="large"

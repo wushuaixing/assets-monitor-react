@@ -87,6 +87,7 @@ class EQUITYPLEDGE extends React.Component {
 					<div className="other">
 						<span>质押角色：</span>
 						<Select
+							allowClear
 							style={{ width: 120 }}
 							placeholder="请选择质押角色"
 							size="large"
@@ -129,7 +130,7 @@ class EQUITYPLEDGE extends React.Component {
 							placeholder="结束日期"
 							size="large"
 							style={_style1}
-							{...getFieldProps('endTime', {
+							{...getFieldProps('regDateEnd', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
 									this.setState({
@@ -145,6 +146,7 @@ class EQUITYPLEDGE extends React.Component {
 					<div className="other">
 						<span>登记状态：</span>
 						<Select
+							allowClear
 							style={{ width: 120 }}
 							placeholder="请选择登记状态"
 							size="large"
