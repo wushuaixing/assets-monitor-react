@@ -39,12 +39,17 @@ class DISHONESTY extends React.Component {
 		const { form } = this.props;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
+		console.log('fields === ', fildes);
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
-			if (/^[\u4E00-\u9FA5]{2,}/.test(fildes.obligorName)) {
-				navigate(generateUrlWithParams('/search/detail/dishonesty', fildes));
+			if (fildes.obligorName) {
+				if (/^[\u4E00-\u9FA5]{2,}/.test(fildes.obligorName)) {
+					navigate(generateUrlWithParams('/search/detail/dishonesty', fildes));
+				} else {
+					message.error('被执行人至少输入两个汉字');
+				}
 			} else {
-				message.error('被执行人至少输入两个汉字');
+				navigate(generateUrlWithParams('/search/detail/dishonesty', fildes));
 			}
 		} else {
 			message.error('请至少输入一个搜索条件');

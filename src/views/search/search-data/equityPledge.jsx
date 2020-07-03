@@ -108,7 +108,7 @@ class EQUITYPLEDGE extends React.Component {
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('regDateEnd'))}
 							allowClear
 						/>
-						<span style={{ margin: '0 2px ' }}>至</span>
+						<span style={{ margin: '0 6px ' }}>至</span>
 						<DatePicker
 							placeholder="结束日期"
 							size="large"
@@ -119,6 +119,19 @@ class EQUITYPLEDGE extends React.Component {
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('regDateStart'))}
 							allowClear
 						/>
+					</div>
+					<div className="other">
+						<span>登记状态：</span>
+						<Select
+							allowClear
+							style={{ width: 120 }}
+							placeholder="请选择登记状态"
+							size="large"
+							{...getFieldProps('status')}
+						>
+							<Select.Option key="0" value="0">无效</Select.Option>
+							<Select.Option key="1" value="1">有效</Select.Option>
+						</Select>
 					</div>
 				</div>
 				<div className="btn">

@@ -113,7 +113,7 @@ class MORTGAGE extends React.Component {
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('regDateEnd'))}
 							allowClear
 						/>
-						<span style={{ margin: '0 2px ' }}>至</span>
+						<span style={{ margin: '0 6px ' }}>至</span>
 						<DatePicker
 							placeholder="结束日期"
 							size="large"
