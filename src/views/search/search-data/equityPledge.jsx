@@ -127,10 +127,10 @@ class EQUITYPLEDGE extends React.Component {
 							style={{ width: 120 }}
 							placeholder="请选择登记状态"
 							size="large"
-							{...getFieldProps('status')}
+							{...getFieldProps('state')}
 						>
-							<Select.Option key="0" value="0">无效</Select.Option>
-							<Select.Option key="1" value="1">有效</Select.Option>
+							<Select.Option key="0" value="0">有效</Select.Option>
+							<Select.Option key="1" value="1">无效</Select.Option>
 						</Select>
 					</div>
 				</div>
