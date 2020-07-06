@@ -18,7 +18,7 @@ class EquityPledgeView extends React.Component {
 			{
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						{ '签订日期' }
+						{ '登记日期' }
 						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
@@ -46,7 +46,7 @@ class EquityPledgeView extends React.Component {
 					<Ellipsis content={item.pledgee || '-'} tooltip width={230} />
 				)),
 			}, {
-				title: '项目信息',
+				title: '出质详情',
 				dataIndex: 'projectName',
 				key: 'projectName',
 				render: (text, rowContent) => (
