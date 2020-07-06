@@ -49,7 +49,7 @@ class DISHONESTY extends React.Component {
 					message.error('被执行人至少输入两个汉字');
 				}
 			} else {
-				navigate(generateUrlWithParams('/search/detail/dishonesty', fildes));
+				message.error('被执行人至少输入两个汉字');
 			}
 		} else {
 			message.error('请至少输入一个搜索条件');
