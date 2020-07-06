@@ -158,20 +158,6 @@ export default {
 			return false;
 		};
 
-		const toRule = (children, rules) => {
-			if (typeof rules === 'string') {
-				return Object.keys(children).includes(rules) && children[rules].rule === rules;
-			}
-			if (Array.isArray(rules)) {
-				let r = false;
-				rules.forEach((item) => {
-					r = r || children[item];
-				});
-				return Boolean(r);
-			}
-			return false;
-		};
-
 		const _RES = [];
 		const base = [
 			{
@@ -318,14 +304,12 @@ export default {
 								reg: /\/monitor[^/]/,
 								param: '?process=-1',
 								status: toStatus(rule.menu_zcwj, 'zcwjzcpm'),
-								rule: toRule(rule.menu_zcwj.children, 'zcwjzcpm'),
 							},
 							{
 								id: 'YC0202',
 								name: '代位权',
 								url: '/monitor/subrogation',
 								status: toStatus(rule.menu_zcwj, 'zcwjdwq'),
-								rule: toRule(rule.menu_zcwj.children, 'zcwjdwq'),
 								child: [
 									{ id: 'YC020201', name: '立案信息', status: true },
 									{ id: 'YC020202', name: '开庭公告', status: true },
@@ -337,7 +321,6 @@ export default {
 								name: '土地数据',
 								url: '/monitor/land',
 								status: toStatus(rule.menu_zcwj, 'zcwjtdsj'),
-								rule: toRule(rule.menu_zcwj.children, 'zcwjtdsj'),
 								child: [
 									{ id: 'YC020301', name: '出让结果', status: true },
 									{ id: 'YC020302', name: '土地转让', status: true },
@@ -349,14 +332,12 @@ export default {
 								name: '招标中标',
 								url: '/monitor/tender',
 								status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
-								rule: toRule(rule.menu_zcwj.children, 'zcwjzbzb'),
 							},
 							{
 								id: 'YC0205',
 								name: '金融资产',
 								url: '/monitor/financial',
 								status: toStatus(rule.menu_zcwj, 'zcwjjrzj'),
-								rule: toRule(rule.menu_zcwj.children, 'zcwjjrzj'),
 								child: [
 									// { id: 'YC020503', name: '股权质押', status: true },
 									{ id: 'YC020501', name: '竞价项目', status: true },
@@ -368,14 +349,12 @@ export default {
 								name: '动产抵押',
 								url: '/monitor/mortgage',
 								status: toStatus(rule.menu_zcwj, 'zcwjdcdy'),
-								rule: toRule(rule.menu_zcwj.children, 'zcwjdcdy'),
 							},
 							{
 								id: 'YC0207',
 								name: '无形资产',
 								url: '/monitor/intangible',
 								status: toStatus(rule.menu_zcwj, 'zcwjwxzc'),
-								rule: toRule(rule.menu_zcwj.children, 'zcwjwxzc'),
 								child: [
 									{ id: 'YC020701', name: '排污权', status: true },
 									{ id: 'YC020702', name: '矿业权', status: true },
@@ -388,7 +367,6 @@ export default {
 								name: '股权质押',
 								url: '/monitor/pledge',
 								status: toStatus(rule.menu_zcwj, 'zcwjgqzy'),
-								rule: toRule(rule.menu_zcwj.children, 'zcwjgqzy'),
 							},
 						],
 					},
@@ -405,7 +383,6 @@ export default {
 								url: '/risk',
 								reg: /#\/risk(?!\/)/,
 								status: toStatus(rule.menu_fxjk, 'fxjkssjk'),
-								rule: toRule(rule.menu_fxjk.children, 'fxjkssjk'),
 								backup: ['/risk'],
 								child: [
 									{ id: 'YC030101', name: '立案信息', status: true },
@@ -418,21 +395,18 @@ export default {
 								name: '企业破产重组',
 								url: '/risk/bankruptcy',
 								status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
-								rule: toRule(rule.menu_fxjk.children, 'fxjkqypccz'),
 							},
 							{
 								id: 'YC0304',
 								name: '失信记录',
 								url: '/risk/broken',
 								status: toStatus(rule.menu_fxjk, 'jkxxsxjl'),
-								rule: toRule(rule.menu_fxjk.children, 'jkxxsxjl'),
 							},
 							{
 								id: 'YC0303',
 								name: '经营风险',
 								url: '/risk/operation',
 								status: toStatus(rule.menu_fxjk, ['jyfxyzwf', 'jyfxsswf', 'jyfxjyyc', 'jyfxhbcf', 'jyfxxzcf', 'jyfxgsbg']),
-								rule: toRule(rule.menu_fxjk.children, ['jyfxyzwf', 'jyfxsswf', 'jyfxjyyc', 'jyfxhbcf', 'jyfxxzcf', 'jyfxgsbg']),
 								child: [
 									{ id: 'YC030301', name: '经营异常', status: toStatus(rule.menu_fxjk, 'jyfxjyyc') },
 									{ id: 'YC030302', name: '工商变更', status: toStatus(rule.menu_fxjk, 'jyfxgsbg') },
@@ -542,11 +516,11 @@ export default {
 					_item.newUrl = `${_item.children[0].url}${_item.children[0].param || ''}`;
 					// console.log(_item.newUrl, _item.url);
 				}
-				// 信息监控校验rule是否为true
+				// 当为信息监控的时候加入三级权限的校验
 				if (item.id === 'YC10') {
-					_item.children.forEach((it) => {
+					_item.children.forEach((it, index) => {
 						if (Array.isArray(it.child) && it.child.length > 0) {
-							it.child = it.child.filter(i => i.rule);
+							_item.children[index].child = it.child.filter(i => i.status);
 						}
 					});
 				}
