@@ -56,7 +56,7 @@ const Item = (props) => {
 									<div className="header-itemChild_wrapper">
 										<div className="header-itemChild_content">
 											{
-												item.child.map(i => (
+												item.child.map(i => i.status && (
 													<li
 														className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
 														key={i.id}

@@ -516,14 +516,6 @@ export default {
 					_item.newUrl = `${_item.children[0].url}${_item.children[0].param || ''}`;
 					// console.log(_item.newUrl, _item.url);
 				}
-				// 当为信息监控的时候加入三级权限的校验
-				if (item.id === 'YC10') {
-					_item.children.forEach((it, index) => {
-						if (Array.isArray(it.child) && it.child.length > 0) {
-							_item.children[index].child = it.child.filter(i => i.status);
-						}
-					});
-				}
 				_RES.push(_item);
 			}
 		});
