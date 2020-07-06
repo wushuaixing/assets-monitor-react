@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Form, message, Pagination,
+	Form, message, Pagination, Modal,
 } from 'antd';
 import { navigate } from '@reach/router';
 import {
@@ -68,6 +68,14 @@ class Dishonesty extends React.Component {
 		}
 	};
 
+	warning = () => {
+		Modal.warning({
+			title: '提示',
+			content: '中国执行信息公开网暂时无法使用，请稍候再试',
+		});
+	};
+
+
 	// 获取消息列表
 	getData = (value) => {
 		const {
@@ -87,7 +95,7 @@ class Dishonesty extends React.Component {
 		});
 		console.log('request params ==== ', params);
 		dishonestySearch(params).then((res) => {
-			if (res && res.data) {
+			if (res.code === 200 && res.data) {
 				// 获取当前高度，动态移动滚动条
 				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
 				ScrollAnimation(currentY, 0);
@@ -97,6 +105,9 @@ class Dishonesty extends React.Component {
 					current: res.data.page, // 翻页传选中页数，其他重置为1
 					loading: false,
 				});
+			} else if (res.code === 9001) {
+				this.warning();
+				this.setState({ loading: false });
 			} else {
 				message.error(res.message);
 				this.setState({ loading: false });
