@@ -182,13 +182,20 @@ class Dishonesty extends React.Component {
 			page: 1,
 			num: pageSize,
 		};
-
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fields)) {
-			this.getData(params);
+			// obligorName 是必填项
+			if (fields.obligorName) {
+				if (/^[\u4E00-\u9FA5]{2,}/.test(fields.obligorName)) {
+					this.getData(params);
+				} else {
+					message.error('被执行人至少输入两个汉字');
+				}
+			} else {
+				message.error('被执行人至少输入两个汉字');
+			}
 		} else {
 			this.queryReset();
-			// message.error('请至少输入一个搜索条件');
 		}
 	};
 
@@ -196,7 +203,7 @@ class Dishonesty extends React.Component {
 	queryReset = () => {
 		const { form } = this.props;
 		const { resetFields } = form;
-		navigate('/search/detail/equityPledge');
+		navigate('/search/detail/dishonesty');
 		this.setState({
 			params: {},
 			dataList: [],
@@ -287,7 +294,7 @@ class Dishonesty extends React.Component {
 						placeholder="身份证号码/组织机构代码"
 						{...getFieldProps('obligorNumber', {
 							initialValue: params.obligorNumber,
-							getValueFromEvent: e => e.trim(),
+							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, ''),
 						})}
 					/>
 				</div>

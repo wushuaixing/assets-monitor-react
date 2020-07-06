@@ -38,13 +38,12 @@ class DISHONESTY extends React.Component {
 	search = () => {
 		const { form } = this.props;
 		const { getFieldsValue } = form;
-		const fildes = getFieldsValue();
-		console.log('fields === ', fildes);
+		const fields = getFieldsValue();
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fildes)) {
-			if (fildes.obligorName) {
-				if (/^[\u4E00-\u9FA5]{2,}/.test(fildes.obligorName)) {
-					navigate(generateUrlWithParams('/search/detail/dishonesty', fildes));
+		if (!objectKeyIsEmpty(fields)) {
+			if (fields.obligorName) {
+				if (/^[\u4E00-\u9FA5]{2,}/.test(fields.obligorName)) {
+					navigate(generateUrlWithParams('/search/detail/dishonesty', fields));
 				} else {
 					message.error('被执行人至少输入两个汉字');
 				}
