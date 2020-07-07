@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
 import { Ellipsis, Table } from '@/common';
-import order from '@/assets/img/icon/icon_arrow.png';
 
 class DishonestyView extends React.Component {
 	constructor(props) {
@@ -10,19 +9,10 @@ class DishonestyView extends React.Component {
 	}
 
 	render() {
-		const {
-			Sort, dataList, SortTime,
-		} = this.props;
-		// console.log('table props === ', this.props);
+		const { dataList } = this.props;
 		const columns = [
 			{
-				title: (
-					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						{ '发布日期' }
-						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
-						{Sort === 'DESC' && <span className="sort th-sort-down" />}
-						{Sort === 'ASC' && <span className="sort th-sort-up" />}
-					</div>),
+				title: '发布日期',
 				dataIndex: 'publishDate',
 				key: 'publishDate',
 				width: 122,
