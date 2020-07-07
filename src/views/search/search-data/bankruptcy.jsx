@@ -80,8 +80,8 @@ class BANKRUPTCY extends React.Component {
 				<div className="yc-tabs-items">
 					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
-							title="企业"
-							placeholder="企业名称"
+							title="全文"
+							placeholder="企业名称、关键字"
 							maxLength="40"
 							{...getFieldProps('brcompanyname', { getValueFromEvent: e => e.trim() })}
 						/>
@@ -104,7 +104,7 @@ class BANKRUPTCY extends React.Component {
 					</div>
 				</div>
 				<div className="other">
-					<span>日期选择：</span>
+					<span>发布日期：</span>
 					<DatePicker
 						placeholder="开始日期"
 						size="large"
