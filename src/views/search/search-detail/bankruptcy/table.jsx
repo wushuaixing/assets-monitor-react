@@ -10,7 +10,7 @@ import { linkDom } from '@/utils';
 const columns = (props, openRegisterModalFunc) => {
 	const { Sort, SortTime } = props;
 	// 含操作等...
-	const defColumns = [
+	return [
 		{
 			title: (
 				<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
@@ -31,7 +31,7 @@ const columns = (props, openRegisterModalFunc) => {
 			},
 		},
 		{
-			title: '相关企业',
+			title: '破产重组企业',
 			dataIndex: 'brcompanyname',
 			key: 'brcompanyname',
 			width: 250,
@@ -79,7 +79,6 @@ const columns = (props, openRegisterModalFunc) => {
 			},
 		},
 	];
-	return defColumns;
 };
 
 class BusinessView extends React.Component {

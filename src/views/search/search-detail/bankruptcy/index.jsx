@@ -286,13 +286,13 @@ class BANKRUPTCY extends React.Component {
 				<div className="yc-content-header">
 					<div className="yc-query-item">
 						<Input
-							title="企业"
+							title="全文"
 							style={_style1}
 							size="large"
 							maxLength="40"
-							placeholder="企业债务人名称"
+							placeholder="企业名称、关键字"
 							{...getFieldProps('brcompanyname', {
-								initialValue: params.brcompanyname,
+								initialValue: params.brcompanynam,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
