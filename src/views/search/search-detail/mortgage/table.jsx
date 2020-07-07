@@ -97,8 +97,8 @@ class MortgageView extends React.Component {
 			},
 			{
 				title: '登记状态',
-				dataIndex: 'state',
-				key: 'state',
+				dataIndex: 'status',
+				key: 'status',
 				render: text => <span>{text === 1 || text === '1' ? '有效' : '无效'}</span>,
 			},
 		];
