@@ -32,9 +32,6 @@ class Dishonesty extends React.Component {
 			pageSize: 10,
 			current: 1, // 当前页
 			page: 1,
-			sortColumn: undefined,
-			sortOrder: undefined,
-			Sort: undefined,
 		};
 	}
 
@@ -142,9 +139,7 @@ class Dishonesty extends React.Component {
 	// page翻页
 	handleChangePage = (val) => {
 		console.log('handleChangePage val === ', val);
-		const {
-			pageSize, sortColumn, sortOrder,
-		} = this.state;
+		const { pageSize } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const Fields = getFieldsValue();
@@ -152,15 +147,12 @@ class Dishonesty extends React.Component {
 			...Fields,
 			num: pageSize,
 			page: val,
-			sortColumn,
-			sortOrder,
 		};
 		this.setState({
 			current: val,
 			page: val,
 			loading: true,
 		});
-		console.log('handleChangePage params === ', params);
 		this.getData(params);
 	};
 
@@ -174,21 +166,26 @@ class Dishonesty extends React.Component {
 			page: 1,
 			current: 1,
 			params: fields,
-			sortOrder: undefined,
-			Sort: undefined,
 		});
 		const params = {
 			...fields,
 			page: 1,
 			num: pageSize,
 		};
-
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fields)) {
-			this.getData(params);
+			// obligorName 是必填项
+			if (fields.obligorName) {
+				if (/^[\u4E00-\u9FA5]{2,}/.test(fields.obligorName)) {
+					this.getData(params);
+				} else {
+					message.error('被执行人至少输入两个汉字');
+				}
+			} else {
+				message.error('被执行人至少输入两个汉字');
+			}
 		} else {
 			this.queryReset();
-			// message.error('请至少输入一个搜索条件');
 		}
 	};
 
@@ -196,15 +193,13 @@ class Dishonesty extends React.Component {
 	queryReset = () => {
 		const { form } = this.props;
 		const { resetFields } = form;
-		navigate('/search/detail/equityPledge');
+		navigate('/search/detail/dishonesty');
 		this.setState({
 			params: {},
 			dataList: [],
 			totals: 0,
 			pageSize: 10,
 			page: 1,
-			sortOrder: undefined,
-			Sort: undefined,
 		});
 		resetFields('');
 	};
@@ -212,7 +207,7 @@ class Dishonesty extends React.Component {
 	// 导出
 	toExportCondition=(type) => {
 		const {
-			pageSize, current, sortOrder, sortColumn,
+			pageSize, current,
 		} = this.state;
 		const { form } = this.props;
 		const { getFieldsValue } = form;
@@ -221,45 +216,13 @@ class Dishonesty extends React.Component {
 			...fields,
 			page: type === 'current' ? current : undefined,
 			num: type === 'current' ? pageSize : 1000,
-			sortOrder,
-			sortColumn,
 		};
 		return Object.assign({}, params);
 	};
 
-	// 时间排序
-	SortTime = () => {
-		const {
-			params, Sort, dataList, pageSize, page,
-		} = this.state;
-		let _Sort;
-		if (Sort === undefined) _Sort = 'DESC';
-		if (Sort === 'DESC') _Sort = 'ASC';
-		if (Sort === 'ASC') _Sort = undefined;
-		const sortColumn = _Sort === undefined ? undefined : 'REG_DATE';
-		const sortOrder = _Sort;
-		const Params = {
-			sortColumn,
-			sortOrder,
-			...params,
-			page,
-			num: pageSize,
-		};
-		// 判断是否为空对象,非空请求接口
-		console.log('sort Params === ', Params);
-		if (dataList.length > 0) {
-			this.getData(Params);
-		}
-		this.setState({
-			Sort: _Sort,
-			sortOrder: _Sort,
-			sortColumn,
-		});
-	};
-
 	render() {
 		const {
-			loading, dataList, params, totals, current, page, pageSize, Sort,
+			loading, dataList, params, totals, current, page, pageSize,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -287,7 +250,7 @@ class Dishonesty extends React.Component {
 						placeholder="身份证号码/组织机构代码"
 						{...getFieldProps('obligorNumber', {
 							initialValue: params.obligorNumber,
-							getValueFromEvent: e => e.trim(),
+							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, ''),
 						})}
 					/>
 				</div>
@@ -327,9 +290,6 @@ class Dishonesty extends React.Component {
 				<Spin visible={loading}>
 					<EquityPledgeTable
 						dataList={dataList}
-						getData={this.getData}
-						SortTime={this.SortTime}
-						Sort={Sort}
 					/>
 					{dataList && dataList.length > 0 && (
 					<div className="yc-table-pagination">
@@ -343,7 +303,6 @@ class Dishonesty extends React.Component {
 							onShowSizeChange={this.onShowSizeChange}
 							showTotal={() => `共 ${totals} 条记录`}
 							onChange={(val) => {
-								// 存在数据才允许翻页
 								if (dataList.length > 0) {
 									this.handleChangePage(val);
 								}

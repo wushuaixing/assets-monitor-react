@@ -57,14 +57,12 @@ class MortgageView extends React.Component {
 		const {
 			Sort, dataList, SortTime,
 		} = this.props;
-		// console.log('table props === ', this.props);
-		// 抵押详情
 
 		const columns = [
 			{
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						{ '签订日期' }
+						{ '登记日期' }
 						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
