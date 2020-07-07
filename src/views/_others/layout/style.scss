@@ -341,116 +341,150 @@
 // 版本更新
 .yc-versionUpdate {
 
+  .ant-modal-content{
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, .0) !important;
+  }
+
   .ant-modal-body {
     padding: 0 !important;
+
+    .yc-title-box{
+      position: relative;
+    }
+
+    .yc-close{
+      position: absolute;
+      right: 20px;
+      bottom: 190px;
+      z-index: 2;
+    }
+
     img {
       position: relative;
       margin-top: -57px;
-    }
-  }
-  .ant-modal-content {
-    border-radius: 5px;
-  }
-  .yc-modal-weChat-content {
-    padding: 26px 30px 44px 36px;
-    text-align: center;
-    .yc-modal-weChat-title {
-      font-size: 26px;
-      line-height: 26px;
-      font-weight: bold;
-      color: $text-title;
-      margin-bottom: 24px;
-    }
-    .yc-modal-weChat-img-title {
-      font-size:20px;
-      line-height: 20px;
-      color: #4E5566;
-      margin-bottom: 40px;
-    }
-
-  }
-  .yc-modal-content {
-    padding: 26px 0 44px 70px;
-
-    .yc-modal-header {
-      height:22px;
-      font-size:22px;
-      font-weight:700;
-      color: $text-title;
-      line-height:26px;
-    }
-    .yc-modal-header-dec {
-      padding-top: 20px;
-      color: #4E5566;
-      font-size: 18px;
-      line-height: 18px;
-    }
-    .yc-modal-title {
-      //margin-top: 40px;
-      line-height: 20px;
-      font-size: 20px;
-      position: relative;
-      left: -10px;
-      font-weight: 500;
-      color: $text-title;
-    }
-    .yc-label-title {
-      display: inline-block;
-      position: relative;
-      margin-top: 30px;
-      margin-bottom: 6px;
-      line-height: 16px;
-      font-size: 16px;
-      padding-left: 12px;
-      font-weight: bold;
-      color: $text-title;
-      .yc-modal-icon {
-        position: absolute;
-        border-radius: 50%;
-        width: 7px;
-        height: 7px;
-        top: 5px;
-        left: 0;
-        background: #FF6971;
-      }
-    }
-    .yc-modal-list {
-      margin-top: 10px;
-      color: #4E5566;
-      font-size: 14px;
-      line-height: 14px;
-      margin-left: 14px;
-      .yc-modal-list-detail {
-        color: #FF6D10;
-        margin-left: 2px;
-      }
-    }
-    .yc-label-text {
-      position: relative;
-      line-height: 14px;
-      font-size: 14px;
-      font-weight: 400;
-      color: $text-content;
-      margin-bottom: 10px;
-      padding-left: 12px;
-      width: 500px;
-    }
-    .yc-modal-btn {
-      width: 320px;
-      height: 44px;
-      margin-left: 70px;
-      margin-top: 44px;
       display: block;
-      background-color: #FF6971;
-      color: #FFFFFF;
-      border: 1px solid #FF6971;
-      &:hover {
-        border: 1px solid #FF5059;
-        background-color: #FF5059;
+    }
+
+    .yc-modal-weChat-content {
+      padding: 26px 30px 44px 36px;
+      text-align: center;
+
+      .yc-modal-weChat-title {
+        font-size: 26px;
+        line-height: 26px;
+        font-weight: bold;
+        color: $text-title;
+        margin-bottom: 24px;
       }
-      span {
-        font-size: 16px;
+
+      .yc-modal-weChat-img-title {
+        font-size: 20px;
+        line-height: 20px;
+        color: #4E5566;
+        margin-bottom: 40px;
+      }
+
+    }
+
+    .yc-modal-box {
+      background-color: #FFFFFF;
+
+      .yc-modal-content {
+        padding: 26px 0 44px 70px;
+
+        .yc-modal-header {
+          height: 22px;
+          font-size: 22px;
+          font-weight: 700;
+          color: $text-title;
+          line-height: 26px;
+        }
+
+        .yc-modal-header-dec {
+          padding-top: 20px;
+          color: #4E5566;
+          font-size: 18px;
+          line-height: 18px;
+        }
+
+        .yc-modal-title {
+          //margin-top: 40px;
+          line-height: 20px;
+          font-size: 20px;
+          position: relative;
+          left: -10px;
+          font-weight: bold;
+          color: $text-title;
+        }
+
+        .yc-label-title {
+          display: inline-block;
+          position: relative;
+          margin-top: 30px;
+          margin-bottom: 6px;
+          line-height: 16px;
+          font-size: 16px;
+          padding-left: 12px;
+          font-weight: bold;
+          color: $text-title;
+
+          .yc-modal-icon {
+            position: absolute;
+            border-radius: 50%;
+            width: 7px;
+            height: 7px;
+            top: 5px;
+            left: 0;
+            background: #FD5F3D;
+          }
+        }
+
+        .yc-modal-list {
+          margin-top: 10px;
+          color: #4E5566;
+          font-size: 14px;
+          line-height: 14px;
+          margin-left: 14px;
+
+          .yc-modal-list-detail {
+            color: #FF6D10;
+            margin-left: 2px;
+          }
+        }
+
+        .yc-label-text {
+          position: relative;
+          line-height: 14px;
+          font-size: 14px;
+          font-weight: 400;
+          color: $text-content;
+          margin-bottom: 10px;
+          padding-left: 12px;
+          width: 500px;
+        }
+
+        .yc-modal-btn {
+          width: 320px;
+          height: 44px;
+          margin-left: 70px;
+          margin-top: 44px;
+          display: block;
+          background: linear-gradient(to right, #FD6339, #FD4A4D);
+          color: #FFFFFF;
+          border: 1px solid #FF6971;
+
+          &:hover {
+            border: 1px solid #FF5059;
+            background-color: #FF5059;
+          }
+
+          span {
+            font-size: 16px;
+          }
+        }
       }
     }
   }
+
 }
