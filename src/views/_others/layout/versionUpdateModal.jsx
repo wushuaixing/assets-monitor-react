@@ -55,10 +55,10 @@ export default class VersionUpdateModal extends React.PureComponent {
 						<div>
 							<p className="yc-label-title">
 								<span className="yc-modal-icon" />
-								业务视图/债务人视图展示资产、风险线索数
+								业务视图 / 债务人视图展示资产、风险线索数
 							</p>
 							<div className="yc-modal-list">
-								资产/风险情况一目了然
+								资产 / 风险情况一目了然
 							</div>
 						</div>
 						<Button className="yc-modal-btn" onClick={this.handleCancel}>我知道了</Button>
