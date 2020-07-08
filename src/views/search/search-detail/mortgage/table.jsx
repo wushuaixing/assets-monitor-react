@@ -69,6 +69,7 @@ class MortgageView extends React.Component {
 					</div>),
 				dataIndex: 'regDate',
 				key: 'regDate',
+				className: 'firstTitle',
 				width: 122,
 				render: (text, row) => (
 					<span>{row.regDate || '-'}</span>

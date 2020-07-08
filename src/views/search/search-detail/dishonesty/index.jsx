@@ -38,7 +38,6 @@ class Dishonesty extends React.Component {
 	componentDidMount() {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
-		console.log('params === ', params);
 		this.setState({
 			params,
 		});
@@ -90,7 +89,6 @@ class Dishonesty extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		console.log('request params ==== ', params);
 		dishonestySearch(params).then((res) => {
 			if (res.code === 200 && res.data) {
 				// 获取当前高度，动态移动滚动条
@@ -138,7 +136,6 @@ class Dishonesty extends React.Component {
 
 	// page翻页
 	handleChangePage = (val) => {
-		console.log('handleChangePage val === ', val);
 		const { pageSize } = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;

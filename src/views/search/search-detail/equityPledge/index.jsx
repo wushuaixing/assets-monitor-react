@@ -42,7 +42,6 @@ class EquityPledge extends React.Component {
 	componentDidMount() {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
-		console.log('params === ', params);
 		this.setState({
 			params,
 		});
@@ -86,7 +85,6 @@ class EquityPledge extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		console.log('request params ==== ', params);
 		equityPledgeSearch(params).then((res) => {
 			if (res && res.data) {
 				// 获取当前高度，动态移动滚动条
@@ -131,7 +129,6 @@ class EquityPledge extends React.Component {
 
 	// page翻页
 	handleChangePage = (val) => {
-		console.log('handleChangePage val === ', val);
 		const {
 			pageSize, sortColumn, sortOrder,
 		} = this.state;
@@ -150,7 +147,6 @@ class EquityPledge extends React.Component {
 			page: val,
 			loading: true,
 		});
-		console.log('handleChangePage params === ', params);
 		this.getData(params);
 	};
 
@@ -236,7 +232,6 @@ class EquityPledge extends React.Component {
 			num: pageSize,
 		};
 		// 判断是否为空对象,非空请求接口
-		console.log('sort Params === ', Params);
 		if (dataList.length > 0) {
 			this.getData(Params);
 		}

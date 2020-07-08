@@ -13,7 +13,6 @@ class EquityPledgeView extends React.Component {
 		const {
 			Sort, dataList, SortTime,
 		} = this.props;
-		// console.log('table props === ', this.props);
 		const columns = [
 			{
 				title: (
@@ -26,6 +25,7 @@ class EquityPledgeView extends React.Component {
 				dataIndex: 'regDate',
 				key: 'regDate',
 				width: 122,
+				className: 'firstTitle',
 				render: (text, row) => (
 					<span>{row.regDate || '-'}</span>
 				),

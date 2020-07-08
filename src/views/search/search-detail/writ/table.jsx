@@ -25,6 +25,7 @@ class BusinessView extends React.Component {
 					</div>),
 				dataIndex: 'publishTime',
 				key: 'publishTime',
+				className: 'firstTitle',
 				width: 103,
 				render(text, row) {
 					return (

@@ -28,6 +28,7 @@ class BusinessView extends React.Component {
 					</div>),
 				dataIndex: 'gmtRegister',
 				key: 'gmtRegister',
+				className: 'firstTitle',
 				width: 122,
 				render: (text, row) => (
 					<span>{row.gmtRegister || '-'}</span>

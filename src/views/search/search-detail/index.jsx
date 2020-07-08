@@ -3,6 +3,7 @@ import Router from '@/utils/Router';
 import { BreadCrumb } from '@/common';
 import s from '../source';
 
+
 const SearchBase = (props) => {
 	const { rule } = props && props;
 	const source = s.getSource(rule).filter(item => item.status); // 过滤权限

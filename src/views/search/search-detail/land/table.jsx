@@ -6,6 +6,7 @@ import order from '@/assets/img/icon/icon_arrow.png';
 import { Result } from '@/views/asset-excavate/land-data/table/common';
 import { formatDateTime } from '@/utils/changeTime';
 import { toFormatArrayToString } from '@/utils';
+import './style.scss';
 
 class LandView extends React.Component {
 	constructor(props) {
@@ -29,6 +30,7 @@ class LandView extends React.Component {
 					</div>),
 				dataIndex: 'singedTime',
 				key: 'singedTime',
+				className: 'firstTitle',
 				width: 122,
 				render: (text, row) => (
 					<span>{row.singedTime || '-'}</span>
