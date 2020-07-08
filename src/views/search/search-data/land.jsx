@@ -87,11 +87,11 @@ class LAND extends React.Component {
 							{...getFieldProps('name', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="other">
+					<div className="item" style={{ marginRight: 16, width: 200 }}>
 						<span>土地省份：</span>
 						<Select
 							allowClear
-							style={{ width: 140, marginRight: 16 }}
+							style={{ width: 140 }}
 							placeholder="请选择土地省份"
 							size="large"
 							{...getFieldProps('province')}

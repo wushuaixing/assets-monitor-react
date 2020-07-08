@@ -73,7 +73,7 @@ class EQUITYPLEDGE extends React.Component {
 							{...getFieldProps('name', { getValueFromEvent: e => e.trim() })}
 						/>
 					</div>
-					<div className="other">
+					<div className="item" style={{ marginRight: 16, width: 181 }}>
 						<span>质押角色：</span>
 						<Select
 							allowClear

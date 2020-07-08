@@ -358,11 +358,12 @@
       right: 20px;
       bottom: 190px;
       z-index: 2;
+      cursor: pointer;
     }
 
     img {
       position: relative;
-      margin-top: -57px;
+      margin-top: -87px;
       display: block;
     }
 
@@ -473,10 +474,9 @@
           background: linear-gradient(to right, #FD6339, #FD4A4D);
           color: #FFFFFF;
           border: 1px solid #FF6971;
-
           &:hover {
             border: 1px solid #FF5059;
-            background-color: #FF5059;
+            background: linear-gradient(to right, #FD4D4C, #FD4D4C);
           }
 
           span {
