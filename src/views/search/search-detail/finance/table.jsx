@@ -14,6 +14,7 @@ class BusinessView extends React.Component {
 					dataIndex: 'title',
 					key: 'title',
 					width: 760,
+					className: 'firstTitle',
 					render(text, row) {
 						return (
 							<div className="yc-td-hl">

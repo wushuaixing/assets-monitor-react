@@ -273,3 +273,13 @@
     font-size: 18px;
   }
 }
+
+.ant-select-arrow{
+  font-size: 16px !important;
+  right: 6px;
+  top: 43%;
+}
+
+.ant-select-arrow::before{
+  content: "\25BC";
+}

@@ -22,6 +22,7 @@ const columns = (props, openRegisterModalFunc) => {
 			dataIndex: 'publishDate',
 			key: 'publishDate',
 			width: 120,
+			className: 'firstTitle',
 			render(text, row) {
 				return (
 					<div className="table-column">

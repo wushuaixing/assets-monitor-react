@@ -91,8 +91,8 @@ class LAND extends React.Component {
 						<span>土地省份：</span>
 						<Select
 							allowClear
-							style={{ width: 140 }}
-							placeholder="请选择"
+							style={{ width: 140, marginRight: 16 }}
+							placeholder="请选择土地省份"
 							size="large"
 							{...getFieldProps('province')}
 						>

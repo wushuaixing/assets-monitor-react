@@ -15,6 +15,7 @@ class DishonestyView extends React.Component {
 				title: '发布日期',
 				dataIndex: 'publishDate',
 				key: 'publishDate',
+				className: 'firstTitle',
 				width: 122,
 				render: (text, row) => (
 					<span>{row.publishDate || '-'}</span>
