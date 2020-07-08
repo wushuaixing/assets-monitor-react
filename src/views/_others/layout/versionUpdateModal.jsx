@@ -20,7 +20,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 		return (
 			<Modal
 				width={540}
-				style={{ 'max-height': 770, 'background-color': 'rgba(0, 0, 0, .0)' }}
+				style={{ 'max-height': 770 }}
 				className="yc-versionUpdate"
 				closable={false}
 				visible={VersionUpdateModalVisible}
