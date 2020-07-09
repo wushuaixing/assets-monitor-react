@@ -292,7 +292,7 @@ class BANKRUPTCY extends React.Component {
 							maxLength="40"
 							placeholder="企业名称、关键字"
 							{...getFieldProps('brcompanyname', {
-								initialValue: params.brcompanynam,
+								initialValue: params.brcompanyname,
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
