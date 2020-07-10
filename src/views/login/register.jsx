@@ -3,11 +3,9 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
-// ==================
-// 所需的所有组件
-// ==================
+
 import {
-	Form, Button, message, Spin, Input,
+	Form, Button, message, Spin, Input, Tabs,
 } from 'antd';
 import { Icon } from '@/common';
 import {
@@ -23,6 +21,8 @@ import './style.scss';
 const cookie = new Cookies();
 const createForm = Form.create;
 const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
+const { TabPane } = Tabs;
+
 
 class Login extends React.Component {
 	constructor(props) {
@@ -35,6 +35,9 @@ class Login extends React.Component {
 			passwordModalVisible: false,
 			codeStatus: false,
 			autocompleteType: 'off',
+			type: 'account',
+			verifyCodeStatus: 'sendBefore',
+			second: 60,
 		};
 	}
 
@@ -67,7 +70,7 @@ class Login extends React.Component {
 	};
 
 	// // const token = cookie.get('token'); // 获取token
-	handleSubmit = () => {
+	handleSubmitAccount = () => {
 		const { rememberPassword } = this.state;
 		const {
 			form,
@@ -91,7 +94,6 @@ class Login extends React.Component {
 				loading: false,
 			});
 			const { codeStatus: status } = this.state;
-
 			loginPreCheck(beforeLogin).then((_res) => {
 				if (_res.code === 200) {
 					const { mustVerifyImageCode, errorTime } = (_res.data) || {};
@@ -158,11 +160,57 @@ class Login extends React.Component {
 		});
 	};
 
+	handleSubmitPhone = () => {
+		const { form } = this.props;
+		console.log(Math.random().toString(36).slice(-8));
+		form.validateFields((errors) => {
+			console.log('errors === ', errors);
+			if (errors) {
+				return;
+			}
+			this.setState({
+				loading: false,
+			});
+		});
+	};
+
 	verificationCode = () => {
 		// const imgs = server.get(`${verificationCodeImg}?${Math.random()}`);
 		this.setState({
 			codeImg: `${verificationCodeImg}?${Math.random()}`,
 		});
+	};
+
+	sendVerifyCode = () => {
+		const { verifyCodeStatus } = this.state;
+		const ticker = setInterval(() => {
+			if (this.state.second <= 0) {
+				clearInterval(ticker);
+				this.setState({
+					second: 60,
+					verifyCodeStatus: 'sendBefore',
+				});
+			} else {
+				this.setState({
+					second: this.state.second - 1,
+				});
+			}
+		}, 1000);
+
+		if (verifyCodeStatus === 'sendBefore') {
+			this.setState({
+				verifyCodeStatus: 'sendAfter',
+			});
+			if (this.state.second > 0) {
+				ticker();
+			} else {
+				clearInterval(ticker);
+				this.setState({
+					second: 60,
+					verifyCodeStatus: 'sendBefore',
+				});
+			}
+		}
 	};
 
 	clearInputValue = (type) => {
@@ -203,13 +251,19 @@ class Login extends React.Component {
 		});
 	};
 
+	onChangeTab = (val) => {
+		this.setState({
+			type: val === '1' ? 'account' : 'phone',
+		});
+	};
+
 	render() {
 		const {
-			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType,
+			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, verifyCodeStatus, second,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType, btnColor,
-		} = this.props; // 会提示props is not definedC
+		} = this.props;
 		// const fields = getFieldsValue();
 		// const passWordType = fields.password && fields.password.length > 0 ? 'password' : inputType;
 		const imgCodeHeight = codeStatus && 424;
@@ -221,117 +275,228 @@ class Login extends React.Component {
 					<input type="text" />
 					<input type="password" />
 				</div>
-
-				<Form>
-					<Spin spinning={loading}>
-
-						<li className="yc-card-title">用户登录</li>
-						<div className="yc-form-wrapper">
-							<Form.Item>
-								<Icon
-									type="icon-username"
-									className="yc-form-icon"
-								/>
-								<Input
-									className="yc-login-input"
-									placeholder="请输入11位数字"
-									maxLength="11"
-									autocomplete="new-password"
-									type="text"
-									style={{ fontSize: 14 }}
-									// value={userName}
-									{...getFieldProps('username', {
-										validateTrigger: isIe ? 'onBlur' : 'onChange',
-										// getValueFromEvent: event => event.target.value.replace(/[\u4E00-\u9FA5]/g, ''),
-										rules: [
-											{
-												required: true,
-												message: '请输入用户名',
-											},
-											// {
-											// 	pattern: /^[^\s]*$/,
-											// 	message: '请勿输入空格',
-											// },
-											{
-												pattern: new RegExp('^[0-9a-zA-Z-]{1,}$', 'g'),
-												message: '请勿输入空格,中文和特殊字符',
-											},
-										],
-									})}
-								/>
-							</Form.Item>
-						</div>
-						<div className="yc-form-wrapper">
-							<Form.Item>
-								<Icon
-									type="icon-password"
-									className="yc-form-icon"
-									style={{ fontSize: 19 }}
-								/>
-								<Input type="text" autocomplete="new-password" style={{ opacity: 0, height: 0, display: 'none' }} />
-								<Input
-									className="yc-login-input"
-									type="password"
-									autocomplete={autocompleteType}
-									placeholder="请输入密码"
-									maxLength="20"
-									style={{ fontSize: 14 }}
-									titleWidth={40}
-									{...getFieldProps('password', {
-										validateTrigger: isIe ? 'onBlur' : 'onChange',
-										rules: [
-											{
-												required: true,
-												message: '请输入密码',
-											},
-										],
-									})}
-								/>
-							</Form.Item>
-						</div>
-						{
-							codeStatus && (
-							<div className="yc-form-wrapper">
-								<Form.Item>
-									<Icon type="icon-resetImg" className="yc-form-icon" />
-									<Input
-										className="yc-login-input"
-										placeholder="请输入验证码"
-										titleWidth={40}
-										maxLength="4"
-										titleIcon
-										{...getFieldProps('imageVerifyCode', {
-											validateTrigger: isIe ? 'onBlur' : 'onChange',
-											rules: [
-												{
-													required: true,
-													message: '请输入验证码',
-												},
-											],
-										})}
-									/>
-									<img onClick={this.verificationCode} className="yc-verificationCode" src={codeImg} alt="" referrerPolicy="no-referrer" />
-								</Form.Item>
-							</div>
-							)
-									}
-						<div className="yc-login-clearfix">
-							<li className="yc-checked">
-								<div className="yc-checked-right">
-									<span onClick={() => changeType(2)} className="yc-forget-password">忘记密码？</span>
+				<Spin spinning={loading}>
+					<Tabs defaultActiveKey="1" className="tabType" onChange={this.onChangeTab}>
+						<TabPane tab="密码登录" key="1">
+							<Form>
+								<div className="yc-form-wrapper" style={{ paddingTop: 30 }}>
+									<Form.Item>
+										<Icon
+											type="icon-username"
+											className="yc-form-icon"
+										/>
+										<Input
+											className="yc-login-input"
+											placeholder="请输入11位数字"
+											maxLength="11"
+											autocomplete="new-password"
+											type="text"
+											style={{ fontSize: 14 }}
+											// value={userName}
+											{...getFieldProps('username', {
+												validateTrigger: isIe ? 'onBlur' : 'onChange',
+												// getValueFromEvent: event => event.target.value.replace(/[\u4E00-\u9FA5]/g, ''),
+												rules: [
+													{
+														required: true,
+														message: '请输入用户名',
+													},
+													// {
+													// 	pattern: /^[^\s]*$/,
+													// 	message: '请勿输入空格',
+													// },
+													{
+														pattern: new RegExp('^[0-9a-zA-Z-]{1,}$', 'g'),
+														message: '请勿输入空格,中文和特殊字符',
+													},
+												],
+											})}
+										/>
+									</Form.Item>
 								</div>
-							</li>
-						</div>
-						<Button
-							type="primary"
-							className="yc-login-btn"
-							onClick={debounce(this.handleSubmit, 300)}
-							style={{ backgroundColor: btnColor, border: `1px solid ${btnColor}` }}
-						>
-							登录
-						</Button>
-					</Spin>
-				</Form>
+								<div className="yc-form-wrapper">
+									<Form.Item>
+										<Icon
+											type="icon-password"
+											className="yc-form-icon"
+											style={{ fontSize: 19 }}
+										/>
+										<Input
+											type="text"
+											autocomplete="new-password"
+											style={{
+												opacity: 0,
+												height: 0,
+												display: 'none',
+											}}
+										/>
+										<Input
+											className="yc-login-input"
+											type="password"
+											autocomplete={autocompleteType}
+											placeholder="请输入密码"
+											maxLength="20"
+											style={{ fontSize: 14 }}
+											titleWidth={40}
+											{...getFieldProps('password', {
+												validateTrigger: isIe ? 'onBlur' : 'onChange',
+												rules: [
+													{
+														required: true,
+														message: '请输入密码',
+													},
+												],
+											})}
+										/>
+									</Form.Item>
+								</div>
+								{
+									codeStatus && (
+										<div className="yc-form-wrapper">
+											<Form.Item>
+												<Icon type="icon-resetImg" className="yc-form-icon" />
+												<Input
+													className="yc-login-input"
+													placeholder="请输入验证码"
+													titleWidth={40}
+													maxLength="4"
+													titleIcon
+													{...getFieldProps('imageVerifyCode', {
+														validateTrigger: isIe ? 'onBlur' : 'onChange',
+														rules: [
+															{
+																required: true,
+																message: '请输入验证码',
+															},
+														],
+													})}
+												/>
+												<img onClick={this.verificationCode} className="yc-verificationCode" src={codeImg} alt="" referrerpolicy="no-referrer" />
+											</Form.Item>
+										</div>
+									)
+								}
+								<div className="yc-login-clearfix">
+									<li className="yc-checked">
+										<div className="yc-checked-right">
+											<span onClick={() => changeType(2)} className="yc-forget-password">忘记密码？</span>
+										</div>
+									</li>
+								</div>
+								<Button
+									type="primary"
+									className="yc-login-btn"
+									onClick={debounce(this.handleSubmitAccount, 300)}
+									style={{
+										backgroundColor: btnColor,
+										border: `1px solid ${btnColor}`,
+									}}
+								>
+									登录
+								</Button>
+							</Form>
+						</TabPane>
+						<TabPane tab="验证码登录" key="2">
+							<Form>
+								<div className="yc-form-wrapper" style={{ paddingTop: 30 }}>
+									<Form.Item>
+										<Icon
+											type="icon-username"
+											className="yc-form-icon"
+										/>
+										<Input
+											className="yc-login-input"
+											placeholder="请输入手机号"
+											maxLength="11"
+											autocomplete="new-password"
+											type="text"
+											style={{ fontSize: 14 }}
+											{...getFieldProps('phone', {
+												validateTrigger: isIe ? 'onBlur' : 'onChange',
+												// getValueFromEvent: event => event.target.value.replace(/[\u4E00-\u9FA5]/g, ''),
+												rules: [
+													{
+														required: true,
+														message: '请输入手机号',
+													},
+													// {
+													// 	pattern: /^[^\s]*$/,
+													// 	message: '请勿输入空格',
+													// },
+													{
+														pattern: new RegExp('^[0-9a-zA-Z-]{1,}$', 'g'),
+														message: '请勿输入空格,中文和特殊字符',
+													},
+												],
+											})}
+										/>
+									</Form.Item>
+								</div>
+								<div className="yc-form-wrapper">
+									<Form.Item>
+										<Icon
+											type="icon-password"
+											className="yc-form-icon"
+											style={{ fontSize: 19 }}
+										/>
+										<Input
+											type="text"
+											autocomplete="new-password"
+											style={{
+												opacity: 0,
+												height: 0,
+												display: 'none',
+											}}
+										/>
+										<Input
+											className="yc-login-input"
+											type="password"
+											autocomplete={autocompleteType}
+											placeholder="请输入验证码"
+											maxLength="20"
+											style={{ fontSize: 14 }}
+											titleWidth={40}
+											{...getFieldProps('verifyPwd', {
+												validateTrigger: isIe ? 'onBlur' : 'onChange',
+												rules: [
+													{
+														required: true,
+														message: '请输入验证码',
+													},
+												],
+											})}
+										/>
+										{
+											verifyCodeStatus === 'sendBefore'
+												?												(
+													<span onClick={this.sendVerifyCode} className="sendVerifyCode">
+														<a>发送验证码</a>
+													</span>
+												)
+												 :												(
+													<span className="resend">
+														{second}
+s之后重新发送
+													</span>
+												)
+										}
+									</Form.Item>
+								</div>
+								<Button
+									type="primary"
+									className="yc-login-btn"
+									onClick={debounce(this.handleSubmitPhone, 300)}
+									style={{
+										backgroundColor: btnColor,
+										border: `1px solid ${btnColor}`,
+									}}
+								>
+									登录
+								</Button>
+							</Form>
+						</TabPane>
+					</Tabs>
+				</Spin>
 				{/** 修改密码Modal */}
 				{passwordModalVisible && (
 				<PasswordModal

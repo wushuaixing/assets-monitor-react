@@ -239,3 +239,46 @@
   font-size: 14px;
   color: #7D8699;
 }
+
+.tabType{
+  color: #20242E;
+  .ant-tabs-bar{
+    margin-bottom: 0;
+    .ant-tabs-nav-scroll{
+      width: 100%;
+      .ant-tabs-tab{
+        width: 50%;
+        margin: 0;
+        .ant-tabs-tab-inner{
+          padding: 10px 10px 16px 0;
+          font-size: 16px;
+          text-align: center;
+        }
+      }
+    }
+    .ant-tabs-nav{
+      width: 320px;
+    }
+  }
+  .ant-tabs-content{
+    .sendVerifyCode{
+      font-size: 12px;
+      position: absolute;
+      height: 44px;
+      right: 0;
+      cursor: pointer;
+      line-height: 44px;
+      margin-right: 16px;
+    }
+    .resend{
+      font-size: 12px;
+      position: absolute;
+      height: 44px;
+      right: 0;
+      cursor: pointer;
+      line-height: 44px;
+      margin-right: 16px;
+      color: #4E5566;
+    }
+  }
+}
