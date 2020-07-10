@@ -72,6 +72,11 @@ const defaultColumns = {
 			dataIndex: 'caseReason',
 			render: text => text || '-',
 		},
+		{
+			title: '链接',
+			dataIndex: 'url',
+			render: text => text || '-',
+		},
 	],
 	Judgment: [
 		{
@@ -167,6 +172,10 @@ class AssociationLink extends React.Component {
 	handleSource = (source) => {
 		const { associatedInfo: { trialAssociatedInfo: La, courtAssociatedInfo: Kt, judgmentAssociatedInfo: Ws } } = source;
 		const resContent = [];
+		/*
+		* 立案和文书
+		* 如果这里是一个的话，要和后端确定返回的数据格式再修改
+		* */
 		if (La.length > 0) {
 			if (La.length > 1) {
 				resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
@@ -177,12 +186,13 @@ class AssociationLink extends React.Component {
 		}
 		if (Kt.length > 0) {
 			if (Kt.length > 1) {
-				if (resContent.length)resContent.push(<span className="info-line">|</span>);
+				if (resContent.length) resContent.push(<span className="info-line">|</span>);
 				resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Court')}>开庭</span>);
 			} else if (Kt.length === 1) {
-				if (resContent.length)resContent.push(<span className="info-line">|</span>);
-				if (Kt[0].url) resContent.push(linkDom(Kt[0].url, '开庭'));
-				else resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Court')}>开庭</span>);
+				if (Kt[0].url) {
+					resContent.push(<span className="info-line">|</span>);
+					resContent.push(linkDom(Kt[0].url, '开庭'));
+				}
 			}
 		}
 		if (Ws.length > 0) {
@@ -230,22 +240,22 @@ class AssociationLink extends React.Component {
 					{[
 						_dataSource.tableData.length
 							? <Table columns={defaultColumns[type || 'Trial']} dataSource={_dataSource.tableData} pagination={false} /> : null,
-						_dataSource.tableData.length && _dataSource.listData.length ? <div className="source-list-hr" /> : null,
-						_dataSource.listData.length
-							? [
-								<div className="yc-public-title-normal source-list-title">{`本条信息关联的其他多个${text.c}链接：`}</div>,
-								<div className="source-list-data">
-									<span className="list-title">{text.t}</span>
-									<span className="list-content">相关链接地址</span>
-								</div>,
-								_dataSource.listData.map(item => (
-									<div className="source-list-data">
-										<span className="list-title">{timeStandard(item.gmtTrial || item.gmtRegister)}</span>
-										<span className="list-content">{linkDom(item.url, item.url)}</span>
-									</div>
-								)),
-							]
-							: null,
+						// _dataSource.tableData.length && _dataSource.listData.length ? <div className="source-list-hr" /> : null,
+						// _dataSource.listData.length
+						// 	? [
+						// 		<div className="yc-public-title-normal source-list-title">{`本条信息关联的其他多个${text.c}链接：`}</div>,
+						// 		<div className="source-list-data">
+						// 			<span className="list-title">{text.t}</span>
+						// 			<span className="list-content">相关链接地址</span>
+						// 		</div>,
+						// 		_dataSource.listData.map(item => (
+						// 			<div className="source-list-data">
+						// 				<span className="list-title">{timeStandard(item.gmtTrial || item.gmtRegister)}</span>
+						// 				<span className="list-content">{linkDom(item.url, item.url)}</span>
+						// 			</div>
+						// 		)),
+						// 	]
+						// 	: null,
 					]}
 				</Modal>
 			</React.Fragment>
