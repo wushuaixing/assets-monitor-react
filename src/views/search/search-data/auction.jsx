@@ -50,7 +50,6 @@ class AUCTION extends React.PureComponent {
 		const fildes = getFieldsValue();
 		fildes.startTime = startTime;
 		fildes.endTime = endTime;
-		// console.log(fildes);
 
 		if (fildes.lowestConsultPrice && Number(fildes.lowestConsultPrice) > fildes.highestConsultPrice && Number(fildes.highestConsultPrice)) {
 			message.error('评估价格最低价不能高于评估价格最高价！');
@@ -58,10 +57,11 @@ class AUCTION extends React.PureComponent {
 		}
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
-			// console.log(fildes);
-
-			// 将值传到URL
-			navigate(generateUrlWithParams('/search/detail/auction', fildes));
+			if (fildes.number && fildes.number.length < 8) {
+				message.error('证件号不得小于8位');
+			} else {
+				navigate(generateUrlWithParams('/search/detail/auction', fildes));
+			}
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
@@ -69,7 +69,7 @@ class AUCTION extends React.PureComponent {
 
 	// 重置输入框
 	queryReset = () => {
-		const { form } = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { resetFields } = form;
 		this.setState({
 			startTime: undefined,
@@ -92,7 +92,7 @@ class AUCTION extends React.PureComponent {
 					<div style={_style1} className="item">
 						<Input
 							title="债务人"
-							placeholder="姓名/公司名称"
+							placeholder="企业债务人名称"
 							maxLength="40"
 							{...getFieldProps('name', {
 								getValueFromEvent: e => e.trim(),
@@ -114,7 +114,7 @@ class AUCTION extends React.PureComponent {
 						<Input
 							title="产权证"
 							maxLength="40"
-							placeholder="房产证/土地证号"
+							placeholder="房产证/土地证"
 							{...getFieldProps('certificate', {
 								getValueFromEvent: e => e.trim(),
 							})}
