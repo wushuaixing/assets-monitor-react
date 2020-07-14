@@ -12,6 +12,8 @@ import { Icon } from '@/common';
 import {
 	login, // login
 	loginPreCheck, // 登录前校验
+	getVerificationCode, // 获取手机验证码
+	loginPhoneCode, // 手机验证码登录
 } from '@/utils/api/user';
 import BASE_URL from '@/utils/api/config';
 import rsaEncrypt from '@/utils/encrypt';
@@ -37,8 +39,9 @@ class Login extends React.Component {
 			codeStatus: false,
 			autocompleteType: 'off',
 			type: 'account',
-			verifyCodeStatus: 'sendBefore',
+			verifyCodeStatus: 'sendBefore', // sendBefore,获取验证码，sending 60s后重新发送 sendAfter 重新发送
 			second: 60,
+			sendBtnTxt: '获取验证码',
 		};
 	}
 
@@ -91,11 +94,8 @@ class Login extends React.Component {
 			...newFields,
 			password: rsaEncrypt(newFields.password),
 		};
-		form.validateFields((errors) => {
-			const newErrors = { ...errors };
-			delete newErrors.phone;
-			delete newErrors.verifyPwd;
-			if (!_.isEmpty(newErrors)) {
+		form.validateFields(['username', 'password'], (errors) => {
+			if (!_.isEmpty(errors)) {
 				return;
 			}
 			this.setState({
@@ -171,14 +171,22 @@ class Login extends React.Component {
 	handleSubmitPhone = () => {
 		const { form } = this.props;
 		console.log(Math.random().toString(36).slice(-8));
-		form.validateFields((errors) => {
+		const fields = form.getFieldsValue();
+		form.validateFields(['phone', 'verifyPwd'], (errors) => {
 			console.log('errors === ', errors);
-			const newErrors = { ...errors };
-			delete newErrors.username;
-			delete newErrors.password;
-			if (newErrors) {
+			if (errors) {
 				return;
 			}
+			const wechatSmsLogin = {
+				mobile: fields.phone,
+				code: fields.verifyCode,
+			};
+			loginPhoneCode(wechatSmsLogin).then((res) => {
+
+			}).catch(() => {
+
+			});
+
 			this.setState({
 				loading: false,
 			});
@@ -193,39 +201,43 @@ class Login extends React.Component {
 	};
 
 	sendVerifyCode = () => {
-		const { form: { getFieldsValue } } = this.props;
-		const fields = getFieldsValue();
+		const { form } = this.props;
 		const { verifyCodeStatus } = this.state;
-		if (fields.phone) {
-			const ticker = setInterval(() => {
-				if (this.state.second <= 0) {
-					clearInterval(ticker);
-					this.setState({
-						second: 60,
-						verifyCodeStatus: 'sendBefore',
-					});
-				} else {
-					this.setState({
-						second: this.state.second - 1,
-					});
-				}
-			}, 1000);
-
-			if (verifyCodeStatus === 'sendBefore') {
-				this.setState({
-					verifyCodeStatus: 'sendAfter',
-				});
-				if (this.state.second > 0) {
-					ticker();
-				} else {
-					clearInterval(ticker);
-					this.setState({
-						second: 60,
-						verifyCodeStatus: 'sendBefore',
-					});
-				}
+		if (verifyCodeStatus === 'sending') return false;
+		const fields = form.getFieldsValue();
+		const params = {
+			mobile: fields.phone,
+		};
+		// 校验手机号是否正确,
+		form.validateFields(['phone'], (errors) => {
+			if (errors) {
+				return false;
 			}
-		}
+			getVerificationCode(params).then((res) => {
+				if (res.code === 200) {
+					this.ticker = setInterval(() => {
+						const { second } = this.state;
+						if (second <= 0) {
+							clearInterval(this.ticker);
+							this.setState({
+								second: 60,
+								verifyCodeStatus: 'sendAfter',
+								sendBtnTxt: '重新发送',
+							});
+						} else {
+							this.setState({
+								second: second - 1,
+								verifyCodeStatus: 'sending',
+								sendBtnTxt: `${second}s之后重新发送`,
+							});
+						}
+					}, 1000);
+				}
+			}).catch((err) => {
+				console.log('err===', err);
+				message.error('错误次数达到上限，账号被冻结，请一个小时候后尝试登录');
+			});
+		});
 	};
 
 	clearInputValue = (type) => {
@@ -272,13 +284,9 @@ class Login extends React.Component {
 		});
 	};
 
-	// 密码登录前的校验，有时间再修改
-	handleChangeUserName = (username) => {
-	};
-
 	render() {
 		const {
-			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, verifyCodeStatus, second,
+			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, sendBtnTxt, verifyCodeStatus,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType, btnColor,
@@ -288,7 +296,6 @@ class Login extends React.Component {
 		const imgCodeHeight = codeStatus && 424;
 		// 判断ie8到11
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
-		console.log('isIe === ', isIe, document);
 		return (
 			<div style={{ height: imgCodeHeight }} className="yc-login-main">
 				<div style={{ opacity: 0, height: 0, display: 'none' }}>
@@ -314,7 +321,6 @@ class Login extends React.Component {
 											style={{ fontSize: 14 }}
 											// value={userName}
 											{...getFieldProps('username', {
-												onChange: this.handleChangeUserName,
 												validateTrigger: isIe ? 'onBlur' : 'onChange',
 												// getValueFromEvent: event => event.target.value.replace(/[\u4E00-\u9FA5]/g, ''),
 												rules: [
@@ -440,12 +446,8 @@ class Login extends React.Component {
 														required: true,
 														message: '请输入手机号',
 													},
-													// {
-													// 	pattern: /^[^\s]*$/,
-													// 	message: '请勿输入空格',
-													// },
 													{
-														pattern: new RegExp('^[0-9a-zA-Z-]{1,}$', 'g'),
+														pattern: new RegExp(/^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/, 'g'),
 														message: '请勿输入空格,中文和特殊字符',
 													},
 												],
@@ -477,7 +479,7 @@ class Login extends React.Component {
 											maxLength="20"
 											style={{ fontSize: 14 }}
 											titleWidth={40}
-											{...getFieldProps('verifyPwd', {
+											{...getFieldProps('verifyCode', {
 												validateTrigger: isIe ? 'onBlur' : 'onChange',
 												rules: [
 													{
@@ -487,20 +489,9 @@ class Login extends React.Component {
 												],
 											})}
 										/>
-										{
-											verifyCodeStatus === 'sendBefore'
-												?												(
-													<span onClick={this.sendVerifyCode} className="sendVerifyCode">
-														<a>发送验证码</a>
-													</span>
-												)
-												 :												(
-													<span className="resend">
-														{second}
-                            s之后重新发送
-													</span>
-												)
-										}
+										<span onClick={this.sendVerifyCode} className={`sendVerifyCode sendVerifyCode-${verifyCodeStatus}`}>
+											{sendBtnTxt}
+										</span>
 									</Form.Item>
 								</div>
 								<Button

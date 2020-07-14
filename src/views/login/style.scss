@@ -274,9 +274,19 @@
       position: absolute;
       height: 44px;
       right: 0;
-      cursor: pointer;
       line-height: 44px;
       margin-right: 16px;
+      &-sendBefore{
+        color: #1C80E1;
+        cursor: pointer;
+      };
+      &-sending{
+        color: #4E5566;
+      };
+      &-sendAfter{
+        color: #1C80E1;
+        cursor: pointer;
+      };
     }
     .resend{
       font-size: 12px;
