@@ -3,6 +3,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
+import _ from 'lodash';
 
 import {
 	Form, Button, message, Spin, Input, Tabs,
@@ -74,20 +75,27 @@ class Login extends React.Component {
 		const { rememberPassword } = this.state;
 		const {
 			form,
-		} = this.props; // 会提示props is not defined
+		} = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
+		const newFields = {
+			username: fields.username,
+			password: fields.password,
+		};
 		console.log(Math.random().toString(36).slice(-8));
 		const beforeLogin = {
-			username: fields.username,
+			username: newFields.username,
 			random: (Math.random().toString(36).slice(-8)),
 		};
 		const params = {
-			...fields,
-			password: rsaEncrypt(fields.password),
+			...newFields,
+			password: rsaEncrypt(newFields.password),
 		};
 		form.validateFields((errors) => {
-			if (errors) {
+			const newErrors = { ...errors };
+			delete newErrors.phone;
+			delete newErrors.verifyPwd;
+			if (!_.isEmpty(newErrors)) {
 				return;
 			}
 			this.setState({
@@ -165,7 +173,10 @@ class Login extends React.Component {
 		console.log(Math.random().toString(36).slice(-8));
 		form.validateFields((errors) => {
 			console.log('errors === ', errors);
-			if (errors) {
+			const newErrors = { ...errors };
+			delete newErrors.username;
+			delete newErrors.password;
+			if (newErrors) {
 				return;
 			}
 			this.setState({
@@ -182,33 +193,37 @@ class Login extends React.Component {
 	};
 
 	sendVerifyCode = () => {
+		const { form: { getFieldsValue } } = this.props;
+		const fields = getFieldsValue();
 		const { verifyCodeStatus } = this.state;
-		const ticker = setInterval(() => {
-			if (this.state.second <= 0) {
-				clearInterval(ticker);
-				this.setState({
-					second: 60,
-					verifyCodeStatus: 'sendBefore',
-				});
-			} else {
-				this.setState({
-					second: this.state.second - 1,
-				});
-			}
-		}, 1000);
+		if (fields.phone) {
+			const ticker = setInterval(() => {
+				if (this.state.second <= 0) {
+					clearInterval(ticker);
+					this.setState({
+						second: 60,
+						verifyCodeStatus: 'sendBefore',
+					});
+				} else {
+					this.setState({
+						second: this.state.second - 1,
+					});
+				}
+			}, 1000);
 
-		if (verifyCodeStatus === 'sendBefore') {
-			this.setState({
-				verifyCodeStatus: 'sendAfter',
-			});
-			if (this.state.second > 0) {
-				ticker();
-			} else {
-				clearInterval(ticker);
+			if (verifyCodeStatus === 'sendBefore') {
 				this.setState({
-					second: 60,
-					verifyCodeStatus: 'sendBefore',
+					verifyCodeStatus: 'sendAfter',
 				});
+				if (this.state.second > 0) {
+					ticker();
+				} else {
+					clearInterval(ticker);
+					this.setState({
+						second: 60,
+						verifyCodeStatus: 'sendBefore',
+					});
+				}
 			}
 		}
 	};
@@ -257,6 +272,10 @@ class Login extends React.Component {
 		});
 	};
 
+	// 密码登录前的校验，有时间再修改
+	handleChangeUserName = (username) => {
+	};
+
 	render() {
 		const {
 			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, verifyCodeStatus, second,
@@ -269,6 +288,7 @@ class Login extends React.Component {
 		const imgCodeHeight = codeStatus && 424;
 		// 判断ie8到11
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
+		console.log('isIe === ', isIe, document);
 		return (
 			<div style={{ height: imgCodeHeight }} className="yc-login-main">
 				<div style={{ opacity: 0, height: 0, display: 'none' }}>
@@ -294,6 +314,7 @@ class Login extends React.Component {
 											style={{ fontSize: 14 }}
 											// value={userName}
 											{...getFieldProps('username', {
+												onChange: this.handleChangeUserName,
 												validateTrigger: isIe ? 'onBlur' : 'onChange',
 												// getValueFromEvent: event => event.target.value.replace(/[\u4E00-\u9FA5]/g, ''),
 												rules: [
@@ -476,7 +497,7 @@ class Login extends React.Component {
 												 :												(
 													<span className="resend">
 														{second}
-s之后重新发送
+                            s之后重新发送
 													</span>
 												)
 										}
@@ -484,7 +505,7 @@ s之后重新发送
 								</div>
 								<Button
 									type="primary"
-									className="yc-login-btn"
+									className="yc-login-btn-phone"
 									onClick={debounce(this.handleSubmitPhone, 300)}
 									style={{
 										backgroundColor: btnColor,
