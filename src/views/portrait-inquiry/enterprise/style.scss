@@ -11,6 +11,7 @@
         margin-left: 4px;
       }
     }
+
   }
   .enterprise-intro {
     background-color: #fff;
@@ -18,7 +19,6 @@
     transition: all 0.5s;
     .enterprise-info {
       padding: 5px 0 20px 0;
-      border-bottom: 1px solid $border-base;
       position: relative;
       .intro-icon {
         width: 80px;
@@ -137,4 +137,12 @@
       border-right: none !important;
     }
   }
+}
+
+.yc-bread-crumb-box{
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.queryView-box{
+  padding: 20px 20px 0 20px;
 }

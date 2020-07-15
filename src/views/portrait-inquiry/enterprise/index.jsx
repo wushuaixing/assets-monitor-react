@@ -8,7 +8,7 @@ import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import QueryView from '../common/queryView';
 import {
-	Tabs, Spin, Download, Icon as IconType,
+	Tabs, Spin, Download, Icon as IconType, BreadCrumb,
 } from '@/common';
 import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
@@ -288,8 +288,16 @@ export default class Enterprise extends React.Component {
 
 		return (
 			<div className="yc-inquiry-enterprise">
-				<QueryView type={1} />
-				<div className="mark-line" />
+				<BreadCrumb
+					className="yc-bread-crumb-box"
+					list={[
+						{ id: 1, name: '信息搜索', link: '/info/search' },
+						{ id: 2, name: '画像查询', link: '/info/search/several' },
+					]}
+				/>
+				<div className="queryView-box">
+					<QueryView type={1} />
+				</div>
 				<div className="inquiry-enterprise-content">
 					<Affix onChange={this.onChangeAffix}>
 						<Spin visible={loading}>

@@ -118,8 +118,9 @@ export default class InquiryList extends React.Component {
 
 		return (
 			<div className="yc-inquiry-list">
-				<QueryView onQuery={this.handleQuery} />
-				<div className="mark-line" />
+				<div className="queryView-box">
+					<QueryView onQuery={this.handleQuery} />
+				</div>
 				<div className="inquiry-list-content">
 					<div className="list-content-total">
 						<span>源诚为您找到以下</span>
