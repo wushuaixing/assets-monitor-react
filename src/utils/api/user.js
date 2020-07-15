@@ -78,9 +78,8 @@ export const getVerificationCode = async (params) => {
 	return response.data;
 };
 
-// 修改密码
+// 手机验证码登录
 export const loginPhoneCode = async (params) => {
-	console.log('params === ', params);
 	const response = await service.post('/api/auth/open/wechat/smsLogin', params);
 	return response.data;
 };

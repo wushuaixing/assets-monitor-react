@@ -3,8 +3,6 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
-import _ from 'lodash';
-
 import {
 	Form, Button, message, Spin, Input, Tabs,
 } from 'antd';
@@ -38,10 +36,11 @@ class Login extends React.Component {
 			passwordModalVisible: false,
 			codeStatus: false,
 			autocompleteType: 'off',
-			type: 'account',
 			verifyCodeStatus: 'sendBefore', // sendBefore,获取验证码，sending 60s后重新发送 sendAfter 重新发送
 			second: 60,
 			sendBtnTxt: '获取验证码',
+			type: 'username', // username 密码登录，phone 手机验证码登录
+			username: '',
 		};
 	}
 
@@ -54,12 +53,16 @@ class Login extends React.Component {
 	}
 
 	toKeyCode13=(e) => {
+		const { type } = this.state;
 		const event = e || window.event;
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
 			const { className } = document.activeElement.offsetParent;
-			if (/ant-form-item-control/.test(className)) {
-				this.handleSubmit();
+			if (/ant-form-item-control/.test(className) && type === 'username') {
+				this.handleSubmitAccount();
+				document.activeElement.blur();
+			} else if (/ant-form-item-control/.test(className) && type === 'phone') {
+				this.handleSubmitPhone();
 				document.activeElement.blur();
 			}
 		}
@@ -73,7 +76,8 @@ class Login extends React.Component {
 		});
 	};
 
-	// // const token = cookie.get('token'); // 获取token
+	// const token = cookie.get('token'); // 获取token
+	// 密码登录的登录点击事件
 	handleSubmitAccount = () => {
 		const { rememberPassword } = this.state;
 		const {
@@ -95,7 +99,7 @@ class Login extends React.Component {
 			password: rsaEncrypt(newFields.password),
 		};
 		form.validateFields(['username', 'password'], (errors) => {
-			if (!_.isEmpty(errors)) {
+			if (errors) {
 				return;
 			}
 			this.setState({
@@ -168,12 +172,13 @@ class Login extends React.Component {
 		});
 	};
 
+	// 手机验证码登录的登录点击事件
 	handleSubmitPhone = () => {
 		const { form } = this.props;
 		console.log(Math.random().toString(36).slice(-8));
 		const fields = form.getFieldsValue();
-		form.validateFields(['phone', 'verifyPwd'], (errors) => {
-			console.log('errors === ', errors);
+		const validatorArray = fields.phone ? ['verifyCode'] : ['phone'];
+		form.validateFields(validatorArray, (errors) => {
 			if (errors) {
 				return;
 			}
@@ -182,13 +187,31 @@ class Login extends React.Component {
 				code: fields.verifyCode,
 			};
 			loginPhoneCode(wechatSmsLogin).then((res) => {
-
+				if (res.code === 200) {
+					message.success('登录成功');
+					cookie.set('token', res.data.token);
+					cookie.set('firstLogin', res.data.firstLogin);
+					cookie.set('versionUpdate', res.data.versionUpdate);
+					const rule = handleRule(res.data.rules);
+					global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
+					// 判断是否是第一次登录
+					if (res.data.firstLogin === true) {
+						navigate('/change/password');
+					} else {
+						if (rule.menu_zcwj) {
+							// navigate('/monitor?process=-1');
+							navigate('/');
+						} else if (rule.menu_xxss) {
+							navigate('/');
+						} else {
+							navigate('/');
+						}
+					}
+				}
 			}).catch(() => {
-
-			});
-
-			this.setState({
-				loading: false,
+				this.setState({
+					loading: false,
+				});
 			});
 		});
 	};
@@ -233,9 +256,10 @@ class Login extends React.Component {
 						}
 					}, 1000);
 				}
-			}).catch((err) => {
-				console.log('err===', err);
-				message.error('错误次数达到上限，账号被冻结，请一个小时候后尝试登录');
+			}).catch(() => {
+				this.setState({
+					loading: false,
+				});
 			});
 		});
 	};
@@ -278,15 +302,27 @@ class Login extends React.Component {
 		});
 	};
 
+	// 切换tab点击事件
 	onChangeTab = (val) => {
 		this.setState({
-			type: val === '1' ? 'account' : 'phone',
+			type: val === '1' ? 'username' : 'phone',
 		});
+		// 当切换验证码登录的时候，获取密码登录的账号
+		if (val === '2') {
+			const { form } = this.props;
+			const { getFieldsValue } = form;
+			const fields = getFieldsValue();
+			if (fields.username) {
+				this.setState({
+					username: fields.username,
+				});
+			}
+		}
 	};
 
 	render() {
 		const {
-			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, sendBtnTxt, verifyCodeStatus,
+			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, sendBtnTxt, verifyCodeStatus, username,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType, btnColor,
@@ -426,7 +462,7 @@ class Login extends React.Component {
 						<TabPane tab="验证码登录" key="2">
 							<Form>
 								<div className="yc-form-wrapper" style={{ paddingTop: 30 }}>
-									<Form.Item>
+									<Form.Item className="verifyInput">
 										<Icon
 											type="icon-username"
 											className="yc-form-icon"
@@ -439,6 +475,7 @@ class Login extends React.Component {
 											type="text"
 											style={{ fontSize: 14 }}
 											{...getFieldProps('phone', {
+												initialValue: username,
 												validateTrigger: isIe ? 'onBlur' : 'onChange',
 												// getValueFromEvent: event => event.target.value.replace(/[\u4E00-\u9FA5]/g, ''),
 												rules: [
@@ -456,7 +493,7 @@ class Login extends React.Component {
 									</Form.Item>
 								</div>
 								<div className="yc-form-wrapper">
-									<Form.Item>
+									<Form.Item className="verifyInput">
 										<Icon
 											type="icon-password"
 											className="yc-form-icon"
