@@ -14,6 +14,36 @@ const createForm = Form.create;
 const _style1 = { marginRight: 16, width: 259 };
 const _style2 = { width: 116 };
 const _style3 = { width: 259 };
+
+const someThing = [
+	{ name: '房产', key: '50025969' },
+	{ name: '其他', key: '50025976' },
+	{ name: '机动车', key: '50025972' },
+	{ name: '资产', key: '50025971' },
+	{ name: '股权', key: '125088031' },
+	{ name: '林权', key: '50025973' },
+	{ name: '无形资产', key: '122406001' },
+	{ name: '船舶', key: '125228021' },
+	{ name: '矿权', key: '50025974' },
+	{ name: '工程', key: '50025975' },
+	{ name: '物资', key: '50025976' },
+	{ name: '财产性权益', key: '50025976' },
+	{ name: '其他资产', key: '50025976' },
+	{ name: '农资产品', key: '201280014' },
+	{ name: '通信设备', key: '201272017' },
+	{ name: '奢侈品', key: '201290015' },
+	{ name: '机械设备', key: '56936003' },
+	{ name: '加贸边角料', key: '56968002' },
+	{ name: '航空交通', key: '200790004' },
+	{ name: '其他交通', key: '200794003' },
+	{ name: '古玩字画', key: '200804006' },
+	{ name: '珠宝首饰', key: '200808002' },
+	{ name: '实物资产', key: '50025971' },
+	{ name: '其他交通工具', key: '200794003' },
+	{ name: '海域', key: '200778005' },
+];
+
+
 class AUCTION extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -162,59 +192,73 @@ class AUCTION extends React.PureComponent {
 							})}
 						/>
 					</div>
-				</div>
-				<div className="other">
-					<span>开拍时间：</span>
-					<DatePicker
-						style={_style2}
-						placeholder="开始日期"
-						size="large"
-						allowClear
-						{...getFieldProps('startTime', {
-							onChange: (value, dateString) => {
-								console.log(value, dateString);
-								this.setState({
-									startTime: dateString,
-								});
-							},
-							...timeOption,
-						})}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
-					/>
-					<span style={{ margin: '0 2px ' }}>至</span>
-					<DatePicker
-						style={_style2}
-						placeholder="结束日期"
-						size="large"
-						allowClear
-						{...getFieldProps('endTime', {
-							onChange: (value, dateString) => {
-								console.log(value, dateString);
-								this.setState({
-									endTime: dateString,
-								});
-							},
-							...timeOption,
-						})}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
-					/>
-				</div>
-				<div className="other">
-					<span>拍卖状态：</span>
-					<Select
-						style={{ width: 120 }}
-						placeholder="请选择拍卖状态"
-						size="large"
-						{...getFieldProps('status', {
-						})}
-					>
-						<Select.Option value="9">中止</Select.Option>
-						<Select.Option value="11">撤回</Select.Option>
-						<Select.Option value="5">已成交</Select.Option>
-						<Select.Option value="7">已流拍</Select.Option>
-						<Select.Option value="1">即将开始</Select.Option>
-						<Select.Option value="3">正在进行</Select.Option>
-					</Select>
+					<div className="item" style={{ width: 310, marginRight: 16 }}>
+						<span>开拍时间：</span>
+						<DatePicker
+							style={_style2}
+							placeholder="开始日期"
+							size="large"
+							allowClear
+							{...getFieldProps('startTime', {
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										startTime: dateString,
+									});
+								},
+								...timeOption,
+							})}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endTime'))}
+						/>
+						<span style={{ margin: '0 2px ' }}>至</span>
+						<DatePicker
+							style={_style2}
+							placeholder="结束日期"
+							size="large"
+							allowClear
+							{...getFieldProps('endTime', {
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										endTime: dateString,
+									});
+								},
+								...timeOption,
+							})}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
+						/>
+					</div>
+					<div className="item" style={{ width: 210, marginRight: 16 }}>
+						<span>拍卖标的物：</span>
+						<Select
+							style={{ width: 137 }}
+							placeholder="请选择标的物类型"
+							size="large"
+							{...getFieldProps('thing', {
+							})}
+						>
+							{
+								someThing.map(item => <Select.Option value={item.key}>{item.name}</Select.Option>)
+							}
+						</Select>
+					</div>
+					<div className="other">
+						<span>拍卖状态：</span>
+						<Select
+							style={{ width: 120 }}
+							placeholder="请选择拍卖状态"
+							size="large"
+							{...getFieldProps('status', {
+							})}
+						>
+							<Select.Option value="9">中止</Select.Option>
+							<Select.Option value="11">撤回</Select.Option>
+							<Select.Option value="5">已成交</Select.Option>
+							<Select.Option value="7">已流拍</Select.Option>
+							<Select.Option value="1">即将开始</Select.Option>
+							<Select.Option value="3">正在进行</Select.Option>
+						</Select>
+					</div>
 				</div>
 				<div className="btn">
 					<Button

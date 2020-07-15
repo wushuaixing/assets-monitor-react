@@ -161,15 +161,24 @@ class WRIT extends React.Component {
 						placeholder="请选择案件类型"
 						{...getFieldProps('caseType', {})}
 					>
-						<Option value="刑事案件">刑事案件</Option>
 						<Option value="民事案件">民事案件</Option>
 						<Option value="行政案件">行政案件</Option>
-						<Option value="赔偿案件">赔偿案件</Option>
 						<Option value="执行案件">执行案件</Option>
+						<Option value="刑事案件">刑事案件</Option>
+						<Option value="赔偿案件">赔偿案件</Option>
+						<Option value="强制清算申请审查案件">强制清算申请审查案件</Option>
+						<Option value="其他">其他</Option>
 						<Option value="知识产权">知识产权</Option>
 						<Option value="商事">商事</Option>
 						<Option value="海事海商">海事海商</Option>
 						<Option value="申诉">申诉</Option>
+						<Option value="强制清算案件">强制清算案件</Option>
+						<Option value="司法制裁案件">司法制裁案件</Option>
+						<Option value="破产上诉案件">破产上诉案件</Option>
+						<Option value="其他案件">其他案件</Option>
+						<Option value="强制清算上诉案件">强制清算上诉案件</Option>
+						<Option value="破产监督案件">破产监督案件</Option>
+						<Option value="其他">其他</Option>
 						<Option value="其他">其他</Option>
 					</Select>
 				</div>
