@@ -146,7 +146,7 @@ export default class Subrogation extends React.Component {
 							</span>
 							<span className="container-title-name">
 								代位权信息
-								<Tooltip placement="top" title="查询主体作为原告起诉他人的案件" arrowPointAtCenter>
+								<Tooltip placement="top" title="债务人作为原告起诉他人的案件" arrowPointAtCenter>
 									<span><Icon type="icon-question" style={{ fontSize: 16, marginLeft: 5, cursor: 'pointer' }} /></span>
 								</Tooltip>
 							</span>

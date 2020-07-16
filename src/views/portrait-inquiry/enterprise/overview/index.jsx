@@ -11,6 +11,8 @@ import Basic from './components/basic';
 import ShareholderSituation from './components/shareholderSituation';
 import { getBusiness, getLitigation } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import BusinessScale from './components/businessScale';
+import IntangibleAssets from './components/intangibleAssets';
+import BiddingInfo from './components/biddingInfo';
 import { Spin } from '@/common';
 import { parseQuery } from '@/utils';
 import NoContent from '@/common/noContent';
@@ -163,6 +165,8 @@ export default class OverView extends React.Component {
 							<div className="yc-overview-container">
 								{/* 相关资产拍卖 */}
 								<AssetAuction companyId={companyId} getAssetProfile={this.getAssetProfile} />
+								{/* 无形资产信息 */}
+								<IntangibleAssets companyId={companyId} />
 								{/* 代位权信息 (裁判文书) */}
 								<Subrogation companyId={companyId} getAssetProfile={this.getAssetProfile} />
 								{/* 土地信息 */}
@@ -171,6 +175,8 @@ export default class OverView extends React.Component {
 								<EquityPledge companyId={companyId} getAssetProfile={this.getAssetProfile} />
 								{/* 动产抵押信息 */}
 								<ChattelMortgage companyId={companyId} getAssetProfile={this.getAssetProfile} />
+								{/* 相关招投标信息 */}
+								<BiddingInfo companyId={companyId} />
 							</div>,
 							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0
 							&& <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}</Spin>,

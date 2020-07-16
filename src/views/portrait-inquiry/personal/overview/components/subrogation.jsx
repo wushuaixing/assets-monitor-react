@@ -1,5 +1,6 @@
 import React from 'react';
-import { Spin } from '@/common';
+import { Tooltip } from 'antd';
+import { Icon, Spin } from '@/common';
 import { getQueryByName } from '@/utils';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
@@ -69,6 +70,9 @@ export default class Subrogation extends React.Component {
 									{`${allNum || '-'} 条`}
 								</span>
 								<span className="container-title-name"> 代位权信息 (裁判文书)</span>
+								<Tooltip placement="top" title="债务人作为原告起诉他人的案件">
+									<span><Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} /></span>
+								</Tooltip>
 							</div>
 							<div className="overview-container-content">
 								{timeLineData && getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
