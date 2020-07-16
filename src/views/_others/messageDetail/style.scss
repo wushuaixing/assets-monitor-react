@@ -1,0 +1,40 @@
+.messageDetail-header{
+  padding: 20px;
+  font-size: 14px;
+  color: #4E5566;
+  &-bold{
+    color: #20242E;
+    font-size: 16px;
+    font-weight: bolder;
+    margin-right: 20px;
+    &-sum{
+      color: #FB5A5C;
+    }
+  }
+}
+
+.tiny-line{
+  background-color: #E5E5E5;
+  height: 1px;
+}
+
+.change-box{
+  padding: 20px 26px 20px 26px;
+  &-name{
+    color: #20242E;
+    font-size: 14px;
+  }
+}
+
+.fix-header{
+  .tab{
+    padding: 0 20px;
+    &-tabs{
+      padding-bottom: 20px;
+      border-bottom: 1px solid #E5E5E5;
+      button{
+        margin-right: 10px;
+      }
+    }
+  }
+}

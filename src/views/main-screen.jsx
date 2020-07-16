@@ -16,6 +16,7 @@ import { Header, Container, Footer } from './_others/layout';
 import { authRule } from '@/utils/api';
 import { handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
+import MessageDetail from '@/views/_others/messageDetail';
 
 // 新的引用方式，分割代码，懒加载
 
@@ -61,6 +62,8 @@ const ruleList = (props) => {
 
 	l.push(<Message path="message/*" />);
 	l.push(<ChangePassword path="change/password/*" />);
+	l.push(<MessageDetail path="messageDetail/*" rule={rule} />);
+
 	if (!rule.menu_sy) {
 		l[0].props.path = '/*';
 	}
