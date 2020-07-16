@@ -8,7 +8,7 @@ import { Input, timeRule, DatePicker } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
-const _style1 = { width: 120 };
+const _style1 = { width: 140 };
 const _style2 = { width: 116 };
 const { Option } = Select;
 class WRIT extends React.Component {
@@ -116,72 +116,63 @@ class WRIT extends React.Component {
 						/>
 					</div>
 				</div>
-				<div className="other">
-					<span>发布日期：</span>
-					<DatePicker
-						placeholder="开始日期"
-						size="large"
-						style={_style2}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
-						{...getFieldProps('publishStart', {
-							onChange: (value, dateString) => {
-								console.log(value, dateString);
-								this.setState({
-									startTime: dateString,
-								});
-							},
-							...timeOption,
-						})}
-						allowClear
-					/>
-					<span style={{ margin: '0 2px ' }}>至</span>
-					<DatePicker
-						placeholder="结束日期"
-						size="large"
-						style={_style2}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
-						{...getFieldProps('publishEnd', {
-							onChange: (value, dateString) => {
-								console.log(value, dateString);
-								this.setState({
-									endTime: dateString,
-								});
-							},
-							...timeOption,
-						})}
-						allowClear
-					/>
+				<div className="yc-tabs-items">
+					<div className="item" style={{ width: 310, marginRight: 16 }}>
+						<span>发布日期：</span>
+						<DatePicker
+							placeholder="开始日期"
+							size="large"
+							style={_style2}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
+							{...getFieldProps('publishStart', {
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										startTime: dateString,
+									});
+								},
+								...timeOption,
+							})}
+							allowClear
+						/>
+						<span style={{ margin: '0 2px ' }}>至</span>
+						<DatePicker
+							placeholder="结束日期"
+							size="large"
+							style={_style2}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
+							{...getFieldProps('publishEnd', {
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										endTime: dateString,
+									});
+								},
+								...timeOption,
+							})}
+							allowClear
+						/>
+					</div>
+					<div className="item">
+						<span>案件类型：</span>
+						<Select
+							size="large"
+							allowClear
+							style={_style1}
+							placeholder="请选择案件类型"
+							{...getFieldProps('caseType', {})}
+						>
+							<Option value="民事案件">民事案件</Option>
+							<Option value="行政案件">行政案件</Option>
+							<Option value="执行案件">执行案件</Option>
+							<Option value="刑事案件">刑事案件</Option>
+							<Option value="赔偿案件">赔偿案件</Option>
+							<Option value="强制清算与破产案件">强制清算与破产案件</Option>
+							<Option value="其他">其他</Option>
+						</Select>
+					</div>
 				</div>
-				<div className="other">
-					<span>案件类型：</span>
-					<Select
-						size="large"
-						allowClear
-						style={_style1}
-						placeholder="请选择案件类型"
-						{...getFieldProps('caseType', {})}
-					>
-						<Option value="民事案件">民事案件</Option>
-						<Option value="行政案件">行政案件</Option>
-						<Option value="执行案件">执行案件</Option>
-						<Option value="刑事案件">刑事案件</Option>
-						<Option value="赔偿案件">赔偿案件</Option>
-						<Option value="强制清算申请审查案件">强制清算申请审查案件</Option>
-						<Option value="其他">其他</Option>
-						<Option value="知识产权">知识产权</Option>
-						<Option value="商事">商事</Option>
-						<Option value="海事海商">海事海商</Option>
-						<Option value="申诉">申诉</Option>
-						<Option value="强制清算案件">强制清算案件</Option>
-						<Option value="司法制裁案件">司法制裁案件</Option>
-						<Option value="破产上诉案件">破产上诉案件</Option>
-						<Option value="其他案件">其他案件</Option>
-						<Option value="强制清算上诉案件">强制清算上诉案件</Option>
-						<Option value="破产监督案件">破产监督案件</Option>
-						<Option value="其他">其他</Option>
-						<Option value="其他">其他</Option>
-					</Select>
-				</div>
+
 				<div className="btn">
 					<Button
 						type="primary"

@@ -497,6 +497,20 @@ class AUCTION extends React.Component {
 						/>
 					</div>
 					<div className="yc-query-item">
+						<span className="yc-query-item-title">拍卖标的物: </span>
+						<Select
+							size="large"
+							allowClear
+							placeholder="请选择标的物类型"
+							style={_style2}
+							{...getFieldProps('thing', {
+								initialValue: params.thing,
+							})}
+						>
+							<Select.Option value="9">中止</Select.Option>
+						</Select>
+					</div>
+					<div className="yc-query-item">
 						<span className="yc-query-item-title">拍卖状态: </span>
 						<Select
 							size="large"
@@ -515,6 +529,7 @@ class AUCTION extends React.Component {
 							<Select.Option value="3">正在进行</Select.Option>
 						</Select>
 					</div>
+
 					<div className="yc-query-item yc-query-item-btn">
 						<Button onClick={this.search} size="large" type="common" style={{ width: 84 }}>查询</Button>
 						<Button onClick={this.queryReset} size="large" style={{ width: 110, marginRight: 0 }}>重置查询条件</Button>
