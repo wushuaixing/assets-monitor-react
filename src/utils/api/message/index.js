@@ -17,3 +17,11 @@ export const dataCount = async (params) => {
 	const response = await service.get('/yc/report/daily/statistics/dataCount', { params });
 	return response.data;
 };
+
+// 取消关注 [单个]
+export const unFollowSingle = params => service.post('/yc/monitor/auction/unfollow', params)
+	.then(res => res.data);
+
+// 关注 [单个]
+export const followSingle = params => service.post('/yc/monitor/auction/follow', params)
+	.then(res => res.data);
