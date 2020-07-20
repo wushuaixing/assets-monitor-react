@@ -27,9 +27,10 @@ class InformCenter extends React.Component {
 		this.state = {
 			columns: [
 				{
-					title: '标题',
+					title: '消息种类',
 					dataIndex: 'title',
-					width: 850,
+					width: 100,
+					className: 'message-type',
 					render: (text, row) => (
 						<div>
 							<img
@@ -37,6 +38,18 @@ class InformCenter extends React.Component {
 								src={row.isRead === false ? imgUnread : imgReade}
 								alt=""
 							/>
+							<span>
+						监控日报
+							</span>
+						</div>
+					),
+				},
+				{
+					title: '内容详情',
+					dataIndex: 'title',
+					width: 850,
+					render: (text, row) => (
+						<div>
 							<span
 								onClick={() => {
 									this.skip(row);
@@ -53,7 +66,7 @@ class InformCenter extends React.Component {
 					),
 				},
 				{
-					title: '时间',
+					title: '更新时间',
 					dataIndex: 'createTime',
 					// width: 160,
 					render: text => <span>{formatDateTime(text)}</span>,

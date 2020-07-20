@@ -3,9 +3,10 @@ import { Button, NoContent, Spin } from '@/common';
 import Auction from './auction';
 import Subrogation from './subrogation';
 import Land from './land';
-// import Intangible from './intangible';
+import Intangible from './intangible';
 import Stock from './stock';
 import Chattel from './chattel';
+import Bidding from './bidding';
 
 
 const toGetTotal = (field, data) => {
@@ -66,6 +67,22 @@ const subItems = data => ([
 		info: data ? data.filter(i => /1060/.test(i.id)) : '',
 		tagName: 'e-assets-chattel',
 		component: Chattel,
+	},
+	{
+		id: 10700,
+		name: '无形资产',
+		total: data ? toGetTotal('1070', data) : 0,
+		info: data ? data.filter(i => /1070/.test(i.id)) : '',
+		tagName: 'e-assets-intangible',
+		component: Intangible,
+	},
+	{
+		id: 10800,
+		name: '招投标',
+		total: data ? toGetTotal('1080', data) : 0,
+		info: data ? data.filter(i => /1080/.test(i.id)) : '',
+		tagName: 'e-assets-bidding',
+		component: Bidding,
 	},
 ]);
 export default class Assets extends React.Component {

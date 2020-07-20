@@ -72,6 +72,19 @@ export const loginPreCheck = async (params) => {
 	return response.data;
 };
 
+// 获取手机验证码
+export const getVerificationCode = async (params) => {
+	const response = await service.get('/api/auth/open/wechat/sms', { params });
+	return response.data;
+};
+
+// 手机验证码登录
+export const loginPhoneCode = async (params) => {
+	const response = await service.post('/api/auth/open/wechat/smsLogin', params);
+	return response.data;
+};
+
+
 // 初始账号(初始修改密码) [zhousai]
 export const initUser = async (params) => {
 	const response = await service.post('/api/auth/initUser', params);

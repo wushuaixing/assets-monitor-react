@@ -82,7 +82,7 @@ class QueryCondition extends React.Component {
 					<Input title="法院" style={_style1} size="large" maxLength="20" placeholder="法院名称" {...getFieldProps('court')} />
 				</div>
 				<div className="yc-query-item" style={{ height: 34, paddingTop: 9 }}>
-					<span className="yc-query-item-title">是否过滤本级机构：</span>
+					<span className="yc-query-item-title">是否过滤本机构：</span>
 					<Radio.Group onChange={this.radioChange} value={filterCurrentOrg}>
 						<Radio key="a" value={1}>是</Radio>
 						<Radio key="b" value={0}>否</Radio>

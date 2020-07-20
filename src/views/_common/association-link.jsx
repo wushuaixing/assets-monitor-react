@@ -5,6 +5,7 @@ import { Button, Table } from '@/common';
 import { ReadStatus } from '@/common/table';
 import { partyInfo } from '@/views/_common';
 import './association.scss';
+import link from '@/assets/img/business/link.png';
 
 /* 默认表格输出单元 */
 const defaultColumns = {
@@ -71,6 +72,12 @@ const defaultColumns = {
 			title: '案由',
 			dataIndex: 'caseReason',
 			render: text => text || '-',
+		},
+		{
+			title: '链接',
+			dataIndex: 'url',
+			width: 50,
+			render: text => (text ? <a href={text}><img className="linkPic" src={link} alt="链接" /></a> : '-'),
 		},
 	],
 	Judgment: [
@@ -163,34 +170,34 @@ class AssociationLink extends React.Component {
 		});
 	};
 
-	/* 处理数据 */
+	/*
+	* La: ；立案，Kt: 开庭， Ws: 文书
+	* 立案：该条数据有链接, 点击直接跳转源链接
+	* 开庭：只有1条且无源链接，不显示“开庭”两字；只有1条且有链接的情况：点击直接跳转；有多条的情况：打开弹窗
+	* 有同个案号的文书信息，且有源链接 点击直接跳转源链接
+	*/
 	handleSource = (source) => {
 		const { associatedInfo: { trialAssociatedInfo: La, courtAssociatedInfo: Kt, judgmentAssociatedInfo: Ws } } = source;
 		const resContent = [];
 		if (La.length > 0) {
-			if (La.length > 1) {
-				resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
-			} else if (La.length === 1) {
-				if (La[0].url) resContent.push(linkDom(La[0].url, '立案'));
-				else resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
+			if (La[0].url) {
+				resContent.push(linkDom(La[0].url, '立案'));
 			}
 		}
 		if (Kt.length > 0) {
 			if (Kt.length > 1) {
-				if (resContent.length)resContent.push(<span className="info-line">|</span>);
+				if (resContent.length) resContent.push(<span className="info-line">|</span>);
 				resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Court')}>开庭</span>);
 			} else if (Kt.length === 1) {
-				if (resContent.length)resContent.push(<span className="info-line">|</span>);
-				if (Kt[0].url) resContent.push(linkDom(Kt[0].url, '开庭'));
-				else resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Court')}>开庭</span>);
+				if (Kt[0].url) {
+					if (resContent.length) resContent.push(<span className="info-line">|</span>);
+					resContent.push(linkDom(Kt[0].url, '开庭'));
+				}
 			}
 		}
 		if (Ws.length > 0) {
-			if (Ws.length > 1) {
-				if (resContent.length)resContent.push(<span className="info-line">|</span>);
-				resContent.push(<span className="click-link" onClick={() => this.toJudgmentShow(Ws, 'Judgment')}>文书</span>);
-			} else if (Ws.length === 1 && Ws[0].url) {
-				if (resContent.length)resContent.push(<span className="info-line">|</span>);
+			if (Ws[0].url) {
+				resContent.push(<span className="info-line">|</span>);
 				resContent.push(linkDom(Ws[0].url, '文书'));
 			}
 		}
@@ -227,25 +234,36 @@ class AssociationLink extends React.Component {
 						<Button onClick={this.toClose} title="关闭" style={{ width: 100 }} />,
 					]}
 				>
+					{
+						 _dataSource && _dataSource.tableData && _dataSource.tableData.length > 3 && (
+						<div className="tips">
+							共搜索到
+							<span>100</span>
+							条关联开庭信息，为您展示最新
+							<span>3</span>
+							条：
+						</div>
+						 )
+					}
 					{[
 						_dataSource.tableData.length
 							? <Table columns={defaultColumns[type || 'Trial']} dataSource={_dataSource.tableData} pagination={false} /> : null,
-						_dataSource.tableData.length && _dataSource.listData.length ? <div className="source-list-hr" /> : null,
-						_dataSource.listData.length
-							? [
-								<div className="yc-public-title-normal source-list-title">{`本条信息关联的其他多个${text.c}链接：`}</div>,
-								<div className="source-list-data">
-									<span className="list-title">{text.t}</span>
-									<span className="list-content">相关链接地址</span>
-								</div>,
-								_dataSource.listData.map(item => (
-									<div className="source-list-data">
-										<span className="list-title">{timeStandard(item.gmtTrial || item.gmtRegister)}</span>
-										<span className="list-content">{linkDom(item.url, item.url)}</span>
-									</div>
-								)),
-							]
-							: null,
+						// _dataSource.tableData.length && _dataSource.listData.length ? <div className="source-list-hr" /> : null,
+						// _dataSource.listData.length
+						// 	? [
+						// 		<div className="yc-public-title-normal source-list-title">{`本条信息关联的其他多个${text.c}链接：`}</div>,
+						// 		<div className="source-list-data">
+						// 			<span className="list-title">{text.t}</span>
+						// 			<span className="list-content">相关链接地址</span>
+						// 		</div>,
+						// 		_dataSource.listData.map(item => (
+						// 			<div className="source-list-data">
+						// 				<span className="list-title">{timeStandard(item.gmtTrial || item.gmtRegister)}</span>
+						// 				<span className="list-content">{linkDom(item.url, item.url)}</span>
+						// 			</div>
+						// 		)),
+						// 	]
+						// 	: null,
 					]}
 				</Modal>
 			</React.Fragment>

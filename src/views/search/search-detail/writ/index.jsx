@@ -22,7 +22,7 @@ import { ScrollAnimation } from '@/utils/changeTime';
 
 const _style1 = { width: 278 };
 const _style2 = { width: 116 };
-const _style3 = { width: 120 };
+const _style3 = { width: 140 };
 const _style4 = { width: 1160 };
 const { Option } = Select;
 const createForm = Form.create;
@@ -393,15 +393,12 @@ class WRIT extends React.Component {
 									initialValue: params ? params.caseType : '',
 								})}
 							>
-								<Option value="刑事案件">刑事案件</Option>
 								<Option value="民事案件">民事案件</Option>
 								<Option value="行政案件">行政案件</Option>
-								<Option value="赔偿案件">赔偿案件</Option>
 								<Option value="执行案件">执行案件</Option>
-								<Option value="知识产权">知识产权</Option>
-								<Option value="商事">商事</Option>
-								<Option value="海事海商">海事海商</Option>
-								<Option value="申诉">申诉</Option>
+								<Option value="刑事案件">刑事案件</Option>
+								<Option value="赔偿案件">赔偿案件</Option>
+								<Option value="强制清算与破产案件">强制清算与破产案件</Option>
 								<Option value="其他">其他</Option>
 							</Select>
 						</div>

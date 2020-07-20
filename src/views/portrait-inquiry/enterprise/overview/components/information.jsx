@@ -1,9 +1,11 @@
 import React from 'react';
+import { Tooltip } from 'antd';
 import TagSide from '@/views/portrait-inquiry/common/checkBtn';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
 import getCount from '../../../common/getCount';
+import { Icon } from '@/common';
 
 export default class Information extends React.Component {
 	constructor(props) {
@@ -133,6 +135,9 @@ export default class Information extends React.Component {
 								{FilingNum || CourtNum || refereeNum ? `${FilingNum + CourtNum + refereeNum}  条` : ''}
 							</span>
 							<span className="container-title-name">  涉诉信息</span>
+							<Tooltip placement="top" title="债务人作为被告被起诉的案件" arrowPointAtCenter>
+								<span><Icon type="icon-question" style={{ fontSize: 16, marginLeft: 5, cursor: 'pointer' }} /></span>
+							</Tooltip>
 						</div>
 						<div className="overview-container-content">
 							<div style={{ marginBottom: 20 }}>

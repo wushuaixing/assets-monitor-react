@@ -11,6 +11,12 @@ export const getAuction = async (params) => {
 	return response.data;
 };
 
+// 资产概览 => 无形资产信息
+export const getIntangible = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/asset/subrogation', { params });
+	return response.data;
+};
+
 // 资产概览 => 代位权信息
 export const getSubrogation = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/overview/asset/subrogation', { params });
@@ -22,6 +28,7 @@ export const getLand = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/overview/asset/land', { params });
 	return response.data;
 };
+
 // 资产概况 => 股权质押
 export const getStock = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/overview/asset/stock', { params });
@@ -30,6 +37,12 @@ export const getStock = async (params) => {
 
 // 资产概况 => 动产抵押
 export const getMortgage = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/asset/mortgage', { params });
+	return response.data;
+};
+
+// 资产概况 => 相关招投标信息
+export const getBidding = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/overview/asset/mortgage', { params });
 	return response.data;
 };

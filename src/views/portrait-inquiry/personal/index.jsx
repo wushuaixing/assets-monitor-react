@@ -3,7 +3,9 @@ import { Affix, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import QueryView from '../common/queryView';
-import { Tabs, Download, Icon as IconType } from '@/common';
+import {
+	Tabs, Download, Icon as IconType, BreadCrumb,
+} from '@/common';
 import OverView from './overview';
 import Assets from './assets';
 import Risk from './risk';
@@ -248,8 +250,16 @@ export default class Personal extends React.Component {
 
 		return (
 			<div className="yc-inquiry-personal">
-				<QueryView type={2} />
-				<div className="mark-line" />
+				<BreadCrumb
+					className="yc-bread-crumb-box"
+					list={[
+						{ id: 1, name: '信息搜索', link: '/info/search' },
+						{ id: 2, name: '画像查询', link: '/info/search/several' },
+					]}
+				/>
+				<div className="queryView-box">
+					<QueryView type={2} />
+				</div>
 				<div className="inquiry-personal-content">
 					<Spin visible={loading}>
 						<Affix onChange={this.onChangeAffix}>
