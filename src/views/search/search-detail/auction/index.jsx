@@ -25,6 +25,25 @@ import './style.scss';
 const _style1 = { width: 278 };
 const _style2 = { width: 116 };
 const createForm = Form.create;
+const someThing = [
+	{ name: '房产', key: '50025969' },
+	{ name: '机动车', key: '50025972' },
+	{ name: '奢侈品', key: '201290015' },
+	{ name: '实物资产', key: '50025971' },
+	{ name: '林权', key: '50025973' },
+	{ name: '土地', key: '50025970' },
+	{ name: '股权', key: '125088031' },
+	{ name: '债权', key: '56956002' },
+	{ name: '无形资产', key: '122406001' },
+	{ name: '其他', key: '50025976' },
+	{ name: '船舶', key: '125228021' },
+	{ name: '其他交通工具', key: '200794003' },
+	{ name: '矿权', key: '50025974' },
+	{ name: '工程', key: '50025975' },
+	{ name: '海域', key: '200778005' },
+	{ name: '机械设备', key: '56936003' },
+	{ name: '未知', key: '0' },
+];
 
 class AUCTION extends React.Component {
 	constructor(props) {
@@ -503,11 +522,13 @@ class AUCTION extends React.Component {
 							allowClear
 							placeholder="请选择标的物类型"
 							style={_style2}
-							{...getFieldProps('thing', {
-								initialValue: params.thing,
+							{...getFieldProps('category', {
+								initialValue: params.category,
 							})}
 						>
-							<Select.Option value="9">中止</Select.Option>
+							{
+								someThing.map(item => <Select.Option value={item.key}>{item.name}</Select.Option>)
+							}
 						</Select>
 					</div>
 					<div className="yc-query-item">
