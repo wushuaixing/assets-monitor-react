@@ -246,7 +246,11 @@ class AUCTION extends React.Component {
 
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(Fields)) {
-			this.getData(params); // 进入页面请求数据
+			if (Fields.number && Fields.number.length < 8) {
+				message.error('证件号不得小于8位');
+			} else {
+				this.getData(params); // 进入页面请求数据
+			}
 		} else {
 			this.queryReset();
 			// message.error('请至少输入一个搜索条件');
@@ -411,7 +415,7 @@ class AUCTION extends React.Component {
 						placeholder="身份证号/统一社会信用代码"
 						{...getFieldProps('number', {
 							initialValue: params.number,
-							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, ''),
+							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, '') || undefined,
 							// getValueFromEvent: e => e.trim(),
 						})}
 					/>
