@@ -2,52 +2,43 @@ import React, { Component } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions } from '@/common/table';
 import { timeStandard } from '@/utils';
-import { Table } from '@/common';
-import { partyInfo } from '@/views/_common';
-import associationLink from '@/views/_common/association-link';
-import { openCourtRes } from '../../test';
+import { Table, Ellipsis } from '@/common';
+import { sellRes } from '../../test';
+import { Result } from '@/views/asset-excavate/land-data/table/common';
 import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
 
 
 // 获取表格配置
 const columns = onRefresh => [
 	{
-		title: <span style={{ paddingLeft: 11 }}>开庭日期</span>,
-		dataIndex: 'gmtCreate',
+		title: <span style={{ paddingLeft: 11 }}>签订日期</span>,
+		dataIndex: 'singedTime',
 		width: 103,
 		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 	}, {
-		title: '当事人',
-		dataIndex: 'parties',
-		render: partyInfo,
+		title: '土地使用权人',
+		width: 190,
+		dataIndex: 'obligorName',
+		render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
 	}, {
-		title: '法院',
-		dataIndex: 'court',
-		render: text => text || '-',
+		title: '项目信息',
+		render: Result.InfoProject,
 	}, {
-		title: '案号',
-		dataIndex: 'caseNumber',
-		render: text => text || '-',
+		title: '土地信息',
+		render: Result.InfoLand,
 	}, {
-		title: '案由',
-		dataIndex: 'caseReason',
-		className: 'min-width-80-normal',
-		render: text => text || '-',
-	}, {
-		title: '关联信息',
-		dataIndex: 'associatedInfo',
-		className: 'tAlignCenter_important min-width-80',
-		render: (value, row) => associationLink(value, row, 'Court'),
+		title: '出让信息',
+		width: 250,
+		render: Result.InfoTransfer,
 	}, {
 		title: global.Table_CreateTime_Text,
-		dataIndex: 'gmtModified',
+		dataIndex: 'gmtCreate',
 		width: 93,
-		render: val => timeStandard(val),
+		render: text => timeStandard(text),
 	}, {
 		title: '操作',
 		unNormal: true,
 		className: 'tAlignCenter_important',
-		width: 60,
 		render: (text, row, index) => (
 			<Attentions
 				text={text}
@@ -59,7 +50,7 @@ const columns = onRefresh => [
 		),
 	}];
 
-class OpenCourt extends Component {
+class Sell extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -71,7 +62,7 @@ class OpenCourt extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: openCourtRes.data.list,
+			dataSource: sellRes.data.list,
 		});
 	}
 
@@ -129,4 +120,4 @@ class OpenCourt extends Component {
 	}
 }
 
-export default OpenCourt;
+export default Sell;

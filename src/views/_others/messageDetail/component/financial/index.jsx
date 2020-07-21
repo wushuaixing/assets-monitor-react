@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import '../../style.scss';
-import SubrogationRights from './subrogation';
-import OpenCourt from './openCourt';
-import Instrument from './instrument';
+import Competition from './competition';
+import PubilcProject from './public';
 
-
-// 获取表格配置
-
-class Subrogation extends Component {
+class Financial extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -37,9 +33,8 @@ class Subrogation extends Component {
 										{item.name}
 										<span>{item.count}</span>
 									</div>
-									{ item.type === 'subrogation' && <SubrogationRights />}
-									{ item.type === 'openCourt' && <OpenCourt />}
-									{ item.type === 'instrument' && <Instrument />}
+									{ item.type === 'competition' && <Competition />}
+									{ item.type === 'public' && <PubilcProject />}
 								</div>
 							)
 						))
@@ -50,4 +45,4 @@ class Subrogation extends Component {
 	}
 }
 
-export default Subrogation;
+export default Financial;

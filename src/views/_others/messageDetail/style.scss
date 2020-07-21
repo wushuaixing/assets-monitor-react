@@ -16,22 +16,20 @@
   }
   &-table{
     &-box{
-      padding: 20px;
+      padding: 0 20px;
     }
     &-title{
       border-left: 3px solid #1c80e1;
       padding-left: 7px;
       font-weight: bold;
-      margin-top: 41px;
+      margin-top: 20px;
     }
     &-subTitle{
-      width: 55px;
       border-bottom: 2px solid #1C80E1;
       padding-bottom: 10px;
       font-size: 12px;
       font-weight: bold;
-      margin-bottom: 12px;
-      margin-top: 10px;
+      margin: 10px 0 12px 10px;
       span{
         margin-left: 6px;
       }
@@ -73,14 +71,14 @@
 }
 
 .fix-header{
+  max-height: 200px;
   .tab{
     padding: 0 20px;
     background: #ffffff;
     &-tabs{
-      padding-bottom: 20px;
-      border-bottom: 1px solid #E5E5E5;
       button{
         margin-right: 10px;
+        margin-bottom: 10px;
       }
     }
   }

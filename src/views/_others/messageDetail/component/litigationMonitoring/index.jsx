@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import '../../style.scss';
-import SubrogationRights from './subrogation';
-import OpenCourt from './openCourt';
-import Instrument from './instrument';
+import Case from './case';
+import Court from './court';
+import JudgmentDocument from './judgmentDocument';
 
 
-// 获取表格配置
-
-class Subrogation extends Component {
+class LitigationMonitoring extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -37,9 +35,9 @@ class Subrogation extends Component {
 										{item.name}
 										<span>{item.count}</span>
 									</div>
-									{ item.type === 'subrogation' && <SubrogationRights />}
-									{ item.type === 'openCourt' && <OpenCourt />}
-									{ item.type === 'instrument' && <Instrument />}
+									{ item.type === 'case' && <Case />}
+									{ item.type === 'court' && <Court />}
+									{ item.type === 'judgmentDocument' && <JudgmentDocument />}
 								</div>
 							)
 						))
@@ -50,4 +48,4 @@ class Subrogation extends Component {
 	}
 }
 
-export default Subrogation;
+export default LitigationMonitoring;

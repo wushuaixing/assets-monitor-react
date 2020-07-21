@@ -1,53 +1,33 @@
 import React, { Component } from 'react';
 import { Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
-import { timeStandard } from '@/utils';
+import { Attentions } from '@/common/table';
 import { Table } from '@/common';
-import { partyInfo } from '@/views/_common';
-import associationLink from '@/views/_common/association-link';
-import { openCourtRes } from '../../test';
+import { publicRes } from '../../test';
+import { AssetsInfo, ListingInfo, ProjectInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
 import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
-
 
 // 获取表格配置
 const columns = onRefresh => [
 	{
-		title: <span style={{ paddingLeft: 11 }}>开庭日期</span>,
-		dataIndex: 'gmtCreate',
-		width: 103,
-		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
-	}, {
-		title: '当事人',
-		dataIndex: 'parties',
-		render: partyInfo,
-	}, {
-		title: '法院',
-		dataIndex: 'court',
-		render: text => text || '-',
-	}, {
-		title: '案号',
-		dataIndex: 'caseNumber',
-		render: text => text || '-',
-	}, {
-		title: '案由',
-		dataIndex: 'caseReason',
-		className: 'min-width-80-normal',
-		render: text => text || '-',
-	}, {
-		title: '关联信息',
-		dataIndex: 'associatedInfo',
-		className: 'tAlignCenter_important min-width-80',
-		render: (value, row) => associationLink(value, row, 'Court'),
-	}, {
-		title: global.Table_CreateTime_Text,
-		dataIndex: 'gmtModified',
-		width: 93,
-		render: val => timeStandard(val),
-	}, {
+		title: '业务信息',
+		width: 400,
+		render: (text, row) => AssetsInfo(text, row, true, true),
+	},
+	{
+		title: '项目信息 ',
+		width: 300,
+		render: (text, row) => ProjectInfo(text, row, true, true),
+	},
+	{
+		title: '挂牌信息',
+		width: 300,
+		render: (text, row) => ListingInfo(text, row, true, true),
+	},
+	{
 		title: '操作',
+		width: 60,
 		unNormal: true,
 		className: 'tAlignCenter_important',
-		width: 60,
 		render: (text, row, index) => (
 			<Attentions
 				text={text}
@@ -59,7 +39,7 @@ const columns = onRefresh => [
 		),
 	}];
 
-class OpenCourt extends Component {
+class PubilcProject extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -71,7 +51,7 @@ class OpenCourt extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: openCourtRes.data.list,
+			dataSource: publicRes.data.list,
 		});
 	}
 
@@ -119,8 +99,6 @@ class OpenCourt extends Component {
 							showQuickJumper
 							current={current || 1}
 							total={total || 0}
-							onChange={this.onPageChange}
-							showTotal={totalCount => `共 ${totalCount} 条信息`}
 						/>
 					</div>
 				)}
@@ -129,4 +107,4 @@ class OpenCourt extends Component {
 	}
 }
 
-export default OpenCourt;
+export default PubilcProject;

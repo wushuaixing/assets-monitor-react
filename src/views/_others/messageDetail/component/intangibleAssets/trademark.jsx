@@ -1,53 +1,50 @@
 import React, { Component } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions } from '@/common/table';
-import { timeStandard } from '@/utils';
+import { linkDetail, linkDom, timeStandard } from '@/utils';
 import { Table } from '@/common';
-import { partyInfo } from '@/views/_common';
-import associationLink from '@/views/_common/association-link';
-import { openCourtRes } from '../../test';
+import { trademarkRes } from '../../test';
 import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
 
+const rightsTypeStatus = {
+	0: '未知',
+	1: '商标',
+	2: '专利',
+};
 
 // 获取表格配置
 const columns = onRefresh => [
 	{
-		title: <span style={{ paddingLeft: 11 }}>开庭日期</span>,
-		dataIndex: 'gmtCreate',
-		width: 103,
+		title: <span style={{ paddingLeft: 11 }}>公告日期</span>,
+		dataIndex: 'noticeTime',
+		width: 113,
 		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 	}, {
-		title: '当事人',
-		dataIndex: 'parties',
-		render: partyInfo,
+		title: '申请人/权利人',
+		dataIndex: 'obligorName',
+		width: 200,
+		render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
 	}, {
-		title: '法院',
-		dataIndex: 'court',
-		render: text => text || '-',
+		title: '商标/专利名称',
+		width: 200,
+		dataIndex: 'rightsName',
+		render: (text, row) => (text ? linkDom(row.url, text) : '-'),
 	}, {
-		title: '案号',
-		dataIndex: 'caseNumber',
-		render: text => text || '-',
-	}, {
-		title: '案由',
-		dataIndex: 'caseReason',
-		className: 'min-width-80-normal',
-		render: text => text || '-',
-	}, {
-		title: '关联信息',
-		dataIndex: 'associatedInfo',
-		className: 'tAlignCenter_important min-width-80',
-		render: (value, row) => associationLink(value, row, 'Court'),
+		title: '权利类型',
+		width: 100,
+		dataIndex: 'rightsType',
+		render: text => (
+			<span>{rightsTypeStatus[text]}</span>
+		),
 	}, {
 		title: global.Table_CreateTime_Text,
-		dataIndex: 'gmtModified',
-		width: 93,
-		render: val => timeStandard(val),
+		dataIndex: 'gmtCreate',
+		width: 90,
 	}, {
 		title: '操作',
+		width: 60,
 		unNormal: true,
 		className: 'tAlignCenter_important',
-		width: 60,
 		render: (text, row, index) => (
 			<Attentions
 				text={text}
@@ -59,7 +56,7 @@ const columns = onRefresh => [
 		),
 	}];
 
-class OpenCourt extends Component {
+class Trademark extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -71,7 +68,7 @@ class OpenCourt extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: openCourtRes.data.list,
+			dataSource: trademarkRes.data.list,
 		});
 	}
 
@@ -129,4 +126,4 @@ class OpenCourt extends Component {
 	}
 }
 
-export default OpenCourt;
+export default Trademark;

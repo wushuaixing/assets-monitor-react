@@ -3,9 +3,9 @@ import { Pagination } from 'antd';
 import { ReadStatus, Attentions } from '@/common/table';
 import { timeStandard } from '@/utils';
 import { Table } from '@/common';
+import { courtRes } from '../../test';
 import { partyInfo } from '@/views/_common';
 import associationLink from '@/views/_common/association-link';
-import { openCourtRes } from '../../test';
 import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
 
 
@@ -13,12 +13,13 @@ import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
 const columns = onRefresh => [
 	{
 		title: <span style={{ paddingLeft: 11 }}>开庭日期</span>,
-		dataIndex: 'gmtCreate',
+		dataIndex: 'gmtTrial',
 		width: 103,
 		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 	}, {
 		title: '当事人',
 		dataIndex: 'parties',
+		width: 300,
 		render: partyInfo,
 	}, {
 		title: '法院',
@@ -37,10 +38,10 @@ const columns = onRefresh => [
 		title: '关联信息',
 		dataIndex: 'associatedInfo',
 		className: 'tAlignCenter_important min-width-80',
-		render: (value, row) => associationLink(value, row, 'Court'),
+		render: associationLink,
 	}, {
 		title: global.Table_CreateTime_Text,
-		dataIndex: 'gmtModified',
+		dataIndex: 'gmtCreate',
 		width: 93,
 		render: val => timeStandard(val),
 	}, {
@@ -59,7 +60,7 @@ const columns = onRefresh => [
 		),
 	}];
 
-class OpenCourt extends Component {
+class Court extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -71,7 +72,7 @@ class OpenCourt extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: openCourtRes.data.list,
+			dataSource: courtRes.data.list,
 		});
 	}
 
@@ -129,4 +130,4 @@ class OpenCourt extends Component {
 	}
 }
 
-export default OpenCourt;
+export default Court;

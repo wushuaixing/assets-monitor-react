@@ -9,10 +9,21 @@ import {
 import { headerInfo, dataCount } from '@/utils/api/message/index';
 import { getQueryByName } from '@/utils';
 import { allData } from './test';
-import messageApi from '@/utils/api/message/message';
+import message from '@/utils/api/message/message';
 import Assets from './component/assets/index';
 import Subrogation from './component/subrogation/index';
 import { requestAll } from '@/utils/promise';
+import Land from './component/land/index';
+import Bidding from './component/bidding/index';
+import EquityPledge from './component/equityPledge/index';
+import Financial from './component/financial/index';
+import ChattelMortgage from './component/chattelMortgage/index';
+import IntangibleAssets from './component/intangibleAssets/index';
+import LitigationMonitoring from './component/litigationMonitoring/index';
+import Bankrupt from './component/bankrupt/index';
+import Dishonesty from './component/dishonesty/index';
+import IllegalTaxation from './component/illegalTaxation/index';
+import EnvironmentPunishment from './component/environmentPunishment/index';
 
 
 const createForm = Form.create;
@@ -22,17 +33,10 @@ const createForm = Form.create;
 const isRule = (ruleName, type, rule) => {
 	if (ruleName) {
 		if (type === 1) {
-			if (rule.menu_zcwj.children.hasOwnProperty(ruleName)) {
-				return true;
-			}
-
-			return false;
+			return Object.keys(rule.menu_zcwj.children).indexOf(ruleName) >= 0;
 		}
 		if (type === 2) {
-			if (rule.menu_fxjk.children.hasOwnProperty(ruleName)) {
-				return true;
-			}
-			return false;
+			return Object.keys(rule.menu_fxjk.children).indexOf(ruleName) >= 0;
 		}
 		return false;
 	}
@@ -82,8 +86,12 @@ const subItems = (rule, data) => ([
 		tagName: 'message-land',
 		total: data ? getCount(data, 3) : 0,
 		status: isRule('zcwjtdsj', 1, rule),
-		component: Assets,
-		childrenCount: [{ name: '土地出让', count: 0 }, { name: '土地转让', count: 0 }, { name: '土地抵押', count: 0 }],
+		component: Land,
+		childrenCount: [
+			{ name: '土地出让', count: 11, type: 'sell' },
+			{ name: '土地转让', count: 12, type: 'transfer' },
+			{ name: '土地抵押', count: 22, type: 'pledge' },
+		],
 	},
 	{
 		dataType: 4,
@@ -92,7 +100,7 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 4) : 0,
 		status: isRule('zcwjzbzb', 1, rule),
 		tagName: 'message-tender',
-		component: Assets,
+		component: Bidding,
 	},
 	{
 		dataType: 5,
@@ -101,7 +109,7 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 5) : 0,
 		status: isRule('zcwjgqzy', 1, rule),
 		tagName: 'message-equityPledge',
-		component: Subrogation,
+		component: EquityPledge,
 	},
 	{
 		dataType: 6,
@@ -110,8 +118,11 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 6) : 0,
 		status: isRule('zcwjjrzj', 1, rule),
 		tagName: 'message-financial',
-		component: Subrogation,
-		childrenCount: [{ name: '竞价项目', count: 0 }, { name: '公示项目', count: 0 }],
+		component: Financial,
+		childrenCount: [
+			{ name: '竞价项目', count: 11, type: 'competition' },
+			{ name: '公示项目', count: 12, type: 'public' },
+		],
 	},
 	{
 		dataType: 7,
@@ -120,7 +131,7 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 7) : 0,
 		status: isRule('zcwjdcdy', 1, rule),
 		tagName: 'message-intangible',
-		component: Subrogation,
+		component: ChattelMortgage,
 	},
 	{
 		dataType: 8,
@@ -129,7 +140,13 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 8) : 0,
 		status: isRule('zcwjwxzc', 1, rule),
 		tagName: 'message-invisibleAssets',
-		component: Subrogation,
+		component: IntangibleAssets,
+		childrenCount: [
+			{ name: '排污权', count: 11, type: 'sewage' },
+			{ name: '矿业权', count: 12, type: 'mining' },
+			{ name: '商标专利', count: 12, type: 'trademark' },
+			{ name: '建筑建造资质', count: 12, type: 'building' },
+		],
 	},
 	{
 		dataType: 9,
@@ -138,7 +155,12 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 9) : 0,
 		status: isRule('fxjkssjk', 2, rule),
 		tagName: 'e-assets-bidding',
-		component: Subrogation,
+		component: LitigationMonitoring,
+		childrenCount: [
+			{ name: '立案', count: 11, type: 'case' },
+			{ name: '开庭', count: 12, type: 'court' },
+			{ name: '裁判文书', count: 12, type: 'judgmentDocument' },
+		],
 	},
 	{
 		dataType: 10,
@@ -147,7 +169,7 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 10) : 0,
 		status: isRule('fxjkqypccz', 2, rule),
 		tagName: 'message-bankruptcy',
-		component: Subrogation,
+		component: Bankrupt,
 	},
 	{
 		dataType: 11,
@@ -156,7 +178,7 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 11) : 0,
 		status: isRule('jkxxsxjl', 2, rule),
 		tagName: 'message-dishonesty',
-		component: Subrogation,
+		component: Dishonesty,
 	},
 	{
 		dataType: 12,
@@ -165,7 +187,7 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 12) : 0,
 		status: isRule('jyfxsswf', 2, rule),
 		tagName: 'message-illegalTax',
-		component: Subrogation,
+		component: IllegalTaxation,
 	},
 	{
 		dataType: 13,
@@ -174,7 +196,7 @@ const subItems = (rule, data) => ([
 		total: data ? getCount(data, 13) : 0,
 		status: isRule('jyfxhbcf', 2, rule),
 		tagName: 'message-environmental',
-		component: Subrogation,
+		component: EnvironmentPunishment,
 	},
 ]);
 
@@ -192,7 +214,8 @@ class MessageDetail extends React.Component {
 			obligorInfo: [],
 			stationId: undefined,
 			obligorId: '0',
-			messageApi,
+			messageApi: message,
+			affixed: false,
 		};
 	}
 
@@ -250,6 +273,7 @@ class MessageDetail extends React.Component {
 			stationId,
 		};
 		dataCount(params).then((res) => {
+			console.log('res === ', res);
 			this.setState({
 				config: subItems(rule, allData).filter(item => item.status && item.total > 0),
 			});
@@ -257,6 +281,7 @@ class MessageDetail extends React.Component {
 			this.handleFilterArrary(config, messageApi);
 			this.toGetChildCount(obligorId);
 		}).catch((err) => {
+			console.log('err === ', err);
 		});
 	};
 
@@ -310,7 +335,7 @@ class MessageDetail extends React.Component {
 				if (item.field) {
 					let count = 0;
 					const newConfig = [...config];
-					if (newConfig[index].hasOwnProperty('childrenCount')) {
+					if (newConfig[index] && Object.keys(newConfig[index]).indexOf('childrenCount') >= 0) {
 						newConfig[index].childrenCount = item.data;
 					}
 					Object.keys(item.data).forEach((i) => {
@@ -325,14 +350,20 @@ class MessageDetail extends React.Component {
 		});
 	};
 
+	handleChangeAffixStatus = (affixed) => {
+		this.setState({
+			affixed,
+		});
+	};
+
 	render() {
 		const {
-			config, headerInfoCount, loading, obligorInfo,
+			config, headerInfoCount, loading, obligorInfo, affixed,
 		} = this.state;
 		console.log('state render === ', this.state);
 		return (
 			<div className="messageDetail">
-				<Affix className="fix-header">
+				<Affix className="fix-header" onChange={this.handleChangeAffixStatus}>
 					<div className="messageDetail-header">
 						<span className="messageDetail-header-bold">2020-07-16</span>
 						<span className="messageDetail-header-bold">
@@ -342,7 +373,7 @@ class MessageDetail extends React.Component {
 						</span>
 						<span>
 							已失效信息
-							{headerInfoCount.newMonitorCount}
+							{ headerInfoCount.newMonitorCount }
 							条
 						</span>
 						<Tooltip placement="top" title="已更新的信息或对应债务人已删除的信息">
@@ -366,23 +397,23 @@ class MessageDetail extends React.Component {
 										<Select.Option value="0">全部</Select.Option>
 										<Select.Option value="1">张三</Select.Option>
 										<Select.Option value="2">李四</Select.Option>
-										 {
-											 obligorInfo && obligorInfo.map(item => (
+										{
+											obligorInfo && obligorInfo.map(item => (
 												<Select.Option value={item.obligorId}>{item.obligorName}</Select.Option>
-											  ))
-										 }
+											))
+										}
 									</Select>
 								</div>
 								{/* 导航的tab */}
 								<div className="tab">
-									<div className="tab-tabs">
+									<div className="tab-tabs" style={{ borderBottom: affixed ? '1px solid #E5E5E5' : '' }}>
 										{
 											config.map(item => (
 												<Button onClick={() => this.handleScroll(item.tagName)}>
 													{`${item.name}${item.total ? ` ${item.total}` : '0'}`}
 												</Button>
 											))
-									}
+										}
 									</div>
 								</div>
 							</div>

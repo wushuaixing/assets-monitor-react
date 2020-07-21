@@ -48,29 +48,33 @@ export default class HeaderMessage extends React.Component {
 		});
 	};
 
-	skip= (obligorId, id, operateType) => {
+	skip= (obligorId, id, operateType, item) => {
 		const params = {
 			idList: [id],
 		};
 		console.log(obligorId, operateType, '跳转');
+		// 资产跟进提醒 tab切换为跟进中 带入拍卖信息标题
 		if (operateType === 'auctionProcessAlert') {
 			const w = window.open('about:blank');
-			w.location.href = `#/monitor?process=1?id=${
+			w.location.href = `#/monitor?process=3?id=${
 				obligorId
 			}`;
 		}
+		// 拍卖状态变更  tab切换为全部 带入拍卖信息标题
 		if (operateType === 'newAuctionProcessAlert') {
 			const w = window.open('about:blank');
 			w.location.href = `#/monitor?process=1?id=${
 				obligorId
 			}`;
 		}
+		// 列入失信名单
 		if (operateType === 'dishonestAdd') {
 			const w = window.open('about:blank');
 			w.location.href = `#/business/debtor/detail?id=${
 				obligorId
 			}`;
 		}
+		// 失信状态移除
 		if (operateType === 'dishonestRemove') {
 			const w = window.open('about:blank');
 			w.location.href = `#/business/debtor/detail?id=${
@@ -124,7 +128,7 @@ export default class HeaderMessage extends React.Component {
 
 					<div className="yc-station-list">
 						{dataList && dataList.length > 0 ? dataList.map(item => (
-							<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId, item.id, item.operateType)}>
+							<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId, item.id, item.operateType, item)}>
 								{item.isRead === false && (
 								<Icon
 									type="icon-dot"

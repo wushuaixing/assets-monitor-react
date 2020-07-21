@@ -4,11 +4,11 @@ import {
 } from 'antd';
 import dishonest1 from 'img/icon/icon_shixin.png';
 import dishonest2 from 'img/icon/icon_cengshixin.png';
-import { Attentions, SortVessel } from '@/common/table';
+import { Attentions } from '@/common/table';
 import { MatchingReason, AuctionInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
 import { Button, Ellipsis, Table } from '@/common';
 import { floatFormat } from '@/utils/format';
-import { unFollowSingle, followSingle } from '@/utils/api/message';
+import { unFollowSingle, followSingle, markRead } from '@/utils/api/message';
 import '../../style.scss';
 import message from '@/utils/api/message/message';
 import { acutionRes } from '../../test';
@@ -177,7 +177,7 @@ class Assets extends Component {
 	}
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -205,6 +205,17 @@ class Assets extends Component {
 		});
 	};
 
+	toRowClick = (record, index) => {
+		const { id, isRead } = record;
+		if (!isRead) {
+			markRead({ id }).then((res) => {
+				if (res.code === 200) {
+					this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				}
+			});
+		}
+	};
+
 
 	render() {
 		const {
@@ -223,8 +234,9 @@ class Assets extends Component {
 				<div className="messageDetail-table-container">
 					<Table
 						columns={columns(this.onRefresh, this.onFollowClick, this.toOpenHistory)}
-						dataSource={dataSource}
 						pagination={false}
+						dataSource={dataSource}
+						onRowClick={this.toRowClick}
 					/>
 					{/* 页脚 */}
 					{

@@ -5,7 +5,7 @@ import { timeStandard } from '@/utils';
 import { Table, Ellipsis } from '@/common';
 import { partyInfo } from '@/views/_common';
 import { instrumentRes } from '../../test';
-import message from '@/utils/api/message/message';
+import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
 
 /* 文书信息 */
 const documentInfo = (value, row) => {
@@ -74,7 +74,7 @@ const columns = onRefresh => [
 				text={text}
 				row={row}
 				onClick={onRefresh}
-				// api={row.isAttention ? Judgment.unAttention : Judgment.attention}
+				api={row.isAttention ? unFollowSingle : followSingle}
 				index={index}
 			/>
 		),
@@ -91,19 +91,31 @@ class Instrument extends Component {
 	}
 
 	componentDidMount() {
-		console.log('message === ', message);
-		// const requestApi = message[1].list();
-		// requestApi().then((res) => {
-		//
-		// }).catch((err) => {
-		// });
 		this.setState({
 			dataSource: instrumentRes.data.list,
 		});
 	}
 
-	onRefresh = () => {
+	// 表格变化，刷新表格
+	onRefresh = (data, type) => {
+		const { dataSource } = this.state;
+		const { index } = data;
+		const _dataSource = dataSource;
+		_dataSource[index][type] = data[type];
+		this.setState({
+			dataSource: _dataSource,
+		});
+	};
 
+	toRowClick = (record, index) => {
+		const { id, isRead } = record;
+		if (!isRead) {
+			markRead({ id }).then((res) => {
+				if (res.code === 200) {
+					this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				}
+			});
+		}
 	};
 
 	onPageChange = () => {
@@ -112,7 +124,6 @@ class Instrument extends Component {
 
 	render() {
 		const { dataSource, current, total } = this.state;
-		console.log('SubrogationRights dataSource === ', dataSource);
 		return (
 			<React.Fragment>
 				<Table

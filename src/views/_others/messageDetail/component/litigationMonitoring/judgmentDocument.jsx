@@ -2,23 +2,51 @@ import React, { Component } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions } from '@/common/table';
 import { timeStandard } from '@/utils';
-import { Table } from '@/common';
+import { Table, Ellipsis } from '@/common';
+import { judgmentDocumentRes } from '../../test';
 import { partyInfo } from '@/views/_common';
-import associationLink from '@/views/_common/association-link';
-import { openCourtRes } from '../../test';
 import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
 
+/* 文书信息 */
+const documentInfo = (value, row) => {
+	const {
+		caseReason, caseType, gmtJudgment, title, url,
+	} = row;
+	return (
+		<div className="assets-info-content">
+			<li>
+				<Ellipsis content={title} line={2} tooltip url={url} />
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 50 }}>案由</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{caseReason || '-'}</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 50 }}>案件类型</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{caseType || '-'}</span>
+			</li>
+			<li>
+				<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
+				<span className="list list-title-colon">:</span>
+				<span className="list list-content">{timeStandard(gmtJudgment)}</span>
+			</li>
+		</div>
+	);
+};
 
 // 获取表格配置
 const columns = onRefresh => [
 	{
-		title: <span style={{ paddingLeft: 11 }}>开庭日期</span>,
-		dataIndex: 'gmtCreate',
+		title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
+		dataIndex: 'gmtPublish',
 		width: 103,
 		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 	}, {
 		title: '当事人',
 		dataIndex: 'parties',
+		width: 300,
 		render: partyInfo,
 	}, {
 		title: '法院',
@@ -29,20 +57,15 @@ const columns = onRefresh => [
 		dataIndex: 'caseNumber',
 		render: text => text || '-',
 	}, {
-		title: '案由',
-		dataIndex: 'caseReason',
-		className: 'min-width-80-normal',
-		render: text => text || '-',
-	}, {
-		title: '关联信息',
-		dataIndex: 'associatedInfo',
-		className: 'tAlignCenter_important min-width-80',
-		render: (value, row) => associationLink(value, row, 'Court'),
+		title: <span style={{ paddingLeft: 11 }}>文书信息</span>,
+		dataIndex: 'associatedInfo1',
+		width: 350,
+		render: documentInfo,
 	}, {
 		title: global.Table_CreateTime_Text,
-		dataIndex: 'gmtModified',
+		dataIndex: 'gmtCreate',
 		width: 93,
-		render: val => timeStandard(val),
+		render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
 	}, {
 		title: '操作',
 		unNormal: true,
@@ -59,7 +82,7 @@ const columns = onRefresh => [
 		),
 	}];
 
-class OpenCourt extends Component {
+class JudgmentDocument extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -71,7 +94,7 @@ class OpenCourt extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: openCourtRes.data.list,
+			dataSource: judgmentDocumentRes.data.list,
 		});
 	}
 
@@ -129,4 +152,4 @@ class OpenCourt extends Component {
 	}
 }
 
-export default OpenCourt;
+export default JudgmentDocument;

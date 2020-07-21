@@ -12,16 +12,17 @@ export const markRead = async (params) => {
 	return response.data;
 };
 
+// [V2.3] 监控日报详情 => 资产拍卖标记关注[youyu]
+export const followSingle = params => service.post('/yc/report/daily/auction/follow', params)
+	.then(res => res.data);
+
+// [V2.3] 监控日报详情 => 资产拍卖取消关注[youyu]
+export const unFollowSingle = params => service.post('/yc/report/daily/auction/unFollow', params)
+	.then(res => res.data);
+
+
 // [V2.3] 监控日报详情 => 各类数据统计[youyu]
 export const dataCount = async (params) => {
 	const response = await service.get('/yc/report/daily/statistics/dataCount', { params });
 	return response.data;
 };
-
-// 取消关注 [单个]
-export const unFollowSingle = params => service.post('/yc/monitor/auction/unfollow', params)
-	.then(res => res.data);
-
-// 关注 [单个]
-export const followSingle = params => service.post('/yc/monitor/auction/follow', params)
-	.then(res => res.data);

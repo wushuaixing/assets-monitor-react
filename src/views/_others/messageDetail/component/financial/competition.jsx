@@ -1,65 +1,43 @@
 import React, { Component } from 'react';
 import { Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
-import { timeStandard } from '@/utils';
+import { Attentions } from '@/common/table';
 import { Table } from '@/common';
-import { partyInfo } from '@/views/_common';
-import associationLink from '@/views/_common/association-link';
-import { openCourtRes } from '../../test';
+import { competitonRes } from '../../test';
+import { AssetsInfo, AuctionInfo, MatchingReason } from '@/views/asset-excavate/assets-auction/tableComponents';
 import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
-
 
 // 获取表格配置
 const columns = onRefresh => [
 	{
-		title: <span style={{ paddingLeft: 11 }}>开庭日期</span>,
-		dataIndex: 'gmtCreate',
-		width: 103,
-		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+		title: '业务信息',
+		width: 274,
+		render: (text, row) => AssetsInfo(text, row, true, true),
 	}, {
-		title: '当事人',
-		dataIndex: 'parties',
-		render: partyInfo,
+		title: '匹配原因',
+		dataIndex: 'reason',
+		width: 367,
+		render: MatchingReason,
 	}, {
-		title: '法院',
-		dataIndex: 'court',
-		render: text => text || '-',
-	}, {
-		title: '案号',
-		dataIndex: 'caseNumber',
-		render: text => text || '-',
-	}, {
-		title: '案由',
-		dataIndex: 'caseReason',
-		className: 'min-width-80-normal',
-		render: text => text || '-',
-	}, {
-		title: '关联信息',
-		dataIndex: 'associatedInfo',
-		className: 'tAlignCenter_important min-width-80',
-		render: (value, row) => associationLink(value, row, 'Court'),
-	}, {
-		title: global.Table_CreateTime_Text,
-		dataIndex: 'gmtModified',
-		width: 93,
-		render: val => timeStandard(val),
+		title: '拍卖信息',
+		width: 392,
+		render: AuctionInfo,
 	}, {
 		title: '操作',
+		width: 80,
 		unNormal: true,
-		className: 'tAlignCenter_important',
-		width: 60,
+		className: 'tAlignCenter_important yc-assets-auction-action',
 		render: (text, row, index) => (
 			<Attentions
 				text={text}
 				row={row}
 				onClick={onRefresh}
-				api={row.isAttention ? unFollowSingle : followSingle}
 				index={index}
+				api={row.isAttention ? unFollowSingle : followSingle}
 			/>
 		),
 	}];
 
-class OpenCourt extends Component {
+class Competition extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -71,7 +49,7 @@ class OpenCourt extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: openCourtRes.data.list,
+			dataSource: competitonRes.data.list,
 		});
 	}
 
@@ -119,8 +97,6 @@ class OpenCourt extends Component {
 							showQuickJumper
 							current={current || 1}
 							total={total || 0}
-							onChange={this.onPageChange}
-							showTotal={totalCount => `共 ${totalCount} 条信息`}
 						/>
 					</div>
 				)}
@@ -129,4 +105,4 @@ class OpenCourt extends Component {
 	}
 }
 
-export default OpenCourt;
+export default Competition;
