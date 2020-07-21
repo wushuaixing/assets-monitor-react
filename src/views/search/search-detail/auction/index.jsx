@@ -24,6 +24,7 @@ import './style.scss';
 
 const _style1 = { width: 278 };
 const _style2 = { width: 116 };
+const _style3 = { width: 130 };
 const createForm = Form.create;
 const someThing = [
 	{ name: '房产', key: '50025969' },
@@ -521,7 +522,7 @@ class AUCTION extends React.Component {
 							size="large"
 							allowClear
 							placeholder="请选择标的物类型"
-							style={_style2}
+							style={_style3}
 							{...getFieldProps('category', {
 								initialValue: params.category,
 							})}
