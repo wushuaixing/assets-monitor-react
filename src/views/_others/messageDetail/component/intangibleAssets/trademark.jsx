@@ -1,60 +1,7 @@
 import React, { Component } from 'react';
-import { Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
-import { linkDetail, linkDom, timeStandard } from '@/utils';
-import { Table } from '@/common';
-import { trademarkRes } from '../../test';
-import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
+import { markRead } from '@/utils/api/message';
+import TableTrademark from '@/views/asset-excavate/intangible-assets/table/copyright';
 
-const rightsTypeStatus = {
-	0: '未知',
-	1: '商标',
-	2: '专利',
-};
-
-// 获取表格配置
-const columns = onRefresh => [
-	{
-		title: <span style={{ paddingLeft: 11 }}>公告日期</span>,
-		dataIndex: 'noticeTime',
-		width: 113,
-		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
-	}, {
-		title: '申请人/权利人',
-		dataIndex: 'obligorName',
-		width: 200,
-		render: (text, row) => (text ? linkDetail(row.obligorId, text) : '-'),
-	}, {
-		title: '商标/专利名称',
-		width: 200,
-		dataIndex: 'rightsName',
-		render: (text, row) => (text ? linkDom(row.url, text) : '-'),
-	}, {
-		title: '权利类型',
-		width: 100,
-		dataIndex: 'rightsType',
-		render: text => (
-			<span>{rightsTypeStatus[text]}</span>
-		),
-	}, {
-		title: global.Table_CreateTime_Text,
-		dataIndex: 'gmtCreate',
-		width: 90,
-	}, {
-		title: '操作',
-		width: 60,
-		unNormal: true,
-		className: 'tAlignCenter_important',
-		render: (text, row, index) => (
-			<Attentions
-				text={text}
-				row={row}
-				onClick={onRefresh}
-				api={row.isAttention ? unFollowSingle : followSingle}
-				index={index}
-			/>
-		),
-	}];
 
 class Trademark extends Component {
 	constructor(props) {
@@ -68,7 +15,7 @@ class Trademark extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: trademarkRes.data.list,
+			dataSource: [],
 		});
 	}
 
@@ -100,27 +47,18 @@ class Trademark extends Component {
 
 	render() {
 		const { dataSource, current, total } = this.state;
+		const tableProps = {
+			noSort: true,
+			dataSource,
+			onRefresh: this.onRefresh,
+			onPageChange: this.onPageChange,
+			maxLength: 5,
+			current,
+			total,
+		};
 		return (
 			<React.Fragment>
-				<Table
-					rowKey={record => record.id}
-					columns={columns(this.onRefresh)}
-					dataSource={dataSource}
-					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
-					onRowClick={this.toRowClick}
-				/>
-				{dataSource && dataSource.length > 5 && (
-					<div className="yc-table-pagination">
-						<Pagination
-							showQuickJumper
-							current={current || 1}
-							total={total || 0}
-							onChange={this.onPageChange}
-							showTotal={totalCount => `共 ${totalCount} 条信息`}
-						/>
-					</div>
-				)}
+				<TableTrademark {...tableProps} />
 			</React.Fragment>
 		);
 	}

@@ -12,7 +12,6 @@ class IntangibleAssets extends Component {
 		};
 	}
 
-
 	render() {
 		const {
 			id, title, total, childrenCount,
