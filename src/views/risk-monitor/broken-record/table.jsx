@@ -153,7 +153,7 @@ export default class TableView extends React.Component {
 
 	render() {
 		const {
-			total, current, dataSource, manage, onPageChange,
+			total, current, dataSource, manage, onPageChange, maxLength,
 		} = this.props;
 		const { selectedRowKeys } = this.state;
 		const rowSelection = manage ? {
@@ -176,7 +176,7 @@ export default class TableView extends React.Component {
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
-				{dataSource && dataSource.length > 0 && (
+				{dataSource && dataSource.length > (maxLength || 0) && (
 					<div className="yc-table-pagination">
 						<Pagination
 							showQuickJumper
