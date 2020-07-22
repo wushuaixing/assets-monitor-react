@@ -6,6 +6,11 @@
   background-color: #FFFFFF;
   min-height: 731px;
   .yc-message-content {
+    em {
+      font-weight: 700;
+      margin: 0 2px;
+      font-style: normal;
+    }
     &:hover {
       cursor: pointer;
       color: #337ab7;
