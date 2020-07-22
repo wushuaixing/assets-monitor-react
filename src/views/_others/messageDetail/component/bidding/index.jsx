@@ -1,47 +1,7 @@
 import React, { Component } from 'react';
-import { Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
-import { Table } from '@/common';
-import { biddingRes } from '../../test';
-import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
+import { markRead } from '@/utils/api/message';
+import TableTender from '@/views/asset-excavate/tender-bid/table';
 
-const columns = onRefresh => [
-	{
-		title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
-		dataIndex: 'publishTime',
-		width: 113,
-		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
-	}, {
-		title: '相关单位',
-		dataIndex: 'obName',
-		width: 240,
-		render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
-	}, {
-		title: '标题',
-		dataIndex: 'title',
-		render: (text, record) => (record.url ? linkDom(record.url, text || '-') : <span>{text || '-'}</span>),
-	}, {
-		title: global.Table_CreateTime_Text,
-		dataIndex: 'createTime',
-		width: 90,
-		render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
-	}, {
-		title: '操作',
-		width: 60,
-		unNormal: true,
-		className: 'tAlignCenter_important',
-		render: (text, row, index) => (
-			<Attentions
-				text={text}
-				row={row}
-				onClick={onRefresh}
-				api={row.isAttention ? unFollowSingle : followSingle}
-				index={index}
-				single
-			/>
-		),
-	}];
 
 class Bidding extends Component {
 	constructor(props) {
@@ -53,7 +13,7 @@ class Bidding extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: biddingRes.data.list,
+			dataSource: [],
 		});
 	}
 
@@ -72,7 +32,6 @@ class Bidding extends Component {
 		});
 	};
 
-
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -84,12 +43,19 @@ class Bidding extends Component {
 		}
 	};
 
-
 	render() {
 		const {
 			id, title, total,
 		} = this.props;
 		const { dataSource } = this.state;
+		const tableProps = {
+			noSort: true,
+			dataSource,
+			onRefresh: this.onRefresh,
+			onPageChange: this.onPageChange,
+			maxLength: 5,
+			total,
+		};
 		return (
 			<React.Fragment>
 				<div className="messageDetail-table-title" id={id}>
@@ -98,21 +64,7 @@ class Bidding extends Component {
 				</div>
 				<div className="messageDetail-table-headerLine" />
 				<div className="messageDetail-table-container">
-					<Table
-						rowKey={record => record.id}
-						columns={columns(this.onRefresh)}
-						dataSource={dataSource}
-						pagination={false}
-						rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
-						onRowClick={this.toRowClick}
-					/>
-					{dataSource && dataSource.length > 5 && (
-						<div className="yc-table-pagination">
-							<Pagination
-								showQuickJumper
-							/>
-						</div>
-					)}
+					<TableTender {...tableProps} />
 				</div>
 			</React.Fragment>
 		);
