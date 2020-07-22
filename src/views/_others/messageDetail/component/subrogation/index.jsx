@@ -4,16 +4,12 @@ import SubrogationRights from './subrogation';
 import OpenCourt from './openCourt';
 import Instrument from './instrument';
 
-
-// 获取表格配置
-
 class Subrogation extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 		};
 	}
-
 
 	render() {
 		const {

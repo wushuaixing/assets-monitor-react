@@ -1,69 +1,8 @@
 import React, { Component } from 'react';
-import { Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
-import { timeStandard } from '@/utils';
-import { Table } from '@/common';
-import { partyInfo } from '@/views/_common';
-import { subrogationRes } from '../../test';
-import associationLink from '@/views/_common/association-link';
-import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
-
-
-// 获取表格配置
-const columns = onRefresh => [
-	{
-		title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
-		dataIndex: 'gmtRegister',
-		width: 103,
-		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
-	}, {
-		title: '当事人',
-		dataIndex: 'parties',
-		render: partyInfo,
-	}, {
-		title: '法院',
-		dataIndex: 'court',
-		render: text => text || '-',
-	}, {
-		title: '案号',
-		dataIndex: 'caseNumber',
-		render: text => text || '-',
-	}, {
-		title: '案件类型',
-		render: (value, row) => {
-			const { isRestore, caseType } = row;
-			if (isRestore) return '执恢案件';
-			if (caseType === 1) return '普通案件';
-			if (caseType === 2) return '破产案件';
-			if (caseType === 3) return '执行案件';
-			if (caseType === 4) return '终本案件';
-			return '-';
-		},
-	}, {
-		title: '关联链接',
-		dataIndex: 'associatedInfo',
-		className: 'tAlignCenter_important min-width-80',
-		render: (value, row) => associationLink(value, row, 'Trial'),
-	}, {
-		title: global.Table_CreateTime_Text,
-		dataIndex: 'gmtCreate',
-		width: 93,
-		render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
-	}, {
-		title: '操作',
-		unNormal: true,
-		className: 'tAlignCenter_important',
-		width: 60,
-		render: (text, row, index) => (
-			<Attentions
-				text={text}
-				row={row}
-				onClick={onRefresh}
-				api={row.isAttention ? unFollowSingle : followSingle}
-				index={index}
-			/>
-		),
-	}];
+// import { subrogationRes } from '../../test';
+import { markRead } from '@/utils/api/message';
+import TableTrial from '@/views/asset-excavate/subrogation/table/trial';
+import { Spin } from '@/common';
 
 class SubrogationRights extends Component {
 	constructor(props) {
@@ -72,15 +11,23 @@ class SubrogationRights extends Component {
 			dataSource: [],
 			current: 1,
 			total: 0,
+			loading: false,
 		};
 	}
 
 	componentDidMount() {
-		console.log('subrogationRes === ', subrogationRes);
 		this.setState({
-			dataSource: subrogationRes.data.list,
+			dataSource: [],
 		});
 	}
+
+	// 当前页数变化
+	onPageChange = (val) => {
+		this.condition.page = val;
+		this.toGetData();
+		const { onPageChange } = this.props;
+		if (onPageChange)onPageChange();
+	};
 
 	// 表格变化，刷新表格
 	onRefresh = (data, type) => {
@@ -104,33 +51,28 @@ class SubrogationRights extends Component {
 		}
 	};
 
-	onPageChange = () => {
-
+	toGetData = () => {
 	};
 
+
 	render() {
-		const { dataSource, current, total } = this.state;
+		const {
+			dataSource, current, total, loading,
+		} = this.state;
+		const tableProps = {
+			noSort: true,
+			dataSource,
+			onRefresh: this.onRefresh,
+			onPageChange: this.onPageChange,
+			maxLength: 5,
+			current,
+			total,
+		};
 		return (
 			<React.Fragment>
-				<Table
-					rowKey={record => record.id}
-					columns={columns(this.onRefresh)}
-					dataSource={dataSource}
-					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
-					onRowClick={this.toRowClick}
-				/>
-				{dataSource && dataSource.length > 5 && (
-					<div className="yc-table-pagination">
-						<Pagination
-							showQuickJumper
-							current={current || 1}
-							total={total || 0}
-							onChange={this.onPageChange}
-							showTotal={totalCount => `共 ${totalCount} 条信息`}
-						/>
-					</div>
-				)}
+				<Spin visible={loading}>
+					<TableTrial {...tableProps} />
+				</Spin>
 			</React.Fragment>
 		);
 	}

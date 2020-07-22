@@ -115,7 +115,7 @@ export default class TableView extends React.Component {
 
 	render() {
 		const {
-			total, current, dataSource, manage, onPageChange,
+			total, current, dataSource, manage, onPageChange, maxLength,
 		} = this.props;
 		const {
 			selectedRowKeys,
@@ -128,7 +128,7 @@ export default class TableView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
-				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
+				{selectedRowKeys && selectedRowKeys.length > (maxLength || 0) ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
 					rowKey={record => record.id}
