@@ -55,9 +55,8 @@ class InformCenter extends React.Component {
 								}}
 								// className={(row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') && row.obligorId ? 'yc-message-content' : ''}
 								className="yc-message-content"
-							>
-								{text}
-							</span>
+								dangerouslySetInnerHTML={{ __html: text }}
+							/>
 						</div>
 					),
 				},

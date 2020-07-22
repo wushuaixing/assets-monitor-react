@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Spin } from '@/common';
 import { markRead } from '@/utils/api/message';
 import '../../style.scss';
 import TableAssets from '@/views/asset-excavate/assets-auction/table';
+import { acutionRes } from '../../test';
+import message from '@/utils/api/message/message';
 
 class Assets extends Component {
 	constructor(props) {
@@ -11,18 +12,15 @@ class Assets extends Component {
 			dataSource: [],
 			loading: false,
 			maxLength: 5,
+			current: 1,
+			tableTotal: 22,
+			page: 1,
+			num: 5,
 		};
 	}
 
 	componentDidMount() {
-		this.setState({
-			dataSource: [],
-		});
-		setTimeout(() => {
-			this.setState({
-				loading: false,
-			});
-		}, 3000);
+		this.toGetData();
 	}
 
 	// 表格发生变化
@@ -36,51 +34,73 @@ class Assets extends Component {
 		});
 	};
 
+  toGetData = () => {
+  	const { obligorId, stationId } = this.props;
+  	const { page, num } = this.state;
+  	const params = {
+  		obligorId,
+  		stationId,
+  		page,
+  		num,
+  	};
+		 this.setState({
+			 loading: true,
+		 });
+		 message[0].list(params).then().catch();
+		 this.setState({
+			 dataSource: [],
+		 });
+		 this.setState({
+			 loading: false,
+		 });
+  };
 
-	toRowClick = (record, index) => {
-		const { id, isRead } = record;
-		if (!isRead) {
-			markRead({ id }).then((res) => {
-				if (res.code === 200) {
-					this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
-				}
-			});
-		}
+	// 当前页数变化
+	onPageChange = (val) => {
+		console.log('val === ', val);
+		this.setState({
+			page: val,
+		});
+		this.toGetData();
+		// const { onPageChange } = this.props;
+		// if (onPageChange)onPageChange();
 	};
-
-	onPageChange = () => {
-
-	};
-
 
 	render() {
 		const {
 			title, id, total,
 		} = this.props;
 		const {
-			dataSource, loading, maxLength,
+			dataSource, loading, maxLength, current, tableTotal,
 		} = this.state;
 
 		const tableProps = {
-			noSort: true,
+			maxLength,
 			dataSource,
+			current,
+			noSort: true,
 			onPageChange: this.onPageChange,
 			onRefresh: this.onRefresh,
-			maxLength,
+			total: tableTotal,
+			loading,
 		};
 
 		return (
 			<React.Fragment>
-				<div className="messageDetail-table-title" id={id}>
-					{title}
-					<span className="messageDetail-table-total">{total}</span>
-				</div>
-				<div className="messageDetail-table-headerLine" />
-				<div className="messageDetail-table-container">
-					<Spin visible={loading}>
-						<TableAssets {...tableProps} />
-					</Spin>
-				</div>
+				{
+					dataSource && dataSource.length > 0 && (
+						<React.Fragment>
+							<div className="messageDetail-table-title" id={id}>
+								{title}
+								<span className="messageDetail-table-total">{total}</span>
+							</div>
+							<div className="messageDetail-table-headerLine" />
+							<div className="messageDetail-table-container">
+								<TableAssets {...tableProps} />
+							</div>
+						</React.Fragment>
+					)
+				}
 			</React.Fragment>
 		);
 	}

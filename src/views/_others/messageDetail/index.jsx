@@ -88,7 +88,7 @@ const subItems = (rule, data) => ([
 		status: isRule('zcwjtdsj', 1, rule),
 		component: Land,
 		childrenCount: [
-			{ name: '土地出让', count: 11, type: 'sell' },
+			{ name: '土地出让', count: 0, type: 'sell' },
 			{ name: '土地转让', count: 12, type: 'transfer' },
 			{ name: '土地抵押', count: 22, type: 'pledge' },
 		],
@@ -213,7 +213,7 @@ class MessageDetail extends React.Component {
 			},
 			obligorInfo: [],
 			stationId: undefined,
-			obligorId: '0',
+			obligorId: undefined,
 			messageApi: message,
 			affixed: false,
 		};
@@ -273,7 +273,6 @@ class MessageDetail extends React.Component {
 			stationId,
 		};
 		dataCount(params).then((res) => {
-			console.log('res === ', res);
 			this.setState({
 				config: subItems(rule, allData).filter(item => item.status && item.total > 0),
 			});
@@ -304,6 +303,7 @@ class MessageDetail extends React.Component {
 	// 切换债务人的点击事件
 	handleChange = (obligorId) => {
 		console.log('id === ', obligorId);
+		window.scrollTo(0, 50);
 		this.queryAllCount(obligorId);
 		this.toGetChildCount(obligorId);
 	};
@@ -329,25 +329,25 @@ class MessageDetail extends React.Component {
 	// 循环请求各个模块的数量
 	handleRequestAll = (reqList) => {
 		const { config } = this.state;
-		requestAll(reqList).then((res) => {
-			res.forEach((item, index) => {
-				console.log('res === ', res, item);
-				if (item.field) {
-					let count = 0;
-					const newConfig = [...config];
-					if (newConfig[index] && Object.keys(newConfig[index]).indexOf('childrenCount') >= 0) {
-						newConfig[index].childrenCount = item.data;
-					}
-					Object.keys(item.data).forEach((i) => {
-						count += item.data[i];
-					});
-					newConfig[index].total = 23 || count;
-					this.setState({
-						config: newConfig,
-					});
-				}
-			});
-		});
+		// requestAll(reqList).then((res) => {
+		// 	res.forEach((item, index) => {
+		// 		console.log('res === ', res, item);
+		// 		if (item.field) {
+		// 			let count = 0;
+		// 			const newConfig = [...config];
+		// 			if (newConfig[index] && Object.keys(newConfig[index]).indexOf('childrenCount') >= 0) {
+		// 				newConfig[index].childrenCount = item.data;
+		// 			}
+		// 			Object.keys(item.data).forEach((i) => {
+		// 				count += item.data[i];
+		// 			});
+		// 			newConfig[index].total = 23 || count;
+		// 			this.setState({
+		// 				config: newConfig,
+		// 			});
+		// 		}
+		// 	});
+		// });
 	};
 
 	handleChangeAffixStatus = (affixed) => {
@@ -358,7 +358,7 @@ class MessageDetail extends React.Component {
 
 	render() {
 		const {
-			config, headerInfoCount, loading, obligorInfo, affixed,
+			config, headerInfoCount, loading, obligorInfo, affixed, obligorId, stationId,
 		} = this.state;
 		console.log('state render === ', this.state);
 		return (
@@ -425,6 +425,8 @@ class MessageDetail extends React.Component {
 						{
 							config.map(Item => (Item.total > 0 ? (
 								<Item.component
+									obligorId={obligorId}
+									stationId={stationId}
 									id={Item.tagName}
 									numId={Item.id}
 									total={Item.total}
