@@ -29,7 +29,7 @@ class InformCenter extends React.Component {
 				{
 					title: '消息种类',
 					dataIndex: 'title',
-					width: 100,
+					width: 160,
 					className: 'message-type',
 					render: (text, row) => (
 						<div>
@@ -39,15 +39,14 @@ class InformCenter extends React.Component {
 								alt=""
 							/>
 							<span>
-						监控日报
+								{text}
 							</span>
 						</div>
 					),
 				},
 				{
 					title: '内容详情',
-					dataIndex: 'title',
-					width: 850,
+					dataIndex: 'content',
 					render: (text, row) => (
 						<div>
 							<span
@@ -57,10 +56,7 @@ class InformCenter extends React.Component {
 								// className={(row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') && row.obligorId ? 'yc-message-content' : ''}
 								className="yc-message-content"
 							>
-							[
 								{text}
-							]
-								{row.content}
 							</span>
 						</div>
 					),
@@ -68,7 +64,7 @@ class InformCenter extends React.Component {
 				{
 					title: '更新时间',
 					dataIndex: 'createTime',
-					// width: 160,
+					width: 160,
 					render: text => <span>{formatDateTime(text)}</span>,
 				},
 				{
@@ -135,6 +131,12 @@ class InformCenter extends React.Component {
 				const w = window.open('about:blank');
 				w.location.href = `#/business/debtor/detail?id=${
 					row.obligorId
+				}`;
+			}
+			if (row.operateType === 'monitorReport') {
+				const w = window.open('about:blank');
+				w.location.href = `#/messageDetail?stationId=${
+					row.id
 				}`;
 			}
 		} else {

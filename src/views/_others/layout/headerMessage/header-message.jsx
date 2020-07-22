@@ -48,24 +48,24 @@ export default class HeaderMessage extends React.Component {
 		});
 	};
 
-	skip= (obligorId, id, operateType, item) => {
+	skip = (item) => {
+		const { obligorId, id, operateType } = item;
 		const params = {
 			idList: [id],
 		};
 		console.log(obligorId, operateType, '跳转');
+
 		// 资产跟进提醒 tab切换为跟进中 带入拍卖信息标题
 		if (operateType === 'auctionProcessAlert') {
+			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
-			w.location.href = `#/monitor?process=3?id=${
-				obligorId
-			}`;
+			w.location.href = `#/monitor?process=3?id=${obligorId}&title=${title}`;
 		}
 		// 拍卖状态变更  tab切换为全部 带入拍卖信息标题
 		if (operateType === 'newAuctionProcessAlert') {
+			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
-			w.location.href = `#/monitor?process=1?id=${
-				obligorId
-			}`;
+			w.location.href = `#/monitor?process=1?id=${obligorId}&title=${title}`;
 		}
 		// 列入失信名单
 		if (operateType === 'dishonestAdd') {
@@ -80,6 +80,18 @@ export default class HeaderMessage extends React.Component {
 			w.location.href = `#/business/debtor/detail?id=${
 				obligorId
 			}`;
+		}
+		// 监控日报
+		if (operateType === 'monitorReport') {
+			if (JSON.parse(item.extend) && JSON.parse(item.extend).total > 200) {
+				const w = window.open('about:blank');
+				w.location.href = '#/info/monitor';
+			} else {
+				const w = window.open('about:blank');
+				w.location.href = `#/messageDetail?stationId=${
+					id
+				}`;
+			}
 		}
 		isRead(params).then((res) => {
 			if (res.code === 200) {
@@ -128,7 +140,7 @@ export default class HeaderMessage extends React.Component {
 
 					<div className="yc-station-list">
 						{dataList && dataList.length > 0 ? dataList.map(item => (
-							<div key={item.id} className="yc-station-item" onClick={() => this.skip(item.obligorId, item.id, item.operateType, item)}>
+							<div key={item.id} className="yc-station-item" onClick={() => this.skip(item)}>
 								{item.isRead === false && (
 								<Icon
 									type="icon-dot"
