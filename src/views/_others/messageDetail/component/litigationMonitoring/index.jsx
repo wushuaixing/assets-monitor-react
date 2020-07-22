@@ -4,14 +4,12 @@ import Case from './case';
 import Court from './court';
 import JudgmentDocument from './judgmentDocument';
 
-
 class LitigationMonitoring extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 		};
 	}
-
 
 	render() {
 		const {
