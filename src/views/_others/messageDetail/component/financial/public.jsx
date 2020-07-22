@@ -1,44 +1,9 @@
 import React, { Component } from 'react';
-import { Pagination } from 'antd';
-import { Attentions } from '@/common/table';
-import { Table } from '@/common';
 import { publicRes } from '../../test';
-import { AssetsInfo, ListingInfo, ProjectInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
-import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
+import { markRead } from '@/utils/api/message';
+import TablePublic from '@/views/asset-excavate/financial-assets/table/publicity';
 
 // 获取表格配置
-const columns = onRefresh => [
-	{
-		title: '业务信息',
-		width: 400,
-		render: (text, row) => AssetsInfo(text, row, true, true),
-	},
-	{
-		title: '项目信息 ',
-		width: 300,
-		render: (text, row) => ProjectInfo(text, row, true, true),
-	},
-	{
-		title: '挂牌信息',
-		width: 300,
-		render: (text, row) => ListingInfo(text, row, true, true),
-	},
-	{
-		title: '操作',
-		width: 60,
-		unNormal: true,
-		className: 'tAlignCenter_important',
-		render: (text, row, index) => (
-			<Attentions
-				text={text}
-				row={row}
-				onClick={onRefresh}
-				api={row.isAttention ? unFollowSingle : followSingle}
-				index={index}
-			/>
-		),
-	}];
-
 class PubilcProject extends Component {
 	constructor(props) {
 		super(props);
@@ -83,25 +48,18 @@ class PubilcProject extends Component {
 
 	render() {
 		const { dataSource, current, total } = this.state;
+		const tableProps = {
+			noSort: true,
+			dataSource,
+			onRefresh: this.onRefresh,
+			onPageChange: this.onPageChange,
+			maxLength: 5,
+			current,
+			total,
+		};
 		return (
 			<React.Fragment>
-				<Table
-					rowKey={record => record.id}
-					columns={columns(this.onRefresh)}
-					dataSource={dataSource}
-					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
-					onRowClick={this.toRowClick}
-				/>
-				{dataSource && dataSource.length > 5 && (
-					<div className="yc-table-pagination">
-						<Pagination
-							showQuickJumper
-							current={current || 1}
-							total={total || 0}
-						/>
-					</div>
-				)}
+				<TablePublic {...tableProps} />
 			</React.Fragment>
 		);
 	}

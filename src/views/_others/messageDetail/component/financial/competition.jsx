@@ -1,41 +1,6 @@
 import React, { Component } from 'react';
-import { Pagination } from 'antd';
-import { Attentions } from '@/common/table';
-import { Table } from '@/common';
-import { competitonRes } from '../../test';
-import { AssetsInfo, AuctionInfo, MatchingReason } from '@/views/asset-excavate/assets-auction/tableComponents';
-import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
-
-// 获取表格配置
-const columns = onRefresh => [
-	{
-		title: '业务信息',
-		width: 274,
-		render: (text, row) => AssetsInfo(text, row, true, true),
-	}, {
-		title: '匹配原因',
-		dataIndex: 'reason',
-		width: 367,
-		render: MatchingReason,
-	}, {
-		title: '拍卖信息',
-		width: 392,
-		render: AuctionInfo,
-	}, {
-		title: '操作',
-		width: 80,
-		unNormal: true,
-		className: 'tAlignCenter_important yc-assets-auction-action',
-		render: (text, row, index) => (
-			<Attentions
-				text={text}
-				row={row}
-				onClick={onRefresh}
-				index={index}
-				api={row.isAttention ? unFollowSingle : followSingle}
-			/>
-		),
-	}];
+import { markRead } from '@/utils/api/message';
+import TableBiding from '@/views/asset-excavate/financial-assets/table/bidding';
 
 class Competition extends Component {
 	constructor(props) {
@@ -49,7 +14,7 @@ class Competition extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: competitonRes.data.list,
+			dataSource: [],
 		});
 	}
 
@@ -81,25 +46,18 @@ class Competition extends Component {
 
 	render() {
 		const { dataSource, current, total } = this.state;
+		const tableProps = {
+			noSort: true,
+			dataSource,
+			onRefresh: this.onRefresh,
+			onPageChange: this.onPageChange,
+			maxLength: 5,
+			current,
+			total,
+		};
 		return (
 			<React.Fragment>
-				<Table
-					rowKey={record => record.id}
-					columns={columns(this.onRefresh)}
-					dataSource={dataSource}
-					pagination={false}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
-					onRowClick={this.toRowClick}
-				/>
-				{dataSource && dataSource.length > 5 && (
-					<div className="yc-table-pagination">
-						<Pagination
-							showQuickJumper
-							current={current || 1}
-							total={total || 0}
-						/>
-					</div>
-				)}
+				<TableBiding {...tableProps} />
 			</React.Fragment>
 		);
 	}
