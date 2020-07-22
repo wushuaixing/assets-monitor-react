@@ -1,47 +1,6 @@
 import React, { Component } from 'react';
-import { Pagination } from 'antd';
-import { ReadStatus, Attentions } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
-import { Table } from '@/common';
-import { environmentPunishmentRes } from '../../test';
-import { followSingle, markRead, unFollowSingle } from '@/utils/api/message';
-
-const columns = onRefresh => [
-	{
-		title: <span style={{ paddingLeft: 11 }}>发布日期</span>,
-		dataIndex: 'publishTime',
-		width: 113,
-		render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
-	}, {
-		title: '单位名称',
-		dataIndex: 'obName',
-		width: 234,
-		render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
-	}, {
-		title: '标题',
-		dataIndex: 'title',
-		width: 536,
-		render: (text, row) => (row.url ? linkDom(row.url, text || '-') : (text || '-')),
-	}, {
-		title: global.Table_CreateTime_Text,
-		dataIndex: 'createTime',
-		width: 115,
-		render: value => (value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'),
-	}, {
-		title: '操作',
-		width: 60,
-		unNormal: true,
-		className: 'tAlignCenter_important',
-		render: (text, row, index) => (
-			<Attentions
-				text={text}
-				row={row}
-				onClick={onRefresh}
-				api={row.isAttention ? unFollowSingle : followSingle}
-				index={index}
-			/>
-		),
-	}];
+import { markRead } from '@/utils/api/message';
+import TableEnvironmentalPunishment from '@/views/risk-monitor/operation-risk/table/environmentalPunishment';
 
 class EnvironmentPunishment extends Component {
 	constructor(props) {
@@ -53,7 +12,7 @@ class EnvironmentPunishment extends Component {
 
 	componentDidMount() {
 		this.setState({
-			dataSource: environmentPunishmentRes.data.list,
+			dataSource: [],
 		});
 	}
 
@@ -82,12 +41,19 @@ class EnvironmentPunishment extends Component {
 		}
 	};
 
-
 	render() {
 		const {
 			id, title, total,
 		} = this.props;
 		const { dataSource } = this.state;
+		const tableProps = {
+			noSort: true,
+			dataSource,
+			onRefresh: this.onRefresh,
+			onPageChange: this.onPageChange,
+			maxLength: 5,
+			total,
+		};
 		return (
 			<React.Fragment>
 				<div className="messageDetail-table-title" id={id}>
@@ -96,21 +62,7 @@ class EnvironmentPunishment extends Component {
 				</div>
 				<div className="messageDetail-table-headerLine" />
 				<div className="messageDetail-table-container">
-					<Table
-						rowKey={record => record.id}
-						columns={columns(this.onRefresh)}
-						dataSource={dataSource}
-						pagination={false}
-						rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
-						onRowClick={this.toRowClick}
-					/>
-					{dataSource && dataSource.length > 5 && (
-						<div className="yc-table-pagination">
-							<Pagination
-								showQuickJumper
-							/>
-						</div>
-					)}
+					<TableEnvironmentalPunishment {...tableProps} />
 				</div>
 			</React.Fragment>
 		);
