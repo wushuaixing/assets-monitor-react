@@ -182,6 +182,8 @@ class AssociationLink extends React.Component {
 		if (La.length > 0) {
 			if (La[0].url) {
 				resContent.push(linkDom(La[0].url, '立案'));
+			} else {
+				resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
 			}
 		}
 		if (Kt.length > 0) {

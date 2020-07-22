@@ -16,6 +16,12 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
+		const { title } = this.props;
+		if (title) {
+			this.setState({
+				moreOption: true,
+			});
+		}
 		window._addEventListener(window.document, 'keyup', this.toKeyCode13);
 	}
 
@@ -72,7 +78,7 @@ class QueryCondition extends React.Component {
 
 
 	render() {
-		const { form: { getFieldProps, getFieldValue } } = this.props;
+		const { form: { getFieldProps, getFieldValue }, title } = this.props;
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const _style3 = { width: 80 };
@@ -178,7 +184,16 @@ class QueryCondition extends React.Component {
 						/>
 					</div>
 					<div className="yc-query-item">
-						<Input title="信息标题" style={_style1} maxLength="40" size="large" placeholder="拍卖信息标题" {...getFieldProps('title')} />
+						<Input
+							title="信息标题"
+							style={_style1}
+							maxLength="40"
+							size="large"
+							placeholder="拍卖信息标题"
+							{...getFieldProps('title', {
+								initialValue: title || undefined,
+							})}
+						/>
 					</div>
 					<div className="yc-query-item" style={{ marginRight: 0 }}>
 						<Input title="处置机关" style={_style1} size="large" maxLength="20" placeholder="处置法院/单位" {...getFieldProps('court')} />

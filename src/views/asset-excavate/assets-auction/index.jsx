@@ -9,7 +9,7 @@ import {
 import {
 	infoList, exportList, follow, infoCount,
 } from '@/utils/api/monitor-info/assets';
-import { clearEmpty, changeURLArg } from '@/utils';
+import { clearEmpty, changeURLArg, getQueryByName } from '@/utils';
 import './style.scss';
 // import { fileExport } from '@/views/monitor/table-common';
 
@@ -65,12 +65,18 @@ export default class Assets extends React.Component {
 			loading: true,
 			manage: false,
 			tabConfig: source(),
+			title: '',
 		};
 		this.condition = {};
 		this.selectRow = [];
 	}
 
 	componentWillMount() {
+		const { hash } = window.location;
+		const title = getQueryByName(hash, 'title');
+		this.setState({
+			title,
+		});
 		const { tabConfig } = this.state;
 		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
 		this.setState({
@@ -250,7 +256,7 @@ export default class Assets extends React.Component {
 
 	render() {
 		const {
-			dataSource, current, total, manage, loading, tabConfig,
+			dataSource, current, total, manage, loading, tabConfig, title,
 		} = this.state;
 
 		const tableProps = {
@@ -269,7 +275,7 @@ export default class Assets extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
-				<Query onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />
+				<Query onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} title={title} />
 
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
