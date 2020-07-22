@@ -47,7 +47,7 @@ export default class Risk extends PureComponent {
 					id: 3,
 					title: '涉诉信息',
 					rule: children.fxjkssjk,
-					url: '/risk',
+					url: '/risk/info',
 					Component: Lawsuit,
 					API: litigationCard,
 				},

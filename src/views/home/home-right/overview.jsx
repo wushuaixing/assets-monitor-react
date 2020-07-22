@@ -21,7 +21,7 @@ class HomeOverview extends React.Component {
 			['bidding', () => { navigate('/monitor/tender'); }],
 			['bankruptcy', () => { navigate('/risk/bankruptcy'); }],
 			['broken', () => { navigate('/risk/broken'); }],
-			['lawsuit', () => { navigate('/risk'); }],
+			['lawsuit', () => { navigate('/risk/info'); }],
 			['operation-risk', () => { navigate('/risk/operation'); }],
 			['default', () => { console.log('未匹配'); }],
 		]);
