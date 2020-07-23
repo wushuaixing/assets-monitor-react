@@ -9,13 +9,10 @@ import riskBusiness from './professional-work/business/risk';
 
 import riskPersonal from './portrait-inquiry/personal/risk';
 
-import portraitLawsuits from './portrait-inquiry/enterprise/lawsuits';
-
-import portraitManage from './portrait-inquiry/enterprise/manage';
+import portraitRisk from './portrait-inquiry/enterprise/risk';
 
 import { getHrefQuery } from '@/utils';
 
-const riskPortrait = Object.assign({}, portraitLawsuits, portraitManage);
 
 export const getDynamicAsset = (portrait = 'enterprise', option) => {
 	const { b, e, p } = option;
@@ -51,7 +48,7 @@ export const getDynamicRisk = (portrait = 'enterprise', option) => {
 	const { b, e, p } = option;
 	/* b：业务api相关id ， e：画像查询-企业api相关 ， p：画像查询-个人api相关  */
 	let api = '';
-	if (e) api = riskPortrait[e];
+	if (e) api = portraitRisk[e];
 	else if (b) api = riskDebtor[e];
 	else if (p) api = riskPersonal[p];
 	// api 默认值 优先级：画像企业=> 业务债务人=>画像个人
@@ -70,7 +67,7 @@ export const getDynamicRisk = (portrait = 'enterprise', option) => {
 		params.obligorNumber = getHrefQuery('num');
 		params.businessId = getHrefQuery('id');
 	} else if (portrait === 'enterprise' && e) {
-		api = riskPortrait[e];
+		api = portraitRisk[e];
 		params.companyId = getHrefQuery('id');
 		params.businessId = getHrefQuery('id');
 	}
