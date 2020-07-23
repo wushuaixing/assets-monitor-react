@@ -216,29 +216,29 @@ class MessageDetail extends React.Component {
 			obligorId: undefined,
 			messageApi: message,
 			affixed: false,
+			today: undefined,
 		};
 	}
 
 	componentWillMount() {
+		const day = new Date();
 		this.setState({
+			today: day.format('yyyy-MM-dd'),
 			stationId: getQueryByName(window.location.href, 'stationId'),
 		});
 	}
 
 	componentDidMount() {
 		const { rule } = this.props;
-		const { obligorId } = this.state;
+		const { obligorId, stationId } = this.state;
 		console.log('props === ', rule);
+		const params = {
+			stationId,
+		};
 		// 默认查询全部的债务人更新的信息
 		// 返回的结果： 哪些模块是有数据的，每个模块的数据是多少
 		// 然后根据每个有数据的模块去请求列表数据
-		headerInfo().then((res) => {
-			this.setState({
-				obligorInfo: [
-					{ obligorId: 222, obligorName: '易烊千玺' },
-					{ obligorId: 233, obligorName: '彭于晏' },
-				],
-			});
+		headerInfo(params).then((res) => {
 			if (res.code === 200 && res.data) {
 				const headerInfoCount = {
 					newMonitorCount: res.data.newMonitorCount,
@@ -252,7 +252,7 @@ class MessageDetail extends React.Component {
 		}).catch((err) => {
 			console.log('err === ', err);
 		});
-		this.queryAllCount(obligorId);
+		this.queryAllCount();
 	}
 
 	// 点击上移
@@ -265,8 +265,8 @@ class MessageDetail extends React.Component {
 	};
 
 	// 查询所有模块的数量
-	queryAllCount = (obligorId) => {
-		const { stationId } = this.state;
+	queryAllCount = () => {
+		const { obligorId, stationId } = this.state;
 		const { rule } = this.props;
 		const params = {
 			obligorId,
@@ -302,10 +302,14 @@ class MessageDetail extends React.Component {
 
 	// 切换债务人的点击事件
 	handleChange = (obligorId) => {
-		console.log('id === ', obligorId);
+		if (obligorId === '-1') {
+			this.setState({
+				obligorId: undefined,
+			});
+		}
 		window.scrollTo(0, 50);
-		this.queryAllCount(obligorId);
-		this.toGetChildCount(obligorId);
+		this.queryAllCount();
+		// this.toGetChildCount(obligorId);
 	};
 
 	// 切换债务人，获取子级数量的所有api
@@ -358,14 +362,14 @@ class MessageDetail extends React.Component {
 
 	render() {
 		const {
-			config, headerInfoCount, loading, obligorInfo, affixed, obligorId, stationId,
+			config, headerInfoCount, loading, obligorInfo, affixed, obligorId, stationId, today,
 		} = this.state;
 		console.log('state render === ', this.state);
 		return (
 			<div className="messageDetail">
 				<Affix className="fix-header" onChange={this.handleChangeAffixStatus}>
 					<div className="messageDetail-header">
-						<span className="messageDetail-header-bold">2020-07-16</span>
+						<span className="messageDetail-header-bold">{today}</span>
 						<span className="messageDetail-header-bold">
 							新增监控信息
 							<span className="messageDetail-header-bold-sum">{headerInfoCount.newMonitorCount}</span>
@@ -373,7 +377,7 @@ class MessageDetail extends React.Component {
 						</span>
 						<span>
 							已失效信息
-							{ headerInfoCount.newMonitorCount }
+							{ headerInfoCount.invalidCount }
 							条
 						</span>
 						<Tooltip placement="top" title="已更新的信息或对应债务人已删除的信息">
@@ -394,12 +398,13 @@ class MessageDetail extends React.Component {
 										defaultValue="0"
 										onChange={this.handleChange}
 									>
-										<Select.Option value="0">全部</Select.Option>
-										<Select.Option value="1">张三</Select.Option>
-										<Select.Option value="2">李四</Select.Option>
+										<Select.Option value="-1">全部</Select.Option>
 										{
 											obligorInfo && obligorInfo.map(item => (
-												<Select.Option value={item.obligorId}>{item.obligorName}</Select.Option>
+												<Select.Option value={item.obligorId}>
+													{item.obligorName}
+													{`${item.obligorNumber ? `（身份证号：）${item.obligorNumber}` : ''}`}
+												</Select.Option>
 											))
 										}
 									</Select>
