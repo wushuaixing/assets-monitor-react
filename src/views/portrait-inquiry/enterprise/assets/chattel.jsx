@@ -10,19 +10,19 @@ export default class Chattel extends React.Component {
 			type: toGetDefaultId(props.data),
 			config: [
 				{
-					id: 10601,
+					id: 10501,
 					name: '抵押',
-					number: toGetNumber(props.data, 10601),
+					number: toGetNumber(props.data, 10501),
 					showNumber: true,
-					disabled: !toGetNumber(props.data, 10601),
+					disabled: !toGetNumber(props.data, 10501),
 					tooltip: '查询主体作为抵押物所有人向其债权人抵押财产',
 				},
 				{
-					id: 10602,
+					id: 10502,
 					name: '抵押权',
-					number: toGetNumber(props.data, 10602),
+					number: toGetNumber(props.data, 10502),
 					showNumber: true,
-					disabled: !toGetNumber(props.data, 10602),
+					disabled: !toGetNumber(props.data, 10502),
 					tooltip: '查询主体作为债权人享有的抵押权信息',
 				}],
 		};
@@ -49,8 +49,8 @@ export default class Chattel extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">动产抵押</div>}
 				/>
 				<div className="inquiry-public-table">
-					{type === 10601 ? <Pledge /> : null}
-					{type === 10602 ? <Mortgage /> : null}
+					{type === 10501 ? <Pledge /> : null}
+					{type === 10502 ? <Mortgage /> : null}
 				</div>
 			</div>
 		);

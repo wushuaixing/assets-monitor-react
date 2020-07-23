@@ -8,11 +8,11 @@ export default class Auction extends React.Component {
 		super(props);
 		this.state = {
 			config: [{
-				id: 10801,
+				id: 10701,
 				name: ' ',
-				number: toGetNumber(props.data, 10801),
+				number: toGetNumber(props.data, 10701),
 				showNumber: true,
-				disabled: !toGetNumber(props.data, 10801),
+				disabled: !toGetNumber(props.data, 10701),
 			}],
 		};
 	}
