@@ -228,7 +228,6 @@ export default class Enterprise extends React.Component {
 
 	/* 获取子项统计 */
 	toGetChildCount=(companyId, apiData, field, index) => {
-		/* ...... */
 		const { tabConfig: con, countSource: cou } = this.state;
 		const reqList = Object.keys(apiData).map(item => ({
 			api: apiData[item].count({ companyId }, apiData[item].id),
@@ -248,7 +247,6 @@ export default class Enterprise extends React.Component {
 	};
 
 	handleDownload=() => {
-		// console.log('handleDownload');
 	};
 
 	handleAddChild=(val) => {

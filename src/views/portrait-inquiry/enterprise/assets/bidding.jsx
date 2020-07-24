@@ -1,33 +1,25 @@
 import React from 'react';
-import { Tabs } from '@/common';
 import Table from '@/views/asset-excavate/assets-auction/table-version';
 import { toGetNumber } from '@/utils/promise';
+
+const fakeData = [{ id: 10701, data: 20 }];
 
 export default class Auction extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			config: [{
-				id: 10701,
-				name: ' ',
-				number: toGetNumber(props.data, 10701),
-				showNumber: true,
-				disabled: !toGetNumber(props.data, 10701),
-			}],
+			count: toGetNumber(fakeData, 10701),
 		};
 	}
 
 	render() {
-		const { config } = this.state;
+		const { count } = this.state;
 		const { id } = this.props;
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
-				<Tabs.Simple
-					onChange={this.onSourceType}
-					source={config}
-					symbol="none"
-					prefix={<div className="yc-tabs-simple-prefix">招投标</div>}
-				/>
+				<div className="public-table-tab">
+					<div className="yc-tabs-simple-prefix">{`招投标 ${count || 0}`}</div>
+				</div>
 				<div className="inquiry-public-table">
 					<Table />
 				</div>

@@ -125,8 +125,8 @@ export default class Dishonest extends React.Component {
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
 					<div className="yc-tabs-simple-prefix">
-							失信记录
-						<span className="yc-table-num">{total}</span>
+						失信记录
+						{total}
 					</div>
 					{/* <div className="yc-tabs-simple-prefix">{`失信记录 ${total || 0}`}</div> */}
 				</div>

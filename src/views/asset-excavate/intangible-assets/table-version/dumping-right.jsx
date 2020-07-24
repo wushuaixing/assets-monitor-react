@@ -133,8 +133,8 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const { portrait } = this.props;
-		const { api, params } = getDynamicAsset(portrait, {
+		const { portrait, option } = this.props;
+		const { api, params } = getDynamicAsset(portrait, option || {
 			b: 10401,
 		});
 		this.setState({ loading: true });
