@@ -114,7 +114,7 @@ class AUCTION extends React.PureComponent {
 					<div style={_style1} className="item">
 						<Input
 							title="债务人"
-							placeholder="企业债务人名称"
+							placeholder="个人/企业名称"
 							maxLength="40"
 							{...getFieldProps('name', {
 								getValueFromEvent: e => e.trim(),
