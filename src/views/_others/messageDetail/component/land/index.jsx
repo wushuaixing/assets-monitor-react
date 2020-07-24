@@ -34,9 +34,9 @@ class Land extends Component {
 										{item.name}
 										<span>{item.count}</span>
 									</div>
-									{ item.type === 'sell' && <Sell />}
-									{ item.type === 'transfer' && <Transfer />}
-									{ item.type === 'pledge' && <Pledge />}
+									{ item.dataType === 10301 && <Sell />}
+									{ item.dataType === 10302 && <Transfer />}
+									{ item.dataType === 10303 && <Pledge />}
 								</div>
 							)
 						))

@@ -33,8 +33,8 @@ class Financial extends Component {
 										{item.name}
 										<span>{item.count}</span>
 									</div>
-									{ item.type === 'competition' && <Competition />}
-									{ item.type === 'public' && <PubilcProject />}
+									{ item.dataType === 10601 && <Competition />}
+									{ item.dataType === 10602 && <PubilcProject />}
 								</div>
 							)
 						))

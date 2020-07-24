@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { markRead } from '@/utils/api/message';
 import TableTrial from '@/views/risk-monitor/lawsuits-monitor/table/trial';
+import message from '@/utils/api/message/message';
 
 class Case extends Component {
 	constructor(props) {
@@ -9,10 +10,29 @@ class Case extends Component {
 			dataSource: [],
 			current: 1,
 			total: 0,
+			page: 1,
+			num: 5,
 		};
 	}
 
 	componentDidMount() {
+		const { dataType, stationId, obligorId } = this.props;
+		const { page, num } = this.state;
+		const reg = new RegExp(dataType);
+		const api = message.filter(item => reg.test(item.dataType))[0].list;
+		console.log('datatype api === ', api);
+		const params = {
+			obligorId,
+			stationId,
+			page,
+			num,
+		};
+		api(params).then((res) => {
+
+		}).catch((err) => {
+
+		});
+
 		this.setState({
 			dataSource: [],
 		});

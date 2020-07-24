@@ -13,34 +13,44 @@ class LitigationMonitoring extends Component {
 
 	render() {
 		const {
-			id, title, total, childrenCount,
+			id, title, total, childrenCount, stationId, obligorId,
 		} = this.props;
+		const peopleProps = {
+			stationId,
+			obligorId,
+		};
 		const config = childrenCount && childrenCount.filter(item => item.count > 0);
 		return (
 			<React.Fragment>
-				<div className="messageDetail-table-title" id={id}>
-					{title}
-					<span className="messageDetail-table-total">{total}</span>
-				</div>
-				<div className="messageDetail-table-headerLine" />
-				<div className="messageDetail-table-container">
-					{
-						config && config.map(item => (
-							item.count > 0
-							&& (
-								<div>
-									<div className="messageDetail-table-subTitle" style={{ width: parseInt(item.name.length * 10 + 35, 10) }}>
-										{item.name}
-										<span>{item.count}</span>
-									</div>
-									{ item.type === 'case' && <Case />}
-									{ item.type === 'court' && <Court />}
-									{ item.type === 'judgmentDocument' && <JudgmentDocument />}
-								</div>
-							)
-						))
-					}
-				</div>
+				{
+					config && (
+					<div>
+						<div className="messageDetail-table-title" id={id}>
+							{title}
+							<span className="messageDetail-table-total">{total}</span>
+						</div>
+						<div className="messageDetail-table-headerLine" />
+						<div className="messageDetail-table-container">
+							{
+								config && config.map(item => (
+									item.count > 0
+									&& (
+										<div>
+											<div className="messageDetail-table-subTitle" style={{ width: parseInt(item.name.length * 10 + 35, 10) }}>
+												{item.name}
+												<span>{item.count}</span>
+											</div>
+											{ item.dataType === 10901 && <Case dataType={10901} {...peopleProps} />}
+											{ item.dataType === 10902 && <Court dataType={10902} {...peopleProps} />}
+											{ item.dataType === 10903 && <JudgmentDocument dataType={10903} {...peopleProps} />}
+										</div>
+									)
+								))
+							}
+						</div>
+					</div>
+					)
+				}
 			</React.Fragment>
 		);
 	}

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import '../../style.scss';
-import Sewage from './sewage';
-import Mining from './mining';
-import Trademark from './trademark';
-import Building from './building';
+import IllegalTaxation from './illegalTaxation';
+import EnvironmentPunishment from './environmentPunishment';
 
-class IntangibleAssets extends Component {
+class BusinessRisk extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -34,10 +32,8 @@ class IntangibleAssets extends Component {
 										{item.name}
 										<span>{item.count}</span>
 									</div>
-									{ item.datatype === 10801 && <Sewage />}
-									 { item.datatype === 10802 && <Mining />}
-									 { item.datatype === 10803 && <Trademark />}
-									 { item.datatype === 10804 && <Building />}
+									{ item.dataType === 11201 && <IllegalTaxation />}
+									 { item.dataType === 11202 && <EnvironmentPunishment />}
 								</div>
 							)
 						))
@@ -48,4 +44,4 @@ class IntangibleAssets extends Component {
 	}
 }
 
-export default IntangibleAssets;
+export default BusinessRisk;
