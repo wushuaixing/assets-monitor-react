@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { markRead } from '@/utils/api/message';
 import TableTrial from '@/views/risk-monitor/lawsuits-monitor/table/trial';
 import message from '@/utils/api/message/message';
+import { Spin } from '@/common';
 
 class Case extends Component {
 	constructor(props) {
@@ -12,30 +13,12 @@ class Case extends Component {
 			total: 0,
 			page: 1,
 			num: 5,
+			loading: false,
 		};
 	}
 
 	componentDidMount() {
-		const { dataType, stationId, obligorId } = this.props;
-		const { page, num } = this.state;
-		const reg = new RegExp(dataType);
-		const api = message.filter(item => reg.test(item.dataType))[0].list;
-		console.log('datatype api === ', api);
-		const params = {
-			obligorId,
-			stationId,
-			page,
-			num,
-		};
-		api(params).then((res) => {
-
-		}).catch((err) => {
-
-		});
-
-		this.setState({
-			dataSource: [],
-		});
+		this.toGetData();
 	}
 
 	// 表格变化，刷新表格
@@ -60,12 +43,43 @@ class Case extends Component {
 		}
 	};
 
-	onPageChange = () => {
+	toGetData = () => {
+		const { dataType, stationId, obligorId } = this.props;
+		const { page, num } = this.state;
+		const reg = new RegExp(dataType);
+		const api = message.filter(item => reg.test(item.dataType))[0].list;
+		console.log('datatype api === ', api);
+		const params = {
+			obligorId,
+			stationId,
+			page,
+			num,
+		};
+		this.setState({
+			loading: true,
+		});
+		api(params).then((res) => {
+		}).catch((err) => {
+		});
+		this.setState({
+			loading: false,
+		});
+		this.setState({
+			dataSource: [],
+		});
+	};
 
+	onPageChange = (val) => {
+		this.setState({
+			page: val,
+		});
+		this.toGetData();
 	};
 
 	render() {
-		const { dataSource, current, total } = this.state;
+		const {
+			dataSource, current, total, loading,
+		} = this.state;
 		const tableProps = {
 			noSort: true,
 			dataSource,
@@ -77,7 +91,9 @@ class Case extends Component {
 		};
 		return (
 			<React.Fragment>
-				<TableTrial {...tableProps} />
+				<Spin visible={loading}>
+					<TableTrial {...tableProps} />
+				</Spin>
 			</React.Fragment>
 		);
 	}

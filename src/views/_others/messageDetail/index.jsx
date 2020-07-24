@@ -261,6 +261,7 @@ class MessageDetail extends React.Component {
 			if (res.code === 200) {
 				this.setState({
 					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
+					// config: subItems(rule, allData).filter(item => item.status && item.total > 0),
 				});
 			}
 		}).catch((err) => {
@@ -358,6 +359,10 @@ class MessageDetail extends React.Component {
 					}
 				</Affix>
 				<Spin visible={loading}>
+					{/* 可能会存在一种情况，当前债务人存在，但是查不到新增的情况，就会显示下面信息 */}
+					{
+						obligorId !== '-1' && config.length === 0 && <NoContent font="当前债务人暂无新增数据" />
+					}
 					<div className="messageDetail-table-box">
 						{
 							config.map(Item => (Item.total > 0 ? (

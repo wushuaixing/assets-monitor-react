@@ -19,11 +19,11 @@ class LitigationMonitoring extends Component {
 			stationId,
 			obligorId,
 		};
-		const config = childrenCount && childrenCount.filter(item => item.count > 0);
+		const config = childrenCount ? childrenCount.filter(item => item.count > 0) : [];
 		return (
 			<React.Fragment>
 				{
-					config && (
+					config.length > 0 && (
 					<div>
 						<div className="messageDetail-table-title" id={id}>
 							{title}
