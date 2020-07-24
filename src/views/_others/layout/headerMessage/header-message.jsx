@@ -153,7 +153,7 @@ export default class HeaderMessage extends React.Component {
 									{item.title}
 									<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
 								</div>
-								<div className="yc-station-item-content">{item.content}</div>
+								<div className="yc-station-item-content" dangerouslySetInnerHTML={{ __html: item.content }} />
 							</div>
 						)) : (
 							<div className="notice-station-wrapper">
