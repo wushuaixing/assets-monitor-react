@@ -172,34 +172,45 @@ class AssociationLink extends React.Component {
 
 	/*
 	* La: ；立案，Kt: 开庭， Ws: 文书
-	* 立案：该条数据有链接, 点击直接跳转源链接
-	* 开庭：只有1条且无源链接，不显示“开庭”两字；只有1条且有链接的情况：点击直接跳转；有多条的情况：打开弹窗
-	* 有同个案号的文书信息，且有源链接 点击直接跳转源链接
+	* 立案：0 || 1， 立案信息：有链接直接跳，没链接- ，开庭公告：有链接直接跳，没链接弹窗。
+	* 开庭：0 || 1 || n , 1条有链接，直接跳转； 1条且无链接：立案信息弹窗， 开庭公告-；有多条的情况：打开弹窗
+	* 文书：0 || 1， 立案信息：有链接直接跳，没链接-
 	*/
-	handleSource = (source) => {
+	handleSource = (source, type) => {
 		const { associatedInfo: { trialAssociatedInfo: La, courtAssociatedInfo: Kt, judgmentAssociatedInfo: Ws } } = source;
 		const resContent = [];
+		// 立案
 		if (La.length > 0) {
 			if (La[0].url) {
 				resContent.push(linkDom(La[0].url, '立案'));
 			} else {
-				resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
-			}
-		}
-		if (Kt.length > 0) {
-			if (Kt.length > 1) {
-				if (resContent.length) resContent.push(<span className="info-line">|</span>);
-				resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Court')}>开庭</span>);
-			} else if (Kt.length === 1) {
-				if (Kt[0].url) {
-					if (resContent.length) resContent.push(<span className="info-line">|</span>);
-					resContent.push(linkDom(Kt[0].url, '开庭'));
+				if (type === 'Trial') {
+					resContent.push(linkDom(La[0].url, '立案'));
+				}
+				if (type === 'Court') {
+					resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
 				}
 			}
 		}
+		// 开庭
+		if (Kt.length > 0) {
+			if (Kt.length === 1) {
+				if (Kt[0].url) {
+					if (resContent.length) resContent.push(<span className="info-line">|</span>);
+					resContent.push(linkDom(Kt[0].url, '开庭'));
+				} else if (type === 'Trial') {
+					if (resContent.length) resContent.push(<span className="info-line">|</span>);
+					resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Trial')}>开庭</span>);
+				}
+			} else if (Kt.length > 1) {
+				if (resContent.length) resContent.push(<span className="info-line">|</span>);
+				resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Court')}>开庭</span>);
+			}
+		}
+		// 文书
 		if (Ws.length > 0) {
 			if (Ws[0].url) {
-				resContent.push(<span className="info-line">|</span>);
+				if (resContent.length) resContent.push(<span className="info-line">|</span>);
 				resContent.push(linkDom(Ws[0].url, '文书'));
 			}
 		}
@@ -220,8 +231,7 @@ class AssociationLink extends React.Component {
 			if (value === 'Judgment') return { c: '文书', t: '判决日期' };
 			return '';
 		})(type || 'Trial') || { c: '立案', t: '立案日期' };
-
-		const list = this.handleSource(source) || [];
+		const list = this.handleSource(source, type) || [];
 		return (
 			<React.Fragment>
 				{ list.length ? list.map(i => i) : '-'}
