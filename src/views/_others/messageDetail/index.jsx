@@ -8,7 +8,6 @@ import {
 } from '@/common';
 import { headerInfo, dataCount } from '@/utils/api/message/index';
 import { getQueryByName } from '@/utils';
-import { allData } from './test';
 import Assets from './component/assets/index';
 import Subrogation from './component/subrogation/index';
 import Land from './component/land/index';
@@ -219,7 +218,6 @@ class MessageDetail extends React.Component {
 	componentDidMount() {
 		const { rule } = this.props;
 		const { stationId } = this.state;
-		console.log('props === ', rule);
 		const params = {
 			stationId,
 		};
@@ -245,7 +243,7 @@ class MessageDetail extends React.Component {
 		const dom = document.getElementById(eleID);
 		console.log('height === ', document.getElementById(eleID).offsetTop);
 		if (dom) {
-			window.scrollTo(0, document.getElementById(eleID).offsetTop + 50);
+			window.scrollTo(0, document.getElementById(eleID).offsetTop + 70);
 		}
 	};
 
@@ -297,7 +295,7 @@ class MessageDetail extends React.Component {
 		const {
 			config, headerInfoCount, loading, obligorInfo, affixed, obligorId, stationId, today,
 		} = this.state;
-		// console.log('state render === ', this.state);
+		console.log('state render === ', this.state);
 		return (
 			<div className="messageDetail">
 				<Affix className="fix-header" onChange={this.handleChangeAffixStatus}>
@@ -325,9 +323,8 @@ class MessageDetail extends React.Component {
 									<span className="change-box-name">切换债务人：</span>
 									<Select
 										size="large"
-										allowClear
 										placeholder="请选择债务人"
-										style={{ width: 200 }}
+										style={{ width: 280 }}
 										defaultValue="-1"
 										onChange={this.handleChange}
 									>
@@ -336,7 +333,7 @@ class MessageDetail extends React.Component {
 											obligorInfo && obligorInfo.map(item => (
 												<Select.Option value={item.obligorId}>
 													{item.obligorName}
-													{`${item.obligorNumber ? `（身份证号：）${item.obligorNumber}` : ''}`}
+													{`${item.obligorNumber ? `（身份证号：${item.obligorNumber}）` : ''}`}
 												</Select.Option>
 											))
 										}
@@ -361,7 +358,7 @@ class MessageDetail extends React.Component {
 				<Spin visible={loading}>
 					{/* 可能会存在一种情况，当前债务人存在，但是查不到新增的情况，就会显示下面信息 */}
 					{
-						obligorId !== '-1' && config.length === 0 && <NoContent font="当前债务人暂无新增数据" />
+						obligorId !== '-1' && obligorId && <NoContent font="当前债务人暂无新增数据" />
 					}
 					<div className="messageDetail-table-box">
 						{

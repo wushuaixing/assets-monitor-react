@@ -9,40 +9,61 @@ class IntangibleAssets extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			obligorId: props.obligorId,
 		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { obligorId } = this.props;
+		if (nextProps.obligorId !== obligorId) {
+			this.setState({
+				obligorId: nextProps.obligorId,
+			});
+		}
 	}
 
 	render() {
 		const {
-			id, title, total, childrenCount,
+			id, title, total, childrenCount, stationId,
 		} = this.props;
+		const { obligorId } = this.state;
+		const peopleProps = {
+			stationId,
+			obligorId,
+		};
 		const config = childrenCount && childrenCount.filter(item => item.count > 0);
 		return (
 			<React.Fragment>
-				<div className="messageDetail-table-title" id={id}>
-					{title}
-					<span className="messageDetail-table-total">{total}</span>
-				</div>
-				<div className="messageDetail-table-headerLine" />
-				<div className="messageDetail-table-container">
-					{
-						config && config.map(item => (
-							item.count > 0
-							&& (
-								<div>
-									<div className="messageDetail-table-subTitle" style={{ width: parseInt(item.name.length * 10 + 35, 10) }}>
-										{item.name}
-										<span>{item.count}</span>
-									</div>
-									{ item.datatype === 10801 && <Sewage />}
-									 { item.datatype === 10802 && <Mining />}
-									 { item.datatype === 10803 && <Trademark />}
-									 { item.datatype === 10804 && <Building />}
-								</div>
-							)
-						))
-					}
-				</div>
+				{
+					config.length > 0 && (
+						<div>
+							<div className="messageDetail-table-title" id={id}>
+								{title}
+								<span className="messageDetail-table-total">{total}</span>
+							</div>
+							<div className="messageDetail-table-headerLine" />
+							<div className="messageDetail-table-container">
+								{
+									config.map(item => (
+										item.count > 0
+										&& (
+											<div>
+												<div className="messageDetail-table-subTitle" style={{ width: parseInt(item.name.length * 10 + 35, 10) }}>
+													{item.name}
+													<span>{item.count}</span>
+												</div>
+												{ item.datatype === 10801 && <Sewage dataType={10801} {...peopleProps} />}
+												{ item.datatype === 10802 && <Mining dataType={10802} {...peopleProps} />}
+												{ item.datatype === 10803 && <Trademark dataType={10803} {...peopleProps} />}
+												{ item.datatype === 10804 && <Building dataType={10804} {...peopleProps} />}
+											</div>
+										)
+									))
+								}
+							</div>
+						</div>
+					)
+				}
 			</React.Fragment>
 		);
 	}

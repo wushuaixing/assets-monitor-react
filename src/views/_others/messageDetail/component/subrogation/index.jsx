@@ -8,18 +8,33 @@ class Subrogation extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			obligorId: props.obligorId,
 		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { obligorId } = this.props;
+		if (nextProps.obligorId !== obligorId) {
+			this.setState({
+				obligorId: nextProps.obligorId,
+			});
+		}
 	}
 
 	render() {
 		const {
-			id, title, total, childrenCount,
+			id, title, total, childrenCount, stationId,
 		} = this.props;
+		const { obligorId } = this.state;
+		const peopleProps = {
+			stationId,
+			obligorId,
+		};
 		const config = childrenCount && childrenCount.filter(item => item.count > 0);
 		return (
 			<React.Fragment>
 				{
-					config && (
+					config.length > 0 && (
 					<React.Fragment>
 						<div className="messageDetail-table-title" id={id}>
 							{title}
@@ -28,7 +43,7 @@ class Subrogation extends Component {
 						<div className="messageDetail-table-headerLine" />
 						<div className="messageDetail-table-container">
 							{
-								config && config.map(item => (
+								config.map(item => (
 									item.count > 0
 									&& (
 										<div>
@@ -36,9 +51,9 @@ class Subrogation extends Component {
 												{item.name}
 												<span>{item.count}</span>
 											</div>
-											{ item.datatype === 10201 && <SubrogationRights />}
-											{ item.datatype === 10202 && <OpenCourt />}
-											{ item.datatype === 10203 && <Instrument />}
+											{ item.datatype === 10201 && <SubrogationRights dataType={10201} {...peopleProps} />}
+											{ item.datatype === 10202 && <OpenCourt dataType={10202} {...peopleProps} />}
+											{ item.datatype === 10203 && <Instrument dataType={10203} {...peopleProps} />}
 										</div>
 									)
 								))

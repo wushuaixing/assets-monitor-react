@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
-import TableBiding from '@/views/asset-excavate/financial-assets/table/bidding';
+import TableTrial from '@/views/risk-monitor/lawsuits-monitor/table/trial';
+import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
 
-class Competition extends Component {
+class FileCase extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -38,7 +38,9 @@ class Competition extends Component {
 		const { page, num, obligorId } = this.state;
 		const reg = new RegExp(dataType);
 		const api = message.filter(item => reg.test(item.dataType))[0].list;
+		// sourceType 代位权里的立案是1，涉诉里的立案是2，
 		const params = {
+			sourceType: 2,
 			obligorId,
 			stationId,
 			page,
@@ -108,10 +110,10 @@ class Competition extends Component {
 		};
 		return (
 			<Spin visible={loading}>
-				<TableBiding {...tableProps} />
+				<TableTrial {...tableProps} />
 			</Spin>
 		);
 	}
 }
 
-export default Competition;
+export default FileCase;

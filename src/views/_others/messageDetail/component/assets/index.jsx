@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { markRead } from '@/utils/api/message';
 import '../../style.scss';
 import TableAssets from '@/views/asset-excavate/assets-auction/table';
-import { acutionRes } from '../../test';
 import message from '@/utils/api/message/message';
+import { Spin } from '@/common';
 
 class Assets extends Component {
 	constructor(props) {
@@ -11,16 +10,27 @@ class Assets extends Component {
 		this.state = {
 			dataSource: [],
 			loading: false,
-			maxLength: 5,
 			current: 1,
-			tableTotal: 22,
 			page: 1,
 			num: 5,
+			obligorId: props.obligorId,
+			total: props.total,
 		};
 	}
 
 	componentDidMount() {
 		this.toGetData();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { obligorId } = this.props;
+		if (nextProps.obligorId !== obligorId) {
+			this.setState({
+				obligorId: nextProps.obligorId,
+			}, () => {
+				this.toGetData();
+			});
+		}
 	}
 
 	// 表格发生变化
@@ -34,26 +44,36 @@ class Assets extends Component {
 		});
 	};
 
-  toGetData = () => {
-  	const { obligorId, stationId } = this.props;
-  	const { page, num } = this.state;
-  	const params = {
-  		obligorId,
-  		stationId,
-  		page,
-  		num,
-  	};
-		 this.setState({
-			 loading: true,
-		 });
-		 message[0].list(params).then().catch();
-		 this.setState({
-			 dataSource: [],
-		 });
-		 this.setState({
-			 loading: false,
-		 });
-  };
+	toGetData = () => {
+		const { stationId } = this.props;
+		const { page, num, obligorId } = this.state;
+		const reg = new RegExp(11101);
+		const api = message.filter(item => reg.test(item.dataType))[0].list;
+		const params = {
+			obligorId,
+			stationId,
+			page,
+			num,
+		};
+		this.setState({
+			loading: true,
+		});
+		api(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
+					loading: false,
+				});
+			}
+		}).catch((err) => {
+			this.setState({
+				loading: false,
+			});
+			console.log('err === ', err);
+		});
+	};
 
 	// 当前页数变化
 	onPageChange = (val) => {
@@ -62,45 +82,34 @@ class Assets extends Component {
 			page: val,
 		});
 		this.toGetData();
-		// const { onPageChange } = this.props;
-		// if (onPageChange)onPageChange();
 	};
 
 	render() {
+		const { title, id } = this.props;
 		const {
-			title, id, total,
-		} = this.props;
-		const {
-			dataSource, loading, maxLength, current, tableTotal,
+			dataSource, loading, current, total,
 		} = this.state;
-
 		const tableProps = {
-			maxLength,
 			dataSource,
 			current,
+			maxLength: 5,
 			noSort: true,
 			onPageChange: this.onPageChange,
 			onRefresh: this.onRefresh,
-			total: tableTotal,
-			loading,
+			total,
 		};
-
 		return (
 			<React.Fragment>
-				{
-					dataSource && dataSource.length > 0 && (
-						<React.Fragment>
-							<div className="messageDetail-table-title" id={id}>
-								{title}
-								<span className="messageDetail-table-total">{total}</span>
-							</div>
-							<div className="messageDetail-table-headerLine" />
-							<div className="messageDetail-table-container">
-								<TableAssets {...tableProps} />
-							</div>
-						</React.Fragment>
-					)
-				}
+				<div className="messageDetail-table-title" id={id}>
+					{title}
+					<span className="messageDetail-table-total">{total}</span>
+				</div>
+				<div className="messageDetail-table-headerLine" />
+				<div className="messageDetail-table-container">
+					<Spin visible={loading}>
+						<TableAssets {...tableProps} />
+					</Spin>
+				</div>
 			</React.Fragment>
 		);
 	}
