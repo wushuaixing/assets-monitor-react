@@ -89,8 +89,9 @@ class Trademark extends Component {
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
+		}, () => {
+			this.toGetData();
 		});
-		this.toGetData();
 	};
 
 	render() {
@@ -102,7 +103,8 @@ class Trademark extends Component {
 			dataSource,
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
-			maxLength: 5,
+			isShowPagination: total > 5,
+			pageSize: 5,
 			current,
 			total,
 		};

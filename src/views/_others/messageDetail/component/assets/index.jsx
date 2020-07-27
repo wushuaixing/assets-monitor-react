@@ -75,13 +75,12 @@ class Assets extends Component {
 		});
 	};
 
-	// 当前页数变化
 	onPageChange = (val) => {
-		console.log('val === ', val);
 		this.setState({
 			page: val,
+		}, () => {
+			this.toGetData();
 		});
-		this.toGetData();
 	};
 
 	render() {
@@ -92,11 +91,12 @@ class Assets extends Component {
 		const tableProps = {
 			dataSource,
 			current,
-			maxLength: 5,
 			noSort: true,
 			onPageChange: this.onPageChange,
 			onRefresh: this.onRefresh,
 			total,
+			isShowPagination: total > 5,
+			pageSize: 5,
 		};
 		return (
 			<React.Fragment>

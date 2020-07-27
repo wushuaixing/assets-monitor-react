@@ -91,8 +91,9 @@ class FileCase extends Component {
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
+		}, () => {
+			this.toGetData();
 		});
-		this.toGetData();
 	};
 
 	render() {
@@ -104,9 +105,10 @@ class FileCase extends Component {
 			dataSource,
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
-			maxLength: 5,
 			current,
 			total,
+			isShowPagination: total > 5,
+			pageSize: 5,
 		};
 		return (
 			<Spin visible={loading}>

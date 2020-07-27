@@ -76,13 +76,12 @@ class Bankrupt extends Component {
 		});
 	};
 
-	// 当前页数变化
 	onPageChange = (val) => {
-		console.log('val === ', val);
 		this.setState({
 			page: val,
+		}, () => {
+			this.toGetData();
 		});
-		this.toGetData();
 	};
 
 	toRowClick = (record, index) => {
@@ -107,7 +106,8 @@ class Bankrupt extends Component {
 			dataSource,
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
-			maxLength: 5,
+			isShowPagination: total > 5,
+			pageSize: 5,
 			total,
 		};
 		return (

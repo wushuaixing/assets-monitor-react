@@ -64,13 +64,12 @@ class ChattelMortgage extends Component {
 		});
 	};
 
-	// 当前页数变化
 	onPageChange = (val) => {
-		console.log('val === ', val);
 		this.setState({
 			page: val,
+		}, () => {
+			this.toGetData();
 		});
-		this.toGetData();
 	};
 
 	// 表格变化，刷新表格
@@ -108,7 +107,8 @@ class ChattelMortgage extends Component {
 			dataSource,
 			onPageChange: this.onPageChange,
 			onRefresh: this.onRefresh,
-			maxLength: 5,
+			isShowPagination: total > 5,
+			pageSize: 5,
 			total,
 		};
 		return (

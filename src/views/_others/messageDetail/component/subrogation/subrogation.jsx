@@ -66,12 +66,12 @@ class SubrogationRights extends Component {
 		});
 	};
 
-	// 当前页数变化
 	onPageChange = (val) => {
-		this.condition.page = val;
-		this.toGetData();
-		const { onPageChange } = this.props;
-		if (onPageChange)onPageChange();
+		this.setState({
+			page: val,
+		}, () => {
+			this.toGetData();
+		});
 	};
 
 	// 表格变化，刷新表格
@@ -105,7 +105,8 @@ class SubrogationRights extends Component {
 			dataSource,
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
-			maxLength: 5,
+			isShowPagination: total > 5,
+			pageSize: 5,
 			current,
 			total,
 		};
