@@ -358,7 +358,7 @@ class MessageDetail extends React.Component {
 				<Spin visible={loading}>
 					{/* 可能会存在一种情况，当前债务人存在，但是查不到新增的情况，就会显示下面信息 */}
 					{
-						obligorId !== '-1' && obligorId && <NoContent font="当前债务人暂无新增数据" />
+						obligorId !== '-1' && obligorId && config.length === 0 && <NoContent font="当前债务人暂无新增数据" />
 					}
 					<div className="messageDetail-table-box">
 						{

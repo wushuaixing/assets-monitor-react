@@ -52,10 +52,10 @@ class IntangibleAssets extends Component {
 													{item.name}
 													<span>{item.count}</span>
 												</div>
-												{ item.datatype === 10801 && <Sewage dataType={10801} {...peopleProps} />}
-												{ item.datatype === 10802 && <Mining dataType={10802} {...peopleProps} />}
-												{ item.datatype === 10803 && <Trademark dataType={10803} {...peopleProps} />}
-												{ item.datatype === 10804 && <Building dataType={10804} {...peopleProps} />}
+												{ item.dataType === 10801 && <Sewage dataType={10801} {...peopleProps} />}
+												{ item.dataType === 10802 && <Mining dataType={10802} {...peopleProps} />}
+												{ item.dataType === 10803 && <Trademark dataType={10803} {...peopleProps} />}
+												{ item.dataType === 10804 && <Building dataType={10804} {...peopleProps} />}
 											</div>
 										)
 									))

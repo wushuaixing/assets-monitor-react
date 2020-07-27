@@ -51,9 +51,9 @@ class Subrogation extends Component {
 												{item.name}
 												<span>{item.count}</span>
 											</div>
-											{ item.datatype === 10201 && <SubrogationRights dataType={10201} {...peopleProps} />}
-											{ item.datatype === 10202 && <OpenCourt dataType={10202} {...peopleProps} />}
-											{ item.datatype === 10203 && <Instrument dataType={10203} {...peopleProps} />}
+											{ item.dataType === 10201 && <SubrogationRights dataType={10201} {...peopleProps} />}
+											{ item.dataType === 10202 && <OpenCourt dataType={10202} {...peopleProps} />}
+											{ item.dataType === 10203 && <Instrument dataType={10203} {...peopleProps} />}
 										</div>
 									)
 								))
