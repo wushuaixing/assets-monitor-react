@@ -1,20 +1,69 @@
 import React, { Component } from 'react';
 import { markRead } from '@/utils/api/message';
 import TableBankruptcy from '@/views/risk-monitor/bankruptcy/table';
+import message from '@/utils/api/message/message';
+import { Spin } from '@/common';
 
 class Bankrupt extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			dataSource: [],
+			loading: false,
+			obligorId: props.obligorId,
+			page: 1,
+			num: 5,
+			current: 1,
+			total: props.total,
 		};
 	}
 
 	componentDidMount() {
-		this.setState({
-			dataSource: [],
-		});
+		this.toGetData();
 	}
+
+	componentWillReceiveProps(nextProps) {
+		const { obligorId } = this.props;
+		if (nextProps.obligorId !== obligorId) {
+			this.setState({
+				obligorId: nextProps.obligorId,
+			}, () => {
+				this.toGetData();
+			});
+		}
+	}
+
+	toGetData = () => {
+		const { stationId } = this.props;
+		const { page, num, obligorId } = this.state;
+		// 11001 是message映射的type
+		const reg = new RegExp(11001);
+		const api = message.filter(item => reg.test(item.dataType))[0].list;
+		const params = {
+			obligorId,
+			stationId,
+			page,
+			num,
+		};
+		this.setState({
+			loading: true,
+		});
+		api(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
+					loading: false,
+				});
+			}
+		}).catch((err) => {
+			this.setState({
+				loading: false,
+			});
+			console.log('err === ', err);
+		});
+	};
 
 	// 表格变化，刷新表格
 	onRefresh = (data, type) => {
@@ -27,13 +76,12 @@ class Bankrupt extends Component {
 		});
 	};
 
-	onPageChange = () => {
-
-	};
-
-	// 打开立案弹框
-	openRegisterModal = () => {
-
+	onPageChange = (val) => {
+		this.setState({
+			page: val,
+		}, () => {
+			this.toGetData();
+		});
 	};
 
 	toRowClick = (record, index) => {
@@ -48,16 +96,18 @@ class Bankrupt extends Component {
 	};
 
 	render() {
+		const { id, title } = this.props;
 		const {
-			id, title, total,
-		} = this.props;
-		const { dataSource } = this.state;
+			dataSource, loading, total, current,
+		} = this.state;
 		const tableProps = {
+			current,
 			noSort: true,
 			dataSource,
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
-			maxLength: 5,
+			isShowPagination: total > 5,
+			pageSize: 5,
 			total,
 		};
 		return (
@@ -68,9 +118,12 @@ class Bankrupt extends Component {
 				</div>
 				<div className="messageDetail-table-headerLine" />
 				<div className="messageDetail-table-container">
-					<TableBankruptcy {...tableProps} />
+					<Spin visible={loading}>
+						<TableBankruptcy {...tableProps} />
+					</Spin>
 				</div>
 			</React.Fragment>
+
 		);
 	}
 }

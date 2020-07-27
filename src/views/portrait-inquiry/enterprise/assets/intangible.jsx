@@ -1,46 +1,53 @@
 import React from 'react';
 import { Tabs } from '@/common';
-import { toGetNumber } from '@/utils/promise';
-import { TableVersionDumpingRight, TableVersionMiningRight, TableVersionCopyright,  TableVersionConstruction} from '@/views/asset-excavate/intangible-assets/table-version';
+import { toGetDefaultId, toGetNumber } from '@/utils/promise';
+import TableDumping from '@/views/asset-excavate/intangible-assets/table-version/dumping-right';
+import TableMining from '@/views/asset-excavate/intangible-assets/table-version/mining-right';
+import TableCopyRight from '@/views/asset-excavate/intangible-assets/table-version/copyright';
+import TableConstruction from '@/views/asset-excavate/intangible-assets/table-version/construction-qualification';
 
+const fakeData = [{ id: 10601, data: 20 }, { id: 10602, data: 30 }, { id: 10603, data: 30 }, { id: 10604, data: 30 }];
 export default class Intangible extends React.Component {
 	constructor(props) {
 		super(props);
+		const defaultID = toGetDefaultId(props.data);
 		this.state = {
+			sourceType: defaultID,
 			config: [
 				{
-					id: 10701,
+					id: 10601,
 					name: '排污权',
-					number: toGetNumber(props.data, 10701),
+					number: toGetNumber(fakeData, 10601),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10701)),
+					disabled: !(toGetNumber(fakeData, 10601)),
 				},
 				{
-					id: 10702,
+					id: 10602,
 					name: '矿业权',
-					number: toGetNumber(props.data, 10702),
+					number: toGetNumber(fakeData, 10602),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10702)),
+					disabled: !(toGetNumber(fakeData, 10602)),
 				},
 				{
-					id: 10703,
+					id: 10603,
 					name: '商标专利',
-					number: toGetNumber(props.data, 10703),
+					number: toGetNumber(fakeData, 10603),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10703)),
+					disabled: !(toGetNumber(fakeData, 10703)),
 				},
 				{
-					id: 10704,
+					id: 10604,
 					name: '建筑建造资质',
-					number: toGetNumber(props.data, 10704),
+					number: toGetNumber(fakeData, 10604),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10704)),
+					disabled: !(toGetNumber(fakeData, 10604)),
 				},
 			],
 		};
 	}
 
-	onSourceType=(val) => {
+	onSourceType = (val) => {
+		console.log('val === ', val);
 		const { sourceType } = this.state;
 		if (sourceType !== val) {
 			this.setState({ sourceType: val });
@@ -50,20 +57,20 @@ export default class Intangible extends React.Component {
 	render() {
 		const { config, sourceType } = this.state;
 		const { id } = this.props;
-
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
+					defaultCurrent={sourceType}
+					symbol="none"
 					onChange={this.onSourceType}
 					source={config}
 					prefix={<div className="yc-tabs-simple-prefix">无形资产</div>}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 10701 ? <TableVersionDumpingRight /> : null}
-					{sourceType === 10702 ? <TableVersionMiningRight /> : null}
-					{sourceType === 10703 ? <TableVersionCopyright /> : null}
-					{sourceType === 10704 ? <TableVersionConstruction /> : null}
-
+					{sourceType === 10601 ? <TableDumping portrait="enterprise" option={{ e: 'blowdown' }} /> : null}
+					{sourceType === 10602 ? <TableMining portrait="enterprise" option={{ e: 'mining' }} /> : null}
+					{sourceType === 10603 ? <TableCopyRight portrait="enterprise" option={{ e: 'trademark' }} /> : null}
+					{sourceType === 10604 ? <TableConstruction portrait="enterprise" option={{ e: 'construction' }} /> : null}
 				</div>
 			</div>
 		);

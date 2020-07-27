@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-// import { subrogationRes } from '../../test';
 import { markRead } from '@/utils/api/message';
 import TableTrial from '@/views/asset-excavate/subrogation/table/trial';
 import { Spin } from '@/common';
+import message from '@/utils/api/message/message';
 
 class SubrogationRights extends Component {
 	constructor(props) {
@@ -10,23 +10,68 @@ class SubrogationRights extends Component {
 		this.state = {
 			dataSource: [],
 			current: 1,
-			total: 0,
+			total: props.total,
+			page: 1,
+			num: 5,
 			loading: false,
+			obligorId: props.obligorId,
 		};
 	}
 
 	componentDidMount() {
-		this.setState({
-			dataSource: [],
-		});
+		this.toGetData();
 	}
 
-	// 当前页数变化
+	componentWillReceiveProps(nextProps) {
+		const { obligorId } = this.props;
+		if (nextProps.obligorId !== obligorId) {
+			this.setState({
+				obligorId: nextProps.obligorId,
+			}, () => {
+				this.toGetData();
+			});
+		}
+	}
+
+	toGetData = () => {
+		const { stationId, dataType } = this.props;
+		const { page, num, obligorId } = this.state;
+		const reg = new RegExp(dataType);
+		const api = message.filter(item => reg.test(item.dataType))[0].list;
+		// sourceType 代位权里的立案是1，涉诉里的立案是2，
+		const params = {
+			sourceType: 1,
+			obligorId,
+			stationId,
+			page,
+			num,
+		};
+		this.setState({
+			loading: true,
+		});
+		api(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
+					loading: false,
+				});
+			}
+		}).catch((err) => {
+			this.setState({
+				loading: false,
+			});
+			console.log('err === ', err);
+		});
+	};
+
 	onPageChange = (val) => {
-		this.condition.page = val;
-		this.toGetData();
-		const { onPageChange } = this.props;
-		if (onPageChange)onPageChange();
+		this.setState({
+			page: val,
+		}, () => {
+			this.toGetData();
+		});
 	};
 
 	// 表格变化，刷新表格
@@ -51,10 +96,6 @@ class SubrogationRights extends Component {
 		}
 	};
 
-	toGetData = () => {
-	};
-
-
 	render() {
 		const {
 			dataSource, current, total, loading,
@@ -64,16 +105,15 @@ class SubrogationRights extends Component {
 			dataSource,
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
-			maxLength: 5,
+			isShowPagination: total > 5,
+			pageSize: 5,
 			current,
 			total,
 		};
 		return (
-			<React.Fragment>
-				<Spin visible={loading}>
-					<TableTrial {...tableProps} />
-				</Spin>
-			</React.Fragment>
+			<Spin visible={loading}>
+				<TableTrial {...tableProps} />
+			</Spin>
 		);
 	}
 }

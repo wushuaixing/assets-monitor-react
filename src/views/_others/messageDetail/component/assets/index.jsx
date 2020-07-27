@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Spin } from '@/common';
-import { markRead } from '@/utils/api/message';
 import '../../style.scss';
 import TableAssets from '@/views/asset-excavate/assets-auction/table';
+import message from '@/utils/api/message/message';
+import { Spin } from '@/common';
 
 class Assets extends Component {
 	constructor(props) {
@@ -10,19 +10,27 @@ class Assets extends Component {
 		this.state = {
 			dataSource: [],
 			loading: false,
-			maxLength: 5,
+			current: 1,
+			page: 1,
+			num: 5,
+			obligorId: props.obligorId,
+			total: props.total,
 		};
 	}
 
 	componentDidMount() {
-		this.setState({
-			dataSource: [],
-		});
-		setTimeout(() => {
+		this.toGetData();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { obligorId } = this.props;
+		if (nextProps.obligorId !== obligorId) {
 			this.setState({
-				loading: false,
+				obligorId: nextProps.obligorId,
+			}, () => {
+				this.toGetData();
 			});
-		}, 3000);
+		}
 	}
 
 	// 表格发生变化
@@ -36,39 +44,60 @@ class Assets extends Component {
 		});
 	};
 
-
-	toRowClick = (record, index) => {
-		const { id, isRead } = record;
-		if (!isRead) {
-			markRead({ id }).then((res) => {
-				if (res.code === 200) {
-					this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
-				}
+	toGetData = () => {
+		const { stationId } = this.props;
+		const { page, num, obligorId } = this.state;
+		const reg = new RegExp(11101);
+		const api = message.filter(item => reg.test(item.dataType))[0].list;
+		const params = {
+			obligorId,
+			stationId,
+			page,
+			num,
+		};
+		this.setState({
+			loading: true,
+		});
+		api(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
+					loading: false,
+				});
+			}
+		}).catch((err) => {
+			this.setState({
+				loading: false,
 			});
-		}
+			console.log('err === ', err);
+		});
 	};
 
-	onPageChange = () => {
-
+	onPageChange = (val) => {
+		this.setState({
+			page: val,
+		}, () => {
+			this.toGetData();
+		});
 	};
-
 
 	render() {
+		const { title, id } = this.props;
 		const {
-			title, id, total,
-		} = this.props;
-		const {
-			dataSource, loading, maxLength,
+			dataSource, loading, current, total,
 		} = this.state;
-
 		const tableProps = {
-			noSort: true,
 			dataSource,
+			current,
+			noSort: true,
 			onPageChange: this.onPageChange,
 			onRefresh: this.onRefresh,
-			maxLength,
+			total,
+			isShowPagination: total > 5,
+			pageSize: 5,
 		};
-
 		return (
 			<React.Fragment>
 				<div className="messageDetail-table-title" id={id}>

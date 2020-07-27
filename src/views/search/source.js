@@ -42,7 +42,7 @@ export default {
 			},
 			{
 				id: 4,
-				name: '土地数据',
+				name: '土地信息',
 				router: 'land',
 				url: '/search/detail/land',
 				status: !!(rule && rule.xxsstdsj),

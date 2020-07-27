@@ -32,13 +32,13 @@ class InformCenter extends React.Component {
 					width: 160,
 					className: 'message-type',
 					render: (text, row) => (
-						<div>
+						<div style={{ marginLeft: 10 }}>
 							<img
 								style={{ width: 16, verticalAlign: 'sub', marginRight: 10 }}
 								src={row.isRead === false ? imgUnread : imgReade}
 								alt=""
 							/>
-							<span>
+							<span className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}>
 								{text}
 							</span>
 						</div>
@@ -48,16 +48,15 @@ class InformCenter extends React.Component {
 					title: '内容详情',
 					dataIndex: 'content',
 					render: (text, row) => (
-						<div>
+						<div className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}>
 							<span
 								onClick={() => {
 									this.skip(row);
 								}}
 								// className={(row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') && row.obligorId ? 'yc-message-content' : ''}
 								className="yc-message-content"
-							>
-								{text}
-							</span>
+								dangerouslySetInnerHTML={{ __html: text }}
+							/>
 						</div>
 					),
 				},
@@ -65,7 +64,7 @@ class InformCenter extends React.Component {
 					title: '更新时间',
 					dataIndex: 'createTime',
 					width: 160,
-					render: text => <span>{formatDateTime(text)}</span>,
+					render: (text, row) => <span className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}>{formatDateTime(text)}</span>,
 				},
 				{
 					title: '操作',
@@ -123,17 +122,30 @@ class InformCenter extends React.Component {
 		};
 		isRead(params);
 		if (row.obligorId) {
-			if (row.operateType === 'auctionProcessAlert' || row.operateType === 'newAuctionProcessAlert') {
+			// 资产跟进提醒
+			if (row.operateType === 'auctionProcessAlert') {
+				const { title } = JSON.parse(row.extend);
 				const w = window.open('about:blank');
-				w.location.href = '#/monitor?process=1';
+				w.location.href = `#/monitor?process=3?id=${row.obligorId}&title=${title}`;
 			}
+			// 拍卖状态变更
+			if (row.operateType === 'newAuctionProcessAlert') {
+				const { title } = JSON.parse(row.extend);
+				const w = window.open('about:blank');
+				w.location.href = `#/monitor?process=1?id=${row.obligorId}&title=${title}`;
+			}
+			// 失信状态移除 列入失信名单
 			if (row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') {
 				const w = window.open('about:blank');
 				w.location.href = `#/business/debtor/detail?id=${
 					row.obligorId
 				}`;
 			}
-			if (row.operateType === 'monitorReport') {
+		} else if (row.operateType === 'monitorReport') {
+			if (JSON.parse(row.extend) && JSON.parse(row.extend).total > 200) {
+				const w = window.open('about:blank');
+				w.location.href = '#/info/monitor';
+			} else {
 				const w = window.open('about:blank');
 				w.location.href = `#/messageDetail?stationId=${
 					row.id
@@ -146,10 +158,7 @@ class InformCenter extends React.Component {
 					window.location.reload(); // 实现页面重新加载/
 				},
 			});
-			return;
 		}
-
-		window.location.reload(); // 实现页面重新加载/
 	};
 
 	// page翻页

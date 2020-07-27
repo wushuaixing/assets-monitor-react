@@ -6,6 +6,7 @@ import { requestAll } from '@/utils/promise';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
 import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
+import risk from '@/utils/api/portrait-inquiry/enterprise/risk';
 import QueryView from '../common/queryView';
 import {
 	Tabs, Spin, Download, Icon as IconType, BreadCrumb,
@@ -19,6 +20,7 @@ import Assets from './assets';
 import Lawsuits from './lawsuits';
 import Manage from './manage';
 import Info from './info';
+import Risk from './risk';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
 import { noneRemind } from '@/views/portrait-inquiry/inquiry-check';
 import './style.scss';
@@ -38,17 +40,10 @@ const source = () => [
 	},
 	{
 		id: 103,
-		name: '涉诉',
+		name: '风险',
 		number: 0,
 		showNumber: false,
 		field: 'followingCount',
-	},
-	{
-		id: 104,
-		name: '经营',
-		number: 0,
-		showNumber: false,
-		field: 'finishedCount',
 	},
 	{
 		id: 105,
@@ -203,7 +198,7 @@ export default class Enterprise extends React.Component {
 					});
 					// debugger;
 					setTimeout(() => {
-						[{ d: assets, f: 'assets', i: 1 }, { d: lawsuits, f: 'lawsuits', i: 2 }, { d: manage, f: 'manage', i: 3 }]
+						[{ d: assets, f: 'assets', i: 1 }, { d: risk, f: 'risk', i: 2 }]
 							.forEach(item => this.toGetChildCount(companyId, item.d, item.f, item.i));
 					}, 1000);
 				} else {
@@ -233,7 +228,6 @@ export default class Enterprise extends React.Component {
 
 	/* 获取子项统计 */
 	toGetChildCount=(companyId, apiData, field, index) => {
-		/* ...... */
 		const { tabConfig: con, countSource: cou } = this.state;
 		const reqList = Object.keys(apiData).map(item => ({
 			api: apiData[item].count({ companyId }, apiData[item].id),
@@ -241,7 +235,7 @@ export default class Enterprise extends React.Component {
 		}));
 		requestAll(reqList).then((res) => {
 			let count = 0;
-			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
+			res.forEach(item => count += item.field ? item.data[item.field] || 0 : item.data || 0);
 			con[index].number = count;
 			con[index].showNumber = true;
 			cou[field] = res;
@@ -253,7 +247,6 @@ export default class Enterprise extends React.Component {
 	};
 
 	handleDownload=() => {
-		console.log('handleDownload');
 	};
 
 	handleAddChild=(val) => {
@@ -320,8 +313,9 @@ export default class Enterprise extends React.Component {
 					<Router>
 						<Overview toPushChild={this.handleAddChild} path="/*" viewLoading={loading} />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" count={countSource.assets} />
-						<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} />
-						<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} />
+						<Risk toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.risk} />
+						{/*<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} />*/}
+						{/*<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} />*/}
 						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" detailObj={infoSource} viewLoading={loading} />
 					</Router>
 				</div>

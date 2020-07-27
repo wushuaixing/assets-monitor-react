@@ -219,7 +219,7 @@ class LAWSUITS extends React.Component {
 							<Input
 								title="原告"
 								value={item.name}
-								placeholder="姓名/公司名称"
+								placeholder="个人/企业名称"
 								onChange={e => this.handlePlaintiff(e, item.id)}
 								maxLength="40"
 							/>

@@ -163,7 +163,7 @@ export default class TableView extends React.Component {
 
 	render() {
 		const {
-			total, current, dataSource, manage, onPageChange, onRefresh, loading, maxLength,
+			total, current, dataSource, manage, onPageChange, onRefresh, loading, pageSize, isShowPagination = true,
 		} = this.props;
 		const {
 			selectedRowKeys, visible, source, historyInfoModalVisible, historyInfoModalData,
@@ -190,10 +190,11 @@ export default class TableView extends React.Component {
 					onRowClick={this.toRowClick}
 					// rowClassName="yc-assets-auction-table-row"
 				/>
-				{ dataSource && dataSource.length > (maxLength || 0) && (
+				{ dataSource && dataSource.length > 0 && isShowPagination && (
 				<div className="yc-table-pagination">
 					<Pagination
 						showQuickJumper
+						pageSize={pageSize || 10}
 						current={current || 1}
 						total={total || 0}
 						onChange={onPageChange}

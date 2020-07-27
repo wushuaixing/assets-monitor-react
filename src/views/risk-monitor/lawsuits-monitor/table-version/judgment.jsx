@@ -73,8 +73,8 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData=(page) => {
 		// 判断是个人还是企业
-		const { portrait } = this.props;
-		const { api, params } = getDynamicRisk(portrait, {
+		const { portrait, option } = this.props;
+		const { api, params } = getDynamicRisk(portrait, option || {
 			b: 20603,
 			e: 'judgment',
 			p: 'personalJudgment',

@@ -19,6 +19,7 @@ const toGetTotal = (field, data) => {
 	});
 	return count;
 };
+
 const subItems = data => ([
 	{
 		id: 10100,
@@ -44,47 +45,41 @@ const subItems = data => ([
 		tagName: 'e-assets-land',
 		component: Land,
 	},
-	// {
-	// 	id: 10400,
-	// 	name: '无形资产',
-	// 	total: 0,
-	// 	disabled: true,
-	// 	tagName: 'e-assets-intangible',
-	// 	// component: Intangible,
-	// },
+
 	{
-		id: 10500,
+		id: 10400,
 		name: '股权质押',
-		total: data ? toGetTotal('1050', data) : 0,
-		info: data ? data.filter(i => /1050/.test(i.id)) : '',
+		total: data ? toGetTotal('1040', data) : 0,
+		info: data ? data.filter(i => /1040/.test(i.id)) : '',
 		tagName: 'e-assets-stock',
 		component: Stock,
 	},
 	{
-		id: 10600,
+		id: 10500,
 		name: '动产抵押',
-		total: data ? toGetTotal('1060', data) : 0,
-		info: data ? data.filter(i => /1060/.test(i.id)) : '',
+		total: data ? toGetTotal('1050', data) : 0,
+		info: data ? data.filter(i => /1050/.test(i.id)) : '',
 		tagName: 'e-assets-chattel',
 		component: Chattel,
 	},
 	{
-		id: 10700,
+		id: 10600,
 		name: '无形资产',
-		total: data ? toGetTotal('1070', data) : 0,
-		info: data ? data.filter(i => /1070/.test(i.id)) : '',
+		total: data ? toGetTotal('1060', data) : 0,
+		info: data ? data.filter(i => /1060/.test(i.id)) : '',
 		tagName: 'e-assets-intangible',
 		component: Intangible,
 	},
 	{
-		id: 10800,
+		id: 10700,
 		name: '招投标',
-		total: data ? toGetTotal('1080', data) : 0,
-		info: data ? data.filter(i => /1080/.test(i.id)) : '',
+		total: data ? toGetTotal('1070', data) : 0,
+		info: data ? data.filter(i => /1070/.test(i.id)) : '',
 		tagName: 'e-assets-bidding',
 		component: Bidding,
 	},
 ]);
+
 export default class Assets extends React.Component {
 	constructor(props) {
 		super(props);

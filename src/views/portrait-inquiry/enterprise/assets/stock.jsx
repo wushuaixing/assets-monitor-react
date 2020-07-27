@@ -10,19 +10,19 @@ export default class Stock extends React.Component {
 			sourceType: toGetDefaultId(props.data),
 			config: [
 				{
-					id: 10501,
+					id: 10401,
 					name: '股权出质',
-					number: toGetNumber(props.data, 10501),
+					number: toGetNumber(props.data, 10401),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10501)),
+					disabled: !(toGetNumber(props.data, 10401)),
 					tooltip: '查询主体作为股权持有人向其债权人出质股权',
 				},
 				{
-					id: 10502,
+					id: 10402,
 					name: '股权质权',
-					number: toGetNumber(props.data, 10502),
+					number: toGetNumber(props.data, 10402),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10502)),
+					disabled: !(toGetNumber(props.data, 10402)),
 					tooltip: '查询主体作为出质人的债权人，出质人将其持有的股权质押给查询主体',
 				}],
 		};
@@ -48,8 +48,8 @@ export default class Stock extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">股权质押</div>}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 10501 ? <Pledge /> : null}
-					{sourceType === 10502 ? <Mortgage /> : null}
+					{sourceType === 10401 ? <Pledge /> : null}
+					{sourceType === 10402 ? <Mortgage /> : null}
 				</div>
 			</div>
 		);
