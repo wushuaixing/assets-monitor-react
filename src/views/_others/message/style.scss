@@ -46,8 +46,16 @@
     .ant-table-thead{
       .message-type{
         span{
-          margin-left: 26px;
+          margin-left: 36px;
         }
+      }
+    }
+    .ant-table-tbody{
+      .message-unRead{
+        font-weight: bold;
+      }
+      .message-normal{
+        font-weight: normal;
       }
     }
   }

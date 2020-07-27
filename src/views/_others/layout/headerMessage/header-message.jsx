@@ -67,15 +67,8 @@ export default class HeaderMessage extends React.Component {
 			const w = window.open('about:blank');
 			w.location.href = `#/monitor?process=1?id=${obligorId}&title=${title}`;
 		}
-		// 列入失信名单
-		if (operateType === 'dishonestAdd') {
-			const w = window.open('about:blank');
-			w.location.href = `#/business/debtor/detail?id=${
-				obligorId
-			}`;
-		}
-		// 失信状态移除
-		if (operateType === 'dishonestRemove') {
+		// 列入失信名单 || 失信状态移除
+		if (operateType === 'dishonestAdd' || operateType === 'dishonestRemove') {
 			const w = window.open('about:blank');
 			w.location.href = `#/business/debtor/detail?id=${
 				obligorId
