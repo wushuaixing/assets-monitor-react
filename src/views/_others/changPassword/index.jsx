@@ -1,3 +1,7 @@
+/*
+* 这个页面的修改密码是首次登陆之后的修改密码
+* */
+
 import React from 'react';
 import {
 	Form, Popover, Input, message, Button,
@@ -134,8 +138,6 @@ class ChangeWorldModal extends React.PureComponent {
 			});
 		}
 	};
-	// ============
-
 
 	// ============
 	// 再次输入密码
@@ -294,10 +296,14 @@ class ChangeWorldModal extends React.PureComponent {
 			};
 			initUser(params).then((res) => {
 				if (res.code === 200) {
-					message.success('修改成功,请重新登录');
 					cookie.remove('firstLogin');
-					navigate('/login');
-					this.handleCancel();
+					cookie.set('token', res.data.token);
+					cookie.set('versionUpdate', res.data.versionUpdate);
+					message.success('密码修改成功', 2);
+					setTimeout(() => {
+						this.handleCancel();
+						navigate('/');
+					}, 1500);
 				} else {
 					message.error(res.message);
 				}
@@ -322,7 +328,6 @@ class ChangeWorldModal extends React.PureComponent {
 			}
 			return popverType;
 		};
-		// ===========
 		// 新密码验证
 		const newPassword = (
 			<div>
@@ -331,16 +336,12 @@ class ChangeWorldModal extends React.PureComponent {
 				<p className={popverTypes(thirdVali)}>• 不支持空格</p>
 			</div>
 		);
-		// ============
-
-		// ============
 		// 再次输入密码
 		const newAgainPassword = (
 			<div>
 				<p className={popverTypes(fouthVali)}>{againText}</p>
 			</div>
 		);
-		// ==========
 		return (
 			<div className="yc-initial-password">
 				<div

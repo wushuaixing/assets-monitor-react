@@ -1,4 +1,6 @@
-/** 登录页 * */
+/*
+* 这个页面的修改密码是忘记密码的时候进行修改密码
+*/
 
 import React from 'react';
 // ==================
@@ -8,6 +10,8 @@ import React from 'react';
 import {
 	Form, Input, Button, Spin, Popover, message,
 } from 'antd';
+import Cookies from 'universal-cookie';
+import { navigate } from '@reach/router';
 import CommonIcon from './compontent/commonIcon';
 import rsaEncrypt from '@/utils/encrypt';
 import {
@@ -15,6 +19,7 @@ import {
 } from '@/utils/api/user';
 import './style.scss';
 
+const cookie = new Cookies();
 const FormItem = Form.Item;
 const createForm = Form.create;
 const regx = /^[ \x21-\x7E]{6,20}$/; // 判断6到20的字符
@@ -160,12 +165,8 @@ class Login extends React.Component {
 			});
 		}
 	};
-	// ============
 
-
-	// ============
-	// 再次输入密码
-	// 第二个
+	// 再次输入第二个密码
 	handleAgainPassword = () => {
 		this.setState({
 			againPasswordVisible: true,
@@ -251,8 +252,6 @@ class Login extends React.Component {
 		}
 	};
 
-	// ============
-
 	clearInputValue = (type) => {
 		const {
 			form,
@@ -284,9 +283,7 @@ class Login extends React.Component {
 	};
 
 	handleSubmit = () => {
-		const {
-			form, changeType,
-		} = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		form.validateFields((errors) => {
@@ -322,14 +319,22 @@ class Login extends React.Component {
 			const params = {
 				newPassword: rsaEncrypt(newWorld),
 			};
+			// 密码修改成功之后，进入首页
 			forgetPasswordStep3(params).then((res) => {
 				if (res.code === 200) {
-					const hide = message.loading('验证成功,两秒后跳转跳转登录页面...', 0);
-					// 异步手动移除
+					cookie.set('token', res.data.token);
+					cookie.set('firstLogin', res.data.firstLogin);
+					global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
+					message.success('密码修改成功', 2);
 					setTimeout(() => {
-						changeType(1);
-					}, 2000);
-					setTimeout(hide, 2000);
+						navigate('/');
+					}, 1500);
+					// const hide = message.loading('验证成功,两秒后跳转跳转登录页面...', 0);
+					// 异步手动移除
+					// setTimeout(() => {
+					// 	changeType(1);
+					// }, 2000);
+					// setTimeout(hide, 2000);
 				} else {
 					message.error(res.message);
 				}
