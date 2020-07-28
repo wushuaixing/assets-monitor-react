@@ -184,29 +184,37 @@ class Login extends React.Component {
 			}
 			const wechatSmsLogin = {
 				mobile: fields.phone,
-				code: fields.verifyCode,
+				mobileCode: fields.verifyCode,
 			};
+			this.setState({
+				loading: true,
+			});
 			loginPhoneCode(wechatSmsLogin).then((res) => {
 				if (res.code === 200) {
 					message.success('登录成功');
 					cookie.set('token', res.data.token);
 					cookie.set('firstLogin', res.data.firstLogin);
 					cookie.set('versionUpdate', res.data.versionUpdate);
-					const rule = handleRule(res.data.rules);
 					global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 					// 判断是否是第一次登录
 					if (res.data.firstLogin === true) {
 						navigate('/change/password');
 					} else {
-						if (rule.menu_zcwj) {
-							// navigate('/monitor?process=-1');
-							navigate('/');
-						} else if (rule.menu_xxss) {
-							navigate('/');
-						} else {
-							navigate('/');
-						}
+						navigate('/');
 					}
+				} else {
+					if (res.data && res.data.errorTime > 4) {
+						if (res.data.errorTime >= 10) {
+							message.warning(res.message);
+							return;
+						}
+						message.warning(`账号密码错误，您还可以尝试${res.data.errorTimeLeft}次`);
+					} else {
+						message.error(res.message);
+					}
+					this.setState({
+						loading: false,
+					});
 				}
 			}).catch(() => {
 				this.setState({
@@ -310,13 +318,12 @@ class Login extends React.Component {
 		// 当切换验证码登录的时候，获取密码登录的账号
 		if (val === '2') {
 			const { form } = this.props;
-			const { getFieldsValue } = form;
+			const { getFieldsValue, setFieldsValue } = form;
 			const fields = getFieldsValue();
-			if (fields.username) {
-				this.setState({
-					username: fields.username,
-				});
-			}
+			this.setState({
+				username: fields.username,
+			});
+			setFieldsValue({ phone: fields.username });
 		}
 	};
 
