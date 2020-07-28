@@ -155,7 +155,7 @@ class InformCenter extends React.Component {
 				}`;
 			}
 			// 拍卖状态变更
-			if (row.operateType === 'auctionStatusChangeAlert ') {
+			if (row.operateType === 'auctionStatusChangeAlert') {
 				const { title } = JSON.parse(row.extend);
 				const w = window.open('about:blank');
 				w.location.href = `#/monitor?process=1?id=${row.obligorId}&title=${title}`;

@@ -238,12 +238,14 @@ class MessageDetail extends React.Component {
 		});
 		this.queryAllCount();
 		window.onscroll = (e) => {
-			console.log('pageYOffset === ', window.pageYOffset);
+			const { isShowBackTopImg } = this.state;
 			if (window.pageYOffset > 226) {
-				this.setState({
-					isShowBackTopImg: true,
-				});
-			} else {
+				if (!isShowBackTopImg) {
+					this.setState({
+						isShowBackTopImg: true,
+					});
+				}
+			} else if (isShowBackTopImg) {
 				this.setState({
 					isShowBackTopImg: false,
 				});
