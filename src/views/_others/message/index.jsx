@@ -81,6 +81,7 @@ class InformCenter extends React.Component {
 				},
 				{
 					title: '操作',
+					width: 50,
 					dataIndex: 'address',
 					render: (text, row) => (
 						<div
