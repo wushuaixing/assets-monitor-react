@@ -204,6 +204,7 @@ class MessageDetail extends React.Component {
 			obligorId: undefined,
 			affixed: false,
 			today: undefined,
+			isShowBackTopImg: false,
 		};
 	}
 
@@ -236,6 +237,18 @@ class MessageDetail extends React.Component {
 			console.log('err === ', err);
 		});
 		this.queryAllCount();
+		window.onscroll = (e) => {
+			console.log('pageYOffset === ', window.pageYOffset);
+			if (window.pageYOffset > 226) {
+				this.setState({
+					isShowBackTopImg: true,
+				});
+			} else {
+				this.setState({
+					isShowBackTopImg: false,
+				});
+			}
+		};
 	}
 
 	// 点击上移
@@ -245,6 +258,10 @@ class MessageDetail extends React.Component {
 		if (dom) {
 			window.scrollTo(0, document.getElementById(eleID).offsetTop + 70);
 		}
+	};
+
+	goBackTop = () => {
+		window.scrollTo(0, 0);
 	};
 
 	// 查询所有模块的数量
@@ -293,90 +310,97 @@ class MessageDetail extends React.Component {
 
 	render() {
 		const {
-			config, headerInfoCount, loading, obligorInfo, affixed, obligorId, stationId, today,
+			config, headerInfoCount, loading, obligorInfo, affixed, obligorId, stationId, today, isShowBackTopImg,
 		} = this.state;
 		console.log('state render === ', this.state);
 		return (
-			<div className="messageDetail">
-				<Affix className="fix-header" onChange={this.handleChangeAffixStatus}>
-					<div className="messageDetail-header">
-						<span className="messageDetail-header-bold">{today}</span>
-						<span className="messageDetail-header-bold">
+			<div>
+				<div className="messageDetail">
+					<Affix className="fix-header" onChange={this.handleChangeAffixStatus}>
+						<div className="messageDetail-header">
+							<span className="messageDetail-header-bold">{today}</span>
+							<span className="messageDetail-header-bold">
 							新增监控信息
-							<span className="messageDetail-header-bold-sum">{headerInfoCount.newMonitorCount}</span>
+								<span className="messageDetail-header-bold-sum">{headerInfoCount.newMonitorCount}</span>
 							条
-						</span>
-						<span>
+							</span>
+							<span>
 							已失效信息
-							{ headerInfoCount.invalidCount }
-							条
-						</span>
-						<Tooltip placement="top" title="已更新的信息或对应债务人已删除的信息">
-							<span><Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} /></span>
-						</Tooltip>
-					</div>
-					<div className="tiny-line" />
-					{
-						headerInfoCount.newMonitorCount > 0 ? (
-							<div>
-								<div className="change-box">
-									<span className="change-box-name">切换债务人：</span>
-									<Select
-										size="large"
-										placeholder="请选择债务人"
-										style={{ width: 280 }}
-										defaultValue="-1"
-										onChange={this.handleChange}
-									>
-										<Select.Option value="-1">全部</Select.Option>
-										{
-											obligorInfo && obligorInfo.map(item => (
-												<Select.Option value={item.obligorId}>
-													{item.obligorName}
-													{`${item.obligorNumber ? `（身份证号：${item.obligorNumber}）` : ''}`}
-												</Select.Option>
-											))
-										}
-									</Select>
-								</div>
-								{/* 导航的tab */}
-								<div className="tab">
-									<div className="tab-tabs" style={{ borderBottom: affixed ? '1px solid #E5E5E5' : '' }}>
-										{
-											config.map(item => (
-												<Button onClick={() => this.handleScroll(item.tagName)}>
-													{`${item.name}${item.total ? ` ${item.total}` : '0'}`}
-												</Button>
-											))
-										}
+								{ headerInfoCount.invalidCount }
+								条
+							</span>
+							<Tooltip placement="top" title="已更新的信息或对应债务人已删除的信息">
+								<span><Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} /></span>
+							</Tooltip>
+						</div>
+						<div className="tiny-line" />
+						{
+							headerInfoCount.newMonitorCount > 0 ? (
+								<div>
+									<div className="change-box">
+										<span className="change-box-name">切换债务人：</span>
+										<Select
+											size="large"
+											placeholder="请选择债务人"
+											style={{ width: 280 }}
+											defaultValue="-1"
+											onChange={this.handleChange}
+										>
+											<Select.Option value="-1">全部</Select.Option>
+											{
+												obligorInfo && obligorInfo.map(item => (
+													<Select.Option value={item.obligorId}>
+														{item.obligorName}
+														{`${item.obligorNumber ? `（身份证号：${item.obligorNumber}）` : ''}`}
+													</Select.Option>
+												))
+											}
+										</Select>
+									</div>
+									{/* 导航的tab */}
+									<div className="tab">
+										<div className="tab-tabs" style={{ borderBottom: affixed ? '1px solid #E5E5E5' : '' }}>
+											{
+												config.map(item => (
+													<Button onClick={() => this.handleScroll(item.tagName)}>
+														{`${item.name}${item.total ? ` ${item.total}` : '0'}`}
+													</Button>
+												))
+											}
+										</div>
 									</div>
 								</div>
-							</div>
-						) : <NoContent font="当日无新增信息" />
-					}
-				</Affix>
-				<Spin visible={loading}>
-					{/* 可能会存在一种情况，当前债务人存在，但是查不到新增的情况，就会显示下面信息 */}
-					{
-						obligorId !== '-1' && obligorId && config.length === 0 && <NoContent font="当前债务人暂无新增数据" />
-					}
-					<div className="messageDetail-table-box">
-						{
-							config.map(Item => (Item.total > 0 ? (
-								<Item.component
-									obligorId={obligorId}
-									stationId={stationId}
-									id={Item.tagName}
-									numId={Item.id}
-									total={Item.total}
-									childrenCount={Item.childrenCount}
-									title={Item.name}
-								/>
-							)
-								: null))
+							) : <NoContent font="当日无新增信息" />
 						}
-					</div>
-				</Spin>
+					</Affix>
+					<Spin visible={loading}>
+						{/* 可能会存在一种情况，当前债务人存在，但是查不到新增的情况，就会显示下面信息 */}
+						{
+							obligorId !== '-1' && obligorId && config.length === 0 && <NoContent font="当前债务人暂无新增数据" />
+						}
+						<div className="messageDetail-table-box">
+							{
+								config.map(Item => (Item.total > 0 ? (
+									<Item.component
+										obligorId={obligorId}
+										stationId={stationId}
+										id={Item.tagName}
+										numId={Item.id}
+										total={Item.total}
+										childrenCount={Item.childrenCount}
+										title={Item.name}
+									/>
+								)
+									: null))
+							}
+						</div>
+					</Spin>
+				</div>
+				<div onClick={this.goBackTop}>
+					{
+						isShowBackTopImg && <Icon className="iconToTop" type="icon-top-hover" />
+					}
+				</div>
 			</div>
 		);
 	}

@@ -48,15 +48,28 @@ class InformCenter extends React.Component {
 					title: '内容详情',
 					dataIndex: 'content',
 					render: (text, row) => (
-						<div className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}>
-							<span
-								onClick={() => {
-									this.skip(row);
-								}}
-								// className={(row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') && row.obligorId ? 'yc-message-content' : ''}
-								className="yc-message-content"
-								dangerouslySetInnerHTML={{ __html: text }}
-							/>
+						<div
+							className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}
+							onClick={() => {
+								this.skip(row);
+							}}
+						>
+							<span className="yc-message-content">
+								<span
+									dangerouslySetInnerHTML={{ __html: text }}
+								/>
+							，
+								{
+									row.operateType === 'monitorReport' && JSON.parse(row.extend).total > 200 && <span>点击前往“信息监控”查看</span>
+								}
+								{
+									row.operateType === 'monitorReport' && JSON.parse(row.extend).total <= 200 && <span>点击查看日报详情</span>
+								}
+								{
+									row.operateType !== 'monitorReport' && <span>点击查看</span>
+								}
+							</span>
+
 						</div>
 					),
 				},
@@ -68,6 +81,7 @@ class InformCenter extends React.Component {
 				},
 				{
 					title: '操作',
+					width: 50,
 					dataIndex: 'address',
 					render: (text, row) => (
 						<div
@@ -122,17 +136,16 @@ class InformCenter extends React.Component {
 		};
 		isRead(params);
 		if (row.obligorId) {
+			// if (row.operateType === 'auctionProcessAlert') {
+			// 	const { title } = JSON.parse(row.extend);
+			// 	const w = window.open('about:blank');
+			// 	w.location.href = `#/monitor?process=3?id=${row.obligorId}&title=${title}`;
+			// }
 			// 资产跟进提醒
-			if (row.operateType === 'auctionProcessAlert') {
-				const { title } = JSON.parse(row.extend);
-				const w = window.open('about:blank');
-				w.location.href = `#/monitor?process=3?id=${row.obligorId}&title=${title}`;
-			}
-			// 拍卖状态变更
 			if (row.operateType === 'newAuctionProcessAlert') {
 				const { title } = JSON.parse(row.extend);
 				const w = window.open('about:blank');
-				w.location.href = `#/monitor?process=1?id=${row.obligorId}&title=${title}`;
+				w.location.href = `#/monitor?process=3?id=${row.obligorId}&title=${title}`;
 			}
 			// 失信状态移除 列入失信名单
 			if (row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') {
@@ -140,6 +153,12 @@ class InformCenter extends React.Component {
 				w.location.href = `#/business/debtor/detail?id=${
 					row.obligorId
 				}`;
+			}
+			// 拍卖状态变更
+			if (row.operateType === 'auctionStatusChangeAlert ') {
+				const { title } = JSON.parse(row.extend);
+				const w = window.open('about:blank');
+				w.location.href = `#/monitor?process=1?id=${row.obligorId}&title=${title}`;
 			}
 		} else if (row.operateType === 'monitorReport') {
 			if (JSON.parse(row.extend) && JSON.parse(row.extend).total > 200) {

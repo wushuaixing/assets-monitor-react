@@ -56,13 +56,13 @@ export default class HeaderMessage extends React.Component {
 		console.log(obligorId, operateType, '跳转');
 
 		// 资产跟进提醒 tab切换为跟进中 带入拍卖信息标题
-		if (operateType === 'auctionProcessAlert') {
+		if (operateType === 'newAuctionProcessAlert') {
 			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
 			w.location.href = `#/monitor?process=3?id=${obligorId}&title=${title}`;
 		}
 		// 拍卖状态变更  tab切换为全部 带入拍卖信息标题
-		if (operateType === 'newAuctionProcessAlert') {
+		if (operateType === 'auctionStatusChangeAlert') {
 			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
 			w.location.href = `#/monitor?process=1?id=${obligorId}&title=${title}`;
@@ -146,7 +146,18 @@ export default class HeaderMessage extends React.Component {
 									{item.title}
 									<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
 								</div>
-								<div className="yc-station-item-content" dangerouslySetInnerHTML={{ __html: item.content }} />
+								<div className="yc-station-item-content">
+									<span dangerouslySetInnerHTML={{ __html: item.content }} />
+									{
+										item.operateType === 'monitorReport' && JSON.parse(item.extend).total > 200 && <span>点击前往“信息监控”查看</span>
+									}
+									{
+										item.operateType === 'monitorReport' && JSON.parse(item.extend).total <= 200 && <span>点击查看日报详情</span>
+									}
+									{
+										item.operateType !== 'monitorReport' && <span>点击查看</span>
+									}
+								</div>
 							</div>
 						)) : (
 							<div className="notice-station-wrapper">
