@@ -148,7 +148,7 @@ export default class HeaderMessage extends React.Component {
 								</div>
 								<div className="yc-station-item-content">
 									<span dangerouslySetInnerHTML={{ __html: item.content }} />
-									,
+									，
 									{
 										item.operateType === 'monitorReport' && JSON.parse(item.extend).total > 200 && <span>点击前往“信息监控”查看</span>
 									}
