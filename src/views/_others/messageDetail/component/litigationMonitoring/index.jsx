@@ -46,7 +46,7 @@ class LitigationMonitoring extends Component {
 								config.map(item => (
 									item.count > 0
 									&& (
-										<div>
+										<div className="messageDetail-table-single">
 											<div className="messageDetail-table-subTitle" style={{ width: parseInt(item.name.length * 10 + 35, 10) }}>
 												{item.name}
 												<span>{item.count}</span>

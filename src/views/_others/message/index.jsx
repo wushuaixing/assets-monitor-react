@@ -48,15 +48,28 @@ class InformCenter extends React.Component {
 					title: '内容详情',
 					dataIndex: 'content',
 					render: (text, row) => (
-						<div className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}>
-							<span
-								onClick={() => {
-									this.skip(row);
-								}}
-								// className={(row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') && row.obligorId ? 'yc-message-content' : ''}
-								className="yc-message-content"
-								dangerouslySetInnerHTML={{ __html: text }}
-							/>
+						<div
+							className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}
+							onClick={() => {
+								this.skip(row);
+							}}
+						>
+							<span className="yc-message-content">
+								<span
+									dangerouslySetInnerHTML={{ __html: text }}
+								/>
+							，
+								{
+									row.operateType === 'monitorReport' && JSON.parse(row.extend).total > 200 && <span>点击前往“信息监控”查看</span>
+								}
+								{
+									row.operateType === 'monitorReport' && JSON.parse(row.extend).total <= 200 && <span>点击查看日报详情</span>
+								}
+								{
+									row.operateType !== 'monitorReport' && <span>点击查看</span>
+								}
+							</span>
+
 						</div>
 					),
 				},

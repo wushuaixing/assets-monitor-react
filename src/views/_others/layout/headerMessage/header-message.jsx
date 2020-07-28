@@ -146,7 +146,18 @@ export default class HeaderMessage extends React.Component {
 									{item.title}
 									<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
 								</div>
-								<div className="yc-station-item-content" dangerouslySetInnerHTML={{ __html: item.content }} />
+								<div className="yc-station-item-content">
+									<span dangerouslySetInnerHTML={{ __html: item.content }} />
+									{
+										item.operateType === 'monitorReport' && JSON.parse(item.extend).total > 200 && <span>点击前往“信息监控”查看</span>
+									}
+									{
+										item.operateType === 'monitorReport' && JSON.parse(item.extend).total <= 200 && <span>点击查看日报详情</span>
+									}
+									{
+										item.operateType !== 'monitorReport' && <span>点击查看</span>
+									}
+								</div>
 							</div>
 						)) : (
 							<div className="notice-station-wrapper">
