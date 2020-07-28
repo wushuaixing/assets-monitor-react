@@ -1,13 +1,18 @@
+/*
+* 这个页面是登陆之后修改密码： 原密码 + 新密码
+*/
+
 import React from 'react';
 import {
 	Modal, Form, Popover, Input, message,
 } from 'antd';
-import { navigate } from '@reach/router';
+import Cookies from 'universal-cookie';
 import rsaEncrypt from '@/utils/encrypt';
 import {
 	changePassword, // 修改密码,
 } from '@/utils/api/user';
 
+const cookie = new Cookies();
 const FormItem = Form.Item;
 const createForm = Form.create;
 const regx = /^[ \x21-\x7E]{6,20}$/; // 判断6到20的字符
@@ -253,7 +258,7 @@ class ChangeWorldModal extends React.PureComponent {
 
 	// 确认修改密码
 	handleOk = () => {
-		const { form } = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		form.validateFields((errors) => {
@@ -298,18 +303,15 @@ class ChangeWorldModal extends React.PureComponent {
 				currentPassword: rsaEncrypt(fields && fields.currentPassword),
 				newPassword: rsaEncrypt(newWorld),
 			};
+			// 修改密码的提示时间为1.5s - 2.0s
+			// 修改成功之后关闭弹窗，页面不发生跳转
 			changePassword(params).then((res) => {
-				const start = new Date().getTime(); // 获取接口响应时间
 				if (res.code === 200) {
-					const now = new Date().getTime();
-					const latency = now - start;
-					const hide = message.loading('验证成功, 跳转登录页面...', 0);
-					// 异步手动移除
+					cookie.set('token', res.data.token);
+					message.success('密码修改成功', 2);
 					setTimeout(() => {
-						navigate('/login'); // 实现页面重新加载/
-					}, latency);
-					// 异步手动移除
-					setTimeout(hide, latency);
+						this.handleCancel();
+					}, 1500);
 				} else {
 					message.error(res.message);
 				}

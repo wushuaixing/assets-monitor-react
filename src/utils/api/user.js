@@ -80,7 +80,7 @@ export const getVerificationCode = async (params) => {
 
 // 手机验证码登录
 export const loginPhoneCode = async (params) => {
-	const response = await service.post('/api/auth/open/wechat/smsLogin', params);
+	const response = await service.post('/api/auth/mobileLogin', params);
 	return response.data;
 };
 
