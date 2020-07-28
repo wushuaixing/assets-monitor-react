@@ -203,15 +203,12 @@ class MessageDetail extends React.Component {
 			stationId: undefined,
 			obligorId: undefined,
 			affixed: false,
-			today: undefined,
 			isShowBackTopImg: false,
 		};
 	}
 
 	componentWillMount() {
-		const day = new Date();
 		this.setState({
-			today: day.format('yyyy-MM-dd'),
 			stationId: getQueryByName(window.location.href, 'stationId'),
 		});
 	}
@@ -227,6 +224,7 @@ class MessageDetail extends React.Component {
 				const headerInfoCount = {
 					newMonitorCount: res.data.newMonitorCount,
 					invalidCount: res.data.invalidCount,
+					gmtDisplay: new Date(res.data.gmtDisplay).format('yyyy-MM-dd'),
 				};
 				this.setState({
 					headerInfoCount,
@@ -312,7 +310,7 @@ class MessageDetail extends React.Component {
 
 	render() {
 		const {
-			config, headerInfoCount, loading, obligorInfo, affixed, obligorId, stationId, today, isShowBackTopImg,
+			config, headerInfoCount, loading, obligorInfo, affixed, obligorId, stationId, isShowBackTopImg,
 		} = this.state;
 		console.log('state render === ', this.state);
 		return (
@@ -320,7 +318,7 @@ class MessageDetail extends React.Component {
 				<div className="messageDetail">
 					<Affix className="fix-header" onChange={this.handleChangeAffixStatus}>
 						<div className="messageDetail-header">
-							<span className="messageDetail-header-bold">{today}</span>
+							<span className="messageDetail-header-bold">{headerInfoCount.gmtDisplay}</span>
 							<span className="messageDetail-header-bold">
 							新增监控信息
 								<span className="messageDetail-header-bold-sum">{headerInfoCount.newMonitorCount}</span>
