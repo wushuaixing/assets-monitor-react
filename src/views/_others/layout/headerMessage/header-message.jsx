@@ -56,13 +56,13 @@ export default class HeaderMessage extends React.Component {
 		console.log(obligorId, operateType, '跳转');
 
 		// 资产跟进提醒 tab切换为跟进中 带入拍卖信息标题
-		if (operateType === 'auctionProcessAlert') {
+		if (operateType === 'newAuctionProcessAlert') {
 			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
 			w.location.href = `#/monitor?process=3?id=${obligorId}&title=${title}`;
 		}
 		// 拍卖状态变更  tab切换为全部 带入拍卖信息标题
-		if (operateType === 'newAuctionProcessAlert') {
+		if (operateType === 'auctionStatusChangeAlert') {
 			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
 			w.location.href = `#/monitor?process=1?id=${obligorId}&title=${title}`;
