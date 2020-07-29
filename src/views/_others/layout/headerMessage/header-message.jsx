@@ -59,13 +59,13 @@ export default class HeaderMessage extends React.Component {
 		if (operateType === 'newAuctionProcessAlert') {
 			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
-			w.location.href = `#/monitor?process=3?id=${obligorId}&title=${title}`;
+			w.location.href = `#/monitor?process=3&id=${obligorId}&title=${title}`;
 		}
 		// 拍卖状态变更  tab切换为全部 带入拍卖信息标题
 		if (operateType === 'auctionStatusChangeAlert') {
 			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
-			w.location.href = `#/monitor?process=1?id=${obligorId}&title=${title}`;
+			w.location.href = `#/monitor?process=1&id=${obligorId}&title=${title}`;
 		}
 		// 列入失信名单 || 失信状态移除
 		if (operateType === 'dishonestAdd' || operateType === 'dishonestRemove') {
