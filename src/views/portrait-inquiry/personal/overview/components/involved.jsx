@@ -63,10 +63,14 @@ export default class Subrogation extends React.Component {
 								<span className="container-title-num">
 									{`${allNum || '-'} 条`}
 								</span>
-								<span className="container-title-name">涉诉信息 (涉诉文书)</span>
-								<Tooltip placement="top" title="债务人作为被告被起诉的案件">
-									<span><Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} /></span>
-								</Tooltip>
+								<span className="container-title-name">
+									涉诉信息 (涉诉文书)
+									<Tooltip placement="top" title="债务人作为被告被起诉的案件">
+										<span>
+											<Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} />
+										</span>
+									</Tooltip>
+								</span>
 							</div>
 							<div className="overview-container-content">
 								{timeLineData && getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
