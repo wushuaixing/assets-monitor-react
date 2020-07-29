@@ -2,33 +2,26 @@ import React from 'react';
 import {
 	Select, Form, message, Icon,
 } from 'antd';
-import { navigate } from '@reach/router';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import InputPrice from '@/common/input/input-price';
-import { getQueryByName } from '@/utils';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			moreOption: false,
-			title: '',
 		};
 	}
 
 	componentDidMount() {
-		const { form: { setFieldsValue } } = this.props;
-		const { hash } = window.location;
-		const title = getQueryByName(hash, 'title');
+		const { form: { setFieldsValue }, title } = this.props;
 		if (title) {
 			this.setState({
-				title,
 				moreOption: true,
 			}, () => {
 				setFieldsValue({ title });
-				this.handleSubmit();
 			});
 		}
 		window._addEventListener(window.document, 'keyup', this.toKeyCode13);
@@ -65,8 +58,6 @@ class QueryCondition extends React.Component {
 	};
 
 	handleReset = () => {
-		const { hash } = window.location;
-		const id = getQueryByName(hash, 'id');
 		const { form, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		form.resetFields();

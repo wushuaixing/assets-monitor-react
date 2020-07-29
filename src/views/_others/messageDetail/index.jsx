@@ -195,10 +195,10 @@ class MessageDetail extends React.Component {
 		this.state = {
 			config: [],
 			loading: false,
-			headerInfoCount: {
-				newMonitorCount: 0,
-				invalidCount: 0,
-			},
+			newMonitorCount: 0,
+			invalidCount: 0,
+			effectiveCount: 0,
+			reportDate: '',
 			obligorInfo: [],
 			stationId: undefined,
 			obligorId: undefined,
@@ -214,28 +214,25 @@ class MessageDetail extends React.Component {
 	}
 
 	componentDidMount() {
-		const { rule } = this.props;
 		const { stationId } = this.state;
 		const params = {
 			stationId,
 		};
 		headerInfo(params).then((res) => {
 			if (res.code === 200 && res.data) {
-				const headerInfoCount = {
+				this.setState({
 					newMonitorCount: res.data.newMonitorCount,
 					invalidCount: res.data.invalidCount,
-					gmtDisplay: new Date(res.data.gmtDisplay).format('yyyy-MM-dd'),
-				};
-				this.setState({
-					headerInfoCount,
+					effectiveCount: res.data.newMonitorCount - res.data.invalidCount,
 					obligorInfo: res.data.obligorInfo || [],
+					reportDate: new Date(res.data.gmtDisplay).format('yyyy-MM-dd'),
 				});
 			}
 		}).catch((err) => {
 			console.log('err === ', err);
 		});
 		this.queryAllCount();
-		window.onscroll = (e) => {
+		window.onscroll = () => {
 			const { isShowBackTopImg } = this.state;
 			if (window.pageYOffset > 226) {
 				if (!isShowBackTopImg) {
@@ -311,7 +308,7 @@ class MessageDetail extends React.Component {
 
 	render() {
 		const {
-			config, headerInfoCount, loading, obligorInfo, affixed, obligorId, stationId, isShowBackTopImg,
+			config, newMonitorCount, invalidCount, effectiveCount, loading, obligorInfo, affixed, obligorId, stationId, isShowBackTopImg, reportDate,
 		} = this.state;
 		console.log('state render === ', this.state);
 		return (
@@ -320,24 +317,34 @@ class MessageDetail extends React.Component {
 					<Affix className="fix-header" onChange={this.handleChangeAffixStatus}>
 
 						<div className="messageDetail-header">
-							<span className="messageDetail-header-bold">{headerInfoCount.gmtDisplay}</span>
+							<span className="messageDetail-header-bold">{reportDate}</span>
 							<span className="messageDetail-header-bold">
 							新增监控信息
-								<span className="messageDetail-header-bold-sum">{headerInfoCount.newMonitorCount}</span>
+								<span className="messageDetail-header-bold-sum">{newMonitorCount}</span>
 							条
 							</span>
-							<span>
+							(
+							<span className="messageDetail-header-tips">
+								<span>
+							   当前有效：
+									{ effectiveCount }
+									 条
+								</span>
+								<span className="splitLine"> | </span>
+								<span>
 							已失效信息
-								{ headerInfoCount.invalidCount }
+									{ invalidCount }
 								条
+								</span>
+								<Tooltip placement="top" title="已更新的信息或对应债务人已删除的信息（本页不作展示）">
+									<span><Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} /></span>
+								</Tooltip>
 							</span>
-							<Tooltip placement="top" title="已更新的信息或对应债务人已删除的信息">
-								<span><Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} /></span>
-							</Tooltip>
+							)
 						</div>
 						<div className="tiny-line" />
 						{
-							headerInfoCount.newMonitorCount > 0 ? (
+							 effectiveCount <= 0 || newMonitorCount <= 0 ? <NoContent font="暂无新增信息" /> : (
 								<div>
 									<div className="change-box">
 										<span className="change-box-name">切换债务人：</span>
@@ -373,7 +380,7 @@ class MessageDetail extends React.Component {
 										</div>
 									</div>
 								</div>
-							) : <NoContent font="当日无新增信息" />
+							 )
 						}
 					</Affix>
 					<Spin visible={loading}>

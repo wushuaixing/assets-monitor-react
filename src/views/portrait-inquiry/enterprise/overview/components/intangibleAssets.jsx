@@ -20,23 +20,21 @@ export default class IntangibleAssets extends React.Component {
 	}
 
 	getData = () => {
-		const { companyId } = this.props;
-		this.setState({
-			loading: true,
-		});
+		const { companyId, getAssetProfile } = this.props;
+		this.setState({ loading: true });
 		const params = {
 			companyId,
 		};
-
 		getIntangible(params).then((res) => {
 			if (res.code === 200) {
-				const columnarData = res.data.subrogationInfos;
+				const columnarData = res.data.companyPortraitIntangibleInfos;
 				const columnarNum = getCount(columnarData);
 				this.setState({
 					columnarNum,
 					columnarData,
 					loading: false,
 				});
+				getAssetProfile(columnarNum, 'IntangibleAsset');
 			} else {
 				this.setState({ loading: false });
 			}
@@ -50,7 +48,7 @@ export default class IntangibleAssets extends React.Component {
 		return (
 			<div>
 				<Spin visible={loading}>
-					{columnarData && getCount(columnarData) === 0 ? (
+					{columnarData && columnarNum === 0 ? (
 						<div>
 							{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到无形资产信息" />}
 						</div>
@@ -62,12 +60,12 @@ export default class IntangibleAssets extends React.Component {
 										<div className="overview-container-title">
 											<div className="overview-left-item" />
 											<span className="container-title-num">
-												{`${getCount(columnarData)} 条`}
+												{`${columnarNum} 条`}
 											</span>
 											<span className="container-title-name">无形资产信息</span>
 										</div>
 										<div className="overview-container-content">
-											<ColumnarEcharts title="" Data={columnarData} id="BusinessRisk" />
+											<ColumnarEcharts title="" Data={columnarData} id="IntangibleAssets" />
 										</div>
 									</div>
 								)

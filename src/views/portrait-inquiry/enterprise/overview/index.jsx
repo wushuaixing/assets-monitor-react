@@ -32,6 +32,8 @@ export default class OverView extends React.Component {
 			litigationLoading: false,
 			AssetAuctionCount: 0,
 			SubrogationCount: 0,
+			IntangibleAssetCount: 0,
+			BiddingCount: 0,
 			LandCount: 0,
 			EquityPledgeCount: 0,
 			ChattelMortgageCount: 0,
@@ -100,7 +102,6 @@ export default class OverView extends React.Component {
 					baseInfo: res.data.baseInfo, // 工商基本信息
 					shareholderInfos: res.data.shareholderInfos, // 股东情况
 					businessScaleInfo: res.data.businessScaleInfo, // 人员规模
-
 					loading: false,
 				});
 			} else {
@@ -118,6 +119,12 @@ export default class OverView extends React.Component {
 			return (
 				this.setState({
 					AssetAuctionCount: AssetProfileCountValue,
+				})
+			);
+		case 'IntangibleAsset':
+			return (
+				this.setState({
+					IntangibleAssetCount: AssetProfileCountValue,
 				})
 			);
 		case 'Subrogation':
@@ -144,13 +151,19 @@ export default class OverView extends React.Component {
 					ChattelMortgageCount: AssetProfileCountValue,
 				})
 			);
+		case 'Bidding':
+			return (
+				this.setState({
+					BiddingCount: AssetProfileCountValue,
+				})
+			);
 		default: return '-';
 		}
 	};
 
 	render() {
 		const {
-			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, litigationLoading, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount,
+			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, litigationLoading, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, BiddingCount,
 		} = this.state;
 		const { viewLoading } = this.props;
 		console.log(viewLoading);
@@ -166,7 +179,7 @@ export default class OverView extends React.Component {
 								{/* 相关资产拍卖 */}
 								<AssetAuction companyId={companyId} getAssetProfile={this.getAssetProfile} />
 								{/* 无形资产信息 */}
-								<IntangibleAssets companyId={companyId} />
+								<IntangibleAssets companyId={companyId} getAssetProfile={this.getAssetProfile} />
 								{/* 代位权信息 (裁判文书) */}
 								<Subrogation companyId={companyId} getAssetProfile={this.getAssetProfile} />
 								{/* 土地信息 */}
@@ -176,9 +189,9 @@ export default class OverView extends React.Component {
 								{/* 动产抵押信息 */}
 								<ChattelMortgage companyId={companyId} getAssetProfile={this.getAssetProfile} />
 								{/* 相关招投标信息 */}
-								<BiddingInfo companyId={companyId} />
+								<BiddingInfo companyId={companyId} getAssetProfile={this.getAssetProfile} />
 							</div>,
-							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0
+							AssetAuctionCount === 0 && IntangibleAssetCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0 && BiddingCount === 0
 							&& <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}</Spin>,
 						]
 					}

@@ -13,6 +13,9 @@
         color: #FB5A5C;
       }
     }
+    &-tips{
+      margin: 0 7px;
+    }
   }
   &-table{
     &-box{
@@ -177,4 +180,8 @@
 
 .tAlignCenter_important {
   text-align: center !important;
+}
+
+.splitLine{
+  margin: 0 4px;
 }

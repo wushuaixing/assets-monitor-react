@@ -65,7 +65,7 @@ export default class Assets extends React.Component {
 			loading: true,
 			manage: false,
 			tabConfig: source(),
-			obligorId: undefined,
+			title: '',
 		};
 		this.condition = {};
 		this.selectRow = [];
@@ -78,10 +78,11 @@ export default class Assets extends React.Component {
 		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
 		this.setState({
 			sourceType,
-			obligorId: getQueryByName(hash, 'id'),
+			title,
 		});
-		// 页面的url里有title的时候，该页面不进行查询，在子组件Query里面发起查询请求
-		if (!title) {
+		if (title) {
+			this.onQueryChange({ title }, sourceType);
+		} else {
 			this.onQueryChange({}, sourceType);
 		}
 		this.toInfoCount();
@@ -92,6 +93,7 @@ export default class Assets extends React.Component {
 		const { toRefreshCount } = this.props;
 		infoCount(this.condition).then((res) => {
 			if (res.code === 200) {
+				console.log('toInfoCount res === ', res);
 				this.setState({
 					tabConfig: source(res.data || {}),
 				});
@@ -203,13 +205,14 @@ export default class Assets extends React.Component {
 
 	// 查询条件变化
 	onQuery =(con) => {
+		// window.location.href = changeURLArg(window.location.href, 'title', '');
 		this.toClearSortStatus();
 		this.onQueryChange(con, '', '', 1);
 	};
 
 	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
-		const { sourceType, current, obligorId } = this.state;
+		const { sourceType, current } = this.state;
 		this.condition = Object.assign(con || this.condition, {
 			process: _sourceType || sourceType,
 			page: page || current,
@@ -223,8 +226,6 @@ export default class Assets extends React.Component {
 			loading: true,
 			manage: _manage || false,
 		});
-		const { hash } = window.location;
-		const process = getQueryByName(hash, 'process');
 		infoList(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -234,7 +235,6 @@ export default class Assets extends React.Component {
 					// manage: false,
 					loading: false,
 				});
-				navigate(`/monitor?process=${this.condition.process || process}&id=${obligorId}`);
 			} else {
 				this.setState({
 					dataSource: '',
@@ -260,7 +260,7 @@ export default class Assets extends React.Component {
 
 	render() {
 		const {
-			dataSource, current, total, manage, loading, tabConfig,
+			dataSource, current, total, manage, loading, tabConfig, title,
 		} = this.state;
 
 		const tableProps = {
@@ -279,8 +279,7 @@ export default class Assets extends React.Component {
 		};
 		return (
 			<div className="yc-assets-auction">
-				<Query onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />
-
+				<Query onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} title={title} />
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
