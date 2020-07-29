@@ -26,7 +26,7 @@ const createForm = Form.create;
 class LAND extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '土地数据-信息搜索';
+		document.title = '土地信息-信息搜索';
 		this.state = {
 			sellCount: '', // 出让结果数量
 			transferCount: '', // 土地转让数量
@@ -171,7 +171,7 @@ class LAND extends React.Component {
 		}
 	};
 
-	// 切换土地数据tab
+	// 切换土地信息tab
 	// 出让结果、土地转让、土地抵押
 	onSourceType = (val) => {
 		const { Params, pageSize } = this.state;

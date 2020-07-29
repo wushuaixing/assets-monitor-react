@@ -84,13 +84,13 @@ const subItems = (rule, data) => ([
 	},
 	{
 		dataType: 103,
-		name: '土地数据',
+		name: '土地信息',
 		tagName: 'message-land',
 		total: data ? data ? getCount(data, 103) : 0 : 0,
 		status: isRule('zcwjtdsj', 1, rule),
 		component: Land,
 		childrenCount: [
-			{ name: '土地出让', count: data ? getCount(data, 10301) : 0, dataType: 10301 },
+			{ name: '出让结果', count: data ? getCount(data, 10301) : 0, dataType: 10301 },
 			{ name: '土地转让', count: data ? getCount(data, 10302) : 0, dataType: 10302 },
 			{ name: '土地抵押', count: data ? getCount(data, 10303) : 0, dataType: 10303 },
 		],
@@ -302,6 +302,7 @@ class MessageDetail extends React.Component {
 		window.scrollTo(0, 50);
 	};
 
+	// 页面发生滚动，固定在上方的时候affixed 是true
 	handleChangeAffixStatus = (affixed) => {
 		this.setState({
 			affixed,
@@ -317,6 +318,7 @@ class MessageDetail extends React.Component {
 			<div>
 				<div className="messageDetail">
 					<Affix className="fix-header" onChange={this.handleChangeAffixStatus}>
+
 						<div className="messageDetail-header">
 							<span className="messageDetail-header-bold">{headerInfoCount.gmtDisplay}</span>
 							<span className="messageDetail-header-bold">
@@ -340,6 +342,7 @@ class MessageDetail extends React.Component {
 									<div className="change-box">
 										<span className="change-box-name">切换债务人：</span>
 										<Select
+											className="change-box-select"
 											size="large"
 											placeholder="请选择债务人"
 											style={{ width: 280 }}

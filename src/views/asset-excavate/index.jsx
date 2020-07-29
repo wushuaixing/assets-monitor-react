@@ -7,7 +7,7 @@ import { toGetRuleSource } from '@/utils';
 // 主要内容模块
 import Assets from './assets-auction'; // 资产拍卖
 import Subrogation from './subrogation'; // 代位权
-import LandData from './land-data'; // 土地数据
+import LandData from './land-data'; // 土地信息
 import Tender from './tender-bid'; // 招标中标
 import Financial from './financial-assets'; // 金融资产
 import Mortgage from './chattel-mortgage'; // 动产抵押
@@ -99,7 +99,7 @@ class MonitorMain extends React.Component {
 					// console.log(_item.id, 123);
 					if (_item.id === 'YC0201') _item.dot = data.auctionCount;
 					if (_item.id === 'YC0202') _item.dot = data.subrogationCourtSessionCount || data.subrogationFilingCount || data.subrogationJudgmentCourt;
-					if (_item.id === 'YC0203') _item.dot = data.landTransferFlag || data.landTransactionFlag || data.landMortgageFlag; // 土地数据
+					if (_item.id === 'YC0203') _item.dot = data.landTransferFlag || data.landTransactionFlag || data.landMortgageFlag; // 土地信息
 					if (_item.id === 'YC0204') _item.dot = data.biddingCount; // 招标中标
 					if (_item.id === 'YC0205') _item.dot = data.financeCount || data.auctionBiddingCount; // 金融资产
 					if (_item.id === 'YC0206') _item.dot = data.mortgageFlag; // 动产抵押
