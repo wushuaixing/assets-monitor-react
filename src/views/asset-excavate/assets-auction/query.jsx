@@ -2,24 +2,33 @@ import React from 'react';
 import {
 	Select, Form, message, Icon,
 } from 'antd';
+import { navigate } from '@reach/router';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import InputPrice from '@/common/input/input-price';
+import { getQueryByName } from '@/utils';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			moreOption: false,
+			title: '',
 		};
 	}
 
 	componentDidMount() {
-		const { title } = this.props;
+		const { form: { setFieldsValue } } = this.props;
+		const { hash } = window.location;
+		const title = getQueryByName(hash, 'title');
 		if (title) {
 			this.setState({
+				title,
 				moreOption: true,
+			}, () => {
+				setFieldsValue({ title });
+				this.handleSubmit();
 			});
 		}
 		window._addEventListener(window.document, 'keyup', this.toKeyCode13);
@@ -41,10 +50,11 @@ class QueryCondition extends React.Component {
 		}
 	};
 
-	handleSubmit=() => {
+	handleSubmit = () => {
 		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
+		console.log('handleSubmit condition === ', condition);
 		const { consultPriceStart: start, consultPriceEnd: end } = condition;
 		if (start && end && Number(start) > Number(end)) {
 			message.error('评估价最低价不得高过最高价', 1);
@@ -54,13 +64,19 @@ class QueryCondition extends React.Component {
 		return true;
 	};
 
-	handleReset=() => {
+	handleReset = () => {
+		const { hash } = window.location;
+		const id = getQueryByName(hash, 'id');
 		const { form, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		form.resetFields();
 		const condition = form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition);
-		// console.log('reset:', form.getFieldsValue());
+		if (onQueryChange) {
+			onQueryChange(condition);
+			this.setState({
+				moreOption: false,
+			});
+		}
 	};
 
 	disabledStartDate=(val, time) => {
@@ -78,7 +94,7 @@ class QueryCondition extends React.Component {
 
 
 	render() {
-		const { form: { getFieldProps, getFieldValue }, title } = this.props;
+		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const _style3 = { width: 80 };
@@ -88,7 +104,6 @@ class QueryCondition extends React.Component {
 				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
 			},
 		};
-
 
 		return (
 			<div className="yc-content-query">
@@ -190,9 +205,7 @@ class QueryCondition extends React.Component {
 							maxLength="40"
 							size="large"
 							placeholder="拍卖信息标题"
-							{...getFieldProps('title', {
-								initialValue: title || undefined,
-							})}
+							{...getFieldProps('title')}
 						/>
 					</div>
 					<div className="yc-query-item" style={{ marginRight: 0 }}>
