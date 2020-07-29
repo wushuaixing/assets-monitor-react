@@ -346,7 +346,7 @@ class MessageDetail extends React.Component {
 						{
 							 effectiveCount <= 0 || newMonitorCount <= 0 ? <NoContent font="暂无新增信息" /> : (
 								<div>
-									<div className="change-box" id="switchDebtor">
+									<div className="change-box" style={{ position: 'relative' }}>
 										<span className="change-box-name">切换债务人：</span>
 										<Select
 											size="large"
@@ -354,7 +354,7 @@ class MessageDetail extends React.Component {
 											style={{ width: 280 }}
 											defaultValue="-1"
 											onChange={this.handleChange}
-											getPopupContainer={() => document.getElementById('switchDebtor')}
+											getPopupContainer={ele => ele.offsetParent}
 										>
 											<Select.Option value="-1">全部</Select.Option>
 											{
