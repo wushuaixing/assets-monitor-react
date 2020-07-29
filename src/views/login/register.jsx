@@ -41,6 +41,7 @@ class Login extends React.Component {
 			sendBtnTxt: '获取验证码',
 			type: 'username', // username 密码登录，phone 手机验证码登录
 			username: '',
+			phone: '',
 		};
 	}
 
@@ -312,24 +313,31 @@ class Login extends React.Component {
 
 	// 切换tab点击事件
 	onChangeTab = (val) => {
+
+		const { form } = this.props;
+		const { getFieldsValue, setFieldsValue } = form;
+		const fields = getFieldsValue();
 		this.setState({
 			type: val === '1' ? 'username' : 'phone',
 		});
 		// 当切换验证码登录的时候，获取密码登录的账号
 		if (val === '2') {
-			const { form } = this.props;
-			const { getFieldsValue, setFieldsValue } = form;
-			const fields = getFieldsValue();
 			this.setState({
 				username: fields.username,
 			});
 			setFieldsValue({ phone: fields.username });
 		}
+		else {
+			this.setState({
+				phone: fields.phone,
+			});
+			setFieldsValue({ username: fields.phone });
+		}
 	};
 
 	render() {
 		const {
-			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, sendBtnTxt, verifyCodeStatus, username,
+			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, sendBtnTxt, verifyCodeStatus, username, phone,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType, btnColor,
@@ -364,6 +372,7 @@ class Login extends React.Component {
 											style={{ fontSize: 14 }}
 											// value={userName}
 											{...getFieldProps('username', {
+												initialValue: phone,
 												validateTrigger: isIe ? 'onBlur' : 'onChange',
 												// getValueFromEvent: event => event.target.value.replace(/[\u4E00-\u9FA5]/g, ''),
 												rules: [
@@ -471,7 +480,7 @@ class Login extends React.Component {
 								<div className="yc-form-wrapper" style={{ paddingTop: 30 }}>
 									<Form.Item className="verifyInput">
 										<Icon
-											type="icon-username"
+											type="icon-tel"
 											className="yc-form-icon"
 										/>
 										<Input
@@ -492,7 +501,7 @@ class Login extends React.Component {
 													},
 													{
 														pattern: new RegExp(/^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/, 'g'),
-														message: '请勿输入空格,中文和特殊字符',
+														message: '手机号格式不正确',
 													},
 												],
 											})}
@@ -502,7 +511,7 @@ class Login extends React.Component {
 								<div className="yc-form-wrapper">
 									<Form.Item className="verifyInput">
 										<Icon
-											type="icon-password"
+											type="icon-resetImg"
 											className="yc-form-icon"
 											style={{ fontSize: 19 }}
 										/>
