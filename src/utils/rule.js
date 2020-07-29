@@ -193,7 +193,7 @@ export default {
 					},
 					{
 						id: 'YC0203',
-						name: '土地数据',
+						name: '土地信息',
 						url: '/monitor/land',
 						status: toStatus(rule.menu_zcwj, 'zcwjtdsj'),
 						child: [
@@ -204,7 +204,7 @@ export default {
 					},
 					{
 						id: 'YC0204',
-						name: '招标中标',
+						name: '招投标',
 						url: '/monitor/tender',
 						status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
 					},

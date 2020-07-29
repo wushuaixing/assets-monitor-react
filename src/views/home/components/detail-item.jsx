@@ -4,7 +4,7 @@ import { navigate } from '@reach/router';
 import { postMarkRead } from 'api/monitor-info/mortgage'; // 动产抵押已读
 import PublicPerImg from '@/assets/img/business/icon_zwrpeople.png';
 import { readStatusResult } from '@/utils/api/monitor-info/finance'; // 股权质押
-import Api from '@/utils/api/monitor-info/public'; // 土地数据已读
+import Api from '@/utils/api/monitor-info/public'; // 土地信息已读
 import {
 	Mining, Construction as apiConstruction, Copyright, Dump,
 } from '@/utils/api/monitor-info/intangible'; // 无形资产已读
