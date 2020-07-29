@@ -47,7 +47,7 @@ class Assets extends Component {
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
-		const reg = new RegExp(11101);
+		const reg = new RegExp(10101);
 		const api = message.filter(item => reg.test(item.dataType))[0].list;
 		const params = {
 			obligorId,
