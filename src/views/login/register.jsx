@@ -187,9 +187,7 @@ class Login extends React.Component {
 				mobile: fields.phone,
 				mobileCode: fields.verifyCode,
 			};
-			this.setState({
-				loading: true,
-			});
+
 			loginPhoneCode(wechatSmsLogin).then((res) => {
 				if (res.code === 200) {
 					message.success('登录成功');
@@ -213,15 +211,8 @@ class Login extends React.Component {
 					} else {
 						message.error(res.message);
 					}
-					this.setState({
-						loading: false,
-					});
 				}
-			}).catch(() => {
-				this.setState({
-					loading: false,
-				});
-			});
+			}).catch(() => { });
 		});
 	};
 
