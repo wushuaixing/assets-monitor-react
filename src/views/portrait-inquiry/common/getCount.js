@@ -1,4 +1,4 @@
-// 获取echart返回数据条数
+// 获取echart返回数据总数
 const getCount = (array) => {
 	let total = 0;
 	if (array && array.length > 0) {

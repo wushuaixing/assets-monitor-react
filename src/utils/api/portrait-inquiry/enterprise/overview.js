@@ -11,9 +11,9 @@ export const getAuction = async (params) => {
 	return response.data;
 };
 
-// 资产概览 => 无形资产信息
+// [V2.3] 资产概览 => 无形资产信息 [youyu]
 export const getIntangible = async (params) => {
-	const response = await service.get('/yc/search/portrait/company/overview/asset/subrogation', { params });
+	const response = await service.get('/yc/search/portrait/company/overview/intangible', { params });
 	return response.data;
 };
 
@@ -41,9 +41,9 @@ export const getMortgage = async (params) => {
 	return response.data;
 };
 
-// 资产概况 => 相关招投标信息
+// [2.3] 资产概况 => 相关招投标信息 [youyu]
 export const getBidding = async (params) => {
-	const response = await service.get('/yc/search/portrait/company/overview/asset/mortgage', { params });
+	const response = await service.get('/yc/search/portrait/company/overview/bidding', { params });
 	return response.data;
 };
 
