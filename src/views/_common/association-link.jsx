@@ -77,7 +77,7 @@ const defaultColumns = {
 			title: '链接',
 			dataIndex: 'url',
 			width: 50,
-			render: text => (text ? <a href={text}><img className="linkPic" src={link} alt="链接" /></a> : '-'),
+			render: text => (text ? <a target="_blank" rel="noopener noreferrer" href={text}><img className="linkPic" src={link} alt="链接" /></a> : '-'),
 		},
 	],
 	Judgment: [
@@ -220,11 +220,7 @@ class AssociationLink extends React.Component {
 	render() {
 		const { source } = this.props;
 		const { visible, type, dataSource } = this.state;
-		/* 重新数据的数据 */
-		const _dataSource = {
-			tableData: dataSource.filter(item => !item.url),
-			listData: dataSource.filter(item => item.url),
-		};
+
 		const text = ((value) => {
 			if (value === 'Trial') return { c: '立案', t: '立案日期' };
 			if (value === 'Court') return { c: '开庭', t: '开庭日期' };
@@ -232,6 +228,7 @@ class AssociationLink extends React.Component {
 			return '';
 		})(type || 'Trial') || { c: '立案', t: '立案日期' };
 		const list = this.handleSource(source, type) || [];
+		const _dataSource = dataSource.length > 3 ? dataSource.slice(0, 3) : dataSource;
 		return (
 			<React.Fragment>
 				{ list.length ? list.map(i => i) : '-'}
@@ -247,19 +244,17 @@ class AssociationLink extends React.Component {
 					]}
 				>
 					{
-						 _dataSource && _dataSource.tableData && _dataSource.tableData.length > 3 && (
+						dataSource && dataSource.length > 3 && (
 						<div className="tips">
-							共搜索到
-							<span>100</span>
-							条关联开庭信息，为您展示最新
+							为您展示最新
 							<span>3</span>
 							条：
 						</div>
 						 )
 					}
 					{[
-						_dataSource.tableData.length
-							? <Table columns={defaultColumns[type || 'Trial']} dataSource={_dataSource.tableData} pagination={false} /> : null,
+						dataSource.length
+							? <Table columns={defaultColumns[type || 'Trial']} dataSource={_dataSource} pagination={false} /> : null,
 						// _dataSource.tableData.length && _dataSource.listData.length ? <div className="source-list-hr" /> : null,
 						// _dataSource.listData.length
 						// 	? [
