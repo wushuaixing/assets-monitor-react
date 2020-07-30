@@ -73,8 +73,8 @@ export default class TableVersion extends React.Component {
 
 	// 查询数据methods
 	toGetData = (page) => {
-		const { portrait } = this.props;
-		const { api, params } = getDynamicAsset(portrait, {
+		const { portrait, condition } = this.props;
+		const { api, params } = getDynamicAsset(portrait, condition || {
 			b: 10701,
 		});
 		this.setState({ loading: true });

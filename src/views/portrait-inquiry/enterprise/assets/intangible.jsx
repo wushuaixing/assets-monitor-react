@@ -6,7 +6,6 @@ import TableMining from '@/views/asset-excavate/intangible-assets/table-version/
 import TableCopyRight from '@/views/asset-excavate/intangible-assets/table-version/copyright';
 import TableConstruction from '@/views/asset-excavate/intangible-assets/table-version/construction-qualification';
 
-const fakeData = [{ id: 10601, data: 20 }, { id: 10602, data: 30 }, { id: 10603, data: 30 }, { id: 10604, data: 30 }];
 export default class Intangible extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,30 +16,30 @@ export default class Intangible extends React.Component {
 				{
 					id: 10601,
 					name: '排污权',
-					number: toGetNumber(fakeData, 10601),
+					number: toGetNumber(props.data, 10601),
 					showNumber: true,
-					disabled: !(toGetNumber(fakeData, 10601)),
+					disabled: !(toGetNumber(props.data, 10601)),
 				},
 				{
 					id: 10602,
 					name: '矿业权',
-					number: toGetNumber(fakeData, 10602),
+					number: toGetNumber(props.data, 10602),
 					showNumber: true,
-					disabled: !(toGetNumber(fakeData, 10602)),
+					disabled: !(toGetNumber(props.data, 10602)),
 				},
 				{
 					id: 10603,
 					name: '商标专利',
-					number: toGetNumber(fakeData, 10603),
+					number: toGetNumber(props.data, 10603),
 					showNumber: true,
-					disabled: !(toGetNumber(fakeData, 10703)),
+					disabled: !(toGetNumber(props.data, 10703)),
 				},
 				{
 					id: 10604,
 					name: '建筑建造资质',
-					number: toGetNumber(fakeData, 10604),
+					number: toGetNumber(props.data, 10604),
 					showNumber: true,
-					disabled: !(toGetNumber(fakeData, 10604)),
+					disabled: !(toGetNumber(props.data, 10604)),
 				},
 			],
 		};
@@ -67,10 +66,10 @@ export default class Intangible extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">无形资产</div>}
 				/>
 				<div className="inquiry-public-table">
-					{sourceType === 10601 ? <TableDumping portrait="enterprise" option={{ e: 'blowdown' }} /> : null}
+					{sourceType === 10601 ? <TableDumping portrait="enterprise" option={{ e: 'emission' }} /> : null}
 					{sourceType === 10602 ? <TableMining portrait="enterprise" option={{ e: 'mining' }} /> : null}
 					{sourceType === 10603 ? <TableCopyRight portrait="enterprise" option={{ e: 'trademark' }} /> : null}
-					{sourceType === 10604 ? <TableConstruction portrait="enterprise" option={{ e: 'construction' }} /> : null}
+					{sourceType === 10604 ? <TableConstruction portrait="enterprise" option={{ e: 'construct' }} /> : null}
 				</div>
 			</div>
 		);

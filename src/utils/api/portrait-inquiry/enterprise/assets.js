@@ -60,7 +60,7 @@ const assets = {
 			.then(res => Object.assign(res.data, { id, field: 'mortgage' })),
 	},
 	pledge: {
-		id: 10501,
+		id: 10401,
 		name: '资产-股权质押-股权质押',
 		params: { obligorName: '上海浦东物流云计算有限公司', role: 0 },
 		list: params => service.get('/yc/search/portrait/company/asset/stock/pledgor', { params })
@@ -69,7 +69,7 @@ const assets = {
 			.then(res => Object.assign(res.data, { id, field: 'pledgor' })),
 	},
 	mortgage: {
-		id: 10502,
+		id: 10402,
 		name: '资产-股权质押-股权质权',
 		params: { obligorName: '投资', role: 1 },
 		list: params => service.get('/yc/search/portrait/company/asset/stock/pledgee', { params })
@@ -78,7 +78,7 @@ const assets = {
 			.then(res => Object.assign(res.data, { id, field: 'pledgee' })),
 	},
 	pledgeD: {
-		id: 10601,
+		id: 10501,
 		name: '资产-动产抵押-抵押',
 		params: { obligorName: '沈阳铠龙兴业锻铸有限公司', role: 0, regDateStart: '2019-04-01' },
 		list: params => service.get('/yc/search/portrait/company/asset/mortgage/owner', { params })
@@ -87,7 +87,7 @@ const assets = {
 			.then(res => Object.assign(res.data, { id, field: 'owner' })),
 	},
 	mortgageD: {
-		id: 10602,
+		id: 10502,
 		name: '资产-动产抵押-抵押权',
 		params: { role: 1, regDateStart: '2019-05-01' },
 		list: params => service.get('/yc/search/portrait/company/asset/mortgage/people', { params })
@@ -95,50 +95,50 @@ const assets = {
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/mortgage/list-count', { params })
 			.then(res => Object.assign(res.data, { id, field: 'people' })),
 	},
-	blowdown: {
-		id: 10701,
+	emission: {
+		id: 10601,
 		name: '资产-无形资产-排污权',
 		params: { role: 1, regDateStart: '2019-05-01' },
 		list: params => service.get('/yc/search/portrait/company/asset/intangible/emission/list', { params })
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/asset/stock/list-count', { params })
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/intangible/listCount', { params })
 			.then(res => Object.assign(res.data, { id, field: 'emission' })),
 	},
 	mining: {
-		id: 10702,
+		id: 10602,
 		name: '资产-无形资产-矿业权',
 		params: { role: 1, regDateStart: '2019-05-01' },
 		list: params => service.get('/yc/search/portrait/company/asset/intangible/mining/list', { params })
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/asset/mortgage/list-count', { params })
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/intangible/listCount', { params })
 			.then(res => Object.assign(res.data, { id, field: 'mining' })),
 	},
 	trademark: {
-		id: 10703,
+		id: 10603,
 		name: '资产-无形资产-商标专利',
 		params: { role: 1, regDateStart: '2019-05-01' },
 		list: params => service.get('/yc/search/portrait/company/asset/intangible/trademark/list', { params })
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/asset/mortgage/list-count', { params })
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/intangible/listCount', { params })
 			.then(res => Object.assign(res.data, { id, field: 'trademark' })),
 	},
-	construction: {
-		id: 10704,
+	construct: {
+		id: 10604,
 		name: '资产-无形资产-建筑建造资质',
 		params: { role: 1, regDateStart: '2019-05-01' },
 		list: params => service.get('/yc/search/portrait/company/asset/intangible/construct/list', { params })
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/asset/mortgage/list-count', { params })
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/intangible/listCount', { params })
 			.then(res => Object.assign(res.data, { id, field: 'construct' })),
 	},
 	bidding: {
-		id: 10704,
+		id: 10701,
 		name: '资产-招投标',
 		params: { role: 1, regDateStart: '2019-05-01' },
-		list: params => service.get('/yc/search/portrait/company/asset/intangible/construct/list', { params })
+		list: params => service.get('/yc/search/portrait/company/asset/bidding/list', { params })
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/asset/mortgage/list-count', { params })
-			.then(res => Object.assign(res.data, { id, field: 'construct' })),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/bidding/listCount', { params })
+			.then(res => Object.assign(res.data, { id })),
 	},
 };
 export default assets;
