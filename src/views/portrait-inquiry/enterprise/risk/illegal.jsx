@@ -6,7 +6,7 @@ export default class IllegalIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 30401),
+			count: toGetNumber(props.data, 20501),
 		};
 	}
 

@@ -6,7 +6,7 @@ export default class EnvironmentPunishment extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 30601),
+			count: toGetNumber(props.data, 20801),
 		};
 	}
 

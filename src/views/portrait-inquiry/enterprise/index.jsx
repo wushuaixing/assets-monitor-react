@@ -4,8 +4,6 @@ import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { requestAll } from '@/utils/promise';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
-import lawsuits from '@/utils/api/portrait-inquiry/enterprise/lawsuits';
-import manage from '@/utils/api/portrait-inquiry/enterprise/manage';
 import risk from '@/utils/api/portrait-inquiry/enterprise/risk';
 import QueryView from '../common/queryView';
 import {
@@ -17,8 +15,6 @@ import {
 import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
 import Overview from './overview';
 import Assets from './assets';
-import Lawsuits from './lawsuits';
-import Manage from './manage';
 import Info from './info';
 import Risk from './risk';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
@@ -183,6 +179,7 @@ export default class Enterprise extends React.Component {
 				assets: [],
 				lawsuits: [],
 				manage: [],
+				risk: [],
 			},
 		};
 	}
@@ -314,8 +311,8 @@ export default class Enterprise extends React.Component {
 						<Overview toPushChild={this.handleAddChild} path="/*" viewLoading={loading} />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/enterprise/102/*" count={countSource.assets} />
 						<Risk toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.risk} />
-						{/*<Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} />*/}
-						{/*<Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} />*/}
+						{/* <Lawsuits toPushChild={this.handleAddChild} path="/inquiry/enterprise/103/*" count={countSource.lawsuits} /> */}
+						{/* <Manage toPushChild={this.handleAddChild} path="/inquiry/enterprise/104/*" count={countSource.manage} /> */}
 						<Info toPushChild={this.handleAddChild} path="/inquiry/enterprise/105/*" detailObj={infoSource} viewLoading={loading} />
 					</Router>
 				</div>

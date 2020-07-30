@@ -6,7 +6,7 @@ export default class BankruptcyIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 30201),
+			count: toGetNumber(props.data, 20101),
 		};
 	}
 
