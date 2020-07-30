@@ -25,24 +25,24 @@ const risk = {
 		name: '风险-涉诉信息-立案',
 		params: { },
 		list: params => service.get('/yc/search/portrait/company/lawsuit/trial/list', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/lawsuit/trial/list-count', { params })
-			.then(res => Object.assign(res.data, { id, field: 'trial' })),
+		count: (params, id) => service.get('/yc/search/portrait/company/lawsuit/lawsuit/lawsuitCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'trialCount' })),
 	},
 	court: {
 		id: 20302,
 		name: '风险-涉诉信息-开庭',
 		params: { partiesName: '椰树集团有限公司' },
 		list: params => service.get('/yc/search/portrait/company/lawsuit/court-notice/list', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/lawsuit/court-notice/list-count', { params })
-			.then(res => Object.assign(res.data, { id, field: 'court' })),
+		count: (params, id) => service.get('/yc/search/portrait/company/lawsuit/lawsuit/lawsuitCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'courtCount' })),
 	},
 	judgment: {
 		id: 20303,
 		name: '风险-涉诉信息-文书',
 		params: {},
 		list: params => service.get('/yc/search/portrait/company/lawsuit/judgment-document/list', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/lawsuit/judgment-document/list-count', { params })
-			.then(res => Object.assign(res.data, { id, field: 'judgment' })),
+		count: (params, id) => service.get('/yc/search/portrait/company/lawsuit/lawsuit/lawsuitCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'judgementCount' })),
 	},
 	abnormal: {
 		id: 20401,
