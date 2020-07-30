@@ -1,12 +1,12 @@
 import React from 'react';
-import { Punishment } from '@/views/risk-monitor/operation-risk/table-version';
+import PunishmentTable from '@/views/risk-monitor/operation-risk/table-version/Punishment';
 import { toGetNumber } from '@/utils/promise';
 
 export default class PunishmentIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 30601),
+			count: toGetNumber(props.data, 20701),
 		};
 	}
 
@@ -19,7 +19,7 @@ export default class PunishmentIntact extends React.Component {
 					<div className="yc-tabs-simple-prefix">{`行政处罚 ${count || 0}`}</div>
 				</div>
 				<div className="inquiry-public-table">
-					<Punishment portrait="enterprise" option={{ e: 'punishment' }} />
+					<PunishmentTable portrait="enterprise" option={{ e: 'punishment' }} />
 				</div>
 			</div>
 		);

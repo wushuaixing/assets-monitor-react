@@ -93,8 +93,8 @@ const risk = {
 			obligorName: '特易购',
 			departmentName: '上海',
 		},
-		list: params => service.get('/yc/search/portrait/company/management/punishment/list', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/management/punishment/list-count', { params })
+		list: params => service.get('/yc/search/portrait/company/management/epb/list', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/management/epb/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 };

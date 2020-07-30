@@ -6,7 +6,7 @@ export default class AbnormalIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 30301),
+			count: toGetNumber(props.data, 20401),
 		};
 	}
 

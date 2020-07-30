@@ -48,7 +48,7 @@ const subItems = data => ([
 	{
 		id: 20400,
 		name: '经营异常',
-		total: data ? 26 : 0,
+		total: data ? toGetTotal('2040', data) : 0,
 		info: data ? data.filter(i => /2040/.test(i.id)) : '',
 		component: Abnormal,
 		tagName: 'e-risk-abnormal',

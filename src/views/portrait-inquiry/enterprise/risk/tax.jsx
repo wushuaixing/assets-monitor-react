@@ -6,7 +6,7 @@ export default class TaxIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 30501),
+			count: toGetNumber(props.data, 20601),
 		};
 	}
 
