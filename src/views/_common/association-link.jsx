@@ -238,7 +238,7 @@ class AssociationLink extends React.Component {
 					wrapClassName="yc-modal-association-link"
 					maskCloabe={false}
 					visible={visible}
-					width={900}
+					width={1040}
 					footer={[
 						<Button onClick={this.toClose} title="关闭" style={{ width: 100 }} />,
 					]}
