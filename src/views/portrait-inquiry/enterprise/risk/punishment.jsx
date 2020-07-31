@@ -1,5 +1,5 @@
 import React from 'react';
-import PunishmentTable from '@/views/risk-monitor/operation-risk/table-version/Punishment';
+import PunishmentTable from '@/views/risk-monitor/operation-risk/table-version/punishment';
 import { toGetNumber } from '@/utils/promise';
 
 export default class PunishmentIntact extends React.Component {
