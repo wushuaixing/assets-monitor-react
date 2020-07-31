@@ -6,13 +6,13 @@ import React from 'react';
 import {
 	Modal, Form, Popover, Input, message,
 } from 'antd';
-import Cookies from 'universal-cookie';
+import { navigate } from '@reach/router';
 import rsaEncrypt from '@/utils/encrypt';
 import {
 	changePassword, // 修改密码,
 } from '@/utils/api/user';
 
-const cookie = new Cookies();
+
 const FormItem = Form.Item;
 const createForm = Form.create;
 const regx = /^[ \x21-\x7E]{6,20}$/; // 判断6到20的字符
@@ -307,10 +307,10 @@ class ChangeWorldModal extends React.PureComponent {
 			// 修改成功之后关闭弹窗，页面不发生跳转
 			changePassword(params).then((res) => {
 				if (res.code === 200) {
-					cookie.set('token', res.data.token);
 					message.success('密码修改成功', 2);
 					setTimeout(() => {
 						this.handleCancel();
+						navigate('/login');
 					}, 1500);
 				} else {
 					message.error(res.message);
