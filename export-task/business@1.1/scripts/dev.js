@@ -1210,7 +1210,7 @@ function exportTemplate(source, exportType, name) {
 		* config.title 标题
 		* config.col 列 只需要传入列就可以了，不需要传入行数
 		**/
-		var drawtable = function drawtable(data, config) {
+		var drawtable = function(data, config) {
 			var labelConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
 				suffix: ''
 			};
@@ -1264,8 +1264,32 @@ function exportTemplate(source, exportType, name) {
 			}
 		};
 
+		var changeYear = function (list) {
+			if(list.length > 5){
+				list.sort(function (a,b) { return b.year - a.year;});
+				var base = (list.slice(0, 4)).sort(function (a, b) {return a.year - b.year;});
+				var other = list.slice(4);
+				var otherText= other[0].year;
+				var otherCount = 0;
+				other.forEach(function (item) { otherCount += item.count; });
+				base.unshift({
+					count:otherCount,
+					year:otherText+'及以前'
+				});
+				return base;
+			}
+			list.forEach(function (item) {
+				if (item.year === 0) item.year = '未知';
+				if (/\d{4}/.test(item.year)) item.year=(item.year+'').replace(/(\d{4})/,'$1年');
+			});
+			return list;
+		};
+
+
 		// 转换映射，将映射值转成{label: '', count: ''}
 		var mappingData = function (data, keyValue) {
+			var _data = [];
+
 			var newData = [];
 			if(Array.isArray(keyValue)){
 				data.forEach((item) => {
@@ -1275,12 +1299,23 @@ function exportTemplate(source, exportType, name) {
 				})
 			}
 			else {
-				data.forEach(function (item) {
-					newData.push({
-						label: item[keyValue.label],
-						count: item[keyValue.value]
+				if(keyValue === mapping.year){
+					_data = changeYear(data);
+					_data.forEach(function (item) {
+						newData.push({
+							label: item[keyValue.label],
+							count: item[keyValue.value]
+						});
 					});
-				});
+				}
+				else {
+					data.forEach(function (item) {
+						newData.push({
+							label: item[keyValue.label],
+							count: item[keyValue.value]
+						});
+					});
+				}
 			}
 			return newData;
 		};
