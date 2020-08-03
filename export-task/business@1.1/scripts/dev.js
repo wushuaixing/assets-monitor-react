@@ -42,7 +42,8 @@ function exportTemplate(source, exportType, name) {
 			about: '{overview.content}',
 			status:'EP',
 			child: [
-				{ id: "DO1000" ,title:'资产概况',status:'EP',child:[
+				{ id: "DO1000" ,title:'资产概况',status:'EP',
+					child:[
 						{ id:"DO10100",title:"相关资产拍卖",status:'EP'},
 						{ id:"DO10200",title:"代位权信息",status:'E'},
 						{ id:"DO10200",title:"代位权信息 (裁判文书) ",status:'P'},
@@ -53,7 +54,8 @@ function exportTemplate(source, exportType, name) {
 						{ id:"DO10700",title:"相关招投标信息",status:'BE'},
 					]
 				},
-				{ id: "DO2000" ,title:'风险信息',status:'EP',child:[
+				{ id: "DO2000" ,title:'风险信息',status:'EP',
+					child:[
 						{ id:"DO20400",title:"失信记录",status:'EP'},
 						{ id:"DO20600",title:"涉诉信息",status:'E'},
 						{ id:"DO20600",title:"涉诉信息 (裁判文书) ",status:'P'},
@@ -63,7 +65,8 @@ function exportTemplate(source, exportType, name) {
 					]
 				},
 				{
-					id: "DO5000", title: '工商基本信息', status: 'E', child: [
+					id: "DO5000", title: '工商基本信息', status: 'E',
+					child: [
 						{id: "DO50000", title: "基本信息", status: 'E', show: true },
 						{id: "DO50000", title: "股东情况", status: 'E' },
 						{id: "DO50000", title: "企业规模", status: 'E', show: true },
@@ -399,6 +402,36 @@ function exportTemplate(source, exportType, name) {
 		if (value === '-') return (option.defaultWord || '-');
 		var showStr = option.show ? option.prefix : '';
 		return value ? ((option.prefix || '') + value + (option.unit || '')) : (showStr + (option.defaultWord || '-'));
+	};
+	// 枚举映射
+	var mapping = {
+		year: {label: 'year', value: 'count'},
+		caseType: {label: 'type', value: 'count'},
+		typeName: {label: 'typeName', value: 'count'},
+	};
+	var enumerate = {
+		stock:[
+			{id: 1, value: "股权持有人"},
+			{id: 2, value: "股权质权人"},
+		],
+		mortgage: [
+			{id: 1, value: "抵押物所有人"},
+			{id: 2, value: "抵押权人"},
+		],
+		auctionType: [
+			{id: 1, value: "即将开始"},
+			{id: 3, value: "正在进行"},
+			{id: 5, value: "已成交"},
+			{id: 7, value: "已流拍"},
+			{id: 9, value: "中止"},
+			{id: 11, value: "撤回"},
+		],
+		taxPeople: [
+			{id: -1, value: "其他"},
+			{id: 1, value: "作为纳税主体"},
+			{id: 2, value: "作为法人"},
+			{id: 3, value: "作为财务"},
+		]
 	};
 
 	var matchReason = function (data) {
@@ -1166,96 +1199,244 @@ function exportTemplate(source, exportType, name) {
 		return total;
 	};
 
-	// overview 概览模块
-	var drawOverview = function (item){
 
-		var drawNormal = (data,config)=>{
-			var option = config ||{};
-			var list = "";
-			data.forEach(function (item) {
-				list +=("<td>"+item.year+"：<span class='f-b'>"+item.count+"</span> "+(option.suffix||'条')+"</td>");
+	// overview 概览模块
+	// item 里面有name, about, status, child(里面有三个子对象)
+	var drawOverview = function (item){
+		/*
+		* config 里面是配置
+		* config.prefix 前缀
+		* config.suffix 后缀
+		* config.title 标题
+		* config.col 列 只需要传入列就可以了，不需要传入行数
+		**/
+		var drawtable = function drawtable(data, config) {
+			var labelConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
+				suffix: ''
+			};
+			var valueConfig = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {
+				suffix: ''
+			};
+			var title = config.title ? "<li class='f-b'>" + config.title + "</li>" : '';
+			var content = "";
+			(data || []).forEach(function (item) {
+				content += "<td>" + item.label + labelConfig.suffix + "：<span class='f-b'>" + item.count + "</span> " + (valueConfig.suffix || '条') + "</td>";
 			});
-			return "<div class='content'><li class='f-b'>"+ option.title +"</li><table class='table-border'>" +
-				"<tr>" + list + "</tr></table></div>";
+			var table = "<table class='table-border'><tr>" + content + "</tr></table>";
+			return "<div class='content'>" + title + table + "</div>";
 		};
+
+		var getBaseInfo = function (data, config) {
+			var content = "<tr><td>成立日期</td><td>{establishTime}</td><td>法人</td><td>{legalPersonName}</td></tr><tr><td>注册资本</td><td>{regCapital}</td><td>注册地址</td><td>{regLocation}</td></tr><tr><td>企业状态</td><td colspan='3'>{regStatus}</td></tr>";
+			["establishTime", "legalPersonName", "regCapital", "regLocation", "regStatus"].forEach(function (item) {
+				content = content.replace("{" + item + "}", data[item] || '-')
+			});
+			if ((config.show) && data) {
+				return "<div class=\"entry-title\"><div class=\"title\">" +
+					"</div><div class=\"content\">" + "<table class=\"table-border mg8 table-baseInfo\">" + content + "</table>" + "</div></div>"
+			}
+		};
+
+		// 股东情况
+		var getShareholder = function (data, config) {
+			var list = drawTable(data, [
+				{t: '序号', f: 'index', w: 40},
+				{t: '股东基本信息', f: 'name'},
+				{t: '出资比例', f: 'rate'},
+				{t: '认缴出资额', f: 'amount'},
+			]);
+			if ((config.show) && data) {
+				return "<div><div class=\"content\"><table>" + list + "</table></div></div>"
+			}
+		};
+
+
+		var getLabel = function (data, type) {
+			if(Array.isArray(data)){
+				for (var i = 0; i < data.length; i++){
+					if(data[i].id === type){
+						return data[i].value;
+					}
+				}
+			}
+			else {
+				return '';
+			}
+		};
+
+		// 转换映射，将映射值转成{label: '', count: ''}
+		var mappingData = function (data, keyValue) {
+			var newData = [];
+			if(Array.isArray(keyValue)){
+				data.forEach((item) => {
+					var _item = item;
+					_item.label = getLabel(keyValue, item.type);
+					newData.push(_item);
+				})
+			}
+			else {
+				data.forEach(function (item) {
+					newData.push({
+						label: item[keyValue.label],
+						count: item[keyValue.value]
+					});
+				});
+			}
+			return newData;
+		};
+
+		var intangibleAssetsMap = {
+			emission: { label: "排污权" },
+			mining: { label: "矿业权" },
+			construct: { label: "建筑建造资质" },
+			trademark: { label: "商标专利" },
+		};
+
+		var businessRisk = {
+			abnormal: { label: '经营异常'},
+			change: {label: '工商变更'},
+			punishment: {label: '行政处罚'},
+			tax: { label: '税收违法'},
+			illegal: {label: '严重违法'},
+			epb: { label: '环保处罚'},
+		};
+
+		// 没有标题的表格映射
+		var noTitleTable = function (data, mapData) {
+			var newData = [];
+			Object.keys(data || {}).forEach((item) => {
+				if(mapData[item]){
+					newData.push({label: mapData[item].label, count: data[item]});
+				}
+				else {}
+			});
+			return newData;
+		};
+
+
 		// 绘制具体子项内容 - 3级
-		var drawItem = function (option,data) {
+		var drawItem = function (option, data) {
 			var taxon = option.id;
 			var count = 0;
 			var showCount = '';
 			var html = '';
 			switch (taxon) {
-				case "DO10100":{
-					count = getCount(data.auctionInfos,'count');
+				case "DO10100": {
+					count = getCount(data.auctionInfos[0].auctionResults,'count') || 45;
+					html += drawtable(mappingData(data.auctionInfos[0].auctionResults, enumerate.auctionType), {title: '拍卖结果分布', col: 4});
 					break;
 				}
 				case "DO10200":{
-					count = getCount(data.subrogationInfos,'count');
-
+					count = data.count;
+					html += data.yearDistribution ? drawtable(mappingData(data.yearDistribution, mapping.year), {title: '年份分布', col: 4}, {suffix: '年'} ) : '';
+					html += data.caseReasons ? drawtable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4}) : '';
+					html += data.caseTypes ? drawtable(mappingData(data.caseTypes, mapping.caseType), {title: '案件类型分布', col: 4}) : '';
 					break;
 				}
 				case "DO10300":{
 					count = getCount(data.infoTypes,'count');
+					html += data.infoTypes ? drawtable(mappingData(data.infoTypes, mapping.typeName), {title: '信息类型分布', col: 4}) : '';
+					html += data.roleDistributions ? drawtable(mappingData(data.roleDistributions, mapping.typeName), {title: '角色分布', col: 4}) : '';
+					html += data.yearDistributions ? drawtable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布', col: 4 }, {suffix: '年'}, {suffix: '条'}) : '';
 					break;
 				}
 				case "DO10400":{
 					count = getCountObj(data,['construct','emission','mining','trademark'] );
+					html += data ? drawtable(noTitleTable(data, intangibleAssetsMap), { col: 4 }) : '';
 					break;
 				}
 				case "DO10500":{
 					count = getCount(data.roleDistributions,'count');
+					html += drawtable(mappingData(data.roleDistributions, enumerate.stock), {title: '角色分布', col: 4, });
+					html += drawtable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布', col: 4, });
 					break;
 				}
 				case "DO10600":{
 					count = getCount(data.roleDistributions,'count');
-					html = drawNormal(f.toGetYearList(data.yearDistributions),{
-						title:'年份分布',
-					});
+					html += drawtable(mappingData(data.roleDistributions, enumerate.mortgage), {title: '角色分布', col: 4, });
+					html += drawtable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布', col: 4 }, {suffix: '年'}, {suffix: '条'});
 					break;
 				}
 				case "DO10700":{
 					count = data.bidding || 0;
+					html += drawtable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布', col: 4 }, {suffix: '年'}, {suffix: '条'});
 					break;
 				}
 				case "DO20400":{
 					count = getCount(data.yearDistributions,'count');
+					html += drawtable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布', col: 4 }, {suffix: '年'}, {suffix: '条'});
 					break;
 				}
 				case "DO20600":{
-					count = getCount(data.litigationInfos,'count');
+					count = data.count;
+					html += data.caseReasons ? drawtable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4}) : '';
+					html += data.caseTypes ? drawtable(mappingData(data.caseTypes, mapping.caseType), {title: '案件类型分布', col: 4}) : '';
+					html += data.yearDistribution ? drawtable(mappingData(data.yearDistribution, mapping.year), {title: '年份分布', col: 4}) : '';
 					break;
 				}
 				case "DO30200":{
 					count = getCount(data.yearDistributions,'count');
+					html += data.yearDistributions ? drawtable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布', col: 4}) : '';
 					break;
 				}
 				case "DO30300":{
 					count = getCountObj(data,['abnormal','change','epb','illegal','punishment','tax'] );
+					html += data ? drawtable(noTitleTable(data, businessRisk), { col: 4 }) : '';
 					break;
 				}
 				case "DO30500":{
 					count = getCount(data.roleDistributions,'count');
+					html += data.roleDistributions ? drawtable(mappingData(data.roleDistributions, mapping.typeName), {title: '角色分布', col: 4}) : '';
 					break;
 				}
 				case "DO50000":{
+					html += getBaseInfo(data.baseInfo, option);
+					html = getShareholder(data.shareholderInfos, option);
 					break;
 				}
 				default:{}
 			}
-			return { count:count, html:html, showCount:(showCount!==''?showCount:Boolean(count)) };
+			return { count: count, html: html, showCount: (showCount !== '' ? showCount: Boolean(count)) };
+		};
+
+		// 如果存在子级，画出带有子级的table
+		var drawChildTable = function (option, data, titleConfig) {
+			var table = '';
+			(data || []).forEach((item) => {
+				var title = option.title;
+				var res = drawItem(option, item);
+				title += titleConfig[item.type].title;
+				if(res.showCount && res.count >0) title = res.count + '条 ' + title;
+				if(option.show || res.showCount){
+					var content = "<div><div class=\"title\"><div class=\"t2 f-b\">" + title + "</div>" +
+						"</div><div class=\"content\">" + res.html + "</div></div>";
+				}
+				table += content;
+			});
+			return table;
 		};
 
 		var childOverview = function (option, source) {
-			var res = drawItem(option, source);
-			var title = option.title;
-			if(res.showCount && res.count >0) title = res.count + '条 ' + title;
-			if(option.show || res.showCount){
-				return "<div><div class=\"title\"><div class=\"t2 f-b\">" + title + "</div>" +
-					"</div><div class=\"content\">" + res.html + "</div></div>";
+			if(option.id === "DO10200" ){
+				return drawChildTable(option, source.subrogationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
 			}
-			return '';
+			else if(option.id === "DO20600"){
+				return drawChildTable(option, source.litigationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
+			}
+			else {
+				var res = drawItem(option, source);
+				var title = option.title;
+				if(res.showCount && res.count >0) title = res.count + '条 ' + title;
+				if(option.show || res.showCount){
+					return "<div><div class=\"title\"><div class=\"t2 f-b\">" + title + "</div>" +
+						"</div><div class=\"content\">" + res.html + "</div></div>";
+				}
+				return '';
+			}
+
 		};
 
+		// item.child === [资产概况，风险信息，工商基本信息]
 		var allContent = '';
 		item.child.forEach(function (childItem) {
 			var child ='';
