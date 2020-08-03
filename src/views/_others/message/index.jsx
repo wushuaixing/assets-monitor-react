@@ -81,7 +81,7 @@ class InformCenter extends React.Component {
 				},
 				{
 					title: '操作',
-					width: 50,
+					width: 60,
 					dataIndex: 'address',
 					render: (text, row) => (
 						<div
@@ -347,6 +347,7 @@ class InformCenter extends React.Component {
 			<div className="yc-inform-center">
 				<div className="yc-content-wapper">
 					<div className="yc-page-title">消息中心</div>
+					<div className="yc-page-line" />
 					<div className="yc-con-item-wrapper">
 						{isInstitution && (
 							<div>

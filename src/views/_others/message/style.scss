@@ -26,22 +26,29 @@
   .yc-content-wapper {
     background-color: #FFFFFF;
     color: #20242e;
-    padding: 0 20px;
     box-sizing: border-box;
     .yc-page-title {
       color: #20242e;
       font-size: 16px;
       line-height: 68px;
       font-weight: bold;
+      margin: 0 20px;
+    }
+    .yc-page-line{
+      background-color: #E5E5E5;
+      height: 1px;
     }
     .yc-con-item-wrapper {
-      margin: 15px 0;
+      margin: 15px 20px;
       .btn-default {
         height: 30px;
         &:first-child {
           margin-right: 10px;
         }
       }
+    }
+    .yc-spin-wrapper{
+      margin: 0 20px;
     }
     .ant-table-thead{
       .message-type{
