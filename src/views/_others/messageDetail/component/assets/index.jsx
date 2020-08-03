@@ -104,7 +104,6 @@ class Assets extends Component {
 					{title}
 					<span className="messageDetail-table-total">{total}</span>
 				</div>
-				<div className="messageDetail-table-headerLine" />
 				<div className="messageDetail-table-container">
 					<Spin visible={loading}>
 						<TableAssets {...tableProps} />

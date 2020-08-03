@@ -327,17 +327,17 @@ class MessageDetail extends React.Component {
 							<span className="messageDetail-header-tips">
 								<span>
 							   当前有效：
-									{ effectiveCount }
+									<span className="messageDetail-header-tips-num">{effectiveCount}</span>
 									 条
 								</span>
 								<span className="splitLine"> | </span>
 								<span>
 							已失效信息
-									{ invalidCount }
+									<span className="messageDetail-header-tips-num">{invalidCount}</span>
 								条
 								</span>
 								<Tooltip placement="top" title="已更新的信息或对应债务人已删除的信息（本页不作展示）">
-									<span><Icon type="icon-question" style={{ fontSize: 14, marginLeft: 5 }} /></span>
+									<span><Icon type="icon-question" style={{ fontSize: 14, padding: '0 4px' }} /></span>
 								</Tooltip>
 							</span>
 							)
