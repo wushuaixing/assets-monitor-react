@@ -9,12 +9,12 @@
     "ser": "node ./server/server.js --env=development",
     "dev": "yarn dev:css && yarn dev:shim && yarn dev:polyfill && yarn dev:dll && yarn dev:index",
     "dev:css": "node ./scripts/css.js",
-    "dev:shim": "export NODE_ENV=development&& node ./scripts/shim.js",
-    "dev:polyfill": "export NODE_ENV=development&& node ./scripts/polyfill.js",
-    "dev:dll": "export NODE_ENV=development&& webpack --config ./scripts/dll.js",
-    "dev:index": "export NODE_ENV=development&& webpack --config ./scripts/index.js",
+    "dev:shim": "export-task NODE_ENV=development&& node ./scripts/shim.js",
+    "dev:polyfill": "export-task NODE_ENV=development&& node ./scripts/polyfill.js",
+    "dev:dll": "export-task NODE_ENV=development&& webpack --config ./scripts/dll.js",
+    "dev:index": "export-task NODE_ENV=development&& webpack --config ./scripts/index.js",
     "start:server": "webpack-dev-server -d --port 10086 --config ./scripts/index.js",
-    "start": "export NODE_ENV=development&& yarn start:server",
+    "start": "export-task NODE_ENV=development&& yarn start:server",
     "start:w": "set NODE_ENV=development&& set ENV=release&& yarn start:server",
     "build": "yarn build:css && yarn build:shim && yarn build:polyfill && yarn build:dll && yarn build:index",
     "build:css": "node ./scripts/css.js",
@@ -34,7 +34,8 @@
     "tl:ob-dev": "node ./template/sever/ob-dev.js",
     "tl:ob-build": "node ./template/sever/ob-build.js",
     "tl:db-dev": "set NODE_ENV=dev&& node ./template/sever/db-dev.js",
-    "tl:db-build": "node ./template/sever/db-build.js"
+    "tl:db-build": "node ./template/sever/db-build.js",
+    "tl:dev1": "set NODE_ENV=dev&& node ./export-task/business@1.1/scripts/dev.js"
   },
   "dependencies": {
     "anujs": "1.5.0",
