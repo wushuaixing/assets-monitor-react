@@ -262,6 +262,9 @@
           font-size: 16px;
           text-align: center;
         }
+        &-active{
+          font-weight: bold;
+        }
       }
     }
     .ant-tabs-nav{
@@ -279,6 +282,10 @@
       &-sendBefore{
         color: #1C80E1;
         cursor: pointer;
+        &:hover{
+          color: #1971C7;
+          text-decoration: underline;
+        }
       };
       &-sending{
         color: #4E5566;
