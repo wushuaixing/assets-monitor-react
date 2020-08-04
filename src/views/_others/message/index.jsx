@@ -348,50 +348,52 @@ class InformCenter extends React.Component {
 				<div className="yc-content-wapper">
 					<div className="yc-page-title">消息中心</div>
 					<div className="yc-page-line" />
-					<div className="yc-con-item-wrapper">
-						{isInstitution && (
-							<div>
-								<Button
-									onClick={this.handleAllRead}
-									type="ghost"
-									className="btn-default"
-								>
-								标记为已读
-								</Button>
-								<Button
-									onClick={this.handledDeleteBatch}
-									type="ghost"
-									className="btn-default"
-								>
-								删除
-								</Button>
-							</div>
-						)}
+					<div className="yc-table-box">
+						<div className="yc-con-item-wrapper">
+							{isInstitution && (
+								<div>
+									<Button
+										onClick={this.handleAllRead}
+										type="ghost"
+										className="btn-default"
+									>
+										标记为已读
+									</Button>
+									<Button
+										onClick={this.handledDeleteBatch}
+										type="ghost"
+										className="btn-default"
+									>
+										删除
+									</Button>
+								</div>
+							)}
+						</div>
+						{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum className="yc-table-check" num={selectedRowKeys.length} /> : null}
+						<Spin visible={loading}>
+							<Table
+								rowSelection={isInstitution && rowSelection}
+								columns={columns}
+								dataSource={data}
+								pagination={false}
+								rowKey={record => record.id}
+							/>
+							{data && data.length > 0 && (
+								<div className="yc-table-pagination">
+									<Pagination
+										total={tabTotal}
+										current={current}
+										defaultPageSize={10} // 默认条数
+										showQuickJumper
+										showTotal={total => `共 ${total} 条记录`}
+										onChange={(val) => {
+											this.handleChangePage(val);
+										}}
+									/>
+								</div>
+							)}
+						</Spin>
 					</div>
-					{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
-					<Spin visible={loading}>
-						<Table
-							rowSelection={isInstitution && rowSelection}
-							columns={columns}
-							dataSource={data}
-							pagination={false}
-							rowKey={record => record.id}
-						/>
-						{data && data.length > 0 && (
-							<div className="yc-table-pagination">
-								<Pagination
-									total={tabTotal}
-									current={current}
-									defaultPageSize={10} // 默认条数
-									showQuickJumper
-									showTotal={total => `共 ${total} 条记录`}
-									onChange={(val) => {
-										this.handleChangePage(val);
-									}}
-								/>
-							</div>
-						)}
-					</Spin>
 				</div>
 			</div>
 		);
