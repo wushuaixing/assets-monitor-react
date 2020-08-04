@@ -1,5 +1,4 @@
 /** 登录页 * */
-
 import React from 'react';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
@@ -251,7 +250,7 @@ class Login extends React.Component {
 							this.setState({
 								second: second - 1,
 								verifyCodeStatus: 'sending',
-								sendBtnTxt: `${second}s之后重新发送`,
+								sendBtnTxt: `${second}s后重新发送`,
 							});
 						}
 					}, 1000);

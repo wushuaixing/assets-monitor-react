@@ -1,6 +1,5 @@
 import React from 'react';
 import { Spin } from '@/common';
-import NoContent from '@/common/noContent';
 import { getIntangible } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import getCount from '../../../common/getCount';
@@ -48,13 +47,9 @@ export default class IntangibleAssets extends React.Component {
 		return (
 			<div>
 				<Spin visible={loading}>
-					{columnarData && columnarNum === 0 ? (
-						<div>
-							{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到无形资产信息" />}
-						</div>
-					) : (
-						<div>
-							{
+					{columnarData && columnarNum === 0 && (
+					<div>
+						{
 								columnarNum > 0 && (
 									<div>
 										<div className="overview-container-title">
@@ -70,8 +65,9 @@ export default class IntangibleAssets extends React.Component {
 									</div>
 								)
 							}
-						</div>
-					)}
+					</div>
+					)
+					}
 				</Spin>
 			</div>
 		);

@@ -32,7 +32,7 @@ export default class Intangible extends React.Component {
 					name: '商标专利',
 					number: toGetNumber(props.data, 10603),
 					showNumber: true,
-					disabled: !(toGetNumber(props.data, 10703)),
+					disabled: !(toGetNumber(props.data, 10603)),
 				},
 				{
 					id: 10604,
