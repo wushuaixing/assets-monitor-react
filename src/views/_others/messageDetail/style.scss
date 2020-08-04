@@ -33,7 +33,7 @@
       margin-top: 20px;
     }
     &-single{
-      margin: 10px 0 40px 0;
+      margin: 10px 0;
     }
     &-subTitle{
       border-bottom: 2px solid #1C80E1;
@@ -55,12 +55,19 @@
     }
     &-container{
       margin-top: 16px;
+      padding-bottom: 20px;
       .ant-table-thead{
         .firstTitle{
           span{
             padding-left: 10px;
           }
         }
+        .yc-publish-date span{
+          margin-left: 10px;
+        }
+      }
+      .yc-table-pagination{
+        padding: 20px 0 0 0;
       }
     }
   }
@@ -189,12 +196,4 @@
 
 .splitLine{
   margin: 0 4px;
-}
-
-.messageDetail-table-container{
-  .ant-table-thead{
-    .yc-publish-date span{
-      margin-left: 10px;
-    }
-  }
 }
