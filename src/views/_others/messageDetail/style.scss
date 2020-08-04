@@ -72,7 +72,7 @@
   .iconToTop{
     position: fixed;
     left: calc(50% + 620px);
-    bottom: 167px;
+    bottom: 136px;
     width: 32px;
     height: 32px;
     cursor: pointer;
@@ -189,4 +189,12 @@
 
 .splitLine{
   margin: 0 4px;
+}
+
+.messageDetail-table-container{
+  .ant-table-thead{
+    .yc-publish-date span{
+      margin-left: 10px;
+    }
+  }
 }
