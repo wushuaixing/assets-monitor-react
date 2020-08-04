@@ -1332,10 +1332,10 @@ function exportTemplate(source, exportType, name) {
 			var _data = [];
 			var newData = [];
 			if(Array.isArray(keyValue)){
-				(data || []).forEach((item) => {
-					var _item = item;
-					_item.label = getLabel(keyValue, item.type);
-					newData.push(_item);
+				(data || []).forEach(function(item) {
+					var opItem = item;
+					opItem.label = getLabel(keyValue, item.type);
+					newData.push(opItem);
 				})
 			}
 			else {
@@ -1379,7 +1379,7 @@ function exportTemplate(source, exportType, name) {
 		// 没有标题的表格映射
 		var noTitleTable = function (data, mapData) {
 			var newData = [];
-			Object.keys(data || {}).forEach((item) => {
+			Object.keys(data || {}).forEach(function(item){
 				if(mapData[item]){
 					newData.push({label: mapData[item].label, count: data[item]});
 				}
@@ -1407,7 +1407,7 @@ function exportTemplate(source, exportType, name) {
 					count = data.count;
 					showCount = data.count > 0;
 					html += data.yearDistribution ? drawOverViewTable(mappingData(data.yearDistribution, mapping.year), {title: '年份分布'}, {suffix: '年'} ) : '';
-					html += data.caseReasons ? drawOverViewTable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4},) : '';
+					html += data.caseReasons ? drawOverViewTable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4}) : '';
 					html += data.caseTypes ? drawOverViewTable(mappingData(data.caseTypes, mapping.caseType), {title: '案件类型分布', col: 4}) : '';
 					break;
 				}
@@ -1501,7 +1501,7 @@ function exportTemplate(source, exportType, name) {
 		var drawChildTable = function (option, data, titleConfig) {
 			if(Array.isArray(data) && data.length > 0){
 				var table = '';
-				data.forEach((item) => {
+				data.forEach(function(item){
 					var res = drawItem(option, item);
 					var title = option.title;
 					title += titleConfig[item.type].title;
