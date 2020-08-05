@@ -85,18 +85,14 @@ class Login extends React.Component {
 		} = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
-		const newFields = {
-			username: fields.username,
-			password: fields.password,
-		};
-		console.log(Math.random().toString(36).slice(-8));
 		const beforeLogin = {
-			username: newFields.username,
+			username: fields.username,
 			random: (Math.random().toString(36).slice(-8)),
 		};
 		const params = {
-			...newFields,
-			password: rsaEncrypt(newFields.password),
+	    username: fields.username,
+			imageVerifyCode: fields.imageVerifyCode,
+			password: rsaEncrypt(fields.password),
 		};
 		form.validateFields(['username', 'password'], (errors) => {
 			if (errors) {
