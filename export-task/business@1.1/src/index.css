@@ -255,21 +255,21 @@ li .n-line:first-child{
 .debtor-img{
   width: 78px;
   height: 78px;
-  background-image:url("../../../template/img/debtor.png") ;
+  background-image:url("../../_assets/img/debtor.png") ;
 }
 
 .business-img{
   width: 78px;
   height: 78px;
   line-height: 78px;
-  background-image:url("../../../template/img/business.png") ;
+  background-image:url("../../_assets/img/business.png") ;
 }
 
 .person-img{
   width: 60px !important;
   height: 60px !important;
   line-height: 60px !important;
-  background-image:url("../../../template/img/person.png") ;
+  background-image:url("../../_assets/img/person.png") ;
 }
 
 .base-info .content {
@@ -308,11 +308,11 @@ li .n-line:first-child{
   height: 33px;
 }
 .img-icon-dishonest{
-  background-image:url("../../../template/img/icon_shixin.png") ;
+  background-image:url("../../_assets/img/icon_shixin.png") ;
   background-size: 100%;
 }
 .img-icon-dishonest-ed{
-  background-image:url("../../../template/img/icon_dishonest_ed.png") ;
+  background-image:url("../../_assets/img/icon_dishonest_ed.png") ;
   background-size: 100%;
 }
 
