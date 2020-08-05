@@ -72,10 +72,12 @@ table tr {
   text-align: left;
 }
 
+.split-page{
+  page-break-inside: avoid;
+}
 
 table th {
   text-align: left;
-
 }
 
 table th, table td {
@@ -264,9 +266,9 @@ li .n-line:first-child{
 }
 
 .person-img{
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
+  width: 60px !important;
+  height: 60px !important;
+  line-height: 60px !important;
   background-image:url("../../../template/img/person.png") ;
 }
 

@@ -1085,7 +1085,7 @@ function exportTemplate(source, exportType, name) {
 		var count = typeof source === 'object' ? (source.total || source.length || 0) : 0;
 		if ((count !== 0 || option.show) && source) {
 			var title = option.title + (count ? '  ' + count : '');
-			return "<div><div class=\"title\"><div class=\"t2\">" + title + "</div>" +
+			return "<div><div class=\"title split-page\"><div class=\"t2\">" + title + "</div>" +
 				"</div><div class=\"content\">" + drawContent(option, source) + "</div></div>"
 		}
 		return ''
@@ -1300,7 +1300,17 @@ function exportTemplate(source, exportType, name) {
 			}
 		};
 
-		var changeYear = function (list) {
+		var changeYear = function (data) {
+			var list = [];
+			// 判断year是否有效，如果不是有效字段，归为之以前的数据
+			data.forEach(function (item) {
+				if (item.year !== 0 && item.year){
+					list.push(item);
+				}
+				else {
+					list.push({year: 0, count: item.count});
+				}
+			});
 			if(list.length > 5){
 				list.sort(function (a,b) { return b.year - a.year;});
 				var base = (list.slice(0, 4)).sort(function (a, b) {return a.year - b.year;});
@@ -1318,7 +1328,7 @@ function exportTemplate(source, exportType, name) {
 				return base;
 			}
 			list.forEach(function (item) {
-				if (item.year === 0) item.year = '未知';
+				if (item.year === 0 || !item.year) item.year = '未知';
 				if (/\d{4}/.test(item.year)) item.year= (item.year + '').replace(/(\d{4})/,'$1年');
 			});
 			return list;
@@ -1418,7 +1428,7 @@ function exportTemplate(source, exportType, name) {
 					count = getCount(data.infoTypes, 'count') || getCount(data.roleDistributions, 'count') || getCount(data.yearDistributions, 'count');
 					showCount = count > 0;
 					html += data.infoTypes ? drawOverViewTable(mappingData(data.infoTypes, mapping.typeName), {title: '信息类型分布', col: 4}) : '';
-					html += data.roleDistributions ? drawOverViewTable(mappingData(data.roleDistributions, mapping.typeName), {title: '角色分布', col: 4}) : '';
+					html += data.visualRoleDistributions ? drawOverViewTable(mappingData(data.visualRoleDistributions, mapping.typeName), {title: '角色分布', col: 4}) : '';
 					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布'}, {suffix: '条'}) : '';
 					break;
 				}
@@ -1483,7 +1493,7 @@ function exportTemplate(source, exportType, name) {
 				// 工商基本信息
 				case "DO50000":{
 					if(option.type === 1){
-						html = getBaseInfo(data.baseInfo, option);
+						html = data.baseInfo && getBaseInfo(data.baseInfo, option);
 					}
 					if(option.type === 2){
 						showCount = data.shareholderInfos.length;
@@ -1530,8 +1540,14 @@ function exportTemplate(source, exportType, name) {
 		};
 
 		var childOverview = function (option, source) {
+			if(!source){
+				return '';
+			}
+			if(JSON.stringify(source) === '{}'){
+				return '';
+			}
 		  if(option.id === "DO10100"){
-				return drawChildTable(option, source.auctionInfos, {1: { title: '-三个月'}, 2: { title: '-全部'}});
+				return drawChildTable(option, source.auctionInfos, {1: { title: '-三个月内'}, 2: { title: '-全部'}});
 			}
 		  else if(option.id === "DO10200" ){
 				return drawChildTable(option, source.subrogationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
