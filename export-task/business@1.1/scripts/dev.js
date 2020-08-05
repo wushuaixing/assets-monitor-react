@@ -58,7 +58,7 @@ function exportTemplate(source, exportType, name) {
 					child:[
 						{ id:"DO20400",title:"失信记录",status:'EP'},
 						{ id:"DO20600",title:"涉诉信息",status:'E'},
-						{ id:"DO20600",title:"涉诉信息 (裁判文书) ",status:'P'},
+						{ id:"DO20600",title:"涉诉信息 (裁判文书) ", status:'P'},
 						{ id:"DO30200",title:"破产重组信息",status:'E'},
 						{ id:"DO30300",title:"经营风险信息",status:'E'},
 						{ id:"DO30500",title:"税收违法",status:'P'},
@@ -1223,8 +1223,8 @@ function exportTemplate(source, exportType, name) {
 					}
 					(childList || []).forEach(function (item) {
 						if(item){
-							childRes += ("<td><span class=\"mg-r\">" + item.label  + "：</span>" +
-								"<span class=\"fw-bold \">" + item.count + "</span><span>条" + (Array.isArray(config.remark) && config.remark.length && item.invalidCount> 0 ? "<span class=\"remark\">(" + config.remark[0] + item.invalidCount + config.remark[1] + ")</span>" : '') + "</span></td>");
+							childRes += item.count > 0 ? ("<td><span class=\"mg-r\">" + item.label  + "：</span>" +
+								"<span class=\"fw-bold \">" + item.count + "</span><span>条" + (Array.isArray(config.remark) && config.remark.length && item.invalidCount> 0 ? "<span class=\"remark\">(" + config.remark[0] + item.invalidCount + config.remark[1] + ")</span>" : '') + "</span></td>") : '';
 						}
 						else {
 							childRes +="<td></td>";
@@ -1272,7 +1272,7 @@ function exportTemplate(source, exportType, name) {
 				{t: '认缴出资额', f: 'amount'},
 			]);
 			if (data && list) {
-				return "<div><div class=\"content\"><table>" + list + "</table></div></div>"
+				return "<div><div class=\"content\"><table class=\"table-border\">" + list + "</table></div></div>"
 			}
 		};
 
@@ -1312,11 +1312,14 @@ function exportTemplate(source, exportType, name) {
 					count: otherCount,
 					year: otherText + '及以前'
 				});
+				base.forEach(function (item) {
+					if (/\d{4}/.test(item.year)) item.year= (item.year + '').replace(/(\d{4})/,'$1年');
+				});
 				return base;
 			}
 			list.forEach(function (item) {
 				if (item.year === 0) item.year = '未知';
-				if (/\d{4}/.test(item.year)) item.year=(item.year+'').replace(/(\d{4})/,'$1年');
+				if (/\d{4}/.test(item.year)) item.year= (item.year + '').replace(/(\d{4})/,'$1年');
 			});
 			return list;
 		};
@@ -1329,13 +1332,13 @@ function exportTemplate(source, exportType, name) {
 			if( Array.isArray(data) && data.length === 0){
 				return '';
 			}
-			var _data = [];
 			var newData = [];
+			var _data = [];
 			if(Array.isArray(keyValue)){
-				(data || []).forEach((item) => {
-					var _item = item;
-					_item.label = getLabel(keyValue, item.type);
-					newData.push(_item);
+				(data || []).forEach(function(item) {
+					var opItem = item;
+					opItem.label = getLabel(keyValue, item.type);
+					newData.push(opItem);
 				})
 			}
 			else {
@@ -1379,11 +1382,10 @@ function exportTemplate(source, exportType, name) {
 		// 没有标题的表格映射
 		var noTitleTable = function (data, mapData) {
 			var newData = [];
-			Object.keys(data || {}).forEach((item) => {
-				if(mapData[item]){
+			Object.keys(data || {}).forEach(function(item){
+				if(data[item] > 0 && mapData[item]){
 					newData.push({label: mapData[item].label, count: data[item]});
 				}
-				else {}
 			});
 			return newData;
 		};
@@ -1398,8 +1400,8 @@ function exportTemplate(source, exportType, name) {
 				// 资产拍卖
 				case "DO10100": {
 					count = data.count;
-					html += data.auctionResults ? drawOverViewTable(mappingData(data.auctionResults, enumerate.auctionType), {title: '拍卖结果分布', col: 4 }) : '';
-					html += data.roleDistributions ? drawOverViewTable(mappingData(data.roleDistributions, mapping.typeName), {title: '角色分布' }) : '';
+					html += data.auctionResults.length > 0 ? drawOverViewTable(mappingData(data.auctionResults, enumerate.auctionType), {title: '拍卖结果分布', col: 4 }) : null;
+					html += data.roleDistributions.length > 0 ? drawOverViewTable(mappingData(data.roleDistributions, mapping.typeName), {title: '角色分布' }) : null;
 					break;
 				}
 				// 代位权
@@ -1407,7 +1409,7 @@ function exportTemplate(source, exportType, name) {
 					count = data.count;
 					showCount = data.count > 0;
 					html += data.yearDistribution ? drawOverViewTable(mappingData(data.yearDistribution, mapping.year), {title: '年份分布'}, {suffix: '年'} ) : '';
-					html += data.caseReasons ? drawOverViewTable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4},) : '';
+					html += data.caseReasons ? drawOverViewTable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4}) : '';
 					html += data.caseTypes ? drawOverViewTable(mappingData(data.caseTypes, mapping.caseType), {title: '案件类型分布', col: 4}) : '';
 					break;
 				}
@@ -1499,25 +1501,32 @@ function exportTemplate(source, exportType, name) {
 
 		// 如果存在子级，画出带有子级的table
 		var drawChildTable = function (option, data, titleConfig) {
+			if(!data){
+				return '';
+			}
 			if(Array.isArray(data) && data.length > 0){
 				var table = '';
-				data.forEach((item) => {
-					var res = drawItem(option, item);
-					var title = option.title;
-					title += titleConfig[item.type].title;
-					if(res.showCount && res.count >0) title = res.count + '条 ' + title;
-					if(option.show || res.showCount){
-						var content = "<div><div class=\"title\"><div class=\"t2 f-b\">" + title + "</div>" +
-							"</div><div class=\"content\">" + res.html + "</div></div>";
+				(data || []).forEach(function(item){
+					if(item.count > 0){
+						var res = drawItem(option, item);
+						var title = option.title;
+						title += titleConfig ? titleConfig[item.type].title : '';
+						if(res.showCount && res.count >0) title = res.count + '条 ' + title;
+						if(option.show || res.showCount){
+							var content = "<div><div class=\"title\"><div class=\"t2 f-b\">" + title + "</div>" +
+								"</div><div class=\"content\">" + res.html + "</div></div>";
+						}
+						table += content;
 					}
-					table += content;
 				});
 				return table;
+			}
+			else if(Array.isArray(data) && data.length === 0){
+				return '';
 			}
 			else {
 				return '';
 			}
-
 		};
 
 		var childOverview = function (option, source) {
@@ -1528,7 +1537,30 @@ function exportTemplate(source, exportType, name) {
 				return drawChildTable(option, source.subrogationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
 			}
 			else if(option.id === "DO20600"){
-				return drawChildTable(option, source.litigationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
+				if(option.status === 'E'){
+					return drawChildTable(option, source.litigationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
+				}
+				else {
+					return drawChildTable(option, source.litigationInfos);
+				}
+			}
+			// 判断工商基本信息是否为空，如果为空，也不显示标题
+			else if(option.id === "DO50000"){
+				if(option.type === 1 && JSON.stringify(source.baseInfo) === '{}'){
+					return '';
+				}
+				if(option.type === 2 && JSON.stringify(source.shareholderInfos) === '[]'){
+					return '';
+				}
+				if(option.type === 3 && ( JSON.stringify(source.businessScaleInfo) === '{}' || !source.businessScaleInfo.employeeNum)){
+					return '';
+				}
+				var resInfo = drawItem(option, source);
+				var titleInfo = option.title;
+				if(option.show || resInfo.showCount){
+					return "<div><div class=\"title\"><div class=\"t2 f-b\">" + titleInfo + "</div>" +
+						"</div><div class=\"content\">" + resInfo.html + "</div></div>";
+				}
 			}
 			else {
 				var res = drawItem(option, source);
@@ -1540,7 +1572,6 @@ function exportTemplate(source, exportType, name) {
 				}
 				return '';
 			}
-
 		};
 
 		// item.child === [资产概况，风险信息，工商基本信息]
@@ -1579,7 +1610,7 @@ function exportTemplate(source, exportType, name) {
 }
 
 if (ENV === 'dev') {
-	var dataSource = JSON.stringify(require(_dataPath+'/data-08011445.json'));
+	var dataSource = JSON.stringify(require(_dataPath + '/data-08011445.json'));
 	const exportType= 'debtor';
 	var strCover = (exportType) => exportCover(dataSource, exportType);
 	var strTemplate = (exportType) => exportTemplate(dataSource, exportType);
