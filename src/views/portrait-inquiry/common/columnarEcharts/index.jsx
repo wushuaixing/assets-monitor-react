@@ -97,7 +97,7 @@ class ColumnarEcharts extends React.Component {
 			x: 20,
 			y: 14,
 		};
-		const newDataList = dataList.slice().reverse();
+		const newDataList = dataList.slice();
 		const list = [];
 		newDataList.forEach((item, index) => {
 			const { x } = base;

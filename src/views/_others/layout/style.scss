@@ -392,7 +392,7 @@
       background-color: #FFFFFF;
 
       .yc-modal-content {
-        padding: 50px 0 50px 44px;
+        padding: 50px 0 50px 63px;
 
         .yc-modal-header {
           height: 22px;
@@ -418,26 +418,33 @@
           font-weight: bold;
           color: $text-title;
         }
-
-        .yc-label-title {
-          display: inline-block;
-          position: relative;
-          margin-top: 30px;
-          margin-bottom: 6px;
-          line-height: 16px;
-          font-size: 16px;
-          padding-left: 12px;
-          font-weight: bold;
-          color: $text-title;
-
-          .yc-modal-icon {
-            position: absolute;
-            border-radius: 50%;
-            width: 7px;
-            height: 7px;
-            top: 5px;
-            left: 0;
-            background: #FD5F3D;
+        .yc-label-box {
+          margin-top: 20px;
+          .yc-label-title {
+            display: inline-block;
+            position: relative;
+            margin: 20px 0;
+            line-height: 16px;
+            font-size: 16px;
+            padding-left: 12px;
+            color: $text-title;
+            .yc-modal-icon {
+              position: absolute;
+              border-radius: 50%;
+              width: 7px;
+              height: 7px;
+              top: 5px;
+              left: 0;
+              background: #FD5F3D;
+            }
+          }
+          .yc-label-tips{
+            font-weight: bold;
+          }
+          .yc-label-desp{
+            font-size: 14px;
+            color: #4E5566;
+            margin-left: 16px;
           }
         }
 
@@ -468,7 +475,7 @@
         .yc-modal-btn {
           width: 320px;
           height: 44px;
-          margin-left: 70px;
+          margin-left: 60px;
           margin-top: 44px;
           display: block;
           background: linear-gradient(to right, #FD6339, #FD4A4D);
