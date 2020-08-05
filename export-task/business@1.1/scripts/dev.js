@@ -23,7 +23,7 @@ function exportCover(source, exportType) {
 	var userInfo = '', data = '';
 	if (exportType === 'debtor') {
 		data = d.DB10101 || {};
-		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
+		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情查询报告");
 		userInfo = ("<div class='exp-name'>" + (data.obligorName || '-') + "<br/>" + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
 	} else {
 		data = d.BB10101 || {};
