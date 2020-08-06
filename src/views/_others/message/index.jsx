@@ -29,7 +29,7 @@ class InformCenter extends React.Component {
 				{
 					title: '消息种类',
 					dataIndex: 'title',
-					width: 160,
+					width: 200,
 					className: 'message-type',
 					render: (text, row) => (
 						<div style={{ marginLeft: 10 }}>
