@@ -124,6 +124,7 @@ const EnterpriseInfo = (props) => {
 					api={exportListEnp}
 					normal
 					text="下载"
+					type="inquiry"
 				/>
 			</div>
 		</div>
@@ -154,6 +155,7 @@ const EnterpriseInfoSimple = (props) => {
 					api={exportListEnp}
 					normal
 					text="下载"
+					type="inquiry"
 				/>
 			</div>
 		</div>
