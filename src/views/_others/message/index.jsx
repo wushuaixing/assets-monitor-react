@@ -145,7 +145,7 @@ class InformCenter extends React.Component {
 			if (row.operateType === 'newAuctionProcessAlert') {
 				const { title } = JSON.parse(row.extend);
 				const w = window.open('about:blank');
-				w.location.href = `#/monitor?process=3&id=${row.obligorId}&title=${title}`;
+				w.location.href = `#/monitor?process=3&id=${row.obligorId}${title ? `&title=${title}` : ''}`;
 			}
 			// 失信状态移除 列入失信名单
 			if (row.operateType === 'dishonestAdd' || row.operateType === 'dishonestRemove') {
@@ -158,7 +158,7 @@ class InformCenter extends React.Component {
 			if (row.operateType === 'auctionStatusChangeAlert') {
 				const { title } = JSON.parse(row.extend);
 				const w = window.open('about:blank');
-				w.location.href = `#/monitor?process=1&id=${row.obligorId}&title=${title}`;
+				w.location.href = `#/monitor?process=3&id=${row.obligorId}${title ? `&title=${title}` : ''}`;
 			}
 		} else if (row.operateType === 'monitorReport') {
 			if (JSON.parse(row.extend) && JSON.parse(row.extend).total > 200) {

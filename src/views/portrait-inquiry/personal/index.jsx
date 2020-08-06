@@ -76,6 +76,7 @@ const PersonalInfo = (props) => {
 					api={exportListPer}
 					normal
 					text="下载"
+					type="inquiry"
 				/>
 			</div>
 		</div>
@@ -106,6 +107,7 @@ const PersonalInfoSimple = (props) => {
 					api={exportListPer}
 					normal
 					text="下载"
+					type="inquiry"
 				/>
 			</div>
 		</div>

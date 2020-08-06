@@ -20,7 +20,7 @@ export default class Download extends React.Component {
 
 	handleDownload=() => {
 		const {
-			api, condition, all, field, current, page, num, selectIds, selectData, selectedRowKeys, normal,
+			api, condition, all, field, current, page, num, selectIds, selectData, selectedRowKeys, normal, type,
 		} = this.props;
 
 		// 处理变量参数
@@ -34,7 +34,12 @@ export default class Download extends React.Component {
 		// console.log(`${api}?${urlEncode(clearEmpty(_condition))}`);
 		const token = cookies.get('token');
 
-
+		function warning() {
+			Modal.warning({
+				title: '提示',
+				content: '当前下载服务繁忙，建议稍候再试',
+			});
+		}
 		// 点击确定 btn
 		const toOkClick = async () => {
 			this.setState({ loadingStatus: 'loading' });
@@ -49,7 +54,11 @@ export default class Download extends React.Component {
 					DownloadFile(`${baseUrl}${exportFile(data)}?token=${token}`);
 				} else {
 					this.setState({ loadingStatus: 'normal' });
-					message.error(mes || '网络异常请稍后再试!');
+					if (type === 'inquiry') {
+						warning();
+					} else {
+						message.error(mes || '网络异常请稍后再试!');
+					}
 				}
 			} else {
 				message.warning('网络异常,请稍后再试！');

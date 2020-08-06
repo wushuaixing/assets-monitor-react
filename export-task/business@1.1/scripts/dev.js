@@ -23,7 +23,7 @@ function exportCover(source, exportType) {
 	var userInfo = '', data = '';
 	if (exportType === 'debtor') {
 		data = d.DB10101 || {};
-		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
+		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情查询报告");
 		userInfo = ("<div class='exp-name'>" + (data.obligorName || '-') + "<br/>" + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
 	} else {
 		data = d.BB10101 || {};
@@ -463,13 +463,13 @@ function exportTemplate(source, exportType, name) {
 	};
 
 	f.replaceHtml([
-		{f: "../../img/watermark.png", v: bgImgData},
-		{f: "../../img/debtor.png", v: deIconData},
-		{f: "../../img/person.png", v: personData},
-		{f: "../../img/business.png", v: businessData},
-		{f: "../../img/icon_dishonest_ed.png", v: disEdIconData},
-		{f: "../../img/icon_shixin.png", v: disIconData},
-		{f: "../../img/icon-accurate.png", v: accurateImgData},
+		{f: "../../_assets/img/watermark.png", v: bgImgData},
+		{f: "../../_assets/img/debtor.png", v: deIconData},
+		{f: "../../_assets/img/person.png", v: personData},
+		{f: "../../_assets/img/business.png", v: businessData},
+		{f: "../../_assets/img/icon_dishonest_ed.png", v: disEdIconData},
+		{f: "../../_assets/img/icon_shixin.png", v: disIconData},
+		{f: "../../_assets/img/icon-accurate.png", v: accurateImgData},
 		{f: "{base.queryTime}", v: f.time()}]);
 
 	/* draw normal table */
@@ -1402,6 +1402,12 @@ function exportTemplate(source, exportType, name) {
 
 		// 绘制具体子项内容 - 3级
 		var drawItem = function (option, data) {
+			if(!data){
+				return '';
+			}
+			if(JSON.stringify(data) === '{}' || JSON.stringify(data) === '[]'){
+				return '';
+			}
 			var taxon = option.id;
 			var count = 0;
 			var showCount = '';
@@ -1410,6 +1416,7 @@ function exportTemplate(source, exportType, name) {
 				// 资产拍卖
 				case "DO10100": {
 					count = data.count;
+					showCount = count > 0;
 					html += data.auctionResults.length > 0 ? drawOverViewTable(mappingData(data.auctionResults, enumerate.auctionType), {title: '拍卖结果分布', col: 4 }) : null;
 					html += data.roleDistributions.length > 0 ? drawOverViewTable(mappingData(data.roleDistributions, mapping.typeName), {title: '角色分布' }) : null;
 					break;
@@ -1417,7 +1424,7 @@ function exportTemplate(source, exportType, name) {
 				// 代位权
 				case "DO10200":{
 					count = data.count;
-					showCount = data.count > 0;
+					showCount = count > 0;
 					html += data.yearDistribution ? drawOverViewTable(mappingData(data.yearDistribution, mapping.year), {title: '年份分布'}, {suffix: '年'} ) : '';
 					html += data.caseReasons ? drawOverViewTable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4}) : '';
 					html += data.caseTypes ? drawOverViewTable(mappingData(data.caseTypes, mapping.caseType), {title: '案件类型分布', col: 4}) : '';
@@ -1435,12 +1442,14 @@ function exportTemplate(source, exportType, name) {
 				// 无效资产
 				case "DO10400":{
 					count = getCountObj(data,['construct','emission','mining','trademark'] );
+					showCount = count > 0;
 					html += data ? drawOverViewTable(noTitleTable(data, intangibleAssetsMap), { col: 4 }) : '';
 					break;
 				}
 				// 股权质押
 				case "DO10500":{
 					count = getCount(data.roleDistributions,'count') || getCount(data.yearDistributions,'count');
+					showCount = count > 0;
 					html += data.roleDistributions ? drawOverViewTable(mappingData(data.roleDistributions, enumerate.stock), {title: '角色分布', col: 4, remark: ['其中', '条质押登记状态均为无效']}) : '';
 					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布'}) : '';
 					break;
@@ -1448,6 +1457,7 @@ function exportTemplate(source, exportType, name) {
 				// 动产抵押
 				case "DO10600":{
 					count = getCount(data.roleDistributions,'count') ||  getCount(data.yearDistributions,'count');
+					showCount = count > 0;
 					html += data.roleDistributions ? drawOverViewTable(mappingData(data.roleDistributions, enumerate.mortgage), {title: '角色分布', col: 4, remark:['其中', '条抵押登记状态均为无效']}) : '';
 					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布' }, {suffix: '年'}, {suffix: '条'}) : '';
 					break;
@@ -1455,18 +1465,21 @@ function exportTemplate(source, exportType, name) {
 				// 招投标
 				case "DO10700":{
 					count = getCount(data.yearDistributions,'count');
+					showCount = count > 0;
 					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布'}) : '';
 					break;
 				}
 				// 失信记录
 				case "DO20400":{
 					count = getCount(data.yearDistributions,'count');
+					showCount = count > 0;
 					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布'}) : '';
 					break;
 				}
 				// 涉诉信息
 				case "DO20600":{
 					count = data.count;
+					showCount = count > 0;
 					html += data.yearDistribution ? drawOverViewTable(mappingData(data.yearDistribution, mapping.year), {title: '年份分布'}) : '';
 					html += data.caseReasons ? drawOverViewTable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4}) : '';
 					html += data.caseTypes ? drawOverViewTable(mappingData(data.caseTypes, mapping.caseType), {title: '案件类型分布', col: 4}): '' ;
@@ -1475,31 +1488,54 @@ function exportTemplate(source, exportType, name) {
 				// 破产重组
 				case "DO30200":{
 					count = getCount(data.yearDistributions,'count');
+					showCount = count > 0;
 					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布' }) : '';
 					break;
 				}
 				// 经营风险
 				case "DO30300":{
 					count = getCountObj(data,['abnormal','change','epb','illegal','punishment','tax'] );
+					showCount = count > 0;
 					html += data ? drawOverViewTable(noTitleTable(data, businessRisk), { col: 4 }) : '';
 					break;
 				}
 				// 个人税收违法
 				case "DO30500":{
 					count = getCount(data.roleDistributions,'count');
+					showCount = count > 0;
 					html += data.roleDistributions ? drawOverViewTable(mappingData(data.roleDistributions, mapping.typeName), {title: '角色分布', col: 4}) : '';
 					break;
 				}
 				// 工商基本信息
 				case "DO50000":{
 					if(option.type === 1){
+						if(!data.baseInfo){
+							return ''
+						}
+						if(JSON.stringify(data.baseInfo) === '{}'){
+							return ''
+						}
+						showCount = true;
 						html = data.baseInfo && getBaseInfo(data.baseInfo, option);
 					}
 					if(option.type === 2){
-						showCount = data.shareholderInfos.length;
+						if(!data.shareholderInfos){
+							return ''
+						}
+						if(Array.isArray(data.shareholderInfos) && data.shareholderInfos.length === 0){
+							return ''
+						}
+						showCount = true;
 						html = getShareholder(data.shareholderInfos, option, showCount);
 					}
 					if(option.type === 3){
+						if(!data.businessScaleInfo){
+							return ''
+						}
+						if(JSON.stringify(data.businessScaleInfo) === '{}'){
+							return ''
+						}
+						showCount = true;
 						html = peopleInfo(data.businessScaleInfo, option);
 					}
 					break;
@@ -1543,7 +1579,7 @@ function exportTemplate(source, exportType, name) {
 			if(!source){
 				return '';
 			}
-			if(JSON.stringify(source) === '{}'){
+			if(JSON.stringify(source) === '{}' || JSON.stringify(source) === '[]'){
 				return '';
 			}
 		  if(option.id === "DO10100"){
