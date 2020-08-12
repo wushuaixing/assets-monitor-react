@@ -148,12 +148,14 @@ export default class Personal extends React.Component {
 		const defaultSourceType = Number((window.location.hash.match(/\/personal\/(\d{3})\/?/) || [])[1]) || 201;
 		if (sourceType !== defaultSourceType || JSON.stringify(this.info) !== JSON.stringify(this.toGetInfo()) || hash !== this.hash) {
 			this.info = this.toGetInfo();
-			this.hash = hash;
 			this.setState({
 				sourceType: defaultSourceType,
 				childDom: defaultSourceType === 201 ? '' : childDom,
 			}, () => {
-				if (hash !== this.hash) this.toAffirmGet();
+				if (hash !== this.hash) {
+					this.hash = hash;
+					this.toAffirmGet();
+				}
 			});
 		}
 	}
@@ -172,6 +174,9 @@ export default class Personal extends React.Component {
 
 	getData = () => {
 		const params = this.info;
+		this.setState({
+			loading: true,
+		});
 		getInfo(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
