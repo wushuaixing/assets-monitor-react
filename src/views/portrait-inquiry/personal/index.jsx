@@ -76,6 +76,7 @@ const PersonalInfo = (props) => {
 					api={exportListPer}
 					normal
 					text="下载"
+					type="inquiry"
 				/>
 			</div>
 		</div>
@@ -106,6 +107,7 @@ const PersonalInfoSimple = (props) => {
 					api={exportListPer}
 					normal
 					text="下载"
+					type="inquiry"
 				/>
 			</div>
 		</div>
@@ -128,12 +130,14 @@ export default class Personal extends React.Component {
 			childDom: '',
 			affixStatus: false,
 			sourceType: defaultSourceType ? Number(defaultSourceType[1]) : 201,
+			overViewLoading: true,
 		};
 		this.info = {
 			obligorName: getQueryByName(window.location.href, 'name'),
 			obligorNumber: getQueryByName(window.location.href, 'num'),
 		};
 		this.hash = JSON.stringify(_hash);
+		this.dd = getQueryByName(window.location.href, 'dd');
 	}
 
 	componentWillMount() {
@@ -144,14 +148,22 @@ export default class Personal extends React.Component {
 		const { hash } = window.location;
 		const { sourceType, childDom } = this.state;
 		const defaultSourceType = Number((window.location.hash.match(/\/personal\/(\d{3})\/?/) || [])[1]) || 201;
+		const _dd = getQueryByName(window.location.href, 'dd');
 		if (sourceType !== defaultSourceType || JSON.stringify(this.info) !== JSON.stringify(this.toGetInfo()) || hash !== this.hash) {
 			this.info = this.toGetInfo();
-			this.hash = hash;
 			this.setState({
 				sourceType: defaultSourceType,
 				childDom: defaultSourceType === 201 ? '' : childDom,
 			}, () => {
-				if (hash !== this.hash) this.toAffirmGet();
+				if (hash !== this.hash) {
+					if (this.dd !== _dd) {
+						this.setState({
+							overViewLoading: true,
+						});
+					}
+					this.hash = hash;
+					this.toAffirmGet();
+				}
 			});
 		}
 	}
@@ -175,14 +187,15 @@ export default class Personal extends React.Component {
 				this.setState({
 					infoSource: res.data,
 					loading: false,
+					overViewLoading: false,
 				});
 				this.toTouchCount();
 			} else {
-				this.setState({ loading: false });
+				this.setState({ loading: false, overViewLoading: false });
 			}
 		})
 			.catch(() => {
-				this.setState({ loading: false });
+				this.setState({ loading: false, overViewLoading: false });
 			});
 	};
 
@@ -245,7 +258,7 @@ export default class Personal extends React.Component {
 
 	render() {
 		const {
-			tabConfig, sourceType, childDom, affixStatus, countSource, loading, infoSource,
+			tabConfig, sourceType, childDom, affixStatus, countSource, loading, infoSource, overViewLoading,
 		} = this.state;
 
 		return (
@@ -282,7 +295,7 @@ export default class Personal extends React.Component {
 
 					</Spin>
 					<Router>
-						<OverView toPushChild={this.handleAddChild} path="/*" viewLoading={loading} />
+						<OverView toPushChild={this.handleAddChild} path="/*" viewLoading={overViewLoading} />
 						<Assets toPushChild={this.handleAddChild} path="/inquiry/personal/202/*" count={countSource.assets} />
 						<Risk toPushChild={this.handleAddChild} path="/inquiry/personal/203/*" count={countSource.risk} />
 					</Router>

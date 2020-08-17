@@ -124,6 +124,7 @@ const EnterpriseInfo = (props) => {
 					api={exportListEnp}
 					normal
 					text="下载"
+					type="inquiry"
 				/>
 			</div>
 		</div>
@@ -154,6 +155,7 @@ const EnterpriseInfoSimple = (props) => {
 					api={exportListEnp}
 					normal
 					text="下载"
+					type="inquiry"
 				/>
 			</div>
 		</div>
@@ -252,9 +254,9 @@ export default class Enterprise extends React.Component {
 		});
 	};
 
-	onChangeAffix=(val) => {
-		this.setState({ affixStatus: val });
-		// console.log('onChangeAffix:', val);
+	// affixStatus导致组件重新加载，下载的loading状态取消
+	onChangeAffix = () => {
+		// this.setState({ affixStatus: val });
 	};
 
 	onSourceType=(val) => {
@@ -289,6 +291,7 @@ export default class Enterprise extends React.Component {
 					<QueryView type={1} />
 				</div>
 				<div className="inquiry-enterprise-content">
+					{/* 省略固钉的变化 onChange={this.onChangeAffix} */}
 					<Affix onChange={this.onChangeAffix}>
 						<Spin visible={loading}>
 							<div className={`enterprise-intro${childDom ? '' : ' enterprise-intro-child'}${affixStatus ? ' enterprise-intro-affix' : ''}`} id="enterprise-intro">

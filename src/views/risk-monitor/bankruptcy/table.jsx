@@ -19,6 +19,7 @@ const columns = (props, openRegisterModalFunc) => {
 			title: (noSort ? '发布日期'
 				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishDate',
+			className: 'yc-publish-date',
 			width: 115,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {

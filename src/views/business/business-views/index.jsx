@@ -637,11 +637,11 @@ class BusinessView extends React.Component {
 						</div>
 						<div className="yc-confirm-btn">
 							{/* type===2时为业务转移，为1或null时为业务导入 */}
-							{uploadErrorData.type !== 2 && (
-								<Upload className="yc-upload" showUploadList={false} {...this.uploadAttachmentParam()}>
-									<Button style={{ height: 34, marginRight: 10 }}>重新上传</Button>
-								</Upload>
-							)}
+							{/* {uploadErrorData.type !== 2 && ( */}
+							{/*	<Upload className="yc-upload" showUploadList={false} {...this.uploadAttachmentParam()}> */}
+							{/*		<Button style={{ height: 34, marginRight: 10 }}>重新上传</Button> */}
+							{/*	</Upload> */}
+							{/* )} */}
 							{
 								uploadErrorData.errorType === '文件格式错误' && uploadErrorData.type !== 2 ? (
 									<Button
