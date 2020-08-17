@@ -6,19 +6,22 @@ import {
 } from '@/common';
 import { timeStandard, toEmpty } from '@/utils';
 
-const status = {
-	1: {
-		reasonName: '注销原因',
-		dateName: '注销时间',
-	},
-	2: {
-		reasonName: '撤销原因',
-		dateName: '撤销时间',
-	},
-	3: {
-		reasonName: '遗失原因',
-		dateName: '遗失时间',
-	},
+const status = (val) => {
+	const source = {
+		1: {
+			reasonName: '注销原因',
+			dateName: '注销时间',
+		},
+		2: {
+			reasonName: '撤销原因',
+			dateName: '撤销时间',
+		},
+		3: {
+			reasonName: '遗失原因',
+			dateName: '遗失时间',
+		},
+	};
+	return source[val] || {};
 };
 
 function keyToValue(key) {
@@ -33,6 +36,7 @@ function keyToValue(key) {
 	}
 	return 0;
 }
+
 export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -103,24 +107,24 @@ export default class TableIntact extends React.Component {
 						<Icon type="icon-dot" style={{ fontSize: 12, color: row.status === '正常' ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
 						<span className="list list-content ">{row.status}</span>
 					</li>
-					{
+					 {
 						row.status !== '正常' ? (
 							<React.Fragment>
 								<li>
-									<span className="list list-title align-justify">{`${status[keyToValue(row.status)].reasonName}`}</span>
+									<span className="list list-title align-justify">{`${status(keyToValue(row.status)).reasonName}`}</span>
 									<span className="list list-title-colon">:</span>
 									<span className="list list-content">
 										<Ellipsis content={row.reason || '-'} tooltip width={130} />
 									</span>
 								</li>
 								<li>
-									<span className="list list-title align-justify">{`${status[keyToValue(row.status)].dateName}`}</span>
+									<span className="list list-title align-justify">{`${status(keyToValue(row.status)).dateName}`}</span>
 									<span className="list list-title-colon">:</span>
 									<span className="list list-content">{row.gmtIssueTime || '-'}</span>
 								</li>
 							</React.Fragment>
 						) : null
-					}
+					 }
 				</div>
 			),
 		},
@@ -143,6 +147,7 @@ export default class TableIntact extends React.Component {
 			num: 5,
 			...params,
 		}).then((res) => {
+			console.log(res.data.list);
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
