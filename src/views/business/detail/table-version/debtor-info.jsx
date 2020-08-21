@@ -2,7 +2,7 @@ import React from 'react';
 import { Download, Icon as IconType } from '@/common';
 import { exportListEnp } from '@/utils/api/professional-work';
 import {
-	getQueryByName, timeStandard, toEmpty, reviseNum, w,
+	getQueryByName, timeStandard, toEmpty, w,
 } from '@/utils';
 import PublicImg from '@/assets/img/business/icon_zwr_company.png';
 import PublicPerImg from '@/assets/img/business/icon_zwrpeople.png';
@@ -41,7 +41,7 @@ const EnterpriseInfo = (arg = {}) => {
 		bankruptcy, dishonestStatus: isDishonest, pushState, limitConsumption,
 	} = arg.data;
 	const {
-		obligorName: name, legalPersonName, regCapital, regStatus, establishTime, usedName, logoUrl,
+		obligorName: name, legalPersonName, regCapital, regCapitalUnit, regStatus, establishTime, usedName, logoUrl,
 	} = arg.data;
 	const _formerNames = (usedName || []).join('、');
 	const style = {
@@ -102,7 +102,7 @@ const EnterpriseInfo = (arg = {}) => {
 					</li>
 					<li className="intro-info-list intro-list-border">
 						<span className="yc-public-remark">注册资本：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? reviseNum(regCapital) : '-'}</span>
+						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? `${regCapital}${regCapitalUnit}` : '-'}</span>
 					</li>
 					<li className="intro-info-list">
 						<span className="yc-public-remark">成立日期：</span>
