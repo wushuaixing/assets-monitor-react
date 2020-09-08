@@ -2,11 +2,11 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import { getLitigation } from '@/utils/api/portrait-inquiry/personal/overview';
 import { getQueryByName } from '@/utils';
+import { Icon } from '@/common';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
 import getCount from '../../../common/getCount';
-import { Icon } from '@/common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -73,11 +73,11 @@ export default class Subrogation extends React.Component {
 								</span>
 							</div>
 							<div className="overview-container-content">
-								{timeLineData && getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}
+								{timeLineData && getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="involved" />}
 								<div style={{ marginBottom: 20 }}>
-									{columnarData && getCount(columnarData) > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="subrogation" />}
+									{columnarData && getCount(columnarData) > 0 && <ColumnarEcharts title="案由分布" Data={columnarData} id="involved" />}
 								</div>
-								{RingData && getCount(RingData) > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="subrogation" colorArray={['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A']} />}
+								{RingData && getCount(RingData) > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="involved" colorArray={['#45A1FF', '#4DCAC9', '#FCD44A', '#F2657A']} />}
 							</div>
 						</div>
 						)
