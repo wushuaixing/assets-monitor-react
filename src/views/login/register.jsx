@@ -512,7 +512,7 @@ class Login extends React.Component {
 										/>
 										<Input
 											className="yc-login-input"
-											type="password"
+											type="number"
 											autocomplete={autocompleteType}
 											placeholder="请输入验证码"
 											maxLength="20"
