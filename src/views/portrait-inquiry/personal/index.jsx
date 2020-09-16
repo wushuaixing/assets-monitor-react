@@ -2,13 +2,9 @@ import React from 'react';
 import { Affix, message } from 'antd';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
-import QueryView from '../common/queryView';
 import {
 	Tabs, Download, Icon as IconType, BreadCrumb,
 } from '@/common';
-import OverView from './overview';
-import Assets from './assets';
-import Risk from './risk';
 import Dishonest from '@/assets/img/icon/icon_shixin.png';
 import assets from '@/utils/api/portrait-inquiry/personal/assets';
 import risk from '@/utils/api/portrait-inquiry/personal/risk';
@@ -19,6 +15,10 @@ import { requestAll } from '@/utils/promise';
 import { exportListPer } from '@/utils/api/portrait-inquiry';
 import './style.scss';
 import { noneRemind } from '@/views/portrait-inquiry/inquiry-check';
+import QueryView from '../common/queryView';
+import OverView from './overview';
+import Assets from './assets';
+import Risk from './risk';
 
 const source = () => [
 	{
@@ -141,6 +141,7 @@ export default class Personal extends React.Component {
 	}
 
 	componentWillMount() {
+		// console.log('componentWillMount');
 		this.toAffirmGet();
 	}
 
@@ -149,6 +150,9 @@ export default class Personal extends React.Component {
 		const { sourceType, childDom } = this.state;
 		const defaultSourceType = Number((window.location.hash.match(/\/personal\/(\d{3})\/?/) || [])[1]) || 201;
 		const _dd = getQueryByName(window.location.href, 'dd');
+		// console.log('dd ===', _dd, this.dd);
+		// console.log('info ===', this.toGetInfo(), this.info);
+		// console.log('hash ===', hash, this.hash);
 		if (sourceType !== defaultSourceType || JSON.stringify(this.info) !== JSON.stringify(this.toGetInfo()) || hash !== this.hash) {
 			this.info = this.toGetInfo();
 			this.setState({
@@ -159,10 +163,12 @@ export default class Personal extends React.Component {
 					if (this.dd !== _dd) {
 						this.setState({
 							overViewLoading: true,
+						}, () => {
+							this.toAffirmGet();
 						});
 					}
 					this.hash = hash;
-					this.toAffirmGet();
+					// this.toAffirmGet();
 				}
 			});
 		}
@@ -182,6 +188,7 @@ export default class Personal extends React.Component {
 
 	getData = () => {
 		const params = this.info;
+		// console.log('getInfo request =====', params);
 		getInfo(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({

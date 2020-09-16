@@ -23,6 +23,7 @@ const contentStrRemind = num => React.createElement('p', { style: { fontSize: 14
 export const inquiryCheck = (url, type, remind = true) => {
 	if (global.PORTRAIT_INQUIRY_ALLOW && type === 2) {
 		return inquiryLimit().then((res) => {
+			// console.log('查询画像的剩余次数 res ====', res);
 			const { portraitLimitCount, portraitLimitUseCount } = res.data;
 			const degree = portraitLimitCount - portraitLimitUseCount;
 			if (degree > 0 && remind) {
