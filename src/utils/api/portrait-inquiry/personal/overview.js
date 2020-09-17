@@ -40,3 +40,9 @@ export const getInfo = async (params) => {
 	const response = await service.get('/yc/search/portrait/personal/info', { params });
 	return response.data;
 };
+
+// 个人失信状态
+export const getDishonestStatus = async (params) => {
+	const response = await service.get('/yc/search/portrait/personal/dishonest-status', { params });
+	return response.data;
+};
