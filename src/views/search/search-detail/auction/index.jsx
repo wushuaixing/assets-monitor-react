@@ -10,7 +10,6 @@ import {
 	Spin, Input, Button, timeRule, Download, DatePicker,
 } from '@/common';
 import InputPrice from '@/common/input/input-price';
-import AuctionTable from './table';
 import {
 	parseQuery, generateUrlWithParams, objectKeyIsEmpty,
 } from '@/utils';
@@ -20,7 +19,9 @@ import {
 } from '@/utils/api/search';
 import { ScrollAnimation } from '@/utils/changeTime';
 import defaultOrder from '@/assets/img/icon/icon_arrow.png';
+import AuctionTable from './table';
 import './style.scss';
+
 
 const _style1 = { width: 278 };
 const _style2 = { width: 116 };
@@ -188,6 +189,8 @@ class AUCTION extends React.Component {
 			order,
 			startTime,
 			endTime,
+			lowestConsultPrice: Fields.lowestConsultPrice ? Fields.lowestConsultPrice *= 10000 : undefined,
+			highestConsultPrice: Fields.highestConsultPrice ? Fields.highestConsultPrice *= 10000 : undefined,
 		};
 		this.setState({
 			current: val,
