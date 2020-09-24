@@ -168,7 +168,7 @@ export default {
 			},
 			{
 				id: 'YC02',
-				name: null,
+				name: null, // 测试使用
 				url: '/monitor',
 				status: rule.menu_zcwj,
 				dot: false,
