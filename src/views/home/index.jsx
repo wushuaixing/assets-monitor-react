@@ -1,7 +1,9 @@
 import React from 'react';
-import { currentOrganization, homeAssetDig, riskReference } from 'api/home';
+import {
+	currentOrganization, unreadInfoRemind,
+} from 'api/home';
 import Cookies from 'universal-cookie';
-import { promiseAll } from '@/utils/promise';
+// import { promiseAll } from '@/utils/promise';
 import Header from './home-header';
 import QuickStart from './home-right/quick-start';
 import Overview from './home-right/overview';
@@ -57,112 +59,84 @@ class HomeRouter extends React.Component {
 
 	getTotal = (arr) => {
 		const newArr = arr && arr.filter(i => i !== null);
-		if (newArr.length === 0) { return null; }
+		if (newArr.length === 0) { return 0; }
 		let total = 0;
 		newArr.forEach((i) => {
-			total += i;
+			total += Number(i);
 		});
 		return total;
 	};
 
+	getStatus = (arr) => {
+		let status = 0;
+		arr.forEach((item) => {
+			if (item === null) {
+				status += 1;
+			}
+		});
+		return status !== arr.length;
+	};
+
 	getData = () => {
-		const excavate = new Map([
-			['homeAsset', this.getAsset],
-			['homeRisk', this.getRisk],
-			['default', () => { console.log('未匹配'); }],
-		]);
-		const promiseArray = [];
-		promiseArray.push(homeAssetDig());
-		promiseArray.push(riskReference());
-		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
-		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
-		// console.log(promiseArray, 123);
 		this.setState({ loading: true });
-		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
-		handlePromise.then((res) => {
-			const isArray = Array.isArray(res) && res.length > 0;
+		unreadInfoRemind().then((res) => {
 			this.setState({ loading: false });
-			if (isArray) {
-				res.forEach((item) => {
-					const excavateMap = excavate.get(item.name) || excavate.get('default');
-					excavateMap.call(this, item);
+			if (res.code === 200) {
+				const {
+					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount, changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount,
+				} = res.data;
+				const assetArray = [
+					{
+						name: '资产拍卖', count: auctionCount, color: '#FB8E3C', icon: 'auction', status: auctionCount !== null,
+					},
+					{
+						name: '土地信息', count: landCount, color: '#1C80E1', icon: 'land', status: landCount !== null,
+					},
+					{
+						name: '无形资产', count: intangibleCount, color: '#FFC531', icon: 'intangible', status: intangibleCount !== null,
+					},
+					{
+						name: '代位权', count: subrogationCount, color: '#948BFF', icon: 'subrogation', status: subrogationCount !== null,
+					},
+					{
+						name: '股权质押', count: stockPledgeCount, color: '#FB5A5C', icon: 'stock', status: stockPledgeCount !== null,
+					},
+					{
+						name: '动产抵押', count: mortgageCount, color: '#FB5A5C', icon: 'chattel', status: mortgageCount !== null,
+					},
+					{
+						name: '查/解封资产', count: mortgageCount, color: '#bbbd0e', icon: 'bidding', status: mortgageCount !== null,
+					},
+					{
+						name: '金融资产', count: financeCount, color: '#FB8E3C', icon: 'finance', status: financeCount !== null,
+					},
+					{
+						name: '招投标', count: biddingCount, color: '#3DBD7D', icon: 'bidding', status: biddingCount !== null,
+					},
+				];
+				const riskArray = [
+					{
+						name: '破产重组', count: bankrupcyCount, color: '#948BFF', icon: 'bankruptcy', status: bankrupcyCount !== null,
+					},
+					{
+						name: '失信记录', count: dishonestCount, color: '#FB5A5C', icon: 'broken', status: dishonestCount !== null,
+					},
+					{
+						name: '限制高消费', count: dishonestCount, color: '#3c8604', icon: 'operation-risk', status: dishonestCount !== null,
+					},
+					{
+						name: '涉诉信息', count: litigationCount, color: '#FB8E3C', icon: 'lawsuit', status: litigationCount !== null,
+					},
+					{
+						name: '经营风险', count: this.getTotal([managementAbnormalCount, changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount]), color: '#FB5A5C', icon: 'operation-risk', status: this.getStatus([managementAbnormalCount, changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount]),
+					},
+				];
+				this.setState({
+					assetArray,
+					riskArray,
 				});
 			}
-			// console.log('all promise are resolved', res);
-		}).catch((reason) => {
-			this.setState({ loading: false });
-			console.log('promise reject failed reason', reason);
-		});
-	};
-
-	getAsset = (res) => {
-		if (res && res.code === 200) {
-			const {
-				auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
-				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark,
-			} = res.data;
-			const landNum = this.getTotal([landMortgage, landTransaction, landTransfer]);
-			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
-			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial]);
-			const financeNum = this.getTotal([auctionBidding, finance]);
-			const assetArray = [
-				{
-					name: '资产拍卖', count: auction, color: '#FB8E3C', icon: 'auction',
-				},
-				{
-					name: '土地信息', count: landNum, color: '#1C80E1', icon: 'land',
-				},
-				{
-					name: '无形资产', count: intangibleNum, color: '#FFC531', icon: 'intangible',
-				},
-				{
-					name: '代位权', count: subrogationNum, color: '#948BFF', icon: 'subrogation',
-				},
-				{
-					name: '股权质押', count: stock, color: '#FB5A5C', icon: 'stock',
-				},
-				{
-					name: '动产抵押', count: mortgage, color: '#FB5A5C', icon: 'chattel',
-				},
-				{
-					name: '金融资产', count: financeNum, color: '#FB8E3C', icon: 'finance',
-				},
-				{
-					name: '招投标', count: bidding, color: '#3DBD7D', icon: 'bidding',
-				},
-			];
-			this.setState(() => ({
-				assetArray,
-			}));
-		}
-	};
-
-	getRisk = (res) => {
-		if (res && res.code === 200) {
-			const {
-				abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
-				punishment, tax,
-			} = res.data;
-			const lawsuitNum = this.getTotal([lawsuitCourt, lawsuitJudgement, lawsuitTrial]);
-			const operationNum = this.getTotal([abnormal, change, tax, illegal, punishment, epb]);
-			const riskArray = [
-				{
-					name: '破产重组', count: bankruptcy, color: '#948BFF', icon: 'bankruptcy',
-				},
-				{
-					name: '失信记录', count: dishonest, color: '#FB5A5C', icon: 'broken',
-				},
-				{
-					name: '涉诉信息', count: lawsuitNum, color: '#FB8E3C', icon: 'lawsuit',
-				},
-				{
-					name: '经营风险', count: operationNum, color: '#FB5A5C', icon: 'operation-risk',
-				},
-			];
-			this.setState(() => ({
-				riskArray,
-			}));
-		}
+		}).catch();
 	};
 
 	render() {

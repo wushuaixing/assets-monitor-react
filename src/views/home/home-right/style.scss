@@ -100,13 +100,14 @@
       }
     }
     &-asset {
-      height: 220px;
+      height: 300px;
       width: 574px;
       &-item {
         display: inline-block;
         text-align: center;
         width: 139px;
-        padding-top: 24px;
+        margin-top: 24px;
+        position: relative;
         &:hover {
           cursor: pointer;
           .home-overview-container-content-asset-item-text {
@@ -122,6 +123,24 @@
           line-height: 14px;
           padding-top: 12px;
           color: $text-content;
+        }
+        &-dot{
+          position: absolute;
+          transform: translateX(26%);
+          top: -11px;
+          height: 20px;
+          border-radius: 10px;
+          min-width: 20px;
+          background: #ff3900;
+          border: 1px solid transparent;
+          color: #fff;
+          line-height: 18px;
+          text-align: center;
+          padding: 0 6px;
+          font-size: 12px;
+          white-space: nowrap;
+          z-index: 10;
+          box-shadow: 0 0 0 1px #fff;
         }
       }
     }

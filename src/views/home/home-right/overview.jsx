@@ -26,7 +26,7 @@ class HomeOverview extends React.Component {
 			['default', () => { console.log('未匹配'); }],
 		]);
 		const excavateMap = toNavigate.get(val.icon) || toNavigate.get('default');
-		if (val && val.count !== 0) { excavateMap.call(this); }
+		if (val) { excavateMap.call(this); }
 	};
 
 	isArray = arr => arr && Array.isArray(arr) && arr.length > 0;
@@ -35,8 +35,8 @@ class HomeOverview extends React.Component {
 		const { assetArray, riskArray, loading } = this.props;
 		const isAssetArray = this.isArray(assetArray);
 		const isRiskArray = this.isArray(riskArray);
-		const newAssetArray = assetArray && assetArray.filter(i => i.count !== null);
-		const newRiskArray = riskArray && riskArray.filter(i => i.count !== null);
+		const newAssetArray = assetArray && assetArray.filter(i => i.status);
+		const newRiskArray = riskArray && riskArray.filter(i => i.status);
 
 		return (
 			<div className="home-overview-container">
@@ -64,14 +64,20 @@ class HomeOverview extends React.Component {
 												const { color } = item;
 												return (
 													<div
-														className={`home-overview-container-content-asset-item ${item.count === 0 && 'home-overview-container-default'}`}
+														className="home-overview-container-content-asset-item"
 														onClick={() => this.handleNavigate(item)}
 													>
-														<Icon type={`icon-${item.icon}`} className="home-overview-container-content-asset-item-icon" style={item.count === 0 ? { color: '#B2B8C9' } : { color }} />
+														<Icon type={`icon-${item.icon}`} className="home-overview-container-content-asset-item-icon" style={{ color }} />
 														<div className="home-overview-container-content-asset-item-text">
-															{item.count ? item.name : <span style={{ color: '#B2B8C9' }}>{item.name}</span>}
-															{item.count ? ` (${item.count})` : null}
+															{item.name}
 														</div>
+														{
+															item.count > 0 ? (
+																<span className="home-overview-container-content-asset-item-dot">
+																	{item.count > 99 ? '99+' : item.count}
+																</span>
+															) : null
+														}
 													</div>
 												);
 											})
@@ -79,7 +85,6 @@ class HomeOverview extends React.Component {
 									</div>
 								</div>
 								)}
-
 								{
 									newRiskArray && newRiskArray.length > 0 && (
 										<div>
@@ -93,18 +98,24 @@ class HomeOverview extends React.Component {
 														const { color } = item;
 														return (
 															<div
-																className={`home-overview-container-content-asset-item ${item.count === 0 && 'home-overview-container-default'}`}
+																className="home-overview-container-content-asset-item"
 																onClick={() => this.handleNavigate(item)}
 															>
 																<Icon
 																	type={`icon-${item.icon}`}
 																	className="home-overview-container-content-asset-item-icon"
-																	style={item.count === 0 ? { color: '#B2B8C9' } : { color }}
+																	style={{ color }}
 																/>
 																<div className="home-overview-container-content-asset-item-text">
-																	{item.count ? item.name : <span style={{ color: '#B2B8C9' }}>{item.name}</span>}
-																	{item.count ? `（${item.count}）` : null}
+																	{item.name}
 																</div>
+																{
+																	item.count > 0 ? (
+																		<span className="home-overview-container-content-asset-item-dot">
+																			{item.count > 99 ? '99+' : item.count}
+																		</span>
+																	) : null
+																}
 															</div>
 														);
 													})

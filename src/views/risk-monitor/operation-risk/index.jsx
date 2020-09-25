@@ -3,12 +3,12 @@ import { message, Modal } from 'antd';
 import {
 	Tabs, Button, Spin, Download,
 } from '@/common';
-import TabsIntact from './tabs-intact';
-import Query from './query'; /* Query 查询条件 */
-import Table from './table'; /* Table 展示列表 */
 import { changeURLArg, clearEmpty } from '@/utils';
 import ruleMethods from '@/utils/rule';
 import API from '@/utils/api/risk-monitor/operation-risk';
+import TabsIntact from './tabs-intact';
+import Query from './query'; /* Query 查询条件 */
+import Table from './table'; /* Table 展示列表 */
 
 const toGetConfig = () => {
 	const rule = ruleMethods.toGetRuleSource('', 'YC10', 'YC03');
