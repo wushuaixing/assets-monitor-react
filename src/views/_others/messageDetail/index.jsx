@@ -319,22 +319,22 @@ class MessageDetail extends React.Component {
 						<div className="messageDetail-header">
 							<span className="messageDetail-header-bold">{reportDate}</span>
 							<span className="messageDetail-header-bold">
-							新增监控信息
+								新增监控信息
 								<span className="messageDetail-header-bold-sum">{newMonitorCount}</span>
-							条
+								条
 							</span>
 							(
 							<span className="messageDetail-header-tips">
 								<span>
-							   当前有效：
+									当前有效：
 									<span className="messageDetail-header-tips-num">{effectiveCount}</span>
 									 条
 								</span>
 								<span className="splitLine"> | </span>
 								<span>
-							已失效信息
+									已失效信息
 									<span className="messageDetail-header-tips-num">{invalidCount}</span>
-								条
+									条
 								</span>
 								<Tooltip placement="top" title="已更新的信息或对应债务人已删除的信息（本页不作展示）">
 									<span><Icon type="icon-question" style={{ fontSize: 14, padding: '0 4px' }} /></span>

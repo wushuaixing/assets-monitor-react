@@ -13,6 +13,7 @@ import Financial from './financial-assets'; // 金融资产
 import Mortgage from './chattel-mortgage'; // 动产抵押
 import Intangible from './intangible-assets'; // 无形资产
 import EquityPledge from './equity-pledge'; // 股权质押
+import SeizedUnblock from './seized-unblock'; // 查解封资产
 // import Public from './public-proclamation'; // 公示公告
 // import Attention from '../my-attention'; // 我的关注
 // import VersionUpdateModal from '../_others/layout/versionUpdateModal';
@@ -22,27 +23,29 @@ const noPage = () => <div>暂未开发</div>;
 
 // 获取展示配置
 const toGetRuth = (moduleID) => {
-	const result = toGetRuleSource(global.ruleSource, moduleID);
-	// console.log(result.children);
-	return result.children.map((item) => {
+	const childID = 'YC02';
+	const result = toGetRuleSource(global.ruleSource, moduleID, childID);
+	return result.child.map((item) => {
 		const _item = item;
 		let components = '';
-		if (item.id === `${moduleID}01`) {
+		if (item.id === `${childID}01`) {
 			components = Assets;
-		} else if (item.id === `${moduleID}02`) {
+		} else if (item.id === `${childID}02`) {
 			components = Subrogation;
-		} else if (item.id === `${moduleID}03`) {
+		} else if (item.id === `${childID}03`) {
 			components = LandData;
-		} else if (item.id === `${moduleID}04`) {
+		} else if (item.id === `${childID}04`) {
 			components = Tender;
-		} else if (item.id === `${moduleID}05`) {
+		} else if (item.id === `${childID}05`) {
 			components = Financial;
-		} else if (item.id === `${moduleID}06`) {
+		} else if (item.id === `${childID}06`) {
 			components = Mortgage;
-		} else if (item.id === `${moduleID}07`) {
+		} else if (item.id === `${childID}07`) {
 			components = Intangible;
-		} else if (item.id === `${moduleID}08`) {
+		} else if (item.id === `${childID}08`) {
 			components = EquityPledge;
+		} else if (item.id === `${childID}09`) {
+		  components = SeizedUnblock;
 		} else {
 			components = noPage;
 		}
@@ -56,7 +59,7 @@ const toGetRuth = (moduleID) => {
 class MonitorMain extends React.Component {
 	constructor(props) {
 		super(props);
-		const _source = toGetRuth('YC02');
+		const _source = toGetRuth('YC10');
 		this.state = {
 			source: _source,
 		};

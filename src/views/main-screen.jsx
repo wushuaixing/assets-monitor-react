@@ -3,20 +3,20 @@ import { Router, navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 /* 子路由模块  */
 import Loadable from '@/common/loadable';
-import Home from './home';
 // import Monitor from '@/views/asset-excavate';
 // import Risk from './risk-monitor';
 // import Business from './business';
 // import Company from './company';
 // import Search from './search';
-import Message from './_others/message';
-import ChangePassword from './_others/changPassword';
 import { Spin, Button } from '@/common';
-import { Header, Container, Footer } from './_others/layout';
 import { authRule } from '@/utils/api';
 import { handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
 import MessageDetail from '@/views/_others/messageDetail';
+import { Header, Container, Footer } from './_others/layout';
+import ChangePassword from './_others/changPassword';
+import Message from './_others/message';
+import Home from './home';
 
 // 新的引用方式，分割代码，懒加载
 
@@ -104,7 +104,11 @@ export default class Screen extends React.Component {
 		// console.log('componentWillMount:', document.body.clientHeight);
 		authRule().then((res) => {
 			if (res.code === 200) {
-				const rule = handleRule(res.data.orgPageGroups);
+				// 造的假数据，接口完成就恢复
+				// const rule = handleRule(res.data.orgPageGroups);
+				const rule = handleRule([
+					...res.data.orgPageGroups,
+					{ groupName: 'menu_zcwj', rule: 'zcwjcjfzc', title: '资产挖掘->查解封资产' }]);
 				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 				this.setState({
 					loading: 'hidden',

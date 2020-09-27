@@ -126,14 +126,14 @@
         }
         &-dot{
           position: absolute;
-          transform: translateX(26%);
           top: -11px;
-          height: 20px;
+          height: 18px;
+          left: 75px;
           border-radius: 10px;
           min-width: 20px;
-          background: #ff3900;
-          border: 1px solid transparent;
-          color: #fff;
+          background: #FBE2E2;
+          border: 1px solid #fff;
+          color: #F5222D;
           line-height: 18px;
           text-align: center;
           padding: 0 6px;
@@ -141,6 +141,7 @@
           white-space: nowrap;
           z-index: 10;
           box-shadow: 0 0 0 1px #fff;
+          font-weight: bold;
         }
       }
     }
