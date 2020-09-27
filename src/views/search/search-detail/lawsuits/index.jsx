@@ -60,6 +60,8 @@ class LAWSUITS extends React.Component {
 			court: urlObj.court || undefined,
 			endGmtRegister: urlObj.endLarq || undefined,
 			startGmtRegister: urlObj.startLarq || undefined,
+			startGmtTrial: urlObj.startLarq || undefined,
+			endGmtTrial: urlObj.endLarq || undefined,
 			page: 1,
 			num: pageSize,
 		};

@@ -33,6 +33,12 @@ export const currentOrganization = async (params) => {
 	return response.data;
 };
 
+// 监控概览的未读消息数量
+export const unreadInfoRemind = async () => {
+	const response = await service.get('/yc/index/information/wechat/unreadInfoRemind');
+	return response.data;
+};
+
 // 资产挖掘
 export const homeAssetDig = async (params) => {
 	const response = await service.get('/yc/index/information/overview/assetDig', { params });

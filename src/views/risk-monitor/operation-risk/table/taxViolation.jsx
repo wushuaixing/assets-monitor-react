@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDom, timeStandard } from '@/utils';
+import { timeStandard } from '@/utils';
 import { Violation } from '@/utils/api/risk-monitor/operation-risk';
 import { SelectedNum, Table } from '@/common';
 import { partyInfo } from '@/views/_common';
@@ -37,12 +37,6 @@ const columns = (props) => {
 			dataIndex: 'gmtCreate',
 			width: 90,
 			render: value => timeStandard(value),
-		}, {
-			title: '源链接',
-			dataIndex: 'url',
-			className: 'tAlignCenter_important',
-			width: 75,
-			render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '-'),
 		}, {
 			title: '操作',
 			width: 60,

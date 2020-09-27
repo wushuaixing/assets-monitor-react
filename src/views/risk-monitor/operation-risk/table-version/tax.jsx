@@ -84,7 +84,7 @@ export default class TableIntact extends React.Component {
 					return (
 						<div className="assets-info-content">
 							<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-								<Ellipsis content={toEmpty(ca || value)} tooltip url={row.url} width={600} font={15} auto />
+								<Ellipsis content={toEmpty(ca || value)} tooltip width={600} font={15} auto />
 								{toGetIdentityType(row.identityType) && portrait === 'personal'
 									? <span className="yc-case-reason text-ellipsis">{toGetIdentityType(row.identityType)}</span> : ''}
 								{(portrait === 'debtor_personal' && source.identityTypePartyStr.length)
