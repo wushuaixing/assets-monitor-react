@@ -44,7 +44,7 @@ const columns = (props) => {
 				: (
 					<SortVessel field="ORDER_TIME" onClick={onSortChange} {...sort}>
 						关联案件
-						<span>（判决/查封日期）</span>
+						<span className="yc-title-mark">(判决/查封日期)</span>
 					</SortVessel>
 				)),
 			dataIndex: 'caseNumber',
