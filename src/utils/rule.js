@@ -368,6 +368,12 @@ export default {
 								url: '/monitor/tender',
 								status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
 							},
+							{
+								id: 'YC0209',
+								name: '查/解封资产',
+								url: '/monitor/seizedUnblock',
+								status: toStatus(rule.menu_zcwj, 'zcwjcjfzc'),
+							},
 						],
 					},
 					{

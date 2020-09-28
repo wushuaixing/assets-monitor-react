@@ -31,6 +31,7 @@ export default class MyAttention extends React.Component {
 		const { initConfig } = this.state;
 		const initType = Tabs.Simple.toGetDefaultActive(initConfig, 'init');
 		const config = (toGetRuleSource(global.ruleSource, 'YC10', initType) || {}).child.filter(i => i.status);
+		console.log('componentWillMount config === ', config);
 		const sourceType = Tabs.Simple.toGetDefaultActive(config, 'process');
 		const source = (config.filter(i => i.id === sourceType))[0];
 		const childAry = source.child ? source.child.filter(i => i.status) : '';
@@ -138,7 +139,6 @@ export default class MyAttention extends React.Component {
 		if (nextType !== initType) {
 			const config = (toGetRuleSource(global.ruleSource, 'YC10', nextType) || {}).child.filter(i => i.status);
 			this.setState({ initType: nextType, config });
-			// console.log('_type:change', _type);
 			window.location.href = changeURLArg(window.location.href, 'init', nextType);
 			//	问题遗留：直接href导致每个Router重新渲染
 		}
