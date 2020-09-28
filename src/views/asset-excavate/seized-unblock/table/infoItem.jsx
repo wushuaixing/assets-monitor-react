@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from 'antd';
+import './index.scss';
 
 export default class InfoItem extends React.Component {
 	constructor(props) {

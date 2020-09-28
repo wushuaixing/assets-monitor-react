@@ -370,7 +370,7 @@ export default {
 							},
 							{
 								id: 'YC0209',
-								name: '查（解）封资产',
+								name: '查/解封资产',
 								url: '/monitor/seizedUnblock',
 								status: toStatus(rule.menu_zcwj, 'zcwjcjfzc'),
 							},

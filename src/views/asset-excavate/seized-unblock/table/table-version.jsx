@@ -1,58 +1,69 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Attentions, SortVessel } from '@/common/table';
-import { Table, SelectedNum, Ellipsis } from '@/common';
-import Api from '@/utils/api/monitor-info/public';
-import InforItem from './infoItem';
-// 获取表格配置
-const columns = (props) => {
-	const { normal, onRefresh, noSort } = props;
-	const { onSortChange, sortField, sortOrder } = props;
-	const sort = { sortField, sortOrder };
+import { getDynamicAsset } from 'api/dynamic';
+import { Spin, Table, Ellipsis } from '@/common';
+import { timeStandard } from '@/utils';
 
-	const defaultColumns = [
+export default class TableVersion extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			dataSource: '',
+			current: 1,
+			total: 0,
+			loading: false,
+		};
+	}
+
+	componentWillMount() {
+		// this.toGetData();
+	}
+
+	toGetColumns=() => [
 		{
-			title: '债务人',
-			dataIndex: 'parties',
-			width: 200,
-			render: (text, row = {}) => text.map(i => (
-				<div style={{ position: 'relative' }}>
-					<Ellipsis
-						content={`${i.name};`}
-						tooltip
-						width={160}
-						url={`/#/business/debtor/detail?id=${row.obligorId}`}
-					/>
-				</div>
-			)),
-		}, {
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>关联案件</span>
-				: (
-					<SortVessel field="GMT_PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>
-						关联案件
-						<span>（发布/查封日期）</span>
-					</SortVessel>
-				)),
+			title: '拍卖信息',
 			dataIndex: 'caseNumber',
-			width: 250,
-			render: (text, row) => (
+			render: (value, row) => (
 				<div className="assets-info-content">
-					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>案号</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content"><Ellipsis content={text || '-'} tooltip width={200} /></span>
+					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
+						{
+							row.parties.map((i, index) => (
+								<div style={{ display: 'inline-block' }}>
+									<Ellipsis
+										content={`${index === row.parties.length - 1 ? `${i.name}` : `${i.name}、`}`}
+										tooltip
+										width={380}
+										font={14}
+										url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+									/>
+								</div>
+							))
+						}
 					</li>
 					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>执行法院</span>
+						<span className="list list-title align-justify">关联案号</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content"><Ellipsis content={row.court || '-'} tooltip width={200} /></span>
+						<span className="list list-content">{value}</span>
+						<span className="list-split" style={{ height: 16 }} />
+						<span className="list list-title align-justify">执行法院</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.court}</span>
 					</li>
+				</div>
+			),
+		}, {
+			title: '关联信息',
+			width: 270,
+			dataIndex: 'caseNumber',
+			render: (value, row) => (
+				<div className="assets-info-content">
+					<li style={{ height: 24 }} />
 					{
-						row.type === 1 ? 	(
+						row.type === 1 ? (
 							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
+								<span className="list list-title align-justify">判决日期</span>
 								<span className="list list-title-colon">:</span>
-								<span className="list list-content"><Ellipsis content={row.publishTime || '-'} tooltip width={200} /></span>
+								<span className="list list-content">{timeStandard(row.publishTime)}</span>
 							</li>
 						) : null
 					}
@@ -60,120 +71,90 @@ const columns = (props) => {
 						row.type === 2 ? (
 							<React.Fragment>
 								<li>
-									<span className="list list-title align-justify" style={{ width: 50 }}>查封日期</span>
+									<span className="list list-title align-justify">查封日期</span>
 									<span className="list list-title-colon">:</span>
-									<span className="list list-content"><Ellipsis content={row.sealUpTime || '-'} tooltip width={200} /></span>
+									<span className="list list-content">{timeStandard(row.sealUpTime)}</span>
 								</li>
 								<li>
-									<span className="list list-title align-justify" style={{ width: 50 }}>解封日期</span>
+									<span className="list list-title align-justify">解封日期</span>
 									<span className="list list-title-colon">:</span>
-									<span className="list list-content"><Ellipsis content={row.unsealingTime || '-'} tooltip width={200} /></span>
+									<span className="list list-content">{timeStandard(row.unsealingTime)}</span>
 								</li>
 							</React.Fragment>
 						) : null
 					}
 				</div>
 			),
-		}, {
-			title: '资产信息',
-			dataIndex: 'information',
-			width: 350,
-			render: (text, row) => <InforItem content={text} row={row} />,
-		}, {
-			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'updateTime',
-			width: 90,
-		}, {
-			title: '操作',
-			width: 55,
-			unNormal: true,
-			className: 'tAlignCenter_important',
-			render: (text, row, index) => (
-				<Attentions
-					text={text}
-					row={row}
-					onClick={onRefresh}
-					api={row.isAttention ? Api.unFollow : Api.follow}
-					index={index}
-				/>
-			),
-		}];
-	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
-};
+		},
+	];
 
-export default class TableView extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			selectedRowKeys: [],
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		const { manage } = this.props;
-		if ((manage === false && nextProps.manage) || !(nextProps.selectRow || []).length) {
-			this.setState({ selectedRowKeys: [] });
-		}
-	}
-
-	// 行点击操作
-	toRowClick = (record, index) => {
-		const { id, isRead } = record;
-		const { onRefresh, manage } = this.props;
-		if (!isRead && !manage) {
-			Api.readStatusResult({ id }).then((res) => {
-				if (res.code === 200) {
-					onRefresh({ id, isRead: !isRead, index }, 'isRead');
-				}
-			});
-		}
+	// 当前页数变化
+	onPageChange = (val) => {
+		this.toGetData(val);
 	};
 
-	// 选择框
-	onSelectChange=(selectedRowKeys) => {
-		// const _selectedRowKeys = record.map(item => item.id);
-		const { onSelect } = this.props;
-		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(selectedRowKeys);
+	// 查询数据methods
+	toGetData = (page) => {
+		const { portrait, condition } = this.props;
+		const { api, params } = getDynamicAsset(portrait, condition || {
+			b: 10701,
+		});
+		this.setState({ loading: true });
+		api.list({
+			page: page || 1,
+			num: 5,
+			...params,
+		})
+			.then((res) => {
+				if (res.code === 200) {
+					this.setState({
+						dataSource: res.data.list,
+						current: res.data.page,
+						total: res.data.total,
+						loading: false,
+					});
+				} else {
+					this.setState({
+						dataSource: '',
+						current: 1,
+						total: 0,
+						loading: false,
+					});
+				}
+			})
+			.catch(() => {
+				this.setState({ loading: false });
+			});
 	};
 
 	render() {
-		const {
-			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
-		} = this.props;
-		const { selectedRowKeys } = this.state;
-		const rowSelection = manage ? {
-			rowSelection: {
-				selectedRowKeys,
-				onChange: this.onSelectChange,
-			},
-		} : null;
+		const { dataSource, current, total } = this.state;
+		const { loading } = this.state;
+		const { loadingHeight } = this.props;
 		return (
-			<React.Fragment>
-				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
-				<Table
-					{...rowSelection}
-					columns={columns(this.props)}
-					dataSource={dataSource}
-					pagination={false}
-					rowKey={record => record.id}
-					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
-					onRowClick={this.toRowClick}
-				/>
-				{dataSource && dataSource.length > 0 && isShowPagination && (
-					<div className="yc-table-pagination">
-						<Pagination
-							showQuickJumper
-							pageSize={pageSize || 10}
-							current={current || 1}
-							total={total || 0}
-							onChange={onPageChange}
-							showTotal={totalCount => `共 ${totalCount} 条信息`}
-						/>
-					</div>
-				)}
-			</React.Fragment>
+			<div className="yc-assets-auction ">
+				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
+					<Table
+						rowClassName={() => 'yc-assets-auction-table-row'}
+						columns={this.toGetColumns()}
+						dataSource={dataSource}
+						showHeader={false}
+						pagination={false}
+					/>
+					{dataSource && dataSource.length > 0 && (
+						<div className="yc-table-pagination">
+							<Pagination
+								showQuickJumper
+								current={current || 1}
+								total={total || 0}
+								pageSize={5}
+								onChange={this.onPageChange}
+								showTotal={totalCount => `共 ${totalCount} 条信息`}
+							/>
+						</div>
+					)}
+				</Spin>
+			</div>
 		);
 	}
 }

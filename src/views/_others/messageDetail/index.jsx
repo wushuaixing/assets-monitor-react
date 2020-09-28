@@ -20,6 +20,7 @@ import LitigationMonitoring from './component/litigationMonitoring/index';
 import Bankrupt from './component/bankrupt/index';
 import Dishonesty from './component/dishonesty/index';
 import BusinessRisk from './component/businessRisk/index';
+// import UnBlock from './component/unblock/index';
 
 
 const createForm = Form.create;
@@ -186,6 +187,22 @@ const subItems = (rule, data) => ([
 			{ name: '环保处罚', count: data ? getCount(data, 11202) : 0, dataType: 11202 },
 		],
 	},
+	// {
+	// 	dataType: 113,
+	// 	name: '查解封资产',
+	// 	total: data ? getCount(data, 113) : 0,
+	// 	status: isRule('zcwjcjfzc', 1, rule),
+	// 	tagName: 'message-unBlock',
+	// 	component: UnBlock,
+	// },
+	// {
+	// 	dataType: 114,
+	// 	name: '限制高消费',
+	// 	total: data ? getCount(data, 114) : 0,
+	// 	status: isRule('jkxxsxjl', 2, rule),
+	// 	tagName: 'message-dishonesty',
+	// 	component: Dishonesty,
+	// },
 ]);
 
 class MessageDetail extends React.Component {
@@ -265,6 +282,7 @@ class MessageDetail extends React.Component {
 	queryAllCount = () => {
 		const { obligorId, stationId } = this.state;
 		const { rule } = this.props;
+		console.log('message rule ===', rule);
 		const params = {
 			obligorId,
 			stationId,
@@ -272,8 +290,8 @@ class MessageDetail extends React.Component {
 		dataCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
-					// config: subItems(rule, allData).filter(item => item.status && item.total > 0),
+					config: subItems(rule, [...res.data.categoryCount, { dataCount: 2, dataType: 11301, typeName: '查解封资产' }]).filter(item => item.status && item.total > 0),
+					// config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
 				});
 			}
 		}).catch((err) => {

@@ -12,6 +12,7 @@ import Bankruptcy from '../../risk-monitor/bankruptcy/table-intact';
 import BrokenRecord from '../../risk-monitor/broken-record/table-intact';
 import IntangibleAssets from '../../asset-excavate/intangible-assets/table-intact';
 import Pledge from '../../asset-excavate/equity-pledge/table-intact';
+import UnBlock from '../../asset-excavate/seized-unblock/table/table-intact';
 
 const TableItem	= (props) => {
 	const { source, childType, sourceType } = props;
@@ -37,6 +38,7 @@ const TableItem	= (props) => {
 					YC020703: <IntangibleAssets sourceType="YC020703" />,
 					YC020704: <IntangibleAssets sourceType="YC020704" />,
 					YC0208: <Pledge />,
+					YC0209: <UnBlock />,
 					YC030101: <Lawsuit sourceType={1} />,
 					YC030102: <Lawsuit sourceType={2} />,
 					YC030103: <Lawsuit sourceType={3} />,

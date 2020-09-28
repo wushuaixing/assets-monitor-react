@@ -13,29 +13,42 @@ const columns = (props) => {
 
 	const defaultColumns = [
 		{
-			title: '债务人',
+			title: <span style={{ paddingLeft: 10 }}>查/解封对象</span>,
 			dataIndex: 'parties',
-			width: 200,
-			render: (text, row = {}) => text.map(i => (
-				<div style={{ position: 'relative' }}>
-					<Ellipsis
-						content={`${i.name};`}
-						tooltip
-						width={160}
-						url={`/#/business/debtor/detail?id=${row.obligorId}`}
-					/>
+			width: 260,
+			render: (text, row = {}) => (
+				<div>
+					{ !row.isRead
+						? (
+							<span
+								className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'}
+								style={!row.isRead && row.isRead !== undefined ? { position: 'absolute', top: '42%' } : {}}
+							/>
+						) : null}
+					{
+					text.map(i => (
+						<div style={{ position: 'relative', paddingLeft: 10 }}>
+							<Ellipsis
+								content={`${i.name};`}
+								tooltip
+								width={240}
+								url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+							/>
+						</div>
+					))
+				}
 				</div>
-			)),
+			),
 		}, {
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>关联案件</span>
+			title: (noSort ? <span>关联案件</span>
 				: (
-					<SortVessel field="GMT_PUBLISH_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>
+					<SortVessel field="ORDER_TIME" onClick={onSortChange} {...sort}>
 						关联案件
-						<span>（发布/查封日期）</span>
+						<span>（判决/查封日期）</span>
 					</SortVessel>
 				)),
 			dataIndex: 'caseNumber',
-			width: 250,
+			width: 263,
 			render: (text, row) => (
 				<div className="assets-info-content">
 					<li>
@@ -78,13 +91,13 @@ const columns = (props) => {
 		}, {
 			title: '资产信息',
 			dataIndex: 'information',
-			width: 350,
+			width: 328,
 			render: (text, row) => <InforItem content={text} row={row} />,
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'updateTime',
-			width: 90,
+			width: 110,
 		}, {
 			title: '操作',
 			width: 55,
