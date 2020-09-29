@@ -104,11 +104,12 @@ export default class Screen extends React.Component {
 		// console.log('componentWillMount:', document.body.clientHeight);
 		authRule().then((res) => {
 			if (res.code === 200) {
-				// 造的假数据，接口完成就恢复
+				// 造的假权限，接口完成就恢复
 				// const rule = handleRule(res.data.orgPageGroups);
 				const rule = handleRule([
 					...res.data.orgPageGroups,
-					{ groupName: 'menu_zcwj', rule: 'zcwjcjfzc', title: '资产挖掘->查解封资产' }]);
+					{ groupName: 'menu_zcwj', rule: 'zcwjcjfzc', title: '资产挖掘->查解封资产' },
+					{ groupName: 'menu_fxjk', rule: 'jkxxxzgxf', title: '资产挖掘->限制高消费' }]);
 				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 				this.setState({
 					loading: 'hidden',

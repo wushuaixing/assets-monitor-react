@@ -193,3 +193,8 @@ export const importantListLawsuitJudgment = async (params) => {
 	const response = await service.get('/yc/monitor/judgment/lawsuit/importantList', { params });
 	return Object.assign(response.data, { name: 'LawsuitJudgment' });
 };
+// 限制高消费
+export const importantListLimitHeight = async (params) => {
+	const response = await service.get('/yc/monitor/limitHeight/importantList', { params });
+	return Object.assign(response.data, { name: 'limitHeight' });
+};

@@ -1,0 +1,175 @@
+import React from 'react';
+import { Pagination } from 'antd';
+import { Attentions, ReadStatus, SortVessel } from '@/common/table';
+import Api from 'api/monitor-info/seizedUnbock';
+import { Table, SelectedNum, Ellipsis } from '@/common';
+import { timeStandard } from '@/utils';
+import './index.scss';
+
+// 获取表格配置
+const columns = (props) => {
+	const { normal, onRefresh, noSort } = props;
+	const { onSortChange, sortField, sortOrder } = props;
+	const sort = { sortField, sortOrder };
+
+	const defaultColumns = [
+		{
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>立案日期</span>
+				: <SortVessel field="SIGNED_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
+			dataIndex: 'registerDate',
+			width: 120,
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+		}, {
+			title: '姓名',
+			dataIndex: 'parties',
+			render: text => (
+				text.map(i => (
+					<Ellipsis
+						content={`${i.role === 1 ? `${i.obligorName}(${i.obligorNumber})` : `${i.name}`}`}
+						tooltip
+						width={180}
+						url={`${i.obligorId !== 0 && i.role === 1 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+					/>
+				))
+			),
+		},
+		{
+			title: '企业',
+			dataIndex: 'parties',
+			render: text => (
+				text.map(i => (
+					<Ellipsis
+						content={`${i.role === 1 ? '-' : `${i.obligorName}`}`}
+						tooltip
+						width={180}
+						url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+					/>
+				))
+			),
+		}, {
+			title: '案号',
+			dataIndex: 'caseNumber',
+			width: 190,
+			render: text => <span>{text}</span>,
+		}, {
+			title: '移除状况',
+			dataIndex: 'status',
+			width: 102,
+			render: text => (
+				<span>
+					<span className="status-dot" style={{ backgroundColor: text === 1 ? '#3DBD7D' : '#FB5A5C' }} />
+					<span className="status-text">{text === 1 ? '已移除' : '未移除'}</span>
+				</span>
+			),
+		},
+		{
+			title: '源链接',
+			dataIndex: 'url',
+			width: 90,
+			render: text => (
+				<Ellipsis
+					content={`${text ? '查看' : '-'}`}
+					tooltip
+					width={240}
+					url={text}
+				/>
+			),
+		}, {
+			title: (noSort ? global.Table_CreateTime_Text
+				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'gmtModified',
+			width: 120,
+		}, {
+			title: '操作',
+			width: 55,
+			unNormal: true,
+			className: 'tAlignCenter_important',
+			render: (text, row, index) => (
+				<Attentions
+					text={text}
+					row={row}
+					onClick={onRefresh}
+					api={row.isAttention ? Api.unFollow : Api.follow}
+					index={index}
+				/>
+			),
+		}];
+	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
+};
+
+export default class TableView extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			selectedRowKeys: [],
+		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { manage } = this.props;
+		if ((manage === false && nextProps.manage) || !(nextProps.selectRow || []).length) {
+			this.setState({ selectedRowKeys: [] });
+		}
+	}
+
+	// 行点击操作
+	toRowClick = (record, index) => {
+		const { id, isRead } = record;
+		const { onRefresh, manage } = this.props;
+		if (!isRead && !manage) {
+			Api.read({ idList: [id] }).then((res) => {
+				if (res.code === 200) {
+					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				}
+			});
+		}
+	};
+
+	// 选择框
+	onSelectChange=(selectedRowKeys, record) => {
+		const _selectedRowKeys = record.map(item => item.id);
+		console.log(_selectedRowKeys);
+		const { onSelect } = this.props;
+		this.setState({ selectedRowKeys });
+		if (onSelect)onSelect(selectedRowKeys);
+	};
+
+	render() {
+		const {
+			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
+		} = this.props;
+		const { selectedRowKeys } = this.state;
+		const rowSelection = manage ? {
+			rowSelection: {
+				selectedRowKeys,
+				onChange: this.onSelectChange,
+			},
+		} : null;
+		return (
+			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
+				<Table
+					{...rowSelection}
+					columns={columns(this.props)}
+					rowKey={record => record.id}
+					dataSource={dataSource}
+					pagination={false}
+					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
+					onRowClick={this.toRowClick}
+				/>
+				{dataSource && dataSource.length > 0 && isShowPagination && (
+				<div className="yc-table-pagination">
+					<Pagination
+						showQuickJumper
+						pageSize={pageSize || 10}
+						current={current || 1}
+						total={total || 0}
+						onChange={onPageChange}
+						showTotal={totalCount => `共 ${totalCount} 条信息`}
+					/>
+				</div>
+				)}
+			</React.Fragment>
+		);
+	}
+}

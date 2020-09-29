@@ -55,7 +55,6 @@ class dynamicUpdate extends PureComponent {
 
 	componentDidMount() {
 		const { AssetImportantReminderList } = this.props;
-		console.log('AssetImportantReminderList === ', AssetImportantReminderList);
 		const hasUnRead = AssetImportantReminderList && AssetImportantReminderList.filter(i => i.isRead === false).length;
 		this.getUnReadNum(hasUnRead);
 	}
@@ -275,7 +274,6 @@ class dynamicUpdate extends PureComponent {
 			assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear, clearNum);
 			riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear, clearNum);
 		}
-		console.log('assetArr update === ', assetArr);
 		return (
 			<div className="seven-update-container">
 				<DynamicTab {...params} />

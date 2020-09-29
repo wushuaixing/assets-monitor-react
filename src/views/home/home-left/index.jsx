@@ -4,7 +4,7 @@ import {
 	importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage, importantListPledge, importantListSubrogationCourt,
 	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
 	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
-	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal,
+	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight,
 } from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -116,10 +116,10 @@ class HomeDynamic extends PureComponent {
 					count: intangibleNum, type: 3, typeName: '无形资产', name: '无形资产', value: 8,
 				},
 				{
-					count: 20, type: 3, typeName: '查/解封资产', name: '解封资产', value: 9,
+					count: 20, type: 3, typeName: '查解封资产', name: '查解封资产', value: 9,
 				},
 			];
-			console.log('assetDataArray === ', assetDataArray);
+			// console.log('assetDataArray === ', assetDataArray);
 			const assetPropsData = {
 				totalNum,
 				assetDataArray,
@@ -194,12 +194,12 @@ class HomeDynamic extends PureComponent {
 					}
 				});
 			}
-			console.log('AssetImportantReminderList === ', AssetImportantReminderList);
+			// console.log('AssetImportantReminderList === ', AssetImportantReminderList);
 			this.setState(() => ({
 				AssetImportantReminderList: [
 					...AssetImportantReminderList,
 					{
-						obligorName: '重庆有线公司',
+						obligorName: '测试资产_重庆有线公司',
 						description: '匹配到1条发布日期为2020.12.11的查/解封资产信息',
 						timestamp: '1601125416',
 						detailType: 1101,
@@ -237,7 +237,8 @@ class HomeDynamic extends PureComponent {
 							},
 						],
 						id: 9032,
-					}],
+					},
+				],
 				AssetImportantReminderObligorIdList,
 			}));
 			// console.log(AssetImportantReminderList, AssetImportantReminderObligorIdList);
@@ -252,12 +253,11 @@ class HomeDynamic extends PureComponent {
 		if (res && res.code === 200) {
 			const {
 				abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
-				punishment, tax,
+				punishment, tax, limitHeight,
 			} = res.data;
 			const lawsuitNum = this.getTotal([lawsuitCourt, lawsuitJudgement, lawsuitTrial]);
 			const operationNum = this.getTotal([abnormal, change, tax, illegal, punishment, epb]);
-			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
-				punishment, tax]);
+			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, punishment, tax, 50]);
 			const riskDataArray = [
 				{
 					count: bankruptcy, type: 7, typeName: '破产重组', name: '破产重组', value: 2,
@@ -270,6 +270,9 @@ class HomeDynamic extends PureComponent {
 				},
 				{
 					count: operationNum, type: 10, typeName: '经营风险', name: '经营风险', value: 2,
+				},
+				{
+					count: 50, type: 10, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 			];
 			const riskPropsData = {
@@ -305,10 +308,10 @@ class HomeDynamic extends PureComponent {
 			{ count: change, Api: importantListRiskChange },
 			{ count: epb, Api: importantListRiskEpb },
 			{ count: dishonest, Api: importantListRiskDishonest },
-
 			{ count: lawsuitTrial, Api: importantListLawsuitTrial },
 			{ count: lawsuitCourt, Api: importantListLawsuitCourt },
 			{ count: lawsuitJudgement, Api: importantListLawsuitJudgment },
+			{ count: 50, Api: importantListLimitHeight },
 		];
 		const RiskImportantReminderArray = [];
 		apiArray.filter(i => i.count).forEach((item) => {
@@ -335,7 +338,48 @@ class HomeDynamic extends PureComponent {
 				});
 			}
 			this.setState(() => ({
-				RiskImportantReminderList,
+				RiskImportantReminderList: [
+					...RiskImportantReminderList,
+					{
+						obligorName: 'risk_test_限制高消费重庆有线公司',
+						description: '匹配到1条发布日期为2020.12.11的查/解封资产信息',
+						timestamp: '1601125416',
+						detailType: 1201,
+						mainObligor: true,
+						detailList: [
+							{
+								url: 'www.baidu.com',
+								caseNumber: '(2020)沪0117执2263号',
+								registerDate: '2020-10-01',
+								gmtModified: '2020-10-22',
+								status: 0,
+								isRead: false,
+								isAttention: 1,
+								parties: [
+									{
+										name: '易烊千玺', obligorId: 56263, role: 1, obligorName: '易烊千玺', obligorNumber: '340603654235455',
+									},
+								],
+							},
+							{
+								url: 'www.baidu.com',
+								caseNumber: '(2020)沪0117执2263号',
+								registerDate: '2020-10-01',
+								gmtModified: '2020-10-22',
+								status: 0,
+								isRead: false,
+								isAttention: 1,
+								parties: [
+									{
+										name: '易烊千玺', obligorId: 56263, role: 2, obligorName: '风险参考的数据杭州建设经济有限公司',
+									},
+								],
+							},
+						],
+						id: 9032,
+						isRead: false,
+					},
+				],
 				RiskImportantReminderObligorIdList,
 			}));
 		}).catch((reason) => {
@@ -370,7 +414,6 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderList,
 			RiskImportantReminderObligorIdList,
 		};
-		console.log('assetPropsData === ', assetPropsData);
 		return (
 			<div className="dynamic-container">
 				<div className="dynamic-container-header">

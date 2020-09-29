@@ -11,7 +11,8 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 		itemWidth: 6, // 图例大小  我这里用的是圆
 		itemGap: 16, // 图例之间的间隔
 		orient: 'horizontal', // 布局方式，默认水平布局，另可选vertical
-		x: '150px',
+		right: 4,
+		// x: '150px',
 		// 垂直对齐方式，可设置为'top','center','bottom',number(px)
 		y: 'center',
 		// y: '80%', // 垂直放的位置，可以写top，center，bottom，也可以写px或者百分比。x轴方向同理，默认center
@@ -25,16 +26,19 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 				}
 			}
 			let arr = [];
-			if (newRingArray.length === 4) {
-				arr = [
-					`{c|${name}} {d|${number}} {f|条}`,
-				];
-			} else {
-				arr = [
-					`{a|${name}} {b|${number}} {f|条}`,
-				];
-			}
+			arr = [
+				`{c|${name}} {d|${number}} {f|条}`,
+			];
 
+			// if (newRingArray.length === 4) {
+			// 	arr = [
+			// 		`{c|${name}} {d|${number}} {f|条}`,
+			// 	];
+			// } else {
+			// 	arr = [
+			// 		`{a|${name}} {b|${number}} {f|条}`,
+			// 	];
+			// }
 			return arr.join('\n');
 		},
 		textStyle: {
@@ -43,28 +47,28 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					width: 40,
 					fontSize: 12,
 					color: '#4E5566',
-					padding: [0, 0, 0, 6],
+					padding: [0, 0, 0, 4],
 				},
 				b: {
 					width: 45,
 					fontSize: 12,
 					color: '#20242E',
 					fontWeight: 700,
-					// padding: [0, 0, 0, 0],
+					padding: [0, 0, 0, 10],
 					align: 'center',
 				},
 				c: {
 					width: 40,
 					fontSize: 12,
 					color: '#4E5566',
-					padding: [0, 0, 0, 6],
+					padding: [0, 0, 0, 4],
 				},
 				d: {
 					width: 45,
 					fontSize: 12,
 					color: '#20242E',
 					fontWeight: 700,
-					padding: [0, 0, 0, 12],
+					padding: [0, 0, 0, 10],
 					align: 'center',
 				},
 				f: {
@@ -215,6 +219,11 @@ class RingEcharts extends PureComponent {
 			}
 		});
 
+		console.log('newRingArray === ', newRingArray);
+		/*
+		* title: 资产挖掘 || 风险监控
+		* newRingArray 有数据的数组
+		*/
 		const option = isIe ? getIeOption(Data, id, title, newRingArray, customColorArray) : getOption(Data, id, title, newRingArray, customColorArray);
 
 		myChart.setOption(option);

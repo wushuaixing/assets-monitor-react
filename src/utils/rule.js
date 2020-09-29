@@ -422,6 +422,12 @@ export default {
 									{ id: 'YC030306', name: '环保处罚', status: toStatus(rule.menu_fxjk, 'jyfxhbcf') },
 								],
 							},
+							{
+								id: 'YC0305',
+								name: '限制高消费',
+								url: '/risk/limitHight',
+								status: toStatus(rule.menu_fxjk, 'jkxxxzgxf'),
+							},
 						],
 					},
 				],

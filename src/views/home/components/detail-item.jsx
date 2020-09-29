@@ -41,7 +41,8 @@ import PunishmentModal from './dynamic-modal/punishment-modal';
 import LawsuitTrialModal from './dynamic-modal/lawsuit-trial-modal';
 import LawsuitCourtModal from './dynamic-modal/lawsuit-court-modal';
 import LawsuitJudgmentModal from './dynamic-modal/lawsuit-judgment-modal';
-import UnBlockModal from './dynamic-modal/unBlock-modal';
+import UnblockModal from './dynamic-modal/unblock-modal';
+import LimitHeightModal from './dynamic-modal/limit-height-modal';
 import './style.scss';
 
 let scrollInterval = '';
@@ -71,6 +72,7 @@ const tag = (value) => {
 	case 1003: return '税收违法';
 	case 1004: return '行政处罚';
 	case 1101: return '查/解封资产';
+	case 1201: return '限制高消费';
 	default: return '-';
 	}
 };
@@ -100,6 +102,8 @@ const icon = (value) => {
 	case 1002: return 'illegal';
 	case 1003: return 'tax';
 	case 1004: return 'punishment';
+	case 1101: return 'unlock';
+	case 1201: return 'limit';
 	default: return '-';
 	}
 };
@@ -131,6 +135,7 @@ class DetailItem extends PureComponent {
 			lawsuitCourtModalVisible: false,
 			lawsuitJudgmentModalVisible: false,
 			unBlockModalVisible: false,
+			limitHeightModalVisible: false,
 			data: props.data || [],
 			dataSource: [],
 			animate: false,
@@ -303,6 +308,10 @@ class DetailItem extends PureComponent {
 				this.isReadList(item, index, Punishment.read);
 				this.setState(() => ({ unBlockModalVisible: true, dataSource: item.detailList }));
 			}],
+			[1201, () => {
+				this.isReadList(item, index, Punishment.read);
+				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
+			}],
 			['default', ['资产拍卖', 1]],
 		]);
 		const openModalMapType = openModalMap.get(item.detailType) || openModalMap.get('default');
@@ -329,7 +338,6 @@ class DetailItem extends PureComponent {
 			subrogationTrialModalVisible: false,
 			subrogationJudgmentModalVisible: false,
 			subrogationCourtModalVisible: false,
-			unBlockModalVisible: false,
 			bankruptcyModalVisible: false,
 			brokenModalVisible: false,
 			abnormalModalVisible: false,
@@ -339,6 +347,8 @@ class DetailItem extends PureComponent {
 			lawsuitTrialModalVisible: false,
 			lawsuitCourtModalVisible: false,
 			lawsuitJudgmentModalVisible: false,
+			unBlockModalVisible: false,
+			limitHeightModalVisible: false,
 		});
 	};
 
@@ -400,12 +410,10 @@ class DetailItem extends PureComponent {
 			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible,
 			miningModalVisible, trademarkModalVisible, constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
-			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, unBlockModalVisible, lawsuitJudgmentModalVisible, listMarginTop, openMessage,
+			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, unBlockModalVisible, lawsuitJudgmentModalVisible, listMarginTop, openMessage, limitHeightModalVisible,
 		} = this.state;
-		console.log('data ===', data);
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		const isData = Array.isArray(data) && data.length > 0;
-
 		return (
 			<div
 				className="detail-container"
@@ -706,11 +714,21 @@ class DetailItem extends PureComponent {
 
 				{/** 查解封资产Modal */}
 				{unBlockModalVisible && (
-					<UnBlockModal
+					<UnblockModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
 						dataSource={dataSource}
 						unBlockModalVisible={unBlockModalVisible}
+					/>
+				)}
+
+				{/** 限制高消费Modal */}
+				{limitHeightModalVisible && (
+					<LimitHeightModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						limitHeightModalVisible={limitHeightModalVisible}
 					/>
 				)}
 			</div>

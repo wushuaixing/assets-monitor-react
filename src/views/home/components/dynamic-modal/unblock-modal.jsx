@@ -6,7 +6,7 @@ import InforItem from '@/views/asset-excavate/seized-unblock/table/infoItem';
 import Api from 'api/monitor-info/seizedUnbock';
 import RegisterModal from '../../../risk-monitor/bankruptcy/registerModal';
 
-export default class UnBlockModal extends React.PureComponent {
+export default class UnblockModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -30,10 +30,6 @@ export default class UnBlockModal extends React.PureComponent {
 						</div>
 					)),
 				}, {
-					title: <span>
-						关联案件
-						<span className="yc-title-mark">(判决/查封日期)</span>
-            </span>,
 					dataIndex: 'caseNumber',
 					width: 263,
 					render: (text, row) => (
