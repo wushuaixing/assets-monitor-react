@@ -4,10 +4,11 @@ import { Attentions, ReadStatus, SortVessel } from '@/common/table';
 import Api from 'api/monitor-info/seizedUnbock';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { timeStandard } from '@/utils';
+import ViewContentModal from './view-content-modal';
 import './index.scss';
 
 // 获取表格配置
-const columns = (props) => {
+const columns = (props, toViewContent) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = { sortField, sortOrder };
@@ -42,7 +43,7 @@ const columns = (props) => {
 						content={`${i.role === 1 ? '-' : `${i.obligorName}`}`}
 						tooltip
 						width={180}
-						url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+						url={`${i.obligorId !== 0 && i.role !== 1 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
 					/>
 				))
 			),
@@ -66,13 +67,8 @@ const columns = (props) => {
 			title: '源链接',
 			dataIndex: 'url',
 			width: 90,
-			render: text => (
-				<Ellipsis
-					content={`${text ? '查看' : '-'}`}
-					tooltip
-					width={240}
-					url={text}
-				/>
+			render: (text, row) => (
+				<a onClick={() => toViewContent([row.content, row.url])}>{`${text ? '查看' : '-'}`}</a>
 			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
@@ -102,6 +98,8 @@ export default class TableView extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
+			visible: false,
+			viewContent: '',
 		};
 	}
 
@@ -126,7 +124,7 @@ export default class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
+	onSelectChange = (selectedRowKeys, record) => {
 		const _selectedRowKeys = record.map(item => item.id);
 		console.log(_selectedRowKeys);
 		const { onSelect } = this.props;
@@ -134,11 +132,22 @@ export default class TableView extends React.Component {
 		if (onSelect)onSelect(selectedRowKeys);
 	};
 
+	// 点击查看限高内容
+	toViewContent = ([viewContent = '', url]) => {
+		console.log('viewContent === ', viewContent);
+		if (url) {
+			this.setState({
+				visible: true,
+				viewContent,
+			});
+		}
+	};
+
 	render() {
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;
-		const { selectedRowKeys } = this.state;
+		const { selectedRowKeys, visible, viewContent } = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,
@@ -150,7 +159,7 @@ export default class TableView extends React.Component {
 				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
-					columns={columns(this.props)}
+					columns={columns(this.props, this.toViewContent)}
 					rowKey={record => record.id}
 					dataSource={dataSource}
 					pagination={false}
@@ -169,6 +178,18 @@ export default class TableView extends React.Component {
 					/>
 				</div>
 				)}
+				{
+					visible ? (
+						<ViewContentModal
+							visible={visible}
+							data={viewContent}
+							onCancel={() => this.setState({ visible: false })}
+							onOk={() => this.setState({ visible: false })}
+							// onRefresh={onRefresh}
+						/>
+					)
+						: null
+				}
 			</React.Fragment>
 		);
 	}
