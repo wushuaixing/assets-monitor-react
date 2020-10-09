@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { Attentions, ReadStatus, SortVessel } from '@/common/table';
-import Api from 'api/monitor-info/seizedUnbock';
+import Api from 'api/monitor-info/limit-consumption';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { timeStandard } from '@/utils';
 import ViewContentModal from './view-content-modal';
@@ -23,30 +23,36 @@ const columns = (props, toViewContent) => {
 		}, {
 			title: '姓名',
 			dataIndex: 'parties',
-			render: text => (
-				text.map(i => (
-					<Ellipsis
-						content={`${i.role === 1 ? `${i.obligorName}(${i.obligorNumber})` : `${i.name}`}`}
-						tooltip
-						width={180}
-						url={`${i.obligorId !== 0 && i.role === 1 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-					/>
-				))
-			),
+			render: (text, row) => {
+				const personArr = row.parties.filter(item => item.role === 1);
+				if (personArr.length === 0) { return '-'; }
+				return personArr.map(i => (
+					<div>
+						<Ellipsis
+							content={`${i.obligorId > 0 ? `${i.name}(${i.obligorNumber})` : `${i.name}`}`}
+							tooltip
+							width={180}
+							url={`${i.obligorId > 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+						/>
+					</div>
+				));
+			},
 		},
 		{
 			title: '企业',
 			dataIndex: 'parties',
-			render: text => (
-				text.map(i => (
+			render: (text, row) => {
+				const compArr = row.parties.filter(item => item.role === 2);
+				if (compArr.length === 0) { return '-'; }
+				return compArr.map(i => (
 					<Ellipsis
-						content={`${i.role === 1 ? '-' : `${i.obligorName}`}`}
+						content={`${i.name}`}
 						tooltip
 						width={180}
-						url={`${i.obligorId !== 0 && i.role !== 1 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+						url={`${i.obligorId > 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
 					/>
-				))
-			),
+				));
+			},
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
@@ -181,11 +187,11 @@ export default class TableView extends React.Component {
 				{
 					visible ? (
 						<ViewContentModal
+							className="view-content-modal"
 							visible={visible}
 							data={viewContent}
 							onCancel={() => this.setState({ visible: false })}
 							onOk={() => this.setState({ visible: false })}
-							// onRefresh={onRefresh}
 						/>
 					)
 						: null

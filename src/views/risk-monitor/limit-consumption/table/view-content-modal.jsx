@@ -18,9 +18,10 @@ export default class ViewContentModal extends React.PureComponent {
 
 	render() {
 		const { loading } = this.state;
-		const { visible, data } = this.props;
+		const { visible, data, className } = this.props;
 		return (
 			<Modal
+				className={className}
 				title="限制消费令"
 				width={800}
 				visible={visible}

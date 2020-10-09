@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import Api from 'api/monitor-info/bidding';
+import Api from 'api/monitor-info/limit-consumption';
 import TableView from './table';
 
 export default class TableIntact extends React.Component {

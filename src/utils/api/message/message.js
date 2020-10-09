@@ -196,5 +196,13 @@ const message = [
 	// 	count: (params, id) => service.get('/yc/report/daily/unseal/unsealCount', { params })
 	// 		.then(res => Object.assign(res.data, { id })),
 	// },
+	// {
+	// 	dataType: 11401,
+	// 	name: '限制高消费',
+	// 	list: params => service.get('/yc/monitor/limitHeight/LimitHeightList', { params })
+	// 		.then(res => res.data),
+	// 	count: (params, id) => service.get('/yc/report/daily/unseal/unsealCount', { params })
+	// 		.then(res => Object.assign(res.data, { id })),
+	// },
 ];
 export default message;

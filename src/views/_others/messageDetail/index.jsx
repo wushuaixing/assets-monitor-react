@@ -21,7 +21,7 @@ import Bankrupt from './component/bankrupt/index';
 import Dishonesty from './component/dishonesty/index';
 import BusinessRisk from './component/businessRisk/index';
 // import UnBlock from './component/unblock/index';
-
+// import LimitHeight from './component/limit-height/index';
 
 const createForm = Form.create;
 
@@ -151,7 +151,7 @@ const subItems = (rule, data) => ([
 		name: '涉诉监控',
 		total: data ? getCount(data, 109) : 0,
 		status: isRule('fxjkssjk', 2, rule),
-		tagName: 'e-assets-bidding',
+		tagName: 'message-litigation',
 		component: LitigationMonitoring,
 		childrenCount: [
 			{ name: '立案', count: data ? getCount(data, 10901) : 0, dataType: 10901 },
@@ -175,6 +175,14 @@ const subItems = (rule, data) => ([
 		tagName: 'message-dishonesty',
 		component: Dishonesty,
 	},
+	// {
+	// 	dataType: 114,
+	// 	name: '限制高消费',
+	// 	total: data ? getCount(data, 114) : 0,
+	// 	status: isRule('fxjkqypccz', 2, rule),
+	// 	tagName: 'message-limit',
+	// 	component: LimitHeight,
+	// },
 	{
 		dataType: 112,
 		name: '经营风险',
@@ -195,14 +203,7 @@ const subItems = (rule, data) => ([
 	// 	tagName: 'message-unBlock',
 	// 	component: UnBlock,
 	// },
-	// {
-	// 	dataType: 114,
-	// 	name: '限制高消费',
-	// 	total: data ? getCount(data, 114) : 0,
-	// 	status: isRule('jkxxsxjl', 2, rule),
-	// 	tagName: 'message-dishonesty',
-	// 	component: Dishonesty,
-	// },
+
 ]);
 
 class MessageDetail extends React.Component {
@@ -290,8 +291,8 @@ class MessageDetail extends React.Component {
 		dataCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					config: subItems(rule, [...res.data.categoryCount, { dataCount: 2, dataType: 11301, typeName: '查解封资产' }]).filter(item => item.status && item.total > 0),
-					// config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
+					// config: subItems(rule, [...res.data.categoryCount, { dataCount: 2, dataType: 11301, typeName: '查解封资产' }, { dataCount: 32, dataType: 11401, typeName: '限制高消费' }]).filter(item => item.status && item.total > 0),
+					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
 				});
 			}
 		}).catch((err) => {
