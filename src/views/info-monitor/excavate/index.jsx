@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { Spin } from '@/common';
 import {
-	auctionCard, landCard, intangibleCard, subrogationCard, stockCard, mortgageCard, financeCard, biddingCard,
+	auctionCard, landCard, intangibleCard, subrogationCard, stockCard, mortgageCard, financeCard, biddingCard, unsealCard,
 } from '@/utils/api/monitor-info/excavate/index';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import { promiseAll } from '@/utils/promise';
 import {
-	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding,
+	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, UnBlock,
 } from '../components';
 import './style.scss';
 
@@ -68,6 +68,14 @@ export default class Excavate extends PureComponent {
 					API: mortgageCard,
 				},
 				{
+					id: 9,
+					title: '查解封资产',
+					rule: isRule && props.rule.children.zcwjdcdy,
+					url: '/monitor/seizedUnblock',
+					Component: UnBlock,
+					API: unsealCard,
+				},
+				{
 					id: 7,
 					title: '金融资产',
 					rule: isRule && props.rule.children.zcwjjrzj,
@@ -94,6 +102,7 @@ export default class Excavate extends PureComponent {
 			mortgagePropsData: {},
 			financePropsData: {},
 			biddingPropsData: {},
+			unBlockPropsData: {},
 			auctionCount: undefined,
 			landCount: undefined,
 			intangibleCount: undefined,
@@ -102,6 +111,7 @@ export default class Excavate extends PureComponent {
 			mortgageCount: undefined,
 			financeCount: undefined,
 			biddingCount: undefined,
+			unblockCount: undefined,
 		};
 	}
 
@@ -120,6 +130,7 @@ export default class Excavate extends PureComponent {
 			['mortgage', this.getMortgageData],
 			['finance', this.getFinanceData],
 			['bidding', this.getBiddingData],
+			['unseal', this.getUnsealData],
 			['default', () => { console.log('未匹配'); }],
 		]);
 
@@ -156,8 +167,7 @@ export default class Excavate extends PureComponent {
 			dataSource.push({ count: res.data.assetOwner || 0, typeName: '资产所有人' });
 			dataSource.push({ count: res.data.bidder || 0, typeName: '竞买人' });
 			dataSource.push({ count: res.data.creditor || 0, typeName: '债权人' });
-			dataSource.push({ count: res.data.assetClue || 0, typeName: '财产线索' });
-			dataSource.push({ count: res.data.unknown || 0, typeName: '未知角色' });
+			dataSource.push({ count: res.data.unknown || 0 + res.data.assetClue || 0, typeName: '其他' });
 			const dataSourceNum = getCount(dataSource);
 			const auctionPropsData = {
 				auctionArray: dataSource,
@@ -314,6 +324,32 @@ export default class Excavate extends PureComponent {
 		}
 	};
 
+	// 查解封资产
+	getUnsealData = (res) => {
+		const unBlockPropsData = {
+			unBlock: 45,
+			totalCount: 45,
+			gmtUpdate: '2020-10-1',
+		};
+		this.setState(() => ({
+			unBlockPropsData,
+			unblockCount: 45,
+		}));
+
+		// if (res && res.code === 200) {
+		// 	const { unsealCount, gmtUpdate } = res.data;
+		// 	const unBlockPropsData = {
+		// 		unBlock: unsealCount || 45,
+		// 		totalCount: unsealCount || 45,
+		// 		gmtUpdate: gmtUpdate || '2020-10-1',
+		// 	};
+		// 	this.setState(() => ({
+		// 		unBlockPropsData,
+		// 		unblockCount: unsealCount || 45,
+		// 	}));
+		// }
+	};
+
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
 	handleNavigate = (url) => { navigate(url); };
@@ -330,10 +366,10 @@ export default class Excavate extends PureComponent {
 
 	render() {
 		const {
-			config, loading, finish, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData,
-			auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount,
+			config, loading, finish, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData, unBlockPropsData,
+			auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount, unblockCount,
 		} = this.state;
-		const allNumber = this.getNumber([auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount]);
+		const allNumber = this.getNumber([auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount, unblockCount]);
 		// 权限过滤
 		// const ruleResultArr = config.filter(i => this.isObject(i.rule));
 		const params = {
@@ -345,15 +381,16 @@ export default class Excavate extends PureComponent {
 			mortgagePropsData,
 			financePropsData,
 			biddingPropsData,
+			unBlockPropsData,
 		};
 		return (
 			<Spin visible={loading} minHeight={540}>
 				<div className="monitor-excavate-container">
 					{!loading && allNumber === 0 ?	(
 						<div className="monitor-excavate-container-nodata">
-						暂未匹配到资产线索信息，建议
+							暂未匹配到资产线索信息，建议
 							<span className="monitor-excavate-container-findMore" onClick={() => this.handleNavigate('/business/view')}>去导入更多债务人</span>
-						，以匹配更多价值信息
+							，以匹配更多价值信息
 						</div>
 					) : null}
 					{

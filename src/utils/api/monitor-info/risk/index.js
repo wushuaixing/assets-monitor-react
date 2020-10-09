@@ -27,3 +27,9 @@ export const riskCard = async (params) => {
 	const response = await service.get('/yc/index/information/overview/risk', { params });
 	return Object.assign(response.data, { name: 'risk' });
 };
+
+// 限制高消费
+export const limitHeightCard = async (params) => {
+	const response = await service.get('/yc/index/information/overview/limitHeight', { params });
+	return Object.assign(response.data, { name: 'limitHeight' });
+};

@@ -94,6 +94,18 @@ export const assetBiddingCount = async (params) => {
 	return response.data;
 };
 
+// 查解封资产 => 数量统计
+export const assetUnBlockCount = async (params) => {
+	const response = await service.get('/yc/monitor/unseal/unsealListCount', { params });
+	return response.data;
+};
+
+// 限制高消费 => 数量统计
+export const riskLimitCount = async (params) => {
+	const response = await service.get('/yc/monitor/limitHeight/LimitHeightCount', { params });
+	return response.data;
+};
+
 // 破产重组
 export const riskBankruptcyCount = async (params) => {
 	const response = await service.get('/yc/monitor/bankruptcy/list-count', { params });
