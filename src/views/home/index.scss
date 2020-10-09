@@ -1,4 +1,27 @@
 .home-container {
+  .home-notice{
+    background-color: #F0F7FF;
+    border: 1px solid #77B9F9;
+    border-radius: 1px;
+    padding: 8px;
+    position: relative;
+    font-size: 12px;
+    &-close{
+      position: absolute;
+      right: 12px;
+      font-size: 10px;
+      color: #1C80E1;
+      cursor: pointer;
+      display: inline-block;
+      .iconfont{
+        font-size: 10px;
+      }
+    }
+  }
+  &-line{
+    height: 11px;
+    background-color: #F0F1F5;
+  }
   &-header {
     height: 116px;
   }

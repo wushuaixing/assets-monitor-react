@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from '@/common';
 import {
 	currentOrganization, unreadInfoRemind,
 } from 'api/home';
@@ -22,6 +23,7 @@ class HomeRouter extends React.Component {
 			riskArray: [],
 			loading: false,
 			VersionUpdateModalVisible: false,
+			showNotice: true,
 		};
 	}
 
@@ -139,9 +141,18 @@ class HomeRouter extends React.Component {
 		}).catch();
 	};
 
+	handleHideNotice = () => {
+		const { showNotice } = this.state;
+		if (showNotice) {
+			this.setState({
+				showNotice: false,
+			});
+		}
+	};
+
 	render() {
 		const {
-			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible,
+			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice,
 		} = this.state;
 		const { baseRule } = this.props;
 		const params = {
@@ -154,6 +165,20 @@ class HomeRouter extends React.Component {
 		};
 		return (
 			<div className="home-container">
+				{
+					showNotice ? (
+						<div>
+							<div className="home-notice">
+								<span className="home-notice-content">监控日报提醒：2020-09-01新增41条监控信息：无形资产[9]条，代位权监控[3] 条。</span>
+								<a className="home-notice-link">点击查看日报详情</a>
+								<div className="home-notice-close" onClick={this.handleHideNotice}>
+									<Icon type="icon-guanbi" />
+								</div>
+							</div>
+							<div className="home-container-line" />
+						</div>
+					) : null
+				}
 				<div className="home-container-header">
 					<Header {...params} />
 				</div>
