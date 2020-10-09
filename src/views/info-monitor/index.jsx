@@ -67,7 +67,7 @@ export default class InfoSearch extends React.Component {
 								size="large"
 								className="attention-btn-icon"
 								icon={() => <Icon type="icon-follow-ed" className="yc-btn-icon" />}
-								title="我的关注"
+								title="我的收藏"
 							/>
 						</div>
 				)}

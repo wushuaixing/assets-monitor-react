@@ -12,7 +12,7 @@ import Item from './item';
 export default class MyAttention extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '我的关注-信息监控';
+		document.title = '我的收藏-信息监控';
 		this.state = {
 			initConfig: [
 				toGetRuleSource(global.ruleSource, 'YC10', 'YC02'),
@@ -31,7 +31,7 @@ export default class MyAttention extends React.Component {
 		const { initConfig } = this.state;
 		const initType = Tabs.Simple.toGetDefaultActive(initConfig, 'init');
 		const config = (toGetRuleSource(global.ruleSource, 'YC10', initType) || {}).child.filter(i => i.status);
-		console.log('componentWillMount config === ', config);
+		// console.log('componentWillMount config === ', config);
 		const sourceType = Tabs.Simple.toGetDefaultActive(config, 'process');
 		const source = (config.filter(i => i.id === sourceType))[0];
 		const childAry = source.child ? source.child.filter(i => i.status) : '';
@@ -196,7 +196,7 @@ export default class MyAttention extends React.Component {
 					source={initConfig}
 					field="init"
 					type="primary"
-					prefix={<div className="yc-tabs-simple-prefix">我的关注</div>}
+					prefix={<div className="yc-tabs-simple-prefix">我的收藏</div>}
 				/>
 				<div className="yc-monitor-attention-content">
 					<Tabs.Simple onChange={this.onSourceType} source={newConfig} field="process" />

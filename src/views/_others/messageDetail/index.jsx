@@ -222,6 +222,7 @@ class MessageDetail extends React.Component {
 			obligorId: undefined,
 			affixed: false,
 			isShowBackTopImg: false,
+			hasRequest: false,
 		};
 	}
 
@@ -293,9 +294,17 @@ class MessageDetail extends React.Component {
 				this.setState({
 					// config: subItems(rule, [...res.data.categoryCount, { dataCount: 2, dataType: 11301, typeName: '查解封资产' }, { dataCount: 32, dataType: 11401, typeName: '限制高消费' }]).filter(item => item.status && item.total > 0),
 					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
+					hasRequest: true,
+				});
+			} else {
+				this.setState({
+					hasRequest: true,
 				});
 			}
 		}).catch((err) => {
+			this.setState({
+				hasRequest: true,
+			});
 			console.log('err === ', err);
 		});
 	};
@@ -327,7 +336,7 @@ class MessageDetail extends React.Component {
 
 	render() {
 		const {
-			config, newMonitorCount, invalidCount, effectiveCount, loading, obligorInfo, affixed, obligorId, stationId, isShowBackTopImg, reportDate,
+			config, newMonitorCount, invalidCount, effectiveCount, loading, obligorInfo, affixed, obligorId, stationId, isShowBackTopImg, reportDate, hasRequest,
 		} = this.state;
 		console.log('state render === ', this.state);
 		return (
@@ -363,7 +372,7 @@ class MessageDetail extends React.Component {
 						</div>
 						<div className="tiny-line" />
 						{
-							 effectiveCount <= 0 || newMonitorCount <= 0 ? <NoContent font="暂无新增信息" /> : (
+							effectiveCount <= 0 || newMonitorCount <= 0 ? (hasRequest ? <NoContent font="暂无新增信息" /> : null) : (
 								<div>
 									<div className="change-box" style={{ position: 'relative' }}>
 										<span className="change-box-name">切换债务人：</span>
