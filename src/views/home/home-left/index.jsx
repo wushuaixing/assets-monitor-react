@@ -4,7 +4,7 @@ import {
 	importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage, importantListPledge, importantListSubrogationCourt,
 	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
 	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
-	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding,
+	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight,
 } from 'api/home';
 import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -83,14 +83,13 @@ class HomeDynamic extends PureComponent {
 		if (res && res.code === 200) {
 			const {
 				auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
-				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark,
+				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal,
 			} = res.data;
 			const landNum = this.getTotal([landMortgage, landTransaction, landTransfer]);
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
 			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial]);
 			const financeNum = this.getTotal([auctionBidding, finance]);
-			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
-				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark]);
+			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, 20]);
 			const assetDataArray = [
 				{
 					count: auction, type: 1, typeName: '资产拍卖', name: '资产拍卖', value: 1,
@@ -116,7 +115,11 @@ class HomeDynamic extends PureComponent {
 				{
 					count: intangibleNum, type: 3, typeName: '无形资产', name: '无形资产', value: 8,
 				},
+				{
+					count: 20, type: 3, typeName: '查解封资产', name: '查解封资产', value: 9,
+				},
 			];
+			// console.log('assetDataArray === ', assetDataArray);
 			const assetPropsData = {
 				totalNum,
 				assetDataArray,
@@ -132,7 +135,7 @@ class HomeDynamic extends PureComponent {
 	getAssetImportantReminder = (objValue) => {
 		const {
 			auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
-			mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark,
+			mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal,
 		} = objValue.data;
 		const params = {
 			num: 10,
@@ -146,6 +149,7 @@ class HomeDynamic extends PureComponent {
 			{ count: auction, Api: importantListAuction, auction: true },
 
 			{ count: bidding, Api: importantListBidding },
+			{ count: 20, Api: importantListUnseal },
 			{ count: landTransfer, Api: importantListLandTransfer },
 			{ count: landMortgage, Api: importantListLandMortgage },
 			{ count: landTransaction, Api: importantListLandTransaction },
@@ -190,8 +194,51 @@ class HomeDynamic extends PureComponent {
 					}
 				});
 			}
+			// console.log('AssetImportantReminderList === ', AssetImportantReminderList);
 			this.setState(() => ({
-				AssetImportantReminderList,
+				AssetImportantReminderList: [
+					...AssetImportantReminderList,
+					{
+						obligorName: '测试资产_重庆有线公司',
+						description: '匹配到1条发布日期为2020.12.11的查/解封资产信息',
+						timestamp: '1601125416',
+						detailType: 1101,
+						mainObligor: true,
+						detailList: [
+							{
+								updateTime: '2020-09-28',
+								caseNumber: '（2019）闽0104执保206号',
+								court: ' 永康市人民法院',
+								publishTime: '2020-10-22',
+								sealUpTime: '2020-10-22',
+								unsealingTime: '2020-10-22',
+								parties: [
+									{ name: '建军', obligorId: 9654 },
+								],
+								dataType: 1,
+								url: 'www.baidu.com',
+								title: '石天九与张明智之间借款合同纠纷一案结案通知书',
+								information: '轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.',
+							},
+							{
+								updateTime: '2020-09-28',
+								caseNumber: '（2019）闽0104执保206号',
+								court: ' 永康市人民法院',
+								publishTime: '2020-10-22',
+								sealUpTime: '2020-10-22',
+								unsealingTime: '2020-10-22',
+								parties: [
+									{ name: '建军', obligorId: 9654 },
+								],
+								dataType: 2,
+								url: 'www.baidu.com',
+								title: '石天九与张明智之间借款合同纠纷一案结案通知书',
+								information: '轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.',
+							},
+						],
+						id: 9032,
+					},
+				],
 				AssetImportantReminderObligorIdList,
 			}));
 			// console.log(AssetImportantReminderList, AssetImportantReminderObligorIdList);
@@ -206,12 +253,11 @@ class HomeDynamic extends PureComponent {
 		if (res && res.code === 200) {
 			const {
 				abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
-				punishment, tax,
+				punishment, tax, limitHeight,
 			} = res.data;
 			const lawsuitNum = this.getTotal([lawsuitCourt, lawsuitJudgement, lawsuitTrial]);
 			const operationNum = this.getTotal([abnormal, change, tax, illegal, punishment, epb]);
-			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
-				punishment, tax]);
+			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, punishment, tax, 50]);
 			const riskDataArray = [
 				{
 					count: bankruptcy, type: 7, typeName: '破产重组', name: '破产重组', value: 2,
@@ -224,6 +270,9 @@ class HomeDynamic extends PureComponent {
 				},
 				{
 					count: operationNum, type: 10, typeName: '经营风险', name: '经营风险', value: 2,
+				},
+				{
+					count: 50, type: 10, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 			];
 			const riskPropsData = {
@@ -259,10 +308,10 @@ class HomeDynamic extends PureComponent {
 			{ count: change, Api: importantListRiskChange },
 			{ count: epb, Api: importantListRiskEpb },
 			{ count: dishonest, Api: importantListRiskDishonest },
-
 			{ count: lawsuitTrial, Api: importantListLawsuitTrial },
 			{ count: lawsuitCourt, Api: importantListLawsuitCourt },
 			{ count: lawsuitJudgement, Api: importantListLawsuitJudgment },
+			{ count: 50, Api: importantListLimitHeight },
 		];
 		const RiskImportantReminderArray = [];
 		apiArray.filter(i => i.count).forEach((item) => {
@@ -289,7 +338,48 @@ class HomeDynamic extends PureComponent {
 				});
 			}
 			this.setState(() => ({
-				RiskImportantReminderList,
+				RiskImportantReminderList: [
+					...RiskImportantReminderList,
+					{
+						obligorName: 'risk_test_限制高消费重庆有线公司',
+						description: '匹配到1条发布日期为2020.12.11的查/解封资产信息',
+						timestamp: '1601125416',
+						detailType: 1201,
+						mainObligor: true,
+						detailList: [
+							{
+								url: 'www.baidu.com',
+								caseNumber: '(2020)沪0117执2263号',
+								registerDate: '2020-10-01',
+								gmtModified: '2020-10-22',
+								status: 0,
+								isRead: false,
+								isAttention: 1,
+								parties: [
+									{
+										name: '易烊千玺', obligorId: 56263, role: 1, obligorName: '易烊千玺', obligorNumber: '340603654235455',
+									},
+								],
+							},
+							{
+								url: 'www.baidu.com',
+								caseNumber: '(2020)沪0117执2263号',
+								registerDate: '2020-10-01',
+								gmtModified: '2020-10-22',
+								status: 0,
+								isRead: false,
+								isAttention: 1,
+								parties: [
+									{
+										name: '易烊千玺', obligorId: 56263, role: 2, obligorName: '风险参考的数据杭州建设经济有限公司',
+									},
+								],
+							},
+						],
+						id: 9032,
+						isRead: false,
+					},
+				],
 				RiskImportantReminderObligorIdList,
 			}));
 		}).catch((reason) => {

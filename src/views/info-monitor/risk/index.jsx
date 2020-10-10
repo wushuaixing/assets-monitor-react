@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { Spin } from '@/common';
 import {
-	bankruptcyCard, dishonestCard, litigationCard, riskCard,
+	bankruptcyCard, dishonestCard, limitHeightCard, litigationCard, riskCard,
 } from '@/utils/api/monitor-info/risk/index';
 import { promiseAll } from '@/utils/promise';
+import getCount from '@/views/portrait-inquiry/common/getCount';
 import {
-	Bankruptcy, Broken, Lawsuit, Operation,
+	Bankruptcy, Broken, Lawsuit, Operation, LimitHeight,
 } from '../components';
 import './style.scss';
-import getCount from '@/views/portrait-inquiry/common/getCount';
 
 export default class Risk extends PureComponent {
 	constructor(props) {
@@ -44,6 +44,14 @@ export default class Risk extends PureComponent {
 					API: dishonestCard,
 				},
 				{
+					id: 5,
+					title: '限制高消费',
+					rule: children.jkxxsxjl,
+					url: '/risk/limitHight',
+					Component: LimitHeight,
+					API: limitHeightCard,
+				},
+				{
 					id: 3,
 					title: '涉诉信息',
 					rule: children.fxjkssjk,
@@ -66,10 +74,12 @@ export default class Risk extends PureComponent {
 			dishonestPropsData: {},
 			litigationPropsData: {},
 			riskPropsData: {},
+			limitHeightPropsData: {},
 			bankruptcyCount: undefined,
 			dishonestCount: undefined,
 			litigationCount: undefined,
 			riskCount: undefined,
+			limitCount: undefined,
 		};
 	}
 
@@ -84,6 +94,7 @@ export default class Risk extends PureComponent {
 			['dishonest', this.getDishonestData],
 			['litigation', this.getLitigationData],
 			['risk', this.getRiskData],
+			['limitHeight', this.getLimitHeightData],
 			['default', () => { console.log('未匹配'); }],
 		]);
 
@@ -195,6 +206,34 @@ export default class Risk extends PureComponent {
 		}
 	};
 
+	// 限制高消费
+	getLimitHeightData = (res) => {
+		const limitHeightPropsData = {
+			onceLimitHeightCount: 300,
+			limitHeightCount: 20,
+			gmtUpdate: '2020-10-1',
+			totalCount: 320,
+		};
+		this.setState(() => ({
+			limitHeightPropsData,
+			limitCount: 320,
+		}));
+		// if (res && res.code === 200) {
+		// 	const {
+		// 		onceLimitHeightCount, limitHeightCount, gmtUpdate, total,
+		// 	} = res.data;
+		// 	const limitHeightPropsData = {
+		// 		onceLimitHeightCount: onceLimitHeightCount,
+		// 		limitHeightCount: limitHeightCount,
+		// 		gmtUpdate: gmtUpdate,
+		// 	};
+		// 	this.setState(() => ({
+		// 		limitHeightPropsData,
+		// 		limitCount: total,
+		// 	}));
+		// }
+	};
+
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
 	handleNavigate = (url) => { navigate(url); };
@@ -211,15 +250,17 @@ export default class Risk extends PureComponent {
 
 	render() {
 		const {
-			config, loading, finish, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData, bankruptcyCount, dishonestCount, litigationCount, riskCount,
+			config, loading, finish, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData, limitHeightPropsData, bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount,
 		} = this.state;
-		const allNumber = this.getNumber([bankruptcyCount, dishonestCount, litigationCount, riskCount]);
+		const allNumber = this.getNumber([bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount]);
 		const params = {
 			bankruptcyPropsData,
 			dishonestPropsData,
 			litigationPropsData,
 			riskPropsData,
+			limitHeightPropsData,
 		};
+		// console.log('risk params === ', params);
 		return (
 			<Spin visible={loading} minHeight={540}>
 				<div className="monitor-risk-container">

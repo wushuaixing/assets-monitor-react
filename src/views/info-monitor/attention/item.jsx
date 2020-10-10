@@ -13,6 +13,7 @@ import BrokenRecord from '../../risk-monitor/broken-record/table-intact';
 import IntangibleAssets from '../../asset-excavate/intangible-assets/table-intact';
 import Pledge from '../../asset-excavate/equity-pledge/table-intact';
 import UnBlock from '../../asset-excavate/seized-unblock/table/table-intact';
+import LimitHeight from '../../risk-monitor/limit-consumption/table/table-intact';
 
 const TableItem	= (props) => {
 	const { source, childType, sourceType } = props;
@@ -50,6 +51,7 @@ const TableItem	= (props) => {
 					YC030304: <Operation sourceType="YC030304" />,
 					YC030305: <Operation sourceType="YC030305" />,
 					YC030306: <Operation sourceType="YC030306" />,
+					YC0305: <LimitHeight />,
 				}[ID] || <AssetsAuction />
 			}
 		</React.Fragment>

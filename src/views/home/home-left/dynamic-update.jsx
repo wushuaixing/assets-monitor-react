@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Button, Tooltip } from 'antd';
 import { navigate } from '@reach/router';
+import { Icon } from '@/common';
 import DynamicTab from '../components/tab-checked';
 import RingEcharts from '../components/ring-echarts';
 import DetailItem from '../components/detail-item';
+import ImportantInfoModal from './important-info-modal';
 import './style.scss';
-import { Icon } from '@/common';
 
 const compare = property => (a, b) => {
 	const first = a[property];
@@ -50,6 +51,7 @@ class dynamicUpdate extends PureComponent {
 			RingEchartsObj: {},
 			UnReadNum: 0,
 			clear: false,
+			showModal: false,
 		};
 	}
 
@@ -231,9 +233,24 @@ class dynamicUpdate extends PureComponent {
 		});
 	};
 
+	// 打开显示重要信息标准弹窗
+	handleImportantInfoStandard = () => {
+		console.log('handleImportantInfoStandard');
+		this.setState({
+			showModal: true,
+		});
+	};
+
+	// 关闭显示重要信息标准弹窗
+	handleCancel = () => {
+		this.setState({
+			showModal: false,
+		});
+	};
+
 	render() {
 		const {
-			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, clear, UnReadNum, clearNum,
+			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, clear, UnReadNum, clearNum, showModal,
 		} = this.state;
 		// console.log(UnReadNum);
 		const { assetPropsData, riskPropsData } = this.props;
@@ -283,7 +300,7 @@ class dynamicUpdate extends PureComponent {
 							<div className="seven-update-content-title">
 								<div className="seven-update-content-title-item" />
 								<div className="seven-update-content-title-name">
-								新增
+									新增
 									<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
 									条资产挖掘信息
 
@@ -322,9 +339,19 @@ class dynamicUpdate extends PureComponent {
 									<div className="seven-update-content-title-item" />
 									<div className="seven-update-content-title-name">
 										{/* assetObligorIdNum */}
-										<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>{assetArr && assetArr.length}</span>
-										条重要信息提醒
+										其中
+										<span className="seven-update-content-title-num">{assetArr && assetArr.length}</span>
+										条重要信息
 										{UnReadNum ?	<span className="seven-update-content-title-icon" /> : null}
+										<span onClick={this.handleImportantInfoStandard}>
+											<Icon
+												className="icon-important-tips"
+												type="icon-question"
+												style={{
+													fontSize: 16, cursor: 'pointer',
+												}}
+											/>
+										</span>
 									</div>
 								</div>
 								<DetailItem data={assetArr} arr={newAssetArr} getUnReadNum={this.getUnReadNum} />
@@ -348,9 +375,9 @@ class dynamicUpdate extends PureComponent {
 							<div className="seven-update-content-title">
 								<div className="seven-update-content-title-item" />
 								<div className="seven-update-content-title-name">
-								新增
+									新增
 									<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
-								条风险参考信息
+									条风险参考信息
 									<Tooltip
 										placement="top"
 										title="点击图例，显示/隐藏不同数据类型的重要信息提醒"
@@ -385,9 +412,19 @@ class dynamicUpdate extends PureComponent {
 									<div className="seven-update-content-title-item" />
 									<div className="seven-update-content-title-name">
 										{/* riskObligorIdNum */}
-										<span className="seven-update-content-title-num" style={{ paddingLeft: 0 }}>{riskArr && riskArr.length}</span>
-										条重要信息提醒
+										其中
+										<span className="seven-update-content-title-num">{riskArr && riskArr.length}</span>
+										条重要信息
 										{UnReadNum ?	<span className="seven-update-content-title-icon" /> : null}
+										<span onClick={this.handleImportantInfoStandard}>
+											<Icon
+												className="icon-important-tips"
+												type="icon-question"
+												style={{
+													fontSize: 16, cursor: 'pointer',
+												}}
+											/>
+										</span>
 									</div>
 								</div>
 								<DetailItem data={riskArr} arr={newRiskArr} getUnReadNum={this.getUnReadNum} />
@@ -403,6 +440,10 @@ class dynamicUpdate extends PureComponent {
 						)}
 					</div>
 				)}
+				<ImportantInfoModal
+					visible={showModal}
+					onCancel={() => this.setState({ showModal: false })}
+				/>
 			</div>
 		);
 	}

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
+import { promiseAll } from '@/utils/promise';
 import { auctionBiddingCount, auctionFinanceCount } from 'api/monitor-info/excavate/count';
 import Card from '../card';
 import './style.scss';
-import { promiseAll } from '@/utils/promise';
 
 const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
 export default class Finance extends PureComponent {

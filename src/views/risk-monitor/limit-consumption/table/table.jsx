@@ -1,104 +1,87 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
-import { Attentions, SortVessel } from '@/common/table';
-import Api from 'api/monitor-info/seizedUnbock';
+import { Attentions, ReadStatus, SortVessel } from '@/common/table';
+import Api from 'api/monitor-info/limit-consumption';
 import { Table, SelectedNum, Ellipsis } from '@/common';
-import InforItem from './infoItem';
+import { timeStandard } from '@/utils';
+import ViewContentModal from './view-content-modal';
+import './index.scss';
 
 // 获取表格配置
-const columns = (props) => {
+const columns = (props, toViewContent) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = { sortField, sortOrder };
 
 	const defaultColumns = [
 		{
-			title: <span style={{ paddingLeft: 10 }}>查/解封对象</span>,
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>立案日期</span>
+				: <SortVessel field="SIGNED_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
+			dataIndex: 'registerDate',
+			width: 120,
+			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+		}, {
+			title: '姓名',
 			dataIndex: 'parties',
-			width: 260,
-			render: (text, row = {}) => (
-				<div>
-					{ !row.isRead
-						? (
-							<span
-								className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'}
-								style={!row.isRead && row.isRead !== undefined ? { position: 'absolute', top: '42%' } : {}}
-							/>
-						) : null}
-					{
-					text.map(i => (
-						<div style={{ position: 'relative', paddingLeft: 10 }}>
-							<Ellipsis
-								content={`${i.name};`}
-								tooltip
-								width={240}
-								url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-							/>
-						</div>
-					))
-				}
-				</div>
-			),
+			render: (text, row) => {
+				const personArr = row.parties.filter(item => item.role === 1);
+				if (personArr.length === 0) { return '-'; }
+				return personArr.map(i => (
+					<div>
+						<Ellipsis
+							content={`${i.obligorId > 0 ? `${i.name}(${i.obligorNumber})` : `${i.name}`}`}
+							tooltip
+							width={180}
+							url={`${i.obligorId > 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+						/>
+					</div>
+				));
+			},
+		},
+		{
+			title: '企业',
+			dataIndex: 'parties',
+			render: (text, row) => {
+				const compArr = row.parties.filter(item => item.role === 2);
+				if (compArr.length === 0) { return '-'; }
+				return compArr.map(i => (
+					<Ellipsis
+						content={`${i.name}`}
+						tooltip
+						width={180}
+						url={`${i.obligorId > 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+					/>
+				));
+			},
 		}, {
-			title: (noSort ? <span>关联案件</span>
-				: (
-					<SortVessel field="ORDER_TIME" onClick={onSortChange} {...sort}>
-						关联案件
-						<span className="yc-title-mark">(判决/查封日期)</span>
-					</SortVessel>
-				)),
+			title: '案号',
 			dataIndex: 'caseNumber',
-			width: 263,
-			render: (text, row) => (
-				<div className="assets-info-content">
-					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>案号</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content"><Ellipsis content={text || '-'} tooltip width={200} /></span>
-					</li>
-					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>执行法院</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content"><Ellipsis content={row.court || '-'} tooltip width={200} /></span>
-					</li>
-					{
-						row.type === 1 ? 	(
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content"><Ellipsis content={row.publishTime || '-'} tooltip width={200} /></span>
-							</li>
-						) : null
-					}
-					{
-						row.type === 2 ? (
-							<React.Fragment>
-								<li>
-									<span className="list list-title align-justify" style={{ width: 50 }}>查封日期</span>
-									<span className="list list-title-colon">:</span>
-									<span className="list list-content"><Ellipsis content={row.sealUpTime || '-'} tooltip width={200} /></span>
-								</li>
-								<li>
-									<span className="list list-title align-justify" style={{ width: 50 }}>解封日期</span>
-									<span className="list list-title-colon">:</span>
-									<span className="list list-content"><Ellipsis content={row.unsealingTime || '-'} tooltip width={200} /></span>
-								</li>
-							</React.Fragment>
-						) : null
-					}
-				</div>
-			),
+			width: 190,
+			render: text => <span>{text}</span>,
 		}, {
-			title: '资产信息',
-			dataIndex: 'information',
-			width: 328,
-			render: (text, row) => <InforItem content={text} row={row} />,
+			title: '移除状况',
+			dataIndex: 'status',
+			width: 102,
+			render: text => (
+				<span>
+					<span className="status-dot" style={{ backgroundColor: text === 1 ? '#3DBD7D' : '#FB5A5C' }} />
+					<span className="status-text">{text === 1 ? '已移除' : '未移除'}</span>
+				</span>
+			),
+		},
+		{
+			title: '源链接',
+			dataIndex: 'url',
+			width: 90,
+			render: (text, row) => (
+				<a onClick={() => toViewContent([row.content, row.url])}>{`${text ? '查看' : '-'}`}</a>
+			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'updateTime',
-			width: 110,
+			dataIndex: 'gmtModified',
+			width: 120,
 		}, {
 			title: '操作',
 			width: 55,
@@ -114,7 +97,6 @@ const columns = (props) => {
 				/>
 			),
 		}];
-
 	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
@@ -123,6 +105,8 @@ class TableView extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
+			visible: false,
+			viewContent: '',
 		};
 	}
 
@@ -147,7 +131,7 @@ class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
+	onSelectChange = (selectedRowKeys, record) => {
 		const _selectedRowKeys = record.map(item => item.id);
 		console.log(_selectedRowKeys);
 		const { onSelect } = this.props;
@@ -155,11 +139,22 @@ class TableView extends React.Component {
 		if (onSelect)onSelect(selectedRowKeys);
 	};
 
+	// 点击查看限高内容
+	toViewContent = ([viewContent = '', url]) => {
+		console.log('viewContent === ', viewContent);
+		if (url) {
+			this.setState({
+				visible: true,
+				viewContent,
+			});
+		}
+	};
+
 	render() {
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;
-		const { selectedRowKeys } = this.state;
+		const { selectedRowKeys, visible, viewContent } = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,
@@ -171,7 +166,7 @@ class TableView extends React.Component {
 				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
-					columns={columns(this.props)}
+					columns={columns(this.props, this.toViewContent)}
 					rowKey={record => record.id}
 					dataSource={dataSource}
 					pagination={false}
@@ -190,6 +185,18 @@ class TableView extends React.Component {
 					/>
 				</div>
 				)}
+				{
+					visible ? (
+						<ViewContentModal
+							className="view-content-modal"
+							visible={visible}
+							data={viewContent}
+							onCancel={() => this.setState({ visible: false })}
+							onOk={() => this.setState({ visible: false })}
+						/>
+					)
+						: null
+				}
 			</React.Fragment>
 		);
 	}

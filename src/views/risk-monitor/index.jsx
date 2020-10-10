@@ -3,12 +3,13 @@ import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { Button, Icon, BreadCrumb } from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
+import ruleMethods from '@/utils/rule';
 /* 主要内容模块 */
 import Lawsuits from './lawsuits-monitor';
 import Bankruptcy from './bankruptcy';
 import Operation from './operation-risk';
 import BrokenRecord from './broken-record';
-import ruleMethods from '@/utils/rule';
+import LimitConsumption from './limit-consumption';
 import './style.scss';
 
 /* 获取展示配置 */
@@ -22,6 +23,7 @@ const toGetRuth = (moduleID) => {
 		else if (item.id === `${baseID}02`) components = Bankruptcy;
 		else if (item.id === `${baseID}03`) components = Operation;
 		else if (item.id === `${baseID}04`) components = BrokenRecord;
+		else if (item.id === `${baseID}05`) components = LimitConsumption;
 		else components = noPage;
 		return Object.assign({}, item, {
 			components,
@@ -63,9 +65,10 @@ class RiskMonitor extends React.Component {
 					if (_item.id === 'YC0302') _item.dot = data.bankruptcyCount;
 					if (_item.id === 'YC0303') _item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag || data.taxCount || data.epbCount;
 					if (_item.id === 'YC0304') _item.dot = data.dishonestCount;
+					if (_item.id === 'YC0305') _item.dot = true;
 					return _item;
 				});
-				// console.log(_source);
+				// console.log('_source === ', _source);
 				this.setState({ source: _source });
 			}
 		});
@@ -102,7 +105,7 @@ class RiskMonitor extends React.Component {
 								size="large"
 								className="attention-btn-icon"
 								icon={() => <Icon type="icon-follow-ed" className="yc-btn-icon" />}
-								title="我的关注"
+								title="我的收藏"
 							/>
 						</div>
 					)}

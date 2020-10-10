@@ -51,3 +51,9 @@ export const biddingCard = async (params) => {
 	const response = await service.get('/yc/index/information/overview/bidding', { params });
 	return Object.assign(response.data, { name: 'bidding' });
 };
+
+// 查解封资产
+export const unsealCard = async (params) => {
+	const response = await service.get('/yc/index/information/overview/unseal', { params });
+	return Object.assign(response.data, { name: 'unseal' });
+};

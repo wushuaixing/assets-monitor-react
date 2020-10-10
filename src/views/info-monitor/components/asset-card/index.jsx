@@ -2,12 +2,10 @@ import React, { PureComponent } from 'react';
 import { Row, Col } from 'antd';
 import { navigate } from '@reach/router';
 import { infoCount } from '@/utils/api/monitor-info/assets';
-import { toThousands } from '@/utils/changeTime';
-import { Icon } from '@/common';
 import Card from '../card';
 import './style.scss';
 
-const hasCountStyle = { width: '754px', height: '155px', marginBottom: '20px' };
+const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
 export default class Asset extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -35,7 +33,7 @@ export default class Asset extends PureComponent {
 	render() {
 		const {
 			url, auctionPropsData, auctionPropsData: {
-				totalCount, auctionArray, assetTotal, loading, gmtUpdate,
+				totalCount, auctionArray, loading, gmtUpdate,
 			},
 		} = this.props;
 		const { unReadCount } = this.state;
@@ -43,7 +41,6 @@ export default class Asset extends PureComponent {
 		return (
 			<React.Fragment>
 				<Card
-					asset
 					IconType="auction"
 					Loading={loading}
 					onClick={() => navigate(url)}
@@ -56,42 +53,14 @@ export default class Asset extends PureComponent {
 					unReadNum={unReadCount}
 				>
 					{Object.keys(auctionPropsData).length !== 0 && (
-						<div className="risk-auction-container">
-							<Row gutter={20} style={totalCount ? {} : { marginRight: '185px', marginLeft: '0' }}>
-
-								{assetTotal && (
-								<Col className="gutter-row" span={8}>
-									<div className="risk-auction-container-price">
-										<Icon className={`risk-auction-container-price-icon ${!totalCount && 'monitor-card-noCount-color'}`} type="icon-assets" style={{ color: '#FB8E3C' }} />
-										<div>相关资产价值约</div>
-										<div>
-											<span style={!totalCount ? { color: '#7d8699' } : { color: '#FB5A5C', fontSize: '16px', marginRight: '5px' }}>
-												{assetTotal ? toThousands(assetTotal) : '0'}
-											</span>
-											元
-										</div>
-										<span className="risk-auction-container-price-line" />
-									</div>
-								</Col>
-								)}
-
-								{
-								auctionArray.map((item, index) => (
-									<div style={assetTotal ? {} : { paddingLeft: '34px' }}>
-										{
-											index > 2 ? (
-												 (
-													<Col className="gutter-row" span={totalCount ? 5 : 7}>
-														<div className="risk-auction-container-card">
-															<span className="risk-auction-container-card-name">{item.typeName}</span>
-															<span className="risk-auction-container-card-info">：</span>
-															<span className={`risk-auction-container-card-num  ${!totalCount && 'monitor-card-noCount-color'}`}>{item.count || 0}</span>
-															条
-														</div>
-													</Col>
-												)
-											) : (
-												<Col className="gutter-row" span={totalCount ? 5 : 7}>
+						<Row gutter={24} className="risk-auction-container">
+							{
+							auctionArray.map((item, index) => (
+								<div>
+									{
+										index > 2 ? (
+											 (
+												<Col className="gutter-row" span={12}>
 													<div className="risk-auction-container-card">
 														<span className="risk-auction-container-card-name">{item.typeName}</span>
 														<span className="risk-auction-container-card-info">：</span>
@@ -100,12 +69,21 @@ export default class Asset extends PureComponent {
 													</div>
 												</Col>
 											)
-										}
-									</div>
-								))
+										) : (
+											<Col className="gutter-row" span={12}>
+												<div className="risk-auction-container-card">
+													<span className="risk-auction-container-card-name">{item.typeName}</span>
+													<span className="risk-auction-container-card-info">：</span>
+													<span className={`risk-auction-container-card-num  ${!totalCount && 'monitor-card-noCount-color'}`}>{item.count || 0}</span>
+													条
+												</div>
+											</Col>
+										)
+									}
+								</div>
+							))
 							}
-							</Row>
-						</div>
+						</Row>
 					)}
 				</Card>
 			</React.Fragment>

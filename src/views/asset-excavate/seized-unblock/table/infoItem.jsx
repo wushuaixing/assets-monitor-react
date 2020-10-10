@@ -37,14 +37,14 @@ export default class InfoItem extends React.Component {
 	};
 
 	render() {
-		const { content, type, row } = this.props;
+		const { content, row } = this.props;
 		const { status } = this.state;
 		return (
 			<div>
 				{
-				row.type === 2 ? (
+				row.dataType === 2 ? (
 					<div className="assets-matching-reason-wrapper">
-						<div className={`reason-content-wrapper content-${status} content-item-${type}`}>
+						<div className={`reason-content-wrapper content-${status}`}>
 							<div className="reason-content" ref={e => this.dom = e}>
 								<div className="reason-list">
 									<p dangerouslySetInnerHTML={{ __html: content }} />
@@ -75,7 +75,7 @@ export default class InfoItem extends React.Component {
 				) : null
 			}
 				{
-				row.type === 1 ? (
+				row.dataType === 1 ? (
 					<div className="assets-matching-reason-wrapper">
 						<div>
 							<span>详见正文：</span>

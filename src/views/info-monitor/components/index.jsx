@@ -10,7 +10,9 @@ import Bankruptcy from './bankruptcy-card';
 import Broken from './break-card';
 import Lawsuit from './Involved-card';
 import Operation from './Information-card';
+import UnBlock from './unblock';
+import LimitHeight from './limit-height';
 
 export {
-	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, Bankruptcy, Broken, Lawsuit, Operation,
+	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, Bankruptcy, Broken, Lawsuit, Operation, UnBlock, LimitHeight,
 };
