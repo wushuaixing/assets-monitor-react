@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
+import PropTypes from 'reactPropTypes';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
@@ -111,4 +112,14 @@ class QueryCondition extends React.Component {
 		);
 	}
 }
+
+QueryCondition.propTypes = {
+	onQueryChange: PropTypes.func,
+	clearSelectRowNum: PropTypes.func,
+};
+
+QueryCondition.defaultProps = {
+	onQueryChange: () => {},
+	clearSelectRowNum: () => {},
+};
 export default Form.create()(QueryCondition);
