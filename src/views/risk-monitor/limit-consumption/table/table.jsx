@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import PropTypes from 'reactPropTypes';
 import { Attentions, ReadStatus, SortVessel } from '@/common/table';
 import Api from 'api/monitor-info/limit-consumption';
 import { Table, SelectedNum, Ellipsis } from '@/common';
@@ -99,7 +100,7 @@ const columns = (props, toViewContent) => {
 	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
-export default class TableView extends React.Component {
+class TableView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -200,3 +201,24 @@ export default class TableView extends React.Component {
 		);
 	}
 }
+
+TableView.propTypes = {
+	current: PropTypes.number,
+	total: PropTypes.number,
+	pageSize: PropTypes.number,
+	dataSource: PropTypes.obj,
+	onPageChange: PropTypes.func,
+	isShowPagination: PropTypes.bool,
+	manage: PropTypes.bool,
+};
+
+TableView.defaultProps = {
+	current: 1,
+	total: 0,
+	pageSize: 10,
+	isShowPagination: true,
+	manage: false,
+	dataSource: [],
+	onPageChange: () => {},
+};
+export default TableView;

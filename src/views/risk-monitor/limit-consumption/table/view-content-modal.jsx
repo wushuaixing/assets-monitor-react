@@ -1,9 +1,10 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
+import PropTypes from 'reactPropTypes';
 import { Spin } from '@/common';
 import './index.scss';
 
-export default class ViewContentModal extends React.PureComponent {
+class ViewContentModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -37,3 +38,17 @@ export default class ViewContentModal extends React.PureComponent {
 		);
 	}
 }
+
+ViewContentModal.propTypes = {
+	visible: PropTypes.bool,
+	data: PropTypes.string,
+	className: PropTypes.string,
+};
+
+ViewContentModal.defaultProps = {
+	visible: false,
+	data: null,
+	className: null,
+};
+
+export default ViewContentModal;
