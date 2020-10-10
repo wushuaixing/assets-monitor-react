@@ -1,10 +1,10 @@
 import React from 'react';
-import TableResult from './table/result';
-import TableTransfer from './table/transfer';
-import TableMortgage from './table/mortgage';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';
+import TableResult from './table/result';
+import TableTransfer from './table/transfer';
+import TableMortgage from './table/mortgage';
 
 const toGetApi = (type, base) => {
 	if (type === 1) return `${base}ResultList`;

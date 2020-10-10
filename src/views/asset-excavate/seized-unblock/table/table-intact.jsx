@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'reactPropTypes';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
 import Api from '@/utils/api/monitor-info/bidding';
 import TableView from './table';
 
-export default class TableIntact extends React.Component {
+class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -97,7 +98,7 @@ export default class TableIntact extends React.Component {
 		const {
 			dataSource, current, total, loading,
 		} = this.state;
-		const { sourceType, normal, noSort } = this.props;
+		const { normal, noSort } = this.props;
 		const tableProps = {
 			noSort,
 			normal,
@@ -116,10 +117,22 @@ export default class TableIntact extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				<Spin visible={loading}>
-					<TableView {...tableProps} key={sourceType} />
+					<TableView {...tableProps} />
 				</Spin>
 			</div>
 
 		);
 	}
 }
+
+TableIntact.propTypes = {
+	normal: PropTypes.bool,
+	noSort: PropTypes.bool,
+};
+
+TableIntact.defaultProps = {
+	normal: true,
+	noSort: true,
+};
+
+export default TableIntact;

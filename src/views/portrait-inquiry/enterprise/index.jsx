@@ -5,7 +5,6 @@ import Router from '@/utils/Router';
 import { requestAll } from '@/utils/promise';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import risk from '@/utils/api/portrait-inquiry/enterprise/risk';
-import QueryView from '../common/queryView';
 import {
 	Tabs, Spin, Download, Icon as IconType, BreadCrumb,
 } from '@/common';
@@ -13,12 +12,13 @@ import {
 	getQueryByName, timeStandard, toEmpty, reviseNum,
 } from '@/utils';
 import { companyInfo, dishonestStatus, exportListEnp } from '@/utils/api/portrait-inquiry';
+import Dishonest from '@/assets/img/icon/icon_shixin.png';
+import { noneRemind } from '@/views/portrait-inquiry/inquiry-check';
 import Overview from './overview';
 import Assets from './assets';
 import Info from './info';
 import Risk from './risk';
-import Dishonest from '@/assets/img/icon/icon_shixin.png';
-import { noneRemind } from '@/views/portrait-inquiry/inquiry-check';
+import QueryView from '../common/queryView';
 import './style.scss';
 
 /* 基本选项 */

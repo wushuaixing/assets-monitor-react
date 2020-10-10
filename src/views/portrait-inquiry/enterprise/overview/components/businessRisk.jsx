@@ -1,6 +1,5 @@
 import React from 'react';
 import { Spin } from '@/common';
-import NoContent from '@/common/noContent';
 import { getRisk } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import getCount from '../../../common/getCount';
@@ -49,32 +48,24 @@ export default class BusinessRisk extends React.Component {
 
 		return (
 			<div>
-				<Spin visible={loading}>
-					{columnarData && getCount(columnarData) === 0 ? (
-						<div>
-							{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到经营风险信息" />}
-						</div>
-					) : (
-						<div>
-							{
-								columnarNum > 0 && (
-								<div>
-									<div className="overview-container-title">
-										<div className="overview-left-item" />
-										<span className="container-title-num">
-											{`${getCount(columnarData)} 条`}
-										</span>
-										<span className="container-title-name">经营风险信息</span>
-									</div>
-									<div className="overview-container-content">
-										<ColumnarEcharts title="" Data={columnarData} id="BusinessRisk" />
-									</div>
+				{
+					loading ? <Spin visible /> : (
+						columnarNum > 0 ? (
+							<div>
+								<div className="overview-container-title">
+									<div className="overview-left-item" />
+									<span className="container-title-num">
+										{`${getCount(columnarData)} 条`}
+									</span>
+									<span className="container-title-name">经营风险信息</span>
 								</div>
-								)
-							}
-						</div>
-					)}
-				</Spin>
+								<div className="overview-container-content">
+									<ColumnarEcharts title="" Data={columnarData} id="BusinessRisk" />
+								</div>
+							</div>
+						) : null
+					)
+				}
 			</div>
 		);
 	}
