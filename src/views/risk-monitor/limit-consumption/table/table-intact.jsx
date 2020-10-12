@@ -22,22 +22,7 @@ export default class TableIntact extends React.Component {
 	}
 
 	componentWillMount() {
-		// this.toGetData();
-	}
-
-	componentWillReceiveProps(nextProps) {
-		const { sourceType } = this.props;
-		if (sourceType !== nextProps.sourceType) {
-			this.condition.sortColumn = '';
-			this.condition.sortOrder = '';
-			this.condition.sourceType = nextProps.sourceType;
-			this.setState({
-				dataSource: [],
-				current: 1,
-				total: 0,
-			});
-			this.toGetData(nextProps);
-		}
+		this.toGetData();
 	}
 
 	// 排序触发
@@ -65,9 +50,9 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=(nextProps) => {
+	toGetData = () => {
 		this.setState({ loading: true });
-		const { reqUrl, id } = nextProps || this.props;
+		const { reqUrl, id } = this.props;
 		let toApi = Api.followList;
 		toApi = reqUrl || toApi;
 		toApi(clearEmpty(this.condition), id).then((res) => {
@@ -97,7 +82,7 @@ export default class TableIntact extends React.Component {
 		const {
 			dataSource, current, total, loading,
 		} = this.state;
-		const { sourceType, normal, noSort } = this.props;
+		const { normal, noSort } = this.props;
 		const tableProps = {
 			noSort,
 			normal,
@@ -109,14 +94,13 @@ export default class TableIntact extends React.Component {
 			onSelect: () => {},
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
-			sourceType: this.condition.sourceType,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortColumn,
 		};
 		return (
 			<div className="yc-assets-auction">
 				<Spin visible={loading}>
-					<TableView {...tableProps} key={sourceType} />
+					<TableView {...tableProps} />
 				</Spin>
 			</div>
 

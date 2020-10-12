@@ -28,6 +28,15 @@ const debtorRisk = {
 		count: (params, id) => service.get('/yc/obligor/monitor/risk/dishonest/list-count?removeStatus=true', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
+	20701: {
+		id: 20701,
+		name: '风险-限制高消费',
+		list: params => service.get('/yc/obligor/monitor/risk/epb/list', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/risk/epb/list-count', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
 	20601: {
 		id: 20601,
 		name: '风险-涉诉-立案',
@@ -100,6 +109,7 @@ const debtorRisk = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
+
 };
 
 export default debtorRisk;

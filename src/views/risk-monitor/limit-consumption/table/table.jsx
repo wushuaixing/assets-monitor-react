@@ -23,37 +23,26 @@ const columns = (props, toViewContent) => {
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '姓名',
-			dataIndex: 'parties',
-			render: (text, row) => {
-				const personArr = row.parties.filter(item => item.role === 1);
-				if (personArr.length === 0) { return '-'; }
-				return personArr.map(i => (
-					<div>
-						<Ellipsis
-							content={`${i.obligorId > 0 ? `${i.name}(${i.obligorNumber})` : `${i.name}`}`}
-							tooltip
-							width={180}
-							url={`${i.obligorId > 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-						/>
-					</div>
-				));
-			},
-		},
-		{
+			dataIndex: 'personName',
+			render: (text, row) => (
+				<Ellipsis
+					content={`${row.obligorType === 2 ? `${text}${row.obligorNumber ? `(${row.obligorNumber})` : ''}` : `${text || '-'}`}`}
+					tooltip
+					width={180}
+					url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
+				/>
+			),
+		}, {
 			title: '企业',
-			dataIndex: 'parties',
-			render: (text, row) => {
-				const compArr = row.parties.filter(item => item.role === 2);
-				if (compArr.length === 0) { return '-'; }
-				return compArr.map(i => (
-					<Ellipsis
-						content={`${i.name}`}
-						tooltip
-						width={180}
-						url={`${i.obligorId > 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-					/>
-				));
-			},
+			dataIndex: 'companyName',
+			render: (text, row) => (
+				<Ellipsis
+					content={`${text || '-'}`}
+					tooltip
+					width={180}
+					url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
+				/>
+			),
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
@@ -130,10 +119,10 @@ class TableView extends React.Component {
 		}
 	};
 
-	// 选择框
-	onSelectChange = (selectedRowKeys, record) => {
-		const _selectedRowKeys = record.map(item => item.id);
-		console.log(_selectedRowKeys);
+	// 批量管理复选框的变化监听函数
+	onSelectChange = (selectedRowKeys) => {
+		// const _selectedRowKeys = record.map(item => item.id);
+		// console.log(selectedRowKeys, record, _selectedRowKeys);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
 		if (onSelect)onSelect(selectedRowKeys);
@@ -141,7 +130,6 @@ class TableView extends React.Component {
 
 	// 点击查看限高内容
 	toViewContent = ([viewContent = '', url]) => {
-		console.log('viewContent === ', viewContent);
 		if (url) {
 			this.setState({
 				visible: true,

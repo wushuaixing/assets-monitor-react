@@ -1,15 +1,12 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import PropTypes from 'reactPropTypes';
-import { Spin } from '@/common';
 import './index.scss';
 
 class ViewContentModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			loading: false,
-		};
+		this.state = {};
 	}
 
 	handleCancel=() => {
@@ -18,7 +15,6 @@ class ViewContentModal extends React.PureComponent {
 	};
 
 	render() {
-		const { loading } = this.state;
 		const { visible, data, className } = this.props;
 		return (
 			<Modal
@@ -31,9 +27,7 @@ class ViewContentModal extends React.PureComponent {
 					<Button key="back" type="ghost" size="large" onClick={this.handleCancel}>关闭</Button>,
 				]}
 			>
-				<Spin visible={loading}>
-					<p className="modal-content">{data}</p>
-				</Spin>
+				<p className="modal-content">{data}</p>
 			</Modal>
 		);
 	}

@@ -5,7 +5,7 @@ import Card from '../card';
 import './style.scss';
 
 
-const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
+const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
 export default class LimitHeight extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -41,6 +41,7 @@ export default class LimitHeight extends PureComponent {
 		const { limitHeightNum } = this.state;
 		return (
 			<Card
+				Risk
 				IconType="limit"
 				onClick={() => navigate(url)}
 				IconColor={{ color: '#B927A6' }}
@@ -52,16 +53,16 @@ export default class LimitHeight extends PureComponent {
 				unReadNum={limitHeightNum}
 			>
 				{Object.keys(limitHeightPropsData).length !== 0 && (
-					<div className="risk-stock-container">
-						<div className={`risk-stock-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
+					<div className="risk-limit-container">
+						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 							限高记录数：
-							<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{limitHeightCount || 0}</span>
+							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{limitHeightCount || 0}</span>
 							条
 						</div>
 
-						<div className={`risk-stock-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
+						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 							曾限高记录数：
-							<span className={`risk-stock-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{onceLimitHeightCount || 0}</span>
+							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{onceLimitHeightCount || 0}</span>
 							条
 						</div>
 					</div>
