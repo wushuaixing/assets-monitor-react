@@ -6,13 +6,12 @@ export default class LimitHeight extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 20101),
+			count: toGetNumber(props.data, 20901),
 		};
 	}
 
 	render() {
 		const { id } = this.props;
-		console.log('props === ', this.props);
 		const { count } = this.state;
 		return (
 			<div className="yc-inquiry-public-table" id={id}>

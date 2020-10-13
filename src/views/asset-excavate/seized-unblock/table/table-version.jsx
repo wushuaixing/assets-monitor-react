@@ -3,6 +3,7 @@ import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
 import { Spin, Table, Ellipsis } from '@/common';
 import { timeStandard } from '@/utils';
+import './index.scss';
 
 export default class TableVersion extends React.Component {
 	constructor(props) {
@@ -57,18 +58,20 @@ export default class TableVersion extends React.Component {
 			dataIndex: 'caseNumber',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li style={{ height: 24 }} />
 					{
-						row.type === 1 ? (
-							<li>
-								<span className="list list-title align-justify">判决日期</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{timeStandard(row.publishTime)}</span>
-							</li>
+						row.dataType === 1 ? (
+							<React.Fragment>
+								<li>
+									<span className="list list-title align-justify">判决日期</span>
+									<span className="list list-title-colon">:</span>
+									<span className="list list-content">{timeStandard(row.publishTime)}</span>
+								</li>
+								<li style={{ height: 24 }} />
+							</React.Fragment>
 						) : null
 					}
 					{
-						row.type === 2 ? (
+						row.dataType === 2 ? (
 							<React.Fragment>
 								<li>
 									<span className="list list-title align-justify">查封日期</span>
@@ -97,7 +100,7 @@ export default class TableVersion extends React.Component {
 	toGetData = (page) => {
 		const { portrait, condition } = this.props;
 		const { api, params } = getDynamicAsset(portrait, condition || {
-			b: 10701,
+			b: 10801,
 		});
 		this.setState({ loading: true });
 		api.list({

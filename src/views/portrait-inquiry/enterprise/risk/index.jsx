@@ -106,7 +106,6 @@ export default class Risk extends React.Component {
 	}
 
 	componentDidMount() {
-		const { count } = this.props;
 		const { toPushChild } = this.props;
 		toPushChild(this.toGetSubItems());
 	}
