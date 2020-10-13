@@ -412,6 +412,7 @@ class DetailItem extends PureComponent {
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
 			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, unBlockModalVisible, lawsuitJudgmentModalVisible, listMarginTop, openMessage, limitHeightModalVisible,
 		} = this.state;
+		// console.log('detail item data === ', data);
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		const isData = Array.isArray(data) && data.length > 0;
 		return (
@@ -478,7 +479,7 @@ class DetailItem extends PureComponent {
 												<div
 													className={`detail-container-content-right-tag 
 													${(item.detailType === 701 || item.detailType === 801) ? 'red' : 'yellow'} 
-													${(item.detailType === 802 ? 'green' : '')}`}
+													${(item.detailType === 802 || item.detailType === 1201) ? 'green' : ''}`}
 												>
 													<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />
 													{tag(item.detailType)}

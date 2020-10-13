@@ -58,7 +58,7 @@ class InformCenter extends React.Component {
 								<span
 									dangerouslySetInnerHTML={{ __html: text }}
 								/>
-							，
+								，
 								{
 									row.operateType === 'monitorReport' && JSON.parse(row.extend).total > 200 && <span>点击前往“信息监控”查看</span>
 								}
