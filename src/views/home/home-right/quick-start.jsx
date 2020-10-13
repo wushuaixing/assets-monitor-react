@@ -34,7 +34,7 @@ class HomeQuickStart extends React.Component {
 						</div>
 					) : null}
 					{rule.menu_jjgl && rule.menu_jjgl.children.jggltssz ? (
-						<div className="quick-start-container-content-btn" onClick={() => this.handleNavigate('/organization/setting')}>
+						<div className="quick-start-container-content-btn" onClick={() => this.handleNavigate('/info/search/several')}>
 							<Icon type="icon-classification" className="quick-start-container-content-btn-icon" />
 							<span className="quick-start-container-content-btn-name">分类搜索</span>
 						</div>

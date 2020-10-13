@@ -16,6 +16,7 @@ import ShareholderSituation from './components/shareholderSituation';
 import BusinessScale from './components/businessScale';
 import IntangibleAssets from './components/intangibleAssets';
 import BiddingInfo from './components/biddingInfo';
+import Bankruptcy from './components/bankruptcy';
 import './style.scss';
 
 export default class OverView extends React.Component {
@@ -36,6 +37,9 @@ export default class OverView extends React.Component {
 			LandCount: 0,
 			EquityPledgeCount: 0,
 			ChattelMortgageCount: 0,
+			BankruptcyCount: 0,
+			BusinessRiskCount: 0,
+			LitigationInfosCount: 0,
 		};
 	}
 
@@ -53,6 +57,16 @@ export default class OverView extends React.Component {
 		}
 	}
 
+	// 获取涉诉信息的总和
+	getLitigationInfosSum = (arr) => {
+		let sum = 0;
+		arr.forEach((i) => {
+			sum += i.count || 0;
+		});
+		return sum;
+	};
+
+	// 请求数据
 	getData = () => {
 		const { companyId } = this.state;
 		this.setState({
@@ -62,15 +76,17 @@ export default class OverView extends React.Component {
 			companyId,
 		};
 
-		// 获取涉诉信息
+		// 获取涉诉信息（这个接口会返回失信记录和涉诉信息两个模块的数据）
 		getLitigation(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					yearDistributions: res.data.assetOverviewDishonestInfo.yearDistributions,
 					litigationInfos: res.data.litigationInfos,
+					LitigationInfosCount: this.getLitigationInfosSum(res.data.litigationInfos),
 				});
 			} else {
 				this.setState({
+					LitigationInfosCount: 0,
 					yearDistributions: [],
 					litigationInfos: [
 						{ count: 0 },
@@ -82,6 +98,7 @@ export default class OverView extends React.Component {
 		}).catch(() => {
 			this.setState({
 				yearDistributions: [],
+				LitigationInfosCount: 0,
 				litigationInfos: [
 					{ count: 0 },
 					{ count: 0 },
@@ -107,7 +124,7 @@ export default class OverView extends React.Component {
 		});
 	};
 
-	// 获取资产监控可模块数量
+	// 获取概览-资产-模块数量
 	getAssetProfile = (AssetProfileCountValue, type) => {
 		switch (type) {
 		// 资产拍卖
@@ -163,12 +180,31 @@ export default class OverView extends React.Component {
 		}
 	};
 
+	// 获取概览-风险-模块数量
+	getRiskProfile = (RiskProfileCountValue, type) => {
+		switch (type) {
+		// 破产重组
+		case 'Bankruptcy': return (
+			this.setState({
+				BankruptcyCount: RiskProfileCountValue,
+			})
+		);
+		// 经营风险
+		case 'BusinessRisk': return (
+			this.setState({
+				BusinessRiskCount: RiskProfileCountValue,
+			})
+		);
+		default: return '-';
+		}
+	};
+
 	render() {
 		const {
-			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, BiddingCount,
+			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, BiddingCount, BankruptcyCount, BusinessRiskCount, LitigationInfosCount,
 		} = this.state;
 		const { viewLoading } = this.props;
-		// console.log('state === ', this.state);
+		console.log('state === ', this.state, viewLoading);
 		return (
 			<div className="inquiry-overview">
 				<div className="mark-line" />
@@ -200,15 +236,19 @@ export default class OverView extends React.Component {
 				<div className="overview-line" />
 				<div className="overview-right">
 					<div className="yc-overview-title">风险信息</div>
-					{ viewLoading ? <Spin visible /> : (
+					{ viewLoading ? <Spin visible /> : [
 						<div className="yc-overview-container">
-							{/* 经营风险信息 */}
-							{/*  涉诉信息 */}
-							{litigationInfos && litigationInfos.length > 0 ? <Information litigationInfosArray={litigationInfos} /> : ''}
+							{/* 破产重组 */}
+							<Bankruptcy companyId={companyId} getRiskProfile={this.getRiskProfile} />
 							{/*  失信记录 */}
 							{yearDistributions && yearDistributions.length > 0 ? <LostLetter timeLineData={yearDistributions} /> : ''}
-						</div>
-					)
+							{/*  涉诉信息 */}
+							{LitigationInfosCount > 0 ? <Information litigationInfosArray={litigationInfos} /> : ''}
+							{/* 经营风险信息 */}
+							<BusinessRisk companyId={companyId} getRiskProfile={this.getRiskProfile} />
+						</div>,
+						BankruptcyCount === 0 && yearDistributions && yearDistributions.length === 0 && LitigationInfosCount === 0 && BusinessRiskCount === 0 && <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />}</Spin>,
+					]
 					}
 					<div className="mark-line" />
 					<div className="yc-overview-title">工商基本信息</div>

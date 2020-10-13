@@ -47,6 +47,12 @@ export const getBidding = async (params) => {
 	return response.data;
 };
 
+// [2.4] 资产概况 => 相关破产信息 [youyu]
+export const getBankruptcy = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/bidding', { params });
+	return response.data;
+};
+
 // 风险情况
 export const getRisk = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/overview/risk', { params });

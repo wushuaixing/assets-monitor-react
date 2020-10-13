@@ -1,5 +1,4 @@
 import React from 'react';
-import { Spin } from '@/common';
 import { getRisk } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import getCount from '../../../common/getCount';
@@ -8,7 +7,6 @@ export default class BusinessRisk extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loading: false,
 			columnarData: [],
 			columnarNum: null,
 		};
@@ -19,10 +17,7 @@ export default class BusinessRisk extends React.Component {
 	}
 
 	getData = () => {
-		const { companyId } = this.props;
-		this.setState({
-			loading: true,
-		});
+		const { companyId, getRiskProfile } = this.props;
 		const params = {
 			companyId,
 		};
@@ -33,38 +28,33 @@ export default class BusinessRisk extends React.Component {
 				this.setState({
 					columnarNum,
 					columnarData,
-					loading: false,
 				});
-			} else {
-				this.setState({ loading: false });
+				getRiskProfile(columnarNum, 'BusinessRisk');
 			}
 		}).catch(() => {
-			this.setState({ loading: false });
 		});
 	};
 
 	render() {
-		const { columnarData, loading, columnarNum } = this.state;
+		const { columnarData, columnarNum } = this.state;
 
 		return (
 			<div>
 				{
-					loading ? <Spin visible /> : (
-						columnarNum > 0 ? (
-							<div>
-								<div className="overview-container-title">
-									<div className="overview-left-item" />
-									<span className="container-title-num">
-										{`${getCount(columnarData)} 条`}
-									</span>
-									<span className="container-title-name">经营风险信息</span>
-								</div>
-								<div className="overview-container-content">
-									<ColumnarEcharts title="" Data={columnarData} id="BusinessRisk" />
-								</div>
+					columnarNum > 0 ? (
+						<div>
+							<div className="overview-container-title">
+								<div className="overview-left-item" />
+								<span className="container-title-num">
+									{`${getCount(columnarData)} 条`}
+								</span>
+								<span className="container-title-name">经营风险信息</span>
 							</div>
-						) : null
-					)
+							<div className="overview-container-content">
+								<ColumnarEcharts title="" Data={columnarData} id="BusinessRisk" />
+							</div>
+						</div>
+					) : null
 				}
 			</div>
 		);
