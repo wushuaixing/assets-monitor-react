@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Button, Tooltip } from 'antd';
 import { navigate } from '@reach/router';
-import { Icon } from '@/common';
+import { Icon, Button as Btn } from '@/common';
 import DynamicTab from '../components/tab-checked';
 import RingEcharts from '../components/ring-echarts';
 import DetailItem from '../components/detail-item';
@@ -343,15 +343,7 @@ class dynamicUpdate extends PureComponent {
 										<span className="seven-update-content-title-num">{assetArr && assetArr.length}</span>
 										条重要信息
 										{UnReadNum ?	<span className="seven-update-content-title-icon" /> : null}
-										<span onClick={this.handleImportantInfoStandard}>
-											<Icon
-												className="icon-important-tips"
-												type="icon-question"
-												style={{
-													fontSize: 16, cursor: 'pointer',
-												}}
-											/>
-										</span>
+										<Btn className="seven-update-content-checkBtn" onClick={this.handleImportantInfoStandard}>规则说明</Btn>
 									</div>
 								</div>
 								<DetailItem data={assetArr} arr={newAssetArr} getUnReadNum={this.getUnReadNum} />
@@ -416,15 +408,7 @@ class dynamicUpdate extends PureComponent {
 										<span className="seven-update-content-title-num">{riskArr && riskArr.length}</span>
 										条重要信息
 										{UnReadNum ?	<span className="seven-update-content-title-icon" /> : null}
-										<span onClick={this.handleImportantInfoStandard}>
-											<Icon
-												className="icon-important-tips"
-												type="icon-question"
-												style={{
-													fontSize: 16, cursor: 'pointer',
-												}}
-											/>
-										</span>
+										<Btn className="seven-update-content-checkBtn" onClick={this.handleImportantInfoStandard}>规则说明</Btn>
 									</div>
 								</div>
 								<DetailItem data={riskArr} arr={newRiskArr} getUnReadNum={this.getUnReadNum} />

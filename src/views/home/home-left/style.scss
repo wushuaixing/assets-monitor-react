@@ -104,16 +104,9 @@
           height:8px;
           background-size: 8px 8px;
         }
-        .icon-important-tips{
-          color: #7D8699;
-          margin-left: 16px;
-          vertical-align: middle;
-        }
-        .icon-important-tips:hover{
-          color: #1C80E1;
-          font-weight: bolder;
-          vertical-align: middle;
-        }
+      }
+      &-checkBtn{
+        margin-left: 14px;
       }
     }
   }

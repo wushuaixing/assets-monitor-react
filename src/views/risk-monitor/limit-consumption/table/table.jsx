@@ -9,7 +9,7 @@ import ViewContentModal from './view-content-modal';
 import './index.scss';
 
 // 获取表格配置
-const columns = (props, toViewContent) => {
+const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = { sortField, sortOrder };
@@ -17,13 +17,14 @@ const columns = (props, toViewContent) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>立案日期</span>
-				: <SortVessel field="SIGNED_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
+				: <SortVessel field="GMT_REGISTER_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
 			dataIndex: 'registerDate',
 			width: 120,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '姓名',
 			dataIndex: 'personName',
+			width: 210,
 			render: (text, row) => (
 				<Ellipsis
 					content={`${row.obligorType === 2 ? `${text}${row.obligorNumber ? `(${row.obligorNumber})` : ''}` : `${text || '-'}`}`}
@@ -35,6 +36,7 @@ const columns = (props, toViewContent) => {
 		}, {
 			title: '企业',
 			dataIndex: 'companyName',
+			width: 210,
 			render: (text, row) => (
 				<Ellipsis
 					content={`${text || '-'}`}
@@ -46,12 +48,11 @@ const columns = (props, toViewContent) => {
 		}, {
 			title: '案号',
 			dataIndex: 'caseNumber',
-			width: 190,
-			render: text => <span>{text}</span>,
+			width: 210,
+			render: text => <span>{text ? text.replace('（', '(') : '-'}</span>,
 		}, {
 			title: '移除状况',
 			dataIndex: 'status',
-			width: 102,
 			render: text => (
 				<span>
 					<span className="status-dot" style={{ backgroundColor: text === 1 ? '#3DBD7D' : '#FB5A5C' }} />
@@ -59,18 +60,18 @@ const columns = (props, toViewContent) => {
 				</span>
 			),
 		},
+		// {
+		// 	title: '源链接',
+		// 	dataIndex: 'url',
+		// 	width: 90,
+		// 	render: (text, row) => (
+		// 		<a onClick={() => toViewContent([row.content, row.url])}>{`${text ? '查看' : '-'}`}</a>
+		// 	),
+		// },
 		{
-			title: '源链接',
-			dataIndex: 'url',
-			width: 90,
-			render: (text, row) => (
-				<a onClick={() => toViewContent([row.content, row.url])}>{`${text ? '查看' : '-'}`}</a>
-			),
-		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
-			width: 120,
 		}, {
 			title: '操作',
 			width: 55,
@@ -129,14 +130,14 @@ class TableView extends React.Component {
 	};
 
 	// 点击查看限高内容
-	toViewContent = ([viewContent = '', url]) => {
-		if (url) {
-			this.setState({
-				visible: true,
-				viewContent,
-			});
-		}
-	};
+	// toViewContent = ([viewContent = '', url]) => {
+	// 	if (url) {
+	// 		this.setState({
+	// 			visible: true,
+	// 			viewContent,
+	// 		});
+	// 	}
+	// };
 
 	render() {
 		const {

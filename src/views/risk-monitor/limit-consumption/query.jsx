@@ -71,8 +71,8 @@ class QueryCondition extends React.Component {
 					<span className="yc-query-item-title">移除情况：</span>
 					<Select size="large" defaultValue="all" style={_style3} {...getFieldProps('status', { initialValue: '' })}>
 						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="1">已移除</Select.Option>
-						<Select.Option value="0">未移除</Select.Option>
+						<Select.Option value={1}>已移除</Select.Option>
+						<Select.Option value={0}>未移除</Select.Option>
 					</Select>
 				</div>
 				<div className="yc-query-item">

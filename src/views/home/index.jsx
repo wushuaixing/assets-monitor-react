@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@/common';
+import closeImg from '@/assets/img/home/close_bule.png';
 import {
 	currentOrganization, unreadInfoRemind,
 } from 'api/home';
@@ -24,6 +24,7 @@ class HomeRouter extends React.Component {
 			loading: false,
 			VersionUpdateModalVisible: false,
 			showNotice: true,
+			msgTotal: 56,
 		};
 	}
 
@@ -141,6 +142,7 @@ class HomeRouter extends React.Component {
 		}).catch();
 	};
 
+	// 隐藏提示框条
 	handleHideNotice = () => {
 		const { showNotice } = this.state;
 		if (showNotice) {
@@ -150,9 +152,21 @@ class HomeRouter extends React.Component {
 		}
 	};
 
+	// 跳转监控日报详情
+	handleCheckMsgDetail = () => {
+		const { msgTotal } = this.state;
+		const stationId = 6901;
+		const w = window.open('about:blank');
+		if (msgTotal >= 200) {
+			w.location.href = '#/info/monitor';
+		} else {
+			w.location.href = `#/messageDetail?stationId=${stationId}`;
+		}
+	};
+
 	render() {
 		const {
-			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice,
+			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice, msgTotal,
 		} = this.state;
 		const { baseRule } = this.props;
 		const params = {
@@ -169,10 +183,19 @@ class HomeRouter extends React.Component {
 					showNotice ? (
 						<div>
 							<div className="home-notice">
-								<span className="home-notice-content">监控日报提醒：2020-09-01新增41条监控信息：无形资产[9]条，代位权监控[3] 条。</span>
-								<a className="home-notice-link">点击查看日报详情</a>
+								<div className="home-notice-title">
+									<span className="home-notice-content">
+										监控日报提醒：2020-09-01新增41条监控信息
+									</span>
+									<a
+										className="home-notice-link"
+										onClick={this.handleCheckMsgDetail}
+									>
+										{msgTotal >= 200 ? '点击前往信息监控查看' : '点击查看日报详情'}
+									</a>
+								</div>
 								<div className="home-notice-close" onClick={this.handleHideNotice}>
-									<Icon type="icon-guanbi" />
+									<img className="home-notice-close-img" src={closeImg} alt="关闭" />
 								</div>
 							</div>
 							<div className="home-container-line" />

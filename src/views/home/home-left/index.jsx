@@ -189,6 +189,7 @@ class HomeDynamic extends PureComponent {
 				res.forEach((item) => {
 					if (item.code === 200) {
 						const { importantList, obligorId } = item.data;
+						// console.log('importantList', importantList);
 						AssetImportantReminderList.push(...importantList);
 						AssetImportantReminderObligorIdList.push(...obligorId);
 					}
@@ -355,11 +356,13 @@ class HomeDynamic extends PureComponent {
 								status: 0,
 								isRead: false,
 								isAttention: 1,
-								parties: [
-									{
-										name: '易烊千玺', obligorId: 56263, role: 1, obligorName: '易烊千玺', obligorNumber: '340603654235455',
-									},
-								],
+								personName: '易烊千玺',
+								companyName: '青岛啤酒厂有限公司青岛',
+								obligorType: 1,
+								obligorNumber: '340603654235455',
+								obligorId: 327157,
+								content: '',
+								id: 89565,
 							},
 							{
 								url: 'www.baidu.com',
@@ -369,11 +372,29 @@ class HomeDynamic extends PureComponent {
 								status: 0,
 								isRead: false,
 								isAttention: 1,
-								parties: [
-									{
-										name: '易烊千玺', obligorId: 56263, role: 2, obligorName: '风险参考的数据杭州建设经济有限公司',
-									},
-								],
+								personName: '易烊千玺',
+								companyName: '青岛啤酒厂有限公司青岛',
+								obligorType: 1,
+								obligorNumber: '340603654235455',
+								obligorId: 327157,
+								content: '',
+								id: 89565,
+							},
+							{
+								url: 'www.baidu.com',
+								caseNumber: '(2020)沪0117执2263号',
+								registerDate: '2020-10-01',
+								gmtModified: '2020-10-22',
+								status: 0,
+								isRead: false,
+								isAttention: 1,
+								personName: '易烊千玺',
+								companyName: '青岛啤酒厂有限公司青岛',
+								obligorType: 1,
+								obligorNumber: '340603654235455',
+								obligorId: 327157,
+								content: '',
+								id: 89565,
 							},
 						],
 						id: 9032,

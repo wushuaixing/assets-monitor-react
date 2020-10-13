@@ -2,8 +2,8 @@ import React from 'react';
 import { Modal, Button } from 'antd';
 import { Ellipsis, Spin, Table } from '@/common';
 import { Attentions, ReadStatus } from '@/common/table';
-import Api from 'api/monitor-info/seizedUnbock';
 import { timeStandard } from '@/utils';
+import Api from 'api/monitor-info/seizedUnbock';
 import RegisterModal from '../../../risk-monitor/bankruptcy/registerModal';
 import './comStyle.scss';
 
@@ -23,50 +23,54 @@ export default class LimitHeightModal extends React.PureComponent {
 					render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 				}, {
 					title: '姓名',
-					dataIndex: 'parties',
-					render: text => (
-						text.map(i => (
-							<Ellipsis
-								content={`${i.role === 1 ? `${i.obligorName}(${i.obligorNumber})` : `${i.name}`}`}
-								tooltip
-								width={180}
-								url={`${i.obligorId !== 0 && i.role === 1 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-							/>
-						))
+					dataIndex: 'personName',
+					width: 210,
+					render: (text, row) => (
+						<Ellipsis
+							content={`${row.obligorType === 2 ? `${text}${row.obligorNumber ? `(${row.obligorNumber})` : ''}` : `${text || '-'}`}`}
+							tooltip
+							width={180}
+							url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
+						/>
 					),
-				},
-				{
+				}, {
 					title: '企业',
-					dataIndex: 'parties',
-					render: text => (
-						text.map(i => (
-							<Ellipsis
-								content={`${i.role === 1 ? '-' : `${i.obligorName}`}`}
-								tooltip
-								width={180}
-								url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-							/>
-						))
+					dataIndex: 'companyName',
+					width: 210,
+					render: (text, row) => (
+						<Ellipsis
+							content={`${text || '-'}`}
+							tooltip
+							width={180}
+							url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
+						/>
 					),
 				}, {
 					title: '案号',
 					dataIndex: 'caseNumber',
-					width: 190,
-					render: text => <span>{text}</span>,
+					width: 210,
+					render: text => <span>{text ? text.replace('（', '(') : '-'}</span>,
 				}, {
 					title: '移除状况',
 					dataIndex: 'status',
-					width: 102,
 					render: text => (
 						<span>
 							<span className="status-dot" style={{ backgroundColor: text === 1 ? '#3DBD7D' : '#FB5A5C' }} />
 							<span className="status-text">{text === 1 ? '已移除' : '未移除'}</span>
 						</span>
 					),
-				}, {
+				},
+				// {
+				// 	title: '源链接',
+				// 	dataIndex: 'url',
+				// 	width: 90,
+				// 	render: (text, row) => (
+				// 		<a onClick={() => toViewContent([row.content, row.url])}>{`${text ? '查看' : '-'}`}</a>
+				// 	),
+				// },
+				{
 					title: global.Table_CreateTime_Text,
 					dataIndex: 'gmtModified',
-					width: 120,
 				}, {
 					title: '操作',
 					width: 55,
@@ -76,7 +80,7 @@ export default class LimitHeightModal extends React.PureComponent {
 						<Attentions
 							text={text}
 							row={row}
-							// onClick={onRefresh}
+							onClick={this.onRefresh}
 							api={row.isAttention ? Api.unFollow : Api.follow}
 							index={index}
 						/>
@@ -119,7 +123,7 @@ export default class LimitHeightModal extends React.PureComponent {
 		});
 	};
 
-	handleCancel=() => {
+	handleCancel = () => {
 		const { onCancel } = this.props;
 		onCancel();
 	};
