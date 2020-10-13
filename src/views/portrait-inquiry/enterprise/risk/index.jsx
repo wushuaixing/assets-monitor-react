@@ -8,6 +8,7 @@ import Tax from './tax';
 import Dishonest from './dishonest';
 import Involved from './involved';
 import EnvironmentPunishment from './environmentPunishment';
+import LimitHeight from './limit-height';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -36,6 +37,14 @@ const subItems = data => ([
 		info: data ? data.filter(i => /2020/.test(i.id)) : '',
 		tagName: 'e-risk-dishonest',
 		component: Dishonest,
+	},
+	{
+		id: 20900,
+		name: '限制高消费',
+		total: data ? toGetTotal('2090', data) : 12,
+		info: data ? data.filter(i => /2090/.test(i.id)) : '',
+		tagName: 'e-risk-limitHeight',
+		component: LimitHeight,
 	},
 	{
 		id: 20300,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { getDynamicAsset } from 'api/dynamic';
-import { Spin, Table, Ellipsis } from '@/common';
-import { timeStandard } from '@/utils';
+import { getDynamicRisk } from 'api/dynamic';
+import { Ellipsis, Spin, Table } from '@/common';
+import { timeStandard, toEmpty } from '@/utils';
 
 export default class TableVersion extends React.Component {
 	constructor(props) {
@@ -16,73 +16,39 @@ export default class TableVersion extends React.Component {
 	}
 
 	componentWillMount() {
-		// this.toGetData();
+		this.toGetData();
 	}
 
 	toGetColumns=() => [
 		{
-			title: '拍卖信息',
+			title: '限制高消费',
 			dataIndex: 'caseNumber',
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-						{
-							row.parties.map((i, index) => (
-								<div style={{ display: 'inline-block' }}>
-									<Ellipsis
-										content={`${index === row.parties.length - 1 ? `${i.name}` : `${i.name}、`}`}
-										tooltip
-										width={380}
-										font={14}
-										url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-									/>
-								</div>
-							))
-						}
+						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
+							<Ellipsis content={toEmpty(row.caseNumber)} url={row.url} tooltip width={300} font={14} />
+						</span>
 					</li>
 					<li>
-						<span className="list list-title align-justify">关联案号</span>
+						<span className="list list-title align-justify">关联对象</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{value}</span>
-						<span className="list-split" style={{ height: 16 }} />
-						<span className="list list-title align-justify">执行法院</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.court}</span>
+						<span className="list list-content">张三</span>
 					</li>
 				</div>
 			),
 		}, {
 			title: '关联信息',
 			width: 270,
-			dataIndex: 'caseNumber',
-			render: (value, row) => (
+			dataIndex: 'gmtModified',
+			render: value => (
 				<div className="assets-info-content">
 					<li style={{ height: 24 }} />
-					{
-						row.type === 1 ? (
-							<li>
-								<span className="list list-title align-justify">判决日期</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content">{timeStandard(row.publishTime)}</span>
-							</li>
-						) : null
-					}
-					{
-						row.type === 2 ? (
-							<React.Fragment>
-								<li>
-									<span className="list list-title align-justify">查封日期</span>
-									<span className="list list-title-colon">:</span>
-									<span className="list list-content">{timeStandard(row.sealUpTime)}</span>
-								</li>
-								<li>
-									<span className="list list-title align-justify">解封日期</span>
-									<span className="list list-title-colon">:</span>
-									<span className="list list-content">{timeStandard(row.unsealingTime)}</span>
-								</li>
-							</React.Fragment>
-						) : null
-					}
+					<li>
+						<span className="list list-title align-justify">更新日期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{timeStandard(value)}</span>
+					</li>
 				</div>
 			),
 		},
@@ -95,9 +61,10 @@ export default class TableVersion extends React.Component {
 
 	// 查询数据methods
 	toGetData = (page) => {
-		const { portrait, condition } = this.props;
-		const { api, params } = getDynamicAsset(portrait, condition || {
-			b: 10701,
+		const { portrait, option } = this.props;
+		// 默认查询债务人的限制高消费list
+		const { api, params } = getDynamicRisk(portrait, option || {
+			b: 20701,
 		});
 		this.setState({ loading: true });
 		api.list({

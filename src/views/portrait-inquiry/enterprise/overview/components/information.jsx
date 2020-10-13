@@ -2,10 +2,10 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import TagSide from '@/views/portrait-inquiry/common/checkBtn';
 import ColumnarEcharts from '@/views/portrait-inquiry/common/columnarEcharts';
+import { Icon } from '@/common';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
 import getCount from '../../../common/getCount';
-import { Icon } from '@/common';
 
 export default class Information extends React.Component {
 	constructor(props) {

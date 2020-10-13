@@ -14,28 +14,87 @@ export default class LimitConsumption extends React.Component {
 		document.title = '限制高消费-资产挖掘';
 		this.state = {
 			isRead: 'all',
-			dataSource: [],
+			dataSource: [
+				{
+					url: 'www.baidu.com',
+					caseNumber: '(2020)沪0117执2263号',
+					registerDate: '2020-10-01',
+					gmtModified: '2020-10-22',
+					status: 0,
+					isRead: false,
+					isAttention: 1,
+					personName: '易烊千玺',
+					companyName: '青岛啤酒厂有限公司青岛',
+					obligorType: 1,
+					obligorNumber: '340603654235455',
+					obligorId: 327157,
+					content: '杭州凭信科技有限公司:本院于2020年08月12日立案执行申请人梁光超申请执行你单位劳动争议仲裁一案,因你单位未按执行通知书指定的期间履行生效法律文书确定的给付义务,本院依照《中华人民共和国民事诉讼法》第二百五十五条和《最高人民法院关于限制被执行人高消费及有关消费的若干规定》第一条、第三条的规定,对你单位采取限制消费措施,限制你单位及你单位法定代表人陈志宏不得实施以下高消费及非生活和工作必需的消费行为:(一)乘坐交通工具时,选择飞机、列车软卧、轮船二等以上舱位;(二)在星级以上宾馆、酒店、夜总会、高尔夫球场等场所进行高消费;(三)购买不动产或者新建、扩建、高档装修房屋;(四)租赁高档写字楼、宾馆、公寓等场所办公;(五)购买非经营必需车辆;(六)旅游、度假;(七)子女就读高收费私立学校;(八)支付高额保费购买保险理财产品;(九)乘坐G字头动车组列车全部座位、其他动车组列车一等以上座位等其他非生活和工作必需的消费行为。如你单位(法定代表人、主要负责人、影响债务履行的直接责任人员、实际控制人)因私消费以个人财产实施前述行为的,可以向本院提出申请。如你单位因经营必需而进行前述禁止的消费活动的,应当向本院提出申请,获批准后方可进行。如违反限制消费令,经查证属实的,本院将依照《中华人民共和国民事诉讼法》第一百一十一条的规定,予以罚款、拘留;情节严重,构成犯罪的,依法追究刑事责任。此令二0二0年八月十八日',
+					id: 89565,
+				},
+				{
+					url: '',
+					caseNumber: '(2020)沪0117执2263号',
+					registerDate: '2020-10-01',
+					gmtModified: '2020-10-22',
+					status: 1,
+					isRead: false,
+					isAttention: 1,
+					id: 89562,
+					personName: '易烊千玺',
+					obligorType: 2,
+					obligorId: 327157,
+				},
+				{
+					url: '',
+					caseNumber: '(2020)沪0117执2263号',
+					registerDate: '2020-10-01',
+					gmtModified: '2020-10-22',
+					status: 1,
+					isRead: false,
+					isAttention: 1,
+					id: 895222,
+					companyName: '青岛啤酒厂有限公司青岛',
+					obligorType: 1,
+					obligorId: 327157,
+				},
+				{
+					url: 'www.baidu.com',
+					caseNumber: '(2020)沪0117执2263号',
+					registerDate: '2020-10-01',
+					gmtModified: '2020-10-22',
+					status: 1,
+					isRead: false,
+					isAttention: 1,
+					id: 895222,
+					personName: '易烊千玺',
+					companyName: '青岛啤酒厂有限公司青岛',
+					obligorType: 2,
+					obligorId: 327157,
+					obligorNumber: '340603654235455',
+					content: '》第二百五十五条和《最高人民法院关于限制被执行人高消费及有关消费的若干规定》第一条、第三条的规定,对你单位采取限制消费措施,限制你单位及你单位法定代表人陈志宏不得实施以下高消费及非生活和工作必需的消费行为:(一)乘坐交通工具时,选择飞机、列车软卧、轮船二等以上舱位;(二)在星级以上宾馆、酒店、夜总会、高尔夫球场等场所进行高消费;(三)购买不动产或者新建、扩建、高档装修房屋;(四)租赁高档写字楼、宾馆、公寓等场所办公;(五)购买非经营必需车辆;(六)旅游、度假;(七)子女就读高收费私立学校;(八)支付高额保费购买保险理财产品;(九)乘坐G字头动车组列车全部座位、其他动车组列车一等以上座位等其他非生活和工作必需的消费行为。如你单位(法定代表人、主要负责人、影响债务履行的直接责任人员、实际控制人)因私消费以个人财产实施前述行为的,可以向本院提出申请》第二百五十五条和《最高人民法院关于限制被执行人高消费及有关消费的若干规定》第一条、第三条的规定,对你单位采取限制消费措施,限制你单位及你单位法定代表人陈志宏不得实施以下高消费及非生活和工作必需的消费行为:(一)乘坐交通工具时,选择飞机、列车软卧、轮船二等以上舱位;(二)在星级以上宾馆、酒店、夜总会、高尔夫球场等场所进行高消费;(三)购买不动产或者新建、扩建、高档装修房屋;(四)租赁高档写字楼、宾馆、公寓等场所办公;(五)购买非经营必需车辆;(六)旅游、度假;(七)子女就读高收费私立学校;(八)支付高额保费购买保险理财产品;(九)乘坐G字头动车组列车全部座位、其他动车组列车一等以上座位等其他非生活和工作必需的消费行为。如你单位(法定代表人、主要负责人、影响债务履行的直接责任人员、实际控制人)因私消费以个人财产实施前述行为的,可以向本院提出申请',
+				},
+			],
 			current: 1,
 			total: 0,
 			loading: false,
 			manage: false,
-			unReadCount: 0,
+			unReadCount: false,
 		};
 		this.condition = {};
 		this.selectRow = [];
 	}
 
 	componentWillMount() {
-		// this.onQueryChange({});
+		this.onQueryChange({});
 	}
 
-	// 获取v查解封资产未读数据
-	toUnReadCount=() => {
+	// 获取限制高消费是否存在未读数据
+	toUnReadCount = () => {
 		unReadTotal().then((res) => {
 			const { code, data } = res;
 			if (code === 200) {
 				this.setState({
-					unReadCount: data.biddingCount || 0,
+					unReadCount: data.limitHeightFlag || false,
 				});
 			}
 		});
@@ -49,16 +108,16 @@ export default class LimitConsumption extends React.Component {
 
 	// 切换列表未读已读
 	handleReadChange=(val) => {
+		// console.log('val === ', val);
 		this.setState({ isRead: val });
-		this.onQueryChange(this.condition, '', val, 1);
+		this.onQueryChange(this.condition, val, '', false);
 	};
 
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
 		const { unReadCount } = this.state;
-
-		if (unReadCount > 0) {
+		if (unReadCount) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
@@ -132,25 +191,25 @@ export default class LimitConsumption extends React.Component {
 	onPageChange=(val) => {
 		const { manage } = this.state;
 		// this.selectRow = [];
-		this.onQueryChange('', '', '', val, manage);
+		this.onQueryChange('', '', val, manage);
 	};
 
 	// 排序触发
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
-		this.onQueryChange(this.condition, '', '', 1);
+		this.onQueryChange(this.condition, '', '', false);
 		this.selectRow = [];
 	};
 
 	// 查询条件变化
 	onQuery =(con) => {
 		this.toClearSortStatus();
-		this.onQueryChange(con, '', '', 1);
+		this.onQueryChange(con, '', '', false);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
+	onQueryChange=(con, _isRead, page, _manage) => {
 		const { isRead, current } = this.state;
 		const { loading } = this.state;
 		this.condition = Object.assign(con || this.condition, {
@@ -160,10 +219,9 @@ export default class LimitConsumption extends React.Component {
 		const __isRead = _isRead || isRead;
 		if (__isRead === 'all') { delete this.condition.isRead; }
 		if (__isRead === 'unread') { this.condition.isRead = 0; }
-
 		if (!loading) this.setState({ loading: true, manage: _manage || false });
-		// this.toInfoCount();
 		this.toUnReadCount();
+		// console.log('request api condition === ', this.condition);
 		Api.list(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -202,6 +260,7 @@ export default class LimitConsumption extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
+		// console.log('tableProps === ', tableProps);
 		return (
 			<div className="yc-assets-auction">
 				<QueryView onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />

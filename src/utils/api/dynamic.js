@@ -1,18 +1,20 @@
+import { getHrefQuery } from '@/utils';
+
 import assetsDebtor from './professional-work/debtor/assets';
 import assetsBusiness from './professional-work/business/assets';
 
+// 企业资产
 import assetsPortrait from './portrait-inquiry/enterprise/assets';
+// 个人资产
 import assetsPersonal from './portrait-inquiry/personal/assets';
 
 import riskDebtor from './professional-work/debtor/risk';
 import riskBusiness from './professional-work/business/risk';
 
+// 个人风险
 import riskPersonal from './portrait-inquiry/personal/risk';
-
+// 企业风险
 import portraitRisk from './portrait-inquiry/enterprise/risk';
-
-import { getHrefQuery } from '@/utils';
-
 
 export const getDynamicAsset = (portrait = 'enterprise', option) => {
 	const { b, e, p } = option;

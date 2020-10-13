@@ -352,6 +352,12 @@ export default {
 								status: toStatus(rule.menu_zcwj, 'zcwjdcdy'),
 							},
 							{
+								id: 'YC0209',
+								name: '查/解封资产',
+								url: '/monitor/seizedUnblock',
+								status: toStatus(rule.menu_zcwj, 'zcwjcjfzc'),
+							},
+							{
 								id: 'YC0205',
 								name: '金融资产',
 								url: '/monitor/financial',
@@ -367,12 +373,6 @@ export default {
 								name: '招投标',
 								url: '/monitor/tender',
 								status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
-							},
-							{
-								id: 'YC0209',
-								name: '查/解封资产',
-								url: '/monitor/seizedUnblock',
-								status: toStatus(rule.menu_zcwj, 'zcwjcjfzc'),
 							},
 						],
 					},
@@ -394,6 +394,12 @@ export default {
 								name: '失信记录',
 								url: '/risk/broken',
 								status: toStatus(rule.menu_fxjk, 'jkxxsxjl'),
+							},
+							{
+								id: 'YC0305',
+								name: '限制高消费',
+								url: '/risk/limitHight',
+								status: toStatus(rule.menu_fxjk, 'jkxxxzgxf'),
 							},
 							{
 								id: 'YC0301',
@@ -422,12 +428,7 @@ export default {
 									{ id: 'YC030306', name: '环保处罚', status: toStatus(rule.menu_fxjk, 'jyfxhbcf') },
 								],
 							},
-							{
-								id: 'YC0305',
-								name: '限制高消费',
-								url: '/risk/limitHight',
-								status: toStatus(rule.menu_fxjk, 'jkxxxzgxf'),
-							},
+
 						],
 					},
 				],

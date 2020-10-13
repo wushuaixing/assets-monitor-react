@@ -78,7 +78,7 @@ export default class Land extends PureComponent {
 						<div className={`risk-land-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 							使用权人：
 							<span className={`risk-land-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{owner || 0}</span>
-								条
+							条
 							{ownerAmount ? (
 								<span style={{ paddingLeft: '5px' }}>
 									(涉及土地价值
@@ -91,7 +91,7 @@ export default class Land extends PureComponent {
 						<div className={`risk-land-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 							抵押权人：
 							<span className={`risk-land-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{mortgagee || 0}</span>
-								条
+							条
 							{mortgageeAmount ? (
 								<span style={{ paddingLeft: '5px' }}>
 									(涉及抵押额
