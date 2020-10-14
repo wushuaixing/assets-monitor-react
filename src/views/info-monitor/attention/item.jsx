@@ -44,13 +44,13 @@ const TableItem	= (props) => {
 					YC030102: <Lawsuit sourceType={2} />,
 					YC030103: <Lawsuit sourceType={3} />,
 					YC0302: <Bankruptcy />,
-					YC0304: <BrokenRecord />,
 					YC030301: <Operation sourceType="YC030301" />,
 					YC030302: <Operation sourceType="YC030302" />,
 					YC030303: <Operation sourceType="YC030303" />,
 					YC030304: <Operation sourceType="YC030304" />,
 					YC030305: <Operation sourceType="YC030305" />,
 					YC030306: <Operation sourceType="YC030306" />,
+					YC0304: <BrokenRecord />,
 					YC0305: <LimitHeight />,
 				}[ID] || <AssetsAuction />
 			}

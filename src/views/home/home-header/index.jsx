@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from '@/common';
-import closeImg from '@/assets/img/home/close.png';
+import close from '@/assets/img/home/close.png';
 import './style.scss';
 
 class HomeHeader extends React.Component {
@@ -68,7 +68,7 @@ class HomeHeader extends React.Component {
 									<span>监控债务人数偏低，建议添加更多债务人</span>
 									<img
 										className="card-content-popover-content-close"
-										src={closeImg}
+										src={close}
 										alt="关闭按钮"
 										onClick={() => this.handleCloseDebtor('debtor')}
 									/>
@@ -96,7 +96,7 @@ class HomeHeader extends React.Component {
 									</span>
 									<img
 										className="card-content-popover-content-close"
-										src={closeImg}
+										src={close}
 										alt="关闭按钮"
 										onClick={() => this.handleCloseDebtor('business')}
 									/>

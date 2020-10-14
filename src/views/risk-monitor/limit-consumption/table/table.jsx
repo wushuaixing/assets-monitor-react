@@ -27,7 +27,7 @@ const columns = (props) => {
 			width: 210,
 			render: (text, row) => (
 				<Ellipsis
-					content={`${row.obligorType === 2 ? `${text}${row.obligorNumber ? `(${row.obligorNumber})` : ''}` : `${text || '-'}`}`}
+					content={`${row.obligorType === 2 ? `${text}${row.personNumber ? `(${row.personNumber})` : ''}` : `${text || '-'}`}`}
 					tooltip
 					width={180}
 					url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}

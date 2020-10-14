@@ -399,7 +399,7 @@ export default {
 								id: 'YC0305',
 								name: '限制高消费',
 								url: '/risk/limitHight',
-								status: toStatus(rule.menu_fxjk, 'jkxxxzgxf'),
+								status: toStatus(rule.menu_fxjk, 'fxjkxzgxf'),
 							},
 							{
 								id: 'YC0301',

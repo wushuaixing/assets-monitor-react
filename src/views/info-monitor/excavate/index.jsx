@@ -70,7 +70,7 @@ export default class Excavate extends PureComponent {
 				{
 					id: 9,
 					title: '查解封资产',
-					rule: isRule && props.rule.children.zcwjdcdy,
+					rule: isRule && props.rule.children.zcwjcjfzc,
 					url: '/monitor/seizedUnblock',
 					Component: UnBlock,
 					API: unsealCard,
