@@ -1,5 +1,5 @@
 import React from 'react';
-import closeImg from '@/assets/img/home/close_bule.png';
+import close from '@/assets/img/home/close.png';
 import {
 	currentOrganization, unreadInfoRemind,
 } from 'api/home';
@@ -195,7 +195,7 @@ class HomeRouter extends React.Component {
 									</a>
 								</div>
 								<div className="home-notice-close" onClick={this.handleHideNotice}>
-									<img className="home-notice-close-img" src={closeImg} alt="关闭" />
+									<img className="home-notice-close-img" src={close} alt="关闭" />
 								</div>
 							</div>
 							<div className="home-container-line" />

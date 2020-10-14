@@ -146,7 +146,7 @@ export default class LimitConsumption extends React.Component {
 	// 查询条件变化
 	onQuery =(con) => {
 		this.toClearSortStatus();
-		this.onQueryChange(con, '', '', false);
+		this.onQueryChange(con, '', 1, false);
 	};
 
 	// 查询条件变化
@@ -162,7 +162,7 @@ export default class LimitConsumption extends React.Component {
 		if (__isRead === 'unread') { this.condition.isRead = 0; }
 		if (!loading) this.setState({ loading: true, manage: _manage || false });
 		this.toUnReadCount();
-		// console.log('request api condition === ', this.condition);
+		console.log('request api condition === ', this.condition);
 		Api.list(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({

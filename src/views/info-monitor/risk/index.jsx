@@ -46,7 +46,7 @@ export default class Risk extends PureComponent {
 				{
 					id: 5,
 					title: '限制高消费',
-					rule: children.jkxxsxjl,
+					rule: children.fxjkxzgxf,
 					url: '/risk/limitHight',
 					Component: LimitHeight,
 					API: limitHeightCard,

@@ -4,6 +4,9 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
+import {
+	bankConf, // 个性配置
+} from '@/utils/api/user';
 import { Form } from 'antd';
 import Header from './header';
 import Footer from './footer';
@@ -11,9 +14,6 @@ import Register from './register';
 import VerifyAccount from './forgetPassword/verifyAccount';
 import WriteCode from './forgetPassword/writeCode';
 import ChangePassword from './forgetPassword/changePassword';
-import {
-	bankConf, // 个性配置
-} from '@/utils/api/user';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
 import './style.scss';

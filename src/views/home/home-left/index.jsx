@@ -37,6 +37,7 @@ class HomeDynamic extends PureComponent {
 		this.getData(params);
 	}
 
+	// 获取数组的总数
 	getTotal = (arr) => {
 		const newArr = arr && arr.filter(i => i !== null);
 		if (newArr.length === 0) { return null; }
@@ -47,6 +48,7 @@ class HomeDynamic extends PureComponent {
 		return total;
 	};
 
+	// 获取资产和风险的数据
 	getData = (val) => {
 		const params = { ...val	};
 		const excavate = new Map([
@@ -79,6 +81,7 @@ class HomeDynamic extends PureComponent {
 		});
 	};
 
+	// 资产每个模块的新增数量
 	getAssetData = (res) => {
 		if (res && res.code === 200) {
 			const {
@@ -116,7 +119,7 @@ class HomeDynamic extends PureComponent {
 					count: intangibleNum, type: 3, typeName: '无形资产', name: '无形资产', value: 8,
 				},
 				{
-					count: 20, type: 3, typeName: '查解封资产', name: '查解封资产', value: 9,
+					count: unseal || 0, type: 13, typeName: '查解封资产', name: '查解封资产', value: 9,
 				},
 			];
 			// console.log('assetDataArray === ', assetDataArray);
@@ -132,6 +135,7 @@ class HomeDynamic extends PureComponent {
 		}
 	};
 
+	// 资产每个模块的重要信息提醒
 	getAssetImportantReminder = (objValue) => {
 		const {
 			auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
@@ -149,7 +153,7 @@ class HomeDynamic extends PureComponent {
 			{ count: auction, Api: importantListAuction, auction: true },
 
 			{ count: bidding, Api: importantListBidding },
-			{ count: 20, Api: importantListUnseal },
+			// { count: unseal, Api: importantListUnseal },
 			{ count: landTransfer, Api: importantListLandTransfer },
 			{ count: landMortgage, Api: importantListLandMortgage },
 			{ count: landTransaction, Api: importantListLandTransaction },
@@ -189,7 +193,6 @@ class HomeDynamic extends PureComponent {
 				res.forEach((item) => {
 					if (item.code === 200) {
 						const { importantList, obligorId } = item.data;
-						// console.log('importantList', importantList);
 						AssetImportantReminderList.push(...importantList);
 						AssetImportantReminderObligorIdList.push(...obligorId);
 					}
@@ -200,7 +203,7 @@ class HomeDynamic extends PureComponent {
 				AssetImportantReminderList: [
 					...AssetImportantReminderList,
 					{
-						obligorName: '测试资产_重庆有线公司',
+						obligorName: '重庆第三工程施工队有线公司',
 						description: '匹配到1条发布日期为2020.12.11的查/解封资产信息',
 						timestamp: '1601125416',
 						detailType: 1101,
@@ -273,7 +276,7 @@ class HomeDynamic extends PureComponent {
 					count: operationNum, type: 10, typeName: '经营风险', name: '经营风险', value: 2,
 				},
 				{
-					count: 50, type: 10, typeName: '限制高消费', name: '限制高消费', value: 2,
+					count: limitHeight || 0, type: 10, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 			];
 			const riskPropsData = {
@@ -312,7 +315,7 @@ class HomeDynamic extends PureComponent {
 			{ count: lawsuitTrial, Api: importantListLawsuitTrial },
 			{ count: lawsuitCourt, Api: importantListLawsuitCourt },
 			{ count: lawsuitJudgement, Api: importantListLawsuitJudgment },
-			{ count: 50, Api: importantListLimitHeight },
+			// { count: limitHeight, Api: importantListLimitHeight },
 		];
 		const RiskImportantReminderArray = [];
 		apiArray.filter(i => i.count).forEach((item) => {
@@ -342,7 +345,7 @@ class HomeDynamic extends PureComponent {
 				RiskImportantReminderList: [
 					...RiskImportantReminderList,
 					{
-						obligorName: 'risk_test_限制高消费重庆有线公司',
+						obligorName: '限制高消费重庆有线公司',
 						description: '匹配到1条发布日期为2020.12.11的查/解封资产信息',
 						timestamp: '1601125416',
 						detailType: 1201,

@@ -13,6 +13,7 @@ import { authRule } from '@/utils/api';
 import { handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
 import MessageDetail from '@/views/_others/messageDetail';
+import Judgement from '@/views/_others/judgement';
 import { Header, Container, Footer } from './_others/layout';
 import ChangePassword from './_others/changPassword';
 import Message from './_others/message';
@@ -63,6 +64,7 @@ const ruleList = (props) => {
 	l.push(<Message path="message/*" />);
 	l.push(<ChangePassword path="change/password/*" />);
 	l.push(<MessageDetail path="messageDetail/*" rule={rule} />);
+	l.push(<Judgement path="judgement/*" />);
 
 	if (!rule.menu_sy) {
 		l[0].props.path = '/*';
@@ -104,12 +106,7 @@ export default class Screen extends React.Component {
 		// console.log('componentWillMount:', document.body.clientHeight);
 		authRule().then((res) => {
 			if (res.code === 200) {
-				// 造的假权限，接口完成就恢复
-				// const rule = handleRule(res.data.orgPageGroups);
-				const rule = handleRule([
-					...res.data.orgPageGroups,
-					{ groupName: 'menu_zcwj', rule: 'zcwjcjfzc', title: '资产挖掘->查解封资产' },
-					{ groupName: 'menu_fxjk', rule: 'jkxxxzgxf', title: '资产挖掘->限制高消费' }]);
+				const rule = handleRule(res.data.orgPageGroups);
 				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 				this.setState({
 					loading: 'hidden',
