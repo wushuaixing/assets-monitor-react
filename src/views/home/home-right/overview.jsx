@@ -23,6 +23,7 @@ class HomeOverview extends React.Component {
 			['broken', () => { navigate('/risk/broken'); }],
 			['lawsuit', () => { navigate('/risk/info'); }],
 			['operation-risk', () => { navigate('/risk/operation'); }],
+			['limit', () => { navigate('/risk/limitHight'); }],
 			['default', () => { console.log('未匹配'); }],
 		]);
 		const excavateMap = toNavigate.get(val.icon) || toNavigate.get('default');

@@ -3,7 +3,7 @@ import { Modal, Button } from 'antd';
 import { Ellipsis, Spin, Table } from '@/common';
 import { Attentions, ReadStatus } from '@/common/table';
 import { timeStandard } from '@/utils';
-import Api from 'api/monitor-info/seizedUnbock';
+import Api from 'api/monitor-info/limit-consumption';
 import RegisterModal from '../../../risk-monitor/bankruptcy/registerModal';
 import './comStyle.scss';
 
@@ -123,6 +123,7 @@ export default class LimitHeightModal extends React.PureComponent {
 		});
 	};
 
+	// 关闭弹窗
 	handleCancel = () => {
 		const { onCancel } = this.props;
 		onCancel();

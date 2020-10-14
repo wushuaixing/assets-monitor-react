@@ -208,30 +208,21 @@ export default class Risk extends PureComponent {
 
 	// 限制高消费
 	getLimitHeightData = (res) => {
-		const limitHeightPropsData = {
-			onceLimitHeightCount: 300,
-			limitHeightCount: 20,
-			gmtUpdate: '2020-10-1',
-			totalCount: 320,
-		};
-		this.setState(() => ({
-			limitHeightPropsData,
-			limitCount: 320,
-		}));
-		// if (res && res.code === 200) {
-		// 	const {
-		// 		onceLimitHeightCount, limitHeightCount, gmtUpdate, total,
-		// 	} = res.data;
-		// 	const limitHeightPropsData = {
-		// 		onceLimitHeightCount: onceLimitHeightCount,
-		// 		limitHeightCount: limitHeightCount,
-		// 		gmtUpdate: gmtUpdate,
-		// 	};
-		// 	this.setState(() => ({
-		// 		limitHeightPropsData,
-		// 		limitCount: total,
-		// 	}));
-		// }
+		if (res && res.code === 200) {
+			const {
+				onceLimitHeightCount, limitHeightCount, gmtUpdate, total,
+			} = res.data;
+			const limitHeightPropsData = {
+				onceLimitHeightCount,
+				limitHeightCount,
+				gmtUpdate,
+				totalCount: total,
+			};
+			this.setState(() => ({
+				limitHeightPropsData,
+				limitCount: total,
+			}));
+		}
 	};
 
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
@@ -266,7 +257,7 @@ export default class Risk extends PureComponent {
 				<div className="monitor-risk-container">
 					{!loading && allNumber === 0 &&	(
 						<div className="monitor-risk-container-nodata">
-						暂未匹配到风险参考信息，建议
+							暂未匹配到风险参考信息，建议
 							<span className="monitor-risk-container-findMore" onClick={() => this.handleNavigate('/business')}>去导入更多债务人</span>
 							，以匹配更多价值信息
 						</div>

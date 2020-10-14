@@ -106,7 +106,7 @@ class HomeRouter extends React.Component {
 			this.setState({ loading: false });
 			if (res.code === 200) {
 				const {
-					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount, changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount,
+					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount, changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount,
 				} = res.data;
 				const assetArray = [
 					{
@@ -128,7 +128,7 @@ class HomeRouter extends React.Component {
 						name: '动产抵押', count: mortgageCount, color: '#FB5A5C', icon: 'chattel', status: mortgageCount !== null,
 					},
 					{
-						name: '查/解封资产', count: mortgageCount, color: '#FB8E3C', icon: 'unlock', status: mortgageCount !== null,
+						name: '查/解封资产', count: unsealCount, color: '#FB8E3C', icon: 'unlock', status: unsealCount !== null,
 					},
 					{
 						name: '金融资产', count: financeCount, color: '#FB8E3C', icon: 'finance', status: financeCount !== null,
@@ -145,7 +145,7 @@ class HomeRouter extends React.Component {
 						name: '失信记录', count: dishonestCount, color: '#FB5A5C', icon: 'broken', status: dishonestCount !== null,
 					},
 					{
-						name: '限制高消费', count: dishonestCount, color: '#B927A6', icon: 'limit', status: dishonestCount !== null,
+						name: '限制高消费', count: limitHeightCount, color: '#B927A6', icon: 'limit', status: limitHeightCount !== null,
 					},
 					{
 						name: '涉诉信息', count: litigationCount, color: '#FB8E3C', icon: 'lawsuit', status: litigationCount !== null,

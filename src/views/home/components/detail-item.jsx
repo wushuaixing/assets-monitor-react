@@ -75,7 +75,8 @@ const tag = (value) => {
 	case 1003: return '税收违法';
 	case 1004: return '行政处罚';
 	case 1101: return '查/解封资产';
-	case 1201: return '限制高消费';
+	case 1201: return '限制高消费(移除)';
+	case 1202: return '限制高消费';
 	default: return '-';
 	}
 };
@@ -105,8 +106,9 @@ const icon = (value) => {
 	case 1002: return 'illegal';
 	case 1003: return 'tax';
 	case 1004: return 'punishment';
-	case 1101: return 'unlock';
-	case 1201: return 'limit';
+	case 1101: return 'unblockCube';
+	case 1201: return 'limitCube';
+	case 1202: return 'limitCube';
 	default: return '-';
 	}
 };
@@ -210,6 +212,7 @@ class DetailItem extends PureComponent {
 
 	// 手动点击重要信息列表项
 	handleClick = (item, index) => {
+		console.log('item === ', item);
 		this.setState(() => ({
 			openModal: true,
 		}));
@@ -314,6 +317,10 @@ class DetailItem extends PureComponent {
 				this.setState(() => ({ unBlockModalVisible: true, dataSource: item.detailList }));
 			}],
 			[1201, () => {
+				this.isReadList(item, index, limitConsumption.read, 'idList');
+				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
+			}],
+			[1202, () => {
 				this.isReadList(item, index, limitConsumption.read, 'idList');
 				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
 			}],
@@ -470,19 +477,24 @@ class DetailItem extends PureComponent {
 													</div>
 												</div>
 												<div className="detail-container-content-middle-item">
-													<div className="detail-container-content-middle-item-detail">
+													<div
+														style={{ width: item.detailType === 1201 ? 335 : 364 }}
+														className="detail-container-content-middle-item-detail"
+													>
 														{item.description || '-'}
 													</div>
-
 												</div>
 											</div>
-											<div className="detail-container-content-right">
+											<div
+												className="detail-container-content-right"
+											>
 												<div className="detail-container-content-right-time">
 													{item.timestamp ? timeStandard(item.timestamp) : '-'}
 												</div>
 												<div
+													style={{ width: item.detailType === 1201 ? 130 : 100 }}
 													className={`detail-container-content-right-tag 
-													${(item.detailType === 701 || item.detailType === 801) ? 'red' : 'yellow'} 
+													${(item.detailType === 701 || item.detailType === 801 || item.detailType === 1202) ? 'red' : 'yellow'} 
 													${(item.detailType === 802 || item.detailType === 1201) ? 'green' : ''}`}
 												>
 													<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />

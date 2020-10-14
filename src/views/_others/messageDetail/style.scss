@@ -101,7 +101,7 @@
 
 .change-box{
   padding: 20px 26px 20px 26px;
-  background: #ffffff;
+  background: $background-antd-border;
   &-name{
     color: #20242E;
     font-size: 14px;
@@ -112,7 +112,7 @@
   max-height: 200px;
   .tab{
     padding: 0 20px;
-    background: #ffffff;
+    background: $background-antd-border;
     &-tabs{
       button{
         margin-right: 10px;
@@ -185,7 +185,7 @@
       color: #4267cb;
     }
     .info-auction-5 {
-      color: #3DBD7D;
+      color: $color-alert-success;
     }
   }
 }
