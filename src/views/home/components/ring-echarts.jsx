@@ -11,7 +11,8 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 		itemWidth: 6, // 图例大小  我这里用的是圆
 		itemGap: 16, // 图例之间的间隔
 		orient: 'horizontal', // 布局方式，默认水平布局，另可选vertical
-		right: 4,
+		// right: 5,
+		left: 130,
 		// x: '150px',
 		// 垂直对齐方式，可设置为'top','center','bottom',number(px)
 		y: 'center',

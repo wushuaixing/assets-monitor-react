@@ -33,6 +33,18 @@ export const currentOrganization = async (params) => {
 	return response.data;
 };
 
+// 每日监控日报提醒
+export const dailyMonitorNotice = async (params) => {
+	const response = await service.get('/yc/index/information/dailyMonitorNotice', { params });
+	return response.data;
+};
+
+// 关闭推送
+export const closeNotice = async (params) => {
+	const response = await service.get('/yc/index/information/closeNotice', { params });
+	return response.data;
+};
+
 // 监控概览的未读消息数量
 export const unreadInfoRemind = async () => {
 	const response = await service.get('/yc/index/information/wechat/unreadInfoRemind');

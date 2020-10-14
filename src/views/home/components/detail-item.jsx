@@ -13,6 +13,9 @@ import { readStatus } from '@/utils/api/monitor-info/broken-record'; // 失信�
 import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; // 代位权
 import { Court as lawsuitCourt, Trial as lawsuitTrial, Judgment as lawsuitJudgment } from '@/utils/api/risk-monitor/lawsuit'; // 涉诉信息
 import { markReadStatus } from '@/utils/api/monitor-info/assets'; // 资产拍卖已读
+import seizedUnblock from '@/utils/api/monitor-info/seizedUnbock'; // 查解封资产
+import limitConsumption from '@/utils/api/monitor-info/limit-consumption'; // 限制高消费
+
 import {
 	Abnormal, Illegal, Violation, Punishment,
 } from '@/utils/api/risk-monitor/operation-risk'; // 经营异常
@@ -177,7 +180,9 @@ class DetailItem extends PureComponent {
 		});
 	};
 
+	// 已读操作
 	isReadList = (item, index, api, type) => {
+		console.log('item ==', item);
 		const { getUnReadNum } = this.props;
 		const { data } = this.state;
 		let value;
@@ -187,7 +192,6 @@ class DetailItem extends PureComponent {
 		const { id, isRead } = item;
 		const idList = [];
 		idList.push(id);
-
 		if (!isRead) {
 			api(type === 'idList' ? { idList } : { id }).then((res) => {
 				if (res.code === 200) {
@@ -204,6 +208,7 @@ class DetailItem extends PureComponent {
 		}
 	};
 
+	// 手动点击重要信息列表项
 	handleClick = (item, index) => {
 		this.setState(() => ({
 			openModal: true,
@@ -305,11 +310,11 @@ class DetailItem extends PureComponent {
 				this.setState(() => ({ punishmentModalVisible: true, dataSource: item.detailList }));
 			}],
 			[1101, () => {
-				this.isReadList(item, index, Punishment.read);
+				this.isReadList(item, index, seizedUnblock.read);
 				this.setState(() => ({ unBlockModalVisible: true, dataSource: item.detailList }));
 			}],
 			[1201, () => {
-				this.isReadList(item, index, Punishment.read);
+				this.isReadList(item, index, limitConsumption.read, 'idList');
 				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
 			}],
 			['default', ['资产拍卖', 1]],
@@ -450,7 +455,6 @@ class DetailItem extends PureComponent {
 														) : <img style={{ borderRadius: '20px' }} src={PublicPerImg} alt="" />
 													)
 												}
-
 											</div>
 											<div className="detail-container-content-middle" style={item.isRead === false ? { fontWeight: 700 } : {}}>
 												<div className="detail-container-content-middle-header">
