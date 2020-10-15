@@ -23,7 +23,7 @@ class HomeRouter extends React.Component {
 			riskArray: [],
 			loading: false,
 			VersionUpdateModalVisible: false,
-			showNotice: true,
+			showNotice: false,
 			content: '',
 			msgTotal: 56,
 			stationId: '',

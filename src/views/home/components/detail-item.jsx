@@ -161,9 +161,10 @@ class DetailItem extends PureComponent {
 
 	componentWillReceiveProps(nextProps) {
 		const { data } = this.props;
-		setTimeout(() => {
-			this.startScrollUp();
-		}, 500);
+		// 更新的时候不会重新滚动
+		// setTimeout(() => {
+		// 	this.startScrollUp();
+		// }, 500);
 		if (data !== nextProps.data) {
 			this.setState(() => ({
 				data: nextProps.data,
@@ -172,7 +173,7 @@ class DetailItem extends PureComponent {
 	}
 
 	// 表格发生变化
-	onRefresh=(objValue, type) => {
+	onRefresh = (objValue, type) => {
 		const { data } = this.state;
 		const { index } = objValue;
 		const _dataSource = [...data];
