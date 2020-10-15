@@ -219,6 +219,7 @@ class HomeDynamic extends PureComponent {
 								parties: [
 									{ name: '建军', obligorId: 9654 },
 								],
+								isRead: 1,
 								dataType: 1,
 								url: 'www.baidu.com',
 								title: '石天九与张明智之间借款合同纠纷一案结案通知书',
@@ -234,6 +235,7 @@ class HomeDynamic extends PureComponent {
 								parties: [
 									{ name: '建军', obligorId: 9654 },
 								],
+								isRead: 0,
 								dataType: 2,
 								url: 'www.baidu.com',
 								title: '石天九与张明智之间借款合同纠纷一案结案通知书',
