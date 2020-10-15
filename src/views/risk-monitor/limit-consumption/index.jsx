@@ -42,20 +42,20 @@ export default class LimitConsumption extends React.Component {
 	};
 
 	// 清除排序状态
-	toClearSortStatus=() => {
+	toClearSortStatus = () => {
 		this.condition.sortColumn = '';
 		this.condition.sortOrder = '';
 	};
 
 	// 切换列表未读已读
-	handleReadChange=(val) => {
+	handleReadChange = (val) => {
 		// console.log('val === ', val);
 		this.setState({ isRead: val });
-		this.onQueryChange(this.condition, val, '', false);
+		this.onQueryChange(this.condition, val, 1, false);
 	};
 
 	// 全部标记为已读
-	handleAllRead=() => {
+	handleAllRead = () => {
 		const _this = this;
 		const { unReadCount } = this.state;
 		if (unReadCount) {
@@ -79,7 +79,7 @@ export default class LimitConsumption extends React.Component {
 	};
 
 	// 批量关注
-	handleAttention=() => {
+	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource } = this.state;
@@ -118,7 +118,7 @@ export default class LimitConsumption extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -129,14 +129,14 @@ export default class LimitConsumption extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		const { manage } = this.state;
 		// this.selectRow = [];
 		this.onQueryChange('', '', val, manage);
 	};
 
 	// 排序触发
-	onSortChange=(field, order) => {
+	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', false);
@@ -144,13 +144,13 @@ export default class LimitConsumption extends React.Component {
 	};
 
 	// 查询条件变化
-	onQuery =(con) => {
+	onQuery = (con) => {
 		this.toClearSortStatus();
 		this.onQueryChange(con, '', 1, false);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _isRead, page, _manage) => {
+	onQueryChange = (con, _isRead, page, _manage) => {
 		const { isRead, current } = this.state;
 		const { loading } = this.state;
 		this.condition = Object.assign(con || this.condition, {
@@ -162,7 +162,7 @@ export default class LimitConsumption extends React.Component {
 		if (__isRead === 'unread') { this.condition.isRead = 0; }
 		if (!loading) this.setState({ loading: true, manage: _manage || false });
 		this.toUnReadCount();
-		console.log('request api condition === ', this.condition);
+		// console.log('request api condition === ', this.condition);
 		Api.list(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
