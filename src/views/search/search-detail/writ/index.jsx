@@ -15,10 +15,10 @@ import {
 import {
 	Spin, Input, Button, timeRule, Download, DatePicker,
 } from '@/common';
+import { ScrollAnimation } from '@/utils/changeTime';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import WritTable from './table';
 import './style.scss';
-import { ScrollAnimation } from '@/utils/changeTime';
 
 const _style1 = { width: 278 };
 const _style2 = { width: 116 };

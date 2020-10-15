@@ -109,7 +109,7 @@ class HomeHeader extends React.Component {
 						<Icon type="icon-org" className="right-organization-icon" style={{ color: '#1C80E1' }} />
 						<span className="right-organization-name">下级机构数</span>
 						<div className="right-organization-text">
-							<span className="right-organization-text-num">
+							<span className="right-organization-text-orgNum">
 								{headerPropsData && headerPropsData.totalCount && headerPropsData.totalCount ? headerPropsData.totalCount - 1 : '-'}
 							</span>
 						</div>

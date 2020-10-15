@@ -185,7 +185,7 @@ class DetailItem extends PureComponent {
 
 	// 已读操作
 	isReadList = (item, index, api, type) => {
-		console.log('item ==', item);
+		// console.log('item ==', item);
 		const { getUnReadNum } = this.props;
 		const { data } = this.state;
 		let value;
@@ -213,7 +213,7 @@ class DetailItem extends PureComponent {
 
 	// 手动点击重要信息列表项
 	handleClick = (item, index) => {
-		console.log('item === ', item);
+		// console.log('item === ', item);
 		this.setState(() => ({
 			openModal: true,
 		}));

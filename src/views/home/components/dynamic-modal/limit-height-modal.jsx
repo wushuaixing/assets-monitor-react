@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import { Ellipsis, Spin, Table } from '@/common';
-import { Attentions, ReadStatus } from '@/common/table';
+import { Attentions } from '@/common/table';
 import { timeStandard } from '@/utils';
 import Api from 'api/monitor-info/limit-consumption';
 import RegisterModal from '../../../risk-monitor/bankruptcy/registerModal';
@@ -20,7 +20,7 @@ export default class LimitHeightModal extends React.PureComponent {
 					title: <span style={{ paddingLeft: 11 }}>立案日期</span>,
 					dataIndex: 'registerDate',
 					width: 120,
-					render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+					render: text => timeStandard(text) || '-',
 				}, {
 					title: '姓名',
 					dataIndex: 'personName',

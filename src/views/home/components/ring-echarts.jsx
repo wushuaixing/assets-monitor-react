@@ -220,7 +220,7 @@ class RingEcharts extends PureComponent {
 			}
 		});
 
-		console.log('newRingArray === ', newRingArray);
+		// console.log('newRingArray === ', newRingArray);
 		/*
 		* title: 资产挖掘 || 风险监控
 		* newRingArray 有数据的数组
