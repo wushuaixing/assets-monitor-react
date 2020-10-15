@@ -63,88 +63,72 @@ const EnterpriseInfo = (props) => {
 	const {
 		data: {
 			name, regStatus, legalPersonName, regCapital, formerNames, establishTime, logoUrl,
-		}, isDishonest,
+		}, isDishonest, affixStatus,
 	} = props;
 	const _formerNames = (formerNames || []).join('、');
 	const style = {
 		minWidth: 80,
 		display: 'inline-block',
 	};
-
 	return (
 		<div className="enterprise-info">
-			<div className="intro-icon">
-				{
-					logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
-						: <span>{name && name.slice(0, 4)}</span>
-				}
-			</div>
-			<div className="intro-content">
-				<div className="intro-title">
-					<span className="yc-public-title-large-bold intro-title-name">
-						{name}
-						{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
-					</span>
-					{
-						regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{regStatus}</span> : null
+			{
+				affixStatus ? (
+					<div className="intro-title">
+						<span className="yc-public-title-large-bold intro-title-name">
+							{name}
+							{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
+						</span>
+						{ regStatus
+							? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{regStatus}</span> : ''
 					}
-				</div>
-				<div className="intro-base-info">
-					<li className="intro-info-list intro-list-border">
-						<span className="yc-public-remark">法定代表人：</span>
-						<span className="yc-public-title" style={style}>{legalPersonName || '-'}</span>
-					</li>
-					<li className="intro-info-list intro-list-border">
-						<span className="yc-public-remark">注册资本：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? reviseNum(regCapital) : '-'}</span>
-					</li>
-					<li className="intro-info-list">
-						<span className="yc-public-remark">成立日期：</span>
-						<span className="yc-public-title">{timeStandard(establishTime)}</span>
-					</li>
-				</div>
-				<div className="intro-used">
-					<li className="intro-info-list">
-						{
-						toEmpty(_formerNames) ? [
-							<span className="yc-public-remark">曾用名：</span>,
-							<span className="yc-public-title">{_formerNames}</span>,
-						] : null
-					}
-					</li>
-				</div>
-			</div>
-			<div className="intro-download">
-				<Download
-					style={{ width: 84 }}
-					condition={{
-						companyId: getQueryByName(window.location.href, 'id'),
-					}}
-					icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-					api={exportListEnp}
-					normal
-					text="下载"
-					type="inquiry"
-				/>
-			</div>
-		</div>
-	);
-};
-/* 企业概要-简单版 */
-const EnterpriseInfoSimple = (props) => {
-	const { data, isDishonest } = props;
-	return (
-		<div className="enterprise-info">
-			<div className="intro-title">
-				<span className="yc-public-title-large-bold intro-title-name">
-					{data.name}
-					{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
-				</span>
-				{
-					data.regStatus
-						? <span className={`inquiry-list-regStatus${getRegStatusClass(data.regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{data.regStatus}</span> : ''
-				}
-			</div>
+					</div>
+				) : (
+					<React.Fragment>
+						<div className="intro-icon">
+							{
+							logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
+								: <span>{name && name.slice(0, 4)}</span>
+						}
+						</div>
+						<div className="intro-content">
+							<div className="intro-title">
+								<span className="yc-public-title-large-bold intro-title-name">
+									{name}
+									{isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null}
+								</span>
+								{
+								regStatus ? <span className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`} style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}>{regStatus}</span> : null
+							}
+							</div>
+							<div className="intro-base-info">
+								<li className="intro-info-list intro-list-border">
+									<span className="yc-public-remark">法定代表人：</span>
+									<span className="yc-public-title" style={style}>{legalPersonName || '-'}</span>
+								</li>
+								<li className="intro-info-list intro-list-border">
+									<span className="yc-public-remark">注册资本：</span>
+									<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? reviseNum(regCapital) : '-'}</span>
+								</li>
+								<li className="intro-info-list">
+									<span className="yc-public-remark">成立日期：</span>
+									<span className="yc-public-title">{timeStandard(establishTime)}</span>
+								</li>
+							</div>
+							<div className="intro-used">
+								<li className="intro-info-list">
+									{
+									toEmpty(_formerNames) ? [
+										<span className="yc-public-remark">曾用名：</span>,
+										<span className="yc-public-title">{_formerNames}</span>,
+									] : null
+								}
+								</li>
+							</div>
+						</div>
+					</React.Fragment>
+				)
+			}
 			<div className="intro-download">
 				<Download
 					style={{ width: 84 }}
@@ -254,9 +238,10 @@ export default class Enterprise extends React.Component {
 		});
 	};
 
-	// affixStatus导致组件重新加载，下载的loading状态取消
-	onChangeAffix = () => {
-		// this.setState({ affixStatus: val });
+	// 监听固钉是否触发
+	onChangeAffix = (val) => {
+		// console.log('affixStatus === ', val);
+		this.setState({ affixStatus: val });
 	};
 
 	onSourceType=(val) => {
@@ -295,12 +280,9 @@ export default class Enterprise extends React.Component {
 					<Affix onChange={this.onChangeAffix}>
 						<Spin visible={loading}>
 							<div className={`enterprise-intro${childDom ? '' : ' enterprise-intro-child'}${affixStatus ? ' enterprise-intro-affix' : ''}`} id="enterprise-intro">
-								{
-									affixStatus
-										? <EnterpriseInfoSimple download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
-										: <EnterpriseInfo download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
-								}
+								<EnterpriseInfo affixStatus={affixStatus} download={this.handleDownload} data={infoSource} isDishonest={isDishonest} />
 								<Tabs.Simple
+									borderBottom={affixStatus}
 									onChange={this.onSourceType}
 									source={tabConfig}
 									symbol="none"
