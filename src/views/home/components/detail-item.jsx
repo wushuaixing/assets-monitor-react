@@ -13,6 +13,9 @@ import { readStatus } from '@/utils/api/monitor-info/broken-record'; // 失信�
 import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; // 代位权
 import { Court as lawsuitCourt, Trial as lawsuitTrial, Judgment as lawsuitJudgment } from '@/utils/api/risk-monitor/lawsuit'; // 涉诉信息
 import { markReadStatus } from '@/utils/api/monitor-info/assets'; // 资产拍卖已读
+import seizedUnblock from '@/utils/api/monitor-info/seizedUnbock'; // 查解封资产
+import limitConsumption from '@/utils/api/monitor-info/limit-consumption'; // 限制高消费
+
 import {
 	Abnormal, Illegal, Violation, Punishment,
 } from '@/utils/api/risk-monitor/operation-risk'; // 经营异常
@@ -72,7 +75,8 @@ const tag = (value) => {
 	case 1003: return '税收违法';
 	case 1004: return '行政处罚';
 	case 1101: return '查/解封资产';
-	case 1201: return '限制高消费';
+	case 1201: return '限制高消费(移除)';
+	case 1202: return '限制高消费';
 	default: return '-';
 	}
 };
@@ -102,8 +106,9 @@ const icon = (value) => {
 	case 1002: return 'illegal';
 	case 1003: return 'tax';
 	case 1004: return 'punishment';
-	case 1101: return 'unlock';
-	case 1201: return 'limit';
+	case 1101: return 'unblockCube';
+	case 1201: return 'limitCube';
+	case 1202: return 'limitCube';
 	default: return '-';
 	}
 };
@@ -177,7 +182,9 @@ class DetailItem extends PureComponent {
 		});
 	};
 
+	// 已读操作
 	isReadList = (item, index, api, type) => {
+		console.log('item ==', item);
 		const { getUnReadNum } = this.props;
 		const { data } = this.state;
 		let value;
@@ -187,7 +194,6 @@ class DetailItem extends PureComponent {
 		const { id, isRead } = item;
 		const idList = [];
 		idList.push(id);
-
 		if (!isRead) {
 			api(type === 'idList' ? { idList } : { id }).then((res) => {
 				if (res.code === 200) {
@@ -204,7 +210,9 @@ class DetailItem extends PureComponent {
 		}
 	};
 
+	// 手动点击重要信息列表项
 	handleClick = (item, index) => {
+		console.log('item === ', item);
 		this.setState(() => ({
 			openModal: true,
 		}));
@@ -305,11 +313,15 @@ class DetailItem extends PureComponent {
 				this.setState(() => ({ punishmentModalVisible: true, dataSource: item.detailList }));
 			}],
 			[1101, () => {
-				this.isReadList(item, index, Punishment.read);
+				this.isReadList(item, index, seizedUnblock.read);
 				this.setState(() => ({ unBlockModalVisible: true, dataSource: item.detailList }));
 			}],
 			[1201, () => {
-				this.isReadList(item, index, Punishment.read);
+				this.isReadList(item, index, limitConsumption.read, 'idList');
+				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
+			}],
+			[1202, () => {
+				this.isReadList(item, index, limitConsumption.read, 'idList');
 				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
 			}],
 			['default', ['资产拍卖', 1]],
@@ -450,7 +462,6 @@ class DetailItem extends PureComponent {
 														) : <img style={{ borderRadius: '20px' }} src={PublicPerImg} alt="" />
 													)
 												}
-
 											</div>
 											<div className="detail-container-content-middle" style={item.isRead === false ? { fontWeight: 700 } : {}}>
 												<div className="detail-container-content-middle-header">
@@ -466,19 +477,24 @@ class DetailItem extends PureComponent {
 													</div>
 												</div>
 												<div className="detail-container-content-middle-item">
-													<div className="detail-container-content-middle-item-detail">
+													<div
+														style={{ width: item.detailType === 1201 ? 335 : 364 }}
+														className="detail-container-content-middle-item-detail"
+													>
 														{item.description || '-'}
 													</div>
-
 												</div>
 											</div>
-											<div className="detail-container-content-right">
+											<div
+												className="detail-container-content-right"
+											>
 												<div className="detail-container-content-right-time">
 													{item.timestamp ? timeStandard(item.timestamp) : '-'}
 												</div>
 												<div
+													style={{ width: item.detailType === 1201 ? 130 : 100 }}
 													className={`detail-container-content-right-tag 
-													${(item.detailType === 701 || item.detailType === 801) ? 'red' : 'yellow'} 
+													${(item.detailType === 701 || item.detailType === 801 || item.detailType === 1202) ? 'red' : 'yellow'} 
 													${(item.detailType === 802 || item.detailType === 1201) ? 'green' : ''}`}
 												>
 													<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />

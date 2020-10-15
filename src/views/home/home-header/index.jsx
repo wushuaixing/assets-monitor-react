@@ -1,4 +1,5 @@
 import React from 'react';
+import { closeNotice } from 'api/home';
 import { Icon } from '@/common';
 import close from '@/assets/img/home/close.png';
 import './style.scss';
@@ -6,10 +7,7 @@ import './style.scss';
 class HomeHeader extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			showDebtorCount: true,
-			showBussinessCount: true,
-		};
+		this.state = {};
 	}
 
 	// 打开业务管理对应的列表页
@@ -24,20 +22,22 @@ class HomeHeader extends React.Component {
 
 	// 关闭添加债务人消息
 	handleCloseDebtor = (type) => {
-		if (type === 'debtor') {
-			this.setState({
-				showDebtorCount: false,
-			});
-		} else {
-			this.setState({
-				showBussinessCount: false,
-			});
-		}
+		const params = {
+			type: type === 'debtor' ? 1 : 2,
+		};
+		// 1:首页低债务人数提醒(永久) 2:首页低业务提醒(永久) 3:首页监控日报提醒(当日)
+		closeNotice(params).then((res) => {
+			if (res.code === 200) {
+				const { getHeaderData } = this.props;
+				if (getHeaderData) {
+					getHeaderData();
+				}
+			}
+		}).catch();
 	};
 
 	render() {
-		const { headerPropsData } = this.props;
-		const { showDebtorCount, showBussinessCount } = this.state;
+		const { headerPropsData, headerPropsData: { displayObligorNotice, displayBusinessNotice } } = this.props;
 		const percentageBorrowers = headerPropsData && headerPropsData.mainObligorBusinessCount && headerPropsData.businessCount
 			&& (headerPropsData.mainObligorBusinessCount / headerPropsData.businessCount).toFixed(2) * 100;
 		// const percentageBorrowers = 80;
@@ -62,7 +62,7 @@ class HomeHeader extends React.Component {
 							</span>
 							名
 						</div>
-						 {headerPropsData && headerPropsData.obligorCount < 200 && showDebtorCount ? (
+						 { displayObligorNotice ? (
 							<div className="card-content-left-arrow" style={{ left: -57 }}>
 								<div className="card-content-popover-content">
 									<span>监控债务人数偏低，建议添加更多债务人</span>
@@ -87,7 +87,7 @@ class HomeHeader extends React.Component {
 							</span>
 							笔
 						</div>
-						 {percentageBorrowers && percentageBorrowers >= 70 && showBussinessCount ? (
+						 { displayBusinessNotice ? (
 							<div className="card-content-left-arrow">
 								<div className="card-content-popover-content" style={{ width: '386px' }}>
 									<span>

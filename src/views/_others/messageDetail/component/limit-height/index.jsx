@@ -33,6 +33,7 @@ class LimitHeightTable extends Component {
 		}
 	}
 
+	// 请求限制高消费新增数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -64,6 +65,7 @@ class LimitHeightTable extends Component {
 		});
 	};
 
+	// 监听页面页数变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -84,6 +86,7 @@ class LimitHeightTable extends Component {
 		});
 	};
 
+	// 已读行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {

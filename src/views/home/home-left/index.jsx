@@ -276,7 +276,7 @@ class HomeDynamic extends PureComponent {
 					count: operationNum, type: 10, typeName: '经营风险', name: '经营风险', value: 2,
 				},
 				{
-					count: limitHeight || 0, type: 10, typeName: '限制高消费', name: '限制高消费', value: 2,
+					count: limitHeight, type: 10, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 			];
 			const riskPropsData = {
@@ -293,7 +293,7 @@ class HomeDynamic extends PureComponent {
 	getRiskImportantReminder = (objValue) => {
 		const {
 			abnormal, bankruptcy, dishonest, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, change,
-			punishment, tax, epb,
+			punishment, tax, epb, limitHeight,
 		} = objValue.data;
 		const params = {
 			num: 10,
@@ -315,7 +315,7 @@ class HomeDynamic extends PureComponent {
 			{ count: lawsuitTrial, Api: importantListLawsuitTrial },
 			{ count: lawsuitCourt, Api: importantListLawsuitCourt },
 			{ count: lawsuitJudgement, Api: importantListLawsuitJudgment },
-			// { count: limitHeight, Api: importantListLimitHeight },
+			{ count: limitHeight, Api: importantListLimitHeight },
 		];
 		const RiskImportantReminderArray = [];
 		apiArray.filter(i => i.count).forEach((item) => {
@@ -344,65 +344,6 @@ class HomeDynamic extends PureComponent {
 			this.setState(() => ({
 				RiskImportantReminderList: [
 					...RiskImportantReminderList,
-					{
-						obligorName: '限制高消费重庆有线公司',
-						description: '匹配到1条发布日期为2020.12.11的查/解封资产信息',
-						timestamp: '1601125416',
-						detailType: 1201,
-						mainObligor: true,
-						detailList: [
-							{
-								url: 'www.baidu.com',
-								caseNumber: '(2020)沪0117执2263号',
-								registerDate: '2020-10-01',
-								gmtModified: '2020-10-22',
-								status: 0,
-								isRead: false,
-								isAttention: 1,
-								personName: '易烊千玺',
-								companyName: '青岛啤酒厂有限公司青岛',
-								obligorType: 1,
-								obligorNumber: '340603654235455',
-								obligorId: 327157,
-								content: '',
-								id: 89565,
-							},
-							{
-								url: 'www.baidu.com',
-								caseNumber: '(2020)沪0117执2263号',
-								registerDate: '2020-10-01',
-								gmtModified: '2020-10-22',
-								status: 0,
-								isRead: false,
-								isAttention: 1,
-								personName: '易烊千玺',
-								companyName: '青岛啤酒厂有限公司青岛',
-								obligorType: 1,
-								obligorNumber: '340603654235455',
-								obligorId: 327157,
-								content: '',
-								id: 89565,
-							},
-							{
-								url: 'www.baidu.com',
-								caseNumber: '(2020)沪0117执2263号',
-								registerDate: '2020-10-01',
-								gmtModified: '2020-10-22',
-								status: 0,
-								isRead: false,
-								isAttention: 1,
-								personName: '易烊千玺',
-								companyName: '青岛啤酒厂有限公司青岛',
-								obligorType: 1,
-								obligorNumber: '340603654235455',
-								obligorId: 327157,
-								content: '',
-								id: 89565,
-							},
-						],
-						id: 9032,
-						isRead: false,
-					},
 				],
 				RiskImportantReminderObligorIdList,
 			}));

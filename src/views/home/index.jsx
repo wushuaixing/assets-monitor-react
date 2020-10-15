@@ -1,7 +1,7 @@
 import React from 'react';
 import close from '@/assets/img/home/close.png';
 import {
-	currentOrganization, unreadInfoRemind,
+	currentOrganization, unreadInfoRemind, dailyMonitorNotice, closeNotice,
 } from 'api/home';
 import Cookies from 'universal-cookie';
 // import { promiseAll } from '@/utils/promise';
@@ -24,8 +24,14 @@ class HomeRouter extends React.Component {
 			loading: false,
 			VersionUpdateModalVisible: false,
 			showNotice: true,
+			content: '',
 			msgTotal: 56,
+			stationId: '',
 		};
+	}
+
+	componentWillMount() {
+		this.getNoticeInfo();
 	}
 
 	componentDidMount() {
@@ -49,8 +55,22 @@ class HomeRouter extends React.Component {
 		cookie.set('versionUpdate', false);
 	};
 
+	// 获取增加监控日报推送内容
+	getNoticeInfo = () => {
+		dailyMonitorNotice().then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					showNotice: res.data.display,
+					content: res.data.content || '',
+					msgTotal: res.data.total || 0,
+					stationId: res.data.stationId || '',
+				});
+			}
+		}).catch();
+	};
+
 	// 获取统计信息
-	getHeaderData=() => {
+	getHeaderData = () => {
 		currentOrganization().then((res) => {
 			if (res.code === 200) {
 				this.setState(() => ({
@@ -86,7 +106,7 @@ class HomeRouter extends React.Component {
 			this.setState({ loading: false });
 			if (res.code === 200) {
 				const {
-					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount, changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount,
+					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount, changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount,
 				} = res.data;
 				const assetArray = [
 					{
@@ -108,7 +128,7 @@ class HomeRouter extends React.Component {
 						name: '动产抵押', count: mortgageCount, color: '#FB5A5C', icon: 'chattel', status: mortgageCount !== null,
 					},
 					{
-						name: '查/解封资产', count: mortgageCount, color: '#FB8E3C', icon: 'unlock', status: mortgageCount !== null,
+						name: '查/解封资产', count: unsealCount, color: '#FB8E3C', icon: 'unlock', status: unsealCount !== null,
 					},
 					{
 						name: '金融资产', count: financeCount, color: '#FB8E3C', icon: 'finance', status: financeCount !== null,
@@ -125,7 +145,7 @@ class HomeRouter extends React.Component {
 						name: '失信记录', count: dishonestCount, color: '#FB5A5C', icon: 'broken', status: dishonestCount !== null,
 					},
 					{
-						name: '限制高消费', count: dishonestCount, color: '#B927A6', icon: 'limit', status: dishonestCount !== null,
+						name: '限制高消费', count: limitHeightCount, color: '#B927A6', icon: 'limit', status: limitHeightCount !== null,
 					},
 					{
 						name: '涉诉信息', count: litigationCount, color: '#FB8E3C', icon: 'lawsuit', status: litigationCount !== null,
@@ -142,22 +162,26 @@ class HomeRouter extends React.Component {
 		}).catch();
 	};
 
-	// 隐藏提示框条
+	// 关闭当日推送不再显示
 	handleHideNotice = () => {
-		const { showNotice } = this.state;
-		if (showNotice) {
-			this.setState({
-				showNotice: false,
-			});
-		}
+		// 1:首页低债务人数提醒(永久) 2:首页低业务提醒(永久) 3:首页监控日报提醒(当日)
+		const params = {
+			type: 3,
+		};
+		closeNotice(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					showNotice: false,
+				});
+			}
+		}).catch();
 	};
 
 	// 跳转监控日报详情
 	handleCheckMsgDetail = () => {
-		const { msgTotal } = this.state;
-		const stationId = 6901;
+		const { msgTotal, stationId } = this.state;
 		const w = window.open('about:blank');
-		if (msgTotal >= 200) {
+		if (msgTotal > 200) {
 			w.location.href = '#/info/monitor';
 		} else {
 			w.location.href = `#/messageDetail?stationId=${stationId}`;
@@ -166,11 +190,12 @@ class HomeRouter extends React.Component {
 
 	render() {
 		const {
-			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice, msgTotal,
+			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice, msgTotal, content,
 		} = this.state;
 		const { baseRule } = this.props;
 		const params = {
 			headerPropsData,
+			getHeaderData: this.getHeaderData,
 		};
 		const overviewParams = {
 			assetArray,
@@ -185,13 +210,13 @@ class HomeRouter extends React.Component {
 							<div className="home-notice">
 								<div className="home-notice-title">
 									<span className="home-notice-content">
-										监控日报提醒：2020-09-01新增41条监控信息
+										{`监控日报提醒：${content}，`}
 									</span>
 									<a
 										className="home-notice-link"
 										onClick={this.handleCheckMsgDetail}
 									>
-										{msgTotal >= 200 ? '点击前往信息监控查看' : '点击查看日报详情'}
+										{msgTotal > 200 ? '点击前往信息监控查看' : '点击查看日报详情'}
 									</a>
 								</div>
 								<div className="home-notice-close" onClick={this.handleHideNotice}>

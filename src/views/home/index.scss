@@ -30,7 +30,7 @@
       position: absolute;
       right: 12px;
       font-size: 10px;
-      color: #1C80E1;
+      color: $text-link;
       cursor: pointer;
       display: inline-block;
       width: 16px;
@@ -43,7 +43,7 @@
   }
   &-line{
     height: 11px;
-    background-color: #F0F1F5;
+    background-color: $background-base;
   }
   &-header {
     height: 116px;
@@ -58,7 +58,7 @@
     height: 730px;
     &-left {
       vertical-align: top;
-      background-color: #FFFFFF;
+      background-color: $background-antd-border;
       display: inline-block;
       height: 100%;
       width: 594px
@@ -70,7 +70,7 @@
     }
     &-right {
       vertical-align: top;
-      background-color: #FFFFFF;
+      background-color: $background-antd-border;
       display: inline-block;
       height: 100%;
       width: 594px;

@@ -132,14 +132,14 @@
           border-radius: 10px;
           min-width: 20px;
           background: #FBE2E2;
-          border: 1px solid #fff;
+          border: 1px solid $background-antd-border;
           color: #F5222D;
           line-height: 18px;
           text-align: center;
           padding: 0 6px;
           font-size: 12px;
           white-space: nowrap;
-          box-shadow: 0 0 0 1px #fff;
+          box-shadow: 0 0 0 1px $background-antd-border;
           font-weight: bold;
         }
       }

@@ -2,22 +2,22 @@
   &-header{
     padding: 20px;
     font-size: 14px;
-    color: #4E5566;
-    background: #ffffff;
+    color: $text-content;
+    background: $background-antd-border;
     &-bold{
       color: #20242E;
       font-size: 16px;
       font-weight: bolder;
       margin-right: 20px;
       &-sum{
-        color: #FB5A5C;
+        color: $common-error;
         margin: 0 6px;
       }
     }
     &-tips{
       margin: 0 7px;
       &-num{
-        color: #20242E;
+        color: $text-title;
         margin: 0 6px;
       }
     }
@@ -27,7 +27,7 @@
       padding: 0 20px;
     }
     &-title{
-      border-left: 3px solid #1c80e1;
+      border-left: 3px solid $text-link;
       padding-left: 7px;
       font-weight: bold;
       margin-top: 20px;
@@ -36,7 +36,7 @@
       margin: 10px 0;
     }
     &-subTitle{
-      border-bottom: 2px solid #1C80E1;
+      border-bottom: 2px solid $text-link;
       padding-bottom: 10px;
       font-size: 12px;
       font-weight: bold;
@@ -51,7 +51,7 @@
     &-headerLine{
       height: 1px;
       margin-top: 13px;
-      background-color: #E5E5E5;
+      background-color: $background-line;
     }
     &-container{
       margin-top: 16px;
@@ -101,7 +101,7 @@
 
 .change-box{
   padding: 20px 26px 20px 26px;
-  background: #ffffff;
+  background: $background-antd-border;
   &-name{
     color: #20242E;
     font-size: 14px;
@@ -112,7 +112,7 @@
   max-height: 200px;
   .tab{
     padding: 0 20px;
-    background: #ffffff;
+    background: $background-antd-border;
     &-tabs{
       button{
         margin-right: 10px;
@@ -185,7 +185,7 @@
       color: #4267cb;
     }
     .info-auction-5 {
-      color: #3DBD7D;
+      color: $color-alert-success;
     }
   }
 }
