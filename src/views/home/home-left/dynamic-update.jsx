@@ -235,7 +235,6 @@ class dynamicUpdate extends PureComponent {
 
 	// 打开显示重要信息标准弹窗
 	handleImportantInfoStandard = () => {
-		console.log('handleImportantInfoStandard');
 		this.setState({
 			showModal: true,
 		});

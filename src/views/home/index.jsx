@@ -23,7 +23,7 @@ class HomeRouter extends React.Component {
 			riskArray: [],
 			loading: false,
 			VersionUpdateModalVisible: false,
-			showNotice: true,
+			showNotice: false,
 			content: '',
 			msgTotal: 56,
 			stationId: '',
@@ -164,10 +164,12 @@ class HomeRouter extends React.Component {
 
 	// 关闭当日推送不再显示
 	handleHideNotice = () => {
-		// 1:首页低债务人数提醒(永久) 2:首页低业务提醒(永久) 3:首页监控日报提醒(当日)
-		const params = {
-			type: 3,
-		};
+		this.handleCloseNotice(3);
+	};
+
+	// 1:首页低债务人数提醒(永久) 2:首页低业务提醒(永久) 3:首页监控日报提醒(当日)
+	handleCloseNotice = (type) => {
+		const params = { type };
 		closeNotice(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -180,6 +182,7 @@ class HomeRouter extends React.Component {
 	// 跳转监控日报详情
 	handleCheckMsgDetail = () => {
 		const { msgTotal, stationId } = this.state;
+		this.handleCloseNotice(3);
 		const w = window.open('about:blank');
 		if (msgTotal > 200) {
 			w.location.href = '#/info/monitor';
@@ -193,6 +196,7 @@ class HomeRouter extends React.Component {
 			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice, msgTotal, content,
 		} = this.state;
 		const { baseRule } = this.props;
+		// console.log('baseRule === ', baseRule);
 		const params = {
 			headerPropsData,
 			getHeaderData: this.getHeaderData,
@@ -237,10 +241,16 @@ class HomeRouter extends React.Component {
 					</div>
 					<div className="home-container-content-middle" />
 					<div className="home-container-content-right">
-						<div className="home-container-content-right-quickStart">
-							<QuickStart rule={baseRule} />
-						</div>
-						<div className="home-container-horizontal-mark-line" />
+						{
+							(baseRule.menu_ywgl && baseRule.menu_ywgl.children.ywglywst) || baseRule.menu_hxcx || baseRule.menu_xxss ? (
+								<React.Fragment>
+									<div className="home-container-content-right-quickStart">
+										<QuickStart rule={baseRule} />
+									</div>
+									<div className="home-container-horizontal-mark-line" />
+								</React.Fragment>
+							) : null
+						}
 						<div className="home-container-content-right-overview">
 							<Overview {...overviewParams} />
 						</div>
