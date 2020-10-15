@@ -42,7 +42,7 @@ class HomeOverview extends React.Component {
 		return (
 			<div className="home-overview-container">
 				<div className="home-overview-container-header">
-					监控概览
+					监控入口
 					<div className="home-overview-container-header-detail">
 						<span className="home-overview-container-header-detail-text" onClick={() => navigate('/info/monitor/excavate')}>详情</span>
 						<Icon type="icon-icon_arrow" className="home-overview-container-header-detail-icon" />

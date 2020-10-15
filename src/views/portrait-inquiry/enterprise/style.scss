@@ -14,7 +14,7 @@
 
   }
   .enterprise-intro {
-    background-color: #fff;
+    background-color: $background-antd-border;
     padding: 20px 20px 0 20px;
     transition: all 0.5s;
     .enterprise-info {
@@ -24,24 +24,24 @@
         width: 80px;
         height: 80px;
         float: left;
-        background-color: #1E8CFA;
+        background-color: $text-btn-hover;
         padding: 10px;
         font-size: 24px;
         line-height: 30px;
         text-align: center;
         border-radius: 5px;
-        color: #FFFFFF;
+        color: $background-antd-border;
         position: relative;
         .intro-icon-img-w {
           overflow: hidden;
-          background-color: #FFFFFF;
+          background-color: $background-antd-border;
           position: absolute;
           width: 80px;
           height: 80px;
           left: 0;
           top: 0;
           line-height: 70px;
-          border: 1px solid #1E8CFA;
+          border: 1px solid $text-btn-hover;
           border-radius: 4px;
           .intro-icon-img {
             vertical-align: middle;
@@ -118,12 +118,12 @@
 
   .enterprise-intro-child{
     .yc-tabs-simple {
-      border-bottom: 1px solid $border-base !important;
+      //border-bottom: 1px solid $border-base !important;
     }
   }
   .enterprise-intro-affix {
     .yc-intro-sub-items{
-      border-bottom:1px solid $border-base !important;
+      //border-bottom:1px solid $border-base !important;
     }
 
   }
@@ -140,7 +140,7 @@
 }
 
 .yc-bread-crumb-box{
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid $background-line;
 }
 
 .queryView-box{

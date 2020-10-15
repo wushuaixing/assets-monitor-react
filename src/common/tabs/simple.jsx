@@ -74,7 +74,7 @@ class SimpleTab extends React.Component {
 
 	render() {
 		const {
-			rightRender, source, prefix, type, symbol, suffix,
+			rightRender, source, prefix, type, symbol, suffix, borderBottom,
 		} = this.props;
 		let symbolAry = ['（', '）'];
 		if (symbol === 'none')symbolAry = [' ', ''];
@@ -82,7 +82,7 @@ class SimpleTab extends React.Component {
 
 		const { active } = this.state;
 		return (
-			<div className={`yc-tabs-wrapper yc-tabs-simple yc-tabs-simple-${type || 'warning'}`}>
+			<div className={`yc-tabs-wrapper yc-tabs-simple yc-tabs-simple-${type || 'warning'} ${borderBottom ? ' bottom-line' : ''}`}>
 				<ul>
 					{prefix || ''}
 					{source && source.map(item => (

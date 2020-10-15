@@ -5,6 +5,7 @@ import { Attentions } from '@/common/table';
 import InforItem from '@/views/asset-excavate/seized-unblock/table/infoItem';
 import Api from 'api/monitor-info/seizedUnbock';
 import RegisterModal from '../../../risk-monitor/bankruptcy/registerModal';
+import './comStyle.scss';
 
 export default class UnblockModal extends React.PureComponent {
 	constructor(props) {
@@ -30,6 +31,10 @@ export default class UnblockModal extends React.PureComponent {
 						</div>
 					)),
 				}, {
+					title: <span>
+						关联案件
+						<span className="yc-title-mark">(判决/查封日期)</span>
+					</span>,
 					dataIndex: 'caseNumber',
 					width: 263,
 					render: (text, row) => (
@@ -45,7 +50,7 @@ export default class UnblockModal extends React.PureComponent {
 								<span className="list list-content"><Ellipsis content={row.court || '-'} tooltip width={200} /></span>
 							</li>
 							{
-								row.type === 1 ? 	(
+								row.dataType === 1 ? 	(
 									<li>
 										<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
 										<span className="list list-title-colon">:</span>
@@ -54,7 +59,7 @@ export default class UnblockModal extends React.PureComponent {
 								) : null
 							}
 							{
-								row.type === 2 ? (
+								row.dataType === 2 ? (
 									<React.Fragment>
 										<li>
 											<span className="list list-title align-justify" style={{ width: 50 }}>查封日期</span>

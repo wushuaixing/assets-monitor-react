@@ -16,7 +16,7 @@
 
     span{
       display: block;
-      color:#20242E;
+      color: $fontColor-base;
     }
   }
   .yc-tabs-right{
@@ -43,17 +43,20 @@
   .yc-tabs-active{
     background: $color-base;
     span{
-      color: #FFFFFF;
+      color: $background-antd-border;
       font-weight: 400;
     }
   }
 }
 
+.bottom-line{
+  border-bottom: 1px solid $background-line;
+}
+
 .yc-tabs-simple{
   .yc-tabs-un-active:hover{
-      background-color:#FFFFFF;
+      background-color: $background-antd-border;
   }
-  border-bottom: 1px solid $background-line;
   ul{
     //padding-left: 10px;
   }
@@ -67,12 +70,12 @@
   .yc-tabs-disabled{
     &:hover{
       span{
-        color: #7D8699!important;
+        color: $text-remark !important;
       }
     }
     cursor: inherit;
     span{
-      color: #7D8699;
+      color: $text-remark;
     }
   }
   .yc-tabs-active{
