@@ -2,7 +2,6 @@ import React from 'react';
 import { getBankruptcy } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import { Spin } from '@/common';
 import TimeLine from '../../../common/timeLine';
-import getCount from '../../../common/getCount';
 import './style.scss';
 
 export default class BiddingInfo extends React.Component {
@@ -16,7 +15,7 @@ export default class BiddingInfo extends React.Component {
 	}
 
 	componentDidMount() {
-		// this.getData();
+		this.getData();
 	}
 
 	getData = () => {
@@ -33,9 +32,9 @@ export default class BiddingInfo extends React.Component {
 				this.setState({
 					loading: false,
 					timeLineData, // 年份分布
-					allTimeDate: getCount(timeLineData),
+					allTimeDate: res.data.bankruptcy,
 				});
-				getRiskProfile(getCount(timeLineData), 'Bankruptcy');
+				getRiskProfile(res.data.bankruptcy, 'Bankruptcy');
 			} else {
 				this.setState({ loading: false });
 			}

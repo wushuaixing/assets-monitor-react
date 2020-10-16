@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'reactPropTypes';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import Api from '@/utils/api/monitor-info/bidding';
+import Api from '@/utils/api/monitor-info/seizedUnbock';
 import TableView from './table';
 
 class TableIntact extends React.Component {
@@ -23,39 +23,24 @@ class TableIntact extends React.Component {
 	}
 
 	componentWillMount() {
-		// this.toGetData();
-	}
-
-	componentWillReceiveProps(nextProps) {
-		const { sourceType } = this.props;
-		if (sourceType !== nextProps.sourceType) {
-			this.condition.sortColumn = '';
-			this.condition.sortOrder = '';
-			this.condition.sourceType = nextProps.sourceType;
-			this.setState({
-				dataSource: [],
-				current: 1,
-				total: 0,
-			});
-			this.toGetData(nextProps);
-		}
+		this.toGetData();
 	}
 
 	// 排序触发
-	onSortChange=(field, order) => {
+	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.toGetData();
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		this.condition.page = val;
 		this.toGetData();
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -66,12 +51,12 @@ class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=(nextProps) => {
+	toGetData = () => {
 		this.setState({ loading: true });
-		const { reqUrl, id } = nextProps || this.props;
+		const { reqUrl } = this.props;
 		let toApi = Api.followList;
 		toApi = reqUrl || toApi;
-		toApi(clearEmpty(this.condition), id).then((res) => {
+		toApi(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
