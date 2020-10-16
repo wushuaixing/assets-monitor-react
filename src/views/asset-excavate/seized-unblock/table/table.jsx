@@ -41,7 +41,7 @@ const columns = (props) => {
 				</div>
 			),
 		}, {
-			title: (noSort ? <span>关联案件</span>
+			title: (noSort ? <span>关联案件<span className="yc-title-mark">(判决/查封日期)</span></span>
 				: (
 					<SortVessel field="ORDER_TIME" onClick={onSortChange} {...sort}>
 						关联案件
@@ -102,7 +102,7 @@ const columns = (props) => {
 		}, {
 			title: '操作',
 			width: 55,
-			unNormal: true,
+			unNormal: false,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
 				<Attentions
@@ -147,9 +147,9 @@ class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
-		const _selectedRowKeys = record.map(item => item.id);
-		console.log(_selectedRowKeys);
+	onSelectChange = (selectedRowKeys) => {
+		// const _selectedRowKeys = record.map(item => item.id);
+		// console.log(_selectedRowKeys);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
 		if (onSelect)onSelect(selectedRowKeys);

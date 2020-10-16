@@ -11,7 +11,7 @@ import './style.scss';
 export default class SeizedUnblock extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '查（解）封资产-资产挖掘';
+		document.title = '查/解封资产-资产挖掘';
 		this.state = {
 			isRead: 'all',
 			dataSource: '',
@@ -26,35 +26,35 @@ export default class SeizedUnblock extends React.Component {
 	}
 
 	componentWillMount() {
-		// this.onQueryChange({});
+		this.onQueryChange({});
 	}
 
-	// 获取v查解封资产未读数据
-	toUnReadCount=() => {
+	// 获取查解封资产未读数据
+	toUnReadCount = () => {
 		unReadTotal().then((res) => {
 			const { code, data } = res;
 			if (code === 200) {
 				this.setState({
-					unReadCount: data.biddingCount || 0,
+					unReadCount: data.unsealFlag || false,
 				});
 			}
 		});
 	};
 
 	// 清除排序状态
-	toClearSortStatus=() => {
+	toClearSortStatus = () => {
 		this.condition.sortColumn = '';
 		this.condition.sortOrder = '';
 	};
 
 	// 切换列表未读已读
-	handleReadChange=(val) => {
+	handleReadChange = (val) => {
 		this.setState({ isRead: val });
-		this.onQueryChange(this.condition, '', val, 1);
+		this.onQueryChange(this.condition, val, 1, false);
 	};
 
 	// 全部标记为已读
-	handleAllRead=() => {
+	handleAllRead = () => {
 		const _this = this;
 		const { unReadCount } = this.state;
 
@@ -79,7 +79,7 @@ export default class SeizedUnblock extends React.Component {
 	};
 
 	// 批量关注
-	handleAttention=() => {
+	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource } = this.state;
@@ -118,7 +118,7 @@ export default class SeizedUnblock extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -129,28 +129,28 @@ export default class SeizedUnblock extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		const { manage } = this.state;
 		// this.selectRow = [];
-		this.onQueryChange('', '', '', val, manage);
+		this.onQueryChange('', '', val, manage);
 	};
 
 	// 排序触发
-	onSortChange=(field, order) => {
+	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
-		this.onQueryChange(this.condition, '', '', 1);
+		this.onQueryChange(this.condition, '', 1, false);
 		this.selectRow = [];
 	};
 
 	// 查询条件变化
 	onQuery =(con) => {
 		this.toClearSortStatus();
-		this.onQueryChange(con, '', '', 1);
+		this.onQueryChange(con, '', 1, false);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
+	onQueryChange=(con, _isRead, page, _manage) => {
 		const { isRead, current } = this.state;
 		const { loading } = this.state;
 		this.condition = Object.assign(con || this.condition, {

@@ -12,8 +12,8 @@ export const authRule = params => service.get('/api/auth/authRule', { params })
 		return res.data;
 	});
 
-// [v2.4]文书详情页 [zhouSai]
+// [v2.4]文书详情页 [youyu]
 export const judgmentDetail = async (params) => {
-	const response = await service.get('/yc/monitor/judgment/subrogation/detail', { params });
+	const response = await service.get('/yc/information/judgement/detail', { params });
 	return response.data;
 };

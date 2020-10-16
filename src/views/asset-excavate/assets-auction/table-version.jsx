@@ -6,12 +6,12 @@ import {
 import { floatFormat } from '@/utils/format';
 import assets from '@/utils/api/portrait-inquiry/enterprise/assets';
 import personalAssets from '@/utils/api/portrait-inquiry/personal/assets';
+import { getQueryByName, toEmpty, timeStandard } from '@/utils';
 import TableVersionModal from './tableVersionModal';
 
 import './style.scss';
-import { getQueryByName, toEmpty, timeStandard } from '@/utils';
 
-const { auction } = assets;
+const { auction, blurry } = assets;
 const { personalAuction } = personalAssets;
 
 const AuctionInfo = (text, rowContent) => {
@@ -130,7 +130,7 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
-	toGetColumns=() => [
+	toGetColumns = () => [
 		{
 			title: '拍卖信息',
 			dataIndex: 'title',
@@ -188,7 +188,7 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page) => {
-		const { portrait } = this.props;
+		const { portrait, type } = this.props;
 		const params = portrait === 'personal' ? {
 			obligorName: getQueryByName(window.location.href, 'name'),
 			obligorNumber: getQueryByName(window.location.href, 'num'),
@@ -198,7 +198,8 @@ export default class TableIntact extends React.Component {
 		this.setState({ loading: true });
 
 		// 判断是个人还是企业
-		const commonAuction = portrait === 'personal' ? personalAuction : auction;
+		// type 判断是精准匹配还是模糊匹配
+		const commonAuction = portrait === 'personal' ? personalAuction : (type === 'exact' ? auction : blurry);
 
 		commonAuction.list({
 			page: page || 1,
@@ -231,7 +232,7 @@ export default class TableIntact extends React.Component {
 		} = this.state;
 
 		return (
-			<div className="yc-assets-auction ">
+			<div className="yc-assets-auction">
 				<Spin visible={loading}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}

@@ -4,7 +4,6 @@ import { navigate } from '@reach/router';
 import { Button, Icon as Iconfont, Input } from '@/common';
 import { clearEmpty, getQueryByName } from '@/utils';
 import { inquiryCheck } from '../inquiry-check';
-import './query-style.scss';
 
 export default class QueryView extends React.Component {
 	constructor(props) {
@@ -133,12 +132,10 @@ export default class QueryView extends React.Component {
 			<div className="yc-inquiry-common">
 				<div className="yc-query-item" style={{ height: 34, paddingTop: 7 }}>
 					<span className="yc-query-item-title">债务人类型：</span>
-					<span className="yc-query-item-type">
-						<Radio.Group onChange={e => this.onHandleChange(e, 'obligorType')} value={obligorType}>
-							<Radio key="a" value={1}>企业</Radio>
-							<Radio key="b" value={2}>个人</Radio>
-						</Radio.Group>
-					</span>
+					<Radio.Group onChange={e => this.onHandleChange(e, 'obligorType')} value={obligorType}>
+						<Radio key="a" value={1}>企业</Radio>
+						<Radio key="b" value={2}>个人</Radio>
+					</Radio.Group>
 				</div>
 				<div className="yc-query-item yc-query-item-text1">
 					<Input

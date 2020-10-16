@@ -123,27 +123,27 @@ class BusinessView extends React.Component {
 			},
 			{
 				title: '链接',
-				dataIndex: 'url',
-				key: 'url',
+				dataIndex: 'sourceId',
+				key: 'sourceId',
 				width: 54,
 				render(text, row) {
 					return (
 						<div className="table-column">
-							<a href={row.url} target="_blank" rel="noopener noreferrer"><img src={Link} alt="" /></a>
+							<a href={`#/judgement?sourceId=${text}&pid=${row.wenshuId}&title=${row.title}`} target="_blank" rel="noopener noreferrer">
+								<img src={Link} alt="链接" />
+							</a>
 						</div>
 					);
 				},
 			},
 		];
 		return (
-			<React.Fragment>
-				<Table
-					rowKey={record => record.id}
-					dataSource={dataList.length > 0 && dataList}
-					columns={columns}
-					pagination={false}
-				/>
-			</React.Fragment>
+			<Table
+				rowKey={record => record.id}
+				dataSource={dataList.length > 0 && dataList}
+				columns={columns}
+				pagination={false}
+			/>
 		);
 	}
 }

@@ -211,7 +211,7 @@ class AssociationLink extends React.Component {
 		if (Ws.length > 0) {
 			if (Ws[0].url) {
 				if (resContent.length) resContent.push(<span className="info-line">|</span>);
-				resContent.push(linkDom(Ws[0].url, '文书'));
+				resContent.push(linkDom(`#/judgement?sourceId=${Ws[0].sourceId}&pid=${Ws[0].pid}`, '文书'));
 			}
 		}
 		return resContent;
