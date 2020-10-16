@@ -9,6 +9,14 @@ const assets = {
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/auction/precision/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
+	blurry: {
+		id: 10102,
+		name: '资产-资产拍卖-模糊匹配',
+		params: { companyId: 3280438 },
+		list: params => service.get('/yc/search/portrait/company/asset/auction/vague/list', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/auction/vague/list-count', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
 	trial: {
 		id: 10201,
 		name: '资产-代位权-立案',

@@ -12,6 +12,7 @@ class Judgement extends React.Component {
 			loading: true,
 			url: '',
 			htmlText: '',
+			title: '',
 		};
 	}
 
@@ -19,10 +20,12 @@ class Judgement extends React.Component {
 		const { hash } = window.location;
 		const params = parseQuery(hash);
 		const newParams = {
-			...params,
+			pid: params.pid,
 			sourceId: parseInt(params.sourceId, 10),
 		};
-		console.log('newParams === ', newParams);
+		this.setState({
+			title: params.title,
+		});
 		this.getData(newParams);
 	}
 
@@ -57,14 +60,14 @@ class Judgement extends React.Component {
 	};
 
 	render() {
-		const { loading, htmlText } = this.state;
+		const { loading, htmlText, title } = this.state;
 		return (
 			<Spin visible={loading}>
 				{
 					htmlText ? (
 						<div className="judgement">
 							<div className="judgement-header">
-								<span className="judgement-header-title">中国银行股份有限公司、王ｘｘ借款合同纠纷执行实施类执行裁定书</span>
+								<span className="judgement-header-title">{title}</span>
 								<Button className="judgement-header-btn" onClick={this.handleJumpSourceLink}>源链接</Button>
 							</div>
 							<div className="judgement-line">

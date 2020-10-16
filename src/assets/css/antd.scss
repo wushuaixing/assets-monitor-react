@@ -284,3 +284,10 @@
   content: "\25BC";
   color: #7D8699;
 }
+
+.ant-radio-checked .ant-radio-inner{
+  border-color: $text-link;
+}
+.ant-radio-inner:after{
+  border-radius: 50%;
+}
