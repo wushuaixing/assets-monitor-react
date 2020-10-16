@@ -10,12 +10,12 @@ import { Judgment } from '@/utils/api/monitor-info/subrogation';
 /* 文书信息 */
 const documentInfo = (value, row) => {
 	const {
-		caseReason, caseType, gmtJudgment, title, url, isRestore,
+		caseReason, caseType, gmtJudgment, title, isRestore, sourceId, pid,
 	} = row;
 	return (
 		<div className="assets-info-content">
 			<li>
-				<Ellipsis content={title} line={2} tooltip url={url} />
+				<Ellipsis content={title} line={2} tooltip url={`#/judgement?sourceId=${sourceId}&pid=${pid}&title=${title}`} />
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 50 }}>案由</span>

@@ -9,12 +9,12 @@ import { Judgment } from '@/utils/api/risk-monitor/lawsuit';
 /* 文书信息 */
 const documentInfo = (value, row) => {
 	const {
-		caseReason, caseType, gmtJudgment, title, url,
+		caseReason, caseType, gmtJudgment, title, sourceId, pid,
 	} = row;
 	return (
 		<div className="assets-info-content">
 			<li>
-				<Ellipsis content={title} line={2} tooltip url={url} />
+				<Ellipsis content={title} line={2} tooltip url={`#/judgement?sourceId=${sourceId}&pid=${pid}&title=${title}`} />
 			</li>
 			<li>
 				<span className="list list-title align-justify" style={{ width: 50 }}>案由</span>

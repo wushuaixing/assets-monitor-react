@@ -35,29 +35,7 @@
     }
   }
   &-body{
-    padding-top: 20px;
+    padding: 20px 50px;
     position: relative;
-    &-title{
-      text-align: center;
-      font-size: 18px;
-      color: $fontColor-base;
-      font-weight: bold;
-    }
-    &-subtitle{
-      position: absolute;
-      font-size: 16px;
-      color: $text-title;
-      font-weight: bold;
-      right: 50px;
-      height: 24px;
-    }
-    &-text{
-      padding: 40px 50px;
-      &-article{
-        line-height: 24px;
-        text-indent: 2em;
-        word-spacing: 1em;
-      }
-    }
   }
 }

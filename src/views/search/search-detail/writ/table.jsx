@@ -129,7 +129,7 @@ class BusinessView extends React.Component {
 				render(text, row) {
 					return (
 						<div className="table-column">
-							<a href={`#/judgement?sourceId=${text}&pid=${row.id}&title=${row.title}&url=${row.url}`} target="_blank" rel="noopener noreferrer">
+							<a href={`#/judgement?sourceId=${text}&pid=${row.wenshuId}&title=${row.title}`} target="_blank" rel="noopener noreferrer">
 								<img src={Link} alt="链接" />
 							</a>
 						</div>
