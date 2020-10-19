@@ -288,6 +288,16 @@
 .ant-radio-checked .ant-radio-inner{
   border-color: $text-link;
 }
+
+.ant-radio {
+  &:hover{
+    .ant-radio-inner{
+      border-color: $text-link;
+    }
+  }
+}
+
 .ant-radio-inner:after{
   border-radius: 50%;
 }
+
