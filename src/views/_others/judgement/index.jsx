@@ -21,22 +21,20 @@ class Judgement extends React.Component {
 		const params = parseQuery(hash);
 		const newParams = {
 			pid: params.pid,
-			sourceId: parseInt(params.sourceId, 10),
+			sourceId: params.sourceId ? parseInt(params.sourceId, 10) : params.sourceId,
 		};
-		this.setState({
-			title: params.title,
-		});
-		this.getData(newParams);
+		this.getData(newParams, params.title);
 	}
 
 	// 请求数据
-	getData = (params) => {
+	getData = (params, title) => {
 		judgmentDetail(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					loading: false,
 					url: res.data.url,
 					htmlText: res.data.htmlText,
+					title: res.data.title || title,
 				});
 			} else {
 				this.setState({
