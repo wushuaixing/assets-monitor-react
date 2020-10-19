@@ -119,7 +119,7 @@ class HomeDynamic extends PureComponent {
 					count: intangibleNum, type: 3, typeName: '无形资产', name: '无形资产', value: 8,
 				},
 				{
-					count: unseal || 0, type: 13, typeName: '查解封资产', name: '查解封资产', value: 9,
+					count: unseal || 0, type: 13, typeName: '查/解封资产', name: '查/解封资产', value: 9,
 				},
 			];
 			// console.log('assetDataArray === ', assetDataArray);
@@ -263,7 +263,7 @@ class HomeDynamic extends PureComponent {
 			} = res.data;
 			const lawsuitNum = this.getTotal([lawsuitCourt, lawsuitJudgement, lawsuitTrial]);
 			const operationNum = this.getTotal([abnormal, change, tax, illegal, punishment, epb]);
-			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, punishment, tax, 50]);
+			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, punishment, tax, limitHeight]);
 			const riskDataArray = [
 				{
 					count: bankruptcy, type: 7, typeName: '破产重组', name: '破产重组', value: 2,
@@ -278,7 +278,7 @@ class HomeDynamic extends PureComponent {
 					count: operationNum, type: 10, typeName: '经营风险', name: '经营风险', value: 2,
 				},
 				{
-					count: limitHeight, type: 10, typeName: '限制高消费', name: '限制高消费', value: 2,
+					count: limitHeight, type: 14, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 			];
 			const riskPropsData = {

@@ -36,6 +36,8 @@ const ringMap = new Map([
 	['涉诉信息', ['涉诉信息', 9]],
 	['经营风险', ['经营风险', 10]],
 	['金融资产', ['金融资产', 12]],
+	['查/解封资产', ['查/解封资产', 13]],
+	['限制高消费', ['限制高消费', 14]],
 	['default', ['资产拍卖', 1]],
 ]);
 
@@ -174,6 +176,7 @@ class dynamicUpdate extends PureComponent {
 
 	riskArrayNum = (selected, name, remindArray, clear) => {
 		const actionType = ringMap.get(name) || ringMap.get('default');
+		console.log('actionType === ', actionType);
 		let risk = [...remindArray.filter(item => item.type === actionType[1])];
 		if (clear) {
 			risk = [];
