@@ -72,17 +72,38 @@ const ruleList = (props) => {
 	return l;
 };
 
-const MainScreen = props => (
-	<React.Fragment>
-		<Header {...props} />
-		<Container>
-			<Router mode="hash">
-				{ ruleList(props).map(item => item) }
-			</Router>
-		</Container>
-		<Footer />
-	</React.Fragment>
-);
+// const MainScreen = props => (
+// 	<React.Fragment>
+// 		<Header {...props} />
+// 		<Container>
+// 			<Router mode="hash">
+// 				{ ruleList(props).map(item => item) }
+// 			</Router>
+// 		</Container>
+// 		<Footer />
+// 	</React.Fragment>
+// );
+
+const MainScreen = (props) => {
+	const { hash, rule } = props;
+	const reg = new RegExp('#/judgement');
+	const newProps = {
+		rule,
+	};
+	return (
+		<React.Fragment>
+			 {
+				 !reg.test(hash) ? <Header {...newProps} /> : null
+			 }
+			<Container>
+				<Router mode="hash">
+					{ ruleList(newProps).map(item => item) }
+				</Router>
+			</Container>
+			<Footer />
+		</React.Fragment>
+	);
+};
 
 export default class Screen extends React.Component {
 	constructor(props) {
@@ -159,11 +180,12 @@ export default class Screen extends React.Component {
 		const {
 			loading, rule, errorCode, tokenText,
 		} = this.state;
+		const { location } = this.props;
 		if (loading === 'show') {
 			return <Spin visible={loading} text=" " transparent><div style={{ height: this.clientHeight || 500 }} /></Spin>;
 		}
 		if (loading === 'hidden') {
-			return <MainScreen rule={rule} />;
+			return <MainScreen rule={rule} hash={location.hash} />;
 		}
 		if (loading === 'error') {
 			return (
