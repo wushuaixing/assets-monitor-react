@@ -92,7 +92,7 @@ class HomeDynamic extends PureComponent {
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
 			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial]);
 			const financeNum = this.getTotal([auctionBidding, finance]);
-			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark]);
+			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal]);
 			const assetDataArray = [
 				{
 					count: auction, type: 1, typeName: '资产拍卖', name: '资产拍卖', value: 1,
@@ -119,7 +119,7 @@ class HomeDynamic extends PureComponent {
 					count: intangibleNum, type: 3, typeName: '无形资产', name: '无形资产', value: 8,
 				},
 				{
-					count: unseal || 0, type: 13, typeName: '查/解封资产', name: '查/解封资产', value: 9,
+					count: unseal, type: 14, typeName: '查/解封资产', name: '查/解封资产', value: 9,
 				},
 			];
 			// console.log('assetDataArray === ', assetDataArray);
@@ -153,7 +153,7 @@ class HomeDynamic extends PureComponent {
 			{ count: auction, Api: importantListAuction, auction: true },
 
 			{ count: bidding, Api: importantListBidding },
-			// { count: unseal, Api: importantListUnseal },
+			{ count: unseal, Api: importantListUnseal },
 			{ count: landTransfer, Api: importantListLandTransfer },
 			{ count: landMortgage, Api: importantListLandMortgage },
 			{ count: landTransaction, Api: importantListLandTransaction },

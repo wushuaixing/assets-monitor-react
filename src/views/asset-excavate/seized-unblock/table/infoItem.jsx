@@ -42,7 +42,7 @@ export default class InfoItem extends React.Component {
 		return (
 			<div>
 				{
-				row.dataType === 2 ? (
+				row.dataType === '2' ? (
 					<div className="assets-matching-reason-wrapper">
 						<div className={`reason-content-wrapper content-${status}`}>
 							<div className="reason-content" ref={e => this.dom = e}>
@@ -75,7 +75,7 @@ export default class InfoItem extends React.Component {
 				) : null
 			}
 				{
-				row.dataType === 1 ? (
+				row.dataType === '1' ? (
 					<div className="assets-matching-reason-wrapper">
 						<div>
 							<span>详见正文：</span>
