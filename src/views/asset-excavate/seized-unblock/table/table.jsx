@@ -63,16 +63,16 @@ const columns = (props) => {
 						<span className="list list-content"><Ellipsis content={row.court || '-'} tooltip width={200} /></span>
 					</li>
 					{
-						row.type === 1 ? 	(
+						row.dataType === '1' ? 	(
 							<li>
 								<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
 								<span className="list list-title-colon">:</span>
-								<span className="list list-content"><Ellipsis content={row.publishTime || '-'} tooltip width={200} /></span>
+								<span className="list list-content"><Ellipsis content={row.judementTime || '-'} tooltip width={200} /></span>
 							</li>
 						) : null
 					}
 					{
-						row.type === 2 ? (
+						row.dataType === '2' ? (
 							<React.Fragment>
 								<li>
 									<span className="list list-title align-justify" style={{ width: 50 }}>查封日期</span>
@@ -97,7 +97,7 @@ const columns = (props) => {
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'updateTime',
+			dataIndex: 'gmtModified',
 			width: 110,
 		}, {
 			title: '操作',

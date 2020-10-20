@@ -31,20 +31,20 @@ class QueryCondition extends React.Component {
 		}
 	};
 
-	handleSubmit=() => {
+	handleSubmit = () => {
 		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
-		console.log('condition =====', condition);
-		if (onQueryChange)onQueryChange(condition, '', '', 1);
+		// console.log('condition =====', condition);
+		if (onQueryChange)onQueryChange(condition, '', '', false);
 	};
 
-	handleReset=() => {
+	handleReset = () => {
 		const { form, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		form.resetFields();
-		const condition = 	form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition, '', '', 1);
+		const condition = form.getFieldsValue();
+		if (onQueryChange)onQueryChange(condition, '', '', false);
 	};
 
 	render() {

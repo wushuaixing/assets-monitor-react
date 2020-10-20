@@ -20,16 +20,22 @@ export default class UnblockModal extends React.PureComponent {
 					title: <span style={{ paddingLeft: 10 }}>查/解封对象</span>,
 					dataIndex: 'parties',
 					width: 260,
-					render: text => text.map(i => (
-						<div style={{ position: 'relative', paddingLeft: 10 }}>
-							<Ellipsis
-								content={`${i.name};`}
-								tooltip
-								width={240}
-								url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-							/>
+					render: text => (
+						<div>
+							{
+								text.map(i => (
+									<div style={{ position: 'relative', paddingLeft: 10 }}>
+										<Ellipsis
+											content={`${i.name};`}
+											tooltip
+											width={240}
+											url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
+										/>
+									</div>
+								))
+							}
 						</div>
-					)),
+					),
 				}, {
 					title: <span>
 						关联案件
@@ -50,16 +56,16 @@ export default class UnblockModal extends React.PureComponent {
 								<span className="list list-content"><Ellipsis content={row.court || '-'} tooltip width={200} /></span>
 							</li>
 							{
-								row.dataType === 1 ? 	(
+								row.dataType === '1' ? 	(
 									<li>
 										<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
 										<span className="list list-title-colon">:</span>
-										<span className="list list-content"><Ellipsis content={row.publishTime || '-'} tooltip width={200} /></span>
+										<span className="list list-content"><Ellipsis content={row.judementTime || '-'} tooltip width={200} /></span>
 									</li>
 								) : null
 							}
 							{
-								row.dataType === 2 ? (
+								row.dataType === '2' ? (
 									<React.Fragment>
 										<li>
 											<span className="list list-title align-justify" style={{ width: 50 }}>查封日期</span>
@@ -82,18 +88,19 @@ export default class UnblockModal extends React.PureComponent {
 					width: 328,
 					render: (text, row) => <InforItem content={text} row={row} />,
 				}, {
-					title: '更新日期',
-					dataIndex: 'updateTime',
+					title: global.Table_CreateTime_Text,
+					dataIndex: 'gmtModified',
 					width: 110,
 				}, {
 					title: '操作',
 					width: 55,
-					unNormal: true,
+					unNormal: false,
 					className: 'tAlignCenter_important',
 					render: (text, row, index) => (
 						<Attentions
 							text={text}
 							row={row}
+							onClick={this.onRefresh}
 							api={row.isAttention ? Api.unFollow : Api.follow}
 							index={index}
 						/>
@@ -110,7 +117,7 @@ export default class UnblockModal extends React.PureComponent {
 	}
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = [...dataSource];
@@ -136,7 +143,7 @@ export default class UnblockModal extends React.PureComponent {
 		});
 	};
 
-	handleCancel=() => {
+	handleCancel = () => {
 		const { onCancel } = this.props;
 		onCancel();
 	};

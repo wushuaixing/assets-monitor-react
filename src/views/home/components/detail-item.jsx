@@ -74,9 +74,9 @@ const tag = (value) => {
 	case 1002: return '严重违法';
 	case 1003: return '税收违法';
 	case 1004: return '行政处罚';
-	case 1101: return '查/解封资产';
 	case 1301: return '限制高消费(移除)';
 	case 1302: return '限制高消费';
+	case 1401: return '查/解封资产';
 	default: return '-';
 	}
 };
@@ -106,9 +106,9 @@ const icon = (value) => {
 	case 1002: return 'illegal';
 	case 1003: return 'tax';
 	case 1004: return 'punishment';
-	case 1101: return 'unblockCube';
 	case 1301: return 'limitCube';
 	case 1302: return 'limitCube';
+	case 1401: return 'unblockCube';
 	default: return '-';
 	}
 };
@@ -312,10 +312,6 @@ class DetailItem extends PureComponent {
 				this.isReadList(item, index, Punishment.read);
 				this.setState(() => ({ punishmentModalVisible: true, dataSource: item.detailList }));
 			}],
-			[1101, () => {
-				this.isReadList(item, index, seizedUnblock.read);
-				this.setState(() => ({ unBlockModalVisible: true, dataSource: item.detailList }));
-			}],
 			[1301, () => {
 				this.isReadList(item, index, limitConsumption.read, 'idList');
 				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
@@ -323,6 +319,10 @@ class DetailItem extends PureComponent {
 			[1302, () => {
 				this.isReadList(item, index, limitConsumption.read, 'idList');
 				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
+			}],
+			[1401, () => {
+				this.isReadList(item, index, seizedUnblock.read);
+				this.setState(() => ({ unBlockModalVisible: true, dataSource: item.detailList }));
 			}],
 			['default', ['资产拍卖', 1]],
 		]);

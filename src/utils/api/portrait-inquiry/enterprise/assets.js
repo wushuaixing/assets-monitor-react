@@ -148,14 +148,14 @@ const assets = {
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/bidding/listCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
-	unblock: {
-		id: 10801,
-		name: '资产-查解封资产',
-		params: { role: 1, regDateStart: '2019-05-01' },
-		list: params => service.get('/yc/search/portrait/company/asset/bidding/list', { params })
-			.then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/asset/bidding/listCount', { params })
-			.then(res => Object.assign(res.data, { id })),
-	},
+	// unblock: {
+	// 	id: 10801,
+	// 	name: '资产-查解封资产',
+	// 	params: { role: 1, regDateStart: '2019-05-01' },
+	// 	list: params => service.get('/yc/search/portrait/company/asset/bidding/list', { params })
+	// 		.then(res => res.data),
+	// 	count: (params, id) => service.get('/yc/search/portrait/company/asset/bidding/listCount', { params })
+	// 		.then(res => Object.assign(res.data, { id })),
+	// },
 };
 export default assets;

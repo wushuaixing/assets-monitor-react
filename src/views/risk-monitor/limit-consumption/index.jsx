@@ -139,7 +139,7 @@ export default class LimitConsumption extends React.Component {
 	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
-		this.onQueryChange(this.condition, '', '', false);
+		this.onQueryChange(this.condition, '', 1, false);
 		this.selectRow = [];
 	};
 

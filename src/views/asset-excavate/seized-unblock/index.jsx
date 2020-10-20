@@ -14,7 +14,7 @@ export default class SeizedUnblock extends React.Component {
 		document.title = '查/解封资产-资产挖掘';
 		this.state = {
 			isRead: 'all',
-			dataSource: '',
+			dataSource: [],
 			current: 1,
 			total: 0,
 			loading: false,
@@ -57,8 +57,7 @@ export default class SeizedUnblock extends React.Component {
 	handleAllRead = () => {
 		const _this = this;
 		const { unReadCount } = this.state;
-
-		if (unReadCount > 0) {
+		if (unReadCount) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
@@ -144,13 +143,13 @@ export default class SeizedUnblock extends React.Component {
 	};
 
 	// 查询条件变化
-	onQuery =(con) => {
+	onQuery = (con) => {
 		this.toClearSortStatus();
 		this.onQueryChange(con, '', 1, false);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _isRead, page, _manage) => {
+	onQueryChange = (con, _isRead, page, _manage) => {
 		const { isRead, current } = this.state;
 		const { loading } = this.state;
 		this.condition = Object.assign(con || this.condition, {
@@ -160,7 +159,6 @@ export default class SeizedUnblock extends React.Component {
 		const __isRead = _isRead || isRead;
 		if (__isRead === 'all') { delete this.condition.isRead; }
 		if (__isRead === 'unread') { this.condition.isRead = 0; }
-
 		if (!loading) this.setState({ loading: true, manage: _manage || false });
 		// this.toInfoCount();
 		this.toUnReadCount();
