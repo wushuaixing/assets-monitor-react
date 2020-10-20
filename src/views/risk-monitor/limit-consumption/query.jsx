@@ -32,7 +32,7 @@ class QueryCondition extends React.Component {
 	};
 
 	// 点击查询触发父组件的查询事件
-	handleSubmit=() => {
+	handleSubmit = () => {
 		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
@@ -40,7 +40,7 @@ class QueryCondition extends React.Component {
 	};
 
 	// 重置查询条件
-	handleReset=() => {
+	handleReset = () => {
 		const { form, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		form.resetFields();

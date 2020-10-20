@@ -97,13 +97,13 @@ const risk = {
 		count: (params, id) => service.get('/yc/search/portrait/company/management/epb/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
-	limitHeight: {
-		id: 20901,
-		name: '风险-限制高消费',
-		list: params => service.get('/yc/search/portrait/company/management/epb/list', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/management/epb/list-count', { params })
-			.then(res => Object.assign(res.data, { id })),
-	},
+	// limitHeight: {
+	// 	id: 20901,
+	// 	name: '风险-限制高消费',
+	// 	list: params => service.get('/yc/search/portrait/company/management/epb/list', { params }).then(res => res.data),
+	// 	count: (params, id) => service.get('/yc/search/portrait/company/management/epb/list-count', { params })
+	// 		.then(res => Object.assign(res.data, { id })),
+	// },
 };
 
 

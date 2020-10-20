@@ -95,7 +95,6 @@ class TableIntact extends React.Component {
 			onSelect: () => {},
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
-			sourceType: this.condition.sourceType,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortColumn,
 		};

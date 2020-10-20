@@ -7,7 +7,7 @@ import Intangible from './intangible';
 import Stock from './stock';
 import Chattel from './chattel';
 import Bidding from './bidding';
-import UnBlock from './unblock';
+// import UnBlock from './unblock';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -62,14 +62,14 @@ const subItems = data => ([
 		tagName: 'e-assets-chattel',
 		component: Chattel,
 	},
-	{
-		id: 10800,
-		name: '查/解封资产',
-		total: data ? toGetTotal('1080', data) : 0,
-		info: data ? data.filter(i => /1080/.test(i.id)) : '',
-		tagName: 'e-assets-unblock',
-		component: UnBlock,
-	},
+	// {
+	// 	id: 10800,
+	// 	name: '查/解封资产',
+	// 	total: data ? toGetTotal('1080', data) : 0,
+	// 	info: data ? data.filter(i => /1080/.test(i.id)) : '',
+	// 	tagName: 'e-assets-unblock',
+	// 	component: UnBlock,
+	// },
 	{
 		id: 10600,
 		name: '无形资产',

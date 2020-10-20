@@ -19,7 +19,7 @@ export default class LimitHeight extends PureComponent {
 	}
 
 	// 获取统计信息
-	toInfoCount=() => {
+	toInfoCount = () => {
 		const params = {
 			isRead: 0,
 		};

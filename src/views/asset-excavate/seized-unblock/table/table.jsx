@@ -63,7 +63,7 @@ const columns = (props) => {
 						<span className="list list-content"><Ellipsis content={row.court || '-'} tooltip width={200} /></span>
 					</li>
 					{
-						row.type === 1 ? 	(
+						row.dataType === 1 ? 	(
 							<li>
 								<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
 								<span className="list list-title-colon">:</span>
@@ -72,7 +72,7 @@ const columns = (props) => {
 						) : null
 					}
 					{
-						row.type === 2 ? (
+						row.dataType === 2 ? (
 							<React.Fragment>
 								<li>
 									<span className="list list-title align-justify" style={{ width: 50 }}>查封日期</span>
