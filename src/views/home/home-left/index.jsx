@@ -198,57 +198,10 @@ class HomeDynamic extends PureComponent {
 					}
 				});
 			}
-			// console.log('AssetImportantReminderList === ', AssetImportantReminderList);
 			this.setState(() => ({
-				AssetImportantReminderList: [
-					...AssetImportantReminderList,
-					{
-						obligorName: '重庆第三工程施工队有线公司',
-						description: '匹配到1条发布日期为2020.12.11的查/解封资产信息',
-						timestamp: '1601125416',
-						detailType: 1101,
-						mainObligor: true,
-						detailList: [
-							{
-								updateTime: '2020-09-28',
-								caseNumber: '（2019）闽0104执保206号',
-								court: ' 永康市人民法院',
-								publishTime: '2020-10-22',
-								sealUpTime: '2020-10-22',
-								unsealingTime: '2020-10-22',
-								parties: [
-									{ name: '建军', obligorId: 9654 },
-								],
-								isRead: 1,
-								dataType: 1,
-								url: 'www.baidu.com',
-								title: '石天九与张明智之间借款合同纠纷一案结案通知书',
-								information: '轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.',
-							},
-							{
-								updateTime: '2020-09-28',
-								caseNumber: '（2019）闽0104执保206号',
-								court: ' 永康市人民法院',
-								publishTime: '2020-10-22',
-								sealUpTime: '2020-10-22',
-								unsealingTime: '2020-10-22',
-								parties: [
-									{ name: '建军', obligorId: 9654 },
-								],
-								isRead: 0,
-								dataType: 2,
-								url: 'www.baidu.com',
-								title: '石天九与张明智之间借款合同纠纷一案结案通知书',
-								information: '轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.轮候查封华鑫化纤科技集团有限公司名下位于广州市天河区汇景南路269号301房、天河区汇景南路271号地下一层77、76号车位、天河区汇景北路154号1302房、天河区汇景北路144号B2117车位；轮候查封唐志威名下位于.',
-							},
-						],
-						id: 9032,
-					},
-				],
+				AssetImportantReminderList,
 				AssetImportantReminderObligorIdList,
 			}));
-			// console.log(AssetImportantReminderList, AssetImportantReminderObligorIdList);
-			// console.log('all promise are resolved', res);
 		}).catch((reason) => {
 			this.setState({ loading: false, finish: false });
 			console.log('promise reject failed reason', reason);
@@ -278,7 +231,7 @@ class HomeDynamic extends PureComponent {
 					count: operationNum, type: 10, typeName: '经营风险', name: '经营风险', value: 2,
 				},
 				{
-					count: limitHeight, type: 14, typeName: '限制高消费', name: '限制高消费', value: 2,
+					count: limitHeight, type: 13, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 			];
 			const riskPropsData = {

@@ -75,8 +75,8 @@ const tag = (value) => {
 	case 1003: return '税收违法';
 	case 1004: return '行政处罚';
 	case 1101: return '查/解封资产';
-	case 1201: return '限制高消费(移除)';
-	case 1202: return '限制高消费';
+	case 1301: return '限制高消费(移除)';
+	case 1302: return '限制高消费';
 	default: return '-';
 	}
 };
@@ -107,8 +107,8 @@ const icon = (value) => {
 	case 1003: return 'tax';
 	case 1004: return 'punishment';
 	case 1101: return 'unblockCube';
-	case 1201: return 'limitCube';
-	case 1202: return 'limitCube';
+	case 1301: return 'limitCube';
+	case 1302: return 'limitCube';
 	default: return '-';
 	}
 };
@@ -295,7 +295,6 @@ class DetailItem extends PureComponent {
 				this.isReadList(item, index, lawsuitJudgment.read, 'idList');
 				this.setState(() => ({ lawsuitJudgmentModalVisible: true, dataSource: item.detailList }));
 			}],
-
 			[1001, () => {
 				this.isReadList(item, index, Abnormal.read, 'idList');
 				this.setState(() => ({ abnormalModalVisible: true, dataSource: item.detailList }));
@@ -317,11 +316,11 @@ class DetailItem extends PureComponent {
 				this.isReadList(item, index, seizedUnblock.read);
 				this.setState(() => ({ unBlockModalVisible: true, dataSource: item.detailList }));
 			}],
-			[1201, () => {
+			[1301, () => {
 				this.isReadList(item, index, limitConsumption.read, 'idList');
 				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
 			}],
-			[1202, () => {
+			[1302, () => {
 				this.isReadList(item, index, limitConsumption.read, 'idList');
 				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
 			}],
@@ -479,7 +478,7 @@ class DetailItem extends PureComponent {
 												</div>
 												<div className="detail-container-content-middle-item">
 													<div
-														style={{ width: item.detailType === 1201 ? 335 : 364 }}
+														style={{ width: item.detailType === 1301 ? 335 : 364 }}
 														className="detail-container-content-middle-item-detail"
 													>
 														{item.description || '-'}
@@ -493,10 +492,10 @@ class DetailItem extends PureComponent {
 													{item.timestamp ? timeStandard(item.timestamp) : '-'}
 												</div>
 												<div
-													style={{ width: item.detailType === 1201 ? 130 : 100 }}
+													style={{ width: item.detailType === 1301 ? 130 : 100 }}
 													className={`detail-container-content-right-tag 
-													${(item.detailType === 701 || item.detailType === 801 || item.detailType === 1202) ? 'red' : 'yellow'} 
-													${(item.detailType === 802 || item.detailType === 1201) ? 'green' : ''}`}
+													${(item.detailType === 701 || item.detailType === 801 || item.detailType === 1302) ? 'red' : 'yellow'} 
+													${(item.detailType === 802 || item.detailType === 1301) ? 'green' : ''}`}
 												>
 													<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />
 													{tag(item.detailType)}
