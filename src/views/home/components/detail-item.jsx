@@ -321,7 +321,7 @@ class DetailItem extends PureComponent {
 				this.setState(() => ({ limitHeightModalVisible: true, dataSource: item.detailList }));
 			}],
 			[1401, () => {
-				this.isReadList(item, index, seizedUnblock.read);
+				this.isReadList(item, index, seizedUnblock.read, 'idList');
 				this.setState(() => ({ unBlockModalVisible: true, dataSource: item.detailList }));
 			}],
 			['default', ['资产拍卖', 1]],

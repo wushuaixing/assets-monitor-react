@@ -80,7 +80,6 @@ class LimitHeightTable extends Component {
 		const { index } = data;
 		const _dataSource = dataSource;
 		_dataSource[index][type] = data[type];
-		// console.log('_dataSource === ', _dataSource);
 		this.setState({
 			dataSource: _dataSource,
 		});

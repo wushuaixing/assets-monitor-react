@@ -283,7 +283,6 @@ class MessageDetail extends React.Component {
 	queryAllCount = () => {
 		const { obligorId, stationId } = this.state;
 		const { rule } = this.props;
-		// console.log('message rule ===', rule);
 		const params = {
 			obligorId,
 			stationId,
@@ -291,7 +290,6 @@ class MessageDetail extends React.Component {
 		dataCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					// config: subItems(rule, [...res.data.categoryCount, { dataCount: 2, dataType: 11301, typeName: '查解封资产' }, { dataCount: 32, dataType: 11401, typeName: '限制高消费' }]).filter(item => item.status && item.total > 0),
 					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
 				});
 			}
