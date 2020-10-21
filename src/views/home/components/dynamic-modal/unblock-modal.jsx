@@ -26,7 +26,7 @@ export default class UnblockModal extends React.PureComponent {
 								text.map(i => (
 									<div style={{ position: 'relative', paddingLeft: 10 }}>
 										<Ellipsis
-											content={`${i.name}${text.length > 1 ? ';' : ''}`}
+											content={`${i.name}`}
 											tooltip
 											width={240}
 											url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
