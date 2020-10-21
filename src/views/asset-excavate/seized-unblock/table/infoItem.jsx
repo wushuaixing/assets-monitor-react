@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from 'antd';
+import { Ellipsis } from '@/common';
 import './index.scss';
 
 export default class InfoItem extends React.Component {
@@ -42,48 +43,56 @@ export default class InfoItem extends React.Component {
 		return (
 			<div>
 				{
-				row.dataType === '2' ? (
-					<div className="assets-matching-reason-wrapper">
-						<div className={`reason-content-wrapper content-${status}`}>
-							<div className="reason-content" ref={e => this.dom = e}>
-								<div className="reason-list">
-									<p dangerouslySetInnerHTML={{ __html: content }} />
+					row.dataType === 1 ? (
+						<div className="assets-matching-reason-wrapper">
+							<div className={`reason-content-wrapper content-${status}`}>
+								<div className="reason-content" ref={e => this.dom = e}>
+									<div className="reason-list">
+										<p dangerouslySetInnerHTML={{ __html: content }} />
+									</div>
 								</div>
 							</div>
-						</div>
-						<div className={`reason-action reason-action-${status}`}>
-							{
-							status === 'canOpen' ? (
-								<React.Fragment>
-									<li className="action-ellipsis yc-text-normal">
-										<Icon type="ellipsis" />
+							<div className={`reason-action reason-action-${status}`}>
+								{
+								status === 'canOpen' ? (
+									<React.Fragment>
+										<li className="action-ellipsis yc-text-normal">
+											<Icon type="ellipsis" />
+										</li>
+										<li className="action-btn yc-text-normal" onClick={() => this.setState({ status: 'canClose' })}>
+											<span>展开</span>
+											<Icon type="down" />
+										</li>
+									</React.Fragment>
+								) : (
+									<li className="action-btn yc-text-normal" onClick={() => this.setState({ status: 'canOpen' })}>
+										<span>收起</span>
+										<Icon type="up" />
 									</li>
-									<li className="action-btn yc-text-normal" onClick={() => this.setState({ status: 'canClose' })}>
-										<span>展开</span>
-										<Icon type="down" />
-									</li>
-								</React.Fragment>
-							) : (
-								<li className="action-btn yc-text-normal" onClick={() => this.setState({ status: 'canOpen' })}>
-									<span>收起</span>
-									<Icon type="up" />
-								</li>
-							)
-						}
+								)
+							}
+							</div>
 						</div>
-					</div>
-				) : null
-			}
+					) : null
+				}
 				{
-				row.dataType === '1' ? (
-					<div className="assets-matching-reason-wrapper">
-						<div>
-							<span>详见正文：</span>
-							<a>{row.documentTitle}</a>
+					row.dataType === 2 ? (
+						<div className="assets-matching-reason-wrapper">
+							{
+								row.title ? (
+									<div>
+										<span>详见正文：</span>
+										<Ellipsis
+											content={row.title}
+											url={row.url}
+											tooltip
+										/>
+									</div>
+								) : '-'
+							}
 						</div>
-					</div>
-				) : null
-			}
+					) : null
+				}
 			</div>
 		);
 	}

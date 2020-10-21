@@ -326,28 +326,18 @@ export default class Excavate extends PureComponent {
 
 	// 查解封资产
 	getUnsealData = (res) => {
-		const unBlockPropsData = {
-			unBlock: 45,
-			totalCount: 45,
-			gmtUpdate: '2020-10-1',
-		};
-		this.setState(() => ({
-			unBlockPropsData,
-			unblockCount: 45,
-		}));
-
-		// if (res && res.code === 200) {
-		// 	const { unsealCount, gmtUpdate } = res.data;
-		// 	const unBlockPropsData = {
-		// 		unBlock: unsealCount || 45,
-		// 		totalCount: unsealCount || 45,
-		// 		gmtUpdate: gmtUpdate || '2020-10-1',
-		// 	};
-		// 	this.setState(() => ({
-		// 		unBlockPropsData,
-		// 		unblockCount: unsealCount || 45,
-		// 	}));
-		// }
+		if (res && res.code === 200) {
+			const { unsealCount, gmtUpdate } = res.data;
+			const unBlockPropsData = {
+				unBlock: unsealCount,
+				totalCount: unsealCount,
+				gmtUpdate,
+			};
+			this.setState(() => ({
+				unBlockPropsData,
+				unblockCount: unsealCount,
+			}));
+		}
 	};
 
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';

@@ -74,12 +74,11 @@ class UnBlock extends Component {
 	};
 
 	// 表格变化，刷新表格
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
 		_dataSource[index][type] = data[type];
-		console.log('_dataSource === ', _dataSource);
 		this.setState({
 			dataSource: _dataSource,
 		});

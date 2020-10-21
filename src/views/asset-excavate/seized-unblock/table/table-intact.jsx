@@ -15,6 +15,7 @@ class TableIntact extends React.Component {
 			loading: false,
 		};
 		this.condition = {
+			isAttention: 1,
 			sortColumn: '',
 			sortOrder: '',
 			page: 1,
