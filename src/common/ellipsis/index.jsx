@@ -46,7 +46,7 @@ export default class Ellipsis extends React.Component {
 	render() {
 		const {
 			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
-			isBorrower = false, isBankruptcy = false,
+			isBorrower = false, isBankruptcy = false, prefixContent,
 		} = this.props;
 
 		const _url = obligorId ? `#/business/debtor/detail?id=${obligorId}` : url;
@@ -72,6 +72,9 @@ export default class Ellipsis extends React.Component {
 		} : '';
 		return (
 			<div ref={e => this.element = e} className={`yc-ellipsis-element${className ? ` ${className}` : ''}`} style={style}>
+				{
+					prefixContent ? <span>{prefixContent}</span> : null
+				}
 				{
 					_tooltip
 						? (

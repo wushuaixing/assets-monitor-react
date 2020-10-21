@@ -24,6 +24,7 @@ class HomeOverview extends React.Component {
 			['lawsuit', () => { navigate('/risk/info'); }],
 			['operation-risk', () => { navigate('/risk/operation'); }],
 			['limit', () => { navigate('/risk/limitHight'); }],
+			['unlock', () => { navigate('/monitor/seizedUnblock'); }],
 			['default', () => { console.log('未匹配'); }],
 		]);
 		const excavateMap = toNavigate.get(val.icon) || toNavigate.get('default');

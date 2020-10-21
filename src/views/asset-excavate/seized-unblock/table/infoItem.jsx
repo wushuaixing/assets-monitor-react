@@ -80,14 +80,12 @@ export default class InfoItem extends React.Component {
 						<div className="assets-matching-reason-wrapper">
 							{
 								row.title ? (
-									<div>
-										<span>详见正文：</span>
-										<Ellipsis
-											content={row.title}
-											url={row.url}
-											tooltip
-										/>
-									</div>
+									<Ellipsis
+										prefixContent="详见正文："
+										content={row.title}
+										url={row.url}
+										tooltip
+									/>
 								) : '-'
 							}
 						</div>

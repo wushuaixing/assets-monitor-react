@@ -30,7 +30,7 @@ const columns = (props) => {
 					text.map(i => (
 						<div style={{ position: 'relative', paddingLeft: 10 }}>
 							<Ellipsis
-								content={`${i.name};`}
+								content={`${i.name}${text.length > 1 ? ';' : ''}`}
 								tooltip
 								width={240}
 								url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
@@ -41,7 +41,12 @@ const columns = (props) => {
 				</div>
 			),
 		}, {
-			title: (noSort ? <span>关联案件<span className="yc-title-mark">(判决/查封日期)</span></span>
+			title: (noSort ? (
+				<span>
+					关联案件
+					<span className="yc-title-mark">(判决/查封日期)</span>
+				</span>
+			)
 				: (
 					<SortVessel field="ORDER_TIME" onClick={onSortChange} {...sort}>
 						关联案件
