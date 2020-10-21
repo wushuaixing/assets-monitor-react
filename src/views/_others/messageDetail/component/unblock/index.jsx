@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { markRead } from '@/utils/api/message';
-import TableUnBlock from '@/views/asset-excavate/seized-unblock/table/table-intact';
+import TableUnBlock from '@/views/asset-excavate/seized-unblock/table/table';
 import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
 
