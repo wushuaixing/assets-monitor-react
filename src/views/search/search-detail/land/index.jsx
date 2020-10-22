@@ -378,6 +378,7 @@ class LAND extends React.Component {
 			<div className="yc-content-query">
 				<Query {...queryProps} />
 				<Tabs.Simple
+					borderBottom
 					onChange={this.onSourceType}
 					source={tabConfig}
 					field="type"
