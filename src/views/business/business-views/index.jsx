@@ -2,10 +2,7 @@ import React from 'react';
 import {
 	Form, message, Tooltip, Icon, Pagination, Modal, Upload, Select,
 } from 'antd';
-
 import Cookies from 'universal-cookie';
-import PeopleListModal from './Modal/peopleList';
-import TableList from './table';
 // import { baseUrl  } from '@/utils/api';
 import BASE_URL from '@/utils/api/config';
 import {
@@ -18,6 +15,8 @@ import {
 } from '@/common';
 import businessImg from '@/assets/img/business/icon_recovery_n.png';
 import ModalTable from './modalTable';
+import PeopleListModal from './Modal/peopleList';
+import TableList from './table';
 import './style.scss';
 
 const cookies = new Cookies();
@@ -29,24 +28,18 @@ const _style2 = { width: 100 };
 const _style3 = { width: 80 };
 
 const text = (
-	<div style={{
-		width: 250, height: 150,
-	}}
-	>
+	<div style={{ width: 250, height: 150 }}>
 		导入流程和注意事项：
 		<br />
-            1、请先下载模版
+		1、请先下载模版
 		<br />
-            2、将需导入的数据填写在下载好的模版内，请严格按照模版内要求进行填写
-
+		2、将需导入的数据填写在下载好的模版内，请严格按照模版内要求进行填写
 		<br />
-			3、请将填写好的模版上传
+		3、请将填写好的模版上传
 		<br />
-			4、上传成功—新的业务数据导入成功
-
+		4、上传成功—新的业务数据导入成功
 		<br />
-			5、上传失败—请按照相关提示进行修改后再次上传
-
+		5、上传失败—请按照相关提示进行修改后再次上传
 		<br />
 	</div>
 );
@@ -329,6 +322,7 @@ class BusinessView extends React.Component {
 		}
 		confirm({
 			title: '确认删除选中业务吗?',
+			className: 'business-delete-modal',
 			content: (
 				<div style={{ marginLeft: -37 }}>
 					<Spin visible={reqLoading}>
