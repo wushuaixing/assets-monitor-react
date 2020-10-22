@@ -142,7 +142,7 @@ export default class TableIntact extends React.Component {
 						{
 							row.historyAuctions.length > 0 && (
 								<Button onClick={() => this.historyInfoModal(row)}>
-									<Icon type="file-text" />
+									<Icon type="icon-history" style={{ fontSize: 13, marginRight: 4 }} />
 									查看历史拍卖信息
 								</Button>
 							)
