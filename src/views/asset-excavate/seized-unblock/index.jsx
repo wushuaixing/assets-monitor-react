@@ -77,7 +77,7 @@ export default class SeizedUnblock extends React.Component {
 		}
 	};
 
-	// 批量关注
+	// 批量关注列表
 	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
