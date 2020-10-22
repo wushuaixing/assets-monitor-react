@@ -16,7 +16,7 @@ class DishonestyView extends React.Component {
 				dataIndex: 'publishDate',
 				key: 'publishDate',
 				className: 'firstTitle',
-				width: 122,
+				width: 160,
 				render: (text, row) => (
 					<span>{row.publishDate || '-'}</span>
 				),
@@ -24,20 +24,20 @@ class DishonestyView extends React.Component {
 				title: '被执行人姓名/名称',
 				dataIndex: 'obligorName',
 				key: 'obligorName',
-				width: 241,
+				width: 160,
 				render: text => <span>{text || '-'}</span>,
 			}, {
 				title: '身份证号码/组织机构代码',
 				dataIndex: 'obligorNumber',
 				key: 'obligorNumber',
-				width: 241,
+				width: 220,
 				render: text => <span>{text || '-'}</span>,
 			}, {
 				title: '案件信息',
 				dataIndex: 'caseCode',
 				key: 'caseCode',
 				render: (text, row) => (
-					<div className="assets-info-content">
+					<div className="assets-info-content" style={{ width: 258 }}>
 						<li>
 							<span className="list list-title align-justify" style={{ width: 50 }}>案号</span>
 							<span className="list list-title-colon">:</span>
@@ -56,7 +56,7 @@ class DishonestyView extends React.Component {
 				dataIndex: 'fact',
 				key: 'fact',
 				render: (text, row) => (
-					<div className="assets-info-content">
+					<div className="assets-info-content" style={{ marginRight: 40 }}>
 						<li>
 							<span className="list list-title align-justify" style={{ width: 100 }}>失信行为具体情形</span>
 							<span className="list list-title-colon">:</span>

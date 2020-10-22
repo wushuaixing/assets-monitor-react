@@ -436,6 +436,7 @@ class LAWSUITS extends React.Component {
 				<Query {...queryProps} />
 				{/* 切换立案开庭 */}
 				<Tabs.Simple
+					borderBottom
 					onChange={this.onSourceType}
 					source={tabConfig}
 					field="type"
