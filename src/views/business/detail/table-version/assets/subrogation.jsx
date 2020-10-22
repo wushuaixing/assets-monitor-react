@@ -59,6 +59,7 @@ export default class Subrogation extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
+					borderBottom
 					onChange={this.onSourceType}
 					source={portrait === 'debtor_personal' ? configPersonal : config}
 					symbol="none"

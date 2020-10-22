@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, NoContent, Spin } from '@/common';
+import { roleState } from '@/utils/rule';
+import { getHrefQuery } from '@/utils';
 import Abnormal from './abnormal';
 import Bankruptcy from './bankruptcy';
 import Illegal from './illegal';
@@ -9,8 +11,7 @@ import Dishonest from './dishonest';
 import Lawsuit from './lawsuit';
 import LawsuitJudgment from './lawsuit-judgment';
 import Environment from './environment';
-import { roleState } from '@/utils/rule';
-import { getHrefQuery } from '@/utils';
+
 
 const toGetTotal = (field, data) => {
 	let count = 0;

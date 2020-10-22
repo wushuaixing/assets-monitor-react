@@ -58,6 +58,7 @@ export default class Auction extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
+					borderBottom
 					onChange={this.onSourceType}
 					source={config}
 					symbol="none"

@@ -478,7 +478,7 @@ class DetailItem extends PureComponent {
 												</div>
 												<div className="detail-container-content-middle-item">
 													<div
-														style={{ width: item.detailType === 1301 ? 335 : 364 }}
+														style={{ width: item.detailType === 1301 ? 335 : 350 }}
 														className="detail-container-content-middle-item-detail"
 													>
 														{item.description || '-'}
