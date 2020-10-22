@@ -59,6 +59,7 @@ export default class Intangible extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
+					borderBottom
 					defaultCurrent={sourceType}
 					symbol="none"
 					onChange={this.onSourceType}

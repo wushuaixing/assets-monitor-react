@@ -51,6 +51,7 @@ export default class Involved extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
+					borderBottom
 					symbol="none"
 					onChange={this.onSourceType}
 					source={config}
