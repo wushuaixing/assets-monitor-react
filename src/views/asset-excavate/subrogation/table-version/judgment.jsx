@@ -40,7 +40,7 @@ export default class TableIntact extends React.Component {
 								? <Ellipsis content={row.title} url={`#/judgement?sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`} tooltip width={400} font={15} /> : '-' }
 						</span>
 						{ row.caseType ? <span className="yc-case-type">{(row.caseType)}</span> : ''}
-						{ row.caseReason ? <span className="yc-case-reason text-ellipsis">{row.caseReason}</span> : ''}
+						{ row.caseReason ? <span className="yc-case-reason text-ellipsis" style={{ marginLeft: 0 }}>{row.caseReason}</span> : ''}
 					</li>
 					<li>
 						<span className="list list-title align-justify">判决日期</span>

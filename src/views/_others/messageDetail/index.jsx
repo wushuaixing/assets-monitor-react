@@ -134,7 +134,7 @@ const subItems = (rule, data) => ([
 	},
 	{
 		dataType: 113,
-		name: '查解封资产',
+		name: '查/解封资产',
 		total: data ? getCount(data, 113) : 0,
 		status: isRule('zcwjcjfzc', 1, rule),
 		tagName: 'message-unBlock',
@@ -211,7 +211,7 @@ class MessageDetail extends React.Component {
 		document.title = '监控日报详情';
 		this.state = {
 			config: [],
-			loading: false,
+			loading: true,
 			newMonitorCount: 0,
 			invalidCount: 0,
 			effectiveCount: 0,
@@ -238,14 +238,22 @@ class MessageDetail extends React.Component {
 		headerInfo(params).then((res) => {
 			if (res.code === 200 && res.data) {
 				this.setState({
+					loading: false,
 					newMonitorCount: res.data.newMonitorCount,
 					invalidCount: res.data.invalidCount,
 					effectiveCount: res.data.newMonitorCount - res.data.invalidCount,
 					obligorInfo: res.data.obligorInfo || [],
 					reportDate: new Date(res.data.gmtDisplay).format('yyyy-MM-dd'),
 				});
+			} else {
+				this.setState({
+					loading: false,
+				});
 			}
 		}).catch((err) => {
+			this.setState({
+				loading: false,
+			});
 			console.log('err === ', err);
 		});
 		this.queryAllCount();
@@ -352,7 +360,7 @@ class MessageDetail extends React.Component {
 						</div>
 						<div className="tiny-line" />
 						{
-							effectiveCount <= 0 || newMonitorCount <= 0 ? <NoContent font="暂无新增信息" /> : (
+							(effectiveCount <= 0 || newMonitorCount <= 0) && !loading ? <NoContent font="暂无新增信息" /> : (
 								<div>
 									<div className="change-box" style={{ position: 'relative' }}>
 										<span className="change-box-name">切换债务人：</span>
@@ -394,7 +402,7 @@ class MessageDetail extends React.Component {
 					<Spin visible={loading}>
 						{/* 可能会存在一种情况，当前债务人存在，但是查不到新增的情况，就会显示下面信息 */}
 						{
-							obligorId !== '-1' && obligorId && config.length === 0 && <NoContent font="当前债务人暂无新增数据" />
+							loading === false && obligorId !== '-1' && obligorId && config.length === 0 && <NoContent font="当前债务人暂无新增数据" />
 						}
 						<div className="messageDetail-table-box">
 							{

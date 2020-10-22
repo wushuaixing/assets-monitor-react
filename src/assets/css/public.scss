@@ -68,10 +68,11 @@ body,td,th{font-size:14px;color:#20242e}
   width: 68px;
   height: 20px;
   margin:0 10px;
-  line-height: 19px;
+  line-height: 20px;
   text-align: center;
   font-size: 12px;
   color: #FFFFFF;
+  font-weight: normal;
 }
 .yc-case-reason{
   display: inline-block;
@@ -84,8 +85,8 @@ body,td,th{font-size:14px;color:#20242e}
   font-size: 12px;
   font-weight: normal;
   background-color: #eff4ff;
-  border: 1px solid $text-link;
-  color: $text-link;
+  border: 1px solid #8CB2F9;
+  color: #4D86F1;
   margin:0 10px;
   &__invalid{
     min-width: 60px;
