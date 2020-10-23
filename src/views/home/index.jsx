@@ -210,7 +210,7 @@ class HomeRouter extends React.Component {
 			<div className="home-container">
 				{
 					showNotice ? (
-						<div>
+						<div className="home-box">
 							<div className="home-notice">
 								<div className="home-notice-title">
 									<span className="home-notice-content">

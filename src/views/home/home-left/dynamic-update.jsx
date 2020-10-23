@@ -324,7 +324,9 @@ class dynamicUpdate extends PureComponent {
 									<span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
 										<span className="seven-update-content-title-addNum-text">
-											{assetObligorIdNum}
+											<span className="seven-update-content-title-addNum-text-bold">
+												{assetObligorIdNum}
+											</span>
 											名债务人有资产信息更新
 										</span>
 									</span>
@@ -389,7 +391,9 @@ class dynamicUpdate extends PureComponent {
 									<span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
 										<span className="seven-update-content-title-addNum-text">
-											{riskObligorIdNum}
+											<span className="seven-update-content-title-addNum-text-bold">
+												{riskObligorIdNum}
+											</span>
 											名债务人有风险信息更新
 										</span>
 									</span>
