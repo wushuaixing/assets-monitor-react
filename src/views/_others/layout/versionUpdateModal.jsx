@@ -35,26 +35,25 @@ export default class VersionUpdateModal extends React.PureComponent {
 					<div className="yc-modal-content">
 						<div className="yc-modal-title">【版本更新通知】</div>
 						<div className="yc-label-box">
-							<p className="yc-label-title">
+							<div className="yc-label-title">
 								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">新增监控日报</span>
-								<span className="yc-label-desp">每日新增线索一手方案</span>
-							</p>
-							<p className="yc-label-title">
+								<span className="yc-label-tips">资产监控增加</span>
+								<span className="yc-label-desp">查/解封资产</span>
+							</div>
+							<div className="yc-label-title">
 								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">新增验证码登录</span>
-								<span className="yc-label-desp">多种登录方式任你选</span>
-							</p>
-							<p className="yc-label-title">
+								<span className="yc-label-tips">风险监控增加</span>
+								<span className="yc-label-desp">限制高消费</span>
+							</div>
+							<div className="yc-label-title">
 								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">分类搜索优化</span>
-								<span className="yc-label-desp">拍卖搜索算法升级；支持拍卖标的物搜索</span>
-							</p>
-							<p className="yc-label-title">
+								<span className="yc-label-tips">企业画像增加</span>
+								<span className="yc-label-desp">资产拍卖模糊匹配</span>
+							</div>
+							<div className="yc-label-title">
 								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">画像优化</span>
-								<span className="yc-label-desp">画像布局调整；新增无形资产、招投标</span>
-							</p>
+								<span className="yc-label-tips">部分页面交互优化</span>
+							</div>
 						</div>
 						<Button className="yc-modal-btn" onClick={this.handleCancel}>我知道了</Button>
 					</div>
