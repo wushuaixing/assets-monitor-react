@@ -214,7 +214,7 @@ class HomeRouter extends React.Component {
 							<div className="home-notice">
 								<div className="home-notice-title">
 									<span className="home-notice-content">
-										{`监控日报提醒：${content}，`}
+										{`监控日报提醒：${content}。`}
 									</span>
 									<a
 										className="home-notice-link"
