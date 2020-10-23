@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { mortgageCount } from 'api/monitor-info/excavate/count';
-import { toThousands } from '@/utils/changeTime';
 import Card from '../card';
 import './style.scss';
 
@@ -36,7 +35,7 @@ export default class Chattel extends PureComponent {
 	render() {
 		const {
 			url, mortgagePropsData, mortgagePropsData: {
-				owner, people, peopleAmount, gmtUpdate, totalCount,
+				owner, people, gmtUpdate, totalCount,
 			},
 		} = this.props;
 		const { mortgageNum } = this.state;
@@ -64,13 +63,6 @@ export default class Chattel extends PureComponent {
 							抵押权人：
 							<span className={`risk-chattel-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{people || 0}</span>
 							条
-							{peopleAmount ? (
-								<span style={{ paddingLeft: '5px' }}>
-									(涉及债权额
-									<span style={{ color: '#FB5A5C', padding: '0 5px' }}>{ toThousands(peopleAmount)}</span>
-									元)
-								</span>
-							) : null}
 						</div>
 					</div>
 				)}

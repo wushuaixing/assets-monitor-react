@@ -37,7 +37,7 @@ export default class RiskInformation extends React.Component {
 					{children}
 					{
 						totalCount
-							? <Icon className={`monitor-card-container-arrow-icon ${!totalCount && 'monitor-card-noCount-color'}`} type="icon-icon_arrow" style={{ color: '#4E5566' }} /> : null
+							? <Icon className={`monitor-card-container-arrow-icon ${!totalCount && 'monitor-card-noCount-color'}`} type="icon-icon_arrow" style={{ color: '#7D8699' }} /> : null
 					}
 				</div>
 				{totalCount && updateTime ? (

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { landTransferCount, landMortgageCount, landTransactionCount } from 'api/monitor-info/excavate/count';
-import { toThousands } from '@/utils/changeTime';
 import { promiseAll } from '@/utils/promise';
 import Card from '../card';
 import './style.scss';
@@ -49,7 +48,7 @@ export default class Land extends PureComponent {
 	render() {
 		const {
 			url, landPropsData, landPropsData: {
-				totalCount, loading, gmtUpdate, mortgagee, mortgageeAmount, owner, ownerAmount,
+				totalCount, loading, gmtUpdate, mortgagee, owner,
 			},
 		} = this.props;
 		const { unReadCount } = this.state;
@@ -67,38 +66,17 @@ export default class Land extends PureComponent {
 				unReadNum={unReadCount}
 			>
 				{Object.keys(landPropsData).length !== 0 && (
-					<div className="risk-land-container" style={ownerAmount > 10000000000 || mortgageeAmount > 10000000000 ? { position: 'relative', left: '-24px' } : {}}>
-						{totalCount ? (
-							<div className="risk-land-container-card" style={{ paddingBottom: '10px', color: '#7D8699' }}>
-								<span style={{ color: '#FB5A5C' }}>*</span>
-								原土地使用权人不计入角色统计
-							</div>
-						) : null}
-
+					<div className="risk-land-container">
 						<div className={`risk-land-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 							使用权人：
 							<span className={`risk-land-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{owner || 0}</span>
 							条
-							{ownerAmount ? (
-								<span style={{ paddingLeft: '5px' }}>
-									(涉及土地价值
-									<span style={{ color: '#FB5A5C', padding: '0 5px' }}>{ toThousands(ownerAmount)}</span>
-									元)
-								</span>
-							) : null}
 						</div>
 
 						<div className={`risk-land-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 							抵押权人：
 							<span className={`risk-land-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{mortgagee || 0}</span>
 							条
-							{mortgageeAmount ? (
-								<span style={{ paddingLeft: '5px' }}>
-									(涉及抵押额
-									<span style={{ color: '#FB5A5C', padding: '0 5px' }}>{ toThousands(mortgageeAmount)}</span>
-									元)
-								</span>
-							) : null}
 						</div>
 					</div>
 				)}
