@@ -671,7 +671,7 @@ export default class FollowInfo extends React.Component {
 								<Spin visible={loadingList} minHeight={100}>
 									<div className="follow-add-title" style={{ paddingTop: 20 }}>跟进记录</div>
 									{
-										processSource.length ? (
+										!loadingList && processSource.length > 0 ? (
 											<Steps direction="vertical" size="small" className="follow-list-step">
 												{
 													processSource.map((item, index) => (
@@ -708,7 +708,7 @@ export default class FollowInfo extends React.Component {
 													))
 												}
 											</Steps>
-										) : <div>暂无跟进记录</div>
+										) : <div>{!loadingList ? '暂无跟进记录' : ''}</div>
 									}
 								</Spin>
 							</div>,
