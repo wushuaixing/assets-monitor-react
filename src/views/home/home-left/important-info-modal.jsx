@@ -11,6 +11,7 @@ class ImportantInfoModal extends React.PureComponent {
 				{
 					title: '动态分类',
 					dataIndex: 'typeName',
+					className: 'typeName',
 					width: 88,
 					render(value, row, index) {
 						const obj = {

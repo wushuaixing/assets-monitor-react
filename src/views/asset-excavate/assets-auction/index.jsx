@@ -1,8 +1,5 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import { navigate } from '@reach/router';
-import Query from './query';
-import Table from './table';
 import {
 	Button, Spin, Tabs, Download,
 } from '@/common';
@@ -11,7 +8,8 @@ import {
 } from '@/utils/api/monitor-info/assets';
 import { clearEmpty, changeURLArg, getQueryByName } from '@/utils';
 import './style.scss';
-// import { fileExport } from '@/views/monitor/table-common';
+import Query from './query';
+import Table from './table';
 
 const source = (obj = {}) => [
 	{

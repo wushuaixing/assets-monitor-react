@@ -275,9 +275,10 @@
 }
 
 .ant-select-arrow{
-  font-size: 16px !important;
+  font-size: 10px !important;
   right: 6px;
-  top: 43%;
+  top: 50%;
+  transform: scaleX(1.4);
 }
 
 .ant-select-arrow::before{
