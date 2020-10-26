@@ -151,7 +151,6 @@ class HomeDynamic extends PureComponent {
 		};
 		const apiArray = [
 			{ count: auction, Api: importantListAuction, auction: true },
-
 			{ count: bidding, Api: importantListBidding },
 			{ count: unseal, Api: importantListUnseal },
 			{ count: landTransfer, Api: importantListLandTransfer },
