@@ -79,16 +79,24 @@ const columns = (props) => {
 					{
 						row.dataType === 1 ? (
 							<React.Fragment>
-								<li>
-									<span className="list list-title align-justify" style={{ width: 50 }}>查封日期</span>
-									<span className="list list-title-colon">:</span>
-									<span className="list list-content"><Ellipsis content={row.sealUpTime || '-'} tooltip width={200} /></span>
-								</li>
-								<li>
-									<span className="list list-title align-justify" style={{ width: 50 }}>解封日期</span>
-									<span className="list list-title-colon">:</span>
-									<span className="list list-content"><Ellipsis content={row.unsealingTime || '-'} tooltip width={200} /></span>
-								</li>
+								{
+									row.sealUpTime ? (
+										<li>
+											<span className="list list-title align-justify" style={{ width: 50 }}>查封日期</span>
+											<span className="list list-title-colon">:</span>
+											<span className="list list-content"><Ellipsis content={row.sealUpTime || '-'} tooltip width={200} /></span>
+										</li>
+									) : null
+								}
+								{
+									row.unsealingTime ? (
+										<li>
+											<span className="list list-title align-justify" style={{ width: 50 }}>解封日期</span>
+											<span className="list list-title-colon">:</span>
+											<span className="list list-content"><Ellipsis content={row.unsealingTime || '-'} tooltip width={200} /></span>
+										</li>
+									) : null
+								}
 							</React.Fragment>
 						) : null
 					}
