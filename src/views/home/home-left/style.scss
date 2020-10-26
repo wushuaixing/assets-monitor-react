@@ -54,9 +54,10 @@
           &-text {
             margin-left: 6px;
             margin-right: 8px;
+            font-size: 12px !important;
             &-bold{
               font-weight: 600;
-              font-size: 14px;
+              font-size: 14px !important;
             }
           }
           display: inline-block;
@@ -122,10 +123,10 @@
 
 .ant-table-tbody{
   .typeName{
-    font-family: PingFang, Microsoft YaHei, Arial, sans-serif;
+    font-family: PingFang SC, Microsoft YaHei, Arial, sans-serif;
     background-color: $background-antd-border;
-    font-size: 12px;
+    font-size: 10px;
     color: #4e5566;
-    font-weight: bold;
+    font-weight: 600;
   }
 }
