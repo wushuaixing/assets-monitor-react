@@ -140,7 +140,8 @@ class TableIntact extends React.Component {
 					{
 						hideReason ? (
 							<React.Fragment>
-								<li style={{ lineHeight: 60, height: 60 }}>
+								<li style={{ height: '20px' }} />
+								<li style={{ lineHeight: '20px', height: 20 }}>
 									{ toEmpty(row.title)
 										? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '-' }
 									{
