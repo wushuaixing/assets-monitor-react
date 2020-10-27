@@ -108,7 +108,12 @@
 }
 
 .under-line{
-  :hover{
+  span:hover{
+    text-decoration: underline;
+  }
+}
+.yc-more-option-text{
+  span:hover{
     text-decoration: underline;
   }
 }
