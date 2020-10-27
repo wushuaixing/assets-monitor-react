@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pagination, Tooltip } from 'antd';
+import PropTypes from 'reactPropTypes';
 import {
 	Ellipsis, Icon, Spin, Table, Button,
 } from '@/common';
@@ -113,7 +114,7 @@ const toGetType = (ary) => {
 	return '-';
 };
 
-export default class TableIntact extends React.Component {
+class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -130,33 +131,56 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
-	toGetColumns = () => [
+	toGetColumns = hideReason => [
 		{
 			title: '拍卖信息',
 			dataIndex: 'title',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li style={{ lineHeight: '20px' }}>
-						{ toEmpty(row.title)
-							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '-' }
-						{
-							row.historyAuctions.length > 0 && (
-								<Button onClick={() => this.historyInfoModal(row)}>
-									<Icon type="icon-history" style={{ fontSize: 13, marginRight: 4 }} />
-									查看历史拍卖信息
-								</Button>
-							)
-						}
-					</li>
-					<li>
-						<span className="list list-title align-justify">匹配原因</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{toGetType(row.obligors)}</span>
-					</li>
-					<li>
-						{ toEmpty(row.matchRemark)
-							? <Ellipsis content={row.matchRemark} tooltip width={600} font={15} /> : '-' }
-					</li>
+					{
+						hideReason ? (
+							<React.Fragment>
+								<li style={{ height: 20 }} />
+								<li style={{ lineHeight: '20px' }}>
+									{ toEmpty(row.title)
+										? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '-' }
+									{
+										row.historyAuctions.length > 0 && (
+											<Button onClick={() => this.historyInfoModal(row)}>
+												<Icon type="icon-history" style={{ fontSize: 13, marginRight: 4 }} />
+												查看历史拍卖信息
+											</Button>
+										)
+									}
+								</li>
+								<li style={{ height: 20 }} />
+							</React.Fragment>
+						) : (
+							<React.Fragment>
+								<li style={{ lineHeight: '20px' }}>
+									{ toEmpty(row.title)
+										? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '-' }
+									{
+										row.historyAuctions.length > 0 && (
+											<Button onClick={() => this.historyInfoModal(row)}>
+												<Icon type="icon-history" style={{ fontSize: 13, marginRight: 4 }} />
+												查看历史拍卖信息
+											</Button>
+										)
+									}
+								</li>
+								<li>
+									<span className="list list-title align-justify">匹配原因</span>
+									<span className="list list-title-colon">:</span>
+									<span className="list list-content">{toGetType(row.obligors)}</span>
+								</li>
+								<li>
+									{ toEmpty(row.matchRemark)
+										? <Ellipsis content={row.matchRemark} tooltip width={600} font={15} /> : '-' }
+								</li>
+							</React.Fragment>
+						)
+					}
 				</div>
 			),
 		}, {
@@ -230,13 +254,13 @@ export default class TableIntact extends React.Component {
 		const {
 			dataSource, current, total, historyInfoModalData, loading, historyInfoModalVisible,
 		} = this.state;
-
+		const { hideReason } = this.props;
 		return (
 			<div className="yc-assets-auction">
 				<Spin visible={loading}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
-						columns={this.toGetColumns()}
+						columns={this.toGetColumns(hideReason)}
 						dataSource={dataSource}
 						showHeader={false}
 						pagination={false}
@@ -267,3 +291,13 @@ export default class TableIntact extends React.Component {
 		);
 	}
 }
+
+TableIntact.propTypes = {
+	hideReason: PropTypes.bool,
+};
+
+TableIntact.defaultProps = {
+	hideReason: false,
+};
+
+export default TableIntact;

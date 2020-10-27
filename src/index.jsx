@@ -9,7 +9,7 @@ import './assets/css';
 import './utils/config';
 
 const Version = 'v2.4.0';
-const BetaNumber = '.17';
+const BetaNumber = '.18';
 const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
 window.CurrentVersions = info;
 if (window.location.protocol === 'http:') {
