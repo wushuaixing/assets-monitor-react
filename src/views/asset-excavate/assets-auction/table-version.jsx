@@ -140,8 +140,7 @@ class TableIntact extends React.Component {
 					{
 						hideReason ? (
 							<React.Fragment>
-								<li style={{ height: 20 }} />
-								<li style={{ lineHeight: '20px' }}>
+								<li style={{ lineHeight: 60, height: 60 }}>
 									{ toEmpty(row.title)
 										? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '-' }
 									{
@@ -153,7 +152,6 @@ class TableIntact extends React.Component {
 										)
 									}
 								</li>
-								<li style={{ height: 20 }} />
 							</React.Fragment>
 						) : (
 							<React.Fragment>
