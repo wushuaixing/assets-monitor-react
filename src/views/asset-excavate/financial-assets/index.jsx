@@ -1,11 +1,5 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import QueryBidding from './query/bidding';
-import TableBidding from './table/bidding';
-import QueryResult from './query/stock';
-import TableResult from './table/stock';
-import QueryPublicity from './query/publicity';
-import TablePublicity from './table/publicity';
 import {
 	Button, Tabs, Spin, Download,
 } from '@/common';
@@ -13,6 +7,12 @@ import { readAllStatusBid, readStatusAll, readAllStatusResult } from '@/utils/ap
 import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
+import QueryBidding from './query/bidding';
+import TableBidding from './table/bidding';
+import QueryResult from './query/stock';
+import TableResult from './table/stock';
+import QueryPublicity from './query/publicity';
+import TablePublicity from './table/publicity';
 
 // const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 

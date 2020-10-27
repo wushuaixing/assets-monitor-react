@@ -6,6 +6,7 @@ import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import InputPrice from '@/common/input/input-price';
+import '../index.scss';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -86,13 +87,13 @@ class QueryCondition extends React.Component {
 				<div className="yc-more-option inline-block cursor-pointer" style={{ marginLeft: 0 }}>
 					{ moreOption
 						? (
-							<span onClick={() => this.setState({ moreOption: false })}>
+							<span className="yc-more-option-text" onClick={() => this.setState({ moreOption: false })}>
 								<span>收起选项 </span>
 								<Icon type="up" />
 							</span>
 						)
 						: (
-							<span onClick={() => this.setState({ moreOption: true })}>
+							<span className="yc-more-option-text" onClick={() => this.setState({ moreOption: true })}>
 								<span>更多选项 </span>
 								<Icon type="down" />
 							</span>
