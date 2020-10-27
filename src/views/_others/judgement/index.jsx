@@ -60,7 +60,7 @@ class Judgement extends React.Component {
 	render() {
 		const { loading, htmlText, title } = this.state;
 		const regFontFamily = new RegExp(/FONT-FAMILY:.{3,4};/g);
-		const newHtmlText = htmlText.replaceAll(regFontFamily, 'font-family: "microsoft yahei", "Times New Roman", Times, serif;').replaceAll('pt', 'px').replaceAll('MARGIN: 0.5px 0cm', 'margin: 20px 0');
+		const newHtmlText = htmlText.replaceAll(regFontFamily, 'font-family: PingFang SC, microsoft yahei;').replaceAll('pt', 'px').replaceAll('MARGIN: 0.5px 0cm', 'margin: 20px 0');
 		return (
 			<Spin visible={loading}>
 				<div className="judgement">
