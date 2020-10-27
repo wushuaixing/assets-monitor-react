@@ -50,7 +50,7 @@ export default class Auction extends React.Component {
 				/>
 				<div className="inquiry-public-table">
 					 { sourceType === 10101 ? <Table type="exact" /> : null }
-					 { sourceType === 10102 ? <Table type="blurry" /> : null }
+					 { sourceType === 10102 ? <Table type="blurry" hideReason /> : null }
 				</div>
 			</div>
 		);
