@@ -23,7 +23,7 @@ const columns = (props) => {
 						? (
 							<span
 								className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'}
-								style={!row.isRead && row.isRead !== undefined ? { position: 'absolute', top: '42%' } : {}}
+								style={!row.isRead && row.isRead !== undefined ? { position: 'absolute', top: '40%' } : {}}
 							/>
 						) : null}
 					{

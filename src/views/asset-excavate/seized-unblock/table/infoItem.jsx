@@ -48,7 +48,7 @@ export default class InfoItem extends React.Component {
 							<div className={`reason-content-wrapper content-${status}`}>
 								<div className="reason-content" ref={e => this.dom = e}>
 									<div className="reason-list">
-										<p dangerouslySetInnerHTML={{ __html: content }} />
+										{ content || row.address}
 									</div>
 								</div>
 							</div>
@@ -59,13 +59,13 @@ export default class InfoItem extends React.Component {
 										<li className="action-ellipsis yc-text-normal">
 											<Icon type="ellipsis" />
 										</li>
-										<li className="action-btn yc-text-normal" onClick={() => this.setState({ status: 'canClose' })}>
+										<li className="action-btn yc-text-normal under-line" onClick={() => this.setState({ status: 'canClose' })}>
 											<span>展开</span>
 											<Icon type="down" />
 										</li>
 									</React.Fragment>
 								) : (
-									<li className="action-btn yc-text-normal" onClick={() => this.setState({ status: 'canOpen' })}>
+									<li className="action-btn yc-text-normal under-line" onClick={() => this.setState({ status: 'canOpen' })}>
 										<span>收起</span>
 										<Icon type="up" />
 									</li>
