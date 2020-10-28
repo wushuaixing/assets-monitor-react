@@ -14,12 +14,11 @@ install_deps:
   tags:
     - font-group-runner
   only:
-    - tags
-    - master
+    - release
     - dev-branch
   script:
     - node -v
-#    - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
+    - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
     - yarn config set sass-binary-site https://npm.taobao.org/mirrors/node-sass
     - yarn install
 
@@ -29,14 +28,13 @@ build_step:
   tags:
     - font-group-runner
   only:
-    - tags
-    - master
+    - release
     - dev-branch
   script:
     - rm ./docs/* -rf
-    - mv -f ./src/utils/api/config/index.js ./src/utils/api/config/temp.js
-    - mv -f ./src/utils/api/config/dev.js ./src/utils/api/config/index.js
-    - cat ./src/utils/api/config/index.js
+    - cd ./src/utils/api/config
+    - mv -f dev.js index.js
+    - cat index.js
     - yarn build:index
 
 # 拷贝
@@ -45,8 +43,7 @@ deploy_step:
   tags:
     - font-group-runner
   only:
-   - tags
-   ## - master
+   - release
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
