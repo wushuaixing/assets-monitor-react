@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from 'antd';
-import { Ellipsis } from '@/common';
+import { linkDom } from '@/utils';
 import './index.scss';
 
 export default class InfoItem extends React.Component {
@@ -80,12 +80,12 @@ export default class InfoItem extends React.Component {
 						<div className="assets-matching-reason-wrapper">
 							{
 								row.title ? (
-									<Ellipsis
-										prefixContent="详见正文："
-										content={row.title}
-										url={row.url}
-										tooltip
-									/>
+									<span>
+										<span>详见正文：</span>
+										{
+										 linkDom(row.url, row.title, '_blank', '', '', '')
+										}
+									</span>
 								) : '-'
 							}
 						</div>
