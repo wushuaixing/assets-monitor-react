@@ -98,7 +98,7 @@ const subItems = (rule, data) => ([
 	},
 	{
 		dataType: 104,
-		name: '招标中标',
+		name: '招投标',
 		total: data ? getCount(data, 104) : 0,
 		status: isRule('zcwjzbzb', 1, rule),
 		tagName: 'message-tender',
@@ -407,6 +407,7 @@ class MessageDetail extends React.Component {
 						<div className="messageDetail-table-box">
 							{
 								config.map(Item => (Item.total > 0 ? (
+								// eslint-disable-next-line react/jsx-pascal-case
 									<Item.component
 										obligorId={obligorId}
 										stationId={stationId}

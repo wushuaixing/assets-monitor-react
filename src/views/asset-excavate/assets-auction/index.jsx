@@ -281,6 +281,7 @@ export default class Assets extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
+					borderBottom
 					onChange={this.onSourceType}
 					source={tabConfig}
 					field="process"
@@ -289,23 +290,23 @@ export default class Assets extends React.Component {
 				{
 					!manage ? (
 						<div className="assets-auction-action">
-							<Button
-								onClick={() => {
-									this.setState({ manage: true });
-									console.log(this.condition);
-								}}
-								title="批量管理"
-							/>
+							<span className="yc-icon-recovery-title" onClick={this.toClearProcess}>
+								<span className="yc-icon-recovery" />
+								资产清收流程
+							</span>
 							<span className="export-style">
-								<span className="yc-icon-recovery-title" onClick={this.toClearProcess}>
-									<span className="yc-icon-recovery" />
-									资产清收流程
-								</span>
+								<Button
+									onClick={() => {
+										this.setState({ manage: true });
+										console.log(this.condition);
+									}}
+									title="批量管理"
+								/>
 								<Download condition={() => this.toExportCondition('all')} api={exportList} all text="一键导出" />
 							</span>
 						</div>
 					) : (
-						<div className="assets-auction-action">
+						<div className="yc-batch-management">
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								condition={this.toExportCondition}
@@ -320,7 +321,7 @@ export default class Assets extends React.Component {
 									this.setState({ manage: false });
 									this.selectRow = [];
 								}}
-								title="取消管理"
+								title="取消批量管理"
 							/>
 						</div>
 					)

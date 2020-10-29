@@ -28,7 +28,7 @@ const toGetConfig = (rule) => {
 	const base = [
 		{
 			id: 1,
-			name: '招标中标',
+			name: '招投标',
 			dot: false,
 			number: 0,
 			showNumber: false,

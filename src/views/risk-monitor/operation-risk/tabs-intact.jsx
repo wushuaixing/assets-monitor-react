@@ -64,7 +64,7 @@ export default class TabsIntact extends React.Component {
 			field,
 		};
 		return (
-			<Tabs.Simple {...params} />
+			<Tabs.Simple borderBottom {...params} />
 		);
 	}
 }

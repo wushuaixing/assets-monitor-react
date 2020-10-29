@@ -7,7 +7,6 @@ import { promiseAll } from '@/utils/promise';
 import Card from '../card';
 import './style.scss';
 
-
 export default class Subrogation extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -72,17 +71,14 @@ export default class Subrogation extends PureComponent {
 							执行案件：
 							<span className={`risk-subrogation-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{execute || 0}</span>
 							笔
-
 							{restore > 0 ? (
-								<div className="card-content-left-arrow">
-									<div className="card-content-popover-content">
-										{restore}
-										笔执恢案件
-									</div>
-								</div>
+								<span className="risk-subrogation-container-card-tips">
+									（
+									<span className="risk-subrogation-container-card-tips-num">{restore}</span>
+									笔执恢案件）
+								</span>
 							) : null}
 						</div>
-
 						<div className={`risk-subrogation-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 							其他案件：
 							<span className={`risk-subrogation-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{otherCase || 0}</span>
@@ -91,7 +87,6 @@ export default class Subrogation extends PureComponent {
 					</div>
 				)}
 			</Card>
-
 		);
 	}
 }

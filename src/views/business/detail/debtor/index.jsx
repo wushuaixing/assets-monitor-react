@@ -292,6 +292,7 @@ export default class Enterprise extends React.Component {
 							<DebtorInfo data={infoSource} affixStatus={affixStatus} portrait={this.portrait} />
 							{/* <div className="debtor-visualize-overview-line" /> */}
 							<Tabs.Simple
+								borderBottom
 								onChange={this.onSourceType}
 								source={tabConfig}
 								hashUrl
@@ -304,6 +305,7 @@ export default class Enterprise extends React.Component {
 				</Affix>
 				<div className="info-content">
 					<Router>
+						{/* eslint-disable-next-line react/jsx-pascal-case */}
 						{ !loading && tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
 					</Router>
 				</div>

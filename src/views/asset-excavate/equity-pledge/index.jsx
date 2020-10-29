@@ -1,15 +1,14 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import QueryResult from './query';
-import TableResult from '../financial-assets/table/stock';
-
 import {
-	Button, Tabs, Spin, Download,
+	Button, Tabs, Spin, Download, Icon,
 } from '@/common';
 import { readStatusAll, readAllStatusResult } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
+import QueryResult from './query';
+import TableResult from '../financial-assets/table/stock';
 
 // 获取api具体
 const api = (field, type) => {
@@ -272,12 +271,14 @@ export default class Subrogation extends React.Component {
 										onClick={() => this.handleReadChange('else')}
 										title="只显示未读"
 									/>,
-									<Button onClick={this.handleAllRead}>全部标为已读</Button>,
+									<div className="yc-all-read" onClick={this.handleAllRead}>
+										<Icon className="yc-all-clear" type="icon-clear" />
+										<span className="yc-all-read-text">全部标为已读</span>
+									</div>,
 								] : null
 							}
-
-							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							<div className="yc-public-floatRight">
+								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
@@ -287,7 +288,7 @@ export default class Subrogation extends React.Component {
 							</div>
 						</div>
 					) : (
-						<div className="assets-auction-action">
+						<div className="yc-batch-management">
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								text="导出"
@@ -302,7 +303,7 @@ export default class Subrogation extends React.Component {
 									this.setState({ manage: false });
 									this.selectRow = [];
 								}}
-								title="取消管理"
+								title="取消批量管理"
 							/>
 						</div>
 					)
