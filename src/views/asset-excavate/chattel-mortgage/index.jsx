@@ -1,13 +1,15 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import Query from './query';
-import Table from './table';
-import { Button, Download, Spin } from '@/common';
+import {
+	Button, Download, Icon, Spin,
+} from '@/common';
 import { unReadCount } from '@/utils/api/monitor-info';
 import {
 	getMortgageList, postMarkReadAll, postFollow, exportList,
 } from '@/utils/api/monitor-info/mortgage';
 import { clearEmpty } from '@/utils';
+import Query from './query';
+import Table from './table';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -223,14 +225,17 @@ export default class Subrogation extends React.Component {
 								onClick={() => this.handleReadChange('else')}
 								title="只显示未读"
 							/>
-							<Button onClick={this.handleAllRead}>全部标为已读</Button>
-							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							<div className="yc-all-read" onClick={this.handleAllRead}>
+								<Icon className="yc-all-clear" type="icon-clear" />
+								<span className="yc-all-read-text">全部标为已读</span>
+							</div>
 							<div className="yc-public-floatRight">
+								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download condition={() => this.condition} api={exportList} all text="一键导出" />
 							</div>
 						</div>
 					) : (
-						<div className="assets-auction-action">
+						<div className="yc-batch-management">
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
@@ -240,14 +245,12 @@ export default class Subrogation extends React.Component {
 								field="idList"
 								text="导出"
 							/>
-
-							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
 								onClick={() => {
 									this.setState({ manage: false });
 									this.selectRow = [];
 								}}
-								title="取消管理"
+								title="取消批量管理"
 							/>
 						</div>
 					)

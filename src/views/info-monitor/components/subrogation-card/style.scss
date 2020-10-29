@@ -38,7 +38,7 @@
       }
       &:before {
         border-color: rgba(251, 142, 60, 0);
-        border-right-color: #FB8E3C;
+        border-right-color: $color-warning-text;
         border-width: 6px;
         margin-top: -6px;
       }
@@ -47,6 +47,12 @@
       color: $text-title;
       padding-right: 5px;
       font-weight: bold;
+    }
+    &-tips{
+      color: $color-warning-text;
+      &-num{
+        margin-right: 4px;
+      }
     }
   }
 }

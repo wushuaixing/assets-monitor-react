@@ -5,11 +5,12 @@ import { Provider } from 'react-redux';
 import { message } from 'antd';
 import store from './stores/app';
 import App from './views/app';
+// eslint-disable-next-line import/extensions
 import './assets/css';
 import './utils/config';
 
-const Version = 'v2.4.0';
-const BetaNumber = '.20';
+const Version = 'v2.5.0';
+const BetaNumber = '.1';
 const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
 window.CurrentVersions = info;
 if (window.location.protocol === 'http:') {

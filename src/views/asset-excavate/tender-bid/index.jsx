@@ -1,6 +1,8 @@
 import React from 'react';
 import { message, Modal } from 'antd';
-import { Button, Spin, Download } from '@/common';
+import {
+	Button, Spin, Download, Icon,
+} from '@/common';
 import Api from '@/utils/api/monitor-info/bidding';
 import { unReadCount as unReadTotal } from '@/utils/api/monitor-info';
 import { clearEmpty } from '@/utils';
@@ -12,7 +14,7 @@ import './style.scss';
 export default class Lawsuits extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '招标中标-资产挖掘';
+		document.title = '招投标-资产挖掘';
 		this.state = {
 			isRead: 'all',
 			dataSource: '',
@@ -221,9 +223,12 @@ export default class Lawsuits extends React.Component {
 								onClick={() => this.handleReadChange('unread')}
 								title="只显示未读"
 							/>
-							<Button onClick={this.handleAllRead}>全部标为已读</Button>
-							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							<div className="yc-all-read" onClick={this.handleAllRead}>
+								<Icon className="yc-all-clear" type="icon-clear" />
+								<span className="yc-all-read-text">全部标为已读</span>
+							</div>
 							<div className="yc-public-floatRight">
+								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
@@ -233,7 +238,7 @@ export default class Lawsuits extends React.Component {
 							</div>
 						</div>
 					) : (
-						<div className="assets-auction-action">
+						<div className="yc-batch-management">
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								text="导出"
@@ -249,7 +254,7 @@ export default class Lawsuits extends React.Component {
 									this.setState({ manage: false });
 									this.selectRow = [];
 								}}
-								title="取消管理"
+								title="取消批量管理"
 							/>
 						</div>
 					)
