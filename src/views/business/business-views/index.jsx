@@ -434,14 +434,14 @@ class BusinessView extends React.Component {
 	};
 
 	// 打开导入业务的弹窗
-	hanldleOpenBusinessModal = () => {
+	handleOpenBusinessModal = () => {
 		this.setState({
 			businessModalVisible: true,
 		});
 	};
 
 	// 关闭导入业务的弹窗
-	hanldleCloseBusinessModal = () => {
+	handleCloseBusinessModal = () => {
 		this.setState({
 			businessModalVisible: false,
 		});
@@ -581,7 +581,7 @@ class BusinessView extends React.Component {
 					<div className="yc-noTab-hr" />
 
 					<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
-						{/* <Button className="yc-business-btn" onClick={this.hanldleOpenBusinessModal}> */}
+						{/* <Button className="yc-business-btn" onClick={this.handleOpenBusinessModal}> */}
 						{/*	导入业务 */}
 						{/* </Button> */}
 						 <Upload className={!global.GLOBAL_MEIE_BROWSER ? 'yc-upload' : 'yc-ie-upload'} showUploadList={false} {...this.uploadAttachmentParam()}>
@@ -676,7 +676,7 @@ class BusinessView extends React.Component {
 				{/* businessModalVisible && ( */}
 				{/* <BusinessModal */}
 				{/*	businessModalVisible={businessModalVisible} */}
-				{/*	onCancel={this.hanldleCloseBusinessModal} */}
+				{/*	onCancel={this.handleCloseBusinessModal} */}
 				{/*	form={form} */}
 				{/* /> */}
 				{/* ) */}

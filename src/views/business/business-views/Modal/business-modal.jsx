@@ -61,78 +61,6 @@ export default class BusinessModal extends React.PureComponent {
 		onCancel();
 	};
 
-	// 附件上传处理
-	uploadAttachmentParam = () => {
-		const that = this;
-		return {
-			name: 'file',
-			// action: `${BASE_URL}/yc/business/importExcelText?token=${cookies.get('token') || ''}`,
-			beforeUpload(file) {
-				const type = file.name.split('.');
-				const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
-				if (!isTypeRight) {
-					message.error('只能上传 Excel格式文件！');
-				}
-				return isTypeRight;
-			},
-			onChange(info) {
-				console.log('info === ', info);
-				// if (info.file.status !== 'uploading') {
-				// 	console.log(info.file, info.fileList);
-				// }
-				// that.setState({
-				// 	errorLoading: true,
-				// });
-				// console.log(info.file.status, 12312);
-				that.handleCancel();
-				// if (info.file.status === 'done') {
-				// 	if (info.file.response.code === 200) {
-				// 		// url.push(info.file.response.data);
-				// 		that.setState({
-				// 			refresh: !that.state.refresh,
-				// 			errorMsg: [],
-				// 			errorLoading: false,
-				// 		});
-				// 		const { form: { resetFields } } = that.props; // 会提示props is not defined
-				// 		resetFields('');
-				// 		that.getData();
-				// 		const successMessage = info.file.response.data.type !== 2 ? '成功导入' : '成功转移';
-				// 		message.success(`${info.file.name} ${successMessage}${info.file.response.data.businessCount}笔`);
-				// 		that.handleCancel();
-				// 	} else if (info.file.response.code === 9001) {
-				// 		message.error('服务器出错');
-				// 		that.setState({
-				// 			errorLoading: false,
-				// 		});
-				// 	} else if (info.file.response.code === 9003) {
-				// 		message.error(info.file.response.message);
-				// 		that.setState({
-				// 			errorLoading: false,
-				// 		});
-				// 	} else {
-				// 		info.fileList.pop();
-				// 		// 主动刷新页面，更新文件列表
-				// 		that.setState({
-				// 			refresh: !that.state.refresh,
-				// 			uploadErrorData: info.file.response.data,
-				// 			errorLoading: false,
-				// 			// errorMsg: info.file.response.data.errorMsgList,
-				// 		});
-				// 		that.openErrorModal();
-				// 		// that.uploadError(info.file.response.data);
-				// 		// message.error(`上传失败: ${info.file.response.data.errorMessage}`);
-				// 	}
-				// } else if (info.file.status === 'error') {
-				// 	message.error(`${info.file.name} 上传失败。`);
-				// 	that.setState({
-				// 		errorMsg: [],
-				// 		errorLoading: false,
-				// 	});
-				// }
-			},
-		};
-	};
-
 	handleChangeFile = () => {
 		const file = document.getElementById('fileToUpload').files[0];
 		console.log('file === ', file);
@@ -169,6 +97,11 @@ export default class BusinessModal extends React.PureComponent {
 		xhr.onreadystatechange = function dealResult() {
 			console.log('xhr === ', xhr);
 			// status === 200 是接口请求成功的标志
+			// readyState === 0 未初始化, 还没有调用send()方法
+			// readyState === 1 载入, 已调用send()方法，正在发送请求
+			// readyState === 2 载入完成, send()方法执行完成，已经接收到全部响应内容
+			// readyState === 3 交互, 正在解析响应内容
+			// readyState === 4 完成, 响应内容解析完成，可以在客户端调用了
 			if (xhr.readyState === 4 && xhr.status === 200) {
 				const res = JSON.parse(xhr.responseText);
 				// 这个code === 200 表示的是接口的数据发送符合接口要求
@@ -204,19 +137,18 @@ export default class BusinessModal extends React.PureComponent {
 				<div className="business-modal-content">
 					<span className="business-modal-content-label">上传文件：</span>
 					<div className="business-modal-content-choose">
-						<input id="fileToUpload" className="file-upload" type="file" name="upload" onChange={this.handleChangeFile} />
+						<input
+							id="fileToUpload"
+							className="file-upload"
+							type="file"
+							name="upload"
+							accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+							onChange={this.handleChangeFile}
+						/>
 						<Button className="file-btn">选择</Button>
-						{/* <Upload className={!global.GLOBAL_MEIE_BROWSER ? 'yc-upload' : 'yc-ie-upload'} showUploadList={false} {...this.uploadAttachmentParam()}> */}
-						{/*	<Button className="yc-business-btn"> */}
-						{/*		选择 */}
-						{/*	</Button> */}
-						{/* </Upload> */}
 					</div>
 					<a className="business-modal-content-choose-template" href="../../../../static/template.xlsx">模版下载</a>
 					<div className="business-modal-content-choose-tips">
-						{
-							progressNumber
-						}
 						{
 							fileName ? (
 								<div>

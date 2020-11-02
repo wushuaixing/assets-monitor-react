@@ -82,8 +82,9 @@ export default class InfoItem extends React.Component {
 								row.title ? (
 									<span>
 										<span>详见正文：</span>
+										{/* urlType是为了区分查解封模块和其他模块， 其他模块跳转到文书详情页没参数 */}
 										{
-										 linkDom(row.url, row.title, '_blank', '', '', '')
+										 linkDom(`#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`, row.title, '_blank', '', '', '')
 										}
 									</span>
 								) : '-'

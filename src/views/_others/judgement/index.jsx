@@ -1,8 +1,18 @@
 import React from 'react';
 import { Button, Spin, NoContent } from '@/common';
 import { parseQuery } from '@/utils';
-import { judgmentDetail } from '@/utils/api/index';
+import { judgmentDetail, judgmentUnsealDetail } from '@/utils/api/index';
 import './style.scss';
+
+// 不同的请求映射
+function getUrl(type) {
+	let url = judgmentDetail;
+	switch (type) {
+	case 'seizedUnblock': url = judgmentUnsealDetail; break;
+	default: url = judgmentDetail; break;
+	}
+	return url;
+}
 
 class Judgement extends React.Component {
 	constructor(props) {
@@ -23,12 +33,13 @@ class Judgement extends React.Component {
 			pid: params.pid,
 			sourceId: params.sourceId ? parseInt(params.sourceId, 10) : params.sourceId,
 		};
-		this.getData(newParams, params.title);
+		this.getData(newParams, params.title, params.urlType);
 	}
 
 	// 请求数据
-	getData = (params, title) => {
-		judgmentDetail(params).then((res) => {
+	getData = (params, title, urlType) => {
+		const api = getUrl(urlType);
+		api(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					loading: false,
