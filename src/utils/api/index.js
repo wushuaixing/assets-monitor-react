@@ -17,3 +17,9 @@ export const judgmentDetail = async (params) => {
 	const response = await service.get('/yc/monitor/judgment/subrogation/detail', { params });
 	return response.data;
 };
+
+// [v2.5]查解封资产 文书详情页 [youyu]
+export const judgmentUnsealDetail = async (params) => {
+	const response = await service.get('/yc/monitor/unseal/detail', { params });
+	return response.data;
+};

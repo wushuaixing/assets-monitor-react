@@ -13,3 +13,48 @@
   //   }
   // }
 }
+
+.business-modal{
+  &-content{
+    &-label{
+      margin-left: 50px;
+    }
+    &-choose{
+      display: inline-block;
+      position: relative;
+      cursor: pointer !important;
+      &:hover{
+        cursor: pointer !important;
+        .yc-btn-default{
+          border: 1px solid #1C80E1;
+          background-color: #FFFFFF;
+          color: #1C80E1;
+          cursor: pointer !important;
+        }
+      }
+      &-template{
+        padding-left: 20px;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+      &-tips{
+        margin-left: 110px;
+      }
+      .file-btn{
+        cursor: pointer;
+      }
+      .file-upload{
+        overflow: hidden;
+        width: 44px;
+        left: 0;
+        height: 30px;
+        top: 0;
+        position: absolute;
+        cursor: pointer !important;
+        opacity: 0;
+        z-index: 1;
+      }
+    }
+  }
+}

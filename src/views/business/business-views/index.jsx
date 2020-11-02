@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Form, message, Tooltip, Icon, Pagination, Modal, Upload, Select,
+	Form, message, Tooltip, Icon, Pagination, Modal, Select, Upload,
 } from 'antd';
 import Cookies from 'universal-cookie';
 // import { baseUrl  } from '@/utils/api';
@@ -16,6 +16,7 @@ import {
 import businessImg from '@/assets/img/business/icon_recovery_n.png';
 import ModalTable from './modalTable';
 import PeopleListModal from './Modal/peopleList';
+// import BusinessModal from './Modal/business-modal';
 import TableList from './table';
 import './style.scss';
 
@@ -67,6 +68,7 @@ class BusinessView extends React.Component {
 			errorLoading: false,
 			_selectedRowKeys: [],
 			reqLoading: false,
+			businessModalVisible: false,
 		};
 		this.condition = {};
 	}
@@ -267,7 +269,7 @@ class BusinessView extends React.Component {
 		});
 	};
 
-
+	// 打开或者关闭批量管理
 	openManagement = (openRowSelection) => {
 		this.setState({
 			openRowSelection: !openRowSelection,
@@ -431,9 +433,23 @@ class BusinessView extends React.Component {
 		});
 	};
 
+	// 打开导入业务的弹窗
+	handleOpenBusinessModal = () => {
+		this.setState({
+			businessModalVisible: true,
+		});
+	};
+
+	// 关闭导入业务的弹窗
+	handleCloseBusinessModal = () => {
+		this.setState({
+			businessModalVisible: false,
+		});
+	};
+
 	render() {
 		const {
-			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading,
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading, businessModalVisible,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -564,29 +580,34 @@ class BusinessView extends React.Component {
 					{/* 分隔下划线 */}
 					<div className="yc-noTab-hr" />
 
-					<div className="yc-business-table-btn" style={{ minHeight: 32 }}>
-						{ openRowSelection ? [
-							<Button onClick={this.handledDeleteBatch} className="yc-business-btn">删除</Button>,
-							<Download selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />,
-						] : [
-							<a className="yc-aButton" href="../../../static/template.xlsx">模版下载</a>,
-							<Upload className={!global.GLOBAL_MEIE_BROWSER ? 'yc-upload' : 'yc-ie-upload'} showUploadList={false} {...this.uploadAttachmentParam()}>
-								<Button className="yc-business-btn">
-									导入业务
-								</Button>
-							</Upload>,
-							<div className="yc-public-floatRight">
-								<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
-							</div>,
-						]}
-
-						<Button className="yc-business-btn" onClick={() => this.openManagement(openRowSelection)}>
-							{openRowSelection ? '取消管理' : '批量管理'}
-						</Button>
-
+					<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
+						{/* <Button className="yc-business-btn" onClick={this.handleOpenBusinessModal}> */}
+						{/*	导入业务 */}
+						{/* </Button> */}
+						 <Upload className={!global.GLOBAL_MEIE_BROWSER ? 'yc-upload' : 'yc-ie-upload'} showUploadList={false} {...this.uploadAttachmentParam()}>
+							<Button className="yc-business-btn">
+								导入业务
+							</Button>
+						 </Upload>
 						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
 							<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
 						</Tooltip>
+						<div className="yc-public-floatRight">
+							{
+								openRowSelection ? (
+									<React.Fragment>
+										<Download selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
+										<Button onClick={this.handledDeleteBatch} className="yc-business-btn">删除</Button>
+									</React.Fragment>
+								) : null
+							}
+							<Button className="yc-business-btn" onClick={() => this.openManagement(openRowSelection)}>
+								{openRowSelection ? '取消批量管理' : '批量管理'}
+							</Button>
+							{
+								openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
+							}
+						</div>
 					</div>
 					{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 					<Spin visible={loading}>
@@ -651,6 +672,15 @@ class BusinessView extends React.Component {
 					</div>
 				</Modal>
 				)}
+				 {/* { */}
+				{/* businessModalVisible && ( */}
+				{/* <BusinessModal */}
+				{/*	businessModalVisible={businessModalVisible} */}
+				{/*	onCancel={this.handleCloseBusinessModal} */}
+				{/*	form={form} */}
+				{/* /> */}
+				{/* ) */}
+				 {/* } */}
 			</div>
 		);
 	}
