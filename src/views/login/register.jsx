@@ -3,7 +3,7 @@ import React from 'react';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 import {
-	Form, Button, message, Spin, Input, Tabs,
+	Form, Button, message, Spin, Input, Tabs, Modal,
 } from 'antd';
 import { Icon } from '@/common';
 import {
@@ -14,8 +14,8 @@ import {
 } from '@/utils/api/user';
 import BASE_URL from '@/utils/api/config';
 import rsaEncrypt from '@/utils/encrypt';
-import PasswordModal from './passwordModal';
 import { handleRule, debounce } from '@/utils';
+import PasswordModal from './passwordModal';
 import './style.scss';
 
 const cookie = new Cookies();
@@ -73,6 +73,17 @@ class Login extends React.Component {
 		cookie.set('rememberPassword', e.target.checked, { SameSite: 'none' });
 		this.setState({
 			rememberPassword: e.target.checked,
+		});
+	};
+
+	error = () => {
+		Modal.error({
+			title: <span className="error-title">账号过期提醒</span>,
+			className: 'error-modal',
+			content: <div className="error-content">
+				<div>账号已过期，建议联系客服。</div>
+				<div>客服电话:133-7256-7936</div>
+			</div>,
 		});
 	};
 
@@ -139,6 +150,12 @@ class Login extends React.Component {
 									navigate('/');
 								}
 							}
+						} else if (res.code === 15002) {
+							this.setState({
+								loading: false,
+							}, () => {
+								this.error();
+							});
 						} else {
 							if (res.data && res.data.errorTime > 4) {
 								if (res.data.errorTime >= 10) {
@@ -196,16 +213,14 @@ class Login extends React.Component {
 					} else {
 						navigate('/');
 					}
-				} else {
-					if (res.data && res.data.errorTime > 4) {
-						if (res.data.errorTime >= 10) {
-							message.warning(res.message);
-							return;
-						}
-						message.warning(`账号密码错误，您还可以尝试${res.data.errorTimeLeft}次`);
-					} else {
-						message.error(res.message);
+				} else if (res.data && res.data.errorTime > 4) {
+					if (res.data.errorTime >= 10) {
+						message.warning(res.message);
+						return;
 					}
+					message.warning(`账号密码错误，您还可以尝试${res.data.errorTimeLeft}次`);
+				} else {
+					message.error(res.message);
 				}
 			}).catch(() => { });
 		});
@@ -218,6 +233,7 @@ class Login extends React.Component {
 		});
 	};
 
+	// eslint-disable-next-line consistent-return
 	sendVerifyCode = () => {
 		const { form } = this.props;
 		const { verifyCodeStatus } = this.state;
@@ -227,6 +243,7 @@ class Login extends React.Component {
 			mobile: fields.phone,
 		};
 		// 校验手机号是否正确,
+		// eslint-disable-next-line consistent-return
 		form.validateFields(['phone'], (errors) => {
 			if (errors) {
 				return false;
@@ -250,6 +267,8 @@ class Login extends React.Component {
 							});
 						}
 					}, 1000);
+				} else if (res.code === 15002) {
+					this.error();
 				}
 			}).catch(() => {
 				this.setState({
@@ -299,7 +318,6 @@ class Login extends React.Component {
 
 	// 切换tab点击事件
 	onChangeTab = (val) => {
-
 		const { form } = this.props;
 		const { getFieldsValue, setFieldsValue } = form;
 		const fields = getFieldsValue();
@@ -312,8 +330,7 @@ class Login extends React.Component {
 				username: fields.username,
 			});
 			setFieldsValue({ phone: fields.username });
-		}
-		else {
+		} else {
 			this.setState({
 				phone: fields.phone,
 			});
