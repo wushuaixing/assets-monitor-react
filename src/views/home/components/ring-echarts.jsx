@@ -233,9 +233,7 @@ class RingEcharts extends PureComponent {
 	render() {
 		const { id } = this.props;
 		return (
-			<div>
-				<div className="yc-ring-echarts" style={{ width: 560, height: 150, marginBottom: '15px' }} id={`${id}RingEcharts`} />
-			</div>
+			<div className="yc-ring-echarts" style={{ width: 560, height: 150, marginBottom: '15px' }} id={`${id}RingEcharts`} />
 		);
 	}
 }
