@@ -733,7 +733,7 @@ function exportTemplate(source,exportType) {
 			if((source.shareholderInfos||[]).length){
 				var shareholderInfosList = "";
 				source.shareholderInfos.forEach(function (i) {
-					shareholderInfosList+="<tr><td>"+i.name+"</td><td class=\"fw-bold\">"+(i.rate)+"</td></tr>"
+					shareholderInfosList+="<tr><td>"+i.name+"</td><td class=\"fw-bold\">"+(i.rate) + "%</td></tr>"
 				});
 				htmlTemp = htmlTemp.replace("{" + viewName + ".shareholderInfos.list}",shareholderInfosList)
 
@@ -827,18 +827,12 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item) {
 					listAry.push("<tr><td>" +
 						"<li class='mg8-0 font-m'>" +
-						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.title||'--')+"</a>":(item.title||'--')) +
-						"</li>" +
-						"<li class='mg8-0'><div class='nAndI'><span class='n-desc'>● 匹配原因："+fun.toGetType(item.obligors,fun.source.labelType,"labelType",true)+"</span></div></li>" +
-						"<li class='mg8-0'><div class='nAndI'><span class='n-desc'>"+item.matchRemark+"</span></div></li>" +
-						"</td><td>" +
-						"<li class='mg8-0'><div class='nAndI'>● "+fun.toGetType(item.status,fun.source.auctionType)+"</div></li>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.title||'--')+"</a>":(item.title||'--')) + "</li></td><td>" +
+						"<li class='mg8-0'><div class='nAndI'>● "+ fun.toGetType(item.status,fun.source.auctionType)+"</div></li>" +
 						"<li class='mg8-0'><div class='nAndI'>"+fun.toShowPrice(item)+"</div></li>" +
 						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>评估价：</span><span class='n-desc'>"+fun.toNumberStr(item.consultPrice)+"</span></div></li>" +
 						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>开拍时间：</span><span class='n-desc'>"+item.start+"</span></div></li>" +
-						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>处置单位：</span><span class='n-desc' style='max-width: 220px'>" +
-						item.court
-						+"</span></div></li></td></tr>");
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>处置单位：</span><span class='n-desc' style='max-width: 220px'>" + item.court +"</span></div></li></td></tr>");
 				});
 				break;
 			}

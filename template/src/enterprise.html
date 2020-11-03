@@ -220,17 +220,43 @@
 </div>
 <!-- end -->
 
-<!-- 概览-涉诉情况 -- start -->
+<!-- 概览-风险信息 -- start -->
 <div class="{overview.lawsuit.display}">
 	<div class="entry-title border-b">`
-		<div class="fw-bold font-xl">涉诉情况</div>
+		<div class="fw-bold font-xl">风险信息</div>
 	</div>
-	<!-- 立案信息 -->
+	<!-- 破产重组 -->
+	<div class="padding6 {overview.A10209.dishonest.display}">
+		<div class="entry-title">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10209.bankruptcy.total}条</span>
+				<span>破产重组</span>
+			</div>
+			<div class="fw-bold second-title">年份分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10209.bankruptcy.year.list}
+			</table>
+		</div>
+	</div>
+	<!-- 失信记录 -->
+	<div class="padding6 {overview.A10206.dishonest.display}">
+		<div class="entry-title">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10206.dishonest.total}条</span>
+				<span>失信记录</span>
+			</div>
+			<div class="fw-bold second-title">年份分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10206.dishonest.year.list}
+			</table>
+		</div>
+	</div>
+	<!-- 涉诉信息 -->
 	<div class="padding6 {overview.A10206.trial.display}">
 		<div class="entry-title">
 			<div class="et-cot font-l">
 				<span class="fw-bold mg-r">{overview.A10206.trial.total}条</span>
-				<span>立案信息</span>
+				<span>涉诉信息 - 立案信息</span>
 			</div>
 		</div>
 
@@ -251,7 +277,7 @@
 		<div class="entry-title">
 			<div class="et-cot font-l">
 				<span class="fw-bold mg-r">{overview.A10206.court.total}条</span>
-				<span>开庭信息</span>
+				<span>涉诉信息 - 开庭信息</span>
 			</div>
 		</div>
 		<div class="{overview.A10206.court.year}">
@@ -272,7 +298,7 @@
 		<div class="entry-title">
 			<div class="et-cot font-l">
 				<span class="fw-bold mg-r">{overview.A10206.judgment.total}条</span>
-				<span>裁判文书</span>
+				<span>涉诉信息 - 裁判文书</span>
 			</div>
 			<div class="{overview.A10206.judgment.year}">
 				<div class="fw-bold second-title">年份分布</div>
@@ -294,41 +320,8 @@
 			</div>
 		</div>
 	</div>
-	<!-- 失信记录 -->
-	<div class="padding6 {overview.A10206.dishonest.display}">
-		<div class="entry-title">
-			<div class="et-cot font-l">
-				<span class="fw-bold mg-r">{overview.A10206.dishonest.total}条</span>
-				<span>失信记录</span>
-			</div>
-			<div class="fw-bold second-title">年份分布</div>
-			<table class="table-td-20 table-border mg8-0">
-				{overview.A10206.dishonest.year.list}
-			</table>
-		</div>
-	</div>
-	<!-- 破产重组 -->
-	<div class="padding6 {overview.A10209.dishonest.display}">
-		<div class="entry-title">
-			<div class="et-cot font-l">
-				<span class="fw-bold mg-r">{overview.A10209.bankruptcy.total}条</span>
-				<span>破产重组</span>
-			</div>
-			<div class="fw-bold second-title">年份分布</div>
-			<table class="table-td-20 table-border mg8-0">
-				{overview.A10209.bankruptcy.year.list}
-			</table>
-		</div>
-	</div>
-</div>
-<!-- end -->
-
-<!-- 概览-经营风险 -- start -->
-<div class="{overview.A10207.display}">
-	<div class="entry-title border-b">
-		<div class="fw-bold font-xl">经营风险</div>
-	</div>
-	<div class="padding6">
+	<!--  经营风险 -->
+	<div class="padding6 {overview.A10207.display}">
 		<div class="entry-title">
 			<div class="et-cot font-l">
 				<span class="fw-bold mg-r">{overview.A10207.total}条</span>

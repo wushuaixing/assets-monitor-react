@@ -596,19 +596,19 @@ module.exports = {
 		},
 		shareholderInfos: [
 			{
-				investorName: '沃伟东',
+				name: '沃伟东',
 				paymet: '货币',
 				subscribeAmount: 110700000,
 				subscribeAmountName: '11070万元',
-				subscribeAmountRate: 90,
+				rate: 90,
 				time: '1997-06-11',
 			},
 			{
-				investorName: '孙红敏',
+				name: '孙红敏',
 				paymet: '货币',
 				subscribeAmount: 12300000,
 				subscribeAmountName: '1230万元',
-				subscribeAmountRate: 10,
+				rate: 10,
 				time: '1997-06-11',
 			},
 		],
