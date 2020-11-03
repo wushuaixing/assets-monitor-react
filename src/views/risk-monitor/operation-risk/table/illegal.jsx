@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Modal, Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDetail, timeStandard } from '@/utils';
-import { Ellipsis, SelectedNum, Table } from '@/common';
+import { linkDetail, timeStandard, toEmpty } from '@/utils';
+import {
+	Ellipsis, LiItem, SelectedNum, Table,
+} from '@/common';
 import { Illegal } from '@/utils/api/risk-monitor/operation-risk';
 
 // removeSituation 移除情况
@@ -14,23 +16,13 @@ const removeSituation = (val, row) => {
 				<li>
 					<span className="list list-content">已移除</span>
 				</li>
-				<li>
-					<span className="list list-title align-justify list-title-50">移除日期</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{timeStandard(gmtRemoveDate) || '-'}</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify list-title-50">移除原因</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">
-						<Ellipsis content={removeReason} tooltip line={2} width={150} />
-					</span>
-				</li>
-				<li>
-					<span className="list list-title align-justify list-title-50">决定机关</span>
-					<span className="list list-title-colon">:</span>
-					<span className="list list-content">{removeDepartment || '-'}</span>
-				</li>
+				<LiItem Li title="移除日期" titleStyle={{ width: 50 }}>{timeStandard(gmtRemoveDate)}</LiItem>
+				<LiItem Li title="移除原因" auto titleStyle={{ width: 50 }}>
+					<Ellipsis content={toEmpty(removeReason)} tooltip width={180} />
+				</LiItem>
+				<LiItem Li title="移除机关" titleStyle={{ width: 50 }} auto>
+					<Ellipsis content={toEmpty(removeDepartment)} tooltip width={180} />
+				</LiItem>
 			</div>
 		);
 	}

@@ -10,21 +10,21 @@ import { linkDetail, timeStandard } from '@/utils';
 // removeSituation 移除情况
 const removeSituation = (val, row) => {
 	const { gmtRemoveDate, removeReason, removeDepartment } = row;
-	if (!gmtRemoveDate) {
+	if (gmtRemoveDate || removeReason || removeDepartment) {
 		return (
 			<div className="assets-info-content">
-				<li><span className="list list-content">未移除</span></li>
+				<li>
+					<span className="list list-content">已移除</span>
+				</li>
+				<LiItem Li title="移除日期" auto>{timeStandard(gmtRemoveDate) || '-'}</LiItem>
+				<LiItem Li title="移除原因" auto><Ellipsis content={removeReason} tooltip line={2} width={150} /></LiItem>
+				<LiItem Li title="决定机关" auto><Ellipsis content={removeDepartment} tooltip line={1} width={150} /></LiItem>
 			</div>
 		);
 	}
 	return (
 		<div className="assets-info-content">
-			<li>
-				<span className="list list-content">已移除</span>
-			</li>
-			<LiItem Li title="移除日期" auto>{timeStandard(gmtRemoveDate) || '-'}</LiItem>
-			<LiItem Li title="移除原因" auto><Ellipsis content={removeReason} tooltip line={2} width={150} /></LiItem>
-			<LiItem Li title="决定机关" auto><Ellipsis content={removeDepartment} tooltip line={1} width={150} /></LiItem>
+			<li><span className="list list-content">未移除</span></li>
 		</div>
 	);
 };

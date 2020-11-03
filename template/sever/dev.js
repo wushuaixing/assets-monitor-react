@@ -1406,13 +1406,7 @@ function exportTemplate(source,exportType) {
 						"</li>" +
 						"</td>" +
 						"<td>" +
-						(!item.gmtRemoveDate ? (
-							"<li class='mg8-0'>" +
-							"<div class='nAndI'>" +
-							"<span class=\"n-icon green\"></span>" +
-							"<span class='n-desc'>未移除</span>" +
-							"</div></li>"
-						) : (
+						(item.gmtRemoveDate || item.removeReason || item.removeDepartment ? (
 							"<li class='mg8-0'>" +
 							"<div class='nAndI'>" +
 							"<span class=\"n-icon gray\"></span>" +
@@ -1429,6 +1423,12 @@ function exportTemplate(source,exportType) {
 							"<li class='mg8-0'>" +
 							"<div class='nAndI'>" +
 							"<span class='n-title'>移除机关：<label class='n-desc'>"+(item.removeDepartment||'--')+"</label></span>" +
+							"</div></li>"
+						) : (
+							"<li class='mg8-0'>" +
+							"<div class='nAndI'>" +
+							"<span class=\"n-icon green\"></span>" +
+							"<span class='n-desc'>未移除</span>" +
 							"</div></li>"
 						)) +
 						"</td></tr>");
