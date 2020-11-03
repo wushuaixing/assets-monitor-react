@@ -733,7 +733,7 @@ function exportTemplate(source,exportType) {
 			if((source.shareholderInfos||[]).length){
 				var shareholderInfosList = "";
 				source.shareholderInfos.forEach(function (i) {
-					shareholderInfosList+="<tr><td>"+i.name+"</td><td class=\"fw-bold\">"+(i.rate) + "%</td></tr>"
+					shareholderInfosList+="<tr><td>"+i.name+"</td><td class=\"fw-bold\">"+(i.rate) + "</td></tr>"
 				});
 				htmlTemp = htmlTemp.replace("{" + viewName + ".shareholderInfos.list}",shareholderInfosList)
 

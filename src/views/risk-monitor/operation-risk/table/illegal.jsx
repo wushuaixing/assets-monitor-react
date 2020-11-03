@@ -8,35 +8,35 @@ import { Illegal } from '@/utils/api/risk-monitor/operation-risk';
 // removeSituation 移除情况
 const removeSituation = (val, row) => {
 	const { gmtRemoveDate, removeReason, removeDepartment } = row;
-	if (!gmtRemoveDate) {
+	if (gmtRemoveDate || removeReason || removeDepartment) {
 		return (
 			<div className="assets-info-content">
-				<li><span className="list list-content">未移除</span></li>
+				<li>
+					<span className="list list-content">已移除</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify list-title-50">移除日期</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">{timeStandard(gmtRemoveDate) || '-'}</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify list-title-50">移除原因</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">
+						<Ellipsis content={removeReason} tooltip line={2} width={150} />
+					</span>
+				</li>
+				<li>
+					<span className="list list-title align-justify list-title-50">决定机关</span>
+					<span className="list list-title-colon">:</span>
+					<span className="list list-content">{removeDepartment || '-'}</span>
+				</li>
 			</div>
 		);
 	}
 	return (
 		<div className="assets-info-content">
-			<li>
-				<span className="list list-content">已移除</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify list-title-50">移除日期</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{timeStandard(gmtRemoveDate) || '-'}</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify list-title-50">移除原因</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">
-					<Ellipsis content={removeReason} tooltip line={2} width={150} />
-				</span>
-			</li>
-			<li>
-				<span className="list list-title align-justify list-title-50">决定机关</span>
-				<span className="list list-title-colon">:</span>
-				<span className="list list-content">{removeDepartment || '-'}</span>
-			</li>
+			<li><span className="list list-content">未移除</span></li>
 		</div>
 	);
 };
