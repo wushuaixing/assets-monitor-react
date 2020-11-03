@@ -9,29 +9,29 @@ import { timeStandard, toEmpty } from '@/utils';
 // removeSituation 移除情况
 const removeSituation = (val, row) => {
 	const { gmtRemoveDate, removeReason, removeDepartment } = row;
-	if (!gmtRemoveDate) {
+	if (gmtRemoveDate || removeReason || removeDepartment) {
 		return (
 			<div className="assets-info-content">
 				<li>
-					<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
-					<span className="list list-content">未移除</span>
+					<Icon type="icon-dot" style={{ fontSize: 12, color: '#7c7c7c', marginRight: 3 }} />
+					<span className="list list-content">已移除</span>
 				</li>
+				<LiItem Li title="移除日期" titleStyle={{ width: 50 }}>{timeStandard(gmtRemoveDate)}</LiItem>
+				<LiItem Li title="移除原因" auto titleStyle={{ width: 50 }}>
+					<Ellipsis content={toEmpty(removeReason)} tooltip width={180} />
+				</LiItem>
+				<LiItem Li title="移除机关" titleStyle={{ width: 50 }} auto>
+					<Ellipsis content={toEmpty(removeDepartment)} tooltip width={180} />
+				</LiItem>
 			</div>
 		);
 	}
 	return (
 		<div className="assets-info-content">
 			<li>
-				<Icon type="icon-dot" style={{ fontSize: 12, color: '#7c7c7c', marginRight: 3 }} />
-				<span className="list list-content">已移除</span>
+				<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
+				<span className="list list-content">未移除</span>
 			</li>
-			<LiItem Li title="移除日期" titleStyle={{ width: 50 }}>{timeStandard(gmtRemoveDate)}</LiItem>
-			<LiItem Li title="移除原因" auto titleStyle={{ width: 50 }}>
-				<Ellipsis content={toEmpty(removeReason)} tooltip width={180} />
-			</LiItem>
-			<LiItem Li title="移除机关" titleStyle={{ width: 50 }} auto>
-				<Ellipsis content={toEmpty(removeDepartment)} tooltip width={180} />
-			</LiItem>
 		</div>
 	);
 };
