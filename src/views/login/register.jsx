@@ -199,7 +199,6 @@ class Login extends React.Component {
 				mobile: fields.phone,
 				mobileCode: fields.verifyCode,
 			};
-
 			loginPhoneCode(wechatSmsLogin).then((res) => {
 				if (res.code === 200) {
 					message.success('登录成功');
@@ -219,6 +218,8 @@ class Login extends React.Component {
 						return;
 					}
 					message.warning(`账号密码错误，您还可以尝试${res.data.errorTimeLeft}次`);
+				} else if (res.code === 15002) {
+					this.error();
 				} else {
 					message.error(res.message);
 				}
