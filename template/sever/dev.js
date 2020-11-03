@@ -741,6 +741,22 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".shareholderInfos.display}", "display-none");
 			}
 		}
+		else if(viewName === "overview.A10209"){
+			if((source.yearDistributions||{}).length){
+				source.yearDistributions.forEach(function (item) {
+					yearTotal += item.count;
+				});
+				htmlTemp = htmlTemp.replace("{" + viewName + ".bankruptcy.total}", yearTotal);
+				htmlTemp = htmlTemp.replace("{" + viewName + ".bankruptcy.year.list}",
+					overViewTable(fun.toGetYearList(source.yearDistributions,'year'), 5, {
+						name: "year",
+						count: "count",
+						nameUnit:"年"
+					}))
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".bankruptcy.display}", "display-none");
+			}
+		}
 		else if(viewName==="baseInfo"){
 			if(source){
 				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
@@ -767,7 +783,7 @@ function exportTemplate(source,exportType) {
 		}
 		overView(data.A10207,"overview.A10207");
 		overView(data.A10208,"overview.A10208");
-
+		overView(data.A10209,"overview.A10209");
 	}else{
 		overView(data.B10201,"overview.B10201");
 		overView(data.B10202,"overview.B10202");
@@ -786,7 +802,28 @@ function exportTemplate(source,exportType) {
 	var tableList = function (source,viewName) {
 		var listAry =[];
 		switch (viewName) {
-			case "asset":{
+			case "asset.accurate":
+				{
+					source.list.forEach(function (item) {
+						listAry.push("<tr><td>" +
+							"<li class='mg8-0 font-m'>" +
+							(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+							"</li>" +
+							"<li class='mg8-0'><div class='nAndI'><span class='n-desc'>● 匹配原因："+fun.toGetType(item.obligors,fun.source.labelType,"labelType",true)+"</span></div></li>" +
+							"<li class='mg8-0'><div class='nAndI'><span class='n-desc'>"+item.matchRemark+"</span></div></li>" +
+							"</td><td>" +
+							"<li class='mg8-0'><div class='nAndI'>● "+fun.toGetType(item.status,fun.source.auctionType)+"</div></li>" +
+							"<li class='mg8-0'><div class='nAndI'>"+fun.toShowPrice(item)+"</div></li>" +
+							"<li class='mg8-0'><div class='nAndI'><span class='n-title'>评估价：</span><span class='n-desc'>"+fun.toNumberStr(item.consultPrice)+"</span></div></li>" +
+							"<li class='mg8-0'><div class='nAndI'><span class='n-title'>开拍时间：</span><span class='n-desc'>"+item.start+"</span></div></li>" +
+							"<li class='mg8-0'><div class='nAndI'><span class='n-title'>处置单位：</span><span class='n-desc' style='max-width: 220px'>" +
+							item.court
+							+"</span></div></li></td></tr>");
+					});
+					break;
+				}
+			case "asset.blurry":
+			{
 				source.list.forEach(function (item) {
 					listAry.push("<tr><td>" +
 						"<li class='mg8-0 font-m'>" +
@@ -1544,7 +1581,8 @@ function exportTemplate(source,exportType) {
 		}
 	};
 	if(exportType){
-		listView(data.A10301,"asset");
+		listView(data.A10301,"asset.accurate");
+		listView(data.A10312,"asset.blurry");
 		listView(data.A10302,"subrogation.trial");
 		listView(data.A10303,"subrogation.court");
 		listView(data.A10304,"subrogation.judgment");

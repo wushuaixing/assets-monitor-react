@@ -41,6 +41,24 @@ const ringMap = new Map([
 	['default', ['资产拍卖', 1]],
 ]);
 
+const urlMap = new Map([
+	['资产拍卖', '/monitor?process=-1'],
+	['土地信息', '/monitor/land'],
+	['无形资产', '/monitor/intangible'],
+	['代位权', '/monitor/subrogation'],
+	['股权质押', '/monitor/pledge'],
+	['动产抵押', '/monitor/mortgage'],
+	['查/解封资产', '/monitor/seizedUnblock'],
+	['金融资产', '/monitor/financial'],
+	['招投标', '/monitor/tender'],
+	['破产重组', '/risk/bankruptcy'],
+	['失信记录', '/risk/broken'],
+	['限制高消费', '/risk/limitHight'],
+	['涉诉信息', '/risk/info'],
+	['经营风险', '/risk/operation'],
+	['default', '/'],
+]);
+
 class dynamicUpdate extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -96,49 +114,51 @@ class dynamicUpdate extends PureComponent {
 		}
 	}
 
-	assetArray = (selected, name, remindArray, clear) => {
-		const actionType = ringMap.get(name) || ringMap.get('default');
-		let asset = [...remindArray.filter(item => item.type === actionType[1])];
-		if (clear) {
-			asset = [];
-			newAssetRemindArray = remindArray;
-		}
-		if (clearAsset) {
-			asset = [];
-		}
-		clearAsset = false;
-		if (name === actionType[0]) {
-			if (selected[name] === false) {
-				newAssetRemindArray = newAssetRemindArray.filter(item => item.type !== actionType[1]);
-				this.setState(() => ({ clear: false }));
-			} else {
-				newAssetRemindArray = asset && asset.length > 0 ? newAssetRemindArray.concat(asset) : newAssetRemindArray;
-			}
-		}
-		return newAssetRemindArray.sort(compare('timestamp'));
-	};
-
-	riskArray = (selected, name, remindArray, clear) => {
-		const actionType = ringMap.get(name) || ringMap.get('default');
-		let risk = [...remindArray.filter(item => item.type === actionType[1])];
-		if (clear) {
-			risk = [];
-			newRiskRemindArray = remindArray;
-		}
-		if (clearRisk) {
-			risk = [];
-		}
-		clearRisk = false;
-		if (name === actionType[0]) {
-			if (selected[name] === false) {
-				newRiskRemindArray = newRiskRemindArray.filter(item => item.type !== actionType[1]);
-				this.setState(() => ({ clear: false }));
-			} else {
-				newRiskRemindArray = risk && risk.length > 0 ? newRiskRemindArray.concat(risk) : newRiskRemindArray;
-			}
-		}
-		return newRiskRemindArray.sort(compare('timestamp'));
-	};
+	// assetArray = (selected, name, remindArray, clear) => {
+	// 	console.log('remindArray 111111111111111=== ', remindArray);
+	// 	const actionType = ringMap.get(name) || ringMap.get('default');
+	// 	let asset = [...remindArray.filter(item => item.type === actionType[1])];
+	// 	if (clear) {
+	// 		asset = [];
+	// 		newAssetRemindArray = remindArray;
+	// 	}
+	// 	if (clearAsset) {
+	// 		asset = [];
+	// 	}
+	// 	clearAsset = false;
+	// 	if (name === actionType[0]) {
+	// 		if (selected[name] === false) {
+	// 			newAssetRemindArray = newAssetRemindArray.filter(item => item.type !== actionType[1]);
+	// 			this.setState(() => ({ clear: false }));
+	// 		} else {
+	// 			newAssetRemindArray = asset && asset.length > 0 ? newAssetRemindArray.concat(asset) : newAssetRemindArray;
+	// 		}
+	// 	}
+	// 	console.log('remindArray 222222222222222=== ', newAssetRemindArray.sort(compare('timestamp')));
+	// 	return newAssetRemindArray.sort(compare('timestamp'));
+	// };
+	//
+	// riskArray = (selected, name, remindArray, clear) => {
+	// 	const actionType = ringMap.get(name) || ringMap.get('default');
+	// 	let risk = [...remindArray.filter(item => item.type === actionType[1])];
+	// 	if (clear) {
+	// 		risk = [];
+	// 		newRiskRemindArray = remindArray;
+	// 	}
+	// 	if (clearRisk) {
+	// 		risk = [];
+	// 	}
+	// 	clearRisk = false;
+	// 	if (name === actionType[0]) {
+	// 		if (selected[name] === false) {
+	// 			newRiskRemindArray = newRiskRemindArray.filter(item => item.type !== actionType[1]);
+	// 			this.setState(() => ({ clear: false }));
+	// 		} else {
+	// 			newRiskRemindArray = risk && risk.length > 0 ? newRiskRemindArray.concat(risk) : newRiskRemindArray;
+	// 		}
+	// 	}
+	// 	return newRiskRemindArray.sort(compare('timestamp'));
+	// };
 
 	getTotal = (arr) => {
 		const newArr = arr && arr.filter(i => i !== null);
@@ -150,55 +170,56 @@ class dynamicUpdate extends PureComponent {
 		return total;
 	};
 
-	assetArrayNum = (selected, name, remindArray, clear) => {
-		const actionType = ringMap.get(name) || ringMap.get('default');
-		let asset = [...remindArray.filter(item => item.type === actionType[1])];
-		if (clear) {
-			asset = [];
-			newAssetTotalNumArray = remindArray;
-		}
-		// console.log(clearAssetNum);
-		if (clearAssetNum) {
-			asset = [];
-		}
-		clearAssetNum = false;
-		if (name === actionType[0]) {
-			if (selected[name] === false) {
-				newAssetTotalNumArray = newAssetTotalNumArray.filter(item => item.type !== actionType[1]);
-				this.setState(() => ({ clear: false }));
-			} else {
-				newAssetTotalNumArray = asset && asset.length > 0 ? newAssetTotalNumArray.concat(asset) : newAssetTotalNumArray;
-			}
-		}
-		// console.log(clear, clearAssetNum, asset, newAssetTotalNumArray);
-		return newAssetTotalNumArray;
-	};
-
-	riskArrayNum = (selected, name, remindArray, clear) => {
-		const actionType = ringMap.get(name) || ringMap.get('default');
-		console.log('actionType === ', actionType);
-		let risk = [...remindArray.filter(item => item.type === actionType[1])];
-		if (clear) {
-			risk = [];
-			newRiskTotalNumArray = remindArray;
-		}
-		if (clearRiskNum) {
-			risk = [];
-		}
-		clearRiskNum = false;
-		if (name === actionType[0]) {
-			if (selected[name] === false) {
-				newRiskTotalNumArray = newRiskTotalNumArray.filter(item => item.type !== actionType[1]);
-				this.setState(() => ({ clear: false }));
-			} else {
-				newRiskTotalNumArray = risk && risk.length > 0 ? newRiskTotalNumArray.concat(risk) : newRiskTotalNumArray;
-			}
-		}
-		return newRiskTotalNumArray;
-	};
+	// assetArrayNum = (selected, name, remindArray, clear) => {
+	// 	const actionType = ringMap.get(name) || ringMap.get('default');
+	// 	let asset = [...remindArray.filter(item => item.type === actionType[1])];
+	// 	if (clear) {
+	// 		asset = [];
+	// 		newAssetTotalNumArray = remindArray;
+	// 	}
+	// 	// console.log(clearAssetNum);
+	// 	if (clearAssetNum) {
+	// 		asset = [];
+	// 	}
+	// 	clearAssetNum = false;
+	// 	if (name === actionType[0]) {
+	// 		if (selected[name] === false) {
+	// 			newAssetTotalNumArray = newAssetTotalNumArray.filter(item => item.type !== actionType[1]);
+	// 			this.setState(() => ({ clear: false }));
+	// 		} else {
+	// 			newAssetTotalNumArray = asset && asset.length > 0 ? newAssetTotalNumArray.concat(asset) : newAssetTotalNumArray;
+	// 		}
+	// 	}
+	// 	console.log('remindArray 2222222222 ', newAssetTotalNumArray);
+	// 	return newAssetTotalNumArray;
+	// };
+	//
+	// riskArrayNum = (selected, name, remindArray, clear) => {
+	// 	const actionType = ringMap.get(name) || ringMap.get('default');
+	// 	console.log('actionType === ', actionType);
+	// 	let risk = [...remindArray.filter(item => item.type === actionType[1])];
+	// 	if (clear) {
+	// 		risk = [];
+	// 		newRiskTotalNumArray = remindArray;
+	// 	}
+	// 	if (clearRiskNum) {
+	// 		risk = [];
+	// 	}
+	// 	clearRiskNum = false;
+	// 	if (name === actionType[0]) {
+	// 		if (selected[name] === false) {
+	// 			newRiskTotalNumArray = newRiskTotalNumArray.filter(item => item.type !== actionType[1]);
+	// 			this.setState(() => ({ clear: false }));
+	// 		} else {
+	// 			newRiskTotalNumArray = risk && risk.length > 0 ? newRiskTotalNumArray.concat(risk) : newRiskTotalNumArray;
+	// 		}
+	// 	}
+	// 	return newRiskTotalNumArray;
+	// };
 
 	getDynamicType = (val) => {
 		const { RingEchartsObj } = this.state;
+		console.log('getDynamicType RingEchartsObj === ', RingEchartsObj);
 		const { selected } = RingEchartsObj;
 		if (selected) {
 			Object.getOwnPropertyNames(selected).forEach((key) => {
@@ -217,9 +238,12 @@ class dynamicUpdate extends PureComponent {
 	};
 
 	getRingEchartsType = (val) => {
-		this.setState(() => ({
-			RingEchartsObj: val,
-		}));
+		// this.setState(() => ({
+		// 	RingEchartsObj: val,
+		// }));
+		console.log('urlMap.get(val)', urlMap.get(val.name));
+		const w = window.open('about:blank');
+		w.location.href = `#${urlMap.get(val.name)}`;
 	};
 
 	handleNavigate = () => {
@@ -254,7 +278,9 @@ class dynamicUpdate extends PureComponent {
 		const {
 			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, clear, UnReadNum, clearNum, showModal,
 		} = this.state;
-		// console.log(UnReadNum);
+		console.log('assetRemindArray === ', assetRemindArray);
+		console.log('riskRemindArray === ', riskRemindArray);
+
 		const { assetPropsData, riskPropsData } = this.props;
 		const hasAssetPropsData = Object.keys(assetPropsData).length !== 0;
 		const hasRiskPropsData = Object.keys(riskPropsData).length !== 0;
@@ -265,8 +291,8 @@ class dynamicUpdate extends PureComponent {
 
 		const newAssetArr = [...assetRemindArray];
 		const newRiskArr = [...riskRemindArray];
-		let assetArr = (newAssetArr.sort(compare('timestamp')));
-		let riskArr = (newRiskArr.sort(compare('timestamp')));
+		const assetArr = (newAssetArr.sort(compare('timestamp')));
+		const riskArr = (newRiskArr.sort(compare('timestamp')));
 
 		let assetArrNum = (newAssetTotalNumArray);
 		let riskArrNum = (newRiskTotalNumArray);
@@ -281,17 +307,21 @@ class dynamicUpdate extends PureComponent {
 			Data: assetPropsDataArray,
 			assetRemindArray,
 		};
+		console.log('assetParams 333333 ', assetParams);
+
 		const riskParams = {
 			getRingEchartsType: this.getRingEchartsType,
 			Data: riskPropsDataArray,
 			riskRemindArray,
 		};
 		if (Object.keys(RingEchartsObj).length !== 0) {
-			const { selected, name } = RingEchartsObj;
-			assetArr = this.assetArray(selected, name, assetRemindArray, clear, clearNum);
-			riskArr = this.riskArray(selected, name, riskRemindArray, clear, clearNum);
-			assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear, clearNum);
-			riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear, clearNum);
+			// console.log('assetArr 00000000000000000000', assetArr, JSON.stringify(assetRemindArray) === JSON.stringify(assetArr));
+			// assetArr = this.assetArray(selected, name, assetRemindArray, clear, clearNum);
+			// riskArr = this.riskArray(selected, name, riskRemindArray, clear, clearNum);
+			assetArrNum = hasAssetPropsData && assetPropsData.assetDataArray;
+			riskArrNum = hasRiskPropsData && riskPropsData.riskDataArray;
+			// assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear, clearNum);
+			// riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear, clearNum);
 		}
 		return (
 			<div className="seven-update-container">
