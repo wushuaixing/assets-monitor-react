@@ -1,6 +1,6 @@
 import React from 'react';
 import { Download, Icon as IconType } from '@/common';
-import { exportListEnp } from '@/utils/api/professional-work';
+import { exportListDebtor } from '@/utils/api/professional-work';
 import {
 	getQueryByName, timeStandard, toEmpty, w,
 } from '@/utils';
@@ -25,10 +25,10 @@ const DownloadButton = () => (
 		<Download
 			style={{ width: 84 }}
 			condition={{
-				companyId: getQueryByName(window.location.href, 'id'),
+				obligorId: getQueryByName(window.location.href, 'id'),
 			}}
 			icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-			api={exportListEnp}
+			api={exportListDebtor}
 			normal
 			text="下载"
 		/>
