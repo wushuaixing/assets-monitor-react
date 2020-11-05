@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import '../../style.scss';
+import PropTypes from 'reactPropTypes';
 import Competition from './competition';
 import PubilcProject from './public';
+import Merchants from './merchants';
+import '../../style.scss';
 
 class Financial extends Component {
 	constructor(props) {
@@ -52,6 +54,7 @@ class Financial extends Component {
 												</div>
 												{ item.dataType === 10601 && <Competition dataType={10601} {...peopleProps} />}
 												{ item.dataType === 10602 && <PubilcProject dataType={10602} {...peopleProps} />}
+												{ item.dataType === 10603 && <Merchants dataType={10603} {...peopleProps} />}
 											</div>
 										)
 									))
@@ -64,5 +67,25 @@ class Financial extends Component {
 		);
 	}
 }
+
+Financial.propTypes = {
+	obligorId: PropTypes.number,
+	id: PropTypes.number,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+	title: PropTypes.string,
+	// eslint-disable-next-line react/forbid-prop-types
+	childrenCount: PropTypes.array,
+
+};
+
+Financial.defaultProps = {
+	obligorId: 0,
+	total: 0,
+	stationId: 0,
+	id: 0,
+	title: PropTypes.string,
+	childrenCount: [],
+};
 
 export default Financial;

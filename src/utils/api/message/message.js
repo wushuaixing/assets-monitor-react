@@ -92,6 +92,14 @@ const message = [
 			.then(res => Object.assign(res.data, { id, field: 'public' })),
 	},
 	{
+		dataType: 10603,
+		name: '金融资产-招商项目',
+		list: params => service.get('/yc/report/daily/financeInvestment/financeInvestmentList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/financeInvestment/financeInvestmentCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'merchants' })),
+	},
+	{
 		dataType: 10701,
 		name: '动产抵押',
 		list: params => service.get('/yc/report/daily/mortgage/mortgageList', { params })

@@ -1,8 +1,18 @@
 import React from 'react';
-import { Form } from 'antd';
+import { Form, Select } from 'antd';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+
+const projectType = [
+	{ name: '股权项目', key: '1' },
+	{ name: '债权项目', key: '2' },
+	{ name: '资产项目', key: '3' },
+	{ name: '租赁项目', key: '4' },
+	{ name: '增资项目', key: '5' },
+	{ name: '其他项目', key: '6' },
+	{ name: '未知', key: '-1' },
+];
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -58,17 +68,56 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" maxLength="40" placeholder="债务人姓名/公司名称" {...getFieldProps('obligorName')} />
+					<Input
+						title="债务人"
+						style={_style1}
+						size="large"
+						maxLength="40"
+						placeholder="债务人姓名/公司名称"
+						{...getFieldProps('obligorName')}
+					/>
 				</div>
 				<div className="yc-query-item">
-					<Input title="项目名称" style={_style1} size="large" maxLength="40" placeholder="项目名称" {...getFieldProps('title')} />
+					<span className="yc-query-item-title">项目类型：</span>
+					<Select
+						size="large"
+						defaultValue="all"
+						style={{ width: 90 }}
+						{...getFieldProps('projectType', { initialValue: '' })}
+					>
+						<Select.Option value="">全部</Select.Option>
+						{
+							projectType.map(item => (
+								<Select.Option value={item.key}>{item.name}</Select.Option>
+							))
+						}
+					</Select>
 				</div>
 				<div className="yc-query-item">
-					<Input title="项目编号" style={_style1} size="large" maxLength="40" placeholder="项目编号" {...getFieldProps('projectNumber')} />
+					<span className="yc-query-item-title">项目状态：</span>
+					<Select
+						size="large"
+						defaultValue="all"
+						style={{ width: 90 }}
+						{...getFieldProps('projectStatus', { initialValue: '' })}
+					>
+						<Select.Option value="">全部</Select.Option>
+						<Select.Option value="-1">未知</Select.Option>
+					</Select>
+				</div>
+				<div className="yc-query-item">
+					<Input
+						title="信息标题"
+						style={_style1}
+						size="large"
+						maxLength="40"
+						placeholder="拍卖信息标题"
+						{...getFieldProps('title')}
+					/>
 				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">发布时间：</span>
+					<span className="yc-query-item-title">发布日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
@@ -92,16 +141,16 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('gmtCreateStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtCreateEnd'))}
+						{...getFieldProps('gmtModifiedStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtModifiedEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('gmtCreateEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtCreateStart'))}
+						{...getFieldProps('gmtModifiedEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtModifiedStart'))}
 					/>
 				</div>
 

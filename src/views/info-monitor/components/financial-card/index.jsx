@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
+import { Col, Row } from 'antd';
 import { navigate } from '@reach/router';
 import { promiseAll } from '@/utils/promise';
-import { auctionBiddingCount, auctionFinanceCount } from 'api/monitor-info/excavate/count';
+import { auctionBiddingCount, auctionFinanceCountMerchants, auctionFinanceCount } from 'api/monitor-info/excavate/count';
 import Card from '../card';
 import './style.scss';
 
@@ -19,13 +20,15 @@ export default class Finance extends PureComponent {
 	}
 
 	// 获取统计信息
-	toInfoCount=() => {
+	toInfoCount = () => {
 		const params = {
 			isRead: 0,
 		};
 		const promiseArray = [];
 		promiseArray.push(auctionBiddingCount(params));
+		promiseArray.push(auctionFinanceCountMerchants(params));
 		promiseArray.push(auctionFinanceCount(params));
+
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		// console.log(promiseArray, 123);
@@ -33,12 +36,11 @@ export default class Finance extends PureComponent {
 		handlePromise.then((res) => {
 			let total = 0;
 			res.forEach((i) => {
-				total += i.data;
+				total += i.data || 0;
 			});
 			this.setState(() => ({
 				unReadCount: total,
 			}));
-			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
 		});
@@ -47,7 +49,7 @@ export default class Finance extends PureComponent {
 	render() {
 		const {
 			url, financePropsData, financePropsData: {
-				auctionBidding, finance, gmtUpdate, totalCount,
+				gmtUpdate, totalCount, dataSource,
 			},
 		} = this.props;
 		const { unReadCount } = this.state;
@@ -64,21 +66,37 @@ export default class Finance extends PureComponent {
 				unReadNum={unReadCount}
 			>
 				{Object.keys(financePropsData).length !== 0 && (
-					<div className="risk-finance-container">
-						<div className={`risk-finance-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
-							竞价项目：
-							<span className={`risk-finance-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{auctionBidding || 0}</span>
-							条相关匹配信息
-							{totalCount ? '，请核实' : ''}
-						</div>
-
-						<div className={`risk-finance-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-							公示项目：
-							<span className={`risk-finance-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{finance || 0}</span>
-							条相关匹配信息
-							{totalCount ? '，请核实' : ''}
-						</div>
-					</div>
+					<Row gutter={24} className="risk-finance-container">
+						{
+							dataSource.map((item, index) => (
+								<div>
+									{
+										index > 2 ? (
+											(
+												<Col className="gutter-row" span={12}>
+													<div className="risk-finance-container-card">
+														<span className="risk-finance-container-card-name">{item.typeName}</span>
+														<span className="risk-finance-container-card-info">：</span>
+														<span className={`risk-finance-container-card-num  ${!totalCount && 'monitor-card-noCount-color'}`}>{item.count || 0}</span>
+														条
+													</div>
+												</Col>
+											)
+										) : (
+											<Col className="gutter-row" span={12}>
+												<div className="risk-finance-container-card">
+													<span className="risk-finance-container-card-name">{item.typeName}</span>
+													<span className="risk-finance-container-card-info">：</span>
+													<span className={`risk-finance-container-card-num  ${!totalCount && 'monitor-card-noCount-color'}`}>{item.count || 0}</span>
+													条
+												</div>
+											</Col>
+										)
+									}
+								</div>
+							))
+						}
+					</Row>
 				)}
 			</Card>
 		);

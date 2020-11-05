@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
-import TablePledge from '@/views/asset-excavate/equity-pledge/table';
+import TableMerchants from '@/views/asset-excavate/financial-assets/table/merchants';
 import { Spin } from '@/common';
 
-class EquityPledge extends Component {
+class Merchants extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			dataSource: [],
-			loading: false,
-			obligorId: props.obligorId,
-			total: props.total,
 			current: 1,
+			total: props.total,
 			page: 1,
 			num: 5,
+			loading: false,
+			obligorId: props.obligorId,
 		};
 	}
 
@@ -33,11 +34,11 @@ class EquityPledge extends Component {
 		}
 	}
 
-	// 请求获取数据
+	// 请求获取监控日报数据
 	toGetData = () => {
-		const { stationId } = this.props;
+		const { stationId, dataType } = this.props;
 		const { page, num, obligorId } = this.state;
-		const reg = new RegExp(10501);
+		const reg = new RegExp(dataType);
 		const api = message.filter(item => reg.test(item.dataType))[0].list;
 		const params = {
 			obligorId,
@@ -88,7 +89,7 @@ class EquityPledge extends Component {
 		}
 	};
 
-	// 监听table翻页
+	// 监听table翻页函数
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -98,33 +99,39 @@ class EquityPledge extends Component {
 	};
 
 	render() {
-		const { id, title } = this.props;
 		const {
-			dataSource, total, loading, current,
+			dataSource, current, total, loading,
 		} = this.state;
 		const tableProps = {
-			current,
 			noSort: true,
 			dataSource,
 			onRefresh: this.onRefresh,
 			onPageChange: this.onPageChange,
 			isShowPagination: total > 5,
 			pageSize: 5,
+			current,
 			total,
 		};
 		return (
-			<React.Fragment>
-				<div className="messageDetail-table-title" id={id}>
-					{title}
-					<span className="messageDetail-table-total">{total}</span>
-				</div>
-				<div className="messageDetail-table-container">
-					<Spin visible={loading}>
-						<TablePledge {...tableProps} />
-					</Spin>
-				</div>
-			</React.Fragment>
+			<Spin visible={loading}>
+				<TableMerchants {...tableProps} />
+			</Spin>
 		);
 	}
 }
-export default EquityPledge;
+
+Merchants.propTypes = {
+	obligorId: PropTypes.number,
+	dataType: PropTypes.number,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+Merchants.defaultProps = {
+	obligorId: 0,
+	dataType: 10603,
+	total: 0,
+	stationId: 0,
+};
+
+export default Merchants;
