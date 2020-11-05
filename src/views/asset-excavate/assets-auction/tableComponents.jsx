@@ -3,10 +3,10 @@ import { Tooltip } from 'antd';
 import accurate from '@/assets/img/icon/icon-jinzhun.png';
 import dishonest1 from '@/assets/img/icon/icon_shixin.png';
 import dishonest2 from '@/assets/img/icon/icon_cengshixin.png';
-import Matching from './matching-reason';
 import { floatFormat } from '@/utils/format';
 import { formatDateTime } from '@/utils/changeTime';
 import { Button, Icon, Ellipsis } from '@/common';
+import Matching from './matching-reason';
 
 const statusType = (value) => {
 	switch (value) {

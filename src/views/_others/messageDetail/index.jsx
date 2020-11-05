@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	Form, Tooltip, Select, Affix,
 } from 'antd';
+import PropTypes from 'reactPropTypes';
 import './style.scss';
 import {
 	Button, Icon, Spin, NoContent,
@@ -121,7 +122,8 @@ const subItems = (rule, data) => ([
 		component: Financial,
 		childrenCount: [
 			{ name: '竞价项目', count: data ? getCount(data, 10601) : 0, dataType: 10601 },
-			{ name: '公示项目', count: data ? getCount(data, 10602) : 0, dataType: 10602 },
+			{ name: '招商项目', count: data ? getCount(data, 10603) : 0, dataType: 10603 },
+			{ name: '竞价项目', count: data ? getCount(data, 10602) : 0, dataType: 10602 },
 		],
 	},
 	{
@@ -300,6 +302,13 @@ class MessageDetail extends React.Component {
 				this.setState({
 					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
 				});
+				// this.setState({
+				// 	config: subItems(rule, [...res.data.categoryCount,
+				// 		{ dataCount: 23, dataType: 10601, typeName: '金融资产-竞价项目' },
+				// 		{ dataCount: 55, dataType: 10602, typeName: '金融资产-招商项目' },
+				// 		{ dataCount: 88, dataType: 10603, typeName: '金融资产-公示项目' },
+				// 	]).filter(item => item.status && item.total > 0),
+				// });
 			}
 		}).catch((err) => {
 			console.log('err === ', err);
@@ -432,4 +441,13 @@ class MessageDetail extends React.Component {
 		);
 	}
 }
+
+MessageDetail.propTypes = {
+	// eslint-disable-next-line react/forbid-prop-types
+	rule: PropTypes.object,
+};
+
+MessageDetail.defaultProps = {
+	rule: {},
+};
 export default createForm()(MessageDetail);

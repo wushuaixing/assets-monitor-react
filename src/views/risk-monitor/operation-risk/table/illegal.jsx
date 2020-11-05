@@ -153,7 +153,7 @@ class AbnormalOperation extends Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys) => {
+	onSelectChange = (selectedRowKeys) => {
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
 		if (onSelect)onSelect(selectedRowKeys);

@@ -38,6 +38,7 @@ const MainRouter = (props) => {
 		<Tabs onChange={res => navigate(res.url)} source={displayArray} />,
 		<div className="yc-business yc-page-content">
 			<Router>
+				{/* eslint-disable-next-line react/jsx-pascal-case */}
 				{ displayArray.map(Item => <Item.components path={`${Item.url}/*`} />) }
 			</Router>
 		</div>,

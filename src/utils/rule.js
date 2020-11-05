@@ -214,9 +214,9 @@ export default {
 						url: '/monitor/financial',
 						status: toStatus(rule.menu_zcwj, 'zcwjjrzj'),
 						child: [
-							// { id: 'YC020503', name: '股权质押', status: true },
 							{ id: 'YC020501', name: '竞价项目', status: true },
-							{ id: 'YC020502', name: '公示项目', status: true },
+							{ id: 'YC020502', name: '招商项目', status: true },
+							{ id: 'YC020503', name: '公示项目', status: true },
 						],
 					},
 					{
@@ -363,9 +363,9 @@ export default {
 								url: '/monitor/financial',
 								status: toStatus(rule.menu_zcwj, 'zcwjjrzj'),
 								child: [
-									// { id: 'YC020503', name: '股权质押', status: true },
 									{ id: 'YC020501', name: '竞价项目', status: true },
-									{ id: 'YC020502', name: '公示项目', status: true },
+									{ id: 'YC020502', name: '招商项目', status: true },
+									{ id: 'YC020503', name: '公示项目', status: true },
 								],
 							},
 							{

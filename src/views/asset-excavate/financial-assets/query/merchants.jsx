@@ -6,6 +6,26 @@ import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 
+const assetType = [
+	{ name: '其他交通工具', key: '200794003' },
+	{ name: '土地', key: '50025970' },
+	{ name: '工程', key: '50025975' },
+	{ name: '矿权', key: '50025974' },
+	{ name: '无形资产', key: '122406001' },
+	{ name: '机械设备', key: '56936003' },
+	{ name: '林权', key: '50025973' },
+	{ name: '海域', key: '200778005' },
+	{ name: '船舶', key: '125228021' },
+	{ name: '股权', key: '125088031' },
+	{ name: '实物资产', key: '50025971' },
+	{ name: '机动车', key: '50025972' },
+	{ name: '奢侈品', key: '201290015' },
+	{ name: '房产', key: '50025969' },
+	{ name: '债权', key: '56956002' },
+	{ name: '其他', key: '50025976' },
+	{ name: '未知', key: '0' },
+];
+
 class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
@@ -59,94 +79,111 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="债务人" style={_style1} size="large" maxLength="40" placeholder="企业债务人名称" {...getFieldProps('obligorName')} />
-				</div>
-
-				<div className="yc-query-item">
-					<span className="yc-query-item-title">登记状态：</span>
-					<Select
-						size="large"
-						defaultValue="all"
-						style={{ width: 150 }}
-						{...getFieldProps('state', { initialValue: '' })}
-					>
-						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="0">有效</Select.Option>
-						<Select.Option value="1">无效</Select.Option>
-					</Select>
-				</div>
-
-				<div className="yc-query-item">
-					<span className="yc-query-item-title">质押角色：</span>
-					<Select
-						size="large"
-						defaultValue="all"
-						style={{ width: 150 }}
-						{...getFieldProps('role', { initialValue: '' })}
-					>
-						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="0">出质人</Select.Option>
-						<Select.Option value="1">质权人</Select.Option>
-					</Select>
-				</div>
-
-				{/* <div className="yc-query-item">
-					<InputPrice
-						title="成交价格"
+					<Input
+						title="债务人"
 						style={_style1}
 						size="large"
-						suffix="万元"
-						inputFirstProps={getFieldProps('consultPriceStart', {
-							validateTrigger: 'onBlur',
-							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-
-						})}
-						inputSecondProps={getFieldProps('consultPriceEnd', {
-							validateTrigger: 'onBlur',
-							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-
-						})}
+						maxLength="40"
+						placeholder="企业债务人名称"
+						{...getFieldProps('obligorName')}
 					/>
-				</div> */}
+				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">登记日期：</span>
+					<span className="yc-query-item-title">匹配精度：</span>
+					<Select
+						size="large"
+						defaultValue="all"
+						style={{ width: 90 }}
+						{...getFieldProps('accurateType', { initialValue: '' })}
+					>
+						<Select.Option value="">全部</Select.Option>
+						<Select.Option value={1}>精准匹配</Select.Option>
+						<Select.Option value={2}>全文匹配</Select.Option>
+					</Select>
+				</div>
+
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">资产类型：</span>
+					<Select
+						size="large"
+						defaultValue="all"
+						style={{ width: 150 }}
+						{...getFieldProps('category', { initialValue: '' })}
+					>
+						<Select.Option value="">全部</Select.Option>
+						{
+							assetType.map(item => (
+								<Select.Option key={item.key} value={item.key}>{item.name}</Select.Option>
+							))
+						}
+						<Select.Option value="">全部</Select.Option>
+					</Select>
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">当前状态</span>
+					<Select
+						size="large"
+						defaultValue="all"
+						style={{ width: 150 }}
+						{...getFieldProps('status', { initialValue: '' })}
+					>
+						<Select.Option value="">全部</Select.Option>
+						<Select.Option value={1}>即将开始</Select.Option>
+						<Select.Option value={3}>正在进行</Select.Option>
+						<Select.Option value={5}>已成交</Select.Option>
+						<Select.Option value={7}>已流拍</Select.Option>
+						<Select.Option value={9}>中止</Select.Option>
+						<Select.Option value={11}>撤回</Select.Option>
+						<Select.Option value={13}>结束</Select.Option>
+					</Select>
+				</div>
+				<div className="yc-query-item">
+					<Input
+						title="信息标题"
+						style={_style1}
+						size="large"
+						maxLength="40"
+						placeholder="拍卖信息标题"
+						{...getFieldProps('title')}
+					/>
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">发布日期：</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('regDateStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('regDateEnd'))}
+						{...getFieldProps('gmtPublishStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtPublishEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('regDateEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('regDateStart'))}
+						{...getFieldProps('gmtPublishEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtPublishStart'))}
 					/>
 				</div>
-
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">{`${global.Table_CreateTime_Text}：`}</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('createTimeStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createTimeEnd'))}
+						{...getFieldProps('gmtModifyStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtModifyEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('createTimeEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('createTimeStart'))}
+						{...getFieldProps('gmtModifyEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtModifyStart'))}
 					/>
 				</div>
-
 				<div className="yc-query-item yc-query-item-btn">
 					<Button size="large" type="common" style={{ width: 84 }} onClick={this.handleSubmit}>查询</Button>
 					<Button size="large" style={{ width: 120 }} onClick={this.handleReset}>重置查询条件</Button>

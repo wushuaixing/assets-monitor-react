@@ -82,6 +82,12 @@ export const auctionBiddingCount = async (params) => {
 	return response.data;
 };
 
+// 金融资产-招商项目
+export const auctionFinanceCountMerchants = async (params) => {
+	const response = await service.get('/yc/monitor/finance/investment/financeInvestmentCount', { params });
+	return response.data;
+};
+
 // 金融资产-公示项目
 export const auctionFinanceCount = async (params) => {
 	const response = await service.get('/yc/monitor/finance/finance/listCount', { params });

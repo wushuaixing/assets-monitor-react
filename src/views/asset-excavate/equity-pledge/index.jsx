@@ -8,7 +8,7 @@ import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 import QueryResult from './query';
-import TableResult from '../financial-assets/table/stock';
+import TableResult from './table';
 
 // 获取api具体
 const api = (field, type) => {

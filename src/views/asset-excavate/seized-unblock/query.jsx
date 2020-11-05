@@ -19,7 +19,7 @@ class QueryCondition extends React.Component {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
-	toKeyCode13=(e) => {
+	toKeyCode13 = (e) => {
 		const event = e || window.event;
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
@@ -44,7 +44,7 @@ class QueryCondition extends React.Component {
 		clearSelectRowNum();// 清除选中项
 		form.resetFields();
 		const condition = form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition, '', '', false);
+		if (typeof onQueryChange === 'function')onQueryChange(condition, '', '', false);
 	};
 
 	render() {

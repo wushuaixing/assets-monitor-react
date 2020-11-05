@@ -4,7 +4,7 @@ import { Spin } from '@/common';
 import TimeLine from '../../../common/timeLine';
 import './style.scss';
 
-export default class BiddingInfo extends React.Component {
+export default class Bankruptcy extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {

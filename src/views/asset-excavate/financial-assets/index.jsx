@@ -3,24 +3,24 @@ import { Modal, message } from 'antd';
 import {
 	Button, Tabs, Spin, Download, Icon,
 } from '@/common';
-import { readAllStatusBid, readStatusAll, readAllStatusResult } from '@/utils/api/monitor-info/finance';
+import { readAllStatusBid, readAllStatusMerchants, readAllStatusPub } from '@/utils/api/monitor-info/finance';
 import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
-import QueryBidding from './query/bidding';
+import { promiseAll } from '@/utils/promise';
 import TableBidding from './table/bidding';
-import QueryResult from './query/stock';
-import TableResult from './table/stock';
+import TableMerchants from './table/merchants';
+import QueryBidding from './query/bidding';
+import QueryMerchants from './query/merchants';
 import QueryPublicity from './query/publicity';
 import TablePublicity from './table/publicity';
 
-// const api = (field, type) => Apis[`${field}${type === 1 ? 'Bid' : 'Pub'}`];
 
 // 获取api具体
 const api = (field, type) => {
 	if (type === 1) return Apis[`${field}Bid`];
-	if (type === 2) return Apis[`${field}Pub`];
-	if (type === 3) return Apis[`${field}Result`];
+	if (type === 2) return Apis[`${field}Merchants`];
+	if (type === 3) return Apis[`${field}Pub`];
 	return Apis[`${field}Bid`];
 };
 
@@ -30,27 +30,28 @@ export default class Subrogation extends React.Component {
 		document.title = '金融资产-资产挖掘';
 		// 获取当前页面路由配置
 		const _rule = () => ([
-			// {
-			// 	id: 3,
-			// 	name: '股权质押',
-			// 	dot: false,
-			// 	status: true,
-			// },
 			{
 				id: 1,
 				name: '竞价项目',
-				dot: false,
 				status: true,
+				number: 0,
+				showNumber: true,
 			},
 			{
 				id: 2,
-				name: '公示项目',
-				dot: false,
+				name: '招商项目',
 				status: true,
+				number: 0,
+				showNumber: true,
 			},
-
+			{
+				id: 3,
+				name: '公示项目',
+				status: true,
+				number: 0,
+				showNumber: true,
+			},
 		]).filter(item => item.status);
-
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',
@@ -85,24 +86,52 @@ export default class Subrogation extends React.Component {
 	}
 
 	// 清除排序状态
-	toClearSortStatus=() => {
+	toClearSortStatus = () => {
 		this.condition.sortColumn = '';
 		this.condition.sortOrder = '';
 	};
 
-	// 切换列表类型[仅公示项目]
-	handleReadChange=(val) => {
+	// 获取三类数据的统计信息
+	toInfoCount = () => {
+		const promiseArray = [];
+		promiseArray.push(Apis.infoListCountBid(this.condition));
+		promiseArray.push(Apis.infoListCountMerchants(this.condition));
+		promiseArray.push(Apis.infoListCountPub(this.condition));
+		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+		// console.log(promiseArray, 123);
+		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+		handlePromise.then((res) => {
+			console.log(' api res', res);
+			const { tabConfig } = this.state;
+			const newConfig = [];
+			tabConfig.forEach((item, index) => {
+				// eslint-disable-next-line no-param-reassign
+				const itemContent = { ...item, number: res[index].data || 0 };
+				newConfig.push(itemContent);
+			});
+			this.setState({
+				tabConfig: newConfig,
+			});
+			console.log('newConfig', newConfig);
+		}).catch((reason) => {
+			console.log('promise reject failed reason', reason);
+		});
+	};
+
+	// 切换列表类型
+	handleReadChange = (val) => {
 		this.setState({ isRead: val });
 		this.onQueryChange(this.condition, '', val, 1);
+		this.onUnReadCount();
 	};
 
 	// 全部标记为已读
-	handleAllRead=() => {
+	handleAllRead = () => {
 		const _this = this;
 		const { tabConfig, sourceType } = this.state;
 		const selectTab = tabConfig.filter(i => i.id === sourceType);
-
-		if (selectTab && selectTab[0].dot) {
+		if (selectTab && selectTab[0].number > 0) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
@@ -116,14 +145,14 @@ export default class Subrogation extends React.Component {
 							}
 						});
 					} else if (sourceType === 2) {
-						readStatusAll({}).then((res) => {
+						readAllStatusMerchants({}).then((res) => {
 							if (res.code === 200) {
 								_this.onQueryChange();
 								_this.onUnReadCount();
 							}
 						});
 					} else if (sourceType === 3) {
-						readAllStatusResult({}).then((res) => {
+						readAllStatusPub({}).then((res) => {
 							if (res.code === 200) {
 								_this.onQueryChange();
 								_this.onUnReadCount();
@@ -139,7 +168,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 批量关注
-	handleAttention=() => {
+	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource, sourceType } = this.state;
@@ -178,7 +207,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -189,7 +218,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// sourceType变化
-	onSourceType=(val) => {
+	onSourceType = (val) => {
 		this.setState({
 			sourceType: val,
 			dataSource: '',
@@ -204,7 +233,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 排序触发
-	onSortChange=(field, order) => {
+	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
@@ -212,20 +241,20 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		const { manage } = this.state;
 		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
 	// 查询条件变化
-	onQuery =(con) => {
+	onQuery = (con) => {
 		this.toClearSortStatus();
 		this.onQueryChange(con, '', '', 1);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
+	onQueryChange = (con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign(con || this.condition, {
@@ -258,7 +287,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 查询是否有未读消息
-	onUnReadCount=() => {
+	onUnReadCount = () => {
 		const { tabConfig } = this.state;
 		unReadCount().then((res) => {
 			const { data, code } = res;
@@ -266,15 +295,17 @@ export default class Subrogation extends React.Component {
 				const _tabConfig = tabConfig.map((item) => {
 					const _item = item;
 					if (_item.id === 1)_item.dot = data.auctionBiddingCount;
-					if (_item.id === 2)_item.dot = data.financeCount;
-
+					if (_item.id === 2)_item.dot = data.financeInvestment;
+					if (_item.id === 3)_item.dot = data.financeCount;
 					return _item;
 				});
 				this.setState({ tabConfig: _tabConfig });
 			}
+			this.toInfoCount();
 		});
 	};
 
+	// 取消批量管理选择框
 	clearSelectRowNum = () => this.selectRow = [];
 
 	render() {
@@ -298,8 +329,8 @@ export default class Subrogation extends React.Component {
 		return (
 			<div className="yc-assets-auction">
 				{ sourceType === 1 ?	<QueryBidding onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
-				{ sourceType === 2 ?	<QueryPublicity onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
-				{ sourceType === 3 ?	<QueryResult onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
+				{ sourceType === 2 ?	<QueryMerchants onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
+				{ sourceType === 3 ?	<QueryPublicity onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
@@ -311,24 +342,20 @@ export default class Subrogation extends React.Component {
 				{
 					!manage ? (
 						<div className="assets-auction-action">
-							{
-								sourceType === 1 || sourceType === 2 ? [
-									<Button
-										active={isRead === 'all'}
-										onClick={() => this.handleReadChange('all')}
-										title="全部"
-									/>,
-									<Button
-										active={isRead === 'else'}
-										onClick={() => this.handleReadChange('else')}
-										title="只显示未读"
-									/>,
-									<div className="yc-all-read" onClick={this.handleAllRead}>
-										<Icon className="yc-all-clear" type="icon-clear" />
-										<span className="yc-all-read-text">全部标为已读</span>
-									</div>,
-								] : null
-							}
+							<Button
+								active={isRead === 'all'}
+								onClick={() => this.handleReadChange('all')}
+								title="全部"
+							/>
+							<Button
+								active={isRead === 'else'}
+								onClick={() => this.handleReadChange('else')}
+								title="只显示未读"
+							/>
+							<div className="yc-all-read" onClick={this.handleAllRead}>
+								<Icon className="yc-all-clear" type="icon-clear" />
+								<span className="yc-all-read-text">全部标为已读</span>
+							</div>
 							<div className="yc-public-floatRight">
 								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
@@ -362,10 +389,9 @@ export default class Subrogation extends React.Component {
 				}
 				<Spin visible={loading}>
 					{sourceType === 1 ? <TableBidding {...tableProps} /> : null }
-					{sourceType === 2 ? <TablePublicity {...tableProps} /> : null }
-					{sourceType === 3 ? <TableResult {...tableProps} /> : null }
+					{sourceType === 2 ? <TableMerchants {...tableProps} /> : null }
+					{sourceType === 3 ? <TablePublicity {...tableProps} /> : null }
 				</Spin>
-
 			</div>
 		);
 	}
