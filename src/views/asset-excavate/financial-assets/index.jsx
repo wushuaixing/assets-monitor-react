@@ -15,6 +15,12 @@ import QueryMerchants from './query/merchants';
 import QueryPublicity from './query/publicity';
 import TablePublicity from './table/publicity';
 
+const sourceTypeMap = new Map([
+	[1, 'auctionBiddingCount'],
+	[2, 'financeInvestment'],
+	[3, 'financeCount'],
+	['default', 'auctionBiddingCount'],
+]);
 
 // 获取api具体
 const api = (field, type) => {
@@ -92,38 +98,36 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 获取三类数据的统计信息
-	toInfoCount = () => {
+	toInfoCount = (sourceType) => {
 		const promiseArray = [];
-		promiseArray.push(Apis.infoListCountBid(this.condition));
-		promiseArray.push(Apis.infoListCountMerchants(this.condition));
-		promiseArray.push(Apis.infoListCountPub(this.condition));
+		promiseArray.push(Apis.infoListCountBid(sourceType === 1 ? this.condition : ''));
+		promiseArray.push(Apis.infoListCountMerchants(sourceType === 2 ? this.condition : ''));
+		promiseArray.push(Apis.infoListCountPub(sourceType === 3 ? this.condition : ''));
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
-		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
-		// console.log(promiseArray, 123);
+		// 直接返回，这样就可以在最后结果中将所有结果都获取到, 返回的其实是resolved
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
 		handlePromise.then((res) => {
-			console.log(' api res', res);
 			const { tabConfig } = this.state;
 			const newConfig = [];
-			tabConfig.forEach((item, index) => {
+			tabConfig.forEach((item) => {
 				// eslint-disable-next-line no-param-reassign
-				const itemContent = { ...item, number: res[index].data || 0 };
+				const itemContent = { ...item, number: res.filter(it => it.id === item.id)[0].data || 0 };
 				newConfig.push(itemContent);
 			});
 			this.setState({
 				tabConfig: newConfig,
 			});
-			console.log('newConfig', newConfig);
 		}).catch((reason) => {
-			console.log('promise reject failed reason', reason);
+			console.log('promise reject failed reason ===', reason);
 		});
 	};
 
 	// 切换列表类型
 	handleReadChange = (val) => {
+		const { sourceType } = this.state;
 		this.setState({ isRead: val });
 		this.onQueryChange(this.condition, '', val, 1);
-		this.onUnReadCount();
+		this.onUnReadCount(sourceType);
 	};
 
 	// 全部标记为已读
@@ -249,7 +253,9 @@ export default class Subrogation extends React.Component {
 
 	// 查询条件变化
 	onQuery = (con) => {
+		const { sourceType } = this.state;
 		this.toClearSortStatus();
+		this.onUnReadCount(sourceType);
 		this.onQueryChange(con, '', '', 1);
 	};
 
@@ -287,21 +293,39 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 查询是否有未读消息
-	onUnReadCount = () => {
+	onUnReadCount = (sourceType) => {
 		const { tabConfig } = this.state;
 		unReadCount().then((res) => {
 			const { data, code } = res;
+			console.log('data onUnReadCount === ', data);
+			let _tabConfig = [];
 			if (code === 200) {
-				const _tabConfig = tabConfig.map((item) => {
-					const _item = item;
-					if (_item.id === 1)_item.dot = data.auctionBiddingCount;
-					if (_item.id === 2)_item.dot = data.financeInvestment;
-					if (_item.id === 3)_item.dot = data.financeCount;
-					return _item;
+				if (sourceType && sourceType > 0) {
+					_tabConfig = tabConfig.map((item) => {
+						const _item = item;
+						if (_item.id === sourceType) {
+							_item.dot = data[sourceTypeMap.get(sourceType)];
+						}
+						return _item;
+					});
+				} else {
+					_tabConfig = tabConfig.map((item) => {
+						const _item = item;
+						if (_item.id === 1)_item.dot = data.auctionBiddingCount;
+						if (_item.id === 2)_item.dot = data.financeInvestment;
+						if (_item.id === 3)_item.dot = data.financeCount;
+						return _item;
+					});
+				}
+				console.log('_tabConfig === ', _tabConfig);
+				this.setState({ tabConfig: _tabConfig }, () => {
+					this.toInfoCount(sourceType);
 				});
-				this.setState({ tabConfig: _tabConfig });
+			} else {
+				this.toInfoCount(sourceType);
 			}
-			this.toInfoCount();
+		}).catch(() => {
+			this.toInfoCount(sourceType);
 		});
 	};
 

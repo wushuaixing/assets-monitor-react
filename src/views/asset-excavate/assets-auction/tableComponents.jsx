@@ -117,6 +117,75 @@ const ProjectInfo = (text, rowContent) => {
 	);
 };
 
+// 公示项目的项目信息
+const ProjectPubInfo = (text, rowContent) => {
+	const {
+		projectStatus, startTime, endTime, listingPrice, listingUnit, transactionPrice, transactionPriceUnit, amounts,
+	} = rowContent;
+	return (
+		<React.Fragment>
+			<div className="assets-info-content">
+				{
+					projectStatus ? (
+						<li>
+							<span className="list list-title align-justify" style={{ width: 'auto' }}>项目状态：</span>
+							<span className="list list-title align-justify">
+								{projectStatus}
+							</span>
+						</li>
+					) : null
+				}
+				{
+					startTime ? (
+						<li>
+							<span className="list list-title align-justify" style={{ width: 'auto' }}>挂牌开始日期：</span>
+							<span className="list list-content">{startTime}</span>
+						</li>
+					) : null
+				}
+				{
+					endTime ? (
+						<li>
+							<span className="list list-title align-justify" style={{ width: 'auto' }}>挂牌结束时间：</span>
+							<span className="list list-content">{endTime}</span>
+						</li>
+					) : null
+				}
+				{
+					listingPrice ? (
+						<li>
+							<span className="list list-title align-justify">挂牌价格：</span>
+							<span className="list list-content">
+								{floatFormat(listingPrice)}
+								{listingUnit}
+							</span>
+						</li>
+					) : null
+				}
+				{
+					transactionPrice ? (
+						<li>
+							<span className="list list-title align-justify">成交价格：</span>
+							<span className="list list-content">
+								{floatFormat(transactionPrice)}
+								{transactionPriceUnit}
+							</span>
+						</li>
+					) : null
+				}
+				{
+					amounts ? (
+						<li>
+							<span className="list list-title align-justify">资产总额：</span>
+							<span className="list list-content">{amounts}</span>
+						</li>
+					) : null
+				}
+			</div>
+		</React.Fragment>
+	);
+};
+
 const ListingInfo = (text, rowContent) => {
 	const {
 		price, listingPrice, listingUnit, startTime, endTime,
@@ -325,5 +394,5 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 };
 
 export {
-	AssetsInfo, ProjectInfo, MatchingReason, AuctionInfo, DishonestInfo, JudgmentInfo, ExecuteInfo, ListingInfo,
+	AssetsInfo, ProjectInfo, ProjectPubInfo, MatchingReason, AuctionInfo, DishonestInfo, JudgmentInfo, ExecuteInfo, ListingInfo,
 };

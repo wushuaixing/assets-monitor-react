@@ -45,7 +45,6 @@ class QueryCondition extends React.Component {
 			message.error('评估价最低价不得高过最高价', 1);
 			return false;
 		}
-
 		if (onQueryChange)onQueryChange(condition);
 		return true;
 	};

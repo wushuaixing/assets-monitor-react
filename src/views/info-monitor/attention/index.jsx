@@ -216,6 +216,7 @@ export default class MyAttention extends React.Component {
 		return (
 			<div className="yc-monitor-attention">
 				<Tabs.Simple
+					borderBottom
 					onChange={this.onType}
 					source={initConfig}
 					field="init"
@@ -223,7 +224,7 @@ export default class MyAttention extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">我的收藏</div>}
 				/>
 				<div className="yc-monitor-attention-content">
-					<Tabs.Simple onChange={this.onSourceType} source={newConfig} field="process" />
+					<Tabs.Simple borderBottom onChange={this.onSourceType} source={newConfig} field="process" />
 					{ loading ? <Spin visible /> : <Item {...content} mark="子模块展示内容" /> }
 				</div>
 
