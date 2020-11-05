@@ -12,7 +12,7 @@ export const attentionListBid = params => service.get('/yc/monitor/finance/aucti
 
 // 竞价项目 列表数量
 export const infoListCountBid = params => service.get('/yc/monitor/finance/auctionBidding/listCount', { params })
-	.then(res => res.data);
+	.then(res => ({ ...res.data, id: 1 }));
 
 // 竞价项目 标记为已读
 export const readStatusBid = async (params) => {
@@ -54,14 +54,14 @@ export const infoListMerchants = async (params) => {
 };
 
 // 招商项目 列表数量
-export const infoListCountMerchants = params => service.get('/yc/monitor/finance/investment/financeInvestmentCount', { params }).then(res => res.data);
+export const infoListCountMerchants = params => service.get('/yc/monitor/finance/investment/financeInvestmentCount', { params }).then(res => ({ ...res.data, id: 2 }));
 
 // 招商项目 关注/批量关注
-export const followSingleMerchants = params => service.post('/yc/monitor/finance/investment/follow', params)
+export const followMerchants = params => service.post('/yc/monitor/finance/investment/follow', params)
 	.then(res => res.data);
 
 // 招商项目 取消关注/批量取消关注
-export const unFollowSingleMerchants = params => service.post('/yc/monitor/finance/investment/unFollow', params)
+export const unFollowMerchants = params => service.post('/yc/monitor/finance/investment/unFollow', params)
 	.then(res => res.data);
 
 // 招商项目 关注列表
@@ -91,7 +91,7 @@ export const infoListPub = params => service.get('/yc/monitor/finance/finance/li
 
 // 公示项目 列表数量
 export const infoListCountPub = params => service.get('/yc/monitor/finance/finance/listCount', { params })
-	.then(res => res.data);
+	.then(res => ({ ...res.data, id: 3 }));
 
 // 公示项目 我的收藏列表
 export const attentionListPub = params => service.get('/yc/monitor/finance/finance/follow/list', { params })
@@ -125,7 +125,7 @@ export const followSinglePub = params => service.post('/yc/monitor/finance/finan
 	.then(res => res.data);
 
 // 公示项目 取消关注 [单个]
-export const unFollowSinglePub = params => service.post('/yc/monitor/finance/finance/unFollow', params)
+export const unFollowPub = params => service.post('/yc/monitor/finance/finance/unFollow', params)
 	.then(res => res.data);
 
 // 公示项目 导出excel
@@ -200,8 +200,8 @@ export default {
 	infoListCountMerchants, // 招商项目 列表数量
 	attentionListMerchants, // 招商项目 关注列表
 	attentionFollowCountMerchants, // 招商项目 我的收藏列表数量
-	followSingleMerchants, 	// 招商项目 批量关注
-	unFollowSingleMerchants, 	// 招商项目 取消批量关注
+	followMerchants, 	// 招商项目 批量关注
+	unFollowMerchants, 	// 招商项目 取消批量关注
 	readAllStatusMerchants, // 招商项目 全部标记为已读
 	exportListMerchants, // 招商项目 导出
 
@@ -210,8 +210,8 @@ export default {
 	attentionListPub, // 公示项目 我的收藏列表
 	attentionFollowCountPub, // 公示项目 我的收藏列表数量
 	followPub, // 公示项目 批量关注
+	unFollowPub, // 公示项目 取消批量关注
 	followSinglePub, // 公示项目 关注 [单个]
-	unFollowSinglePub, // 公示项目 取消批量关注
 	attentionFollowPubCount, // 公示项目
 	readAllStatusPub, // 公示项目 全部标记为已读
 	exportListPub, // 公示项目 导出

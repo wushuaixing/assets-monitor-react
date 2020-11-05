@@ -3,8 +3,19 @@ import { Pagination } from 'antd';
 import { Attentions, SortVessel } from '@/common/table';
 import { readStatus } from '@/utils/api/monitor-info/finance';
 import api from '@/utils/api/monitor-info/finance';
-import { Table, SelectedNum } from '@/common';
-import { AssetsInfo, ProjectInfo, ListingInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
+import { Table, SelectedNum, Ellipsis } from '@/common';
+import { ProjectPubInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
+
+const projectTypeMap = new Map([
+	[1, '股权项目'],
+	[2, '债权项目'],
+	[3, '资产项目'],
+	[4, '租赁项目'],
+	[5, '增资项目'],
+	[6, '其他项目'],
+	[-1, ' 未知'],
+]);
+
 // 获取表格配置
 const columns = (props) => {
 	const {
@@ -14,26 +25,60 @@ const columns = (props) => {
 		sortField,
 		sortOrder,
 	};
-
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? '业务信息'
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort}>业务信息</SortVessel>),
-			width: 400,
-			render: (text, row) => AssetsInfo(text, row, true, true),
+			title: (noSort ? '发布日期'
+				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} {...sort}>发布日期</SortVessel>),
+			dataIndex: 'gmtPublish',
+			width: 100,
+			render: (text, row) => (
+				<div>
+					{ !row.isRead
+						? (
+							<span
+								className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'}
+								style={!row.isRead && row.isRead !== undefined ? { position: 'absolute', top: '45%' } : {}}
+							/>
+						) : null}
+					<span style={{ marginLeft: 10 }}>{text}</span>
+				</div>
+			),
 		},
 		{
-			title: (noSort ? '项目信息 '
-				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} mark="(发布日期)" {...sort}>项目信息</SortVessel>),
-			width: 300,
-			render: (text, row) => ProjectInfo(text, row, true, true),
+			title: '关联债务人',
+			dataIndex: 'obligorId',
+			width: 310,
+			render: (text, row) => (
+				<Ellipsis
+					content={row.obligorName}
+					url={text ? `#/business/debtor/detail?id=${text}` : ''}
+					tooltip
+					width={250}
+				/>
+			),
 		},
 		{
-			title: (noSort ? '挂牌信息'
-				: <SortVessel field="START_TIME" onClick={onSortChange} mark="(挂牌起始日期)" {...sort}>挂牌信息</SortVessel>),
-			width: 300,
-			render: (text, row) => ListingInfo(text, row, true, true),
+			title: '项目类型',
+			dataIndex: 'projectType',
+			render: text => <span>{projectTypeMap.get(text) || '-'}</span>,
+		},
+		{
+			title: '项目名称',
+			dataIndex: 'title',
+			render: (text, row) => (
+				<Ellipsis
+					content={text}
+					url={text ? `${row.sourceUrl}` : ''}
+					tooltip
+					width={300}
+				/>
+			),
+		},
+		{
+			title: '项目信息',
+			width: 255,
+			render: (text, row) => ProjectPubInfo(text, row),
 		},
 		{
 			title: '操作',
@@ -45,7 +90,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? api.unFollowSinglePub : api.followSinglePub}
+					api={row.isAttention ? api.unFollowPub : api.followPub}
 					index={index}
 					// single
 				/>

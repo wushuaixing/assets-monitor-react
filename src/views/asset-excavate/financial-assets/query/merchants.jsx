@@ -88,7 +88,16 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('obligorName')}
 					/>
 				</div>
-
+				<div className="yc-query-item">
+					<Input
+						title="信息标题"
+						style={_style1}
+						size="large"
+						maxLength="40"
+						placeholder="拍卖信息标题"
+						{...getFieldProps('title')}
+					/>
+				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">匹配精度：</span>
 					<Select
@@ -108,7 +117,7 @@ class QueryCondition extends React.Component {
 					<Select
 						size="large"
 						defaultValue="all"
-						style={{ width: 150 }}
+						style={{ width: 110 }}
 						{...getFieldProps('category', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>
@@ -121,11 +130,11 @@ class QueryCondition extends React.Component {
 					</Select>
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">当前状态</span>
+					<span className="yc-query-item-title">当前状态：</span>
 					<Select
 						size="large"
 						defaultValue="all"
-						style={{ width: 150 }}
+						style={{ width: 100 }}
 						{...getFieldProps('status', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>
@@ -138,16 +147,7 @@ class QueryCondition extends React.Component {
 						<Select.Option value={13}>结束</Select.Option>
 					</Select>
 				</div>
-				<div className="yc-query-item">
-					<Input
-						title="信息标题"
-						style={_style1}
-						size="large"
-						maxLength="40"
-						placeholder="拍卖信息标题"
-						{...getFieldProps('title')}
-					/>
-				</div>
+
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">发布日期：</span>
 					<DatePicker
