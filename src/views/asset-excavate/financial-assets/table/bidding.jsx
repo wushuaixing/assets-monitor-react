@@ -1,12 +1,11 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import PropTypes from 'reactPropTypes';
 import { Attentions } from '@/common/table';
 import api, { readStatusBid } from '@/utils/api/monitor-info/finance';
 import { AssetsInfo, MatchingReason, AuctionInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
 import { SortVessel } from '@/common/table';
 import { Table, SelectedNum } from '@/common';
-// import { Button } from '@/common';
-// import { floatFormat } from '@/utils/format';
 
 // 获取表格配置
 const columns = (props) => {
@@ -54,7 +53,7 @@ const columns = (props) => {
 	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
-export default class TableView extends React.Component {
+class TableView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -130,3 +129,27 @@ export default class TableView extends React.Component {
 		);
 	}
 }
+
+TableView.propTypes = {
+	current: PropTypes.number,
+	total: PropTypes.number,
+	pageSize: PropTypes.number,
+	dataSource: PropTypes.obj,
+	isShowPagination: PropTypes.bool,
+	manage: PropTypes.bool,
+	onSelect: PropTypes.fun,
+	onPageChange: PropTypes.func,
+};
+
+TableView.defaultProps = {
+	current: 1,
+	total: 0,
+	pageSize: 10,
+	isShowPagination: true,
+	manage: false,
+	dataSource: [],
+	onPageChange: () => {},
+	onSelect: () => {},
+};
+
+export default TableView;
