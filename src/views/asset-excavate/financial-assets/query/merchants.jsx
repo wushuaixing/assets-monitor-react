@@ -129,7 +129,6 @@ class QueryCondition extends React.Component {
 								<Select.Option key={item.key} value={item.key}>{item.name}</Select.Option>
 							))
 						}
-						<Select.Option value="">全部</Select.Option>
 					</Select>
 				</div>
 				<div className="yc-query-item">

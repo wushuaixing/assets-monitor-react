@@ -165,7 +165,7 @@ class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
 		if (!isRead && !manage) {
-			readStatusMerchants({ idList: id }).then((res) => {
+			readStatusMerchants({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

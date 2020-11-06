@@ -123,7 +123,7 @@ TableIntact.propTypes = {
 
 TableIntact.defaultProps = {
 	normal: false,
-	noSort: true,
+	noSort: false,
 	onPageChange: () => {},
 };
 
