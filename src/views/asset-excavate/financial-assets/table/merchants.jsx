@@ -1,14 +1,16 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import PropTypes from 'reactPropTypes';
 import { Attentions, SortVessel } from '@/common/table';
 import { readStatusMerchants } from '@/utils/api/monitor-info/finance';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import accurate from '@/assets/img/icon/icon-jinzhun.png';
 import api from '@/utils/api/monitor-info/finance';
-import './style.scss';
 import { floatFormat } from '@/utils/format';
+import './style.scss';
 
-const assetsTypeMap = new Map([
+// 资产类型的映射
+export const assetsTypeMap = new Map([
 	['200794003', '其他交通工具'],
 	['50025970', '土地'],
 	['50025975', '工程'],
@@ -29,6 +31,7 @@ const assetsTypeMap = new Map([
 	['default', '-'],
 ]);
 
+// 当前状态的映射
 const statusMap = new Map([
 	[1, '即将开始'],
 	[3, '正在进行'],
@@ -79,7 +82,7 @@ const columns = (props) => {
 		{
 			title: '资产类型',
 			dataIndex: 'category',
-			render: text => <span>{assetsTypeMap.get(text.toString()) || '-'}</span>,
+			render: text => <span>{assetsTypeMap.get(`${text}`) || '-'}</span>,
 		},
 		{
 			title: (noSort ? '招商信息'
@@ -134,7 +137,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? api.unFollowSingleMerchants : api.followSingleMerchants}
+					api={row.isAttention ? api.unFollowMerchants : api.followMerchants}
 					index={index}
 				/>
 			),
@@ -142,7 +145,7 @@ const columns = (props) => {
 	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
-export default class TableView extends React.Component {
+class TableView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -176,7 +179,7 @@ export default class TableView extends React.Component {
 		console.log(record);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(selectedRowKeys);
+		if (typeof onSelect === 'function')onSelect(selectedRowKeys);
 	};
 
 	render() {
@@ -218,3 +221,27 @@ export default class TableView extends React.Component {
 		);
 	}
 }
+
+TableView.propTypes = {
+	current: PropTypes.number,
+	total: PropTypes.number,
+	pageSize: PropTypes.number,
+	dataSource: PropTypes.obj,
+	isShowPagination: PropTypes.bool,
+	manage: PropTypes.bool,
+	onSelect: PropTypes.fun,
+	onPageChange: PropTypes.func,
+};
+
+TableView.defaultProps = {
+	current: 1,
+	total: 0,
+	pageSize: 10,
+	isShowPagination: true,
+	manage: false,
+	dataSource: [],
+	onPageChange: () => {},
+	onSelect: () => {},
+};
+
+export default TableView;

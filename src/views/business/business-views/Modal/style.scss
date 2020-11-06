@@ -14,47 +14,62 @@
   // }
 }
 
-.business-modal{
-  &-content{
-    &-label{
-      margin-left: 50px;
-    }
-    &-choose{
-      display: inline-block;
-      position: relative;
-      cursor: pointer !important;
-      &:hover{
-        cursor: pointer !important;
-        .yc-btn-default{
-          border: 1px solid #1C80E1;
-          background-color: #FFFFFF;
-          color: #1C80E1;
-          cursor: pointer !important;
-        }
-      }
-      &-template{
-        padding-left: 20px;
+.business-tips{
+  background-color: $background-list;
+  width: 407px;
+  border-radius: 2px;
+  padding: 8px 20px;
+  &-icon{
+    font-size: 14px;
+    color: $text-remark;
+    margin-right: 8px;
+    vertical-align: top;
+  }
+  &-title{
+    display: inline-block;
+    color: $text-remark;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 400;
+    width: 345px;
+  }
+}
+
+.business-oper{
+  margin-top: 20px;
+  &-name{
+    vertical-align: top;
+    font-size: 14px;
+    color: #262626;
+  }
+  &-choose{
+    display: inline-block;
+    &-box{
+      &-link{
+        margin-left: 8px;
         &:hover{
           text-decoration: underline;
         }
       }
-      &-tips{
-        margin-left: 110px;
+      &-upload{
+        color: #595959;
+        font-size: 14px;
       }
-      .file-btn{
-        cursor: pointer;
-      }
-      .file-upload{
-        overflow: hidden;
-        width: 44px;
-        left: 0;
-        height: 30px;
-        top: 0;
-        position: absolute;
-        cursor: pointer !important;
-        opacity: 0;
-        z-index: 1;
-      }
+    }
+    &-file{
+      color: #1275E0;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    &-over{
+      margin-top: 8px;
+      color: #F82626;
+      font-size: 14px;
+    }
+    &-tips{
+      margin-top: 8px;
+      font-size: 14px;
+      color: $text-remark;
     }
   }
 }

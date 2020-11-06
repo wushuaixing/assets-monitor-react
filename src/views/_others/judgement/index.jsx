@@ -4,7 +4,7 @@ import { parseQuery } from '@/utils';
 import { judgmentDetail, judgmentUnsealDetail } from '@/utils/api/index';
 import './style.scss';
 
-// 不同的请求映射
+// 不同的请求映射，查解封的文书请求的接口和其他模块的文书请求的接口不同
 function getUrl(type) {
 	let url = judgmentDetail;
 	switch (type) {

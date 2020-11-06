@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Select } from 'antd';
+import PropTypes from 'reactPropTypes';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
@@ -28,7 +29,7 @@ class QueryCondition extends React.Component {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
-	toKeyCode13=(e) => {
+	toKeyCode13 = (e) => {
 		const event = e || window.event;
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
@@ -40,13 +41,15 @@ class QueryCondition extends React.Component {
 		}
 	};
 
-	handleSubmit=() => {
+	// 提交按钮
+	handleSubmit = () => {
 		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
-		if (onQueryChange)onQueryChange(condition);
+		if (typeof onQueryChange === 'function')onQueryChange(condition);
 	};
 
+	// 重置按钮
 	handleReset=() => {
 		const { form, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
@@ -163,4 +166,16 @@ class QueryCondition extends React.Component {
 		);
 	}
 }
+
+QueryCondition.propTypes = {
+	onQueryChange: PropTypes.func,
+	clearSelectRowNum: PropTypes.func,
+};
+
+QueryCondition.defaultProps = {
+	onQueryChange: () => {},
+	clearSelectRowNum: () => {},
+};
+
 export default Form.create()(QueryCondition);
+
