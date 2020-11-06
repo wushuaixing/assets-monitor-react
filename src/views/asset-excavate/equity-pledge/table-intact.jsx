@@ -1,5 +1,5 @@
 import React from 'react';
-import { attentionFollowListResult } from '@/utils/api/monitor-info/finance';
+import { attentionFollowListResult } from '@/utils/api/monitor-info/pledge';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
 import Table from './table';
@@ -103,7 +103,6 @@ export default class TableIntact extends React.Component {
 					<Table {...tableProps} />
 				</Spin>
 			</div>
-
 		);
 	}
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { readStatusResult } from '@/utils/api/monitor-info/finance';
-import api from '@/utils/api/monitor-info/finance';
+import { readStatusResult } from '@/utils/api/monitor-info/pledge';
+import api from '@/utils/api/monitor-info/pledge';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { timeStandard } from '@/utils';
 

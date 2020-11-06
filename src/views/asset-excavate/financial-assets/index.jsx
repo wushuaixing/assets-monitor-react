@@ -39,6 +39,7 @@ export default class Subrogation extends React.Component {
 			{
 				id: 1,
 				name: '竞价项目',
+				dot: false,
 				status: true,
 				number: 0,
 				showNumber: true,
@@ -49,11 +50,13 @@ export default class Subrogation extends React.Component {
 				status: true,
 				number: 0,
 				showNumber: true,
+				dot: false,
 			},
 			{
 				id: 3,
 				name: '公示项目',
 				status: true,
+				dot: false,
 				number: 0,
 				showNumber: true,
 			},
@@ -135,7 +138,7 @@ export default class Subrogation extends React.Component {
 		const _this = this;
 		const { tabConfig, sourceType } = this.state;
 		const selectTab = tabConfig.filter(i => i.id === sourceType);
-		if (selectTab && selectTab[0].number > 0) {
+		if (selectTab && selectTab[0].dot) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
