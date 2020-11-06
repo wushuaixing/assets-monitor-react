@@ -1,50 +1,32 @@
 import React from 'react';
-import { Modal, message } from 'antd';
+import {
+	Modal, message, Upload,
+} from 'antd';
 import Cookies from 'universal-cookie';
-import { Button } from '@/common';
-import BASE_URL from 'api/config';
+import { Button, Icon, Spin } from '@/common';
+import BASE_URL from '@/utils/api/config';
 import './style.scss';
 
 const cookies = new Cookies();
 
-let progressNumber = 0;
-
-function uploadProgress(evt) {
-	if (evt.lengthComputable) {
-		const percentComplete = Math.round(evt.loaded * 100 / evt.total);
-		progressNumber = `${percentComplete.toString()}%`;
-	} else {
-		progressNumber = 'unable to compute';
-	}
+// 警示弹窗
+function warning([title, content]) {
+	Modal.warning({
+		style: { top: 160 },
+		title,
+		content,
+	});
 }
-
-function uploadComplete(evt) {
-	console.log('loaded === ', evt.loaded);
-	console.log('uploadComplete');
-}
-
-function uploadFailed(evt) {
-	console.log(evt);
-}
-
-function uploadCanceled(evt) {
-	console.log(evt);
-}
-
 
 export default class BusinessModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
 			visible: props.businessModalVisible,
+			loading: false,
+			isOverSize: false,
 			fileName: '',
-			fileSize: 0,
-			fileType: '',
-			fd: undefined,
 		};
-	}
-
-	componentDidMount() {
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -56,110 +38,167 @@ export default class BusinessModal extends React.PureComponent {
 		}
 	}
 
-	handleCancel=() => {
+	// 关闭导入业务弹窗
+	handleCancel = () => {
 		const { onCancel } = this.props;
 		onCancel();
 	};
 
-	handleChangeFile = () => {
-		const file = document.getElementById('fileToUpload').files[0];
-		console.log('file === ', file);
-		if (file) {
-			this.setState({
-				fileName: file.name,
-				fileSize: file.size,
-			});
-			// let size = 0;
-			// if (file.size > 1024 * 1024) {
-			// 	size = `${(Math.round(file.size * 100 / (1024 * 1024)) / 100).toString()}MB`;
-			// } else {
-			// 	size = `${(Math.round(file.size * 100 / 1024) / 100).toString()}KB`;
-			// }
-			const fd = new FormData();
-			fd.append('file', document.getElementById('fileToUpload').files[0]);
-			this.setState({
-				fd,
-			});
-		}
-	};
-
-	uploadFileResult = () => {
-
-	};
-
-	handleConfirmFile = () => {
-		const { fd } = this.state;
-		const xhr = new XMLHttpRequest();
-		xhr.upload.addEventListener('progress', uploadProgress, false);
-		xhr.addEventListener('load', uploadComplete, false);
-		xhr.addEventListener('error', uploadFailed, false);
-		xhr.addEventListener('abort', uploadCanceled, false);
-		xhr.onreadystatechange = function dealResult() {
-			console.log('xhr === ', xhr);
-			// status === 200 是接口请求成功的标志
-			// readyState === 0 未初始化, 还没有调用send()方法
-			// readyState === 1 载入, 已调用send()方法，正在发送请求
-			// readyState === 2 载入完成, send()方法执行完成，已经接收到全部响应内容
-			// readyState === 3 交互, 正在解析响应内容
-			// readyState === 4 完成, 响应内容解析完成，可以在客户端调用了
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				const res = JSON.parse(xhr.responseText);
-				// 这个code === 200 表示的是接口的数据发送符合接口要求
-				if (res.code === 200) {
-					message.success('文件上传成功');
+	// 附件上传处理
+	uploadAttachmentParam = () => {
+		const that = this;
+		return {
+			name: 'file',
+			accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
+			action: `${BASE_URL}/yc/business/importExcelText?token=${cookies.get('token') || ''}`,
+			beforeUpload(file) {
+				const type = file.name.split('.');
+				const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
+				if (!isTypeRight) {
+					message.error('只能上传 Excel格式文件！');
 				}
-				console.log('res === ', res);
-			}
+				const isOverMemory = file.size <= 16 * 1024 * 1024;
+				if (!isOverMemory) {
+					warning(['文件超过16兆', '文件过大，请调整后重新上传']);
+					that.setState({
+						isOverSize: true,
+					});
+				} else {
+					that.setState({
+						isOverSize: false,
+					});
+				}
+				return isTypeRight && isOverMemory;
+			},
+			onChange(info) {
+				// 正常：code 200 ，errorType errorMessage有就是错误
+				// code 20009 上传文件失败
+				// 20001 上传文件部分成功
+				that.setState({
+					loading: true,
+				});
+				// 状态有：uploading done error removed
+				console.log('info === ', info);
+				if (info.file.status === 'done') {
+					if (info.file.response.code === 200) {
+						// errorMessage 或者 errorType存在的时候才会报错格式错误
+						// errorType 与 errorMessage一般成对出现，都为空的时候才是上传并且没有错误
+						if (!info.file.response.data.errorType && !info.file.response.data.errorMessage) {
+							that.setState({
+								fileName: info.file.name,
+								loading: false,
+							});
+							const { form: { resetFields }, getData } = that.props;
+							resetFields('');
+							if (typeof getData === 'function') {
+								getData();
+							}
+							const successMessage = info.file.response.data.type !== 2 ? '成功导入' : '成功转移';
+							message.success(`${info.file.name} ${successMessage}${info.file.response.data.businessCount}笔`);
+							// eslint-disable-next-line brace-style
+						}
+						// errorType 与 errorMessage一般成对出现，
+						else if (info.file.response.data.errorType || info.file.response.data.errorMessage) {
+							that.setState({
+								loading: false,
+							});
+							// 第2行第C列，“名称”不能为空，这种类型的错误出现
+							warning([info.file.response.data.errorType, info.file.response.data.errorMessage]);
+						} else {
+							that.setState({
+								loading: false,
+							});
+						}
+					} else if (info.file.response.code === 20001) {
+						message.error('上传文件部分成功');
+						that.setState({
+							loading: false,
+						});
+					} else if (info.file.response.code === 20009) {
+						message.error('上传文件失败');
+						that.setState({
+							loading: false,
+						});
+					} else if (info.file.response.code === 9001) {
+						message.error('服务器出错');
+						that.setState({
+							loading: false,
+						});
+					} else if (info.file.response.code === 9003) {
+						message.error(info.file.response.message);
+						that.setState({
+							loading: false,
+						});
+					} else {
+						info.fileList.pop();
+						that.setState({
+							loading: false,
+						});
+						message.error(`上传失败: ${info.file.response.data.errorMessage}`);
+					}
+				} else if (info.file.status === 'error') {
+					message.error(`${info.file.name} 上传失败。`);
+					that.setState({
+						loading: false,
+					});
+				}
+			},
 		};
-		xhr.open('POST', `${BASE_URL}/yc/business/importExcelText?token=${cookies.get('token') || ''}`, true);
-		xhr.send(fd);
 	};
 
-	// 手动删除文件
-	handleDeleteFile = () => {
-		this.setState({
-			fd: undefined,
-			fileName: '',
-		});
-	};
 
 	render() {
-		const { visible, fileName } = this.state;
+		const {
+			visible, loading, isOverSize, fileName,
+		} = this.state;
 		return (
 			<Modal
 				title="导入业务"
-				width={560}
+				width={447}
 				visible={visible}
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmFile}
+				footer={<div> </div>}
 			>
-				<div className="business-modal">导入业务后，系统将对债务人进行逐个匹配，匹配时间会因导入的债务人数量而不同，请您耐心等待！</div>
-				<div className="business-modal-content">
-					<span className="business-modal-content-label">上传文件：</span>
-					<div className="business-modal-content-choose">
-						<input
-							id="fileToUpload"
-							className="file-upload"
-							type="file"
-							name="upload"
-							accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-							onChange={this.handleChangeFile}
+				<Spin visible={loading} text="上传中">
+					<div className="business-tips">
+						<Icon
+							className="business-tips-icon"
+							type="icon-bianzu"
 						/>
-						<Button className="file-btn">选择</Button>
+						<div className="business-tips-title">导入业务后，系统将对债务人进行逐个匹配，匹配时间会因导入的债务人数量而不同，请您耐心等待</div>
 					</div>
-					<a className="business-modal-content-choose-template" href="../../../../static/template.xlsx">模版下载</a>
-					<div className="business-modal-content-choose-tips">
-						{
-							fileName ? (
-								<div>
-									{fileName}
-									<span style={{ marginLeft: 20 }} onClick={this.handleDeleteFile}>X</span>
-								</div>
-							) : null
-						}
-						<div>文件最大20M,支持扩展名：.xls .xlsx</div>
+					<div className="business-oper">
+						<span className="business-oper-name">附件：</span>
+						<div className="business-oper-choose">
+							<div className="business-oper-choose-box">
+								<Upload
+									className={!global.GLOBAL_MEIE_BROWSER ? 'yc-upload' : 'yc-ie-upload'}
+									showUploadList={false}
+									{...this.uploadAttachmentParam()}
+								>
+									<Button className="yc-business-btn" style={{ width: 82, height: 32 }}>
+										<Icon type="icon-export" style={{ fontSize: 14, marginRight: 8, color: '#595959' }} />
+										<span className="business-oper-choose-box-upload">选择</span>
+									</Button>
+								</Upload>
+								<a className="business-oper-choose-box-link" href="../../../../static/template.xlsx">模板下载</a>
+							</div>
+							{
+								fileName ? (
+									<div className="business-oper-choose-file">
+										<Icon type="icon-lianjie" style={{ fontSize: 12, marginRight: 8 }} />
+										<span>{fileName}</span>
+									</div>
+								) : null
+							}
+							{
+								isOverSize ? <div className="business-oper-choose-over">文件过大，请重新选择</div> : null
+							}
+							<div className="business-oper-choose-tips">文件最大16M,支持扩展名: xls、xlsx </div>
+						</div>
 					</div>
-				</div>
+				</Spin>
 			</Modal>
 		);
 	}
