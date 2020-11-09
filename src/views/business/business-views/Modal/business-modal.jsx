@@ -88,7 +88,8 @@ export default class BusinessModal extends React.PureComponent {
 								fileName: info.file.name,
 								loading: false,
 							});
-							const { form: { resetFields }, getData } = that.props;
+							const { form: { resetFields }, getData, onCancel } = that.props;
+							onCancel();
 							resetFields('');
 							if (typeof getData === 'function') {
 								getData();
