@@ -38,7 +38,7 @@ const columns = (props) => {
 						? (
 							<span
 								className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'}
-								style={!row.isRead && row.isRead !== undefined ? { position: 'absolute', top: '45%' } : {}}
+								style={!row.isRead && row.isRead !== undefined ? { position: 'absolute' } : {}}
 							/>
 						) : null}
 					<span style={{ marginLeft: 10 }}>{text}</span>
