@@ -115,7 +115,7 @@ export default class BusinessModal extends React.PureComponent {
 							loading: false,
 						});
 					} else if (info.file.response.code === 20009) {
-						message.error('上传文件失败');
+						warning([info.file.response.data.errorType, info.file.response.data.errorMessage]);
 						that.setState({
 							loading: false,
 						});

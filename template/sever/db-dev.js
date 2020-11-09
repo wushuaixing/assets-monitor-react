@@ -23,7 +23,7 @@ htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px;margin:
 
 let htmlCover = htmlCoverStr.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`).replace(/\/usr\/share\/fonts\/zh_CN/g, "./fonts");
 
-/* 导出画像模板-封面 */
+/* 导出债务人详情-封面 */
 function exportCover(source, exportType) {
 	var d = JSON.parse(source) || {};
 	htmlCover = htmlCover.replace("../../img/watermark.png", bgImgData);
@@ -43,7 +43,7 @@ function exportCover(source, exportType) {
 	return htmlCover;
 }
 
-/* 导出画像模板-内容 */
+/* 导出债务人详情-内容 */
 function exportTemplate(source, exportType, name) {
 	var dd = {
 		// overview: {
@@ -895,7 +895,7 @@ function exportTemplate(source, exportType, name) {
 							{t: '列入原因', cot: w(i.putReason)},
 							{t: '具体事实', cot: i.fact},
 						])
-						+ "</td><td>" + f.normalList(i.gmtRemoveDate ? [
+						+ "</td><td>" + f.normalList(i.gmtRemoveDate || i.removeReason || i.removeDepartment ? [
 							{dot: dot, cot: '已移除'},
 							{t: '移除日期', cot: f.time(i.gmtRemoveDate)},
 							{t: '移除原因', cot: w(i.removeReason)},
