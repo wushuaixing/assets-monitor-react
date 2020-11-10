@@ -231,6 +231,7 @@ TableView.propTypes = {
 	manage: PropTypes.bool,
 	onSelect: PropTypes.fun,
 	onPageChange: PropTypes.func,
+	onRefresh: PropTypes.func,
 };
 
 TableView.defaultProps = {
@@ -240,6 +241,7 @@ TableView.defaultProps = {
 	isShowPagination: true,
 	manage: false,
 	dataSource: [],
+	onRefresh: () => {},
 	onPageChange: () => {},
 	onSelect: () => {},
 };

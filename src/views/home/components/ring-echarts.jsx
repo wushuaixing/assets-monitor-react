@@ -198,7 +198,8 @@ class RingEcharts extends PureComponent {
 		}
 	}
 
-	toDrawEcharts =() => {
+	// 绘制图表，将数据绘制在dom上
+	toDrawEcharts = () => {
 		const {
 			id, title, customColorArray, Data, getRingEchartsType,
 		} = this.props;
@@ -219,8 +220,8 @@ class RingEcharts extends PureComponent {
 			if (name && selected !== undefined) {
 				getRingEchartsType(params);
 			}
+			// 重置options
 			myChart.setOption({
-				color: customColorArray,
 				legend: {
 					selected: { [params.name]: true },
 				},

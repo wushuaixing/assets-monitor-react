@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'reactPropTypes';
 import { Pagination } from 'antd';
 import { Attentions, SortVessel } from '@/common/table';
 import { readStatus } from '@/utils/api/monitor-info/finance';
@@ -107,7 +108,7 @@ const columns = (props) => {
 	return normal ? defaultColumns.filter(item => !item.unNormal) : defaultColumns;
 };
 
-export default class TableView extends React.Component {
+class TableView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -141,7 +142,7 @@ export default class TableView extends React.Component {
 		console.log(record);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(selectedRowKeys);
+		if (typeof onSelect === 'function')onSelect(selectedRowKeys);
 	};
 
 	render() {
@@ -183,3 +184,28 @@ export default class TableView extends React.Component {
 		);
 	}
 }
+TableView.propTypes = {
+	current: PropTypes.number,
+	total: PropTypes.number,
+	pageSize: PropTypes.number,
+	dataSource: PropTypes.obj,
+	isShowPagination: PropTypes.bool,
+	manage: PropTypes.bool,
+	onSelect: PropTypes.fun,
+	onPageChange: PropTypes.func,
+	onRefresh: PropTypes.func,
+};
+
+TableView.defaultProps = {
+	current: 1,
+	total: 0,
+	pageSize: 10,
+	isShowPagination: true,
+	manage: false,
+	dataSource: [],
+	onPageChange: () => {},
+	onSelect: () => {},
+	onRefresh: () => {},
+};
+
+export default TableView;

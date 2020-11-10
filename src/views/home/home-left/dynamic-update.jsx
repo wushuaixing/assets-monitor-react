@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'reactPropTypes';
 import { Button, Tooltip } from 'antd';
 import { navigate } from '@reach/router';
 import { Icon, Button as Btn } from '@/common';
@@ -14,32 +15,31 @@ const compare = property => (a, b) => {
 	return second - first;
 };
 
-
-let newAssetRemindArray = [];
-let newRiskRemindArray = [];
+// let newAssetRemindArray = [];
+// let newRiskRemindArray = [];
 let newAssetTotalNumArray = [];
 let newRiskTotalNumArray = [];
-let clearAsset = false;
-let clearRisk = false;
-let clearAssetNum = false;
-let clearRiskNum = false;
-const ringMap = new Map([
-	['资产拍卖', ['资产拍卖', 1]],
-	['土地信息', ['土地信息', 2]],
-	['无形资产', ['无形资产', 3]],
-	['动产抵押', ['动产抵押', 4]],
-	['股权质押', ['股权质押', 5]],
-	['代位权', ['代位权', 6]],
-	['招投标', ['招投标', 11]],
-	['破产重组', ['破产重组', 7]],
-	['失信记录', ['失信记录', 8]],
-	['涉诉信息', ['涉诉信息', 9]],
-	['经营风险', ['经营风险', 10]],
-	['金融资产', ['金融资产', 12]],
-	['查/解封资产', ['查/解封资产', 14]],
-	['限制高消费', ['限制高消费', 13]],
-	['default', ['资产拍卖', 1]],
-]);
+// let clearAsset = false;
+// let clearRisk = false;
+// let clearAssetNum = false;
+// let clearRiskNum = false;
+// const ringMap = new Map([
+// 	['资产拍卖', ['资产拍卖', 1]],
+// 	['土地信息', ['土地信息', 2]],
+// 	['无形资产', ['无形资产', 3]],
+// 	['动产抵押', ['动产抵押', 4]],
+// 	['股权质押', ['股权质押', 5]],
+// 	['代位权', ['代位权', 6]],
+// 	['招投标', ['招投标', 11]],
+// 	['破产重组', ['破产重组', 7]],
+// 	['失信记录', ['失信记录', 8]],
+// 	['涉诉信息', ['涉诉信息', 9]],
+// 	['经营风险', ['经营风险', 10]],
+// 	['金融资产', ['金融资产', 12]],
+// 	['查/解封资产', ['查/解封资产', 14]],
+// 	['限制高消费', ['限制高消费', 13]],
+// 	['default', ['资产拍卖', 1]],
+// ]);
 
 const urlMap = new Map([
 	['资产拍卖', '/monitor?process=-1'],
@@ -59,7 +59,7 @@ const urlMap = new Map([
 	['default', '/'],
 ]);
 
-class dynamicUpdate extends PureComponent {
+class DynamicUpdate extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -70,7 +70,7 @@ class dynamicUpdate extends PureComponent {
 			riskObligorIdNum: 0,
 			RingEchartsObj: {},
 			UnReadNum: 0,
-			clear: false,
+			// clear: false,
 			showModal: false,
 		};
 	}
@@ -92,7 +92,7 @@ class dynamicUpdate extends PureComponent {
 			newRiskTotalNumArray = JSON.parse(JSON.stringify(riskPropsData && riskPropsData.riskDataArray));
 		}
 		if ((AssetImportantReminderList && Array.isArray(AssetImportantReminderList) && AssetImportantReminderList.length > 0) || AssetImportantReminderObligorIdList) {
-			newAssetRemindArray = [...AssetImportantReminderList];
+			// newAssetRemindArray = [...AssetImportantReminderList];
 			const hasUnRead = AssetImportantReminderList && AssetImportantReminderList.filter(i => i.isRead === false).length;
 			this.getUnReadNum(hasUnRead);
 			const newAssetImportantReminderObligorIdList = AssetImportantReminderObligorIdList.filter(i => i !== 0);
@@ -104,7 +104,7 @@ class dynamicUpdate extends PureComponent {
 		}
 
 		if ((RiskImportantReminderList && Array.isArray(RiskImportantReminderList) && RiskImportantReminderList.length > 0) || RiskImportantReminderObligorIdList) {
-			newRiskRemindArray = [...RiskImportantReminderList];
+			// newRiskRemindArray = [...RiskImportantReminderList];
 			const newRiskImportantReminderObligorIdList = RiskImportantReminderObligorIdList.filter(i => i !== 0);
 			const newRiskImportantReminderObligorIdListNum = new Set([...newRiskImportantReminderObligorIdList]).size;
 			this.setState(() => ({
@@ -160,6 +160,7 @@ class dynamicUpdate extends PureComponent {
 	// 	return newRiskRemindArray.sort(compare('timestamp'));
 	// };
 
+	// 获取资产挖掘或者风险信息的总数
 	getTotal = (arr) => {
 		const newArr = arr && arr.filter(i => i !== null);
 		if (newArr.length === 0) { return null; }
@@ -217,6 +218,7 @@ class dynamicUpdate extends PureComponent {
 	// 	return newRiskTotalNumArray;
 	// };
 
+	// 动态更新的类型
 	getDynamicType = (val) => {
 		const { RingEchartsObj } = this.state;
 		// console.log('getDynamicType RingEchartsObj === ', RingEchartsObj);
@@ -226,17 +228,18 @@ class dynamicUpdate extends PureComponent {
 				selected[key] = true;
 			});
 		}
-		clearAsset = true;
-		clearRisk = true;
-		clearAssetNum = true;
-		clearRiskNum = true;
+		// clearAsset = true;
+		// clearRisk = true;
+		// clearAssetNum = true;
+		// clearRiskNum = true;
 		this.setState(() => ({
 			typeNum: val,
-			clear: true,
+			// clear: true,
 			RingEchartsObj,
 		}));
 	};
 
+	// 点击图例的分类
 	getRingEchartsType = (val) => {
 		// this.setState(() => ({
 		// 	RingEchartsObj: val,
@@ -246,15 +249,16 @@ class dynamicUpdate extends PureComponent {
 		w.location.href = `#${urlMap.get(val.name)}`;
 	};
 
+	// 手动跳转页面
 	handleNavigate = () => {
 		navigate('/business/view');
 	};
 
 	getUnReadNum = (value) => {
-		clearAsset = true;
-		clearRisk = true;
-		clearAssetNum = true;
-		clearRiskNum = true;
+		// clearAsset = true;
+		// clearRisk = true;
+		// clearAssetNum = true;
+		// clearRiskNum = true;
 		this.setState({
 			UnReadNum: value,
 		});
@@ -276,7 +280,7 @@ class dynamicUpdate extends PureComponent {
 
 	render() {
 		const {
-			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, clear, UnReadNum, clearNum, showModal,
+			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, UnReadNum, showModal,
 		} = this.state;
 		// console.log('assetRemindArray === ', assetRemindArray);
 		// console.log('riskRemindArray === ', riskRemindArray);
@@ -315,7 +319,6 @@ class dynamicUpdate extends PureComponent {
 			riskRemindArray,
 		};
 		if (Object.keys(RingEchartsObj).length !== 0) {
-			// console.log('assetArr 00000000000000000000', assetArr, JSON.stringify(assetRemindArray) === JSON.stringify(assetArr));
 			// assetArr = this.assetArray(selected, name, assetRemindArray, clear, clearNum);
 			// riskArr = this.riskArray(selected, name, riskRemindArray, clear, clearNum);
 			assetArrNum = hasAssetPropsData && assetPropsData.assetDataArray;
@@ -469,4 +472,19 @@ class dynamicUpdate extends PureComponent {
 	}
 }
 
-export default dynamicUpdate;
+DynamicUpdate.propTypes = {
+	// eslint-disable-next-line react/forbid-prop-types
+	AssetImportantReminderList: PropTypes.array,
+	// eslint-disable-next-line react/forbid-prop-types
+	assetPropsData: PropTypes.array,
+	// eslint-disable-next-line react/forbid-prop-types
+	riskPropsData: PropTypes.array,
+};
+
+DynamicUpdate.defaultProps = {
+	AssetImportantReminderList: [],
+	assetPropsData: [],
+	riskPropsData: [],
+};
+
+export default DynamicUpdate;
