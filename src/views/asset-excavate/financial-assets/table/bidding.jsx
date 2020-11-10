@@ -139,6 +139,7 @@ TableView.propTypes = {
 	manage: PropTypes.bool,
 	onSelect: PropTypes.fun,
 	onPageChange: PropTypes.func,
+	onRefresh: PropTypes.func,
 };
 
 TableView.defaultProps = {
@@ -150,6 +151,7 @@ TableView.defaultProps = {
 	dataSource: [],
 	onPageChange: () => {},
 	onSelect: () => {},
+	onRefresh: () => {},
 };
 
 export default TableView;

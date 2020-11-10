@@ -237,6 +237,7 @@ export default class Subrogation extends React.Component {
 			current: 1,
 			total: '',
 		});
+		this.onUnReadCount();
 		this.toClearSortStatus();
 		this.onQueryChange({}, val, 'all', 1);
 		this.selectRow = [];
