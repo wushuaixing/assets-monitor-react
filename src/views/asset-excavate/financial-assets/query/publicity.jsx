@@ -4,6 +4,7 @@ import PropTypes from 'reactPropTypes';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+import { clearEmpty } from '@/utils';
 
 const projectType = [
 	{ name: '股权项目', key: '1' },
@@ -46,7 +47,7 @@ class QueryCondition extends React.Component {
 		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
-		if (typeof onQueryChange === 'function')onQueryChange(condition);
+		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
 	};
 
 	// 重置按钮
@@ -55,7 +56,7 @@ class QueryCondition extends React.Component {
 		clearSelectRowNum();// 清除选中项
 		form.resetFields();
 		const condition = form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition);
+		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
 		// console.log('reset:', form.getFieldsValue());
 	};
 
@@ -105,7 +106,7 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('projectStatus', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="-1">未知</Select.Option>
+						<Select.Option value="0">未知</Select.Option>
 					</Select>
 				</div>
 				<div className="yc-query-item">
@@ -176,6 +177,4 @@ QueryCondition.defaultProps = {
 	onQueryChange: () => {},
 	clearSelectRowNum: () => {},
 };
-
 export default Form.create()(QueryCondition);
-

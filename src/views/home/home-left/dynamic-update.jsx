@@ -219,7 +219,7 @@ class dynamicUpdate extends PureComponent {
 
 	getDynamicType = (val) => {
 		const { RingEchartsObj } = this.state;
-		console.log('getDynamicType RingEchartsObj === ', RingEchartsObj);
+		// console.log('getDynamicType RingEchartsObj === ', RingEchartsObj);
 		const { selected } = RingEchartsObj;
 		if (selected) {
 			Object.getOwnPropertyNames(selected).forEach((key) => {
@@ -241,7 +241,7 @@ class dynamicUpdate extends PureComponent {
 		// this.setState(() => ({
 		// 	RingEchartsObj: val,
 		// }));
-		console.log('urlMap.get(val)', urlMap.get(val.name));
+		// console.log('urlMap.get(val)', urlMap.get(val.name));
 		const w = window.open('about:blank');
 		w.location.href = `#${urlMap.get(val.name)}`;
 	};
@@ -278,8 +278,8 @@ class dynamicUpdate extends PureComponent {
 		const {
 			typeNum, assetRemindArray, RingEchartsObj, assetObligorIdNum, riskRemindArray, riskObligorIdNum, clear, UnReadNum, clearNum, showModal,
 		} = this.state;
-		console.log('assetRemindArray === ', assetRemindArray);
-		console.log('riskRemindArray === ', riskRemindArray);
+		// console.log('assetRemindArray === ', assetRemindArray);
+		// console.log('riskRemindArray === ', riskRemindArray);
 
 		const { assetPropsData, riskPropsData } = this.props;
 		const hasAssetPropsData = Object.keys(assetPropsData).length !== 0;
@@ -307,7 +307,7 @@ class dynamicUpdate extends PureComponent {
 			Data: assetPropsDataArray,
 			assetRemindArray,
 		};
-		console.log('assetParams 333333 ', assetParams);
+		// console.log('assetParams 333333 ', assetParams);
 
 		const riskParams = {
 			getRingEchartsType: this.getRingEchartsType,
