@@ -213,7 +213,7 @@ export default class Subrogation extends React.Component {
 				onCancel() {},
 			});
 		} else {
-			message.warning('未选中业务');
+			message.warning('未选中数据');
 		}
 	};
 
@@ -404,6 +404,7 @@ export default class Subrogation extends React.Component {
 							<Download
 								text="导出"
 								field="idList"
+								waringText="未选中数据"
 								api={api('exportList', sourceType)}
 								selectIds
 								selectedRowKeys={() => this.selectRow}
