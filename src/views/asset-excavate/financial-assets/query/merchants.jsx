@@ -6,6 +6,8 @@ import PropTypes from 'reactPropTypes';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+import { clearEmpty } from '@/utils';
+
 
 const assetType = [
 	{ name: '其他交通工具', key: '200794003' },
@@ -62,12 +64,12 @@ class QueryCondition extends React.Component {
 	};
 
 	// 重置操作
-	handleReset=() => {
+	handleReset = () => {
 		const { form, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		form.resetFields();
 		const condition = 	form.getFieldsValue();
-		if (typeof onQueryChange === 'function')onQueryChange(condition, '', '', 1);
+		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
 	};
 
 	render() {

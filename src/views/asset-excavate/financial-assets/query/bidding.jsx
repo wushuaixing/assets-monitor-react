@@ -6,6 +6,7 @@ import PropTypes from 'reactPropTypes';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+import { clearEmpty } from '@/utils';
 import InputPrice from '@/common/input/input-price';
 import '../index.scss';
 
@@ -47,7 +48,7 @@ class QueryCondition extends React.Component {
 			message.error('评估价最低价不得高过最高价', 1);
 			return false;
 		}
-		if (onQueryChange)onQueryChange(condition);
+		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
 		return true;
 	};
 
@@ -57,7 +58,7 @@ class QueryCondition extends React.Component {
 		clearSelectRowNum();// 清除选中项
 		form.resetFields();
 		const condition = form.getFieldsValue();
-		if (typeof onQueryChange === 'function')onQueryChange(condition);
+		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
 	};
 
 	render() {

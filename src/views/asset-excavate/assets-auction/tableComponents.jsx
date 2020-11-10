@@ -7,6 +7,7 @@ import { floatFormat } from '@/utils/format';
 import { formatDateTime } from '@/utils/changeTime';
 import { Button, Icon, Ellipsis } from '@/common';
 import Matching from './matching-reason';
+import { peojectStatusMap } from '../financial-assets/index';
 
 const statusType = (value) => {
 	switch (value) {
@@ -120,65 +121,77 @@ const ProjectInfo = (text, rowContent) => {
 // 公示项目的项目信息
 const ProjectPubInfo = (text, rowContent) => {
 	const {
-		projectStatus, startTime, endTime, listingPrice, listingUnit, transactionPrice, transactionPriceUnit, amounts,
+		projectStatus, startTime, endTime, listingPrice, listingUnit, transactionPrice, transactionPriceUnit, amounts, publicityType,
 	} = rowContent;
 	return (
 		<React.Fragment>
 			<div className="assets-info-content">
 				{
-					projectStatus ? (
+					projectStatus === 0 ? (
 						<li>
 							<span className="list list-title align-justify" style={{ width: 'auto' }}>项目状态：</span>
 							<span className="list list-title align-justify">
-								{projectStatus}
+								{peojectStatusMap.get(projectStatus)}
 							</span>
 						</li>
 					) : null
 				}
 				{
-					startTime ? (
-						<li>
-							<span className="list list-title align-justify" style={{ width: 'auto' }}>挂牌开始日期：</span>
-							<span className="list list-content">{startTime}</span>
-						</li>
+					publicityType === 1 ? (
+						<React.Fragment>
+							{
+								startTime ? (
+									<li>
+										<span className="list list-title align-justify" style={{ width: 'auto' }}>挂牌开始日期：</span>
+										<span className="list list-content">{startTime}</span>
+									</li>
+								) : null
+							}
+							{
+								endTime ? (
+									<li>
+										<span className="list list-title align-justify" style={{ width: 'auto' }}>挂牌结束时间：</span>
+										<span className="list list-content">{endTime}</span>
+									</li>
+								) : null
+							}
+							{
+								listingPrice ? (
+									<li>
+										<span className="list list-title align-justify">挂牌价格：</span>
+										<span className="list list-content">
+											{floatFormat(listingPrice)}
+											{listingUnit}
+										</span>
+									</li>
+								) : null
+							}
+							{
+								transactionPrice ? (
+									<li>
+										<span className="list list-title align-justify">成交价格：</span>
+										<span className="list list-content">
+											{floatFormat(transactionPrice)}
+											{transactionPriceUnit}
+										</span>
+									</li>
+								) : null
+							}
+						</React.Fragment>
 					) : null
 				}
 				{
-					endTime ? (
-						<li>
-							<span className="list list-title align-justify" style={{ width: 'auto' }}>挂牌结束时间：</span>
-							<span className="list list-content">{endTime}</span>
-						</li>
-					) : null
-				}
-				{
-					listingPrice ? (
-						<li>
-							<span className="list list-title align-justify">挂牌价格：</span>
-							<span className="list list-content">
-								{floatFormat(listingPrice)}
-								{listingUnit}
-							</span>
-						</li>
-					) : null
-				}
-				{
-					transactionPrice ? (
-						<li>
-							<span className="list list-title align-justify">成交价格：</span>
-							<span className="list list-content">
-								{floatFormat(transactionPrice)}
-								{transactionPriceUnit}
-							</span>
-						</li>
-					) : null
-				}
-				{
-					amounts ? (
-						<li>
-							<span className="list list-title align-justify">资产总额：</span>
-							<span className="list list-content">{amounts}</span>
-						</li>
+					publicityType === 2 ? (
+						<React.Fragment>
+							{
+								amounts ? (
+									<li>
+										<span className="list list-title align-justify">资产总额：</span>
+										<span className="list list-content">{floatFormat(amounts)}</span>
+									</li>
+								) : null
+							}
+						</React.Fragment>
 					) : null
 				}
 			</div>

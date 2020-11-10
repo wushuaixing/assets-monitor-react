@@ -22,6 +22,10 @@ const sourceTypeMap = new Map([
 	['default', 'auctionBiddingCount'],
 ]);
 
+export const peojectStatusMap = new Map([
+	[0, '未知'],
+]);
+
 // 获取api具体
 const api = (field, type) => {
 	if (type === 1) return Apis[`${field}Bid`];
@@ -79,7 +83,7 @@ export default class Subrogation extends React.Component {
 
 	componentWillMount() {
 		const { tabConfig } = this.state;
-		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'project');
+		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'class');
 		this.setState({
 			sourceType,
 		});
@@ -236,7 +240,7 @@ export default class Subrogation extends React.Component {
 		this.toClearSortStatus();
 		this.onQueryChange({}, val, 'all', 1);
 		this.selectRow = [];
-		window.location.href = changeURLArg(window.location.href, 'project', val);
+		window.location.href = changeURLArg(window.location.href, 'class', val);
 	};
 
 	// 排序触发
@@ -364,7 +368,7 @@ export default class Subrogation extends React.Component {
 					borderBottom
 					onChange={this.onSourceType}
 					source={tabConfig}
-					field="project"
+					field="class"
 				/>
 				{
 					!manage ? (

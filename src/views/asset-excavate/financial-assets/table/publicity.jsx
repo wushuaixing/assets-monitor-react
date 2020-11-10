@@ -31,7 +31,7 @@ const columns = (props) => {
 			title: (noSort ? '发布日期'
 				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublish',
-			width: 100,
+			width: 160,
 			render: (text, row) => (
 				<div>
 					{ !row.isRead
@@ -48,7 +48,7 @@ const columns = (props) => {
 		{
 			title: '关联债务人',
 			dataIndex: 'obligorId',
-			width: 310,
+			width: 250,
 			render: (text, row) => (
 				<Ellipsis
 					content={row.obligorName}
@@ -61,6 +61,7 @@ const columns = (props) => {
 		{
 			title: '项目类型',
 			dataIndex: 'projectType',
+			width: 150,
 			render: text => <span>{projectTypeMap.get(text) || '-'}</span>,
 		},
 		{
@@ -71,7 +72,7 @@ const columns = (props) => {
 					content={text}
 					url={text ? `${row.sourceUrl}` : ''}
 					tooltip
-					width={300}
+					width={250}
 				/>
 			),
 		},
@@ -79,6 +80,13 @@ const columns = (props) => {
 			title: '项目信息',
 			width: 255,
 			render: (text, row) => ProjectPubInfo(text, row),
+		},
+		{
+			title: (noSort ? '更新日期'
+				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
+			dataIndex: 'updateTime',
+			width: 120,
+			render: text => <span>{text}</span>,
 		},
 		{
 			title: '操作',
