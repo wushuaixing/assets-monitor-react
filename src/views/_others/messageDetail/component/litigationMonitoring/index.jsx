@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import '../../style.scss';
 import FileCase from './fileCase';
 import Court from './court';
@@ -66,5 +67,24 @@ class LitigationMonitoring extends Component {
 		);
 	}
 }
+
+LitigationMonitoring.propTypes = {
+	obligorId: PropTypes.number,
+	id: PropTypes.string,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+	title: PropTypes.string,
+	// eslint-disable-next-line react/forbid-prop-types
+	childrenCount: PropTypes.array,
+};
+
+LitigationMonitoring.defaultProps = {
+	obligorId: 0,
+	total: 0,
+	stationId: 0,
+	id: 'message-litigation',
+	title: '涉诉监控',
+	childrenCount: [],
+};
 
 export default LitigationMonitoring;

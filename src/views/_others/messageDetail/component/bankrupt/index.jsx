@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import { markRead } from '@/utils/api/message';
 import TableBankruptcy from '@/views/risk-monitor/bankruptcy/table';
 import message from '@/utils/api/message/message';
@@ -33,6 +34,7 @@ class Bankrupt extends Component {
 		}
 	}
 
+	// 请求数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -76,6 +78,7 @@ class Bankrupt extends Component {
 		});
 	};
 
+	// 监听页脚变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -84,6 +87,7 @@ class Bankrupt extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -126,4 +130,20 @@ class Bankrupt extends Component {
 		);
 	}
 }
+
+Bankrupt.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+Bankrupt.defaultProps = {
+	id: 'message-bankruptcy',
+	title: '企业破产重组',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+};
 export default Bankrupt;

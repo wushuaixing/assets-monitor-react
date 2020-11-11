@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
 import TablePledge from '@/views/asset-excavate/equity-pledge/table';
@@ -127,4 +128,21 @@ class EquityPledge extends Component {
 		);
 	}
 }
+
+EquityPledge.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+EquityPledge.defaultProps = {
+	id: 'message-equityPledge',
+	title: '股权质押',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+};
+
 export default EquityPledge;

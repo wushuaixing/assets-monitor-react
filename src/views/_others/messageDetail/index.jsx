@@ -123,7 +123,7 @@ const subItems = (rule, data) => ([
 		childrenCount: [
 			{ name: '竞价项目', count: data ? getCount(data, 10601) : 0, dataType: 10601 },
 			{ name: '招商项目', count: data ? getCount(data, 10603) : 0, dataType: 10603 },
-			{ name: '竞价项目', count: data ? getCount(data, 10602) : 0, dataType: 10602 },
+			{ name: '公示项目', count: data ? getCount(data, 10602) : 0, dataType: 10602 },
 		],
 	},
 	{

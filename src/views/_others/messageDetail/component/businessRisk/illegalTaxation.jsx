@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import { markRead } from '@/utils/api/message';
 import TableTaxViolation from '@/views/risk-monitor/operation-risk/table/taxViolation';
 import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
+import { clearZero } from '@/utils';
 
 class IllegalTaxation extends Component {
 	constructor(props) {
@@ -33,6 +35,7 @@ class IllegalTaxation extends Component {
 		}
 	}
 
+	// 请求监控列表数据
 	toGetData = () => {
 		const { stationId, dataType } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -47,7 +50,7 @@ class IllegalTaxation extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -64,6 +67,7 @@ class IllegalTaxation extends Component {
 		});
 	};
 
+	// 刷新页面
 	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
@@ -74,6 +78,7 @@ class IllegalTaxation extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -85,6 +90,7 @@ class IllegalTaxation extends Component {
 		}
 	};
 
+	// 监听页脚变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -114,5 +120,19 @@ class IllegalTaxation extends Component {
 		);
 	}
 }
+
+IllegalTaxation.propTypes = {
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	dataType: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+IllegalTaxation.defaultProps = {
+	total: 0,
+	obligorId: 0,
+	dataType: 11201,
+	stationId: 0,
+};
 
 export default IllegalTaxation;

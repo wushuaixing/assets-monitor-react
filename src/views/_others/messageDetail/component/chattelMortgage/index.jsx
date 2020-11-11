@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
 import TableMortgage from '@/views/asset-excavate/chattel-mortgage/table';
@@ -33,6 +34,7 @@ class ChattelMortgage extends Component {
 		}
 	}
 
+	// 请求监控日报详情页数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -64,6 +66,7 @@ class ChattelMortgage extends Component {
 		});
 	};
 
+	// 监听页脚变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -83,6 +86,7 @@ class ChattelMortgage extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -126,4 +130,21 @@ class ChattelMortgage extends Component {
 		);
 	}
 }
+
+ChattelMortgage.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+ChattelMortgage.defaultProps = {
+	id: 'message-intangible',
+	title: '动产抵押',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+};
+
 export default ChattelMortgage;

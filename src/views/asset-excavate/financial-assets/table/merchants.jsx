@@ -94,7 +94,7 @@ const columns = (props) => {
 					<li>
 						<div className="project-status">{statusMap.get(row.status)}</div>
 						<Ellipsis
-							content={row.title + row.title + row.title + row.title}
+							content={row.title}
 							url={row.url || ''}
 							tooltip
 							width={310}

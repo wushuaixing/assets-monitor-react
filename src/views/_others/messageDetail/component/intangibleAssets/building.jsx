@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
 import TableConstruction from '@/views/asset-excavate/intangible-assets/table/construction-qualification';
 import { Spin } from '@/common';
+import { clearZero } from '@/utils';
 
 class Building extends Component {
 	constructor(props) {
@@ -47,7 +49,7 @@ class Building extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -75,6 +77,7 @@ class Building extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -86,6 +89,7 @@ class Building extends Component {
 		}
 	};
 
+	// 监听页脚变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -116,4 +120,17 @@ class Building extends Component {
 	}
 }
 
+Building.propTypes = {
+	obligorId: PropTypes.number,
+	dataType: PropTypes.number,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+Building.defaultProps = {
+	obligorId: 0,
+	dataType: 10804,
+	total: 0,
+	stationId: 0,
+};
 export default Building;
