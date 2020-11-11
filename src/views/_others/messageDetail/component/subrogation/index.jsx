@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import '../../style.scss';
 import SubrogationRights from './subrogation';
 import OpenCourt from './openCourt';
@@ -66,5 +67,24 @@ class Subrogation extends Component {
 		);
 	}
 }
+
+Subrogation.propTypes = {
+	obligorId: PropTypes.number,
+	id: PropTypes.string,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+	title: PropTypes.string,
+	// eslint-disable-next-line react/forbid-prop-types
+	childrenCount: PropTypes.array,
+};
+
+Subrogation.defaultProps = {
+	obligorId: 0,
+	total: 0,
+	stationId: 0,
+	id: 'message-subrogation',
+	title: '代位权',
+	childrenCount: [],
+};
 
 export default Subrogation;

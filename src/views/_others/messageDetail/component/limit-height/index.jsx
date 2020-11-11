@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import { markRead } from '@/utils/api/message';
 import TableLimit from '@/views/risk-monitor/limit-consumption/table/table';
 import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
+import { clearZero } from '@/utils';
 
 class LimitHeightTable extends Component {
 	constructor(props) {
@@ -48,7 +50,7 @@ class LimitHeightTable extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -128,4 +130,21 @@ class LimitHeightTable extends Component {
 		);
 	}
 }
+
+LimitHeightTable.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+LimitHeightTable.defaultProps = {
+	id: 'message-limit',
+	title: '限制高消费',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+};
+
 export default LimitHeightTable;

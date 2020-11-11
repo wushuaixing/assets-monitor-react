@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'reactPropTypes';
 import {
 	Modal, message, Upload,
 } from 'antd';
@@ -18,7 +19,7 @@ function warning([title, content]) {
 	});
 }
 
-export default class BusinessModal extends React.PureComponent {
+class BusinessModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -147,7 +148,6 @@ export default class BusinessModal extends React.PureComponent {
 		};
 	};
 
-
 	render() {
 		const {
 			visible, loading, isOverSize, fileName,
@@ -204,3 +204,20 @@ export default class BusinessModal extends React.PureComponent {
 		);
 	}
 }
+
+BusinessModal.propTypes = {
+	businessModalVisible: PropTypes.bool,
+	onCancel: PropTypes.func,
+	getData: PropTypes.func,
+	// eslint-disable-next-line react/forbid-prop-types
+	form: PropTypes.object,
+};
+
+BusinessModal.defaultProps = {
+	businessModalVisible: false,
+	form: {},
+	onCancel: () => {},
+	getData: () => {},
+};
+
+export default BusinessModal;

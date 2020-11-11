@@ -4,6 +4,7 @@ import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
 import TableMerchants from '@/views/asset-excavate/financial-assets/table/merchants';
 import { Spin } from '@/common';
+import { clearZero } from '@/utils';
 
 class Merchants extends Component {
 	constructor(props) {
@@ -49,7 +50,7 @@ class Merchants extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,

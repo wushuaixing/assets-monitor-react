@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import TableEnvironment from '@/views/risk-monitor/operation-risk/table/environmentalPunishment';
 import { markRead } from '@/utils/api/message';
 import { Spin } from '@/common';
+import { clearZero } from '@/utils';
 
 class EnvironmentPunishment extends Component {
 	constructor(props) {
@@ -33,6 +35,7 @@ class EnvironmentPunishment extends Component {
 		}
 	}
 
+	// 请求数据
 	toGetData = () => {
 		const { stationId, dataType } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -47,7 +50,7 @@ class EnvironmentPunishment extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -75,6 +78,7 @@ class EnvironmentPunishment extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -86,6 +90,7 @@ class EnvironmentPunishment extends Component {
 		}
 	};
 
+	// 监听页脚变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -115,5 +120,19 @@ class EnvironmentPunishment extends Component {
 		);
 	}
 }
+
+EnvironmentPunishment.propTypes = {
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	dataType: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+EnvironmentPunishment.defaultProps = {
+	total: 0,
+	obligorId: 0,
+	dataType: 11202,
+	stationId: 0,
+};
 
 export default EnvironmentPunishment;

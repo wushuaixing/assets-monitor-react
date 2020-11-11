@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
 import TableJudgment from '@/views/risk-monitor/lawsuits-monitor/table/judgment';
 import { Spin } from '@/common';
+import { clearZero } from '@/utils';
 
 class JudgmentDocument extends Component {
 	constructor(props) {
@@ -44,6 +46,7 @@ class JudgmentDocument extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -55,6 +58,7 @@ class JudgmentDocument extends Component {
 		}
 	};
 
+	// 页脚变化，请求数据
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -63,6 +67,7 @@ class JudgmentDocument extends Component {
 		});
 	};
 
+	// 请求监控详情页数据
 	toGetData = () => {
 		const { stationId, dataType } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -79,7 +84,7 @@ class JudgmentDocument extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -117,5 +122,19 @@ class JudgmentDocument extends Component {
 		);
 	}
 }
+
+JudgmentDocument.propTypes = {
+	obligorId: PropTypes.number,
+	dataType: PropTypes.number,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+JudgmentDocument.defaultProps = {
+	obligorId: 0,
+	dataType: 10903,
+	total: 0,
+	stationId: 0,
+};
 
 export default JudgmentDocument;

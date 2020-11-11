@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import '../../style.scss';
 import Sell from './sell';
 import Transfer from './transfer';
@@ -66,5 +67,24 @@ class Land extends Component {
 		);
 	}
 }
+
+Land.propTypes = {
+	obligorId: PropTypes.number,
+	id: PropTypes.string,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+	title: PropTypes.string,
+	// eslint-disable-next-line react/forbid-prop-types
+	childrenCount: PropTypes.array,
+};
+
+Land.defaultProps = {
+	obligorId: 0,
+	total: 0,
+	stationId: 0,
+	id: 'message-land',
+	title: '土地信息',
+	childrenCount: [],
+};
 
 export default Land;

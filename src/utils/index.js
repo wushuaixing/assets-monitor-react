@@ -285,6 +285,24 @@ export const clearEmpty = (obj) => {
 	return obj;
 };
 
+/**
+ * 去除对象中值为0和空值的对象
+ * @param obj
+ * @returns {*}
+ */
+export const clearZero = (obj) => {
+	if (typeof obj === 'object') {
+		const l = Object.keys(obj);
+		const _obj = Object.assign({}, obj);
+		l.forEach((item) => {
+			if (_obj[item] === 0 || _obj[item] === '' || _obj[item] === undefined) delete _obj[item];
+			else if (typeof _obj[item] === 'string')_obj[item] = _obj[item].replace(/^\s+|\s+$/g, '');
+		});
+		return _obj;
+	}
+	return obj;
+};
+
 // 去除头尾空格
 if (!String.prototype.trim) {
 	String.prototype.trim = function trim(val) {

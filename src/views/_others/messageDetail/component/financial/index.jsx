@@ -27,10 +27,7 @@ class Financial extends Component {
 			id, title, total, childrenCount, stationId,
 		} = this.props;
 		const { obligorId } = this.state;
-		const peopleProps = {
-			stationId,
-			obligorId,
-		};
+		const peopleProps = obligorId ? { stationId, obligorId } : { stationId };
 		const config = childrenCount && childrenCount.filter(item => item.count > 0);
 		return (
 			<React.Fragment>
@@ -70,21 +67,20 @@ class Financial extends Component {
 
 Financial.propTypes = {
 	obligorId: PropTypes.number,
-	id: PropTypes.number,
+	id: PropTypes.string,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 	title: PropTypes.string,
 	// eslint-disable-next-line react/forbid-prop-types
 	childrenCount: PropTypes.array,
-
 };
 
 Financial.defaultProps = {
 	obligorId: 0,
 	total: 0,
 	stationId: 0,
-	id: 0,
-	title: PropTypes.string,
+	id: 'message-financial',
+	title: '金融资产',
 	childrenCount: [],
 };
 

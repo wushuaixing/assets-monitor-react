@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
 import TableDishonesty from '@/views/risk-monitor/broken-record/table';
@@ -33,6 +34,7 @@ class Dishonesty extends Component {
 		}
 	}
 
+	// 获取监控详情数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -65,7 +67,7 @@ class Dishonesty extends Component {
 		});
 	};
 
-
+	// 监听页脚变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -85,6 +87,7 @@ class Dishonesty extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -129,4 +132,21 @@ class Dishonesty extends Component {
 		);
 	}
 }
+
+Dishonesty.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+Dishonesty.defaultProps = {
+	id: 'message-dishonesty',
+	title: '失信记录',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+};
+
 export default Dishonesty;
