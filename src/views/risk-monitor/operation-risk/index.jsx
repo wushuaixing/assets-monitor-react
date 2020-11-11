@@ -92,7 +92,7 @@ export default class OperationRisk extends React.Component {
 	};
 
 	// 批量关注
-	handleAttention=() => {
+	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource, sourceType } = this.state;
@@ -126,7 +126,7 @@ export default class OperationRisk extends React.Component {
 				onCancel() {},
 			});
 		} else {
-			message.warning('未选中业务');
+			message.warning('未选中数据');
 		}
 	};
 
@@ -285,6 +285,7 @@ export default class OperationRisk extends React.Component {
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								text="导出"
+								waringText="未选中数据"
 								field="idList"
 								selectIds
 								selectedRowKeys={() => this.selectRow}
