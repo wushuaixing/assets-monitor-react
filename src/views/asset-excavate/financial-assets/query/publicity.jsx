@@ -16,6 +16,21 @@ const projectType = [
 	{ name: '未知', key: '-1' },
 ];
 
+const projectStatus = [
+	{ name: '预披露', key: '1' },
+	{ name: '等待挂牌', key: '2' },
+	{ name: '挂牌中', key: '3' },
+	{ name: '挂牌结束', key: '4' },
+	{ name: '报名中', key: '5' },
+	{ name: '报名结束', key: '6' },
+	{ name: '竞价中', key: '7' },
+	{ name: '竞价结束', key: '8' },
+	{ name: '已成交', key: '9' },
+	{ name: '已结束', key: '10' },
+	{ name: '中止', key: '11' },
+	{ name: '未知', key: '0' },
+];
+
 class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
@@ -106,7 +121,11 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('projectStatus', { initialValue: '' })}
 					>
 						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="0">未知</Select.Option>
+						{
+							projectStatus.map(item => (
+								<Select.Option value={item.key}>{item.name}</Select.Option>
+							))
+						}
 					</Select>
 				</div>
 				<div className="yc-query-item">

@@ -159,7 +159,7 @@ export default class Subrogation extends React.Component {
 				onCancel() {},
 			});
 		} else {
-			message.warning('未选中业务');
+			message.warning('未选中数据');
 		}
 	};
 
@@ -362,6 +362,7 @@ export default class Subrogation extends React.Component {
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								text="导出"
+								waringText="未选中数据"
 								field="idList"
 								selectIds
 								selectedRowKeys={() => this.selectRow}

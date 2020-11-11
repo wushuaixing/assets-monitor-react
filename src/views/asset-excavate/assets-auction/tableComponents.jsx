@@ -127,7 +127,7 @@ const ProjectPubInfo = (text, rowContent) => {
 		<React.Fragment>
 			<div className="assets-info-content">
 				{
-					projectStatus === 0 ? (
+					projectStatus > 0 ? 	(
 						<li>
 							<span className="list list-title align-justify" style={{ width: 'auto' }}>项目状态：</span>
 							<span className="list list-title align-justify">

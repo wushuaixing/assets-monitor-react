@@ -23,6 +23,17 @@ const sourceTypeMap = new Map([
 ]);
 
 export const peojectStatusMap = new Map([
+	[1, '预披露'],
+	[2, '等待挂牌'],
+	[3, '挂牌中'],
+	[4, '挂牌结束'],
+	[5, '报名中'],
+	[6, '报名结束'],
+	[7, '竞价中'],
+	[8, '竞价结束'],
+	[9, '已成交'],
+	[10, '已结束'],
+	[11, '中止'],
 	[0, '未知'],
 ]);
 
@@ -305,7 +316,7 @@ export default class Subrogation extends React.Component {
 		const { tabConfig } = this.state;
 		unReadCount().then((res) => {
 			const { data, code } = res;
-			console.log('data onUnReadCount === ', data);
+			// console.log('data onUnReadCount === ', data);
 			let _tabConfig = [];
 			if (code === 200) {
 				if (sourceType && sourceType > 0) {
@@ -325,7 +336,7 @@ export default class Subrogation extends React.Component {
 						return _item;
 					});
 				}
-				console.log('_tabConfig === ', _tabConfig);
+				// console.log('_tabConfig === ', _tabConfig);
 				this.setState({ tabConfig: _tabConfig }, () => {
 					this.toInfoCount(sourceType);
 				});

@@ -116,7 +116,7 @@ export default class Lawsuits extends React.Component {
 				onCancel() {},
 			});
 		} else {
-			message.warning('未选中业务');
+			message.warning('未选中数据');
 		}
 	};
 
@@ -243,6 +243,7 @@ export default class Lawsuits extends React.Component {
 							<Download
 								text="导出"
 								field="idList"
+								waringText="未选中数据"
 								selectIds
 								selectedRowKeys={() => this.selectRow}
 								api={Api.exportList}

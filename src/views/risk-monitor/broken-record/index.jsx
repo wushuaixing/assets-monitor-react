@@ -68,7 +68,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 批量关注
-	handleAttention=() => {
+	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource } = this.state;
@@ -102,7 +102,7 @@ export default class Subrogation extends React.Component {
 				onCancel() {},
 			});
 		} else {
-			message.warning('未选中业务');
+			message.warning('未选中数据');
 		}
 	};
 
@@ -234,6 +234,7 @@ export default class Subrogation extends React.Component {
 								selectedRowKeys={() => this.selectRow}
 								field="idList"
 								text="导出"
+								waringText="未选中数据"
 							/>
 							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
