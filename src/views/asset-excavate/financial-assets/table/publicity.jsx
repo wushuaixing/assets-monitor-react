@@ -42,7 +42,7 @@ const columns = (props) => {
 								style={!row.isRead && row.isRead !== undefined ? { position: 'absolute' } : {}}
 							/>
 						) : null}
-					<span style={{ marginLeft: 10 }}>{text}</span>
+					<span style={{ marginLeft: 10 }}>{text || '-'}</span>
 				</div>
 			),
 		},
@@ -52,7 +52,7 @@ const columns = (props) => {
 			width: 250,
 			render: (text, row) => (
 				<Ellipsis
-					content={row.obligorName}
+					content={row.obligorName || '-'}
 					url={text ? `#/business/debtor/detail?id=${text}` : ''}
 					tooltip
 					width={250}
@@ -70,7 +70,7 @@ const columns = (props) => {
 			dataIndex: 'title',
 			render: (text, row) => (
 				<Ellipsis
-					content={text}
+					content={text || '-'}
 					url={text ? `${row.sourceUrl}` : ''}
 					tooltip
 					width={250}
@@ -87,7 +87,7 @@ const columns = (props) => {
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
 			dataIndex: 'updateTime',
 			width: 120,
-			render: text => <span>{text}</span>,
+			render: text => <span>{text || '-'}</span>,
 		},
 		{
 			title: '操作',
