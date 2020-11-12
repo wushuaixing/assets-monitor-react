@@ -7,7 +7,6 @@ import { floatFormat } from '@/utils/format';
 import { formatDateTime } from '@/utils/changeTime';
 import { Button, Icon, Ellipsis } from '@/common';
 import Matching from './matching-reason';
-import { peojectStatusMap } from '../financial-assets/index';
 
 const statusType = (value) => {
 	switch (value) {
@@ -21,6 +20,21 @@ const statusType = (value) => {
 	default: return '-';
 	}
 };
+
+const peojectStatusMap = new Map([
+	[1, '预披露'],
+	[2, '等待挂牌'],
+	[3, '挂牌中'],
+	[4, '挂牌结束'],
+	[5, '报名中'],
+	[6, '报名结束'],
+	[7, '竞价中'],
+	[8, '竞价结束'],
+	[9, '已成交'],
+	[10, '已结束'],
+	[11, '中止'],
+	[0, '未知'],
+]);
 
 const AssetsInfo = (text, rowContent, index, noMatching = false, asset) => {
 	const {
@@ -127,7 +141,7 @@ const ProjectPubInfo = (text, rowContent) => {
 		<React.Fragment>
 			<div className="assets-info-content">
 				{
-					projectStatus > 0 ? 	(
+					projectStatus >= 0 ? (
 						<li>
 							<span className="list list-title align-justify" style={{ width: 'auto' }}>项目状态：</span>
 							<span className="list list-title align-justify">
@@ -184,7 +198,7 @@ const ProjectPubInfo = (text, rowContent) => {
 					publicityType === 2 ? (
 						<React.Fragment>
 							{
-								amounts ? (
+								amounts > 0 ? (
 									<li>
 										<span className="list list-title align-justify">资产总额：</span>
 										<span className="list list-content">{floatFormat(amounts)}</span>
