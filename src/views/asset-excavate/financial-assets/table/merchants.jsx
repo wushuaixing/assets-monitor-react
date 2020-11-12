@@ -42,6 +42,17 @@ const statusMap = new Map([
 	[13, '结束'],
 	['default', '-'],
 ]);
+
+const statusColorMap = new Map([
+	[1, 'yellow'],
+	[3, 'bule'],
+	[5, 'gray'],
+	[7, 'red '],
+	[9, 'red'],
+	[11, 'red'],
+	[13, 'red'],
+	['default', 'yellow'],
+]);
 // 获取表格配置
 const columns = (props) => {
 	const {
@@ -92,7 +103,7 @@ const columns = (props) => {
 			render: (text, row) => (
 				<div className="assets-info-content">
 					<li>
-						<div className="project-status">{statusMap.get(row.status)}</div>
+						<div className={`project-status ${statusColorMap.get(row.status)}`}>{statusMap.get(row.status)}</div>
 						<Ellipsis
 							content={row.title}
 							url={row.url || ''}
