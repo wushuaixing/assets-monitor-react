@@ -296,8 +296,8 @@ export default class Excavate extends PureComponent {
 			const totalCount = auctionBidding + financeInvestment + finance;
 			const dataSource = [];
 			dataSource.push({ count: auctionBidding || 0, typeName: '竞价项目' });
-			dataSource.push({ count: financeInvestment || 0, typeName: '公示项目' });
-			dataSource.push({ count: finance || 0, typeName: '招商项目' });
+			dataSource.push({ count: finance || 0, typeName: '公示项目' });
+			dataSource.push({ count: financeInvestment || 0, typeName: '招商项目' });
 			const financePropsData = {
 				dataSource,
 				totalCount,

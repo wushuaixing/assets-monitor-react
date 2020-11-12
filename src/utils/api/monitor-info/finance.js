@@ -109,7 +109,7 @@ export const readStatus = params => service.post('/yc/monitor/finance/finance/ma
 	.then(res => res.data);
 
 // 公示项目 全部标记已读
-export const readAllStatusPub = params => service.post('/yc/monitor/finance/finance/markRead', params)
+export const readAllStatusPub = params => service.post('/yc/monitor/finance/finance/markReadAll', params)
 	.then(res => res.data);
 
 // 公示项目 批量标记已读
