@@ -19,6 +19,9 @@ function warning([title, content]) {
 	});
 }
 
+const isMac = /macintosh|mac os x/i.test(navigator.userAgent);
+console.log('isMac === ', isMac);
+
 class BusinessModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -50,7 +53,7 @@ class BusinessModal extends React.PureComponent {
 		const that = this;
 		return {
 			name: 'file',
-			accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
+			accept: isMac ? '' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
 			action: `${BASE_URL}/yc/business/importExcelText?token=${cookies.get('token') || ''}`,
 			beforeUpload(file) {
 				const type = file.name.split('.');
