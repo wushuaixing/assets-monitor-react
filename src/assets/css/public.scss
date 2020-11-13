@@ -558,12 +558,18 @@ td.column-left20 {
 
 .yc-all-clear{
   font-size: 13px;
+  &:hover{
+    color: #20242E;
+  }
 }
 
 .yc-all-read-text{
   color: $text-content;
   font-size: 12px;
   margin-left: 4px;
+  &:hover{
+    color: #20242E;
+  }
 }
 
 // 居右靠齐
