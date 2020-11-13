@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import '../../style.scss';
+import PropTypes from 'reactPropTypes';
 import TableAssets from '@/views/asset-excavate/assets-auction/table';
 import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
+import '../../style.scss';
 
 class Assets extends Component {
 	constructor(props) {
@@ -44,6 +45,7 @@ class Assets extends Component {
 		});
 	};
 
+	// 获取请求数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -75,6 +77,7 @@ class Assets extends Component {
 		});
 	};
 
+	// 监听页脚变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -114,4 +117,19 @@ class Assets extends Component {
 	}
 }
 
+Assets.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+Assets.defaultProps = {
+	id: 'message-auction',
+	title: '资产拍卖',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+};
 export default Assets;

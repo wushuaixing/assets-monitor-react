@@ -1,10 +1,9 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { readStatusResult } from '@/utils/api/monitor-info/finance';
-import api from '@/utils/api/monitor-info/finance';
+import { readStatusResult } from '@/utils/api/monitor-info/pledge';
+import api from '@/utils/api/monitor-info/pledge';
 import { Table, SelectedNum, Ellipsis } from '@/common';
-// import { floatFormat } from '@/utils/format';
 import { timeStandard } from '@/utils';
 
 // 出质详情
@@ -156,16 +155,16 @@ export default class TableView extends React.Component {
 					onRowClick={this.toRowClick}
 				/>
 				{dataSource && dataSource.length > 0 && isShowPagination && (
-				<div className="yc-table-pagination">
-					<Pagination
-						showQuickJumper
-						pageSize={pageSize || 10}
-						current={current || 1}
-						total={total || 0}
-						onChange={onPageChange}
-						showTotal={totalCount => `共 ${totalCount} 条信息`}
-					/>
-				</div>
+					<div className="yc-table-pagination">
+						<Pagination
+							showQuickJumper
+							pageSize={pageSize || 10}
+							current={current || 1}
+							total={total || 0}
+							onChange={onPageChange}
+							showTotal={totalCount => `共 ${totalCount} 条信息`}
+						/>
+					</div>
 				)}
 			</React.Fragment>
 		);

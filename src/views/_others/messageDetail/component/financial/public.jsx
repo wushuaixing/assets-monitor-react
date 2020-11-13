@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import message from '@/utils/api/message/message';
+import PropTypes from 'reactPropTypes';
 import { markRead } from '@/utils/api/message';
 import TablePublic from '@/views/asset-excavate/financial-assets/table/publicity';
 import { Spin } from '@/common';
+import { clearZero } from '@/utils';
 
 // 获取表格配置
 class PubilcProject extends Component {
@@ -34,6 +36,7 @@ class PubilcProject extends Component {
 		}
 	}
 
+	// 请求数据
 	toGetData = () => {
 		const { stationId, dataType } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -48,7 +51,7 @@ class PubilcProject extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -76,6 +79,7 @@ class PubilcProject extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -87,6 +91,7 @@ class PubilcProject extends Component {
 		}
 	};
 
+	// 监听页脚变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -116,5 +121,20 @@ class PubilcProject extends Component {
 		);
 	}
 }
+
+PubilcProject.propTypes = {
+	obligorId: PropTypes.number,
+	dataType: PropTypes.number,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+PubilcProject.defaultProps = {
+	obligorId: 0,
+	dataType: 10603,
+	total: 0,
+	stationId: 0,
+};
+
 
 export default PubilcProject;

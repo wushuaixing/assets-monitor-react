@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import { markRead } from '@/utils/api/message';
 import TableMining from '@/views/asset-excavate/intangible-assets/table/mining-right';
 import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
+import { clearZero } from '@/utils';
 
 class Mining extends Component {
 	constructor(props) {
@@ -33,6 +35,7 @@ class Mining extends Component {
 		}
 	}
 
+	// 获取监控详情数据
 	toGetData = () => {
 		const { stationId, dataType } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -47,7 +50,7 @@ class Mining extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -64,6 +67,7 @@ class Mining extends Component {
 		});
 	};
 
+	// 刷新页面数据
 	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
@@ -74,6 +78,7 @@ class Mining extends Component {
 		});
 	};
 
+	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -85,6 +90,7 @@ class Mining extends Component {
 		}
 	};
 
+	// 监听页面变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -114,5 +120,19 @@ class Mining extends Component {
 		);
 	}
 }
+
+Mining.propTypes = {
+	obligorId: PropTypes.number,
+	dataType: PropTypes.number,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+Mining.defaultProps = {
+	obligorId: 0,
+	dataType: 10802,
+	total: 0,
+	stationId: 0,
+};
 
 export default Mining;

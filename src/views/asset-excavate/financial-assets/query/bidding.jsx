@@ -2,9 +2,11 @@ import React from 'react';
 import {
 	Select, Form, message, Icon,
 } from 'antd';
+import PropTypes from 'reactPropTypes';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+import { clearEmpty } from '@/utils';
 import InputPrice from '@/common/input/input-price';
 import '../index.scss';
 
@@ -24,7 +26,7 @@ class QueryCondition extends React.Component {
 		window._removeEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
-	toKeyCode13=(e) => {
+	toKeyCode13 = (e) => {
 		const event = e || window.event;
 		const key = event.keyCode || event.which || event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
@@ -36,7 +38,8 @@ class QueryCondition extends React.Component {
 		}
 	};
 
-	handleSubmit=() => {
+	// 点击查询按钮
+	handleSubmit = () => {
 		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
@@ -45,17 +48,17 @@ class QueryCondition extends React.Component {
 			message.error('评估价最低价不得高过最高价', 1);
 			return false;
 		}
-
-		if (onQueryChange)onQueryChange(condition);
+		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
 		return true;
 	};
 
-	handleReset=() => {
+	// 重置查询条件
+	handleReset = () => {
 		const { form, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		form.resetFields();
 		const condition = form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition);
+		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
 	};
 
 	render() {
@@ -234,4 +237,15 @@ class QueryCondition extends React.Component {
 		);
 	}
 }
+
+QueryCondition.propTypes = {
+	onQueryChange: PropTypes.func,
+	clearSelectRowNum: PropTypes.func,
+};
+
+QueryCondition.defaultProps = {
+	onQueryChange: () => {},
+	clearSelectRowNum: () => {},
+};
+
 export default Form.create()(QueryCondition);

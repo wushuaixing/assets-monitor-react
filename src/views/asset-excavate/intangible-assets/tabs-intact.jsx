@@ -2,7 +2,6 @@ import React from 'react';
 import { Tabs } from '@/common';
 import { requestAll } from '@/utils/promise';
 import APISource from '@/utils/api/monitor-info/intangible';
-import { unReadCount } from '@/utils/api/monitor-info';
 
 export default class TabsIntact extends React.Component {
 	constructor(props) {
@@ -58,7 +57,7 @@ export default class TabsIntact extends React.Component {
 			field,
 		};
 		return (
-			<Tabs.Simple {...params} />
+			<Tabs.Simple borderBottom {...params} />
 		);
 	}
 }

@@ -1,8 +1,8 @@
 import React from 'react';
-import Table from './bidding';
 import api from '@/utils/api/monitor-info/finance';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
+import Table from './bidding';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {

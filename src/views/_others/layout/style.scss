@@ -392,7 +392,7 @@
       background-color: #FFFFFF;
 
       .yc-modal-content {
-        padding: 50px 0 50px 63px;
+        padding: 50px 0 50px 117px;
 
         .yc-modal-header {
           height: 22px;
@@ -439,6 +439,7 @@
           }
           .yc-label-tips{
             font-weight: bold;
+            margin-left: 4px;
           }
           .yc-label-desp{
             font-size: 14px;
@@ -474,7 +475,6 @@
         .yc-modal-btn {
           width: 320px;
           height: 44px;
-          margin-left: 60px;
           margin-top: 60px;
           display: block;
           background: linear-gradient(to right, #FD6339, #FD4A4D);

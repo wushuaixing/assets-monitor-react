@@ -551,6 +551,21 @@ td.column-left20 {
   margin-right: 0 !important;
 }
 
+.yc-all-read{
+  display: inline-block;
+  cursor: pointer;
+}
+
+.yc-all-clear{
+  font-size: 13px;
+}
+
+.yc-all-read-text{
+  color: $text-content;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
 // 居右靠齐
 .yc-public-floatRight {
   float: right;

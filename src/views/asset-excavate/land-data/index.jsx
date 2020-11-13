@@ -2,7 +2,7 @@ import React from 'react';
 import { message, Modal } from 'antd';
 import { changeURLArg, clearEmpty } from '@/utils';
 import {
-	Tabs, Button, Spin, Download,
+	Tabs, Button, Spin, Download, Icon,
 } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
 import { unReadCount } from '@/utils/api/monitor-info';
@@ -187,7 +187,7 @@ export default class Lawsuits extends React.Component {
 				onCancel() { },
 			});
 		} else {
-			message.warning('未选中业务');
+			message.warning('未选中数据');
 		}
 	};
 
@@ -314,6 +314,7 @@ export default class Lawsuits extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
+					borderBottom
 					onChange={this.onSourceType}
 					source={tabConfig}
 					field="process"
@@ -331,9 +332,13 @@ export default class Lawsuits extends React.Component {
 								onClick={() => this.handleReadChange('unread')}
 								title="只显示未读"
 							/>
-							<Button onClick={this.handleAllRead}>全部标为已读</Button>
-							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+							<div className="yc-all-read" onClick={this.handleAllRead}>
+								<Icon className="yc-all-clear" type="icon-clear" />
+								<span className="yc-all-read-text">全部标为已读</span>
+							</div>
+							{/* <Button onClick={this.handleAllRead}>全部标为已读</Button> */}
 							<div className="yc-public-floatRight">
+								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
@@ -344,10 +349,11 @@ export default class Lawsuits extends React.Component {
 							</div>
 						</div>
 					) : (
-						<div className="assets-auction-action">
+						<div className="yc-batch-management">
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								text="导出"
+								waringText="未选中数据"
 								field="idList"
 								selectIds
 								selectedRowKeys={() => this.selectRow}
@@ -360,7 +366,7 @@ export default class Lawsuits extends React.Component {
 									this.setState({ manage: false });
 									this.selectRow = [];
 								}}
-								title="取消管理"
+								title="取消批量管理"
 							/>
 						</div>
 					)

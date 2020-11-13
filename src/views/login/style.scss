@@ -307,3 +307,25 @@
     }
   }
 }
+
+.error-modal{
+  .anticon-cross-circle{
+    color: $common-error !important;
+  }
+  .error-title{
+    color: $text-title;
+    font-size: 16px;
+    font-weight: 600;
+    height: 16px;
+    line-height: 16px;
+  }
+  .error-content{
+    color: $text-content;
+    font-size: 14px;
+    font-weight: 400;
+    height: 42px;
+    padding-top: 10px;
+  }
+}
+
+

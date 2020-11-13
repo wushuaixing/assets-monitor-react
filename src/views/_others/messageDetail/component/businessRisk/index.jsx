@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import '../../style.scss';
+import PropTypes from 'reactPropTypes';
 import IllegalTaxation from './illegalTaxation';
 import EnvironmentPunishment from './environmentPunishment';
+import '../../style.scss';
 
 class BusinessRisk extends Component {
 	constructor(props) {
@@ -25,10 +26,7 @@ class BusinessRisk extends Component {
 			id, title, total, childrenCount, stationId,
 		} = this.props;
 		const { obligorId } = this.state;
-		const peopleProps = {
-			stationId,
-			obligorId,
-		};
+		const peopleProps = { stationId, obligorId };
 		const config = childrenCount && childrenCount.filter(item => item.count > 0);
 		return (
 			<React.Fragment>
@@ -64,5 +62,24 @@ class BusinessRisk extends Component {
 		);
 	}
 }
+
+BusinessRisk.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	childrenCount: PropTypes.array,
+};
+
+BusinessRisk.defaultProps = {
+	id: 'message-intangible',
+	title: '动产抵押',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+	childrenCount: [],
+};
 
 export default BusinessRisk;

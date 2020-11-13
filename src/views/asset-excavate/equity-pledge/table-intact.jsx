@@ -1,8 +1,8 @@
 import React from 'react';
-import Table from '../financial-assets/table/stock';
-import { attentionFollowListResult } from '@/utils/api/monitor-info/finance';
+import { attentionFollowListResult } from '@/utils/api/monitor-info/pledge';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
+import Table from './table';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -51,7 +51,7 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=() => {
+	toGetData = () => {
 		this.setState({ loading: true });
 		const { reqUrl } = this.props;
 		const toApi = reqUrl || attentionFollowListResult;
@@ -103,7 +103,6 @@ export default class TableIntact extends React.Component {
 					<Table {...tableProps} />
 				</Spin>
 			</div>
-
 		);
 	}
 }

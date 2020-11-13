@@ -5,8 +5,8 @@ import PropTypes from 'reactPropTypes';
 import { exportFile, normalGet } from '@/utils/api/home';
 import { Icon as IconType } from '@/common';
 import { clearEmpty, urlEncode, DownloadFile } from '@/utils';
-import Button from '../button';
 import baseUrl from '@/utils/api/config';
+import Button from '../button';
 import ModalTable from '../../views/business/business-views/modalTable';
 
 const cookies = new Cookies();
@@ -18,9 +18,9 @@ export default class Download extends React.Component {
 		};
 	}
 
-	handleDownload=() => {
+	handleDownload = () => {
 		const {
-			api, condition, all, field, current, page, num, selectIds, selectData, selectedRowKeys, normal, type,
+			api, condition, all, field, current, page, num, selectIds, selectData, selectedRowKeys, normal, type, waringText,
 		} = this.props;
 
 		// 处理变量参数
@@ -95,7 +95,7 @@ export default class Download extends React.Component {
 					onCancel() {},
 				});
 			} else {
-				message.warning('未选中业务');
+				message.warning(waringText || '未选中业务');
 			}
 		} else if (all) {
 			console.log('一键导出');
@@ -113,13 +113,13 @@ export default class Download extends React.Component {
 				console.log('部分导出');
 				toOkClick();
 			} else {
-				message.warning('未选中业务');
+				message.warning(waringText || '未选中业务');
 			}
 			// window.open(`${api}?${urlEncode(clearEmpty(_condition))}`, '_self');
 		} else if (normal) {
 			toOkClick();
 		} else {
-			message.warning('未选中业务');
+			message.warning(waringText || '未选中业务');
 		}
 		return false;
 	};

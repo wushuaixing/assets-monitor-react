@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import { markRead } from '@/utils/api/message';
 import TableUnBlock from '@/views/asset-excavate/seized-unblock/table/table';
 import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
-
+import { clearZero } from '@/utils';
 
 class UnBlock extends Component {
 	constructor(props) {
@@ -34,6 +35,7 @@ class UnBlock extends Component {
 		}
 	}
 
+	// 请求监控详情页数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -48,7 +50,7 @@ class UnBlock extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -65,6 +67,7 @@ class UnBlock extends Component {
 		});
 	};
 
+	// 页脚变化，请求数据
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -84,6 +87,7 @@ class UnBlock extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -125,4 +129,22 @@ class UnBlock extends Component {
 		);
 	}
 }
+
+
+UnBlock.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+UnBlock.defaultProps = {
+	id: 'message-unBlock',
+	title: '查/解封资产',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+};
+
 export default UnBlock;

@@ -1,22 +1,58 @@
 import React from 'react';
-import PropTypes from 'reactPropTypes';
 import { Pagination } from 'antd';
+import PropTypes from 'reactPropTypes';
 import { Attentions, SortVessel } from '@/common/table';
-import { readStatus } from '@/utils/api/monitor-info/finance';
-import api from '@/utils/api/monitor-info/finance';
+import { readStatusMerchants } from '@/utils/api/monitor-info/finance';
 import { Table, SelectedNum, Ellipsis } from '@/common';
-import { ProjectPubInfo } from '@/views/asset-excavate/assets-auction/tableComponents';
+import accurate from '@/assets/img/icon/icon-jinzhun.png';
+import api from '@/utils/api/monitor-info/finance';
+import { floatFormat } from '@/utils/format';
+import './style.scss';
 
-const projectTypeMap = new Map([
-	[1, '股权项目'],
-	[2, '债权项目'],
-	[3, '资产项目'],
-	[4, '租赁项目'],
-	[5, '增资项目'],
-	[6, '其他项目'],
-	[-1, ' 未知'],
+// 资产类型的映射
+export const assetsTypeMap = new Map([
+	['200794003', '其他交通工具'],
+	['50025970', '土地'],
+	['50025975', '工程'],
+	['50025974', '矿权'],
+	['122406001', '无形资产'],
+	['56936003', '机械设备'],
+	['50025973', '林权'],
+	['200778005', '海域'],
+	['125228021', '船舶'],
+	['125088031', '股权'],
+	['50025971', '实物资产'],
+	['50025972', '机动车'],
+	['201290015', '奢侈品'],
+	['50025969', '房产'],
+	['56956002', '债权'],
+	['50025976', '其他'],
+	['0', '未知'],
+	['default', '-'],
 ]);
 
+// 当前状态的映射
+const statusMap = new Map([
+	[1, '即将开始'],
+	[3, '正在进行'],
+	[5, '已成交'],
+	[7, '已流拍 '],
+	[9, '中止'],
+	[11, '撤回'],
+	[13, '结束'],
+	['default', '-'],
+]);
+
+const statusColorMap = new Map([
+	[1, 'yellow'],
+	[3, 'bule'],
+	[5, 'green'],
+	[7, 'gray '],
+	[9, 'gray'],
+	[11, 'gray'],
+	[13, 'gray'],
+	['default', 'yellow'],
+]);
 // 获取表格配置
 const columns = (props) => {
 	const {
@@ -26,15 +62,16 @@ const columns = (props) => {
 		sortField,
 		sortOrder,
 	};
+
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? '发布日期'
-				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} {...sort}>发布日期</SortVessel>),
-			dataIndex: 'gmtPublish',
-			width: 160,
+			title: <span style={{ marginLeft: 10 }}>关联债务人</span>,
+			width: 290,
+			dataIndex: 'obligorName',
 			render: (text, row) => (
 				<div>
+					{row.accurateType === 1 ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
 					{ !row.isRead
 						? (
 							<span
@@ -42,52 +79,64 @@ const columns = (props) => {
 								style={!row.isRead && row.isRead !== undefined ? { position: 'absolute' } : {}}
 							/>
 						) : null}
-					<span style={{ marginLeft: 10 }}>{text || '-'}</span>
+					<li style={{ marginLeft: 10 }}>
+						<Ellipsis
+							content={text}
+							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+							tooltip
+							width={250}
+						/>
+					</li>
 				</div>
 			),
 		},
 		{
-			title: '关联债务人',
-			dataIndex: 'obligorId',
-			width: 250,
+			title: '资产类型',
+			dataIndex: 'category',
+			render: text => <span>{assetsTypeMap.get(`${text}`) || '-'}</span>,
+		},
+		{
+			title: (noSort ? '招商信息'
+				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} mark="(发布日期)" {...sort}>招商信息</SortVessel>),
+			width: 496,
+			dataIndex: 'publishTime',
 			render: (text, row) => (
-				<Ellipsis
-					content={row.obligorName || '-'}
-					url={text ? `#/business/debtor/detail?id=${text}` : ''}
-					tooltip
-					width={250}
-				/>
+				<div className="assets-info-content">
+					<li>
+						<div className={`project-status ${statusColorMap.get(row.status)}`}>{statusMap.get(row.status)}</div>
+						<Ellipsis
+							content={row.title}
+							url={row.url || ''}
+							tooltip
+							width={310}
+						/>
+					</li>
+					{
+						row.referencePrice ? (
+							<li>
+								<span className="list list-title">参考价：</span>
+								<span className="info-content info-over reference-price">
+									{`${floatFormat(row.referencePrice.toFixed(2))}${row.referencePriceUnit}`}
+								</span>
+							</li>
+						) : null
+					}
+					{
+						text ? (
+							<li>
+								<span className="list list-title align-justify">发布日期：</span>
+								<span className="list list-content">{text || '-'}</span>
+							</li>
+						) : null
+					}
+				</div>
 			),
-		},
-		{
-			title: '项目类型',
-			dataIndex: 'projectType',
-			width: 150,
-			render: text => <span>{projectTypeMap.get(text) || '-'}</span>,
-		},
-		{
-			title: '项目名称',
-			dataIndex: 'title',
-			render: (text, row) => (
-				<Ellipsis
-					content={text || '-'}
-					url={text ? `${row.sourceUrl}` : ''}
-					tooltip
-					width={250}
-				/>
-			),
-		},
-		{
-			title: '项目信息',
-			width: 255,
-			render: (text, row) => ProjectPubInfo(text, row),
 		},
 		{
 			title: (noSort ? '更新日期'
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
-			dataIndex: 'updateTime',
-			width: 120,
-			render: text => <span>{text || '-'}</span>,
+			dataIndex: 'gmtModified',
+			render: text => <span>{text}</span>,
 		},
 		{
 			title: '操作',
@@ -99,9 +148,8 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? api.unFollowPub : api.followPub}
+					api={row.isAttention ? api.unFollowMerchants : api.followMerchants}
 					index={index}
-					// single
 				/>
 			),
 		}];
@@ -128,7 +176,7 @@ class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
 		if (!isRead && !manage) {
-			readStatus({ id }).then((res) => {
+			readStatusMerchants({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}
@@ -137,7 +185,7 @@ class TableView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, record) => {
+	onSelectChange = (selectedRowKeys, record) => {
 		// const _selectedRowKeys = record.map(item => item.id);
 		console.log(record);
 		const { onSelect } = this.props;
@@ -169,21 +217,22 @@ class TableView extends React.Component {
 					onRowClick={this.toRowClick}
 				/>
 				{dataSource && dataSource.length > 0 && isShowPagination && (
-				<div className="yc-table-pagination">
-					<Pagination
-						showQuickJumper
-						pageSize={pageSize || 10}
-						current={current || 1}
-						total={total || 0}
-						onChange={onPageChange}
-						showTotal={totalCount => `共 ${totalCount} 条信息`}
-					/>
-				</div>
+					<div className="yc-table-pagination">
+						<Pagination
+							showQuickJumper
+							pageSize={pageSize || 10}
+							current={current || 1}
+							total={total || 0}
+							onChange={onPageChange}
+							showTotal={totalCount => `共 ${totalCount} 条信息`}
+						/>
+					</div>
 				)}
 			</React.Fragment>
 		);
 	}
 }
+
 TableView.propTypes = {
 	current: PropTypes.number,
 	total: PropTypes.number,
@@ -203,9 +252,9 @@ TableView.defaultProps = {
 	isShowPagination: true,
 	manage: false,
 	dataSource: [],
+	onRefresh: () => {},
 	onPageChange: () => {},
 	onSelect: () => {},
-	onRefresh: () => {},
 };
 
 export default TableView;

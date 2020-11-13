@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import { markRead } from '@/utils/api/message';
 import TableTender from '@/views/asset-excavate/tender-bid/table';
 import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
-
 
 class Bidding extends Component {
 	constructor(props) {
@@ -34,6 +34,7 @@ class Bidding extends Component {
 		}
 	}
 
+	// 请求监控日报详情数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -65,6 +66,7 @@ class Bidding extends Component {
 		});
 	};
 
+	// 监听页脚变化
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -84,6 +86,7 @@ class Bidding extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -125,4 +128,20 @@ class Bidding extends Component {
 		);
 	}
 }
+
+Bidding.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+Bidding.defaultProps = {
+	id: 'message-tender',
+	title: '招投标',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+};
 export default Bidding;

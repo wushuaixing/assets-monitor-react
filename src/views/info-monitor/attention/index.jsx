@@ -2,11 +2,12 @@ import React from 'react';
 import { Tabs, Spin } from '@/common';
 import { changeURLArg, parseQuery, toGetRuleSource } from '@/utils';
 import {
-	subrogationCount, financeCount, landCount, lawsuitCount, operationCount,
+	subrogationCount, landCount, lawsuitCount, operationCount,
 } from '@/utils/api/monitor-info/attention';
 import Intangible from '@/utils/api/monitor-info/intangible';
 import './style.scss';
-import { requestAll } from '@/utils/promise';
+import { promiseAll, requestAll } from '@/utils/promise';
+import Apis from 'api/monitor-info/finance';
 import Item from './item';
 
 export default class MyAttention extends React.Component {
@@ -101,17 +102,40 @@ export default class MyAttention extends React.Component {
 				});
 			});
 		} else if (type === 'YC0205') {
-			financeCount().then((res) => {
+			const promiseArray = [];
+			promiseArray.push(Apis.attentionFollowBidCount());
+			promiseArray.push(Apis.attentionFollowCountMerchants());
+			promiseArray.push(Apis.attentionFollowCountPub());
+			// 将传入promise.all的数组进行遍历，如果catch住reject结果，
+			// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
+			// console.log(promiseArray, 123);
+			const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+			handlePromise.then((res) => {
+				console.log(' YC0205 === ', res, _source.child);
 				_source.child = _source.child.map((item) => {
 					const _item = item;
-					// console.log(item, 1);
-					if (item.id === 'YC020501') _item.number = res.Bid;
-					else if (item.id === 'YC020502') _item.number = res.Pub;
-					// else if (item.id === 'YC020503') _item.number = res.Result;
+					if (item.id === 'YC020501') _item.number = res.filter(i => i.name === 'bid')[0].data;
+					else if (item.id === 'YC020502') _item.number = res.filter(i => i.name === 'merchants')[0].data;
+					else if (item.id === 'YC020503') _item.number = res.filter(i => i.name === 'pub')[0].data;
 					return _item;
 				});
 				this.setState({ source: _source });
+			}).catch((reason) => {
+				console.log('promise reject failed reason', reason);
 			});
+
+			// financeCount().then((res) => {
+			// 	_source.child = _source.child.map((item) => {
+			// 		const _item = item;
+			// 		console.log('res ===', res);
+			// 		if (item.id === 'YC020501') _item.number = res.Bid;
+			// 		else if (item.id === 'YC020502') _item.number = res.Pub;
+			// 		else if (item.id === 'YC020503') _item.number = res.Pub;
+			// 		// else if (item.id === 'YC020503') _item.number = res.Result;
+			// 		return _item;
+			// 	});
+			// 	this.setState({ source: _source });
+			// });
 		} else if (type === 'YC0207') {
 			const urlList = source.child.map(item => ({
 				api: Intangible(item.id, 'followListCount')(),
@@ -134,7 +158,7 @@ export default class MyAttention extends React.Component {
 	};
 
 	// Type变化
-	onType=(nextType) => {
+	onType = (nextType) => {
 		const { initType } = this.state;
 		if (nextType !== initType) {
 			const config = (toGetRuleSource(global.ruleSource, 'YC10', nextType) || {}).child.filter(i => i.status);
@@ -145,7 +169,7 @@ export default class MyAttention extends React.Component {
 	};
 
 	/* sourceType变化  */
-	onSourceType=(nextSourceType) => {
+	onSourceType = (nextSourceType) => {
 		const { config, sourceType } = this.state;
 		if (nextSourceType !== sourceType) {
 			const source = config.filter(i => i.id === nextSourceType)[0];
@@ -192,6 +216,7 @@ export default class MyAttention extends React.Component {
 		return (
 			<div className="yc-monitor-attention">
 				<Tabs.Simple
+					borderBottom
 					onChange={this.onType}
 					source={initConfig}
 					field="init"
@@ -199,7 +224,7 @@ export default class MyAttention extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">我的收藏</div>}
 				/>
 				<div className="yc-monitor-attention-content">
-					<Tabs.Simple onChange={this.onSourceType} source={newConfig} field="process" />
+					<Tabs.Simple borderBottom onChange={this.onSourceType} source={newConfig} field="process" />
 					{ loading ? <Spin visible /> : <Item {...content} mark="子模块展示内容" /> }
 				</div>
 

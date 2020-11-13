@@ -213,7 +213,7 @@ module.exports = {
 		}
 	],
 
-	/* 画像查询 => 企业画像查询 => 概况 */
+	/* 画像查询 => 企业画像查询 => 概览 */
 	// 资产概况 => 资产拍卖
 	A10201:{
 		auctionInfos: [
@@ -452,8 +452,9 @@ module.exports = {
 			},
 		],
 	},
-	// 涉诉信息
+	// 涉诉信息 （失信记录）
 	A10206:{
+		// 失信记录 - 年份分布
 		assetOverviewDishonestInfo: {
 			yearDistributions: [
 				{
@@ -595,25 +596,34 @@ module.exports = {
 		},
 		shareholderInfos: [
 			{
-				investorName: '沃伟东',
+				name: '沃伟东',
 				paymet: '货币',
 				subscribeAmount: 110700000,
 				subscribeAmountName: '11070万元',
-				subscribeAmountRate: 90,
+				rate: 90,
 				time: '1997-06-11',
 			},
 			{
-				investorName: '孙红敏',
+				name: '孙红敏',
 				paymet: '货币',
 				subscribeAmount: 12300000,
 				subscribeAmountName: '1230万元',
-				subscribeAmountRate: 10,
+				rate: 10,
 				time: '1997-06-11',
 			},
 		],
 	},
+	// 破产重组
+	A10209:{
+		bankruptcy: 2,
+		gmtCreate: null,
+		yearDistributions: [{count: 2, year: 2020}]
+	},
+
+
 
 	/* 画像查询 => 企业画像查询 => 资产 */
+	// 资产拍卖 - 精准匹配
 	A10301:{
 		hasNext: false,
 		list: [
@@ -758,6 +768,152 @@ module.exports = {
 		pages: 1,
 		total: 4,
 	},
+	// 资产拍卖 - 模糊匹配
+	A10312:{
+		hasNext: false,
+		list: [
+			{
+				consultPrice: 207400,
+				court: '重庆市渝北区人民法院',
+				currentPrice: 165920,
+				historyAuctions: [
+					{
+						consultPrice: 207400,
+						court: '重庆市渝北区人民法院',
+						currentPrice: 207400,
+						round: '第一次拍卖',
+						start: '2018-01-03',
+						status: 7,
+						title: '【第一次拍卖】重庆市双桥区双南路62号附7号',
+						url: '//sf.taobao.com/sf_item/562196709686.htm',
+					},
+					{
+						consultPrice: 207400,
+						court: '重庆市渝北区人民法院',
+						currentPrice: 165920,
+						round: '变卖',
+						start: '2018-07-12',
+						status: 5,
+						title: '【变卖】重庆市双桥区双南路62号附7号',
+						url: '//sf.taobao.com/sf_item/572189316132.htm',
+					},
+				],
+				matchRemark: '智能分析发现重庆文化产业融资担保有限责任公司为拍卖资产所有人的债权人',
+				obligors: [
+					{
+						birthday: 0,
+						gender: 0,
+						label_type: 2,
+						name: '重庆文化产业融资担保有限责任公司',
+						notes: '',
+						number: '1500000699293635Q',
+						type: 2,
+					},
+				],
+				parsingTitle: '重庆市双桥区双南路62号附7号',
+				start: '2018-03-21',
+				status: 7,
+				title: '【第二次拍卖】重庆市双桥区双南路62号附7号',
+				url: '//sf.taobao.com/sf_item/565464142501.htm',
+			},
+			{
+				consultPrice: 3110100,
+				court: '重庆市渝北区人民法院',
+				currentPrice: 2177070,
+				historyAuctions: [
+					{
+						consultPrice: 3110100,
+						court: '重庆市渝北区人民法院',
+						currentPrice: 1741656,
+						round: '第二次拍卖',
+						start: '2018-09-28',
+						status: 7,
+						title: '【第二次拍卖】重庆市北部新区金开大道99号7幢1-4办公用房',
+						url: '//sf.taobao.com/sf_item/576989724022.htm',
+					},
+				],
+				matchRemark: '智能分析发现重庆文化产业融资担保有限责任公司为拍卖资产所有人的债权人(原告)',
+				obligors: [
+					{
+						birthday: 0,
+						gender: 0,
+						label_type: 2,
+						name: '重庆文化产业融资担保有限责任公司',
+						notes: '原告',
+						number: '',
+						type: 2,
+					},
+				],
+				parsingTitle: '重庆市北部新区金开大道99号7幢1-4办公用房',
+				start: '2018-07-30',
+				status: 7,
+				title: '【第一次拍卖】重庆市北部新区金开大道99号7幢1-4办公用房',
+				url: '//sf.taobao.com/sf_item/572810363009.htm',
+			},
+			{
+				consultPrice: 3110300,
+				court: '重庆市渝北区人民法院',
+				currentPrice: 2177210,
+				historyAuctions: [
+					{
+						consultPrice: 3110300,
+						court: '重庆市渝北区人民法院',
+						currentPrice: 1741768,
+						round: '第二次拍卖',
+						start: '2018-09-28',
+						status: 7,
+						title: '【第二次拍卖】重庆市北部新区金开大道99号7幢1-3办公用房',
+						url: '//sf.taobao.com/sf_item/577386427794.htm',
+					},
+				],
+				matchRemark: '智能分析发现重庆文化产业融资担保有限责任公司为拍卖资产所有人的债权人(抵押权人)',
+				obligors: [
+					{
+						birthday: 0,
+						gender: 0,
+						label_type: 2,
+						name: '重庆文化产业融资担保有限责任公司',
+						notes: '抵押权人',
+						number: '',
+						type: 2,
+					},
+				],
+				parsingTitle: '重庆市北部新区金开大道99号7幢1-3办公用房',
+				start: '2018-07-30',
+				status: 7,
+				title: '【第一次拍卖】重庆市北部新区金开大道99号7幢1-3办公用房',
+				url: '//sf.taobao.com/sf_item/572805787057.htm',
+			},
+			{
+				consultPrice: 305200,
+				court: '重庆市渝北区人民法院',
+				currentPrice: 213640,
+				historyAuctions: [],
+				matchRemark: '智能分析发现重庆文化产业融资担保有限责任公司为拍卖资产所有人的债权人(抵押权人)',
+				obligors: [
+					{
+						birthday: 0,
+						gender: 0,
+						label_type: 2,
+						name: '重庆文化产业融资担保有限责任公司',
+						notes: '抵押权人',
+						number: '',
+						type: 2,
+					},
+				],
+				parsingTitle: '璧山区丁家街道金贸街67号67',
+				start: '2018-12-24',
+				status: 5,
+				title: '【第一次拍卖】璧山区丁家街道金贸街67号67',
+				url: '//sf-item.taobao.com/sf_item/582586565127.htm',
+			},
+		],
+		num: 5,
+		page: 1,
+		pages: 1,
+		total: 4,
+	},
+	// 代位权 - 立案
 	A10302:{
 		hasNext: true,
 		list: [
@@ -900,6 +1056,7 @@ module.exports = {
 		pages: 4,
 		total: 17,
 	},
+	// 代位权 - 开庭
 	A10303:{
 		hasNext: true,
 		list: [{
@@ -1013,6 +1170,7 @@ module.exports = {
 		pages: 2,
 		total: 10,
 	},
+	// 代位权 - 裁判文书
 	A10304:{
 		hasNext: false,
 		list: [{
@@ -1357,6 +1515,7 @@ module.exports = {
 		pages: 2,
 		total: 9,
 	},
+	// 动产抵押
 	A10310:{
 		hasNext: true,
 		list: [
@@ -1411,6 +1570,7 @@ module.exports = {
 	},
 
 	/* 画像查询 => 企业画像查询 => 涉诉 */
+	// 涉诉信息 - 立案
 	A10401:{
 		hasNext: true,
 		list: [
@@ -1565,6 +1725,7 @@ module.exports = {
 		pages: 2,
 		total: 9,
 	},
+	// 涉诉信息 - 开庭
 	A10402:{
 		hasNext: true,
 		list: [
@@ -1859,6 +2020,7 @@ module.exports = {
 		pages: 2,
 		total: 6,
 	},
+	// 涉诉信息 - 裁判文书
 	A10403:{
 		hasNext: false,
 		list: [
@@ -1966,6 +2128,7 @@ module.exports = {
 		pages: 1,
 		total: 3,
 	},
+	// 涉诉信息 - 失信
 	A10404:{
 		hasNext: false,
 		list: [
@@ -1985,6 +2148,7 @@ module.exports = {
 	},
 
 	/* 画像查询 => 企业画像查询 => 经营 */
+	// 破产重组
 	A10501:{
 		hasNext: false,
 		list: [
@@ -2024,6 +2188,7 @@ module.exports = {
 		pages: 2,
 		total: 10,
 	},
+	// 经营异常
 	A10502:{
 		hasNext: true,
 		list: [
@@ -2078,6 +2243,7 @@ module.exports = {
 		pages: 5,
 		total: 24,
 	},
+	// 严重违法
 	A10503:{
 		hasNext: true,
 		list: [
@@ -2141,6 +2307,7 @@ module.exports = {
 		pages: 2,
 		total: 6,
 	},
+	// 税收违法
 	A10504:{
 		hasNext: false,
 		list: [
@@ -2157,6 +2324,7 @@ module.exports = {
 		pages: 1,
 		total: 1,
 	},
+	// 行政处罚
 	A10505:{
 		hasNext: true,
 		list: [

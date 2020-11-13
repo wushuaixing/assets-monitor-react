@@ -1,10 +1,11 @@
 import React from 'react';
-import Table from './stock';
+import PropTypes from 'reactPropTypes';
 import api from '@/utils/api/monitor-info/finance';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
+import Table from './merchants';
 
-export default class TableIntact extends React.Component {
+class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -27,7 +28,7 @@ export default class TableIntact extends React.Component {
 	}
 
 	// 排序触发
-	onSortChange=(field, order) => {
+	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.condition.page = 1;
@@ -35,15 +36,17 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		this.condition.page = val;
 		this.toGetData();
 		const { onPageChange } = this.props;
-		if (onPageChange)onPageChange();
+		if (typeof onPageChange === 'function') {
+			onPageChange();
+		}
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -54,10 +57,10 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=() => {
+	toGetData = () => {
 		this.setState({ loading: true });
 		const { reqUrl, id } = this.props;
-		const toApi = reqUrl || api.attentionFollowListResult;
+		const toApi = reqUrl || api.attentionListMerchants;
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -111,3 +114,17 @@ export default class TableIntact extends React.Component {
 		);
 	}
 }
+
+TableIntact.propTypes = {
+	noSort: PropTypes.bool,
+	normal: PropTypes.bool,
+	onPageChange: PropTypes.func,
+};
+
+TableIntact.defaultProps = {
+	normal: false,
+	noSort: false,
+	onPageChange: () => {},
+};
+
+export default TableIntact;

@@ -1,15 +1,14 @@
 import React from 'react';
 import { Modal, message } from 'antd';
-import QueryResult from './query';
-import TableResult from '../financial-assets/table/stock';
-
 import {
-	Button, Tabs, Spin, Download,
+	Button, Tabs, Spin, Download, Icon,
 } from '@/common';
-import { readStatusAll, readAllStatusResult } from '@/utils/api/monitor-info/finance';
-import Apis from '@/utils/api/monitor-info/finance';
+import { readStatusAll, readAllStatusResult } from '@/utils/api/monitor-info/pledge';
+import Apis from '@/utils/api/monitor-info/pledge';
 import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
+import QueryResult from './query';
+import TableResult from './table';
 
 // 获取api具体
 const api = (field, type) => {
@@ -17,7 +16,7 @@ const api = (field, type) => {
 	return Apis[`${field}Result`];
 };
 
-export default class Subrogation extends React.Component {
+export default class EquityPledge extends React.Component {
 	constructor(props) {
 		super(props);
 		document.title = '股权质押-资产挖掘';
@@ -65,23 +64,22 @@ export default class Subrogation extends React.Component {
 	}
 
 	// 清除排序状态
-	toClearSortStatus=() => {
+	toClearSortStatus = () => {
 		this.condition.sortColumn = '';
 		this.condition.sortOrder = '';
 	};
 
 	// 切换列表类型[仅公示项目]
-	handleReadChange=(val) => {
+	handleReadChange = (val) => {
 		this.setState({ isRead: val });
 		this.onQueryChange(this.condition, '', val, 1);
 	};
 
 	// 全部标记为已读
-	handleAllRead=() => {
+	handleAllRead = () => {
 		const _this = this;
 		const { tabConfig, sourceType } = this.state;
 		const selectTab = tabConfig.filter(i => i.id === sourceType);
-
 		if (selectTab && selectTab[0].dot) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
@@ -112,7 +110,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 批量关注
-	handleAttention=() => {
+	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource, sourceType } = this.state;
@@ -146,12 +144,12 @@ export default class Subrogation extends React.Component {
 				onCancel() {},
 			});
 		} else {
-			message.warning('未选中业务');
+			message.warning('未选中数据');
 		}
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -162,7 +160,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 排序触发
-	onSortChange=(field, order) => {
+	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, '', '', 1);
@@ -170,20 +168,20 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		const { manage } = this.state;
 		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
 	// 查询条件变化
-	onQuery =(con) => {
+	onQuery = (con) => {
 		this.toClearSortStatus();
 		this.onQueryChange(con, '', '', 1);
 	};
 
 	// 查询条件变化
-	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
+	onQueryChange = (con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
 		this.condition = Object.assign(con || this.condition, {
@@ -216,7 +214,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 查询是否有未读消息
-	onUnReadCount=() => {
+	onUnReadCount = () => {
 		const { tabConfig } = this.state;
 		unReadCount().then((res) => {
 			const { data, code } = res;
@@ -272,12 +270,14 @@ export default class Subrogation extends React.Component {
 										onClick={() => this.handleReadChange('else')}
 										title="只显示未读"
 									/>,
-									<Button onClick={this.handleAllRead}>全部标为已读</Button>,
+									<div className="yc-all-read" onClick={this.handleAllRead}>
+										<Icon className="yc-all-clear" type="icon-clear" />
+										<span className="yc-all-read-text">全部标为已读</span>
+									</div>,
 								] : null
 							}
-
-							<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							<div className="yc-public-floatRight">
+								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
@@ -287,10 +287,11 @@ export default class Subrogation extends React.Component {
 							</div>
 						</div>
 					) : (
-						<div className="assets-auction-action">
+						<div className="yc-batch-management">
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								text="导出"
+								waringText="未选中数据"
 								field="idList"
 								api={api('exportList', sourceType)}
 								selectIds
@@ -302,7 +303,7 @@ export default class Subrogation extends React.Component {
 									this.setState({ manage: false });
 									this.selectRow = [];
 								}}
-								title="取消管理"
+								title="取消批量管理"
 							/>
 						</div>
 					)

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
-import TablePledge from '@/views/asset-excavate/financial-assets/table/stock';
+import TablePledge from '@/views/asset-excavate/equity-pledge/table';
 import { Spin } from '@/common';
 
 class EquityPledge extends Component {
@@ -33,6 +34,7 @@ class EquityPledge extends Component {
 		}
 	}
 
+	// 请求获取数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -75,6 +77,7 @@ class EquityPledge extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -86,6 +89,7 @@ class EquityPledge extends Component {
 		}
 	};
 
+	// 监听table翻页
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -124,4 +128,21 @@ class EquityPledge extends Component {
 		);
 	}
 }
+
+EquityPledge.propTypes = {
+	id: PropTypes.string,
+	title: PropTypes.string,
+	total: PropTypes.number,
+	obligorId: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+EquityPledge.defaultProps = {
+	id: 'message-equityPledge',
+	title: '股权质押',
+	total: 0,
+	obligorId: 0,
+	stationId: 0,
+};
+
 export default EquityPledge;

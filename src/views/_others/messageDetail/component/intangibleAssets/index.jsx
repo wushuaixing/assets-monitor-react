@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import '../../style.scss';
 import Sewage from './sewage';
 import Mining from './mining';
@@ -68,5 +69,25 @@ class IntangibleAssets extends Component {
 		);
 	}
 }
+
+IntangibleAssets.propTypes = {
+	obligorId: PropTypes.number,
+	id: PropTypes.string,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+	title: PropTypes.string,
+	// eslint-disable-next-line react/forbid-prop-types
+	childrenCount: PropTypes.array,
+};
+
+IntangibleAssets.defaultProps = {
+	obligorId: 0,
+	total: 0,
+	stationId: 0,
+	id: 'message-invisibleAssets',
+	title: '无形资产',
+	childrenCount: [],
+};
+
 
 export default IntangibleAssets;

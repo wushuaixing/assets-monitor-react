@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
-import TableBiding from '@/views/asset-excavate/financial-assets/table/bidding';
+import TableMerchants from '@/views/asset-excavate/financial-assets/table/merchants';
 import { Spin } from '@/common';
 import { clearZero } from '@/utils';
 
-class Competition extends Component {
+class Merchants extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -35,7 +35,7 @@ class Competition extends Component {
 		}
 	}
 
-	// 请求数据
+	// 请求获取监控日报数据
 	toGetData = () => {
 		const { stationId, dataType } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -90,7 +90,7 @@ class Competition extends Component {
 		}
 	};
 
-	// 监听页脚变化
+	// 监听table翻页函数
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -115,24 +115,24 @@ class Competition extends Component {
 		};
 		return (
 			<Spin visible={loading}>
-				<TableBiding {...tableProps} />
+				<TableMerchants {...tableProps} />
 			</Spin>
 		);
 	}
 }
 
-Competition.propTypes = {
-	total: PropTypes.number,
+Merchants.propTypes = {
 	obligorId: PropTypes.number,
 	dataType: PropTypes.number,
+	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
-Competition.defaultProps = {
-	total: 0,
+Merchants.defaultProps = {
 	obligorId: 0,
-	dataType: 10601,
+	dataType: 10603,
+	total: 0,
 	stationId: 0,
 };
 
-export default Competition;
+export default Merchants;

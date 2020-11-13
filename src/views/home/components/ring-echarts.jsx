@@ -8,6 +8,8 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 	},
 	color: customColorArray || ['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#FB8E3C', '#F2657A', '#965EE3', '#4561FF'],
 	legend: {
+		// inactiveColor: '#1C80E1',
+		// selectedMode: false, // 取消图例上的点击事件
 		itemWidth: 6, // 图例大小  我这里用的是圆
 		itemGap: 16, // 图例之间的间隔
 		orient: 'horizontal', // 布局方式，默认水平布局，另可选vertical
@@ -196,7 +198,8 @@ class RingEcharts extends PureComponent {
 		}
 	}
 
-	toDrawEcharts =() => {
+	// 绘制图表，将数据绘制在dom上
+	toDrawEcharts = () => {
 		const {
 			id, title, customColorArray, Data, getRingEchartsType,
 		} = this.props;
@@ -212,12 +215,17 @@ class RingEcharts extends PureComponent {
 		}
 		const DOM = document.getElementById(`${id}RingEcharts`);
 		const myChart = isIe ? window.echarts.init(DOM) : echarts.init(DOM);
-		myChart.on('legendSelectChanged', (obj) => {
-			const { selected, name } = obj;
-			// const legend = obj.name; // 使用 legendToggleSelect Action 会重新触发 legendSelectChanged Event，导致本函数重复运行 // 使得 无 selected 对象
+		myChart.on('legendselectchanged', (params) => {
+			const { selected, name } = params;
 			if (name && selected !== undefined) {
-				getRingEchartsType(obj);
+				getRingEchartsType(params);
 			}
+			// 重置options
+			myChart.setOption({
+				legend: {
+					selected: { [params.name]: true },
+				},
+			});
 		});
 
 		// console.log('newRingArray === ', newRingArray);
@@ -233,9 +241,7 @@ class RingEcharts extends PureComponent {
 	render() {
 		const { id } = this.props;
 		return (
-			<div>
-				<div className="yc-ring-echarts" style={{ width: 560, height: 150, marginBottom: '15px' }} id={`${id}RingEcharts`} />
-			</div>
+			<div className="yc-ring-echarts" style={{ width: 560, height: 150, marginBottom: '15px' }} id={`${id}RingEcharts`} />
 		);
 	}
 }

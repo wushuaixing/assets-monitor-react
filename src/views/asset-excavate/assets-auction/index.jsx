@@ -87,7 +87,7 @@ export default class Assets extends React.Component {
 	}
 
 	// 获取统计信息
-	toInfoCount=() => {
+	toInfoCount = () => {
 		const { toRefreshCount } = this.props;
 		infoCount(this.condition).then((res) => {
 			if (res.code === 200) {
@@ -103,13 +103,13 @@ export default class Assets extends React.Component {
 	};
 
 	// 清除排序状态
-	toClearSortStatus=() => {
+	toClearSortStatus = () => {
 		this.condition.sortColumn = '';
 		this.condition.sortOrder = '';
 	};
 
 	// 获取导出条件
-	toExportCondition=(type) => {
+	toExportCondition = (type) => {
 		delete this.condition.processString;
 		if (this.condition.process === -1) this.condition.process = 0;
 		if (this.condition.process === 1) delete this.condition.process;
@@ -121,7 +121,7 @@ export default class Assets extends React.Component {
 	};
 
 	// 批量关注
-	handleAttention=() => {
+	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource } = this.state;
@@ -155,12 +155,12 @@ export default class Assets extends React.Component {
 				onCancel() {},
 			});
 		} else {
-			message.warning('未选中业务');
+			message.warning('未选中数据');
 		}
 	};
 
 	// sourceType变化
-	onSourceType=(val) => {
+	onSourceType = (val) => {
 		this.setState({
 			sourceType: val,
 			dataSource: '',
@@ -175,7 +175,7 @@ export default class Assets extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		// console.log('onRefresh:',data, type);
 		const { dataSource } = this.state;
 		const { index } = data;
@@ -195,21 +195,21 @@ export default class Assets extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		const { manage } = this.state;
 		// this.selectRow = [];
 		this.onQueryChange('', '', '', val, manage);
 	};
 
 	// 查询条件变化
-	onQuery =(con) => {
+	onQuery = (con) => {
 		// window.location.href = changeURLArg(window.location.href, 'title', '');
 		this.toClearSortStatus();
 		this.onQueryChange(con, '', '', 1);
 	};
 
 	// 发起查询请求
-	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
+	onQueryChange = (con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, current } = this.state;
 		this.condition = Object.assign(con || this.condition, {
 			process: _sourceType || sourceType,
@@ -249,6 +249,7 @@ export default class Assets extends React.Component {
 		});
 	};
 
+	// 跳转资产清收流程
 	toClearProcess = () => {
 		window.open('/#/monitor/clearProcess', '_blank');
 	};
@@ -281,6 +282,7 @@ export default class Assets extends React.Component {
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
 				<Tabs.Simple
+					borderBottom
 					onChange={this.onSourceType}
 					source={tabConfig}
 					field="process"
@@ -289,29 +291,30 @@ export default class Assets extends React.Component {
 				{
 					!manage ? (
 						<div className="assets-auction-action">
-							<Button
-								onClick={() => {
-									this.setState({ manage: true });
-									console.log(this.condition);
-								}}
-								title="批量管理"
-							/>
+							<span className="yc-icon-recovery-title" onClick={this.toClearProcess}>
+								<span className="yc-icon-recovery" />
+								资产清收流程
+							</span>
 							<span className="export-style">
-								<span className="yc-icon-recovery-title" onClick={this.toClearProcess}>
-									<span className="yc-icon-recovery" />
-									资产清收流程
-								</span>
+								<Button
+									onClick={() => {
+										this.setState({ manage: true });
+										console.log(this.condition);
+									}}
+									title="批量管理"
+								/>
 								<Download condition={() => this.toExportCondition('all')} api={exportList} all text="一键导出" />
 							</span>
 						</div>
 					) : (
-						<div className="assets-auction-action">
+						<div className="yc-batch-management">
 							<Button onClick={this.handleAttention} title="关注" />
 							<Download
 								condition={this.toExportCondition}
 								api={exportList}
 								field="idList"
 								text="导出"
+								waringText="未选中数据"
 								selectIds
 								selectedRowKeys={() => this.selectRow}
 							/>
@@ -320,7 +323,7 @@ export default class Assets extends React.Component {
 									this.setState({ manage: false });
 									this.selectRow = [];
 								}}
-								title="取消管理"
+								title="取消批量管理"
 							/>
 						</div>
 					)

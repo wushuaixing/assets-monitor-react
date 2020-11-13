@@ -3,10 +3,10 @@ import { Tooltip } from 'antd';
 import accurate from '@/assets/img/icon/icon-jinzhun.png';
 import dishonest1 from '@/assets/img/icon/icon_shixin.png';
 import dishonest2 from '@/assets/img/icon/icon_cengshixin.png';
-import Matching from './matching-reason';
 import { floatFormat } from '@/utils/format';
 import { formatDateTime } from '@/utils/changeTime';
 import { Button, Icon, Ellipsis } from '@/common';
+import Matching from './matching-reason';
 
 const statusType = (value) => {
 	switch (value) {
@@ -20,6 +20,22 @@ const statusType = (value) => {
 	default: return '-';
 	}
 };
+
+const peojectStatusMap = new Map([
+	[1, '预披露'],
+	[2, '等待挂牌'],
+	[3, '挂牌中'],
+	[4, '挂牌结束'],
+	[5, '报名中'],
+	[6, '报名结束'],
+	[7, '竞价中'],
+	[8, '竞价结束'],
+	[9, '已成交'],
+	[10, '已结束'],
+	[11, '中止'],
+	[0, '未知'],
+	[null, '未知'],
+]);
 
 const AssetsInfo = (text, rowContent, index, noMatching = false, asset) => {
 	const {
@@ -112,6 +128,87 @@ const ProjectInfo = (text, rowContent) => {
 					<span className="list list-title align-justify">发布日期：</span>
 					<span className="list list-content">{gmtPublish || '-'}</span>
 				</li>
+			</div>
+		</React.Fragment>
+	);
+};
+
+// 公示项目的项目信息
+const ProjectPubInfo = (text, rowContent) => {
+	const {
+		projectStatus, startTime, endTime, listingPrice, listingUnit, transactionPrice, transactionPriceUnit, amounts, publicityType,
+	} = rowContent;
+	return (
+		<React.Fragment>
+			<div className="assets-info-content">
+				{
+					projectStatus >= 0 || projectStatus === null ? (
+						<li>
+							<span className="list list-title align-justify" style={{ width: 'auto' }}>项目状态：</span>
+							<span>
+								{peojectStatusMap.get(projectStatus)}
+							</span>
+						</li>
+					) : null
+				}
+				{
+					publicityType === 1 || publicityType === null ? (
+						<React.Fragment>
+							{
+								startTime ? (
+									<li>
+										<span className="list list-title align-justify" style={{ width: 'auto' }}>挂牌开始日期：</span>
+										<span className="list list-content">{startTime}</span>
+									</li>
+								) : null
+							}
+							{
+								endTime ? (
+									<li>
+										<span className="list list-title align-justify" style={{ width: 'auto' }}>挂牌结束时间：</span>
+										<span className="list list-content">{endTime}</span>
+									</li>
+								) : null
+							}
+							{
+								listingPrice ? (
+									<li>
+										<span className="list list-title align-justify">挂牌价格：</span>
+										<span className="list list-content">
+											{floatFormat(listingPrice)}
+											{listingUnit}
+										</span>
+									</li>
+								) : null
+							}
+							{
+								transactionPrice ? (
+									<li>
+										<span className="list list-title align-justify">成交价格：</span>
+										<span className="list list-content">
+											{floatFormat(transactionPrice)}
+											{transactionPriceUnit}
+										</span>
+									</li>
+								) : null
+							}
+						</React.Fragment>
+					) : null
+				}
+				{
+					publicityType === 2 ? (
+						<React.Fragment>
+							{
+								amounts ? (
+									<li>
+										<span className="list list-title align-justify">资产总额：</span>
+										<span className="list list-content">{floatFormat(amounts)}</span>
+									</li>
+								) : null
+							}
+						</React.Fragment>
+					) : null
+				}
 			</div>
 		</React.Fragment>
 	);
@@ -325,5 +422,5 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 };
 
 export {
-	AssetsInfo, ProjectInfo, MatchingReason, AuctionInfo, DishonestInfo, JudgmentInfo, ExecuteInfo, ListingInfo,
+	AssetsInfo, ProjectInfo, ProjectPubInfo, MatchingReason, AuctionInfo, DishonestInfo, JudgmentInfo, ExecuteInfo, ListingInfo,
 };

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'reactPropTypes';
 import message from '@/utils/api/message/message';
 import { markRead } from '@/utils/api/message';
 import TableCourt from '@/views/asset-excavate/subrogation/table/court';
 import { Spin } from '@/common';
+import { clearZero } from '@/utils';
 
 class OpenCourt extends Component {
 	constructor(props) {
@@ -33,6 +35,7 @@ class OpenCourt extends Component {
 		}
 	}
 
+	// 请求监控详情页数据
 	toGetData = () => {
 		const { stationId, dataType } = this.props;
 		const { page, num, obligorId } = this.state;
@@ -49,7 +52,7 @@ class OpenCourt extends Component {
 		this.setState({
 			loading: true,
 		});
-		api(params).then((res) => {
+		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -77,6 +80,7 @@ class OpenCourt extends Component {
 		});
 	};
 
+	// 行点击事件
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
 		if (!isRead) {
@@ -88,6 +92,7 @@ class OpenCourt extends Component {
 		}
 	};
 
+	// 页脚变化，请求数据
 	onPageChange = (val) => {
 		this.setState({
 			page: val,
@@ -117,5 +122,19 @@ class OpenCourt extends Component {
 		);
 	}
 }
+
+OpenCourt.propTypes = {
+	obligorId: PropTypes.number,
+	dataType: PropTypes.number,
+	total: PropTypes.number,
+	stationId: PropTypes.number,
+};
+
+OpenCourt.defaultProps = {
+	obligorId: 0,
+	dataType: 10203,
+	total: 0,
+	stationId: 0,
+};
 
 export default OpenCourt;
