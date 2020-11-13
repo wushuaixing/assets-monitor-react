@@ -37,22 +37,15 @@ export default class VersionUpdateModal extends React.PureComponent {
 						<div className="yc-label-box">
 							<div className="yc-label-title">
 								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">资产监控增加</span>
-								<span className="yc-label-desp">查/解封资产</span>
+								<span className="yc-label-tips">金融资产增加招商项目信息</span>
 							</div>
 							<div className="yc-label-title">
 								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">风险监控增加</span>
-								<span className="yc-label-desp">限制高消费</span>
+								<span className="yc-label-tips">金融资产-公示项目增加AMC处置公告信息</span>
 							</div>
 							<div className="yc-label-title">
 								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">企业画像增加</span>
-								<span className="yc-label-desp">资产拍卖模糊匹配</span>
-							</div>
-							<div className="yc-label-title">
-								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">部分页面交互优化</span>
+								<span className="yc-label-tips">画像pdf完善与交互优化</span>
 							</div>
 						</div>
 						<Button className="yc-modal-btn" onClick={this.handleCancel}>我知道了</Button>

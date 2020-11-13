@@ -46,11 +46,11 @@ const statusMap = new Map([
 const statusColorMap = new Map([
 	[1, 'yellow'],
 	[3, 'bule'],
-	[5, 'gray'],
-	[7, 'red '],
-	[9, 'red'],
-	[11, 'red'],
-	[13, 'red'],
+	[5, 'green'],
+	[7, 'gray '],
+	[9, 'gray'],
+	[11, 'gray'],
+	[13, 'gray'],
 	['default', 'yellow'],
 ]);
 // 获取表格配置
