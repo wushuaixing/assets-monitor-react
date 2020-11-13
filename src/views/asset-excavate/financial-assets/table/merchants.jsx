@@ -84,7 +84,7 @@ const columns = (props) => {
 							content={text}
 							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
 							tooltip
-							width={150}
+							width={250}
 						/>
 					</li>
 				</div>
