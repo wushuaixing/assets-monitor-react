@@ -15,3 +15,8 @@ This solution will show you how to use React stack in IE8, then you don't have t
 + 画像概览结构调整：剔除经营风险里面的破产重组信息，在风险信息下面添加破产重组的年份分布
 + 画像资产拍卖添加模糊匹配
 
+#### 2.5 版本主要内容
++ 金融资产增加招商项目信息
++ 金融资产-公示项目增加AMC处置公告信息
++ 画像pdf完善与交互优化
+
