@@ -34,6 +34,7 @@ const peojectStatusMap = new Map([
 	[10, '已结束'],
 	[11, '中止'],
 	[0, '未知'],
+	[null, '未知'],
 ]);
 
 const AssetsInfo = (text, rowContent, index, noMatching = false, asset) => {
@@ -141,17 +142,17 @@ const ProjectPubInfo = (text, rowContent) => {
 		<React.Fragment>
 			<div className="assets-info-content">
 				{
-					projectStatus >= 0 ? (
+					projectStatus >= 0 || projectStatus === null ? (
 						<li>
 							<span className="list list-title align-justify" style={{ width: 'auto' }}>项目状态：</span>
-							<span className="list list-title align-justify">
+							<span>
 								{peojectStatusMap.get(projectStatus)}
 							</span>
 						</li>
 					) : null
 				}
 				{
-					publicityType === 1 ? (
+					publicityType === 1 || publicityType === null ? (
 						<React.Fragment>
 							{
 								startTime ? (
@@ -198,7 +199,7 @@ const ProjectPubInfo = (text, rowContent) => {
 					publicityType === 2 ? (
 						<React.Fragment>
 							{
-								amounts > 0 ? (
+								amounts ? (
 									<li>
 										<span className="list list-title align-justify">资产总额：</span>
 										<span className="list list-content">{floatFormat(amounts)}</span>

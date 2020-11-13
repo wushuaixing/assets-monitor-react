@@ -581,12 +581,18 @@ class BusinessView extends React.Component {
 					<div className="yc-noTab-hr" />
 
 					<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
-						 <Button className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
-							导入业务
-						 </Button>
-						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
-							<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
-						</Tooltip>
+						{
+							!openRowSelection ? (
+								<React.Fragment>
+									<Button className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
+										导入业务
+									</Button>
+									<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
+										<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
+									</Tooltip>
+								</React.Fragment>
+							) : null
+						}
 						<div className="yc-public-floatRight">
 							{
 								openRowSelection ? (
