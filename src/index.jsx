@@ -5,8 +5,7 @@ import { Provider } from 'react-redux';
 import { message } from 'antd';
 import store from './stores/app';
 import App from './views/app';
-// eslint-disable-next-line import/extensions
-import './assets/css';
+import './assets/css/index.scss';
 import './utils/config';
 
 const Version = 'v2.5.0';
