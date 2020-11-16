@@ -11,9 +11,10 @@ import './style.scss';
 const cookies = new Cookies();
 
 // 警示弹窗
-function warning([title, content]) {
-	Modal.warning({
+function error([title, content]) {
+	Modal.error({
 		style: { top: 160 },
+		className: 'error-modal',
 		title,
 		content,
 	});
@@ -63,7 +64,7 @@ class BusinessModal extends React.PureComponent {
 				}
 				const isOverMemory = file.size <= 16 * 1024 * 1024;
 				if (!isOverMemory) {
-					warning(['文件超过16兆', '文件过大，请调整后重新上传']);
+					error(['文件超过16M', '文件过大，请调整后重新上传']);
 					that.setState({
 						isOverSize: true,
 					});
@@ -108,7 +109,7 @@ class BusinessModal extends React.PureComponent {
 								loading: false,
 							});
 							// 第2行第C列，“名称”不能为空，这种类型的错误出现
-							warning([info.file.response.data.errorType, info.file.response.data.errorMessage]);
+							error([info.file.response.data.errorType, info.file.response.data.errorMessage]);
 						} else {
 							that.setState({
 								loading: false,
@@ -120,7 +121,7 @@ class BusinessModal extends React.PureComponent {
 							loading: false,
 						});
 					} else if (info.file.response.code === 20009) {
-						warning([info.file.response.data.errorType, info.file.response.data.errorMessage]);
+						error([info.file.response.data.errorType, info.file.response.data.errorMessage]);
 						that.setState({
 							loading: false,
 						});
@@ -158,8 +159,9 @@ class BusinessModal extends React.PureComponent {
 		return (
 			<Modal
 				title="导入业务"
-				width={447}
+				width={467}
 				visible={visible}
+				className="business-modal"
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmFile}
 				footer={<div> </div>}
@@ -182,7 +184,7 @@ class BusinessModal extends React.PureComponent {
 									{...this.uploadAttachmentParam()}
 								>
 									<Button className="yc-business-btn" style={{ width: 82, height: 32 }}>
-										<Icon type="icon-export" style={{ fontSize: 14, marginRight: 8, color: '#595959' }} />
+										<Icon type="icon-export" className="yc-business-btn-icon" />
 										<span className="business-oper-choose-box-upload">选择</span>
 									</Button>
 								</Upload>
