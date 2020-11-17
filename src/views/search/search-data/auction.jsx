@@ -7,7 +7,6 @@ import {
 	Input, timeRule, DatePicker,
 } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
-import InputPrice from '@/common/input/input-price';
 import './style.scss';
 
 const createForm = Form.create;
@@ -133,51 +132,8 @@ class AUCTION extends React.PureComponent {
 					</div>
 					<div style={_style3} className="item">
 						<Input
-							title="产权证"
-							maxLength="40"
-							placeholder="房产证/土地证"
-							{...getFieldProps('certificate', {
-								getValueFromEvent: e => e.trim(),
-							})}
-						/>
-					</div>
-					<div style={_style1} className="item">
-						<Input
-							title="处置机关"
-							maxLength="20"
-							placeholder="处置法院/单位"
-							{...getFieldProps('court', {
-								getValueFromEvent: e => e.trim(),
-							})}
-						/>
-					</div>
-					<div style={_style1} className="item">
-						<InputPrice
-							title="评估价"
-							style={_style1}
-							size="large"
-							suffix="万元"
-							maxLength="9"
-							inputFirstProps={getFieldProps('lowestConsultPrice', {
-								validateTrigger: 'onBlur',
-								getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-								rules: [
-									{ required: true },
-								],
-							})}
-							inputSecondProps={getFieldProps('highestConsultPrice', {
-								validateTrigger: 'onBlur',
-								getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
-								rules: [
-									{ required: true },
-								],
-							})}
-						/>
-					</div>
-					<div style={_style3} className="item">
-						<Input
-							title="地址"
-							placeholder="地址信息"
+							title="全文"
+							placeholder="关键字"
 							{...getFieldProps('addr', {
 								getValueFromEvent: e => e.trim(),
 							})}

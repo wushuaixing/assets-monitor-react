@@ -158,7 +158,7 @@ class BusinessView extends React.Component {
 									</div>
 									<div>
 										<span>
-											<span className="yc-td-title" style={{ marginRight: '4px' }}>拍卖时间:</span>
+											<span className="yc-td-title" style={{ marginRight: '4px' }}>开拍时间:</span>
 											<p style={{ display: 'inline-block', width: 120, marginRight: 6 }}>
 												{formatDateTime(row.start) || '-'}
 											</p>

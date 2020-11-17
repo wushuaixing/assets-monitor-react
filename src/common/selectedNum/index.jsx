@@ -9,10 +9,10 @@ class selectedNum extends React.Component {
 
 
 	render() {
-		const { num } = this.props;
+		const { num, style } = this.props;
 
 		return (
-			<div style={{ marginBottom: 16 }}>
+			<div style={style || { marginBottom: 16, position: 'absolute', top: -40 }}>
 				<img
 					style={{
 						height: 14, width: 14, position: 'relative', top: 3,
