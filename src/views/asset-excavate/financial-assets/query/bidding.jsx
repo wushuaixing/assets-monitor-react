@@ -9,7 +9,7 @@ import {
 import { clearEmpty } from '@/utils';
 import InputPrice from '@/common/input/input-price';
 import '../index.scss';
-import getUrlParams from '@/views/asset-excavate/query-util';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -63,11 +63,16 @@ class QueryCondition extends React.Component {
 
 	// 重置查询条件
 	handleReset = () => {
-		const { form, onQueryChange, clearSelectRowNum } = this.props;
-		clearSelectRowNum();// 清除选中项
-		form.resetFields();
-		const condition = form.getFieldsValue();
-		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
+		const url = window.location.hash;
+		if (url.indexOf('timeHorizon') !== -1) {
+			reserUrl();
+		} else {
+			const { form, onQueryChange, clearSelectRowNum } = this.props;
+			clearSelectRowNum();// 清除选中项
+			form.resetFields();
+			const condition = form.getFieldsValue();
+			if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
+		}
 	};
 
 	render() {

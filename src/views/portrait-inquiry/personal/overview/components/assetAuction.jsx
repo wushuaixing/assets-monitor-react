@@ -1,10 +1,10 @@
 import React from 'react';
 import TagSide from '@/views/portrait-inquiry/common/checkBtn';
-import ColumnarEcharts from '../../../common/columnarEcharts';
-import RingEcharts from '../../../common/ringEcharts';
 import { getAuction } from '@/utils/api/portrait-inquiry/personal/overview';
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
+import RingEcharts from '../../../common/ringEcharts';
+import ColumnarEcharts from '../../../common/columnarEcharts';
 
 export default class AssetAuction extends React.Component {
 	constructor(props) {

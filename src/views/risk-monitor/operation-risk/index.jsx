@@ -6,7 +6,7 @@ import {
 import { changeURLArg, clearEmpty } from '@/utils';
 import ruleMethods from '@/utils/rule';
 import API from '@/utils/api/risk-monitor/operation-risk';
-import getUrlParams from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
 import Table from './table';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs } from '@/common';
 import API from '@/utils/api/risk-monitor/operation-risk';
 import { unReadCount } from '@/utils/api/monitor-info';
-import getUrlParams from '@/views/asset-excavate/query-util';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 
 export default class TabsIntact extends React.Component {
 	constructor(props) {

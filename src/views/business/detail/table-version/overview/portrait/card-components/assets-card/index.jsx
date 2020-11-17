@@ -2,8 +2,8 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import { toThousands } from '@/utils/changeTime';
 import { Icon } from '@/common';
-import Card from '../card';
 import { navigateDetail } from '@/utils';
+import Card from '../card';
 import './style.scss';
 
 const hasCountStyle = { width: '754px', height: '155px', marginBottom: '20px' };
@@ -60,7 +60,7 @@ export default class RiskInformation extends React.Component {
 													<span style={{ color: '#FB5A5C', fontSize: '16px', marginRight: '5px' }}>
 														{auctionPropsData.assetTotal ? toThousands(auctionPropsData.assetTotal) : '0'}
 													</span>
-												元
+													元
 												</div>
 												<span className="business-auction-container-price-line" />
 											</div>
@@ -107,7 +107,7 @@ export default class RiskInformation extends React.Component {
 													<span style={{ color: '#FB5A5C', fontSize: '16px', marginRight: '5px' }}>
 														{auctionPropsData.assetTotal ? toThousands(auctionPropsData.assetTotal) : '0'}
 													</span>
-												元
+													元
 												</div>
 												<span className="business-auction-container-price-line" />
 											</div>
@@ -120,7 +120,7 @@ export default class RiskInformation extends React.Component {
 															<span className="business-auction-container-card-name">{item.typeName}</span>
 															<span className="business-auction-container-card-info">：</span>
 															<span className="business-auction-container-card-num">{item.count || 0}</span>
-																		条
+															条
 														</div>
 													</Row>
 												))

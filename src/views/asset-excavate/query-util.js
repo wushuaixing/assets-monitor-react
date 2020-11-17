@@ -1,4 +1,4 @@
-export default function getUrlParams(url, startTime, endTime) {
+export function getUrlParams(url, startTime, endTime) {
 	const defaultParam = {};
 	const str = url.split('?')[1]; // substr()方法返回从参数值开始到结束的字符串；
 	const strs = str.split('&');
@@ -26,4 +26,24 @@ export default function getUrlParams(url, startTime, endTime) {
 		dParams[endTime] = s1;
 	}
 	return dParams;
+}
+
+export function reserUrl() {
+	const url = window.location.hash;
+	const href = url.split('#')[1];
+	const paramsList = href.split('?');
+	let newUrl = paramsList[0];
+	let number = 0;
+	paramsList[1].split('&').forEach((i) => {
+		if (i.split('=')[0] !== 'timeHorizon' && number === 0) {
+			newUrl = `${newUrl}?${i}`;
+			number += 1;
+		} else if (i.split('=')[0] !== 'timeHorizon') {
+			newUrl = `${newUrl}&${i}`;
+		}
+	});
+	console.log(newUrl);
+	window.location.href = `#${newUrl}`;
+
+	window.location.reload();
 }

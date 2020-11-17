@@ -72,7 +72,7 @@ export default class Bankruptcy extends React.Component {
 
 								{hasDetail && isBusiness ? (
 									<div style={{ marginBottom: '12px', fontSize: '12px', marginLeft: '10px' }}>
-								涉及企业：
+										涉及企业：
 										{hasDetail && detail.map((item, index) => {
 											const key = item.obligorId;
 											return (

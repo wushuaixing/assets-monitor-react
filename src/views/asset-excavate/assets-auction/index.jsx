@@ -8,7 +8,7 @@ import {
 } from '@/utils/api/monitor-info/assets';
 import { clearEmpty, changeURLArg, getQueryByName } from '@/utils';
 import './style.scss';
-import getUrlParams from '@/views/asset-excavate/query-util';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 import Query from './query';
 import Table from './table';
 

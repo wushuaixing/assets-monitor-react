@@ -1,8 +1,8 @@
 import React from 'react';
-import { TableCourt, TableTrial, TableJudgment } from './table';
 import API from '@/utils/api/monitor-info/subrogation';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
+import { TableCourt, TableTrial, TableJudgment } from './table';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {

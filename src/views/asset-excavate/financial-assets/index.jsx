@@ -8,7 +8,7 @@ import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 import { promiseAll } from '@/utils/promise';
-import getUrlParams from '@/views/asset-excavate/query-util';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 import TableBidding from './table/bidding';
 import TableMerchants from './table/merchants';
 import QueryBidding from './query/bidding';

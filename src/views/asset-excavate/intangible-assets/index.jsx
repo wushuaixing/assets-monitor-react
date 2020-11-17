@@ -7,7 +7,7 @@ import {
 } from '@/common';
 import { changeURLArg, clearEmpty } from '@/utils';
 import ruleMethods from '@/utils/rule';
-import getUrlParams from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
 import Table from './table';

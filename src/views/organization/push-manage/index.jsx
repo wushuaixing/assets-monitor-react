@@ -4,12 +4,12 @@ import {
 } from 'antd';
 import { Table, Spin } from '@/common';
 import '../style.scss';
-import EditModal from './editModal';
-import Search from '../search';
 import {
 	pushManagerList, // liebiao
 	deleteList, // 删除
 } from '@/utils/api/organization';
+import EditModal from './editModal';
+import Search from '../search';
 
 
 const { confirm } = Modal;

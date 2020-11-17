@@ -6,7 +6,7 @@ import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import InputPrice from '@/common/input/input-price';
-import getUrlParams from '@/views/asset-excavate/query-util';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 import provinceList from '../../../../utils/provinceList';
 
 class QueryCondition extends React.Component {
@@ -56,11 +56,16 @@ class QueryCondition extends React.Component {
 	};
 
 	handleReset=() => {
-		const { form, onQueryChange, clearSelectRowNum } = this.props;
-		clearSelectRowNum();// 清除选中项
-		form.resetFields();
-		const condition = 	form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition, '', '', 1);
+		const url = window.location.hash;
+		if (url.indexOf('timeHorizon') !== -1) {
+			reserUrl();
+		} else {
+			const { form, onQueryChange, clearSelectRowNum } = this.props;
+			clearSelectRowNum();// 清除选中项
+			form.resetFields();
+			const condition = 	form.getFieldsValue();
+			if (onQueryChange)onQueryChange(condition, '', '', 1);
+		}
 	};
 
 	render() {

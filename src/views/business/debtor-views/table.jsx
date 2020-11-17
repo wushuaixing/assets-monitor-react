@@ -2,9 +2,9 @@ import React from 'react';
 import { Modal, Form, message } from 'antd';
 import { openPush, closePush } from '@/utils/api/debator';
 import { Ellipsis, Icon, Table } from '@/common';
+import { SortVessel } from '@/common/table';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
-import { SortVessel } from '@/common/table';
 
 const { confirm } = Modal;
 
@@ -143,12 +143,12 @@ class BusinessView extends React.Component {
 							text === 1 ? (
 								<span>
 									<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
-										开启
+									开启
 								</span>
 							) : (
 								<span>
 									<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
-										关闭
+									关闭
 								</span>
 							)
 						}

@@ -1,10 +1,10 @@
 import React from 'react';
-import TableBid from './table/bid';
-import TableIllegal from './table/illegal';
-import TablePunish from './table/punish';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';
+import TableBid from './table/bid';
+import TableIllegal from './table/illegal';
+import TablePunish from './table/punish';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {

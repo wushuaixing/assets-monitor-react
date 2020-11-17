@@ -219,7 +219,7 @@ class EditBusiness extends React.Component {
 						<div className="yc-from-container">
 							<span className="yc-from-label2">
 								<span className="yc-red">*</span>
-									借款人名称：
+								借款人名称：
 							</span>
 							<Input
 								onInput={this.isEdit}

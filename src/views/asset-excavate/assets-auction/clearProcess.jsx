@@ -1,6 +1,6 @@
 import React from 'react';
-import clearProcess from '../../../assets/img/img_flowchart.png';
 import { BreadCrumb } from '@/common';
+import clearProcess from '../../../assets/img/img_flowchart.png';
 import './style.scss';
 
 export default class BasicTable extends React.Component {

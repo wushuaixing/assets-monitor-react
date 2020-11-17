@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs } from '@/common';
 import { requestAll } from '@/utils/promise';
 import APISource from '@/utils/api/monitor-info/intangible';
-import getUrlParams from '@/views/asset-excavate/query-util';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 
 export default class TabsIntact extends React.Component {
 	constructor(props) {

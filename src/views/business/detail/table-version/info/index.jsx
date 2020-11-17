@@ -2,6 +2,7 @@ import React from 'react';
 import { getCount } from '@/utils/api/professional-work/info';
 import { Button, Spin } from '@/common';
 import { parseQuery } from '@/utils';
+import NoContent from '@/common/noContent';
 import BusinessInfo from './components/businessInfo';
 import KeyPersonnel from './components/keyPersonnel';
 import ShareholderInfo from './components/shareholderInfo';
@@ -9,7 +10,6 @@ import EquityPenetration from './components/equityPenetration';
 import Branch from './components/branch';
 import OutboundInvestment from './components/outboundInvestment';
 import BusinessCircles from './components/businessCircles';
-import NoContent from '@/common/noContent';
 
 const subItems = (data) => {
 	const result = [

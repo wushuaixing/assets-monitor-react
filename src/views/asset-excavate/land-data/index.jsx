@@ -8,7 +8,7 @@ import Api from '@/utils/api/monitor-info/public';
 import { unReadCount } from '@/utils/api/monitor-info';
 
 // 搜索框
-import getUrlParams from '@/views/asset-excavate/query-util';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 import QueryResult from './query/result';
 import QueryTransfer from './query/transfer';
 import QueryMortgage from './query/mortgage';

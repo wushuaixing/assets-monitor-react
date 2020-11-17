@@ -8,11 +8,11 @@ import React from 'react';
 import {
 	Form, Input, Button, message, Spin,
 } from 'antd';
-import PhoneModal from './noPhoneModal';
 import {
 	forgetPasswordStep2Sms, // 发送短信
 	smsValid, // 验证短信忘记密码-step1
 } from '@/utils/api/user';
+import PhoneModal from './noPhoneModal';
 import './style.scss';
 
 const FormItem = Form.Item;
