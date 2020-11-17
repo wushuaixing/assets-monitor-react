@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs } from '@/common';
 import { requestAll } from '@/utils/promise';
 import APISource from '@/utils/api/monitor-info/intangible';
+import getUrlParams from '@/views/asset-excavate/query-util';
 
 export default class TabsIntact extends React.Component {
 	constructor(props) {
@@ -22,7 +23,8 @@ export default class TabsIntact extends React.Component {
 		this.toGetUnReadCount(_source);
 		config.forEach((i, index) => {
 			if (i.id !== type) {
-				APISource(i.id, 'listCount')({}).then((res) => {
+				console.log(i.id, this.isUrlParams(i.id));
+				APISource(i.id, 'listCount')(this.isUrlParams(i.id)).then((res) => {
 					if (res.code === 200) {
 						_source[index].number = res.data;
 						this.setState({ _source });
@@ -33,10 +35,31 @@ export default class TabsIntact extends React.Component {
 		});
 	};
 
+	isUrlParams=(val) => {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			let dParams = {};
+			if (val === 'YC020701') {
+				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
+			}
+			if (val === 'YC020702') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			}
+			if (val === 'YC020703') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			} if (val === 'YC020704') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+
+			return dParams;
+		}
+		return {};
+	};
+
 	toGetUnReadCount=(config) => {
 		const { onRefresh } = this.props;
 		const { _source } = this.state;
-		const apiList = config.map(i => ({ api: APISource(i.id, 'listCount')({ isRead: 0 }), info: { id: i.id } }));
+		const apiList = config.map(i => ({ api: APISource(i.id, 'listCount')({ ...this.isUrlParams(i.id), isRead: 1 }), info: { id: i.id } }));
 		requestAll(apiList).then((res) => {
 			res.forEach((item, index) => {
 				_source[index].dot = item.data;

@@ -6,9 +6,10 @@ import {
 import { changeURLArg, clearEmpty } from '@/utils';
 import ruleMethods from '@/utils/rule';
 import API from '@/utils/api/risk-monitor/operation-risk';
+import getUrlParams from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
-import Table from './table'; /* Table 展示列表 */
+import Table from './table';
 
 const toGetConfig = () => {
 	const rule = ruleMethods.toGetRuleSource('', 'YC10', 'YC03');
@@ -47,7 +48,13 @@ export default class OperationRisk extends React.Component {
 		const sourceType = Tabs.Simple.toGetDefaultActive(this.config, 'process');
 		this.setState({
 			sourceType,
-		}, () =>	this.onQueryChange({}));
+		}, () => {
+			this.toInfoCount(sourceType);
+			const url = window.location.hash;
+			if (url.indexOf('?') === -1) {
+				this.onQueryChange({});
+			}
+		});
 	}
 
 	// 清除排序状态
@@ -141,6 +148,25 @@ export default class OperationRisk extends React.Component {
 		});
 	};
 
+	isUrlParams=(val) => {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			let dParams = {};
+			if (Number(val) === 1) {
+				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
+			}
+			if (Number(val) === 2) {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			}
+			if (Number(val) === 3) {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			return dParams;
+		}
+		return {};
+	};
+
+
 	// sourceType变化
 	onSourceType=(sourceType) => {
 		this.setState({
@@ -151,8 +177,9 @@ export default class OperationRisk extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.condition = {};
-		this.onQueryChange('', sourceType, 'all', 1);
+
+		this.onQueryChange(this.isUrlParams(sourceType), sourceType, 'all', 1);
+		this.toInfoCount(sourceType);
 		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
 	};
@@ -195,7 +222,6 @@ export default class OperationRisk extends React.Component {
 			loading: true,
 			manage: _manage || false,
 		});
-		this.toInfoCount(__type);
 		API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.config[toGetProcess(__type, this.config)].number = res.data.total;

@@ -7,6 +7,7 @@ import {
 } from '@/common';
 import InputPrice from '@/common/input/input-price';
 import './style.scss';
+import getUrlParams from '@/views/asset-excavate/query-util';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -24,6 +25,13 @@ class QueryCondition extends React.Component {
 			}, () => {
 				setFieldsValue({ title });
 			});
+		}
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'updateTimeStart', 'updateTimeEnd');
+			setFieldsValue({ updateTimeStart: dParams.updateTimeStart });
+			setFieldsValue({ updateTimeEnd: dParams.updateTimeEnd });
+			this.handleSubmit();
 		}
 		window._addEventListener(window.document, 'keyup', this.toKeyCode13);
 	}

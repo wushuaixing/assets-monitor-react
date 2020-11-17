@@ -7,6 +7,7 @@ import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import { clearEmpty } from '@/utils';
+import getUrlParams from '@/views/asset-excavate/query-util';
 
 const assetType = [
 	{ name: '房产', key: '50025969' },
@@ -35,6 +36,14 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'gmtModifyStart', 'gmtModifyEnd');
+			const { form: { setFieldsValue } } = this.props;
+			setFieldsValue({ gmtModifyStart: dParams.gmtModifyStart });
+			setFieldsValue({ gmtModifyEnd: dParams.gmtModifyEnd });
+			this.handleSubmit();
+		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 

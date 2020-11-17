@@ -52,7 +52,10 @@ export default class EquityPledge extends React.Component {
 		this.setState({
 			sourceType,
 		});
-		this.onQueryChange({}, sourceType);
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({}, sourceType);
+		}
 		this.onUnReadCount();
 		// this.setUnReadCount = setInterval(() => {
 		// 	this.onUnReadCount();

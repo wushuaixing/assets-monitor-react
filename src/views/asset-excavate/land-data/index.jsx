@@ -8,6 +8,7 @@ import Api from '@/utils/api/monitor-info/public';
 import { unReadCount } from '@/utils/api/monitor-info';
 
 // 搜索框
+import getUrlParams from '@/views/asset-excavate/query-util';
 import QueryResult from './query/result';
 import QueryTransfer from './query/transfer';
 import QueryMortgage from './query/mortgage';
@@ -77,7 +78,11 @@ export default class Lawsuits extends React.Component {
 		const { tabConfig } = this.state;
 		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
 		this.setState({ sourceType });
-		this.onQueryChange({}, sourceType);
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({}, sourceType);
+		}
+
 		this.onUnReadCount();
 		// this.setUnReadCount = setInterval(() => {
 		// 	this.onUnReadCount();
@@ -202,6 +207,24 @@ export default class Lawsuits extends React.Component {
 		});
 	};
 
+	isUrlParams=(val) => {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			let dParams = {};
+			if (Number(val) === 1) {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			if (Number(val) === 2) {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			if (Number(val) === 3) {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			return dParams;
+		}
+		return {};
+	};
+
 	// sourceType变化
 	onSourceType = (val) => {
 		this.setState({
@@ -212,7 +235,7 @@ export default class Lawsuits extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange({}, val, 1, 1);
+		this.onQueryChange(this.isUrlParams(val), val, 1, 1);
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 

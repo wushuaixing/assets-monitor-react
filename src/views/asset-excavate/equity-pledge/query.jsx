@@ -5,6 +5,7 @@ import {
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+import getUrlParams from '@/views/asset-excavate/query-util';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -13,6 +14,14 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'createTimeStart', 'createTimeEnd');
+			const { form: { setFieldsValue } } = this.props;
+			setFieldsValue({ createTimeStart: dParams.createTimeStart });
+			setFieldsValue({ createTimeEnd: dParams.createTimeEnd });
+			this.handleSubmit();
+		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 

@@ -2,11 +2,12 @@ import React from 'react';
 import {
 	Form, message, Select,
 } from 'antd';
-import provinceList from '../../../../utils/provinceList';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import InputPrice from '@/common/input/input-price';
+import getUrlParams from '@/views/asset-excavate/query-util';
+import provinceList from '../../../../utils/provinceList';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -15,6 +16,15 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			const { form: { setFieldsValue } } = this.props;
+			setFieldsValue({ gmtCreateStart: dParams.gmtCreateStart });
+			setFieldsValue({ gmtCreateEnd: dParams.gmtCreateEnd });
+			this.handleSubmit();
+		}
+
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 

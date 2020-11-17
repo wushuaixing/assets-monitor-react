@@ -3,6 +3,7 @@ import { Form, Select } from 'antd';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+import getUrlParams from '@/views/asset-excavate/query-util';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -11,6 +12,14 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			const { form: { setFieldsValue } } = this.props;
+			setFieldsValue({ gmtCreateStart: dParams.gmtCreateStart });
+			setFieldsValue({ gmtCreateEnd: dParams.gmtCreateEnd });
+			this.handleSubmit();
+		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 

@@ -3,6 +3,7 @@ import { Form } from 'antd';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+import getUrlParams from '../query-util';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -11,6 +12,14 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			const { form: { setFieldsValue } } = this.props;
+			setFieldsValue({ startGmtCreate: dParams.startGmtCreate });
+			setFieldsValue({ endGmtCreate: dParams.endGmtCreate });
+			this.handleSubmit();
+		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
@@ -49,6 +58,7 @@ class QueryCondition extends React.Component {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
+		console.log('ddddd', getFieldProps('endGmtCreate'));
 		const timeOption = {
 			normalize(n) {
 				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
@@ -89,7 +99,7 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startGmtCreate', timeOption)}
+						{...getFieldProps('startGmtCreate')}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtCreate'))}
 					/>
 					<span className="yc-query-item-lable">至</span>
@@ -97,7 +107,7 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endGmtCreate', timeOption)}
+						{...getFieldProps('endGmtCreate')}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtCreate'))}
 					/>
 				</div>

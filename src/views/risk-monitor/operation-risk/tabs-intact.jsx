@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs } from '@/common';
 import API from '@/utils/api/risk-monitor/operation-risk';
 import { unReadCount } from '@/utils/api/monitor-info';
+import getUrlParams from '@/views/asset-excavate/query-util';
 
 export default class TabsIntact extends React.Component {
 	constructor(props) {
@@ -23,7 +24,7 @@ export default class TabsIntact extends React.Component {
 		this.toGetUnReadCount(_source);
 		config.forEach((i, index) => {
 			if (i.id !== type) {
-				API(i.id, 'listCount')({}).then((res) => {
+				API(i.id, 'listCount')(this.isUrlParams(i.id)).then((res) => {
 					if (res.code === 200) {
 						_source[index].number = res.data;
 						this.setState({ _source });
@@ -34,9 +35,34 @@ export default class TabsIntact extends React.Component {
 		});
 	};
 
+	isUrlParams=(val) => {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			let dParams = {};
+			if (val === 'YC030301') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			}
+			if (val === 'YC030302') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			if (val === 'YC030303') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			} if (val === 'YC030304') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			} if (val === 'YC030305') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			} if (val === 'YC030306') {
+				dParams = getUrlParams(url, 'startCreateTime', 'endCreateTime');
+			}
+
+			return dParams;
+		}
+		return {};
+	};
+
 	toGetUnReadCount=(config) => {
 		const { onRefresh } = this.props;
-		unReadCount().then((res) => {
+		unReadCount({ ...this.isUrlParams(config.id), isRead: 1 }).then((res) => {
 			const { data, code } = res;
 			if (code === 200) {
 				const result = config.map((item) => {
