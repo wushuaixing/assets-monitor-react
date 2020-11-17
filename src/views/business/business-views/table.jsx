@@ -69,6 +69,7 @@ export default class BusinessView extends React.Component {
 		});
 	};
 
+	// 添加推送状态
 	commonPushState = (row) => {
 		const { getData } = this.props;// 刷新列表
 		const Api = row && row.pushState === 1 ? closePush : openPush;
@@ -106,8 +107,8 @@ export default class BusinessView extends React.Component {
 		});
 	};
 
-
-	getColumns=() => {
+	// 获取column设置
+	getColumns = () => {
 		const { openPeopleModal } = this.props;
 		const { onSortChange, sortField, sortOrder } = this.props;
 		const sort = {

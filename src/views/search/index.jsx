@@ -21,6 +21,7 @@ const HomeRouter = (props) => {
 			<div className="tab-search">
 				<Tabs simple source={displayArray} onChange={(item) => { setActive(item); }} />
 				<div className="yc-query-data">
+					{/* eslint-disable-next-line react/jsx-pascal-case */}
 					 <Module.search />
 				</div>
 			</div>

@@ -4,6 +4,7 @@ import { Trial } from '@/views/risk-monitor/lawsuits-monitor/table-version';
 import { Court } from '@/views/risk-monitor/lawsuits-monitor/table-version';
 import { Judgment } from '@/views/risk-monitor/lawsuits-monitor/table-version';
 import { toGetDefaultId, toGetNumber } from '@/utils/promise';
+import { linkDom } from '@/utils';
 
 export default class Involved extends React.Component {
 	constructor(props) {
@@ -37,11 +38,21 @@ export default class Involved extends React.Component {
 		};
 	}
 
-	onSourceType=(val) => {
+	// 监听tab变化
+	onSourceType = (val) => {
 		const { sourceType } = this.state;
 		if (sourceType !== val) {
 			this.setState({ sourceType: val });
 		}
+	};
+
+	// 获取跳转链接
+	onGetLinkDom = () => {
+		const { sourceType } = this.state;
+		if (sourceType === 20303) {
+			return linkDom('/#/search/detail/writ?content=画像查询对象的名称', '查看更多相关文书＞');
+		}
+		return '';
 	};
 
 	render() {
@@ -56,6 +67,7 @@ export default class Involved extends React.Component {
 					onChange={this.onSourceType}
 					source={config}
 					defaultCurrent={sourceType}
+					rightRender={this.onGetLinkDom}
 					prefix={<div className="yc-tabs-simple-prefix">涉诉信息</div>}
 				/>
 				<div className="inquiry-public-table">
