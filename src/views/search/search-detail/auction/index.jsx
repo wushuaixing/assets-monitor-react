@@ -9,6 +9,7 @@ import { navigate } from '@reach/router';
 import {
 	Spin, Input, Button, timeRule, Download, DatePicker,
 } from '@/common';
+import InputPrice from '@/common/input/input-price';
 import {
 	parseQuery, generateUrlWithParams, objectKeyIsEmpty,
 } from '@/utils';
@@ -431,6 +432,31 @@ class AUCTION extends React.Component {
 						{...getFieldProps('addr', {
 							initialValue: params.addr,
 							getValueFromEvent: e => e.trim(),
+						})}
+					/>
+				</div>
+				<div className="yc-query-item" style={{ marginRight: 0 }}>
+					<InputPrice
+						title="评估价"
+						style={_style1}
+						maxLength="9"
+						size="large"
+						suffix="万元"
+						inputFirstProps={getFieldProps('lowestConsultPrice', {
+							initialValue: params.lowestConsultPrice,
+							validateTrigger: 'onBlur',
+							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+							rules: [
+								{ required: true },
+							],
+						})}
+						inputSecondProps={getFieldProps('highestConsultPrice', {
+							initialValue: params.highestConsultPrice,
+							validateTrigger: 'onBlur',
+							getValueFromEvent: e => (e.target.value < 0 ? 1 : e.target.value.trim().replace(/[^0-9]/g, '').replace(/^[0]+/, '')),
+							rules: [
+								{ required: true },
+							],
 						})}
 					/>
 				</div>

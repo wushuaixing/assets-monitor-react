@@ -3,6 +3,7 @@ import { Tooltip } from 'antd';
 import { Tabs, Icon } from '@/common';
 import { Court, Trial, Judgment } from '@/views/asset-excavate/subrogation/table-version';
 import { toGetNumber, toGetDefaultId } from '@/utils/promise';
+import { linkDom } from '@/utils';
 
 
 export default class Subrogation extends React.Component {
@@ -36,11 +37,21 @@ export default class Subrogation extends React.Component {
 		};
 	}
 
-	onSourceType=(val) => {
+	// 监听tab变化
+	onSourceType = (val) => {
 		const { sourceType } = this.state;
 		if (sourceType !== val) {
 			this.setState({ sourceType: val });
 		}
+	};
+
+	// 获取跳转链接
+	onGetLinkDom = () => {
+		const { sourceType } = this.state;
+		if (sourceType === 10203) {
+			return linkDom('/#/search/detail/writ?content=画像查询对象的名称', '查看更多相关文书＞');
+		}
+		return '';
 	};
 
 	render() {
@@ -54,6 +65,7 @@ export default class Subrogation extends React.Component {
 					source={config}
 					symbol="none"
 					defaultCurrent={sourceType}
+					rightRender={this.onGetLinkDom}
 					prefix={(
 						<div className="yc-tabs-simple-prefix" style={{ width: 100 }}>
 							<span>代位权</span>
