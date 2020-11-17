@@ -121,6 +121,9 @@ class HomeDynamic extends PureComponent {
 				{
 					count: unseal, type: 14, typeName: '查/解封资产', name: '查/解封资产', value: 9,
 				},
+				{
+					count: unseal, type: 14, typeName: '车辆信息', name: '车辆信息', value: 9,
+				},
 			];
 			// console.log('assetDataArray === ', assetDataArray);
 			const assetPropsData = {

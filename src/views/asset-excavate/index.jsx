@@ -46,6 +46,8 @@ const toGetRuth = (moduleID) => {
 			components = EquityPledge;
 		} else if (item.id === `${childID}09`) {
 		  components = SeizedUnblock;
+		} else if (item.id === `${childID}10`) {
+		  components = SeizedUnblock;
 		} else {
 			components = noPage;
 		}

@@ -326,6 +326,7 @@ class DynamicUpdate extends PureComponent {
 			// assetArrNum = this.assetArrayNum(selected, name, hasAssetPropsData && assetPropsData.assetDataArray, clear, clearNum);
 			// riskArrNum = this.riskArrayNum(selected, name, hasRiskPropsData && riskPropsData.riskDataArray, clear, clearNum);
 		}
+		console.log('riskArr',riskArr)
 		return (
 			<div className="seven-update-container">
 				<DynamicTab {...params} />

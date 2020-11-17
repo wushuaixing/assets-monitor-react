@@ -12,7 +12,8 @@ import Lawsuit from './Involved-card';
 import Operation from './Information-card';
 import UnBlock from './unblock';
 import LimitHeight from './limit-height';
+import CarCard from './car-card';
 
 export {
-	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, Bankruptcy, Broken, Lawsuit, Operation, UnBlock, LimitHeight,
+	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, Bankruptcy, Broken, Lawsuit, Operation, UnBlock, LimitHeight,CarCard
 };

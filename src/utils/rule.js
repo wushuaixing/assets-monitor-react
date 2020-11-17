@@ -280,6 +280,12 @@ export default {
 							{ id: 'YC030306', name: '环保处罚', status: toStatus(rule.menu_fxjk, 'jyfxhbcf') },
 						],
 					},
+					{
+						id: 'YC0401',
+						name: '车辆信息',
+						url: '/car/operation',
+						status: toStatus(rule.menu_fxjk, 'zcwjclxx'),
+					},
 				],
 			},
 			{
