@@ -5,13 +5,13 @@ const Dump = {
 	attention: params => s.post('/yc/monitor/intangible/emission/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/intangible/emission/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/intangible/emission/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/intangible/emission/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/intangible/emission/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/intangible/emission/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/intangible/emission/list', { params }).then(res => res.data),
@@ -29,13 +29,13 @@ const Mining = {
 	attention: params => s.post('/yc/monitor/intangible/mining/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/intangible/mining/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/intangible/mining/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/intangible/mining/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/intangible/mining/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/intangible/mining/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/intangible/mining/list', { params }).then(res => res.data),
@@ -55,13 +55,13 @@ const Copyright = {
 	attention: params => s.post('/yc/monitor/intangible/trademarkRight/follow', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/intangible/trademarkRight/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/intangible/trademarkRight/follow/follow', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/intangible/trademarkRight/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/intangible/trademarkRight/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/intangible/trademarkRight/follow/unFollow', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/intangible/trademarkRight/list', { params }).then(res => res.data),
@@ -79,13 +79,13 @@ const Construction = {
 	attention: params => s.post('/yc/monitor/intangible/construct/follow', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/intangible/construct/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/intangible/construct/follow/follow', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/intangible/construct/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/intangible/construct/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/intangible/construct/follow/unFollow', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/intangible/construct/list', { params }).then(res => res.data),

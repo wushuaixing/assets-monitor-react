@@ -23,19 +23,19 @@ export const postMarkReadAll = async (params) => {
 	return response.data;
 };
 
-// 关注
+// 收藏
 export const postFollow = async (params) => {
 	const response = await service.post('/yc/monitor/mortgage/follow', params);
 	return response.data;
 };
 
-// 关注列表
+// 收藏列表
 export const postFollowList = async (params) => {
 	const response = await service.get('/yc/monitor/mortgage/follow/list', { params });
 	return response.data;
 };
 
-// 取消关注
+// 取消收藏
 export const postUnFollow = async (params) => {
 	const response = await service.post('/yc/monitor/mortgage/unFollow', params);
 	return response.data;

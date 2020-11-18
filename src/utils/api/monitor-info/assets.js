@@ -10,19 +10,19 @@ export const infoList = params => service.get('/yc/monitor/auction/list', { para
 export const readStatus = params => service.post('/yc/monitor/auction/read', params)
 	.then(res => res.data);
 
-// 关注 [批量]
+// 收藏 [批量]
 export const follow = params => service.post('/yc/monitor/auction/followBatch', params)
 	.then(res => res.data);
 
-// 关注 [单个]
+// 收藏 [单个]
 export const followSingle = params => service.post('/yc/monitor/auction/follow', params)
 	.then(res => res.data);
 
-// 取消关注 [单个]
+// 取消收藏 [单个]
 export const unFollowSingle = params => service.post('/yc/monitor/auction/unfollow', params)
 	.then(res => res.data);
 
-// 关注列表
+// 收藏列表
 export const attentionList = params => service.get('/yc/monitor/auction/attentionList', { params })
 	.then(res => res.data);
 // 导出
