@@ -47,9 +47,10 @@ export default class Subrogation extends React.Component {
 
 	// 获取跳转链接
 	onGetLinkDom = () => {
+		const { name } = this.props;
 		const { sourceType } = this.state;
 		if (sourceType === 10203) {
-			return linkDom('/#/search/detail/writ?content=画像查询对象的名称', '查看更多相关文书＞');
+			return linkDom(`/#/search/detail/writ?content=${name}`, '查看更多相关文书＞');
 		}
 		return '';
 	};

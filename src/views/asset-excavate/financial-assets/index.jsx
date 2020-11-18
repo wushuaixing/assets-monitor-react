@@ -8,7 +8,7 @@ import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 import { promiseAll } from '@/utils/promise';
-import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
+import { getUrlParams } from '@/views/asset-excavate/query-util';
 import TableBidding from './table/bidding';
 import TableMerchants from './table/merchants';
 import QueryBidding from './query/bidding';
@@ -23,20 +23,20 @@ const sourceTypeMap = new Map([
 	['default', 'auctionBiddingCount'],
 ]);
 
-export const peojectStatusMap = new Map([
-	[1, '预披露'],
-	[2, '等待挂牌'],
-	[3, '挂牌中'],
-	[4, '挂牌结束'],
-	[5, '报名中'],
-	[6, '报名结束'],
-	[7, '竞价中'],
-	[8, '竞价结束'],
-	[9, '已成交'],
-	[10, '已结束'],
-	[11, '中止'],
-	[0, '未知'],
-]);
+// export const peojectStatusMap = new Map([
+// 	[1, '预披露'],
+// 	[2, '等待挂牌'],
+// 	[3, '挂牌中'],
+// 	[4, '挂牌结束'],
+// 	[5, '报名中'],
+// 	[6, '报名结束'],
+// 	[7, '竞价中'],
+// 	[8, '竞价结束'],
+// 	[9, '已成交'],
+// 	[10, '已结束'],
+// 	[11, '中止'],
+// 	[0, '未知'],
+// ]);
 
 // 获取api具体
 const api = (field, type) => {
@@ -116,7 +116,8 @@ export default class Subrogation extends React.Component {
 		this.condition.sortOrder = '';
 	};
 
-	isUrlParams=(sourceType) => {
+	// 获取URL里的参数
+	isUrlParams = (sourceType) => {
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
 			let dParams = {};
