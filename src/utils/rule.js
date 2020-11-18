@@ -280,12 +280,6 @@ export default {
 							{ id: 'YC030306', name: '环保处罚', status: toStatus(rule.menu_fxjk, 'jyfxhbcf') },
 						],
 					},
-					{
-						id: 'YC0401',
-						name: '车辆信息',
-						url: '/car/operation',
-						status: toStatus(rule.menu_fxjk, 'zcwjclxx'),
-					},
 				],
 			},
 			{
@@ -379,6 +373,12 @@ export default {
 								name: '招投标',
 								url: '/monitor/tender',
 								status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
+							},
+							{
+								id: 'YC0210',
+								name: '车辆信息',
+								url: '/monitor/car',
+								status: toStatus(rule.menu_zcwj, 'zcwjclxx'),
 							},
 						],
 					},

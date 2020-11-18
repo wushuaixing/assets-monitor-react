@@ -38,7 +38,6 @@ export default class Bidding extends PureComponent {
 			},
 		} = this.props;
 		const { assetBiddingNum } = this.state;
-		debugger
 		return (
 			<Card
 				IconType="bidding"

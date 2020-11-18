@@ -14,6 +14,7 @@ import Mortgage from './chattel-mortgage'; // 动产抵押
 import Intangible from './intangible-assets'; // 无形资产
 import EquityPledge from './equity-pledge'; // 股权质押
 import SeizedUnblock from './seized-unblock'; // 查解封资产
+import Car from './car'; // 查解封资产
 // import Public from './public-proclamation'; // 公示公告
 // import Attention from '../my-attention'; // 我的关注
 // import VersionUpdateModal from '../_others/layout/versionUpdateModal';
@@ -47,7 +48,7 @@ const toGetRuth = (moduleID) => {
 		} else if (item.id === `${childID}09`) {
 		  components = SeizedUnblock;
 		} else if (item.id === `${childID}10`) {
-		  components = SeizedUnblock;
+		  components = Car;
 		} else {
 			components = noPage;
 		}
