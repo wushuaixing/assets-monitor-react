@@ -606,7 +606,11 @@ class BusinessView extends React.Component {
 									</React.Fragment>
 								) : null
 							}
-							<Button className="yc-business-btn" onClick={() => this.openManagement(openRowSelection)}>
+							<Button
+								className="yc-business-btn"
+								type={`${openRowSelection ? 'common' : ''}`}
+								onClick={() => this.openManagement(openRowSelection)}
+							>
 								{openRowSelection ? '取消批量管理' : '批量管理'}
 							</Button>
 							{

@@ -3,15 +3,15 @@ import { requestAll } from '@/utils/promise';
 import { Court, Trial, Judgment } from './subrogation';
 import { Court as lCourt, Trial as lTrial, Judgment as lJudgment } from '../risk-monitor/lawsuit';
 import {
-	attentionFollowListCount, // 关注列表土地数据出让结果数量
-	transferFollowListCount, // 关注列表土地数据转让数量
-	mortgageFollowListCount, // 关注列表土地数据抵押数量
+	attentionFollowListCount, // 收藏列表土地数据出让结果数量
+	transferFollowListCount, // 收藏列表土地数据转让数量
+	mortgageFollowListCount, // 收藏列表土地数据抵押数量
 } from './public';
 import {
 	Abnormal, Change, Illegal, Punishment, Violation, Environment,
 } from '../risk-monitor/operation-risk';
 
-// 我的关注
+// 我的收藏
 
 // /* 金融资产 - btn 数量 */
 // const _params = { params: { isAttention: 1,		page: 1, num: 10 } };
@@ -31,7 +31,7 @@ import {
 // 	});
 // };
 
-/* 代位权 - 关注列表 - 数量统计 */
+/* 代位权 - 收藏列表 - 数量统计 */
 export const subrogationCount = () => {
 	const result = {};
 	return Court.followListCount()
@@ -50,7 +50,7 @@ export const subrogationCount = () => {
 		});
 };
 
-/* 经营风险 - 关注列表 - 数量统计 */
+/* 经营风险 - 收藏列表 - 数量统计 */
 export const operationCount = (source) => {
 	const list = [];
 	source.child.forEach((item) => {
@@ -72,7 +72,7 @@ export const operationCount = (source) => {
 	});
 };
 
-/* 涉诉监控 - 关注列表 - 数量统计 */
+/* 涉诉监控 - 收藏列表 - 数量统计 */
 export const lawsuitCount = () => {
 	const result = {};
 	return lCourt.followListCount()
@@ -91,7 +91,7 @@ export const lawsuitCount = () => {
 		});
 };
 
-/* 土地数据 - 关注列表 - 数量统计 */
+/* 土地数据 - 收藏列表 - 数量统计 */
 export const landCount = () => {
 	const result = {};
 	return attentionFollowListCount()
@@ -110,7 +110,7 @@ export const landCount = () => {
 		});
 };
 
-/* 金融资产 - 关注列表 - 数量统计 */
+/* 金融资产 - 收藏列表 - 数量统计 */
 // export const financeCount = () => {
 // 	const result = {};
 // 	return attentionFollowBidCount()

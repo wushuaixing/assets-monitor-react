@@ -60,13 +60,13 @@ export default class Subrogation extends React.Component {
 	}
 
 	// 清除排序状态
-	toClearSortStatus=() => {
+	toClearSortStatus = () => {
 		this.condition.sortColumn = '';
 		this.condition.sortOrder = '';
 	};
 
 	// 获取统计信息
-	toInfoCount=() => {
+	toInfoCount = () => {
 		const { tabConfig, sourceType } = this.state;
 		// const _t = nextSourceType || sourceType;
 		[1, 2, 3].forEach((i) => {
@@ -88,7 +88,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 切换列表类型
-	handleReadChange=(val) => {
+	handleReadChange = (val) => {
 		const { tabConfig } = this.state;
 		const _tabConfig = tabConfig.map((item) => {
 			const _item = Object.assign({}, item);
@@ -102,7 +102,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 全部标记为已读
-	handleAllRead=() => {
+	handleAllRead = () => {
 		const _this = this;
 		const { sourceType, tabConfig } = this.state;
 		if (tabConfig[sourceType - 1].dot) {
@@ -124,21 +124,21 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
-	// 批量关注
-	handleAttention=() => {
+	// 批量收藏
+	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource, sourceType } = this.state;
 			const _this = this;
 			Modal.confirm({
-				title: '确认关注选中的所有信息吗？',
+				title: '确认收藏选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
 					API(sourceType, 'attention')({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
-							_this.selectRow = []; // 批量关注清空选中项
+							_this.selectRow = []; // 批量收藏清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
@@ -164,7 +164,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -175,7 +175,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 修改请求参数【开庭】【立案】【裁判文书】
-	toHandleReqTime=(__sourceType, __con) => {
+	toHandleReqTime = (__sourceType, __con) => {
 		const GmtTime = {};
 		if (__sourceType === 2) {
 			GmtTime.startGmtTrial = __con.startGmt;
@@ -191,7 +191,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	// sourceType变化
-	onSourceType=(sourceType) => {
+	onSourceType = (sourceType) => {
 		this.setState({
 			sourceType,
 			dataSource: '',
@@ -207,14 +207,14 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		const { manage } = this.state;
 		// this.selectRow = [];
 		this.onQueryChange('', val, manage);
 	};
 
 	// 排序触发
-	onSortChange=(field, order) => {
+	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.onQueryChange(this.condition, 1);
@@ -222,14 +222,14 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 查询条件变化
-	onQuery =(con) => {
+	onQuery = (con) => {
 		this.toClearSortStatus();
 		this.queryCondition = con;
 		this.onQueryChange(con, 1);
 	};
 
 	// 发起查询请求
-	onQueryChange=(con, page, _manage) => {
+	onQueryChange = (con, page, _manage) => {
 		const {
 			sourceType: type, isRead, current, tabConfig,
 		} = this.state;
@@ -359,7 +359,7 @@ export default class Subrogation extends React.Component {
 						</div>
 					) : (
 						<div className="yc-batch-management">
-							<Button onClick={this.handleAttention} title="关注" />
+							<Button onClick={this.handleAttention} title="收藏" />
 							<Download
 								text="导出"
 								waringText="未选中数据"
@@ -370,6 +370,7 @@ export default class Subrogation extends React.Component {
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
 							<Button
+								type="common"
 								onClick={() => {
 									this.setState({ manage: false });
 									this.selectRow = [];
