@@ -1,6 +1,6 @@
 import React from 'react';
-import Card from '../card';
 import { navigateDetailRisk } from '@/utils';
+import Card from '../card';
 import './style.scss';
 
 const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };

@@ -55,7 +55,10 @@ export default class Subrogation extends React.Component {
 		this.setState({
 			sourceType: Tabs.Simple.toGetDefaultActive(tabConfig, 'process'),
 		}, () => {
-			this.onQueryChange({});
+			const url = window.location.hash;
+			if (url.indexOf('?') === -1) {
+				this.onQueryChange({});
+			}
 		});
 	}
 

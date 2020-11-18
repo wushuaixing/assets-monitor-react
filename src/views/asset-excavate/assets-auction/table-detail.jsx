@@ -5,9 +5,9 @@ import {
 	Ellipsis, Icon, Spin, Table, Button,
 } from '@/common';
 import { floatFormat } from '@/utils/format';
+import { toEmpty, timeStandard } from '@/utils';
 import TableVersionModal from './tableVersionModal';
 import SimplyFollow from './follow-info/simply';
-import { toEmpty, timeStandard } from '@/utils';
 import './style.scss';
 
 

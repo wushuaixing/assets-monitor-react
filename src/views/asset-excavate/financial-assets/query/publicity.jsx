@@ -5,6 +5,7 @@ import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import { clearEmpty } from '@/utils';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 
 const projectType = [
 	{ name: '股权项目', key: '1' },
@@ -38,6 +39,14 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'gmtModifiedStart', 'gmtModifiedEnd');
+			const { form: { setFieldsValue } } = this.props;
+			setFieldsValue({ gmtModifiedStart: dParams.gmtModifiedStart });
+			setFieldsValue({ gmtModifiedEnd: dParams.gmtModifiedEnd });
+			this.handleSubmit();
+		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
@@ -67,12 +76,17 @@ class QueryCondition extends React.Component {
 
 	// 重置按钮
 	handleReset=() => {
-		const { form, onQueryChange, clearSelectRowNum } = this.props;
-		clearSelectRowNum();// 清除选中项
-		form.resetFields();
-		const condition = form.getFieldsValue();
-		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
-		// console.log('reset:', form.getFieldsValue());
+		const url = window.location.hash;
+		if (url.indexOf('timeHorizon') !== -1) {
+			reserUrl();
+		} else {
+			const { form, onQueryChange, clearSelectRowNum } = this.props;
+			clearSelectRowNum();// 清除选中项
+			form.resetFields();
+			const condition = form.getFieldsValue();
+			if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
+			// console.log('reset:', form.getFieldsValue());
+		}
 	};
 
 	render() {

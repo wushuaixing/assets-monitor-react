@@ -8,6 +8,7 @@ import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 import { promiseAll } from '@/utils/promise';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 import TableBidding from './table/bidding';
 import TableMerchants from './table/merchants';
 import QueryBidding from './query/bidding';
@@ -115,12 +116,31 @@ export default class Subrogation extends React.Component {
 		this.condition.sortOrder = '';
 	};
 
+	isUrlParams=(sourceType) => {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			let dParams = {};
+			if (sourceType === 1) {
+				dParams = getUrlParams(url, 'updateTimeStart', 'updateTimeEnd');
+			}
+			if (sourceType === 2) {
+				dParams = getUrlParams(url, 'gmtModifyStart', 'gmtModifyEnd');
+			}
+			if (sourceType === 3) {
+				dParams = getUrlParams(url, 'gmtModifiedStart', 'gmtModifiedEnd');
+			}
+			return dParams;
+		}
+		return '';
+	};
+
 	// 获取三类数据的统计信息
 	toInfoCount = (sourceType) => {
 		const promiseArray = [];
-		promiseArray.push(Apis.infoListCountBid(sourceType === 1 ? this.condition : ''));
-		promiseArray.push(Apis.infoListCountMerchants(sourceType === 2 ? this.condition : ''));
-		promiseArray.push(Apis.infoListCountPub(sourceType === 3 ? this.condition : ''));
+		promiseArray.push(Apis.infoListCountBid(sourceType === 1 ? this.condition : this.isUrlParams(1)));
+		promiseArray.push(Apis.infoListCountMerchants(sourceType === 2 ? this.condition : this.isUrlParams(2)));
+		promiseArray.push(Apis.infoListCountPub(sourceType === 3 ? this.condition : this.isUrlParams(3)));
+
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到, 返回的其实是resolved
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));

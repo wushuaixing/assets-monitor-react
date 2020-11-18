@@ -1,12 +1,12 @@
 import React from 'react';
 import { Select, Pagination } from 'antd';
-import { formatDateTime } from '../../../utils/changeTime';
-import Search from '../search';
 import {
 	userManageList, // liebiao
 	RoleList, // 角色列表
 } from '@/utils/api/organization';
 import { Table, Spin, Icon } from '@/common';
+import { formatDateTime } from '../../../utils/changeTime';
+import Search from '../search';
 import './style.scss';
 
 export default class BasicTable extends React.Component {

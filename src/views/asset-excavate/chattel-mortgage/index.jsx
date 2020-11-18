@@ -30,7 +30,10 @@ export default class Subrogation extends React.Component {
 
 	componentDidMount() {
 		this.onQueryChange({});
-		this.onUnReadCount();
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onUnReadCount();
+		}
 		// this.setUnReadCount = setInterval(() => {
 		// 	this.onUnReadCount();
 		// }, 30 * 1000);

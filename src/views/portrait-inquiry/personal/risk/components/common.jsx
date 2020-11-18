@@ -79,7 +79,7 @@ const LawsuitsMonitor = {
 				<li>
 					<span className="list list-content">
 						{/* {`${row.court}`} */}
-                        (2019) 浙0103民终1678号
+						(2019) 浙0103民终1678号
 					</span>
 				</li>
 				<li>
@@ -146,7 +146,7 @@ const breakFaith = {
 								: (
 									<span>
 										{/* {row.court || '-'} */}
-                                        一、被执行人欧家宝于本判决生效之日起十日内返还中被执行人欧家宝于本判决生效之日起十…
+										一、被执行人欧家宝于本判决生效之日起十日内返还中被执行人欧家宝于本判决生效之日起十…
 									</span>
 								)
 						}
@@ -175,7 +175,7 @@ const breakFaith = {
 					<span className="list list-title-colon">:</span>
 					<span className="list list-content">
 						{/* {associationLink(text, row, 'Court')} */}
-                        2019-04-29
+						2019-04-29
 					</span>
 				</li>
 				<li>
@@ -183,7 +183,7 @@ const breakFaith = {
 					<span className="list list-title-colon">:</span>
 					<span className="list list-content">
 						{/* {associationLink(text, row, 'Court')} */}
-                        2019-04-29
+						2019-04-29
 					</span>
 				</li>
 			</div>
@@ -246,7 +246,7 @@ const TaxViolation = {
 								: (
 									<span>
 										{/* {row.court || '-'} */}
-                                        经天津市国家税务局稽查局检查，发现其在2012年05月02日至2015年01月31日期间，主要存在以下问题：对外虚开增值经天津市国家税务局稽查稽查...
+										经天津市国家税务局稽查局检查，发现其在2012年05月02日至2015年01月31日期间，主要存在以下问题：对外虚开增值经天津市国家税务局稽查稽查...
 									</span>
 								)
 						}
@@ -274,7 +274,7 @@ const TaxViolation = {
 					<span className="list list-title-colon">:</span>
 					<span className="list list-content">
 						{/* {associationLink(text, row, 'Court')} */}
-                        2019-04-29
+						2019-04-29
 					</span>
 				</li>
 			</div>

@@ -43,7 +43,7 @@ export default class Land extends React.Component {
 						>
 							<div className="business-land-container-card" style={{ paddingBottom: '10px', color: '#7D8699' }}>
 								<span style={{ color: '#FB5A5C' }}>*</span>
-									原土地使用权人不计入角色统计
+								原土地使用权人不计入角色统计
 							</div>
 							{owner ? (
 								<div className="business-land-container-card" style={{ paddingBottom: '16px' }}>

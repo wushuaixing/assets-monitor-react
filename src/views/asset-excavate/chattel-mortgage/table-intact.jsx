@@ -1,8 +1,8 @@
 import React from 'react';
-import Table from './table';
 import { postFollowList } from '@/utils/api/monitor-info/mortgage';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
+import Table from './table';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {

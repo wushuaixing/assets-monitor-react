@@ -1,8 +1,8 @@
 import React from 'react';
 import './style.scss';
-import analogData from './analog-data';
 import iconAdd from '@/assets/img/icon/icon_add.png';
 import iconDelete from '@/assets/img/icon/icon_delete.png';
+import analogData from './analog-data';
 
 const obligorType = {
 	1: {

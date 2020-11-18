@@ -32,7 +32,7 @@ class Login extends React.Component {
 							type="icon-logo"
 							className="yc-logo-icon"
 						/>
-							杭州源诚科技有限公司  技术支持
+						杭州源诚科技有限公司  技术支持
 					</span>
 					<span className="yc-footer-text">
 						{' Copyright © 2018 杭州源诚科技有限公司 '}

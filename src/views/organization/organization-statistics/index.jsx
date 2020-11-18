@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { message } from 'antd';
-import TableTree from './tableTree';
 import { selfTree } from '@/utils/api/home';
 import { toThousands } from '@/utils/changeTime';
 import { Icon, Spin } from '@/common';
+import TableTree from './tableTree';
 import './style.scss';
 
 const api = { selfTree };
@@ -72,12 +72,12 @@ class HomeRouter extends PureComponent {
 				<Spin visible={errorLoading}>
 					<div className="statistics-container-header">
 						<div className="statistics-container-header-left">
-						资产拍卖数据使用情况统计
+							资产拍卖数据使用情况统计
 						</div>
 						<div className="statistics-container-header-right">
 							<div className="right-statistics">
 								<span className="right-statistics-ownerName">
-								我的机构
+									我的机构
 									<span style={{ color: '#7D8699', marginLeft: '10px', fontSize: '12px' }}>帐号所在机构</span>
 								</span>
 								<div className="right-statistics-ownerName-text">
@@ -99,20 +99,20 @@ class HomeRouter extends PureComponent {
 					<div className="statistics-container-content">
 						<div className="statistics-container-content-title">
 							<div className="statistics-container-content-title-item" />
-						总体情况统计
+							总体情况统计
 							<span className="statistics-container-content-title-remark"> 包括本机构及子机构 </span>
 						</div>
 
 						<div className="statistics-container-content-left-item">
 							<Icon type="icon-business" className="statistics-container-content-left-item-icon" style={{ color: '#1C80E1' }} />
 							<div className="statistics-container-content-left-item-text">
-							未跟进信息数 (条)
+								未跟进信息数 (条)
 							</div>
 							<div className="statistics-container-content-left-item-num">
 								<span style={{ fontWeight: 500 }}>{tree ? tree.monitorUnfollowedCount : '-'}</span>
 								<div className="statistics-container-content-left-item-num-distribution">
 									<span className="statistic-distribution-name">
-									其他状态分布：
+										其他状态分布：
 									</span>
 									<span className="statistic-distribution-text">
 										跟进中
@@ -125,7 +125,7 @@ class HomeRouter extends PureComponent {
 									</span>
 									<span className="statistic-distribution-line" />
 									<span className="statistic-distribution-text">
-									全部
+										全部
 										<span className="statistic-distribution-text-normal">{tree ? tree.monitorTotalCount : '-'}</span>
 									</span>
 								</div>
@@ -156,7 +156,7 @@ class HomeRouter extends PureComponent {
 						</div>
 						<div className="statistics-container-content-title" style={{ marginTop: '40px' }}>
 							<div className="statistics-container-content-title-item" />
-						分机构统计
+							分机构统计
 						</div>
 						<div className="statistics-tree-container">
 							<TableTree rule={rule} tree={tree && tree} />

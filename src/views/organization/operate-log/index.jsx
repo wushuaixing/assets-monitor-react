@@ -5,8 +5,8 @@ import {
 	operateTypeList, // 操作类型
 } from '@/utils/api/organization';
 import { Table, Spin, BreadCrumb } from '@/common';
-import { formatDateTime } from '../../../utils/changeTime';
 import { getQueryByName } from '@/utils';
+import { formatDateTime } from '../../../utils/changeTime';
 import './style.scss';
 
 const { Option } = Select;

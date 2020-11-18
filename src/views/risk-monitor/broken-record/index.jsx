@@ -29,7 +29,10 @@ export default class Subrogation extends React.Component {
 
 	componentDidMount() {
 		this.onUnReadCount();
-		this.onQueryChange({});
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({});
+		}
 	}
 
 	// 清除排序状态

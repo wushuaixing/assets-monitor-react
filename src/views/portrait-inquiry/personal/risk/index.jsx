@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, NoContent, Spin } from '@/common';
+import { toGetTotal } from '@/utils/promise';
 import LawsuitsMonitor from './components/lawsuitsMonitor';
 import BreakFaith from './components/breakFaith';
 import TaxViolation from './components/taxViolation';
-import { toGetTotal } from '@/utils/promise';
 
 const subItems = data => ([
 	{

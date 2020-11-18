@@ -1,6 +1,6 @@
 import React from 'react';
-import Card from '../card';
 import { navigateDetail } from '@/utils';
+import Card from '../card';
 import './style.scss';
 
 export default class Subrogation extends React.Component {
@@ -35,14 +35,14 @@ export default class Subrogation extends React.Component {
 							<div className="business-subrogation-container">
 								{execute ? (
 									<div className="business-subrogation-container-card" style={{ paddingBottom: '16px' }}>
-									执行案件：
+										执行案件：
 										<span className="business-subrogation-container-card-num ">{execute || 0}</span>
 										笔
 										{restore > 0 ? (
 											<div className="card-content-left-arrow">
 												<div className="card-content-popover-content">
 													{restore}
-												笔执恢案件
+													笔执恢案件
 												</div>
 											</div>
 										) : null}
@@ -51,9 +51,9 @@ export default class Subrogation extends React.Component {
 
 								{otherCase ? (
 									<div className="business-subrogation-container-card ">
-									其他案件：
+										其他案件：
 										<span className="business-subrogation-container-card-num">{otherCase || 0}</span>
-									笔
+										笔
 									</div>
 								) : null}
 							</div>

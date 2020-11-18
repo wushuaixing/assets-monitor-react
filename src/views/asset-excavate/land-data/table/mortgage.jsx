@@ -3,9 +3,9 @@ import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { timeStandard } from '@/utils';
 import { SelectedNum, Table } from '@/common';
-import { Result } from './common';
 import { partyInfo } from '@/views/_common';
 import Api from '@/utils/api/monitor-info/public';
+import { Result } from './common';
 // { attention, readStatus }
 // 获取表格配置
 const columns = (props) => {

@@ -48,7 +48,7 @@ export default class ChattelMortgage extends React.Component {
 
 							{people ? (
 								<div className="business-chattel-container-card ">
-								抵押权人：
+									抵押权人：
 									<span className="business-chattel-container-card-num ">{people.count || 0}</span>
 									条
 									{people.amount ? (

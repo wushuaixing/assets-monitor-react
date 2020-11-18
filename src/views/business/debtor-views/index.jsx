@@ -2,12 +2,12 @@ import React from 'react';
 import {
 	Select, message, Pagination, Form,
 } from 'antd';
-import TableList from './table';
 import {
 	Spin, Input, Button, Download,
 } from '@/common';
 import { obligorList, exportExcel } from '@/utils/api/debator';
 import { clearEmpty } from '@/utils';
+import TableList from './table';
 import './style.scss';
 
 const _style1 = { width: 278 };

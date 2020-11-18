@@ -56,7 +56,10 @@ export default class Subrogation extends React.Component {
 		this.setState({
 			sourceType: Tabs.Simple.toGetDefaultActive(tabConfig, 'process'),
 		}, () => {
-			this.onQueryChange({});
+			const url = window.location.hash;
+			if (url.indexOf('?') === -1) {
+				this.onQueryChange({});
+			}
 		});
 	}
 
@@ -259,6 +262,7 @@ export default class Subrogation extends React.Component {
 			this.toHandleReqTime(type, this.condition), this.condition, this.readStatus);
 		delete params.startGmt;
 		delete params.endGmt;
+		console.log('clear', clearEmpty(params));
 		API(type, 'list')(clearEmpty(params)).then((res) => {
 			const { sourceType: selectType } = this.state;
 			if (res.selectType === selectType) {
