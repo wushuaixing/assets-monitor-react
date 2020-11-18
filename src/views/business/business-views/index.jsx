@@ -591,7 +591,11 @@ class BusinessView extends React.Component {
 										<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
 									</Tooltip>
 								</React.Fragment>
-							) : null
+							) : (
+								<React.Fragment>
+									{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum style={{ position: 'absolute', top: 6 }} num={selectedRowKeys.length} /> : null}
+								</React.Fragment>
+							)
 						}
 						<div className="yc-public-floatRight">
 							{
@@ -610,7 +614,6 @@ class BusinessView extends React.Component {
 							}
 						</div>
 					</div>
-					{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 					<Spin visible={loading}>
 						<TableList
 							stateObj={this.state}
