@@ -4,6 +4,7 @@ import PropTypes from 'reactPropTypes';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -12,6 +13,14 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
+			const { form: { setFieldsValue } } = this.props;
+			setFieldsValue({ startGmtModified: dParams.startGmtModified });
+			setFieldsValue({ endGmtModified: dParams.endGmtModified });
+			this.handleSubmit();
+		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
@@ -41,11 +50,16 @@ class QueryCondition extends React.Component {
 
 	// 重置查询条件
 	handleReset = () => {
-		const { form, onQueryChange, clearSelectRowNum } = this.props;
-		clearSelectRowNum();// 清除选中项
-		form.resetFields();
-		const condition = form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition, '', '', false);
+		const url = window.location.hash;
+		if (url.indexOf('timeHorizon') !== -1) {
+			reserUrl();
+		} else {
+			const { form, onQueryChange, clearSelectRowNum } = this.props;
+			clearSelectRowNum();// 清除选中项
+			form.resetFields();
+			const condition = form.getFieldsValue();
+			if (onQueryChange)onQueryChange(condition, '', '', false);
+		}
 	};
 
 	render() {

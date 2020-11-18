@@ -42,6 +42,17 @@ const statusMap = new Map([
 	[13, '结束'],
 	['default', '-'],
 ]);
+
+const statusColorMap = new Map([
+	[1, 'yellow'],
+	[3, 'bule'],
+	[5, 'green'],
+	[7, 'gray '],
+	[9, 'gray'],
+	[11, 'gray'],
+	[13, 'gray'],
+	['default', 'yellow'],
+]);
 // 获取表格配置
 const columns = (props) => {
 	const {
@@ -73,7 +84,7 @@ const columns = (props) => {
 							content={text}
 							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
 							tooltip
-							width={150}
+							width={250}
 						/>
 					</li>
 				</div>
@@ -91,8 +102,8 @@ const columns = (props) => {
 			dataIndex: 'publishTime',
 			render: (text, row) => (
 				<div className="assets-info-content">
-					<li>
-						<div className="project-status">{statusMap.get(row.status)}</div>
+					<li style={{ padding: '4px 0 6px 0' }}>
+						<div className={`project-status ${statusColorMap.get(row.status)}`} style={{ fontWeight: 400 }}>{statusMap.get(row.status)}</div>
 						<Ellipsis
 							content={row.title}
 							url={row.url || ''}

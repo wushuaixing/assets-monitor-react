@@ -1,9 +1,9 @@
 import React from 'react';
-import QueryView from './common/queryView';
 import { inquiryList, inquiryPriorityList } from '@/utils/api/portrait-inquiry';
 import { Spin, Table } from '@/common';
 import { timeStandard, clearEmpty } from '@/utils';
 import { requestAll } from '@/utils/promise';
+import QueryView from './common/queryView';
 import { inquiryCheck } from './inquiry-check';
 
 export default class InquiryList extends React.Component {

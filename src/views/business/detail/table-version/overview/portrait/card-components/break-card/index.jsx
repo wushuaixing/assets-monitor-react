@@ -44,7 +44,7 @@ export default class Break extends React.Component {
 								<div className="business-broken-container">
 									{
 										<span style={{ fontSize: '12px' }}>
-										当前失信状态：
+											当前失信状态：
 											<span
 												style={isDishonest ? { color: '#FB5A5C' } : { color: '#B2B8C9' }}
 											>

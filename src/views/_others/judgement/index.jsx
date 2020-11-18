@@ -70,8 +70,7 @@ class Judgement extends React.Component {
 
 	render() {
 		const { loading, htmlText, title } = this.state;
-		const regFontFamily = new RegExp(/FONT-FAMILY:.{3,4};/g);
-		const newHtmlText = htmlText.replaceAll(regFontFamily, 'font-family: PingFang SC, microsoft yahei;').replaceAll('pt', 'px').replaceAll('MARGIN: 0.5px 0cm', 'margin: 20px 0');
+		const newHtmlText = htmlText.replace(/FONT-FAMILY:.{3,4};/g, 'font-family: PingFang SC, microsoft yahei;').replace(/pt/g, 'px').replace(/MARGIN: 0.5px 0cm/g, 'margin: 20px 0');
 		return (
 			<Spin visible={loading}>
 				<div className="judgement">
@@ -84,7 +83,7 @@ class Judgement extends React.Component {
 						<div className="judgement-line-line" />
 					</div>
 					{
-						htmlText ? <div className="judgement-body" dangerouslySetInnerHTML={{ __html: newHtmlText }} /> : (loading ? null : <NoContent font="文书未公开或未查到" style={{ paddingTop: 50 }} />)
+						newHtmlText ? <div className="judgement-body" dangerouslySetInnerHTML={{ __html: newHtmlText }} /> : (loading ? null : <NoContent font="文书未公开或未查到" style={{ paddingTop: 50 }} />)
 					}
 				</div>
 			</Spin>

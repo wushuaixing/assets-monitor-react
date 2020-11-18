@@ -7,25 +7,25 @@ import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import { clearEmpty } from '@/utils';
-
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 
 const assetType = [
-	{ name: '其他交通工具', key: '200794003' },
-	{ name: '土地', key: '50025970' },
-	{ name: '工程', key: '50025975' },
-	{ name: '矿权', key: '50025974' },
-	{ name: '无形资产', key: '122406001' },
-	{ name: '机械设备', key: '56936003' },
-	{ name: '林权', key: '50025973' },
-	{ name: '海域', key: '200778005' },
-	{ name: '船舶', key: '125228021' },
-	{ name: '股权', key: '125088031' },
-	{ name: '实物资产', key: '50025971' },
+	{ name: '房产', key: '50025969' },
 	{ name: '机动车', key: '50025972' },
 	{ name: '奢侈品', key: '201290015' },
-	{ name: '房产', key: '50025969' },
+	{ name: '实物资产', key: '50025971' },
+	{ name: '林权', key: '50025973' },
+	{ name: '土地', key: '50025970' },
+	{ name: '股权', key: '125088031' },
 	{ name: '债权', key: '56956002' },
+	{ name: '无形资产', key: '122406001' },
 	{ name: '其他', key: '50025976' },
+	{ name: '船舶', key: '125228021' },
+	{ name: '其他交通工具', key: '200794003' },
+	{ name: '矿权', key: '50025974' },
+	{ name: '工程', key: '50025975' },
+	{ name: '海域', key: '200778005' },
+	{ name: '机械设备', key: '56936003' },
 	{ name: '未知', key: '0' },
 ];
 
@@ -36,6 +36,14 @@ class QueryCondition extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'gmtModifyStart', 'gmtModifyEnd');
+			const { form: { setFieldsValue } } = this.props;
+			setFieldsValue({ gmtModifyStart: dParams.gmtModifyStart });
+			setFieldsValue({ gmtModifyEnd: dParams.gmtModifyEnd });
+			this.handleSubmit();
+		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
@@ -65,11 +73,16 @@ class QueryCondition extends React.Component {
 
 	// 重置操作
 	handleReset = () => {
-		const { form, onQueryChange, clearSelectRowNum } = this.props;
-		clearSelectRowNum();// 清除选中项
-		form.resetFields();
-		const condition = 	form.getFieldsValue();
-		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
+		const url = window.location.hash;
+		if (url.indexOf('timeHorizon') !== -1) {
+			reserUrl();
+		} else {
+			const { form, onQueryChange, clearSelectRowNum } = this.props;
+			clearSelectRowNum();// 清除选中项
+			form.resetFields();
+			const condition = 	form.getFieldsValue();
+			if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
+		}
 	};
 
 	render() {

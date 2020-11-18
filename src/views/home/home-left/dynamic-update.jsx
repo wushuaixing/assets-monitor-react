@@ -245,8 +245,9 @@ class DynamicUpdate extends PureComponent {
 		// 	RingEchartsObj: val,
 		// }));
 		// console.log('urlMap.get(val)', urlMap.get(val.name));
+		const { timeType } = this.props;
 		const w = window.open('about:blank');
-		w.location.href = `#${urlMap.get(val.name)}`;
+		w.location.href = `#${urlMap.get(val.name)}?timeHorizon=${timeType}`;
 	};
 
 	// 手动跳转页面

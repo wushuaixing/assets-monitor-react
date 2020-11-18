@@ -45,7 +45,7 @@ export default class associatedBusiness extends React.Component {
 							}
 						}
 						>
-						查看
+							查看
 						</div>
 					);
 				},

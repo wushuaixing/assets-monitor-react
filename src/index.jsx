@@ -5,18 +5,16 @@ import { Provider } from 'react-redux';
 import { message } from 'antd';
 import store from './stores/app';
 import App from './views/app';
-// eslint-disable-next-line import/extensions
-import './assets/css';
+import './assets/css/index.scss';
 import './utils/config';
 
-const Version = 'v2.5.0';
-const BetaNumber = '.17';
+const Version = 'v2.6.0';
+const BetaNumber = '.1';
 const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
 window.CurrentVersions = info;
 if (window.location.protocol === 'http:') {
 	console.info(info);
 }
-
 
 if (process.env.NODE_ENV === 'production') {
 	global.console = {

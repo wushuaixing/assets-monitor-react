@@ -55,7 +55,7 @@ export default class Bankruptcy extends PureComponent {
 					<div className={`risk-bankruptcy-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 						破产/重整风险企业：
 						<span className={`risk-bankruptcy-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{obligorTotal || 0}</span>
-							家
+						家
 					</div>
 				)}
 			</Card>

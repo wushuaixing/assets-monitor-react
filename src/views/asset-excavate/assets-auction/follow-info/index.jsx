@@ -501,11 +501,11 @@ export default class FollowInfo extends React.Component {
 											{
 												global.GLOBAL_MEIE_BROWSER
 													? [<textarea
-														rows="5"
-														cols="50"
+															rows="5"
+															cols="50"
 														// value={remark}
-														onChange={e => this.onInputChangeField(e, 'remark')}
-														style={{ width: 430, padding: '0px 7px' }}
+															onChange={e => this.onInputChangeField(e, 'remark')}
+															style={{ width: 430, padding: '0px 7px' }}
 													/>,
 														<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
 													: [

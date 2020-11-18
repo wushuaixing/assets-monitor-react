@@ -28,7 +28,10 @@ export default class LimitConsumption extends React.Component {
 	}
 
 	componentWillMount() {
-		this.onQueryChange({});
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({});
+		}
 	}
 
 	// 获取限制高消费是否存在未读数据

@@ -12,11 +12,11 @@ import {
 } from 'antd';
 import Cookies from 'universal-cookie';
 import { navigate } from '@reach/router';
-import CommonIcon from './compontent/commonIcon';
 import rsaEncrypt from '@/utils/encrypt';
 import {
 	forgetPasswordStep3, // 修改密码
 } from '@/utils/api/user';
+import CommonIcon from './compontent/commonIcon';
 import './style.scss';
 
 const cookie = new Cookies();

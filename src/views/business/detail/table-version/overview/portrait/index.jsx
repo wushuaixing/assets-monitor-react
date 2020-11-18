@@ -1,9 +1,5 @@
 
 import React from 'react';
-import AssociatedBusiness from './associated-business';
-import AssetProfile from './asset-profile';
-import BusinessRelated from './business-related';
-import RiskInformation from './risk-information';
 import {
 	getQueryByName,
 } from '@/utils';
@@ -11,6 +7,10 @@ import {
 	obligorList, // 债务人列表
 	businessList, // 业务列表
 } from '@/utils/api/professional-work/overview';
+import AssociatedBusiness from './associated-business';
+import AssetProfile from './asset-profile';
+import BusinessRelated from './business-related';
+import RiskInformation from './risk-information';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值

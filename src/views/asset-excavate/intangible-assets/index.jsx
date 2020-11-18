@@ -7,9 +7,10 @@ import {
 } from '@/common';
 import { changeURLArg, clearEmpty } from '@/utils';
 import ruleMethods from '@/utils/rule';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
-import Table from './table'; /* Table 展示列表 */
+import Table from './table';
 // import TableVersion from './table-version'; /* Table 展示列表 */
 
 const toGetConfig = () => {
@@ -48,7 +49,13 @@ export default class IntangibleAssets extends React.Component {
 		const sourceType = Tabs.Simple.toGetDefaultActive(this.config, 'process');
 		this.setState({
 			sourceType,
-		}, () =>	this.onQueryChange({}));
+		}, () => {
+			this.toInfoCount(sourceType);
+			const url = window.location.hash;
+			if (url.indexOf('?') === -1) {
+				this.onQueryChange({});
+			}
+		});
 	}
 
 	// 清除排序状态
@@ -152,8 +159,9 @@ export default class IntangibleAssets extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.condition = {};
+		this.condition = this.isUrlParams(sourceType);
 		this.onQueryChange('', sourceType, 'all', 1);
+		this.toInfoCount(sourceType);
 		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
 	};
@@ -180,6 +188,27 @@ export default class IntangibleAssets extends React.Component {
 		this.onQueryChange(con, '', '', 1);
 	};
 
+	isUrlParams=(val) => {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			let dParams = {};
+			if (val === 'YC020701') {
+				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
+			}
+			if (val === 'YC020702') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			}
+			if (val === 'YC020703') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			} if (val === 'YC020704') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+
+			return dParams;
+		}
+		return {};
+	};
+
 	// 发起查询请求
 	onQueryChange=(con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
@@ -189,14 +218,12 @@ export default class IntangibleAssets extends React.Component {
 			page: page || current,
 			num: 10,
 		});
-		// console.log(__isRead);
 		if (__isRead === 'all') delete this.condition.isRead;
 		if (__isRead === 'unread') this.condition.isRead = 0;
 		this.setState({
 			loading: true,
 			manage: _manage || false,
 		});
-		this.toInfoCount(__type);
 		API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.config[toGetProcess(__type, this.config)].number = res.data.total;

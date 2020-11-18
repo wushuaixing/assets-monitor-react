@@ -29,6 +29,7 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderObligorIdList: [],
 			loading: false,
 			finish: false,
+			timeType: 1, // 7天内更新/30天内更新状态，
 		};
 	}
 
@@ -203,6 +204,7 @@ class HomeDynamic extends PureComponent {
 			this.setState(() => ({
 				AssetImportantReminderList,
 				AssetImportantReminderObligorIdList,
+				timeType: objValue.type,
 			}));
 		}).catch((reason) => {
 			this.setState({ loading: false, finish: false });
@@ -326,9 +328,10 @@ class HomeDynamic extends PureComponent {
 	render() {
 		const {
 			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
-			RiskImportantReminderObligorIdList,
+			RiskImportantReminderObligorIdList, timeType,
 		} = this.state;
 		const params = {
+			timeType,
 			assetPropsData,
 			riskPropsData,
 			AssetImportantReminderList,

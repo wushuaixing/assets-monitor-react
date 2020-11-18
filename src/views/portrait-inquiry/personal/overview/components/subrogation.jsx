@@ -2,10 +2,10 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import { Icon, Spin } from '@/common';
 import { getQueryByName } from '@/utils';
+import { getSubrogation } from '@/utils/api/portrait-inquiry/personal/overview';
 import ColumnarEcharts from '../../../common/columnarEcharts';
 import RingEcharts from '../../../common/ringEcharts';
 import TimeLine from '../../../common/timeLine';
-import { getSubrogation } from '@/utils/api/portrait-inquiry/personal/overview';
 import getCount from '../../../common/getCount';
 
 export default class Subrogation extends React.Component {

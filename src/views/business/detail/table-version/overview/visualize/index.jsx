@@ -5,6 +5,11 @@ import {
 	overviewBusiness,
 } from '@/utils/api/professional-work/overview';
 import { parseQuery } from '@/utils';
+import Basic from '@/views/portrait-inquiry/enterprise/overview/components/basic';
+import ShareholderSituation from '@/views/portrait-inquiry/enterprise/overview/components/shareholderSituation';
+import BusinessScale from '@/views/portrait-inquiry/enterprise/overview/components/businessScale';
+import NoContent from '@/common/noContent';
+import { Spin } from '@/common';
 import AssetAuction from './components/assetAuction';
 import Land from './components/land';
 import Intangible from './components/intangible';
@@ -17,11 +22,6 @@ import Dishonest from './components/dishonest';
 import Information from './components/information';
 import BusinessRisk from './components/businessRisk';
 import Tax from './components/tax';
-import Basic from '@/views/portrait-inquiry/enterprise/overview/components/basic';
-import ShareholderSituation from '@/views/portrait-inquiry/enterprise/overview/components/shareholderSituation';
-import BusinessScale from '@/views/portrait-inquiry/enterprise/overview/components/businessScale';
-import NoContent from '@/common/noContent';
-import { Spin } from '@/common';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值

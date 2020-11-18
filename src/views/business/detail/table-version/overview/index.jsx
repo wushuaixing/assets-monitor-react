@@ -1,8 +1,8 @@
 import React from 'react';
 // import { Button } from 'antd';
+import { Button } from '@/common';
 import Portrait from './portrait';
 import Visualize from './visualize';
-import { Button } from '@/common';
 
 const subItems = [
 	{

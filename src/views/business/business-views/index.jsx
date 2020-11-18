@@ -581,12 +581,22 @@ class BusinessView extends React.Component {
 					<div className="yc-noTab-hr" />
 
 					<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
-						 <Button className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
-							导入业务
-						 </Button>
-						<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
-							<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
-						</Tooltip>
+						{
+							!openRowSelection ? (
+								<React.Fragment>
+									<Button className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
+										导入业务
+									</Button>
+									<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
+										<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
+									</Tooltip>
+								</React.Fragment>
+							) : (
+								<React.Fragment>
+									{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum style={{ position: 'absolute', top: 6 }} num={selectedRowKeys.length} /> : null}
+								</React.Fragment>
+							)
+						}
 						<div className="yc-public-floatRight">
 							{
 								openRowSelection ? (
@@ -604,7 +614,6 @@ class BusinessView extends React.Component {
 							}
 						</div>
 					</div>
-					{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 					<Spin visible={loading}>
 						<TableList
 							stateObj={this.state}

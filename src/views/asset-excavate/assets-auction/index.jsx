@@ -8,6 +8,7 @@ import {
 } from '@/utils/api/monitor-info/assets';
 import { clearEmpty, changeURLArg, getQueryByName } from '@/utils';
 import './style.scss';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 import Query from './query';
 import Table from './table';
 
@@ -78,10 +79,15 @@ export default class Assets extends React.Component {
 			sourceType,
 			title,
 		});
-		if (title) {
-			this.onQueryChange({ title }, sourceType);
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			if (title) {
+				this.onQueryChange({ title }, sourceType);
+			} else {
+				this.onQueryChange({}, sourceType);
+			}
 		} else {
-			this.onQueryChange({}, sourceType);
+			this.condition = Object.assign({}, this.condition, getUrlParams(url, 'updateTimeStart', 'updateTimeEnd'));
 		}
 		this.toInfoCount();
 	}

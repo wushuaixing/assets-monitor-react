@@ -133,20 +133,9 @@ class AUCTION extends React.PureComponent {
 					</div>
 					<div style={_style3} className="item">
 						<Input
-							title="产权证"
-							maxLength="40"
-							placeholder="房产证/土地证"
-							{...getFieldProps('certificate', {
-								getValueFromEvent: e => e.trim(),
-							})}
-						/>
-					</div>
-					<div style={_style1} className="item">
-						<Input
-							title="处置机关"
-							maxLength="20"
-							placeholder="处置法院/单位"
-							{...getFieldProps('court', {
+							title="全文"
+							placeholder="关键字"
+							{...getFieldProps('addr', {
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -171,15 +160,6 @@ class AUCTION extends React.PureComponent {
 								rules: [
 									{ required: true },
 								],
-							})}
-						/>
-					</div>
-					<div style={_style3} className="item">
-						<Input
-							title="地址"
-							placeholder="地址信息"
-							{...getFieldProps('addr', {
-								getValueFromEvent: e => e.trim(),
 							})}
 						/>
 					</div>

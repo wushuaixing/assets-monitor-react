@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, NoContent, Spin } from '@/common';
+import { toGetTotal } from '@/utils/promise';
 import Auction from './auction';
 import Subrogation from './subrogation';
-import { toGetTotal } from '@/utils/promise';
 
 const subItems = data => ([
 	{
