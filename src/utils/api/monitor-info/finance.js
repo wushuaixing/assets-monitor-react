@@ -27,7 +27,7 @@ export const readAllStatusBid = async (params) => {
 };
 
 // 竞价项目 收藏 [批量]
-export const followBid = params => service.post('/yc/monitor/finance/auctionBidding/followBatch', params)
+export const followBid = params => service.post('/yc/monitor/finance/auctionBidding/follow', params)
 	.then(res => res.data);
 
 // 竞价项目 收藏 [单个]
