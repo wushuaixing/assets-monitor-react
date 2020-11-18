@@ -12,9 +12,9 @@ const modalPro = (props) => {
 	api(params, _isAttention).then((res) => {
 		if (res.code === 200) {
 			if (isAttention) {
-				message.success('已取消关注本条信息');
+				message.success('已取消收藏本条信息');
 			} else {
-				message.success('已关注本条信息');
+				message.success('已收藏信息');
 			}
 			onClick({ id, isAttention: _isAttention, index }, 'isAttention');
 		}

@@ -6,13 +6,13 @@ const Trial = {
 	attention: params => s.post('/yc/monitor/trial/subrogation/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/trial/subrogation/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/trial/subrogation/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/trial/subrogation/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/trial/subrogation/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/trial/subrogation/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/trial/subrogation/list', { params }).then(res => Object.assign(res.data,
@@ -44,13 +44,13 @@ const Court = {
 	attention: params => s.post('/yc/monitor/court/subrogation/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/court/subrogation/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/court/subrogation/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/court/subrogation/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/court/subrogation/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/court/subrogation/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/court/subrogation/list', { params }).then(res => Object.assign(res.data,
@@ -82,13 +82,13 @@ const Judgment = {
 	attention: params => s.post('/yc/monitor/judgment/subrogation/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/judgment/subrogation/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/judgment/subrogation/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/judgment/subrogation/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/judgment/subrogation/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/judgment/subrogation/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/judgment/subrogation/list', { params }).then(res => Object.assign(res.data,
