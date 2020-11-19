@@ -1,8 +1,8 @@
 import React from 'react';
-import { businessOverviewLimitHeight, overviewLimitHeight } from '@/utils/api/professional-work/overview';
-import TimeLine from '@/views/portrait-inquiry/common/timeLine';
+import { getLimitHeight } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import { Spin } from '@/common';
-import getCount from '@/views/portrait-inquiry/common/getCount';
+import TimeLine from '../../../common/timeLine';
+import getCount from '../../../common/getCount';
 import './style.scss';
 
 export default class LimitHeight extends React.Component {
@@ -11,6 +11,7 @@ export default class LimitHeight extends React.Component {
 		this.state = {
 			loading: false,
 			timeLineData: [],
+			allTimeDate: 0,
 		};
 	}
 
@@ -19,24 +20,22 @@ export default class LimitHeight extends React.Component {
 	}
 
 	getData = () => {
-		const {
-			businessId, obligorId, getAssetProfile, portrait,
-		} = this.props;
+		const { companyId, getRiskProfile } = this.props;
 		this.setState({
 			loading: true,
 		});
-		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
-		const api = portrait === 'business' ? businessOverviewLimitHeight : overviewLimitHeight;
-		api(params).then((res) => {
+		const params = {
+			companyId,
+		};
+		getLimitHeight(params).then((res) => {
 			if (res.code === 200) {
-				console.log('unblock === ', res);
 				const timeLineData = res.data.yearDistributions;
-				const allNum = getCount(timeLineData);
-				getAssetProfile(allNum, 'LimitHeight');
 				this.setState({
 					loading: false,
 					timeLineData, // 年份分布
+					allTimeDate: getCount(timeLineData),
 				});
+				getRiskProfile(getCount(timeLineData), 'LimitHeight');
 			} else {
 				this.setState({ loading: false });
 			}
@@ -46,22 +45,22 @@ export default class LimitHeight extends React.Component {
 	};
 
 	render() {
-		const { timeLineData, loading } = this.state;
+		const { timeLineData, loading, allTimeDate } = this.state;
 		return (
 			<div>
 				{
-					getCount(timeLineData) > 0
+					allTimeDate > 0
 					&& (
 						<Spin visible={loading}>
 							<div className="overview-container-title">
 								<div className="overview-left-item" />
 								<span className="container-title-num">
-									{`${getCount(timeLineData)} 条`}
+									{`${allTimeDate} 条`}
 								</span>
 								<span className="container-title-name">限制高消费</span>
 							</div>
 							<div className="overview-container-content">
-								{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="Limit" />}
+								{allTimeDate > 0 && <TimeLine title="年份分布" Data={timeLineData} id="LimitHeight" />}
 							</div>
 						</Spin>
 					)}

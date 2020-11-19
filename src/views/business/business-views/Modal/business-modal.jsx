@@ -21,7 +21,7 @@ function error([title, content]) {
 }
 
 const isMac = /macintosh|mac os x/i.test(navigator.userAgent);
-console.log('isMac === ', isMac);
+// console.log('isMac === ', isMac);
 
 class BusinessModal extends React.PureComponent {
 	constructor(props) {
