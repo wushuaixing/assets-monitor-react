@@ -75,7 +75,10 @@ export default class Lawsuits extends React.Component {
 		const { tabConfig } = this.state;
 		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
 		this.setState({ sourceType });
-		this.onQueryChange({}, sourceType);
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({}, sourceType);
+		}
 	}
 
 	// 清除排序状态

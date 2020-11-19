@@ -28,7 +28,10 @@ export default class SeizedUnblock extends React.Component {
 	}
 
 	componentWillMount() {
-		this.onQueryChange({});
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({});
+		}
 	}
 
 	// 获取查解封资产未读数据
