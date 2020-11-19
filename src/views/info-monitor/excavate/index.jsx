@@ -94,7 +94,7 @@ export default class Excavate extends PureComponent {
 				{
 					id: 9,
 					title: '车辆信息',
-					rule: isRule && props.rule.children.zcwjzbzb,
+					rule: isRule && props.rule.children.zcwjclxx,
 					url: '/monitor/car',
 					Component: CarCard,
 					API: biddingCard,

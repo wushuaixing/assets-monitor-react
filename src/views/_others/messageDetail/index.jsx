@@ -23,6 +23,7 @@ import Dishonesty from './component/dishonesty/index';
 import BusinessRisk from './component/businessRisk/index';
 import UnBlock from './component/unblock/index';
 import LimitHeight from './component/limit-height/index';
+import Car from './component/car/index';
 
 const createForm = Form.create;
 
@@ -43,6 +44,7 @@ const isRule = (ruleName, type, rule) => {
 // data是接口返回所有分类模块的数据，datatype是当前模块的类型
 // 如果传的是5位就正常校验，传的是3位就只校验前3位
 const getCount = (data, dataType) => {
+	debugger
 	let count = 0;
 	const reg = new RegExp(dataType);
 	if (dataType.toString().length === 5) {
@@ -192,6 +194,13 @@ const subItems = (rule, data) => ([
 		status: isRule('fxjkxzgxf', 2, rule),
 		tagName: 'message-limit',
 		component: LimitHeight,
+	},{
+		dataType: 110,
+		name: '车辆信息',
+		total: data ? getCount(data, 110) : 0,
+		status: isRule('zcwjclxx ', 2, rule),
+		tagName: 'message-limit',
+		component: Car,
 	},
 	{
 		dataType: 112,
