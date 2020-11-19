@@ -179,6 +179,7 @@ export default class Personal extends React.Component {
 		global.PORTRAIT_INQUIRY_AFFIRM = true;
 	}
 
+	// 查询画像的限制的查询次数
 	toAffirmGet = () => {
 		noneRemind(global.PORTRAIT_INQUIRY_AFFIRM).then(() => {
 			this.getData();
@@ -187,6 +188,7 @@ export default class Personal extends React.Component {
 		});
 	};
 
+	// 获取债务人信息
 	getData = () => {
 		const params = this.info;
 		// console.log('getInfo request =====', params);
@@ -214,12 +216,14 @@ export default class Personal extends React.Component {
 		});
 	};
 
-	toGetInfo=() => ({
+	// 从地址栏获取债务人基本信息
+	toGetInfo = () => ({
 		obligorName: getQueryByName(window.location.href, 'name'),
 		obligorNumber: getQueryByName(window.location.href, 'num'),
 	});
 
-	toTouchCount=() => {
+	// 遍历获取各项统计
+	toTouchCount = () => {
 		const params = this.info;
 		[{ d: assets, f: 'assets', i: 1 }, { d: risk, f: 'risk', i: 2 }]
 			.forEach(item => this.toGetChildCount(params, item.d, item.f, item.i));
@@ -227,16 +231,11 @@ export default class Personal extends React.Component {
 
 	/* 获取子项统计 */
 	toGetChildCount=(params, apiData, field, index) => {
-		// console.log('params =====', params);
-		// console.log('apiData =====', apiData);
-		// console.log('field =====', field);
-		/* ...... */
 		const { tabConfig: con, countSource: cou } = this.state;
 		const reqList = Object.keys(apiData).map(item => ({
 			api: apiData[item].count(params, apiData[item].id),
 			info: { id: apiData[item].id },
 		}));
-		// console.log('reqList ======', reqList);
 		requestAll(reqList).then((res) => {
 			let count = 0;
 			res.forEach(item => count += item.field ? item.data[item.field] : item.data);
@@ -250,18 +249,19 @@ export default class Personal extends React.Component {
 		});
 	};
 
+	// 子组件的统计和传给当前组件
 	handleAddChild=(val) => {
 		this.setState({
 			childDom: val,
 		});
 	};
 
-	onSourceType=(val) => {
+	// 切换数据统计
+	onSourceType = (val) => {
 		const { sourceType } = this.state;
 		const { href } = window.location;
 		const params = href.match(/\?/) ? href.slice(href.match(/\?/).index) : '';
 		if (sourceType !== val) {
-			// console.log('sourceType === ', sourceType, val);
 			this.setState({
 				sourceType: val,
 				childDom: '',
@@ -271,16 +271,15 @@ export default class Personal extends React.Component {
 		}
 	};
 
+	// 页面滑动，启动固钉
 	onChangeAffix=(val) => {
 		this.setState({ affixStatus: val });
-		// console.log('onChangeAffix:', val);
 	};
 
 	render() {
 		const {
 			tabConfig, sourceType, childDom, affixStatus, countSource, loading, infoSource, overViewLoading, isDishonestStatus,
 		} = this.state;
-		// console.log('countSource ====', countSource);
 		return (
 			<div className="yc-inquiry-personal">
 				<BreadCrumb
@@ -316,10 +315,9 @@ export default class Personal extends React.Component {
 					</Spin>
 					<Router>
 						<OverView toPushChild={this.handleAddChild} path="/*" viewLoading={overViewLoading} />
-						<Assets toPushChild={this.handleAddChild} path="/inquiry/personal/202/*" count={countSource.assets} />
-						<Risk toPushChild={this.handleAddChild} path="/inquiry/personal/203/*" count={countSource.risk} />
+						<Assets toPushChild={this.handleAddChild} path="/inquiry/personal/202/*" count={countSource.assets} obligorName={this.info.obligorName} />
+						<Risk toPushChild={this.handleAddChild} path="/inquiry/personal/203/*" count={countSource.risk} obligorName={this.info.obligorName} />
 					</Router>
-
 				</div>
 			</div>
 		);

@@ -6,13 +6,13 @@ const bidding = {
 	attention: params => s.post('/yc/monitor/bidding/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/bidding/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏
 	followAttention: params => s.post('/yc/monitor/bidding/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/bidding/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/bidding/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/bidding/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/bidding/list', { params }).then(res => res.data),

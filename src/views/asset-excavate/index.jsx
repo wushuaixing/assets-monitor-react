@@ -16,7 +16,7 @@ import EquityPledge from './equity-pledge'; // 股权质押
 import SeizedUnblock from './seized-unblock'; // 查解封资产
 import Car from './car'; // 查解封资产
 // import Public from './public-proclamation'; // 公示公告
-// import Attention from '../my-attention'; // 我的关注
+// import Attention from '../my-attention'; // 我的收藏
 // import VersionUpdateModal from '../_others/layout/versionUpdateModal';
 import ClearProcess from './assets-auction/clearProcess';
 // 资产清收流程
@@ -159,6 +159,7 @@ class MonitorMain extends React.Component {
 					<Router>
 						{
 							_source.map(Item => (
+								// eslint-disable-next-line react/jsx-pascal-case
 								<Item.components
 									path={`${Item.url}/*`}
 									rule={rule}

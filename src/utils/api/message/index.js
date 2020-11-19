@@ -12,11 +12,11 @@ export const markRead = async (params) => {
 	return response.data;
 };
 
-// [V2.3] 监控日报详情 => 资产拍卖标记关注[youyu]
+// [V2.3] 监控日报详情 => 资产拍卖标记收藏[youyu]
 export const followSingle = params => service.post('/yc/report/daily/auction/follow', params)
 	.then(res => res.data);
 
-// [V2.3] 监控日报详情 => 资产拍卖取消关注[youyu]
+// [V2.3] 监控日报详情 => 资产拍卖取消收藏[youyu]
 export const unFollowSingle = params => service.post('/yc/report/daily/auction/unFollow', params)
 	.then(res => res.data);
 

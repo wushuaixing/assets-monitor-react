@@ -8,7 +8,7 @@ import Apis from '@/utils/api/monitor-info/finance';
 import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 import { promiseAll } from '@/utils/promise';
-import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
+import { getUrlParams } from '@/views/asset-excavate/query-util';
 import TableBidding from './table/bidding';
 import TableMerchants from './table/merchants';
 import QueryBidding from './query/bidding';
@@ -23,20 +23,20 @@ const sourceTypeMap = new Map([
 	['default', 'auctionBiddingCount'],
 ]);
 
-export const peojectStatusMap = new Map([
-	[1, '预披露'],
-	[2, '等待挂牌'],
-	[3, '挂牌中'],
-	[4, '挂牌结束'],
-	[5, '报名中'],
-	[6, '报名结束'],
-	[7, '竞价中'],
-	[8, '竞价结束'],
-	[9, '已成交'],
-	[10, '已结束'],
-	[11, '中止'],
-	[0, '未知'],
-]);
+// export const peojectStatusMap = new Map([
+// 	[1, '预披露'],
+// 	[2, '等待挂牌'],
+// 	[3, '挂牌中'],
+// 	[4, '挂牌结束'],
+// 	[5, '报名中'],
+// 	[6, '报名结束'],
+// 	[7, '竞价中'],
+// 	[8, '竞价结束'],
+// 	[9, '已成交'],
+// 	[10, '已结束'],
+// 	[11, '中止'],
+// 	[0, '未知'],
+// ]);
 
 // 获取api具体
 const api = (field, type) => {
@@ -99,7 +99,10 @@ export default class Subrogation extends React.Component {
 		this.setState({
 			sourceType,
 		});
-		this.onQueryChange({}, sourceType);
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({}, sourceType);
+		}
 		this.onUnReadCount();
 		// this.setUnReadCount = setInterval(() => {
 		// 	this.onUnReadCount();
@@ -116,7 +119,8 @@ export default class Subrogation extends React.Component {
 		this.condition.sortOrder = '';
 	};
 
-	isUrlParams=(sourceType) => {
+	// 获取URL里的参数
+	isUrlParams = (sourceType) => {
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
 			let dParams = {};
@@ -209,21 +213,21 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
-	// 批量关注
+	// 批量收藏
 	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource, sourceType } = this.state;
 			const _this = this;
 			Modal.confirm({
-				title: '确认关注选中的所有信息吗？',
+				title: '确认收藏选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
 					api('follow', sourceType)({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
-							_this.selectRow = []; // 批量关注清空选中项
+							_this.selectRow = []; // 批量收藏清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
@@ -270,7 +274,7 @@ export default class Subrogation extends React.Component {
 		});
 		this.onUnReadCount();
 		this.toClearSortStatus();
-		this.onQueryChange({}, val, 'all', 1);
+		this.onQueryChange(this.isUrlParams(val), val, 'all', 1);
 		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'class', val);
 	};
@@ -431,7 +435,7 @@ export default class Subrogation extends React.Component {
 						</div>
 					) : (
 						<div className="yc-batch-management">
-							<Button onClick={this.handleAttention} title="关注" />
+							<Button onClick={this.handleAttention} title="收藏" />
 							<Download
 								text="导出"
 								field="idList"
@@ -442,6 +446,7 @@ export default class Subrogation extends React.Component {
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
 							<Button
+								type="common"
 								onClick={() => {
 									this.setState({ manage: false });
 									this.selectRow = [];

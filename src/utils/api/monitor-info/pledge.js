@@ -6,13 +6,13 @@ export const infoListResult = async (params) => {
 	const response = await service.get('/yc/monitor/pledge/list', { params });
 	return response.data;
 };
-// 股权质押 关注列表
+// 股权质押 收藏列表
 export const attentionFollowListResult = async (params) => {
 	const response = await service.get('/yc/monitor/pledge/follow/list', { params });
 	return response.data;
 };
 
-// 关注list数量
+// 收藏list数量
 export const attentionFollowResultCount = async (params) => {
 	const response = await service.get('/yc/monitor/pledge/follow/list-count', { params });
 	return response.data;
@@ -30,13 +30,13 @@ export const readAllStatusResult = async (params) => {
 	return response.data;
 };
 
-// 关注
+// 收藏
 export const followResult = async (params) => {
 	const response = await service.post('/yc/monitor/pledge/follow', params);
 	return response.data;
 };
 
-// 取消关注
+// 取消收藏
 export const unFollowResult = async (params) => {
 	const response = await service.post('/yc/monitor/pledge/unFollow', params);
 	return response.data;

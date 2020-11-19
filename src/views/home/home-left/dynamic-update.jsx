@@ -248,7 +248,12 @@ class DynamicUpdate extends PureComponent {
 		// console.log('urlMap.get(val)', urlMap.get(val.name));
 		const { timeType } = this.props;
 		const w = window.open('about:blank');
-		w.location.href = `#${urlMap.get(val.name)}?timeHorizon=${timeType}`;
+		console.log(urlMap.get(val.name))
+		if (urlMap.get(val.name).includes('?')) {
+			w.location.href = `#${urlMap.get(val.name)}&timeHorizon=${timeType}`;
+		} else {
+			w.location.href = `#${urlMap.get(val.name)}?timeHorizon=${timeType}`;
+		}
 	};
 
 	// 手动跳转页面
