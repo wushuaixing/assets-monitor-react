@@ -51,6 +51,7 @@ const urlMap = new Map([
 	['查/解封资产', '/monitor/seizedUnblock'],
 	['金融资产', '/monitor/financial'],
 	['招投标', '/monitor/tender'],
+	['不动产登记', '/monitor/RealEstate'],
 	['车辆信息', '/monitor/car'],
 	['破产重组', '/risk/bankruptcy'],
 	['失信记录', '/risk/broken'],

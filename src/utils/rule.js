@@ -376,6 +376,12 @@ export default {
 							},
 							{
 								id: 'YC0210',
+								name: '不动产登记',
+								url: '/monitor/realEstate',
+								status: toStatus(rule.menu_zcwj, 'zcwjbdcdj'),
+							},
+							{
+								id: 'YC0211',
 								name: '车辆信息',
 								url: '/monitor/car',
 								status: toStatus(rule.menu_zcwj, 'zcwjclxx'),

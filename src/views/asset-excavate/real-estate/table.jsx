@@ -2,11 +2,26 @@ import React from 'react';
 import {
 	Pagination, message, Tooltip,
 } from 'antd';
-import { Table, SelectedNum, Ellipsis } from '@/common';
+import {
+	Table, SelectedNum, Ellipsis, Icon, Button,
+} from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
-import {linkDom, timeStandard, w} from '@/utils';
+import { linkDom, timeStandard, w } from '@/utils';
+import { floatFormat } from '@/utils/format';
+import { formatDateTime } from '@/utils/changeTime';
 
+const announcementEnum = {
+	1: '注销公告',
+	2: '遗失公告',
+	3: '继承公告',
+	4: '首次登记公告',
+	5: '作废公告',
+	6: '转移登记公告',
+	7: '变更/更正公告',
+	8: '其他公告',
+	0: '未知',
+};
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -18,29 +33,62 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? <span style={{ paddingLeft: 11 }}>公示日期</span>
-				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>公示日期</SortVessel>),
+			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
+				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishTime',
 			width: 110,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
-			title: '车辆所有人',
+			title: '关联债务人',
 			dataIndex: 'obligorName',
 			width: 190,
 			render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
 		}, {
-			title: '车辆种类',
-			dataIndex: 'vehicleType',
+			title: '公告类型',
+			dataIndex: 'announcementType',
 			width: 190,
+			render: text => <p>{announcementEnum[text]}</p>,
 		}, {
-			title: '车牌号',
+			title: '公告内容',
 			width: 250,
 			dataIndex: 'vehicleNumber',
-		}, {
-			title: '源链接',
-			width: 110,
-			dataIndex: 'url',
-			render: (text, row) => (text ? linkDom(row.url, '查看') : '-'),
+			render: (text, row) => (
+				<div className="yc-assets-table-info">
+					{
+					row.title || row.url ? (
+						<Tooltip placement="top" title={row.title}>
+							<a
+								className="table-info-title text-ellipsis click-link"
+								href={row.url}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{row.title || row.url}
+							</a>
+						</Tooltip>
+					) : <div className="table-info-title ">-</div>
+				}
+					<li className="table-info-list list-width-180">
+						<span className="info info-title">权证类型：</span>
+						{
+						row.certificateType ? (
+							<Tooltip placement="top" title={row.certificateType}>
+								<span className="info info-content text-ellipsis list-width-120">{row.certificateType}</span>
+							</Tooltip>
+						) : <span className="info info-content">未知</span>
+					}
+					</li>
+					<li className="table-info-list list-width-180">
+						<span className="info info-title">权证号：</span>
+						<span className="info info-content">{row.certificateNumber ? row.certificateNumber : '未知'}</span>
+					</li>
+					<br />
+					<li className="table-info-list list-width-180">
+						<span className="info info-title">不动产坐落：</span>
+						<span className="info info-content">{row.realEstateLocated !== null ? row.realEstateLocated : '未知'}</span>
+					</li>
+				</div>
+			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

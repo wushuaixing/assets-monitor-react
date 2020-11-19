@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-	Form, Select, message,
+	Form,
 } from 'antd';
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
-import InputPrice from '@/common/input/input-price';
 
 class QueryCar extends React.Component {
 	constructor(props) {
@@ -63,7 +62,7 @@ class QueryCar extends React.Component {
 					<Input title="债务人" style={_style1} maxLength="40" size="large" placeholder="姓名/公司名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="车牌号" style={_style1} maxLength="40" size="large" placeholder="车牌号" {...getFieldProps('obligorName')} />
+					<Input title="车牌号" style={_style1} maxLength="40" size="large" placeholder="车牌号" {...getFieldProps('vehicleNumber')} />
 				</div>
 				<div className="yc-query-item">
 					<span className="yc-query-item-lable">公示日期：</span>
@@ -89,16 +88,16 @@ class QueryCar extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('createTimeStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createTimeEnd'))}
+						{...getFieldProps('startGmtModified', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtModified'))}
 					/>
 					<span className="yc-query-item-lable">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('createTimeEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('createTimeStart'))}
+						{...getFieldProps('endGmtModified', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtModified'))}
 					/>
 				</div>
 				<div className="yc-query-item yc-query-item-btn">
