@@ -7,6 +7,7 @@ import {
 	overviewRisk, // 债务人经营风险
 	businessOverviewRisk, // 业务经营风险
 	overviewDishonest, // 债务人失信
+	overviewLimitHeight, // 债务人限制高消费
 	businessOverviewDishonest, // 业务失信
 	OverviewTax, // 个人债务人税收违法
 } from '@/utils/api/professional-work/overview';
@@ -19,6 +20,7 @@ import Involved from '../card-components/Involved-card';
 import Information from '../card-components/Information-card';
 import Break from '../card-components/break-card';
 import Tax from '../card-components/taxViolation-card';
+import LimitHeightCard from '../card-components/limit-height-card';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值
@@ -29,6 +31,8 @@ const apiType = (value, portrait) => {
 	case 'Litigation': return portrait === 'business' ? businessOverviewLitigation : overviewLitigation;
 	case 'Risk': return portrait === 'business' ? businessOverviewRisk : overviewRisk;
 	case 'Tax': return OverviewTax;
+	case 'Limit': return overviewLimitHeight; // 只是债务人的限制高消费，没有做业务的
+
 	default: return {};
 	}
 };
@@ -42,6 +46,7 @@ export default class RiskInformation extends React.Component {
 			litigationPropsData: {}, // 涉诉信息
 			riskPropsData: {}, // 经营风险
 			taxPropsData: {}, // 税收违法
+			limitHeightPropsData: {}, // 限制高消费
 		};
 	}
 
@@ -63,6 +68,7 @@ export default class RiskInformation extends React.Component {
 		promiseArray.push(apiType('Dishonest', portrait)(params)); // 失信记录
 		promiseArray.push(apiType('Litigation', portrait)(params)); // 涉诉信息
 		promiseArray.push(apiType('Risk', portrait)(params)); // 经营风险
+		promiseArray.push(apiType('Limit', portrait)(params)); // 限制高消费
 		if (portrait === 'debtor_personal') {
 			promiseArray.push(apiType('Tax', portrait)(params)); // 税收违法
 		}
@@ -82,6 +88,8 @@ export default class RiskInformation extends React.Component {
 			this.getRiskData(isArray, values);
 			// 个人债务人税收违法
 			this.getTaxViolationData(isArray, values);
+			// 限制高消费
+			this.getLimitHeightData(isArray, values);
 			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
@@ -202,7 +210,7 @@ export default class RiskInformation extends React.Component {
 
 	// 税收违法
 	getTaxViolationData = (isArray, values) => {
-		const res = values[4];
+		const res = values[5];
 		if (isArray && res && res.code === 200) {
 			const { roleDistributions } = res.data;
 			const dataSourceNum = getCount(roleDistributions);
@@ -217,20 +225,37 @@ export default class RiskInformation extends React.Component {
 		}
 	};
 
+	// 限制高消费
+	getLimitHeightData = (isArray, values) => {
+		const res = values[4];
+		if (isArray && res && res.code === 200) {
+			const { gmtModified, limitHeightCount, status } = res.data;
+			const limitHeightPropsData = {
+				gmtModified,
+				limitHeightCount,
+				status,
+				// obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				limitHeightPropsData,
+			}));
+		}
+	};
+
 	// 判断内部是否存数据
 	isHasValue = () => {
 		const { portrait } = this.props;
 		const {
-			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData, taxPropsData,
+			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData, taxPropsData, limitHeightPropsData,
 		} = this.state;
 		return (bankruptcyPropsData.bankruptcyNum > 0 && portrait !== 'debtor_personal') || litigationPropsData.dataSourceNum > 0
-			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0 || taxPropsData.dataSourceNum > 0;
+			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0 || taxPropsData.dataSourceNum > 0 || limitHeightPropsData.limitHeightCount > 0;
 	};
 
 	render() {
 		const { portrait } = this.props;
 		const {
-			bankruptcyPropsData, dishonestPropsData, litigationPropsData, riskPropsData, taxPropsData, isLoading,
+			bankruptcyPropsData, dishonestPropsData, litigationPropsData, riskPropsData, taxPropsData, isLoading, limitHeightPropsData,
 		} = this.state;
 		const isHasValue = this.isHasValue();
 		return (
@@ -253,6 +278,8 @@ export default class RiskInformation extends React.Component {
 								{portrait !== 'debtor_personal' && Object.keys(riskPropsData).length !== 0 && <Information dataSource={riskPropsData} portrait={portrait} />}
 								{/* 税收违法 */}
 								{portrait === 'debtor_personal' && Object.keys(taxPropsData).length !== 0 && <Tax dataSource={taxPropsData} />}
+								{/* 限制高消费 */}
+								{Object.keys(limitHeightPropsData).length !== 0 && <LimitHeightCard dataSource={limitHeightPropsData} portrait={portrait} />}
 							</div>
 						</div>
 					) : null}

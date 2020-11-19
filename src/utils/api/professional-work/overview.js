@@ -53,6 +53,25 @@ export const overviewSubrogation = async (params) => {
 	return response.data;
 };
 
+// 债务人查解封资产
+export const overviewUnBlock = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/unseal', { params });
+	return response.data;
+	// return { ...response.data, data: { unsealCount: 50, gmtModified: '2020-10-10' } };
+};
+
+// 债务人金融资产
+export const overviewFinancial = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/finance', { params });
+	return response.data;
+	// return {
+	// 	...response.data,
+	// 	data: {
+	// 		auctionFinanceCount: 50, financeCount: 51, financeInvestmentCount: 52, gmtModified: '2020-10-11',
+	// 	},
+	// };
+};
+
 // 业务代位权
 export const businessOverviewSubrogation = async (params) => {
 	const response = await service.get('/yc/business/monitor/overview/subrogation', { params });
@@ -147,6 +166,18 @@ export const businessOverviewRisk = async (params) => {
 export const OverviewTax = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/tax', { params });
 	return response.data;
+};
+
+// 债务人税收违法 (企业 + 个人)
+export const overviewLimitHeight = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/limitHeight', { params });
+	return response.data;
+	// return {
+	// 	...response.data,
+	// 	data: {
+	// 		limitHeightCount: 565, gmtModified: '2020-10-11', status: 1,
+	// 	},
+	// };
 };
 
 // 债务人工商基本情况

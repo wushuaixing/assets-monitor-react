@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
 	getQueryByName,
@@ -32,6 +31,7 @@ export default class Portrait extends React.Component {
 		this.getData(params, portrait);
 	}
 
+	// 获取业务列表 或者 债务人列表
 	getData = (value, portrait) => {
 		const params = { ...value };
 		const api = portrait === 'business' ? businessList : obligorList;
