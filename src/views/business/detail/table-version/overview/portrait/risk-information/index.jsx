@@ -234,7 +234,7 @@ export default class RiskInformation extends React.Component {
 				gmtModified,
 				limitHeightCount,
 				status,
-				// obligorTotal: res.data.obligorTotal || null,
+				obligorTotal: res.data.obligorTotal || null,
 			};
 			this.setState(() => ({
 				limitHeightPropsData,

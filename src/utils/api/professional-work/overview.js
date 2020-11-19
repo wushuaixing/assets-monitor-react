@@ -57,7 +57,26 @@ export const overviewSubrogation = async (params) => {
 export const overviewUnBlock = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/unseal', { params });
 	return response.data;
-	// return { ...response.data, data: { unsealCount: 50, gmtModified: '2020-10-10' } };
+	// return {
+	// 	...response.data,
+	// 	data: {
+	// 		unsealCount: 50,
+	// 		gmtModified: '2020-10-10',
+	// 		yearDistributions: [
+	// 			{ count: 5, year: 2020 },
+	// 			{ count: 3, year: 2019 },
+	// 			{ count: 66, year: 2018 },
+	// 			{ count: 22, year: 2010 },
+	// 			{ count: 1, year: 2011 },
+	// 		],
+	// 	},
+	// };
+};
+
+// 业务查解封资产 （只是占位，待修改）
+export const businessOverviewUnBlock = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/unseal', { params });
+	return response.data;
 };
 
 // 债务人金融资产
@@ -67,9 +86,64 @@ export const overviewFinancial = async (params) => {
 	// return {
 	// 	...response.data,
 	// 	data: {
-	// 		auctionFinanceCount: 50, financeCount: 51, financeInvestmentCount: 52, gmtModified: '2020-10-11',
+	// 		auctionFinanceCount: 50,
+	// 		financeCount: 51,
+	// 		financeInvestmentCount: 52,
+	// 		gmtModified: '2020-10-11',
+	// 		financeInfos: [
+	// 			{
+	// 				projectStatus: [
+	// 					{ count: 1, type: 1 },
+	// 					{ count: 15, type: 3 },
+	// 					{ count: 12, type: 5 },
+	// 					{ count: 41, type: 7 },
+	// 					{ count: 51, type: 9 },
+	// 					{ count: 51, type: 11 },
+	// 				],
+	// 				type: 1, // 竞价项目
+	// 				count: 11111,
+	// 			},
+	// 			{
+	// 				investmentProjectType: [
+	// 					{ count: 1, type: 200794003 },
+	// 					{ count: 15, type: 50025970 },
+	// 					{ count: 12, type: 50025975 },
+	// 					{ count: 41, type: 50025974 },
+	// 					{ count: 51, type: 122406001 },
+	// 					{ count: 51, type: 56936003 },
+	// 					{ count: 51, type: 50025973 },
+	// 				],
+	// 				yearDistribution: [
+	// 					{ count: 5, year: 2020 },
+	// 					{ count: 3, year: 2019 },
+	// 					{ count: 66, year: 2018 },
+	// 					{ count: 22, year: 2010 },
+	// 					{ count: 1, year: 2011 },
+	// 				],
+	// 				type: 2, // 招商项目
+	// 				count: 2222222,
+	// 			},
+	// 			{
+	// 				financeProjectType: [
+	// 					{ count: 1, type: 1 },
+	// 					{ count: 15, type: 2 },
+	// 					{ count: 12, type: 3 },
+	// 					{ count: 41, type: 4 },
+	// 					{ count: 51, type: 5 },
+	// 					{ count: 51, type: 6 },
+	// 					{ count: 51, type: -1 },
+	// 				],
+	// 				type: 3, // 公示项目
+	// 				count: 33333,
+	// 			},
+	// 		],
 	// 	},
 	// };
+};
+// 业务金融资产（未添加这个需求， 待修改）
+export const businessOverviewFinancial = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/finance', { params });
+	return response.data;
 };
 
 // 业务代位权
@@ -168,16 +242,31 @@ export const OverviewTax = async (params) => {
 	return response.data;
 };
 
-// 债务人税收违法 (企业 + 个人)
+// 债务人限制高消费(企业 + 个人)
 export const overviewLimitHeight = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/limitHeight', { params });
 	return response.data;
 	// return {
 	// 	...response.data,
 	// 	data: {
-	// 		limitHeightCount: 565, gmtModified: '2020-10-11', status: 1,
+	// 		limitHeightCount: 565,
+	// 		gmtModified: '2020-10-11',
+	// 		status: 1,
+	// 		yearDistributions: [
+	// 			{ count: 5, year: 2020 },
+	// 			{ count: 3, year: 2019 },
+	// 			{ count: 66, year: 2018 },
+	// 			{ count: 22, year: 2010 },
+	// 			{ count: 1, year: 2011 },
+	// 		],
 	// 	},
 	// };
+};
+
+// 业务视图限制高消费 (企业 + 个人)
+export const businessOverviewLimitHeight = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/limitHeight', { params });
+	return response.data;
 };
 
 // 债务人工商基本情况

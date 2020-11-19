@@ -6,16 +6,13 @@ import './style.scss';
 export default class FinancialCard extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			obligorTotal: 0,
-		};
+		this.state = {};
 	}
 
 	render() {
-		const { obligorTotal } = this.state;
 		const {
 			portrait, dataSource: {
-				auctionFinanceCount, financeCount, financeInvestmentCount, allNum, gmtModified,
+				auctionFinanceCount, financeCount, financeInvestmentCount, allNum, gmtModified, obligorTotal,
 			},
 		} = this.props;
 		return (

@@ -256,7 +256,7 @@ export default class AssetProfile extends React.Component {
 			const unblockPropsData = {
 				unsealCount,
 				gmtModified,
-				obligorTotal: unsealCount || null,
+				obligorTotal: res.data.obligorTotal || null,
 			};
 			this.setState(() => ({
 				unblockPropsData,
@@ -278,6 +278,7 @@ export default class AssetProfile extends React.Component {
 				financeInvestmentCount,
 				gmtModified,
 				allNum,
+				obligorTotal: res.data.obligorTotal || null,
 			};
 			this.setState(() => ({
 				financialPropsData,
