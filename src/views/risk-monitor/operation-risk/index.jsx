@@ -152,15 +152,22 @@ export default class OperationRisk extends React.Component {
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
 			let dParams = {};
-			if (Number(val) === 1) {
-				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
-			}
-			if (Number(val) === 2) {
+			if (val === 'YC030301') {
 				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
 			}
-			if (Number(val) === 3) {
+			if (val === 'YC030302') {
 				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
 			}
+			if (val === 'YC030303') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			} if (val === 'YC030304') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			} if (val === 'YC030305') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			} if (val === 'YC030306') {
+				dParams = getUrlParams(url, 'startCreateTime', 'endCreateTime');
+			}
+
 			return dParams;
 		}
 		return {};

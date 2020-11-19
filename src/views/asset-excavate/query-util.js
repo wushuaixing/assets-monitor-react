@@ -1,6 +1,7 @@
 export function getUrlParams(url, startTime, endTime) {
 	const defaultParam = {};
 	const str = url.split('?')[1]; // substr()方法返回从参数值开始到结束的字符串；
+
 	const strs = str.split('&');
 	for (let i = 0; i < strs.length; i += 1) {
 		// eslint-disable-next-line prefer-destructuring
