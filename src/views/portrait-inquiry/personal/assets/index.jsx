@@ -82,7 +82,7 @@ export default class Assets extends React.Component {
 
 	render() {
 		const { config, loading } = this.state;
-		const { count } = this.props;
+		const { count, obligorName } = this.props;
 		const aryResult = (subItems(count).filter(i => i.total > 0)).length;
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
@@ -91,7 +91,8 @@ export default class Assets extends React.Component {
 						<div>
 							{
 								aryResult ? config.map(Item => (
-									Item.total ? <Item.component id={Item.tagName} data={Item.info} /> : ''))
+									// eslint-disable-next-line react/jsx-pascal-case
+									Item.total ? <Item.component obligorName={obligorName} id={Item.tagName} data={Item.info} /> : ''))
 									: <NoContent />
 							}
 						</div>
