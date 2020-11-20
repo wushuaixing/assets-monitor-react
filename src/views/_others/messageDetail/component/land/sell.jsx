@@ -122,14 +122,15 @@ class Sell extends Component {
 }
 
 Sell.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 Sell.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10301,
 	total: 0,
 	stationId: 0,

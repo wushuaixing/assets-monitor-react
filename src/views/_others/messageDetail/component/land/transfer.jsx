@@ -122,14 +122,15 @@ class Transfer extends Component {
 }
 
 Transfer.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 Transfer.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10302,
 	total: 0,
 	stationId: 0,

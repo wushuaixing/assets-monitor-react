@@ -123,14 +123,15 @@ class IllegalTaxation extends Component {
 
 IllegalTaxation.propTypes = {
 	total: PropTypes.number,
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 IllegalTaxation.defaultProps = {
 	total: 0,
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 11201,
 	stationId: 0,
 };

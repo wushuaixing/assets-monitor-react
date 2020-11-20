@@ -157,7 +157,7 @@ export default class Enterprise extends React.Component {
 	// }
 
 	/* 获取各类子项总数 */
-	toGetSubItemsTotal=((item, index, portrait) => {
+	toGetSubItemsTotal = ((item, index, portrait) => {
 		const obligorId = getQueryByName(window.location.href, 'id') || constantNumber;
 		if (item.config) {
 			const { apiData, config: { idList: _idList, status: _status } } = item;
@@ -196,18 +196,18 @@ export default class Enterprise extends React.Component {
 		}
 	});
 
-	handleDownload=() => {
+	handleDownload = () => {
 		console.log('handleDownload');
 	};
 
-	handleAddChild=(val, id) => {
+	handleAddChild = (val, id) => {
 		this.childDomId = id;
 		this.setState({
 			childDom: val,
 		});
 	};
 
-	onChangeAffix=(val) => {
+	onChangeAffix = (val) => {
 		this.setState({ affixStatus: val });
 	};
 
@@ -225,7 +225,7 @@ export default class Enterprise extends React.Component {
 	};
 
 	/* tab change */
-	onSourceType=(val, item) => {
+	onSourceType = (val, item) => {
 		const { sourceType, childDom } = this.state;
 		const { href } = window.location;
 		const eleStr = getHrefQuery('ele');
