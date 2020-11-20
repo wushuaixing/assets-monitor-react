@@ -230,13 +230,13 @@ export default class LimitConsumption extends React.Component {
 								<span className="yc-all-read-text">全部标为已读</span>
 							</div>
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
 									condition={() => this.condition}
 									api={Api.exportList}
 								/>
+								<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							</div>
 						</div>
 					) : (
@@ -251,8 +251,8 @@ export default class LimitConsumption extends React.Component {
 								api={Api.exportList}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
-							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
+								style={{ margin: 0 }}
 								type="common"
 								onClick={() => {
 									this.setState({ manage: false });

@@ -584,7 +584,7 @@ class BusinessView extends React.Component {
 						{
 							!openRowSelection ? (
 								<React.Fragment>
-									<Button className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
+									<Button type="common" className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
 										导入业务
 									</Button>
 									<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
@@ -601,21 +601,22 @@ class BusinessView extends React.Component {
 							{
 								openRowSelection ? (
 									<React.Fragment>
-										<Download selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
-										<Button onClick={this.handledDeleteBatch} className="yc-business-btn">删除</Button>
+										<Button style={{ margin: '0 0 0 10px' }} onClick={this.handledDeleteBatch} className="yc-business-btn">删除</Button>
+										<Download style={{ margin: '0 0 0 10px' }} selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
 									</React.Fragment>
 								) : null
 							}
+							{
+								openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} api={exportExcel} all text="一键导出" />
+							}
 							<Button
+								style={{ margin: '0 0 0 10px' }}
 								className="yc-business-btn"
 								type={`${openRowSelection ? 'common' : ''}`}
 								onClick={() => this.openManagement(openRowSelection)}
 							>
 								{openRowSelection ? '取消批量管理' : '批量管理'}
 							</Button>
-							{
-								openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
-							}
 						</div>
 					</div>
 					<Spin visible={loading}>
