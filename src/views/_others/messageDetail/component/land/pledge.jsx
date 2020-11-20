@@ -122,14 +122,15 @@ class Pledge extends Component {
 
 
 Pledge.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 Pledge.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10303,
 	total: 0,
 	stationId: 0,

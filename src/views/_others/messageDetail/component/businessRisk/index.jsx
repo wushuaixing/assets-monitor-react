@@ -67,7 +67,8 @@ BusinessRisk.propTypes = {
 	id: PropTypes.string,
 	title: PropTypes.string,
 	total: PropTypes.number,
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	stationId: PropTypes.number,
 	// eslint-disable-next-line react/forbid-prop-types
 	childrenCount: PropTypes.array,
@@ -77,7 +78,7 @@ BusinessRisk.defaultProps = {
 	id: 'message-intangible',
 	title: '动产抵押',
 	total: 0,
-	obligorId: 0,
+	obligorId: undefined,
 	stationId: 0,
 	childrenCount: [],
 };

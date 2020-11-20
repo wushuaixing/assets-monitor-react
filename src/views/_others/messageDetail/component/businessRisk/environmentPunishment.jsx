@@ -123,14 +123,15 @@ class EnvironmentPunishment extends Component {
 
 EnvironmentPunishment.propTypes = {
 	total: PropTypes.number,
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 EnvironmentPunishment.defaultProps = {
 	total: 0,
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 11202,
 	stationId: 0,
 };
