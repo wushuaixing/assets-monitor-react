@@ -123,14 +123,15 @@ class Competition extends Component {
 
 Competition.propTypes = {
 	total: PropTypes.number,
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 Competition.defaultProps = {
 	total: 0,
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10601,
 	stationId: 0,
 };

@@ -124,14 +124,15 @@ class Instrument extends Component {
 }
 
 Instrument.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 Instrument.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10203,
 	total: 0,
 	stationId: 0,

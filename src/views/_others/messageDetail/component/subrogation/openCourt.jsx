@@ -124,14 +124,15 @@ class OpenCourt extends Component {
 }
 
 OpenCourt.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 OpenCourt.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10203,
 	total: 0,
 	stationId: 0,

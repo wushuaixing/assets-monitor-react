@@ -122,14 +122,15 @@ class Mining extends Component {
 }
 
 Mining.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 Mining.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10802,
 	total: 0,
 	stationId: 0,

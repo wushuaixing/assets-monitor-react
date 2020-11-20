@@ -71,7 +71,8 @@ class IntangibleAssets extends Component {
 }
 
 IntangibleAssets.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	id: PropTypes.string,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
@@ -81,7 +82,7 @@ IntangibleAssets.propTypes = {
 };
 
 IntangibleAssets.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	total: 0,
 	stationId: 0,
 	id: 'message-invisibleAssets',

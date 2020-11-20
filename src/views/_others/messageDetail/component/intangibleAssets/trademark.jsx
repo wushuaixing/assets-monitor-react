@@ -121,14 +121,15 @@ class Trademark extends Component {
 }
 
 Trademark.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 Trademark.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10803,
 	total: 0,
 	stationId: 0,

@@ -133,7 +133,8 @@ EquityPledge.propTypes = {
 	id: PropTypes.string,
 	title: PropTypes.string,
 	total: PropTypes.number,
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	stationId: PropTypes.number,
 };
 
@@ -141,7 +142,7 @@ EquityPledge.defaultProps = {
 	id: 'message-equityPledge',
 	title: '股权质押',
 	total: 0,
-	obligorId: 0,
+	obligorId: undefined,
 	stationId: 0,
 };
 

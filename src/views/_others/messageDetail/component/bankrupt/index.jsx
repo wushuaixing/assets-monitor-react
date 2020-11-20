@@ -135,7 +135,8 @@ Bankrupt.propTypes = {
 	id: PropTypes.string,
 	title: PropTypes.string,
 	total: PropTypes.number,
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	stationId: PropTypes.number,
 };
 
@@ -143,7 +144,7 @@ Bankrupt.defaultProps = {
 	id: 'message-bankruptcy',
 	title: '企业破产重组',
 	total: 0,
-	obligorId: 0,
+	obligorId: undefined,
 	stationId: 0,
 };
 export default Bankrupt;

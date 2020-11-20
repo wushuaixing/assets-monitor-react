@@ -133,7 +133,8 @@ Bidding.propTypes = {
 	id: PropTypes.string,
 	title: PropTypes.string,
 	total: PropTypes.number,
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	stationId: PropTypes.number,
 };
 
@@ -141,7 +142,7 @@ Bidding.defaultProps = {
 	id: 'message-tender',
 	title: '招投标',
 	total: 0,
-	obligorId: 0,
+	obligorId: undefined,
 	stationId: 0,
 };
 export default Bidding;
