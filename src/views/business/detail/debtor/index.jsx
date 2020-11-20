@@ -9,10 +9,10 @@ import { getQueryByName } from '@/utils';
 /* api collection */
 import assets from '@/utils/api/professional-work/debtor/assets';
 import risk from '@/utils/api/professional-work/debtor/risk';
-import { debtorInfo, exportListDebtor } from '@/utils/api/professional-work';
+import { debtorInfo } from '@/utils/api/professional-work';
 /* components */
 import {
-	Tabs, BreadCrumb, Spin, Icon as IconType, Download, Button,
+	Tabs, BreadCrumb, Spin, Button,
 } from '@/common';
 import DebtorInfo from '@/views/business/detail/table-version/debtor-info';
 import Overview from '@/views/business/detail/table-version/overview';
@@ -269,20 +269,20 @@ export default class Enterprise extends React.Component {
 							{ id: 1, name: '债务人', link: '/business/view/debtor' },
 							{ id: 2, name: '债务人详情', link: '' },
 						]}
-						suffix={(
-							<div className="intro-download" style={{ zIndex: 1 }}>
-								<Download
-									style={{ width: 84 }}
-									condition={{
-										obligorId: getQueryByName(window.location.href, 'id'),
-									}}
-									icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-									api={exportListDebtor}
-									normal
-									text="下载"
-								/>
-							</div>
-						)}
+						// suffix={(
+						// 	<div className="intro-download" style={{ zIndex: 1 }}>
+						// 		<Download
+						// 			style={{ width: 84 }}
+						// 			condition={{
+						// 				obligorId: getQueryByName(window.location.href, 'id'),
+						// 			}}
+						// 			icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+						// 			api={exportListDebtor}
+						// 			normal
+						// 			text="下载"
+						// 		/>
+						// 	</div>
+						// )}
 					/>
 				</div>
 				<div className="mark-line" />
