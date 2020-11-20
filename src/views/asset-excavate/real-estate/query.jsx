@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	Form, Select, message,
+	Form, Select,
 } from 'antd';
 import {
 	Input, Button, timeRule, DatePicker,
@@ -48,8 +48,8 @@ class QueryCar extends React.Component {
 	};
 
 	render() {
-		const _style1 = { width: 284 };
-		const _style2 = { width: 100 };
+		const _style1 = { width: 278 };
+		const _style2 = { width: 164 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
 			normalize(n) {
@@ -65,10 +65,11 @@ class QueryCar extends React.Component {
 					<span className="yc-query-item-title">匹配精度：</span>
 					<Select
 						size="large"
-						defaultValue="all"
-						style={{ width: 146 }}
-						{...getFieldProps('matchType', { initialValue: '' })}
+						placeholder="全部"
+						style={{ width: 120 }}
+						{...getFieldProps('matchType', { initialValue: undefined })}
 					>
+						<Select.Option value="">全部</Select.Option>
 						<Select.Option value="1">精准匹配</Select.Option>
 						<Select.Option value="2">全文匹配</Select.Option>
 					</Select>

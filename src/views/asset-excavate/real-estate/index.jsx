@@ -6,7 +6,7 @@ import {
 import { unReadCount } from '@/utils/api/monitor-info';
 import {
 	getMortgageList, postMarkReadAll, postFollow, exportList,
-} from '@/utils/api/monitor-info/mortgage';
+} from '@/utils/api/monitor-info/real-estate';
 import { clearEmpty } from '@/utils';
 import Query from './query';
 import Table from './table';
@@ -233,8 +233,8 @@ export default class Subrogation extends React.Component {
 								<span className="yc-all-read-text">全部标为已读</span>
 							</div>
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download condition={() => this.condition} api={exportList} all text="一键导出" />
+								<Button className="yc-all-export" onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							</div>
 						</div>
 					) : (

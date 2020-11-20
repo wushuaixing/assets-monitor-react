@@ -3,13 +3,13 @@ import {
 	Pagination, message, Tooltip,
 } from 'antd';
 import {
-	Table, SelectedNum, Ellipsis, Icon, Button,
+	Table, SelectedNum, Ellipsis,
 } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
-import { linkDom, timeStandard, w } from '@/utils';
-import { floatFormat } from '@/utils/format';
-import { formatDateTime } from '@/utils/changeTime';
+import { timeStandard } from '@/utils';
+import accurate from 'img/icon/icon-jinzhun.png';
+
 
 const announcementEnum = {
 	1: '注销公告',
@@ -37,12 +37,46 @@ const columns = (props) => {
 				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishTime',
 			width: 110,
-			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+			render: (text, row) => (
+				<React.Fragment>
+					{row.matchType === 1 ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
+					<span className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'} />
+					<span>{text}</span>
+				</React.Fragment>
+			),
 		}, {
 			title: '关联债务人',
 			dataIndex: 'obligorName',
-			width: 190,
-			render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
+			width: 210,
+			render: (text, row) => (
+				<React.Fragment>
+					{
+						row.matchType === 1 ? (
+							<div className="yc-assets-table-info">
+								<li className="table-info-list">
+									<span className="info info-title">权利人：</span>
+									<Ellipsis
+										content={text}
+										width={168}
+										url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}
+										tooltip
+									/>
+								</li>
+							</div>
+						) : (
+							<Ellipsis
+								content={text}
+								width={170}
+								url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}
+								tooltip
+							/>
+						)
+					}
+
+
+				</React.Fragment>
+
+			),
 		}, {
 			title: '公告类型',
 			dataIndex: 'announcementType',
@@ -50,7 +84,7 @@ const columns = (props) => {
 			render: text => <p>{announcementEnum[text]}</p>,
 		}, {
 			title: '公告内容',
-			width: 250,
+			width: 310,
 			dataIndex: 'vehicleNumber',
 			render: (text, row) => (
 				<div className="yc-assets-table-info">
@@ -68,25 +102,34 @@ const columns = (props) => {
 						</Tooltip>
 					) : <div className="table-info-title ">-</div>
 				}
-					<li className="table-info-list list-width-180">
-						<span className="info info-title">权证类型：</span>
-						{
+					{
 						row.certificateType ? (
-							<Tooltip placement="top" title={row.certificateType}>
-								<span className="info info-content text-ellipsis list-width-120">{row.certificateType}</span>
-							</Tooltip>
-						) : <span className="info info-content">未知</span>
+							<li className="table-info-list" style={{ width: 310 }}>
+								<span className="info info-title">权证类型：</span>
+								<span className="info info-content text-ellipsis " style={{ maxWidth: 237 }}>{row.certificateType}</span>
+							</li>
+						) : null
 					}
-					</li>
-					<li className="table-info-list list-width-180">
-						<span className="info info-title">权证号：</span>
-						<span className="info info-content">{row.certificateNumber ? row.certificateNumber : '未知'}</span>
-					</li>
 					<br />
-					<li className="table-info-list list-width-180">
-						<span className="info info-title">不动产坐落：</span>
-						<span className="info info-content">{row.realEstateLocated !== null ? row.realEstateLocated : '未知'}</span>
-					</li>
+					{
+						row.certificateNumber ? (
+							<li className="table-info-list " style={{ width: 310 }}>
+								<span className="info info-title">权证号：</span>
+								<span className="info info-content" style={{ maxWidth: 237 }}>{row.certificateNumber}</span>
+							</li>
+						) : null
+
+					}
+					<br />
+					{
+						row.realEstateLocated ? (
+							<li className="table-info-list" style={{ width: 310 }}>
+								<span className="info info-title" style={{ verticalAlign: 'top' }}>不动产坐落：</span>
+								<span className="info info-content" style={{ maxWidth: 237 }}>{row.realEstateLocated}</span>
+							</li>
+						) : null
+					}
+
 				</div>
 			),
 		}, {

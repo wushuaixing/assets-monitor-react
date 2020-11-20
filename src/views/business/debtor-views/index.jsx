@@ -3,9 +3,11 @@ import {
 	Select, message, Pagination, Form,
 } from 'antd';
 import {
-	Spin, Input, Button, Download,
+	Spin, Input, Button, Download, Icon,
 } from '@/common';
-import { obligorList, exportExcel } from '@/utils/api/debator';
+import {
+	obligorList, exportExcel, openPush, closePush,
+} from '@/utils/api/debator';
 import { clearEmpty } from '@/utils';
 import TableList from './table';
 import './style.scss';
@@ -37,6 +39,8 @@ class BusinessDebtor extends React.Component {
 			loading: false,
 			searchValue: null,
 			dataList: [],
+			selectIds: [],
+			manage: false,
 		};
 		this.condition = {};
 	}
@@ -142,6 +146,22 @@ class BusinessDebtor extends React.Component {
 		});
 	};
 
+	onShowSizeChange=(p) => {
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const values = getFieldsValue();
+
+		const params = {
+			...values,
+			page: 1,
+			num: p,
+			...this.condition,
+		};
+		this.setState({ pageSize: p });
+		this.getData(params);
+	}
+
+
 	// 重置输入框
 	queryReset = () => {
 		const { form } = this.props; // 会提示props is not defined
@@ -184,9 +204,45 @@ class BusinessDebtor extends React.Component {
 		});
 	};
 
+	selectedRowKeys=(val) => {
+		this.setState({ selectIds: val });
+	}
+
+	handleClosePush=() => {
+		const { selectIds } = this.state;
+		if (selectIds.length === 0) {
+			message.warn('请选择债务人');
+			return;
+		}
+		closePush({ id: selectIds }).then((res) => {
+			if (res.code === 200) {
+				message.success('关闭成功');
+				this.getData();
+			} else if (res.code === 9003) {
+				message.error(res.message);
+			}
+		});
+	}
+
+	handleOpenPush=() => {
+		const { selectIds } = this.state;
+		if (selectIds.length === 0) {
+			message.warn('请选择债务人');
+			return;
+		}
+		openPush({ id: selectIds }).then((res) => {
+			if (res.code === 200) {
+				message.success('开启成功');
+				this.getData();
+			} else if (res.code === 9003) {
+				message.error(res.message);
+			}
+		});
+	}
+
 	render() {
 		const {
-			totals, current, loading, dataList, pageSize,
+			totals, current, loading, dataList, pageSize, manage,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -290,25 +346,55 @@ class BusinessDebtor extends React.Component {
 				<div className="yc-noTab-hr" />
 
 				<div className="yc-business-table-btn">
-					<div className="yc-public-floatRight">
-						<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
-					</div>
+					{
+							!manage ? (
+								<div className="yc-public-floatRight">
+									<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+									<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
+								</div>
+							) : (
+								<div className="yc-public-floatRight">
+									<Button
+										type="common"
+										onClick={() => {
+											this.setState({ manage: false });
+											this.selectRow = [];
+										}}
+										title="取消批量管理"
+									/>
+									<Button
+										type="common"
+										onClick={() => { this.handleClosePush(); }}
+										title="关闭推送"
+									/>
+									<Button
+										type="common"
+										onClick={() => { this.handleOpenPush(); }}
+										title="开启推送"
+									/>
+									<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
+								</div>
+							)
+						}
 				</div>
 				<Spin visible={loading}>
-					<TableList stateObj={this.state} dataList={dataList} getData={this.getData} {...sortInfo} />
+					<TableList stateObj={this.state} manage={manage} dataList={dataList} getData={this.getData} {...sortInfo} onSelect={(val) => { this.selectedRowKeys(val); }} />
 					{dataList && dataList.length > 0 && (
-						<div className="yc-table-pagination">
-							<Pagination
-								total={totals}
-								current={current}
-								defaultPageSize={pageSize} // 默认条数
-								showQuickJumper
-								showTotal={total => `共 ${total} 条记录`}
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
-							/>
-						</div>
+					<div className="yc-table-pagination">
+						<Pagination
+							total={totals}
+							current={current}
+							defaultPageSize={pageSize} // 默认条数
+							showQuickJumper
+							pageSizeOptions={['10', '25', '50']}
+							showSizeChanger
+							onShowSizeChange={(c, p) => this.onShowSizeChange(p)}
+							showTotal={total => `共 ${total} 条记录`}
+							onChange={(val) => {
+								this.handleChangePage(val);
+							}}
+						/>
+					</div>
 					)}
 				</Spin>
 			</div>
