@@ -357,8 +357,8 @@ class BusinessDebtor extends React.Component {
 									<Button
 										type="common"
 										onClick={() => {
-											this.setState({ manage: false });
 											this.selectRow = [];
+											this.setState({ manage: false });
 										}}
 										title="取消批量管理"
 									/>
@@ -378,7 +378,7 @@ class BusinessDebtor extends React.Component {
 						}
 				</div>
 				<Spin visible={loading}>
-					<TableList stateObj={this.state} manage={manage} dataList={dataList} getData={this.getData} {...sortInfo} onSelect={(val) => { this.selectedRowKeys(val); }} />
+					<TableList key={manage} stateObj={this.state} manage={manage} dataList={dataList} getData={this.getData} {...sortInfo} onSelect={(val) => { this.selectedRowKeys(val); }} />
 					{dataList && dataList.length > 0 && (
 					<div className="yc-table-pagination">
 						<Pagination
