@@ -1,7 +1,6 @@
 import React from 'react';
 import { Judgment } from '@/views/asset-excavate/subrogation/table-version';
 import { toGetNumber } from '@/utils/promise';
-import { Ellipsis } from '@/common';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -20,7 +19,7 @@ export default class Subrogation extends React.Component {
 	};
 
 	render() {
-		const { id, obligorName } = this.props;
+		const { id } = this.props;
 		const { count } = this.state;
 
 		return (
@@ -30,7 +29,6 @@ export default class Subrogation extends React.Component {
 						代位权
 						<span className="yc-table-num">{count}</span>
 					</div>
-					<Ellipsis className="yc-tabs-simple-suffix" content="查看更多相关文书＞" url={`#/search/detail/writ?content=${obligorName}`} />
 				</div>
 				<div className="inquiry-public-table">
 					<Judgment portrait="personal" />

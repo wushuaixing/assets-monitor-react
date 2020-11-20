@@ -135,7 +135,8 @@ UnBlock.propTypes = {
 	id: PropTypes.string,
 	title: PropTypes.string,
 	total: PropTypes.number,
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	stationId: PropTypes.number,
 };
 
@@ -143,7 +144,7 @@ UnBlock.defaultProps = {
 	id: 'message-unBlock',
 	title: '查/解封资产',
 	total: 0,
-	obligorId: 0,
+	obligorId: undefined,
 	stationId: 0,
 };
 

@@ -22,6 +22,9 @@ import Dishonest from './components/dishonest';
 import Information from './components/information';
 import BusinessRisk from './components/businessRisk';
 import Tax from './components/tax';
+import Financial from './components/financial';
+import UnBlock from './components/unblock';
+import LimitHeight from './components/limitHeight';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值
@@ -48,6 +51,9 @@ export default class Visualize extends React.Component {
 			DishonestCount: 0,
 			BusinessRiskCount: 0,
 			TaxCount: 0,
+			FinanceCount: 0,
+			UnBlockCount: 0,
+			LimitHeightCount: 0,
 		};
 	}
 
@@ -166,6 +172,12 @@ export default class Visualize extends React.Component {
 					ChattelMortgageCount: AssetProfileCountValue,
 				})
 			);
+		case 'Finance':
+			return (
+				this.setState({
+					FinanceCount: AssetProfileCountValue,
+				})
+			);
 		case 'Intangible':
 			return (
 				this.setState({
@@ -176,6 +188,12 @@ export default class Visualize extends React.Component {
 			return (
 				this.setState({
 					BiddingCount: AssetProfileCountValue,
+				})
+			);
+		case 'UnBlock':
+			return (
+				this.setState({
+					UnBlockCount: AssetProfileCountValue,
 				})
 			);
 		case 'Bankruptcy':
@@ -202,6 +220,12 @@ export default class Visualize extends React.Component {
 					TaxCount: AssetProfileCountValue,
 				})
 			);
+		case 'LimitHeight':
+			return (
+				this.setState({
+					LimitHeightCount: AssetProfileCountValue,
+				})
+			);
 		default: return '-';
 		}
 	};
@@ -209,7 +233,7 @@ export default class Visualize extends React.Component {
 	render() {
 		const { portrait } = this.props;
 		const {
-			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, TaxCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
+			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, TaxCount, FinanceCount, UnBlockCount, LimitHeightCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
 		} = this.state;
 		const params = {
 			portrait,
@@ -236,11 +260,15 @@ export default class Visualize extends React.Component {
 						{portrait !== 'debtor_personal' && <EquityPledge {...params} />}
 						{/* /!* 动产抵押信息 *!/ */}
 						{portrait !== 'debtor_personal' && <ChattelMortgage {...params} />}
+						{/* /!* 金融资产 *!/ */}
+						{portrait !== 'debtor_personal' && <Financial {...params} />}
 						{/* 招标中标 */}
 						{portrait !== 'debtor_personal' && <Bidding {...params} />}
+						{/* 查解封资产 */}
+						{portrait !== 'debtor_personal' && <UnBlock {...params} />}
 						{
 							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
-							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0
+							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0
 							&& (
 								<Spin visible={loading}>
 									{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}
@@ -255,7 +283,7 @@ export default class Visualize extends React.Component {
 					<div className="yc-overview-title">风险信息</div>
 					<div className="yc-overview-container">
 						{
-							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0 && TaxCount === 0
+							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0 && TaxCount === 0 && LimitHeightCount === 0
 							&& litigationInfos && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0
 							&& (
 								<Spin visible={litigationLoading}>
@@ -265,6 +293,8 @@ export default class Visualize extends React.Component {
 						}
 						{/* 破产重组 */}
 						{portrait !== 'debtor_personal' && <Bankruptcy {...params} />}
+						{/* 限制高消费 */}
+						<LimitHeight {...params} />
 						{/* 失信记录 */}
 						<Dishonest {...params} />
 						{/* 涉诉信息 */}

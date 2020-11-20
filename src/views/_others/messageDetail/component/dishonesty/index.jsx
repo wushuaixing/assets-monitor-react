@@ -137,7 +137,8 @@ Dishonesty.propTypes = {
 	id: PropTypes.string,
 	title: PropTypes.string,
 	total: PropTypes.number,
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	stationId: PropTypes.number,
 };
 
@@ -145,7 +146,7 @@ Dishonesty.defaultProps = {
 	id: 'message-dishonesty',
 	title: '失信记录',
 	total: 0,
-	obligorId: 0,
+	obligorId: undefined,
 	stationId: 0,
 };
 

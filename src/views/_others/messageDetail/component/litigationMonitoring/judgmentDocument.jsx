@@ -124,14 +124,15 @@ class JudgmentDocument extends Component {
 }
 
 JudgmentDocument.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 JudgmentDocument.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10903,
 	total: 0,
 	stationId: 0,

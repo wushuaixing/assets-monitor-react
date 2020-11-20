@@ -124,14 +124,15 @@ class Court extends Component {
 }
 
 Court.propTypes = {
-	obligorId: PropTypes.number,
+	// eslint-disable-next-line react/forbid-prop-types
+	obligorId: PropTypes.any,
 	dataType: PropTypes.number,
 	total: PropTypes.number,
 	stationId: PropTypes.number,
 };
 
 Court.defaultProps = {
-	obligorId: 0,
+	obligorId: undefined,
 	dataType: 10902,
 	total: 0,
 	stationId: 0,
