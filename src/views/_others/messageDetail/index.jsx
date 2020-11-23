@@ -221,6 +221,10 @@ const subItems = (rule, data) => ([
 		childrenCount: [
 			{ name: '税收违法', count: data ? getCount(data, 11201) : 0, dataType: 11201 },
 			{ name: '环保处罚', count: data ? getCount(data, 11202) : 0, dataType: 11202 },
+			{ name: '经营异常', count: data ? getCount(data, 11203) : 0, dataType: 11203 },
+			{ name: '工商变更', count: data ? getCount(data, 11204) : 0, dataType: 11204 },
+			{ name: '严重违法', count: data ? getCount(data, 11205) : 0, dataType: 11205 },
+			{ name: '行政处罚', count: data ? getCount(data, 11206) : 0, dataType: 11206 },
 		],
 	},
 ]);
