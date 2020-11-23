@@ -7,6 +7,7 @@ import Intangible from './intangible';
 import Stock from './stock';
 import Chattel from './chattel';
 import Bidding from './bidding';
+import Financial from './financial';
 // import UnBlock from './unblock';
 
 const toGetTotal = (field, data) => {
@@ -30,14 +31,6 @@ const subItems = data => ([
 		component: Auction,
 	},
 	{
-		id: 10200,
-		name: '代位权',
-		total: data ? toGetTotal('1020', data) : 0,
-		info: data ? data.filter(i => /1020/.test(i.id)) : '',
-		tagName: 'e-assets-subrogation',
-		component: Subrogation,
-	},
-	{
 		id: 10300,
 		name: '土地信息',
 		total: data ? toGetTotal('1030', data) : 0,
@@ -45,7 +38,22 @@ const subItems = data => ([
 		tagName: 'e-assets-land',
 		component: Land,
 	},
-
+	{
+		id: 10600,
+		name: '无形资产',
+		total: data ? toGetTotal('1060', data) : 0,
+		info: data ? data.filter(i => /1060/.test(i.id)) : '',
+		tagName: 'e-assets-intangible',
+		component: Intangible,
+	},
+	{
+		id: 10200,
+		name: '代位权',
+		total: data ? toGetTotal('1020', data) : 0,
+		info: data ? data.filter(i => /1020/.test(i.id)) : '',
+		tagName: 'e-assets-subrogation',
+		component: Subrogation,
+	},
 	{
 		id: 10400,
 		name: '股权质押',
@@ -62,21 +70,21 @@ const subItems = data => ([
 		tagName: 'e-assets-chattel',
 		component: Chattel,
 	},
-	// {
-	// 	id: 10800,
-	// 	name: '查/解封资产',
-	// 	total: data ? toGetTotal('1080', data) : 0,
-	// 	info: data ? data.filter(i => /1080/.test(i.id)) : '',
-	// 	tagName: 'e-assets-unblock',
-	// 	component: UnBlock,
-	// },
 	{
-		id: 10600,
-		name: '无形资产',
-		total: data ? toGetTotal('1060', data) : 0,
-		info: data ? data.filter(i => /1060/.test(i.id)) : '',
-		tagName: 'e-assets-intangible',
-		component: Intangible,
+		id: 10900,
+		name: '查/解封资产',
+		total: data ? toGetTotal('1090', data) : 0,
+		info: data ? data.filter(i => /1090/.test(i.id)) : '',
+		tagName: 'e-assets-unblock',
+		component: Chattel,
+	},
+	{
+		id: 10800,
+		name: '金融资产',
+		total: data ? toGetTotal('1080', data) : 0,
+		info: data ? data.filter(i => /1080/.test(i.id)) : '',
+		tagName: 'e-assets-financial',
+		component: Financial,
 	},
 	{
 		id: 10700,
@@ -126,7 +134,7 @@ export default class Assets extends React.Component {
 		}
 	};
 
-	toGetSubItems=() => {
+	toGetSubItems = () => {
 		const { config } = this.state;
 		return (
 			<div className="yc-intro-sub-items">

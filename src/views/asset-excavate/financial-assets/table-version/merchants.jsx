@@ -122,6 +122,7 @@ export default class TableIntact extends React.Component {
 		// 债务人的时候portrait = debtor_enterprise
 		const { api, params } = getDynamicAsset(portrait, {
 			b: 10802,
+			e: 'financialMerchants',
 		});
 		this.setState({ loading: true });
 		api.list({
