@@ -6,7 +6,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 		trigger: 'item',
 		formatter: '{a} <br/>{b}: {c} ({d}%)',
 	},
-	color: customColorArray || ['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#FB8E3C', '#F2657A', '#965EE3', '#4561FF'],
+	color: customColorArray || ['#1C80E1', '#CF71FF', '#4BB1FF', '#42D6FD', '#59C874', '#269A99', '#FFE951', '#5B8FF9','#FF9C42','#3952FF','#FF6F86'],
 	legend: {
 		// inactiveColor: '#1C80E1',
 		// selectedMode: false, // 取消图例上的点击事件
@@ -14,7 +14,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 		itemGap: 16, // 图例之间的间隔
 		orient: 'horizontal', // 布局方式，默认水平布局，另可选vertical
 		// right: 5,
-		left: 130,
+		left: 150,
 		// x: '150px',
 		// 垂直对齐方式，可设置为'top','center','bottom',number(px)
 		y: 'center',
@@ -78,6 +78,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					color: '#4e5566',
 				},
 			},
+			padding: [0, 50, 0, 10],
 		},
 	},
 

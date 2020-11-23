@@ -5,6 +5,7 @@ import {
 import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
+import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 
 class QueryCar extends React.Component {
 	constructor(props) {
@@ -13,6 +14,14 @@ class QueryCar extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			const dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
+			const { form: { setFieldsValue } } = this.props;
+			setFieldsValue({ startGmtModified: dParams.startGmtModified });
+			setFieldsValue({ endGmtModified: dParams.endGmtModified });
+			this.handleSubmit();
+		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
@@ -40,11 +49,16 @@ class QueryCar extends React.Component {
 	};
 
 	handleReset=() => {
-		const { form, onQueryChange, clearSelectRowNum } = this.props;
-		clearSelectRowNum();// 清除选中项
-		form.resetFields();
-		const condition = form.getFieldsValue();
-		if (onQueryChange)onQueryChange(condition, '', '', 1);
+		const url = window.location.hash;
+		if (url.indexOf('timeHorizon') !== -1) {
+			reserUrl();
+		} else {
+			const { form, onQueryChange, clearSelectRowNum } = this.props;
+			clearSelectRowNum();// 清除选中项
+			form.resetFields();
+			const condition = form.getFieldsValue();
+			if (onQueryChange)onQueryChange(condition, '', '', 1);
+		}
 	};
 
 	render() {
