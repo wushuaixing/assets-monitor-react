@@ -238,7 +238,7 @@ class MessageDetail extends React.Component {
 			reportDate: '',
 			obligorInfo: [],
 			stationId: undefined,
-			obligorId: undefined,
+			obligorId: null,
 			affixed: false,
 			isShowBackTopImg: false,
 		};
@@ -255,7 +255,6 @@ class MessageDetail extends React.Component {
 		const params = {
 			stationId,
 		};
-		debugger
 		headerInfo(params).then((res) => {
 			if (res.code === 200 && res.data) {
 				this.setState({
