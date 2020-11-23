@@ -94,6 +94,11 @@ export const importantListUnseal = async (params) => {
 	const response = await service.get('/yc/monitor/unseal/importantList', { params });
 	return Object.assign(response.data, { name: 'unseal' });
 };
+// 查/解封资产
+export const importantListEstateRegister = async (params) => {
+	const response = await service.get('/yc/monitor/estateRegister/importantList', { params });
+	return Object.assign(response.data, { name: 'unseal' });
+};
 // 金融资产-竞价项目
 export const importantListAuctionBidding = async (params) => {
 	const response = await service.get('/yc/monitor/finance/auctionBidding/importantList', { params });

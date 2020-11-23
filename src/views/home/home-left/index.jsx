@@ -4,7 +4,7 @@ import {
 	importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage, importantListPledge, importantListSubrogationCourt,
 	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
 	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
-	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight,
+	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight, importantListEstateRegister,
 } from 'api/home';
 import { Button as Btn, Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -14,6 +14,11 @@ import ImportantInfoModal from '@/views/home/home-left/important-info-modal';
 import DynamicUpdate from './dynamic-update';
 
 const customStyle = { padding: '20px' };
+const compare = property => (a, b) => {
+	const first = a[property];
+	const second = b[property];
+	return second - first;
+};
 class HomeDynamic extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -94,7 +99,8 @@ class HomeDynamic extends PureComponent {
 		if (res && res.code === 200) {
 			const {
 				auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
-				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, financeInvestment,
+				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister,
+				financeInvestment, vehicleInformation,
 			} = res.data;
 			const landNum = this.getTotal([landMortgage, landTransaction, landTransfer]);
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
@@ -130,7 +136,9 @@ class HomeDynamic extends PureComponent {
 					count: unseal, type: 14, typeName: '查/解封资产', name: '查/解封资产', value: 9,
 				},
 				{
-					count: unseal, type: 14, typeName: '车辆信息', name: '车辆信息', value: 9,
+					count: estateRegister, type: 14, typeName: '不动产登记', name: '不动产登记', value: 10,
+				},	{
+					count: vehicleInformation, type: 14, typeName: '车辆信息', name: '车辆信息', value: 11,
 				},
 			];
 			// console.log('assetDataArray === ', assetDataArray);
@@ -165,6 +173,7 @@ class HomeDynamic extends PureComponent {
 			importantListSubrogationCourt,
 			importantListSubrogationTrial,
 			importantListSubrogationJudgment,
+			importantListEstateRegister,
 		];
 		/* const apiArray = [
 			{ count: auction, Api: importantListAuction, auction: true },
@@ -202,7 +211,6 @@ class HomeDynamic extends PureComponent {
 			this.setState({ importLoading: false });
 		}
 		handlePromise.then((res) => {
-			debugger;
 			const isArray = Array.isArray(res) && res.length > 0;
 			this.setState({ importLoading: false });
 			const AssetImportantReminderList = [];
@@ -216,7 +224,7 @@ class HomeDynamic extends PureComponent {
 					}
 				});
 			}
-			console.log('AssetImportantReminderList',AssetImportantReminderList)
+			console.log('AssetImportantReminderList', AssetImportantReminderList);
 			this.setState(() => ({
 				AssetImportantReminderList,
 				AssetImportantReminderObligorIdList,
@@ -351,6 +359,15 @@ class HomeDynamic extends PureComponent {
 		});
 	};
 
+	getUnReadNum = (value) => {
+		// clearAsset = true;
+		// clearRisk = true;
+		// clearAssetNum = true;
+		// clearRiskNum = true;
+		console.log(value);
+	};
+
+
 	render() {
 		const {
 			checkArray, checkType, loading, importLoading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
@@ -365,6 +382,10 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderList,
 			RiskImportantReminderObligorIdList,
 		};
+		const newAssetArr = [...AssetImportantReminderList];
+		const assetArr = (newAssetArr.sort(compare('timestamp')));
+		console.log('newAssetArr', newAssetArr);
+		console.log('assetArr', assetArr);
 		return (
 			<React.Fragment>
 				<div className="dynamic-container">
@@ -402,7 +423,7 @@ class HomeDynamic extends PureComponent {
 						</div>
 						{
 						AssetImportantReminderList.length > 0 ? (
-							<DetailItem data={AssetImportantReminderList} arr={AssetImportantReminderList} />
+							<DetailItem data={assetArr} arr={newAssetArr} getUnReadNum={val => this.getUnReadNum(val)} />
 						) : null
 					}
 					</Spin>

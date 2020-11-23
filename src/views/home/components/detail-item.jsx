@@ -14,6 +14,7 @@ import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; /
 import { Court as lawsuitCourt, Trial as lawsuitTrial, Judgment as lawsuitJudgment } from '@/utils/api/risk-monitor/lawsuit'; // 涉诉信息
 import { markReadStatus } from '@/utils/api/monitor-info/assets'; // 资产拍卖已读
 import seizedUnblock from '@/utils/api/monitor-info/seizedUnbock'; // 查解封资产
+import { postMarkRead as realEstate } from '@/utils/api/monitor-info/real-estate'; // 查解封资产
 import limitConsumption from '@/utils/api/monitor-info/limit-consumption'; // 限制高消费
 
 import {
@@ -46,6 +47,7 @@ import LawsuitCourtModal from './dynamic-modal/lawsuit-court-modal';
 import LawsuitJudgmentModal from './dynamic-modal/lawsuit-judgment-modal';
 import UnblockModal from './dynamic-modal/unblock-modal';
 import LimitHeightModal from './dynamic-modal/limit-height-modal';
+import RealEstateModal from './dynamic-modal/real-estate-modal';
 import './style.scss';
 
 let scrollInterval = '';
@@ -77,6 +79,7 @@ const tag = (value) => {
 	case 1301: return '限制高消费(移除)';
 	case 1302: return '限制高消费';
 	case 1401: return '查/解封资产';
+	case 1601: return '不动产登记';
 	default: return '-';
 	}
 };
@@ -109,6 +112,7 @@ const icon = (value) => {
 	case 1301: return 'limitCube';
 	case 1302: return 'limitCube';
 	case 1401: return 'unblockCube';
+	case 1601: return 'budongchandengji';
 	default: return '-';
 	}
 };
@@ -141,6 +145,7 @@ class DetailItem extends PureComponent {
 			lawsuitJudgmentModalVisible: false,
 			unBlockModalVisible: false,
 			limitHeightModalVisible: false,
+			realEstateModalVisible: false,
 			data: props.data || [],
 			dataSource: [],
 			animate: false,
@@ -213,6 +218,7 @@ class DetailItem extends PureComponent {
 
 	// 手动点击重要信息列表项
 	handleClick = (item, index) => {
+		debugger
 		// console.log('item === ', item);
 		this.setState(() => ({
 			openModal: true,
@@ -324,8 +330,13 @@ class DetailItem extends PureComponent {
 				this.isReadList(item, index, seizedUnblock.read, 'idList');
 				this.setState(() => ({ unBlockModalVisible: true, dataSource: item.detailList }));
 			}],
+			[1601, () => {
+				this.isReadList(item, index, realEstate, 'idList');
+				this.setState(() => ({ realEstateModalVisible: true, dataSource: item.detailList }));
+			}],
 			['default', ['资产拍卖', 1]],
 		]);
+		console.log(openModalMap.get(item.detailType))
 		const openModalMapType = openModalMap.get(item.detailType) || openModalMap.get('default');
 		openModalMapType.call(this);
 	};
@@ -361,6 +372,7 @@ class DetailItem extends PureComponent {
 			lawsuitJudgmentModalVisible: false,
 			unBlockModalVisible: false,
 			limitHeightModalVisible: false,
+			realEstateModalVisible: false,
 		});
 	};
 
@@ -422,7 +434,7 @@ class DetailItem extends PureComponent {
 			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible,
 			miningModalVisible, trademarkModalVisible, constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
-			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, unBlockModalVisible, lawsuitJudgmentModalVisible, listMarginTop, openMessage, limitHeightModalVisible,
+			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, unBlockModalVisible, lawsuitJudgmentModalVisible, listMarginTop, openMessage, limitHeightModalVisible, realEstateModalVisible,
 		} = this.state;
 		// console.log('detail item data === ', data);
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
@@ -495,7 +507,9 @@ class DetailItem extends PureComponent {
 													style={{ width: item.detailType === 1301 ? 130 : 100 }}
 													className={`detail-container-content-right-tag 
 													${(item.detailType === 701 || item.detailType === 801 || item.detailType === 1302) ? 'red' : 'yellow'} 
-													${(item.detailType === 802 || item.detailType === 1301) ? 'green' : ''}`}
+													${(item.detailType === 802 || item.detailType === 1301) ? 'green' : ''}
+													${(item.detailType === 1601) ? 'blue' : ''}`
+													}
 												>
 													<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />
 													{tag(item.detailType)}
@@ -746,6 +760,15 @@ class DetailItem extends PureComponent {
 						onOk={this.onOk}
 						dataSource={dataSource}
 						limitHeightModalVisible={limitHeightModalVisible}
+					/>
+				)}
+				{/** 不动产Modal */}
+				{realEstateModalVisible && (
+					<RealEstateModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						realEstateModalVisible={realEstateModalVisible}
 					/>
 				)}
 			</div>

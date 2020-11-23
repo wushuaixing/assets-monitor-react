@@ -106,7 +106,9 @@ class HomeRouter extends React.Component {
 			this.setState({ loading: false });
 			if (res.code === 200) {
 				const {
-					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount, changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount,
+					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount,
+					vehicleInformationCount, estateRegisterCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount,
+					changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount,
 				} = res.data;
 				const assetArray = [
 					{
@@ -131,10 +133,10 @@ class HomeRouter extends React.Component {
 						name: '查/解封资产', count: unsealCount, color: '#FB8E3C', icon: 'unlock', status: unsealCount !== null,
 					},
 					{
-						name: '不动产登记', count: biddingCount, color: '#1C80E1', icon: 'budongchandengji', status: biddingCount !== null,
+						name: '不动产登记', count: estateRegisterCount, color: '#1C80E1', icon: 'budongchandengji', status: estateRegisterCount !== null,
 					},
 					{
-						name: '车辆信息', count: biddingCount, color: '#3DBD7D', icon: 'car', status: biddingCount !== null,
+						name: '车辆信息', count: vehicleInformationCount, color: '#3DBD7D', icon: 'cheliangxinxi', status: vehicleInformationCount !== null,
 					},
 					{
 						name: '金融资产', count: financeCount, color: '#FB8E3C', icon: 'finance', status: financeCount !== null,

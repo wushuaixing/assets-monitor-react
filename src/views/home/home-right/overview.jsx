@@ -19,7 +19,7 @@ class HomeOverview extends React.Component {
 			['chattel', () => { navigate('/monitor/mortgage'); }],
 			['finance', () => { navigate('/monitor/financial'); }],
 			['bidding', () => { navigate('/monitor/tender'); }],
-			['car', () => { navigate('/monitor/car'); }],
+			['cheliangxinxi', () => { navigate('/monitor/car'); }],
 			['budongchandengji', () => { navigate('/monitor/realEstate'); }],
 			['bankruptcy', () => { navigate('/risk/bankruptcy'); }],
 			['broken', () => { navigate('/risk/broken'); }],
@@ -41,7 +41,6 @@ class HomeOverview extends React.Component {
 		const isRiskArray = this.isArray(riskArray);
 		const newAssetArray = assetArray && assetArray.filter(i => i.status);
 		const newRiskArray = riskArray && riskArray.filter(i => i.status);
-
 		return (
 			<div className="home-overview-container">
 				<div className="home-overview-container-header">
