@@ -117,7 +117,8 @@ export default class Assets extends React.Component {
 		}
 	}
 
-	handleScroll=(eleID) => {
+	// 手动跳转指定高度
+	handleScroll = (eleID) => {
 		const dom = document.getElementById(eleID);
 		// const _height = document.getElementById('enterprise-intro').clientHeight;
 		if (dom) {

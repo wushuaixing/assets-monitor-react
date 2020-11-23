@@ -16,25 +16,6 @@ const financeProjectTypeMap = new Map([
 	[-1, '未知'],
 ]);
 
-const investmentProjectTypeMap = new Map([
-	[200794003, ' 其他交通工具'],
-	[50025970, '土地'],
-	[50025975, '工程'],
-	[50025974, '矿权'],
-	[122406001, '无形资产'],
-	[56936003, '机械设备'],
-	[50025973, '林权'],
-	[200778005, '海域'],
-	[125228021, '船舶'],
-	[125088031, '股权'],
-	[50025971, '实物资产'],
-	[50025972, '机动车'],
-	[201290015, '奢侈品'],
-	[50025969, '房产'],
-	[56956002, '债权'],
-	[50025976, '其他'],
-	[0, '未知'],
-]);
 
 const projectStatusMap = new Map([
 	[1, '即将开始'],
@@ -43,18 +24,17 @@ const projectStatusMap = new Map([
 	[7, '已流拍'],
 	[9, '中止'],
 	[11, '撤回'],
+	[13, '结束'],
 ]);
 
 // bidding 竞价  investment 招商 publicity 公示
 function getTypeName(arr, mapType) {
 	const typeNameArr = [];
 	arr.forEach((i) => {
-		if (mapType === 'bidding') {
-			typeNameArr.push({ ...i, type: projectStatusMap.get(i.type) });
-		} else if (mapType === 'investment') {
-			typeNameArr.push({ ...i, type: investmentProjectTypeMap.get(i.type) });
-		} else {
+		if (mapType === 'publicity') {
 			typeNameArr.push({ ...i, type: financeProjectTypeMap.get(i.type) });
+		} else {
+			typeNameArr.push({ ...i, type: projectStatusMap.get(i.type) });
 		}
 	});
 	return typeNameArr;
@@ -142,6 +122,7 @@ export default class Financial extends React.Component {
 
 	checkTime = (selectType) => {
 		const { financeAuctionArray, financeInvestmentArray, financePublicArray } = this.state;
+		console.log('state === ', this.state);
 		if (selectType === 'bidding') {
 			this.setState({
 				selectType,
@@ -219,7 +200,7 @@ export default class Financial extends React.Component {
 									tag={selectType === 'publicity' ? 'yc-tag-active' : ''}
 								/>
 							</div>
-							{RingDataNum > 0 && <RingEcharts title="案件类型分布" Data={RingData} id="financeEcharts" customColorArray={['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#FB8E3C', '#F2657A', '#965EE3', '#4561FF']} />}
+							{RingDataNum > 0 && <RingEcharts title="项目状态分布" Data={RingData} id="financeEcharts" customColorArray={['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#FB8E3C', '#F2657A', '#965EE3', '#4561FF']} />}
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="financeTimeLine" />}
 						</div>
 					</div>

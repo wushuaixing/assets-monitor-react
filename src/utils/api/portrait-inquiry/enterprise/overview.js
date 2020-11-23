@@ -86,13 +86,13 @@ export const getFinancial = async (params) => {
 	// 			},
 	// 			{
 	// 				investmentProjectType: [
-	// 					{ count: 1, type: 200794003 },
-	// 					{ count: 15, type: 50025970 },
-	// 					{ count: 12, type: 50025975 },
-	// 					{ count: 41, type: 50025974 },
-	// 					{ count: 51, type: 122406001 },
-	// 					{ count: 51, type: 56936003 },
-	// 					{ count: 51, type: 50025973 },
+	// 					{ count: 10, type: 1 },
+	// 					{ count: 10, type: 3 },
+	// 					{ count: 10, type: 5 },
+	// 					{ count: 41, type: 7 },
+	// 					{ count: 51, type: 9 },
+	// 					{ count: 51, type: 11 },
+	// 					{ count: 51, type: 13 },
 	// 				],
 	// 				yearDistribution: [
 	// 					{ count: 5, year: 2020 },
