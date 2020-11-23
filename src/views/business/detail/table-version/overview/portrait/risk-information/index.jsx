@@ -229,11 +229,11 @@ export default class RiskInformation extends React.Component {
 	getLimitHeightData = (isArray, values) => {
 		const res = values[4];
 		if (isArray && res && res.code === 200) {
-			const { gmtModified, limitHeightCount, status } = res.data;
+			const { gmtModified, limitHeightCount, haveRemovedCount } = res.data;
 			const limitHeightPropsData = {
 				gmtModified,
 				limitHeightCount,
-				status,
+				haveRemovedCount,
 				obligorTotal: res.data.obligorTotal || null,
 			};
 			this.setState(() => ({

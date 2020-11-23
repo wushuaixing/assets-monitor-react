@@ -13,7 +13,7 @@ export default class LimitHeightCard extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				gmtModified, limitHeightCount, status, obligorTotal,
+				gmtModified, limitHeightCount, haveRemovedCount, obligorTotal,
 			},
 		} = this.props;
 		return (
@@ -33,18 +33,15 @@ export default class LimitHeightCard extends React.Component {
 						onClick={() => navigateDetail('e-risk-limit')}
 						styleName="limit-card"
 					>
-						<div className="business-limit-container">
-							<div className="business-limit-card">
-								当前限高状态：
-								<span className="business-limit-card-num">{status || 0}</span>
-							</div>
-							<div className="business-limit-card">
-								已移除
-								<span className="business-limit-card-num">{limitHeightCount || 0}</span>
-								条
-							</div>
+						<div className="business-limit-card">
+							限高记录：
+							<span className="business-limit-card-num">{limitHeightCount}</span>
+							（已移除
+							<span className="business-limit-card-num">
+								{haveRemovedCount || 0}
+							</span>
+							条）
 						</div>
-
 					</Card>
 				) : null}
 			</React.Fragment>

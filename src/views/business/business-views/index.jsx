@@ -383,7 +383,7 @@ class BusinessView extends React.Component {
 	};
 
 	// 导出
-	toExportCondition=(type) => {
+	toExportCondition = (type) => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const {

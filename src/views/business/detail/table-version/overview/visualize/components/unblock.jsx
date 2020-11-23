@@ -29,7 +29,7 @@ export default class UnBlock extends React.Component {
 		const api = portrait === 'business' ? businessOverviewUnBlock : overviewUnBlock;
 		api(params).then((res) => {
 			if (res.code === 200) {
-				console.log('unblock === ', res);
+				// console.log('unblock === ', res);
 				const timeLineData = res.data.yearDistributions;
 				const allNum = getCount(timeLineData);
 				getAssetProfile(allNum, 'UnBlock');

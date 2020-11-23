@@ -250,6 +250,7 @@ export const overviewLimitHeight = async (params) => {
 	// 	...response.data,
 	// 	data: {
 	// 		limitHeightCount: 565,
+	// 		haveRemovedCount: 40,
 	// 		gmtModified: '2020-10-11',
 	// 		status: 1,
 	// 		yearDistributions: [
