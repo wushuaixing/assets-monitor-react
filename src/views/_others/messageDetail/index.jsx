@@ -145,6 +145,22 @@ const subItems = (rule, data) => ([
 		component: UnBlock,
 	},
 	{
+		dataType: 115,
+		name: '不动产登记',
+		total: data ? getCount(data, 115) : 0,
+		status: isRule('zcwjbdcdj', 1, rule),
+		tagName: 'message-realEstate',
+		component: RealEstate,
+	},
+	{
+		dataType: 116,
+		name: '车辆信息',
+		total: data ? getCount(data, 116) : 0,
+		status: isRule('zcwjclxx', 1, rule),
+		tagName: 'message-car',
+		component: Car,
+	},
+	{
 		dataType: 108,
 		name: '无形资产',
 		total: data ? getCount(data, 108) : 0,
@@ -196,22 +212,6 @@ const subItems = (rule, data) => ([
 		component: LimitHeight,
 	},
 	{
-		dataType: 501,
-		name: '不动产登记',
-		total: data ? getCount(data, 501) : 0,
-		status: isRule('zcwjbdcdj ', 2, rule),
-		tagName: 'message-limit',
-		component: RealEstate,
-	},
-	{
-		dataType: 601,
-		name: '车辆信息',
-		total: data ? getCount(data, 601) : 0,
-		status: isRule('zcwjclxx ', 2, rule),
-		tagName: 'message-limit',
-		component: Car,
-	},
-	{
 		dataType: 112,
 		name: '经营风险',
 		total: data ? getCount(data, 112) : 0,
@@ -255,6 +255,7 @@ class MessageDetail extends React.Component {
 		const params = {
 			stationId,
 		};
+		debugger
 		headerInfo(params).then((res) => {
 			if (res.code === 200 && res.data) {
 				this.setState({
@@ -317,6 +318,7 @@ class MessageDetail extends React.Component {
 		};
 		dataCount(params).then((res) => {
 			if (res.code === 200) {
+				console.log( subItems(rule, res.data.categoryCount))
 				this.setState({
 					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
 				});

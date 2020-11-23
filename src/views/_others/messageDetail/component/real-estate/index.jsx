@@ -38,7 +38,8 @@ class ChattelMortgage extends Component {
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
-		const reg = new RegExp(10701);
+		const reg = new RegExp(11501);
+debugger
 		const api = message.filter(item => reg.test(item.dataType))[0].list;
 		const params = {
 			obligorId,

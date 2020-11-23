@@ -211,6 +211,20 @@ const message = [
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/limitHeight/limitHeightCount', { params })
 			.then(res => Object.assign(res.data, { id })),
+	}, {
+		dataType: 11501,
+		name: '不动产登记',
+		list: params => service.get('/yc/report/daily/estateRegister/estateRegisterList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/estateRegister/estateRegisterListCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	}, {
+		dataType: 11601,
+		name: '车辆信息',
+		list: params => service.get('/yc/report/daily/vehicle/vehicleList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/vehicle/vehicleListCount', { params })
+			.then(res => Object.assign(res.data, { id })),
 	},
 ];
 export default message;
