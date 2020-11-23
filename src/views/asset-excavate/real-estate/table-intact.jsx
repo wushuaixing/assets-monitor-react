@@ -1,5 +1,5 @@
 import React from 'react';
-import { attentionFollowListResult } from '@/utils/api/monitor-info/pledge';
+import { attentionFollowListResult } from '@/utils/api/monitor-info/real-estate';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
 import Table from './table';
@@ -14,6 +14,7 @@ export default class TableIntact extends React.Component {
 			loading: true,
 		};
 		this.condition = {
+			isAttention: true,
 			sortColumn: '',
 			sortOrder: '',
 			page: 1,

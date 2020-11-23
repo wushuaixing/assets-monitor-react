@@ -5,8 +5,8 @@ import {
 import {
 	Table, SelectedNum, Ellipsis,
 } from '@/common';
-import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
+import { Attentions, SortVessel } from '@/common/table';
+import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/real-estate';
 import { timeStandard } from '@/utils';
 import accurate from 'img/icon/icon-jinzhun.png';
 
@@ -110,7 +110,6 @@ const columns = (props) => {
 							</li>
 						) : null
 					}
-					<br />
 					{
 						row.certificateNumber ? (
 							<li className="table-info-list " style={{ width: 310 }}>
@@ -120,7 +119,6 @@ const columns = (props) => {
 						) : null
 
 					}
-					<br />
 					{
 						row.realEstateLocated ? (
 							<li className="table-info-list" style={{ width: 310 }}>

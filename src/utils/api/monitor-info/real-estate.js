@@ -40,6 +40,13 @@ export const postUnFollow = async (params) => {
 	const response = await service.post('/yc/monitor/estateRegister/unFollow', params);
 	return response.data;
 };
+// 收藏列表
+export const attentionFollowListResult = async (params) => {
+	const response = await service.get('/yc/monitor/estateRegister/follow/list', { params });
+	return response.data;
+};
+
+
 
 // 导出excel
 export const exportList = '/yc/monitor/estateRegister/export';
