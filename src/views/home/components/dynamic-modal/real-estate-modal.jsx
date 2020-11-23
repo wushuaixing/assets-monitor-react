@@ -195,13 +195,13 @@ export default class LimitHeightModal extends React.PureComponent {
 		const {
 			columns, dataSource, loading, registerModalVisible, rowObj,
 		} = this.state;
-		const { limitHeightModalVisible } = this.props;
+		const { realEstateModalVisible } = this.props;
 		return (
 			<Modal
 				title="匹配详情-限制高消费"
 				width={1100}
 				style={{ height: 320 }}
-				visible={limitHeightModalVisible}
+				visible={realEstateModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"

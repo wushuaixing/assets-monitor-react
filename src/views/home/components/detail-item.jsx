@@ -218,7 +218,6 @@ class DetailItem extends PureComponent {
 
 	// 手动点击重要信息列表项
 	handleClick = (item, index) => {
-		debugger
 		// console.log('item === ', item);
 		this.setState(() => ({
 			openModal: true,
@@ -507,7 +506,7 @@ class DetailItem extends PureComponent {
 													style={{ width: item.detailType === 1301 ? 130 : 100 }}
 													className={`detail-container-content-right-tag 
 													${(item.detailType === 701 || item.detailType === 801 || item.detailType === 1302) ? 'red' : 'yellow'} 
-													${(item.detailType === 802 || item.detailType === 1301) ? 'green' : ''}
+													${(item.detailType === 802 || item.detailType === 1301|| item.detailType === 1301) ? 'green' : ''}
 													${(item.detailType === 1601) ? 'blue' : ''}`
 													}
 												>

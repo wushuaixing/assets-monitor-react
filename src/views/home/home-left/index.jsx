@@ -106,7 +106,9 @@ class HomeDynamic extends PureComponent {
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
 			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial]);
 			const financeNum = this.getTotal([auctionBidding, finance, financeInvestment]);
-			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal]);
+			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission,
+				finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt,
+				subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister, vehicleInformation]);
 			const assetDataArray = [
 				{
 					count: auction, type: 1, typeName: '资产拍卖', name: '资产拍卖', value: 1,
@@ -367,7 +369,6 @@ class HomeDynamic extends PureComponent {
 		console.log(value);
 	};
 
-
 	render() {
 		const {
 			checkArray, checkType, loading, importLoading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
@@ -418,7 +419,7 @@ class HomeDynamic extends PureComponent {
 						<div className="seven-update-content-title">
 							<div className="seven-update-content-title-name">
 								<div className="dynamic-container-header-name">重要信息提醒</div>
-								<Btn className="seven-update-content-checkBtn" onClick={() => this.handleImportantInfoStandard}>规则说明</Btn>
+								<Btn className="seven-update-content-checkBtn" onClick={() => this.handleImportantInfoStandard()}>规则说明</Btn>
 							</div>
 						</div>
 						{

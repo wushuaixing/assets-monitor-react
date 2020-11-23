@@ -4,7 +4,6 @@ import { Button } from 'antd';
 import { navigate } from '@reach/router';
 import DynamicTab from '../components/tab-checked';
 import RingEcharts from '../components/ring-echarts';
-import ImportantInfoModal from './important-info-modal';
 import './style.scss';
 
 let newAssetTotalNumArray = [];
@@ -59,8 +58,6 @@ class DynamicUpdate extends PureComponent {
 			assetObligorIdNum: 0,
 			riskObligorIdNum: 0,
 			RingEchartsObj: {},
-			// clear: false,
-			showModal: false,
 		};
 	}
 
@@ -148,17 +145,16 @@ class DynamicUpdate extends PureComponent {
 	};
 
 
-
-	// 关闭显示重要信息标准弹窗
+	/*	// 关闭显示重要信息标准弹窗
 	handleCancel = () => {
 		this.setState({
 			showModal: false,
 		});
-	};
+	}; */
 
 	render() {
 		const {
-			typeNum, RingEchartsObj, assetObligorIdNum, riskObligorIdNum, showModal,
+			typeNum, RingEchartsObj, assetObligorIdNum, riskObligorIdNum,
 		} = this.state;
 
 		const { assetPropsData, riskPropsData } = this.props;
