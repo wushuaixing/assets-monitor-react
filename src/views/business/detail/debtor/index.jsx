@@ -156,7 +156,7 @@ export default class Enterprise extends React.Component {
 	// 	}
 	// }
 
-	/* 获取各类子项总数 */
+	// 获取各类子项总数
 	toGetSubItemsTotal = ((item, index, portrait) => {
 		const obligorId = getQueryByName(window.location.href, 'id') || constantNumber;
 		if (item.config) {
@@ -179,6 +179,7 @@ export default class Enterprise extends React.Component {
 					});
 				});
 			}
+			// console.log('apiArray === ', apiArray);
 			if (apiArray.length) {
 				requestAll(apiArray).then((res) => {
 					let count = 0;

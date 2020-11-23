@@ -105,13 +105,12 @@ export const overviewFinancial = async (params) => {
 	// 			},
 	// 			{
 	// 				investmentProjectType: [
-	// 					{ count: 1, type: 200794003 },
-	// 					{ count: 15, type: 50025970 },
-	// 					{ count: 12, type: 50025975 },
-	// 					{ count: 41, type: 50025974 },
-	// 					{ count: 51, type: 122406001 },
-	// 					{ count: 51, type: 56936003 },
-	// 					{ count: 51, type: 50025973 },
+	// 					{ count: 11, type: 1 },
+	// 					{ count: 32, type: 3 },
+	// 					{ count: 24, type: 5 },
+	// 					{ count: 22, type: 7 },
+	// 					{ count: 2, type: 9 },
+	// 					{ count: 2, type: 11 },
 	// 				],
 	// 				yearDistribution: [
 	// 					{ count: 5, year: 2020 },

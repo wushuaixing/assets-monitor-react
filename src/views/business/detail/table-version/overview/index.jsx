@@ -42,7 +42,7 @@ export default class Overview extends React.Component {
 		});
 	};
 
-	toGetSubItems =() => {
+	toGetSubItems = () => {
 		const { active } = this.state;
 		return (
 			<div className="yc-intro-sub-items">
