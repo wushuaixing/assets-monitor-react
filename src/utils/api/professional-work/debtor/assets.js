@@ -187,14 +187,14 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	// 10901: {
-	// 	id: 10901,
-	// 	name: '资产-查/解封资产',
-	// 	list: params => service.get('/yc/obligor/monitor/asset/unseal/unsealList', { params }).then(res => res.data),
-	// 	count(params) {
-	// 		return service.get('/yc/obligor/monitor/asset/unseal/unsealListCount', { params })
-	// 			.then(res => Object.assign(res.data, { id: this.id }));
-	// 	},
-	// },
+	10901: {
+		id: 10901,
+		name: '资产-查/解封资产',
+		list: params => service.get('/yc/obligor/monitor/asset/unseal/unsealList', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/unseal/unsealListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
 };
 export default assets;

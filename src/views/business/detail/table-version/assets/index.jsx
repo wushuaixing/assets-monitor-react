@@ -10,6 +10,7 @@ import Stock from './stock';
 import Chattel from './chattel';
 import Bidding from './bidding';
 import Financial from './financial';
+import Unblock from './unblock';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -103,18 +104,18 @@ const subItems = (data, portrait) => {
 			component: Chattel,
 			isStatus: 'only',
 		},
-		// {
-		// 	id: 10900,
-		// 	baseId: 1090,
-		// 	name: '查/解封资产',
-		// 	total: data ? toGetTotal('1090', data) : 0,
-		// 	info: data ? data.filter(i => /1090/.test(i.id)) : '',
-		// 	role: roleState('zcwj', 'zcwjjrzj'),
-		// 	disabled: true,
-		// 	tagName: 'e-assets-financial',
-		// 	component: Bidding,
-		// 	isStatus: 'only',
-		// },
+		{
+			id: 10900,
+			baseId: 1090,
+			name: '查/解封资产',
+			total: data ? toGetTotal('1090', data) : 0,
+			info: data ? data.filter(i => /1090/.test(i.id)) : '',
+			role: roleState('zcwj', 'zcwjcjfzc'),
+			disabled: true,
+			tagName: 'e-assets-unblock',
+			component: Unblock,
+			isStatus: 'only',
+		},
 		{
 			id: 10800,
 			baseId: 1080,
