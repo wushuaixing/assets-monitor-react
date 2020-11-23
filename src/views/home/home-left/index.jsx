@@ -139,7 +139,8 @@ class HomeDynamic extends PureComponent {
 				},
 				{
 					count: estateRegister, type: 14, typeName: '不动产登记', name: '不动产登记', value: 10,
-				},	{
+				},
+				{
 					count: vehicleInformation, type: 14, typeName: '车辆信息', name: '车辆信息', value: 11,
 				},
 			];
@@ -385,8 +386,10 @@ class HomeDynamic extends PureComponent {
 		};
 		const newAssetArr = [...AssetImportantReminderList];
 		const assetArr = (newAssetArr.sort(compare('timestamp')));
-		console.log('newAssetArr', newAssetArr);
-		console.log('assetArr', assetArr);
+		const newRiskArr = [...RiskImportantReminderList];
+		const riskArr = (newRiskArr.sort(compare('timestamp')));
+		const newAllArr = newAssetArr.concat(newRiskArr);
+		const allArr = assetArr.concat(riskArr);
 		return (
 			<React.Fragment>
 				<div className="dynamic-container">
@@ -424,7 +427,7 @@ class HomeDynamic extends PureComponent {
 						</div>
 						{
 						AssetImportantReminderList.length > 0 ? (
-							<DetailItem data={assetArr} arr={newAssetArr} getUnReadNum={val => this.getUnReadNum(val)} />
+							<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} />
 						) : null
 					}
 					</Spin>

@@ -30,7 +30,7 @@ const columns = (props, openRegisterModalFunc) => {
 		}, {
 			title: '标题',
 			dataIndex: 'title',
-			width: 400,
+			width: 200,
 			render: (text, record) => {
 				if (record.url) {
 					return (
@@ -45,28 +45,28 @@ const columns = (props, openRegisterModalFunc) => {
 		{
 			title: '相关单位',
 			dataIndex: 'court',
-			width: 180,
+			width: 200,
 			render: (text, row) => (
 				<div className="yc-assets-table-info">
-					<li className="table-info-list list-width-180">
+					<li className="table-info-list" style={{ width: 200 }}>
 						<span className="info info-title">申请人：</span>
 						<Tooltip placement="top" title={row.certificateType}>
-							<span className="info info-content text-ellipsis list-width-120">{text}</span>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 180 }}>{text}</span>
 						</Tooltip>
 					</li>
-					<li className="table-info-list list-width-180">
+					<li className="table-info-list" style={{ width: 200 }}>
 						<span className="info info-title">被申请人：</span>
 						<Tooltip placement="top" title={row.certificateType}>
-							<span className="info info-content text-ellipsis list-width-120">{text}</span>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{text}</span>
 						</Tooltip>
 					</li>
 					<br />
 					{
 					text && (
-					<li className="table-info-list list-width-180">
+					<li className="table-info-list" style={{ width: 200 }}>
 						<span className="info info-title">经办法院：</span>
 						<Tooltip placement="top" title={row.certificateType}>
-							<span className="info info-content text-ellipsis list-width-120">{text}</span>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{text}</span>
 						</Tooltip>
 					</li>
 					)
