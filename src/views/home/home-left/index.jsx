@@ -46,7 +46,7 @@ class HomeDynamic extends PureComponent {
 		const params = { type: 1 };
 		this.getData(params);
 	/*	this.getAssetImportantReminder();
-		this.getRiskImportantReminder();*/
+		this.getRiskImportantReminder(); */
 	}
 
 	// 获取数组的总数
@@ -347,6 +347,7 @@ class HomeDynamic extends PureComponent {
 			type: index + 1,
 		};
 		this.setState(() => ({
+			timeType: index + 1,
 			checkType: index,
 			AssetImportantReminderList: [],
 			RiskImportantReminderList: [],

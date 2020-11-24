@@ -131,7 +131,6 @@ class DynamicUpdate extends PureComponent {
 		// console.log('urlMap.get(val)', urlMap.get(val.name));
 		const { timeType } = this.props;
 		const w = window.open('about:blank');
-		console.log(urlMap.get(val.name));
 		if (urlMap.get(val.name).includes('?')) {
 			w.location.href = `#${urlMap.get(val.name)}&timeHorizon=${timeType}`;
 		} else {
