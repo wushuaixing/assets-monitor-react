@@ -130,6 +130,7 @@ class DynamicUpdate extends PureComponent {
 		// }));
 		// console.log('urlMap.get(val)', urlMap.get(val.name));
 		const { timeType } = this.props;
+		debugger
 		const w = window.open('about:blank');
 		console.log(urlMap.get(val.name));
 		if (urlMap.get(val.name).includes('?')) {
