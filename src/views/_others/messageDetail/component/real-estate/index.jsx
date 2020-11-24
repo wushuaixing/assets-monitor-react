@@ -143,7 +143,7 @@ ChattelMortgage.defaultProps = {
 	id: 'message-intangible',
 	title: '不动产登记',
 	total: 0,
-	obligorId: 0,
+	obligorId: null,
 	stationId: 0,
 };
 
