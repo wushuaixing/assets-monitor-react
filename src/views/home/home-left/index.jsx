@@ -45,8 +45,8 @@ class HomeDynamic extends PureComponent {
 	componentDidMount() {
 		const params = { type: 1 };
 		this.getData(params);
-	/*	this.getAssetImportantReminder();
-		this.getRiskImportantReminder(); */
+		this.getAssetImportantReminder();
+		this.getRiskImportantReminder();
 	}
 
 	// 获取数组的总数
