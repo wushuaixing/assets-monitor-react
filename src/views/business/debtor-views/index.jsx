@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-	Select, message, Pagination, Form,
+	Select, message, Pagination, Form, Modal,
 } from 'antd';
 import {
-	Spin, Input, Button, Download, Icon,
+	Spin, Input, Button, Download,
 } from '@/common';
 import {
 	obligorList, exportExcel, openPush, closePush,
@@ -27,7 +27,7 @@ const _style3 = { width: 120 };
 // 	{ id: 2, name: '存在破产/重整风险', value: 0 },
 // 	{ id: 3, name: '暂未匹配破产风险', value: 1 },
 // ];
-
+const { confirm } = Modal;
 class BusinessDebtor extends React.Component {
 	constructor(props) {
 		super(props);
@@ -210,33 +210,61 @@ class BusinessDebtor extends React.Component {
 
 	handleClosePush=() => {
 		const { selectIds } = this.state;
+		const that = this;
 		if (selectIds.length === 0) {
 			message.warn('请选择债务人');
 			return;
 		}
-		closePush({ id: selectIds }).then((res) => {
-			if (res.code === 200) {
-				message.success('关闭成功');
-				this.getData();
-			} else if (res.code === 9003) {
-				message.error(res.message);
-			}
+		const content = '点击确定，系统将不再为您推送所选债务人的监控信息。';
+		const iconType = 'none';
+		confirm({
+			title: '确认关闭所选债务人的推送功能?',
+			content,
+			iconType,
+			className: iconType === 'none' ? 'message-confirm-no-icon' : 'message-confirm-icon',
+			onOk() {
+				closePush({ idList: selectIds }).then((res) => {
+					if (res.code === 200) {
+						message.success('关闭成功');
+						that.selectRow = [];
+						that.setState({ manage: false });
+						that.getData();
+					} else if (res.code === 9003) {
+						message.error(res.message);
+					}
+				});
+			},
+			onCancel() {},
 		});
 	}
 
 	handleOpenPush=() => {
 		const { selectIds } = this.state;
+		const that = this;
 		if (selectIds.length === 0) {
 			message.warn('请选择债务人');
 			return;
 		}
-		openPush({ id: selectIds }).then((res) => {
-			if (res.code === 200) {
-				message.success('开启成功');
-				this.getData();
-			} else if (res.code === 9003) {
-				message.error(res.message);
-			}
+		const content = '点击确定，系统将为您推送所选债务人的监控信息。';
+		const iconType = 'none';
+		confirm({
+			title: '确认开启所选债务人的推送功能?',
+			content,
+			iconType,
+			className: iconType === 'none' ? 'message-confirm-no-icon' : 'message-confirm-icon',
+			onOk() {
+				openPush({ idList: selectIds }).then((res) => {
+					if (res.code === 200) {
+						message.success('开启成功');
+						that.selectRow = [];
+						that.setState({ manage: false });
+						that.getData();
+					} else if (res.code === 9003) {
+						message.error(res.message);
+					}
+				});
+			},
+			onCancel() {},
 		});
 	}
 
@@ -349,11 +377,19 @@ class BusinessDebtor extends React.Component {
 					{
 							!manage ? (
 								<div className="yc-public-floatRight">
-									<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 									<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
+									<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								</div>
 							) : (
 								<div className="yc-public-floatRight">
+									<Button
+										onClick={() => { this.handleClosePush(); }}
+										title="关闭推送"
+									/>
+									<Button
+										onClick={() => { this.handleOpenPush(); }}
+										title="开启推送"
+									/>
 									<Button
 										type="common"
 										onClick={() => {
@@ -362,17 +398,6 @@ class BusinessDebtor extends React.Component {
 										}}
 										title="取消批量管理"
 									/>
-									<Button
-										type="common"
-										onClick={() => { this.handleClosePush(); }}
-										title="关闭推送"
-									/>
-									<Button
-										type="common"
-										onClick={() => { this.handleOpenPush(); }}
-										title="开启推送"
-									/>
-									<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
 								</div>
 							)
 						}
