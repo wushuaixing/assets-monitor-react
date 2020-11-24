@@ -22,6 +22,17 @@ const announcementEnum = {
 	8: '其他公告',
 	0: '未知',
 };
+const roleName = {
+	1: '注销人',
+	2: '权利人',
+	3: '新权利人',
+	4: '原权利人',
+	5: '抵押人',
+	6: '抵押权人',
+	7: '被执行人',
+	8: '申请执行人',
+	0: '未知',
+};
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -54,7 +65,7 @@ const columns = (props) => {
 						row.matchType === 1 ? (
 							<div className="yc-assets-table-info">
 								<li className="table-info-list">
-									<span className="info info-title">权利人：</span>
+									<span className="info info-title">{`${roleName[row.role]}：`}</span>
 									<Ellipsis
 										content={text}
 										width={168}
