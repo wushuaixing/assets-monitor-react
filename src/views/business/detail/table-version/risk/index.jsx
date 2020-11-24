@@ -11,6 +11,7 @@ import Dishonest from './dishonest';
 import Lawsuit from './lawsuit';
 import LawsuitJudgment from './lawsuit-judgment';
 import Environment from './environment';
+import LimitHeight from './limit-height';
 
 
 const toGetTotal = (field, data) => {
@@ -64,17 +65,17 @@ const subItems = (data, portrait) => {
 			isStatus: 'normal',
 			component: Dishonest,
 		},
-		// {
-		// 	id: 20500,
-		// 	baseId: 2050,
-		// 	name: '限高记录',
-		// 	total: data ? toGetTotal('2050', data) : 0,
-		// 	info: data ? data.filter(i => /2050/.test(i.id)) : '',
-		// 	tagName: 'e-manage-limitHeight',
-		// 	isStatus: 'normal',
-		// 	role: false,
-		// 	component: Dishonest,
-		// },
+		{
+			id: 20500,
+			baseId: 2050,
+			name: '限制高消费',
+			total: data ? toGetTotal('2050', data) : 0,
+			info: data ? data.filter(i => /2050/.test(i.id)) : '',
+			tagName: 'e-manage-limitHeight',
+			isStatus: 'normal',
+			role: roleState('fxjk', 'fxjkxzgxf'),
+			component: LimitHeight,
+		},
 		{
 			id: 20600,
 			baseId: 2060,
@@ -231,6 +232,7 @@ class Risk extends React.Component {
 				{ riskLoading ? <Spin minHeight={350} />
 					: (
 						aryResult ? config.map(Item => (
+							// eslint-disable-next-line react/jsx-pascal-case
 							Item.total && Item.role ? <Item.component id={Item.tagName} data={Item.info} portrait={portrait} /> : ''))
 							: <NoContent />
 					)
