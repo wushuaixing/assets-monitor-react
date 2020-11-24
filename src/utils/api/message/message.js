@@ -195,6 +195,34 @@ const message = [
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/epb/epbCount', { params })
 			.then(res => Object.assign(res.data, { id })),
+	},{
+		dataType: 11203,
+		name: '经营异常',
+		list: params => service.get('/yc/report/daily/abnormal/abnormalList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/abnormal/abnormalCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},{
+		dataType: 11204,
+		name: '工商变更',
+		list: params => service.get('/yc/report/daily/change/changeList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/change/changeCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},{
+		dataType: 11205,
+		name: '严重违法',
+		list: params => service.get('/yc/report/daily/illegal/illegalList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/illegal/illegalCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},{
+		dataType: 11206,
+		name: '行政处罚',
+		list: params => service.get('/yc/report/daily/punishment/punishmentList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/punishment/punishmentCount', { params })
+			.then(res => Object.assign(res.data, { id })),
 	},
 	{
 		dataType: 11301,
@@ -210,6 +238,20 @@ const message = [
 		list: params => service.get('/yc/report/daily/limitHeight/limitHeightList', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/limitHeight/limitHeightCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	}, {
+		dataType: 11501,
+		name: '不动产登记',
+		list: params => service.get('/yc/report/daily/estateRegister/estateRegisterList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/estateRegister/estateRegisterListCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	}, {
+		dataType: 11601,
+		name: '车辆信息',
+		list: params => service.get('/yc/report/daily/vehicle/vehicleList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/vehicle/vehicleListCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 ];

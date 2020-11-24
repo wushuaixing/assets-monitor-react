@@ -79,6 +79,16 @@ class ImportantInfoModal extends React.PureComponent {
 					importantInfo: '发现债务人为被查封的对象',
 				},
 				{
+					typeName: '资产挖掘',
+					infoType: '车辆信息',
+					importantInfo: '发现债务人是车辆所有人',
+				},
+				{
+					typeName: '资产挖掘',
+					infoType: '不动产登记',
+					importantInfo: '发现债务人为不动产登记的关联人',
+				},
+				{
 					typeName: '风险参考',
 					infoType: '破产重组',
 					importantInfo: '发现与债务人有关的破产/重组信息',

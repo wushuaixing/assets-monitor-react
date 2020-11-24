@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination } from 'antd';
+import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom, timeStandard } from '@/utils';
@@ -28,14 +28,9 @@ const columns = (props, openRegisterModalFunc) => {
 			width: 200,
 			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
 		}, {
-			title: '起诉法院',
-			dataIndex: 'court',
-			width: 180,
-			render: text => text || '-',
-		}, {
 			title: '标题',
 			dataIndex: 'title',
-			width: 506,
+			width: 200,
 			render: (text, record) => {
 				if (record.url) {
 					return (
@@ -46,6 +41,39 @@ const columns = (props, openRegisterModalFunc) => {
 					<span className="click-link" onClick={() => openRegisterModalFunc(record)}>{text || '-'}</span>
 				);
 			},
+		},
+		{
+			title: '相关单位',
+			dataIndex: 'court',
+			width: 200,
+			render: (text, row) => (
+				<div className="yc-assets-table-info">
+					<li className="table-info-list" style={{ width: 200 }}>
+						<span className="info info-title">申请人：</span>
+						<Tooltip placement="top" title={row.certificateType}>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 180 }}>{text}</span>
+						</Tooltip>
+					</li>
+					<li className="table-info-list" style={{ width: 200 }}>
+						<span className="info info-title">被申请人：</span>
+						<Tooltip placement="top" title={row.certificateType}>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{text}</span>
+						</Tooltip>
+					</li>
+					<br />
+					{
+					text && (
+					<li className="table-info-list" style={{ width: 200 }}>
+						<span className="info info-title">经办法院：</span>
+						<Tooltip placement="top" title={row.certificateType}>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{text}</span>
+						</Tooltip>
+					</li>
+					)
+				}
+
+				</div>
+			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

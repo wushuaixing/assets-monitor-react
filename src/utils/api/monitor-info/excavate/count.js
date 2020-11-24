@@ -100,6 +100,18 @@ export const assetBiddingCount = async (params) => {
 	return response.data;
 };
 
+// 不动产 => 数量统计
+export const estateRegisterCount = async (params) => {
+	const response = await service.get('/yc/monitor/estateRegister/estateRegisterListCount', { params });
+	return response.data;
+};
+
+// 车辆信息 => 数量统计
+export const carCount = async (params) => {
+	const response = await service.get('/yc/monitor/vehicle/vehicleListCount', { params });
+	return response.data;
+};
+
 // 查解封资产 => 数量统计
 export const assetUnBlockCount = async (params) => {
 	const response = await service.get('/yc/monitor/unseal/unsealListCount', { params });
