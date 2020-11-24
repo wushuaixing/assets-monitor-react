@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
-import { assetBiddingCount } from 'api/monitor-info/excavate/count';
+import { carCount } from 'api/monitor-info/excavate/count';
 import Card from '../card';
 import './style.scss';
 
@@ -9,7 +9,7 @@ export default class Bidding extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			assetBiddingNum: 0,
+			assetNum: 0,
 		};
 	}
 
@@ -22,10 +22,10 @@ export default class Bidding extends PureComponent {
 		const params = {
 			isRead: 0,
 		};
-		assetBiddingCount(params).then((res) => {
+		carCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					assetBiddingNum: res.data,
+					assetNum: res.data,
 				});
 			}
 		});
@@ -33,11 +33,11 @@ export default class Bidding extends PureComponent {
 
 	render() {
 		const {
-			url, biddingPropsData, biddingPropsData: {
-				bidding, gmtUpdate, totalCount,
+			url, carPropsData, carPropsData: {
+				vehicleInformationCount, gmtUpdate, totalCount,
 			},
 		} = this.props;
-		const { assetBiddingNum } = this.state;
+		const { assetNum } = this.state;
 		return (
 			<Card
 				IconType="bidding"
@@ -48,11 +48,11 @@ export default class Bidding extends PureComponent {
 				totalCount={totalCount}
 				updateTime={gmtUpdate}
 				unReadText="条未读信息"
-				unReadNum={assetBiddingNum}
+				unReadNum={assetNum}
 			>
-				{Object.keys(biddingPropsData).length !== 0 && (
+				{Object.keys(carPropsData).length !== 0 && (
 					<div className={`risk-bankruptcy-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-						<span className={`risk-bankruptcy-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{bidding || 0}</span>
+						<span className={`risk-bankruptcy-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{vehicleInformationCount || 0}</span>
 						条车辆信息
 					</div>
 				)}
