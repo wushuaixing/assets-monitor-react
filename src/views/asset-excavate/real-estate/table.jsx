@@ -34,7 +34,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+				: <SortVessel field="PUBLISH_TIME " onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishTime',
 			width: 110,
 			render: (text, row) => (
@@ -132,7 +132,7 @@ const columns = (props) => {
 			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+				: <SortVessel field="GMT_MODIFIED " onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
 			width: 110,
 			render: text => timeStandard(text) || '-',
