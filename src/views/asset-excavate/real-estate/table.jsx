@@ -22,6 +22,17 @@ const announcementEnum = {
 	8: '其他公告',
 	0: '未知',
 };
+const roleName = {
+	1: '注销人',
+	2: '权利人',
+	3: '新权利人',
+	4: '原权利人',
+	5: '抵押人',
+	6: '抵押权人',
+	7: '被执行人',
+	8: '申请执行人',
+	0: '未知',
+};
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -34,7 +45,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
+				: <SortVessel field="PUBLISH_TIME " onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'publishTime',
 			width: 110,
 			render: (text, row) => (
@@ -54,7 +65,7 @@ const columns = (props) => {
 						row.matchType === 1 ? (
 							<div className="yc-assets-table-info">
 								<li className="table-info-list">
-									<span className="info info-title">权利人：</span>
+									<span className="info info-title">{`${roleName[row.role]}：`}</span>
 									<Ellipsis
 										content={text}
 										width={168}
@@ -132,7 +143,7 @@ const columns = (props) => {
 			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+				: <SortVessel field="GMT_MODIFIED " onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
 			width: 110,
 			render: text => timeStandard(text) || '-',
