@@ -29,7 +29,7 @@ class BusinessView extends React.Component {
 		const { getData } = this.props;// 刷新列表
 		const Api = row && row.pushState === 1 ? closePush : openPush;
 		const params = {
-			id: row.id,
+			idList: [row.id],
 		};
 		const start = new Date().getTime(); // 获取接口响应时间
 		return Api(params).then((res) => {
