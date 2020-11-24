@@ -5,6 +5,16 @@ import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-in
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import RegisterModal from './registerModal';
+
+const getName = (list, key) => {
+	let temp = '';
+	list.forEach((i) => {
+		if (i.role === key) {
+			temp = `${temp + i.name} `;
+		}
+	});
+	return temp;
+};
 // 获取表格配置
 const columns = (props, openRegisterModalFunc) => {
 	const { normal, onRefresh, noSort } = props;
@@ -50,14 +60,14 @@ const columns = (props, openRegisterModalFunc) => {
 				<div className="yc-assets-table-info">
 					<li className="table-info-list" style={{ width: 200 }}>
 						<span className="info info-title">申请人：</span>
-						<Tooltip placement="top" title={row.certificateType}>
-							<span className="info info-content text-ellipsis" style={{ maxWidth: 180 }}>{text}</span>
+						<Tooltip placement="top" title={getName(row.parties, '申请人')}>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '申请人')}</span>
 						</Tooltip>
 					</li>
 					<li className="table-info-list" style={{ width: 200 }}>
 						<span className="info info-title">被申请人：</span>
-						<Tooltip placement="top" title={row.certificateType}>
-							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{text}</span>
+						<Tooltip placement="top" title={getName(row.parties, '被申请人')}>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '被申请人')}</span>
 						</Tooltip>
 					</li>
 					<br />
