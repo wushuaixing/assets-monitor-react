@@ -31,7 +31,6 @@ const roleName = {
 	6: '抵押权人',
 	7: '被执行人',
 	8: '申请执行人',
-	0: '未知',
 };
 // 获取表格配置
 const columns = (props) => {
@@ -65,7 +64,10 @@ const columns = (props) => {
 						row.matchType === 1 ? (
 							<div className="yc-assets-table-info">
 								<li className="table-info-list">
-									<span className="info info-title">{`${roleName[row.role]}：`}</span>
+									{
+										(row.role && roleName[row.role]) ? (<span className="info info-title">{`${roleName[row.role]}：`}</span>) : null
+									}
+
 									<Ellipsis
 										content={text}
 										width={168}
