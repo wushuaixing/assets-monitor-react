@@ -58,19 +58,26 @@ const columns = (props, openRegisterModalFunc) => {
 			width: 200,
 			render: (text, row) => (
 				<div className="yc-assets-table-info">
-					<li className="table-info-list" style={{ width: 200 }}>
-						<span className="info info-title">申请人：</span>
-						<Tooltip placement="top" title={getName(row.parties, '申请人')}>
-							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '申请人')}</span>
-						</Tooltip>
-					</li>
-					<li className="table-info-list" style={{ width: 200 }}>
-						<span className="info info-title">被申请人：</span>
-						<Tooltip placement="top" title={getName(row.parties, '被申请人')}>
-							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '被申请人')}</span>
-						</Tooltip>
-					</li>
-					<br />
+					{
+						getName(row.parties, '申请人') && (
+							<li className="table-info-list" style={{ width: 200 }}>
+								<span className="info info-title">申请人：</span>
+								<Tooltip placement="top" title={getName(row.parties, '申请人')}>
+									<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '申请人')}</span>
+								</Tooltip>
+							</li>
+						)
+					}
+					{
+						getName(row.parties, '被申请人') && (
+							<li className="table-info-list" style={{ width: 200 }}>
+								<span className="info info-title">被申请人：</span>
+								<Tooltip placement="top" title={getName(row.parties, '被申请人')}>
+									<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '被申请人')}</span>
+								</Tooltip>
+							</li>
+						)
+					}
 					{
 					text && (
 					<li className="table-info-list" style={{ width: 200 }}>
