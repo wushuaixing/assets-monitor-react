@@ -47,7 +47,7 @@ class HomeDynamic extends PureComponent {
 		const params = { type: 1 };
 		this.getData(params);
 		this.getAssetImportantReminder();
-		this.getRiskImportantReminder();
+		//this.getRiskImportantReminder();
 	}
 
 	// 获取数组的总数
@@ -179,6 +179,18 @@ class HomeDynamic extends PureComponent {
 			importantListSubrogationJudgment,
 			importantListEstateRegister,
 			importantListCar,
+			importantListRiskBankruptcy,
+			importantListRiskPunishment,
+			importantListRiskTax,
+			importantListRiskIllegal,
+			importantListRiskAbnormal,
+			importantListRiskChange,
+			importantListRiskEpb,
+			importantListRiskDishonest,
+			importantListLawsuitTrial,
+			importantListLawsuitCourt,
+			importantListLawsuitJudgment,
+			importantListLimitHeight,
 		];
 		/* const apiArray = [
 			{ count: auction, Api: importantListAuction, auction: true },
@@ -392,6 +404,7 @@ class HomeDynamic extends PureComponent {
 		const newRiskArr = [...RiskImportantReminderList];
 		const riskArr = (newRiskArr.sort(compare('timestamp')));
 		const newAllArr = newAssetArr.concat(newRiskArr);
+		debugger
 		const allArr = assetArr.concat(riskArr);
 		return (
 			<React.Fragment>
@@ -429,7 +442,7 @@ class HomeDynamic extends PureComponent {
 							</div>
 						</div>
 						{
-						AssetImportantReminderList.length > 0 ? (
+							allArr.length > 0 ? (
 							<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} />
 						) : null
 					}

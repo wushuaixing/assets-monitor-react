@@ -253,7 +253,7 @@ export default class Risk extends PureComponent {
 		};
 		// console.log('risk params === ', params);
 		return (
-			<Spin visible={loading} minHeight={540}>
+			<Spin visible={loading} minHeight={700}>
 				<div className="monitor-risk-container">
 					{!loading && allNumber === 0 &&	(
 						<div className="monitor-risk-container-nodata">
