@@ -430,7 +430,7 @@ export default class Excavate extends PureComponent {
 			carPropsData,
 		};
 		return (
-			<Spin visible={loading} minHeight={540}>
+			<Spin visible={loading} minHeight={700}>
 				<div className="monitor-excavate-container">
 					{!loading && allNumber === 0 ?	(
 						<div className="monitor-excavate-container-nodata">
