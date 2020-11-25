@@ -1,7 +1,9 @@
 import React from 'react';
 import { Modal, Form, message } from 'antd';
 import { openPush, closePush } from '@/utils/api/debator';
-import { Ellipsis, Icon, Table } from '@/common';
+import {
+	Ellipsis, Icon, SelectedNum, Table,
+} from '@/common';
 import { SortVessel } from '@/common/table';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
@@ -12,6 +14,7 @@ class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			selectedRowKeys: [],
 		};
 	}
 
@@ -26,7 +29,7 @@ class BusinessView extends React.Component {
 		const { getData } = this.props;// 刷新列表
 		const Api = row && row.pushState === 1 ? closePush : openPush;
 		const params = {
-			id: row.id,
+			idList: [row.id],
 		};
 		const start = new Date().getTime(); // 获取接口响应时间
 		return Api(params).then((res) => {
@@ -67,8 +70,19 @@ class BusinessView extends React.Component {
 		});
 	};
 
+	// 选择框
+	onSelectChange=(selectedRowKeys, selectedRows) => {
+		const { onSelect } = this.props;
+		const selectIds = [];
+		selectedRows.forEach((i) => {
+			selectIds.push(i.id);
+		});
+		this.setState({ selectedRowKeys });
+		if (onSelect)onSelect(selectIds);
+	};
+
 	render() {
-		const { stateObj } = this.props;
+		const { stateObj, manage } = this.props;
 		const { onSortChange, sortField, sortOrder } = this.props;
 		const sort = {
 			sortField,
@@ -167,16 +181,24 @@ class BusinessView extends React.Component {
 				</span>
 			),
 		}];
+		const { selectedRowKeys } = this.state;
+		const rowSelection = manage ? {
+			rowSelection: {
+				selectedRowKeys,
+				onChange: this.onSelectChange,
+			},
+		} : null;
 		return (
 			<React.Fragment>
+				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
+					{...rowSelection}
 					columns={columns}
 					dataSource={stateObj.dataList}
 					style={{ width: '100%' }}
 					defaultExpandAllRows
 					pagination={false}
 					onRowClick={() => {
-
 					}}
 				/>
 			</React.Fragment>

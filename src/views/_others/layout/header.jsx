@@ -185,7 +185,9 @@ export default class Headers extends React.Component {
 		this.setState({
 			data,
 		});
-		this.headerMes.informCenter();
+		if (this.headerMes) {
+			this.headerMes.informCenter();
+		}
 	};
 
 	render() {

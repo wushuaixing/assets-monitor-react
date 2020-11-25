@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'reactPropTypes';
+import AbnormalOperation from './abnormalOperation';
+import BusinessChange from './businessChange';
+import AdministrativePenalties from './administrativePenalties';
 import IllegalTaxation from './illegalTaxation';
 import EnvironmentPunishment from './environmentPunishment';
+import Illegal from './illegal';
 import '../../style.scss';
 
 class BusinessRisk extends Component {
@@ -50,6 +54,10 @@ class BusinessRisk extends Component {
 												</div>
 												{ item.dataType === 11201 && <IllegalTaxation dataType={11201} {...peopleProps} />}
 												{ item.dataType === 11202 && <EnvironmentPunishment dataType={11202} {...peopleProps} />}
+												{ item.dataType === 11203 && <AbnormalOperation dataType={11203} {...peopleProps} />}
+												{ item.dataType === 11204 && <BusinessChange dataType={11204} {...peopleProps} />}
+												{ item.dataType === 11205 && <AdministrativePenalties dataType={11205} {...peopleProps} />}
+												{ item.dataType === 11206 && <Illegal dataType={11206} {...peopleProps} />}
 											</div>
 										)
 									))

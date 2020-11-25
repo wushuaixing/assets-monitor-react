@@ -6,6 +6,8 @@ import LandData from '../../asset-excavate/land-data/table-intact';
 import TenderBid from '../../asset-excavate/tender-bid/table-intact';
 import FinancialAssets from '../../asset-excavate/financial-assets/table';
 import ChattelMortgage from '../../asset-excavate/chattel-mortgage/table-intact';
+import Car from '../../asset-excavate/car/table-intact';
+import RealEstate from '../../asset-excavate/real-estate/table-intact';
 import Lawsuit from '../../risk-monitor/lawsuits-monitor/table-intact';
 import Operation from '../../risk-monitor/operation-risk/table-intact';
 import Bankruptcy from '../../risk-monitor/bankruptcy/table-intact';
@@ -40,6 +42,8 @@ const TableItem	= (props) => {
 					YC020704: <IntangibleAssets sourceType="YC020704" />,
 					YC0208: <Pledge />,
 					YC0209: <UnBlock />,
+					YC0210: <RealEstate />,
+					YC0211: <Car />,
 					YC030101: <Lawsuit sourceType={1} />,
 					YC030102: <Lawsuit sourceType={2} />,
 					YC030103: <Lawsuit sourceType={3} />,

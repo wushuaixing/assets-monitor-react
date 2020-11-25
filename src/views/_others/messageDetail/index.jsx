@@ -23,6 +23,8 @@ import Dishonesty from './component/dishonesty/index';
 import BusinessRisk from './component/businessRisk/index';
 import UnBlock from './component/unblock/index';
 import LimitHeight from './component/limit-height/index';
+import Car from './component/car/index';
+import RealEstate from './component/real-estate/index';
 
 const createForm = Form.create;
 
@@ -143,6 +145,22 @@ const subItems = (rule, data) => ([
 		component: UnBlock,
 	},
 	{
+		dataType: 115,
+		name: '不动产登记',
+		total: data ? getCount(data, 115) : 0,
+		status: isRule('zcwjbdcdj', 1, rule),
+		tagName: 'message-realEstate',
+		component: RealEstate,
+	},
+	{
+		dataType: 116,
+		name: '车辆信息',
+		total: data ? getCount(data, 116) : 0,
+		status: isRule('zcwjclxx', 1, rule),
+		tagName: 'message-car',
+		component: Car,
+	},
+	{
 		dataType: 108,
 		name: '无形资产',
 		total: data ? getCount(data, 108) : 0,
@@ -203,6 +221,10 @@ const subItems = (rule, data) => ([
 		childrenCount: [
 			{ name: '税收违法', count: data ? getCount(data, 11201) : 0, dataType: 11201 },
 			{ name: '环保处罚', count: data ? getCount(data, 11202) : 0, dataType: 11202 },
+			{ name: '经营异常', count: data ? getCount(data, 11203) : 0, dataType: 11203 },
+			{ name: '工商变更', count: data ? getCount(data, 11204) : 0, dataType: 11204 },
+			{ name: '严重违法', count: data ? getCount(data, 11205) : 0, dataType: 11205 },
+			{ name: '行政处罚', count: data ? getCount(data, 11206) : 0, dataType: 11206 },
 		],
 	},
 ]);
@@ -220,7 +242,7 @@ class MessageDetail extends React.Component {
 			reportDate: '',
 			obligorInfo: [],
 			stationId: undefined,
-			obligorId: undefined,
+			obligorId: null,
 			affixed: false,
 			isShowBackTopImg: false,
 		};
