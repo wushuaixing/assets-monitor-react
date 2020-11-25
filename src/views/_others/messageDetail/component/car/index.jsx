@@ -5,7 +5,7 @@ import { markRead } from '@/utils/api/message';
 import TableMortgage from '@/views/asset-excavate/car/table';
 import { Spin } from '@/common';
 
-class ChattelMortgage extends Component {
+class Car extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -38,7 +38,7 @@ class ChattelMortgage extends Component {
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
-		const reg = new RegExp(10701);
+		const reg = new RegExp(11601);
 		const api = message.filter(item => reg.test(item.dataType))[0].list;
 		const params = {
 			obligorId,
@@ -131,7 +131,7 @@ class ChattelMortgage extends Component {
 	}
 }
 
-ChattelMortgage.propTypes = {
+Car.propTypes = {
 	id: PropTypes.string,
 	title: PropTypes.string,
 	total: PropTypes.number,
@@ -139,12 +139,12 @@ ChattelMortgage.propTypes = {
 	stationId: PropTypes.number,
 };
 
-ChattelMortgage.defaultProps = {
+Car.defaultProps = {
 	id: 'message-intangible',
 	title: '车辆信息',
 	total: 0,
-	obligorId: 0,
+	obligorId: null,
 	stationId: 0,
 };
 
-export default ChattelMortgage;
+export default Car;

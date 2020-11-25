@@ -344,7 +344,7 @@ class DetailItem extends PureComponent {
 			}],
 			['default', ['资产拍卖', 1]],
 		]);
-		console.log(openModalMap.get(item.detailType))
+		console.log(openModalMap.get(item.detailType));
 		const openModalMapType = openModalMap.get(item.detailType) || openModalMap.get('default');
 		openModalMapType.call(this);
 	};
@@ -444,7 +444,7 @@ class DetailItem extends PureComponent {
 			miningModalVisible, trademarkModalVisible, constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
 			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, unBlockModalVisible,
-			lawsuitJudgmentModalVisible, listMarginTop, openMessage, limitHeightModalVisible, realEstateModalVisible,carModalVisible
+			lawsuitJudgmentModalVisible, listMarginTop, openMessage, limitHeightModalVisible, realEstateModalVisible, carModalVisible,
 		} = this.state;
 		// console.log('detail item data === ', data);
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
@@ -517,7 +517,7 @@ class DetailItem extends PureComponent {
 													style={{ width: item.detailType === 1301 ? 130 : 100 }}
 													className={`detail-container-content-right-tag 
 													${(item.detailType === 701 || item.detailType === 801 || item.detailType === 1302) ? 'red' : 'yellow'} 
-													${(item.detailType === 802 || item.detailType === 1301|| item.detailType === 1301) ? 'green' : ''}
+													${(item.detailType === 802 || item.detailType === 1301 || item.detailType === 1501) ? 'green' : ''}
 													${(item.detailType === 1601) ? 'blue' : ''}`
 													}
 												>
@@ -780,7 +780,8 @@ class DetailItem extends PureComponent {
 						dataSource={dataSource}
 						carModalVisible={carModalVisible}
 					/>
-				)}{/** 不动产Modal */}
+				)}
+				{/** 不动产Modal */}
 				{realEstateModalVisible && (
 					<RealEstateModal
 						onCancel={this.onCancel}
