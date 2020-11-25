@@ -198,7 +198,7 @@ class DynamicUpdate extends PureComponent {
 									<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
 									条资产挖掘信息
 
-									<span className="seven-update-content-title-addNum">
+									{/*		<span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
 										<span className="seven-update-content-title-addNum-text">
 											<span className="seven-update-content-title-addNum-text-bold">
@@ -206,7 +206,7 @@ class DynamicUpdate extends PureComponent {
 											</span>
 											名债务人有资产信息更新
 										</span>
-									</span>
+									</span> */}
 								</div>
 								<RingEcharts id="assetAuction" {...assetParams} title="资产挖掘" />
 								{lessAssetNum && (
