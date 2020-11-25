@@ -150,7 +150,7 @@ export default class Excavate extends PureComponent {
 			['finance', this.getFinanceData],
 			['bidding', this.getBiddingData],
 			['estateRegisterCount', this.getRealEstateData],
-			['car', this.getCarData],
+			['vehicleInformationCount', this.getCarData],
 			['unseal', this.getUnsealData],
 			['default', () => { console.log('未匹配'); }],
 		]);

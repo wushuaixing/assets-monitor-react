@@ -1,5 +1,5 @@
 import React from 'react';
-import { attentionFollowListResult } from '@/utils/api/monitor-info/pledge';
+import { postFollowList } from '@/utils/api/monitor-info/car';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
 import Table from './table';
@@ -54,7 +54,7 @@ export default class TableIntact extends React.Component {
 	toGetData = () => {
 		this.setState({ loading: true });
 		const { reqUrl } = this.props;
-		const toApi = reqUrl || attentionFollowListResult;
+		const toApi = reqUrl || postFollowList;
 		toApi(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
