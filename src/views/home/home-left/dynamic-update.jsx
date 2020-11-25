@@ -239,7 +239,7 @@ class DynamicUpdate extends PureComponent {
 									新增
 									<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
 									条风险参考信息
-									<span className="seven-update-content-title-addNum">
+									{/* <span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
 										<span className="seven-update-content-title-addNum-text">
 											<span className="seven-update-content-title-addNum-text-bold">
@@ -247,7 +247,7 @@ class DynamicUpdate extends PureComponent {
 											</span>
 											名债务人有风险信息更新
 										</span>
-									</span>
+									</span> */}
 								</div>
 								<RingEcharts id="assetAuction" {...riskParams} title="风险参考" />
 								{lessRiskNum && (

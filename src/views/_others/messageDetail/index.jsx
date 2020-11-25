@@ -321,7 +321,6 @@ class MessageDetail extends React.Component {
 		};
 		dataCount(params).then((res) => {
 			if (res.code === 200) {
-				console.log( subItems(rule, res.data.categoryCount))
 				this.setState({
 					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
 				});
