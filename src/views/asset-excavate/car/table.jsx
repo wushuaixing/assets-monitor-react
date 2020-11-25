@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-	Pagination, message, Tooltip,
+	Pagination, message,
 } from 'antd';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/mortgage';
-import {linkDom, timeStandard, w} from '@/utils';
+import { postMarkRead, postFollow, postUnFollow } from '@/utils/api/monitor-info/car';
+import { linkDom, timeStandard } from '@/utils';
 
 // 获取表格配置
 const columns = (props) => {
