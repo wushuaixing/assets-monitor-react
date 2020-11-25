@@ -71,6 +71,10 @@ function exportTemplate(source,exportType) {
 				{id: 1, value: "股权持有人"},
 				{id: 2, value: "股权质权人"},
 			],
+			matchType: [
+				{id: 1, value: "精准匹配", field: "accurate"},
+				{id: 2, value: "模糊匹配", field: "blurry"},
+			],
 			infoType:[
 				{id: 1, value: "立案信息", field: "trial"},
 				{id: 2, value: "开庭信息", field: "court"},
@@ -80,6 +84,11 @@ function exportTemplate(source,exportType) {
 				{id: 1, value: "土地出让", field: ""},
 				{id: 2, value: "土地转让", field: ""},
 				{id: 3, value: "土地抵押", field: ""},
+			],
+			financialType: [
+				{id: 1, value: "竞价项目", field: "bidding"},
+				{id: 2, value: "招商项目", field: "merchants"},
+				{id: 3, value: "公示项目", field: "publicity"},
 			],
 			landRole:[
 				{id: 1, value: "出让结果中的受让方"},
@@ -290,7 +299,7 @@ function exportTemplate(source,exportType) {
 	}
 
 	/* 概览模块 */
-	var overViewTable = function (_list,columns,option) {
+	var overViewTable = function (_list, columns, option) {
 		var list= _list.filter(function (item) {
 			return item[option.count]>0;
 		});
@@ -305,14 +314,14 @@ function exportTemplate(source,exportType) {
 			childList.forEach(function (item) {
 				if(item){
 					var childName = option.options
-						?fun.toGetType(item[option.name],option.options,option.field,option.isAry,option.fillText)
+						? fun.toGetType(item[option.name], option.options, option.field, option.isAry, option.fillText)
 						:item[option.name];
 					childRes += ("<td><span class=\"mg-r\">" + childName +(option.nameUnit||'')+ "：</span>" +
 						"<span class=\"fw-bold \">" + item[option.count]+(option.numberUnit||'') +
 						"</span><span>"+(option.unit||" 条")+"</span>" +
 						(option.remark ? eval(option.remark) : '') + "</td>");
 				}else{
-					childRes+="<td></td>";
+					childRes += "<td></td>";
 				}
 
 			});
@@ -327,11 +336,50 @@ function exportTemplate(source,exportType) {
 		var roleTotal = 0;
 		var result = false;
 		var itemData='';
-		if(viewName==="overview.A10201"||viewName==="overview.B10201"){
+		// 资产拍卖 精准 + 模糊 （企业 + 个人)
+		if(viewName==="overview.A10201"){
+			if((source.auctionInfos||[]).length){
+				fun.source.matchType.forEach(function (i) {
+					var result = false;
+					source.auctionInfos.forEach(function (item) {
+						if(item.type === i.id){
+							if(item.count){
+								result = true;
+								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
+								if(item.roleDistributions.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".role.list}",
+										overViewTable(item.roleDistributions, 4, {
+											name: "type",
+											count: "count",
+											options: fun.source.labelType,
+										}))
+								}
+								if (item.auctionResults.length) {
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".result.list}",
+										overViewTable(item.auctionResults, 4, {
+											name: "type",
+											count: "count",
+											options: fun.source.auctionType,
+										}));
+								}
+							}
+						}
+					});
+					if (!result){
+						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
+					}
+				});
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".accurate.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".blurry.display}", "display-none");
+			}
+		}
+		// 资产拍卖 个人
+		else if(viewName==="overview.B10201"){
 			if((source.auctionInfos||[]).length){
 				source.auctionInfos.forEach(function (item) {
 					if (item.type === 2) {
-						if(item.count>0){
+						if(item.count > 0){
 							htmlTemp = htmlTemp.replace("{" + viewName + ".total}", item.count);
 							if (item.roleDistributions.length) {
 								htmlTemp = htmlTemp.replace("{" + viewName + ".role.list}",
@@ -352,21 +400,21 @@ function exportTemplate(source,exportType) {
 						}else{
 							htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
 						}
-
 					}
 				});
 			}else{
 				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
 			}
 		}
-		else if(viewName==="overview.A10202"){
+		// 代位权
+		else if(viewName === "overview.A10202"){
 			if((source.subrogationInfos||[]).length){
 				fun.source.infoType.forEach(function (i) {
 					var result = false;
 					source.subrogationInfos.forEach(function (item) {
 						if(item.type===i.id){
 							if(item.count){
-								result =true;
+								result = true;
 								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
 								if(item.caseReasons.length){
 									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".reason.list}",
@@ -389,7 +437,6 @@ function exportTemplate(source,exportType) {
 											count: "count",
 											nameUnit:"年"
 										}))
-
 								}
 							}
 						}
@@ -404,9 +451,98 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".judgment.display}", "display-none");
 			}
 		}
+		// 金融资产
+		else if(viewName === "overview.A10213"){
+			if((source.financeInfos||[]).length){
+				fun.source.financialType.forEach(function (i) {
+					var result = false;
+					source.financeInfos.forEach(function (item) {
+						if(item.type === i.id){
+							if(item.count){
+								result = true;
+								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
+								// 项目类型分布
+								if(item.financeProjectType.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".financeProjectType.list}",
+										overViewTable(item.financeProjectType, 4, {
+											name: "type",
+											count: "count",
+										}))
+								}
+								// 项目状态分布
+								if(item.investmentProjectStatus.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".investmentProjectStatus.list}",
+										overViewTable(item.investmentProjectStatus, 4, {
+											name: "type",
+											count: "count",
+										}))
+								}
+								// 项目状态分布
+								if(item.projectStatus.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".projectStatus.list}",
+										overViewTable(item.projectStatus, 4, {
+											name: "type",
+											count: "count",
+										}))
+								}
+								// 年份分布
+								if(item.yearDistribution.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
+										overViewTable(fun.toGetYearList(item.yearDistribution), 5, {
+											name: "year",
+											count: "count",
+											nameUnit:"年"
+										}))
+								}
+							}
+						}
+					});
+					if (!result){
+						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
+					}
+				})
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".bidding.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".merchants.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".publicity.display}", "display-none");
+			}
+		}
+		// 招投标
+		else if(viewName === "overview.A10211"){
+			if(source.bidding){
+				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.bidding);
+				if(source.yearDistributions.length){
+					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
+						overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
+							name: "year",
+							count: "count",
+							nameUnit:"年"
+						}))
+				}
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+			}
+		}
+		// 查解封资产
+		else if(viewName === "overview.A10212"){
+			if(source.unsealCount){
+				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
+				if(source.yearDistributions.length){
+					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
+						overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
+							name: "year",
+							count: "count",
+							nameUnit:"年"
+						}))
+				}
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+			}
+		}
+
 		else if(viewName==="overview.B10202"){
 			if(source.subrogationInfo){
-				itemData =source.subrogationInfo;
+				itemData = source.subrogationInfo;
 				if(itemData.count){
 					result =true;
 					htmlTemp = htmlTemp.replace("{" + viewName +  ".total}", itemData.count);
@@ -717,6 +853,7 @@ function exportTemplate(source,exportType) {
 				}
 			}
 		}
+
 		else if(viewName==="overview.A10208"){
 			if(source.baseInfo){
 				['legalPersonName', 'regStatus', 'regCapital', 'establishTime', 'regLocation'].forEach(function (item) {
@@ -757,7 +894,27 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".bankruptcy.display}", "display-none");
 			}
 		}
-		else if(viewName==="baseInfo"){
+		else if(viewName === "overview.A10210"){
+			if(source.companyPortraitIntangibleInfos){
+				var A10210List = source.companyPortraitIntangibleInfos.filter(function (item) {
+					return item.count
+				});
+				if(A10210List.length){
+					source.companyPortraitIntangibleInfos.forEach(function (item) {
+						yearTotal += item.count;
+					});
+					htmlTemp = htmlTemp.replace("{" + viewName + ".total}", yearTotal);
+					htmlTemp = htmlTemp.replace("{" + viewName + ".list}",
+						overViewTable(source.companyPortraitIntangibleInfos, 4, {
+							name: "typeName",
+							count: "count",
+						}))
+				}else{
+					htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+				}
+			}
+		}
+		else if(viewName === "baseInfo"){
 			if(source){
 				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
 					htmlTemp = htmlTemp.replace("{baseInfo."+item+"}", source[item]||'-');
@@ -769,21 +926,41 @@ function exportTemplate(source,exportType) {
 	};
 
 	if(exportType){
+		// 资产拍卖
 		overView(data.A10201,"overview.A10201");
+		// 代位权
 		overView(data.A10202,"overview.A10202");
+		// 土地信息
 		overView(data.A10203,"overview.A10203");
+		// 股权质押
 		overView(data.A10204,"overview.A10204");
+		// 动产抵押
 		overView(data.A10205,"overview.A10205");
 		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
 		}
+		// 涉诉信息 （失信记录）
 		overView(data.A10206,"overview.A10206");
 		if(!(/A10206.{0,12}\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.lawsuit.display}", "display-none");
 		}
+		// 经营风险
 		overView(data.A10207,"overview.A10207");
+		// 工商基本情况
 		overView(data.A10208,"overview.A10208");
+		// 破产重组
 		overView(data.A10209,"overview.A10209");
+		// 无形资产
+		overView(data.A10210,"overview.A10210");
+		// 招投标
+		overView(data.A10211,"overview.A10211");
+		// 查解封资产
+		overView(data.A10212,"overview.A10212");
+		// 金融资产
+		overView(data.A10213,"overview.A10213");
+		// 限制高消费
+		overView(data.A10214,"overview.A10214");
+
 	}else{
 		overView(data.B10201,"overview.B10201");
 		overView(data.B10202,"overview.B10202");
@@ -1655,4 +1832,4 @@ function writeFile() {
 	});
 }
 writeFile();
-module.exports = {exportTemplate,exportCover, writeFile};
+module.exports = {exportTemplate, exportCover, writeFile};

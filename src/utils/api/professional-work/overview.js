@@ -245,22 +245,6 @@ export const OverviewTax = async (params) => {
 export const overviewLimitHeight = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/limitHeight', { params });
 	return response.data;
-	// return {
-	// 	...response.data,
-	// 	data: {
-	// 		limitHeightCount: 565,
-	// 		haveRemovedCount: 40,
-	// 		gmtModified: '2020-10-11',
-	// 		status: 1,
-	// 		yearDistributions: [
-	// 			{ count: 5, year: 2020 },
-	// 			{ count: 3, year: 2019 },
-	// 			{ count: 66, year: 2018 },
-	// 			{ count: 22, year: 2010 },
-	// 			{ count: 1, year: 2011 },
-	// 		],
-	// 	},
-	// };
 };
 
 // 业务视图限制高消费 (企业 + 个人)

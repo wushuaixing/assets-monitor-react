@@ -56,24 +56,45 @@
 		<div class="fw-bold font-xl">资产概况</div>
 	</div>
 
-	<!-- 资产拍卖 -->
-	<div class="padding6 {overview.A10201.display}">
+	<!-- 资产拍卖 精准匹配 -->
+	<div class="padding6 {overview.A10201.accurate.display}">
 		<div class="entry-title ">
 			<div class="et-cot font-l">
-				<span class="fw-bold mg-r">{overview.A10201.total}条</span>
-				<span>相关资产拍卖</span>
+				<span class="fw-bold mg-r">{overview.A10201.accurate.total}条</span>
+				<span>资产拍卖 - 精准匹配</span>
 			</div>
 		</div>
-		<div class="{overview.A10201.role.display}">
+		<div class="{overview.A10201.accurate.role.display}">
 			<div class="fw-bold second-title">角色分布</div>
 			<table class="table-td-20 table-border mg8-0">
-				{overview.A10201.role.list}
+				{overview.A10201.accurate.role.list}
 			</table>
 		</div>
 		<div class="{overview.A10201.result.display}">
 			<div class="fw-bold second-title">拍卖结果分布</div>
 			<table class="table-td-20 table-border mg8-0">
-				{overview.A10201.result.list}
+				{overview.A10201.accurate.result.list}
+			</table>
+		</div>
+	</div>
+	<!-- 资产拍卖 模糊匹配 -->
+	<div class="padding6 {overview.A10201.blurry.display}">
+		<div class="entry-title ">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10201.blurry.total}条</span>
+				<span>资产拍卖 - 模糊匹配</span>
+			</div>
+		</div>
+		<div class="{overview.A10201.blurry.role.display}">
+			<div class="fw-bold second-title">角色分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10201.blurry.role.list}
+			</table>
+		</div>
+		<div class="{overview.A10201.blurry.result.display}">
+			<div class="fw-bold second-title">拍卖结果分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10201.blurry.result.list}
 			</table>
 		</div>
 	</div>
@@ -175,6 +196,19 @@
 			</table>
 		</div>
 	</div>
+	<!-- 无形资产-->
+	<div class="padding6 {overview.A10210.display}">
+		<div class="entry-title">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10210.total}条</span>
+				<span>无形资产</span>
+			</div>
+		</div>
+		<table class="table-td-25 table-border mg8-0">
+			{overview.A10210.list}
+		</table>
+	</div>
+
 	<!-- 股权质押 -->
 	<div class="padding6 {overview.A10204.display}">
 		<div class="entry-title">
@@ -214,6 +248,100 @@
 			<div class="fw-bold second-title">角色分布</div>
 			<table class="table-td-50 table-border mg8-0">
 				{overview.A10205.role.list}
+			</table>
+		</div>
+	</div>
+	<!-- 查解封资产 -->
+	<div class="padding6 {overview.A10212.display}">
+		<div class="entry-title">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10212.total}条</span>
+				<span>查解封资产</span>
+			</div>
+		</div>
+		<div class="{overview.A10212.year.display}">
+			<div class="fw-bold second-title">年份分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10212.year.list}
+			</table>
+		</div>
+	</div>
+	<!-- 金融资产 - 竞价项目 -->
+	<div class="padding6 {overview.A10213.bidding.display}">
+		<div class="entry-title">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10213.bidding.total}条</span>
+				<span>金融资产 - 竞价项目</span>
+			</div>
+		</div>
+		<div class="{overview.A10213.bidding.projectStatus}">
+			<div class="fw-bold second-title">年份分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10213.bidding.projectStatus.list}
+			</table>
+		</div>
+	</div>
+	<!-- 金融资产 - 招商项目 -->
+	<div class="padding6 {overview.A10213.merchants.display}">
+		<div class="entry-title">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10213.merchants.total}条</span>
+				<span>>金融资产 - 招商项目</span>
+			</div>
+		</div>
+		<div class="{overview.A10213.court.year}">
+			<div class="fw-bold second-title">年份分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10213.court.year.list}
+			</table>
+		</div>
+		<div class="{overview.A10202.court.reason}">
+			<div class="fw-bold second-title">案由分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10202.court.reason.list}
+			</table>
+		</div>
+
+	</div>
+	<!-- 金融资产 - 公示项目 -->
+	<div class="padding6 {overview.A10213.judgment.display}">
+		<div class="entry-title">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10202.judgment.total}条</span>
+				<span>代位权 - 裁判文书</span>
+			</div>
+			<div class="{overview.A10202.judgment.year}">
+				<div class="fw-bold second-title">年份分布</div>
+				<table class="table-td-20 table-border mg8-0">
+					{overview.A10202.judgment.year.list}
+				</table>
+			</div>
+			<div class="{overview.A10202.judgment.reason}">
+				<div class="fw-bold second-title">案由分布</div>
+				<table class="table-td-20 table-border mg8-0">
+					{overview.A10202.judgment.reason.list}
+				</table>
+			</div>
+			<div class="{overview.A10202.judgment.case}">
+				<div class="fw-bold second-title">案件类型分布</div>
+				<table class="table-td-25 table-border mg8-0">
+					{overview.A10202.judgment.case.list}
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- 招投标 -->
+	<div class="padding6 {overview.A10211.display}">
+		<div class="entry-title">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10211.total}条</span>
+				<span>招投标</span>
+			</div>
+		</div>
+		<div class="{overview.A10211.year.display}">
+			<div class="fw-bold second-title">年份分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10211.year.list}
 			</table>
 		</div>
 	</div>
@@ -412,7 +540,7 @@
 <div class="{asset.accurate.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">资产拍卖（智能精准匹配 {asset.accurate.total}）</div>
+		<div class="et-cot fw-bold font-l">资产拍卖 - 智能精准匹配 {asset.accurate.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -427,7 +555,7 @@
 <div class="{asset.blurry.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">资产拍卖（模糊匹配 {asset.blurry.total}）</div>
+		<div class="et-cot fw-bold font-l">资产拍卖 - 模糊匹配 {asset.blurry.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -442,7 +570,7 @@
 <div class="{subrogation.trial.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">代位权（立案 {subrogation.trial.total}）</div>
+		<div class="et-cot fw-bold font-l">代位权 - 立案 {subrogation.trial.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -456,7 +584,7 @@
 <div class="{subrogation.court.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">代位权（开庭 {subrogation.court.total}）</div>
+		<div class="et-cot fw-bold font-l">代位权 - 开庭 {subrogation.court.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -470,7 +598,7 @@
 <div class="{subrogation.judgment.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">代位权（裁判文书 {subrogation.judgment.total}）</div>
+		<div class="et-cot fw-bold font-l">代位权 - 裁判文书 {subrogation.judgment.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -484,7 +612,7 @@
 <div class="{land.result.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">土地信息（出让结果 {land.result.total}）</div>
+		<div class="et-cot fw-bold font-l">土地信息 - 出让结果 {land.result.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -498,7 +626,7 @@
 <div class="{land.transfer.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">土地信息（土地转让 {land.transfer.total}）</div>
+		<div class="et-cot fw-bold font-l">土地信息 - 土地转让 {land.transfer.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -512,7 +640,7 @@
 <div class="{land.mortgage.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">土地信息（土地抵押 {land.mortgage.total}）</div>
+		<div class="et-cot fw-bold font-l">土地信息 - 土地抵押 {land.mortgage.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -540,7 +668,7 @@
 <div class="{stock.pledgee.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">股权质押（股权质权 {stock.pledgee.total}）</div>
+		<div class="et-cot fw-bold font-l">股权质押 - 股权质权 {stock.pledgee.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -554,7 +682,7 @@
 <div class="{mortgage.owner.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">动产抵押（抵押 {mortgage.owner.total}）</div>
+		<div class="et-cot fw-bold font-l">动产抵押 - 抵押 {mortgage.owner.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -568,7 +696,7 @@
 <div class="{mortgage.people.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">动产抵押（抵押权 {mortgage.people.total}）</div>
+		<div class="et-cot fw-bold font-l">动产抵押 - 抵押权 {mortgage.people.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -582,7 +710,7 @@
 <div class="{lawsuit.trial.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">涉诉（立案 {lawsuit.trial.total}）</div>
+		<div class="et-cot fw-bold font-l">涉诉 - 立案 {lawsuit.trial.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">
@@ -596,7 +724,7 @@
 <div class="{lawsuit.court.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
-		<div class="et-cot fw-bold font-l">涉诉（开庭 {lawsuit.court.total}）</div>
+		<div class="et-cot fw-bold font-l">涉诉 - 开庭 {lawsuit.court.total}</div>
 	</div>
 	<!-- 类目表格 -->
 	<div class="entry-table border-t">

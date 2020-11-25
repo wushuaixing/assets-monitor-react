@@ -214,7 +214,7 @@ module.exports = {
 	],
 
 	/* 画像查询 => 企业画像查询 => 概览 */
-	// 资产概况 => 资产拍卖
+	// 资产 => 资产拍卖
 	A10201:{
 		auctionInfos: [
 			{
@@ -241,14 +241,31 @@ module.exports = {
 				type: 2,
 			},
 			{
-				auctionResults: [],
-				count: 0,
-				roleDistributions: [],
+				auctionResults: [
+					{
+						count: 2,
+						type: 5,
+						typeName: '已成交',
+					},
+					{
+						count: 2,
+						type: 7,
+						typeName: '已流拍',
+					},
+				],
+				count: 44,
+				roleDistributions: [
+					{
+						count: 222,
+						type: 2,
+						typeName: '债权人',
+					},
+				],
 				type: 1,
 			},
 		],
 	},
-	// 资产概况 => 代位权
+	// 资产 => 代位权
 	A10202:{
 		subrogationInfos: [
 			{
@@ -354,7 +371,7 @@ module.exports = {
 			},
 		],
 	},
-	// 资产概况 => 土地信息
+	// 资产 => 土地信息
 	A10203:{
 		"infoTypes": [
 			{
@@ -405,7 +422,7 @@ module.exports = {
 			},
 		],
 	},
-	// 资产概况 => 动产抵押
+	// 资产  => 动产抵押
 	A10205:{
 		roleDistributions: [
 			{
@@ -452,7 +469,7 @@ module.exports = {
 			},
 		],
 	},
-	// 涉诉信息 （失信记录）
+	// 风险 => 涉诉信息 （失信记录）
 	A10206:{
 		// 失信记录 - 年份分布
 		assetOverviewDishonestInfo: {
@@ -578,11 +595,11 @@ module.exports = {
 			},
 		],
 	},
-	// 经营风险
+	// 风险 => 经营风险
 	A10207:{
-		businessRiskInfos: [{ count: 0, type: 1, typeName: '破产重组信息' }, { count: 24, type: 2, typeName: '经营异常' }, { count: 5, type: 3, typeName: '严重违法' }, { count: 0, type: 4, typeName: '税收违法' }, { count: 0, type: 5, typeName: '行政处罚' }]
+		businessRiskInfos: [{ count: 0, type: 1, typeName: '破产重组信息' }, { count: 24, type: 2, typeName: '经营异常' }, { count: 5, type: 3, typeName: '严重违法' }, { count: 49, type: 4, typeName: '税收违法' }, { count: 59, type: 5, typeName: '行政处罚' }, { count: 77577, type: 6, typeName: '环保处罚' }]
 	},
-	// 工商基本情况
+	// 风险 => 工商基本情况
 	A10208:{
 		baseInfo: {
 			estiblishTime: '1997-06-11',
@@ -613,13 +630,426 @@ module.exports = {
 			},
 		],
 	},
-	// 破产重组
+	// 风险 => 破产重组
 	A10209:{
 		bankruptcy: 2,
 		gmtCreate: null,
 		yearDistributions: [{count: 2, year: 2020}]
 	},
+	// 资产 => 无形资产
+	A10210: {
+		companyPortraitIntangibleInfos: [
+			{
+				count: 11,
+				type: 1,
+				typeName: '排污权'
+			},
+			{
+				count: 11,
+				type: 2,
+				typeName: '矿业权'
+			},
+			{
+				count: 90,
+				type: 3,
+				typeName: '商标专利'
+			},
+			{
+				count: 122,
+				type: 4,
+				typeName: '建筑建造资质'
+			}
+		],
+	},
+	// 资产 => 招投标
+	A10211: {
+		bidding: 52,
+		yearDistributions: [
+			{
+				count: 2,
+				year: 2010,
+			},
+			{
+				count: 3,
+				year: 2011,
+			},
+			{
+				count: 3,
+				year: 2012,
+			},
+			{
+				count: 3,
+				year: 2013,
+			},
+			{
+				count: 3,
+				year: 2014,
+			},
+			{
+				count: 3,
+				year: 2015,
+			},
+			{
+				count: 3,
+				year: 2016,
+			},
+		],
+	},
+	// 资产 => 查解封资产
+	A10212: {
+		unsealCount: 10212,
+		yearDistributions: [
+			{
+				count: 1,
+				year: 2019,
+			},
+			{
+				count: 1,
+				year: 2018,
+			},
+			{
+				count: 2,
+				year: 2017,
+			},
+			{
+				count: 3,
+				year: 2016,
+			},
+			{
+				count: 3,
+				year: 2015,
+			},
+			{
+				count: 2,
+				year: 2014,
+			},
+			{
+				count: 2,
+				year: 2012,
+			},
+		],
 
+
+	},
+	// 资产 => 金融资产
+	A10213: {
+		financeInfos: [
+			{
+				count: 10,
+				financeProjectType: [
+					{
+						count: 1,
+						type: -1,
+					},
+					{
+						count: 1,
+						type: 1,
+					},
+					{
+						count: 1,
+						type: 2,
+					},
+					{
+						count: 1,
+						type: 3,
+					},
+					{
+						count: 1,
+						type: 4,
+					},
+					{
+						count: 1,
+						type: 5,
+					},
+					{
+						count: 1,
+						type: 6,
+					},
+				],
+				investmentProjectStatus: [
+					{
+						count: 1,
+						type: 1,
+					},
+					{
+						count: 1,
+						type: 3,
+					},
+					{
+						count: 1,
+						type: 5,
+					},
+					{
+						count: 1,
+						type: 7,
+					},
+					{
+						count: 1,
+						type: 9,
+					},
+					{
+						count: 1,
+						type: 11,
+					},
+					{
+						count: 1,
+						type: 13,
+					},
+				],
+				projectStatus: [
+					{
+						count: 1,
+						status: 1
+					},
+					{
+						count: 1,
+						status: 3
+					},
+					{
+						count: 1,
+						status: 5
+					},
+					{
+						count: 1,
+						status: 7
+					},
+					{
+						count: 1,
+						status: 9
+					},
+					{
+						count: 1,
+						status: 11
+					},
+				],
+				type: 1,
+				yearDistribution: [
+					{
+						count: 2,
+						year: 2019,
+					},
+					{
+						count: 2,
+						year: 2016,
+					},
+					{
+						count: 3,
+						year: 2015,
+					},
+				],
+			},
+			{
+				count: 10,
+				financeProjectType: [
+					{
+						count: 1,
+						type: -1,
+					},
+					{
+						count: 1,
+						type: 1,
+					},
+					{
+						count: 1,
+						type: 2,
+					},
+					{
+						count: 1,
+						type: 3,
+					},
+					{
+						count: 1,
+						type: 4,
+					},
+					{
+						count: 1,
+						type: 5,
+					},
+					{
+						count: 1,
+						type: 6,
+					},
+				],
+				investmentProjectStatus: [
+					{
+						count: 1,
+						type: 1,
+					},
+					{
+						count: 1,
+						type: 3,
+					},
+					{
+						count: 1,
+						type: 5,
+					},
+					{
+						count: 1,
+						type: 7,
+					},
+					{
+						count: 1,
+						type: 9,
+					},
+					{
+						count: 1,
+						type: 11,
+					},
+					{
+						count: 1,
+						type: 13,
+					},
+				],
+				projectStatus: [
+					{
+						count: 1,
+						status: 1
+					},
+					{
+						count: 1,
+						status: 3
+					},
+					{
+						count: 1,
+						status: 5
+					},
+					{
+						count: 1,
+						status: 7
+					},
+					{
+						count: 1,
+						status: 9
+					},
+					{
+						count: 1,
+						status: 11
+					},
+				],
+				type: 2,
+				yearDistribution: [
+					{
+						count: 2,
+						year: 2019,
+					},
+					{
+						count: 2,
+						year: 2016,
+					},
+					{
+						count: 3,
+						year: 2015,
+					},
+				],
+			},
+			{
+				count: 10,
+				financeProjectType: [
+					{
+						count: 1,
+						type: -1,
+					},
+					{
+						count: 1,
+						type: 1,
+					},
+					{
+						count: 1,
+						type: 2,
+					},
+					{
+						count: 1,
+						type: 3,
+					},
+					{
+						count: 1,
+						type: 4,
+					},
+					{
+						count: 1,
+						type: 5,
+					},
+					{
+						count: 1,
+						type: 6,
+					},
+				],
+				investmentProjectStatus: [
+					{
+						count: 1,
+						type: 1,
+					},
+					{
+						count: 1,
+						type: 3,
+					},
+					{
+						count: 1,
+						type: 5,
+					},
+					{
+						count: 1,
+						type: 7,
+					},
+					{
+						count: 1,
+						type: 9,
+					},
+					{
+						count: 1,
+						type: 11,
+					},
+					{
+						count: 1,
+						type: 13,
+					},
+				],
+				projectStatus: [
+					{
+						count: 1,
+						status: 1
+					},
+					{
+						count: 1,
+						status: 3
+					},
+					{
+						count: 1,
+						status: 5
+					},
+					{
+						count: 1,
+						status: 7
+					},
+					{
+						count: 1,
+						status: 9
+					},
+					{
+						count: 1,
+						status: 11
+					},
+				],
+				type: 3,
+				yearDistribution: [
+					{
+						count: 2,
+						year: 2019,
+					},
+					{
+						count: 2,
+						year: 2016,
+					},
+					{
+						count: 3,
+						year: 2015,
+					},
+				],
+			}
+		]
+	},
+	// 风险 => 限制高消费
+	A10214: {},
 
 
 	/* 画像查询 => 企业画像查询 => 资产 */
