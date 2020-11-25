@@ -110,6 +110,7 @@ class HomeDynamic extends PureComponent {
 			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission,
 				finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt,
 				subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister, vehicleInformation]);
+			debugger
 			const assetDataArray = [
 				{
 					count: auction, type: 1, typeName: '资产拍卖', name: '资产拍卖', value: 1,
