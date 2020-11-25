@@ -215,3 +215,8 @@ export const importantListLimitHeight = async (params) => {
 	const response = await service.get('/yc/monitor/limitHeight/importantList', { params });
 	return Object.assign(response.data, { name: 'limitHeight' });
 };
+// 限制高消费
+export const importantListCar = async (params) => {
+	const response = await service.get('/yc/monitor/vehicle/importantList', { params });
+	return Object.assign(response.data, { name: 'limitHeight' });
+};
