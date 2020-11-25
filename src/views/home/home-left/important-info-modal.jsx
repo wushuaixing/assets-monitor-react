@@ -20,13 +20,13 @@ class ImportantInfoModal extends React.PureComponent {
 						};
 						// 第1列的第6行合并
 						if (index === 0) {
-							obj.props.rowSpan = 7;
-						} else if (index > 0 && index <= 6) {
+							obj.props.rowSpan = 9;
+						} else if (index > 0 && index <= 8) {
 							// 第1列的第0-6行被合并没了，设置 rowSpan = 0 直接不用渲染
 							obj.props.rowSpan = 0;
-						} else if (index === 7) {
+						} else if (index === 9) {
 							obj.props.rowSpan = 5;
-						} else if (index > 7 && index <= 11) {
+						} else if (index > 9 && index <= 14) {
 							// 第1列的第0-6行被合并没了，设置 rowSpan = 0 直接不用渲染
 							obj.props.rowSpan = 0;
 						}
