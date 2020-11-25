@@ -198,7 +198,7 @@ export default class LimitHeightModal extends React.PureComponent {
 		const { realEstateModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-限制高消费"
+				title="匹配详情-不动产登记"
 				width={1100}
 				style={{ height: 320 }}
 				visible={realEstateModalVisible}

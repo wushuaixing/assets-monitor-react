@@ -4,8 +4,9 @@ import { Dump } from 'api/monitor-info/intangible';
 import {
 	Ellipsis, LiItem, Spin, Table,
 } from '@/common';
-import { Attentions } from '@/common/table';
-import { linkDom } from '@/utils';
+import { Attentions, ReadStatus, SortVessel } from '@/common/table';
+import { linkDom, timeStandard } from '@/utils';
+import { postFollow, postUnFollow } from 'api/monitor-info/car';
 
 const status = {
 	1: {
@@ -42,80 +43,43 @@ export default class DetailModal extends React.PureComponent {
 			columns: [
 				{
 					title: '公示日期',
-					dataIndex: 'gmtPublishTime',
-					render: text => (text || '-'),
+					dataIndex: 'publishTime',
+					width: 110,
+					render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 				}, {
 					title: '车辆所有人',
-					dataIndex: 'companyName',
-					width: 200,
-					render: (text, row) => (
-						<Ellipsis
-							content={text || '-'}
-							tooltip
-							width={180}
-							url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
-						/>
-					),
+					dataIndex: 'obligorName',
+					width: 190,
+					render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
 				}, {
 					title: '车辆种类',
-					dataIndex: 'licenseNumber',
-					width: 120,
-					render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+					dataIndex: 'vehicleType',
+					width: 190,
 				}, {
-					title: '权证信息',
-					dataIndex: 'industry',
-					render: (text, row) => (
-						<div className="assets-info-content">
-							<LiItem Li title="行业分类" auto><Ellipsis content={text || '-'} tooltip width={200} /></LiItem>
-							<LiItem Li title="有效期" auto>
-								{
-									row.gmtValidityPeriodStart && row.gmtValidityPeriodEnd ? (
-										<span className="list list-content">{`${row.gmtValidityPeriodStart}至${row.gmtValidityPeriodEnd}` }</span>
-									) : '-'
-								}
-							</LiItem>
-						</div>
-					),
+					title: '车牌号',
+					width: 250,
+					dataIndex: 'vehicleNumber',
 				}, {
-					title: '当前状态',
-					dataIndex: 'status',
-					render: (text, row) => (
-						<div className="assets-info-content">
-							<li>
-								<span className="list list-content">{text}</span>
-							</li>
-							{
-								text !== '正常' ? (
-									<Fragment>
-										<li>
-											<span className="list list-title align-justify" style={{ width: 50 }}>{status[keyToValue(text)].reasonName}</span>
-											<span className="list list-title-colon">:</span>
-											<span className="list list-content"><Ellipsis content={row.reason || '-'} tooltip width={200} /></span>
-										</li>
-										<li>
-											<span className="list list-title align-justify" style={{ width: 50 }}>{status[keyToValue(text)].dateName}</span>
-											<span className="list list-title-colon">:</span>
-											<span className="list list-content">{row.gmtIssueTime || '-'}</span>
-										</li>
-									</Fragment>
-								) : null
-							}
-						</div>
-					),
+					title: '源链接',
+					width: 110,
+					dataIndex: 'url',
+					render: (text, row) => (text ? linkDom(row.url, '查看') : '-'),
 				}, {
-					title: '更新日期',
+					title: global.Table_CreateTime_Text,
 					dataIndex: 'gmtModified',
+					width: 110,
+					render: text => timeStandard(text) || '-',
 				}, {
 					title: '操作',
-					width: 60,
+					width: 55,
 					unNormal: true,
 					className: 'tAlignCenter_important',
 					render: (text, row, index) => (
 						<Attentions
 							text={text}
 							row={row}
-							onClick={this.onRefresh}
-							api={row.isAttention ? Dump.unAttention : Dump.attention}
+							onClick={() => this.onRefresh()}
+							api={row.isAttention ? postUnFollow : postFollow}
 							index={index}
 						/>
 					),
@@ -148,13 +112,13 @@ export default class DetailModal extends React.PureComponent {
 
 	render() {
 		const { columns, dataSource, loading } = this.state;
-		const { emissionModalVisible } = this.props;
+		const { carModalVisible } = this.props;
 		return (
 			<Modal
-				title="匹配详情-排污权"
+				title="匹配详情-车辆信息"
 				width={1100}
 				style={{ height: 320 }}
-				visible={emissionModalVisible}
+				visible={carModalVisible}
 				footer={null}
 				onCancel={this.handleCancel}
 				wrapClassName="vertical-center-modal"

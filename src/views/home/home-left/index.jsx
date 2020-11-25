@@ -5,6 +5,7 @@ import {
 	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
 	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
 	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight, importantListEstateRegister,
+	importantListCar,
 } from 'api/home';
 import { Button as Btn, Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
@@ -177,6 +178,7 @@ class HomeDynamic extends PureComponent {
 			importantListSubrogationTrial,
 			importantListSubrogationJudgment,
 			importantListEstateRegister,
+			importantListCar,
 		];
 		/* const apiArray = [
 			{ count: auction, Api: importantListAuction, auction: true },
