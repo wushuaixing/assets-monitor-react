@@ -97,7 +97,7 @@ const columns = (props) => {
 			render: text => <p>{announcementEnum[text]}</p>,
 		}, {
 			title: '公告内容',
-			width: 310,
+			width: 320,
 			dataIndex: 'vehicleNumber',
 			render: (text, row) => (
 				<div className="yc-assets-table-info">
@@ -117,16 +117,18 @@ const columns = (props) => {
 				}
 					{
 						row.certificateType ? (
-							<li className="table-info-list" style={{ width: 310 }}>
-								<span className="info info-title">权证类型：</span>
+							<li className="table-info-list" style={{ width: 320 }}>
+								<span className="list list-title align-justify">权证类型</span>
+								<span className="list list-title-colon">:</span>
 								<span className="info info-content text-ellipsis " style={{ maxWidth: 237 }}>{row.certificateType}</span>
 							</li>
 						) : null
 					}
 					{
 						row.certificateNumber ? (
-							<li className="table-info-list " style={{ width: 310 }}>
-								<span className="info info-title">权证号：</span>
+							<li className="table-info-list " style={{ width: 320 }}>
+								<span className="list list-title align-justify">权证号</span>
+								<span className="list list-title-colon">:</span>
 								<span className="info info-content" style={{ maxWidth: 237 }}>{row.certificateNumber}</span>
 							</li>
 						) : null
@@ -134,8 +136,9 @@ const columns = (props) => {
 					}
 					{
 						row.realEstateLocated ? (
-							<li className="table-info-list" style={{ width: 310 }}>
-								<span className="info info-title" style={{ verticalAlign: 'top' }}>不动产坐落：</span>
+							<li className="table-info-list" style={{ width: 320 }}>
+								<span className="list list-title align-justify">不动产坐落</span>
+								<span className="list list-title-colon">:</span>
 								<span className="info info-content" style={{ maxWidth: 237 }}>{row.realEstateLocated}</span>
 							</li>
 						) : null

@@ -228,6 +228,23 @@
       .info-title {
         color: $text-remark;
       }
+      .list {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .list-title {
+        color: $text-remark;
+        width: 60px;
+        text-align: justify;
+        text-justify: distribute-all-lines;
+        text-align-last: justify;
+      }
+      .list-title-colon{
+        color: $text-remark;
+        width: 12px;
+        margin-left: 2px;
+        overflow:hidden;
+      }
       .info-content {
         max-width: 115px;
       }
