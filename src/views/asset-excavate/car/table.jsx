@@ -19,7 +19,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>公示日期</span>
-				: <SortVessel field="REG_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>公示日期</SortVessel>),
+				: <SortVessel field="PUBLISH_TIME " onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>公示日期</SortVessel>),
 			dataIndex: 'publishTime',
 			width: 110,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
@@ -43,7 +43,7 @@ const columns = (props) => {
 			render: (text, row) => (text ? linkDom(row.url, '查看') : '-'),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+				: <SortVessel field="GMT_MODIFIED " onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
 			width: 110,
 			render: text => timeStandard(text) || '-',
