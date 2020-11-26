@@ -394,8 +394,7 @@ class BusinessDebtor extends React.Component {
 									<Button
 										type="common"
 										onClick={() => {
-											this.selectRow = [];
-											this.setState({ manage: false });
+											this.setState({ manage: false, selectIds: [] });
 										}}
 										title="取消批量管理"
 									/>
