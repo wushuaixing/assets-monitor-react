@@ -260,4 +260,16 @@ table {
   border: 1px solid #1c80e1;
   color: #1c80e1; }
 
+.w-200{
+  width: 200px;
+}
+
+.w-400{
+  width: 400px;
+}
+
+.inblock{
+  display: inline-block;
+}
+
 /*# sourceMappingURL=index.css.map */

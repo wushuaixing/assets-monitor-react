@@ -107,6 +107,25 @@ function exportTemplate(source,exportType) {
 				{id: 11, value: '撤回'},
 				{id: 13, value: '结束'},
 			],
+			categoryType: [
+				{id: 200794003, value: '其他交通工具'},
+				{id: 50025970, value: '土地'},
+				{id: 50025975, value: '工程'},
+				{id: 50025974, value: '矿权'},
+				{id: 122406001, value: '无形资产'},
+				{id: 56936003, value: '机械设备'},
+				{id: 50025973, value: '林权'},
+				{id: 200778005, value: '海域'},
+				{id: 125228021, value: '船舶'},
+				{id: 125088031, value: '股权'},
+				{id: 50025971, value: '实物资产'},
+				{id: 50025972, value: '机动车'},
+				{id: 201290015, value: '奢侈品'},
+				{id: 50025969, value: '房产'},
+				{id: 56956002, value: '债权'},
+				{id: 50025976, value: '其他'},
+				{id: 0, value: '未知'},
+			],
 			financeProjectType: [
 				{id: -1, value: '未知'},
 				{id: 1, value: '股权项目'},
@@ -1648,6 +1667,25 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 查解封资产
+			case "unsealList":{
+				source.list.forEach(function (item) {
+					var unsealDataLi = item.dataType === 2 ?
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>判决日期：</span><span class='n-desc'>"+ (item.judementTime ||'--' ) +"</span></div></li><li class='mg8-0'><div class='nAndI'><span class='n-title'>判决日期：</span><span class='n-desc'>"+ (item.publishTime ||'--' ) +"</span></div></li>"
+						:
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>查封日期：</span><span class='n-desc'>"+ (item.sealUpTime ||'--' ) +"</span></div></li><li class='mg8-0'><div class='nAndI'><span class='n-title'>解封日期：</span><span class='n-desc'>"+ (item.unsealingTime ||'--' ) +"</span></div></li>";
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						( item.dataType === 2 ? "<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+ (item.title||'--')+"</a>":(item.address||'--')) + "</li>" +
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>关联案号：</span><span class='n-desc'>"+(item.caseNumber||'--')+"</span></div><div class='n-line mg0-5'></div><div class='nAndI'><span class='n-title'>执行法院：</span>" +
+						"<span class='n-desc'>"+ (item.court ||'--' ) +"</span></div></li>" +
+						"</td>" +
+						"<td>" + unsealDataLi + "</td>" +
+						"</tr>");
+				});
+				break;
+			}
 			// 金融资产 - 竞价项目
 			case "finance.bidding":{
 				source.list.forEach(function (item) {
@@ -1656,25 +1694,25 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0 font-m'>" +
 						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.title||'--')+"</a>":(item.title||'--')) +
 						"</li></td>" +
-						"<td>" +
+						"<td class=\"inblock w-400\">" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class=\"n-icon green\"></span>" +
 						"<span class='n-desc'>"+ ( fun.toGetType(item.status, fun.source.projectStatusType) ||'--')+"</span>" +
 						"</div></li>" +
-						"<li class='mg8-0'>" +
+						"<li class='mg8-0 inblock w-200'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>评估价：<label class='n-desc'>"+ fun.toNumberStr(item.consultPrice) +"</label></span>" +
 						"</div></li>" +
-						"<li class='mg8-0'>" +
+						"<li class='mg8-0 inblock w-200'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>成交价：<label class='n-desc'>"+ fun.toNumberStr(item.currentPrice) +"</label></span>" +
 						"</div></li>" +
-						"<li class='mg8-0'>" +
+						"<li class='mg8-0 inblock w-200'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>开拍时间：<label class='n-desc'>"+ fun.time(item.start, 'm') +"</label></span>" +
 						"</div></li>" +
-						"<li class='mg8-0'>" +
+						"<li class='mg8-0 inblock w-200'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>结束时间：<label class='n-desc'>"+fun.time(item.end, 'm') +"</label></span>" +
 						"</div></li>" +
@@ -1682,6 +1720,45 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 金融资产 - 招商项目
+			case "finance.merchants":{
+				source.list.forEach(function (item) {
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" + "<span class=\"case-tag type-tag long-mgr\">"+ fun.toGetType(item.category, fun.source.categoryType) + "</span>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">" + (item.title||'--')+"</a>":(item.title||'--')) +
+						"</li></td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class=\"n-icon green\"></span>" +
+						"<span class='n-desc'>"+ ( fun.toGetType(item.status, fun.source.investmentProjectStatus) ||'--')+"</span>" +
+						"</div></li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>发布日期：<label class='n-desc'>"+ (item.publishTime || '--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+			// 金融资产 - 公示项目
+			case "finance.publicity":{
+			source.list.forEach(function (item) {
+				listAry.push("<tr>" +
+					"<td>" +
+					"<li class='mg8-0 font-m'>" + "<span class=\"case-tag type-tag long-mgr\">"+ fun.toGetType(item.projectType, fun.source.financeProjectType) + "</span>" +
+					(item.sourceUrl?"<a href=\""+item.sourceUrl+"\" target=\"_blank\" class=\"base-b fw-bold\">" + (item.title||'--')+"</a>":(item.title||'--')) +
+					"</li></td>" +
+					"<td>" +
+					"<li class='mg8-0'>" +
+					"<div class='nAndI'>" +
+					"<span class='n-title'>发布日期：<label class='n-desc'>"+ (item.gmtPublish || '--')+"</label></span>" +
+					"</div></li>" +
+					"</td></tr>");
+			});
+			break;
+		}
 			// 招投标
 			case "bidding":{
 				source.list.forEach(function (item) {
