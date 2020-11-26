@@ -38,7 +38,6 @@ export default class LimitHeightModal extends React.PureComponent {
 					render: (text, row) => (
 						<React.Fragment>
 							{row.matchType === 1 ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
-							<span className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'} />
 							<span>{text}</span>
 						</React.Fragment>
 					),
@@ -152,7 +151,8 @@ export default class LimitHeightModal extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		const { dataSource } = this.props;
+		const { dataSource } = this.props;	console.log('dataSource',dataSource)
+
 		this.setState(() => ({
 			dataSource,
 		}));
