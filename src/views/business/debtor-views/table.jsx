@@ -18,6 +18,17 @@ class BusinessView extends React.Component {
 		};
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const list = [];
+		nextProps.stateObj.dataList.forEach((i, index) => {
+			if (nextProps.selectIds.includes(i.id)) {
+				list.push(i.id);
+			}
+		});
+		debugger;
+		this.setState({ selectedRowKeys: list });
+	}
+
 	// 跳转详情
 	detail = (row) => {
 		console.log(row.id);
@@ -71,19 +82,17 @@ class BusinessView extends React.Component {
 	};
 
 	// 选择框
-	onSelectChange=(selectedRowKeys, selectedRows) => {
+	onSelectChange=(selectedRowKeys) => {
+		debugger
 		const { onSelect } = this.props;
-		const selectIds = [];
-		selectedRows.forEach((i) => {
-			selectIds.push(i.id);
-		});
+		if (onSelect)onSelect(selectedRowKeys);
+
 		this.setState({ selectedRowKeys });
-		if (onSelect)onSelect(selectIds);
 	};
 
 	render() {
 		const { stateObj, manage } = this.props;
-		const { onSortChange, sortField, sortOrder } = this.props;
+		const { onSortChange, sortField, sortOrder ,selectIds} = this.props;
 		const sort = {
 			sortField,
 			sortOrder,
@@ -190,9 +199,10 @@ class BusinessView extends React.Component {
 		} : null;
 		return (
 			<React.Fragment>
-				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
+				{selectIds && selectIds.length > 0 ? <SelectedNum num={selectIds.length} /> : null}
 				<Table
 					{...rowSelection}
+					rowKey={record => record.id}
 					columns={columns}
 					dataSource={stateObj.dataList}
 					style={{ width: '100%' }}
