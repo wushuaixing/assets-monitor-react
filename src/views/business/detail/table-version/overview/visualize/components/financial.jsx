@@ -22,6 +22,7 @@ const projectStatusMap = new Map([
 	[7, '已流拍'],
 	[9, '中止'],
 	[11, '撤回'],
+	[13, '结束'],
 ]);
 
 // bidding 竞价  investment 招商 publicity 公示
@@ -31,7 +32,7 @@ function getTypeName(arr, mapType) {
 		if (mapType === 'publicity') {
 			typeNameArr.push({ ...i, type: financeProjectTypeMap.get(i.type) });
 		} else {
-			typeNameArr.push({ ...i, type: projectStatusMap.get(i.type) });
+			typeNameArr.push({ ...i, type: projectStatusMap.get(i.status) });
 		}
 	});
 	return typeNameArr;
@@ -131,9 +132,9 @@ export default class Financial extends React.Component {
 		} else if (selectType === 'investment') {
 			this.setState({
 				selectType,
-				RingData: getTypeName(financeInvestmentArray.investmentProjectType, 'investment'),
+				RingData: getTypeName(financeInvestmentArray.investmentProjectStatus, 'investment'),
 				timeLineData: financeInvestmentArray.yearDistribution,
-				RingDataNum: getCount(financeInvestmentArray.investmentProjectType),
+				RingDataNum: getCount(financeInvestmentArray.investmentProjectStatus),
 				timeLineDataNum: getCount(financeInvestmentArray.yearDistribution),
 			});
 		} else if (selectType === 'publicity') {
