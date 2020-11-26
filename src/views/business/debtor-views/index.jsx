@@ -227,8 +227,7 @@ class BusinessDebtor extends React.Component {
 				closePush({ idList: selectIds }).then((res) => {
 					if (res.code === 200) {
 						message.success('关闭成功');
-						that.selectRow = [];
-						that.setState({ manage: false });
+						that.setState({ manage: false  ,selectIds: []});
 						that.getData();
 					} else if (res.code === 9003) {
 						message.error(res.message);
@@ -257,8 +256,7 @@ class BusinessDebtor extends React.Component {
 				openPush({ idList: selectIds }).then((res) => {
 					if (res.code === 200) {
 						message.success('开启成功');
-						that.selectRow = [];
-						that.setState({ manage: false });
+						that.setState({ manage: false ,selectIds: []});
 						that.getData();
 					} else if (res.code === 9003) {
 						message.error(res.message);
