@@ -19,18 +19,18 @@ const dd = {
 
 	/*画像详情，资产*/
 	// 无形资产
-	"A10312": "/yc/search/portrait/company/asset/intangible/emission/list", // 排污权
-	"A10313": "/yc/search/portrait/company/asset/intangible/mining/list", // 矿业权
-	"A10314": "/yc/search/portrait/company/asset/intangible/trademark/list", // 商标专利
-	"A10315": "/yc/search/portrait/company/asset/intangible/construct/list", // 建筑建造资质
+	"A10313": "/yc/search/portrait/company/asset/intangible/emission/list", // 排污权
+	"A10314": "/yc/search/portrait/company/asset/intangible/mining/list", // 矿业权
+	"A10315": "/yc/search/portrait/company/asset/intangible/trademark/list", // 商标专利
+	"A10316": "/yc/search/portrait/company/asset/intangible/construct/list", // 建筑建造资质
   // 招投标
-	"A10316": "/yc/search/portrait/company/asset/bidding/list",
+	"A10317": "/yc/search/portrait/company/asset/bidding/list",
 	// 查解封资产
-	"A10317": "/yc/search/portrait/company/asset/unseal/unsealList",
+	"A10318": "/yc/search/portrait/company/asset/unseal/unsealList",
 	// 金融资产
-	"A10318": "/yc/search/portrait/company/asset/finance/auctionFinanceList", // 竞价项目
-	"A10319": "/yc/search/portrait/company/asset/finance/financeInvestmentList", // 招商项目
-	"A10320": "/yc/search/portrait/company/asset/finance/financeList", // 公示项目
+	"A10319": "/yc/search/portrait/company/asset/finance/auctionFinanceList", // 竞价项目
+	"A10320": "/yc/search/portrait/company/asset/finance/financeInvestmentList", // 招商项目
+	"A10321": "/yc/search/portrait/company/asset/finance/financeList", // 公示项目
 
 	/*画像详情，风险*/
 	// 环保处罚

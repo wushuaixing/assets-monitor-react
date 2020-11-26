@@ -275,7 +275,7 @@
 			</div>
 		</div>
 		<div class="{overview.A10213.bidding.projectStatus}">
-			<div class="fw-bold second-title">年份分布</div>
+			<div class="fw-bold second-title">项目状态分布</div>
 			<table class="table-td-20 table-border mg8-0">
 				{overview.A10213.bidding.projectStatus.list}
 			</table>
@@ -286,46 +286,33 @@
 		<div class="entry-title">
 			<div class="et-cot font-l">
 				<span class="fw-bold mg-r">{overview.A10213.merchants.total}条</span>
-				<span>>金融资产 - 招商项目</span>
+				<span>金融资产 - 招商项目</span>
 			</div>
 		</div>
-		<div class="{overview.A10213.court.year}">
-			<div class="fw-bold second-title">年份分布</div>
+		<div class="{overview.A10213.merchants.investmentProjectStatus}">
+			<div class="fw-bold second-title">项目状态分布</div>
 			<table class="table-td-20 table-border mg8-0">
-				{overview.A10213.court.year.list}
+				{overview.A10213.merchants.investmentProjectStatus.list}
 			</table>
 		</div>
-		<div class="{overview.A10202.court.reason}">
-			<div class="fw-bold second-title">案由分布</div>
-			<table class="table-td-20 table-border mg8-0">
-				{overview.A10202.court.reason.list}
-			</table>
-		</div>
-
 	</div>
 	<!-- 金融资产 - 公示项目 -->
-	<div class="padding6 {overview.A10213.judgment.display}">
+	<div class="padding6 {overview.A10213.publicity.display}">
 		<div class="entry-title">
 			<div class="et-cot font-l">
-				<span class="fw-bold mg-r">{overview.A10202.judgment.total}条</span>
-				<span>代位权 - 裁判文书</span>
+				<span class="fw-bold mg-r">{overview.A10213.publicity.total}条</span>
+				<span>金融资产 - 公示项目</span>
 			</div>
-			<div class="{overview.A10202.judgment.year}">
+			<div class="{overview.A10213.publicity.financeProjectType}">
+				<div class="fw-bold second-title">项目类型分布</div>
+				<table class="table-td-20 table-border mg8-0">
+					{overview.A10213.publicity.financeProjectType.list}
+				</table>
+			</div>
+			<div class="{overview.A10213.publicity.year}">
 				<div class="fw-bold second-title">年份分布</div>
 				<table class="table-td-20 table-border mg8-0">
-					{overview.A10202.judgment.year.list}
-				</table>
-			</div>
-			<div class="{overview.A10202.judgment.reason}">
-				<div class="fw-bold second-title">案由分布</div>
-				<table class="table-td-20 table-border mg8-0">
-					{overview.A10202.judgment.reason.list}
-				</table>
-			</div>
-			<div class="{overview.A10202.judgment.case}">
-				<div class="fw-bold second-title">案件类型分布</div>
-				<table class="table-td-25 table-border mg8-0">
-					{overview.A10202.judgment.case.list}
+					{overview.A10213.publicity.year.list}
 				</table>
 			</div>
 		</div>
@@ -376,6 +363,21 @@
 			<div class="fw-bold second-title">年份分布</div>
 			<table class="table-td-20 table-border mg8-0">
 				{overview.A10206.dishonest.year.list}
+			</table>
+		</div>
+	</div>
+	<!-- 限制高消费 -->
+	<div class="padding6 {overview.A10214.display}">
+		<div class="entry-title">
+			<div class="et-cot font-l">
+				<span class="fw-bold mg-r">{overview.A10214.total}条</span>
+				<span>限制高消费</span>
+			</div>
+		</div>
+		<div class="{overview.A10214.year.display}">
+			<div class="fw-bold second-title">年份分布</div>
+			<table class="table-td-20 table-border mg8-0">
+				{overview.A10214.year.list}
 			</table>
 		</div>
 	</div>
@@ -550,7 +552,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 资产拍卖类目 模糊匹配-->
 <div class="{asset.blurry.display}">
 	<!-- 类目标题 -->
@@ -579,7 +580,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 代位权【开庭】类目 -->
 <div class="{subrogation.court.display}">
 	<!-- 类目标题 -->
@@ -593,7 +593,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 代位权【裁判文书】类目 -->
 <div class="{subrogation.judgment.display}">
 	<!-- 类目标题 -->
@@ -604,6 +603,59 @@
 	<div class="entry-table border-t">
 		<table class="table-td-s-30">
 			{subrogation.judgment.list}
+		</table>
+	</div>
+</div>
+
+<!-- 无形资产【排污权 】类目 -->
+<div class="{intangible.emission.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">无形资产 - 排污权 {intangible.emission.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{intangible.emission.list}
+		</table>
+	</div>
+</div>
+<!-- 无形资产【矿业权】类目 -->
+<div class="{intangible.mining.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">无形资产 - 矿业权 {intangible.mining.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{intangible.mining.list}
+		</table>
+	</div>
+</div>
+<!-- 无形资产【商标专利】类目 -->
+<div class="{intangible.trademark.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">无形资产 - 商标专利 {intangible.trademark.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{intangible.trademark.list}
+		</table>
+	</div>
+</div>
+<!-- 无形资产【建筑建造资质】类目 -->
+<div class="{intangible.construct.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">无形资产 - 建筑建造资质 {intangible.construct.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{intangible.construct.list}
 		</table>
 	</div>
 </div>
@@ -621,7 +673,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 土地信息【土地转让】类目 -->
 <div class="{land.transfer.display}">
 	<!-- 类目标题 -->
@@ -635,7 +686,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 土地信息【土地抵押】类目 -->
 <div class="{land.mortgage.display}">
 	<!-- 类目标题 -->
@@ -663,7 +713,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 股权质押【股权质权】类目 -->
 <div class="{stock.pledgee.display}">
 	<!-- 类目标题 -->
@@ -691,7 +740,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 动产抵押【抵押权】类目 -->
 <div class="{mortgage.people.display}">
 	<!-- 类目标题 -->
@@ -702,6 +750,73 @@
 	<div class="entry-table border-t">
 		<table class="table-td-s-30">
 			{mortgage.people.list}
+		</table>
+	</div>
+</div>
+<!-- 资产 - 【查解封资产】 类目 -->
+<div class="{unsealList.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">查/解封资产 {unsealList.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{unsealList.list}
+		</table>
+	</div>
+</div>
+
+<!-- 金融资产【竞价项目】类目 -->
+<div class="{finance.bidding.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">金融资产 - 竞价项目 {finance.bidding.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{finance.bidding.list}
+		</table>
+	</div>
+</div>
+<!-- 金融资产【招商项目】类目 -->
+<div class="{finance.merchants.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">金融资产 - 招商项目 {finance.merchants.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{finance.merchants.list}
+		</table>
+	</div>
+</div>
+<!-- 金融资产【竞价项目】类目 -->
+<div class="{finance.publicity.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">金融资产 - 公示项目 {finance.publicity.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{finance.publicity.list}
+		</table>
+	</div>
+</div>
+
+<!-- 资产 - 【招投标】 类目 -->
+<div class="{bidding.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">招投标 {bidding.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{bidding.list}
 		</table>
 	</div>
 </div>
@@ -719,7 +834,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 涉诉【开庭】类目 -->
 <div class="{lawsuit.court.display}">
 	<!-- 类目标题 -->
@@ -733,7 +847,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 【涉诉文书】类目 -->
 <div class="{lawsuit.judgment.display}">
 	<!-- 类目标题 -->
@@ -748,7 +861,7 @@
 	</div>
 </div>
 
-<!-- 【失信记录】类目 -->
+<!-- 风险 - 失信记录 类目 -->
 <div class="{lawsuit.dishonest.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
@@ -761,8 +874,7 @@
 		</table>
 	</div>
 </div>
-
-<!-- 经营【破产重组】类目 -->
+<!-- 风险 - 经营【破产重组】类目 -->
 <div class="{bankruptcy.display}">
 	<!-- 类目标题 -->
 	<div class="entry-title">
@@ -775,7 +887,19 @@
 		</table>
 	</div>
 </div>
-
+<!-- 风险 - 【限制高消费】类目 -->
+<div class="{limitHeight.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">限制高消费 {limitHeight.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{limitHeight.list}
+		</table>
+	</div>
+</div>
 <!-- 经营【经营异常】类目 -->
 <div class="{abnormal.display}">
 	<!-- 类目标题 -->
@@ -789,7 +913,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 经营【严重违法】类目 -->
 <div class="{illegal.display}">
 	<!-- 类目标题 -->
@@ -803,7 +926,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 经营【税收违法 】类目 -->
 <div class="{tax.display}">
 	<!-- 类目标题 -->
@@ -817,7 +939,6 @@
 		</table>
 	</div>
 </div>
-
 <!-- 经营【行政处罚】类目 -->
 <div class="{punishment.display}">
 	<!-- 类目标题 -->
@@ -828,6 +949,19 @@
 	<div class="entry-table border-t">
 		<table class="table-td-s-30">
 			{punishment.list}
+		</table>
+	</div>
+</div>
+<!-- 经营【环保处罚】类目 -->
+<div class="{epb.display}">
+	<!-- 类目标题 -->
+	<div class="entry-title">
+		<div class="et-cot fw-bold font-l">环保处罚 {epb.total}</div>
+	</div>
+	<!-- 类目表格 -->
+	<div class="entry-table border-t">
+		<table class="table-td-s-30">
+			{epb.list}
 		</table>
 	</div>
 </div>

@@ -109,6 +109,10 @@ a {
 .mg-r {
   margin-right: 5px; }
 
+.long-mgr{
+  margin-right: 10px;
+}
+
 .ta-c {
   text-align: center; }
 
