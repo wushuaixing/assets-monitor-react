@@ -25,7 +25,6 @@ class BusinessView extends React.Component {
 				list.push(i.id);
 			}
 		});
-		debugger;
 		this.setState({ selectedRowKeys: list });
 	}
 
@@ -83,7 +82,6 @@ class BusinessView extends React.Component {
 
 	// 选择框
 	onSelectChange=(selectedRowKeys) => {
-		debugger
 		const { onSelect } = this.props;
 		if (onSelect)onSelect(selectedRowKeys);
 

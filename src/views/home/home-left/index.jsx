@@ -363,8 +363,6 @@ class HomeDynamic extends PureComponent {
 		this.setState(() => ({
 			timeType: index + 1,
 			checkType: index,
-			AssetImportantReminderList: [],
-			RiskImportantReminderList: [],
 			finish: false,
 		}));
 		this.getData(params);
@@ -404,7 +402,6 @@ class HomeDynamic extends PureComponent {
 		const newRiskArr = [...RiskImportantReminderList];
 		const riskArr = (newRiskArr.sort(compare('timestamp')));
 		const newAllArr = newAssetArr.concat(newRiskArr);
-		debugger
 		const allArr = assetArr.concat(riskArr);
 		return (
 			<React.Fragment>
