@@ -130,6 +130,7 @@ class BusinessDebtor extends React.Component {
 
 	// 搜索
 	search = () => {
+		const { pageSize } = this.state; // 会提示props is not defined
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const values = getFieldsValue();
@@ -137,7 +138,7 @@ class BusinessDebtor extends React.Component {
 		const params = {
 			...values,
 			page: 1,
-			num: 10,
+			num: pageSize,
 			...this.condition,
 		};
 		this.getData(params);
