@@ -126,7 +126,7 @@ class AbnormalOperation extends Component {
 
 	render() {
 		const {
-			total, current, dataSource, manage, onPageChange,
+			total, current, dataSource, manage, onPageChange,pageSize
 		} = this.props;
 		const { selectedRowKeys } = this.state;
 		const rowSelection = manage ? {
@@ -151,6 +151,7 @@ class AbnormalOperation extends Component {
 				<div className="yc-table-pagination">
 					<Pagination
 						showQuickJumper
+						pageSize={pageSize||10}
 						current={current || 1}
 						total={total || 0}
 						onChange={onPageChange}

@@ -104,7 +104,7 @@ export default class AdministrativePenalties extends Component {
 
 	render() {
 		const {
-			total, current, dataSource, manage, onPageChange,
+			total, current, dataSource, manage, onPageChange,pageSize
 		} = this.props;
 		const { selectedRowKeys } = this.state;
 		const rowSelection = manage ? {
@@ -128,6 +128,7 @@ export default class AdministrativePenalties extends Component {
 				{dataSource && dataSource.length > 0 && (
 					<div className="yc-table-pagination">
 						<Pagination
+							pageSize={pageSize||10}
 							showQuickJumper
 							current={current || 1}
 							total={total || 0}
