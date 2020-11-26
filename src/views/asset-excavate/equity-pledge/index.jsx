@@ -280,13 +280,18 @@ export default class EquityPledge extends React.Component {
 								] : null
 							}
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
 									condition={() => this.condition}
 									api={api('exportList', sourceType)}
 								/>
+								<Button
+									style={{ margin: '0 0 0 10px' }}
+									onClick={() => this.setState({ manage: true })}
+								>
+									批量管理
+								</Button>
 							</div>
 						</div>
 					) : (
@@ -302,6 +307,7 @@ export default class EquityPledge extends React.Component {
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
 							<Button
+								style={{ margin: 0 }}
 								type="common"
 								onClick={() => {
 									this.setState({ manage: false });

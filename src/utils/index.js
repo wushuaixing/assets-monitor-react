@@ -617,6 +617,7 @@ export const toGetModuleHeight = (id = 0, number = 0, portrait = '') => {
 		case 30201: sH = 69; break;
 		case 20401: sH = 89; break;
 		case 20402: sH = 89; break;
+		case 20501: sH = 99; break;
 		case 20601:
 		case 20602:
 		case 20603: sH = 91; break;

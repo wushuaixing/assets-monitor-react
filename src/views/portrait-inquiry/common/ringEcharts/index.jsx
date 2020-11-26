@@ -99,7 +99,6 @@ class RingEcharts extends React.Component {
 					Object.assign({}, item, { name: item.typeName || item.type, value: item.count }),
 				));
 		}
-		console.log(newRingArray);
 		const DOM = document.getElementById(`${id}RingEcharts`);
 		const myChart = window.echarts.init(DOM);
 		const option = getOption(Data, id, title, newRingArray, customColorArray);

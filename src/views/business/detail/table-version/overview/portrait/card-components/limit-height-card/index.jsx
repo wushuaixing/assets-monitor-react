@@ -1,5 +1,5 @@
 import React from 'react';
-import { navigateDetail } from '@/utils';
+import { navigateDetailRisk } from '@/utils';
 import Card from '../card';
 import './style.scss';
 
@@ -13,7 +13,7 @@ export default class LimitHeightCard extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				gmtModified, limitHeightCount, status, obligorTotal,
+				gmtModified, limitHeightCount, limitHeightRemovedCount, obligorTotal,
 			},
 		} = this.props;
 		return (
@@ -30,21 +30,18 @@ export default class LimitHeightCard extends React.Component {
 						gmtCreate={gmtModified}
 						obligorName="人匹配到限制高消费信息"
 						text="限制高消费"
-						onClick={() => navigateDetail('e-risk-limit')}
+						onClick={() => navigateDetailRisk('e-manage-limitHeight')}
 						styleName="limit-card"
 					>
-						<div className="business-limit-container">
-							<div className="business-limit-card">
-								当前限高状态：
-								<span className="business-limit-card-num">{status || 0}</span>
-							</div>
-							<div className="business-limit-card">
-								已移除
-								<span className="business-limit-card-num">{limitHeightCount || 0}</span>
-								条
-							</div>
+						<div className="business-limit-card">
+							限高记录：
+							<span className="business-limit-card-num">{limitHeightCount}</span>
+							（已移除
+							<span className="business-limit-card-num">
+								{limitHeightRemovedCount || 0}
+							</span>
+							条）
 						</div>
-
 					</Card>
 				) : null}
 			</React.Fragment>

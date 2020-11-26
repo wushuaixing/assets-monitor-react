@@ -277,7 +277,7 @@ li .n-line:first-child{
 }
 
 .marginLeft0{
-  margin-left: 0px;
+  margin-left: 0;
 }
 
 .base-info .content .t2{
@@ -327,3 +327,23 @@ li .n-line:first-child{
   background-color: #F0F1F5;
   color: #7D8699;
 }
+
+.financialbid{
+  display: inline-block;
+  width: 410px;
+}
+
+.financialbid li{
+  width: 200px;
+  display: inline-block;
+}
+
+.financialbid li:first-child{
+  width: 200px;
+  display: block;
+}
+
+.right-space{
+  margin: 0 15px 0 0 ;
+}
+

@@ -38,15 +38,15 @@ export default class TableIntact extends React.Component {
 	toShowExtraField=(row = {}) => {
 		const { portrait } = this.props;
 		if (portrait === 'business') {
-			const item = (row.pledgeeList || [])[0] || {};
+			const item = (row.pledgorList || [])[0] || {};
 			return (
 				<React.Fragment>
-					<span className="list list-title align-justify">质权人</span>
+					<span className="list list-title align-justify">出质人</span>
 					<span className="list list-title-colon">:</span>
 					<span className="list list-content">
 						<Ellipsis
-							content={item.pledgee}
-							url={item.pledgeeId ? `#/business/debtor/detail?id=${item.pledgeeId}` : ''}
+							content={item.pledgor}
+							url={item.pledgorId ? `#/business/debtor/detail?id=${item.pledgorId}` : ''}
 							tooltip
 							width={120}
 						/>
@@ -61,7 +61,7 @@ export default class TableIntact extends React.Component {
 	toGetColumns=() => [
 		{
 			title: '信息',
-			dataIndex: 'pledgorList',
+			dataIndex: 'pledgeeList',
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
@@ -75,25 +75,26 @@ export default class TableIntact extends React.Component {
 					</li>
 					<li>
 						{this.toShowExtraField(row)}
-						<span className="list list-title align-justify">出质人</span>
+						<span className="list list-title align-justify">质权人</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 200 }}>
-							<Ellipsis content={this.getListStr(row.pledgorList, 'pledgor')} tooltip width={200} />
+							{ this.getListStr(row.pledgeeList, 'pledgee') ? <Ellipsis content={this.getListStr(row.pledgeeList, 'pledgee')} tooltip width={200} /> : '-'}
 						</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">出质股权数额</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content none-width">{toEmpty(row.equityAmount) || '-'}</span>
+						<span className="list list-content none-width">{row.equityAmount || '-'}</span>
 					</li>
 				</div>
 			),
-		}, {
+		},
+		{
 			title: '关联信息',
 			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li style={{ lineHeight: '20px' }}>
-						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetUnStatusText(row.state).status ? '#3DBD7D' : '#7D8699', marginRight: 2 }} />
+						<Icon type="icon-dot" style={{ fontSize: 12, color: toGetUnStatusText(row.state).color, marginRight: 2 }} />
 						<span className="list list-content ">{toGetUnStatusText(row.state).text}</span>
 						{
 							toGetUnStatusText(row.state).status && this.toGetPortraitStatus() ? [
@@ -126,8 +127,8 @@ export default class TableIntact extends React.Component {
 	toGetData=(page) => {
 		const { portrait } = this.props;
 		const { api, params } = getDynamicAsset(portrait, {
-			b: 10502,
-			e: 'mortgage',
+			b: 10501,
+			e: 'pledge',
 		});
 		this.setState({ loading: true });
 		api.list({
@@ -170,16 +171,16 @@ export default class TableIntact extends React.Component {
 						pagination={false}
 					/>
 					{dataSource && dataSource.length > 0 && (
-					<div className="yc-table-pagination">
-						<Pagination
-							pageSize={5}
-							showQuickJumper
-							current={current || 1}
-							total={total || 0}
-							onChange={this.onPageChange}
-							showTotal={totalCount => `共 ${totalCount} 条信息`}
-						/>
-					</div>
+						<div className="yc-table-pagination">
+							<Pagination
+								pageSize={5}
+								showQuickJumper
+								current={current || 1}
+								total={total || 0}
+								onChange={this.onPageChange}
+								showTotal={totalCount => `共 ${totalCount} 条信息`}
+							/>
+						</div>
 					)}
 				</Spin>
 			</div>

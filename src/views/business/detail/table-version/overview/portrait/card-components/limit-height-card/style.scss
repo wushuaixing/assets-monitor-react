@@ -1,14 +1,10 @@
-.business-limit-container{
-  padding-top: 30px;
-  .business-limit-card {
-    line-height: 12px;
-    padding-bottom: 16px;
-    color: #4E5566;
-    font-size: 12px;
-    &-num {
-      color: $text-title;
-      padding-right: 5px;
-      font-weight: bold;
-    }
+.business-limit-card {
+  padding-bottom: 16px;
+  color: #4E5566;
+  font-size: 12px;
+  &-num {
+    color: $text-title;
+    padding-right: 5px;
+    font-weight: bold;
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs } from '@/common';
-import { Pledge, Mortgage } from '@/views/asset-excavate/financial-assets/table-version';
+import { Pledge, Mortgage } from '@/views/asset-excavate/equity-pledge/table-version';
 import { toGetNumber, toGetDefaultId } from '@/utils/promise';
 import { toGetModuleHeight as toH } from '@/utils';
 

@@ -160,5 +160,41 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
+	10801: {
+		id: 10801,
+		name: '资产-金融资产-竞价项目',
+		list: params => service.get('/yc/obligor/monitor/asset/finance/auctionBidding/list', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/finance/auctionBidding/listCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	10802: {
+		id: 10802,
+		name: '资产-金融资产-招商项目',
+		list: params => service.get('/yc/obligor/monitor/asset/finance/financeInvestment/list', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/finance/financeInvestment/listCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	10803: {
+		id: 10803,
+		name: '资产-金融资产-公示项目',
+		list: params => service.get('/yc/obligor/monitor/asset/finance/finance/list', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/finance/finance/listCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	10901: {
+		id: 10901,
+		name: '资产-查/解封资产',
+		list: params => service.get('/yc/obligor/monitor/asset/unseal/unsealList', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/unseal/unsealListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
 };
 export default assets;
