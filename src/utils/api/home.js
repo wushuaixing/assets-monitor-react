@@ -129,7 +129,7 @@ export const importantListIntangibleConstruct = async (params) => {
 	const response = await service.get('/yc/monitor/intangible/construct/importantList', { params });
 	return Object.assign(response.data, { name: 'IntangibleConstruct' });
 };
-// 建筑建造资质
+// 动产抵押
 export const importantListMortgage = async (params) => {
 	const response = await service.get('/yc/monitor/mortgage/importantList', { params });
 	return Object.assign(response.data, { name: 'mortgage' });
@@ -185,7 +185,7 @@ export const importantListRiskChange = async (params) => {
 	const response = await service.get('/yc/monitor/risk/change/importantList', { params });
 	return Object.assign(response.data, { name: 'change' });
 };
-// 经营风险经营异常
+// 经营风险环境处罚
 export const importantListRiskEpb = async (params) => {
 	const response = await service.get('/yc/monitor/risk/epb/importantList', { params });
 	return Object.assign(response.data, { name: 'epb' });

@@ -85,7 +85,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
 		if (!isRead && !manage) {
-			postMarkRead({ id }).then((res) => {
+			postMarkRead({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: 1, index }, 'isRead');
 				} else {

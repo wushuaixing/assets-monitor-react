@@ -84,16 +84,16 @@ class QueryCar extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('regDateStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('regDateEnd'))}
+						{...getFieldProps('gmtPublishStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtPublishEnd'))}
 					/>
 					<span className="yc-query-item-lable">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('regDateEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('regDateStart'))}
+						{...getFieldProps('gmtPublishEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('gmtPublishStart'))}
 					/>
 				</div>
 				<div className="yc-query-item">
