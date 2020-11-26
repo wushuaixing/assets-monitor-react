@@ -56,8 +56,8 @@ class BusinessRisk extends Component {
 												{ item.dataType === 11202 && <EnvironmentPunishment dataType={11202} {...peopleProps} />}
 												{ item.dataType === 11203 && <AbnormalOperation dataType={11203} {...peopleProps} />}
 												{ item.dataType === 11204 && <BusinessChange dataType={11204} {...peopleProps} />}
-												{ item.dataType === 11205 && <AdministrativePenalties dataType={11205} {...peopleProps} />}
-												{ item.dataType === 11206 && <Illegal dataType={11206} {...peopleProps} />}
+												{ item.dataType === 11205 && <Illegal dataType={11205} {...peopleProps} />}
+												{ item.dataType === 11206 && <AdministrativePenalties dataType={11206} {...peopleProps} />}
 											</div>
 										)
 									))
