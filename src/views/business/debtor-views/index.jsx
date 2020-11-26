@@ -206,7 +206,14 @@ class BusinessDebtor extends React.Component {
 	};
 
 	selectedRowKeys=(val) => {
-		this.setState({ selectIds: val });
+		const { selectIds } = this.state;
+		const temp = selectIds;
+		val.forEach((i) => {
+			if (!temp.includes(i)) {
+				temp.push(i);
+			}
+		});
+		this.setState({ selectIds: temp });
 	}
 
 	handleClosePush=() => {
@@ -271,7 +278,7 @@ class BusinessDebtor extends React.Component {
 
 	render() {
 		const {
-			totals, current, loading, dataList, pageSize, manage,
+			totals, current, loading, dataList, pageSize, manage, selectIds,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -404,7 +411,7 @@ class BusinessDebtor extends React.Component {
 						}
 				</div>
 				<Spin visible={loading}>
-					<TableList key={manage} stateObj={this.state} manage={manage} dataList={dataList} getData={this.getData} {...sortInfo} onSelect={(val) => { this.selectedRowKeys(val); }} />
+					<TableList key={manage} selectIds={selectIds} stateObj={this.state} manage={manage} dataList={dataList} getData={this.getData} {...sortInfo} onSelect={(val) => { this.selectedRowKeys(val); }} />
 					{dataList && dataList.length > 0 && (
 					<div className="yc-table-pagination">
 						<Pagination
