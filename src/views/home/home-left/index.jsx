@@ -47,7 +47,7 @@ class HomeDynamic extends PureComponent {
 		const params = { type: 1 };
 		this.getData(params);
 		this.getAssetImportantReminder();
-		//this.getRiskImportantReminder();
+		// this.getRiskImportantReminder();
 	}
 
 	// 获取数组的总数
@@ -159,7 +159,7 @@ class HomeDynamic extends PureComponent {
 
 	// 资产每个模块的重要信息提醒
 	getAssetImportantReminder = () => {
-		const apiImport = [
+	/*	const apiImport = [
 			importantListAuction,
 			importantListBidding,
 			importantListUnseal,
@@ -191,33 +191,57 @@ class HomeDynamic extends PureComponent {
 			importantListLawsuitCourt,
 			importantListLawsuitJudgment,
 			importantListLimitHeight,
-		];
-		/* const apiArray = [
-			{ count: auction, Api: importantListAuction, auction: true },
-			{ count: bidding, Api: importantListBidding },
-			{ count: unseal, Api: importantListUnseal },
-			{ count: landTransfer, Api: importantListLandTransfer },
-			{ count: landMortgage, Api: importantListLandMortgage },
-			{ count: landTransaction, Api: importantListLandTransaction },
-
-			{ count: auctionBidding, Api: importantListAuctionBidding },
-			{ count: finance, Api: importantListFinance },
-
-			{ count: emission, Api: importantListIntangibleEmission },
-			{ count: mining, Api: importantListIntangibleMining },
-			{ count: trademark, Api: importantListIntangibleTrademarkRight },
-			{ count: construct, Api: importantListIntangibleConstruct },
-
-			{ count: mortgage, Api: importantListMortgage },
-			{ count: stock, Api: importantListPledge },
-
-			{ count: subrogationCourt, Api: importantListSubrogationCourt },
-			{ count: subrogationTrial, Api: importantListSubrogationTrial },
-			{ count: subrogationJudgement, Api: importantListSubrogationJudgment },
 		]; */
+		 const apiArray = [
+			{ count: 'zcwjzcpm', Api: importantListAuction, auction: true },
+			{ count: 'zcwjzbzb', Api: importantListBidding },
+			{ count: 'zcwjcjfzc', Api: importantListUnseal },
+
+			{ count: 'zcwjtdsj', Api: importantListLandTransfer },
+			{ count: 'zcwjtdsj', Api: importantListLandMortgage },
+			{ count: 'zcwjtdsj', Api: importantListLandTransaction },
+
+			{ count: 'zcwjjrzj', Api: importantListAuctionBidding },
+			{ count: 'zcwjjrzj', Api: importantListFinance },
+
+			{ count: 'zcwjwxzc', Api: importantListIntangibleEmission },
+			{ count: 'zcwjwxzc', Api: importantListIntangibleMining },
+			{ count: 'zcwjwxzc', Api: importantListIntangibleTrademarkRight },
+			{ count: 'zcwjwxzc', Api: importantListIntangibleConstruct },
+
+			{ count: 'zcwjdcdy', Api: importantListMortgage },
+
+			{ count: 'zcwjgqzy', Api: importantListPledge },
+
+			{ count: 'zcwjdwq', Api: importantListSubrogationCourt },
+			{ count: 'zcwjdwq', Api: importantListSubrogationTrial },
+			{ count: 'zcwjdwq', Api: importantListSubrogationJudgment },
+
+			{ count: 'zcwjbdcdj', Api: importantListEstateRegister },
+			{ count: 'zcwjclxx', Api: importantListCar },
+
+			 { count: 'fxjkqypccz', Api: importantListRiskBankruptcy },
+
+			 { count: 'jyfxxzcf', Api: importantListRiskPunishment },
+			 { count: 'jyfxsswf', Api: importantListRiskTax },
+			 { count: 'jyfxyzwf', Api: importantListRiskIllegal },
+			 { count: 'jyfxjyyc', Api: importantListRiskAbnormal },
+			 { count: 'jyfxgsbg', Api: importantListRiskChange },
+			 { count: 'jyfxhbcf', Api: importantListRiskEpb },
+
+			 { count: 'jkxxsxjl', Api: importantListRiskDishonest },
+
+			 { count: 'fxjkssjk', Api: importantListLawsuitTrial },
+			 { count: 'fxjkssjk', Api: importantListLawsuitCourt },
+			 { count: 'fxjkssjk', Api: importantListLawsuitJudgment },
+			 { count: 'fxjkxzgxf', Api: importantListLimitHeight },
+		];
+
 		const AssetImportantReminderArray = [];
-		apiImport.forEach((item) => {
-			AssetImportantReminderArray.push(item());
+		apiArray.forEach((item) => {
+			if (global.authRoleList.includes(item.count)) {
+				AssetImportantReminderArray.push(item.Api());
+			}
 		});
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
@@ -440,8 +464,8 @@ class HomeDynamic extends PureComponent {
 						</div>
 						{
 							allArr.length > 0 ? (
-							<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} />
-						) : null
+								<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} />
+							) : null
 					}
 					</Spin>
 				</div>
