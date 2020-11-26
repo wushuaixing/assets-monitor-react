@@ -206,14 +206,7 @@ class BusinessDebtor extends React.Component {
 	};
 
 	selectedRowKeys=(val) => {
-		const { selectIds } = this.state;
-		const temp = selectIds;
-		val.forEach((i) => {
-			if (!temp.includes(i)) {
-				temp.push(i);
-			}
-		});
-		this.setState({ selectIds: temp });
+		this.setState({ selectIds: val });
 	}
 
 	handleClosePush=() => {
@@ -401,8 +394,7 @@ class BusinessDebtor extends React.Component {
 									<Button
 										type="common"
 										onClick={() => {
-											this.selectRow = [];
-											this.setState({ manage: false });
+											this.setState({ manage: false, selectIds: [] });
 										}}
 										title="取消批量管理"
 									/>

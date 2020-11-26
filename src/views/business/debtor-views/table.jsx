@@ -19,14 +19,7 @@ class BusinessView extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const list = [];
-		nextProps.stateObj.dataList.forEach((i, index) => {
-			if (nextProps.selectIds.includes(i.id)) {
-				list.push(i.id);
-			}
-		});
-		debugger;
-		this.setState({ selectedRowKeys: list });
+		this.setState({ selectedRowKeys: nextProps.selectIds });
 	}
 
 	// 跳转详情
@@ -83,7 +76,6 @@ class BusinessView extends React.Component {
 
 	// 选择框
 	onSelectChange=(selectedRowKeys) => {
-		debugger
 		const { onSelect } = this.props;
 		if (onSelect)onSelect(selectedRowKeys);
 

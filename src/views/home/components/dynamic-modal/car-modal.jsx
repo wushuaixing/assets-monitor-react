@@ -1,39 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Modal, Button } from 'antd';
-import { Dump } from 'api/monitor-info/intangible';
 import {
-	Ellipsis, LiItem, Spin, Table,
+	Ellipsis, Spin, Table,
 } from '@/common';
-import { Attentions, ReadStatus, SortVessel } from '@/common/table';
+import { Attentions } from '@/common/table';
 import { linkDom, timeStandard } from '@/utils';
 import { postFollow, postUnFollow } from 'api/monitor-info/car';
 
-const status = {
-	1: {
-		reasonName: '注销原因',
-		dateName: '注销时间',
-	},
-	2: {
-		reasonName: '撤销原因',
-		dateName: '撤销时间',
-	},
-	3: {
-		reasonName: '遗失原因',
-		dateName: '遗失时间',
-	},
-};
-function keyToValue(key) {
-	if (key === '注销') {
-		return 1;
-	}
-	if (key === '撤销') {
-		return 2;
-	}
-	if (key === '遗失') {
-		return 3;
-	}
-	return 0;
-}
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -45,7 +18,11 @@ export default class DetailModal extends React.PureComponent {
 					title: '公示日期',
 					dataIndex: 'publishTime',
 					width: 110,
-					render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+					render: text => (
+						<React.Fragment>
+							<span>{text}</span>
+						</React.Fragment>
+					),
 				}, {
 					title: '车辆所有人',
 					dataIndex: 'obligorName',
@@ -89,6 +66,7 @@ export default class DetailModal extends React.PureComponent {
 
 	componentDidMount() {
 		const { dataSource } = this.props;
+
 		this.setState(() => ({
 			dataSource,
 		}));
