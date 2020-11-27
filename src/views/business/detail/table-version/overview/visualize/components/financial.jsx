@@ -203,7 +203,7 @@ export default class Financial extends React.Component {
 								</div>
 							)}
 							<div style={{ marginBottom: 20 }} />
-							{RingDataNum > 0 && <RingEcharts title="项目状态分布" Data={RingData} id="financeCharts" customColorArray={['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#FB8E3C', '#F2657A', '#965EE3', '#4561FF']} />}
+							{RingDataNum > 0 && <RingEcharts title={selectType === 'publicity' ? '项目类型分布' : '项目状态分布'} Data={RingData} id="financeCharts" customColorArray={['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#FB8E3C', '#F2657A', '#965EE3', '#4561FF']} />}
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="financeTimeLine" />}
 						</div>
 					</div>
