@@ -57,6 +57,7 @@ export default class TableIntact extends React.Component {
 				</div>
 			),
 		},
+		// 拍卖状态为已成交，则显示成 成交价；拍卖状态为其他，则显示成 当前价；
 		{
 			title: '拍卖状况',
 			width: 340,
@@ -74,12 +75,12 @@ export default class TableIntact extends React.Component {
 							<span className="list list-title">评估价</span>
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content">
-								{floatFormat(row.consultPrice)}
+								{row.consultPrice ? floatFormat(row.consultPrice) : '未知'}
 								元
 							</span>
 						</li>
 						<li style={{ display: 'inline-block', width: 170 }}>
-							<span className="list list-title">成交价</span>
+							<span className="list list-title">{row.status === 5 ? '成交价' : '当前价'}</span>
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content deal-price">
 								{floatFormat(row.currentPrice)}
