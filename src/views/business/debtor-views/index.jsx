@@ -224,14 +224,18 @@ class BusinessDebtor extends React.Component {
 			iconType,
 			className: iconType === 'none' ? 'message-confirm-no-icon' : 'message-confirm-icon',
 			onOk() {
+				that.setState({ loading: true });
 				closePush({ idList: selectIds }).then((res) => {
+					that.setState({ loading: false });
 					if (res.code === 200) {
 						message.success('关闭成功');
-						that.setState({ manage: false  ,selectIds: []});
+						that.setState({ manage: false, selectIds: [] });
 						that.getData();
 					} else if (res.code === 9003) {
 						message.error(res.message);
 					}
+				}).catch(()=>{
+					that.setState({ loading: false });
 				});
 			},
 			onCancel() {},
@@ -253,10 +257,12 @@ class BusinessDebtor extends React.Component {
 			iconType,
 			className: iconType === 'none' ? 'message-confirm-no-icon' : 'message-confirm-icon',
 			onOk() {
+				that.setState({ loading: true });
 				openPush({ idList: selectIds }).then((res) => {
+					that.setState({ loading: false });
 					if (res.code === 200) {
 						message.success('开启成功');
-						that.setState({ manage: false ,selectIds: []});
+						that.setState({ manage: false, selectIds: [] });
 						that.getData();
 					} else if (res.code === 9003) {
 						message.error(res.message);
@@ -264,6 +270,8 @@ class BusinessDebtor extends React.Component {
 				});
 			},
 			onCancel() {},
+		}).catch(()=>{
+			that.setState({ loading: false });
 		});
 	}
 
