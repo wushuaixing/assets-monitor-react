@@ -28,7 +28,7 @@ export default class TableVersion extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<Ellipsis
-							content={row.dataType === 2 ? row.information : row.address}
+							content={row.dataType === 2 ? row.title : `${row.information || row.address}`}
 							tooltip
 							width={510}
 							font={14}
