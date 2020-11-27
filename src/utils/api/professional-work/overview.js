@@ -105,13 +105,12 @@ export const overviewFinancial = async (params) => {
 	// 			},
 	// 			{
 	// 				investmentProjectType: [
-	// 					{ count: 1, type: 200794003 },
-	// 					{ count: 15, type: 50025970 },
-	// 					{ count: 12, type: 50025975 },
-	// 					{ count: 41, type: 50025974 },
-	// 					{ count: 51, type: 122406001 },
-	// 					{ count: 51, type: 56936003 },
-	// 					{ count: 51, type: 50025973 },
+	// 					{ count: 11, type: 1 },
+	// 					{ count: 32, type: 3 },
+	// 					{ count: 24, type: 5 },
+	// 					{ count: 22, type: 7 },
+	// 					{ count: 2, type: 9 },
+	// 					{ count: 2, type: 11 },
 	// 				],
 	// 				yearDistribution: [
 	// 					{ count: 5, year: 2020 },
@@ -246,21 +245,6 @@ export const OverviewTax = async (params) => {
 export const overviewLimitHeight = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/limitHeight', { params });
 	return response.data;
-	// return {
-	// 	...response.data,
-	// 	data: {
-	// 		limitHeightCount: 565,
-	// 		gmtModified: '2020-10-11',
-	// 		status: 1,
-	// 		yearDistributions: [
-	// 			{ count: 5, year: 2020 },
-	// 			{ count: 3, year: 2019 },
-	// 			{ count: 66, year: 2018 },
-	// 			{ count: 22, year: 2010 },
-	// 			{ count: 1, year: 2011 },
-	// 		],
-	// 	},
-	// };
 };
 
 // 业务视图限制高消费 (企业 + 个人)

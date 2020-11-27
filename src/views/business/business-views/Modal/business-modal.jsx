@@ -83,7 +83,7 @@ class BusinessModal extends React.PureComponent {
 					loading: true,
 				});
 				// 状态有：uploading done error removed
-				console.log('info === ', info);
+				// console.log('info === ', info);
 				if (info.file.status === 'done') {
 					if (info.file.response.code === 200) {
 						// errorMessage 或者 errorType存在的时候才会报错格式错误

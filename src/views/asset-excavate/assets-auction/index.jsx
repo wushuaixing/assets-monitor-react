@@ -8,7 +8,7 @@ import {
 } from '@/utils/api/monitor-info/assets';
 import { clearEmpty, changeURLArg, getQueryByName } from '@/utils';
 import './style.scss';
-import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
+import { getUrlParams } from '@/views/asset-excavate/query-util';
 import Query from './query';
 import Table from './table';
 
@@ -302,14 +302,14 @@ export default class Assets extends React.Component {
 								资产清收流程
 							</span>
 							<span className="export-style">
+								<Download condition={() => this.toExportCondition('all')} api={exportList} all text="一键导出" />
 								<Button
+									style={{ margin: '0 0 0 10px' }}
 									onClick={() => {
 										this.setState({ manage: true });
-										console.log(this.condition);
 									}}
 									title="批量管理"
 								/>
-								<Download condition={() => this.toExportCondition('all')} api={exportList} all text="一键导出" />
 							</span>
 						</div>
 					) : (
@@ -325,6 +325,7 @@ export default class Assets extends React.Component {
 								selectedRowKeys={() => this.selectRow}
 							/>
 							<Button
+								style={{ margin: 0 }}
 								type="common"
 								onClick={() => {
 									this.setState({ manage: false });

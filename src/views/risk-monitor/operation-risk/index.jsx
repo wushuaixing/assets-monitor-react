@@ -6,7 +6,7 @@ import {
 import { changeURLArg, clearEmpty } from '@/utils';
 import ruleMethods from '@/utils/rule';
 import API from '@/utils/api/risk-monitor/operation-risk';
-import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
+import { getUrlParams } from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
 import Table from './table';
@@ -304,13 +304,13 @@ export default class OperationRisk extends React.Component {
 								<span className="yc-all-read-text">全部标为已读</span>
 							</div>
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
 									condition={() => this.condition}
 									api={API(sourceType, 'exportList')}
 								/>
+								<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							</div>
 						</div>
 					) : (
@@ -326,6 +326,7 @@ export default class OperationRisk extends React.Component {
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
 							<Button
+								style={{ margin: 0 }}
 								type="common"
 								onClick={() => {
 									this.setState({ manage: false });

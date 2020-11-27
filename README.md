@@ -7,16 +7,4 @@ This solution will show you how to use React stack in IE8, then you don't have t
 
 本方案将向你展示如何在 IE8 中使用 React 技术栈，那么当客户使用旧浏览器时，你无需改变技术栈。它使用了 ES6、Webpack、Babel、ESLint、Ant Design 1.x、React 16、Reach、Rematch 等。查看 <a href="https://ambit-tsai.github.io/reactie/" target="_blank">Reactie Todo</a> 。
 
-#### 2.4 版本主要内容
-+ 上新两类数据： 查/解封资产 + 限制高消费 (首页、卡片、菜单、信息监控、监控日报；这些模块他添加了这两类数据)
-+ 首页添加推送消息，优化文案
-+ 添加裁判文书公共页面，涉及到的裁判文书的链接均可跳转到此站内文书展示页面。
-+ 文案修改：我的关注全部改成我的收藏
-+ 画像概览结构调整：剔除经营风险里面的破产重组信息，在风险信息下面添加破产重组的年份分布
-+ 画像资产拍卖添加模糊匹配
-
-#### 2.5 版本主要内容
-+ 金融资产增加招商项目信息
-+ 金融资产-公示项目增加AMC处置公告信息
-+ 画像pdf完善与交互优化
 

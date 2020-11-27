@@ -262,6 +262,16 @@ li .n-line:first-child{
   background-image:url("../../img/person.png") ;
 }
 
+.accurate{
+  background-size: 5%;
+  background-repeat: no-repeat;
+  background-image: url("../../img/icon-accurate.png");
+}
+
+.p-top-space{
+  padding-top: 20px;
+}
+
 .base-info .content {
   padding: 5px 0;
 }
@@ -277,7 +287,11 @@ li .n-line:first-child{
 }
 
 .marginLeft0{
-  margin-left: 0px;
+  margin-left: 0;
+}
+
+.horizontal-space{
+  margin: 0 15px 0 20px;
 }
 
 .base-info .content .t2{
@@ -327,3 +341,27 @@ li .n-line:first-child{
   background-color: #F0F1F5;
   color: #7D8699;
 }
+
+.financialbid{
+  display: inline-block;
+  width: 440px;
+}
+
+.financialbid li{
+  width: 220px;
+  display: inline-block;
+}
+
+.financialbid li:first-child{
+  width: 220px;
+  display: block;
+}
+
+.right-space{
+  margin: 0 15px 0 0 ;
+}
+
+.w-200{
+  width: 200px;
+}
+

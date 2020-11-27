@@ -109,6 +109,10 @@ a {
 .mg-r {
   margin-right: 5px; }
 
+.long-mgr{
+  margin-right: 10px;
+}
+
 .ta-c {
   text-align: center; }
 
@@ -255,5 +259,17 @@ table {
   background-color: #eff4ff;
   border: 1px solid #1c80e1;
   color: #1c80e1; }
+
+.w-200{
+  width: 200px;
+}
+
+.w-400{
+  width: 400px;
+}
+
+.inblock{
+  display: inline-block;
+}
 
 /*# sourceMappingURL=index.css.map */

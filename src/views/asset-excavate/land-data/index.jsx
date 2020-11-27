@@ -8,7 +8,7 @@ import Api from '@/utils/api/monitor-info/public';
 import { unReadCount } from '@/utils/api/monitor-info';
 
 // 搜索框
-import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
+import { getUrlParams } from '@/views/asset-excavate/query-util';
 import QueryResult from './query/result';
 import QueryTransfer from './query/transfer';
 import QueryMortgage from './query/mortgage';
@@ -361,14 +361,19 @@ export default class Lawsuits extends React.Component {
 							</div>
 							{/* <Button onClick={this.handleAllRead}>全部标为已读</Button> */}
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
 									condition={() => this.condition}
 									api={Api[toGetApi(sourceType, 'exportList')]}
-									style={{ float: 'right' }}
 								/>
+								<Button
+									style={{ margin: '0 0 0 10px' }}
+									onClick={() => this.setState({ manage: true })}
+								>
+									批量管理
+								</Button>
+
 							</div>
 						</div>
 					) : (
@@ -385,6 +390,7 @@ export default class Lawsuits extends React.Component {
 							/>
 							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
+								style={{ margin: 0 }}
 								type="common"
 								onClick={() => {
 									this.setState({ manage: false });

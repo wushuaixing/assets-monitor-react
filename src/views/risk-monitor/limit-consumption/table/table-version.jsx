@@ -3,6 +3,7 @@ import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
 import { Ellipsis, Spin, Table } from '@/common';
 import { timeStandard, toEmpty } from '@/utils';
+import './index.scss';
 
 export default class TableVersion extends React.Component {
 	constructor(props) {
@@ -19,33 +20,50 @@ export default class TableVersion extends React.Component {
 		this.toGetData();
 	}
 
-	toGetColumns=() => [
+	// 获取column配置
+	// 债务人类型（1：企业 2：个人）
+	// 企业债务人限高信息中的关联对象为个人的名称
+	// 个人债务人限高信息中的管理对象为企业或者为空，为空的不显示关联对象这项信息
+	toGetColumns = () => [
 		{
 			title: '限制高消费',
 			dataIndex: 'caseNumber',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							<Ellipsis content={toEmpty(row.caseNumber)} url={row.url} tooltip width={300} font={14} />
-						</span>
+					<li className="yc-public-normal-bold">
+						<Ellipsis content={toEmpty(row.caseNumber)} width="auto" tooltip font={14} />
+						{
+							row.status === 1 ? <span className="limit-status" style={{ fontWeight: 400 }}>已移除</span> : null
+						}
 					</li>
-					<li>
-						<span className="list list-title align-justify">关联对象</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content">张三</span>
-					</li>
+					{
+						row.obligorType === 1 ? (
+							<li>
+								<span className="list list-title align-justify">关联对象</span>
+								<span className="list list-title-colon">:</span>
+								<span className="list list-content">{row.personName || '-'}</span>
+							</li>
+						) : null
+					}
+					{
+						row.obligorType === 2 && row.companyName ? (
+							<li>
+								<span className="list list-title align-justify">关联对象</span>
+								<span className="list list-title-colon">:</span>
+								<span className="list list-content">{row.companyName}</span>
+							</li>
+						) : null
+					}
 				</div>
 			),
 		}, {
 			title: '关联信息',
 			width: 270,
-			dataIndex: 'gmtModified',
+			dataIndex: 'registerDate',
 			render: value => (
 				<div className="assets-info-content">
-					<li style={{ height: 24 }} />
-					<li>
-						<span className="list list-title align-justify">更新日期</span>
+					<li style={{ marginTop: 10 }}>
+						<span className="list list-title align-justify">立案日期</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{timeStandard(value)}</span>
 					</li>
@@ -64,7 +82,8 @@ export default class TableVersion extends React.Component {
 		const { portrait, option } = this.props;
 		// 默认查询债务人的限制高消费list
 		const { api, params } = getDynamicRisk(portrait, option || {
-			b: 20701,
+			b: 20501,
+			e: 'limitHeight',
 		});
 		this.setState({ loading: true });
 		api.list({
