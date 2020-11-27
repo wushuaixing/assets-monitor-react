@@ -880,8 +880,8 @@ function exportTemplate(source, exportType, name) {
 				data.list.forEach(function (i) {
 					var category = s.category[i.category] || {};
 					var auction = s.auction[i.status] || {};
-					list += "<tr><td>"
-						+ f.tag(category, 'right-space')
+					list += "<tr><td class=\"accurate p-top-space\">"
+						+ f.tag(category, 'horizontal-space')
 						+ f.urlDom(i.title, i.url)
 						+ "</td><td>" + f.normalList([
 							{cot: auction.t, dot: auction.dot},
@@ -903,23 +903,22 @@ function exportTemplate(source, exportType, name) {
 				break;
 			}
 			case 'A10901': {
-			data.list.forEach(function (i) {
-				var projectType = s.projectType[i.projectType + ''] || {};
-				var unblockTitle = i.dataType === 2 ? f.urlDom(i.title, i.url) : i.information;
-				list += "<tr><td>"
-					+ unblockTitle
-					+ f.normalList([
-						[
+				tableClass = '';
+				data.list.forEach(function (i) {
+					var unblockTitle = i.dataType === 2 ? f.urlDom(i.title, i.url) : i.information;
+					list += "<tr><td>"
+						+ unblockTitle
+						+ "</td>" +
+						"<td class=\"w-200\">" + f.normalList([
 							{t: '关联案号', cot: i.caseNumber},
 							{t: '执行法院', cot: i.court},
-						]
-					])
-					+ "</td><td>" + f.normalList([
-						i.dataType === 2 ? {t: '判决日期', cot: i.judementTime} : {t: '查封日期', cot: i.sealUpTime},
-						i.dataType === 2 ? {t: '发布日期', cot: i.publishTime} : {t: '解封日期', cot: i.unsealingTime},
-					]) + "</td></tr>";
-			});
-			break;
+						]) + "</td>" +
+						"<td class=\"w-200\">" + f.normalList([
+							i.dataType === 2 ? {t: '判决日期', cot: i.judementTime} : {t: '查封日期', cot: i.sealUpTime},
+							i.dataType === 2 ? {t: '发布日期', cot: i.publishTime} : {t: '解封日期', cot: i.unsealingTime},
+						]) + "</td></tr>";
+				});
+				break;
 		}
 			case 'R30201': {
 				data.list.forEach(function (i) {

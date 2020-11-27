@@ -20,42 +20,47 @@ export default class TableVersion extends React.Component {
 		this.toGetData();
 	}
 
-	toGetColumns=() => [
+	toGetColumns = () => [
 		{
 			title: '拍卖信息',
 			dataIndex: 'caseNumber',
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-						{
-							row.parties.map((i, index) => (
-								<div style={{ display: 'inline-block' }}>
-									<Ellipsis
-										content={`${index === row.parties.length - 1 ? `${i.name}` : `${i.name}、`}`}
-										tooltip
-										width={380}
-										font={14}
-										url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-									/>
-								</div>
-							))
-						}
+						<Ellipsis
+							content={row.information}
+							tooltip
+							width={510}
+							font={14}
+							url={row.url}
+						/>
 					</li>
+				</div>
+			),
+		},
+		{
+			title: '其他信息',
+			width: 270,
+			dataIndex: 'caseNumber',
+			render: (value, row) => (
+				<div className="assets-info-content">
 					<li>
 						<span className="list list-title align-justify">关联案号</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{value || '-'}</span>
-						<span className="list-split" style={{ height: 16 }} />
+					</li>
+					<li>
 						<span className="list list-title align-justify">执行法院</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{row.court}</span>
 					</li>
 				</div>
 			),
-		}, {
+		},
+		{
 			title: '关联信息',
-			width: 270,
 			dataIndex: 'caseNumber',
+			width: 250,
 			render: (value, row) => (
 				<div className="assets-info-content">
 					{
