@@ -75,14 +75,13 @@ export default class TableIntact extends React.Component {
 							<span className="list list-title">评估价</span>
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content">
-								{row.consultPrice ? floatFormat(row.consultPrice) : '未知'}
-								元
+								{row.consultPrice ? `${floatFormat(row.consultPrice)}元` : '未知'}
 							</span>
 						</li>
 						<li style={{ display: 'inline-block', width: 170 }}>
 							<span className="list list-title">{row.status === 5 ? '成交价' : '当前价'}</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content deal-price">
+							<span className={`list list-content ${row.status === 5 ? 'deal-price' : ''}`}>
 								{floatFormat(row.currentPrice)}
 								元
 							</span>
