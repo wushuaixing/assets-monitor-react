@@ -11,8 +11,8 @@ export default class FinancialCard extends React.Component {
 
 	render() {
 		const {
-			portrait, dataSource: {
-				auctionFinanceCount, financeCount, financeInvestmentCount, allNum, gmtModified, obligorTotal,
+			portrait, dataSource, dataSource: {
+				dataArray, allNum, gmtModified, obligorTotal,
 			},
 		} = this.props;
 		return (
@@ -33,27 +33,24 @@ export default class FinancialCard extends React.Component {
 							styleName="financial-card"
 						>
 							<div className="business-financial-container">
-								{auctionFinanceCount ? (
-									<div className="business-financial-container-card" style={{ paddingBottom: 16 }}>
-										竞价项目：
-										<span className="business-financial-container-card-num ">{auctionFinanceCount || 0}</span>
-										条
-									</div>
-								) : null}
-								{financeCount ? (
-									<div className="business-financial-container-card" style={{ paddingBottom: 16 }}>
-										公示项目：
-										<span className="business-financial-container-card-num">{financeCount || 0}</span>
-										条
-									</div>
-								) : null}
-								{financeInvestmentCount ? (
-									<div className="business-financial-container-card">
-										招商项目：
-										<span className="business-financial-container-card-num">{financeInvestmentCount || 0}</span>
-										条
-									</div>
-								) : null}
+								{
+									Object.keys(dataSource).length !== 0 && dataArray.map((item, index) => (index % 2 > 0 ? (
+										<div className="business-financial-container-card" style={{ paddingBottom: 16, paddingLeft: 16 }}>
+											{item.typeName}
+											：
+											<span className={`business-financial-container-card-num ${!allNum && 'monitor-card-noCount-color'}`}>{item.count || 0}</span>
+											条
+										</div>
+									) : (
+										<div className="business-financial-container-card" style={{ paddingBottom: 16 }}>
+											{item.typeName}
+											：
+											<span className={`business-financial-container-card-num ${!allNum && 'monitor-card-noCount-color'}`}>{item.count || 0}</span>
+											条
+										</div>
+									)))
+								}
+
 							</div>
 						</Card>
 					) : null

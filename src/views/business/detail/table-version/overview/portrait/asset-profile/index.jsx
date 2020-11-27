@@ -272,11 +272,19 @@ export default class AssetProfile extends React.Component {
 				auctionFinanceCount, financeCount, financeInvestmentCount, gmtModified,
 			} = res.data;
 			const allNum = auctionFinanceCount + financeCount + financeInvestmentCount;
+			const dataArray = [];
+			if (auctionFinanceCount) {
+				dataArray.push({ count: auctionFinanceCount || 0, typeName: '竞价项目' });
+			}
+			if (financeInvestmentCount) {
+				dataArray.push({ count: financeInvestmentCount || 0, typeName: '招商项目' });
+			}
+			if (financeCount) {
+				dataArray.push({ count: financeCount || 0, typeName: '公示项目' });
+			}
 			const financialPropsData = {
-				auctionFinanceCount,
-				financeCount,
-				financeInvestmentCount,
 				gmtModified,
+				dataArray,
 				allNum,
 				obligorTotal: res.data.obligorTotal || null,
 			};
