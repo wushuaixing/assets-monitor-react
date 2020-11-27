@@ -17,7 +17,7 @@ export default class TableVersion extends React.Component {
 	}
 
 	componentWillMount() {
-		// this.toGetData();
+		this.toGetData();
 	}
 
 	toGetColumns=() => [
@@ -44,7 +44,7 @@ export default class TableVersion extends React.Component {
 					<li>
 						<span className="list list-title align-justify">关联案号</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{value}</span>
+						<span className="list list-content">{value || '-'}</span>
 						<span className="list-split" style={{ height: 16 }} />
 						<span className="list list-title align-justify">执行法院</span>
 						<span className="list list-title-colon">:</span>
@@ -59,19 +59,23 @@ export default class TableVersion extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					{
-						row.dataType === 1 ? (
+						row.dataType === 2 ? (
 							<React.Fragment>
 								<li>
 									<span className="list list-title align-justify">判决日期</span>
 									<span className="list list-title-colon">:</span>
+									<span className="list list-content">{timeStandard(row.judementTime)}</span>
+								</li>
+								<li>
+									<span className="list list-title align-justify">发布日期</span>
+									<span className="list list-title-colon">:</span>
 									<span className="list list-content">{timeStandard(row.publishTime)}</span>
 								</li>
-								<li style={{ height: 24 }} />
 							</React.Fragment>
 						) : null
 					}
 					{
-						row.dataType === 2 ? (
+						row.dataType === 1 ? (
 							<React.Fragment>
 								<li>
 									<span className="list list-title align-justify">查封日期</span>

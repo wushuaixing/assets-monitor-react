@@ -1082,6 +1082,7 @@ function exportTemplate(source,exportType) {
 	var tableList = function (source,viewName) {
 		var listAry =[];
 		switch (viewName) {
+			// 资产拍卖
 			case "asset.accurate":
 				{
 					source.list.forEach(function (item) {
@@ -1116,6 +1117,7 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 代位权 + 涉诉， 立案
 			case "lawsuit.trial":
 			case "subrogation.trial":{
 				source.list.forEach(function (item) {
@@ -1141,6 +1143,7 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 代位权 + 涉诉，开庭
 			case "lawsuit.court":
 			case "subrogation.court":{
 				source.list.forEach(function (item) {
@@ -1166,6 +1169,7 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 代位权 + 涉诉，裁判文书
 			case "subrogation.judgment":
 			case "lawsuit.judgment":{
 				source.list.forEach(function (item) {
@@ -1202,6 +1206,7 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 涉诉 失信记录
 			case "lawsuit.dishonest":{
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
@@ -1455,6 +1460,7 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 股权质押 - 股权出质
 			case "stock.pledgor":{
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
@@ -1499,6 +1505,7 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 股权质押 - 股权质权
 			case "stock.pledgee":{
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
@@ -1543,6 +1550,7 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 动产抵押 - 抵押
 			case "mortgage.owner":{
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
@@ -1605,6 +1613,7 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 动产抵押 - 抵押权
 			case "mortgage.people":{
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
@@ -1671,14 +1680,15 @@ function exportTemplate(source,exportType) {
 			case "unsealList":{
 				source.list.forEach(function (item) {
 					var unsealDataLi = item.dataType === 2 ?
-						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>判决日期：</span><span class='n-desc'>"+ (item.judementTime ||'--' ) +"</span></div></li><li class='mg8-0'><div class='nAndI'><span class='n-title'>判决日期：</span><span class='n-desc'>"+ (item.publishTime ||'--' ) +"</span></div></li>"
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>判决日期：</span><span class='n-desc'>"+ (item.judementTime ||'--' ) +"</span></div></li><li class='mg8-0'><div class='nAndI'><span class='n-title'>发布日期：</span><span class='n-desc'>"+ (item.publishTime ||'--' ) +"</span></div></li>"
 						:
 						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>查封日期：</span><span class='n-desc'>"+ (item.sealUpTime ||'--' ) +"</span></div></li><li class='mg8-0'><div class='nAndI'><span class='n-title'>解封日期：</span><span class='n-desc'>"+ (item.unsealingTime ||'--' ) +"</span></div></li>";
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						( item.dataType === 2 ? "<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+ (item.title||'--')+"</a>":(item.address||'--')) + "</li>" +
-						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>关联案号：</span><span class='n-desc'>"+(item.caseNumber||'--')+"</span></div><div class='n-line mg0-5'></div><div class='nAndI'><span class='n-title'>执行法院：</span>" +
+						( item.dataType === 2 ? "<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+ (item.title||'--')+"</a>": ("<span class=\"fw-bold\">" + (item.address||'--') + "</span>") )+ "</li>" +
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>关联案号：</span><span class='n-desc'>"+(item.caseNumber||'--')+"</span></div></li>" +
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>执行法院：</span>" +
 						"<span class='n-desc'>"+ (item.court ||'--' ) +"</span></div></li>" +
 						"</td>" +
 						"<td>" + unsealDataLi + "</td>" +

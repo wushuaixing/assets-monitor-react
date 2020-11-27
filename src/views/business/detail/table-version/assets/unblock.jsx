@@ -3,7 +3,7 @@ import { toGetNumber } from '@/utils/promise';
 import Table from '@/views/asset-excavate/seized-unblock/table/table-version';
 import { toGetModuleHeight } from '@/utils';
 
-export default class Intangible extends React.Component {
+export default class UnBlock extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -18,7 +18,7 @@ export default class Intangible extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
-					<div className="yc-tabs-simple-prefix">{`查解封资产 ${count || 0}`}</div>
+					<div className="yc-tabs-simple-prefix">{`查/解封资产 ${count || 0}`}</div>
 				</div>
 				<div className="inquiry-public-table">
 					<Table portrait={portrait} loadingHeight={h} />
