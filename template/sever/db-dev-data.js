@@ -14187,9 +14187,4 @@ module.exports = {
 		pages: 1,
 		total: 63
 	},
-
-
-
-
-
 };
