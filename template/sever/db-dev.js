@@ -906,10 +906,10 @@ function exportTemplate(source, exportType, name) {
 			// 金融资产_招商项目
 			case 'A10802': {
 				data.list.forEach(function (i) {
-					var category = s.category[i.category] || {};
+					var category = s.category[i.category] || "";
 					var auction = s.auction[i.status] || {};
 					list += "<tr><td class=\"" + (i.accurateType === 1 ? "accurate " : "" )+ "p-top-space\">"
-						+ f.tag(category, 'horizontal-space')
+						+ ( category ? f.tag(category, 'horizontal-space') : '')
 						+ f.urlDom(i.title, i.url)
 						+ "</td><td>" + f.normalList([
 							{cot: auction.t, dot: auction.dot},
