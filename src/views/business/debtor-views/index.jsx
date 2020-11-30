@@ -205,11 +205,11 @@ class BusinessDebtor extends React.Component {
 		});
 	};
 
-	selectedRowKeys=(val) => {
+	selectedRowKeys = (val) => {
 		this.setState({ selectIds: val });
-	}
+	};
 
-	handleClosePush=() => {
+	handleClosePush = () => {
 		const { selectIds } = this.state;
 		const that = this;
 		if (selectIds.length === 0) {
@@ -273,7 +273,7 @@ class BusinessDebtor extends React.Component {
 		}).catch(()=>{
 			that.setState({ loading: false });
 		});
-	}
+	};
 
 	render() {
 		const {

@@ -28,11 +28,11 @@ export default class TableVersion extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<Ellipsis
-							content={row.information}
+							content={row.dataType === 2 ? row.title : `${row.information || row.address}`}
 							tooltip
 							width={510}
 							font={14}
-							url={row.url}
+							url={row.dataType === 2 ? `#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}` : ''}
 						/>
 					</li>
 				</div>
