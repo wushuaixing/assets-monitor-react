@@ -385,7 +385,7 @@ class BusinessDebtor extends React.Component {
 							!manage ? (
 								<div className="yc-public-floatRight">
 									<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
-									<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+									<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								</div>
 							) : (
 								<div className="yc-public-floatRight">
