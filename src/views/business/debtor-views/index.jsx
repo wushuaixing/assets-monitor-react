@@ -205,11 +205,11 @@ class BusinessDebtor extends React.Component {
 		});
 	};
 
-	selectedRowKeys=(val) => {
+	selectedRowKeys = (val) => {
 		this.setState({ selectIds: val });
-	}
+	};
 
-	handleClosePush=() => {
+	handleClosePush = () => {
 		const { selectIds } = this.state;
 		const that = this;
 		if (selectIds.length === 0) {
@@ -227,7 +227,7 @@ class BusinessDebtor extends React.Component {
 				closePush({ idList: selectIds }).then((res) => {
 					if (res.code === 200) {
 						message.success('关闭成功');
-						that.setState({ manage: false  ,selectIds: []});
+						that.setState({ manage: false, selectIds: [] });
 						that.getData();
 					} else if (res.code === 9003) {
 						message.error(res.message);
@@ -256,7 +256,7 @@ class BusinessDebtor extends React.Component {
 				openPush({ idList: selectIds }).then((res) => {
 					if (res.code === 200) {
 						message.success('开启成功');
-						that.setState({ manage: false ,selectIds: []});
+						that.setState({ manage: false, selectIds: [] });
 						that.getData();
 					} else if (res.code === 9003) {
 						message.error(res.message);
@@ -265,7 +265,7 @@ class BusinessDebtor extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
+	};
 
 	render() {
 		const {
