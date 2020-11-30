@@ -354,9 +354,9 @@ function exportTemplate(source,exportType) {
 
 	var htmlTemp = exportType?htmlEnterprise:htmlPersonal;
 
-	htmlTemp=htmlTemp.replace("../img/watermark.png",backgroundImgData);
-	htmlTemp=htmlTemp.replace("../img/icon_shixin.png",iconImgData);
-	htmlTemp=htmlTemp.replace("../img/icon-accurate.png",iconAccurateImgData);
+	htmlTemp = htmlTemp.replace("../img/watermark.png", backgroundImgData);
+	htmlTemp = htmlTemp.replace("../img/icon_shixin.png", iconImgData);
+	htmlTemp = htmlTemp.replace("../img/icon-accurate.png", iconAccurateImgData);
 	/* 基本信息模块 */
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlTemp = htmlTemp.replace(/{base.dateTime}/g, dataTime);
@@ -1749,10 +1749,9 @@ function exportTemplate(source,exportType) {
 			case "finance.merchants":{
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
-						"<td>" +
+						"<td class=\"" + (item.accurateType === 1 ? "accurate" : "" ) + "\">" +
 						"<li class='mg8-0 font-m'>" +
-						"<span class=\"accurate\"></span>" +
-						"<span class=\"case-tag type-tag long-mgr\">"+ fun.toGetType(item.category, fun.source.categoryType) + "</span>" +
+						"<span class=\"case-tag type-tag long-mgr"+ (item.accurateType === 1 ? " horizontal-space" : "" )+ "\">"+ fun.toGetType(item.category, fun.source.categoryType) + "</span>" +
 						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">" + (item.title||'--')+"</a>":(item.title||'--')) +
 						"</li></td>" +
 						"<td>" +
@@ -1771,20 +1770,22 @@ function exportTemplate(source,exportType) {
 			}
 			// 金融资产 - 公示项目
 			case "finance.publicity":{
-			source.list.forEach(function (item) {
-				listAry.push("<tr>" +
-					"<td>" +
-					"<li class='mg8-0 font-m'>" + "<span class=\"case-tag type-tag long-mgr\">"+ fun.toGetType(item.projectType, fun.source.financeProjectType) + "</span>" +
-					(item.sourceUrl?"<a href=\""+item.sourceUrl+"\" target=\"_blank\" class=\"base-b fw-bold\">" + (item.title||'--')+"</a>":(item.title||'--')) +
-					"</li></td>" +
-					"<td>" +
-					"<li class='mg8-0'>" +
-					"<div class='nAndI'>" +
-					"<span class='n-title'>发布日期：<label class='n-desc'>"+ (item.gmtPublish || '--')+"</label></span>" +
-					"</div></li>" +
-					"</td></tr>");
-			});
-			break;
+				source.list.forEach(function (item) {
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						"<span class=\"case-tag type-tag long-mgr\">"+ fun.toGetType(item.projectType, fun.source.financeProjectType, '', '', '未知') +
+						"</span>" +
+						(item.sourceUrl ? "<a href=\""+item.sourceUrl+"\" target=\"_blank\" class=\"base-b fw-bold\">" + (item.title||'--')+"</a>":(item.title||'--')) +
+						"</li></td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>发布日期：<label class='n-desc'>"+ (item.gmtPublish || '--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
 		}
 			// 招投标
 			case "bidding":{

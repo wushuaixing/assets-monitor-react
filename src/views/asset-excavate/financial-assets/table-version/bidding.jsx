@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pagination } from 'antd';
+import PropTypes from 'reactPropTypes';
 import { getDynamicAsset } from 'api/dynamic';
 import { toEmpty } from '@/utils';
 import { floatFormat } from '@/utils/format';
@@ -27,7 +28,7 @@ const statusColorMap = new Map([
 	[11, '#7D8699'],
 ]);
 
-export default class TableIntact extends React.Component {
+class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -176,3 +177,16 @@ export default class TableIntact extends React.Component {
 		);
 	}
 }
+
+TableIntact.propTypes = {
+	// eslint-disable-next-line react/forbid-prop-types
+	loadingHeight: PropTypes.any,
+	portrait: PropTypes.string,
+};
+
+TableIntact.defaultProps = {
+	loadingHeight: undefined,
+	portrait: 'debtor_enterprise',
+};
+
+export default TableIntact;

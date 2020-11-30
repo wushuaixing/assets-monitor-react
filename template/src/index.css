@@ -47,7 +47,7 @@ a {
 .accurate{
   background-image:url("../img/icon-accurate.png");
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 5%;
 }
 
 .regStatus-green{
@@ -290,6 +290,13 @@ table {
 
 .inblock{
   display: inline-block;
+}
+
+.horizontal-space{
+  margin: 0 15px 0 25px;
+}
+.fix-top-table{
+  margin-top: -3px;
 }
 
 /*# sourceMappingURL=index.css.map */
