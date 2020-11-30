@@ -6,13 +6,16 @@ var _dataSource = JSON.stringify(dataSource);
 
 var backgroundImg  = fs.readFileSync('./template/img/watermark.png',);
 var iconImg  = fs.readFileSync('./template/img/icon_shixin.png',);
+var iconAccurateImg  = fs.readFileSync('./template/img/icon-accurate.png',);
+
 
 // 转换为 data:image/jpeg;base64,***** 格式的字符串
 var defaultIcon ="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAA+xJREFUeAHtndtO20AQQMeXJISLAAFNkYBCkfpSVZV46De0P9KP6n/0tR9QXkrV0gfUC20aWkWkpBBIcGx3xsTgbnHi1cbejTqDrN3ZnbHXx2PvxRaxjtrhs9CHFwCwhhtLdgJ1y4HnVqMVfkMfhpcdXNKyTgDDZAnn5QjYcuZsLRJggCIRSZ0BSgITzRmgSERSZ4CSwERzBigSkdQZoCQw0ZwBikQkdQYoCUw0Z4AiEUmdAUoCE80ZoEhEUmeAksBEcwYoEpHUGaAkMNGcAYpEJHUGKAlMNGeAIhFJnQFKAhPNXbEgL333oAv1Zh9C/AvwIPQmJt6C6K0M1mBK+bg8SsljUBbXra+48HRnJq+mSu23MIBvPvUIm1Tj0oy/Nb20qsLLCwMYw7u/UgJrcJrWIBMlA8UiyFhAZXF5lA70/aPLwiENO2CBAK+aMVWKcaQ1a1R9mp+ecu5EFLkzQEWAhd/CyfZ+Pvbg9IL65HSZq9qwtVRKN9BcY3wEWuPpuHPDrDUCTY6srMSNj8CsJ6LLjgEqkmeADFCRgKK71k6EhzGKVy+LOw9jhlBSGca83O3AwowNC7NOlC5iOl0pfh6t9RYewnZkVaPlQaP1t1nJtRDmFdCtu2W4h+uGecvE9sIbSy7U5h1YRGAUeY5tgdcPodnuw0HjEl7tdfJmF+0//0uU02nMVmyYrcQ7d6KMj0vWPVxr/YJz7L5fzBxwYgHG6JIpReH0NdRkTX55IwD2MXLef+/Br9OA3oDA/LQDD9cqUMFnmulixDOQ4DXbPhBIH1e3Wmc+7H3tms4uap92gPTG7fjU/wfW7/MAetgpmC7aAVLUBSlrqtSrmi7aAZYcC1x8+N8mo19A3eZVbJl2gHS6tYWrYUjy1JfnXHARruliBMDtO2Wolm9glRHcg1Vz34MkL6oRw5iuF8LOZhV+tL3oeVibd7E3Nv/5RyC1AaTet3HiwSF+L3N+GcDMlA2PNyrRtzFvD7tYFuJMw4aN5RKsLrrXXzMkr74JeW0A39W78BPHfrF0ugG8/ohjPyTbH/TKZ70A9nGMeIzjwkfrBU8x4oaNSLUBbOM4T5S0+etJ5wa06KNb1wbwyXYVLvA2zSI61vmytItstAEs4zyXtkkXbQBVwVEnZIIUDnAfFzvHIR8M+U6wsIH0On5YOQ6hm56+xaS1v2HbZq08jsON3Af/35iRiIYbFBaBw5sxubUMUPHaMUAGqEhA0Z0jkAEqElB05whkgIoEFN05AhmgIgFFd45ABqhIQNGdI5ABKhJQdOcIZICKBBTdOQIZoCIBRXeOwDEArCvu4392r9v0kw5IgCHKh0H0cxh/AGhL8KPsv+MKAAAAAElFTkSuQmCC";
 
-var backgroundImgData = 'data:image/png;base64,' +  new Buffer.alloc(65*1024,backgroundImg).toString('base64');
+var backgroundImgData = 'data:image/png;base64,' +  new Buffer.alloc(65*1024, backgroundImg).toString('base64');
 
 var iconImgData = 'data:image/png;base64,' +  new Buffer.alloc(4*1024,iconImg).toString('base64');
+var iconAccurateImgData = 'data:image/png;base64,' +  new Buffer.alloc(4*1024, iconAccurateImg).toString('base64');
 
 var htmlResultStr1  = fs.readFileSync('./template/src/enterprise.html','utf8');
 var htmlResultStr2  = fs.readFileSync('./template/src/personal.html','utf8');
@@ -106,6 +109,15 @@ function exportTemplate(source,exportType) {
 				{id: 9, value: '中止'},
 				{id: 11, value: '撤回'},
 				{id: 13, value: '结束'},
+			],
+			statusColor:[
+				{id: 1, value: 'orange'},
+				{id: 3, value: 'blue'},
+				{id: 5, value: 'green'},
+				{id: 7, value: 'gray'},
+				{id: 9, value: 'gray'},
+				{id: 11, value: 'gray'},
+				{id: 13, value: 'gray'},
 			],
 			categoryType: [
 				{id: 200794003, value: '其他交通工具'},
@@ -344,6 +356,7 @@ function exportTemplate(source,exportType) {
 
 	htmlTemp=htmlTemp.replace("../img/watermark.png",backgroundImgData);
 	htmlTemp=htmlTemp.replace("../img/icon_shixin.png",iconImgData);
+	htmlTemp=htmlTemp.replace("../img/icon-accurate.png",iconAccurateImgData);
 	/* 基本信息模块 */
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlTemp = htmlTemp.replace(/{base.dateTime}/g, dataTime);
@@ -680,7 +693,7 @@ function exportTemplate(source,exportType) {
 		}
 		// 土地信息
 		else if(viewName==="overview.A10203"){
-			var landTotal =0;
+			var landTotal = 0;
 			if((source.infoTypes||[]).length||(source.roleDistributions||[]).length||(source.yearDistributions||[]).length){
 				if ((source.infoTypes || []).length) {
 					source.infoTypes.forEach(function (item) {
@@ -1062,7 +1075,7 @@ function exportTemplate(source,exportType) {
 		// 金融资产
 		overView(data.A10213,"overview.A10213");
 		// 限制高消费
-		overView(data.A10214,"overview.A10214");
+		// overView(data.A10214,"overview.A10214");
 
 	}else{
 		overView(data.B10201,"overview.B10201");
@@ -1686,12 +1699,14 @@ function exportTemplate(source,exportType) {
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						( item.dataType === 2 ? "<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+ (item.title||'--')+"</a>": ("<span class=\"fw-bold\">" + (item.address||'--') + "</span>") )+ "</li>" +
-						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>关联案号：</span><span class='n-desc'>"+(item.caseNumber||'--')+"</span></div></li>" +
-						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>执行法院：</span>" +
-						"<span class='n-desc'>"+ (item.court ||'--' ) +"</span></div></li>" +
+						( item.dataType === 2 && item.url ? "<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+ (item.title||'--')+"</a>": ("<span class=\"fw-bold\">" + (item.address||'--') + "</span>") )+
+						"</li>" +
 						"</td>" +
-						"<td>" + unsealDataLi + "</td>" +
+						"<td class\"w-200\">" +
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>关联案号：</span><span class='n-desc'>"+(item.caseNumber||'--')+"</span></div></li>" +
+						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>执行法院：</span><span class='n-desc'>"+(item.court||'--')+"</span></div></li>" +
+						"</td>"+
+						"<td class\"w-200\">" + unsealDataLi + "</td>" +
 						"</tr>");
 				});
 				break;
@@ -1707,16 +1722,16 @@ function exportTemplate(source,exportType) {
 						"<td class=\"inblock w-400\">" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
-						"<span class=\"n-icon green\"></span>" +
+						"<span class=\"n-icon " + fun.toGetType(item.status, fun.source.statusColor) +"\"></span>" +
 						"<span class='n-desc'>"+ ( fun.toGetType(item.status, fun.source.projectStatusType) ||'--')+"</span>" +
 						"</div></li>" +
 						"<li class='mg8-0 inblock w-200'>" +
 						"<div class='nAndI'>" +
-						"<span class='n-title'>评估价：<label class='n-desc'>"+ fun.toNumberStr(item.consultPrice) +"</label></span>" +
+						"<span class='n-title'>评估价：<label class='n-desc'>"+ (item.consultPrice ? fun.toNumberStr(item.consultPrice) : '未知') +"</label></span>" +
 						"</div></li>" +
 						"<li class='mg8-0 inblock w-200'>" +
 						"<div class='nAndI'>" +
-						"<span class='n-title'>成交价：<label class='n-desc'>"+ fun.toNumberStr(item.currentPrice) +"</label></span>" +
+						"<span class='n-title'>" + (item.status === 5 ? '成交价' : '当前价') + "：<label class='n-desc'>"+ fun.toNumberStr(item.currentPrice) +"</label></span>" +
 						"</div></li>" +
 						"<li class='mg8-0 inblock w-200'>" +
 						"<div class='nAndI'>" +
@@ -1735,7 +1750,9 @@ function exportTemplate(source,exportType) {
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
 						"<td>" +
-						"<li class='mg8-0 font-m'>" + "<span class=\"case-tag type-tag long-mgr\">"+ fun.toGetType(item.category, fun.source.categoryType) + "</span>" +
+						"<li class='mg8-0 font-m'>" +
+						"<span class=\"accurate\"></span>" +
+						"<span class=\"case-tag type-tag long-mgr\">"+ fun.toGetType(item.category, fun.source.categoryType) + "</span>" +
 						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">" + (item.title||'--')+"</a>":(item.title||'--')) +
 						"</li></td>" +
 						"<td>" +
@@ -1809,18 +1826,18 @@ function exportTemplate(source,exportType) {
 				break;
 			}
 			// 限制高消费
-			case "limitHeight":{
-				source.list.forEach(function (item) {
-					listAry.push("<tr>" +
-						"<td>" +
-						"<li class='mg8-0 font-m fw-bold'>" + (item.caseNumber || '--') + "</li>" +
-						"<li class='mg8-0'><div class='nAndI'><span class='n-title'>关联对象：</span><span class='n-desc'>"+ (item.obligorType === 1 ? item.personName : '--')+"</span></div></li>" +
-						"</td><td><li class='mg8-0'><div class='nAndI'><span class='n-title'>立案日期：</span><span class='n-desc'>"+(item.registerDate||'--')+"</span>" +
-						"</div></li>" +
-						"</td></tr>");
-				});
-				break;
-			}
+			// case "limitHeight":{
+			// 	source.list.forEach(function (item) {
+			// 		listAry.push("<tr>" +
+			// 			"<td>" +
+			// 			"<li class='mg8-0 font-m fw-bold'>" + (item.caseNumber || '--') + "</li>" +
+			// 			"<li class='mg8-0'><div class='nAndI'><span class='n-title'>关联对象：</span><span class='n-desc'>"+ (item.obligorType === 1 ? item.personName : '--')+"</span></div></li>" +
+			// 			"</td><td><li class='mg8-0'><div class='nAndI'><span class='n-title'>立案日期：</span><span class='n-desc'>"+(item.registerDate||'--')+"</span>" +
+			// 			"</div></li>" +
+			// 			"</td></tr>");
+			// 	});
+			// 	break;
+			// }
 			// 经营异常
 			case "abnormal":{
 				source.list.forEach(function (item) {
@@ -2150,7 +2167,7 @@ function exportTemplate(source,exportType) {
 		// 环保处罚
 		listView(data.A10506,"epb");
 		// 限制高消费
-		listView(data.A10507,"limitHeight");
+		// listView(data.A10507,"limitHeight");
 
 		// 基本信息
 		overView(data.A10103,"baseInfo");
