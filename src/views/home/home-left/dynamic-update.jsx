@@ -190,10 +190,10 @@ class DynamicUpdate extends PureComponent {
 				<DynamicTab {...params} />
 				{typeNum === 0 && (
 					<div className="seven-update-content">
-						{!hasAssetPropsData && assetPropsData.totalNum !== 0 ? (
+						{hasAssetPropsData && assetPropsData.totalNum !== 0 ? (
 							<div className="seven-update-content-title">
 								<div className="seven-update-content-title-item" />
-								<div className="seven-update-content-title-name">
+								<div className="seven-update-content-title-name"  style={{ marginTop: 20 }}>
 									新增
 									<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
 									条资产挖掘信息
