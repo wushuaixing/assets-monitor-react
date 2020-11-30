@@ -455,7 +455,7 @@ class HomeDynamic extends PureComponent {
 					</Spin>
 				</div>
 				<div className="home-import-list">
-					<Spin visible={importLoading} minHeight={406}>
+					<Spin visible={importLoading} minHeight={404}>
 						<div className="seven-update-content-title">
 							<div className="seven-update-content-title-name">
 								<div className="dynamic-container-header-name">重要信息提醒</div>
@@ -465,7 +465,18 @@ class HomeDynamic extends PureComponent {
 						{
 							allArr.length > 0 ? (
 								<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} />
-							) : null
+							) : (
+								<React.Fragment>
+									{
+										importLoading ? null : (
+											<div className="detail-container-noData">
+												<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
+												<span className="detail-container-noData-text">暂无重要信息提醒</span>
+											</div>
+										)
+									}
+								</React.Fragment>
+							)
 					}
 					</Spin>
 				</div>
