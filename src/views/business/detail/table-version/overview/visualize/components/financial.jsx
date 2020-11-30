@@ -90,9 +90,9 @@ export default class Financial extends React.Component {
 				} else if (financeInvestmentNum > 0) {
 					this.setState({
 						selectType: 'investment',
-						RingData: getTypeName(financeInvestmentArray.investmentProjectType, 'investment'),
+						RingData: getTypeName(financeInvestmentArray.investmentProjectStatus, 'investment'),
 						timeLineData: financeInvestmentArray.yearDistribution,
-						RingDataNum: getCount(financeInvestmentArray.investmentProjectType),
+						RingDataNum: getCount(financeInvestmentArray.investmentProjectStatus),
 						timeLineDataNum: getCount(financeInvestmentArray.yearDistribution),
 					});
 				} else {
