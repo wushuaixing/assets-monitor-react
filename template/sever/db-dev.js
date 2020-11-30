@@ -149,7 +149,7 @@ function exportTemplate(source, exportType, name) {
 		// （1-即将开始、3-正在进行、5-已成交、7-已流拍、9-中止、11-撤回）
 		auction: {
 			1: {t: '即将开始', dot: 'warning'},
-			3: {t: '正在进行', dot: 'warning'},
+			3: {t: '正在进行', dot: 'normal'},
 			5: {t: '已成交', dot: 'success'},
 			7: {t: '已流拍', dot: 'gary'},
 			9: {t: '中止', dot: 'gary'},
@@ -280,31 +280,31 @@ function exportTemplate(source, exportType, name) {
 			}
 			return arr1.join('') + (unit || '');
 		},
-		normalList: function (list) {
+		normalList: function (list,subscript, cotClass) {
 			var result = '';
 			var separator = '<div class=\"n-line\"></div>';
-			var getDesc = function (item) {
+			var getDesc = function (item, index) {
 				var dot = item.dot ? ("<i class=\"" + item.dot + "\"></i>") : '';
-				return (dot + (item.t ? ("<u>" + item.t + "</u>") : '') + (item.cot || '-'));
+				return (dot + (item.t ? ("<u>" + item.t + "</u>") : '') + (subscript=== index && cotClass ? "<span class=\"" + cotClass + "\">" + item.cot +"</span>" : (item.cot || '-')));
 			};
-			list.forEach(function (i) {
+			list.forEach(function (i, index) {
 				if (!i) result += '';
 				else {
 					if (i.length !== undefined) {
 						result += "<li>";
 						i.forEach(function (childItem) {
 							if (childItem.ET) {
-								result += (childItem.ET === 'B' ? (separator + getDesc(childItem)) : '')
+								result += (childItem.ET === 'B' ? (separator + getDesc(childItem, index)) : '')
 							} else {
-								result += (separator + getDesc(childItem));
+								result += (separator + getDesc(childItem, index));
 							}
 						});
 						result += "</li>";
 					} else {
 						if (i.ET) {
-							result += (i.ET === 'B' ? ("<li>" + getDesc(i) + "</li>") : '')
+							result += (i.ET === 'B' ? ("<li>" + getDesc(i, index) + "</li>") : '')
 						} else {
-							result += ("<li>" + getDesc(i) + "</li>")
+							result += ("<li>" + getDesc(i, index) + "</li>")
 						}
 					}
 				}
@@ -547,6 +547,7 @@ function exportTemplate(source, exportType, name) {
 					var process = i.process !== 0 ? (s.process[i.process] || {}) : {};
 					var auction = s.auction[i.status] || {};
 					var optionPrice = {unit: '元', defaultWord: '未知'};
+					var priceSpan = "<span></span>"
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
 						+ f.tag(process.t, process.tag)
@@ -896,10 +897,10 @@ function exportTemplate(source, exportType, name) {
 						+ "</td><td class='financialbid'>" + f.normalList([
 							{cot: auction.t, dot: auction.dot},
 							{t: '评估价', cot: w(f.threeDigit(i.consultPrice), optionPrice)},
-							{t: '成交价', cot: w(f.threeDigit(i.currentPrice), optionPrice)},
+							{t: (i.status === 5 ? '成交价': '当前价'), cot: w(f.threeDigit(i.currentPrice), optionPrice)},
 							{t: '开拍时间', cot: f.time(i.start, 's')},
 							{t: '结束时间', cot: f.time(i.end, 's')},
-						]) + "</td></tr>";
+						], i.status === 5 ? 2: '', 'success') + "</td></tr>";
 				});
 				break;
 			}
@@ -932,10 +933,11 @@ function exportTemplate(source, exportType, name) {
 				break;
 			}
 			// 查/解封资产
+			// i.dataType： 2 文书 1：不动产
 			case 'A10901': {
 				tableClass = '';
 				data.list.forEach(function (i) {
-					var unblockTitle = i.dataType === 2 ? f.urlDom(i.title, i.url) : i.information;
+					var unblockTitle = i.dataType === 2 ? f.urlDom(i.title, i.url) : (i.information ? i.information : i.address);
 					list += "<tr><td>"
 						+ unblockTitle
 						+ "</td>" +
