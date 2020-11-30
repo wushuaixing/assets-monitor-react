@@ -234,7 +234,7 @@ export default class Subrogation extends React.Component {
 							</div>
 							<div className="yc-public-floatRight">
 								<Download condition={() => this.condition} api={exportList} all text="一键导出" />
-								<Button className="yc-all-export" onClick={() => this.setState({ manage: true })}>批量管理</Button>
+								<Button style={{ margin: '0 0 0 10px' }} className="yc-all-export" onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							</div>
 						</div>
 					) : (

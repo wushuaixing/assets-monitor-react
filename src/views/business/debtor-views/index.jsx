@@ -224,7 +224,9 @@ class BusinessDebtor extends React.Component {
 			iconType,
 			className: iconType === 'none' ? 'message-confirm-no-icon' : 'message-confirm-icon',
 			onOk() {
+				that.setState({ loading: true });
 				closePush({ idList: selectIds }).then((res) => {
+					that.setState({ loading: false });
 					if (res.code === 200) {
 						message.success('关闭成功');
 						that.setState({ manage: false, selectIds: [] });
@@ -232,6 +234,8 @@ class BusinessDebtor extends React.Component {
 					} else if (res.code === 9003) {
 						message.error(res.message);
 					}
+				}).catch(()=>{
+					that.setState({ loading: false });
 				});
 			},
 			onCancel() {},
@@ -253,7 +257,9 @@ class BusinessDebtor extends React.Component {
 			iconType,
 			className: iconType === 'none' ? 'message-confirm-no-icon' : 'message-confirm-icon',
 			onOk() {
+				that.setState({ loading: true });
 				openPush({ idList: selectIds }).then((res) => {
+					that.setState({ loading: false });
 					if (res.code === 200) {
 						message.success('开启成功');
 						that.setState({ manage: false, selectIds: [] });
@@ -264,6 +270,8 @@ class BusinessDebtor extends React.Component {
 				});
 			},
 			onCancel() {},
+		}).catch(()=>{
+			that.setState({ loading: false });
 		});
 	};
 
@@ -377,7 +385,7 @@ class BusinessDebtor extends React.Component {
 							!manage ? (
 								<div className="yc-public-floatRight">
 									<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
-									<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
+									<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								</div>
 							) : (
 								<div className="yc-public-floatRight">

@@ -233,8 +233,8 @@ export default class Subrogation extends React.Component {
 								<span className="yc-all-read-text">全部标为已读</span>
 							</div>
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download condition={() => this.condition} api={exportList} all text="一键导出" />
+								<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							</div>
 						</div>
 					) : (
