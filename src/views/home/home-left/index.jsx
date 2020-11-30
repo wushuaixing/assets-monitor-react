@@ -446,7 +446,7 @@ class HomeDynamic extends PureComponent {
 							))
 						}
 					</div>
-					<Spin visible={loading} minHeight={283}>
+					<Spin visible={loading} minHeight={315}>
 						{!finish ? null : (
 							<div style={customStyle}>
 								<DynamicUpdate {...params} />
