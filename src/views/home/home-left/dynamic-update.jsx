@@ -235,7 +235,7 @@ class DynamicUpdate extends PureComponent {
 						{hasRiskPropsData && riskPropsData.totalNum !== 0 ? (
 							<div className="seven-update-content-title">
 								<div className="seven-update-content-title-item" />
-								<div className="seven-update-content-title-name">
+								<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
 									新增
 									<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
 									条风险参考信息
@@ -260,10 +260,10 @@ class DynamicUpdate extends PureComponent {
 							</div>
 						) : (
 							<div className="detail-container-noData">
-								<div className="detail-container-noData-allImg" />
+								<div className="detail-container-noData-allImg"  style={{ height: 160, width: 270 }}/>
 								<span className="detail-container-noData-text">暂未匹配到新的风险信息，建议去导入更多债务人，以匹配更多价值信息</span>
 								<div>
-									<Button onClick={this.handleNavigate} type="primary" style={{ width: 180, height: 34, marginTop: '40px' }}>导入更多债务人</Button>
+									<Button onClick={this.handleNavigate} type="primary" style={{ width: 180, height: 34, marginTop: '20px' }}>导入更多债务人</Button>
 								</div>
 							</div>
 						)}
