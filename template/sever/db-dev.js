@@ -280,12 +280,12 @@ function exportTemplate(source, exportType, name) {
 			}
 			return arr1.join('') + (unit || '');
 		},
-		normalList: function (list,subscript, cotClass) {
+		normalList: function (list, subscript, cotClass) {
 			var result = '';
 			var separator = '<div class=\"n-line\"></div>';
 			var getDesc = function (item, index) {
 				var dot = item.dot ? ("<i class=\"" + item.dot + "\"></i>") : '';
-				return (dot + (item.t ? ("<u>" + item.t + "</u>") : '') + (subscript=== index && cotClass ? "<span class=\"" + cotClass + "\">" + item.cot +"</span>" : (item.cot || '-')));
+				return (dot + (item.t ? ("<u>" + item.t + "</u>") : '') + (subscript === index && cotClass ? "<span class=\"" + cotClass + "\">" + item.cot +"</span>" : (item.cot || '-')));
 			};
 			list.forEach(function (i, index) {
 				if (!i) result += '';
@@ -992,14 +992,17 @@ function exportTemplate(source, exportType, name) {
 				data.list.forEach(function (i) {
 					// 1：企业 2：个人
 					var associatedObject = i.obligorType === 1 ? i.personName : i.companyName;
-					list += "<tr><td>"
-						+ i.caseNumber
-						+ f.normalList([
-							{t: '关联对象', cot: associatedObject},
+					list += "<tr>"
+						+ "<td>"
+						+ "<li>" + i.caseNumber + "</li>"
+						+ f.normalList(i.obligorType === 2 && !i.companyName ? [] : [
+							{t: '关联对象', cot: associatedObject}
 						])
-						+ "</td><td>" + f.normalList([
-							{t: '立案日期', cot:i.registerDate},
-						]) + "</td></tr>";
+						+ "</td>"
+						+ "<td>" + f.normalList([
+							{t: '立案日期', cot: i.registerDate},
+						]) + "</td>"
+						+ "</tr>";
 				});
 				break;
 			}
