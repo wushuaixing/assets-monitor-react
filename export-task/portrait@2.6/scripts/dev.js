@@ -2,7 +2,8 @@
 
 var fs = require('fs');
 const path = require('path');
-const ENV = process.env.NODE_ENV;
+var dataSource = require('./data');
+var _dataSource = JSON.stringify(dataSource);
 const root = path.resolve(__dirname + '/../');
 const imgData = require('../../_assets/img/index');
 
@@ -2244,15 +2245,12 @@ function exportTemplate(source,exportType) {
 	return htmlTemp;
 }
 
-function writeFile(_dataSource) {
+function writeFile() {
 	var str = (flag) => exportCover(_dataSource, flag) + exportTemplate(_dataSource, flag);
-	fs.writeFile(root + "/dist/demo.html", str(true), (error) => {
+	fs.writeFile(root + "/dist/demo.html", str(false), (error) => {
 		error && console.log('error');
 	});
 }
-if (ENV === 'dev') {
-	var dataSource = require('./data');
-	var _dataSource = JSON.stringify(dataSource);
-	writeFile(_dataSource);
-}
+
+writeFile();
 module.exports = {exportTemplate, exportCover, writeFile};

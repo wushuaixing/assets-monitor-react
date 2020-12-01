@@ -4,7 +4,7 @@ var cleanCSS = require('clean-css');
 var minify = require('html-minifier').minify;
 var UglifyJS = require("uglify-js");
 const { exportCover, exportTemplate } = require("./dev");
-const { cssResult, htmlEnterprise, htmlPersonal, htmlCover } = require('../src/str');
+const { cssResult, htmlEnterpriseStr, htmlPersonalStr, htmlCoverStr } = require('../src/str');
 const imgData = require('../../_assets/img/index');
 const { bgImgData, deIconData,	personData,	businessData,	disIconData,	disEdIconData,	accurateImgData } = imgData;
 const root = path.resolve(__dirname,'../dist');
@@ -14,8 +14,8 @@ const defaultIcon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAA
 
 
 const minifyCss = new cleanCSS().minify(cssResult);
-let htmlEnterpriseTxt = htmlEnterprise.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___", minifyCss.styles);
-let htmlPersonalTxt = htmlPersonal.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___", minifyCss.styles);
+let htmlEnterpriseTxt = htmlEnterpriseStr.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___", minifyCss.styles);
+let htmlPersonalTxt = htmlPersonalStr.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___", minifyCss.styles);
 
 var html_E = minify(htmlEnterpriseTxt, {
 	processScripts: ['text/html'],
@@ -46,7 +46,7 @@ var html_P = minify(htmlPersonalTxt, {
 	removeComments: true, //删除注释
 	removeCommentsFromCDATA: true,
 });
-var html_cover = minify(htmlCover, {
+var html_cover = minify(htmlCoverStr, {
 	processScripts: ['text/html'],
 	collapseWhitespace: true,
 	minifyJS: {
