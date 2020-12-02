@@ -146,8 +146,8 @@ function exportTemplate(source,exportType) {
 				{id: 2, value: '探矿权'},
 			],
 			rightsType: [
-				{id: 1, value: '商标权'},
-				{id: 2, value: '专利权'},
+				{id: 1, value: '商标'},
+				{id: 2, value: '专利'},
 			],
 			taxRole:[
 				{id: 1, value: "作为纳税主体", field: ""},
@@ -341,8 +341,8 @@ function exportTemplate(source,exportType) {
 			if (!item && item !== 0) {
 				return '-';
 			}
-			var type = Number.parseFloat(item);
-			var bol = Number.isNaN(type);
+			var type = parseFloat(item);
+			var bol = isNaN(type);
 			if (bol) {
 				result = item;
 				return result;
