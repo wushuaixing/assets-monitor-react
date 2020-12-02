@@ -566,64 +566,64 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		// 金融资产
-		// else if(viewName === "overview.A10213"){
-		// 	if((source.financeInfos||[]).length){
-		// 		fun.source.financialType.forEach(function (i) {
-		// 			var result = false;
-		// 			source.financeInfos.forEach(function (item) {
-		// 				if(item.type === i.id){
-		// 					if(item.count){
-		// 						result = true;
-		// 						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
-		// 						// 项目类型分布
-		// 						if(item.financeProjectType.length){
-		// 							htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".financeProjectType.list}",
-		// 								overViewTable(item.financeProjectType, 4, {
-		// 									name: "type",
-		// 									count: "count",
-		// 									options: fun.source.financeProjectType,
-		// 								}))
-		// 						}
-		// 						// 项目状态分布
-		// 						if((item.investmentProjectStatus || []).length){
-		// 							htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".investmentProjectStatus.list}",
-		// 								overViewTable(item.investmentProjectStatus, 4, {
-		// 									name: "type",
-		// 									count: "count",
-		// 									options: fun.source.investmentProjectStatus,
-		// 								}))
-		// 						}
-		// 						// 项目状态分布
-		// 						if((item.projectStatus || []).length){
-		// 							htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".projectStatus.list}",
-		// 								overViewTable(item.projectStatus, 4, {
-		// 									name: "status",
-		// 									count: "count",
-		// 									options: fun.source.projectStatusType,
-		// 								}))
-		// 						}
-		// 						// 年份分布
-		// 						if((item.yearDistribution || []).length){
-		// 							htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
-		// 								overViewTable(fun.toGetYearList(item.yearDistribution), 5, {
-		// 									name: "year",
-		// 									count: "count",
-		// 									nameUnit:"年"
-		// 								}))
-		// 						}
-		// 					}
-		// 				}
-		// 			});
-		// 			if (!result){
-		// 				htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
-		// 			}
-		// 		})
-		// 	}else{
-		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".bidding.display}", "display-none");
-		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".merchants.display}", "display-none");
-		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".publicity.display}", "display-none");
-		// 	}
-		// }
+		else if(viewName === "overview.A10213"){
+			if((source.financeInfos||[]).length){
+				fun.source.financialType.forEach(function (i) {
+					var result = false;
+					source.financeInfos.forEach(function (item) {
+						if(item.type === i.id){
+							if(item.count){
+								result = true;
+								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
+								// 项目类型分布
+								if(item.financeProjectType.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".financeProjectType.list}",
+										overViewTable(item.financeProjectType, 4, {
+											name: "type",
+											count: "count",
+											options: fun.source.financeProjectType,
+										}))
+								}
+								// 项目状态分布
+								if((item.investmentProjectStatus || []).length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".investmentProjectStatus.list}",
+										overViewTable(item.investmentProjectStatus, 4, {
+											name: "type",
+											count: "count",
+											options: fun.source.investmentProjectStatus,
+										}))
+								}
+								// 项目状态分布
+								if((item.projectStatus || []).length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".projectStatus.list}",
+										overViewTable(item.projectStatus, 4, {
+											name: "status",
+											count: "count",
+											options: fun.source.projectStatusType,
+										}))
+								}
+								// 年份分布
+								if((item.yearDistribution || []).length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
+										overViewTable(fun.toGetYearList(item.yearDistribution), 5, {
+											name: "year",
+											count: "count",
+											nameUnit:"年"
+										}))
+								}
+							}
+						}
+					});
+					if (!result){
+						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
+					}
+				})
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".bidding.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".merchants.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".publicity.display}", "display-none");
+			}
+		}
 		// 招投标
 		else if(viewName === "overview.A10211"){
 			if(source.bidding){
@@ -641,21 +641,21 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		// 查解封资产
-		// else if(viewName === "overview.A10212"){
-		// 	if(source.unsealCount){
-		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
-		// 		if((source.yearDistributions || []).length){
-		// 			htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
-		// 				overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
-		// 					name: "year",
-		// 					count: "count",
-		// 					nameUnit:"年"
-		// 				}))
-		// 		}
-		// 	}else{
-		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
-		// 	}
-		// }
+		else if(viewName === "overview.A10212"){
+			if(source.unsealCount){
+				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
+				if((source.yearDistributions || []).length){
+					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
+						overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
+							name: "year",
+							count: "count",
+							nameUnit:"年"
+						}))
+				}
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+			}
+		}
 		// 限制高消费
 		// else if(viewName === "overview.A10214"){
 		// 	if(source.limitHeightCount){
