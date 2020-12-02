@@ -5,10 +5,10 @@
 + dist: 最后生成的文件
 
 #### 启动步骤
-> + npm run portrait:dev // 在本地运行
+> + npm run por:dev // 在本地运行
 > + 会看到在dist文件夹里会生成一个demo.html文件，是数据填充之后的html，打开demo.html,右键运行demo.html 
 #### 打包步骤和调试
->npm run portrait:build // 打包生成js，想看生成的js文件是否符合预期可以用postman发送请求调试。
+>npm run por:build // 打包生成js，想看生成的js文件是否符合预期可以用postman发送请求调试。
 
 > 接口地址:http://172.18.255.214:8080/yc/search/portrait/company/export/download
 

@@ -29,15 +29,22 @@ import RealEstate from './component/real-estate/index';
 const createForm = Form.create;
 
 // 这个type只有两类， 1，资产挖掘， 2，风险监控
+// ruleName 数组的时候是经营风险的权限校验， 字符串的时候是其他模块的校验
 const isRule = (ruleName, type, rule) => {
-	if (ruleName) {
-		if (type === 1) {
-			return Object.keys(rule.menu_zcwj.children).indexOf(ruleName) >= 0;
-		}
-		if (type === 2) {
-			return Object.keys(rule.menu_fxjk.children).indexOf(ruleName) >= 0;
-		}
-		return false;
+	if (Array.isArray(ruleName) && ruleName.length > 0) {
+		let ruleBool = false;
+		ruleName.forEach((item) => {
+			if (Object.keys(rule.menu_fxjk.children).indexOf(item) >= 0) {
+				ruleBool = true;
+			}
+		});
+		return ruleBool;
+	}
+	if (type === 1) {
+		return Object.keys(rule.menu_zcwj.children).indexOf(ruleName) >= 0;
+	}
+	if (type === 2) {
+		return Object.keys(rule.menu_fxjk.children).indexOf(ruleName) >= 0;
 	}
 	return false;
 };
@@ -215,16 +222,28 @@ const subItems = (rule, data) => ([
 		dataType: 112,
 		name: '经营风险',
 		total: data ? getCount(data, 112) : 0,
-		status: isRule('jyfxsswf', 2, rule),
+		status: isRule(['jyfxjyyc', 'jyfxgsbg', 'jyfxyzwf', 'jyfxsswf', 'jyfxxzcf', 'jyfxhbcf'], 2, rule),
 		tagName: 'message-businessRisk',
 		component: BusinessRisk,
 		childrenCount: [
-			{ name: '税收违法', count: data ? getCount(data, 11201) : 0, dataType: 11201 },
-			{ name: '环保处罚', count: data ? getCount(data, 11202) : 0, dataType: 11202 },
-			{ name: '经营异常', count: data ? getCount(data, 11203) : 0, dataType: 11203 },
-			{ name: '工商变更', count: data ? getCount(data, 11204) : 0, dataType: 11204 },
-			{ name: '严重违法', count: data ? getCount(data, 11205) : 0, dataType: 11205 },
-			{ name: '行政处罚', count: data ? getCount(data, 11206) : 0, dataType: 11206 },
+			{
+				name: '经营异常', count: data ? getCount(data, 11203) : 0, status: isRule('jyfxjyyc', 2, rule), dataType: 11203,
+			},
+			{
+				name: '工商变更', count: data ? getCount(data, 11204) : 0, status: isRule('jyfxgsbg', 2, rule), dataType: 11204,
+			},
+			{
+				name: '严重违法', count: data ? getCount(data, 11205) : 0, status: isRule('jyfxyzwf', 2, rule), dataType: 11205,
+			},
+			{
+				name: '税收违法', count: data ? getCount(data, 11201) : 0, status: isRule('jyfxsswf', 2, rule), dataType: 11201,
+			},
+			{
+				name: '行政处罚', count: data ? getCount(data, 11206) : 0, status: isRule('jyfxxzcf', 2, rule), dataType: 11206,
+			},
+			{
+				name: '环保处罚', count: data ? getCount(data, 11202) : 0, status: isRule('jyfxhbcf', 2, rule), dataType: 11202,
+			},
 		],
 	},
 ]);
@@ -298,7 +317,7 @@ class MessageDetail extends React.Component {
 	}
 
 	// 点击上移
-	handleScroll=(eleID) => {
+	handleScroll = (eleID) => {
 		const dom = document.getElementById(eleID);
 		console.log('height === ', document.getElementById(eleID).offsetTop);
 		if (dom) {
@@ -324,13 +343,6 @@ class MessageDetail extends React.Component {
 				this.setState({
 					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
 				});
-				// this.setState({
-				// 	config: subItems(rule, [...res.data.categoryCount,
-				// 		{ dataCount: 23, dataType: 10601, typeName: '金融资产-竞价项目' },
-				// 		{ dataCount: 55, dataType: 10602, typeName: '金融资产-招商项目' },
-				// 		{ dataCount: 88, dataType: 10603, typeName: '金融资产-公示项目' },
-				// 	]).filter(item => item.status && item.total > 0),
-				// });
 			}
 		}).catch((err) => {
 			console.log('err === ', err);
@@ -358,7 +370,6 @@ class MessageDetail extends React.Component {
 		const {
 			config, newMonitorCount, invalidCount, effectiveCount, loading, obligorInfo, affixed, obligorId, stationId, isShowBackTopImg, reportDate,
 		} = this.state;
-		// console.log('state render === ', this.state);
 		return (
 			<div>
 				<div className="messageDetail">

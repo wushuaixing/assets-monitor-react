@@ -5,6 +5,8 @@
 + dist: 最后生成的文件
 
 #### 启动步骤
->npm run db:dev // 在本地运行
+> + npm run bus:dev // 在本地运行
+> + 会看到在dist文件夹里会生成一个demo.html文件，是数据填充之后的html，打开demo.html,右键运行demo.html 
+
 #### 打包步骤和调试
->npm run db:build // 打包生成js
+>npm run bus:build // 打包生成js

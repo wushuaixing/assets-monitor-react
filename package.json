@@ -35,10 +35,10 @@
     "tl:ob-build": "node ./template/sever/ob-build.js",
     "tl:db-dev": "set NODE_ENV=dev&& node ./template/sever/db-dev.js",
     "tl:db-build": "node ./template/sever/db-build.js",
-    "db:dev": "set NODE_ENV=dev&& node ./export-task/business@2.6/scripts/dev.js",
-    "db:build": "node ./export-task/business@2.6/scripts/build.js",
-    "portrait:dev": "set NODE_ENV=dev && node ./export-task/portrait@2.6/scripts/dev.js",
-    "portrait:build": "node ./export-task/portrait@2.6/scripts/build.js"
+    "bus:dev": "set NODE_ENV=dev&& node ./export-task/business@2.6/scripts/dev.js",
+    "bus:build": "node ./export-task/business@2.6/scripts/build.js",
+    "por:dev": "set NODE_ENV=dev && node ./export-task/portrait@2.6/scripts/dev.js",
+    "por:build": "node ./export-task/portrait@2.6/scripts/build.js"
   },
   "dependencies": {
     "anujs": "1.5.0",
