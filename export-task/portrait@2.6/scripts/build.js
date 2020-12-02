@@ -77,6 +77,6 @@ var disEdIconData= "${disEdIconData}";
 ${exportCover}
 ${exportTemplate}`;
 
-fs.writeFileSync(root + "/downloadDetail.js", resultCode);
-fs.writeFileSync(root + "/downloadDetail.min.js",UglifyJS.minify(resultCode).code);
+fs.writeFileSync(root + "/outputHtml.js", resultCode);
+fs.writeFileSync(root + "/outputHtml.min.js",UglifyJS.minify(resultCode).code);
 

@@ -8,7 +8,7 @@ import Stock from './stock';
 import Chattel from './chattel';
 import Bidding from './bidding';
 import Financial from './financial';
-// import UnBlock from './unblock';
+import UnBlock from './unblock';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -76,7 +76,7 @@ const subItems = data => ([
 		total: data ? toGetTotal('1090', data) : 0,
 		info: data ? data.filter(i => /1090/.test(i.id)) : '',
 		tagName: 'e-assets-unblock',
-		component: Chattel,
+		component: UnBlock,
 	},
 	{
 		id: 10800,

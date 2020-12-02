@@ -1074,20 +1074,6 @@ function exportTemplate(source,exportType) {
 		overView(data.A10204,"overview.A10204");
 		// 动产抵押
 		overView(data.A10205,"overview.A10205");
-		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp))){
-			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
-		}
-		// 涉诉信息 （失信记录）
-		overView(data.A10206,"overview.A10206");
-		if(!(/A10206.{0,12}\.display/.test(htmlTemp))){
-			htmlTemp = htmlTemp.replace("{overview.lawsuit.display}", "display-none");
-		}
-		// 经营风险
-		overView(data.A10207,"overview.A10207");
-		// 工商基本情况
-		overView(data.A10208,"overview.A10208");
-		// 破产重组
-		overView(data.A10209,"overview.A10209");
 		// 无形资产
 		overView(data.A10210,"overview.A10210");
 		// 招投标
@@ -1096,9 +1082,23 @@ function exportTemplate(source,exportType) {
 		overView(data.A10212,"overview.A10212");
 		// 金融资产
 		overView(data.A10213,"overview.A10213");
+
+		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp) || /padding6 {overview\.A1021([0123]).{0,12}\.display/.test(htmlTemp))){
+			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
+		}
+		// 涉诉信息 （失信记录）
+		overView(data.A10206,"overview.A10206");
+		// 经营风险
+		overView(data.A10207,"overview.A10207");
+		// 工商基本情况
+		overView(data.A10208,"overview.A10208");
+		// 破产重组
+		overView(data.A10209,"overview.A10209");
 		// 限制高消费
 		// overView(data.A10214,"overview.A10214");
-
+		if(!(/A1020([6789]).{0,12}\.display/.test(htmlTemp))){
+			htmlTemp = htmlTemp.replace("{overview.risk.display}", "display-none");
+		}
 	}else{
 		overView(data.B10201,"overview.B10201");
 		overView(data.B10202,"overview.B10202");
@@ -1109,7 +1109,7 @@ function exportTemplate(source,exportType) {
 			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
 		}
 		if(!(/padding6 {overview\.B1020[345]\.display/.test(htmlTemp))){
-			htmlTemp = htmlTemp.replace("{overview.lawsuit.display}", "display-none");
+			htmlTemp = htmlTemp.replace("{overview.risk.display}", "display-none");
 		}
 	}
 	htmlTemp = htmlTemp.replace(/及以前年/g, "年及以前");
@@ -1300,12 +1300,11 @@ function exportTemplate(source,exportType) {
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>有效期：</span>" +
-						"<span class='n-desc'>"+ (item.gmtValidityPeriodStart + '至' + item.gmtValidityPeriodEnd ||'--' ) +"</span>" +
+						"<span class='n-desc'>"+ (item.gmtValidityPeriodStart || '--') + '至' + (item.gmtValidityPeriodEnd ||'--' ) +"</span>" +
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>面积：</span>" +
-						"<span class='n-desc'>"+ (item.area ? item.area + '平方米' : '--' ) +"</span>" +
-						// "<span class='n-desc'>"+ (item.area ? fun.floatFormat(item.area) + '平方米' : '--' ) +"</span>" +
+						"<span class='n-desc'>"+ (item.area ? fun.floatFormat(item.area) + '平方米' : '--' ) +"</span>" +
 						"</div>"+
 						"</li>" +
 						"</td></tr>");
@@ -2247,7 +2246,7 @@ function exportTemplate(source,exportType) {
 
 function writeFile() {
 	var str = (flag) => exportCover(_dataSource, flag) + exportTemplate(_dataSource, flag);
-	fs.writeFile(root + "/dist/demo.html", str(false), (error) => {
+	fs.writeFile(root + "/dist/demo.html", str(true), (error) => {
 		error && console.log('error');
 	});
 }

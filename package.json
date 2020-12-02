@@ -35,8 +35,8 @@
     "tl:ob-build": "node ./template/sever/ob-build.js",
     "tl:db-dev": "set NODE_ENV=dev&& node ./template/sever/db-dev.js",
     "tl:db-build": "node ./template/sever/db-build.js",
-    "ep:dev": "set NODE_ENV=dev&& node ./export-task/business@1.1/scripts/dev.js",
-    "ep:build": "node ./export-task/business@1.1/scripts/build.js",
+    "db:dev": "set NODE_ENV=dev&& node ./export-task/business@2.6/scripts/dev.js",
+    "db:build": "node ./export-task/business@2.6/scripts/build.js",
     "portrait:dev": "set NODE_ENV=dev && node ./export-task/portrait@2.6/scripts/dev.js",
     "portrait:build": "node ./export-task/portrait@2.6/scripts/build.js"
   },
