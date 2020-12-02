@@ -152,8 +152,6 @@ const assets = {
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/finance/financeCount', { params })
 			.then(res => Object.assign(res.data, { id, field: 'auctionFinance' })),
-		// count: (params, id) => service.get('/yc/search/portrait/company/asset/finance/financeCount', { params })
-		// 	.then(res => Object.assign(res.data, { id, field: 'auctionFinance', data: { auctionFinance: 10, financeInvestment: 22, finance: 33 } })),
 	},
 	financialMerchants: {
 		id: 10802,
@@ -162,8 +160,6 @@ const assets = {
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/finance/financeCount', { params })
 			.then(res => Object.assign(res.data, { id, field: 'financeInvestment' })),
-		// count: (params, id) => service.get('/yc/search/portrait/company/asset/finance/financeCount', { params })
-		// 	.then(res => Object.assign(res.data, { id, field: 'financeInvestment', data: { auctionFinance: 10, financeInvestment: 22, finance: 33 } })),
 	},
 	financialPublicity: {
 		id: 10803,
@@ -172,16 +168,14 @@ const assets = {
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/finance/financeCount', { params })
 			.then(res => Object.assign(res.data, { id, field: 'finance' })),
-		// count: (params, id) => service.get('/yc/search/portrait/company/asset/finance/financeCount', { params })
-		// 	.then(res => Object.assign(res.data, { id, field: 'finance', data: { auctionFinance: 10, financeInvestment: 22, finance: 33 } })),
 	},
-	// unblock: {
-	// 	id: 10901,
-	// 	name: '资产-查解封资产',
-	// 	list: params => service.get('/yc/search/portrait/company/asset/bidding/list', { params })
-	// 		.then(res => res.data),
-	// 	count: (params, id) => service.get('/yc/search/portrait/company/asset/bidding/listCount', { params })
-	// 		.then(res => Object.assign(res.data, { id })),
-	// },
+	unblock: {
+		id: 10901,
+		name: '资产-查解封资产',
+		list: params => service.get('/yc/search/portrait/company/asset/unseal/unsealList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
 };
 export default assets;

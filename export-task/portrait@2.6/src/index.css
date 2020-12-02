@@ -1,5 +1,11 @@
-@font-face{font-family: "Alibaba PuHuiTi R";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Regular.otf")}
-@font-face{font-family: "Alibaba PuHuiTi M";src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Medium.otf")}
+@font-face{
+  font-family: "Alibaba PuHuiTi R";
+  src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Regular.otf")
+}
+@font-face{
+  font-family: "Alibaba PuHuiTi M";
+  src:url("/usr/share/fonts/zh_CN/Alibaba-PuHuiTi-Medium.otf")
+}
 * {
   line-height: 1.45;
   padding: 0;
@@ -21,21 +27,21 @@
 
 body {
   padding: 2px;
-  background: #ffffff url("../img/watermark.png") repeat-y center top;
-  background-size: 85%; }
-
+  background: #ffffff url("../../_assets/img/watermark.png") repeat-y center top;
+  background-size: 85%;
+}
 
 .name-dishonest{
   position: relative;
-
 }
+
 .name-dishonest .img-icon{
   position: absolute;
   bottom: 2px;
   right: -34px;
   width: 45px;
   height: 33px;
-  background-image:url("../img/icon_shixin.png") ;
+  background-image:url("../../_assets/img/icon_shixin.png") ;
   background-size: 100%;
 }
 span {
@@ -45,7 +51,7 @@ a {
   font-size: inherit; }
 
 .accurate{
-  background-image:url("../img/icon-accurate.png");
+  background-image:url("../../_assets/img/icon-accurate.png");
   background-repeat: no-repeat;
   background-size: 5%;
 }
@@ -306,5 +312,3 @@ table {
 .ft-normal{
   font-weight: normal;
 }
-
-/*# sourceMappingURL=index.css.map */

@@ -1,39 +1,27 @@
+"use strict";
 
 var fs = require('fs');
-// var cleanCSS = require('clean-css');
+const path = require('path');
 var dataSource = require('./data');
 var _dataSource = JSON.stringify(dataSource);
+const root = path.resolve(__dirname + '/../');
+const imgData = require('../../_assets/img/index');
 
-var backgroundImg  = fs.readFileSync('./template/img/watermark.png',);
-var iconImg  = fs.readFileSync('./template/img/icon_shixin.png',);
-var iconAccurateImg  = fs.readFileSync('./template/img/icon-accurate.png',);
+const { bgImgData, disIconData, accurateImgData } = imgData;
+
+// 引入画像的企业或者个人的模板是写在这个str里面的
+const { dev } = require('../src/str');
+let htmlCover = dev.htmlCover;
+let htmlPersonal = dev.htmlPersonal;
+let htmlEnterprise = dev.htmlEnterprise;
 
 // 转换为 data:image/jpeg;base64,***** 格式的字符串
 var defaultIcon ="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAA+xJREFUeAHtndtO20AQQMeXJISLAAFNkYBCkfpSVZV46De0P9KP6n/0tR9QXkrV0gfUC20aWkWkpBBIcGx3xsTgbnHi1cbejTqDrN3ZnbHXx2PvxRaxjtrhs9CHFwCwhhtLdgJ1y4HnVqMVfkMfhpcdXNKyTgDDZAnn5QjYcuZsLRJggCIRSZ0BSgITzRmgSERSZ4CSwERzBigSkdQZoCQw0ZwBikQkdQYoCUw0Z4AiEUmdAUoCE80ZoEhEUmeAksBEcwYoEpHUGaAkMNGcAYpEJHUGKAlMNGeAIhFJnQFKAhPNXbEgL333oAv1Zh9C/AvwIPQmJt6C6K0M1mBK+bg8SsljUBbXra+48HRnJq+mSu23MIBvPvUIm1Tj0oy/Nb20qsLLCwMYw7u/UgJrcJrWIBMlA8UiyFhAZXF5lA70/aPLwiENO2CBAK+aMVWKcaQ1a1R9mp+ecu5EFLkzQEWAhd/CyfZ+Pvbg9IL65HSZq9qwtVRKN9BcY3wEWuPpuHPDrDUCTY6srMSNj8CsJ6LLjgEqkmeADFCRgKK71k6EhzGKVy+LOw9jhlBSGca83O3AwowNC7NOlC5iOl0pfh6t9RYewnZkVaPlQaP1t1nJtRDmFdCtu2W4h+uGecvE9sIbSy7U5h1YRGAUeY5tgdcPodnuw0HjEl7tdfJmF+0//0uU02nMVmyYrcQ7d6KMj0vWPVxr/YJz7L5fzBxwYgHG6JIpReH0NdRkTX55IwD2MXLef+/Br9OA3oDA/LQDD9cqUMFnmulixDOQ4DXbPhBIH1e3Wmc+7H3tms4uap92gPTG7fjU/wfW7/MAetgpmC7aAVLUBSlrqtSrmi7aAZYcC1x8+N8mo19A3eZVbJl2gHS6tYWrYUjy1JfnXHARruliBMDtO2Wolm9glRHcg1Vz34MkL6oRw5iuF8LOZhV+tL3oeVibd7E3Nv/5RyC1AaTet3HiwSF+L3N+GcDMlA2PNyrRtzFvD7tYFuJMw4aN5RKsLrrXXzMkr74JeW0A39W78BPHfrF0ugG8/ohjPyTbH/TKZ70A9nGMeIzjwkfrBU8x4oaNSLUBbOM4T5S0+etJ5wa06KNb1wbwyXYVLvA2zSI61vmytItstAEs4zyXtkkXbQBVwVEnZIIUDnAfFzvHIR8M+U6wsIH0On5YOQ6hm56+xaS1v2HbZq08jsON3Af/35iRiIYbFBaBw5sxubUMUPHaMUAGqEhA0Z0jkAEqElB05whkgIoEFN05AhmgIgFFd45ABqhIQNGdI5ABKhJQdOcIZICKBBTdOQIZoCIBRXeOwDEArCvu4392r9v0kw5IgCHKh0H0cxh/AGhL8KPsv+MKAAAAAElFTkSuQmCC";
 
-var backgroundImgData = 'data:image/png;base64,' +  new Buffer.alloc(65*1024,backgroundImg).toString('base64');
-var iconImgData = 'data:image/png;base64,' +  new Buffer.alloc(4*1024,iconImg).toString('base64');
-var iconAccurateImgData = 'data:image/png;base64,' +  new Buffer.alloc(3*1024,iconAccurateImg).toString('base64');
-
-var htmlResultStr1  = fs.readFileSync('./template/src/enterprise.html','utf8');
-var htmlResultStr2  = fs.readFileSync('./template/src/personal.html','utf8');
-var htmlCover  = fs.readFileSync('./template/src/cover.html','utf8');
-
-const cssResult  = fs.readFileSync('./template/src/index.css','utf8');
-
-var htmlEnterprise = htmlResultStr1.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___",cssResult);
-var htmlPersonal = htmlResultStr2.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g,'').replace("___style___",cssResult);
-
-htmlEnterprise = htmlEnterprise.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
-htmlPersonal = htmlPersonal.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`);
-htmlEnterprise = htmlEnterprise.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
-htmlPersonal = htmlPersonal.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
-htmlCover = htmlCover.replace(/\/usr\/share\/fonts\/zh_CN/g,"./fonts");
-
 /* 导出画像模板-封面 */
 function exportCover(source,exportType) {
 	var data = JSON.parse(source)||{};
-	htmlCover = htmlCover.replace("../img/watermark.png",backgroundImgData);
+	htmlCover = htmlCover.replace("../../_assets/img/watermark.png", bgImgData);
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlCover = htmlCover.replace(/{base.dateTime}/g, dataTime);
 	var info='';
@@ -158,8 +146,8 @@ function exportTemplate(source,exportType) {
 				{id: 2, value: '探矿权'},
 			],
 			rightsType: [
-				{id: 1, value: '商标权'},
-				{id: 2, value: '专利权'},
+				{id: 1, value: '商标'},
+				{id: 2, value: '专利'},
 			],
 			taxRole:[
 				{id: 1, value: "作为纳税主体", field: ""},
@@ -353,8 +341,8 @@ function exportTemplate(source,exportType) {
 			if (!item && item !== 0) {
 				return '-';
 			}
-			var type = Number.parseFloat(item);
-			var bol = Number.isNaN(type);
+			var type = parseFloat(item);
+			var bol = isNaN(type);
 			if (bol) {
 				result = item;
 				return result;
@@ -386,9 +374,9 @@ function exportTemplate(source,exportType) {
 
 	var htmlTemp = exportType ? htmlEnterprise : htmlPersonal;
 
-	htmlTemp = htmlTemp.replace("../img/watermark.png",backgroundImgData);
-	htmlTemp = htmlTemp.replace("../img/icon_shixin.png",iconImgData);
-	htmlTemp = htmlTemp.replace("../img/icon-accurate.png",iconAccurateImgData);
+	htmlTemp = htmlTemp.replace("../../_assets/img/watermark.png", bgImgData);
+	htmlTemp = htmlTemp.replace("../../_assets/img/icon_shixin.png", disIconData);
+	htmlTemp = htmlTemp.replace("../../_assets/img/icon-accurate.png", accurateImgData);
 	/* 基本信息模块 */
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlTemp = htmlTemp.replace(/{base.dateTime}/g, dataTime);
@@ -578,64 +566,64 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		// 金融资产
-		else if(viewName === "overview.A10213"){
-			if((source.financeInfos||[]).length){
-				fun.source.financialType.forEach(function (i) {
-					var result = false;
-					source.financeInfos.forEach(function (item) {
-						if(item.type === i.id){
-							if(item.count){
-								result = true;
-								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
-								// 项目类型分布
-								if(item.financeProjectType.length){
-									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".financeProjectType.list}",
-										overViewTable(item.financeProjectType, 4, {
-											name: "type",
-											count: "count",
-											options: fun.source.financeProjectType,
-										}))
-								}
-								// 项目状态分布
-								if((item.investmentProjectStatus || []).length){
-									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".investmentProjectStatus.list}",
-										overViewTable(item.investmentProjectStatus, 4, {
-											name: "type",
-											count: "count",
-											options: fun.source.investmentProjectStatus,
-										}))
-								}
-								// 项目状态分布
-								if((item.projectStatus || []).length){
-									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".projectStatus.list}",
-										overViewTable(item.projectStatus, 4, {
-											name: "status",
-											count: "count",
-											options: fun.source.projectStatusType,
-										}))
-								}
-								// 年份分布
-								if((item.yearDistribution || []).length){
-									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
-										overViewTable(fun.toGetYearList(item.yearDistribution), 5, {
-											name: "year",
-											count: "count",
-											nameUnit:"年"
-										}))
-								}
-							}
-						}
-					});
-					if (!result){
-						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
-					}
-				})
-			}else{
-				htmlTemp = htmlTemp.replace("{" + viewName + ".bidding.display}", "display-none");
-				htmlTemp = htmlTemp.replace("{" + viewName + ".merchants.display}", "display-none");
-				htmlTemp = htmlTemp.replace("{" + viewName + ".publicity.display}", "display-none");
-			}
-		}
+		// else if(viewName === "overview.A10213"){
+		// 	if((source.financeInfos||[]).length){
+		// 		fun.source.financialType.forEach(function (i) {
+		// 			var result = false;
+		// 			source.financeInfos.forEach(function (item) {
+		// 				if(item.type === i.id){
+		// 					if(item.count){
+		// 						result = true;
+		// 						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
+		// 						// 项目类型分布
+		// 						if(item.financeProjectType.length){
+		// 							htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".financeProjectType.list}",
+		// 								overViewTable(item.financeProjectType, 4, {
+		// 									name: "type",
+		// 									count: "count",
+		// 									options: fun.source.financeProjectType,
+		// 								}))
+		// 						}
+		// 						// 项目状态分布
+		// 						if((item.investmentProjectStatus || []).length){
+		// 							htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".investmentProjectStatus.list}",
+		// 								overViewTable(item.investmentProjectStatus, 4, {
+		// 									name: "type",
+		// 									count: "count",
+		// 									options: fun.source.investmentProjectStatus,
+		// 								}))
+		// 						}
+		// 						// 项目状态分布
+		// 						if((item.projectStatus || []).length){
+		// 							htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".projectStatus.list}",
+		// 								overViewTable(item.projectStatus, 4, {
+		// 									name: "status",
+		// 									count: "count",
+		// 									options: fun.source.projectStatusType,
+		// 								}))
+		// 						}
+		// 						// 年份分布
+		// 						if((item.yearDistribution || []).length){
+		// 							htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
+		// 								overViewTable(fun.toGetYearList(item.yearDistribution), 5, {
+		// 									name: "year",
+		// 									count: "count",
+		// 									nameUnit:"年"
+		// 								}))
+		// 						}
+		// 					}
+		// 				}
+		// 			});
+		// 			if (!result){
+		// 				htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
+		// 			}
+		// 		})
+		// 	}else{
+		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".bidding.display}", "display-none");
+		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".merchants.display}", "display-none");
+		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".publicity.display}", "display-none");
+		// 	}
+		// }
 		// 招投标
 		else if(viewName === "overview.A10211"){
 			if(source.bidding){
@@ -653,37 +641,37 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		// 查解封资产
-		else if(viewName === "overview.A10212"){
-			if(source.unsealCount){
-				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
-				if((source.yearDistributions || []).length){
-					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
-						overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
-							name: "year",
-							count: "count",
-							nameUnit:"年"
-						}))
-				}
-			}else{
-				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
-			}
-		}
+		// else if(viewName === "overview.A10212"){
+		// 	if(source.unsealCount){
+		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
+		// 		if((source.yearDistributions || []).length){
+		// 			htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
+		// 				overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
+		// 					name: "year",
+		// 					count: "count",
+		// 					nameUnit:"年"
+		// 				}))
+		// 		}
+		// 	}else{
+		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+		// 	}
+		// }
 		// 限制高消费
-		else if(viewName === "overview.A10214"){
-			if(source.limitHeightCount){
-				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.limitHeightCount);
-				if(source.yearDistributions.length){
-					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
-						overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
-							name: "year",
-							count: "count",
-							nameUnit: "年"
-						}))
-				}
-			}else{
-				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
-			}
-		}
+		// else if(viewName === "overview.A10214"){
+		// 	if(source.limitHeightCount){
+		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.limitHeightCount);
+		// 		if(source.yearDistributions.length){
+		// 			htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
+		// 				overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
+		// 					name: "year",
+		// 					count: "count",
+		// 					nameUnit: "年"
+		// 				}))
+		// 		}
+		// 	}else{
+		// 		htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+		// 	}
+		// }
 
 		// 资产概况
 		else if(viewName==="overview.B10202"){
@@ -1086,20 +1074,6 @@ function exportTemplate(source,exportType) {
 		overView(data.A10204,"overview.A10204");
 		// 动产抵押
 		overView(data.A10205,"overview.A10205");
-		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp))){
-			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
-		}
-		// 涉诉信息 （失信记录）
-		overView(data.A10206,"overview.A10206");
-		if(!(/A10206.{0,12}\.display/.test(htmlTemp))){
-			htmlTemp = htmlTemp.replace("{overview.lawsuit.display}", "display-none");
-		}
-		// 经营风险
-		overView(data.A10207,"overview.A10207");
-		// 工商基本情况
-		overView(data.A10208,"overview.A10208");
-		// 破产重组
-		overView(data.A10209,"overview.A10209");
 		// 无形资产
 		overView(data.A10210,"overview.A10210");
 		// 招投标
@@ -1108,9 +1082,23 @@ function exportTemplate(source,exportType) {
 		overView(data.A10212,"overview.A10212");
 		// 金融资产
 		overView(data.A10213,"overview.A10213");
+
+		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp) || /padding6 {overview\.A1021([0123]).{0,12}\.display/.test(htmlTemp))){
+			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
+		}
+		// 涉诉信息 （失信记录）
+		overView(data.A10206,"overview.A10206");
+		// 经营风险
+		overView(data.A10207,"overview.A10207");
+		// 工商基本情况
+		overView(data.A10208,"overview.A10208");
+		// 破产重组
+		overView(data.A10209,"overview.A10209");
 		// 限制高消费
 		// overView(data.A10214,"overview.A10214");
-
+		if(!(/A1020([6789]).{0,12}\.display/.test(htmlTemp))){
+			htmlTemp = htmlTemp.replace("{overview.risk.display}", "display-none");
+		}
 	}else{
 		overView(data.B10201,"overview.B10201");
 		overView(data.B10202,"overview.B10202");
@@ -1121,7 +1109,7 @@ function exportTemplate(source,exportType) {
 			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
 		}
 		if(!(/padding6 {overview\.B1020[345]\.display/.test(htmlTemp))){
-			htmlTemp = htmlTemp.replace("{overview.lawsuit.display}", "display-none");
+			htmlTemp = htmlTemp.replace("{overview.risk.display}", "display-none");
 		}
 	}
 	htmlTemp = htmlTemp.replace(/及以前年/g, "年及以前");
@@ -1312,12 +1300,11 @@ function exportTemplate(source,exportType) {
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>有效期：</span>" +
-						"<span class='n-desc'>"+ (item.gmtValidityPeriodStart + '至' + item.gmtValidityPeriodEnd ||'--' ) +"</span>" +
+						"<span class='n-desc'>"+ (item.gmtValidityPeriodStart || '--') + '至' + (item.gmtValidityPeriodEnd ||'--' ) +"</span>" +
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>面积：</span>" +
-						"<span class='n-desc'>"+ (item.area ? item.area + '平方米' : '--' ) +"</span>" +
-						// "<span class='n-desc'>"+ (item.area ? fun.floatFormat(item.area) + '平方米' : '--' ) +"</span>" +
+						"<span class='n-desc'>"+ (item.area ? fun.floatFormat(item.area) + '平方米' : '--' ) +"</span>" +
 						"</div>"+
 						"</li>" +
 						"</td></tr>");
@@ -2258,11 +2245,11 @@ function exportTemplate(source,exportType) {
 }
 
 function writeFile() {
-
-	var str =(flag)=>exportCover(_dataSource, flag)+exportTemplate(_dataSource, flag);
-	fs.writeFile("./template/result/demo.html", str(true), (error) => {
+	var str = (flag) => exportCover(_dataSource, flag) + exportTemplate(_dataSource, flag);
+	fs.writeFile(root + "/dist/demo.html", str(true), (error) => {
 		error && console.log('error');
 	});
 }
+
 writeFile();
 module.exports = {exportTemplate, exportCover, writeFile};

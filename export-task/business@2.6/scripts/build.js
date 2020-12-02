@@ -14,7 +14,7 @@ const root = path.resolve(__dirname,'../dist');
 const minifyCss = new cleanCSS().minify(cssResult);
 let htmlResult = htmlResultStr.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g, `<style>${minifyCss.styles}</style>`);
 
-const html =minify(htmlResult, {
+const html = minify(htmlResult, {
 	processScripts: ['text/html'],
 	collapseWhitespace: true,
 	minifyJS: {
