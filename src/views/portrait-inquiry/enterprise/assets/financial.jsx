@@ -57,9 +57,9 @@ export default class Financial extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">金融资产</div>}
 				/>
 				<div className="inquiry-public-table" style={{ paddingTop: 0 }}>
-					{sourceType === 10801 ? <Bidding /> : null}
-					{sourceType === 10802 ? <Merchants /> : null}
-					{sourceType === 10803 ? <Publicity /> : null}
+					{sourceType === 10801 ? <Bidding portrait="enterprise" /> : null}
+					{sourceType === 10802 ? <Merchants portrait="enterprise" /> : null}
+					{sourceType === 10803 ? <Publicity portrait="enterprise" /> : null}
 				</div>
 			</div>
 		);
