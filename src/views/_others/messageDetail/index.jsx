@@ -29,15 +29,22 @@ import RealEstate from './component/real-estate/index';
 const createForm = Form.create;
 
 // 这个type只有两类， 1，资产挖掘， 2，风险监控
+// ruleName 数组的时候是经营风险的权限校验， 字符串的时候是其他模块的校验
 const isRule = (ruleName, type, rule) => {
-	if (ruleName) {
-		if (type === 1) {
-			return Object.keys(rule.menu_zcwj.children).indexOf(ruleName) >= 0;
-		}
-		if (type === 2) {
-			return Object.keys(rule.menu_fxjk.children).indexOf(ruleName) >= 0;
-		}
-		return false;
+	if (Array.isArray(ruleName) && ruleName.length > 0) {
+		let ruleBool = false;
+		ruleName.forEach((item) => {
+			if (Object.keys(rule.menu_fxjk.children).indexOf(item) >= 0) {
+				ruleBool = true;
+			}
+		});
+		return ruleBool;
+	}
+	if (type === 1) {
+		return Object.keys(rule.menu_zcwj.children).indexOf(ruleName) >= 0;
+	}
+	if (type === 2) {
+		return Object.keys(rule.menu_fxjk.children).indexOf(ruleName) >= 0;
 	}
 	return false;
 };
@@ -64,170 +71,195 @@ const getCount = (data, dataType) => {
 	return count;
 };
 
-const subItems = (rule, data) => ([
-	{
-		dataType: 101,
-		name: '资产拍卖',
-		total: data ? getCount(data, 101) : 0,
-		tagName: 'message-auction',
-		status: isRule('zcwjzcpm', 1, rule),
-		component: Assets,
-	},
-	{
-		dataType: 102,
-		name: '代位权',
-		total: data ? getCount(data, 102) : 0,
-		tagName: 'message-subrogation',
-		status: isRule('zcwjdwq', 1, rule),
-		component: Subrogation,
-		childrenCount: [
-			{ name: '立案', count: data ? getCount(data, 10201) : 0, dataType: 10201 },
-			{ name: '开庭', count: data ? getCount(data, 10202) : 0, dataType: 10202 },
-			{ name: '文书', count: data ? getCount(data, 10203) : 0, dataType: 10203 },
-		],
-	},
-	{
-		dataType: 103,
-		name: '土地信息',
-		tagName: 'message-land',
-		total: data ? data ? getCount(data, 103) : 0 : 0,
-		status: isRule('zcwjtdsj', 1, rule),
-		component: Land,
-		childrenCount: [
-			{ name: '出让结果', count: data ? getCount(data, 10301) : 0, dataType: 10301 },
-			{ name: '土地转让', count: data ? getCount(data, 10302) : 0, dataType: 10302 },
-			{ name: '土地抵押', count: data ? getCount(data, 10303) : 0, dataType: 10303 },
-		],
-	},
-	{
-		dataType: 104,
-		name: '招投标',
-		total: data ? getCount(data, 104) : 0,
-		status: isRule('zcwjzbzb', 1, rule),
-		tagName: 'message-tender',
-		component: Bidding,
-	},
-	{
-		dataType: 105,
-		name: '股权质押',
-		total: data ? getCount(data, 105) : 0,
-		status: isRule('zcwjgqzy', 1, rule),
-		tagName: 'message-equityPledge',
-		component: EquityPledge,
-	},
-	{
-		dataType: 106,
-		name: '金融资产',
-		total: data ? getCount(data, 106) : 0,
-		status: isRule('zcwjjrzj', 1, rule),
-		tagName: 'message-financial',
-		component: Financial,
-		childrenCount: [
-			{ name: '竞价项目', count: data ? getCount(data, 10601) : 0, dataType: 10601 },
-			{ name: '招商项目', count: data ? getCount(data, 10603) : 0, dataType: 10603 },
-			{ name: '公示项目', count: data ? getCount(data, 10602) : 0, dataType: 10602 },
-		],
-	},
-	{
-		dataType: 107,
-		name: '动产抵押',
-		total: data ? getCount(data, 107) : 0,
-		status: isRule('zcwjdcdy', 1, rule),
-		tagName: 'message-intangible',
-		component: ChattelMortgage,
-	},
-	{
-		dataType: 113,
-		name: '查/解封资产',
-		total: data ? getCount(data, 113) : 0,
-		status: isRule('zcwjcjfzc', 1, rule),
-		tagName: 'message-unBlock',
-		component: UnBlock,
-	},
-	{
-		dataType: 115,
-		name: '不动产登记',
-		total: data ? getCount(data, 115) : 0,
-		status: isRule('zcwjbdcdj', 1, rule),
-		tagName: 'message-realEstate',
-		component: RealEstate,
-	},
-	{
-		dataType: 116,
-		name: '车辆信息',
-		total: data ? getCount(data, 116) : 0,
-		status: isRule('zcwjclxx', 1, rule),
-		tagName: 'message-car',
-		component: Car,
-	},
-	{
-		dataType: 108,
-		name: '无形资产',
-		total: data ? getCount(data, 108) : 0,
-		status: isRule('zcwjwxzc', 1, rule),
-		tagName: 'message-invisibleAssets',
-		component: IntangibleAssets,
-		childrenCount: [
-			{ name: '排污权', count: data ? getCount(data, 10801) : 0, dataType: 10801 },
-			{ name: '矿业权', count: data ? getCount(data, 10802) : 0, dataType: 10802 },
-			{ name: '商标专利', count: data ? getCount(data, 10803) : 0, dataType: 10803 },
-			{ name: '建筑建造资质', count: data ? getCount(data, 10804) : 0, dataType: 10804 },
-		],
-	},
-	{
-		dataType: 109,
-		name: '涉诉监控',
-		total: data ? getCount(data, 109) : 0,
-		status: isRule('fxjkssjk', 2, rule),
-		tagName: 'message-litigation',
-		component: LitigationMonitoring,
-		childrenCount: [
-			{ name: '立案', count: data ? getCount(data, 10901) : 0, dataType: 10901 },
-			{ name: '开庭', count: data ? getCount(data, 10902) : 0, dataType: 10902 },
-			{ name: '裁判文书', count: data ? getCount(data, 10903) : 0, dataType: 10903 },
-		],
-	},
-	{
-		dataType: 110,
-		name: '企业破产重组',
-		total: data ? getCount(data, 110) : 0,
-		status: isRule('fxjkqypccz', 2, rule),
-		tagName: 'message-bankruptcy',
-		component: Bankrupt,
-	},
-	{
-		dataType: 111,
-		name: '失信记录',
-		total: data ? getCount(data, 111) : 0,
-		status: isRule('jkxxsxjl', 2, rule),
-		tagName: 'message-dishonesty',
-		component: Dishonesty,
-	},
-	{
-		dataType: 114,
-		name: '限制高消费',
-		total: data ? getCount(data, 114) : 0,
-		status: isRule('fxjkxzgxf', 2, rule),
-		tagName: 'message-limit',
-		component: LimitHeight,
-	},
-	{
-		dataType: 112,
-		name: '经营风险',
-		total: data ? getCount(data, 112) : 0,
-		status: isRule('jyfxsswf', 2, rule),
-		tagName: 'message-businessRisk',
-		component: BusinessRisk,
-		childrenCount: [
-			{ name: '税收违法', count: data ? getCount(data, 11201) : 0, dataType: 11201 },
-			{ name: '环保处罚', count: data ? getCount(data, 11202) : 0, dataType: 11202 },
-			{ name: '经营异常', count: data ? getCount(data, 11203) : 0, dataType: 11203 },
-			{ name: '工商变更', count: data ? getCount(data, 11204) : 0, dataType: 11204 },
-			{ name: '严重违法', count: data ? getCount(data, 11205) : 0, dataType: 11205 },
-			{ name: '行政处罚', count: data ? getCount(data, 11206) : 0, dataType: 11206 },
-		],
-	},
-]);
+const getAllSum = (data) => {
+	let sum = 0;
+	data.forEach((item) => {
+		if (item.status) {
+			sum += item.count;
+		}
+	});
+	return sum;
+};
+
+const subItems = (rule, data) => {
+	const riskchildren = [
+		{
+			name: '经营异常', count: data ? getCount(data, 11203) : 0, status: isRule('jyfxjyyc', 2, rule), dataType: 11203,
+		},
+		{
+			name: '工商变更', count: data ? getCount(data, 11204) : 0, status: isRule('jyfxgsbg', 2, rule), dataType: 11204,
+		},
+		{
+			name: '严重违法', count: data ? getCount(data, 11205) : 0, status: isRule('jyfxyzwf', 2, rule), dataType: 11205,
+		},
+		{
+			name: '税收违法', count: data ? getCount(data, 11201) : 0, status: isRule('jyfxsswf', 2, rule), dataType: 11201,
+		},
+		{
+			name: '行政处罚', count: data ? getCount(data, 11206) : 0, status: isRule('jyfxxzcf', 2, rule), dataType: 11206,
+		},
+		{
+			name: '环保处罚', count: data ? getCount(data, 11202) : 0, status: isRule('jyfxhbcf', 2, rule), dataType: 11202,
+		},
+	];
+	return 	[
+		{
+			dataType: 101,
+			name: '资产拍卖',
+			total: data ? getCount(data, 101) : 0,
+			tagName: 'message-auction',
+			status: isRule('zcwjzcpm', 1, rule),
+			component: Assets,
+		},
+		{
+			dataType: 102,
+			name: '代位权',
+			total: data ? getCount(data, 102) : 0,
+			tagName: 'message-subrogation',
+			status: isRule('zcwjdwq', 1, rule),
+			component: Subrogation,
+			childrenCount: [
+				{ name: '立案', count: data ? getCount(data, 10201) : 0, dataType: 10201 },
+				{ name: '开庭', count: data ? getCount(data, 10202) : 0, dataType: 10202 },
+				{ name: '文书', count: data ? getCount(data, 10203) : 0, dataType: 10203 },
+			],
+		},
+		{
+			dataType: 103,
+			name: '土地信息',
+			tagName: 'message-land',
+			total: data ? data ? getCount(data, 103) : 0 : 0,
+			status: isRule('zcwjtdsj', 1, rule),
+			component: Land,
+			childrenCount: [
+				{ name: '出让结果', count: data ? getCount(data, 10301) : 0, dataType: 10301 },
+				{ name: '土地转让', count: data ? getCount(data, 10302) : 0, dataType: 10302 },
+				{ name: '土地抵押', count: data ? getCount(data, 10303) : 0, dataType: 10303 },
+			],
+		},
+		{
+			dataType: 104,
+			name: '招投标',
+			total: data ? getCount(data, 104) : 0,
+			status: isRule('zcwjzbzb', 1, rule),
+			tagName: 'message-tender',
+			component: Bidding,
+		},
+		{
+			dataType: 105,
+			name: '股权质押',
+			total: data ? getCount(data, 105) : 0,
+			status: isRule('zcwjgqzy', 1, rule),
+			tagName: 'message-equityPledge',
+			component: EquityPledge,
+		},
+		{
+			dataType: 106,
+			name: '金融资产',
+			total: data ? getCount(data, 106) : 0,
+			status: isRule('zcwjjrzj', 1, rule),
+			tagName: 'message-financial',
+			component: Financial,
+			childrenCount: [
+				{ name: '竞价项目', count: data ? getCount(data, 10601) : 0, dataType: 10601 },
+				{ name: '招商项目', count: data ? getCount(data, 10603) : 0, dataType: 10603 },
+				{ name: '公示项目', count: data ? getCount(data, 10602) : 0, dataType: 10602 },
+			],
+		},
+		{
+			dataType: 107,
+			name: '动产抵押',
+			total: data ? getCount(data, 107) : 0,
+			status: isRule('zcwjdcdy', 1, rule),
+			tagName: 'message-intangible',
+			component: ChattelMortgage,
+		},
+		{
+			dataType: 113,
+			name: '查/解封资产',
+			total: data ? getCount(data, 113) : 0,
+			status: isRule('zcwjcjfzc', 1, rule),
+			tagName: 'message-unBlock',
+			component: UnBlock,
+		},
+		{
+			dataType: 115,
+			name: '不动产登记',
+			total: data ? getCount(data, 115) : 0,
+			status: isRule('zcwjbdcdj', 1, rule),
+			tagName: 'message-realEstate',
+			component: RealEstate,
+		},
+		{
+			dataType: 116,
+			name: '车辆信息',
+			total: data ? getCount(data, 116) : 0,
+			status: isRule('zcwjclxx', 1, rule),
+			tagName: 'message-car',
+			component: Car,
+		},
+		{
+			dataType: 108,
+			name: '无形资产',
+			total: data ? getCount(data, 108) : 0,
+			status: isRule('zcwjwxzc', 1, rule),
+			tagName: 'message-invisibleAssets',
+			component: IntangibleAssets,
+			childrenCount: [
+				{ name: '排污权', count: data ? getCount(data, 10801) : 0, dataType: 10801 },
+				{ name: '矿业权', count: data ? getCount(data, 10802) : 0, dataType: 10802 },
+				{ name: '商标专利', count: data ? getCount(data, 10803) : 0, dataType: 10803 },
+				{ name: '建筑建造资质', count: data ? getCount(data, 10804) : 0, dataType: 10804 },
+			],
+		},
+		{
+			dataType: 109,
+			name: '涉诉监控',
+			total: data ? getCount(data, 109) : 0,
+			status: isRule('fxjkssjk', 2, rule),
+			tagName: 'message-litigation',
+			component: LitigationMonitoring,
+			childrenCount: [
+				{ name: '立案', count: data ? getCount(data, 10901) : 0, dataType: 10901 },
+				{ name: '开庭', count: data ? getCount(data, 10902) : 0, dataType: 10902 },
+				{ name: '裁判文书', count: data ? getCount(data, 10903) : 0, dataType: 10903 },
+			],
+		},
+		{
+			dataType: 110,
+			name: '企业破产重组',
+			total: data ? getCount(data, 110) : 0,
+			status: isRule('fxjkqypccz', 2, rule),
+			tagName: 'message-bankruptcy',
+			component: Bankrupt,
+		},
+		{
+			dataType: 111,
+			name: '失信记录',
+			total: data ? getCount(data, 111) : 0,
+			status: isRule('jkxxsxjl', 2, rule),
+			tagName: 'message-dishonesty',
+			component: Dishonesty,
+		},
+		{
+			dataType: 114,
+			name: '限制高消费',
+			total: data ? getCount(data, 114) : 0,
+			status: isRule('fxjkxzgxf', 2, rule),
+			tagName: 'message-limit',
+			component: LimitHeight,
+		},
+		{
+			dataType: 112,
+			name: '经营风险',
+			total: data ? getAllSum(riskchildren) : 0,
+			status: isRule(['jyfxjyyc', 'jyfxgsbg', 'jyfxyzwf', 'jyfxsswf', 'jyfxxzcf', 'jyfxhbcf'], 2, rule),
+			tagName: 'message-businessRisk',
+			component: BusinessRisk,
+			childrenCount: riskchildren,
+		},
+	];
+};
 
 class MessageDetail extends React.Component {
 	constructor(props) {
@@ -298,7 +330,7 @@ class MessageDetail extends React.Component {
 	}
 
 	// 点击上移
-	handleScroll=(eleID) => {
+	handleScroll = (eleID) => {
 		const dom = document.getElementById(eleID);
 		console.log('height === ', document.getElementById(eleID).offsetTop);
 		if (dom) {
@@ -324,13 +356,6 @@ class MessageDetail extends React.Component {
 				this.setState({
 					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
 				});
-				// this.setState({
-				// 	config: subItems(rule, [...res.data.categoryCount,
-				// 		{ dataCount: 23, dataType: 10601, typeName: '金融资产-竞价项目' },
-				// 		{ dataCount: 55, dataType: 10602, typeName: '金融资产-招商项目' },
-				// 		{ dataCount: 88, dataType: 10603, typeName: '金融资产-公示项目' },
-				// 	]).filter(item => item.status && item.total > 0),
-				// });
 			}
 		}).catch((err) => {
 			console.log('err === ', err);
@@ -358,7 +383,7 @@ class MessageDetail extends React.Component {
 		const {
 			config, newMonitorCount, invalidCount, effectiveCount, loading, obligorInfo, affixed, obligorId, stationId, isShowBackTopImg, reportDate,
 		} = this.state;
-		// console.log('state render === ', this.state);
+		console.log('config === ', config);
 		return (
 			<div>
 				<div className="messageDetail">

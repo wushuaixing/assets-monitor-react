@@ -1,4 +1,4 @@
-var fs =require('fs');
+var fs = require('fs');
 var cleanCSS = require('clean-css');
 var minify = require('html-minifier').minify;
 var UglifyJS = require("uglify-js");
@@ -12,6 +12,9 @@ const backgroundImgData = 'data:image/png;base64,' + new Buffer.alloc(65 * 1024,
 
 var iconImg  = fs.readFileSync('./template/img/icon_shixin.png',);
 var iconImgData = 'data:image/png;base64,' +  new Buffer.alloc(4*1024,iconImg).toString('base64');
+
+var iconAccurateImg  = fs.readFileSync('./template/img/icon-accurate.png',);
+var iconAccurateImgData = 'data:image/png;base64,' +  new Buffer.alloc(3*1024, iconAccurateImg).toString('base64');
 
 const cssResult  = fs.readFileSync('./template/src/index.css','utf8');
 const minifyCss = new cleanCSS().minify(cssResult);
@@ -72,11 +75,12 @@ var htmlCover = ${JSON.stringify(html_cover)};
 var htmlEnterprise = ${JSON.stringify(html_E)};
 var htmlPersonal = ${JSON.stringify(html_P)};
 var backgroundImgData = "${backgroundImgData}";
+var iconAccurateImgData = "${iconAccurateImgData}";
 var iconImgData = "${iconImgData}";
 var defaultIcon = "${defaultIcon}";
 
 ${methods.exportCover};
 ${methods.exportTemplate}`;
 
-fs.writeFileSync("./template/result/outputHtml.js",resultCode);
-fs.writeFileSync("./template/result/outputHtml.min.js",UglifyJS.minify(resultCode).code);
+fs.writeFileSync("./template/result/outputHtml.js", resultCode);
+fs.writeFileSync("./template/result/outputHtml.min.js", UglifyJS.minify(resultCode).code);

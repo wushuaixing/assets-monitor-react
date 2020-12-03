@@ -79,6 +79,17 @@ const dd ={
 	"DA10602":"/yc/obligor/monitor/asset/mortgage/people/list", // 动产抵押_抵押权
 	"DA10701":"/yc/obligor/monitor/asset/bidding/list", // 招投标
 
+	// 金融资产
+	"DA10801": "/yc/obligor/monitor/asset/finance/auctionBidding/list", // 竞价项目
+	"DA10802": "/yc/obligor/monitor/asset/finance/finance/list", // 招商项目
+	"DA10803": "/yc/obligor/monitor/asset/finance/finance/list", // 公示项目
+	// 查解封资产
+	"DA10901": "/yc/obligor/monitor/asset/unseal/unsealList",
+
+	/*债务人详情，风险*/
+	// 限制高消费
+	"DR20501": "/yc/obligor/monitor/risk/LimitHeightList",
+
 	/* 风险 */
 	"DR30201":"/yc/obligor/monitor/risk/bankruptcy/list", // 破产重组
 	"DR20604":"/yc/obligor/monitor/risk/lawsuit/judgment-document/list", // 涉诉文书

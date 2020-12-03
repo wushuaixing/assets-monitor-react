@@ -106,12 +106,12 @@ export default class AssetAuction extends React.Component {
 		return (
 			<div>
 				{
-					accurate.count > 0 && (
+					(accurate.count || blurry.count) > 0 && (
 					<Spin visible={loading}>
 						<div className="overview-container-title">
 							<div className="overview-left-item" />
 							<span className="container-title-num">
-								{`${accurate.count} 条`}
+								{`${accurate.count + blurry.count} 条`}
 							</span>
 							<span className="container-title-name">资产拍卖</span>
 						</div>

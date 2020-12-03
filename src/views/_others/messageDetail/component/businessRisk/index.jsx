@@ -45,19 +45,25 @@ class BusinessRisk extends Component {
 							<div className="messageDetail-table-container">
 								{
 									config.map(item => (
-										item.count > 0
+										item.count > 0 && item.status
 										&& (
 											<div>
 												<div className="messageDetail-table-subTitle" style={{ width: parseInt(item.name.length * 10 + 35, 10) }}>
 													{item.name}
 													<span>{item.count}</span>
 												</div>
-												{ item.dataType === 11201 && <IllegalTaxation dataType={11201} {...peopleProps} />}
-												{ item.dataType === 11202 && <EnvironmentPunishment dataType={11202} {...peopleProps} />}
+												{/* 经营异常 */}
 												{ item.dataType === 11203 && <AbnormalOperation dataType={11203} {...peopleProps} />}
+												{/* 工商变更 */}
 												{ item.dataType === 11204 && <BusinessChange dataType={11204} {...peopleProps} />}
+												{/* 严重违法 */}
 												{ item.dataType === 11205 && <Illegal dataType={11205} {...peopleProps} />}
+												{/* 税收违法 */}
+												{ item.dataType === 11201 && <IllegalTaxation dataType={11201} {...peopleProps} />}
+												{/* 行政处罚 */}
 												{ item.dataType === 11206 && <AdministrativePenalties dataType={11206} {...peopleProps} />}
+												{/* 环保处罚 */}
+												{ item.dataType === 11202 && <EnvironmentPunishment dataType={11202} {...peopleProps} />}
 											</div>
 										)
 									))

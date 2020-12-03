@@ -110,7 +110,7 @@ class BusinessDebtor extends React.Component {
 	};
 
 	// 导出
-	toExportCondition=(type) => {
+	toExportCondition = (type) => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const {
@@ -147,11 +147,10 @@ class BusinessDebtor extends React.Component {
 		});
 	};
 
-	onShowSizeChange=(p) => {
+	onShowSizeChange = (p) => {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const values = getFieldsValue();
-
 		const params = {
 			...values,
 			page: 1,
@@ -160,7 +159,7 @@ class BusinessDebtor extends React.Component {
 		};
 		this.setState({ pageSize: p });
 		this.getData(params);
-	}
+	};
 
 
 	// 重置输入框
@@ -234,15 +233,15 @@ class BusinessDebtor extends React.Component {
 					} else if (res.code === 9003) {
 						message.error(res.message);
 					}
-				}).catch(()=>{
+				}).catch(() => {
 					that.setState({ loading: false });
 				});
 			},
 			onCancel() {},
 		});
-	}
+	};
 
-	handleOpenPush=() => {
+	handleOpenPush = () => {
 		const { selectIds } = this.state;
 		const that = this;
 		if (selectIds.length === 0) {
@@ -270,7 +269,7 @@ class BusinessDebtor extends React.Component {
 				});
 			},
 			onCancel() {},
-		}).catch(()=>{
+		}).catch(() => {
 			that.setState({ loading: false });
 		});
 	};

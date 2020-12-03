@@ -34,7 +34,7 @@ function getTypeName(arr, mapType) {
 		if (mapType === 'publicity') {
 			typeNameArr.push({ ...i, type: financeProjectTypeMap.get(i.type) });
 		} else {
-			typeNameArr.push({ ...i, type: projectStatusMap.get(i.type) });
+			typeNameArr.push({ ...i, type: projectStatusMap.get(i.status) });
 		}
 	});
 	return typeNameArr;

@@ -1,29 +1,20 @@
 "use strict";
 
-var fs = require('fs');
+const fs = require('fs');
+const path = require('path');
 const ENV = process.env.NODE_ENV;
+const root = path.resolve(__dirname+'/../');
+const _dataPath = path.resolve(__dirname+'../../../_analog-data');
 
+const imgData = require('../../_assets/img/index');
+const { bgImgData, deIconData,	personData,	businessData,	disIconData,	disEdIconData,	accurateImgData } = imgData;
 
-const toBase64 = (file, size) => 'data:image/png;base64,' + new Buffer.alloc(size, file).toString('base64');
+const { dev } =require('../src/str');
 
-const bgImgData = toBase64(fs.readFileSync('./template/img/watermark.png'), 65 * 1024);
-const deIconData = toBase64(fs.readFileSync('./template/img/debtor.png'), 2 * 1024);
-const personData = toBase64(fs.readFileSync('./template/img/person.png'), 2 * 1024);
-const businessData = toBase64(fs.readFileSync('./template/img/business.png'), 2 * 1024);
-const disIconData = toBase64(fs.readFileSync('./template/img/icon_shixin.png'), 4 * 1024);
-const disEdIconData = toBase64(fs.readFileSync('./template/img/icon_dishonest_ed.png'), 4 * 1024);
-const accurateImgData = toBase64(fs.readFileSync('./template/img/icon-accurate.png'), 3 * 1024);
+let htmlResult = dev.main;
+let htmlCover = dev.cover;
 
-let htmlResultStr = fs.readFileSync('./template/src/detail/index.html', 'utf8');
-let htmlCoverStr = fs.readFileSync('./template/src/detail/cover.html', 'utf8');
-let cssResult = fs.readFileSync('./template/src/detail/index.css', 'utf8');
-
-let htmlResult = htmlResultStr.replace(/<link rel="stylesheet" type="text\/css" href="index.css">/g, `<style>${cssResult}</style>`);
-htmlResult = htmlResult.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`).replace(/\/usr\/share\/fonts\/zh_CN/g, "./fonts");
-
-let htmlCover = htmlCoverStr.replace("<body>", `<body style="max-width: 904px;margin:0 auto">`).replace(/\/usr\/share\/fonts\/zh_CN/g, "./fonts");
-
-/* 导出画像模板-封面 */
+/* 导出详情-封面 */
 function exportCover(source, exportType) {
 	var d = JSON.parse(source) || {};
 	htmlCover = htmlCover.replace("../../img/watermark.png", bgImgData);
@@ -32,7 +23,7 @@ function exportCover(source, exportType) {
 	var userInfo = '', data = '';
 	if (exportType === 'debtor') {
 		data = d.DB10101 || {};
-		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情");
+		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情查询报告");
 		userInfo = ("<div class='exp-name'>" + (data.obligorName || '-') + "<br/>" + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
 	} else {
 		data = d.BB10101 || {};
@@ -43,14 +34,46 @@ function exportCover(source, exportType) {
 	return htmlCover;
 }
 
-/* 导出画像模板-内容 */
+/* 导出详情-内容 */
 function exportTemplate(source, exportType, name) {
 	var dd = {
-		// overview: {
-		// 	name: '概览',
-		// 	about: '{overview.content}',
-		// 	child: []
-		// },
+		overview: {
+			name: '概览',
+			about: '{overview.content}',
+			status:'EP',
+			child: [
+				{ id: "DO1000" ,title:'资产概况',status:'EP',
+					child:[
+						{ id:"DO10100",title:"相关资产拍卖",status:'EP'},
+						{ id:"DO10200",title:"代位权信息",status:'E'},
+						{ id:"DO10200",title:"代位权信息 (裁判文书) ",status:'P'},
+						{ id:"DO10300",title:"土地信息",status:'BE'},
+						{ id:"DO10400",title:"无形资产信息",status:'BE'},
+						{ id:"DO10500",title:"股权质押信息",status:'BE'},
+						{ id:"DO10600",title:"动产抵押信息",status:'BE'},
+						{ id:"DO10700",title:"相关招投标信息",status:'BE'},
+					]
+				},
+				{ id: "DO2000" ,title:'风险信息',status:'EP',
+					child:[
+						{ id:"DO20400",title:"失信记录",status:'EP'},
+						{ id:"DO20600",title:"涉诉信息",status:'E'},
+						{ id:"DO20600",title:"涉诉信息 (裁判文书) ", status:'P'},
+						{ id:"DO30200",title:"破产重组信息",status:'E'},
+						{ id:"DO30300",title:"经营风险信息",status:'E'},
+						{ id:"DO30500",title:"税收违法",status:'P'},
+					]
+				},
+				{
+					id: "DO5000", title: '工商基本信息', status: 'E',
+					child: [
+						{id: "DO50000", title: "基本信息", status: 'E', show: true, type: 1 },
+						{id: "DO50000", title: "股东情况", status: 'E' , type: 2},
+						{id: "DO50000", title: "企业规模", status: 'E', show: true, type: 3 },
+					]
+				},
+			]
+		},
 		assets: {
 			name: '资产',
 			about: '{assets.content}',
@@ -58,6 +81,9 @@ function exportTemplate(source, exportType, name) {
 			child: [
 				{id: 'A10101', title: '资产拍卖_精准匹配', status: 'BEP'},
 				{id: 'A10102', title: '资产拍卖_模糊匹配', status: 'BEP'},
+				{id: 'A10301', title: '土地信息_出让结果', status: 'BE'},
+				{id: 'A10302', title: '土地信息_土地转让', status: 'BE'},
+				{id: 'A10303', title: '土地信息_土地抵押', status: 'BE'},
 				{id: 'A10401', title: '无形资产_排污权', status: 'BE'},
 				{id: 'A10402', title: '无形资产_矿业权', status: 'BE'},
 				{id: 'A10403', title: '无形资产_商标专利', status: 'BE'},
@@ -72,6 +98,10 @@ function exportTemplate(source, exportType, name) {
 				{id: 'A10502', title: '股权质押_股权质权', status: 'BE'},
 				{id: 'A10601', title: '动产抵押_抵押', status: 'BE'},
 				{id: 'A10602', title: '动产抵押_抵押权', status: 'BE'},
+				{id: 'A10901', title: '查/解封资产', status: 'BE'},
+				{id: 'A10801', title: '金融资产_竞价项目', status: 'BE'},
+				{id: 'A10802', title: '金融资产_招商项目', status: 'BE'},
+				{id: 'A10803', title: '金融资产_公示项目', status: 'BE'},
 				{id: 'A10701', title: '招投标', status: 'BE'},
 			]
 		},
@@ -84,7 +114,8 @@ function exportTemplate(source, exportType, name) {
 				{id: 'R20604', title: '涉诉文书', status: 'P'},
 				{id: 'R20401', title: '失信记录_列入', desc: '列入', status: 'BEP'},
 				{id: 'R20402', title: '失信记录_已移除', desc: '已移除', status: 'BEP'},
-				// {id: 'R20502', title: '限高记录', status: 'BEP'	},
+				{id: 'R20501', title: '限制高消费', status: 'BEP'	},
+				{id: 'R20604', title: '涉诉文书', status: 'P'},
 				{id: 'R20601', title: '涉诉信息_立案', status: 'BE'},
 				{id: 'R20602', title: '涉诉信息_开庭', status: 'BE'},
 				{id: 'R20603', title: '涉诉信息_裁判文书', status: 'BE'},
@@ -144,11 +175,12 @@ function exportTemplate(source, exportType, name) {
 		// （1-即将开始、3-正在进行、5-已成交、7-已流拍、9-中止、11-撤回）
 		auction: {
 			1: {t: '即将开始', dot: 'warning'},
-			3: {t: '正在进行', dot: 'warning'},
+			3: {t: '正在进行', dot: 'normal'},
 			5: {t: '已成交', dot: 'success'},
 			7: {t: '已流拍', dot: 'gary'},
 			9: {t: '中止', dot: 'gary'},
 			11: {t: '撤回', dot: 'gary'},
+			13: {t: '结束', dot: 'gary'}
 		},
 		process: {
 			0: {t: '未跟进', tag: ''},
@@ -167,7 +199,35 @@ function exportTemplate(source, exportType, name) {
 			0: "未知",
 			1: "商标",
 			2: "专利",
-		}
+		},
+		category: {
+			200794003: '其他交通工具',
+			50025970: '土地',
+			50025975: '工程',
+			50025974: '矿权',
+			122406001: '无形资产',
+			56936003: '机械设备',
+			50025973: '林权',
+			200778005: '海域',
+			125228021: '船舶',
+		  125088031: '股权',
+		  50025971: '实物资产',
+		  50025972: '机动车',
+		  201290015: '奢侈品',
+		  50025969: '房产',
+		  56956002: '债权',
+		  50025976: '其他',
+			0: '未知',
+		},
+		projectType: {
+			'1': '股权项目',
+			'2': '债权项目',
+			'3': '资产项目',
+			'4': '租赁项目',
+			'5': '增资项目',
+			'6': '其他项目',
+			'-1': '未知'
+		},
 	};
 	// public function object
 	var f = {
@@ -246,31 +306,31 @@ function exportTemplate(source, exportType, name) {
 			}
 			return arr1.join('') + (unit || '');
 		},
-		normalList: function (list) {
+		normalList: function (list, subscript, cotClass) {
 			var result = '';
 			var separator = '<div class=\"n-line\"></div>';
-			var getDesc = function (item) {
+			var getDesc = function (item, index) {
 				var dot = item.dot ? ("<i class=\"" + item.dot + "\"></i>") : '';
-				return (dot + (item.t ? ("<u>" + item.t + "</u>") : '') + (item.cot || '-'));
+				return (dot + (item.t ? ("<u>" + item.t + "</u>") : '') + (subscript === index && cotClass ? "<span class=\"" + cotClass + "\">" + item.cot +"</span>" : (item.cot || '-')));
 			};
-			list.forEach(function (i) {
+			list.forEach(function (i, index) {
 				if (!i) result += '';
 				else {
 					if (i.length !== undefined) {
 						result += "<li>";
 						i.forEach(function (childItem) {
 							if (childItem.ET) {
-								result += (childItem.ET === 'B' ? (separator + getDesc(childItem)) : '')
+								result += (childItem.ET === 'B' ? (separator + getDesc(childItem, index)) : '')
 							} else {
-								result += (separator + getDesc(childItem));
+								result += (separator + getDesc(childItem, index));
 							}
 						});
 						result += "</li>";
 					} else {
 						if (i.ET) {
-							result += (i.ET === 'B' ? ("<li>" + getDesc(i) + "</li>") : '')
+							result += (i.ET === 'B' ? ("<li>" + getDesc(i, index) + "</li>") : '')
 						} else {
-							result += ("<li>" + getDesc(i) + "</li>")
+							result += ("<li>" + getDesc(i, index) + "</li>")
 						}
 					}
 				}
@@ -350,12 +410,59 @@ function exportTemplate(source, exportType, name) {
 			}
 			return '';
 		},
+		toGetYearList:function (list,field) {
+			if(list.length>5){
+				list.sort(function (a,b) { return b.year-a.year;});
+				var base = (list.slice(0, 4)).sort(function (a, b) {return a.year - b.year;});
+				var other = list.slice(4);
+				var otherText= other[0].year;
+				var otherCount = 0;
+				other.forEach(function (item) { otherCount+=item.count; });
+				base.unshift({
+					count:otherCount,
+					year:otherText+'及以前'
+				});
+				return base;
+			}
+			if(field){
+				list.sort(function (a, b) {return a[field] - b[field];})
+			}
+			list.forEach(function (item) {
+				if (item.year === 0) item.year = '未知';
+				if (/\d{4}/.test(item.year)) item.year=(item.year+'').replace(/(\d{4})/,'$1年');
+			});
+			return list;
+		},
 	};
 	var w = function (value, o) {
 		var option = o || {};
 		if (value === '-') return (option.defaultWord || '-');
 		var showStr = option.show ? option.prefix : '';
 		return value ? ((option.prefix || '') + value + (option.unit || '')) : (showStr + (option.defaultWord || '-'));
+	};
+	// 枚举映射
+	var mapping = {
+		year: {label: 'year', value: 'count'},
+		caseType: {label: 'type', value: 'count'},
+		typeName: {label: 'typeName', value: 'count'},
+	};
+	var enumerate = {
+		stock:[
+			{id: 1, value: "股权持有人"},
+			{id: 2, value: "股权质权人"},
+		],
+		mortgage: [
+			{id: 1, value: "抵押物所有人"},
+			{id: 2, value: "抵押权人"},
+		],
+		auctionType: [
+			{id: 1, value: "即将开始"},
+			{id: 3, value: "正在进行"},
+			{id: 5, value: "已成交"},
+			{id: 7, value: "已流拍"},
+			{id: 9, value: "中止"},
+			{id: 11, value: "撤回"},
+		],
 	};
 
 	var matchReason = function (data) {
@@ -393,13 +500,13 @@ function exportTemplate(source, exportType, name) {
 	};
 
 	f.replaceHtml([
-		{f: "../../img/watermark.png", v: bgImgData},
-		{f: "../../img/debtor.png", v: deIconData},
-		{f: "../../img/person.png", v: personData},
-		{f: "../../img/business.png", v: businessData},
-		{f: "../../img/icon_dishonest_ed.png", v: disEdIconData},
-		{f: "../../img/icon_shixin.png", v: disIconData},
-		{f: "../../img/icon-accurate.png", v: accurateImgData},
+		{f: "../../_assets/img/watermark.png", v: bgImgData},
+		{f: "../../_assets/img/debtor.png", v: deIconData},
+		{f: "../../_assets/img/person.png", v: personData},
+		{f: "../../_assets/img/business.png", v: businessData},
+		{f: "../../_assets/img/icon_dishonest_ed.png", v: disEdIconData},
+		{f: "../../_assets/img/icon_shixin.png", v: disIconData},
+		{f: "../../_assets/img/icon-accurate.png", v: accurateImgData},
 		{f: "{base.queryTime}", v: f.time()}]);
 
 	/* draw normal table */
@@ -486,6 +593,7 @@ function exportTemplate(source, exportType, name) {
 		var list = '';
 		var dot = true;
 		switch (taxon) {
+			// 业务相关人列表
 			case 'BB10102': {
 				list = drawTable(data.list, [
 					{t: '相关人名称', f: BB.obligorName},
@@ -495,6 +603,7 @@ function exportTemplate(source, exportType, name) {
 				]);
 				break;
 			}
+			// 关联业务列表 || 相关业务列表
 			case 'DB10102': {
 				list = drawTable(data.list, [
 					{t: '业务编号', f: 'caseNumber'},
@@ -503,12 +612,15 @@ function exportTemplate(source, exportType, name) {
 				]);
 				break;
 			}
+			// 资产拍卖_精准匹配
 			case 'A10101':
+			// 资产拍卖_模糊匹配
 			case 'A10102': {
 				data.list.forEach(function (i) {
 					var process = i.process !== 0 ? (s.process[i.process] || {}) : {};
 					var auction = s.auction[i.status] || {};
 					var optionPrice = {unit: '元', defaultWord: '未知'};
+					var priceSpan = "<span></span>"
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
 						+ f.tag(process.t, process.tag)
@@ -529,7 +641,9 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 涉诉信息_立案
 			case 'R20601':
+			// 代位权_立案
 			case 'A10201': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -545,7 +659,9 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 涉诉信息_开庭
 			case 'R20602':
+			// 代位权_开庭
 			case 'A10202': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -561,8 +677,11 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 涉诉信息_裁判文书
 			case 'R20603':
+			// 涉诉文书
 			case 'R20604':
+			// 代位权_裁判文书
 			case 'A10203': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -580,6 +699,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 土地信息_出让结果
 			case 'A10301': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -603,6 +723,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 土地信息_土地转让
 			case 'A10302': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -624,6 +745,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 土地信息_土地抵押
 			case 'A10303': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -648,6 +770,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 无形资产_排污权
 			case 'A10401': {
 				data.list.forEach(function (i) {
 					var gmtValidityPeriod = (i.gmtValidityPeriodEnd && i.gmtValidityPeriodStart)
@@ -671,6 +794,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 无形资产_矿业权
 			case 'A10402': {
 				data.list.forEach(function (i) {
 					var gmtValidityPeriod = (i.gmtValidityPeriodEnd && i.gmtValidityPeriodStart)
@@ -691,6 +815,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 无形资产_商标专利
 			case 'A10403': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -701,6 +826,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 无形资产_建筑建造资质
 			case 'A10404': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -718,6 +844,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 股权质押_股权出质
 			case 'A10501': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -740,6 +867,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 股权质押_股权质权
 			case 'A10502': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -762,6 +890,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 动产抵押_抵押
 			case 'A10601': {
 				data.list.forEach(function (i) {
 					var statusInfo = i.status ? [
@@ -790,6 +919,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 动产抵押_抵押权
 			case 'A10602': {
 				data.list.forEach(function (i) {
 					var statusInfo = i.status ? [
@@ -818,7 +948,9 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 招投标
 			case 'A10701':
+			// 环保处罚
 			case 'R30701': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -828,6 +960,72 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 金融资产_竞价项目
+			case 'A10801': {
+				data.list.forEach(function (i) {
+					var auction = s.auction[i.status] || {};
+					var optionPrice = {unit: '元', defaultWord: '未知'};
+					list += "<tr><td>"
+						+ f.urlDom(i.title, i.url)
+						+ "</td><td class='financialbid'>" + f.normalList([
+							{cot: auction.t, dot: auction.dot},
+							{t: '评估价', cot: w(f.threeDigit(i.consultPrice), optionPrice)},
+							{t: (i.status === 5 ? '成交价': '当前价'), cot: w(f.threeDigit(i.currentPrice), optionPrice)},
+							{t: '开拍时间', cot: f.time(i.start, 's')},
+							{t: '结束时间', cot: f.time(i.end, 's')},
+						], i.status === 5 ? 2: '', 'success') + "</td></tr>";
+				});
+				break;
+			}
+			// 金融资产_招商项目
+			case 'A10802': {
+				data.list.forEach(function (i) {
+					var category = s.category[i.category] || "";
+					var auction = s.auction[i.status] || {};
+					list += "<tr><td class=\"" + (i.accurateType === 1 ? "accurate " : "" )+ "p-top-space\">"
+						+ ( category ? f.tag(category, 'horizontal-space') : '')
+						+ f.urlDom(i.title, i.url)
+						+ "</td><td>" + f.normalList([
+							{cot: auction.t, dot: auction.dot},
+							{t: '发布日期', cot: i.publishTime},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			// 金融资产_公示项目
+			case 'A10803': {
+				data.list.forEach(function (i) {
+					var projectType = s.projectType[i.projectType + ''] || {};
+					list += "<tr><td>"
+						+ f.tag(projectType, 'right-space')
+						+ f.urlDom(i.title, i.sourceUrl)
+						+ "</td><td>" + f.normalList([
+							{t: '发布日期', cot: i.gmtPublish},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			// 查/解封资产
+			// i.dataType： 2 文书 1：不动产
+			case 'A10901': {
+				tableClass = '';
+				data.list.forEach(function (i) {
+					var unblockTitle = i.dataType === 2 ? f.urlDom(i.title, i.url) : (i.information ? i.information : i.address);
+					list += "<tr><td>"
+						+ unblockTitle
+						+ "</td>" +
+						"<td class=\"w-200\">" + f.normalList([
+							{t: '关联案号', cot: i.caseNumber},
+							{t: '执行法院', cot: i.court},
+						]) + "</td>" +
+						"<td class=\"w-200\">" + f.normalList([
+							i.dataType === 2 ? {t: '判决日期', cot: i.judementTime} : {t: '查封日期', cot: i.sealUpTime},
+							i.dataType === 2 ? {t: '发布日期', cot: i.publishTime} : {t: '解封日期', cot: i.unsealingTime},
+						]) + "</td></tr>";
+				});
+				break;
+		}
+			// 破产重组
 			case 'R30201': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -840,7 +1038,9 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 失信记录_列入
 			case 'R20401':
+			// 失信记录_已移除
 			case 'R20402': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -860,6 +1060,26 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 限制高消费
+			case 'R20501': {
+				data.list.forEach(function (i) {
+					// 1：企业 2：个人
+					var associatedObject = i.obligorType === 1 ? i.personName : i.companyName;
+					list += "<tr>"
+						+ "<td>"
+						+ "<li>" + i.caseNumber + "</li>"
+						+ f.normalList(i.obligorType === 2 && !i.companyName ? [] : [
+							{t: '关联对象', cot: associatedObject}
+						])
+						+ "</td>"
+						+ "<td>" + f.normalList([
+							{t: '立案日期', cot: i.registerDate},
+						]) + "</td>"
+						+ "</tr>";
+				});
+				break;
+			}
+			// 经营异常
 			case 'R30301': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -882,6 +1102,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 严重违法
 			case 'R30401': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -895,7 +1116,7 @@ function exportTemplate(source, exportType, name) {
 							{t: '列入原因', cot: w(i.putReason)},
 							{t: '具体事实', cot: i.fact},
 						])
-						+ "</td><td>" + f.normalList(i.gmtRemoveDate ? [
+						+ "</td><td>" + f.normalList(i.gmtRemoveDate || i.removeReason || i.removeDepartment ? [
 							{dot: dot, cot: '已移除'},
 							{t: '移除日期', cot: f.time(i.gmtRemoveDate)},
 							{t: '移除原因', cot: w(i.removeReason)},
@@ -906,6 +1127,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 税收违法
 			case 'R30501': {
 				data.list.forEach(function (i) {
 					var resParty = handleTax(i.parties);
@@ -929,6 +1151,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 行政处罚
 			case 'R30601': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
@@ -945,6 +1168,7 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 基本信息
 			case 'I50101': {
 				list = "<tr><td>法定代表人</td><td>{legalPerson}</td><td>组织机构代码</td><td>{orgNumber}</td></tr><tr><td>统一社会信用代码</td><td>{creditCode}</td><td>纳税人识别号</td><td>{taxNumber}</td></tr><tr><td>成立日期</td><td>{establishTime}</td><td>营业期限</td><td>{timeLimit}</td></tr><tr><td>注册资本</td><td>{regCapital}</td><td>实缴资本</td><td>{actualCapital}</td></tr><tr><td>经营状态</td><td>{regStatus}</td><td>登记机关</td><td>{regInstitute}</td></tr><tr><td>企业类型</td><td>{companyOrgType}</td><td>核准日期</td><td>{approvedTime}</td></tr><tr><td>所属行业</td><td>{industry}</td><td>工商注册号</td><td>{regNumber}</td></tr><tr><td>人员规模</td><td>{scale}</td><td>参保人数</td><td>{insuranceNum}</td></tr><tr><td>英文名</td><td>{englishName}</td><td>注册地址</td><td>{regLocation}</td></tr><tr><td>经营范围</td><td colspan='3'>{businessScope}</td></tr>";
 				["legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
@@ -954,6 +1178,7 @@ function exportTemplate(source, exportType, name) {
 				list = list.replace("{timeLimit}", timeLimit);
 				break;
 			}
+			// 主要人员
 			case 'I50201': {
 				list = drawTable(data, [
 					{t: '序号', f: 'index', w: '40'},
@@ -962,6 +1187,7 @@ function exportTemplate(source, exportType, name) {
 				]);
 				break;
 			}
+			// 股东信息
 			case 'I50301': {
 				list = drawTable(data, [
 					{t: '序号', f: 'index', w: 40},
@@ -971,6 +1197,7 @@ function exportTemplate(source, exportType, name) {
 				]);
 				break;
 			}
+			// 分支机构
 			case 'I50501': {
 				list = drawTable(data.list, [
 					{t: '序号', f: 'index', w: 40},
@@ -982,6 +1209,7 @@ function exportTemplate(source, exportType, name) {
 				]);
 				break;
 			}
+			// 对外投资
 			case 'I50601': {
 				list = drawTable(data.list, [
 					{t: '序号', f: 'index', w: 40},
@@ -994,6 +1222,7 @@ function exportTemplate(source, exportType, name) {
 				]);
 				break;
 			}
+			// 工商变更
 			case 'I50701': {
 				list = drawTable(data.list, [
 					{t: '序号', f: 'index', w: 30},
@@ -1064,8 +1293,8 @@ function exportTemplate(source, exportType, name) {
 	if (TYPE === 'D') {
 		if (Status === 'E') {
 			f.replaceHtml([
-				{f: '{base.logo}', v: item.logoUrl || ''},
-				{f: '{base.logo-icon}', v: 'debtor-img'},
+				{f: '{base.logo}', v: item.logoUrl?("<img src=\""+item.logoUrl+"\" alt=\"\">"):''},
+				{f: '{base.logo-icon}', v: item.logoUrl?"":'debtor-img'},
 				{f: '{base.content-type}', v: 'content-max'},
 				{
 					f: '{base.content}', v: (
@@ -1111,16 +1340,480 @@ function exportTemplate(source, exportType, name) {
 		}]);
 	}
 
+	// 计算子项总数
+	var getCount = function (i,field) {
+		var total = 0;
+		(i||[]).forEach(function (item) { total += (item||{})[field]; });
+		return total;
+	};
+	var getCountObj = function (i,fields) {
+		var total = 0;
+		(fields||[]).forEach(function (item) { total +=((i||{})[item]||0) });
+		return total;
+	};
+
+
+	// overview 概览模块
+	// item 里面有name, about, status, child(里面有三个子对象)
+	var drawOverview = function (item){
+		/*
+		* config 里面是配置
+		* config.prefix 前缀
+		* config.suffix 后缀
+		* config.title 标题
+		* config.col 列 只需要传入列就可以了，不需要传入行数
+		**/
+		var drawOverViewTable = function(data, config) {
+			if(!data){
+				return '';
+			}
+			if(Array.isArray(data) && data.length === 0){
+				return '';
+			}
+			var title = config.title ? "<li class='f-b'>" + config.title + "</li>" : '';
+			if(config.col > 0){
+				var row = Math.ceil(data.length / config.col);
+				var res = [];
+				for(var i = 1; i <= row; i += 1){
+					var childList = (data || []).slice(config.col * i - config.col, config.col* i);
+					var childRes = "<tr>";
+					if(childList.length < config.col){
+						childList = childList.concat(new Array(config.col - childList.length));
+					}
+					(childList || []).forEach(function (item) {
+						if(item){
+							childRes += item.count > 0 ? ("<td><span class=\"mg-r\">" + item.label  + "：</span>" +
+								"<span class=\"fw-bold \">" + item.count + "</span><span>条" + (Array.isArray(config.remark) && config.remark.length && item.invalidCount> 0 ? "<span class=\"remark\">(" + config.remark[0] + item.invalidCount + config.remark[1] + ")</span>" : '') + "</span></td>") : '';
+						}
+						else {
+							childRes +="<td></td>";
+						}
+					});
+					childRes += "</tr>";
+					res.push(childRes);
+				}
+				var selfColTable =  res.length > 0 ? "<table class='table-border'>" + res.join("") + "</table>" : null;
+				return "<div class='content'>" + title + selfColTable + "</div>";
+			}
+			else {
+				var content = "";
+				(data || []).forEach(function (item) {
+					content += "<td>" + item.label + "：<span class='f-b'>" + item.count + "</span> 条 </td>";
+				});
+				var table = "<table class='table-border'><tr>" + content + "</tr></table>";
+				return "<div class='content'>" + title + table + "</div>";
+			}
+		};
+
+		var getBaseInfo = function (data, config) {
+			if(!data){
+				return ''
+			}
+			var content = "<tr><td>成立日期</td><td>{establishTime}</td><td>法人</td><td>{legalPersonName}</td></tr><tr><td>注册资本</td><td>{regCapital}</td><td>注册地址</td><td>{regLocation}</td></tr><tr><td>企业状态</td><td colspan='3'>{regStatus}</td></tr>";
+			["establishTime", "legalPersonName", "regCapital", "regLocation", "regStatus"].forEach(function (item) {
+				content = content.replace("{" + item + "}", data[item] || '-')
+			});
+			if ((config.show) && data) {
+				return "<div class=\"entry-title\"><div class=\"title\">" +
+					"</div><div class=\"content\">" + "<table class=\"table-border mg8 table-baseInfo\">" + content + "</table>" + "</div></div>"
+			}
+		};
+
+		// 股东情况
+		var getShareholder = function (data, option) {
+			if(!data){
+				return '';
+			}
+			var list = drawTable(data, [
+				{t: '序号', f: 'index', w: 40},
+				{t: '股东基本信息', f: 'name'},
+				{t: '出资比例', f: 'rate'},
+				{t: '认缴出资额', f: 'amount'},
+			]);
+			if (data && list) {
+				return "<div><div class=\"content\"><table class=\"table-border\">" + list + "</table></div></div>"
+			}
+		};
+
+		var peopleInfo = function (data, config) {
+			var content = "<tr><td>人员规模</td><td>{employeeNum}</td></tr>";
+			["employeeNum"].forEach(function (item) {
+				content = content.replace("{" + item + "}", data[item] || '-')
+			});
+			if ((config.show) && data) {
+				return "<div class=\"entry-title\"><div class=\"title\">" +
+					"</div><div class=\"content\">" + "<table class=\"table-border mg8 table-baseInfo\">" + content + "</table>" + "</div></div>"
+			}
+		};
+
+		var getLabel = function (data, type) {
+			if(Array.isArray(data)){
+				for (var i = 0; i < data.length; i++){
+					if(data[i].id === type){
+						return data[i].value;
+					}
+				}
+			}
+			else {
+				return '';
+			}
+		};
+
+		var changeYear = function (data) {
+			var list = [];
+			// 判断year是否有效，如果不是有效字段，归为之以前的数据
+			data.forEach(function (item) {
+				if (item.year !== 0 && item.year){
+					list.push(item);
+				}
+				else {
+					list.push({year: 0, count: item.count});
+				}
+			});
+			if(list.length > 5){
+				list.sort(function (a,b) { return b.year - a.year;});
+				var base = (list.slice(0, 4)).sort(function (a, b) {return a.year - b.year;});
+				var other = list.slice(4);
+				var otherText= other[0].year;
+				var otherCount = 0;
+				other.forEach(function (item) { otherCount += item.count; });
+				base.unshift({
+					count: otherCount,
+					year: otherText + '及以前'
+				});
+				base.forEach(function (item) {
+					if (/\d{4}/.test(item.year)) item.year= (item.year + '').replace(/(\d{4})/,'$1年');
+				});
+				return base;
+			}
+			list.forEach(function (item) {
+				if (item.year === 0 || !item.year) item.year = '未知';
+				if (/\d{4}/.test(item.year)) item.year= (item.year + '').replace(/(\d{4})/,'$1年');
+			});
+			return list;
+		};
+
+		// 转换映射，将映射值转成{label: '', count: ''}
+		var mappingData = function (data, keyValue) {
+			if(!data){
+				return '';
+			}
+			if( Array.isArray(data) && data.length === 0){
+				return '';
+			}
+			var newData = [];
+			var _data = [];
+			if(Array.isArray(keyValue)){
+				(data || []).forEach(function(item) {
+					var opItem = item;
+					opItem.label = getLabel(keyValue, item.type);
+					newData.push(opItem);
+				})
+			}
+			else {
+				if(keyValue === mapping.year){
+					_data = changeYear(data);
+					_data.forEach(function (item) {
+						newData.push({
+							label: item[keyValue.label],
+							count: item[keyValue.value]
+						});
+					});
+				}
+				else {
+					(data || []).forEach(function (item) {
+						newData.push({
+							label: item[keyValue.label],
+							count: item[keyValue.value]
+						});
+					});
+				}
+			}
+			return newData;
+		};
+
+		var intangibleAssetsMap = {
+			emission: { label: "排污权" },
+			mining: { label: "矿业权" },
+			construct: { label: "建筑建造资质" },
+			trademark: { label: "商标专利" },
+		};
+
+		var businessRisk = {
+			abnormal: { label: '经营异常'},
+			change: {label: '工商变更'},
+			punishment: {label: '行政处罚'},
+			tax: { label: '税收违法'},
+			illegal: {label: '严重违法'},
+			epb: { label: '环保处罚'},
+		};
+
+		// 没有标题的表格映射
+		var noTitleTable = function (data, mapData) {
+			var newData = [];
+			Object.keys(data || {}).forEach(function(item){
+				if(data[item] > 0 && mapData[item]){
+					newData.push({label: mapData[item].label, count: data[item]});
+				}
+			});
+			return newData;
+		};
+
+		// 绘制具体子项内容 - 3级
+		var drawItem = function (option, data) {
+			if(!data){
+				return '';
+			}
+			if(JSON.stringify(data) === '{}' || JSON.stringify(data) === '[]'){
+				return '';
+			}
+			var taxon = option.id;
+			var count = 0;
+			var showCount = '';
+			var html = '';
+			switch (taxon) {
+				// 资产拍卖
+				case "DO10100": {
+					count = data.count;
+					showCount = count > 0;
+					html += data.auctionResults.length > 0 ? drawOverViewTable(mappingData(data.auctionResults, enumerate.auctionType), {title: '拍卖结果分布', col: 4 }) : null;
+					html += data.roleDistributions.length > 0 ? drawOverViewTable(mappingData(data.roleDistributions, mapping.typeName), {title: '角色分布' }) : null;
+					break;
+				}
+				// 代位权
+				case "DO10200":{
+					count = data.count;
+					showCount = count > 0;
+					html += data.yearDistribution ? drawOverViewTable(mappingData(data.yearDistribution, mapping.year), {title: '年份分布'}, {suffix: '年'} ) : '';
+					html += data.caseReasons ? drawOverViewTable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4}) : '';
+					html += data.caseTypes ? drawOverViewTable(mappingData(data.caseTypes, mapping.caseType), {title: '案件类型分布', col: 4}) : '';
+					break;
+				}
+				// 土地信息
+				case "DO10300":{
+					count = getCount(data.infoTypes, 'count') || getCount(data.roleDistributions, 'count') || getCount(data.yearDistributions, 'count');
+					showCount = count > 0;
+					html += data.infoTypes ? drawOverViewTable(mappingData(data.infoTypes, mapping.typeName), {title: '信息类型分布', col: 4}) : '';
+					html += data.visualRoleDistributions ? drawOverViewTable(mappingData(data.visualRoleDistributions, mapping.typeName), {title: '角色分布', col: 4}) : '';
+					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布'}, {suffix: '条'}) : '';
+					break;
+				}
+				// 无效资产
+				case "DO10400":{
+					count = getCountObj(data,['construct','emission','mining','trademark'] );
+					showCount = count > 0;
+					html += data ? drawOverViewTable(noTitleTable(data, intangibleAssetsMap), { col: 4 }) : '';
+					break;
+				}
+				// 股权质押
+				case "DO10500":{
+					count = getCount(data.roleDistributions,'count') || getCount(data.yearDistributions,'count');
+					showCount = count > 0;
+					html += data.roleDistributions ? drawOverViewTable(mappingData(data.roleDistributions, enumerate.stock), {title: '角色分布', col: 4, remark: ['其中', '条质押登记状态均为无效']}) : '';
+					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布'}) : '';
+					break;
+				}
+				// 动产抵押
+				case "DO10600":{
+					count = getCount(data.roleDistributions,'count') ||  getCount(data.yearDistributions,'count');
+					showCount = count > 0;
+					html += data.roleDistributions ? drawOverViewTable(mappingData(data.roleDistributions, enumerate.mortgage), {title: '角色分布', col: 4, remark:['其中', '条抵押登记状态均为无效']}) : '';
+					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布' }, {suffix: '年'}, {suffix: '条'}) : '';
+					break;
+				}
+				// 招投标
+				case "DO10700":{
+					count = getCount(data.yearDistributions,'count');
+					showCount = count > 0;
+					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布'}) : '';
+					break;
+				}
+				// 失信记录
+				case "DO20400":{
+					count = getCount(data.yearDistributions,'count');
+					showCount = count > 0;
+					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布'}) : '';
+					break;
+				}
+				// 涉诉信息
+				case "DO20600":{
+					count = data.count;
+					showCount = count > 0;
+					html += data.yearDistribution ? drawOverViewTable(mappingData(data.yearDistribution, mapping.year), {title: '年份分布'}) : '';
+					html += data.caseReasons ? drawOverViewTable(mappingData(data.caseReasons, mapping.caseType), {title: '案由分布', col: 4}) : '';
+					html += data.caseTypes ? drawOverViewTable(mappingData(data.caseTypes, mapping.caseType), {title: '案件类型分布', col: 4}): '' ;
+					break;
+				}
+				// 破产重组
+				case "DO30200":{
+					count = getCount(data.yearDistributions,'count');
+					showCount = count > 0;
+					html += data.yearDistributions ? drawOverViewTable(mappingData(data.yearDistributions, mapping.year), {title: '年份分布' }) : '';
+					break;
+				}
+				// 经营风险
+				case "DO30300":{
+					count = getCountObj(data,['abnormal','change','epb','illegal','punishment','tax'] );
+					showCount = count > 0;
+					html += data ? drawOverViewTable(noTitleTable(data, businessRisk), { col: 4 }) : '';
+					break;
+				}
+				// 个人税收违法
+				case "DO30500":{
+					count = getCount(data.roleDistributions,'count');
+					showCount = count > 0;
+					html += data.roleDistributions ? drawOverViewTable(mappingData(data.roleDistributions, mapping.typeName), {title: '角色分布', col: 4}) : '';
+					break;
+				}
+				// 工商基本信息
+				case "DO50000":{
+					if(option.type === 1){
+						if(!data.baseInfo){
+							return ''
+						}
+						if(JSON.stringify(data.baseInfo) === '{}'){
+							return ''
+						}
+						showCount = true;
+						html = data.baseInfo && getBaseInfo(data.baseInfo, option);
+					}
+					if(option.type === 2){
+						if(!data.shareholderInfos){
+							return ''
+						}
+						if(Array.isArray(data.shareholderInfos) && data.shareholderInfos.length === 0){
+							return ''
+						}
+						showCount = true;
+						html = getShareholder(data.shareholderInfos, option, showCount);
+					}
+					if(option.type === 3){
+						if(!data.businessScaleInfo){
+							return ''
+						}
+						if(JSON.stringify(data.businessScaleInfo) === '{}'){
+							return ''
+						}
+						showCount = true;
+						html = peopleInfo(data.businessScaleInfo, option);
+					}
+					break;
+				}
+				default:{}
+			}
+			return { count: count, html: html, showCount: (showCount !== '' ? showCount: Boolean(count)) };
+		};
+
+		// 如果存在子级，画出带有子级的table
+		var drawChildTable = function (option, data, titleConfig) {
+			if(!data){
+				return '';
+			}
+			if(Array.isArray(data) && data.length > 0){
+				var table = '';
+				(data || []).forEach(function(item){
+					if(item.count > 0){
+						var res = drawItem(option, item);
+						var title = option.title;
+						title += titleConfig ? titleConfig[item.type].title : '';
+						if(res.showCount && res.count >0) title = res.count + '条 ' + title;
+						if(option.show || res.showCount){
+							var content = "<div><div class=\"title\"><div class=\"t2 f-b\">" + title + "</div>" +
+								"</div><div class=\"content\">" + res.html + "</div></div>";
+						}
+						table += content;
+					}
+				});
+				return table;
+			}
+			else if(Array.isArray(data) && data.length === 0){
+				return '';
+			}
+			else {
+				return '';
+			}
+		};
+
+		var childOverview = function (option, source) {
+			if(!source){
+				return '';
+			}
+			if(JSON.stringify(source) === '{}' || JSON.stringify(source) === '[]'){
+				return '';
+			}
+		  if(option.id === "DO10100"){
+				return drawChildTable(option, source.auctionInfos, {1: { title: '-三个月内'}, 2: { title: '-全部'}});
+			}
+		  else if(option.id === "DO10200" ){
+				return drawChildTable(option, source.subrogationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
+			}
+			else if(option.id === "DO20600"){
+				if(option.status === 'E'){
+					return drawChildTable(option, source.litigationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
+				}
+				else {
+					return drawChildTable(option, source.litigationInfos);
+				}
+			}
+			// 判断工商基本信息是否为空，如果为空，也不显示标题
+			else if(option.id === "DO50000"){
+				if(option.type === 1 && JSON.stringify(source.baseInfo) === '{}'){
+					return '';
+				}
+				if(option.type === 2 && JSON.stringify(source.shareholderInfos) === '[]'){
+					return '';
+				}
+				if(option.type === 3 && ( JSON.stringify(source.businessScaleInfo) === '{}' || !source.businessScaleInfo.employeeNum)){
+					return '';
+				}
+				var resInfo = drawItem(option, source);
+				var titleInfo = option.title;
+				if(option.show || resInfo.showCount){
+					return "<div><div class=\"title\"><div class=\"t2 f-b\">" + titleInfo + "</div>" +
+						"</div><div class=\"content\">" + resInfo.html + "</div></div>";
+				}
+			}
+			else {
+				var res = drawItem(option, source);
+				var title = option.title;
+				if(res.showCount && res.count >0) title = res.count + '条 ' + title;
+				if(option.show || res.showCount){
+					return "<div><div class=\"title\"><div class=\"t2 f-b\">" + title + "</div>" +
+						"</div><div class=\"content\">" + res.html + "</div></div>";
+				}
+				return '';
+			}
+		};
+
+		// item.child === [资产概况，风险信息，工商基本信息]
+		var allContent = '';
+		item.child.forEach(function (childItem) {
+			var child ='';
+			if (new RegExp(Status).test(childItem.status)){
+				childItem.child.forEach(function (i) {
+					if (new RegExp(Status).test(i.status)){
+						child += childOverview(i, _dataSource[i.id])
+					}
+				});
+			}
+			allContent += child ? ("<div><div class=\"t1 b-b\">" + childItem.title + "</div><div class=\"wrapper\">" + child + "</div></div>") : '';
+		});
+		return allContent;
+	};
 
 	Object.keys(dd).forEach(function (field) {
 		var item = dd[field];
 		var child = '';
-		if (new RegExp(Status).test(item.status)) {
+		var content = '';
+		if(field === 'overview'){
+			content = drawOverview(item);
+		} else if (new RegExp(Status).test(item.status)) {
 			item.child.forEach(function (i) {
 				child += childContainer(i, _dataSource[TYPE + i.id])
 			});
 		}
 		var wrapper = child ? ("<div><div class=\"t1 b-b\">" + item.name + "</div><div class=\"wrapper\">" + child + "</div></div>") : '';
+		wrapper += content;
 		f.replaceHtml([{f: item.about, v: wrapper}]);
 	});
 
@@ -1128,22 +1821,22 @@ function exportTemplate(source, exportType, name) {
 }
 
 if (ENV === 'dev') {
-	var dataSource = JSON.stringify(require('../source/test_appendfile(9).json'));
-	const exportType= 'business';
+	var dataSource = JSON.stringify(require('./data'));
+	const exportType = 'debtor';
 	var strCover = (exportType) => exportCover(dataSource, exportType);
 	var strTemplate = (exportType) => exportTemplate(dataSource, exportType);
-	fs.writeFile("./template/result/demo-db-cover.html", strCover(exportType), (error) => {
-		if (error) console.log('error');
+	fs.writeFile(root + "/dist/cover.html", strCover(exportType), (error) => {
+		if (error) console.log(error);
 		else {
 			console.log('导出模板：封面成功输出！');
-			console.warn('*************** file: ./template/result/demo-db-cover.html ****************');
+			console.warn(`*************** file: ${root + "/dist/cover.html"} ****************`);
 		}
 	});
-	fs.writeFile("./template/result/demo-db.html", strTemplate(exportType), (error) => {
+	fs.writeFile(root + "/dist/content.html", strTemplate(exportType), (error) => {
 		if (error) console.log('error');
 		else {
 			console.log('导出模板：内容成功输出！');
-			console.warn('************** file: ./template/result/demo-db.html *******************');
+			console.warn(`*************** file: ${root + "/dist/content.html"} ****************`);
 		}
 	});
 }
@@ -1152,14 +1845,4 @@ if (ENV === 'dev') {
 module.exports = {
 	exportCover,
 	exportTemplate,
-	bgImgData,
-	deIconData,
-	personData,
-	businessData,
-	disIconData,
-	disEdIconData,
-	accurateImgData,
-	htmlResultStr,
-	htmlCoverStr,
-	cssResult
 };
