@@ -87,7 +87,7 @@ function exportTemplate(source,exportType) {
 				{id: 9, value: '中止'},
 				{id: 11, value: '撤回'},
 			],
-			investmentProjectStatus: [
+			investmentProjectStatusType: [
 				{id: 1, value: '即将开始'},
 				{id: 3, value: '正在进行'},
 				{id: 5, value: '已成交'},
@@ -451,7 +451,7 @@ function exportTemplate(source,exportType) {
 		var result = false;
 		var itemData='';
 		// 资产拍卖 精准 + 模糊 （企业 + 个人)
-		if(viewName==="overview.A10201"){
+		if(viewName === "overview.A10201"){
 			if((source.auctionInfos||[]).length){
 				fun.source.matchType.forEach(function (i) {
 					var result = false;
@@ -468,6 +468,9 @@ function exportTemplate(source,exportType) {
 											options: fun.source.labelType,
 										}))
 								}
+								else {
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".role.display}", "display-none");
+								}
 								if (item.auctionResults.length) {
 									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".result.list}",
 										overViewTable(item.auctionResults, 4, {
@@ -475,6 +478,9 @@ function exportTemplate(source,exportType) {
 											count: "count",
 											options: fun.source.auctionType,
 										}));
+								}
+								else {
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".result.display}", "display-none");
 								}
 							}
 						}
@@ -576,7 +582,7 @@ function exportTemplate(source,exportType) {
 								result = true;
 								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
 								// 项目类型分布
-								if(item.financeProjectType.length){
+								if((item.financeProjectType || []).length){
 									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".financeProjectType.list}",
 										overViewTable(item.financeProjectType, 4, {
 											name: "type",
@@ -588,9 +594,9 @@ function exportTemplate(source,exportType) {
 								if((item.investmentProjectStatus || []).length){
 									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".investmentProjectStatus.list}",
 										overViewTable(item.investmentProjectStatus, 4, {
-											name: "type",
+											name: "status",
 											count: "count",
-											options: fun.source.investmentProjectStatus,
+											options: fun.source.investmentProjectStatusType,
 										}))
 								}
 								// 项目状态分布
@@ -1783,7 +1789,7 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class=\"n-icon " + fun.toGetType(item.status, fun.source.statusColor) +"\"></span>" +
-						"<span class='n-desc'>"+ ( fun.toGetType(item.status, fun.source.investmentProjectStatus) ||'--')+"</span>" +
+						"<span class='n-desc'>"+ ( fun.toGetType(item.status, fun.source.investmentProjectStatusType) ||'--')+"</span>" +
 						"</div></li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
