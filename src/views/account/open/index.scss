@@ -1,0 +1,52 @@
+.account-box{
+  padding: 20px;
+  .account-tree{
+    //修改箭头的大小
+    .ant-tree-switcher{
+      &::after{
+        font-size: 20px !important;
+      }
+    }
+    //连接节点之间的虚线
+    .line{
+      &::before{
+        content: " ";
+        width: 1px;
+        border-left: 1px dashed #DADDE6;
+        height: 100%;
+        position: absolute;
+        margin: 22px 0;
+        left: 2px;
+      }
+    }
+
+    .ant-tree-node-content-wrapper{
+      font-size: 16px;
+      font-weight: 400;
+      color: #20242E;
+      .right{
+        display: none;
+      }
+      .right{
+        font-size: 14px;
+        &:hover{
+          font-weight: bold;
+          color: #1C80E1 !important;
+        }
+      }
+    }
+
+    li a {
+      &:hover{
+        background-color: #EBF1FA;
+        .right{
+          font-size: 14px;
+          margin-left: 9px;
+          display: inline-block;
+        }
+      }
+    }
+
+  }
+
+}
