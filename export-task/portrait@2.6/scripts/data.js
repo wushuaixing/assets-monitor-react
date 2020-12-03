@@ -253,10 +253,10 @@ module.exports = {
 						typeName: '已流拍',
 					},
 				],
-				count: 44,
+				count: 4,
 				roleDistributions: [
 					{
-						count: 222,
+						count: 4,
 						type: 2,
 						typeName: '债权人',
 					},
@@ -900,66 +900,8 @@ module.exports = {
 		financeInfos: [
 			{
 				count: 10,
-				financeProjectType: [
-					{
-						count: 1,
-						type: -1,
-					},
-					{
-						count: 1,
-						type: 1,
-					},
-					{
-						count: 1,
-						type: 2,
-					},
-					{
-						count: 1,
-						type: 3,
-					},
-					{
-						count: 1,
-						type: 4,
-					},
-					{
-						count: 1,
-						type: 5,
-					},
-					{
-						count: 1,
-						type: 6,
-					},
-				],
-				investmentProjectStatus: [
-					{
-						count: 1,
-						type: 1,
-					},
-					{
-						count: 1,
-						type: 3,
-					},
-					{
-						count: 1,
-						type: 5,
-					},
-					{
-						count: 1,
-						type: 7,
-					},
-					{
-						count: 1,
-						type: 9,
-					},
-					{
-						count: 1,
-						type: 11,
-					},
-					{
-						count: 1,
-						type: 13,
-					},
-				],
+				financeProjectType: [],
+				investmentProjectStatus: [],
 				projectStatus: [
 					{
 						count: 1,
@@ -987,69 +929,15 @@ module.exports = {
 					},
 				],
 				type: 1,
-				yearDistribution: [
-					{
-						count: 2,
-						year: 2019,
-					},
-					{
-						count: 2,
-						year: 2016,
-					},
-					{
-						count: 3,
-						year: 2015,
-					},
-				],
+				yearDistribution: [],
 			},
 			{
 				count: 10,
-				financeProjectType: [
-					{
-						count: 1,
-						type: -1,
-					},
-					{
-						count: 1,
-						type: 1,
-					},
-					{
-						count: 1,
-						type: 2,
-					},
-					{
-						count: 1,
-						type: 3,
-					},
-					{
-						count: 1,
-						type: 4,
-					},
-					{
-						count: 1,
-						type: 5,
-					},
-					{
-						count: 1,
-						type: 6,
-					},
-				],
+				financeProjectType: [],
 				investmentProjectStatus: [
 					{
 						count: 1,
 						type: 1,
-					},
-					{
-						count: 1,
-						type: 3,
-					},
-					{
-						count: 1,
-						type: 5,
-					},
-					{
-						count: 1,
-						type: 7,
 					},
 					{
 						count: 1,
@@ -1065,45 +953,11 @@ module.exports = {
 					},
 				],
 				projectStatus: [
-					{
-						count: 1,
-						status: 1
-					},
-					{
-						count: 1,
-						status: 3
-					},
-					{
-						count: 1,
-						status: 5
-					},
-					{
-						count: 1,
-						status: 7
-					},
-					{
-						count: 1,
-						status: 9
-					},
-					{
-						count: 1,
-						status: 11
-					},
+
 				],
 				type: 2,
 				yearDistribution: [
-					{
-						count: 2,
-						year: 2019,
-					},
-					{
-						count: 2,
-						year: 2016,
-					},
-					{
-						count: 3,
-						year: 2015,
-					},
+
 				],
 			},
 			{
@@ -1170,27 +1024,27 @@ module.exports = {
 				],
 				projectStatus: [
 					{
-						count: 1,
+						count: 100,
 						status: 1
 					},
 					{
-						count: 1,
+						count: 100,
 						status: 3
 					},
 					{
-						count: 1,
+						count: 100,
 						status: 5
 					},
 					{
-						count: 1,
+						count: 100,
 						status: 7
 					},
 					{
-						count: 1,
+						count: 100,
 						status: 9
 					},
 					{
-						count: 1,
+						count: 100,
 						status: 11
 					},
 				],
@@ -1210,7 +1064,7 @@ module.exports = {
 					},
 				],
 			}
-		]
+			]
 	},
 	// 风险 => 限制高消费
 	A10214: {
