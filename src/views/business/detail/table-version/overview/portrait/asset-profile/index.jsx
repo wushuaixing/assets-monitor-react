@@ -30,6 +30,8 @@ import ChattelMortgage from '../card-components/chattelMortgage-card';
 import Bidding from '../card-components/bidding-card';
 import UnBlockCard from '../card-components/unblock-card';
 import FinancialCard from '../card-components/financial-card';
+import RealEstateCard from '../card-components/real-estate-card';
+import CarCard from '../card-components/car-card';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值
@@ -45,6 +47,8 @@ const apiType = (value, portrait) => {
 	case 'Mortgage': return portrait === 'business' ? businessOverviewMortgage : overviewMortgage;
 	case 'Bidding': return portrait === 'business' ? businessOverviewBidding : overviewBidding;
 	case 'UnBlock': return overviewUnBlock; // 这个目前只做了债务人，没有做业务视图的
+	case 'RealEstateCard': return overviewUnBlock; // 这个目前只做了债务人，没有做业务视图的
+	case 'CarCard': return overviewUnBlock; // 这个目前只做了债务人，没有做业务视图的
 	case 'Financial': return overviewFinancial; // 这个目前只做了债务人，没有做业务视图的
 	default: return {};
 	}
@@ -63,6 +67,8 @@ export default class AssetProfile extends React.Component {
 			biddingPropsData: {}, // 招投标
 			unblockPropsData: {}, // 查解封资产
 			financialPropsData: {}, // 金融资产
+			CarPropsData: {}, // 车辆信息
+			RealPropsData: {}, // 不动产登记
 		};
 	}
 
@@ -338,6 +344,10 @@ export default class AssetProfile extends React.Component {
 								{portrait !== 'debtor_personal' && Object.keys(financialPropsData).length !== 0 && <FinancialCard dataSource={financialPropsData} portrait={portrait} />}
 								{/* 查解封资产 */}
 								{portrait !== 'debtor_personal' && Object.keys(unblockPropsData).length !== 0 && <UnBlockCard dataSource={unblockPropsData} portrait={portrait} />}
+								{/* 不动产登记 */}
+								{portrait !== 'debtor_personal' && Object.keys(unblockPropsData).length !== 0 && <RealEstateCard dataSource={unblockPropsData} portrait={portrait} />}
+								{/* 车辆信息 */}
+								{portrait !== 'debtor_personal' && Object.keys(unblockPropsData).length !== 0 && <CarCard dataSource={unblockPropsData} portrait={portrait} />}
 								{/* 招投标 */}
 								{portrait !== 'debtor_personal' && Object.keys(biddingPropsData).length !== 0 && <Bidding dataSource={biddingPropsData} portrait={portrait} />}
 							</div>

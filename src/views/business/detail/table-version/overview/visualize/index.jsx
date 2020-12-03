@@ -24,6 +24,8 @@ import BusinessRisk from './components/businessRisk';
 import Tax from './components/tax';
 import Financial from './components/financial';
 import UnBlock from './components/unblock';
+import RealEstate from './components/real-estate';
+import Car from './components/car';
 import LimitHeight from './components/limitHeight';
 import './style.scss';
 
@@ -266,6 +268,10 @@ export default class Visualize extends React.Component {
 						{portrait !== 'debtor_personal' && <Bidding {...params} />}
 						{/* 查解封资产 */}
 						{portrait !== 'debtor_personal' && <UnBlock {...params} />}
+						{/* 查解封资产 */}
+						{portrait !== 'debtor_personal' && <RealEstate {...params} />}
+						{/* 车辆信息 */}
+						{portrait !== 'debtor_personal' && <Car {...params} />}
 						{
 							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
 							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0
