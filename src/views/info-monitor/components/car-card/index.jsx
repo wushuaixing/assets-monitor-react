@@ -40,7 +40,7 @@ export default class Bidding extends PureComponent {
 		const { assetNum } = this.state;
 		return (
 			<Card
-				IconType="bidding"
+				IconType="cheliangxinxi"
 				IconColor={{ color: '#3DBD7D' }}
 				customStyle={hasCountStyle}
 				text="车辆信息"
