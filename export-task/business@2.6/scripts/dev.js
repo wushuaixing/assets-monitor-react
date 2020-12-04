@@ -103,6 +103,8 @@ function exportTemplate(source, exportType, name) {
 				{id: 'A10802', title: '金融资产_招商项目', status: 'BE'},
 				{id: 'A10803', title: '金融资产_公示项目', status: 'BE'},
 				{id: 'A10701', title: '招投标', status: 'BE'},
+				{id: 'ADemo', title: '不动产登记', status: 'BE'},
+				{id: 'Car', title: '车辆信息', status: 'BE'},
 			]
 		},
 		risk: {
@@ -867,6 +869,37 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
+			// 不动产登记
+			case 'ADemo': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.title, i.url)
+						+ f.normalList([
+							{t: '权证类型', cot: i.certificateType},
+							{t: '权证号', cot: i.certificateNumber},
+							{t: '债务人角色', cot: i.role},
+							{t: '不动产坐落', cot: i.realEstateLocated}
+						])
+
+						+ "</td><td>" + f.normalList([
+							{t: '发布日期', cot: i.publishTime},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			// 车辆信息
+			case 'Car': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.vehicleNumber, i.url)
+						+ f.tag(i.vehicleType)
+
+						+ "</td><td>" + f.normalList([
+							{t: '公示日期', cot: i.publishTime},
+						]) + "</td></tr>";
+				});
+				break;
+			}
 			// 股权质押_股权质权
 			case 'A10502': {
 				data.list.forEach(function (i) {
@@ -1241,6 +1274,7 @@ function exportTemplate(source, exportType, name) {
 
 	/* creat child Container  */
 	var childContainer = function (option, source) {
+		console.log(option)
 		var count = typeof source === 'object' ? (source.total || source.length || 0) : 0;
 		if ((count !== 0 || option.show) && source) {
 			var title = option.title + (count ? '  ' + count : '');

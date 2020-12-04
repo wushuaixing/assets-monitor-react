@@ -22,6 +22,7 @@ const dd ={
 	"BA10601":"/yc/business/monitor/asset/mortgage/owner/list", // 动产抵押_抵押
 	"BA10602":"/yc/business/monitor/asset/mortgage/people/list", // 动产抵押_抵押权
 	"BA10701":"/yc/business/monitor/asset/bidding/list", // 招投标
+	"Demo":"/yc/business/monitor/asset/bidding/list", // 招投标
 
 	/* 风险 */
 	"BR30201":"/yc/business/monitor/risk/bankruptcy/list", // 破产重组

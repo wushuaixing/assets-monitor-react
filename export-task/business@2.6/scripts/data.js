@@ -993,6 +993,63 @@ module.exports = {
 		pages: 0,
 		total: 0
 	},
+	// 不动产登记
+	DADemo: {
+		hasNext: false,
+		list: [
+			{
+				"announcementType": 5,
+				"bankruptcyStatus": 0,
+				"certificateNumber": "",
+				"certificateType": "",
+				"dishonestStatus": 0,
+				"gmtCreate": "2020-11-27",
+				"gmtModified": "2020-11-27",
+				"id": 10043,
+				"isAttention": 0,
+				"isBorrower": false,
+				"isRead": false,
+				"matchType": 2,
+				"obligorId": 955650,
+				"obligorName": "中国工商银行",
+				"pid": "art_1228967973_57742378",
+				"publishTime": "2020-09-18",
+				"realEstateLocated": "保佑桥直街185号103室",
+				"role": null,
+				"sourceId": 11112,
+				"title": "他项权证书作废公告（中国工商银行股份有限公司绍兴支行）",
+				"url": "http://td.sx.gov.cn/art/2020/9/18/art_1228967973_57742378.html"
+			}
+		],
+		num: 5000,
+		page: 1,
+		pages: 0,
+		total: 2
+	},
+	// 车辆信息
+	DCar: {
+		hasNext: false,
+		list: [
+			{
+				"gmtModified": "2020-11-26",
+				"id": 98,
+				"isAttention": 0,
+				"isRead": true,
+				"obligorId": 955629,
+				"obligorName": "北京鸿通世纪货物运输有限公司",
+				"pid": "11000210000000531846",
+				"publishTime": "2020-10-23",
+				"sourceId": 11083,
+				"url": "https://bj.122.gov.cn/#/viopubdetail?vioid=11000210000000531846",
+				"vehicleNumber": "京BPN527",
+				"vehicleType": "普通摩托车"
+			},
+		],
+		num: 5000,
+		page: 1,
+		pages: 0,
+		total: 2
+	},
 	// 金融资产 - 竞价项目
 	DA10801: {
 		list: [
