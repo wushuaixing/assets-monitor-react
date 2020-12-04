@@ -1,12 +1,59 @@
+//头部信息
+.account-header{
+  height: 60px;
+  vertical-align: middle;
+  line-height: 60px;
+  padding-left: 20px;
+  &-title{
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-title;
+  }
+
+  &-tips{
+    padding-right: 20px;
+    float: right;
+    display: inline-block;
+    font-size: 14px;
+    color: $text-content;
+    &-icon{
+      margin-right: 10px;
+      color: $text-remark;
+      vertical-align: middle;
+    }
+  }
+}
+
+.account-header-line{
+  background-color: #E5E5E5;
+  height: 2px;
+}
+
+//机构管理
 .account-box{
   padding: 20px;
+  width: 428px;
+  &-title{
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-title;
+  }
+
+  &-input{
+    margin-top: 16px;
+  }
+
   .account-tree{
     //修改箭头的大小
     .ant-tree-switcher{
       &::after{
+        content: "\e647" !important;
         font-size: 20px !important;
       }
     }
+
     //连接节点之间的虚线
     .line{
       &::before{
@@ -27,13 +74,6 @@
       .right{
         display: none;
       }
-      .right{
-        font-size: 14px;
-        &:hover{
-          font-weight: bold;
-          color: #1C80E1 !important;
-        }
-      }
     }
 
     li a {
@@ -43,6 +83,11 @@
           font-size: 14px;
           margin-left: 9px;
           display: inline-block;
+          color: #7D8699 !important;
+          &:hover{
+            font-weight: bold;
+            color: #1C80E1 !important;
+          }
         }
       }
     }

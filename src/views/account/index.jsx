@@ -10,11 +10,9 @@ export default class Account extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<Router>
-					<Open path="/account" />
-				</Router>
-			</div>
+			<Router>
+				<Open path="/account" />
+			</Router>
 		);
 	}
 }
