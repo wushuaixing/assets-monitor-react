@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './header';
 import SearchTree from './tree';
+import OrgTable from './table';
 import './index.scss';
 
 class Open extends React.Component {
@@ -14,7 +15,10 @@ class Open extends React.Component {
 		return (
 			<React.Fragment>
 				<Header />
-				<SearchTree />
+				<div className="account-content">
+					<SearchTree />
+					<OrgTable />
+				</div>
 			</React.Fragment>
 		);
 	}
