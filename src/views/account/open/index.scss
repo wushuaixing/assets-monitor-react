@@ -185,6 +185,41 @@
 
     &-data{
       padding: 20px 20px 0 20px;
+      &-oper{
+        position: relative;
+        height: 40px;
+        &-prefix{
+          display: inline-block;
+          width: 3px;
+          background-color: $text-link;
+          height: 20px;
+          line-height: 20px;
+          vertical-align: middle;
+          margin-right: 7px;
+        }
+        &-title{
+          display: inline-block;
+          line-height: 30px;
+          height: 30px;
+          font-weight: 600;
+        }
+        &-add{
+          position: absolute;
+          right: 0;
+          color: $text-link;
+          border-color: $text-link;
+        }
+
+      }
+      .divider{
+        display: inline-block;
+        line-height: 16px;
+        vertical-align: middle;
+        background-color: #DCDFE7;
+        width: 1px;
+        height: 16px;
+        margin: 0 6px;
+      }
     }
   }
 
