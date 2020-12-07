@@ -199,20 +199,6 @@ class AUCTION extends React.PureComponent {
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
 						/>
 					</div>
-					<div className="item" style={{ width: 210, marginRight: 16 }}>
-						<span>拍卖标的物：</span>
-						<Select
-							style={{ width: 137 }}
-							placeholder="请选择标的物类型"
-							size="large"
-							{...getFieldProps('category', {
-							})}
-						>
-							{
-								someThing.map(item => <Select.Option value={item.key}>{item.name}</Select.Option>)
-							}
-						</Select>
-					</div>
 					<div className="other">
 						<span>拍卖状态：</span>
 						<Select
@@ -228,6 +214,20 @@ class AUCTION extends React.PureComponent {
 							<Select.Option value="7">已流拍</Select.Option>
 							<Select.Option value="1">即将开始</Select.Option>
 							<Select.Option value="3">正在进行</Select.Option>
+						</Select>
+					</div>
+					<div className="item" style={{ width: 210, marginRight: 16 }}>
+						<span>拍卖标的物：</span>
+						<Select
+							style={{ width: 137 }}
+							placeholder="请选择标的物类型"
+							size="large"
+							{...getFieldProps('category', {
+							})}
+						>
+							{
+								someThing.map(item => <Select.Option value={item.key}>{item.name}</Select.Option>)
+							}
 						</Select>
 					</div>
 				</div>
