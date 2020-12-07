@@ -114,9 +114,9 @@ const icon = (value) => {
 	case 1004: return 'punishment';
 	case 1301: return 'limitCube';
 	case 1302: return 'limitCube';
-	case 1501: return 'cheliangxinxi';
+	case 1501: return 'biaoqian-cheliangxinxi';
 	case 1401: return 'unblockCube';
-	case 1601: return 'budongchandengji';
+	case 1601: return 'biaoqian-budongchandengji';
 	default: return '-';
 	}
 };
