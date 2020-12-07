@@ -128,6 +128,29 @@ class SearchTree extends React.Component {
 		return titltNode;
 	};
 
+	handleAddNextOrg = () => {
+		console.log('handleAddNextOrg === ');
+		const { handleAddOrg } = this.props;
+		handleAddOrg();
+	};
+
+	// onSelect = (keys, e) => {
+	// 	const { handleAddOrg } = this.props;
+	// 	console.log('tree onSelect', keys, e);
+	// 	if (e.preventDefault) {
+	// 		e.preventDefault();
+	// 		// e.stopPropagation();
+	// 	} else {
+	// 		// e.stopPropagation();
+	// 		e.returnValue = false;
+	// 		handleAddOrg();
+	// 	}
+	// };
+
+	showDom = (e) => {
+		console.log('show e ===', e);
+	};
+
 	render() {
 		// const loop = data => data.map((item) => {
 		// 	if (item.children) {
@@ -154,7 +177,7 @@ class SearchTree extends React.Component {
 						{afterStr}
 					</span>
 					<Icon className="right" type="icon-edit" />
-					<Icon className="add" type="icon-add-circle" />
+					<Icon className="add" type="icon-add-circle" onClick={this.handleAddNextOrg} />
 					<Icon className="del" type="icon-delete-circle" />
 				</React.Fragment>
 			) : (
@@ -167,10 +190,9 @@ class SearchTree extends React.Component {
 			}
 			return <TreeNode key={item.key} title={title} />;
 		});
-		console.log('loop data === ', loop(gData));
 		return (
 			<div className="account-box">
-				<div className="account-box-title">机构管理</div>
+				<div className="account-box-title" >机构管理</div>
 				<div className="account-box-search">
 					<Input
 						className="account-box-search-input"
@@ -184,6 +206,7 @@ class SearchTree extends React.Component {
 					onExpand={this.onExpand}
 					expandedKeys={expandedKeys}
 					autoExpandParent={autoExpandParent}
+					// onSelect={this.onSelect}
 				>
 					{loop(gData)}
 				</Tree>

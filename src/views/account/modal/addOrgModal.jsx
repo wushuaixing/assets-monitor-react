@@ -1,7 +1,14 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Form, Modal, Input } from 'antd';
 
-export default class AddOrgModal extends React.PureComponent {
+const createForm = Form.create;
+const FormItem = Form.Item;
+const formItemLayout = {
+	labelCol: { span: 7 },
+	wrapperCol: { span: 14 },
+};
+
+class AddOrgModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -24,14 +31,26 @@ export default class AddOrgModal extends React.PureComponent {
 		handleCloseAddOrg();
 	};
 
+	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
+		const { form, handleCloseAddOrg } = this.props;
+		const values = form.getFieldsValue();
+		console.log('values === ', values);
+		handleCloseAddOrg();
+		this.handleReset();
+	};
 
+	// 手动清除全部
+	handleReset = () => {
+		const { form } = this.props;
+		const { resetFields } = form;
+		resetFields();
 	};
 
 	render() {
 		const { visible } = this.state;
-		const { addOrgVisible } = this.props;
-		console.log('modal addOrgVisible === ', visible, addOrgVisible);
+		const { form } = this.props;
+		const { getFieldProps } = form;
 		return (
 			<Modal
 				title="添加机构"
@@ -40,8 +59,28 @@ export default class AddOrgModal extends React.PureComponent {
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmBtn}
 			>
-				<h2>this is modal</h2>
+				<Form horizontal>
+					<FormItem
+						{...formItemLayout}
+						label="机构名称"
+					>
+						<Input placeholder="请输入机构名称" {...getFieldProps('orgName', undefined)} />
+					</FormItem>
+					<FormItem
+						{...formItemLayout}
+						label="可监控债务人数"
+					>
+						<Input placeholder="请输入可监控债务人数" {...getFieldProps('montiorCount', undefined)} />
+					</FormItem>
+					<FormItem
+						{...formItemLayout}
+						label="查询授权次数"
+					>
+						<Input placeholder="请输入查询授权次数" {...getFieldProps('checkCount', undefined)} />
+					</FormItem>
+				</Form>
 			</Modal>
 		);
 	}
 }
+export default createForm()(AddOrgModal);

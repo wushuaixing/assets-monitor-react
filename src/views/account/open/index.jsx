@@ -16,7 +16,7 @@ class Open extends React.Component {
 
 	// 手动添加机构
 	handleAddOrg = () => {
-		console.log('index handleAddOrg');
+		// console.log('index handleAddOrg');
 		this.setState({
 			addOrgVisible: true,
 		});
@@ -35,7 +35,7 @@ class Open extends React.Component {
 			<React.Fragment>
 				<Header />
 				<div className="account-content">
-					<SearchTree />
+					<SearchTree handleAddOrg={this.handleAddOrg} />
 					<OrgTable handleAddOrg={this.handleAddOrg} />
 				</div>
 				{/* 添加机构弹窗 */}
