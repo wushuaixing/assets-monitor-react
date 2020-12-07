@@ -48,7 +48,7 @@ const columns = (props, openRegisterModalFunc) => {
 					);
 				}
 				return (
-					<span className="click-link" onClick={() => openRegisterModalFunc(record)}>{text || '-'}</span>
+					<span>{text || '-'}</span>
 				);
 			},
 		},
