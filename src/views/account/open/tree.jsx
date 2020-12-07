@@ -129,26 +129,25 @@ class SearchTree extends React.Component {
 	};
 
 	handleAddNextOrg = () => {
-		console.log('handleAddNextOrg === ');
 		const { handleAddOrg } = this.props;
 		handleAddOrg();
 	};
 
-	// onSelect = (keys, e) => {
-	// 	const { handleAddOrg } = this.props;
-	// 	console.log('tree onSelect', keys, e);
-	// 	if (e.preventDefault) {
-	// 		e.preventDefault();
-	// 		// e.stopPropagation();
-	// 	} else {
-	// 		// e.stopPropagation();
-	// 		e.returnValue = false;
-	// 		handleAddOrg();
-	// 	}
-	// };
+	handleDeleteOrg = () => {
+		const { warningModal } = this.props;
+		const titleNode = (
+			<span>
+				确认删除机构(
+				<span>风险管理部</span>
+				)？
+			</span>
+		);
+		warningModal([titleNode, '一经删除，无法恢复', '确定', '取消']);
+	};
 
-	showDom = (e) => {
-		console.log('show e ===', e);
+	handleEditNextOrg = () => {
+		const { handleEditOrg } = this.props;
+		handleEditOrg();
 	};
 
 	render() {
@@ -176,9 +175,10 @@ class SearchTree extends React.Component {
 						<span className="match-word">{searchValue}</span>
 						{afterStr}
 					</span>
-					<Icon className="right" type="icon-edit" />
-					<Icon className="add" type="icon-add-circle" onClick={this.handleAddNextOrg} />
-					<Icon className="del" type="icon-delete-circle" />
+
+					<span onClick={this.handleEditNextOrg}><Icon className="right" type="icon-edit" /></span>
+					<span onClick={this.handleAddNextOrg}><Icon className="add" type="icon-add-circle" /></span>
+					<span onClick={this.handleDeleteOrg}><Icon className="del" type="icon-delete-circle" /></span>
 				</React.Fragment>
 			) : (
 				<span>{item.title}</span>
@@ -192,7 +192,7 @@ class SearchTree extends React.Component {
 		});
 		return (
 			<div className="account-box">
-				<div className="account-box-title" >机构管理</div>
+				<div className="account-box-title">机构管理</div>
 				<div className="account-box-search">
 					<Input
 						className="account-box-search-input"
@@ -206,7 +206,6 @@ class SearchTree extends React.Component {
 					onExpand={this.onExpand}
 					expandedKeys={expandedKeys}
 					autoExpandParent={autoExpandParent}
-					// onSelect={this.onSelect}
 				>
 					{loop(gData)}
 				</Tree>
