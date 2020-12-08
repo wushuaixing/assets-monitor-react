@@ -84,10 +84,11 @@ class Open extends React.Component {
 
 	warningModal = ([title, content, okText, cancelText]) => {
 		Modal.warning({
+			className: 'warning-modal',
 			title,
 			content,
 			okText: okText || '确定',
-			cancelText,
+			cancelText: cancelText || '取消',
 		});
 	};
 

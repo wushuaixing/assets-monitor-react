@@ -225,3 +225,17 @@
 
 }
 
+.warning-modal{
+  .ant-confirm-title{
+    font-size: 16px;
+    .ant-confirm-title-point{
+      color: $common-error;
+    }
+  }
+
+  .ant-confirm-content{
+    font-size: 14px;
+    color: $text-content;
+  }
+}
+

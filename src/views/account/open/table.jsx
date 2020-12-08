@@ -4,13 +4,6 @@ import './index.scss';
 
 const nextOrgcolumns = (props) => {
 	const { handleOpenEditOrg, warningModal } = props;
-	const titleNode = (
-		<span>
-			确认删除机构(
-			<span>风险管理部</span>
-			)？
-		</span>
-	);
 	return [
 		{
 			title: '序号',
@@ -46,8 +39,16 @@ const nextOrgcolumns = (props) => {
 					<span className="divider" />
 					<span
 						className="yc-table-text-link"
-						onClick={() => warningModal([titleNode, '一经删除，无法恢复', '确定', '取消'])
-					}
+						onClick={() => {
+							if (row.id !== 1) {
+								return warningModal([<span>
+									确认删除机构(
+									<span className="ant-confirm-title-point">{row.orgName}</span>
+									)？
+								</span>, '一经删除，无法恢复', '确定', '取消']);
+							}
+							return warningModal(['无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '']);
+						}}
 					>
 						删除
 					</span>
@@ -58,7 +59,10 @@ const nextOrgcolumns = (props) => {
 };
 
 const currentOrgcolumns = (props) => {
-	const { handleOpenEditAccount } = props;
+	const { handleOpenEditAccount, warningModal } = props;
+	const resetTitle = (
+		<span> 确认重置密码？</span>
+	);
 	return [
 		{
 			title: '序号',
@@ -87,9 +91,19 @@ const currentOrgcolumns = (props) => {
 				<div>
 					<span className="yc-table-text-link" onClick={handleOpenEditAccount}>编辑</span>
 					<span className="divider" />
-					<span className="yc-table-text-link" onClick={handleOpenEditAccount}>重置密码</span>
+					<span className="yc-table-text-link" onClick={() => warningModal([resetTitle, '点击确定，密码将重置为当前日期', '确定', '取消'])}>重置密码</span>
 					<span className="divider" />
-					<span className="yc-table-text-link" onClick={handleOpenEditAccount}>删除</span>
+					<span
+						className="yc-table-text-link"
+						onClick={() => warningModal([<span>
+							确认删除(
+							<span className="ant-confirm-title-point">{row.orgName}</span>
+							的账号
+							)？
+              </span>, '一经删除，无法恢复', '确定', '取消'])}
+					>
+						删除
+					</span>
 				</div>
 			),
 		},
@@ -107,9 +121,11 @@ class OrgTable extends React.Component {
 					level: '1级',
 					count: '10/100',
 					useCount: '11/100',
+					id: 1,
 				},
 				{
 					num: 2,
+					id: 2,
 					orgName: '风险监控部',
 					level: '1级',
 					count: '10/100',
@@ -117,6 +133,7 @@ class OrgTable extends React.Component {
 				},
 				{
 					num: 3,
+					id: 3,
 					orgName: '授信评审部',
 					level: '1级',
 					count: '10/100',
