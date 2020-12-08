@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { Spin, Table, Ellipsis } from '@/common';
+import { Spin, Table } from '@/common';
 import { timeStandard } from '@/utils';
 import './index.scss';
 
@@ -27,20 +27,21 @@ export default class TableVersion extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-						<Ellipsis
-							content={row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`}
-							tooltip
-							width={510}
-							font={14}
-							url={row.dataType === 2 ? `#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}` : ''}
-						/>
+						{
+							row.dataType === 2 ? 	(
+								// eslint-disable-next-line react/jsx-no-target-blank
+								<a target="_blank" className="click-link" href={`#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`}>
+									{row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`}
+								</a>
+							) : <span>{row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`}</span>
+						}
 					</li>
 				</div>
 			),
 		},
 		{
 			title: '其他信息',
-			width: 270,
+			width: 300,
 			dataIndex: 'caseNumber',
 			render: (value, row) => (
 				<div className="assets-info-content">
