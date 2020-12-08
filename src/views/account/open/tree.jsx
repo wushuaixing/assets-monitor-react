@@ -80,7 +80,6 @@ class SearchTree extends React.Component {
 
 	// 输入框的变化
 	onChangeInput = (e) => {
-		console.log('e === ', e);
 		const { value } = e.target;
 		const expandedKeys = dataList
 			.map((item) => {
@@ -93,6 +92,24 @@ class SearchTree extends React.Component {
 		this.setState({
 			expandedKeys,
 			searchValue: value,
+			autoExpandParent: true,
+		});
+	};
+
+	// 点击搜索按钮
+	handleSearchOrg = () => {
+		const { searchValue } = this.state;
+		console.log('handleSearchOrg === ', searchValue);
+		const expandedKeys = dataList
+			.map((item) => {
+				if (item.title.indexOf(searchValue) > -1) {
+					return getParentKey(item.key, gData);
+				}
+				return null;
+			})
+			.filter((item, i, self) => item && self.indexOf(item) === i);
+		this.setState({
+			expandedKeys,
 			autoExpandParent: true,
 		});
 	};
@@ -128,23 +145,26 @@ class SearchTree extends React.Component {
 		return titltNode;
 	};
 
+	// 手动添加机构
 	handleAddNextOrg = () => {
 		const { handleAddOrg } = this.props;
 		handleAddOrg();
 	};
 
+	// 手动删除机构
 	handleDeleteOrg = () => {
 		const { warningModal } = this.props;
 		const titleNode = (
 			<span>
 				确认删除机构(
-				<span>风险管理部</span>
+				<span className="ant-confirm-title-point">风险管理部</span>
 				)？
 			</span>
 		);
 		warningModal([titleNode, '一经删除，无法恢复', '确定', '取消']);
 	};
 
+	// 手动编辑机构
 	handleEditNextOrg = () => {
 		const { handleOpenEditOrg } = this.props;
 		handleOpenEditOrg();
@@ -199,7 +219,9 @@ class SearchTree extends React.Component {
 						placeholder="请输入要查找的机构"
 						onChange={this.onChangeInput}
 					/>
-					<Icon className="account-box-search-icon" type="icon-search" />
+					<span onClick={this.handleSearchOrg}>
+						<Icon className="account-box-search-icon" type="icon-search" />
+					</span>
 				</div>
 				<Tree
 					className="account-tree"

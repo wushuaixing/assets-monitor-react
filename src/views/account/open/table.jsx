@@ -96,10 +96,9 @@ const currentOrgcolumns = (props) => {
 					<span
 						className="yc-table-text-link"
 						onClick={() => warningModal([<span>
-							确认删除(
+							确认删除（
 							<span className="ant-confirm-title-point">{row.orgName}</span>
-							的账号
-							)？
+							）的账号？
               </span>, '一经删除，无法恢复', '确定', '取消'])}
 					>
 						删除
@@ -143,21 +142,21 @@ class OrgTable extends React.Component {
 			currentOrgData: [
 				{
 					num: 1,
-					orgName: '资产保全部',
+					orgName: '张三',
 					level: '1级',
 					phone: '155663300',
 					lastTime: '2020-10-11',
 				},
 				{
 					num: 2,
-					orgName: '资产保全部',
+					orgName: '李四',
 					level: '1级',
 					phone: '155663300',
 					lastTime: '2020-10-11',
 				},
 				{
 					num: 3,
-					orgName: '资产保全部',
+					orgName: '王五',
 					level: '1级',
 					phone: '155663300',
 					lastTime: '2020-10-11',
