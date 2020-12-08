@@ -26,11 +26,11 @@ export default class TableVersion extends React.Component {
 			dataIndex: 'caseNumber',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
+					<li style={{ marginBottom: 2, lineHeight: '20px' }}>
 						{
 							row.dataType === 2 ? 	(
 								// eslint-disable-next-line react/jsx-no-target-blank
-								<a target="_blank" className="click-link" href={`#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`}>
+								<a target="_blank" style={{ fontWeight: 600 }} className="click-link" href={`#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`}>
 									{row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`}
 								</a>
 							) : <span>{row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`}</span>
@@ -48,7 +48,7 @@ export default class TableVersion extends React.Component {
 					<li>
 						<span className="list list-title align-justify">关联案号</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{value || '-'}</span>
+						<span className="list list-content" style={{ minWidth: 180 }}>{value || '-'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">执行法院</span>
