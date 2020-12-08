@@ -51,7 +51,7 @@ class EditOrgModal extends React.PureComponent {
 
 	render() {
 		const { visible } = this.state;
-		const { form } = this.props;
+		const { form, orgData } = this.props;
 		const { getFieldProps } = form;
 
 		return (
@@ -74,7 +74,7 @@ class EditOrgModal extends React.PureComponent {
 								maxLength="40"
 								placeholder="请输入机构名称"
 								{...getFieldProps('orgName', {
-									initialValue: '风险管理部',
+									initialValue: orgData.title,
 									getValueFromEvent: e => e.trim(),
 								})}
 							/>

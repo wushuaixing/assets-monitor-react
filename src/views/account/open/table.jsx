@@ -47,7 +47,7 @@ const nextOrgcolumns = (props) => {
 									)？
 								</span>, '一经删除，无法恢复', '确定', '取消']);
 							}
-							return warningModal(['无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '']);
+							return warningModal(['无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', undefined]);
 						}}
 					>
 						删除
@@ -89,7 +89,7 @@ const currentOrgcolumns = (props) => {
 			dataIndex: 'useCount',
 			render: (value, row) => (
 				<div>
-					<span className="yc-table-text-link" onClick={handleOpenEditAccount}>编辑</span>
+					<span className="yc-table-text-link" onClick={() => handleOpenEditAccount(row)}>编辑</span>
 					<span className="divider" />
 					<span className="yc-table-text-link" onClick={() => warningModal([resetTitle, '点击确定，密码将重置为当前日期', '确定', '取消'])}>重置密码</span>
 					<span className="divider" />
@@ -144,21 +144,21 @@ class OrgTable extends React.Component {
 					num: 1,
 					orgName: '张三',
 					level: '1级',
-					phone: '155663300',
+					phone: '15566330022',
 					lastTime: '2020-10-11',
 				},
 				{
 					num: 2,
 					orgName: '李四',
 					level: '1级',
-					phone: '155663300',
+					phone: '16622898922',
 					lastTime: '2020-10-11',
 				},
 				{
 					num: 3,
 					orgName: '王五',
 					level: '1级',
-					phone: '155663300',
+					phone: '16688668922',
 					lastTime: '2020-10-11',
 				},
 			],

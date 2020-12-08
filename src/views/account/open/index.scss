@@ -102,7 +102,7 @@
         font-size: 16px;
         font-weight: 400;
         color: #20242E;
-        .right{
+        .edit{
           display: none;
         }
         .add{
@@ -116,7 +116,7 @@
       li a {
         &:hover{
           background-color: #EBF1FA;
-          .right{
+          .edit{
             font-size: 14px;
             margin-left: 9px;
             display: inline-block;

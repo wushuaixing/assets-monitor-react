@@ -37,8 +37,8 @@ class EditAccountModal extends React.PureComponent {
 		const { form, handleCloseEditAccount } = this.props;
 		const values = form.getFieldsValue();
 		console.log('values === ', values);
-		handleCloseEditAccount();
-		this.handleReset();
+		// handleCloseEditAccount();
+		// this.handleReset();
 	};
 
 	// 手动清除全部
@@ -50,7 +50,7 @@ class EditAccountModal extends React.PureComponent {
 
 	render() {
 		const { visible } = this.state;
-		const { form } = this.props;
+		const { form, accountData } = this.props;
 		const { getFieldProps } = form;
 		return (
 			<Modal
@@ -66,13 +66,24 @@ class EditAccountModal extends React.PureComponent {
 						label="姓名"
 						required
 					>
-						<Input placeholder="请填写姓名" {...getFieldProps('name', undefined)} />
+						<Input
+							placeholder="请填写姓名"
+							{...getFieldProps('name', {
+								initialValue: accountData.orgName,
+							})}
+						/>
 					</FormItem>
 					<FormItem
 						{...formItemLayout}
 						label="账号"
 					>
-						<Input disabled placeholder="请填写账号（手机号）" {...getFieldProps('account', undefined)} />
+						<Input
+							disabled
+							placeholder="请填写账号（手机号）"
+							{...getFieldProps('account', {
+								initialValue: accountData.phone,
+							})}
+						/>
 					</FormItem>
 				</Form>
 			</Modal>
