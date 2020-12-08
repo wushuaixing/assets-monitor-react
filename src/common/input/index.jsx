@@ -132,7 +132,7 @@ class comInput extends React.Component {
 		} = this.props;
 		// console.log(this.props, maxLength);
 		const {
-			size, disabled, suffix, title, titleIcon,
+			size, disabled, unit, unitStyle, suffix, suffixRightStyle, suffixSpanStyle, title, titleIcon,
 		} = this.props;
 		const { inputValue } = this.state;
 		const classList = ['yc-input'];
@@ -204,9 +204,12 @@ class comInput extends React.Component {
 
 				{
 					suffix ? (
-						<div className="yc-input-group-right">
-							<div className="yc-split-line" style={{ height: 20, marginTop: 6 }} />
-							<span>{suffix}</span>
+						<div className="yc-input-group-right" style={suffixRightStyle}>
+							{
+								unit ? <span style={unitStyle}>{unit}</span> : null
+							}
+							<div className="yc-split-line" style={{ height: 20 }} />
+							<span style={suffixSpanStyle}>{suffix}</span>
 						</div>
 					) : ''
 				}

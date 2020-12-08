@@ -48,10 +48,12 @@ class EditOrgModal extends React.PureComponent {
 		resetFields();
 	};
 
+
 	render() {
 		const { visible } = this.state;
 		const { form } = this.props;
 		const { getFieldProps } = form;
+
 		return (
 			<Modal
 				title="编辑机构"
@@ -88,9 +90,13 @@ class EditOrgModal extends React.PureComponent {
 								size="large"
 								maxLength="40"
 								placeholder="请输入机构名称"
-								suffix="已监控100人"
-								{...getFieldProps('name', {
-									initialValue: '建设机构',
+								unit="人"
+								unitStyle={{ color: '#B2B8C9' }}
+								suffix={`（已监控：${580}人）`}
+								suffixRightStyle={{ width: 170 }}
+								suffixSpanStyle={{ width: 120, color: '#20242E', fontWeight: 400 }}
+								{...getFieldProps('people', {
+									initialValue: 20,
 									getValueFromEvent: e => e.trim(),
 								})}
 							/>
@@ -106,9 +112,13 @@ class EditOrgModal extends React.PureComponent {
 								size="large"
 								maxLength="40"
 								placeholder="请输入机构名称"
-								suffix="已监控100人"
-								{...getFieldProps('name', {
-									initialValue: '建设机构',
+								unit="元"
+								unitStyle={{ color: '#B2B8C9' }}
+								suffix={`（已使用：${1000}次）`}
+								suffixRightStyle={{ width: 170 }}
+								suffixSpanStyle={{ width: 120, color: '#20242E', fontWeight: 400 }}
+								{...getFieldProps('count', {
+									initialValue: 37,
 									getValueFromEvent: e => e.trim(),
 								})}
 							/>

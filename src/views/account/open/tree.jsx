@@ -146,8 +146,8 @@ class SearchTree extends React.Component {
 	};
 
 	handleEditNextOrg = () => {
-		const { handleEditOrg } = this.props;
-		handleEditOrg();
+		const { handleOpenEditOrg } = this.props;
+		handleOpenEditOrg();
 	};
 
 	render() {

@@ -2,80 +2,99 @@ import React from 'react';
 import { Table, Button } from '@/common';
 import './index.scss';
 
-const nextOrgcolumns = props => [
-	{
-		title: '序号',
-		dataIndex: 'num',
-		render: value => <span>{value}</span>,
-	},
-	{
-		title: '机构名称',
-		dataIndex: 'orgName',
-		render: value => <span>{value}</span>,
-	},
-	{
-		title: '层级',
-		dataIndex: 'level',
-		render: value => <span>{value}</span>,
-	},
-	{
-		title: '已监控债务人数/可监控数',
-		dataIndex: 'count',
-		render: value => <span>{value}</span>,
-	},
-	{
-		title: '已用查询次数/授权次数',
-		dataIndex: 'useCount',
-		render: value => <span>{value}</span>,
-	},
-	{
-		title: '操作',
-		dataIndex: 'oper',
-		render: (value, row) => (
-			<div>
-				<span className="yc-table-text-link">编辑</span>
-				<span className="divider" />
-				<span className="yc-table-text-link">删除</span>
-			</div>
-		),
-	},
-];
+const nextOrgcolumns = (props) => {
+	const { handleOpenEditOrg, warningModal } = props;
+	const titleNode = (
+		<span>
+			确认删除机构(
+			<span>风险管理部</span>
+			)？
+		</span>
+	);
+	return [
+		{
+			title: '序号',
+			dataIndex: 'num',
+			render: value => <span>{value}</span>,
+		},
+		{
+			title: '机构名称',
+			dataIndex: 'orgName',
+			render: value => <span>{value}</span>,
+		},
+		{
+			title: '层级',
+			dataIndex: 'level',
+			render: value => <span>{value}</span>,
+		},
+		{
+			title: '已监控债务人数/可监控数',
+			dataIndex: 'count',
+			render: value => <span>{value}</span>,
+		},
+		{
+			title: '已用查询次数/授权次数',
+			dataIndex: 'useCount',
+			render: value => <span>{value}</span>,
+		},
+		{
+			title: '操作',
+			dataIndex: 'oper',
+			render: (value, row) => (
+				<div>
+					<span className="yc-table-text-link" onClick={handleOpenEditOrg}>编辑</span>
+					<span className="divider" />
+					<span
+						className="yc-table-text-link"
+						onClick={() => warningModal([titleNode, '一经删除，无法恢复', '确定', '取消'])
+					}
+					>
+						删除
+					</span>
+				</div>
+			),
+		},
+	];
+};
 
-const currentOrgcolumns = props => [
-	{
-		title: '序号',
-		dataIndex: 'num',
-		render: value => <span>{value}</span>,
-	},
-	{
-		title: '姓名',
-		dataIndex: 'orgName',
-		render: value => <span>{value}</span>,
-	},
-	{
-		title: '账号',
-		dataIndex: 'phone',
-		render: value => <span>{value}</span>,
-	},
-	{
-		title: '上次登录时间',
-		dataIndex: 'lastTime',
-		render: value => <span>{value}</span>,
-	},
-	{
-		title: '操作',
-		dataIndex: 'useCount',
-		render: (value, row) => (
-			<div>
-				<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>编辑</span>
-				<span className="divider" />
-				<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>重置密码</span>
-				<span className="divider" />
-				<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>删除</span>
-			</div>
-		),
-	},
-];
+const currentOrgcolumns = (props) => {
+	const { handleOpenEditAccount } = props;
+	return [
+		{
+			title: '序号',
+			dataIndex: 'num',
+			render: value => <span>{value}</span>,
+		},
+		{
+			title: '姓名',
+			dataIndex: 'orgName',
+			render: value => <span>{value}</span>,
+		},
+		{
+			title: '账号',
+			dataIndex: 'phone',
+			render: value => <span>{value}</span>,
+		},
+		{
+			title: '上次登录时间',
+			dataIndex: 'lastTime',
+			render: value => <span>{value}</span>,
+		},
+		{
+			title: '操作',
+			dataIndex: 'useCount',
+			render: (value, row) => (
+				<div>
+					<span className="yc-table-text-link" onClick={handleOpenEditAccount}>编辑</span>
+					<span className="divider" />
+					<span className="yc-table-text-link" onClick={handleOpenEditAccount}>重置密码</span>
+					<span className="divider" />
+					<span className="yc-table-text-link" onClick={handleOpenEditAccount}>删除</span>
+				</div>
+			),
+		},
+	];
+};
 
 class OrgTable extends React.Component {
 	constructor(props) {
@@ -136,6 +155,12 @@ class OrgTable extends React.Component {
 		handleAddOrg();
 	};
 
+	// 添加当前机构账号
+	handleAddCurrentAccount = () => {
+		const { handleOpenAddAccount } = this.props;
+		handleOpenAddAccount();
+	};
+
 	render() {
 		const { nextOrgData, currentOrgData } = this.state;
 
@@ -164,7 +189,7 @@ class OrgTable extends React.Component {
 					<div className="account-table-data-oper">
 						<div className="account-table-data-oper-prefix" />
 						<div className="account-table-data-oper-title">当前机构账号</div>
-						<Button className="account-table-data-oper-add">添加账号</Button>
+						<Button className="account-table-data-oper-add" onClick={this.handleAddCurrentAccount}>添加账号</Button>
 					</div>
 					<Table
 						pagination={false}
