@@ -152,12 +152,12 @@ class SearchTree extends React.Component {
 	};
 
 	// 手动删除机构
-	handleDeleteOrg = () => {
+	handleDeleteOrg = (item) => {
 		const { warningModal } = this.props;
 		const titleNode = (
 			<span>
 				确认删除机构(
-				<span className="ant-confirm-title-point">风险管理部</span>
+				<span className="ant-confirm-title-point">{item.title}</span>
 				)？
 			</span>
 		);
@@ -198,7 +198,7 @@ class SearchTree extends React.Component {
 					</span>
 					<span onClick={() => this.handleEditNextOrg(item)}><Icon className="edit" type="icon-edit" /></span>
 					<span onClick={this.handleAddNextOrg}><Icon className="add" type="icon-add-circle" /></span>
-					<span onClick={this.handleDeleteOrg}><Icon className="del" type="icon-delete-circle" /></span>
+					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
 				</React.Fragment>
 			) : (
 				<span>{item.title}</span>

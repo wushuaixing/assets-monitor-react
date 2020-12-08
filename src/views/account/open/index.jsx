@@ -135,13 +135,27 @@ class Open extends React.Component {
 					/>
 				</div>
 				{/* 添加机构弹窗 */}
-				<AddOrgModal addOrgVisible={addOrgVisible} handleCloseAddOrg={this.handleCloseAddOrg} />
+				<AddOrgModal
+					addOrgVisible={addOrgVisible}
+					handleCloseAddOrg={this.handleCloseAddOrg}
+				/>
 				{/* 编辑机构弹窗 */}
-				<EditOrgModal orgData={orgData} editOrgVisible={editOrgVisible} handleCloseEditOrg={this.handleCloseEditOrg} />
+				<EditOrgModal
+					orgData={orgData}
+					editOrgVisible={editOrgVisible}
+					handleCloseEditOrg={this.handleCloseEditOrg}
+				/>
 				{/* 添加账户弹窗 */}
-				<AddAccountModal addAccountVisible={addAccountVisible} handleCloseAddAccount={this.handleCloseAddAccount} />
+				<AddAccountModal
+					addAccountVisible={addAccountVisible}
+					handleCloseAddAccount={this.handleCloseAddAccount}
+				/>
 				{/* 编辑账号弹窗 */}
-				<EditAccountModal accountData={accountData} editAccountVisible={editAccountVisible} handleCloseEditAccount={this.handleCloseEditAccount} />
+				<EditAccountModal
+					accountData={accountData}
+					editAccountVisible={editAccountVisible}
+					handleCloseEditAccount={this.handleCloseEditAccount}
+				/>
 			</React.Fragment>
 		);
 	}

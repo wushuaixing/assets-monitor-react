@@ -103,7 +103,7 @@ class AddAccountModal extends React.PureComponent {
 											message: '请输入手机号',
 										},
 										{
-											pattern: new RegExp(/^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/, 'g'),
+											pattern: new RegExp(/^[0-9]{11}$/, 'g'),
 											message: '手机号格式不正确',
 										},
 									],
