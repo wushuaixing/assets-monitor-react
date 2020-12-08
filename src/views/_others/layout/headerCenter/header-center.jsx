@@ -12,8 +12,8 @@ import {
 	switchOrg, // 切换机构
 	currentOrg, // 获取机构id
 } from '@/utils/api/user';
-import PasswordModal from './passwordModal';
 import flat from '@/utils/flatArray';
+import PasswordModal from './passwordModal';
 import './style.scss';
 
 const { TreeNode } = Tree;

@@ -340,6 +340,7 @@
 }
 // 版本更新
 .yc-versionUpdate {
+  position: relative;
 
   .ant-modal-content{
     border-radius: 5px;
@@ -351,6 +352,7 @@
 
     .yc-title-box{
       position: relative;
+      z-index: 10;
     }
 
     .yc-close{
@@ -390,9 +392,13 @@
 
     .yc-modal-box {
       background-color: #FFFFFF;
+      padding-top: 60px;
+      position: absolute;
+      width: 540px;
+      top: 208px;
 
       .yc-modal-content {
-        padding: 50px 0 50px 117px;
+        padding: 40px 0 50px 57px;
 
         .yc-modal-header {
           height: 22px;
@@ -422,7 +428,7 @@
           margin-top: 20px;
           .yc-label-title {
             position: relative;
-            margin: 40px 0;
+            margin: 30px 0;
             line-height: 16px;
             font-size: 16px;
             padding-left: 12px;
@@ -437,6 +443,13 @@
               background: #FD5F3D;
             }
           }
+
+          .yc-label-subTips{
+            color: $text-content;
+            font-size: 14px;
+            margin-top: 16px;
+          }
+
           .yc-label-tips{
             font-weight: bold;
             margin-left: 4px;
@@ -475,7 +488,8 @@
         .yc-modal-btn {
           width: 320px;
           height: 44px;
-          margin-top: 60px;
+          margin-top: 44px;
+          margin-left: 53px;
           display: block;
           background: linear-gradient(to right, #FD6339, #FD4A4D);
           color: #FFFFFF;
@@ -484,7 +498,6 @@
             border: 1px solid #FF5059;
             background: linear-gradient(to right, #FD4D4C, #FD4D4C);
           }
-
           span {
             font-size: 16px;
           }

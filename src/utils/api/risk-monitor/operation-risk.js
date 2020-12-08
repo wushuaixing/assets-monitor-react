@@ -6,13 +6,13 @@ const Abnormal = {
 	attention: params => s.post('/yc/monitor/risk/abnormal/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/risk/abnormal/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/risk/abnormal/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/risk/abnormal/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/risk/abnormal/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/risk/abnormal/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/risk/abnormal/list', { params }).then(res => res.data),
@@ -42,13 +42,13 @@ const Change = {
 	readAll: () => s.post('/yc/monitor/risk/change/markReadAll', {}).then(res => res.data),
 	// POST取消收藏
 	unAttention: params => s.post('/yc/monitor/risk/change/unFollow', params).then(res => res.data),
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/risk/change/follow/follow', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/risk/change/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/risk/change/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/risk/change/follow/unFollow', params).then(res => res.data),
 };
 
@@ -58,13 +58,13 @@ const Illegal = {
 	attention: params => s.post('/yc/monitor/risk/illegal/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/risk/illegal/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/risk/illegal/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/risk/illegal/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/risk/illegal/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/risk/illegal/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/risk/illegal/list', { params }).then(res => res.data),
@@ -94,13 +94,13 @@ const Punishment = {
 	readAll: () => s.post('/yc/monitor/risk/punishment/markReadAll', {}).then(res => res.data),
 	// POST取消收藏
 	unAttention: params => s.post('/yc/monitor/risk/punishment/unFollow', params).then(res => res.data),
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/risk/punishment/follow/follow', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/risk/punishment/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/risk/punishment/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/risk/punishment/follow/unFollow', params).then(res => res.data),
 };
 
@@ -110,13 +110,13 @@ const Violation = {
 	attention: params => s.post('/yc/monitor/risk/tax/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/risk/tax/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/risk/tax/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/risk/tax/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/risk/tax/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/risk/tax/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/risk/tax/list', { params }).then(res => res.data),
@@ -146,13 +146,13 @@ const Environment = {
 	readAll: () => s.post('/yc/monitor/risk/epb/read-all', {}).then(res => res.data),
 	// POST取消收藏
 	unAttention: params => s.post('/yc/monitor/risk/epb/un-attention', params).then(res => res.data),
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/risk/epb/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/risk/epb/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/risk/epb/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/risk/epb/follow/un-attention', params).then(res => res.data),
 };
 

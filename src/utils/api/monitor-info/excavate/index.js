@@ -52,6 +52,18 @@ export const biddingCard = async (params) => {
 	return Object.assign(response.data, { name: 'bidding' });
 };
 
+// 不动产
+export const realEstateCardApi = async (params) => {
+	const response = await service.get('/yc/index/information/overview/estateRegister', { params });
+	return Object.assign(response.data, { name: 'estateRegisterCount' });
+};
+
+// 车辆信息
+export const carCardApi = async (params) => {
+	const response = await service.get('/yc/index/information/overview/vehicleInformation', { params });
+	return Object.assign(response.data, { name: 'vehicleInformationCount' });
+};
+
 // 查解封资产
 export const unsealCard = async (params) => {
 	const response = await service.get('/yc/index/information/overview/unseal', { params });

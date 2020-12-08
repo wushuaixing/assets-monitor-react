@@ -1,7 +1,6 @@
 import React from 'react';
 import { Affix, Modal, Icon } from 'antd';
 import { navigate } from '@reach/router';
-import { setSource } from './cache';
 import Router from '@/utils/Router';
 /* utils */
 import { requestAll } from '@/utils/promise';
@@ -16,7 +15,6 @@ import { businessInfo, exportListBusiness } from '@/utils/api/professional-work'
 import {
 	Tabs, Download, Icon as IconType, BreadCrumb, Button, Spin,
 } from '@/common';
-import ChangeModal from './change-modal/changeList';
 import ShapeImg from '@/assets/img/business/Shape.png';
 import Overview from '@/views/business/detail/table-version/overview';
 import Assets from '@/views/business/detail/table-version/assets';
@@ -24,6 +22,8 @@ import Risk from '@/views/business/detail/table-version/risk';
 import BusinessImg from '@/assets/img/business/icon_business.png';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
+import ChangeModal from './change-modal/changeList';
+import { setSource } from './cache';
 import '../style.scss';
 
 const constantNumber = 99999999; // 默认值

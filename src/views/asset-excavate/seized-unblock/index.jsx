@@ -28,7 +28,10 @@ export default class SeizedUnblock extends React.Component {
 	}
 
 	componentWillMount() {
-		this.onQueryChange({});
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({});
+		}
 	}
 
 	// 获取查解封资产未读数据
@@ -79,21 +82,21 @@ export default class SeizedUnblock extends React.Component {
 		}
 	};
 
-	// 批量关注列表
+	// 批量收藏列表
 	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource } = this.state;
 			const _this = this;
 			Modal.confirm({
-				title: '确认关注选中的所有信息吗？',
+				title: '确认收藏选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
 					Api.follow({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
-							_this.selectRow = []; // 批量关注清空选中项
+							_this.selectRow = []; // 批量收藏清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
@@ -225,18 +228,18 @@ export default class SeizedUnblock extends React.Component {
 								<span className="yc-all-read-text">全部标为已读</span>
 							</div>
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
 									condition={() => this.condition}
 									api={Api.exportList}
 								/>
+								<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							</div>
 						</div>
 					) : (
 						<div className="yc-batch-management">
-							<Button onClick={this.handleAttention} title="关注" />
+							<Button onClick={this.handleAttention} title="收藏" />
 							<Download
 								text="导出"
 								waringText="未选中数据"
@@ -248,6 +251,8 @@ export default class SeizedUnblock extends React.Component {
 							/>
 							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
+								style={{ margin: 0 }}
+								type="common"
 								onClick={() => {
 									this.setState({ manage: false });
 									this.selectRow = [];

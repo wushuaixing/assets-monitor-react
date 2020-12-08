@@ -19,6 +19,8 @@ class HomeOverview extends React.Component {
 			['chattel', () => { navigate('/monitor/mortgage'); }],
 			['finance', () => { navigate('/monitor/financial'); }],
 			['bidding', () => { navigate('/monitor/tender'); }],
+			['cheliangxinxi', () => { navigate('/monitor/car'); }],
+			['budongchandengji', () => { navigate('/monitor/realEstate'); }],
 			['bankruptcy', () => { navigate('/risk/bankruptcy'); }],
 			['broken', () => { navigate('/risk/broken'); }],
 			['lawsuit', () => { navigate('/risk/info'); }],
@@ -39,7 +41,6 @@ class HomeOverview extends React.Component {
 		const isRiskArray = this.isArray(riskArray);
 		const newAssetArray = assetArray && assetArray.filter(i => i.status);
 		const newRiskArray = riskArray && riskArray.filter(i => i.status);
-
 		return (
 			<div className="home-overview-container">
 				<div className="home-overview-container-header">
@@ -49,7 +50,7 @@ class HomeOverview extends React.Component {
 						<Icon type="icon-icon_arrow" className="home-overview-container-header-detail-icon" />
 					</div>
 				</div>
-				<Spin visible={loading} minHeight={540}>
+				<Spin visible={loading} minHeight={600}>
 					{
 						loading ? null :	(
 

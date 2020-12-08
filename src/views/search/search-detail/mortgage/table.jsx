@@ -2,9 +2,9 @@ import React from 'react';
 import { Form } from 'antd';
 import { Ellipsis, Table } from '@/common';
 import order from '@/assets/img/icon/icon_arrow.png';
-import { Tooltip } from '../../../../../patchs/antd';
 import { w } from '@/utils';
 import { floatFormat } from '@/utils/format';
+import { Tooltip } from '../../../../../patchs/antd';
 
 const MortgageDetail = (text, rowContent) => (
 	<React.Fragment>

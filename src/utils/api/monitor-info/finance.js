@@ -6,7 +6,7 @@ import service from '@/utils/service';
 export const infoListBid = params => service.get('/yc/monitor/finance/auctionBidding/list', { params })
 	.then(res => res.data);
 
-// 竞价项目 关注列表
+// 竞价项目 收藏列表
 export const attentionListBid = params => service.get('/yc/monitor/finance/auctionBidding/follow/list', { params })
 	.then(res => res.data);
 
@@ -26,19 +26,19 @@ export const readAllStatusBid = async (params) => {
 	return response.data;
 };
 
-// 竞价项目 关注 [批量]
+// 竞价项目 收藏 [批量]
 export const followBid = params => service.post('/yc/monitor/finance/auctionBidding/follow', params)
 	.then(res => res.data);
 
-// 竞价项目 关注 [单个]
+// 竞价项目 收藏 [单个]
 export const followSingleBid = params => service.post('/yc/monitor/finance/auctionBidding/follow', params)
 	.then(res => res.data);
 
-// 竞价项目 关注列表数量统计
+// 竞价项目 收藏列表数量统计
 export const attentionFollowBidCount = params => service.get('/yc/monitor/finance/auctionBidding/follow/listCount', { params })
 	.then(res => ({ ...res.data, name: 'bid' }));
 
-// 竞价项目 取消关注 [单个]
+// 竞价项目 取消收藏 [单个]
 export const unFollowSingleBid = params => service.post('/yc/monitor/finance/auctionBidding/unFollow', params)
 	.then(res => res.data);
 
@@ -56,19 +56,19 @@ export const infoListMerchants = async (params) => {
 // 招商项目 列表数量
 export const infoListCountMerchants = params => service.get('/yc/monitor/finance/investment/financeInvestmentCount', { params }).then(res => ({ ...res.data, id: 2 }));
 
-// 招商项目 关注/批量关注
+// 招商项目 收藏/批量收藏
 export const followMerchants = params => service.post('/yc/monitor/finance/investment/follow', params)
 	.then(res => res.data);
 
-// 招商项目 取消关注/批量取消关注
+// 招商项目 取消收藏/批量取消收藏
 export const unFollowMerchants = params => service.post('/yc/monitor/finance/investment/unFollow', params)
 	.then(res => res.data);
 
-// 招商项目 关注列表
+// 招商项目 收藏列表
 export const attentionListMerchants = params => service.get('/yc/monitor/finance/investment/follow/list', { params })
 	.then(res => res.data);
 
-// 招商项目 关注列表数量统计
+// 招商项目 收藏列表数量统计
 export const attentionFollowCountMerchants = params => service.get('/yc/monitor/finance/investment/follow/list-count', { params }).then(res => ({ ...res.data, name: 'merchants' }));
 
 // 招商项目 已读
@@ -97,7 +97,7 @@ export const infoListCountPub = params => service.get('/yc/monitor/finance/finan
 export const attentionListPub = params => service.get('/yc/monitor/finance/finance/follow/list', { params })
 	.then(res => res.data);
 
-// 招商项目 关注列表数量统计
+// 招商项目 收藏列表数量统计
 export const attentionFollowCountPub = params => service.get('/yc/monitor/finance/finance/follow/listCount', { params }).then(res => ({ ...res.data, name: 'pub' }));
 
 // 公示项目 数量统计
@@ -116,15 +116,15 @@ export const readAllStatusPub = params => service.post('/yc/monitor/finance/fina
 export const readStatusBatch = params => service.post('/yc/monitor/finance/finance/markReadBatch', params)
 	.then(res => res.data);
 
-// 公示项目 关注 [批量]
+// 公示项目 收藏 [批量]
 export const followPub = params => service.post('/yc/monitor/finance/finance/follow', params)
 	.then(res => res.data);
 
-// 公示项目 关注 [单个]
+// 公示项目 收藏 [单个]
 export const followSinglePub = params => service.post('/yc/monitor/finance/finance/follow', params)
 	.then(res => res.data);
 
-// 公示项目 取消关注 [单个]
+// 公示项目 取消收藏 [单个]
 export const unFollowPub = params => service.post('/yc/monitor/finance/finance/unFollow', params)
 	.then(res => res.data);
 
@@ -135,27 +135,19 @@ export const exportListPub = '/yc/monitor/finance/finance/export';
 export default {
 	infoListBid, // 竞价项目 列表
 	infoListCountBid, // 竞价项目 列表数量
-	attentionListBid, // 竞价项目 关注列表
-	followBid, // 竞价项目 批量关注
-	followSingleBid, // 竞价项目 关注[单个]
-	unFollowSingleBid, // 竞价项目 取消批量关注
-	attentionFollowBidCount, // 竞价项目 关注列表数量
+	attentionListBid, // 竞价项目 收藏列表
+	followBid, // 竞价项目 批量收藏
+	followSingleBid, // 竞价项目 收藏[单个]
+	unFollowSingleBid, // 竞价项目 取消批量收藏
+	attentionFollowBidCount, // 竞价项目 收藏列表数量
 	exportListBid, // 竞价项目 导出
-	// infoListResult,
-	// attentionFollowListResult,
-	// attentionFollowResultCount,
-	// readStatusResult,
-	// readAllStatusResult,
-	// followResult,
-	// unFollowResult,
-	// exportListResult,
 
 	infoListMerchants, // 招商项目 列表
 	infoListCountMerchants, // 招商项目 列表数量
-	attentionListMerchants, // 招商项目 关注列表
+	attentionListMerchants, // 招商项目 收藏列表
 	attentionFollowCountMerchants, // 招商项目 我的收藏列表数量
-	followMerchants, 	// 招商项目 批量关注
-	unFollowMerchants, 	// 招商项目 取消批量关注
+	followMerchants, 	// 招商项目 批量收藏
+	unFollowMerchants, 	// 招商项目 取消批量收藏
 	readAllStatusMerchants, // 招商项目 全部标记为已读
 	exportListMerchants, // 招商项目 导出
 
@@ -163,9 +155,9 @@ export default {
 	infoListCountPub, // 公示项目 列表数量
 	attentionListPub, // 公示项目 我的收藏列表
 	attentionFollowCountPub, // 公示项目 我的收藏列表数量
-	followPub, // 公示项目 批量关注
-	unFollowPub, // 公示项目 取消批量关注
-	followSinglePub, // 公示项目 关注 [单个]
+	followPub, // 公示项目 批量收藏
+	unFollowPub, // 公示项目 取消批量收藏
+	followSinglePub, // 公示项目 收藏 [单个]
 	attentionFollowPubCount, // 公示项目
 	readAllStatusPub, // 公示项目 全部标记为已读
 	exportListPub, // 公示项目 导出

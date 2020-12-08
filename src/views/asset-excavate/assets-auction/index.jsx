@@ -8,6 +8,7 @@ import {
 } from '@/utils/api/monitor-info/assets';
 import { clearEmpty, changeURLArg, getQueryByName } from '@/utils';
 import './style.scss';
+import { getUrlParams } from '@/views/asset-excavate/query-util';
 import Query from './query';
 import Table from './table';
 
@@ -78,10 +79,15 @@ export default class Assets extends React.Component {
 			sourceType,
 			title,
 		});
-		if (title) {
-			this.onQueryChange({ title }, sourceType);
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			if (title) {
+				this.onQueryChange({ title }, sourceType);
+			} else {
+				this.onQueryChange({}, sourceType);
+			}
 		} else {
-			this.onQueryChange({}, sourceType);
+			this.condition = Object.assign({}, this.condition, getUrlParams(url, 'updateTimeStart', 'updateTimeEnd'));
 		}
 		this.toInfoCount();
 	}
@@ -120,21 +126,21 @@ export default class Assets extends React.Component {
 		return Object.assign({}, this.condition, { idList: this.selectRow });
 	};
 
-	// 批量关注
+	// 批量收藏
 	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource } = this.state;
 			const _this = this;
 			Modal.confirm({
-				title: '确认关注选中的所有信息吗？',
+				title: '确认收藏选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
 					follow({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
-							_this.selectRow = []; // 批量关注清空选中项
+							_this.selectRow = []; // 批量收藏清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
@@ -296,19 +302,19 @@ export default class Assets extends React.Component {
 								资产清收流程
 							</span>
 							<span className="export-style">
+								<Download condition={() => this.toExportCondition('all')} api={exportList} all text="一键导出" />
 								<Button
+									style={{ margin: '0 0 0 10px' }}
 									onClick={() => {
 										this.setState({ manage: true });
-										console.log(this.condition);
 									}}
 									title="批量管理"
 								/>
-								<Download condition={() => this.toExportCondition('all')} api={exportList} all text="一键导出" />
 							</span>
 						</div>
 					) : (
 						<div className="yc-batch-management">
-							<Button onClick={this.handleAttention} title="关注" />
+							<Button onClick={this.handleAttention} title="收藏" />
 							<Download
 								condition={this.toExportCondition}
 								api={exportList}
@@ -319,6 +325,8 @@ export default class Assets extends React.Component {
 								selectedRowKeys={() => this.selectRow}
 							/>
 							<Button
+								style={{ margin: 0 }}
+								type="common"
 								onClick={() => {
 									this.setState({ manage: false });
 									this.selectRow = [];

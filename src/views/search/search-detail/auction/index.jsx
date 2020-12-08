@@ -425,13 +425,12 @@ class AUCTION extends React.Component {
 				</div>
 				<div className="yc-query-item">
 					<Input
-						title="产权证"
-						maxLength="40"
+						title="全文"
 						style={_style1}
 						size="large"
-						placeholder="房产证/土地证号"
-						{...getFieldProps('certificate', {
-							initialValue: params.certificate,
+						placeholder="关键字"
+						{...getFieldProps('addr', {
+							initialValue: params.addr,
 							getValueFromEvent: e => e.trim(),
 						})}
 					/>
@@ -458,31 +457,6 @@ class AUCTION extends React.Component {
 							rules: [
 								{ required: true },
 							],
-						})}
-					/>
-				</div>
-				<div className="yc-query-item">
-					<Input
-						title="处置机关"
-						maxLength="20"
-						style={_style1}
-						size="large"
-						placeholder="处置法院/单位"
-						{...getFieldProps('court', {
-							initialValue: params.court,
-							getValueFromEvent: e => e.trim(),
-						})}
-					/>
-				</div>
-				<div className="yc-query-item">
-					<Input
-						title="地址"
-						style={_style1}
-						size="large"
-						placeholder="地址信息"
-						{...getFieldProps('addr', {
-							initialValue: params.addr,
-							getValueFromEvent: e => e.trim(),
 						})}
 					/>
 				</div>
@@ -579,7 +553,7 @@ class AUCTION extends React.Component {
 							{auctionSort === undefined && <img src={defaultOrder} alt="" className="sort th-sort-default" /> }
 							{auctionSort === 'DESC' && <span className="sort th-sort-down" />}
 							{auctionSort === 'ASC' && <span className="sort th-sort-up" />}
-							拍卖时间
+							开拍时间
 						</div>
 						<div className="yc-right-order" onClick={() => this.currentSort('DESC')}>
 							{/* {currentSort === undefined && <span className="sort th-sort-default" />} */}
@@ -624,7 +598,7 @@ class AUCTION extends React.Component {
 							color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
 						}}
 						>
-							如需更多数据请联系：186-5718-6471
+							如需更多数据请联系：180-7294-2900
 						</div>
 					)}
 				</Spin>

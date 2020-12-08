@@ -3,7 +3,7 @@ import service from '@/utils/service';
 
 /*  监控信息 => 代位权/涉诉监控 */
 
-// 关注/取消关注
+// 收藏/取消收藏
 export const attention = (params, star) => service.post(`/yc/monitor/early/warning/attention?isAttention=${star}`, params)
 	.then(res => res.data);
 
@@ -30,6 +30,6 @@ export const caseDetail = params => service.get('/yc/monitor/early/warning/caseD
 export const infoObligorList = params => service.get('/yc/monitor/early/warning/infoObligorList', { params })
 	.then(res => res.data);
 
-// 关注列表
+// 收藏列表
 export const attentionList = params => service.get('/yc/monitor/focus/attentionList', { params })
 	.then(res => res.data);

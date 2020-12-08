@@ -124,7 +124,6 @@ const assets = {
 	trademark: {
 		id: 10603,
 		name: '资产-无形资产-商标专利',
-		params: { role: 1, regDateStart: '2019-05-01' },
 		list: params => service.get('/yc/search/portrait/company/asset/intangible/trademark/list', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/intangible/listCount', { params })
@@ -133,7 +132,6 @@ const assets = {
 	construct: {
 		id: 10604,
 		name: '资产-无形资产-建筑建造资质',
-		params: { role: 1, regDateStart: '2019-05-01' },
 		list: params => service.get('/yc/search/portrait/company/asset/intangible/construct/list', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/intangible/listCount', { params })
@@ -142,20 +140,42 @@ const assets = {
 	bidding: {
 		id: 10701,
 		name: '资产-招投标',
-		params: { role: 1, regDateStart: '2019-05-01' },
 		list: params => service.get('/yc/search/portrait/company/asset/bidding/list', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/bidding/listCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
-	// unblock: {
-	// 	id: 10801,
-	// 	name: '资产-查解封资产',
-	// 	params: { role: 1, regDateStart: '2019-05-01' },
-	// 	list: params => service.get('/yc/search/portrait/company/asset/bidding/list', { params })
-	// 		.then(res => res.data),
-	// 	count: (params, id) => service.get('/yc/search/portrait/company/asset/bidding/listCount', { params })
-	// 		.then(res => Object.assign(res.data, { id })),
-	// },
+	financialBidding: {
+		id: 10801,
+		name: '资产-金融资产-竞价项目',
+		list: params => service.get('/yc/search/portrait/company/asset/finance/auctionFinanceList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/finance/financeCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'auctionFinance' })),
+	},
+	financialMerchants: {
+		id: 10802,
+		name: '资产-金融资产-招商项目',
+		list: params => service.get('/yc/search/portrait/company/asset/finance/financeInvestmentList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/finance/financeCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'financeInvestment' })),
+	},
+	financialPublicity: {
+		id: 10803,
+		name: '资产-金融资产-公示项目',
+		list: params => service.get('/yc/search/portrait/company/asset/finance/financeList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/finance/financeCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'finance' })),
+	},
+	unblock: {
+		id: 10901,
+		name: '资产-查解封资产',
+		list: params => service.get('/yc/search/portrait/company/asset/unseal/unsealList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
 };
 export default assets;

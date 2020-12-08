@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavTab } from '@/common';
 import Router from '@/utils/Router';
+import {
+	setting, settingEd, orgCount, orgCountEd, userList, userListEd,
+} from '@/assets/img/nav-tab';
 import PushManage from './push-manage';
 import UserList from './user-list';
 import OrganizationStatistics from './organization-statistics';
 import OperateLog from './operate-log';
-import {
-	setting, settingEd, orgCount, orgCountEd, userList, userListEd,
-} from '@/assets/img/nav-tab';
 
 const source = rule => ([
 	{

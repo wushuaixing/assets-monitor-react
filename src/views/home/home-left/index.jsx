@@ -4,14 +4,22 @@ import {
 	importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage, importantListPledge, importantListSubrogationCourt,
 	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
 	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
-	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight,
+	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight, importantListEstateRegister,
+	importantListCar,
 } from 'api/home';
-import { Spin } from '@/common';
+import { Button as Btn, Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
-import DynamicUpdate from './dynamic-update';
 import './style.scss';
+import DetailItem from '@/views/home/components/detail-item';
+import ImportantInfoModal from '@/views/home/home-left/important-info-modal';
+import DynamicUpdate from './dynamic-update';
 
 const customStyle = { padding: '20px' };
+const compare = property => (a, b) => {
+	const first = a[property];
+	const second = b[property];
+	return second - first;
+};
 class HomeDynamic extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -28,13 +36,18 @@ class HomeDynamic extends PureComponent {
 			AssetImportantReminderObligorIdList: [],
 			RiskImportantReminderObligorIdList: [],
 			loading: false,
+			importLoading: false,
 			finish: false,
+			showModal: false,
+			timeType: 1, // 7天内更新/30天内更新状态，
 		};
 	}
 
 	componentDidMount() {
 		const params = { type: 1 };
 		this.getData(params);
+		this.getAssetImportantReminder();
+		// this.getRiskImportantReminder();
 	}
 
 	// 获取数组的总数
@@ -65,6 +78,7 @@ class HomeDynamic extends PureComponent {
 		this.setState({ loading: true });
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
 		handlePromise.then((res) => {
+			this.setState({ loading: false, finish: true });
 			const isArray = Array.isArray(res) && res.length > 0;
 			// this.setState({ loading: false, finish: true });
 			if (isArray) {
@@ -86,13 +100,16 @@ class HomeDynamic extends PureComponent {
 		if (res && res.code === 200) {
 			const {
 				auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
-				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, financeInvestment,
+				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister,
+				financeInvestment, vehicleInformation,
 			} = res.data;
 			const landNum = this.getTotal([landMortgage, landTransaction, landTransfer]);
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
 			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial]);
 			const financeNum = this.getTotal([auctionBidding, finance, financeInvestment]);
-			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal]);
+			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission,
+				finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt,
+				subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister, vehicleInformation]);
 			const assetDataArray = [
 				{
 					count: auction, type: 1, typeName: '资产拍卖', name: '资产拍卖', value: 1,
@@ -121,13 +138,18 @@ class HomeDynamic extends PureComponent {
 				{
 					count: unseal, type: 14, typeName: '查/解封资产', name: '查/解封资产', value: 9,
 				},
+				{
+					count: estateRegister, type: 14, typeName: '不动产登记', name: '不动产登记', value: 10,
+				},
+				{
+					count: vehicleInformation, type: 14, typeName: '车辆信息', name: '车辆信息', value: 11,
+				},
 			];
 			// console.log('assetDataArray === ', assetDataArray);
 			const assetPropsData = {
 				totalNum,
 				assetDataArray,
 			};
-			this.getAssetImportantReminder(res);
 			this.setState({
 				assetPropsData,
 				// loading: false,
@@ -136,56 +158,102 @@ class HomeDynamic extends PureComponent {
 	};
 
 	// 资产每个模块的重要信息提醒
-	getAssetImportantReminder = (objValue) => {
-		const {
-			auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
-			mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal,
-		} = objValue.data;
-		const params = {
-			num: 10,
-			type: objValue.type,
-		};
-		const auctionParams = {
-			num: 30,
-			type: objValue.type,
-		};
-		const apiArray = [
-			{ count: auction, Api: importantListAuction, auction: true },
-			{ count: bidding, Api: importantListBidding },
-			{ count: unseal, Api: importantListUnseal },
-			{ count: landTransfer, Api: importantListLandTransfer },
-			{ count: landMortgage, Api: importantListLandMortgage },
-			{ count: landTransaction, Api: importantListLandTransaction },
+	getAssetImportantReminder = () => {
+	/*	const apiImport = [
+			importantListAuction,
+			importantListBidding,
+			importantListUnseal,
+			importantListLandTransfer,
+			importantListLandMortgage,
+			importantListLandTransaction,
+			importantListAuctionBidding,
+			importantListFinance,
+			importantListIntangibleEmission,
+			importantListIntangibleMining,
+			importantListIntangibleTrademarkRight,
+			importantListIntangibleConstruct,
+			importantListMortgage,
+			importantListPledge,
+			importantListSubrogationCourt,
+			importantListSubrogationTrial,
+			importantListSubrogationJudgment,
+			importantListEstateRegister,
+			importantListCar,
+			importantListRiskBankruptcy,
+			importantListRiskPunishment,
+			importantListRiskTax,
+			importantListRiskIllegal,
+			importantListRiskAbnormal,
+			importantListRiskChange,
+			importantListRiskEpb,
+			importantListRiskDishonest,
+			importantListLawsuitTrial,
+			importantListLawsuitCourt,
+			importantListLawsuitJudgment,
+			importantListLimitHeight,
+		]; */
+		 const apiArray = [
+			{ count: 'zcwjzcpm', Api: importantListAuction, auction: true },
+			/* { count: 'zcwjzbzb', Api: importantListBidding }, */
+			{ count: 'zcwjcjfzc', Api: importantListUnseal },
 
-			{ count: auctionBidding, Api: importantListAuctionBidding },
-			{ count: finance, Api: importantListFinance },
+			{ count: 'zcwjtdsj', Api: importantListLandTransfer },
+			{ count: 'zcwjtdsj', Api: importantListLandMortgage },
+			{ count: 'zcwjtdsj', Api: importantListLandTransaction },
 
-			{ count: emission, Api: importantListIntangibleEmission },
-			{ count: mining, Api: importantListIntangibleMining },
-			{ count: trademark, Api: importantListIntangibleTrademarkRight },
-			{ count: construct, Api: importantListIntangibleConstruct },
+			/* { count: 'zcwjjrzj', Api: importantListAuctionBidding },
+			{ count: 'zcwjjrzj', Api: importantListFinance }, */
 
-			{ count: mortgage, Api: importantListMortgage },
-			{ count: stock, Api: importantListPledge },
+			{ count: 'zcwjwxzc', Api: importantListIntangibleEmission },
+			{ count: 'zcwjwxzc', Api: importantListIntangibleMining },
+			{ count: 'zcwjwxzc', Api: importantListIntangibleTrademarkRight },
+			{ count: 'zcwjwxzc', Api: importantListIntangibleConstruct },
 
-			{ count: subrogationCourt, Api: importantListSubrogationCourt },
-			{ count: subrogationTrial, Api: importantListSubrogationTrial },
-			{ count: subrogationJudgement, Api: importantListSubrogationJudgment },
+			{ count: 'zcwjdcdy', Api: importantListMortgage },
+
+			{ count: 'zcwjgqzy', Api: importantListPledge },
+
+			{ count: 'zcwjdwq', Api: importantListSubrogationCourt },
+			{ count: 'zcwjdwq', Api: importantListSubrogationTrial },
+			{ count: 'zcwjdwq', Api: importantListSubrogationJudgment },
+
+			{ count: 'zcwjbdcdj', Api: importantListEstateRegister },
+			{ count: 'zcwjclxx', Api: importantListCar },
+
+			 { count: 'fxjkqypccz', Api: importantListRiskBankruptcy },
+
+			 { count: 'jyfxxzcf', Api: importantListRiskPunishment },
+			 { count: 'jyfxsswf', Api: importantListRiskTax },
+			 { count: 'jyfxyzwf', Api: importantListRiskIllegal },
+			 { count: 'jyfxjyyc', Api: importantListRiskAbnormal },
+			 { count: 'jyfxgsbg', Api: importantListRiskChange },
+			 { count: 'jyfxhbcf', Api: importantListRiskEpb },
+
+			 { count: 'jkxxsxjl', Api: importantListRiskDishonest },
+
+			 { count: 'fxjkssjk', Api: importantListLawsuitTrial },
+			 { count: 'fxjkssjk', Api: importantListLawsuitCourt },
+			 { count: 'fxjkssjk', Api: importantListLawsuitJudgment },
+			 { count: 'fxjkxzgxf', Api: importantListLimitHeight },
 		];
+
 		const AssetImportantReminderArray = [];
-		apiArray.filter(i => i.count).forEach((item) => {
-			AssetImportantReminderArray.push(item.Api(item.auction ? auctionParams : params));
+		apiArray.forEach((item) => {
+			if (global.authRoleList.includes(item.count)) {
+				AssetImportantReminderArray.push(item.Api());
+			}
 		});
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		// console.log(promiseArray, 123);
+		this.setState({ importLoading: true });
 		const handlePromise = promiseAll(AssetImportantReminderArray.map(promiseItem => promiseItem.catch(err => err)));
 		if (AssetImportantReminderArray.length === 0) {
-			this.setState({ loading: false, finish: true });
+			this.setState({ importLoading: false });
 		}
 		handlePromise.then((res) => {
 			const isArray = Array.isArray(res) && res.length > 0;
-			this.setState({ loading: false, finish: true });
+			this.setState({ importLoading: false });
 			const AssetImportantReminderList = [];
 			const AssetImportantReminderObligorIdList = [];
 			if (isArray) {
@@ -197,12 +265,13 @@ class HomeDynamic extends PureComponent {
 					}
 				});
 			}
+			console.log('AssetImportantReminderList', AssetImportantReminderList);
 			this.setState(() => ({
 				AssetImportantReminderList,
 				AssetImportantReminderObligorIdList,
 			}));
 		}).catch((reason) => {
-			this.setState({ loading: false, finish: false });
+			this.setState({ importLoading: false });
 			console.log('promise reject failed reason', reason);
 		});
 	};
@@ -237,27 +306,30 @@ class HomeDynamic extends PureComponent {
 				totalNum,
 				riskDataArray,
 			};
-			this.getRiskImportantReminder(res);
+
 			this.setState({
 				riskPropsData,
+				loading: false,
 			});
 		}
 	};
 
-	getRiskImportantReminder = (objValue) => {
-		const {
-			abnormal, bankruptcy, dishonest, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, change,
-			punishment, tax, epb, limitHeight,
-		} = objValue.data;
-		const params = {
-			num: 10,
-			type: objValue.type,
-		};
-		const auctionParams = {
-			num: 30,
-			type: objValue.type,
-		};
-		const apiArray = [
+	getRiskImportantReminder = () => {
+		const apiImport = [
+			importantListRiskBankruptcy,
+			importantListRiskPunishment,
+			importantListRiskTax,
+			importantListRiskIllegal,
+			importantListRiskAbnormal,
+			importantListRiskChange,
+			importantListRiskEpb,
+			importantListRiskDishonest,
+			importantListLawsuitTrial,
+			importantListLawsuitCourt,
+			importantListLawsuitJudgment,
+			importantListLimitHeight,
+		];
+		/* const apiArray = [
 			{ count: bankruptcy, Api: importantListRiskBankruptcy },
 			{ count: punishment, Api: importantListRiskPunishment },
 			{ count: tax, Api: importantListRiskTax },
@@ -270,11 +342,12 @@ class HomeDynamic extends PureComponent {
 			{ count: lawsuitCourt, Api: importantListLawsuitCourt },
 			{ count: lawsuitJudgement, Api: importantListLawsuitJudgment },
 			{ count: limitHeight, Api: importantListLimitHeight },
-		];
+		]; */
 		const RiskImportantReminderArray = [];
-		apiArray.filter(i => i.count).forEach((item) => {
-			RiskImportantReminderArray.push(item.Api(item.auction ? auctionParams : params));
+		apiImport.filter(i => i.count).forEach((item) => {
+			RiskImportantReminderArray.push(item());
 		});
+		this.setState({ importLoading: true });
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		const handlePromise = promiseAll(RiskImportantReminderArray.map(promiseItem => promiseItem.catch(err => err)));
@@ -282,8 +355,8 @@ class HomeDynamic extends PureComponent {
 		// 	this.setState({ loading: false, finish: true });
 		// }
 		handlePromise.then((res) => {
+			this.setState({ importLoading: false });
 			const isArray = Array.isArray(res) && res.length > 0;
-
 			const RiskImportantReminderList = [];
 			const RiskImportantReminderObligorIdList = [];
 			if (isArray) {
@@ -302,7 +375,7 @@ class HomeDynamic extends PureComponent {
 				RiskImportantReminderObligorIdList,
 			}));
 		}).catch((reason) => {
-			this.setState({ loading: false, finish: false });
+			this.setState({ importLoading: false, finish: false });
 			console.log('promise reject failed reason', reason);
 		});
 	};
@@ -312,20 +385,35 @@ class HomeDynamic extends PureComponent {
 			type: index + 1,
 		};
 		this.setState(() => ({
+			timeType: index + 1,
 			checkType: index,
-			AssetImportantReminderList: [],
-			RiskImportantReminderList: [],
 			finish: false,
 		}));
 		this.getData(params);
 	};
 
+	// 打开显示重要信息标准弹窗
+	handleImportantInfoStandard = () => {
+		this.setState({
+			showModal: true,
+		});
+	};
+
+	getUnReadNum = (value) => {
+		// clearAsset = true;
+		// clearRisk = true;
+		// clearAssetNum = true;
+		// clearRiskNum = true;
+		console.log(value);
+	};
+
 	render() {
 		const {
-			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
-			RiskImportantReminderObligorIdList,
+			checkArray, checkType, loading, importLoading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
+			RiskImportantReminderObligorIdList, timeType, showModal,
 		} = this.state;
 		const params = {
+			timeType,
 			assetPropsData,
 			riskPropsData,
 			AssetImportantReminderList,
@@ -333,42 +421,70 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderList,
 			RiskImportantReminderObligorIdList,
 		};
+		const newAssetArr = [...AssetImportantReminderList];
+		const assetArr = (newAssetArr.sort(compare('timestamp')));
+		const newRiskArr = [...RiskImportantReminderList];
+		const riskArr = (newRiskArr.sort(compare('timestamp')));
+		const newAllArr = newAssetArr.concat(newRiskArr);
+		const allArr = assetArr.concat(riskArr);
 		return (
-			<div className="dynamic-container">
-				<div className="dynamic-container-header">
-					<div className="dynamic-container-header-name">动态</div>
-					<div className="horizontal-line" />
-					{
-						checkArray.map((item, index) => (
-							<div
-								key={item.type}
-								onClick={() => this.handleClick(index)}
-								className="dynamic-container-header-type"
-								style={checkType === index ? { borderBottom: '2px solid #fb8e3c', color: '#FB8E3C', fontWeight: '500' } : {}}
-							>
-								{item.name}
+			<React.Fragment>
+				<div className="dynamic-container">
+					<div className="dynamic-container-header">
+						<div className="dynamic-container-header-name">新增动态</div>
+						<div className="horizontal-line" />
+						{
+							checkArray.map((item, index) => (
+								<div
+									key={item.type}
+									onClick={() => this.handleClick(index)}
+									className="dynamic-container-header-type"
+									style={checkType === index ? { borderBottom: '2px solid #fb8e3c', color: '#FB8E3C', fontWeight: '500' } : {}}
+								>
+									{item.name}
+								</div>
+							))
+						}
+					</div>
+					<Spin visible={loading} minHeight={315}>
+						{!finish ? null : (
+							<div style={customStyle}>
+								<DynamicUpdate {...params} />
 							</div>
-						))
-					}
+						)}
+					</Spin>
 				</div>
-				<Spin visible={loading} minHeight={663}>
-					{!finish ? null : (
-						<div>
-							{checkType === 0 ? (
-								<div style={customStyle}>
-									<DynamicUpdate {...params} />
-								</div>
-							) : null}
-							{checkType === 1 ? (
-								<div style={customStyle}>
-									<DynamicUpdate {...params} />
-								</div>
-							) : null}
+				<div className="home-import-list">
+					<Spin visible={importLoading} minHeight={404}>
+						<div className="seven-update-content-title">
+							<div className="seven-update-content-title-name">
+								<div className="dynamic-container-header-name">重要信息提醒</div>
+								<Btn className="seven-update-content-checkBtn" onClick={() => this.handleImportantInfoStandard()}>规则说明</Btn>
+							</div>
 						</div>
-					)}
-				</Spin>
-
-			</div>
+						{
+							allArr.length > 0 ? (
+								<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} />
+							) : (
+								<React.Fragment>
+									{
+										importLoading ? null : (
+											<div className="detail-container-noData">
+												<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
+												<span className="detail-container-noData-text">暂无重要信息提醒</span>
+											</div>
+										)
+									}
+								</React.Fragment>
+							)
+					}
+					</Spin>
+				</div>
+				<ImportantInfoModal
+					visible={showModal}
+					onCancel={() => this.setState({ showModal: false })}
+				/>
+			</React.Fragment>
 		);
 	}
 }

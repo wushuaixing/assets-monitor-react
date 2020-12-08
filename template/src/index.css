@@ -43,6 +43,13 @@ span {
 
 a {
   font-size: inherit; }
+
+.accurate{
+  background-image:url("../img/icon-accurate.png");
+  background-repeat: no-repeat;
+  background-size: 5%;
+}
+
 .regStatus-green{
   border: 1px solid #3DBD7D;
   background-color: #f4fffa;
@@ -58,6 +65,7 @@ a {
   background-color: #fef9f3;
   color: #FB8E3C;
 }
+
 .display-none {
   display: none; }
 
@@ -69,6 +77,18 @@ a {
 
 .green {
   background: #3dbd7d !important; }
+
+.f-green{
+  color: #3dbd7d;
+}
+
+.orange{
+  background: #FB8E3C !important;
+}
+
+.blue{
+  background: #1C80E1 !important;
+}
 
 .gray {
   background: #7d8699 !important; }
@@ -108,6 +128,10 @@ a {
 
 .mg-r {
   margin-right: 5px; }
+
+.long-mgr{
+  margin-right: 10px;
+}
 
 .ta-c {
   text-align: center; }
@@ -255,5 +279,32 @@ table {
   background-color: #eff4ff;
   border: 1px solid #1c80e1;
   color: #1c80e1; }
+
+.w-180{
+  width: 180px;
+}
+
+.w-200{
+  width: 200px;
+}
+
+.w-400{
+  width: 400px;
+}
+
+.inblock{
+  display: inline-block;
+}
+
+.horizontal-space{
+  margin: 0 15px 0 25px;
+}
+.fix-top-table{
+  margin-top: -3px;
+}
+
+.ft-normal{
+  font-weight: normal;
+}
 
 /*# sourceMappingURL=index.css.map */

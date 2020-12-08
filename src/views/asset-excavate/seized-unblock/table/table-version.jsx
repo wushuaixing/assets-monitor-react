@@ -17,61 +17,70 @@ export default class TableVersion extends React.Component {
 	}
 
 	componentWillMount() {
-		// this.toGetData();
+		this.toGetData();
 	}
 
-	toGetColumns=() => [
+	toGetColumns = () => [
 		{
 			title: '拍卖信息',
 			dataIndex: 'caseNumber',
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-						{
-							row.parties.map((i, index) => (
-								<div style={{ display: 'inline-block' }}>
-									<Ellipsis
-										content={`${index === row.parties.length - 1 ? `${i.name}` : `${i.name}、`}`}
-										tooltip
-										width={380}
-										font={14}
-										url={`${i.obligorId !== 0 ? `/#/business/debtor/detail?id=${i.obligorId}` : ''}`}
-									/>
-								</div>
-							))
-						}
+						<Ellipsis
+							content={row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`}
+							tooltip
+							width={510}
+							font={14}
+							url={row.dataType === 2 ? `#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}` : ''}
+						/>
 					</li>
+				</div>
+			),
+		},
+		{
+			title: '其他信息',
+			width: 270,
+			dataIndex: 'caseNumber',
+			render: (value, row) => (
+				<div className="assets-info-content">
 					<li>
 						<span className="list list-title align-justify">关联案号</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{value}</span>
-						<span className="list-split" style={{ height: 16 }} />
+						<span className="list list-content">{value || '-'}</span>
+					</li>
+					<li>
 						<span className="list list-title align-justify">执行法院</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{row.court}</span>
 					</li>
 				</div>
 			),
-		}, {
+		},
+		{
 			title: '关联信息',
-			width: 270,
 			dataIndex: 'caseNumber',
+			width: 250,
 			render: (value, row) => (
 				<div className="assets-info-content">
 					{
-						row.dataType === 1 ? (
+						row.dataType === 2 ? (
 							<React.Fragment>
 								<li>
 									<span className="list list-title align-justify">判决日期</span>
 									<span className="list list-title-colon">:</span>
+									<span className="list list-content">{timeStandard(row.judementTime)}</span>
+								</li>
+								<li>
+									<span className="list list-title align-justify">发布日期</span>
+									<span className="list list-title-colon">:</span>
 									<span className="list list-content">{timeStandard(row.publishTime)}</span>
 								</li>
-								<li style={{ height: 24 }} />
 							</React.Fragment>
 						) : null
 					}
 					{
-						row.dataType === 2 ? (
+						row.dataType === 1 ? (
 							<React.Fragment>
 								<li>
 									<span className="list list-title align-justify">查封日期</span>
@@ -100,7 +109,7 @@ export default class TableVersion extends React.Component {
 	toGetData = (page) => {
 		const { portrait, condition } = this.props;
 		const { api, params } = getDynamicAsset(portrait, condition || {
-			b: 10801,
+			b: 10901,
 		});
 		this.setState({ loading: true });
 		api.list({

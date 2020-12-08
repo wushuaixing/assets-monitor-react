@@ -29,8 +29,11 @@ export default class Subrogation extends React.Component {
 	}
 
 	componentDidMount() {
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({});
+		}
 		this.onUnReadCount();
-		this.onQueryChange({});
 	}
 
 	// 清除排序状态
@@ -68,21 +71,21 @@ export default class Subrogation extends React.Component {
 		}
 	};
 
-	// 批量关注
+	// 批量收藏
 	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource } = this.state;
 			const _this = this;
 			Modal.confirm({
-				title: '确认关注选中的所有信息吗？',
+				title: '确认收藏选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
 					follow({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
-							_this.selectRow = []; // 批量关注清空选中项
+							_this.selectRow = []; // 批量收藏清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
@@ -222,13 +225,13 @@ export default class Subrogation extends React.Component {
 								<span className="yc-all-read-text">全部标为已读</span>
 							</div>
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download condition={() => this.condition} api={exportList} all text="一键导出" />
+								<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							</div>
 						</div>
 					) : (
 						<div className="yc-batch-management">
-							<Button onClick={this.handleAttention} title="关注" />
+							<Button onClick={this.handleAttention} title="收藏" />
 							<Download
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 								api={exportList}
@@ -238,9 +241,9 @@ export default class Subrogation extends React.Component {
 								text="导出"
 								waringText="未选中数据"
 							/>
-
-							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
+								style={{ margin: 0 }}
+								type="common"
 								onClick={() => {
 									this.setState({ manage: false });
 									this.selectRow = [];

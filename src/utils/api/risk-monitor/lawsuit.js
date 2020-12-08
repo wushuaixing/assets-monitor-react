@@ -6,13 +6,13 @@ const Trial = {
 	attention: params => s.post('/yc/monitor/trial/lawsuit/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/trial/lawsuit/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/trial/lawsuit/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/trial/lawsuit/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/trial/lawsuit/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/trial/lawsuit/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/trial/lawsuit/list', { params }).then(res => Object.assign(res.data,
@@ -44,13 +44,13 @@ const Court = {
 	attention: params => s.post('/yc/monitor/court/lawsuit/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/court/lawsuit/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/court/lawsuit/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/court/lawsuit/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/court/lawsuit/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/court/lawsuit/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/court/lawsuit/list', { params }).then(res => Object.assign(res.data,
@@ -82,13 +82,13 @@ const Judgment = {
 	attention: params => s.post('/yc/monitor/judgment/lawsuit/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/judgment/lawsuit/export',
-	// POST关注 => 收藏<
+	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/judgment/lawsuit/follow/attention', params).then(res => res.data),
-	// GET关注 => 列表
+	// GET收藏 => 列表
 	followList: params => s.get('/yc/monitor/judgment/lawsuit/follow/list', { params }).then(res => res.data),
-	// GET关注 => 列表Count
+	// GET收藏 => 列表Count
 	followListCount: () => s.get('/yc/monitor/judgment/lawsuit/follow/list-count', {}).then(res => res.data),
-	// POST关注 => 取消收藏
+	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/judgment/lawsuit/follow/un-attention', params).then(res => res.data),
 	// GET列表
 	list: params => s.get('/yc/monitor/judgment/lawsuit/list', { params }).then(res => Object.assign(res.data,

@@ -8,6 +8,7 @@ import Api from '@/utils/api/monitor-info/public';
 import { unReadCount } from '@/utils/api/monitor-info';
 
 // 搜索框
+import { getUrlParams } from '@/views/asset-excavate/query-util';
 import QueryResult from './query/result';
 import QueryTransfer from './query/transfer';
 import QueryMortgage from './query/mortgage';
@@ -77,7 +78,11 @@ export default class Lawsuits extends React.Component {
 		const { tabConfig } = this.state;
 		const sourceType = Tabs.Simple.toGetDefaultActive(tabConfig, 'process');
 		this.setState({ sourceType });
-		this.onQueryChange({}, sourceType);
+		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({}, sourceType);
+		}
+
 		this.onUnReadCount();
 		// this.setUnReadCount = setInterval(() => {
 		// 	this.onUnReadCount();
@@ -152,21 +157,21 @@ export default class Lawsuits extends React.Component {
 		}
 	};
 
-	// 批量关注
+	// 批量收藏
 	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource, sourceType } = this.state;
 			const _this = this;
 			Modal.confirm({
-				title: '确认关注选中的所有信息吗？',
+				title: '确认收藏选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
 					Api[toGetApi(sourceType, 'attentionFollow')]({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
-							_this.selectRow = []; // 批量关注清空选中项
+							_this.selectRow = []; // 批量收藏清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
@@ -202,6 +207,24 @@ export default class Lawsuits extends React.Component {
 		});
 	};
 
+	isUrlParams=(val) => {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			let dParams = {};
+			if (Number(val) === 1) {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			if (Number(val) === 2) {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			if (Number(val) === 3) {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			return dParams;
+		}
+		return {};
+	};
+
 	// sourceType变化
 	onSourceType = (val) => {
 		this.setState({
@@ -212,7 +235,7 @@ export default class Lawsuits extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange({}, val, 1, 1);
+		this.onQueryChange(this.isUrlParams(val), val, 1, 1);
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 
@@ -338,19 +361,24 @@ export default class Lawsuits extends React.Component {
 							</div>
 							{/* <Button onClick={this.handleAllRead}>全部标为已读</Button> */}
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
 									condition={() => this.condition}
 									api={Api[toGetApi(sourceType, 'exportList')]}
-									style={{ float: 'right' }}
 								/>
+								<Button
+									style={{ margin: '0 0 0 10px' }}
+									onClick={() => this.setState({ manage: true })}
+								>
+									批量管理
+								</Button>
+
 							</div>
 						</div>
 					) : (
 						<div className="yc-batch-management">
-							<Button onClick={this.handleAttention} title="关注" />
+							<Button onClick={this.handleAttention} title="收藏" />
 							<Download
 								text="导出"
 								waringText="未选中数据"
@@ -362,6 +390,8 @@ export default class Lawsuits extends React.Component {
 							/>
 							{/* <Button onClick={this.handleExport} title="导出" /> */}
 							<Button
+								style={{ margin: 0 }}
+								type="common"
 								onClick={() => {
 									this.setState({ manage: false });
 									this.selectRow = [];

@@ -133,20 +133,9 @@ class AUCTION extends React.PureComponent {
 					</div>
 					<div style={_style3} className="item">
 						<Input
-							title="产权证"
-							maxLength="40"
-							placeholder="房产证/土地证"
-							{...getFieldProps('certificate', {
-								getValueFromEvent: e => e.trim(),
-							})}
-						/>
-					</div>
-					<div style={_style1} className="item">
-						<Input
-							title="处置机关"
-							maxLength="20"
-							placeholder="处置法院/单位"
-							{...getFieldProps('court', {
+							title="全文"
+							placeholder="关键字"
+							{...getFieldProps('addr', {
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -171,15 +160,6 @@ class AUCTION extends React.PureComponent {
 								rules: [
 									{ required: true },
 								],
-							})}
-						/>
-					</div>
-					<div style={_style3} className="item">
-						<Input
-							title="地址"
-							placeholder="地址信息"
-							{...getFieldProps('addr', {
-								getValueFromEvent: e => e.trim(),
 							})}
 						/>
 					</div>
@@ -219,20 +199,6 @@ class AUCTION extends React.PureComponent {
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startTime'))}
 						/>
 					</div>
-					<div className="item" style={{ width: 210, marginRight: 16 }}>
-						<span>拍卖标的物：</span>
-						<Select
-							style={{ width: 137 }}
-							placeholder="请选择标的物类型"
-							size="large"
-							{...getFieldProps('category', {
-							})}
-						>
-							{
-								someThing.map(item => <Select.Option value={item.key}>{item.name}</Select.Option>)
-							}
-						</Select>
-					</div>
 					<div className="other">
 						<span>拍卖状态：</span>
 						<Select
@@ -248,6 +214,20 @@ class AUCTION extends React.PureComponent {
 							<Select.Option value="7">已流拍</Select.Option>
 							<Select.Option value="1">即将开始</Select.Option>
 							<Select.Option value="3">正在进行</Select.Option>
+						</Select>
+					</div>
+					<div className="item" style={{ width: 210, marginRight: 16 }}>
+						<span>拍卖标的物：</span>
+						<Select
+							style={{ width: 137 }}
+							placeholder="请选择标的物类型"
+							size="large"
+							{...getFieldProps('category', {
+							})}
+						>
+							{
+								someThing.map(item => <Select.Option value={item.key}>{item.name}</Select.Option>)
+							}
 						</Select>
 					</div>
 				</div>

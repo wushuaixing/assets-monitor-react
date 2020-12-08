@@ -1,10 +1,20 @@
 import React from 'react';
-import { Pagination } from 'antd';
+import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import RegisterModal from './registerModal';
+
+const getName = (list, key) => {
+	let temp = '';
+	list.forEach((i) => {
+		if (i.role === key) {
+			temp = `${temp + i.name} `;
+		}
+	});
+	return temp;
+};
 // 获取表格配置
 const columns = (props, openRegisterModalFunc) => {
 	const { normal, onRefresh, noSort } = props;
@@ -28,14 +38,9 @@ const columns = (props, openRegisterModalFunc) => {
 			width: 200,
 			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
 		}, {
-			title: '起诉法院',
-			dataIndex: 'court',
-			width: 180,
-			render: text => text || '-',
-		}, {
 			title: '标题',
 			dataIndex: 'title',
-			width: 506,
+			width: 200,
 			render: (text, record) => {
 				if (record.url) {
 					return (
@@ -43,9 +48,52 @@ const columns = (props, openRegisterModalFunc) => {
 					);
 				}
 				return (
-					<span className="click-link" onClick={() => openRegisterModalFunc(record)}>{text || '-'}</span>
+					<span>{text || '-'}</span>
 				);
 			},
+		},
+		{
+			title: '相关单位',
+			dataIndex: 'court',
+			width: 220,
+			render: (text, row) => (
+				<div className="yc-assets-table-info">
+					{
+						getName(row.parties, '申请人') && (
+							<li className="table-info-list" style={{ width: 220 }}>
+								<span className="list list-title align-justify">申请人</span>
+								<span className="list list-title-colon">:</span>
+								<Tooltip placement="top" title={getName(row.parties, '申请人')}>
+									<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '申请人')}</span>
+								</Tooltip>
+							</li>
+						)
+					}
+					{
+						getName(row.parties, '被申请人') && (
+							<li className="table-info-list" style={{ width: 220 }}>
+								<span className="list list-title align-justify">被申请人</span>
+								<span className="list list-title-colon">:</span>
+								<Tooltip placement="top" title={getName(row.parties, '被申请人')}>
+									<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '被申请人')}</span>
+								</Tooltip>
+							</li>
+						)
+					}
+					{
+					text && (
+					<li className="table-info-list" style={{ width: 220 }}>
+						<span className="list list-title align-justify">经办法院</span>
+						<span className="list list-title-colon">:</span>
+						<Tooltip placement="top" title={row.certificateType}>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{text}</span>
+						</Tooltip>
+					</li>
+					)
+				}
+
+				</div>
+			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

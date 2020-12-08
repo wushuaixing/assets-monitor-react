@@ -52,7 +52,7 @@ const ruleList = (props) => {
 		if (rule.menu_zcwj)l.push(<Monitor path="monitor/*" rule={rule.menu_zcwj} baseRule={rule} remark="信息监控-资产挖掘" />);
 		if (rule.menu_fxjk)l.push(<Risk path="risk/*" rule={rule.menu_fxjk} baseRule={rule} remark="信息监控-风险监控" />);
 		l.push(<InfoMonitor path="info/monitor/*" rule={rule} remark="信息监控-概览" />);
-		l.push(<Attention path="info/monitor/attention/*" remark="信息监控-我的关注" />);
+		l.push(<Attention path="info/monitor/attention/*" remark="信息监控-我的收藏" />);
 	}
 
 	/* 信息搜索 [画像查询、分类搜索] */
@@ -128,6 +128,11 @@ export default class Screen extends React.Component {
 		authRule().then((res) => {
 			if (res.code === 200) {
 				const rule = handleRule(res.data.orgPageGroups);
+				const roleList = [];
+				res.data.orgPageGroups.forEach((i) => {
+					roleList.push(i.rule);
+				});
+				global.authRoleList = roleList;
 				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 				this.setState({
 					loading: 'hidden',

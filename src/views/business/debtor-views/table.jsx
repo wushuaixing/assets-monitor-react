@@ -1,10 +1,12 @@
 import React from 'react';
 import { Modal, Form, message } from 'antd';
 import { openPush, closePush } from '@/utils/api/debator';
-import { Ellipsis, Icon, Table } from '@/common';
+import {
+	Ellipsis, Icon, SelectedNum, Table,
+} from '@/common';
+import { SortVessel } from '@/common/table';
 import isBreak from '../../../assets/img/business/status_shixin.png';
 import beforeBreak from '../../../assets/img/business/status_cengshixin.png';
-import { SortVessel } from '@/common/table';
 
 const { confirm } = Modal;
 
@@ -12,7 +14,12 @@ class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			selectedRowKeys: [],
 		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({ selectedRowKeys: nextProps.selectIds });
 	}
 
 	// 跳转详情
@@ -26,7 +33,7 @@ class BusinessView extends React.Component {
 		const { getData } = this.props;// 刷新列表
 		const Api = row && row.pushState === 1 ? closePush : openPush;
 		const params = {
-			id: row.id,
+			idList: [row.id],
 		};
 		const start = new Date().getTime(); // 获取接口响应时间
 		return Api(params).then((res) => {
@@ -67,9 +74,17 @@ class BusinessView extends React.Component {
 		});
 	};
 
+	// 选择框
+	onSelectChange=(selectedRowKeys) => {
+		const { onSelect } = this.props;
+		if (onSelect)onSelect(selectedRowKeys);
+
+		this.setState({ selectedRowKeys });
+	};
+
 	render() {
-		const { stateObj } = this.props;
-		const { onSortChange, sortField, sortOrder } = this.props;
+		const { stateObj, manage } = this.props;
+		const { onSortChange, sortField, sortOrder ,selectIds} = this.props;
 		const sort = {
 			sortField,
 			sortOrder,
@@ -143,12 +158,12 @@ class BusinessView extends React.Component {
 							text === 1 ? (
 								<span>
 									<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
-										开启
+									开启
 								</span>
 							) : (
 								<span>
 									<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
-										关闭
+									关闭
 								</span>
 							)
 						}
@@ -167,16 +182,25 @@ class BusinessView extends React.Component {
 				</span>
 			),
 		}];
+		const { selectedRowKeys } = this.state;
+		const rowSelection = manage ? {
+			rowSelection: {
+				selectedRowKeys,
+				onChange: this.onSelectChange,
+			},
+		} : null;
 		return (
 			<React.Fragment>
+				{selectIds && selectIds.length > 0 ? <SelectedNum num={selectIds.length} /> : null}
 				<Table
+					{...rowSelection}
+					rowKey={record => record.id}
 					columns={columns}
 					dataSource={stateObj.dataList}
 					style={{ width: '100%' }}
 					defaultExpandAllRows
 					pagination={false}
 					onRowClick={() => {
-
 					}}
 				/>
 			</React.Fragment>

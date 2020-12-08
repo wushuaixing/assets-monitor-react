@@ -1,6 +1,6 @@
 import React from 'react';
-import Card from '../card';
 import { navigateDetailRisk } from '@/utils';
+import Card from '../card';
 import './style.scss';
 
 const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
@@ -39,7 +39,7 @@ export default class Involved extends React.Component {
 											<div className="business-lawsuit-card">
 												<span style={{ fontSize: '12px', color: '#4E5566', paddingRight: '5px' }}>涉诉风险债务人：</span>
 												<span className="business-bankruptcy-card-num">{obligorTotal || 0}</span>
-											名
+												名
 											</div>
 										) : (portrait === 'debtor_personal' ? (
 											<div>
@@ -66,7 +66,7 @@ export default class Involved extends React.Component {
 												<span className="card-content-role-text">{item.typeName}</span>
 												<span className="card-content-role-info">：</span>
 												<span className="business-lawsuit-container-card-num ">{item.count || 0}</span>
-											条
+												条
 											</div>
 										)))
 								}

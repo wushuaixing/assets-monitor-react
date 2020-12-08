@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Spin, NoContent } from '@/common';
-import { parseQuery } from '@/utils';
+import { parseQuery, clearEmpty } from '@/utils';
 import { judgmentDetail, judgmentUnsealDetail } from '@/utils/api/index';
 import './style.scss';
 
@@ -13,6 +13,8 @@ function getUrl(type) {
 	}
 	return url;
 }
+const { hash } = window.location;
+const urlTitle = parseQuery(hash).title;
 
 class Judgement extends React.Component {
 	constructor(props) {
@@ -22,12 +24,11 @@ class Judgement extends React.Component {
 			loading: true,
 			url: '',
 			htmlText: '',
-			title: '',
+			title: urlTitle,
 		};
 	}
 
 	componentWillMount() {
-		const { hash } = window.location;
 		const params = parseQuery(hash);
 		const newParams = {
 			pid: params.pid,
@@ -39,7 +40,7 @@ class Judgement extends React.Component {
 	// 请求数据
 	getData = (params, title, urlType) => {
 		const api = getUrl(urlType);
-		api(params).then((res) => {
+		api(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					loading: false,

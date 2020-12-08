@@ -24,7 +24,7 @@ export default class Subrogation extends React.Component {
 
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
-				<div className="public-table-tab">
+				<div className="public-table-tab" style={{ position: 'relative' }}>
 					<div className="yc-tabs-simple-prefix">
 						代位权
 						<span className="yc-table-num">{count}</span>

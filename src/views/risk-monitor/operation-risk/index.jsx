@@ -6,9 +6,10 @@ import {
 import { changeURLArg, clearEmpty } from '@/utils';
 import ruleMethods from '@/utils/rule';
 import API from '@/utils/api/risk-monitor/operation-risk';
+import { getUrlParams } from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
-import Table from './table'; /* Table 展示列表 */
+import Table from './table';
 
 const toGetConfig = () => {
 	const rule = ruleMethods.toGetRuleSource('', 'YC10', 'YC03');
@@ -47,7 +48,13 @@ export default class OperationRisk extends React.Component {
 		const sourceType = Tabs.Simple.toGetDefaultActive(this.config, 'process');
 		this.setState({
 			sourceType,
-		}, () =>	this.onQueryChange({}));
+		}, () => {
+			this.toInfoCount(sourceType);
+			const url = window.location.hash;
+			if (url.indexOf('?') === -1) {
+				this.onQueryChange({});
+			}
+		});
 	}
 
 	// 清除排序状态
@@ -91,21 +98,21 @@ export default class OperationRisk extends React.Component {
 		}
 	};
 
-	// 批量关注
+	// 批量收藏
 	handleAttention = () => {
 		if (this.selectRow.length > 0) {
 			const idList = this.selectRow;
 			const { dataSource, sourceType } = this.state;
 			const _this = this;
 			Modal.confirm({
-				title: '确认关注选中的所有信息吗？',
+				title: '确认收藏选中的所有信息吗？',
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
 					API(sourceType, 'attention')({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
-							_this.selectRow = []; // 批量关注清空选中项
+							_this.selectRow = []; // 批量收藏清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
 								idList.forEach((it) => {
@@ -141,6 +148,32 @@ export default class OperationRisk extends React.Component {
 		});
 	};
 
+	isUrlParams=(val) => {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			let dParams = {};
+			if (val === 'YC030301') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			}
+			if (val === 'YC030302') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			if (val === 'YC030303') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			} if (val === 'YC030304') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			} if (val === 'YC030305') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			} if (val === 'YC030306') {
+				dParams = getUrlParams(url, 'startCreateTime', 'endCreateTime');
+			}
+
+			return dParams;
+		}
+		return {};
+	};
+
+
 	// sourceType变化
 	onSourceType=(sourceType) => {
 		this.setState({
@@ -151,8 +184,9 @@ export default class OperationRisk extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.condition = {};
-		this.onQueryChange('', sourceType, 'all', 1);
+
+		this.onQueryChange(this.isUrlParams(sourceType), sourceType, 'all', 1);
+		this.toInfoCount(sourceType);
 		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
 	};
@@ -195,7 +229,6 @@ export default class OperationRisk extends React.Component {
 			loading: true,
 			manage: _manage || false,
 		});
-		this.toInfoCount(__type);
 		API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.config[toGetProcess(__type, this.config)].number = res.data.total;
@@ -271,18 +304,18 @@ export default class OperationRisk extends React.Component {
 								<span className="yc-all-read-text">全部标为已读</span>
 							</div>
 							<div className="yc-public-floatRight">
-								<Button onClick={() => this.setState({ manage: true })}>批量管理</Button>
 								<Download
 									all
 									text="一键导出"
 									condition={() => this.condition}
 									api={API(sourceType, 'exportList')}
 								/>
+								<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							</div>
 						</div>
 					) : (
 						<div className="yc-batch-management">
-							<Button onClick={this.handleAttention} title="关注" />
+							<Button onClick={this.handleAttention} title="收藏" />
 							<Download
 								text="导出"
 								waringText="未选中数据"
@@ -293,6 +326,8 @@ export default class OperationRisk extends React.Component {
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}
 							/>
 							<Button
+								style={{ margin: 0 }}
+								type="common"
 								onClick={() => {
 									this.setState({ manage: false });
 									this.selectRow = [];

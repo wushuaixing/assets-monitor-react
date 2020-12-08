@@ -41,7 +41,7 @@ const subItems = data => ([
 	// {
 	// 	id: 20900,
 	// 	name: '限制高消费',
-	// 	total: data ? toGetTotal('2090', data) : 12,
+	// 	total: data ? toGetTotal('2090', data) : 0,
 	// 	info: data ? data.filter(i => /2090/.test(i.id)) : '',
 	// 	tagName: 'e-risk-limitHeight',
 	// 	component: LimitHeight,
@@ -156,7 +156,7 @@ export default class Risk extends React.Component {
 
 	render() {
 		const { config, loading } = this.state;
-		const { count } = this.props;
+		const { count, name } = this.props;
 		const aryResult = (subItems(count).filter(i => i.total > 0)).length;
 		return (
 			<div className="inquiry-assets" style={{ padding: '10px 20px' }}>
@@ -165,7 +165,8 @@ export default class Risk extends React.Component {
 						<div>
 							{
 								aryResult ? config.map(Item => (
-									Item.total ? <Item.component id={Item.tagName} data={Item.info} portrait="enterprise" /> : ''))
+									// eslint-disable-next-line react/jsx-pascal-case
+									Item.total ? <Item.component name={name || ''} id={Item.tagName} data={Item.info} portrait="enterprise" /> : ''))
 									: <NoContent />
 							}
 						</div>

@@ -9,6 +9,8 @@ import Intangible from './intangible';
 import Stock from './stock';
 import Chattel from './chattel';
 import Bidding from './bidding';
+import Financial from './financial';
+import Unblock from './unblock';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -47,6 +49,17 @@ const subItems = (data, portrait) => {
 			role: roleState('zcwj', 'zcwjzcpm'),
 		},
 		{
+			id: 10300,
+			baseId: 1030,
+			name: '土地信息',
+			total: data ? toGetTotal('1030', data) : 0,
+			info: data ? data.filter(i => /1030/.test(i.id)) : '',
+			tagName: 'e-assets-land',
+			component: Land,
+			isStatus: 'only',
+			role: roleState('zcwj', 'zcwjtdsj'),
+		},
+		{
 			id: 10400,
 			baseId: 1040,
 			name: '无形资产',
@@ -57,17 +70,6 @@ const subItems = (data, portrait) => {
 			component: Intangible,
 			isStatus: 'only',
 			role: roleState('zcwj', 'zcwjwxzc'),
-		},
-		{
-			id: 10300,
-			baseId: 1030,
-			name: '土地信息',
-			total: data ? toGetTotal('1030', data) : 0,
-			info: data ? data.filter(i => /1030/.test(i.id)) : '',
-			tagName: 'e-assets-land',
-			component: Land,
-			isStatus: 'only',
-			role: roleState('zcwj', 'zcwjtdsj'),
 		},
 		{
 			id: 10200,
@@ -100,6 +102,30 @@ const subItems = (data, portrait) => {
 			role: roleState('zcwj', 'zcwjdcdy'),
 			tagName: 'e-assets-chattel',
 			component: Chattel,
+			isStatus: 'only',
+		},
+		{
+			id: 10900,
+			baseId: 1090,
+			name: '查/解封资产',
+			total: data ? toGetTotal('1090', data) : 0,
+			info: data ? data.filter(i => /1090/.test(i.id)) : '',
+			role: roleState('zcwj', 'zcwjcjfzc'),
+			disabled: true,
+			tagName: 'e-assets-unblock',
+			component: Unblock,
+			isStatus: 'only',
+		},
+		{
+			id: 10800,
+			baseId: 1080,
+			name: '金融资产',
+			total: data ? toGetTotal('1080', data) : 0,
+			info: data ? data.filter(i => /1080/.test(i.id)) : '',
+			role: roleState('zcwj', 'zcwjjrzj'),
+			disabled: true,
+			tagName: 'e-assets-financial',
+			component: Financial,
 			isStatus: 'only',
 		},
 		{
@@ -148,7 +174,8 @@ class Assets extends React.Component {
 		}
 	}
 
-	handleScroll=(eleID) => {
+	// 手动定位高度
+	handleScroll = (eleID) => {
 		const dom = document.getElementById(eleID);
 		const { portrait } = this.props;
 		const _height = portrait === 'business' ? 190 : 155;
@@ -158,7 +185,8 @@ class Assets extends React.Component {
 		}
 	};
 
-	toGetSubItems=() => {
+	// 获取config配置项
+	toGetSubItems = () => {
 		const { config } = this.state;
 		return (
 			<div className="yc-intro-sub-items">
@@ -185,6 +213,7 @@ class Assets extends React.Component {
 				{ assetLoading ? <Spin minHeight={350} />
 					: (
 						aryResult ? config.map(Item => (
+							// eslint-disable-next-line react/jsx-pascal-case
 							Item.total && Item.role ? <Item.component id={Item.tagName} data={Item.info} portrait={portrait} /> : ''))
 							: <NoContent />
 					)

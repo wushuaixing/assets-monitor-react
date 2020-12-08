@@ -94,6 +94,11 @@ export const importantListUnseal = async (params) => {
 	const response = await service.get('/yc/monitor/unseal/importantList', { params });
 	return Object.assign(response.data, { name: 'unseal' });
 };
+// 查/解封资产
+export const importantListEstateRegister = async (params) => {
+	const response = await service.get('/yc/monitor/estateRegister/importantList', { params });
+	return Object.assign(response.data, { name: 'unseal' });
+};
 // 金融资产-竞价项目
 export const importantListAuctionBidding = async (params) => {
 	const response = await service.get('/yc/monitor/finance/auctionBidding/importantList', { params });
@@ -124,7 +129,7 @@ export const importantListIntangibleConstruct = async (params) => {
 	const response = await service.get('/yc/monitor/intangible/construct/importantList', { params });
 	return Object.assign(response.data, { name: 'IntangibleConstruct' });
 };
-// 建筑建造资质
+// 动产抵押
 export const importantListMortgage = async (params) => {
 	const response = await service.get('/yc/monitor/mortgage/importantList', { params });
 	return Object.assign(response.data, { name: 'mortgage' });
@@ -180,7 +185,7 @@ export const importantListRiskChange = async (params) => {
 	const response = await service.get('/yc/monitor/risk/change/importantList', { params });
 	return Object.assign(response.data, { name: 'change' });
 };
-// 经营风险经营异常
+// 经营风险环境处罚
 export const importantListRiskEpb = async (params) => {
 	const response = await service.get('/yc/monitor/risk/epb/importantList', { params });
 	return Object.assign(response.data, { name: 'epb' });
@@ -208,5 +213,10 @@ export const importantListLawsuitJudgment = async (params) => {
 // 限制高消费
 export const importantListLimitHeight = async (params) => {
 	const response = await service.get('/yc/monitor/limitHeight/importantList', { params });
+	return Object.assign(response.data, { name: 'limitHeight' });
+};
+// 限制高消费
+export const importantListCar = async (params) => {
+	const response = await service.get('/yc/monitor/vehicle/importantList', { params });
 	return Object.assign(response.data, { name: 'limitHeight' });
 };

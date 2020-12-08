@@ -43,6 +43,8 @@ const EnterpriseInfo = (arg = {}) => {
 	const {
 		obligorName: name, legalPersonName, regCapital, regCapitalUnit, regStatus, establishTime, usedName, logoUrl,
 	} = arg.data;
+	const { affixStatus } = arg;
+	// console.log('affixStatus === ', affixStatus);
 	const _formerNames = (usedName || []).join('、');
 	const style = {
 		// minWidth: 80,
@@ -51,130 +53,137 @@ const EnterpriseInfo = (arg = {}) => {
 
 	return (
 		<div className="enterprise-info">
-			<div className="intro-icon">
-				{
-					logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
-						: <img className="intro-icon-img-auto" src={PublicImg} alt="" />
-				}
-			</div>
-			<div className="intro-content">
-				<div className="intro-title">
-					<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
-						{name}
+			{
+				affixStatus ? (
+					<div className="intro-title">
+						<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
+							{name}
+							{
+								isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+							}
+							{
+								isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
+							}
+							{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null} */}
+						</span>
 						{
-							isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+							regStatus
+								? (
+									<span
+										className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`}
+										style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}
+									>
+										{regStatus}
+									</span>
+								) : ''
 						}
 						{
-							isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
+							limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
 						}
-						{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null} */}
-					</span>
-					{
-						regStatus ? (
-							<span
-								className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`}
-								style={isDishonest ? { marginTop: 2, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}
-							>
-								{regStatus}
-							</span>
-						) : null
-					}
-					{
-						limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
-					}
-					{
-						bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
-					}
-					<span
-						className="inquiry-list-regStatus regStatus-blue"
-						style={pushState ? { marginTop: 2, marginRight: 5 } : {
-							marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
-						}}
-					>
-						{'当前推送状态：'}
-						{pushState ? '开启' : '关闭'}
-					</span>
-				</div>
-				<div className="intro-base-info">
-					<li className="intro-info-list intro-list-border">
-						<span className="yc-public-remark">法定代表人：</span>
-						<span className="yc-public-title" style={style}>{w(legalPersonName)}</span>
-					</li>
-					<li className="intro-info-list intro-list-border">
-						<span className="yc-public-remark">注册资本：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? `${regCapital}${regCapitalUnit}` : '-'}</span>
-					</li>
-					<li className="intro-info-list">
-						<span className="yc-public-remark">成立日期：</span>
-						<span className="yc-public-title">{establishTime ? timeStandard(establishTime) : '-'}</span>
-					</li>
-				</div>
-				<div className="intro-used">
-					<li className="intro-info-list">
 						{
-							toEmpty(_formerNames) ? [
-								<span className="yc-public-remark">曾用名：</span>,
-								<span className="yc-public-title">{_formerNames}</span>,
-							] : null
+							bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
 						}
-					</li>
-				</div>
-			</div>
-			{/* <DownloadButton /> */}
-		</div>
-	);
-};
-/* 企业概要-简单版 */
-const EnterpriseInfoSimple = (props) => {
-	const {
-		data: {
-			bankruptcy, dishonestStatus: isDishonest, pushState, limitConsumption, regStatus, obligorName,
-		},
-	} = props;
-	return (
-		<div className="enterprise-info enterprise-info-simple">
-			<div className="intro-title">
-				<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
-					{obligorName}
-					{
-						isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
-					}
-					{
-						isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
-					}
-					{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null} */}
-				</span>
-				{
-					regStatus
-						? (
-							<span
-								className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`}
-								style={isDishonest ? { marginTop: 2, marginLeft: 58 } : { marginTop: 2 }}
-							>
-								{regStatus}
-							</span>
-						) : ''
-				}
-				{
-					limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
-				}
-				{
-					bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
-				}
-				<span
-					className="inquiry-list-regStatus regStatus-blue"
-					style={pushState ? { marginTop: 2, marginRight: 5 } : {
-						marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
-					}}
-				>
-					{'当前推送状态：'}
-					{pushState ? '开启' : '关闭'}
-				</span>
-			</div>
+						<span
+							className="inquiry-list-regStatus regStatus-blue"
+							style={pushState ? { marginTop: 2, marginRight: 5 } : {
+								marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+							}}
+						>
+							{'当前推送状态：'}
+							{pushState ? '开启' : '关闭'}
+						</span>
+					</div>
+				) : (
+					<React.Fragment>
+						<div className="intro-icon">
+							{
+								logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
+									: <img className="intro-icon-img-auto" src={PublicImg} alt="" />
+							}
+						</div>
+						<div className="intro-content">
+							<div className="intro-title">
+								<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
+									{name}
+									{
+										isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+									}
+									{
+										isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
+									}
+									{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" /> : null} */}
+								</span>
+								{
+									regStatus ? (
+										<span
+											className={`inquiry-list-regStatus${getRegStatusClass(regStatus)}`}
+											style={isDishonest ? { marginTop: 2, marginRight: 5 } : { marginTop: 2, marginRight: 5 }}
+										>
+											{regStatus}
+										</span>
+									) : null
+								}
+								{
+									limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
+								}
+								{
+									bankruptcy ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: 2, marginRight: 5 }}>破产/重整风险</span> : null
+								}
+								<span
+									className="inquiry-list-regStatus regStatus-blue"
+									style={pushState ? { marginTop: 2, marginRight: 5 } : {
+										marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+									}}
+								>
+									{'当前推送状态：'}
+									{pushState ? '开启' : '关闭'}
+								</span>
+							</div>
+							<div className="intro-base-info">
+								<li className="intro-info-list intro-list-border">
+									<span className="yc-public-remark">法定代表人：</span>
+									<span className="yc-public-title" style={style}>{w(legalPersonName)}</span>
+								</li>
+								<li className="intro-info-list intro-list-border">
+									<span className="yc-public-remark">注册资本：</span>
+									<span className="yc-public-title" style={style}>{toEmpty(regCapital) ? `${regCapital}${regCapitalUnit}` : '-'}</span>
+								</li>
+								<li className="intro-info-list">
+									<span className="yc-public-remark">成立日期：</span>
+									<span className="yc-public-title">{establishTime ? timeStandard(establishTime) : '-'}</span>
+								</li>
+							</div>
+							<div className="intro-used">
+								<li className="intro-info-list">
+									{
+										toEmpty(_formerNames) ? [
+											<span className="yc-public-remark">曾用名：</span>,
+											<span className="yc-public-title">{_formerNames}</span>,
+										] : null
+									}
+								</li>
+							</div>
+						</div>
+					</React.Fragment>
+				)
+			}
 			<DownloadButton />
 		</div>
 	);
 };
+/* 企业概要-简单版 */
+// const EnterpriseInfoSimple = (props) => {
+// 	const {
+// 		data: {
+// 			bankruptcy, dishonestStatus: isDishonest, pushState, limitConsumption, regStatus, obligorName,
+// 		},
+// 	} = props;
+// 	return (
+// 		<div className="enterprise-info enterprise-info-simple">
+// 			<DownloadButton />
+// 		</div>
+// 	);
+// };
 
 /* 个人概要 */
 const PersonalInfo = (arg = {}) => {
@@ -184,6 +193,7 @@ const PersonalInfo = (arg = {}) => {
 	const {
 		obligorName: name, logoUrl, obligorNumber,
 	} = arg.data;
+	const { affixStatus } = arg;
 	const style = {
 		minWidth: 80,
 		display: 'inline-block',
@@ -191,90 +201,99 @@ const PersonalInfo = (arg = {}) => {
 
 	return (
 		<div className="enterprise-info">
-			<div className="intro-icon intro-icon-per">
-				{
-					logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
-						: <img className="intro-icon-img-auto" src={PublicPerImg} alt="" />
-				}
-			</div>
-			<div className="intro-content" style={{ marginTop: 4, marginLeft: 76 }}>
-				<div className="intro-title">
-					<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
-						{name}
+			{
+				affixStatus ? (
+					<div className="intro-title">
+						<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
+							{name}
+							{
+								isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+							}
+							{
+								isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
+							}
+						</span>
 						{
-							isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+							limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
 						}
-						{
-							isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
-						}
-					</span>
-					{
-						limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
-					}
-					<span
-						className="inquiry-list-regStatus regStatus-blue"
-						style={pushState ? { marginTop: 2, marginRight: 5 } : {
-							marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
-						}}
-					>
-						{'当前推送状态：'}
-						{pushState ? '开启' : '关闭'}
-					</span>
-				</div>
-				<div className="intro-base-info">
-					<li className="intro-info-list">
-						<span className="yc-public-remark">证件号：</span>
-						<span className="yc-public-title" style={style}>{obligorNumber || '-'}</span>
-					</li>
-				</div>
-			</div>
-			{/* <DownloadButton /> */}
-		</div>
-	);
-};
-/* 个人概要-简单版 */
-const PersonalInfoSimple = (props) => {
-	const {
-		data: {
-			dishonestStatus: isDishonest, pushState, limitConsumption, obligorName,
-		},
-	} = props;
-	return (
-		<div className="enterprise-info enterprise-info-simple">
-			<div className="intro-title">
-				<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
-					{obligorName}
-					{
-						isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
-					}
-					{
-						isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
-					}
-				</span>
-				{
-					limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
-				}
-				<span
-					className="inquiry-list-regStatus regStatus-blue"
-					style={pushState ? { marginTop: 2, marginRight: 5 } : {
-						marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
-					}}
-				>
-					{'当前推送状态：'}
-					{pushState ? '开启' : '关闭'}
-				</span>
-			</div>
+						<span
+							className="inquiry-list-regStatus regStatus-blue"
+							style={pushState ? { marginTop: 2, marginRight: 5 } : {
+								marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+							}}
+						>
+							{'当前推送状态：'}
+							{pushState ? '开启' : '关闭'}
+						</span>
+					</div>
+				) : (
+					<React.Fragment>
+						<div className="intro-icon intro-icon-per">
+							{
+								logoUrl ? <div className="intro-icon-img-w"><img className="intro-icon-img" src={logoUrl} alt="" /></div>
+									: <img className="intro-icon-img-auto" src={PublicPerImg} alt="" />
+							}
+						</div>
+						<div className="intro-content" style={{ marginTop: 4, marginLeft: 76 }}>
+							<div className="intro-title">
+								<span className="yc-public-title-large-bold intro-title-name" style={isDishonest && { marginRight: '55px' }}>
+									{name}
+									{
+										isDishonest === 1 ? <img className="intro-title-tag" src={isBreak} alt="" /> : null
+									}
+									{
+										isDishonest === 2 ? <img className="intro-title-tag" src={beforeBreak} alt="" /> : null
+									}
+								</span>
+								{
+									limitConsumption ? <span className="inquiry-list-regStatus regStatus-orange" style={{ marginTop: 2, marginRight: 5 }}>已限高</span> : null
+								}
+								<span
+									className="inquiry-list-regStatus regStatus-blue"
+									style={pushState ? { marginTop: 2, marginRight: 5 } : {
+										marginTop: 2, marginRight: 5, color: '#7D8699', backgroundColor: '#F0F1F5', border: '1px solid #DADDE6',
+									}}
+								>
+									{'当前推送状态：'}
+									{pushState ? '开启' : '关闭'}
+								</span>
+							</div>
+							<div className="intro-base-info">
+								<li className="intro-info-list">
+									<span className="yc-public-remark">证件号：</span>
+									<span className="yc-public-title" style={style}>{obligorNumber || '-'}</span>
+								</li>
+							</div>
+						</div>
+					</React.Fragment>
+				)
+			}
 			<DownloadButton />
 		</div>
 	);
 };
+/* 个人概要-简单版 */
+// const PersonalInfoSimple = (props) => {
+// 	const {
+// 		data: {
+// 			dishonestStatus: isDishonest, pushState, limitConsumption, obligorName,
+// 		},
+// 	} = props;
+// 	return (
+// 		<div className="enterprise-info enterprise-info-simple">
+// 			<DownloadButton />
+// 		</div>
+// 	);
+// };
 
 const DebtorInfo = (props) => {
 	const { data, portrait, affixStatus } = props;
 	if (/enterprise/.test(portrait)) {
-		return affixStatus ? <EnterpriseInfoSimple data={data} /> : <EnterpriseInfo data={data} />;
+		return <EnterpriseInfo affixStatus={affixStatus} data={data} />;
+		// return affixStatus ? <EnterpriseInfoSimple data={data} /> : <EnterpriseInfo data={data} />;
 	}
-	return affixStatus ? <PersonalInfoSimple data={data} /> : <PersonalInfo data={data} />;
+	// return affixStatus ? <PersonalInfoSimple data={data} /> : <PersonalInfo data={data} />;
+	return <PersonalInfo affixStatus={affixStatus} data={data} />;
 };
 
 export default DebtorInfo;

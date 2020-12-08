@@ -171,9 +171,9 @@ export default class HeaderMessage extends React.Component {
 										}}
 										target="_blank"
 									>
-									消息中心
+										消息中心
 									</a>
-								查看
+									查看
 								</span>
 							</div>
 						)}
