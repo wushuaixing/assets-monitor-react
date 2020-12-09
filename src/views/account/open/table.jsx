@@ -22,7 +22,7 @@ const nextOrgcolumns = (props) => {
 	const {
 		isTop, handleOpenEditOrg, warningModal, switchOrg,
 	} = props;
-	console.log('orgProps ===', props);
+	// console.log('orgProps ===', props);
 	return [
 		{
 			title: '序号',

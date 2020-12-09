@@ -99,7 +99,7 @@ class SearchTree extends React.Component {
 	// 点击搜索按钮
 	handleSearchOrg = () => {
 		const { searchValue } = this.state;
-		console.log('handleSearchOrg === ', searchValue);
+		// console.log('handleSearchOrg === ', searchValue);
 		const expandedKeys = dataList
 			.map((item) => {
 				if (item.title.indexOf(searchValue) > -1) {
@@ -123,7 +123,7 @@ class SearchTree extends React.Component {
 
 	onGetTitleNode = (item) => {
 		let titltNode = item.title;
-		console.log('item === ', item);
+		// console.log('item === ', item);
 		if (item.children) {
 			titltNode = (
 				<a title="0-0-0-0" className="ant-tree-node-content-wrapper">
