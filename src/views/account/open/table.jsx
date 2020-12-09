@@ -305,6 +305,7 @@ class OrgTable extends React.Component {
 						<Button className="account-table-data-oper-add" onClick={this.handleAddCurrentAccount}>添加账号</Button>
 					</div>
 					<Table
+						className="account-open-table"
 						scroll={{ y: 220 }}
 						pagination={false}
 						columns={currentOrgcolumns(this.props)}

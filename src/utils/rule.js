@@ -124,7 +124,7 @@ export default {
 							[item.rule]: item,
 						} : {
 							[item.rule]: item,
-							proxy: { groupName: 'menu_proxy', rule: 'proxy', title: '账号开通' },
+							zhkt: { groupName: 'menu_zhkt', rule: 'zhkt', title: '账号开通' },
 						},
 					};
 				}
@@ -532,7 +532,7 @@ export default {
 				id: 'YC07',
 				name: '账号开通',
 				url: '/account',
-				status: toStatus(rule.else, 'proxy'),
+				status: toStatus(rule.else, 'dljg') && toStatus(rule.else, 'zhkt'),
 				dot: false,
 			},
 		];

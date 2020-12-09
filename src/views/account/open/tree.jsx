@@ -216,26 +216,33 @@ class SearchTree extends React.Component {
 			return <TreeNode key={item.key} title={title} />;
 		});
 		return (
-			<div className="account-box">
-				<div className="account-box-title">机构管理</div>
-				<div className="account-box-search">
-					<Input
-						className="account-box-search-input"
-						placeholder="请输入要查找的机构"
-						onChange={this.onChangeInput}
-					/>
-					<span className="account-box-search-box" onClick={this.handleSearchOrg}>
-						<Icon className="account-box-search-box-icon" type="icon-search" />
-					</span>
+			<div className="account-left">
+				<div className="account-box">
+					<div className="account-box-title">机构管理</div>
+					<div className="account-box-search">
+						<Input
+							className="account-box-search-input"
+							placeholder="请输入要查找的机构"
+							onChange={this.onChangeInput}
+						/>
+						<span className="account-box-search-box" onClick={this.handleSearchOrg}>
+							<Icon className="account-box-search-box-icon" type="icon-search" />
+						</span>
+					</div>
 				</div>
-				<Tree
-					className="account-tree"
-					onExpand={this.onExpand}
-					expandedKeys={expandedKeys}
-					autoExpandParent={autoExpandParent}
-				>
-					{loop(gData)}
-				</Tree>
+				<div className="tree-box">
+					<div className="tree-box-inner">
+						<Tree
+							height={400}
+							className="account-tree"
+							onExpand={this.onExpand}
+							expandedKeys={expandedKeys}
+							autoExpandParent={autoExpandParent}
+						>
+							{loop(gData)}
+						</Tree>
+					</div>
+				</div>
 			</div>
 		);
 	}

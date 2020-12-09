@@ -134,6 +134,9 @@ export default class Screen extends React.Component {
 				res.data.orgPageGroups.forEach((i) => {
 					roleList.push(i.rule);
 				});
+				if (!res.data.isProxyLimit) {
+					roleList.push('zhkt');
+				}
 				global.authRoleList = roleList;
 				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 				this.setState({

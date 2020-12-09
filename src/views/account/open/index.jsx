@@ -28,7 +28,6 @@ class Open extends React.Component {
 	}
 
 	componentWillMount() {
-
 	}
 
 	componentDidMount() {
