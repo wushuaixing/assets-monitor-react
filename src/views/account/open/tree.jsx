@@ -184,7 +184,7 @@ class SearchTree extends React.Component {
 		const {
 			expandedKeys, autoExpandParent, searchValue,
 		} = this.state;
-		const loop = data => data.map((item, num) => {
+		const loop = data => data.map((item) => {
 			// console.log('item === ', item);
 			const index = item.title.indexOf(searchValue);
 			const beforeStr = item.title.substr(0, index);
@@ -224,8 +224,8 @@ class SearchTree extends React.Component {
 						placeholder="请输入要查找的机构"
 						onChange={this.onChangeInput}
 					/>
-					<span onClick={this.handleSearchOrg}>
-						<Icon className="account-box-search-icon" type="icon-search" />
+					<span className="account-box-search-box" onClick={this.handleSearchOrg}>
+						<Icon className="account-box-search-box-icon" type="icon-search" />
 					</span>
 				</div>
 				<Tree
