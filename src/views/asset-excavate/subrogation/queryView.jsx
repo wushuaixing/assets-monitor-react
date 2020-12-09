@@ -104,7 +104,7 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startGmtCreate')}
+						{...getFieldProps('startGmtCreate',timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtCreate'))}
 					/>
 					<span className="yc-query-item-lable">至</span>
@@ -112,7 +112,7 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endGmtCreate')}
+						{...getFieldProps('endGmtCreate',timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtCreate'))}
 					/>
 				</div>
