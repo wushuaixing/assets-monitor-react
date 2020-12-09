@@ -38,7 +38,7 @@ class Open extends React.Component {
 	}
 
 	// isShowCancel控制显示取消按钮
-	warningModal = ([title, content, okText, cancelText, isShowCancel, type]) => {
+	warningModal = ([item, title, content, okText, cancelText, isShowCancel, type]) => {
 		confirm({
 			className: `warning-modal${isShowCancel ? ' hidden-cancel' : ''} `,
 			title,

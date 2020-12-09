@@ -2,6 +2,22 @@ import React from 'react';
 import { Table, Button } from '@/common';
 import './index.scss';
 
+const deleteOrgTitle = row => (
+	<span>
+		确认删除机构(
+		<span className="ant-confirm-title-point">{row.orgName}</span>
+		)？
+	</span>
+);
+
+const deleteAccountTitle = row => (
+	<span>
+		确认删除（
+		<span className="ant-confirm-title-point">{row.orgName}</span>
+		）的账号？
+	</span>
+);
+
 const nextOrgcolumns = (props) => {
 	const {
 		isTop, handleOpenEditOrg, warningModal, switchOrg,
@@ -11,31 +27,37 @@ const nextOrgcolumns = (props) => {
 		{
 			title: '序号',
 			dataIndex: 'num',
+			width: 50,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: '机构名称',
 			dataIndex: 'orgName',
+			width: 100,
 			render: (value, row) => <span className="switch-org" onClick={() => switchOrg(row.num)}>{value}</span>,
 		},
 		{
 			title: '层级',
 			dataIndex: 'level',
+			width: 74,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: `${isTop ? '已监控债务人数/可监控数' : '累计监控债务人数'}`,
 			dataIndex: 'count',
+			width: 188,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: `${isTop ? '已用查询次数/授权次数' : '累计查询次数'}`,
 			dataIndex: 'useCount',
+			width: 178,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: '操作',
 			dataIndex: 'oper',
+			width: 120,
 			render: (value, row) => (
 				<div>
 					<span className="yc-table-text-link" onClick={() => handleOpenEditOrg({ ...row })}>编辑</span>
@@ -44,13 +66,9 @@ const nextOrgcolumns = (props) => {
 						className="yc-table-text-link"
 						onClick={() => {
 							if (row.id !== 1) {
-								return warningModal([<span>
-									确认删除机构(
-									<span className="ant-confirm-title-point">{row.orgName}</span>
-									)？
-								</span>, '一经删除，无法恢复', '确定', '取消', '', 'deleteOrg']);
+								return warningModal([row, deleteOrgTitle(row), '一经删除，无法恢复', '确定', '取消', '', 'deleteOrg']);
 							}
-							return warningModal(['无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '', true, 'deleteOrg']);
+							return warningModal([row, '无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '', true, 'deleteOrg']);
 						}}
 					>
 						删除
@@ -70,39 +88,40 @@ const currentOrgcolumns = (props) => {
 		{
 			title: '序号',
 			dataIndex: 'num',
+			width: 100,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: '姓名',
 			dataIndex: 'orgName',
+			width: 120,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: '账号',
 			dataIndex: 'phone',
+			width: 170,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: '上次登录时间',
 			dataIndex: 'lastTime',
+			width: 160,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: '操作',
 			dataIndex: 'useCount',
+			width: 140,
 			render: (value, row) => (
 				<div>
 					<span className="yc-table-text-link" onClick={() => handleOpenEditAccount(row)}>编辑</span>
 					<span className="divider" />
-					<span className="yc-table-text-link" onClick={() => warningModal([resetTitle, '点击确定，密码将重置为当前日期', '确定', '取消', 'resetPassword'])}>重置密码</span>
+					<span className="yc-table-text-link" onClick={() => warningModal([row, resetTitle, '点击确定，密码将重置为当前日期', '确定', '取消', 'resetPassword'])}>重置密码</span>
 					<span className="divider" />
 					<span
 						className="yc-table-text-link"
-						onClick={() => warningModal([<span>
-							确认删除（
-							<span className="ant-confirm-title-point">{row.orgName}</span>
-							）的账号？
-						</span>, '一经删除，无法恢复', '确定', '取消', 'deleteAccount'])}
+						onClick={() => warningModal([row, deleteAccountTitle(row), '一经删除，无法恢复', '确定', '取消', 'deleteAccount'])}
 					>
 						删除
 					</span>
@@ -129,6 +148,70 @@ class OrgTable extends React.Component {
 					num: 2,
 					id: 2,
 					orgName: '风险监控部',
+					level: '1级',
+					count: '10/100',
+					useCount: '11/100',
+				},
+				{
+					num: 3,
+					id: 3,
+					orgName: '授信评审部',
+					level: '1级',
+					count: '10/100',
+					useCount: '11/100',
+				},
+				{
+					num: 3,
+					id: 3,
+					orgName: '授信评审部',
+					level: '1级',
+					count: '10/100',
+					useCount: '11/100',
+				},
+				{
+					num: 3,
+					id: 3,
+					orgName: '授信评审部',
+					level: '1级',
+					count: '10/100',
+					useCount: '11/100',
+				},
+				{
+					num: 3,
+					id: 3,
+					orgName: '授信评审部',
+					level: '1级',
+					count: '10/100',
+					useCount: '11/100',
+				},
+				{
+					num: 3,
+					id: 3,
+					orgName: '授信评审部',
+					level: '1级',
+					count: '10/100',
+					useCount: '11/100',
+				},
+				{
+					num: 3,
+					id: 3,
+					orgName: '授信评审部',
+					level: '1级',
+					count: '10/100',
+					useCount: '11/100',
+				},
+				{
+					num: 3,
+					id: 3,
+					orgName: '授信评审部',
+					level: '1级',
+					count: '10/100',
+					useCount: '11/100',
+				},
+				{
+					num: 3,
+					id: 3,
+					orgName: '授信评审部',
 					level: '1级',
 					count: '10/100',
 					useCount: '11/100',
@@ -209,6 +292,7 @@ class OrgTable extends React.Component {
 					<Table
 						className="org-table"
 						pagination={false}
+						scroll={{ y: 220 }}
 						dataSource={nextOrgData}
 						columns={nextOrgcolumns(this.props)}
 					/>
@@ -221,6 +305,7 @@ class OrgTable extends React.Component {
 						<Button className="account-table-data-oper-add" onClick={this.handleAddCurrentAccount}>添加账号</Button>
 					</div>
 					<Table
+						scroll={{ y: 220 }}
 						pagination={false}
 						columns={currentOrgcolumns(this.props)}
 						dataSource={currentOrgData}
