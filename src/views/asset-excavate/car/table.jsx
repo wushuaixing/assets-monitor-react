@@ -27,14 +27,16 @@ const columns = (props) => {
 			title: '车辆所有人',
 			dataIndex: 'obligorName',
 			width: 190,
-			render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''} tooltip />,
+			render: (text, row) => <Ellipsis content={text} width={170} url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : '--'} tooltip />,
 		}, {
 			title: '车辆种类',
 			dataIndex: 'vehicleType',
 			width: 190,
+			render: text => <span>{text || '--'}</span>,
 		}, {
 			title: '车牌号',
 			width: 250,
+			render: text => <span>{text || '--'}</span>,
 			dataIndex: 'vehicleNumber',
 		}, {
 			title: '源链接',
