@@ -532,7 +532,7 @@ export default {
 				id: 'YC07',
 				name: '账号开通',
 				url: '/account',
-				status: toStatus(rule.else, 'dljg') && toStatus(rule.else, 'zhkt'),
+				status: toStatus(rule.else, 'dljg'),
 				dot: false,
 			},
 		];
