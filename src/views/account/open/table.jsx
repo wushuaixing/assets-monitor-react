@@ -48,9 +48,9 @@ const nextOrgcolumns = (props) => {
 									确认删除机构(
 									<span className="ant-confirm-title-point">{row.orgName}</span>
 									)？
-								</span>, '一经删除，无法恢复', '确定', '取消']);
+								</span>, '一经删除，无法恢复', '确定', '取消', '', 'deleteOrg']);
 							}
-							return warningModal(['无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '', true]);
+							return warningModal(['无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '', true, 'deleteOrg']);
 						}}
 					>
 						删除
@@ -94,7 +94,7 @@ const currentOrgcolumns = (props) => {
 				<div>
 					<span className="yc-table-text-link" onClick={() => handleOpenEditAccount(row)}>编辑</span>
 					<span className="divider" />
-					<span className="yc-table-text-link" onClick={() => warningModal([resetTitle, '点击确定，密码将重置为当前日期', '确定', '取消'])}>重置密码</span>
+					<span className="yc-table-text-link" onClick={() => warningModal([resetTitle, '点击确定，密码将重置为当前日期', '确定', '取消', 'resetPassword'])}>重置密码</span>
 					<span className="divider" />
 					<span
 						className="yc-table-text-link"
@@ -102,7 +102,7 @@ const currentOrgcolumns = (props) => {
 							确认删除（
 							<span className="ant-confirm-title-point">{row.orgName}</span>
 							）的账号？
-						</span>, '一经删除，无法恢复', '确定', '取消'])}
+						</span>, '一经删除，无法恢复', '确定', '取消', 'deleteAccount'])}
 					>
 						删除
 					</span>

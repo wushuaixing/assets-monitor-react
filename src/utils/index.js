@@ -492,8 +492,9 @@ export const objectKeyIsEmpty = (obj) => {
 /**
  * 处理路由数据,对默认数据转换为可以使用的数据对象
  * @param source
+ * @param isProxyLimit: true,子级代理，会限制上传和编辑
  */
-export const handleRule = source => ruleMethods.handleRule(source);
+export const handleRule = (source, isProxyLimit) => ruleMethods.handleRule(source, isProxyLimit);
 
 /**
  * 返回默认对应rule数据结构，包含二级三级

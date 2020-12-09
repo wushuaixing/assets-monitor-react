@@ -27,6 +27,10 @@ class Open extends React.Component {
 		};
 	}
 
+	componentWillMount() {
+
+	}
+
 	componentDidMount() {
 		this.setState({
 			isTop: false,
@@ -34,7 +38,7 @@ class Open extends React.Component {
 	}
 
 	// isShowCancel控制显示取消按钮
-	warningModal = ([title, content, okText, cancelText, isShowCancel]) => {
+	warningModal = ([title, content, okText, cancelText, isShowCancel, type]) => {
 		confirm({
 			className: `warning-modal${isShowCancel ? ' hidden-cancel' : ''} `,
 			title,
@@ -42,6 +46,15 @@ class Open extends React.Component {
 			okText: okText || '确定',
 			cancelText,
 			onOk() {
+				if (type === 'resetPassword') {
+					message.success('密码重置成功');
+				} else if (type === 'deleteAccount') {
+					message.success('删除成功');
+				} else if (type === 'deleteOrg') {
+					message.success('删除成功”');
+				} else {
+					message.success('操作成功');
+				}
 				// console.log('确定');
 			},
 			onCancel() {},
