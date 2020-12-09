@@ -167,7 +167,7 @@ class SearchTree extends React.Component {
 	// 手动编辑机构
 	handleEditNextOrg = (item) => {
 		const { handleOpenEditOrg } = this.props;
-		handleOpenEditOrg(item);
+		handleOpenEditOrg({ ...item, orgName: item.title });
 	};
 
 	render() {
@@ -184,7 +184,7 @@ class SearchTree extends React.Component {
 		const {
 			expandedKeys, autoExpandParent, searchValue,
 		} = this.state;
-		const loop = data => data.map((item) => {
+		const loop = data => data.map((item, num) => {
 			// console.log('item === ', item);
 			const index = item.title.indexOf(searchValue);
 			const beforeStr = item.title.substr(0, index);
@@ -201,7 +201,12 @@ class SearchTree extends React.Component {
 					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
 				</React.Fragment>
 			) : (
-				<span>{item.title}</span>
+				<React.Fragment>
+					<span>{item.title}</span>
+					<span onClick={() => this.handleEditNextOrg(item)}><Icon className="edit" type="icon-edit" /></span>
+					<span onClick={this.handleAddNextOrg}><Icon className="add" type="icon-add-circle" /></span>
+					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
+				</React.Fragment>
 			);
 			if (item.children) {
 				return (

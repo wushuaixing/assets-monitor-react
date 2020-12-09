@@ -1,11 +1,12 @@
 import React from 'react';
-import { Form, Modal, Input } from 'antd';
+import { Form, Modal } from 'antd';
+import { Input } from '@/common';
 import './modal.scss';
 
 const createForm = Form.create;
 const FormItem = Form.Item;
 const formItemLayout = {
-	labelCol: { span: 6 },
+	labelCol: { span: 5 },
 	wrapperCol: { span: 15 },
 };
 
@@ -37,8 +38,8 @@ class EditAccountModal extends React.PureComponent {
 		const { form, handleCloseEditAccount } = this.props;
 		const values = form.getFieldsValue();
 		console.log('values === ', values);
-		// handleCloseEditAccount();
-		// this.handleReset();
+		handleCloseEditAccount();
+		this.handleReset();
 	};
 
 	// 手动清除全部
@@ -67,6 +68,7 @@ class EditAccountModal extends React.PureComponent {
 						required
 					>
 						<Input
+							style={{ width: 240 }}
 							placeholder="请填写姓名"
 							{...getFieldProps('name', {
 								initialValue: accountData.orgName,
@@ -78,6 +80,7 @@ class EditAccountModal extends React.PureComponent {
 						label="账号"
 					>
 						<Input
+							style={{ width: 240 }}
 							disabled
 							placeholder="请填写账号（手机号）"
 							{...getFieldProps('account', {

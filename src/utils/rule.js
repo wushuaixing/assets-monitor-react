@@ -7,8 +7,9 @@ export default {
 	/**
 	 * 处理路由数据,对默认数据转换为可以使用的数据对象
 	 * @param source
+	 * @param isProxyLimit=false 没有给导入业务做限制，是顶级虚拟机构
 	 */
-	handleRule: (source) => {
+	handleRule: (source, isProxyLimit) => {
 		const res = {};
 		source.forEach((item) => {
 			switch (item.groupName) {
@@ -119,8 +120,11 @@ export default {
 					res.else = {
 						id: 7,
 						title: '其他',
-						children: {
+						children: isProxyLimit ? {
 							[item.rule]: item,
+						} : {
+							[item.rule]: item,
+							proxy: { groupName: 'menu_proxy', rule: 'proxy', title: '账号开通' },
 						},
 					};
 				}
@@ -528,7 +532,7 @@ export default {
 				id: 'YC07',
 				name: '账号开通',
 				url: '/account',
-				status: rule.menu_jjgl,
+				status: toStatus(rule.else, 'proxy'),
 				dot: false,
 			},
 		];

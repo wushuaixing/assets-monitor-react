@@ -1,13 +1,14 @@
 import React from 'react';
 import {
-	Form, Modal, Input, message,
+	Form, Modal, message,
 } from 'antd';
 import './modal.scss';
+import { Input } from '@/common';
 
 const createForm = Form.create;
 const FormItem = Form.Item;
 const formItemLayout = {
-	labelCol: { span: 6 },
+	labelCol: { span: 5 },
 	wrapperCol: { span: 15 },
 };
 
@@ -78,6 +79,7 @@ class AddAccountModal extends React.PureComponent {
 						required
 					>
 						<Input
+							style={{ width: 240 }}
 							placeholder="请填写姓名"
 							{...getFieldProps('name', {
 								rules: [{
@@ -94,6 +96,8 @@ class AddAccountModal extends React.PureComponent {
 						required
 					>
 						<Input
+							style={{ width: 240 }}
+							maxLength="11"
 							placeholder="请填写账号（手机号）"
 							{...getFieldProps('account',
 								{
@@ -115,6 +119,7 @@ class AddAccountModal extends React.PureComponent {
 						label="密码"
 					>
 						<Input
+							style={{ width: 240 }}
 							disabled
 							placeholder="20200902"
 							{...getFieldProps('password')}

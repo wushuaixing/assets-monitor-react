@@ -8,6 +8,7 @@ import EditOrgModal from '../modal/editOrgModal';
 import AddAccountModal from '../modal/addAccountModal';
 import EditAccountModal from '../modal/editAccountModal';
 import './index.scss';
+import { message } from '../../../../patchs/antd';
 
 const { confirm } = Modal;
 
@@ -22,15 +23,20 @@ class Open extends React.Component {
 			editOrgVisible: false, // 编辑机构弹窗显示控制
 			addAccountVisible: false, // 添加账号弹窗显示控制
 			editAccountVisible: false, // 编辑账号弹窗显示控制
+			isTop: true,
 		};
 	}
 
 	componentDidMount() {
+		this.setState({
+			isTop: false,
+		});
 	}
 
-	warningModal = ([title, content, okText, cancelText]) => {
+	// isShowCancel控制显示取消按钮
+	warningModal = ([title, content, okText, cancelText, isShowCancel]) => {
 		confirm({
-			className: 'warning-modal',
+			className: `warning-modal${isShowCancel ? ' hidden-cancel' : ''} `,
 			title,
 			content,
 			okText: okText || '确定',
@@ -61,7 +67,7 @@ class Open extends React.Component {
 	// 机构编辑
 	// 手动打开编辑机构弹窗
 	handleOpenEditOrg = (orgData) => {
-		console.log('handleEditOrg');
+		console.log('handleEditOrg === ', orgData);
 		this.setState({
 			editOrgVisible: true,
 			orgData,
@@ -107,9 +113,24 @@ class Open extends React.Component {
 		});
 	};
 
+	switchOrg = (id) => {
+		// const start = new Date().getTime();
+		if (id) {
+			// const now = new Date().getTime();
+			// const latency = now - start;
+			const hide = message.loading('正在切换机构,请稍后...', 0);
+			setTimeout(() => {
+				window.location.reload(); // 实现页面重新加载/
+			}, 3000);
+			// 异步手动移除
+			setTimeout(hide, 3000);
+		}
+	};
+
+
 	render() {
 		const {
-			addOrgVisible, editOrgVisible, addAccountVisible, editAccountVisible, orgData, accountData,
+			addOrgVisible, editOrgVisible, addAccountVisible, editAccountVisible, orgData, accountData, isTop,
 		} = this.state;
 		return (
 			<React.Fragment>
@@ -123,8 +144,11 @@ class Open extends React.Component {
 					/>
 					{/* 机构表格 */}
 					<OrgTable
+						isTop={isTop} // 判断是否是顶级机构
+						superiorOrg="风险机构"
 						editOrgVisible={editOrgVisible}
 						handleAddOrg={this.handleAddOrg}
+						switchOrg={this.switchOrg} // 切换机构
 						warningModal={this.warningModal} // 警告弹窗
 						handleOpenEditOrg={this.handleOpenEditOrg} // 打开编辑机构弹窗
 						handleCloseEditOrg={this.handleCloseEditOrg} // 关闭编辑机构弹窗

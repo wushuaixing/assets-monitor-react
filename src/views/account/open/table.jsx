@@ -3,7 +3,10 @@ import { Table, Button } from '@/common';
 import './index.scss';
 
 const nextOrgcolumns = (props) => {
-	const { handleOpenEditOrg, warningModal } = props;
+	const {
+		isTop, handleOpenEditOrg, warningModal, switchOrg,
+	} = props;
+	console.log('orgProps ===', props);
 	return [
 		{
 			title: '序号',
@@ -13,7 +16,7 @@ const nextOrgcolumns = (props) => {
 		{
 			title: '机构名称',
 			dataIndex: 'orgName',
-			render: value => <span>{value}</span>,
+			render: (value, row) => <span className="switch-org" onClick={() => switchOrg(row.num)}>{value}</span>,
 		},
 		{
 			title: '层级',
@@ -21,12 +24,12 @@ const nextOrgcolumns = (props) => {
 			render: value => <span>{value}</span>,
 		},
 		{
-			title: '已监控债务人数/可监控数',
+			title: `${isTop ? '已监控债务人数/可监控数' : '累计监控债务人数'}`,
 			dataIndex: 'count',
 			render: value => <span>{value}</span>,
 		},
 		{
-			title: '已用查询次数/授权次数',
+			title: `${isTop ? '已用查询次数/授权次数' : '累计查询次数'}`,
 			dataIndex: 'useCount',
 			render: value => <span>{value}</span>,
 		},
@@ -35,7 +38,7 @@ const nextOrgcolumns = (props) => {
 			dataIndex: 'oper',
 			render: (value, row) => (
 				<div>
-					<span className="yc-table-text-link" onClick={handleOpenEditOrg}>编辑</span>
+					<span className="yc-table-text-link" onClick={() => handleOpenEditOrg({ ...row })}>编辑</span>
 					<span className="divider" />
 					<span
 						className="yc-table-text-link"
@@ -47,7 +50,7 @@ const nextOrgcolumns = (props) => {
 									)？
 								</span>, '一经删除，无法恢复', '确定', '取消']);
 							}
-							return warningModal(['无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', undefined]);
+							return warningModal(['无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '', true]);
 						}}
 					>
 						删除
@@ -99,7 +102,7 @@ const currentOrgcolumns = (props) => {
 							确认删除（
 							<span className="ant-confirm-title-point">{row.orgName}</span>
 							）的账号？
-              </span>, '一经删除，无法恢复', '确定', '取消'])}
+						</span>, '一经删除，无法恢复', '确定', '取消'])}
 					>
 						删除
 					</span>
@@ -179,12 +182,21 @@ class OrgTable extends React.Component {
 
 	render() {
 		const { nextOrgData, currentOrgData } = this.state;
+		const { switchOrg, superiorOrg } = this.props;
 
 		return (
 			<div className="account-table">
 				<div className="account-table-top" />
 				<div className="account-table-content">
-					<div className="account-table-content-title">第一虚拟代理机构</div>
+					<div className="account-table-content-title">
+						<div className="account-table-content-title-main">第一虚拟代理机构</div>
+						<div className="account-table-content-title-sub">
+							上级机构代理：
+							{
+								superiorOrg ? <span className="account-table-content-title-sub-org" onClick={() => switchOrg(122)}>{superiorOrg}</span> : '--'
+							}
+						</div>
+					</div>
 					<div className="account-table-content-line" />
 				</div>
 				{/* 下级机构列表 */}
@@ -195,6 +207,7 @@ class OrgTable extends React.Component {
 						<Button className="account-table-data-oper-add" onClick={this.handleAddNextOrg}>添加下级机构</Button>
 					</div>
 					<Table
+						className="org-table"
 						pagination={false}
 						dataSource={nextOrgData}
 						columns={nextOrgcolumns(this.props)}

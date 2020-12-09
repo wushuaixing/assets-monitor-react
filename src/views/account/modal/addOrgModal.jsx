@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, Modal, Input } from 'antd';
+import { Form, Modal, message } from 'antd';
+import { Input } from '@/common';
+import './modal.scss';
 
 const createForm = Form.create;
 const FormItem = Form.Item;
@@ -36,6 +38,8 @@ class AddOrgModal extends React.PureComponent {
 		const { form, handleCloseAddOrg } = this.props;
 		const values = form.getFieldsValue();
 		console.log('values === ', values);
+		message.success('添加成功');
+		// message.error('机构名称已存在');
 		handleCloseAddOrg();
 		this.handleReset();
 	};
@@ -59,24 +63,56 @@ class AddOrgModal extends React.PureComponent {
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmBtn}
 			>
-				<Form horizontal>
+				<Form horizontal className="org-form">
 					<FormItem
 						{...formItemLayout}
 						label="机构名称"
 					>
-						<Input placeholder="请输入机构名称" {...getFieldProps('orgName', undefined)} />
+						<div className="yc-query-item">
+							<Input
+								style={{ width: 240 }}
+								size="large"
+								maxLength="40"
+								placeholder="请输入机构名称"
+								{...getFieldProps('orgName', {
+									getValueFromEvent: e => e.trim(),
+								})}
+							/>
+						</div>
 					</FormItem>
 					<FormItem
 						{...formItemLayout}
 						label="可监控债务人数"
 					>
-						<Input placeholder="请输入可监控债务人数" {...getFieldProps('montiorCount', undefined)} />
+						<div className="yc-query-item">
+							<Input
+								style={{ width: 240 }}
+								size="large"
+								maxLength="40"
+								onlyUnit="人"
+								placeholder="请输入可监控债务人数"
+								{...getFieldProps('montiorCount', {
+									getValueFromEvent: e => e.trim(),
+								})}
+							/>
+						</div>
 					</FormItem>
 					<FormItem
 						{...formItemLayout}
 						label="查询授权次数"
 					>
-						<Input placeholder="请输入查询授权次数" {...getFieldProps('checkCount', undefined)} />
+						<div className="yc-query-item">
+							<Input
+								style={{ width: 240 }}
+								size="large"
+								maxLength="40"
+								onlyUnit="次"
+								placeholder="请输入查询授权次数"
+								{...getFieldProps('checkCount', {
+									getValueFromEvent: e => e.trim(),
+								})}
+							/>
+						</div>
 					</FormItem>
 				</Form>
 			</Modal>

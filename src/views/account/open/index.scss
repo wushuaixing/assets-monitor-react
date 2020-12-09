@@ -170,11 +170,23 @@
     &-content{
       &-title{
         color: $text-title;
-        font-size: 16px;
-        height: 56px;
-        line-height: 56px;
-        margin-left: 20px;
-        font-weight: 600;
+        padding: 20px 0 20px 20px;
+        &-main{
+          font-size: 16px;
+          font-weight: 600;
+        }
+        &-sub{
+          margin-top: 10px;
+          color: #4E5566;
+          font-size: 14px;
+          &-org{
+            &:hover{
+              cursor: pointer;
+              color: $text-link;
+              text-decoration: underline;
+            }
+          }
+        }
       }
 
       &-line{
@@ -220,6 +232,15 @@
         height: 16px;
         margin: 0 6px;
       }
+      .org-table{
+        .switch-org{
+          &:hover{
+            cursor: pointer;
+            color: $text-link;
+            text-decoration: underline;
+          }
+        }
+      }
     }
   }
 
@@ -236,6 +257,18 @@
   .ant-confirm-content{
     font-size: 14px;
     color: $text-content;
+  }
+
+  .anticon-question-circle{
+    &::before{
+      content: "\E634";
+    }
+  }
+}
+
+.hidden-cancel{
+  .ant-btn-ghost{
+    display: none;
   }
 }
 

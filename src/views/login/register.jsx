@@ -132,7 +132,7 @@ class Login extends React.Component {
 							cookie.set('token', res.data.token);
 							cookie.set('firstLogin', res.data.firstLogin);
 							cookie.set('versionUpdate', res.data.versionUpdate);
-							const rule = handleRule(res.data.rules);
+							const rule = handleRule(res.data.rules, res.data.isProxyLimit);
 							global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 							// 判断是否是第一次登录
 							if (res.data.firstLogin === true) {

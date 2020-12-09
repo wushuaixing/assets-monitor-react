@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Modal } from 'antd';
+import { Form, Modal, message } from 'antd';
 import { Input } from '@/common';
 
 const createForm = Form.create;
@@ -37,6 +37,8 @@ class EditOrgModal extends React.PureComponent {
 		const { form, handleCloseEditOrg } = this.props;
 		const values = form.getFieldsValue();
 		console.log('values === ', values);
+		message.success('编辑成功');
+		// message.error('机构名称已存在');
 		handleCloseEditOrg();
 		this.handleReset();
 	};
@@ -62,7 +64,7 @@ class EditOrgModal extends React.PureComponent {
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmBtn}
 			>
-				<Form horizontal>
+				<Form horizontal className="org-form">
 					<FormItem
 						{...formItemLayout}
 						label="机构名称"
@@ -74,7 +76,7 @@ class EditOrgModal extends React.PureComponent {
 								maxLength="40"
 								placeholder="请输入机构名称"
 								{...getFieldProps('orgName', {
-									initialValue: orgData.title,
+									initialValue: orgData.orgName,
 									getValueFromEvent: e => e.trim(),
 								})}
 							/>
