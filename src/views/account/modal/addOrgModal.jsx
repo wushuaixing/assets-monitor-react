@@ -14,18 +14,7 @@ const formItemLayout = {
 class AddOrgModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			visible: props.addOrgVisible,
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		const { addOrgVisible } = this.props;
-		if (nextProps.addOrgVisible !== addOrgVisible) {
-			this.setState({
-				visible: nextProps.addOrgVisible,
-			});
-		}
+		this.state = {};
 	}
 
 	// 关闭添加机构弹窗
@@ -36,40 +25,31 @@ class AddOrgModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const { form, handleCloseAddOrg, orgId } = this.props;
+		const { form, handleCloseAddOrg, currentOrgDetail } = this.props;
 		const values = form.getFieldsValue();
-		console.log('values === ', values);
 		const params = {
-			orgId,
+			orgId: currentOrgDetail.id,
+			orgName: currentOrgDetail.name,
 			...values,
 		};
 		addNextOrg(params).then((res) => {
 			if (res.code === 200) {
 				message.success('添加成功');
-				this.handleReset();
 				handleCloseAddOrg();
 			} else {
-				message.error('机构名称已存在');
+				message.error(res.message || '机构名称已存在');
 			}
 		}).catch(() => {});
 	};
 
-	// 手动清除全部
-	handleReset = () => {
-		const { form } = this.props;
-		const { resetFields } = form;
-		resetFields();
-	};
-
 	render() {
-		const { visible } = this.state;
-		const { form } = this.props;
+		const { form, addOrgVisible } = this.props;
 		const { getFieldProps } = form;
 		return (
 			<Modal
 				title="添加机构"
 				width={396}
-				visible={visible}
+				visible={addOrgVisible}
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmBtn}
 			>
@@ -84,7 +64,7 @@ class AddOrgModal extends React.PureComponent {
 								size="large"
 								maxLength="40"
 								placeholder="请输入机构名称"
-								{...getFieldProps('orgName', {
+								{...getFieldProps('newOrgName', {
 									getValueFromEvent: e => e.trim(),
 								})}
 							/>
@@ -102,7 +82,7 @@ class AddOrgModal extends React.PureComponent {
 								onlyUnit="人"
 								placeholder="请输入可监控债务人数"
 								{...getFieldProps('monitorNum', {
-									getValueFromEvent: e => e.trim(),
+									getValueFromEvent: e => parseInt(e.trim(), 10),
 								})}
 							/>
 						</div>
@@ -119,7 +99,7 @@ class AddOrgModal extends React.PureComponent {
 								onlyUnit="次"
 								placeholder="请输入查询授权次数"
 								{...getFieldProps('authorizeNumber', {
-									getValueFromEvent: e => e.trim(),
+									getValueFromEvent: e => parseInt(e.trim(), 10),
 								})}
 							/>
 						</div>

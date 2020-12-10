@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Modal, message } from 'antd';
 import { Input } from '@/common';
+import { editOrg } from '@/utils/api/agency';
 
 const createForm = Form.create;
 const FormItem = Form.Item;
@@ -12,18 +13,7 @@ const formItemLayout = {
 class EditOrgModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			visible: props.editOrgVisible,
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		const { editOrgVisible } = this.props;
-		if (nextProps.editOrgVisible !== editOrgVisible) {
-			this.setState({
-				visible: nextProps.editOrgVisible,
-			});
-		}
+		this.state = {};
 	}
 
 	// 关闭添加机构弹窗
@@ -34,33 +24,36 @@ class EditOrgModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const { form, handleCloseEditOrg } = this.props;
+		const {
+			form, handleCloseEditOrg, orgData, currentOrgDetail,
+		} = this.props;
 		const values = form.getFieldsValue();
-		console.log('values === ', values);
-		message.success('编辑成功');
-		// message.error('机构名称已存在');
-		handleCloseEditOrg();
-		this.handleReset();
+		const params = {
+			...values,
+			orgId: currentOrgDetail.id,
+			orgName: orgData.name,
+			authorizeNumber: parseInt(values.authorizeNumber, 10),
+			monitorNum: parseInt(values.monitorNum, 10),
+		};
+		editOrg(params).then((res) => {
+		    if (res.code === 200) {
+				message.success('编辑成功');
+				handleCloseEditOrg();
+			} else {
+				message.error('编辑失败');
+			}
+		}).catch();
 	};
-
-	// 手动清除全部
-	handleReset = () => {
-		const { form } = this.props;
-		const { resetFields } = form;
-		resetFields();
-	};
-
 
 	render() {
-		const { visible } = this.state;
-		const { form, orgData } = this.props;
+		const { form, editOrgVisible, orgData } = this.props;
+		console.log('orgData modal === ', orgData);
 		const { getFieldProps } = form;
-
 		return (
 			<Modal
 				title="编辑机构"
 				width={396}
-				visible={visible}
+				visible={editOrgVisible}
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmBtn}
 			>
@@ -75,8 +68,8 @@ class EditOrgModal extends React.PureComponent {
 								size="large"
 								maxLength="40"
 								placeholder="请输入机构名称"
-								{...getFieldProps('orgName', {
-									initialValue: orgData.orgName,
+								{...getFieldProps('newOrgName', {
+									initialValue: orgData.name,
 									getValueFromEvent: e => e.trim(),
 								})}
 							/>
@@ -91,15 +84,15 @@ class EditOrgModal extends React.PureComponent {
 								style={{ width: 240 }}
 								size="large"
 								maxLength="40"
-								placeholder="请输入机构名称"
+								placeholder="请输入可监控数"
 								unit="人"
 								unitStyle={{ color: '#B2B8C9' }}
-								suffix={`（已监控：${orgData.monitorNumber}人）`}
+								suffix={`（已监控：${orgData.obligorLimitUseCount || 0}人）`}
 								suffixRightStyle={{ width: 170 }}
 								suffixSpanStyle={{ width: 120, color: '#20242E', fontWeight: 400 }}
-								{...getFieldProps('people', {
-									initialValue: 20,
-									getValueFromEvent: e => e.trim(),
+								{...getFieldProps('monitorNum', {
+									initialValue: orgData.obligorLimitCount || '0',
+									getValueFromEvent: e => parseInt(e.trim(), 10),
 								})}
 							/>
 						</div>
@@ -113,15 +106,15 @@ class EditOrgModal extends React.PureComponent {
 								style={{ width: 240 }}
 								size="large"
 								maxLength="40"
-								placeholder="请输入机构名称"
+								placeholder="请输入查询授权数"
 								unit="次"
 								unitStyle={{ color: '#B2B8C9' }}
-								suffix={`（已使用：${orgData.searchNumber}次）`}
+								suffix={`（已使用：${orgData.portraitLimitUseCount || 0}次）`}
 								suffixRightStyle={{ width: 170 }}
 								suffixSpanStyle={{ width: 120, color: '#20242E', fontWeight: 400 }}
-								{...getFieldProps('count', {
-									initialValue: 37,
-									getValueFromEvent: e => e.trim(),
+								{...getFieldProps('authorizeNumber', {
+									initialValue: orgData.portraitLimitCount || '0',
+									getValueFromEvent: e => parseInt(e.trim(), 10),
 								})}
 							/>
 						</div>
