@@ -12,9 +12,21 @@ const format = (shijianchuo) => {
 		// const s = time.getSeconds();
 		return `${y}-${add0(m)}-${add0(d)}`;
 	}
-
 	return null;
 };
+
+// 转成20200506这样的格式
+const formatEight = (shijianchuo) => {
+	if (shijianchuo) {
+		const time = new Date(shijianchuo);
+		const y = time.getFullYear();
+		const m = time.getMonth() + 1;
+		const d = time.getDate();
+		return `${y}${add0(m)}${add0(d)}`;
+	}
+	return null;
+};
+
 
 // 标准时间转年月日
 const formatDateTime = (date, onlyYear) => {
@@ -91,5 +103,5 @@ const ScrollAnimation = (currentY, targetY) => {
 	// }, 1);
 };
 export {
-	format, toThousands, formatDateTime, strToJson, ScrollAnimation,
+	format, toThousands, formatDateTime, strToJson, ScrollAnimation, formatEight,
 };

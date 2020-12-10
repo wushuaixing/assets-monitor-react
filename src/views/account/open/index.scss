@@ -165,6 +165,13 @@
             }
           }
 
+          //选中的节点变色
+          .ant-tree-node-selected{
+            font-weight: bold;
+            color: $text-link;
+            background-color: white;
+          }
+
         }
       }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, message } from 'antd';
 import {
-	getNextOrgList, getUserList, deleteOrg, resetPassword,
+	getOrgTree, getUserList, deleteOrg, resetPassword,
 } from '@/utils/api/agency';
 import Header from './header';
 import SearchTree from './tree';
@@ -19,48 +19,61 @@ class Open extends React.Component {
 		super(props);
 		document.title = '账号开通';
 		this.state = {
+			orgTree: [],
 			orgData: '',
 			accountData: '',
-			orgId: '', // 当前机构id
+			orgTopId: '', // 顶级机构
+			currentOrgDetail: {}, // 当前机构信息
 			nextOrgDataSource: [],
 			accountDataSource: [],
 			addOrgVisible: false, // 添加机构弹窗显示控制
 			editOrgVisible: false, // 编辑机构弹窗显示控制
 			addAccountVisible: false, // 添加账号弹窗显示控制
 			editAccountVisible: false, // 编辑账号弹窗显示控制
-			isTop: false,
 		};
 	}
 
 	componentWillMount() {
-	}
-
-	componentDidMount() {
 		const { orgId } = this.state;
 		const params = {
 			orgIdList: orgId,
 		};
-		getNextOrgList(params).then((res) => {
+		getOrgTree(params).then((res) => {
+			const orgTreeArray = [];
 			if (res.code === 200) {
+				orgTreeArray.push(res.data);
+				const newDetail = {
+					id: res.data.id,
+					name: res.data.name,
+					parentName: '--',
+				};
+				this.onGetUserList(res.data.id);
 				this.setState({
-					nextOrgDataSource: res.data,
+					orgTree: [...orgTreeArray],
+					nextOrgDataSource: [...res.data.children],
+					orgTopId: res.data.id,
+					currentOrgDetail: { ...newDetail },
 				});
 			}
 		}).catch();
+	}
 
-		getUserList(params).then((res) => {
+	componentDidMount() {
+	}
+
+	// 获取用户列表
+	onGetUserList = (id) => {
+		getUserList({ id: parseInt(id, 10) }).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					accountDataSource: res.data,
 				});
 			}
 		}).catch();
-	}
-
+	};
 
 	// isShowCancel控制显示取消按钮
 	warningModal = ([item, title, content, okText, cancelText, isShowCancel, type]) => {
-		const { orgId } = this.state;
 		confirm({
 			className: `warning-modal${isShowCancel ? ' hidden-cancel' : ''} `,
 			title,
@@ -68,6 +81,7 @@ class Open extends React.Component {
 			okText: okText || '确定',
 			cancelText,
 			onOk() {
+				// 重置密码
 				if (type === 'resetPassword') {
 					const params = {
 						userId: item.id,
@@ -79,11 +93,14 @@ class Open extends React.Component {
 							message.success(res.message || '密码重置失败');
 						}
 					}).catch();
-				} else if (type === 'deleteAccount') {
+				} else if (type === 'deleteAccount') { // 删除账号
 					message.success('账户删除成功');
-				} else if (type === 'deleteOrg') {
+				} else if (type === 'deleteOrg') { // 删除机构
+					if (isShowCancel) {
+						return;
+					}
 					const params = {
-						orgId,
+						orgId: item.id,
 					};
 					deleteOrg({ ...params }).then((res) => {
 						if (res.code === 200) {
@@ -95,7 +112,6 @@ class Open extends React.Component {
 				} else {
 					message.success('操作成功');
 				}
-				// console.log('确定');
 			},
 			onCancel() {},
 		});
@@ -104,9 +120,10 @@ class Open extends React.Component {
 
 	// 机构添加
 	// 手动添加机构
-	handleAddOrg = () => {
+	handleAddOrg = (orgData) => {
 		this.setState({
 			addOrgVisible: true,
+			orgData,
 		});
 	};
 
@@ -120,7 +137,7 @@ class Open extends React.Component {
 	// 机构编辑
 	// 手动打开编辑机构弹窗
 	handleOpenEditOrg = (orgData) => {
-		console.log('handleEditOrg === ', orgData);
+		console.log('orgData=== ', orgData);
 		this.setState({
 			editOrgVisible: true,
 			orgData,
@@ -151,11 +168,10 @@ class Open extends React.Component {
 
 	// 账户
 	// 手动打开编辑账户弹窗
-	handleOpenEditAccount = (data) => {
-		console.log('account data =====', data);
+	handleOpenEditAccount = (accountData) => {
 		this.setState({
 			editAccountVisible: true,
-			accountData: data,
+			accountData,
 		});
 	};
 
@@ -167,24 +183,36 @@ class Open extends React.Component {
 		});
 	};
 
-	switchOrg = (id) => {
+	// 切换机构
+	switchOrg = (orgId, list, currentName, parentName) => {
+		const newDetail = {
+			id: orgId,
+			name: currentName,
+			parentName: parentName || '--',
+		};
+		this.setState({
+			nextOrgDataSource: list,
+			currentOrgDetail: newDetail,
+		});
+		this.onGetUserList(orgId);
+
 		// const start = new Date().getTime();
-		if (id) {
-			// const now = new Date().getTime();
-			// const latency = now - start;
-			const hide = message.loading('正在切换机构,请稍后...', 0);
-			setTimeout(() => {
-				window.location.reload(); // 实现页面重新加载/
-			}, 3000);
-			// 异步手动移除
-			setTimeout(hide, 3000);
-		}
+		// if (orgId) {
+		// 	// const now = new Date().getTime();
+		// 	// const latency = now - start;
+		// 	const hide = message.loading('正在切换机构,请稍后...', 0);
+		// 	setTimeout(() => {
+		// 		window.location.reload(); // 实现页面重新加载/
+		// 	}, 3000);
+		// 	// 异步手动移除
+		// 	setTimeout(hide, 3000);
+		// }
 	};
 
 
 	render() {
 		const {
-			orgId, addOrgVisible, editOrgVisible, addAccountVisible, editAccountVisible, orgData, accountData, isTop, nextOrgDataSource, accountDataSource,
+			orgTopId, currentOrgDetail, addOrgVisible, editOrgVisible, addAccountVisible, editAccountVisible, orgData, accountData, nextOrgDataSource, accountDataSource, orgTree,
 		} = this.state;
 		return (
 			<React.Fragment>
@@ -192,14 +220,19 @@ class Open extends React.Component {
 				<div className="account-content">
 					{/* 机构管理树 */}
 					<SearchTree
+						orgTree={orgTree}
+						orgTopId={orgTopId}
+						currentOrgDetail={currentOrgDetail}
+						switchOrg={this.switchOrg}
 						handleAddOrg={this.handleAddOrg} // 添加机构
 						warningModal={this.warningModal} // 警告弹窗
 						handleOpenEditOrg={this.handleOpenEditOrg} // 编辑机构
 					/>
 					{/* 机构表格 */}
 					<OrgTable
-						isTop={isTop} // 判断是否是顶级机构
+						isTop={currentOrgDetail.id === orgTopId} // 判断当前机构是否是顶级虚拟机构
 						superiorOrg="风险机构"
+						currentOrgDetail={currentOrgDetail}
 						editOrgVisible={editOrgVisible}
 						nextOrgDataSource={nextOrgDataSource} // 下级机构列表
 						accountDataSource={accountDataSource} // 当前机构账户列表
@@ -215,31 +248,47 @@ class Open extends React.Component {
 					/>
 				</div>
 				{/* 添加机构弹窗 */}
-				<AddOrgModal
-					orgId={orgId}
-					addOrgVisible={addOrgVisible}
-					handleCloseAddOrg={this.handleCloseAddOrg}
-				/>
+				{
+					addOrgVisible && (
+						<AddOrgModal
+							currentOrgDetail={currentOrgDetail}
+							addOrgVisible={addOrgVisible}
+							handleCloseAddOrg={this.handleCloseAddOrg}
+						/>
+					)
+				}
 				{/* 编辑机构弹窗 */}
-				<EditOrgModal
-					orgId={orgId}
-					orgData={orgData}
-					editOrgVisible={editOrgVisible}
-					handleCloseEditOrg={this.handleCloseEditOrg}
-				/>
+				{
+					editOrgVisible && (
+						<EditOrgModal
+							currentOrgDetail={currentOrgDetail}
+							orgData={orgData}
+							editOrgVisible={editOrgVisible}
+							handleCloseEditOrg={this.handleCloseEditOrg}
+						/>
+					)
+				}
 				{/* 添加账户弹窗 */}
-				<AddAccountModal
-					orgId={orgId}
-					addAccountVisible={addAccountVisible}
-					handleCloseAddAccount={this.handleCloseAddAccount}
-				/>
+				{
+					addAccountVisible && (
+					<AddAccountModal
+						currentOrgDetail={currentOrgDetail}
+						addAccountVisible={addAccountVisible}
+						handleCloseAddAccount={this.handleCloseAddAccount}
+					/>
+					)
+				}
 				{/* 编辑账号弹窗 */}
-				<EditAccountModal
-					orgId={orgId}
-					accountData={accountData}
-					editAccountVisible={editAccountVisible}
-					handleCloseEditAccount={this.handleCloseEditAccount}
-				/>
+				{
+					editAccountVisible && (
+						<EditAccountModal
+							currentOrgDetail={currentOrgDetail}
+							accountData={accountData}
+							editAccountVisible={editAccountVisible}
+							handleCloseEditAccount={this.handleCloseEditAccount}
+						/>
+					)
+				}
 			</React.Fragment>
 		);
 	}

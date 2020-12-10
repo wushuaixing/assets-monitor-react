@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	Form, Modal, message,
 } from 'antd';
+import { formatEight } from '@/utils/changeTime';
 import { addUser } from '@/utils/api/agency';
 import { Input } from '@/common';
 import './modal.scss';
@@ -17,17 +18,15 @@ class AddAccountModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			visible: props.addAccountVisible,
+			today: '',
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
-		const { addAccountVisible } = this.props;
-		if (nextProps.addAccountVisible !== addAccountVisible) {
-			this.setState({
-				visible: nextProps.addAccountVisible,
-			});
-		}
+	componentWillMount() {
+		const currentDay = new Date();
+		this.setState({
+			today: formatEight(currentDay),
+		});
 	}
 
 	// 关闭添加机构弹窗
@@ -38,7 +37,8 @@ class AddAccountModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const { form, handleCloseAddAccount, orgId } = this.props;
+		const { today } = this.state;
+		const { form, handleCloseAddAccount, currentOrgDetail } = this.props;
 		form.validateFields((errors, values) => {
 			if (errors) {
 				console.log(errors);
@@ -46,8 +46,8 @@ class AddAccountModal extends React.PureComponent {
 			}
 			const params = {
 				...values,
-				orgId,
-				password: '3727398273',
+				orgId: currentOrgDetail.id,
+				password: today,
 			};
 			addUser(params).then((res) => {
 				if (res.code === 200) {
@@ -55,28 +55,20 @@ class AddAccountModal extends React.PureComponent {
 					handleCloseAddAccount();
 				} else {
 					message.error('添加失败');
-					handleCloseAddAccount();
 				}
 			}).catch();
 		});
 	};
 
-	// 手动清除全部
-	handleReset = () => {
-		const { form } = this.props;
-		const { resetFields } = form;
-		resetFields();
-	};
-
 	render() {
-		const { visible } = this.state;
-		const { form } = this.props;
+		const { today } = this.state;
+		const { form, addAccountVisible } = this.props;
 		const { getFieldProps } = form;
 		return (
 			<Modal
 				title="添加账号"
 				width={396}
-				visible={visible}
+				visible={addAccountVisible}
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmBtn}
 			>
@@ -129,7 +121,7 @@ class AddAccountModal extends React.PureComponent {
 						<Input
 							style={{ width: 240 }}
 							disabled
-							placeholder="20200902"
+							placeholder={today}
 							{...getFieldProps('password')}
 						/>
 					</FormItem>
