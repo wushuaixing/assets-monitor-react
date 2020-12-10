@@ -26,14 +26,12 @@ const nextOrgcolumns = (props) => {
 	return [
 		{
 			title: '序号',
-			dataIndex: 'num',
 			width: 50,
-			render: value => <span>{value}</span>,
+			render: (value, row, index) => <span>{index + 1}</span>,
 		},
 		{
 			title: '机构名称',
 			dataIndex: 'orgName',
-			width: 100,
 			render: (value, row) => <span className="switch-org" onClick={() => switchOrg(row.num)}>{value}</span>,
 		},
 		{
@@ -44,19 +42,18 @@ const nextOrgcolumns = (props) => {
 		},
 		{
 			title: `${isTop ? '已监控债务人数/可监控数' : '累计监控债务人数'}`,
-			dataIndex: 'count',
-			width: 188,
-			render: value => <span>{value}</span>,
+			dataIndex: 'monitorNumber',
+			width: 170,
+			render: (value, row) => <span>{`${isTop ? `${value}/${row.allMonitorNumber}` : value}`}</span>,
 		},
 		{
 			title: `${isTop ? '已用查询次数/授权次数' : '累计查询次数'}`,
-			dataIndex: 'useCount',
-			width: 178,
-			render: value => <span>{value}</span>,
+			dataIndex: 'searchNumber',
+			width: 170,
+			render: (value, row) => <span>{`${isTop ? `${value}/${row.allSearchNumber}` : value}`}</span>,
 		},
 		{
 			title: '操作',
-			dataIndex: 'oper',
 			width: 120,
 			render: (value, row) => (
 				<div>
@@ -87,35 +84,33 @@ const currentOrgcolumns = (props) => {
 	return [
 		{
 			title: '序号',
-			dataIndex: 'num',
 			width: 100,
-			render: value => <span>{value}</span>,
+			render: (value, row, index) => <span>{index + 1}</span>,
 		},
 		{
 			title: '姓名',
-			dataIndex: 'orgName',
+			dataIndex: 'name',
 			width: 120,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: '账号',
-			dataIndex: 'phone',
+			dataIndex: 'mobile',
 			width: 170,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: '上次登录时间',
-			dataIndex: 'lastTime',
+			dataIndex: 'lastLoginDateTime',
 			width: 160,
 			render: value => <span>{value}</span>,
 		},
 		{
 			title: '操作',
-			dataIndex: 'useCount',
 			width: 140,
 			render: (value, row) => (
 				<div>
-					<span className="yc-table-text-link" onClick={() => handleOpenEditAccount(row)}>编辑</span>
+					<span className="yc-table-text-link" onClick={() => handleOpenEditAccount({ ...row })}>编辑</span>
 					<span className="divider" />
 					<span className="yc-table-text-link" onClick={() => warningModal([row, resetTitle, '点击确定，密码将重置为当前日期', '确定', '取消', 'resetPassword'])}>重置密码</span>
 					<span className="divider" />
@@ -134,121 +129,7 @@ const currentOrgcolumns = (props) => {
 class OrgTable extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			nextOrgData: [
-				{
-					num: 1,
-					orgName: '资产保全部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-					id: 1,
-				},
-				{
-					num: 2,
-					id: 2,
-					orgName: '风险监控部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-				{
-					num: 3,
-					id: 3,
-					orgName: '授信评审部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-				{
-					num: 3,
-					id: 3,
-					orgName: '授信评审部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-				{
-					num: 3,
-					id: 3,
-					orgName: '授信评审部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-				{
-					num: 3,
-					id: 3,
-					orgName: '授信评审部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-				{
-					num: 3,
-					id: 3,
-					orgName: '授信评审部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-				{
-					num: 3,
-					id: 3,
-					orgName: '授信评审部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-				{
-					num: 3,
-					id: 3,
-					orgName: '授信评审部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-				{
-					num: 3,
-					id: 3,
-					orgName: '授信评审部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-				{
-					num: 3,
-					id: 3,
-					orgName: '授信评审部',
-					level: '1级',
-					count: '10/100',
-					useCount: '11/100',
-				},
-			],
-			currentOrgData: [
-				{
-					num: 1,
-					orgName: '张三',
-					level: '1级',
-					phone: '15566330022',
-					lastTime: '2020-10-11',
-				},
-				{
-					num: 2,
-					orgName: '李四',
-					level: '1级',
-					phone: '16622898922',
-					lastTime: '2020-10-11',
-				},
-				{
-					num: 3,
-					orgName: '王五',
-					level: '1级',
-					phone: '16688668922',
-					lastTime: '2020-10-11',
-				},
-			],
-		};
+		this.state = {};
 	}
 
 	handleAddNextOrg = () => {
@@ -264,8 +145,9 @@ class OrgTable extends React.Component {
 	};
 
 	render() {
-		const { nextOrgData, currentOrgData } = this.state;
-		const { switchOrg, superiorOrg } = this.props;
+		const {
+			switchOrg, superiorOrg, nextOrgDataSource, accountDataSource,
+		} = this.props;
 
 		return (
 			<div className="account-table">
@@ -293,7 +175,7 @@ class OrgTable extends React.Component {
 						className="org-table"
 						pagination={false}
 						scroll={{ y: 220 }}
-						dataSource={nextOrgData}
+						dataSource={nextOrgDataSource}
 						columns={nextOrgcolumns(this.props)}
 					/>
 				</div>
@@ -309,7 +191,7 @@ class OrgTable extends React.Component {
 						scroll={{ y: 220 }}
 						pagination={false}
 						columns={currentOrgcolumns(this.props)}
-						dataSource={currentOrgData}
+						dataSource={accountDataSource}
 					/>
 				</div>
 			</div>

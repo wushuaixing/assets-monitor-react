@@ -1,6 +1,7 @@
 import React from 'react';
-import { Form, Modal } from 'antd';
+import { Form, Modal, message } from 'antd';
 import { Input } from '@/common';
+import { modifyUser } from '@/utils/api/agency';
 import './modal.scss';
 
 const createForm = Form.create;
@@ -35,11 +36,28 @@ class EditAccountModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const { form, handleCloseEditAccount } = this.props;
-		const values = form.getFieldsValue();
-		console.log('values === ', values);
-		handleCloseEditAccount();
-		this.handleReset();
+		const { form, handleCloseEditAccount, accountData } = this.props;
+		form.validateFields((errors, values) => {
+			if (errors) {
+				console.log(errors);
+				return;
+			}
+			const params = {
+				...values,
+				userId: accountData.id,
+			};
+			modifyUser(params).then((res) => {
+				if (res.code === 200) {
+					message.success('编辑修改成功');
+					this.handleReset();
+					handleCloseEditAccount();
+				} else {
+					message.error('编辑修改失败');
+					this.handleReset();
+					handleCloseEditAccount();
+				}
+			}).catch();
+		});
 	};
 
 	// 手动清除全部
@@ -71,7 +89,7 @@ class EditAccountModal extends React.PureComponent {
 							style={{ width: 240 }}
 							placeholder="请填写姓名"
 							{...getFieldProps('name', {
-								initialValue: accountData.orgName,
+								initialValue: accountData.name,
 							})}
 						/>
 					</FormItem>
@@ -84,7 +102,7 @@ class EditAccountModal extends React.PureComponent {
 							disabled
 							placeholder="请填写账号（手机号）"
 							{...getFieldProps('account', {
-								initialValue: accountData.phone,
+								initialValue: accountData.mobile,
 							})}
 						/>
 					</FormItem>

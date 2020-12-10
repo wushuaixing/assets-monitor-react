@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Modal, message } from 'antd';
 import { Input } from '@/common';
+import { addNextOrg } from '@/utils/api/agency';
 import './modal.scss';
 
 const createForm = Form.create;
@@ -35,13 +36,22 @@ class AddOrgModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const { form, handleCloseAddOrg } = this.props;
+		const { form, handleCloseAddOrg, orgId } = this.props;
 		const values = form.getFieldsValue();
 		console.log('values === ', values);
-		message.success('添加成功');
-		// message.error('机构名称已存在');
-		handleCloseAddOrg();
-		this.handleReset();
+		const params = {
+			orgId,
+			...values,
+		};
+		addNextOrg(params).then((res) => {
+			if (res.code === 200) {
+				message.success('添加成功');
+				this.handleReset();
+				handleCloseAddOrg();
+			} else {
+				message.error('机构名称已存在');
+			}
+		}).catch(() => {});
 	};
 
 	// 手动清除全部
@@ -91,7 +101,7 @@ class AddOrgModal extends React.PureComponent {
 								maxLength="40"
 								onlyUnit="人"
 								placeholder="请输入可监控债务人数"
-								{...getFieldProps('montiorCount', {
+								{...getFieldProps('monitorNum', {
 									getValueFromEvent: e => e.trim(),
 								})}
 							/>
@@ -108,7 +118,7 @@ class AddOrgModal extends React.PureComponent {
 								maxLength="40"
 								onlyUnit="次"
 								placeholder="请输入查询授权次数"
-								{...getFieldProps('checkCount', {
+								{...getFieldProps('authorizeNumber', {
 									getValueFromEvent: e => e.trim(),
 								})}
 							/>
