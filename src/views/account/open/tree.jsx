@@ -161,7 +161,7 @@ class SearchTree extends React.Component {
 				)？
 			</span>
 		);
-		warningModal([titleNode, '一经删除，无法恢复', '确定', '取消']);
+		warningModal([item, titleNode, '一经删除，无法恢复', '确定', '取消']);
 	};
 
 	// 手动编辑机构

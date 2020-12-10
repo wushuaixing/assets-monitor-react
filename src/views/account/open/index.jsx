@@ -1,5 +1,8 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
+import {
+	getNextOrgList, getUserList, deleteOrg, resetPassword,
+} from '@/utils/api/agency';
 import Header from './header';
 import SearchTree from './tree';
 import OrgTable from './table';
@@ -8,7 +11,6 @@ import EditOrgModal from '../modal/editOrgModal';
 import AddAccountModal from '../modal/addAccountModal';
 import EditAccountModal from '../modal/editAccountModal';
 import './index.scss';
-import { message } from '../../../../patchs/antd';
 
 const { confirm } = Modal;
 
@@ -19,11 +21,14 @@ class Open extends React.Component {
 		this.state = {
 			orgData: '',
 			accountData: '',
+			orgId: '', // 当前机构id
+			nextOrgDataSource: [],
+			accountDataSource: [],
 			addOrgVisible: false, // 添加机构弹窗显示控制
 			editOrgVisible: false, // 编辑机构弹窗显示控制
 			addAccountVisible: false, // 添加账号弹窗显示控制
 			editAccountVisible: false, // 编辑账号弹窗显示控制
-			isTop: true,
+			isTop: false,
 		};
 	}
 
@@ -31,13 +36,31 @@ class Open extends React.Component {
 	}
 
 	componentDidMount() {
-		this.setState({
-			isTop: false,
-		});
+		const { orgId } = this.state;
+		const params = {
+			orgIdList: orgId,
+		};
+		getNextOrgList(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					nextOrgDataSource: res.data,
+				});
+			}
+		}).catch();
+
+		getUserList(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					accountDataSource: res.data,
+				});
+			}
+		}).catch();
 	}
+
 
 	// isShowCancel控制显示取消按钮
 	warningModal = ([item, title, content, okText, cancelText, isShowCancel, type]) => {
+		const { orgId } = this.state;
 		confirm({
 			className: `warning-modal${isShowCancel ? ' hidden-cancel' : ''} `,
 			title,
@@ -46,11 +69,29 @@ class Open extends React.Component {
 			cancelText,
 			onOk() {
 				if (type === 'resetPassword') {
-					message.success('密码重置成功');
+					const params = {
+						userId: item.id,
+					};
+					resetPassword({ ...params }).then((res) => {
+						if (res.code === 200) {
+							message.success('密码重置成功');
+						} else {
+							message.success(res.message || '密码重置失败');
+						}
+					}).catch();
 				} else if (type === 'deleteAccount') {
-					message.success('删除成功');
+					message.success('账户删除成功');
 				} else if (type === 'deleteOrg') {
-					message.success('删除成功”');
+					const params = {
+						orgId,
+					};
+					deleteOrg({ ...params }).then((res) => {
+						if (res.code === 200) {
+							message.success('机构删除成功');
+						} else {
+							message.success(res.message || '机构删除失败');
+						}
+					}).catch();
 				} else {
 					message.success('操作成功');
 				}
@@ -111,6 +152,7 @@ class Open extends React.Component {
 	// 账户
 	// 手动打开编辑账户弹窗
 	handleOpenEditAccount = (data) => {
+		console.log('account data =====', data);
 		this.setState({
 			editAccountVisible: true,
 			accountData: data,
@@ -142,7 +184,7 @@ class Open extends React.Component {
 
 	render() {
 		const {
-			addOrgVisible, editOrgVisible, addAccountVisible, editAccountVisible, orgData, accountData, isTop,
+			orgId, addOrgVisible, editOrgVisible, addAccountVisible, editAccountVisible, orgData, accountData, isTop, nextOrgDataSource, accountDataSource,
 		} = this.state;
 		return (
 			<React.Fragment>
@@ -159,6 +201,8 @@ class Open extends React.Component {
 						isTop={isTop} // 判断是否是顶级机构
 						superiorOrg="风险机构"
 						editOrgVisible={editOrgVisible}
+						nextOrgDataSource={nextOrgDataSource} // 下级机构列表
+						accountDataSource={accountDataSource} // 当前机构账户列表
 						handleAddOrg={this.handleAddOrg}
 						switchOrg={this.switchOrg} // 切换机构
 						warningModal={this.warningModal} // 警告弹窗
@@ -172,22 +216,26 @@ class Open extends React.Component {
 				</div>
 				{/* 添加机构弹窗 */}
 				<AddOrgModal
+					orgId={orgId}
 					addOrgVisible={addOrgVisible}
 					handleCloseAddOrg={this.handleCloseAddOrg}
 				/>
 				{/* 编辑机构弹窗 */}
 				<EditOrgModal
+					orgId={orgId}
 					orgData={orgData}
 					editOrgVisible={editOrgVisible}
 					handleCloseEditOrg={this.handleCloseEditOrg}
 				/>
 				{/* 添加账户弹窗 */}
 				<AddAccountModal
+					orgId={orgId}
 					addAccountVisible={addAccountVisible}
 					handleCloseAddAccount={this.handleCloseAddAccount}
 				/>
 				{/* 编辑账号弹窗 */}
 				<EditAccountModal
+					orgId={orgId}
 					accountData={accountData}
 					editAccountVisible={editAccountVisible}
 					handleCloseEditAccount={this.handleCloseEditAccount}

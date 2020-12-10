@@ -94,7 +94,7 @@ class EditOrgModal extends React.PureComponent {
 								placeholder="请输入机构名称"
 								unit="人"
 								unitStyle={{ color: '#B2B8C9' }}
-								suffix={`（已监控：${580}人）`}
+								suffix={`（已监控：${orgData.monitorNumber}人）`}
 								suffixRightStyle={{ width: 170 }}
 								suffixSpanStyle={{ width: 120, color: '#20242E', fontWeight: 400 }}
 								{...getFieldProps('people', {
@@ -114,9 +114,9 @@ class EditOrgModal extends React.PureComponent {
 								size="large"
 								maxLength="40"
 								placeholder="请输入机构名称"
-								unit="元"
+								unit="次"
 								unitStyle={{ color: '#B2B8C9' }}
-								suffix={`（已使用：${1000}次）`}
+								suffix={`（已使用：${orgData.searchNumber}次）`}
 								suffixRightStyle={{ width: 170 }}
 								suffixSpanStyle={{ width: 120, color: '#20242E', fontWeight: 400 }}
 								{...getFieldProps('count', {

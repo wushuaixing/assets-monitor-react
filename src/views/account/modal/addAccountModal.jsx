@@ -2,8 +2,9 @@ import React from 'react';
 import {
 	Form, Modal, message,
 } from 'antd';
-import './modal.scss';
+import { addUser } from '@/utils/api/agency';
 import { Input } from '@/common';
+import './modal.scss';
 
 const createForm = Form.create;
 const FormItem = Form.Item;
@@ -37,19 +38,26 @@ class AddAccountModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const { form, handleCloseAddAccount } = this.props;
-		const values = form.getFieldsValue();
-		console.log('values === ', values);
-		// handleCloseAddAccount();
+		const { form, handleCloseAddAccount, orgId } = this.props;
 		form.validateFields((errors, values) => {
 			if (errors) {
-				console.log('Errors in form!!!');
+				console.log(errors);
 				return;
 			}
-			message.success('添加成功');
-			// this.handleReset();
-			console.log('Submit!!!');
-			console.log(values);
+			const params = {
+				...values,
+				orgId,
+				password: '3727398273',
+			};
+			addUser(params).then((res) => {
+				if (res.code === 200) {
+					message.success('添加成功');
+					handleCloseAddAccount();
+				} else {
+					message.error('添加失败');
+					handleCloseAddAccount();
+				}
+			}).catch();
 		});
 	};
 
@@ -81,7 +89,7 @@ class AddAccountModal extends React.PureComponent {
 						<Input
 							style={{ width: 240 }}
 							placeholder="请填写姓名"
-							{...getFieldProps('name', {
+							{...getFieldProps('username', {
 								rules: [{
 									required: true,
 									whitespace: true,
@@ -99,7 +107,7 @@ class AddAccountModal extends React.PureComponent {
 							style={{ width: 240 }}
 							maxLength="11"
 							placeholder="请填写账号（手机号）"
-							{...getFieldProps('account',
+							{...getFieldProps('mobile',
 								{
 									rules: [
 										{

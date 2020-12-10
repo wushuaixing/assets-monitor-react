@@ -7,9 +7,8 @@ export default {
 	/**
 	 * 处理路由数据,对默认数据转换为可以使用的数据对象
 	 * @param source
-	 * @param isProxyLimit=false 没有给导入业务做限制，是顶级虚拟机构
 	 */
-	handleRule: (source, isProxyLimit) => {
+	handleRule: (source) => {
 		const res = {};
 		source.forEach((item) => {
 			switch (item.groupName) {
@@ -120,11 +119,8 @@ export default {
 					res.else = {
 						id: 7,
 						title: '其他',
-						children: isProxyLimit ? {
+						children: {
 							[item.rule]: item,
-						} : {
-							[item.rule]: item,
-							zhkt: { groupName: 'menu_zhkt', rule: 'zhkt', title: '账号开通' },
 						},
 					};
 				}
