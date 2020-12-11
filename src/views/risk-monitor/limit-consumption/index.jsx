@@ -13,7 +13,7 @@ import './style.scss';
 export default class LimitConsumption extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '限制高消费-资产挖掘';
+		document.title = '限制高消费-风险监控';
 		this.state = {
 			isRead: 'all',
 			dataSource: [],
