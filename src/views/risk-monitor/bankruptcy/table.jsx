@@ -16,7 +16,7 @@ const getName = (list, key) => {
 	return temp;
 };
 // 获取表格配置
-const columns = (props, openRegisterModalFunc) => {
+const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
@@ -48,45 +48,45 @@ const columns = (props, openRegisterModalFunc) => {
 					);
 				}
 				return (
-					<span className="click-link" onClick={() => openRegisterModalFunc(record)}>{text || '-'}</span>
+					<span>{text || '-'}</span>
 				);
 			},
 		},
 		{
 			title: '相关单位',
 			dataIndex: 'court',
-			width: 220,
+			width: 280,
 			render: (text, row) => (
 				<div className="yc-assets-table-info">
 					{
 						getName(row.parties, '申请人') && (
-							<li className="table-info-list" style={{ width: 220 }}>
+							<li className="table-info-list" style={{ width: 280 }}>
 								<span className="list list-title align-justify">申请人</span>
 								<span className="list list-title-colon">:</span>
 								<Tooltip placement="top" title={getName(row.parties, '申请人')}>
-									<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '申请人')}</span>
+									<span className="info info-content text-ellipsis" style={{ maxWidth: 200 }}>{getName(row.parties, '申请人')}</span>
 								</Tooltip>
 							</li>
 						)
 					}
 					{
 						getName(row.parties, '被申请人') && (
-							<li className="table-info-list" style={{ width: 220 }}>
+							<li className="table-info-list" style={{ width: 280 }}>
 								<span className="list list-title align-justify">被申请人</span>
 								<span className="list list-title-colon">:</span>
 								<Tooltip placement="top" title={getName(row.parties, '被申请人')}>
-									<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{getName(row.parties, '被申请人')}</span>
+									<span className="info info-content text-ellipsis" style={{ maxWidth: 200 }}>{getName(row.parties, '被申请人')}</span>
 								</Tooltip>
 							</li>
 						)
 					}
 					{
 					text && (
-					<li className="table-info-list" style={{ width: 220 }}>
+					<li className="table-info-list" style={{ width: 280 }}>
 						<span className="list list-title align-justify">经办法院</span>
 						<span className="list list-title-colon">:</span>
 						<Tooltip placement="top" title={row.certificateType}>
-							<span className="info info-content text-ellipsis" style={{ maxWidth: 140 }}>{text}</span>
+							<span className="info info-content text-ellipsis" style={{ maxWidth: 200 }}>{text}</span>
 						</Tooltip>
 					</li>
 					)

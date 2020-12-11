@@ -358,6 +358,18 @@ export default {
 								status: toStatus(rule.menu_zcwj, 'zcwjcjfzc'),
 							},
 							{
+								id: 'YC0210',
+								name: '不动产登记',
+								url: '/monitor/realEstate',
+								status: toStatus(rule.menu_zcwj, 'zcwjbdcdj'),
+							},
+							{
+								id: 'YC0211',
+								name: '车辆信息',
+								url: '/monitor/car',
+								status: toStatus(rule.menu_zcwj, 'zcwjclxx'),
+							},
+							{
 								id: 'YC0205',
 								name: '金融资产',
 								url: '/monitor/financial',
@@ -373,18 +385,6 @@ export default {
 								name: '招投标',
 								url: '/monitor/tender',
 								status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
-							},
-							{
-								id: 'YC0210',
-								name: '不动产登记',
-								url: '/monitor/realEstate',
-								status: toStatus(rule.menu_zcwj, 'zcwjbdcdj'),
-							},
-							{
-								id: 'YC0211',
-								name: '车辆信息',
-								url: '/monitor/car',
-								status: toStatus(rule.menu_zcwj, 'zcwjclxx'),
 							},
 						],
 					},

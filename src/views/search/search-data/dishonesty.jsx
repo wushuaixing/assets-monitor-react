@@ -43,7 +43,11 @@ class DISHONESTY extends React.Component {
 		if (!objectKeyIsEmpty(fields)) {
 			if (fields.obligorName) {
 				if (/^[\u4E00-\u9FA5]{2,}/.test(fields.obligorName)) {
-					navigate(generateUrlWithParams('/search/detail/dishonesty', fields));
+					if (fields.obligorName.length <= 4 && !fields.obligorNumber) {
+						message.error('请输入证件号');
+					} else {
+						navigate(generateUrlWithParams('/search/detail/dishonesty', fields));
+					}
 				} else {
 					message.error('被执行人至少输入两个汉字');
 				}

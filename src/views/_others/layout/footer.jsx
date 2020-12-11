@@ -16,7 +16,7 @@ const content = (
 				src={phone}
 				alt=""
 			/>
-			0571-81182249
+			180-7294-2900
 		</p>
 		<p style={{ lineHeight: '22px' }}>
 			<img

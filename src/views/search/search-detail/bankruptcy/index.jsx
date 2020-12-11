@@ -11,13 +11,12 @@ import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import {
 	timeRule, Spin, Input, Button, Download, DatePicker,
 } from '@/common';
-import Bankruptcy from './table';
 import {
 	bankruptcySearch, // 列表
 	exportBankruptcyAll, // 全部导出
 	exportBankruptcyCurrent, // 本页导出
 } from '@/utils/api/search';
-
+import Bankruptcy from './table';
 import './style.scss';
 import { ScrollAnimation } from '@/utils/changeTime';
 
@@ -410,7 +409,7 @@ class BANKRUPTCY extends React.Component {
 							color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
 						}}
 						>
-							如需更多数据请联系：186-5718-6471
+							如需更多数据请联系：180-7294-2900
 						</div>
 					)}
 				</Spin>
