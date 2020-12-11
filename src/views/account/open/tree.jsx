@@ -1,27 +1,11 @@
 import React from 'react';
 import { Tree } from 'antd';
 import { Icon, Input } from '@/common';
+// eslint-disable-next-line import/no-cycle
+import { getParentKey } from './index';
 import './index.scss';
 
 const { TreeNode } = Tree;
-
-const getParentKey = (id, tree) => {
-	let parentKey = 0;
-	tree.forEach((item, i) => {
-		const node = tree[i];
-		if (Array.isArray(node.children) && node.children.length > 0) {
-			if (node.children.some(it => it.id === id)) {
-				parentKey = node.id;
-			} else if (getParentKey(id, node.children)) {
-				parentKey = getParentKey(id, node.children);
-			}
-		}
-	});
-	return parentKey;
-};
-
-// 把树形机构的数据转换成一维数据结构，用以匹配机构名称
-const dataList = [];
 
 class SearchTree extends React.Component {
 	constructor(props) {
@@ -41,27 +25,13 @@ class SearchTree extends React.Component {
 			this.setState({
 				orgTree: nextProps.orgTree,
 				expandedKeys: `${nextProps.orgTree[0].id}`,
-			}, () => {
-				this.generateList(nextProps.orgTree);
 			});
 		}
 	}
 
-	// 生成一维数组
-	generateList = (data) => {
-		data.forEach((item, i) => {
-			const node = data[i];
-			const { id, name, children } = node;
-			dataList.push({ id, name, children });
-			if (Array.isArray(node.children) && node.children.length > 0) {
-				this.generateList(node.children);
-			}
-		});
-	};
-
 	// 输入框的变化
 	onChangeInput = (value) => {
-		const { orgTree } = this.props;
+		const { orgTree, dataList } = this.props;
 		const expandedKeys = dataList
 			.map((item) => {
 				if (item.name.indexOf(value) > -1) {
@@ -80,7 +50,7 @@ class SearchTree extends React.Component {
 
 	// 点击搜索按钮
 	handleSearchOrg = () => {
-		const { orgTree } = this.props;
+		const { orgTree, dataList } = this.props;
 		const { searchValue } = this.state;
 		const expandedKeys = dataList
 			.map((item) => {
@@ -135,7 +105,7 @@ class SearchTree extends React.Component {
 	// 点击机构
 	handleSelect = (selectedKeys) => {
 		const { orgTree } = this.state;
-		const { switchOrg } = this.props;
+		const { switchOrg, dataList } = this.props;
 		let nextOrgList = [];
 		if (selectedKeys.length > 0) {
 			const parentId = getParentKey(parseInt(selectedKeys[0], 10), orgTree);
@@ -146,7 +116,7 @@ class SearchTree extends React.Component {
 			}
 			const currentName = dataList.filter(item => item.id === parseInt(selectedKeys[0], 10))[0].name;
 			nextOrgList = dataList.filter(item => item.id === parseInt(selectedKeys[0], 10))[0].children;
-			console.log('selectedKeys === ', selectedKeys, currentName, parentName);
+			console.log('nextOrgList === ', selectedKeys, nextOrgList, currentName, parentName);
 			switchOrg(parseInt(selectedKeys, 10), nextOrgList, currentName, parentName);
 		}
 	};

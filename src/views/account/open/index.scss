@@ -281,6 +281,10 @@
         .ant-table-body{
           overflow-y: auto !important;
         }
+
+        .ant-table-row-expand-icon{
+          display: none;
+        }
       }
 
       .account-open-table{

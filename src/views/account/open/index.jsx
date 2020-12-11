@@ -4,6 +4,7 @@ import {
 	getOrgTree, getUserList, deleteOrg, resetPassword,
 } from '@/utils/api/agency';
 import Header from './header';
+// eslint-disable-next-line import/no-cycle
 import SearchTree from './tree';
 import OrgTable from './table';
 import AddOrgModal from '../modal/addOrgModal';
@@ -13,6 +14,24 @@ import EditAccountModal from '../modal/editAccountModal';
 import './index.scss';
 
 const { confirm } = Modal;
+// 把树形机构的数据转换成一维数据结构，用以匹配机构名称
+const dataList = [];
+
+// 获取当前节点的父节点的id
+export const getParentKey = (id, tree) => {
+	let parentKey = 0;
+	tree.forEach((item, i) => {
+		const node = tree[i];
+		if (Array.isArray(node.children) && node.children.length > 0) {
+			if (node.children.some(it => it.id === id)) {
+				parentKey = node.id;
+			} else if (getParentKey(id, node.children)) {
+				parentKey = getParentKey(id, node.children);
+			}
+		}
+	});
+	return parentKey;
+};
 
 class Open extends React.Component {
 	constructor(props) {
@@ -48,6 +67,7 @@ class Open extends React.Component {
 					parentName: '--',
 				};
 				this.onGetUserList(res.data.id);
+				this.generateList([...orgTreeArray]);
 				this.setState({
 					orgTree: [...orgTreeArray],
 					nextOrgDataSource: [...res.data.children],
@@ -60,6 +80,18 @@ class Open extends React.Component {
 
 	componentDidMount() {
 	}
+
+	// 生成一维数组
+	generateList = (data) => {
+		data.forEach((item, i) => {
+			const node = data[i];
+			const { id, name, children } = node;
+			dataList.push({ id, name, children });
+			if (Array.isArray(node.children) && node.children.length > 0) {
+				this.generateList(node.children);
+			}
+		});
+	};
 
 	// 获取用户列表
 	onGetUserList = (id) => {
@@ -222,6 +254,7 @@ class Open extends React.Component {
 					<SearchTree
 						orgTree={orgTree}
 						orgTopId={orgTopId}
+						dataList={dataList}
 						currentOrgDetail={currentOrgDetail}
 						switchOrg={this.switchOrg}
 						handleAddOrg={this.handleAddOrg} // 添加机构
@@ -232,6 +265,7 @@ class Open extends React.Component {
 					<OrgTable
 						isTop={currentOrgDetail.id === orgTopId} // 判断当前机构是否是顶级虚拟机构
 						superiorOrg="风险机构"
+						orgTree={orgTree}
 						currentOrgDetail={currentOrgDetail}
 						editOrgVisible={editOrgVisible}
 						nextOrgDataSource={nextOrgDataSource} // 下级机构列表
@@ -285,6 +319,7 @@ class Open extends React.Component {
 							currentOrgDetail={currentOrgDetail}
 							accountData={accountData}
 							editAccountVisible={editAccountVisible}
+							onGetUserList={this.onGetUserList}
 							handleCloseEditAccount={this.handleCloseEditAccount}
 						/>
 					)
