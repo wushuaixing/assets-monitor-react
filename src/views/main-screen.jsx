@@ -135,6 +135,7 @@ export default class Screen extends React.Component {
 					roleList.push(i.rule);
 				});
 				global.authRoleList = roleList;
+				global.isProxyLimit = res.data.isProxyLimit;
 				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 				this.setState({
 					loading: 'hidden',
