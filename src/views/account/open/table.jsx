@@ -32,7 +32,7 @@ const nextOrgcolumns = (props) => {
 			title: '机构名称',
 			dataIndex: 'name',
 			width: 160,
-			render: (value, row) => <span className="switch-org" onClick={() => switchOrg(row)}>{value}</span>,
+			render: (value, row) => <span className="switch-org" onClick={() => switchOrg(row.id, row.children, value, '')}>{value}</span>,
 		},
 		{
 			title: '层级',
@@ -91,19 +91,19 @@ const currentOrgcolumns = (props) => {
 			title: '姓名',
 			dataIndex: 'name',
 			width: 120,
-			render: value => <span>{value}</span>,
+			render: value => <span>{value || '-'}</span>,
 		},
 		{
 			title: '账号',
 			dataIndex: 'mobile',
 			width: 170,
-			render: value => <span>{value}</span>,
+			render: value => <span>{value || '-'}</span>,
 		},
 		{
 			title: '上次登录时间',
 			dataIndex: 'lastLoginDateTime',
 			width: 160,
-			render: value => <span>{value}</span>,
+			render: value => <span>{value || '-'}</span>,
 		},
 		{
 			title: '操作',
@@ -159,7 +159,7 @@ class OrgTable extends React.Component {
 						<div className="account-table-content-title-sub">
 							上级机构代理：
 							{
-								superiorOrg ? <span className="account-table-content-title-sub-org" onClick={() => switchOrg(122)}>{currentOrgDetail.parentName}</span> : '--'
+								superiorOrg ? <span className="account-table-content-title-sub-org" onClick={() => switchOrg(currentOrgDetail.id, [], currentOrgDetail.name, currentOrgDetail.parentName)}>{currentOrgDetail.parentName}</span> : '--'
 							}
 						</div>
 					</div>
