@@ -20,7 +20,7 @@ const deleteAccountTitle = row => (
 
 const nextOrgcolumns = (props) => {
 	const {
-		isTop, handleOpenEditOrg, warningModal, switchOrg,
+		isTop, handleOpenEditOrg, warningModal, switchOrg, orgTree,
 	} = props;
 	return [
 		{
@@ -32,7 +32,7 @@ const nextOrgcolumns = (props) => {
 			title: '机构名称',
 			dataIndex: 'name',
 			width: 160,
-			render: (value, row) => <span className="switch-org" onClick={() => switchOrg(row.id, row.children, value, '')}>{value}</span>,
+			render: (value, row) => <span className="switch-org" onClick={() => switchOrg(orgTree, row.id)}>{value}</span>,
 		},
 		{
 			title: '层级',
@@ -146,10 +146,9 @@ class OrgTable extends React.Component {
 
 	render() {
 		const {
-			switchOrg, superiorOrg, nextOrgDataSource, accountDataSource, currentOrgDetail,
+			switchOrg, superiorOrg, nextOrgDataSource, accountDataSource, currentOrgDetail, orgTree, handleAddOrg,
 		} = this.props;
-		console.log('table nextOrgDataSource === ', nextOrgDataSource);
-
+		// console.log(' currentOrgDetail === ', currentOrgDetail);
 		return (
 			<div className="account-table">
 				<div className="account-table-top" />
@@ -159,29 +158,34 @@ class OrgTable extends React.Component {
 						<div className="account-table-content-title-sub">
 							上级机构代理：
 							{
-								superiorOrg ? <span className="account-table-content-title-sub-org" onClick={() => switchOrg(currentOrgDetail.id, [], currentOrgDetail.name, currentOrgDetail.parentName)}>{currentOrgDetail.parentName}</span> : '--'
+								superiorOrg ? <span className="account-table-content-title-sub-org" onClick={() => switchOrg(orgTree, currentOrgDetail.parentId)}>{currentOrgDetail.parentName}</span> : '--'
 							}
 						</div>
 					</div>
 					<div className="account-table-content-line" />
 				</div>
 				{/* 下级机构列表 */}
-				<div className="account-table-data">
-					<div className="account-table-data-oper">
-						<div className="account-table-data-oper-prefix" />
-						<div className="account-table-data-oper-title">下级机构列表</div>
-						<Button className="account-table-data-oper-add" onClick={this.handleAddNextOrg}>添加下级机构</Button>
+				{
+					currentOrgDetail.level < 3 && (
+					<div className="account-table-data" style={{ marginBottom: 20 }}>
+						<div className="account-table-data-oper">
+							<div className="account-table-data-oper-prefix" />
+							<div className="account-table-data-oper-title">下级机构列表</div>
+							<Button className="account-table-data-oper-add" onClick={() => handleAddOrg(currentOrgDetail, 'id')}>添加下级机构</Button>
+						</div>
+						<Table
+							className="org-table"
+							pagination={false}
+							scroll={{ y: 220 }}
+							dataSource={nextOrgDataSource}
+							columns={nextOrgcolumns(this.props)}
+						/>
 					</div>
-					<Table
-						className="org-table"
-						pagination={false}
-						scroll={{ y: 220 }}
-						dataSource={nextOrgDataSource}
-						columns={nextOrgcolumns(this.props)}
-					/>
-				</div>
+					)
+
+				}
 				{/* 当前机构账号 */}
-				<div className="account-table-data" style={{ marginTop: 20 }}>
+				<div className="account-table-data">
 					<div className="account-table-data-oper">
 						<div className="account-table-data-oper-prefix" />
 						<div className="account-table-data-oper-title">当前机构账号</div>

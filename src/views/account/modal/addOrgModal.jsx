@@ -25,25 +25,29 @@ class AddOrgModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const { form, handleCloseAddOrg, currentOrgDetail } = this.props;
+		const {
+			form, handleCloseAddOrg, onSearchOrgTree, orgData,
+		} = this.props;
 		const values = form.getFieldsValue();
 		const params = {
-			orgId: currentOrgDetail.id,
-			orgName: currentOrgDetail.name,
+			orgId: orgData.id,
+			orgName: orgData.name,
 			...values,
 		};
 		addNextOrg(params).then((res) => {
 			if (res.code === 200) {
 				message.success('添加成功');
+				onSearchOrgTree();
 				handleCloseAddOrg();
 			} else {
-				message.error(res.message || '机构名称已存在');
+				message.error(res.message || '添加机构失败');
 			}
 		}).catch(() => {});
 	};
 
 	render() {
-		const { form, addOrgVisible } = this.props;
+		const { form, orgData, addOrgVisible } = this.props;
+		console.log('orgData === ', orgData);
 		const { getFieldProps } = form;
 		return (
 			<Modal
@@ -70,40 +74,48 @@ class AddOrgModal extends React.PureComponent {
 							/>
 						</div>
 					</FormItem>
-					<FormItem
-						{...formItemLayout}
-						label="可监控债务人数"
-					>
-						<div className="yc-query-item">
-							<Input
-								style={{ width: 240 }}
-								size="large"
-								maxLength="40"
-								onlyUnit="人"
-								placeholder="请输入可监控债务人数"
-								{...getFieldProps('monitorNum', {
-									getValueFromEvent: e => parseInt(e.trim(), 10),
-								})}
-							/>
-						</div>
-					</FormItem>
-					<FormItem
-						{...formItemLayout}
-						label="查询授权次数"
-					>
-						<div className="yc-query-item">
-							<Input
-								style={{ width: 240 }}
-								size="large"
-								maxLength="40"
-								onlyUnit="次"
-								placeholder="请输入查询授权次数"
-								{...getFieldProps('authorizeNumber', {
-									getValueFromEvent: e => parseInt(e.trim(), 10),
-								})}
-							/>
-						</div>
-					</FormItem>
+					{
+						orgData.level < 1 ? (
+							<React.Fragment>
+								<FormItem
+									{...formItemLayout}
+									label="可监控债务人数"
+								>
+									<div className="yc-query-item">
+										<Input
+											type="number"
+											style={{ width: 240 }}
+											size="large"
+											maxLength="40"
+											onlyUnit="人"
+											placeholder="请输入可监控债务人数"
+											{...getFieldProps('monitorNum', {
+												getValueFromEvent: e => parseInt(e.trim(), 10),
+											})}
+										/>
+									</div>
+								</FormItem>
+								<FormItem
+									{...formItemLayout}
+									label="查询授权次数"
+								>
+									<div className="yc-query-item">
+										<Input
+											type="number"
+											style={{ width: 240 }}
+											size="large"
+											maxLength="40"
+											onlyUnit="次"
+											placeholder="请输入查询授权次数"
+											{...getFieldProps('authorizeNumber', {
+												getValueFromEvent: e => parseInt(e.trim(), 10),
+											})}
+										/>
+									</div>
+								</FormItem>
+							</React.Fragment>
+						) : null
+					}
 				</Form>
 			</Modal>
 		);
