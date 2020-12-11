@@ -378,35 +378,39 @@ class BusinessDebtor extends React.Component {
 				</div>
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
+				{
+					!global.isProxyLimit && (
+						<div className="yc-business-table-btn">
+							{
+								!manage ? (
+									<div className="yc-public-floatRight">
+										<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
+										<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
+									</div>
+								) : (
+									<div className="yc-public-floatRight">
+										<Button
+											onClick={() => { this.handleClosePush(); }}
+											title="关闭推送"
+										/>
+										<Button
+											onClick={() => { this.handleOpenPush(); }}
+											title="开启推送"
+										/>
+										<Button
+											type="common"
+											onClick={() => {
+												this.setState({ manage: false, selectIds: [] });
+											}}
+											title="取消批量管理"
+										/>
+									</div>
+								)
+							}
+						</div>
+					)
+				}
 
-				<div className="yc-business-table-btn">
-					{
-							!manage ? (
-								<div className="yc-public-floatRight">
-									<Download condition={() => this.toExportCondition('all')} style={{ marginRight: 0 }} api={exportExcel} all text="一键导出" />
-									<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
-								</div>
-							) : (
-								<div className="yc-public-floatRight">
-									<Button
-										onClick={() => { this.handleClosePush(); }}
-										title="关闭推送"
-									/>
-									<Button
-										onClick={() => { this.handleOpenPush(); }}
-										title="开启推送"
-									/>
-									<Button
-										type="common"
-										onClick={() => {
-											this.setState({ manage: false, selectIds: [] });
-										}}
-										title="取消批量管理"
-									/>
-								</div>
-							)
-						}
-				</div>
 				<Spin visible={loading}>
 					<TableList key={manage} selectIds={selectIds} stateObj={this.state} manage={manage} dataList={dataList} getData={this.getData} {...sortInfo} onSelect={(val) => { this.selectedRowKeys(val); }} />
 					{dataList && dataList.length > 0 && (
