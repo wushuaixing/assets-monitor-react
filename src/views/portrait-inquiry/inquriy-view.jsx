@@ -59,14 +59,7 @@ export default class InitView extends React.Component {
 			} else if (name.length < 2) {
 				message.error('债务人名称请至少输入两个字');
 			} else {
-				confirm({
-					title: '确认查询此债务人画像？',
-					content: '点击确认，将消耗1次查询次数，返回债务人相关资产、风险等各维度的综合查询结果。当前剩余次数：XXX次',
-					onOk() {
-						inquiryCheck(`/inquiry/list?type=1&name=${name.trim()}`, 1);
-					},
-					onCancel() {},
-				});
+				inquiryCheck(`/inquiry/list?type=1&name=${name.trim()}`, 1);
 			}
 		} else if (type === 2) {
 			if (!name || !num) {
@@ -78,25 +71,14 @@ export default class InitView extends React.Component {
 			} else if (!name && !num) {
 				message.error('请输入债务人名称及证据号');
 			} else if (name && num) {
-				confirm({
-					title: '确认查询此债务人画像？',
-					content: '点击确认，将消耗1次查询次数，返回债务人相关资产、风险等各维度的综合查询结果。当前剩余次数：XXX次',
-					onOk() {
-						this.setState({ loading: true });
-						// eslint-disable-next-line radix
-						const _dd = Number.parseInt(Math.random() * 1000);
-						inquiryCheck(`/inquiry/personal?type=2&name=${name.trim()}&num=${num.trim()}&dd=${_dd}`, 2)
-							.then(() => {
-								global.PORTRAIT_INQUIRY_AFFIRM = false;
-								this.setState({ loading: false });
-							})
-							.catch(() => {
-								this.setState({ loading: false });
-							});
-					},
-					onCancel() {},
-				});
-
+				inquiryCheck(`/inquiry/personal?type=2&name=${name.trim()}&num=${num.trim()}&dd=${_dd}`, 2)
+					.then(() => {
+						global.PORTRAIT_INQUIRY_AFFIRM = false;
+						this.setState({ loading: false });
+					})
+					.catch(() => {
+						this.setState({ loading: false });
+					});
 			}
 		}
 	};
