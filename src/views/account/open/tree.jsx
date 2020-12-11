@@ -76,6 +76,7 @@ class SearchTree extends React.Component {
 	// 手动添加机构
 	handleAddNextOrg = (item) => {
 		const { handleAddOrg } = this.props;
+		// console.log('item === ', item);
 		handleAddOrg(item);
 	};
 
@@ -105,19 +106,11 @@ class SearchTree extends React.Component {
 	// 点击机构
 	handleSelect = (selectedKeys) => {
 		const { orgTree } = this.state;
-		const { switchOrg, dataList } = this.props;
-		let nextOrgList = [];
+		const { switchOrg } = this.props;
+		// console.log('e === ', e);
 		if (selectedKeys.length > 0) {
-			const parentId = getParentKey(parseInt(selectedKeys[0], 10), orgTree);
-			console.log('parentId === ', parentId);
-			let parentName = '--';
-			if (dataList.some(item => item.id === parentId)) {
-				parentName = dataList.filter(item => item.id === parentId)[0].name;
-			}
-			const currentName = dataList.filter(item => item.id === parseInt(selectedKeys[0], 10))[0].name;
-			nextOrgList = dataList.filter(item => item.id === parseInt(selectedKeys[0], 10))[0].children;
-			console.log('nextOrgList === ', selectedKeys, nextOrgList, currentName, parentName);
-			switchOrg(parseInt(selectedKeys, 10), nextOrgList, currentName, parentName);
+			const id = parseInt(selectedKeys[0], 10);
+			switchOrg(orgTree, id);
 		}
 	};
 
@@ -133,20 +126,24 @@ class SearchTree extends React.Component {
 			const afterStr = item.name.substr(index + searchValue.length);
 			const title = index > -1 ? (
 				<React.Fragment>
-					<span>
+					<span className={`${item.name.length >= 15 ? 'more-org-name' : ''}`}>
 						{beforeStr}
 						<span className="match-word">{searchValue}</span>
 						{afterStr}
 					</span>
 					<span onClick={() => this.handleEditNextOrg(item)}><Icon className="edit" type="icon-edit" /></span>
-					<span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
+					{
+						item.level < 3 && <span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
+					}
 					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
 				</React.Fragment>
 			) : (
 				<React.Fragment>
-					<span>{item.name}</span>
+					<span className={`${item.name.length >= 15 ? 'more-org-name' : ''}`}>{item.name}</span>
 					<span onClick={() => this.handleEditNextOrg(item)}><Icon className="edit" type="icon-edit" /></span>
-					<span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
+					{
+						item.level < 3 && <span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
+					}
 					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
 				</React.Fragment>
 			);
