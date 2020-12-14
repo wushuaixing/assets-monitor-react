@@ -51,7 +51,7 @@ class AddOrgModal extends React.PureComponent {
 				this.handleSubmitRequest({ orgId: orgData.id, newOrgName: params.newOrgName });
 			}
 		} else {
-			message.error('机构名称不得为空');
+			message.error('请输入机构名称');
 		}
 	};
 

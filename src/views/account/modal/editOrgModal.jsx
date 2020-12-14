@@ -35,50 +35,48 @@ class EditOrgModal extends React.PureComponent {
 		const oldParams = {
 			authorizeNumber: orgData.portraitLimitCount,
 			monitorNum: orgData.obligorLimitCount,
-			orgName: orgData.orgName,
+			orgName: orgData.name,
 		};
 		const newParams = {
 			authorizeNumber: params.authorizeNumber,
 			monitorNum: params.monitorNum,
 			orgName: params.newOrgName,
 		};
-
 		// console.log('oldParams 1111', oldParams);
 		// console.log('newParams 2222', newParams);
-
 		if (values.monitorNum < orgData.obligorLimitUseCount && values.authorizeNumber < orgData.portraitLimitUseCount) {
-			message.error('可监控债务人数不能小于已监控债务人数');
+			message.warning('可监控债务人数不能小于已监控债务人数');
 		} else if (values.monitorNum < orgData.obligorLimitUseCount && values.authorizeNumber > orgData.portraitLimitUseCount) {
-			message.error('可监控债务人数不能小于已监控债务人数');
+			message.warning('可监控债务人数不能小于已监控债务人数');
 		} else if (values.monitorNum >= orgData.obligorLimitUseCount && values.authorizeNumber < orgData.portraitLimitUseCount) {
-			message.error('查询授权次数不能小于已使用查询次数');
-		} else if (orgData.level !== 0 && JSON.stringify(oldParams) === JSON.stringify(newParams)) {
-			message.warning('当前数据没有修改');
+			message.warning('查询授权次数不能小于已使用查询次数');
+		} else if (orgData.level === 1 && JSON.stringify(oldParams) === JSON.stringify(newParams)) {
+			message.warning('请修改机构信息');
+		} else if (orgData.level !== 1 && oldParams.orgName === newParams.orgName) {
+			message.warning('请修改机构名称');
+		} else if (!params.newOrgName) {
+			message.warning('请输入机构名称');
 		} else {
-			this.handleEditOrg(orgData.level === 0 ? params : { newOrgName: params.newOrgName, orgName: params.orgName });
+			this.handleEditOrg(orgData.level === 1 ? params : { newOrgName: params.newOrgName, orgName: params.orgName, orgId: orgData.id });
 		}
 	};
 
 	// 手动请求编辑机构
 	handleEditOrg = (params) => {
 		const { handleCloseEditOrg, onSearchOrgTree } = this.props;
-		if (params.newOrgName) {
-			editOrg(clearEmpty(params)).then((res) => {
-				if (res.code === 200) {
-					if (res.data) {
-						message.success('编辑成功');
-						onSearchOrgTree();
-						handleCloseEditOrg();
-					} else {
-						message.error('编辑失败');
-					}
+		editOrg(clearEmpty(params)).then((res) => {
+			if (res.code === 200) {
+				if (res.data) {
+					message.success('编辑成功');
+					onSearchOrgTree();
+					handleCloseEditOrg();
 				} else {
 					message.error('编辑失败');
 				}
-			}).catch();
-		} else {
-			message.error('编辑机构名称不得为空');
-		}
+			} else {
+				message.error('编辑失败' || res.message);
+			}
+		}).catch();
 	};
 
 	render() {
@@ -101,7 +99,7 @@ class EditOrgModal extends React.PureComponent {
 							<Input
 								style={{ width: 240 }}
 								size="large"
-								maxLength="40"
+								maxLength="20"
 								placeholder="请输入机构名称"
 								{...getFieldProps('newOrgName', {
 									initialValue: orgData.name,
@@ -111,7 +109,7 @@ class EditOrgModal extends React.PureComponent {
 						</div>
 					</FormItem>
 					{
-						orgData.level > 0 && (
+						orgData.level === 1 && (
 						<React.Fragment>
 							<FormItem
 								{...formItemLayout}
@@ -121,7 +119,7 @@ class EditOrgModal extends React.PureComponent {
 									<Input
 										style={{ width: 240 }}
 										size="large"
-										maxLength="40"
+										maxLength="20"
 										placeholder="请输入可监控数"
 										unit="人"
 										unitStyle={{ color: '#B2B8C9' }}
@@ -143,7 +141,7 @@ class EditOrgModal extends React.PureComponent {
 									<Input
 										style={{ width: 240 }}
 										size="large"
-										maxLength="40"
+										maxLength="20"
 										placeholder="请输入查询授权数"
 										unit="次"
 										unitStyle={{ color: '#B2B8C9' }}
