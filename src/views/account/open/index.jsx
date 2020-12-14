@@ -176,50 +176,76 @@ class Open extends React.Component {
 			onOk() {
 				// 重置密码
 				if (type === 'resetPassword') {
-					const params = {
-						userId: item.id,
-					};
-					resetPassword({ ...params }).then((res) => {
-						if (res.code === 200) {
-							message.success('密码重置成功');
-							that.onSearchOrgTree();
-						} else {
-							message.error(res.message || '密码重置失败');
-						}
-					}).catch();
+					that.handleResetPassword(item);
 				} else if (type === 'deleteAccount') { // 删除账号
-					const params = {
-						userId: item.id,
-					};
-					deleteUser(params).then((res) => {
-						if (res.code === 200) {
-							message.success('账号删除成功');
-							that.onSearchOrgTree();
-						} else {
-							message.error(res.message || '机构删除失败');
-						}
-					}).catch();
+					that.handleDeleteUser(item);
 				} else if (type === 'deleteOrg') { // 删除机构
-					if (isShowCancel) {
-						return;
-					}
-					const params = {
-						orgId: item.id,
-					};
-					deleteOrg(params).then((res) => {
-						if (res.code === 200) {
-							message.success('机构删除成功');
-							that.onSearchOrgTree();
-						} else {
-							message.error(res.message || '机构删除失败');
-						}
-					}).catch();
+					that.handleDeleteOrg(item, isShowCancel);
 				}
 			},
 			onCancel() {},
 		});
 	};
 
+	// 重置密码操作
+	handleResetPassword = (item) => {
+		const params = {
+			userId: item.id,
+		};
+		resetPassword(params).then((res) => {
+			if (res.code === 200) {
+				if (res.data) {
+					message.success('密码重置成功');
+				} else {
+					message.error('密码重置失败');
+				}
+			} else {
+				message.error(res.message || '密码重置失败');
+			}
+		}).catch();
+	};
+
+	// 手动删除用户操作
+	handleDeleteUser = (item) => {
+		const { currentOrgDetail } = this.state;
+		const params = {
+			userId: item.id,
+		};
+		deleteUser(params).then((res) => {
+			if (res.code === 200) {
+				if (res.data) {
+					message.success('账号删除成功');
+					this.onGetUserList(currentOrgDetail.id);
+				} else {
+					message.error('用户删除失败');
+				}
+			} else {
+				message.error('用户删除失败');
+			}
+		}).catch();
+	};
+
+	// 手动删除机构操作
+	handleDeleteOrg = (item, isShowCancel) => {
+		if (isShowCancel) {
+			return;
+		}
+		const params = {
+			orgId: item.id,
+		};
+		deleteOrg(params).then((res) => {
+			if (res.code === 200) {
+				if (res.data) {
+					message.success('机构删除成功');
+					this.onSearchOrgTree();
+				} else {
+					message.error(res.message || '机构删除失败');
+				}
+			} else {
+				message.error(res.message || '机构删除失败');
+			}
+		}).catch();
+	};
 
 	// 机构添加
 	// 手动添加机构
@@ -400,6 +426,7 @@ class Open extends React.Component {
 						currentOrgDetail={currentOrgDetail}
 						addAccountVisible={addAccountVisible}
 						handleCloseAddAccount={this.handleCloseAddAccount}
+						onGetUserList={this.onGetUserList}
 					/>
 					)
 				}

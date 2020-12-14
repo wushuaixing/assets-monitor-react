@@ -38,7 +38,7 @@ export const addUser = async (params) => {
 
 // 重置密码
 export const resetPassword = async (params) => {
-	const response = await service.post('/yc/agent/user/changePassword', params);
+	const response = await service.post(`/yc/agent/user/changePassword?userId=${params.userId}`);
 	return response.data;
 };
 

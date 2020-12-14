@@ -25,9 +25,7 @@ class EditAccountModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const {
-			form, handleCloseEditAccount, accountData, onGetUserList, currentOrgDetail,
-		} = this.props;
+		const { form, accountData } = this.props;
 		form.validateFields((errors, values) => {
 			if (errors) {
 				console.log(errors);
@@ -37,16 +35,26 @@ class EditAccountModal extends React.PureComponent {
 				username: values.username,
 				userId: accountData.id,
 			};
-			modifyUser(params).then((res) => {
-				if (res.code === 200) {
-					message.success('编辑修改成功');
-					onGetUserList(currentOrgDetail.id);
-					handleCloseEditAccount();
-				} else {
-					message.error('编辑修改失败');
-				}
-			}).catch();
+			if (values.username === accountData.name) {
+				message.warning('姓名未修改');
+			} else {
+				this.handleSubmitRequest(params);
+			}
 		});
+	};
+
+
+	handleSubmitRequest = (params) => {
+		const { handleCloseEditAccount, onGetUserList, currentOrgDetail } = this.props;
+		modifyUser(params).then((res) => {
+			if (res.code === 200) {
+				message.success('编辑修改成功');
+				onGetUserList(currentOrgDetail.id);
+				handleCloseEditAccount();
+			} else {
+				message.error('编辑修改失败');
+			}
+		}).catch();
 	};
 
 	render() {

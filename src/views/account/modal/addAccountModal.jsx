@@ -38,7 +38,9 @@ class AddAccountModal extends React.PureComponent {
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
 		const { today } = this.state;
-		const { form, handleCloseAddAccount, currentOrgDetail } = this.props;
+		const {
+			form, handleCloseAddAccount, currentOrgDetail, onGetUserList,
+		} = this.props;
 		form.validateFields((errors, values) => {
 			if (errors) {
 				console.log(errors);
@@ -51,8 +53,15 @@ class AddAccountModal extends React.PureComponent {
 			};
 			addUser(params).then((res) => {
 				if (res.code === 200) {
-					message.success('添加成功');
-					handleCloseAddAccount();
+					if (res.data) {
+						message.success('添加成功');
+						handleCloseAddAccount();
+						onGetUserList(currentOrgDetail.id);
+					} else {
+						message.error('添加失败');
+					}
+				} else if (res.code === 9001) {
+					message.error(res.message);
 				} else {
 					message.error('添加失败');
 				}
