@@ -54,7 +54,8 @@
         }
         &-box{
           position: absolute;
-          right: -5px;
+          text-align: center;
+          right: 0;
           top: 17px;
           cursor: pointer;
           width: 30px;
@@ -63,10 +64,11 @@
           &-icon{
             color: #7D8699;
           }
-          &:active{
-            &-icon{
-              color: $text-link;
-            }
+        }
+        .account-box-search-box:active{
+          .account-box-search-box-icon{
+            color: $text-link !important;
+            font-weight: bold;
           }
         }
       }
@@ -83,19 +85,20 @@
         font-size: 12px;
         height: 100%;
         .account-tree{
-          //匹配到的机构变色
-          .ant-tree-title{
-            .match-word{
-              font-weight: bold;
-              color: $text-link;
-            }
-          }
 
           //修改箭头的大小
           .ant-tree-switcher{
             &::after{
               //content: "\e647" !important;
               font-size: 20px !important;
+            }
+          }
+
+          //匹配到的机构变色
+          .ant-tree-title{
+            .match-word{
+              font-weight: bold;
+              color: $text-link;
             }
           }
 
@@ -170,6 +173,8 @@
             font-weight: bold;
             color: $text-link;
             background-color: white;
+            //禁止该元素的点击事件
+            //pointer-events: none;
           }
 
           .more-org-name{
@@ -286,7 +291,7 @@
         .ant-table-body{
           overflow-y: auto !important;
         }
-
+        //如果有table的数据里有children会显示箭头， 这里需要隐藏
         .ant-table-row-expand-icon{
           display: none;
         }

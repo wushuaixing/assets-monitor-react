@@ -86,7 +86,7 @@ class Open extends React.Component {
 			orgTree: [],
 			orgData: '',
 			accountData: '',
-			orgTopId: '', // 顶级机构
+			orgTopId: '', // 顶级机构 这个id是不会变的
 			currentOrgDetail: {}, // 当前机构信息
 			nextOrgDataSource: [],
 			accountDataSource: [],
@@ -352,7 +352,6 @@ class Open extends React.Component {
 						{/* 机构表格 */}
 						<OrgTable
 							isTop={currentOrgDetail.id === orgTopId} // 判断当前机构是否是顶级虚拟机构
-							superiorOrg="风险机构"
 							orgTree={orgTree}
 							currentOrgDetail={currentOrgDetail}
 							editOrgVisible={editOrgVisible}

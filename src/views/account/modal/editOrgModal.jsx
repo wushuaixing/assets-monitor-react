@@ -32,29 +32,53 @@ class EditOrgModal extends React.PureComponent {
 			orgId: orgData.id,
 			orgName: orgData.name,
 		};
+		const oldParams = {
+			authorizeNumber: orgData.portraitLimitCount,
+			monitorNum: orgData.obligorLimitCount,
+			orgName: orgData.orgName,
+		};
+		const newParams = {
+			authorizeNumber: params.authorizeNumber,
+			monitorNum: params.monitorNum,
+			orgName: params.newOrgName,
+		};
+
+		// console.log('oldParams 1111', oldParams);
+		// console.log('newParams 2222', newParams);
+
 		if (values.monitorNum < orgData.obligorLimitUseCount && values.authorizeNumber < orgData.portraitLimitUseCount) {
 			message.error('可监控债务人数不能小于已监控债务人数');
 		} else if (values.monitorNum < orgData.obligorLimitUseCount && values.authorizeNumber > orgData.portraitLimitUseCount) {
 			message.error('可监控债务人数不能小于已监控债务人数');
 		} else if (values.monitorNum >= orgData.obligorLimitUseCount && values.authorizeNumber < orgData.portraitLimitUseCount) {
 			message.error('查询授权次数不能小于已使用查询次数');
+		} else if (orgData.level !== 0 && JSON.stringify(oldParams) === JSON.stringify(newParams)) {
+			message.warning('当前数据没有修改');
 		} else {
-			this.handleEditOrg(params);
+			this.handleEditOrg(orgData.level === 0 ? params : { newOrgName: params.newOrgName, orgName: params.orgName });
 		}
 	};
 
 	// 手动请求编辑机构
 	handleEditOrg = (params) => {
 		const { handleCloseEditOrg, onSearchOrgTree } = this.props;
-		editOrg(clearEmpty(params)).then((res) => {
-			if (res.code === 200) {
-				message.success('编辑成功');
-				onSearchOrgTree();
-				handleCloseEditOrg();
-			} else {
-				message.error('编辑失败');
-			}
-		}).catch();
+		if (params.newOrgName) {
+			editOrg(clearEmpty(params)).then((res) => {
+				if (res.code === 200) {
+					if (res.data) {
+						message.success('编辑成功');
+						onSearchOrgTree();
+						handleCloseEditOrg();
+					} else {
+						message.error('编辑失败');
+					}
+				} else {
+					message.error('编辑失败');
+				}
+			}).catch();
+		} else {
+			message.error('编辑机构名称不得为空');
+		}
 	};
 
 	render() {

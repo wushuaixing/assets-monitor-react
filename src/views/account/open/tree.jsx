@@ -16,18 +16,44 @@ class SearchTree extends React.Component {
 			searchValue: '',
 			autoExpandParent: true,
 			orgTree: [],
+			selectedKeys: [],
 		};
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const { orgTree } = this.props;
+		const { orgTree, currentOrgDetail } = this.props;
 		if (JSON.stringify(orgTree) !== JSON.stringify(nextProps.orgTree)) {
 			this.setState({
 				orgTree: nextProps.orgTree,
 				expandedKeys: `${nextProps.orgTree[0].id}`,
+				selectedKeys: [`${nextProps.orgTree[0].id}`],
 			});
+		} else if (currentOrgDetail.id !== nextProps.currentOrgDetail.id) {
+			this.handleSwitchSelect(nextProps.currentOrgDetail.id);
 		}
 	}
+
+	// 当前id变化，选中节点在节点树里面也跟着变化
+	handleSwitchSelect = (id) => {
+		const { orgTree } = this.state;
+		const { dataList } = this.props;
+		if (id) {
+			const expandedKeys = dataList
+				.map((item) => {
+					if (item.id === id) {
+						return getParentKey(item.id, orgTree);
+					}
+					return null;
+				})
+				.filter((item, i, self) => item && self.indexOf(item) === i);
+			const newExpandedKeys = expandedKeys.map(item => `${item}`);
+			this.setState({
+				expandedKeys: newExpandedKeys,
+				selectedKeys: [`${id}`],
+				autoExpandParent: true,
+			});
+		}
+	};
 
 	// 输入框的变化
 	onChangeInput = (value) => {
@@ -60,12 +86,14 @@ class SearchTree extends React.Component {
 				return null;
 			})
 			.filter((item, i, self) => item && self.indexOf(item) === i);
+		const newExpandedKeys = expandedKeys.map(item => `${item}`);
 		this.setState({
-			expandedKeys: searchValue ? expandedKeys : [],
-			autoExpandParent: !!searchValue,
+			expandedKeys: newExpandedKeys,
+			autoExpandParent: true,
 		});
 	};
 
+	// 展开函数
 	onExpand = (expandedKeys) => {
 		this.setState({
 			expandedKeys,
@@ -76,7 +104,6 @@ class SearchTree extends React.Component {
 	// 手动添加机构
 	handleAddNextOrg = (item) => {
 		const { handleAddOrg } = this.props;
-		// console.log('item === ', item);
 		handleAddOrg(item);
 	};
 
@@ -107,20 +134,22 @@ class SearchTree extends React.Component {
 	handleSelect = (selectedKeys) => {
 		const { orgTree } = this.state;
 		const { switchOrg } = this.props;
-		// console.log('e === ', e);
 		if (selectedKeys.length > 0) {
+			this.setState({
+				selectedKeys,
+			});
 			const id = parseInt(selectedKeys[0], 10);
 			switchOrg(orgTree, id);
 		}
 	};
 
+
 	render() {
 		const {
-			expandedKeys, autoExpandParent, searchValue, orgTree,
+			expandedKeys, autoExpandParent, searchValue, orgTree, selectedKeys,
 		} = this.state;
-		// console.log('orgTree=== ', orgTree);
+		const { currentOrgDetail, orgTopId } = this.props;
 		const loop = data => data.map((item) => {
-			// console.log('item === ', item);
 			const index = item.name.indexOf(searchValue);
 			const beforeStr = item.name.substr(0, index);
 			const afterStr = item.name.substr(index + searchValue.length);
@@ -149,10 +178,10 @@ class SearchTree extends React.Component {
 			);
 			if (Array.isArray(item.children) && item.children.length > 0) {
 				return (
-					<TreeNode key={item.id} title={title} className="line">{loop(item.children)}</TreeNode>
+					<TreeNode selectable={currentOrgDetail.id !== item.id} key={item.id} title={title} className={`line${orgTopId === item.id ? ' select-node' : ''}`}>{loop(item.children)}</TreeNode>
 				);
 			}
-			return <TreeNode key={item.id} title={title} />;
+			return <TreeNode selectable={currentOrgDetail.id !== item.id} className={`${orgTopId === item.id ? 'select-node2' : ''}`} key={item.id} title={title} />;
 		});
 		return (
 			<div className="account-left">
@@ -163,6 +192,7 @@ class SearchTree extends React.Component {
 							className="account-box-search-input"
 							placeholder="请输入要查找的机构"
 							onChange={this.onChangeInput}
+							value={searchValue}
 						/>
 						<span className="account-box-search-box" onClick={this.handleSearchOrg}>
 							<Icon className="account-box-search-box-icon" type="icon-search" />
@@ -178,6 +208,7 @@ class SearchTree extends React.Component {
 							expandedKeys={expandedKeys}
 							autoExpandParent={autoExpandParent}
 							onSelect={this.handleSelect}
+							selectedKeys={selectedKeys}
 						>
 							{loop(orgTree)}
 						</Tree>
