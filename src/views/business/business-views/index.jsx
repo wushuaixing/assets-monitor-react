@@ -580,9 +580,9 @@ class BusinessView extends React.Component {
 					{/* 分隔下划线 */}
 					<div className="yc-noTab-hr" />
 
-							<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
-								{
-									!openRowSelection ? (
+					<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
+						{
+									!openRowSelection /* (
 										<React.Fragment>
 											{
 												!global.isProxyLimit &&(
@@ -597,38 +597,38 @@ class BusinessView extends React.Component {
 												)
 											}
 										</React.Fragment>
-									) : (
+									) */? null : (
 										<React.Fragment>
 											{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum style={{ position: 'absolute', top: 6 }} num={selectedRowKeys.length} /> : null}
 										</React.Fragment>
-									)
+										)
 								}
-								<div className="yc-public-floatRight">
-									{
+						<div className="yc-public-floatRight">
+							{
 										openRowSelection ? (
 											<React.Fragment>
-												{
+												{/* {
 													!global.isProxyLimit && (
 														<Button style={{ margin: '0 0 0 10px' }} onClick={this.handledDeleteBatch} className="yc-business-btn">删除</Button>
 													)
-												}
+												} */}
 												<Download style={{ margin: '0 0 0 10px' }} selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
 											</React.Fragment>
 										) : null
 									}
-									{
+							{
 										openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} api={exportExcel} all text="一键导出" />
 									}
-									<Button
-										style={{ margin: '0 0 0 10px' }}
-										className="yc-business-btn"
-										type={`${openRowSelection ? 'common' : ''}`}
-										onClick={() => this.openManagement(openRowSelection)}
-									>
-										{openRowSelection ? '取消批量管理' : '批量管理'}
-									</Button>
-								</div>
-							</div>
+							<Button
+								style={{ margin: '0 0 0 10px' }}
+								className="yc-business-btn"
+								type={`${openRowSelection ? 'common' : ''}`}
+								onClick={() => this.openManagement(openRowSelection)}
+							>
+								{openRowSelection ? '取消批量管理' : '批量管理'}
+							</Button>
+						</div>
+					</div>
 
 					<Spin visible={loading}>
 						<TableList
