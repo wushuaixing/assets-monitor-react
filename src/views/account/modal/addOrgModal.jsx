@@ -25,20 +25,48 @@ class AddOrgModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const {
-			form, handleCloseAddOrg, onSearchOrgTree, orgData,
-		} = this.props;
+		const { form, orgData } = this.props;
 		const values = form.getFieldsValue();
 		const params = {
 			orgId: orgData.id,
 			orgName: orgData.name,
 			...values,
 		};
+		if (params.newOrgName) {
+			if (orgData.level < 1) {
+				if (!params.monitorNum) {
+					message.error('请输入可监控债务人数');
+				} else if (params.monitorNum < 0) {
+					message.error('可监控债务人数应为大于等于0的整数');
+				} else if (!params.authorizeNumber) {
+					message.error('请输入查询授权次数');
+				} else if (params.authorizeNumber < 0) {
+					message.error('查询授权次数应为大于等于0的整数');
+				} else {
+					// 机构只有是顶级虚拟机构添加下级机构的时候可以分配次数，其他的机构添加下级没有次数分配。
+					this.handleSubmitRequest(params);
+				}
+			} else {
+				// 机构只有是顶级虚拟机构添加下级机构的时候可以分配次数，其他的机构添加下级没有次数分配。
+				this.handleSubmitRequest({ orgId: orgData.id, newOrgName: params.newOrgName });
+			}
+		} else {
+			message.error('机构名称不得为空');
+		}
+	};
+
+	// 手动提交请求
+	handleSubmitRequest = (params) => {
+		const { handleCloseAddOrg, onSearchOrgTree } = this.props;
 		addNextOrg(params).then((res) => {
 			if (res.code === 200) {
-				message.success('添加成功');
-				onSearchOrgTree();
-				handleCloseAddOrg();
+				if (res.data) {
+					message.success('添加成功');
+					onSearchOrgTree();
+					handleCloseAddOrg();
+				} else {
+					message.error(res.message || '添加机构失败');
+				}
 			} else {
 				message.error(res.message || '添加机构失败');
 			}
@@ -66,7 +94,7 @@ class AddOrgModal extends React.PureComponent {
 							<Input
 								style={{ width: 240 }}
 								size="large"
-								maxLength="40"
+								maxLength="20"
 								placeholder="请输入机构名称"
 								{...getFieldProps('newOrgName', {
 									getValueFromEvent: e => e.trim(),
@@ -86,7 +114,7 @@ class AddOrgModal extends React.PureComponent {
 											type="number"
 											style={{ width: 240 }}
 											size="large"
-											maxLength="40"
+											maxLength="20"
 											onlyUnit="人"
 											placeholder="请输入可监控债务人数"
 											{...getFieldProps('monitorNum', {
@@ -104,7 +132,7 @@ class AddOrgModal extends React.PureComponent {
 											type="number"
 											style={{ width: 240 }}
 											size="large"
-											maxLength="40"
+											maxLength="20"
 											onlyUnit="次"
 											placeholder="请输入查询授权次数"
 											{...getFieldProps('authorizeNumber', {

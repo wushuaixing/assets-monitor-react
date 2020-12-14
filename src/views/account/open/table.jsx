@@ -146,7 +146,7 @@ class OrgTable extends React.Component {
 
 	render() {
 		const {
-			switchOrg, superiorOrg, nextOrgDataSource, accountDataSource, currentOrgDetail, orgTree, handleAddOrg,
+			switchOrg, nextOrgDataSource, accountDataSource, currentOrgDetail, orgTree, handleAddOrg,
 		} = this.props;
 		// console.log(' currentOrgDetail === ', currentOrgDetail);
 		return (
@@ -158,7 +158,7 @@ class OrgTable extends React.Component {
 						<div className="account-table-content-title-sub">
 							上级机构代理：
 							{
-								superiorOrg ? <span className="account-table-content-title-sub-org" onClick={() => switchOrg(orgTree, currentOrgDetail.parentId)}>{currentOrgDetail.parentName}</span> : '--'
+								currentOrgDetail.parentName && currentOrgDetail.parentName !== '--' ? <span className="account-table-content-title-sub-org" onClick={() => switchOrg(orgTree, currentOrgDetail.parentId)}>{currentOrgDetail.parentName}</span> : '--'
 							}
 						</div>
 					</div>
@@ -182,7 +182,6 @@ class OrgTable extends React.Component {
 						/>
 					</div>
 					)
-
 				}
 				{/* 当前机构账号 */}
 				<div className="account-table-data">
