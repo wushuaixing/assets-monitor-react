@@ -145,10 +145,13 @@ const Operation = (props) => {
 	const { onEdit, onRecord, customStyle } = props;
 	return (
 		<div className="intro-download" style={customStyle}>
-			{/* <Button className="intro-download-button" onClick={onEdit}>
-				<IconType type="icon-edit" style={{ marginRight: 5 }} />
-				编辑
-			</Button> */}
+			{
+				!global.isProxyLimit && (
+				<Button className="intro-download-button" onClick={onEdit}>
+					<IconType type="icon-edit" style={{ marginRight: 5 }} />
+					编辑
+				</Button>
+				)}
 			<Button className="intro-download-button" onClick={onRecord}>
 				<IconType type="icon-change-record" style={{ marginRight: 5 }} />
 				变更记录
