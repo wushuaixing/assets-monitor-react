@@ -7,9 +7,8 @@ export default {
 	/**
 	 * 处理路由数据,对默认数据转换为可以使用的数据对象
 	 * @param source
-	 * @param isProxyLimit=false 没有给导入业务做限制，是顶级虚拟机构
 	 */
-	handleRule: (source, isProxyLimit) => {
+	handleRule: (source) => {
 		const res = {};
 		source.forEach((item) => {
 			switch (item.groupName) {
@@ -120,11 +119,8 @@ export default {
 					res.else = {
 						id: 7,
 						title: '其他',
-						children: isProxyLimit ? {
+						children: {
 							[item.rule]: item,
-						} : {
-							[item.rule]: item,
-							proxy: { groupName: 'menu_proxy', rule: 'proxy', title: '账号开通' },
 						},
 					};
 				}
@@ -362,6 +358,18 @@ export default {
 								status: toStatus(rule.menu_zcwj, 'zcwjcjfzc'),
 							},
 							{
+								id: 'YC0210',
+								name: '不动产登记',
+								url: '/monitor/realEstate',
+								status: toStatus(rule.menu_zcwj, 'zcwjbdcdj'),
+							},
+							{
+								id: 'YC0211',
+								name: '车辆信息',
+								url: '/monitor/car',
+								status: toStatus(rule.menu_zcwj, 'zcwjclxx'),
+							},
+							{
 								id: 'YC0205',
 								name: '金融资产',
 								url: '/monitor/financial',
@@ -377,18 +385,6 @@ export default {
 								name: '招投标',
 								url: '/monitor/tender',
 								status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
-							},
-							{
-								id: 'YC0210',
-								name: '不动产登记',
-								url: '/monitor/realEstate',
-								status: toStatus(rule.menu_zcwj, 'zcwjbdcdj'),
-							},
-							{
-								id: 'YC0211',
-								name: '车辆信息',
-								url: '/monitor/car',
-								status: toStatus(rule.menu_zcwj, 'zcwjclxx'),
 							},
 						],
 					},
@@ -532,7 +528,7 @@ export default {
 				id: 'YC07',
 				name: '账号开通',
 				url: '/account',
-				status: toStatus(rule.else, 'proxy'),
+				status: toStatus(rule.else, 'dljg'),
 				dot: false,
 			},
 		];

@@ -194,15 +194,15 @@ class HomeDynamic extends PureComponent {
 		]; */
 		 const apiArray = [
 			{ count: 'zcwjzcpm', Api: importantListAuction, auction: true },
-			{ count: 'zcwjzbzb', Api: importantListBidding },
+			/* { count: 'zcwjzbzb', Api: importantListBidding }, */
 			{ count: 'zcwjcjfzc', Api: importantListUnseal },
 
 			{ count: 'zcwjtdsj', Api: importantListLandTransfer },
 			{ count: 'zcwjtdsj', Api: importantListLandMortgage },
 			{ count: 'zcwjtdsj', Api: importantListLandTransaction },
 
-			{ count: 'zcwjjrzj', Api: importantListAuctionBidding },
-			{ count: 'zcwjjrzj', Api: importantListFinance },
+			/* { count: 'zcwjjrzj', Api: importantListAuctionBidding },
+			{ count: 'zcwjjrzj', Api: importantListFinance }, */
 
 			{ count: 'zcwjwxzc', Api: importantListIntangibleEmission },
 			{ count: 'zcwjwxzc', Api: importantListIntangibleMining },

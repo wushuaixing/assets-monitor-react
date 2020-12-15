@@ -81,13 +81,12 @@ class Login extends React.Component {
 			title: <span className="error-title">账号过期提醒</span>,
 			className: 'error-modal',
 			content: <div className="error-content">
-				<div>账号已过期，建议联系客服。</div>
-				<div>客服电话:133-7256-7936</div>
+				<div>账号已过期，建议添加微信。</div>
+				<div>客服微信:180-7294-2900（同电话）</div>
 			</div>,
 		});
 	};
 
-	// const token = cookie.get('token'); // 获取token
 	// 密码登录的登录点击事件
 	handleSubmitAccount = () => {
 		const { rememberPassword } = this.state;
@@ -132,7 +131,7 @@ class Login extends React.Component {
 							cookie.set('token', res.data.token);
 							cookie.set('firstLogin', res.data.firstLogin);
 							cookie.set('versionUpdate', res.data.versionUpdate);
-							const rule = handleRule(res.data.rules, res.data.isProxyLimit);
+							const rule = handleRule(res.data.rules);
 							global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 							// 判断是否是第一次登录
 							if (res.data.firstLogin === true) {

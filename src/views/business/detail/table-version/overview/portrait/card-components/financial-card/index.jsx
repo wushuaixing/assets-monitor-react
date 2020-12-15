@@ -22,7 +22,7 @@ export default class FinancialCard extends React.Component {
 						<Card
 							IconType="finance"
 							obligorTotal={obligorTotal}
-							IconColor={{ color: '#948BFF' }}
+							IconColor={{ color: '#FB8E3C' }}
 							portrait={portrait}
 							count={allNum}
 							gmtCreate={gmtModified}

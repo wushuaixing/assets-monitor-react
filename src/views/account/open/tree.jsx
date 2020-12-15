@@ -1,71 +1,11 @@
 import React from 'react';
-import { Tree, Input } from 'antd';
-import { Icon } from '@/common';
+import { Tree } from 'antd';
+import { Icon, Input } from '@/common';
+// eslint-disable-next-line import/no-cycle
+import { getParentKey } from './index';
 import './index.scss';
 
 const { TreeNode } = Tree;
-
-const x = 10;
-const y = 2;
-const z = 1;
-const gData = [];
-
-// eslint-disable-next-line consistent-return
-const generateData = (_level, _preKey, _tns) => {
-	const preKey = _preKey || '0';
-	const tns = _tns || gData;
-
-	const children = [];
-	// eslint-disable-next-line no-plusplus
-	for (let i = 0; i < x; i++) {
-		const key = `${preKey}-${i}`;
-		tns.push({ title: key, key });
-		if (i < y) {
-			children.push(key);
-		}
-	}
-	if (_level < 0) {
-		return tns;
-	}
-	const level = _level - 1;
-	children.forEach((key, index) => {
-		tns[index].children = [];
-		return generateData(level, key, tns[index].children);
-	});
-};
-
-generateData(z);
-
-const dataList = [];
-// eslint-disable-next-line no-unused-vars
-const generateList = (data) => {
-	// eslint-disable-next-line no-plusplus
-	for (let i = 0; i < data.length; i++) {
-		const node = data[i];
-		const { key } = node;
-		dataList.push({ key, title: key });
-		if (node.children) {
-			generateList(node.children);
-		}
-	}
-};
-generateList(gData);
-
-const getParentKey = (key, tree) => {
-	let parentKey;
-	// eslint-disable-next-line no-plusplus
-	for (let i = 0; i < tree.length; i++) {
-		const node = tree[i];
-		if (node.children) {
-			if (node.children.some(item => item.key === key)) {
-				parentKey = node.key;
-			} else if (getParentKey(key, node.children)) {
-				parentKey = getParentKey(key, node.children);
-			}
-		}
-	}
-	return parentKey;
-};
 
 class SearchTree extends React.Component {
 	constructor(props) {
@@ -75,22 +15,60 @@ class SearchTree extends React.Component {
 			expandedKeys: [],
 			searchValue: '',
 			autoExpandParent: true,
+			orgTree: [],
+			selectedKeys: [],
 		};
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const { orgTree, currentOrgDetail } = this.props;
+		if (JSON.stringify(orgTree) !== JSON.stringify(nextProps.orgTree)) {
+			this.setState({
+				orgTree: nextProps.orgTree,
+				expandedKeys: `${nextProps.orgTree[0].id}`,
+				selectedKeys: [`${nextProps.orgTree[0].id}`],
+			});
+		} else if (currentOrgDetail.id !== nextProps.currentOrgDetail.id) {
+			this.handleSwitchSelect(nextProps.currentOrgDetail.id);
+		}
+	}
+
+	// 当前id变化，选中节点在节点树里面也跟着变化
+	handleSwitchSelect = (id) => {
+		const { orgTree } = this.state;
+		const { dataList } = this.props;
+		if (id) {
+			const expandedKeys = dataList
+				.map((item) => {
+					if (item.id === id) {
+						return getParentKey(item.id, orgTree);
+					}
+					return null;
+				})
+				.filter((item, i, self) => item && self.indexOf(item) === i);
+			const newExpandedKeys = expandedKeys.map(item => `${item}`);
+			this.setState({
+				expandedKeys: newExpandedKeys,
+				selectedKeys: [`${id}`],
+				autoExpandParent: true,
+			});
+		}
+	};
+
 	// 输入框的变化
-	onChangeInput = (e) => {
-		const { value } = e.target;
+	onChangeInput = (value) => {
+		const { orgTree, dataList } = this.props;
 		const expandedKeys = dataList
 			.map((item) => {
-				if (item.title.indexOf(value) > -1) {
-					return getParentKey(item.key, gData);
+				if (item.name.indexOf(value) > -1) {
+					return getParentKey(item.id, orgTree);
 				}
 				return null;
 			})
 			.filter((item, i, self) => item && self.indexOf(item) === i);
+		const newExpandedKeys = expandedKeys.map(item => `${item}`);
 		this.setState({
-			expandedKeys,
+			expandedKeys: newExpandedKeys,
 			searchValue: value,
 			autoExpandParent: true,
 		});
@@ -98,22 +76,24 @@ class SearchTree extends React.Component {
 
 	// 点击搜索按钮
 	handleSearchOrg = () => {
+		const { orgTree, dataList } = this.props;
 		const { searchValue } = this.state;
-		console.log('handleSearchOrg === ', searchValue);
 		const expandedKeys = dataList
 			.map((item) => {
-				if (item.title.indexOf(searchValue) > -1) {
-					return getParentKey(item.key, gData);
+				if (item.name.indexOf(searchValue) > -1) {
+					return getParentKey(item.id, orgTree);
 				}
 				return null;
 			})
 			.filter((item, i, self) => item && self.indexOf(item) === i);
+		const newExpandedKeys = expandedKeys.map(item => `${item}`);
 		this.setState({
-			expandedKeys: searchValue ? expandedKeys : [],
-			autoExpandParent: !!searchValue,
+			expandedKeys: newExpandedKeys,
+			autoExpandParent: true,
 		});
 	};
 
+	// 展开函数
 	onExpand = (expandedKeys) => {
 		this.setState({
 			expandedKeys,
@@ -121,34 +101,10 @@ class SearchTree extends React.Component {
 		});
 	};
 
-	onGetTitleNode = (item) => {
-		let titltNode = item.title;
-		console.log('item === ', item);
-		if (item.children) {
-			titltNode = (
-				<a title="0-0-0-0" className="ant-tree-node-content-wrapper">
-					<span className="ant-tree-title">{item.title}</span>
-					<Icon className="right" type="icon-edit" />
-					<Icon className="add" type="icon-add-circle" />
-				</a>
-			);
-		} else {
-			titltNode = (
-				<a title="0-0-0-0" className="ant-tree-node-content-wrapper">
-					<span className="ant-tree-title">{item.title}</span>
-					<Icon className="right" type="icon-edit" />
-					<Icon className="add" type="icon-add-circle" />
-					<Icon className="del" type="icon-delete-circle" />
-				</a>
-			);
-		}
-		return titltNode;
-	};
-
 	// 手动添加机构
-	handleAddNextOrg = () => {
+	handleAddNextOrg = (item) => {
 		const { handleAddOrg } = this.props;
-		handleAddOrg();
+		handleAddOrg(item);
 	};
 
 	// 手动删除机构
@@ -157,85 +113,107 @@ class SearchTree extends React.Component {
 		const titleNode = (
 			<span>
 				确认删除机构(
-				<span className="ant-confirm-title-point">{item.title}</span>
+				<span className="ant-confirm-title-point">{item.name}</span>
 				)？
 			</span>
 		);
-		warningModal([titleNode, '一经删除，无法恢复', '确定', '取消']);
+		if (Array.isArray(item.children) && item.children.length > 0) {
+			warningModal([item, '无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '', true, 'deleteOrg']);
+		} else {
+			warningModal([item, titleNode, '一经删除，无法恢复', '确定', '取消', false, 'deleteOrg']);
+		}
 	};
 
 	// 手动编辑机构
 	handleEditNextOrg = (item) => {
 		const { handleOpenEditOrg } = this.props;
-		handleOpenEditOrg({ ...item, orgName: item.title });
+		handleOpenEditOrg({ ...item, orgName: item.name });
 	};
 
+	// 点击机构
+	handleSelect = (selectedKeys) => {
+		const { orgTree } = this.state;
+		const { switchOrg } = this.props;
+		if (selectedKeys.length > 0) {
+			this.setState({
+				selectedKeys,
+			});
+			const id = parseInt(selectedKeys[0], 10);
+			switchOrg(orgTree, id);
+		}
+	};
+
+
 	render() {
-		// const loop = data => data.map((item) => {
-		// 	if (item.children) {
-		// 		return (
-		// 			<TreeNode key={item.key} title={this.onGetTitleNode(item)} disableCheckbox={item.key === '0-0-0'} className="line">
-		// 				{loop(item.children)}
-		// 			</TreeNode>
-		// 		);
-		// 	}
-		// 	return <TreeNode key={item.key} title={this.onGetTitleNode(item)} />;
-		// });
 		const {
-			expandedKeys, autoExpandParent, searchValue,
+			expandedKeys, autoExpandParent, searchValue, orgTree, selectedKeys,
 		} = this.state;
+		const { currentOrgDetail, orgTopId } = this.props;
 		const loop = data => data.map((item) => {
-			// console.log('item === ', item);
-			const index = item.title.indexOf(searchValue);
-			const beforeStr = item.title.substr(0, index);
-			const afterStr = item.title.substr(index + searchValue.length);
+			const index = item.name.indexOf(searchValue);
+			const beforeStr = item.name.substr(0, index);
+			const afterStr = item.name.substr(index + searchValue.length);
 			const title = index > -1 ? (
 				<React.Fragment>
-					<span>
+					<span className={`${item.name.length >= 15 ? 'more-org-name' : ''}`}>
 						{beforeStr}
 						<span className="match-word">{searchValue}</span>
 						{afterStr}
 					</span>
 					<span onClick={() => this.handleEditNextOrg(item)}><Icon className="edit" type="icon-edit" /></span>
-					<span onClick={this.handleAddNextOrg}><Icon className="add" type="icon-add-circle" /></span>
+					{
+						item.level < 3 && <span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
+					}
 					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
 				</React.Fragment>
 			) : (
 				<React.Fragment>
-					<span>{item.title}</span>
+					<span className={`${item.name.length >= 15 ? 'more-org-name' : ''}`}>{item.name}</span>
 					<span onClick={() => this.handleEditNextOrg(item)}><Icon className="edit" type="icon-edit" /></span>
-					<span onClick={this.handleAddNextOrg}><Icon className="add" type="icon-add-circle" /></span>
+					{
+						item.level < 3 && <span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
+					}
 					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
 				</React.Fragment>
 			);
-			if (item.children) {
+			if (Array.isArray(item.children) && item.children.length > 0) {
 				return (
-					<TreeNode key={item.key} title={title} className="line">{loop(item.children)}</TreeNode>
+					<TreeNode selectable={currentOrgDetail.id !== item.id} key={item.id} title={title} className={`line${orgTopId === item.id ? ' select-node' : ''}`}>{loop(item.children)}</TreeNode>
 				);
 			}
-			return <TreeNode key={item.key} title={title} />;
+			return <TreeNode selectable={currentOrgDetail.id !== item.id} className={`${orgTopId === item.id ? 'select-node2' : ''}`} key={item.id} title={title} />;
 		});
 		return (
-			<div className="account-box">
-				<div className="account-box-title">机构管理</div>
-				<div className="account-box-search">
-					<Input
-						className="account-box-search-input"
-						placeholder="请输入要查找的机构"
-						onChange={this.onChangeInput}
-					/>
-					<span className="account-box-search-box" onClick={this.handleSearchOrg}>
-						<Icon className="account-box-search-box-icon" type="icon-search" />
-					</span>
+			<div className="account-left">
+				<div className="account-box">
+					<div className="account-box-title">机构管理</div>
+					<div className="account-box-search">
+						<Input
+							className="account-box-search-input"
+							placeholder="请输入要查找的机构"
+							onChange={this.onChangeInput}
+							value={searchValue}
+						/>
+						<span className="account-box-search-box" onClick={this.handleSearchOrg}>
+							<Icon className="account-box-search-box-icon" type="icon-search" />
+						</span>
+					</div>
 				</div>
-				<Tree
-					className="account-tree"
-					onExpand={this.onExpand}
-					expandedKeys={expandedKeys}
-					autoExpandParent={autoExpandParent}
-				>
-					{loop(gData)}
-				</Tree>
+				<div className="tree-box">
+					<div className="tree-box-inner">
+						<Tree
+							height={400}
+							className="account-tree"
+							onExpand={this.onExpand}
+							expandedKeys={expandedKeys}
+							autoExpandParent={autoExpandParent}
+							onSelect={this.handleSelect}
+							selectedKeys={selectedKeys}
+						>
+							{loop(orgTree)}
+						</Tree>
+					</div>
+				</div>
 			</div>
 		);
 	}

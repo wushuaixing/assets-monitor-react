@@ -1,6 +1,7 @@
 import React from 'react';
-import { Form, Modal } from 'antd';
+import { Form, Modal, message } from 'antd';
 import { Input } from '@/common';
+import { modifyUser } from '@/utils/api/agency';
 import './modal.scss';
 
 const createForm = Form.create;
@@ -13,18 +14,7 @@ const formItemLayout = {
 class EditAccountModal extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = {
-			visible: props.editAccountVisible,
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		const { editAccountVisible } = this.props;
-		if (nextProps.editAccountVisible !== editAccountVisible) {
-			this.setState({
-				visible: nextProps.editAccountVisible,
-			});
-		}
+		this.state = {};
 	}
 
 	// 关闭添加机构弹窗
@@ -35,29 +25,47 @@ class EditAccountModal extends React.PureComponent {
 
 	// 弹窗确认按钮，确认添加下级机构
 	handleConfirmBtn = () => {
-		const { form, handleCloseEditAccount } = this.props;
-		const values = form.getFieldsValue();
-		console.log('values === ', values);
-		handleCloseEditAccount();
-		this.handleReset();
+		const { form, accountData } = this.props;
+		form.validateFields((errors, values) => {
+			if (errors) {
+				console.log(errors);
+				return;
+			}
+			const params = {
+				username: values.username,
+				userId: accountData.id,
+			};
+			if (values.username === accountData.name) {
+				message.warning('姓名未修改');
+			} else {
+				this.handleSubmitRequest(params);
+			}
+		});
 	};
 
-	// 手动清除全部
-	handleReset = () => {
-		const { form } = this.props;
-		const { resetFields } = form;
-		resetFields();
+
+	handleSubmitRequest = (params) => {
+		const { handleCloseEditAccount, onGetUserList, currentOrgDetail } = this.props;
+		modifyUser(params).then((res) => {
+			if (res.code === 200) {
+				message.success('编辑修改成功');
+				onGetUserList(currentOrgDetail.id);
+				handleCloseEditAccount();
+			} else {
+				message.error('编辑修改失败');
+			}
+		}).catch();
 	};
 
 	render() {
-		const { visible } = this.state;
-		const { form, accountData } = this.props;
+		const { form, editAccountVisible, accountData } = this.props;
+		// console.log('accountData=== ', accountData);
 		const { getFieldProps } = form;
 		return (
 			<Modal
 				title="编辑账号"
 				width={396}
-				visible={visible}
+				visible={editAccountVisible}
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmBtn}
 			>
@@ -70,8 +78,13 @@ class EditAccountModal extends React.PureComponent {
 						<Input
 							style={{ width: 240 }}
 							placeholder="请填写姓名"
-							{...getFieldProps('name', {
-								initialValue: accountData.orgName,
+							{...getFieldProps('username', {
+								initialValue: accountData.name,
+								rules: [{
+									required: true,
+									whitespace: true,
+									message: '请再次填写姓名',
+								}],
 							})}
 						/>
 					</FormItem>
@@ -84,7 +97,7 @@ class EditAccountModal extends React.PureComponent {
 							disabled
 							placeholder="请填写账号（手机号）"
 							{...getFieldProps('account', {
-								initialValue: accountData.phone,
+								initialValue: accountData.mobile,
 							})}
 						/>
 					</FormItem>

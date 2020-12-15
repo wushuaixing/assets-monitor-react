@@ -71,7 +71,7 @@ export default class AssetAuction extends React.Component {
 					selectType: res.data.auctionInfos.filter(i => i.type === 1)[0].count > 0 ? 'accurate' : 'blurry',
 					loading: false,
 				});
-				getAssetProfile(res.data.auctionInfos.filter(i => i.type === 1)[0], 'AssetAuction');
+				getAssetProfile(res.data.auctionInfos.filter(i => i.type === 1)[0].count, 'AssetAuction');
 			} else {
 				this.setState({ loading: false });
 			}
