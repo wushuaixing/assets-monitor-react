@@ -5,6 +5,7 @@ import Ellipse from 'img/icon/icon_unread99.png';
 import Circular from 'img/icon/icon_unread.png';
 import logoImg from '@/assets/img/logo_white.png';
 import { unreadCount } from '@/utils/api/inform';
+import { bankConf } from '@/utils/api/user';
 import { toGetRuleSource } from '@/utils';
 import HeaderCenter from './headerCenter/header-center';
 import HeaderMessage from './headerMessage/header-message';
@@ -128,7 +129,22 @@ export default class Headers extends React.Component {
 			num: '',
 			data: [],
 			Surplus: '', // 剩余未读数
+			innerUrl: '',
 		};
+	}
+
+	componentWillMount() {
+		bankConf().then((res) => {
+			if (res.code === 200) {
+				if (res.data.innerUrl) {
+					this.setState({
+						innerUrl: res.data.innerUrl,
+					});
+				}
+			}
+		}).catch(() => {
+		    // 异常处理
+		});
 	}
 
 	componentDidMount() {
@@ -192,7 +208,7 @@ export default class Headers extends React.Component {
 
 	render() {
 		const {
-			active, config, data, num,
+			active, config, data, num, innerUrl,
 		} = this.state;
 		const { rule } = this.props;
 		const newConfig = config && config.length > 0 && config.filter(i => i.name !== null && i.status);
@@ -208,10 +224,18 @@ export default class Headers extends React.Component {
 					}}
 				/>
 				<div className="yc-header-content">
-					<div className="header-logo">
-						<img src={logoImg} alt="" />
-						<span className="yc-public-white-large">源诚资产监控平台</span>
-					</div>
+					{
+						innerUrl ? 	(
+							<div className="header-logo-custom">
+								<img className="header-logo-custom-pic" src={innerUrl} alt="" />
+							</div>
+						) : 					(
+							<div className="header-logo">
+								<img src={logoImg} alt="" />
+								<span className="yc-public-white-large">源诚资产监控平台</span>
+							</div>
+						)
+					}
 					<div className="header-menu">
 						{newConfig.map(items => (
 							<Item
