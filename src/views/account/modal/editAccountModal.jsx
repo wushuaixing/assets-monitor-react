@@ -48,9 +48,15 @@ class EditAccountModal extends React.PureComponent {
 		const { handleCloseEditAccount, onGetUserList, currentOrgDetail } = this.props;
 		modifyUser(params).then((res) => {
 			if (res.code === 200) {
-				message.success('编辑修改成功');
-				onGetUserList(currentOrgDetail.id);
-				handleCloseEditAccount();
+				if (res.data) {
+					message.success('编辑修改成功');
+					onGetUserList(currentOrgDetail.id);
+					handleCloseEditAccount();
+				} else {
+					message.error('编辑修改失败');
+				}
+			} else if (res.code === 9001) {
+				message.error(res.message);
 			} else {
 				message.error('编辑修改失败');
 			}

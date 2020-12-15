@@ -73,10 +73,14 @@ class EditOrgModal extends React.PureComponent {
 				} else {
 					message.error('编辑失败');
 				}
+			} else if (res.code === 9001) {
+				message.error(res.message);
 			} else {
 				message.error('编辑失败' || res.message);
 			}
-		}).catch();
+		}).catch((err) => {
+			console.log('err === ', err);
+		});
 	};
 
 	render() {
