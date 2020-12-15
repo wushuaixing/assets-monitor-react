@@ -75,7 +75,7 @@ class AddOrgModal extends React.PureComponent {
 
 	render() {
 		const { form, orgData, addOrgVisible } = this.props;
-		console.log('orgData === ', orgData);
+		// console.log('orgData === ', orgData);
 		const { getFieldProps } = form;
 		return (
 			<Modal

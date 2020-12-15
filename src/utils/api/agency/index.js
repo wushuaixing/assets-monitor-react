@@ -50,7 +50,7 @@ export const deleteUser = async (params) => {
 
 // 获取当前机构账户列表
 export const getUserList = async (params) => {
-	const response = await service.get('/yc/agent/orgUser', { params });
+	const response = await service.get(`/yc/agent/orgUser?id=${params.id}`);
 	return response.data;
 };
 
