@@ -78,7 +78,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					color: '#4e5566',
 				},
 			},
-			padding: [0, 50, 0, 4],
+			padding: [0, 50, 0, 0],
 		},
 	},
 
