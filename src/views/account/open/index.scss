@@ -306,6 +306,7 @@
         }
         .ant-table-body{
           overflow-y: auto !important;
+          overflow-x: hidden;
         }
         //如果有table的数据里有children会显示箭头， 这里需要隐藏
         .ant-table-row-expand-icon{
@@ -316,6 +317,7 @@
       .account-open-table{
         .ant-table-body{
           overflow-y: auto !important;
+          overflow-x: hidden;
         }
       }
     }
