@@ -195,6 +195,18 @@ export default class BusinessView extends React.Component {
 			className: 'column-center',
 			render: (text, row) => [
 				linkBusiness(row.id, '查看'),
+				<React.Fragment>
+					{
+					!global.isProxyLimit && (
+					<React.Fragment>
+						<span className="ant-divider" />
+						<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>
+						<span className="ant-divider" />
+						<span className="yc-table-text-link" onClick={() => this.showDeleteConfirm(row)}>删除</span>
+					</React.Fragment>
+					)
+					}
+				</React.Fragment>,
 			],
 		}];
 	};
