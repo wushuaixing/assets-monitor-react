@@ -84,7 +84,9 @@ class BusinessView extends React.Component {
 
 	render() {
 		const { stateObj, manage } = this.props;
-		const { onSortChange, sortField, sortOrder ,selectIds} = this.props;
+		const {
+			onSortChange, sortField, sortOrder, selectIds,
+		} = this.props;
 		const sort = {
 			sortField,
 			sortOrder,
@@ -177,8 +179,15 @@ class BusinessView extends React.Component {
 			render: (text, row) => (
 				<span>
 					<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>
-					<span className="ant-divider" />
-					<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>
+					{
+						!global.isProxyLimit && (
+						<React.Fragment>
+							<span className="ant-divider" />
+							<span className="yc-table-text-link" onClick={() => this.handlePut(row)}>{row.pushState === 1 ? '关闭推送' : '开启推送'}</span>
+						</React.Fragment>
+						)
+					}
+
 				</span>
 			),
 		}];

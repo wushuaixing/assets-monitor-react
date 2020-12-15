@@ -18,6 +18,7 @@ import { Header, Container, Footer } from './_others/layout';
 import ChangePassword from './_others/changPassword';
 import Message from './_others/message';
 import Home from './home';
+import Account from './account';
 
 // 新的引用方式，分割代码，懒加载
 
@@ -42,6 +43,7 @@ const ruleList = (props) => {
 	const l = [];
 	const { rule } = props;
 	if (rule.menu_sy)l.push(<Home path="/*" rule={rule.menu_sy} baseRule={rule} remark="首页" />);
+	if (rule.menu_sy)l.push(<Account path="account/*" rule={rule.menu_sy} baseRule={rule} remark="账号开通" />);
 	if (rule.menu_ywgl)l.push(<InfoBusiness path="business/view/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
 	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
 
@@ -92,9 +94,9 @@ const MainScreen = (props) => {
 	};
 	return (
 		<React.Fragment>
-			 {
-				 !reg.test(hash) ? <Header {...newProps} /> : null
-			 }
+			{
+				!reg.test(hash) ? <Header {...newProps} /> : null
+			}
 			<Container>
 				<Router mode="hash">
 					{ ruleList(newProps).map(item => item) }
@@ -133,6 +135,7 @@ export default class Screen extends React.Component {
 					roleList.push(i.rule);
 				});
 				global.authRoleList = roleList;
+				global.isProxyLimit = res.data.isProxyLimit;
 				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 				this.setState({
 					loading: 'hidden',

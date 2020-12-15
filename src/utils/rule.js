@@ -524,7 +524,13 @@ export default {
 					},
 				],
 			},
-			// { id: 7, name: '登录页面', url: '/login' },
+			{
+				id: 'YC07',
+				name: '账号开通',
+				url: '/account',
+				status: toStatus(rule.else, 'dljg'),
+				dot: false,
+			},
 		];
 		base.forEach((item) => {
 			if (item.status) {

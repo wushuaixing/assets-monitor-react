@@ -277,7 +277,7 @@ export const clearEmpty = (obj) => {
 		const l = Object.keys(obj);
 		const _obj = Object.assign({}, obj);
 		l.forEach((item) => {
-			if (_obj[item] === '' || _obj[item] === undefined) delete _obj[item];
+			if (_obj[item] === '' || _obj[item] === undefined || _obj[item] === null) delete _obj[item];
 			else if (typeof _obj[item] === 'string')_obj[item] = _obj[item].replace(/^\s+|\s+$/g, '');
 		});
 		return _obj;

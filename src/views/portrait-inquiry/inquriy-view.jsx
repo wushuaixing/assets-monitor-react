@@ -1,5 +1,6 @@
 import React from 'react';
 import { Radio, Icon, message } from 'antd';
+import { navigate } from '@reach/router';
 import { Button, Input, Icon as Iconfont } from '@/common';
 import { inquiryCheck } from './inquiry-check';
 
@@ -53,12 +54,14 @@ export default class InitView extends React.Component {
 	/* 一键查询债务人画像 */
 	handleQuery=() => {
 		const { obligorType: type, obligorName: name, obligorNumber: num } = this.state;
+		// console.log(reg.test(num), 123);
 		if (type === 1) {
 			if (!name) {
 				message.error('请输入债务人名称');
 			} else if (name.length < 2) {
 				message.error('债务人名称请至少输入两个字');
 			} else {
+				navigate(`/inquiry/list?type=1&name=${name.trim()}`);
 				inquiryCheck(`/inquiry/list?type=1&name=${name.trim()}`, 1);
 			}
 		} else if (type === 2) {
@@ -71,6 +74,7 @@ export default class InitView extends React.Component {
 			} else if (!name && !num) {
 				message.error('请输入债务人名称及证据号');
 			} else if (name && num) {
+				navigate(`/inquiry/personal?type=2&name=${name.trim()}&num=${num.trim()}`);
 				this.setState({ loading: true });
 				// eslint-disable-next-line radix
 				const _dd = Number.parseInt(Math.random() * 1000);

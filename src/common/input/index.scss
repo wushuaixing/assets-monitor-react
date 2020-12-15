@@ -86,6 +86,17 @@ html {
         text-align: center;
       }
     }
+    .yc-input-group-right-only-unit {
+      position: absolute;
+      color: $border-base;
+      z-index: 1;
+      right: -14px;
+      top: 2px;
+      width: 40px;
+      height: 20px;
+      font-size: inherit;
+    }
+
     .yc-input-left{
       padding-left: 77px;
     }
