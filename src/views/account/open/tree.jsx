@@ -131,6 +131,11 @@ class SearchTree extends React.Component {
 		}
 	};
 
+	handleClearInput = () => {
+		this.setState({
+			searchValue: '',
+		});
+	};
 
 	render() {
 		const {
@@ -179,15 +184,22 @@ class SearchTree extends React.Component {
 			<div className="account-left">
 				<div className="account-box">
 					<div className="account-box-title">机构管理</div>
-					<div className="account-box-search">
-						<Input
-							className="account-box-search-input"
-							placeholder="请输入要查找的机构"
-							onChange={this.onChangeInput}
-							value={searchValue}
-						/>
-						<span className="account-box-search-box" onClick={this.handleSearchOrg}>
-							<Icon className="account-box-search-box-icon" type="icon-search" />
+					<div className="account-box-input">
+						<div className="search-org">
+							<Input
+								className="search-org-input"
+								placeholder="请输入要查找的机构"
+								onChange={this.onChangeInput}
+								value={searchValue}
+							/>
+							<span className="search-org-clear" onClick={this.handleClearInput}>
+								{
+								searchValue && <Icon className="search-org-clear-icon" type="icon-delete" style={{ fontSize: 10, color: '#bfbfbf' }} />
+							}
+							</span>
+						</div>
+						<span className="search-btn" onClick={this.handleSearchOrg}>
+							<Icon className="search-btn-icon" type="icon-search" />
 						</span>
 					</div>
 				</div>

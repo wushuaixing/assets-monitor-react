@@ -46,29 +46,45 @@
         font-weight: 600;
         color: $text-title;
       }
-      &-search{
+      &-input{
         position: relative;
-        &-input{
-          height: 34px;
-          margin-top: 16px;
-        }
-        &-box{
+        height: 30px;
+        margin-top: 16px;
+        width: 380px;
+        .search-org{
           position: absolute;
-          text-align: center;
-          right: 0;
-          top: 17px;
-          cursor: pointer;
-          width: 30px;
+          width: 90%;
+          left: 0;
+          z-index: 10;
+          .search-org-input{
+            height: 34px;
+          }
+          &-clear{
+            cursor: pointer;
+            position: absolute;
+            right: 11px;
+            top: 6px;
+          }
+        }
+
+        .search-btn{
+          position: absolute;
+          right: 1px;
           line-height: 34px;
           height: 34px;
+          width: 10%;
+          cursor: pointer;
+          border: 1px solid $background-border;
+          text-align: center;
           &-icon{
             color: #7D8699;
           }
         }
-        .account-box-search-box:active{
-          .account-box-search-box-icon{
-            color: $text-link !important;
-            font-weight: bold;
+        .search-btn:active{
+          border: 1px solid $text-link;
+          box-shadow: 0 0 4px 0 $text-link;
+          .search-btn-icon{
+            color: $text-link;
           }
         }
       }
@@ -178,7 +194,7 @@
           }
 
           .more-org-name{
-            width: 265px;
+            width: 250px;
             display: inline-block;
             white-space: normal;
           }
