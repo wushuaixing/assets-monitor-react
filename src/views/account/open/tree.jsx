@@ -35,20 +35,8 @@ class SearchTree extends React.Component {
 
 	// 当前id变化，选中节点在节点树里面也跟着变化
 	handleSwitchSelect = (id) => {
-		const { orgTree } = this.state;
-		const { dataList } = this.props;
 		if (id) {
-			const expandedKeys = dataList
-				.map((item) => {
-					if (item.id === id) {
-						return getParentKey(item.id, orgTree);
-					}
-					return null;
-				})
-				.filter((item, i, self) => item && self.indexOf(item) === i);
-			const newExpandedKeys = expandedKeys.map(item => `${item}`);
 			this.setState({
-				expandedKeys: newExpandedKeys,
 				selectedKeys: [`${id}`],
 				autoExpandParent: true,
 			});
@@ -164,7 +152,9 @@ class SearchTree extends React.Component {
 					{
 						item.level < 3 && <span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
 					}
-					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
+					{
+						item.id !== orgTopId && <span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
+					}
 				</React.Fragment>
 			) : (
 				<React.Fragment>
@@ -173,7 +163,9 @@ class SearchTree extends React.Component {
 					{
 						item.level < 3 && <span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
 					}
-					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
+					{
+						item.id !== orgTopId && <span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
+					}
 				</React.Fragment>
 			);
 			if (Array.isArray(item.children) && item.children.length > 0) {
@@ -202,6 +194,7 @@ class SearchTree extends React.Component {
 				<div className="tree-box">
 					<div className="tree-box-inner">
 						<Tree
+							defaultExpandAll
 							height={400}
 							className="account-tree"
 							onExpand={this.onExpand}

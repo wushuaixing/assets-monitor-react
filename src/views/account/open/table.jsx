@@ -156,7 +156,7 @@ class OrgTable extends React.Component {
 					<div className="account-table-content-title">
 						<div className="account-table-content-title-main">{currentOrgDetail.name}</div>
 						<div className="account-table-content-title-sub">
-							上级机构代理：
+							上级机构：
 							{
 								currentOrgDetail.parentName && currentOrgDetail.parentName !== '--' ? <span className="account-table-content-title-sub-org" onClick={() => switchOrg(orgTree, currentOrgDetail.parentId)}>{currentOrgDetail.parentName}</span> : '--'
 							}
