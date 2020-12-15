@@ -152,7 +152,7 @@ class Open extends React.Component {
 
 	// 获取用户列表
 	onGetUserList = (id) => {
-		console.log('request ===', id);
+		// console.log('request ===', id);
 		getUserList({ id: parseInt(id, 10) }).then((res) => {
 			if (res.code === 200) {
 				this.setState({
