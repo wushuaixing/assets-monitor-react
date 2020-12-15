@@ -31,6 +31,14 @@
       }
     }
 
+    .header-logo-custom{
+      float: left;
+      padding-top: 14px;
+      &-pic{
+        width: 128px;
+      }
+    }
+
     .header-item-active {
       .yc-badge{
         font-weight: bold;

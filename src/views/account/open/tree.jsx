@@ -81,6 +81,13 @@ class SearchTree extends React.Component {
 		});
 	};
 
+	// 清空输入框
+	handleClearInput = () => {
+		this.setState({
+			searchValue: '',
+		});
+	};
+
 	// 展开函数
 	onExpand = (expandedKeys) => {
 		this.setState({
@@ -131,11 +138,6 @@ class SearchTree extends React.Component {
 		}
 	};
 
-	handleClearInput = () => {
-		this.setState({
-			searchValue: '',
-		});
-	};
 
 	render() {
 		const {
