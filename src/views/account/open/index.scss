@@ -199,6 +199,15 @@
             white-space: normal;
           }
         }
+
+        &-noresult{
+          text-align: center;
+          margin-top: 190px;
+          &-text{
+            color: $text-content;
+            margin-top: 10px;
+          }
+        }
       }
 
       &-inner::-webkit-scrollbar {

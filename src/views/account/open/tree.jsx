@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tree } from 'antd';
 import { Icon, Input } from '@/common';
+import noResultImg from '@/assets/img/img_blank_noresult.png';
 // eslint-disable-next-line import/no-cycle
 import { getParentKey } from './index';
 import './index.scss';
@@ -104,8 +105,8 @@ class SearchTree extends React.Component {
 			.filter((item, i, self) => item && self.indexOf(item) === i);
 		const newExpandedKeys = expandedKeys.map(item => `${item}`);
 		this.setState({
-			expandedKeys: newExpandedKeys && newExpandedKeys.length ? newExpandedKeys : [],
-			autoExpandParent: true,
+			expandedKeys: searchValue ? newExpandedKeys : [],
+			autoExpandParent: !!searchValue,
 		}, () => {
 			this.handleSetTreeScrollTop();
 		});
@@ -239,18 +240,27 @@ class SearchTree extends React.Component {
 				</div>
 				<div className="tree-box">
 					<div className="tree-box-inner" id="tree">
-						<Tree
-							defaultExpandAll
-							height={400}
-							className="account-tree"
-							onExpand={this.onExpand}
-							expandedKeys={expandedKeys}
-							autoExpandParent={autoExpandParent}
-							onSelect={this.handleSelect}
-							selectedKeys={selectedKeys}
-						>
-							{loop(orgTree)}
-						</Tree>
+						{
+							searchValue && Array.isArray(expandedKeys) && expandedKeys.length === 0 ? (
+								<div className="tree-box-inner-noresult">
+									<img src={noResultImg} alt="查询不到相关机构" className="yc-business-icon" />
+									<div className="tree-box-inner-noresult-text">查询不到相关机构</div>
+								</div>
+							) : (
+								<Tree
+									defaultExpandAll
+									height={400}
+									className="account-tree"
+									onExpand={this.onExpand}
+									expandedKeys={expandedKeys}
+									autoExpandParent={autoExpandParent}
+									onSelect={this.handleSelect}
+									selectedKeys={selectedKeys}
+								>
+									{loop(orgTree)}
+								</Tree>
+							)
+						}
 					</div>
 				</div>
 			</div>
