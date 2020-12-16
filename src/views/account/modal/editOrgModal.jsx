@@ -73,10 +73,14 @@ class EditOrgModal extends React.PureComponent {
 				} else {
 					message.error('编辑失败');
 				}
+			} else if (res.code === 9001) {
+				message.error(res.message);
 			} else {
 				message.error('编辑失败' || res.message);
 			}
-		}).catch();
+		}).catch((err) => {
+			console.log('err === ', err);
+		});
 	};
 
 	render() {
@@ -120,7 +124,7 @@ class EditOrgModal extends React.PureComponent {
 										style={{ width: 240 }}
 										size="large"
 										maxLength="20"
-										placeholder="请输入可监控数"
+										placeholder={`${orgData.level === 1 ? '' : '请输入可监控数'}`}
 										unit="人"
 										unitStyle={{ color: '#B2B8C9' }}
 										suffix={`（已监控：${orgData.obligorLimitUseCount || 0}人）`}
@@ -142,7 +146,7 @@ class EditOrgModal extends React.PureComponent {
 										style={{ width: 240 }}
 										size="large"
 										maxLength="20"
-										placeholder="请输入查询授权数"
+										placeholder={`${orgData.level === 1 ? '' : '请输入查询授权数'}`}
 										unit="次"
 										unitStyle={{ color: '#B2B8C9' }}
 										suffix={`（已使用：${orgData.portraitLimitUseCount || 0}次）`}

@@ -25,7 +25,7 @@ const nextOrgcolumns = (props) => {
 	return [
 		{
 			title: '序号',
-			width: 75,
+			width: 60,
 			render: (value, row, index) => <span>{index + 1}</span>,
 		},
 		{
@@ -37,7 +37,7 @@ const nextOrgcolumns = (props) => {
 		{
 			title: '层级',
 			dataIndex: 'level',
-			width: 74,
+			width: 60,
 			render: value => <span>{`${value}级`}</span>,
 		},
 		{
@@ -60,9 +60,9 @@ const nextOrgcolumns = (props) => {
 					<span className="yc-table-text-link" onClick={() => handleOpenEditOrg({ ...row })}>编辑</span>
 					<span className="divider" />
 					<span
-						className="yc-table-text-link"
+						className="yc-table-text-link delete-org"
 						onClick={() => {
-							if (Array.isArray(row.children) && row.children.length > 0) {
+							if (row.childrenLength > 0) {
 								return warningModal([row, '无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '', true, 'deleteOrg']);
 							}
 							return warningModal([row, deleteOrgTitle(row), '一经删除，无法恢复', '确定', '取消', false, 'deleteOrg']);
@@ -148,7 +148,8 @@ class OrgTable extends React.Component {
 		const {
 			switchOrg, nextOrgDataSource, accountDataSource, currentOrgDetail, orgTree, handleAddOrg,
 		} = this.props;
-		// console.log(' currentOrgDetail === ', currentOrgDetail);
+		// 重新给一个数组的原因是因为这个antd版本较低，数据中数组对象存在children字段且不为空，就会导致背景仍为白色，不会让table数据间隔变色
+		const newNextOrgDataSource = nextOrgDataSource.map(item => ({ ...item, children: [], childrenLength: item.children.length }));
 		return (
 			<div className="account-table">
 				<div className="account-table-top" />
@@ -156,7 +157,7 @@ class OrgTable extends React.Component {
 					<div className="account-table-content-title">
 						<div className="account-table-content-title-main">{currentOrgDetail.name}</div>
 						<div className="account-table-content-title-sub">
-							上级机构代理：
+							上级机构：
 							{
 								currentOrgDetail.parentName && currentOrgDetail.parentName !== '--' ? <span className="account-table-content-title-sub-org" onClick={() => switchOrg(orgTree, currentOrgDetail.parentId)}>{currentOrgDetail.parentName}</span> : '--'
 							}
@@ -176,8 +177,9 @@ class OrgTable extends React.Component {
 						<Table
 							className="org-table"
 							pagination={false}
+							style={{ height: 264 }}
 							scroll={{ y: 220 }}
-							dataSource={nextOrgDataSource}
+							dataSource={newNextOrgDataSource}
 							columns={nextOrgcolumns(this.props)}
 						/>
 					</div>

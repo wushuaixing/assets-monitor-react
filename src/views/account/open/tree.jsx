@@ -35,20 +35,8 @@ class SearchTree extends React.Component {
 
 	// 当前id变化，选中节点在节点树里面也跟着变化
 	handleSwitchSelect = (id) => {
-		const { orgTree } = this.state;
-		const { dataList } = this.props;
 		if (id) {
-			const expandedKeys = dataList
-				.map((item) => {
-					if (item.id === id) {
-						return getParentKey(item.id, orgTree);
-					}
-					return null;
-				})
-				.filter((item, i, self) => item && self.indexOf(item) === i);
-			const newExpandedKeys = expandedKeys.map(item => `${item}`);
 			this.setState({
-				expandedKeys: newExpandedKeys,
 				selectedKeys: [`${id}`],
 				autoExpandParent: true,
 			});
@@ -90,6 +78,13 @@ class SearchTree extends React.Component {
 		this.setState({
 			expandedKeys: newExpandedKeys,
 			autoExpandParent: true,
+		});
+	};
+
+	// 清空输入框
+	handleClearInput = () => {
+		this.setState({
+			searchValue: '',
 		});
 	};
 
@@ -164,7 +159,9 @@ class SearchTree extends React.Component {
 					{
 						item.level < 3 && <span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
 					}
-					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
+					{
+						item.id !== orgTopId && <span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
+					}
 				</React.Fragment>
 			) : (
 				<React.Fragment>
@@ -173,7 +170,9 @@ class SearchTree extends React.Component {
 					{
 						item.level < 3 && <span onClick={() => this.handleAddNextOrg(item)}><Icon className="add" type="icon-add-circle" /></span>
 					}
-					<span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
+					{
+						item.id !== orgTopId && <span onClick={() => this.handleDeleteOrg(item)}><Icon className="del" type="icon-delete-circle" /></span>
+					}
 				</React.Fragment>
 			);
 			if (Array.isArray(item.children) && item.children.length > 0) {
@@ -187,21 +186,29 @@ class SearchTree extends React.Component {
 			<div className="account-left">
 				<div className="account-box">
 					<div className="account-box-title">机构管理</div>
-					<div className="account-box-search">
-						<Input
-							className="account-box-search-input"
-							placeholder="请输入要查找的机构"
-							onChange={this.onChangeInput}
-							value={searchValue}
-						/>
-						<span className="account-box-search-box" onClick={this.handleSearchOrg}>
-							<Icon className="account-box-search-box-icon" type="icon-search" />
+					<div className="account-box-input">
+						<div className="search-org">
+							<Input
+								className="search-org-input"
+								placeholder="请输入要查找的机构"
+								onChange={this.onChangeInput}
+								value={searchValue}
+							/>
+							<span className="search-org-clear" onClick={this.handleClearInput}>
+								{
+								searchValue && <Icon className="search-org-clear-icon" type="icon-delete" style={{ fontSize: 10, color: '#bfbfbf' }} />
+							}
+							</span>
+						</div>
+						<span className="search-btn" onClick={this.handleSearchOrg}>
+							<Icon className="search-btn-icon" type="icon-search" />
 						</span>
 					</div>
 				</div>
 				<div className="tree-box">
 					<div className="tree-box-inner">
 						<Tree
+							defaultExpandAll
 							height={400}
 							className="account-tree"
 							onExpand={this.onExpand}

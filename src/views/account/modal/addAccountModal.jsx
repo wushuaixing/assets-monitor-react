@@ -94,7 +94,7 @@ class AddAccountModal extends React.PureComponent {
 								rules: [{
 									required: true,
 									whitespace: true,
-									message: '请再次填写姓名',
+									message: '请填写姓名',
 								}],
 							})}
 						/>

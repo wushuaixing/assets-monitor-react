@@ -102,9 +102,6 @@ class Open extends React.Component {
 		this.onSearchOrgTree();
 	}
 
-	componentDidMount() {
-	}
-
 	// 请求查询结构树
 	onSearchOrgTree = () => {
 		this.setState({
@@ -155,6 +152,7 @@ class Open extends React.Component {
 
 	// 获取用户列表
 	onGetUserList = (id) => {
+		// console.log('request ===', id);
 		getUserList({ id: parseInt(id, 10) }).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -335,7 +333,6 @@ class Open extends React.Component {
 			level: currentNode.level,
 		};
 		this.onGetUserList(id);
-		// console.log('currentNode.children === ', currentNode, newDetail);
 		this.setState({
 			nextOrgDataSource: currentNode.children,
 			currentOrgDetail: newDetail,
