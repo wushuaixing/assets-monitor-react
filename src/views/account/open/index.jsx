@@ -95,6 +95,7 @@ class Open extends React.Component {
 			addAccountVisible: false, // 添加账号弹窗显示控制
 			editAccountVisible: false, // 编辑账号弹窗显示控制
 			loading: false,
+			userLodaing: false,
 		};
 	}
 
@@ -153,13 +154,25 @@ class Open extends React.Component {
 	// 获取用户列表
 	onGetUserList = (id) => {
 		// console.log('request ===', id);
+		this.setState({
+			userLodaing: true,
+		});
 		getUserList({ id: parseInt(id, 10) }).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					accountDataSource: res.data,
+					userLodaing: false,
+				});
+			} else {
+				this.setState({
+					userLodaing: false,
 				});
 			}
-		}).catch();
+		}).catch(() => {
+			this.setState({
+				userLodaing: false,
+			});
+		});
 	};
 
 	// isShowCancel控制显示取消按钮
@@ -332,10 +345,11 @@ class Open extends React.Component {
 			parentId: parentNode.id || 0,
 			level: currentNode.level,
 		};
-		this.onGetUserList(id);
 		this.setState({
 			nextOrgDataSource: currentNode.children,
 			currentOrgDetail: newDetail,
+		}, () => {
+			this.onGetUserList(id);
 		});
 
 		// const start = new Date().getTime();
@@ -354,7 +368,7 @@ class Open extends React.Component {
 
 	render() {
 		const {
-			orgTopId, currentOrgDetail, addOrgVisible, editOrgVisible, addAccountVisible, editAccountVisible, orgData, accountData, nextOrgDataSource, accountDataSource, orgTree, loading,
+			orgTopId, currentOrgDetail, addOrgVisible, editOrgVisible, addAccountVisible, editAccountVisible, orgData, accountData, nextOrgDataSource, accountDataSource, orgTree, loading, userLodaing,
 		} = this.state;
 		return (
 			<React.Fragment>
@@ -380,6 +394,7 @@ class Open extends React.Component {
 							editOrgVisible={editOrgVisible}
 							nextOrgDataSource={nextOrgDataSource} // 下级机构列表
 							accountDataSource={accountDataSource} // 当前机构账户列表
+							userLodaing={userLodaing}
 							switchOrg={this.switchOrg} // 切换机构
 							warningModal={this.warningModal} // 警告弹窗
 							handleAddOrg={this.handleAddOrg} // 打开创建机构弹窗

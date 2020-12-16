@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from '@/common';
+import { Table, Button, Spin } from '@/common';
 import './index.scss';
 
 const deleteOrgTitle = row => (
@@ -60,7 +60,7 @@ const nextOrgcolumns = (props) => {
 					<span className="yc-table-text-link" onClick={() => handleOpenEditOrg({ ...row })}>编辑</span>
 					<span className="divider" />
 					<span
-						className="yc-table-text-link delete-org"
+						className="yc-table-text-link"
 						onClick={() => {
 							if (row.childrenLength > 0) {
 								return warningModal([row, '无法删除该机构', '该机构存在下级机构，请在删除完下级机构后重试', '我知道了', '', true, 'deleteOrg']);
@@ -146,7 +146,7 @@ class OrgTable extends React.Component {
 
 	render() {
 		const {
-			switchOrg, nextOrgDataSource, accountDataSource, currentOrgDetail, orgTree, handleAddOrg,
+			switchOrg, nextOrgDataSource, accountDataSource, currentOrgDetail, orgTree, handleAddOrg, userLodaing,
 		} = this.props;
 		// 重新给一个数组的原因是因为这个antd版本较低，数据中数组对象存在children字段且不为空，就会导致背景仍为白色，不会让table数据间隔变色
 		const newNextOrgDataSource = nextOrgDataSource.map(item => ({ ...item, children: [], childrenLength: item.children.length }));
@@ -192,13 +192,15 @@ class OrgTable extends React.Component {
 						<div className="account-table-data-oper-title">当前机构账号</div>
 						<Button className="account-table-data-oper-add" onClick={this.handleAddCurrentAccount}>添加账号</Button>
 					</div>
-					<Table
-						className="account-open-table"
-						scroll={{ y: 220 }}
-						pagination={false}
-						columns={currentOrgcolumns(this.props)}
-						dataSource={accountDataSource}
-					/>
+					<Spin visible={userLodaing}>
+						<Table
+							className="account-open-table"
+							scroll={{ y: 220 }}
+							pagination={false}
+							columns={currentOrgcolumns(this.props)}
+							dataSource={accountDataSource}
+						/>
+					</Spin>
 				</div>
 			</div>
 		);
