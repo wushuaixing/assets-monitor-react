@@ -76,6 +76,8 @@
           cursor: pointer;
           border: 1px solid $background-border;
           text-align: center;
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
           &-icon{
             color: #7D8699;
           }
