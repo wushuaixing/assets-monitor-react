@@ -7,6 +7,13 @@ import './index.scss';
 
 const { TreeNode } = Tree;
 
+// 获取元素的纵坐标
+function getTop(e) {
+	let offset = e.offsetTop;
+	if (e.offsetParent != null) offset += getTop(e.offsetParent);
+	return offset;
+}
+
 class SearchTree extends React.Component {
 	constructor(props) {
 		super(props);
@@ -62,6 +69,27 @@ class SearchTree extends React.Component {
 		});
 	};
 
+	// 手动设置滚动条
+	handleSetTreeScrollTop = () => {
+		let scrollTopLong = 0;
+		const treeDom = document.getElementById('tree');
+		const matchDom = document.getElementsByClassName('match-node');
+		// console.log('treeDom === ', treeDom, treeDom.scrollHeight);
+		// console.log('matchDom === ', matchDom[0]);
+		// matchDom[0] 是第一个匹配class的元素
+		// 选中的第一个元素距离树结构根节点的高度 （元素距离浏览器顶部的距离 - 上方元素的高度：240）
+		const matchDomTop = getTop(matchDom[0]) - 240;
+		scrollTopLong = treeDom.scrollHeight; // 滚动条滚动的距离
+		// console.log('scrollTop === ', matchDomTop, scrollTopLong);
+		if (treeDom && treeDom.scrollHeight) {
+			if (matchDomTop > scrollTopLong) {
+				treeDom.scrollTop = scrollTopLong;
+			} else {
+				treeDom.scrollTop = matchDomTop;
+			}
+		}
+	};
+
 	// 点击搜索按钮
 	handleSearchOrg = () => {
 		const { orgTree, dataList } = this.props;
@@ -76,8 +104,10 @@ class SearchTree extends React.Component {
 			.filter((item, i, self) => item && self.indexOf(item) === i);
 		const newExpandedKeys = expandedKeys.map(item => `${item}`);
 		this.setState({
-			expandedKeys: newExpandedKeys,
+			expandedKeys: newExpandedKeys && newExpandedKeys.length ? newExpandedKeys : [],
 			autoExpandParent: true,
+		}, () => {
+			this.handleSetTreeScrollTop();
 		});
 	};
 
@@ -85,6 +115,8 @@ class SearchTree extends React.Component {
 	handleClearInput = () => {
 		this.setState({
 			searchValue: '',
+			expandedKeys: [],
+			autoExpandParent: true,
 		});
 	};
 
@@ -177,10 +209,10 @@ class SearchTree extends React.Component {
 			);
 			if (Array.isArray(item.children) && item.children.length > 0) {
 				return (
-					<TreeNode selectable={currentOrgDetail.id !== item.id} key={item.id} title={title} className={`line${orgTopId === item.id ? ' select-node' : ''}`}>{loop(item.children)}</TreeNode>
+					<TreeNode selectable={currentOrgDetail.id !== item.id} key={item.id} title={title} className={`line${index > -1 ? ' match-node' : ''}`}>{loop(item.children)}</TreeNode>
 				);
 			}
-			return <TreeNode selectable={currentOrgDetail.id !== item.id} className={`${orgTopId === item.id ? 'select-node2' : ''}`} key={item.id} title={title} />;
+			return <TreeNode selectable={currentOrgDetail.id !== item.id} className={`${index > -1 ? 'match-node' : ''}`} key={item.id} title={title} />;
 		});
 		return (
 			<div className="account-left">
@@ -206,7 +238,7 @@ class SearchTree extends React.Component {
 					</div>
 				</div>
 				<div className="tree-box">
-					<div className="tree-box-inner">
+					<div className="tree-box-inner" id="tree">
 						<Tree
 							defaultExpandAll
 							height={400}
