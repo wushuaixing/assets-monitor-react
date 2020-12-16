@@ -378,6 +378,7 @@ class BusinessDebtor extends React.Component {
 				</div>
 				{/* 分隔下划线 */}
 				<div className="yc-noTab-hr" />
+
 				<div className="yc-business-table-btn">
 					{
 						!manage ? (
@@ -388,9 +389,26 @@ class BusinessDebtor extends React.Component {
 										<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 									)
 								}
-
 							</div>
-						) : null
+						) : (
+							<div className="yc-public-floatRight">
+								<Button
+									onClick={() => { this.handleClosePush(); }}
+									title="关闭推送"
+								/>
+								<Button
+									onClick={() => { this.handleOpenPush(); }}
+									title="开启推送"
+								/>
+								<Button
+									type="common"
+									onClick={() => {
+										this.setState({ manage: false, selectIds: [] });
+									}}
+									title="取消批量管理"
+								/>
+							</div>
+						)
 					}
 				</div>
 
