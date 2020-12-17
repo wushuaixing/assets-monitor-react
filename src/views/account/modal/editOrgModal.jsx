@@ -33,22 +33,26 @@ class EditOrgModal extends React.PureComponent {
 			orgName: orgData.name,
 		};
 		const oldParams = {
-			authorizeNumber: orgData.portraitLimitCount,
-			monitorNum: orgData.obligorLimitCount,
+			authorizeNumber: parseInt(orgData.portraitLimitCount, 10),
+			monitorNum: parseInt(orgData.obligorLimitCount, 10),
 			orgName: orgData.name,
 		};
 		const newParams = {
-			authorizeNumber: params.authorizeNumber,
-			monitorNum: params.monitorNum,
+			authorizeNumber: parseInt(params.authorizeNumber, 10),
+			monitorNum: parseInt(params.monitorNum, 10),
 			orgName: params.newOrgName,
 		};
 		// console.log('oldParams 1111', oldParams);
 		// console.log('newParams 2222', newParams);
-		if (values.monitorNum < orgData.obligorLimitUseCount && values.authorizeNumber < orgData.portraitLimitUseCount) {
+		// console.log('orgData 333', orgData);
+
+		// 可监控债务人数: monitorNum 已监控 orgData.obligorLimitUseCount
+		// 查询授权次数: authorizeNumber 初始值：orgData.portraitLimitUseCount
+		if (newParams.monitorNum < parseInt(orgData.obligorLimitUseCount, 10) && newParams.authorizeNumber < parseInt(orgData.portraitLimitUseCount, 10)) {
 			message.warning('可监控债务人数不能小于已监控债务人数');
-		} else if (values.monitorNum < orgData.obligorLimitUseCount && values.authorizeNumber > orgData.portraitLimitUseCount) {
+		} else if (newParams.monitorNum < parseInt(orgData.obligorLimitUseCount, 10) && newParams.authorizeNumber >= parseInt(orgData.portraitLimitUseCount, 10)) {
 			message.warning('可监控债务人数不能小于已监控债务人数');
-		} else if (values.monitorNum >= orgData.obligorLimitUseCount && values.authorizeNumber < orgData.portraitLimitUseCount) {
+		} else if (newParams.monitorNum >= parseInt(orgData.obligorLimitUseCount, 10) && newParams.authorizeNumber < parseInt(orgData.portraitLimitUseCount, 10)) {
 			message.warning('查询授权次数不能小于已使用查询次数');
 		} else if (orgData.level === 1 && JSON.stringify(oldParams) === JSON.stringify(newParams)) {
 			message.warning('请修改机构信息');
@@ -132,7 +136,7 @@ class EditOrgModal extends React.PureComponent {
 										suffixSpanStyle={{ width: 120, color: '#20242E', fontWeight: 400 }}
 										{...getFieldProps('monitorNum', {
 											initialValue: orgData.obligorLimitCount || '0',
-											getValueFromEvent: e => parseInt(e.trim(), 10),
+											getValueFromEvent: e => e.trim(),
 										})}
 									/>
 								</div>
@@ -154,7 +158,7 @@ class EditOrgModal extends React.PureComponent {
 										suffixSpanStyle={{ width: 120, color: '#20242E', fontWeight: 400 }}
 										{...getFieldProps('authorizeNumber', {
 											initialValue: orgData.portraitLimitCount || '0',
-											getValueFromEvent: e => parseInt(e.trim(), 10),
+											getValueFromEvent: e => e.trim(),
 										})}
 									/>
 								</div>
