@@ -45,6 +45,7 @@ class SearchTree extends React.Component {
 	handleSwitchSelect = (id) => {
 		if (id) {
 			this.setState({
+				expandedKeys: [`${id}`],
 				selectedKeys: [`${id}`],
 				autoExpandParent: true,
 			});
