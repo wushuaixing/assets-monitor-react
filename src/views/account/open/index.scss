@@ -76,6 +76,8 @@
           cursor: pointer;
           border: 1px solid $background-border;
           text-align: center;
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
           &-icon{
             color: #7D8699;
           }
@@ -92,7 +94,7 @@
 
     .tree-box{
       padding: 0 20px;
-      height: 712px;
+      height: 702px;
       overflow: hidden;
       &-inner{
         overflow-x: hidden;
@@ -199,6 +201,15 @@
             white-space: normal;
           }
         }
+
+        &-noresult{
+          text-align: center;
+          margin-top: 190px;
+          &-text{
+            color: $text-content;
+            margin-top: 10px;
+          }
+        }
       }
 
       &-inner::-webkit-scrollbar {
@@ -215,7 +226,6 @@
         border-radius: 0;
         background: rgba(0,0,0,0.1);
       }
-
     }
   }
   //右边的虚拟代理机构table
@@ -298,9 +308,6 @@
       }
       .org-table{
 
-        .delete-org{
-          margin-right: 20px;
-        }
         .switch-org{
           &:hover{
             cursor: pointer;

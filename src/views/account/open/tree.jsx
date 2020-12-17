@@ -1,11 +1,19 @@
 import React from 'react';
 import { Tree } from 'antd';
 import { Icon, Input } from '@/common';
+import noResultImg from '@/assets/img/img_blank_noresult.png';
 // eslint-disable-next-line import/no-cycle
 import { getParentKey } from './index';
 import './index.scss';
 
 const { TreeNode } = Tree;
+
+// 获取元素的纵坐标
+function getTop(e) {
+	let offset = e.offsetTop;
+	if (e.offsetParent != null) offset += getTop(e.offsetParent);
+	return offset;
+}
 
 class SearchTree extends React.Component {
 	constructor(props) {
@@ -62,6 +70,27 @@ class SearchTree extends React.Component {
 		});
 	};
 
+	// 手动设置滚动条
+	handleSetTreeScrollTop = () => {
+		let scrollTopLong = 0;
+		const treeDom = document.getElementById('tree');
+		const matchDom = document.getElementsByClassName('match-node');
+		// console.log('treeDom === ', treeDom, treeDom.scrollHeight);
+		// console.log('matchDom === ', matchDom[0]);
+		// matchDom[0] 是第一个匹配class的元素
+		// 选中的第一个元素距离树结构根节点的高度 （元素距离浏览器顶部的距离 - 上方元素的高度：240）
+		const matchDomTop = getTop(matchDom[0]) - 240;
+		scrollTopLong = treeDom.scrollHeight; // 滚动条滚动的距离
+		// console.log('scrollTop === ', matchDomTop, scrollTopLong);
+		if (treeDom && treeDom.scrollHeight) {
+			if (matchDomTop > scrollTopLong) {
+				treeDom.scrollTop = scrollTopLong;
+			} else {
+				treeDom.scrollTop = matchDomTop;
+			}
+		}
+	};
+
 	// 点击搜索按钮
 	handleSearchOrg = () => {
 		const { orgTree, dataList } = this.props;
@@ -76,8 +105,10 @@ class SearchTree extends React.Component {
 			.filter((item, i, self) => item && self.indexOf(item) === i);
 		const newExpandedKeys = expandedKeys.map(item => `${item}`);
 		this.setState({
-			expandedKeys: newExpandedKeys,
-			autoExpandParent: true,
+			expandedKeys: searchValue ? newExpandedKeys : [],
+			autoExpandParent: !!searchValue,
+		}, () => {
+			this.handleSetTreeScrollTop();
 		});
 	};
 
@@ -85,6 +116,8 @@ class SearchTree extends React.Component {
 	handleClearInput = () => {
 		this.setState({
 			searchValue: '',
+			expandedKeys: [],
+			autoExpandParent: true,
 		});
 	};
 
@@ -144,7 +177,7 @@ class SearchTree extends React.Component {
 			expandedKeys, autoExpandParent, searchValue, orgTree, selectedKeys,
 		} = this.state;
 		const { currentOrgDetail, orgTopId } = this.props;
-		const loop = data => data.map((item) => {
+		const loop = data => data.map((item, num) => {
 			const index = item.name.indexOf(searchValue);
 			const beforeStr = item.name.substr(0, index);
 			const afterStr = item.name.substr(index + searchValue.length);
@@ -177,10 +210,17 @@ class SearchTree extends React.Component {
 			);
 			if (Array.isArray(item.children) && item.children.length > 0) {
 				return (
-					<TreeNode selectable={currentOrgDetail.id !== item.id} key={item.id} title={title} className={`line${orgTopId === item.id ? ' select-node' : ''}`}>{loop(item.children)}</TreeNode>
+					<TreeNode
+						key={item.id}
+						title={title}
+						selectable={currentOrgDetail.id !== item.id}
+						className={`${data[num + 1] && data[num + 1].children.length > 0 ? 'line' : ''}${index > -1 ? ' match-node' : ''}`}
+					>
+						{loop(item.children)}
+					</TreeNode>
 				);
 			}
-			return <TreeNode selectable={currentOrgDetail.id !== item.id} className={`${orgTopId === item.id ? 'select-node2' : ''}`} key={item.id} title={title} />;
+			return <TreeNode selectable={currentOrgDetail.id !== item.id} className={`${index > -1 ? 'match-node' : ''}`} key={item.id} title={title} />;
 		});
 		return (
 			<div className="account-left">
@@ -206,19 +246,28 @@ class SearchTree extends React.Component {
 					</div>
 				</div>
 				<div className="tree-box">
-					<div className="tree-box-inner">
-						<Tree
-							defaultExpandAll
-							height={400}
-							className="account-tree"
-							onExpand={this.onExpand}
-							expandedKeys={expandedKeys}
-							autoExpandParent={autoExpandParent}
-							onSelect={this.handleSelect}
-							selectedKeys={selectedKeys}
-						>
-							{loop(orgTree)}
-						</Tree>
+					<div className="tree-box-inner" id="tree">
+						{
+							searchValue && Array.isArray(expandedKeys) && expandedKeys.length === 0 ? (
+								<div className="tree-box-inner-noresult">
+									<img src={noResultImg} alt="查询不到相关机构" className="yc-business-icon" />
+									<div className="tree-box-inner-noresult-text">查询不到相关机构</div>
+								</div>
+							) : (
+								<Tree
+									defaultExpandAll
+									height={400}
+									className="account-tree"
+									onExpand={this.onExpand}
+									expandedKeys={expandedKeys}
+									autoExpandParent={autoExpandParent}
+									onSelect={this.handleSelect}
+									selectedKeys={selectedKeys}
+								>
+									{loop(orgTree)}
+								</Tree>
+							)
+						}
 					</div>
 				</div>
 			</div>
