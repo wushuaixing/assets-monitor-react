@@ -42,11 +42,11 @@ class EditOrgModal extends React.PureComponent {
 			monitorNum: params.monitorNum,
 			orgName: params.newOrgName,
 		};
-		// console.log('oldParams 1111', oldParams);
-		// console.log('newParams 2222', newParams);
+		// 可监控债务人数: monitorNum
+		// 查询授权次数: authorizeNumber
 		if (values.monitorNum < orgData.obligorLimitUseCount && values.authorizeNumber < orgData.portraitLimitUseCount) {
 			message.warning('可监控债务人数不能小于已监控债务人数');
-		} else if (values.monitorNum < orgData.obligorLimitUseCount && values.authorizeNumber > orgData.portraitLimitUseCount) {
+		} else if (values.monitorNum < orgData.obligorLimitUseCount && values.authorizeNumber >= orgData.portraitLimitUseCount) {
 			message.warning('可监控债务人数不能小于已监控债务人数');
 		} else if (values.monitorNum >= orgData.obligorLimitUseCount && values.authorizeNumber < orgData.portraitLimitUseCount) {
 			message.warning('查询授权次数不能小于已使用查询次数');
