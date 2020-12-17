@@ -178,7 +178,7 @@ class SearchTree extends React.Component {
 			expandedKeys, autoExpandParent, searchValue, orgTree, selectedKeys,
 		} = this.state;
 		const { currentOrgDetail, orgTopId } = this.props;
-		const loop = data => data.map((item, num) => {
+		const loop = data => data.map((item) => {
 			const index = item.name.indexOf(searchValue);
 			const beforeStr = item.name.substr(0, index);
 			const afterStr = item.name.substr(index + searchValue.length);
@@ -215,7 +215,7 @@ class SearchTree extends React.Component {
 						key={item.id}
 						title={title}
 						selectable={currentOrgDetail.id !== item.id}
-						className={`${data[num + 1] && data[num + 1].children.length > 0 ? 'line' : ''}${index > -1 ? ' match-node' : ''}`}
+						className={`${index > -1 ? ' match-node' : ''}`}
 					>
 						{loop(item.children)}
 					</TreeNode>
