@@ -63,12 +63,12 @@ class EditOrgModal extends React.PureComponent {
 
 	// 手动请求编辑机构
 	handleEditOrg = (params) => {
-		const { handleCloseEditOrg, onSearchOrgTree } = this.props;
+		const { handleCloseEditOrg, onSearchOrgTree, currentOrgDetail } = this.props;
 		editOrg(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
 				if (res.data) {
 					message.success('编辑成功');
-					onSearchOrgTree();
+					onSearchOrgTree(currentOrgDetail);
 					handleCloseEditOrg();
 				} else {
 					message.error('编辑失败');

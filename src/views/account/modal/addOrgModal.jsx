@@ -57,12 +57,12 @@ class AddOrgModal extends React.PureComponent {
 
 	// 手动提交请求
 	handleSubmitRequest = (params) => {
-		const { handleCloseAddOrg, onSearchOrgTree } = this.props;
+		const { handleCloseAddOrg, onSearchOrgTree, currentOrgDetail } = this.props;
 		addNextOrg(params).then((res) => {
 			if (res.code === 200) {
 				if (res.data) {
 					message.success('添加成功');
-					onSearchOrgTree();
+					onSearchOrgTree(currentOrgDetail);
 					handleCloseAddOrg();
 				} else {
 					message.error(res.message || '添加机构失败');

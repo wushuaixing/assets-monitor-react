@@ -100,11 +100,11 @@ class Open extends React.Component {
 	}
 
 	componentWillMount() {
-		this.onSearchOrgTree();
+		this.onSearchOrgTree({});
 	}
 
 	// 请求查询结构树
-	onSearchOrgTree = () => {
+	onSearchOrgTree = (currentOrgDetail) => {
 		this.setState({
 			loading: true,
 		});
@@ -126,6 +126,10 @@ class Open extends React.Component {
 					nextOrgDataSource: [...res.data.children],
 					orgTopId: res.data.id,
 					currentOrgDetail: { ...newDetail },
+				}, () => {
+					if (Object.keys(currentOrgDetail).length > 0) {
+						this.switchOrg([...orgTreeArray], currentOrgDetail.id);
+					}
 				});
 			} else {
 				this.setState({
@@ -238,6 +242,8 @@ class Open extends React.Component {
 
 	// 手动删除机构操作
 	handleDeleteOrg = (item, isShowCancel) => {
+		const { currentOrgDetail, orgTree } = this.state;
+		const parentNode = getParentNode(currentOrgDetail.id, orgTree);
 		if (isShowCancel) {
 			return;
 		}
@@ -248,7 +254,8 @@ class Open extends React.Component {
 			if (res.code === 200) {
 				if (res.data) {
 					message.success('机构删除成功');
-					this.onSearchOrgTree();
+					// 切换到父节点
+					this.onSearchOrgTree(Object.keys(parentNode).length > 0 ? parentNode : {});
 				} else {
 					message.error(res.message || '机构删除失败');
 				}
