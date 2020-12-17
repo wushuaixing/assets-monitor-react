@@ -178,7 +178,7 @@ class BusinessView extends React.Component {
 
 		const params = {
 			num: pageSize,
-			page: totals % 10 === 1 ? current - 1 : current,
+			page: totals % 10 === 1 ? (current === 1 ? 1 : current - 1) : current,
 			...fildes,
 			...value,
 			...this.condition,
@@ -580,12 +580,12 @@ class BusinessView extends React.Component {
 					{/* 分隔下划线 */}
 					<div className="yc-noTab-hr" />
 
-							<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
-								{
+					<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
+						{
 									!openRowSelection ? (
 										<React.Fragment>
 											{
-												!global.isProxyLimit &&(
+												!global.isProxyLimit && (
 													<React.Fragment>
 														<Button type="common" className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
 															导入业务
@@ -603,8 +603,8 @@ class BusinessView extends React.Component {
 										</React.Fragment>
 									)
 								}
-								<div className="yc-public-floatRight">
-									{
+						<div className="yc-public-floatRight">
+							{
 										openRowSelection ? (
 											<React.Fragment>
 												{
@@ -616,19 +616,19 @@ class BusinessView extends React.Component {
 											</React.Fragment>
 										) : null
 									}
-									{
+							{
 										openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} api={exportExcel} all text="一键导出" />
 									}
-									<Button
-										style={{ margin: '0 0 0 10px' }}
-										className="yc-business-btn"
-										type={`${openRowSelection ? 'common' : ''}`}
-										onClick={() => this.openManagement(openRowSelection)}
-									>
-										{openRowSelection ? '取消批量管理' : '批量管理'}
-									</Button>
-								</div>
-							</div>
+							<Button
+								style={{ margin: '0 0 0 10px' }}
+								className="yc-business-btn"
+								type={`${openRowSelection ? 'common' : ''}`}
+								onClick={() => this.openManagement(openRowSelection)}
+							>
+								{openRowSelection ? '取消批量管理' : '批量管理'}
+							</Button>
+						</div>
+					</div>
 
 					<Spin visible={loading}>
 						<TableList
