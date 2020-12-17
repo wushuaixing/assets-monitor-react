@@ -178,7 +178,7 @@ class BusinessView extends React.Component {
 
 		const params = {
 			num: pageSize,
-			page: totals % 10 === 1 ? current - 1 : current,
+			page: totals % 10 === 1 ? (current === 1 ? 1 : current - 1) : current,
 			...fildes,
 			...value,
 			...this.condition,
@@ -582,33 +582,43 @@ class BusinessView extends React.Component {
 
 					<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
 						{
-							!openRowSelection ? (
-								<React.Fragment>
-									<Button type="common" className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
-										导入业务
-									</Button>
-									<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
-										<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
-									</Tooltip>
-								</React.Fragment>
-							) : (
-								<React.Fragment>
-									{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum style={{ position: 'absolute', top: 6 }} num={selectedRowKeys.length} /> : null}
-								</React.Fragment>
-							)
-						}
+									!openRowSelection ? (
+										<React.Fragment>
+											{
+												!global.isProxyLimit && (
+													<React.Fragment>
+														<Button type="common" className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
+															导入业务
+														</Button>
+														<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
+															<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
+														</Tooltip>
+													</React.Fragment>
+												)
+											}
+										</React.Fragment>
+									) : (
+										<React.Fragment>
+											{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum style={{ position: 'absolute', top: 6 }} num={selectedRowKeys.length} /> : null}
+										</React.Fragment>
+									)
+								}
 						<div className="yc-public-floatRight">
 							{
-								openRowSelection ? (
-									<React.Fragment>
-										<Button style={{ margin: '0 0 0 10px' }} onClick={this.handledDeleteBatch} className="yc-business-btn">删除</Button>
-										<Download style={{ margin: '0 0 0 10px' }} selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
-									</React.Fragment>
-								) : null
-							}
+										openRowSelection ? (
+											<React.Fragment>
+												{
+													!global.isProxyLimit && (
+														<Button style={{ margin: '0 0 0 10px' }} onClick={this.handledDeleteBatch} className="yc-business-btn">删除</Button>
+													)
+												}
+												<Download style={{ margin: '0 0 0 10px' }} selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
+											</React.Fragment>
+										) : null
+									}
 							{
-								openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} api={exportExcel} all text="一键导出" />
-							}
+										openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} api={exportExcel} all text="一键导出" />
+									}
 							<Button
 								style={{ margin: '0 0 0 10px' }}
 								className="yc-business-btn"
@@ -619,6 +629,7 @@ class BusinessView extends React.Component {
 							</Button>
 						</div>
 					</div>
+
 					<Spin visible={loading}>
 						<TableList
 							stateObj={this.state}

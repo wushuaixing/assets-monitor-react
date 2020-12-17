@@ -1,0 +1,363 @@
+//头部信息
+.account-header{
+  height: 60px;
+  vertical-align: middle;
+  line-height: 60px;
+  padding-left: 20px;
+  &-title{
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-title;
+  }
+
+  &-tips{
+    padding-right: 20px;
+    float: right;
+    display: inline-block;
+    font-size: 14px;
+    color: $text-content;
+    &-icon{
+      margin-right: 10px;
+      color: $text-remark;
+      vertical-align: middle;
+    }
+  }
+}
+
+.account-header-line{
+  background-color: $background-line;
+  height: 1px;
+}
+
+.account-content{
+  display: inline-block;
+  width: 1200px;
+  //左边的机构管理
+  .account-left{
+    display: inline-block;
+    width: 35%;
+    .account-box{
+      padding: 20px;
+      border-bottom: 1px solid $background-line;
+      &-title{
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 600;
+        color: $text-title;
+      }
+      &-input{
+        position: relative;
+        height: 30px;
+        margin-top: 16px;
+        width: 380px;
+        .search-org{
+          position: absolute;
+          width: 90%;
+          left: 0;
+          z-index: 10;
+          .search-org-input{
+            height: 34px;
+          }
+          &-clear{
+            cursor: pointer;
+            position: absolute;
+            right: 11px;
+            top: 6px;
+          }
+        }
+
+        .search-btn{
+          position: absolute;
+          right: 1px;
+          line-height: 34px;
+          height: 34px;
+          width: 10%;
+          cursor: pointer;
+          border: 1px solid $background-border;
+          text-align: center;
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+          &-icon{
+            color: #7D8699;
+          }
+        }
+        .search-btn:active{
+          border: 1px solid $text-link;
+          box-shadow: 0 0 4px 0 $text-link;
+          .search-btn-icon{
+            color: $text-link;
+          }
+        }
+      }
+    }
+
+    .tree-box{
+      padding: 0 20px;
+      height: 702px;
+      overflow: hidden;
+      &-inner{
+        overflow-x: hidden;
+        overflow-y: auto;
+        color: #000;
+        font-size: 12px;
+        height: 100%;
+        .account-tree{
+
+          //修改箭头的大小
+          .ant-tree-switcher{
+            &::after{
+              //content: "\e647" !important;
+              font-size: 20px !important;
+            }
+          }
+
+          //匹配到的机构变色
+          .ant-tree-title{
+            .match-word{
+              font-weight: bold;
+              color: $text-link;
+            }
+          }
+
+          //连接节点之间的虚线
+          .line{
+            &::before{
+              content: " ";
+              width: 1px;
+              border-left: 2px dashed #DADDE6;
+              height: 100%;
+              position: absolute;
+              margin: 15px 0 22px 0;
+              left: 2px;
+            }
+          }
+
+          .ant-tree-node-content-wrapper{
+            font-size: 16px;
+            font-weight: 400;
+            color: #20242E;
+            .edit{
+              display: none;
+            }
+            .add{
+              display: none;
+            }
+            .del{
+              display: none;
+            }
+          }
+
+          li a {
+            &:hover{
+              background-color: #EBF1FA;
+              .edit{
+                font-size: 14px;
+                margin-left: 9px;
+                display: inline-block;
+                color: #7D8699 !important;
+                &:hover{
+                  font-weight: bold;
+                  color: #1C80E1 !important;
+                }
+              }
+
+              .add{
+                font-size: 14px;
+                margin-left: 9px;
+                display: inline-block;
+                color: #7D8699 !important;
+                &:hover{
+                  font-weight: bold;
+                  color: #1C80E1 !important;
+                }
+              }
+
+              .del{
+                font-size: 14px;
+                margin-left: 9px;
+                display: inline-block;
+                color: #7D8699 !important;
+                &:hover{
+                  font-weight: bold;
+                  color: #1C80E1 !important;
+                }
+              }
+            }
+          }
+
+          //选中的节点变色
+          .ant-tree-node-selected{
+            font-weight: bold;
+            color: $text-link;
+            background-color: white;
+            //禁止该元素的点击事件
+            //pointer-events: none;
+          }
+
+          .more-org-name{
+            width: 250px;
+            display: inline-block;
+            white-space: normal;
+          }
+        }
+
+        &-noresult{
+          text-align: center;
+          margin-top: 190px;
+          &-text{
+            color: $text-content;
+            margin-top: 10px;
+          }
+        }
+      }
+
+      &-inner::-webkit-scrollbar {
+        width: 4px;
+        /*height: 4px;*/
+      }
+      &-inner::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.2);
+      }
+      &-inner::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 0;
+        background: rgba(0,0,0,0.1);
+      }
+    }
+  }
+  //右边的虚拟代理机构table
+  .account-table{
+    border-left: 12px solid #F0F1F5;
+    height: 816px;
+    display: inline-block;
+    vertical-align: top;
+    width: 65%;
+    &-top{
+      width: 100%;
+      height: 12px;
+      background-color: #F0F1F5;
+    }
+
+    &-content{
+      &-title{
+        color: $text-title;
+        padding: 20px 0 20px 20px;
+        &-main{
+          font-size: 16px;
+          font-weight: 600;
+        }
+        &-sub{
+          margin-top: 10px;
+          color: #4E5566;
+          font-size: 14px;
+          &-org{
+            &:hover{
+              cursor: pointer;
+              color: $text-link;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      &-line{
+        height: 1px;
+        background-color: $background-line;
+      }
+    }
+
+    &-data{
+      padding: 20px 20px 0 20px;
+      &-oper{
+        position: relative;
+        height: 40px;
+        &-prefix{
+          display: inline-block;
+          width: 3px;
+          background-color: $text-link;
+          height: 20px;
+          line-height: 20px;
+          vertical-align: middle;
+          margin-right: 7px;
+        }
+        &-title{
+          display: inline-block;
+          line-height: 30px;
+          height: 30px;
+          font-weight: 600;
+        }
+        &-add{
+          position: absolute;
+          right: 0;
+          color: $text-link;
+          border-color: $text-link;
+        }
+
+      }
+      .divider{
+        display: inline-block;
+        line-height: 16px;
+        vertical-align: middle;
+        background-color: #DCDFE7;
+        width: 1px;
+        height: 16px;
+        margin: 0 6px;
+      }
+      .org-table{
+
+        .switch-org{
+          &:hover{
+            cursor: pointer;
+            color: $text-link;
+            text-decoration: underline;
+          }
+        }
+        .ant-table-body{
+          overflow-y: auto !important;
+          overflow-x: hidden;
+        }
+        //如果有table的数据里有children会显示箭头， 这里需要隐藏
+        .ant-table-row-expand-icon{
+          display: none;
+        }
+      }
+
+      .account-open-table{
+        .ant-table-body{
+          overflow-y: auto !important;
+          overflow-x: hidden;
+        }
+      }
+    }
+  }
+}
+
+.warning-modal{
+  .ant-confirm-title{
+    font-size: 16px;
+    .ant-confirm-title-point{
+      color: $common-error;
+    }
+  }
+
+  .ant-confirm-content{
+    font-size: 14px;
+    color: $text-content;
+  }
+
+  .anticon-question-circle{
+    &::before{
+      content: "\E634";
+    }
+  }
+}
+
+.hidden-cancel{
+  .ant-btn-ghost{
+    display: none;
+  }
+}
+
