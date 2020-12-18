@@ -1,13 +1,9 @@
-import React from 'react';
-import Construct from './table-construct'; // 建设单位
-import Winbid from './table-winbid'; // 中标单位
-import Underway from './table-underway'; // 施工单位
+import TableConstruct from './construct';
+import TableWinbid from './winbid';
+import TableUnderway from './underway';
 
-const TableIntact = (props) => {
-	const { sourceType } = props;
-	if (sourceType === 1) return <Construct {...props} />;
-	if (sourceType === 2) return <Winbid {...props} />;
-	if (sourceType === 3) return <Underway {...props} />;
-	return <Construct {...props} />;
+export default {
+	YC021201: TableConstruct, // 建设单位
+	YC021202: TableWinbid, // 中标单位
+	YC021203: TableUnderway, // 施工单位
 };
-export default TableIntact;

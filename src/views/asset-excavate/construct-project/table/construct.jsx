@@ -3,8 +3,16 @@ import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
 import { Attentions, SortVessel } from '@/common/table';
 import { readStatusMerchants } from '@/utils/api/monitor-info/finance';
-import { Table, SelectedNum } from '@/common';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 import api from '@/utils/api/monitor-info/finance';
+
+const projectTypeMap = new Map([
+	[1, '建筑工程'],
+	[2, '装饰工程'],
+	[3, '市政道路工程'],
+	[4, '其他'],
+	[0, '未知'],
+]);
 
 const columns = (props) => {
 	const {
@@ -20,33 +28,25 @@ const columns = (props) => {
 		{
 			title: <span style={{ marginLeft: 10 }}>建设单位</span>,
 			width: 290,
-			dataIndex: 'obligorName',
-			render: text => <span>{text}</span>,
-			// render: (text, row) => (
-			// 	<div>
-			// 		{row.accurateType === 1 ? <img src={accurate} alt="" className="yc-assets-info-img" /> : null}
-			// 		{ !row.isRead
-			// 			? (
-			// 				<span
-			// 					className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'}
-			// 					style={!row.isRead && row.isRead !== undefined ? { position: 'absolute' } : {}}
-			// 				/>
-			// 			) : null}
-			// 		<li style={{ marginLeft: 10 }}>
-			// 			<Ellipsis
-			// 				content={text}
-			// 				url={row.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
-			// 				tooltip
-			// 				width={250}
-			// 			/>
-			// 		</li>
-			// 	</div>
-			// ),
+			dataIndex: 'id',
+			render: (text, row) => (
+				<div>
+					{
+						row.parties.map(item => (
+							<Ellipsis
+								content={text}
+								url={item.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+								tooltip
+							/>
+						))
+					}
+				</div>
+			),
 		},
 		{
 			title: '工程类型',
-			dataIndex: 'category',
-			render: text => <span>{text}</span>,
+			dataIndex: 'projectType',
+			render: text => <span>{projectTypeMap.get(text)}</span>,
 		},
 		{
 			title: (noSort ? '项目信息'

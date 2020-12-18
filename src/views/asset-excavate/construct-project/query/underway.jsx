@@ -48,11 +48,6 @@ class QueryConstruct extends React.Component {
 		const { form: { getFieldsValue }, onQueryChange, clearSelectRowNum } = this.props;
 		clearSelectRowNum();// 清除选中项
 		const condition = getFieldsValue();
-		const { consultPriceStart: start, consultPriceEnd: end } = condition;
-		if (start && end && Number(start) > Number(end)) {
-			message.error('评估价最低价不得高过最高价', 1);
-			return false;
-		}
 		if (typeof onQueryChange === 'function')onQueryChange(clearEmpty(condition), '', '', 1);
 		return true;
 	};
@@ -100,7 +95,7 @@ class QueryConstruct extends React.Component {
 						size="large"
 						maxLength="40"
 						placeholder="公告标题关键字"
-						{...getFieldProps('obligorName')}
+						{...getFieldProps('title')}
 					/>
 				</div>
 
@@ -110,16 +105,16 @@ class QueryConstruct extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('startEnd'))}
+						{...getFieldProps('startIssuingTime', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endIssuingTime'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('startEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startStart'))}
+						{...getFieldProps('endIssuingTime', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startIssuingTime'))}
 					/>
 				</div>
 
@@ -129,16 +124,16 @@ class QueryConstruct extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('updateTimeStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('updateTimeEnd'))}
+						{...getFieldProps('startGmtModified', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtModified'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('updateTimeEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('updateTimeStart'))}
+						{...getFieldProps('endGmtModified', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtModified'))}
 					/>
 				</div>
 

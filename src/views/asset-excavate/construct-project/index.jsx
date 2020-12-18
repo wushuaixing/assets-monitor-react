@@ -1,45 +1,34 @@
 import React from 'react';
 import {
-	Button, Download, Icon, Spin, Tabs, message, Modal,
+	Button, Download, Icon, Spin, message, Modal, Tabs,
 } from '@/common';
-import { changeURLArg } from '@/utils';
-import QueryConstruct from './query/construct';
-import QueryWinbid from './query/winbid';
-import QueryUnderway from './query/underway';
-import TableConstruct from './table/construct';
-import TableWinbid from './table/winbid';
-import TableUnderway from './table/underway';
+import { changeURLArg, clearEmpty } from '@/utils';
+import { getUrlParams } from '@/views/asset-excavate/query-util';
+import ruleMethods from '@/utils/rule';
+import API from '@/utils/api/assets/construct';
+import TabsIntact from './tabs-intact';
+import Query from './query';
+import Table from './table';
+
+const toGetConfig = () => {
+	const rule = ruleMethods.toGetRuleSource('', 'YC10', 'YC02');
+	const ruleChild = (rule.child.filter(i => i.id === 'YC0212')[0]) || {};
+	return (ruleChild.child || []).filter(item => item.status).map(item => Object.assign(item, {
+		number: 0,
+		showNumber: true,
+	}));
+};
+
+const toGetProcess = (sourceType, source) => {
+	let site = 0;
+	source.forEach((item, index) => { if (item.id === sourceType)site = index; });
+	return site;
+};
 
 export default class ConstructProject extends React.Component {
 	constructor(props) {
 		super(props);
 		document.title = '在建工程-资产挖掘';
-		const _rule = () => ([
-			{
-				id: 1,
-				name: '建设单位',
-				dot: false,
-				status: true,
-				number: 0,
-				showNumber: true,
-			},
-			{
-				id: 2,
-				name: '中标单位',
-				status: true,
-				number: 0,
-				showNumber: true,
-				dot: false,
-			},
-			{
-				id: 3,
-				name: '施工单位',
-				status: true,
-				dot: false,
-				number: 0,
-				showNumber: true,
-			},
-		]).filter(item => item.status);
 		this.state = {
 			sourceType: 1,
 			isRead: 'all',
@@ -48,21 +37,23 @@ export default class ConstructProject extends React.Component {
 			total: 0,
 			loading: false,
 			manage: false,
-			tabConfig: _rule(props.rule.children),
 		};
-		this.condition = {
-			num: 10,
-		};
+		this.condition = {};
 		this.selectRow = [];
+		this.config = toGetConfig();
 	}
 
 	componentWillMount() {
-		const { rule } = this.props;
-		console.log('componentWillMount === ', rule);
-	}
-
-	componentWillUnmount() {
-		if (this.setUnReadCount) window.clearInterval(this.setUnReadCount);
+		const sourceType = Tabs.Simple.toGetDefaultActive(this.config, 'unit');
+		this.setState({
+			sourceType,
+		}, () => {
+			this.toInfoCount(sourceType);
+			const url = window.location.hash;
+			if (url.indexOf('?') === -1) {
+				this.onQueryChange({});
+			}
+		});
 	}
 
 	// 清除排序状态
@@ -71,13 +62,10 @@ export default class ConstructProject extends React.Component {
 		this.condition.sortOrder = '';
 	};
 
-	// 获取URL里的参数
-	isUrlParams = (sourceType) => {
 
-	};
-
-	// 获取三类数据的统计信息
-	toInfoCount = (sourceType) => {
+	// 获取三类统计信息
+	toInfoCount = (nextSourceType) => {
+		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
 	};
 
 	// 切换列表类型
@@ -90,6 +78,26 @@ export default class ConstructProject extends React.Component {
 
 	// 全部标记为已读
 	handleAllRead = () => {
+		const _this = this;
+		const { sourceType } = this.state;
+		const _c = this.config;
+		if (_c[toGetProcess(sourceType, _c)].dot) {
+			Modal.confirm({
+				title: '确认将所有信息全部标记为已读？',
+				content: '点击确定，将为您把全部消息标记为已读。',
+				iconType: 'exclamation-circle',
+				onOk() {
+					API(sourceType, 'readAll')().then((res) => {
+						if (res.code === 200) {
+							_this.onQueryChange();
+						}
+					});
+				},
+				onCancel() {},
+			});
+		} else {
+			message.warning('最新信息已经全部已读，没有未读信息了');
+		}
 	};
 
 	// 批量收藏
@@ -103,6 +111,26 @@ export default class ConstructProject extends React.Component {
 				content: '点击确定，将为您收藏所有选中的信息',
 				iconType: 'exclamation-circle',
 				onOk() {
+					API(sourceType, 'attention')({ idList }, true).then((res) => {
+						if (res.code === 200) {
+							message.success('操作成功！');
+							_this.selectRow = []; // 批量收藏清空选中项
+							const _dataSource = dataSource.map((item) => {
+								const _item = item;
+								idList.forEach((it) => {
+									if (it === item.id) {
+										_item.isAttention = 1;
+										_item.isRead = true;
+									}
+								});
+								return _item;
+							});
+							_this.setState({
+								dataSource: _dataSource,
+								manage: false,
+							});
+						}
+					});
 				},
 				onCancel() {},
 			});
@@ -122,20 +150,40 @@ export default class ConstructProject extends React.Component {
 		});
 	};
 
+	// 判断是否含有url参数
+	isUrlParams = (val) => {
+		const url = window.location.hash;
+		if (url.indexOf('?') !== -1) {
+			let dParams = {};
+			if (val === 'YC021201') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			}
+			if (val === 'YC021202') {
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+			}
+			if (val === 'YC021203') {
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+			}
+			return dParams;
+		}
+		return {};
+	};
+
 	// sourceType变化
-	onSourceType = (val) => {
+	onSourceType = (sourceType) => {
 		this.setState({
-			sourceType: val,
-			dataSource: [],
-			isRead: 'all',
+			sourceType,
+			dataSource: '',
 			current: 1,
 			total: '',
+			isRead: 'all',
 		});
-		this.onUnReadCount();
 		this.toClearSortStatus();
-		this.onQueryChange(this.isUrlParams(val), val, 'all', 1);
+
+		this.onQueryChange(this.isUrlParams(sourceType), sourceType, 'all', 1);
+		this.toInfoCount(sourceType);
 		this.selectRow = [];
-		window.location.href = changeURLArg(window.location.href, 'unit', val);
+		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
 	};
 
 	// 排序触发
@@ -165,12 +213,40 @@ export default class ConstructProject extends React.Component {
 	onQueryChange = (con, _sourceType, _isRead, page, _manage) => {
 		const { sourceType, isRead, current } = this.state;
 		const __isRead = _isRead || isRead;
-		this.condition = Object.assign(con || this.condition, {
+		const __type = _sourceType || sourceType;
+		this.condition = Object.assign({}, con || this.condition, {
 			page: page || current,
+			num: 10,
 		});
+		// console.log(__isRead);
 		if (__isRead === 'all') delete this.condition.isRead;
-		if (__isRead === 'else') this.condition.isRead = 0;
-		// this.setState({ loading: true, manage: _manage || false });
+		if (__isRead === 'unread') this.condition.isRead = 0;
+		this.setState({
+			loading: true,
+			manage: _manage || false,
+		});
+		API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
+			if (res.code === 200) {
+				this.config[toGetProcess(__type, this.config)].number = res.data.total;
+				// tabConfig[toGetProcess(__type, tabConfig)].number = res.data.total;
+				this.setState({
+					// tabConfig,
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
+					loading: false,
+				});
+			} else {
+				message.error(res.message || '网络请求异常请稍后再试！');
+				this.setState({
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({
+				loading: false,
+			});
+		});
 	};
 
 	// 查询是否有未读消息
@@ -188,7 +264,7 @@ export default class ConstructProject extends React.Component {
 		} = this.state;
 		const tableProps = {
 			manage,
-			dataSource: [],
+			dataSource,
 			current,
 			total,
 			onRefresh: this.onRefresh,
@@ -199,18 +275,20 @@ export default class ConstructProject extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
+		const QueryView = Query[sourceType];
+		const TableView = Table[sourceType];
 		return (
 			<div className="yc-assets-auction">
-				{ sourceType === 1 ?	<QueryConstruct onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
-				{ sourceType === 2 ?	<QueryWinbid onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
-				{ sourceType === 3 ?	<QueryUnderway onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
+				<QueryView onQueryChange={this.onQuery} />
 				{/* 分隔下划线 */}
 				<div className="yc-haveTab-hr" />
-				<Tabs.Simple
-					borderBottom
+				<TabsIntact
+					ref={e => this.tabIntactDom = e}
 					onChange={this.onSourceType}
-					source={tabConfig}
+					source={this.config}
+					sourceType={sourceType}
 					field="unit"
+					toRefresh={val => this.config = val}
 				/>
 				{
 					!manage ? (
@@ -263,10 +341,9 @@ export default class ConstructProject extends React.Component {
 						</div>
 					)
 				}
-				<Spin visible={false}>
-					{sourceType === 1 ? <TableConstruct {...tableProps} /> : null }
-					{sourceType === 2 ? <TableWinbid {...tableProps} /> : null }
-					{sourceType === 3 ? <TableUnderway {...tableProps} /> : null }
+				{/* 表格数据展示模块 */}
+				<Spin visible={loading}>
+					<TableView {...tableProps} />
 				</Spin>
 			</div>
 		);

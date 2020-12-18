@@ -143,7 +143,6 @@ export default {
 		 * @param field [string || array]
 		 * @returns {boolean}
 		 */
-		console.log(' _rule 111 === ', _rule);
 		const rule = _rule || global.ruleSource;
 		const toStatus = (rules, field) => {
 			if (rules) {
