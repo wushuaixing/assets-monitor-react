@@ -104,7 +104,7 @@ class Dishonesty extends React.Component {
 				this.warning();
 				this.setState({ loading: false });
 			} else {
-				message.error(res.message);
+				message.error('查询异常');
 				this.setState({ loading: false });
 			}
 		}).catch(() => {
