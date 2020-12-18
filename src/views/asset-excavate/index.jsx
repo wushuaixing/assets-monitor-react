@@ -16,6 +16,7 @@ import EquityPledge from './equity-pledge'; // 股权质押
 import SeizedUnblock from './seized-unblock'; // 查解封资产
 import Car from './car'; // 车辆信息
 import RealEstate from './real-estate'; // 不动产登记
+import ConstructProject from './construct-project';
 // import Public from './public-proclamation'; // 公示公告
 // import Attention from '../my-attention'; // 我的收藏
 // import VersionUpdateModal from '../_others/layout/versionUpdateModal';
@@ -52,6 +53,8 @@ const toGetRuth = (moduleID) => {
 		  components = RealEstate;
 		} else if (item.id === `${childID}11`) {
 		  components = Car;
+		} else if (item.id === `${childID}12`) {
+			components = ConstructProject;
 		} else {
 			components = noPage;
 		}

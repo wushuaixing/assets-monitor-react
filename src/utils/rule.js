@@ -143,6 +143,7 @@ export default {
 		 * @param field [string || array]
 		 * @returns {boolean}
 		 */
+		console.log(' _rule 111 === ', _rule);
 		const rule = _rule || global.ruleSource;
 		const toStatus = (rules, field) => {
 			if (rules) {
@@ -356,6 +357,17 @@ export default {
 								name: '查/解封资产',
 								url: '/monitor/seizedUnblock',
 								status: toStatus(rule.menu_zcwj, 'zcwjcjfzc'),
+							},
+							{
+								id: 'YC0212',
+								name: '在建工程',
+								url: '/monitor/construct',
+								status: toStatus(rule.menu_zcwj, 'zcwjbdcdj'),
+								child: [
+									{ id: 'YC021201', name: '建设单位', status: true },
+									{ id: 'YC021202', name: '中标单位', status: true },
+									{ id: 'YC021203', name: '施工单位', status: true },
+								],
 							},
 							{
 								id: 'YC0210',

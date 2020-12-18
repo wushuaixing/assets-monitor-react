@@ -177,5 +177,29 @@ const assets = {
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
+	// constructUnit: {
+	// 	id: 11001,
+	// 	name: '资产-在建工程-建设单位',
+	// 	list: params => service.get('/yc/search/portrait/company/asset/unseal/unsealList', { params })
+	// 		.then(res => res.data),
+	// 	count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
+	// 		.then(res => Object.assign(res.data, { id, field: 'constructUnit' })),
+	// },
+	// winbidUnit: {
+	// 	id: 11002,
+	// 	name: '资产-在建工程-中标单位',
+	// 	list: params => service.get('/yc/search/portrait/company/asset/unseal/unsealList', { params })
+	// 		.then(res => res.data),
+	// 	count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
+	// 		.then(res => Object.assign(res.data, { id, field: 'winbidUnit' })),
+	// },
+	// underwayUnit: {
+	// 	id: 11001,
+	// 	name: '资产-在建工程-施工单位',
+	// 	list: params => service.get('/yc/search/portrait/company/asset/unseal/unsealList', { params })
+	// 		.then(res => res.data),
+	// 	count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
+	// 		.then(res => Object.assign(res.data, { id, field: 'underwayUnit' })),
+	// },
 };
 export default assets;

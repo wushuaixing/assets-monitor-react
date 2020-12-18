@@ -196,5 +196,32 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
+	// 11001: {
+	// 	id: 11001,
+	// 	name: '资产-在建工程-建设单位',
+	// 	list: params => service.get('/yc/obligor/monitor/asset/unseal/unsealList', { params }).then(res => res.data),
+	// 	count(params) {
+	// 		return service.get('/yc/obligor/monitor/asset/unseal/unsealListCount', { params })
+	// 			.then(res => Object.assign(res.data, { id: this.id }));
+	// 	},
+	// },
+	// 11002: {
+	// 	id: 11002,
+	// 	name: '资产-在建工程-中标单位',
+	// 	list: params => service.get('/yc/obligor/monitor/asset/unseal/unsealList', { params }).then(res => res.data),
+	// 	count(params) {
+	// 		return service.get('/yc/obligor/monitor/asset/unseal/unsealListCount', { params })
+	// 			.then(res => Object.assign(res.data, { id: this.id }));
+	// 	},
+	// },
+	// 11003: {
+	// 	id: 11003,
+	// 	name: '资产-在建工程-施工单位',
+	// 	list: params => service.get('/yc/obligor/monitor/asset/unseal/unsealList', { params }).then(res => res.data),
+	// 	count(params) {
+	// 		return service.get('/yc/obligor/monitor/asset/unseal/unsealListCount', { params })
+	// 			.then(res => Object.assign(res.data, { id: this.id }));
+	// 	},
+	// },
 };
 export default assets;

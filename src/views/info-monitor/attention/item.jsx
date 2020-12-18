@@ -16,6 +16,7 @@ import IntangibleAssets from '../../asset-excavate/intangible-assets/table-intac
 import Pledge from '../../asset-excavate/equity-pledge/table-intact';
 import UnBlock from '../../asset-excavate/seized-unblock/table/table-intact';
 import LimitHeight from '../../risk-monitor/limit-consumption/table/table-intact';
+import ConstructProject from '../../asset-excavate/construct-project/table';
 
 const TableItem	= (props) => {
 	const { source, childType, sourceType } = props;
@@ -44,6 +45,9 @@ const TableItem	= (props) => {
 					YC0209: <UnBlock />,
 					YC0210: <RealEstate />,
 					YC0211: <Car />,
+					YC021201: <ConstructProject sourceType={1} />,
+					YC021202: <ConstructProject sourceType={2} />,
+					YC021203: <ConstructProject sourceType={3} />,
 					YC030101: <Lawsuit sourceType={1} />,
 					YC030102: <Lawsuit sourceType={2} />,
 					YC030103: <Lawsuit sourceType={3} />,
