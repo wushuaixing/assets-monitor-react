@@ -39,6 +39,7 @@
     width: 35%;
     .account-box{
       padding: 20px;
+      border-bottom: 1px solid $background-base;
       &-title{
         display: inline-block;
         font-size: 14px;
@@ -78,7 +79,7 @@
           border-top-right-radius: 2px;
           border-bottom-right-radius: 2px;
           &-icon{
-            color: #7D8699;
+            color: $text-remark;
           }
         }
         .search-btn:active{
@@ -92,13 +93,13 @@
     }
 
     .tree-box{
+      margin-top: 12px;
       padding: 0 0 0 20px;
       height: 702px;
       overflow: hidden;
       &-inner{
         overflow-x: hidden;
         overflow-y: auto;
-        color: #000;
         font-size: 12px;
         height: 100%;
         .account-tree{
@@ -106,14 +107,6 @@
           padding: 0 5px 5px 5px;
           //修改箭头的大小
           .ant-tree-switcher{
-            &::after{
-              //content: "\e647" !important;
-              font-size: 20px !important;
-              top: 5px;
-            }
-          }
-
-          .ant-tree-noline_open{
             &::after{
               //content: "\e647" !important;
               font-size: 20px !important;
@@ -146,7 +139,7 @@
           .ant-tree-node-content-wrapper{
             font-size: 14px;
             font-weight: 400;
-            color: #20242E;
+            color: $fontColor-base;
             .edit{
               display: none;
             }
@@ -171,10 +164,10 @@
                 line-height: 14px;
                 margin-left: 9px;
                 display: inline-block;
-                color: #7D8699 !important;
+                color: $text-remark !important;
                 &:hover{
                   font-weight: bold;
-                  color: #1C80E1 !important;
+                  color: $text-link !important;
                 }
               }
 
@@ -183,10 +176,10 @@
                 margin-left: 9px;
                 line-height: 14px;
                 display: inline-block;
-                color: #7D8699 !important;
+                color: $text-remark !important;
                 &:hover{
                   font-weight: bold;
-                  color: #1C80E1 !important;
+                  color: $text-link !important;
                 }
               }
 
@@ -195,10 +188,10 @@
                 margin-left: 9px;
                 line-height: 14px;
                 display: inline-block;
-                color: #7D8699 !important;
+                color: $text-remark !important;
                 &:hover{
                   font-weight: bold;
-                  color: #1C80E1 !important;
+                  color: $text-link !important;
                 }
               }
             }
@@ -265,7 +258,7 @@
         }
         &-sub{
           margin-top: 10px;
-          color: #4E5566;
+          color: $text-content;
           font-size: 14px;
           &-org{
             &:hover{
@@ -279,7 +272,7 @@
 
       &-line{
         height: 1px;
-        background-color: $background-line;
+        background-color: $background-base;
       }
     }
 
@@ -339,12 +332,14 @@
         }
 
         .ant-table-body::-webkit-scrollbar-thumb {
-          background: #B2B8C9;
+          background: $text-placeholder;
           border-radius: 6px;
+          -webkit-box-shadow: none;
         }
         .ant-table-body::-webkit-scrollbar-track {
-          background: #DADDE6;
+          background: $border-base;
           border-radius: 6px;
+          -webkit-box-shadow: none;
         }
         //如果有table的数据里有children会显示箭头， 这里需要隐藏
         .ant-table-row-expand-icon{
@@ -363,10 +358,12 @@
         .ant-table-body::-webkit-scrollbar-thumb {
           background: #B2B8C9;
           border-radius: 6px;
+          -webkit-box-shadow: none;
         }
         .ant-table-body::-webkit-scrollbar-track {
           background: #DADDE6;
           border-radius: 6px;
+          -webkit-box-shadow: none;
         }
       }
     }
