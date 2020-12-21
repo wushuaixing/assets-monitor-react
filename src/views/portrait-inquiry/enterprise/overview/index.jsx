@@ -20,6 +20,8 @@ import Bankruptcy from './components/bankruptcy';
 import Financial from './components/financial';
 import UnBlock from './components/unblock';
 import LimitHeight from './components/limit-height';
+import RealEstate from './components/real-estate';
+import Car from './components/car';
 import './style.scss';
 
 export default class OverView extends React.Component {
@@ -46,6 +48,8 @@ export default class OverView extends React.Component {
 			FinanceCount: 0,
 			UnBlockCount: 0,
 			LimitHeightCount: 0,
+			RealEstateCount: 0,
+			CarCount: 0,
 		};
 	}
 
@@ -196,6 +200,19 @@ export default class OverView extends React.Component {
 					BiddingCount: AssetProfileCountValue,
 				})
 			);
+			// 不动产
+		case 'RealEstate':
+			return (
+				this.setState({
+					RealEstateCount: AssetProfileCountValue,
+				})
+			);	// 车辆信息
+		case 'Car':
+			return (
+				this.setState({
+					CarCount: AssetProfileCountValue,
+				})
+			);
 		default: return '-';
 		}
 	};
@@ -223,13 +240,15 @@ export default class OverView extends React.Component {
 					LimitHeightCount: RiskProfileCountValue,
 				})
 			);
+
 		default: return '-';
 		}
 	};
 
 	render() {
 		const {
-			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, UnBlockCount, ChattelMortgageCount, BiddingCount, BankruptcyCount, BusinessRiskCount, LitigationInfosCount, FinanceCount, LimitHeightCount,
+			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, UnBlockCount,
+			ChattelMortgageCount, BiddingCount, BankruptcyCount, BusinessRiskCount, LitigationInfosCount, FinanceCount, LimitHeightCount, RealEstateCount, CarCount,
 		} = this.state;
 		const { viewLoading } = this.props;
 		return (
@@ -258,8 +277,12 @@ export default class OverView extends React.Component {
 								<Financial companyId={companyId} getAssetProfile={this.getAssetProfile} />
 								{/* 相关招投标信息 */}
 								<BiddingInfo companyId={companyId} getAssetProfile={this.getAssetProfile} />
+								{/* 不动产登记信息 */}
+								<RealEstate companyId={companyId} getRiskProfile={this.getRiskProfile} />
+								{/* 车辆信息 */}
+								<Car companyId={companyId} getAssetProfile={this.getAssetProfile} />
 							</div>,
-							AssetAuctionCount === 0 && IntangibleAssetCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0
+							AssetAuctionCount === 0 && IntangibleAssetCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0 && RealEstateCount === 0 && CarCount === 0
 							&& <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}</Spin>,
 						]
 					}
