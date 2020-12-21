@@ -22,8 +22,6 @@ const dd ={
 	"BA10601":"/yc/business/monitor/asset/mortgage/owner/list", // 动产抵押_抵押
 	"BA10602":"/yc/business/monitor/asset/mortgage/people/list", // 动产抵押_抵押权
 	"BA10701":"/yc/business/monitor/asset/bidding/list", // 招投标
-	"BA11001":"/yc/business/monitor/asset/estateRegister/list", // 不动产
-	"BA11002":"/yc/business/monitor/asset/vehicle/list", // 车辆
 
 	/* 风险 */
 	"BR30201":"/yc/business/monitor/risk/bankruptcy/list", // 破产重组
@@ -87,6 +85,9 @@ const dd ={
 	"DA10803": "/yc/obligor/monitor/asset/finance/finance/list", // 公示项目
 	// 查解封资产
 	"DA10901": "/yc/obligor/monitor/asset/unseal/unsealList",
+
+	"DA11001":"/yc/business/monitor/asset/estateRegister/list", // 不动产
+	"DA11002":"/yc/business/monitor/asset/vehicle/list", // 车辆
 
 	/*债务人详情，风险*/
 	// 限制高消费

@@ -92,7 +92,7 @@ export default class Excavate extends PureComponent {
 					API: biddingCard,
 				},
 				{
-					id: 9,
+					id: 11,
 					title: '不动产登记',
 					rule: isRule && props.rule.children.zcwjbdcdj,
 					url: '/monitor/realEstate',
