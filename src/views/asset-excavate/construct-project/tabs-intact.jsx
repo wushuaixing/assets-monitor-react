@@ -1,7 +1,6 @@
 import React from 'react';
 import { Tabs } from '@/common';
 import API from '@/utils/api/assets/construct';
-import { unReadCount } from '@/utils/api/monitor-info';
 import { getUrlParams } from '@/views/asset-excavate/query-util';
 import { promiseAll } from '@/utils/promise';
 
@@ -14,18 +13,15 @@ export default class TabsIntact extends React.Component {
 		};
 	}
 
-	// componentDidMount() {
-	// 	const { source, sourceType } = this.props;
-	// 	this.toRefreshCount(source, sourceType);
-	// }
-
 	toRefreshCount = (config, type) => {
 		const { onRefresh } = this.props;
 		const _source =	config;
+		// console.log('construct config === ', type, config);
 		this.toGetUnReadCount(_source);
 		config.forEach((i, index) => {
 			if (i.id !== type) {
 				API(i.id, 'listCount')(this.isUrlParams(i.id)).then((res) => {
+					// console.log('res === ', res);
 					if (res.code === 200) {
 						_source[index].number = res.data;
 						this.setState({ _source });
@@ -60,23 +56,37 @@ export default class TabsIntact extends React.Component {
 			isRead: 0,
 		};
 		const promiseArray = [];
-		promiseArray.push(API('YC030301', 'listCount')(params));
-		promiseArray.push(API('YC030302', 'listCount')(params));
-		promiseArray.push(API('YC030303', 'listCount')(params));
-		// unReadCount({ ...this.isUrlParams(config.id), isRead: 1 }).then((res) => {
-		// 	const { data, code } = res;
-		// 	if (code === 200) {
-		// 		const result = config.map((item) => {
-		// 			const _item = item;
-		// 			if (_item.id === 'YC030301')_item.dot = data.companyAbnormalCount;
-		// 			if (_item.id === 'YC030302')_item.dot = data.changeFlag;
-		// 			if (_item.id === 'YC030303')_item.dot = data.companyIllegalCount;
-		// 			return _item;
-		// 		});
-		// 		this.setState({ _source: result });
-		// 		if (onRefresh)onRefresh(result);
-		// 	}
-		// });
+		promiseArray.push(API('YC021201', 'listCount')(params));
+		promiseArray.push(API('YC021202', 'listCount')(params));
+		promiseArray.push(API('YC021203', 'listCount')(params));
+		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+		handlePromise.then((values) => {
+			const isArray = Array.isArray(values) && values.length > 0;
+			// console.log('values === ', values);
+			if (isArray) {
+				const result = config.map((item) => {
+					const _item = item;
+					if (_item.id === 'YC021201') {
+						_item.dot = values.filter(it => it.id === 'YC021201')[0].data > 0;
+					}
+					if (_item.id === 'YC021202') {
+						_item.dot = values.filter(it => it.id === 'YC021202')[0].data > 0;
+					}
+					if (_item.id === 'YC021203') {
+						_item.dot = values.filter(it => it.id === 'YC021203')[0].data > 0;
+					}
+					return _item;
+				});
+				this.setState({
+					_source: result,
+				});
+				if (onRefresh) {
+					onRefresh(result);
+				}
+			}
+		}).catch((reason) => {
+			console.log('promise reject failed reason', reason);
+		});
 	};
 
 	render() {

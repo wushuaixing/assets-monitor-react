@@ -2,9 +2,11 @@ import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
 import { Attentions, SortVessel } from '@/common/table';
-import { readStatusMerchants } from '@/utils/api/monitor-info/finance';
-import { Table, SelectedNum, Ellipsis } from '@/common';
-import api from '@/utils/api/monitor-info/finance';
+import { toThousands } from '@/utils/changeTime';
+import {
+	Table, SelectedNum, Ellipsis, LiItem,
+} from '@/common';
+import { ConstructApi } from '@/utils/api/assets/construct';
 
 const projectTypeMap = new Map([
 	[1, '建筑工程'],
@@ -30,17 +32,17 @@ const columns = (props) => {
 			width: 290,
 			dataIndex: 'id',
 			render: (text, row) => (
-				<div>
+				<React.Fragment>
 					{
 						row.parties.map(item => (
 							<Ellipsis
-								content={text}
-								url={item.obligorId ? `#/business/debtor/detail?id=${row.obligorId}` : ''}
+								content={item.obligorName}
+								url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
 								tooltip
 							/>
 						))
 					}
-				</div>
+				</React.Fragment>
 			),
 		},
 		{
@@ -52,8 +54,29 @@ const columns = (props) => {
 			title: (noSort ? '项目信息'
 				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} mark="(立项批复日期)" {...sort}>招商信息</SortVessel>),
 			width: 496,
-			dataIndex: 'publishTime',
-			render: text => <span>{text}</span>,
+			dataIndex: 'title',
+			render: (text, row) => (
+				<div className="assets-info-content">
+					<Ellipsis
+						width={480}
+						content={text}
+						url={row.url}
+						tooltip
+					/>
+					<div>
+						<LiItem Li auto title="建设性质" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.nature || '-'}</LiItem>
+						<LiItem Li auto title="总投资" style={{ display: 'inline-block', width: 200, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>
+							{`${row.totalInvestment > 0 ? `${toThousands(row.totalInvestment)}元` : ''}`}
+							元
+						</LiItem>
+					</div>
+					<div>
+						<LiItem Li auto title="立项批复日期" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.approvalTime}</LiItem>
+						<LiItem Li auto title="计划开工日期" style={{ display: 'inline-block', width: 160, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.planBeginTime}</LiItem>
+					</div>
+					<LiItem Li title="项目所在地" style={{ width: 372 }} titleStyle={{ color: '#7D8699', width: 80 }} cotStyle={{ maxWidth: 274 }}>{row.projectLocation}</LiItem>
+				</div>
+			),
 		},
 		{
 			title: (noSort ? '更新日期'
@@ -71,7 +94,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? api.unFollowMerchants : api.followMerchants}
+					api={row.isAttention ? ConstructApi.unAttention : ConstructApi.attention}
 					index={index}
 				/>
 			),
@@ -99,7 +122,7 @@ class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
 		if (!isRead && !manage) {
-			readStatusMerchants({ idList: [id] }).then((res) => {
+			ConstructApi.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

@@ -30,7 +30,7 @@ export default class ConstructProject extends React.Component {
 		super(props);
 		document.title = '在建工程-资产挖掘';
 		this.state = {
-			sourceType: 1,
+			sourceType: '',
 			isRead: 'all',
 			dataSource: '',
 			current: 1,
@@ -62,7 +62,6 @@ export default class ConstructProject extends React.Component {
 		this.condition.sortOrder = '';
 	};
 
-
 	// 获取三类统计信息
 	toInfoCount = (nextSourceType) => {
 		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
@@ -70,10 +69,8 @@ export default class ConstructProject extends React.Component {
 
 	// 切换列表类型
 	handleReadChange = (val) => {
-		const { sourceType } = this.state;
 		this.setState({ isRead: val });
 		this.onQueryChange(this.condition, '', val, 1);
-		this.onUnReadCount(sourceType);
 	};
 
 	// 全部标记为已读
@@ -183,7 +180,7 @@ export default class ConstructProject extends React.Component {
 		this.onQueryChange(this.isUrlParams(sourceType), sourceType, 'all', 1);
 		this.toInfoCount(sourceType);
 		this.selectRow = [];
-		window.location.href = changeURLArg(window.location.href, 'process', sourceType);
+		window.location.href = changeURLArg(window.location.href, 'unit', sourceType);
 	};
 
 	// 排序触发
@@ -203,9 +200,8 @@ export default class ConstructProject extends React.Component {
 
 	// 查询条件变化
 	onQuery = (con) => {
-		const { sourceType } = this.state;
 		this.toClearSortStatus();
-		this.onUnReadCount(sourceType);
+		this.selectRow = [];
 		this.onQueryChange(con, '', '', 1);
 	};
 
@@ -228,9 +224,7 @@ export default class ConstructProject extends React.Component {
 		API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.config[toGetProcess(__type, this.config)].number = res.data.total;
-				// tabConfig[toGetProcess(__type, tabConfig)].number = res.data.total;
 				this.setState({
-					// tabConfig,
 					dataSource: res.data.list,
 					current: res.data.page,
 					total: res.data.total,
@@ -249,18 +243,13 @@ export default class ConstructProject extends React.Component {
 		});
 	};
 
-	// 查询是否有未读消息
-	onUnReadCount = (sourceType) => {
-
-	};
-
 	// 取消批量管理选择框
 	clearSelectRowNum = () => this.selectRow = [];
 
 
 	render() {
 		const {
-			sourceType, tabConfig, manage, dataSource, current, total, loading, isRead,
+			sourceType, manage, dataSource, current, total, loading, isRead,
 		} = this.state;
 		const tableProps = {
 			manage,

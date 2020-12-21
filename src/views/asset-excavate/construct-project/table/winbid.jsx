@@ -2,9 +2,11 @@ import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
 import { Attentions, SortVessel } from '@/common/table';
-import { readStatusMerchants } from '@/utils/api/monitor-info/finance';
-import { Table, SelectedNum } from '@/common';
-import api from '@/utils/api/monitor-info/finance';
+import {
+	Table, SelectedNum, Ellipsis, LiItem,
+} from '@/common';
+import { WinbidApi } from '@/utils/api/assets/construct';
+import { toThousands } from '@/utils/changeTime';
 
 // 获取表格配置
 const columns = (props) => {
@@ -21,32 +23,57 @@ const columns = (props) => {
 		{
 			title: (noSort ? '中标日期'
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>中标日期</SortVessel>),
-			dataIndex: 'gmtModified',
+			dataIndex: 'winningTime',
 			render: text => <span>{text}</span>,
 		},
 		{
 			title: <span style={{ marginLeft: 10 }}>中标单位</span>,
 			width: 290,
-			dataIndex: 'obligorName',
-			render: text => <span>{text}</span>,
+			dataIndex: 'id',
+			render: (text, row) => (
+				<React.Fragment>
+					{
+					row.parties.map(item => (
+						<Ellipsis
+							content={item.obligorName}
+							url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
+							tooltip
+						/>
+					))
+				}
+				</React.Fragment>
+			),
 		},
 		{
 			title: '中标类型',
-			dataIndex: 'category',
+			dataIndex: 'biddingType',
 			render: text => <span>{text}</span>,
 		},
 		{
 			title: (noSort ? '中标信息'
-				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} mark="(发布日期)" {...sort}>招商信息</SortVessel>),
+				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} mark="(发布日期)" {...sort}>中标信息</SortVessel>),
 			width: 496,
-			dataIndex: 'publishTime',
-			render: text => <span>{text}</span>,
+			dataIndex: 'title',
+			render: (text, row) => (
+				<div className="assets-info-content">
+					<Ellipsis
+						width={480}
+						content={text}
+						url={row.url}
+						tooltip
+					/>
+					<div>
+						<LiItem Li auto title="公开招标" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.nature || '-'}</LiItem>
+						<LiItem Li auto title="中标金额" style={{ display: 'inline-block', width: 220, marginLeft: 20 }} titleStyle={{ color: '#7D8699', width: 80 }}>{`${row.winningPrice > 0 ? `${toThousands(row.winningPrice)}元` : '-'}`}</LiItem>
+					</div>
+				</div>
+			),
 		},
 		{
 			title: (noSort ? '更新日期'
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
 			dataIndex: 'gmtModified',
-			render: text => <span>{text}</span>,
+			render: text => <span>{text || '-'}</span>,
 		},
 		{
 			title: '操作',
@@ -58,7 +85,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? api.unFollowMerchants : api.followMerchants}
+					api={row.isAttention ? WinbidApi.unAttention : WinbidApi.attention}
 					index={index}
 				/>
 			),
@@ -86,7 +113,7 @@ class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
 		if (!isRead && !manage) {
-			readStatusMerchants({ idList: [id] }).then((res) => {
+			WinbidApi.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

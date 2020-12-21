@@ -3,8 +3,11 @@ import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
 import { Attentions, SortVessel } from '@/common/table';
 import { readStatusMerchants } from '@/utils/api/monitor-info/finance';
-import { Table, SelectedNum } from '@/common';
+import {
+	Table, SelectedNum, Ellipsis, LiItem,
+} from '@/common';
 import api from '@/utils/api/monitor-info/finance';
+import { toThousands } from '@/utils/changeTime';
 
 // 获取表格配置
 const columns = (props) => {
@@ -21,19 +24,47 @@ const columns = (props) => {
 		{
 			title: (noSort ? '发证日期'
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>发证日期</SortVessel>),
-			dataIndex: 'gmtModified',
+			dataIndex: 'issuingTime',
 			render: text => <span>{text}</span>,
 		},
 		{
 			title: <span style={{ marginLeft: 10 }}>施工单位</span>,
 			width: 290,
-			dataIndex: 'obligorName',
-			render: text => <span>{text}</span>,
+			dataIndex: 'id',
+			render: (text, row) => (
+				<React.Fragment>
+					{
+					row.parties.map(item => (
+						<Ellipsis
+							prefixContent={item.role}
+							content={item.obligorName}
+							url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
+							tooltip
+						/>
+					))
+				}
+				</React.Fragment>
+			),
 		},
 		{
 			title: '施工许可证信息',
-			dataIndex: 'category',
-			render: text => <span>{text}</span>,
+			dataIndex: 'title',
+			render: (text, row) => (
+				<div className="assets-info-content">
+					<Ellipsis
+						width={480}
+						content={text}
+						url={row.url}
+						tooltip
+					/>
+					<div>
+						<LiItem Li auto title="合同金额" titleStyle={{ color: '#7D8699', width: 80 }}>{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
+						<LiItem Li auto title="合同工期" titleStyle={{ color: '#7D8699', width: 80 }}>{row.projectPeriod || '-'}</LiItem>
+						<LiItem Li auto title="项目所在地" titleStyle={{ color: '#7D8699', width: 80 }}>{row.projectLocation}</LiItem>
+					</div>
+				</div>
+			),
+
 		},
 		{
 			title: (noSort ? '更新日期'
