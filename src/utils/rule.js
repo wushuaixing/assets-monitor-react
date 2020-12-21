@@ -361,11 +361,11 @@ export default {
 								id: 'YC0212',
 								name: '在建工程',
 								url: '/monitor/construct',
-								status: toStatus(rule.menu_zcwj, 'zcwjbdcdj'),
+								status: toStatus(rule.menu_zcwj, ['zjgcjsdw', 'zjgczbdw', 'zjgcsgdw']),
 								child: [
-									{ id: 'YC021201', name: '建设单位', status: true },
-									{ id: 'YC021202', name: '中标单位', status: true },
-									{ id: 'YC021203', name: '施工单位', status: true },
+									{ id: 'YC021201', name: '建设单位', status: toStatus(rule.menu_zcwj, 'zjgcjsdw') },
+									{ id: 'YC021202', name: '中标单位', status: toStatus(rule.menu_zcwj, 'zjgczbdw') },
+									{ id: 'YC021203', name: '施工单位', status: toStatus(rule.menu_zcwj, 'zjgcsgdw') },
 								],
 							},
 							{

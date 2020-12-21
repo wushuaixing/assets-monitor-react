@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { Spin } from '@/common';
 import {
-	auctionCard, landCard, intangibleCard, subrogationCard, stockCard, mortgageCard, financeCard, biddingCard, unsealCard, realEstateCardApi, carCardApi,
+	auctionCard, landCard, intangibleCard, subrogationCard, stockCard, mortgageCard, financeCard, biddingCard, unsealCard, realEstateCardApi, carCardApi, constructApi,
 } from '@/utils/api/monitor-info/excavate/index';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import { promiseAll } from '@/utils/promise';
 import {
-	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, UnBlock, CarCard, realEstateCard,
+	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, UnBlock, CarCard, realEstateCard, ConstructCard,
 } from '../components';
 import './style.scss';
 
@@ -17,6 +17,11 @@ export default class Excavate extends PureComponent {
 		document.title = '资产挖掘';
 		// console.log(props.rule);
 		const isRule = props && props.rule && props.rule.children;
+		const children = isRule && props.rule.children;
+		const {
+			zjgcjsdw, zjgcsgdw, zjgczbdw,
+		} = children;
+		const constructRule = { zjgcjsdw, zjgcsgdw, zjgczbdw };
 		this.state = {
 			config: [
 				{
@@ -76,6 +81,14 @@ export default class Excavate extends PureComponent {
 					API: unsealCard,
 				},
 				{
+					id: 12,
+					title: '在建工程',
+					rule: Object.values(constructRule).filter((i => i !== undefined)).length > 0 && constructRule,
+					url: '/monitor/construct',
+					Component: ConstructCard,
+					API: constructApi,
+				},
+				{
 					id: 9,
 					title: '不动产登记',
 					rule: isRule && props.rule.children.zcwjbdcdj,
@@ -121,6 +134,7 @@ export default class Excavate extends PureComponent {
 			realEstatePropsData: {},
 			carPropsData: {},
 			unBlockPropsData: {},
+			buildPropsData: {},
 			auctionCount: undefined,
 			landCount: undefined,
 			intangibleCount: undefined,
@@ -132,6 +146,7 @@ export default class Excavate extends PureComponent {
 			realEstateCount: undefined,
 			vehicleInformationCount: undefined,
 			unblockCount: undefined,
+			buildCount: undefined,
 		};
 	}
 
@@ -153,6 +168,7 @@ export default class Excavate extends PureComponent {
 			['estateRegisterCount', this.getRealEstateData],
 			['vehicleInformationCount', this.getCarData],
 			['unseal', this.getUnsealData],
+			['build', this.getConstructData],
 			['default', () => { console.log('未匹配'); }],
 		]);
 		const promiseArray = [];
@@ -395,6 +411,35 @@ export default class Excavate extends PureComponent {
 		}
 	};
 
+	getConstructData = (res) => {
+		console.log('res === ', res);
+		if (res && res.code === 200) {
+			const {
+				constructionLicenceCount, projectBiddingCount, projectInfoCount, gmtUpdate,
+			} = res.data;
+			const totalCount = constructionLicenceCount + projectBiddingCount + projectInfoCount;
+			const dataSource = [];
+			if (global.authRoleList.indexOf('zjgcjsdw') > -1) {
+				dataSource.push({ count: projectInfoCount || 0, typeName: '作为建筑单位' });
+			}
+			if (global.authRoleList.indexOf('zjgczbdw') > -1) {
+				dataSource.push({ count: projectBiddingCount || 0, typeName: '作为中标单位' });
+			}
+			if (global.authRoleList.indexOf('zjgcsgdw') > -1) {
+				dataSource.push({ count: constructionLicenceCount || 0, typeName: '作为施工单位' });
+			}
+			const buildPropsData = {
+				dataSource,
+				totalCount,
+				gmtUpdate,
+			};
+			this.setState(() => ({
+				buildPropsData,
+				buildCount: totalCount,
+			}));
+		}
+	};
+
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
 	handleNavigate = (url) => { navigate(url); };
@@ -411,10 +456,10 @@ export default class Excavate extends PureComponent {
 
 	render() {
 		const {
-			config, loading, finish, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData, unBlockPropsData,
-			auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount, unblockCount, realEstatePropsData, realEstateCount, carPropsData,vehicleInformationCount
+			config, loading, finish, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData, unBlockPropsData, buildPropsData,
+			auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount, unblockCount, realEstatePropsData, realEstateCount, carPropsData, vehicleInformationCount, buildCount,
 		} = this.state;
-		const allNumber = this.getNumber([auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount, realEstateCount, unblockCount, vehicleInformationCount]);
+		const allNumber = this.getNumber([auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount, realEstateCount, unblockCount, vehicleInformationCount, buildCount]);
 		// 权限过滤
 		// const ruleResultArr = config.filter(i => this.isObject(i.rule));
 		const params = {
@@ -429,6 +474,7 @@ export default class Excavate extends PureComponent {
 			unBlockPropsData,
 			realEstatePropsData,
 			carPropsData,
+			buildPropsData,
 		};
 		return (
 			<Spin visible={loading} minHeight={700}>
