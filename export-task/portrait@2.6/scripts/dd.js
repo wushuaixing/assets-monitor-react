@@ -91,6 +91,11 @@ const dd = {
 	"A10506": "/yc/search/portrait/company/management/epb/list", // 环保处罚
 	// 限制高消费
 	"A10507": "/yc/search/portrait/company/lawsuit/limitHeight/limitHeightList",
-	// 限制高消费
-	"Demo": "/yc/search/portrait/company/lawsuit/limitHeight/limitHeightList",
+
+	// 不动产
+	"A10215": "/yc/search/portrait/company/lawsuit/limitHeight/limitHeightList",
+
+	// 车辆
+	"A10217": "/yc/search/portrait/company/lawsuit/limitHeight/limitHeightList",
+
 };

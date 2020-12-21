@@ -103,8 +103,8 @@ function exportTemplate(source, exportType, name) {
 				{id: 'A10802', title: '金融资产_招商项目', status: 'BE'},
 				{id: 'A10803', title: '金融资产_公示项目', status: 'BE'},
 				{id: 'A10701', title: '招投标', status: 'BE'},
-				{id: 'ADemo', title: '不动产登记', status: 'BE'},
-				{id: 'Car', title: '车辆信息', status: 'BE'},
+				{id: 'A11001', title: '不动产登记', status: 'BE'},
+				{id: 'A11002', title: '车辆信息', status: 'BE'},
 			]
 		},
 		risk: {
@@ -870,7 +870,7 @@ function exportTemplate(source, exportType, name) {
 				break;
 			}
 			// 不动产登记
-			case 'ADemo': {
+			case 'A11001': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
@@ -888,7 +888,7 @@ function exportTemplate(source, exportType, name) {
 				break;
 			}
 			// 车辆信息
-			case 'Car': {
+			case 'A11002': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
 						+ f.urlDom(i.vehicleNumber, i.url)

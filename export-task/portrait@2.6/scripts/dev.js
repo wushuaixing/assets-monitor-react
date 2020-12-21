@@ -675,7 +675,7 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		// 不动产登记
-		else if(viewName === "overview.Demo1"){
+		else if(viewName === "overview.A10215"){
 			if((source.auctionInfos||[]).length){
 				fun.source.matchType.forEach(function (i) {
 					var result = false;
@@ -705,7 +705,7 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		// 车辆信息
-		else if(viewName === "overview.Car"){
+		else if(viewName === "overview.A10217"){
 			if(source.unsealCount){
 				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
 				if((source.yearDistributions || []).length){
@@ -1145,9 +1145,9 @@ function exportTemplate(source,exportType) {
 		// 查解封资产
 		overView(data.A10212,"overview.A10212");
 		// 不动产
-		overView(data.Demo1,"overview.Demo1");
+		overView(data.A10215,"overview.A10215");
 		// 车辆信息
-		overView(data.Car,"overview.Car");
+		overView(data.A10217,"overview.A10217");
 		// 金融资产
 		overView(data.A10213,"overview.A10213");
 
@@ -1847,7 +1847,7 @@ function exportTemplate(source,exportType) {
 				break;
 			}
 			//车辆信息
-			case "Car2":{
+			case "car":{
 				source.list.forEach(function (item) {
 					var parties = fun.handleParties(item.parties);
 					listAry.push("<tr>" +
@@ -2298,11 +2298,11 @@ function exportTemplate(source,exportType) {
 		// 查解封资产
 		listView(data.A10318,"unsealList");
 		//不动产登记-精准匹配
-		listView(data.Demo2,'realEstate.accurate');
+		listView(data.A10322,'realEstate.accurate');
 		//不动产登记-模糊匹配
-		listView(data.Demo2,'realEstate.blurry');
+		listView(data.A10322,'realEstate.blurry');
 		//车辆信息
-		listView(data.Car2,'Car2');
+		listView(data.A10323,'car');
 		// 金融资产 - 竞价项目
 		listView(data.A10319,"finance.bidding");
 		// 金融资产 - 招商项目
