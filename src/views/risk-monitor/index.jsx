@@ -2,7 +2,7 @@ import React from 'react';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { Button, Icon, BreadCrumb } from '@/common';
-import { unReadCount } from '@/utils/api/monitor-info';
+// import { unReadCount } from '@/utils/api/monitor-info';
 import ruleMethods from '@/utils/rule';
 /* 主要内容模块 */
 import Lawsuits from './lawsuits-monitor';
@@ -43,36 +43,36 @@ class RiskMonitor extends React.Component {
 	}
 
 	componentWillMount() {
-		this.onUnReadCount();
-		this.setUnReadCount = setInterval(() => {
-			this.onUnReadCount();
-		}, 30 * 1000);
+		// this.onUnReadCount();
+		// this.setUnReadCount = setInterval(() => {
+		// 	// this.onUnReadCount();
+		// }, 30 * 1000);
 	}
 
 	componentWillUnmount() {
-		if (this.setUnReadCount) window.clearInterval(this.setUnReadCount);
+		// if (this.setUnReadCount) window.clearInterval(this.setUnReadCount);
 	}
 
 	// 一级tab未读消息统计
-	onUnReadCount = () => {
-		const { source } = this.state;
-		unReadCount({ event: 'loop' }).then((res) => {
-			const { data, code } = res;
-			if (code === 200) {
-				const _source = source.map((item) => {
-					const _item = item;
-					if (_item.id === 'YC0301') _item.dot = data.trialCourtSessionCount || data.trialFilingCount || data.trialJudgmentCount;
-					if (_item.id === 'YC0302') _item.dot = data.bankruptcyCount;
-					if (_item.id === 'YC0303') _item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag || data.taxCount || data.epbCount;
-					if (_item.id === 'YC0304') _item.dot = data.dishonestCount;
-					if (_item.id === 'YC0305') _item.dot = true;
-					return _item;
-				});
-				// console.log('_source === ', _source);
-				this.setState({ source: _source });
-			}
-		});
-	};
+	// onUnReadCount = () => {
+	// 	const { source } = this.state;
+	// 	unReadCount({ event: 'loop' }).then((res) => {
+	// 		const { data, code } = res;
+	// 		if (code === 200) {
+	// 			const _source = source.map((item) => {
+	// 				const _item = item;
+	// 				if (_item.id === 'YC0301') _item.dot = data.trialCourtSessionCount || data.trialFilingCount || data.trialJudgmentCount;
+	// 				if (_item.id === 'YC0302') _item.dot = data.bankruptcyCount;
+	// 				if (_item.id === 'YC0303') _item.dot = data.companyAbnormalCount || data.companyIllegalCount || data.changeFlag || data.punishmentFlag || data.taxCount || data.epbCount;
+	// 				if (_item.id === 'YC0304') _item.dot = data.dishonestCount;
+	// 				if (_item.id === 'YC0305') _item.dot = true;
+	// 				return _item;
+	// 			});
+	// 			console.log('_source === ', _source);
+	// 			this.setState({ source: _source });
+	// 		}
+	// 	});
+	// };
 
 	toNavigate = () => {
 		navigate(`/info/monitor/attention?init=YC03${this.sourceType ? `&process=${this.sourceType}` : ''}`);
@@ -113,6 +113,7 @@ class RiskMonitor extends React.Component {
 				<div className="yc-line" />
 				<div className="yc-monitor yc-page-content">
 					<Router>
+						{/* eslint-disable-next-line react/jsx-pascal-case */}
 						{ _source.map(Item => <Item.components path={`${Item.url}/*`} rule={rule} />) }
 					</Router>
 				</div>

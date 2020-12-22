@@ -61,13 +61,13 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		this.condition.page = val;
 		this.toGetData();
 	};
 
 	// 查询数据methods
-	toGetData=(nextProps) => {
+	toGetData = (nextProps) => {
 		this.setState({ loading: true });
 		const { reqUrl, id, sourceType } = nextProps || this.props;
 		const toApi = reqUrl || API(sourceType, 'followList');
