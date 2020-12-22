@@ -11,25 +11,25 @@ export default class UnBlockCard extends React.Component {
 	}
 
 	render() {
-		const { portrait, dataSource: { unsealCount, gmtModified, obligorTotal } } = this.props;
+		const { portrait, dataSource: { vehicleInformationCount, gmtModified, obligorTotal } } = this.props;
 		return (
 			<React.Fragment>
-				{unsealCount > 0 ? (
+				{vehicleInformationCount > 0 ? (
 					<Card
 						portrait={portrait}
 						obligorTotal={obligorTotal}
 						IconType="cheliangxinxi"
 						IconColor={{ color: '#3DBD7D' }}
 						customStyle={hasCountStyle}
-						count={unsealCount}
+						count={vehicleInformationCount}
 						gmtCreate={gmtModified}
 						obligorName="条相关匹配信息"
 						text="车辆信息"
-						onClick={() => navigateDetail('e-assets-unblock')}
-						styleName="unblock-card"
+						onClick={() => navigateDetail('e-assets-car')}
+						styleName="car-card"
 					>
 						<div className="business-unblock-card">
-							<span className="business-unblock-card-num">{unsealCount || 0}</span>
+							<span className="business-unblock-card-num">{vehicleInformationCount || 0}</span>
 							条相关匹配信息
 						</div>
 					</Card>

@@ -145,11 +145,11 @@ const subItems = (data, portrait) => {
 			id: 11000,
 			baseId: 1100,
 			name: '不动产登记',
-			total: data ? toGetTotal('1100', data) : 0,
+			total: data ? toGetTotal('^1100', data) : 0,
 			info: data ? data.filter(i => /1100/.test(i.id)) : '',
 			role: roleState('zcwj', 'zcwjbdcdj'),
 			disabled: true,
-			tagName: 'e-assets-bidding',
+			tagName: 'e-assets-real-estate',
 			component: RealEstate,
 			isStatus: 'only',
 		}, {

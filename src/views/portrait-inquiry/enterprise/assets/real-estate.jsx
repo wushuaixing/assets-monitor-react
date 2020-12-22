@@ -1,27 +1,56 @@
 import React from 'react';
-import { toGetNumber } from '@/utils/promise';
-import Table from '@/views/asset-excavate/real-estate/table';
-import { toGetModuleHeight } from '@/utils';
+import { Tabs } from '@/common';
+import Table from '@/views/asset-excavate/assets-auction/table-version';
+import { toGetDefaultId, toGetNumber } from '@/utils/promise';
 
-export default class Intangible extends React.Component {
+export default class Auction extends React.Component {
 	constructor(props) {
 		super(props);
+		const defaultID = toGetDefaultId(props.data);
 		this.state = {
-			count: toGetNumber(props.data, 10701),
+			sourceType: defaultID,
+			config: [
+				{
+					id: 11001,
+					name: '智能精准匹配',
+					number: toGetNumber(props.data, 11001),
+					showNumber: true,
+					disabled: !toGetNumber(props.data, 11001),
+				},
+				{
+					id: 11002,
+					name: '模糊匹配',
+					number: toGetNumber(props.data, 11002),
+					showNumber: true,
+					disabled: !toGetNumber(props.data, 11002),
+				},
+			],
 		};
 	}
 
+	onSourceType = (val) => {
+		const { sourceType } = this.state;
+		if (sourceType !== val) {
+			this.setState({ sourceType: val });
+		}
+	};
+
 	render() {
-		const { count } = this.state;
-		const { id, portrait } = this.props;
-		const h = toGetModuleHeight(10701, count, portrait);
+		const { config, sourceType } = this.state;
+		const { id } = this.props;
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
-				<div className="public-table-tab">
-					<div className="yc-tabs-simple-prefix">{`不动产登记 ${count || 0}`}</div>
-				</div>
+				<Tabs.Simple
+					borderBottom
+					onChange={this.onSourceType}
+					source={config}
+					symbol="none"
+					defaultCurrent={sourceType}
+					prefix={<div className="yc-tabs-simple-prefix">不动产登记</div>}
+				/>
 				<div className="inquiry-public-table">
-					<Table portrait={portrait} loadingHeight={h} />
+					{ sourceType === 11001 ? <Table type="exact" /> : null }
+					{ sourceType === 11002 ? <Table type="blurry" hideReason /> : null }
 				</div>
 			</div>
 		);

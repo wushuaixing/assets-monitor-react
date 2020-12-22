@@ -196,5 +196,32 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
+	11001: {
+		id: 11001,
+		name: '资产-不动产登记',
+		list: params => service.get('/yc/obligor/monitor/asset/estateRegister/estateRegisterList?matchType=1', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/estateRegister/estateRegisterListCount?matchType=1', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	11002: {
+		id: 11002,
+		name: '资产-不动产登记',
+		list: params => service.get('/yc/obligor/monitor/asset/estateRegister/estateRegisterList?matchType=2', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/estateRegister/estateRegisterListCount?matchType=2', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	11100: {
+		id: 11100,
+		name: '资产-车辆信息',
+		list: params => service.get('/yc/obligor/monitor/asset/vehicle/vehicleList', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/vehicle/vehicleListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
 };
 export default assets;
