@@ -314,6 +314,24 @@ function exportTemplate(source,exportType) {
 			}
 			return ''
 		},
+		toGetRoleType:function methods(value) {
+			if(value){
+				var res =value;
+				switch (value) {
+					case 1:res='注销人';break;
+					case 2:res='权利人';break;
+					case 3:res='新权利人';break;
+					case 4:res='原权利人';break;
+					case 5:res='抵押人';break;
+					case 6:res='抵押权人';break;
+					case 7:res='被执行人';break;
+					case 8:res='申请执行人';break;
+					case 0:res='未知';break;
+				}
+				return res;
+			}
+			return ''
+		},
 		toGetYearList:function (list,field) {
 			if(list.length>5){
 				list.sort(function (a,b) { return b.year-a.year;});
@@ -648,6 +666,52 @@ function exportTemplate(source,exportType) {
 		}
 		// 查解封资产
 		else if(viewName === "overview.A10212"){
+			if(source.unsealCount){
+				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
+				if((source.yearDistributions || []).length){
+					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
+						overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
+							name: "year",
+							count: "count",
+							nameUnit:"年"
+						}))
+				}
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+			}
+		}
+		// 不动产登记
+		else if(viewName === "overview.A10215"){
+			if((source.auctionInfos||[]).length){
+				fun.source.matchType.forEach(function (i) {
+					var result = false;
+					source.auctionInfos.forEach(function (item) {
+						if(item.type === i.id){
+							if(item.count){
+								result = true;
+								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
+								if(item.roleDistributions.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".role.list}",
+										overViewTable(item.roleDistributions, 4, {
+											name: "year",
+											count: "count",
+											nameUnit:"年"
+										}))
+								}
+							}
+						}
+					});
+					if (!result){
+						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
+					}
+				});
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".accurate.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".blurry.display}", "display-none");
+			}
+		}
+		// 车辆信息
+		else if(viewName === "overview.A10217"){
 			if(source.unsealCount){
 				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
 				if((source.yearDistributions || []).length){
@@ -1086,6 +1150,10 @@ function exportTemplate(source,exportType) {
 		overView(data.A10211,"overview.A10211");
 		// 查解封资产
 		overView(data.A10212,"overview.A10212");
+		// 不动产
+		overView(data.A10215,"overview.A10215");
+		// 车辆信息
+		overView(data.A10217,"overview.A10217");
 		// 金融资产
 		overView(data.A10213,"overview.A10213");
 
@@ -1657,7 +1725,7 @@ function exportTemplate(source,exportType) {
 				break;
 			}
 			// 动产抵押 - 抵押权
-		case "mortgage.people":{
+			case "mortgage.people":{
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
 						"<td>" +
@@ -1742,6 +1810,69 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 不动产-智能精准匹配
+			case "realEstate.accurate":
+			//不动产-模糊匹配
+			case "realEstate.blurry":{
+				source.list.forEach(function (item) {
+					var parties = fun.handleParties(item.parties);
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>权证类型：</span>" +
+						"<span class='n-desc'>"+(item.certificateType||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>权证号：</span>" +
+						"<span class='n-desc'>"+(item.certificateNumber||'--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>债务人角色：</span>" +
+						"<span class='n-desc'>"+(fun.toGetRoleType(item.role)||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>不动产坐落：</span>" +
+						"<span class='n-desc'>"+(item.realEstateLocated||'--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						fun.partiesList(parties) +
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>发布日期：<label class='n-desc'>"+(item.publishTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+			//车辆信息
+			case "car":{
+				source.list.forEach(function (item) {
+					var parties = fun.handleParties(item.parties);
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.vehicleNumber||'--')+"</a>":(item.vehicleNumber||'--')) +
+						(item.vehicleType?"<span class=\"case-tag\">"+item.vehicleType+"</span>":"") +
+						"</li>" +
+
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>公示日期：<label class='n-desc'>"+(item.publishTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
 			// 金融资产 - 竞价项目
 			case "finance.bidding":{
 				source.list.forEach(function (item) {
@@ -1818,6 +1949,7 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 		}
+
 			// 招投标
 			case "bidding":{
 				source.list.forEach(function (item) {
@@ -2171,6 +2303,12 @@ function exportTemplate(source,exportType) {
 		listView(data.A10317,"bidding");
 		// 查解封资产
 		listView(data.A10318,"unsealList");
+		//不动产登记-精准匹配
+		listView(data.A10322,'realEstate.accurate');
+		//不动产登记-模糊匹配
+		listView(data.A10322,'realEstate.blurry');
+		//车辆信息
+		listView(data.A10323,'car');
 		// 金融资产 - 竞价项目
 		listView(data.A10319,"finance.bidding");
 		// 金融资产 - 招商项目

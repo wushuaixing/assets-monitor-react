@@ -29,7 +29,10 @@ const dd = {
 	"A10213": "/yc/search/portrait/company/overview/finance",
 	// 限制高消费
 	"A10214": "/yc/search/portrait/company/overview/limitHeight",
-
+	// 不动产
+	"A10215": "/yc/search/portrait/company/overview/estateRegister",
+	// 车辆
+	"A10217": "/yc/search/portrait/company/overview/vehicle",
 	//  个人 - 概览
 	// 资产拍卖
 	"B10201": "/yc/search/portrait/personal/overview/asset/auction",
@@ -73,6 +76,10 @@ const dd = {
 	"A10319": "/yc/search/portrait/company/asset/finance/auctionFinanceList", // 竞价项目
 	"A10320": "/yc/search/portrait/company/asset/finance/financeInvestmentList", // 招商项目
 	"A10321": "/yc/search/portrait/company/asset/finance/financeList", // 公示项目
+	// 不动产
+	"A10322": "/yc/search/portrait/company/monitor/estateRegister/estateRegisterList",
+	// 车辆
+	"A10323": "/yc/search/portrait/company/monitor/vehicle/vehicleList",
 
 	/*画像详情，风险*/
 	//涉诉
@@ -91,4 +98,7 @@ const dd = {
 	"A10506": "/yc/search/portrait/company/management/epb/list", // 环保处罚
 	// 限制高消费
 	"A10507": "/yc/search/portrait/company/lawsuit/limitHeight/limitHeightList",
+
+
+
 };
