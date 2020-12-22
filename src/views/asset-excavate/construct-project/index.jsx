@@ -8,7 +8,7 @@ import ruleMethods from '@/utils/rule';
 import API from '@/utils/api/assets/construct';
 import TabsIntact from './tabs-intact';
 import Query from './query';
-import Table from './table';
+import Table from './table/index';
 
 const toGetConfig = () => {
 	const rule = ruleMethods.toGetRuleSource('', 'YC10', 'YC02');
@@ -153,13 +153,13 @@ export default class ConstructProject extends React.Component {
 		if (url.indexOf('?') !== -1) {
 			let dParams = {};
 			if (val === 'YC021201') {
-				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
 			}
 			if (val === 'YC021202') {
-				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
 			}
 			if (val === 'YC021203') {
-				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
 			}
 			return dParams;
 		}

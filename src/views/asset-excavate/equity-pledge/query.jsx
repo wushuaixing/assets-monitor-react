@@ -58,7 +58,7 @@ class QueryCondition extends React.Component {
 			const { form, onQueryChange, clearSelectRowNum } = this.props;
 			clearSelectRowNum();// 清除选中项
 			form.resetFields();
-			const condition = 	form.getFieldsValue();
+			const condition = form.getFieldsValue();
 			if (onQueryChange)onQueryChange(condition, '', '', 1);
 		}
 	};

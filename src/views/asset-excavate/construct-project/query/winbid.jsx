@@ -1,6 +1,5 @@
 import React from 'react';
-import { Form, message,
-} from 'antd';
+import { Form } from 'antd';
 import PropTypes from 'reactPropTypes';
 import {
 	Input, Button, timeRule, DatePicker,
@@ -19,10 +18,10 @@ class QueryConstruct extends React.Component {
 	componentDidMount() {
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
-			const dParams = getUrlParams(url, 'updateTimeStart', 'updateTimeEnd');
+			const dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
 			const { form: { setFieldsValue } } = this.props;
-			setFieldsValue({ updateTimeStart: dParams.updateTimeStart });
-			setFieldsValue({ updateTimeEnd: dParams.updateTimeEnd });
+			setFieldsValue({ startGmtModified: dParams.startGmtModified });
+			setFieldsValue({ endGmtModified: dParams.endGmtModified });
 			this.handleSubmit();
 		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);

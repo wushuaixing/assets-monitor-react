@@ -37,13 +37,13 @@ export default class TabsIntact extends React.Component {
 		if (url.indexOf('?') !== -1) {
 			let dParams = {};
 			if (val === 'YC021201') {
-				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+				dParams = getUrlParams(url, 'startGmtModified', 'startGmtModified');
 			}
 			if (val === 'YC021202') {
-				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
+				dParams = getUrlParams(url, 'startGmtModified', 'startGmtModified');
 			}
 			if (val === 'YC021203') {
-				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
+				dParams = getUrlParams(url, 'startGmtModified', 'startGmtModified');
 			}
 			return dParams;
 		}

@@ -1,8 +1,8 @@
 import React from 'react';
-import API from '@/utils/api/risk-monitor/operation-risk';
+import API from '@/utils/api/assets/construct';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import Table from './table';
+import Table from './index';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -42,7 +42,7 @@ export default class TableIntact extends React.Component {
 	}
 
 	// 排序触发
-	onSortChange=(field, order) => {
+	onSortChange = (field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
 		this.condition.page = 1;
@@ -50,7 +50,7 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh = (data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -61,13 +61,13 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 当前页数变化
-	onPageChange=(val) => {
+	onPageChange = (val) => {
 		this.condition.page = val;
 		this.toGetData();
 	};
 
 	// 查询数据methods
-	toGetData=(nextProps) => {
+	toGetData = (nextProps) => {
 		this.setState({ loading: true });
 		const { reqUrl, id, sourceType } = nextProps || this.props;
 		const toApi = reqUrl || API(sourceType, 'followList');

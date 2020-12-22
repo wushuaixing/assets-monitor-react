@@ -101,12 +101,13 @@ class HomeDynamic extends PureComponent {
 			const {
 				auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
 				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister,
-				financeInvestment, vehicleInformation,
+				financeInvestment, vehicleInformation, projectInfoCount, projectBiddingCount, constructionLicenceCount,
 			} = res.data;
 			const landNum = this.getTotal([landMortgage, landTransaction, landTransfer]);
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
 			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial]);
 			const financeNum = this.getTotal([auctionBidding, finance, financeInvestment]);
+			const onBuildNum = this.getTotal([projectInfoCount, projectBiddingCount, constructionLicenceCount]);
 			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission,
 				finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt,
 				subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister, vehicleInformation]);
@@ -137,6 +138,9 @@ class HomeDynamic extends PureComponent {
 				},
 				{
 					count: unseal, type: 14, typeName: '查/解封资产', name: '查/解封资产', value: 9,
+				},
+				{
+					count: 11, type: 17, typeName: '在建工程', name: '在建工程', value: 12,
 				},
 				{
 					count: estateRegister, type: 14, typeName: '不动产登记', name: '不动产登记', value: 10,
