@@ -1,9 +1,9 @@
 import React from 'react';
-import { businessOverviewConstruct, overviewConstruct } from '@/utils/api/professional-work/overview';
-import RingEcharts from '@/views/portrait-inquiry/common/ringEcharts';
-import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import TagSide from '@/views/portrait-inquiry/common/checkBtn';
-import getCount from '@/views/portrait-inquiry/common/getCount';
+import { getConstruct } from '@/utils/api/portrait-inquiry/enterprise/overview';
+import RingEcharts from '../../../common/ringEcharts';
+import TimeLine from '../../../common/timeLine';
+import getCount from '../../../common/getCount';
 
 const projectTypeMap = new Map([
 	[0, '未知'],
@@ -13,6 +13,7 @@ const projectTypeMap = new Map([
 	[4, '其他'],
 ]);
 
+// construct 建设  winbid 中标单位 underway 施工单位
 function getTypeName(arr) {
 	const typeNameArr = [];
 	arr.forEach((i) => {
@@ -44,14 +45,12 @@ export default class Construct extends React.Component {
 	}
 
 	getData = () => {
-		const {
-			businessId, obligorId, getAssetProfile, portrait,
-		} = this.props;
-		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
-		const api = portrait === 'business' ? businessOverviewConstruct : overviewConstruct;
-		api(params).then((res) => {
+		const { companyId, getAssetProfile } = this.props;
+		const params = {
+			companyId,
+		};
+		getConstruct(params).then((res) => {
 			if (res.code === 200) {
-				console.log('res === ', res);
 				const constructArray = res.data.obligorUnitTypeVOList.filter(i => i.obligorUnitType === 1)[0]; // 建设单位
 				const winbidArray = res.data.obligorUnitTypeVOList.filter(i => i.obligorUnitType === 2)[0]; // 中标单位
 				const underwayArray = res.data.obligorUnitTypeVOList.filter(i => i.obligorUnitType === 3)[0]; // 施工单位
@@ -62,6 +61,7 @@ export default class Construct extends React.Component {
 
 				const allNum = constructNum + winbidNum + underwayNum;
 				getAssetProfile(allNum, 'Construct');
+
 				// construct 建设  winbid 中标单位 underway 施工单位
 				if (constructNum > 0) {
 					this.setState({
@@ -96,6 +96,8 @@ export default class Construct extends React.Component {
 					winbidNum,
 					underwayNum,
 				});
+			} else {
+				// this.setState({ loading: false });
 			}
 		}).catch(() => {
 			// this.setState({ loading: false });
@@ -132,7 +134,6 @@ export default class Construct extends React.Component {
 	};
 
 	render() {
-		const { portrait } = this.props;
 		const {
 			RingData, timeLineData, selectType, constructArray, winbidArray, underwayArray, constructNum, winbidNum, underwayNum, RingDataNum, timeLineDataNum,
 		} = this.state;
@@ -150,41 +151,38 @@ export default class Construct extends React.Component {
 							</span>
 						</div>
 						<div className="overview-container-content">
-							{portrait !== 'debtor_personal' && (
-								<div style={{ marginBottom: 20 }}>
-									<TagSide
-										content="建设单位"
-										num={constructNum}
-										onClick={() => {
-											if (constructNum > 0) {
-												this.checkTime('construct');
-											}
-										}}
-										tag={selectType === 'construct' ? 'yc-tag-active' : ''}
-									/>
-									<TagSide
-										content="中标单位"
-										num={winbidNum}
-										onClick={() => {
-											if (winbidNum > 0) {
-												this.checkTime('winbid');
-											}
-										}}
-										tag={selectType === 'winbid' ? 'yc-tag-active' : ''}
-									/>
-									<TagSide
-										content="施工单位"
-										num={underwayNum}
-										onClick={() => {
-											if (underwayNum > 0) {
-												this.checkTime('underway');
-											}
-										}}
-										tag={selectType === 'underway' ? 'yc-tag-active' : ''}
-									/>
-								</div>
-							)}
-							<div style={{ marginBottom: 20 }} />
+							<div style={{ marginBottom: 20 }}>
+								<TagSide
+									content="建设单位"
+									num={constructNum}
+									onClick={() => {
+										if (constructNum > 0) {
+											this.checkTime('construct');
+										}
+									}}
+									tag={selectType === 'construct' ? 'yc-tag-active' : ''}
+								/>
+								<TagSide
+									content="中标单位"
+									num={winbidNum}
+									onClick={() => {
+										if (winbidNum > 0) {
+											this.checkTime('winbid');
+										}
+									}}
+									tag={selectType === 'winbid' ? 'yc-tag-active' : ''}
+								/>
+								<TagSide
+									content="施工单位"
+									num={underwayNum}
+									onClick={() => {
+										if (underwayNum > 0) {
+											this.checkTime('underway');
+										}
+									}}
+									tag={selectType === 'underway' ? 'yc-tag-active' : ''}
+								/>
+							</div>
 							{RingDataNum > 0 && <RingEcharts title="工程类型分布" Data={RingData} id="constructCharts" customColorArray={['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#FB8E3C']} />}
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="constructTimeLine" />}
 						</div>
