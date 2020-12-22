@@ -29,6 +29,7 @@ const ConstructApi = {
 					planBeginTime: '2020-12-02',
 					approvalTime: '2020-03-23',
 					gmtModified: '2020-02-22',
+					isRead: 0,
 					parties: [
 						{
 							obligorId: '90930',
@@ -54,6 +55,7 @@ const ConstructApi = {
 					gmtModified: '2020-02-22',
 					url: 'http://www.baidu.com',
 					id: 2,
+					isRead: 1,
 					projectType: 3,
 					parties: [
 						{
@@ -61,7 +63,27 @@ const ConstructApi = {
 							obligorName: '天喔食品（集团）有限公司',
 						},
 					],
-				}],
+				},
+				{
+					title: '潍坊宝通街绿化养护管理和完善提升',
+					nature: '改建',
+					projectLocation: '广东省佛山市南海区桂城街道半岛路',
+					totalInvestment: 7857878787,
+					planBeginTime: '2020-12-02',
+					approvalTime: '2020-03-23',
+					gmtModified: '2020-02-22',
+					url: 'http://www.baidu.com',
+					id: 2,
+					isRead: 0,
+					projectType: 3,
+					parties: [
+						{
+							obligorId: '90930',
+							obligorName: '天喔食品（集团）有限公司',
+						},
+					],
+				},
+			],
 			total: 2233,
 		},
 	})),
@@ -99,6 +121,7 @@ const WinbidApi = {
 
 						},
 					],
+					isRead: 0,
 					biddingType: '施工',
 					title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
 					biddingMode: '公开招标',
@@ -107,6 +130,7 @@ const WinbidApi = {
 					url: 'http://www.baidu.com',
 				},
 				{
+					isRead: 0,
 					winningTime: '202-11-11',
 					parties: [
 						{
@@ -127,6 +151,27 @@ const WinbidApi = {
 				},
 				{
 					winningTime: '202-11-11',
+					isRead: 1,
+					parties: [
+						{
+							obligorId: '38293829',
+							obligorName: '天喔食品（集团）有限公司',
+						},
+						{
+							obligorId: '38293829',
+							obligorName: '天喔食品（集团）有限公司',
+
+						},
+					],
+					biddingType: '施工',
+					title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+					biddingMode: '公开招标',
+					winningPrice: 22212121212,
+					gmtModified: '2020-11-02',
+				},
+				{
+					winningTime: '202-11-11',
+					isRead: 0,
 					parties: [
 						{
 							obligorId: '38293829',
@@ -186,6 +231,7 @@ const UnderwayApi = {
 		data: {
 			list: [
 				{
+					isRead: 0,
 					url: 'http://www.baidu.com',
 					gmtModified: '2020-12-11',
 					issuingTime: '2019-11-02',
@@ -207,6 +253,7 @@ const UnderwayApi = {
 					projectLocation: '广东省佛山市南海区桂城街道半岛路',
 				},
 				{
+					isRead: 0,
 					gmtModified: '2020-12-11',
 					issuingTime: '2019-11-02',
 					parties: [
@@ -219,6 +266,48 @@ const UnderwayApi = {
 							obligorName: '天喔食品（集团）有限公司',
 							obligorId: '4829843',
 							role: [0, 1],
+						},
+					],
+					title: '金光大道东段及海旺路工程工程总承包',
+					contractPrice: 28983974987,
+					projectPeriod: '2019.10.01 至 2019.12.30',
+					projectLocation: '广东省佛山市南海区桂城街道半岛路',
+				},
+				{
+					isRead: 1,
+					gmtModified: '2020-12-11',
+					issuingTime: '2019-11-02',
+					parties: [
+						{
+							obligorName: '天喔食品（集团）有限公司',
+							obligorId: '4829843',
+							role: [0, 1],
+						},
+						{
+							obligorName: '天喔食品（集团）有限公司',
+							obligorId: '4829843',
+							role: [6, 1],
+						},
+					],
+					title: '金光大道东段及海旺路工程工程总承包',
+					contractPrice: 28983974987,
+					projectPeriod: '2019.10.01 至 2019.12.30',
+					projectLocation: '广东省佛山市南海区桂城街道半岛路',
+				},
+				{
+					isRead: 1,
+					gmtModified: '2020-12-11',
+					issuingTime: '2019-11-02',
+					parties: [
+						{
+							obligorName: '天喔食品（集团）有限公司',
+							obligorId: '4829843',
+							role: [3, 4],
+						},
+						{
+							obligorName: '天喔食品（集团）有限公司',
+							obligorId: '4829843',
+							role: [4, 11],
 						},
 					],
 					title: '金光大道东段及海旺路工程工程总承包',

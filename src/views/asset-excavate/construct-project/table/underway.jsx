@@ -1,13 +1,29 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
-import { Attentions, SortVessel } from '@/common/table';
+import { Attentions, ReadStatus, SortVessel } from '@/common/table';
 import { readStatusMerchants } from '@/utils/api/monitor-info/finance';
 import {
 	Table, SelectedNum, Ellipsis, LiItem,
 } from '@/common';
 import api from '@/utils/api/monitor-info/finance';
 import { toThousands } from '@/utils/changeTime';
+
+const roleMap = new Map([
+	[0, '未知'],
+	[1, '中标单位'],
+	[2, '勘察单位'],
+	[3, '建设单位'],
+	[4, '施工单位'],
+	[5, '监理单位'],
+	[6, '设计单位'],
+	[7, '发包单位'],
+	[8, '承包单位'],
+	[9, '中标候选人'],
+	[10, '招标人'],
+	[11, '工程总承包单位'],
+	[null, '未知'],
+]);
 
 // 获取表格配置
 const columns = (props) => {
@@ -25,20 +41,21 @@ const columns = (props) => {
 			title: (noSort ? '发证日期'
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>发证日期</SortVessel>),
 			dataIndex: 'issuingTime',
-			render: text => <span>{text}</span>,
+			render: (text, row) => ReadStatus(text || '-', row),
 		},
 		{
 			title: <span style={{ marginLeft: 10 }}>施工单位</span>,
-			width: 290,
+			width: 370,
 			dataIndex: 'id',
 			render: (text, row) => (
 				<React.Fragment>
 					{
 					row.parties.map(item => (
 						<Ellipsis
-							prefixContent={item.role}
+							prefixContent={Array.isArray(item.role) && item.role.length > 0 ? item.role.map((it, index) => `${roleMap.get(it)}${index === item.role.length - 1 ? '：' : '，'}`) : roleMap.get(item.role)}
 							content={item.obligorName}
 							url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
+							auto
 							tooltip
 						/>
 					))
@@ -58,9 +75,9 @@ const columns = (props) => {
 						tooltip
 					/>
 					<div>
-						<LiItem Li auto title="合同金额" titleStyle={{ color: '#7D8699', width: 80 }}>{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
-						<LiItem Li auto title="合同工期" titleStyle={{ color: '#7D8699', width: 80 }}>{row.projectPeriod || '-'}</LiItem>
-						<LiItem Li auto title="项目所在地" titleStyle={{ color: '#7D8699', width: 80 }}>{row.projectLocation}</LiItem>
+						<LiItem Li auto title="合同金额" titleStyle={{ color: '#7D8699', width: 68 }}>{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
+						<LiItem Li auto title="合同工期" titleStyle={{ color: '#7D8699', width: 68 }}>{row.projectPeriod || '-'}</LiItem>
+						<LiItem Li auto title="项目所在地" titleStyle={{ color: '#7D8699', width: 68 }}>{row.projectLocation}</LiItem>
 					</div>
 				</div>
 			),

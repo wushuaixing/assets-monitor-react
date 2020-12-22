@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
-import { Attentions, SortVessel } from '@/common/table';
+import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import {
 	Table, SelectedNum, Ellipsis, LiItem,
 } from '@/common';
@@ -24,7 +24,7 @@ const columns = (props) => {
 			title: (noSort ? '中标日期'
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>中标日期</SortVessel>),
 			dataIndex: 'winningTime',
-			render: text => <span>{text}</span>,
+			render: (text, row) => ReadStatus(text || '-', row),
 		},
 		{
 			title: <span style={{ marginLeft: 10 }}>中标单位</span>,

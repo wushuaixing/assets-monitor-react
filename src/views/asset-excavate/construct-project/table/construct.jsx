@@ -33,15 +33,18 @@ const columns = (props) => {
 			dataIndex: 'id',
 			render: (text, row) => (
 				<React.Fragment>
-					{
-						row.parties.map(item => (
-							<Ellipsis
-								content={item.obligorName}
-								url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
-								tooltip
-							/>
-						))
-					}
+					<span style={{ position: 'absolute', top: '42%' }} className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'} />
+					<div style={{ marginLeft: 10 }}>
+						{
+							row.parties.map(item => (
+								<Ellipsis
+									content={item.obligorName}
+									url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
+									tooltip
+								/>
+							))
+						}
+					</div>
 				</React.Fragment>
 			),
 		},
@@ -67,7 +70,6 @@ const columns = (props) => {
 						<LiItem Li auto title="建设性质" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.nature || '-'}</LiItem>
 						<LiItem Li auto title="总投资" style={{ display: 'inline-block', width: 200, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>
 							{`${row.totalInvestment > 0 ? `${toThousands(row.totalInvestment)}元` : ''}`}
-							元
 						</LiItem>
 					</div>
 					<div>
