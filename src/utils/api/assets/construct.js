@@ -15,7 +15,7 @@ const ConstructApi = {
 	// POST收藏 => 取消收藏
 	followUnAttention: params => s.post('/yc/monitor/onBuild/projectInfo/follow/unFollow', params).then(res => res.data),
 	// GET列表
-	list: params => s.get('/yc/monitor/risk/abnormal/list', { params }).then(res => Object.assign(res.data, {
+	list: params => s.get('/yc/monitor/onBuild/projectInfo/projectInfoList', { params }).then(res => Object.assign(res.data, {
 		code: 200,
 		data: {
 			list: [

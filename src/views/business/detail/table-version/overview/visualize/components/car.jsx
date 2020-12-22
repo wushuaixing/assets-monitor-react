@@ -1,5 +1,5 @@
 import React from 'react';
-import { overviewvehicle, overviewUnBlock } from '@/utils/api/professional-work/overview';
+import { overviewvehicle } from '@/utils/api/professional-work/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -61,7 +61,7 @@ export default class UnBlock extends React.Component {
 								<span className="container-title-name">车辆信息</span>
 							</div>
 							<div className="overview-container-content">
-								{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="Unblock" />}
+								{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="Car" />}
 							</div>
 						</Spin>
 					)}
