@@ -12,6 +12,7 @@ import Financial from './financial';
 import UnBlock from './unblock';
 import RealEstate from './real-estate';
 import Car from './car';
+import Construct from './construct';
 
 const toGetTotal = (field, data) => {
 	let count = 0;
@@ -96,7 +97,18 @@ const subItems = data => ([
 		info: data ? data.filter(i => /1070/.test(i.id)) : '',
 		tagName: 'e-assets-bidding',
 		component: Bidding,
-	}, {
+	},
+	// {
+	// 	id: 11200,
+	// 	name: '在建工程',
+	// 	total: data ? toGetTotal('1120', data) : 0,
+	// 	info: data ? data.filter(i => /1120/.test(i.id)) : '',
+	// 	role: roleState('zcwj', 'zcwjclxx'),
+	// 	disabled: true,
+	// 	tagName: 'e-assets-construct',
+	// 	component: Construct,
+	// },
+	{
 		id: 11000,
 		name: '不动产登记',
 		total: data ? toGetTotal('1100', data) : 0,
@@ -105,7 +117,8 @@ const subItems = data => ([
 		disabled: true,
 		tagName: 'e-assets-bidding',
 		component: RealEstate,
-	}, {
+	},
+	{
 		id: 11100,
 		name: '车辆信息',
 		total: data ? toGetTotal('1110', data) : 0,

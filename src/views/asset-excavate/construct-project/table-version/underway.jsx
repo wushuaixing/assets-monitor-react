@@ -8,6 +8,22 @@ import {
 import '../index.scss';
 import { toThousands } from '@/utils/changeTime';
 
+const roleMap = new Map([
+	[0, '未知'],
+	[1, '中标单位'],
+	[2, '勘察单位'],
+	[3, '建设单位'],
+	[4, '施工单位'],
+	[5, '监理单位'],
+	[6, '设计单位'],
+	[7, '发包单位'],
+	[8, '承包单位'],
+	[9, '中标候选人'],
+	[10, '招标人'],
+	[11, '工程总承包单位'],
+	[null, '未知'],
+]);
+
 class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -32,7 +48,7 @@ class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
 					<li>
-						<LiItem title="角色">{row.role}</LiItem>
+						<LiItem title="角色">{Array.isArray(row.role) && row.role.length > 0 ? row.role.map((it, index) => `${roleMap.get(it)}${index === row.role.length - 1 ? '：' : '，'}`) : roleMap.get(row.role)}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
 						<LiItem title="合同金额">{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
