@@ -2,21 +2,11 @@ import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
 import { getDynamicAsset } from 'api/dynamic';
-import { toEmpty } from '@/utils';
 import {
-	Ellipsis, Spin, Table,
+	Ellipsis, LiItem, Spin, Table,
 } from '@/common';
 import '../index.scss';
-
-const projectTypeMap = new Map([
-	[1, '股权项目'],
-	[2, '债权项目'],
-	[3, '资产项目'],
-	[4, '租赁项目'],
-	[5, '增资项目'],
-	[6, '其他项目'],
-	[-1, ' 未知'],
-]);
+import { toThousands } from '@/utils/changeTime';
 
 class TableIntact extends React.Component {
 	constructor(props) {
@@ -36,29 +26,34 @@ class TableIntact extends React.Component {
 	// 获取tablecolumn配置
 	toGetColumns = () => [
 		{
-			title: '拍卖信息',
+			title: '施工信息',
 			dataIndex: 'title',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<li style={{ display: 'inline-block' }}>
-						<span className="li-td-tag">
-							{projectTypeMap.get(row.projectType)}
-						</span>
-						{ toEmpty(row.title)
-							? <Ellipsis content={row.title} url={row.sourceUrl} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '-' }
+					<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
+					<li>
+						<LiItem title="角色">{row.role}</LiItem>
+						<span className="list-split" style={{ height: 16 }} />
+						<LiItem title="合同金额">{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
+						<span className="list-split" style={{ height: 16 }} />
+						<LiItem title="合同工期">{row.projectPeriod }</LiItem>
+					</li>
+					<li>
+						<LiItem title="项目所在地" cotStyle={{ maxWidth: 700 }}>{row.projectLocation}</LiItem>
 					</li>
 				</div>
 			),
 		},
 		{
-			title: '拍卖状况',
+			title: '发证日期',
 			width: 340,
-			dataIndex: 'gmtPublish',
+			dataIndex: 'issuingTime',
 			render: text => (
 				<React.Fragment>
 					<div className="assets-info-content">
+						<li style={{ height: 16 }} />
 						<li>
-							<span className="list list-title">发布日期</span>
+							<span className="list list-title">发证日期</span>
 							<span className="list list-title-colon">:</span>
 							<span className="list list-content">
 								{text || '-'}
@@ -80,7 +75,7 @@ class TableIntact extends React.Component {
 		const { portrait } = this.props;
 		// 债务人的时候portrait = debtor_enterprise
 		const { api, params } = getDynamicAsset(portrait, {
-			b: 11003,
+			b: 11203,
 			e: 'underwayUnit',
 		});
 		this.setState({ loading: true });

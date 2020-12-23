@@ -223,32 +223,168 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	// 11201: {
-	// 	id: 11001,
-	// 	name: '资产-在建工程-建设单位',
-	// 	list: params => service.get('/yc/obligor/monitor/asset/unseal/unsealList', { params }).then(res => res.data),
-	// 	count(params) {
-	// 		return service.get('/yc/obligor/monitor/asset/unseal/unsealListCount', { params })
-	// 			.then(res => Object.assign(res.data, { id: this.id }));
-	// 	},
-	// },
-	// 11202: {
-	// 	id: 11002,
-	// 	name: '资产-在建工程-中标单位',
-	// 	list: params => service.get('/yc/obligor/monitor/asset/unseal/unsealList', { params }).then(res => res.data),
-	// 	count(params) {
-	// 		return service.get('/yc/obligor/monitor/asset/unseal/unsealListCount', { params })
-	// 			.then(res => Object.assign(res.data, { id: this.id }));
-	// 	},
-	// },
-	// 11203: {
-	// 	id: 11003,
-	// 	name: '资产-在建工程-施工单位',
-	// 	list: params => service.get('/yc/obligor/monitor/asset/unseal/unsealList', { params }).then(res => res.data),
-	// 	count(params) {
-	// 		return service.get('/yc/obligor/monitor/asset/unseal/unsealListCount', { params })
-	// 			.then(res => Object.assign(res.data, { id: this.id }));
-	// 	},
-	// },
+	11201: {
+		id: 11201,
+		name: '资产-在建工程-建设单位',
+		list: params => service.get('/yc/obligor/monitor/asset/onBuildProjectInfo/onBuildProjectInfoList', { params }).then(res => Object.assign(res.data, {
+			code: 200,
+			data: {
+				total: 222,
+				page: 11,
+				list: [
+					{
+						title: '潍坊宝通街绿化养护管理和完善提升',
+						nature: '改建',
+						totalInvestment: 85522222,
+						approvalTime: '2020-11-11',
+						projectLocation: '广东省佛山市南海区桂城街道半岛路',
+						planBeginTime: '2020-11-11',
+					},
+					{
+						title: '潍坊宝通街绿化养护管理和完善提升',
+						nature: '改建',
+						totalInvestment: 85522222,
+						approvalTime: '2020-11-11',
+						projectLocation: '广东省佛山市南海区桂城街道半岛路',
+						planBeginTime: '2020-11-11',
+					},
+					{
+						title: '潍坊宝通街绿化养护管理和完善提升',
+						nature: '改建',
+						totalInvestment: 85522222,
+						approvalTime: '2020-11-11',
+						projectLocation: '广东省佛山市南海区桂城街道半岛路',
+						planBeginTime: '2020-11-11',
+					},
+					{
+						title: '潍坊宝通街绿化养护管理和完善提升',
+						nature: '改建',
+						totalInvestment: 85522222,
+						approvalTime: '2020-11-11',
+						projectLocation: '广东省佛山市南海区桂城街道半岛路',
+						planBeginTime: '2020-11-11',
+					},
+				],
+			},
+		})),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/onBuildProjectInfo/onBuildProjectInfoListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id, code: 200, data: 101 }));
+		},
+	},
+	11202: {
+		id: 11202,
+		name: '资产-在建工程-中标单位',
+		list: params => service.get('/yc/obligor/monitor/asset/onBuildBid/onBuildBidList', { params }).then(res => Object.assign(res.data, {
+			code: 200,
+			data: {
+				total: 500,
+				page: 2,
+				list: [
+					{
+						id: '1',
+						title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+						url: 'http://www.baidu.com',
+						biddingType: '施工',
+						biddingMode: '公开招标',
+						approvalTime: '2020-11-11',
+						winningPrice: 565626262,
+						winningTime: '2020-11-11',
+					},
+					{
+						id: '2',
+						title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+						url: 'http://www.baidu.com',
+						biddingType: '施工',
+						biddingMode: '公开招标',
+						approvalTime: '2020-11-11',
+						winningPrice: 565626262,
+						winningTime: '2020-11-11',
+					},
+					{
+						id: '3',
+						title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+						url: 'http://www.baidu.com',
+						biddingType: '施工',
+						biddingMode: '公开招标',
+						approvalTime: '2020-11-11',
+						winningPrice: 565626262,
+						winningTime: '2020-11-11',
+					},
+					{
+						id: '3',
+						title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+						url: 'http://www.baidu.com',
+						biddingType: '施工',
+						biddingMode: '公开招标',
+						approvalTime: '2020-11-11',
+						winningPrice: 565626262,
+						winningTime: '2020-11-11',
+					},
+				],
+			},
+		})),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/onBuildBid/onBuildBidListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id, code: 200, data: 200 }));
+		},
+	},
+	11203: {
+		id: 11203,
+		name: '资产-在建工程-施工单位',
+		list: params => service.get('/yc/obligor/monitor/asset/onBuildLicence/onBuildLicenceList', { params }).then(res => Object.assign(res.data, {
+			code: 200,
+			data: {
+				total: 500,
+				page: 2,
+				list: [
+					{
+						id: '1',
+						title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+						url: 'http://www.baidu.com',
+						role: [1, 2],
+						contractPrice: 565626262,
+						projectPeriod: '2020-11-11至2020-11-20',
+						projectLocation: '广东省佛山市南海区桂城街道半岛路',
+						issuingTime: '2020-11-17',
+					},
+					{
+						id: '2',
+						title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+						url: 'http://www.baidu.com',
+						role: [1, 2],
+						contractPrice: 565626262,
+						projectPeriod: '2020-11-11至2020-11-20',
+						projectLocation: '广东省佛山市南海区桂城街道半岛路',
+						issuingTime: '2020-11-17',
+					},
+					{
+						id: '3',
+						title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+						url: 'http://www.baidu.com',
+						role: [1, 2],
+						contractPrice: 565626262,
+						projectPeriod: '2020-11-11至2020-11-20',
+						projectLocation: '广东省佛山市南海区桂城街道半岛路',
+						issuingTime: '2020-11-17',
+					},
+					{
+						id: '3',
+						title: '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+						url: 'http://www.baidu.com',
+						role: [1, 2],
+						contractPrice: 565626262,
+						projectPeriod: '2020-11-11至2020-11-20',
+						projectLocation: '广东省佛山市南海区桂城街道半岛路',
+						issuingTime: '2020-11-17',
+					},
+				],
+			},
+		})),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/onBuildLicence/onBuildLicenceListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id, code: 200, data: 300 }));
+		},
+	},
 };
 export default assets;

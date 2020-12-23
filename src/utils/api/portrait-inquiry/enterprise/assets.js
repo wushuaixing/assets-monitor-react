@@ -178,28 +178,28 @@ const assets = {
 			.then(res => Object.assign(res.data, { id })),
 	},
 	// constructUnit: {
-	// 	id: 11001,
+	// 	id: 11201,
 	// 	name: '资产-在建工程-建设单位',
 	// 	list: params => service.get('/yc/search/portrait/company/asset/unseal/unsealList', { params })
 	// 		.then(res => res.data),
 	// 	count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
-	// 		.then(res => Object.assign(res.data, { id, field: 'constructUnit' })),
+	// 		.then(res => Object.assign(res.data, { id, field: 'constructUnit', data: 111 })),
 	// },
 	// winbidUnit: {
-	// 	id: 11002,
+	// 	id: 11202,
 	// 	name: '资产-在建工程-中标单位',
 	// 	list: params => service.get('/yc/search/portrait/company/asset/unseal/unsealList', { params })
 	// 		.then(res => res.data),
 	// 	count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
-	// 		.then(res => Object.assign(res.data, { id, field: 'winbidUnit' })),
+	// 		.then(res => Object.assign(res.data, { id, field: 'winbidUnit', data: 222 })),
 	// },
 	// underwayUnit: {
-	// 	id: 11001,
+	// 	id: 11203,
 	// 	name: '资产-在建工程-施工单位',
 	// 	list: params => service.get('/yc/search/portrait/company/asset/unseal/unsealList', { params })
 	// 		.then(res => res.data),
 	// 	count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
-	// 		.then(res => Object.assign(res.data, { id, field: 'underwayUnit' })),
+	// 		.then(res => Object.assign(res.data, { id, field: 'underwayUnit', data: 333 })),
 	// },
 };
 export default assets;
