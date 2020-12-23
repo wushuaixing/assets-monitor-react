@@ -38,7 +38,7 @@ const columns = (props) => {
 						{
 							row.parties.map(item => (
 								<Ellipsis
-									content={item.obligorName}
+									content={item.obligorName || '-'}
 									url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
 									tooltip
 								/>
@@ -51,7 +51,7 @@ const columns = (props) => {
 		{
 			title: '工程类型',
 			dataIndex: 'projectType',
-			render: text => <span>{projectTypeMap.get(text)}</span>,
+			render: text => <span>{projectTypeMap.get(text) || '-'}</span>,
 		},
 		{
 			title: (noSort ? '项目信息'
@@ -69,14 +69,14 @@ const columns = (props) => {
 					<div>
 						<LiItem Li auto title="建设性质" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.nature || '-'}</LiItem>
 						<LiItem Li auto title="总投资" style={{ display: 'inline-block', width: 200, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>
-							{`${row.totalInvestment > 0 ? `${toThousands(row.totalInvestment)}元` : ''}`}
+							{`${row.totalInvestment > 0 ? `${toThousands(row.totalInvestment)}元` : '-'}`}
 						</LiItem>
 					</div>
 					<div>
-						<LiItem Li auto title="立项批复日期" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.approvalTime}</LiItem>
-						<LiItem Li auto title="计划开工日期" style={{ display: 'inline-block', width: 160, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.planBeginTime}</LiItem>
+						<LiItem Li auto title="立项批复日期" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.approvalTime || '-'}</LiItem>
+						<LiItem Li auto title="计划开工日期" style={{ display: 'inline-block', width: 160, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.planBeginTime || '-'}</LiItem>
 					</div>
-					<LiItem Li title="项目所在地" style={{ width: 372 }} titleStyle={{ color: '#7D8699', width: 80 }} cotStyle={{ maxWidth: 274 }}>{row.projectLocation}</LiItem>
+					<LiItem Li title="项目所在地" style={{ width: 372 }} titleStyle={{ color: '#7D8699', width: 80 }} cotStyle={{ maxWidth: 274 }}>{row.projectLocation || '-'}</LiItem>
 				</div>
 			),
 		},
@@ -84,7 +84,7 @@ const columns = (props) => {
 			title: (noSort ? '更新日期'
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
 			dataIndex: 'gmtModified',
-			render: text => <span>{text}</span>,
+			render: text => <span>{text || '-'}</span>,
 		},
 		{
 			title: '操作',

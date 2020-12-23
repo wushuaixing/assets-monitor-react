@@ -1,6 +1,7 @@
 import React from 'react';
+import { message, Modal } from 'antd';
 import {
-	Button, Download, Icon, Spin, message, Modal, Tabs,
+	Button, Download, Icon, Spin, Tabs,
 } from '@/common';
 import { changeURLArg, clearEmpty } from '@/utils';
 import { getUrlParams } from '@/views/asset-excavate/query-util';
@@ -64,6 +65,7 @@ export default class ConstructProject extends React.Component {
 
 	// 获取三类统计信息
 	toInfoCount = (nextSourceType) => {
+		console.log('toInfoCount config === ', this.config);
 		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
 	};
 
@@ -176,7 +178,6 @@ export default class ConstructProject extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-
 		this.onQueryChange(this.isUrlParams(sourceType), sourceType, 'all', 1);
 		this.toInfoCount(sourceType);
 		this.selectRow = [];
@@ -288,8 +289,8 @@ export default class ConstructProject extends React.Component {
 								title="全部"
 							/>
 							<Button
-								active={isRead === 'else'}
-								onClick={() => this.handleReadChange('else')}
+								active={isRead === 'unread'}
+								onClick={() => this.handleReadChange('unread')}
 								title="只显示未读"
 							/>
 							<div className="yc-all-read" onClick={this.handleAllRead}>
@@ -301,7 +302,7 @@ export default class ConstructProject extends React.Component {
 									all
 									text="一键导出"
 									condition={() => this.condition}
-									// api={api('exportList', sourceType)}
+									api={API(sourceType, 'exportList')}
 								/>
 								<Button style={{ margin: '0 0 0 10px' }} onClick={() => this.setState({ manage: true })}>批量管理</Button>
 							</div>
@@ -313,7 +314,7 @@ export default class ConstructProject extends React.Component {
 								text="导出"
 								field="idList"
 								waringText="未选中数据"
-								// api={api('exportList', sourceType)}
+								api={API(sourceType, 'exportList')}
 								selectIds
 								selectedRowKeys={() => this.selectRow}
 								condition={() => Object.assign({}, this.condition, { idList: this.selectRow })}

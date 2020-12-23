@@ -140,7 +140,7 @@ class HomeDynamic extends PureComponent {
 					count: unseal, type: 14, typeName: '查/解封资产', name: '查/解封资产', value: 9,
 				},
 				{
-					count: 11, type: 17, typeName: '在建工程', name: '在建工程', value: 12,
+					count: onBuildNum, type: 17, typeName: '在建工程', name: '在建工程', value: 12,
 				},
 				{
 					count: estateRegister, type: 14, typeName: '不动产登记', name: '不动产登记', value: 10,

@@ -16,14 +16,15 @@ export default class TabsIntact extends React.Component {
 	toRefreshCount = (config, type) => {
 		const { onRefresh } = this.props;
 		const _source =	config;
-		// console.log('construct config === ', type, config);
+		console.log('construct config === ', type, config);
 		this.toGetUnReadCount(_source);
 		config.forEach((i, index) => {
 			if (i.id !== type) {
 				API(i.id, 'listCount')(this.isUrlParams(i.id)).then((res) => {
-					// console.log('res === ', res);
+					console.log('res === ', res);
 					if (res.code === 200) {
-						_source[index].number = res.data;
+						_source.filter(it => it.id === i.id)[0].number = res.data;
+						console.log('_source === ', index, _source);
 						this.setState({ _source });
 						if (onRefresh)onRefresh(_source);
 					}
@@ -62,7 +63,7 @@ export default class TabsIntact extends React.Component {
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
 		handlePromise.then((values) => {
 			const isArray = Array.isArray(values) && values.length > 0;
-			// console.log('values === ', values);
+			console.log('values === ', values);
 			if (isArray) {
 				const result = config.map((item) => {
 					const _item = item;

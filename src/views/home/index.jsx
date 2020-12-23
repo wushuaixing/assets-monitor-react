@@ -108,7 +108,7 @@ class HomeRouter extends React.Component {
 				const {
 					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount,
 					vehicleInformationCount, estateRegisterCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount,
-					changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount, onBuildCount,
+					changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount, constructionLicenceCount, projectBiddingCount, projectInfoCount,
 				} = res.data;
 				const assetArray = [
 					{
@@ -133,7 +133,7 @@ class HomeRouter extends React.Component {
 						name: '查/解封资产', count: unsealCount, color: '#FB8E3C', icon: 'unlock', status: unsealCount !== null,
 					},
 					{
-						name: '在建工程', count: onBuildCount, color: '#E9B700', icon: 'construct-circle', status: onBuildCount !== null,
+						name: '在建工程', count: this.getTotal([constructionLicenceCount, projectInfoCount, projectBiddingCount]), color: '#E9B700', icon: 'construct-circle', status: this.getStatus([constructionLicenceCount, projectBiddingCount, projectInfoCount]),
 					},
 					{
 						name: '不动产登记', count: estateRegisterCount, color: '#1C80E1', icon: 'budongchandengji', status: estateRegisterCount !== null,
@@ -217,6 +217,7 @@ class HomeRouter extends React.Component {
 			riskArray,
 			loading,
 		};
+		console.log('overviewParams === ', overviewParams);
 		return (
 			<div className="home-container">
 				{
