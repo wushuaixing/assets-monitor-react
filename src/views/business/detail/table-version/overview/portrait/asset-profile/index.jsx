@@ -16,6 +16,9 @@ import {
 	businessOverviewMortgage, // 业务动产抵押
 	overviewBidding, // 债务人招投标
 	businessOverviewBidding, // 业务招投标
+	overviewRealRegister, // 不动产
+	overviewvehicle, // 车辆
+	overviewConstruct, // 在建工程
 } from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
@@ -30,6 +33,9 @@ import ChattelMortgage from '../card-components/chattelMortgage-card';
 import Bidding from '../card-components/bidding-card';
 import UnBlockCard from '../card-components/unblock-card';
 import FinancialCard from '../card-components/financial-card';
+import RealEstateCard from '../card-components/real-estate-card';
+import CarCard from '../card-components/car-card';
+import Constructcard from '../card-components/construct-card';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值
@@ -45,7 +51,12 @@ const apiType = (value, portrait) => {
 	case 'Mortgage': return portrait === 'business' ? businessOverviewMortgage : overviewMortgage;
 	case 'Bidding': return portrait === 'business' ? businessOverviewBidding : overviewBidding;
 	case 'UnBlock': return overviewUnBlock; // 这个目前只做了债务人，没有做业务视图的
+	case 'RealEstateCard': return overviewUnBlock; // 这个目前只做了债务人，没有做业务视图的
+	case 'CarCard': return overviewUnBlock; // 这个目前只做了债务人，没有做业务视图的
 	case 'Financial': return overviewFinancial; // 这个目前只做了债务人，没有做业务视图的
+	case 'Register': return overviewRealRegister; // 不动产
+	case 'Car': return overviewvehicle; // 车辆
+	case 'Construct': return overviewConstruct; // 在建工程
 	default: return {};
 	}
 };
@@ -63,6 +74,9 @@ export default class AssetProfile extends React.Component {
 			biddingPropsData: {}, // 招投标
 			unblockPropsData: {}, // 查解封资产
 			financialPropsData: {}, // 金融资产
+			CarPropsData: {}, // 车辆信息
+			RealPropsData: {}, // 不动产登记
+			constructPropsData: {}, // 在建工程
 		};
 	}
 
@@ -89,6 +103,9 @@ export default class AssetProfile extends React.Component {
 		promiseArray.push(apiType('Bidding', portrait)(params)); // 招投标
 		promiseArray.push(apiType('UnBlock', portrait)(params)); // 查解封资产
 		promiseArray.push(apiType('Financial', portrait)(params)); // 金融资产
+		promiseArray.push(apiType('Register', portrait)(params)); // 不动产
+		promiseArray.push(apiType('Car', portrait)(params)); // 车辆
+		promiseArray.push(apiType('Construct', portrait)(params)); // 车辆
 
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
@@ -112,8 +129,14 @@ export default class AssetProfile extends React.Component {
 			this.getBiddingData(isArray, values);
 			// 查解封资产
 			this.getUnBlockData(isArray, values);
+			// 不动产
+			this.getRegisterData(isArray, values);
+			// 车辆
+			this.getCarData(isArray, values);
 			// 金融资产
 			this.getFinancialData(isArray, values);
+			// 在建工程
+			this.getConstructData(isArray, values);
 			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
@@ -264,6 +287,7 @@ export default class AssetProfile extends React.Component {
 		}
 	};
 
+
 	// 金融资产
 	getFinancialData = (isArray, values) => {
 		const res = values[8];
@@ -294,21 +318,92 @@ export default class AssetProfile extends React.Component {
 		}
 	};
 
+	// 不动产
+	getRegisterData = (isArray, values) => {
+		const res = values[9];
+		if (isArray && res && res.code === 200) {
+			const { realRegisterCount, gmtModified } = res.data;
+			const RealPropsData = {
+				realRegisterCount,
+				gmtModified,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				RealPropsData,
+			}));
+		}
+	};
+
+	// 车辆
+	getCarData = (isArray, values) => {
+		const res = values[10];
+		debugger
+		if (isArray && res && res.code === 200) {
+			const { vehicleInformationCount, gmtModified } = res.data;
+			const CarPropsData = {
+				vehicleInformationCount,
+				gmtModified,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				CarPropsData,
+			}));
+		}
+	};
+
+	getConstructData = (isArray, values) => {
+		const res = values.filter(item => item.field === 'Construct')[0];
+		if (isArray && res && res.code === 200) {
+			const { onBuildCount, obligorUnitTypeVOList, gmtModified } = res.data;
+			const allNum = onBuildCount;
+			const dataArray = [];
+			// 建设单位
+			const constructCount = obligorUnitTypeVOList.filter(it => it.obligorUnitType === 1)[0].obligorUnitCount;
+			// 中标单位
+			const winbidCount = obligorUnitTypeVOList.filter(it => it.obligorUnitType === 2)[0].obligorUnitCount;
+			// 施工单位
+			const underwayCount = obligorUnitTypeVOList.filter(it => it.obligorUnitType === 3)[0].obligorUnitCount;
+			if (constructCount) {
+				dataArray.push({ count: constructCount || 0, typeName: '建设单位' });
+			}
+			if (winbidCount) {
+				dataArray.push({ count: winbidCount || 0, typeName: '中标单位' });
+			}
+			if (underwayCount) {
+				dataArray.push({ count: underwayCount || 0, typeName: '施工单位' });
+			}
+			const constructPropsData = {
+				gmtModified,
+				dataArray,
+				allNum,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				constructPropsData,
+			}));
+		}
+	};
+
 	// 判断内部是否存数据
 	isHasValue = () => {
 		const { portrait } = this.props;
 		const {
-			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData, unblockPropsData, financialPropsData,
+			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData, unblockPropsData, financialPropsData, RealPropsData, CarPropsData, constructPropsData,
 		} = this.state;
 		return (Object.keys(auctionPropsData).length > 0 && auctionPropsData.auctionPropsData.count > 0) || (landPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal')
 			|| (intangiblePropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || subrogationPropsData.allNum > 0
-			|| (stockPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || (biddingPropsData.biddingNum > 0 && portrait !== 'debtor_personal') || (mortgagePropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || (unblockPropsData.unsealCount > 0 && portrait !== 'debtor_personal') || (financialPropsData.allNum > 0 && portrait !== 'debtor_personal');
+			|| (stockPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || (biddingPropsData.biddingNum > 0 && portrait !== 'debtor_personal')
+			|| (mortgagePropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || (unblockPropsData.unsealCount > 0 && portrait !== 'debtor_personal')
+			|| (constructPropsData.allNum > 0 && portrait !== 'debtor_personal')
+			|| (financialPropsData.allNum > 0 && portrait !== 'debtor_personal')
+			|| (RealPropsData.realRegisterCount > 0 && portrait !== 'debtor_personal')
+	|| (CarPropsData.vehicleInformationCount > 0 && portrait !== 'debtor_personal');
 	};
 
 	render() {
 		const { portrait } = this.props;
 		const {
-			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData, isLoading, unblockPropsData, financialPropsData,
+			auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, biddingPropsData, mortgagePropsData, isLoading, unblockPropsData, financialPropsData, RealPropsData, CarPropsData, constructPropsData,
 		} = this.state;
 		const isHasValue = this.isHasValue();
 		// console.log(portrait, 13);
@@ -338,6 +433,12 @@ export default class AssetProfile extends React.Component {
 								{portrait !== 'debtor_personal' && Object.keys(financialPropsData).length !== 0 && <FinancialCard dataSource={financialPropsData} portrait={portrait} />}
 								{/* 查解封资产 */}
 								{portrait !== 'debtor_personal' && Object.keys(unblockPropsData).length !== 0 && <UnBlockCard dataSource={unblockPropsData} portrait={portrait} />}
+								{/* 在建工程 */}
+								{portrait !== 'debtor_personal' && Object.keys(constructPropsData).length !== 0 && <Constructcard dataSource={constructPropsData} portrait={portrait} />}
+								{/* 不动产登记 */}
+								{portrait !== 'debtor_personal' && Object.keys(RealPropsData).length !== 0 && <RealEstateCard dataSource={RealPropsData} portrait={portrait} />}
+								{/* 车辆信息 */}
+								{portrait !== 'debtor_personal' && Object.keys(CarPropsData).length !== 0 && <CarCard dataSource={CarPropsData} portrait={portrait} />}
 								{/* 招投标 */}
 								{portrait !== 'debtor_personal' && Object.keys(biddingPropsData).length !== 0 && <Bidding dataSource={biddingPropsData} portrait={portrait} />}
 							</div>

@@ -358,6 +358,17 @@ export default {
 								status: toStatus(rule.menu_zcwj, 'zcwjcjfzc'),
 							},
 							{
+								id: 'YC0212',
+								name: '在建工程',
+								url: '/monitor/construct',
+								status: toStatus(rule.menu_zcwj, ['zjgcjsdw', 'zjgczbdw', 'zjgcsgdw']),
+								child: [
+									{ id: 'YC021201', name: '建设单位', status: toStatus(rule.menu_zcwj, 'zjgcjsdw') },
+									{ id: 'YC021202', name: '中标单位', status: toStatus(rule.menu_zcwj, 'zjgczbdw') },
+									{ id: 'YC021203', name: '施工单位', status: toStatus(rule.menu_zcwj, 'zjgcsgdw') },
+								],
+							},
+							{
 								id: 'YC0210',
 								name: '不动产登记',
 								url: '/monitor/realEstate',

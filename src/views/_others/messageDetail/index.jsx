@@ -25,16 +25,17 @@ import UnBlock from './component/unblock/index';
 import LimitHeight from './component/limit-height/index';
 import Car from './component/car/index';
 import RealEstate from './component/real-estate/index';
+import Construct from './component/construct/index';
 
 const createForm = Form.create;
 
 // 这个type只有两类， 1，资产挖掘， 2，风险监控
-// ruleName 数组的时候是经营风险的权限校验， 字符串的时候是其他模块的校验
+// ruleName 数组的时候是经营风险或者是在建工程的权限校验， 字符串的时候是其他模块的校验
 const isRule = (ruleName, type, rule) => {
 	if (Array.isArray(ruleName) && ruleName.length > 0) {
 		let ruleBool = false;
 		ruleName.forEach((item) => {
-			if (Object.keys(rule.menu_fxjk.children).indexOf(item) >= 0) {
+			if (type === 1 ? Object.keys(rule.menu_zcwj.children).indexOf(item) >= 0 : Object.keys(rule.menu_fxjk.children).indexOf(item) >= 0) {
 				ruleBool = true;
 			}
 		});
@@ -100,6 +101,17 @@ const subItems = (rule, data) => {
 		},
 		{
 			name: '环保处罚', count: data ? getCount(data, 11202) : 0, status: isRule('jyfxhbcf', 2, rule), dataType: 11202,
+		},
+	];
+	const constructChildren = [
+		{
+			name: '建设单位', count: data ? getCount(data, 11701) : 0, status: isRule('zjgcjsdw', 1, rule), dataType: 11701,
+		},
+		{
+			name: '中标单位', count: data ? getCount(data, 11702) : 0, status: isRule('zjgczbdw', 1, rule), dataType: 11702,
+		},
+		{
+			name: '施工单位', count: data ? getCount(data, 11703) : 0, status: isRule('zjgcsgdw', 1, rule), dataType: 11703,
 		},
 	];
 	return 	[
@@ -181,6 +193,15 @@ const subItems = (rule, data) => {
 			status: isRule('zcwjcjfzc', 1, rule),
 			tagName: 'message-unBlock',
 			component: UnBlock,
+		},
+		{
+			dataType: 117,
+			name: '在建工程',
+			total: data ? getAllSum(constructChildren) : 0,
+			status: isRule(['zjgcjsdw', 'zjgczbdw', 'zjgcsgdw'], 1, rule),
+			tagName: 'message-construct',
+			component: Construct,
+			childrenCount: constructChildren,
 		},
 		{
 			dataType: 115,

@@ -24,5 +24,27 @@ export const unFollowSingle = params => service.post('/yc/report/daily/auction/u
 // [V2.3] 监控日报详情 => 各类数据统计[youyu]
 export const dataCount = async (params) => {
 	const response = await service.get('/yc/report/daily/statistics/dataCount', { params });
-	return response.data;
+	return Object.assign(response.data, {
+		data: {
+			categoryCount: [
+				...response.data.data.categoryCount,
+				{
+					dataType: 11701,
+					dataCount: 898,
+					typeName: '在建工程-建设单位',
+				},
+				{
+					dataType: 11702,
+					dataCount: 22,
+					typeName: '在建工程-中标单位',
+				},
+				{
+					dataType: 11703,
+					dataCount: 12,
+					typeName: '在建工程-施工单位',
+				},
+			],
+		},
+	});
+	// return response.data;
 };

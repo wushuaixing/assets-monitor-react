@@ -86,6 +86,14 @@ const dd ={
 	// 查解封资产
 	"DA10901": "/yc/obligor/monitor/asset/unseal/unsealList",
 
+	"DA11001":"/yc/business/monitor/asset/estateRegister/list", // 不动产
+	"DA11002":"/yc/business/monitor/asset/vehicle/list", // 车辆
+
+	// 在建工程
+	"DA13001":"/yc/obligor/monitor/asset/onBuildProjectInfo/onBuildProjectInfoList", // 建设单位
+	"DA13002":"/yc/obligor/monitor/asset/onBuildBid/onBuildBidList", // 中标单位
+	"DA13003":"/yc/obligor/monitor/asset/onBuildLicence/onBuildLicenceList", // 施工单位
+
 	/*债务人详情，风险*/
 	// 限制高消费
 	"DR20501": "/yc/obligor/monitor/risk/LimitHeightList",

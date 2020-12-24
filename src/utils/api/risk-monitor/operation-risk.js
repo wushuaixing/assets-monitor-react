@@ -17,7 +17,7 @@ const Abnormal = {
 	// GET列表
 	list: params => s.get('/yc/monitor/risk/abnormal/list', { params }).then(res => res.data),
 	// GET列表count
-	listCount: params => s.get('/yc/monitor/risk/abnormal/list-count', { params }).then(res => res.data),
+	listCount: params => s.get('/yc/monitor/risk/abnormal/list-count', { params }).then(res => Object.assign(res.data, { id: 'YC030301' })),
 	// POST已读
 	read: params => s.post('/yc/monitor/risk/abnormal/read', params).then(res => res.data),
 	// POST全部已读
@@ -35,7 +35,7 @@ const Change = {
 	// GET列表
 	list: params => s.get('/yc/monitor/risk/change/list', { params }).then(res => res.data),
 	// GET列表count
-	listCount: params => s.get('/yc/monitor/risk/change/list-count', { params }).then(res => res.data),
+	listCount: params => s.get('/yc/monitor/risk/change/list-count', { params }).then(res => Object.assign(res.data, { id: 'YC030302' })),
 	// POST已读
 	read: params => s.post('/yc/monitor/risk/change/markRead', params).then(res => res.data),
 	// POST全部已读
@@ -69,7 +69,7 @@ const Illegal = {
 	// GET列表
 	list: params => s.get('/yc/monitor/risk/illegal/list', { params }).then(res => res.data),
 	// GET列表count
-	listCount: params => s.get('/yc/monitor/risk/illegal/list-count', { params }).then(res => res.data),
+	listCount: params => s.get('/yc/monitor/risk/illegal/list-count', { params }).then(res => Object.assign(res.data, { id: 'YC030303' })),
 	// POST已读
 	read: params => s.post('/yc/monitor/risk/illegal/read', params).then(res => res.data),
 	// POST全部已读
@@ -87,7 +87,7 @@ const Punishment = {
 	// GET列表
 	list: params => s.get('/yc/monitor/risk/punishment/list', { params }).then(res => res.data),
 	// GET列表count
-	listCount: params => s.get('/yc/monitor/risk/punishment/list-count', { params }).then(res => res.data),
+	listCount: params => s.get('/yc/monitor/risk/punishment/list-count', { params }).then(res => Object.assign(res.data, { id: 'YC030305' })),
 	// POST已读
 	read: params => s.post('/yc/monitor/risk/punishment/markRead', params).then(res => res.data),
 	// POST全部已读
@@ -121,7 +121,7 @@ const Violation = {
 	// GET列表
 	list: params => s.get('/yc/monitor/risk/tax/list', { params }).then(res => res.data),
 	// GET列表count
-	listCount: params => s.get('/yc/monitor/risk/tax/list-count', { params }).then(res => res.data),
+	listCount: params => s.get('/yc/monitor/risk/tax/list-count', { params }).then(res => Object.assign(res.data, { id: 'YC030304' })),
 	// POST已读
 	read: params => s.post('/yc/monitor/risk/tax/read', params).then(res => res.data),
 	// POST全部已读
@@ -139,7 +139,7 @@ const Environment = {
 	// GET列表
 	list: params => s.get('/yc/monitor/risk/epb/list', { params }).then(res => res.data),
 	// GET列表count
-	listCount: params => s.get('/yc/monitor/risk/epb/list-count', { params }).then(res => res.data),
+	listCount: params => s.get('/yc/monitor/risk/epb/list-count', { params }).then(res => Object.assign(res.data, { id: 'YC030306' })),
 	// POST已读
 	read: params => s.post('/yc/monitor/risk/epb/read', params).then(res => res.data),
 	// POST全部已读

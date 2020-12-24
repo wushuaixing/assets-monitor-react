@@ -27,6 +27,7 @@ class HomeOverview extends React.Component {
 			['operation-risk', () => { navigate('/risk/operation'); }],
 			['limit', () => { navigate('/risk/limitHight'); }],
 			['unlock', () => { navigate('/monitor/seizedUnblock'); }],
+			['construct-circle', () => { navigate('/monitor/construct'); }],
 			['default', () => { console.log('未匹配'); }],
 		]);
 		const excavateMap = toNavigate.get(val.icon) || toNavigate.get('default');
@@ -53,7 +54,6 @@ class HomeOverview extends React.Component {
 				<Spin visible={loading} minHeight={600}>
 					{
 						loading ? null :	(
-
 							<div className="home-overview-container-content">
 								{newAssetArray && newAssetArray.length > 0 && (
 								<div>
