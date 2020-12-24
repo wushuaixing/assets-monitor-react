@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
 import { Spin, Table } from '@/common';
-import { timeStandard } from '@/utils';
+import { timeStandard, linkDom } from '@/utils';
 import './index.scss';
 
 export default class TableVersion extends React.Component {
@@ -28,12 +28,31 @@ export default class TableVersion extends React.Component {
 				<div className="assets-info-content">
 					<li style={{ marginBottom: 2, lineHeight: '20px' }}>
 						{
-							row.dataType === 2 ? 	(
+							row.dataType === 2 ? row.title ? (
 								// eslint-disable-next-line react/jsx-no-target-blank
 								<a target="_blank" style={{ fontWeight: 600 }} className="click-link" href={`#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`}>
-									{row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`}
+									{row.title}
 								</a>
-							) : <span>{row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`}</span>
+							) : '-' : null
+						}
+						 {/* { */}
+						{/* row.dataType === 2 ? 	( */}
+						{/*	// eslint-disable-next-line react/jsx-no-target-blank */}
+						{/*	<a target="_blank" style={{ fontWeight: 600 }} className="click-link" href={`#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`}> */}
+						{/*		{row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`} */}
+						{/*	</a> */}
+						{/* ) : <span>{row.dataType === 2 ? row.title : `${row.information || row.address || '-'}`}</span> */}
+						 {/* } */}
+						{
+							row.dataType === 1 ? row.url !== '' && row.sourceId !== 10760 ? (
+								<span>
+									{linkDom(row.url, row.information || row.address, '_blank', '', '', '')}
+								</span>
+							) : (
+								<span>
+									{row.information || row.address || '-'}
+								</span>
+							) : null
 						}
 					</li>
 				</div>

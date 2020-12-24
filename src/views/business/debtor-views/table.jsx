@@ -107,6 +107,8 @@ class BusinessView extends React.Component {
 						obligorId={row.id}
 						isBorrower={row.isBorrower}
 						isBankruptcy={row.bankruptcyStatus}
+						isLimitHeight={row.limitHeightStatus}
+						isTable={row.isTable}
 					/>
 					<span className="yc-item-break">
 						{ row && row.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null }
