@@ -1408,6 +1408,137 @@ module.exports = {
 		total: 2
 	},
 
+	// 在建工程 - 建设单位
+	DA13001: {
+		hasNext: false,
+		list: [
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"nature": "改建",
+				"totalInvestment": 565626265,
+				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
+				"planBeginTime": "2020-11-11",
+			},
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"nature": "改建",
+				"totalInvestment": 565626265,
+				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
+				"planBeginTime": "2020-11-11",
+			},
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"nature": "改建",
+				"totalInvestment": 565626265,
+				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
+				"planBeginTime": "2020-11-11",
+			},
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"nature": "改建",
+				"totalInvestment": 565626265,
+				"projectLocation": 955629,
+				"planBeginTime": "2020-11-11",
+			},
+		],
+		num: 5000,
+		page: 1,
+		pages: 0,
+		total: 2
+	},
+	// 在建工程 - 中标单位
+	DA13002: {
+		hasNext: false,
+		list: [
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"biddingType": "施工",
+				"biddingMode": "公开招标",
+				"winningPrice": 75455656565,
+				"winningTime": "2020-11-11",
+			},
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"biddingType": "施工",
+				"biddingMode": "公开招标",
+				"winningPrice": 75455656565,
+				"winningTime": "2020-11-11",
+			},
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"biddingType": "施工",
+				"biddingMode": "公开招标",
+				"winningPrice": 75455656565,
+				"winningTime": "2020-11-11",
+			},
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"biddingType": "施工",
+				"biddingMode": "公开招标",
+				"winningPrice": 75455656565,
+				"winningTime": "2020-11-11",
+			},
+		],
+		num: 5000,
+		page: 1,
+		pages: 0,
+		total: 2
+	},
+	// 在建工程 - 施工单位
+	DA13003: {
+		hasNext: false,
+		list: [
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"role": [1, 3],
+				"contractPrice": 75455656565,
+				"projectPeriod": "2020-11-11至2020-11-11",
+				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
+				"issuingTime": "2020-11-11",
+			},
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"role": [1, 3],
+				"contractPrice": 75455656565,
+				"projectPeriod": "2020-11-11至2020-11-11",
+				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
+				"issuingTime": "2020-11-11",
+			},
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"role": [1, 3],
+				"contractPrice": 75455656565,
+				"projectPeriod": "2020-11-11至2020-11-11",
+				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
+				"issuingTime": "2020-11-11",
+			},
+			{
+				"title": "潍坊宝通街绿化养护管理和完善提升",
+				"url": "http://www.baidu.com",
+				"role": [1, 3],
+				"contractPrice": 75455656565,
+				"projectPeriod": "2020-11-11至2020-11-11",
+				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
+				"issuingTime": "2020-11-11",
+			},
+		],
+		num: 5000,
+		page: 1,
+		pages: 0,
+		total: 2
+	},
+
 	/* 风险 */
 	// 破产重组
 	DR30201: {

@@ -105,6 +105,9 @@ function exportTemplate(source, exportType, name) {
 				{id: 'A10701', title: '招投标', status: 'BE'},
 				{id: 'A11001', title: '不动产登记', status: 'BE'},
 				{id: 'A11002', title: '车辆信息', status: 'BE'},
+				{id: 'A13001', title: '在建工程_建设单位', status: 'BE'},
+				{id: 'A13002', title: '在建工程_中标单位', status: 'BE'},
+				{id: 'A13003', title: '在建工程_施工单位', status: 'BE'},
 			]
 		},
 		risk: {
@@ -1034,6 +1037,61 @@ function exportTemplate(source, exportType, name) {
 						+ f.urlDom(i.title, i.sourceUrl)
 						+ "</td><td>" + f.normalList([
 							{t: '发布日期', cot: i.gmtPublish},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			// 在建工程_建设单位
+			case 'A13001': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.title, i.url)
+						+ f.normalList([
+							[
+								{t: '建设性质', cot: i.nature},
+								{t: '总投资', cot: w(f.threeDigit(i.totalInvestment), {unit: '元'}) },
+							],
+							{t: '项目所在地', cot: i.projectLocation},
+						])
+						+ "</td><td>" + f.normalList([
+							{t: '计划开工日期', cot: i.planBeginTime},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			// 在建工程_中标单位
+			case 'A13002': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.title, i.url)
+						+ f.normalList([
+							[
+								{t: '招标类型', cot: i.biddingType},
+								{t: '招标方式', cot: i.biddingMode},
+								{t: '中标金额', cot: w(f.threeDigit(i.winningPrice), {unit: '元'}) },
+							],
+						])
+						+ "</td><td>" + f.normalList([
+							{t: '中标日期', cot: i.winningTime},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			// 在建工程_施工单位
+			case 'A13003': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.title, i.url)
+						+ f.normalList([
+							[
+								{t: '角色', cot: i.role},
+								{t: '合同金额', cot: w(f.threeDigit(i.contractPrice), {unit: '元'}) },
+								{t: '合同工期', cot: i.projectPeriod},
+							],
+							{t: '项目所在地', cot: i.projectLocation},
+						])
+						+ "</td><td>" + f.normalList([
+							{t: '发证日期', cot: i.issuingTime},
 						]) + "</td></tr>";
 				});
 				break;
