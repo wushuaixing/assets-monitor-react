@@ -2006,6 +2006,114 @@ function exportTemplate(source,exportType) {
 				break;
 		}
 
+			// 在建工程 - 建设单位
+			case "onbuild.construct":{
+				source.list.forEach(function (item) {
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>建设性质：</span>" +
+						"<span class='n-desc'>"+(item.nature||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>总投资：</span>" +
+						"<span class='n-desc'>"+fun.toNumberStr(item.totalInvestment)+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>项目所在地：</span>" +
+						"<span class='n-desc'>"+(item.projectLocation || '--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>立项批复日期：<label class='n-desc'>"+(item.approvalTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+
+			// 在建工程 - 中标单位
+			case "onbuild.winbid":{
+				source.list.forEach(function (item) {
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>招标类型：</span>" +
+						"<span class='n-desc'>"+(item.biddingType||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>招标方式：</span>" +
+						"<span class='n-desc'>"+(item.biddingMode || '--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>中标金额：</span>" +
+						"<span class='n-desc'>"+fun.toNumberStr(item.winningPrice)+"</span>" +
+						"</div>" +
+						"</li>" +
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>中标日期：<label class='n-desc'>"+(item.winningTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+
+			// 在建工程 - 施工单位
+			case "onbuild.underway":{
+				source.list.forEach(function (item) {
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>角色：</span>" +
+						"<span class='n-desc'>"+(item.role||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>合同金额：</span>" +
+						"<span class='n-desc'>"+fun.toNumberStr(item.contractPrice)+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>合同工期：</span>" +
+						"<span class='n-desc'>"+(item.projectPeriod || '--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>项目所在地：</span>" +
+						"<span class='n-desc'>"+(item.projectLocation || '--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>发证日期：<label class='n-desc'>"+(item.issuingTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+
+
 			// 招投标
 			case "bidding":{
 				source.list.forEach(function (item) {
@@ -2371,7 +2479,12 @@ function exportTemplate(source,exportType) {
 		listView(data.A10320,"finance.merchants");
 		// 金融资产 - 公示项目
 		listView(data.A10321,"finance.publicity");
-
+		// 在建工程 - 建设单位
+		listView(data.A10324,"onbuild.construct");
+		// 在建工程 - 中标单位
+		listView(data.A10325,"onbuild.winbid");
+		// 在建工程 - 施工单位
+		listView(data.A10326,"onbuild.underway");
 		// 涉诉 - 立案
 		listView(data.A10401,"lawsuit.trial");
 		// 涉诉 - 开庭

@@ -3426,6 +3426,123 @@ module.exports = {
 		"total": 95
 	},
 
+	// 在建工程 - 建设单位
+	A10324: {
+		"hasNext": true,
+		"list": [
+			{
+				"title": '潍坊宝通街绿化养护管理和完善提升',
+				"nature": '改建',
+				"totalInvestment": 85522222,
+				"approvalTime": '2020-11-11',
+				"projectLocation": '广东省佛山市南海区桂城街道半岛路',
+				"planBeginTime": '2020-11-11',
+			},
+			{
+				"title": '潍坊宝通街绿化养护管理和完善提升',
+				"nature": '改建',
+				"totalInvestment": 85522222,
+				"approvalTime": '2020-11-11',
+				"projectLocation": '广东省佛山市南海区桂城街道半岛路',
+				"planBeginTime": '2020-11-11',
+			},
+			{
+				"title": '潍坊宝通街绿化养护管理和完善提升',
+				"nature": '改建',
+				"totalInvestment": 85522222,
+				"approvalTime": '2020-11-11',
+				"projectLocation": '广东省佛山市南海区桂城街道半岛路',
+				"planBeginTime": '2020-11-11',
+			},
+		],
+		"num": 10,
+		"page": 1,
+		"pages": 10,
+		"total": 95
+	},
+
+	// 在建工程 - 中标单位
+	A10325: {
+		"hasNext": true,
+		"list": [
+			{
+				"id": '1',
+				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+				"url": 'http://www.baidu.com',
+				"biddingType": '施工',
+				"biddingMode": '公开招标',
+				"approvalTime": '2020-11-11',
+				"winningPrice": 565626262,
+				"winningTime": '2020-11-11',
+			},
+			{
+				"id": '1',
+				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+				"url": 'http://www.baidu.com',
+				"biddingType": '施工',
+				"biddingMode": '公开招标',
+				"approvalTime": '2020-11-11',
+				"winningPrice": 565626262,
+				"winningTime": '2020-11-11',
+			},
+			{
+				"id": '1',
+				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+				"url": 'http://www.baidu.com',
+				"biddingType": '施工',
+				"biddingMode": '公开招标',
+				"approvalTime": '2020-11-11',
+				"winningPrice": 565626262,
+				"winningTime": '2020-11-11',
+			},
+		],
+		"num": 10,
+		"page": 1,
+		"pages": 10,
+		"total": 95
+	},
+
+	// 在建工程 - 施工单位
+	A10326: {
+		"hasNext": true,
+		"list": [
+			{
+				"id": '1',
+				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+				"url": 'http://www.baidu.com',
+				"role": [1, 2],
+				"contractPrice": 565626262,
+				"projectPeriod": '2020-11-11至2020-11-20',
+				"projectLocation": '广东省佛山市南海区桂城街道半岛路',
+				"issuingTime": '2020-11-17',
+			},
+			{
+				"id": '1',
+				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+				"url": 'http://www.baidu.com',
+				"role": [1, 2],
+				"contractPrice": 565626262,
+				"projectPeriod": '2020-11-11至2020-11-20',
+				"projectLocation": '广东省佛山市南海区桂城街道半岛路',
+				"issuingTime": '2020-11-17',
+			},
+			{
+				"id": '1',
+				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
+				"url": 'http://www.baidu.com',
+				"role": [1, 2],
+				"contractPrice": 565626262,
+				"projectPeriod": '2020-11-11至2020-11-20',
+				"projectLocation": '广东省佛山市南海区桂城街道半岛路',
+				"issuingTime": '2020-11-17',
+			},
+		],
+		"num": 10,
+		"page": 1,
+		"pages": 10,
+		"total": 95
+	},
+
 
 	/* 画像查询 => 企业画像查询 => 涉诉 */
 	// 涉诉信息 - 立案
