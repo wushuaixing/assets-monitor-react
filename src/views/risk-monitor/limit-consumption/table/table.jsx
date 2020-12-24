@@ -21,31 +21,68 @@ const columns = (props) => {
 			dataIndex: 'registerDate',
 			width: 120,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
-		}, {
-			title: '姓名',
-			dataIndex: 'personName',
+		},
+		{
+			title: '债务人',
+			dataIndex: 'obligorType',
 			width: 210,
 			render: (text, row) => (
-				<Ellipsis
-					content={`${row.obligorType === 2 ? `${text}${row.personNumber ? `(${row.personNumber})` : ''}` : `${text || '-'}`}`}
-					tooltip
-					width={180}
-					url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
-				/>
+				row.obligorType === 2
+					? (
+						<div>
+							<div>
+								个人：
+								<Ellipsis
+									content={`${row.obligorType === 2 ? `${row.personName}` : `${row.personName || '-'}`}`}
+									tooltip
+									width={180}
+									url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
+								/>
+							</div>
+							<div>
+								证件号：
+								<span>{row.obligorType === 2 ? row.personNumber : '-'}</span>
+							</div>
+						</div>
+					) : (
+						<div>
+							企业：
+							<Ellipsis
+								content={`${row.companyName || '-'}`}
+								tooltip
+								width={180}
+								url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
+							/>
+						</div>
+					)
 			),
-		}, {
-			title: '企业',
-			dataIndex: 'companyName',
-			width: 210,
-			render: (text, row) => (
-				<Ellipsis
-					content={`${text || '-'}`}
-					tooltip
-					width={180}
-					url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
-				/>
-			),
-		}, {
+		},
+		// {
+		// 	title: '姓名',
+		// 	dataIndex: 'personName',
+		// 	width: 210,
+		// 	render: (text, row) => (
+		// 		<Ellipsis
+		// 			content={`${row.obligorType === 2 ? `${text}${row.personNumber ? `(${row.personNumber})` : ''}` : `${text || '-'}`}`}
+		// 			tooltip
+		// 			width={180}
+		// 			url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
+		// 		/>
+		// 	),
+		// }, {
+		// 	title: '企业',
+		// 	dataIndex: 'companyName',
+		// 	width: 210,
+		// 	render: (text, row) => (
+		// 		<Ellipsis
+		// 			content={`${text || '-'}`}
+		// 			tooltip
+		// 			width={180}
+		// 			url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
+		// 		/>
+		// 	),
+		// },
+		{
 			title: '案号',
 			dataIndex: 'caseNumber',
 			width: 210,

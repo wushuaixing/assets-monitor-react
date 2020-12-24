@@ -46,7 +46,7 @@ export default class Ellipsis extends React.Component {
 	render() {
 		const {
 			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
-			isBorrower = false, isBankruptcy = false, prefixContent,
+			isBorrower = false, isBankruptcy = false, isLimitHeight = false, isTable = false, prefixContent,
 		} = this.props;
 
 		const _url = obligorId ? `#/business/debtor/detail?id=${obligorId}` : url;
@@ -64,7 +64,9 @@ export default class Ellipsis extends React.Component {
 		const __width = contentSize < _width ? (auto ? 'auto' : contentSize) : _width;
 		const _isBorrower = Boolean(isBorrower);
 		const _isBankruptcy = Boolean(isBankruptcy);
-		const addWidth = (_isBorrower ? 18 : 0) + (_isBankruptcy ? 18 : 0);
+		const _isLimitHeight = Boolean(isLimitHeight);
+		const _isTable = Boolean(isTable);
+		const addWidth = (_isBorrower ? 18 : 0) + (_isBankruptcy ? 18 : 0) + (_isLimitHeight ? 20 : 0) + (_isTable ? 20 : 0);
 		const style = _width ? {
 			color: customColor || undefined,
 			width: __width + addWidth,
@@ -86,6 +88,31 @@ export default class Ellipsis extends React.Component {
 				}
 				{ _isBorrower && <Borrower />}
 				{ _isBankruptcy && <Borrower text="破" style={{ background: '#948BFF' }} />}
+				{
+					_isLimitHeight && (
+						<Borrower
+							text="限高"
+							style={{
+								background: '#fff0f6',
+								color: '#eb2f96',
+								borderColor: '#ffadd2',
+								border: '1px solid #ffadd2',
+							}}
+						/>
+					)}
+				{
+					_isTable && (
+						<Borrower
+							text="停业"
+							style={{
+								background: '#fff',
+								color: '#ccc',
+								borderColor: '#ccc',
+								border: '1px solid #ccc',
+							}}
+						/>
+					)
+				}
 			</div>
 		);
 	}
