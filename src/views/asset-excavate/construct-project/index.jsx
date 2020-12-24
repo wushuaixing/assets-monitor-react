@@ -22,7 +22,7 @@ const toGetConfig = () => {
 
 const toGetProcess = (sourceType, source) => {
 	let site = 0;
-	source.forEach((item, index) => { if (item.id === sourceType)site = index; });
+	source.forEach((item, index) => { if (item.id === sourceType) site = index; });
 	return site;
 };
 
@@ -65,7 +65,6 @@ export default class ConstructProject extends React.Component {
 
 	// 获取三类统计信息
 	toInfoCount = (nextSourceType) => {
-		console.log('toInfoCount config === ', this.config);
 		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
 	};
 
@@ -215,7 +214,6 @@ export default class ConstructProject extends React.Component {
 			page: page || current,
 			num: 10,
 		});
-		// console.log(__isRead);
 		if (__isRead === 'all') delete this.condition.isRead;
 		if (__isRead === 'unread') this.condition.isRead = 0;
 		this.setState({
@@ -278,7 +276,6 @@ export default class ConstructProject extends React.Component {
 					source={this.config}
 					sourceType={sourceType}
 					field="unit"
-					toRefresh={val => this.config = val}
 				/>
 				{
 					!manage ? (

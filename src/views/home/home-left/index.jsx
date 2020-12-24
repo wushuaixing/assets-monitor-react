@@ -269,7 +269,7 @@ class HomeDynamic extends PureComponent {
 					}
 				});
 			}
-			console.log('AssetImportantReminderList', AssetImportantReminderList);
+			// console.log('AssetImportantReminderList', AssetImportantReminderList);
 			this.setState(() => ({
 				AssetImportantReminderList,
 				AssetImportantReminderObligorIdList,

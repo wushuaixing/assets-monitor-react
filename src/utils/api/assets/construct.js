@@ -17,7 +17,7 @@ const ConstructApi = {
 	// GET列表
 	list: params => s.get('/yc/monitor/onBuild/projectInfo/projectInfoList', { params }).then(res => res.data),
 	// GET列表count
-	listCount: params => s.get('/yc/monitor/onBuild/projectInfo/follow/list-count', { params }).then(res => Object.assign(res.data, { id: 'YC021201' })),
+	listCount: params => s.get('/yc/monitor/onBuild/projectInfo/projectInfoCount', { params }).then(res => Object.assign(res.data, { id: 'YC021201' })),
 	// POST已读
 	read: params => s.post('/yc/monitor/onBuild/projectInfo/markRead', params).then(res => res.data),
 	// POST全部已读

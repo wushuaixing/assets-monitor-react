@@ -16,15 +16,12 @@ export default class TabsIntact extends React.Component {
 	toRefreshCount = (config, type) => {
 		const { onRefresh } = this.props;
 		const _source =	config;
-		console.log('construct config === ', type, config);
 		this.toGetUnReadCount(_source);
-		config.forEach((i, index) => {
+		config.forEach((i) => {
 			if (i.id !== type) {
 				API(i.id, 'listCount')(this.isUrlParams(i.id)).then((res) => {
-					console.log('res === ', res);
 					if (res.code === 200) {
 						_source.filter(it => it.id === i.id)[0].number = res.data;
-						console.log('_source === ', index, _source);
 						this.setState({ _source });
 						if (onRefresh)onRefresh(_source);
 					}
@@ -63,19 +60,10 @@ export default class TabsIntact extends React.Component {
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
 		handlePromise.then((values) => {
 			const isArray = Array.isArray(values) && values.length > 0;
-			console.log('values === ', values);
 			if (isArray) {
 				const result = config.map((item) => {
 					const _item = item;
-					if (_item.id === 'YC021201') {
-						_item.dot = values.filter(it => it.id === 'YC021201')[0].data > 0;
-					}
-					if (_item.id === 'YC021202') {
-						_item.dot = values.filter(it => it.id === 'YC021202')[0].data > 0;
-					}
-					if (_item.id === 'YC021203') {
-						_item.dot = values.filter(it => it.id === 'YC021203')[0].data > 0;
-					}
+					_item.dot = values.filter(it => it.id === _item.id)[0].data > 0;
 					return _item;
 				});
 				this.setState({

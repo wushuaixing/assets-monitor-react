@@ -217,7 +217,7 @@ class HomeRouter extends React.Component {
 			riskArray,
 			loading,
 		};
-		console.log('overviewParams === ', overviewParams);
+		// console.log('overviewParams === ', overviewParams);
 		return (
 			<div className="home-container">
 				{
