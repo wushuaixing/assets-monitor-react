@@ -32,7 +32,9 @@ const dd = {
 	// 不动产
 	"A10215": "/yc/search/portrait/company/overview/estateRegister",
 	// 车辆
-	"A10217": "/yc/search/portrait/company/overview/vehicle",
+	"A10216": "/yc/search/portrait/company/overview/vehicle",
+	// 在建工程
+	"A10217": "/yc/search/portrait/company/overview/onBuild",
 	//  个人 - 概览
 	// 资产拍卖
 	"B10201": "/yc/search/portrait/personal/overview/asset/auction",
@@ -80,6 +82,11 @@ const dd = {
 	"A10322": "/yc/search/portrait/company/monitor/estateRegister/estateRegisterList",
 	// 车辆
 	"A10323": "/yc/search/portrait/company/monitor/vehicle/vehicleList",
+
+	// 在建工程
+	"A10324": "/yc/search/portrait/company/asset/onBuild/onBuildUnitList", // 建设单位
+	"A10325": "/yc/search/portrait/company/asset/onBuild/onBuildBidList", // 中标单位
+	"A10326": "/yc/search/portrait/company/asset/onBuild/onBuildConstList", // 施工单位
 
 	/*画像详情，风险*/
 	//涉诉

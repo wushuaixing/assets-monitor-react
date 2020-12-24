@@ -1130,7 +1130,7 @@ module.exports = {
 		],
 	},
 	// 车辆信息
-	A10217: {
+	A10216: {
 		unsealCount: 10212,
 		yearDistributions: [
 			{
@@ -1162,6 +1162,136 @@ module.exports = {
 				year: 2012,
 			},
 		],
+	},
+
+	// 在建工程
+	A10217: {
+		onBuildCount: 110,
+		obligorUnitTypeVOList: [
+			{
+				gmtModified: '2020-11-11',
+				obligorUnitCount: 10,
+				obligorUnitType: 1,
+				projectInfoTypeVoList: [
+					{
+						projectType: 2,
+						projectTypeCount: 2,
+					},
+					{
+						projectType: 1,
+						projectTypeCount: 2,
+					},
+					{
+						projectType: 3,
+						projectTypeCount: 2,
+					}
+				],
+				yearDistributions: [
+					{
+						count: 2,
+						year: 2010,
+					},
+					{
+						count: 3,
+						year: 2017,
+					},
+					{
+						count: 3,
+						year: 2018,
+					},
+					{
+						count: 3,
+						year: 2019,
+					},
+					{
+						count: 13,
+						year: 2020,
+					},
+				],
+			},
+			{
+				gmtModified: '2020-11-11',
+				obligorUnitCount: 80,
+				obligorUnitType: 2,
+				projectInfoTypeVoList: [
+					{
+						projectType: 2,
+						projectTypeCount: 2,
+					},
+					{
+						projectType: 1,
+						projectTypeCount: 2,
+					},
+					{
+						projectType: 3,
+						projectTypeCount: 2,
+					}
+				],
+				yearDistributions: [
+					{
+						count: 2,
+						year: 2010,
+					},
+					{
+						count: 3,
+						year: 2017,
+					},
+					{
+						count: 3,
+						year: 2018,
+					},
+					{
+						count: 3,
+						year: 2019,
+					},
+					{
+						count: 13,
+						year: 2020,
+					},
+				],
+			},
+			{
+				gmtModified: '2020-11-11',
+				obligorUnitCount: 20,
+				obligorUnitType: 3,
+				projectInfoTypeVoList: [
+					{
+						projectType: 2,
+						projectTypeCount: 2,
+					},
+					{
+						projectType: 1,
+						projectTypeCount: 2,
+					},
+					{
+						projectType: 3,
+						projectTypeCount: 2,
+					}
+				],
+				yearDistributions: [
+					{
+						count: 2,
+						year: 2010,
+					},
+					{
+						count: 3,
+						year: 2017,
+					},
+					{
+						count: 3,
+						year: 2018,
+					},
+					{
+						count: 3,
+						year: 2019,
+					},
+					{
+						count: 13,
+						year: 2020,
+					},
+				],
+			},
+		]
 	},
 
 	/* 画像查询 => 企业画像查询 => 资产 */

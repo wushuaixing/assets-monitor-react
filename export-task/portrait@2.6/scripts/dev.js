@@ -79,6 +79,18 @@ function exportTemplate(source,exportType) {
 				{id: 2, value: "招商项目", field: "merchants"},
 				{id: 3, value: "公示项目", field: "publicity"},
 			],
+			construct: [
+				{id: 1, value: "建设单位", field: "construct"},
+				{id: 2, value: "中标单位", field: "winbid"},
+				{id: 3, value: "施工单位", field: "underway"},
+			],
+			constructUnitType:[
+				{id: 0, value: '未知'},
+				{id: 1, value: '建筑工程'},
+				{id: 2, value: '装饰工程'},
+				{id: 3, value: '市政道路工程'},
+				{id: 4, value: '其他'},
+			],
 			projectStatusType: [
 				{id: 1, value: '即将开始'},
 				{id: 3, value: '正在进行'},
@@ -648,6 +660,48 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".publicity.display}", "display-none");
 			}
 		}
+		// 在建工程
+		else if(viewName === "overview.A10217"){
+			if((source.obligorUnitTypeVOList||[]).length){
+				fun.source.construct.forEach(function (i) {
+					var result = false;
+					source.obligorUnitTypeVOList.forEach(function (item) {
+						// obligorUnitType ： 1-建设单位 2-中标单位 3-施工单位
+						if(item.obligorUnitType === i.id){
+							if(item.obligorUnitCount){
+								result = true;
+								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.obligorUnitCount);
+								// 建设单位工程类型分布
+								if((item.projectInfoTypeVoList || []).length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".projectInfoTypeVoList.list}",
+										overViewTable(item.projectInfoTypeVoList, 4, {
+											name: "projectType",
+											count: "projectTypeCount",
+											options: fun.source.constructUnitType,
+										}))
+								}
+								// 年份分布
+								if((item.yearDistributions || []).length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
+										overViewTable(fun.toGetYearList(item.yearDistributions), 5, {
+											name: "year",
+											count: "count",
+											nameUnit:"年"
+										}))
+								}
+							}
+						}
+					});
+					if (!result){
+						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
+					}
+				})
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".construct.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".winbid.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".underway.display}", "display-none");
+			}
+		}
 		// 招投标
 		else if(viewName === "overview.A10211"){
 			if(source.bidding){
@@ -711,7 +765,7 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		// 车辆信息
-		else if(viewName === "overview.A10217"){
+		else if(viewName === "overview.A10216"){
 			if(source.unsealCount){
 				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
 				if((source.yearDistributions || []).length){
@@ -1153,9 +1207,11 @@ function exportTemplate(source,exportType) {
 		// 不动产
 		overView(data.A10215,"overview.A10215");
 		// 车辆信息
-		overView(data.A10217,"overview.A10217");
+		overView(data.A10216,"overview.A10216");
 		// 金融资产
 		overView(data.A10213,"overview.A10213");
+		// 在建工程
+		overView(data.A10217,"overview.A10217");
 
 		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp) || /padding6 {overview\.A1021([0123]).{0,12}\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
