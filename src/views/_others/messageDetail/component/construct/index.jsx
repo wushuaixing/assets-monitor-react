@@ -5,7 +5,7 @@ import Winbid from './winbid';
 import Underway from './underway';
 import '../../style.scss';
 
-class Financial extends Component {
+class ConstructTable extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -65,7 +65,7 @@ class Financial extends Component {
 	}
 }
 
-Financial.propTypes = {
+ConstructTable.propTypes = {
 	// eslint-disable-next-line react/forbid-prop-types
 	obligorId: PropTypes.any,
 	id: PropTypes.string,
@@ -76,7 +76,7 @@ Financial.propTypes = {
 	childrenCount: PropTypes.array,
 };
 
-Financial.defaultProps = {
+ConstructTable.defaultProps = {
 	obligorId: undefined,
 	total: 0,
 	stationId: 0,
@@ -85,4 +85,4 @@ Financial.defaultProps = {
 	childrenCount: [],
 };
 
-export default Financial;
+export default ConstructTable;

@@ -54,28 +54,30 @@ export default class TabsIntact extends React.Component {
 			isRead: 0,
 		};
 		const promiseArray = [];
-		promiseArray.push(API('YC021201', 'listCount')(params));
-		promiseArray.push(API('YC021202', 'listCount')(params));
-		promiseArray.push(API('YC021203', 'listCount')(params));
-		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
-		handlePromise.then((values) => {
-			const isArray = Array.isArray(values) && values.length > 0;
-			if (isArray) {
-				const result = config.map((item) => {
-					const _item = item;
-					_item.dot = values.filter(it => it.id === _item.id)[0].data > 0;
-					return _item;
-				});
-				this.setState({
-					_source: result,
-				});
-				if (onRefresh) {
-					onRefresh(result);
-				}
-			}
-		}).catch((reason) => {
-			console.log('promise reject failed reason', reason);
+		config.forEach((item) => {
+			promiseArray.push(API(item.id, 'listCount')(params));
 		});
+		if (promiseArray.length > 0) {
+			const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
+			handlePromise.then((values) => {
+				const isArray = Array.isArray(values) && values.length > 0;
+				if (isArray) {
+					const result = config.map((item) => {
+						const _item = item;
+						_item.dot = values.filter(it => it.id === _item.id)[0].data > 0;
+						return _item;
+					});
+					this.setState({
+						_source: result,
+					});
+					if (onRefresh) {
+						onRefresh(result);
+					}
+				}
+			}).catch((reason) => {
+				console.log('promise reject failed reason', reason);
+			});
+		}
 	};
 
 	render() {

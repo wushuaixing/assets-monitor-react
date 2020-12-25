@@ -22,7 +22,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? '中标日期'
-				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>中标日期</SortVessel>),
+				: <SortVessel field="WINNING_TIME " onClick={onSortChange} {...sort}>中标日期</SortVessel>),
 			dataIndex: 'winningTime',
 			render: (text, row) => ReadStatus(text || '-', row),
 		},
@@ -63,7 +63,7 @@ const columns = (props) => {
 						tooltip
 					/>
 					<div>
-						<LiItem Li auto title="公开招标" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.nature || '-'}</LiItem>
+						<LiItem Li auto title="招标方式" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.nature || '-'}</LiItem>
 						<LiItem Li auto title="中标金额" style={{ display: 'inline-block', width: 220, marginLeft: 20 }} titleStyle={{ color: '#7D8699', width: 80 }}>{`${row.winningPrice > 0 ? `${toThousands(row.winningPrice)}元` : '-'}`}</LiItem>
 					</div>
 				</div>

@@ -262,7 +262,7 @@ const message = [
 		list: params => service.get('/yc/report/daily/onBuild/projectInfoList', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/onBuild/projectInfoCount', { params })
-			.then(res => Object.assign(res.data, { id, data: 88 })),
+			.then(res => Object.assign(res.data, { id })),
 	},
 	{
 		dataType: 11702,
@@ -270,7 +270,7 @@ const message = [
 		list: params => service.get('/yc/report/daily/onBuild/projectBiddingList', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/onBuild/projectBiddingCount', { params })
-			.then(res => Object.assign(res.data, { id, data: 90 })),
+			.then(res => Object.assign(res.data, { id })),
 	},
 	{
 		dataType: 11703,
@@ -278,7 +278,7 @@ const message = [
 		list: params => service.get('/yc/report/daily/onBuild/constructionLicenceList', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/onBuild/constructionLicenceCount', { params })
-			.then(res => Object.assign(res.data, { id, data: 56 })),
+			.then(res => Object.assign(res.data, { id })),
 	},
 ];
 export default message;
