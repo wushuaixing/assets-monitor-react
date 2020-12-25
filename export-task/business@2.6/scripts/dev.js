@@ -104,7 +104,7 @@ function exportTemplate(source, exportType, name) {
 				{id: 'A10803', title: '金融资产_公示项目', status: 'BE'},
 				{id: 'A10701', title: '招投标', status: 'BE'},
 				{id: 'A11001', title: '不动产登记', status: 'BE'},
-				{id: 'A11002', title: '车辆信息', status: 'BE'},
+				{id: 'A12001', title: '车辆信息', status: 'BE'},
 				{id: 'A13001', title: '在建工程_建设单位', status: 'BE'},
 				{id: 'A13002', title: '在建工程_中标单位', status: 'BE'},
 				{id: 'A13003', title: '在建工程_施工单位', status: 'BE'},
@@ -891,7 +891,7 @@ function exportTemplate(source, exportType, name) {
 				break;
 			}
 			// 车辆信息
-			case 'A11002': {
+			case 'A12001': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
 						+ f.urlDom(i.vehicleNumber, i.url)

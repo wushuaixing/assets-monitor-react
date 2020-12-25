@@ -86,8 +86,8 @@ const dd ={
 	// 查解封资产
 	"DA10901": "/yc/obligor/monitor/asset/unseal/unsealList",
 
-	"DA11001":"/yc/business/monitor/asset/estateRegister/list", // 不动产
-	"DA11002":"/yc/business/monitor/asset/vehicle/list", // 车辆
+	"DA11001":"/yc/obligor/monitor/asset/estateRegister/estateRegisterList", // 不动产
+	"DA12001":"/yc/obligor/monitor/asset/vehicle/vehicleList", // 车辆
 
 	// 在建工程
 	"DA13001":"/yc/obligor/monitor/asset/onBuildProjectInfo/onBuildProjectInfoList", // 建设单位
