@@ -49,7 +49,7 @@ class HomeDynamic extends PureComponent {
 		const params = { type: 1 };
 		this.getData(params);
 		this.getAssetImportantReminder();
-		// this.getRiskImportantReminder();
+		this.getRiskImportantReminder();
 	}
 
 	// 获取数组的总数
@@ -199,48 +199,48 @@ class HomeDynamic extends PureComponent {
 			importantListLimitHeight,
 		]; */
 		 const apiArray = [
-			{ count: 'zcwjzcpm', Api: importantListAuction, auction: true },
-			/* { count: 'zcwjzbzb', Api: importantListBidding }, */
-			{ count: 'zcwjcjfzc', Api: importantListUnseal },
+			{ count: 'zcwjzcpm', Api: importantListAuction, auction: true }, // 资产挖掘->资产拍卖
+			/* { count: 'zcwjzbzb', Api: importantListBidding }, */ // 资产挖掘->招标中标
+			{ count: 'zcwjcjfzc', Api: importantListUnseal }, // 资产挖掘->查解封资产
 
-			{ count: 'zcwjtdsj', Api: importantListLandTransfer },
+			{ count: 'zcwjtdsj', Api: importantListLandTransfer }, // 资产挖掘->土地数据
 			{ count: 'zcwjtdsj', Api: importantListLandMortgage },
 			{ count: 'zcwjtdsj', Api: importantListLandTransaction },
 
-			/* { count: 'zcwjjrzj', Api: importantListAuctionBidding },
+			/* { count: 'zcwjjrzj', Api: importantListAuctionBidding }, // 资产挖掘->金融资产
 			{ count: 'zcwjjrzj', Api: importantListFinance }, */
 
-			{ count: 'zcwjwxzc', Api: importantListIntangibleEmission },
+			{ count: 'zcwjwxzc', Api: importantListIntangibleEmission }, // 资产挖掘->无形资产
 			{ count: 'zcwjwxzc', Api: importantListIntangibleMining },
 			{ count: 'zcwjwxzc', Api: importantListIntangibleTrademarkRight },
 			{ count: 'zcwjwxzc', Api: importantListIntangibleConstruct },
 
-			{ count: 'zcwjdcdy', Api: importantListMortgage },
+			{ count: 'zcwjdcdy', Api: importantListMortgage }, // 资产挖掘->动产抵押
 
-			{ count: 'zcwjgqzy', Api: importantListPledge },
+			{ count: 'zcwjgqzy', Api: importantListPledge }, // 资产挖掘->股权质押
 
-			{ count: 'zcwjdwq', Api: importantListSubrogationCourt },
+			{ count: 'zcwjdwq', Api: importantListSubrogationCourt }, // 资产挖掘->代位权
 			{ count: 'zcwjdwq', Api: importantListSubrogationTrial },
 			{ count: 'zcwjdwq', Api: importantListSubrogationJudgment },
 
-			{ count: 'zcwjbdcdj', Api: importantListEstateRegister },
-			{ count: 'zcwjclxx', Api: importantListCar },
+			{ count: 'zcwjbdcdj', Api: importantListEstateRegister }, // 资产挖掘->不动产登记
+			{ count: 'zcwjclxx', Api: importantListCar }, // 资产挖掘->车辆信息
 
-			 { count: 'fxjkqypccz', Api: importantListRiskBankruptcy },
-
-			 { count: 'jyfxxzcf', Api: importantListRiskPunishment },
-			 { count: 'jyfxsswf', Api: importantListRiskTax },
-			 { count: 'jyfxyzwf', Api: importantListRiskIllegal },
-			 { count: 'jyfxjyyc', Api: importantListRiskAbnormal },
-			 { count: 'jyfxgsbg', Api: importantListRiskChange },
-			 { count: 'jyfxhbcf', Api: importantListRiskEpb },
-
-			 { count: 'jkxxsxjl', Api: importantListRiskDishonest },
-
-			 { count: 'fxjkssjk', Api: importantListLawsuitTrial },
-			 { count: 'fxjkssjk', Api: importantListLawsuitCourt },
-			 { count: 'fxjkssjk', Api: importantListLawsuitJudgment },
-			 { count: 'fxjkxzgxf', Api: importantListLimitHeight },
+			 // { count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
+			 //
+			 // { count: 'jyfxxzcf', Api: importantListRiskPunishment }, // 经营风险->行政处罚
+			 // { count: 'jyfxsswf', Api: importantListRiskTax }, // 经营风险->税收违法
+			 // { count: 'jyfxyzwf', Api: importantListRiskIllegal }, // 经营风险->严重违法
+			 // { count: 'jyfxjyyc', Api: importantListRiskAbnormal }, // 经营风险->经营异常
+			 // { count: 'jyfxgsbg', Api: importantListRiskChange }, // 经营风险->工商变更
+			 // { count: 'jyfxhbcf', Api: importantListRiskEpb }, // 经营风险->环保处罚
+			 //
+			 // { count: 'jkxxsxjl', Api: importantListRiskDishonest }, // 风险监控->失信记录
+			 //
+			 // { count: 'fxjkssjk', Api: importantListLawsuitTrial }, // 风险监控->涉诉监控
+			 // { count: 'fxjkssjk', Api: importantListLawsuitCourt },
+			 // { count: 'fxjkssjk', Api: importantListLawsuitJudgment },
+			 // { count: 'fxjkxzgxf', Api: importantListLimitHeight }, // 风险监控->限制高消费
 		];
 
 		const AssetImportantReminderArray = [];
@@ -321,19 +321,36 @@ class HomeDynamic extends PureComponent {
 	};
 
 	getRiskImportantReminder = () => {
-		const apiImport = [
-			importantListRiskBankruptcy,
-			importantListRiskPunishment,
-			importantListRiskTax,
-			importantListRiskIllegal,
-			importantListRiskAbnormal,
-			importantListRiskChange,
-			importantListRiskEpb,
-			importantListRiskDishonest,
-			importantListLawsuitTrial,
-			importantListLawsuitCourt,
-			importantListLawsuitJudgment,
-			importantListLimitHeight,
+		// const apiImport = [
+		// 	importantListRiskBankruptcy,
+		// 	importantListRiskPunishment,
+		// 	importantListRiskTax,
+		// 	importantListRiskIllegal,
+		// 	importantListRiskAbnormal,
+		// 	importantListRiskChange,
+		// 	importantListRiskEpb,
+		// 	importantListRiskDishonest,
+		// 	importantListLawsuitTrial,
+		// 	importantListLawsuitCourt,
+		// 	importantListLawsuitJudgment,
+		// 	importantListLimitHeight,
+		// ];
+		const apiArray = [
+			{ count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
+
+			{ count: 'jyfxxzcf', Api: importantListRiskPunishment }, // 经营风险->行政处罚
+			{ count: 'jyfxsswf', Api: importantListRiskTax }, // 经营风险->税收违法
+			{ count: 'jyfxyzwf', Api: importantListRiskIllegal }, // 经营风险->严重违法
+			{ count: 'jyfxjyyc', Api: importantListRiskAbnormal }, // 经营风险->经营异常
+			{ count: 'jyfxgsbg', Api: importantListRiskChange }, // 经营风险->工商变更
+			{ count: 'jyfxhbcf', Api: importantListRiskEpb }, // 经营风险->环保处罚
+
+			{ count: 'jkxxsxjl', Api: importantListRiskDishonest }, // 风险监控->失信记录
+
+			{ count: 'fxjkssjk', Api: importantListLawsuitTrial }, // 风险监控->涉诉监控
+			{ count: 'fxjkssjk', Api: importantListLawsuitCourt },
+			{ count: 'fxjkssjk', Api: importantListLawsuitJudgment },
+			{ count: 'fxjkxzgxf', Api: importantListLimitHeight }, // 风险监控->限制高消费
 		];
 		/* const apiArray = [
 			{ count: bankruptcy, Api: importantListRiskBankruptcy },
@@ -350,16 +367,21 @@ class HomeDynamic extends PureComponent {
 			{ count: limitHeight, Api: importantListLimitHeight },
 		]; */
 		const RiskImportantReminderArray = [];
-		apiImport.filter(i => i.count).forEach((item) => {
-			RiskImportantReminderArray.push(item());
+		apiArray.forEach((item) => {
+			if (global.authRoleList.includes(item.count)) {
+				RiskImportantReminderArray.push(item.Api());
+			}
 		});
+		// apiImport.filter(i => i.count).forEach((item) => {
+		// 	RiskImportantReminderArray.push(item());
+		// });
 		this.setState({ importLoading: true });
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		const handlePromise = promiseAll(RiskImportantReminderArray.map(promiseItem => promiseItem.catch(err => err)));
-		// if (RiskImportantReminderArray.length === 0) {
-		// 	this.setState({ loading: false, finish: true });
-		// }
+		if (RiskImportantReminderArray.length === 0) {
+			this.setState({ loading: false, finish: true });
+		}
 		handlePromise.then((res) => {
 			this.setState({ importLoading: false });
 			const isArray = Array.isArray(res) && res.length > 0;
@@ -414,7 +436,6 @@ class HomeDynamic extends PureComponent {
 	};
 
 	onSelect = (value) => {
-		console.log(416, value);
 		this.setState({ typeValue: value });
 	};
 
