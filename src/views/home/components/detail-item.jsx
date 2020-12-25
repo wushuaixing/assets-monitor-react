@@ -170,7 +170,7 @@ class DetailItem extends PureComponent {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const { data } = this.props;
+		const { data, status } = this.props;
 		// 更新的时候不会重新滚动
 		// setTimeout(() => {
 		// 	this.startScrollUp();
@@ -179,6 +179,14 @@ class DetailItem extends PureComponent {
 			this.setState(() => ({
 				data: nextProps.data,
 			}));
+		}
+		const box = document.getElementById('scrollList');
+		if (status) {
+			clearInterval(scrollInterval);
+			setTimeout(() => {
+				box.scrollTop = 0;
+				this.startScrollUp();
+			}, 250);
 		}
 	}
 
