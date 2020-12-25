@@ -34,6 +34,20 @@ export default {
 					};
 				}
 				break;
+			case 'menu_zjgc':
+				if (res.menu_zcwj) {
+					res.menu_zcwj.children[item.rule] = item;
+				} else {
+					res.menu_zcwj = {
+						id: 2,
+						groupName: item.groupName,
+						title: '资产挖掘',
+						children: {
+							[item.rule]: item,
+						},
+					};
+				}
+				break;
 			case 'menu_fxjk':
 				if (res.menu_fxjk) {
 					res.menu_fxjk.children[item.rule] = item;

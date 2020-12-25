@@ -32,7 +32,7 @@ const dd = {
 	// 不动产
 	"A10215": "/yc/search/portrait/company/overview/estateRegister",
 	// 车辆
-	"A10216": "/yc/search/portrait/company/overview/vehicle",
+	"A10216": "/yc/search/portrait/company/overview/vehicleInformation",
 	// 在建工程
 	"A10217": "/yc/search/portrait/company/overview/onBuild",
 	//  个人 - 概览
@@ -79,9 +79,9 @@ const dd = {
 	"A10320": "/yc/search/portrait/company/asset/finance/financeInvestmentList", // 招商项目
 	"A10321": "/yc/search/portrait/company/asset/finance/financeList", // 公示项目
 	// 不动产
-	"A10322": "/yc/search/portrait/company/monitor/estateRegister/estateRegisterList",
+	"A10322": "/yc/search/portrait/company/asset/estateRegister/estateRegisterList",
 	// 车辆
-	"A10323": "/yc/search/portrait/company/monitor/vehicle/vehicleList",
+	"A10323": "/yc/search/portrait/company/asset/vehicle/vehicleList",
 
 	// 在建工程
 	"A10324": "/yc/search/portrait/company/asset/onBuild/onBuildUnitList", // 建设单位
