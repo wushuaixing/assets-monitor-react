@@ -25,7 +25,7 @@ const columns = (props) => {
 		{
 			title: '债务人',
 			dataIndex: 'obligorType',
-			width: 210,
+			width: 300,
 			render: (text, row) => (
 				row.obligorType === 2
 					? (
@@ -35,7 +35,7 @@ const columns = (props) => {
 								<Ellipsis
 									content={`${row.obligorType === 2 ? `${row.personName}` : `${row.personName || '-'}`}`}
 									tooltip
-									width={150}
+									width={200}
 									url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
 								/>
 							</div>
@@ -50,7 +50,7 @@ const columns = (props) => {
 							<Ellipsis
 								content={`${row.companyName || '-'}`}
 								tooltip
-								width={150}
+								width={200}
 								url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
 							/>
 						</div>
@@ -85,7 +85,7 @@ const columns = (props) => {
 		{
 			title: '案号',
 			dataIndex: 'caseNumber',
-			width: 210,
+			width: 300,
 			render: text => <span>{text ? text.replace('（', '(') : '-'}</span>,
 		}, {
 			title: '移除状况',

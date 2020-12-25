@@ -12,6 +12,7 @@ import { promiseAll } from '@/utils/promise';
 import './style.scss';
 import DetailItem from '@/views/home/components/detail-item';
 import ImportantInfoModal from '@/views/home/home-left/important-info-modal';
+import { Select } from 'antd';
 import DynamicUpdate from './dynamic-update';
 
 const customStyle = { padding: '20px' };
@@ -40,6 +41,7 @@ class HomeDynamic extends PureComponent {
 			finish: false,
 			showModal: false,
 			timeType: 1, // 7天内更新/30天内更新状态，
+			typeValue: 'all',
 		};
 	}
 
@@ -411,10 +413,15 @@ class HomeDynamic extends PureComponent {
 		console.log(value);
 	};
 
+	onSelect = (value) => {
+		console.log(416, value);
+		this.setState({ typeValue: value });
+	};
+
 	render() {
 		const {
 			checkArray, checkType, loading, importLoading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
-			RiskImportantReminderObligorIdList, timeType, showModal,
+			RiskImportantReminderObligorIdList, timeType, showModal, typeValue,
 		} = this.state;
 		const params = {
 			timeType,
@@ -430,7 +437,16 @@ class HomeDynamic extends PureComponent {
 		const newRiskArr = [...RiskImportantReminderList];
 		const riskArr = (newRiskArr.sort(compare('timestamp')));
 		const newAllArr = newAssetArr.concat(newRiskArr);
-		const allArr = assetArr.concat(riskArr);
+		let allArr = [];
+		if (typeValue === 'all') {
+			allArr = assetArr.concat(riskArr);
+		}
+		if (typeValue === 'assets') {
+			allArr = assetArr;
+		}
+		if (typeValue === 'risk') {
+			allArr = riskArr;
+		}
 		return (
 			<React.Fragment>
 				<div className="dynamic-container">
@@ -464,6 +480,17 @@ class HomeDynamic extends PureComponent {
 							<div className="seven-update-content-title-name">
 								<div className="dynamic-container-header-name">重要信息提醒</div>
 								<Btn className="seven-update-content-checkBtn" onClick={() => this.handleImportantInfoStandard()}>规则说明</Btn>
+								<Select
+									defaultValue="all"
+									style={{ width: '200px', float: 'right', marginLeft: '180px' }}
+									onSelect={this.onSelect}
+								>
+									{[
+										{ id: 1, name: '全部类型', value: 'all' },
+										{ id: 2, name: '资产信息', value: 'assets' },
+										{ id: 3, name: '风险信息', value: 'risk' },
+									].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
+								</Select>
 							</div>
 						</div>
 						{

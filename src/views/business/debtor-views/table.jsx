@@ -95,7 +95,7 @@ class BusinessView extends React.Component {
 			title: '债务人',
 			dataIndex: 'obligorName',
 			key: 'obligorName',
-			width: 300,
+			width: 350,
 			className: 'column-left20',
 			render: (text, row) => (
 				<div style={{ position: 'relative' }}>
@@ -109,6 +109,7 @@ class BusinessView extends React.Component {
 						isBankruptcy={row.bankruptcyStatus}
 						isLimitHeight={row.limitHeightStatus}
 						isTable={row.isTable}
+						regStatus={row.regStatus}
 					/>
 					<span className="yc-item-break">
 						{ row && row.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null }
@@ -178,6 +179,7 @@ class BusinessView extends React.Component {
 			title: '操作',
 			key: 'operation',
 			className: 'column-center',
+			width: 200,
 			render: (text, row) => (
 				<span>
 					<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>
