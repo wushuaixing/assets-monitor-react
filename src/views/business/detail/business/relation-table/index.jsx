@@ -1,11 +1,13 @@
 import React from 'react';
-import { Table, Icon, Ellipsis } from '@/common';
+import { Icon, Ellipsis } from '@/common';
 // import { linkDetail } from '@/utils';
 import isBreak from '@/assets/img/business/status_shixin.png';
 import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import '../../table-version/overview/portrait/business-related/style.scss';
-import { Modal, message } from 'antd';
+import { Modal, message, Table } from 'antd';
 import { openPush, closePush } from '@/utils/api/debator';
+import NoContent from '@/common/noContent';
+import '../../table-version/overview/portrait/style.scss';
 
 const { confirm } = Modal;
 
@@ -17,6 +19,7 @@ export default class RelationTable extends React.Component {
 				title: '相关人名称',
 				dataIndex: 'obligorName',
 				key: 'obligorName',
+				width: '20%',
 				render: (text, row) => (
 					<div style={{ position: 'relative' }}>
 						{/* {row.obligorId ? linkDetail(row.obligorId, text) : text} */}
@@ -48,7 +51,7 @@ export default class RelationTable extends React.Component {
 				title: '证件号/统一社会信用代码',
 				dataIndex: 'obligorNumber',
 				key: 'obligorNumber',
-				width: 300,
+				width: '20%',
 				render(text) {
 					return <div>{text || '-'}</div>;
 				},
@@ -56,22 +59,22 @@ export default class RelationTable extends React.Component {
 				title: '角色',
 				dataIndex: 'roleText',
 				key: 'roleText',
-				width: 250,
+				width: '10%',
 			}, {
 				title: '相关资产',
 				dataIndex: 'assetTotal',
 				key: 'assetTotal',
-				width: 100,
+				width: '10%',
 			}, {
 				title: '相关风险',
 				dataIndex: 'riskTotal',
 				key: 'riskTotal',
-				width: 100,
+				width: '10%',
 			}, {
 				title: '推送状态',
 				key: 'obligorPushType',
 				dataIndex: 'obligorPushType',
-				width: 200,
+				width: '10%',
 				render(text) {
 					return (
 						<React.Fragment>
@@ -95,7 +98,7 @@ export default class RelationTable extends React.Component {
 				title: '操作',
 				key: 'operation',
 				className: 'column-center',
-				width: 200,
+				width: '20%',
 				render: (text, row) => (
 					<span>
 						<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>
@@ -170,17 +173,21 @@ export default class RelationTable extends React.Component {
 		const { columns } = this.state;
 		const { dataSource } = this.props;
 		return (
-			<div>
-				<div style={{ padding: '0 0 0 20px', fontWeight: 'bold' }}>业务相关人列表</div>
-					<div className="overview-container-content" style={{ padding: '0 20px' }}>
-						<Table
-							scroll={dataSource.length > 10 ? { y: 440 } : {}}
-							columns={columns}
-							dataSource={dataSource}
-							pagination={false}
-							className="table"
-						/>
-					</div>
+			<div className="yc-portrait-container">
+				<div className="overview-container-title">
+					<div className="overview-left-item" />
+					<span className="container-title-name">业务相关人列表</span>
+				</div>
+				<div className="overview-container-content" style={{ padding: '0 20px' }}>
+					<Table
+						scroll={dataSource.length > 10 ? { y: 440 } : {}}
+						columns={columns}
+						dataSource={dataSource}
+						pagination={false}
+						className="table"
+						locale={{ emptyText: <NoContent font="暂未添加业务相关人" /> }}
+					/>
+				</div>
 			</div>
 		);
 	}

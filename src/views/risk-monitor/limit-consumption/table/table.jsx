@@ -35,7 +35,7 @@ const columns = (props) => {
 								<Ellipsis
 									content={`${row.obligorType === 2 ? `${row.personName}` : `${row.personName || '-'}`}`}
 									tooltip
-									width={180}
+									width={150}
 									url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
 								/>
 							</div>
@@ -50,7 +50,7 @@ const columns = (props) => {
 							<Ellipsis
 								content={`${row.companyName || '-'}`}
 								tooltip
-								width={180}
+								width={150}
 								url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
 							/>
 						</div>
