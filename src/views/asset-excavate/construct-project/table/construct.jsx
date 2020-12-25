@@ -55,7 +55,7 @@ const columns = (props) => {
 		},
 		{
 			title: (noSort ? '项目信息'
-				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} mark="(立项批复日期)" {...sort}>招商信息</SortVessel>),
+				: <SortVessel field="APPROVAL_TIME" onClick={onSortChange} mark="(立项批复日期)" {...sort}>招商信息</SortVessel>),
 			width: 496,
 			dataIndex: 'title',
 			render: (text, row) => (
