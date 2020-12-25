@@ -602,11 +602,18 @@ export default {
 /**
  * 返回对应的权限是否存在
  * @param field
- * @param childField
+ * @param childField 传入一个字符串或者是数组
  */
 export const	roleState = (field, childField) => {
 	const rule = global.ruleSource || {};
 	const _field = `menu_${field || ''}`;
 	const ruleObject = rule[_field];
+	if (Array.isArray(childField) && childField.length > 0) {
+		let isRule = 0;
+		childField.forEach((item) => {
+			isRule += Boolean(ruleObject.children[item]);
+		});
+		return isRule > 0;
+	}
 	return ruleObject ? Boolean(ruleObject.children[childField]) : false;
 };
