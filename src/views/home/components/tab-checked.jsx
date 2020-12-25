@@ -22,8 +22,8 @@ class sevenUpdate extends PureComponent {
 		const { checkType } = this.state;
 		const { assetTotalNum, riskTotalNum } = this.props;
 		const checkArray = [
-			{ name: '资产挖掘', type: 1, num: assetTotalNum || 0 },
-			{ name: '风险参考', type: 2, num: riskTotalNum || 0 },
+			{ name: '资产线索', type: 1, num: assetTotalNum || 0 },
+			{ name: '风险信息', type: 2, num: riskTotalNum || 0 },
 		];
 		return (
 			<div className="dynamic-checked">
