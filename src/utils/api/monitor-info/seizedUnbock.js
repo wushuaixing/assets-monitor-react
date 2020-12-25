@@ -12,6 +12,8 @@ const seizedUnblock = {
 	followList: params => service.get('/yc/monitor/unseal/follow/list', params).then(res => res.data),
 	// GET列表
 	list: params => service.get('/yc/monitor/unseal/unsealList', { params }).then(res => res.data),
+	// 列表数量
+	listCount: params => service.get('/yc/monitor/unseal/unsealListCount', { params }).then(res => res.data),
 	// 已读
 	read: params => service.post('/yc/monitor/unseal/markRead', params).then(res => res.data),
 	// POST全部已读

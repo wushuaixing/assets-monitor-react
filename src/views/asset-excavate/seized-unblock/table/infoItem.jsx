@@ -48,7 +48,19 @@ export default class InfoItem extends React.Component {
 							<div className={`reason-content-wrapper content-${status}`}>
 								<div className="reason-content" ref={e => this.dom = e}>
 									<div className="reason-list">
-										{ content || row.address}
+										{
+											row.url !== '' && row.sourceId !== 10760 ? (
+												<span>
+													{linkDom(row.url, content || row.address, '_blank', '', '', '')}
+												</span>
+											)
+												: (
+													<span>
+														{content || row.address || '-'}
+													</span>
+												)
+										}
+
 									</div>
 								</div>
 							</div>

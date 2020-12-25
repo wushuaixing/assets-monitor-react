@@ -1,7 +1,10 @@
 import React from 'react';
-import { Affix, Modal, Icon } from 'antd';
+import {
+	Affix, Modal, Icon,
+	// Pagination,
+} from 'antd';
 import { navigate } from '@reach/router';
-import Router from '@/utils/Router';
+// import Router from '@/utils/Router';
 /* utils */
 import { requestAll } from '@/utils/promise';
 import {
@@ -10,11 +13,16 @@ import {
 /* api collection */
 import businessAssets from '@/utils/api/professional-work/business/assets';
 import businessRisk from '@/utils/api/professional-work/business/risk';
-import { businessInfo, exportListBusiness } from '@/utils/api/professional-work';
+import {
+	businessInfo,
+	// exportListBusiness
+} from '@/utils/api/professional-work';
 /* components */
 import {
-	Tabs, Download, Icon as IconType, BreadCrumb, Button, Spin,
+	// Tabs, Download,
+	Icon as IconType, BreadCrumb, Button, Spin,
 } from '@/common';
+import { businessList } from '@/utils/api/professional-work/overview';
 import ShapeImg from '@/assets/img/business/Shape.png';
 import Overview from '@/views/business/detail/table-version/overview';
 import Assets from '@/views/business/detail/table-version/assets';
@@ -25,6 +33,7 @@ import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import ChangeModal from './change-modal/changeList';
 import { setSource } from './cache';
 import '../style.scss';
+import RelationTable from './relation-table';
 
 const constantNumber = 99999999; // 默认值
 /* 基本选项 */
@@ -147,25 +156,25 @@ const Operation = (props) => {
 		<div className="intro-download" style={customStyle}>
 			{
 				!global.isProxyLimit && (
-				<Button className="intro-download-button" onClick={onEdit}>
-					<IconType type="icon-edit" style={{ marginRight: 5 }} />
-					编辑
-				</Button>
+					<Button className="intro-download-button" onClick={onEdit}>
+						<IconType type="icon-edit" style={{ marginRight: 5 }} />
+						编辑
+					</Button>
 				)}
 			<Button className="intro-download-button" onClick={onRecord}>
 				<IconType type="icon-change-record" style={{ marginRight: 5 }} />
 				变更记录
 			</Button>
-			<Download
-				style={{ width: 84, height: 30 }}
-				condition={{
-					businessId: getQueryByName(window.location.href, 'id'),
-				}}
-				icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
-				api={exportListBusiness}
-				normal
-				text="下载"
-			/>
+			{/* <Download */}
+			{/*	style={{ width: 84, height: 30 }} */}
+			{/*	condition={{ */}
+			{/*		businessId: getQueryByName(window.location.href, 'id'), */}
+			{/*	}} */}
+			{/*	icon={<IconType type="icon-download" style={{ marginRight: 5 }} />} */}
+			{/*	api={exportListBusiness} */}
+			{/*	normal */}
+			{/*	text="下载" */}
+			{/* /> */}
 		</div>
 	);
 };
@@ -183,12 +192,17 @@ export default class Enterprise extends React.Component {
 			loading: true,
 			infoSource: {},
 			// loading
-			assetLoading: true,
-			riskLoading: true,
+			// assetLoading: true,
+			// riskLoading: true,
 			changeListModalVisible: false,
 			errorModalVisible: false,
 			timeLeft: 3,
-			apiError: false,
+			// apiError: false,
+			dataList: [],
+			// totals: 0,
+			// current: 1, // 当前页
+			// pageSize: 10, // 默认展示条数
+			relationTableLoading: false,
 		};
 		this.portrait = 'business';
 		// 画像类型：business 业务，debtor_enterprise 企业债务人 debtor_personal 个人债务人
@@ -198,6 +212,7 @@ export default class Enterprise extends React.Component {
 		const { tabConfig } = this.state;
 		const businessId = getQueryByName(window.location.href, 'id') || constantNumber;
 		this.setState({ loading: true });
+		this.relationBusinessData();
 		businessInfo({ businessId }).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -222,16 +237,16 @@ export default class Enterprise extends React.Component {
 				this.openErrorModal();
 				this.setState({
 					loading: false,
-					assetLoading: false,
-					riskLoading: false,
-					apiError: true,
+					// assetLoading: false,
+					// riskLoading: false,
+					// apiError: true,
 				});
 			}
 		}).catch(() => {
 			this.setState({
 				loading: false,
-				assetLoading: false,
-				riskLoading: false,
+				// assetLoading: false,
+				// riskLoading: false,
 			});
 		});
 	}
@@ -274,6 +289,20 @@ export default class Enterprise extends React.Component {
 		}
 	});
 
+	// 业务相关人列表
+	relationBusinessData = () => {
+		this.setState({ relationTableLoading: true });
+		const businessId = getQueryByName(window.location.href, 'id') || constantNumber;
+		businessList({ businessId }).then((res) => {
+			if (res.code === 200) {
+				this.setState({ dataList: res.data, relationTableLoading: false });
+			} else {
+				this.setState({ dataList: [], relationTableLoading: false });
+			}
+		}).catch(() => {
+			this.setState({ relationTableLoading: false });
+		});
+	};
 
 	handleEdit=() => {
 		const { infoSource } = this.state;
@@ -346,17 +375,19 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			tabConfig, childDom, sourceType, infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible, affixStatus, loading, assetLoading, riskLoading, apiError,
+			// tabConfig, childDom, sourceType,
+			infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible, affixStatus, loading, dataList, relationTableLoading,
+			// assetLoading, riskLoading, apiError,  totals, current, pageSize,
 		} = this.state;
 		const classList = ['info-detail', 'info-wrapper'];
 		if (affixStatus) classList.push('enterprise-intro-affix');
-		const params = {
-			apiError,
-			assetLoading,
-			riskLoading,
-			toPushChild: this.handleAddChild, // tab 追加子项
-			portrait: this.portrait,
-		};
+		// const params = {
+		// 	apiError,
+		// 	assetLoading,
+		// 	riskLoading,
+		// 	toPushChild: this.handleAddChild, // tab 追加子项
+		// 	portrait: this.portrait,
+		// };
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation">
@@ -379,16 +410,36 @@ export default class Enterprise extends React.Component {
 					<Spin visible={loading}>
 						<div className={classList.join(' ')}>
 							<EnterpriseInfo data={infoSource} onEdit={this.handleEdit} onRecord={this.openPeopleModal} affixStatus={affixStatus} />
-							<Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} hashUrl />
-							{childDom}
+							{/* <Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} hashUrl /> */}
+							{/* {childDom} */}
 						</div>
 					</Spin>
 				</Affix>
-				<div className="info-content">
-					<Router>
-						{ !loading && tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) }
-					</Router>
-				</div>
+				{/* <div className="info-content"> */}
+				{/*	<Router> */}
+				{/*		{ !loading && tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) } */}
+				{/*	</Router> */}
+				{/* </div> */}
+				{/* 业务相关人列表 */}
+				<Spin visible={relationTableLoading}>
+					<RelationTable dataSource={dataList} getData={this.relationBusinessData} />
+				</Spin>
+
+				{/* <div className="yc-table-pagination" style={{ padding: '30px 20px 20px 0' }}> */}
+				{/*	<Pagination */}
+				{/*		total={totals} */}
+				{/*		current={current} */}
+				{/*		defaultPageSize={pageSize} // 默认条数 */}
+				{/*		showQuickJumper */}
+				{/*		pageSizeOptions={['10', '25', '50']} */}
+				{/*		showSizeChanger */}
+				{/*		// onShowSizeChange={(c, p) => this.onShowSizeChange(p)} */}
+				{/*		showTotal={total => `共 ${total} 条记录`} */}
+				{/*		// onChange={(val) => { */}
+				{/*        // 	this.handleChangePage(val); */}
+				{/*		// }} */}
+				{/*	/> */}
+				{/* </div> */}
 				{/** 担保人Modal */}
 				{changeListModalVisible && (
 					<ChangeModal

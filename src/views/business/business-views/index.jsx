@@ -245,7 +245,7 @@ class BusinessView extends React.Component {
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const {
-			startTime, endTime,
+			startTime, endTime, pageSize
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
@@ -256,7 +256,7 @@ class BusinessView extends React.Component {
 		const params = {
 			...fildes,
 			page: 1,
-			num: 10,
+			num: pageSize,
 			uploadTimeStart: startTime || null, // 搜索时间
 			uploadTimeEnd: endTime || null,
 		};
@@ -267,6 +267,20 @@ class BusinessView extends React.Component {
 			selectedRowKeys: [], // 这里配置默认勾选列
 			openRowSelection: false,
 		});
+	};
+
+	onShowSizeChange = (p) => {
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const values = getFieldsValue();
+		const params = {
+			...values,
+			page: 1,
+			num: p,
+			...this.condition,
+		};
+		this.setState({ pageSize: p });
+		this.getData(params);
 	};
 
 	// 打开或者关闭批量管理
@@ -449,7 +463,7 @@ class BusinessView extends React.Component {
 
 	render() {
 		const {
-			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading, businessModalVisible,
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading, businessModalVisible, pageSize,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -521,6 +535,19 @@ class BusinessView extends React.Component {
 							titleWidth={88}
 							placeholder="负责人/机构"
 							{...getFieldProps('orgName', {
+								getValueFromEvent: e => e.trim(),
+							})}
+						/>
+					</div>
+					<div className="yc-query-item">
+						<Input
+							title="上传人员"
+							style={_style1}
+							size="large"
+							maxLength="32"
+							placeholder="上传人员"
+							{...getFieldProps('uploadName', {
+
 								getValueFromEvent: e => e.trim(),
 							})}
 						/>
@@ -641,12 +668,15 @@ class BusinessView extends React.Component {
 							{...sortInfo}
 						/>
 						{dataList && dataList.length > 0 && (
-							<div className="yc-table-pagination">
+							<div className="yc-table-pagination pagination-select">
 								<Pagination
 									total={totals}
 									current={current}
-									defaultPageSize={10} // 默认条数
+									defaultPageSize={pageSize} // 默认条数
 									showQuickJumper
+									pageSizeOptions={['10', '25', '50']}
+									showSizeChanger
+									onShowSizeChange={(c, p) => this.onShowSizeChange(p)}
 									showTotal={total => `共 ${total} 条记录`}
 									onChange={(val) => {
 										this.handleChangePage(val);

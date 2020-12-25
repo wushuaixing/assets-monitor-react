@@ -4,7 +4,6 @@ import {
 	Button, Spin, Download, Icon,
 } from '@/common';
 import Api from '@/utils/api/monitor-info/seizedUnbock';
-import { unReadCount as unReadTotal } from '@/utils/api/monitor-info';
 import { clearEmpty } from '@/utils';
 import QueryView from './query';
 import TableView from './table/table';
@@ -36,14 +35,16 @@ export default class SeizedUnblock extends React.Component {
 
 	// 获取查解封资产未读数据
 	toUnReadCount = () => {
-		unReadTotal().then((res) => {
-			const { code, data } = res;
-			if (code === 200) {
+		const params = {
+			isRead: 0,
+		};
+		Api.listCount(params).then((res) => {
+			if (res.code === 200) {
 				this.setState({
-					unReadCount: data.unsealFlag || false,
+					unReadCount: res.data > 0,
 				});
 			}
-		});
+		}).catch();
 	};
 
 	// 清除排序状态

@@ -75,7 +75,7 @@ export default class OperationRisk extends React.Component {
 	};
 
 	// 全部标记为已读
-	handleAllRead=() => {
+	handleAllRead = () => {
 		const _this = this;
 		const { sourceType } = this.state;
 		const _c = this.config;
@@ -148,7 +148,8 @@ export default class OperationRisk extends React.Component {
 		});
 	};
 
-	isUrlParams=(val) => {
+	// 判断url是否带参数
+	isUrlParams = (val) => {
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
 			let dParams = {};
@@ -175,7 +176,7 @@ export default class OperationRisk extends React.Component {
 
 
 	// sourceType变化
-	onSourceType=(sourceType) => {
+	onSourceType = (sourceType) => {
 		this.setState({
 			sourceType,
 			dataSource: '',

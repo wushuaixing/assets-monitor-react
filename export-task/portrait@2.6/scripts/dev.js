@@ -79,6 +79,18 @@ function exportTemplate(source,exportType) {
 				{id: 2, value: "招商项目", field: "merchants"},
 				{id: 3, value: "公示项目", field: "publicity"},
 			],
+			construct: [
+				{id: 1, value: "建设单位", field: "construct"},
+				{id: 2, value: "中标单位", field: "winbid"},
+				{id: 3, value: "施工单位", field: "underway"},
+			],
+			constructUnitType:[
+				{id: 0, value: '未知'},
+				{id: 1, value: '建筑工程'},
+				{id: 2, value: '装饰工程'},
+				{id: 3, value: '市政道路工程'},
+				{id: 4, value: '其他'},
+			],
 			projectStatusType: [
 				{id: 1, value: '即将开始'},
 				{id: 3, value: '正在进行'},
@@ -309,6 +321,24 @@ function exportTemplate(source,exportType) {
 					case 2:res='破产案件';break;
 					case 3:res='执行案件';break;
 					case 4:res='终本案件';break;
+				}
+				return res;
+			}
+			return ''
+		},
+		toGetRoleType:function methods(value) {
+			if(value){
+				var res =value;
+				switch (value) {
+					case 1:res='注销人';break;
+					case 2:res='权利人';break;
+					case 3:res='新权利人';break;
+					case 4:res='原权利人';break;
+					case 5:res='抵押人';break;
+					case 6:res='抵押权人';break;
+					case 7:res='被执行人';break;
+					case 8:res='申请执行人';break;
+					case 0:res='未知';break;
 				}
 				return res;
 			}
@@ -630,6 +660,48 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".publicity.display}", "display-none");
 			}
 		}
+		// 在建工程
+		else if(viewName === "overview.A10217"){
+			if((source.obligorUnitTypeVOList||[]).length){
+				fun.source.construct.forEach(function (i) {
+					var result = false;
+					source.obligorUnitTypeVOList.forEach(function (item) {
+						// obligorUnitType ： 1-建设单位 2-中标单位 3-施工单位
+						if(item.obligorUnitType === i.id){
+							if(item.obligorUnitCount){
+								result = true;
+								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.obligorUnitCount);
+								// 建设单位工程类型分布
+								if((item.projectInfoTypeVoList || []).length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".projectInfoTypeVoList.list}",
+										overViewTable(item.projectInfoTypeVoList, 4, {
+											name: "projectType",
+											count: "projectTypeCount",
+											options: fun.source.constructUnitType,
+										}))
+								}
+								// 年份分布
+								if((item.yearDistributions || []).length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
+										overViewTable(fun.toGetYearList(item.yearDistributions), 5, {
+											name: "year",
+											count: "count",
+											nameUnit:"年"
+										}))
+								}
+							}
+						}
+					});
+					if (!result){
+						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
+					}
+				})
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".construct.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".winbid.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".underway.display}", "display-none");
+			}
+		}
 		// 招投标
 		else if(viewName === "overview.A10211"){
 			if(source.bidding){
@@ -648,6 +720,52 @@ function exportTemplate(source,exportType) {
 		}
 		// 查解封资产
 		else if(viewName === "overview.A10212"){
+			if(source.unsealCount){
+				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
+				if((source.yearDistributions || []).length){
+					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
+						overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
+							name: "year",
+							count: "count",
+							nameUnit:"年"
+						}))
+				}
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+			}
+		}
+		// 不动产登记
+		else if(viewName === "overview.A10215"){
+			if((source.auctionInfos||[]).length){
+				fun.source.matchType.forEach(function (i) {
+					var result = false;
+					source.auctionInfos.forEach(function (item) {
+						if(item.type === i.id){
+							if(item.count){
+								result = true;
+								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
+								if(item.roleDistributions.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".role.list}",
+										overViewTable(item.roleDistributions, 4, {
+											name: "year",
+											count: "count",
+											nameUnit:"年"
+										}))
+								}
+							}
+						}
+					});
+					if (!result){
+						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
+					}
+				});
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".accurate.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".blurry.display}", "display-none");
+			}
+		}
+		// 车辆信息
+		else if(viewName === "overview.A10216"){
 			if(source.unsealCount){
 				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
 				if((source.yearDistributions || []).length){
@@ -1086,8 +1204,14 @@ function exportTemplate(source,exportType) {
 		overView(data.A10211,"overview.A10211");
 		// 查解封资产
 		overView(data.A10212,"overview.A10212");
+		// 不动产
+		overView(data.A10215,"overview.A10215");
+		// 车辆信息
+		overView(data.A10216,"overview.A10216");
 		// 金融资产
 		overView(data.A10213,"overview.A10213");
+		// 在建工程
+		overView(data.A10217,"overview.A10217");
 
 		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp) || /padding6 {overview\.A1021([0123]).{0,12}\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
@@ -1657,7 +1781,7 @@ function exportTemplate(source,exportType) {
 				break;
 			}
 			// 动产抵押 - 抵押权
-		case "mortgage.people":{
+			case "mortgage.people":{
 				source.list.forEach(function (item) {
 					listAry.push("<tr>" +
 						"<td>" +
@@ -1742,6 +1866,69 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 			}
+			// 不动产-智能精准匹配
+			case "realEstate.accurate":
+			//不动产-模糊匹配
+			case "realEstate.blurry":{
+				source.list.forEach(function (item) {
+					var parties = fun.handleParties(item.parties);
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>权证类型：</span>" +
+						"<span class='n-desc'>"+(item.certificateType||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>权证号：</span>" +
+						"<span class='n-desc'>"+(item.certificateNumber||'--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>债务人角色：</span>" +
+						"<span class='n-desc'>"+(fun.toGetRoleType(item.role)||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>不动产坐落：</span>" +
+						"<span class='n-desc'>"+(item.realEstateLocated||'--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						fun.partiesList(parties) +
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>发布日期：<label class='n-desc'>"+(item.publishTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+			//车辆信息
+			case "car":{
+				source.list.forEach(function (item) {
+					var parties = fun.handleParties(item.parties);
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.vehicleNumber||'--')+"</a>":(item.vehicleNumber||'--')) +
+						(item.vehicleType?"<span class=\"case-tag\">"+item.vehicleType+"</span>":"") +
+						"</li>" +
+
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>公示日期：<label class='n-desc'>"+(item.publishTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
 			// 金融资产 - 竞价项目
 			case "finance.bidding":{
 				source.list.forEach(function (item) {
@@ -1818,6 +2005,115 @@ function exportTemplate(source,exportType) {
 				});
 				break;
 		}
+
+			// 在建工程 - 建设单位
+			case "onbuild.construct":{
+				source.list.forEach(function (item) {
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>建设性质：</span>" +
+						"<span class='n-desc'>"+(item.nature||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>总投资：</span>" +
+						"<span class='n-desc'>"+fun.toNumberStr(item.totalInvestment)+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>项目所在地：</span>" +
+						"<span class='n-desc'>"+(item.projectLocation || '--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>立项批复日期：<label class='n-desc'>"+(item.approvalTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+
+			// 在建工程 - 中标单位
+			case "onbuild.winbid":{
+				source.list.forEach(function (item) {
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>招标类型：</span>" +
+						"<span class='n-desc'>"+(item.biddingType||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>招标方式：</span>" +
+						"<span class='n-desc'>"+(item.biddingMode || '--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>中标金额：</span>" +
+						"<span class='n-desc'>"+fun.toNumberStr(item.winningPrice)+"</span>" +
+						"</div>" +
+						"</li>" +
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>中标日期：<label class='n-desc'>"+(item.winningTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+
+			// 在建工程 - 施工单位
+			case "onbuild.underway":{
+				source.list.forEach(function (item) {
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>角色：</span>" +
+						"<span class='n-desc'>"+(item.role||'--')+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>合同金额：</span>" +
+						"<span class='n-desc'>"+fun.toNumberStr(item.contractPrice)+"</span>" +
+						"</div>" +
+						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
+						"<span class='n-title'>合同工期：</span>" +
+						"<span class='n-desc'>"+(item.projectPeriod || '--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>项目所在地：</span>" +
+						"<span class='n-desc'>"+(item.projectLocation || '--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>发证日期：<label class='n-desc'>"+(item.issuingTime||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+
+
 			// 招投标
 			case "bidding":{
 				source.list.forEach(function (item) {
@@ -2171,13 +2467,24 @@ function exportTemplate(source,exportType) {
 		listView(data.A10317,"bidding");
 		// 查解封资产
 		listView(data.A10318,"unsealList");
+		//不动产登记-精准匹配
+		listView(data.A10322,'realEstate.accurate');
+		//不动产登记-模糊匹配
+		listView(data.A10322,'realEstate.blurry');
+		//车辆信息
+		listView(data.A10323,'car');
 		// 金融资产 - 竞价项目
 		listView(data.A10319,"finance.bidding");
 		// 金融资产 - 招商项目
 		listView(data.A10320,"finance.merchants");
 		// 金融资产 - 公示项目
 		listView(data.A10321,"finance.publicity");
-
+		// 在建工程 - 建设单位
+		listView(data.A10324,"onbuild.construct");
+		// 在建工程 - 中标单位
+		listView(data.A10325,"onbuild.winbid");
+		// 在建工程 - 施工单位
+		listView(data.A10326,"onbuild.underway");
 		// 涉诉 - 立案
 		listView(data.A10401,"lawsuit.trial");
 		// 涉诉 - 开庭

@@ -11,6 +11,12 @@ export const getMortgageList = async (params) => {
 	return response.data;
 };
 
+// 车辆信息数量
+export const getMortgageCount = async (params) => {
+	const response = await service.get('/yc/monitor/vehicle/vehicleListCount', { params });
+	return response.data;
+};
+
 // 标记为已读
 export const postMarkRead = async (params) => {
 	const response = await service.post('/yc/monitor/vehicle/markRead', params);
@@ -40,8 +46,6 @@ export const postUnFollow = async (params) => {
 	const response = await service.post('/yc/monitor/vehicle/unFollow', params);
 	return response.data;
 };
-
-
 
 // 导出excel
 export const exportList = '/yc/monitor/vehicle/export';

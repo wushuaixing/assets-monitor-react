@@ -9,43 +9,6 @@ import service from '@/utils/service';
 export const getAuction = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/overview/asset/auction', { params });
 	return response.data;
-	// return {
-	// 	...response.data,
-	// 	data: {
-	// 		auctionInfos: [
-	// 			{
-	// 				count: 111,
-	// 				type: 1, // type === 1 精准匹配
-	// 				roleDistributions: [
-	// 					{ count: 89, type: 1 },
-	// 					{ count: 13, type: 2 },
-	// 					{ count: 14, type: 3 },
-	// 					{ count: 121, type: 5 },
-	// 				],
-	// 				auctionResults: [
-	// 					{ count: 89, type: 1 },
-	// 					{ count: 13, type: 3 },
-	// 					{ count: 14, type: 5 },
-	// 					{ count: 121, type: 7 },
-	// 					{ count: 13, type: 9 },
-	// 					{ count: 14, type: 11 },
-	// 				],
-	// 			},
-	// 			{
-	// 				count: 222,
-	// 				type: 2, // type === 2 模糊匹配
-	// 				auctionResults: [
-	// 					{ count: 22, type: 1 },
-	// 					{ count: 3, type: 3 },
-	// 					{ count: 33, type: 5 },
-	// 					{ count: 33, type: 7 },
-	// 					{ count: 33, type: 9 },
-	// 					{ count: 14, type: 11 },
-	// 				],
-	// 			},
-	// 		],
-	// 	},
-	// };
 };
 
 // [V2.3] 资产概览 => 无形资产信息 [youyu]
@@ -64,64 +27,97 @@ export const getSubrogation = async (params) => {
 export const getFinancial = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/overview/finance', { params });
 	return response.data;
-	// return {
-	// 	...response.data,
-	// 	data: {
-	// 		auctionFinanceCount: 50,
-	// 		financeCount: 51,
-	// 		financeInvestmentCount: 52,
-	// 		gmtModified: '2020-10-11',
-	// 		financeInfos: [
-	// 			{
-	// 				projectStatus: [
-	// 					{ count: 1, type: 1 },
-	// 					{ count: 15, type: 3 },
-	// 					{ count: 12, type: 5 },
-	// 					{ count: 41, type: 7 },
-	// 					{ count: 51, type: 9 },
-	// 					{ count: 51, type: 11 },
-	// 				],
-	// 				type: 1, // 竞价项目
-	// 				count: 11111,
-	// 			},
-	// 			{
-	// 				investmentProjectType: [
-	// 					{ count: 10, type: 1 },
-	// 					{ count: 10, type: 3 },
-	// 					{ count: 10, type: 5 },
-	// 					{ count: 41, type: 7 },
-	// 					{ count: 51, type: 9 },
-	// 					{ count: 51, type: 11 },
-	// 					{ count: 51, type: 13 },
-	// 				],
-	// 				yearDistribution: [
-	// 					{ count: 5, year: 2020 },
-	// 					{ count: 3, year: 2019 },
-	// 					{ count: 66, year: 2018 },
-	// 					{ count: 22, year: 2010 },
-	// 					{ count: 1, year: 2011 },
-	// 				],
-	// 				type: 2, // 招商项目
-	// 				count: 2222222,
-	// 			},
-	// 			{
-	// 				financeProjectType: [
-	// 					{ count: 1, type: 1 },
-	// 					{ count: 15, type: 2 },
-	// 					{ count: 12, type: 3 },
-	// 					{ count: 41, type: 4 },
-	// 					{ count: 51, type: 5 },
-	// 					{ count: 51, type: 6 },
-	// 					{ count: 51, type: -1 },
-	// 				],
-	// 				type: 3, // 公示项目
-	// 				count: 33333,
-	// 			},
-	// 		],
-	// 	},
-	// };
 };
 
+// 资产概览 => 金融资产信息
+export const getConstruct = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/onBuild', { params });
+	return response.data;
+	// return Object.assign(response.data, {
+	// 	field: 'Construct',
+	// 	code: 200,
+	// 	data: {
+	// 		gmtModified: '2020-11-11',
+	// 		onBuildCount: 22211,
+	// 		obligorUnitTypeVOList: [
+	// 			{
+	// 				gmtModified: '2020-11-11',
+	// 				obligorUnitCount: 22,
+	// 				obligorUnitType: 1,
+	// 				projectInfoTypeVoList: [
+	// 					{
+	// 						projectType: 1,
+	// 						projectTypeCount: 22,
+	// 					},
+	// 					{
+	// 						projectType: 2,
+	// 						projectTypeCount: 21,
+	// 					},
+	// 					{
+	// 						projectType: 3,
+	// 						projectTypeCount: 51,
+	// 					},
+	// 				],
+	// 				yearDistributions: [
+	// 					{
+	// 						year: 2001,
+	// 						count: 21,
+	// 					},
+	// 					{
+	// 						year: 2002,
+	// 						count: 21,
+	// 					},
+	// 					{
+	// 						year: 2003,
+	// 						count: 1211,
+	// 					},
+	// 				],
+	// 			},
+	// 			{
+	// 				gmtModified: '2020-11-11',
+	// 				obligorUnitCount: 22,
+	// 				obligorUnitType: 2,
+	// 				projectInfoTypeVoList: [],
+	// 				yearDistributions: [
+	// 					{
+	// 						year: 2020,
+	// 						count: 21,
+	// 					},
+	// 					{
+	// 						year: 2008,
+	// 						count: 21,
+	// 					},
+	// 					{
+	// 						year: 2009,
+	// 						count: 1211,
+	// 					},
+	// 				],
+	// 			},
+	// 			{
+	// 				gmtModified: '2020-11-11',
+	// 				obligorUnitCount: 22,
+	// 				obligorUnitType: 3,
+	// 				projectInfoTypeVoList: [],
+	// 				yearDistributions: [
+	// 					{
+	// 						year: 2020,
+	// 						count: 21,
+	// 					},
+	// 					{
+	// 						year: 2011,
+	// 						count: 21,
+	// 					},
+	// 					{
+	// 						year: 2015,
+	// 						count: 1211,
+	// 					},
+	// 				],
+	// 			},
+	//
+	// 		],
+	// 	},
+	// });
+};
 
 // 资产概况 => 土地信息
 export const getLand = async (params) => {
