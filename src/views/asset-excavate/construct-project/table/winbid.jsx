@@ -22,7 +22,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? '中标日期'
-				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>中标日期</SortVessel>),
+				: <SortVessel field="WINNING_TIME " onClick={onSortChange} {...sort}>中标日期</SortVessel>),
 			dataIndex: 'winningTime',
 			render: (text, row) => ReadStatus(text || '-', row),
 		},
