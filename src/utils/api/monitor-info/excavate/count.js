@@ -103,19 +103,19 @@ export const assetBiddingCount = async (params) => {
 // 在建工程-建筑单位
 export const buildConstructCount = async (params) => {
 	const response = await service.get('/yc/monitor/onBuild/projectInfo/projectInfoCount', { params });
-	return Object.assign(response.data, { code: 200, data: 50 });
+	return Object.assign(response.data, { code: 200 });
 };
 
 // 在建工程-中标单位
 export const buildWinbidCount = async (params) => {
 	const response = await service.get('/yc/monitor/onBuild/bidding/projectBiddingCount', { params });
-	return Object.assign(response.data, { code: 200, data: 50 });
+	return Object.assign(response.data, { code: 200 });
 };
 
 // 在建工程-施工单位
 export const buildUnderwayCount = async (params) => {
 	const response = await service.get('/yc/monitor/onBuild/constructionLicence/constructionLicenceCount', { params });
-	return Object.assign(response.data, { code: 200, data: 50 });
+	return Object.assign(response.data, { code: 200 });
 };
 
 // 不动产 => 数量统计

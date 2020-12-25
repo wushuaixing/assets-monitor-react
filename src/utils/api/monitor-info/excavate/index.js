@@ -73,14 +73,5 @@ export const unsealCard = async (params) => {
 // 在建工程
 export const constructApi = async (params) => {
 	const response = await service.get('/yc/index/information/overview/onBuild', { params });
-	return Object.assign(response.data, {
-		name: 'build',
-		code: 200,
-		data: {
-			constructionLicenceCount: 20,
-			projectBiddingCount: 22,
-			projectInfoCount: 2323,
-			gmtUpdate: '2020-11-12',
-		},
-	});
+	return Object.assign(response.data, { name: 'build' });
 };
