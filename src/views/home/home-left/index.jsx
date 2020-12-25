@@ -516,7 +516,7 @@ class HomeDynamic extends PureComponent {
 						</div>
 						{
 							allArr.length > 0 ? (
-								<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} />
+								<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} status={typeValue} />
 							) : (
 								<React.Fragment>
 									{
