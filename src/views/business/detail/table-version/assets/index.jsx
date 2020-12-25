@@ -149,7 +149,7 @@ const subItems = (data, portrait) => {
 			name: '在建工程',
 			total: data ? toGetTotal('1120', data) : 0,
 			info: data ? data.filter(i => /1120/.test(i.id)) : '',
-			role: roleState('zjgc', 'zjgcjsdw'),
+			role: roleState('zcwj', ['zjgcjsdw', 'zjgczbdw', 'zjgcsgdw']),
 			disabled: true,
 			tagName: 'e-assets-construct',
 			component: Construct,

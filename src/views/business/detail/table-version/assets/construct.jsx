@@ -3,6 +3,7 @@ import { Tabs } from '@/common';
 import { Construct, Winbid, Underway } from '@/views/asset-excavate/construct-project/table-version';
 import { toGetDefaultId, toGetNumber } from '@/utils/promise';
 import { toGetModuleHeight as toH } from '@/utils';
+import { roleState } from '@/utils/rule';
 
 export default class ConstructTable extends React.Component {
 	constructor(props) {
@@ -17,6 +18,7 @@ export default class ConstructTable extends React.Component {
 					number: toGetNumber(props.data, 11201),
 					showNumber: true,
 					disabled: !(toGetNumber(props.data, 11201)),
+					isRule: roleState('zcwj', 'zjgcjsdw'),
 				},
 				{
 					id: 11202,
@@ -24,6 +26,7 @@ export default class ConstructTable extends React.Component {
 					number: toGetNumber(props.data, 11202),
 					showNumber: true,
 					disabled: !(toGetNumber(props.data, 11202)),
+					isRule: roleState('zcwj', 'zjgczbdw'),
 				},
 				{
 					id: 11203,
@@ -31,14 +34,10 @@ export default class ConstructTable extends React.Component {
 					number: toGetNumber(props.data, 11203),
 					showNumber: true,
 					disabled: !(toGetNumber(props.data, 11203)),
+					isRule: roleState('zcwj', 'zjgcsgdw'),
 				}],
 		};
 	}
-
-	// componentWillMount() {
-	// 	const { data } = this.props;
-	// 	console.log('toGetDefaultId(props.data) === ', toGetDefaultId(data));
-	// }
 
 	// 切换tab
 	onSourceType = (val) => {
@@ -52,12 +51,13 @@ export default class ConstructTable extends React.Component {
 		const { config, sourceType } = this.state;
 		const { id, portrait, data } = this.props;
 		const h = toH(sourceType, toGetNumber(data, sourceType), portrait);
+		const newConfig = config.filter(item => item.isRule);
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
 					borderBottom
 					onChange={this.onSourceType}
-					source={config}
+					source={newConfig}
 					symbol="none"
 					defaultCurrent={sourceType}
 					prefix={<div className="yc-tabs-simple-prefix">在建工程</div>}

@@ -337,7 +337,6 @@ export default class AssetProfile extends React.Component {
 	// 车辆
 	getCarData = (isArray, values) => {
 		const res = values[10];
-		debugger
 		if (isArray && res && res.code === 200) {
 			const { vehicleInformationCount, gmtModified } = res.data;
 			const CarPropsData = {
