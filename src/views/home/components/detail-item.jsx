@@ -413,8 +413,7 @@ class DetailItem extends PureComponent {
 		// console.log('detail item data === ', data);
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		const isData = Array.isArray(data) && data.length > 0;
-		const { assetsDataType, riskDataType } = this.props;
-		const detailTypeAll = Object.assign({},assetsDataType,riskDataType);
+		const { detailTypeAll } = this.props;
 		return (
 			<div
 				className="detail-container"
