@@ -3,7 +3,7 @@ import { Modal, Button } from 'antd';
 import {
 	Ellipsis, LiItem, Spin, Table,
 } from '@/common';
-import { Attentions, ReadStatus } from '@/common/table';
+import { Attentions } from '@/common/table';
 import { toThousands } from '@/utils/changeTime';
 import { WinbidApi } from 'api/assets/construct';
 
@@ -18,7 +18,7 @@ export default class OnBuildWinbid extends React.PureComponent {
 					title: '中标日期',
 					dataIndex: 'winningTime',
 					width: 110,
-					render: (text, row) => ReadStatus(text || '-', row),
+					render: text => <span>{text || '-'}</span>,
 				},
 				{
 					title: <span style={{ marginLeft: 10 }}>中标单位</span>,

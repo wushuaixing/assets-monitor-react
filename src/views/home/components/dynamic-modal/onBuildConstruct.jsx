@@ -28,7 +28,6 @@ export default class OnBuildConstruct extends React.PureComponent {
 					dataIndex: 'id',
 					render: (text, row) => (
 						<React.Fragment>
-							<span style={{ position: 'absolute', top: '42%' }} className={!row.isRead && row.isRead !== undefined ? 'yc-table-read' : 'yc-table-unread'} />
 							<div style={{ marginLeft: 10 }}>
 								{
 									row.parties.map(item => (
