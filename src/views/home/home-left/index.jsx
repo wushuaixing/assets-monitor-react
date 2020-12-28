@@ -53,8 +53,41 @@ const assestArr = [
 	{ count: 'zjgczbdw', Api: importantListBuildWinbid }, // 在建工程-中标单位
 	{ count: 'zjgcsgdw', Api: importantListBuildUnderway }, // 在建工程-施工单位
 ];
-const assetsDataType = [101, 201, 202, 203, 301, 302, 303, 304, 401, 501, 601, 602, 603, 1401, 1501, 1601, 1701, 1702, 1703];
-const riskDataType = [701, 801, 802, 901, 902, 903, 1001, 1002, 1003, 1004, 1301, 1302];
+const assetsDataType = {
+	101: { tag: '资产拍卖', icon: 'auction-2' },
+	201: { tag: '出让结果', icon: 'land-result' },
+	202: { tag: '土地转让', icon: 'land-transfer' },
+	203: { tag: '土地抵押', icon: 'land-mortgage' },
+	301: { tag: '排污权发证', icon: 'intangible-dump' },
+	302: { tag: '采矿权发证', icon: 'intangible-mining' },
+	303: { tag: '商标专利', icon: 'intangible-trademark' },
+	304: { tag: '建筑建造资质', icon: 'intangible-build' },
+	401: { tag: '动产抵押', icon: 'chattel-2' },
+	501: { tag: '股权质押', icon: 'stock-2' },
+	601: { tag: '代位权(立案)', icon: 'subrogation-trial' },
+	602: { tag: '代位权(开庭)', icon: 'subrogation-court' },
+	603: { tag: '代位权(文书)', icon: 'subrogation-judgment' },
+	1401: { tag: '查/解封资产', icon: 'unblockCube' },
+	1501: { tag: '车辆信息', icon: 'biaoqian-cheliangxinxi' },
+	1601: { tag: '不动产登记', icon: 'biaoqian-budongchandengji' },
+	1701: { tag: '在建工程', icon: 'construct' },
+	1702: { tag: '在建工程', icon: 'construct' },
+	1703: { tag: '在建工程', icon: 'construct' },
+};
+const riskDataType = {
+	701: { tag: '破产重组', icon: 'bankruptcy-2' },
+	801: { tag: '失信(列入)', icon: 'broken-add' },
+	802: { tag: '失信(移除)', icon: 'broken-remove' },
+	901: { tag: '涉诉(立案)', icon: 'lawsuit-trial' },
+	902: { tag: '涉诉(开庭)', icon: 'lawsuit-court' },
+	903: { tag: '涉诉(文书)', icon: 'lawsuit-judgment' },
+	1001: { tag: '经营异常', icon: 'abnormal' },
+	1002: { tag: '严重违法', icon: 'illegal' },
+	1003: { tag: '税收违法', icon: 'tax' },
+	1004: { tag: '行政处罚', icon: 'punishment' },
+	1301: { tag: '限制高消费(移除)', icon: 'limitCube' },
+	1302: { tag: '限制高消费', icon: 'limitCube' },
+};
 const riskArr = [
 	{ count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
 
@@ -447,13 +480,18 @@ class HomeDynamic extends PureComponent {
 		this.setState({ typeValue: value });
 	};
 
+	dataType = (obj) => {
+		const arr = Object.keys(obj).map(i => Number(i));
+		return arr;
+	};
+
 	arrFilter = (arr, type) => {
 		let curDetailType = [];
 		if (type === 'assets') {
-			curDetailType = assetsDataType;
+			curDetailType = this.dataType(assetsDataType);
 		}
 		if (type === 'risk') {
-			curDetailType = riskDataType;
+			curDetailType = this.dataType(riskDataType);
 		}
 		let curArr = [];
 		if (arr.length > 0) {
@@ -476,6 +514,7 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderList,
 			RiskImportantReminderObligorIdList,
 		};
+		const detailTypeAll = Object.assign(assetsDataType, riskDataType);
 		const newAssetArr = [...AssetImportantReminderList];
 		const assetArr = (newAssetArr.sort(compare('timestamp')));
 		const newRiskArr = [...RiskImportantReminderList];
@@ -541,7 +580,7 @@ class HomeDynamic extends PureComponent {
 						</div>
 						{
 							allArr.length > 0 ? (
-								<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} status={typeValue} />
+								<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} status={typeValue} detailTypeAll={detailTypeAll} />
 							) : (
 								<React.Fragment>
 									{
