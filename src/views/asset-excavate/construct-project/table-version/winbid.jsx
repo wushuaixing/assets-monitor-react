@@ -32,9 +32,9 @@ class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
 					<li>
-						<LiItem title="招标类型">{row.biddingType}</LiItem>
+						<LiItem title="招标类型">{row.biddingType || '-'}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
-						<LiItem title="招标方式">{row.biddingMode}</LiItem>
+						<LiItem title="招标方式">{row.biddingMode || '-'}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
 						<LiItem title="中标金额">{`${row.winningPrice > 0 ? `${toThousands(row.winningPrice)}元` : '-'}`}</LiItem>
 					</li>
@@ -49,7 +49,7 @@ class TableIntact extends React.Component {
 					<div className="assets-info-content" style={{ maxWidth: 400 }}>
 						<li style={{ height: 16 }} />
 						<li>
-							<LiItem title="中标日期">{row.winningTime}</LiItem>
+							<LiItem title="中标日期">{row.winningTime || '-'}</LiItem>
 						</li>
 					</div>
 				</React.Fragment>
