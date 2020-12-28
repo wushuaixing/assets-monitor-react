@@ -215,8 +215,26 @@ export const importantListLimitHeight = async (params) => {
 	const response = await service.get('/yc/monitor/limitHeight/importantList', { params });
 	return Object.assign(response.data, { name: 'limitHeight' });
 };
-// 限制高消费
+// 车辆信息
 export const importantListCar = async (params) => {
 	const response = await service.get('/yc/monitor/vehicle/importantList', { params });
 	return Object.assign(response.data, { name: 'limitHeight' });
+};
+
+// 在建工程-建设单位
+export const importantListBuildConstruct = async (params) => {
+	const response = await service.get('/yc/monitor/onBuild/projectInfo/importantList', { params });
+	return Object.assign(response.data, { name: 'construct' });
+};
+
+// 在建工程-中标单位
+export const importantListBuildWinbid = async (params) => {
+	const response = await service.get('/yc/monitor/onBuild/bidding/importantList', { params });
+	return Object.assign(response.data, { name: 'winbid' });
+};
+
+// 在建工程-施工单位
+export const importantListBuildUnderway = async (params) => {
+	const response = await service.get('/yc/monitor/onBuild/constructionLicence/importantList', { params });
+	return Object.assign(response.data, { name: 'underway' });
 };
