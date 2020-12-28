@@ -177,6 +177,21 @@ function exportTemplate(source, exportType, name) {
 			4: "终本案件",
 			99: "执恢案件"
 		},
+		// 角色名称
+		roleType: {
+			0: "未知",
+			1: "中标单位",
+			2: "勘察单位",
+			3: "建设单位",
+			4: "施工单位",
+			5: "监理单位",
+			6: "设计单位",
+			7: "发包单位",
+			8: "承包单位",
+			9: "中标候选人",
+			10: "招标人",
+			11: "工程总承包单位",
+		},
 		// （1-即将开始、3-正在进行、5-已成交、7-已流拍、9-中止、11-撤回）
 		auction: {
 			1: {t: '即将开始', dot: 'warning'},
@@ -232,6 +247,13 @@ function exportTemplate(source, exportType, name) {
 			'5': '增资项目',
 			'6': '其他项目',
 			'-1': '未知'
+		},
+		projectUnitType: {
+			0: "未知",
+			1: "建筑工程",
+			2: "装饰工程",
+			3: "市政道路工程",
+			4: "其他",
 		},
 	};
 	// public function object
@@ -1044,8 +1066,10 @@ function exportTemplate(source, exportType, name) {
 			// 在建工程_建设单位
 			case 'A13001': {
 				data.list.forEach(function (i) {
+					var projectTypeName = s.projectUnitType[i.projectType];
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
+						+ f.tag(projectTypeName)
 						+ f.normalList([
 							[
 								{t: '建设性质', cot: i.nature},
@@ -1080,11 +1104,17 @@ function exportTemplate(source, exportType, name) {
 			// 在建工程_施工单位
 			case 'A13003': {
 				data.list.forEach(function (i) {
+					var roleList = '';
+					i.role.forEach(function (it, index) {
+						var punctuation = index === i.role.length - 1 ? '' : '，';
+						roleList += s.roleType[it] + punctuation;
+					});
+					console.log('roleList === ', roleList);
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
 						+ f.normalList([
 							[
-								{t: '角色', cot: i.role},
+								{t: '角色', cot: roleList},
 								{t: '合同金额', cot: w(f.threeDigit(i.contractPrice), {unit: '元'}) },
 								{t: '合同工期', cot: i.projectPeriod},
 							],

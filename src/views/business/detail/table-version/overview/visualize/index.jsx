@@ -308,7 +308,6 @@ export default class Visualize extends React.Component {
 							)
 						}
 					</div>
-
 				</div>
 				<div className="overview-line" />
 				<div className="overview-right">
