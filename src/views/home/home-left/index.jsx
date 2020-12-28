@@ -514,7 +514,7 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderList,
 			RiskImportantReminderObligorIdList,
 		};
-		const detailTypeAll = Object.assign(assetsDataType, riskDataType);
+		const detailTypeAll = Object.assign({},assetsDataType,riskDataType);
 		const newAssetArr = [...AssetImportantReminderList];
 		const assetArr = (newAssetArr.sort(compare('timestamp')));
 		const newRiskArr = [...RiskImportantReminderList];
@@ -527,10 +527,10 @@ class HomeDynamic extends PureComponent {
 			allArr = assetsTemp.concat(riskArrTemp).sort(compare('timestamp'));
 		}
 		if (typeValue === 'assets') {
-			allArr = assetsTemp;
+			allArr = assetsTemp.sort(compare('timestamp'));
 		}
 		if (typeValue === 'risk') {
-			allArr = riskArrTemp;
+			allArr = riskArrTemp.sort(compare('timestamp'));
 		}
 		return (
 			<React.Fragment>
