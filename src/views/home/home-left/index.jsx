@@ -464,7 +464,7 @@ class HomeDynamic extends PureComponent {
 		const newAllArr = newAssetArr.concat(newRiskArr);
 		let allArr = [];
 		if (typeValue === 'all') {
-			allArr = assetArr.concat(riskArr);
+			allArr = assetArr.concat(riskArr).sort(compare('timestamp'));
 		}
 		if (typeValue === 'assets') {
 			allArr = assetArr;
