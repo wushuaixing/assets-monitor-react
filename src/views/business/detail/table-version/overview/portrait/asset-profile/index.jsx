@@ -40,6 +40,12 @@ import './style.scss';
 
 const constantNumber = 99999999; // 默认值
 
+const obligorUnitTypeMap = new Map([
+	[1, '建设单位'],
+	[2, '中标单位'],
+	[3, '施工单位'],
+]);
+
 // 获取api请求
 const apiType = (value, portrait) => {
 	switch (value) {
@@ -356,21 +362,9 @@ export default class AssetProfile extends React.Component {
 			const { onBuildCount, obligorUnitTypeVOList, gmtModified } = res.data;
 			const allNum = onBuildCount;
 			const dataArray = [];
-			// 建设单位
-			const constructCount = obligorUnitTypeVOList.filter(it => it.obligorUnitType === 1)[0].obligorUnitCount;
-			// 中标单位
-			const winbidCount = obligorUnitTypeVOList.filter(it => it.obligorUnitType === 2)[0].obligorUnitCount;
-			// 施工单位
-			const underwayCount = obligorUnitTypeVOList.filter(it => it.obligorUnitType === 3)[0].obligorUnitCount;
-			if (constructCount) {
-				dataArray.push({ count: constructCount || 0, typeName: '建设单位' });
-			}
-			if (winbidCount) {
-				dataArray.push({ count: winbidCount || 0, typeName: '中标单位' });
-			}
-			if (underwayCount) {
-				dataArray.push({ count: underwayCount || 0, typeName: '施工单位' });
-			}
+			obligorUnitTypeVOList.forEach((item) => {
+				dataArray.push({ count: item.obligorUnitCount || 0, typeName: obligorUnitTypeMap.get(item.obligorUnitType) });
+			});
 			const constructPropsData = {
 				gmtModified,
 				dataArray,
