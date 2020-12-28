@@ -503,7 +503,7 @@ class HomeDynamic extends PureComponent {
 								<Btn className="seven-update-content-checkBtn" onClick={() => this.handleImportantInfoStandard()}>规则说明</Btn>
 								<Select
 									defaultValue="all"
-									style={{ width: '200px', float: 'right', marginLeft: '180px' }}
+									style={{ width: '82px', float: 'right', marginLeft: '263px' }}
 									onSelect={this.onSelect}
 								>
 									{[
