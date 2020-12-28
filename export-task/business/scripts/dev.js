@@ -1105,8 +1105,8 @@ function exportTemplate(source, exportType, name) {
 			case 'A13003': {
 				data.list.forEach(function (i) {
 					var roleList = '';
-					i.role.forEach(function (it, index) {
-						var punctuation = index === i.role.length - 1 ? '' : '，';
+					i.parties[0].role.forEach(function (it, index) {
+						var punctuation = index === i.parties[0].role.length - 1 ? '' : '，';
 						roleList += s.roleType[it] + punctuation;
 					});
 					list += "<tr><td>"
@@ -1117,7 +1117,7 @@ function exportTemplate(source, exportType, name) {
 								{t: '合同金额', cot: w(f.threeDigit(i.contractPrice), {unit: '元'}) },
 								{t: '合同工期', cot: i.projectPeriod},
 							],
-							{t: '项目所在地', cot: i.projectLocation},
+							i.projectLocation && {t: '项目所在地', cot: i.projectLocation},
 						])
 						+ "</td><td>" + f.normalList([
 							{t: '发证日期', cot: i.issuingTime},
