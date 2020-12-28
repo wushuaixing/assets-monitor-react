@@ -59,79 +59,6 @@ import OnBuildUnderway from './dynamic-modal/onBuildUnderway';
 import './style.scss';
 
 let scrollInterval = '';
-const tag = (value) => {
-	switch (value) {
-	case 101: return '资产拍卖';
-	case 201: return '出让结果';
-	case 202: return '土地转让';
-	case 203: return '土地抵押';
-	case 301: return '排污权发证';
-	case 302: return '采矿权发证';
-	case 303: return '商标专利';
-	case 304: return '建筑建造资质';
-	case 401: return '动产抵押';
-	case 501: return '股权质押';
-	case 601: return '代位权(立案)';
-	case 602: return '代位权(开庭)';
-	case 603: return '代位权(文书)';
-	case 701: return '破产重组';
-	case 801: return '失信(列入)';
-	case 802: return '失信(移除)';
-	case 901: return '涉诉(立案)';
-	case 902: return '涉诉(开庭)';
-	case 903: return '涉诉(文书)';
-	case 1001: return '经营异常';
-	case 1002: return '严重违法';
-	case 1003: return '税收违法';
-	case 1004: return '行政处罚';
-	case 1301: return '限制高消费(移除)';
-	case 1302: return '限制高消费';
-	case 1401: return '查/解封资产';
-	case 1501: return '车辆信息';
-	case 1601: return '不动产登记';
-	case 1701: return '在建工程';
-	case 1702: return '在建工程';
-	case 1703: return '在建工程';
-	default: return '-';
-	}
-};
-
-const icon = (value) => {
-	switch (value) {
-	case 101: return 'auction-2';
-	case 201: return 'land-result';
-	case 202: return 'land-transfer';
-	case 203: return 'land-mortgage';
-	case 301: return 'intangible-dump';
-	case 302: return 'intangible-mining';
-	case 303: return 'intangible-trademark';
-	case 304: return 'intangible-build';
-	case 401: return 'chattel-2';
-	case 501: return 'stock-2';
-	case 601: return 'subrogation-trial';
-	case 602: return 'subrogation-court';
-	case 603: return 'subrogation-judgment';
-	case 701: return 'bankruptcy-2';
-	case 801: return 'broken-add';
-	case 802: return 'broken-remove';
-	case 901: return 'lawsuit-trial';
-	case 902: return 'lawsuit-court';
-	case 903: return 'lawsuit-judgment';
-	case 1001: return 'abnormal';
-	case 1002: return 'illegal';
-	case 1003: return 'tax';
-	case 1004: return 'punishment';
-	case 1301: return 'limitCube';
-	case 1302: return 'limitCube';
-	case 1401: return 'unblockCube';
-	case 1501: return 'biaoqian-cheliangxinxi';
-	case 1601: return 'biaoqian-budongchandengji';
-	case 1701: return 'construct';
-	case 1702: return 'construct';
-	case 1703: return 'construct';
-	default: return '-';
-	}
-};
 class DetailItem extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -198,8 +125,8 @@ class DetailItem extends PureComponent {
 		const box = document.getElementById('scrollList');
 		if (status) {
 			clearInterval(scrollInterval);
+			box.scrollTop = 0;
 			setTimeout(() => {
-				box.scrollTop = 0;
 				this.startScrollUp();
 			}, 250);
 		}
@@ -486,6 +413,7 @@ class DetailItem extends PureComponent {
 		// console.log('detail item data === ', data);
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
 		const isData = Array.isArray(data) && data.length > 0;
+		const { detailTypeAll } = this.props;
 		return (
 			<div
 				className="detail-container"
@@ -558,8 +486,8 @@ class DetailItem extends PureComponent {
 													${(item.detailType === 1601) ? 'blue' : ''}`
 													}
 												>
-													<Icon type={`icon-${icon(item.detailType)}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />
-													{tag(item.detailType)}
+													<Icon type={`icon-${detailTypeAll[item.detailType] ? detailTypeAll[item.detailType].icon : '-'}`} className="detail-container-content-right-tag-icon" style={{ fontWeight: 400 }} />
+													{detailTypeAll[item.detailType] ? detailTypeAll[item.detailType].tag : '-'}
 												</div>
 											</div>
 										</li>
