@@ -76,7 +76,9 @@ const columns = (props) => {
 					<div>
 						<LiItem Li auto title="合同金额" titleStyle={{ color: '#7D8699', width: 68 }}>{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
 						<LiItem Li auto title="合同工期" titleStyle={{ color: '#7D8699', width: 68 }}>{row.projectPeriod || '-'}</LiItem>
-						<LiItem Li auto title="项目所在地" titleStyle={{ color: '#7D8699', width: 68 }}>{row.projectLocation}</LiItem>
+						{
+							row.projectLocation ? <LiItem Li auto title="项目所在地" titleStyle={{ color: '#7D8699', width: 68 }}>{row.projectLocation}</LiItem> : null
+						}
 					</div>
 				</div>
 			),
