@@ -31,12 +31,12 @@ class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
 					<li>
-						<LiItem title="建设性质">{row.nature}</LiItem>
+						<LiItem title="建设性质">{row.nature || '-'}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
 						<LiItem title="总投资">{`${row.totalInvestment > 0 ? `${toThousands(row.totalInvestment)}元` : '-'}`}</LiItem>
 					</li>
 					<li>
-						<LiItem cotStyle={{ maxWidth: 700 }} title="项目所在地">{row.projectLocation}</LiItem>
+						<LiItem cotStyle={{ maxWidth: 700 }} title="项目所在地">{row.projectLocation || '-'}</LiItem>
 					</li>
 				</div>
 			),
@@ -49,7 +49,7 @@ class TableIntact extends React.Component {
 				<div className="assets-info-content" style={{ maxWidth: 400 }}>
 					<li style={{ height: 16 }} />
 					<li>
-						<LiItem title="计划开工日期">{row.planBeginTime}</LiItem>
+						<LiItem title="计划开工日期">{row.planBeginTime || '-'}</LiItem>
 					</li>
 				</div>
 			),

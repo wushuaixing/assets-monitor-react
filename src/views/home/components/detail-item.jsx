@@ -89,9 +89,9 @@ const tag = (value) => {
 	case 1401: return '查/解封资产';
 	case 1501: return '车辆信息';
 	case 1601: return '不动产登记';
-	case 1701: return '在建工程(建设)';
-	case 1702: return '在建工程(中标)';
-	case 1703: return '在建工程(施工)';
+	case 1701: return '在建工程';
+	case 1702: return '在建工程';
+	case 1703: return '在建工程';
 	default: return '-';
 	}
 };
