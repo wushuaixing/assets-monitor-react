@@ -3,7 +3,7 @@ import { Modal, Button } from 'antd';
 import {
 	Ellipsis, LiItem, Spin, Table,
 } from '@/common';
-import { Attentions, ReadStatus } from '@/common/table';
+import { Attentions } from '@/common/table';
 import { toThousands } from '@/utils/changeTime';
 import { UnderwayApi } from 'api/assets/construct';
 
@@ -34,7 +34,7 @@ export default class OnBuildUnderway extends React.PureComponent {
 				{
 					title: '发证日期',
 					dataIndex: 'issuingTime',
-					render: (text, row) => ReadStatus(text || '-', row),
+					render: text => <span>{text || '-'}</span>,
 				},
 				{
 					title: <span style={{ marginLeft: 10 }}>施工单位</span>,
