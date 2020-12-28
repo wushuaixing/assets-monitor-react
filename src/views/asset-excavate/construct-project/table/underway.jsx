@@ -2,12 +2,11 @@ import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
 import { Attentions, ReadStatus, SortVessel } from '@/common/table';
-import { readStatusMerchants } from '@/utils/api/monitor-info/finance';
 import {
 	Table, SelectedNum, Ellipsis, LiItem,
 } from '@/common';
-import api from '@/utils/api/monitor-info/finance';
 import { toThousands } from '@/utils/changeTime';
+import { UnderwayApi } from '@/utils/api/assets/construct';
 
 const roleMap = new Map([
 	[0, '未知'],
@@ -99,7 +98,7 @@ const columns = (props) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? api.unFollowMerchants : api.followMerchants}
+					api={row.isAttention ? UnderwayApi.unAttention : UnderwayApi.attention}
 					index={index}
 				/>
 			),
@@ -127,7 +126,7 @@ class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
 		if (!isRead && !manage) {
-			readStatusMerchants({ idList: [id] }).then((res) => {
+			UnderwayApi.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

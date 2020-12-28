@@ -4,7 +4,7 @@ import {
 	importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage, importantListPledge, importantListSubrogationCourt,
 	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
 	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
-	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight, importantListEstateRegister,
+	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight, importantListEstateRegister, importantListBuildConstruct, importantListBuildWinbid, importantListBuildUnderway,
 	importantListCar,
 } from 'api/home';
 import { Button as Btn, Spin } from '@/common';
@@ -225,6 +225,10 @@ class HomeDynamic extends PureComponent {
 
 			{ count: 'zcwjbdcdj', Api: importantListEstateRegister }, // 资产挖掘->不动产登记
 			{ count: 'zcwjclxx', Api: importantListCar }, // 资产挖掘->车辆信息
+
+			 { count: 'zjgcjsdw', Api: importantListBuildConstruct }, // 在建工程-建设单位
+			 { count: 'zjgczbdw', Api: importantListBuildWinbid }, // 在建工程-中标单位
+			 { count: 'zjgcsgdw', Api: importantListBuildUnderway }, // 在建工程-施工单位
 
 			 // { count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
 			 //

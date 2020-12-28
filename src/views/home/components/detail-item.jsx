@@ -14,6 +14,9 @@ import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; /
 import { Court as lawsuitCourt, Trial as lawsuitTrial, Judgment as lawsuitJudgment } from '@/utils/api/risk-monitor/lawsuit'; // 涉诉信息
 import { markReadStatus } from '@/utils/api/monitor-info/assets'; // 资产拍卖已读
 import seizedUnblock from '@/utils/api/monitor-info/seizedUnbock'; // 查解封资产
+import {
+	ConstructApi, WinbidApi, UnderwayApi,
+} from '@/utils/api/assets/construct'; // 在建工程
 import { postMarkRead as realEstate } from '@/utils/api/monitor-info/real-estate'; // 不动产登记
 import { postMarkRead as carApi } from '@/utils/api/monitor-info/car'; // 不动产登记
 import limitConsumption from '@/utils/api/monitor-info/limit-consumption'; // 限制高消费
@@ -50,6 +53,9 @@ import UnblockModal from './dynamic-modal/unblock-modal';
 import LimitHeightModal from './dynamic-modal/limit-height-modal';
 import RealEstateModal from './dynamic-modal/real-estate-modal';
 import CarModal from './dynamic-modal/car-modal';
+import OnBuildConstruct from './dynamic-modal/onBuildConstruct';
+import OnBuildWinbid from './dynamic-modal/onBuildWinbid';
+import OnBuildUnderway from './dynamic-modal/onBuildUnderway';
 import './style.scss';
 
 let scrollInterval = '';
@@ -83,6 +89,9 @@ const tag = (value) => {
 	case 1401: return '查/解封资产';
 	case 1501: return '车辆信息';
 	case 1601: return '不动产登记';
+	case 1701: return '在建工程(建设)';
+	case 1702: return '在建工程(中标)';
+	case 1703: return '在建工程(施工)';
 	default: return '-';
 	}
 };
@@ -114,9 +123,12 @@ const icon = (value) => {
 	case 1004: return 'punishment';
 	case 1301: return 'limitCube';
 	case 1302: return 'limitCube';
-	case 1501: return 'biaoqian-cheliangxinxi';
 	case 1401: return 'unblockCube';
+	case 1501: return 'biaoqian-cheliangxinxi';
 	case 1601: return 'biaoqian-budongchandengji';
+	case 1701: return 'construct';
+	case 1702: return 'construct';
+	case 1703: return 'construct';
 	default: return '-';
 	}
 };
@@ -151,6 +163,9 @@ class DetailItem extends PureComponent {
 			limitHeightModalVisible: false,
 			realEstateModalVisible: false,
 			carModalVisible: false,
+			onBuildConstructVisible: false,
+			onBuildWinbidVisible: false,
+			onBuildUnderwayVisible: false,
 			data: props.data || [],
 			dataSource: [],
 			animate: false,
@@ -350,9 +365,20 @@ class DetailItem extends PureComponent {
 				this.isReadList(item, index, realEstate, 'idList');
 				this.setState(() => ({ realEstateModalVisible: true, dataSource: item.detailList }));
 			}],
+			[1701, () => {
+				this.isReadList(item, index, ConstructApi.read, 'idList');
+				this.setState(() => ({ onBuildConstructVisible: true, dataSource: item.detailList }));
+			}],
+			[1702, () => {
+				this.isReadList(item, index, WinbidApi.read, 'idList');
+				this.setState(() => ({ onBuildWinbidVisible: true, dataSource: item.detailList }));
+			}],
+			[1703, () => {
+				this.isReadList(item, index, UnderwayApi.read, 'idList');
+				this.setState(() => ({ onBuildUnderwayVisible: true, dataSource: item.detailList }));
+			}],
 			['default', ['资产拍卖', 1]],
 		]);
-		console.log(openModalMap.get(item.detailType));
 		const openModalMapType = openModalMap.get(item.detailType) || openModalMap.get('default');
 		openModalMapType.call(this);
 	};
@@ -390,6 +416,9 @@ class DetailItem extends PureComponent {
 			limitHeightModalVisible: false,
 			realEstateModalVisible: false,
 			carModalVisible: false,
+			onBuildConstructVisible: false,
+			onBuildWinbidVisible: false,
+			onBuildUnderwayVisible: false,
 		});
 	};
 
@@ -452,7 +481,7 @@ class DetailItem extends PureComponent {
 			miningModalVisible, trademarkModalVisible, constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
 			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, unBlockModalVisible,
-			lawsuitJudgmentModalVisible, listMarginTop, openMessage, limitHeightModalVisible, realEstateModalVisible, carModalVisible,
+			lawsuitJudgmentModalVisible, listMarginTop, openMessage, limitHeightModalVisible, realEstateModalVisible, carModalVisible, onBuildConstructVisible, onBuildWinbidVisible, onBuildUnderwayVisible,
 		} = this.state;
 		// console.log('detail item data === ', data);
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
@@ -780,7 +809,7 @@ class DetailItem extends PureComponent {
 						limitHeightModalVisible={limitHeightModalVisible}
 					/>
 				)}
-				{/** 不动产Modal */}
+				{/** 车辆信息 */}
 				{carModalVisible && (
 					<CarModal
 						onCancel={this.onCancel}
@@ -796,6 +825,33 @@ class DetailItem extends PureComponent {
 						onOk={this.onOk}
 						dataSource={dataSource}
 						realEstateModalVisible={realEstateModalVisible}
+					/>
+				)}
+				{/* 在建工程-建设单位 */}
+				{onBuildConstructVisible && (
+					<OnBuildConstruct
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						onBuildConstructVisible={onBuildConstructVisible}
+					/>
+				)}
+				{/* 在建工程-招标单位 */}
+				{onBuildWinbidVisible && (
+					<OnBuildWinbid
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						onBuildWinbidVisible={onBuildWinbidVisible}
+					/>
+				)}
+				{/* 在建工程-施工单位 */}
+				{onBuildUnderwayVisible && (
+					<OnBuildUnderway
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						dataSource={dataSource}
+						onBuildUnderwayVisible={onBuildUnderwayVisible}
 					/>
 				)}
 			</div>
