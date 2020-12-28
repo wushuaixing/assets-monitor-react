@@ -248,6 +248,13 @@ function exportTemplate(source, exportType, name) {
 			'6': '其他项目',
 			'-1': '未知'
 		},
+		projectUnitType: {
+			0: "未知",
+			1: "建筑工程",
+			2: "装饰工程",
+			3: "市政道路工程",
+			4: "其他",
+		},
 	};
 	// public function object
 	var f = {
@@ -1059,8 +1066,10 @@ function exportTemplate(source, exportType, name) {
 			// 在建工程_建设单位
 			case 'A13001': {
 				data.list.forEach(function (i) {
+					var projectTypeName = s.projectUnitType[i.projectType];
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
+						+ f.tag(projectTypeName)
 						+ f.normalList([
 							[
 								{t: '建设性质', cot: i.nature},

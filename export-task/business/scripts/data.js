@@ -1419,6 +1419,7 @@ module.exports = {
 				"totalInvestment": 565626265,
 				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
 				"planBeginTime": "2020-11-11",
+				"projectType": 1,
 			},
 			{
 				"title": "潍坊宝通街绿化养护管理和完善提升",
@@ -1427,6 +1428,7 @@ module.exports = {
 				"totalInvestment": 565626265,
 				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
 				"planBeginTime": "2020-11-11",
+				"projectType": 2,
 			},
 			{
 				"title": "潍坊宝通街绿化养护管理和完善提升",
@@ -1435,6 +1437,7 @@ module.exports = {
 				"totalInvestment": 565626265,
 				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
 				"planBeginTime": "2020-11-11",
+				"projectType": 4,
 			},
 			{
 				"title": "潍坊宝通街绿化养护管理和完善提升",

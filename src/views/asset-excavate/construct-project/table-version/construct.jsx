@@ -7,6 +7,14 @@ import {
 } from '@/common';
 import { toThousands } from '@/utils/changeTime';
 
+const projectTypeMap = new Map([
+	[1, '建筑工程'],
+	[2, '装饰工程'],
+	[3, '市政道路工程'],
+	[4, '其他'],
+	[0, '未知'],
+]);
+
 class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -30,6 +38,7 @@ class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
+					{ row.projectType >= 0 ? <span className="yc-case-reason text-ellipsis">{projectTypeMap.get(row.projectType)}</span> : ''}
 					<li>
 						<LiItem title="建设性质">{row.nature || '-'}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
