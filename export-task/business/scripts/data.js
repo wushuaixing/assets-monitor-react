@@ -1507,6 +1507,11 @@ module.exports = {
 				"projectPeriod": "2020-11-11至2020-11-11",
 				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
 				"issuingTime": "",
+				parties: [
+					{
+						role: [1,2],
+					}
+				]
 			},
 			{
 				"title": "潍坊宝通街绿化养护管理和完善提升",
@@ -1516,6 +1521,11 @@ module.exports = {
 				"projectPeriod": "2020-11-11至2020-11-11",
 				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
 				"issuingTime": "2020-11-11",
+				parties: [
+					{
+						role: [5, 9],
+					}
+				]
 			},
 			{
 				"title": "潍坊宝通街绿化养护管理和完善提升",
@@ -1525,15 +1535,11 @@ module.exports = {
 				"projectPeriod": "2020-11-11至2020-11-11",
 				"projectLocation": "",
 				"issuingTime": "2020-11-11",
-			},
-			{
-				"title": "潍坊宝通街绿化养护管理和完善提升",
-				"url": "http://www.baidu.com",
-				"role": [2, 4],
-				"contractPrice": 75455656565,
-				"projectPeriod": "2020-11-11至2020-11-11",
-				"projectLocation": "广东省佛山市南海区桂城街道半岛路",
-				"issuingTime": "2020-11-11",
+				parties: [
+					{
+						role: [5, 9],
+					}
+				]
 			},
 		],
 		num: 5000,

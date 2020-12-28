@@ -1105,11 +1105,10 @@ function exportTemplate(source, exportType, name) {
 			case 'A13003': {
 				data.list.forEach(function (i) {
 					var roleList = '';
-					i.role.forEach(function (it, index) {
-						var punctuation = index === i.role.length - 1 ? '' : '，';
+					i.parties[0].role.forEach(function (it, index) {
+						var punctuation = index === i.parties[0].role.length - 1 ? '' : '，';
 						roleList += s.roleType[it] + punctuation;
 					});
-					console.log('roleList === ', roleList);
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
 						+ f.normalList([
@@ -1118,7 +1117,7 @@ function exportTemplate(source, exportType, name) {
 								{t: '合同金额', cot: w(f.threeDigit(i.contractPrice), {unit: '元'}) },
 								{t: '合同工期', cot: i.projectPeriod},
 							],
-							{t: '项目所在地', cot: i.projectLocation},
+							i.projectLocation && {t: '项目所在地', cot: i.projectLocation},
 						])
 						+ "</td><td>" + f.normalList([
 							{t: '发证日期', cot: i.issuingTime},
@@ -1362,7 +1361,6 @@ function exportTemplate(source, exportType, name) {
 
 	/* creat child Container  */
 	var childContainer = function (option, source) {
-		console.log(option)
 		var count = typeof source === 'object' ? (source.total || source.length || 0) : 0;
 		if ((count !== 0 || option.show) && source) {
 			var title = option.title + (count ? '  ' + count : '');

@@ -48,15 +48,15 @@ class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
 					<li>
-						<LiItem title="角色">{Array.isArray(row.role) && row.role.length > 0 ? row.role.map((it, index) => `${roleMap.get(it)}${index === row.role.length - 1 ? '：' : '，'}`) : roleMap.get(row.role)}</LiItem>
+						<LiItem title="角色">{ row.parties[0].role.map((it, index) => `${roleMap.get(it)}${index === row.parties[0].role.length - 1 ? '' : '，'}`)}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
 						<LiItem title="合同金额">{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
 						<LiItem title="合同工期">{row.projectPeriod || '-'}</LiItem>
 					</li>
-					<li>
-						<LiItem title="项目所在地" cotStyle={{ maxWidth: 700 }}>{row.projectLocation}</LiItem>
-					</li>
+					{
+						row.projectLocation && <LiItem Li title="项目所在地" cotStyle={{ maxWidth: 700 }}>{row.projectLocation}</LiItem>
+					}
 				</div>
 			),
 		},
