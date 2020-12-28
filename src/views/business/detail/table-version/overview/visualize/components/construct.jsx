@@ -49,19 +49,28 @@ export default class Construct extends React.Component {
 		} = this.props;
 		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
 		const api = portrait === 'business' ? businessOverviewConstruct : overviewConstruct;
+		let constructArray = []; // 建设单位数据
+		let winbidArray = []; // 中标单位数据
+		let underwayArray = []; // 施工单位数据
+		let constructNum = 0; // 建设单位总数数量
+		let winbidNum = 0; // 中标单位总数
+		let underwayNum = 0; // 施工单位总数
 		api(params).then((res) => {
 			if (res.code === 200) {
-				console.log('res === ', res);
-				const constructArray = res.data.obligorUnitTypeVOList.filter(i => i.obligorUnitType === 1)[0]; // 建设单位
-				const winbidArray = res.data.obligorUnitTypeVOList.filter(i => i.obligorUnitType === 2)[0]; // 中标单位
-				const underwayArray = res.data.obligorUnitTypeVOList.filter(i => i.obligorUnitType === 3)[0]; // 施工单位
-
-				const constructNum = constructArray.obligorUnitCount; // 建设单位总数数量
-				const winbidNum = winbidArray.obligorUnitCount; // 中标单位总数
-				const underwayNum = underwayArray.obligorUnitCount; // 施工单位总数
-
-				const allNum = constructNum + winbidNum + underwayNum;
-				getAssetProfile(allNum, 'Construct');
+				const { obligorUnitTypeVOList } = res.data;
+				obligorUnitTypeVOList.forEach(((item) => {
+					if (item.obligorUnitType === 1) {
+						constructArray = item;
+						constructNum = item.obligorUnitCount;
+					} else if (item.obligorUnitType === 2) {
+						winbidArray = item;
+						winbidNum = item.obligorUnitCount;
+					} else {
+						underwayArray = item;
+						underwayNum = item.obligorUnitCount;
+					}
+				}));
+				getAssetProfile(constructNum + winbidNum + underwayNum, 'Construct');
 				// construct 建设  winbid 中标单位 underway 施工单位
 				if (constructNum > 0) {
 					this.setState({
@@ -134,7 +143,7 @@ export default class Construct extends React.Component {
 	render() {
 		const { portrait } = this.props;
 		const {
-			RingData, timeLineData, selectType, constructArray, winbidArray, underwayArray, constructNum, winbidNum, underwayNum, RingDataNum, timeLineDataNum,
+			RingData, timeLineData, selectType, constructNum, winbidNum, underwayNum, RingDataNum, timeLineDataNum,
 		} = this.state;
 		return (
 			<div>
@@ -143,7 +152,7 @@ export default class Construct extends React.Component {
 						<div className="overview-container-title">
 							<div className="overview-left-item" />
 							<span className="container-title-num">
-								{constructArray.obligorUnitCount || winbidArray.obligorUnitCount || underwayArray.obligorUnitCount ? `${constructArray.obligorUnitCount + winbidArray.obligorUnitCount + underwayArray.obligorUnitCount} 条` : '-'}
+								{constructNum || winbidNum || underwayNum ? `${constructNum + winbidNum + underwayNum} 条` : '-'}
 							</span>
 							<span className="container-title-name">
 								在建工程
