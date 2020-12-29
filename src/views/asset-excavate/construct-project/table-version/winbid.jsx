@@ -30,7 +30,7 @@ class TableIntact extends React.Component {
 			dataIndex: 'title',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
+					<Ellipsis auto content={row.title || '-'} url={row.url} tooltip className="yc-public-title-normal-bold" />
 					<li>
 						<LiItem title="招标类型">{row.biddingType || '-'}</LiItem>
 						<span className="list-split" style={{ height: 16 }} />
