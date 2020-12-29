@@ -46,7 +46,7 @@ export default class Ellipsis extends React.Component {
 	render() {
 		const {
 			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
-			isBorrower = false, isBankruptcy = false, isLimitHeight = false, isTable = false, prefixContent, regStatus,
+			isBorrower = false, isBankruptcy = false, isLimitHeight = false, isTable = false, prefixContent, regStatus, bussinessStyle
 		} = this.props;
 
 		const _url = obligorId ? `#/business/debtor/detail?id=${obligorId}` : url;
@@ -69,9 +69,10 @@ export default class Ellipsis extends React.Component {
 		const addWidth = (_isBorrower ? 18 : 0) + (_isBankruptcy ? 18 : 0) + (_isLimitHeight ? 32 : 0) + (_isTable ? 32 : 0);
 		const style = _width ? {
 			color: customColor || undefined,
-			width: __width + addWidth,
+			width: bussinessStyle ? 'auto' : __width + addWidth,
 			display: 'inline-block',
 		} : '';
+		console.log(75,_width,__width,addWidth)
 		return (
 			<div ref={e => this.element = e} className={`yc-ellipsis-element${className ? ` ${className}` : ''}`} style={style}>
 				{
@@ -95,6 +96,8 @@ export default class Ellipsis extends React.Component {
 							style={{
 								background: '#FFE6F3',
 								color: '#EC3498',
+								width: '32px',
+								textAlign: 'center',
 							}}
 						/>
 					)}
@@ -105,6 +108,8 @@ export default class Ellipsis extends React.Component {
 							style={{
 								background: '#E5E5E5',
 								color: '#4E5566',
+								width: '32px',
+								textAlign: 'center',
 							}}
 						/>
 					)
