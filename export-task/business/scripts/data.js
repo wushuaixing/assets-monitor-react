@@ -1350,7 +1350,7 @@ module.exports = {
 		pages: 1,
 		total: 4,
 	},
-	// 不动产登记
+	// 不动产登记-精准匹配
 	DA11001: {
 		hasNext: false,
 		list: [
@@ -1383,8 +1383,41 @@ module.exports = {
 		pages: 0,
 		total: 2
 	},
-	// 车辆信息
+	// 不动产登记-模糊匹配
 	DA11002: {
+		hasNext: false,
+		list: [
+			{
+				"announcementType": 5,
+				"bankruptcyStatus": 0,
+				"certificateNumber": "",
+				"certificateType": "",
+				"dishonestStatus": 0,
+				"gmtCreate": "2020-11-27",
+				"gmtModified": "2020-11-27",
+				"id": 10043,
+				"isAttention": 0,
+				"isBorrower": false,
+				"isRead": false,
+				"matchType": 2,
+				"obligorId": 955650,
+				"obligorName": "中国工商银行",
+				"pid": "art_1228967973_57742378",
+				"publishTime": "2020-09-18",
+				"realEstateLocated": "保佑桥直街185号103室",
+				"role": null,
+				"sourceId": 11112,
+				"title": "他项权证书作废公告（中国工商银行股份有限公司绍兴支行）",
+				"url": "http://td.sx.gov.cn/art/2020/9/18/art_1228967973_57742378.html"
+			}
+		],
+		num: 5000,
+		page: 1,
+		pages: 0,
+		total: 2
+	},
+	// 车辆信息
+	DA12001: {
 		hasNext: false,
 		list: [
 			{

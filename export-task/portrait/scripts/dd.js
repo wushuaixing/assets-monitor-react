@@ -30,11 +30,12 @@ const dd = {
 	// 限制高消费
 	"A10214": "/yc/search/portrait/company/overview/limitHeight",
 	// 不动产
-	"A10215": "/yc/search/portrait/company/overview/estateRegister",
+	"A10215": "/yc/search/portrait/company/overview/estateRegister", // 精准
+	"A10216": "/yc/search/portrait/company/overview/estateRegister", // 模糊
 	// 车辆
-	"A10216": "/yc/search/portrait/company/overview/vehicleInformation",
+	"A10217": "/yc/search/portrait/company/overview/vehicleInformation",
 	// 在建工程
-	"A10217": "/yc/search/portrait/company/overview/onBuild",
+	"A10218": "/yc/search/portrait/company/overview/onBuild",
 	//  个人 - 概览
 	// 资产拍卖
 	"B10201": "/yc/search/portrait/personal/overview/asset/auction",
@@ -79,14 +80,16 @@ const dd = {
 	"A10320": "/yc/search/portrait/company/asset/finance/financeInvestmentList", // 招商项目
 	"A10321": "/yc/search/portrait/company/asset/finance/financeList", // 公示项目
 	// 不动产
-	"A10322": "/yc/search/portrait/company/asset/estateRegister/estateRegisterList",
+	"A10322": "/yc/search/portrait/company/asset/estateRegister/estateRegisterList",	// 精准
+	"A10323": "/yc/search/portrait/company/asset/estateRegister/estateRegisterList",  // 模糊
+
 	// 车辆
-	"A10323": "/yc/search/portrait/company/asset/vehicle/vehicleList",
+	"A10324": "/yc/search/portrait/company/asset/vehicle/vehicleList",
 
 	// 在建工程
-	"A10324": "/yc/search/portrait/company/asset/onBuild/onBuildUnitList", // 建设单位
-	"A10325": "/yc/search/portrait/company/asset/onBuild/onBuildBidList", // 中标单位
-	"A10326": "/yc/search/portrait/company/asset/onBuild/onBuildConstList", // 施工单位
+	"A10325": "/yc/search/portrait/company/asset/onBuild/onBuildUnitList", // 建设单位
+	"A10326": "/yc/search/portrait/company/asset/onBuild/onBuildBidList", // 中标单位
+	"A10327": "/yc/search/portrait/company/asset/onBuild/onBuildConstList", // 施工单位
 
 	/*画像详情，风险*/
 	//涉诉

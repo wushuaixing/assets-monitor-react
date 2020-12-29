@@ -91,6 +91,20 @@ function exportTemplate(source,exportType) {
 				{id: 3, value: '市政道路工程'},
 				{id: 4, value: '其他'},
 			],
+			roleType:{
+				0: '未知',
+				1: '中标单位',
+				2: '勘察单位',
+				3:'建设单位' ,
+				4: '施工单位',
+				5: '监理单位',
+				6: '设计单位',
+				7: '发包单位',
+				8: '承包单位',
+				9: '中标候选人',
+				10: '招标人',
+				11: '工程总承包单位',
+			},
 			projectStatusType: [
 				{id: 1, value: '即将开始'},
 				{id: 3, value: '正在进行'},
@@ -661,7 +675,7 @@ function exportTemplate(source,exportType) {
 			}
 		}
 		// 在建工程
-		else if(viewName === "overview.A10217"){
+		else if(viewName === "overview.A10218"){
 			if((source.obligorUnitTypeVOList||[]).length){
 				fun.source.construct.forEach(function (i) {
 					var result = false;
@@ -734,7 +748,7 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
 			}
 		}
-		// 不动产登记
+		// 不动产登记-精准
 		else if(viewName === "overview.A10215"){
 			if((source.auctionInfos||[]).length){
 				fun.source.matchType.forEach(function (i) {
@@ -764,8 +778,38 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".blurry.display}", "display-none");
 			}
 		}
-		// 车辆信息
+		// 不动产登记 -模糊
 		else if(viewName === "overview.A10216"){
+			if((source.auctionInfos||[]).length){
+				fun.source.matchType.forEach(function (i) {
+					var result = false;
+					source.auctionInfos.forEach(function (item) {
+						if(item.type === i.id){
+							if(item.count){
+								result = true;
+								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
+								if(item.roleDistributions.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".role.list}",
+										overViewTable(item.roleDistributions, 4, {
+											name: "year",
+											count: "count",
+											nameUnit:"年"
+										}))
+								}
+							}
+						}
+					});
+					if (!result){
+						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
+					}
+				});
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".accurate.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".blurry.display}", "display-none");
+			}
+		}
+		// 车辆信息
+		else if(viewName === "overview.A10217"){
 			if(source.unsealCount){
 				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
 				if((source.yearDistributions || []).length){
@@ -1204,14 +1248,16 @@ function exportTemplate(source,exportType) {
 		overView(data.A10211,"overview.A10211");
 		// 查解封资产
 		overView(data.A10212,"overview.A10212");
-		// 不动产
+		// 不动产-精准
 		overView(data.A10215,"overview.A10215");
-		// 车辆信息
+		// 不动产-模糊
 		overView(data.A10216,"overview.A10216");
+		// 车辆信息
+		overView(data.A10217,"overview.A10217");
 		// 金融资产
 		overView(data.A10213,"overview.A10213");
 		// 在建工程
-		overView(data.A10217,"overview.A10217");
+		overView(data.A10218,"overview.A10218");
 
 		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp) || /padding6 {overview\.A1021([0123]).{0,12}\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
@@ -1889,10 +1935,6 @@ function exportTemplate(source,exportType) {
 						"</li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
-						"<span class='n-title'>债务人角色：</span>" +
-						"<span class='n-desc'>"+(fun.toGetRoleType(item.role)||'--')+"</span>" +
-						"</div>" +
-						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>不动产坐落：</span>" +
 						"<span class='n-desc'>"+(item.realEstateLocated||'--')+"</span>" +
 						"</div>" +
@@ -2077,6 +2119,11 @@ function exportTemplate(source,exportType) {
 			// 在建工程 - 施工单位
 			case "onbuild.underway":{
 				source.list.forEach(function (item) {
+					var roleList = '';
+					(item.role || []).forEach(function (it, index) {
+						var punctuation = fun.source.roleType[it] + (index === (item.role|| []).length - 1 ? '' : '，');
+						roleList += punctuation;
+					});
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
@@ -2085,7 +2132,7 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>角色：</span>" +
-						"<span class='n-desc'>"+(item.role||'--')+"</span>" +
+						"<span class='n-desc'>"+( roleList ||'--')+"</span>" +
 						"</div>" +
 						"<div class='n-line mg0-5'></div><div class='nAndI'>" +
 						"<span class='n-title'>合同金额：</span>" +
@@ -2470,9 +2517,9 @@ function exportTemplate(source,exportType) {
 		//不动产登记-精准匹配
 		listView(data.A10322,'realEstate.accurate');
 		//不动产登记-模糊匹配
-		listView(data.A10322,'realEstate.blurry');
+		listView(data.A10323,'realEstate.blurry');
 		//车辆信息
-		listView(data.A10323,'car');
+		listView(data.A10324,'car');
 		// 金融资产 - 竞价项目
 		listView(data.A10319,"finance.bidding");
 		// 金融资产 - 招商项目
@@ -2480,11 +2527,11 @@ function exportTemplate(source,exportType) {
 		// 金融资产 - 公示项目
 		listView(data.A10321,"finance.publicity");
 		// 在建工程 - 建设单位
-		listView(data.A10324,"onbuild.construct");
+		listView(data.A10325,"onbuild.construct");
 		// 在建工程 - 中标单位
-		listView(data.A10325,"onbuild.winbid");
+		listView(data.A10326,"onbuild.winbid");
 		// 在建工程 - 施工单位
-		listView(data.A10326,"onbuild.underway");
+		listView(data.A10327,"onbuild.underway");
 		// 涉诉 - 立案
 		listView(data.A10401,"lawsuit.trial");
 		// 涉诉 - 开庭
