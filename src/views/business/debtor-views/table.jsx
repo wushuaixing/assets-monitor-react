@@ -95,7 +95,7 @@ class BusinessView extends React.Component {
 			title: '债务人',
 			dataIndex: 'obligorName',
 			key: 'obligorName',
-			width: 350,
+			width: 380,
 			className: 'column-left20',
 			render: (text, row) => (
 				<div style={{ position: 'relative' }}>
@@ -110,8 +110,9 @@ class BusinessView extends React.Component {
 						isLimitHeight={row.limitHeightStatus}
 						isTable={row.isTable}
 						regStatus={row.regStatus}
+						bussinessStyle
 					/>
-					<span className="yc-item-break">
+					<span className="yc-item-break" style={{ marginLeft: 4 }}>
 						{ row && row.dishonestStatus === 1 ? <img src={isBreak} alt="" /> : null }
 						{ row && row.dishonestStatus === 2 ? <img src={beforeBreak} alt="" /> : null}
 					</span>
@@ -130,7 +131,7 @@ class BusinessView extends React.Component {
 			title: '当前业务',
 			dataIndex: 'businessCount',
 			key: 'businessCount',
-			width: 133,
+			width: 140,
 			className: 'column-center',
 			render(text) {
 				if (text === '0' || !text) {
@@ -142,21 +143,21 @@ class BusinessView extends React.Component {
 			title: <SortVessel field="ASSET_TOTAL" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
 			dataIndex: 'assetTotal',
 			key: 'assetTotal',
-			width: 100,
+			width: 160,
 			className: 'column-center',
 			render: text => ((text === '0' || !text) ? '0' : text),
 		}, {
 			title: <SortVessel field="RISK_TOTAL" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
 			dataIndex: 'riskTotal',
 			key: 'riskTotal',
-			width: 100,
+			width: 180,
 			className: 'column-center',
 			render: text => ((text === '0' || !text) ? '0' : text),
 		}, {
 			title: '推送状态',
 			dataIndex: 'pushState',
 			key: 'pushState',
-			width: 133,
+			width: 170,
 			render: text => (
 				<React.Fragment>
 					{
@@ -179,7 +180,7 @@ class BusinessView extends React.Component {
 			title: '操作',
 			key: 'operation',
 			className: 'column-center',
-			width: 200,
+			width: 150,
 			render: (text, row) => (
 				<span>
 					<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>

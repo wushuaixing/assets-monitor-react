@@ -49,8 +49,8 @@ export default class RealEstate extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">不动产登记</div>}
 				/>
 				<div className="inquiry-public-table">
-					{ sourceType === 11001 ? <Table type="exact" portrait="enterprise" /> : null }
-					{ sourceType === 11002 ? <Table type="blurry" portrait="enterprise" /> : null }
+					{ sourceType === 11001 ? <Table portrait="enterprise" type={sourceType} /> : null }
+					{ sourceType === 11002 ? <Table portrait="enterprise" type={sourceType} /> : null }
 				</div>
 			</div>
 		);
