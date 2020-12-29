@@ -214,8 +214,8 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	11100: {
-		id: 11100,
+	11101: {
+		id: 11101,
 		name: '资产-车辆信息',
 		list: params => service.get('/yc/obligor/monitor/asset/vehicle/vehicleList', { params }).then(res => res.data),
 		count(params) {

@@ -14,7 +14,7 @@ export default class Intangible extends React.Component {
 	render() {
 		const { count } = this.state;
 		const { id, portrait } = this.props;
-		const h = toGetModuleHeight(11100, count, portrait);
+		const h = toGetModuleHeight(11101, count, portrait);
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">

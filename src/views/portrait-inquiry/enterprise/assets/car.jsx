@@ -1,20 +1,20 @@
 import React from 'react';
 import { toGetNumber } from '@/utils/promise';
-import Table from '@/views/asset-excavate/car/table';
+import Table from '@/views/asset-excavate/car/table-version';
 import { toGetModuleHeight } from '@/utils';
 
-export default class Intangible extends React.Component {
+export default class Car extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 10701),
+			count: toGetNumber(props.data, 11101),
 		};
 	}
 
 	render() {
 		const { count } = this.state;
 		const { id, portrait } = this.props;
-		const h = toGetModuleHeight(10701, count, portrait);
+		const h = toGetModuleHeight(11101, count, portrait);
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">

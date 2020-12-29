@@ -159,19 +159,24 @@ export default class TableIntact extends React.Component {
 
 	// 查询数据methods
 	toGetData=(page, nextProps = {}) => {
-		const { sourceType, ignored } = nextProps;
-		const processString = ignored ? '0,3,6,9,15' : '';
-		const { sourceType: type, portrait, onCountChange } = this.props;
+		const {
+			sourceType,
+			// ignored
+		} = nextProps;
+		// const processString = ignored ? '0,3,6,9,15' : '';
+		const { type, portrait, onCountChange } = this.props;
 		// debtor_enterprise business
 		const _sourceType = sourceType || type;
 		const { api, params } = getDynamicAsset(portrait, {
-			b: _sourceType,
+			b: _sourceType === 'exact' ? 11001 : 11002,
+			e: _sourceType === 'exact' ? 'matchExact' : 'matchBlurry',
 		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
 			num: 5,
-			processString,
+			type: _sourceType === 'exact' ? 1 : 2,
+			// processString,
 			...params,
 		}).then((res) => {
 			if (res.code === 200) {
@@ -197,7 +202,7 @@ export default class TableIntact extends React.Component {
 
 	render() {
 		const {
-			dataSource, current, total, loading
+			dataSource, current, total, loading,
 		} = this.state;
 		const { loadingHeight } = this.props;
 		return (
