@@ -1,9 +1,9 @@
 import React from 'react';
 import { Tabs } from '@/common';
-import Table from '@/views/asset-excavate/assets-auction/table-version';
+import Table from '@/views/asset-excavate/real-estate/table-detail';
 import { toGetDefaultId, toGetNumber } from '@/utils/promise';
 
-export default class Auction extends React.Component {
+export default class RealEstate extends React.Component {
 	constructor(props) {
 		super(props);
 		const defaultID = toGetDefaultId(props.data);
@@ -49,8 +49,8 @@ export default class Auction extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">不动产登记</div>}
 				/>
 				<div className="inquiry-public-table">
-					{ sourceType === 11001 ? <Table type="exact" /> : null }
-					{ sourceType === 11002 ? <Table type="blurry" hideReason /> : null }
+					{ sourceType === 11001 ? <Table type="exact" portrait="enterprise" /> : null }
+					{ sourceType === 11002 ? <Table type="blurry" portrait="enterprise" /> : null }
 				</div>
 			</div>
 		);

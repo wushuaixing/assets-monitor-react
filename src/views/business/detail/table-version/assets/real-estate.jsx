@@ -48,7 +48,7 @@ export default class Auction extends React.Component {
 		const { id, portrait } = this.props;
 		const params = {
 			portrait,
-			sourceType,
+			type: sourceType,
 			onCountChange: this.onCountChange,
 		};
 		const h = toGetModuleHeight(sourceType, this.sourceNumber, portrait);

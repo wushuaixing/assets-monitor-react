@@ -53,7 +53,8 @@ export default class TableVersion extends React.Component {
 	toGetData = (page) => {
 		const { portrait, condition } = this.props;
 		const { api, params } = getDynamicAsset(portrait, condition || {
-			b: 11100,
+			b: 11101,
+			e: 'carInfo',
 		});
 		this.setState({ loading: true });
 		api.list({

@@ -115,7 +115,7 @@ const subItems = data => ([
 		info: data ? data.filter(i => /1100/.test(i.id)) : '',
 		role: roleState('zcwj', 'zcwjbdcdj'),
 		disabled: true,
-		tagName: 'e-assets-bidding',
+		tagName: 'e-assets-match',
 		component: RealEstate,
 	},
 	{
@@ -125,7 +125,7 @@ const subItems = data => ([
 		info: data ? data.filter(i => /1110/.test(i.id)) : '',
 		role: roleState('zcwj', 'zcwjclxx'),
 		disabled: true,
-		tagName: 'e-assets-bidding',
+		tagName: 'e-assets-carInfo',
 		component: Car,
 	},
 ]);
