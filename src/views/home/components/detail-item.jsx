@@ -500,7 +500,7 @@ class DetailItem extends PureComponent {
 					) : (
 						<div className="detail-container-noData">
 							<div className="detail-container-noData-img" />
-							<span className="detail-container-noData-text">暂无重要数据提醒</span>
+							<span className="detail-container-noData-text">近30天暂无重要信息提醒</span>
 							<div>
 								<Button onClick={this.handleNavigate} type="primary" style={{ width: 180, height: 34, marginTop: '40px' }}>查看全部匹配信息概览</Button>
 							</div>
