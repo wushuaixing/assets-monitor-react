@@ -748,35 +748,36 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
 			}
 		}
-		// 不动产登记-精准 + 模糊
+		// 不动产登记- 精准
 		else if(viewName === "overview.A10215"){
-			if((source.matchDataList||[]).length){
-				fun.source.matchType.forEach(function (i) {
-					var result = false;
-					source.matchDataList.forEach(function (item) {
-						if(item.matchType === i.id){
-							if(item.matchCount){
-								result = true;
-								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.matchCount);
-								if(item.yearDistributions.length){
-									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
-										overViewTable(item.yearDistributions, 4, {
-											name: "year",
-											count: "count",
-											nameUnit:"年"
-										})
-									)
-								}
-							}
-						}
-					});
-					if (!result){
-						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
-					}
-				});
+			if((source.matchDataList || []).length > 0 && source.matchDataList[0].matchCount){
+				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.matchDataList[0].matchCount);
+				if((source.matchDataList[0].yearDistributions || []).length){
+					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
+						overViewTable(fun.toGetYearList(source.matchDataList[0].yearDistributions), 5, {
+							name: "year",
+							count: "count",
+							nameUnit:"年"
+						}))
+				}
 			}else{
-				htmlTemp = htmlTemp.replace("{" + viewName + ".accurate.display}", "display-none");
-				htmlTemp = htmlTemp.replace("{" + viewName + ".blurry.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
+			}
+		}
+		// 不动产登记- 模糊
+		else if(viewName === "overview.A10216"){
+			if((source.matchDataList || []).length > 0 && source.matchDataList[0].matchCount){
+				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.matchDataList[0].matchCount);
+				if((source.matchDataList[0].yearDistributions || []).length){
+					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
+						overViewTable(fun.toGetYearList(source.matchDataList[0].yearDistributions), 5, {
+							name: "year",
+							count: "count",
+							nameUnit:"年"
+						}))
+				}
+			}else{
+				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
 			}
 		}
 		// 车辆信息
@@ -1220,8 +1221,10 @@ function exportTemplate(source,exportType) {
 		overView(data.A10211,"overview.A10211");
 		// 查解封资产
 		overView(data.A10212,"overview.A10212");
-		// 不动产-精准 + 模糊
+		// 不动产-精准
 		overView(data.A10215,"overview.A10215");
+		// 不动产-模糊
+		overView(data.A10216,"overview.A10216");
 		// 车辆信息
 		overView(data.A10217,"overview.A10217");
 		// 金融资产

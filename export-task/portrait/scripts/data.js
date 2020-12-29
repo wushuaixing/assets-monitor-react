@@ -1145,6 +1145,53 @@ module.exports = {
 
 		],
 	},
+	A10216:{
+		matchDataList: [
+			{
+				matchCount: 35,
+				matchType: 1,
+				yearDistributions: [
+					{
+						count: 35,
+						type: 2,
+						year: '2018',
+					},
+					{
+						count: 35,
+						type: 2,
+						year: '2019',
+					},
+					{
+						count: 35,
+						type: 2,
+						year: '2020',
+					},
+				],
+			},
+			{
+				matchCount: 35,
+				matchType: 2,
+				yearDistributions: [
+					{
+						count: 35,
+						type: 2,
+						year: '2018',
+					},
+					{
+						count: 35,
+						type: 2,
+						year: '2019',
+					},
+					{
+						count: 35,
+						type: 2,
+						year: '2020',
+					},
+				],
+			},
+
+		],
+	},
 	// 车辆信息
 	A10217: {
 		vehicleCount: 112,
