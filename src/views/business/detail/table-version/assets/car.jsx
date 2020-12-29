@@ -7,7 +7,7 @@ export default class Intangible extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			count: toGetNumber(props.data, 11100),
+			count: toGetNumber(props.data, 11101),
 		};
 	}
 
