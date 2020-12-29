@@ -1,5 +1,6 @@
 import React from 'react';
-import { businessOverviewUnBlock, overviewUnBlock } from '@/utils/api/professional-work/overview';
+import { overviewRealRegister } from '@/utils/api/professional-work/overview';
+import { getEstateRegister } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -20,13 +21,14 @@ export default class UnBlock extends React.Component {
 
 	getData = () => {
 		const {
-			businessId, obligorId, getAssetProfile, portrait,
+			businessId, obligorId, getAssetProfile, portrait, companyId,
 		} = this.props;
 		this.setState({
 			loading: true,
 		});
-		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
-		const api = portrait === 'business' ? businessOverviewUnBlock : overviewUnBlock;
+		console.log(29,portrait)
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 3, companyId };
+		const api = portrait === 'business' ? overviewRealRegister : getEstateRegister;
 		api(params).then((res) => {
 			if (res.code === 200) {
 				// console.log('unblock === ', res);

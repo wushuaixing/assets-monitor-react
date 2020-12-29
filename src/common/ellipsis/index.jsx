@@ -66,7 +66,7 @@ export default class Ellipsis extends React.Component {
 		const _isBankruptcy = Boolean(isBankruptcy);
 		const _isLimitHeight = Boolean(isLimitHeight);
 		const _isTable = Boolean(isTable);
-		const addWidth = (_isBorrower ? 18 : 0) + (_isBankruptcy ? 18 : 0) + (_isLimitHeight ? 36 : 0) + (_isTable ? 36 : 0);
+		const addWidth = (_isBorrower ? 18 : 0) + (_isBankruptcy ? 18 : 0) + (_isLimitHeight ? 32 : 0) + (_isTable ? 32 : 0);
 		const style = _width ? {
 			color: customColor || undefined,
 			width: __width + addWidth,
@@ -93,10 +93,8 @@ export default class Ellipsis extends React.Component {
 						<Borrower
 							text="限高"
 							style={{
-								background: '#fff0f6',
-								color: '#eb2f96',
-								borderColor: '#ffadd2',
-								border: '1px solid #ffadd2',
+								background: '#FFE6F3',
+								color: '#EC3498',
 							}}
 						/>
 					)}
@@ -105,10 +103,8 @@ export default class Ellipsis extends React.Component {
 						<Borrower
 							text={regStatus}
 							style={{
-								background: '#fff',
-								color: '#ccc',
-								borderColor: '#ccc',
-								border: '1px solid #ccc',
+								background: '#E5E5E5',
+								color: '#4E5566',
 							}}
 						/>
 					)

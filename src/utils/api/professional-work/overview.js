@@ -82,6 +82,7 @@ export const overviewvehicle = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/vehicle', { params });
 	return response.data;
 };
+
 // 业务查解封资产 （只是占位，待修改）
 export const businessOverviewUnBlock = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/unseal', { params });
