@@ -40,46 +40,53 @@ class TableIntact extends React.Component {
 	}
 
 	// 获取tablecolumn配置
-	toGetColumns = () => [
-		{
-			title: '施工信息',
-			dataIndex: 'title',
-			render: (value, row) => (
-				<div className="assets-info-content">
-					<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
-					<li>
-						<LiItem title="角色">{ row.parties[0].role.map((it, index) => `${roleMap.get(it)}${index === row.parties[0].role.length - 1 ? '' : '，'}`)}</LiItem>
-						<span className="list-split" style={{ height: 16 }} />
-						<LiItem title="合同金额">{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
-						<span className="list-split" style={{ height: 16 }} />
-						<LiItem title="合同工期">{row.projectPeriod || '-'}</LiItem>
-					</li>
-					{
-						row.projectLocation && <LiItem Li title="项目所在地" cotStyle={{ maxWidth: 700 }}>{row.projectLocation}</LiItem>
-					}
-				</div>
-			),
-		},
-		{
-			title: '发证日期',
-			width: 340,
-			dataIndex: 'issuingTime',
-			render: text => (
-				<React.Fragment>
+	toGetColumns = () => {
+		const { portrait } = this.props;
+		return [
+			{
+				title: '施工信息',
+				dataIndex: 'title',
+				render: (value, row) => (
 					<div className="assets-info-content">
-						<li style={{ height: 16 }} />
+						<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
 						<li>
-							<span className="list list-title">发证日期</span>
-							<span className="list list-title-colon">:</span>
-							<span className="list list-content">
-								{text || '-'}
-							</span>
+							{/* portrait  区分画像和债务人 enterprise = 画像 */}
+							{
+								portrait === 'enterprise' ? <LiItem title="角色">{ row.role.map((it, index) => `${roleMap.get(it)}${index === row.role.length - 1 ? '' : '，'}`)}</LiItem> : <LiItem title="角色">{ row.parties[0].role.map((it, index) => `${roleMap.get(it)}${index === row.parties[0].role.length - 1 ? '' : '，'}`)}</LiItem>
+							}
+
+							<span className="list-split" style={{ height: 16 }} />
+							<LiItem title="合同金额">{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
+							<span className="list-split" style={{ height: 16 }} />
+							<LiItem title="合同工期">{row.projectPeriod || '-'}</LiItem>
 						</li>
+						{
+							row.projectLocation && <LiItem Li title="项目所在地" cotStyle={{ maxWidth: 700 }}>{row.projectLocation}</LiItem>
+						}
 					</div>
-				</React.Fragment>
-			),
-		},
-	];
+				),
+			},
+			{
+				title: '发证日期',
+				width: 340,
+				dataIndex: 'issuingTime',
+				render: text => (
+					<React.Fragment>
+						<div className="assets-info-content">
+							<li style={{ height: 16 }} />
+							<li>
+								<span className="list list-title">发证日期</span>
+								<span className="list list-title-colon">:</span>
+								<span className="list list-content">
+									{text || '-'}
+								</span>
+							</li>
+						</div>
+					</React.Fragment>
+				),
+			},
+		];
+	};
 
 	// 当前页数变化
 	onPageChange = (val) => {
