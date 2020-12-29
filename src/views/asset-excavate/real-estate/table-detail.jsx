@@ -79,7 +79,7 @@ export default class TableIntact extends React.Component {
 	};
 
 	toShowExtraField=(row = {}) => {
-		const { portrait } = this.props;
+		const { portrait, type } = this.props;
 		if (portrait !== 'business') {
 			return (
 				<React.Fragment>
@@ -104,15 +104,23 @@ export default class TableIntact extends React.Component {
 						</span>
 					</li>
 					<li>
-						<span className="list list-title align-justify">债务人角色</span>
-						<span className="list list-title-colon">:</span>
-						<span className="list list-content-auto">
-							<Ellipsis
-								content={roleName[row.role]}
-								tooltip
-								width={200}
-							/>
-						</span>
+						{
+							type === 'exact'
+								? (
+									<>
+										<span className="list list-title align-justify">债务人角色</span>
+										<span className="list list-title-colon">:</span>
+										<span className="list list-content-auto">
+											<Ellipsis
+												content={roleName[row.role]}
+												tooltip
+												width={200}
+											/>
+										</span>
+									</>
+								)
+								: null
+						}
 						<span className="list list-title align-justify">不动产坐落</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content-auto">

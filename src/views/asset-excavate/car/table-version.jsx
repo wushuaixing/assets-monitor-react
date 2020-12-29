@@ -28,7 +28,7 @@ export default class TableVersion extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						<Ellipsis content={toEmpty(value)} url={row.url} width={600} font={15} tooltip />
+						<Ellipsis content={toEmpty(value) || '--'} url={row.url} width={600} font={15} tooltip />
 						{ row.vehicleType && <span className="yc-case-reason text-ellipsis">{row.vehicleType}</span>}
 					</li>
 				</div>
