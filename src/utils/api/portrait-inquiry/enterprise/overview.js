@@ -204,3 +204,15 @@ export const getBusiness = async (params) => {
 	const response = await service.get('/yc/search/portrait/company/overview/business', { params });
 	return response.data;
 };
+
+// 车辆信息
+export const getVehicleInformation = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/vehicleInformation', { params });
+	return response.data;
+};
+
+// 不动产登记
+export const getEstateRegister = async (params) => {
+	const response = await service.get('/yc/search/portrait/company/overview/estateRegister', { params });
+	return response.data;
+};

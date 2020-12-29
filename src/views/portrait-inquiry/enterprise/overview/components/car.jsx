@@ -1,5 +1,6 @@
 import React from 'react';
-import { businessOverviewUnBlock, overviewUnBlock } from '@/utils/api/professional-work/overview';
+import { overviewvehicle } from '@/utils/api/professional-work/overview';
+import { getVehicleInformation } from '@/utils/api/portrait-inquiry/enterprise/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -11,6 +12,7 @@ export default class UnBlock extends React.Component {
 		this.state = {
 			loading: false,
 			timeLineData: [],
+			vehicleCount: 0,
 		};
 	}
 
@@ -20,22 +22,28 @@ export default class UnBlock extends React.Component {
 
 	getData = () => {
 		const {
-			businessId, obligorId, getAssetProfile, portrait,
+			businessId,
+			obligorId,
+			getAssetProfile,
+			portrait,
+			companyId,
 		} = this.props;
 		this.setState({
 			loading: true,
 		});
-		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
-		const api = portrait === 'business' ? businessOverviewUnBlock : overviewUnBlock;
+		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2, companyId };
+		const api = portrait === 'business' ? overviewvehicle : getVehicleInformation;
 		api(params).then((res) => {
 			if (res.code === 200) {
 				// console.log('unblock === ', res);
 				const timeLineData = res.data.yearDistributions;
+				const { vehicleCount } = res.data;
 				const allNum = getCount(timeLineData);
 				getAssetProfile(allNum, 'UnBlock');
 				this.setState({
 					loading: false,
 					timeLineData, // 年份分布
+					vehicleCount, // 车辆总数
 				});
 			} else {
 				this.setState({ loading: false });
@@ -46,7 +54,7 @@ export default class UnBlock extends React.Component {
 	};
 
 	render() {
-		const { timeLineData, loading } = this.state;
+		const { timeLineData, loading, vehicleCount } = this.state;
 		return (
 			<div>
 				{
@@ -59,6 +67,15 @@ export default class UnBlock extends React.Component {
 									{`${getCount(timeLineData)} 条`}
 								</span>
 								<span className="container-title-name">车辆信息</span>
+								{
+									vehicleCount > 0 ? (
+										<span className="container-title-name">
+											共
+											<span style={{ fontWeight: 'bold' }}>{vehicleCount}</span>
+											辆车
+										</span>
+									) : null
+								}
 							</div>
 							<div className="overview-container-content">
 								{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="Unblock" />}
