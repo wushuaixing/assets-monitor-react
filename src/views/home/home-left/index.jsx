@@ -587,7 +587,7 @@ class HomeDynamic extends PureComponent {
 										importLoading ? null : (
 											<div className="detail-container-noData">
 												<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
-												<span className="detail-container-noData-text">暂无重要信息提醒</span>
+												<span className="detail-container-noData-text">近30天暂无重要信息提醒</span>
 											</div>
 										)
 									}
