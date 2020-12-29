@@ -50,7 +50,7 @@ export default class RealEstate extends React.Component {
 				/>
 				<div className="inquiry-public-table">
 					{ sourceType === 11001 ? <Table portrait="enterprise" type={sourceType} /> : null }
-					{ sourceType === 11002 ? <Table portrait="enterprise" sourceTtypeype={sourceType} /> : null }
+					{ sourceType === 11002 ? <Table portrait="enterprise" type={sourceType} /> : null }
 				</div>
 			</div>
 		);
