@@ -67,7 +67,7 @@ const columns = (props) => {
 						tooltip
 					/>
 					<div>
-						<LiItem Li auto title="建设性质" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.nature || '-'}</LiItem>
+						<LiItem Li auto title="建设性质" style={{ display: 'inline-block', width: 160, marginTop: 3 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.nature || '-'}</LiItem>
 						<LiItem Li auto title="总投资" style={{ display: 'inline-block', width: 200, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>
 							{`${row.totalInvestment > 0 ? `${toThousands(row.totalInvestment)}元` : '-'}`}
 						</LiItem>

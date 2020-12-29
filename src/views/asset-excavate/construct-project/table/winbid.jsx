@@ -63,8 +63,8 @@ const columns = (props) => {
 						tooltip
 					/>
 					<div>
-						<LiItem Li auto title="招标方式" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.biddingMode || '-'}</LiItem>
-						<LiItem Li auto title="中标金额" style={{ display: 'inline-block', width: 220, marginLeft: 20 }} titleStyle={{ color: '#7D8699', width: 80 }}>{`${row.winningPrice > 0 ? `${toThousands(row.winningPrice)}元` : '-'}`}</LiItem>
+						<LiItem Li auto title="招标方式" style={{ display: 'inline-block', marginTop: 3 }} titleStyle={{ color: '#7D8699', width: 52 }}>{row.biddingMode || '-'}</LiItem>
+						<LiItem Li auto title="中标金额" style={{ display: 'inline-block', marginLeft: 20 }} titleStyle={{ color: '#7D8699', width: 52 }}>{`${row.winningPrice > 0 ? `${toThousands(row.winningPrice)}元` : '-'}`}</LiItem>
 					</div>
 				</div>
 			),
