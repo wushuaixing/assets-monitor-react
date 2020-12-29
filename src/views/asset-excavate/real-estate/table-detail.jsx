@@ -172,18 +172,18 @@ export default class TableIntact extends React.Component {
 			// ignored
 		} = nextProps;
 		// const processString = ignored ? '0,3,6,9,15' : '';
-		const { type, portrait, onCountChange } = this.props;
+		const { portrait, onCountChange, type } = this.props;
 		// debtor_enterprise business
 		const _sourceType = sourceType || type;
 		const { api, params } = getDynamicAsset(portrait, {
-			b: _sourceType === 'exact' ? 11001 : 11002,
-			e: _sourceType === 'exact' ? 'matchExact' : 'matchBlurry',
+			b: _sourceType === 11001 ? 11001 : 11002,
+			e: _sourceType === 11001 ? 'matchExact' : 'matchBlurry',
 		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
 			num: 5,
-			type: _sourceType === 'exact' ? 1 : 2,
+			type: _sourceType === 11001 ? 1 : 2,
 			// processString,
 			...params,
 		}).then((res) => {
