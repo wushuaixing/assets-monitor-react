@@ -748,53 +748,24 @@ function exportTemplate(source,exportType) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".display}", "display-none");
 			}
 		}
-		// 不动产登记-精准
+		// 不动产登记-精准 + 模糊
 		else if(viewName === "overview.A10215"){
-			if((source.auctionInfos||[]).length){
+			if((source.matchDataList||[]).length){
 				fun.source.matchType.forEach(function (i) {
 					var result = false;
-					source.auctionInfos.forEach(function (item) {
-						if(item.type === i.id){
-							if(item.count){
+					source.matchDataList.forEach(function (item) {
+						if(item.matchType === i.id){
+							if(item.matchCount){
 								result = true;
-								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
-								if(item.roleDistributions.length){
-									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".role.list}",
-										overViewTable(item.roleDistributions, 4, {
+								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.matchCount);
+								if(item.yearDistributions.length){
+									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
+										overViewTable(item.yearDistributions, 4, {
 											name: "year",
 											count: "count",
 											nameUnit:"年"
-										}))
-								}
-							}
-						}
-					});
-					if (!result){
-						htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".display}", "display-none");
-					}
-				});
-			}else{
-				htmlTemp = htmlTemp.replace("{" + viewName + ".accurate.display}", "display-none");
-				htmlTemp = htmlTemp.replace("{" + viewName + ".blurry.display}", "display-none");
-			}
-		}
-		// 不动产登记 -模糊
-		else if(viewName === "overview.A10216"){
-			if((source.auctionInfos||[]).length){
-				fun.source.matchType.forEach(function (i) {
-					var result = false;
-					source.auctionInfos.forEach(function (item) {
-						if(item.type === i.id){
-							if(item.count){
-								result = true;
-								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
-								if(item.roleDistributions.length){
-									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".role.list}",
-										overViewTable(item.roleDistributions, 4, {
-											name: "year",
-											count: "count",
-											nameUnit:"年"
-										}))
+										})
+									)
 								}
 							}
 						}
@@ -810,8 +781,9 @@ function exportTemplate(source,exportType) {
 		}
 		// 车辆信息
 		else if(viewName === "overview.A10217"){
-			if(source.unsealCount){
-				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.unsealCount);
+			if(source.vehicleInformationCount){
+				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.vehicleInformationCount);
+				htmlTemp = htmlTemp.replace("{" + viewName + ".vehicleCount}", source.vehicleCount);
 				if((source.yearDistributions || []).length){
 					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
 						overViewTable(fun.toGetYearList(source.yearDistributions), 5, {
@@ -1248,10 +1220,8 @@ function exportTemplate(source,exportType) {
 		overView(data.A10211,"overview.A10211");
 		// 查解封资产
 		overView(data.A10212,"overview.A10212");
-		// 不动产-精准
+		// 不动产-精准 + 模糊
 		overView(data.A10215,"overview.A10215");
-		// 不动产-模糊
-		overView(data.A10216,"overview.A10216");
 		// 车辆信息
 		overView(data.A10217,"overview.A10217");
 		// 金融资产
@@ -1259,7 +1229,7 @@ function exportTemplate(source,exportType) {
 		// 在建工程
 		overView(data.A10218,"overview.A10218");
 
-		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp) || /padding6 {overview\.A1021([0123]).{0,12}\.display/.test(htmlTemp))){
+		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp) || /padding6 {overview\.A1021([0123578]).{0,12}\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
 		}
 		// 涉诉信息 （失信记录）
@@ -1917,7 +1887,6 @@ function exportTemplate(source,exportType) {
 			//不动产-模糊匹配
 			case "realEstate.blurry":{
 				source.list.forEach(function (item) {
-					var parties = fun.handleParties(item.parties);
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
@@ -1934,12 +1903,15 @@ function exportTemplate(source,exportType) {
 						"</div>" +
 						"</li>" +
 						"<li class='mg8-0'>" +
+						( item.accurateType === 1 ? "<div class='nAndI'>" +
+							"<span class='n-title'>债务人角色：</span>" +
+							"<span class='n-desc'>"+(fun.toGetRoleType(item.role)||'--')+"</span>" +
+							"</div><div class='n-line mg0-5'></div>" : '') +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>不动产坐落：</span>" +
 						"<span class='n-desc'>"+(item.realEstateLocated||'--')+"</span>" +
 						"</div>" +
 						"</li>" +
-						fun.partiesList(parties) +
 						"</td>" +
 						"<td>" +
 						"<li class='mg8-0'>" +
@@ -1953,14 +1925,12 @@ function exportTemplate(source,exportType) {
 			//车辆信息
 			case "car":{
 				source.list.forEach(function (item) {
-					var parties = fun.handleParties(item.parties);
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
 						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.vehicleNumber||'--')+"</a>":(item.vehicleNumber||'--')) +
 						(item.vehicleType?"<span class=\"case-tag\">"+item.vehicleType+"</span>":"") +
 						"</li>" +
-
 						"</td>" +
 						"<td>" +
 						"<li class='mg8-0'>" +
@@ -2054,7 +2024,8 @@ function exportTemplate(source,exportType) {
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						(item.url ? "<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						(item.projectType >= 0 ? ("<span class=\"case-tag \"> "+ fun.toGetType(item.projectType, fun.source.constructUnitType, '', '', '未知') + "</span>" ): "")+
 						"</li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
