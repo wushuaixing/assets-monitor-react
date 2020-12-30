@@ -10,7 +10,7 @@
 #### 打包步骤和调试
 >npm run por:build // 打包生成js，想看生成的js文件是否符合预期可以用postman发送请求调试。
 
-> 接口地址:http://172.18.255.214:8080/yc/search/portrait/company/export/download
+> 接口地址:http://172.18.255.251:8080/yc/search/portrait/company/export/download
 
 参数：
 > + token //身份验证

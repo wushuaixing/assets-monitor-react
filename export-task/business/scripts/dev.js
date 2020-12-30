@@ -103,7 +103,8 @@ function exportTemplate(source, exportType, name) {
 				{id: 'A10802', title: '金融资产_招商项目', status: 'BE'},
 				{id: 'A10803', title: '金融资产_公示项目', status: 'BE'},
 				{id: 'A10701', title: '招投标', status: 'BE'},
-				{id: 'A11001', title: '不动产登记', status: 'BE'},
+				{id: 'A11001', title: '不动产登记_精准匹配', status: 'BE'},
+				{id: 'A11002', title: '不动产登记_模糊匹配', status: 'BE'},
 				{id: 'A12001', title: '车辆信息', status: 'BE'},
 				{id: 'A13001', title: '在建工程_建设单位', status: 'BE'},
 				{id: 'A13002', title: '在建工程_中标单位', status: 'BE'},
@@ -176,6 +177,18 @@ function exportTemplate(source, exportType, name) {
 			3: "执行案件",
 			4: "终本案件",
 			99: "执恢案件"
+		},
+		// 1：注销人 2：权利人 3：新权利人 4：原权利人 5：抵押人 6：抵押权人 7：被执行人 8：申请执行人 0：未知
+		realEstateRoleType:{
+			0: "未知",
+			1: "注销人",
+			2: "权利人",
+			3: "新权利人",
+			4: "原权利人",
+			5: "抵押人",
+			6: "抵押权人",
+			7: "被执行人",
+			8: "申请执行人",
 		},
 		// 角色名称
 		roleType: {
@@ -894,18 +907,40 @@ function exportTemplate(source, exportType, name) {
 				});
 				break;
 			}
-			// 不动产登记
+			// 不动产登记-精准匹配
 			case 'A11001': {
+				data.list.forEach(function (i) {
+					var roleName = s.realEstateRoleType[i.role];
+					list += "<tr><td>"
+						+ f.urlDom(i.title, i.url)
+						+ f.normalList([
+							[
+								{t: '权证类型', cot: i.certificateType},
+								{t: '权证号', cot: i.certificateNumber},
+							],
+							[
+								{t: '债务人角色', cot: roleName},
+								{t: '不动产坐落', cot: i.realEstateLocated}
+							]
+						])
+						+ "</td><td>" + f.normalList([
+							{t: '发布日期', cot: i.publishTime},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			// 不动产登记-模糊匹配
+			case 'A11002': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
 						+ f.normalList([
-							{t: '权证类型', cot: i.certificateType},
-							{t: '权证号', cot: i.certificateNumber},
-							{t: '债务人角色', cot: i.role},
+							[
+								{t: '权证类型', cot: i.certificateType},
+								{t: '权证号', cot: i.certificateNumber},
+							],
 							{t: '不动产坐落', cot: i.realEstateLocated}
 						])
-
 						+ "</td><td>" + f.normalList([
 							{t: '发布日期', cot: i.publishTime},
 						]) + "</td></tr>";
