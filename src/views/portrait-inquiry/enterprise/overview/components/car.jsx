@@ -6,7 +6,7 @@ import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import './style.scss';
 
-export default class UnBlock extends React.Component {
+export default class Car extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -39,7 +39,7 @@ export default class UnBlock extends React.Component {
 				const timeLineData = res.data.yearDistributions;
 				const { vehicleCount } = res.data;
 				const allNum = getCount(timeLineData);
-				getAssetProfile(allNum, 'UnBlock');
+				getAssetProfile(allNum, 'Car');
 				this.setState({
 					loading: false,
 					timeLineData, // 年份分布
