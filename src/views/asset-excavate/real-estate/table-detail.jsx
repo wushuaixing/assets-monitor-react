@@ -9,6 +9,7 @@ import './style.scss';
 
 
 const roleName = {
+	0: '未知',
 	1: '注销人',
 	2: '权利人',
 	3: '新权利人',
