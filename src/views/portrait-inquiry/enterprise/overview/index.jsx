@@ -138,6 +138,7 @@ export default class OverView extends React.Component {
 
 	// 获取概览-资产-模块数量
 	getAssetProfile = (AssetProfileCountValue, type) => {
+		console.log(141,type,AssetProfileCountValue)
 		switch (type) {
 		// 资产拍卖
 		case 'AssetAuction':
