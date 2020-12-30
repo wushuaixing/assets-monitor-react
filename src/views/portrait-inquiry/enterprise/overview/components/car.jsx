@@ -70,9 +70,9 @@ export default class Car extends React.Component {
 								{
 									vehicleCount > 0 ? (
 										<span className="container-title-name">
-											共
+											（共
 											<span style={{ fontWeight: 'bold' }}>{vehicleCount}</span>
-											辆车
+											辆车）
 										</span>
 									) : null
 								}
