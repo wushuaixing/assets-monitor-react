@@ -105,7 +105,7 @@ export default class TableIntact extends React.Component {
 					</li>
 					<li>
 						{
-							type === 'exact'
+							type === 11001
 								? (
 									<>
 										<span className="list list-title align-justify">债务人角色</span>
