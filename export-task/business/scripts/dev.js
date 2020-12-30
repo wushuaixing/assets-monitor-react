@@ -178,6 +178,18 @@ function exportTemplate(source, exportType, name) {
 			4: "终本案件",
 			99: "执恢案件"
 		},
+		// 1：注销人 2：权利人 3：新权利人 4：原权利人 5：抵押人 6：抵押权人 7：被执行人 8：申请执行人 0：未知
+		realEstateRoleType:{
+			0: "未知",
+			1: "注销人",
+			2: "权利人",
+			3: "新权利人",
+			4: "原权利人",
+			5: "抵押人",
+			6: "抵押权人",
+			7: "被执行人",
+			8: "申请执行人",
+		},
 		// 角色名称
 		roleType: {
 			0: "未知",
@@ -898,6 +910,7 @@ function exportTemplate(source, exportType, name) {
 			// 不动产登记-精准匹配
 			case 'A11001': {
 				data.list.forEach(function (i) {
+					var roleName = s.realEstateRoleType[i.role];
 					list += "<tr><td>"
 						+ f.urlDom(i.title, i.url)
 						+ f.normalList([
@@ -906,7 +919,7 @@ function exportTemplate(source, exportType, name) {
 								{t: '权证号', cot: i.certificateNumber},
 							],
 							[
-								{t: '债务人角色', cot: i.role},
+								{t: '债务人角色', cot: roleName},
 								{t: '不动产坐落', cot: i.realEstateLocated}
 							]
 						])

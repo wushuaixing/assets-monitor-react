@@ -31,39 +31,43 @@ class TableIntact extends React.Component {
 	}
 
 	// 获取tablecolumn配置
-	toGetColumns = () => [
-		{
-			title: '建设信息',
-			dataIndex: 'title',
-			render: (value, row) => (
-				<div className="assets-info-content">
-					<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
-					{ row.projectType >= 0 ? <span className="yc-case-reason text-ellipsis">{projectTypeMap.get(row.projectType)}</span> : ''}
-					<li>
-						<LiItem title="建设性质">{row.nature || '-'}</LiItem>
-						<span className="list-split" style={{ height: 16 }} />
-						<LiItem title="总投资">{`${row.totalInvestment > 0 ? `${toThousands(row.totalInvestment)}元` : '-'}`}</LiItem>
-					</li>
-					<li>
-						<LiItem cotStyle={{ maxWidth: 700 }} title="项目所在地">{row.projectLocation || '-'}</LiItem>
-					</li>
-				</div>
-			),
-		},
-		{
-			title: '计划开工日期',
-			width: 340,
-			className: 'planBeginTime',
-			render: (value, row) => (
-				<div className="assets-info-content" style={{ maxWidth: 400 }}>
-					<li style={{ height: 16 }} />
-					<li>
-						<LiItem title="计划开工日期">{row.planBeginTime || '-'}</LiItem>
-					</li>
-				</div>
-			),
-		},
-	];
+	toGetColumns = () => {
+		const { portrait } = this.props;
+		// 债务人的时候portrait = debtor_enterprise
+		return [
+			{
+				title: '建设信息',
+				dataIndex: 'title',
+				render: (value, row) => (
+					<div className="assets-info-content">
+						<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" />
+						{ row.projectType >= 0 ? <span className="yc-case-reason text-ellipsis">{projectTypeMap.get(row.projectType)}</span> : ''}
+						<li>
+							<LiItem title="建设性质">{row.nature || '-'}</LiItem>
+							<span className="list-split" style={{ height: 16 }} />
+							<LiItem title="总投资">{`${row.totalInvestment > 0 ? `${toThousands(row.totalInvestment)}元` : '-'}`}</LiItem>
+						</li>
+						<li>
+							<LiItem cotStyle={{ maxWidth: 700 }} title="项目所在地">{(portrait === 'enterprise' ? row.projectAddress : row.projectLocation) || '-'}</LiItem>
+						</li>
+					</div>
+				),
+			},
+			{
+				title: '计划开工日期',
+				width: 340,
+				className: 'planBeginTime',
+				render: (value, row) => (
+					<div className="assets-info-content" style={{ maxWidth: 400 }}>
+						<li style={{ height: 16 }} />
+						<li>
+							<LiItem title="计划开工日期">{row.planBeginTime || '-'}</LiItem>
+						</li>
+					</div>
+				),
+			},
+		];
+	};
 
 	// 当前页数变化
 	onPageChange = (val) => {
