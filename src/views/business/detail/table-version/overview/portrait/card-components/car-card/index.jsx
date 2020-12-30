@@ -11,10 +11,14 @@ export default class UnBlockCard extends React.Component {
 	}
 
 	render() {
-		const { portrait, dataSource: { vehicleInformationCount, gmtModified, obligorTotal } } = this.props;
+		const {
+			portrait, dataSource: {
+				vehicleInformationCount, gmtModified, obligorTotal, totalVehicleNum,
+			},
+		} = this.props;
 		return (
 			<React.Fragment>
-				{vehicleInformationCount > 0 ? (
+				{vehicleInformationCount > 0 || totalVehicleNum > 0 ? (
 					<Card
 						portrait={portrait}
 						obligorTotal={obligorTotal}
@@ -29,8 +33,9 @@ export default class UnBlockCard extends React.Component {
 						styleName="car-card"
 					>
 						<div className="business-unblock-card">
-							<span className="business-unblock-card-num">{vehicleInformationCount || 0}</span>
-							条相关匹配信息
+							共匹配到
+							<span className="business-unblock-card-num" style={{ paddingLeft: 5 }}>{totalVehicleNum || 0}</span>
+							辆车
 						</div>
 					</Card>
 				) : null}

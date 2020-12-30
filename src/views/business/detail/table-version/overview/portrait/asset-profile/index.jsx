@@ -344,11 +344,12 @@ export default class AssetProfile extends React.Component {
 	getCarData = (isArray, values) => {
 		const res = values[10];
 		if (isArray && res && res.code === 200) {
-			const { vehicleInformationCount, gmtModified } = res.data;
+			const { vehicleInformationCount, gmtModified, totalVehicleNum } = res.data;
 			const CarPropsData = {
 				vehicleInformationCount,
 				gmtModified,
 				obligorTotal: res.data.obligorTotal || null,
+				totalVehicleNum,
 			};
 			this.setState(() => ({
 				CarPropsData,
@@ -390,7 +391,8 @@ export default class AssetProfile extends React.Component {
 			|| (constructPropsData.allNum > 0 && portrait !== 'debtor_personal')
 			|| (financialPropsData.allNum > 0 && portrait !== 'debtor_personal')
 			|| (RealPropsData.realRegisterCount > 0 && portrait !== 'debtor_personal')
-	|| (CarPropsData.vehicleInformationCount > 0 && portrait !== 'debtor_personal');
+	|| (CarPropsData.vehicleInformationCount > 0 && portrait !== 'debtor_personal')
+			|| (CarPropsData.totalVehicleNum > 0 && portrait !== 'debtor_personal')  ;
 	};
 
 	render() {
