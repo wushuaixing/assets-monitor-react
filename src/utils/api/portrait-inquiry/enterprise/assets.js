@@ -182,7 +182,7 @@ const assets = {
 		name: '资产-不动产登记-智能精准匹配',
 		list: params => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterList', { params })
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterCount', { params: { ...params, type: 1 } })
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 	matchBlurry: {
@@ -190,7 +190,7 @@ const assets = {
 		name: '资产-不动产登记-模糊匹配',
 		list: params => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterList', { params })
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterCount', { params: { ...params, type: 2 } })
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 	carInfo: {

@@ -95,7 +95,7 @@ class BusinessView extends React.Component {
 			title: '债务人',
 			dataIndex: 'obligorName',
 			key: 'obligorName',
-			width: 380,
+			width: 400,
 			className: 'column-left20',
 			render: (text, row) => (
 				<div style={{ position: 'relative' }}>
@@ -150,14 +150,14 @@ class BusinessView extends React.Component {
 			title: <SortVessel field="RISK_TOTAL" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
 			dataIndex: 'riskTotal',
 			key: 'riskTotal',
-			width: 180,
+			width: 170,
 			className: 'column-center',
 			render: text => ((text === '0' || !text) ? '0' : text),
 		}, {
 			title: '推送状态',
 			dataIndex: 'pushState',
 			key: 'pushState',
-			width: 170,
+			width: 100,
 			render: text => (
 				<React.Fragment>
 					{
