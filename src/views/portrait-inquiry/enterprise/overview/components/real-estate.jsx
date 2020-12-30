@@ -6,7 +6,7 @@ import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import './style.scss';
 
-export default class UnBlock extends React.Component {
+export default class RealEstate extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -26,7 +26,6 @@ export default class UnBlock extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		console.log(29,portrait)
 		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 3, companyId };
 		const api = portrait === 'business' ? overviewRealRegister : getEstateRegister;
 		api(params).then((res) => {
@@ -34,7 +33,7 @@ export default class UnBlock extends React.Component {
 				// console.log('unblock === ', res);
 				const timeLineData = res.data.yearDistributions;
 				const allNum = getCount(timeLineData);
-				getAssetProfile(allNum, 'UnBlock');
+				getAssetProfile(allNum, 'RealEstate');
 				this.setState({
 					loading: false,
 					timeLineData, // 年份分布
