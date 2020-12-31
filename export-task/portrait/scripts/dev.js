@@ -750,7 +750,7 @@ function exportTemplate(source,exportType) {
 		}
 		// 不动产登记- 精准
 		else if(viewName === "overview.A10215"){
-			if((source.matchDataList || []).length > 0 && source.matchDataList[0].matchCount){
+			if((source.matchDataList || []).length > 0 && source.matchDataList[0].matchCount > 0){
 				htmlTemp = htmlTemp.replace("{" + viewName + ".total}", source.matchDataList[0].matchCount);
 				if((source.matchDataList[0].yearDistributions || []).length){
 					htmlTemp = htmlTemp.replace("{" + viewName + ".year.list}",
@@ -1232,7 +1232,7 @@ function exportTemplate(source,exportType) {
 		// 在建工程
 		overView(data.A10218,"overview.A10218");
 
-		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp) || /padding6 {overview\.A1021([0123578]).{0,12}\.display/.test(htmlTemp))){
+		if(!(/padding6 {overview\.A1020([12345]).{0,12}\.display/.test(htmlTemp) || /padding6 {overview\.A1021([01235678]).{0,12}\.display/.test(htmlTemp))){
 			htmlTemp = htmlTemp.replace("{overview.asset.display}", "display-none");
 		}
 		// 涉诉信息 （失信记录）
@@ -2043,7 +2043,7 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>项目所在地：</span>" +
-						"<span class='n-desc'>"+(item.projectLocation || '--')+"</span>" +
+						"<span class='n-desc'>"+(item.projectAddress || '--')+"</span>" +
 						"</div>" +
 						"</li>" +
 						"</td>" +

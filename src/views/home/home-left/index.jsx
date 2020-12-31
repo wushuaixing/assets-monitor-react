@@ -195,8 +195,8 @@ class HomeDynamic extends PureComponent {
 			const financeNum = this.getTotal([auctionBidding, finance, financeInvestment]);
 			const onBuildNum = this.getTotal([projectInfoCount, projectBiddingCount, constructionLicenceCount]);
 			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission,
-				finance, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt,
-				subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister, vehicleInformation]);
+				finance, financeInvestment, landMortgage, landTransaction, landTransfer, mining, mortgage, stock, subrogationCourt,
+				subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister, vehicleInformation, projectInfoCount, projectBiddingCount, constructionLicenceCount]);
 			const assetDataArray = [
 				{
 					count: auction, type: 1, typeName: '资产拍卖', name: '资产拍卖', value: 1,
@@ -514,7 +514,7 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderList,
 			RiskImportantReminderObligorIdList,
 		};
-		const detailTypeAll = Object.assign({},assetsDataType,riskDataType);
+		const detailTypeAll = Object.assign({}, assetsDataType, riskDataType);
 		const newAssetArr = [...AssetImportantReminderList];
 		const assetArr = (newAssetArr.sort(compare('timestamp')));
 		const newRiskArr = [...RiskImportantReminderList];
