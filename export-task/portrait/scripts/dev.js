@@ -105,6 +105,17 @@ function exportTemplate(source,exportType) {
 				10: '招标人',
 				11: '工程总承包单位',
 			},
+			realEstateRoleType: {
+				0: "未知",
+				1: "注销人",
+				2: "权利人",
+				3: "新权利人",
+				4: "原权利人",
+				5: "抵押人",
+				6: "抵押权人",
+				7: "被执行人",
+				8: "申请执行人",
+			},
 			projectStatusType: [
 				{id: 1, value: '即将开始'},
 				{id: 3, value: '正在进行'},
@@ -1890,6 +1901,11 @@ function exportTemplate(source,exportType) {
 			//不动产-模糊匹配
 			case "realEstate.blurry":{
 				source.list.forEach(function (item) {
+					var roleList = '';
+					(item.role || []).forEach(function (it, index) {
+						var punctuation = fun.source.realEstateRoleType[it] + (index === (item.role|| []).length - 1 ? '' : '，');
+						roleList += punctuation;
+					});
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
@@ -1908,7 +1924,7 @@ function exportTemplate(source,exportType) {
 						"<li class='mg8-0'>" +
 						( item.accurateType === 1 ? "<div class='nAndI'>" +
 							"<span class='n-title'>债务人角色：</span>" +
-							"<span class='n-desc'>"+(fun.toGetRoleType(item.role)||'--')+"</span>" +
+							"<span class='n-desc'>"+(roleList ||'--')+"</span>" +
 							"</div><div class='n-line mg0-5'></div>" : '') +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>不动产坐落：</span>" +
