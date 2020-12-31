@@ -19,7 +19,7 @@ import BiddingInfo from './components/biddingInfo';
 import Bankruptcy from './components/bankruptcy';
 import Financial from './components/financial';
 import UnBlock from './components/unblock';
-import LimitHeight from './components/limit-height';
+// import LimitHeight from './components/limit-height';
 import RealEstate from './components/real-estate';
 import Car from './components/car';
 import Construct from './components/construct';
@@ -307,7 +307,7 @@ export default class OverView extends React.Component {
 							{/*  失信记录 */}
 							{yearDistributions && yearDistributions.length > 0 ? <LostLetter timeLineData={yearDistributions} /> : ''}
 							{/* 限制高消费 */}
-							<LimitHeight companyId={companyId} getRiskProfile={this.getRiskProfile} />
+							{/* <LimitHeight companyId={companyId} getRiskProfile={this.getRiskProfile} /> */}
 							{/*  涉诉信息 */}
 							{LitigationInfosCount > 0 ? <Information litigationInfosArray={litigationInfos} /> : ''}
 							{/* 经营风险信息 */}
