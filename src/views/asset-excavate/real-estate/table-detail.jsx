@@ -83,8 +83,12 @@ export default class TableIntact extends React.Component {
 		const { portrait, type } = this.props;
 		if (portrait !== 'business') {
 			let roleNameData = [];
-			if (type === 11001 && row.role && row.role.length > 0) {
-				roleNameData = row.role.map(i => roleName[i]);
+			if (type === 11001) {
+				if (row.role && Array.isArray(row.role) && row.role.length > 0) {
+					roleNameData = row.role.map(i => roleName[i]);
+				} else {
+					roleNameData = [roleName[row.role]];
+				}
 			}
 			return (
 				<React.Fragment>
