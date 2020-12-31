@@ -46,7 +46,7 @@ export default class Ellipsis extends React.Component {
 	render() {
 		const {
 			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
-			isBorrower = false, isBankruptcy = false, isLimitHeight = false, isTable = false, prefixContent, regStatus, bussinessStyle
+			isBorrower = false, isBankruptcy = false, isLimitHeight = false, isTable = false, prefixContent, regStatus, bussinessStyle,
 		} = this.props;
 
 		const _url = obligorId ? `#/business/debtor/detail?id=${obligorId}` : url;
@@ -72,7 +72,7 @@ export default class Ellipsis extends React.Component {
 			width: bussinessStyle ? 'auto' : __width + addWidth,
 			display: 'inline-block',
 		} : '';
-		console.log(75,_width,__width,addWidth)
+		// console.log(75, _width, __width, addWidth);
 		return (
 			<div ref={e => this.element = e} className={`yc-ellipsis-element${className ? ` ${className}` : ''}`} style={style}>
 				{
