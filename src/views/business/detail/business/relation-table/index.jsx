@@ -19,7 +19,7 @@ export default class RelationTable extends React.Component {
 				title: '相关人名称',
 				dataIndex: 'obligorName',
 				key: 'obligorName',
-				width: '20%',
+				width: 400,
 				render: (text, row) => (
 					<div style={{ position: 'relative' }}>
 						{/* {row.obligorId ? linkDetail(row.obligorId, text) : text} */}
@@ -33,8 +33,10 @@ export default class RelationTable extends React.Component {
 							isTable={row.isTable}
 							isBankruptcy={row.bankruptcy}
 							isBorrower={row.isBorrower}
+							regStatus={row.regStatus}
+							bussinessStyle
 						/>
-						<span className="yc-item-break">
+						<span className="yc-item-break" style={{ marginLeft: 4 }}>
 							{
                                 row && row.dishonestStatus === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null
                             }
@@ -51,7 +53,7 @@ export default class RelationTable extends React.Component {
 				title: '证件号/统一社会信用代码',
 				dataIndex: 'obligorNumber',
 				key: 'obligorNumber',
-				width: '20%',
+				width: 250,
 				render(text) {
 					return <div>{text || '-'}</div>;
 				},
@@ -59,22 +61,22 @@ export default class RelationTable extends React.Component {
 				title: '角色',
 				dataIndex: 'roleText',
 				key: 'roleText',
-				width: '10%',
+				width: 140,
 			}, {
 				title: '相关资产',
 				dataIndex: 'assetTotal',
 				key: 'assetTotal',
-				width: '10%',
+				width: 160,
 			}, {
 				title: '相关风险',
 				dataIndex: 'riskTotal',
 				key: 'riskTotal',
-				width: '10%',
+				width: 170,
 			}, {
 				title: '推送状态',
 				key: 'obligorPushType',
 				dataIndex: 'obligorPushType',
-				width: '10%',
+				width: 100,
 				render(text) {
 					return (
 						<React.Fragment>
@@ -98,7 +100,7 @@ export default class RelationTable extends React.Component {
 				title: '操作',
 				key: 'operation',
 				className: 'column-center',
-				width: '20%',
+				width: 150,
 				render: (text, row) => (
 					<span>
 						<span className="yc-table-text-link" onClick={() => this.detail(row)}>查看</span>

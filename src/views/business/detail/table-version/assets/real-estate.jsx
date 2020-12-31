@@ -48,7 +48,6 @@ export default class Auction extends React.Component {
 		const { id, portrait } = this.props;
 		const params = {
 			portrait,
-			type: sourceType,
 			onCountChange: this.onCountChange,
 		};
 		const h = toGetModuleHeight(sourceType, this.sourceNumber, portrait);
@@ -63,7 +62,8 @@ export default class Auction extends React.Component {
 					prefix={<div className="yc-tabs-simple-prefix">不动产登记</div>}
 				/>
 				<div className="inquiry-public-table">
-					<Table {...params} loadingHeight={h} />
+					{sourceType === 11001 && <Table {...params} loadingHeight={h} type={sourceType} />}
+					{sourceType === 11002 && <Table {...params} loadingHeight={h} type={sourceType} />}
 				</div>
 			</div>
 		);
