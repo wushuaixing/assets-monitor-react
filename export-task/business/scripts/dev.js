@@ -17,7 +17,7 @@ let htmlCover = dev.cover;
 /* 导出详情-封面 */
 function exportCover(source, exportType) {
 	var d = JSON.parse(source) || {};
-	htmlCover = htmlCover.replace("../../img/watermark.png", bgImgData);
+	htmlCover = htmlCover.replace("../../_assets/img/watermark.png", bgImgData);
 	var dataTime = new Date().getFullYear() + '年' + (new Date().getMonth() + 1) + "月" + new Date().getDate() + "日";
 	htmlCover = htmlCover.replace(/{base.queryTime}/g, dataTime);
 	var userInfo = '', data = '';
