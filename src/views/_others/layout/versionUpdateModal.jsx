@@ -38,22 +38,28 @@ export default class VersionUpdateModal extends React.PureComponent {
 									<span className="yc-modal-icon" />
 									<span className="yc-label-tips">资产挖掘</span>
 								</div>
-								<div className="yc-label-subTips">新增不动产登记、车辆信息</div>
+								<div className="yc-label-subTips">新增在建工程信息</div>
 							</div>
 							<div className="yc-label-title">
 								<div>
 									<span className="yc-modal-icon" />
 									<span className="yc-label-tips">债务人详情和画像详情</span>
 								</div>
-								<div className="yc-label-subTips">增加查解封资产、金融资产、限制高消费</div>
+								<div className="yc-label-subTips">增加不动产登记、车辆信息、在建工程信息</div>
 							</div>
 							<div className="yc-label-title">
-								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">债务人详情和画像详情pdf内容完善</span>
+								<div>
+									<span className="yc-modal-icon" />
+									<span className="yc-label-tips">展示内容调整</span>
+								</div>
+								<div className="yc-label-subTips">调整业务详情和资产挖掘-限制高消费的展示内容</div>
 							</div>
 							<div className="yc-label-title">
-								<span className="yc-modal-icon" />
-								<span className="yc-label-tips">部分页面交互优化</span>
+								<div>
+									<span className="yc-modal-icon" />
+									<span className="yc-label-tips">债务人列表</span>
+								</div>
+								<div className="yc-label-subTips">增加异常工商登记状态和限高状态的展示</div>
 							</div>
 						</div>
 						<Button className="yc-modal-btn" onClick={this.handleCancel}>我知道了</Button>

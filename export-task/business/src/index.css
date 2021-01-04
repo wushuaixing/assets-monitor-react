@@ -20,7 +20,7 @@
 
 body {
   padding: 2px;
-  background: #ffffff url("../../../template/img/watermark.png") repeat-y center top;
+  background: #ffffff url("../../_assets/img/watermark.png") repeat-y center top;
   margin: 0 auto;
   background-size: 85%;
 }
