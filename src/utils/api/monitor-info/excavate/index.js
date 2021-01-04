@@ -69,3 +69,9 @@ export const unsealCard = async (params) => {
 	const response = await service.get('/yc/index/information/overview/unseal', { params });
 	return Object.assign(response.data, { name: 'unseal' });
 };
+
+// 在建工程
+export const constructApi = async (params) => {
+	const response = await service.get('/yc/index/information/overview/onBuild', { params });
+	return Object.assign(response.data, { name: 'build' });
+};

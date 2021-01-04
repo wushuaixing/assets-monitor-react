@@ -2,7 +2,7 @@ import React from 'react';
 import { navigate } from '@reach/router';
 import Router from '@/utils/Router';
 import { Button, Icon, BreadCrumb } from '@/common';
-import { unReadCount } from '@/utils/api/monitor-info';
+// import { unReadCount } from '@/utils/api/monitor-info';
 import { toGetRuleSource } from '@/utils';
 // 主要内容模块
 import Assets from './assets-auction'; // 资产拍卖
@@ -16,6 +16,7 @@ import EquityPledge from './equity-pledge'; // 股权质押
 import SeizedUnblock from './seized-unblock'; // 查解封资产
 import Car from './car'; // 车辆信息
 import RealEstate from './real-estate'; // 不动产登记
+import ConstructProject from './construct-project';
 // import Public from './public-proclamation'; // 公示公告
 // import Attention from '../my-attention'; // 我的收藏
 // import VersionUpdateModal from '../_others/layout/versionUpdateModal';
@@ -52,6 +53,8 @@ const toGetRuth = (moduleID) => {
 		  components = RealEstate;
 		} else if (item.id === `${childID}11`) {
 		  components = Car;
+		} else if (item.id === `${childID}12`) {
+			components = ConstructProject;
 		} else {
 			components = noPage;
 		}
@@ -77,14 +80,14 @@ class MonitorMain extends React.Component {
 	}
 
 	componentDidMount() {
-		this.onUnReadCount();
-		this.setUnReadCount = setInterval(() => {
-			this.onUnReadCount();
-		}, 30 * 1000);
+		// this.onUnReadCount();
+		// this.setUnReadCount = setInterval(() => {
+		// 	this.onUnReadCount();
+		// }, 30 * 1000);
 	}
 
 	componentWillUnmount() {
-		if (this.setUnReadCount) window.clearInterval(this.setUnReadCount);
+		// if (this.setUnReadCount) window.clearInterval(this.setUnReadCount);
 	}
 
 	/* 更新未读数据统计 */
@@ -98,27 +101,27 @@ class MonitorMain extends React.Component {
 		this.setState({ source: _source });
 	};
 
-	onUnReadCount = () => {
-		const { source } = this.state;
-		unReadCount({ event: 'loop' }).then((res) => {
-			const { data, code } = res;
-			if (code === 200) {
-				const _source = source.map((item) => {
-					const _item = item;
-					// console.log(_item.id, 123);
-					if (_item.id === 'YC0201') _item.dot = data.auctionCount;
-					if (_item.id === 'YC0202') _item.dot = data.subrogationCourtSessionCount || data.subrogationFilingCount || data.subrogationJudgmentCourt;
-					if (_item.id === 'YC0203') _item.dot = data.landTransferFlag || data.landTransactionFlag || data.landMortgageFlag; // 土地信息
-					if (_item.id === 'YC0204') _item.dot = data.biddingCount; // 招标中标
-					if (_item.id === 'YC0205') _item.dot = data.financeCount || data.auctionBiddingCount; // 金融资产
-					if (_item.id === 'YC0206') _item.dot = data.mortgageFlag; // 动产抵押
-					if (_item.id === 'YC0207') _item.dot = data.intangibleConstructFlag || data.intangibleEmissionFlag || data.intangibleMiningFlag || data.intangibleTrademarkFlag; // 动产抵押
-					return _item;
-				});
-				this.setState({ source: _source });
-			}
-		});
-	};
+	// onUnReadCount = () => {
+	// 	const { source } = this.state;
+	// 	unReadCount({ event: 'loop' }).then((res) => {
+	// 		const { data, code } = res;
+	// 		if (code === 200) {
+	// 			const _source = source.map((item) => {
+	// 				const _item = item;
+	// 				// console.log(_item.id, 123);
+	// 				if (_item.id === 'YC0201') _item.dot = data.auctionCount;
+	// 				if (_item.id === 'YC0202') _item.dot = data.subrogationCourtSessionCount || data.subrogationFilingCount || data.subrogationJudgmentCourt;
+	// 				if (_item.id === 'YC0203') _item.dot = data.landTransferFlag || data.landTransactionFlag || data.landMortgageFlag; // 土地信息
+	// 				if (_item.id === 'YC0204') _item.dot = data.biddingCount; // 招标中标
+	// 				if (_item.id === 'YC0205') _item.dot = data.financeCount || data.auctionBiddingCount; // 金融资产
+	// 				if (_item.id === 'YC0206') _item.dot = data.mortgageFlag; // 动产抵押
+	// 				if (_item.id === 'YC0207') _item.dot = data.intangibleConstructFlag || data.intangibleEmissionFlag || data.intangibleMiningFlag || data.intangibleTrademarkFlag; // 动产抵押
+	// 				return _item;
+	// 			});
+	// 			this.setState({ source: _source });
+	// 		}
+	// 	});
+	// };
 
 	toNavigate = () => {
 		navigate(`/info/monitor/attention?init=YC02${this.sourceType ? `&process=${this.sourceType}` : ''}`);

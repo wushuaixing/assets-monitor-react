@@ -310,7 +310,7 @@ class BusinessDebtor extends React.Component {
 				</div>
 
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">信用状态: </span>
+					<span className="yc-query-item-title">失信状态: </span>
 					<Select
 						size="large"
 						defaultValue="all"
@@ -322,6 +322,21 @@ class BusinessDebtor extends React.Component {
 							{ id: 2, name: '未失信', value: 0 },
 							{ id: 3, name: '已失信', value: 1 },
 							{ id: 4, name: '曾失信', value: 2 },
+						].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
+					</Select>
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">限高状态: </span>
+					<Select
+						size="large"
+						style={_style3}
+						defaultValue="all"
+						{...getFieldProps('limitHeightStatus', { initialValue: '' })}
+					>
+						{[
+							{ id: 1, name: '全部', value: '' },
+							{ id: 2, name: '未限高', value: 0 },
+							{ id: 3, name: '已限高', value: 1 },
 						].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
 					</Select>
 				</div>

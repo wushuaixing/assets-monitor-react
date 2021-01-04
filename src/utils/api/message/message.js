@@ -195,28 +195,28 @@ const message = [
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/epb/epbCount', { params })
 			.then(res => Object.assign(res.data, { id })),
-	},{
+	}, {
 		dataType: 11203,
 		name: '经营异常',
 		list: params => service.get('/yc/report/daily/abnormal/abnormalList', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/abnormal/abnormalCount', { params })
 			.then(res => Object.assign(res.data, { id })),
-	},{
+	}, {
 		dataType: 11204,
 		name: '工商变更',
 		list: params => service.get('/yc/report/daily/change/changeList', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/change/changeCount', { params })
 			.then(res => Object.assign(res.data, { id })),
-	},{
+	}, {
 		dataType: 11205,
 		name: '严重违法',
 		list: params => service.get('/yc/report/daily/illegal/illegalList', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/illegal/illegalCount', { params })
 			.then(res => Object.assign(res.data, { id })),
-	},{
+	}, {
 		dataType: 11206,
 		name: '行政处罚',
 		list: params => service.get('/yc/report/daily/punishment/punishmentList', { params })
@@ -239,19 +239,45 @@ const message = [
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/limitHeight/limitHeightCount', { params })
 			.then(res => Object.assign(res.data, { id })),
-	}, {
+	},
+	{
 		dataType: 11501,
 		name: '不动产登记',
 		list: params => service.get('/yc/report/daily/estateRegister/estateRegisterList', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/estateRegister/estateRegisterListCount', { params })
 			.then(res => Object.assign(res.data, { id })),
-	}, {
+	},
+	{
 		dataType: 11601,
 		name: '车辆信息',
 		list: params => service.get('/yc/report/daily/vehicle/vehicleList', { params })
 			.then(res => res.data),
 		count: (params, id) => service.get('/yc/report/daily/vehicle/vehicleListCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	{
+		dataType: 11701,
+		name: '在建工程-建筑单位',
+		list: params => service.get('/yc/report/daily/onBuild/projectInfoList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/onBuild/projectInfoCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	{
+		dataType: 11702,
+		name: '在建工程-中标单位',
+		list: params => service.get('/yc/report/daily/onBuild/projectBiddingList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/onBuild/projectBiddingCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	{
+		dataType: 11703,
+		name: '在建工程-施工单位',
+		list: params => service.get('/yc/report/daily/onBuild/constructionLicenceList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/onBuild/constructionLicenceCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 ];

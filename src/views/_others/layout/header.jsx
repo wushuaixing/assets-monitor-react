@@ -4,7 +4,7 @@ import { navigate } from '@reach/router';
 import Ellipse from 'img/icon/icon_unread99.png';
 import Circular from 'img/icon/icon_unread.png';
 import logoImg from '@/assets/img/logo_white.png';
-import { unreadCount } from '@/utils/api/inform';
+// import { unreadCount } from '@/utils/api/inform';
 import { bankConf } from '@/utils/api/user';
 import { toGetRuleSource } from '@/utils';
 import HeaderCenter from './headerCenter/header-center';
@@ -128,7 +128,7 @@ export default class Headers extends React.Component {
 			config: this.source,
 			num: '',
 			data: [],
-			Surplus: '', // 剩余未读数
+			// Surplus: '', // 剩余未读数
 			innerUrl: '',
 		};
 	}
@@ -148,32 +148,33 @@ export default class Headers extends React.Component {
 	}
 
 	componentDidMount() {
-		const { rule } = this.props;
+		// const { rule } = this.props;
 		window.scrollTo(0, 0);
-		if (rule.menu_sy) {
-			unreadCount().then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						Surplus: res.data,
-					});
-				}
-			});
-		}
+		// if (rule.menu_sy) {
+		// 	unreadCount().then((res) => {
+		// 		if (res.code === 200) {
+		// 			this.setState({
+		// 				Surplus: res.data,
+		// 			});
+		// 		}
+		// 	});
+		// }
 	}
 
 	componentWillReceiveProps() {
-		const { rule } = this.props;
-		const { Surplus, active } = this.state;
+		// const { rule } = this.props;
+		const { active } = this.state;
+		// const { Surplus, active } = this.state;
 		const _active = defaultRouter(this.source);
-		if (rule.menu_sy) {
-			unreadCount().then((res) => {
-				if (res.code === 200) {
-					if (Surplus !== res.data) {
-						window.location.reload(); // 实现页面重新加载/
-					}
-				}
-			});
-		}
+		// if (rule.menu_sy) {
+		// 	unreadCount().then((res) => {
+		// 		if (res.code === 200) {
+		// 			if (Surplus !== res.data) {
+		// 				window.location.reload(); // 实现页面重新加载/
+		// 			}
+		// 		}
+		// 	});
+		// }
 		if (active !== _active) {
 			this.setState({
 				active: _active,

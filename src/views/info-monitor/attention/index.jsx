@@ -5,6 +5,7 @@ import {
 	subrogationCount, landCount, lawsuitCount, operationCount,
 } from '@/utils/api/monitor-info/attention';
 import Intangible from '@/utils/api/monitor-info/intangible';
+import ConstructApi from '@/utils/api/assets/construct';
 import './style.scss';
 import { promiseAll, requestAll } from '@/utils/promise';
 import Apis from 'api/monitor-info/finance';
@@ -48,7 +49,7 @@ export default class MyAttention extends React.Component {
 	}
 
 	// 获取数据统计
-	toGetTotal=(type, source) => {
+	toGetTotal = (type, source) => {
 		const _source = source;
 		if (type === 'YC0202') {
 			subrogationCount().then((res) => {
@@ -154,6 +155,24 @@ export default class MyAttention extends React.Component {
 				});
 				this.setState({ source: _source });
 			});
+		} else if (type === 'YC0212') { // 在建工程
+			const urlList = source.child.map(item => ({
+				api: ConstructApi(item.id, 'followListCount')(),
+				info: { id: item.id },
+			}));
+			requestAll(urlList).then((res) => {
+				_source.child = _source.child.map((item) => {
+					const _item = item;
+					res.map((i) => {
+						if (item.id === i.id) {
+							_item.number = i.data;
+						}
+						return i;
+					});
+					return _item;
+				});
+				this.setState({ source: _source });
+			});
 		}
 	};
 
@@ -187,7 +206,7 @@ export default class MyAttention extends React.Component {
 	};
 
 	// 如果有子项按钮，点击切换
-	onBtnChange=(val) => {
+	onBtnChange = (val) => {
 		const { sourceType, source } = this.state;
 		this.setState({
 			childType: val.id,
@@ -213,6 +232,8 @@ export default class MyAttention extends React.Component {
 		};
 		const newConfig = config && config.filter(i => i.status);
 		// const newInitConfig = initConfig && initConfig.map(i => i).filter(l => l.status);
+		console.log('initConfig === ', initConfig);
+		console.log('config === ', config);
 		return (
 			<div className="yc-monitor-attention">
 				<Tabs.Simple

@@ -40,6 +40,7 @@ const urlMap = new Map([
 	['查/解封资产', '/monitor/seizedUnblock'],
 	['金融资产', '/monitor/financial'],
 	['招投标', '/monitor/tender'],
+	['在建工程', '/monitor/construct'],
 	['不动产登记', '/monitor/realEstate'],
 	['车辆信息', '/monitor/car'],
 	['破产重组', '/risk/bankruptcy'],
@@ -193,10 +194,10 @@ class DynamicUpdate extends PureComponent {
 						{hasAssetPropsData && assetPropsData.totalNum !== 0 ? (
 							<div className="seven-update-content-title">
 								<div className="seven-update-content-title-item" />
-								<div className="seven-update-content-title-name"  style={{ marginTop: 20 }}>
+								<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
 									新增
 									<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
-									条资产挖掘信息
+									条资产线索
 
 									{/*		<span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
@@ -238,7 +239,7 @@ class DynamicUpdate extends PureComponent {
 								<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
 									新增
 									<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
-									条风险参考信息
+									条风险信息
 									{/* <span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
 										<span className="seven-update-content-title-addNum-text">
@@ -260,7 +261,7 @@ class DynamicUpdate extends PureComponent {
 							</div>
 						) : (
 							<div className="detail-container-noData">
-								<div className="detail-container-noData-allImg"  style={{ height: 160, width: 270 }}/>
+								<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
 								<span className="detail-container-noData-text">暂未匹配到新的风险信息，建议去导入更多债务人，以匹配更多价值信息</span>
 								<div>
 									<Button onClick={this.handleNavigate} type="primary" style={{ width: 180, height: 34, marginTop: '20px' }}>导入更多债务人</Button>

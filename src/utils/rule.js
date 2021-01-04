@@ -34,6 +34,20 @@ export default {
 					};
 				}
 				break;
+			case 'menu_zjgc':
+				if (res.menu_zcwj) {
+					res.menu_zcwj.children[item.rule] = item;
+				} else {
+					res.menu_zcwj = {
+						id: 2,
+						groupName: item.groupName,
+						title: '资产挖掘',
+						children: {
+							[item.rule]: item,
+						},
+					};
+				}
+				break;
 			case 'menu_fxjk':
 				if (res.menu_fxjk) {
 					res.menu_fxjk.children[item.rule] = item;
@@ -358,6 +372,17 @@ export default {
 								status: toStatus(rule.menu_zcwj, 'zcwjcjfzc'),
 							},
 							{
+								id: 'YC0212',
+								name: '在建工程',
+								url: '/monitor/construct',
+								status: toStatus(rule.menu_zcwj, ['zjgcjsdw', 'zjgczbdw', 'zjgcsgdw']),
+								child: [
+									{ id: 'YC021201', name: '建设单位', status: toStatus(rule.menu_zcwj, 'zjgcjsdw') },
+									{ id: 'YC021202', name: '中标单位', status: toStatus(rule.menu_zcwj, 'zjgczbdw') },
+									{ id: 'YC021203', name: '施工单位', status: toStatus(rule.menu_zcwj, 'zjgcsgdw') },
+								],
+							},
+							{
 								id: 'YC0210',
 								name: '不动产登记',
 								url: '/monitor/realEstate',
@@ -577,11 +602,18 @@ export default {
 /**
  * 返回对应的权限是否存在
  * @param field
- * @param childField
+ * @param childField 传入一个字符串或者是数组
  */
 export const	roleState = (field, childField) => {
 	const rule = global.ruleSource || {};
 	const _field = `menu_${field || ''}`;
 	const ruleObject = rule[_field];
+	if (Array.isArray(childField) && childField.length > 0) {
+		let isRule = 0;
+		childField.forEach((item) => {
+			isRule += Boolean(ruleObject.children[item]);
+		});
+		return isRule > 0;
+	}
 	return ruleObject ? Boolean(ruleObject.children[childField]) : false;
 };

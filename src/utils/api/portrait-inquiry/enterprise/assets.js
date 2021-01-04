@@ -177,5 +177,53 @@ const assets = {
 		count: (params, id) => service.get('/yc/search/portrait/company/asset/unseal/unsealCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
+	matchExact: {
+		id: 11001,
+		name: '资产-不动产登记-智能精准匹配',
+		list: params => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterList?type=1', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterCount?type=1', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	matchBlurry: {
+		id: 11002,
+		name: '资产-不动产登记-模糊匹配',
+		list: params => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterList?type=2', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/estateRegister/estateRegisterCount?type=2', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	carInfo: {
+		id: 11101,
+		name: '资产-车辆信息',
+		list: params => service.get('/yc/search/portrait/company/asset/vehicle/vehicleList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/vehicle/vehicleCount', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	constructUnit: {
+		id: 11201,
+		name: '资产-在建工程-建设单位',
+		list: params => service.get('/yc/search/portrait/company/asset/onBuild/onBuildUnitList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/onBuild/onBuildCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'onBuildInfo' })),
+	},
+	winbidUnit: {
+		id: 11202,
+		name: '资产-在建工程-中标单位',
+		list: params => service.get('/yc/search/portrait/company/asset/onBuild/onBuildBidList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/onBuild/onBuildCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'onBuildBid' })),
+	},
+	underwayUnit: {
+		id: 11203,
+		name: '资产-在建工程-施工单位',
+		list: params => service.get('/yc/search/portrait/company/asset/onBuild/onBuildConstList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/search/portrait/company/asset/onBuild/onBuildCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'onBuildConst' })),
+	},
 };
 export default assets;

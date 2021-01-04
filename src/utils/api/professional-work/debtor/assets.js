@@ -196,5 +196,59 @@ const assets = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
+	11001: {
+		id: 11001,
+		name: '资产-不动产登记',
+		list: params => service.get('/yc/obligor/monitor/asset/estateRegister/estateRegisterList?matchType=1', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/estateRegister/estateRegisterListCount?matchType=1', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	11002: {
+		id: 11002,
+		name: '资产-不动产登记',
+		list: params => service.get('/yc/obligor/monitor/asset/estateRegister/estateRegisterList?matchType=2', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/estateRegister/estateRegisterListCount?matchType=2', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	11101: {
+		id: 11101,
+		name: '资产-车辆信息',
+		list: params => service.get('/yc/obligor/monitor/asset/vehicle/vehicleList', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/vehicle/vehicleListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	11201: {
+		id: 11201,
+		name: '资产-在建工程-建设单位',
+		list: params => service.get('/yc/obligor/monitor/asset/onBuildProjectInfo/onBuildProjectInfoList', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/onBuildProjectInfo/onBuildProjectInfoListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	11202: {
+		id: 11202,
+		name: '资产-在建工程-中标单位',
+		list: params => service.get('/yc/obligor/monitor/asset/onBuildBid/onBuildBidList', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/onBuildBid/onBuildBidListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	11203: {
+		id: 11203,
+		name: '资产-在建工程-施工单位',
+		list: params => service.get('/yc/obligor/monitor/asset/onBuildLicence/onBuildLicenceList', { params }).then(res => res.data),
+		count(params) {
+			return service.get('/yc/obligor/monitor/asset/onBuildLicence/onBuildLicenceListCount', { params })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
 };
 export default assets;

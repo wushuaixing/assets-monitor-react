@@ -24,7 +24,10 @@ import BusinessRisk from './components/businessRisk';
 import Tax from './components/tax';
 import Financial from './components/financial';
 import UnBlock from './components/unblock';
+import RealEstate from './components/real-estate';
+import Car from './components/car';
 import LimitHeight from './components/limitHeight';
+import Construct from './components/construct';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值
@@ -54,6 +57,9 @@ export default class Visualize extends React.Component {
 			FinanceCount: 0,
 			UnBlockCount: 0,
 			LimitHeightCount: 0,
+			RealCount: 0,
+			CarCount: 0,
+			ConstructCount: 0, // 在建工程
 		};
 	}
 
@@ -190,6 +196,18 @@ export default class Visualize extends React.Component {
 					BiddingCount: AssetProfileCountValue,
 				})
 			);
+		case 'RealEstate':
+			return (
+				this.setState({
+					RealCount: AssetProfileCountValue,
+				})
+			);
+		case 'Car':
+			return (
+				this.setState({
+					CarCount: AssetProfileCountValue,
+				})
+			);
 		case 'UnBlock':
 			return (
 				this.setState({
@@ -226,6 +244,12 @@ export default class Visualize extends React.Component {
 					LimitHeightCount: AssetProfileCountValue,
 				})
 			);
+		case 'Construct':
+			return (
+				this.setState({
+					ConstructCount: AssetProfileCountValue,
+				})
+			);
 		default: return '-';
 		}
 	};
@@ -233,7 +257,9 @@ export default class Visualize extends React.Component {
 	render() {
 		const { portrait } = this.props;
 		const {
-			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, TaxCount, FinanceCount, UnBlockCount, LimitHeightCount, loading, IntangibleCount, BiddingCount, BankruptcyCount, DishonestCount, BusinessRiskCount, businessId,
+			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ConstructCount,
+			ChattelMortgageCount, TaxCount, FinanceCount, UnBlockCount, LimitHeightCount, loading, IntangibleCount, BiddingCount, RealCount, CarCount, BankruptcyCount, DishonestCount,
+			BusinessRiskCount, businessId,
 		} = this.state;
 		const params = {
 			portrait,
@@ -266,9 +292,15 @@ export default class Visualize extends React.Component {
 						{portrait !== 'debtor_personal' && <Bidding {...params} />}
 						{/* 查解封资产 */}
 						{portrait !== 'debtor_personal' && <UnBlock {...params} />}
+						{/* 在建工程 */}
+						{portrait !== 'debtor_personal' && <Construct {...params} />}
+						{/* 不动产 */}
+						{portrait !== 'debtor_personal' && <RealEstate {...params} />}
+						{/* 车辆信息 */}
+						{portrait !== 'debtor_personal' && <Car {...params} />}
 						{
 							AssetAuctionCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0
-							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0
+							&& ChattelMortgageCount === 0 && IntangibleCount === 0 && BiddingCount === 0 && RealCount === 0 && CarCount === 0 && FinanceCount === 0 && UnBlockCount === 0 && ConstructCount === 0
 							&& (
 								<Spin visible={loading}>
 									{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}
@@ -276,7 +308,6 @@ export default class Visualize extends React.Component {
 							)
 						}
 					</div>
-
 				</div>
 				<div className="overview-line" />
 				<div className="overview-right">

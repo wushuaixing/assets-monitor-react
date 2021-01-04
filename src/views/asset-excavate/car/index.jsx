@@ -3,9 +3,8 @@ import { Modal, message } from 'antd';
 import {
 	Button, Download, Icon, Spin,
 } from '@/common';
-import { unReadCount } from '@/utils/api/monitor-info';
 import {
-	getMortgageList, postMarkReadAll, postFollow, exportList,
+	getMortgageList, getMortgageCount, postMarkReadAll, postFollow, exportList,
 } from '@/utils/api/monitor-info/car';
 import { clearEmpty } from '@/utils';
 import Query from './query';
@@ -179,15 +178,17 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 查询是否有未读消息
-	onUnReadCount=() => {
-		unReadCount().then((res) => {
-			const { data, code } = res;
-			if (code === 200) {
+	onUnReadCount = () => {
+		const params = {
+			isRead: 0,
+		};
+		getMortgageCount(params).then((res) => {
+			if (res.code === 200) {
 				this.setState({
-					mortgageFlag: data.mortgageFlag,
+					mortgageFlag: res.data > 0,
 				});
 			}
-		});
+		}).catch();
 	};
 
 	clearSelectRowNum = () => this.selectRow = [];
