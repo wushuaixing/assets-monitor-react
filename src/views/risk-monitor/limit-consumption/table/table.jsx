@@ -31,7 +31,7 @@ const columns = (props) => {
 					? (
 						<div>
 							<div>
-								个人：
+								<span className="obligor-type">个人：</span>
 								<Ellipsis
 									content={`${row.obligorType === 2 ? `${row.personName}` : `${row.personName || '-'}`}`}
 									tooltip
@@ -40,13 +40,13 @@ const columns = (props) => {
 								/>
 							</div>
 							<div>
-								证件号：
+								<span className="obligor-type">证件号：</span>
 								<span>{row.obligorType === 2 ? row.personNumber : '-'}</span>
 							</div>
 						</div>
 					) : (
 						<div>
-							企业：
+							<span className="obligor-type">企业：</span>
 							<Ellipsis
 								content={`${row.companyName || '-'}`}
 								tooltip

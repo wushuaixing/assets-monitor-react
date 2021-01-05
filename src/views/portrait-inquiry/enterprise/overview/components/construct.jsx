@@ -184,7 +184,7 @@ export default class Construct extends React.Component {
 								/>
 							</div>
 							{RingDataNum > 0 && <RingEcharts title="工程类型分布" Data={RingData} id="constructCharts" customColorArray={['#1C80E1', '#45A1FF', '#59C874', '#FCD44A', '#FB8E3C']} />}
-							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="constructTimeLine" />}
+							{timeLineDataNum > 0 && selectType !== 'construct' && <TimeLine title="年份分布" Data={timeLineData} id="constructTimeLine" />}
 						</div>
 					</div>
 				) : null }
