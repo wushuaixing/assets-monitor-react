@@ -66,10 +66,17 @@ export default class OnBuildConstruct extends React.PureComponent {
 								</LiItem>
 							</div>
 							<div>
-								<LiItem Li auto title="立项批复日期" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.approvalTime || '-'}</LiItem>
+								{
+									row.approvalTime && <LiItem Li auto title="立项批复日期" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.approvalTime || '-'}</LiItem>
+								}
+								{
+									row.planBeginTime && <LiItem Li auto title="计划开工日期" style={{ display: 'inline-block', width: 160, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.planBeginTime || '-'}</LiItem>
+								}
 								<LiItem Li auto title="计划开工日期" style={{ display: 'inline-block', width: 160, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.planBeginTime || '-'}</LiItem>
 							</div>
-							<LiItem Li title="项目所在地" style={{ width: 372 }} titleStyle={{ color: '#7D8699', width: 80 }} cotStyle={{ maxWidth: 274 }}>{row.projectLocation || '-'}</LiItem>
+							{
+								row.projectLocation && <LiItem Li title="项目所在地" style={{ width: 372 }} titleStyle={{ color: '#7D8699', width: 80 }} cotStyle={{ maxWidth: 274 }}>{row.projectLocation || '-'}</LiItem>
+							}
 						</div>
 					),
 				},

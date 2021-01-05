@@ -572,8 +572,8 @@ class HomeDynamic extends PureComponent {
 								>
 									{[
 										{ id: 1, name: '全部类型', value: 'all' },
-										{ id: 2, name: '资产信息', value: 'assets' },
-										{ id: 3, name: '风险信息', value: 'risk' },
+										{ id: 2, name: '资产挖掘', value: 'assets' },
+										{ id: 3, name: '风险参考', value: 'risk' },
 									].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
 								</Select>
 							</div>

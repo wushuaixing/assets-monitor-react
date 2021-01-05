@@ -55,7 +55,7 @@ const columns = (props) => {
 		},
 		{
 			title: (noSort ? '项目信息'
-				: <SortVessel field="APPROVAL_TIME" onClick={onSortChange} mark="(立项批复日期)" {...sort}>招商信息</SortVessel>),
+				: <SortVessel field="APPROVAL_TIME" onClick={onSortChange} mark="(立项批复日期)" {...sort}>项目信息</SortVessel>),
 			width: 496,
 			dataIndex: 'title',
 			render: (text, row) => (
@@ -73,10 +73,16 @@ const columns = (props) => {
 						</LiItem>
 					</div>
 					<div>
-						<LiItem Li auto title="立项批复日期" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.approvalTime || '-'}</LiItem>
-						<LiItem Li auto title="计划开工日期" style={{ display: 'inline-block', width: 160, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.planBeginTime || '-'}</LiItem>
+						{
+							row.approvalTime && <LiItem Li auto title="立项批复日期" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.approvalTime || '-'}</LiItem>
+						}
+						{
+							row.planBeginTime && <LiItem Li auto title="计划开工日期" style={{ display: 'inline-block', width: 160, marginLeft: 40 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.planBeginTime || '-'}</LiItem>
+						}
 					</div>
-					<LiItem Li title="项目所在地" style={{ width: 372 }} titleStyle={{ color: '#7D8699', width: 80 }} cotStyle={{ maxWidth: 274 }}>{row.projectLocation || '-'}</LiItem>
+					{
+						row.projectLocation && <LiItem Li title="项目所在地" style={{ width: 372 }} titleStyle={{ color: '#7D8699', width: 80 }} cotStyle={{ maxWidth: 274 }}>{row.projectLocation || '-'}</LiItem>
+					}
 				</div>
 			),
 		},
