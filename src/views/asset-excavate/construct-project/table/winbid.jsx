@@ -47,7 +47,7 @@ const columns = (props) => {
 		{
 			title: '中标类型',
 			dataIndex: 'biddingType',
-			render: text => <span>{text}</span>,
+			render: text => <span>{text || '-'}</span>,
 		},
 		{
 			title: (noSort ? '中标信息'

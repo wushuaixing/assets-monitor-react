@@ -52,6 +52,13 @@ const columns = (props) => {
 					row.parties.map(item => (
 						<Ellipsis
 							prefixContent={Array.isArray(item.role) && item.role.length > 0 ? item.role.map((it, index) => `${roleMap.get(it)}${index === item.role.length - 1 ? '：' : '，'}`) : roleMap.get(item.role)}
+							prefixStyle={{
+								color: '#7D8699',
+								width: 80,
+								textAlign: 'justify',
+								textAlignLast: 'justify',
+								display: 'inline-block',
+							}}
 							content={item.obligorName}
 							url={item.obligorId ? `#/business/debtor/detail?id=${item.obligorId}` : ''}
 							auto
@@ -74,8 +81,12 @@ const columns = (props) => {
 						tooltip
 					/>
 					<div>
-						<LiItem Li title="合同金额" titleStyle={{ color: '#7D8699', width: 52, marginTop: 3 }}>{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
-						<LiItem Li title="合同工期" titleStyle={{ color: '#7D8699', width: 52 }}>{row.projectPeriod || '-'}</LiItem>
+						{
+							row.contractPrice > 0 && <LiItem Li title="合同金额" titleStyle={{ color: '#7D8699', width: 52, marginTop: 3 }}>{`${row.contractPrice > 0 ? `${toThousands(row.contractPrice)}元` : '-'}`}</LiItem>
+						}
+						{
+							row.projectPeriod && <LiItem Li title="合同工期" titleStyle={{ color: '#7D8699', width: 52 }}>{row.projectPeriod || '-'}</LiItem>
+						}
 						{
 							row.projectLocation ? <LiItem Li auto title="项目所在地" titleStyle={{ color: '#7D8699' }}>{row.projectLocation}</LiItem> : null
 						}
