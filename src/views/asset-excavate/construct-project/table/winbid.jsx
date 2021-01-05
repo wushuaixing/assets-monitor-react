@@ -50,8 +50,7 @@ const columns = (props) => {
 			render: text => <span>{text || '-'}</span>,
 		},
 		{
-			title: (noSort ? '中标信息'
-				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} mark="(发布日期)" {...sort}>中标信息</SortVessel>),
+			title: '中标信息',
 			width: 496,
 			dataIndex: 'title',
 			render: (text, row) => (
