@@ -140,7 +140,7 @@ class ImportantInfoModal extends React.PureComponent {
 					<Button key="back" type="ghost" size="large" onClick={this.handleCancel}>关闭</Button>,
 				]}
 			>
-				<div>重要消息：近30天更新的满足以下规则的消息</div>
+				<div>重要信息：近30天更新的满足以下规则的信息</div>
 				<Table
 					columns={columns}
 					dataSource={data}
