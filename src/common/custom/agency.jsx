@@ -6,7 +6,7 @@ import Icon from '../icon';
 import PhoneModal from '../../views/login/forgetPassword/noPhoneModal/index';
 
 const domainType = {
-	ZG: 'localhost',
+	ZG: 'zhongguandev',
 };
 
 // 不传domainName的时候使用默认的node
