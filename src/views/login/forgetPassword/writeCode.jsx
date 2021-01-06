@@ -1,10 +1,4 @@
-/** 登录页 * */
-
 import React from 'react';
-// ==================
-// 所需的所有组件
-// ==================
-
 import {
 	Form, Input, Button, message, Spin,
 } from 'antd';
@@ -12,7 +6,8 @@ import {
 	forgetPasswordStep2Sms, // 发送短信
 	smsValid, // 验证短信忘记密码-step1
 } from '@/utils/api/user';
-import PhoneModal from './noPhoneModal';
+import CustomAgency from '@/common/custom/agency';
+// import PhoneModal from './noPhoneModal';
 import './style.scss';
 
 const FormItem = Form.Item;
@@ -29,41 +24,41 @@ class Login extends React.Component {
 		};
 	}
 
-getCode = () => {
-	let time = 60;
-	this.setState({
-		btnDisabled: true,
-	});
-	const {
-		phoneNum,
-	} = this.props;
-	if (phoneNum) {
-		forgetPasswordStep2Sms(); // 发送验证码
-	} else {
-		message.warning('手机号错误');
-	}
-	const timer = setInterval(() => {
-		time -= 1;
+	getCode = () => {
+		let time = 60;
 		this.setState({
-			phoneCode: `${time}s后重新发送`,
+			btnDisabled: true,
 		});
-		if (time === -1) {
-			this.setState({
-				phoneCode: '获取验证码',
-				btnDisabled: false,
-			});
-			clearInterval(timer);
+		const {
+			phoneNum,
+		} = this.props;
+		if (phoneNum) {
+			forgetPasswordStep2Sms(); // 发送验证码
+		} else {
+			message.warning('手机号错误');
 		}
-	}, 1000);
-};
+		const timer = setInterval(() => {
+			time -= 1;
+			this.setState({
+				phoneCode: `${time}s后重新发送`,
+			});
+			if (time === -1) {
+				this.setState({
+					phoneCode: '获取验证码',
+					btnDisabled: false,
+				});
+				clearInterval(timer);
+			}
+		}, 1000);
+	};
 
-openModal = () => {
-	console.log(1);
+	openModal = () => {
+		console.log(1);
 
-	this.setState({
-		noPhoneModalVisible: true,
-	});
-};
+		this.setState({
+			noPhoneModalVisible: true,
+		});
+	};
 
 	handleSubmit = () => {
 		const {
@@ -73,7 +68,6 @@ openModal = () => {
 		const fields = getFieldsValue();
 		form.validateFields((errors) => {
 			console.log(errors);
-
 			if (!fields.phoneCode) {
 				message.error('请输入验证码');
 				return;
@@ -100,6 +94,11 @@ openModal = () => {
 		const {
 			form: { getFieldProps }, phoneNum, changeType,
 		} = this.props; // 会提示props is not defined
+
+		const nodeProps = {
+			noPhoneModalVisible,
+			onCancel: () => this.setState({ noPhoneModalVisible: false }),
+		};
 
 		return (
 
@@ -141,9 +140,10 @@ openModal = () => {
 				</Form>
 				{/** 新增跟进Modal */}
 				{
-                    noPhoneModalVisible && (
-                    <PhoneModal noPhoneModalVisible={noPhoneModalVisible} onCancel={() => this.setState({ noPhoneModalVisible: false })} />
-                    )}
+					noPhoneModalVisible && (
+						<CustomAgency nodeName="noPhone" nodeProps={{ ...nodeProps }} />
+					)}
+				{/* <PhoneModal noPhoneModalVisible={noPhoneModalVisible} onCancel={() => this.setState({ noPhoneModalVisible: false })} /> */}
 			</div>
 		);
 	}

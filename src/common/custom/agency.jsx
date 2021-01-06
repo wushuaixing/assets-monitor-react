@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import CustomModal from '@/common/custom/noPhoneModal/custom-modal';
+import leftBackground from 'img/login/left_background.png';
+import zhongguanBg from 'img/login/zhongguan_bg.png';
 import Icon from '../icon';
 import PhoneModal from '../../views/login/forgetPassword/noPhoneModal/index';
 
 const domainType = {
-	ZG: 'zhongguan',
+	ZG: 'localhost',
 };
 
 // 不传domainName的时候使用默认的node
@@ -12,8 +14,9 @@ const CustomAgency = (props) => {
 	const {
 		nodeName, node, type, nodeProps,
 	} = props;
-	const localDomainName = window.location.href;
-	const currentDomainName = localDomainName.split(':')[1].split('//')[1];
+	console.log('props === ', props);
+	const localDomainName = window.location.hostname;
+	const currentDomainName = localDomainName.split('.')[0];
 	const domainName = 'localhost';
 	let newNode = null;
 	if (type === 'delete') {
@@ -52,7 +55,6 @@ const CustomAgency = (props) => {
 		} break;
 	case 'noPhone':
 		if (currentDomainName === domainType.ZG) {
-			console.log('nodeProps === ', nodeProps);
 			const customProps = {
 				customVisible: nodeProps.noPhoneModalVisible,
 				onCancel: nodeProps.onCancel,
@@ -67,7 +69,37 @@ const CustomAgency = (props) => {
 		} else {
 			newNode = <PhoneModal {...nodeProps} />;
 		} break;
-		// 这个是通用case
+	case 'overdueAccount':
+		const commonProps = {
+			customVisible: nodeProps.accountVisible,
+			onCancel: nodeProps.onCancel,
+			customTitle: '账号过期提醒',
+			customWidth: 380,
+		};
+		if (currentDomainName === domainType.ZG) {
+			const accountProps = {
+				content: <div>
+					<div>账号已过期，如果疑问，请联系客服。</div>
+					<div>客服电话：138-1631-6187</div>
+				</div>,
+			};
+			newNode = <CustomModal {...accountProps} {...commonProps} />;
+		} else {
+			const accountProps = {
+				content: <div>
+					<div>账号已过期，如果疑问，请联系客服。</div>
+					<div>客服电话：138-1631-6187</div>
+				</div>,
+			};
+			newNode = <CustomModal {...accountProps} {...commonProps} />;
+		} break;
+	case 'loginPic':
+		if (currentDomainName === domainType.ZG) {
+			newNode = <img className="yc-login-left-img" src={zhongguanBg} alt="" />;
+		} else {
+			newNode = <img className="yc-login-left-img" src={leftBackground} alt="" />;
+		} break;
+	// 这个是通用case
 	case 'string': newNode = node; break;
 	default: newNode = null; break;
 	}

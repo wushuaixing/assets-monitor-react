@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-	Form, Button, Modal,
-} from 'antd';
+import { Button, Modal } from 'antd';
 import './custom.scss';
 
-const createForm = Form.create;
 
 class CustomModal extends React.PureComponent {
 	constructor(props) {
@@ -18,26 +15,24 @@ class CustomModal extends React.PureComponent {
 			customVisible, onCancel, content, customWidth, customTitle,
 		} = this.props;
 		return (
-			<Form layout="inline">
-				<Modal
-					maskClosable={false}
-					title={customTitle}
-					width={customWidth}
-					visible={customVisible}
-					onOk={this.handleOk}
-					onCancel={onCancel}
-					footer={false}
-				>
-					{
-						content
-					}
-					<div className="custom-btn">
-						<Button type="primary" className="yc-modal-btn" onClick={onCancel}>我知道了</Button>
-					</div>
-				</Modal>
-			</Form>
+			<Modal
+				maskClosable={false}
+				title={customTitle}
+				width={customWidth}
+				visible={customVisible}
+				onOk={this.handleOk}
+				onCancel={onCancel}
+				footer={false}
+			>
+				{
+					content
+				}
+				<div className="custom-btn">
+					<Button type="primary" className="yc-modal-btn" onClick={onCancel}>我知道了</Button>
+				</div>
+			</Modal>
 		);
 	}
 }
 
-export default createForm()(CustomModal);
+export default CustomModal;
