@@ -131,7 +131,7 @@ class BusinessView extends React.Component {
 			title: '当前业务',
 			dataIndex: 'businessCount',
 			key: 'businessCount',
-			width: 140,
+			width: 100,
 			className: 'column-center',
 			render(text) {
 				if (text === '0' || !text) {
@@ -143,14 +143,14 @@ class BusinessView extends React.Component {
 			title: <SortVessel field="ASSET_TOTAL" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
 			dataIndex: 'assetTotal',
 			key: 'assetTotal',
-			width: 160,
+			width: 100,
 			className: 'column-center',
 			render: text => ((text === '0' || !text) ? '0' : text),
 		}, {
 			title: <SortVessel field="RISK_TOTAL" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
 			dataIndex: 'riskTotal',
 			key: 'riskTotal',
-			width: 170,
+			width: 100,
 			className: 'column-center',
 			render: text => ((text === '0' || !text) ? '0' : text),
 		}, {
