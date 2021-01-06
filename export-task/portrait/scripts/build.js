@@ -6,7 +6,7 @@ var UglifyJS = require("uglify-js");
 const { exportCover, exportTemplate } = require("./dev");
 const { cssResult, htmlEnterpriseStr, htmlPersonalStr, htmlCoverStr } = require('../src/str');
 const imgData = require('../../_assets/img/index');
-const { bgImgData, deIconData,	personData,	businessData,	disIconData,	disEdIconData,	accurateImgData } = imgData;
+const { zgBgImgData,bgImgData, deIconData,	personData,	businessData,	disIconData,	disEdIconData,	accurateImgData } = imgData;
 const root = path.resolve(__dirname,'../dist');
 
 // 转换为 data:image/jpeg;base64,***** 格式的字符串
@@ -66,6 +66,7 @@ var htmlCover = ${JSON.stringify(html_cover)};
 var htmlEnterprise = ${JSON.stringify(html_E)};
 var htmlPersonal = ${JSON.stringify(html_P)};
 var bgImgData = "${bgImgData}";
+var zgBgImgData = "${zgBgImgData}";
 var accurateImgData = "${accurateImgData}";
 var disIconData = "${disIconData}";
 var defaultIcon = "${defaultIcon}";

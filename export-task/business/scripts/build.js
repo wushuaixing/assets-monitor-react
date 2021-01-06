@@ -7,7 +7,7 @@ const { exportCover, exportTemplate } = require("./dev");
 const { cssResult,htmlResultStr,htmlCoverStr } = require('../src/str');
 
 const imgData = require('../../_assets/img/index');
-const { bgImgData, deIconData,	personData,	businessData,	disIconData,	disEdIconData,	accurateImgData } = imgData;
+const { zgBgImgData, bgImgData, deIconData,	personData,	businessData,	disIconData,	disEdIconData,	accurateImgData } = imgData;
 
 const root = path.resolve(__dirname,'../dist');
 
@@ -50,6 +50,7 @@ var htmlCover = ${JSON.stringify(htmlCover)};
 var htmlResult = ${JSON.stringify(html)};
 
 var bgImgData= "${bgImgData}";
+var zgBgImgData = "${zgBgImgData}";
 var deIconData= "${deIconData}";
 var personData= "${personData}";
 var businessData= "${businessData}";

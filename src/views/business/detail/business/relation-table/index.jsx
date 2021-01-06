@@ -19,7 +19,7 @@ export default class RelationTable extends React.Component {
 				title: '相关人名称',
 				dataIndex: 'obligorName',
 				key: 'obligorName',
-				width: 400,
+				width: 350,
 				render: (text, row) => (
 					<div style={{ position: 'relative' }}>
 						{/* {row.obligorId ? linkDetail(row.obligorId, text) : text} */}
@@ -61,17 +61,17 @@ export default class RelationTable extends React.Component {
 				title: '角色',
 				dataIndex: 'roleText',
 				key: 'roleText',
-				width: 140,
+				width: 100,
 			}, {
 				title: '相关资产',
 				dataIndex: 'assetTotal',
 				key: 'assetTotal',
-				width: 160,
+				width: 100,
 			}, {
 				title: '相关风险',
 				dataIndex: 'riskTotal',
 				key: 'riskTotal',
-				width: 170,
+				width: 100,
 			}, {
 				title: '推送状态',
 				key: 'obligorPushType',
