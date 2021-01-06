@@ -14,10 +14,9 @@ const CustomAgency = (props) => {
 	const {
 		nodeName, node, type, nodeProps,
 	} = props;
-	console.log('props === ', props);
 	const localDomainName = window.location.hostname;
 	const currentDomainName = localDomainName.split('.')[0];
-	const domainName = 'localhost';
+	// const domainName = 'localhost';
 	let newNode = null;
 	if (type === 'delete') {
 		return null;
@@ -60,38 +59,46 @@ const CustomAgency = (props) => {
 				onCancel: nodeProps.onCancel,
 				customTitle: '手机号不可用',
 				customWidth: 380,
-				content: <React.Fragment>
-					<div>请联系客服，我们会第一时间为您处理。</div>
-					<div>客服电话：138-1631-6187</div>
-             </React.Fragment>,
+				type: 'small',
+				icon: 'exclamation-circle',
+				content: <div className="custom-content">
+					<div className="custom-content-text">请联系客服，我们会第一时间为您处理。</div>
+					<div className="custom-content-text">客服电话：138-1631-6187</div>
+				</div>,
 			};
 			newNode = <CustomModal {...customProps} />;
 		} else {
 			newNode = <PhoneModal {...nodeProps} />;
 		} break;
 	case 'overdueAccount':
-		const commonProps = {
-			customVisible: nodeProps.accountVisible,
-			onCancel: nodeProps.onCancel,
-			customTitle: '账号过期提醒',
-			customWidth: 380,
-		};
 		if (currentDomainName === domainType.ZG) {
 			const accountProps = {
-				content: <div>
-					<div>账号已过期，如果疑问，请联系客服。</div>
-					<div>客服电话：138-1631-6187</div>
+				customVisible: nodeProps.accountVisible,
+				onCancel: nodeProps.onCancel,
+				customTitle: '账号过期提醒',
+				customWidth: 380,
+				type: 'small',
+				icon: 'exclamation-circle',
+				content: <div className="custom-content">
+					<div className="custom-content-text">账号已过期，如果疑问，请联系客服。</div>
+					<div className="custom-content-text">客服电话：138-1631-6187</div>
 				</div>,
 			};
-			newNode = <CustomModal {...accountProps} {...commonProps} />;
+			newNode = <CustomModal {...accountProps} />;
 		} else {
 			const accountProps = {
-				content: <div>
-					<div>账号已过期，如果疑问，请联系客服。</div>
-					<div>客服电话：138-1631-6187</div>
+				customVisible: nodeProps.accountVisible,
+				onCancel: nodeProps.onCancel,
+				customTitle: '账号过期提醒',
+				customWidth: 380,
+				type: 'small',
+				icon: 'exclamation-circle',
+				content: <div className="custom-content">
+					<div className="custom-content-text">账号已过期，建议添加微信。</div>
+					<div className="custom-content-text">客服微信:180-7294-2900（同电话）</div>
 				</div>,
 			};
-			newNode = <CustomModal {...accountProps} {...commonProps} />;
+			newNode = <CustomModal {...accountProps} />;
 		} break;
 	case 'loginPic':
 		if (currentDomainName === domainType.ZG) {

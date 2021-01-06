@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Icon } from 'antd';
 import './custom.scss';
 
 
@@ -12,17 +12,24 @@ class CustomModal extends React.PureComponent {
 
 	render() {
 		const {
-			customVisible, onCancel, content, customWidth, customTitle,
+			customVisible, onCancel, content, customWidth, customTitle, type, footer, icon, iconStyle,
 		} = this.props;
+		const title = icon ? (
+			<span className="title-name">
+				<Icon className="title-icon" type={icon} style={iconStyle} />
+				{customTitle}
+			</span>
+		) : customTitle;
 		return (
 			<Modal
 				maskClosable={false}
-				title={customTitle}
+				title={title}
 				width={customWidth}
 				visible={customVisible}
 				onOk={this.handleOk}
 				onCancel={onCancel}
-				footer={false}
+				footer={footer}
+				className={type === 'small' ? 'custom-modal' : 'custom-normal'}
 			>
 				{
 					content

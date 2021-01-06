@@ -224,7 +224,6 @@ class Login extends React.Component {
 					this.setState({
 						accountVisible: true,
 					});
-					// this.error();
 				} else {
 					message.error(res.message);
 				}
@@ -277,7 +276,6 @@ class Login extends React.Component {
 					this.setState({
 						accountVisible: true,
 					});
-					// this.error();
 				}
 			}).catch(() => {
 				this.setState({
