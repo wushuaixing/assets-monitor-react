@@ -95,7 +95,7 @@ class BusinessView extends React.Component {
 			title: '债务人',
 			dataIndex: 'obligorName',
 			key: 'obligorName',
-			width: 400,
+			width: 350,
 			className: 'column-left20',
 			render: (text, row) => (
 				<div style={{ position: 'relative' }}>

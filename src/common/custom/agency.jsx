@@ -4,6 +4,7 @@ import leftBackground from 'img/login/left_background.png';
 import zhongguanBg from 'img/login/zhongguan_bg.png';
 import Icon from '../icon';
 import PhoneModal from '../../views/login/forgetPassword/noPhoneModal/index';
+import footerImg from '../../assets/img/login/img_footer_qrcode.png';
 
 const domainType = {
 	ZG: 'zhongguandev',
@@ -105,6 +106,43 @@ const CustomAgency = (props) => {
 			newNode = <img className="yc-login-left-img" src={zhongguanBg} alt="" />;
 		} else {
 			newNode = <img className="yc-login-left-img" src={leftBackground} alt="" />;
+		} break;
+	case 'copyRightPhone':
+		if (currentDomainName === domainType.ZG) {
+			newNode = '13816316187';
+		} else {
+			newNode = '180-7294-2900';
+		} break;
+	case 'copyRightEmail':
+		if (currentDomainName === domainType.ZG) {
+			newNode = 'sales@zhongguandata.com';
+		} else {
+			newNode = 'sales@yczcjk.com';
+		} break;
+	case 'copyRightAddress':
+		if (currentDomainName === domainType.ZG) {
+			newNode = (
+				<span>
+					长宁区长宁路1133号长宁来福士广
+					<br />
+					<span style={{ marginLeft: 19 }}>场T1幢35层3510-15单元</span>
+				</span>
+			);
+		} else {
+			newNode = '杭州市西湖区华星世纪大楼6楼603';
+		} break;
+	case 'copyRightWX':
+		if (currentDomainName === domainType.ZG) {
+			newNode = null;
+		} else {
+			newNode = (
+				<div className="right">
+					<div className="copyright-item">
+						<img src={footerImg} alt="" style={{ width: 60, height: 60 }} />
+						<div className="copyright-code-text">微信公众号每月更新全国及各省司法拍卖统计报告；绑定账号可实时查看平台监控信息</div>
+					</div>
+				</div>
+			);
 		} break;
 	// 这个是通用case
 	case 'string': newNode = node; break;

@@ -7,7 +7,7 @@ const root = path.resolve(__dirname+'/../');
 const _dataPath = path.resolve(__dirname+'../../../_analog-data');
 
 const imgData = require('../../_assets/img/index');
-const { bgImgData, deIconData,	personData,	businessData,	disIconData,	disEdIconData,	accurateImgData } = imgData;
+const { zgBgImgData, bgImgData, deIconData,	personData,	businessData,	disIconData,	disEdIconData,	accurateImgData } = imgData;
 
 const { dev } =require('../src/str');
 
@@ -15,9 +15,15 @@ let htmlResult = dev.main;
 let htmlCover = dev.cover;
 
 /* 导出详情-封面 */
-function exportCover(source, exportType) {
+function exportCover(source, exportType,domainName) {
+	var domainType = {
+		1:{key:'yc',value:bgImgData}, //  源诚
+		2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
+		3:{key:'zhongguandev',value:zgBgImgData} // (测试环境域名)中冠
+	}
 	var d = JSON.parse(source) || {};
-	htmlCover = htmlCover.replace("../../_assets/img/watermark.png", bgImgData);
+	var bgImgSource = domainType[domainName] ? domainType[domainName].value : bgImgData;
+	htmlCover = htmlCover.replace("../../_assets/img/watermark.png", bgImgSource);
 	var dataTime = new Date().getFullYear() + '年' + (new Date().getMonth() + 1) + "月" + new Date().getDate() + "日";
 	htmlCover = htmlCover.replace(/{base.queryTime}/g, dataTime);
 	var userInfo = '', data = '';
@@ -35,7 +41,7 @@ function exportCover(source, exportType) {
 }
 
 /* 导出详情-内容 */
-function exportTemplate(source, exportType, name) {
+function exportTemplate(source, exportType, name, domainName) {
 	var dd = {
 		overview: {
 			name: '概览',
@@ -267,6 +273,11 @@ function exportTemplate(source, exportType, name) {
 			2: "装饰工程",
 			3: "市政道路工程",
 			4: "其他",
+		},
+		domainType: {
+			1:{key:'yc',value:bgImgData}, //  源诚
+			2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
+			3:{key:'zhongguandev',value:zgBgImgData} // (测试环境域名)中冠
 		},
 	};
 	// public function object
@@ -538,9 +549,9 @@ function exportTemplate(source, exportType, name) {
 			return field ? i[field] : i
 		})
 	};
-
+	var bgImgSource = s.domainType[domainName] ? s.domainType[domainName].value : bgImgData;
 	f.replaceHtml([
-		{f: "../../_assets/img/watermark.png", v: bgImgData},
+		{f: "../../_assets/img/watermark.png", v: bgImgSource},
 		{f: "../../_assets/img/debtor.png", v: deIconData},
 		{f: "../../_assets/img/person.png", v: personData},
 		{f: "../../_assets/img/business.png", v: businessData},
@@ -1978,8 +1989,8 @@ function exportTemplate(source, exportType, name) {
 if (ENV === 'dev') {
 	var dataSource = JSON.stringify(require('./data'));
 	const exportType = 'debtor';
-	var strCover = (exportType) => exportCover(dataSource, exportType);
-	var strTemplate = (exportType) => exportTemplate(dataSource, exportType);
+	var strCover = (exportType) => exportCover(dataSource, exportType,2);
+	var strTemplate = (exportType) => exportTemplate(dataSource, exportType,'',2);
 	fs.writeFile(root + "/dist/cover.html", strCover(exportType), (error) => {
 		if (error) console.log(error);
 		else {

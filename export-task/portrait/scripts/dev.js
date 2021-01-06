@@ -7,7 +7,7 @@ var _dataSource = JSON.stringify(dataSource);
 const root = path.resolve(__dirname + '/../');
 const imgData = require('../../_assets/img/index');
 
-const { bgImgData, disIconData, accurateImgData } = imgData;
+const { zgBgImgData, bgImgData, disIconData, accurateImgData } = imgData;
 
 // 引入画像的企业或者个人的模板是写在这个str里面的
 const { dev } = require('../src/str');
@@ -19,9 +19,17 @@ let htmlEnterprise = dev.htmlEnterprise;
 var defaultIcon ="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAA+xJREFUeAHtndtO20AQQMeXJISLAAFNkYBCkfpSVZV46De0P9KP6n/0tR9QXkrV0gfUC20aWkWkpBBIcGx3xsTgbnHi1cbejTqDrN3ZnbHXx2PvxRaxjtrhs9CHFwCwhhtLdgJ1y4HnVqMVfkMfhpcdXNKyTgDDZAnn5QjYcuZsLRJggCIRSZ0BSgITzRmgSERSZ4CSwERzBigSkdQZoCQw0ZwBikQkdQYoCUw0Z4AiEUmdAUoCE80ZoEhEUmeAksBEcwYoEpHUGaAkMNGcAYpEJHUGKAlMNGeAIhFJnQFKAhPNXbEgL333oAv1Zh9C/AvwIPQmJt6C6K0M1mBK+bg8SsljUBbXra+48HRnJq+mSu23MIBvPvUIm1Tj0oy/Nb20qsLLCwMYw7u/UgJrcJrWIBMlA8UiyFhAZXF5lA70/aPLwiENO2CBAK+aMVWKcaQ1a1R9mp+ecu5EFLkzQEWAhd/CyfZ+Pvbg9IL65HSZq9qwtVRKN9BcY3wEWuPpuHPDrDUCTY6srMSNj8CsJ6LLjgEqkmeADFCRgKK71k6EhzGKVy+LOw9jhlBSGca83O3AwowNC7NOlC5iOl0pfh6t9RYewnZkVaPlQaP1t1nJtRDmFdCtu2W4h+uGecvE9sIbSy7U5h1YRGAUeY5tgdcPodnuw0HjEl7tdfJmF+0//0uU02nMVmyYrcQ7d6KMj0vWPVxr/YJz7L5fzBxwYgHG6JIpReH0NdRkTX55IwD2MXLef+/Br9OA3oDA/LQDD9cqUMFnmulixDOQ4DXbPhBIH1e3Wmc+7H3tms4uap92gPTG7fjU/wfW7/MAetgpmC7aAVLUBSlrqtSrmi7aAZYcC1x8+N8mo19A3eZVbJl2gHS6tYWrYUjy1JfnXHARruliBMDtO2Wolm9glRHcg1Vz34MkL6oRw5iuF8LOZhV+tL3oeVibd7E3Nv/5RyC1AaTet3HiwSF+L3N+GcDMlA2PNyrRtzFvD7tYFuJMw4aN5RKsLrrXXzMkr74JeW0A39W78BPHfrF0ugG8/ohjPyTbH/TKZ70A9nGMeIzjwkfrBU8x4oaNSLUBbOM4T5S0+etJ5wa06KNb1wbwyXYVLvA2zSI61vmytItstAEs4zyXtkkXbQBVwVEnZIIUDnAfFzvHIR8M+U6wsIH0On5YOQ6hm56+xaS1v2HbZq08jsON3Af/35iRiIYbFBaBw5sxubUMUPHaMUAGqEhA0Z0jkAEqElB05whkgIoEFN05AhmgIgFFd45ABqhIQNGdI5ABKhJQdOcIZICKBBTdOQIZoCIBRXeOwDEArCvu4392r9v0kw5IgCHKh0H0cxh/AGhL8KPsv+MKAAAAAElFTkSuQmCC";
 
 /* 导出画像模板-封面 */
-function exportCover(source,exportType) {
+function exportCover(source,exportType,domainName) {
+	var domainType = {
+		1:{key:'yc',value:bgImgData,name:'源诚资产监控平台'}, //  源诚
+		2:{key:'zhongguan',value:zgBgImgData,name:'中冠数据监控平台'}, // (正式环境域名)中冠
+		3:{key:'zhongguandev',value:zgBgImgData,name:'中冠数据监控平台'} // (测试环境域名)中冠
+	}
 	var data = JSON.parse(source)||{};
-	htmlCover = htmlCover.replace("../../_assets/img/watermark.png", bgImgData);
+	var bgImgSource = domainType[domainName] ? domainType[domainName].value : bgImgData;
+	htmlCover = htmlCover.replace("../../_assets/img/watermark.png", bgImgSource);
+	var corporateName = domainType[domainName] ? domainType[domainName].name : '源诚资产监控平台';
+	htmlCover = htmlCover.replace(/{base.corporateName}/g, corporateName);
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlCover = htmlCover.replace(/{base.dateTime}/g, dataTime);
 	var info='';
@@ -34,7 +42,12 @@ function exportCover(source,exportType) {
 	return htmlCover;
 }
 /* 导出画像模板-内容 */
-function exportTemplate(source,exportType) {
+function exportTemplate(source,exportType,domainName) {
+	var domainType = {
+		1:{key:'yc',value:bgImgData,name:'源诚资产监控平台'}, //  源诚
+		2:{key:'zhongguan',value:zgBgImgData,name:'中冠数据监控平台'}, // (正式环境域名)中冠
+		3:{key:'zhongguandev',value:zgBgImgData,name:'中冠数据监控平台'} // (测试环境域名)中冠
+	}
 	var data = JSON.parse(source);
 	var fun = {
 		source:{
@@ -428,14 +441,15 @@ function exportTemplate(source,exportType) {
 	};
 
 	var htmlTemp = exportType ? htmlEnterprise : htmlPersonal;
-
-	htmlTemp = htmlTemp.replace("../../_assets/img/watermark.png", bgImgData);
+	var bgImgSource = domainType[domainName] ? domainType[domainName].value : bgImgData;
+	htmlTemp = htmlTemp.replace("../../_assets/img/watermark.png", bgImgSource);
 	htmlTemp = htmlTemp.replace("../../_assets/img/icon_shixin.png", disIconData);
 	htmlTemp = htmlTemp.replace("../../_assets/img/icon-accurate.png", accurateImgData);
 	/* 基本信息模块 */
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlTemp = htmlTemp.replace(/{base.dateTime}/g, dataTime);
-
+	var corporateName = domainType[domainName] ? domainType[domainName].name : '源诚资产监控平台';
+	htmlCover = htmlCover.replace(/{base.corporateName}/g, corporateName);
 
 	if(exportType){
 		var infoInput = function (source) {
@@ -2595,7 +2609,7 @@ function exportTemplate(source,exportType) {
 }
 
 function writeFile() {
-	var str = (flag) => exportCover(_dataSource, flag) + exportTemplate(_dataSource, flag);
+	var str = (flag) => exportCover(_dataSource, flag,2) + exportTemplate(_dataSource, flag,2);
 	fs.writeFile(root + "/dist/demo.html", str(true), (error) => {
 		error && console.log('error');
 	});
