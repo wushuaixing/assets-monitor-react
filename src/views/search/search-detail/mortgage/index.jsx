@@ -352,7 +352,7 @@ class Mortgage extends React.Component {
 						text="全部导出"
 					/>
 					<div className="yc-btn-right">
-						{dataList.length > 0 && <span className="yc-right-total">{`源诚科技为您找到${totals}条信息`}</span>}
+						{dataList.length > 0 && <span className="yc-right-total">{`为您找到${totals}条信息`}</span>}
 					</div>
 				</div>
 				<Spin visible={loading}>

@@ -1,11 +1,8 @@
 import React from 'react';
-// ==================
-// 所需的所有组件
-// ==================
 import {
 	Form, Pagination, message,
 } from 'antd';
-
+import { ScrollAnimation } from '@/utils/changeTime';
 import { navigate } from '@reach/router';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import {
@@ -18,7 +15,6 @@ import {
 } from '@/utils/api/search';
 import FinanceTable from './table';
 import './style.scss';
-import { ScrollAnimation } from '@/utils/changeTime';
 
 const createForm = Form.create;
 const _style1 = { width: 278 };
@@ -292,7 +288,7 @@ class FINANCE extends React.Component {
 								lineHeight: '30px', color: '#929292', fontSize: '12px',
 							}}
 						>
-							{`源诚科技为您找到${totals}条信息`}
+							{`为您找到${totals}条信息`}
 						</div>
 					)}
 				</div>

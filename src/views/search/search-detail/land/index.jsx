@@ -412,7 +412,7 @@ class LAND extends React.Component {
 								lineHeight: '30px', color: '#929292', fontSize: '12px',
 							}}
 						>
-							{`源诚科技为您找到${totals}条信息`}
+							{`为您找到${totals}条信息`}
 						</div>
 					)}
 				</div>
