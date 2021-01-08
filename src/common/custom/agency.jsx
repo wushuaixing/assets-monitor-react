@@ -15,9 +15,7 @@ const CustomAgency = (props) => {
 	const {
 		nodeName, node, type, nodeProps,
 	} = props;
-	const localDomainName = window.location.hostname;
-	const currentDomainName = localDomainName.split('.')[0];
-	// const domainName = 'localhost';
+	const currentDomainName = window.location.hostname;
 	let newNode = null;
 	if (type === 'delete') {
 		return null;
