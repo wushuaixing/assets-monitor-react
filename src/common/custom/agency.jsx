@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import CustomModal from '@/common/custom/noPhoneModal/custom-modal';
 import leftBackground from 'img/login/left_background.png';
 import zhongguanBg from 'img/login/zhongguan_bg.png';
@@ -7,7 +7,7 @@ import PhoneModal from '../../views/login/forgetPassword/noPhoneModal/index';
 import footerImg from '../../assets/img/login/img_footer_qrcode.png';
 
 const domainType = {
-	ZG: ['zhongguandev', 'zhongguan', 'localhost'],
+	ZG: ['zhongguandev', 'zhongguan'],
 };
 
 // 不传domainName的时候使用默认的node
