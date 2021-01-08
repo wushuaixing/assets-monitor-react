@@ -7,7 +7,7 @@ import PhoneModal from '../../views/login/forgetPassword/noPhoneModal/index';
 import footerImg from '../../assets/img/login/img_footer_qrcode.png';
 
 const domainType = {
-	ZG: 'zhongguandev',
+	ZG: 'localhost',
 };
 
 // 不传domainName的时候使用默认的node
@@ -34,6 +34,22 @@ const CustomAgency = (props) => {
 			</span>
 		);
 	} break;
+	case 'footerIcon':
+		if (currentDomainName === domainType.ZG) {
+			newNode = (
+				<Icon
+					type="icon-zhongguanlogotu"
+					className="yc-logo-icon"
+				/>
+			);
+		} else {
+			newNode = (
+				<Icon
+					type="icon-logo"
+					className="yc-logo-icon"
+				/>
+			);
+		} break;
 	case 'footerTitle':
 		if (currentDomainName === domainType.ZG) {
 			newNode = '上海茸冕网络科技有限公司    ';
