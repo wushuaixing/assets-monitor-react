@@ -8,7 +8,7 @@ export default class BaseRouter extends React.PureComponent {
 	componentWillMount() {
 		const domainName = window.location.hostname;
 		const currentName = domainName.split('.')[0];
-		if (['zhongguan', 'zhongguandev'].includes(currentName)) {
+		if (currentName.indexOf('zhongguan') >= 0) {
 			let link = document.querySelector('link[rel~=\'icon\']');
 			if (!link) {
 				link = document.createElement('link');
