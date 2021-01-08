@@ -281,7 +281,7 @@ class Dishonesty extends React.Component {
 						text="全部导出"
 					/>
 					<div className="yc-btn-right">
-						{dataList.length > 0 && <span className="yc-right-total">{`源诚科技为您找到${totals}条信息`}</span>}
+						{dataList.length > 0 && <span className="yc-right-total">{`为您找到${totals}条信息`}</span>}
 					</div>
 				</div>
 				<Spin visible={loading}>
@@ -307,14 +307,14 @@ class Dishonesty extends React.Component {
 						/>
 					</div>
 					)}
-					{page === 100 && (
-						<div style={{
-							color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
-						}}
-						>
-							如需更多数据请联系：180-7294-2900
-						</div>
-					)}
+					{/* {page === 100 && ( */}
+					{/*	<div style={{ */}
+					{/*		color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px', */}
+					{/*	}} */}
+					{/*	> */}
+					{/*		如需更多数据请联系：180-7294-2900 */}
+					{/*	</div> */}
+					{/* )} */}
 				</Spin>
 			</div>
 		);

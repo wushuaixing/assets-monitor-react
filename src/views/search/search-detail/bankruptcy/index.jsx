@@ -1,11 +1,9 @@
 import React from 'react';
-// ==================
-// 所需的所有组件
-// ==================
+
 import {
 	Form, Pagination, message,
 } from 'antd';
-
+import { ScrollAnimation } from '@/utils/changeTime';
 import { navigate } from '@reach/router';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import {
@@ -18,7 +16,6 @@ import {
 } from '@/utils/api/search';
 import Bankruptcy from './table';
 import './style.scss';
-import { ScrollAnimation } from '@/utils/changeTime';
 
 const createForm = Form.create;
 const _style1 = { width: 278 };
@@ -376,7 +373,7 @@ class BANKRUPTCY extends React.Component {
 							className="yc-public-floatRight"
 							style={{ lineHeight: '30px', color: '#929292', fontSize: '12px' }}
 						>
-							{`源诚科技为您找到${totals}条信息`}
+							{`为您找到${totals}条信息`}
 						</div>
 					)}
 				</div>
@@ -404,14 +401,14 @@ class BANKRUPTCY extends React.Component {
 							/>
 						</div>
 					)}
-					{page === 100 && (
-						<div style={{
-							color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
-						}}
-						>
-							如需更多数据请联系：180-7294-2900
-						</div>
-					)}
+					{/* {page === 100 && ( */}
+					{/*	<div style={{ */}
+					{/*		color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px', */}
+					{/*	}} */}
+					{/*	> */}
+					{/*		如需更多数据请联系：180-7294-2900 */}
+					{/*	</div> */}
+					{/* )} */}
 				</Spin>
 			</div>
 		);

@@ -5,6 +5,20 @@ import LoginPage from './login';
 // import TestPage from '@/views/_others/_test';
 
 export default class BaseRouter extends React.PureComponent {
+	componentWillMount() {
+		const domainName = window.location.hostname;
+		const currentName = domainName.split('.')[0];
+		if (['zhongguan', 'zhongguandev'].includes(currentName)) {
+			let link = document.querySelector('link[rel~=\'icon\']');
+			if (!link) {
+				link = document.createElement('link');
+				link.rel = 'icon';
+				document.getElementsByTagName('head')[0].appendChild(link);
+			}
+			link.href = './static/zg_icon.ico';
+		}
+	}
+
 	render() {
 		return (
 			<Router mode="hash" className="yc-router">

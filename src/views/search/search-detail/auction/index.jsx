@@ -544,7 +544,7 @@ class AUCTION extends React.Component {
 					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={fullAssetSearchExport} current page num text="本页导出" />}
 					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={fullAssetSearchExport} all page num text="全部导出" />
 					<div className="yc-btn-right">
-						{dataList.length > 0 && <span className="yc-right-total">{`源诚科技为您找到${totals}条信息`}</span>}
+						{dataList.length > 0 && <span className="yc-right-total">{`为您找到${totals}条信息`}</span>}
 						<Button onClick={() => this.defaultSort(inputSearch)}>
 							默认排序
 						</Button>
@@ -593,14 +593,14 @@ class AUCTION extends React.Component {
 						/>
 					</div>
 					)}
-					{page === 100 && (
-						<div style={{
-							color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
-						}}
-						>
-							如需更多数据请联系：180-7294-2900
-						</div>
-					)}
+					{/* {page === 100 && ( */}
+					{/*	<div style={{ */}
+					{/*		color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px', */}
+					{/*	}} */}
+					{/*	> */}
+					{/*		如需更多数据请联系：180-7294-2900 */}
+					{/*	</div> */}
+					{/* )} */}
 				</Spin>
 			</div>
 		);

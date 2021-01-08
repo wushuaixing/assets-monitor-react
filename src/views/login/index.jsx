@@ -7,6 +7,8 @@ import React from 'react';
 import {
 	bankConf, // 个性配置
 } from '@/utils/api/user';
+import CustomAgency from '@/common/custom/agency';
+import leftBackground from '@/assets/img/login/left_background.png';
 import { Form } from 'antd';
 import Header from './header';
 import Footer from './footer';
@@ -62,16 +64,18 @@ class Login extends React.Component {
 		});
 	};
 
+
 	render() {
 		const {
 			type, phoneNum, btnColor, imgUrl, imgLoading,
 		} = this.state;
-
 		return (
 			<div className="yc-login">
 				<Header imgLoading={imgLoading} imgUrl={imgUrl} />
 				<div className="yc-login-wapper">
 					<div className="yc-login-content">
+						<CustomAgency nodeName="loginPic" />
+						{/* <img className="yc-login-left-img" src={leftBackground} alt="" /> */}
 						{/* 登录页面 */}
 						{
 							type === 1 && <Register btnColor={btnColor} changeType={this.changeType} />

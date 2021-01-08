@@ -470,7 +470,7 @@ class LAWSUITS extends React.Component {
 								lineHeight: '30px', color: '#929292', fontSize: '12px',
 							}}
 						>
-							{`源诚科技为您找到${totals}条信息`}
+							{`为您找到${totals}条信息`}
 						</div>
 					)}
 				</div>
@@ -501,16 +501,16 @@ class LAWSUITS extends React.Component {
 								/>
 							</div>
 						)}
-					{
-						page === 100
-						&& (
-							<div style={{
-								color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px',
-							}}
-							>
-								如需更多数据请联系：180-7294-2900
-							</div>
-						)}
+					{/* { */}
+					{/*	page === 100 */}
+					{/*	&& ( */}
+					{/*		<div style={{ */}
+					{/*			color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px', */}
+					{/*		}} */}
+					{/*		> */}
+					{/*			如需更多数据请联系：180-7294-2900 */}
+					{/*		</div> */}
+					{/*	)} */}
 				</Spin>
 			</div>
 		);

@@ -3,7 +3,7 @@ import React from 'react';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 import {
-	Form, Button, message, Spin, Input, Tabs, Modal,
+	Form, Button, message, Spin, Input, Tabs,
 } from 'antd';
 import { Icon } from '@/common';
 import {
@@ -15,6 +15,7 @@ import {
 import BASE_URL from '@/utils/api/config';
 import rsaEncrypt from '@/utils/encrypt';
 import { handleRule, debounce } from '@/utils';
+import CustomAgency from '@/common/custom/agency';
 import PasswordModal from './passwordModal';
 import './style.scss';
 
@@ -33,6 +34,7 @@ class Login extends React.Component {
 			rememberPassword: cookie.get('rememberPassword'),
 			codeImg: verificationCodeImg,
 			passwordModalVisible: false,
+			accountVisible: false,
 			codeStatus: false,
 			autocompleteType: 'off',
 			verifyCodeStatus: 'sendBefore', // sendBefore,获取验证码，sending 60s后重新发送 sendAfter 重新发送
@@ -76,16 +78,16 @@ class Login extends React.Component {
 		});
 	};
 
-	error = () => {
-		Modal.error({
-			title: <span className="error-title">账号过期提醒</span>,
-			className: 'error-modal',
-			content: <div className="error-content">
-				<div>账号已过期，建议添加微信。</div>
-				<div>客服微信:180-7294-2900（同电话）</div>
-			</div>,
-		});
-	};
+	// error = () => {
+	// 	Modal.error({
+	// 		title: <span className="error-title">账号过期提醒</span>,
+	// 		className: 'error-modal',
+	// 		content: <div className="error-content">
+	// 			<div>账号已过期，建议添加微信。</div>
+	// 			<div>客服微信:180-7294-2900（同电话）</div>
+	// 		</div>,
+	// 	});
+	// };
 
 	// 密码登录的登录点击事件
 	handleSubmitAccount = () => {
@@ -152,8 +154,9 @@ class Login extends React.Component {
 						} else if (res.code === 15002) {
 							this.setState({
 								loading: false,
+								accountVisible: true,
 							}, () => {
-								this.error();
+								// this.error();
 							});
 						} else {
 							if (res.data && res.data.errorTime > 4) {
@@ -218,7 +221,9 @@ class Login extends React.Component {
 					}
 					message.warning(`账号密码错误，您还可以尝试${res.data.errorTimeLeft}次`);
 				} else if (res.code === 15002) {
-					this.error();
+					this.setState({
+						accountVisible: true,
+					});
 				} else {
 					message.error(res.message);
 				}
@@ -268,7 +273,9 @@ class Login extends React.Component {
 						}
 					}, 1000);
 				} else if (res.code === 15002) {
-					this.error();
+					this.setState({
+						accountVisible: true,
+					});
 				}
 			}).catch(() => {
 				this.setState({
@@ -340,7 +347,7 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, sendBtnTxt, verifyCodeStatus, username, phone,
+			loading, codeImg, passwordModalVisible, codeStatus, autocompleteType, sendBtnTxt, verifyCodeStatus, username, phone, accountVisible,
 		} = this.state;
 		const {
 			form: { getFieldProps }, changeType, btnColor,
@@ -350,6 +357,10 @@ class Login extends React.Component {
 		const imgCodeHeight = codeStatus && 424;
 		// 判断ie8到11
 		const isIe = document.documentMode === 8 || document.documentMode === 9 || document.documentMode === 10 || document.documentMode === 11;
+		const nodeProps = {
+			accountVisible,
+			onCancel: () => this.setState({ accountVisible: false }),
+		};
 		return (
 			<div style={{ height: imgCodeHeight }} className="yc-login-main">
 				<div style={{ opacity: 0, height: 0, display: 'none' }}>
@@ -567,12 +578,18 @@ class Login extends React.Component {
 				</Spin>
 				{/** 修改密码Modal */}
 				{passwordModalVisible && (
-				<PasswordModal
-					onCancel={this.onCancel}
-					onOk={this.onOk}
-					passwordModalVisible={passwordModalVisible}
-				/>
+					<PasswordModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						passwordModalVisible={passwordModalVisible}
+					/>
 				)}
+				{/** 账号过期弹窗 */}
+				{
+					accountVisible && (
+						<CustomAgency nodeName="overdueAccount" nodeProps={{ ...nodeProps }} />
+					)
+				}
 			</div>
 		);
 	}
