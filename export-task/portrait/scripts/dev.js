@@ -2598,7 +2598,7 @@ function exportTemplate(source,exportType,domainName) {
 			}
 		}
 	}else{
-		listView(data.B10301,"asset");
+		listView(data.B10301,"asset.accurate");
 		listView(data.B10302,"subrogation.judgment");
 		listView(data.B10401,"lawsuit.dishonest");
 		listView(data.B10402,"lawsuit.judgment");

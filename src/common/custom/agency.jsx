@@ -7,7 +7,7 @@ import PhoneModal from '../../views/login/forgetPassword/noPhoneModal/index';
 import footerImg from '../../assets/img/login/img_footer_qrcode.png';
 
 const domainType = {
-	ZG: ['zhongguandev', 'zhongguan'],
+	ZG: 'zhongguan',
 };
 
 // 不传domainName的时候使用默认的node
@@ -24,7 +24,7 @@ const CustomAgency = (props) => {
 	}
 	// 针对二级域名的匹配替换都在这里了
 	switch (nodeName) {
-	case 'loginName': if (domainType.ZG.includes(currentDomainName)) {
+	case 'loginName': if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 		newNode = null;
 	} else {
 		newNode = (
@@ -35,7 +35,7 @@ const CustomAgency = (props) => {
 		);
 	} break;
 	case 'footerIcon':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = (
 				<Icon
 					type="icon-zhongguanlogotu"
@@ -51,26 +51,26 @@ const CustomAgency = (props) => {
 			);
 		} break;
 	case 'footerTitle':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = '上海茸冕网络科技有限公司    ';
 		} else {
 			newNode = '杭州源诚科技有限公司    ';
 		} break;
 	case 'Copyright':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = 'Copyright © 2020 上海茸冕网络科技有限公司 ';
 		} else {
 			newNode = 'Copyright © 2018 杭州源诚科技有限公司 ';
 		}
 		break;
 	case 'caseNum':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = '沪ICP备2020037843号';
 		} else {
 			newNode = '浙ICP备17030014号';
 		} break;
 	case 'noPhone':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			const customProps = {
 				customVisible: nodeProps.noPhoneModalVisible,
 				onCancel: nodeProps.onCancel,
@@ -88,7 +88,7 @@ const CustomAgency = (props) => {
 			newNode = <PhoneModal {...nodeProps} />;
 		} break;
 	case 'overdueAccount':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			const accountProps = {
 				customVisible: nodeProps.accountVisible,
 				onCancel: nodeProps.onCancel,
@@ -118,25 +118,25 @@ const CustomAgency = (props) => {
 			newNode = <CustomModal {...accountProps} />;
 		} break;
 	case 'loginPic':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = <img className="yc-login-left-img" src={zhongguanBg} alt="" />;
 		} else {
 			newNode = <img className="yc-login-left-img" src={leftBackground} alt="" />;
 		} break;
 	case 'copyRightPhone':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = '13816316187';
 		} else {
 			newNode = '180-7294-2900';
 		} break;
 	case 'copyRightEmail':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = 'sales@zhongguandata.com';
 		} else {
 			newNode = 'sales@yczcjk.com';
 		} break;
 	case 'copyRightAddress':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = (
 				<span>
 					长宁区长宁路1133号长宁来福士广
@@ -148,7 +148,7 @@ const CustomAgency = (props) => {
 			newNode = '杭州市西湖区华星世纪大楼6楼603';
 		} break;
 	case 'copyRightWX':
-		if (domainType.ZG.includes(currentDomainName)) {
+		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = null;
 		} else {
 			newNode = (
