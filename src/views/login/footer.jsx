@@ -27,10 +27,11 @@ class Login extends React.Component {
 				<div className="yc-footer-content">
 					<span className="yc-footer-text">
 						<span className="yc-footer-img" />
-						<Icon
-							type="icon-logo"
-							className="yc-logo-icon"
-						/>
+						<CustomAgency nodeName="footerIcon" />
+						{/* <Icon */}
+						{/*	type="icon-logo" */}
+						{/*	className="yc-logo-icon" */}
+						{/* /> */}
 						<CustomAgency nodeName="footerTitle" />
 						技术支持
 					</span>
