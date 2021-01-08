@@ -38,11 +38,11 @@ export default class RelationTable extends React.Component {
 						/>
 						<span className="yc-item-break" style={{ marginLeft: 4 }}>
 							{
-                                row && row.dishonestStatus === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null
-                            }
+								row && row.dishonestStatus === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null
+							}
 							{
-                                row && row.dishonestStatus === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null
-                            }
+								row && row.dishonestStatus === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null
+							}
 						</span>
 						{/* {row.limitConsumption ? <span className="business-related-tag limit-height">已限高</span> : null} */}
 						{/* {row.bankruptcy */}
@@ -81,18 +81,18 @@ export default class RelationTable extends React.Component {
 					return (
 						<React.Fragment>
 							{
-                                text === 1 ? (
-	<span>
-		<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
-		开启
-	</span>
-                                ) : (
-	<span>
-		<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
-		关闭
-	</span>
-                                )
-                            }
+								text === 1 ? (
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
+										开启
+									</span>
+								) : (
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
+										关闭
+									</span>
+								)
+							}
 						</React.Fragment>
 					);
 				},
