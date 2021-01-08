@@ -6,8 +6,7 @@ import LoginPage from './login';
 
 export default class BaseRouter extends React.PureComponent {
 	componentWillMount() {
-		const domainName = window.location.hostname;
-		const currentName = domainName.split('.')[0];
+		const currentName = window.location.hostname;
 		if (currentName.indexOf('zhongguan') >= 0) {
 			let link = document.querySelector('link[rel~=\'icon\']');
 			if (!link) {
