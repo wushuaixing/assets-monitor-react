@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 // 添加下级机构 [youyu]
 export const addNextOrg = async (params) => {

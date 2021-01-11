@@ -1,5 +1,4 @@
-import service, { serviceFile } from '@/utils/service';
-
+import service, { serviceFile } from 'service';
 
 /**
  * 【业务管理接口】

@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 
 /*  监控信息 => 金融资产 => 竞价项目 [C.H Wong] 6 */

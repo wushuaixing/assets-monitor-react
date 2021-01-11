@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 /* 无形资产 */
 const intangible = {

@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 
 /*  监控信息 => 公示公告 */

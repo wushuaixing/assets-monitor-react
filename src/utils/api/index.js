@@ -1,5 +1,5 @@
 // 所有网络请求的api都放到这里封装
-import service from '../service';
+import service from 'service';
 
 
 // 登录接口

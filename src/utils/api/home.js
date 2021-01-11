@@ -1,5 +1,5 @@
-import service from '@/utils/service';
-import { serviceFile } from '@/utils/service';
+import service from 'service';
+import { serviceFile } from 'service';
 
 
 /**

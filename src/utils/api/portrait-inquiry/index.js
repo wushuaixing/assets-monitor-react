@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 const inquiryList = params => service.get('/yc/search/portrait/company/list', { params })
 	.then(res => res.data);

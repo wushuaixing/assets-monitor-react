@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 
 // 机构未读数量统计总览

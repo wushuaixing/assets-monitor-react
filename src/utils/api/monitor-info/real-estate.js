@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 /**
  * 【不动产接口】
@@ -45,8 +45,6 @@ export const attentionFollowListResult = async (params) => {
 	const response = await service.get('/yc/monitor/estateRegister/follow/list', { params });
 	return response.data;
 };
-
-
 
 // 导出excel
 export const exportList = '/yc/monitor/estateRegister/export';
