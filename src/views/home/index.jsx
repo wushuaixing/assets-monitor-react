@@ -31,7 +31,7 @@ class HomeRouter extends React.Component {
 	}
 
 	componentWillMount() {
-		global.IS_SPECIAL_LINE = false;
+		// global.IS_SPECIAL_LINE = false;
 		this.getNoticeInfo();
 	}
 

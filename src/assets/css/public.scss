@@ -657,3 +657,31 @@ td.column-left20 {
   bottom: 0;
   width: auto;
 }
+
+//定制化版本关闭浏览器窗口的弹窗样式
+.yc-close-waring{
+  .ant-modal-body{
+    padding: 30px;
+    .ant-confirm-title{
+      font-size: 16px;
+      vertical-align: middle;
+    }
+    .ant-confirm-content{
+      padding-top: 10px;
+      font-size: 14px;
+      color: $text-content;
+      font-weight: 400;
+    }
+  }
+  .ant-confirm-btns{
+    margin-top: 48px;
+    text-align: center;
+    float: none;
+    .ant-btn-lg{
+      padding: 7px 14px;
+      span{
+        vertical-align: middle;
+      }
+    }
+  }
+}

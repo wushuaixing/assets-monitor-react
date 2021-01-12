@@ -1,7 +1,24 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { message, Modal } from 'antd';
-import { navigate } from '@reach/router';
+
+function closeWindow() {
+	if (navigator.userAgent.indexOf('MSIE') > 0) {
+		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
+			window.opener = null;
+			window.close();
+		} else {
+			window.open('', '_top');
+			window.top.close();
+		}
+	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
+		window.location.href = 'about:blank ';
+	} else {
+		window.opener = null;
+		window.open('', '_self', '');
+		window.close();
+	}
+}
 
 const cookies = new Cookies();
 const axiosPromiseArr = []; // 储存cancel token
@@ -46,42 +63,31 @@ const specialResponseMethods = {
 		 * 如通过 xmlHttpRequest 状态码标识 逻辑可写在下面error中
 		 */
 		const res = response.data;
-		console.log('special response === ', response);
+		const reqUrl = response.request.responseURL;
 		// 在login界面不弹弹框
 		const hash = window.location.hash.slice(1);
-		if (res.code === 15002 || res.code === 5002 || res.code === 15003 || res.code === 20039) {
+		if (res.code === 401 || res.code === 403 || res.code === 15002 || res.code === 5002 || res.code === 15003 || res.code === 20039) {
 			axiosPromiseArr.forEach((ele, index) => {
-				console.log('ele === ', ele);
 				ele.cancel('请求取消');
 				delete axiosPromiseArr[index];
 			});
-			const reqUrl = response.request.responseURL;
 			let titleText = '';
 			global.REQ_STATUS = 'stop';
-			if (res.code === 401) { titleText = '本次登录已失效，请重新登录'; }
+			if (res.code === 401) { titleText = '没有访问权限，即将退出登录。'; }
 			if (res.code === 403) { titleText = '权限不足'; }
-			if (res.code === 15002) { titleText = '您的账号已过期，请联系客服'; }
-			if (res.code === 5002 || res.code === 15003) { titleText = '登录失效，请重新登录'; }
+			if (res.code === 15002) { titleText = '账号已过期，即将退出登录，如有疑问，请联系管理员'; }
+			if (res.code === 5002 || res.code === 15003) { titleText = '本次登录已失效，请重新登录监控平台。'; }
 			if (res.code === 20039) { titleText = '账号与当前域名对应机构不匹配，请切换到对应机构二级域名下登录'; }
-			// if (/api\/auth\/logout/.test(reqUrl)) {
-			// 	navigate('/login');
-			// 	return Promise.reject(new Error(null));
-			// }
-			if (/api\/auth\/authRule/.test(reqUrl)) {
-				//	权限接口
-				navigate('/');
-				Modal.warning({
-					title: titleText,
-					onOk() { window.close(); },
-				});
-			} else {
-				// 非权限接口
-				Modal.warning({
-					title: titleText,
-					onOk() { window.close(); },
-				});
-			}
-			return Promise.reject(new Error(null));
+			Modal.warning({
+				title: '提示',
+				className: 'yc-close-waring',
+				content: titleText,
+				okText: '我知道了',
+				onOk() {
+					closeWindow();
+				},
+			});
+			// return Promise.reject(new Error(null));
 		}
 		return response;
 	},
@@ -89,7 +95,15 @@ const specialResponseMethods = {
 		const notShow = (error.config.params || {}).event === 'loop';
 		// 如果没有token的时候提示给专线客户，从跳转页面之前重新进入
 		if (cookies.get('token') === undefined) {
-			navigate('/empty');
+			Modal.warning({
+				title: '提示',
+				className: 'yc-close-waring',
+				content: '本次登录已失效，请重新登录监控平台。',
+				okText: '我知道了',
+				onOk() {
+					closeWindow();
+				},
+			});
 		} else if (axios.isCancel(error)) {
 			console.log('isCancel error:', error);
 		} else if (error && !notShow) {
