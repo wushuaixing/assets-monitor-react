@@ -33,21 +33,21 @@ export default class MatchingReason extends React.Component {
 	};
 
 	// 资产拍卖
-	toGetReasonList=(reason, pushType) => {
+	toGetReasonList=(reason, pushType, approveTime) => {
 		if (reason) {
 			const _reason = JSON.parse(reason);
 			return _reason.map((item) => {
 				if (item.used_name) {
 					return (
 						<div className="reason-list">
-							<div>{`● 根据曾用名"${item.used_name}"匹配`}</div>
+							<div>{`● 根据曾用名"${item.used_name}"匹配 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
 							{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
 						</div>
 					);
 				} if (item.birth) {
 					return (
 						<div className="reason-list">
-							<div>{`● 根据"${item.birth}"匹配`}</div>
+							<div>{`● 根据"${item.birth}"匹配 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
 							<p dangerouslySetInnerHTML={{ __html: item.desc }} className="yc-text-content" />
 						</div>
 					);
@@ -55,7 +55,7 @@ export default class MatchingReason extends React.Component {
 				if (pushType === 1 && /<em/.test(JSON.stringify(item.hl))) return null;
 				return (
 					<div className="reason-list">
-						<div>{`● 根据"${item.name || item.number}"匹配`}</div>
+						<div>{`● 根据"${item.name || item.number}"匹配 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
 						{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
 					</div>
 				);
@@ -65,11 +65,12 @@ export default class MatchingReason extends React.Component {
 	};
 
 	// 生效法律文书确定的义务
-	toGetReason=(reason) => {
+	toGetReason = (reason, approveTime) => {
 		if (reason) {
 			// const _reason = JSON.parse(reason);
 			return (
 				<div className="reason-list">
+					<div>{`${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
 					<p dangerouslySetInnerHTML={{ __html: reason }} className="yc-text-content" />
 				</div>
 			);
@@ -99,7 +100,7 @@ export default class MatchingReason extends React.Component {
 								</div>
 							) : null
 						}
-						{ dishonest ? this.toGetReason(duty) : this.toGetReasonList(reason, pushType) }
+						{ dishonest ? this.toGetReason(duty, approveTime) : this.toGetReasonList(reason, pushType, approveTime) }
 						{
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">

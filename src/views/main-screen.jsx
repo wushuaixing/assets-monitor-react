@@ -151,10 +151,15 @@ export default class Screen extends React.Component {
 		} else {
 			// 判断是否是第一次登录
 			const firstLogin = cookie.get('firstLogin');
+			const token = cookie.get('token');
 			if (firstLogin === 'true') {
 				navigate('/change/password');
 			}
-			this.handleRule(false);
+			if (token) {
+				this.handleRule(false);
+			} else {
+				navigate('/login');
+			}
 		}
 	}
 
@@ -230,14 +235,14 @@ export default class Screen extends React.Component {
 				global.ruleSource = rule;
 			} else {
 				this.setState({
-					loading: isSpecialLine ? 'error' : 'show',
+					loading: isSpecialLine ? 'show' : 'error',
 					errorCode: res.code,
 					tokenText: res.message,
 				});
 			}
 		}).catch(() => {
 			this.setState({
-				loading: isSpecialLine ? 'error' : 'show',
+				loading: isSpecialLine ? 'show' : 'error',
 				errorCode: 500,
 			});
 		});
