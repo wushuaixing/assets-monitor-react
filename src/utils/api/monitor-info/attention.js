@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 import { requestAll } from '@/utils/promise';
 import { Court, Trial, Judgment } from './subrogation';
 import { Court as lCourt, Trial as lTrial, Judgment as lJudgment } from '../risk-monitor/lawsuit';

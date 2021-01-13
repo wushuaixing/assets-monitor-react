@@ -1,5 +1,5 @@
 //  监控信息->经营风险->限制高消费
-import service from '@/utils/service';
+import service from 'service';
 
 const limitConsumption = {
 	// 导出

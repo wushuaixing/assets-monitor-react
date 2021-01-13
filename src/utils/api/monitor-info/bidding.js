@@ -1,5 +1,5 @@
 //  监控信息->经营风险->税收违法
-import s from '@/utils/service';
+import s from 'service';
 
 const bidding = {
 	// POST收藏

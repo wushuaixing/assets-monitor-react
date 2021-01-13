@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 // [V2.3] 监控日报详情 => 统计头信息数据[youyu]
 export const headerInfo = async (params) => {

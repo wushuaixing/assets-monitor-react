@@ -1,4 +1,4 @@
-import s from '@/utils/service'; // axios
+import s from 'service'; // axios
 
 //  在建工程 - 建设单位
 const ConstructApi = {

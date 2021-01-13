@@ -1,4 +1,5 @@
 import React from 'react';
+import { Modal } from 'antd';
 import { Router, navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 /* 子路由模块  */
@@ -10,7 +11,7 @@ import Loadable from '@/common/loadable';
 // import Search from './search';
 import { Spin, Button } from '@/common';
 import { authRule } from '@/utils/api';
-import { handleRule } from '@/utils';
+import { getQueryByName, handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
 import MessageDetail from '@/views/_others/messageDetail';
 import Judgement from '@/views/_others/judgement';
@@ -20,8 +21,25 @@ import Message from './_others/message';
 import Home from './home';
 import Account from './account';
 
-// 新的引用方式，分割代码，懒加载
+function closeWindow() {
+	if (navigator.userAgent.indexOf('MSIE') > 0) {
+		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
+			window.opener = null;
+			window.close();
+		} else {
+			window.open('', '_top');
+			window.top.close();
+		}
+	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
+		window.location.href = 'about:blank ';
+	} else {
+		window.opener = null;
+		window.open('', '_self', '');
+		window.close();
+	}
+}
 
+// 新的引用方式，分割代码，懒加载
 const InfoMonitor = Loadable(() => import('./info-monitor'));
 const Monitor = Loadable(() => import('./asset-excavate'));
 const Risk = Loadable(() => import('./risk-monitor'));
@@ -121,14 +139,78 @@ export default class Screen extends React.Component {
 	}
 
 	componentWillMount() {
-		// 判断是否是第一次登录
-		const firstLogin = cookie.get('firstLogin');
-		if (firstLogin === 'true') {
-			navigate('/change/password');
-		}
 		document.body.style.overflowY = 'scroll';
 		this.clientHeight = 500 || document.body.clientHeight;
-		// console.log('componentWillMount:', document.body.clientHeight);
+		/*
+		* 这里做请求判断是否是专线
+		* * */
+		global.IS_SPECIAL_LINE = false;
+		console.log('global.IS_SPECIAL_LINE', global.IS_SPECIAL_LINE);
+		if (global.IS_SPECIAL_LINE) {
+			this.handleLogin();
+		} else {
+			// 判断是否是第一次登录
+			const firstLogin = cookie.get('firstLogin');
+			if (firstLogin === 'true') {
+				navigate('/change/password');
+			}
+			this.handleRule(false);
+		}
+	}
+
+	componentDidMount() {
+
+	}
+
+
+	componentWillReceiveProps(props) {
+		// const { beforeToken } = this.state;
+		// const token = cookie.get('token');
+		// if (token !== beforeToken) {
+		// 	this.setState({
+		// 		loading: 'error',
+		// 		errorCode: '401',
+		// 		tokenText: '您的登录已过期，请重新登录',
+		// 	});
+		// }
+		// 判断是否是第一次登录
+		// console.log('main-screen:componentWillReceiveProps');
+		if (!global.IS_SPECIAL_LINE) {
+			const firstLogin = cookie.get('firstLogin');
+			if (props.location && props.location.hash !== '#/change/password' && firstLogin === 'true') {
+				this.setState({
+					loading: 'hidden',
+				});
+				navigate('/change/password');
+			}
+		}
+	}
+
+	componentWillUnmount() {
+		document.body.style.overflowY = 'auto';
+	}
+
+	// 手动登录
+	handleLogin = () => {
+		const token = cookie.get('token');
+		// const params = getQueryByName(window.location.href, 'name');
+		if (token) {
+			this.handleRule(global.IS_SPECIAL_LINE);
+		} else {
+			Modal.warning({
+				title: '提示',
+				className: 'yc-close-waring',
+				content: '本次登录已失效，请重新登录监控平台。',
+				okText: '我知道了',
+				onOk() {
+					closeWindow();
+				},
+			});
+		}
+	};
+
+	// 处理权限接口
+	handleRule = (isSpecialLine) => {
 		authRule().then((res) => {
 			if (res.code === 200) {
 				const rule = handleRule(res.data.orgPageGroups);
@@ -148,43 +230,18 @@ export default class Screen extends React.Component {
 				global.ruleSource = rule;
 			} else {
 				this.setState({
-					loading: 'error',
+					loading: isSpecialLine ? 'error' : 'show',
 					errorCode: res.code,
 					tokenText: res.message,
 				});
 			}
 		}).catch(() => {
 			this.setState({
-				loading: 'error',
+				loading: isSpecialLine ? 'error' : 'show',
 				errorCode: 500,
 			});
 		});
-	}
-
-	componentWillReceiveProps(props) {
-		// const { beforeToken } = this.state;
-		// const token = cookie.get('token');
-		// if (token !== beforeToken) {
-		// 	this.setState({
-		// 		loading: 'error',
-		// 		errorCode: '401',
-		// 		tokenText: '您的登录已过期，请重新登录',
-		// 	});
-		// }
-		// 判断是否是第一次登录
-		// console.log('main-screen:componentWillReceiveProps');
-		const firstLogin = cookie.get('firstLogin');
-		if (props.location && props.location.hash !== '#/change/password' && firstLogin === 'true') {
-			this.setState({
-				loading: 'hidden',
-			});
-			navigate('/change/password');
-		}
-	}
-
-	componentWillUnmount() {
-		document.body.style.overflowY = 'auto';
-	}
+	};
 
 	render() {
 		const {

@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 const debtorInfo = params => service.get('/yc/obligor/monitor/overview/detail', { params })
 	.then(res => res.data);

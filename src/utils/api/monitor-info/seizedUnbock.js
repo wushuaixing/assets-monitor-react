@@ -1,5 +1,5 @@
 //  监控信息->经营风险->查解封资产
-import service from '@/utils/service';
+import service from 'service';
 
 const seizedUnblock = {
 	// 导出

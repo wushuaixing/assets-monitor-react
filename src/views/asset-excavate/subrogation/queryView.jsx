@@ -63,7 +63,7 @@ class QueryCondition extends React.Component {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
-		console.log('ddddd', getFieldProps('endGmtCreate'));
+		// console.log('ddddd', getFieldProps('endGmtCreate'));
 		const timeOption = {
 			normalize(n) {
 				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
@@ -104,7 +104,7 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startGmtCreate',timeOption)}
+						{...getFieldProps('startGmtCreate', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtCreate'))}
 					/>
 					<span className="yc-query-item-lable">至</span>
@@ -112,7 +112,7 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endGmtCreate',timeOption)}
+						{...getFieldProps('endGmtCreate', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtCreate'))}
 					/>
 				</div>
