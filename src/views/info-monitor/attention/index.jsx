@@ -232,8 +232,8 @@ export default class MyAttention extends React.Component {
 		};
 		const newConfig = config && config.filter(i => i.status);
 		// const newInitConfig = initConfig && initConfig.map(i => i).filter(l => l.status);
-		console.log('initConfig === ', initConfig);
-		console.log('config === ', config);
+		// console.log('initConfig === ', initConfig);
+		// console.log('config === ', config);
 		return (
 			<div className="yc-monitor-attention">
 				<Tabs.Simple

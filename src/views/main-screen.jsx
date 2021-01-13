@@ -144,7 +144,7 @@ export default class Screen extends React.Component {
 		/*
 		* 这里做请求判断是否是专线
 		* * */
-		global.IS_SPECIAL_LINE = true;
+		global.IS_SPECIAL_LINE = false;
 		console.log('global.IS_SPECIAL_LINE', global.IS_SPECIAL_LINE);
 		if (global.IS_SPECIAL_LINE) {
 			this.handleLogin();
@@ -193,7 +193,7 @@ export default class Screen extends React.Component {
 	// 手动登录
 	handleLogin = () => {
 		const token = cookie.get('token');
-		const params = getQueryByName(window.location.href, 'name');
+		// const params = getQueryByName(window.location.href, 'name');
 		if (token) {
 			this.handleRule(global.IS_SPECIAL_LINE);
 		} else {
