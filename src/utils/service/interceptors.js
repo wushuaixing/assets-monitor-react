@@ -10,7 +10,6 @@ const interceptorsConfig = (type) => {
 			response: specialResponseMethods,
 		};
 	} else {
-		console.log('default');
 		methods = {
 			request: defaultRequestMethods,
 			response: defaultResponseMethods,
