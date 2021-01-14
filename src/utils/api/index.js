@@ -25,8 +25,8 @@ export const judgmentUnsealDetail = async (params) => {
 };
 
 // 检验是否是专线登录 [youyu]
-export const checkSpecialIp = async (params) => {
-	const response = await service.get(`/api/auth/open/checkSpecialIp?orgId=${params}`);
+export const checkSpecialIp = async () => {
+	const response = await service.get('/api/auth/open/checkSpecialIp', { data: { type: 'special' } });
 	return response.data;
 };
 
