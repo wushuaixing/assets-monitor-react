@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 /*
 * 2.0 信息概览风险监控卡片接口
 *

@@ -8,7 +8,6 @@ import {
 import InputPrice from '@/common/input/input-price';
 import './style.scss';
 import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
-import { clearEmpty } from '@/utils';
 
 class QueryCondition extends React.Component {
 	constructor(props) {
@@ -29,9 +28,9 @@ class QueryCondition extends React.Component {
 		}
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
-			const dParams = getUrlParams(url, 'updateTimeStart', 'updateTimeEnd');
-			setFieldsValue({ updateTimeStart: dParams.updateTimeStart });
-			setFieldsValue({ updateTimeEnd: dParams.updateTimeEnd });
+			const dParams = getUrlParams(url, 'startApproveTime', 'endApproveTime');
+			setFieldsValue({ startApproveTime: dParams.startApproveTime });
+			setFieldsValue({ endApproveTime: dParams.endApproveTime });
 			this.handleSubmit();
 		}
 		window._addEventListener(window.document, 'keyup', this.toKeyCode13);
@@ -126,6 +125,26 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('obligorNumber', { getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, '') })}
 					/>
 				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">匹配类型：</span>
+					<Select size="large" defaultValue="all" style={_style3} {...getFieldProps('important', { initialValue: '' })}>
+						<Select.Option value="">全部</Select.Option>
+						<Select.Option value="1">精准匹配</Select.Option>
+						<Select.Option value="0">模糊匹配</Select.Option>
+					</Select>
+				</div>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">拍卖状态：</span>
+					<Select size="large" defaultValue="all" style={_style3} {...getFieldProps('status', { initialValue: '' })}>
+						<Select.Option value="">全部</Select.Option>
+						<Select.Option value="9">中止</Select.Option>
+						<Select.Option value="11">撤回</Select.Option>
+						<Select.Option value="5">已成交</Select.Option>
+						<Select.Option value="7">已流拍</Select.Option>
+						<Select.Option value="1">即将开始</Select.Option>
+						<Select.Option value="3">正在进行</Select.Option>
+					</Select>
+				</div>
 				<div className="yc-more-option inline-block cursor-pointer" style={{ marginLeft: 0 }}>
 					{ moreOption
 						? (
@@ -218,30 +237,24 @@ class QueryCondition extends React.Component {
 						<Input title="处置机关" style={_style1} size="large" maxLength="20" placeholder="处置法院/单位" {...getFieldProps('court')} />
 					</div>
 				</div>
-
-
 				<div className="yc-query-item">
-					<span className="yc-query-item-title">匹配类型：</span>
-					<Select size="large" defaultValue="all" style={_style3} {...getFieldProps('important', { initialValue: '' })}>
-						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="1">精准匹配</Select.Option>
-						<Select.Option value="0">模糊匹配</Select.Option>
-					</Select>
+					<span className="yc-query-item-title">匹配日期：</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="开始日期"
+						{...getFieldProps('startApproveTime', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endApproveTime'))}
+					/>
+					<span className="yc-query-item-title">至</span>
+					<DatePicker
+						size="large"
+						style={_style2}
+						placeholder="结束日期"
+						{...getFieldProps('endApproveTime', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startApproveTime'))}
+					/>
 				</div>
-
-				<div className="yc-query-item">
-					<span className="yc-query-item-title">拍卖状态：</span>
-					<Select size="large" defaultValue="all" style={_style3} {...getFieldProps('status', { initialValue: '' })}>
-						<Select.Option value="">全部</Select.Option>
-						<Select.Option value="9">中止</Select.Option>
-						<Select.Option value="11">撤回</Select.Option>
-						<Select.Option value="5">已成交</Select.Option>
-						<Select.Option value="7">已流拍</Select.Option>
-						<Select.Option value="1">即将开始</Select.Option>
-						<Select.Option value="3">正在进行</Select.Option>
-					</Select>
-				</div>
-
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">开拍时间：</span>
 					<DatePicker
@@ -260,7 +273,6 @@ class QueryCondition extends React.Component {
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startStart'))}
 					/>
 				</div>
-
 				<div className="yc-query-item">
 					<span className="yc-query-item-title">更新时间：</span>
 					<DatePicker

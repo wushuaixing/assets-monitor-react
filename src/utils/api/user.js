@@ -1,5 +1,4 @@
-import service from '@/utils/service';
-
+import service from 'service';
 
 /**
  * 【登陆接口】

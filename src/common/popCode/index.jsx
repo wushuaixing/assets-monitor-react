@@ -4,7 +4,6 @@ import QRCode from 'qrcode.react';
 import './style.scss';
 
 const PopCode = (props) => {
-	global.isZH = true;
 	const {
 		ktModalSourceLinkIcon, wsSourceLink, showContent, content, tooltip, url, target, className, style, click, isSourceLink, renderAs, size, bgColor, fgColor, level, includeMargin,
 	} = props;
@@ -60,7 +59,7 @@ const PopCode = (props) => {
 	return (
 		<div style={{ display: 'inline-block' }}>
 			{
-				global.isZH && isSourceLink && url ? (
+				global.IS_SPECIAL_LINE && isSourceLink && url ? (
 					<Popover content={popContent} trigger="click" placement={wsSourceLink ? 'bottomRight' : 'topLeft'} overlayClassName="yc-popover-element">
 						{wsSourceLink ? sourceBtnDom : <div>{tooltipDom}</div>}
 					</Popover>

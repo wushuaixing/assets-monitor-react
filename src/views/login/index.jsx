@@ -8,7 +8,7 @@ import {
 	bankConf, // 个性配置
 } from '@/utils/api/user';
 import CustomAgency from '@/common/custom/agency';
-import leftBackground from '@/assets/img/login/left_background.png';
+// import leftBackground from '@/assets/img/login/left_background.png';
 import { Form } from 'antd';
 import Header from './header';
 import Footer from './footer';

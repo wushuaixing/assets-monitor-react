@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 /*
 * 2.0 信息概览资产挖掘卡片接口
 *

@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 
 /*  债务人详情页推送结果相关接口[C.H Wong] 11 */

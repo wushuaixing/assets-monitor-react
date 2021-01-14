@@ -31,6 +31,7 @@ module.exports = {
 			'@reach/router': `${ROOT}/patchs/Router`,
 			redux: `${ROOT}/patchs/redux`,
 			'@': `${ROOT}/src`,
+			'service': `${ROOT}/src/utils/service`,
 			antd: `${ROOT}/patchs/antd`,
 			api: `${ROOT}/src/utils/api`,
 			img: `${ROOT}/src/assets/img`,

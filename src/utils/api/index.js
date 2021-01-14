@@ -1,5 +1,5 @@
 // 所有网络请求的api都放到这里封装
-import service from '../service';
+import service from 'service';
 
 
 // 登录接口
@@ -21,5 +21,17 @@ export const judgmentDetail = async (params) => {
 // [v2.5]查解封资产 文书详情页 [youyu]
 export const judgmentUnsealDetail = async (params) => {
 	const response = await service.get('/yc/monitor/unseal/detail', { params });
+	return response.data;
+};
+
+// 检验是否是专线登录 [youyu]
+export const checkSpecialIp = async (params) => {
+	const response = await service.get(`/api/auth/open/checkSpecialIp?orgId=${params}`);
+	return response.data;
+};
+
+// 专线登录 [youyu]
+export const specialLogin = async (params) => {
+	const response = await service.post('/api/auth/special/login', params);
 	return response.data;
 };

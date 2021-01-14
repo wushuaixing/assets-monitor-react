@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 // =============== 股权质押 ==============
 
 // 股权质押 列表

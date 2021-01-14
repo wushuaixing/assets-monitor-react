@@ -229,24 +229,28 @@ export default class HeaderMessage extends React.Component {
 							{' '}
 						</div>
 					</div>
-					<div className="g-right user-panel-right">
-						<div>
-							<a
-								onClick={() => this.openModal()}
-								className="text-prompt user-panel-login"
-								data-toggle="modal"
-								data-target="#Modalupdate"
-							>
-								修改密码
-							</a>
-							<a
-								onClick={() => this.handleClick()}
-								className="user-panel-login"
-							>
-								退出登录
-							</a>
-						</div>
-					</div>
+					{
+						global.IS_SPECIAL_LINE ? null : (
+							<div className="g-right user-panel-right">
+								<div>
+									<a
+										onClick={() => this.openModal()}
+										className="text-prompt user-panel-login"
+										data-toggle="modal"
+										data-target="#Modalupdate"
+									>
+										修改密码
+									</a>
+									<a
+										onClick={() => this.handleClick()}
+										className="user-panel-login"
+									>
+										退出登录
+									</a>
+								</div>
+							</div>
+						)
+					}
 				</div>
 				{treeList && treeList.length > 0 && (
 				<div className="yc-search-container">

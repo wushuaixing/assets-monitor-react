@@ -20,8 +20,8 @@ import Message from './_others/message';
 import Home from './home';
 import Account from './account';
 
-// 新的引用方式，分割代码，懒加载
 
+// 新的引用方式，分割代码，懒加载
 const InfoMonitor = Loadable(() => import('./info-monitor'));
 const Monitor = Loadable(() => import('./asset-excavate'));
 const Risk = Loadable(() => import('./risk-monitor'));
@@ -123,8 +123,11 @@ export default class Screen extends React.Component {
 	componentWillMount() {
 		// 判断是否是第一次登录
 		const firstLogin = cookie.get('firstLogin');
-		if (firstLogin === 'true') {
-			navigate('/change/password');
+		// 专线登录第一次不会修改密码
+		if (!global.IS_SPECIAL_LINE) {
+			if (firstLogin === 'true') {
+				navigate('/change/password');
+			}
 		}
 		document.body.style.overflowY = 'scroll';
 		this.clientHeight = 500 || document.body.clientHeight;
@@ -161,6 +164,11 @@ export default class Screen extends React.Component {
 		});
 	}
 
+	componentDidMount() {
+
+	}
+
+
 	componentWillReceiveProps(props) {
 		// const { beforeToken } = this.state;
 		// const token = cookie.get('token');
@@ -173,18 +181,21 @@ export default class Screen extends React.Component {
 		// }
 		// 判断是否是第一次登录
 		// console.log('main-screen:componentWillReceiveProps');
-		const firstLogin = cookie.get('firstLogin');
-		if (props.location && props.location.hash !== '#/change/password' && firstLogin === 'true') {
-			this.setState({
-				loading: 'hidden',
-			});
-			navigate('/change/password');
+		if (!global.IS_SPECIAL_LINE) {
+			const firstLogin = cookie.get('firstLogin');
+			if (props.location && props.location.hash !== '#/change/password' && firstLogin === 'true') {
+				this.setState({
+					loading: 'hidden',
+				});
+				navigate('/change/password');
+			}
 		}
 	}
 
 	componentWillUnmount() {
 		document.body.style.overflowY = 'auto';
 	}
+
 
 	render() {
 		const {
