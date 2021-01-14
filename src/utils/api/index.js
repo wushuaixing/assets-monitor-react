@@ -23,3 +23,15 @@ export const judgmentUnsealDetail = async (params) => {
 	const response = await service.get('/yc/monitor/unseal/detail', { params });
 	return response.data;
 };
+
+// 检验是否是专线登录 [youyu]
+export const checkSpecialIp = async (params) => {
+	const response = await service.get(`/api/auth/open/checkSpecialIp?orgId=${params}`);
+	return response.data;
+};
+
+// 专线登录 [youyu]
+export const specialLogin = async (params) => {
+	const response = await service.post('/api/auth/special/login', params);
+	return response.data;
+};

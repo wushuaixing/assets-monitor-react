@@ -3,7 +3,7 @@ import React from 'react';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 import {
-	Form, Button, message, Spin, Input, Tabs,
+	Form, Button, message, Spin, Input, Tabs, Modal,
 } from 'antd';
 import { Icon } from '@/common';
 import {
@@ -13,11 +13,30 @@ import {
 	loginPhoneCode, // 手机验证码登录
 } from '@/utils/api/user';
 import BASE_URL from '@/utils/api/config';
+import { checkSpecialIp, specialLogin } from '@/utils/api';
 import rsaEncrypt from '@/utils/encrypt';
-import { handleRule, debounce } from '@/utils';
+import { handleRule, debounce, getQueryByName } from '@/utils';
 import CustomAgency from '@/common/custom/agency';
 import PasswordModal from './passwordModal';
 import './style.scss';
+
+function closeWindow() {
+	if (navigator.userAgent.indexOf('MSIE') > 0) {
+		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
+			window.opener = null;
+			window.close();
+		} else {
+			window.open('', '_top');
+			window.top.close();
+		}
+	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
+		window.location.href = 'about:blank ';
+	} else {
+		window.opener = null;
+		window.open('', '_self', '');
+		window.close();
+	}
+}
 
 const cookie = new Cookies();
 const createForm = Form.create;
@@ -44,6 +63,60 @@ class Login extends React.Component {
 			username: '',
 			phone: '',
 		};
+	}
+
+	componentWillMount() {
+		global.IS_SPECIAL_LINE = false;
+		// http://localhost:10086/#/login?orgId=641
+		const orgId = getQueryByName(window.location.href, 'orgId');
+		// console.log('orgId === ', window.location.href, orgId);
+		if (orgId) {
+			this.setState({
+				loading: true,
+			});
+			checkSpecialIp(orgId).then((res) => {
+				// 判断是否是专线
+				if (res.code === 200) {
+					if (res.data) {
+						global.IS_SPECIAL_LINE = true;
+						// console.log('global.IS_SPECIAL_LINE', global.IS_SPECIAL_LINE);
+						this.handleLogin(orgId);
+					} else {
+						Modal.warning({
+							title: '提示',
+							className: 'yc-close-waring',
+							content: '没有访问权限，即将退出登录。',
+							okText: '我知道了',
+							onOk() {
+								closeWindow();
+							},
+						});
+					}
+				} else {
+					global.IS_SPECIAL_LINE = false;
+					this.setState({
+						loading: false,
+					});
+					let titleText = '';
+					if (res.code === 15002) {
+						titleText = '账号已过期，即将退出登录，如有疑问，请联系管理员。';
+					} else if (res.code === 5002 || res.code === 15003) {
+						titleText = '本次登录已失效，请重新登录监控平台。';
+					} else {
+						titleText = '没有访问权限，即将退出登录';
+					}
+					Modal.warning({
+						title: '提示',
+						className: 'yc-close-waring',
+						content: titleText,
+						okText: '我知道了',
+						onOk() {
+							closeWindow();
+						},
+					});
+				}
+			}).catch();
+		}
 	}
 
 	componentDidMount() {
@@ -76,6 +149,40 @@ class Login extends React.Component {
 		this.setState({
 			rememberPassword: e.target.checked,
 		});
+	};
+
+	// 手动登录
+	handleLogin = (orgId) => {
+		specialLogin({ idList: [orgId] }).then((res) => {
+			if (res.code === 200) {
+				if (res.data.token) {
+					// console.log('get token ', res.data.token);
+					cookie.set('token', res.data.token);
+					// message.success('登录成功');
+					cookie.set('versionUpdate', res.data.versionUpdate);
+					const rule = handleRule(res.data.rules);
+					global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
+					this.setState({
+						loading: false,
+					});
+					if (rule.menu_zcwj) {
+						navigate('/');
+					} else if (rule.menu_xxss) {
+						navigate('/');
+					} else {
+						navigate('/');
+					}
+				} else {
+					this.setState({
+						loading: false,
+					});
+				}
+			} else {
+				this.setState({
+					loading: false,
+				});
+			}
+		}).catch();
 	};
 
 	// error = () => {
