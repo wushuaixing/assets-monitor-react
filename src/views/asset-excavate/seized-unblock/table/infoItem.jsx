@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon } from 'antd';
 import { linkDom } from '@/utils';
 import './index.scss';
+import { Ellipsis } from '@/common';
 
 export default class InfoItem extends React.Component {
 	constructor(props) {
@@ -51,7 +52,8 @@ export default class InfoItem extends React.Component {
 										{
 											row.url !== '' && row.sourceId !== 10760 ? (
 												<span>
-													{linkDom(row.url, content || row.address, '_blank', '', '', '')}
+													{/* {linkDom(row.url, content || row.address, '_blank', '', '', '')} */}
+													<Ellipsis url={row.url} content={content || row.address} isSourceLink />
 												</span>
 											)
 												: (

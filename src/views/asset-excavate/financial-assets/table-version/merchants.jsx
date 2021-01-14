@@ -81,7 +81,7 @@ class TableIntact extends React.Component {
 								{assetsTypeMap.get(`${row.category}`)}
 							</span>
 							{ toEmpty(row.title)
-								? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '-' }
+								? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" isSourceLink /> : '-' }
 						</li>
 					</div>
 				</React.Fragment>

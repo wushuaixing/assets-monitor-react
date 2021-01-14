@@ -53,7 +53,7 @@ class TableIntact extends React.Component {
 					<li style={{ height: 20 }} />
 					<li style={{ lineHeight: '20px' }}>
 						{ toEmpty(row.title)
-							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '-' }
+							? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" isSourceLink /> : '-' }
 					</li>
 				</div>
 			),

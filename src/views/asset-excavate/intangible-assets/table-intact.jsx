@@ -26,7 +26,10 @@ export default class TableIntact extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const { sourceType } = this.props;
+		const { sourceType, curSourceObj } = this.props;
+		if (curSourceObj) {
+			Object.assign(curSourceObj, { page: 1 });
+		}
 		if (sourceType !== nextProps.sourceType) {
 			this.condition.sortColumn = '';
 			this.condition.sortOrder = '';
@@ -47,6 +50,12 @@ export default class TableIntact extends React.Component {
 		this.condition.sortOrder = order;
 		this.condition.page = 1;
 		this.toGetData();
+		const { onPageChange, onBtnChange, curSourceObj } = this.props;
+		if (onPageChange)onPageChange();
+		if (curSourceObj) {
+			Object.assign(curSourceObj, { isRedirect: true, page: 1 });
+			if (onBtnChange)onBtnChange(curSourceObj);
+		}
 	};
 
 	// 表格发生变化
@@ -64,12 +73,23 @@ export default class TableIntact extends React.Component {
 	onPageChange=(val) => {
 		this.condition.page = val;
 		this.toGetData();
+		const { onPageChange, onBtnChange, curSourceObj } = this.props;
+		if (onPageChange)onPageChange();
+		if (curSourceObj) {
+			Object.assign(curSourceObj, { isRedirect: true, page: val });
+			if (onBtnChange)onBtnChange(curSourceObj);
+		}
 	};
 
 	// 查询数据methods
 	toGetData=(nextProps) => {
 		this.setState({ loading: true });
-		const { reqUrl, id, sourceType } = nextProps || this.props;
+		const {
+			reqUrl, id, sourceType, curSourceObj,
+		} = nextProps || this.props;
+		if (curSourceObj) {
+			this.condition.page = curSourceObj.page;
+		}
 		const toApi = reqUrl || API(sourceType, 'followList');
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {

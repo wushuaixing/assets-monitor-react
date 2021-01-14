@@ -40,7 +40,8 @@ export default class DetailModal extends React.PureComponent {
 					title: '源链接',
 					width: 110,
 					dataIndex: 'url',
-					render: (text, row) => (text ? linkDom(row.url, '查看') : '-'),
+					// render: (text, row) => (text ? linkDom(row.url, '查看') : '-'),
+					render: (text, row) => (text ? <Ellipsis url={row.url} content="查看" isSourceLink /> : '-'),
 				}, {
 					title: global.Table_CreateTime_Text,
 					dataIndex: 'gmtModified',

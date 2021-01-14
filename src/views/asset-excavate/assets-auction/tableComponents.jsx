@@ -317,16 +317,17 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 		<div className="yc-assets-table-info">
 			{
 				title || url ? (
-					<Tooltip placement="top" title={title}>
-						<a
-							className="table-info-title text-ellipsis click-link"
-							href={url}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							{title || url}
-						</a>
-					</Tooltip>
+					// <Tooltip placement="top" title={title}>
+					// 	<a
+					// 		className="table-info-title text-ellipsis click-link"
+					// 		href={url}
+					// 		target="_blank"
+					// 		rel="noopener noreferrer"
+					// 	>
+					// 		{title || url}
+					// 	</a>
+					// </Tooltip>
+					<Ellipsis content={title || url} url={url} isSourceLink tooltip />
 				) : <div className="table-info-title ">-</div>
 			}
 			<li className="table-info-list list-width-180">

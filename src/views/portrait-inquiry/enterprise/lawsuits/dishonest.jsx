@@ -31,7 +31,7 @@ export default class Dishonest extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
 						{ toEmpty(row.caseCode)
-							? <Ellipsis content={row.caseCode} url={row.url} tooltip width={600} font={15} /> : '-' }
+							? <Ellipsis content={row.caseCode} url={row.url} tooltip width={600} font={15} isSourceLink /> : '-' }
 					</li>
 					<li>
 						<span className="list list-title align-justify">失信被执行人行为具体情形</span>

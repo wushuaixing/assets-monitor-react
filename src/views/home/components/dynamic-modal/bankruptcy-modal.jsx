@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { Spin, Table } from '@/common';
+import { Spin, Table, Ellipsis } from '@/common';
 import { Attentions } from '@/common/table';
 import { unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom, timeStandard } from '@/utils';
@@ -33,7 +33,8 @@ export default class DetailModal extends React.PureComponent {
 					render: (text, record) => {
 						if (record.url) {
 							return (
-								<span>{text ? linkDom(record.url, text) : '-'}</span>
+							// <span>{text ? linkDom(record.url, text) : '-'}</span>
+								<div>{text ? <Ellipsis url={record.url} content={text} isSourceLink tooltip /> : '-'}</div>
 							);
 						}
 						return (

@@ -4,7 +4,7 @@ import { getDynamicAsset } from 'api/dynamic';
 import { Ellipsis, Spin, Table } from '@/common';
 import associationLink from '@/views/_common/association-link';
 import {
-	timeStandard, toEmpty, linkDom, getCaseType,
+	timeStandard, toEmpty, getCaseType,
 } from '@/utils';
 import { PartyCrosswise } from '@/views/_common';
 
@@ -36,7 +36,8 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							{row.caseNumber ? linkDom(row.url, row.caseNumber.replace('（', '( ')) : '-'}
+							{/* {row.caseNumber ? linkDom(row.url, row.caseNumber.replace('（', '( ')) : '-'} */}
+							{row.caseNumber ? <div><Ellipsis url={row.url} content={row.caseNumber.replace('（', '( ')} isSourceLink width={300} tooltip /></div> : '-'}
 						</span>
 						{
 							row.caseType ? <span className="yc-case-type">{getCaseType(row.caseType)}</span> : ''
