@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import { Copyright } from 'api/monitor-info/intangible';
-import { Spin, Table } from '@/common';
+import { Spin, Table, Ellipsis } from '@/common';
 import { Attentions } from '@/common/table';
 import { linkDetail, linkDom, timeStandard } from '@/utils';
 
@@ -28,7 +28,8 @@ export default class DetailModal extends React.PureComponent {
 				}, {
 					title: '商标/专利名称',
 					dataIndex: 'rightsName',
-					render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+					// render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+					render: (text, row) => (text ? <Ellipsis url={row.url} content={text} isSourceLink /> : '-'),
 				}, {
 					title: '权利类型',
 					dataIndex: 'rightsType',

@@ -3,7 +3,7 @@ import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDom, timeStandard } from '@/utils';
 import { Environment } from '@/utils/api/risk-monitor/operation-risk';
-import { SelectedNum, Table } from '@/common';
+import { SelectedNum, Table, Ellipsis } from '@/common';
 // { attention, readStatus }
 // 获取表格配置
 const columns = (props) => {
@@ -27,7 +27,8 @@ const columns = (props) => {
 			title: '标题',
 			dataIndex: 'title',
 			width: 536,
-			render: (text, row) => (row.url ? linkDom(row.url, text || '-') : (text || '-')),
+			// render: (text, row) => (row.url ? linkDom(row.url, text || '-') : (text || '-')),
+			render: (text, row) => (row.url ? <Ellipsis content={text || '-'} url={row.url} isSourceLink bussinessStyle tooltip /> : (text || '-')),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

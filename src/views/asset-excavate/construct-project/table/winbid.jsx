@@ -60,6 +60,7 @@ const columns = (props) => {
 						content={text}
 						url={row.url}
 						tooltip
+						isSourceLink
 					/>
 					<div>
 						<LiItem Li auto title="招标方式" style={{ display: 'inline-block', marginTop: 3 }} titleStyle={{ color: '#7D8699', width: 52 }}>{row.biddingMode || '-'}</LiItem>

@@ -55,7 +55,8 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold" style={{ lineHeight: '20px' }}>
-						<a href={row.url} target="_blank" rel="noopener noreferrer">{value}</a>
+						{/* <a href={row.url} target="_blank" rel="noopener noreferrer">{value}</a> */}
+						<Ellipsis url={row.url} content={value} isSourceLink bussinessStyle />
 						{ row.rightsType ? <span className="yc-case-reason text-ellipsis" style={{ minWidth: 50 }}>{rightsTypeStatus[row.rightsType]}</span> : ''}
 					</li>
 					{this.toShowExtraField(row)}

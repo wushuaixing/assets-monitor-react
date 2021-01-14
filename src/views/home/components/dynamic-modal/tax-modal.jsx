@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { Spin, Table } from '@/common';
+import { Spin, Table, Ellipsis } from '@/common';
 import { Attentions } from '@/common/table';
 import { Violation } from '@/utils/api/risk-monitor/operation-risk';
 import { linkDom, timeStandard } from '@/utils';
@@ -34,7 +34,8 @@ export default class DetailModal extends React.PureComponent {
 					title: '源链接',
 					dataIndex: 'url',
 					className: 'tAlignCenter_important',
-					render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '-'),
+					// render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '-'),
+					render: (text, record) => (record.url ? <Ellipsis url={record.url} content="" className="yc-list-link" isSourceLink /> : '-'),
 				}, {
 					title: '操作',
 					unNormal: true,

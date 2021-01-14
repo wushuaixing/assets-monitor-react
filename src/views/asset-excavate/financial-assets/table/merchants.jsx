@@ -109,6 +109,7 @@ const columns = (props) => {
 							url={row.url || ''}
 							tooltip
 							width={310}
+							isSourceLink
 						/>
 					</li>
 					{

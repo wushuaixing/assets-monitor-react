@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Spin, NoContent } from '@/common';
+import { Ellipsis, Spin, NoContent } from '@/common';
 import { parseQuery, clearEmpty } from '@/utils';
 import { judgmentDetail, judgmentUnsealDetail } from '@/utils/api/index';
 import './style.scss';
@@ -62,22 +62,25 @@ class Judgement extends React.Component {
 	};
 
 	// 手动跳转源链接
-	handleJumpSourceLink = () => {
-		const { url } = this.state;
-		console.log('url', url);
-		const w = window.open('about:blank');
-		w.location.href = url;
-	};
+	// handleJumpSourceLink = () => {
+	// 	const { url } = this.state;
+	// 	console.log('url', url);
+	// 	const w = window.open('about:blank');
+	// 	w.location.href = url;
+	// };
 
 	render() {
-		const { loading, htmlText, title } = this.state;
+		const {
+			loading, htmlText, title, url,
+		} = this.state;
 		const newHtmlText = htmlText.replace(/FONT-FAMILY:.{3,4};/g, 'font-family: PingFang SC, microsoft yahei;').replace(/pt/g, 'px').replace(/MARGIN: 0.5px 0cm/g, 'margin: 20px 0');
 		return (
 			<Spin visible={loading}>
 				<div className="judgement">
 					<div className="judgement-header">
 						<span className="judgement-header-title">{title}</span>
-						<Button className="judgement-header-btn" onClick={this.handleJumpSourceLink}>源链接</Button>
+						{/* <Button className="judgement-header-btn" onClick={this.handleJumpSourceLink}>源链接</Button> */}
+						<Ellipsis className="judgement-header-btn" content="源链接" url={url} isSourceLink wsSourceLink />
 					</div>
 					<div className="judgement-line">
 						<div className="judgement-line-title">文书正文</div>

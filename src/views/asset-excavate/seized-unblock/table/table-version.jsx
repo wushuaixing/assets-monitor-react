@@ -1,8 +1,8 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
-import { Spin, Table } from '@/common';
-import { timeStandard, linkDom } from '@/utils';
+import { Spin, Table, Ellipsis } from '@/common';
+import { timeStandard } from '@/utils';
 import './index.scss';
 
 export default class TableVersion extends React.Component {
@@ -45,9 +45,10 @@ export default class TableVersion extends React.Component {
 						 {/* } */}
 						{
 							row.dataType === 1 ? row.url !== '' && row.sourceId !== 10760 ? (
-								<span>
-									{linkDom(row.url, row.information || row.address, '_blank', '', '', '')}
-								</span>
+								<div>
+									{/* {linkDom(row.url, row.information || row.address, '_blank', '', '', '')} */}
+									<Ellipsis url={row.url} content={row.information || row.address} isSourceLink />
+								</div>
 							) : (
 								<span>
 									{row.information || row.address || '-'}

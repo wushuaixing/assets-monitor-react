@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from 'antd';
 import './style.scss';
+import { Ellipsis } from '@/common';
 
 export default class MatchingReason extends React.Component {
 	constructor(props) {
@@ -78,6 +79,45 @@ export default class MatchingReason extends React.Component {
 		return '-';
 	};
 
+	// 字符串转dom
+	parseDom=(arg) => {
+		const objE = document.createElement('span');
+		objE.innerHTML = arg;
+		return objE.childNodes;
+	};
+
+	// 审核备注文案
+	toGetRemarkBefore = (remark) => {
+		if (remark.substr(0, remark.indexOf('<a')) !== '') {
+			const remarkBefore = remark.substr(0, remark.indexOf('<a'));
+			return remarkBefore;
+		}
+		return remark;
+	}
+
+	// 审核备注链接
+	toGetRemarkBehind = (remark) => {
+		if (remark.substr(0, remark.indexOf('<a')) !== '') {
+			if (remark.substr(remark.indexOf('<a')) !== '') {
+				const remarkBehind = remark.substr(remark.indexOf('<a'));
+				const remarkBehindArr = remarkBehind.split('、');
+				const remarkDom = remarkBehindArr.map((i, index) => {
+					const curDom = this.parseDom(i);
+					return	(
+						<>
+							<Ellipsis url={curDom[0].href} content={curDom[0].innerText} isSourceLink />
+							{
+								index === remarkBehindArr.length - 1 ? null : <span style={{ marginLeft: -15 }}>、</span>
+							}
+						</>
+					);
+				});
+				return remarkDom;
+			}
+		}
+		return null;
+	}
+
 	render() {
 		const {
 			content: {
@@ -88,6 +128,7 @@ export default class MatchingReason extends React.Component {
 		// console.log(pushType);		// 类型 1 结构化 0 全文
 		const remarkOrder = pushType ? 'last' : 'first';
 		const { status } = this.state;
+		// const testRemark = '经裁判文书分析，债务人被他方起诉，涉诉债权额xx万元本金及相应利息，详情见<a target=\'_blank\' href=\'http://www.baidu.com/\'>文书链接1</a>、<a target=\'_blank\' href=\'http://www.baidu.com/\'>文书链接2</a>';
 		return (
 			<div className="assets-matching-reason-wrapper">
 				<div className={`reason-content-wrapper content-${status}`}>
@@ -95,8 +136,9 @@ export default class MatchingReason extends React.Component {
 						{
 							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
-									<div>● 审核备注</div>
-									<p dangerouslySetInnerHTML={{ __html: remark }} className="yc-text-content" />
+									<div>{`● 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
+									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" style={{ display: 'inline-block' }} />
+									{this.toGetRemarkBehind(remark)}
 								</div>
 							) : null
 						}
@@ -104,8 +146,9 @@ export default class MatchingReason extends React.Component {
 						{
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">
-									<div>{'● 审核备注 '}</div>
-									<p dangerouslySetInnerHTML={{ __html: remark }} className="yc-text-content" />
+									<div>{`● 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
+									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
+									{this.toGetRemarkBehind(remark)}
 								</div>
 							) : null
 						}

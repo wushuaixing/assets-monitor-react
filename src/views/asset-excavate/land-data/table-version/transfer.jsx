@@ -37,7 +37,7 @@ export default class TableIntact extends React.Component {
 					<div className="assets-info-content">
 						<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 							<span className="list list-content" style={{ maxWidth: 300 }}>
-								<Ellipsis content={w(row.landAddress)} url={row.url} tooltip font={15} width={300} />
+								<Ellipsis content={w(row.landAddress)} url={row.url} tooltip font={15} width={300} isSourceLink />
 							</span>
 							{ row.landUse ? <span className="yc-case-reason text-ellipsis">{row.landUse || '-'}</span> : ''}
 						</li>

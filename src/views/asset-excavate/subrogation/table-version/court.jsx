@@ -35,7 +35,8 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							{row.caseNumber ? linkDom(row.url, row.caseNumber.replace('（', '( ')) : '-'}
+							{/* {row.caseNumber ? linkDom(row.url, row.caseNumber.replace('（', '( ')) : '-'} */}
+							{row.caseNumber ? <Ellipsis url={row.url} content={row.caseNumber.replace('（', '( ')} isSourceLink bussinessStyle tooltip /> : '-'}
 						</span>
 						{ row.caseReason ? <span className="yc-case-reason text-ellipsis">{row.caseReason}</span> : ''}
 					</li>

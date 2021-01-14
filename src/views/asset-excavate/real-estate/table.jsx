@@ -103,16 +103,22 @@ const columns = (props) => {
 				<div className="yc-assets-table-info">
 					{
 					row.title || row.url ? (
-						<Tooltip placement="top" title={row.title}>
-							<a
-								className="table-info-title text-ellipsis click-link"
-								href={row.url}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								{row.title || row.url}
-							</a>
-						</Tooltip>
+						// <Tooltip placement="top" title={row.title}>
+						// 	<a
+						// 		className="table-info-title text-ellipsis click-link"
+						// 		href={row.url}
+						// 		target="_blank"
+						// 		rel="noopener noreferrer"
+						// 	>
+						// 		{row.title || row.url}
+						// 	</a>
+						// </Tooltip>
+						<Ellipsis
+							content={row.title || row.url}
+							url={row.url}
+							tooltip
+							isSourceLink
+						/>
 					) : <div className="table-info-title ">-</div>
 				}
 					{

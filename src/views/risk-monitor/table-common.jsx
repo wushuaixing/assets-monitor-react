@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 import Cookies from 'universal-cookie';
 import { linkDom } from '@/utils';
 import { urlEncode, clearEmpty } from '@/utils';
+import { Ellipsis } from '@/common';
 
 const cookies = new Cookies();
 
@@ -22,7 +23,8 @@ export const aboutLink = (value, row) => {
 			width: 600,
 			content: (
 				<div style={{ marginLeft: -28 }}>
-					{ source.map(item => (<p style={{ margin: 5 }}>{linkDom(item, item)}</p>)) }
+					{/* { source.map(item => (<p style={{ margin: 5 }}>{linkDom(item, item)}</p>)) } */}
+					{ source.map(item => (<p style={{ margin: 5 }}><Ellipsis url={item} content={item} isSourceLink /></p>)) }
 				</div>
 			),
 			onOk() {},
@@ -40,7 +42,8 @@ export const aboutLink = (value, row) => {
 		if (La.url.length > 1) {
 			resContent.push(<span className="click-link" onClick={() => toShow(La.url, 1)}>立案</span>);
 		} else if (La.url.length === 1) {
-			resContent.push(linkDom(La.url[0], '立案'));
+			// resContent.push(linkDom(La.url[0], '立案'));
+			resContent.push(<Ellipsis url={La.url[0]} content="立案" isSourceLink />);
 		}
 	}
 	if (Kt && Kt.url.length) {
@@ -48,7 +51,8 @@ export const aboutLink = (value, row) => {
 		if (Kt.url.length > 1) {
 			resContent.push(<span className="click-link" onClick={() => toShow(Kt.url, 2)}>开庭</span>);
 		} else if (Kt.url.length === 1) {
-			resContent.push(linkDom(Kt.url[0], '开庭'));
+			// resContent.push(linkDom(Kt.url[0], '开庭'));
+			resContent.push(<Ellipsis url={Kt.url[0]} content="开庭" isSourceLink />);
 		}
 	}
 	if (Ws && Ws.url.length) {
