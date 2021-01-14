@@ -1,6 +1,5 @@
 import service from 'service';
 
-
 /**
  * 【登陆接口】
  * @returns {Promise<*>}

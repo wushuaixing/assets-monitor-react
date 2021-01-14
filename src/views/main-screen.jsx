@@ -1,5 +1,4 @@
 import React from 'react';
-import { Modal } from 'antd';
 import { Router, navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 /* 子路由模块  */
@@ -11,7 +10,7 @@ import Loadable from '@/common/loadable';
 // import Search from './search';
 import { Spin, Button } from '@/common';
 import { authRule } from '@/utils/api';
-import { getQueryByName, handleRule } from '@/utils';
+import { handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
 import MessageDetail from '@/views/_others/messageDetail';
 import Judgement from '@/views/_others/judgement';
@@ -21,23 +20,6 @@ import Message from './_others/message';
 import Home from './home';
 import Account from './account';
 
-function closeWindow() {
-	if (navigator.userAgent.indexOf('MSIE') > 0) {
-		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
-			window.opener = null;
-			window.close();
-		} else {
-			window.open('', '_top');
-			window.top.close();
-		}
-	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
-		window.location.href = 'about:blank ';
-	} else {
-		window.opener = null;
-		window.open('', '_self', '');
-		window.close();
-	}
-}
 
 // 新的引用方式，分割代码，懒加载
 const InfoMonitor = Loadable(() => import('./info-monitor'));
@@ -139,28 +121,47 @@ export default class Screen extends React.Component {
 	}
 
 	componentWillMount() {
-		document.body.style.overflowY = 'scroll';
-		this.clientHeight = 500 || document.body.clientHeight;
-		/*
-		* 这里做请求判断是否是专线
-		* * */
-		global.IS_SPECIAL_LINE = false;
-		console.log('global.IS_SPECIAL_LINE', global.IS_SPECIAL_LINE);
-		if (global.IS_SPECIAL_LINE) {
-			this.handleLogin();
-		} else {
-			// 判断是否是第一次登录
-			const firstLogin = cookie.get('firstLogin');
-			const token = cookie.get('token');
+		// 判断是否是第一次登录
+		const firstLogin = cookie.get('firstLogin');
+		// 专线登录第一次不会修改密码
+		if (!global.IS_SPECIAL_LINE) {
 			if (firstLogin === 'true') {
 				navigate('/change/password');
 			}
-			if (token) {
-				this.handleRule(false);
-			} else {
-				navigate('/login');
-			}
 		}
+		document.body.style.overflowY = 'scroll';
+		this.clientHeight = 500 || document.body.clientHeight;
+		// console.log('componentWillMount:', document.body.clientHeight);
+		authRule().then((res) => {
+			if (res.code === 200) {
+				const rule = handleRule(res.data.orgPageGroups);
+				const roleList = [];
+				res.data.orgPageGroups.forEach((i) => {
+					roleList.push(i.rule);
+				});
+				global.authRoleList = roleList;
+				global.isProxyLimit = res.data.isProxyLimit;
+				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
+				this.setState({
+					loading: 'hidden',
+					rule,
+					errorCode: res.code,
+					tokenText: res.message,
+				});
+				global.ruleSource = rule;
+			} else {
+				this.setState({
+					loading: 'error',
+					errorCode: res.code,
+					tokenText: res.message,
+				});
+			}
+		}).catch(() => {
+			this.setState({
+				loading: 'error',
+				errorCode: 500,
+			});
+		});
 	}
 
 	componentDidMount() {
@@ -195,58 +196,6 @@ export default class Screen extends React.Component {
 		document.body.style.overflowY = 'auto';
 	}
 
-	// 手动登录
-	handleLogin = () => {
-		const token = cookie.get('token');
-		// const params = getQueryByName(window.location.href, 'name');
-		if (token) {
-			this.handleRule(global.IS_SPECIAL_LINE);
-		} else {
-			Modal.warning({
-				title: '提示',
-				className: 'yc-close-waring',
-				content: '本次登录已失效，请重新登录监控平台。',
-				okText: '我知道了',
-				onOk() {
-					closeWindow();
-				},
-			});
-		}
-	};
-
-	// 处理权限接口
-	handleRule = (isSpecialLine) => {
-		authRule().then((res) => {
-			if (res.code === 200) {
-				const rule = handleRule(res.data.orgPageGroups);
-				const roleList = [];
-				res.data.orgPageGroups.forEach((i) => {
-					roleList.push(i.rule);
-				});
-				global.authRoleList = roleList;
-				global.isProxyLimit = res.data.isProxyLimit;
-				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
-				this.setState({
-					loading: 'hidden',
-					rule,
-					errorCode: res.code,
-					tokenText: res.message,
-				});
-				global.ruleSource = rule;
-			} else {
-				this.setState({
-					loading: isSpecialLine ? 'show' : 'error',
-					errorCode: res.code,
-					tokenText: res.message,
-				});
-			}
-		}).catch(() => {
-			this.setState({
-				loading: isSpecialLine ? 'show' : 'error',
-				errorCode: 500,
-			});
-		});
-	};
 
 	render() {
 		const {
