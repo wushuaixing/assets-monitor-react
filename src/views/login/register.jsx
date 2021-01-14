@@ -38,6 +38,18 @@ function closeWindow() {
 	}
 }
 
+function ModalWarning(text) {
+	Modal.warning({
+		title: '提示',
+		className: 'yc-close-waring',
+		content: text,
+		okText: '我知道了',
+		onOk() {
+			closeWindow();
+		},
+	});
+}
+
 const cookie = new Cookies();
 const createForm = Form.create;
 const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
@@ -69,51 +81,22 @@ class Login extends React.Component {
 		global.IS_SPECIAL_LINE = false;
 		// http://localhost:10086/#/login?orgId=641
 		const orgId = getQueryByName(window.location.href, 'orgId');
-		// console.log('orgId === ', window.location.href, orgId);
+		console.log('orgId === ', window.location.href, orgId);
 		if (orgId) {
 			this.setState({
 				loading: true,
 			});
-			checkSpecialIp(orgId).then((res) => {
+			checkSpecialIp().then((res) => {
 				// 判断是否是专线
-				if (res.code === 200) {
-					if (res.data) {
-						global.IS_SPECIAL_LINE = true;
-						// console.log('global.IS_SPECIAL_LINE', global.IS_SPECIAL_LINE);
-						this.handleLogin(orgId);
-					} else {
-						Modal.warning({
-							title: '提示',
-							className: 'yc-close-waring',
-							content: '没有访问权限，即将退出登录。',
-							okText: '我知道了',
-							onOk() {
-								closeWindow();
-							},
-						});
-					}
+				if (res.code === 200 && res.data) {
+					global.IS_SPECIAL_LINE = true;
+					this.handleLogin(orgId);
 				} else {
 					global.IS_SPECIAL_LINE = false;
 					this.setState({
 						loading: false,
 					});
-					let titleText = '';
-					if (res.code === 15002) {
-						titleText = '账号已过期，即将退出登录，如有疑问，请联系管理员。';
-					} else if (res.code === 5002 || res.code === 15003) {
-						titleText = '本次登录已失效，请重新登录监控平台。';
-					} else {
-						titleText = '没有访问权限，即将退出登录';
-					}
-					Modal.warning({
-						title: '提示',
-						className: 'yc-close-waring',
-						content: titleText,
-						okText: '我知道了',
-						onOk() {
-							closeWindow();
-						},
-					});
+					ModalWarning('权限不足，未开通专线');
 				}
 			}).catch();
 		}
@@ -156,9 +139,8 @@ class Login extends React.Component {
 		specialLogin({ idList: [orgId] }).then((res) => {
 			if (res.code === 200) {
 				if (res.data.token) {
-					// console.log('get token ', res.data.token);
-					cookie.set('token', res.data.token);
 					// message.success('登录成功');
+					cookie.set('token', res.data.token);
 					cookie.set('versionUpdate', res.data.versionUpdate);
 					const rule = handleRule(res.data.rules);
 					global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
