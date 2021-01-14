@@ -55,6 +55,7 @@ export default class OnBuildWinbid extends React.PureComponent {
 								content={text}
 								url={row.url}
 								tooltip
+								isSourceLink
 							/>
 							<div>
 								<LiItem Li auto title="招标方式" style={{ display: 'inline-block', width: 160 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.biddingMode || '-'}</LiItem>
