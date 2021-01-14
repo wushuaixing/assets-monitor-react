@@ -66,6 +66,7 @@ export default class OnBuildUnderway extends React.PureComponent {
 								content={text}
 								url={row.url}
 								tooltip
+								isSourceLink
 							/>
 							<div>
 								{

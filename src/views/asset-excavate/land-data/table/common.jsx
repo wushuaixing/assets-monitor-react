@@ -9,7 +9,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">项目名称：</span>
 					<span className="list list-content" style={{ color: '#186fc7' }}>
-						<Ellipsis content={rowContent.projectName} url={rowContent.url} tooltip width={200} />
+						<Ellipsis content={rowContent.projectName} url={rowContent.url} tooltip width={200} isSourceLink />
 					</span>
 				</li>
 				<li>
@@ -86,7 +86,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">宗地坐落：</span>
 					<span className="list list-content text-ellipsis">
-						<Ellipsis content={rowContent.landAddress || '-'} url={rowContent.url} tooltip width={130} />
+						<Ellipsis content={rowContent.landAddress || '-'} url={rowContent.url} tooltip width={130} isSourceLink />
 					</span>
 				</li>
 				<li>

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { linkDetail, linkDom, timeStandard } from '@/utils';
+import { linkDetail, timeStandard } from '@/utils';
 import { floatFormat } from '@/utils/format';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import { Mining } from '@/utils/api/monitor-info/intangible';
@@ -35,7 +35,8 @@ const columns = (props) => {
 			title: '许可证编号',
 			width: 200,
 			dataIndex: 'licenseNumber',
-			render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+			// render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+			render: (text, row) => (text ? <div><Ellipsis content={text} url={row.url} isSourceLink bussinessStyle tooltip /></div> : '-'),
 		}, {
 			title: '权证类型',
 			width: 100,

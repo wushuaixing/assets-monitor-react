@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Timeline } from 'antd';
-import { Spin } from '@/common';
+import { Ellipsis, Spin } from '@/common';
 import { toThousands } from '@/utils/changeTime';
 
 const status = (value) => {
@@ -84,9 +84,10 @@ export default class DetailModal extends React.PureComponent {
 												</span>
 											</div>
 											<div className="yc-Timeline-item TimelineUrl">
-												<a href={item.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link">
-													{item.url}
-												</a>
+												{/* <a href={item.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link"> */}
+												{/*	{item.url} */}
+												{/* </a> */}
+												<Ellipsis isSourceLink content={item.url} url={item.url} />
 											</div>
 										</Timeline.Item>
 									))

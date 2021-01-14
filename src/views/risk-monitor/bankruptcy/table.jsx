@@ -3,7 +3,7 @@ import { Pagination, Tooltip } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom, timeStandard } from '@/utils';
-import { Table, SelectedNum } from '@/common';
+import { Table, SelectedNum, Ellipsis } from '@/common';
 import RegisterModal from './registerModal';
 
 const getName = (list, key) => {
@@ -44,7 +44,8 @@ const columns = (props) => {
 			render: (text, record) => {
 				if (record.url) {
 					return (
-						<span>{text ? linkDom(record.url, text) : '-'}</span>
+						// <span>{text ? linkDom(record.url, text) : '-'}</span>
+						<div>{text ? <Ellipsis content={text} url={record.url} isSourceLink bussinessStyle tooltip /> : '-'}</div>
 					);
 				}
 				return (

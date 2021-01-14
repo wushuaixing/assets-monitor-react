@@ -3,6 +3,8 @@ import { Table, Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDom, timeStandard } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';
+import { Ellipsis } from '@/common';
+
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -25,7 +27,8 @@ const columns = (props) => {
 		}, {
 			title: '标题',
 			dataIndex: 'title',
-			render: (text, record) => (record.url ? linkDom(record.url, text || '-') : <span>{text || '-'}</span>),
+			// render: (text, record) => (record.url ? linkDom(record.url, text || '-') : <span>{text || '-'}</span>),
+			render: (text, record) => (record.url ? <Ellipsis url={record.url} content={text || '-'} isSourceLink tooltip /> : <span>{text || '-'}</span>),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

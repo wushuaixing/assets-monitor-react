@@ -5,6 +5,7 @@ import phone from 'img/login/icon_telephone.png';
 import address from 'img/login/icon_address.png';
 import email from 'img/login/icon_contact_email.png';
 import CustomAgency from '../../../common/custom/agency';
+import PopCode from '../../../common/popCode';
 // 底部
 
 const content = (
@@ -51,6 +52,7 @@ const Footer = () => (
 			<div className="clear-fix">
 				<div className="left">
 					<div className="copyright-item-first">
+						<PopCode />
 						<Popover content={content}>
 							<span>联系我们</span>
 						</Popover>

@@ -3,7 +3,7 @@ import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDom, timeStandard } from '@/utils';
 import { Violation } from '@/utils/api/risk-monitor/operation-risk';
-import { SelectedNum, Table } from '@/common';
+import { SelectedNum, Table, Ellipsis } from '@/common';
 import { partyInfo } from '@/views/_common';
 // { attention, readStatus }
 // 获取表格配置
@@ -43,7 +43,8 @@ const columns = (props) => {
 			dataIndex: 'url',
 			className: 'tAlignCenter_important',
 			width: 75,
-			render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '-'),
+			// render: (text, record) => (record.url ? linkDom(record.url, ' ', '', 'yc-list-link') : '-'),
+			render: (text, record) => (record.url ? <Ellipsis url={record.url} content=" " className="yc-list-link" isSourceLink /> : '-'),
 		}, {
 			title: '操作',
 			width: 60,

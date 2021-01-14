@@ -36,7 +36,7 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							<Ellipsis content={toEmpty(row.caseNumber)} url={row.url} tooltip width={300} font={14} />
+							<Ellipsis content={toEmpty(row.caseNumber)} url={row.url} tooltip width={300} font={14} isSourceLink />
 						</span>
 						{ row.caseType ? <span className="yc-case-type">{getCaseType(row.caseType)}</span> : ''}
 					</li>

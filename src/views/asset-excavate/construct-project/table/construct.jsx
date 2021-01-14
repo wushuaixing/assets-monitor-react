@@ -65,6 +65,7 @@ const columns = (props) => {
 						content={text}
 						url={row.url}
 						tooltip
+						isSourceLink
 					/>
 					<div>
 						<LiItem Li auto title="建设性质" style={{ display: 'inline-block', width: 160, marginTop: 3 }} titleStyle={{ color: '#7D8699', width: 80 }}>{row.nature || '-'}</LiItem>

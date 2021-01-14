@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import { Table } from '@/common';
+import { Table, Ellipsis } from '@/common';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDom, timeStandard } from '@/utils';
 import Api from '@/utils/api/monitor-info/public';
@@ -27,7 +27,8 @@ const columns = (props) => {
 			title: '标题',
 			dataIndex: 'title',
 			width: 536,
-			render: (text, row) => (row.url ? linkDom(row.url, text || '-') : (text || '-')),
+			// render: (text, row) => (row.url ? linkDom(row.url, text || '-') : (text || '-')),
+			render: (text, row) => (row.url ? <Ellipsis url={row.url} content={text || '-'} isSourceLink tooltip /> : (text || '-')),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

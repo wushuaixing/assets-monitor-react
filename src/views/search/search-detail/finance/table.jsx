@@ -18,9 +18,10 @@ class BusinessView extends React.Component {
 					render(text, row) {
 						return (
 							<div className="yc-td-hl">
-								{
-									row.title ? <a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} /> : <Ellipsis content={row.url} url={row.url} tooltip width={760} />
-								}
+								{/* { */}
+								{/*	row.title ? <a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} /> : <Ellipsis content={row.url} url={row.url} tooltip width={760} /> */}
+								{/* } */}
+								<Ellipsis content={row.title || row.url} url={row.url} tooltip width={760} isSourceLink className="yc-table-text-link" />
 								<div dangerouslySetInnerHTML={{ __html: row.hl }} />
 							</div>
 						);
