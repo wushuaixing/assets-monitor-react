@@ -95,7 +95,7 @@ export default class MatchingReason extends React.Component {
 						{
 							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
-									<div>{`● 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
+									<div>● 审核备注</div>
 									<p dangerouslySetInnerHTML={{ __html: remark }} className="yc-text-content" />
 								</div>
 							) : null
@@ -104,7 +104,7 @@ export default class MatchingReason extends React.Component {
 						{
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">
-									<div>{`● 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd hh:mm')}`}</div>
+									<div>{'● 审核备注 '}</div>
 									<p dangerouslySetInnerHTML={{ __html: remark }} className="yc-text-content" />
 								</div>
 							) : null
