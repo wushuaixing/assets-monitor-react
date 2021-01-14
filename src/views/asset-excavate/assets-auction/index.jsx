@@ -87,7 +87,7 @@ export default class Assets extends React.Component {
 				this.onQueryChange({}, sourceType);
 			}
 		} else {
-			this.condition = Object.assign({}, this.condition, getUrlParams(url, 'updateTimeStart', 'updateTimeEnd'));
+			this.condition = Object.assign({}, this.condition, getUrlParams(url, 'startApproveTime', 'endApproveTime'));
 		}
 		this.toInfoCount();
 	}

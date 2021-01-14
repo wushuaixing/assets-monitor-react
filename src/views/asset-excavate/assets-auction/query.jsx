@@ -28,9 +28,9 @@ class QueryCondition extends React.Component {
 		}
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
-			const dParams = getUrlParams(url, 'updateTimeStart', 'updateTimeEnd');
-			setFieldsValue({ updateTimeStart: dParams.updateTimeStart });
-			setFieldsValue({ updateTimeEnd: dParams.updateTimeEnd });
+			const dParams = getUrlParams(url, 'startApproveTime', 'endApproveTime');
+			setFieldsValue({ startApproveTime: dParams.startApproveTime });
+			setFieldsValue({ endApproveTime: dParams.endApproveTime });
 			this.handleSubmit();
 		}
 		window._addEventListener(window.document, 'keyup', this.toKeyCode13);
