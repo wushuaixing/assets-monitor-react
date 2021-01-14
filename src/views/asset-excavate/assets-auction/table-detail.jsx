@@ -212,7 +212,7 @@ export default class TableIntact extends React.Component {
 				return (
 					<div className="assets-info-content">
 						<li style={{ lineHeight: '24px' }}>
-							<Ellipsis content={toEmpty(row.title)} url={row.url} tooltip width={650} font={14} auto className="yc-public-title-normal-bold" />
+							<Ellipsis content={toEmpty(row.title)} url={row.url} tooltip width={650} font={14} auto className="yc-public-title-normal-bold" isSourceLink />
 							{process && <span className="yc-case-reason text-ellipsis cursor-pointer" onClick={() => this.toShowFollowList(row)} style={process.style}>{process.text}</span>}
 						</li>
 						<li>
