@@ -30,7 +30,6 @@ const BASE_URL = ENV === 'local' ? BASE_URL_LOCAL : BASE_URL_INDEX;
 /* 获取当前token */
 const cookies = new Cookies();
 const axiosPromiseArr = []; // 储存cancel token
-// console.log('global.IS_SPECIAL_LINE 000=== ', global.IS_SPECIAL_LINE);
 
 /* 请求拦截前的处理 */
 const requestMethods = {
