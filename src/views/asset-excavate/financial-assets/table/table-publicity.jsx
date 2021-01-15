@@ -26,6 +26,13 @@ export default class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	componentWillReceiveProps() {
+		const { curSourceObj } = this.props;
+		if (curSourceObj) {
+			Object.assign(curSourceObj, { page: 1 });
+		}
+	}
+
 	// 表格发生变化
 	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
@@ -43,20 +50,33 @@ export default class TableIntact extends React.Component {
 		this.condition.page = 1;
 		this.condition.sortOrder = order;
 		this.toGetData();
+		const { onPageChange, onBtnChange, curSourceObj } = this.props;
+		if (onPageChange)onPageChange();
+		if (curSourceObj) {
+			Object.assign(curSourceObj, { isRedirect: true, page: 1 });
+			if (onBtnChange)onBtnChange(curSourceObj);
+		}
 	};
 
 	// 当前页数变化
 	onPageChange=(val) => {
 		this.condition.page = val;
 		this.toGetData();
-		const { onPageChange } = this.props;
+		const { onPageChange, onBtnChange, curSourceObj } = this.props;
 		if (onPageChange)onPageChange();
+		if (curSourceObj) {
+			Object.assign(curSourceObj, { isRedirect: true, page: val });
+			if (onBtnChange)onBtnChange(curSourceObj);
+		}
 	};
 
 	// 查询数据methods
 	toGetData=() => {
 		this.setState({ loading: true });
-		const { reqUrl, id } = this.props;
+		const { reqUrl, id, curSourceObj } = this.props;
+		if (curSourceObj) {
+			this.condition.page = curSourceObj.page;
+		}
 		const toApi = reqUrl || api.attentionListPub;
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
