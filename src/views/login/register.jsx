@@ -77,7 +77,7 @@ class Login extends React.Component {
 	}
 
 	componentWillMount() {
-		cookie.set('isSpecial', false);
+		cookie.remove('isSpecial');
 		// http://localhost:10086/#/login?orgId=641
 		const orgId = getQueryByName(window.location.href, 'orgId');
 		console.log('orgId === ', window.location.href, orgId);
