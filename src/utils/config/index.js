@@ -11,4 +11,3 @@ global.lTable = f => console.table(Object.keys(global.ruleSource[f].children).ma
 global.CURRENT_0RG = '';
 global.PORTRAIT_INQUIRY_ALLOW = false;
 global.PORTRAIT_INQUIRY_AFFIRM = true;
-global.IS_SPECIAL_LINE = false;

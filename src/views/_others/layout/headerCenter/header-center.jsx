@@ -18,6 +18,7 @@ import './style.scss';
 
 const { TreeNode } = Tree;
 const cookie = new Cookies();
+
 export default class HeaderMessage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -26,10 +27,15 @@ export default class HeaderMessage extends React.Component {
 			treeData: [],
 			treeList: [],
 			valueList: '',
+			isShowLoginout: true,
 		};
 	}
 
 	componentWillMount() {
+		const isSpecial = cookie.get('isSpecial');
+		this.setState({
+			isShowLoginout: isSpecial,
+		});
 		this.checkId = setInterval(() => {
 			// 获取机构id
 			const token = cookie.get('token');
@@ -199,9 +205,8 @@ export default class HeaderMessage extends React.Component {
 
 	render() {
 		const {
-			treeList, treeData, valueList, selectList, passwordModalVisible,
+			treeList, treeData, valueList, selectList, passwordModalVisible, isShowLoginout,
 		} = this.state;
-
 		const loop = tree => tree && tree.length > 0
 			&& tree.map((item) => {
 				if (item.children && item.children.length > 0) {
@@ -221,16 +226,14 @@ export default class HeaderMessage extends React.Component {
 						<div className="user-panel-item-text">
 							您好，
 							{treeData.name}
-							{' '}
 						</div>
 						<div className="user-panel-item-text">
 							当前机构：
 							{treeData.orgName}
-							{' '}
 						</div>
 					</div>
 					{
-						global.IS_SPECIAL_LINE ? null : (
+						!isShowLoginout && (
 							<div className="g-right user-panel-right">
 								<div>
 									<a
