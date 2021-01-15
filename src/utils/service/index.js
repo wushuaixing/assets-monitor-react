@@ -72,8 +72,9 @@ const responseMethods = {
 		// 在login界面不弹弹框
 		const hash = window.location.hash.slice(1);
 		const isSpecial = cookies.get('isSpecial');
+
 		if (isSpecial) {
-			if (res.code === 401 || res.code === 403 || res.code === 15002 || res.code === 5002 || res.code === 15003 || res.code === 20039) {
+			if (res.code === 401 || res.code === 15002 || res.code === 5002 || res.code === 15003 || res.code === 20039) {
 				axiosPromiseArr.forEach((ele, index) => {
 					ele.cancel('请求取消');
 					delete axiosPromiseArr[index];
@@ -81,9 +82,8 @@ const responseMethods = {
 				let titleText = '';
 				global.REQ_STATUS = 'stop';
 				if (res.code === 401) { titleText = '没有访问权限，即将退出登录。'; }
-				if (res.code === 403) { titleText = '权限不足'; }
 				if (res.code === 15002) { titleText = '账号已过期，即将退出登录，如有疑问，请联系管理员'; }
-				if (res.code === 5002 || res.code === 15003) { titleText = '本次登录已失效，请重新登录监控平台。111'; }
+				if (res.code === 5002 || res.code === 15003) { titleText = '本次登录已失效，请重新登录监控平台。'; }
 				if (res.code === 20039) { titleText = '账号与当前域名对应机构不匹配，请切换到对应机构二级域名下登录'; }
 				Modal.warning({
 					title: '提示',

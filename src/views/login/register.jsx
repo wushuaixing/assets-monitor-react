@@ -140,7 +140,6 @@ class Login extends React.Component {
 				if (res.data.token) {
 					// message.success('登录成功');
 					cookie.set('token', res.data.token);
-					cookie.set('versionUpdate', res.data.versionUpdate);
 					global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
 					this.setState({
 						loading: false,
