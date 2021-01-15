@@ -1,12 +1,16 @@
 import React from 'react';
+import Cookies from 'universal-cookie';
 import { Popover, Tooltip, Button } from 'antd';
 import QRCode from 'qrcode.react';
 import './style.scss';
+
+const cookies = new Cookies();
 
 const PopCode = (props) => {
 	const {
 		ktModalSourceLinkIcon, wsSourceLink, showContent, content, tooltip, url, target, className, style, click, isSourceLink, renderAs, size, bgColor, fgColor, level, includeMargin,
 	} = props;
+	const isSpecial = cookies.get('isSpecial');
 
 	// 手动跳转源链接
 	const handleJumpSourceLink = () => {
@@ -59,7 +63,7 @@ const PopCode = (props) => {
 	return (
 		<div style={{ display: 'inline-block' }}>
 			{
-				global.IS_SPECIAL_LINE && isSourceLink && url ? (
+				isSpecial && isSourceLink && url ? (
 					<Popover content={popContent} trigger="click" placement={wsSourceLink ? 'bottomRight' : 'topLeft'} overlayClassName="yc-popover-element">
 						{wsSourceLink ? sourceBtnDom : <div>{tooltipDom}</div>}
 					</Popover>

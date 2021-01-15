@@ -55,7 +55,6 @@ const createForm = Form.create;
 const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
 const { TabPane } = Tabs;
 
-
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
@@ -78,7 +77,7 @@ class Login extends React.Component {
 	}
 
 	componentWillMount() {
-		global.IS_SPECIAL_LINE = false;
+		cookie.set('isSpecial', false);
 		// http://localhost:10086/#/login?orgId=641
 		const orgId = getQueryByName(window.location.href, 'orgId');
 		console.log('orgId === ', window.location.href, orgId);
@@ -89,10 +88,12 @@ class Login extends React.Component {
 			checkSpecialIp().then((res) => {
 				// 判断是否是专线
 				if (res.code === 200 && res.data) {
-					global.IS_SPECIAL_LINE = true;
+					cookie.set('isSpecial', true);
+					// global.IS_SPECIAL_LINE = true;
 					this.handleLogin(orgId);
 				} else {
-					global.IS_SPECIAL_LINE = false;
+					cookie.set('isSpecial', false);
+					// global.IS_SPECIAL_LINE = false;
 					this.setState({
 						loading: false,
 					});
@@ -213,6 +214,7 @@ class Login extends React.Component {
 					if (errorTime >= 3 && !status) return;
 					login(params).then((res) => {
 						if (res.code === 200) {
+							cookie.remove('isSpecial');
 							if (rememberPassword === 'false') {
 								cookie.remove('userName');
 							} else {
@@ -292,6 +294,7 @@ class Login extends React.Component {
 			};
 			loginPhoneCode(wechatSmsLogin).then((res) => {
 				if (res.code === 200) {
+					cookie.remove('isSpecial');
 					message.success('登录成功');
 					cookie.set('token', res.data.token);
 					cookie.set('firstLogin', res.data.firstLogin);

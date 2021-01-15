@@ -69,13 +69,11 @@ const requestMethods = {
 const responseMethods = {
 	onFulfilled:	(response) => {
 		const res = response.data;
-		// console.log('response === ', response);
 		const reqUrl = response.request.responseURL;
 		// 在login界面不弹弹框
 		const hash = window.location.hash.slice(1);
-		// console.log('global.IS_SPECIAL_LINE 111=== ', global.IS_SPECIAL_LINE);
-
-		if (global.IS_SPECIAL_LINE) {
+		const isSpecial = cookies.get('isSpecial');
+		if (isSpecial) {
 			if (res.code === 401 || res.code === 403 || res.code === 15002 || res.code === 5002 || res.code === 15003 || res.code === 20039) {
 				axiosPromiseArr.forEach((ele, index) => {
 					ele.cancel('请求取消');
@@ -145,9 +143,10 @@ const responseMethods = {
 	},
 	onRejected: (error) => {
 		const notShow = (error.config.params || {}).event === 'loop';
+		const isSpecial = cookies.get('isSpecial');
 		// 如果没有token直接返回到登陆界面
 		if (cookies.get('token') === undefined) {
-			if (global.IS_SPECIAL_LINE) {
+			if (isSpecial) {
 				Modal.warning({
 					title: '提示',
 					className: 'yc-close-waring',

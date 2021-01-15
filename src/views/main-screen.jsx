@@ -155,9 +155,10 @@ export default class Screen extends React.Component {
 		// 判断是否是第一次登录
 		const firstLogin = cookie.get('firstLogin');
 		const token = cookie.get('token');
+		const isSpecial = cookie.get('isSpecial');
 		// console.log('Screen token === ', token);
 		// 专线登录第一次不会修改密码
-		if (!global.IS_SPECIAL_LINE) {
+		if (!isSpecial) {
 			if (firstLogin === 'true') {
 				navigate('/change/password');
 			}
@@ -196,8 +197,8 @@ export default class Screen extends React.Component {
 					errorCode: 500,
 				});
 			});
-		} else if (global.IS_SPECIAL_LINE) {
-			ModalWarning('本次登录已失效，请重新登录监控平台111');
+		} else if (isSpecial) {
+			ModalWarning('本次登录已失效，请重新登录监控平台');
 		} else {
 			navigate('/login');
 		}
@@ -220,7 +221,8 @@ export default class Screen extends React.Component {
 		// }
 		// 判断是否是第一次登录
 		// console.log('main-screen:componentWillReceiveProps');
-		if (!global.IS_SPECIAL_LINE) {
+		const isSpecial = cookie.get('isSpecial');
+		if (!isSpecial) {
 			const firstLogin = cookie.get('firstLogin');
 			if (props.location && props.location.hash !== '#/change/password' && firstLogin === 'true') {
 				this.setState({
