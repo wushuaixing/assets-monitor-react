@@ -80,7 +80,7 @@ class Login extends React.Component {
 	componentWillMount() {
 		// http://localhost:10086/#/login?orgId=641
 		const orgId = getQueryByName(window.location.href, 'orgId');
-		console.log('orgId === ', window.location.href, orgId);
+		// console.log('orgId === ', window.location.href, orgId);
 		if (orgId) {
 			this.setState({
 				loading: true,
@@ -98,6 +98,8 @@ class Login extends React.Component {
 					ModalWarning('权限不足，未开通专线');
 				}
 			}).catch();
+		} else {
+			cookie.remove('isSpecial');
 		}
 	}
 

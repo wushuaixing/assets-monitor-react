@@ -19,38 +19,37 @@ import ChangePassword from './_others/changPassword';
 import Message from './_others/message';
 import Home from './home';
 import Account from './account';
-import { Modal } from '../../patchs/antd';
 
 
-function closeWindow() {
-	if (navigator.userAgent.indexOf('MSIE') > 0) {
-		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
-			window.opener = null;
-			window.close();
-		} else {
-			window.open('', '_top');
-			window.top.close();
-		}
-	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
-		window.location.href = 'about:blank ';
-	} else {
-		window.opener = null;
-		window.open('', '_self', '');
-		window.close();
-	}
-}
+// function closeWindow() {
+// 	if (navigator.userAgent.indexOf('MSIE') > 0) {
+// 		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
+// 			window.opener = null;
+// 			window.close();
+// 		} else {
+// 			window.open('', '_top');
+// 			window.top.close();
+// 		}
+// 	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
+// 		window.location.href = 'about:blank ';
+// 	} else {
+// 		window.opener = null;
+// 		window.open('', '_self', '');
+// 		window.close();
+// 	}
+// }
 
-function ModalWarning(text) {
-	Modal.warning({
-		title: '提示',
-		className: 'yc-close-waring',
-		content: text,
-		okText: '我知道了',
-		onOk() {
-			closeWindow();
-		},
-	});
-}
+// function ModalWarning(text) {
+// 	Modal.warning({
+// 		title: '提示',
+// 		className: 'yc-close-waring',
+// 		content: text,
+// 		okText: '我知道了',
+// 		onOk() {
+// 			closeWindow();
+// 		},
+// 	});
+// }
 
 
 // 新的引用方式，分割代码，懒加载
@@ -197,8 +196,6 @@ export default class Screen extends React.Component {
 					errorCode: 500,
 				});
 			});
-		} else if (isSpecial) {
-			ModalWarning('本次登录已失效，请重新登录监控平台');
 		} else {
 			navigate('/login');
 		}
