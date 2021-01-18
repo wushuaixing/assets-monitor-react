@@ -52,7 +52,6 @@ const Footer = () => (
 			<div className="clear-fix">
 				<div className="left">
 					<div className="copyright-item-first">
-						<PopCode />
 						<Popover content={content}>
 							<span>联系我们</span>
 						</Popover>

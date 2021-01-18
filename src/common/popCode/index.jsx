@@ -1,76 +1,97 @@
 import React from 'react';
-import Cookies from 'universal-cookie';
 import { Popover, Tooltip, Button } from 'antd';
 import QRCode from 'qrcode.react';
+import PropTypes from 'reactPropTypes';
 import './style.scss';
 
-const cookies = new Cookies();
+export default class PopCode extends React.PureComponent {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
 
-const PopCode = (props) => {
-	const {
-		ktModalSourceLinkIcon, wsSourceLink, showContent, content, tooltip, url, target, className, style, click, isSourceLink, renderAs, size, bgColor, fgColor, level, includeMargin,
-	} = props;
-	const isSpecial = cookies.get('isSpecial');
+	render() {
+		const {
+			ktModalSourceLinkIcon,
+			wsSourceLink,
+			showContent,
+			content,
+			tooltip,
+			url,
+			qrCodeCondition,
+		} = this.props;
 
-	// 手动跳转源链接
-	const handleJumpSourceLink = () => {
-		const w = window.open('about:blank');
-		w.location.href = url;
-	};
+		// 二维码
+		const popContent = (
+			<div className="yc-qrCode-element">
+				<QRCode
+					value={url}
+					{...qrCodeCondition}
+				/>
+				<p>扫描上方二维码，即可查看源链接</p>
+			</div>
+		);
 
-	// 二维码
-	const popContent = (
-		<div className="yc-qrCode-element">
-			<QRCode
-				value={url}
-				renderAs={renderAs || 'canvas'}
-				size={size || 144}
-				bgColor={bgColor || '#FFFFFF'}
-				fgColor={fgColor || '#000000'}
-				level={level || 'L'}
-				includeMargin={includeMargin || false}
-			/>
-			<p>扫描上方二维码，即可查看源链接</p>
-		</div>
-	);
+		// 开庭modal框中链接的图片（改成字符串是为了配合 “拍卖信息-信息搜索” 页面资产匹配信息title）
+		const imgToString = `<img class="linkPic" src="${ktModalSourceLinkIcon}" alt="${content}"></img>`;
 
-	// 开庭modal框中链接的图片（改成字符串是为了配合 “拍卖信息-信息搜索” 页面资产匹配信息title）
-	const imgToString = `<img class="linkPic" src="${ktModalSourceLinkIcon}" alt="${content}"></img>`;
+		const contentDom = ktModalSourceLinkIcon ? imgToString : showContent || content;
 
-	const contentDom = ktModalSourceLinkIcon ? imgToString	: showContent || content;
+		const linkDom = url
+			? (
+				<a
+					href={url}
+					dangerouslySetInnerHTML={{ __html: contentDom }}
+				/>
+			)
+			: <span>{contentDom}</span>;
 
-	const linkDom = url
-		? (
-			<a
-				href={url}
-				className={`click-link${className ? ` ${className}` : ''}`}
-				rel="noopener noreferrer"
-				target={target || '_blank'}
-				style={style}
-				onClick={click}
-				dangerouslySetInnerHTML={{ __html: contentDom }}
-			/>
-		)
-		: <span>{contentDom}</span>;
+		// 判断是否需要tooltip
+		const tooltipDom = tooltip ? (
+			<Tooltip placement="top" title={content}>
+				<div>{linkDom}</div>
+			</Tooltip>
+		) : <div>{linkDom}</div>;
 
-	// 判断是否需要tooltip
-	const tooltipDom = tooltip ? <Tooltip placement="top" title={content}><div>{linkDom}</div></Tooltip> : <div>{linkDom}</div>;
+		// 文书中源链接dom
+		const sourceBtnDom = <Button className="judgement-header-btn">{content}</Button>;
 
-	// 文书中源链接dom
-	const sourceBtnDom = <Button className="judgement-header-btn">{content}</Button>;
+		return (
+			<div style={{ display: 'inline-block' }}>
+				<Popover
+					content={popContent}
+					trigger="click"
+					placement={wsSourceLink ? 'bottomRight' : 'topLeft'}
+					overlayClassName="yc-popover-element"
+				>
+					{wsSourceLink ? sourceBtnDom : <div>{tooltipDom}</div>}
+				</Popover>
+			</div>
+		);
+	}
+}
 
-	const otherDom = wsSourceLink ? <div onClick={() => { handleJumpSourceLink(); }}>{sourceBtnDom}</div> : <div>{tooltipDom}</div>;
-	return (
-		<div style={{ display: 'inline-block' }}>
-			{
-				isSpecial && isSourceLink && url ? (
-					<Popover content={popContent} trigger="click" placement={wsSourceLink ? 'bottomRight' : 'topLeft'} overlayClassName="yc-popover-element">
-						{wsSourceLink ? sourceBtnDom : <div>{tooltipDom}</div>}
-					</Popover>
-				)
-					: <div>{ otherDom }</div>
-			}
-		</div>
-	);
+PopCode.propTypes = {
+	ktModalSourceLinkIcon: PropTypes.string,
+	// 开庭modal框源链接icon地址
+	wsSourceLink: PropTypes.boolean,
+	// 是否为文书源链接
+	isSourceLink: PropTypes.boolean,
+	// 是否为源链接
+	qrCodeCondition: PropTypes.obj,
+	// 二维码属性
 };
-export default PopCode;
+
+PopCode.defaultProps = {
+	ktModalSourceLinkIcon: null,
+	wsSourceLink: false,
+	isSourceLink: false,
+	qrCodeCondition: {
+		renderAs: 'canvas',
+		size: 144,
+		bgColor: '#FFFFFF',
+		fgColor: '#000000',
+		level: 'L',
+		includeMargin: false,
+	},
+};
