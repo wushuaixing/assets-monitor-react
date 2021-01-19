@@ -33,7 +33,7 @@ export default class PopCode extends React.PureComponent {
 		);
 
 		// 开庭modal框中链接的图片（改成字符串是为了配合 “拍卖信息-信息搜索” 页面资产匹配信息title）
-		const imgToString = `<img class="linkPic" src="${ktModalSourceLinkIcon}" alt="${content}"></img>`;
+		const imgToString = `<img class="linkPic" src="${ktModalSourceLinkIcon}" alt="${content}" />`;
 
 		const contentDom = ktModalSourceLinkIcon ? imgToString : showContent || content;
 
