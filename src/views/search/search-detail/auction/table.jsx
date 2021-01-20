@@ -4,7 +4,7 @@ import { formatDateTime, toThousands } from '@/utils/changeTime';
 import {
 	parseQuery,
 } from '@/utils';
-import { Table } from '@/common';
+import { Table, Ellipsis } from '@/common';
 
 const status = (value) => {
 	switch (value) {
@@ -90,7 +90,8 @@ class BusinessView extends React.Component {
 					render(text, row) {
 						return (
 							<div className="yc-td-hl">
-								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} />
+								{/* <a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} /> */}
+								<Ellipsis url={row.url} content={row.title} className="yc-table-text-link" isSourceLink />
 								{
 									row.obligors && row.obligors.length > 0 && (
 									<div>

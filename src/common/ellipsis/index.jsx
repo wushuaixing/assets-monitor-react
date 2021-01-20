@@ -3,6 +3,8 @@ import { Tooltip } from 'antd';
 import { toCutString, linkDom, getByteLength } from '@/utils';
 import { Borrower } from '../icon';
 import './style.scss';
+import PopCode from '@/common/popCode';
+import Cookies from 'universal-cookie';
 
 /**
  * @author: async
@@ -10,6 +12,7 @@ import './style.scss';
  * @version: v1.1
  * @Description: 多行省略号
  */
+const cookies = new Cookies();
 export default class Ellipsis extends React.Component {
 	constructor(props) {
 		super(props);
@@ -44,22 +47,26 @@ export default class Ellipsis extends React.Component {
 	};
 
 	render() {
+		const isSpecial = cookies.get('isSpecial');
 		const {
-			tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
+			ktModalSourceLinkIcon, wsSourceLink, isSourceLink, tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
 			isBorrower = false, isBankruptcy = false, isLimitHeight = false, isTable = false, prefixContent, prefixStyle, regStatus, bussinessStyle,
 		} = this.props;
-
 		const _url = obligorId ? `#/business/debtor/detail?id=${obligorId}` : url;
 		const _line = line || 1;
 		const _width = width || this.maxWidth;
 		const size = ((font || 12) / 2);
 		const showContent = _width
 			? toCutString(content, (_width * _line) / size - (3 * _line), '...') : '';
-
-		const ContentText = url ? linkDom(_url, showContent, '', '', '', (onClick || '')) : showContent;
 		// tooltip 的状态
 		const _tooltip = showContent === content ? false : tooltip;
-
+		// const ContentText = url ? linkDom(_url, showContent, '', '', '', (onClick || '')) : showContent;
+		// const ContentText = <PopCode content={content} url={_url} showContent={showContent} target="" className="" style={null} click={onClick || ''} isSourceLink={isSourceLink} tooltip={_tooltip} wsSourceLink={wsSourceLink} ktModalSourceLinkIcon={ktModalSourceLinkIcon} />;
+		const ContentText = url
+			? isSpecial && isSourceLink
+				? <PopCode content={content} url={_url} showContent={showContent} tooltip={_tooltip} wsSourceLink={wsSourceLink} ktModalSourceLinkIcon={ktModalSourceLinkIcon} />
+				: linkDom(_url, showContent, '', '', '', (onClick || ''))
+			  : showContent;
 		const contentSize = (getByteLength(showContent || content) + 3) * size;
 		const __width = contentSize < _width ? (auto ? 'auto' : contentSize) : _width;
 		const _isBorrower = Boolean(isBorrower);
@@ -78,7 +85,8 @@ export default class Ellipsis extends React.Component {
 				{
 					prefixContent ? <span style={prefixStyle}>{prefixContent}</span> : null
 				}
-				{
+				{/* {_url ? (ContentText || '-') : <span>{(ContentText || '-')}</span>} */}
+				 {
 					_tooltip
 						? (
 							<Tooltip placement="top" title={content}>
@@ -86,7 +94,7 @@ export default class Ellipsis extends React.Component {
 							</Tooltip>
 						)
 						: (ContentText || '-')
-				}
+				 }
 				{ _isBorrower && <Borrower />}
 				{ _isBankruptcy && <Borrower text="破" style={{ background: '#948BFF' }} />}
 				{

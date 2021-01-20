@@ -31,7 +31,7 @@ let newRiskTotalNumArray = [];
 // ]);
 
 const urlMap = new Map([
-	['资产拍卖', '/monitor?process=-1'],
+	['资产拍卖', '/monitor?process=1'],
 	['土地信息', '/monitor/land'],
 	['无形资产', '/monitor/intangible'],
 	['代位权', '/monitor/subrogation'],

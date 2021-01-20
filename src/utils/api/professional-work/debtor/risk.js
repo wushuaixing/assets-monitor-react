@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 const debtorRisk = {
 	30201: {

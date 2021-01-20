@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 
 // 机构管理=>推送设置[C.H Wong]

@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 // 债务人-业务列表
 export const obligorList = async (params) => {

@@ -14,11 +14,6 @@ import Table from './table';
 
 const source = (obj = {}) => [
 	{
-		id: 1,
-		name: '全部',
-		field: 'totalCount',
-	},
-	{
 		id: -1,
 		name: '未跟进',
 		number: obj.unfollowedCount || 0,
@@ -40,15 +35,20 @@ const source = (obj = {}) => [
 	},
 	{
 		id: 12,
-		name: '已忽略',
+		name: '已忽略/放弃',
 		number: 0,
 		field: 'ignoreCount',
 	},
+	// {
+	// 	id: 15,
+	// 	name: '已放弃',
+	// 	number: 0,
+	// 	field: 'giveUpCount',
+	// },
 	{
-		id: 15,
-		name: '已放弃',
-		number: 0,
-		field: 'giveUpCount',
+		id: 1,
+		name: '全部',
+		field: 'totalCount',
 	},
 ];
 
@@ -87,7 +87,7 @@ export default class Assets extends React.Component {
 				this.onQueryChange({}, sourceType);
 			}
 		} else {
-			this.condition = Object.assign({}, this.condition, getUrlParams(url, 'updateTimeStart', 'updateTimeEnd'));
+			this.condition = Object.assign({}, this.condition, getUrlParams(url, 'startApproveTime', 'endApproveTime'));
 		}
 		this.toInfoCount();
 	}
@@ -95,7 +95,12 @@ export default class Assets extends React.Component {
 	// 获取统计信息
 	toInfoCount = () => {
 		const { toRefreshCount } = this.props;
-		infoCount(this.condition).then((res) => {
+		const params = {
+			...this.condition,
+			process: this.condition.process === 12 ? '12,15' : this.condition.process,
+		};
+		// console.log('toInfoCount === ', params);
+		infoCount(params).then((res) => {
 			if (res.code === 200) {
 				console.log('toInfoCount res === ', res);
 				this.setState({
@@ -120,10 +125,14 @@ export default class Assets extends React.Component {
 		if (this.condition.process === -1) this.condition.process = 0;
 		if (this.condition.process === 1) delete this.condition.process;
 		if (this.condition.process === 3) this.condition.processString = '3,6';
+		const params = {
+			...this.condition,
+			process: this.condition.process === 12 ? '12,15' : this.condition.process,
+		};
 		if (type === 'all') {
-			return Object.assign({}, this.condition);
+			return Object.assign({}, params);
 		}
-		return Object.assign({}, this.condition, { idList: this.selectRow });
+		return Object.assign({}, params, { idList: this.selectRow });
 	};
 
 	// 批量收藏
@@ -225,12 +234,16 @@ export default class Assets extends React.Component {
 		if (this.condition.process === -1) this.condition.process = 0;
 		if (this.condition.process === 1) delete this.condition.process;
 		if (this.condition.process === 3) this.condition.processString = '3,6';
+		const params = {
+			...this.condition,
+			process: this.condition.process === 12 ? '12,15' : this.condition.process,
+		};
 		this.toInfoCount();
 		this.setState({
 			loading: true,
 			manage: _manage || false,
 		});
-		infoList(clearEmpty(this.condition)).then((res) => {
+		infoList(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,

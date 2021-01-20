@@ -79,6 +79,7 @@ const columns = (props) => {
 						content={text}
 						url={row.url}
 						tooltip
+						isSourceLink
 					/>
 					<div>
 						{

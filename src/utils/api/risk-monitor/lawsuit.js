@@ -1,4 +1,4 @@
-import s from '@/utils/service';
+import s from 'service';
 
 // (新)监控信息 => 代位权 => 立案监控 [ZhouSai]11
 const Trial = {

@@ -60,7 +60,8 @@ export default class DetailModal extends React.PureComponent {
 					title: '许可证编号',
 					dataIndex: 'licenseNumber',
 					width: 120,
-					render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+					// render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+					render: (text, row) => (text ? <div><Ellipsis url={row.url} content={text} isSourceLink bussinessStyle tooltip /></div> : '-'),
 				}, {
 					title: '权证信息',
 					dataIndex: 'industry',

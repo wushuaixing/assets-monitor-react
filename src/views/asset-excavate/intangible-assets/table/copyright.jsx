@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import { linkDetail, linkDom, timeStandard } from '@/utils';
-import { Table, SelectedNum } from '@/common';
+import {Table, SelectedNum, Ellipsis} from '@/common';
 import { Copyright } from '@/utils/api/monitor-info/intangible';
 
 const rightsTypeStatus = {
@@ -33,7 +33,8 @@ const columns = (props) => {
 			title: '商标/专利名称',
 			width: 200,
 			dataIndex: 'rightsName',
-			render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+			// render: (text, row) => (text ? linkDom(row.url, text) : '-'),
+			render: (text, row) => (text ? <Ellipsis content={text} url={row.url} isSourceLink bussinessStyle /> : '-'),
 		}, {
 			title: '权利类型',
 			width: 100,

@@ -20,8 +20,39 @@ import Message from './_others/message';
 import Home from './home';
 import Account from './account';
 
-// 新的引用方式，分割代码，懒加载
 
+// function closeWindow() {
+// 	if (navigator.userAgent.indexOf('MSIE') > 0) {
+// 		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
+// 			window.opener = null;
+// 			window.close();
+// 		} else {
+// 			window.open('', '_top');
+// 			window.top.close();
+// 		}
+// 	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
+// 		window.location.href = 'about:blank ';
+// 	} else {
+// 		window.opener = null;
+// 		window.open('', '_self', '');
+// 		window.close();
+// 	}
+// }
+
+// function ModalWarning(text) {
+// 	Modal.warning({
+// 		title: '提示',
+// 		className: 'yc-close-waring',
+// 		content: text,
+// 		okText: '我知道了',
+// 		onOk() {
+// 			closeWindow();
+// 		},
+// 	});
+// }
+
+
+// 新的引用方式，分割代码，懒加载
 const InfoMonitor = Loadable(() => import('./info-monitor'));
 const Monitor = Loadable(() => import('./asset-excavate'));
 const Risk = Loadable(() => import('./risk-monitor'));
@@ -63,7 +94,6 @@ const ruleList = (props) => {
 
 	// 账号开通
 	if (rule.else.children.dljg)l.push(<Account path="account/*" rule={rule.else.children.dljg} baseRule={rule} remark="账号开通" />);
-
 
 	l.push(<Message path="message/*" />);
 	l.push(<ChangePassword path="change/password/*" />);
@@ -123,43 +153,58 @@ export default class Screen extends React.Component {
 	componentWillMount() {
 		// 判断是否是第一次登录
 		const firstLogin = cookie.get('firstLogin');
-		if (firstLogin === 'true') {
-			navigate('/change/password');
+		const token = cookie.get('token');
+		const isSpecial = cookie.get('isSpecial');
+		// console.log('Screen token === ', token);
+		// 专线登录第一次不会修改密码
+		if (!isSpecial) {
+			if (firstLogin === 'true') {
+				navigate('/change/password');
+			}
 		}
 		document.body.style.overflowY = 'scroll';
 		this.clientHeight = 500 || document.body.clientHeight;
 		// console.log('componentWillMount:', document.body.clientHeight);
-		authRule().then((res) => {
-			if (res.code === 200) {
-				const rule = handleRule(res.data.orgPageGroups);
-				const roleList = [];
-				res.data.orgPageGroups.forEach((i) => {
-					roleList.push(i.rule);
-				});
-				global.authRoleList = roleList;
-				global.isProxyLimit = res.data.isProxyLimit;
-				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
-				this.setState({
-					loading: 'hidden',
-					rule,
-					errorCode: res.code,
-					tokenText: res.message,
-				});
-				global.ruleSource = rule;
-			} else {
+		if (token) {
+			authRule().then((res) => {
+				if (res.code === 200) {
+					const rule = handleRule(res.data.orgPageGroups);
+					const roleList = [];
+					res.data.orgPageGroups.forEach((i) => {
+						roleList.push(i.rule);
+					});
+					global.authRoleList = roleList;
+					global.isProxyLimit = res.data.isProxyLimit;
+					global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
+					this.setState({
+						loading: 'hidden',
+						rule,
+						errorCode: res.code,
+						tokenText: res.message,
+					});
+					global.ruleSource = rule;
+				} else {
+					this.setState({
+						loading: 'error',
+						errorCode: res.code,
+						tokenText: res.message,
+					});
+				}
+			}).catch(() => {
 				this.setState({
 					loading: 'error',
-					errorCode: res.code,
-					tokenText: res.message,
+					errorCode: 500,
 				});
-			}
-		}).catch(() => {
-			this.setState({
-				loading: 'error',
-				errorCode: 500,
 			});
-		});
+		} else {
+			navigate('/login');
+		}
 	}
+
+	componentDidMount() {
+
+	}
+
 
 	componentWillReceiveProps(props) {
 		// const { beforeToken } = this.state;
@@ -173,18 +218,22 @@ export default class Screen extends React.Component {
 		// }
 		// 判断是否是第一次登录
 		// console.log('main-screen:componentWillReceiveProps');
-		const firstLogin = cookie.get('firstLogin');
-		if (props.location && props.location.hash !== '#/change/password' && firstLogin === 'true') {
-			this.setState({
-				loading: 'hidden',
-			});
-			navigate('/change/password');
+		const isSpecial = cookie.get('isSpecial');
+		if (!isSpecial) {
+			const firstLogin = cookie.get('firstLogin');
+			if (props.location && props.location.hash !== '#/change/password' && firstLogin === 'true') {
+				this.setState({
+					loading: 'hidden',
+				});
+				navigate('/change/password');
+			}
 		}
 	}
 
 	componentWillUnmount() {
 		document.body.style.overflowY = 'auto';
 	}
+
 
 	render() {
 		const {

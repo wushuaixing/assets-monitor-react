@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Tooltip } from 'antd';
-import { Table } from '@/common';
+import { Table,Ellipsis } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import order from '@/assets/img/icon/icon_arrow.png';
 import RegisterModal from '@/views/risk-monitor/bankruptcy/registerModal';
@@ -71,7 +71,8 @@ const columns = (props, openRegisterModalFunc) => {
 			render(text, row) {
 				if (row.url) {
 					return (
-						<span>{text ? linkDom(row.url, text) : '-'}</span>
+						// <span>{text ? linkDom(row.url, text) : '-'}</span>
+						<div>{text ? <Ellipsis content={text} url={row.url} isSourceLink tooltip /> : '-'}</div>
 					);
 				}
 				return (

@@ -74,6 +74,7 @@ const columns = (props) => {
 					url={text ? `${row.sourceUrl}` : ''}
 					tooltip
 					width={250}
+					isSourceLink
 				/>
 			),
 		},

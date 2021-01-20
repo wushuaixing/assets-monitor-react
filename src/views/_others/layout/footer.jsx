@@ -5,6 +5,7 @@ import phone from 'img/login/icon_telephone.png';
 import address from 'img/login/icon_address.png';
 import email from 'img/login/icon_contact_email.png';
 import CustomAgency from '../../../common/custom/agency';
+import PopCode from '../../../common/popCode';
 // 底部
 
 const content = (

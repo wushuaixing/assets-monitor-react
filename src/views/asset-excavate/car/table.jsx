@@ -42,7 +42,14 @@ const columns = (props) => {
 			title: '源链接',
 			width: 110,
 			dataIndex: 'url',
-			render: (text, row) => (text ? linkDom(row.url, '查看') : '-'),
+			// render: (text, row) => (text ? linkDom(row.url, '查看') : '-'),
+			render: (text, row) => (text ? (
+				<Ellipsis
+					content="查看"
+					url={row.url}
+					isSourceLink
+				/>
+			) : '-'),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED " onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

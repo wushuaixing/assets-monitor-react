@@ -2,7 +2,7 @@
 * 这个数组里面的count 类型的接口没有调用，因为之前已经把各类的信息返回给我了
 * 但是后端提供了这个接口，是可以使用的。
 * */
-import service from '@/utils/service';
+import service from 'service';
 
 const message = [
 	{

@@ -1,4 +1,4 @@
-import s from '@/utils/service'; // axios
+import s from 'service'; // axios
 
 //  风险监控 => 经营风险 => 经营异常[zhousai]11
 const Abnormal = {

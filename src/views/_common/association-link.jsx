@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'antd';
 import { linkDom, timeStandard } from '@/utils';
-import { Button, Table } from '@/common';
+import { Button, Table, Ellipsis } from '@/common';
 import { ReadStatus } from '@/common/table';
 import { partyInfo } from '@/views/_common';
 import './association.scss';
@@ -77,7 +77,8 @@ const defaultColumns = {
 			title: '链接',
 			dataIndex: 'url',
 			width: 50,
-			render: text => (text ? <a target="_blank" rel="noopener noreferrer" href={text}><img className="linkPic" src={link} alt="链接" /></a> : '-'),
+			// render: text => (text ? <a target="_blank" rel="noopener noreferrer" href={text}><img className="linkPic" src={link} alt="链接" /></a> : '-'),
+			render: text => (text ? <Ellipsis content="链接" url={text} isSourceLink ktModalSourceLinkIcon={link} /> : '-'),
 		},
 	],
 	Judgment: [
@@ -153,7 +154,7 @@ class AssociationLink extends React.Component {
 		});
 	};
 
-	// 多个链接弹框
+	// 多个链接弹框(2.3版本已废弃)
 	toJudgmentShow = (source) => {
 		Modal.info({
 			title: '本案号关联多个文书链接，如下：',
@@ -163,7 +164,8 @@ class AssociationLink extends React.Component {
 			width: 600,
 			content: (
 				<div style={{ marginLeft: -28 }}>
-					{ source.map(item => (<p style={{ margin: 5 }}>{linkDom(item.url, item.url)}</p>)) }
+					{/* { source.map(item => (<p style={{ margin: 5 }}>{linkDom(item.url, item.url)}</p>)) } */}
+					{ source.map(item => (<p style={{ margin: 5 }}><Ellipsis url={item.url} content={item.url} isSourceLink /></p>)) }
 				</div>
 			),
 			onOk() {},
@@ -182,10 +184,12 @@ class AssociationLink extends React.Component {
 		// 立案
 		if (La.length > 0) {
 			if (La[0].url) {
-				resContent.push(linkDom(La[0].url, '立案'));
+				// resContent.push(linkDom(La[0].url, '立案'));
+				resContent.push(<Ellipsis content="立案" url={La[0].url} isSourceLink />);
 			} else {
 				if (type === 'Trial') {
-					resContent.push(linkDom(La[0].url, '立案'));
+					// resContent.push(linkDom(La[0].url, '立案'));
+					resContent.push(<Ellipsis content="立案" url={La[0].url} isSourceLink />);
 				}
 				if (type === 'Court') {
 					resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
@@ -197,7 +201,8 @@ class AssociationLink extends React.Component {
 			if (Kt.length === 1) {
 				if (Kt[0].url) {
 					if (resContent.length) resContent.push(<span className="info-line">|</span>);
-					resContent.push(linkDom(Kt[0].url, '开庭'));
+					// resContent.push(linkDom(Kt[0].url, '开庭'));
+					resContent.push(<Ellipsis content="开庭" url={Kt[0].url} isSourceLink />);
 				} else if (type === 'Trial') {
 					if (resContent.length) resContent.push(<span className="info-line">|</span>);
 					resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Trial')}>开庭</span>);

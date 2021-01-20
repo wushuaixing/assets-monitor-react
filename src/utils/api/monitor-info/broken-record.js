@@ -1,4 +1,4 @@
-import service from '@/utils/service';
+import service from 'service';
 
 
 /*  风险监控=>失信记录相关接口 */
