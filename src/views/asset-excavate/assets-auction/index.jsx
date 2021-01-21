@@ -14,6 +14,11 @@ import Table from './table';
 
 const source = (obj = {}) => [
 	{
+		id: 1,
+		name: '全部',
+		field: 'totalCount',
+	},
+	{
 		id: -1,
 		name: '未跟进',
 		number: obj.unfollowedCount || 0,
@@ -45,11 +50,6 @@ const source = (obj = {}) => [
 	// 	number: 0,
 	// 	field: 'giveUpCount',
 	// },
-	{
-		id: 1,
-		name: '全部',
-		field: 'totalCount',
-	},
 ];
 
 export default class Assets extends React.Component {
@@ -57,7 +57,7 @@ export default class Assets extends React.Component {
 		super(props);
 		document.title = '资产拍卖-资产挖掘';
 		this.state = {
-			sourceType: -1,
+			sourceType: 1,
 			dataSource: '',
 			current: 1,
 			total: 0,
@@ -305,7 +305,7 @@ export default class Assets extends React.Component {
 					onChange={this.onSourceType}
 					source={tabConfig}
 					field="process"
-					defaultCurrent={-1}
+					defaultCurrent={1}
 				/>
 				{
 					!manage ? (
