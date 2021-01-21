@@ -191,7 +191,7 @@ export default {
 						id: 'YC0201',
 						name: '资产拍卖',
 						url: '/monitor',
-						param: '?process=-1',
+						param: '?process=1',
 						status: toStatus(rule.menu_zcwj, 'zcwjzcpm'),
 					},
 					{
@@ -316,7 +316,7 @@ export default {
 								name: '资产拍卖',
 								url: '/monitor',
 								reg: /\/monitor[^/]/,
-								param: '?process=-1',
+								param: '?process=1',
 								status: toStatus(rule.menu_zcwj, 'zcwjzcpm'),
 							},
 							{

@@ -21,37 +21,6 @@ import Home from './home';
 import Account from './account';
 
 
-// function closeWindow() {
-// 	if (navigator.userAgent.indexOf('MSIE') > 0) {
-// 		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
-// 			window.opener = null;
-// 			window.close();
-// 		} else {
-// 			window.open('', '_top');
-// 			window.top.close();
-// 		}
-// 	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
-// 		window.location.href = 'about:blank ';
-// 	} else {
-// 		window.opener = null;
-// 		window.open('', '_self', '');
-// 		window.close();
-// 	}
-// }
-
-// function ModalWarning(text) {
-// 	Modal.warning({
-// 		title: '提示',
-// 		className: 'yc-close-waring',
-// 		content: text,
-// 		okText: '我知道了',
-// 		onOk() {
-// 			closeWindow();
-// 		},
-// 	});
-// }
-
-
 // 新的引用方式，分割代码，懒加载
 const InfoMonitor = Loadable(() => import('./info-monitor'));
 const Monitor = Loadable(() => import('./asset-excavate'));
