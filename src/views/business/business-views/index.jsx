@@ -245,7 +245,7 @@ class BusinessView extends React.Component {
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const {
-			startTime, endTime, pageSize
+			startTime, endTime, pageSize,
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
@@ -378,7 +378,7 @@ class BusinessView extends React.Component {
 							selectedRowKeys: [],
 							reqLoading: false,
 						});
-						message.success(res.message);
+						message.success(res.data);
 						that.getData(otherParams);
 					} else {
 						message.error(res.message);

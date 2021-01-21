@@ -78,29 +78,9 @@ class Login extends React.Component {
 	}
 
 	componentWillMount() {
-		// http://localhost:10086/#/login?orgId=641
 		const orgId = getQueryByName(window.location.href, 'orgId');
-		// console.log('orgId === ', window.location.href, orgId);
-		if (orgId) {
-			this.setState({
-				loading: true,
-			});
-			checkSpecialIp().then((res) => {
-				// 判断是否是专线
-				if (res.code === 200 && res.data) {
-					cookie.set('isSpecial', true);
-					this.handleLogin(orgId);
-				} else {
-					cookie.set('isSpecial', false);
-					this.setState({
-						loading: false,
-					});
-					ModalWarning('权限不足，未开通专线');
-				}
-			}).catch();
-		} else {
-			cookie.remove('isSpecial');
-		}
+		this.onRequestLogin(orgId);
+		window.onhashchange = this.changeUrl;
 	}
 
 	componentDidMount() {
@@ -124,6 +104,41 @@ class Login extends React.Component {
 				this.handleSubmitPhone();
 				document.activeElement.blur();
 			}
+		}
+	};
+
+	changeUrl = (e) => {
+		const orgId = getQueryByName(e.newURL, 'orgId');
+		if (e.newURL !== e.oldURL) {
+			if (orgId) {
+				this.onRequestLogin(orgId);
+			}
+		}
+	};
+
+	onRequestLogin = (orgId) => {
+		// http://localhost:10086/#/login?orgId=641
+		// console.log('orgId === ', window.location.href, orgId);
+		if (orgId) {
+			this.setState({
+				loading: true,
+			});
+			cookie.remove('token');
+			checkSpecialIp().then((res) => {
+				// 判断是否是专线
+				if (res.code === 200 && res.data) {
+					cookie.set('isSpecial', true);
+					this.handleLogin(orgId);
+				} else {
+					cookie.set('isSpecial', false);
+					this.setState({
+						loading: false,
+					});
+					ModalWarning('权限不足，未开通专线');
+				}
+			}).catch();
+		} else {
+			cookie.remove('isSpecial');
 		}
 	};
 
