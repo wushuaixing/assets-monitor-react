@@ -37,9 +37,9 @@ class HomeHeader extends React.Component {
 	};
 
 	render() {
-		const { headerPropsData, headerPropsData: { displayObligorNotice, displayBusinessNotice } } = this.props;
-		const percentageBorrowers = headerPropsData && headerPropsData.mainObligorBusinessCount && headerPropsData.businessCount
-			&& (headerPropsData.mainObligorBusinessCount / headerPropsData.businessCount).toFixed(2) * 100;
+		const { headerPropsData, headerPropsData: { displayObligorNotice } } = this.props;
+		// const percentageBorrowers = headerPropsData && headerPropsData.mainObligorBusinessCount && headerPropsData.businessCount
+		// 	&& (headerPropsData.mainObligorBusinessCount / headerPropsData.businessCount).toFixed(2) * 100;
 		// const percentageBorrowers = 80;
 		return (
 			<div className="header-container">
@@ -87,22 +87,22 @@ class HomeHeader extends React.Component {
 							</span>
 							笔
 						</div>
-						 { displayBusinessNotice ? (
-							<div className="card-content-left-arrow">
-								<div className="card-content-popover-content" style={{ width: '386px' }}>
-									<span>
-										{percentageBorrowers}
-										%的业务只导入了借款人，建议导入保证人，便于形成业务画像
-									</span>
-									<img
-										className="card-content-popover-content-close"
-										src={close}
-										alt="关闭按钮"
-										onClick={() => this.handleCloseDebtor('business')}
-									/>
-								</div>
-							</div>
-						 ) : null}
+						 {/* { displayBusinessNotice ? ( */}
+						{/* <div className="card-content-left-arrow"> */}
+						{/*	<div className="card-content-popover-content" style={{ width: '386px' }}> */}
+						{/*		<span> */}
+						{/*			{percentageBorrowers} */}
+						{/*			%的业务只导入了借款人，建议导入保证人，便于形成业务画像 */}
+						{/*		</span> */}
+						{/*		<img */}
+						{/*			className="card-content-popover-content-close" */}
+						{/*			src={close} */}
+						{/*			alt="关闭按钮" */}
+						{/*			onClick={() => this.handleCloseDebtor('business')} */}
+						{/*		/> */}
+						{/*	</div> */}
+						{/* </div> */}
+						 {/* ) : null} */}
 					</div>
 					<div className="horizontal-line" />
 					<div className="right-organization">
