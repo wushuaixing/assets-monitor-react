@@ -373,8 +373,8 @@ export const linkDom = (url, text, target, className, style, click) => (url ? Re
 		target: target || '_blank',
 		style,
 		onClick: click,
+		dangerouslySetInnerHTML: { __html: text },
 	},
-	text,
 ) : text);
 //	返回a标签，可点击链接 => 债务人详情
 export const linkDetail = (id, text, target, className, style) => React.createElement(
