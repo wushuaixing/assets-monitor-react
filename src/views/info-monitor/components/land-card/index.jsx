@@ -67,6 +67,12 @@ export default class Land extends PureComponent {
 			>
 				{Object.keys(landPropsData).length !== 0 && (
 					<div className="risk-land-container">
+						{totalCount ? (
+							<div className="risk-land-container-card" style={{ paddingBottom: '10px', color: '#7D8699' }}>
+								<span style={{ color: '#FB5A5C' }}>*</span>
+								原土地使用权人不计入角色统计
+							</div>
+						) : null}
 						<div className={`risk-land-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 							使用权人：
 							<span className={`risk-land-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{owner || 0}</span>

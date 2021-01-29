@@ -82,7 +82,8 @@ export default class HeaderMessage extends React.Component {
 						Modal.warning({
 							title: '您已切换机构，请查看当前机构下债务人',
 							onOk() {
-								navigate('/business/debtor');
+								navigate('/');
+								// navigate('/business/debtor');
 								window.location.reload(); // 退出登录刷新页面
 							},
 						});
@@ -91,7 +92,8 @@ export default class HeaderMessage extends React.Component {
 						Modal.warning({
 							title: '您已切换机构，当前机构下该笔业务不存在',
 							onOk() {
-								navigate('/business');
+								navigate('/');
+								// navigate('/business');
 								window.location.reload(); // 退出登录刷新页面
 							},
 						});
@@ -155,10 +157,10 @@ export default class HeaderMessage extends React.Component {
 
 		const { hash } = window.location;
 		if (hash && hash.indexOf('debtor/detail') !== -1) {
-			navigate('/business/debtor');
+			navigate('/');
 		}
 		if (hash && hash.indexOf('business/detail') !== -1) {
-			navigate('/business');
+			navigate('/');
 		}
 		// console.log(hash.indexOf('message') !== -1);
 		// 在消息中心切换时
