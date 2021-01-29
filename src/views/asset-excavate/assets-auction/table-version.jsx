@@ -158,7 +158,7 @@ class TableIntact extends React.Component {
 							<React.Fragment>
 								<li style={{ lineHeight: '20px' }}>
 									{ toEmpty(row.title)
-										? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" /> : '-' }
+										? <Ellipsis content={row.title} url={row.url} tooltip width={600} font={15} className="yc-public-title-normal-bold" isSourceLink /> : '-' }
 									{
 										row.historyAuctions.length > 0 && (
 											<Button onClick={() => this.historyInfoModal(row)}>

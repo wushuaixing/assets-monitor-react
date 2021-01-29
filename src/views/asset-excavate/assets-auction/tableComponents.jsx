@@ -327,7 +327,9 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 					// 		{title || url}
 					// 	</a>
 					// </Tooltip>
-					<Ellipsis content={title || url} url={url} isSourceLink tooltip />
+					<div>
+						<Ellipsis content={title || url} url={url} isSourceLink tooltip />
+					</div>
 				) : <div className="table-info-title ">-</div>
 			}
 			<li className="table-info-list list-width-180">

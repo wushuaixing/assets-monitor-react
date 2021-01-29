@@ -28,7 +28,7 @@ export default class PopCode extends React.PureComponent {
 					value={url}
 					{...qrCodeCondition}
 				/>
-				<p>扫描上方二维码，即可查看源链接</p>
+				<p style={{ color: '#4E5566' }}>扫描上方二维码，即可查看源链接</p>
 			</div>
 		);
 
@@ -54,7 +54,7 @@ export default class PopCode extends React.PureComponent {
 		) : <div>{linkDom}</div>;
 
 		// 文书中源链接dom
-		const sourceBtnDom = <Button className="judgement-header-btn">{content}</Button>;
+		const sourceBtnDom = <Button className="judgement-header-btn" style={{ backgroundColor: '#fff' }}>{content}</Button>;
 
 		return (
 			<div style={{ display: 'inline-block' }}>

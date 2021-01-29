@@ -133,6 +133,7 @@ export default class MatchingReason extends React.Component {
 			<div className="assets-matching-reason-wrapper">
 				<div className={`reason-content-wrapper content-${status}`}>
 					<div className="reason-content" ref={e => this.dom = e}>
+						{/* 全文匹配放在上面 */}
 						{
 							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
@@ -143,6 +144,7 @@ export default class MatchingReason extends React.Component {
 							) : null
 						}
 						{ dishonest ? this.toGetReason(duty, approveTime) : this.toGetReasonList(reason, pushType, approveTime) }
+						{/* 精准匹配放在下面 */}
 						{
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">
