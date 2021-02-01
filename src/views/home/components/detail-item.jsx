@@ -5,9 +5,7 @@ import { postMarkRead } from 'api/monitor-info/mortgage'; // 动产抵押已读
 import PublicPerImg from '@/assets/img/business/icon_zwrpeople.png';
 import { readStatusResult } from '@/utils/api/monitor-info/finance'; // 股权质押
 import Api from '@/utils/api/monitor-info/public'; // 土地信息已读
-import {
-	Mining, Construction as apiConstruction, Copyright, Dump,
-} from '@/utils/api/monitor-info/intangible'; // 无形资产已读
+import { Mining, Dump } from '@/utils/api/monitor-info/intangible'; // 无形资产已读
 import { readStatus as bankruptcyReadStatus } from '@/utils/api/monitor-info/bankruptcy';
 import { readStatus } from '@/utils/api/monitor-info/broken-record'; // 失信记录已读
 import { Court, Trial, Judgment } from '@/utils/api/monitor-info/subrogation'; // 代位权
@@ -33,8 +31,6 @@ import LandResultModal from './dynamic-modal/land-result-modal';
 import LandTransferModal from './dynamic-modal/land-transfer-modal';
 import LandMortgageModal from './dynamic-modal/land-mortgage-modal';
 import MiningModal from './dynamic-modal/mining-modal';
-import TrademarkModal from './dynamic-modal/trademark-modal';
-import Construction from './dynamic-modal/construction-modal';
 import ChattelMortgageModal from './dynamic-modal/chattel-mortgage-modal';
 import EquityPledgeModal from './dynamic-modal/equity-pledge-modal';
 import SubrogationTrialModal from './dynamic-modal/subrogation-trial-modal';
@@ -70,8 +66,6 @@ class DetailItem extends PureComponent {
 			landMortgageModalVisible: false,
 			miningModalVisible: false,
 			emissionModalVisible: false,
-			trademarkModalVisible: false,
-			constructionModalVisible: false,
 			chattelMortgageModalVisible: false,
 			equityPledgeModalVisible: false,
 			subrogationTrialModalVisible: false,
@@ -203,14 +197,6 @@ class DetailItem extends PureComponent {
 				this.isReadList(item, index, Mining.read, 'idList');
 				this.setState(() => ({ miningModalVisible: true, dataSource: item.detailList }));
 			}],
-			[303, () => {
-				this.isReadList(item, index, Copyright.read);
-				this.setState(() => ({ trademarkModalVisible: true, dataSource: item.detailList }));
-			}],
-			[304, () => {
-				this.isReadList(item, index, apiConstruction.read);
-				this.setState(() => ({ constructionModalVisible: true, dataSource: item.detailList }));
-			}],
 			[401, () => {
 				this.isReadList(item, index, postMarkRead);
 				this.setState(() => ({ chattelMortgageModalVisible: true, dataSource: item.detailList }));
@@ -323,8 +309,6 @@ class DetailItem extends PureComponent {
 			assetAuctionModalVisible: false,
 			landMortgageModalVisible: false,
 			miningModalVisible: false,
-			trademarkModalVisible: false,
-			constructionModalVisible: false,
 			chattelMortgageModalVisible: false,
 			equityPledgeModalVisible: false,
 			subrogationTrialModalVisible: false,
@@ -405,7 +389,7 @@ class DetailItem extends PureComponent {
 	render() {
 		const {
 			dataSource, data, emissionModalVisible, assetAuctionModalVisible, LandResultModalVisible, landTransferModalVisible, landMortgageModalVisible,
-			miningModalVisible, trademarkModalVisible, constructionModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
+			miningModalVisible, chattelMortgageModalVisible, equityPledgeModalVisible, bankruptcyModalVisible,
 			subrogationTrialModalVisible, subrogationJudgmentModalVisible, subrogationCourtModalVisible, brokenModalVisible, abnormalModalVisible, animate,
 			illegalModalVisible, taxModalVisible, punishmentModalVisible, lawsuitTrialModalVisible, lawsuitCourtModalVisible, unBlockModalVisible,
 			lawsuitJudgmentModalVisible, listMarginTop, openMessage, limitHeightModalVisible, realEstateModalVisible, carModalVisible, onBuildConstructVisible, onBuildWinbidVisible, onBuildUnderwayVisible,
@@ -562,23 +546,23 @@ class DetailItem extends PureComponent {
 					/>
 				)}
 				{/** 商标专利Modal */}
-				{trademarkModalVisible && (
-					<TrademarkModal
-						onCancel={this.onCancel}
-						onOk={this.onOk}
-						dataSource={dataSource}
-						trademarkModalVisible={trademarkModalVisible}
-					/>
-				)}
+				{/* {trademarkModalVisible && ( */}
+				{/*	<TrademarkModal */}
+				{/*		onCancel={this.onCancel} */}
+				{/*		onOk={this.onOk} */}
+				{/*		dataSource={dataSource} */}
+				{/*		trademarkModalVisible={trademarkModalVisible} */}
+				{/*	/> */}
+				{/* )} */}
 				{/** 建筑建造Modal */}
-				{constructionModalVisible && (
-					<Construction
-						onCancel={this.onCancel}
-						onOk={this.onOk}
-						dataSource={dataSource}
-						constructionModalVisible={constructionModalVisible}
-					/>
-				)}
+				{/* {constructionModalVisible && ( */}
+				{/*	<Construction */}
+				{/*		onCancel={this.onCancel} */}
+				{/*		onOk={this.onOk} */}
+				{/*		dataSource={dataSource} */}
+				{/*		constructionModalVisible={constructionModalVisible} */}
+				{/*	/> */}
+				{/* )} */}
 
 				{/** 动产抵押Modal */}
 				{chattelMortgageModalVisible && (
