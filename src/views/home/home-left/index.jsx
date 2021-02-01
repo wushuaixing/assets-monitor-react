@@ -35,8 +35,8 @@ const assestArr = [
 
 	{ count: 'zcwjwxzc', Api: importantListIntangibleEmission }, // 资产挖掘->无形资产
 	{ count: 'zcwjwxzc', Api: importantListIntangibleMining },
-	{ count: 'zcwjwxzc', Api: importantListIntangibleTrademarkRight },
-	{ count: 'zcwjwxzc', Api: importantListIntangibleConstruct },
+	// { count: 'zcwjwxzc', Api: importantListIntangibleTrademarkRight }, //商标专利
+	// { count: 'zcwjwxzc', Api: importantListIntangibleConstruct }, // 建筑建造资质
 
 	{ count: 'zcwjdcdy', Api: importantListMortgage }, // 资产挖掘->动产抵押
 
@@ -60,8 +60,8 @@ const assetsDataType = {
 	203: { tag: '土地抵押', icon: 'land-mortgage' },
 	301: { tag: '排污权发证', icon: 'intangible-dump' },
 	302: { tag: '采矿权发证', icon: 'intangible-mining' },
-	303: { tag: '商标专利', icon: 'intangible-trademark' },
-	304: { tag: '建筑建造资质', icon: 'intangible-build' },
+	// 303: { tag: '商标专利', icon: 'intangible-trademark' },
+	// 304: { tag: '建筑建造资质', icon: 'intangible-build' },
 	401: { tag: '动产抵押', icon: 'chattel-2' },
 	501: { tag: '股权质押', icon: 'stock-2' },
 	601: { tag: '代位权(立案)', icon: 'subrogation-trial' },
