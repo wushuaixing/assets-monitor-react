@@ -518,7 +518,7 @@ class HomeDynamic extends PureComponent {
 		const newAssetArr = [...AssetImportantReminderList];
 		const assetArr = (newAssetArr.sort(compare('timestamp')));
 		const newRiskArr = [...RiskImportantReminderList];
-		const riskArr = (newRiskArr.sort(compare('timestamp')));
+		// const riskArr = (newRiskArr.sort(compare('timestamp')));
 		const newAllArr = newAssetArr.concat(newRiskArr);
 		const riskArrTemp = this.arrFilter(assetArr, 'risk');
 		const assetsTemp = this.arrFilter(assetArr, 'assets');
