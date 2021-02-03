@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Form, Input, Table, Affix, Icon, message,
 } from 'antd';
-import { selfTree } from '@/utils/api/home';
+// import { selfTree } from '@/utils/api/home';
 import { switchOrg } from '@/utils/api/user';
 import { Ellipsis } from '@/common';
 import flat from '@/utils/flatArray';
@@ -11,7 +11,7 @@ import './style.scss';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
 // 是否为IE
-const api = { selfTree };
+// const api = { selfTree };
 const createForm = Form.create;
 
 // 切换机构
@@ -172,14 +172,13 @@ class Login extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getData();
+		const { data } = this.props;
+		this.handleTree(data);
 		// 首先监听 document 的 mousedown 事件，然后判断触发 mousedown 事件的目标元素是不是你不想让input失去焦点的那个元素，是的话就阻止默认事件。
 		const selectId = document.getElementById('select');
-
 		window._addEventListener(selectId, 'mousedown', (e) => {
 			const event = e || window.event;
 			const newTarget = event.target || event.srcElement; // 获取document 对象的引用
-
 			if (newTarget && newTarget.id === 'select') {
 				if (event.preventDefault) {
 					event.preventDefault();
@@ -190,6 +189,13 @@ class Login extends React.Component {
 			}
 			return false;
 		});
+	}
+
+	componentWillUpdate(nextProps) {
+		const { data } = nextProps;
+		if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
+			this.handleTree(data);
+		}
 	}
 
 	componentWillUnmount() {
@@ -206,22 +212,15 @@ class Login extends React.Component {
 	}
 
 	// 获取消息列表
-	getData = () => {
+	handleTree = (data) => {
 		const that = this;
-		api.selfTree().then((res) => {
-			if (res && res.data) {
-				const dataListArray = JSON.parse(JSON.stringify(that.IterationDeleteMenuChildren([res.data.tree])));
-
-				this.setState({
-					treeList: that.IterationDeleteMenuChildren([res.data.tree]),
-					dataListArray,
-				});
-			} else {
-				message.error(res.message);
-			}
-		}).catch(() => {
-			console.log(1);
-		});
+		if (data) {
+			const dataListArray = JSON.parse(JSON.stringify(that.IterationDeleteMenuChildren([data.tree])));
+			this.setState({
+				treeList: that.IterationDeleteMenuChildren([data.tree]),
+				dataListArray,
+			});
+		}
 	};
 
 	// 选择列表
