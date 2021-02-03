@@ -34,7 +34,7 @@ class HomeRouter extends PureComponent {
 		};
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		this.getData();
 	}
 
@@ -50,6 +50,7 @@ class HomeRouter extends PureComponent {
 					orgDetail: res.data.orgDetail,
 					tree: res.data.tree,
 					errorLoading: false,
+					data: res.data,
 				});
 			} else {
 				this.setState({
@@ -65,7 +66,9 @@ class HomeRouter extends PureComponent {
 	};
 
 	render() {
-		const { orgDetail, tree, errorLoading } = this.state;
+		const {
+			orgDetail, tree, errorLoading, data,
+		} = this.state;
 		const { rule } = this.props;
 		return (
 			<div className="statistics-container">
@@ -159,7 +162,7 @@ class HomeRouter extends PureComponent {
 							分机构统计
 						</div>
 						<div className="statistics-tree-container">
-							<TableTree rule={rule} tree={tree && tree} />
+							<TableTree rule={rule} tree={tree && tree} data={data} />
 						</div>
 					</div>
 				</Spin>
