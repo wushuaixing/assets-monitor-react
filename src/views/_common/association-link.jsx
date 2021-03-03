@@ -185,11 +185,11 @@ class AssociationLink extends React.Component {
 		if (La.length > 0) {
 			if (La[0].url) {
 				// resContent.push(linkDom(La[0].url, '立案'));
-				resContent.push(<Ellipsis content="立案" url={La[0].url} isSourceLink />);
+				resContent.push(<Ellipsis content="立案" url={La[0].url} isSourceLink width={50} />);
 			} else {
 				if (type === 'Trial') {
 					// resContent.push(linkDom(La[0].url, '立案'));
-					resContent.push(<Ellipsis content="立案" url={La[0].url} isSourceLink />);
+					resContent.push(<Ellipsis content="立案" url={La[0].url} isSourceLink width={50} />);
 				}
 				if (type === 'Court') {
 					resContent.push(<span className="click-link" onClick={() => this.toShow(La, 'Trial')}>立案</span>);
@@ -202,7 +202,7 @@ class AssociationLink extends React.Component {
 				if (Kt[0].url) {
 					if (resContent.length) resContent.push(<span className="info-line">|</span>);
 					// resContent.push(linkDom(Kt[0].url, '开庭'));
-					resContent.push(<Ellipsis content="开庭" url={Kt[0].url} isSourceLink />);
+					resContent.push(<Ellipsis content="开庭" url={Kt[0].url} isSourceLink width={50} />);
 				} else if (type === 'Trial') {
 					if (resContent.length) resContent.push(<span className="info-line">|</span>);
 					resContent.push(<span className="click-link" onClick={() => this.toShow(Kt, 'Trial')}>开庭</span>);
