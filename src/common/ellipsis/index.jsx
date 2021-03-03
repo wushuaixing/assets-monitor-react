@@ -65,8 +65,8 @@ export default class Ellipsis extends React.Component {
 		const ContentText = url
 			? isSpecial && isSourceLink
 				? <PopCode content={content} url={_url} showContent={showContent} tooltip={_tooltip} wsSourceLink={wsSourceLink} ktModalSourceLinkIcon={ktModalSourceLinkIcon} />
-				: linkDom(_url, showContent, '', '', '', (onClick || ''))
-			  : showContent;
+				: linkDom(_url, showContent || content, '', '', '', (onClick || ''))
+			  : showContent || content;
 		const contentSize = (getByteLength(showContent || content) + 3) * size;
 		const __width = contentSize < _width ? (auto ? 'auto' : contentSize) : _width;
 		const _isBorrower = Boolean(isBorrower);
