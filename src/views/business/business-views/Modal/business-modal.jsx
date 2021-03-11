@@ -21,7 +21,8 @@ function error([title, content]) {
 }
 
 const isMac = /macintosh|mac os x/i.test(navigator.userAgent);
-// console.log('isMac === ', isMac);
+const isIE = window.navigator.userAgent.indexOf('MSIE') >= 1;
+console.log('isIE === ', isIE, window.navigator.userAgent);
 
 class BusinessModal extends React.PureComponent {
 	constructor(props) {
@@ -57,17 +58,27 @@ class BusinessModal extends React.PureComponent {
 			accept: isMac ? '' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
 			action: `${BASE_URL}/yc/business/importExcelText?token=${cookies.get('token') || ''}`,
 			beforeUpload(file) {
+				console.log('file === ', file, JSON.stringify(file));
 				const type = file.name.split('.');
 				const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
 				if (!isTypeRight) {
 					message.error('只能上传 Excel格式文件！');
 				}
 				const isOverMemory = file.size <= 16 * 1024 * 1024;
-				if (!isOverMemory) {
+				if (!isOverMemory && !isIE) {
 					error(['文件超过16M', '文件过大，请调整后重新上传']);
 					that.setState({
 						isOverSize: true,
 					});
+				} else if (isIE) {
+					// const objImg = document.getElementById('tempimg');
+					// objImg.dynsrc = file.value;
+					// if (objImg.fileSize <= 16 * 1024 * 1024) {
+					// 	error(['文件超过16M', '文件过大，请调整后重新上传']);
+					// 	that.setState({
+					// 		isOverSize: true,
+					// 	});
+					// }
 				} else {
 					that.setState({
 						isOverSize: false,
@@ -205,6 +216,7 @@ class BusinessModal extends React.PureComponent {
 						</div>
 					</div>
 				</Spin>
+				<img className="tempimg" id="tempimg" dynsrc="" src="" alt="" />
 			</Modal>
 		);
 	}
