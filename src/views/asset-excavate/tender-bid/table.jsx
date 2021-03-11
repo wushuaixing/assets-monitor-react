@@ -34,6 +34,7 @@ const columns = (props) => {
 					url={record.url}
 					isSourceLink
 					tooltip
+					width={600}
 				/>
 			) : <span>{text || '-'}</span>),
 		}, {
