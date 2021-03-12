@@ -22,7 +22,7 @@ function error([title, content]) {
 
 const isMac = /macintosh|mac os x/i.test(navigator.userAgent);
 const isIE = window.navigator.userAgent.indexOf('MSIE') >= 1;
-console.log('isIE === ', isIE, window.navigator.userAgent);
+// console.log('isIE === ', isIE, window.navigator.userAgent);
 
 class BusinessModal extends React.PureComponent {
 	constructor(props) {
@@ -32,6 +32,7 @@ class BusinessModal extends React.PureComponent {
 			loading: false,
 			isOverSize: false,
 			fileName: '',
+			file: '',
 		};
 	}
 
@@ -58,6 +59,9 @@ class BusinessModal extends React.PureComponent {
 			accept: isMac ? '' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
 			action: `${BASE_URL}/yc/business/importExcelText?token=${cookies.get('token') || ''}`,
 			beforeUpload(file) {
+				that.setState({
+					file: JSON.stringify(file),
+				});
 				console.log('file === ', file, JSON.stringify(file));
 				const type = file.name.split('.');
 				const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
@@ -165,7 +169,7 @@ class BusinessModal extends React.PureComponent {
 
 	render() {
 		const {
-			visible, loading, isOverSize, fileName,
+			visible, loading, isOverSize, fileName, file,
 		} = this.state;
 		return (
 			<Modal
@@ -216,6 +220,7 @@ class BusinessModal extends React.PureComponent {
 						</div>
 					</div>
 				</Spin>
+				<div>{file}</div>
 				<img className="tempimg" id="tempimg" dynsrc="" src="" alt="" />
 			</Modal>
 		);
