@@ -32,7 +32,6 @@ class BusinessModal extends React.PureComponent {
 			loading: false,
 			isOverSize: false,
 			fileName: '',
-			file: '',
 		};
 	}
 
@@ -59,10 +58,6 @@ class BusinessModal extends React.PureComponent {
 			accept: isMac ? '' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
 			action: `${BASE_URL}/yc/business/importExcelText?token=${cookies.get('token') || ''}`,
 			beforeUpload(file) {
-				that.setState({
-					file: JSON.stringify(file),
-				});
-				console.log('file === ', file, JSON.stringify(file));
 				const type = file.name.split('.');
 				const isTypeRight = type[type.length - 1] === 'xlsx' || file.name.split('.')[1] === 'xls';
 				if (!isTypeRight) {
@@ -74,15 +69,6 @@ class BusinessModal extends React.PureComponent {
 					that.setState({
 						isOverSize: true,
 					});
-				} else if (isIE) {
-					// const objImg = document.getElementById('tempimg');
-					// objImg.dynsrc = file.value;
-					// if (objImg.fileSize <= 16 * 1024 * 1024) {
-					// 	error(['文件超过16M', '文件过大，请调整后重新上传']);
-					// 	that.setState({
-					// 		isOverSize: true,
-					// 	});
-					// }
 				} else {
 					that.setState({
 						isOverSize: false,
@@ -169,7 +155,7 @@ class BusinessModal extends React.PureComponent {
 
 	render() {
 		const {
-			visible, loading, isOverSize, fileName, file,
+			visible, loading, isOverSize, fileName,
 		} = this.state;
 		return (
 			<Modal
@@ -220,8 +206,6 @@ class BusinessModal extends React.PureComponent {
 						</div>
 					</div>
 				</Spin>
-				<div>{file}</div>
-				<img className="tempimg" id="tempimg" dynsrc="" src="" alt="" />
 			</Modal>
 		);
 	}
