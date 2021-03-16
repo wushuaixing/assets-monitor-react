@@ -21,7 +21,8 @@ function error([title, content]) {
 }
 
 const isMac = /macintosh|mac os x/i.test(navigator.userAgent);
-// console.log('isMac === ', isMac);
+const isIE = window.navigator.userAgent.indexOf('MSIE') >= 1;
+// console.log('isIE === ', isIE, window.navigator.userAgent);
 
 class BusinessModal extends React.PureComponent {
 	constructor(props) {
@@ -63,7 +64,7 @@ class BusinessModal extends React.PureComponent {
 					message.error('只能上传 Excel格式文件！');
 				}
 				const isOverMemory = file.size <= 16 * 1024 * 1024;
-				if (!isOverMemory) {
+				if (!isOverMemory && !isIE) {
 					error(['文件超过16M', '文件过大，请调整后重新上传']);
 					that.setState({
 						isOverSize: true,
