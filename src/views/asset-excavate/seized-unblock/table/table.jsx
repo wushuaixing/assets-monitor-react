@@ -110,7 +110,7 @@ const columns = (props) => {
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'gmtModified',
+			dataIndex: 'gmtCreate',
 			width: 110,
 		}, {
 			title: '操作',
@@ -172,6 +172,7 @@ class TableView extends React.Component {
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;
+		console.log(dataSource);
 		const { selectedRowKeys } = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
