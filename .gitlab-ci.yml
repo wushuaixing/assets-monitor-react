@@ -12,7 +12,7 @@ cache:
 install_deps:
   stage: install_deps
   tags:
-    - font-group-runner_8
+    - font-group-runner-8
   only:
     - release
     - dev-branch
@@ -27,7 +27,7 @@ install_deps:
 build_step:
   stage: build
   tags:
-    - font-group-runner_8
+    - font-group-runner-8
   only:
     - release
     - dev-branch
@@ -42,7 +42,7 @@ build_step:
 deploy_step:
   stage: deploy
   tags:
-    - font-group-runner_8
+    - font-group-runner-8
   only:
    - release
   script:
@@ -59,7 +59,7 @@ deploy_step:
 deploy_step_dev:
   stage: deploy
   tags:
-    - font-group-runner_8
+    - font-group-runner-8
   only:
     - dev-branch
   script:
