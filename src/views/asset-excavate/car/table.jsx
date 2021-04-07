@@ -115,7 +115,6 @@ export default class TableView extends React.Component {
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;
-		console.log(dataSource);
 		const { selectedRowKeys } = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
