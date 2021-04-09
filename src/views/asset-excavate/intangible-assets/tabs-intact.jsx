@@ -59,7 +59,7 @@ export default class TabsIntact extends React.Component {
 	toGetUnReadCount=(config) => {
 		const { onRefresh } = this.props;
 		const { _source } = this.state;
-		const apiList = config.map(i => ({ api: APISource(i.id, 'listCount')({ ...this.isUrlParams(i.id), isRead: 1 }), info: { id: i.id } }));
+		const apiList = config.map(i => ({ api: APISource(i.id, 'listCount')({ ...this.isUrlParams(i.id), isRead: 0 }), info: { id: i.id } }));
 		requestAll(apiList).then((res) => {
 			res.forEach((item, index) => {
 				_source[index].dot = item.data;
