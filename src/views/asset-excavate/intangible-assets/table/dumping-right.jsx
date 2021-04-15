@@ -115,7 +115,7 @@ const columns = (props) => {
 			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 90,
 		}, {
@@ -175,6 +175,7 @@ export default class BusinessChange extends Component {
 	};
 
 	render() {
+		console.log('========')
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;
