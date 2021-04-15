@@ -44,7 +44,7 @@ export default class DetailModal extends React.PureComponent {
 					render: (text, row) => (text ? <Ellipsis url={row.url} content="查看" isSourceLink /> : '-'),
 				}, {
 					title: global.Table_CreateTime_Text,
-					dataIndex: 'gmtModified',
+					dataIndex: 'gmtCreate',
 					width: 110,
 					render: text => timeStandard(text) || '-',
 				}, {

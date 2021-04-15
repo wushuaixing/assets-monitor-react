@@ -130,7 +130,7 @@ export default class LimitHeightModal extends React.PureComponent {
 					),
 				}, {
 					title: global.Table_CreateTime_Text,
-					dataIndex: 'gmtModified',
+					dataIndex: 'gmtCreate',
 					width: 110,
 					render: text => timeStandard(text) || '-',
 				}, {
