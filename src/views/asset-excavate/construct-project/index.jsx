@@ -41,7 +41,7 @@ export default class ConstructProject extends React.Component {
 		};
 		this.condition = {};
 		this.selectRow = [];
-		this.config = toGetConfig();
+		this.config = toGetConfig()
 	}
 
 	componentWillMount() {
@@ -154,13 +154,13 @@ export default class ConstructProject extends React.Component {
 		if (url.indexOf('?') !== -1) {
 			let dParams = {};
 			if (val === 'YC021201') {
-				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
 			}
 			if (val === 'YC021202') {
-				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
 			}
 			if (val === 'YC021203') {
-				dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
+				dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
 			}
 			return dParams;
 		}
