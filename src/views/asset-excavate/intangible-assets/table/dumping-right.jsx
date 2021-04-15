@@ -38,7 +38,6 @@ const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = { sortField, sortOrder };
-
 	// 含操作等...
 	const defaultColumns = [
 		{

@@ -105,7 +105,7 @@ export default class DetailModal extends React.PureComponent {
 					),
 				}, {
 					title: '更新日期',
-					dataIndex: 'gmtModified',
+					dataIndex: 'gmtCreate',
 				}, {
 					title: '操作',
 					width: 60,
