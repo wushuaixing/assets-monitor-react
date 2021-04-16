@@ -97,7 +97,7 @@ export default class UnblockModal extends React.PureComponent {
 					render: (text, row) => <InforItem content={text} row={row} />,
 				}, {
 					title: global.Table_CreateTime_Text,
-					dataIndex: 'gmtModified',
+					dataIndex: 'gmtCreate',
 					width: 110,
 				}, {
 					title: '操作',

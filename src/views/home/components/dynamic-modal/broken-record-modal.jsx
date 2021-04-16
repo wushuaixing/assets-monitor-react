@@ -86,7 +86,7 @@ export default class DetailModal extends React.PureComponent {
 					render: text => (text ? <p className="no-attention">已移除</p> : <p className="circle-item">未移除</p>),
 				}, {
 					title: '更新日期',
-					dataIndex: 'updateTime',
+					dataIndex: 'createTime',
 					render: val => timeStandard(val),
 				}, {
 					title: '操作',

@@ -84,7 +84,7 @@ export default class OnBuildUnderway extends React.PureComponent {
 				},
 				{
 					title: '更新日期',
-					dataIndex: 'gmtModified',
+					dataIndex: 'gmtCreate',
 					render: text => <span>{text}</span>,
 				},
 				{

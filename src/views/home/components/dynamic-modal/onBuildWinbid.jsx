@@ -66,7 +66,7 @@ export default class OnBuildWinbid extends React.PureComponent {
 				},
 				{
 					title: '更新日期',
-					dataIndex: 'gmtModified',
+					dataIndex: 'gmtCreate',
 					width: 90,
 					render: text => <span>{text || '-'}</span>,
 				},

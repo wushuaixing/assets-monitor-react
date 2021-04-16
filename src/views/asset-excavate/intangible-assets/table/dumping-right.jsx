@@ -38,7 +38,6 @@ const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = { sortField, sortOrder };
-
 	// 含操作等...
 	const defaultColumns = [
 		{
@@ -116,8 +115,8 @@ const columns = (props) => {
 			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'gmtModified',
+				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'gmtCreate',
 			width: 90,
 		}, {
 			title: '操作',
@@ -176,6 +175,7 @@ export default class BusinessChange extends Component {
 	};
 
 	render() {
+		console.log('========')
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;

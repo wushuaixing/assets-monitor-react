@@ -18,10 +18,10 @@ class QueryConstruct extends React.Component {
 	componentDidMount() {
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
-			const dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
+			const dParams = getUrlParams(url, 'startGmtCreate', 'endGmtCreate');
 			const { form: { setFieldsValue } } = this.props;
-			setFieldsValue({ startGmtModified: dParams.startGmtModified });
-			setFieldsValue({ endGmtModified: dParams.endGmtModified });
+			setFieldsValue({ startGmtCreate: dParams.startGmtCreate });
+			setFieldsValue({ endGmtCreate: dParams.endGmtCreate });
 			this.handleSubmit();
 		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
@@ -124,16 +124,16 @@ class QueryConstruct extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startGmtModified', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtModified'))}
+						{...getFieldProps('startGmtCreate', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtCreate'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endGmtModified', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtModified'))}
+						{...getFieldProps('endGmtCreate', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtCreate'))}
 					/>
 				</div>
 
