@@ -502,7 +502,7 @@ class HomeDynamic extends PureComponent {
 
 	render() {
 		const {
-			checkArray, checkType, loading, importLoading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
+			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
 			RiskImportantReminderObligorIdList, timeType, showModal, typeValue,
 		} = this.state;
 		const params = {
@@ -514,12 +514,12 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderList,
 			RiskImportantReminderObligorIdList,
 		};
-		const detailTypeAll = Object.assign({}, assetsDataType, riskDataType);
+		// const detailTypeAll = Object.assign({}, assetsDataType, riskDataType);
 		const newAssetArr = [...AssetImportantReminderList];
 		const assetArr = (newAssetArr.sort(compare('timestamp')));
-		const newRiskArr = [...RiskImportantReminderList];
+		// const newRiskArr = [...RiskImportantReminderList];
 		// const riskArr = (newRiskArr.sort(compare('timestamp')));
-		const newAllArr = newAssetArr.concat(newRiskArr);
+		// const newAllArr = newAssetArr.concat(newRiskArr);
 		const riskArrTemp = this.arrFilter(assetArr, 'risk');
 		const assetsTemp = this.arrFilter(assetArr, 'assets');
 		let allArr = [];
@@ -551,49 +551,12 @@ class HomeDynamic extends PureComponent {
 							))
 						}
 					</div>
-					<Spin visible={loading} minHeight={315}>
+					<Spin visible={loading} minHeight={600}>
 						{!finish ? null : (
 							<div style={customStyle}>
 								<DynamicUpdate {...params} />
 							</div>
 						)}
-					</Spin>
-				</div>
-				<div className="home-import-list">
-					<Spin visible={importLoading} minHeight={404}>
-						<div className="seven-update-content-title">
-							<div className="seven-update-content-title-name">
-								<div className="dynamic-container-header-name">重要信息提醒</div>
-								<Btn className="seven-update-content-checkBtn" onClick={() => this.handleImportantInfoStandard()}>规则说明</Btn>
-								<Select
-									defaultValue="all"
-									style={{ width: '82px', float: 'right', marginLeft: '263px' }}
-									onSelect={this.onSelect}
-								>
-									{[
-										{ id: 1, name: '全部类型', value: 'all' },
-										{ id: 2, name: '资产挖掘', value: 'assets' },
-										{ id: 3, name: '风险参考', value: 'risk' },
-									].map(item => <Select.Option key={item.key} value={item.value}>{item.name}</Select.Option>)}
-								</Select>
-							</div>
-						</div>
-						{
-							allArr.length > 0 ? (
-								<DetailItem data={allArr} arr={newAllArr} getUnReadNum={val => this.getUnReadNum(val)} status={typeValue} detailTypeAll={detailTypeAll} />
-							) : (
-								<React.Fragment>
-									{
-										importLoading ? null : (
-											<div className="detail-container-noData">
-												<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
-												<span className="detail-container-noData-text">近30天暂无重要信息提醒</span>
-											</div>
-										)
-									}
-								</React.Fragment>
-							)
-					}
 					</Spin>
 				</div>
 				<ImportantInfoModal

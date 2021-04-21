@@ -51,7 +51,7 @@ class HomeOverview extends React.Component {
 						<Icon type="icon-icon_arrow" className="home-overview-container-header-detail-icon" />
 					</div>
 				</div>
-				<Spin visible={loading} minHeight={600}>
+				<Spin visible={loading} minHeight={768}>
 					{
 						loading ? null :	(
 							<div className="home-overview-container-content">

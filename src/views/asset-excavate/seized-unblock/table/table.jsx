@@ -11,7 +11,6 @@ const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = { sortField, sortOrder };
-
 	const defaultColumns = [
 		{
 			title: <span style={{ paddingLeft: 10 }}>查/解封对象</span>,
@@ -110,6 +109,7 @@ const columns = (props) => {
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			// title: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>,
 			dataIndex: 'gmtCreate',
 			width: 110,
 		}, {
@@ -137,6 +137,7 @@ class TableView extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 		};
+		console.log('我的收藏查解封1',props);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -169,6 +170,7 @@ class TableView extends React.Component {
 	};
 
 	render() {
+		console.log('我的收藏查解封1',this.props);
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;

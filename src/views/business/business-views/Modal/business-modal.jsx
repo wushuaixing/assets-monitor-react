@@ -166,6 +166,8 @@ class BusinessModal extends React.PureComponent {
 				onCancel={this.handleCancel}
 				onOk={this.handleConfirmFile}
 				footer={<div> </div>}
+				closable={!loading}
+				maskClosable={!loading}
 			>
 				<Spin visible={loading} text="上传中">
 					<div className="business-tips">
