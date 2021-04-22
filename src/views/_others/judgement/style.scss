@@ -1,6 +1,6 @@
 .judgement{
   &-header{
-    padding: 30px 20px;
+    padding: 30px 20px 20px 20px;
     position: relative;
     &-title{
       color: #20242E;
@@ -10,11 +10,40 @@
       display: inline-block;
     }
     &-btn{
-      right: 20px;
       position: absolute;
+      right: 16px;
       color: $text-link;
-      width: 84px;
-      border-color: $text-link
+      width: 84px !important;
+      height: 32px;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 2px;
+      border: 1px $text-link solid;
+    }
+    &-hint{
+      display: flex;
+      margin: 12px 0px 0px 0px;
+      &-reason{
+        &-label{
+          color: #7D8699;
+          font-size: 12px;
+        }
+        &-content{
+          color: #20242E;
+          font-size: 12px;
+        }
+      }
+      &-publish{
+        margin-left: 24px;
+        &-label{
+          color: #7D8699;
+          font-size: 12px;
+        }
+        &-content{
+          color: #20242E;
+          font-size: 12px;
+        }
+      }
     }
   }
   &-line{

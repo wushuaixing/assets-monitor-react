@@ -85,7 +85,7 @@ class WRIT extends React.Component {
 							title="全文"
 							placeholder="个人/企业名称、关键字"
 							{...getFieldProps('content', {
-								getValueFromEvent: e => e.trim().replace(/\s+/g, ' '),
+								getValueFromEvent: e => e.trim().replace(/\s+/g, ' ').replace(/%/g, ''),
 							})}
 						/>
 					</div>

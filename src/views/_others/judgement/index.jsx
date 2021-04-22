@@ -2,7 +2,6 @@ import React from 'react';
 import { Ellipsis, Spin, NoContent } from '@/common';
 import { parseQuery, clearEmpty } from '@/utils';
 import { judgmentDetail, judgmentUnsealDetail } from '@/utils/api/index';
-import  no from '@/assets/img/Not_to_open.png'
 import './style.scss';
 
 // 不同的请求映射，查解封的文书请求的接口和其他模块的文书请求的接口不同
@@ -26,6 +25,8 @@ class Judgement extends React.Component {
 			url: '',
 			htmlText: '',
 			title: urlTitle,
+			caseReason:'',
+			gmtPublish:''
 		};
 	}
 
@@ -49,6 +50,8 @@ class Judgement extends React.Component {
 					url: res.data.url,
 					htmlText: res.data.htmlText,
 					title: res.data.title || title,
+					caseReason:res.data.caseReason,
+					gmtPublish:res.data.gmtPublish,
 				});
 			} else {
 				this.setState({
@@ -73,7 +76,7 @@ class Judgement extends React.Component {
 
 	render() {
 		const {
-			loading, htmlText, title, url,conten
+			loading, htmlText, title, url,caseReason,gmtPublish
 		} = this.state;
 		const newHtmlText = htmlText.replace(/FONT-FAMILY:.{3,4};/g, 'font-family: PingFang SC, microsoft yahei;').replace(/pt/g, 'px').replace(/MARGIN: 0.5px 0cm/g, 'margin: 20px 0');
 		return (
@@ -85,6 +88,16 @@ class Judgement extends React.Component {
 						{
 						 url ? <Ellipsis className="judgement-header-btn" content="源链接" url={url} isSourceLink wsSourceLink /> : null
 						}
+						<div className="judgement-header-hint">
+							<div className="judgement-header-hint-reason">
+								<span className="judgement-header-hint-reason-label">案由：</span>
+								<span className="judgement-header-hint-reason-content">{caseReason}</span>
+							</div>
+							<div className="judgement-header-hint-publish">
+								<span className="judgement-header-hint-reason-label">发不日期：</span>
+								<span className="judgement-header-hint-reason-content">{gmtPublish}</span>
+							</div>
+						</div>
 					</div>
 					<div className="judgement-line">
 						<div className="judgement-line-title">文书正文</div>
