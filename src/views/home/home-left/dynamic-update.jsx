@@ -193,9 +193,9 @@ class DynamicUpdate extends PureComponent {
 						<div className="seven-update-content-title">
 							<div className="seven-update-content-title-item" />
 							<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
-								新增
+								资产挖掘: 新增
 								<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
-								条资产线索
+								条资产挖掘信息
 
 								{/*		<span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
@@ -232,7 +232,7 @@ class DynamicUpdate extends PureComponent {
 						<div className="seven-update-content-title">
 							<div className="seven-update-content-title-item" />
 							<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
-								新增
+								风险参考: 新增
 								<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
 								条风险信息
 								{/* <span className="seven-update-content-title-addNum">

@@ -93,7 +93,7 @@ class Judgement extends React.Component {
 								<span className="judgement-header-hint-reason-content">{caseReason}</span>
 							</div>
 							<div className="judgement-header-hint-publish">
-								<span className="judgement-header-hint-reason-label">发不日期：</span>
+								<span className="judgement-header-hint-reason-label">发布日期：</span>
 								<span className="judgement-header-hint-reason-content">{gmtPublish}</span>
 							</div>
 						</div>
