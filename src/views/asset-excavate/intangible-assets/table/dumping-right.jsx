@@ -175,7 +175,6 @@ export default class BusinessChange extends Component {
 	};
 
 	render() {
-		console.log('========')
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;

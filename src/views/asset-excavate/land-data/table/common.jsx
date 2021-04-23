@@ -9,7 +9,7 @@ const Result = {
 				<li>
 					<span className="list list-title align-justify">项目名称：</span>
 					<span className="list list-content" style={{ color: '#186fc7' }}>
-						<Ellipsis content={rowContent.projectName} url={rowContent.url} tooltip width={200} isSourceLink />
+						<Ellipsis content={rowContent.projectName ? rowContent.projectName : rowContent.url} url={rowContent.url} tooltip width={200} isSourceLink />
 					</span>
 				</li>
 				<li>

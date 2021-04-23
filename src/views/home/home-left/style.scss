@@ -91,7 +91,7 @@
       &-name {
         color: $text-title;
         display: inline-block;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 400;
       }
       &-num {
@@ -205,6 +205,7 @@
       padding: 0;
       border-radius: 2px;
     }
+
   }
 }
 .ant-table-tbody{
@@ -216,3 +217,10 @@
     font-weight: 600;
   }
 }
+.seven-update-container-wire{
+  width: 554px;
+  height: 1px;
+  background-color:#E5E5E5;
+  margin-top: 10px;
+}
+
