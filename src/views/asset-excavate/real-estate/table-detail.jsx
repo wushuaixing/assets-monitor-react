@@ -153,7 +153,7 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						<Ellipsis content={toEmpty(value)} url={row.url} width={600} font={15} tooltip isSourceLink />
+						<Ellipsis content={toEmpty(value)} url={row.url ? row.url : row.homeUrl} width={600} font={15} tooltip isSourceLink />
 					</li>
 					{this.toShowExtraField(row)}
 				</div>

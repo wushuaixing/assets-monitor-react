@@ -114,7 +114,6 @@ export default class TableView extends React.Component {
 	};
 
 	render() {
-		console.log('=====代位权');
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;

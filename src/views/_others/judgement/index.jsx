@@ -44,7 +44,6 @@ class Judgement extends React.Component {
 		const api = getUrl(urlType);
 		api(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
-				console.log('文书还原',res);
 				this.setState({
 					loading: false,
 					url: res.data.url,

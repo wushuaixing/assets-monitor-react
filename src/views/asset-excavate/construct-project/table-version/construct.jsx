@@ -40,7 +40,7 @@ class TableIntact extends React.Component {
 				dataIndex: 'title',
 				render: (value, row) => (
 					<div className="assets-info-content">
-						<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" isSourceLink />
+						<Ellipsis auto content={row.title} url={row.url ? row.url : row.homeUrl} tooltip className="yc-public-title-normal-bold" isSourceLink />
 						{ row.projectType >= 0 ? <span className="yc-case-reason text-ellipsis">{projectTypeMap.get(row.projectType)}</span> : ''}
 						<li>
 							<LiItem title="建设性质">{row.nature || '-'}</LiItem>
