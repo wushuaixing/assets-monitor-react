@@ -27,7 +27,6 @@ class Judgement extends React.Component {
 			title: urlTitle,
 			caseReason:'',
 			gmtPublish:'',
-			privates:false
 		};
 	}
 
@@ -53,12 +52,6 @@ class Judgement extends React.Component {
 					caseReason:res.data.caseReason,
 					gmtPublish:res.data.gmtPublish,
 				});
-				let  theCase = /^[\u4e00-\u9fa5]/;
-				if(theCase.test(res.data.htmlText)){
-					this.setState({
-						privates:true,
-					});
-				};
 			} else {
 				this.setState({
 					loading: false,
@@ -82,8 +75,9 @@ class Judgement extends React.Component {
 
 	render() {
 		const {
-			loading, htmlText, title, url,caseReason,gmtPublish,privates
+			loading, htmlText, title, url,caseReason,gmtPublish
 		} = this.state;
+		const privates = /^[\u4e00-\u9fa5]/.test(htmlText);
 		const newHtmlText = htmlText.replace(/FONT-FAMILY:.{3,4};/g, 'font-family: PingFang SC, microsoft yahei;').replace(/pt/g, 'px').replace(/MARGIN: 0.5px 0cm/g, 'margin: 20px 0');
 		return (
 			<Spin visible={loading}>
