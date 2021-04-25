@@ -70,8 +70,8 @@ const columns = (props) => {
 			dataIndex: 'title',
 			render: (text, row) => (
 				<Ellipsis
-					content={text || '-'}
-					url={text ? `${row.project_name ? row.project_name : row.sourceUrl}` : ''}
+					content={text || (row.projectName ? row.projectName : row.sourceUrl)}
+					url={text ? `${row.sourceUrl}` : ''}
 					tooltip
 					width={250}
 					isSourceLink
