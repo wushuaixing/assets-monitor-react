@@ -129,7 +129,6 @@ export default class Download extends React.Component {
 		const {
 			text, all, style, disabled, icon,
 		} = this.props;
-
 		// const iconType = icon || <span className={all ? 'yc-export-img' : ''} />;
 		const iconType = icon || (all ? <IconType type="icon-export" style={{ position: 'relative', top: '1px' }} /> : null);
 		return (
