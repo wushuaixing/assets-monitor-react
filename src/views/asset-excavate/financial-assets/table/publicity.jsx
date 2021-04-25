@@ -70,7 +70,7 @@ const columns = (props) => {
 			dataIndex: 'title',
 			render: (text, row) => (
 				<Ellipsis
-					content={text || `${row.projectName ? row.projectName : row.sourceUrl}`}
+					content={text || row.projectName ? row.projectName : row.sourceUrl}
 					url={text ? `${row.sourceUrl}` : ''}
 					tooltip
 					width={250}
