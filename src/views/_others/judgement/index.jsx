@@ -26,7 +26,7 @@ class Judgement extends React.Component {
 			htmlText: '',
 			title: urlTitle,
 			caseReason:'',
-			gmtPublish:''
+			gmtPublish:'',
 		};
 	}
 
@@ -77,6 +77,7 @@ class Judgement extends React.Component {
 		const {
 			loading, htmlText, title, url,caseReason,gmtPublish
 		} = this.state;
+		const privates = /^[\u4e00-\u9fa5]/.test(htmlText);
 		const newHtmlText = htmlText.replace(/FONT-FAMILY:.{3,4};/g, 'font-family: PingFang SC, microsoft yahei;').replace(/pt/g, 'px').replace(/MARGIN: 0.5px 0cm/g, 'margin: 20px 0');
 		return (
 			<Spin visible={loading}>
@@ -90,11 +91,11 @@ class Judgement extends React.Component {
 						<div className="judgement-header-hint">
 							<div className="judgement-header-hint-reason">
 								<span className="judgement-header-hint-reason-label">案由：</span>
-								<span className="judgement-header-hint-reason-content">{caseReason}</span>
+								<span className="judgement-header-hint-reason-content">{caseReason || '-'}</span>
 							</div>
 							<div className="judgement-header-hint-publish">
 								<span className="judgement-header-hint-reason-label">发布日期：</span>
-								<span className="judgement-header-hint-reason-content">{gmtPublish}</span>
+								<span className="judgement-header-hint-reason-content">{gmtPublish || '-'}</span>
 							</div>
 						</div>
 					</div>
@@ -103,7 +104,7 @@ class Judgement extends React.Component {
 						<div className="judgement-line-line" />
 					</div>
 					{
-						newHtmlText ? <div className="judgement-body" dangerouslySetInnerHTML={{ __html: newHtmlText }} /> : (loading ? null : <NoContent font="文书未公开或未查到" style={{ paddingTop: 50 }} />)
+						newHtmlText ? <div className={privates ? 'judgement-bodys' : 'judgement-body'} dangerouslySetInnerHTML={{ __html: newHtmlText }} /> : (loading ? null : <NoContent font="文书未公开或未查到" style={{ paddingTop: 50 }} />)
 					}
 				</div>
 			</Spin>
