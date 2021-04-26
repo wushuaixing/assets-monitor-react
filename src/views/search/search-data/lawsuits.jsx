@@ -220,7 +220,7 @@ class LAWSUITS extends React.Component {
 								title="原告"
 								value={item.name}
 								placeholder="个人/企业名称"
-								onChange={e => this.handlePlaintiff(e, item.id)}
+								onChange={e => this.handlePlaintiff(e.replace(/%/g, ''), item.id)}
 								maxLength="40"
 							/>
 							{plaintiff.length > 1 ? (
@@ -261,7 +261,7 @@ class LAWSUITS extends React.Component {
 								maxLength="40"
 								value={item.name}
 								placeholder="姓名/公司名称"
-								onChange={e => this.handleDefendant(e, item.id)}
+								onChange={e => this.handleDefendant(e.replace(/%/g, ''), item.id)}
 							/>
 							{defendant.length > 1 ? (
 								<Tooltip placement="top" title="删除">
@@ -298,7 +298,7 @@ class LAWSUITS extends React.Component {
 							title="起诉法院"
 							placeholder="法院名称"
 							maxLength="20"
-							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('court', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ 'margin-right': 16 }}>
@@ -306,7 +306,7 @@ class LAWSUITS extends React.Component {
 							title="案号"
 							maxLength="40"
 							placeholder="案件编号"
-							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('ah', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ 'margin-right': 0, width: 316 }}>

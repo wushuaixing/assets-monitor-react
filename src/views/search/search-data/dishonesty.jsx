@@ -78,7 +78,7 @@ class DISHONESTY extends React.Component {
 							title="被执行人"
 							placeholder="个人/企业名称，请填写至少2个汉字"
 							maxLength="40"
-							{...getFieldProps('obligorName', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('obligorName', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item">
@@ -89,7 +89,7 @@ class DISHONESTY extends React.Component {
 							maxLength="18"
 							placeholder="身份证号/组织机构代码"
 							{...getFieldProps('obligorNumber', {
-								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, ''),
+								getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, '').replace(/%/g, ''),
 							})}
 						/>
 					</div>

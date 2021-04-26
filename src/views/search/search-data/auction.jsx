@@ -116,7 +116,7 @@ class AUCTION extends React.PureComponent {
 							placeholder="个人/企业名称"
 							maxLength="40"
 							{...getFieldProps('name', {
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -136,7 +136,7 @@ class AUCTION extends React.PureComponent {
 							title="全文"
 							placeholder="关键字"
 							{...getFieldProps('addr', {
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
