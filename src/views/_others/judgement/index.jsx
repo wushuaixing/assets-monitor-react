@@ -104,7 +104,7 @@ class Judgement extends React.Component {
 						<div className="judgement-line-line" />
 					</div>
 					{
-						newHtmlText ? <div className={privates ? 'judgement-bodys' : 'judgement-body'} dangerouslySetInnerHTML={{ __html: newHtmlText }} /> : (loading ? null : <NoContent font="文书未公开或未查到" style={{ paddingTop: 50 }} />)
+						newHtmlText ? <div className={privates ? 'judgement-bodys' : 'judgement-body'} dangerouslySetInnerHTML={{ __html: newHtmlText }} /> : (loading ? null : <NoContent font="暂无数据" style={{ paddingTop: 50 }} />)
 					}
 				</div>
 			</Spin>
