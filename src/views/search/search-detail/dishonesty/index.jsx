@@ -234,7 +234,7 @@ class Dishonesty extends React.Component {
 						placeholder="个人/企业名称，请填写至少2个汉字"
 						{...getFieldProps('obligorName', {
 							initialValue: params.obligorName,
-							getValueFromEvent: e => e.trim(),
+							getValueFromEvent: e => e.trim().replace(/%/g, ''),
 						})}
 					/>
 				</div>
@@ -247,7 +247,7 @@ class Dishonesty extends React.Component {
 						placeholder="身份证号码/组织机构代码"
 						{...getFieldProps('obligorNumber', {
 							initialValue: params.obligorNumber,
-							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, ''),
+							getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*（）()]/g, '').replace(/%/g, ''),
 						})}
 					/>
 				</div>

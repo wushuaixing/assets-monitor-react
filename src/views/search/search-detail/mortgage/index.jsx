@@ -264,7 +264,7 @@ class Mortgage extends React.Component {
 						placeholder="个人/企业名称"
 						{...getFieldProps('name', {
 							initialValue: params.name,
-							getValueFromEvent: e => e.trim(),
+							getValueFromEvent: e => e.trim().replace(/%/g, ''),
 						})}
 					/>
 				</div>

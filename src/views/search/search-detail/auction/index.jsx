@@ -405,7 +405,7 @@ class AUCTION extends React.Component {
 						placeholder="姓名/公司名称"
 						{...getFieldProps('name', {
 							initialValue: params.name,
-							getValueFromEvent: e => e.trim(),
+							getValueFromEvent: e => e.trim().replace(/%/g, ''),
 						})}
 					/>
 				</div>

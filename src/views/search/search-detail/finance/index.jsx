@@ -254,7 +254,7 @@ class FINANCE extends React.Component {
 							placeholder="全文搜索关键词"
 							{...getFieldProps('content', {
 								initialValue: params.content,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -267,7 +267,7 @@ class FINANCE extends React.Component {
 							placeholder="项目标题"
 							{...getFieldProps('projectName', {
 								initialValue: params.projectName,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
