@@ -50,7 +50,7 @@ class QUERYLAND extends React.Component {
 		const params = {
 			...Fields,
 			page: 1,
-			num: pageSize,
+			// num: pageSize,
 		};
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(Fields)) {

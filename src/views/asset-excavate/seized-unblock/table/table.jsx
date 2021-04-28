@@ -136,7 +136,6 @@ class TableView extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 		};
-		console.log('我的收藏查解封1',props);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -169,7 +168,6 @@ class TableView extends React.Component {
 	};
 
 	render() {
-		console.log('我的收藏查解封1',this.props);
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;

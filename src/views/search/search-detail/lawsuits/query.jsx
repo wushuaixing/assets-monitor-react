@@ -79,7 +79,7 @@ class QUERYLAWSUITS extends React.Component {
 			startGmtTrial: fields.startLarq,
 			endGmtTrial: fields.endLarq,
 			page: 1,
-			num: pageSize,
+			// num: pageSize,
 		};
 
 

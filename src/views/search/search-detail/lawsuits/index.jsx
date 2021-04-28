@@ -365,10 +365,12 @@ class LAWSUITS extends React.Component {
 
 	// 获取查询参数
 	getQueryData = (obj) => {
+		const { pageSize }  = this.state
 		this.setState({
 			Params: obj,
 			page: 1,
 			current: 1,
+			num: pageSize,
 			Sort: undefined,
 			sortColumn: undefined,
 			sortOrder: undefined,
