@@ -40,9 +40,6 @@ class TableIntact extends React.Component {
 			dataIndex: 'title',
 			render: (value, row) => (
 				<div className="assets-info-content">
-					{
-						console.log('=======',row.title,row.title,row)
-					}
 					<li style={{ display: 'inline-block' }}>
 						<span className="li-td-tag">
 							{projectTypeMap.get(row.projectType)}
