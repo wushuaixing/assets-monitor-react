@@ -431,7 +431,7 @@ class AUCTION extends React.Component {
 						placeholder="关键字"
 						{...getFieldProps('addr', {
 							initialValue: params.addr,
-							getValueFromEvent: e => e.trim(),
+							getValueFromEvent: e => e.trim().replace(/%/g, ''),
 						})}
 					/>
 				</div>
