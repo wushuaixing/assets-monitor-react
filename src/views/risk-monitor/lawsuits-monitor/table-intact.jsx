@@ -54,7 +54,7 @@ export default class TableIntact extends React.Component {
 		if (onPageChange)onPageChange();
 		if (curSourceObj) {
 			Object.assign(curSourceObj, { isRedirect: true, page: 1 });
-			if (onBtnChange)onBtnChange(curSourceObj);
+			// if (onBtnChange)onBtnChange(curSourceObj);
 		}
 	};
 
