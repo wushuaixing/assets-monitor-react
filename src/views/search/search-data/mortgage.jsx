@@ -70,7 +70,7 @@ class MORTGAGE extends React.Component {
 							title="个人/企业"
 							placeholder="个人/企业名称"
 							maxLength="40"
-							{...getFieldProps('name', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('name', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ marginRight: 16, width: 181 }}>

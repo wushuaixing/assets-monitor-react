@@ -115,7 +115,6 @@ export default class TableIntact extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-
 		return (
 			<div className="yc-assets-auction">
 				<Spin visible={loading}>

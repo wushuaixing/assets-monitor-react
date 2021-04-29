@@ -84,7 +84,7 @@ class LAND extends React.Component {
 							title="个人/企业"
 							placeholder="个人/企业名称"
 							maxLength="40"
-							{...getFieldProps('name', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('name', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ marginRight: 16, width: 200 }}>
@@ -106,7 +106,7 @@ class LAND extends React.Component {
 							title="宗地坐落"
 							maxLength="20"
 							placeholder="宗地坐落具体位置"
-							{...getFieldProps('landAddress', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('landAddress', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 				</div>
@@ -116,7 +116,7 @@ class LAND extends React.Component {
 							title="土地用途"
 							placeholder="土地用途"
 							maxLength="20"
-							{...getFieldProps('landUse', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('landUse', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ 'margin-right': 0, width: 400 }}>

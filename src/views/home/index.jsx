@@ -249,10 +249,6 @@ class HomeRouter extends React.Component {
 				<div className="home-container-horizontal-mark-line" />
 				<div className="home-container-content">
 					<div className="home-container-content-left">
-						<Dynamic />
-					</div>
-					<div className="home-container-content-middle" />
-					<div className="home-container-content-right">
 						{
 							(baseRule.menu_ywgl && baseRule.menu_ywgl.children.ywglywst) || baseRule.menu_hxcx || baseRule.menu_xxss ? (
 								<React.Fragment>
@@ -263,6 +259,10 @@ class HomeRouter extends React.Component {
 								</React.Fragment>
 							) : null
 						}
+						<Dynamic />
+					</div>
+					<div className="home-container-content-middle" />
+					<div className="home-container-content-right">
 						<div className="home-container-content-right-overview">
 							<Overview {...overviewParams} />
 						</div>

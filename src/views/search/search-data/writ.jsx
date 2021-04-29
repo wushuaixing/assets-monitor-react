@@ -85,7 +85,7 @@ class WRIT extends React.Component {
 							title="全文"
 							placeholder="个人/企业名称、关键字"
 							{...getFieldProps('content', {
-								getValueFromEvent: e => e.trim().replace(/\s+/g, ' '),
+								getValueFromEvent: e => e.trim().replace(/\s+/g, ' ').replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -96,7 +96,7 @@ class WRIT extends React.Component {
 							title="案号"
 							maxLength="40"
 							placeholder="案件编号"
-							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('ah', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ marginRight: 16, width: 259 }}>
@@ -104,7 +104,7 @@ class WRIT extends React.Component {
 							title="案由"
 							maxLength="40"
 							placeholder="案件内容提要"
-							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('reason', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ width: 259 }}>
@@ -112,7 +112,7 @@ class WRIT extends React.Component {
 							title="起诉法院"
 							maxLength="20"
 							placeholder="法院名称"
-							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('court', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 				</div>

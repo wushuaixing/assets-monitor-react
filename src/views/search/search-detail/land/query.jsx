@@ -50,7 +50,7 @@ class QUERYLAND extends React.Component {
 		const params = {
 			...Fields,
 			page: 1,
-			num: pageSize,
+			// num: pageSize,
 		};
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(Fields)) {
@@ -97,7 +97,7 @@ class QUERYLAND extends React.Component {
 							placeholder="个人/企业名称"
 							{...getFieldProps('name', {
 								initialValue: urlObj.name || undefined,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -124,7 +124,7 @@ class QUERYLAND extends React.Component {
 							placeholder="土地具体坐落位置"
 							{...getFieldProps('landAddress', {
 								initialValue: urlObj.landAddress || undefined,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -137,7 +137,7 @@ class QUERYLAND extends React.Component {
 							placeholder="土地用途"
 							{...getFieldProps('landUse', {
 								initialValue: urlObj.landUse || undefined,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>

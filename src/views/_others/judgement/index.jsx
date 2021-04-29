@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ellipsis, Spin, NoContent } from '@/common';
+import { Ellipsis, Spin, NoContent , Button} from '@/common';
 import { parseQuery, clearEmpty } from '@/utils';
 import { judgmentDetail, judgmentUnsealDetail } from '@/utils/api/index';
 import './style.scss';
@@ -25,6 +25,8 @@ class Judgement extends React.Component {
 			url: '',
 			htmlText: '',
 			title: urlTitle,
+			caseReason:'',
+			gmtPublish:'',
 		};
 	}
 
@@ -47,6 +49,8 @@ class Judgement extends React.Component {
 					url: res.data.url,
 					htmlText: res.data.htmlText,
 					title: res.data.title || title,
+					caseReason:res.data.caseReason,
+					gmtPublish:res.data.gmtPublish,
 				});
 			} else {
 				this.setState({
@@ -62,32 +66,47 @@ class Judgement extends React.Component {
 	};
 
 	// 手动跳转源链接
-	// handleJumpSourceLink = () => {
-	// 	const { url } = this.state;
-	// 	console.log('url', url);
-	// 	const w = window.open('about:blank');
-	// 	w.location.href = url;
-	// };
+	handleJumpSourceLink = () => {
+		const { url } = this.state;
+		// console.log('url', url);
+		const w = window.open('about:blank');
+		w.location.href = url;
+	};
 
 	render() {
 		const {
-			loading, htmlText, title, url,
+			loading, htmlText, title, url,caseReason,gmtPublish
 		} = this.state;
+		const privates = /^[\u4e00-\u9fa5]/.test(htmlText);
 		const newHtmlText = htmlText.replace(/FONT-FAMILY:.{3,4};/g, 'font-family: PingFang SC, microsoft yahei;').replace(/pt/g, 'px').replace(/MARGIN: 0.5px 0cm/g, 'margin: 20px 0');
 		return (
 			<Spin visible={loading}>
 				<div className="judgement">
 					<div className="judgement-header">
 						<span className="judgement-header-title">{title}</span>
-						{/* <Button className="judgement-header-btn" onClick={this.handleJumpSourceLink}>源链接</Button> */}
-						<Ellipsis className="judgement-header-btn" content="源链接" url={url} isSourceLink wsSourceLink />
+						{
+							url ? <Button className="judgement-header-btn" onClick={this.handleJumpSourceLink}>源链接</Button> : null
+						}
+						{/*{*/}
+						{/* url ? <Ellipsis className="judgement-header-btn" content="源链接" url={url} isSourceLink wsSourceLink /> : null*/}
+						{/*}*/}
+						<div className="judgement-header-hint">
+							<div className="judgement-header-hint-reason">
+								<span className="judgement-header-hint-reason-label">案由：</span>
+								<span className="judgement-header-hint-reason-content">{caseReason || '-'}</span>
+							</div>
+							<div className="judgement-header-hint-publish">
+								<span className="judgement-header-hint-reason-label">发布日期：</span>
+								<span className="judgement-header-hint-reason-content">{gmtPublish || '-'}</span>
+							</div>
+						</div>
 					</div>
 					<div className="judgement-line">
 						<div className="judgement-line-title">文书正文</div>
 						<div className="judgement-line-line" />
 					</div>
 					{
-						newHtmlText ? <div className="judgement-body" dangerouslySetInnerHTML={{ __html: newHtmlText }} /> : (loading ? null : <NoContent font="文书未公开或未查到" style={{ paddingTop: 50 }} />)
+						newHtmlText ? <div className={privates ? 'judgement-bodys' : 'judgement-body'} dangerouslySetInnerHTML={{ __html: newHtmlText }} /> : (loading ? null : <NoContent font="暂无数据" style={{ paddingTop: 50 }} />)
 					}
 				</div>
 			</Spin>

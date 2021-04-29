@@ -289,7 +289,7 @@ class BANKRUPTCY extends React.Component {
 							placeholder="企业名称、关键字"
 							{...getFieldProps('brcompanyname', {
 								initialValue: params.brcompanyname,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -302,7 +302,7 @@ class BANKRUPTCY extends React.Component {
 							placeholder="破产案号/公告标题"
 							{...getFieldProps('title', {
 								initialValue: params.title,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -315,7 +315,7 @@ class BANKRUPTCY extends React.Component {
 							placeholder="案件受理法院名称"
 							{...getFieldProps('court', {
 								initialValue: params.court,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>

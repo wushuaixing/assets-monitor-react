@@ -11,7 +11,6 @@ const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = { sortField, sortOrder };
-
 	const defaultColumns = [
 		{
 			title: <span style={{ paddingLeft: 10 }}>查/解封对象</span>,

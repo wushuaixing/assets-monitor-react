@@ -48,7 +48,7 @@ class TableIntact extends React.Component {
 				dataIndex: 'title',
 				render: (value, row) => (
 					<div className="assets-info-content">
-						<Ellipsis auto content={row.title} url={row.url} tooltip className="yc-public-title-normal-bold" isSourceLink />
+						<Ellipsis auto content={row.title} url={row.url ? row.url : row.homeUrl} tooltip className="yc-public-title-normal-bold" isSourceLink />
 						<li>
 							{/* portrait  区分画像和债务人 enterprise = 画像 */}
 							{

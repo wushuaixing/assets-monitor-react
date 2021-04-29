@@ -79,7 +79,7 @@ class QUERYLAWSUITS extends React.Component {
 			startGmtTrial: fields.startLarq,
 			endGmtTrial: fields.endLarq,
 			page: 1,
-			num: pageSize,
+			// num: pageSize,
 		};
 
 
@@ -130,7 +130,7 @@ class QUERYLAWSUITS extends React.Component {
 								style={_style1}
 								value={item.name}
 								placeholder="姓名/公司名称"
-								onChange={e => inputChange(1, e, item.id)}
+								onChange={e => inputChange(1, e.replace(/%/g, ''), item.id)}
 							/>
 							{
 								plaintiff.length > 1 ? (
@@ -178,7 +178,7 @@ class QUERYLAWSUITS extends React.Component {
 									maxLength="40"
 									value={item.name}
 									placeholder="姓名/公司名称"
-									onChange={e => inputChange(2, e, item.id)}
+									onChange={e => inputChange(2, e.replace(/%/g, ''), item.id)}
 								/>
 								{
 									defendant.length > 1 ? (
@@ -225,7 +225,7 @@ class QUERYLAWSUITS extends React.Component {
 							placeholder="法院名称"
 							{...getFieldProps('court', {
 								initialValue: urlObj.court || undefined,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -238,7 +238,7 @@ class QUERYLAWSUITS extends React.Component {
 							placeholder="案件编号"
 							{...getFieldProps('ah', {
 								initialValue: urlObj.ah || undefined,
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>

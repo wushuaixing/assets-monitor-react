@@ -83,7 +83,7 @@ class BANKRUPTCY extends React.Component {
 							title="全文"
 							placeholder="企业名称、关键字"
 							maxLength="40"
-							{...getFieldProps('brcompanyname', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('brcompanyname', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ marginRight: 16, width: 259 }}>
@@ -91,7 +91,7 @@ class BANKRUPTCY extends React.Component {
 							title="案号/标题"
 							maxLength="40"
 							placeholder="破产案号/公告标题"
-							{...getFieldProps('title', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('title', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ width: 259 }}>
@@ -99,7 +99,7 @@ class BANKRUPTCY extends React.Component {
 							title="受理法院"
 							maxLength="20"
 							placeholder="破产案件受理法院"
-							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('court', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 				</div>

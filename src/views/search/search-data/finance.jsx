@@ -84,7 +84,7 @@ class FINANCE extends React.Component {
 						<Input
 							title="全文"
 							placeholder="全文搜索关键词"
-							{...getFieldProps('content', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('content', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 					<div className="item" style={{ width: 243 }}>
@@ -92,7 +92,7 @@ class FINANCE extends React.Component {
 							title="项目名称"
 							placeholder="项目标题"
 							maxLength="40"
-							{...getFieldProps('projectName', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('projectName', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
 				</div>

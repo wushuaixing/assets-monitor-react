@@ -44,8 +44,8 @@ class TableIntact extends React.Component {
 						<span className="li-td-tag">
 							{projectTypeMap.get(row.projectType)}
 						</span>
-						{ toEmpty(row.title)
-							? <Ellipsis content={row.title} url={row.sourceUrl} tooltip width={600} font={15} className="yc-public-title-normal-bold" isSourceLink /> : '-' }
+						{ toEmpty(row.title || (row.projectName ? row.projectName : row.sourceUrl))
+							? <Ellipsis content={row.title || (row.projectName ? row.projectName : row.sourceUrl)} url={row.sourceUrl} tooltip width={600} font={15} className="yc-public-title-normal-bold" isSourceLink /> : '-' }
 					</li>
 				</div>
 			),

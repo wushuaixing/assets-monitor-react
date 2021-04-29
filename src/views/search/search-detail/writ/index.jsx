@@ -300,7 +300,7 @@ class WRIT extends React.Component {
 							placeholder="姓名/公司名称/关键字"
 							{...getFieldProps('content', {
 								initialValue: params ? params.content : '',
-								getValueFromEvent: e => e.trim().replace(/\s+/g, ' '),
+								getValueFromEvent: e => e.trim().replace(/\s+/g, ' ').replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -313,7 +313,7 @@ class WRIT extends React.Component {
 							placeholder="案件编号"
 							{...getFieldProps('ah', {
 								initialValue: params ? params.ah : '',
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -326,7 +326,7 @@ class WRIT extends React.Component {
 							placeholder="案件内容提要"
 							{...getFieldProps('reason', {
 								initialValue: params ? params.reason : '',
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -339,7 +339,7 @@ class WRIT extends React.Component {
 							placeholder="法院名称"
 							{...getFieldProps('court', {
 								initialValue: params ? params.court : '',
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>

@@ -77,7 +77,7 @@ const columns = (props) => {
 					<Ellipsis
 						width={480}
 						content={text}
-						url={row.url}
+						url={row.url ? row.url : row.homeUrl}
 						tooltip
 						isSourceLink
 					/>
