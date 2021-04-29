@@ -173,7 +173,6 @@ class Dishonesty extends React.Component {
 		if (!objectKeyIsEmpty(fields)) {
 			// obligorName 是必填项
 			if (fields.obligorName) {
-				console.log(fields.obligorNumber)
 				if (/^[\u4E00-\u9FA5]{2,}/.test(fields.obligorName)) {
 					if (fields.obligorName.length <= 4 && !fields.obligorNumber) {
 						message.error('请输入证件号');

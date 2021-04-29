@@ -195,7 +195,7 @@ class DynamicUpdate extends PureComponent {
 							<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
 								资产挖掘: 新增
 								<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
-								条资产挖掘信息
+								条资产线索
 
 								{/*		<span className="seven-update-content-title-addNum">
 										<span className="seven-update-content-title-addNum-icon" />
