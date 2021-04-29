@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ellipsis, Spin, NoContent } from '@/common';
+import { Ellipsis, Spin, NoContent , Button} from '@/common';
 import { parseQuery, clearEmpty } from '@/utils';
 import { judgmentDetail, judgmentUnsealDetail } from '@/utils/api/index';
 import './style.scss';
@@ -66,12 +66,12 @@ class Judgement extends React.Component {
 	};
 
 	// 手动跳转源链接
-	// handleJumpSourceLink = () => {
-	// 	const { url } = this.state;
-	// 	console.log('url', url);
-	// 	const w = window.open('about:blank');
-	// 	w.location.href = url;
-	// };
+	handleJumpSourceLink = () => {
+		const { url } = this.state;
+		// console.log('url', url);
+		const w = window.open('about:blank');
+		w.location.href = url;
+	};
 
 	render() {
 		const {
@@ -84,10 +84,12 @@ class Judgement extends React.Component {
 				<div className="judgement">
 					<div className="judgement-header">
 						<span className="judgement-header-title">{title}</span>
-						{/* <Button className="judgement-header-btn" onClick={this.handleJumpSourceLink}>源链接</Button> */}
 						{
-						 url ? <Ellipsis className="judgement-header-btn" content="源链接" url={url} isSourceLink wsSourceLink /> : null
+							url ? <Button className="judgement-header-btn" onClick={this.handleJumpSourceLink}>源链接</Button> : null
 						}
+						{/*{*/}
+						{/* url ? <Ellipsis className="judgement-header-btn" content="源链接" url={url} isSourceLink wsSourceLink /> : null*/}
+						{/*}*/}
 						<div className="judgement-header-hint">
 							<div className="judgement-header-hint-reason">
 								<span className="judgement-header-hint-reason-label">案由：</span>
