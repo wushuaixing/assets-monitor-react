@@ -236,8 +236,8 @@ export default class Assets extends React.Component {
 		if (this.condition.process === 3) this.condition.processString = '3,6';
 		const params = {
 			...this.condition,
-			value:1,
 			process: this.condition.process === 12 ? '12,15' : this.condition.process,
+			requestSourceType:1,
 		};
 		this.toInfoCount();
 		this.setState({
