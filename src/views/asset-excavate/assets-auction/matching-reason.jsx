@@ -138,7 +138,7 @@ export default class MatchingReason extends React.Component {
 							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
 									<div>● 审核备注</div>
-									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" style={{ display: 'inline-block' }} />
+									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" style={{ display: 'inline' }} />
 									{this.toGetRemarkBehind(remark)}
 								</div>
 							) : null
