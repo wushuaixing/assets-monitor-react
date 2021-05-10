@@ -225,7 +225,7 @@ export default class SeizedUnblock extends React.Component {
 								title="只显示未读"
 							/>
 							<div className="yc-all-read" onClick={this.handleAllRead}>
-								<Icon className="yc-all-clear" type="icon-clear" />
+								<Icon className="yc-all-clear" type="icon-quanbubiaoweiyidu" />
 								<span className="yc-all-read-text">全部标为已读</span>
 							</div>
 							<div className="yc-public-floatRight">

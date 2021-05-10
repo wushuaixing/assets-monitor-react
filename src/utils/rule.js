@@ -526,13 +526,6 @@ export default {
 				dot: false,
 				children: [
 					{
-						id: 'YC0601',
-						name: '推送设置',
-						url: '/organization/setting',
-						reg: /\/organization\/setting/,
-						status: toStatus(rule.menu_jjgl, 'jggltssz'),
-					},
-					{
 						id: 'YC0603',
 						name: '机构统计',
 						url: '/organization',
@@ -546,6 +539,13 @@ export default {
 						url: '/organization/user',
 						reg: /\/organization\/user/,
 						status: toStatus(rule.menu_jjgl, 'jgglzhlb'),
+					},
+					{
+						id: 'YC0601',
+						name: '推送设置',
+						url: '/organization/setting',
+						reg: /\/organization\/setting/,
+						status: toStatus(rule.menu_jjgl, 'jggltssz'),
 					},
 				],
 			},

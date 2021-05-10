@@ -8,7 +8,7 @@ import { processSave } from '@/utils/api/monitor-info/assets-follow';
 import {
 	AssetsInfo, MatchingReason, AuctionInfo,
 } from '@/views/asset-excavate/assets-auction/tableComponents';
-import { Button, Table, SelectedNum } from '@/common';
+import { Table, SelectedNum } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
 import FollowModel from './follow-info';
@@ -47,65 +47,137 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 		{
 			title: (noSort ? '业务信息'
 				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>业务信息</SortVessel>),
-			width: '23%',
+			width: '20%',
 			render: (text, row, index, noMatching, asset = true) => AssetsInfo(text, row, index, noMatching, asset),
 		}, {
 			title: '匹配原因',
 			dataIndex: 'reason',
-			width: '33%',
+			width: '30%',
 			render: MatchingReason,
 		}, {
 			title: (noSort ? '拍卖信息'
 				: <SortVessel field="START" onClick={onSortChange} mark="(开拍时间)" {...sort}>拍卖信息</SortVessel>),
-			width: '33%',
+			width: '30%',
 			render: (text, row) => AuctionInfo(text, row, toOpenHistory),
+		}, {
+			title: '跟进状态',
+			dataIndex: 'reason',
+			width: '9%',
+			render: (text, row) => {
+				const { recovery, process } = row;
+				return (
+					<React.Fragment>
+						{{
+							0: (
+								<div className="property-list-dynamic">
+									<i style={{ background: '#FB5A5C' }} />
+									<span>未跟进</span>
+								</div>
+							),
+							3: (
+								<div className="property-list-dynamic">
+									<i style={{ background: '#1C80E1' }} />
+									<span>跟进中</span>
+								</div>
+							),
+							6: (
+								<div className="property-list-dynamic">
+									<i style={{ background: '#1C80E1' }} />
+									<span>跟进中</span>
+								</div>
+							),
+							9: (
+								<div className="property-list-dynamic">
+									<i style={{ background: '#3DBD7D' }} />
+									<span>已完成</span>
+								</div>
+							),
+							12: (
+								<div className="property-list-dynamic">
+									<i style={{ background: '#4E5566' }} />
+									<span>已忽略</span>
+								</div>
+							),
+							15: (
+								<div className="property-list-dynamic">
+									<i style={{ background: '#4E5566' }} />
+									<span>已放弃</span>
+								</div>
+							),
+						}[process] || '-' }
+						{recovery > 0 ?	(
+							<div style={{ color: '#FB5A5C',fontWeight: 'bold' ,fontSize: '12px' }}>
+								追回：<br />
+								{`${floatFormat(recovery)}元`}
+							</div>
+						) : ''}
+					</React.Fragment>
+				);
+			},
 		}, {
 			title: '操作',
 			width: '11%',
 			unNormal: true,
 			className: 'tAlignCenter_important yc-assets-auction-action',
 			render: (text, row, index) => {
-				const { recovery, process } = row;
+				const { process } = row;
 				const event = {
 					onClick: () => onFollowClick(row, index),
 				};
 				return (
 					<React.Fragment>
-						{recovery > 0 ?	(
-							<div className="auction-recovery">
-								追回金额
-								{floatFormat(recovery).length > 12 ? <br /> : '：'}
-								{`${floatFormat(recovery)}元`}
-							</div>
-						) : ''}
-						{{
-							0: (
-								<React.Fragment>
-									<Button className="auction-button" type="ghost-other" title="跟进" {...event} />
-									<br />
-									<Button className="auction-button" title="忽略" onClick={() => handleIgnore(row, index, onRefresh)} />
-								</React.Fragment>
-							),
-							3: <Button className="auction-button" type="ghost-ing" title="跟进中" {...event} />,
-							6: <Button className="auction-button" type="ghost-ing" title="跟进中" {...event} />,
-							9: <Button className="auction-button" type="ghost-done" title="已完成" {...event} />,
-							12: (
-								<React.Fragment>
-									<Button className="auction-button" type="ghost-other" title="跟进" {...event} />
-									<br />
-									<Button className="auction-button" type="ghost-ing" title="已忽略" disabled />
-								</React.Fragment>
-							),
-							15: <Button className="auction-button" type="ghost-abort" title="已放弃" {...event} />,
-						}[process] || null }
-						<Attentions
-							text={text}
-							row={row}
-							onClick={onRefresh}
-							index={index}
-							api={row.isAttention ? unFollowSingle : followSingle}
-							single
-						/>
+						<div style={{ display: 'flex' }}>
+							{{
+								0: (
+									<React.Fragment>
+											<span className="auction-button" {...event}>跟进</span>
+											<span className="property-list-wire" />
+											<span className="auction-button" onClick={() => handleIgnore(row, index, onRefresh)}>忽略</span>
+											<span className="property-list-wire" />
+									</React.Fragment>
+								),
+								3: (
+									<React.Fragment>
+										<span className="auction-button" {...event}>跟进中</span>
+										<span className="property-list-wire" />
+									</React.Fragment>
+								),
+								6: (
+									<React.Fragment>
+										<span className="auction-button" {...event}>跟进中</span>
+										<span className="property-list-wire" />
+									</React.Fragment>
+								),
+								9: (
+									<React.Fragment>
+										<span className="auction-button" {...event}>已完成</span>
+										<span className="property-list-wire" />
+									</React.Fragment>
+								),
+								12: (
+									<React.Fragment>
+										<span className="auction-button" {...event}>跟进</span>
+										<span className="property-list-wire" />
+										<span className="auction-button" style={{ color: '#7D8699' }}>已忽略</span>
+										<span className="property-list-wire" />
+									</React.Fragment>
+								),
+								15: (
+									<React.Fragment>
+										<span className="auction-button" {...event}>已放弃</span>
+										<span className="property-list-wire" />
+									</React.Fragment>
+								),
+							}[process] || null }
+							<Attentions
+								text={text}
+								row={row}
+								onClick={onRefresh}
+								index={index}
+								api={row.isAttention ? unFollowSingle : followSingle}
+								single
+							/>
+						</div>
 					</React.Fragment>
 				);
 			},
