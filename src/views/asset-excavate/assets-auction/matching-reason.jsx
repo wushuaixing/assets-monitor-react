@@ -41,23 +41,23 @@ export default class MatchingReason extends React.Component {
 				if (item.used_name) {
 					return (
 						<div className="reason-list">
-							<div>{`● 根据曾用名"${item.used_name}"匹配 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</div>
-							{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
+							<span className="reason-list-dots">●</span>
+							{ item.hl.map(i => <span dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
 						</div>
 					);
 				} if (item.birth) {
 					return (
 						<div className="reason-list">
-							<div>{`● 根据"${item.birth}"匹配 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</div>
-							<p dangerouslySetInnerHTML={{ __html: item.desc }} className="yc-text-content" />
+							<span className="reason-list-dots">●</span>
+							<span dangerouslySetInnerHTML={{ __html: item.desc }} className="yc-text-content" />
 						</div>
 					);
 				}
 				if (pushType === 1 && /<em/.test(JSON.stringify(item.hl))) return null;
 				return (
 					<div className="reason-list">
-						<div>{`● 根据"${item.name || item.number}"匹配 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</div>
-						{ item.hl.map(i => <p dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
+						<span className="reason-list-dots">●</span>
+						{ item.hl.map(i => <span dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
 					</div>
 				);
 			});
@@ -137,7 +137,8 @@ export default class MatchingReason extends React.Component {
 						{
 							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
-									<div>● 审核备注</div>
+									<span className="reason-list-dots">●</span>
+									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</span>
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>
@@ -148,11 +149,20 @@ export default class MatchingReason extends React.Component {
 						{
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">
-									<div>● 审核备注</div>
+									<span className="reason-list-dots">●</span>
+									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</span>
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>
 							) : null
+						}
+						{
+							remark ? null : (
+								<div className="reason-list">
+									<span className="reason-list-dots">●</span>
+									<span>{` ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</span>
+								</div>
+							)
 						}
 					</div>
 				</div>
