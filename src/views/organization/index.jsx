@@ -11,17 +11,6 @@ import OperateLog from './operate-log';
 
 const source = rule => ([
 	{
-		id: 1,
-		title: '推送设置',
-		url: '/organization/setting/*',
-		number: 0,
-		img: setting,
-		selectImg: settingEd,
-		display: !!(rule && rule.jggltssz),
-		status: !!(rule && rule.jggltssz),
-		components: PushManage,
-	},
-	{
 		id: 3,
 		title: '机构统计',
 		url: '/organization/*',
@@ -42,6 +31,17 @@ const source = rule => ([
 		display: !!(rule && rule.jgglzhlb),
 		status: !!(rule && rule.jgglzhlb),
 		components: UserList,
+	},
+	{
+		id: 1,
+		title: '推送设置',
+		url: '/organization/setting/*',
+		number: 0,
+		img: setting,
+		selectImg: settingEd,
+		display: !!(rule && rule.jggltssz),
+		status: !!(rule && rule.jggltssz),
+		components: PushManage,
 	},
 ].filter(i => i.status));
 class BusinessBase extends React.Component {
