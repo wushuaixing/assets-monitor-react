@@ -41,14 +41,14 @@ export default class MatchingReason extends React.Component {
 				if (item.used_name) {
 					return (
 						<div className="reason-list">
-							<span className="reason-list-dots">●</span>
+							<span className="reason-list-dots">● </span>
 							{ item.hl.map(i => <span dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
 						</div>
 					);
 				} if (item.birth) {
 					return (
 						<div className="reason-list">
-							<span className="reason-list-dots">●</span>
+							<span className="reason-list-dots">● </span>
 							<span dangerouslySetInnerHTML={{ __html: item.desc }} className="yc-text-content" />
 						</div>
 					);
