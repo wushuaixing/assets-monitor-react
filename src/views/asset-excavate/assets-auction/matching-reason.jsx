@@ -56,7 +56,7 @@ export default class MatchingReason extends React.Component {
 				if (pushType === 1 && /<em/.test(JSON.stringify(item.hl))) return null;
 				return (
 					<div className="reason-list">
-						<span className="reason-list-dots">●</span>
+						<span className="reason-list-dots">● </span>
 						{ item.hl.map(i => <span dangerouslySetInnerHTML={{ __html: i }} className="yc-text-content" />) }
 					</div>
 				);
@@ -124,7 +124,6 @@ export default class MatchingReason extends React.Component {
 				reason, remark, duty, approveTime, pushType,
 			}, dishonest,
 		} = this.props;
-		// console.log(pushType, 3333);
 		// console.log(pushType);		// 类型 1 结构化 0 全文
 		const remarkOrder = pushType ? 'last' : 'first';
 		const { status } = this.state;
