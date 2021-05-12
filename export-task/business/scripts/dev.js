@@ -754,7 +754,7 @@ function exportTemplate(source, exportType, name, domainName) {
 			case 'A10301': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
-						+ f.urlDom(i.projectName, i.url)
+						+ f.urlDom(i.projectName || i.url, i.url)
 						+ f.tag(i.landUse)
 						+ f.normalList([
 							{cot: (w(i.administrativeRegion) + ' ' + w(i.landAddress))},
@@ -923,7 +923,7 @@ function exportTemplate(source, exportType, name, domainName) {
 				data.list.forEach(function (i) {
 					var roleName = s.realEstateRoleType[i.role];
 					list += "<tr><td>"
-						+ f.urlDom(i.title, i.url)
+						+ f.urlDom(i.title, i.url || i.homeUrl)
 						+ f.normalList([
 							[
 								{t: '权证类型', cot: i.certificateType},
@@ -944,7 +944,7 @@ function exportTemplate(source, exportType, name, domainName) {
 			case 'A11002': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
-						+ f.urlDom(i.title, i.url)
+						+ f.urlDom(i.title, i.url || i.homeUrl)
 						+ f.normalList([
 							[
 								{t: '权证类型', cot: i.certificateType},
@@ -1102,7 +1102,7 @@ function exportTemplate(source, exportType, name, domainName) {
 					var projectType = s.projectType[i.projectType + ''] || {};
 					list += "<tr><td>"
 						+ f.tag(projectType, 'right-space')
-						+ f.urlDom(i.title, i.sourceUrl)
+						+ f.urlDom(i.title || i.projectName || i.sourceUrl, i.sourceUrl)
 						+ "</td><td>" + f.normalList([
 							{t: '发布日期', cot: i.gmtPublish},
 						]) + "</td></tr>";
@@ -1114,7 +1114,7 @@ function exportTemplate(source, exportType, name, domainName) {
 				data.list.forEach(function (i) {
 					var projectTypeName = s.projectUnitType[i.projectType];
 					list += "<tr><td>"
-						+ f.urlDom(i.title, i.url)
+						+ f.urlDom(i.title, i.url || i.homeUrl)
 						+ f.tag(projectTypeName)
 						+ f.normalList([
 							[
@@ -1133,7 +1133,7 @@ function exportTemplate(source, exportType, name, domainName) {
 			case 'A13002': {
 				data.list.forEach(function (i) {
 					list += "<tr><td>"
-						+ f.urlDom(i.title, i.url)
+						+ f.urlDom(i.title, i.url || i.homeUrl)
 						+ f.normalList([
 							[
 								{t: '招标类型', cot: i.biddingType},
@@ -1156,7 +1156,7 @@ function exportTemplate(source, exportType, name, domainName) {
 						roleList += s.roleType[it] + punctuation;
 					});
 					list += "<tr><td>"
-						+ f.urlDom(i.title, i.url)
+						+ f.urlDom(i.title, i.url || i.homeUrl)
 						+ f.normalList([
 							[
 								{t: '角色', cot: roleList},
