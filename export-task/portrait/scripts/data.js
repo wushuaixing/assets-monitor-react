@@ -3056,6 +3056,7 @@ module.exports = {
 				obligorId: 901168,
 				obligorName: "中国长城资产管理股份有限公司",
 				obligorNumber: "",
+				projectName:'www.baidu.com',
 				orgName: "源诚测试机构兴业银行扬州分行",
 				projectNumber: "B02017000734",
 				projectStatus: 4,
@@ -3063,7 +3064,7 @@ module.exports = {
 				publicityType: 1,
 				sourceUrl: "https://sharp.tjfae.com/productDoorAction/product_view1.htm?productCode=B02017000734",
 				startTime: null,
-				title: "黄骅市中辰房地产开发有限公司债权项目",
+				title: "",
 				transactionPrice: 0,
 				transactionPriceUnit: "元",
 				updateTime: "2020-11-13",
@@ -3084,6 +3085,7 @@ module.exports = {
 				obligorId: 906440,
 				obligorName: "江苏金长江环保汽摩消声器有限公司",
 				obligorNumber: "",
+				projectName:'',
 				orgName: "业务一部",
 				projectNumber: "",
 				projectStatus: 0,
@@ -3091,7 +3093,7 @@ module.exports = {
 				publicityType: 2,
 				sourceUrl: "http://www.chamc.com.cn/ywjs/ywdt/zcczxx/2020/73966.shtml",
 				startTime: null,
-				title: "中国华融资产管理股份有限公司江苏省分公司资产处置公告",
+				title: "",
 				transactionPrice: null,
 				transactionPriceUnit: "",
 				updateTime: "2020-11-13",
@@ -3112,6 +3114,7 @@ module.exports = {
 				obligorId: 901184,
 				obligorName: "中国石油天然气股份有限公司",
 				obligorNumber: "",
+				projectName:'www.baidu.com',
 				orgName: "测试（采矿权）",
 				projectNumber: "G32019BJ1000418",
 				projectStatus: null,
@@ -3137,6 +3140,7 @@ module.exports = {
 				isRead: 1,
 				listingPrice: 0,
 				listingUnit: "",
+				projectName:'www.baidu.com',
 				obligorId: 901273,
 				obligorName: "中国民生银行股份有限公司",
 				obligorNumber: "",
@@ -3185,7 +3189,8 @@ module.exports = {
 				"role": null,
 				"sourceId": 11101,
 				"title": "不动产权证书/登记证明作废公告——编号：xzq2020012",
-				"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567"
+				"url": "",
+				"homeUrl":'http://www.baidu.com',
 			},
 			{
 				"accurateType": 1,
@@ -3209,7 +3214,8 @@ module.exports = {
 				"role": null,
 				"sourceId": 11101,
 				"title": "不动产权证书/登记证明作废公告——编号：xzq2020012",
-				"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567"
+				"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567",
+				"homeUrl":'http://www.baidu.com',
 			},
 			{
 				"accurateType": 1,
@@ -3233,7 +3239,8 @@ module.exports = {
 				"role": null,
 				"sourceId": 11101,
 				"title": "不动产权证书/登记证明作废公告——编号：xzq2020012",
-				"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567"
+				"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567",
+				"homeUrl":'http://www.baidu.com',
 			},
 			{
 				"accurateType": 1,
@@ -3257,7 +3264,8 @@ module.exports = {
 				"role": null,
 				"sourceId": 11101,
 				"title": "不动产权证书/登记证明作废公告——编号：xzq2020012",
-				"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567"
+				"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567",
+				"homeUrl":'http://www.baidu.com',
 			},
 		],
 		"num": 10,
@@ -3292,7 +3300,8 @@ module.exports = {
 					"role": null,
 					"sourceId": 11101,
 					"title": "不动产权证书/登记证明作废公告——编号：xzq2020012",
-					"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567"
+					"url": "",
+					"homeUrl":'http://www.baidu.com',
 				},
 				{
 					"accurateType": 2,
@@ -3316,7 +3325,8 @@ module.exports = {
 					"role": null,
 					"sourceId": 11101,
 					"title": "不动产权证书/登记证明作废公告——编号：xzq2020012",
-					"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567"
+					"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567",
+					"homeUrl":'http://www.baidu.com',
 				},
 				{
 					"accurateType": 2,
@@ -3340,7 +3350,8 @@ module.exports = {
 					"role": null,
 					"sourceId": 11101,
 					"title": "不动产权证书/登记证明作废公告——编号：xzq2020012",
-					"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567"
+					"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567",
+					"homeUrl":'http://www.baidu.com',
 				},
 				{
 					"accurateType": 2,
@@ -3364,7 +3375,8 @@ module.exports = {
 					"role": null,
 					"sourceId": 11101,
 					"title": "不动产权证书/登记证明作废公告——编号：xzq2020012",
-					"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567"
+					"url": "http://bnr.zgsr.gov.cn/News.shtml?p5=156381567",
+					"homeUrl":'http://www.baidu.com',
 				},
 			],
 		"num": 10,
@@ -3484,6 +3496,8 @@ module.exports = {
 				"approvalTime": '2020-11-11',
 				"projectLocation": '广东省佛山市南海区桂城街道半岛路',
 				"planBeginTime": '2020-11-11',
+				"url": '',
+				"homeUrl":'http://www.taobao.com',
 			},
 			{
 				"title": '潍坊宝通街绿化养护管理和完善提升',
@@ -3492,6 +3506,8 @@ module.exports = {
 				"approvalTime": '2020-11-11',
 				"projectLocation": '广东省佛山市南海区桂城街道半岛路',
 				"planBeginTime": '2020-11-11',
+				"url": 'http://www.baidu.com',
+				"homeUrl":'http://www.baidu.com',
 			},
 			{
 				"title": '潍坊宝通街绿化养护管理和完善提升',
@@ -3500,6 +3516,8 @@ module.exports = {
 				"approvalTime": '2020-11-11',
 				"projectLocation": '广东省佛山市南海区桂城街道半岛路',
 				"planBeginTime": '2020-11-11',
+				"url": 'http://www.baidu.com',
+				"homeUrl":'http://www.baidu.com',
 			},
 		],
 		"num": 10,
@@ -3515,7 +3533,8 @@ module.exports = {
 			{
 				"id": '1',
 				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
-				"url": 'http://www.baidu.com',
+				"url": '',
+				"homeUrl":'http://www.taobao.com',
 				"biddingType": '施工',
 				"biddingMode": '公开招标',
 				"approvalTime": '2020-11-11',
@@ -3526,6 +3545,7 @@ module.exports = {
 				"id": '1',
 				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
 				"url": 'http://www.baidu.com',
+				"homeUrl":'http://www.baidu.com',
 				"biddingType": '施工',
 				"biddingMode": '公开招标',
 				"approvalTime": '2020-11-11',
@@ -3536,6 +3556,7 @@ module.exports = {
 				"id": '1',
 				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
 				"url": 'http://www.baidu.com',
+				"homeUrl":'http://www.baidu.com',
 				"biddingType": '施工',
 				"biddingMode": '公开招标',
 				"approvalTime": '2020-11-11',
@@ -3556,7 +3577,8 @@ module.exports = {
 			{
 				"id": '1',
 				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
-				"url": 'http://www.baidu.com',
+				"url": '',
+				"homeUrl":'http://www.taobao.com',
 				"role": [1, 2],
 				"contractPrice": 565626262,
 				"projectPeriod": '2020-11-11至2020-11-20',
@@ -3567,6 +3589,7 @@ module.exports = {
 				"id": '1',
 				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
 				"url": 'http://www.baidu.com',
+				"homeUrl":'http://www.baidu.com',
 				"role": [1, 2],
 				"contractPrice": 565626262,
 				"projectPeriod": '2020-11-11至2020-11-20',
@@ -3577,6 +3600,7 @@ module.exports = {
 				"id": '1',
 				"title": '水生态建设项目五期工程谢岗镇2018-2020批次截污管网',
 				"url": 'http://www.baidu.com',
+				"homeUrl":'http://www.baidu.com',
 				"role": [2, 3, 8],
 				"contractPrice": 565626262,
 				"projectPeriod": '2020-11-11至2020-11-20',

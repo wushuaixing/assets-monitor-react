@@ -34,7 +34,7 @@ export default class MatchingReason extends React.Component {
 	};
 
 	// 资产拍卖
-	toGetReasonList=(reason, pushType, approveTime) => {
+	toGetReasonList=(reason, pushType) => {
 		if (reason) {
 			const _reason = JSON.parse(reason);
 			return _reason.map((item) => {
@@ -137,7 +137,7 @@ export default class MatchingReason extends React.Component {
 							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
 									<span className="reason-list-dots">●</span>
-									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</span>
+									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`} </span>
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>
@@ -149,7 +149,7 @@ export default class MatchingReason extends React.Component {
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">
 									<span className="reason-list-dots">●</span>
-									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</span>
+									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`} </span>
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>
