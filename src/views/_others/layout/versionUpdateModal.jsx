@@ -29,6 +29,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 			>
 				<div className="yc-title-box">
 					<img className="yc-title-img" src={version} alt="" />
+					<span onClick={this.handleCancel}>点击关闭</span>
 				</div>
 				<div className="yc-modal-box">
 					<div className="yc-modal-content">

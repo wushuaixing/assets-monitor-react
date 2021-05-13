@@ -138,6 +138,7 @@ export default class MatchingReason extends React.Component {
 								<div className="reason-list">
 									<span className="reason-list-dots">●</span>
 									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`} </span>
+									<br/>
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>
@@ -150,6 +151,7 @@ export default class MatchingReason extends React.Component {
 								<div className="reason-list">
 									<span className="reason-list-dots">●</span>
 									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`} </span>
+									<br/>
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>
