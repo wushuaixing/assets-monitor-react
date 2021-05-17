@@ -162,7 +162,6 @@ export default class Personal extends React.Component {
 			}, () => {
 				if (hash !== this.hash) {
 					if (this.dd !== _dd) {
-						console.log('===两次重复')
 						this.setState({
 							overViewLoading: true,
 						}, () => {
