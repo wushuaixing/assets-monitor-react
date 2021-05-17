@@ -63,6 +63,7 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 			title: '跟进状态',
 			dataIndex: 'reason',
 			width: '9%',
+			className: 'yc-AssetAuction-verticalMiddle',
 			render: (text, row) => {
 				const { recovery, process } = row;
 				return (
@@ -118,7 +119,7 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 			title: '操作',
 			width: '11%',
 			unNormal: true,
-			className: 'tAlignCenter_important yc-assets-auction-action',
+			className: 'tAlignCenter_important yc-assets-auction-action yc-AssetAuction-verticalMiddle',
 			render: (text, row, index) => {
 				const { process } = row;
 				const event = {
