@@ -187,6 +187,7 @@ class DynamicUpdate extends PureComponent {
 			riskArrNum = hasRiskPropsData && riskPropsData.riskDataArray;
 		}
 		const assetRiskEmpty = hasAssetPropsData && assetPropsData.totalNum === 0 && hasRiskPropsData && riskPropsData.totalNum === 0;
+		const assetRiskHave = hasAssetPropsData && assetPropsData.totalNum !== 0 && hasRiskPropsData && riskPropsData.totalNum !== 0;
 		return (
 			<React.Fragment>
 				{
@@ -210,16 +211,6 @@ class DynamicUpdate extends PureComponent {
 											资产挖掘: 新增
 											<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
 											条资产线索
-
-											{/*		<span className="seven-update-content-title-addNum">
-										<span className="seven-update-content-title-addNum-icon" />
-										<span className="seven-update-content-title-addNum-text">
-											<span className="seven-update-content-title-addNum-text-bold">
-												{assetObligorIdNum}
-											</span>
-											名债务人有资产信息更新
-										</span>
-									</span> */}
 										</div>
 										<RingEcharts id="assetAuction" {...assetParams} title="资产挖掘" />
 										{lessAssetNum && (
@@ -230,17 +221,12 @@ class DynamicUpdate extends PureComponent {
 										</div>
 										)}
 									</div>
-								) : (
-									<div className="detail-container-noData">
-										<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
-										<span className="detail-container-noData-text">暂未匹配到新的资产信息，建议去导入更多债务人，以匹配更多价值信息</span>
-										<div>
-											<Button onClick={this.handleNavigate} type="primary" style={{ width: 180, height: 34, marginTop: '20px' }}>导入更多债务人</Button>
-										</div>
-									</div>
-								)}
+								) : null}
 							</div>
-							<div className="seven-update-container-wire" />
+							{/* 分割线线 */}
+							{
+								assetRiskHave ? <div className="seven-update-container-wire" /> : null
+							}
 							<div className="seven-update-content">
 								{hasRiskPropsData && riskPropsData.totalNum !== 0 ? (
 									<div className="seven-update-content-title">
@@ -249,15 +235,6 @@ class DynamicUpdate extends PureComponent {
 											风险参考: 新增
 											<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
 											条风险信息
-											{/* <span className="seven-update-content-title-addNum">
-										<span className="seven-update-content-title-addNum-icon" />
-										<span className="seven-update-content-title-addNum-text">
-											<span className="seven-update-content-title-addNum-text-bold">
-												{riskObligorIdNum}
-											</span>
-											名债务人有风险信息更新
-										</span>
-									</span> */}
 										</div>
 										<RingEcharts id="riskAuction" {...riskParams} title="风险参考" />
 										{lessRiskNum && (
@@ -268,99 +245,12 @@ class DynamicUpdate extends PureComponent {
 										</div>
 										)}
 									</div>
-								) : (
-									<div className="detail-container-noData">
-										<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
-										<span className="detail-container-noData-text">暂未匹配到新的风险信息，建议去导入更多债务人，以匹配更多价值信息</span>
-										<div>
-											<Button onClick={this.handleNavigate} type="primary" style={{ width: 180, height: 34, marginTop: '20px' }}>导入更多债务人</Button>
-										</div>
-									</div>
-								)}
+								) : null}
 							</div>
 						</div>
 					)
 				}
 			</React.Fragment>
-			// <div className="seven-update-container">
-			// 	<div className="seven-update-content">
-			// 		{hasAssetPropsData && assetPropsData.totalNum !== 0 ? (
-			// 			<div className="seven-update-content-title">
-			// 				<div className="seven-update-content-title-item" />
-			// 				<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
-			// 					资产挖掘: 新增
-			// 					<span className="seven-update-content-title-num">{assetArrNum && this.getTotal(assetArrNum)}</span>
-			// 					条资产线索
-			//
-			// 					{/*		<span className="seven-update-content-title-addNum">
-			// 							<span className="seven-update-content-title-addNum-icon" />
-			// 							<span className="seven-update-content-title-addNum-text">
-			// 								<span className="seven-update-content-title-addNum-text-bold">
-			// 									{assetObligorIdNum}
-			// 								</span>
-			// 								名债务人有资产信息更新
-			// 							</span>
-			// 						</span> */}
-			// 				</div>
-			// 				<RingEcharts id="assetAuction" {...assetParams} title="资产挖掘" />
-			// 				{lessAssetNum && (
-			// 				<div className="seven-update-content-title-noNum">
-			// 					数据太少？建议
-			// 					<span className="seven-update-content-title-noNum-findMore" onClick={() => this.handleNavigate('/business/view')}>去导入更多债务人</span>
-			// 					，以匹配更多价值信息
-			// 				</div>
-			// 				)}
-			// 			</div>
-			// 		) : (
-			// 			<div className="detail-container-noData">
-			// 				<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
-			// 				<span className="detail-container-noData-text">暂未匹配到新的资产信息，建议去导入更多债务人，以匹配更多价值信息</span>
-			// 				<div>
-			// 					<Button onClick={this.handleNavigate} type="primary" style={{ width: 180, height: 34, marginTop: '20px' }}>导入更多债务人</Button>
-			// 				</div>
-			// 			</div>
-			// 		)}
-			// 	</div>
-			// 	<div className="seven-update-container-wire"/>
-			// 	<div className="seven-update-content">
-			// 		{hasRiskPropsData && riskPropsData.totalNum !== 0 ? (
-			// 			<div className="seven-update-content-title">
-			// 				<div className="seven-update-content-title-item" />
-			// 				<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
-			// 					风险参考: 新增
-			// 					<span className="seven-update-content-title-num">{riskArrNum && this.getTotal(riskArrNum)}</span>
-			// 					条风险信息
-			// 					{/* <span className="seven-update-content-title-addNum">
-			// 							<span className="seven-update-content-title-addNum-icon" />
-			// 							<span className="seven-update-content-title-addNum-text">
-			// 								<span className="seven-update-content-title-addNum-text-bold">
-			// 									{riskObligorIdNum}
-			// 								</span>
-			// 								名债务人有风险信息更新
-			// 							</span>
-			// 						</span> */}
-			// 				</div>
-			// 				<RingEcharts id="riskAuction" {...riskParams} title="风险参考" />
-			// 				{lessRiskNum && (
-			// 				<div className="seven-update-content-title-noNum">
-			// 					数据太少？建议
-			// 					<span className="seven-update-content-title-noNum-findMore" onClick={() => this.handleNavigate('/business/view')}>去导入更多债务人</span>
-			// 					，以匹配更多价值信息
-			// 				</div>
-			// 				)}
-			// 			</div>
-			// 		) : (
-			// 			<div className="detail-container-noData">
-			// 				<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
-			// 				<span className="detail-container-noData-text">暂未匹配到新的风险信息，建议去导入更多债务人，以匹配更多价值信息</span>
-			// 				<div>
-			// 					<Button onClick={this.handleNavigate} type="primary" style={{ width: 180, height: 34, marginTop: '20px' }}>导入更多债务人</Button>
-			// 				</div>
-			// 			</div>
-			// 		)}
-			// 	</div>
-			//
-			// </div>
 		);
 	}
 }
