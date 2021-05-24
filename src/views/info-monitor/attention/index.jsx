@@ -11,14 +11,15 @@ import { promiseAll, requestAll } from '@/utils/promise';
 import Apis from 'api/monitor-info/finance';
 import Item from './item';
 
+
 export default class MyAttention extends React.Component {
 	constructor(props) {
 		super(props);
 		document.title = '我的收藏-信息监控';
 		this.state = {
 			initConfig: [
-				toGetRuleSource(global.ruleSource, 'YC10', 'YC02'),
-				toGetRuleSource(global.ruleSource, 'YC10', 'YC03'),
+				toGetRuleSource(global.ruleSource, 'YC10', 'YC02') || {},
+				toGetRuleSource(global.ruleSource, 'YC10', 'YC03') || {},
 			],
 			initType: 1,
 			config: [],

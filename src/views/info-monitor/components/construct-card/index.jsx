@@ -58,7 +58,6 @@ export default class Construct extends PureComponent {
 				gmtUpdate, totalCount, dataSource,
 			},
 		} = this.props;
-		console.log('buildPropsData === ', buildPropsData);
 		const { unReadCount } = this.state;
 		return (
 			<Card
