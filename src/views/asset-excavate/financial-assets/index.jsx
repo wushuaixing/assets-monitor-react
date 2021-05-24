@@ -274,7 +274,10 @@ export default class Subrogation extends React.Component {
 		});
 		this.onUnReadCount();
 		this.toClearSortStatus();
-		this.onQueryChange(this.isUrlParams(val), val, 'all', 1);
+		const { sourceType } = this.state;
+		if (sourceType === val) {
+			this.onQueryChange(this.isUrlParams(val), val, 'all', 1);
+		}
 		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'class', val);
 	};

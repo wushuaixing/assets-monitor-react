@@ -186,7 +186,7 @@ class DynamicUpdate extends PureComponent {
 			assetArrNum = hasAssetPropsData && assetPropsData.assetDataArray;
 			riskArrNum = hasRiskPropsData && riskPropsData.riskDataArray;
 		}
-		const assetRiskEmpty = hasAssetPropsData && assetPropsData.totalNum === 0 && hasRiskPropsData && riskPropsData.totalNum === 0;
+		const assetRiskEmpty = hasAssetPropsData && (assetPropsData.totalNum === 0 || assetPropsData.totalNum === null) && hasRiskPropsData && (riskPropsData.totalNum === 0 || riskPropsData.totalNum === null);
 		const assetRiskHave = hasAssetPropsData && assetPropsData.totalNum !== 0 && hasRiskPropsData && riskPropsData.totalNum !== 0;
 		return (
 			<React.Fragment>

@@ -38,10 +38,11 @@ export default class ConstructProject extends React.Component {
 			total: 0,
 			loading: false,
 			manage: false,
+			valType: 0,
 		};
 		this.condition = {};
 		this.selectRow = [];
-		this.config = toGetConfig()
+		this.config = toGetConfig();
 	}
 
 	componentWillMount() {
@@ -175,9 +176,13 @@ export default class ConstructProject extends React.Component {
 			current: 1,
 			total: '',
 			isRead: 'all',
+			valType: sourceType,
 		});
 		this.toClearSortStatus();
-		this.onQueryChange(this.isUrlParams(sourceType), sourceType, 'all', 1);
+		const { valType } = this.state;
+		if (valType === sourceType) {
+			this.onQueryChange(this.isUrlParams(sourceType), sourceType, 'all', 1);
+		}
 		this.toInfoCount(sourceType);
 		this.selectRow = [];
 		window.location.href = changeURLArg(window.location.href, 'unit', sourceType);

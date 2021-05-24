@@ -235,7 +235,11 @@ export default class Lawsuits extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange(this.isUrlParams(val), val, 1, 1);
+		// this.onQueryChange(this.isUrlParams(val), val, 1, 1);
+		const { sourceType } = this.state;
+		if (sourceType === val) {
+			this.onQueryChange(this.isUrlParams(val), val, 1, 1);
+		}
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 

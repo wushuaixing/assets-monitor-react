@@ -258,7 +258,7 @@ export default class Risk extends PureComponent {
 					{!loading && allNumber === 0 &&	(
 						<div className="monitor-risk-container-nodata">
 							暂未匹配到风险参考信息，建议
-							<span className="monitor-risk-container-findMore" onClick={() => this.handleNavigate('/business')}>去导入更多债务人</span>
+							<span className="monitor-risk-container-findMore" onClick={() => this.handleNavigate('/business/view')}>去导入更多债务人</span>
 							，以匹配更多价值信息
 						</div>
 					)}
