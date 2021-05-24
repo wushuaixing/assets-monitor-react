@@ -34,7 +34,6 @@ export default class MyAttention extends React.Component {
 		const { initConfig } = this.state;
 		const initType = Tabs.Simple.toGetDefaultActive(initConfig, 'init');
 		const config = (toGetRuleSource(global.ruleSource, 'YC10', initType) || {}).child.filter(i => i.status);
-		// console.log('componentWillMount config === ', config);
 		const sourceType = Tabs.Simple.toGetDefaultActive(config, 'process');
 		const source = (config.filter(i => i.id === sourceType))[0];
 		const childAry = source.child ? source.child.filter(i => i.status) : '';
