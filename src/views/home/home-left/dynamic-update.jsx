@@ -186,7 +186,6 @@ class DynamicUpdate extends PureComponent {
 			assetArrNum = hasAssetPropsData && assetPropsData.assetDataArray;
 			riskArrNum = hasRiskPropsData && riskPropsData.riskDataArray;
 		}
-		// console.log('===',this.props)
 		const assetRiskEmpty = hasAssetPropsData && (assetPropsData.totalNum === 0 || assetPropsData.totalNum === null) && hasRiskPropsData && (riskPropsData.totalNum === 0 || riskPropsData.totalNum === null);
 		const assetRiskHave = hasAssetPropsData && assetPropsData.totalNum !== 0 && hasRiskPropsData && riskPropsData.totalNum !== 0;
 		return (
