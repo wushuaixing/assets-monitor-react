@@ -47,12 +47,12 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 		{
 			title: (noSort ? '业务信息'
 				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>业务信息</SortVessel>),
-			width: '20%',
+			width: '22%',
 			render: (text, row, index, noMatching, asset = true) => AssetsInfo(text, row, index, noMatching, asset),
 		}, {
 			title: '匹配原因',
 			dataIndex: 'reason',
-			width: '30%',
+			width: '28%',
 			render: MatchingReason,
 		}, {
 			title: (noSort ? '拍卖信息'
