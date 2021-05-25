@@ -14,7 +14,7 @@ import './style.scss';
 export default class Risk extends PureComponent {
 	constructor(props) {
 		super(props);
-		document.title = '资产挖掘';
+		document.title = '风险监控';
 		// console.log(props.rule, 123);
 		const isRule = props && props.rule && props.rule.children;
 		const children = isRule && props.rule.children;
