@@ -12,7 +12,7 @@ import './style.scss';
 export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
-		document.title = '机构管理-账号列表';
+		document.title = '账号列表-机构管理';
 		this.state = {
 			searchValue: {},
 			columns: [
