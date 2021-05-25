@@ -187,7 +187,7 @@ class DynamicUpdate extends PureComponent {
 			riskArrNum = hasRiskPropsData && riskPropsData.riskDataArray;
 		}
 		const assetRiskEmpty = hasAssetPropsData && (assetPropsData.totalNum === 0 || assetPropsData.totalNum === null) && hasRiskPropsData && (riskPropsData.totalNum === 0 || riskPropsData.totalNum === null);
-		const assetRiskHave = hasAssetPropsData && assetPropsData.totalNum !== 0 && hasRiskPropsData && riskPropsData.totalNum !== 0;
+		const assetRiskHave = hasAssetPropsData && assetPropsData.totalNum !== 0 && assetPropsData.totalNum !== null && hasRiskPropsData && riskPropsData.totalNum !== 0 && riskPropsData.totalNum !== null;
 		return (
 			<React.Fragment>
 				{
@@ -204,7 +204,7 @@ class DynamicUpdate extends PureComponent {
 					) : (
 						<div className="seven-update-container">
 							<div className="seven-update-content">
-								{hasAssetPropsData && assetPropsData.totalNum !== 0 ? (
+								{hasAssetPropsData && assetPropsData.totalNum !== 0 && assetPropsData.totalNum !== null ? (
 									<div className="seven-update-content-title">
 										<div className="seven-update-content-title-item" />
 										<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
@@ -228,7 +228,7 @@ class DynamicUpdate extends PureComponent {
 								assetRiskHave ? <div className="seven-update-container-wire" /> : null
 							}
 							<div className="seven-update-content">
-								{hasRiskPropsData && riskPropsData.totalNum !== 0 ? (
+								{hasRiskPropsData && riskPropsData.totalNum !== 0 && riskPropsData.totalNum !== null ? (
 									<div className="seven-update-content-title">
 										<div className="seven-update-content-title-item" />
 										<div className="seven-update-content-title-name" style={{ marginTop: 20 }}>
