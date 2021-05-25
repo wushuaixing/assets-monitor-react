@@ -1528,7 +1528,7 @@ function exportTemplate(source,exportType,domainName) {
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.projectName||'--')+"</a>":(item.projectName||'--')) +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.projectName|| item.url || '--')+"</a>":(item.projectName||'--')) +
 						(item.landUse?"<span class=\"case-tag type-tag\">"+item.landUse+"</span>":"") +
 						"</li>" +
 						"<li class='mg8-0'>" +
@@ -1923,7 +1923,7 @@ function exportTemplate(source,exportType,domainName) {
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						(item.url || item.homeUrl ?"<a href=\""+(item.url || item.homeUrl)+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
 						"</li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
@@ -2039,7 +2039,7 @@ function exportTemplate(source,exportType,domainName) {
 						"<li class='mg8-0 font-m'>" +
 						"<span class=\"case-tag type-tag long-mgr\">"+ fun.toGetType(item.projectType, fun.source.financeProjectType, '', '', '未知') +
 						"</span>" +
-						(item.sourceUrl ? "<a href=\""+item.sourceUrl+"\" target=\"_blank\" class=\"base-b fw-bold\">" + (item.title||'--')+"</a>":(item.title||'--')) +
+						(item.sourceUrl ? "<a href=\""+item.sourceUrl+"\" target=\"_blank\" class=\"base-b fw-bold\">" + (item.title|| item.projectName || item.sourceUrl || '--')+"</a>":(item.title|| item.projectName || '--')) +
 						"</li></td>" +
 						"<td>" +
 						"<li class='mg8-0'>" +
@@ -2057,7 +2057,7 @@ function exportTemplate(source,exportType,domainName) {
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						(item.url ? "<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						(item.url || item.homeUrl ? "<a href=\""+(item.url || item.homeUrl) +"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
 						(item.projectType >= 0 ? ("<span class=\"case-tag \"> "+ fun.toGetType(item.projectType, fun.source.constructUnitType, '', '', '未知') + "</span>" ): "")+
 						"</li>" +
 						"<li class='mg8-0'>" +
@@ -2093,7 +2093,7 @@ function exportTemplate(source,exportType,domainName) {
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						(item.url || item.homeUrl?"<a href=\""+(item.url || item.homeUrl)+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title ||'--')+"</a>":(item.title||'--')) +
 						"</li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
@@ -2131,7 +2131,7 @@ function exportTemplate(source,exportType,domainName) {
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						(item.url || item.homeUrl?"<a href=\""+(item.url || item.homeUrl)+"\" target=\"_blank\" class=\"base-b fw-bold font-m\">"+(item.title||'--')+"</a>":(item.title||'--')) +
 						"</li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +

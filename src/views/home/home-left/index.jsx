@@ -132,7 +132,7 @@ class HomeDynamic extends PureComponent {
 	componentDidMount() {
 		const params = { type: 1 };
 		this.getData(params);
-		this.getAssetImportantReminder();
+		// this.getAssetImportantReminder();
 		// this.getRiskImportantReminder();
 	}
 

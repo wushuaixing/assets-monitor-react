@@ -362,7 +362,20 @@
       position: relative;
       z-index: 10;
     }
-
+    .yc-title-img{
+      width: 100%;
+    }
+    .yc-title-fork{
+      position: absolute;
+      top: 138px;
+      right: 5px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
     .yc-close{
       position: absolute;
       right: 20px;
@@ -370,12 +383,13 @@
       z-index: 2;
       cursor: pointer;
     }
-
-    img {
+    .yc-title-img{
+      width: 100%;
       position: relative;
       margin-top: -87px;
       display: block;
     }
+
 
     .yc-modal-weChat-content {
       padding: 26px 30px 44px 36px;
@@ -402,11 +416,11 @@
       background-color: #FFFFFF;
       padding-top: 60px;
       position: absolute;
-      width: 540px;
+      width: 420px;
       top: 208px;
 
       .yc-modal-content {
-        padding: 124px 0 50px 117px;
+        padding: 32px 0px 32px 45px;
 
         .yc-modal-header {
           height: 22px;
@@ -433,7 +447,7 @@
           color: $text-title;
         }
         .yc-label-box {
-          margin-top: 40px;
+          margin-top: 24px;
           .yc-label-title {
             position: relative;
             margin-bottom: 24px;
@@ -461,6 +475,12 @@
           .yc-label-tips{
             font-weight: bold;
             margin-left: 4px;
+          }
+          .yc-label-hint{
+            font-size: 14px;
+            color: #4E5566;
+            margin-left: 4px;
+            margin-top: 12px;
           }
           .yc-label-desp{
             font-size: 14px;
@@ -496,7 +516,7 @@
         .yc-modal-btn {
           width: 320px;
           height: 44px;
-          margin: 42px 0 0 3px;
+          margin: 32px 0 0 3px;
           display: block;
           background: linear-gradient(to right, #FD6339, #FD4A4D);
           color: #FFFFFF;
@@ -514,3 +534,4 @@
   }
 
 }
+

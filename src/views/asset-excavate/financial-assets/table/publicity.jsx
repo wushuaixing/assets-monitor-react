@@ -86,7 +86,7 @@ const columns = (props) => {
 		{
 			title: (noSort ? '更新日期'
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
-			dataIndex: 'updateTime',
+			dataIndex: 'createTime',
 			width: 120,
 			render: text => <span>{text || '-'}</span>,
 		},

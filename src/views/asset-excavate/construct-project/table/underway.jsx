@@ -5,6 +5,7 @@ import { Attentions, ReadStatus, SortVessel } from '@/common/table';
 import {
 	Table, SelectedNum, Ellipsis, LiItem,
 } from '@/common';
+import './style.scss';
 import { toThousands } from '@/utils/changeTime';
 import { UnderwayApi } from '@/utils/api/assets/construct';
 
@@ -51,6 +52,7 @@ const columns = (props) => {
 					{
 					row.parties.map(item => (
 						<Ellipsis
+							className="table-underway-Ellipsis"
 							prefixContent={Array.isArray(item.role) && item.role.length > 0 ? item.role.map((it, index) => `${roleMap.get(it)}${index === item.role.length - 1 ? '：' : '，'}`) : roleMap.get(item.role)}
 							prefixStyle={{
 								color: '#7D8699',

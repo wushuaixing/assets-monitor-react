@@ -166,6 +166,7 @@ export default class Personal extends React.Component {
 							overViewLoading: true,
 						}, () => {
 							this.toAffirmGet();
+							this.dd = _dd;
 						});
 					}
 					this.hash = hash;

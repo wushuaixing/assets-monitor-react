@@ -235,7 +235,11 @@ export default class Lawsuits extends React.Component {
 			isRead: 'all',
 		});
 		this.toClearSortStatus();
-		this.onQueryChange(this.isUrlParams(val), val, 1, 1);
+		// this.onQueryChange(this.isUrlParams(val), val, 1, 1);
+		const { sourceType } = this.state;
+		if (sourceType === val) {
+			this.onQueryChange(this.isUrlParams(val), val, 1, 1);
+		}
 		window.location.href = changeURLArg(window.location.href, 'process', val);
 	};
 
@@ -356,7 +360,7 @@ export default class Lawsuits extends React.Component {
 								title="只显示未读"
 							/>
 							<div className="yc-all-read" onClick={this.handleAllRead}>
-								<Icon className="yc-all-clear" type="icon-clear" />
+								<Icon className="yc-all-clear" type="icon-quanbubiaoweiyidu" />
 								<span className="yc-all-read-text">全部标为已读</span>
 							</div>
 							{/* <Button onClick={this.handleAllRead}>全部标为已读</Button> */}

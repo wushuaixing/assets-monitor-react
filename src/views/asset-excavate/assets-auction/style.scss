@@ -117,3 +117,30 @@
     text-decoration: underline;
   }
 }
+
+//资产拍卖列表
+.property-list-wire{
+  height: 12px;
+  width: 1px;
+  background-color: #DADDE6;
+  margin: 5px 6px 0px 6px;
+}
+.property-list-dynamic{
+   font-weight: bold;
+   i{
+     display: inline-block;
+     width: 6px;
+     height: 6px;
+     font-size: 12px;
+     //background: #1C80E1;
+     border-radius: 4px;
+     margin-right: 3px;
+     margin-bottom: 1px;
+   }
+}
+.reason-list-dots{
+  color: #7D8699;
+}
+.yc-AssetAuction-verticalMiddle{
+  vertical-align:middle;
+}
