@@ -40,6 +40,7 @@ const urlMap = new Map([
 	['查/解封资产', '/monitor/seizedUnblock'],
 	['金融资产', '/monitor/financial'],
 	['招投标', '/monitor/tender'],
+	['电子报', '/monitor/newsettler'],
 	['在建工程', '/monitor/construct'],
 	['不动产登记', '/monitor/realEstate'],
 	['车辆信息', '/monitor/car'],
