@@ -7,7 +7,7 @@ import {
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import { promiseAll } from '@/utils/promise';
 import {
-	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, UnBlock, CarCard, realEstateCard, ConstructCard,
+	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, UnBlock, CarCard, realEstateCard, ConstructCard, Newsettler
 } from '../components';
 import './style.scss';
 
@@ -118,6 +118,14 @@ export default class Excavate extends PureComponent {
 					rule: isRule && props.rule.children.zcwjzbzb,
 					url: '/monitor/tender',
 					Component: Bidding,
+					API: biddingCard,
+				},
+				{
+					id: 13,
+					title: '电子报',
+					rule: isRule && props.rule.children.zcwjzbzb,
+					url: '/monitor/newsettler',
+					Component: Newsettler,
 					API: biddingCard,
 				},
 			].filter(i => this.isObject(i.rule)),
