@@ -147,6 +147,9 @@ class HomeRouter extends React.Component {
 					{
 						name: '招投标', count: biddingCount, color: '#3DBD7D', icon: 'bidding', status: biddingCount !== null,
 					},
+					{
+						name: '电子报', count: biddingCount, color: '#3DBD7D', icon: 'newsettler', status: biddingCount !== null,
+					},
 				];
 				const riskArray = [
 					{
