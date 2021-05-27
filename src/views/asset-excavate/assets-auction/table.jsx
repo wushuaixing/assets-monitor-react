@@ -47,12 +47,12 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 		{
 			title: (noSort ? '业务信息'
 				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>业务信息</SortVessel>),
-			width: '20%',
+			width: '22%',
 			render: (text, row, index, noMatching, asset = true) => AssetsInfo(text, row, index, noMatching, asset),
 		}, {
 			title: '匹配原因',
 			dataIndex: 'reason',
-			width: '30%',
+			width: '28%',
 			render: MatchingReason,
 		}, {
 			title: (noSort ? '拍卖信息'
@@ -107,8 +107,9 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 							),
 						}[process] || '-' }
 						{recovery > 0 ?	(
-							<div style={{ color: '#FB5A5C',fontWeight: 'bold' ,fontSize: '12px' }}>
-								追回：<br />
+							<div style={{ color: '#FB5A5C', fontWeight: 'bold', fontSize: '12px' }}>
+								追回：
+								<br />
 								{`${floatFormat(recovery)}元`}
 							</div>
 						) : ''}
@@ -119,7 +120,7 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 			title: '操作',
 			width: '11%',
 			unNormal: true,
-			className: 'tAlignCenter_important yc-assets-auction-action yc-AssetAuction-verticalMiddle',
+			className: 'yc-assets-auction-action yc-AssetAuction-verticalMiddle',
 			render: (text, row, index) => {
 				const { process } = row;
 				const event = {
@@ -131,27 +132,27 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 							{{
 								0: (
 									<React.Fragment>
-											<span className="auction-button" {...event}>跟进</span>
-											<span className="property-list-wire" />
-											<span className="auction-button" onClick={() => handleIgnore(row, index, onRefresh)}>忽略</span>
-											<span className="property-list-wire" />
+										<span className="auction-button" {...event}>跟进</span>
+										<span className="property-list-wire" />
+										<span className="auction-button" onClick={() => handleIgnore(row, index, onRefresh)}>忽略</span>
+										<span className="property-list-wire" />
 									</React.Fragment>
 								),
 								3: (
 									<React.Fragment>
-										<span className="auction-button" {...event}>跟进中</span>
+										<span className="auction-button" {...event}>跟进</span>
 										<span className="property-list-wire" />
 									</React.Fragment>
 								),
 								6: (
 									<React.Fragment>
-										<span className="auction-button" {...event}>跟进中</span>
+										<span className="auction-button" {...event}>跟进</span>
 										<span className="property-list-wire" />
 									</React.Fragment>
 								),
 								9: (
 									<React.Fragment>
-										<span className="auction-button" {...event}>已完成</span>
+										<span className="auction-button" {...event}>跟进</span>
 										<span className="property-list-wire" />
 									</React.Fragment>
 								),
@@ -159,13 +160,11 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 									<React.Fragment>
 										<span className="auction-button" {...event}>跟进</span>
 										<span className="property-list-wire" />
-										<span className="auction-button" style={{ color: '#7D8699' }}>已忽略</span>
-										<span className="property-list-wire" />
 									</React.Fragment>
 								),
 								15: (
 									<React.Fragment>
-										<span className="auction-button" {...event}>已放弃</span>
+										<span className="auction-button" {...event}>跟进</span>
 										<span className="property-list-wire" />
 									</React.Fragment>
 								),

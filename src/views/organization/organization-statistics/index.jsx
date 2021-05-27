@@ -26,7 +26,7 @@ const moneyLength = (value) => {
 class HomeRouter extends PureComponent {
 	constructor(props) {
 		super(props);
-		document.title = '机构管理-机构统计';
+		document.title = '机构统计-机构管理';
 		this.state = {
 			orgDetail: null,
 			tree: null,
