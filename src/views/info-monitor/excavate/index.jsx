@@ -123,7 +123,7 @@ export default class Excavate extends PureComponent {
 				{
 					id: 13,
 					title: '电子报',
-					rule: isRule && props.rule.children.zcwjzbzb,
+					rule: isRule && props.rule.children.zcwjdzb,
 					url: '/monitor/epaper',
 					Component: Newsettler,
 					API: electronicNewspaperCard,

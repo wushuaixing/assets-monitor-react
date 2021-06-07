@@ -64,6 +64,7 @@ class QueryCondition extends React.Component {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const _style3 = { width: 150 };
+		const _style4 = { width: 164 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
 			normalize(n) {
@@ -89,16 +90,17 @@ class QueryCondition extends React.Component {
 						<Select.Option value="遗失生明">遗失生明</Select.Option>
 						<Select.Option value="债权公告">债权公告</Select.Option>
 						<Select.Option value="招标采购公告">招标采购公告</Select.Option>
+						<Select.Option value="未知">未知</Select.Option>
 					</Select>
 				</div>
 				<div className="yc-query-item">
 					<Input title="电子名称" style={_style1} size="large" maxLength="40" placeholder="公告标题关键字" {...getFieldProps('newspaperName')} />
 				</div>
 				<div className="yc-query-item">
-					<span>土地省份：</span>
+					<span>省份：</span>
 					<Select
 						allowClear
-						style={{ width: 140 }}
+						style={{ width: 181 }}
 						placeholder="请选择"
 						size="large"
 						{...getFieldProps('province')}
@@ -112,7 +114,7 @@ class QueryCondition extends React.Component {
 					<span className="yc-query-item-title">发布日期：</span>
 					<DatePicker
 						size="large"
-						style={_style2}
+						style={_style4}
 						placeholder="开始日期"
 						{...getFieldProps('publishTimeStart', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishTimeEnd'))}
@@ -120,7 +122,7 @@ class QueryCondition extends React.Component {
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
-						style={_style2}
+						style={_style4}
 						placeholder="结束日期"
 						{...getFieldProps('publishTimeEnd', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishTimeStart'))}
@@ -130,7 +132,7 @@ class QueryCondition extends React.Component {
 					<span className="yc-query-item-title">{`${global.Table_CreateTime_Text}：`}</span>
 					<DatePicker
 						size="large"
-						style={_style2}
+						style={_style4}
 						placeholder="开始日期"
 						{...getFieldProps('startCreateTime', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('gmtCreateEnd'))}
@@ -138,7 +140,7 @@ class QueryCondition extends React.Component {
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
-						style={_style2}
+						style={_style4}
 						placeholder="结束日期"
 						{...getFieldProps('endCreateTime', timeOption)}
 						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startCreateTime'))}

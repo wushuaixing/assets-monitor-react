@@ -52,8 +52,9 @@ class EditBusiness extends React.Component {
 		// 业务列表信息
 		businessList(params).then((res) => {
 			if (res.code === 200) {
+				const businessData = res.data.filter(item => item.role !== 1)
 				this.setState({
-					businessData: res.data,
+					businessData,
 					loading: false,
 				});
 			} else {
@@ -177,7 +178,7 @@ class EditBusiness extends React.Component {
 			id, source, businessData, loading, isEdit,
 		} = this.state;
 		const { form: { getFieldProps } } = this.props; // 会提示props is not defined
-
+		console.log('=======',businessData)
 		return (
 			<div className="edit-info-wrapper">
 				<div className="info-navigation info-wrapper">
