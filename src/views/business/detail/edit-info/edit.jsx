@@ -127,7 +127,7 @@ class DebtorDetail extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 		const { dataList } = this.state;
-
+		const list = dataList.filter(item => item.role !== 1);
 		return (
 			<div>
 				<table className="table" style={{ marginBottom: 0 }}>
@@ -141,61 +141,61 @@ class DebtorDetail extends React.Component {
 					</thead>
 					<tbody className="ant-table-tbody">
 						{
-						dataList && dataList.map(item => (
-							<tr key={item.id}>
-								<td>
-									<Input
-										size="large"
-										placeholder="请输入相关人名称"
-										maxLength="40"
-										{...getFieldProps(`obligorName${item.id}`, {
-											id: item.id,
-											initialValue: item && item.obligorName,
-											onChange: (e) => {
-												this.handleInputName(e, item.id);
-											},
-											getValueFromEvent: value => value.trim(),
-										})}
-										className="yc-from-input"
-									/>
-								</td>
-								<td>
-									<Input
-										size="large"
-										placeholder="请输入身份证号/统一社会信用代码"
-										maxLength="18"
-										{...getFieldProps(`obligorNumber${item.id}`, {
-											initialValue: item && item.obligorNumber,
-											onChange: (e) => {
-												this.handleInputNumber(e, item.id);
-											},
-											getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*()（）]/g, ''),
-										})}
-										className="yc-from-input"
-									/>
-								</td>
-								<td>
-									<Input
-										style={{ width: 200 }}
-										placeholder="请选择人员"
-										size="large"
-										maxLength={20}
-										{...getFieldProps(`roleText${item.id}`, {
-											initialValue: item && item.roleText,
-											onChange: (e) => {
-												this.changeValue(e, item.id);
-											},
-											getValueFromEvent: value => value.trim(),
-										})}
-									/>
-								</td>
-								<td style={{ textAlign: 'center' }}>
-									<Button type="ghost" onClick={() => this.delete(item.id)}>
-										删除
-									</Button>
-								</td>
-							</tr>
-						))}
+							list && list.map(item => (
+								<tr key={item.id}>
+									<td>
+										<Input
+											size="large"
+											placeholder="请输入相关人名称"
+											maxLength="40"
+											{...getFieldProps(`obligorName${item.id}`, {
+												id: item.id,
+												initialValue: item && item.obligorName,
+												onChange: (e) => {
+													this.handleInputName(e, item.id);
+												},
+												getValueFromEvent: value => value.trim(),
+											})}
+											className="yc-from-input"
+										/>
+									</td>
+									<td>
+										<Input
+											size="large"
+											placeholder="请输入身份证号/统一社会信用代码"
+											maxLength="18"
+											{...getFieldProps(`obligorNumber${item.id}`, {
+												initialValue: item && item.obligorNumber,
+												onChange: (e) => {
+													this.handleInputNumber(e, item.id);
+												},
+												getValueFromEvent: e => e.trim().replace(/[^0-9a-zA-Z-*()（）]/g, ''),
+											})}
+											className="yc-from-input"
+										/>
+									</td>
+									<td>
+										<Input
+											style={{ width: 200 }}
+											placeholder="请选择人员"
+											size="large"
+											maxLength={20}
+											{...getFieldProps(`roleText${item.id}`, {
+												initialValue: item && item.roleText,
+												onChange: (e) => {
+													this.changeValue(e, item.id);
+												},
+												getValueFromEvent: value => value.trim(),
+											})}
+										/>
+									</td>
+									<td style={{ textAlign: 'center' }}>
+										<Button type="ghost" onClick={() => this.delete(item.id)}>
+											删除
+										</Button>
+									</td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 				<div onClick={() => this.add()} className="yc-table-addList">
