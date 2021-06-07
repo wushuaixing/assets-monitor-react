@@ -100,6 +100,12 @@ export const assetBiddingCount = async (params) => {
 	return response.data;
 };
 
+// 电子报 => 数量统计
+export const electronicNewspaperCount = async (params) => {
+	const response = await service.post('/yc/monitor/electronicNewspaper/list', params);
+	return response.data;
+};
+
 // 在建工程-建筑单位
 export const buildConstructCount = async (params) => {
 	const response = await service.get('/yc/monitor/onBuild/projectInfo/projectInfoCount', { params });

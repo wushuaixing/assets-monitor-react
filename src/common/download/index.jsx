@@ -22,7 +22,6 @@ export default class Download extends React.Component {
 		const {
 			api, condition, all, field, current, page, num, selectIds, selectData, selectedRowKeys, normal, type, waringText,
 		} = this.props;
-
 		// 处理变量参数
 		const _condition = typeof condition === 'function' ? condition() : condition;
 		const c = Object.assign({}, _condition);

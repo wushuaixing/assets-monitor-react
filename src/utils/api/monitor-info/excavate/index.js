@@ -51,6 +51,11 @@ export const biddingCard = async (params) => {
 	const response = await service.get('/yc/index/information/overview/bidding', { params });
 	return Object.assign(response.data, { name: 'bidding' });
 };
+// 电子报
+export const electronicNewspaperCard = async (params) => {
+	const response = await service.get('/yc/index/information/overview/electronicNewspaper', { params });
+	return Object.assign(response.data, { name: 'electronicNewspaperCard' });
+};
 
 // 不动产
 export const realEstateCardApi = async (params) => {
