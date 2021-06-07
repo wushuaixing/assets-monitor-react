@@ -52,7 +52,7 @@ class EditBusiness extends React.Component {
 		// 业务列表信息
 		businessList(params).then((res) => {
 			if (res.code === 200) {
-				const businessData = res.data.filter(item => item.role !== 1)
+				const businessData = res.data.filter(item => item.role !== 1) || [];
 				this.setState({
 					businessData,
 					loading: false,
