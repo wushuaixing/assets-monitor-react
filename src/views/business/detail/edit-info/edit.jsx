@@ -127,7 +127,6 @@ class DebtorDetail extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
 		const { dataList } = this.state;
-		const list = dataList.filter(item => item.role !== 1);
 		return (
 			<div>
 				<table className="table" style={{ marginBottom: 0 }}>
@@ -141,7 +140,7 @@ class DebtorDetail extends React.Component {
 					</thead>
 					<tbody className="ant-table-tbody">
 						{
-							list && list.map(item => (
+							dataList && dataList.map(item => (
 								<tr key={item.id}>
 									<td>
 										<Input
