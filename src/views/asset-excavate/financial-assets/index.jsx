@@ -107,6 +107,7 @@ export default class Subrogation extends React.Component {
 		// this.setUnReadCount = setInterval(() => {
 		// 	this.onUnReadCount();
 		// }, 30 * 1000);
+		this.toInfoCount(sourceType);
 	}
 
 	componentWillUnmount() {

@@ -97,6 +97,7 @@ export default class Epaper extends React.Component {
 					Api.attention({ idList }, true).then((res) => {
 						if (res.code === 200) {
 							message.success('操作成功！');
+							_this.onQueryChange();
 							_this.selectRow = []; // 批量收藏清空选中项
 							const _dataSource = dataSource.map((item) => {
 								const _item = item;
