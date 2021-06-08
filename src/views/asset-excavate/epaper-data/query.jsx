@@ -4,7 +4,7 @@ import {
 	Input, Button, timeRule, DatePicker,
 } from '@/common';
 import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
-import { provinceEpaperList } from '@/utils/provinceList';
+import provinceList from '@/utils/provinceList';
 
 
 const noticeType = [
@@ -86,6 +86,7 @@ class QueryCondition extends React.Component {
 				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
 			},
 		};
+		const provinceEpaperList = [...provinceList.provinceList, { id: 33, name: '全国' }];
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
