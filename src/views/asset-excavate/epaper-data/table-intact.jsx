@@ -69,7 +69,7 @@ export default class TableIntact extends React.Component {
 	toGetData=(nextProps) => {
 		this.setState({ loading: true });
 		const { reqUrl, id } = nextProps || this.props;
-		let toApi = Api.followList;
+		let toApi = Api.list;
 		toApi = reqUrl || toApi;
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
