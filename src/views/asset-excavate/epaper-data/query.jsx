@@ -6,6 +6,22 @@ import {
 import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 import provinceList from '@/utils/provinceList';
 
+
+const noticeType = [
+	{ id: 1, name: '法院公告' },
+	{ id: 2, name: '公司合并分立公告' },
+	{ id: 3, name: '机关单位公告' },
+	{ id: 4, name: '减资公告' },
+	{ id: 5, name: '交易公告' },
+	{ id: 6, name: '破产/清算公告' },
+	{ id: 7, name: '其他公告' },
+	{ id: 8, name: '行政处罚公告' },
+	{ id: 9, name: '遗失声明' },
+	{ id: 10, name: '债权公告' },
+	{ id: 11, name: '招标采购公告' },
+	{ id: 12, name: '未知' },
+];
+
 class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
@@ -62,7 +78,6 @@ class QueryCondition extends React.Component {
 
 	render() {
 		const _style1 = { width: 278 };
-		const _style2 = { width: 100 };
 		const _style3 = { width: 150 };
 		const _style4 = { width: 164 };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
@@ -71,6 +86,7 @@ class QueryCondition extends React.Component {
 				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
 			},
 		};
+		const provinceEpaperList = [...provinceList.provinceList, { id: 33, name: '全国' }];
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
@@ -79,18 +95,9 @@ class QueryCondition extends React.Component {
 				<div className="yc-query-item" style={{ marginRight: 30 }}>
 					<span className="yc-query-item-title">公告类型：</span>
 					<Select size="large" style={_style3} placeholder="全部" {...getFieldProps('noticeType')} allowClear>
-						<Select.Option value="法院公告">法院公告</Select.Option>
-						<Select.Option value="公司合并分立公告">公司合并分立公告</Select.Option>
-						<Select.Option value="机关单位公告">机关单位公告</Select.Option>
-						<Select.Option value="减资公告">减资公告</Select.Option>
-						<Select.Option value="交易公告">交易公告</Select.Option>
-						<Select.Option value="破产/清算公告">破产/清算公告</Select.Option>
-						<Select.Option value="其他公告">其他公告</Select.Option>
-						<Select.Option value="行政处罚公告">行政处罚公告</Select.Option>
-						<Select.Option value="遗失生明">遗失生明</Select.Option>
-						<Select.Option value="债权公告">债权公告</Select.Option>
-						<Select.Option value="招标采购公告">招标采购公告</Select.Option>
-						<Select.Option value="未知">未知</Select.Option>
+						{
+							noticeType && noticeType.map(item => <Select.Option key={item.id} value={item.name}>{item.name}</Select.Option>)
+						}
 					</Select>
 				</div>
 				<div className="yc-query-item">
@@ -106,7 +113,7 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('province')}
 					>
 						{
-							provinceList && provinceList.provinceList.map(city => <Select.Option key={city.id} value={city.name}>{city.name}</Select.Option>)
+							provinceEpaperList && provinceEpaperList.map(city => <Select.Option key={city.id} value={city.name === '全国' ? '' : city.name}>{city.name}</Select.Option>)
 						}
 					</Select>
 				</div>
