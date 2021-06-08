@@ -62,7 +62,6 @@ const columns = (props) => {
 		sortField,
 		sortOrder,
 	};
-
 	// 含操作等...
 	const defaultColumns = [
 		{
@@ -136,7 +135,7 @@ const columns = (props) => {
 		{
 			title: (noSort ? '更新日期'
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
-			dataIndex: 'gmtModified',
+			dataIndex: 'gmtCreate',
 			render: text => <span>{text}</span>,
 		},
 		{

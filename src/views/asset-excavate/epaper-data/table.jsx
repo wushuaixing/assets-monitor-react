@@ -37,15 +37,15 @@ const columns = (props) => {
 				<div>
 					<p>
 						<span style={{ color: '#7D8699' }}>名字：</span>
-						{text}
+						{text || '--'}
 					</p>
 					<p>
 						<span style={{ color: '#7D8699' }}>版面：</span>
-						{row.edition}
+						{row.edition || '--'}
 					</p>
 					<p>
 						<span style={{ color: '#7D8699' }}>省份：</span>
-						{row.province}
+						{row.province || '--'}
 					</p>
 				</div>
 			),
