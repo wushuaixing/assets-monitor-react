@@ -6,8 +6,6 @@ const epaper = {
 	attention: params => s.post('/yc/monitor/electronicNewspaper/follow', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/electronicNewspaper/export',
-	// GET收藏 => 列表Count
-	followListCount: () => s.get('/yc/monitor/bidding/follow/list-count', {}).then(res => res.data),
 	// POST列表
 	list: params => s.post('/yc/monitor/electronicNewspaper/list', params).then(res => res.data),
 	// POST数量
