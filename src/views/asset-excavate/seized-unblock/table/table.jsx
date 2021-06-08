@@ -6,6 +6,12 @@ import Api from 'api/monitor-info/seizedUnbock';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import InforItem from './infoItem';
 
+const messageType = {
+	0: '全部',
+	1: '司法协助(不动产)',
+	2: '保全文书(文书)',
+};
+
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -39,7 +45,18 @@ const columns = (props) => {
 				}
 				</div>
 			),
-		}, {
+		},
+		{
+			title: <span>信息来源</span>,
+			dataIndex: 'dataType',
+			width: 120,
+			render: text => (
+				<div>
+					{messageType[text]}
+				</div>
+			),
+		},
+		{
 			title: (noSort ? (
 				<span>
 					关联案件
@@ -111,7 +128,20 @@ const columns = (props) => {
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 110,
-		}, {
+		},
+		{
+			title: <span style={{ }}>原链接</span>,
+			dataIndex: 'url',
+			width: 160,
+			render: (text, row) => (
+				<div>
+					{
+						row.dataType === 2 ? <Ellipsis className="" content="源链接2" url={row.url} /> : (row.sourceId === 10760 || row.sourceId === 10761 ? '-' : <Ellipsis className="" content="源链接1" url={row.url} />)
+					}
+				</div>
+			),
+		},
+		{
 			title: '操作',
 			width: 55,
 			unNormal: false,

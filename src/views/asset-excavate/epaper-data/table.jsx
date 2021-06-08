@@ -20,7 +20,7 @@ const columns = (props) => {
 			width: 100,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
-			title: '关债务人',
+			title: '关联债务人',
 			dataIndex: 'obligorName',
 			width: 150,
 			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
@@ -36,7 +36,7 @@ const columns = (props) => {
 			render: (text, row) => (
 				<div>
 					<p>
-						<span style={{ color: '#7D8699' }}>名字：</span>
+						<span style={{ color: '#7D8699' }}>名称：</span>
 						{text || '--'}
 					</p>
 					<p>

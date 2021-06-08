@@ -90,19 +90,65 @@ export default class InfoItem extends React.Component {
 					) : null
 				}
 				{
+					// row.dataType === 2 ? (
+					// 	<div className="assets-matching-reason-wrapper">
+					// 		{
+					// 			row.title ? (
+					// 				<span>
+					// 					<span>详见正文：</span>
+					// 					{/* urlType是为了区分查解封模块和其他模块， 其他模块跳转到文书详情页没参数 */}
+					// 					{
+					// 					 linkDom(`#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`, row.title, '_blank', '', '', '')
+					// 					}
+					// 				</span>
+					// 			) : '-'
+					// 		}
+					// 	</div>
+					// ) : null
 					row.dataType === 2 ? (
 						<div className="assets-matching-reason-wrapper">
-							{
-								row.title ? (
-									<span>
-										<span>详见正文：</span>
-										{/* urlType是为了区分查解封模块和其他模块， 其他模块跳转到文书详情页没参数 */}
+							<div className={`reason-content-wrapper content-${status}`}>
+								<div className="reason-content" ref={e => this.dom = e}>
+									<div className="reason-list">
 										{
-										 linkDom(`#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`, row.title, '_blank', '', '', '')
+											row.title ? (
+												<span>
+													判决结果：
+													{
+														`${row.title}速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞`
+													}
+												</span>
+											)
+												: (
+													<span>
+														{row.title || '-'}
+													</span>
+												)
 										}
-									</span>
-								) : '-'
-							}
+
+									</div>
+								</div>
+							</div>
+							<div className={`reason-action reason-action-${status}`}>
+								{
+									status === 'canOpen' ? (
+										<React.Fragment>
+											<li className="action-ellipsis yc-text-normal">
+												<Icon type="ellipsis" />
+											</li>
+											<li className="action-btn yc-text-normal under-line" onClick={() => this.setState({ status: 'canClose' })}>
+												<span>展开</span>
+												<Icon type="down" />
+											</li>
+										</React.Fragment>
+									) : (
+										<li className="action-btn yc-text-normal under-line" onClick={() => this.setState({ status: 'canOpen' })}>
+											<span>收起</span>
+											<Icon type="up" />
+										</li>
+									)
+								}
+							</div>
 						</div>
 					) : null
 				}
