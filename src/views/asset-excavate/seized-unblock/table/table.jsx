@@ -144,7 +144,7 @@ const columns = (props) => {
 			render: (text, row) => (
 				<div>
 					{
-						row.dataType === 2 ? <Ellipsis className="" content="查看" url={row.url} /> : (row.sourceId === 10760 || row.sourceId === 10761 ? '-' : <Ellipsis className="" content="查看" url={row.url} />)
+						row.dataType === 2 ? <Ellipsis className="" content="查看" url={`#/judgement?sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`} /> : (row.sourceId === 10760 || row.sourceId === 10761 ? '-' : <Ellipsis className="" content="查看" url={row.url} />)
 					}
 				</div>
 			),
