@@ -117,7 +117,7 @@ TableIntact.propTypes = {
 
 TableIntact.defaultProps = {
 	normal: true,
-	noSort: true,
+	noSort: false,
 };
 
 export default TableIntact;
