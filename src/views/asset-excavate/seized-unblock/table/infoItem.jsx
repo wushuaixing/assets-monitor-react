@@ -1,8 +1,6 @@
 import React from 'react';
 import { Icon } from 'antd';
-import { linkDom } from '@/utils';
 import './index.scss';
-import { Ellipsis } from '@/common';
 
 export default class InfoItem extends React.Component {
 	constructor(props) {
@@ -49,20 +47,9 @@ export default class InfoItem extends React.Component {
 							<div className={`reason-content-wrapper content-${status}`}>
 								<div className="reason-content" ref={e => this.dom = e}>
 									<div className="reason-list">
-										{
-											row.url !== '' && row.sourceId !== 10760 ? (
-												<span>
-													{/* {linkDom(row.url, content || row.address, '_blank', '', '', '')} */}
-													<Ellipsis url={row.url} content={content || row.address} isSourceLink />
-												</span>
-											)
-												: (
-													<span>
-														{content || row.address || '-'}
-													</span>
-												)
-										}
-
+										<span>
+											{content || row.address || '-' }
+										</span>
 									</div>
 								</div>
 							</div>
@@ -90,32 +77,17 @@ export default class InfoItem extends React.Component {
 					) : null
 				}
 				{
-					// row.dataType === 2 ? (
-					// 	<div className="assets-matching-reason-wrapper">
-					// 		{
-					// 			row.title ? (
-					// 				<span>
-					// 					<span>详见正文：</span>
-					// 					{/* urlType是为了区分查解封模块和其他模块， 其他模块跳转到文书详情页没参数 */}
-					// 					{
-					// 					 linkDom(`#/judgement?urlType=seizedUnblock&sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`, row.title, '_blank', '', '', '')
-					// 					}
-					// 				</span>
-					// 			) : '-'
-					// 		}
-					// 	</div>
-					// ) : null
 					row.dataType === 2 ? (
 						<div className="assets-matching-reason-wrapper">
 							<div className={`reason-content-wrapper content-${status}`}>
 								<div className="reason-content" ref={e => this.dom = e}>
 									<div className="reason-list">
-										{
+										 {
 											row.title ? (
 												<span>
 													判决结果：
 													{
-														`${row.title}速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞速度还都i赛季第卅均价降幅吉萨家的就撒娇的杀害的就杀地煞`
+														row.title
 													}
 												</span>
 											)
@@ -124,8 +96,7 @@ export default class InfoItem extends React.Component {
 														{row.title || '-'}
 													</span>
 												)
-										}
-
+										 }
 									</div>
 								</div>
 							</div>
