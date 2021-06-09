@@ -4,7 +4,6 @@ import {
 	Button, Spin, Download, Icon,
 } from '@/common';
 import Api from '@/utils/api/monitor-info/epaper';
-// import { unReadCount as unReadTotal } from '@/utils/api/monitor-info';
 import { clearEmpty } from '@/utils';
 import QueryView from './query';
 import TableView from './table';

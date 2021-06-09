@@ -46,7 +46,7 @@ class QueryCondition extends React.Component {
 
 	toKeyCode13=(e) => {
 		const event = e || window.event;
-		const key = event.keyCode || event.which || event.charCode;
+		const key = event.keyCode || event.which ||  event.charCode;
 		if (document.activeElement.nodeName === 'INPUT' && key === 13) {
 			const { className } = document.activeElement.offsetParent;
 			if (/yc-input-wrapper/.test(className)) {
