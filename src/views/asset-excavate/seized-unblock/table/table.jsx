@@ -131,23 +131,22 @@ const columns = (props) => {
 					}
 				</div>
 			),
-		}, {
-			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'gmtCreate',
-			width: 110,
-		},
-		{
+		},{
 			title: <span>源链接</span>,
 			dataIndex: 'url',
 			width: 90,
 			render: (text, row) => (
 				<div>
 					{
-						row.dataType === 2 ? <Ellipsis className="" content="查看" url={`#/judgement?sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`} /> : (row.sourceId === 10760 || row.sourceId === 10761 ? '-' : <Ellipsis className="" content="查看" url={row.url} />)
+						row.dataType === 2 ? <Ellipsis className="" content="查看" url={`#/judgement?sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`} /> : (row.sourceId === 10760 || row.sourceId === 10761 ? '--' : <Ellipsis className="" content="查看" url={row.url} />)
 					}
 				</div>
 			),
+		}, {
+			title: (noSort ? global.Table_CreateTime_Text
+				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'gmtCreate',
+			width: 110,
 		},
 		{
 			title: '操作',
