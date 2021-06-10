@@ -138,7 +138,7 @@ const columns = (props) => {
 			width: 110,
 		},
 		{
-			title: <span>原链接</span>,
+			title: <span>源链接</span>,
 			dataIndex: 'url',
 			width: 90,
 			render: (text, row) => (
