@@ -54,7 +54,7 @@ const columns = (props) => {
 			width: 200,
 			render: (text, record) => (record.url ? (
 				<Ellipsis
-					content={text}
+					content={text || record.url}
 					url={record.url}
 					isSourceLink
 					tooltip
