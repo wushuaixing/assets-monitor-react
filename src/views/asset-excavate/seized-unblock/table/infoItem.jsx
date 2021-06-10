@@ -83,17 +83,17 @@ export default class InfoItem extends React.Component {
 								<div className="reason-content" ref={e => this.dom = e}>
 									<div className="reason-list">
 										 {
-											row.title ? (
+											row.information ? (
 												<span>
 													判决结果：
 													{
-														row.title
+														row.information
 													}
 												</span>
 											)
 												: (
 													<span>
-														{row.title || '-'}
+														{row.information || '-'}
 													</span>
 												)
 										 }

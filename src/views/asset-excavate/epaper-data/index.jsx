@@ -166,8 +166,8 @@ export default class Epaper extends React.Component {
 		if (__isRead === 'all') { delete this.condition.isRead; }
 		if (__isRead === 'unread') { this.condition.isRead = 0; }
 
-		if (!loading) this.setState({ loading: true, manage: _manage || false });
-		// this.toInfoCount();
+		if (!loading) this.setState({ loading: true });
+		// this.toInfoCount(); manage: _manage || false
 		this.toUnReadCount();
 		Api.list(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {

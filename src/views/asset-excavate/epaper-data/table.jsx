@@ -22,7 +22,7 @@ const columns = (props) => {
 			title: '关联债务人',
 			dataIndex: 'obligorName',
 			width: 150,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
+			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '--'),
 		}, {
 			title: '公告类型',
 			dataIndex: 'noticeType',
@@ -54,13 +54,13 @@ const columns = (props) => {
 			width: 200,
 			render: (text, record) => (record.url ? (
 				<Ellipsis
-					content={text}
+					content={text || record.url}
 					url={record.url}
 					isSourceLink
 					tooltip
 					width={200}
 				/>
-			) : <span>{text || '-'}</span>),
+			) : <span>{text || '--'}</span>),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

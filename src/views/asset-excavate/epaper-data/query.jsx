@@ -86,7 +86,7 @@ class QueryCondition extends React.Component {
 				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
 			},
 		};
-		const provinceEpaperList = [...provinceList.provinceList, { id: 33, name: '全国' }];
+		const provinceEpaperList = [{ id: 33, name: '全国' }, ...provinceList.provinceList];
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
@@ -94,14 +94,14 @@ class QueryCondition extends React.Component {
 				</div>
 				<div className="yc-query-item" style={{ marginRight: 30 }}>
 					<span className="yc-query-item-title">公告类型：</span>
-					<Select size="large" style={_style3} placeholder="全部" {...getFieldProps('noticeType')} allowClear>
+					<Select size="large" style={_style3} placeholder="请选择" {...getFieldProps('noticeType')} allowClear>
 						{
 							noticeType && noticeType.map(item => <Select.Option key={item.id} value={item.name}>{item.name}</Select.Option>)
 						}
 					</Select>
 				</div>
 				<div className="yc-query-item">
-					<Input title="电子名称" style={_style1} size="large" maxLength="40" placeholder="公告标题关键字" {...getFieldProps('newspaperName')} />
+					<Input title="电子报名称" style={_style1} size="large" maxLength="40" placeholder="公告标题关键字" {...getFieldProps('newspaperName')} />
 				</div>
 				<div className="yc-query-item">
 					<span>省份：</span>

@@ -125,13 +125,13 @@ export default class Subrogation extends React.Component {
 		if (url.indexOf('?') !== -1) {
 			let dParams = {};
 			if (sourceType === 1) {
-				dParams = getUrlParams(url, 'updateTimeStart', 'updateTimeEnd');
+				dParams = getUrlParams(url, 'createTimeStart', 'createTimeEnd');
 			}
 			if (sourceType === 2) {
-				dParams = getUrlParams(url, 'gmtModifyStart', 'gmtModifyEnd');
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
 			}
 			if (sourceType === 3) {
-				dParams = getUrlParams(url, 'gmtModifiedStart', 'gmtModifiedEnd');
+				dParams = getUrlParams(url, 'gmtCreateStart', 'gmtCreateEnd');
 			}
 			return dParams;
 		}
