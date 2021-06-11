@@ -420,8 +420,11 @@ class MessageDetail extends React.Component {
 							<span className="messageDetail-header-tips">
 								<span>
 									当前有效：
-									<span className="messageDetail-header-tips-num">{effectiveCount}</span>
+									<span className="messageDetail-header-tips-num">{effectiveCount <= 0 ? '0' : effectiveCount}</span>
 									 条
+									{
+										console.log('effectiveCount',effectiveCount)
+									}
 								</span>
 								<span className="splitLine"> | </span>
 								<span>
