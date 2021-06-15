@@ -47,22 +47,22 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 		{
 			title: (noSort ? '业务信息'
 				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>业务信息</SortVessel>),
-			width: '22%',
+			width: '220px',
 			render: (text, row, index, noMatching, asset = true) => AssetsInfo(text, row, index, noMatching, asset),
 		}, {
 			title: '匹配原因',
 			dataIndex: 'reason',
-			width: '28%',
+			width: '246px',
 			render: MatchingReason,
 		}, {
 			title: (noSort ? '拍卖信息'
 				: <SortVessel field="START" onClick={onSortChange} mark="(开拍时间)" {...sort}>拍卖信息</SortVessel>),
-			width: '30%',
+			width: '308px',
 			render: (text, row) => AuctionInfo(text, row, toOpenHistory),
 		}, {
 			title: '跟进状态',
 			dataIndex: 'reason',
-			width: '9%',
+			width: '129px',
 			className: 'yc-AssetAuction-verticalMiddle',
 			render: (text, row) => {
 				const { recovery, process } = row;
@@ -108,8 +108,7 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 						}[process] || '-' }
 						{recovery > 0 ?	(
 							<div style={{ color: '#FB5A5C', fontWeight: 'bold', fontSize: '12px' }}>
-								追回：
-								<br />
+								追回:
 								{`${floatFormat(recovery)}元`}
 							</div>
 						) : ''}
@@ -118,7 +117,7 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 			},
 		}, {
 			title: '操作',
-			width: '11%',
+			width: '120px',
 			unNormal: true,
 			className: 'yc-assets-auction-action yc-AssetAuction-verticalMiddle',
 			render: (text, row, index) => {
