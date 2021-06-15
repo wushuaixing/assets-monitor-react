@@ -44,7 +44,7 @@ export default class InquiryList extends React.Component {
 				inquiryCheck(`/inquiry/enterprise?id=${row.companyId}&name=${row.name.replace(/<(\/|)em>/g, '')}`, 2);
 			}
 		}).catch(() => {
-			console.log('==');
+			console.log('error');
 		});
 	};
 
