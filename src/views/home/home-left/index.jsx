@@ -187,7 +187,7 @@ class HomeDynamic extends PureComponent {
 			const {
 				auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
 				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister,
-				financeInvestment, vehicleInformation, projectInfoCount, projectBiddingCount, constructionLicenceCount,
+				financeInvestment, vehicleInformation, projectInfoCount, projectBiddingCount, constructionLicenceCount,electronicNewspaperCount,
 			} = res.data;
 			const landNum = this.getTotal([landMortgage, landTransaction, landTransfer]);
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
@@ -233,6 +233,9 @@ class HomeDynamic extends PureComponent {
 				},
 				{
 					count: vehicleInformation, type: 14, typeName: '车辆信息', name: '车辆信息', value: 11,
+				},
+				{
+					count: electronicNewspaperCount, type: 0, typeName: '电子报', name: '电子报', value: 0,
 				},
 			];
 			// console.log('assetDataArray === ', assetDataArray);

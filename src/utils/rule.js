@@ -414,8 +414,8 @@ export default {
 							{
 								id: 'YC0213',
 								name: '电子报',
-								url: '/monitor/newsettler',
-								status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
+								url: '/monitor/epaper',
+								status: toStatus(rule.menu_zcwj, 'zcwjdzb'),
 							},
 						],
 					},

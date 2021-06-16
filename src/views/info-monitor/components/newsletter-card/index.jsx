@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
-import { assetBiddingCount } from 'api/monitor-info/excavate/count';
+import { electronicNewspaperCount } from 'api/monitor-info/excavate/count';
 import Card from '../card';
 import './style.scss';
 
@@ -22,10 +22,10 @@ export default class Bidding extends PureComponent {
 		const params = {
 			isRead: 0,
 		};
-		assetBiddingCount(params).then((res) => {
+		electronicNewspaperCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					assetBiddingNum: res.data,
+					assetBiddingNum: res.data.total,
 				});
 			}
 		});
@@ -33,15 +33,15 @@ export default class Bidding extends PureComponent {
 
 	render() {
 		const {
-			url, biddingPropsData, biddingPropsData: {
-				bidding, gmtUpdate, totalCount,
+			url, epaperPropsData, epaperPropsData: {
+				electronicNewspaperCount, gmtUpdate, totalCount,
 			},
 		} = this.props;
 		const { assetBiddingNum } = this.state;
 		return (
 			<Card
-				IconType="bidding"
-				IconColor={{ color: '#3DBD7D' }}
+				IconType="dianzibao"
+				IconColor={{ color: '#00C2E2' }}
 				customStyle={hasCountStyle}
 				text="电子报"
 				onClick={() => navigate(url)}
@@ -50,11 +50,10 @@ export default class Bidding extends PureComponent {
 				unReadText="条未读信息"
 				unReadNum={assetBiddingNum}
 			>
-				{Object.keys(biddingPropsData).length !== 0 && (
+				{Object.keys(epaperPropsData).length !== 0 && (
 				<div className={`risk-bankruptcy-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-					<span className={`risk-bankruptcy-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{bidding || 0}</span>
-					条相关匹配信息
-					{totalCount ? '，请核实' : ''}
+					<span className={`risk-bankruptcy-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{electronicNewspaperCount || 0}</span>
+					条电子报信息
 				</div>
 				)}
 			</Card>

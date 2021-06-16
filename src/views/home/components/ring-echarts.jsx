@@ -6,7 +6,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 		trigger: 'item',
 		formatter: '{a} <br/>{b}: {c} ({d}%)',
 	},
-	color: customColorArray || ['#1C80E1', '#CF71FF', '#4BB1FF', '#42D6FD', '#59C874', '#269A99', '#FFE951', '#5B8FF9','#FF9C42','#3952FF','#FF6F86'],
+	color: customColorArray || ['#1C80E1', '#CF71FF', '#4BB1FF', '#42D6FD', '#59C874', '#269A99', '#FFE951', '#48EBC9', '#5B8FF9', '#FF9C42', '#3952FF', '#FF6F86'],
 	legend: {
 		// inactiveColor: '#1C80E1',
 		// selectedMode: false, // 取消图例上的点击事件

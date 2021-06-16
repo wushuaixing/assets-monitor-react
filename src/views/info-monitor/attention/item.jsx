@@ -7,7 +7,7 @@ import TenderBid from '../../asset-excavate/tender-bid/table-intact';
 import FinancialAssets from '../../asset-excavate/financial-assets/table'; // 金融资产
 import ChattelMortgage from '../../asset-excavate/chattel-mortgage/table-intact'; // 动产抵押
 import Car from '../../asset-excavate/car/table-intact'; // 车辆信息
-import Newsettler from '../../asset-excavate/newsettler/table-intact'; // 电子报
+import Newsettler from '../../asset-excavate/epaper-data/table-intact'; // 电子报
 import RealEstate from '../../asset-excavate/real-estate/table-intact'; // 不动产登记
 import Lawsuit from '../../risk-monitor/lawsuits-monitor/table-intact';
 import Operation from '../../risk-monitor/operation-risk/table-intact';

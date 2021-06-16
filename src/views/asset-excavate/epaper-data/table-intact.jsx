@@ -1,23 +1,22 @@
 import React from 'react';
-import PropTypes from 'reactPropTypes';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import Api from '@/utils/api/monitor-info/seizedUnbock';
+import Api from '@/utils/api/monitor-info/epaper';
 import TableView from './table';
 
-class TableIntact extends React.Component {
+export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [],
+			dataSource: '',
 			current: 1,
 			total: 0,
-			loading: false,
+			loading: true,
 		};
 		this.condition = {
-			isAttention: 1,
 			sortColumn: '',
 			sortOrder: '',
+			isAttention: 1,
 			page: 1,
 			num: 10,
 		};
@@ -27,21 +26,37 @@ class TableIntact extends React.Component {
 		this.toGetData();
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const { sourceType } = this.props;
+		if (sourceType !== nextProps.sourceType) {
+			this.condition.sortColumn = '';
+			this.condition.sortOrder = '';
+			this.condition.sourceType = nextProps.sourceType;
+			this.setState({
+				dataSource: '',
+				current: 1,
+				total: 0,
+			});
+			this.toGetData(nextProps);
+		}
+	}
+
 	// 排序触发
-	onSortChange = (field, order) => {
+	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
 		this.condition.sortOrder = order;
+		this.condition.page = 1;
 		this.toGetData();
 	};
 
 	// 当前页数变化
-	onPageChange = (val) => {
+	onPageChange=(val) => {
 		this.condition.page = val;
 		this.toGetData();
 	};
 
 	// 表格发生变化
-	onRefresh = (data, type) => {
+	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
@@ -52,12 +67,12 @@ class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData = () => {
+	toGetData=(nextProps) => {
 		this.setState({ loading: true });
-		const { reqUrl } = this.props;
-		let toApi = Api.followList;
+		const { reqUrl, id } = nextProps || this.props;
+		let toApi = Api.list;
 		toApi = reqUrl || toApi;
-		toApi(clearEmpty(this.condition)).then((res) => {
+		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					dataSource: res.data.list,
@@ -84,7 +99,7 @@ class TableIntact extends React.Component {
 		const {
 			dataSource, current, total, loading,
 		} = this.state;
-		const { normal, noSort } = this.props;
+		const { sourceType, normal, noSort } = this.props;
 		const tableProps = {
 			noSort,
 			normal,
@@ -96,28 +111,17 @@ class TableIntact extends React.Component {
 			onSelect: () => {},
 			onPageChange: this.onPageChange,
 			onSortChange: this.onSortChange,
+			sourceType: this.condition.sourceType,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortColumn,
 		};
 		return (
 			<div className="yc-assets-auction">
 				<Spin visible={loading}>
-					<TableView {...tableProps} />
+					<TableView {...tableProps} key={sourceType} />
 				</Spin>
 			</div>
 
 		);
 	}
 }
-
-TableIntact.propTypes = {
-	normal: PropTypes.bool,
-	noSort: PropTypes.bool,
-};
-
-TableIntact.defaultProps = {
-	normal: true,
-	noSort: false,
-};
-
-export default TableIntact;

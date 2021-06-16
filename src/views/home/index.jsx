@@ -108,7 +108,7 @@ class HomeRouter extends React.Component {
 				const {
 					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount,
 					vehicleInformationCount, estateRegisterCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount,
-					changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount, constructionLicenceCount, projectBiddingCount, projectInfoCount,
+					changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount, constructionLicenceCount, projectBiddingCount, projectInfoCount, electronicNewspaperCount,
 				} = res.data;
 				const assetArray = [
 					{
@@ -148,7 +148,7 @@ class HomeRouter extends React.Component {
 						name: '招投标', count: biddingCount, color: '#3DBD7D', icon: 'bidding', status: biddingCount !== null,
 					},
 					{
-						name: '电子报', count: biddingCount, color: '#3DBD7D', icon: 'newsettler', status: biddingCount !== null,
+						name: '电子报', count: electronicNewspaperCount, color: '#00C2E2', icon: 'dianzibao', status: electronicNewspaperCount !== null,
 					},
 				];
 				const riskArray = [

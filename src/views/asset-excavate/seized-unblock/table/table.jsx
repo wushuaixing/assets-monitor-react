@@ -6,6 +6,12 @@ import Api from 'api/monitor-info/seizedUnbock';
 import { Table, SelectedNum, Ellipsis } from '@/common';
 import InforItem from './infoItem';
 
+const messageType = {
+	0: '全部',
+	1: '司法协助',
+	2: '保全文书',
+};
+
 // 获取表格配置
 const columns = (props) => {
 	const { normal, onRefresh, noSort } = props;
@@ -15,7 +21,7 @@ const columns = (props) => {
 		{
 			title: <span style={{ paddingLeft: 10 }}>查/解封对象</span>,
 			dataIndex: 'parties',
-			width: 260,
+			width: 150,
 			render: (text, row = {}) => (
 				<div>
 					{ !row.isRead
@@ -39,7 +45,24 @@ const columns = (props) => {
 				}
 				</div>
 			),
-		}, {
+		},
+		{
+			title: <span>信息来源</span>,
+			dataIndex: 'dataType',
+			width: 120,
+			render: text => (
+				<div>
+					{messageType[text]}
+				</div>
+			),
+		},
+		{
+			title: '资产信息',
+			dataIndex: 'information',
+			width: 300,
+			render: (text, row) => <InforItem content={text} row={row} />,
+		},
+		{
 			title: (noSort ? (
 				<span>
 					关联案件
@@ -68,11 +91,18 @@ const columns = (props) => {
 					</li>
 					{
 						row.dataType === 2 ? 	(
-							<li>
-								<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
-								<span className="list list-title-colon">:</span>
-								<span className="list list-content"><Ellipsis content={row.judementTime || '-'} tooltip width={200} /></span>
-							</li>
+							<React.Fragment>
+								<li>
+									<span className="list list-title align-justify" style={{ width: 50 }}>判决日期</span>
+									<span className="list list-title-colon">:</span>
+									<span className="list list-content"><Ellipsis content={row.judementTime || '-'} tooltip width={200} /></span>
+								</li>
+								<li>
+									<span className="list list-title align-justify" style={{ width: 50 }}>发布日期</span>
+									<span className="list list-title-colon">:</span>
+									<span className="list list-content"><Ellipsis content={row.publishTime || '-'} tooltip width={200} /></span>
+								</li>
+							</React.Fragment>
 						) : null
 					}
 					{
@@ -101,17 +131,24 @@ const columns = (props) => {
 					}
 				</div>
 			),
-		}, {
-			title: '资产信息',
-			dataIndex: 'information',
-			width: 328,
-			render: (text, row) => <InforItem content={text} row={row} />,
+		},{
+			title: <span>源链接</span>,
+			dataIndex: 'url',
+			width: 90,
+			render: (text, row) => (
+				<div>
+					{
+						row.dataType === 2 ? <Ellipsis className="" content="查看" url={`#/judgement?sourceId=${row.sourceId}&pid=${row.pid}&title=${row.title}`} /> : (row.sourceId === 10760 || row.sourceId === 10761 ? '--' : <Ellipsis className="" content="查看" url={row.url} />)
+					}
+				</div>
+			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtCreate',
 			width: 110,
-		}, {
+		},
+		{
 			title: '操作',
 			width: 55,
 			unNormal: false,
