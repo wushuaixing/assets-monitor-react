@@ -131,8 +131,8 @@ const columns = (props) => {
 					}
 				</div>
 			),
-		},{
-			title: <span>源链接</span>,
+		}, {
+			title: <span>详情</span>,
 			dataIndex: 'url',
 			width: 90,
 			render: (text, row) => (
