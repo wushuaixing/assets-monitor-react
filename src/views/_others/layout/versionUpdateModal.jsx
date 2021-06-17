@@ -19,16 +19,16 @@ export default class VersionUpdateModal extends React.PureComponent {
 		const { VersionUpdateModalVisible } = this.props;
 		const tips = [
 			{
-				title: '短信/日报取值优化',
-				content: '展示更“新鲜”的数据',
+				title: '资产挖掘增加电子报信息',
+				content: '拓展数据广度',
 			},
 			{
-				title: '失信、限高逻辑优化',
-				content: '提供更“准确”的数据',
+				title: '金融资产取值逻辑优化',
+				content: '避免重复推送',
 			},
 			{
-				title: '资产拍卖、pdf报告展示优化',
-				content: '机构管理布局调整，提供更“友好”的体验',
+				title: '部分页面内容与交互优化',
+				content: '提升产品易用性',
 			},
 		];
 		return (
