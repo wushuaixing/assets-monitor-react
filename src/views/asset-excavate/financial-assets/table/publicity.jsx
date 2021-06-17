@@ -49,7 +49,7 @@ const columns = (props) => {
 		{
 			title: '关联债务人',
 			dataIndex: 'obligorId',
-			width: 250,
+			width: 200,
 			render: (text, row) => (
 				<Ellipsis
 					content={row.obligorName || '-'}
@@ -68,6 +68,7 @@ const columns = (props) => {
 		{
 			title: '项目名称',
 			dataIndex: 'title',
+			width: 250,
 			render: (text, row) => (
 				<Ellipsis
 					content={text || (row.projectName ? row.projectName : row.sourceUrl)}
@@ -80,14 +81,14 @@ const columns = (props) => {
 		},
 		{
 			title: '项目信息',
-			width: 255,
+			width: 200,
 			render: (text, row) => ProjectPubInfo(text, row),
 		},
 		{
 			title: (noSort ? '更新日期'
-				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
+				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>更新日期</SortVessel>),
 			dataIndex: 'createTime',
-			width: 120,
+			width: 90,
 			render: text => <span>{text || '-'}</span>,
 		},
 		{

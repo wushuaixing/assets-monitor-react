@@ -112,27 +112,27 @@ const EnterpriseInfo = (props) => {
 						) : null
 					}
 				</div>
-				<div className="intro-base-info">
-					<li className="intro-info-list intro-list-border">
-						{name ? <img src={ShapeImg} style={{ position: 'relative', top: '2px', marginRight: '5px' }} alt="" /> : null}
-						<span className="yc-public-remark">借款人：</span>
-						<span className="yc-public-title intro-title-name" style={style}>
-							{name ? linkDetail(obligorId, name) : '-'}
-							{ isDishonest === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null }
-							{ isDishonest === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null }
-							{ bankruptcyStatus ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: -1, marginRight: 5 }}>破产/重整风险</span> : ''}
-							{/* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" style={{ width: '28px' }} /> : null} */}
-						</span>
-					</li>
-					<li className="intro-info-list intro-list-border">
-						<span className="yc-public-remark">证件号/统一社会信用代码：</span>
-						<span className="yc-public-title" style={style}>{toEmpty(obligorNumber) ? reviseNum(obligorNumber) : '-'}</span>
-					</li>
-					<li className="intro-info-list">
-						<span className="yc-public-remark">借款人推送状态：</span>
-						<span className="yc-public-title">{obligorPushType !== null ? (obligorPushType ? '开启' : '关闭') : '-'}</span>
-					</li>
-				</div>
+				{/*<div className="intro-base-info">*/}
+				{/*	<li className="intro-info-list intro-list-border">*/}
+				{/*		{name ? <img src={ShapeImg} style={{ position: 'relative', top: '2px', marginRight: '5px' }} alt="" /> : null}*/}
+				{/*		<span className="yc-public-remark">借款人：</span>*/}
+				{/*		<span className="yc-public-title intro-title-name" style={style}>*/}
+				{/*			{name ? linkDetail(obligorId, name) : '-'}*/}
+				{/*			{ isDishonest === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null }*/}
+				{/*			{ isDishonest === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null }*/}
+				{/*			{ bankruptcyStatus ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: -1, marginRight: 5 }}>破产/重整风险</span> : ''}*/}
+				{/*			/!* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" style={{ width: '28px' }} /> : null} *!/*/}
+				{/*		</span>*/}
+				{/*	</li>*/}
+				{/*	<li className="intro-info-list intro-list-border">*/}
+				{/*		<span className="yc-public-remark">证件号/统一社会信用代码：</span>*/}
+				{/*		<span className="yc-public-title" style={style}>{toEmpty(obligorNumber) ? reviseNum(obligorNumber) : '-'}</span>*/}
+				{/*	</li>*/}
+				{/*	<li className="intro-info-list">*/}
+				{/*		<span className="yc-public-remark">借款人推送状态：</span>*/}
+				{/*		<span className="yc-public-title">{obligorPushType !== null ? (obligorPushType ? '开启' : '关闭') : '-'}</span>*/}
+				{/*	</li>*/}
+				{/*</div>*/}
 				<div className="intro-used">
 
 					<li className="intro-info-list intro-list-border">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'antd';
+import { Form, Select} from 'antd';
 import PropTypes from 'reactPropTypes';
 import {
 	Input, Button, timeRule, DatePicker,
@@ -74,6 +74,14 @@ class QueryCondition extends React.Component {
 			<div className="yc-content-query">
 				<div className="yc-query-item">
 					<Input title="查/解封对象" titleWidth={84} size="large" maxLength="40" placeholder="姓名/公司名称" {...getFieldProps('obligorName')} />
+				</div>
+				<div className="yc-query-item" style={{ marginRight: 30 }}>
+					<span className="yc-query-item-title">信息来源：</span>
+					<Select size="large" style={{ width: '200px' }} placeholder="请选择" {...getFieldProps('dataType')} allowClear>
+						<Select.Option value="0">全部</Select.Option>
+						<Select.Option value="2">保全文书</Select.Option>
+						<Select.Option value="1">司法协助</Select.Option>
+					</Select>
 				</div>
 				<div className="yc-query-item">
 					<Input title="关联案号" style={_style1} size="large" maxLength="40" placeholder="关联案号" {...getFieldProps('caseNumber')} />

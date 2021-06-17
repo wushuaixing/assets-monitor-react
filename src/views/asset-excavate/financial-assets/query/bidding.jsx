@@ -22,10 +22,10 @@ class QueryCondition extends React.Component {
 	componentDidMount() {
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
-			const dParams = getUrlParams(url, 'updateTimeStart', 'updateTimeEnd');
+			const dParams = getUrlParams(url, 'createTimeStart', 'createTimeEnd');
 			const { form: { setFieldsValue } } = this.props;
-			setFieldsValue({ updateTimeStart: dParams.updateTimeStart });
-			setFieldsValue({ updateTimeEnd: dParams.updateTimeEnd });
+			setFieldsValue({ createTimeStart: dParams.createTimeStart });
+			setFieldsValue({ createTimeEnd: dParams.createTimeEnd });
 			this.handleSubmit();
 		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
@@ -229,16 +229,16 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('updateTimeStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('updateTimeEnd'))}
+						{...getFieldProps('createTimeStart', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('createTimeEnd'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('updateTimeEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('updateTimeStart'))}
+						{...getFieldProps('createTimeEnd', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('createTimeStart'))}
 					/>
 				</div>
 

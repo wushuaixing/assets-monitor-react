@@ -2,6 +2,7 @@ import React from 'react';
 import { Radio, Icon, message } from 'antd';
 import { navigate } from '@reach/router';
 import { Button, Input, Icon as Iconfont } from '@/common';
+import { authRule } from '@/utils/api';
 import { inquiryCheck } from './inquiry-check';
 
 export default class InitView extends React.Component {
@@ -77,14 +78,21 @@ export default class InitView extends React.Component {
 				this.setState({ loading: true });
 				// eslint-disable-next-line radix
 				const _dd = Number.parseInt(Math.random() * 1000);
-				inquiryCheck(`/inquiry/personal?type=2&name=${name.trim()}&num=${num.trim()}&dd=${_dd}`, 2)
-					.then(() => {
-						global.PORTRAIT_INQUIRY_AFFIRM = false;
-						this.setState({ loading: false });
-					})
-					.catch(() => {
-						this.setState({ loading: false });
-					});
+				authRule().then((res) => {
+					if (res.code === 200) {
+						global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
+						inquiryCheck(`/inquiry/personal?type=2&name=${name.trim()}&num=${num.trim()}&dd=${_dd}`, 2)
+							.then(() => {
+								global.PORTRAIT_INQUIRY_AFFIRM = false;
+								this.setState({ loading: false });
+							})
+							.catch(() => {
+								this.setState({ loading: false });
+							});
+					}
+				}).catch(() => {
+					console.log('error');
+				});
 			}
 		}
 	};

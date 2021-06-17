@@ -6,7 +6,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 		trigger: 'item',
 		formatter: '{a} <br/>{b}: {c} ({d}%)',
 	},
-	color: customColorArray || ['#1C80E1', '#CF71FF', '#4BB1FF', '#42D6FD', '#59C874', '#269A99', '#FFE951', '#5B8FF9','#FF9C42','#3952FF','#FF6F86'],
+	color: customColorArray || ['#1C80E1', '#CF71FF', '#4BB1FF', '#42D6FD', '#59C874', '#269A99', '#FFE951', '#48EBC9', '#5B8FF9', '#FF9C42', '#3952FF', '#FF6F86'],
 	legend: {
 		// inactiveColor: '#1C80E1',
 		// selectedMode: false, // 取消图例上的点击事件
@@ -61,7 +61,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					align: 'center',
 				},
 				c: {
-					width: 40,
+					width: 55,
 					fontSize: 12,
 					color: '#4E5566',
 					padding: [0, 0, 0, 4],
@@ -78,7 +78,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					color: '#4e5566',
 				},
 			},
-			padding: [0, 50, 0, 0],
+			padding: [0, 35, 0, 0],
 		},
 	},
 

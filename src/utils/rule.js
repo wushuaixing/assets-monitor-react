@@ -411,6 +411,12 @@ export default {
 								url: '/monitor/tender',
 								status: toStatus(rule.menu_zcwj, 'zcwjzbzb'),
 							},
+							{
+								id: 'YC0213',
+								name: '电子报',
+								url: '/monitor/epaper',
+								status: toStatus(rule.menu_zcwj, 'zcwjdzb'),
+							},
 						],
 					},
 					{

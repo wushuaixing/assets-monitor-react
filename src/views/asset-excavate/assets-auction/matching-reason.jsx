@@ -161,7 +161,7 @@ export default class MatchingReason extends React.Component {
 							remark ? null : (
 								<div className="reason-list">
 									<span className="reason-list-dots">●</span>
-									<span>{` ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</span>
+									<span>{` 匹配时间 ：${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}</span>
 								</div>
 							)
 						}

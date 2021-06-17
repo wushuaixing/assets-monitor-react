@@ -19,6 +19,8 @@ class HomeOverview extends React.Component {
 			['chattel', () => { navigate('/monitor/mortgage'); }],
 			['finance', () => { navigate('/monitor/financial'); }],
 			['bidding', () => { navigate('/monitor/tender'); }],
+			['dianzibao', () => { navigate('/monitor/epaper'); }],
+			['epaper-data', () => { navigate('/monitor/epaper-data'); }],
 			['cheliangxinxi', () => { navigate('/monitor/car'); }],
 			['budongchandengji', () => { navigate('/monitor/realEstate'); }],
 			['bankruptcy', () => { navigate('/risk/bankruptcy'); }],

@@ -3,6 +3,7 @@ import { inquiryList, inquiryPriorityList } from '@/utils/api/portrait-inquiry';
 import { Spin, Table } from '@/common';
 import { timeStandard, clearEmpty } from '@/utils';
 import { requestAll } from '@/utils/promise';
+import { authRule } from '@/utils/api';
 import QueryView from './common/queryView';
 import { inquiryCheck } from './inquiry-check';
 
@@ -36,8 +37,15 @@ export default class InquiryList extends React.Component {
 	};
 
 	toDetailInfo=(row) => {
-		global.PORTRAIT_INQUIRY_AFFIRM = false;
-		inquiryCheck(`/inquiry/enterprise?id=${row.companyId}&name=${row.name.replace(/<(\/|)em>/g, '')}`, 2);
+		authRule().then((res) => {
+			if (res.code === 200) {
+				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
+				global.PORTRAIT_INQUIRY_AFFIRM = false;
+				inquiryCheck(`/inquiry/enterprise?id=${row.companyId}&name=${row.name.replace(/<(\/|)em>/g, '')}`, 2);
+			}
+		}).catch(() => {
+			console.log('error');
+		});
 	};
 
 	toGetColumns=() => [
