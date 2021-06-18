@@ -39,7 +39,7 @@ const peojectStatusMap = new Map([
 
 const AssetsInfo = (text, rowContent, index, noMatching = false, asset) => {
 	const {
-		obligorName, obligorNumber, orgName, important, dishonestStatus, obligorId, isRead, createTime,
+		obligorName, obligorNumber, orgName, important, dishonestStatus, obligorId, isRead, createTime, pushType, updateTime,
 	} = rowContent;
 	return (
 		<React.Fragment>
@@ -78,7 +78,13 @@ const AssetsInfo = (text, rowContent, index, noMatching = false, asset) => {
 				</li>
 				<li className="list-dishonest">
 					<span className="list list-title">更新时间：</span>
-					<span className="list list-content">{createTime ? formatDateTime(createTime) : '-'}</span>
+					{
+						pushType === 2 ? (
+							<span className="list list-content">{createTime ? formatDateTime(createTime) : '-'}</span>
+						) : (
+							<span className="list list-content">{updateTime ? formatDateTime(updateTime) : '-'}</span>
+						)
+					}
 					{ dishonestStatus === 1 ? <img src={dishonest1} alt="" className="list-dishonest-status" /> : ''}
 					{ dishonestStatus === 2 ? <img src={dishonest2} alt="" className="list-dishonest-status" /> : ''}
 				</li>
