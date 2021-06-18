@@ -1,230 +1,140 @@
 import React from 'react';
-import {
-	Table, Form, Tooltip, Modal,
-} from 'antd';
-import { formatDateTime } from '@/utils/changeTime';
+import { Form } from 'antd';
+import { Table } from '@/common';
+import { partyInfo } from '@/views/_common';
+import associationLink from '@/views/_common/association-link';
+import order from '@/assets/img/icon/icon_arrow.png';
 import './style.scss';
 
-const toClick = row => Modal.info({
-	title: '当事人详情',
-	okText: '确定',
-	iconType: 'null',
-	className: 'assets-an-info',
-	content: (
-		<div style={{ marginLeft: -28, fontSize: 14 }}>
-			{
-				row && row.ygList && (
-				<div>
-					<strong>原告：</strong>
-					<span>{row.ygList}</span>
-				</div>
-				)
-			}
-			{
-				row && row.bgList && row.bgList.split(',').map(item => (
-					<div key={item}>
-						<strong>被告：</strong>
-						<span>{item}</span>
-					</div>
-				))
-			}
-
-		</div>
-	),
-	onOk() {},
-});
-
-const toShow = (row, type) => {
-	if (row.associates[type].url.length > 1) {
-		let text = '立案';
-		if (type === 0) text = '立案';
-		if (type === 1) text = '开庭';
-		if (type === 2) text = '文书';
-		Modal.info({
-			title: `本案号关联多个${text}链接，如下：`,
-			okText: '关闭',
-			iconType: 'null',
-			className: 'assets-an-info',
-			width: 600,
-			content: (
-				<div style={{ marginLeft: -28 }}>
-					{ row.associates[type].url.map(item => (
-						<p style={{ margin: 5 }}>
-							<a href={item} target="_blank" rel="noopener noreferrer">{item}</a>
-						</p>
-					)) }
-				</div>
-			),
-			onOk() {},
-		});
-	} else {
-		const w = window.open('about:blank');
-		const associates = row.associates[type].url[0];
-		w.location.href = associates;
-	}
-};
-const dividerType = (row) => {
-	const trial = row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0;
-	const kaiting = row.associates.length > 0 && row.associates[1].url.length > 0 && row.associates[1].url[0].length > 0;
-	return trial || kaiting ? <span className="ant-divider" /> : '';
-};
 class BusinessView extends React.Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-
-		};
+		this.state = {};
 	}
 
 	render() {
 		const {
 			Sort, dataList, SortTime, type,
 		} = this.props;
-		const columns = [
+		const trailColumns = [
 			{
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
-						{type === 1 ? '立案日期' : '开庭日期'}
-						{Sort === undefined && <span className="sort th-sort-default" />}
+						{ '立案日期' }
+						{/* {Sort === undefined && <span className="sort th-sort-default" />} */}
+						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
 					</div>),
-				dataIndex: 'larq',
-				key: 'larq',
+				dataIndex: 'gmtRegister',
+				key: 'gmtRegister',
+				className: 'firstTitle',
 				width: 122,
-				render(text) {
-					return <span>{formatDateTime(text, 'onlyYear') || '-'}</span>;
-				},
+				render: (text, row) => (
+					<span>{row.gmtRegister || '-'}</span>
+				),
 			}, {
-				title: '原告',
-				dataIndex: 'yg',
-				key: 'yg',
+				title: '当事人',
+				dataIndex: 'parties',
+				key: 'parties',
 				width: 241,
-				render(text, row) {
-					return (
-						<div className="table-column">
-							{
-								row.yg && row.yg.length > 14
-									? (
-										<Tooltip placement="topLeft" title={row.yg}>
-											<p>{`${row.yg.substr(0, 14)}...`}</p>
-										</Tooltip>
-									)
-									: <p>{row.yg || '-'}</p>
-							}
-						</div>
-					);
-				},
+				render: partyInfo,
 			}, {
-				title: '被告',
-				dataIndex: 'bg',
-				key: 'bg',
-				width: 265,
-				render(text, row) {
-					return (
-						<div className="table-column">
-							{
-								row.bg && row.bg.length > 14
-									? (
-										<Tooltip placement="topLeft" title={row.bg}>
-											<p>{`${row.bg.substr(0, 14)}...`}</p>
-										</Tooltip>
-									)
-									: <p>{row.bg || '-'}</p>
-							}
-						</div>
-					);
-				},
-			}, {
-				title: '起诉法院',
+				title: '法院',
 				dataIndex: 'court',
-				key: 'court',
-				width: 183,
-				render(text, row) {
-					return (
-						<div className="table-column">
-							{row.court || '-'}
-						</div>
-					);
-				},
+				render: text => text || '-',
 			}, {
 				title: '案号',
-				dataIndex: 'ah',
-				key: 'ah',
-				width: 242,
-				render(text, row) {
-					return (
-						<div>
-							{
-								row.ah && row.ygList.length > 0 ? (
-									<div onClick={() => toClick(row)} className="yc-td-header">
-										{' '}
-										{row.ah || '-'}
-									</div>
-								) : <div>{row.ah || '-'}</div>
-							}
-						</div>
-					);
+				dataIndex: 'caseNumber',
+				render: text => text || '-',
+			},
+			{
+				title: '案件类型',
+				render: (value, row) => {
+					const { isRestore, caseType } = row;
+					if (isRestore) return '执恢案件';
+					if (caseType === 1) return '普通案件';
+					if (caseType === 2) return '破产案件';
+					if (caseType === 3) return '执行案件';
+					if (caseType === 4) return '终本案件';
+					return '-';
 				},
 			}, {
-				title: '关联信息',
-				dataIndex: 'associates',
-				key: 'associates',
-				render(text, row) {
-					return (
-						<div className="table-column">
-							{row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0 && (
-								<span>
-									<span
-										className="yc-td-header"
-										onClick={() => toShow(row, 0)}
-									>
-										立案
-									</span>
-								</span>
-							)}
-							{row.associates.length > 0 && row.associates[1].url.length > 0 && row.associates[1].url[0].length > 0 && (
-								<span>
-									{row.associates.length > 0 && row.associates[0].url.length > 0 && row.associates[0].url[0].length > 0 && <span className="ant-divider" />}
-									<span
-										className="yc-td-header"
-										onClick={() => toShow(row, 1)}
-									>
-										开庭
-									</span>
-								</span>
-							)}
-							{row.associates.length > 0 && row.associates[2].url.length > 0 && row.associates[2].url[0].length > 0 && (
-								<span>
-									{
-										// 开庭立案分割线
-										dividerType(row)
-									}
-									<span
-										className="yc-td-header"
-										onClick={() => toShow(row, 2)}
-									>
-										文书
-									</span>
-								</span>
-							)}
-						</div>
-					);
-				},
+				title: '关联链接',
+				dataIndex: 'associatedInfo',
+				className: 'tAlignCenter_important min-width-80',
+				render: (value, row) => associationLink(value, row, 'Trial'),
+			},
+		];
+		const courtColumns = [
+			{
+				title: (
+					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
+						{'开庭日期'}
+						{/* {Sort === undefined && <span className="sort th-sort-default" />} */}
+						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
+						{Sort === 'DESC' && <span className="sort th-sort-down" />}
+						{Sort === 'ASC' && <span className="sort th-sort-up" />}
+					</div>),
+				dataIndex: 'gmtTrial',
+				key: 'gmtTrial',
+				width: 122,
+				render: (text, row) => (
+					<span>{row.gmtTrial || '-'}</span>
+				),
+			}, {
+				title: '当事人',
+				dataIndex: 'parties',
+				key: 'parties',
+				width: 241,
+				render: partyInfo,
+			}, {
+				title: '法院',
+				dataIndex: 'court',
+				render: text => text || '-',
+			}, {
+				title: '案号',
+				dataIndex: 'caseNumber',
+				render: text => text || '-',
+			}, {
+				title: '案由',
+				dataIndex: 'caseReason',
+				render: text => text || '-',
+			},
+			{
+				title: '关联链接',
+				dataIndex: 'associatedInfo',
+				className: 'tAlignCenter_important min-width-80',
+				render: (value, row) => associationLink(value, row, 'Trial'),
 			},
 		];
 		return (
 			<React.Fragment>
-				<Table
-					rowKey={record => record.id}
-					dataSource={dataList.length > 0 && dataList}
-					columns={columns}
-					style={{ width: '100%' }}
-					defaultExpandAllRows
-					pagination={false}
-					onRowClick={() => {}}
-				/>
+				{
+					type === 1 ? (
+						<Table
+							rowKey={record => record.id}
+							dataSource={dataList.length > 0 && dataList}
+							columns={trailColumns}
+							style={{ width: '100%' }}
+							defaultExpandAllRows
+							pagination={false}
+							onRowClick={() => {}}
+						/>
+					) : (
+						<Table
+							rowKey={record => record.id}
+							dataSource={dataList.length > 0 && dataList}
+							columns={courtColumns}
+							style={{ width: '100%' }}
+							defaultExpandAllRows
+							pagination={false}
+							onRowClick={() => {}}
+						/>
+					)
+				}
+
+
 			</React.Fragment>
 		);
 	}

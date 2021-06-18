@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, Form } from 'antd';
+import { Form } from 'antd';
 import { formatDateTime } from '@/utils/changeTime';
-
+import { Ellipsis, Table } from '@/common';
 
 class BusinessView extends React.Component {
 	constructor(props) {
@@ -14,10 +14,14 @@ class BusinessView extends React.Component {
 					dataIndex: 'title',
 					key: 'title',
 					width: 760,
+					className: 'firstTitle',
 					render(text, row) {
 						return (
 							<div className="yc-td-hl">
-								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
+								{/* { */}
+								{/*	row.title ? <a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} /> : <Ellipsis content={row.url} url={row.url} tooltip width={760} /> */}
+								{/* } */}
+								<Ellipsis content={row.title || row.url} url={row.url} tooltip width={760} isSourceLink className="yc-table-text-link" />
 								<div dangerouslySetInnerHTML={{ __html: row.hl }} />
 							</div>
 						);

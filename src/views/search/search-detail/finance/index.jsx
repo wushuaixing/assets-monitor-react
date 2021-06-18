@@ -1,48 +1,56 @@
 import React from 'react';
-// ==================
-// 所需的所有组件
-// ==================
-import { Form, Pagination, message } from 'antd';
+import {
+	Form, Pagination, message,
+} from 'antd';
+import { ScrollAnimation } from '@/utils/changeTime';
 import { navigate } from '@reach/router';
-import { getQueryByName, generateUrlWithParams } from '@/utils';
-import { Spin, Input, Button } from '@/common';
-import FinanceTable from './table';
+import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
+import {
+	Spin, Input, Button, Download,
+} from '@/common';
 import {
 	finance, // 列表
+	exportFinanceAll, // 全部导出
+	exportFinanceCurrent, // 本页导出
 } from '@/utils/api/search';
-
+import FinanceTable from './table';
 import './style.scss';
 
 const createForm = Form.create;
-const _style1 = { width: 900 };
+const _style1 = { width: 278 };
 class FINANCE extends React.Component {
 	constructor(props) {
 		super(props);
 		document.title = '金融资产-信息搜索';
 		this.state = {
 			dataList: [],
+			params: {},
 			loading: false,
 			totals: 0,
 			pageSize: 10,
 			current: 1, // 当前页
 			page: 1,
+			startTimeStart: undefined,
+			startTimeEnd: undefined,
+			endTimeStart: undefined,
+			endTimeEnd: undefined,
 		};
 	}
 
 	componentDidMount() {
 		const { hash } = window.location;
-		const content = getQueryByName(hash, 'content');
-		const { form } = this.props; // 会提示props is not defined
-		const { setFieldsValue } = form;
+		const params = parseQuery(hash);
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
-		setFieldsValue({
-			content,
+		this.setState({
+			params,
+			startTimeStart: params.startTimeStart,
+			startTimeEnd: params.startTimeEnd,
+			endTimeStart: params.endTimeStart,
+			endTimeEnd: params.endTimeEnd,
 		});
-		const params = {
-			content,
-		};
-		if (content) {
-			this.getData(params);
+		// 判断是否为空对象,非空请求接口
+		if (Object.keys(params).length !== 0) {
+			this.getData(params); // 进入页面请求数据
 		}
 	}
 
@@ -83,6 +91,9 @@ class FINANCE extends React.Component {
 		});
 		finance(params).then((res) => {
 			if (res && res.data) {
+				// 获取当前高度，动态移动滚动条
+				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+				ScrollAnimation(currentY, 0);
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.totalCount,
@@ -103,7 +114,13 @@ class FINANCE extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
-		const { pageSize } = this.state;
+		const {
+			pageSize, startTimeStart, startTimeEnd, endTimeStart, endTimeEnd,
+		} = this.state;
+		fildes.startTimeStart = startTimeStart;
+		fildes.startTimeEnd = startTimeEnd;
+		fildes.endTimeStart = endTimeStart;
+		fildes.endTimeEnd = endTimeEnd;
 		navigate(generateUrlWithParams('/search/detail/finance', fildes));
 		this.setState({
 			page: 1,
@@ -113,13 +130,34 @@ class FINANCE extends React.Component {
 			page: 1,
 			num: pageSize,
 		};
-		if (fildes.content) {
+		if (!objectKeyIsEmpty(fildes)) {
 			this.getData(params);
 		} else {
 			this.queryReset();
 			// message.error('请输入搜索条件');
 		}
-	}
+	};
+
+	// 导出
+	toExportCondition=(type) => {
+		const { form } = this.props; // 会提示props is not defined
+		const { getFieldsValue } = form;
+		const {
+			pageSize, current, startTimeStart, startTimeEnd, endTimeStart, endTimeEnd,
+		} = this.state;
+		const fields = getFieldsValue();
+
+		const params = {
+			...fields,
+			startTimeStart,
+			startTimeEnd,
+			endTimeStart,
+			endTimeEnd,
+			page: type === 'current' ? current : undefined,
+			num: type === 'current' ? pageSize : 1000,
+		};
+		return Object.assign({}, params);
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -131,9 +169,14 @@ class FINANCE extends React.Component {
 			dataList: [],
 			totals: 0,
 			page: 1,
+			startTimeStart: undefined,
+			startTimeEnd: undefined,
+			endTimeStart: undefined,
+			endTimeEnd: undefined,
+			params: {},
 		});
 		navigate(generateUrlWithParams('/search/detail/finance', {}));
-	}
+	};
 
 	//  pagesize页面翻页可选
 	onShowSizeChange = (current, pageSize) => {
@@ -154,7 +197,7 @@ class FINANCE extends React.Component {
 		if (fildes.content) {
 			this.getData(params);
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
@@ -173,7 +216,9 @@ class FINANCE extends React.Component {
 			page: val,
 			loading: true,
 		});
-
+		// 获取当前高度，动态移动滚动条
+		const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+		ScrollAnimation(currentY, 0);
 		finance(params).then((res) => {
 			if (res && res.data) {
 				this.setState({
@@ -189,16 +234,15 @@ class FINANCE extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 
 	render() {
 		const {
-			loading, totals, current, dataList, page, pageSize,
+			loading, totals, current, dataList, page, pageSize, params,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
-
 		return (
 			<div className="yc-content-query">
 				<div className="yc-content-header">
@@ -207,23 +251,51 @@ class FINANCE extends React.Component {
 							title="全文"
 							style={_style1}
 							size="large"
-							placeholder="标题/关键字"
+							placeholder="全文搜索关键词"
 							{...getFieldProps('content', {
-								getValueFromEvent: e => e.trim(),
+								initialValue: params.content,
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
+							})}
+						/>
+					</div>
+					<div className="yc-query-item">
+						<Input
+							title="项目名称"
+							style={_style1}
+							size="large"
+							maxLength="40"
+							placeholder="项目标题"
+							{...getFieldProps('projectName', {
+								initialValue: params.projectName,
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
 					<div className="yc-query-item yc-query-item-btn">
-						<Button onClick={this.search} size="large" type="warning" style={{ width: 84 }}>查询</Button>
+						<Button onClick={this.search} size="large" type="common" style={{ width: 84 }}>查询</Button>
 						<Button onClick={this.queryReset} size="large" style={{ width: 120 }}>重置查询条件</Button>
 					</div>
 				</div>
-				<div className="yc-header-title">
-					{totals ? `源诚科技为您找到${totals}条信息` : ''}
+				{/* 分隔下划线 */}
+				<div className="yc-noTab-hr" />
+				<div className="yc-writ-tablebtn">
+					{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={exportFinanceCurrent} current page num text="本页导出" />}
+					<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportFinanceAll} all page num text="全部导出" />
+					{dataList.length > 0 && (
+						<div
+							className="yc-public-floatRight"
+							style={{
+								lineHeight: '30px', color: '#929292', fontSize: '12px',
+							}}
+						>
+							{`为您找到${totals}条信息`}
+						</div>
+					)}
 				</div>
 				<Spin visible={loading}>
 					<FinanceTable stateObj={this.state} dataList={dataList} getData={this.getData} openPeopleModal={this.openPeopleModal} />
-					<div className="yc-pagination">
+					{dataList && dataList.length > 0 && (
+					<div className="yc-table-pagination">
 						<Pagination
 							total={totals && totals > 1000 ? 1000 : totals}
 							current={current}
@@ -241,14 +313,15 @@ class FINANCE extends React.Component {
 							}}
 						/>
 					</div>
-					{page === 100 && (
-					<span style={{
-						color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
-					}}
-					>
-						如需更多数据请联系：186-5718-6471
-					</span>
 					)}
+					{/* {page === 100 && ( */}
+					{/*	<div style={{ */}
+					{/*		color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px', */}
+					{/*	}} */}
+					{/*	> */}
+					{/*		如需更多数据请联系：180-7294-2900 */}
+					{/*	</div> */}
+					{/* )} */}
 				</Spin>
 
 			</div>

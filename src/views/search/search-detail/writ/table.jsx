@@ -1,6 +1,9 @@
 import React from 'react';
-import { Tooltip, Table, Form } from 'antd';
+import { Tooltip, Form } from 'antd';
 import Link from '@/assets/img/icon/icon_link_normal.png';
+import { Table } from '@/common';
+import { formatDateTime } from '@/utils/changeTime';
+import order from '@/assets/img/icon/icon_arrow.png';
 import './style.scss';
 
 class BusinessView extends React.Component {
@@ -16,17 +19,18 @@ class BusinessView extends React.Component {
 				title: (
 					<div className="yc-trialRelation-title" onClick={() => SortTime('DESC')}>
 						发布日期
-						{Sort === undefined && <span className="sort th-sort-default" />}
+						{Sort === undefined && <img src={order} alt="" className="sort th-sort-default" /> }
 						{Sort === 'DESC' && <span className="sort th-sort-down" />}
 						{Sort === 'ASC' && <span className="sort th-sort-up" />}
 					</div>),
 				dataIndex: 'publishTime',
 				key: 'publishTime',
-				width: 100,
+				className: 'firstTitle',
+				width: 103,
 				render(text, row) {
 					return (
 						<div className="table-column">
-							{row.publishTime || '-'}
+							{formatDateTime(row.publishTime, 'onlyYear') || '-'}
 						</div>
 					);
 				},
@@ -119,27 +123,27 @@ class BusinessView extends React.Component {
 			},
 			{
 				title: '链接',
-				dataIndex: 'url',
-				key: 'url',
+				dataIndex: 'sourceId',
+				key: 'sourceId',
 				width: 54,
 				render(text, row) {
 					return (
 						<div className="table-column">
-							<a href={row.url} target="_blank" rel="noopener noreferrer"><img src={Link} alt="" /></a>
+							<a href={`#/judgement?sourceId=${text}&pid=${row.wenshuId}&title=${row.title}`} target="_blank" rel="noopener noreferrer">
+								<img src={Link} alt="链接" />
+							</a>
 						</div>
 					);
 				},
 			},
 		];
 		return (
-			<React.Fragment>
-				<Table
-					rowKey={record => record.id}
-					dataSource={dataList.length > 0 && dataList}
-					columns={columns}
-					pagination={false}
-				/>
-			</React.Fragment>
+			<Table
+				rowKey={record => record.id}
+				dataSource={dataList.length > 0 && dataList}
+				columns={columns}
+				pagination={false}
+			/>
 		);
 	}
 }

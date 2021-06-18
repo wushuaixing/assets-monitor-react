@@ -1,16 +1,13 @@
 import React from 'react';
-import {
-	Breadcrumb, Select, Table, Pagination,
-} from 'antd';
-import './style.scss';
-import { navigate } from '@reach/router';
+import { Select, Pagination } from 'antd';
 import {
 	userOperateList, // 操作列表
 	operateTypeList, // 操作类型
 } from '@/utils/api/organization';
-import { Spin } from '@/common';
-import { formatDateTime } from '../../../utils/changeTime';
+import { Table, Spin, BreadCrumb } from '@/common';
 import { getQueryByName } from '@/utils';
+import { formatDateTime } from '../../../utils/changeTime';
+import './style.scss';
 
 const { Option } = Select;
 export default class BasicTable extends React.Component {
@@ -31,8 +28,9 @@ export default class BasicTable extends React.Component {
 					title: '操作时间',
 					dataIndex: 'createTime',
 					key: 'createTime',
+					width: 733,
 					render: text => (
-						<p>{formatDateTime(text) || '--'}</p>
+						<p>{formatDateTime(text) || '-'}</p>
 					),
 				},
 				{
@@ -40,7 +38,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'targetName',
 					key: 'targetName',
 					render: text => (
-						<p>{(text) || '--'}</p>
+						<p>{(text) || '-'}</p>
 					),
 				},
 			],
@@ -64,7 +62,7 @@ export default class BasicTable extends React.Component {
 			const list = operateList.filter(item => item.target === type);
 			return list[0].type;
 		}
-	}
+	};
 
 	getRole = () => {
 		operateTypeList().then((res) => {
@@ -74,7 +72,7 @@ export default class BasicTable extends React.Component {
 				});
 			}
 		}).catch(() => {});
-	}
+	};
 
 	getTableData=(data) => {
 		const { hash } = window.location;
@@ -99,7 +97,7 @@ export default class BasicTable extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	// page翻页
 	handleChangePage=(val) => {
@@ -113,7 +111,7 @@ export default class BasicTable extends React.Component {
 			target,
 		};
 		this.getTableData(params);
-	}
+	};
 
 	// 下拉选中
 	handleChange = (searchVal) => {
@@ -128,7 +126,7 @@ export default class BasicTable extends React.Component {
 		this.setState({
 			target: searchVal,
 		});
-	}
+	};
 
 	render() {
 		const {
@@ -137,55 +135,48 @@ export default class BasicTable extends React.Component {
 
 		return (
 			<div className="operate-log">
-				<div className="bread-crumb">
-					<Breadcrumb>
-						<Breadcrumb.Item><a className="yc-bread-hover" onClick={() => navigate('/organization/user')}>账户列表</a></Breadcrumb.Item>
-						<Breadcrumb.Item>
-							<a className="yc-bread-hover" style={{ 'font-weight': 400, color: '#384482' }}>
-								{`${getQueryByName(hash, 'name')}_历史操作记录`}
-
-							</a>
-						</Breadcrumb.Item>
-					</Breadcrumb>
-				</div>
-				<div className="search-item">
-					<Select placeholder="请选择操作类型" size="large" onChange={this.handleChange} allowClear style={{ width: 185, 'margin-right': 10 }}>
-						{
-							operateList && operateList.length > 0 && operateList.map(item => (<Option value={item.target}>{item.type}</Option>))
-						}
-					</Select>
-					{/* <Button
-						type="primary"
-						size="large"
-						style={{ 'margin-right': 10, 'background-color': '#FB5A5C', 'border-color': '#FB5A5C' }}
-						// onClick={this.getTableData()}
-					>
-						搜索
-					</Button> */}
-					{/* <Button type="ghost" size="large">清空搜索条件</Button> */}
-				</div>
-				<div className="table">
-					<Spin visible={loading}>
-						<Table
-							columns={columns}
-							dataSource={data}
-							className="table"
-							pagination={false}
-						/>
-						<div className="page-size">
-							<Pagination
-								current={current}
-								pageSize={pageSize}
-								total={total}
-								showTotal={val => `共 ${val} 条记录`}
-								showQuickJumper
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
+				<BreadCrumb
+					line
+					list={[
+						{ id: 1, name: '机构管理', link: '/organization' },
+						{ id: 2, name: '账号列表', link: '/organization/user' },
+						{ id: 3, name: `${getQueryByName(hash, 'name')}_历史操作记录` },
+					]}
+				/>
+				<div style={{ padding: '0 20px 20px' }}>
+					<div className="search-item">
+						<Select placeholder="请选择操作类型" size="large" onChange={this.handleChange} allowClear style={{ width: 185, 'margin-right': 10 }}>
+							{
+								operateList && operateList.length > 0 && operateList.map(item => (<Option value={item.target}>{item.type}</Option>))
+							}
+						</Select>
+					</div>
+					<div className="table">
+						<Spin visible={loading}>
+							<Table
+								columns={columns}
+								dataSource={data}
+								className="table"
+								pagination={false}
 							/>
-						</div>
-					</Spin>
+							{data && data.length > 0 && (
+								<div className="yc-table-pagination ">
+									<Pagination
+										current={current}
+										pageSize={pageSize}
+										total={total}
+										showTotal={val => `共 ${val} 条记录`}
+										showQuickJumper
+										onChange={(val) => {
+											this.handleChangePage(val);
+										}}
+									/>
+								</div>
+							)}
+						</Spin>
+					</div>
 				</div>
+
 			</div>
 		);
 	}

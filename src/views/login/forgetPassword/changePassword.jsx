@@ -1,4 +1,6 @@
-/** 登录页 * */
+/*
+* 这个页面的修改密码是忘记密码的时候进行修改密码
+*/
 
 import React from 'react';
 // ==================
@@ -8,13 +10,16 @@ import React from 'react';
 import {
 	Form, Input, Button, Spin, Popover, message,
 } from 'antd';
-import CommonIcon from './compontent/commonIcon';
+import Cookies from 'universal-cookie';
+import { navigate } from '@reach/router';
 import rsaEncrypt from '@/utils/encrypt';
 import {
 	forgetPasswordStep3, // 修改密码
 } from '@/utils/api/user';
+import CommonIcon from './compontent/commonIcon';
 import './style.scss';
 
+const cookie = new Cookies();
 const FormItem = Form.Item;
 const createForm = Form.create;
 const regx = /^[ \x21-\x7E]{6,20}$/; // 判断6到20的字符
@@ -26,7 +31,7 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			loading: false,
-			PopoverVisible: false,
+			// PopoverVisible: false,
 			againPasswordVisible: false,
 			firstClearIcon: false,
 			secondClearIcon: false,
@@ -34,6 +39,7 @@ class Login extends React.Component {
 			secondVali: null,
 			thirdVali: null,
 			fouthVali: null,
+			newPasswordLength: null,
 			againText: '请再次输入密码',
 		};
 	}
@@ -42,15 +48,20 @@ class Login extends React.Component {
 	// 新密码验证
 
 	// 第一个输入框
-	handleNewPassword= () => {
-		this.setState({
-			PopoverVisible: true,
-		});
-	};
+	// handleNewPassword= () => {
+	// 	this.setState({
+	// 		PopoverVisible: true,
+	// 	});
+	// };
 
 	// 实时输入新密码
 	changeValue = (e) => {
 		const newWorld = e.target.value;
+		const { newPasswordLength } = this.state;
+		const {
+			form: { getFieldsValue },
+		} = this.props; // 会提示props is not defined
+		const fields = getFieldsValue();
 		// 第1个节点变化，判断是否正确
 		if (!regx.test(newWorld)) {
 			this.setState({
@@ -81,6 +92,18 @@ class Login extends React.Component {
 				thirdVali: true,
 			});
 		}
+		if (fields.newPassword === fields.newPasswordAgain) {
+			this.setState({
+				fouthVali: true,
+				againText: '两次密码输入一致',
+			});
+		} else if (fields.newPassword && newPasswordLength) {
+			this.setState({
+				fouthVali: false,
+				againText: '密码不一致，请重新输入',
+				againPasswordVisible: true,
+			});
+		}
 		// 重置输入样式
 		if (newWorld.length === 0) {
 			this.setState({
@@ -96,11 +119,20 @@ class Login extends React.Component {
 		}
 	};
 
-	onBlurValue = (e) => {
-		const newWorld = e.target.value;
-		if (!newWorld) {
+	onBlurValue = () => {
+		// const newWorld = e.target.value;
+		// if (!newWorld) {
+		// 	this.setState({
+		// 		PopoverVisible: false,
+		// 	});
+		// }
+		const {
+			form: { getFieldsValue },
+		} = this.props; // 会提示props is not defined
+		const fields = getFieldsValue();
+		if (fields.newPassword === fields.newPasswordAgain) {
 			this.setState({
-				PopoverVisible: false,
+				againPasswordVisible: false,
 			});
 		}
 		setTimeout(() => {
@@ -110,11 +142,11 @@ class Login extends React.Component {
 		}, 200);
 
 		// 三个都输入正确时
-		if (regx.test(newWorld) && numAndWorld.test(newWorld) && regx1.test(newWorld)) {
-			this.setState({
-				PopoverVisible: false,
-			});
-		}
+		// if (regx.test(newWorld) && numAndWorld.test(newWorld) && regx1.test(newWorld)) {
+		// 	this.setState({
+		// 		PopoverVisible: false,
+		// 	});
+		// }
 	};
 
 	newPasswordFoucs = (e) => {
@@ -133,12 +165,8 @@ class Login extends React.Component {
 			});
 		}
 	};
-	// ============
 
-
-	// ============
-	// 再次输入密码
-	// 第二个
+	// 再次输入第二个密码
 	handleAgainPassword = () => {
 		this.setState({
 			againPasswordVisible: true,
@@ -150,6 +178,9 @@ class Login extends React.Component {
 			form: { getFieldsValue },
 		} = this.props; // 会提示props is not defined
 		const fields = getFieldsValue();
+		this.setState({
+			newPasswordLength: e.target.value.length,
+		});
 		if (fields.newPassword === fields.newPasswordAgain) {
 			this.setState({
 				fouthVali: true,
@@ -165,6 +196,7 @@ class Login extends React.Component {
 		if (e.target.value.length === 0) {
 			this.setState({
 				fouthVali: null,
+				againText: '请再次输入密码',
 			});
 		} else {
 			this.setState({
@@ -206,20 +238,19 @@ class Login extends React.Component {
 				againText: '密码不一致，请重新输入',
 			});
 		}
-
+		console.log(e.target.value.length);
+		if (e.target.value.length > 0) {
+			this.setState({
+				secondClearIcon: true,
+			});
+		}
 		if (e.target.value.length === 0) {
 			this.setState({
 				fouthVali: null,
 				againText: '请再次输入密码',
 			});
-		} else {
-			this.setState({
-				secondClearIcon: true,
-			});
 		}
 	};
-
-	// ============
 
 	clearInputValue = (type) => {
 		const {
@@ -234,7 +265,6 @@ class Login extends React.Component {
 					firstVali: null, // 第一次～第四次验证判断
 					secondVali: null,
 					thirdVali: null,
-					PopoverVisible: false,
 				});
 			}
 		}
@@ -243,8 +273,9 @@ class Login extends React.Component {
 			if (fields.newPasswordAgain && fields.newPasswordAgain.length) {
 				resetFields(['newPasswordAgain']);
 				this.setState({
-					fouthVali: null,
-					againText: '请再次输入密码',
+					// fouthVali: null,
+					// againText: '请再次输入密码',
+					newPasswordLength: 0,
 					againPasswordVisible: false,
 				});
 			}
@@ -252,9 +283,7 @@ class Login extends React.Component {
 	};
 
 	handleSubmit = () => {
-		const {
-			form, changeType,
-		} = this.props; // 会提示props is not defined
+		const { form } = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
 		form.validateFields((errors) => {
@@ -264,9 +293,9 @@ class Login extends React.Component {
 			const firstWorld = fields.newPassword;
 			const newWorld = fields.newPasswordAgain;
 			// && numAndWorld.test(newWorld) && regx1.test(newWorld)
-			console.log(regx, newWorld, regx.test(newWorld));
+			// console.log(regx, newWorld, regx.test(newWorld));
 
-			if (!firstWorld && !newWorld) {
+			if (!firstWorld || !newWorld) {
 				message.warning('必须新输入密码');
 				return;
 			}
@@ -290,14 +319,22 @@ class Login extends React.Component {
 			const params = {
 				newPassword: rsaEncrypt(newWorld),
 			};
+			// 密码修改成功之后，进入首页
 			forgetPasswordStep3(params).then((res) => {
 				if (res.code === 200) {
-					const hide = message.loading('验证成功,两秒后跳转跳转登录页面...', 0);
-					// 异步手动移除
+					cookie.set('token', res.data.token);
+					cookie.set('firstLogin', res.data.firstLogin);
+					global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
+					message.success('密码修改成功', 2);
 					setTimeout(() => {
-						changeType(1);
-					}, 2000);
-					setTimeout(hide, 2000);
+						navigate('/');
+					}, 1500);
+					// const hide = message.loading('验证成功,两秒后跳转跳转登录页面...', 0);
+					// 异步手动移除
+					// setTimeout(() => {
+					// 	changeType(1);
+					// }, 2000);
+					// setTimeout(hide, 2000);
 				} else {
 					message.error(res.message);
 				}
@@ -307,11 +344,12 @@ class Login extends React.Component {
 
 	render() {
 		const {
-			loading, userName, PopoverVisible, againPasswordVisible, firstVali, secondVali, thirdVali, fouthVali, againText, firstClearIcon, secondClearIcon,
+			loading, userName, againPasswordVisible, firstVali, secondVali, thirdVali, fouthVali, againText, firstClearIcon, secondClearIcon,
 		} = this.state;
 		const {
-			form: { getFieldProps },
+			form: { getFieldProps }, changeType,
 		} = this.props; // 会提示props is not defined
+		// console.log(PopoverVisible); // 控制提示显隐
 		const popverTypes = (type) => {
 			let popverType;
 			if (type === true) {
@@ -353,8 +391,8 @@ class Login extends React.Component {
 							<FormItem>
 								<Popover
 									content={newPassword}
-									trigger="click"
-									visible={PopoverVisible}
+									trigger="focus"
+									visible
 									onVisibleChange={this.handleNewPassword}
 									placement="right"
 									className="yc-form-popover"
@@ -371,6 +409,7 @@ class Login extends React.Component {
 										// onFocus={e => this.newPasswordFoucs(e)}
 										{...getFieldProps('newPassword', {
 											initialValue: userName && userName.length > 0 ? userName : '',
+											validateTrigger: 'onBlur',
 											// rules: [
 											// 	{
 											// 		required: true,
@@ -388,7 +427,7 @@ class Login extends React.Component {
 							<FormItem>
 								<Popover
 									content={newAgainPassword}
-									trigger="click"
+									trigger="focus"
 									visible={againPasswordVisible}
 									onVisibleChange={this.handleAgainPassword}
 									placement="right"
@@ -404,6 +443,7 @@ class Login extends React.Component {
 										onBlur={e => this.onAgainBlurValue(e)}
 										onFocus={e => this.againPasswordFoucs(e)}
 										{...getFieldProps('newPasswordAgain', {
+											validateTrigger: 'onBlur',
 											// rules: [
 											// 	{
 											// 		required: true,
@@ -417,6 +457,7 @@ class Login extends React.Component {
 							</FormItem>
 						</div>
 						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>确定</Button>
+						<div className="yc-login-back" onClick={() => changeType(1)}>返回登录</div>
 					</Spin>
 				</Form>
 			</div>

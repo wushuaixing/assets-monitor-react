@@ -57,6 +57,7 @@ class comInput extends React.Component {
 		const s = inputSecondProps;
 		// console.log(inputFirstProps);
 		const { focus, value1, value2 } = this.state;
+
 		const classList = ['yc-price'];
 		if (size) classList.push(size ? `yc-input-${size}` : '');
 		if (disabled)classList.push('yc-input-disabled');
@@ -85,7 +86,7 @@ class comInput extends React.Component {
 					onBlur={val => this.onBlur(val, inputFirstProps)}
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
-					maxLength={10}
+					maxLength={9}
 				/>
 				{
 					suffix ? (
@@ -105,7 +106,7 @@ class comInput extends React.Component {
 					onBlur={val => this.onBlur(val, inputSecondProps)}
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
-					maxLength={10}
+					maxLength={9}
 				/>
 				{
 					suffix ? (

@@ -4,6 +4,11 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
+import {
+	bankConf, // 个性配置
+} from '@/utils/api/user';
+import CustomAgency from '@/common/custom/agency';
+// import leftBackground from '@/assets/img/login/left_background.png';
 import { Form } from 'antd';
 import Header from './header';
 import Footer from './footer';
@@ -11,9 +16,6 @@ import Register from './register';
 import VerifyAccount from './forgetPassword/verifyAccount';
 import WriteCode from './forgetPassword/writeCode';
 import ChangePassword from './forgetPassword/changePassword';
-import {
-	bankConf, // 个性配置
-} from '@/utils/api/user';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
 import './style.scss';
@@ -26,17 +28,23 @@ class Login extends React.Component {
 		this.state = {
 			type: 1,
 			phoneNum: '',
-			btnColor: '#384482',
+			btnColor: '#1C80E1',
 			imgUrl: undefined,
+			imgLoading: false,
 		};
 	}
 
 	componentDidMount() {
+		global.REQ_STATUS = '';
 		bankConf().then((_res) => {
 			if (_res.code === 200) {
 				this.setState({
 					btnColor: _res.data.btnColor,
 					imgUrl: _res.data.url,
+				});
+			} else {
+				this.setState({
+					imgLoading: true,
 				});
 			}
 		});
@@ -54,18 +62,20 @@ class Login extends React.Component {
 		this.setState({
 			phoneNum: num,
 		});
-	}
+	};
+
 
 	render() {
 		const {
-			type, phoneNum, btnColor, imgUrl,
+			type, phoneNum, btnColor, imgUrl, imgLoading,
 		} = this.state;
-
 		return (
 			<div className="yc-login">
-				<Header imgUrl={imgUrl} />
+				<Header imgLoading={imgLoading} imgUrl={imgUrl} />
 				<div className="yc-login-wapper">
 					<div className="yc-login-content">
+						<CustomAgency nodeName="loginPic" />
+						{/* <img className="yc-login-left-img" src={leftBackground} alt="" /> */}
 						{/* 登录页面 */}
 						{
 							type === 1 && <Register btnColor={btnColor} changeType={this.changeType} />

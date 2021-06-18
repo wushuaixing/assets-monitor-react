@@ -1,9 +1,10 @@
 import React from 'react';
-import { Table, Form, Tooltip } from 'antd';
+import { Form, Tooltip } from 'antd';
 import { formatDateTime, toThousands } from '@/utils/changeTime';
 import {
 	parseQuery,
 } from '@/utils';
+import { Table, Ellipsis } from '@/common';
 
 const status = (value) => {
 	switch (value) {
@@ -85,10 +86,12 @@ class BusinessView extends React.Component {
 					dataIndex: 'title',
 					key: 'title',
 					width: 720,
+					className: 'firstTitle',
 					render(text, row) {
 						return (
 							<div className="yc-td-hl">
-								<a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-td-header" dangerouslySetInnerHTML={{ __html: row.title }} />
+								{/* <a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} /> */}
+								<Ellipsis url={row.url} content={row.title} className="yc-table-text-link" isSourceLink />
 								{
 									row.obligors && row.obligors.length > 0 && (
 									<div>
@@ -96,7 +99,8 @@ class BusinessView extends React.Component {
 										{
 											row.obligors.length > 0 && row.obligors.map(item => (
 												<div>
-													{`${type(item.type)}: ${item.name} ${item.birthday || item.gender !== 0 || item.number ? `(${item.gender === 0 ? '' : ` ${item.number ? '' : `${sex(item.gender)}`} `}  ${item.number ? `${item.number}` : `${item.birthday ? `${item.birthday}` : ''}`} ${item.notes})` : ''}`}
+													{`${type(item.type)}: ${item.name} ${item.birthday || item.gender !== 0 || item.number ? `(${item.gender === 0 ? '' : ` ${item.number ? ''
+														: `${sex(item.gender)}`} `}  ${item.number ? `${item.number}` : `${item.birthday ? `${item.birthday}` : ''}`} ${item.notes})` : ''}`}
 												</div>
 											))
 										}
@@ -112,7 +116,7 @@ class BusinessView extends React.Component {
 									</div>
 									<div>
 										<span style={{ marginRight: '10px' }}>链接原内容:</span>
-										{<span dangerouslySetInnerHTML={{ __html: row.patternText }} />}
+										<span dangerouslySetInnerHTML={{ __html: row.patternText }} />
 									</div>
 								</div>
 								)}
@@ -155,7 +159,7 @@ class BusinessView extends React.Component {
 									</div>
 									<div>
 										<span>
-											<span className="yc-td-title" style={{ marginRight: '4px' }}>拍卖时间:</span>
+											<span className="yc-td-title" style={{ marginRight: '4px' }}>开拍时间:</span>
 											<p style={{ display: 'inline-block', width: 120, marginRight: 6 }}>
 												{formatDateTime(row.start) || '-'}
 											</p>

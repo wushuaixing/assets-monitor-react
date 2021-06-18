@@ -11,11 +11,11 @@ import {
 import {
 	forgetPasswordStep1, // 忘记密码-step1
 } from '@/utils/api/user';
-import './style.scss';
 // import server from '@/utils/service';
-import { baseUrl } from '@/utils/api';
+import BASE_URL from '@/utils/api/config';
+import './style.scss';
 
-const verificationCodeImg = `${baseUrl}/yc/open/verificationCode`;
+const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
 const FormItem = Form.Item;
 const createForm = Form.create;
 
@@ -72,7 +72,7 @@ class Login extends React.Component {
 			loading, codeImg,
 		} = this.state;
 		const {
-			form: { getFieldProps },
+			form: { getFieldProps }, changeType,
 		} = this.props; // 会提示props is not defined
 		console.log(codeImg);
 
@@ -88,13 +88,18 @@ class Login extends React.Component {
 								<Input
 									className="yc-login-input"
 									placeholder="请输入11位数字"
-									// maxlength="11"
+									maxlength="11"
 									{...getFieldProps('phone', {
+										validateTrigger: 'onBlur',
 										// initialValue: userName && userName.length > 0 ? userName : '',
 										rules: [
 											{
 												required: true,
 												message: '请输入账号',
+											},
+											{
+												pattern: new RegExp('^[0-9a-zA-Z-]{1,}$', 'g'),
+												message: '请勿输入空格,中文和特殊字符',
 											},
 										],
 									})}
@@ -110,10 +115,16 @@ class Login extends React.Component {
 									maxlength={4}
 									style={{ parringRight: 160 }}
 									{...getFieldProps('code', {
+										// getValueFromEvent: e => e.target.value.trim().replace(/[^0-9a-zA-Z]/g, ''),
+										validateTrigger: 'onBlur',
 										rules: [
 											{
 												required: true,
 												message: '请输入验证码',
+											},
+											{
+												pattern: new RegExp('^[0-9a-zA-Z]{1,}$', 'g'),
+												message: '请勿输入空格,中文和特殊字符',
 											},
 										],
 									})}
@@ -122,6 +133,7 @@ class Login extends React.Component {
 							</FormItem>
 						</div>
 						<Button type="primary" className="yc-login-btn" onClick={this.handleSubmit}>下一步</Button>
+						<div className="yc-login-back" onClick={() => changeType(1)}>返回登录</div>
 					</Spin>
 				</Form>
 			</div>

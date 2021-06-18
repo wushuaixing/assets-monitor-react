@@ -1,14 +1,15 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, message, Select,
+	Button, Form, message, Select,
 } from 'antd';
 import { navigate } from '@reach/router';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
-import { Input, timeRule } from '@/common';
+import { Input, timeRule, DatePicker } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
-const _style3 = { width: 120 };
+const _style1 = { width: 140 };
+const _style2 = { width: 116 };
 const { Option } = Select;
 class WRIT extends React.Component {
 	constructor(props) {
@@ -55,7 +56,7 @@ class WRIT extends React.Component {
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -66,102 +67,112 @@ class WRIT extends React.Component {
 			endTime: undefined,
 		});
 		resetFields('');
-	}
+	};
 
 	render() {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div className="yc-tabs-data">
 				<div className="yc-tabs-items">
-					<div className="item" style={{ width: 742 }}>
+					<div className="item" style={{ width: 810 }}>
 						<Input
 							title="全文"
-							placeholder="姓名、公司名称、关键字"
+							placeholder="个人/企业名称、关键字"
 							{...getFieldProps('content', {
-								getValueFromEvent: e => e.trim().replace(/\s+/g, ' '),
+								getValueFromEvent: e => e.trim().replace(/\s+/g, ' ').replace(/%/g, ''),
 							})}
 						/>
 					</div>
 				</div>
 				<div className="yc-tabs-items">
-					<div className="item" style={{ marginRight: 26 }}>
+					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
 							title="案号"
+							maxLength="40"
 							placeholder="案件编号"
-							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('ah', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
-					<div className="item" style={{ marginRight: 26 }}>
+					<div className="item" style={{ marginRight: 16, width: 259 }}>
 						<Input
 							title="案由"
+							maxLength="40"
 							placeholder="案件内容提要"
-							{...getFieldProps('reason', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('reason', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
+						/>
+					</div>
+					<div className="item" style={{ width: 259 }}>
+						<Input
+							title="起诉法院"
+							maxLength="20"
+							placeholder="法院名称"
+							{...getFieldProps('court', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
+						/>
+					</div>
+				</div>
+				<div className="yc-tabs-items">
+					<div className="item" style={{ width: 310, marginRight: 16 }}>
+						<span>发布日期：</span>
+						<DatePicker
+							placeholder="开始日期"
+							size="large"
+							style={_style2}
+							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))}
+							{...getFieldProps('publishStart', {
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										startTime: dateString,
+									});
+								},
+								...timeOption,
+							})}
+							allowClear
+						/>
+						<span style={{ margin: '0 2px ' }}>至</span>
+						<DatePicker
+							placeholder="结束日期"
+							size="large"
+							style={_style2}
+							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))}
+							{...getFieldProps('publishEnd', {
+								onChange: (value, dateString) => {
+									console.log(value, dateString);
+									this.setState({
+										endTime: dateString,
+									});
+								},
+								...timeOption,
+							})}
+							allowClear
 						/>
 					</div>
 					<div className="item">
-						<Input
-							title="起诉法院"
-							placeholder="法院名称"
-							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
-						/>
+						<span>案件类型：</span>
+						<Select
+							size="large"
+							allowClear
+							style={_style1}
+							placeholder="请选择案件类型"
+							{...getFieldProps('caseType', {})}
+						>
+							<Option value="民事案件">民事案件</Option>
+							<Option value="行政案件">行政案件</Option>
+							<Option value="执行案件">执行案件</Option>
+							<Option value="刑事案件">刑事案件</Option>
+							<Option value="赔偿案件">赔偿案件</Option>
+							<Option value="强制清算与破产案件">强制清算与破产案件</Option>
+							<Option value="其他">其他</Option>
+						</Select>
 					</div>
 				</div>
-				<div className="other">
-					<span>发布日期：</span>
-					<DatePicker
-						placeholder="开始日期"
-						size="large"
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))
-	}
-						{...getFieldProps('publishStart', {
-							onChange: (value, dateString) => {
-								console.log(value, dateString);
-								this.setState({
-									startTime: dateString,
-								});
-							},
-						})}
-						allowClear
-					/>
-					<span style={{ margin: '0 2px ' }}>至</span>
-					<DatePicker
-						placeholder="结束日期"
-						size="large"
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))
-	}
-						{...getFieldProps('publishEnd', {
-							onChange: (value, dateString) => {
-								console.log(value, dateString);
-								this.setState({
-									endTime: dateString,
-								});
-							},
-						})}
-						allowClear
-					/>
-				</div>
-				<div className="other">
-					<span>案件类型：</span>
-					<Select
-						size="large"
-						allowClear
-						style={_style3}
-						placeholder="请选择案件类型"
-						{...getFieldProps('caseType', {})}
-					>
-						<Option value="刑事案件">刑事案件</Option>
-						<Option value="民事案件">民事案件</Option>
-						<Option value="行政案件">行政案件</Option>
-						<Option value="赔偿案件">赔偿案件</Option>
-						<Option value="执行案件">执行案件</Option>
-						<Option value="知识产权">知识产权</Option>
-						<Option value="商事">商事</Option>
-						<Option value="海事海商">海事海商</Option>
-						<Option value="申诉">申诉</Option>
-						<Option value="其他">其他</Option>
-					</Select>
-				</div>
+
 				<div className="btn">
 					<Button
 						type="primary"
@@ -180,3 +191,4 @@ class WRIT extends React.Component {
 	}
 }
 export default createForm()(WRIT);
+export const Name = 'WRIT';

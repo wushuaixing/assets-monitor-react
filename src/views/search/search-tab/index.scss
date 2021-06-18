@@ -4,22 +4,26 @@
   .tabs-nav-item {
     border: 1px solid #DADDE6;
     display: inline-block;
-    padding: 12px 23px;
+    padding: 12px 15px;
     font-size: 16px;
     line-height: 14px;
-    color: #4A4A4A;
+    color: $text-title;
     position: relative;
     margin-right: -1px;
     cursor: pointer;
     &:hover{
-      border: 1px solid #384482;
+      border: 1px solid $common-base;
       z-index:999;
+      color: $common-base;
     }
   }
   .active {
     color: #fff;
-    border-color: #384482;
-    background-color: #384482;
+    border-color: $common-base;
+    background-color: $common-base;
     text-decoration: none;
+    &:hover{
+      color: #fff;
+    }
   }
 }

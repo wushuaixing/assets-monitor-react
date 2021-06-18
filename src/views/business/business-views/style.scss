@@ -1,11 +1,34 @@
-.yc-business-tablebtn {
-  margin: 15px 0;
+.yc-business-table-btn {
+  margin: 20px 0 16px 0;
   position: relative;
   overflow: hidden;
+  .yc-btn {
+    margin-right: 10px;
+  }
   .yc-business-icon {
+    width: 16px;
     position: relative;
-    top: 1px;
+    top: 4px;
     cursor: pointer;
+  }
+}
+.yc-aButton {
+  position: relative;
+  display: inline-block;
+  width: 68px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border: 1px solid #d9d9d9;
+  background-color: #fff;
+  font-size: 12px;
+  margin-right: 10px;
+  top: 1px;
+  color: #333333;
+  &:hover {
+    border: 1px solid $text-link;
+    background-color: #fff;
+    color: $text-link;
   }
 }
 .yc-upload {
@@ -22,18 +45,13 @@
   height: 16px;
   background-image: url("../../../assets/img/icon/icon_export.png");
 }
-.yc-click-obligorName {
-  color: #337ab7;
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-}
+
 .confirm-body {
   padding: 14px;
-} 
+}
 .yc-confirm-title {
-  color: #666;
+  color: $text-title;
+  font-weight: bold;
   font-size: 16px;
   line-height: 28px;
   vertical-align: super;
@@ -42,7 +60,7 @@
   margin-left: 40px;
   font-size: 14px;
   line-height: 24px;
-  color: #999;
+  color: #4E5566;
   margin-bottom: 0;
 }
 .yc-confirm-btn {
@@ -52,7 +70,22 @@
 }
 .yc-confirm-footer-btn {
   height: 34px;
+  width: 84px;
   margin-right: 10px;
-   position: 'relative';
-   top: -4px;
+  position: relative;
+  top: -4px;
+}
+.business-delete-modal {
+  .ant-confirm-title{
+    font-size: 16px;
+  }
+  .ant-confirm-content {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+.pagination-select{
+  .ant-select{
+    width:auto;
+  }
 }

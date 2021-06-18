@@ -3,9 +3,6 @@
   position: relative;
   border-radius: 2px;
   height:100%;
-  .yc-spin-content{
-    //position: relative;
-  }
   .yc-spin-blur{
     filter:blur(1px);
   }
@@ -20,7 +17,7 @@
   }
   .yc-spin-mask{
     position: absolute;
-    z-index: 200;
+    z-index: 5;
     top: 0;
     right: 0;
     left: 0;
@@ -51,7 +48,7 @@
       right: 0;
       left: 0;
       bottom: 0;
-      width: 250px;
+      width: 400px;
       height: 120px;
       margin: auto;
       img{
@@ -65,8 +62,8 @@
         line-height: 20px;
         font-size: 14px;
         text-align: center;
-        font-weight:bold;
-        color: #2db7f5;
+        //font-weight:bold;
+        color: $text-link;
       }
     }
   }
@@ -77,8 +74,12 @@
   min-height: 30px!important;
   .yc-mask-content{
     height: 30px!important;
+    width: auto!important;
     img{
       display: none!important;
+    }
+    div{
+      margin-top: 5px!important;
     }
   }
 }

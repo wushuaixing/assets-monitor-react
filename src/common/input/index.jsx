@@ -1,5 +1,5 @@
 /*!
- * input v1.1.2
+ * input v1.1.3
  * 公共组件input
  *
  * @author async
@@ -65,7 +65,16 @@ class comInput extends React.Component {
 
 	onBlur=() => {
 		// console.log('onBlur');
-		const { money, onChange, decimal } = this.props;
+		const {
+			money, onChange, decimal, onBlur, loginBlur,
+		} = this.props;
+		if (loginBlur) {
+			const str = this.ref.value;
+			this.setState({
+				inputValue: str,
+			});
+			onBlur(str);
+		}
 		// 上次的结果
 		const { oldValue } = this.state;
 
@@ -108,33 +117,22 @@ class comInput extends React.Component {
 				inputValue: result.input,
 			});
 			// return false;
+		}
+	};
 
-			// // 初始值
-			// const value = str.replace(/$s?|(,*)/g, '');
-			// // 转化值1：初始值 转 number
-			// const val = Number(value);
-			// console.log('value:', value);
-			//
-			// const number = !Number.isNaN(val);
-			// const _oldValue = oldValue.replace(/$s?|(,*)/g, '');
-			//
-			// const res = '';
-			//
-			// onChange(number ? val : Number(_oldValue));
-			//
-			// this.setState({
-			// 	inputValue: number ? formatMoney(val, decimal || 0) : oldValue,
-			// });
+	onPlaceholder=() => {
+		if (global.GLOBAL_MEIE_BROWSER) {
+			this.ref.focus();
 		}
 	};
 
 	render() {
 		const {
-			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown,
+			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth, maxLength, type, unSplitLine, otherAttribute,
 		} = this.props;
-		// console.log(this.props);
+		// console.log(this.props, maxLength);
 		const {
-			size, disabled, suffix, title,
+			size, disabled, unit, unitStyle, suffix, suffixRightStyle, suffixSpanStyle, title, titleIcon, onlyUnit, onlyUnitStyle,
 		} = this.props;
 		const { inputValue } = this.state;
 		const classList = ['yc-input'];
@@ -164,34 +162,58 @@ class comInput extends React.Component {
 		// 	}
 		// }
 		// console.log(this.ref ? this.ref.value : '');
+		const pStyle = { paddingLeft: 7 };
+		if (title || titleIcon) {
+			pStyle.paddingLeft = titleWidth ? titleWidth + 7 : 78;
+		}
+		const displayRes = (!_value && global.GLOBAL_MEIE_BROWSER && placeholder && document.documentMode !== 10);
 		return (
 			<div className="yc-input-wrapper" style={style}>
 				{
 					title ? (
-						<div className="yc-input-group-left">
-							<span>{title}</span>
-							<div className="yc-split-line" />
+						<div className="yc-input-group-left" style={titleWidth ? { width: titleWidth } : ''}>
+							<span style={titleWidth ? { width: titleWidth - 2 } : ''}>{title}</span>
+							{!unSplitLine ? <div className="yc-split-line" style={{ height: 20, marginTop: 6 }} /> : null}
 						</div>
 					) : ''
 				}
+				<div
+					style={titleIcon ? { paddingLeft: titleWidth + 7, lineHeight: '25px' } : pStyle}
+					className={`yc-placeholder ${!displayRes ? 'yc-visibility-none' : ''}`}
+					onClick={this.onPlaceholder}
+				>
+					{placeholder || '请输入'}
+				</div>
 				<input
-					type="text"
+					style={titleWidth ? { paddingLeft: titleWidth + 7 } : ''}
+					type={type || 'text'}
 					ref={e => this.ref = e}
 					className={classList.join(' ')}
-					autoComplete="off"
+					// autoComplete="off"
 					value={_value}
+					autoComplete="new-password"
 					disabled={disabled || false}
 					placeholder={placeholder || '请输入'}
 					{...inputChange}
 					onBlur={this.onBlur}
 					onFocus={this.onFocus}
 					onKeyDown={onKeyDown}
+					maxLength={maxLength}
+					{...otherAttribute}
 				/>
 				{
+					onlyUnit ? (
+						<div className="yc-input-group-right-only-unit" style={onlyUnitStyle}>{onlyUnit}</div>
+					) : null
+				}
+				{
 					suffix ? (
-						<div className="yc-input-group-right">
-							<div className="yc-split-line" />
-							<span>{suffix}</span>
+						<div className="yc-input-group-right" style={suffixRightStyle}>
+							{
+								unit ? <span style={unitStyle}>{unit}</span> : null
+							}
+							<div className="yc-split-line" style={{ height: 20 }} />
+							<span style={suffixSpanStyle}>{suffix}</span>
 						</div>
 					) : ''
 				}

@@ -1,0 +1,63 @@
+{
+  "A10101": "/yc/search/portrait/company/info",
+  "A10102": "/yc/search/portrait/company/dishonest-status",
+
+  "A10103": "/yc/search/portrait/company/baseInfo/baseInfo",
+  "A10104": "/yc/search/portrait/company/baseInfo/branch",
+  "A10105": "/yc/search/portrait/company/baseInfo/change",
+  "A10106": "/yc/search/portrait/company/baseInfo/count",
+  "A10107": "/yc/search/portrait/company/baseInfo/investment",
+  "A10108": "/yc/search/portrait/company/baseInfo/mainPerson",
+  "A10110": "/yc/search/portrait/company/baseInfo/stockholder",
+
+  //  "A10109": "/yc/search/portrait/company/baseInfo/stockChart",
+
+  "A10201": "/yc/search/portrait/company/overview/asset/auction",
+  "A10202": "/yc/search/portrait/company/overview/asset/subrogation",
+  "A10203": "/yc/search/portrait/company/overview/asset/land",
+  "A10204": "/yc/search/portrait/company/overview/asset/stock",
+  "A10205": "/yc/search/portrait/company/overview/asset/mortgage",
+  "A10206": "/yc/search/portrait/company/overview/litigation",
+  "A10207": "/yc/search/portrait/company/overview/risk",
+  "A10208": "/yc/search/portrait/company/overview/business",
+
+  "A10301": "/yc/search/portrait/company/asset/auction/precision/list",
+  "A10302": "/yc/search/portrait/company/asset/subrogation/trial/list",
+  "A10303": "/yc/search/portrait/company/asset/subrogation/court-notice/list",
+  "A10304": "/yc/search/portrait/company/asset/subrogation/judgment-document/list",
+  "A10305": "/yc/search/portrait/company/asset/land/transfer",
+  "A10306": "/yc/search/portrait/company/asset/land/transaction",
+  "A10307": "/yc/search/portrait/company/asset/land/mortgage",
+  "A10308": "/yc/search/portrait/company/asset/stock/pledgor",
+  "A10309": "/yc/search/portrait/company/asset/stock/pledgee",
+  "A10310": "/yc/search/portrait/company/asset/mortgage/owner",
+  "A10311": "/yc/search/portrait/company/asset/mortgage/people",
+
+  "A10401": "/yc/search/portrait/company/lawsuit/trial/list",
+  "A10402": "/yc/search/portrait/company/lawsuit/court-notice/list",
+  "A10403": "/yc/search/portrait/company/lawsuit/judgment-document/list",
+  "A10404": "/yc/search/portrait/company/lawsuit/dishonest/list",
+
+  "A10501": "/yc/search/portrait/company/management/bankruptcy/list",
+  "A10502": "/yc/search/portrait/company/management/abnormal/list",
+  "A10503": "/yc/search/portrait/company/management/illegal/list",
+  "A10504": "/yc/search/portrait/company/management/tax/list",
+  "A10505": "/yc/search/portrait/company/management/punishment/list",
+
+
+  "B10101": "/yc/search/portrait/personal/info",
+  "B10102": "/yc/search/portrait/personal/dishonest-status",
+
+  "B10201": "/yc/search/portrait/personal/overview/asset/auction",
+  "B10202": "/yc/search/portrait/personal/overview/asset/subrogation",
+  "B10203": "/yc/search/portrait/personal/overview/risk/litigation",
+  "B10204": "/yc/search/portrait/personal/overview/risk/dishonest",
+  "B10205": "/yc/search/portrait/personal/overview/risk/tax-illegal",
+
+  "B10301": "/yc/search/portrait/personal/asset/auction/precision/list",
+  "B10302": "/yc/search/portrait/personal/asset/subrogation/judgment-document/list",
+
+  "B10401": "/yc/search/portrait/personal/risk/dishonest/list",
+  "B10402": "/yc/search/portrait/personal/risk/judgment-document/list",
+  "B10403": "/yc/search/portrait/personal/risk/tax/list"
+}

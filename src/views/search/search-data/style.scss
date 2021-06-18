@@ -1,6 +1,7 @@
-.yc-datas {
-  border: 1px solid #384482;
-  padding: 16px 0;
+.yc-query-data {
+  border: 1px solid $common-base;
+  padding: 26px 0 40px 0;
+  height: 320px;
   p {
     font-size: 12px;
   }
@@ -8,8 +9,8 @@
     font-size: 12px;
   }
   .yc-tabs-data {
-    padding: 0 46px;
-    width: 840px;
+    padding: 0 22px;
+    width: 855px;
     text-align: left;
     .yc-tabs-items {
       .item {
@@ -25,7 +26,7 @@
           top: -6px;
         }
         .yc-price {
-          padding: 9px 0px 9px 5px;
+          padding: 9px 0 9px 5px;
           width: 40px;
         }
       }
@@ -36,17 +37,44 @@
     }
     .other {
       display: inline-block;
-      margin: 0 26px 0 0;
+      margin-right: 27px;
+    }
+    .others {
+      .yc-checked-btn {
+        border: 1px solid $text-link;
+        color: $text-link;
+        img {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+        }
+      }
     }
   }
   .btn {
-    text-align: center;
-    margin-top: 16px;
+    position: absolute;
+    bottom: 40px;
+    left: 308px;
+    button {
+      span {
+        font-size: 14px;
+      }
+    }
     .yc-high-search {
-      margin-right: 32px;
-      background-color: #fb5a5c;
-      border-color: #fb5a5c;
-      width: 84px;
+      margin-right: 20px;
+      width: 110px;
+      border: 1px solid $text-link;
+      background-color: $text-link;
+      color: #ffffff;
+      &:hover {
+        border: 1px solid $text-btn-hover;
+        background-color: $text-btn-hover;
+      }
+      &:active {
+        border: 1px solid $text-link-hover;
+        box-shadow: 0 0 4px 0 $text-link-hover;
+        background-color: $text-link-hover;
+      }
     }
   }
 }
@@ -95,15 +123,19 @@
   .ant-input {
     font-size: 16px;
     height: 50px;
-    border: 1px solid #384482;
+    border: 1px solid $common-base;
     padding-left: 130px;
   }
   .red-search {
-    background-color: #fb5a5c;
-    border-color: #fb5a5c;
+    background-color: $text-link;
+    border-color: $text-link;
     height: 50px;
     width: 128px;
     position: absolute;
     right: 0;
+    &:hover {
+      background-color: $text-link-hover;
+      border-color: $text-link-hover;
+    }
   }
 }

@@ -2,22 +2,15 @@
   padding: 20px;
   font-size: 14px;
   p{
-    font-size: 12px;
+    font-size: 14px;
   }
   span{
-    font-size: 12px;
-  }
-  .bread-crumb{
-    margin: 10px 0 30px 0;
-    span{
-      font-size: 14px;
-    }
+    font-size: 14px;
   }
   .search-item{
     display: inline-block;
     vertical-align: top;
-    margin-right: 20px;
-    margin-bottom: 60px;
+    margin: 20px 0 ;
     .ant-input-group-wrap{
       position: absolute;
       left: 246px;
@@ -59,10 +52,6 @@
       background-color: #BCC1CC;
       display: inline-block;
       margin-right: 6px;
-    }
-    .page-size{
-      float: right;
-      margin-top: 20px;
     }
   }
 }

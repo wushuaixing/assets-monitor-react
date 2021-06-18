@@ -1,31 +1,31 @@
 import React from 'react';
 import {
-	DatePicker, Button, Form, Tooltip, message,
+	Button, Form, message, Tooltip,
 } from 'antd';
 import { navigate } from '@reach/router';
-import { Input, timeRule } from '@/common';
+import { DatePicker, Input, timeRule } from '@/common';
 import { generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import close from '@/assets/img/icon/close.png';
 import add from '@/assets/img/icon/icon_add.png';
 import './style.scss';
 
 const createForm = Form.create;
+const _style1 = { width: 116 };
+
 class LAWSUITS extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			startTime: undefined,
 			endTime: undefined,
-			filingType: 'primary',
-			courtType: 'ghost',
 			type: 1,
-			yg: [
+			plaintiff: [
 				{
 					name: '',
 					id: 1,
 				},
 			],
-			bg: [
+			defendant: [
 				{
 					name: '',
 					id: 1,
@@ -56,44 +56,39 @@ class LAWSUITS extends React.Component {
 
 	// 切换信息类型
 	changeType = (type) => {
-		console.log(type);
 		switch (type) {
 		case 1:
 			this.setState({
-				filingType: 'primary',
-				courtType: 'ghost',
 				type,
 			});
 			break;
 		case 2:
 			this.setState({
-				filingType: 'ghost',
-				courtType: 'primary',
 				type,
 			});
 			break;
 		default:
 			break;
 		}
-	}
+	};
 
 	// 搜索
 	search = () => {
 		const { form } = this.props; // 会提示props is not defined
 		const {
-			startTime, endTime, yg, bg, type,
+			startTime, endTime, plaintiff, defendant, type,
 		} = this.state;
 		const { getFieldsValue } = form;
 		const fildes = getFieldsValue();
 		fildes.startLarq = startTime;
 		fildes.endLarq = endTime;
 		fildes.type = type;
-		fildes.yg0 = yg[0] ? yg[0].name : undefined;
-		fildes.yg1 = yg[1] ? yg[1].name : undefined;
-		fildes.yg2 = yg[2] ? yg[2].name : undefined;
-		fildes.bg0 = bg[0] ? bg[0].name : undefined;
-		fildes.bg1 = bg[1] ? bg[1].name : undefined;
-		fildes.bg2 = bg[2] ? bg[2].name : undefined;
+		fildes.plaintiff0 = plaintiff[0] ? plaintiff[0].name : undefined;
+		fildes.plaintiff1 = plaintiff[1] ? plaintiff[1].name : undefined;
+		fildes.plaintiff2 = plaintiff[2] ? plaintiff[2].name : undefined;
+		fildes.defendant0 = defendant[0] ? defendant[0].name : undefined;
+		fildes.defendant1 = defendant[1] ? defendant[1].name : undefined;
+		fildes.defendant2 = defendant[2] ? defendant[2].name : undefined;
 		console.log(fildes, type);
 		// 判断是否为空对象,非空请求接口
 		if (!objectKeyIsEmpty(fildes)) {
@@ -102,7 +97,7 @@ class LAWSUITS extends React.Component {
 		} else {
 			message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -111,13 +106,13 @@ class LAWSUITS extends React.Component {
 		this.setState({
 			startTime: undefined,
 			endTime: undefined,
-			yg: [
+			plaintiff: [
 				{
 					name: '',
 					id: 1,
 				},
 			],
-			bg: [
+			defendant: [
 				{
 					name: '',
 					id: 1,
@@ -126,187 +121,200 @@ class LAWSUITS extends React.Component {
 		});
 
 		resetFields('');
-	}
+	};
 
-	handleYg = (e, id) => {
-		const { yg } = this.state;
-		if (yg && yg.length > 0) {
-			yg.forEach((i, index) => {
+	handlePlaintiff = (e, id) => {
+		const { plaintiff } = this.state;
+		if (plaintiff && plaintiff.length > 0) {
+			plaintiff.forEach((i, index) => {
 				if (i.id === id) {
-					yg[index].name = e.trim();
+					plaintiff[index].name = e.trim();
 				}
 			});
 			this.setState({
-				yg,
+				plaintiff,
 			});
 		}
-	}
+	};
 
-	addYg = () => {
-		const { yg } = this.state;
-		yg.push({
+	addPlaintiff = () => {
+		const { plaintiff } = this.state;
+		plaintiff.push({
 			name: '',
-			id: yg.length + 1,
+			id: plaintiff.length + 1,
 		});
 		this.setState({
-			yg,
+			plaintiff,
 		});
-	}
+	};
 
 	// 删除
-	deleteYg = (id) => {
-		let { yg } = this.state;
-		yg = yg.filter(key => key.id !== id);
+	deletePlaintiff = (id) => {
+		let { plaintiff } = this.state;
+		plaintiff = plaintiff.filter(key => key.id !== id);
 		// console.log(id);
-		yg.map((item, index) => {
-			const _item = item;
-			return (_item.id = index + 1);
-		});
+		// Todo  array.map 修改原数据
+		// eslint-disable-next-line no-param-reassign
+		plaintiff.map((item, index) => (item.id = index + 1));
 		this.setState({
-			yg,
+			plaintiff,
 		});
-	}
+	};
 
-	handleBg = (e, id) => {
-		const { bg } = this.state;
-		if (bg && bg.length > 0) {
-			bg.forEach((i, index) => {
+	handleDefendant = (e, id) => {
+		const { defendant } = this.state;
+		if (defendant && defendant.length > 0) {
+			defendant.forEach((i, index) => {
 				if (i.id === id) {
-					bg[index].name = e.trim();
+					defendant[index].name = e.trim();
 				}
 			});
 			this.setState({
-				bg,
+				defendant,
 			});
 		}
-	}
+	};
 
-	addBg = () => {
-		const { bg } = this.state;
-		bg.push({
+	addDefendant = () => {
+		const { defendant } = this.state;
+		defendant.push({
 			name: '',
-			id: bg.length + 1,
+			id: defendant.length + 1,
 		});
 		this.setState({
-			bg,
+			defendant,
 		});
-	}
+	};
 
 	// 删除
-	deleteBg = (id) => {
-		let { bg } = this.state;
-		bg = bg.filter(key => key.id !== id);
+	deleteDefendant = (id) => {
+		let { defendant } = this.state;
+		defendant = defendant.filter(key => key.id !== id);
 		// console.log(id);
-		bg.map((item, index) => {
-			const _item = item;
-			return (_item.id = index + 1);
-		});
+		// Todo  array.map 修改原数据
+		// eslint-disable-next-line no-param-reassign
+		defendant.map((item, index) => (item.id = index + 1));
+
 		this.setState({
-			bg,
+			defendant,
 		});
-	}
+	};
 
 	render() {
 		const {
-			yg, bg, filingType, courtType,
+			plaintiff, defendant,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
 			<div className="yc-tabs-data" style={{ padding: '0 22px' }}>
 				<div className="yc-tabs-items">
-					{yg.map(item => (
-						<div key={item.id} className="item" style={{ 'margin-right': 10 }}>
+					{plaintiff.map(item => (
+						<div key={item.id} className="item" style={{ 'margin-right': 16 }}>
 							<Input
 								title="原告"
 								value={item.name}
-								placeholder="姓名/公司名称"
-								onChange={e => this.handleYg(e, item.id)}
+								placeholder="个人/企业名称"
+								onChange={e => this.handlePlaintiff(e.replace(/%/g, ''), item.id)}
+								maxLength="40"
 							/>
-							{yg.length > 1 ? (
+							{plaintiff.length > 1 ? (
 								<Tooltip placement="top" title="删除">
 									<img
 										alt=""
 										className="close"
 										src={close}
-										onClick={() => this.deleteYg(item.id)}
+										onClick={() => this.deletePlaintiff(item.id)}
 									/>
 								</Tooltip>
 							) : null}
 						</div>
 					))}
-					{yg.length > 2 ? (
-						<span style={{ 'margin-top': 8, display: 'inline-block' }}>
+					{plaintiff.length > 2 ? (
+						<span style={{ 'margin-top': 8, display: 'inline-block', color: '#FB5A5C' }}>
 							最多添加3个
 						</span>
 					) : (
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
-								style={{ 'margin-top': 8, cursor: 'pointer' }}
+								style={{
+									'margin-top': 8, cursor: 'pointer', width: 16, height: 16,
+								}}
 								src={add}
-								onClick={() => this.addYg()}
+								onClick={() => this.addPlaintiff()}
 							/>
 						</Tooltip>
 					)}
 				</div>
 				<div className="yc-tabs-items">
-					{bg.map(item => (
-						<div className="item" style={{ 'margin-right': 10 }}>
+					{defendant.map(item => (
+						<div className="item" style={{ 'margin-right': 16 }}>
 							<Input
 								key={item.id}
 								title="被告"
+								maxLength="40"
 								value={item.name}
 								placeholder="姓名/公司名称"
-								onChange={e => this.handleBg(e, item.id)}
+								onChange={e => this.handleDefendant(e.replace(/%/g, ''), item.id)}
 							/>
-							{bg.length > 1 ? (
+							{defendant.length > 1 ? (
 								<Tooltip placement="top" title="删除">
 									<img
 										alt=""
 										className="close"
 										src={close}
-										onClick={() => this.deleteBg(item.id)}
+										onClick={() => this.deleteDefendant(item.id)}
 									/>
 								</Tooltip>
 							) : null}
 						</div>
 					))}
-					{bg.length > 2 ? (
-						<span style={{ 'margin-top': 8, display: 'inline-block' }}>
+					{defendant.length > 2 ? (
+						<span style={{ 'margin-top': 8, display: 'inline-block', color: '#FB5A5C' }}>
 							最多添加3个
 						</span>
 					) : (
 						<Tooltip placement="top" title="添加">
 							<img
 								alt=""
-								style={{ 'margin-top': 8, cursor: 'pointer' }}
+								style={{
+									'margin-top': 8, cursor: 'pointer', width: 16, height: 16,
+								}}
 								src={add}
-								onClick={() => this.addBg()}
+								onClick={() => this.addDefendant()}
 							/>
 						</Tooltip>
 					)}
 				</div>
 				<div className="yc-tabs-items">
-					<div className="item" style={{ 'margin-right': 10 }}>
+					<div className="item" style={{ 'margin-right': 16 }}>
 						<Input
 							title="起诉法院"
 							placeholder="法院名称"
-							{...getFieldProps('court', { getValueFromEvent: e => e.trim() })}
+							maxLength="20"
+							{...getFieldProps('court', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
-					<div className="item" style={{ 'margin-right': 10 }}>
+					<div className="item" style={{ 'margin-right': 16 }}>
 						<Input
 							title="案号"
+							maxLength="40"
 							placeholder="案件编号"
-							{...getFieldProps('ah', { getValueFromEvent: e => e.trim() })}
+							{...getFieldProps('ah', { getValueFromEvent: e => e.trim().replace(/%/g, '') })}
 						/>
 					</div>
-					<div className="item" style={{ 'margin-right': 0, width: 303 }}>
+					<div className="item" style={{ 'margin-right': 0, width: 316 }}>
 						<span>日期选择：</span>
 						<DatePicker
 							placeholder="开始日期"
-							style={{ width: 112 }}
+							size="large"
+							style={_style1}
 							{...getFieldProps('uploadTimeStart', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -314,6 +322,7 @@ class LAWSUITS extends React.Component {
 										startTime: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('uploadTimeEnd'))}
 							allowClear
@@ -321,7 +330,8 @@ class LAWSUITS extends React.Component {
 						<span style={{ margin: '0 2px ' }}>至</span>
 						<DatePicker
 							placeholder="结束日期"
-							style={{ width: 112 }}
+							size="large"
+							style={_style1}
 							{...getFieldProps('uploadTimeEnd', {
 								onChange: (value, dateString) => {
 									console.log(value, dateString);
@@ -329,30 +339,37 @@ class LAWSUITS extends React.Component {
 										endTime: dateString,
 									});
 								},
+								...timeOption,
 							})}
 							disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('uploadTimeStart'))}
 							allowClear
 						/>
 					</div>
 				</div>
-				<div className="others">
+				{/* <div className="others">
 					<span>信息类型：</span>
+					<span>
+						<Button
+							size="large"
+							type="ghost"
+							style={{ 'margin-right': 16 }}
+							className={checkedType === 1 ? 'yc-checked-btn' : null}
+							onClick={() => this.changeType(1)}
+						>
+							{checkedType === 1 ? <img src={checkoutIcon} alt="" /> : ''}
+							立案信息
+						</Button>
+					</span>
 					<Button
 						size="large"
-						type={filingType}
-						style={{ 'margin-right': 10 }}
-						onClick={() => this.changeType(1)}
-					>
-						立案信息
-					</Button>
-					<Button
-						size="large"
-						type={courtType}
+						type="ghost"
+						className={checkedType === 2 ? 'yc-checked-btn' : null}
 						onClick={() => this.changeType(2)}
 					>
+						{checkedType === 2 ? <img src={checkoutIcon} alt="" /> : ''}
 						开庭公告
 					</Button>
-				</div>
+				</div> */}
 				<div className="btn">
 					<Button
 						type="primary"
@@ -371,3 +388,4 @@ class LAWSUITS extends React.Component {
 	}
 }
 export default createForm()(LAWSUITS);
+export const Name = 'LAWSUITS';

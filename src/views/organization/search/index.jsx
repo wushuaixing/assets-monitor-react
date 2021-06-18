@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {
-	Icon, Input, Button, Form,
+	Icon, Button, Form,
 } from 'antd';
+import { Input } from '@/common';
 import './style.scss';
 
 const createForm = Form.create;
@@ -17,7 +18,7 @@ class BasicTable extends React.Component {
 	onInput=(val) => {
 		this.setState({ data: val.target.value });
 		// val.target.value.replace(/\s+/g, '');
-	}
+	};
 
 	onClear=() => {
 		const {
@@ -31,7 +32,7 @@ class BasicTable extends React.Component {
 		};
 		getTableData(params);
 		clearInput();
-	}
+	};
 
 	onSearch=() => {
 		const {
@@ -39,16 +40,15 @@ class BasicTable extends React.Component {
 		} = this.props;
 		const { getFieldsValue } = form;
 		const fields = getFieldsValue();
-		console.log(fields.obligorName.trim());
 
 		const params = {
-			keyword: fields.obligorName.trim(),
+			keyword: fields.obligorName && fields.obligorName.trim(),
 			role,
 			groupId: role,
 		};
 		getSearchValue(params);
 		getTableData(params);
-	}
+	};
 
 	renderIcon=() => {
 		const { data } = this.state;
@@ -60,10 +60,15 @@ class BasicTable extends React.Component {
 			);
 		}
 		return null;
-	}
+	};
+
+	onPlaceholder=() => {
+		if (global.GLOBAL_MEIE_BROWSER) {
+			document.getElementById('inputFocus').focus();
+		}
+	};
 
 	render() {
-		const { data } = this.state;
 		const { placeholder, form } = this.props;
 		const { getFieldProps } = form;
 		return (
@@ -71,22 +76,22 @@ class BasicTable extends React.Component {
 				<Input
 					size="large"
 					autocomplete="off"
-					value={data}
+					id="inputFocus"
 					placeholder={placeholder}
-					onInput={event => this.onInput(event)}
 					{...this.props}
 					{...getFieldProps('obligorName', {
-						// initialValue: true,
-						// rules: [
-						// 	{ required: true, whitespace: true, message: '请填写密码' },
-						// ],
-						getValueFromEvent: e => e.target.value.trim(),
+						onChange: (value) => {
+							console.log(value);
+							this.setState({ data: value });
+							// this.onInput(event);
+						},
+						getValueFromEvent: value => value.trim(),
 					})}
 				/>
 				{
 					this.renderIcon()
 				}
-				<Button type="ghost" className="search-click" onClick={() => this.onSearch()}>搜索</Button>
+				<Button type="ghost" style={global.GLOBAL_MEIE_BROWSER && { height: 35 }} className="search-click" onClick={() => this.onSearch()}>搜索</Button>
 			</div>
 		);
 	}

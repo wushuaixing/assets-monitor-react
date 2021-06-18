@@ -21,19 +21,21 @@ const Router = (props) => {
 			}
 		});
 		// console.log(childList);
-
+		let redirectId = '';
 		childList.forEach((item) => {
 			// console.log(item.type(item.props));
-			const _path = item.props.path;
-			const itemStatus = /^\/\*$/.test(_path);
-			const itemBase = _path.replace(/\/\*$/, '').replace(/^\//, '');
+			const { path, root } = item.props;
+			if (root) redirectId = item;
+			const itemStatus = /^\/\*$/.test(path);
+			const itemBase = path.replace(/\/\*$/, '').replace(/^\//, '');
 			// if(new RegExp(itemBase).test(hash))
 			// console.log(new RegExp(itemBase).test(hash), itemBase, hash);
-			if ((itemStatus && itemBase === '') || new RegExp(itemBase).test(hash)) {
+			if ((itemStatus && itemBase === '') || (new RegExp(itemBase).test(hash) && !root)) {
 				// console.log(item)
 				childrenDOM = item;
 			}
 		});
+		childrenDOM = childrenDOM || redirectId || childList[0];
 	}
 	return childrenDOM;
 };

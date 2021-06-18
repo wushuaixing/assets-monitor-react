@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-	Modal, Input, Select, message, Form,
+	Modal, Select, message, Form,
 } from 'antd';
-import {
-	saveList, // 保存
-} from '@/utils/api/organization';
+import { Input } from '@/common';
+import { saveList } from '@/utils/api/organization'; // 保存
 
 const createForm = Form.create;
 
@@ -16,12 +15,16 @@ class DetailModal extends React.Component {
 		};
 	}
 
+	componentWillUnmount() {
+		// this.handleSave();
+		this.setState = () => {};
+	}
 
 	// 关闭弹窗
 	handleCancel = () => {
 		const { handleCancel } = this.props;
 		handleCancel();
-	}
+	};
 
 	getInMaxValue = (val, maxSize) => {
 		let text = this.getVal(val);
@@ -30,14 +33,14 @@ class DetailModal extends React.Component {
 			val.target.blur();
 		}
 		return text;
-	}
+	};
 
 	getVal = (val) => {
 		if (val && val.target) {
 			return val.target.value ? val.target.value : null;
 		}
 		return val || null;
-	}
+	};
 
 	handleSave = () => {
 		const {
@@ -51,12 +54,12 @@ class DetailModal extends React.Component {
 		};
 		const validRule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/; // 手机号码校验规则
 		const emialRule = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/; // 邮箱格式
-		if (!fildes.mobile && !fildes.email) {
-			message.warning('手机号和邮箱至少需要填一个');
-			return;
-		}
 		if (!fildes.name) {
 			message.warning('请输入姓名');
+			return;
+		}
+		if (!fildes.mobile && !fildes.email) {
+			message.warning('手机号和邮箱至少需要填一个');
 			return;
 		}
 		if (fildes.mobile && !validRule.test(fildes.mobile)) {
@@ -70,40 +73,38 @@ class DetailModal extends React.Component {
 		this.setState({
 			confirmLoading: true,
 		});
-		saveList(params)
-			.then((res) => {
-				if (res.code === 200) {
-					const searchVal = {
-						page: current,
-						...searchValue,
-					};
-					getTableData(searchVal);
-					message.success(propsData ? '修改成功' : '新增成功');
-					this.handleCancel();
-					this.setState({
-						confirmLoading: false,
-					});
-				} else {
-					this.setState({
-						confirmLoading: false,
-					});
-					message.error(res.message);
-				}
-			})
-			.catch(() => {
+		saveList(params).then((res) => {
+			if (res.code === 200) {
+				const searchVal = {
+					page: current,
+					...searchValue,
+				};
+				getTableData(searchVal);
+				message.success(propsData ? '修改成功' : '新增成功');
+				this.handleCancel();
 				this.setState({
 					confirmLoading: false,
 				});
-				message.error('error');
+			} else {
+				this.setState({
+					confirmLoading: false,
+				});
+				message.error(res.message);
+			}
+		}).catch(() => {
+			this.setState({
+				confirmLoading: false,
 			});
-	}
+			message.error('error');
+		});
+	};
 
 	change = (val, type, maxSize) => {
 		const { data } = this.state;
-		const maxValue = this.getInMaxValue(val, maxSize);
-		data[type] = maxValue;
+		data[type] = this.getInMaxValue(val, maxSize);
 		this.setState({ data });
-	}
+	};
+
 
 	render() {
 		const { confirmLoading } = this.state;
@@ -123,7 +124,7 @@ class DetailModal extends React.Component {
 				className="client-modal"
 				width={518}
 				visible
-				confirmLoading={confirmLoading}
+				confirmLoading={!global.GLOBAL_MEIE_BROWSER ? confirmLoading : false}
 				onCancel={this.handleCancel}
 				onOk={this.handleSave}
 			>
@@ -140,10 +141,11 @@ class DetailModal extends React.Component {
 							>
 								*
 							</span>
-							<p>姓名：</p>
+							<p className="yc-organization-lable">姓名：</p>
 							<Input
 								size="large"
-								placeholder="请输入"
+								placeholder="请输入姓名"
+								maxLength="20"
 								style={{ width: 340 }}
 								{...getFieldProps('name', {
 									initialValue: propsData && propsData.name,
@@ -151,10 +153,10 @@ class DetailModal extends React.Component {
 							/>
 						</div>
 						<div className="line">
-							<p>手机号：</p>
+							<p className="yc-organization-lable">手机号：</p>
 							<Input
 								size="large"
-								placeholder="请输入"
+								placeholder="请输入手机号"
 								style={{ width: 340 }}
 								maxLength={11}
 								{...getFieldProps('mobile', {
@@ -163,11 +165,11 @@ class DetailModal extends React.Component {
 							/>
 						</div>
 						<div className="line">
-							<p>角色：</p>
+							<p className="yc-organization-lable">角色：</p>
 							<Select
 								size="large"
 								style={{ width: 100 }}
-								placeholder="请选择"
+								placeholder="请选择角色"
 								onChange={(val) => {
 									this.change(val, 'role');
 								}}
@@ -180,11 +182,12 @@ class DetailModal extends React.Component {
 							</Select>
 						</div>
 						<div className="line">
-							<p>邮箱：</p>
+							<p className="yc-organization-lable">邮箱：</p>
 							<Input
 								size="large"
 								style={{ width: 340 }}
-								placeholder="请输入"
+								maxLength="40"
+								placeholder="请输入邮箱"
 								{...getFieldProps('email', {
 									initialValue: propsData && propsData.email,
 								})}

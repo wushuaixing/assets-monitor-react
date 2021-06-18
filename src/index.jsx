@@ -2,11 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'anujs/lib/createClass';	// needed by antd 1.x
 import { Provider } from 'react-redux';
-import App from './views/app';
+import { message } from 'antd';
 import store from './stores/app';
-import './assets/css/public.scss';
+import App from './views/app';
+import './assets/css/index.scss';
 import './utils/config';
 
+const Version = 'v2.9.0';
+const BetaNumber = '.1';
+const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
+window.CurrentVersions = info;
+if (window.location.protocol === 'http:') {
+	console.info(info);
+}
 
 if (process.env.NODE_ENV === 'production') {
 	global.console = {
@@ -17,6 +25,9 @@ if (process.env.NODE_ENV === 'production') {
 		error: () => { },
 	};
 }
+
+message.config({ top: 300 });
+
 ReactDOM.render(
 	<Provider store={store} className="Provider">
 		<App />

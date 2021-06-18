@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-	Modal, Table, message,
+	Modal, message,
 } from 'antd';
 import {
 	postGuaranteeList, // 担保人
 } from '@/utils/api/business';
-import { Spin } from '@/common';
+import { Spin, Table } from '@/common';
 
 export default class DetailModal extends React.PureComponent {
 	constructor(props) {
@@ -40,9 +40,11 @@ export default class DetailModal extends React.PureComponent {
 				},
 			}, {
 				title: '角色',
-				dataIndex: 'role',
-				key: 'role',
-				render: text => this.filterText(text) || '-',
+				dataIndex: 'roleText',
+				key: 'roleText',
+				render(text) {
+					return <div>{text || '-'}</div>;
+				},
 			}],
 		};
 	}
@@ -60,30 +62,23 @@ export default class DetailModal extends React.PureComponent {
 				});
 			} else {
 				message.error(res.message);
+				this.setState({
+					loading: false,
+				});
 			}
 		});
-	}
-
-	filterText = (text) => {
-		switch (text) {
-		case 1: return '借款人';
-		case 2: return '担保人';
-		case 3: return '抵质押人';
-		case 4: return '共同借款人';
-		default: return '未知';
-		}
 	}
 
 	handleCancel=() => {
 		const { onCancel } = this.props;
 		onCancel();
-	}
+	};
 
 	render() {
 		const { columns, data, loading } = this.state;
 		const { PeopleListModalVisible } = this.props;
 		return (
-			<Modal title="担保人列表" width={560} style={{ 'max-height': 650 }} visible={PeopleListModalVisible} footer={(null)} onCancel={this.handleCancel}>
+			<Modal title="担保人列表" width={560} style={{ 'max-height': 650 }} visible={PeopleListModalVisible} footer={null} onCancel={this.handleCancel}>
 				<Spin visible={loading}>
 					<Table
 						scroll={data.length > 8 ? { y: 440 } : {}}

@@ -1,18 +1,19 @@
 import React from 'react';
 import {
-	Button, Select, Table, Pagination, message, Modal,
+	Button, Select, Pagination, message, Modal, Form,
 } from 'antd';
+import { Table, Spin } from '@/common';
 import '../style.scss';
-import EditModal from './editModal';
-import Search from '../search';
 import {
 	pushManagerList, // liebiao
 	deleteList, // 删除
 } from '@/utils/api/organization';
-import { Spin } from '@/common';
+import EditModal from './editModal';
+import Search from '../search';
+
 
 const { confirm } = Modal;
-export default class BasicTable extends React.Component {
+class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
 		document.title = '推送设置-机构管理';
@@ -71,9 +72,9 @@ export default class BasicTable extends React.Component {
 					key: 'x',
 					render: (text, row) => (
 						<span>
-							<a className="click-p" onClick={() => this.handleOpeanModal('edit', row)}>编辑</a>
+							<span className="yc-table-text-link" onClick={() => this.handleOpeanModal('edit', row)}>编辑</span>
 							<span className="ant-divider" />
-							<a className="click-p" onClick={() => this.handleDel(row)}>删除</a>
+							<span className="yc-table-text-link" onClick={() => this.handleDel(row)}>删除</span>
 						</span>
 
 					),
@@ -106,13 +107,13 @@ export default class BasicTable extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	getSearchValue = (value) => {
 		this.setState({
 			searchValue: value,
 		});
-	}
+	};
 
 	// page翻页
 	handleChangePage=(val) => {
@@ -126,16 +127,16 @@ export default class BasicTable extends React.Component {
 			...searchValue,
 		};
 		this.getTableData(params);
-	}
+	};
 
 	// 新增编辑
 	handleOpeanModal=(type, row) => {
 		this.setState({ modalVisible: true, modalState: type, selectData: row });
-	}
+	};
 
 	handleCancel=() => {
 		this.setState({ modalVisible: false });
-	}
+	};
 
 	// 删除
 	handleDel=(row) => {
@@ -168,12 +169,7 @@ export default class BasicTable extends React.Component {
 			},
 			onCancel() {},
 		});
-	}
-
-
-	search=(val) => {
-		console.log('zzz', val);
-	}
+	};
 
 	// 下拉选中
 	handleChange = (searchVal) => {
@@ -188,7 +184,7 @@ export default class BasicTable extends React.Component {
 			searchValue: params,
 		});
 		this.getTableData(params);
-	}
+	};
 
 	onKeyup = (e) => {
 		console.log(e.target.value);
@@ -205,13 +201,13 @@ export default class BasicTable extends React.Component {
 		if (e.keyCode === 13) {
 			this.getTableData(params);
 		}
-	}
+	};
 
 	clearInput = () => {
 		this.setState({
 			keyword: '',
 		});
-	}
+	};
 
 	// 编辑modal
 	renderModal=() => {
@@ -224,7 +220,7 @@ export default class BasicTable extends React.Component {
 			);
 		}
 		return null;
-	}
+	};
 
 	render() {
 		const {
@@ -234,13 +230,13 @@ export default class BasicTable extends React.Component {
 			<div className="push-manage">
 				<Search
 					placeholder="姓名/手机号/邮箱"
-					onSearch={(val) => { this.search(val); }}
 					onKeyUp={this.onKeyup}
 					getTableData={this.getTableData}
 					keyword={keyword}
 					role={role}
 					clearInput={this.clearInput}
 					getSearchValue={this.getSearchValue}
+					maxLength="40"
 				/>
 				<div className="search-item">
 					<p>角色：</p>
@@ -259,18 +255,20 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
-						<div className="page-size">
-							<Pagination
-								current={current}
-								pageSize={pageSize}
-								total={total}
-								showTotal={val => `共 ${val} 条记录`}
-								showQuickJumper
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
-							/>
-						</div>
+						{data && data.length > 0 && (
+							<div className="yc-table-pagination ">
+								<Pagination
+									current={current}
+									pageSize={pageSize}
+									total={total}
+									showTotal={val => `共 ${val} 条记录`}
+									showQuickJumper
+									onChange={(val) => {
+										this.handleChangePage(val);
+									}}
+								/>
+							</div>
+						)}
 					</Spin>
 				</div>
 				{
@@ -280,3 +278,4 @@ export default class BasicTable extends React.Component {
 		);
 	}
 }
+export default Form.create()(BasicTable);

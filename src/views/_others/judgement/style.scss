@@ -1,0 +1,95 @@
+.judgement{
+  &-header{
+    padding: 30px 20px 20px 20px;
+    position: relative;
+    &-title{
+      color: #20242E;
+      font-size: 18px;
+      font-weight: bold;
+      max-width: 1050px;
+      display: inline-block;
+    }
+    &-btn{
+      position: absolute;
+      right: 16px;
+      color: $text-link;
+      width: 84px !important;
+      height: 32px;
+      text-align: center;
+      border-radius: 2px;
+      border: 1px $text-link solid;
+    }
+    &-hint{
+      display: flex;
+      margin: 12px 0px 0px 0px;
+      &-reason{
+        &-label{
+          color: #7D8699;
+          font-size: 12px;
+        }
+        &-content{
+          color: #20242E;
+          font-size: 12px;
+        }
+      }
+      &-publish{
+        margin-left: 24px;
+        &-label{
+          color: #7D8699;
+          font-size: 12px;
+        }
+        &-content{
+          color: #20242E;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  &-line{
+    padding: 0 20px;
+    height: 14px;
+    &-title{
+      font-size: 14px;
+      color: $text-remark;
+      display: inline-block;
+    }
+    &-line{
+      width: 1100px;
+      height: 1px;
+      background-color: $background-line;
+      display: inline-block;
+      line-height: 1px;
+      vertical-align: middle;
+    }
+  }
+  &-body{
+    padding: 20px 50px 40px 50px;
+    position: relative;
+    .caseNumber{
+      font-weight: bold;
+    }
+  }
+  &-bodys{
+    padding-top: 206px ;
+    text-align: center;
+    position: relative;
+    font-size: 24px;
+    color: #20242E;
+  }
+  &-noContent{
+    text-align: center;
+    img{
+      width: 660px;
+      height: 396px;
+    }
+    &-title{
+      font-size: 24px;
+      color: #20242E;
+    }
+    &-text{
+      margin-top: 24px;
+      font-size: 18px;
+      color:#4E5566 ;
+    }
+  }
+}

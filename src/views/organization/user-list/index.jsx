@@ -1,15 +1,14 @@
 import React from 'react';
-import { Select, Table, Pagination } from 'antd';
-import '../style.scss';
-import { formatDateTime } from '../../../utils/changeTime';
-import Search from '../search';
+import { Select, Pagination } from 'antd';
 import {
 	userManageList, // liebiao
 	RoleList, // 角色列表
 } from '@/utils/api/organization';
-import { Spin } from '@/common';
+import { Table, Spin, Icon } from '@/common';
+import { formatDateTime } from '../../../utils/changeTime';
+import Search from '../search';
+import './style.scss';
 
-const { Option } = Select;
 export default class BasicTable extends React.Component {
 	constructor(props) {
 		super(props);
@@ -22,7 +21,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'mobile',
 					key: 'mobile',
 					render: text => (
-						<p>{text || '--'}</p>
+						<p>{text || '-'}</p>
 					),
 				},
 				{
@@ -30,7 +29,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'name',
 					key: 'name',
 					render: text => (
-						<p>{text || '--'}</p>
+						<p>{text || '-'}</p>
 					),
 				},
 				{
@@ -38,7 +37,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'groupId',
 					key: 'groupId',
 					render: text => (
-						<p>{this.matchingRoles(text) || '--'}</p>
+						<p>{this.matchingRoles(text) || '-'}</p>
 					),
 				},
 				{
@@ -46,7 +45,7 @@ export default class BasicTable extends React.Component {
 					dataIndex: 'lastDate',
 					key: 'lastDate',
 					render: text => (
-						<p>{formatDateTime(text) || '--'}</p>
+						<p>{formatDateTime(text) || '-'}</p>
 					),
 				},
 				{
@@ -57,14 +56,15 @@ export default class BasicTable extends React.Component {
 						<React.Fragment>
 							{
 								text === 1 ? (
-									<React.Fragment>
-										<p className="circle-item">启用</p>
-									</React.Fragment>
-
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#3DBD7D', marginRight: 3 }} />
+										启用
+									</span>
 								) : (
-									<React.Fragment>
-										<p className="no-attention">禁用</p>
-									</React.Fragment>
+									<span>
+										<Icon type="icon-dot" style={{ fontSize: 12, color: '#bcc1cc', marginRight: 3 }} />
+										禁用
+									</span>
 								)
 							}
 						</React.Fragment>
@@ -78,7 +78,7 @@ export default class BasicTable extends React.Component {
 					key: 'x',
 					render: row => (
 						<div className="table-btn">
-							<a className="click-p" onClick={() => this.handleOpeanLog(row)}>操作记录</a>
+							<span className="yc-table-text-link" onClick={() => this.handleOpeanLog(row)}>操作记录</span>
 						</div>
 					),
 				},
@@ -108,7 +108,7 @@ export default class BasicTable extends React.Component {
 				});
 			}
 		}).catch(() => {});
-	}
+	};
 
 	// 列表数据
 	getTableData=(data) => {
@@ -131,7 +131,7 @@ export default class BasicTable extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	// 匹配角色
 	// eslint-disable-next-line consistent-return
@@ -141,7 +141,7 @@ export default class BasicTable extends React.Component {
 			const list = roleData.filter(item => item.id === roleId);
 			return list[0].title;
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage=(val) => {
@@ -155,7 +155,7 @@ export default class BasicTable extends React.Component {
 			...searchValue,
 		};
 		this.getTableData(params);
-	}
+	};
 
 	// 下拉选中
 	handleChange = (id) => {
@@ -171,7 +171,7 @@ export default class BasicTable extends React.Component {
 			searchValue: params,
 		});
 		this.getTableData(params);
-	}
+	};
 
 	onKeyup = (e) => {
 		const { role } = this.state;
@@ -187,26 +187,26 @@ export default class BasicTable extends React.Component {
 		if (e.keyCode === 13) {
 			this.getTableData(params);
 		}
-	}
+	};
 
 	clearInput = () => {
 		this.setState({
 			keyword: '',
 		});
-	}
+	};
 
 	getSearchValue = (value) => {
 		this.setState({
 			searchValue: value,
 		});
-	}
+	};
 
 	handleOpeanLog=(row) => {
 		// 跳转详情
 		console.log(row.id);
 		const w = window.open('about:blank');
-		w.location.href = `#/organization/operate/log?userId=${row.id}&&name=${row.name}`;
-	}
+		w.location.href = `#/organization/user/log?userId=${row.id}&&name=${row.name}`;
+	};
 
 	render() {
 		const {
@@ -219,18 +219,19 @@ export default class BasicTable extends React.Component {
 					placeholder="姓名/手机号"
 					onSearch={(val) => { this.search(val); }}
 					onKeyUp={this.onKeyup}
+					maxLength="20"
 					getTableData={this.getTableData}
 					keyword={keyword}
 					role={role}
 					clearInput={this.clearInput}
 					getSearchValue={this.getSearchValue}
 				/>
-				<div className="search-item">
-					<p>角色：</p>
-					<Select placeholder="请选择角色" size="large" allowClear onChange={this.handleChange}>
+				<div className="yc-query-item">
+					<span className="yc-query-item-title">角色：</span>
+					<Select placeholder="请选择角色" size="large" allowClear onChange={this.handleChange} style={{ width: 100 }}>
 						{
 							roleData && roleData.length > 0 && roleData.map(item => (
-								<Option value={item.id}>{item.title}</Option>
+								<Select.Option value={item.id}>{item.title}</Select.Option>
 							))
 						}
 					</Select>
@@ -243,18 +244,20 @@ export default class BasicTable extends React.Component {
 							className="table"
 							pagination={false}
 						/>
-						<div className="page-size">
-							<Pagination
-								current={current}
-								pageSize={pageSize}
-								total={total}
-								showTotal={val => `共 ${val} 条记录`}
-								showQuickJumper
-								onChange={(val) => {
-									this.handleChangePage(val);
-								}}
-							/>
-						</div>
+						{data && data.length > 0 && (
+							<div className="yc-table-pagination ">
+								<Pagination
+									current={current}
+									pageSize={pageSize}
+									total={total}
+									showTotal={val => `共 ${val} 条记录`}
+									showQuickJumper
+									onChange={(val) => {
+										this.handleChangePage(val);
+									}}
+								/>
+							</div>
+						)}
 					</Spin>
 				</div>
 			</div>

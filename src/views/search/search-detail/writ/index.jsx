@@ -4,7 +4,7 @@ import React from 'react';
 // 所需的所有组件
 // ==================
 import {
-	Form, DatePicker, Select, message, Pagination,
+	Form, Select, message, Pagination,
 } from 'antd';
 import { navigate } from '@reach/router';
 import {
@@ -13,16 +13,17 @@ import {
 	exportWritCurrent, // 本页导出
 } from '@/utils/api/search';
 import {
-	Spin, Input, Button, timeRule, Download, ReactDocumentTitle,
+	Spin, Input, Button, timeRule, Download, DatePicker,
 } from '@/common';
+import { ScrollAnimation } from '@/utils/changeTime';
 import { parseQuery, generateUrlWithParams, objectKeyIsEmpty } from '@/utils';
 import WritTable from './table';
 import './style.scss';
 
-const _style1 = { width: 274 };
-const _style2 = { width: 120 };
-const _style3 = { width: 120 };
-const _style4 = { width: 1130 };
+const _style1 = { width: 278 };
+const _style2 = { width: 116 };
+const _style3 = { width: 140 };
+const _style4 = { width: 1160 };
 const { Option } = Select;
 const createForm = Form.create;
 
@@ -86,12 +87,12 @@ class WRIT extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 
 		const params = {
 			num: pageSize,
 			page: current,
-			...fildes,
+			...Fields,
 			publishStart: startTime,
 			publishEnd: endTime,
 			...value,
@@ -101,6 +102,9 @@ class WRIT extends React.Component {
 		});
 		judgement(params).then((res) => {
 			if (res && res.data) {
+				// 获取当前高度，动态移动滚动条
+				const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+				ScrollAnimation(currentY, 0);
 				this.setState({
 					dataList: res.data.list,
 					totals: res.data.totalCount,
@@ -122,13 +126,15 @@ class WRIT extends React.Component {
 			pageSize,
 			current: 1,
 			page: 1,
+			Sort: undefined,
+			SortTime: undefined,
 		});
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 		const { startTime, endTime } = this.state;
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 		const params = {
-			...fildes,
+			...Fields,
 			current: 1,
 			num: pageSize,
 			page: 1,
@@ -136,20 +142,23 @@ class WRIT extends React.Component {
 			publishEnd: endTime,
 		};
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fildes)) {
+		if (!objectKeyIsEmpty(Fields)) {
 			this.getData(params); // 进入页面请求数据
 		}
-	}
+	};
 
 	// page翻页
 	handleChangePage = (val) => {
-		const { pageSize, startTime, endTime } = this.state;
+		const {
+			pageSize, startTime, endTime, SortTime,
+		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldsValue } = form;
 
-		const fildes = getFieldsValue();
+		const Fields = getFieldsValue();
 		const params = {
-			...fildes,
+			...Fields,
+			sort: SortTime,
 			publishStart: startTime,
 			publishEnd: endTime,
 			num: pageSize,
@@ -159,7 +168,9 @@ class WRIT extends React.Component {
 			page: val,
 			loading: true,
 		});
-
+		// 获取当前高度，动态移动滚动条
+		const currentY = document.documentElement.scrollTop || document.body.scrollTop;
+		ScrollAnimation(currentY, 0);
 		judgement(params).then((res) => {
 			if (res && res.data) {
 				this.setState({
@@ -175,53 +186,58 @@ class WRIT extends React.Component {
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
-	}
+	};
 
 	// 时间排序
 	SortTime = () => {
 		const { dataList, Sort, inputSearch } = this.state;
+		let _Sort;
+		if (Sort === undefined)_Sort = 'DESC';
+		if (Sort === 'DESC')_Sort = 'ASC';
+		if (Sort === 'ASC') _Sort = undefined;
 		const params = {
-			sort: Sort === 'DESC' ? 1 : 0,
+			sort: _Sort === undefined ? undefined : _Sort === 'DESC' ? 0 : 1,
 			...inputSearch,
 		};
 		if (dataList.length > 0) {
 			this.getData(params); // 进入页面请求数据
 		}
 		this.setState({
-			Sort: Sort === 'DESC' ? 'ASC' : 'DESC',
+			Sort: _Sort,
 			SortTime: params.sort,
 		});
-	}
+	};
 
 	// 搜索
 	search = () => {
 		const { form: { getFieldsValue } } = this.props; // 会提示props is not defined
 		const { startTime, endTime } = this.state;
-		const fildes = getFieldsValue();
-		fildes.publishStart = startTime;
-		fildes.publishEnd = endTime;
+		const Fields = getFieldsValue();
+		Fields.publishStart = startTime;
+		Fields.publishEnd = endTime;
 		const { pageSize } = this.state;
-		navigate(generateUrlWithParams('/search/detail/writ', fildes));
+		navigate(generateUrlWithParams('/search/detail/writ', Fields));
 		this.setState({
 			page: 1,
-			inputSearch: fildes,
+			inputSearch: Fields,
 			Sort: undefined,
+			SortTime: undefined,
 		});
 
 		const params = {
-			...fildes,
+			...Fields,
 			page: 1,
 			num: pageSize,
 		};
 
 		// 判断是否为空对象,非空请求接口
-		if (!objectKeyIsEmpty(fildes)) {
+		if (!objectKeyIsEmpty(Fields)) {
 			this.getData(params); // 进入页面请求数据
 		} else {
 			this.queryReset();
 			// message.error('请至少输入一个搜索条件');
 		}
-	}
+	};
 
 	// 重置输入框
 	queryReset = () => {
@@ -235,11 +251,12 @@ class WRIT extends React.Component {
 			pageSize: 10,
 			page: 1,
 			Sort: undefined,
+			SortTime: undefined,
 			startTime: undefined,
 			endTime: undefined,
 		});
 		resetFields('');
-	}
+	};
 
 	// 导出
 	toExportCondition=(type) => {
@@ -267,9 +284,13 @@ class WRIT extends React.Component {
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
-
+		const timeOption = {
+			normalize(n) {
+				return typeof n === 'object' ? (n && new Date(n).format('yyyy-MM-dd')) : n;
+			},
+		};
 		return (
-			<ReactDocumentTitle title="文档标题">
+			<React.Fragment>
 				<div className="yc-content-query">
 					<div className="yc-query-item">
 						<Input
@@ -279,7 +300,7 @@ class WRIT extends React.Component {
 							placeholder="姓名/公司名称/关键字"
 							{...getFieldProps('content', {
 								initialValue: params ? params.content : '',
-								getValueFromEvent: e => e.trim().replace(/\s+/g, ' '),
+								getValueFromEvent: e => e.trim().replace(/\s+/g, ' ').replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -288,10 +309,11 @@ class WRIT extends React.Component {
 							title="案号"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							placeholder="案件编号"
 							{...getFieldProps('ah', {
 								initialValue: params ? params.ah : '',
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -300,10 +322,11 @@ class WRIT extends React.Component {
 							title="案由"
 							style={_style1}
 							size="large"
+							maxLength="40"
 							placeholder="案件内容提要"
 							{...getFieldProps('reason', {
 								initialValue: params ? params.reason : '',
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
@@ -312,16 +335,17 @@ class WRIT extends React.Component {
 							title="起诉法院"
 							style={_style1}
 							size="large"
+							maxLength="20"
 							placeholder="法院名称"
 							{...getFieldProps('court', {
 								initialValue: params ? params.court : '',
-								getValueFromEvent: e => e.trim(),
+								getValueFromEvent: e => e.trim().replace(/%/g, ''),
 							})}
 						/>
 					</div>
-					<div style={{ borderBottom: '1px solid #F0F2F5' }}>
+					<div>
 						<div className="yc-query-item">
-							<span className="yc-query-item-title">发布时间: </span>
+							<span className="yc-query-item-lable">发布时间: </span>
 							<DatePicker
 								size="large"
 								allowClear
@@ -334,11 +358,12 @@ class WRIT extends React.Component {
 											startTime: dateString,
 										});
 									},
+									...timeOption,
 								})}
 								disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishEnd'))
 						}
 							/>
-							<span className="yc-query-item-title">至</span>
+							<span className="yc-query-item-lable">至</span>
 							<DatePicker
 								size="large"
 								allowClear
@@ -351,6 +376,7 @@ class WRIT extends React.Component {
 											endTime: dateString,
 										});
 									},
+									...timeOption,
 								})}
 								disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishStart'))
 							}
@@ -367,15 +393,12 @@ class WRIT extends React.Component {
 									initialValue: params ? params.caseType : '',
 								})}
 							>
-								<Option value="刑事案件">刑事案件</Option>
 								<Option value="民事案件">民事案件</Option>
 								<Option value="行政案件">行政案件</Option>
-								<Option value="赔偿案件">赔偿案件</Option>
 								<Option value="执行案件">执行案件</Option>
-								<Option value="知识产权">知识产权</Option>
-								<Option value="商事">商事</Option>
-								<Option value="海事海商">海事海商</Option>
-								<Option value="申诉">申诉</Option>
+								<Option value="刑事案件">刑事案件</Option>
+								<Option value="赔偿案件">赔偿案件</Option>
+								<Option value="强制清算与破产案件">强制清算与破产案件</Option>
 								<Option value="其他">其他</Option>
 							</Select>
 						</div>
@@ -383,29 +406,33 @@ class WRIT extends React.Component {
 							<Button
 								onClick={this.search}
 								size="large"
-								type="warning"
+								type="common"
 								style={{ width: 84 }}
 							>
-							查询
+								查询
 							</Button>
 							<Button
 								onClick={this.queryReset}
 								size="large"
 								style={{ width: 120 }}
 							>
-							重置查询条件
+								重置查询条件
 							</Button>
 						</div>
 					</div>
+					{/* 分隔下划线 */}
+					<div className="yc-noTab-hr" />
 					<div className="yc-writ-tablebtn">
-						{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 5 }} api={exportWritCurrent} current page num text="本页导出" />}
+						{dataList.length > 0 && <Download condition={() => this.toExportCondition('current')} style={{ marginRight: 10 }} api={exportWritCurrent} current page num text="本页导出" />}
 						<Download disabled={dataList.length === 0} condition={() => this.toExportCondition('all')} api={exportWritAll} all page num text="全部导出" />
 						{dataList.length > 0 && (
-						<div style={{
-							float: 'right', lineHeight: '30px', color: '#929292', fontSize: '12px',
-						}}
+						<div
+							className="yc-public-floatRight"
+							style={{
+								lineHeight: '30px', color: '#929292', fontSize: '12px',
+							}}
 						>
-							{`源诚科技为您找到${totals}条信息`}
+							{`为您找到${totals}条信息`}
 						</div>
 						)}
 					</div>
@@ -418,7 +445,8 @@ class WRIT extends React.Component {
 							SortTime={this.SortTime}
 							Sort={Sort}
 						/>
-						<div className="yc-pagination">
+						{dataList && dataList.length > 0 && (
+						<div className="yc-table-pagination">
 							<Pagination
 								total={totals && totals > 1000 ? 1000 : totals}
 								current={current}
@@ -429,24 +457,25 @@ class WRIT extends React.Component {
 								onShowSizeChange={this.onShowSizeChange}
 								showTotal={() => `共 ${totals} 条记录`}
 								onChange={(val) => {
-								// 存在数据才允许翻页
+									// 存在数据才允许翻页
 									if (dataList.length > 0) {
 										this.handleChangePage(val);
 									}
 								}}
 							/>
 						</div>
-						{page === 100 && (
-						<span style={{
-							color: '#929292', fontSize: 12, float: 'right', lineHeight: 1,
-						}}
-						>
-					如需更多数据请联系：186-5718-6471
-						</span>
 						)}
+						{/* {page === 100 && ( */}
+						{/* <div style={{ */}
+						{/*	color: '#929292', fontSize: 12, textAlign: 'right', lineHeight: 1, paddingBottom: '20px', */}
+						{/* }} */}
+						{/* > */}
+						{/*	如需更多数据请联系：180-7294-2900 */}
+						{/* </div> */}
+						{/* )} */}
 					</Spin>
 				</div>
-			</ReactDocumentTitle>
+			</React.Fragment>
 		);
 	}
 }
