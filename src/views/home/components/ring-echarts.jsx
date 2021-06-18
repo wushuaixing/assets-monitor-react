@@ -61,7 +61,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					align: 'center',
 				},
 				c: {
-					width: 40,
+					width: 55,
 					fontSize: 12,
 					color: '#4E5566',
 					padding: [0, 0, 0, 4],
@@ -78,7 +78,7 @@ const getOption = (Data, id, title, newRingArray, customColorArray) => ({
 					color: '#4e5566',
 				},
 			},
-			padding: [0, 50, 0, 0],
+			padding: [0, 35, 0, 0],
 		},
 	},
 
