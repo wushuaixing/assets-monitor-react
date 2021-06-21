@@ -13,6 +13,7 @@ import {
 import {
 	Input, Button, Spin, timeRule, Download, SelectedNum, DatePicker,
 } from '@/common';
+import { parseQuery } from '@/utils';
 import businessImg from '@/assets/img/business/icon_recovery_n.png';
 import ModalTable from './modalTable';
 import PeopleListModal from './Modal/peopleList';
@@ -69,12 +70,20 @@ class BusinessView extends React.Component {
 			_selectedRowKeys: [],
 			reqLoading: false,
 			businessModalVisible: false,
+			params: {},
 		};
 		this.condition = {};
 	}
 
 	componentDidMount() {
-		this.getData();
+		const { hash } = window.location;
+		const { status } = parseQuery(hash);
+		this.setState({
+			params: {
+				pushState: Number(status) || '',
+			},
+		});
+		this.getData({ pushState: status });
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
@@ -463,7 +472,7 @@ class BusinessView extends React.Component {
 
 	render() {
 		const {
-			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading, businessModalVisible, pageSize,
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading, businessModalVisible, pageSize, params,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -590,7 +599,7 @@ class BusinessView extends React.Component {
 							size="large"
 							defaultValue="all"
 							style={_style3}
-							{...getFieldProps('pushState', { initialValue: '' })}
+							{...getFieldProps('pushState', { initialValue: params.pushState })}
 						>
 							{[
 								{ id: 1, name: '全部', value: '' },
