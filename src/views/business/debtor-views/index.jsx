@@ -8,7 +8,7 @@ import {
 import {
 	obligorList, exportExcel, openPush, closePush,
 } from '@/utils/api/debator';
-import { clearEmpty } from '@/utils';
+import { clearEmpty, parseQuery } from '@/utils';
 import TableList from './table';
 import './style.scss';
 
