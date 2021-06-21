@@ -11,6 +11,7 @@ import {
 import { Table, SelectedNum } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
+import { readStatus } from '@/utils/api/monitor-info/assets';
 import FollowModel from './follow-info';
 import TableVersionModal from './tableVersionModal';
 
@@ -230,6 +231,19 @@ export default class TableView extends React.Component {
 			historyInfoModalVisible: true,
 			historyInfoModalData: source,
 		});
+	};
+
+	// 行点击操作
+	toRowClick = (record, index) => {
+		const { id, isRead } = record;
+		const { onRefresh } = this.props;
+		if (!isRead) {
+			readStatus({ id }).then((res) => {
+				if (res.code === 200) {
+					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				}
+			});
+		}
 	};
 
 	render() {
