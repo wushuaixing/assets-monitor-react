@@ -14,10 +14,9 @@ class HomeHeader extends React.Component {
 	handleOpenBusiness = (type) => {
 		const w = window.open('about:blank');
 		if (type === 'debtor') {
-			w.location.href = '#/business/view/debtor';
 			w.location.href = '#/business/view/debtor?status=1';
 		} else {
-			w.location.href = '#/business/view';
+			w.location.href = '#/business/view?status=1';
 		}
 	};
 
