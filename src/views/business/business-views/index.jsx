@@ -70,7 +70,6 @@ class BusinessView extends React.Component {
 			_selectedRowKeys: [],
 			reqLoading: false,
 			businessModalVisible: false,
-			params: {},
 		};
 		this.condition = {};
 	}
@@ -78,12 +77,9 @@ class BusinessView extends React.Component {
 	componentDidMount() {
 		const { hash } = window.location;
 		const { status } = parseQuery(hash);
-		this.setState({
-			params: {
-				pushState: Number(status) || '',
-			},
-		});
-		this.getData({ pushState: status });
+		const { form: { setFieldsValue } } = this.props;
+		setFieldsValue({ pushState: Number(status) || '' });
+		this.search();
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
@@ -472,7 +468,7 @@ class BusinessView extends React.Component {
 
 	render() {
 		const {
-			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading, businessModalVisible, pageSize, params,
+			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading, businessModalVisible, pageSize,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps, getFieldValue } = form;
@@ -599,7 +595,7 @@ class BusinessView extends React.Component {
 							size="large"
 							defaultValue="all"
 							style={_style3}
-							{...getFieldProps('pushState', { initialValue: params.pushState })}
+							{...getFieldProps('pushState', { initialValue: '' })}
 						>
 							{[
 								{ id: 1, name: '全部', value: '' },
