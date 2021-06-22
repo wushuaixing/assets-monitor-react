@@ -7,7 +7,7 @@ import {
 import { promiseAll } from '@/utils/promise';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import {
-	Bankruptcy, Broken, Lawsuit, Operation, LimitHeight,
+	Bankruptcy, Broken, Lawsuit, Operation, LimitHeight, LegalcaseCard,
 } from '../components';
 import './style.scss';
 
@@ -15,7 +15,6 @@ export default class Risk extends PureComponent {
 	constructor(props) {
 		super(props);
 		document.title = '风险监控';
-		// console.log(props.rule, 123);
 		const isRule = props && props.rule && props.rule.children;
 		const children = isRule && props.rule.children;
 		const {
@@ -24,7 +23,6 @@ export default class Risk extends PureComponent {
 		const operatingRisk = {
 			jyfxgsbg, jyfxhbcf, jyfxjyyc, jyfxsswf, jyfxxzcf, jyfxyzwf,
 		};
-		// console.log(Object.values(operatingRisk).filter((i => i !== undefined)), 3331);
 		this.state = {
 			config: [
 				{
@@ -33,6 +31,14 @@ export default class Risk extends PureComponent {
 					rule: children.fxjkqypccz,
 					url: '/risk/bankruptcy',
 					Component: Bankruptcy,
+					API: bankruptcyCard,
+				},
+				{
+					id: 6,
+					title: '终本案件',
+					rule: children.fxjkqypccz,
+					url: '/risk/legalcase',
+					Component: LegalcaseCard,
 					API: bankruptcyCard,
 				},
 				{
