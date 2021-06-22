@@ -9,7 +9,7 @@ import './style.scss';
 import { promiseAll } from '@/utils/promise';
 
 
-const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
+const hasCountStyle = { width: '366px', height: '148px', marginBottom: '20px' };
 export default class Operation extends PureComponent {
 	constructor(props) {
 		super(props);

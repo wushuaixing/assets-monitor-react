@@ -58,7 +58,7 @@ export default class Subrogation extends PureComponent {
 				IconType="subrogation"
 				onClick={() => navigate(url)}
 				IconColor={{ color: '#948BFF' }}
-				customStyle={{ width: '366px', height: '155px', marginBottom: '20px' }}
+				customStyle={{ width: '366px', height: '148px', marginBottom: '20px' }}
 				text="代位权"
 				totalCount={totalCount}
 				updateTime={gmtUpdate}
