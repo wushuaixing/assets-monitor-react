@@ -26,6 +26,7 @@ class HomeOverview extends React.Component {
 			['bankruptcy', () => { navigate('/risk/bankruptcy'); }],
 			['broken', () => { navigate('/risk/broken'); }],
 			['lawsuit', () => { navigate('/risk/info'); }],
+			['legalcase', () => { navigate('/risk/legalcase'); }],
 			['operation-risk', () => { navigate('/risk/operation'); }],
 			['limit', () => { navigate('/risk/limitHight'); }],
 			['unlock', () => { navigate('/monitor/seizedUnblock'); }],
