@@ -41,7 +41,6 @@ class BusinessDebtor extends React.Component {
 			dataList: [],
 			selectIds: [],
 			manage: false,
-			params: {},
 		};
 		this.condition = {};
 	}
@@ -49,12 +48,9 @@ class BusinessDebtor extends React.Component {
 	componentDidMount() {
 		const { hash } = window.location;
 		const { status } = parseQuery(hash);
-		this.setState({
-			params: {
-				pushState: Number(status) || '',
-			},
-		});
-		this.getData({ pushState: status });
+		const { form: { setFieldsValue } } = this.props;
+		setFieldsValue({ pushState: Number(status) || '' });
+		this.search();
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 
@@ -284,7 +280,7 @@ class BusinessDebtor extends React.Component {
 
 	render() {
 		const {
-			totals, current, loading, dataList, pageSize, manage, selectIds, params,
+			totals, current, loading, dataList, pageSize, manage, selectIds,
 		} = this.state;
 		const { form } = this.props; // 会提示props is not defined
 		const { getFieldProps } = form;
@@ -386,7 +382,7 @@ class BusinessDebtor extends React.Component {
 						size="large"
 						defaultValue="all"
 						style={_style3}
-						{...getFieldProps('pushState', { initialValue: params.pushState })}
+						{...getFieldProps('pushState', { initialValue: '' })}
 					>
 						{[
 							{ id: 1, name: '全部', value: '' },
