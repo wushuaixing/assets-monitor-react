@@ -10,6 +10,7 @@ import Bankruptcy from './bankruptcy';
 import Operation from './operation-risk';
 import BrokenRecord from './broken-record';
 import LimitConsumption from './limit-consumption';
+import ExecuteInfo from './execute-info';
 import './style.scss';
 
 /* 获取展示配置 */
@@ -24,6 +25,7 @@ const toGetRuth = (moduleID) => {
 		else if (item.id === `${baseID}03`) components = Operation;
 		else if (item.id === `${baseID}04`) components = BrokenRecord;
 		else if (item.id === `${baseID}05`) components = LimitConsumption;
+		else if (item.id === `${baseID}09`) components = ExecuteInfo;
 		else components = noPage;
 		return Object.assign({}, item, {
 			components,
