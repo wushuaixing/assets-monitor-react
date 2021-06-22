@@ -42,13 +42,12 @@ export default class legalCase extends PureComponent {
 		return (
 			<Card
 				Risk
-				IconType="limit"
+				IconType="zhongbenanjian"
 				onClick={() => navigate(url)}
-				IconColor={{ color: '#B927A6' }}
+				IconColor={{ color: '#5A6BFB' }}
 				customStyle={hasCountStyle}
 				text="终本案件"
 				totalCount={totalCount}
-				updateTime={gmtUpdate}
 				unReadText="条未读信息"
 				unReadNum={limitHeightNum}
 			>

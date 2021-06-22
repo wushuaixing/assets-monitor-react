@@ -365,20 +365,6 @@ class HomeDynamic extends PureComponent {
 	};
 
 	getRiskImportantReminder = () => {
-		// const apiImport = [
-		// 	importantListRiskBankruptcy,
-		// 	importantListRiskPunishment,
-		// 	importantListRiskTax,
-		// 	importantListRiskIllegal,
-		// 	importantListRiskAbnormal,
-		// 	importantListRiskChange,
-		// 	importantListRiskEpb,
-		// 	importantListRiskDishonest,
-		// 	importantListLawsuitTrial,
-		// 	importantListLawsuitCourt,
-		// 	importantListLawsuitJudgment,
-		// 	importantListLimitHeight,
-		// ];
 		const apiArray = [
 			{ count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
 
@@ -396,29 +382,12 @@ class HomeDynamic extends PureComponent {
 			{ count: 'fxjkssjk', Api: importantListLawsuitJudgment },
 			{ count: 'fxjkxzgxf', Api: importantListLimitHeight }, // 风险监控->限制高消费
 		];
-		/* const apiArray = [
-			{ count: bankruptcy, Api: importantListRiskBankruptcy },
-			{ count: punishment, Api: importantListRiskPunishment },
-			{ count: tax, Api: importantListRiskTax },
-			{ count: illegal, Api: importantListRiskIllegal },
-			{ count: abnormal, Api: importantListRiskAbnormal },
-			{ count: change, Api: importantListRiskChange },
-			{ count: epb, Api: importantListRiskEpb },
-			{ count: dishonest, Api: importantListRiskDishonest },
-			{ count: lawsuitTrial, Api: importantListLawsuitTrial },
-			{ count: lawsuitCourt, Api: importantListLawsuitCourt },
-			{ count: lawsuitJudgement, Api: importantListLawsuitJudgment },
-			{ count: limitHeight, Api: importantListLimitHeight },
-		]; */
 		const RiskImportantReminderArray = [];
 		apiArray.forEach((item) => {
 			if (global.authRoleList.includes(item.count)) {
 				RiskImportantReminderArray.push(item.Api());
 			}
 		});
-		// apiImport.filter(i => i.count).forEach((item) => {
-		// 	RiskImportantReminderArray.push(item());
-		// });
 		this.setState({ importLoading: true });
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved

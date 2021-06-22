@@ -9,6 +9,7 @@ import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 import { promiseAll } from '@/utils/promise';
 import { getUrlParams } from '@/views/asset-excavate/query-util';
+import { axiosPromiseArr } from 'service';
 import TableBidding from './table/bidding';
 import TableMerchants from './table/merchants';
 import QueryBidding from './query/bidding';
@@ -265,6 +266,10 @@ export default class Subrogation extends React.Component {
 
 	// sourceType变化
 	onSourceType = (val) => {
+		axiosPromiseArr.forEach((c, index) => {
+			c.cancel();
+			delete axiosPromiseArr[index];
+		});
 		this.setState({
 			sourceType: val,
 			dataSource: '',
