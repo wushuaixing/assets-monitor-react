@@ -5,6 +5,7 @@ import {
 } from '@/common';
 import { changeURLArg, clearEmpty } from '@/utils';
 import { getUrlParams } from '@/views/asset-excavate/query-util';
+import { axiosPromiseArr } from 'service';
 import ruleMethods from '@/utils/rule';
 import API from '@/utils/api/assets/construct';
 import TabsIntact from './tabs-intact';
@@ -170,6 +171,10 @@ export default class ConstructProject extends React.Component {
 
 	// sourceType变化
 	onSourceType = (sourceType) => {
+		axiosPromiseArr.forEach((c, index) => {
+			c.cancel();
+			delete axiosPromiseArr[index];
+		});
 		this.setState({
 			sourceType,
 			dataSource: '',
