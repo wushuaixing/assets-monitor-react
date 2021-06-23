@@ -8,7 +8,7 @@ import Card from '../card';
 import './style.scss';
 
 
-const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
+const hasCountStyle = { width: '366px', height: '148px', marginBottom: '20px' };
 export default class Lawsuit extends PureComponent {
 	constructor(props) {
 		super(props);

@@ -156,6 +156,12 @@ class HomeRouter extends React.Component {
 						name: '破产重组', count: bankrupcyCount, color: '#948BFF', icon: 'bankruptcy', status: bankrupcyCount !== null,
 					},
 					{
+						name: '被执行信息', count: bankrupcyCount, color: '#FF6133', icon: 'beizhihangxinxi', status: bankrupcyCount !== null,
+					},
+					{
+						name: '终本案件', count: bankrupcyCount, color: '#5A6BFB', icon: 'zhongbenanjian', status: bankrupcyCount !== null,
+					},
+					{
 						name: '失信记录', count: dishonestCount, color: '#FB5A5C', icon: 'broken', status: dishonestCount !== null,
 					},
 					{

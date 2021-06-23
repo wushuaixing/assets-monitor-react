@@ -205,5 +205,5 @@ serviceFile.interceptors.response.use(responseMethods.onFulfilled, responseMetho
 // serviceFile.interceptors.request.use(interceptorsConfig('request').onFulfilled, interceptorsConfig('request').onRejected);
 // serviceFile.interceptors.response.use(interceptorsConfig('response').onFulfilled, interceptorsConfig('response').onRejected);
 
-export { serviceFile };
+export { serviceFile, axiosPromiseArr };
 export default service;

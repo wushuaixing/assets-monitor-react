@@ -40,11 +40,11 @@ export default class RiskInformation extends React.Component {
 							? <Icon className={`monitor-card-container-arrow-icon ${!totalCount && 'monitor-card-noCount-color'}`} type="icon-icon_arrow" style={{ color: '#7D8699' }} /> : null
 					}
 				</div>
-				{totalCount && updateTime ? (
-					<div className="card-footer">
-						{`最近更新时间：${updateTime}`}
-					</div>
-				) : null}
+				{/* {totalCount && updateTime ? ( */}
+				{/*	<div className="card-footer"> */}
+				{/*		{`最近更新时间：${updateTime}`} */}
+				{/*	</div> */}
+				{/* ) : null} */}
 
 			</div>
 		);

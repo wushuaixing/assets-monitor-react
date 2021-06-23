@@ -4,7 +4,7 @@ import { assetUnBlockCount } from 'api/monitor-info/excavate/count';
 import Card from '../card';
 import './style.scss';
 
-const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
+const hasCountStyle = { width: '366px', height: '148px', marginBottom: '20px' };
 export default class UnBlock extends PureComponent {
 	constructor(props) {
 		super(props);
