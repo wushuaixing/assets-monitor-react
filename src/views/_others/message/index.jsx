@@ -50,9 +50,6 @@ class InformCenter extends React.Component {
 					render: (text, row) => (
 						<div
 							className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}
-							onClick={() => {
-								this.skip(row);
-							}}
 						>
 							<span className="yc-message-content">
 								<span
@@ -178,6 +175,27 @@ class InformCenter extends React.Component {
 				},
 			});
 		}
+	};
+
+	// 行点击操作
+	toRowClick = (record, index) => {
+		// eslint-disable-next-line no-shadow
+		const { id, isRead } = record;
+		if (!isRead) {
+			this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
+			this.skip(record);
+		}
+	};
+
+	// 表格发生变化
+	onRefresh=(val, type) => {
+		const { data } = this.state;
+		const { index } = val;
+		const _dataSource = data;
+		_dataSource[index][type] = val[type];
+		this.setState({
+			data: _dataSource,
+		});
 	};
 
 	// page翻页
@@ -377,6 +395,7 @@ class InformCenter extends React.Component {
 								dataSource={data}
 								pagination={false}
 								rowKey={record => record.id}
+								onRowClick={this.toRowClick}
 							/>
 							{data && data.length > 0 && (
 								<div className="yc-table-pagination">
