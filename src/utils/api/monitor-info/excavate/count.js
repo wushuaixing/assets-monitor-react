@@ -102,7 +102,7 @@ export const assetBiddingCount = async (params) => {
 
 // 电子报 => 数量统计
 export const electronicNewspaperCount = async (params) => {
-	const response = await service.post('/yc/monitor/electronicNewspaper/list', params);
+	const response = await service.post('/yc/monitor/electronicNewspaper/listCount', params);
 	return response.data;
 };
 

@@ -23,6 +23,7 @@ import Break from '../card-components/break-card';
 import Tax from '../card-components/taxViolation-card';
 import LimitHeightCard from '../card-components/limit-height-card';
 import LegalCaseCard from '../card-components/legalcase-card';
+import Execute from '../card-components/execute-card';
 import './style.scss';
 
 const constantNumber = 99999999; // 默认值
@@ -35,6 +36,7 @@ const apiType = (value, portrait) => {
 	case 'Tax': return OverviewTax;
 	case 'Limit': return overviewLimitHeight; // 只是债务人的限制高消费，没有做业务的
 	case 'Legalcase': return execEndCaseRisk;
+	case 'execute': return overviewLimitHeight; // 被执行信息
 	default: return {};
 	}
 };
@@ -50,6 +52,7 @@ export default class RiskInformation extends React.Component {
 			taxPropsData: {}, // 税收违法
 			limitHeightPropsData: {}, // 限制高消费
 			legalCasePropsData: {}, // 终本案件
+			executePropsData: {}, // 被执行信息
 		};
 	}
 
@@ -73,6 +76,7 @@ export default class RiskInformation extends React.Component {
 		promiseArray.push(apiType('Risk', portrait)(params)); // 经营风险
 		promiseArray.push(apiType('Limit', portrait)(params)); // 限制高消费
 		promiseArray.push(apiType('Legalcase', portrait)(params)); // 终本案件
+		promiseArray.push(apiType('execute', portrait)(params)); // 被执行信息
 		if (portrait === 'debtor_personal') {
 			promiseArray.push(apiType('Tax', portrait)(params)); // 税收违法
 		}
@@ -96,6 +100,9 @@ export default class RiskInformation extends React.Component {
 			this.getLimitHeightData(isArray, values);
 			// 终本案件
 			this.getLegalCaseData(isArray, values);
+			// 被执行信息
+			this.getexecuteData(isArray, values);
+			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
 		});
@@ -264,20 +271,37 @@ export default class RiskInformation extends React.Component {
 		}
 	}
 
+	// 被执行信息
+	getexecuteData = (isArray, values) => {
+		const res = values[4];
+		if (isArray && res && res.code === 200) {
+			const { gmtModified, limitHeightCount, limitHeightRemovedCount } = res.data;
+			const executePropsData = {
+				gmtModified,
+				limitHeightCount,
+				limitHeightRemovedCount,
+				obligorTotal: res.data.obligorTotal || null,
+			};
+			this.setState(() => ({
+				executePropsData,
+			}));
+		}
+	};
+
 	// 判断内部是否存数据
 	isHasValue = () => {
 		const { portrait } = this.props;
 		const {
-			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData, taxPropsData, limitHeightPropsData,
+			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData, taxPropsData, limitHeightPropsData, executePropsData,
 		} = this.state;
 		return (bankruptcyPropsData.bankruptcyNum > 0 && portrait !== 'debtor_personal') || litigationPropsData.dataSourceNum > 0
-			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0 || taxPropsData.dataSourceNum > 0 || limitHeightPropsData.limitHeightCount > 0;
+			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0 || taxPropsData.dataSourceNum > 0 || limitHeightPropsData.limitHeightCount > 0 || executePropsData.limitHeightCount > 0;
 	};
 
 	render() {
 		const { portrait } = this.props;
 		const {
-			bankruptcyPropsData, dishonestPropsData, litigationPropsData, riskPropsData, taxPropsData, isLoading, limitHeightPropsData, legalCasePropsData,
+			bankruptcyPropsData, dishonestPropsData, litigationPropsData, riskPropsData, taxPropsData, isLoading, limitHeightPropsData, legalCasePropsData, executePropsData,
 		} = this.state;
 		const isHasValue = this.isHasValue();
 		return (
@@ -304,6 +328,8 @@ export default class RiskInformation extends React.Component {
 								{Object.keys(limitHeightPropsData).length !== 0 && <LimitHeightCard dataSource={limitHeightPropsData} portrait={portrait} />}
 								{/* 终本案件 */}
 								{Object.keys(legalCasePropsData).length !== 0 && <LegalCaseCard dataSource={legalCasePropsData} portrait={portrait} />}
+								{/* 被执行信息 */}
+								{Object.keys(executePropsData).length !== 0 && <Execute dataSource={executePropsData} portrait={portrait} />}
 							</div>
 						</div>
 					) : null}
