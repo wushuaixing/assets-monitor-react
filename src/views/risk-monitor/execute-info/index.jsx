@@ -3,7 +3,7 @@ import { message, Modal } from 'antd';
 import {
 	Button, Spin, Download, Icon,
 } from '@/common';
-import Api from 'api/monitor-info/limit-consumption';
+import Api from 'api/monitor-info/execute';
 import { unReadCount as unReadTotal } from 'api/monitor-info';
 import { clearEmpty } from '@/utils';
 import QueryView from './query';
@@ -206,7 +206,6 @@ export default class ExecuteInfo extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-		// console.log('tableProps === ', tableProps);
 		return (
 			<div className="yc-assets-auction">
 				<QueryView onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />
