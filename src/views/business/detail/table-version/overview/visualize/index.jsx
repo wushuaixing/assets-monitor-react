@@ -27,6 +27,7 @@ import UnBlock from './components/unblock';
 import RealEstate from './components/real-estate';
 import Car from './components/car';
 import LimitHeight from './components/limitHeight';
+import LegalCase from './components/legalCase';
 import Construct from './components/construct';
 import './style.scss';
 
@@ -57,6 +58,7 @@ export default class Visualize extends React.Component {
 			FinanceCount: 0,
 			UnBlockCount: 0,
 			LimitHeightCount: 0,
+			LegalCaseCount: 0,
 			RealCount: 0,
 			CarCount: 0,
 			ConstructCount: 0, // 在建工程
@@ -244,6 +246,12 @@ export default class Visualize extends React.Component {
 					LimitHeightCount: AssetProfileCountValue,
 				})
 			);
+		case 'LegalCase':
+			return (
+				this.setState({
+					LegalCaseCount: AssetProfileCountValue,
+				})
+			);
 		case 'Construct':
 			return (
 				this.setState({
@@ -259,7 +267,7 @@ export default class Visualize extends React.Component {
 		const {
 			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ConstructCount,
 			ChattelMortgageCount, TaxCount, FinanceCount, UnBlockCount, LimitHeightCount, loading, IntangibleCount, BiddingCount, RealCount, CarCount, BankruptcyCount, DishonestCount,
-			BusinessRiskCount, businessId,
+			BusinessRiskCount, businessId, LegalCaseCount,
 		} = this.state;
 		const params = {
 			portrait,
@@ -316,7 +324,7 @@ export default class Visualize extends React.Component {
 						{
 							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0 && TaxCount === 0 && LimitHeightCount === 0
 							&& litigationInfos && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0
-							&& (
+							&& LegalCaseCount === 0 && (
 								<Spin visible={litigationLoading}>
 									{litigationLoading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />}
 								</Spin>
@@ -324,10 +332,12 @@ export default class Visualize extends React.Component {
 						}
 						{/* 破产重组 */}
 						{portrait !== 'debtor_personal' && <Bankruptcy {...params} />}
-						{/* 限制高消费 */}
-						<LimitHeight {...params} />
+						{/* 终本文案 */}
+						<LegalCase {...params} />
 						{/* 失信记录 */}
 						<Dishonest {...params} />
+						{/* 限制高消费 */}
+						<LimitHeight {...params} />
 						{/* 涉诉信息 */}
 						{litigationInfos && litigationInfos.length > 0 && <Information portrait={portrait} litigationInfosArray={litigationInfos} />}
 						{/* 经营风险 */}

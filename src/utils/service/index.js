@@ -34,6 +34,7 @@ const axiosPromiseArr = []; // 储存cancel token
 /* 请求拦截前的处理 */
 const requestMethods = {
 	onFulfilled: (config) => {
+		const { url } = config;
 		// 在请求发出之前做拦截工作
 		// 这块需要做一些用户验证的工作，需要带上用户凭证
 		const _params = Object.assign({}, config.params);
@@ -42,7 +43,7 @@ const requestMethods = {
 		const configNew = Object.assign({}, config, { params: _params });
 		// 在发送请求设置cancel token
 		configNew.cancelToken = new axios.CancelToken((cancel) => {
-			axiosPromiseArr.push({ cancel });
+			axiosPromiseArr.push({ cancel, url });
 		});
 		if (config.cancelToken) {
 			configNew.cancelToken = config.cancelToken;

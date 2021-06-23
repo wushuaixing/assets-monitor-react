@@ -330,11 +330,11 @@ class HomeDynamic extends PureComponent {
 		if (res && res.code === 200) {
 			const {
 				abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
-				punishment, tax, limitHeight,
+				punishment, tax, limitHeight, execEndCaseCount,
 			} = res.data;
 			const lawsuitNum = this.getTotal([lawsuitCourt, lawsuitJudgement, lawsuitTrial]);
 			const operationNum = this.getTotal([abnormal, change, tax, illegal, punishment, epb]);
-			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, punishment, tax, limitHeight]);
+			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, punishment, tax, limitHeight, execEndCaseCount]);
 			const riskDataArray = [
 				{
 					count: bankruptcy, type: 7, typeName: '破产重组', name: '破产重组', value: 2,
@@ -350,6 +350,9 @@ class HomeDynamic extends PureComponent {
 				},
 				{
 					count: limitHeight, type: 13, typeName: '限制高消费', name: '限制高消费', value: 2,
+				},
+				{
+					count: execEndCaseCount, type: 14, typeName: '终本案件', name: '终本案件', value: 2,
 				},
 			];
 			const riskPropsData = {
@@ -475,7 +478,7 @@ class HomeDynamic extends PureComponent {
 	render() {
 		const {
 			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
-			RiskImportantReminderObligorIdList, timeType, showModal, typeValue,
+			RiskImportantReminderObligorIdList, timeType, showModal,
 		} = this.state;
 		const params = {
 			timeType,
@@ -486,24 +489,6 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderList,
 			RiskImportantReminderObligorIdList,
 		};
-		// const detailTypeAll = Object.assign({}, assetsDataType, riskDataType);
-		const newAssetArr = [...AssetImportantReminderList];
-		const assetArr = (newAssetArr.sort(compare('timestamp')));
-		// const newRiskArr = [...RiskImportantReminderList];
-		// const riskArr = (newRiskArr.sort(compare('timestamp')));
-		// const newAllArr = newAssetArr.concat(newRiskArr);
-		const riskArrTemp = this.arrFilter(assetArr, 'risk');
-		const assetsTemp = this.arrFilter(assetArr, 'assets');
-		let allArr = [];
-		if (typeValue === 'all') {
-			allArr = assetsTemp.concat(riskArrTemp).sort(compare('timestamp'));
-		}
-		if (typeValue === 'assets') {
-			allArr = assetsTemp.sort(compare('timestamp'));
-		}
-		if (typeValue === 'risk') {
-			allArr = riskArrTemp.sort(compare('timestamp'));
-		}
 		return (
 			<React.Fragment>
 				<div className="dynamic-container">
