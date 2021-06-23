@@ -183,8 +183,8 @@ class InformCenter extends React.Component {
 		const { id, isRead } = record;
 		if (!isRead) {
 			this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
-			this.skip(record);
 		}
+		this.skip(record);
 	};
 
 	// 表格发生变化
