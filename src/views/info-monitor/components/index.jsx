@@ -17,9 +17,10 @@ import realEstateCard from './real-estate-card';
 import ConstructCard from './construct-card';
 import Newsettler from './newsletter-card';
 import LegalcaseCard from './legalcase-card';
+import executeCase from './execute-card';
 
 export {
 	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance,
 	Bidding, Bankruptcy, Broken, Lawsuit, Operation, UnBlock, LimitHeight,
-	CarCard, realEstateCard, ConstructCard, Newsettler, LegalcaseCard,
+	CarCard, realEstateCard, ConstructCard, Newsettler, LegalcaseCard, executeCase,
 };

@@ -7,7 +7,7 @@ import {
 import { promiseAll } from '@/utils/promise';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import {
-	Bankruptcy, Broken, Lawsuit, Operation, LimitHeight, LegalcaseCard,
+	Bankruptcy, Broken, Lawsuit, Operation, LimitHeight, LegalcaseCard, executeCase,
 } from '../components';
 import './style.scss';
 
@@ -31,6 +31,14 @@ export default class Risk extends PureComponent {
 					rule: children.fxjkqypccz,
 					url: '/risk/bankruptcy',
 					Component: Bankruptcy,
+					API: bankruptcyCard,
+				},
+				{
+					id: 9,
+					title: '被执行信息',
+					rule: children.fxjkqypccz,
+					url: '/risk/execute',
+					Component: executeCase,
 					API: bankruptcyCard,
 				},
 				{
