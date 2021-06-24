@@ -248,7 +248,7 @@ export default class Risk extends PureComponent {
 			const legalCasePropsData = {
 				endCaseCount,
 				removeCount,
-				total,
+				totalCount: total,
 			};
 			this.setState(() => ({
 				legalCasePropsData,
