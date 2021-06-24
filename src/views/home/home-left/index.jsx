@@ -263,7 +263,6 @@ class HomeDynamic extends PureComponent {
 				abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
 				punishment, tax, limitHeight, execEndCaseCount, execPerson,
 			} = res.data;
-			console.log(res.data)
 			const lawsuitNum = this.getTotal([lawsuitCourt, lawsuitJudgement, lawsuitTrial]);
 			const operationNum = this.getTotal([abnormal, change, tax, illegal, punishment, epb]);
 			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, punishment, tax, limitHeight, execEndCaseCount, execPerson]);

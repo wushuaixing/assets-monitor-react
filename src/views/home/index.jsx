@@ -108,8 +108,9 @@ class HomeRouter extends React.Component {
 				const {
 					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount,
 					vehicleInformationCount, estateRegisterCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount,
-					changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount, constructionLicenceCount, projectBiddingCount, projectInfoCount, electronicNewspaperCount,
+					changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount, constructionLicenceCount, projectBiddingCount, projectInfoCount, electronicNewspaperCount, execPersonCount,
 				} = res.data;
+				console.log('=====',res.data)
 				const assetArray = [
 					{
 						name: '资产拍卖', count: auctionCount, color: '#FB8E3C', icon: 'auction', status: auctionCount !== null,
@@ -156,7 +157,7 @@ class HomeRouter extends React.Component {
 						name: '破产重组', count: bankrupcyCount, color: '#948BFF', icon: 'bankruptcy', status: bankrupcyCount !== null,
 					},
 					{
-						name: '被执行信息', count: bankrupcyCount, color: '#FF6133', icon: 'beizhihangxinxi', status: bankrupcyCount !== null,
+						name: '被执行信息', count: execPersonCount, color: '#FF6133', icon: 'beizhihangxinxi', status: execPersonCount !== null,
 					},
 					{
 						name: '终本案件', count: bankrupcyCount, color: '#5A6BFB', icon: 'zhongbenanjian', status: bankrupcyCount !== null,
