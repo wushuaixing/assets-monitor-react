@@ -243,7 +243,6 @@ export default class Risk extends PureComponent {
 
 	// 被执行信息
 	getexecuteData = (res) => {
-		console.log('@@@',res);
 		if (res && res.code === 200) {
 			const {
 				removedCount, unRemovedCount, execPersonCount,
