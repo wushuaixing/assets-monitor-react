@@ -133,7 +133,6 @@ class DynamicUpdate extends PureComponent {
 		// }));
 		// console.log('urlMap.get(val)', urlMap.get(val.name));
 		const { timeType } = this.props;
-		console.log('路由传入的时间',timeType)
 		const w = window.open('about:blank');
 		if (urlMap.get(val.name).includes('?')) {
 			w.location.href = `#${urlMap.get(val.name)}&timeHorizon=${timeType}`;
