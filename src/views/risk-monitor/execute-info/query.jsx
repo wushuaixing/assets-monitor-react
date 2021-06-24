@@ -78,7 +78,7 @@ class QueryCondition extends React.Component {
 					<Input title="债务人" style={_style1} size="large" maxLength="40" placeholder="债务人姓名/公司名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="关联案号" style={_style1} size="large" maxLength="40" placeholder="关联案号" {...getFieldProps('caseNumber')} />
+					<Input title="案号" style={_style1} size="large" maxLength="40" placeholder="关联案号" {...getFieldProps('caseCode')} />
 				</div>
 
 				<div className="yc-query-item">
@@ -95,16 +95,16 @@ class QueryCondition extends React.Component {
 						size="large"
 						style={_style2}
 						placeholder="开始日期"
-						{...getFieldProps('startGmtRegisterTime', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtRegisterTime'))}
+						{...getFieldProps('startCaseCreateTime', timeOption)}
+						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endCaseCreateTime'))}
 					/>
 					<span className="yc-query-item-title">至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
 						placeholder="结束日期"
-						{...getFieldProps('endGmtRegisterTime', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startGmtRegisterTime'))}
+						{...getFieldProps('endCaseCreateTime', timeOption)}
+						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('startCaseCreateTime'))}
 					/>
 				</div>
 				<div className="yc-query-item">
