@@ -155,6 +155,12 @@ export const executeCount = async (params) => {
 };
 
 
+// 终本案件 => 数量统计
+export const legalCaseCount = async (params) => {
+	const response = await service.post('/yc/monitor/execEndCase/listCount', params);
+	return response.data;
+};
+
 // 破产重组
 export const riskBankruptcyCount = async (params) => {
 	const response = await service.get('/yc/monitor/bankruptcy/list-count', { params });

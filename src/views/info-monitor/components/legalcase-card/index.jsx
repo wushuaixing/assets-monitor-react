@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
-import { riskLimitCount } from 'api/monitor-info/excavate/count';
+import { legalCaseCount } from 'api/monitor-info/excavate/count';
 import Card from '../card';
 import './style.scss';
 
@@ -10,7 +10,7 @@ export default class legalCase extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			limitHeightNum: 0,
+			legalCaseNum: 0,
 		};
 	}
 
@@ -23,10 +23,10 @@ export default class legalCase extends PureComponent {
 		const params = {
 			isRead: 0,
 		};
-		riskLimitCount(params).then((res) => {
+		legalCaseCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					limitHeightNum: res.data,
+					legalCaseNum: res.data,
 				});
 			}
 		});
@@ -34,11 +34,13 @@ export default class legalCase extends PureComponent {
 
 	render() {
 		const {
-			url, limitHeightPropsData, limitHeightPropsData: {
-				limitHeightCount, onceLimitHeightCount, gmtUpdate, totalCount,
+			url, legalCasePropsData, legalCasePropsData: {
+				endCaseCount,
+				removeCount,
+				totalCount,
 			},
 		} = this.props;
-		const { limitHeightNum } = this.state;
+		const { legalCaseNum } = this.state;
 		return (
 			<Card
 				Risk
@@ -49,19 +51,19 @@ export default class legalCase extends PureComponent {
 				text="终本案件"
 				totalCount={totalCount}
 				unReadText="条未读信息"
-				unReadNum={limitHeightNum}
+				unReadNum={legalCaseNum}
 			>
-				{Object.keys(limitHeightPropsData).length !== 0 && (
+				{Object.keys(legalCasePropsData).length !== 0 && (
 					<div className="risk-limit-container">
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 							终本案件信息数：
-							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{limitHeightCount || 0}</span>
+							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{endCaseCount || 0}</span>
 							条
 						</div>
 
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 							其中已移除：
-							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{onceLimitHeightCount || 0}</span>
+							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{removeCount || 0}</span>
 							条
 						</div>
 					</div>

@@ -3,7 +3,7 @@ import { message, Modal } from 'antd';
 import {
 	Button, Spin, Download, Icon,
 } from '@/common';
-import Api from 'api/monitor-info/limit-consumption';
+import Api from 'api/monitor-info/legal-case';
 import { unReadCount as unReadTotal } from 'api/monitor-info';
 import { clearEmpty } from '@/utils';
 import QueryView from './query';
@@ -34,7 +34,7 @@ export default class LimitConsumption extends React.Component {
 		}
 	}
 
-	// 获取限制高消费是否存在未读数据
+	// 获取终本案件是否存在未读数据
 	toUnReadCount = () => {
 		unReadTotal().then((res) => {
 			const { code, data } = res;
@@ -54,7 +54,6 @@ export default class LimitConsumption extends React.Component {
 
 	// 切换列表未读已读
 	handleReadChange = (val) => {
-		// console.log('val === ', val);
 		this.setState({ isRead: val });
 		this.onQueryChange(this.condition, val, 1, false);
 	};
@@ -69,7 +68,7 @@ export default class LimitConsumption extends React.Component {
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					Api.readAll({}).then((res) => {
+					Api.read({}).then((res) => {
 						if (res.code === 200) {
 							_this.onQueryChange();
 						}
@@ -136,7 +135,6 @@ export default class LimitConsumption extends React.Component {
 	// 当前页数变化
 	onPageChange = (val) => {
 		const { manage } = this.state;
-		// this.selectRow = [];
 		this.onQueryChange('', '', val, manage);
 	};
 
@@ -167,7 +165,6 @@ export default class LimitConsumption extends React.Component {
 		if (__isRead === 'unread') { this.condition.isRead = 0; }
 		if (!loading) this.setState({ loading: true, manage: _manage || false });
 		this.toUnReadCount();
-		// console.log('request api condition === ', this.condition);
 		Api.list(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -206,7 +203,6 @@ export default class LimitConsumption extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-		// console.log('tableProps === ', tableProps);
 		return (
 			<div className="yc-assets-auction">
 				<QueryView onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />
