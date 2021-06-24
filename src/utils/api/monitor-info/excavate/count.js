@@ -148,6 +148,13 @@ export const riskLimitCount = async (params) => {
 	return response.data;
 };
 
+// 被执行信息 => 数量统计
+export const executeCount = async (params) => {
+	const response = await service.post('/yc/monitor/execPerson/listCount', params);
+	return response.data;
+};
+
+
 // 破产重组
 export const riskBankruptcyCount = async (params) => {
 	const response = await service.get('/yc/monitor/bankruptcy/list-count', { params });

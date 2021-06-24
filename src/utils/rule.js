@@ -439,6 +439,12 @@ export default {
 								status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
 							},
 							{
+								id: 'YC0309',
+								name: '被执行信息',
+								url: '/risk/execute',
+								status: toStatus(rule.menu_fxjk, 'fxjkxzgxf'),
+							},
+							{
 								id: 'YC0304',
 								name: '失信记录',
 								url: '/risk/broken',
@@ -448,12 +454,6 @@ export default {
 								id: 'YC0305',
 								name: '限制高消费',
 								url: '/risk/limitHight',
-								status: toStatus(rule.menu_fxjk, 'fxjkxzgxf'),
-							},
-							{
-								id: 'YC0309',
-								name: '被执行信息',
-								url: '/risk/execute',
 								status: toStatus(rule.menu_fxjk, 'fxjkxzgxf'),
 							},
 							{

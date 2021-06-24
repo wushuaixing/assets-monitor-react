@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { Spin } from '@/common';
 import {
-	bankruptcyCard, dishonestCard, limitHeightCard, litigationCard, riskCard,
+	bankruptcyCard, dishonestCard, limitHeightCard, litigationCard, riskCard, executeCard,
 } from '@/utils/api/monitor-info/risk/index';
 import { promiseAll } from '@/utils/promise';
 import getCount from '@/views/portrait-inquiry/common/getCount';
@@ -39,7 +39,7 @@ export default class Risk extends PureComponent {
 					rule: children.fxjkqypccz,
 					url: '/risk/execute',
 					Component: executeCase,
-					API: bankruptcyCard,
+					API: executeCard,
 				},
 				{
 					id: 6,
@@ -89,6 +89,7 @@ export default class Risk extends PureComponent {
 			litigationPropsData: {},
 			riskPropsData: {},
 			limitHeightPropsData: {},
+			executePropsData: {},
 			bankruptcyCount: undefined,
 			dishonestCount: undefined,
 			litigationCount: undefined,
@@ -109,6 +110,7 @@ export default class Risk extends PureComponent {
 			['litigation', this.getLitigationData],
 			['risk', this.getRiskData],
 			['limitHeight', this.getLimitHeightData],
+			['executeCard', this.getexecuteData],
 			['default', () => { console.log('未匹配'); }],
 		]);
 
@@ -239,6 +241,25 @@ export default class Risk extends PureComponent {
 		}
 	};
 
+	// 被执行信息
+	getexecuteData = (res) => {
+		console.log('@@@',res);
+		if (res && res.code === 200) {
+			const {
+				removedCount, unRemovedCount, execPersonCount,
+			} = res.data;
+			const executePropsData = {
+				removedCount,
+				unRemovedCount,
+				totalCount: execPersonCount,
+			};
+			this.setState(() => ({
+				executePropsData,
+				limitCount: execPersonCount,
+			}));
+		}
+	};
+
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
 	handleNavigate = (url) => { navigate(url); };
@@ -256,6 +277,7 @@ export default class Risk extends PureComponent {
 	render() {
 		const {
 			config, loading, finish, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData, limitHeightPropsData, bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount,
+			executePropsData,
 		} = this.state;
 		const allNumber = this.getNumber([bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount]);
 		const params = {
@@ -264,6 +286,7 @@ export default class Risk extends PureComponent {
 			litigationPropsData,
 			riskPropsData,
 			limitHeightPropsData,
+			executePropsData,
 		};
 		// console.log('risk params === ', params);
 		return (

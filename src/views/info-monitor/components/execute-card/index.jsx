@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
-import { riskLimitCount } from 'api/monitor-info/excavate/count';
+import { executeCount } from 'api/monitor-info/excavate/count';
 import Card from '../card';
 import './style.scss';
 
@@ -23,7 +23,7 @@ export default class executeCase extends PureComponent {
 		const params = {
 			isRead: 0,
 		};
-		riskLimitCount(params).then((res) => {
+		executeCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					limitHeightNum: res.data,
@@ -34,8 +34,8 @@ export default class executeCase extends PureComponent {
 
 	render() {
 		const {
-			url, limitHeightPropsData, limitHeightPropsData: {
-				limitHeightCount, onceLimitHeightCount, gmtUpdate, totalCount,
+			url, executePropsData, executePropsData: {
+				removedCount, totalCount, unRemovedCount,
 			},
 		} = this.props;
 		const { limitHeightNum } = this.state;
@@ -51,17 +51,17 @@ export default class executeCase extends PureComponent {
 				unReadText="条未读信息"
 				unReadNum={limitHeightNum}
 			>
-				{Object.keys(limitHeightPropsData).length !== 0 && (
+				{Object.keys(executePropsData).length !== 0 && (
 					<div className="risk-limit-container">
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
-							终本案件信息数：
-							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{limitHeightCount || 0}</span>
+							未移除：
+							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{removedCount || 0}</span>
 							条
 						</div>
 
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-							其中已移除：
-							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{onceLimitHeightCount || 0}</span>
+							未移除：
+							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{unRemovedCount || 0}</span>
 							条
 						</div>
 					</div>
