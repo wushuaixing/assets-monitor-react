@@ -288,5 +288,13 @@ const message = [
 		count: (params, id) => service.get('/yc/report/daily/onBuild/constructionLicenceCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
+	{
+		dataType: 11207,
+		name: '终本案件',
+		list: params => service.post('/yc/report/daily/execEndCase/execEndCaseList', params)
+			.then(res => res.data),
+		count: (params, id) => service.post('/yc/report/daily/execEndCase/execEndCaseCount', params)
+			.then(res => Object.assign(res.data, { id })),
+	},
 ];
 export default message;
