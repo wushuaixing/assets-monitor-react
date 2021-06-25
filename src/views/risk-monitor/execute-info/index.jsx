@@ -61,6 +61,7 @@ export default class ExecuteInfo extends React.Component {
 
 	// 全部标记为已读
 	handleAllRead = () => {
+		this.toUnReadCount();
 		const _this = this;
 		const { unReadCount } = this.state;
 		if (unReadCount) {
