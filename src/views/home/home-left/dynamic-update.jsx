@@ -196,7 +196,7 @@ class DynamicUpdate extends PureComponent {
 				{
 					assetRiskEmpty ? (
 						<div className="seven-update-assetRiskEmpty">
-							<div className="detail-container-noData">
+							<div className="detail-container-noData" style={{ textAlign: 'center' }}>
 								<div className="detail-container-noData-allImg" style={{ height: 160, width: 270 }} />
 								<span className="detail-container-noData-text">暂未匹配到新的信息，建议去导入更多债务人，以匹配更多价值信息</span>
 								<div>
