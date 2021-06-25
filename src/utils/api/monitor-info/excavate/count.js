@@ -102,7 +102,7 @@ export const assetBiddingCount = async (params) => {
 
 // 电子报 => 数量统计
 export const electronicNewspaperCount = async (params) => {
-	const response = await service.post('/yc/monitor/electronicNewspaper/list', params);
+	const response = await service.post('/yc/monitor/electronicNewspaper/listCount', params);
 	return response.data;
 };
 
@@ -145,6 +145,19 @@ export const assetUnBlockCount = async (params) => {
 // 限制高消费 => 数量统计
 export const riskLimitCount = async (params) => {
 	const response = await service.get('/yc/monitor/limitHeight/LimitHeightCount', { params });
+	return response.data;
+};
+
+// 被执行信息 => 数量统计
+export const executeCount = async (params) => {
+	const response = await service.post('/yc/monitor/execPerson/listCount', params);
+	return response.data;
+};
+
+
+// 终本案件 => 数量统计
+export const legalCaseCount = async (params) => {
+	const response = await service.post('/yc/monitor/execEndCase/listCount', params);
 	return response.data;
 };
 

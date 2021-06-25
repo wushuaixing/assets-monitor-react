@@ -23,6 +23,7 @@ import Dishonesty from './component/dishonesty/index';
 import BusinessRisk from './component/businessRisk/index';
 import UnBlock from './component/unblock/index';
 import LimitHeight from './component/limit-height/index';
+import executeTable from './component/execute/index';
 import Car from './component/car/index';
 import RealEstate from './component/real-estate/index';
 import Construct from './component/construct/index';
@@ -269,6 +270,14 @@ const subItems = (rule, data) => {
 			status: isRule('fxjkxzgxf', 2, rule),
 			tagName: 'message-limit',
 			component: LimitHeight,
+		},
+		{
+			dataType: 114,
+			name: '被执行信息',
+			total: data ? getCount(data, 114) : 0,
+			status: isRule('fxjkxzgxf', 2, rule),
+			tagName: 'message-execute',
+			component: executeTable,
 		},
 		{
 			dataType: 112,

@@ -17,6 +17,8 @@ import IntangibleAssets from '../../asset-excavate/intangible-assets/table-intac
 import Pledge from '../../asset-excavate/equity-pledge/table-intact';
 import UnBlock from '../../asset-excavate/seized-unblock/table/table-intact'; // 查/解封资产
 import LimitHeight from '../../risk-monitor/limit-consumption/table/table-intact';
+import Execute from '../../risk-monitor/execute-info/table/table-intact';// 被执行信息
+import LegalCase from '../../risk-monitor/legal-case/table/table-intact'; // 终本案件
 import ConstructProject from '../../asset-excavate/construct-project/table/table-intact'; // 在建工程
 
 const TableItem	= (props) => {
@@ -66,6 +68,8 @@ const TableItem	= (props) => {
 					YC030306: <Operation sourceType="YC030306" onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
 					YC0304: <BrokenRecord />,
 					YC0305: <LimitHeight />,
+					YC0309: <Execute />,
+					YC0306: <LegalCase />,
 				}[ID] || <AssetsAuction />
 			}
 		</React.Fragment>

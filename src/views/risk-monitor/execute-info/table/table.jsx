@@ -2,8 +2,9 @@ import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'reactPropTypes';
 import { Attentions, ReadStatus, SortVessel } from '@/common/table';
-import Api from 'api/monitor-info/limit-consumption';
+import Api from 'api/monitor-info/execute';
 import { Table, SelectedNum, Ellipsis } from '@/common';
+import { floatFormat } from '@/utils/format';
 import { timeStandard } from '@/utils';
 import ViewContentModal from './view-content-modal';
 import './index.scss';
@@ -17,77 +18,49 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>立案日期</span>
-				: <SortVessel field="GMT_REGISTER_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
-			dataIndex: 'registerDate',
-			width: 120,
+				: <SortVessel field="CASE_CREATE_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>立案日期</SortVessel>),
+			dataIndex: 'caseCreateTime',
+			width: 150,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		},
 		{
 			title: '债务人',
-			dataIndex: 'obligorType',
-			width: 300,
+			dataIndex: 'obligorName',
+			width: 280,
 			render: (text, row) => (
-				row.obligorType === 2
-					? (
-						<div>
-							<div>
-								<span className="obligor-type">个人：</span>
-								<Ellipsis
-									content={`${row.obligorType === 2 ? `${row.personName}` : `${row.personName || '-'}`}`}
-									tooltip
-									width={200}
-									url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
-								/>
-							</div>
-							<div>
-								<span className="obligor-type">证件号：</span>
-								<span>{row.obligorType === 2 ? row.personNumber : '-'}</span>
-							</div>
-						</div>
-					) : (
-						<div>
-							<span className="obligor-type">企业：</span>
-							<Ellipsis
-								content={`${row.companyName || '-'}`}
-								tooltip
-								width={200}
-								url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
-							/>
-						</div>
-					)
+				<Ellipsis
+					content={text || '-'}
+					tooltip
+					width={280}
+					url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}
+				/>
 			),
 		},
-		// {
-		// 	title: '姓名',
-		// 	dataIndex: 'personName',
-		// 	width: 210,
-		// 	render: (text, row) => (
-		// 		<Ellipsis
-		// 			content={`${row.obligorType === 2 ? `${text}${row.personNumber ? `(${row.personNumber})` : ''}` : `${text || '-'}`}`}
-		// 			tooltip
-		// 			width={180}
-		// 			url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
-		// 		/>
-		// 	),
-		// }, {
-		// 	title: '企业',
-		// 	dataIndex: 'companyName',
-		// 	width: 210,
-		// 	render: (text, row) => (
-		// 		<Ellipsis
-		// 			content={`${text || '-'}`}
-		// 			tooltip
-		// 			width={180}
-		// 			url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
-		// 		/>
-		// 	),
-		// },
 		{
-			title: '案号',
-			dataIndex: 'caseNumber',
+			title: '案件信息',
+			dataIndex: 'caseCode',
 			width: 300,
-			render: text => <span>{text ? text.replace('（', '(') : '-'}</span>,
+			// render: text => <span>{text ? text.replace('（', '(') : '-'}</span>,
+			render: (text, row) => (
+				<div className="assets-info-content">
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>案号</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{text || '-'}</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify" style={{ width: 50 }}>执行法院</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content">{row.execCourtName || '-'}</span>
+					</li>
+				</div>
+			),
 		}, {
+			title: '执行标的',
+			dataIndex: 'execMoney',
+			render: text => <span>{text ? `${floatFormat(text)}元` : '--'}</span>,
+		},
+		{
 			title: '移除状况',
 			dataIndex: 'status',
 			render: text => (
@@ -97,14 +70,6 @@ const columns = (props) => {
 				</span>
 			),
 		},
-		// {
-		// 	title: '源链接',
-		// 	dataIndex: 'url',
-		// 	width: 90,
-		// 	render: (text, row) => (
-		// 		<a onClick={() => toViewContent([row.content, row.url])}>{`${text ? '查看' : '-'}`}</a>
-		// 	),
-		// },
 		{
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
@@ -147,9 +112,9 @@ class TableView extends React.Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh, manage } = this.props;
-		if (!isRead && !manage) {
-			Api.read({ idList: [id] }).then((res) => {
+		const { onRefresh } = this.props;
+		if (!isRead) {
+			Api.read({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}
@@ -159,22 +124,10 @@ class TableView extends React.Component {
 
 	// 批量管理复选框的变化监听函数
 	onSelectChange = (selectedRowKeys) => {
-		// const _selectedRowKeys = record.map(item => item.id);
-		// console.log(selectedRowKeys, record, _selectedRowKeys);
 		const { onSelect } = this.props;
 		this.setState({ selectedRowKeys });
 		if (onSelect)onSelect(selectedRowKeys);
 	};
-
-	// 点击查看限高内容
-	// toViewContent = ([viewContent = '', url]) => {
-	// 	if (url) {
-	// 		this.setState({
-	// 			visible: true,
-	// 			viewContent,
-	// 		});
-	// 	}
-	// };
 
 	render() {
 		const {

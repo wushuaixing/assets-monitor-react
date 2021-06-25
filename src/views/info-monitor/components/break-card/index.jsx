@@ -34,7 +34,7 @@ export default class Broken extends PureComponent {
 	render() {
 		const {
 			url, dishonestPropsData, dishonestPropsData: {
-				dishonest, gmtUpdate, onceDishonest, totalCount,
+				dishonest, gmtUpdate, unDishonestCount, totalCount,
 			},
 		} = this.props;
 		const { riskDishonestNum } = this.state;
@@ -54,14 +54,14 @@ export default class Broken extends PureComponent {
 				{Object.keys(dishonestPropsData).length !== 0 && (
 				<div className="risk-broken-container">
 					<div className={`risk-broken-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
-						曾失信债务人：
-						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{onceDishonest || 0 }</span>
+						未移除：
+						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{dishonest || 0 }</span>
 						名
 					</div>
 
 					<div className={`risk-broken-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-						已失信债务人：
-						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{dishonest || 0}</span>
+						已移除：
+						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{unDishonestCount || 0}</span>
 						名
 					</div>
 				</div>

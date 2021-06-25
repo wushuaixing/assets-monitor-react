@@ -3,8 +3,8 @@ import { message, Modal } from 'antd';
 import {
 	Button, Spin, Download, Icon,
 } from '@/common';
-import Api from 'api/monitor-info/limit-consumption';
-import { unReadCount as unReadTotal } from 'api/monitor-info';
+import Api from 'api/monitor-info/execute';
+// import { unReadCount as unReadTotal } from 'api/monitor-info';
 import { clearEmpty } from '@/utils';
 import QueryView from './query';
 import TableView from './table/table';
@@ -34,13 +34,13 @@ export default class ExecuteInfo extends React.Component {
 		}
 	}
 
-	// 获取限制高消费是否存在未读数据
+	// 获取限制被执行信息是否存在未读数据
 	toUnReadCount = () => {
-		unReadTotal().then((res) => {
+		Api.listCount({ isRead: 0 }).then((res) => {
 			const { code, data } = res;
 			if (code === 200) {
 				this.setState({
-					unReadCount: data.limitHeightFlag || false,
+					unReadCount: data,
 				});
 			}
 		});
@@ -61,6 +61,7 @@ export default class ExecuteInfo extends React.Component {
 
 	// 全部标记为已读
 	handleAllRead = () => {
+		this.toUnReadCount();
 		const _this = this;
 		const { unReadCount } = this.state;
 		if (unReadCount) {
@@ -69,7 +70,7 @@ export default class ExecuteInfo extends React.Component {
 				content: '点击确定，将为您把全部消息标记为已读。',
 				iconType: 'exclamation-circle',
 				onOk() {
-					Api.readAll({}).then((res) => {
+					Api.read({}).then((res) => {
 						if (res.code === 200) {
 							_this.onQueryChange();
 						}
@@ -206,7 +207,6 @@ export default class ExecuteInfo extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-		// console.log('tableProps === ', tableProps);
 		return (
 			<div className="yc-assets-auction">
 				<QueryView onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} />

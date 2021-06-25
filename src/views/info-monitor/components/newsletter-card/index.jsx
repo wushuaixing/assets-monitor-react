@@ -25,7 +25,7 @@ export default class Bidding extends PureComponent {
 		electronicNewspaperCount(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					assetBiddingNum: res.data.total,
+					assetBiddingNum: res.data,
 				});
 			}
 		});
@@ -34,6 +34,7 @@ export default class Bidding extends PureComponent {
 	render() {
 		const {
 			url, epaperPropsData, epaperPropsData: {
+				// eslint-disable-next-line no-shadow
 				electronicNewspaperCount, gmtUpdate, totalCount,
 			},
 		} = this.props;
