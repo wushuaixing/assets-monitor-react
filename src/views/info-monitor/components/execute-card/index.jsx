@@ -55,13 +55,13 @@ export default class executeCase extends PureComponent {
 					<div className="risk-limit-container">
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 							未移除：
-							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{removedCount || 0}</span>
+							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{unRemovedCount || 0}</span>
 							条
 						</div>
 
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-							未移除：
-							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{unRemovedCount || 0}</span>
+							已移除：
+							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{removedCount || 0}</span>
 							条
 						</div>
 					</div>

@@ -17,7 +17,7 @@ const columns = (props) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>终本日期</span>
-				: <SortVessel field="GMT_REGISTER_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>终本日期</SortVessel>),
+				: <SortVessel field="CASE_END_TIME" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>终本日期</SortVessel>),
 			dataIndex: 'caseEndTime',
 			width: 120,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
@@ -123,8 +123,8 @@ class TableView extends React.Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh, manage } = this.props;
-		if (!isRead && !manage) {
+		const { onRefresh } = this.props;
+		if (!isRead) {
 			Api.read({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');

@@ -160,11 +160,11 @@ export default class Risk extends PureComponent {
 	getDishonestData = (res) => {
 		if (res && res.code === 200) {
 			const {
-				dishonest, gmtUpdate, onceDishonest, total,
+				dishonest, gmtUpdate, unRemovedCount, total,
 			} = res.data;
 			const dishonestPropsData = {
 				dishonest,
-				onceDishonest,
+				unRemovedCount,
 				totalCount: total,
 				gmtUpdate,
 			};

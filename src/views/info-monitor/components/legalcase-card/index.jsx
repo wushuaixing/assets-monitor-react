@@ -56,13 +56,13 @@ export default class legalCase extends PureComponent {
 				{Object.keys(legalCasePropsData).length !== 0 && (
 					<div className="risk-limit-container">
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
-							终本案件信息数：
+							未移除：
 							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{endCaseCount || 0}</span>
 							条
 						</div>
 
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-							其中已移除：
+							已移除：
 							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{removeCount || 0}</span>
 							条
 						</div>

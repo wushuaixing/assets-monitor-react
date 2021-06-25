@@ -10,7 +10,7 @@ export default class RiskInformation extends React.Component {
 
 	render() {
 		const {
-			IconType, IconColor, text, children, customStyle, Risk, onClick, totalCount, asset, updateTime, unReadText, unReadNum,
+			IconType, IconColor, text, children, customStyle, Risk, onClick, totalCount, asset, unReadText, unReadNum,
 		} = this.props;
 		return (
 			<div className={`monitor-card-container ${totalCount && 'monitor-card-noCount-hover'}`} style={customStyle} onClick={() => totalCount && onClick && onClick()}>
