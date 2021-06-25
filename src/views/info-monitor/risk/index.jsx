@@ -36,7 +36,7 @@ export default class Risk extends PureComponent {
 				{
 					id: 9,
 					title: '被执行信息',
-					rule: children.fxjkqypccz,
+					rule: children.fxjkbzxxx,
 					url: '/risk/execute',
 					Component: executeCase,
 					API: executeCard,

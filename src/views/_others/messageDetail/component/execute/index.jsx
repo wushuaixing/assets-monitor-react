@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'reactPropTypes';
 import { markRead } from '@/utils/api/message';
-import TableLimit from '@/views/risk-monitor/limit-consumption/table/table';
+import TableView from '@/views/risk-monitor/execute-info/table/table';
 import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
 import { clearZero } from '@/utils';
@@ -35,11 +35,11 @@ class executeTable extends Component {
 		}
 	}
 
-	// 请求限制高消费新增数据
+	// 请求限制被执行新增数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
-		const reg = new RegExp(11401);
+		const reg = new RegExp(11208);
 		const api = message.filter(item => reg.test(item.dataType))[0].list;
 		const params = {
 			obligorId,
@@ -123,7 +123,7 @@ class executeTable extends Component {
 				</div>
 				<div className="messageDetail-table-container">
 					<Spin visible={loading}>
-						<TableLimit {...tableProps} />
+						<TableView {...tableProps} />
 					</Spin>
 				</div>
 			</React.Fragment>

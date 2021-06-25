@@ -241,6 +241,14 @@ const message = [
 			.then(res => Object.assign(res.data, { id })),
 	},
 	{
+		dataType: 11208,
+		name: '被执行信息',
+		list: params => service.post('/yc/report/daily/execPerson/list', params)
+			.then(res => res.data),
+		count: (params, id) => service.post('/yc/report/daily/execPerson/listCount', params)
+			.then(res => Object.assign(res.data, { id })),
+	},
+	{
 		dataType: 11501,
 		name: '不动产登记',
 		list: params => service.get('/yc/report/daily/estateRegister/estateRegisterList', { params })
