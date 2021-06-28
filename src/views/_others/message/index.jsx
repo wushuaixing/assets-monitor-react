@@ -82,7 +82,10 @@ class InformCenter extends React.Component {
 					dataIndex: 'address',
 					render: (text, row) => (
 						<div
-							onClick={() => this.handledDeleteBatch(row)}
+							onClick={(e) => {
+								e.stopPropagation();
+								this.handledDeleteBatch(row);
+							}}
 							className="yc-table-text-link"
 						>
 							删除

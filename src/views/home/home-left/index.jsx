@@ -1,63 +1,17 @@
 import React, { PureComponent } from 'react';
-// import {
-// 	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction, importantListIntangibleEmission,
-// 	importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage, importantListPledge, importantListSubrogationCourt,
-// 	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
-// 	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
-// 	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight, importantListEstateRegister, importantListBuildConstruct, importantListBuildWinbid, importantListBuildUnderway,
-// 	importantListCar,
-// } from 'api/home';
 import {
 	homeAssetDig, riskReference, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
 	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
 	importantListRiskEpb, importantListLimitHeight,
 } from 'api/home';
-import { Button as Btn, Spin } from '@/common';
+import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
 import './style.scss';
-// import DetailItem from '@/views/home/components/detail-item';
 import ImportantInfoModal from '@/views/home/home-left/important-info-modal';
-// import { Select } from 'antd';
 import DynamicUpdate from './dynamic-update';
 
 const customStyle = { padding: '20px' };
-// const compare = property => (a, b) => {
-// 	const first = a[property];
-// 	const second = b[property];
-// 	return second - first;
-// };
-// const assestArr = [
-// 	{ count: 'zcwjzcpm', Api: importantListAuction, auction: true }, // 资产挖掘->资产拍卖 101
-// 	/* { count: 'zcwjzbzb', Api: importantListBidding }, */ // 资产挖掘->招标中标
-// 	{ count: 'zcwjcjfzc', Api: importantListUnseal }, // 资产挖掘->查解封资产
-//
-// 	{ count: 'zcwjtdsj', Api: importantListLandTransfer }, // 资产挖掘->土地数据
-// 	{ count: 'zcwjtdsj', Api: importantListLandMortgage },
-// 	{ count: 'zcwjtdsj', Api: importantListLandTransaction },
-//
-// 	/* { count: 'zcwjjrzj', Api: importantListAuctionBidding }, // 资产挖掘->金融资产
-//   { count: 'zcwjjrzj', Api: importantListFinance }, */
-//
-// 	{ count: 'zcwjwxzc', Api: importantListIntangibleEmission }, // 资产挖掘->无形资产
-// 	{ count: 'zcwjwxzc', Api: importantListIntangibleMining },
-// 	// { count: 'zcwjwxzc', Api: importantListIntangibleTrademarkRight }, //商标专利
-// 	// { count: 'zcwjwxzc', Api: importantListIntangibleConstruct }, // 建筑建造资质
-//
-// 	{ count: 'zcwjdcdy', Api: importantListMortgage }, // 资产挖掘->动产抵押
-//
-// 	{ count: 'zcwjgqzy', Api: importantListPledge }, // 资产挖掘->股权质押
-//
-// 	{ count: 'zcwjdwq', Api: importantListSubrogationCourt }, // 资产挖掘->代位权
-// 	{ count: 'zcwjdwq', Api: importantListSubrogationTrial },
-// 	{ count: 'zcwjdwq', Api: importantListSubrogationJudgment },
-//
-// 	{ count: 'zcwjbdcdj', Api: importantListEstateRegister }, // 资产挖掘->不动产登记
-// 	{ count: 'zcwjclxx', Api: importantListCar }, // 资产挖掘->车辆信息
-//
-// 	{ count: 'zjgcjsdw', Api: importantListBuildConstruct }, // 在建工程-建设单位
-// 	{ count: 'zjgczbdw', Api: importantListBuildWinbid }, // 在建工程-中标单位
-// 	{ count: 'zjgcsgdw', Api: importantListBuildUnderway }, // 在建工程-施工单位
-// ];
+
 const assetsDataType = {
 	101: { tag: '资产拍卖', icon: 'auction-2' },
 	201: { tag: '出让结果', icon: 'land-result' },
@@ -93,23 +47,6 @@ const riskDataType = {
 	1301: { tag: '限制高消费(移除)', icon: 'limitCube' },
 	1302: { tag: '限制高消费', icon: 'limitCube' },
 };
-// const riskArr = [
-// 	{ count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
-//
-// 	{ count: 'jyfxxzcf', Api: importantListRiskPunishment }, // 经营风险->行政处罚
-// 	{ count: 'jyfxsswf', Api: importantListRiskTax }, // 经营风险->税收违法
-// 	{ count: 'jyfxyzwf', Api: importantListRiskIllegal }, // 经营风险->严重违法
-// 	{ count: 'jyfxjyyc', Api: importantListRiskAbnormal }, // 经营风险->经营异常
-// 	{ count: 'jyfxgsbg', Api: importantListRiskChange }, // 经营风险->工商变更
-// 	{ count: 'jyfxhbcf', Api: importantListRiskEpb }, // 经营风险->环保处罚
-//
-// 	{ count: 'jkxxsxjl', Api: importantListRiskDishonest }, // 风险监控->失信记录
-//
-// 	{ count: 'fxjkssjk', Api: importantListLawsuitTrial }, // 风险监控->涉诉监控
-// 	{ count: 'fxjkssjk', Api: importantListLawsuitCourt },
-// 	{ count: 'fxjkssjk', Api: importantListLawsuitJudgment },
-// 	{ count: 'fxjkxzgxf', Api: importantListLimitHeight }, // 风险监控->限制高消费
-// ];
 
 class HomeDynamic extends PureComponent {
 	constructor(props) {
@@ -280,13 +217,13 @@ class HomeDynamic extends PureComponent {
 					count: operationNum, type: 10, typeName: '经营风险', name: '经营风险', value: 2,
 				},
 				{
+					count: execPerson, type: 15, typeName: '被执行信息', name: '被执行信息', value: 2,
+				},
+				{
 					count: limitHeight, type: 13, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 				{
 					count: execEndCaseCount, type: 14, typeName: '终本案件', name: '终本案件', value: 2,
-				},
-				{
-					count: execPerson, type: 15, typeName: '被执行信息', name: '被执行信息', value: 2,
 				},
 			];
 			const riskPropsData = {
