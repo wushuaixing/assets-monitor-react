@@ -317,6 +317,8 @@ export default class RiskInformation extends React.Component {
 							<div className="overview-container-cardContent">
 								{/* 破产重组 */}
 								{portrait !== 'debtor_personal' && Object.keys(bankruptcyPropsData).length !== 0 && <Bankruptcy dataSource={bankruptcyPropsData} portrait={portrait} />}
+								{/* 被执行信息 */}
+								{Object.keys(executePropsData).length !== 0 && <Execute dataSource={executePropsData} portrait={portrait} />}
 								{/* 终本案件 */}
 								{Object.keys(legalCasePropsData).length !== 0 && <LegalCaseCard dataSource={legalCasePropsData} portrait={portrait} />}
 								{/* 失信记录 */}
@@ -329,10 +331,6 @@ export default class RiskInformation extends React.Component {
 								{portrait === 'debtor_personal' && Object.keys(taxPropsData).length !== 0 && <Tax dataSource={taxPropsData} />}
 								{/* 限制高消费 */}
 								{Object.keys(limitHeightPropsData).length !== 0 && <LimitHeightCard dataSource={limitHeightPropsData} portrait={portrait} />}
-								{/* 被执行信息 */}
-								{Object.keys(executePropsData).length !== 0 && <Execute dataSource={executePropsData} portrait={portrait} />}
-								{/* 终本案件 */}
-								{Object.keys(legalCasePropsData).length !== 0 && <LegalCaseCard dataSource={legalCasePropsData} portrait={portrait} />}
 							</div>
 						</div>
 					) : null}

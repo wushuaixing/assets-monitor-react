@@ -30,7 +30,7 @@ export default class LegalCaseCard extends React.Component {
 						gmtCreate={gmtModified}
 						obligorName="匹配到终本案件信息"
 						text="终本案件"
-						onClick={() => navigateDetailRisk('e-manage-limitHeight')}
+						onClick={() => navigateDetailRisk('e-manage-legalCase')}
 						styleName="legalcase-card"
 					>
 						<div className="legalcase-card-content">
