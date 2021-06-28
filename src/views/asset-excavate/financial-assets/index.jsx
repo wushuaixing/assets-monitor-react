@@ -267,8 +267,10 @@ export default class Subrogation extends React.Component {
 	// sourceType变化
 	onSourceType = (val) => {
 		axiosPromiseArr.forEach((c, index) => {
-			c.cancel();
-			delete axiosPromiseArr[index];
+			if (c.url !== '/api/auth/currentOrg') {
+				c.cancel();
+				delete axiosPromiseArr[index];
+			}
 		});
 		this.setState({
 			sourceType: val,
@@ -338,9 +340,7 @@ export default class Subrogation extends React.Component {
 				});
 				message.error(res.message || '网络请求异常请稍后再试！');
 			}
-		}).catch(() => {
-			this.setState({ loading: false });
-		});
+		}).catch(() => {});
 	};
 
 	// 查询是否有未读消息

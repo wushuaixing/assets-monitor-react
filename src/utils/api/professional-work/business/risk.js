@@ -120,3 +120,20 @@ export const brokenCount = {
 			.then(res => Object.assign(res.data, { id })),
 	},
 };
+
+export const legalcaseCount = {
+	20303: {
+		id: 20303,
+		name: '终本列表 => 列入',
+		list: params => service.post('/yc/obligor/monitor/risk/execEndCase/execEndCaseList', { ...params, status: 0 }).then(res => res.data),
+		count: (params, id) => service.post('/yc/obligor/monitor/risk/execEndCase/execEndCaseListCount', { ...params, status: 0 })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	20304: {
+		id: 20304,
+		name: '终本列表 => 已移除',
+		list: params => service.post('/yc/obligor/monitor/risk/execEndCase/execEndCaseList', { ...params, status: 1 }).then(res => res.data),
+		count: (params, id) => service.post('/yc/obligor/monitor/risk/execEndCase/execEndCaseListCount', { ...params, status: 1 })
+			.then(res => Object.assign(res.data, { id })),
+	},
+};
