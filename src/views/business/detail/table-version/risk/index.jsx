@@ -12,6 +12,7 @@ import Lawsuit from './lawsuit';
 import LawsuitJudgment from './lawsuit-judgment';
 import Environment from './environment';
 import LimitHeight from './limit-height';
+import Execute from './execute';
 
 
 const toGetTotal = (field, data) => {
@@ -64,6 +65,17 @@ const subItems = (data, portrait) => {
 			role: roleState('fxjk', 'jkxxsxjl'),
 			isStatus: 'normal',
 			component: Dishonest,
+		},
+		{
+			id: 20700,
+			baseId: 2070,
+			name: '被执行信息',
+			total: data ? toGetTotal('2070', data) : 0,
+			info: data ? data.filter(i => /2070/.test(i.id)) : '',
+			tagName: 'e-manage-execute',
+			role: roleState('fxjk', 'fxjkbzxxx'),
+			isStatus: 'normal',
+			component: Execute,
 		},
 		{
 			id: 20500,

@@ -30,7 +30,7 @@ export default class Execute extends React.Component {
 						gmtCreate={gmtModified}
 						obligorName="人匹配到限制高消费信息"
 						text="被执行信息"
-						onClick={() => navigateDetailRisk('e-manage-limitHeight')}
+						onClick={() => navigateDetailRisk('e-manage-execute')}
 						styleName="execute-card"
 					>
 						<div className="execute-card-content">
