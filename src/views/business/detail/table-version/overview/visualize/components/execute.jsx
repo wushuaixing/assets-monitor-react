@@ -63,8 +63,9 @@ export default class Execute extends React.Component {
 								<span className="container-title-name">被执行信息</span>
 							</div>
 							<div className="overview-container-money">
-								<span className="overview-container-moneyLeft">执行标的总金额：</span>
-								<span className="overview-container-moneyRight">{totalExecMoney ? `${floatFormat(totalExecMoney)}元` : '--'}</span>
+								<span className="overview-container-money-moneyLeft">执行标的总金额：</span>
+								<span className="overview-container-money-moneyRight">{totalExecMoney ? `${floatFormat(totalExecMoney)}` : '--'}</span>
+								<span className="overview-container-money-moneyLeft">{totalExecMoney ? '元' : ''}</span>
 							</div>
 							<div className="overview-container-content">
 								{getCount(yearDistributions) > 0 && <TimeLine title="年份分布" Data={yearDistributions} id="Limit" />}

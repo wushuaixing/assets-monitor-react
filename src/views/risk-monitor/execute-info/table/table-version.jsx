@@ -31,6 +31,7 @@ export default class TableIntact extends React.Component {
 	toGetColumns=() => [
 		{
 			title: '信息',
+			width: 360,
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-title-normal-bold">
@@ -40,7 +41,7 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">执行标的</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content none-width">{row.execMoney || '--'}</span>
+						<span className="list list-content none-width">{row.execMoney ? `${row.execMoney}元` : '--' }</span>
 					</li>
 				</div>
 			),
