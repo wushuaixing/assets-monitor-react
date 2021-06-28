@@ -273,10 +273,10 @@ const subItems = (rule, data) => {
 			component: LimitHeight,
 		},
 		{
-			dataType: 114,
+			dataType: 11208,
 			name: '被执行信息',
-			total: data ? getCount(data, 114) : 0,
-			status: isRule('fxjkxzgxf', 2, rule),
+			total: data ? getCount(data, 11208) : 0,
+			status: isRule('fxjkbzxxx', 2, rule),
 			tagName: 'message-execute',
 			component: executeTable,
 		},
@@ -397,7 +397,7 @@ class MessageDetail extends React.Component {
 				});
 			}
 		}).catch((err) => {
-			console.log('err === ', err);
+			console.log('err ===@@ ', err);
 		});
 	};
 

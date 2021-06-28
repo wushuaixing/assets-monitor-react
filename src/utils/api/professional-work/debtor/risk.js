@@ -46,6 +46,22 @@ const debtorRisk = {
 		count: (params, id) => service.get('/yc/obligor/monitor/risk/dishonest/list-count?removeStatus=true', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
+	20701: {
+		id: 20701,
+		name: '风险-被执行信息-列入',
+		params: {},
+		list: params => service.post('/yc/obligor/monitor/risk/execPerson/list', { ...params, status: 0 }).then(res => res.data),
+		count: (params, id) => service.post('/yc/obligor/monitor/risk/execPerson/listCount', { ...params, status: 0 })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	20702: {
+		id: 20702,
+		name: '风险-被执行信息-已移除',
+		params: {},
+		list: params => service.post('/yc/obligor/monitor/risk/execPerson/list', { ...params, status: 1 }).then(res => res.data),
+		count: (params, id) => service.post('/yc/obligor/monitor/risk/execPerson/listCount', { ...params, status: 1 })
+			.then(res => Object.assign(res.data, { id })),
+	},
 	20501: {
 		id: 20501,
 		name: '风险-限制高消费',

@@ -13,12 +13,12 @@ export default class Execute extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				gmtModified, limitHeightCount, limitHeightRemovedCount, obligorTotal,
+				gmtModified, execPersonCount, removedCount, obligorTotal,
 			},
 		} = this.props;
 		return (
 			<React.Fragment>
-				{limitHeightCount > 0 ? (
+				{execPersonCount > 0 ? (
 					<Card
 						Risk
 						portrait={portrait}
@@ -26,21 +26,22 @@ export default class Execute extends React.Component {
 						IconType="beizhihangxinxi"
 						IconColor={{ color: '#FF6133' }}
 						customStyle={hasCountStyle}
-						count={limitHeightCount}
+						count={execPersonCount}
 						gmtCreate={gmtModified}
 						obligorName="人匹配到限制高消费信息"
 						text="被执行信息"
-						onClick={() => navigateDetailRisk('e-manage-limitHeight')}
-						styleName="limit-card"
+						onClick={() => navigateDetailRisk('e-manage-execute')}
+						styleName="execute-card"
 					>
-						<div className="business-limit-card">
-							限高记录：
-							<span className="business-limit-card-num">{limitHeightCount}</span>
-							（已移除
-							<span className="business-limit-card-num">
-								{limitHeightRemovedCount || 0}
-							</span>
-							条）
+						<div className="execute-card-content">
+							<div className="execute-card-content-card">
+								被执行信息数：
+								<span className="execute-card-content-card-num">{execPersonCount}</span>
+							</div>
+							<div className="execute-card-content-card">
+								其中已移除：
+								<span className="execute-card-content-card-num">{removedCount}</span>
+							</div>
 						</div>
 					</Card>
 				) : null}
