@@ -12,7 +12,6 @@ import './style.scss';
 export default class InfoSearch extends React.Component {
 	constructor(props) {
 		super(props);
-		// console.log(props.rule, 333);
 		this.state = {
 			config: [
 				{

@@ -433,6 +433,18 @@ export default {
 								status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
 							},
 							{
+								id: 'YC0309',
+								name: '被执行信息',
+								url: '/risk/execute',
+								status: toStatus(rule.menu_fxjk, 'fxjkxzgxf'),
+							},
+							{
+								id: 'YC0306',
+								name: '终本案件',
+								url: '/risk/legalcase',
+								status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
+							},
+							{
 								id: 'YC0304',
 								name: '失信记录',
 								url: '/risk/broken',

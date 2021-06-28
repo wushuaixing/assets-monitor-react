@@ -5,7 +5,7 @@ import Card from '../card';
 import './style.scss';
 
 
-const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
+const hasCountStyle = { width: '366px', height: '148px', marginBottom: '20px' };
 export default class LimitHeight extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -55,13 +55,13 @@ export default class LimitHeight extends PureComponent {
 				{Object.keys(limitHeightPropsData).length !== 0 && (
 					<div className="risk-limit-container">
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
-							限高记录数：
+							未移除：
 							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{limitHeightCount || 0}</span>
 							条
 						</div>
 
 						<div className={`risk-limit-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-							曾限高记录数：
+							已移除：
 							<span className={`risk-limit-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{onceLimitHeightCount || 0}</span>
 							条
 						</div>

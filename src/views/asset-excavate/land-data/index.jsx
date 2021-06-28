@@ -6,6 +6,7 @@ import {
 } from '@/common';
 import Api from '@/utils/api/monitor-info/public';
 import { unReadCount } from '@/utils/api/monitor-info';
+import { axiosPromiseArr } from 'service';
 
 // 搜索框
 import { getUrlParams } from '@/views/asset-excavate/query-util';
@@ -227,6 +228,10 @@ export default class Lawsuits extends React.Component {
 
 	// sourceType变化
 	onSourceType = (val) => {
+		axiosPromiseArr.forEach((c, index) => {
+			c.cancel();
+			delete axiosPromiseArr[index];
+		});
 		this.setState({
 			sourceType: val,
 			dataSource: [],

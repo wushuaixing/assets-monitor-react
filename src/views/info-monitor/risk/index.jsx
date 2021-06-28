@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { Spin } from '@/common';
 import {
-	bankruptcyCard, dishonestCard, limitHeightCard, litigationCard, riskCard,
+	bankruptcyCard, dishonestCard, limitHeightCard, litigationCard, riskCard, legalCaseCard, executeCard,
 } from '@/utils/api/monitor-info/risk/index';
 import { promiseAll } from '@/utils/promise';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import {
-	Bankruptcy, Broken, Lawsuit, Operation, LimitHeight,
+	Bankruptcy, Broken, Lawsuit, Operation, LimitHeight, LegalcaseCard, executeCase,
 } from '../components';
 import './style.scss';
 
@@ -15,7 +15,6 @@ export default class Risk extends PureComponent {
 	constructor(props) {
 		super(props);
 		document.title = '风险监控';
-		// console.log(props.rule, 123);
 		const isRule = props && props.rule && props.rule.children;
 		const children = isRule && props.rule.children;
 		const {
@@ -24,7 +23,6 @@ export default class Risk extends PureComponent {
 		const operatingRisk = {
 			jyfxgsbg, jyfxhbcf, jyfxjyyc, jyfxsswf, jyfxxzcf, jyfxyzwf,
 		};
-		// console.log(Object.values(operatingRisk).filter((i => i !== undefined)), 3331);
 		this.state = {
 			config: [
 				{
@@ -34,6 +32,22 @@ export default class Risk extends PureComponent {
 					url: '/risk/bankruptcy',
 					Component: Bankruptcy,
 					API: bankruptcyCard,
+				},
+				{
+					id: 9,
+					title: '被执行信息',
+					rule: children.fxjkqypccz,
+					url: '/risk/execute',
+					Component: executeCase,
+					API: executeCard,
+				},
+				{
+					id: 6,
+					title: '终本案件',
+					rule: children.fxjkzbaj,
+					url: '/risk/legalcase',
+					Component: LegalcaseCard,
+					API: legalCaseCard,
 				},
 				{
 					id: 2,
@@ -75,6 +89,8 @@ export default class Risk extends PureComponent {
 			litigationPropsData: {},
 			riskPropsData: {},
 			limitHeightPropsData: {},
+			executePropsData: {},
+			legalCasePropsData: {},
 			bankruptcyCount: undefined,
 			dishonestCount: undefined,
 			litigationCount: undefined,
@@ -95,6 +111,8 @@ export default class Risk extends PureComponent {
 			['litigation', this.getLitigationData],
 			['risk', this.getRiskData],
 			['limitHeight', this.getLimitHeightData],
+			['executeCard', this.getexecuteData],
+			['legalCase', this.getLegalCaseData],
 			['default', () => { console.log('未匹配'); }],
 		]);
 
@@ -105,7 +123,6 @@ export default class Risk extends PureComponent {
 		});
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
-		// console.log(promiseArray, 123);
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
 		this.setState({ loading: true });
 		handlePromise.then((res) => {
@@ -117,7 +134,6 @@ export default class Risk extends PureComponent {
 					excavateMap.call(this, item);
 				});
 			}
-			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			this.setState({ loading: false });
 			console.log('promise reject failed reason', reason);
@@ -144,11 +160,11 @@ export default class Risk extends PureComponent {
 	getDishonestData = (res) => {
 		if (res && res.code === 200) {
 			const {
-				dishonest, gmtUpdate, onceDishonest, total,
+				dishonest, gmtUpdate, unRemovedCount, total,
 			} = res.data;
 			const dishonestPropsData = {
 				dishonest,
-				onceDishonest,
+				unRemovedCount,
 				totalCount: total,
 				gmtUpdate,
 			};
@@ -225,6 +241,41 @@ export default class Risk extends PureComponent {
 		}
 	};
 
+	// 被执行信息
+	getexecuteData = (res) => {
+		if (res && res.code === 200) {
+			const {
+				removedCount, unRemovedCount, execPersonCount,
+			} = res.data;
+			const executePropsData = {
+				removedCount,
+				unRemovedCount,
+				totalCount: execPersonCount,
+			};
+			this.setState(() => ({
+				executePropsData,
+				limitCount: execPersonCount,
+			}));
+		}
+	};
+
+	// 终本案件
+	getLegalCaseData = (res) => {
+		if (res && res.code === 200) {
+			const {
+				endCaseCount, removeCount, total,
+			} = res.data;
+			const legalCasePropsData = {
+				endCaseCount,
+				removeCount,
+				totalCount: total,
+			};
+			this.setState(() => ({
+				legalCasePropsData,
+			}));
+		}
+	}
+
 	isObject = value => value != null && typeof value === 'object' && Object.prototype.toString.call(value) === '[object Object]';
 
 	handleNavigate = (url) => { navigate(url); };
@@ -241,7 +292,8 @@ export default class Risk extends PureComponent {
 
 	render() {
 		const {
-			config, loading, finish, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData, limitHeightPropsData, bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount,
+			config, loading, finish, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData,
+			limitHeightPropsData, bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount, legalCasePropsData, executePropsData,
 		} = this.state;
 		const allNumber = this.getNumber([bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount]);
 		const params = {
@@ -250,8 +302,9 @@ export default class Risk extends PureComponent {
 			litigationPropsData,
 			riskPropsData,
 			limitHeightPropsData,
+			legalCasePropsData,
+			executePropsData,
 		};
-		// console.log('risk params === ', params);
 		return (
 			<Spin visible={loading} minHeight={700}>
 				<div className="monitor-risk-container">

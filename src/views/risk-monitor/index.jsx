@@ -10,6 +10,8 @@ import Bankruptcy from './bankruptcy';
 import Operation from './operation-risk';
 import BrokenRecord from './broken-record';
 import LimitConsumption from './limit-consumption';
+import ExecuteInfo from './execute-info';
+import LegalCase from './legal-case';
 import './style.scss';
 
 /* 获取展示配置 */
@@ -18,13 +20,16 @@ const toGetRuth = (moduleID) => {
 	const noPage = () => <div>暂未开发</div>;
 	const baseID = 'YC03';
 	return result.child.map((item) => {
-		let components = '';
-		if (item.id === `${baseID}01`) components = Lawsuits;
-		else if (item.id === `${baseID}02`) components = Bankruptcy;
-		else if (item.id === `${baseID}03`) components = Operation;
-		else if (item.id === `${baseID}04`) components = BrokenRecord;
-		else if (item.id === `${baseID}05`) components = LimitConsumption;
-		else components = noPage;
+		const componentsList = new Map([
+			[`${baseID}01`, Lawsuits],
+			[`${baseID}02`, Bankruptcy],
+			[`${baseID}03`, Operation],
+			[`${baseID}04`, BrokenRecord],
+			[`${baseID}05`, LimitConsumption],
+			[`${baseID}06`, LegalCase],
+			[`${baseID}09`, ExecuteInfo],
+		]);
+		const components = componentsList.get(item.id) || noPage;
 		return Object.assign({}, item, {
 			components,
 			paramUrl: item.paramUrl || '',

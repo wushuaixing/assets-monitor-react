@@ -13,6 +13,7 @@ import {
 import {
 	Input, Button, Spin, timeRule, Download, SelectedNum, DatePicker,
 } from '@/common';
+import { parseQuery } from '@/utils';
 import businessImg from '@/assets/img/business/icon_recovery_n.png';
 import ModalTable from './modalTable';
 import PeopleListModal from './Modal/peopleList';
@@ -74,7 +75,11 @@ class BusinessView extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getData();
+		const { hash } = window.location;
+		const { status } = parseQuery(hash);
+		const { form: { setFieldsValue } } = this.props;
+		setFieldsValue({ pushState: Number(status) || '' });
+		this.search();
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 

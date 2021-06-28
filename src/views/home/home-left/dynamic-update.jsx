@@ -40,13 +40,14 @@ const urlMap = new Map([
 	['查/解封资产', '/monitor/seizedUnblock'],
 	['金融资产', '/monitor/financial'],
 	['招投标', '/monitor/tender'],
-	['电子报', '/monitor/epaper-data'],
 	['在建工程', '/monitor/construct'],
 	['不动产登记', '/monitor/realEstate'],
 	['车辆信息', '/monitor/car'],
 	['破产重组', '/risk/bankruptcy'],
 	['失信记录', '/risk/broken'],
 	['限制高消费', '/risk/limitHight'],
+	['终本案件', '/risk/legalcase'],
+	['被执行信息', '/risk/execute'],
 	['涉诉信息', '/risk/info'],
 	['经营风险', '/risk/operation'],
 	['电子报', '/monitor/epaper'],
@@ -133,7 +134,6 @@ class DynamicUpdate extends PureComponent {
 		// }));
 		// console.log('urlMap.get(val)', urlMap.get(val.name));
 		const { timeType } = this.props;
-		console.log('路由传入的时间',timeType)
 		const w = window.open('about:blank');
 		if (urlMap.get(val.name).includes('?')) {
 			w.location.href = `#${urlMap.get(val.name)}&timeHorizon=${timeType}`;
