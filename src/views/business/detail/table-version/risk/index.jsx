@@ -4,6 +4,7 @@ import { roleState } from '@/utils/rule';
 import { getHrefQuery } from '@/utils';
 import Abnormal from './abnormal';
 import Bankruptcy from './bankruptcy';
+import LegalCase from './legalcase';
 import Illegal from './illegal';
 import Punishment from './punishment';
 import Tax from './tax';
@@ -43,6 +44,17 @@ const subItems = (data, portrait) => {
 			component: Bankruptcy,
 			isStatus: 'only',
 			tagName: 'e-manage-bankruptcy',
+		},
+		{
+			id: 20300,
+			baseId: 2030,
+			name: '终本案件',
+			total: data ? toGetTotal('2030', data) : 0,
+			info: data ? data.filter(i => /2030/.test(i.id)) : '',
+			isStatus: 'normal',
+			tagName: 'e-manage-LegalCase',
+			role: roleState('fxjk', 'fxjkzbaj'),
+			component: LegalCase,
 		},
 		{
 			id: 20603,
@@ -239,6 +251,7 @@ class Risk extends React.Component {
 		const { config } = this.state;
 		const { count, portrait, riskLoading } = this.props;
 		const aryResult = (subItems(count, portrait).filter(i => i.total > 0)).length;
+		console.log(subItems(count, portrait), 'subItems(count, portrait)subItems(count, portrait)');
 		return (
 			<div className="inquiry-assets info-assets-padding">
 				{ riskLoading ? <Spin minHeight={350} />

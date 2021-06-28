@@ -12,6 +12,24 @@ const debtorRisk = {
 		count: (params, id) => service.get('/yc/obligor/monitor/risk/bankruptcy/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
+	20301: {
+		id: 20301,
+		name: '风险-终本案件-列入',
+		list: params => service.post('/yc/obligor/monitor/risk/execEndCase/execEndCaseList', { ...params, status: 0 }).then(res => res.data),
+		count(params) {
+			return service.post('/yc/obligor/monitor/risk/execEndCase/execEndCaseListCount', { ...params, status: 0 })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
+	20302: {
+		id: 20302,
+		name: '风险-终本案件-已移除',
+		list: params => service.post('/yc/obligor/monitor/risk/execEndCase/execEndCaseList', { ...params, status: 1 }).then(res => res.data),
+		count(params) {
+			return service.post('/yc/obligor/monitor/risk/execEndCase/execEndCaseListCount', { ...params, status: 1 })
+				.then(res => Object.assign(res.data, { id: this.id }));
+		},
+	},
 	20401: {
 		id: 20401,
 		name: '风险-失信记录-列入',
@@ -53,15 +71,6 @@ const debtorRisk = {
 				.then(res => Object.assign(res.data, { id: this.id }));
 		},
 	},
-	// 20701: {
-	// 	id: 20701,
-	// 	name: '风险-限制高消费',
-	// 	list: params => service.get('/yc/obligor/monitor/risk/epb/list', { params }).then(res => res.data),
-	// 	count(params) {
-	// 		return service.get('/yc/obligor/monitor/risk/epb/list-count', { params })
-	// 			.then(res => Object.assign(res.data, { id: this.id }));
-	// 	},
-	// },
 	20601: {
 		id: 20601,
 		name: '风险-涉诉-立案',

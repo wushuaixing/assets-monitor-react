@@ -153,8 +153,10 @@ export default class IntangibleAssets extends React.Component {
 	// sourceType变化
 	onSourceType=(sourceType) => {
 		axiosPromiseArr.forEach((c, index) => {
-			c.cancel();
-			delete axiosPromiseArr[index];
+			if (c.url !== '/api/auth/currentOrg') {
+				c.cancel();
+				delete axiosPromiseArr[index];
+			}
 		});
 		this.setState({
 			sourceType,
@@ -246,11 +248,7 @@ export default class IntangibleAssets extends React.Component {
 					loading: false,
 				});
 			}
-		}).catch(() => {
-			this.setState({
-				loading: false,
-			});
-		});
+		}).catch(() => {});
 	};
 
 	render() {

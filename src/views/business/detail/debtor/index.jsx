@@ -197,10 +197,6 @@ export default class Enterprise extends React.Component {
 		}
 	});
 
-	handleDownload = () => {
-		console.log('handleDownload');
-	};
-
 	handleAddChild = (val, id) => {
 		this.childDomId = id;
 		this.setState({
