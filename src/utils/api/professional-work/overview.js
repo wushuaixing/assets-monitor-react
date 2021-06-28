@@ -221,7 +221,7 @@ export const execEndCaseRisk = async (params) => {
 	return response.data;
 };
 
-// 终本案件
+// 被执行信息
 export const execPersonRisk = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/execPerson', { params });
 	return response.data;

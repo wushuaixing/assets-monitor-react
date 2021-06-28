@@ -28,6 +28,7 @@ import RealEstate from './components/real-estate';
 import Car from './components/car';
 import LimitHeight from './components/limitHeight';
 import LegalCase from './components/legalCase';
+import Execute from './components/execute';
 import Construct from './components/construct';
 import './style.scss';
 
@@ -58,6 +59,7 @@ export default class Visualize extends React.Component {
 			FinanceCount: 0,
 			UnBlockCount: 0,
 			LimitHeightCount: 0,
+			ExecuteCount: 0, // 被执行信息
 			LegalCaseCount: 0,
 			RealCount: 0,
 			CarCount: 0,
@@ -246,6 +248,12 @@ export default class Visualize extends React.Component {
 					LimitHeightCount: AssetProfileCountValue,
 				})
 			);
+		case 'Execute':
+			return (
+				this.setState({
+					ExecuteCount: AssetProfileCountValue,
+				})
+			);
 		case 'LegalCase':
 			return (
 				this.setState({
@@ -267,7 +275,7 @@ export default class Visualize extends React.Component {
 		const {
 			obligorId, litigationLoading, baseInfo, shareholderInfos, businessScaleInfo, litigationInfos, AssetAuctionCount, SubrogationCount, LandCount, EquityPledgeCount, ConstructCount,
 			ChattelMortgageCount, TaxCount, FinanceCount, UnBlockCount, LimitHeightCount, loading, IntangibleCount, BiddingCount, RealCount, CarCount, BankruptcyCount, DishonestCount,
-			BusinessRiskCount, businessId, LegalCaseCount,
+			BusinessRiskCount, businessId, LegalCaseCount, ExecuteCount,
 		} = this.state;
 		const params = {
 			portrait,
@@ -322,7 +330,7 @@ export default class Visualize extends React.Component {
 					<div className="yc-overview-title">风险信息</div>
 					<div className="yc-overview-container">
 						{
-							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0 && TaxCount === 0 && LimitHeightCount === 0
+							BankruptcyCount === 0 && DishonestCount === 0 && BusinessRiskCount === 0 && TaxCount === 0 && LimitHeightCount === 0 && ExecuteCount === 0
 							&& litigationInfos && litigationInfos.length > 0 && litigationInfos[0].count === 0 && litigationInfos[1].count === 0 && litigationInfos[2].count === 0
 							&& LegalCaseCount === 0 && (
 								<Spin visible={litigationLoading}>
@@ -332,6 +340,8 @@ export default class Visualize extends React.Component {
 						}
 						{/* 破产重组 */}
 						{portrait !== 'debtor_personal' && <Bankruptcy {...params} />}
+						{/* 被执行信息 */}
+						<Execute {...params} />
 						{/* 终本文案 */}
 						<LegalCase {...params} />
 						{/* 失信记录 */}
