@@ -541,6 +541,15 @@ export const reviseNum = (value) => {
 	return value;
 };
 
+// 转换金额格式
+export const floatFormat = (item) => {
+	const money = parseFloat(item);
+	if (money.toString() && money.toString() !== 'NaN') {
+		return money.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+	}
+	return '-';
+};
+
 // 防抖
 export const debounce = (fn, delay) => {
 	// 定时器；
