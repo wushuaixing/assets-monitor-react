@@ -39,7 +39,7 @@
       height: 1px;
     }
     .yc-con-item-wrapper {
-      margin: 20px 0 16px 0;
+      margin: 20px 0 46px 0;
       .btn-default {
         height: 30px;
         &:first-child {
@@ -65,5 +65,9 @@
     .yc-table-box{
       margin: 0 20px;
     }
+  }
+  .yc-table-check{
+      position: relative;
+      top: 5px;
   }
 }
