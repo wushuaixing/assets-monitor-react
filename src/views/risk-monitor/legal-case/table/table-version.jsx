@@ -44,8 +44,8 @@ export default class TableVersion extends React.Component {
 					<li>
 						<span className="list list-title align-justify">执行标的</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content" style={{ minWidth: 70 }}>
-							{ toEmpty(row.execMoney) ? <Ellipsis content={`${row.execMoney}元`} tooltip width={70} /> : '-'}
+						<span className="list list-content" style={{ minWidth: 140 }}>
+							{ toEmpty(row.execMoney) ? <Ellipsis content={row.execMoney`${row.execMoney}元`} tooltip width={160} /> : '-'}
 						</span>
 						<span className="list list-title align-justify">未履行金额</span>
 						<span className="list list-title-colon">:</span>
