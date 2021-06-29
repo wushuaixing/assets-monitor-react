@@ -3,6 +3,7 @@ import { execEndCaseRisk } from '@/utils/api/professional-work/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
 import { Spin } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
+import { floatFormat } from '@/utils/format';
 import './style.scss';
 
 export default class LimitHeight extends React.Component {
@@ -11,6 +12,8 @@ export default class LimitHeight extends React.Component {
 		this.state = {
 			loading: false,
 			timeLineData: [],
+			execMoneyTotal: '',
+			unExecMoneyTotal: '',
 		};
 	}
 
@@ -31,10 +34,13 @@ export default class LimitHeight extends React.Component {
 			if (res.code === 200) {
 				console.log('unblock === ', res);
 				const timeLineData = res.data.yearDistributions;
+				const { unExecMoneyTotal, execMoneyTotal } = res.data;
 				const allNum = getCount(timeLineData);
-				getAssetProfile(allNum, 'LimitHeight');
+				getAssetProfile(allNum, 'LegalCase');
 				this.setState({
 					loading: false,
+					execMoneyTotal,
+					unExecMoneyTotal,
 					timeLineData, // 年份分布
 				});
 			} else {
@@ -46,7 +52,9 @@ export default class LimitHeight extends React.Component {
 	};
 
 	render() {
-		const { timeLineData, loading } = this.state;
+		const {
+			timeLineData, loading, execMoneyTotal, unExecMoneyTotal,
+		} = this.state;
 		return (
 			<div>
 				{
@@ -60,10 +68,18 @@ export default class LimitHeight extends React.Component {
 								</span>
 								<span className="container-title-name">终本文案</span>
 							</div>
-              <div>
-                <span>执行标的总金额：10,000,000元</span>
-                <span>未履行总金额：10,000,000元</span>
-              </div>
+							<div className="overview-container-content-legalcase">
+								<span className="overview-container-content-legalcase-item">
+									执行标的总金额：
+									<span className="overview-container-content-legalcase-bold">{execMoneyTotal ? `${floatFormat(execMoneyTotal)}` : '--'}</span>
+									<span>{execMoneyTotal ? '元' : ''}</span>
+								</span>
+								<span className="overview-container-content-legalcase-item">
+									未履行总金额：
+									<span className="overview-container-content-legalcase-bold">{unExecMoneyTotal ? `${floatFormat(unExecMoneyTotal)}` : '--'}</span>
+									<span>{unExecMoneyTotal ? '元' : ''}</span>
+								</span>
+							</div>
 							<div className="overview-container-content">
 								{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="Limit" />}
 							</div>

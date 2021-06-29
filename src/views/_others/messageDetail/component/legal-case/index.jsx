@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'reactPropTypes';
 import { markRead } from '@/utils/api/message';
-import TableView from '@/views/risk-monitor/execute-info/table/table';
+import TableLimit from '@/views/risk-monitor/legal-case/table/table';
 import message from '@/utils/api/message/message';
 import { Spin } from '@/common';
 import { clearZero } from '@/utils';
 
-class executeTable extends Component {
+class LegalCase extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -35,11 +35,11 @@ class executeTable extends Component {
 		}
 	}
 
-	// 请求限制被执行新增数据
+	// 请求终本新增数据
 	toGetData = () => {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
-		const reg = new RegExp(11208);
+		const reg = new RegExp(11207);
 		const api = message.filter(item => reg.test(item.dataType))[0].list;
 		const params = {
 			obligorId,
@@ -114,7 +114,6 @@ class executeTable extends Component {
 			isShowPagination: total > 5,
 			pageSize: 5,
 		};
-		// console.log('tableProps === ', tableProps);
 		return (
 			<React.Fragment>
 				<div className="messageDetail-table-title" id={id}>
@@ -123,7 +122,7 @@ class executeTable extends Component {
 				</div>
 				<div className="messageDetail-table-container">
 					<Spin visible={loading}>
-						<TableView {...tableProps} />
+						<TableLimit {...tableProps} />
 					</Spin>
 				</div>
 			</React.Fragment>
@@ -131,7 +130,7 @@ class executeTable extends Component {
 	}
 }
 
-executeTable.propTypes = {
+LegalCase.propTypes = {
 	id: PropTypes.string,
 	title: PropTypes.string,
 	total: PropTypes.number,
@@ -140,12 +139,12 @@ executeTable.propTypes = {
 	stationId: PropTypes.number,
 };
 
-executeTable.defaultProps = {
-	id: 'message-execute',
-	title: '被执行信息',
+LegalCase.defaultProps = {
+	id: 'message-limit',
+	title: '终本案件',
 	total: 0,
 	obligorId: undefined,
 	stationId: 0,
 };
 
-export default executeTable;
+export default LegalCase;

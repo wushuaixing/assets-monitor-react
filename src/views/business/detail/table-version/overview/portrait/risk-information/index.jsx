@@ -11,6 +11,7 @@ import {
 	businessOverviewDishonest, // 业务失信
 	OverviewTax, // 个人债务人税收违法
 	execEndCaseRisk, // 终本案件
+	execPersonRisk, // 被执行信息
 } from '@/utils/api/professional-work/overview';
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
@@ -36,7 +37,7 @@ const apiType = (value, portrait) => {
 	case 'Tax': return OverviewTax;
 	case 'Limit': return overviewLimitHeight; // 只是债务人的限制高消费，没有做业务的
 	case 'Legalcase': return execEndCaseRisk;
-	case 'execute': return overviewLimitHeight; // 被执行信息
+	case 'execute': return execPersonRisk; // 被执行信息
 	default: return {};
 	}
 };
@@ -273,13 +274,13 @@ export default class RiskInformation extends React.Component {
 
 	// 被执行信息
 	getexecuteData = (isArray, values) => {
-		const res = values[4];
+		const res = values[6];
 		if (isArray && res && res.code === 200) {
-			const { gmtModified, limitHeightCount, limitHeightRemovedCount } = res.data;
+			const { gmtModified, execPersonCount, removedCount } = res.data;
 			const executePropsData = {
 				gmtModified,
-				limitHeightCount,
-				limitHeightRemovedCount,
+				execPersonCount,
+				removedCount,
 				obligorTotal: res.data.obligorTotal || null,
 			};
 			this.setState(() => ({
@@ -316,20 +317,20 @@ export default class RiskInformation extends React.Component {
 							<div className="overview-container-cardContent">
 								{/* 破产重组 */}
 								{portrait !== 'debtor_personal' && Object.keys(bankruptcyPropsData).length !== 0 && <Bankruptcy dataSource={bankruptcyPropsData} portrait={portrait} />}
+								{/* 被执行信息 */}
+								{Object.keys(executePropsData).length !== 0 && <Execute dataSource={executePropsData} portrait={portrait} />}
+								{/* 终本案件 */}
+								{Object.keys(legalCasePropsData).length !== 0 && <LegalCaseCard dataSource={legalCasePropsData} portrait={portrait} />}
 								{/* 失信记录 */}
 								{Object.keys(dishonestPropsData).length !== 0 && <Break dataSource={dishonestPropsData} portrait={portrait} />}
+								{/* 限制高消费 */}
+								{Object.keys(limitHeightPropsData).length !== 0 && <LimitHeightCard dataSource={limitHeightPropsData} portrait={portrait} />}
 								{/* 涉诉信息 */}
 								{Object.keys(litigationPropsData).length !== 0 && <Involved dataSource={litigationPropsData} portrait={portrait} />}
 								{/* 经营风险 */}
 								{portrait !== 'debtor_personal' && Object.keys(riskPropsData).length !== 0 && <Information dataSource={riskPropsData} portrait={portrait} />}
 								{/* 税收违法 */}
 								{portrait === 'debtor_personal' && Object.keys(taxPropsData).length !== 0 && <Tax dataSource={taxPropsData} />}
-								{/* 限制高消费 */}
-								{Object.keys(limitHeightPropsData).length !== 0 && <LimitHeightCard dataSource={limitHeightPropsData} portrait={portrait} />}
-								{/* 终本案件 */}
-								{Object.keys(legalCasePropsData).length !== 0 && <LegalCaseCard dataSource={legalCasePropsData} portrait={portrait} />}
-								{/* 被执行信息 */}
-								{Object.keys(executePropsData).length !== 0 && <Execute dataSource={executePropsData} portrait={portrait} />}
 							</div>
 						</div>
 					) : null}

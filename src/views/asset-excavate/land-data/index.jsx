@@ -229,8 +229,10 @@ export default class Lawsuits extends React.Component {
 	// sourceType变化
 	onSourceType = (val) => {
 		axiosPromiseArr.forEach((c, index) => {
-			c.cancel();
-			delete axiosPromiseArr[index];
+			if (c.url !== '/api/auth/currentOrg') {
+				c.cancel();
+				delete axiosPromiseArr[index];
+			}
 		});
 		this.setState({
 			sourceType: val,
@@ -294,11 +296,7 @@ export default class Lawsuits extends React.Component {
 			this.setState({
 				loading: false,
 			});
-		}).catch(() => {
-			this.setState({
-				loading: false,
-			});
-		});
+		}).catch(() => {});
 	};
 
 	clearSelectRowNum = () => this.selectRow = [];

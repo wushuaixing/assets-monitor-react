@@ -1,13 +1,14 @@
 import React from 'react';
 import { Popover } from 'antd';
 // import footerImg from 'img/login/img_footer_qrcode.png';
+import Cookies from 'universal-cookie';
 import phone from 'img/login/icon_telephone.png';
 import address from 'img/login/icon_address.png';
 import email from 'img/login/icon_contact_email.png';
 import CustomAgency from '../../../common/custom/agency';
-import PopCode from '../../../common/popCode';
-// 底部
 
+const cookie = new Cookies();
+const isSpecial = cookie.get('isSpecial');
 const content = (
 	<div>
 		<p style={{ lineHeight: '22px' }}>
@@ -47,6 +48,7 @@ const content = (
 );
 
 const Footer = () => (
+	!isSpecial && (
 	<div className="yc-footer-wrapper">
 		<div className="yc-footer-content">
 			<div className="clear-fix">
@@ -76,5 +78,6 @@ const Footer = () => (
 			</div>
 		</div>
 	</div>
+	)
 );
 export default Footer;

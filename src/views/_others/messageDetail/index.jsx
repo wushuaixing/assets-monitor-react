@@ -27,6 +27,7 @@ import executeTable from './component/execute/index';
 import Car from './component/car/index';
 import RealEstate from './component/real-estate/index';
 import Construct from './component/construct/index';
+import LegalCase from './component/legal-case/index';
 
 const createForm = Form.create;
 
@@ -272,12 +273,20 @@ const subItems = (rule, data) => {
 			component: LimitHeight,
 		},
 		{
-			dataType: 114,
+			dataType: 11208,
 			name: '被执行信息',
-			total: data ? getCount(data, 114) : 0,
-			status: isRule('fxjkxzgxf', 2, rule),
+			total: data ? getCount(data, 11208) : 0,
+			status: isRule('fxjkbzxxx', 2, rule),
 			tagName: 'message-execute',
 			component: executeTable,
+		},
+		{
+			dataType: 11207,
+			name: '终本案件',
+			total: data ? getCount(data, 11207) : 0,
+			status: isRule('fxjkzbaj', 2, rule),
+			tagName: 'message-legalCase',
+			component: LegalCase,
 		},
 		{
 			dataType: 112,
@@ -388,7 +397,7 @@ class MessageDetail extends React.Component {
 				});
 			}
 		}).catch((err) => {
-			console.log('err === ', err);
+			console.log('err ===@@ ', err);
 		});
 	};
 
@@ -431,9 +440,6 @@ class MessageDetail extends React.Component {
 									当前有效：
 									<span className="messageDetail-header-tips-num">{effectiveCount <= 0 ? '0' : effectiveCount}</span>
 									 条
-									{
-										console.log('effectiveCount',effectiveCount)
-									}
 								</span>
 								<span className="splitLine"> | </span>
 								<span>

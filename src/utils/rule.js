@@ -436,13 +436,13 @@ export default {
 								id: 'YC0309',
 								name: '被执行信息',
 								url: '/risk/execute',
-								status: toStatus(rule.menu_fxjk, 'fxjkxzgxf'),
+								status: toStatus(rule.menu_fxjk, 'fxjkbzxxx'),
 							},
 							{
 								id: 'YC0306',
 								name: '终本案件',
 								url: '/risk/legalcase',
-								status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
+								status: toStatus(rule.menu_fxjk, 'fxjkzbaj'),
 							},
 							{
 								id: 'YC0304',

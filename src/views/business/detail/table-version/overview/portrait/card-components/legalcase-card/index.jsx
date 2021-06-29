@@ -30,16 +30,18 @@ export default class LegalCaseCard extends React.Component {
 						gmtCreate={gmtModified}
 						obligorName="匹配到终本案件信息"
 						text="终本案件"
-						onClick={() => navigateDetailRisk('e-manage-limitHeight')}
-						styleName="limit-card"
+						onClick={() => navigateDetailRisk('e-manage-legalCase')}
+						styleName="legalcase-card"
 					>
-						<div className="business-limit-card">
-							终本案件信息数：
-							<span className="business-limit-card-num">{endCaseCount}</span>
-						</div>
-						<div className="business-limit-card">
-							其中已移除：
-							<span className="business-limit-card-num">{removeCount}</span>
+						<div className="legalcase-card-content">
+							<div className="legalcase-card-content-card">
+								终本案件信息数：
+								<span className="legalcase-card-content-card-num">{endCaseCount}</span>
+							</div>
+							<div className="legalcase-card-content-card">
+								其中已移除：
+								<span className="legalcase-card-content-card-num">{removeCount}</span>
+							</div>
 						</div>
 					</Card>
 				) : null}
