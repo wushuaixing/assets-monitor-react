@@ -8,11 +8,11 @@ import { navigate } from '@reach/router';
 /* utils */
 import { requestAll } from '@/utils/promise';
 import {
-	getQueryByName, timeStandard, toEmpty, reviseNum, linkDetail, getHrefQuery,
+	getQueryByName, timeStandard, getHrefQuery,
 } from '@/utils';
 /* api collection */
-import businessAssets from '@/utils/api/professional-work/business/assets';
-import businessRisk from '@/utils/api/professional-work/business/risk';
+// import businessAssets from '@/utils/api/professional-work/business/assets';
+// import businessRisk from '@/utils/api/professional-work/business/risk';
 import {
 	businessInfo,
 	// exportListBusiness
@@ -23,13 +23,13 @@ import {
 	Icon as IconType, BreadCrumb, Button, Spin,
 } from '@/common';
 import { businessList } from '@/utils/api/professional-work/overview';
-import ShapeImg from '@/assets/img/business/Shape.png';
+// import ShapeImg from '@/assets/img/business/Shape.png';
 import Overview from '@/views/business/detail/table-version/overview';
 import Assets from '@/views/business/detail/table-version/assets';
 import Risk from '@/views/business/detail/table-version/risk';
 import BusinessImg from '@/assets/img/business/icon_business.png';
-import isBreak from '@/assets/img/business/status_shixin.png';
-import beforeBreak from '@/assets/img/business/status_cengshixin.png';
+// import isBreak from '@/assets/img/business/status_shixin.png';
+// import beforeBreak from '@/assets/img/business/status_cengshixin.png';
 import ChangeModal from './change-modal/changeList';
 import { setSource } from './cache';
 import '../style.scss';
@@ -56,7 +56,7 @@ const source = () => [
 		config: Assets.config,
 		status: Assets.config.status,
 		component: Assets,
-		apiData: businessAssets,
+		apiData: '',
 		source: [],
 	},
 	{
@@ -67,7 +67,7 @@ const source = () => [
 		config: Risk.config,
 		status: Risk.config.status,
 		component: Risk,
-		apiData: businessRisk,
+		apiData: '',
 		source: [],
 	},
 ].filter(i => i.status);
@@ -77,10 +77,10 @@ const EnterpriseInfo = (props) => {
 		data, onEdit, onRecord, affixStatus,
 	} = props;
 	const {
-		dishonestStatus: isDishonest, businessPushType, obligorId, bankruptcyStatus,
+		 businessPushType,
 	} = data;
 	const {
-		obligorName: name, orgName, obligorNumber, uploadTime, caseNumber, obligorPushType,
+		 orgName, uploadTime, caseNumber,
 	} = data;
 	const style = {
 		// minWidth: 80,
@@ -112,27 +112,6 @@ const EnterpriseInfo = (props) => {
 						) : null
 					}
 				</div>
-				{/*<div className="intro-base-info">*/}
-				{/*	<li className="intro-info-list intro-list-border">*/}
-				{/*		{name ? <img src={ShapeImg} style={{ position: 'relative', top: '2px', marginRight: '5px' }} alt="" /> : null}*/}
-				{/*		<span className="yc-public-remark">借款人：</span>*/}
-				{/*		<span className="yc-public-title intro-title-name" style={style}>*/}
-				{/*			{name ? linkDetail(obligorId, name) : '-'}*/}
-				{/*			{ isDishonest === 1 ? <img style={{ width: '28px' }} src={isBreak} alt="" /> : null }*/}
-				{/*			{ isDishonest === 2 ? <img style={{ width: '28px' }} src={beforeBreak} alt="" /> : null }*/}
-				{/*			{ bankruptcyStatus ? <span className="inquiry-list-regStatus regStatus-red" style={{ marginTop: -1, marginRight: 5 }}>破产/重整风险</span> : ''}*/}
-				{/*			/!* {isDishonest ? <img className="intro-title-tag" src={Dishonest} alt="" style={{ width: '28px' }} /> : null} *!/*/}
-				{/*		</span>*/}
-				{/*	</li>*/}
-				{/*	<li className="intro-info-list intro-list-border">*/}
-				{/*		<span className="yc-public-remark">证件号/统一社会信用代码：</span>*/}
-				{/*		<span className="yc-public-title" style={style}>{toEmpty(obligorNumber) ? reviseNum(obligorNumber) : '-'}</span>*/}
-				{/*	</li>*/}
-				{/*	<li className="intro-info-list">*/}
-				{/*		<span className="yc-public-remark">借款人推送状态：</span>*/}
-				{/*		<span className="yc-public-title">{obligorPushType !== null ? (obligorPushType ? '开启' : '关闭') : '-'}</span>*/}
-				{/*	</li>*/}
-				{/*</div>*/}
 				<div className="intro-used">
 
 					<li className="intro-info-list intro-list-border">
@@ -165,16 +144,6 @@ const Operation = (props) => {
 				<IconType type="icon-change-record" style={{ marginRight: 5 }} />
 				变更记录
 			</Button>
-			{/* <Download */}
-			{/*	style={{ width: 84, height: 30 }} */}
-			{/*	condition={{ */}
-			{/*		businessId: getQueryByName(window.location.href, 'id'), */}
-			{/*	}} */}
-			{/*	icon={<IconType type="icon-download" style={{ marginRight: 5 }} />} */}
-			{/*	api={exportListBusiness} */}
-			{/*	normal */}
-			{/*	text="下载" */}
-			{/* /> */}
 		</div>
 	);
 };
@@ -237,16 +206,11 @@ export default class Enterprise extends React.Component {
 				this.openErrorModal();
 				this.setState({
 					loading: false,
-					// assetLoading: false,
-					// riskLoading: false,
-					// apiError: true,
 				});
 			}
 		}).catch(() => {
 			this.setState({
 				loading: false,
-				// assetLoading: false,
-				// riskLoading: false,
 			});
 		});
 	}
@@ -375,19 +339,10 @@ export default class Enterprise extends React.Component {
 
 	render() {
 		const {
-			// tabConfig, childDom, sourceType,
 			infoSource, changeListModalVisible, businessId, timeLeft, errorModalVisible, affixStatus, loading, dataList, relationTableLoading,
-			// assetLoading, riskLoading, apiError,  totals, current, pageSize,
 		} = this.state;
 		const classList = ['info-detail', 'info-wrapper'];
 		if (affixStatus) classList.push('enterprise-intro-affix');
-		// const params = {
-		// 	apiError,
-		// 	assetLoading,
-		// 	riskLoading,
-		// 	toPushChild: this.handleAddChild, // tab 追加子项
-		// 	portrait: this.portrait,
-		// };
 		return (
 			<div className="yc-information-detail-wrapper">
 				<div className="info-navigation">
@@ -410,36 +365,12 @@ export default class Enterprise extends React.Component {
 					<Spin visible={loading}>
 						<div className={classList.join(' ')}>
 							<EnterpriseInfo data={infoSource} onEdit={this.handleEdit} onRecord={this.openPeopleModal} affixStatus={affixStatus} />
-							{/* <Tabs.Simple onChange={this.onSourceType} source={tabConfig} symbol="none" defaultCurrent={sourceType} hashUrl /> */}
-							{/* {childDom} */}
 						</div>
 					</Spin>
 				</Affix>
-				{/* <div className="info-content"> */}
-				{/*	<Router> */}
-				{/*		{ !loading && tabConfig.map(I => <I.component count={I.source} path={I.path} {...params} />) } */}
-				{/*	</Router> */}
-				{/* </div> */}
-				{/* 业务相关人列表 */}
 				<Spin visible={relationTableLoading}>
 					<RelationTable dataSource={dataList} getData={this.relationBusinessData} />
 				</Spin>
-
-				{/* <div className="yc-table-pagination" style={{ padding: '30px 20px 20px 0' }}> */}
-				{/*	<Pagination */}
-				{/*		total={totals} */}
-				{/*		current={current} */}
-				{/*		defaultPageSize={pageSize} // 默认条数 */}
-				{/*		showQuickJumper */}
-				{/*		pageSizeOptions={['10', '25', '50']} */}
-				{/*		showSizeChanger */}
-				{/*		// onShowSizeChange={(c, p) => this.onShowSizeChange(p)} */}
-				{/*		showTotal={total => `共 ${total} 条记录`} */}
-				{/*		// onChange={(val) => { */}
-				{/*        // 	this.handleChangePage(val); */}
-				{/*		// }} */}
-				{/*	/> */}
-				{/* </div> */}
 				{/** 担保人Modal */}
 				{changeListModalVisible && (
 					<ChangeModal

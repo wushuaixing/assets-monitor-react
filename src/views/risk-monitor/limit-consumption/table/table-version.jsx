@@ -20,6 +20,13 @@ export default class TableVersion extends React.Component {
 		this.toGetData();
 	}
 
+	shouldComponentUpdate(nextProps) {
+		if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
+			this.toGetData(1, nextProps);
+		}
+		return true;
+	}
+
 	// 获取column配置
 	// 债务人类型（1：企业 2：个人）
 	// 企业债务人限高信息中的关联对象为个人的名称
@@ -78,48 +85,49 @@ export default class TableVersion extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData = (page) => {
-		const { portrait, option } = this.props;
-		// 默认查询债务人的限制高消费list
-		const { api, params } = getDynamicRisk(portrait, option || {
-			b: 20501,
-			e: 'limitHeight',
+	toGetData=(page, nextProps = {}) => {
+		const { sourceType } = nextProps;
+		const { sourceType: type, portrait } = this.props;
+		const _sourceType = sourceType || type;
+		const { api, params } = getDynamicRisk(portrait, {
+			b: _sourceType,
 		});
 		this.setState({ loading: true });
 		api.list({
 			page: page || 1,
 			num: 5,
 			...params,
-		})
-			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						dataSource: res.data.list,
-						current: res.data.page,
-						total: res.data.total,
-						loading: false,
-					});
-				} else {
-					this.setState({
-						dataSource: '',
-						current: 1,
-						total: 0,
-						loading: false,
-					});
-				}
-			})
-			.catch(() => {
-				this.setState({ loading: false });
-			});
+		}).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
+					loading: false,
+				});
+			} else {
+				this.setState({
+					dataSource: '',
+					current: 1,
+					total: 0,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {
+		// const { dataSource, current, total } = this.state;
+		// const { loading } = this.state;
+		// const { loadingHeight } = this.props;
+
 		const { dataSource, current, total } = this.state;
 		const { loading } = this.state;
-		const { loadingHeight } = this.props;
 		return (
 			<div className="yc-assets-auction ">
-				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
+				<Spin visible={loading}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
 						columns={this.toGetColumns()}

@@ -56,13 +56,13 @@ export default class Broken extends PureComponent {
 					<div className={`risk-broken-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
 						未移除：
 						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{dishonest || 0 }</span>
-						名
+						条
 					</div>
 
 					<div className={`risk-broken-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
 						已移除：
 						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{unDishonestCount || 0}</span>
-						名
+						条
 					</div>
 				</div>
 				)}
