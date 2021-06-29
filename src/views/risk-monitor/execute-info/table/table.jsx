@@ -29,7 +29,7 @@ const columns = (props) => {
 			width: 280,
 			render: (text, row) => (
 				<Ellipsis
-					content={text || '-'}
+					content={`${text} ${row.partyCardNum ? `(${row.partyCardNum})` : ''}` || '-'}
 					tooltip
 					width={280}
 					url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}
@@ -58,10 +58,15 @@ const columns = (props) => {
 		}, {
 			title: '执行标的',
 			dataIndex: 'execMoney',
-			render: text => <span>{text ? `${floatFormat(text)}元` : '--'}</span>,
+			render: text => (
+				<span>
+					{ floatFormat(text) }
+					元
+				</span>
+			),
 		},
 		{
-			title: '移除状况',
+			title: '移除情况',
 			dataIndex: 'status',
 			render: text => (
 				<span>

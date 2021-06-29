@@ -390,7 +390,9 @@ class InformCenter extends React.Component {
 								</div>
 							)}
 						</div>
-						{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum className="yc-table-check" num={selectedRowKeys.length} /> : null}
+						<div className="yc-table-check">
+							{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
+						</div>
 						<Spin visible={loading}>
 							<Table
 								rowSelection={isInstitution && rowSelection}
