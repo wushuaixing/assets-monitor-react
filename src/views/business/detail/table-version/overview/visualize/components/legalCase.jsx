@@ -66,7 +66,7 @@ export default class LimitHeight extends React.Component {
 								<span className="container-title-num">
 									{`${getCount(timeLineData)} 条`}
 								</span>
-								<span className="container-title-name">终本文案</span>
+								<span className="container-title-name">终本案件</span>
 							</div>
 							<div className="overview-container-content-legalcase">
 								<span className="overview-container-content-legalcase-item">

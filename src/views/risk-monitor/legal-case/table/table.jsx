@@ -4,7 +4,7 @@ import PropTypes from 'reactPropTypes';
 import { Attentions, ReadStatus, SortVessel } from '@/common/table';
 import Api from 'api/monitor-info/legal-case';
 import { Table, SelectedNum, Ellipsis } from '@/common';
-import { timeStandard } from '@/utils';
+import { timeStandard, floatFormat } from '@/utils';
 import ViewContentModal from './view-content-modal';
 import './index.scss';
 
@@ -28,7 +28,7 @@ const columns = (props) => {
 			width: 265,
 			render: (text, row) => (
 				<Ellipsis
-					content={text || '-'}
+					content={`${row.obligorType === 2 && row.partyCardNum ? `${row.obligorName}(${row.partyCardNum})` : `${row.obligorName || '-'}`}`}
 					tooltip
 					width={200}
 					url={row.obligorId ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}
@@ -67,19 +67,24 @@ const columns = (props) => {
 					<li>
 						<span className="list list-title align-justify" style={{ width: 50 }}>执行标的</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{text ? `${text}元` : '-'}</span>
+						<span className="list list-content">{text ? `${floatFormat(text)}元` : '-'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify" style={{ width: 60 }}>未履行金额</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{row.unExecMoney ? `${row.unExecMoney}元` : '-'}</span>
+						<span className="list list-content">{row.unExecMoney ? `${floatFormat(row.unExecMoney)}元` : '-'}</span>
 					</li>
 				</div>
-			)
+			),
 		}, {
 			title: '移除状况',
 			dataIndex: 'status',
-			render: text => (text ? <p className="no-attention">已移除</p> : <p className="circle-item">未移除</p>),
+			render: text => (
+				<span>
+					<span className="status-dot" style={{ backgroundColor: text === 0 ? '#3DBD7D' : '#FB5A5C' }} />
+					<span className="status-text">{text === 0 ? '未移除' : '已移除'}</span>
+				</span>
+			),
 		},
 		{
 			title: (noSort ? global.Table_CreateTime_Text
@@ -142,16 +147,6 @@ class TableView extends React.Component {
 		if (onSelect)onSelect(selectedRowKeys);
 	};
 
-	// 点击查看限高内容
-	// toViewContent = ([viewContent = '', url]) => {
-	// 	if (url) {
-	// 		this.setState({
-	// 			visible: true,
-	// 			viewContent,
-	// 		});
-	// 	}
-	// };
-
 	render() {
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
@@ -168,7 +163,7 @@ class TableView extends React.Component {
 				{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
 				<Table
 					{...rowSelection}
-					columns={columns(this.props, this.toViewContent)}
+					columns={columns(this.props)}
 					rowKey={record => record.id}
 					dataSource={dataSource}
 					pagination={false}
