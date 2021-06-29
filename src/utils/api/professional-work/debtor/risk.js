@@ -64,12 +64,19 @@ const debtorRisk = {
 	},
 	20501: {
 		id: 20501,
-		name: '风险-限制高消费',
-		list: params => service.get('/yc/obligor/monitor/risk/limitHeight/limitHeightList', { params }).then(res => res.data),
-		count(params) {
-			return service.get('/yc/obligor/monitor/risk/limitHeight/limitHeightCount', { params })
-				.then(res => Object.assign(res.data, { id: this.id }));
-		},
+		name: '风险-限制高消费-列入',
+		params: {},
+		list: params => service.get('/yc/obligor/monitor/risk/limitHeight/limitHeightList?status=0', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/obligor/monitor/risk/limitHeight/limitHeightCount?status=0', { params })
+			.then(res => Object.assign(res.data, { id })),
+	},
+	20502: {
+		id: 20502,
+		name: '风险-限制高消费-已移除',
+		params: {},
+		list: params => service.get('/yc/obligor/monitor/risk/limitHeight/limitHeightList?status=1', { params }).then(res => res.data),
+		count: (params, id) => service.get('/yc/obligor/monitor/risk/limitHeight/limitHeightCount?status=1', { params })
+			.then(res => Object.assign(res.data, { id })),
 	},
 	20601: {
 		id: 20601,
