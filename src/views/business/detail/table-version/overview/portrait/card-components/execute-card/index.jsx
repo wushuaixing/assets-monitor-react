@@ -35,11 +35,11 @@ export default class Execute extends React.Component {
 					>
 						<div className="execute-card-content">
 							<div className="execute-card-content-card">
-								被执行信息数：
+								未移除：
 								<span className="execute-card-content-card-num">{execPersonCount}</span>
 							</div>
 							<div className="execute-card-content-card">
-								其中已移除：
+								已移除：
 								<span className="execute-card-content-card-num">{removedCount}</span>
 							</div>
 						</div>
