@@ -208,22 +208,22 @@ class HomeDynamic extends PureComponent {
 					count: bankruptcy, type: 7, typeName: '破产重组', name: '破产重组', value: 2,
 				},
 				{
+					count: execPerson, type: 15, typeName: '被执行信息', name: '被执行信息', value: 2,
+				},
+				{
+					count: execEndCaseCount, type: 14, typeName: '终本案件', name: '终本案件', value: 2,
+				},
+				{
 					count: dishonest, type: 8, typeName: '失信记录', name: '失信记录', value: 2,
+				},
+				{
+					count: limitHeight, type: 13, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 				{
 					count: lawsuitNum, type: 9, typeName: '涉诉信息', name: '涉诉信息', value: 2,
 				},
 				{
 					count: operationNum, type: 10, typeName: '经营风险', name: '经营风险', value: 2,
-				},
-				{
-					count: execPerson, type: 15, typeName: '被执行信息', name: '被执行信息', value: 2,
-				},
-				{
-					count: limitHeight, type: 13, typeName: '限制高消费', name: '限制高消费', value: 2,
-				},
-				{
-					count: execEndCaseCount, type: 14, typeName: '终本案件', name: '终本案件', value: 2,
 				},
 			];
 			const riskPropsData = {

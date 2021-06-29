@@ -323,14 +323,14 @@ export default class RiskInformation extends React.Component {
 								{Object.keys(legalCasePropsData).length !== 0 && <LegalCaseCard dataSource={legalCasePropsData} portrait={portrait} />}
 								{/* 失信记录 */}
 								{Object.keys(dishonestPropsData).length !== 0 && <Break dataSource={dishonestPropsData} portrait={portrait} />}
+								{/* 限制高消费 */}
+								{Object.keys(limitHeightPropsData).length !== 0 && <LimitHeightCard dataSource={limitHeightPropsData} portrait={portrait} />}
 								{/* 涉诉信息 */}
 								{Object.keys(litigationPropsData).length !== 0 && <Involved dataSource={litigationPropsData} portrait={portrait} />}
 								{/* 经营风险 */}
 								{portrait !== 'debtor_personal' && Object.keys(riskPropsData).length !== 0 && <Information dataSource={riskPropsData} portrait={portrait} />}
 								{/* 税收违法 */}
 								{portrait === 'debtor_personal' && Object.keys(taxPropsData).length !== 0 && <Tax dataSource={taxPropsData} />}
-								{/* 限制高消费 */}
-								{Object.keys(limitHeightPropsData).length !== 0 && <LimitHeightCard dataSource={limitHeightPropsData} portrait={portrait} />}
 							</div>
 						</div>
 					) : null}
