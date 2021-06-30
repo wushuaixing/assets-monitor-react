@@ -4,7 +4,7 @@ import PropTypes from 'reactPropTypes';
 import { Attentions, ReadStatus, SortVessel } from '@/common/table';
 import Api from 'api/monitor-info/execute';
 import { Table, SelectedNum, Ellipsis } from '@/common';
-import { floatFormat } from '@/utils/format';
+import { floatFormat } from '@/utils/index';
 import { timeStandard } from '@/utils';
 import ViewContentModal from './view-content-modal';
 import './index.scss';
