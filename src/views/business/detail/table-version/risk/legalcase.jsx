@@ -1,9 +1,8 @@
 import React from 'react';
-import { legalcaseCount } from 'api/professional-work/business/risk';
 import { Spin, Tabs } from '@/common';
 import LegalCaseTable from '@/views/risk-monitor/legal-case/table/table-version';
-import { toGetNumber, requestAll } from '@/utils/promise';
-import { getHrefQuery, toGetModuleHeight as toH } from '@/utils';
+import { toGetNumber } from '@/utils/promise';
+import { toGetModuleHeight as toH } from '@/utils';
 
 export default class LegalCaseIntact extends React.Component {
 	constructor(props) {
@@ -36,28 +35,6 @@ export default class LegalCaseIntact extends React.Component {
 				title: '',
 			},
 		};
-	}
-
-	componentDidMount() {
-		const { brokenInfo } = this.state;
-		const businessId = getHrefQuery('id');
-		if (brokenInfo.status) {
-			requestAll([{
-				api: legalcaseCount['20303'].count({ businessId }),
-				info: { id: 20303 },
-			}, {
-				api: legalcaseCount['20304'].count({ businessId }),
-				info: { id: 20304 },
-			}]).then((res) => {
-				this.setState({
-					brokenInfo: Object.assign({}, brokenInfo, {
-						loading: false,
-						yet: res[0].data,
-						once: res[1].data,
-					}),
-				});
-			});
-		}
 	}
 
 	onSourceType=(val) => {

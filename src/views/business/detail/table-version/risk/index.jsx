@@ -63,7 +63,7 @@ const subItems = (data, portrait) => {
 			total: data ? toGetTotal('2030', data) : 0,
 			info: data ? data.filter(i => /2030/.test(i.id)) : '',
 			isStatus: 'normal',
-			tagName: 'e-manage-LegalCase',
+			tagName: 'e-manage-legalCase',
 			role: roleState('fxjk', 'fxjkzbaj'),
 			component: LegalCase,
 		},
@@ -251,7 +251,6 @@ class Risk extends React.Component {
 		const { config } = this.state;
 		const { count, portrait, riskLoading } = this.props;
 		const aryResult = (subItems(count, portrait).filter(i => i.total > 0)).length;
-		console.log(subItems(count, portrait), 'subItems(count, portrait)subItems(count, portrait)');
 		return (
 			<div className="inquiry-assets info-assets-padding">
 				{ riskLoading ? <Spin minHeight={350} />

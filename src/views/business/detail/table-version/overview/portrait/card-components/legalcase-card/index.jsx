@@ -35,12 +35,14 @@ export default class LegalCaseCard extends React.Component {
 					>
 						<div className="legalcase-card-content">
 							<div className="legalcase-card-content-card">
-								终本案件信息数：
+								未移除：
 								<span className="legalcase-card-content-card-num">{endCaseCount}</span>
+								条
 							</div>
 							<div className="legalcase-card-content-card">
-								其中已移除：
+								已移除：
 								<span className="legalcase-card-content-card-num">{removeCount}</span>
+								条
 							</div>
 						</div>
 					</Card>

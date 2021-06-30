@@ -103,7 +103,6 @@ export default class RiskInformation extends React.Component {
 			this.getLegalCaseData(isArray, values);
 			// 被执行信息
 			this.getexecuteData(isArray, values);
-			// console.log('all promise are resolved', values);
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
 		});
@@ -114,7 +113,6 @@ export default class RiskInformation extends React.Component {
 		const res = values[0];
 		if (isArray && res && res.code === 200) {
 			const { gmtCreate } = res.data;
-			// console.log(bankruptcy);
 			const dataSourceNum = res.data.bankruptcy || 0;
 			const bankruptcyPropsData = {
 				bankruptcyNum: dataSourceNum,
@@ -143,7 +141,6 @@ export default class RiskInformation extends React.Component {
 			const isDishonest = isOligorStatusList ? obligorStatusList.filter(item => item.dishonestStatus === 1).length : 0; // 已失信
 			const beforeDishonest = isOligorStatusList ? obligorStatusList.filter(item => item.dishonestStatus === 2).length : 0; // 曾失信
 
-			// console.log(isDishonest, 11, beforeDishonest);
 			if (isBusiness) {
 				debtorArray.push({ count: beforeDishonest, typeName: '曾失信债务人' });
 				debtorArray.push({ count: isDishonest, typeName: '已失信债务人' });
@@ -259,12 +256,14 @@ export default class RiskInformation extends React.Component {
 	getLegalCaseData = (isArray, values) => {
 		const res = values[5];
 		if (isArray && res && res.code === 200) {
-			const { gmtModified, endCaseCount, removeCount } = res.data;
+			const {
+				gmtModified, endCaseCount, removeCount, obligorTotal = null,
+			} = res.data;
 			const legalCasePropsData = {
 				gmtModified,
 				endCaseCount,
 				removeCount,
-				obligorTotal: res.data.obligorTotal || null,
+				obligorTotal,
 			};
 			this.setState(() => ({
 				legalCasePropsData,
@@ -293,10 +292,11 @@ export default class RiskInformation extends React.Component {
 	isHasValue = () => {
 		const { portrait } = this.props;
 		const {
-			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData, taxPropsData, limitHeightPropsData, executePropsData,
+			bankruptcyPropsData, litigationPropsData, riskPropsData, dishonestPropsData, taxPropsData, limitHeightPropsData, legalCasePropsData, executePropsData,
 		} = this.state;
 		return (bankruptcyPropsData.bankruptcyNum > 0 && portrait !== 'debtor_personal') || litigationPropsData.dataSourceNum > 0
-			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0 || taxPropsData.dataSourceNum > 0 || limitHeightPropsData.limitHeightCount > 0 || executePropsData.limitHeightCount > 0;
+			|| (riskPropsData.dataSourceNum > 0 && portrait !== 'debtor_personal') || dishonestPropsData.dataSourceNum > 0 || legalCasePropsData.endCaseCount > 0
+			|| taxPropsData.dataSourceNum > 0 || limitHeightPropsData.limitHeightCount > 0 || executePropsData.execPersonCount > 0;
 	};
 
 	render() {
