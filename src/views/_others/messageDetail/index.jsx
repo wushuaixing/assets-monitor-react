@@ -236,19 +236,6 @@ const subItems = (rule, data) => {
 			],
 		},
 		{
-			dataType: 109,
-			name: '涉诉监控',
-			total: data ? getCount(data, 109) : 0,
-			status: isRule('fxjkssjk', 2, rule),
-			tagName: 'message-litigation',
-			component: LitigationMonitoring,
-			childrenCount: [
-				{ name: '立案', count: data ? getCount(data, 10901) : 0, dataType: 10901 },
-				{ name: '开庭', count: data ? getCount(data, 10902) : 0, dataType: 10902 },
-				{ name: '裁判文书', count: data ? getCount(data, 10903) : 0, dataType: 10903 },
-			],
-		},
-		{
 			dataType: 110,
 			name: '企业破产重组',
 			total: data ? getCount(data, 110) : 0,
@@ -296,6 +283,19 @@ const subItems = (rule, data) => {
 			tagName: 'message-businessRisk',
 			component: BusinessRisk,
 			childrenCount: riskchildren,
+		},
+		{
+			dataType: 109,
+			name: '涉诉监控',
+			total: data ? getCount(data, 109) : 0,
+			status: isRule('fxjkssjk', 2, rule),
+			tagName: 'message-litigation',
+			component: LitigationMonitoring,
+			childrenCount: [
+				{ name: '立案', count: data ? getCount(data, 10901) : 0, dataType: 10901 },
+				{ name: '开庭', count: data ? getCount(data, 10902) : 0, dataType: 10902 },
+				{ name: '裁判文书', count: data ? getCount(data, 10903) : 0, dataType: 10903 },
+			],
 		},
 	];
 };
