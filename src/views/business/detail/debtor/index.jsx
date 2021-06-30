@@ -141,21 +141,6 @@ export default class Enterprise extends React.Component {
 		});
 	}
 
-	// componentDidUpdate(prevState) {
-	// 	const { sourceType } = this.state;
-	// 	if (prevState.sourceType !== sourceType) {
-	// 		const { href } = window.location;
-	// 		console.log(href.indexOf('info') !== -1);
-	// 		if (href.indexOf('info') !== -1) {
-	// 			const type = href.match(/info\/(\S*)\?/)[1];
-	// 			console.log(type);
-	// 			if (type) {
-	// 				this.onSourceType(type);
-	// 			}
-	// 		}
-	// 	}
-	// }
-
 	// 获取各类子项总数
 	toGetSubItemsTotal = ((item, index, portrait) => {
 		const obligorId = getQueryByName(window.location.href, 'id') || constantNumber;
@@ -179,7 +164,6 @@ export default class Enterprise extends React.Component {
 					});
 				});
 			}
-			// console.log('apiArray === ', apiArray);
 			if (apiArray.length) {
 				requestAll(apiArray).then((res) => {
 					let count = 0;
@@ -191,7 +175,6 @@ export default class Enterprise extends React.Component {
 					if (item.id === 102) l.assetLoading = false;
 					if (item.id === 103) l.riskLoading = false;
 					this.setState({ tabConfig, ...l });
-					// console.log(tabConfig);
 				});
 			}
 		}

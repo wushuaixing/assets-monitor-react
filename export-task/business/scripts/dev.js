@@ -20,7 +20,7 @@ function exportCover(source, exportType,domainName) {
 		1:{key:'yc',value:bgImgData}, //  源诚
 		2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
 		3:{key:'zhongguandev',value:zgBgImgData}, // (测试环境域名)中冠
-		4:{key:'zhuanxian',value:'none'} // 专线
+		4:{key:'zhuanxian',value:''} // 专线
 	}
 	var d = JSON.parse(source) || {};
 	var bgImgSource = domainType[domainName] ? domainType[domainName].value : bgImgData;
@@ -283,7 +283,7 @@ function exportTemplate(source, exportType, name, domainName) {
 			1:{key:'yc',value:bgImgData}, //  源诚
 			2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
 			3:{key:'zhongguandev',value:zgBgImgData}, // (测试环境域名)中冠
-			4:{key:'zhuanxian',value:'none'} // 专线
+			4:{key:'zhuanxian',value:''} // 专线
 		},
 	};
 	// public function object
