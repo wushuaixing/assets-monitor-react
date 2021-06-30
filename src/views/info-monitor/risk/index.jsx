@@ -295,7 +295,7 @@ export default class Risk extends PureComponent {
 			config, loading, finish, bankruptcyPropsData, dishonestPropsData, riskPropsData, litigationPropsData,
 			limitHeightPropsData, bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount, legalCasePropsData, executePropsData,
 		} = this.state;
-		const allNumber = this.getNumber([bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount]);
+		const allNumber = this.getNumber([bankruptcyCount, dishonestCount, litigationCount, riskCount, limitCount, legalCasePropsData, executePropsData]);
 		const params = {
 			bankruptcyPropsData,
 			dishonestPropsData,

@@ -629,7 +629,7 @@ export const	roleState = (field, childField) => {
 	if (Array.isArray(childField) && childField.length > 0) {
 		let isRule = 0;
 		childField.forEach((item) => {
-			isRule += Boolean(ruleObject.children[item]);
+			isRule += Boolean(ruleObject && ruleObject.children[item]);
 		});
 		return isRule > 0;
 	}

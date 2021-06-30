@@ -439,6 +439,18 @@ td.column-left20 {
   margin-top: 6px;
 }
 
+.circle-remove:before {
+  width: 6px;
+  height: 6px;
+  content: "";
+  border-radius: 3px;
+  background-color: #FB5A5C;
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: top;
+  margin-top: 6px;
+}
+
 .no-attention:before {
   width: 6px;
   height: 6px;
