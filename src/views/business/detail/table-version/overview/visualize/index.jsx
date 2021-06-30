@@ -342,7 +342,7 @@ export default class Visualize extends React.Component {
 						{portrait !== 'debtor_personal' && <Bankruptcy {...params} />}
 						{/* 被执行信息 */}
 						<Execute {...params} />
-						{/* 终本文案 */}
+						{/* 终本案件 */}
 						<LegalCase {...params} />
 						{/* 失信记录 */}
 						<Dishonest {...params} />
