@@ -77,7 +77,7 @@ const columns = (props) => {
 				</div>
 			),
 		}, {
-			title: '移除状况',
+			title: '移除情况',
 			dataIndex: 'status',
 			render: text => (text ? <p className="circle-item">已移除</p> : <p className="circle-remove">未移除</p>),
 		},
