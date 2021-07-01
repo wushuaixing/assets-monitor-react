@@ -57,7 +57,7 @@ const columns = (props) => {
 						<span className="list list-content">{row.execCourtName || '-'}</span>
 					</li>
 				</div>
-			)
+			),
 		}, {
 			title: '履行情况',
 			dataIndex: 'execMoney',
@@ -65,7 +65,7 @@ const columns = (props) => {
 			render: (text, row) => (
 				<div className="assets-info-content">
 					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>执行标的</span>
+						<span className="list list-title align-justify" style={{ width: 60 }}>执行标的</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{text ? `${floatFormat(text)}元` : '-'}</span>
 					</li>
