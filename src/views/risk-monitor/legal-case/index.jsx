@@ -4,7 +4,7 @@ import {
 	Button, Spin, Download, Icon,
 } from '@/common';
 import Api from 'api/monitor-info/legal-case';
-import { unReadCount as unReadTotal } from 'api/monitor-info';
+import { legalCaseCount as unReadTotal } from 'api/monitor-info/excavate/count';
 import { clearEmpty } from '@/utils';
 import QueryView from './query';
 import TableView from './table/table';
@@ -21,7 +21,6 @@ export default class LimitConsumption extends React.Component {
 			total: 0,
 			loading: false,
 			manage: false,
-			unReadCount: false,
 		};
 		this.condition = {};
 		this.selectRow = [];
@@ -36,14 +35,6 @@ export default class LimitConsumption extends React.Component {
 
 	// 获取终本案件是否存在未读数据
 	toUnReadCount = () => {
-		unReadTotal().then((res) => {
-			const { code, data } = res;
-			if (code === 200) {
-				this.setState({
-					unReadCount: data.limitHeightFlag || false,
-				});
-			}
-		});
 	};
 
 	// 清除排序状态
@@ -59,10 +50,10 @@ export default class LimitConsumption extends React.Component {
 	};
 
 	// 全部标记为已读
-	handleAllRead = () => {
+	handleAllRead = async () => {
 		const _this = this;
-		const { unReadCount } = this.state;
-		if (unReadCount) {
+		const { code, data } = await unReadTotal({ isRead: 0 });
+		if (code === 200 && data > 0) {
 			Modal.confirm({
 				title: '确认将所有信息全部标记为已读？',
 				content: '点击确定，将为您把全部消息标记为已读。',
@@ -164,7 +155,6 @@ export default class LimitConsumption extends React.Component {
 		if (__isRead === 'all') { delete this.condition.isRead; }
 		if (__isRead === 'unread') { this.condition.isRead = 0; }
 		if (!loading) this.setState({ loading: true, manage: _manage || false });
-		this.toUnReadCount();
 		Api.list(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({

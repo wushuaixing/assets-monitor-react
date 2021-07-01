@@ -13,7 +13,7 @@ export default class Execute extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				gmtModified, execPersonCount, removedCount, obligorTotal,
+				gmtModified, execPersonCount, unRemovedCount, removedCount, obligorTotal,
 			},
 		} = this.props;
 		return (
@@ -36,7 +36,7 @@ export default class Execute extends React.Component {
 						<div className="execute-card-content">
 							<div className="execute-card-content-card">
 								未移除：
-								<span className="execute-card-content-card-num">{execPersonCount}</span>
+								<span className="execute-card-content-card-num">{unRemovedCount}</span>
 								条
 							</div>
 							<div className="execute-card-content-card">

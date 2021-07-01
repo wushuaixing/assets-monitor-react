@@ -20,7 +20,7 @@ function exportCover(source, exportType,domainName) {
 		1:{key:'yc',value:bgImgData}, //  源诚
 		2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
 		3:{key:'zhongguandev',value:zgBgImgData}, // (测试环境域名)中冠
-		4:{key:'zhuanxian',value:'none'} // 专线
+		4:{key:'zhuanxian',value:''} // 专线
 	}
 	var d = JSON.parse(source) || {};
 	var bgImgSource = domainType[domainName] ? domainType[domainName].value : bgImgData;
@@ -283,7 +283,7 @@ function exportTemplate(source, exportType, name, domainName) {
 			1:{key:'yc',value:bgImgData}, //  源诚
 			2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
 			3:{key:'zhongguandev',value:zgBgImgData}, // (测试环境域名)中冠
-			4:{key:'zhuanxian',value:'none'} // 专线
+			4:{key:'zhuanxian',value:''} // 专线
 		},
 	};
 	// public function object
@@ -490,6 +490,14 @@ function exportTemplate(source, exportType, name, domainName) {
 			});
 			return list;
 		},
+		// 转换金额格式
+		floatFormat: function(item) {
+			const money = parseFloat(item);
+			if (money.toString() && money.toString() !== 'NaN') {
+				return money.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + '元';
+			}
+			return '-';
+		}
 	};
 	var w = function (value, o) {
 		var option = o || {};
@@ -1240,7 +1248,7 @@ function exportTemplate(source, exportType, name, domainName) {
 					list += "<tr><td>"
 						+ f.urlDom(i.caseCode)
 						+ f.normalList([
-							{t: '执行标的', cot: w(f.threeDigit(i.execMoney), {unit: '元'})}
+							{t: '执行标的', cot: w(f.floatFormat(i.execMoney))}
 						])
 						+ "</td><td>" + f.normalList([
 							{t: '立案日期', cot: f.time(i.caseCreateTime)},
@@ -1258,8 +1266,8 @@ function exportTemplate(source, exportType, name, domainName) {
 						+ f.urlDom(i.caseCode)
 						+ f.normalList([
 							[
-								{t: '执行标的', cot: w(f.threeDigit(i.execMoney), {unit: '元'})},
-								{t: '未履行金额', cot: w(f.threeDigit(i.unExecMoney), {unit: '元'})},
+								{t: '执行标的', cot: w(f.floatFormat(i.execMoney))},
+								{t: '未履行金额', cot: w(f.floatFormat(i.unExecMoney))},
 							],
 							{t: '立案日期', cot: f.time(i.caseCreateTime)},
 						])

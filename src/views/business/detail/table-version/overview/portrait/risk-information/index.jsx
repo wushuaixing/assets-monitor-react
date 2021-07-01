@@ -275,10 +275,13 @@ export default class RiskInformation extends React.Component {
 	getexecuteData = (isArray, values) => {
 		const res = values[6];
 		if (isArray && res && res.code === 200) {
-			const { gmtModified, execPersonCount, removedCount } = res.data;
+			const {
+				gmtModified, execPersonCount, removedCount, unRemovedCount,
+			} = res.data;
 			const executePropsData = {
 				gmtModified,
 				execPersonCount,
+				unRemovedCount,
 				removedCount,
 				obligorTotal: res.data.obligorTotal || null,
 			};

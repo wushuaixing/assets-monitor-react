@@ -4,7 +4,6 @@ import {
 	Button, Spin, Download, Icon,
 } from '@/common';
 import Api from 'api/monitor-info/execute';
-// import { unReadCount as unReadTotal } from 'api/monitor-info';
 import { clearEmpty } from '@/utils';
 import QueryView from './query';
 import TableView from './table/table';
@@ -21,7 +20,6 @@ export default class ExecuteInfo extends React.Component {
 			total: 0,
 			loading: false,
 			manage: false,
-			unReadCount: false,
 		};
 		this.condition = {};
 		this.selectRow = [];
@@ -33,18 +31,6 @@ export default class ExecuteInfo extends React.Component {
 			this.onQueryChange({});
 		}
 	}
-
-	// 获取限制被执行信息是否存在未读数据
-	toUnReadCount = () => {
-		Api.listCount({ isRead: 0 }).then((res) => {
-			const { code, data } = res;
-			if (code === 200) {
-				this.setState({
-					unReadCount: data,
-				});
-			}
-		});
-	};
 
 	// 清除排序状态
 	toClearSortStatus = () => {
@@ -61,27 +47,31 @@ export default class ExecuteInfo extends React.Component {
 
 	// 全部标记为已读
 	handleAllRead = () => {
-		this.toUnReadCount();
 		const _this = this;
-		const { unReadCount } = this.state;
-		if (unReadCount) {
-			Modal.confirm({
-				title: '确认将所有信息全部标记为已读？',
-				content: '点击确定，将为您把全部消息标记为已读。',
-				iconType: 'exclamation-circle',
-				onOk() {
-					Api.read({}).then((res) => {
-						if (res.code === 200) {
-							_this.onQueryChange();
-						}
+		// 获取限制被执行信息是否存在未读数据
+		Api.listCount({ isRead: 0 }).then((res) => {
+			const { code, data } = res;
+			if (code === 200) {
+				if (data) {
+					Modal.confirm({
+						title: '确认将所有信息全部标记为已读？',
+						content: '点击确定，将为您把全部消息标记为已读。',
+						iconType: 'exclamation-circle',
+						onOk() {
+							Api.read({}).then((val) => {
+								if (val.code === 200) {
+									_this.onQueryChange();
+								}
+							});
+						},
+						onCancel() {
+						},
 					});
-				},
-				onCancel() {
-				},
-			});
-		} else {
-			message.warning('最新信息已经全部已读，没有未读信息了');
-		}
+				} else {
+					message.warning('最新信息已经全部已读，没有未读信息了');
+				}
+			}
+		});
 	};
 
 	// 批量收藏
@@ -167,8 +157,6 @@ export default class ExecuteInfo extends React.Component {
 		if (__isRead === 'all') { delete this.condition.isRead; }
 		if (__isRead === 'unread') { this.condition.isRead = 0; }
 		if (!loading) this.setState({ loading: true, manage: _manage || false });
-		// this.toUnReadCount();
-		// console.log('request api condition === ', this.condition);
 		Api.list(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({
