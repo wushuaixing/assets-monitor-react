@@ -490,6 +490,14 @@ function exportTemplate(source, exportType, name, domainName) {
 			});
 			return list;
 		},
+		// 转换金额格式
+		floatFormat: function(item) {
+			const money = parseFloat(item);
+			if (money.toString() && money.toString() !== 'NaN') {
+				return money.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + '元';
+			}
+			return '-';
+		}
 	};
 	var w = function (value, o) {
 		var option = o || {};
@@ -1240,7 +1248,7 @@ function exportTemplate(source, exportType, name, domainName) {
 					list += "<tr><td>"
 						+ f.urlDom(i.caseCode)
 						+ f.normalList([
-							{t: '执行标的', cot: w(f.threeDigit(i.execMoney), {unit: '元'})}
+							{t: '执行标的', cot: w(f.floatFormat(i.execMoney))}
 						])
 						+ "</td><td>" + f.normalList([
 							{t: '立案日期', cot: f.time(i.caseCreateTime)},
@@ -1258,8 +1266,8 @@ function exportTemplate(source, exportType, name, domainName) {
 						+ f.urlDom(i.caseCode)
 						+ f.normalList([
 							[
-								{t: '执行标的', cot: w(f.threeDigit(i.execMoney), {unit: '元'})},
-								{t: '未履行金额', cot: w(f.threeDigit(i.unExecMoney), {unit: '元'})},
+								{t: '执行标的', cot: w(f.floatFormat(i.execMoney))},
+								{t: '未履行金额', cot: w(f.floatFormat(i.unExecMoney))},
 							],
 							{t: '立案日期', cot: f.time(i.caseCreateTime)},
 						])
