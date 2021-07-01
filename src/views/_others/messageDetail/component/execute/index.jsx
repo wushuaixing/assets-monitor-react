@@ -55,7 +55,7 @@ class executeTable extends Component {
 				this.setState({
 					dataSource: res.data.list,
 					current: res.data.page,
-					total: res.data.total,
+					// total: res.data.total,
 					loading: false,
 				});
 			}
@@ -114,7 +114,7 @@ class executeTable extends Component {
 			isShowPagination: total > 5,
 			pageSize: 5,
 		};
-		// console.log('tableProps === ', tableProps);
+		console.log('tableProps === ', total);
 		return (
 			<React.Fragment>
 				<div className="messageDetail-table-title" id={id}>
