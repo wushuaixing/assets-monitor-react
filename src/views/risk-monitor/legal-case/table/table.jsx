@@ -79,7 +79,7 @@ const columns = (props) => {
 		}, {
 			title: '移除状况',
 			dataIndex: 'status',
-			render: text => (text ? <p className="circle-remove">已移除</p> : <p className="circle-item">未移除</p>),
+			render: text => (text ? <p className="circle-item">已移除</p> : <p className="circle-remove">未移除</p>),
 		},
 		{
 			title: (noSort ? global.Table_CreateTime_Text

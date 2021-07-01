@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
 import { Ellipsis, Spin, Table } from '@/common';
-import { toEmpty } from '@/utils';
+import { toEmpty, floatFormat } from '@/utils';
 import './index.scss';
 
 export default class TableVersion extends React.Component {
@@ -45,12 +45,12 @@ export default class TableVersion extends React.Component {
 						<span className="list list-title align-justify">执行标的</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 140 }}>
-							{ toEmpty(row.execMoney) ? <Ellipsis content={`${row.execMoney}元`} tooltip width={160} /> : '-'}
+							{ toEmpty(row.execMoney) ? <Ellipsis content={`${floatFormat(row.execMoney)}元`} tooltip width={160} /> : '-'}
 						</span>
 						<span className="list list-title align-justify">未履行金额</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content" style={{ minWidth: 160 }}>
-							{ toEmpty(row.unExecMoney) ? <Ellipsis content={`${row.unExecMoney}元`} tooltip width={160} /> : '-'}
+							{ toEmpty(row.unExecMoney) ? <Ellipsis content={`${floatFormat(row.unExecMoney)}元`} tooltip width={160} /> : '-'}
 						</span>
 					</li>
 					<li>
