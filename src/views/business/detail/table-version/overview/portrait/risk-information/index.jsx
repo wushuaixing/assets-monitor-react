@@ -16,6 +16,7 @@ import {
 import { Spin } from '@/common';
 import { getQueryByName } from '@/utils';
 import { promiseAll } from '@/utils/promise';
+import { roleState } from '@/utils/rule';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import Bankruptcy from '../card-components/Bankruptcy-card';
 import Involved from '../card-components/Involved-card';
@@ -71,46 +72,75 @@ export default class RiskInformation extends React.Component {
 	getData = (value, portrait) => {
 		const params = { ...value };
 		const promiseArray = [];
-		promiseArray.push(apiType('Bankruptcy', portrait)(params)); // 破产重组
-		promiseArray.push(apiType('Dishonest', portrait)(params)); // 失信记录
-		promiseArray.push(apiType('Litigation', portrait)(params)); // 涉诉信息
-		promiseArray.push(apiType('Risk', portrait)(params)); // 经营风险
-		promiseArray.push(apiType('Limit', portrait)(params)); // 限制高消费
-		promiseArray.push(apiType('Legalcase', portrait)(params)); // 终本案件
-		promiseArray.push(apiType('execute', portrait)(params)); // 被执行信息
+		const r = new Map([
+			// 破产重组
+			['fxjkqypccz', {
+				api: 'Bankruptcy',
+				func: 'getBankruptcyData',
+			}],
+			// 被执行信息
+			['fxjkbzxxx', {
+				api: 'execute',
+				func: 'getexecuteData',
+			}],
+			// 终本案件
+			['fxjkzbaj', {
+				api: 'Legalcase',
+				func: 'getLegalCaseData',
+			}],
+			// 涉诉信息
+			['fxjkssjk', {
+				api: 'Litigation',
+				func: 'getLitigationData',
+			}],
+			// 失信记录
+			['jkxxsxjl', {
+				api: 'Dishonest',
+				func: 'getDishonestData',
+			}],
+			// 限制高消费
+			['fxjkxzgxf', {
+				api: 'Limit',
+				func: 'getLimitHeightData',
+			}],
+			// 经营风险
+			['jyfxjyyc', {
+				api: 'Risk',
+				func: 'getRiskData',
+			}],
+		]);
+		// 税收违法
 		if (portrait === 'debtor_personal') {
-			promiseArray.push(apiType('Tax', portrait)(params)); // 税收违法
+			r.set('jyfxsswf', {
+				api: 'Tax',
+				func: 'getTaxViolationData',
+			});
 		}
+		r.forEach((_value, role) => {
+			if (!roleState('fxjk', role)) {
+				r.delete(role);
+			} else {
+				const type = _value.api;
+				promiseArray.push(apiType(type, portrait)(params));
+			}
+		});
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
 		handlePromise.then((values) => {
 			const isArray = Array.isArray(values) && values.length > 0;
 			this.setState({ isLoading: false });
-			// 破产重组
-			this.getBankruptcyData(isArray, values);
-			// 失信记录
-			this.getDishonestData(isArray, values);
-			// 涉诉信息
-			this.getLitigationData(isArray, values);
-			// 经营风险
-			this.getRiskData(isArray, values);
-			// 个人债务人税收违法
-			this.getTaxViolationData(isArray, values);
-			// 限制高消费
-			this.getLimitHeightData(isArray, values);
-			// 终本案件
-			this.getLegalCaseData(isArray, values);
-			// 被执行信息
-			this.getexecuteData(isArray, values);
+			Array.from(r.values()).forEach((_value, index) => {
+				const { func } = _value;
+				this[func](isArray, values[index]);
+			});
 		}).catch((reason) => {
 			console.log('promise reject failed reason', reason);
 		});
 	};
 
 	// 破产重组
-	getBankruptcyData = (isArray, values) => {
-		const res = values[0];
+	getBankruptcyData = (isArray, res) => {
 		if (isArray && res && res.code === 200) {
 			const { gmtCreate } = res.data;
 			const dataSourceNum = res.data.bankruptcy || 0;
@@ -126,10 +156,9 @@ export default class RiskInformation extends React.Component {
 	};
 
 	// 失信记录
-	getDishonestData = (isArray, values) => {
+	getDishonestData = (isArray, res) => {
 		const { portrait } = this.props;
 		const isBusiness = portrait && portrait === 'business';
-		const res = values[1];
 		if (isArray && res && res.code === 200) {
 			const {
 				remove, gmtCreate, included, obligorStatusList,
@@ -168,8 +197,7 @@ export default class RiskInformation extends React.Component {
 	};
 
 	// 涉诉信息
-	getLitigationData = (isArray, values) => {
-		const res = values[2];
+	getLitigationData = (isArray, res) => {
 		if (isArray && res && res.code === 200) {
 			const {
 				 execute, trial, judgment, courtNotice,
@@ -195,8 +223,7 @@ export default class RiskInformation extends React.Component {
 	};
 
 	// 经营风险
-	getRiskData = (isArray, values) => {
-		const res = values[3];
+	getRiskData = (isArray, res) => {
 		if (isArray && res && res.code === 200) {
 			const dataSource = [];
 			dataSource.push({ count: res.data.abnormal, typeName: '经营异常' });
@@ -219,8 +246,7 @@ export default class RiskInformation extends React.Component {
 	};
 
 	// 税收违法
-	getTaxViolationData = (isArray, values) => {
-		const res = values[5];
+	getTaxViolationData = (isArray, res) => {
 		if (isArray && res && res.code === 200) {
 			const { roleDistributions } = res.data;
 			const dataSourceNum = getCount(roleDistributions);
@@ -236,8 +262,7 @@ export default class RiskInformation extends React.Component {
 	};
 
 	// 限制高消费
-	getLimitHeightData = (isArray, values) => {
-		const res = values[4];
+	getLimitHeightData = (isArray, res) => {
 		if (isArray && res && res.code === 200) {
 			const { gmtModified, limitHeightCount, limitHeightRemovedCount } = res.data;
 			const limitHeightPropsData = {
@@ -253,17 +278,17 @@ export default class RiskInformation extends React.Component {
 	};
 
 	// 终本案件
-	getLegalCaseData = (isArray, values) => {
-		const res = values[5];
+	getLegalCaseData = (isArray, res) => {
 		if (isArray && res && res.code === 200) {
 			const {
-				gmtModified, endCaseCount, removeCount, obligorTotal = null,
+				gmtModified, endCaseCount, removeCount, obligorTotal, total,
 			} = res.data;
 			const legalCasePropsData = {
 				gmtModified,
 				endCaseCount,
 				removeCount,
 				obligorTotal,
+				total,
 			};
 			this.setState(() => ({
 				legalCasePropsData,
@@ -272,8 +297,7 @@ export default class RiskInformation extends React.Component {
 	}
 
 	// 被执行信息
-	getexecuteData = (isArray, values) => {
-		const res = values[6];
+	getexecuteData = (isArray, res) => {
 		if (isArray && res && res.code === 200) {
 			const {
 				gmtModified, execPersonCount, removedCount, unRemovedCount,

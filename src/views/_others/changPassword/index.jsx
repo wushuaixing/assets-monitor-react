@@ -11,6 +11,7 @@ import Cookies from 'universal-cookie';
 import {
 	initUser, // 修改密码,
 } from 'api/user';
+import { throttle } from '@/utils/index';
 import rsaEncrypt from '@/utils/encrypt';
 import './style.scss';
 
@@ -426,7 +427,7 @@ class ChangeWorldModal extends React.PureComponent {
 						style={{
 							width: 340, height: 40, marginTop: 34, marginLeft: 400,
 						}}
-						onClick={this.handleOk}
+						onClick={throttle(this.handleOk, 2000)}
 					>
 						确认修改
 					</Button>

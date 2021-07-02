@@ -57,7 +57,7 @@ const columns = (props) => {
 						<span className="list list-content">{row.execCourtName || '-'}</span>
 					</li>
 				</div>
-			)
+			),
 		}, {
 			title: '履行情况',
 			dataIndex: 'execMoney',
@@ -65,7 +65,7 @@ const columns = (props) => {
 			render: (text, row) => (
 				<div className="assets-info-content">
 					<li>
-						<span className="list list-title align-justify" style={{ width: 50 }}>执行标的</span>
+						<span className="list list-title align-justify" style={{ width: 60 }}>执行标的</span>
 						<span className="list list-title-colon">:</span>
 						<span className="list list-content">{text ? `${floatFormat(text)}元` : '-'}</span>
 					</li>
@@ -77,7 +77,7 @@ const columns = (props) => {
 				</div>
 			),
 		}, {
-			title: '移除状况',
+			title: '移除情况',
 			dataIndex: 'status',
 			render: text => (text ? <p className="circle-item">已移除</p> : <p className="circle-remove">未移除</p>),
 		},

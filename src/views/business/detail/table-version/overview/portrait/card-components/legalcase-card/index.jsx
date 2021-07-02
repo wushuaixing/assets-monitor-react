@@ -13,12 +13,12 @@ export default class LegalCaseCard extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				gmtModified, endCaseCount, removeCount, obligorTotal,
+				gmtModified, endCaseCount, removeCount, obligorTotal, total,
 			},
 		} = this.props;
 		return (
 			<React.Fragment>
-				{endCaseCount > 0 ? (
+				{total > 0 ? (
 					<Card
 						Risk
 						portrait={portrait}
@@ -26,7 +26,7 @@ export default class LegalCaseCard extends React.Component {
 						IconType="zhongbenanjian"
 						IconColor={{ color: '#5A6BFB' }}
 						customStyle={hasCountStyle}
-						count={endCaseCount}
+						count={total}
 						gmtCreate={gmtModified}
 						obligorName="匹配到终本案件信息"
 						text="终本案件"
