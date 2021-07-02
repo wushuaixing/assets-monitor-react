@@ -59,13 +59,19 @@ export default class TableIntact extends React.Component {
 		let toApi = Api.followList;
 		toApi = reqUrl || toApi;
 		toApi(clearEmpty(this.condition)).then((res) => {
+			const { list, page, total } = res.data;
 			if (res.code === 200) {
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: list,
+					current: page,
+					total,
 					loading: false,
 				});
+				// 处理收藏翻页数据同步问题
+				if (list.length === 0 && total !== 0) {
+					this.condition.page = page - 1;
+					this.toGetData();
+				}
 			} else {
 				this.setState({
 					dataSource: [],
