@@ -407,6 +407,7 @@ class MessageDetail extends React.Component {
 			obligorId: obligorId === '-1' ? undefined : obligorId,
 		}, () => {
 			this.queryAllCount();
+			console.log('却换筛选条件',obligorId);
 		});
 		window.scrollTo(0, 50);
 	};
