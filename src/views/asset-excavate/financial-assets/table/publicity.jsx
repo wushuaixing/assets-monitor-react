@@ -32,7 +32,7 @@ const columns = (props) => {
 			title: (noSort ? '发布日期'
 				: <SortVessel field="PUBLISH_TIME" onClick={onSortChange} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublish',
-			width: 160,
+			width: 120,
 			render: (text, row) => (
 				<div>
 					{ !row.isRead
@@ -62,7 +62,7 @@ const columns = (props) => {
 		{
 			title: '项目类型',
 			dataIndex: 'projectType',
-			width: 150,
+			width: 100,
 			render: text => <span>{projectTypeMap.get(text) || '-'}</span>,
 		},
 		{
