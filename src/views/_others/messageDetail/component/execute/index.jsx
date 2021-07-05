@@ -29,6 +29,7 @@ class executeTable extends Component {
 		if (nextProps.obligorId !== obligorId) {
 			this.setState({
 				obligorId: nextProps.obligorId,
+				page: 1,
 			}, () => {
 				this.toGetData();
 			});
@@ -52,10 +53,11 @@ class executeTable extends Component {
 		});
 		api(clearZero(params)).then((res) => {
 			if (res.code === 200) {
+				const { list, page: pages, total } = res.data;
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: list,
+					current: pages,
+					total,
 					loading: false,
 				});
 			}
@@ -114,7 +116,7 @@ class executeTable extends Component {
 			isShowPagination: total > 5,
 			pageSize: 5,
 		};
-		// console.log('tableProps === ', tableProps);
+		console.log('tableProps === ', total);
 		return (
 			<React.Fragment>
 				<div className="messageDetail-table-title" id={id}>
