@@ -182,7 +182,7 @@ export default {
 			},
 			{
 				id: 'YC02',
-				name: null, // 测试使用
+				name: null,
 				url: '/monitor',
 				status: rule.menu_zcwj,
 				dot: false,
@@ -256,6 +256,12 @@ export default {
 						name: '股权质押',
 						url: '/monitor/pledge',
 						status: toStatus(rule.menu_zcwj, 'zcwjgqzy'),
+					},
+					{
+						id: 'YC0213',
+						name: '电子报',
+						url: '/monitor/epaper',
+						status: toStatus(rule.menu_zcwj, 'zcwjdzb'),
 					},
 					{
 						id: 'YC0301',

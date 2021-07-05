@@ -23,7 +23,8 @@ function exportCover(source,exportType,domainName) {
 	var domainType = {
 		1:{key:'yc',value:bgImgData,name:'源诚资产监控平台'}, //  源诚
 		2:{key:'zhongguan',value:zgBgImgData,name:'中冠数据监控平台'}, // (正式环境域名)中冠
-		3:{key:'zhongguandev',value:zgBgImgData,name:'中冠数据监控平台'} // (测试环境域名)中冠
+		3:{key:'zhongguandev',value:zgBgImgData,name:'中冠数据监控平台'}, // (测试环境域名)中冠
+		4:{key:'zhuanxian',value:'',name: '本平台'} // 专线
 	}
 	var data = JSON.parse(source)||{};
 	var bgImgSource = domainType[domainName] ? domainType[domainName].value : bgImgData;
@@ -46,7 +47,8 @@ function exportTemplate(source,exportType,domainName) {
 	var domainType = {
 		1:{key:'yc',value:bgImgData,name:'源诚资产监控平台'}, //  源诚
 		2:{key:'zhongguan',value:zgBgImgData,name:'中冠数据监控平台'}, // (正式环境域名)中冠
-		3:{key:'zhongguandev',value:zgBgImgData,name:'中冠数据监控平台'} // (测试环境域名)中冠
+		3:{key:'zhongguandev',value:zgBgImgData,name:'中冠数据监控平台'}, // (测试环境域名)中冠
+		4:{key:'zhuanxian',value:'',name: '本平台'} // 专线
 	}
 	var data = JSON.parse(source);
 	var fun = {
@@ -2609,7 +2611,7 @@ function exportTemplate(source,exportType,domainName) {
 }
 
 function writeFile() {
-	var str = (flag) => exportCover(_dataSource, flag,2) + exportTemplate(_dataSource, flag,2);
+	var str = (flag) => exportCover(_dataSource, flag,4) + exportTemplate(_dataSource, flag,4);
 	fs.writeFile(root + "/dist/demo.html", str(true), (error) => {
 		error && console.log('error');
 	});
