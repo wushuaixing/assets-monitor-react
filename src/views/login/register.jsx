@@ -109,10 +109,8 @@ class Login extends React.Component {
 
 	changeUrl = (e) => {
 		const orgId = getQueryByName(e.newURL, 'orgId');
-		if (e.newURL !== e.oldURL) {
-			if (orgId) {
-				this.onRequestLogin(orgId);
-			}
+		if ((e.newURL !== e.oldURL) && orgId) {
+			this.onRequestLogin(orgId);
 		}
 	};
 
