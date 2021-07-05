@@ -187,7 +187,8 @@ class InformCenter extends React.Component {
 	toRowClick = (record, index) => {
 		// eslint-disable-next-line no-shadow
 		const { id, isRead } = record;
-		if (!isRead) {
+		const { isInstitution } = this.state;
+		if (!isRead && isInstitution) {
 			this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
 		}
 		this.skip(record);

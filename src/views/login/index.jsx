@@ -9,7 +9,11 @@ import {
 } from '@/utils/api/user';
 import CustomAgency from '@/common/custom/agency';
 // import leftBackground from '@/assets/img/login/left_background.png';
-import { Form } from 'antd';
+import { navigate } from '@reach/router';
+import { Form, Modal } from 'antd';
+import { getQueryByName } from '@/utils';
+import { checkSpecialIp, specialLogin } from '@/utils/api';
+import Cookies from 'universal-cookie';
 import Header from './header';
 import Footer from './footer';
 import Register from './register';
@@ -21,6 +25,38 @@ import ChangePassword from './forgetPassword/changePassword';
 import './style.scss';
 
 const createForm = Form.create;
+const cookie = new Cookies();
+
+function closeWindow() {
+	if (navigator.userAgent.indexOf('MSIE') > 0) {
+		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
+			window.opener = null;
+			window.close();
+		} else {
+			window.open('', '_top');
+			window.top.close();
+		}
+	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
+		window.location.href = 'about:blank ';
+	} else {
+		window.opener = null;
+		window.open('', '_self', '');
+		window.close();
+	}
+	cookie.remove('isSpecial');
+}
+
+function ModalWarning(text) {
+	Modal.warning({
+		title: '提示',
+		className: 'yc-close-waring',
+		content: text,
+		okText: '我知道了',
+		onOk() {
+			closeWindow();
+		},
+	});
+}
 
 class Login extends React.Component {
 	constructor(props) {
@@ -31,7 +67,14 @@ class Login extends React.Component {
 			btnColor: '#1C80E1',
 			imgUrl: undefined,
 			imgLoading: false,
+			isShow: false,
 		};
+	}
+
+	componentWillMount() {
+		const orgId = getQueryByName(window.location.href, 'orgId');
+		this.onRequestLogin(orgId);
+		window.onhashchange = this.changeUrl;
 	}
 
 	componentDidMount() {
@@ -50,9 +93,14 @@ class Login extends React.Component {
 		});
 	}
 
-	changeType = (childType) => {
-		console.log(childType);
+	changeUrl = (e) => {
+		const orgId = getQueryByName(e.newURL, 'orgId');
+		if ((e.newURL !== e.oldURL) && orgId) {
+			this.onRequestLogin(orgId);
+		}
+	};
 
+	changeType = (childType) => {
 		this.setState({
 			type: childType,
 		});
@@ -64,12 +112,61 @@ class Login extends React.Component {
 		});
 	};
 
+	onRequestLogin = (orgId) => {
+		if (orgId) {
+			cookie.remove('token');
+			checkSpecialIp().then((res) => {
+				// 判断是否是专线
+				if (res.code === 200 && res.data) {
+					cookie.set('isSpecial', true);
+					this.handleLogin(orgId);
+				} else {
+					this.setState({
+						isShow: true,
+					});
+					cookie.set('isSpecial', false);
+					ModalWarning('权限不足，未开通专线');
+				}
+			}).catch(() => this.setState({
+				isShow: true,
+			}));
+		} else {
+			cookie.remove('isSpecial');
+			this.setState({
+				isShow: true,
+			});
+		}
+	};
+
+	// // 手动登录
+	handleLogin = (orgId) => {
+		specialLogin({ idList: [orgId] }).then((res) => {
+			if (res.code === 200 && res.data.token) {
+				// message.success('登录成功');
+				cookie.set('token', res.data.token);
+				global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
+				if (res.data.rules && res.data.rules.length) {
+					navigate('/');
+				} else {
+					this.setState({
+						isShow: true,
+					});
+				}
+			} else {
+				this.setState({
+					isShow: true,
+				});
+			}
+		}).catch(() => this.setState({
+			isShow: true,
+		}));
+	};
 
 	render() {
 		const {
-			type, phoneNum, btnColor, imgUrl, imgLoading,
+			type, phoneNum, btnColor, imgUrl, imgLoading, isShow,
 		} = this.state;
-		return (
+		return isShow && (
 			<div className="yc-login">
 				<Header imgLoading={imgLoading} imgUrl={imgUrl} />
 				<div className="yc-login-wapper">

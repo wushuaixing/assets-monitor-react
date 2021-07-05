@@ -3,7 +3,7 @@ import React from 'react';
 import { navigate } from '@reach/router';
 import Cookies from 'universal-cookie';
 import {
-	Form, Button, message, Spin, Input, Tabs, Modal,
+	Form, Button, message, Spin, Input, Tabs,
 } from 'antd';
 import { Icon } from '@/common';
 import {
@@ -13,9 +13,8 @@ import {
 	loginPhoneCode, // 手机验证码登录
 } from '@/utils/api/user';
 import BASE_URL from '@/utils/api/config';
-import { checkSpecialIp, specialLogin } from '@/utils/api';
 import rsaEncrypt from '@/utils/encrypt';
-import { handleRule, debounce, getQueryByName } from '@/utils';
+import { handleRule, debounce } from '@/utils';
 import CustomAgency from '@/common/custom/agency';
 import PasswordModal from './passwordModal';
 import './style.scss';
@@ -24,37 +23,6 @@ const cookie = new Cookies();
 const createForm = Form.create;
 const verificationCodeImg = `${BASE_URL}/yc/open/verificationCode`;
 const { TabPane } = Tabs;
-
-function closeWindow() {
-	if (navigator.userAgent.indexOf('MSIE') > 0) {
-		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
-			window.opener = null;
-			window.close();
-		} else {
-			window.open('', '_top');
-			window.top.close();
-		}
-	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
-		window.location.href = 'about:blank ';
-	} else {
-		window.opener = null;
-		window.open('', '_self', '');
-		window.close();
-	}
-	cookie.remove('isSpecial');
-}
-
-function ModalWarning(text) {
-	Modal.warning({
-		title: '提示',
-		className: 'yc-close-waring',
-		content: text,
-		okText: '我知道了',
-		onOk() {
-			closeWindow();
-		},
-	});
-}
 
 class Login extends React.Component {
 	constructor(props) {
@@ -75,12 +43,6 @@ class Login extends React.Component {
 			username: '',
 			phone: '',
 		};
-	}
-
-	componentWillMount() {
-		const orgId = getQueryByName(window.location.href, 'orgId');
-		this.onRequestLogin(orgId);
-		window.onhashchange = this.changeUrl;
 	}
 
 	componentDidMount() {
@@ -107,72 +69,12 @@ class Login extends React.Component {
 		}
 	};
 
-	changeUrl = (e) => {
-		const orgId = getQueryByName(e.newURL, 'orgId');
-		if ((e.newURL !== e.oldURL) && orgId) {
-			this.onRequestLogin(orgId);
-		}
-	};
-
-	onRequestLogin = (orgId) => {
-		// http://localhost:10086/#/login?orgId=641
-		// console.log('orgId === ', window.location.href, orgId);
-		if (orgId) {
-			this.setState({
-				loading: true,
-			});
-			cookie.remove('token');
-			checkSpecialIp().then((res) => {
-				// 判断是否是专线
-				if (res.code === 200 && res.data) {
-					cookie.set('isSpecial', true);
-					this.handleLogin(orgId);
-				} else {
-					cookie.set('isSpecial', false);
-					this.setState({
-						loading: false,
-					});
-					ModalWarning('权限不足，未开通专线');
-				}
-			}).catch();
-		} else {
-			cookie.remove('isSpecial');
-		}
-	};
-
 	// 记住密码
 	checkboxChange = (e) => {
 		cookie.set('rememberPassword', e.target.checked, { SameSite: 'none' });
 		this.setState({
 			rememberPassword: e.target.checked,
 		});
-	};
-
-	// 手动登录
-	handleLogin = (orgId) => {
-		specialLogin({ idList: [orgId] }).then((res) => {
-			if (res.code === 200) {
-				if (res.data.token) {
-					// message.success('登录成功');
-					cookie.set('token', res.data.token);
-					global.PORTRAIT_INQUIRY_ALLOW = res.data.isPortraitLimit;
-					this.setState({
-						loading: false,
-					});
-					if (res.data.rules && res.data.rules.length) {
-						navigate('/');
-					}
-				} else {
-					this.setState({
-						loading: false,
-					});
-				}
-			} else {
-				this.setState({
-					loading: false,
-				});
-			}
-		}).catch();
 	};
 
 	// error = () => {
