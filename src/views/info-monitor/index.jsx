@@ -47,13 +47,14 @@ export default class InfoSearch extends React.Component {
 			[1, 'YC02'],
 			[2, 'YC03'],
 		]);
+
+		const id = config && config[0].id;
+		const initType = initMap.get(id);
 		if (hash === '#/info/monitor') {
-			const id = config && config[0].id;
-			const initType = initMap.get(id);
 			navigate(`/info/monitor/attention?init=${initType}`);
 		}
 		if (hash === '#/info/monitor/excavate') {
-			navigate('/info/monitor/attention?init=YC02');
+			navigate(`/info/monitor/attention?init=${initType}`);
 		}
 		if (hash === '#/info/monitor/risk') {
 			navigate('/info/monitor/attention?init=YC03');

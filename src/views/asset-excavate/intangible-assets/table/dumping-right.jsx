@@ -88,7 +88,7 @@ const columns = (props) => {
 			),
 		}, {
 			title: '当前状态',
-			width: 280,
+			width: 150,
 			dataIndex: 'status',
 			render: (text, row) => (
 				<div className="assets-info-content">
