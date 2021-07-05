@@ -3,6 +3,7 @@ import close from '@/assets/img/home/close.png';
 import {
 	currentOrganization, unreadInfoRemind, dailyMonitorNotice, closeNotice,
 } from 'api/home';
+import { isRead } from 'api/inform';
 import Cookies from 'universal-cookie';
 // import { promiseAll } from '@/utils/promise';
 import Header from './home-header';
@@ -205,11 +206,11 @@ class HomeRouter extends React.Component {
 		const { msgTotal, stationId } = this.state;
 		this.handleCloseNotice(3);
 		const w = window.open('about:blank');
-		if (msgTotal > 200) {
-			w.location.href = '#/info/monitor';
-		} else {
-			w.location.href = `#/messageDetail?stationId=${stationId}`;
-		}
+		isRead({ idList: [stationId] }).then((res) => {
+			if (res.code === 200) {
+				w.location.href = (msgTotal > 200) ? '#/info/monitor' : `#/messageDetail?stationId=${stationId}`;
+			}
+		});
 	};
 
 	render() {

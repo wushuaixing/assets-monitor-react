@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import { navigate } from '@reach/router';
 import { Spin } from '@/common';
 import {
-	auctionCard, landCard, intangibleCard, subrogationCard, stockCard, mortgageCard, financeCard, biddingCard, unsealCard, realEstateCardApi, carCardApi, constructApi, electronicNewspaperCard
+	auctionCard, landCard, intangibleCard, subrogationCard, stockCard, mortgageCard, financeCard, biddingCard, unsealCard, realEstateCardApi, carCardApi, constructApi, electronicNewspaperCard,
 } from '@/utils/api/monitor-info/excavate/index';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import { promiseAll } from '@/utils/promise';
 import {
-	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, UnBlock, CarCard, realEstateCard, ConstructCard, Newsettler
+	AssetCard, LandCard, Intangible, Subrogation, Stock, Chattel, Finance, Bidding, UnBlock, CarCard, realEstateCard, ConstructCard, Epaper,
 } from '../components';
 import './style.scss';
 
@@ -125,7 +125,7 @@ export default class Excavate extends PureComponent {
 					title: '电子报',
 					rule: isRule && props.rule.children.zcwjdzb,
 					url: '/monitor/epaper',
-					Component: Newsettler,
+					Component: Epaper,
 					API: electronicNewspaperCard,
 				},
 			].filter(i => this.isObject(i.rule)),
@@ -139,7 +139,7 @@ export default class Excavate extends PureComponent {
 			mortgagePropsData: {},
 			financePropsData: {},
 			biddingPropsData: {},
-			epaperPropsData:{},
+			epaperPropsData: {},
 			realEstatePropsData: {},
 			carPropsData: {},
 			unBlockPropsData: {},
@@ -482,10 +482,10 @@ export default class Excavate extends PureComponent {
 
 	render() {
 		const {
-			config, loading, finish, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData, unBlockPropsData, buildPropsData,epaperPropsData,
+			config, loading, finish, auctionPropsData, landPropsData, intangiblePropsData, subrogationPropsData, stockPropsData, mortgagePropsData, financePropsData, biddingPropsData, unBlockPropsData, buildPropsData, epaperPropsData,
 			auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount, epaperCount, unblockCount, realEstatePropsData, realEstateCount, carPropsData, vehicleInformationCount, buildCount,
 		} = this.state;
-		const allNumber = this.getNumber([auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount,epaperCount, realEstateCount, unblockCount, vehicleInformationCount, buildCount]);
+		const allNumber = this.getNumber([auctionCount, landCount, intangibleCount, subrogationCount, stockCount, mortgageCount, financeCount, biddingCount, epaperCount, realEstateCount, unblockCount, vehicleInformationCount, buildCount]);
 		// 权限过滤
 		// const ruleResultArr = config.filter(i => this.isObject(i.rule));
 		const params = {

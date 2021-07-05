@@ -6,13 +6,17 @@ import React from 'react';
 // ==================
 import { Form, Icon } from 'antd';
 import CustomAgency from '@/common/custom/agency';
+import Cookies from 'universal-cookie';
 // import imgReset from '../../assets/img/icon_photocode.png';
 import backgroundHeaderImg from '../../assets/img/login/sign_logoyc.png';
+import backgroundHeaderImgSpecial from '../../assets/img/login/sign_logoyc_speciap.png';
 // import rsaEncrypt from '@/utils/encryp';
 // import { Button } from '@/components';
 import './style.scss';
 
 const createForm = Form.create;
+const cookies = new Cookies();
+const isSpecial = cookies.get('isSpecial');
 
 class Login extends React.Component {
 	constructor(props) {
@@ -28,7 +32,10 @@ class Login extends React.Component {
 			<div className="yc-login-header">
 				<div className="yc-login-logo">
 					<div className="yc-login-wrapper">
-						<img src={imgLoading ? backgroundHeaderImg : imgUrl} alt="" />
+						{
+							!isSpecial ? <img src={imgLoading ? backgroundHeaderImg : imgUrl} alt="源城资产监控平台" />
+								: <img src={backgroundHeaderImgSpecial} alt="资产监控平台" style={{ height: '32px' }} />
+						}
 						<CustomAgency nodeName="loginName" />
 						{/* <span className="yc-login-world"> */}
 						{/*	<Icon className="yc-login-icon" type="info-circle-o" /> */}

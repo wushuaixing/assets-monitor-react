@@ -134,7 +134,10 @@ class InformCenter extends React.Component {
 		const params = {
 			idList: [row.id],
 		};
-		isRead(params);
+		const { isInstitution } = this.state;
+		if (isInstitution) {
+			isRead(params);
+		}
 		if (row.obligorId) {
 			// if (row.operateType === 'auctionProcessAlert') {
 			// 	const { title } = JSON.parse(row.extend);
