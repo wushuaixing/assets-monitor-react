@@ -138,7 +138,7 @@ class Login extends React.Component {
 		}
 	};
 
-	// // 手动登录
+	// 手动登录
 	handleLogin = (orgId) => {
 		specialLogin({ idList: [orgId] }).then((res) => {
 			if (res.code === 200 && res.data.token) {
