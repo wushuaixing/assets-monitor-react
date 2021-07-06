@@ -3,6 +3,9 @@ import close from '@/assets/img/home/close.png';
 import {
 	currentOrganization, unreadInfoRemind, dailyMonitorNotice, closeNotice,
 } from 'api/home';
+import {
+	userInfo, // 通知中心数据
+} from '@/utils/api/user';
 import { isRead } from 'api/inform';
 import Cookies from 'universal-cookie';
 // import { promiseAll } from '@/utils/promise';
@@ -28,11 +31,20 @@ class HomeRouter extends React.Component {
 			content: '',
 			msgTotal: 56,
 			stationId: '',
+			orgPower: false,
 		};
 	}
 
 	componentWillMount() {
 		this.getNoticeInfo();
+		userInfo().then((res) => {
+			const { currentOrgId, masterOrgId } = res.data;
+			if (currentOrgId === masterOrgId) {
+				this.setState({
+					orgPower: true,
+				});
+			}
+		});
 	}
 
 	componentDidMount() {
@@ -215,7 +227,7 @@ class HomeRouter extends React.Component {
 
 	render() {
 		const {
-			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice, msgTotal, content,
+			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice, msgTotal, content, orgPower,
 		} = this.state;
 		const { baseRule } = this.props;
 		// console.log('baseRule === ', baseRule);
@@ -232,7 +244,7 @@ class HomeRouter extends React.Component {
 		return (
 			<div className="home-container">
 				{
-					showNotice ? (
+					showNotice && orgPower ? (
 						<div className="home-box">
 							<div className="home-notice">
 								<div className="home-notice-title">
