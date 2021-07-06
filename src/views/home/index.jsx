@@ -204,32 +204,25 @@ class HomeRouter extends React.Component {
 	// 1:首页低债务人数提醒(永久) 2:首页低业务提醒(永久) 3:首页监控日报提醒(当日)
 	handleCloseNotice = (type) => {
 		const params = { type };
-		const { orgPower } = this.state;
-		if (orgPower) {
-			closeNotice(params).then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						showNotice: false,
-					});
-				}
-			}).catch();
-		}
+		closeNotice(params).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					showNotice: false,
+				});
+			}
+		}).catch();
 	};
 
 	// 跳转监控日报详情
 	handleCheckMsgDetail = () => {
-		const { msgTotal, stationId, orgPower } = this.state;
+		const { msgTotal, stationId } = this.state;
 		this.handleCloseNotice(3);
 		const w = window.open('about:blank');
-		if (orgPower) {
-			isRead({ idList: [stationId] }).then((res) => {
-				if (res.code === 200) {
-					w.location.href = (msgTotal > 200) ? '#/info/monitor' : `#/messageDetail?stationId=${stationId}`;
-				}
-			});
-		} else {
-			w.location.href = (msgTotal > 200) ? '#/info/monitor' : `#/messageDetail?stationId=${stationId}`;
-		}
+		isRead({ idList: [stationId] }).then((res) => {
+			if (res.code === 200) {
+				w.location.href = (msgTotal > 200) ? '#/info/monitor' : `#/messageDetail?stationId=${stationId}`;
+			}
+		});
 	};
 
 	render() {
@@ -251,7 +244,7 @@ class HomeRouter extends React.Component {
 		return (
 			<div className="home-container">
 				{
-					showNotice ? (
+					showNotice && orgPower ? (
 						<div className="home-box">
 							<div className="home-notice">
 								<div className="home-notice-title">
@@ -265,13 +258,9 @@ class HomeRouter extends React.Component {
 										{msgTotal > 200 ? '点击前往信息监控查看' : '点击查看日报详情'}
 									</a>
 								</div>
-								{
-									orgPower ? (
-										<div className="home-notice-close" onClick={this.handleHideNotice}>
-											<img className="home-notice-close-img" src={close} alt="关闭" />
-										</div>
-									) : null
-								}
+								<div className="home-notice-close" onClick={this.handleHideNotice}>
+									<img className="home-notice-close-img" src={close} alt="关闭" />
+								</div>
 							</div>
 							<div className="home-container-line" />
 						</div>
