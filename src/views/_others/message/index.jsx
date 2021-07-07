@@ -181,6 +181,7 @@ class InformCenter extends React.Component {
 				},
 			});
 		}
+		window.location.reload();
 	};
 
 	// 行点击操作

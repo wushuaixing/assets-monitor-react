@@ -68,12 +68,7 @@ const columns = (props) => {
 		{
 			title: '移除情况',
 			dataIndex: 'status',
-			render: text => (
-				<span>
-					<span className="status-dot" style={{ backgroundColor: text === 1 ? '#3DBD7D' : '#FB5A5C' }} />
-					<span className="status-text">{text === 1 ? '已移除' : '未移除'}</span>
-				</span>
-			),
+			render: text => (text ? <p className="circle-item">已移除</p> : <p className="circle-remove">未移除</p>),
 		},
 		{
 			title: (noSort ? global.Table_CreateTime_Text
