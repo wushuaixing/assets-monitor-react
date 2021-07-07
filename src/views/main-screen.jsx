@@ -167,7 +167,7 @@ export default class Screen extends React.Component {
 			});
 		} else {
 			const orgId = getQueryByName(window.location.href, 'orgId');
-			const url = orgId !== '' ? `/login?orgId=${orgId}` : '/login';
+			const url = orgId ? `/login?orgId=${orgId}` : '/login';
 			navigate(url);
 		}
 	}
