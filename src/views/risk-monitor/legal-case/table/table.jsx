@@ -61,7 +61,7 @@ const columns = (props) => {
 		}, {
 			title: '履行情况',
 			dataIndex: 'execMoney',
-			width: 179,
+			width: 210,
 			render: (text, row) => (
 				<div className="assets-info-content">
 					<li>
