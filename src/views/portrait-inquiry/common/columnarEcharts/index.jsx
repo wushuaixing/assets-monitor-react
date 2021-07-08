@@ -25,16 +25,16 @@ const getOption = (Data, id, title, newColumnArray) => ({
 	},
 	xAxis: [
 		{
-			show: true,
+			show: false,
 			type: 'value',
-			// position: 'top',
+			position: 'top',
 		},
 	],
 
 	yAxis: [
 		{
 			type: 'category',
-			show: true,
+			show: false,
 			data: newColumnArray,
 		},
 	],
@@ -46,15 +46,15 @@ const getOption = (Data, id, title, newColumnArray) => ({
 			stack: '总数',
 			data: newColumnArray,
 			barMinHeight: 220,
-			// itemStyle: {
-			// 	normal: {
-			// 		color: '#73AEEA',
-			// 		label: {
-			// 			show: false,
-			// 			position: 'inside',
-			// 		},
-			// 	}, // 柱状图颜色
-			// },
+			itemStyle: {
+				normal: {
+					color: '#73AEEA',
+					label: {
+						show: false,
+						position: 'inside',
+					},
+				}, // 柱状图颜色
+			},
 		},
 	],
 });
@@ -89,29 +89,29 @@ class ColumnarEcharts extends React.Component {
 		const DOM = document.getElementById(`${id}ColumnarEcharts`);
 		const myChart = window.echarts.init(DOM);
 
-		// const option = getOption(Data, id, title, newColumnArray);
-		// const { series: { 0: { data: dataList } } } = option;
-		// // const { Text } = window.zrDefine;
-		// window.myChart = myChart;
-		// const base = {
-		// 	x: 20,
-		// 	y: 14,
-		// };
-		// const newDataList = dataList.slice().reverse();
-		// const list = [];
-		// newDataList.forEach((item, index) => {
-		// 	const { x } = base;
-		// 	const y = base.y + 35 * (index);
-		// 	const typeName = item.typeName && item.typeName.length > 10 ? `${item.typeName.substr(0, 10)}...` : `${item.typeName}`;
-		// 	const type = item.type && item.type.length > 10 ? `${item.type.substr(0, 10)}...` : `${item.type}`;
+		const option = getOption(Data, id, title, newColumnArray);
+		const { series: { 0: { data: dataList } } } = option;
+		// const { Text } = window.zrDefine;
+		window.myChart = myChart;
+		const base = {
+			x: 20,
+			y: 14,
+		};
+		const newDataList = dataList.slice().reverse();
+		const list = [];
+		newDataList.forEach((item, index) => {
+			const { x } = base;
+			const y = base.y + 35 * (index);
+			const typeName = item.typeName && item.typeName.length > 10 ? `${item.typeName.substr(0, 10)}...` : `${item.typeName}`;
+			const type = item.type && item.type.length > 10 ? `${item.type.substr(0, 10)}...` : `${item.type}`;
 
-		// 	list.push(<span style={{ left: x + 10, top: y }} className="yc-p-span">{typeName !== 'undefined' ? typeName : type}</span>);
-		// 	list.push(<span style={{ left: x + 180, top: y, textAlign: 'left' }} className="yc-p-span">{`${item.count} 条`}</span>);
-		// });
-		// // window[`${id}ColumnarEcharts`] = myChart;
-		// this.setState({
-		// 	list,
-		// });
+			list.push(<span style={{ left: x + 10, top: y }} className="yc-p-span">{typeName !== 'undefined' ? typeName : type}</span>);
+			list.push(<span style={{ left: x + 180, top: y, textAlign: 'left' }} className="yc-p-span">{`${item.count} 条`}</span>);
+		});
+		// window[`${id}ColumnarEcharts`] = myChart;
+		this.setState({
+			list,
+		});
 		myChart.setOption(getOption(Data, id, title, newColumnArray));
 	};
 
