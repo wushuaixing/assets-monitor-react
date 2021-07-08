@@ -50,7 +50,7 @@ export default class Subrogation extends React.Component {
 		const h = toH(sourceType, toGetNumber(data, sourceType), portrait);
 
 		return (
-			<div className="yc-inquiry-public-table" id={id}>
+			<div className="yc-inquiry-public-table" style={{ paddingBottom: 30 }} id={id}>
 				<Tabs.Simple
 					borderBottom
 					onChange={this.onSourceType}
