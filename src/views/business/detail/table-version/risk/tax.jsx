@@ -16,7 +16,7 @@ export default class TaxIntact extends React.Component {
 		const { count } = this.state;
 		const h = toH(30501, toGetNumber(data, 30501), portrait);
 		return (
-			<div className="yc-inquiry-public-table" id={id}>
+			<div className="yc-inquiry-public-table" style={{ paddingBottom: 30 }} id={id}>
 				<div className="public-table-tab">
 					<div className="yc-tabs-simple-prefix">{`税收违法 ${count || 0}`}</div>
 				</div>
