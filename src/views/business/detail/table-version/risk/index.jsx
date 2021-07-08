@@ -177,8 +177,8 @@ class Risk extends React.Component {
 		};
 	}
 
-	componentWillMount() {
-		this.toPushAndScroll();
+	componentDidMount() {
+		window.setTimeout(() => this.toPushAndScroll(), 1);
 	}
 
 
