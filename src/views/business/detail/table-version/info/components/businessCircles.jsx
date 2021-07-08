@@ -73,7 +73,7 @@ export default class BusinessCircles extends React.Component {
 			title: '变更事项',
 			dataIndex: 'changeItem',
 			key: 'changeItem',
-			width: 300,
+			width: 200,
 			render(text) {
 				return <div>{text || '-'}</div>;
 			},

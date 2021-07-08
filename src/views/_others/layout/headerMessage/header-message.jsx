@@ -5,6 +5,9 @@ import {
 	notify, // 消息提醒
 	isRead, // 标记已读
 } from '@/utils/api/inform';
+import {
+	userInfo, // 通知中心数据
+} from '@/utils/api/user';
 import { Icon, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
@@ -15,7 +18,19 @@ export default class HeaderMessage extends React.Component {
 		this.state = {
 			dataList: [],
 			loading: false,
+			orgPower: false,
 		};
+	}
+
+	componentWillMount() {
+		userInfo().then((res) => {
+			const { currentOrgId, masterOrgId } = res.data;
+			if (currentOrgId === masterOrgId) {
+				this.setState({
+					orgPower: true,
+				});
+			}
+		});
 	}
 
 	componentDidMount() {
@@ -24,6 +39,7 @@ export default class HeaderMessage extends React.Component {
 			this.informCenter();
 		}
 	}
+
 
 	informCenter = () => {
 		const { getNoticeNum } = this.props;
@@ -53,6 +69,7 @@ export default class HeaderMessage extends React.Component {
 		const params = {
 			idList: [id],
 		};
+		const { orgPower } = this.state;
 		console.log(obligorId, operateType, '跳转');
 
 		// 资产跟进提醒 tab切换为跟进中 带入拍卖信息标题
@@ -86,16 +103,18 @@ export default class HeaderMessage extends React.Component {
 				}`;
 			}
 		}
-		isRead(params).then((res) => {
-			if (res.code === 200) {
-				this.informCenter();
-				window.location.reload(); // 实现页面重新加载/
-				// message.success(res.message);
-				console.log('成功');
-			} else {
-				message.warning(res.message);
-			}
-		});
+		if (orgPower) {
+			isRead(params).then((res) => {
+				if (res.code === 200) {
+					this.informCenter();
+					window.location.reload(); // 实现页面重新加载/
+					// message.success(res.message);
+					console.log('成功');
+				} else {
+					message.warning(res.message);
+				}
+			});
+		}
 	};
 
 	// all
@@ -115,7 +134,6 @@ export default class HeaderMessage extends React.Component {
 
 	render() {
 		const { dataList, loading } = this.state;
-
 		return (
 			<div
 				className="yc-header-message"

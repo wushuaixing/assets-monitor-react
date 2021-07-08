@@ -50,9 +50,6 @@ class InformCenter extends React.Component {
 					render: (text, row) => (
 						<div
 							className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}
-							onClick={() => {
-								this.skip(row);
-							}}
 						>
 							<span className="yc-message-content">
 								<span
@@ -85,7 +82,10 @@ class InformCenter extends React.Component {
 					dataIndex: 'address',
 					render: (text, row) => (
 						<div
-							onClick={() => this.handledDeleteBatch(row)}
+							onClick={(e) => {
+								e.stopPropagation();
+								this.handledDeleteBatch(row);
+							}}
 							className="yc-table-text-link"
 						>
 							删除
@@ -134,7 +134,10 @@ class InformCenter extends React.Component {
 		const params = {
 			idList: [row.id],
 		};
-		isRead(params);
+		const { isInstitution } = this.state;
+		if (isInstitution) {
+			isRead(params);
+		}
 		if (row.obligorId) {
 			// if (row.operateType === 'auctionProcessAlert') {
 			// 	const { title } = JSON.parse(row.extend);
@@ -178,6 +181,29 @@ class InformCenter extends React.Component {
 				},
 			});
 		}
+		window.location.reload();
+	};
+
+	// 行点击操作
+	toRowClick = (record, index) => {
+		// eslint-disable-next-line no-shadow
+		const { id, isRead } = record;
+		const { isInstitution } = this.state;
+		if (!isRead && isInstitution) {
+			this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
+		}
+		this.skip(record);
+	};
+
+	// 表格发生变化
+	onRefresh=(val, type) => {
+		const { data } = this.state;
+		const { index } = val;
+		const _dataSource = data;
+		_dataSource[index][type] = val[type];
+		this.setState({
+			data: _dataSource,
+		});
 	};
 
 	// page翻页
@@ -369,7 +395,9 @@ class InformCenter extends React.Component {
 								</div>
 							)}
 						</div>
-						{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum className="yc-table-check" num={selectedRowKeys.length} /> : null}
+						<div className="yc-table-check">
+							{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
+						</div>
 						<Spin visible={loading}>
 							<Table
 								rowSelection={isInstitution && rowSelection}
@@ -377,6 +405,7 @@ class InformCenter extends React.Component {
 								dataSource={data}
 								pagination={false}
 								rowKey={record => record.id}
+								onRowClick={this.toRowClick}
 							/>
 							{data && data.length > 0 && (
 								<div className="yc-table-pagination">

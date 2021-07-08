@@ -279,7 +279,6 @@
   background: $background-base;
   margin: 20px 0 40px 0;
   min-height: 688px;
-  padding-bottom: 80px;
 
   .yc-container-content {
     background: #FFFFFF;
@@ -288,6 +287,10 @@
     min-height: 745px;
     margin: 0 auto;
   }
+}
+
+.yc-container-wrapper-special {
+  padding-bottom: 80px;
 }
 
 .yc-footer-wrapper {
@@ -479,6 +482,8 @@
           .yc-label-hint{
             font-size: 14px;
             color: #4E5566;
+            width: 312px;
+            line-height: 22px;
             margin-left: 4px;
             margin-top: 12px;
           }

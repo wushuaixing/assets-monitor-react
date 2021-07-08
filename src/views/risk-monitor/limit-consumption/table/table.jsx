@@ -24,29 +24,23 @@ const columns = (props) => {
 		},
 		{
 			title: '债务人',
-			dataIndex: 'obligorType',
-			width: 300,
+			dataIndex: 'personName',
+			width: 260,
 			render: (text, row) => (
 				row.obligorType === 2
 					? (
 						<div>
 							<div>
-								<span className="obligor-type">个人：</span>
 								<Ellipsis
-									content={`${row.obligorType === 2 ? `${row.personName}` : `${row.personName || '-'}`}`}
+									content={`${row.obligorType === 2 ? `${row.personName} （${row.personNumber}）` : `${row.personName || '-'}`}`}
 									tooltip
 									width={200}
 									url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
 								/>
 							</div>
-							<div>
-								<span className="obligor-type">证件号：</span>
-								<span>{row.obligorType === 2 ? row.personNumber : '-'}</span>
-							</div>
 						</div>
 					) : (
 						<div>
-							<span className="obligor-type">企业：</span>
 							<Ellipsis
 								content={`${row.companyName || '-'}`}
 								tooltip
@@ -57,31 +51,6 @@ const columns = (props) => {
 					)
 			),
 		},
-		// {
-		// 	title: '姓名',
-		// 	dataIndex: 'personName',
-		// 	width: 210,
-		// 	render: (text, row) => (
-		// 		<Ellipsis
-		// 			content={`${row.obligorType === 2 ? `${text}${row.personNumber ? `(${row.personNumber})` : ''}` : `${text || '-'}`}`}
-		// 			tooltip
-		// 			width={180}
-		// 			url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
-		// 		/>
-		// 	),
-		// }, {
-		// 	title: '企业',
-		// 	dataIndex: 'companyName',
-		// 	width: 210,
-		// 	render: (text, row) => (
-		// 		<Ellipsis
-		// 			content={`${text || '-'}`}
-		// 			tooltip
-		// 			width={180}
-		// 			url={`${row.obligorType === 1 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
-		// 		/>
-		// 	),
-		// },
 		{
 			title: '案号',
 			dataIndex: 'caseNumber',
@@ -97,14 +66,6 @@ const columns = (props) => {
 				</span>
 			),
 		},
-		// {
-		// 	title: '源链接',
-		// 	dataIndex: 'url',
-		// 	width: 90,
-		// 	render: (text, row) => (
-		// 		<a onClick={() => toViewContent([row.content, row.url])}>{`${text ? '查看' : '-'}`}</a>
-		// 	),
-		// },
 		{
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),

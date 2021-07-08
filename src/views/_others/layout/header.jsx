@@ -1,6 +1,7 @@
 import React from 'react';
 import { Badge } from 'antd';
 import { navigate } from '@reach/router';
+import Cookies from 'universal-cookie';
 import Ellipse from 'img/icon/icon_unread99.png';
 import Circular from 'img/icon/icon_unread.png';
 import logoImg from '@/assets/img/logo_white.png';
@@ -11,6 +12,8 @@ import HeaderCenter from './headerCenter/header-center';
 import HeaderMessage from './headerMessage/header-message';
 import './style.scss';
 
+const cookie = new Cookies();
+const isSpecial = cookie.get('isSpecial');
 // const logoText = '源诚资产监控平台';
 /* 导航项目 */
 const Item = (props) => {
@@ -232,8 +235,10 @@ export default class Headers extends React.Component {
 							</div>
 						) : 					(
 							<div className="header-logo">
-								<img src={logoImg} alt="" />
-								<span className="yc-public-white-large">源诚资产监控平台</span>
+								{!isSpecial && <img src={logoImg} alt="" />}
+								<span className="yc-public-white-large">
+									{!isSpecial ? '源诚资产监控平台' : '资产监控平台'}
+								</span>
 							</div>
 						)
 					}

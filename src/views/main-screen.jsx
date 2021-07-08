@@ -14,6 +14,7 @@ import { handleRule } from '@/utils';
 import Error500 from '@/assets/img/error/500@2x.png';
 import MessageDetail from '@/views/_others/messageDetail';
 import Judgement from '@/views/_others/judgement';
+import { getQueryByName } from '@/utils';
 import { Header, Container, Footer } from './_others/layout';
 import ChangePassword from './_others/changPassword';
 import Message from './_others/message';
@@ -133,7 +134,6 @@ export default class Screen extends React.Component {
 		}
 		document.body.style.overflowY = 'scroll';
 		this.clientHeight = 500 || document.body.clientHeight;
-		// console.log('componentWillMount:', document.body.clientHeight);
 		if (token) {
 			authRule().then((res) => {
 				if (res.code === 200) {
@@ -166,7 +166,9 @@ export default class Screen extends React.Component {
 				});
 			});
 		} else {
-			navigate('/login');
+			const orgId = getQueryByName(window.location.href, 'orgId');
+			const url = orgId ? `/login?orgId=${orgId}` : '/login';
+			navigate(url);
 		}
 	}
 

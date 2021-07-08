@@ -52,6 +52,7 @@
     "matchmedia-polyfill": "0.3.1",
     "react-loadable": "5.5.0",
     "react-redux": "5.0.7",
+    "thread-loader": "^3.0.4",
     "universal-cookie": "4.0.0",
     "zrender": "^2.0.2"
   },

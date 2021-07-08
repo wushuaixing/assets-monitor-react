@@ -21,15 +21,15 @@ var defaultIcon ="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACO
 /* 导出画像模板-封面 */
 function exportCover(source,exportType,domainName) {
 	var domainType = {
-		1:{key:'yc',value:bgImgData,name:'源诚资产监控平台'}, //  源诚
-		2:{key:'zhongguan',value:zgBgImgData,name:'中冠数据监控平台'}, // (正式环境域名)中冠
-		3:{key:'zhongguandev',value:zgBgImgData,name:'中冠数据监控平台'} // (测试环境域名)中冠
+		1:{key:'yc',value:bgImgData}, //  源诚
+		2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
+		3:{key:'zhongguandev',value:zgBgImgData}, // (测试环境域名)中冠
+		4:{key:'zhuanxian',value:''} // 专线
 	}
 	var data = JSON.parse(source)||{};
 	var bgImgSource = domainType[domainName] ? domainType[domainName].value : bgImgData;
 	htmlCover = htmlCover.replace("../../_assets/img/watermark.png", bgImgSource);
-	var corporateName = domainType[domainName] ? domainType[domainName].name : '源诚资产监控平台';
-	htmlCover = htmlCover.replace(/{base.corporateName}/g, corporateName);
+	htmlCover = htmlCover.replace(/{base.corporateName}/g, "本平台");
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlCover = htmlCover.replace(/{base.dateTime}/g, dataTime);
 	var info='';
@@ -44,9 +44,10 @@ function exportCover(source,exportType,domainName) {
 /* 导出画像模板-内容 */
 function exportTemplate(source,exportType,domainName) {
 	var domainType = {
-		1:{key:'yc',value:bgImgData,name:'源诚资产监控平台'}, //  源诚
-		2:{key:'zhongguan',value:zgBgImgData,name:'中冠数据监控平台'}, // (正式环境域名)中冠
-		3:{key:'zhongguandev',value:zgBgImgData,name:'中冠数据监控平台'} // (测试环境域名)中冠
+		1:{key:'yc',value:bgImgData}, //  源诚
+		2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
+		3:{key:'zhongguandev',value:zgBgImgData}, // (测试环境域名)中冠
+		4:{key:'zhuanxian',value:''} // 专线
 	}
 	var data = JSON.parse(source);
 	var fun = {
@@ -448,8 +449,7 @@ function exportTemplate(source,exportType,domainName) {
 	/* 基本信息模块 */
 	var dataTime = new Date().getFullYear() +'年' +(new Date().getMonth()+1)+"月"+new Date().getDate()+"日";
 	htmlTemp = htmlTemp.replace(/{base.dateTime}/g, dataTime);
-	var corporateName = domainType[domainName] ? domainType[domainName].name : '源诚资产监控平台';
-	htmlCover = htmlCover.replace(/{base.corporateName}/g, corporateName);
+	htmlCover = htmlCover.replace(/{base.corporateName}/g, "本平台");
 
 	if(exportType){
 		var infoInput = function (source) {
@@ -2609,7 +2609,7 @@ function exportTemplate(source,exportType,domainName) {
 }
 
 function writeFile() {
-	var str = (flag) => exportCover(_dataSource, flag,2) + exportTemplate(_dataSource, flag,2);
+	var str = (flag) => exportCover(_dataSource, flag,4) + exportTemplate(_dataSource, flag,4);
 	fs.writeFile(root + "/dist/demo.html", str(true), (error) => {
 		error && console.log('error');
 	});

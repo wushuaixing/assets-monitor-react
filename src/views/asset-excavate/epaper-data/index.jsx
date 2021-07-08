@@ -169,7 +169,7 @@ export default class Epaper extends React.Component {
 
 		if (!loading) this.setState({ loading: true });
 		// this.toInfoCount(); manage: _manage || false
-		// this.toUnReadCount();
+		this.toUnReadCount();
 		Api.list(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.setState({

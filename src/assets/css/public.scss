@@ -108,7 +108,7 @@ body,td,th{font-size:14px;color:#20242e}
 
 .yc-table-pagination {
   text-align: right;
-  padding: 30px 0 20px 0;
+  padding: 20px 0;
 
   .ant-pagination {
     display: inline-block;
@@ -433,6 +433,18 @@ td.column-left20 {
   content: "";
   border-radius: 3px;
   background-color: #3DBD7D;
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: top;
+  margin-top: 6px;
+}
+
+.circle-remove:before {
+  width: 6px;
+  height: 6px;
+  content: "";
+  border-radius: 3px;
+  background-color: #FB5A5C;
   display: inline-block;
   margin-right: 6px;
   vertical-align: top;

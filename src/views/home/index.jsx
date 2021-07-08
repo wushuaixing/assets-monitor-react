@@ -3,6 +3,10 @@ import close from '@/assets/img/home/close.png';
 import {
 	currentOrganization, unreadInfoRemind, dailyMonitorNotice, closeNotice,
 } from 'api/home';
+import {
+	userInfo, // 通知中心数据
+} from '@/utils/api/user';
+import { isRead } from 'api/inform';
 import Cookies from 'universal-cookie';
 // import { promiseAll } from '@/utils/promise';
 import Header from './home-header';
@@ -27,16 +31,20 @@ class HomeRouter extends React.Component {
 			content: '',
 			msgTotal: 56,
 			stationId: '',
+			orgPower: false,
 		};
 	}
 
 	componentWillMount() {
 		this.getNoticeInfo();
-	}
-
-	componentDidMount() {
-		this.getHeaderData();
-		this.getData();
+		userInfo().then((res) => {
+			const { currentOrgId, masterOrgId } = res.data;
+			if (currentOrgId === masterOrgId) {
+				this.setState({
+					orgPower: true,
+				});
+			}
+		});
 		const versionUpdate = cookie.get('versionUpdate');
 		const { hash } = window.location;
 		// console.log(hash);
@@ -46,6 +54,11 @@ class HomeRouter extends React.Component {
 				VersionUpdateModalVisible: true,
 			});
 		}
+	}
+
+	componentDidMount() {
+		this.getHeaderData();
+		this.getData();
 	}
 
 	onCancel = () => {
@@ -108,7 +121,8 @@ class HomeRouter extends React.Component {
 				const {
 					auctionCount, landCount, intangibleCount, subrogationCount, stockPledgeCount, mortgageCount, financeCount, biddingCount,
 					vehicleInformationCount, estateRegisterCount, bankrupcyCount, dishonestCount, litigationCount, managementAbnormalCount,
-					changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount, constructionLicenceCount, projectBiddingCount, projectInfoCount, electronicNewspaperCount,
+					changeMonitorCount, seriousIllegalCount, riskTaxCount, punishmentCount, riskEpbCount, limitHeightCount, unsealCount,
+					constructionLicenceCount, projectBiddingCount, projectInfoCount, electronicNewspaperCount, execEndCaseCount, execPersonCount,
 				} = res.data;
 				const assetArray = [
 					{
@@ -156,6 +170,12 @@ class HomeRouter extends React.Component {
 						name: '破产重组', count: bankrupcyCount, color: '#948BFF', icon: 'bankruptcy', status: bankrupcyCount !== null,
 					},
 					{
+						name: '被执行信息', count: execPersonCount, color: '#FF6133', icon: 'beizhihangxinxi', status: execPersonCount !== null,
+					},
+					{
+						name: '终本案件', count: execEndCaseCount, color: '#5A6BFB', icon: 'zhongbenanjian', status: execEndCaseCount !== null,
+					},
+					{
 						name: '失信记录', count: dishonestCount, color: '#FB5A5C', icon: 'broken', status: dishonestCount !== null,
 					},
 					{
@@ -198,16 +218,16 @@ class HomeRouter extends React.Component {
 		const { msgTotal, stationId } = this.state;
 		this.handleCloseNotice(3);
 		const w = window.open('about:blank');
-		if (msgTotal > 200) {
-			w.location.href = '#/info/monitor';
-		} else {
-			w.location.href = `#/messageDetail?stationId=${stationId}`;
-		}
+		isRead({ idList: [stationId] }).then((res) => {
+			if (res.code === 200) {
+				w.location.href = (msgTotal > 200) ? '#/info/monitor' : `#/messageDetail?stationId=${stationId}`;
+			}
+		});
 	};
 
 	render() {
 		const {
-			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice, msgTotal, content,
+			headerPropsData, assetArray, riskArray, loading, VersionUpdateModalVisible, showNotice, msgTotal, content, orgPower,
 		} = this.state;
 		const { baseRule } = this.props;
 		// console.log('baseRule === ', baseRule);
@@ -224,7 +244,7 @@ class HomeRouter extends React.Component {
 		return (
 			<div className="home-container">
 				{
-					showNotice ? (
+					showNotice && orgPower ? (
 						<div className="home-box">
 							<div className="home-notice">
 								<div className="home-notice-title">

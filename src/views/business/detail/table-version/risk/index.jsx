@@ -4,6 +4,7 @@ import { roleState } from '@/utils/rule';
 import { getHrefQuery } from '@/utils';
 import Abnormal from './abnormal';
 import Bankruptcy from './bankruptcy';
+import LegalCase from './legalcase';
 import Illegal from './illegal';
 import Punishment from './punishment';
 import Tax from './tax';
@@ -12,6 +13,7 @@ import Lawsuit from './lawsuit';
 import LawsuitJudgment from './lawsuit-judgment';
 import Environment from './environment';
 import LimitHeight from './limit-height';
+import Execute from './execute';
 
 
 const toGetTotal = (field, data) => {
@@ -42,6 +44,28 @@ const subItems = (data, portrait) => {
 			component: Bankruptcy,
 			isStatus: 'only',
 			tagName: 'e-manage-bankruptcy',
+		},
+		{
+			id: 20700,
+			baseId: 2070,
+			name: '被执行信息',
+			total: data ? toGetTotal('2070', data) : 0,
+			info: data ? data.filter(i => /2070/.test(i.id)) : '',
+			tagName: 'e-manage-execute',
+			role: roleState('fxjk', 'fxjkbzxxx'),
+			isStatus: 'normal',
+			component: Execute,
+		},
+		{
+			id: 20300,
+			baseId: 2030,
+			name: '终本案件',
+			total: data ? toGetTotal('2030', data) : 0,
+			info: data ? data.filter(i => /2030/.test(i.id)) : '',
+			isStatus: 'normal',
+			tagName: 'e-manage-legalCase',
+			role: roleState('fxjk', 'fxjkzbaj'),
+			component: LegalCase,
 		},
 		{
 			id: 20603,
@@ -154,7 +178,7 @@ class Risk extends React.Component {
 	}
 
 	componentDidMount() {
-		this.toPushAndScroll();
+		window.setTimeout(() => this.toPushAndScroll(), 1);
 	}
 
 
@@ -194,8 +218,9 @@ class Risk extends React.Component {
 		} else {
 			dom = document.getElementById(eleID);
 		}
-		const { portrait } = this.props;
-		const _height = portrait === 'business' ? 190 : 155;
+		const { portrait, count } = this.props;
+		const aryResult = subItems(count, portrait).length;
+		const _height = portrait === 'business' ? 190 : (aryResult > 10 ? 155 : 115);
 		if (dom) {
 			window.scrollTo(0, dom.offsetTop - _height);
 		}
