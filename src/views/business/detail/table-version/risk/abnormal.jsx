@@ -16,7 +16,7 @@ export default class AbnormalIntact extends React.Component {
 		const { count } = this.state;
 		const h = toH(30301, toGetNumber(data, 30301), portrait);
 		return (
-			<div className="yc-inquiry-public-table" style={{ paddingBottom: 30 }} id={id}>
+			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
 					<div className="yc-tabs-simple-prefix">{`经营异常 ${count || 0}`}</div>
 				</div>
