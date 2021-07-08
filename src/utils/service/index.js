@@ -100,7 +100,7 @@ const responseMethods = {
 			}
 			return response;
 		}
-		if (res.code === 401) {
+		if (res.code === 401 || res.code === 9001) {
 			navigate('/login');
 			window.location.reload();
 			return response;
