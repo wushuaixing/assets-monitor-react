@@ -177,7 +177,7 @@ class Risk extends React.Component {
 		};
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		this.toPushAndScroll();
 	}
 
@@ -218,8 +218,9 @@ class Risk extends React.Component {
 		} else {
 			dom = document.getElementById(eleID);
 		}
-		const { portrait } = this.props;
-		const _height = portrait === 'business' ? 190 : 125;
+		const { portrait, count } = this.props;
+		const aryResult = subItems(count, portrait).length;
+		const _height = portrait === 'business' ? 190 : (aryResult > 10 ? 155 : 115);
 		if (dom) {
 			window.scrollTo(0, dom.offsetTop - _height);
 		}

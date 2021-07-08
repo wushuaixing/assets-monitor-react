@@ -17,7 +17,7 @@ export default class BankruptcyIntact extends React.Component {
 		const h = toH(30301, toGetNumber(data, 30301), portrait);
 
 		return (
-			<div className="yc-inquiry-public-table" style={{ paddingBottom: 30 }} id={id}>
+			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
 					<div className="yc-tabs-simple-prefix">{`破产重组 ${count || 0}`}</div>
 				</div>

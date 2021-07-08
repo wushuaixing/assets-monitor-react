@@ -16,7 +16,7 @@ export default class PunishmentIntact extends React.Component {
 		const { count } = this.state;
 		const h = toH(30601, toGetNumber(data, 30601), portrait);
 		return (
-			<div className="yc-inquiry-public-table" style={{ paddingBottom: 30 }} id={id}>
+			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
 					<div className="yc-tabs-simple-prefix">{`行政处罚 ${count || 0}`}</div>
 				</div>
