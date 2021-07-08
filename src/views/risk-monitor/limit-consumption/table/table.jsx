@@ -32,7 +32,7 @@ const columns = (props) => {
 						<div>
 							<div>
 								<Ellipsis
-									content={`${row.obligorType === 2 ? `${row.personName} ${row.personNumber}` : `${row.personName || '-'}`}`}
+									content={`${row.obligorType === 2 ? `${row.personName} （${row.personNumber}）` : `${row.personName || '-'}`}`}
 									tooltip
 									width={200}
 									url={`${row.obligorType === 2 ? `/#/business/debtor/detail?id=${row.obligorId}` : ''}`}
