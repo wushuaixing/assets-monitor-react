@@ -219,7 +219,7 @@ class Risk extends React.Component {
 			dom = document.getElementById(eleID);
 		}
 		const { portrait } = this.props;
-		const _height = portrait === 'business' ? 190 : 155;
+		const _height = portrait === 'business' ? 190 : 125;
 		if (dom) {
 			window.scrollTo(0, dom.offsetTop - _height);
 		}
