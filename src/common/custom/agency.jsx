@@ -131,7 +131,7 @@ const CustomAgency = (props) => {
 		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
 			newNode = 'sales@zhongguandata.com';
 		} else {
-			newNode = 'sales@yczcjk.com';
+			newNode = 'service@yczcjk.com';
 		} break;
 	case 'copyRightAddress':
 		if (currentDomainName.indexOf(domainType.ZG) >= 0) {
