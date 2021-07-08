@@ -45,11 +45,6 @@ class HomeRouter extends React.Component {
 				});
 			}
 		});
-	}
-
-	componentDidMount() {
-		this.getHeaderData();
-		this.getData();
 		const versionUpdate = cookie.get('versionUpdate');
 		const { hash } = window.location;
 		// console.log(hash);
@@ -59,6 +54,11 @@ class HomeRouter extends React.Component {
 				VersionUpdateModalVisible: true,
 			});
 		}
+	}
+
+	componentDidMount() {
+		this.getHeaderData();
+		this.getData();
 	}
 
 	onCancel = () => {
