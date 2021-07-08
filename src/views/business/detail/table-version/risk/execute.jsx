@@ -50,7 +50,7 @@ export default class Execute extends React.Component {
 			loadingHeight: h,
 		};
 		return (
-			<div className="yc-inquiry-public-table" style={{ paddingBottom: 30 }} id={id}>
+			<div className="yc-inquiry-public-table" id={id}>
 				<Tabs.Simple
 					borderBottom
 					onChange={this.onSourceType}
