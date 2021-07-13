@@ -64,7 +64,6 @@ class comInput extends React.Component {
 	};
 
 	onBlur=() => {
-		// console.log('onBlur');
 		const {
 			money, onChange, decimal, onBlur, loginBlur,
 		} = this.props;
@@ -95,7 +94,6 @@ class comInput extends React.Component {
 				number: Number(Number(__str).toFixed(decimal || 0)),
 				isNaN: Number.isNaN(Number(__str)),
 			};
-			// console.log(oldValueObj, valueObj);
 
 			const result = {
 				output: '',
@@ -130,7 +128,6 @@ class comInput extends React.Component {
 		const {
 			style, className, placeholder, defaultValue, value, money, decimal, onChange, onKeyDown, titleWidth, maxLength, type, unSplitLine, otherAttribute,
 		} = this.props;
-		// console.log(this.props, maxLength);
 		const {
 			size, disabled, unit, unitStyle, suffix, suffixRightStyle, suffixSpanStyle, title, titleIcon, onlyUnit, onlyUnitStyle,
 		} = this.props;
@@ -150,7 +147,6 @@ class comInput extends React.Component {
 	:parser="value => value.replace(/$s?|(,*)/g, '')" */
 		if (suffix) { classList.push('yc-input-right'); }
 		if (title) { classList.push('yc-input-left'); }
-		// console.log(inputValue, 1, value, 2, defaultValue);
 		let __value = value;
 		if (money) {
 			__value = value || value === 0 ? formatMoney(value, decimal || 0) : value;
@@ -161,7 +157,6 @@ class comInput extends React.Component {
 		// 		_value = !Number.isNaN(_value) ? formatMoney(_value, decimal) : formatMoney(_value, decimal)
 		// 	}
 		// }
-		// console.log(this.ref ? this.ref.value : '');
 		const pStyle = { paddingLeft: 7 };
 		if (title || titleIcon) {
 			pStyle.paddingLeft = titleWidth ? titleWidth + 7 : 78;

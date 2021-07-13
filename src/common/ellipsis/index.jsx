@@ -79,7 +79,6 @@ export default class Ellipsis extends React.Component {
 			width: bussinessStyle ? 'auto' : __width + addWidth,
 			display: 'inline-block',
 		} : '';
-		// console.log(75, _width, __width, addWidth);
 		return (
 			<div ref={e => this.element = e} className={`yc-ellipsis-element${className ? ` ${className}` : ''}`} style={style}>
 				{

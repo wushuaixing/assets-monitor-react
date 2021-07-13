@@ -2,6 +2,8 @@ import React from 'react';
 import {
 	Form, message, Tooltip, Icon, Pagination, Modal, Select,
 } from 'antd';
+import { navigate } from '@reach/router';
+import { Icon as IconType } from '@/common';
 // import Cookies from 'universal-cookie';
 // import { baseUrl  } from '@/utils/api';
 // import BASE_URL from '@/utils/api/config';
@@ -466,6 +468,11 @@ class BusinessView extends React.Component {
 		});
 	};
 
+	// 页面跳转
+	handleNavigate = (url) => {
+		navigate(url);
+	};
+
 	render() {
 		const {
 			openRowSelection, selectedRowKeys, selectData, totals, current, dataList, loading, PeopleListModalVisible, businessId, errorModalVisible, uploadErrorData, errorLoading, reqLoading, businessModalVisible, pageSize,
@@ -614,43 +621,51 @@ class BusinessView extends React.Component {
 
 					<div className="yc-business-table-btn" style={{ minHeight: 32, overflow: 'visible' }}>
 						{
-									!openRowSelection ? (
-										<React.Fragment>
-											{
-												!global.isProxyLimit && (
-													<React.Fragment>
-														<Button type="common" className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
-															导入业务
-														</Button>
-														<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
-															<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
-														</Tooltip>
-													</React.Fragment>
-												)
-											}
-										</React.Fragment>
-									) : (
-										<React.Fragment>
-											{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum style={{ position: 'absolute', top: 6 }} num={selectedRowKeys.length} /> : null}
-										</React.Fragment>
-									)
-								}
+							!openRowSelection ? (
+								<React.Fragment>
+									{
+										!global.isProxyLimit && (
+											<React.Fragment>
+												<Button type="common" className="yc-business-btn" onClick={this.handleOpenBusinessModal}>
+													导入业务
+												</Button>
+												<Tooltip placement="topLeft" title={text} arrowPointAtCenter>
+													<img src={businessImg} alt="业务视图提示" className="yc-business-icon" />
+												</Tooltip>
+											</React.Fragment>
+										)
+									}
+								</React.Fragment>
+							) : (
+								<React.Fragment>
+									{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum style={{ position: 'absolute', top: 6 }} num={selectedRowKeys.length} /> : null}
+								</React.Fragment>
+							)
+						}
 						<div className="yc-public-floatRight">
 							{
-										openRowSelection ? (
-											<React.Fragment>
-												{
-													!global.isProxyLimit && (
-														<Button style={{ margin: '0 0 0 10px' }} onClick={this.handledDeleteBatch} className="yc-business-btn">删除</Button>
-													)
-												}
-												<Download style={{ margin: '0 0 0 10px' }} selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出" />
-											</React.Fragment>
-										) : null
-									}
+								openRowSelection ? (
+									<React.Fragment>
+										{
+											!global.isProxyLimit && (
+												<Button style={{ margin: '0 0 0 10px' }} onClick={this.handledDeleteBatch} className="yc-business-btn">删除业务</Button>
+											)
+										}
+										<Download style={{ margin: '0 0 0 10px' }} selectedRowKeys={selectedRowKeys} selectData={selectData} condition={this.toExportCondition} api={exportExcel} field="idList" selectIds text="导出业务" />
+									</React.Fragment>
+								) : null
+							}
 							{
-										openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} api={exportExcel} all text="一键导出" />
-									}
+								openRowSelection ? null : (
+									<Button className="yc-all-export business-export-btn" onClick={() => this.handleNavigate('business/view/export')}>
+										<IconType type="icon-export" />
+										<span style={{ marginLeft: 5 }}>导出业务报告</span>
+									</Button>
+								)
+							}
+							{
+								openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} api={exportExcel} all text="导出业务列表" />
+							}
 							<Button
 								style={{ margin: '0 0 0 10px' }}
 								className="yc-business-btn"
