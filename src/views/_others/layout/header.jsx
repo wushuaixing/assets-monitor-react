@@ -7,10 +7,12 @@ import Circular from 'img/icon/icon_unread.png';
 import logoImg from '@/assets/img/logo_white.png';
 // import { unreadCount } from '@/utils/api/inform';
 import { bankConf } from '@/utils/api/user';
-import { toGetRuleSource } from '@/utils';
+import { clearEmpty, toGetRuleSource } from '@/utils';
+import { notify } from 'api/inform';
 import HeaderCenter from './headerCenter/header-center';
 import HeaderMessage from './headerMessage/header-message';
 import './style.scss';
+
 
 const cookie = new Cookies();
 const isSpecial = cookie.get('isSpecial');
@@ -194,9 +196,13 @@ export default class Headers extends React.Component {
 	}
 
 	// 获取消息数量
-	getNoticeNum = (data) => {
-		this.setState({
-			num: data,
+	getNoticeNum = () => {
+		notify({ isRead: false }).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					num: res.data.total,
+				});
+			}
 		});
 	};
 
@@ -205,9 +211,6 @@ export default class Headers extends React.Component {
 		this.setState({
 			data,
 		});
-		if (this.headerMes) {
-			this.headerMes.informCenter();
-		}
 	};
 
 	render() {
@@ -280,7 +283,7 @@ export default class Headers extends React.Component {
 								{
 									num ? <span className="yc-badge-num" style={num > 99 ? { left: '28px' } : { left: '30px' }}>{num > 99 ? '99+' : num}</span> : ''
 								}
-								<HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" ref={e => this.headerMes = e} />
+								  <HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" ref={e => this.headerMes = e} />
 							</div>
 							)
 						}

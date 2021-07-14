@@ -1,23 +1,26 @@
 import React from 'react';
 import {
-	Button, Pagination, Modal, message, Form,
+	Pagination, Modal, message, Form,
 } from 'antd';
+import { Button } from '@/common';
 import { navigate } from '@reach/router';
 import {
 	centerList, // 消息提醒
 	getDelete, // 删除
-	isRead, // 标记已读
+	isRead as isReadApi, // 标记已读
 } from 'api/inform';
 import {
 	userInfo, // 通知中心数据
 } from 'api/user';
-import imgUnread from 'img/inform/icon_message_unread.png';
-import imgReade from 'img/inform/icon_message_read.png';
-import { generateUrlWithParams, parseQuery } from '@/utils';
+import { DownloadFile, generateUrlWithParams, parseQuery } from '@/utils';
 import { Table, Spin, SelectedNum } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
+import baseUrl from 'api/config';
+import { exportFile } from 'api/home';
+import Cookies from 'universal-cookie';
 import './style.scss';
 
+const cookies = new Cookies();
 const { confirm } = Modal;
 const createForm = Form.create;
 class InformCenter extends React.Component {
@@ -33,10 +36,8 @@ class InformCenter extends React.Component {
 					className: 'message-type',
 					render: (text, row) => (
 						<div style={{ marginLeft: 10 }}>
-							<img
-								style={{ width: 16, verticalAlign: 'sub', marginRight: 10 }}
-								src={row.isRead === false ? imgUnread : imgReade}
-								alt=""
+							<span
+								className={!row.isRead ? 'yc-table-read' : 'yc-table-unread'}
 							/>
 							<span className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}>
 								{text}
@@ -47,27 +48,33 @@ class InformCenter extends React.Component {
 				{
 					title: '内容详情',
 					dataIndex: 'content',
+					render: text => (
+						<span className="yc-message-content">
+							<span
+								dangerouslySetInnerHTML={{ __html: text }}
+							/>
+						</span>
+					),
+				}, {
+					title: '操作',
+					width: 100,
 					render: (text, row) => (
-						<div
-							className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}
+						<span
+							className="yc-message-operation"
 						>
-							<span className="yc-message-content">
-								<span
-									dangerouslySetInnerHTML={{ __html: text }}
-								/>
-								，
-								{
-									row.operateType === 'monitorReport' && JSON.parse(row.extend).total > 200 && <span>点击前往“信息监控”查看</span>
-								}
-								{
-									row.operateType === 'monitorReport' && JSON.parse(row.extend).total <= 200 && <span>点击查看日报详情</span>
-								}
-								{
-									row.operateType !== 'monitorReport' && <span>点击查看</span>
-								}
-							</span>
-
-						</div>
+							{
+								row.operateType === 'businessReport' ? (
+									JSON.parse(row.extend) && !JSON.parse(row.extend).disable ? <span onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件下载失败</span>
+								) : (
+									<span onClick={() => {
+										this.skip(row);
+									}}
+									>
+										点击查看
+									</span>
+								)
+							}
+						</span>
 					),
 				},
 				{
@@ -76,22 +83,22 @@ class InformCenter extends React.Component {
 					width: 160,
 					render: (text, row) => <span className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}>{formatDateTime(text)}</span>,
 				},
-				{
-					title: '操作',
-					width: 60,
-					dataIndex: 'address',
-					render: (text, row) => (
-						<div
-							onClick={(e) => {
-								e.stopPropagation();
-								this.handledDeleteBatch(row);
-							}}
-							className="yc-table-text-link"
-						>
-							删除
-						</div>
-					),
-				},
+				// {
+				// 	title: '操作',
+				// 	width: 60,
+				// 	dataIndex: 'address',
+				// 	render: (text, row) => (
+				// 		<div
+				// 			onClick={(e) => {
+				// 				e.stopPropagation();
+				// 				this.handledDeleteBatch(row);
+				// 			}}
+				// 			className="yc-table-text-link"
+				// 		>
+				// 			删除
+				// 		</div>
+				// 	),
+				// },
 			],
 			data: [],
 			tabTotal: 0,
@@ -100,6 +107,7 @@ class InformCenter extends React.Component {
 			loading: false,
 			selectedRowKeys: [], // 这里配置默认勾选列
 			isInstitution: false, // 是否是本机构
+			btnActivate: 'all',
 		};
 	}
 
@@ -131,19 +139,14 @@ class InformCenter extends React.Component {
 
 	// 跳转
 	skip = (row) => {
-		const params = {
-			idList: [row.id],
-		};
-		const { isInstitution } = this.state;
-		if (isInstitution) {
-			isRead(params);
-		}
+		// const params = {
+		// 	idList: [row.id],
+		// };
+		// const { isInstitution } = this.state;
+		// if (isInstitution) {
+		// 	isRead(params);
+		// }
 		if (row.obligorId) {
-			// if (row.operateType === 'auctionProcessAlert') {
-			// 	const { title } = JSON.parse(row.extend);
-			// 	const w = window.open('about:blank');
-			// 	w.location.href = `#/monitor?process=3?id=${row.obligorId}&title=${title}`;
-			// }
 			// 资产跟进提醒
 			if (row.operateType === 'newAuctionProcessAlert') {
 				const { title } = JSON.parse(row.extend);
@@ -186,13 +189,18 @@ class InformCenter extends React.Component {
 
 	// 行点击操作
 	toRowClick = (record, index) => {
-		// eslint-disable-next-line no-shadow
-		const { id, isRead } = record;
 		const { isInstitution } = this.state;
+		const { id, isRead } = record;
 		if (!isRead && isInstitution) {
 			this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
 		}
-		this.skip(record);
+		const params = {
+			idList: [record.id],
+		};
+		if (isInstitution) {
+			isReadApi(params);
+		}
+		// this.skip(record);
 	};
 
 	// 表格发生变化
@@ -311,20 +319,18 @@ class InformCenter extends React.Component {
 	// 全部标记为已读
 	handleAllRead = () => {
 		// const that = this;
-		const { selectedRowKeys, current } = this.state;
-		if (selectedRowKeys.length === 0) {
-			message.warning('未选中消息');
-			return;
-		}
-		const params = {
-			idList: selectedRowKeys,
-		};
+		const { current } = this.state;
+		// if (selectedRowKeys.length === 0) {
+		// 	message.warning('未选中消息');
+		// 	return;
+		// }
+		const params = {};
 		Modal.confirm({
 			title: '确认将消息标记为已读？',
 			content: '点击确定，将为您标记为已读。',
 			iconType: 'exclamation-circle',
 			onOk() {
-				isRead(params).then((res) => {
+				isReadApi(params).then((res) => {
 					if (res.code === 200) {
 						// message.success('操作成功,2秒后为您刷新页面');
 						message.loading('操作成功,2秒后为您刷新页面', 2000);
@@ -353,6 +359,20 @@ class InformCenter extends React.Component {
 		});
 	};
 
+	handleReadChange = (val) => {
+		const params = (val === 'all' ? '' : { isRead: false });
+		this.getData(params);
+		this.setState({
+			btnActivate: val,
+		});
+	};
+
+	download = (item) => {
+		const { total } = JSON.parse(item.extend);
+		const token = cookies.get('token');
+		DownloadFile(`${baseUrl}${exportFile(total)}?token=${token}`);
+	}
+
 	render() {
 		const {
 			columns,
@@ -362,6 +382,7 @@ class InformCenter extends React.Component {
 			loading,
 			selectedRowKeys,
 			isInstitution,
+			btnActivate,
 		} = this.state;
 		// 通过 rowSelection 对象表明需要行选择
 		const rowSelection = {
@@ -379,31 +400,34 @@ class InformCenter extends React.Component {
 							{isInstitution && (
 								<div>
 									<Button
-										onClick={this.handleAllRead}
-										type="ghost"
+										onClick={() => this.handleReadChange('all')}
+										title="全部"
+										active={btnActivate === 'all'}
 										className="btn-default"
-									>
-										标记为已读
-									</Button>
+									/>
 									<Button
-										onClick={this.handledDeleteBatch}
-										type="ghost"
+										onClick={() => this.handleReadChange('else')}
+										title="只显示未读数据"
 										className="btn-default"
-									>
-										删除
-									</Button>
+										active={btnActivate === 'else'}
+									/>
+									<div className="yc-con-item-wrapper-btn">
+										<i className="iconfont icon-quanbubiaoweiyidu yc-con-item-wrapper-btn-icon" />
+										<span onClick={() => this.handleAllRead}>全部标记已读数据</span>
+									</div>
 								</div>
 							)}
 						</div>
-						<div className="yc-table-check">
-							{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null}
-						</div>
+						{/* <div className="yc-table-check"> */}
+						{/*	{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null} */}
+						{/* </div> */}
 						<Spin visible={loading}>
 							<Table
-								rowSelection={isInstitution && rowSelection}
+								// rowSelection={isInstitution && rowSelection}
 								columns={columns}
 								dataSource={data}
 								pagination={false}
+								rowClassName={record => (record.isRead ? 'yc-row-bold cursor-pointer' : 'yc-row-bold cursor-pointer')}
 								rowKey={record => record.id}
 								onRowClick={this.toRowClick}
 							/>
