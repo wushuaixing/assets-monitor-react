@@ -3,7 +3,7 @@
 module.exports = {
 
 	// 基本信息
-	DB10101: {
+	BB10101: {
 		"bankruptcyStatus": 0,
 		"borrowType": "0-个人，1-企业",
 		"businessPushType": 0,
@@ -21,7 +21,7 @@ module.exports = {
 		"uploadTime": ""
 	},
 	// 关联业务表
-	DB10102: [
+	BB10102: [
 		{
 			businessId: 24255,
 			caseNumber: '1',
