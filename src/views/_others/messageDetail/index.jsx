@@ -34,19 +34,20 @@ const createForm = Form.create;
 // 这个type只有两类， 1，资产挖掘， 2，风险监控
 // ruleName 数组的时候是经营风险或者是在建工程的权限校验， 字符串的时候是其他模块的校验
 const isRule = (ruleName, type, rule) => {
-	if (Array.isArray(ruleName) && ruleName.length > 0) {
+	if (Array.isArray(ruleName) && ruleName.length > 0 && rule.menu_zcwj && rule.menu_fxjk) {
 		let ruleBool = false;
 		ruleName.forEach((item) => {
-			if (type === 1 ? Object.keys(rule.menu_zcwj.children).indexOf(item) >= 0 : Object.keys(rule.menu_fxjk.children).indexOf(item) >= 0) {
+			const r = rule === 1 ? rule.menu_zcwj.children : rule.menu_fxjk.children;
+			if (Object.keys(r).indexOf(item) >= 0) {
 				ruleBool = true;
 			}
 		});
 		return ruleBool;
 	}
-	if (type === 1) {
+	if (type === 1 && rule.menu_zcwj) {
 		return Object.keys(rule.menu_zcwj.children).indexOf(ruleName) >= 0;
 	}
-	if (type === 2) {
+	if (type === 2 && rule.menu_fxjk) {
 		return Object.keys(rule.menu_fxjk.children).indexOf(ruleName) >= 0;
 	}
 	return false;
@@ -371,7 +372,6 @@ class MessageDetail extends React.Component {
 	// 点击上移
 	handleScroll = (eleID) => {
 		const dom = document.getElementById(eleID);
-		console.log('height === ', document.getElementById(eleID).offsetTop);
 		if (dom) {
 			window.scrollTo(0, document.getElementById(eleID).offsetTop + 70);
 		}
@@ -407,7 +407,6 @@ class MessageDetail extends React.Component {
 			obligorId: obligorId === '-1' ? undefined : obligorId,
 		}, () => {
 			this.queryAllCount();
-			console.log('却换筛选条件',obligorId);
 		});
 		window.scrollTo(0, 50);
 	};
