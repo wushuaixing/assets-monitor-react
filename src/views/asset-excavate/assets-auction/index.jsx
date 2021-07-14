@@ -295,6 +295,7 @@ export default class Assets extends React.Component {
 			onSortChange: this.onSortChange,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
+			refreshList: this.onQueryChange,
 		};
 		return (
 			<div className="yc-assets-auction">

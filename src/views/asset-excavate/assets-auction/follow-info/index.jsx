@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-	Modal, Button, Icon, Steps, Select, Input, DatePicker, Checkbox, Radio, message, Popconfirm as PopConfirm,
+	Modal, Icon, Steps, Select, Input, DatePicker, Radio, message, Popconfirm as PopConfirm, Switch,
 } from 'antd';
+import noData from '@/assets/img/home/img_blank_nodata.png';
 import { Spin, Button as Btn } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
 import {
@@ -13,40 +14,38 @@ import './style.scss';
 // step的描述内容
 export const StepDesc = (props) => {
 	const {
-		recovery, expend, content, remindingTime, remindType, remindMobiles,
+		recovery, content, remindingTime,
 	} = props;
-	// 提醒方式(1-系统消息、2-短信/邮件、3-系统+短信/邮件
-	const remindTypeContent = (type) => {
-		if (type === 1) return '系统消息';
-		if (type === 2) return '短信/邮件';
-		if (type === 3) return '系统+短信/邮件';
-		return null;
-	};
-	const remindMobilesContent = (function methods(data) {
-		if (data) {
-			return (JSON.parse(data).map(item => item.name)).join(',');
-		}
-		return null;
-	}(remindMobiles));
 
 	return (
 		<div className="font-desc">
 			{
-				recovery || expend ? (
+				recovery ? (
 					<li>
-						{recovery ? `收入金额/元：${recovery !== -1 ? floatFormat(recovery.toFixed(2)) : '-'}；  ` : null}
-						{expend ? `支出金额/元：${expend !== -1 ? floatFormat(expend.toFixed(2)) : '-'} ；` : null}
+						本次追回金额：
+						<span style={{ color: '#20242E' }}>
+							{recovery !== -1 && floatFormat(recovery.toFixed(2))}
+						</span>
 					</li>
 				) : null
 			}
 			{
-				content ? `备注：${content}` : null
+				content ? (
+					<li style={{ marginTop: '6px', marginBottom: '6px' }}>
+						备注：
+						<span style={{ color: '#20242E' }}>
+							{content}
+						</span>
+					</li>
+				) : null
 			}
 			{
-				remindingTime || remindType ? (
+				remindingTime ? (
 					<li>
-						{remindingTime ? `提醒日期：${new Date(remindingTime * 1000).format('yyyy-MM-dd (早上9点)')}； ` : null}
-						{remindType ? `提醒方式：${remindTypeContent(remindType)}${remindMobilesContent ? `(${remindMobilesContent})` : ''}` : ''}
+						提醒日期：
+						<span style={{ color: '#20242E' }}>
+							{new Date(remindingTime * 1000).format('yyyy-MM-dd 9:00')}
+						</span>
 					</li>
 				) : null
 			}
@@ -57,10 +56,10 @@ export const StepDesc = (props) => {
 // process 的 状态转移
 export const ProcessTran = (type) => {
 // （6-跟进中、9-已完成、12-已忽略、15-已放弃）
-	if (type === 6 || type === 3) return '跟进中';
-	if (type === 9) return '已完成';
+	if (type === 6 || type === 3) return '保持跟进';
+	if (type === 9) return '完成跟进';
 	if (type === 12) return '已忽略';
-	if (type === 15) return '已放弃';
+	if (type === 15) return '放弃跟进';
 	return null;
 };
 
@@ -71,13 +70,6 @@ const toStatus = (source) => {
 	return process;
 };
 
-// 跟进记录 remindType
-const remindType = (item) => {
-	if (item.length === 2) return 3;
-	if (item.indexOf('email') > -1) return 2;
-	if (item.indexOf('system') > -1) return 1;
-	return '';
-};
 
 export default class FollowInfo extends React.Component {
 	constructor(props) {
@@ -102,6 +94,8 @@ export default class FollowInfo extends React.Component {
 			add_type: 0,
 			add_way: 1,
 			add_content: '',
+			accruingMoney: 0,
+			switchBun: false,
 		};
 	}
 
@@ -115,6 +109,15 @@ export default class FollowInfo extends React.Component {
 	}
 
 	onChangeValue = (event, field) => {
+		if (field === 'status') {
+			this.setState({
+				switchBun: false,
+				recovery: '',
+				remark: '',
+				pushList: [],
+				remindTime: '',
+			});
+		}
 		if (event) {
 			let value;
 			value = event.target ? event.target.value : event;
@@ -141,7 +144,7 @@ export default class FollowInfo extends React.Component {
 				}
 			}
 			if (data.add_way === 2 && value) {
-				const res = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value);
+				const res = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-z A-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value);
 				if (!res) {
 					message.error('请输入正确的邮箱！');
 					return false;
@@ -173,9 +176,14 @@ export default class FollowInfo extends React.Component {
 		processList({ id }).then((res) => {
 			const { data, code } = res;
 			if (code === 200) {
+				let recovery = 0;
+				data.forEach((item) => {
+					recovery += Number(item.recovery);
+				});
 				this.setState({
 					processSource: data || [],
 					loadingList: false,
+					accruingMoney: recovery,
 				});
 			} else {
 				this.setState({
@@ -233,10 +241,9 @@ export default class FollowInfo extends React.Component {
 	// 新增推送信息
 	handleProcessSave = (toProcess) => {
 		const {
-			loading, recovery, expend, remark, remindTime, remindWay, pushList, status, addStatus,
+			 recovery, expend, remark, remindTime, pushList, status, addStatus, switchBun,
 		} = this.state;
 		const { source: { id, index, recovery: _recovery }, onRefresh, onClose } = this.props;
-
 		// 未点击 新增跟进记录 直接关闭弹窗
 		if (toProcess !== 15) {
 			if (!addStatus) {
@@ -256,15 +263,6 @@ export default class FollowInfo extends React.Component {
 					return true;
 				}
 			}
-			if (expend) {
-				const rStr = expend.toString();
-				const matchRes = (rStr.match(regExp) || [])[0];
-				const str = matchRes !== rStr ? '支出金额输入有误，请输入有效的金额数值！' : '';
-				if (str) {
-					message.warning(str, 2);
-					return true;
-				}
-			}
 		}
 
 
@@ -279,30 +277,30 @@ export default class FollowInfo extends React.Component {
 			content: remark,
 			remindingTime: remindTime ? new Date(remindTime).format('yyyy-MM-dd') : '',
 			remindSetIdList: pushList.length > 0 ? pushList : '',
-			remindType: remindType(remindWay),
+			remindType: switchBun ? 3 : '',
 		});
+
 
 		// 字段校验
 		if (toProcess !== 15) {
-			if (!param.remindingTime && param.remindType) {
-				return message.warning('请选择提醒时间（已选择提醒方式）', 2);
+			if (!param.remindingTime && switchBun) {
+				return message.warning('请选择提醒时间', 2);
 			}
-			if (param.remindingTime && !param.remindType) {
-				return message.warning('请选择提醒方式间（已填写提醒时间）', 2);
-			}
-			if ((param.remindType === 3 || param.remindType === 2) && !param.remindSetIdList) {
-				return message.warning('当推送方式勾选，短信/邮件，推送人不能为空', 2);
+			if (!param.remindSetIdList && switchBun) {
+				return message.warning('请选择提醒的对象', 2);
 			}
 		}
 
 		// req 阶段
-		if (loading) return false;
+		// if (loading) return false;
 		this.setState({ loading: true });
 		// console.log(JSON.stringify(param));
 		processSave(param).then((res) => {
 			const { code } = res;
 			if (code === 200) {
 				message.success('操作成功！');
+				// 刷新跟进信息
+				this.toGetProcessList();
 				const _rec = Number(_recovery) + Number(param.recovery || 0);
 				if (param.recovery > 0 && onRefresh) {
 					onRefresh({
@@ -312,9 +310,9 @@ export default class FollowInfo extends React.Component {
 					}, 'recovery');
 				}
 				if (onRefresh) onRefresh({ id, process: toProcess || status, index }, 'process');
-				if (onClose) {
-					onClose();
-				}
+				this.setState({
+					addStatus: false,
+				});
 			} else {
 				this.setState({ loading: false });
 				message.error(res.message || '网络异常请稍后再试！');
@@ -335,6 +333,7 @@ export default class FollowInfo extends React.Component {
 				const _processSource = JSON.parse(JSON.stringify(processSource));
 				_processSource.splice(index, 1);
 				this.setState({ processSource: _processSource });
+				this.toGetProcessList();
 			} else {
 				message.error(res.message || '跟进记录删除失败，请稍后再试！');
 			}
@@ -369,19 +368,28 @@ export default class FollowInfo extends React.Component {
 		});
 	};
 
+	// 开关改变事件
+	switchChange = (checked) => {
+		if (checked) {
+			this.setState({
+				switchBun: true,
+			});
+			this.toGetPushList(true);
+		} else {
+			this.setState({
+				switchBun: false,
+			});
+		}
+	};
+
 	render() {
 		const {
-			loading, loadingChild, loadingList, dataSource, processSource, addStatus, remark, pushList, recovery, expend,
+			loading, loadingList, dataSource, processSource, addStatus, remark, recovery, status, accruingMoney, switchBun,
 		} = this.state;
 		const {
 			visible, onClose, source: { process, commentTotal }, source,
 		} = this.props;
 		const data = this.state;
-		const plainOptions = [
-			{ label: '系统提醒', value: 'system' },
-			{ label: '短信/邮件', value: 'email' },
-		];
-
 		const getField = (field, option = {}) => ({
 			value: data[field],
 			onChange: ((val) => {
@@ -413,150 +421,162 @@ export default class FollowInfo extends React.Component {
 		const getContainer = () => document.getElementById('yc-assets-follow-body');
 		return (
 			<Modal
-				title="资产跟进信息"
+				title={addStatus ? '添加跟进记录' : '跟进'}
 				visible={visible}
 				width="600"
 				className="yc-follow-model"
 				maskClosable={false}
 				onCancel={onClose}
-				footer={[
-					<p className="yc-public-floatLeft">
-						{
-							process !== 15
-								? <Btn onClick={() => this.handleProcessSave(15)} style={{ width: 100 }} title="放弃跟进" /> : ''
-						}
-					</p>,
-					<Btn onClick={onClose} style={{ width: 100 }} title="取 消" />,
-					<Btn
-						type="primary"
-						loading={loading}
-						onClick={() => this.handleProcessSave()}
-						style={{ width: 100 }}
-						title="确 认"
-					/>,
-				]}
+				footer={
+					addStatus ? (
+						[<Btn
+							type="primary"
+							loading={loading}
+							onClick={() => this.handleProcessSave()}
+							style={{ width: 100 }}
+							title="确 认"
+						/>, <Btn
+							onClick={processSource.length ? () => this.setState({
+								addStatus: false,
+								status: toStatus(source),
+							}) : onClose}
+							style={{ width: 100, color: '#fff' }}
+							title="取 消"
+						/>]
+					) : (
+						[<Btn onClick={onClose} style={{ width: 100 }} title="关 闭" />]
+					)
+				}
 			>
 				<div className="yc-assets-follow-body" id="yc-assets-follow-body">
 					<div className="yc-follow-add">
 						{
 							addStatus ? (
 								<div className="follow-content">
-									<div className="follow-add-title">跟进信息</div>
-									<div className="list-height-hr" />
 									<li className="follow-list-item">
-										<div className="list-item-title">收入金额(元)：</div>
+										<div className="list-item-title">跟进状态</div>
 										<div className="list-item-content">
-											{
-												global.GLOBAL_MEIE_BROWSER
-													? (
-														<input
-															style={{ width: 430, padding: '0px 7px', height: '28px' }}
-															maxLength={12}
-															onChange={e => this.onInputChangeNew(e, 'recovery')}
-															placeholder="请输入收入金额"
-														/>
-													)
-													: (
-														<Input
-															style={{ width: '100%' }}
-															maxlength={14}
-															value={recovery}
-														// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
-															onChange={e => this.onInputChangeNew(e, 'recovery')}
-															placeholder="请输入收入金额"
-														/>
-													)
-											}
-										</div>
-									</li>
-									<li className="follow-list-item">
-										<div className="list-item-title">支出金额(元)：</div>
-										<div className="list-item-content">
-											{
-												global.GLOBAL_MEIE_BROWSER
-													? (
-														<input
-															style={{ width: 430, padding: '0px 7px', height: '28px' }}
-															maxLength={14}
-															onChange={e => this.onInputChangeNew(e, 'expend')}
-															placeholder="请输入支出金额"
-														/>
-													)
-													: (
-														<Input
-															style={{ width: '100%' }}
-															maxlength={14}
-															value={expend}
-															// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
-															onChange={e => this.onInputChangeNew(e, 'expend')}
-															placeholder="请输入支出金额"
-														/>
-													)
-											}
-										</div>
-									</li>
-									<li className="follow-list-item">
-										<div className="list-item-title">备注：</div>
-										<div className="list-item-content">
-											{
-												global.GLOBAL_MEIE_BROWSER
-													? [<textarea
-															rows="5"
-															cols="50"
-														// value={remark}
-															onChange={e => this.onInputChangeField(e, 'remark')}
-															style={{ width: 430, padding: '0px 7px' }}
-													/>,
-														<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
-													: [
-														<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />,
-														<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
-													]
-											}
-
-										</div>
-									</li>
-									<li className="follow-list-item">
-										<div className="list-item-title">提醒时间：</div>
-										<div className="list-item-content">
-											<DatePicker
-												{...getField('remindTime')}
-												getCalendarContainer={getContainer}
-												disabledDate={(time) => {
-													if (!time) {
-														return false;
-													}
-													return time.getTime() <= new Date().getTime();
-												}}
-											/>
-										</div>
-									</li>
-									<li className="follow-list-item">
-										<div className="list-item-title">提醒方式：</div>
-										<div className="list-item-content">
-											<Checkbox.Group
-												options={plainOptions}
-												{...getField('remindWay', {
-													onChange: (val) => {
-														if (val.indexOf('email') !== -1) this.toGetPushList();
-														return true;
-													},
-												})}
-											/>
+											<Radio.Group {...getField('status')}>
+												<Radio key="a" value={6}>跟进中</Radio>
+												<Radio key="b" value={9}>完成跟进</Radio>
+												<Radio key="c" value={15}>放弃跟进</Radio>
+												{/* <Radio key="c" value={15}>放弃跟进</Radio> */}
+											</Radio.Group>
 										</div>
 									</li>
 									{
-										data.remindWay.indexOf('email') !== -1 ? (
+										status !== 15 ? (
+											<React.Fragment>
+												<li className="follow-list-item">
+													<div className="list-item-title">本次追回金额</div>
+													<div className="list-item-content">
+														{
+															global.GLOBAL_MEIE_BROWSER
+																? (
+																	<input
+																		style={{ width: 400, padding: '0px 7px', height: '34px' }}
+																		maxLength={12}
+																		onChange={e => this.onInputChangeNew(e, 'recovery')}
+																		placeholder="请输入收入金额"
+																		suffix="元"
+																	/>
+																)
+																: (
+																	<Input
+																		style={{ width: '100%', height: '34px' }}
+																		maxlength={14}
+																		value={recovery}
+																		// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
+																		onChange={e => this.onInputChangeNew(e, 'recovery')}
+																		placeholder="请输入收入金额"
+																	/>
+																)
+														}
+														<span className="list-item-content-unit">元</span>
+													</div>
+												</li>
+												<li className="follow-list-item">
+													<div className="list-item-title">跟进备注</div>
+													<div className="list-item-content">
+														{
+															global.GLOBAL_MEIE_BROWSER
+																? [<textarea
+																		rows="5"
+																		cols="50"
+																	// value={remark}
+																		onChange={e => this.onInputChangeField(e, 'remark')}
+																		style={{ width: 430, padding: '0px 7px' }}
+																/>,
+																	<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
+																: [
+																	<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />,
+																	<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
+																]
+														}
+
+													</div>
+												</li>
+												<li className="follow-list-item" style={{ marginBottom: '30px' }}>
+													<div className="list-item-title">设置提醒</div>
+													<div className="list-item-content">
+														<Switch checkedChildren="开" checked={switchBun} unCheckedChildren="关" onChange={this.switchChange} />
+													</div>
+													<span className="list-item-content-suffix">通过站内信、短信、邮件的方式进行提醒</span>
+												</li>
+											</React.Fragment>
+										) : (
 											<li className="follow-list-item">
-												<div className="list-item-title">推送人：</div>
+												<div className="list-item-title">跟进备注：</div>
 												<div className="list-item-content">
-													<p>
+													{
+														global.GLOBAL_MEIE_BROWSER
+															? [<textarea
+																	rows="5"
+																	cols="50"
+																// value={remark}
+																	onChange={e => this.onInputChangeField(e, 'remark')}
+																	style={{ width: 430, padding: '0px 7px' }}
+															/>,
+																<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
+															: [
+																<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />,
+																<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
+															]
+													}
+
+												</div>
+											</li>
+										)
+									}
+									{
+										switchBun ? (
+											<div className="follow-content-remind">
+												<li className="follow-content-remind-list-item">
+													<div className="follow-content-remind-list-item-title">提醒时间</div>
+													<div className="follow-content-remind-list-item-content">
+														<DatePicker
+															{...getField('remindTime')}
+															getCalendarContainer={getContainer}
+															disabledDate={(time) => {
+																if (!time) {
+																	return false;
+																}
+																return time.getTime() <= new Date().getTime();
+															}}
+														/>
+														<span className="follow-content-remind-list-item-content-time">上午9点</span>
+													</div>
+												</li>
+												<li className="follow-content-remind-list-item">
+													<div className="follow-content-remind-list-item-title">提醒对象</div>
+													<div className="follow-content-remind-list-item-content">
 														<Select
 															multiple
-															style={{ width: '100%' }}
+															style={{ width: '288px' }}
 															placeholder="请选择相关推送人（最多选择3个）"
 															notFoundContent="未找到"
 															getPopupContainer={getContainer}
+															defaultValue={[402]}
 															{...getField('pushList', {
 																onChange: (val) => {
 																	if (val.length <= 3) return true;
@@ -567,109 +587,57 @@ export default class FollowInfo extends React.Component {
 														>
 															{
 																dataSource.map(item => (
-																	<Select.Option key={item.id} value={item.id}>
+																	<Select.Option key={item.id}>
+																		{item.id}
 																		{`${item.name} ${markContent(item)}`}
 																	</Select.Option>
 																))
 															}
 														</Select>
-													</p>
-													<p style={{ marginTop: 3, fontSize: 0 }}>
-														<Input
-															placeholder="请输入姓名"
-															style={{ width: 78, marginRight: 3 }}
-															className="item-class"
-															maxLength="20"
-															{...getField('add_name')}
-														/>
-														<Select
-															defaultValue={0}
-															style={{ width: 94, marginRight: 3 }}
-															className="item-class"
-															getPopupContainer={getContainer}
-															{...getField('add_type')}
-														>
-															<Select.Option value={0}>系统账号</Select.Option>
-															<Select.Option value={1}>非系统账号</Select.Option>
-														</Select>
-														<Select
-															defaultValue={1}
-															style={{ width: 60, marginRight: 3 }}
-															className="item-class"
-															getPopupContainer={getContainer}
-															{...getField('add_way', {
-																onChange: (val, oldValue) => {
-																	if (val !== oldValue) {
-																		this.setState({ add_content: '' });
-																	}
-																	return true;
-																},
-															})}
-														>
-															<Select.Option value={1}>手机</Select.Option>
-															<Select.Option value={2}>邮箱</Select.Option>
-														</Select>
-														<Input
-															placeholder={data.add_way === 1 ? '请输入手机号' : '请输入邮箱'}
-															style={{ width: 120, marginRight: 3 }}
-															className="item-class"
-															ref={e => this.DOM = e}
-															{...getField('add_content')}
-															onBlur={this.onAddContentBlurEvent}
-														/>
-														<Button
-															style={{ width: 66, backgroundColor: '#fff' }}
-															className="item-class"
-															loading={loadingChild}
-															onClick={this.handlePushSave}
-															disabled={pushList.length >= 3}
-														>
-															保存
-														</Button>
-													</p>
-													<p style={{ overflow: 'hidden' }}>
-														<div className="yc-follow-line" style={{ margin: '3px 0' }} />
-														<div style={{ textAlign: 'right', lineHeight: '16px' }}>
-															{linkDom('#/organization/setting', '推送设置中心')}
+														<div className="follow-content-remind-list-item-remind">
+															{linkDom('#/organization/setting', '提醒对象管理')}
 														</div>
-													</p>
-												</div>
-											</li>
+													</div>
+												</li>
+											</div>
 										) : null
 									}
-
-									<li className="follow-list-item">
-										<div className="list-item-title">跟进状态：</div>
-										<div className="list-item-content">
-											<Radio.Group {...getField('status')}>
-												<Radio key="a" value={6}>跟进中</Radio>
-												<Radio key="b" value={9}>完成跟进</Radio>
-												{/* <Radio key="c" value={15}>放弃跟进</Radio> */}
-											</Radio.Group>
-										</div>
-									</li>
 								</div>
-							) : (
-								<div
-									className="follow-add-title cursor-pointer"
-									onClick={() => this.setState({
-										addStatus: true,
-										status: toStatus(source),
-									})}
-								>
-									<span className="yc-add-img" />
-									{/* <IconType type="icon-add" style={{ color: '#1c80e1', marginRight: 10 }} /> */}
-									<span>添加跟进信息</span>
-								</div>
-							)
+							) : null
 						}
 					</div>
 					{
-						process !== 0 || commentTotal !== 0 ? [
-							<div className="yc-follow-line" />,
+						(process !== 0 || commentTotal !== 0) && !addStatus ? [
 							<div className="yc-follow-list">
 								<Spin visible={loadingList} minHeight={100}>
-									<div className="follow-add-title" style={{ paddingTop: 20 }}>跟进记录</div>
+									<div className="follow-add-title">历史跟进记录</div>
+									<div
+										className="follow-add-btn"
+										onClick={() => this.setState({
+											addStatus: true,
+											status: toStatus(source),
+											recovery: '',
+											remark: '',
+											switchBun: false,
+											pushList: [],
+											remindTime: '',
+										})}
+									>
+										{/* <span className="follow-add-btn-icon">+</span> */}
+										<i className="iconfont icon-tianjia follow-add-btn-icon" />
+										<span>添加跟进信息</span>
+									</div>
+									{
+										accruingMoney ? (
+											<div className="yc-accruingMoney">
+												<span className="yc-accruingMoney-left">累计追回金额：</span>
+												<span className="yc-accruingMoney-right">
+													{floatFormat(accruingMoney)}
+													元
+												</span>
+											</div>
+										) : null
+									}
 									{
 										!loadingList && processSource.length > 0 ? (
 											<Steps direction="vertical" size="small" className="follow-list-step">
@@ -678,7 +646,7 @@ export default class FollowInfo extends React.Component {
 														<Steps.Step
 															status="process"
 															title={([
-																<span className="font-title">{item.username}</span>,
+																<span className="font-title">{item.updateTime ? new Date(item.updateTime * 1000).format('yyyy-MM-dd hh:mm:ss') : ''}</span>,
 																<React.Fragment>
 																	{
 																		item.self ? (
@@ -694,12 +662,13 @@ export default class FollowInfo extends React.Component {
 																	}
 																</React.Fragment>,
 																<span
-																	className={`list-step-title-mark-status mark-status-${item.process}`}
+																	className="list-step-title-mark-time"
 																>
-																	{ProcessTran(item.process)}
+																	跟进人：
+																	<span style={{ color: '#20242E' }}>{item.username}</span>
 																</span>,
-																<span className="list-step-title-mark-time">
-																	{item.updateTime ? new Date(item.updateTime * 1000).format('yyyy-MM-dd hh:mm:ss') : ''}
+																<span className={`list-step-title-mark-status mark-status-${item.process}`}>
+																	{ProcessTran(item.process)}
 																</span>,
 															])}
 															icon="clock-circle"
@@ -708,13 +677,17 @@ export default class FollowInfo extends React.Component {
 													))
 												}
 											</Steps>
-										) : <div>{!loadingList ? '暂无跟进记录' : ''}</div>
+										) : (!loadingList && (
+											<figure>
+												<img src={noData} />
+												<p>暂无历史跟进记录</p>
+											</figure>
+										))
 									}
 								</Spin>
 							</div>,
 						] : ''
 					}
-
 				</div>
 			</Modal>
 		);

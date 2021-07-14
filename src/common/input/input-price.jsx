@@ -42,7 +42,6 @@ class comInput extends React.Component {
 	};
 
 	onBlur=(val, inputProps) => {
-		// console.log('onBlur');
 		this.setState({
 			focus: false,
 		});
@@ -55,15 +54,12 @@ class comInput extends React.Component {
 		} = this.props;
 		const f = inputFirstProps;
 		const s = inputSecondProps;
-		// console.log(inputFirstProps);
 		const { focus, value1, value2 } = this.state;
 
 		const classList = ['yc-price'];
 		if (size) classList.push(size ? `yc-input-${size}` : '');
 		if (disabled)classList.push('yc-input-disabled');
 		/* 当为IE时绑定onChange方法，非IE时绑定onInput */
-		// console.log(inputFirstProps, value1);
-		// console.log('value1:', (f.onChange ? f.value : value1) || f.defaultValue || '');
 		// const inputChange = { onChange: this.onInputChange };
 		return (
 			<div className={`yc-input-price ${focus ? 'yc-input-price-focus' : 'yc-input-price-normal'}`} style={style}>

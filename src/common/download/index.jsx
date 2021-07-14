@@ -30,7 +30,6 @@ export default class Download extends React.Component {
 		if (!num) delete c.num;
 
 		const _request = normalGet(`${api}?${urlEncode(clearEmpty(c))}`);
-		// console.log(`${api}?${urlEncode(clearEmpty(_condition))}`);
 		const token = cookies.get('token');
 
 		function warning() {
@@ -48,8 +47,6 @@ export default class Download extends React.Component {
 			if (result) {
 				if (code === 200) {
 					this.setState({ loadingStatus: 'normal' });
-					// console.log(baseUrl, `${baseUrl}${exportFile(data)}?token=${token}`);
-					// return false;
 					DownloadFile(`${baseUrl}${exportFile(data)}?token=${token}`);
 				} else {
 					this.setState({ loadingStatus: 'normal' });
@@ -65,7 +62,6 @@ export default class Download extends React.Component {
 		};
 
 		if (current) {
-			// console.log('本页导出');
 			Modal.confirm({
 				title: '确认导出当页所有数据吗？',
 				content: '点击确定，将为您导出当页所有数据',
@@ -97,7 +93,6 @@ export default class Download extends React.Component {
 				message.warning(waringText || '未选中业务');
 			}
 		} else if (all) {
-			console.log('一键导出');
 			Modal.confirm({
 				title: '确认导出所有信息吗？',
 				content: '点击确定，将为您导出所有信息',
@@ -109,7 +104,6 @@ export default class Download extends React.Component {
 			});
 		} else if (c[field] && window._.isArray(c[field])) {
 			if (c[field].length > 0) {
-				console.log('部分导出');
 				toOkClick();
 			} else {
 				message.warning(waringText || '未选中业务');

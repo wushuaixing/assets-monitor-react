@@ -1,0 +1,148 @@
+.business-export {
+  .info-navigation {
+    border-bottom: 1px solid #E5E5E5;
+  }
+
+  &-info {
+    padding: 88px 285px;
+    border-bottom: 1px solid #E5E5E5;
+
+    &-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #20242E;
+    }
+
+    &-message {
+      width: 631px;
+      height: 32px;
+      background: #FFF3F3;
+      border-radius: 4px;
+      border: 1px solid #FF9293;
+      color: #FB5A5C;
+      font-size: 12px;
+      line-height: 12px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      margin-top: 20px;
+      .message-warning {
+        margin-left: 8px;
+      }
+      .message-icon {
+        color: #f66c5b;
+        font-size: 14px;
+      }
+    }
+
+    &-remind {
+      color: #7D8699;
+      font-size: 12px;
+      line-height: 17px;
+      margin-top: 10px;
+      span {
+        font-weight: 600;
+      }
+    }
+
+    &-form {
+      width: 631px;
+      min-height: 145px;
+      padding: 20px;
+      margin-top: 20px;
+      background-color: #FAFAFA;
+      border-radius: 4px;
+      .label {
+        font-size: 12px;
+      }
+
+      .form-business, .form-date {
+        margin-top: 20px;
+      }
+
+      .form-business .business-number {
+        font-weight: 500;
+      }
+
+      .form-business, .form-type {
+        line-height: 12px;
+      }
+
+      .form-date {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        .yc-query-item-title {
+          padding: 0 5px;
+          font-size: 12px ;
+        }
+
+        .export-time {
+          font-size: 12px;
+          color: #20242E;
+          .date{
+            color: #FB5A5C;
+          }
+        }
+      }
+    }
+
+    &-btn {
+      margin-top: 20px;
+
+      button {
+        width: 84px;
+        height: 34px;
+        span {
+          font-size: 12px;
+        }
+      }
+
+      .yc-high-search {
+        margin-right: 20px;
+        border: 1px solid $text-link;
+        background-color: $text-link;
+        color: #ffffff;
+        &:hover {
+          border: 1px solid $text-btn-hover;
+          background-color: $text-btn-hover;
+        }
+        &:active {
+          border: 1px solid $text-link-hover;
+          box-shadow: 0 0 4px 0 $text-link-hover;
+          background-color: $text-link-hover;
+        }
+      }
+    }
+  }
+
+  &-footer {
+    padding: 40px 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .line {
+      width: 1px;
+      height: 90px;
+      background: #F0F1F5;
+    }
+
+    .complete, .increment {
+      width: 460px;
+      max-width: 460px;
+      color: #4E5566;
+      font-size: 12px;
+      li:nth-child(1) {
+        font-size: 16px;
+        font-weight: 500;
+      }
+      li:nth-child(2) {
+        margin-top: 16px;
+      }
+      li:nth-child(3) {
+        margin-top: 10px;
+      }
+    }
+  }
+}

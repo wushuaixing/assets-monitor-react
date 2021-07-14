@@ -34,6 +34,7 @@ const Search = Loadable(() => import('./search'));
 
 const InfoBusiness = Loadable(() => import('./business/view'));
 const Business = Loadable(() => import('./business'));
+const BusinessExport = Loadable(() => import('./business/business-views/business-export'));
 
 const Organization = Loadable(() => import('./organization'));
 
@@ -44,8 +45,12 @@ const ruleList = (props) => {
 	const l = [];
 	const { rule } = props;
 	if (rule.menu_sy)l.push(<Home path="/*" rule={rule.menu_sy} baseRule={rule} remark="首页" />);
-	if (rule.menu_ywgl)l.push(<InfoBusiness path="business/view/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
-	if (rule.menu_ywgl)l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
+
+	if (rule.menu_ywgl) {
+		l.push(<InfoBusiness path="business/view/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
+		l.push(<Business path="business/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
+		l.push(<BusinessExport path="business/view/export/*" rule={rule.menu_ywgl} baseRule={rule} remark="业务管理" />);
+	}
 
 	if (rule.menu_jjgl)l.push(<Organization path="organization/*" rule={rule.menu_jjgl} baseRule={rule} remark="机构管理" />);
 

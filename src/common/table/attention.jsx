@@ -7,7 +7,6 @@ const modalPro = (props) => {
 		row: { id, isAttention }, onClick, api, index, single,
 	} = props;
 	const _isAttention = !isAttention;
-	// console.log(props);
 	const params = single ? { id } : { idList: [id] };
 	api(params, _isAttention).then((res) => {
 		if (res.code === 200) {
