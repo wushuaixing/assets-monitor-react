@@ -36,7 +36,7 @@ function exportCover(source,domainName) {
 	var businessInfo = data.BB10101 || {};
 	var businessList = data.BB10102 || [];
 	var borrowerList = [], warrantorList = [];
-	for (let i = 0; i < businessList.length; i++) {
+	for (var i = 0; i < businessList.length; i++) {
 		var item = businessList[i];
 		if (item.role === 1) {
 			borrowerList.push("<div class='exp-name'>借款人：" + item.obligorName + "</div>");       // 借款人
@@ -60,13 +60,13 @@ function exportTemplate(source, name, domainName) {
 		overview: {
 			name: '概览',
 			about: '{overview.content}',
-			status:'EP',
+			status:'BEP',
 			child: [
-				{ id: "DO1000" ,title:'资产概况',status:'EP',
+				{ id: "DO1000" ,title:'资产概况',status:'BEP',
 					child:[
-						{ id:"DO10100",title:"相关资产拍卖",status:'EP'},
-						{ id:"DO10200",title:"代位权信息",status:'E'},
-						{ id:"DO10200",title:"代位权信息 (裁判文书) ",status:'P'},
+						{ id:"DO10100",title:"相关资产拍卖",status:'BEP'},
+						{ id:"DO10200",title:"代位权信息",status:'BE'},
+						{ id:"DO10200",title:"代位权信息 (裁判文书) ",status:'BP'},
 						{ id:"DO10300",title:"土地信息",status:'BE'},
 						{ id:"DO10400",title:"无形资产信息",status:'BE'},
 						{ id:"DO10500",title:"股权质押信息",status:'BE'},
@@ -74,22 +74,22 @@ function exportTemplate(source, name, domainName) {
 						{ id:"DO10700",title:"相关招投标信息",status:'BE'},
 					]
 				},
-				{ id: "DO2000" ,title:'风险信息',status:'EP',
+				{ id: "DO2000" ,title:'风险信息',status:'BEP',
 					child:[
-						{ id:"DO20400",title:"失信记录",status:'EP'},
-						{ id:"DO20600",title:"涉诉信息",status:'E'},
-						{ id:"DO20600",title:"涉诉信息 (裁判文书) ", status:'P'},
-						{ id:"DO30200",title:"破产重组信息",status:'E'},
-						{ id:"DO30300",title:"经营风险信息",status:'E'},
-						{ id:"DO30500",title:"税收违法",status:'P'},
+						{ id:"DO20400",title:"失信记录",status:'BEP'},
+						{ id:"DO20600",title:"涉诉信息",status:'BE'},
+						{ id:"DO20600",title:"涉诉信息 (裁判文书) ", status:'BP'},
+						{ id:"DO30200",title:"破产重组信息",status:'BE'},
+						{ id:"DO30300",title:"经营风险信息",status:'BE'},
+						{ id:"DO30500",title:"税收违法",status:'BP'},
 					]
 				},
 				{
-					id: "DO5000", title: '工商基本信息', status: 'E',
+					id: "DO5000", title: '工商基本信息', status: 'BE',
 					child: [
-						{id: "DO50000", title: "基本信息", status: 'E', show: true, type: 1 },
-						{id: "DO50000", title: "股东情况", status: 'E' , type: 2},
-						{id: "DO50000", title: "企业规模", status: 'E', show: true, type: 3 },
+						{id: "DO50000", title: "基本信息", status: 'BE', show: true, type: 1 },
+						{id: "DO50000", title: "股东情况", status: 'BE' , type: 2},
+						{id: "DO50000", title: "企业规模", status: 'BE', show: true, type: 3 },
 					]
 				},
 			]
@@ -142,7 +142,7 @@ function exportTemplate(source, name, domainName) {
 				{id: 'R20402', title: '失信记录_已移除', desc: '已移除', status: 'BEP'},
 				{id: 'R20501', title: '限制高消费_列入', desc: '列入', status: 'BEP'	},
 				{id: 'R20502', title: '限制高消费_已移除', desc: '已移除', status: 'BEP'	},
-				{id: 'R20604', title: '涉诉文书', status: 'P'},
+				{id: 'R20604', title: '涉诉文书', status: 'BP'},
 				{id: 'R20601', title: '涉诉信息_立案', status: 'BE'},
 				{id: 'R20602', title: '涉诉信息_开庭', status: 'BE'},
 				{id: 'R20603', title: '涉诉信息_裁判文书', status: 'BE'},
@@ -157,14 +157,14 @@ function exportTemplate(source, name, domainName) {
 			name: '工商基本详情',
 			about: '{info.content}',
 			field: 'info',
-			status: 'E',
+			status: 'BE',
 			child: [
-				{id: 'I50101', title: '基本信息', status: 'E', show: true, className: 'table-baseInfo'},
-				{id: 'I50201', title: '主要人员', status: 'E'},
-				{id: 'I50301', title: '股东信息', status: 'E'},
-				{id: 'I50501', title: '分支机构', status: 'E'},
-				{id: 'I50601', title: '对外投资', status: 'E'},
-				{id: 'I50701', title: '工商变更', status: 'E', className: 'page-break-style'},
+				{id: 'I50101', title: '基本信息', status: 'BE', show: true, className: 'table-baseInfo'},
+				{id: 'I50201', title: '主要人员', status: 'BE'},
+				{id: 'I50301', title: '股东信息', status: 'BE'},
+				{id: 'I50501', title: '分支机构', status: 'BE'},
+				{id: 'I50601', title: '对外投资', status: 'BE'},
+				{id: 'I50701', title: '工商变更', status: 'BE', className: 'page-break-style'},
 			]
 		},
 	};
@@ -494,7 +494,7 @@ function exportTemplate(source, name, domainName) {
 		},
 		// 转换金额格式
 		floatFormat: function(item) {
-			const money = parseFloat(item);
+			var money = parseFloat(item);
 			if (money.toString() && money.toString() !== 'NaN') {
 				return money.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + '元';
 			}
