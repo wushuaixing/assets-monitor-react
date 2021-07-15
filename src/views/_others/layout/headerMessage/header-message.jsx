@@ -11,7 +11,7 @@ import {
 import { clearEmpty, DownloadFile } from '@/utils';
 import { Button, Icon, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
-import noData from '@/assets/img/home/img_blank_nodata.png';
+import bell from '@/assets/img/img_blank_nomassage.png';
 import baseUrl from 'api/config';
 import { exportFile } from 'api/home';
 import Cookies from 'universal-cookie';
@@ -139,6 +139,7 @@ export default class HeaderMessage extends React.Component {
 					isReads({}).then((val) => {
 						if (val.code === 200) {
 							this.informCenter();
+							message.warning('数据全部标为已读');
 						} else {
 							message.warning(res.message);
 						}
@@ -162,6 +163,7 @@ export default class HeaderMessage extends React.Component {
 		const { total } = JSON.parse(item.extend);
 		const token = cookies.get('token');
 		DownloadFile(`${baseUrl}${exportFile(total)}?token=${token}`);
+		this.readPackaging(item);
 	}
 
 	render() {
@@ -220,16 +222,18 @@ export default class HeaderMessage extends React.Component {
 									<span dangerouslySetInnerHTML={{ __html: item.content }} />
 									，
 									{
-										item.operateType === 'businessReport' && JSON.parse(item.extend) && !JSON.parse(item.extend).disable ? <span onClick={() => this.download(item)} className="yc-station-item-content-span">下载文件</span> : <span className="yc-station-item-content-text">文件下载失败</span>
+										item.operateType === 'businessReport' ? (
+											JSON.parse(item.extend) && !JSON.parse(item.extend).disable ? <span className="yc-station-item-content-span" onClick={() => this.download(item)}>下载报告 ></span> : <span className="yc-station-item-content-text">文件下载失败</span>
+										) : null
 									}
 									{
-										item.operateType === 'monitorReport' && <span onClick={() => this.skip(item)} className="yc-station-item-content-span">点击查看 ></span>
+										item.operateType !== 'businessReport' && JSON.parse(item.extend).total < 200 && <span onClick={() => this.skip(item)} className="yc-station-item-content-span">点击查看 ></span>
 									}
 								</div>
 							</div>
 						)) : (
 							<div className="notice-station-wrapper">
-								<img src={noData} className="notice-station-img" />
+								<img src={bell} className="notice-station-img" />
 								<div className="notice-text">
 									暂无新消息
 								</div>

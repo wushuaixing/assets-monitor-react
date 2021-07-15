@@ -155,15 +155,7 @@ export default class Headers extends React.Component {
 	componentDidMount() {
 		// const { rule } = this.props;
 		window.scrollTo(0, 0);
-		// if (rule.menu_sy) {
-		// 	unreadCount().then((res) => {
-		// 		if (res.code === 200) {
-		// 			this.setState({
-		// 				Surplus: res.data,
-		// 			});
-		// 		}
-		// 	});
-		// }
+		global.getNoticeNum = this.getNoticeNum;
 	}
 
 	componentWillReceiveProps() {
@@ -171,15 +163,6 @@ export default class Headers extends React.Component {
 		const { active } = this.state;
 		// const { Surplus, active } = this.state;
 		const _active = defaultRouter(this.source);
-		// if (rule.menu_sy) {
-		// 	unreadCount().then((res) => {
-		// 		if (res.code === 200) {
-		// 			if (Surplus !== res.data) {
-		// 				window.location.reload(); // 实现页面重新加载/
-		// 			}
-		// 		}
-		// 	});
-		// }
 		if (active !== _active) {
 			this.setState({
 				active: _active,
@@ -283,7 +266,7 @@ export default class Headers extends React.Component {
 								{
 									num ? <span className="yc-badge-num" style={num > 99 ? { left: '28px' } : { left: '30px' }}>{num > 99 ? '99+' : num}</span> : ''
 								}
-								  <HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" ref={e => this.headerMes = e} />
+								   <HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" ref={e => this.headerMes = e} />
 							</div>
 							)
 						}

@@ -13,7 +13,7 @@ import {
 	userInfo, // 通知中心数据
 } from 'api/user';
 import { DownloadFile, generateUrlWithParams, parseQuery } from '@/utils';
-import { Table, Spin, SelectedNum } from '@/common';
+import { Table, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import baseUrl from 'api/config';
 import { exportFile } from 'api/home';
@@ -32,7 +32,7 @@ class InformCenter extends React.Component {
 				{
 					title: '消息种类',
 					dataIndex: 'title',
-					width: 200,
+					width: 100,
 					className: 'message-type',
 					render: (text, row) => (
 						<div style={{ marginLeft: 10 }}>
@@ -48,6 +48,7 @@ class InformCenter extends React.Component {
 				{
 					title: '内容详情',
 					dataIndex: 'content',
+					width: 500,
 					render: text => (
 						<span className="yc-message-content">
 							<span
@@ -63,16 +64,29 @@ class InformCenter extends React.Component {
 							className="yc-message-operation"
 						>
 							{
-								row.operateType === 'businessReport' ? (
-									JSON.parse(row.extend) && !JSON.parse(row.extend).disable ? <span onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件下载失败</span>
-								) : (
+								row.operateType === 'monitorReport' && JSON.parse(row.extend).total < 200 ? (
 									<span onClick={() => {
 										this.skip(row);
 									}}
 									>
-										点击查看
+										查看详情
 									</span>
-								)
+								) : row.operateType === 'monitorReport' && JSON.parse(row.extend).total > 200 && <span style={{ color: '#7D8699' }}>- -</span>
+							}
+							{
+								row.operateType === 'businessReport' ? (
+									JSON.parse(row.extend) && !JSON.parse(row.extend).disable ? <span onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件下载失败</span>
+								) : null
+							}
+							{
+								row.operateType !== 'monitorReport' && row.operateType !== 'businessReport' ? (
+									<span onClick={() => {
+										this.skip(row);
+									}}
+									>
+										查看详情
+									</span>
+								) : null
 							}
 						</span>
 					),
@@ -83,22 +97,6 @@ class InformCenter extends React.Component {
 					width: 160,
 					render: (text, row) => <span className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}>{formatDateTime(text)}</span>,
 				},
-				// {
-				// 	title: '操作',
-				// 	width: 60,
-				// 	dataIndex: 'address',
-				// 	render: (text, row) => (
-				// 		<div
-				// 			onClick={(e) => {
-				// 				e.stopPropagation();
-				// 				this.handledDeleteBatch(row);
-				// 			}}
-				// 			className="yc-table-text-link"
-				// 		>
-				// 			删除
-				// 		</div>
-				// 	),
-				// },
 			],
 			data: [],
 			tabTotal: 0,
@@ -107,12 +105,11 @@ class InformCenter extends React.Component {
 			loading: false,
 			selectedRowKeys: [], // 这里配置默认勾选列
 			isInstitution: false, // 是否是本机构
-			btnActivate: 'all',
+			isRead: 'all',
 		};
 	}
 
 	componentDidMount() {
-		const { columns } = this.state;
 		const { hash } = window.location;
 		const params = parseQuery(hash);
 		if (params.page) {
@@ -127,9 +124,9 @@ class InformCenter extends React.Component {
 		userInfo().then((res) => {
 			if (res.code === 200) {
 				const isInstitution = res.data.currentOrgId === res.data.masterOrgId;
-				if (isInstitution === false && columns.length > 0) {
-					columns.pop(); // 删掉最后一项
-				}
+				// if (isInstitution === false && columns.length > 0) {
+				// 	columns.pop(); // 删掉最后一项
+				// }
 				this.setState({
 					isInstitution,
 				});
@@ -139,13 +136,6 @@ class InformCenter extends React.Component {
 
 	// 跳转
 	skip = (row) => {
-		// const params = {
-		// 	idList: [row.id],
-		// };
-		// const { isInstitution } = this.state;
-		// if (isInstitution) {
-		// 	isRead(params);
-		// }
 		if (row.obligorId) {
 			// 资产跟进提醒
 			if (row.operateType === 'newAuctionProcessAlert') {
@@ -189,18 +179,25 @@ class InformCenter extends React.Component {
 
 	// 行点击操作
 	toRowClick = (record, index) => {
-		const { isInstitution } = this.state;
+		const { isInstitution, isRead: isReadState } = this.state;
 		const { id, isRead } = record;
-		if (!isRead && isInstitution) {
-			this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
-		}
 		const params = {
 			idList: [record.id],
 		};
-		if (isInstitution) {
-			isReadApi(params);
+		// this.getData();
+		if (!isRead && isInstitution) {
+			this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
 		}
-		// this.skip(record);
+		if (isInstitution) {
+			isReadApi(params).then((res) => {
+				if (res.code === 200) {
+					global.getNoticeNum();
+				}
+			});
+		}
+		if (isInstitution && isReadState === 'else') {
+			this.getData();
+		}
 	};
 
 	// 表格发生变化
@@ -230,14 +227,19 @@ class InformCenter extends React.Component {
 	};
 
 
-	getData = (data) => {
+	getData = (data, _isRead) => {
+		const { isRead } = this.state;
 		const params = {
 			...data,
 			num: 10,
 		};
+		const __isRead = _isRead || isRead;
+		if (__isRead === 'all') { delete params.isRead; }
+		if (__isRead === 'else') { params.isRead = false; }
 		this.setState({
 			loading: true,
 		});
+		console.log('===', params);
 		centerList(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
@@ -318,37 +320,40 @@ class InformCenter extends React.Component {
 
 	// 全部标记为已读
 	handleAllRead = () => {
-		// const that = this;
 		const { current } = this.state;
-		// if (selectedRowKeys.length === 0) {
-		// 	message.warning('未选中消息');
-		// 	return;
-		// }
 		const params = {};
-		Modal.confirm({
-			title: '确认将消息标记为已读？',
-			content: '点击确定，将为您标记为已读。',
-			iconType: 'exclamation-circle',
-			onOk() {
-				isReadApi(params).then((res) => {
-					if (res.code === 200) {
-						// message.success('操作成功,2秒后为您刷新页面');
-						message.loading('操作成功,2秒后为您刷新页面', 2000);
-						setTimeout(() => {
-							window.location.reload(); // 实现页面重新加载/
-						}, 2000);
-						const urlValue = {
-							num: 10,
-							page: current,
-						};
-						navigate(generateUrlWithParams('/message', urlValue));
-						// 异步手动移除
-					} else {
-						message.warning(res.message);
-					}
+		centerList({ isRead: false }).then((val) => {
+			const { total } = val.data;
+			if (val.code === 200 && total > 0) {
+				Modal.confirm({
+					title: '确认将消息标记为已读？',
+					content: '点击确定，将为您标记为已读。',
+					iconType: 'exclamation-circle',
+					onOk() {
+						isReadApi(params).then((res) => {
+							if (res.code === 200) {
+								// 改变首页头部未读数量
+								global.getNoticeNum();
+								// message.success('操作成功,2秒后为您刷新页面');
+								message.loading('操作成功,2秒后为您刷新页面', 2000);
+								setTimeout(() => {
+									window.location.reload(); // 实现页面重新加载/
+								}, 2000);
+								const urlValue = {
+									num: 10,
+									page: current,
+								};
+								navigate(generateUrlWithParams('/message', urlValue));
+							} else {
+								message.warning(res.message);
+							}
+						});
+					},
+					onCancel() {},
 				});
-			},
-			onCancel() {},
+			} else {
+				message.warning('当前没有未读数量');
+			}
 		});
 	};
 
@@ -360,17 +365,18 @@ class InformCenter extends React.Component {
 	};
 
 	handleReadChange = (val) => {
-		const params = (val === 'all' ? '' : { isRead: false });
-		this.getData(params);
-		this.setState({
-			btnActivate: val,
-		});
+		this.setState({ isRead: val, current: 1 });
+		this.getData({ page: 1 }, val);
 	};
 
 	download = (item) => {
 		const { total } = JSON.parse(item.extend);
 		const token = cookies.get('token');
 		DownloadFile(`${baseUrl}${exportFile(total)}?token=${token}`);
+	}
+
+	btn = () => {
+		window.history.go(-1);
 	}
 
 	render() {
@@ -380,56 +386,49 @@ class InformCenter extends React.Component {
 			tabTotal,
 			current,
 			loading,
-			selectedRowKeys,
 			isInstitution,
-			btnActivate,
+			isRead,
 		} = this.state;
-		// 通过 rowSelection 对象表明需要行选择
-		const rowSelection = {
-			selectedRowKeys,
-			onChange: this.onSelectChange,
-		};
 
 		return (
 			<div className="yc-inform-center">
 				<div className="yc-content-wapper">
+					<span className="yc-page-return" onClick={() => window.history.go(-1)}>返回上一页</span>
+					<span className="yc-page-oblique">/</span>
 					<div className="yc-page-title">消息中心</div>
 					<div className="yc-page-line" />
 					<div className="yc-table-box">
 						<div className="yc-con-item-wrapper">
-							{isInstitution && (
-								<div>
-									<Button
-										onClick={() => this.handleReadChange('all')}
-										title="全部"
-										active={btnActivate === 'all'}
-										className="btn-default"
-									/>
-									<Button
-										onClick={() => this.handleReadChange('else')}
-										title="只显示未读数据"
-										className="btn-default"
-										active={btnActivate === 'else'}
-									/>
+							<div>
+								<Button
+									onClick={() => this.handleReadChange('all')}
+									title="全部"
+									active={isRead === 'all'}
+									className="btn-default"
+								/>
+								<Button
+									onClick={() => this.handleReadChange('else')}
+									title="只显示未读数据"
+									className="btn-default"
+									active={isRead === 'else'}
+								/>
+								{isInstitution && (
 									<div className="yc-con-item-wrapper-btn">
 										<i className="iconfont icon-quanbubiaoweiyidu yc-con-item-wrapper-btn-icon" />
-										<span onClick={() => this.handleAllRead}>全部标记已读数据</span>
+										<span onClick={() => this.handleAllRead()}>全部标记已读数据</span>
 									</div>
-								</div>
-							)}
+								)}
+							</div>
 						</div>
-						{/* <div className="yc-table-check"> */}
-						{/*	{selectedRowKeys && selectedRowKeys.length > 0 ? <SelectedNum num={selectedRowKeys.length} /> : null} */}
-						{/* </div> */}
 						<Spin visible={loading}>
 							<Table
 								// rowSelection={isInstitution && rowSelection}
 								columns={columns}
 								dataSource={data}
 								pagination={false}
-								rowClassName={record => (record.isRead ? 'yc-row-bold cursor-pointer' : 'yc-row-bold cursor-pointer')}
 								rowKey={record => record.id}
 								onRowClick={this.toRowClick}
+								emptyType="bell"
 							/>
 							{data && data.length > 0 && (
 								<div className="yc-table-pagination">
