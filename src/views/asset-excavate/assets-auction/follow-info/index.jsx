@@ -6,7 +6,7 @@ import noData from '@/assets/img/home/img_blank_nodata.png';
 import { Spin, Button as Btn } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
 import {
-	pushList as pushListApi, pushSave, processList, processSave, processDel,
+	pushList as pushListApi, pushSave, processList, processSave, processDel, getCurrentRemindInfo,
 } from '@/utils/api/monitor-info/assets-follow';
 import { floatFormat } from '@/utils/format';
 import './style.scss';
@@ -362,7 +362,6 @@ export default class FollowInfo extends React.Component {
 		const target = event.target || event.srcElement;
 		const matchRes = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
 		const _value = matchRes && !global.GLOBAL_MEIE_BROWSER ? matchRes[0] : target.value;
-		console.log('onInputChangeNew:', _value);
 		this.setState({
 			[field]: _value,
 		});
@@ -374,6 +373,7 @@ export default class FollowInfo extends React.Component {
 			this.setState({
 				switchBun: true,
 			});
+			this.toGetCurrentRemindInfo();
 			this.toGetPushList(true);
 		} else {
 			this.setState({
@@ -381,6 +381,13 @@ export default class FollowInfo extends React.Component {
 			});
 		}
 	};
+
+	// 获取当前推送信息
+	toGetCurrentRemindInfo = () => {
+		getCurrentRemindInfo().then((res) => {
+			console.log(res);
+		});
+	}
 
 	render() {
 		const {
