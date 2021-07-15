@@ -9,16 +9,25 @@ import {
 	pushList as pushListApi, pushSave, processList, processSave, processDel,
 } from '@/utils/api/monitor-info/assets-follow';
 import { floatFormat } from '@/utils/format';
+import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
 // step的描述内容
 export const StepDesc = (props) => {
 	const {
-		recovery, content, remindingTime,
+		recovery, content, remindingTime, username,
 	} = props;
 
 	return (
 		<div className="font-desc">
+			{
+				<li>
+					跟进人：
+					<span style={{ color: '#20242E' }}>
+						{username}
+					</span>
+				</li>
+			}
 			{
 				recovery ? (
 					<li>
@@ -389,6 +398,7 @@ export default class FollowInfo extends React.Component {
 		const {
 			visible, onClose, source: { process, commentTotal }, source,
 		} = this.props;
+		console.log('====',source);
 		const data = this.state;
 		const getField = (field, option = {}) => ({
 			value: data[field],
@@ -539,7 +549,7 @@ export default class FollowInfo extends React.Component {
 															/>,
 																<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
 															: [
-																<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />,
+																<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入备注信息" maxlength={160} />,
 																<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
 															]
 													}
@@ -565,7 +575,13 @@ export default class FollowInfo extends React.Component {
 																return time.getTime() <= new Date().getTime();
 															}}
 														/>
-														<span className="follow-content-remind-list-item-content-time">上午9点</span>
+														<span className="follow-content-remind-list-item-content-time">上午10点</span>
+													</div>
+												</li>
+												<li className="follow-content-remind-list-item">
+													<div className="follow-content-remind-list-item-time">
+														<span>开拍时间</span>
+														<span className="">{formatDateTime(source.start)}</span>
 													</div>
 												</li>
 												<li className="follow-content-remind-list-item">
@@ -650,12 +666,12 @@ export default class FollowInfo extends React.Component {
 																<span className={`list-step-title-mark-status mark-status-${item.process}`}>
 																	{ProcessTran(item.process)}
 																</span>,
-																<div
-																	className="list-step-title-mark-time"
-																>
-																	<div className="label">跟进人：</div>
-																	<div style={{ color: '#20242E', minWidth: '100px' }}>{item.username}</div>
-																</div>,
+																// <div
+																// 	className="list-step-title-mark-time"
+																// >
+																// 	<div className="label">跟进人：</div>
+																// 	<div style={{ color: '#20242E', minWidth: '100px' }}>{item.username}</div>
+																// </div>,
 																<React.Fragment>
 																	{
 																		item.self ? (

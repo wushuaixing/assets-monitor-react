@@ -70,6 +70,9 @@
             line-height: 28px;
             margin-top: 20px;
             position: relative;
+            .ant-select-selection__rendered{
+              padding-right: 20px;
+            }
             .ant-calendar-range-picker{
               width: 217px;
               height: 34px;
@@ -234,12 +237,13 @@
       flex-wrap: nowrap;
       align-items: center;
       margin-bottom: 13px;
+      padding-right: 0px!important;
     }
-    .ant-steps-item-last{
-      .ant-steps-title{
-        padding-right: 10px!important;
-      }
-    }
+    //.ant-steps-item-last{
+    //  .ant-steps-title{
+    //    padding-right: 0px!important;
+    //  }
+    //}
     .list-step-title-normal{
       font-weight: 400;
       margin-left: 5px;
@@ -276,6 +280,7 @@
       @extend .list-step-title-normal;
       font-size: 16px;
       cursor: pointer;
+      margin-left: 266px;
     }
     .list-step-title-mark-status{
       @extend .list-step-title-normal;
@@ -288,10 +293,6 @@
       font-size: 14px;
       color: $text-remark;
       display: flex;
-      .label {
-        width: 56px;
-        margin-left: 96px;
-      }
       @extend .list-step-title-normal;
 
     }
