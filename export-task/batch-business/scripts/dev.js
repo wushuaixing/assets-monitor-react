@@ -33,8 +33,8 @@ function exportCover(source,domainName) {
 	htmlCover = htmlCover.replace(/{base.queryTime}/g, dataTime);
 
 	// 封面内容
-	var businessInfo = data.BB10101 || {};
-	var businessList = data.BB10102 || [];
+	var businessInfo = data.BB101011 || {};
+	var businessList = data.BB101012 || [];
 	var borrowerList = [], warrantorList = [];
 	for (var i = 0; i < businessList.length; i++) {
 		var item = businessList[i];
@@ -46,10 +46,10 @@ function exportCover(source,domainName) {
 	}
 	htmlCover = htmlCover.replace(/{base.title}/, "监控业务报告");
 	var userInfo = "<div class='exp-number'>业务编号：" + (businessInfo.caseNumber ? businessInfo.caseNumber : '-') + "</div>"
-											+ "<div class='exp-institution'><div class='exp-name'>负责人/机构：" 
-											+ (businessInfo.orgName ? businessInfo.orgName : '-') + "</div>" + borrowerList.join('') 
-											+ warrantorList.slice(0,5).join('') 
-											+ (warrantorList.length > 5 ? "<div class='exp-name'>等" + (warrantorList.length - 5) + "位债务人</div></div>" : '')
+		+ "<div class='exp-institution'><div class='exp-name'>负责人/机构："
+		+ (businessInfo.orgName ? businessInfo.orgName : '-') + "</div>" + borrowerList.join('')
+		+ warrantorList.slice(0,5).join('')
+		+ (warrantorList.length > 5 ? "<div class='exp-name'>等" + (warrantorList.length - 5) + "位债务人</div></div>" : '')
 	htmlCover = htmlCover.replace(/{base.userInfo}/, userInfo);
 	return htmlCover;
 }
@@ -172,8 +172,7 @@ function exportTemplate(source, name, domainName) {
 
 	// 导出类型
 	var TYPE = 'B';
-	var Status = 'B';
-	var ET = Status;
+	var ET = Status = 'B';
 	// public enumeration object
 	var s = {
 		identity: {
@@ -256,13 +255,13 @@ function exportTemplate(source, name, domainName) {
 			50025973: '林权',
 			200778005: '海域',
 			125228021: '船舶',
-		  125088031: '股权',
-		  50025971: '实物资产',
-		  50025972: '机动车',
-		  201290015: '奢侈品',
-		  50025969: '房产',
-		  56956002: '债权',
-		  50025976: '其他',
+			125088031: '股权',
+			50025971: '实物资产',
+			50025972: '机动车',
+			201290015: '奢侈品',
+			50025969: '房产',
+			56956002: '债权',
+			50025976: '其他',
 			0: '未知',
 		},
 		projectType: {
@@ -1187,7 +1186,7 @@ function exportTemplate(source, name, domainName) {
 						]) + "</td></tr>";
 				});
 				break;
-		}
+			}
 			// 破产重组
 			case 'R30201': {
 				data.list.forEach(function (i) {
@@ -1262,7 +1261,7 @@ function exportTemplate(source, name, domainName) {
 				break;
 			}
 			// 限制高消费
-			case 'R20501': 
+			case 'R20501':
 			case 'R20502': {
 				data.list.forEach(function (i) {
 					// 1：企业 2：个人
@@ -1459,37 +1458,44 @@ function exportTemplate(source, name, domainName) {
 	};
 
 	var item = _dataSource['BB10101'] || {};
-	// 基本信息
-	f.replaceHtml([
-		{f: '{base.logo}', v: item.logoUrl || ''},
-		{f: '{base.logo-icon}', v: 'business-img'},
-		{f: '{base.content-type}', v: 'content-max'},
-		{
-			f: '{base.content}', v: (
-				f.urlDom(('业务编号：' + item.caseNumber || '-')) +
-				f.tag(item.businessPushType ? '当前推送状态：开启' : '当前推送状态：关闭', !item.businessPushType ? 'regStatus-gray' : '') +
-				f.normalList([
-					[
-						{
-							t: '借款人',
-							cot: w(item.obligorName) + f.disStatus(item.dishonestStatus, 'close') + f.tag(item.bankruptcyStatus ? '破产/重整风险' : '', 'regStatus-red')
-						},
-						{t: '证件号/统一社会信用代码', cot: w(item.obligorNumber)},
-						{t: '借款人推送状态', cot: w(item.obligorPushType ? '开启' : '关闭')},
-					],
-					[
-						{t: '负责人/机构', cot: item.orgName},
-						{t: '上传时间', cot: item.uploadTime},
-					],
-				])
-			)
-		},
-		{
-			f: '{about.list}', v: aboutList('业务相关人列表',
-				{list: _dataSource["BB10102"] || []},
-				{id: 'BB10102', className: 'table-border', show: true}
-			)
-		}]);
+	var Status = item.obligorName.length > 4 ? 'E' : 'P';
+	if (Status === 'E') {
+		f.replaceHtml([
+			{f: '{base.logo}', v: item.logoUrl ? ("<img src=\"" + item.logoUrl + "\" alt=\"\">") : ''},
+				{f: '{base.logo-icon}', v: item.logoUrl ? "" : 'debtor-img'},
+				{f: '{base.content-type}', v: 'content-max'},
+				{f: '{base.content}', v: (
+					f.urlDom(item.obligorName) +
+					f.disStatus(item.dishonestStatus, 'close') +
+					f.tag(item.regStatus, f.toRegStatus(item.regStatus)) +
+					f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
+					f.tag(item.bankruptcy ? '破产/重整风险' : '', 'regStatus-red') +
+					f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
+					f.normalList([
+						[
+							{t: '法定代表人', cot: item.legalPersonName},
+							{t: '注册资本', cot: w(item.regCapital)},
+							{t: '成立日期', cot: w(item.establishTime)},
+						],
+						(item.usedName || []).length ? {t: '曾用名', cot: (item.usedName.join('、'))} : null])
+					)
+				}
+			]);
+	} else {
+		f.replaceHtml([
+			{f: '{base.logo}', v: ''},
+			{f: '{base.logo-icon}', v: 'person-img'},
+			{f: '{base.content-type}', v: 'content-min'},
+			{
+				f: '{base.content}', v: (
+					f.urlDom(item.obligorName) +
+					f.disStatus(item.dishonestStatus, 'close') +
+					f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
+					f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
+					f.normalList([{t: '证件号', cot: item.obligorNumber}])
+				)
+			}]);
+	}
 
 	// 计算子项总数
 	var getCount = function (i,field) {
@@ -1892,10 +1898,10 @@ function exportTemplate(source, name, domainName) {
 			if(JSON.stringify(source) === '{}' || JSON.stringify(source) === '[]'){
 				return '';
 			}
-		  if(option.id === "DO10100"){
+			if(option.id === "DO10100"){
 				return drawChildTable(option, source.auctionInfos, {1: { title: '-三个月内'}, 2: { title: '-全部'}});
 			}
-		  else if(option.id === "DO10200" ){
+			else if(option.id === "DO10200" ){
 				return drawChildTable(option, source.subrogationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
 			}
 			else if(option.id === "DO20600"){

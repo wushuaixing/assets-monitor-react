@@ -46,23 +46,58 @@ const Item = (props) => {
 			<Badge dot={dot}>
 				<a href={toHref(props)} style={active.p === id ? { color: '#fff' } : { color: '#fff', opacity: '0.8' }}>{name}</a>
 			</Badge>
-			<ul className="header-child-item">
-				{
-					children && children.map(item =>	(
-						<li
-							className={`child-item ${active.c === item.id ? 'child-item-active' : 'child-item-normal'}`}
-							key={item.id}
-							onClick={e => toNavigate(e, item, props)}
-						>
-							{item.name}
-							{
-								item.child && (
-									<div className="header-itemChild_wrapper">
-										<div className="header-itemChild_content">
+			{ id !== 'YC10'
+				? (
+					<ul className="header-child-item">
+						{
+						children && children.map(item =>	(
+							<li
+								className={`child-item ${active.c === item.id ? 'child-item-active' : 'child-item-normal'}`}
+								key={item.id}
+								onClick={e => toNavigate(e, item, props)}
+							>
+								{item.name}
+								{
+									item.child && (
+										<div className="header-itemChild_wrapper">
+											<div className="header-itemChild_content">
+												{
+													item.child.map(i => i.status && (
+														<li
+															className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
+															key={i.id}
+															onClick={e => toNavigate(e, i, props)}
+														>
+															{i.name}
+														</li>
+													))
+												}
+											</div>
+										</div>
+									)
+								}
+							</li>
+						))
+						}
+					</ul>
+				)
+				: (
+					<ul className="header-child-item header-child-item-monitor">
+						{
+						children && children.map(item =>	(
+							<li
+								className="child-item child-item-monitor"
+								key={item.id}
+								onClick={e => toNavigate(e, item, props)}
+							>
+								<div className={`child-item-name ${active.c === item.id ? 'child-item-name-active' : ''}`}>{item.name}</div>
+								{
+									item.child && (
+										<React.Fragment>
 											{
 												item.child.map(i => i.status && (
 													<li
-														className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
+														className={`itemChild-item-monitor ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
 														key={i.id}
 														onClick={e => toNavigate(e, i, props)}
 													>
@@ -70,14 +105,15 @@ const Item = (props) => {
 													</li>
 												))
 											}
-										</div>
-									</div>
-								)
-							}
-						</li>
-					))
-					}
-			</ul>
+										</React.Fragment>
+									)
+								}
+							</li>
+						))
+						}
+					</ul>
+				)
+			}
 		</li>
 	);
 };
