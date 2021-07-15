@@ -37,6 +37,8 @@
     "tl:db-build": "node ./template/sever/db-build.js",
     "bus:dev": "set NODE_ENV=dev&& node ./export-task/business/scripts/dev.js",
     "bus:build": "node ./export-task/business/scripts/build.js",
+    "batch:dev": "set NODE_ENV=dev&& node ./export-task/batch-business/scripts/dev.js",
+    "batch:build": "node ./export-task/batch-business/scripts/build.js",
     "por:dev": "set NODE_ENV=dev && node ./export-task/portrait/scripts/dev.js",
     "por:build": "node ./export-task/portrait/scripts/build.js"
   },
