@@ -40,29 +40,14 @@ module.exports = {
 	},
 	module: {
 		rules: [{
-			test: /\.js$/,
+			test: /\.js|x$/,
 			exclude: /node_modules/,
-			use: [{
-				loader: 'babel-loader',
+			use: [ {
+				loader: 'thread-loader',
 				options: {
-					presets: [
-						['@babel/preset-env', {
-							loose: true,
-							modules: 'commonjs',
-						}],
-					],
-					plugins: [
-						['@babel/plugin-proposal-class-properties', {
-							loose: true,
-						}],
-						['@babel/plugin-syntax-dynamic-import'],
-					],
-				},
-			}],
-		}, {
-			test: /\.jsx$/,
-			exclude: /node_modules/,
-			use: [{
+					workers: 2 // 进程2个
+				}
+			},{
 				loader: 'babel-loader',
 				options: {
 					presets: [
@@ -86,6 +71,7 @@ module.exports = {
 			test: /\.css$/,
 			exclude: /node_modules/,
 			use: [
+				MiniCssExtractPlugin.loader,
 				'style-loader',
 				{
 					loader: 'css-loader',
@@ -182,8 +168,8 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			// Options similar to the same options in webpackOptions.output
 			// all options are optional
-			filename: 'main.[hash].css',
-			chunkFilename: '[id].[hash].css',
+			filename: 'main.[contenthash].css',
+			chunkFilename: "[name].[contenthash].css",
 			ignoreOrder: false, // Enable to remove warnings about conflicting order
 		}),
 		new OptimizeCssAssetsPlugin({

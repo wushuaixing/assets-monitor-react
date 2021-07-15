@@ -623,7 +623,8 @@ export default class FollowInfo extends React.Component {
 											remindTime: '',
 										})}
 									>
-										<span className="follow-add-btn-icon">+</span>
+										{/* <span className="follow-add-btn-icon">+</span> */}
+										<i className="iconfont icon-tianjia follow-add-btn-icon" />
 										<span>添加跟进信息</span>
 									</div>
 									{
