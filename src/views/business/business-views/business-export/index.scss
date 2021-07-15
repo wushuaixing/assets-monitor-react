@@ -146,3 +146,29 @@
     }
   }
 }
+.yc-confirm-title {
+  color: $text-title;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 28px;
+  vertical-align: super;
+}
+.yc-confirm-content {
+  margin-left: 34px;
+  font-size: 14px;
+  line-height: 24px;
+  color: #4E5566;
+  margin-bottom: 0;
+}
+.yc-confirm-btn {
+  margin-top: 32px;
+  text-align: right;
+  font-size: 0;
+}
+.yc-confirm-footer-btn {
+  height: 34px;
+  width: 84px;
+  margin-right: 10px;
+  position: relative;
+  top: -4px;
+}

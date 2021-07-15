@@ -3,9 +3,11 @@ import {
 	BreadCrumb, Button, timeRule, Icon,
 } from '@/common';
 import { format } from '@/utils/changeTime';
-import { Radio, DatePicker, Modal } from 'antd';
+import {
+	Radio, DatePicker, Modal,
+} from 'antd';
 import { getLastExportInfo, exportReport } from '@/utils/api/business';
-import { roleState } from '@/utils/rule';
+import WarningPng from '@/assets/img/icon/warning.png';
 import './index.scss';
 
 function closeWindow() {
@@ -37,6 +39,8 @@ function ModalWarning(type, title, text) {
 	});
 }
 
+let timer = null;
+
 class BusinessExportView extends React.Component {
 	constructor(props) {
 		super(props);
@@ -47,7 +51,9 @@ class BusinessExportView extends React.Component {
 			lastExportDate: null,
 			queryDateStart: null,
 			queryDateEnd: format(new Date()),
-			isGenerate: true,
+			generating: null,
+			errorModalVisible: false,
+			timeLeft: 3,
 		};
 	}
 
@@ -65,12 +71,14 @@ class BusinessExportView extends React.Component {
 				data: {
 					businessPushTotal,
 					lastExportDate,
+					generating,
 				},
 			} = res;
 			this.setState({
 				businessPushTotal,
 				lastExportDate,
 				queryDateStart: lastExportDate || '2021-05-01',
+				generating,
 			});
 		});
 	}
@@ -92,20 +100,8 @@ class BusinessExportView extends React.Component {
 
 	handleExportBusiness = () => {
 		const {
-			reportType, businessPushTotal, queryDateStart, queryDateEnd, isGenerate,
+			reportType, queryDateStart, queryDateEnd,
 		} = this.state;
-		if (!roleState('zcwj', 'zjgcjsdw')) {
-			ModalWarning('warning', '权限不足', '未开通导出业务报告的权限，如有疑问，请联系客服：180-7294-2900');
-			return;
-		}
-		if (businessPushTotal === 0) {
-			ModalWarning('error', '导出失败', '开启推送的业务数为0，无法生成报告');
-			return;
-		}
-		if (isGenerate) {
-			ModalWarning('error', '导出失败', '有报告正在生成中，请在报告生成后再发起新的导出任务。');
-			return;
-		}
 		const params = reportType ? { reportType }
 			: {
 				reportType,
@@ -113,19 +109,71 @@ class BusinessExportView extends React.Component {
 				queryDateEnd,
 			};
 		exportReport(params).then((res) => {
-			if (res.data === 200) {
-				this.getExport(reportType);
+			if (res.code === 200) {
+				const { code, msg } = res.data;
+				switch (code) {
+				case 200:
+					this.handleExportSuccess();
+					break;
+				case 403:
+					ModalWarning('warning', '权限不足', msg);
+					break;
+				case 500:
+					ModalWarning('error', '导出失败', msg);
+					break;
+				default:
+					break;
+				}
 			}
 		});
+	};
+
+	handleExportSuccess = () => {
+		let time = 3;
+		timer = setInterval(() => {
+			time -= 1;
+			this.setState({
+				timeLeft: time,
+			});
+			if (time === 0) {
+				this.closeErrorModal();
+				if (timer) {
+					clearInterval(timer);
+					timer = null;
+				}
+			}
+		}, 1000);
+		this.openErrorModal();
 	}
+
+	openErrorModal = () => {
+		this.setState({
+			errorModalVisible: true,
+		});
+	};
+
+	closeErrorModal = () => {
+		this.setState({
+			errorModalVisible: false,
+		});
+		this.handleNavigate();
+	};
 
 	handleNavigate = () => {
 		window.history.back(-1);
 	}
 
+	handleCloseModal = () => {
+		if (timer) {
+			clearInterval(timer);
+			timer = null;
+		}
+		this.closeErrorModal();
+	}
+
 	render() {
 		const {
-			reportType, businessPushTotal, lastExportDate, isGenerate,
+			reportType, businessPushTotal, lastExportDate, generating, errorModalVisible, timeLeft,
 		} = this.state;
 
 		return (
@@ -142,7 +190,7 @@ class BusinessExportView extends React.Component {
 				<div className="business-export-info">
 					<div className="business-export-info-title">导出业务报告</div>
 					{
-						isGenerate && (
+						generating && (
 							<div className="business-export-info-message">
 								<Icon type="icon-warning" className="message-icon" />
 								<span className="message-warning">有报告正在生成中，请在报告生成后再发起新的导出任务。</span>
@@ -179,11 +227,14 @@ class BusinessExportView extends React.Component {
 									placeholder="今天"
 									disabled
 								/>
-								<div className="export-time">
-									（本账号上次导出报告的日期为：
-									<span className="date">{lastExportDate || '--'}</span>
-									）
-								</div>
+								{ lastExportDate && (
+									<div className="export-time">
+										（本账号上次导出报告的日期为：
+										<span className="date">{lastExportDate}</span>
+										）
+									</div>
+								)
+								}
 							</div>
 						)
 						}
@@ -230,6 +281,31 @@ class BusinessExportView extends React.Component {
 						<li>我们会为每个负责人/机构生成1个独立的excel文件</li>
 					</ul>
 				</div>
+				{errorModalVisible && (
+					<Modal
+						visible={errorModalVisible}
+						onCancel={this.handleCancel}
+						footer={false}
+						width={500}
+						closable={false}
+					>
+
+						<div className="yc-confirm-body" style={{ padding: '30px' }}>
+							<div className="yc-confirm-header">
+								<img src={WarningPng} alt="警告" width="24" height="24" />
+								<span className="yc-confirm-title" style={{ marginLeft: 10 }}>报告正在生成中，请耐心等待。</span>
+							</div>
+							<div className="yc-confirm-content" style={{ marginTop: 20 }}>
+								<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
+								秒后将返回上一页
+							</div>
+							<div className="yc-confirm-btn">
+								<Button onClick={this.handleCloseModal} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
+							</div>
+						</div>
+					</Modal>
+				)
+				}
 			</div>
 		);
 	}
