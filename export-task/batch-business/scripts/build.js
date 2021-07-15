@@ -61,5 +61,5 @@ var accurateImgData= "${accurateImgData}";
 ${exportCover}
 ${exportTemplate}`;
 
-fs.writeFileSync(root+"/downloadDetail.js",resultCode);
-fs.writeFileSync(root+"/downloadDetail.min.js",UglifyJS.minify(resultCode).code);
+fs.writeFileSync(root+"/businessExport.js",resultCode);
+fs.writeFileSync(root+"/businessExport.min.js",UglifyJS.minify(resultCode).code);
