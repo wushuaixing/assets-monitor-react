@@ -33,7 +33,7 @@ export const StepDesc = (props) => {
 				content ? (
 					<li style={{ marginTop: '6px', marginBottom: '6px' }}>
 						备注：
-						<span style={{ color: '#20242E' }}>
+						<span style={{ color: '#20242E', wordBreak: 'break-all' }}>
 							{content}
 						</span>
 					</li>
@@ -42,7 +42,7 @@ export const StepDesc = (props) => {
 			{
 				remindingTime ? (
 					<li>
-						提醒日期：
+						提醒时间：
 						<span style={{ color: '#20242E' }}>
 							{new Date(remindingTime * 1000).format('yyyy-MM-dd 9:00')}
 						</span>
@@ -66,7 +66,7 @@ export const ProcessTran = (type) => {
 // process 状态默认
 const toStatus = (source) => {
 	const { process } = source;
-	if (process === 0 || process === 3 || process === 6 || process === 12 || process === 15) return 6;
+	if (process === 0 || process === 3 || process === 6 || process === 12) return 6;
 	return process;
 };
 
@@ -380,7 +380,7 @@ export default class FollowInfo extends React.Component {
 				switchBun: false,
 			});
 		}
-	};
+	}
 
 	render() {
 		const {
@@ -477,7 +477,7 @@ export default class FollowInfo extends React.Component {
 																		style={{ width: 400, padding: '0px 7px', height: '34px' }}
 																		maxLength={12}
 																		onChange={e => this.onInputChangeNew(e, 'recovery')}
-																		placeholder="请输入收入金额"
+																		placeholder="请输入整数金额"
 																		suffix="元"
 																	/>
 																)
@@ -488,7 +488,7 @@ export default class FollowInfo extends React.Component {
 																		value={recovery}
 																		// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
 																		onChange={e => this.onInputChangeNew(e, 'recovery')}
-																		placeholder="请输入收入金额"
+																		placeholder="请输入整数金额"
 																	/>
 																)
 														}
@@ -509,7 +509,7 @@ export default class FollowInfo extends React.Component {
 																/>,
 																	<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
 																: [
-																	<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />,
+																	<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入备注信息" maxlength={160} />,
 																	<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
 																]
 														}
@@ -557,6 +557,7 @@ export default class FollowInfo extends React.Component {
 														<DatePicker
 															{...getField('remindTime')}
 															getCalendarContainer={getContainer}
+															placeholder="设置提醒时间"
 															disabledDate={(time) => {
 																if (!time) {
 																	return false;
@@ -569,14 +570,13 @@ export default class FollowInfo extends React.Component {
 												</li>
 												<li className="follow-content-remind-list-item">
 													<div className="follow-content-remind-list-item-title">提醒对象</div>
-													<div className="follow-content-remind-list-item-content">
+													<div className="follow-content-remind-list-item-content" onClick={() => this.toGetPushList(true)}>
 														<Select
 															multiple
 															style={{ width: '288px' }}
-															placeholder="请选择相关推送人（最多选择3个）"
+															placeholder="选择提醒对象"
 															notFoundContent="未找到"
 															getPopupContainer={getContainer}
-															defaultValue={[402]}
 															{...getField('pushList', {
 																onChange: (val) => {
 																	if (val.length <= 3) return true;
@@ -588,12 +588,12 @@ export default class FollowInfo extends React.Component {
 															{
 																dataSource.map(item => (
 																	<Select.Option key={item.id}>
-																		{item.id}
 																		{`${item.name} ${markContent(item)}`}
 																	</Select.Option>
 																))
 															}
 														</Select>
+														<div className="follow-content-remind-list-item-content-corner" />
 														<div className="follow-content-remind-list-item-remind">
 															{linkDom('#/organization/setting', '提醒对象管理')}
 														</div>
@@ -646,7 +646,16 @@ export default class FollowInfo extends React.Component {
 														<Steps.Step
 															status="process"
 															title={([
-																<span className="font-title">{item.updateTime ? new Date(item.updateTime * 1000).format('yyyy-MM-dd hh:mm:ss') : ''}</span>,
+																<div className="font-title">{item.updateTime ? new Date(item.updateTime * 1000).format('yyyy-MM-dd hh:mm:ss') : ''}</div>,
+																<span className={`list-step-title-mark-status mark-status-${item.process}`}>
+																	{ProcessTran(item.process)}
+																</span>,
+																<div
+																	className="list-step-title-mark-time"
+																>
+																	<div className="label">跟进人：</div>
+																	<div style={{ color: '#20242E', minWidth: '100px' }}>{item.username}</div>
+																</div>,
 																<React.Fragment>
 																	{
 																		item.self ? (
@@ -661,15 +670,6 @@ export default class FollowInfo extends React.Component {
 																			: <Icon type="delete" className="list-step-title-icon" style={{ color: '#ffffff' }} />
 																	}
 																</React.Fragment>,
-																<span
-																	className="list-step-title-mark-time"
-																>
-																	跟进人：
-																	<span style={{ color: '#20242E' }}>{item.username}</span>
-																</span>,
-																<span className={`list-step-title-mark-status mark-status-${item.process}`}>
-																	{ProcessTran(item.process)}
-																</span>,
 															])}
 															icon="clock-circle"
 															description={<StepDesc {...item} />}

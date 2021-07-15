@@ -99,6 +99,7 @@ export default class TableIntact extends React.Component {
 			onSortChange: this.onSortChange,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
+			refreshList: this.toGetData,
 		};
 		return (
 			<div className="yc-assets-auction">
