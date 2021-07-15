@@ -39,6 +39,8 @@ function ModalWarning(type, title, text) {
 	});
 }
 
+let timer = null;
+
 class BusinessExportView extends React.Component {
 	constructor(props) {
 		super(props);
@@ -128,14 +130,17 @@ class BusinessExportView extends React.Component {
 
 	handleExportSuccess = () => {
 		let time = 3;
-		const timer = setInterval(() => {
+		timer = setInterval(() => {
 			time -= 1;
 			this.setState({
 				timeLeft: time,
 			});
 			if (time === 0) {
 				this.closeErrorModal();
-				clearInterval(timer);
+				if (timer) {
+					clearInterval(timer);
+					timer = null;
+				}
 			}
 		}, 1000);
 		this.openErrorModal();
@@ -148,7 +153,6 @@ class BusinessExportView extends React.Component {
 	};
 
 	closeErrorModal = () => {
-		window.close();
 		this.setState({
 			errorModalVisible: false,
 		});
@@ -157,6 +161,14 @@ class BusinessExportView extends React.Component {
 
 	handleNavigate = () => {
 		window.history.back(-1);
+	}
+
+	handleCloseModal = () => {
+		if (timer) {
+			clearInterval(timer);
+			timer = null;
+		}
+		this.closeErrorModal();
 	}
 
 	render() {
@@ -288,7 +300,7 @@ class BusinessExportView extends React.Component {
 								秒后将返回上一页
 							</div>
 							<div className="yc-confirm-btn">
-								<Button onClick={this.closeErrorModal} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
+								<Button onClick={this.handleCloseModal} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
 							</div>
 						</div>
 					</Modal>
