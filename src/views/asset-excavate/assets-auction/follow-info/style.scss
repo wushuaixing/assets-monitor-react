@@ -49,15 +49,22 @@
       .follow-content-remind{
         width: 400px;
         background-color: #FAFAFA;
-        height: 150px;
+        min-width: 172px;
         margin-left: 120px;
         margin-bottom: 49px;
         margin-top: -26px;
         border: 1px solid #FAFAFA;
+        overflow: hidden;
         &-list-item{
           font-size: 14px;
           color: #20242E;
           margin-left: 20px;
+          &-time{
+            color: #7D8699;
+            font-size: 14px;
+            margin-left: 72px;
+            margin-top: 8px;
+          }
           &-title{
             float: left;
             text-align: right;

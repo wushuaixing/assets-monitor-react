@@ -127,6 +127,7 @@ export default class FollowInfo extends React.Component {
 				remindTime: '',
 			});
 		}
+		console.log('====@@@', this.state.pushList);
 		if (event) {
 			let value;
 			value = event.target ? event.target.value : event;
@@ -394,6 +395,12 @@ export default class FollowInfo extends React.Component {
 	// 获取当前推送信息
 	toGetCurrentRemindInfo = () => {
 		getCurrentRemindInfo().then((res) => {
+			// const { id } = res.data;
+			// if (res.code === 200) {
+			// 	this.setState({
+			// 		pushList: [id],
+			// 	});
+			// }
 			console.log(res);
 		});
 	}
@@ -405,7 +412,6 @@ export default class FollowInfo extends React.Component {
 		const {
 			visible, onClose, source: { process, commentTotal }, source,
 		} = this.props;
-		console.log('====',source);
 		const data = this.state;
 		const getField = (field, option = {}) => ({
 			value: data[field],
@@ -587,8 +593,8 @@ export default class FollowInfo extends React.Component {
 												</li>
 												<li className="follow-content-remind-list-item">
 													<div className="follow-content-remind-list-item-time">
-														<span>开拍时间</span>
-														<span className="">{formatDateTime(source.start)}</span>
+														开拍时间：
+														{formatDateTime(source.start)}
 													</div>
 												</li>
 												<li className="follow-content-remind-list-item">

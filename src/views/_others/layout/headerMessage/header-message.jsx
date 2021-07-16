@@ -167,7 +167,9 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	render() {
-		const { dataList, loading, isRead } = this.state;
+		const {
+			dataList, loading, isRead, orgPower,
+		} = this.state;
 		return (
 			<div
 				className="yc-header-message"
@@ -191,10 +193,14 @@ export default class HeaderMessage extends React.Component {
 							title="未读"
 							onClick={() => this.handleReadChange('else')}
 						/>
-						<div className="yc-station-btn">
-							<i className="iconfont icon-quanbubiaoweiyidu yc-station-btn-icon" />
-							<span onClick={this.allRead}>全部标为已读</span>
-						</div>
+						{
+							orgPower ? (
+								<div className="yc-station-btn">
+									<i className="iconfont icon-quanbubiaoweiyidu yc-station-btn-icon" />
+									<span onClick={this.allRead}>全部标为已读</span>
+								</div>
+							) : null
+						}
 					</div>
 				</div>
 				<Spin visible={loading}>
