@@ -33,10 +33,10 @@ function exportCover(source,domainName) {
 	htmlCover = htmlCover.replace(/{base.queryTime}/g, dataTime);
 
 	// 封面内容
-	var businessInfo = data.BB10101 || {};
-	var businessList = data.BB10102 || [];
+	var businessInfo = data.BB101011 || {};
+	var businessList = data.BB101012 || [];
 	var borrowerList = [], warrantorList = [];
-	for (let i = 0; i < businessList.length; i++) {
+	for (var i = 0; i < businessList.length; i++) {
 		var item = businessList[i];
 		if (item.role === 1) {
 			borrowerList.push("<div class='exp-name'>借款人：" + item.obligorName + "</div>");       // 借款人
@@ -46,10 +46,10 @@ function exportCover(source,domainName) {
 	}
 	htmlCover = htmlCover.replace(/{base.title}/, "监控业务报告");
 	var userInfo = "<div class='exp-number'>业务编号：" + (businessInfo.caseNumber ? businessInfo.caseNumber : '-') + "</div>"
-											+ "<div class='exp-institution'><div class='exp-name'>负责人/机构：" 
-											+ (businessInfo.orgName ? businessInfo.orgName : '-') + "</div>" + borrowerList.join('') 
-											+ warrantorList.slice(0,5).join('') 
-											+ (warrantorList.length > 5 ? "<div class='exp-name'>等" + (warrantorList.length - 5) + "位债务人</div></div>" : '')
+		+ "<div class='exp-institution'><div class='exp-name'>负责人/机构："
+		+ (businessInfo.orgName ? businessInfo.orgName : '-') + "</div>" + borrowerList.join('')
+		+ warrantorList.slice(0,5).join('')
+		+ (warrantorList.length > 5 ? "<div class='exp-name'>等" + (warrantorList.length - 5) + "位债务人</div></div>" : '')
 	htmlCover = htmlCover.replace(/{base.userInfo}/, userInfo);
 	return htmlCover;
 }
@@ -60,13 +60,13 @@ function exportTemplate(source, name, domainName) {
 		overview: {
 			name: '概览',
 			about: '{overview.content}',
-			status:'EP',
+			status:'BEP',
 			child: [
-				{ id: "DO1000" ,title:'资产概况',status:'EP',
+				{ id: "DO1000" ,title:'资产概况',status:'BEP',
 					child:[
-						{ id:"DO10100",title:"相关资产拍卖",status:'EP'},
-						{ id:"DO10200",title:"代位权信息",status:'E'},
-						{ id:"DO10200",title:"代位权信息 (裁判文书) ",status:'P'},
+						{ id:"DO10100",title:"相关资产拍卖",status:'BEP'},
+						{ id:"DO10200",title:"代位权信息",status:'BE'},
+						{ id:"DO10200",title:"代位权信息 (裁判文书) ",status:'BP'},
 						{ id:"DO10300",title:"土地信息",status:'BE'},
 						{ id:"DO10400",title:"无形资产信息",status:'BE'},
 						{ id:"DO10500",title:"股权质押信息",status:'BE'},
@@ -74,22 +74,22 @@ function exportTemplate(source, name, domainName) {
 						{ id:"DO10700",title:"相关招投标信息",status:'BE'},
 					]
 				},
-				{ id: "DO2000" ,title:'风险信息',status:'EP',
+				{ id: "DO2000" ,title:'风险信息',status:'BEP',
 					child:[
-						{ id:"DO20400",title:"失信记录",status:'EP'},
-						{ id:"DO20600",title:"涉诉信息",status:'E'},
-						{ id:"DO20600",title:"涉诉信息 (裁判文书) ", status:'P'},
-						{ id:"DO30200",title:"破产重组信息",status:'E'},
-						{ id:"DO30300",title:"经营风险信息",status:'E'},
-						{ id:"DO30500",title:"税收违法",status:'P'},
+						{ id:"DO20400",title:"失信记录",status:'BEP'},
+						{ id:"DO20600",title:"涉诉信息",status:'BE'},
+						{ id:"DO20600",title:"涉诉信息 (裁判文书) ", status:'BP'},
+						{ id:"DO30200",title:"破产重组信息",status:'BE'},
+						{ id:"DO30300",title:"经营风险信息",status:'BE'},
+						{ id:"DO30500",title:"税收违法",status:'BP'},
 					]
 				},
 				{
-					id: "DO5000", title: '工商基本信息', status: 'E',
+					id: "DO5000", title: '工商基本信息', status: 'BE',
 					child: [
-						{id: "DO50000", title: "基本信息", status: 'E', show: true, type: 1 },
-						{id: "DO50000", title: "股东情况", status: 'E' , type: 2},
-						{id: "DO50000", title: "企业规模", status: 'E', show: true, type: 3 },
+						{id: "DO50000", title: "基本信息", status: 'BE', show: true, type: 1 },
+						{id: "DO50000", title: "股东情况", status: 'BE' , type: 2},
+						{id: "DO50000", title: "企业规模", status: 'BE', show: true, type: 3 },
 					]
 				},
 			]
@@ -142,7 +142,7 @@ function exportTemplate(source, name, domainName) {
 				{id: 'R20402', title: '失信记录_已移除', desc: '已移除', status: 'BEP'},
 				{id: 'R20501', title: '限制高消费_列入', desc: '列入', status: 'BEP'	},
 				{id: 'R20502', title: '限制高消费_已移除', desc: '已移除', status: 'BEP'	},
-				{id: 'R20604', title: '涉诉文书', status: 'P'},
+				{id: 'R20604', title: '涉诉文书', status: 'BP'},
 				{id: 'R20601', title: '涉诉信息_立案', status: 'BE'},
 				{id: 'R20602', title: '涉诉信息_开庭', status: 'BE'},
 				{id: 'R20603', title: '涉诉信息_裁判文书', status: 'BE'},
@@ -157,14 +157,14 @@ function exportTemplate(source, name, domainName) {
 			name: '工商基本详情',
 			about: '{info.content}',
 			field: 'info',
-			status: 'E',
+			status: 'BE',
 			child: [
-				{id: 'I50101', title: '基本信息', status: 'E', show: true, className: 'table-baseInfo'},
-				{id: 'I50201', title: '主要人员', status: 'E'},
-				{id: 'I50301', title: '股东信息', status: 'E'},
-				{id: 'I50501', title: '分支机构', status: 'E'},
-				{id: 'I50601', title: '对外投资', status: 'E'},
-				{id: 'I50701', title: '工商变更', status: 'E', className: 'page-break-style'},
+				{id: 'I50101', title: '基本信息', status: 'BE', show: true, className: 'table-baseInfo'},
+				{id: 'I50201', title: '主要人员', status: 'BE'},
+				{id: 'I50301', title: '股东信息', status: 'BE'},
+				{id: 'I50501', title: '分支机构', status: 'BE'},
+				{id: 'I50601', title: '对外投资', status: 'BE'},
+				{id: 'I50701', title: '工商变更', status: 'BE', className: 'page-break-style'},
 			]
 		},
 	};
@@ -172,8 +172,7 @@ function exportTemplate(source, name, domainName) {
 
 	// 导出类型
 	var TYPE = 'B';
-	var Status = 'B';
-	var ET = Status;
+	var ET = Status = 'B';
 	// public enumeration object
 	var s = {
 		identity: {
@@ -256,13 +255,13 @@ function exportTemplate(source, name, domainName) {
 			50025973: '林权',
 			200778005: '海域',
 			125228021: '船舶',
-		  125088031: '股权',
-		  50025971: '实物资产',
-		  50025972: '机动车',
-		  201290015: '奢侈品',
-		  50025969: '房产',
-		  56956002: '债权',
-		  50025976: '其他',
+			125088031: '股权',
+			50025971: '实物资产',
+			50025972: '机动车',
+			201290015: '奢侈品',
+			50025969: '房产',
+			56956002: '债权',
+			50025976: '其他',
 			0: '未知',
 		},
 		projectType: {
@@ -494,7 +493,7 @@ function exportTemplate(source, name, domainName) {
 		},
 		// 转换金额格式
 		floatFormat: function(item) {
-			const money = parseFloat(item);
+			var money = parseFloat(item);
 			if (money.toString() && money.toString() !== 'NaN') {
 				return money.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + '元';
 			}
@@ -1187,7 +1186,7 @@ function exportTemplate(source, name, domainName) {
 						]) + "</td></tr>";
 				});
 				break;
-		}
+			}
 			// 破产重组
 			case 'R30201': {
 				data.list.forEach(function (i) {
@@ -1262,7 +1261,7 @@ function exportTemplate(source, name, domainName) {
 				break;
 			}
 			// 限制高消费
-			case 'R20501': 
+			case 'R20501':
 			case 'R20502': {
 				data.list.forEach(function (i) {
 					// 1：企业 2：个人
@@ -1459,37 +1458,44 @@ function exportTemplate(source, name, domainName) {
 	};
 
 	var item = _dataSource['BB10101'] || {};
-	// 基本信息
-	f.replaceHtml([
-		{f: '{base.logo}', v: item.logoUrl || ''},
-		{f: '{base.logo-icon}', v: 'business-img'},
-		{f: '{base.content-type}', v: 'content-max'},
-		{
-			f: '{base.content}', v: (
-				f.urlDom(('业务编号：' + item.caseNumber || '-')) +
-				f.tag(item.businessPushType ? '当前推送状态：开启' : '当前推送状态：关闭', !item.businessPushType ? 'regStatus-gray' : '') +
-				f.normalList([
-					[
-						{
-							t: '借款人',
-							cot: w(item.obligorName) + f.disStatus(item.dishonestStatus, 'close') + f.tag(item.bankruptcyStatus ? '破产/重整风险' : '', 'regStatus-red')
-						},
-						{t: '证件号/统一社会信用代码', cot: w(item.obligorNumber)},
-						{t: '借款人推送状态', cot: w(item.obligorPushType ? '开启' : '关闭')},
-					],
-					[
-						{t: '负责人/机构', cot: item.orgName},
-						{t: '上传时间', cot: item.uploadTime},
-					],
-				])
-			)
-		},
-		{
-			f: '{about.list}', v: aboutList('业务相关人列表',
-				{list: _dataSource["BB10102"] || []},
-				{id: 'BB10102', className: 'table-border', show: true}
-			)
-		}]);
+	var Status = item.obligorName.length > 4 ? 'E' : 'P';
+	if (Status === 'E') {
+		f.replaceHtml([
+			{f: '{base.logo}', v: item.logoUrl ? ("<img src=\"" + item.logoUrl + "\" alt=\"\">") : ''},
+				{f: '{base.logo-icon}', v: item.logoUrl ? "" : 'debtor-img'},
+				{f: '{base.content-type}', v: 'content-max'},
+				{f: '{base.content}', v: (
+					f.urlDom(item.obligorName) +
+					f.disStatus(item.dishonestStatus, 'close') +
+					f.tag(item.regStatus, f.toRegStatus(item.regStatus)) +
+					f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
+					f.tag(item.bankruptcy ? '破产/重整风险' : '', 'regStatus-red') +
+					f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
+					f.normalList([
+						[
+							{t: '法定代表人', cot: item.legalPersonName},
+							{t: '注册资本', cot: w(item.regCapital)},
+							{t: '成立日期', cot: w(item.establishTime)},
+						],
+						(item.usedName || []).length ? {t: '曾用名', cot: (item.usedName.join('、'))} : null])
+					)
+				}
+			]);
+	} else {
+		f.replaceHtml([
+			{f: '{base.logo}', v: ''},
+			{f: '{base.logo-icon}', v: 'person-img'},
+			{f: '{base.content-type}', v: 'content-min'},
+			{
+				f: '{base.content}', v: (
+					f.urlDom(item.obligorName) +
+					f.disStatus(item.dishonestStatus, 'close') +
+					f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
+					f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
+					f.normalList([{t: '证件号', cot: item.obligorNumber}])
+				)
+			}]);
+	}
 
 	// 计算子项总数
 	var getCount = function (i,field) {
@@ -1892,10 +1898,10 @@ function exportTemplate(source, name, domainName) {
 			if(JSON.stringify(source) === '{}' || JSON.stringify(source) === '[]'){
 				return '';
 			}
-		  if(option.id === "DO10100"){
+			if(option.id === "DO10100"){
 				return drawChildTable(option, source.auctionInfos, {1: { title: '-三个月内'}, 2: { title: '-全部'}});
 			}
-		  else if(option.id === "DO10200" ){
+			else if(option.id === "DO10200" ){
 				return drawChildTable(option, source.subrogationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
 			}
 			else if(option.id === "DO20600"){

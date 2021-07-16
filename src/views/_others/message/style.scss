@@ -19,6 +19,7 @@
   .yc-message-operation{
     color: #1C80E1;
     font-size: 12px;
+    cursor: pointer;
     &-text{
       color: #B2B8C9;
       text-decoration:line-through
@@ -37,10 +38,21 @@
     box-sizing: border-box;
     .yc-page-title {
       color: $text-title;
-      font-size: 16px;
+      font-size: 14px;
       line-height: 16px;
-      font-weight: bold;
-      padding: 20px;
+      padding: 20px 20px 20px 0px;
+      display: inline-block;
+    }
+    .yc-page-return{
+      color: #7D8699;
+      font-size: 14px;
+      margin-left: 20px;
+    }
+    .yc-page-oblique{
+      margin: 0px 8px ;
+      color: #7D8699;
+      font-size: 17px;
+      vertical-align: middle;
     }
     .yc-page-line{
       background-color: $background-line;
@@ -53,6 +65,7 @@
         color: #4E5566;
         display: inline-block;
         margin-left: 10px;
+        cursor: pointer;
         &-icon{
           font-size: 16px;
           margin-right: 4px;

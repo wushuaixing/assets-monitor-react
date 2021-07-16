@@ -10,31 +10,13 @@ import { getLastExportInfo, exportReport } from '@/utils/api/business';
 import WarningPng from '@/assets/img/icon/warning.png';
 import './index.scss';
 
-function closeWindow() {
-	if (navigator.userAgent.indexOf('MSIE') > 0) {
-		if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
-			window.opener = null;
-			window.close();
-		} else {
-			window.open('', '_top');
-			window.top.close();
-		}
-	} else if (navigator.userAgent.indexOf('Firefox') > 0) {
-		window.location.href = 'about:blank ';
-	} else {
-		window.opener = null;
-		window.open('', '_self', '');
-		window.close();
-	}
-}
-
 function ModalWarning(type, title, text) {
-	Modal[type]({
+	const modalVisible = Modal[type]({
 		title,
 		content: text,
 		okText: '我知道了',
 		onOk() {
-			closeWindow();
+			modalVisible.destroy();
 		},
 	});
 }

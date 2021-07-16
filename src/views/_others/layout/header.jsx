@@ -48,23 +48,58 @@ const Item = (props) => {
 			<Badge dot={dot}>
 				<a href={toHref(props)} style={active.p === id ? { color: '#fff' } : { color: '#fff', opacity: '0.8' }}>{name}</a>
 			</Badge>
-			<ul className="header-child-item">
-				{
-					children && children.map(item =>	(
-						<li
-							className={`child-item ${active.c === item.id ? 'child-item-active' : 'child-item-normal'}`}
-							key={item.id}
-							onClick={e => toNavigate(e, item, props)}
-						>
-							{item.name}
-							{
-								item.child && (
-									<div className="header-itemChild_wrapper">
-										<div className="header-itemChild_content">
+			{ id !== 'YC10'
+				? (
+					<ul className="header-child-item">
+						{
+						children && children.map(item =>	(
+							<li
+								className={`child-item ${active.c === item.id ? 'child-item-active' : 'child-item-normal'}`}
+								key={item.id}
+								onClick={e => toNavigate(e, item, props)}
+							>
+								{item.name}
+								{
+									item.child && (
+										<div className="header-itemChild_wrapper">
+											<div className="header-itemChild_content">
+												{
+													item.child.map(i => i.status && (
+														<li
+															className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
+															key={i.id}
+															onClick={e => toNavigate(e, i, props)}
+														>
+															{i.name}
+														</li>
+													))
+												}
+											</div>
+										</div>
+									)
+								}
+							</li>
+						))
+						}
+					</ul>
+				)
+				: (
+					<ul className="header-child-item header-child-item-monitor">
+						{
+						children && children.map(item =>	(
+							<li
+								className="child-item child-item-monitor"
+								key={item.id}
+								onClick={e => toNavigate(e, item, props)}
+							>
+								<div className={`child-item-name ${active.c === item.id ? 'child-item-name-active' : ''}`}>{item.name}</div>
+								{
+									item.child && (
+										<React.Fragment>
 											{
 												item.child.map(i => i.status && (
 													<li
-														className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
+														className={`itemChild-item-monitor ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
 														key={i.id}
 														onClick={e => toNavigate(e, i, props)}
 													>
@@ -72,14 +107,15 @@ const Item = (props) => {
 													</li>
 												))
 											}
-										</div>
-									</div>
-								)
-							}
-						</li>
-					))
-					}
-			</ul>
+										</React.Fragment>
+									)
+								}
+							</li>
+						))
+						}
+					</ul>
+				)
+			}
 		</li>
 	);
 };
@@ -155,15 +191,7 @@ export default class Headers extends React.Component {
 	componentDidMount() {
 		// const { rule } = this.props;
 		window.scrollTo(0, 0);
-		// if (rule.menu_sy) {
-		// 	unreadCount().then((res) => {
-		// 		if (res.code === 200) {
-		// 			this.setState({
-		// 				Surplus: res.data,
-		// 			});
-		// 		}
-		// 	});
-		// }
+		global.getNoticeNum = this.getNoticeNum;
 	}
 
 	componentWillReceiveProps() {
@@ -171,15 +199,6 @@ export default class Headers extends React.Component {
 		const { active } = this.state;
 		// const { Surplus, active } = this.state;
 		const _active = defaultRouter(this.source);
-		// if (rule.menu_sy) {
-		// 	unreadCount().then((res) => {
-		// 		if (res.code === 200) {
-		// 			if (Surplus !== res.data) {
-		// 				window.location.reload(); // 实现页面重新加载/
-		// 			}
-		// 		}
-		// 	});
-		// }
 		if (active !== _active) {
 			this.setState({
 				active: _active,
@@ -283,7 +302,7 @@ export default class Headers extends React.Component {
 								{
 									num ? <span className="yc-badge-num" style={num > 99 ? { left: '28px' } : { left: '30px' }}>{num > 99 ? '99+' : num}</span> : ''
 								}
-								  <HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" ref={e => this.headerMes = e} />
+								   <HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" ref={e => this.headerMes = e} />
 							</div>
 							)
 						}

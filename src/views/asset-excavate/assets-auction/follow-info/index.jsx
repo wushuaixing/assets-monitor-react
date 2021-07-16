@@ -6,19 +6,28 @@ import noData from '@/assets/img/home/img_blank_nodata.png';
 import { Spin, Button as Btn } from '@/common';
 import { clearEmpty, linkDom } from '@/utils';
 import {
-	pushList as pushListApi, pushSave, processList, processSave, processDel,
+	pushList as pushListApi, pushSave, processList, processSave, processDel, getCurrentRemindInfo,
 } from '@/utils/api/monitor-info/assets-follow';
 import { floatFormat } from '@/utils/format';
+import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
 // step的描述内容
 export const StepDesc = (props) => {
 	const {
-		recovery, content, remindingTime,
+		recovery, content, remindingTime, username,
 	} = props;
 
 	return (
 		<div className="font-desc">
+			{
+				<li>
+					跟进人：
+					<span style={{ color: '#20242E' }}>
+						{username}
+					</span>
+				</li>
+			}
 			{
 				recovery ? (
 					<li>
@@ -118,6 +127,7 @@ export default class FollowInfo extends React.Component {
 				remindTime: '',
 			});
 		}
+		console.log('====@@@', this.state.pushList);
 		if (event) {
 			let value;
 			value = event.target ? event.target.value : event;
@@ -362,7 +372,6 @@ export default class FollowInfo extends React.Component {
 		const target = event.target || event.srcElement;
 		const matchRes = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
 		const _value = matchRes && !global.GLOBAL_MEIE_BROWSER ? matchRes[0] : target.value;
-		console.log('onInputChangeNew:', _value);
 		this.setState({
 			[field]: _value,
 		});
@@ -371,6 +380,7 @@ export default class FollowInfo extends React.Component {
 	// 开关改变事件
 	switchChange = (checked) => {
 		if (checked) {
+			this.toGetCurrentRemindInfo();
 			this.setState({
 				switchBun: true,
 			});
@@ -380,6 +390,19 @@ export default class FollowInfo extends React.Component {
 				switchBun: false,
 			});
 		}
+	}
+
+	// 获取当前推送信息
+	toGetCurrentRemindInfo = () => {
+		getCurrentRemindInfo().then((res) => {
+			// const { id } = res.data;
+			// if (res.code === 200) {
+			// 	this.setState({
+			// 		pushList: [id],
+			// 	});
+			// }
+			console.log(res);
+		});
 	}
 
 	render() {
@@ -539,7 +562,7 @@ export default class FollowInfo extends React.Component {
 															/>,
 																<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
 															: [
-																<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入" maxlength={160} />,
+																<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入备注信息" maxlength={160} />,
 																<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
 															]
 													}
@@ -565,7 +588,13 @@ export default class FollowInfo extends React.Component {
 																return time.getTime() <= new Date().getTime();
 															}}
 														/>
-														<span className="follow-content-remind-list-item-content-time">上午9点</span>
+														<span className="follow-content-remind-list-item-content-time">上午10点</span>
+													</div>
+												</li>
+												<li className="follow-content-remind-list-item">
+													<div className="follow-content-remind-list-item-time">
+														开拍时间：
+														{formatDateTime(source.start)}
 													</div>
 												</li>
 												<li className="follow-content-remind-list-item">
@@ -650,12 +679,12 @@ export default class FollowInfo extends React.Component {
 																<span className={`list-step-title-mark-status mark-status-${item.process}`}>
 																	{ProcessTran(item.process)}
 																</span>,
-																<div
-																	className="list-step-title-mark-time"
-																>
-																	<div className="label">跟进人：</div>
-																	<div style={{ color: '#20242E', minWidth: '100px' }}>{item.username}</div>
-																</div>,
+																// <div
+																// 	className="list-step-title-mark-time"
+																// >
+																// 	<div className="label">跟进人：</div>
+																// 	<div style={{ color: '#20242E', minWidth: '100px' }}>{item.username}</div>
+																// </div>,
 																<React.Fragment>
 																	{
 																		item.self ? (
