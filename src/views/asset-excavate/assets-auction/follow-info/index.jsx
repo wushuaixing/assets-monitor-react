@@ -379,10 +379,10 @@ export default class FollowInfo extends React.Component {
 	// 开关改变事件
 	switchChange = (checked) => {
 		if (checked) {
+			this.toGetCurrentRemindInfo();
 			this.setState({
 				switchBun: true,
 			});
-			this.toGetCurrentRemindInfo();
 			this.toGetPushList(true);
 		} else {
 			this.setState({
