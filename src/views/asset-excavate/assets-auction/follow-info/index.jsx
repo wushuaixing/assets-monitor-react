@@ -127,7 +127,6 @@ export default class FollowInfo extends React.Component {
 				remindTime: '',
 			});
 		}
-		console.log('====@@@', this.state.pushList);
 		if (event) {
 			let value;
 			value = event.target ? event.target.value : event;
@@ -381,10 +380,10 @@ export default class FollowInfo extends React.Component {
 	switchChange = (checked) => {
 		if (checked) {
 			this.toGetCurrentRemindInfo();
+			this.toGetPushList(true);
 			this.setState({
 				switchBun: true,
 			});
-			this.toGetPushList(true);
 		} else {
 			this.setState({
 				switchBun: false,
@@ -395,13 +394,12 @@ export default class FollowInfo extends React.Component {
 	// 获取当前推送信息
 	toGetCurrentRemindInfo = () => {
 		getCurrentRemindInfo().then((res) => {
-			// const { id } = res.data;
-			// if (res.code === 200) {
-			// 	this.setState({
-			// 		pushList: [id],
-			// 	});
-			// }
-			console.log('反显提醒对象',res);
+			const { id } = res.data;
+			if (res.code === 200) {
+				this.setState({
+					pushList: [id],
+				});
+			}
 		});
 	}
 
@@ -609,7 +607,7 @@ export default class FollowInfo extends React.Component {
 															{...getField('pushList', {
 																onChange: (val) => {
 																	if (val.length <= 3) return true;
-																	message.error('相关推送人最多选择3个');
+																	message.warning('推送对象最多选择3个');
 																	return false;
 																},
 															})}
