@@ -149,6 +149,7 @@ class TableView extends React.Component {
 					rowKey={record => record.id}
 					dataSource={dataSource}
 					pagination={false}
+					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
 					onRowClick={this.toRowClick}
 				/>
 				{dataSource && dataSource.length > 0 && isShowPagination && (

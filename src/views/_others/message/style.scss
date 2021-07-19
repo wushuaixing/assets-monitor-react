@@ -11,18 +11,13 @@
       margin: 0 2px;
       font-style: normal;
     }
-    &:hover {
-      cursor: pointer;
-      color: $fontColor-base-2;
-    }
   }
   .yc-message-operation{
     color: #1C80E1;
     font-size: 12px;
-    cursor: pointer;
     &-text{
       color: #B2B8C9;
-      text-decoration:line-through
+      text-decoration:line-through;
     }
   }
   .yc-message-delete {

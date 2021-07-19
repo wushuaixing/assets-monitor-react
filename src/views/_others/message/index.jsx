@@ -65,9 +65,11 @@ class InformCenter extends React.Component {
 						>
 							{
 								row.operateType === 'monitorReport' && JSON.parse(row.extend).total <= 200 ? (
-									<span onClick={() => {
-										this.skip(row);
-									}}
+									<span
+										className="cursor-pointer"
+										onClick={() => {
+											this.skip(row);
+										}}
 									>
 										查看详情
 									</span>
@@ -75,14 +77,16 @@ class InformCenter extends React.Component {
 							}
 							{
 								row.operateType === 'businessReport' ? (
-									JSON.parse(row.extend) && !JSON.parse(row.extend).disabled ? <span onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件已失效</span>
+									JSON.parse(row.extend) && !JSON.parse(row.extend).disabled ? <span className="cursor-pointer" onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件已失效</span>
 								) : null
 							}
 							{
 								row.operateType !== 'monitorReport' && row.operateType !== 'businessReport' ? (
-									<span onClick={() => {
-										this.skip(row);
-									}}
+									<span
+										className="cursor-pointer"
+										onClick={() => {
+											this.skip(row);
+										}}
 									>
 										查看详情
 									</span>
