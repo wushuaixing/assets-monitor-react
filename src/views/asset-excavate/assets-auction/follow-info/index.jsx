@@ -130,6 +130,7 @@ export default class FollowInfo extends React.Component {
 		if (event) {
 			let value;
 			value = event.target ? event.target.value : event;
+			if (value.length > 160) return;
 			if (field === 'remark') value = value.slice(0, 160);
 			this.setState({
 				[field]: value,
@@ -265,7 +266,6 @@ export default class FollowInfo extends React.Component {
 			if (recovery) {
 				const rStr = recovery.toString();
 				const matchRes = (rStr.match(regExp) || [])[0];
-				console.log(rStr, matchRes);
 				const str = matchRes !== rStr ? '收入金额输入有误，请输入有效的金额数值！' : '';
 				if (str) {
 					message.warning(str, 2);
@@ -369,10 +369,8 @@ export default class FollowInfo extends React.Component {
 	onInputChangeNew = (e, field) => {
 		const event = e || window.event;
 		const target = event.target || event.srcElement;
-		const matchRes = target.value.toString().match(/^\d+(?:\.\d{0,2})?/);
-		const _value = matchRes && !global.GLOBAL_MEIE_BROWSER ? matchRes[0] : target.value;
 		this.setState({
-			[field]: _value,
+			[field]: target.value,
 		});
 	};
 
@@ -394,13 +392,15 @@ export default class FollowInfo extends React.Component {
 	// 获取当前推送信息
 	toGetCurrentRemindInfo = () => {
 		getCurrentRemindInfo().then((res) => {
-			const { id } = res.data;
 			if (res.code === 200) {
-				this.setState({
-					pushList: [id],
-				});
+				if (res.data) {
+					const { id } = res.data;
+					this.setState({
+						pushList: [id],
+					});
+				}
 			}
-		});
+		}).catch();
 	}
 
 	render() {
@@ -491,50 +491,21 @@ export default class FollowInfo extends React.Component {
 												<li className="follow-list-item">
 													<div className="list-item-title">本次追回金额</div>
 													<div className="list-item-content">
-														{
-															global.GLOBAL_MEIE_BROWSER
-																? (
-																	<input
-																		style={{ width: 400, padding: '0px 7px', height: '34px' }}
-																		maxLength={12}
-																		onChange={e => this.onInputChangeNew(e, 'recovery')}
-																		placeholder="请输入整数金额"
-																		suffix="元"
-																	/>
-																)
-																: (
-																	<Input
-																		style={{ width: '100%', height: '34px' }}
-																		maxlength={14}
-																		value={recovery}
-																		// onKeyup={e => e.value = e.value.toString().match(/^\d+(?:\.\d{0,2})?/)}
-																		onChange={e => this.onInputChangeNew(e, 'recovery')}
-																		placeholder="请输入整数金额"
-																	/>
-																)
-														}
+														<Input
+															style={{ width: '100%', height: '34px' }}
+															maxlength={14}
+															value={recovery}
+															onChange={e => this.onInputChangeNew(e, 'recovery')}
+															placeholder="请输入整数金额"
+														/>
 														<span className="list-item-content-unit">元</span>
 													</div>
 												</li>
 												<li className="follow-list-item">
 													<div className="list-item-title">跟进备注</div>
 													<div className="list-item-content">
-														{
-															global.GLOBAL_MEIE_BROWSER
-																? [<textarea
-																		rows="5"
-																		cols="50"
-																	// value={remark}
-																		onChange={e => this.onInputChangeField(e, 'remark')}
-																		style={{ width: 430, padding: '0px 7px' }}
-																/>,
-																	<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
-																: [
-																	<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入备注信息" maxlength={160} />,
-																	<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
-																]
-														}
-
+														<Input type="textarea" rows={6} {...getFieldIE('remark')} placeholder="请输入备注信息" maxlength={160} />
+														<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>
 													</div>
 												</li>
 												<li className="follow-list-item" style={{ marginBottom: '30px' }}>
@@ -549,22 +520,10 @@ export default class FollowInfo extends React.Component {
 											<li className="follow-list-item">
 												<div className="list-item-title">跟进备注：</div>
 												<div className="list-item-content">
-													{
-														global.GLOBAL_MEIE_BROWSER
-															? [<textarea
-																	rows="5"
-																	cols="50"
-																// value={remark}
-																	onChange={e => this.onInputChangeField(e, 'remark')}
-																	style={{ width: 430, padding: '0px 7px' }}
-															/>,
-																<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>]
-															: [
-																<Input type="textarea" rows={5} {...getFieldIE('remark')} placeholder="请输入备注信息" maxlength={160} />,
-																<span className="remark-count">{`${remark ? remark.length : 0}/160`}</span>,
-															]
-													}
-
+													<Input type="textarea" rows={6} {...getFieldIE('remark')} placeholder="请输入备注信息" maxlength={160} />
+													<span className="remark-count">
+														{`${remark ? remark.length : 0}/160`}
+													</span>
 												</div>
 											</li>
 										)
