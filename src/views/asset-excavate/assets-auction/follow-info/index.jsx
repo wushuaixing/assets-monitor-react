@@ -21,7 +21,7 @@ export const StepDesc = (props) => {
 	return (
 		<div className="font-desc">
 			{
-				<li>
+				<li style={{ marginBottom: '6px' }}>
 					跟进人：
 					<span style={{ color: '#20242E' }}>
 						{username}
@@ -561,7 +561,7 @@ export default class FollowInfo extends React.Component {
 															multiple
 															style={{ width: '288px' }}
 															placeholder="选择提醒对象"
-															notFoundContent="未找到"
+															notFoundContent="暂无推送对象"
 															getPopupContainer={getContainer}
 															{...getField('pushList', {
 																onChange: (val) => {
@@ -636,12 +636,6 @@ export default class FollowInfo extends React.Component {
 																<span className={`list-step-title-mark-status mark-status-${item.process}`}>
 																	{ProcessTran(item.process)}
 																</span>,
-																// <div
-																// 	className="list-step-title-mark-time"
-																// >
-																// 	<div className="label">跟进人：</div>
-																// 	<div style={{ color: '#20242E', minWidth: '100px' }}>{item.username}</div>
-																// </div>,
 																<React.Fragment>
 																	{
 																		item.self ? (
