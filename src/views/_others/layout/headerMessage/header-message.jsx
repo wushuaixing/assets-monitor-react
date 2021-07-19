@@ -145,7 +145,7 @@ export default class HeaderMessage extends React.Component {
 						}
 					});
 				} else {
-					message.warning('当前没有未读数量');
+					message.warning('当前没有未读数据');
 				}
 			}
 		});
@@ -197,7 +197,7 @@ export default class HeaderMessage extends React.Component {
 							orgPower ? (
 								<div className="yc-station-btn">
 									<i className="iconfont icon-quanbubiaoweiyidu yc-station-btn-icon" />
-									<span onClick={this.allRead}>全部标为已读</span>
+									<span className="cursor-pointer" onClick={this.allRead}>全部标为已读</span>
 								</div>
 							) : null
 						}

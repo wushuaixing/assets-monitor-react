@@ -49,10 +49,9 @@ class InformCenter extends React.Component {
 					title: '内容详情',
 					dataIndex: 'content',
 					width: 500,
-					render: (text, row) => (
+					render: text => (
 						<span className="yc-message-content">
 							<span
-								className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}
 								dangerouslySetInnerHTML={{ __html: text }}
 							/>
 						</span>
