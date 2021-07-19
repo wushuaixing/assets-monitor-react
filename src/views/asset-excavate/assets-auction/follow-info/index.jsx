@@ -53,7 +53,7 @@ export const StepDesc = (props) => {
 					<li>
 						提醒时间：
 						<span style={{ color: '#20242E' }}>
-							{new Date(remindingTime * 1000).format('yyyy-MM-dd 9:00')}
+							{new Date(remindingTime * 1000).format('yyyy-MM-dd 10:00')}
 						</span>
 					</li>
 				) : null

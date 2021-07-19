@@ -230,7 +230,7 @@ export default class HeaderMessage extends React.Component {
 										，
 										{
 											item.operateType === 'businessReport' ? (
-												JSON.parse(item.extend) && JSON.parse(item.extend).disabled ? <span className="yc-station-item-content-text">文件下载失败</span>
+												JSON.parse(item.extend) && JSON.parse(item.extend).disabled ? <span className="yc-station-item-content-text">文件已失效</span>
 													: <span className="yc-station-item-content-span" onClick={() => this.download(item)}>下载报告 ></span>
 											) : null
 										}
@@ -255,7 +255,7 @@ export default class HeaderMessage extends React.Component {
 							navigate('/message');
 						}}
 						>
-							查看全部
+							查看更多消息
 						</a>
 					</div>
 				</Spin>

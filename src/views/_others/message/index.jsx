@@ -64,7 +64,7 @@ class InformCenter extends React.Component {
 							className="yc-message-operation"
 						>
 							{
-								row.operateType === 'monitorReport' && JSON.parse(row.extend).total < 200 ? (
+								row.operateType === 'monitorReport' && JSON.parse(row.extend).total <= 200 ? (
 									<span onClick={() => {
 										this.skip(row);
 									}}
@@ -75,7 +75,7 @@ class InformCenter extends React.Component {
 							}
 							{
 								row.operateType === 'businessReport' ? (
-									JSON.parse(row.extend) && !JSON.parse(row.extend).disabled ? <span onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件下载失败</span>
+									JSON.parse(row.extend) && !JSON.parse(row.extend).disabled ? <span onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件已失效</span>
 								) : null
 							}
 							{
@@ -174,7 +174,6 @@ class InformCenter extends React.Component {
 				},
 			});
 		}
-		window.location.reload();
 	};
 
 	// 行点击操作
@@ -407,14 +406,14 @@ class InformCenter extends React.Component {
 								/>
 								<Button
 									onClick={() => this.handleReadChange('else')}
-									title="只显示未读数据"
+									title="只显示未读"
 									className="btn-default"
 									active={isRead === 'else'}
 								/>
 								{isInstitution && (
 									<div className="yc-con-item-wrapper-btn">
 										<i className="iconfont icon-quanbubiaoweiyidu yc-con-item-wrapper-btn-icon" />
-										<span onClick={() => this.handleAllRead()}>全部标记已读数据</span>
+										<span onClick={() => this.handleAllRead()}>全部标为已读</span>
 									</div>
 								)}
 							</div>
