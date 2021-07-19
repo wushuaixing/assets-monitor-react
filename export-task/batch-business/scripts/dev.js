@@ -35,21 +35,25 @@ function exportCover(source,domainName) {
 	// 封面内容
 	var businessInfo = data.BB101011 || {};
 	var businessList = data.BB101012 || [];
-	var borrowerList = [], warrantorList = [];
-	for (var i = 0; i < businessList.length; i++) {
-		var item = businessList[i];
-		if (item.role === 1) {
-			borrowerList.push("<div class='exp-name'>借款人：" + item.obligorName + "</div>");       // 借款人
-		} else if (item.role === 2) {
-			warrantorList.push("<div class='exp-name'>担保人" + (warrantorList.length + 1) + "：" + item.obligorName + "</div>")       // 担保人
+	var businessListShow = businessList.slice(0, 5) || [];
+	var debtorList = [], warrantorList = [];
+	for (var i = 0; i < businessListShow.length; i++) {
+		var item = businessListShow[i];
+		if (item.role === 2) {
+			warrantorList.push("<div class='exp-name'>" + item.roleText + (warrantorList.length + 1) + "：" + item.obligorName + "</div>")       // 担保人
+		} else {
+			debtorList.push("<div class='exp-name'>" + item.roleText + "：" + item.obligorName + "</div>");       // 债务人
 		}
 	}
 	htmlCover = htmlCover.replace(/{base.title}/, "监控业务报告");
-	var userInfo = "<div class='exp-number'>业务编号：" + (businessInfo.caseNumber ? businessInfo.caseNumber : '-') + "</div>"
-		+ "<div class='exp-institution'><div class='exp-name'>负责人/机构："
-		+ (businessInfo.orgName ? businessInfo.orgName : '-') + "</div>" + borrowerList.join('')
-		+ warrantorList.slice(0,5).join('')
-		+ (warrantorList.length > 5 ? "<div class='exp-name'>等" + (warrantorList.length - 5) + "位债务人</div></div>" : '')
+	var userInfo = "<div class='exp-number'>业务编号："
+		+ (businessInfo.caseNumber ? businessInfo.caseNumber : '-') + "</div>"
+		+ "<div class='exp-institution'>"
+		+ "<div class='exp-name'>负责人/机构："
+		+ (businessInfo.orgName ? businessInfo.orgName : '-') + "</div>"
+		+ debtorList.join('')
+		+ warrantorList.join('')
+		+ (businessList.length > 8 ? "<div class='exp-name'>等" + (businessList.length - 5) + "位债务人</div></div>" : '')
 	htmlCover = htmlCover.replace(/{base.userInfo}/, userInfo);
 	return htmlCover;
 }
@@ -1474,7 +1478,7 @@ function exportTemplate(source, name, domainName) {
 					f.normalList([
 						[
 							{t: '法定代表人', cot: item.legalPersonName},
-							{t: '注册资本', cot: w(item.regCapital)},
+							{t: '注册资本', cot: w(item.regCapital, {unit: item.regCapitalUnit})},
 							{t: '成立日期', cot: w(item.establishTime)},
 						],
 						(item.usedName || []).length ? {t: '曾用名', cot: (item.usedName.join('、'))} : null])

@@ -489,7 +489,7 @@ function exportTemplate(source, exportType, name, domainName) {
 		},
 		// 转换金额格式
 		floatFormat: function(item) {
-			const money = parseFloat(item);
+			var money = parseFloat(item);
 			if (money.toString() && money.toString() !== 'NaN') {
 				return money.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + '元';
 			}
@@ -1523,7 +1523,7 @@ function exportTemplate(source, exportType, name, domainName) {
 						f.normalList([
 							[
 								{t: '法定代表人', cot: item.legalPersonName},
-								{t: '注册资本', cot: w(item.regCapital)},
+								{t: '注册资本', cot: w(item.regCapital, {unit: item.regCapitalUnit})},
 								{t: '成立日期', cot: w(item.establishTime)},
 							],
 							(item.usedName || []).length ? {t: '曾用名', cot: (item.usedName.join('、'))} : null])
@@ -2038,7 +2038,7 @@ function exportTemplate(source, exportType, name, domainName) {
 
 if (ENV === 'dev') {
 	var dataSource = JSON.stringify(require('./data'));
-	const exportType = 'debtor';
+	var exportType = 'debtor';
 	var strCover = (exportType) => exportCover(dataSource, exportType,4);
 	var strTemplate = (exportType) => exportTemplate(dataSource, exportType,'',4);
 	fs.writeFile(root + "/dist/cover.html", strCover(exportType), (error) => {

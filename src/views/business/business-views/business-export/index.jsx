@@ -193,12 +193,11 @@ class BusinessExportView extends React.Component {
 								<DatePicker
 									size="large"
 									style={{ width: 164 }}
-									placeholder="导出时间"
 									defaultValue={lastExportDate || '2021-05-01'}
 									onChange={e => this.onChangeValue(e, 'queryDateStart')}
 									disabledDate={(time) => {
 										const stateStatus = !timeRule.disabledStartDate(time, format(new Date() - 31536000000));
-										const endStatus = !timeRule.disabledEndDate(time, format(new Date()));
+										const endStatus = !timeRule.disabledEndDate(time, format(new Date(new Date().getTime() + 24 * 60 * 60 * 1000)));
 										return stateStatus || endStatus;
 									}}
 								/>

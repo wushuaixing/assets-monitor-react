@@ -251,12 +251,16 @@ class HomeRouter extends React.Component {
 									<span className="home-notice-content">
 										{`监控日报提醒：${content}。`}
 									</span>
-									<a
-										className="home-notice-link"
-										onClick={this.handleCheckMsgDetail}
-									>
-										{msgTotal > 200 ? '点击前往信息监控查看' : '点击查看日报详情'}
-									</a>
+									{
+										msgTotal <= 200 ? (
+											<a
+												className="home-notice-link"
+												onClick={this.handleCheckMsgDetail}
+											>
+												点击查看日报详情
+											</a>
+										) : null
+									}
 								</div>
 								<div className="home-notice-close" onClick={this.handleHideNotice}>
 									<img className="home-notice-close-img" src={close} alt="关闭" />
