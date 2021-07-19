@@ -1,8 +1,10 @@
 const dd ={
 	/** 业务相关接口 ---------- start */
 	/* 基本信息 */
-	"BB10101":"/yc/business/monitor/overview/detail", // 基本信息
-	"BB10102":"/yc/business/monitor/overview/relation", // 业务相关人列表
+	"BB10101":"/yc/obligor/monitor/overview/detail", // 基本信息-债务人详情
+	"BB10102":"/yc/obligor/monitor/overview/relation", // 债务人相关人列表
+	"BB101011":"/yc/business/monitor/overview/detail",// 基本信息-业务
+	"BB101012":"/yc/business/monitor/overview/relation", // 业务相关人列表
 
 	/* 资产*/
 	"BA10101":"/yc/business/monitor/asset/auction/accurate/list", // 资产拍卖_精准匹配

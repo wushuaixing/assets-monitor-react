@@ -1,9 +1,8 @@
 "use strict";
 
 module.exports = {
-
-	// 基本信息
-	BB10101: {
+	// 基本信息-债务人详情
+	BB101011: {
 		"bankruptcyStatus": 0,
 		"borrowType": "0-个人，1-企业",
 		"businessPushType": 0,
@@ -14,117 +13,185 @@ module.exports = {
 		"id": 1,
 		"isBorrower": true,
 		"obligorId": 1,
-		"obligorName": "四川天益冶金集团有限公司",
+		"obligorName": "zs",
 		"obligorNumber": "",
 		"obligorPushType": 0,
-		"orgName": "杭州分行高新支行",
+		"orgName": "呼呼",
 		"uploadTime": ""
+	},
+	// 债务人相关人列表
+	BB101012: [
+		{
+			businessId: 24255,
+			caseNumber: '1',
+			guarantee: null,
+			guaranteeString: '',
+			obligorName: '成都天益远洋国际贸易有限公司',
+			obligorNumber: '',
+			orgName: '',
+			role: 1,
+			roleText: '借款人'
+		},
+		{
+			businessId: 24255,
+			caseNumber: '1',
+			guarantee: null,
+			guaranteeString: '',
+			obligorName: '洋国际贸易有限公司',
+			obligorNumber: '',
+			orgName: '',
+			role: 4,
+			roleText: '共同借款人'
+		},
+		{
+			businessId: 24255,
+			caseNumber: '1',
+			guarantee: null,
+			guaranteeString: '',
+			obligorName: '成都天益远洋国际贸易有限公司',
+			obligorNumber: '',
+			orgName: '',
+			role: 2,
+			roleText: '担保人'
+		},
+		{
+			businessId: 24255,
+			caseNumber: '1',
+			guarantee: null,
+			guaranteeString: '',
+			obligorName: '成都天益远洋国际贸易有限公司',
+			obligorNumber: '',
+			orgName: '',
+			role: 2,
+			roleText: '担保人'
+		},
+		{
+			businessId: 24255,
+			caseNumber: '1',
+			guarantee: null,
+			guaranteeString: '',
+			obligorName: '成都天益远洋国际贸易有限公司',
+			obligorNumber: '',
+			orgName: '',
+			role: 2,
+			roleText: '担保人'
+		},
+		{
+			businessId: 24255,
+			caseNumber: '1',
+			guarantee: null,
+			guaranteeString: '',
+			obligorName: '成都天益远洋阿萨的阿萨的阿萨的阿三大国际贸易有限公司',
+			obligorNumber: '',
+			orgName: '',
+			role: 2,
+			roleText: '担保人'
+		},
+		{
+			businessId: 24255,
+			caseNumber: '1',
+			guarantee: null,
+			guaranteeString: '',
+			obligorName: '成都天益远洋国阿萨的阿萨的阿萨的阿萨的际贸易有限公司',
+			obligorNumber: '',
+			orgName: '',
+			role: 2,
+			roleText: '担保人'
+		},
+		{
+			businessId: 24255,
+			caseNumber: '1',
+			guarantee: null,
+			guaranteeString: '',
+			obligorName: '成都天益远洋国际贸易有限公司',
+			obligorNumber: '',
+			orgName: '',
+			role: 2,
+			roleText: '担保人'
+		},
+		{
+			businessId: 24255,
+			caseNumber: '1',
+			guarantee: null,
+			guaranteeString: '',
+			obligorName: '成都天益远洋国际贸易有限公司',
+			obligorNumber: '',
+			orgName: '',
+			role: 2,
+			roleText: '担保人'
+		}
+	],
+	// 基本信息-业务
+	BB10101: {
+		"bankruptcy": true,
+		"dishonestStatus": 1,
+		"establishTime": "",
+		"id": 1,
+		"isBorrower": true,
+		"legalPersonName": "",
+		"limitConsumption": 0,
+		"logoUrl": "",
+		"markedObligorName": "",
+		"markedUsedName": [
+			"ss"
+		],
+		"obligorName": "sy",
+		"obligorNature": 0,
+		"obligorNumber": "",
+		"pushState": 0,
+		"regCapital": 123123123,
+		"regCapitalUnit": "万元",
+		"regStatus": "",
+		"usedName": [
+			"ss"
+		]
 	},
 	// 关联业务表
 	BB10102: [
 		{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 1,
-			roleText: '担保人'
-		},
-		{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 1,
-			roleText: '担保人'
-		},
-		{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 1,
-			roleText: '担保人'
-		},
-		{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 2,
-			roleText: '担保人'
+			"businessId": 1,
+			"caseNumber": 1001,
+			"guarantee": 1,
+			"guaranteeString": "",
+			"obligorName": "sy",
+			"obligorNumber": "",
+			"orgName": "tt",
+			"role": 1,
+			"roleText": "担保人",
+			"uploadTime": ""
 		},{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 2,
-			roleText: '担保人'
+			"businessId": 1,
+			"caseNumber": 1001,
+			"guarantee": 1,
+			"guaranteeString": "",
+			"obligorName": "sy",
+			"obligorNumber": "",
+			"orgName": "tt",
+			"role": 1,
+			"roleText": "担保人",
+			"uploadTime": ""
 		},{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 2,
-			roleText: '担保人'
+			"businessId": 1,
+			"caseNumber": 1001,
+			"guarantee": 1,
+			"guaranteeString": "",
+			"obligorName": "sy",
+			"obligorNumber": "",
+			"orgName": "tt",
+			"role": 1,
+			"roleText": "担保人",
+			"uploadTime": ""
 		},{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 2,
-			roleText: '担保人'
-		},{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 2,
-			roleText: '担保人'
-		},{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 2,
-			roleText: '担保人'
-		},{
-			businessId: 24255,
-			caseNumber: '1',
-			guarantee: null,
-			guaranteeString: '',
-			obligorName: '成都天益远洋国际贸易有限公司',
-			obligorNumber: '',
-			orgName: '',
-			role: 2,
-			roleText: '担保人'
+			"businessId": 1,
+			"caseNumber": 1001,
+			"guarantee": 1,
+			"guaranteeString": "",
+			"obligorName": "sy",
+			"obligorNumber": "",
+			"orgName": "tt",
+			"role": 1,
+			"roleText": "担保人",
+			"uploadTime": ""
 		}
 	],
 
