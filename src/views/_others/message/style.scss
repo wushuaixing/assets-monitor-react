@@ -38,22 +38,24 @@
     box-sizing: border-box;
     .yc-page-title {
       color: $text-title;
-      font-size: 14px;
+      font-size: 16px;
       line-height: 16px;
-      padding: 20px 20px 20px 0px;
+      padding: 19px 0px 19px 0px;
       display: inline-block;
+      font-weight: bold;
     }
     .yc-page-return{
-      color: #7D8699;
-      font-size: 14px;
-      margin-left: 20px;
+      font-size: 16px;
+      margin-left: 10px;
+      padding: 10px;
+      cursor: pointer;
     }
-    .yc-page-oblique{
-      margin: 0px 8px ;
-      color: #7D8699;
-      font-size: 17px;
-      vertical-align: middle;
-    }
+    //.yc-page-oblique{
+    //  margin: 0px 8px ;
+    //  color: #7D8699;
+    //  font-size: 17px;
+    //  vertical-align: middle;
+    //}
     .yc-page-line{
       background-color: $background-line;
       height: 1px;

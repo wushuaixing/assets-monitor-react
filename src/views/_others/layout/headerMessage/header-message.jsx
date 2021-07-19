@@ -13,7 +13,7 @@ import { Button, Icon, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import bell from '@/assets/img/img_blank_nomassage.png';
 import baseUrl from 'api/config';
-import { exportFile } from 'api/home';
+import { businessFile } from 'api/home';
 import Cookies from 'universal-cookie';
 import './style.scss';
 
@@ -162,7 +162,7 @@ export default class HeaderMessage extends React.Component {
 	download = (item) => {
 		const { total } = JSON.parse(item.extend);
 		const token = cookies.get('token');
-		DownloadFile(`${baseUrl}${exportFile(total)}?token=${token}`);
+		DownloadFile(`${baseUrl}${businessFile(total)}?token=${token}`);
 		this.readPackaging(item);
 	}
 
@@ -211,32 +211,36 @@ export default class HeaderMessage extends React.Component {
 						}}
 					>
 						{dataList && dataList.length > 0 ? dataList.map(item => (
-							<div key={item.id} onClick={() => this.readPackaging(item)} className="yc-station-item">
-								{item.isRead === false && (
-								<Icon
-									type="icon-dot"
-									style={{
-										fontSize: 12, color: 'red', position: 'absolute', top: '10px', left: '8px',
-									}}
-								/>
-								)}
-								<div className="yc-station-item-title">
-									{item.title}
-									<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
+							<React.Fragment>
+								<div key={item.id} onClick={() => this.readPackaging(item)} className="yc-station-item">
+									{item.isRead === false && (
+									<Icon
+										type="icon-dot"
+										style={{
+											fontSize: 12, color: 'red', position: 'absolute', top: '10px', left: '8px',
+										}}
+									/>
+									)}
+									<div className="yc-station-item-title">
+										{item.title}
+										<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
+									</div>
+									<div className="yc-station-item-content">
+										<span dangerouslySetInnerHTML={{ __html: item.content }} />
+										，
+										{
+											item.operateType === 'businessReport' ? (
+												JSON.parse(item.extend) && JSON.parse(item.extend).disabled ? <span className="yc-station-item-content-text">文件下载失败</span>
+													: <span className="yc-station-item-content-span" onClick={() => this.download(item)}>下载报告 ></span>
+											) : null
+										}
+										{
+											item.operateType !== 'businessReport' && JSON.parse(item.extend).total <= 200 && <span onClick={() => this.skip(item)} className="yc-station-item-content-span">点击查看 ></span>
+										}
+									</div>
 								</div>
-								<div className="yc-station-item-content">
-									<span dangerouslySetInnerHTML={{ __html: item.content }} />
-									，
-									{
-										item.operateType === 'businessReport' ? (
-											JSON.parse(item.extend) && !JSON.parse(item.extend).disable ? <span className="yc-station-item-content-span" onClick={() => this.download(item)}>下载报告 ></span> : <span className="yc-station-item-content-text">文件下载失败</span>
-										) : null
-									}
-									{
-										item.operateType !== 'businessReport' && JSON.parse(item.extend).total < 200 && <span onClick={() => this.skip(item)} className="yc-station-item-content-span">点击查看 ></span>
-									}
-								</div>
-							</div>
+								<div className="yc-station-item-line" />
+							</React.Fragment>
 						)) : (
 							<div className="notice-station-wrapper">
 								<img src={bell} className="notice-station-img" />

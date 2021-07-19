@@ -401,7 +401,7 @@ export default class FollowInfo extends React.Component {
 			// 		pushList: [id],
 			// 	});
 			// }
-			console.log(res);
+			console.log('反显提醒对象',res);
 		});
 	}
 
@@ -616,7 +616,7 @@ export default class FollowInfo extends React.Component {
 														>
 															{
 																dataSource.map(item => (
-																	<Select.Option key={item.id}>
+																	<Select.Option key={item.id} value={item.id}>
 																		{`${item.name} ${markContent(item)}`}
 																	</Select.Option>
 																))

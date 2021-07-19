@@ -75,7 +75,7 @@ class InformCenter extends React.Component {
 							}
 							{
 								row.operateType === 'businessReport' ? (
-									JSON.parse(row.extend) && !JSON.parse(row.extend).disable ? <span onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件下载失败</span>
+									JSON.parse(row.extend) && !JSON.parse(row.extend).disabled ? <span onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件下载失败</span>
 								) : null
 							}
 							{
@@ -393,8 +393,7 @@ class InformCenter extends React.Component {
 		return (
 			<div className="yc-inform-center">
 				<div className="yc-content-wapper">
-					<span className="yc-page-return" onClick={() => window.history.go(-1)}>返回上一页</span>
-					<span className="yc-page-oblique">/</span>
+					<i className="iconfont icon-fanhui yc-page-return" onClick={() => window.history.go(-1)} />
 					<div className="yc-page-title">消息中心</div>
 					<div className="yc-page-line" />
 					<div className="yc-table-box">
