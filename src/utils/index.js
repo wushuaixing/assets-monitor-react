@@ -654,3 +654,15 @@ export const toFormatArrayToString = (arr) => {
 	}
 	return str;
 };
+
+/**
+ * 判断是否为JSON字符串 是：true 否： false
+ */
+export const isJsonString = (str) => {
+	try {
+		if (typeof JSON.parse(str) === 'object') {
+			return true;
+		}
+	} catch (e) {}
+	return false;
+};

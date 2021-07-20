@@ -11,7 +11,9 @@ import {
 import {
 	userInfo, // 通知中心数据
 } from 'api/user';
-import { DownloadFile, generateUrlWithParams, parseQuery } from '@/utils';
+import {
+	DownloadFile, generateUrlWithParams, parseQuery, isJsonString,
+} from '@/utils';
 import { Table, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import baseUrl from 'api/config';
@@ -63,7 +65,7 @@ class InformCenter extends React.Component {
 							className="yc-message-operation"
 						>
 							{
-								row.operateType === 'monitorReport' && JSON.parse(row.extend).total <= 200 ? (
+								row.operateType === 'monitorReport' && isJsonString(row.extend) && JSON.parse(row.extend).total <= 200 ? (
 									<span
 										className="cursor-pointer"
 										onClick={() => {
@@ -72,11 +74,11 @@ class InformCenter extends React.Component {
 									>
 										查看详情
 									</span>
-								) : row.operateType === 'monitorReport' && JSON.parse(row.extend).total > 200 && <span style={{ color: '#7D8699' }}>- -</span>
+								) : row.operateType === 'monitorReport' && isJsonString(row.extend) && JSON.parse(row.extend).total > 200 && <span style={{ color: '#7D8699' }}>- -</span>
 							}
 							{
 								row.operateType === 'businessReport' ? (
-									JSON.parse(row.extend) && !JSON.parse(row.extend).disabled ? <span className="cursor-pointer" onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件已失效</span>
+									isJsonString(row.extend) && !JSON.parse(row.extend).disabled ? <span className="cursor-pointer" onClick={() => this.download(row)}>下载报告</span> : <span className="yc-message-operation-text">文件已失效</span>
 								) : null
 							}
 							{
@@ -179,7 +181,7 @@ class InformCenter extends React.Component {
 	};
 
 	// 行点击操作
-	toRowClick = (record, index) => {
+	toRowClick = async (record, index) => {
 		const { isInstitution, isRead: isReadState } = this.state;
 		const { id, isRead } = record;
 		const params = {
@@ -187,11 +189,10 @@ class InformCenter extends React.Component {
 		};
 		if (!isRead && isInstitution) {
 			this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
-			isReadApi(params).then((res) => {
-				if (res.code === 200) {
-					global.getNoticeNum();
-				}
-			});
+			const res = await isReadApi(params);
+			if (res.code === 200) {
+				global.getNoticeNum();
+			}
 		}
 		if (isInstitution && isReadState === 'else') {
 			this.getData();
@@ -295,7 +296,7 @@ class InformCenter extends React.Component {
 					onCancel() {},
 				});
 			} else {
-				message.warning('当前没有未读数量');
+				message.warning('当前没有未读数据');
 			}
 		});
 	};
