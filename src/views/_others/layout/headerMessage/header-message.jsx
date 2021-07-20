@@ -74,10 +74,6 @@ export default class HeaderMessage extends React.Component {
 
 	skip = (item) => {
 		const { obligorId, id, operateType } = item;
-		// const params = {
-		// 	idList: [id],
-		// };
-		// const { orgPower } = this.state;
 		// 资产跟进提醒 tab切换为跟进中 带入拍卖信息标题
 		if (operateType === 'newAuctionProcessAlert') {
 			const { title } = JSON.parse(item.extend);

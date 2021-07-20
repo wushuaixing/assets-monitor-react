@@ -7,7 +7,7 @@ import Circular from 'img/icon/icon_unread.png';
 import logoImg from '@/assets/img/logo_white.png';
 // import { unreadCount } from '@/utils/api/inform';
 import { bankConf } from '@/utils/api/user';
-import { clearEmpty, toGetRuleSource } from '@/utils';
+import { toGetRuleSource } from '@/utils';
 import { notify } from 'api/inform';
 import HeaderCenter from './headerCenter/header-center';
 import HeaderMessage from './headerMessage/header-message';

@@ -167,13 +167,16 @@ export default class FollowInfo extends React.Component {
 
 	// 获取推送人列表
 	toGetPushList = (refresh) => {
-		const { dataSource } = this.state;
+		const { dataSource, pushList } = this.state;
 		if (dataSource.length === 0 || refresh) {
 			pushListApi({ num: 20, page: 1 }).then((res) => {
 				const { data, code } = res;
 				if (code === 200) {
+					const arr = data.list.map(item => item.id);
+					const list = pushList.filter(i => arr.includes(i));
 					this.setState({
 						dataSource: data.list,
+						pushList: list,
 					});
 				}
 			});
