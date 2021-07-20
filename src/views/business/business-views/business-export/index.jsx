@@ -7,6 +7,7 @@ import {
 	Radio, DatePicker, Modal,
 } from 'antd';
 import { getLastExportInfo, exportReport } from '@/utils/api/business';
+import { debounce } from '@/utils';
 import WarningPng from '@/assets/img/icon/warning.png';
 import './index.scss';
 
@@ -237,7 +238,7 @@ class BusinessExportView extends React.Component {
 							type="primary"
 							size="large"
 							className="yc-high-search"
-							onClick={this.handleExportBusiness}
+							onClick={debounce(this.handleExportBusiness, 300)}
 						>
 							确定
 						</Button>

@@ -53,7 +53,7 @@ function exportCover(source,domainName) {
 		+ (businessInfo.orgName ? businessInfo.orgName : '-') + "</div>"
 		+ debtorList.join('')
 		+ warrantorList.join('')
-		+ (businessList.length > 8 ? "<div class='exp-name'>等" + (businessList.length - 5) + "位债务人</div></div>" : '')
+		+ (businessList.length > 5 ? "<div class='exp-name'>等" + businessList.length + "位债务人</div></div>" : '')
 	htmlCover = htmlCover.replace(/{base.userInfo}/, userInfo);
 	return htmlCover;
 }

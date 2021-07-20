@@ -49,9 +49,10 @@ class InformCenter extends React.Component {
 					title: '内容详情',
 					dataIndex: 'content',
 					width: 500,
-					render: text => (
+					render: (text, row) => (
 						<span className="yc-message-content">
 							<span
+								className={`${row.isRead === false ? 'message-unRead' : 'message-normal'}`}
 								dangerouslySetInnerHTML={{ __html: text }}
 							/>
 						</span>
@@ -226,14 +227,15 @@ class InformCenter extends React.Component {
 		};
 		navigate(generateUrlWithParams('/message', params));
 
-		this.getData(params);
+		this.getData(params, '', val);
 	};
 
 
-	getData = (data, _isRead) => {
-		const { isRead } = this.state;
+	getData = (data, _isRead, _page) => {
+		const { isRead, current } = this.state;
 		const params = {
 			...data,
+			page: _page || current,
 			num: 10,
 		};
 		const __isRead = _isRead || isRead;
@@ -242,84 +244,28 @@ class InformCenter extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		console.log('===', params);
 		centerList(params).then((res) => {
+			const { list, total, page } = res.data;
 			if (res.code === 200) {
 				this.setState({
-					data: res.data.list,
-					tabTotal: res.data.total,
+					data: list,
+					tabTotal: total,
+					current: page,
 					loading: false,
 				});
+				if (list.length === 0 && page > 1) {
+					this.setState({
+						current: page - 1,
+						loading: false,
+					});
+					this.getData('', 'else', page - 1);
+				}
 			}
 		}).catch(() => {
 			this.setState({ loading: false });
 		});
 	};
 
-	// 批量删除
-	handledDeleteBatch = (row) => {
-		const { selectedRowKeys, tabTotal, current } = this.state;
-		const that = this;
-		if (selectedRowKeys.length === 0 && !row.id) {
-			message.warning('未选中消息');
-			return;
-		}
-		confirm({
-			title: '确认删除消息吗？',
-			content: '点击确定，将删除信息。',
-			iconType: 'exclamation-circle-o',
-			onOk() {
-				const params = {
-					idList: row.id ? [row.id] : selectedRowKeys,
-				};
-
-				if (selectedRowKeys.length === 0) {
-					const urlValue = {
-						num: 10,
-						page: tabTotal % 10 === 1 ? current - 1 : current,
-					};
-					navigate(generateUrlWithParams('/message', urlValue));
-				} else {
-					// 判断最后一页批量删除
-					let currentLength;
-					if (Math.ceil(tabTotal / 10) === current && tabTotal % 10 === selectedRowKeys.length) {
-						currentLength = current - 1;
-					}
-					if (Math.ceil(tabTotal / 10) === current && selectedRowKeys.length === 10) {
-						currentLength = current - 1;
-					}
-					const urlValue = {
-						num: 10,
-						page: currentLength || current,
-					};
-					navigate(generateUrlWithParams('/message', urlValue));
-				}
-
-				getDelete(params).then((res) => {
-					if (res.code === 200) {
-						message.loading('删除成功,2秒后为您刷新页面', 2000);
-						setTimeout(() => {
-							window.location.reload(); // 实现页面重新加载/
-						}, 2000);
-						// 异步手动移除
-						if (row && selectedRowKeys && selectedRowKeys.length > 0) {
-							selectedRowKeys.forEach((i, index) => {
-								if (i === row.id) {
-									selectedRowKeys.splice(index, 1);
-								}
-							});
-							that.setState({
-								selectedRowKeys,
-							});
-						}
-					} else {
-						message.error(res.message);
-					}
-				});
-			},
-			onCancel() {},
-		});
-	};
 
 	// 全部标记为已读
 	handleAllRead = () => {
@@ -360,13 +306,6 @@ class InformCenter extends React.Component {
 		});
 	};
 
-	onSelectChange = (selectedRowKeys, selectedRows) => {
-		console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows);
-		this.setState({
-			selectedRowKeys,
-		});
-	};
-
 	handleReadChange = (val) => {
 		this.setState({ isRead: val, current: 1 });
 		this.getData({ page: 1 }, val);
@@ -378,9 +317,6 @@ class InformCenter extends React.Component {
 		DownloadFile(`${baseUrl}${exportFile(total)}?token=${token}`);
 	}
 
-	btn = () => {
-		window.history.go(-1);
-	}
 
 	render() {
 		const {
@@ -415,9 +351,9 @@ class InformCenter extends React.Component {
 									active={isRead === 'else'}
 								/>
 								{isInstitution && (
-									<div className="yc-con-item-wrapper-btn">
+									<div className="yc-con-item-wrapper-btn" onClick={() => this.handleAllRead()}>
 										<i className="iconfont icon-quanbubiaoweiyidu yc-con-item-wrapper-btn-icon" />
-										<span onClick={() => this.handleAllRead()}>全部标为已读</span>
+										<span>全部标为已读</span>
 									</div>
 								)}
 							</div>
