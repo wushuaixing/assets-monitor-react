@@ -110,11 +110,11 @@ export default class HeaderMessage extends React.Component {
 
 	readPackaging = (item) => {
 		const { orgPower } = this.state;
-		const { id } = item;
+		const { id, isRead } = item;
 		const params = {
 			idList: [id],
 		};
-		if (orgPower) {
+		if (orgPower && !isRead) {
 			isReads(params).then((res) => {
 				if (res.code === 200) {
 					this.informCenter('', true);

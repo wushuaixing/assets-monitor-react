@@ -6,7 +6,6 @@ import { Button } from '@/common';
 import { navigate } from '@reach/router';
 import {
 	centerList, // 消息提醒
-	getDelete, // 删除
 	isRead as isReadApi, // 标记已读
 } from 'api/inform';
 import {
@@ -21,7 +20,6 @@ import Cookies from 'universal-cookie';
 import './style.scss';
 
 const cookies = new Cookies();
-const { confirm } = Modal;
 const createForm = Form.create;
 class InformCenter extends React.Component {
 	constructor(props) {
@@ -108,7 +106,6 @@ class InformCenter extends React.Component {
 			pageSize: 10, // 默认页
 			current: 1, // 当前页
 			loading: false,
-			selectedRowKeys: [], // 这里配置默认勾选列
 			isInstitution: false, // 是否是本机构
 			isRead: 'all',
 		};
@@ -188,11 +185,8 @@ class InformCenter extends React.Component {
 		const params = {
 			idList: [record.id],
 		};
-		// this.getData();
 		if (!isRead && isInstitution) {
 			this.onRefresh({ id, isRead: !isRead, index }, 'isRead');
-		}
-		if (isInstitution) {
 			isReadApi(params).then((res) => {
 				if (res.code === 200) {
 					global.getNoticeNum();
