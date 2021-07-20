@@ -166,19 +166,26 @@ export default class FollowInfo extends React.Component {
 	};
 
 	// 获取推送人列表
-	toGetPushList = (refresh) => {
-		const { dataSource } = this.state;
-		if (dataSource.length === 0 || refresh) {
-			pushListApi({ num: 20, page: 1 }).then((res) => {
-				const { data, code } = res;
-				if (code === 200) {
-					this.setState({
-						dataSource: data.list,
-					});
-				}
+	toGetPushList = async () => {
+		const { data, code } = await pushListApi({ num: 20, page: 1 });
+		if (code === 200) {
+			this.setState({
+				dataSource: data.list,
 			});
+			return data.list;
 		}
+		return [];
 	};
+
+	handleFilterList = async () => {
+		const { pushList } = this.state;
+		const data = await this.toGetPushList();
+		const list = data ? data.map(item => item.id) : [];
+		const filterList = pushList.filter(item => list.includes(item));
+		this.setState({
+			pushList: filterList,
+		});
+	}
 
 	// 获取跟进信息
 	toGetProcessList = () => {
@@ -378,7 +385,7 @@ export default class FollowInfo extends React.Component {
 	switchChange = (checked) => {
 		if (checked) {
 			this.toGetCurrentRemindInfo();
-			this.toGetPushList(true);
+			this.toGetPushList();
 			this.setState({
 				switchBun: true,
 			});
@@ -556,7 +563,7 @@ export default class FollowInfo extends React.Component {
 												</li>
 												<li className="follow-content-remind-list-item">
 													<div className="follow-content-remind-list-item-title">提醒对象</div>
-													<div className="follow-content-remind-list-item-content" onClick={() => this.toGetPushList(true)}>
+													<div className="follow-content-remind-list-item-content" onFocus={() => this.handleFilterList()}>
 														<Select
 															multiple
 															style={{ width: '288px' }}
@@ -570,6 +577,7 @@ export default class FollowInfo extends React.Component {
 																	return false;
 																},
 															})}
+															onfocus={() => console.log('123123123')}
 														>
 															{
 																dataSource.map(item => (

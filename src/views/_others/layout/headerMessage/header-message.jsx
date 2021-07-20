@@ -8,7 +8,7 @@ import {
 import {
 	userInfo, // 通知中心数据
 } from '@/utils/api/user';
-import { clearEmpty, DownloadFile } from '@/utils';
+import { clearEmpty, DownloadFile, isJsonString } from '@/utils';
 import { Button, Icon, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import bell from '@/assets/img/img_blank_nomassage.png';
@@ -74,10 +74,6 @@ export default class HeaderMessage extends React.Component {
 
 	skip = (item) => {
 		const { obligorId, id, operateType } = item;
-		// const params = {
-		// 	idList: [id],
-		// };
-		// const { orgPower } = this.state;
 		// 资产跟进提醒 tab切换为跟进中 带入拍卖信息标题
 		if (operateType === 'newAuctionProcessAlert') {
 			const { title } = JSON.parse(item.extend);
@@ -114,11 +110,11 @@ export default class HeaderMessage extends React.Component {
 
 	readPackaging = (item) => {
 		const { orgPower } = this.state;
-		const { id } = item;
+		const { id, isRead } = item;
 		const params = {
 			idList: [id],
 		};
-		if (orgPower) {
+		if (orgPower && !isRead) {
 			isReads(params).then((res) => {
 				if (res.code === 200) {
 					this.informCenter('', true);
@@ -227,15 +223,14 @@ export default class HeaderMessage extends React.Component {
 									</div>
 									<div className="yc-station-item-content">
 										<span dangerouslySetInnerHTML={{ __html: item.content }} />
-										，
 										{
 											item.operateType === 'businessReport' ? (
-												JSON.parse(item.extend) && JSON.parse(item.extend).disabled ? <span className="yc-station-item-content-text">文件已失效</span>
+												isJsonString(item.extend) && JSON.parse(item.extend).disabled ? <span className="yc-station-item-content-text">文件已失效</span>
 													: <span className="yc-station-item-content-span" onClick={() => this.download(item)}>下载报告 ></span>
 											) : null
 										}
 										{
-											item.operateType !== 'businessReport' && JSON.parse(item.extend).total <= 200 && <span onClick={() => this.skip(item)} className="yc-station-item-content-span">点击查看 ></span>
+											item.operateType !== 'businessReport' && isJsonString(item.extend) && JSON.parse(item.extend).total <= 200 && <span onClick={() => this.skip(item)} className="yc-station-item-content-span">点击查看 ></span>
 										}
 									</div>
 								</div>
