@@ -87,7 +87,7 @@ export default class Assets extends React.Component {
 		} else {
 			this.condition = Object.assign({}, this.condition, getUrlParams(url, 'startApproveTime', 'endApproveTime'));
 		}
-		this.toInfoCount();
+		// this.toInfoCount();
 	}
 
 	// 获取统计信息
