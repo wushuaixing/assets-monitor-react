@@ -237,7 +237,7 @@ export default class Assets extends React.Component {
 		const params = {
 			...this.condition,
 			process: this.condition.process === 12 ? '12,15' : this.condition.process,
-			requestSourceType:1,
+			requestSourceType: 1,
 		};
 		this.toInfoCount();
 		this.setState({
