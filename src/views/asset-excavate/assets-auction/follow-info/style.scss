@@ -15,7 +15,7 @@
   .yc-assets-follow-body {
     position: relative;
     max-height: 520px;
-    padding: 30px 30px 0 30px;
+    padding: 30px 0px 0px 30px;
     overflow: auto;
     .yc-follow-line {
       margin: 10px 0;
@@ -50,7 +50,7 @@
         width: 400px;
         background-color: #FAFAFA;
         min-width: 172px;
-        margin-left: 120px;
+        margin-left: 130px;
         margin-bottom: 49px;
         margin-top: -26px;
         border: 1px solid #FAFAFA;
@@ -63,7 +63,7 @@
             color: #7D8699;
             font-size: 14px;
             margin-left: 72px;
-            margin-top: 8px;
+            margin-top: 6px;
           }
           &-title{
             float: left;
@@ -83,6 +83,7 @@
             .ant-calendar-range-picker{
               width: 217px;
               height: 34px;
+              vertical-align: middle;
             }
             &-remark-count{
               display: inline-block;
@@ -128,7 +129,7 @@
           &-remind{
             float: right;
             margin-right: 20px;
-            margin-top: 4px;
+            margin-top: 2px;
             font-size: 14px;
           }
         }
@@ -154,7 +155,9 @@
           width: 400px;
           position: relative;
           &-suffix{
-            float: right;
+            position: absolute;
+            top: 28px;
+            left: 277px;
             margin-top: -22px;
             color: #B2B8C9;
             font-size: 14px;
@@ -235,6 +238,7 @@
     width: 104px;
     height: 30px;
     margin-top: -8px;
+    margin-right: 20px;
     text-align: center;
     border-radius: 2px;
     display: inline-block;
@@ -295,7 +299,7 @@
       @extend .list-step-title-normal;
       font-size: 16px;
       cursor: pointer;
-      margin-left: 266px;
+      margin-left: 284px;
     }
     .list-step-title-mark-status{
       @extend .list-step-title-normal;
@@ -334,6 +338,7 @@
   margin-top: 13px;
   &-left{
     color: #7D8699;
+    font-weight: bold;
   }
   &-right{
     color: #FB5A5C;

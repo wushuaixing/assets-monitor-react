@@ -214,7 +214,7 @@ export default class HeaderMessage extends React.Component {
 									<Icon
 										type="icon-dot"
 										style={{
-											fontSize: 12, color: 'red', position: 'absolute', top: '10px', left: '8px',
+											fontSize: 12, color: '#FB5A5C', position: 'absolute', top: '10px', left: '8px',
 										}}
 									/>
 									)}
