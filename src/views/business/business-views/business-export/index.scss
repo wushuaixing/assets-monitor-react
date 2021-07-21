@@ -179,16 +179,21 @@
 .yc-confirm-footer-btn {
   height: 34px;
   width: 84px;
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
 }
 .yc-business-warn-modal {
   padding: 0;
   .yc-confirm-body {
     width: 420px;
     height: 202px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     position: relative;
+  }
+  .yc-body-footer {
+    display: flex;
+    justify-content: flex-end;
   }
   .ant-modal-body {
     padding: 0;
