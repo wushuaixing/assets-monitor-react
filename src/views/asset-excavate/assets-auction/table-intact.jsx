@@ -60,13 +60,19 @@ export default class TableIntact extends React.Component {
 		const { reqUrl, id } = this.props;
 		const toApi = reqUrl || attentionList;
 		toApi(clearEmpty(this.condition), id).then((res) => {
+			const { list, page, total } = res.data;
 			if (res.code === 200) {
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: list,
+					current: page,
+					total,
 					loading: false,
 				});
+				// 处理收藏翻页同步问题
+				if (list.length === 0 && page > 1) {
+					this.condition.page = page - 1;
+					this.toGetData();
+				}
 			} else {
 				this.setState({
 					dataSource: '',

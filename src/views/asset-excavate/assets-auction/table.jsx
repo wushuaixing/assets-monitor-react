@@ -15,7 +15,7 @@ import { readStatus } from '@/utils/api/monitor-info/assets';
 import FollowModel from './follow-info';
 import TableVersionModal from './tableVersionModal';
 
-
+let _this;
 // 忽略操作
 const handleIgnore = (row, index, onRefresh) => {
 	Modal.confirm({
@@ -27,6 +27,7 @@ const handleIgnore = (row, index, onRefresh) => {
 				if (res.code === 200) {
 					message.success('操作成功！');
 					onRefresh({ id: row.id, process: 12, index }, 'process');
+					_this.refreshList();
 				}
 			});
 		},
@@ -215,6 +216,7 @@ export default class TableView extends React.Component {
 			historyInfoModalData: {},
 
 		};
+		_this = this;
 	}
 
 	componentWillReceiveProps(nextProps) {
