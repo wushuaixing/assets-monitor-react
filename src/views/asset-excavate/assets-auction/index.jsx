@@ -243,14 +243,21 @@ export default class Assets extends React.Component {
 			manage: _manage || false,
 		});
 		infoList(clearEmpty(params)).then((res) => {
+			const { list, page: _page, total } = res.data;
 			if (res.code === 200) {
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: list,
+					current: _page,
+					total,
 					// manage: false,
 					loading: false,
 				});
+				if (list.length === 0 && _page > 1) {
+					this.setState({
+						current: _page - 1,
+					});
+					this.onQueryChange('', '', '', _page - 1, '');
+				}
 			} else {
 				this.setState({
 					dataSource: '',
