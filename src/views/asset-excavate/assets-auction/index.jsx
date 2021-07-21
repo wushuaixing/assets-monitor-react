@@ -80,13 +80,17 @@ export default class Assets extends React.Component {
 			title,
 		});
 		const url = window.location.hash;
+		if (url.indexOf('?') === -1) {
+			this.onQueryChange({}, sourceType);
+			return;
+		}
 		if (title) {
 			setTimeout(() => {
 				this.onQueryChange({ title }, sourceType);
 			}, 1);
-		} else {
-			this.condition = Object.assign({}, this.condition, getUrlParams(url, 'startApproveTime', 'endApproveTime'));
+			return;
 		}
+		this.condition = Object.assign({}, this.condition, getUrlParams(url, 'startApproveTime', 'endApproveTime'));
 		// this.toInfoCount();
 	}
 
