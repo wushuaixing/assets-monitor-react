@@ -9,6 +9,7 @@ import {
 	pushList as pushListApi, pushSave, processList, processSave, processDel, getCurrentRemindInfo,
 } from '@/utils/api/monitor-info/assets-follow';
 import { floatFormat } from '@/utils/format';
+import { throttle } from '@/utils/index';
 import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
@@ -460,7 +461,7 @@ export default class FollowInfo extends React.Component {
 						[<Btn
 							type="primary"
 							loading={loading}
-							onClick={() => this.handleProcessSave()}
+							onClick={() => throttle(this.handleProcessSave(), 1000)}
 							style={{ width: 100 }}
 							title="确 认"
 						/>, <Btn
