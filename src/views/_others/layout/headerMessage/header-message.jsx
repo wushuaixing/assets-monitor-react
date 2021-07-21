@@ -45,6 +45,7 @@ export default class HeaderMessage extends React.Component {
 		if (rule && rule.menu_sy) {
 			this.informCenter();
 		}
+		global.informCenter = this.informCenter;
 	}
 
 	informCenter = (val) => {
@@ -59,7 +60,7 @@ export default class HeaderMessage extends React.Component {
 		});
 		notify(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
-				getNoticeNum(res.data.total);
+				getNoticeNum();
 				this.setState({
 					dataList: res.data.list,
 					loading: false,
