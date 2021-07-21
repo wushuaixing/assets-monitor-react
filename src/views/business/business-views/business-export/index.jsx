@@ -30,7 +30,7 @@ class BusinessExportView extends React.Component {
 		document.title = '业务视图-导出业务报告';
 		this.state = {
 			reportType: 1,
-			businessPushTotal: null,
+			businessPushTotal: '',
 			lastExportDate: null,
 			queryDateStart: null,
 			queryDateEnd: format(new Date()),
@@ -222,8 +222,7 @@ class BusinessExportView extends React.Component {
 						}
 						<div className="form-business">
 							<span className="label">开启推送的业务数：</span>
-							<span className="business-number">{ businessPushTotal }</span>
-							笔
+							<span className="business-number">{ businessPushTotal !== '' ? `${businessPushTotal}笔` : '-' }</span>
 						</div>
 					</div>
 					<div className="business-export-info-remind">
