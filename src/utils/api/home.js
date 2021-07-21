@@ -24,7 +24,7 @@ export const unreadCount = async (params) => {
 export const exportFile = id => `/yc/export/file/excel/${id}`;
 
 // 业务导出报告
-export const businessFile = id => `/yc/export/file/excel/${id}`;
+export const businessFile = id => `/yc/business/download/${id}`;
 
 // 导出Excel文件
 export const normalGet = url => params => serviceFile.get(url, { params }).then(res => res.data);

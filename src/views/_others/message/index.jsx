@@ -17,7 +17,7 @@ import {
 import { Table, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
 import baseUrl from 'api/config';
-import { exportFile } from 'api/home';
+import { businessFile } from 'api/home';
 import Cookies from 'universal-cookie';
 import './style.scss';
 
@@ -74,7 +74,7 @@ class InformCenter extends React.Component {
 									>
 										查看详情
 									</span>
-								) : row.operateType === 'monitorReport' && isJsonString(row.extend) && JSON.parse(row.extend).total > 200 && <span style={{ color: '#7D8699' }}>- -</span>
+								) : row.operateType === 'monitorReport' && isJsonString(row.extend) && JSON.parse(row.extend).total > 200 && <span style={{ color: '#7D8699', cursor: 'default' }}>- -</span>
 							}
 							{
 								row.operateType === 'businessReport' ? (
@@ -309,7 +309,7 @@ class InformCenter extends React.Component {
 	download = (item) => {
 		const { total } = JSON.parse(item.extend);
 		const token = cookies.get('token');
-		DownloadFile(`${baseUrl}${exportFile(total)}?token=${token}`);
+		DownloadFile(`${baseUrl}${businessFile(total)}?token=${token}`);
 	}
 
 

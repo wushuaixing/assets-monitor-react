@@ -37,6 +37,8 @@ const Item = (props) => {
 			c: parent ? items.id : _childId,
 		});
 		event.stopPropagation();
+		// 调用玲铛数量接口
+		global.informCenter();
 	};
 
 	const toHref = items => `#${items.url}${items.param ? items.param : ''}`;
