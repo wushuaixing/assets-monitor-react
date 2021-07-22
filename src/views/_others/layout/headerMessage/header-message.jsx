@@ -136,7 +136,7 @@ export default class HeaderMessage extends React.Component {
 					isReads({}).then((val) => {
 						if (val.code === 200) {
 							this.informCenter();
-							message.warning('数据全部标为已读');
+							message.success('消息已全部标为已读');
 						} else {
 							message.warning(res.message);
 						}
@@ -164,9 +164,7 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	navigateTo = () => {
-		// window.location.href;
 		global.UP_URL = window.location.href;
-		console.log('@@@',window.location.href);
 		navigate('/message');
 	}
 

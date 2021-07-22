@@ -664,7 +664,7 @@ class BusinessView extends React.Component {
 								)
 							}
 							{
-								openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} api={exportExcel} all text="导出业务列表" />
+								openRowSelection ? null : <Download condition={() => this.toExportCondition('all')} api={exportExcel} all text="导出全部业务" />
 							}
 							<Button
 								style={{ margin: '0 0 0 10px' }}
