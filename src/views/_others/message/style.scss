@@ -45,6 +45,10 @@
       margin-left: 10px;
       padding: 10px;
       cursor: pointer;
+      color: #4E5566;
+      &:hover{
+        color: #1C80E1;
+      }
     }
     //.yc-page-oblique{
     //  margin: 0px 8px ;
@@ -67,6 +71,7 @@
         &-icon{
           font-size: 16px;
           margin-right: 4px;
+          vertical-align: -1px;
         }
       }
       .btn-default {

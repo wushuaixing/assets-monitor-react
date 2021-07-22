@@ -459,21 +459,21 @@ export default class FollowInfo extends React.Component {
 				footer={
 					addStatus ? (
 						[<Btn
-							type="primary"
-							loading={loading}
-							onClick={() => throttle(this.handleProcessSave(), 1000)}
-							style={{ width: 100 }}
-							title="确 认"
-						/>, <Btn
 							onClick={processSource.length ? () => this.setState({
 								addStatus: false,
 								status: toStatus(source),
 							}) : onClose}
-							style={{ width: 100, color: '#fff' }}
+							style={{ width: 88, color: '#20242E' }}
 							title="取 消"
+						/>, <Btn
+							type="primary"
+							loading={loading}
+							onClick={() => throttle(this.handleProcessSave(), 1000)}
+							style={{ width: 88 }}
+							title="确 认"
 						/>]
 					) : (
-						[<Btn onClick={onClose} style={{ width: 100 }} title="关 闭" />]
+						[<Btn onClick={onClose} style={{ width: 88 }} title="关 闭" />]
 					)
 				}
 			>
@@ -564,7 +564,7 @@ export default class FollowInfo extends React.Component {
 												</li>
 												<li className="follow-content-remind-list-item">
 													<div className="follow-content-remind-list-item-title">提醒对象</div>
-													<div className="follow-content-remind-list-item-content" onFocus={() => this.handleFilterList()}>
+													<div className="follow-content-remind-list-item-content" style={{ marginTop: '18px' }} onFocus={() => this.handleFilterList()}>
 														<Select
 															multiple
 															style={{ width: '288px' }}
