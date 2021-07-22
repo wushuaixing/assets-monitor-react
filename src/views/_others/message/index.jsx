@@ -312,6 +312,13 @@ class InformCenter extends React.Component {
 		DownloadFile(`${baseUrl}${businessFile(total)}?token=${token}`);
 	}
 
+	navigateTo = () => {
+		if (global.UP_URL) {
+			window.location.href = global.UP_URL;
+		} else {
+			navigate('/');
+		}
+	}
 
 	render() {
 		const {
@@ -327,7 +334,7 @@ class InformCenter extends React.Component {
 		return (
 			<div className="yc-inform-center">
 				<div className="yc-content-wapper">
-					<i className="iconfont icon-fanhui yc-page-return" onClick={() => window.history.go(-1)} />
+					<i className="iconfont icon-fanhui yc-page-return" onClick={() => this.navigateTo()} />
 					<div className="yc-page-title">消息中心</div>
 					<div className="yc-page-line" />
 					<div className="yc-table-box">

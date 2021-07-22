@@ -163,6 +163,13 @@ export default class HeaderMessage extends React.Component {
 		this.readPackaging(item);
 	}
 
+	navigateTo = () => {
+		// window.location.href;
+		global.UP_URL = window.location.href;
+		console.log('@@@',window.location.href);
+		navigate('/message');
+	}
+
 	render() {
 		const {
 			dataList, loading, isRead, orgPower,
@@ -254,10 +261,7 @@ export default class HeaderMessage extends React.Component {
 						)}
 					</div>
 					<div className="yc-station-box-center">
-						<a onClick={() => {
-							navigate('/message');
-						}}
-						>
+						<a onClick={() => this.navigateTo()}>
 							查看更多消息
 						</a>
 					</div>
