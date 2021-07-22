@@ -5,7 +5,6 @@ stages:
 
 cache:
   paths:
-    - node_modules/
     - docs
 
 # 安装依赖
@@ -16,12 +15,18 @@ install_deps:
   only:
     - release
     - dev-branch
+    - xp_dev
   script:
     - node -v
     - yarn config set registry http://172.18.255.8:8060/repository/npm-group/
     # - yarn config set registry https://registry.npm.taobao.org
     - yarn config set sass-binary-site https://npm.taobao.org/mirrors/node-sass
     - yarn install
+    - rm ./docs/* -rf
+    - cd ./src/utils/api/config
+    - mv -f dev.js index.js
+    - cat index.js
+    - yarn build:index
 
 # 编译
 build_step:
@@ -31,12 +36,10 @@ build_step:
   only:
     - release
     - dev-branch
-  script:
-    - rm ./docs/* -rf
-    - cd ./src/utils/api/config
-    - mv -f dev.js index.js
-    - cat index.js
-    - yarn build:index
+    - xp_dev
+  script: 
+    - node -v
+
 
 # 拷贝
 deploy_step:
@@ -62,6 +65,7 @@ deploy_step_dev:
     - font-group-runner-8
   only:
     - dev-branch
+    - xp_dev
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY_8" | tr -d '\r' | ssh-add - > /dev/null
