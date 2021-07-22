@@ -1,3 +1,11 @@
+@mixin btn($width: 84px) {
+  width: $width;
+  height: 34px;
+  span {
+    font-size: 14px;
+  }
+}
+
 .business-export {
   .info-navigation {
     border-bottom: 1px solid #E5E5E5;
@@ -187,11 +195,10 @@
       line-height: 21px;
     }
     .yc-confirm-footer-btn {
-      height: 34px;
-      width: 84px;
-      span {
-        font-size: 14px;
-      }
+      @include btn(84px);
+    }
+    .yc-back-footer-btn {
+      @include btn(140px);
     }
   }
   .yc-body-footer {

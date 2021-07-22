@@ -31,7 +31,6 @@ class BusinessExportView extends React.Component {
 				title: '',
 				content: '',
 			},
-			timeLeft: 3,
 		};
 	}
 
@@ -93,7 +92,7 @@ class BusinessExportView extends React.Component {
 				const { code, msg } = res.data;
 				switch (code) {
 				case 200:
-					this.handleExportSuccess();
+					this.openErrorModal();
 					break;
 				case 403:
 					this.handleOpenWarnModal('warning', '权限不足', msg);
@@ -107,25 +106,6 @@ class BusinessExportView extends React.Component {
 			}
 		});
 	};
-
-	// 导出成功回调
-	handleExportSuccess = () => {
-		let time = 3;
-		timer = setInterval(() => {
-			time -= 1;
-			this.setState({
-				timeLeft: time,
-			});
-			if (time === 0) {
-				this.closeErrorModal();
-				if (timer) {
-					clearInterval(timer);
-					timer = null;
-				}
-			}
-		}, 1000);
-		this.openErrorModal();
-	}
 
 	openErrorModal = () => {
 		this.setState({
@@ -142,14 +122,6 @@ class BusinessExportView extends React.Component {
 
 	handleNavigate = () => {
 		window.history.back(-1);
-	}
-
-	handleCloseModal = () => {
-		if (timer) {
-			clearInterval(timer);
-			timer = null;
-		}
-		this.closeErrorModal();
 	}
 
 	handleOpenWarnModal = (type, title, content) => {
@@ -171,7 +143,7 @@ class BusinessExportView extends React.Component {
 
 	render() {
 		const {
-			reportType, businessPushTotal, lastExportDate, generating, errorModalVisible, timeLeft, warnModalVisible, warnModalData,
+			reportType, businessPushTotal, lastExportDate, generating, errorModalVisible, warnModalVisible, warnModalData,
 		} = this.state;
 
 		return (
@@ -295,12 +267,11 @@ class BusinessExportView extends React.Component {
 									<span className="yc-confirm-title" style={{ marginLeft: 10 }}>报告正在生成中，请耐心等待。</span>
 								</div>
 								<div className="yc-confirm-content">
-									<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
-									秒后将返回上一页
+									生成成功后，会通过短信和站内消息通知您。
 								</div>
 							</div>
 							<div className="yc-body-footer">
-								<Button onClick={this.handleCloseModal} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
+								<Button onClick={this.closeErrorModal} className="yc-back-footer-btn" type="primary">确定并返回上一页</Button>
 							</div>
 						</div>
 					</Modal>

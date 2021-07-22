@@ -461,7 +461,7 @@ export default class FollowInfo extends React.Component {
 						/>, <Btn
 							type="primary"
 							loading={loading}
-							onClick={debounce(this.handleProcessSave, 1000)}
+							onClick={debounce(this.handleProcessSave, 300)}
 							style={{ width: 88 }}
 							title="确 认"
 						/>]
