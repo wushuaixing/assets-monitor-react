@@ -648,7 +648,7 @@ export default class FollowInfo extends React.Component {
 																				<Icon type="delete" className="list-step-title-icon" />
 																			</PopConfirm>
 																		)
-																			: <Icon type="delete" className="list-step-title-icon" style={{ color: '#ffffff' }} />
+																			: <Icon type="delete" className="list-step-title-icon" style={{ color: '#ffffff', cursor: 'default' }} />
 																	}
 																</React.Fragment>,
 															])}
