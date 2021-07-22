@@ -268,7 +268,7 @@ class BusinessExportView extends React.Component {
 				<div className="business-export-footer">
 					<ul className="complete">
 						<li>完整业务报告</li>
-						<li>完整业务报告展示的是单笔业务中的债务人，完整的的资产/风险画像。可作为制定清收策略的参考信息</li>
+						<li>完整业务报告是按业务展示相关债务人全面的资产/风险信息,可作为制定清收策略的参考信息</li>
 						<li>每笔业务都会生成一个独立的pdf文件</li>
 					</ul>
 					<div className="line" />
@@ -288,17 +288,20 @@ class BusinessExportView extends React.Component {
 						closable={false}
 						className="yc-business-warn-modal"
 					>
-
-						<div className="yc-confirm-body" style={{ padding: '30px' }}>
-							<div className="yc-confirm-header">
-								<img src={WarningPng} alt="警告" width="24" height="24" />
-								<span className="yc-confirm-title" style={{ marginLeft: 10 }}>报告正在生成中，请耐心等待。</span>
+						<div className="yc-confirm-body">
+							<div className="yc-body-content">
+								<div className="yc-confirm-header">
+									<img src={WarningPng} alt="警告" width="24" height="24" />
+									<span className="yc-confirm-title" style={{ marginLeft: 10 }}>报告正在生成中，请耐心等待。</span>
+								</div>
+								<div className="yc-confirm-content">
+									<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
+									秒后将返回上一页
+								</div>
 							</div>
-							<div className="yc-confirm-content">
-								<span style={{ color: '#1C80E1', fontSize: 14, marginRight: 5 }}>{timeLeft}</span>
-								秒后将返回上一页
+							<div className="yc-body-footer">
+								<Button onClick={this.handleCloseModal} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
 							</div>
-							<Button onClick={this.handleCloseModal} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
 						</div>
 					</Modal>
 				)
@@ -312,18 +315,22 @@ class BusinessExportView extends React.Component {
 						height={202}
 						className="yc-business-warn-modal"
 					>
-						<div className="yc-confirm-body" style={{ padding: '30px' }}>
-							<div className="yc-confirm-header">
-								{
-									warnModalData.type === 'warning' ? <Icon type="icon-warning" style={{ fontSize: 24, color: '#FB8E3C' }} />
-										: <Iconfont type="cross-circle" style={{ fontSize: 24, color: '#FB5A5C' }} />
-								}
-								<span className="yc-confirm-title" style={{ marginLeft: 10 }}>{warnModalData.title}</span>
+						<div className="yc-confirm-body">
+							<div className="yc-body-content">
+								<div className="yc-confirm-header">
+									{
+										warnModalData.type === 'warning' ? <Icon type="icon-warning" style={{ fontSize: 24, color: '#FB8E3C' }} />
+											: <Iconfont type="cross-circle" style={{ fontSize: 24, color: '#FB5A5C' }} />
+									}
+									<span className="yc-confirm-title" style={{ marginLeft: 10 }}>{warnModalData.title}</span>
+								</div>
+								<div className="yc-confirm-content">
+									{warnModalData.content}
+								</div>
 							</div>
-							<div className="yc-confirm-content">
-								{warnModalData.content}
+							<div className="yc-body-footer">
+								<Button onClick={this.handleCloseWarnModal} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
 							</div>
-							<Button onClick={this.handleCloseWarnModal} className="yc-confirm-footer-btn" type="primary">我知道了</Button>
 						</div>
 					</Modal>
 				}

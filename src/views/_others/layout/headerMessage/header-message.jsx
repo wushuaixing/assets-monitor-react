@@ -163,6 +163,13 @@ export default class HeaderMessage extends React.Component {
 		this.readPackaging(item);
 	}
 
+	navigateTo = () => {
+		// window.location.href;
+		global.UP_URL = window.location.href;
+		console.log('@@@',window.location.href);
+		navigate('/message');
+	}
+
 	render() {
 		const {
 			dataList, loading, isRead, orgPower,
@@ -214,7 +221,7 @@ export default class HeaderMessage extends React.Component {
 									<Icon
 										type="icon-dot"
 										style={{
-											fontSize: 12, color: 'red', position: 'absolute', top: '10px', left: '8px',
+											fontSize: 12, color: '#FB5A5C', position: 'absolute', top: '10px', left: '8px',
 										}}
 									/>
 									)}
@@ -254,10 +261,7 @@ export default class HeaderMessage extends React.Component {
 						)}
 					</div>
 					<div className="yc-station-box-center">
-						<a onClick={() => {
-							navigate('/message');
-						}}
-						>
+						<a onClick={() => this.navigateTo()}>
 							查看更多消息
 						</a>
 					</div>

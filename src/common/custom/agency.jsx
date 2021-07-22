@@ -153,7 +153,7 @@ const CustomAgency = (props) => {
 				<div className="right">
 					<div className="copyright-item">
 						<img src={footerImg} alt="" style={{ width: 60, height: 60 }} />
-						<div className="copyright-code-text">微信公众号每月更新全国及各省司法拍卖统计报告；绑定账号可实时查看平台监控信息</div>
+						<div className="copyright-code-text">微信公众号每月更新全国司法拍卖统计报告；绑定账号可实时查看平台监控信息</div>
 					</div>
 				</div>
 			);
