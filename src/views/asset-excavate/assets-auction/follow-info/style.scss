@@ -224,32 +224,35 @@
 
 }
 .yc-follow-list {
-  .follow-add-title{
-    font-size: 14px;
-    line-height: 16px;
-    font-weight: bold;
-    //padding-bottom: 10px;
-    display: inline-block;
+  .follow-add{
+    display: flex;
+
+    .follow-add-title{
+      font-size: 14px;
+      line-height: 16px;
+      font-weight: bold;
+    }
+
+    .follow-add-btn{
+      color: #fff;
+      float: right;
+      width: 104px;
+      height: 30px;
+      margin-top: -8px;
+      margin-left: 346px;
+      text-align: center;
+      border-radius: 2px;
+      display: inline-block;
+      background-color: #1C80E1;
+      line-height: 30px;
+      &-icon{
+        font-size: 14px;
+        margin-right: 4px;
+      }
+    }
   }
   .ant-steps-step{
     padding-bottom: 15px;
-  }
-  .follow-add-btn{
-    color: #fff;
-    float: right;
-    width: 104px;
-    height: 30px;
-    margin-top: -8px;
-    margin-right: 20px;
-    text-align: center;
-    border-radius: 2px;
-    display: inline-block;
-    background-color: #1C80E1;
-    line-height: 30px;
-    &-icon{
-      font-size: 14px;
-      margin-right: 4px;
-    }
   }
   .follow-list-step {
     margin-top:15px;
