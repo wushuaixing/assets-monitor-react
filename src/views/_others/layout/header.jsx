@@ -234,6 +234,13 @@ export default class Headers extends React.Component {
 		});
 	};
 
+	navigateTo = (event) => {
+		global.UP_URL = window.location.href;
+		this.setState({ active: { p: 101, c: '' } });
+		navigate('/message');
+		event.stopPropagation();
+	}
+
 	render() {
 		const {
 			active, config, data, num, innerUrl,
@@ -291,11 +298,12 @@ export default class Headers extends React.Component {
 							rule.menu_sy && (
 							<div
 								className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
-								onClick={(event) => {
-									this.setState({ active: { p: 101, c: '' } });
-									navigate('/message');
-									event.stopPropagation();
-								}}
+								// onClick={(event) => {
+								// 	this.setState({ active: { p: 101, c: '' } });
+								// 	navigate('/message');
+								// 	event.stopPropagation();
+								// }}
+								onClick={e => this.navigateTo(e)}
 							>
 								<div className="notice-icon yc-notice-img" />
 								{

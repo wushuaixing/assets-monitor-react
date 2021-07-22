@@ -164,9 +164,7 @@ export default class HeaderMessage extends React.Component {
 	}
 
 	navigateTo = () => {
-		// window.location.href;
 		global.UP_URL = window.location.href;
-		console.log('@@@',window.location.href);
 		navigate('/message');
 	}
 
