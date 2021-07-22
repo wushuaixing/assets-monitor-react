@@ -80,7 +80,7 @@
         .ant-input[disabled] {
           background-color: #F0F1F5;
           border: 1px solid #DADDE6;
-          &::-webkit-input-placeholder, &::-moz-placeholder, &::-ms-input-placeholder {
+          &::-webkit-input-placeholder {
             color: #7D8699;
           }
         }
@@ -189,6 +189,9 @@
     .yc-confirm-footer-btn {
       height: 34px;
       width: 84px;
+      span {
+        font-size: 14px;
+      }
     }
   }
   .yc-body-footer {

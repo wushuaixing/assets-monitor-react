@@ -268,7 +268,7 @@ class BusinessExportView extends React.Component {
 				<div className="business-export-footer">
 					<ul className="complete">
 						<li>完整业务报告</li>
-						<li>完整业务报告是按业务展示相关债务人全面的资产/风险信息,可作为制定清收策略的参考信息</li>
+						<li>完整业务报告是按业务展示相关债务人全面的资产/风险信息，可作为制定清收策略的参考信息</li>
 						<li>每笔业务都会生成一个独立的pdf文件</li>
 					</ul>
 					<div className="line" />

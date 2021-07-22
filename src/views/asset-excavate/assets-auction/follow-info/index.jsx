@@ -9,7 +9,7 @@ import {
 	pushList as pushListApi, pushSave, processList, processSave, processDel, getCurrentRemindInfo,
 } from '@/utils/api/monitor-info/assets-follow';
 import { floatFormat } from '@/utils/format';
-import { throttle } from '@/utils/index';
+import { debounce } from '@/utils/index';
 import { formatDateTime } from '@/utils/changeTime';
 import './style.scss';
 
@@ -257,17 +257,15 @@ export default class FollowInfo extends React.Component {
 	};
 
 	// 新增推送信息
-	handleProcessSave = (toProcess) => {
+	handleProcessSave = () => {
 		const {
 			 recovery, expend, remark, remindTime, pushList, status, addStatus, switchBun,
 		} = this.state;
 		const { source: { id, index, recovery: _recovery }, onRefresh, onClose } = this.props;
 		// 未点击 新增跟进记录 直接关闭弹窗
-		if (toProcess !== 15) {
-			if (!addStatus) {
-				onClose();
-				return false;
-			}
+		if (!addStatus) {
+			onClose();
+			return false;
 		}
 		if (recovery || expend) {
 			const regExp = /^\d+(?:\.\d{0,2})?/;
@@ -283,10 +281,7 @@ export default class FollowInfo extends React.Component {
 		}
 
 
-		const param = toProcess === 15 ? {
-			monitorId: id,
-			process: 15,
-		} : clearEmpty({
+		const param = clearEmpty({
 			monitorId: id,
 			process: status,
 			recovery,
@@ -299,19 +294,17 @@ export default class FollowInfo extends React.Component {
 
 
 		// 字段校验
-		if (toProcess !== 15) {
-			if (!param.remindingTime && switchBun) {
-				return message.warning('请选择提醒时间', 2);
-			}
-			if (!param.remindSetIdList && switchBun) {
-				return message.warning('请选择提醒的对象', 2);
-			}
+		if (!param.remindingTime && switchBun) {
+			return message.warning('请选择提醒时间', 2);
+		}
+
+		if (!param.remindSetIdList && switchBun) {
+			return message.warning('请选择提醒的对象', 2);
 		}
 
 		// req 阶段
 		// if (loading) return false;
 		this.setState({ loading: true });
-		// console.log(JSON.stringify(param));
 		processSave(param).then((res) => {
 			const { code } = res;
 			if (code === 200) {
@@ -326,7 +319,7 @@ export default class FollowInfo extends React.Component {
 						index,
 					}, 'recovery');
 				}
-				if (onRefresh) onRefresh({ id, process: toProcess || status, index }, 'process');
+				if (onRefresh) onRefresh({ id, process: status, index }, 'process');
 				this.setState({
 					addStatus: false,
 				});
@@ -468,7 +461,7 @@ export default class FollowInfo extends React.Component {
 						/>, <Btn
 							type="primary"
 							loading={loading}
-							onClick={() => throttle(this.handleProcessSave(), 1000)}
+							onClick={debounce(this.handleProcessSave, 1000)}
 							style={{ width: 88 }}
 							title="确 认"
 						/>]
@@ -578,7 +571,6 @@ export default class FollowInfo extends React.Component {
 																	return false;
 																},
 															})}
-															onfocus={() => console.log('123123123')}
 														>
 															{
 																dataSource.map(item => (
