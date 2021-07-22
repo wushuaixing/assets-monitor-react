@@ -597,22 +597,24 @@ export default class FollowInfo extends React.Component {
 						(process !== 0 || commentTotal !== 0) && !addStatus ? [
 							<div className="yc-follow-list">
 								<Spin visible={loadingList} minHeight={100}>
-									<div className="follow-add-title">历史跟进记录</div>
-									<div
-										className="follow-add-btn"
-										onClick={() => this.setState({
-											addStatus: true,
-											status: toStatus(source),
-											recovery: '',
-											remark: '',
-											switchBun: false,
-											pushList: [],
-											remindTime: '',
-										})}
-									>
-										{/* <span className="follow-add-btn-icon">+</span> */}
-										<i className="iconfont icon-tianjia follow-add-btn-icon" />
-										<span>添加跟进信息</span>
+									<div className="follow-add">
+										<div className="follow-add-title">历史跟进记录</div>
+										<div
+											className="follow-add-btn"
+											onClick={() => this.setState({
+												addStatus: true,
+												status: toStatus(source),
+												recovery: '',
+												remark: '',
+												switchBun: false,
+												pushList: [],
+												remindTime: '',
+											})}
+										>
+											{/* <span className="follow-add-btn-icon">+</span> */}
+											<i className="iconfont icon-tianjia follow-add-btn-icon" />
+											<span>添加跟进信息</span>
+										</div>
 									</div>
 									{
 										accruingMoney ? (
