@@ -77,6 +77,14 @@
           font-size: 12px ;
         }
 
+        .ant-input[disabled] {
+          background-color: #F0F1F5;
+          border: 1px solid #DADDE6;
+          &::-webkit-input-placeholder, &::-moz-placeholder, &::-ms-input-placeholder {
+            color: #7D8699;
+          }
+        }
+
         .export-time {
           font-size: 12px;
           color: #20242E;
@@ -139,7 +147,7 @@
       font-size: 12px;
       li:nth-child(1) {
         font-size: 16px;
-        font-weight: 500;
+        font-weight: bold;
       }
       li:nth-child(2) {
         margin-top: 16px;
@@ -150,29 +158,44 @@
     }
   }
 }
-.yc-confirm-title {
-  color: $text-title;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 28px;
-  vertical-align: super;
-}
-.yc-confirm-content {
-  margin-left: 34px;
-  font-size: 14px;
-  line-height: 24px;
-  color: #4E5566;
-  margin-bottom: 0;
-}
-.yc-confirm-btn {
-  margin-top: 32px;
-  text-align: right;
-  font-size: 0;
-}
-.yc-confirm-footer-btn {
-  height: 34px;
-  width: 84px;
-  margin-right: 10px;
-  position: relative;
-  top: -4px;
+.yc-business-warn-modal {
+  padding: 0;
+  .yc-confirm-body {
+    width: 420px;
+    height: 202px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    .yc-confirm-header {
+      display: flex;
+      align-items: center;
+      line-height: 24px;
+    }
+    .yc-confirm-title {
+      color: #20242E;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 16px;
+    }
+    .yc-confirm-content {
+      font-size: 14px;
+      line-height: 24px;
+      color: #4E5566;
+      margin: 16px 0 0 34px;
+      line-height: 21px;
+    }
+    .yc-confirm-footer-btn {
+      height: 34px;
+      width: 84px;
+    }
+  }
+  .yc-body-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .ant-modal-body {
+    padding: 0;
+  }
 }
