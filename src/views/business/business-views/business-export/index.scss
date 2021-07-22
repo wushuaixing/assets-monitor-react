@@ -147,7 +147,7 @@
       font-size: 12px;
       li:nth-child(1) {
         font-size: 16px;
-        font-weight: 500;
+        font-weight: bold;
       }
       li:nth-child(2) {
         margin-top: 16px;
@@ -157,28 +157,6 @@
       }
     }
   }
-}
-.yc-confirm-header {
-  display: flex;
-  align-items: center;
-  line-height: 24px;
-}
-.yc-confirm-title {
-  color: #20242E;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 16px;
-}
-.yc-confirm-content {
-  font-size: 14px;
-  line-height: 24px;
-  color: #4E5566;
-  margin: 16px 0 0 34px;
-  line-height: 21px;
-}
-.yc-confirm-footer-btn {
-  height: 34px;
-  width: 84px;
 }
 .yc-business-warn-modal {
   padding: 0;
@@ -190,6 +168,28 @@
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+    .yc-confirm-header {
+      display: flex;
+      align-items: center;
+      line-height: 24px;
+    }
+    .yc-confirm-title {
+      color: #20242E;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 16px;
+    }
+    .yc-confirm-content {
+      font-size: 14px;
+      line-height: 24px;
+      color: #4E5566;
+      margin: 16px 0 0 34px;
+      line-height: 21px;
+    }
+    .yc-confirm-footer-btn {
+      height: 34px;
+      width: 84px;
+    }
   }
   .yc-body-footer {
     display: flex;
