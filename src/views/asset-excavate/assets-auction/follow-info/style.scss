@@ -108,9 +108,10 @@
               width: 71px;
               height: 34px;
               position: relative;
-              top: -0.5px;
               text-align: center;
-              display: inline-block;
+              display: flex;
+              justify-content: center;
+              align-items: center;
               background: #F0F1F5;
               border-radius: 0px 2px 2px 0px;
               border: 1px solid #DADDE6;
@@ -127,6 +128,10 @@
               border-left-color: transparent;
               border-right-color: transparent;
             }
+          }
+          &-part{
+            display: flex;
+            align-items: center;
           }
           &-remind{
             float: right;

@@ -534,7 +534,7 @@ export default class FollowInfo extends React.Component {
 											<div className="follow-content-remind">
 												<li className="follow-content-remind-list-item">
 													<div className="follow-content-remind-list-item-title">提醒时间</div>
-													<div className="follow-content-remind-list-item-content">
+													<div className="follow-content-remind-list-item-content follow-content-remind-list-item-part">
 														<DatePicker
 															{...getField('remindTime')}
 															getCalendarContainer={getContainer}
