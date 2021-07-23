@@ -110,9 +110,9 @@ export default class FollowInfo extends React.Component {
 	}
 
 	componentWillMount() {
-		const { source: { commentTotal } } = this.props;
+		const { source: { commentTotal }, source } = this.props;
 		if (commentTotal === 0) {
-			this.setState({ addStatus: true });
+			this.setState({ addStatus: true, status: toStatus(source) });
 		} else {
 			this.toGetProcessList();
 		}
