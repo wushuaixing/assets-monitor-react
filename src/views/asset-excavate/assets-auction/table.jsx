@@ -15,7 +15,7 @@ import { readStatus } from '@/utils/api/monitor-info/assets';
 import FollowModel from './follow-info';
 import TableVersionModal from './tableVersionModal';
 
-
+let _this;
 // 忽略操作
 const handleIgnore = (row, index, onRefresh) => {
 	Modal.confirm({
@@ -27,6 +27,7 @@ const handleIgnore = (row, index, onRefresh) => {
 				if (res.code === 200) {
 					message.success('操作成功！');
 					onRefresh({ id: row.id, process: 12, index }, 'process');
+					_this.refreshList();
 				}
 			});
 		},
@@ -122,53 +123,13 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 			unNormal: true,
 			className: 'yc-assets-auction-action yc-AssetAuction-verticalMiddle',
 			render: (text, row, index) => {
-				const { process } = row;
+				const { process, commentTotal } = row;
 				const event = {
 					onClick: () => onFollowClick(row, index),
 				};
 				return (
 					<React.Fragment>
 						<div style={{ display: 'flex' }}>
-							{{
-								0: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-										<span className="auction-button" onClick={() => handleIgnore(row, index, onRefresh)}>忽略</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								3: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								6: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								9: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								12: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								15: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-							}[process] || null }
 							<Attentions
 								text={text}
 								row={row}
@@ -177,6 +138,64 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 								api={row.isAttention ? unFollowSingle : followSingle}
 								single
 							/>
+							{{
+								0: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+										<span className="property-list-wire" />
+										<span className="auction-button" onClick={() => handleIgnore(row, index, onRefresh)}>忽略</span>
+									</React.Fragment>
+								),
+								3: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+								6: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+								9: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+								12: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+								15: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+							}[process] || null }
 						</div>
 					</React.Fragment>
 				);
@@ -197,6 +216,7 @@ export default class TableView extends React.Component {
 			historyInfoModalData: {},
 
 		};
+		_this = this;
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -246,6 +266,13 @@ export default class TableView extends React.Component {
 		}
 	};
 
+	// 更新列表
+	refreshList = () => {
+		const { refreshList } = this.props;
+		refreshList();
+		this.setState({ visible: false });
+	};
+
 	render() {
 		const {
 			total, current, dataSource, manage, onPageChange, onRefresh, loading, pageSize, isShowPagination = true,
@@ -292,7 +319,7 @@ export default class TableView extends React.Component {
 						<FollowModel
 							visible={visible}
 							source={source}
-							onClose={() => this.setState({ visible: false })}
+							onClose={this.refreshList}
 							onRefresh={onRefresh}
 						/>
 					)

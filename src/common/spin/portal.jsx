@@ -17,7 +17,6 @@ class OldPortal extends React.Component {
 
 	// 每次接受到props进行渲染与卸载操作
 	componentWillReceiveProps(props) {
-		// console.log('modal NextProps', props.visible);
 		// const { visible } = this.props;
 		if (props.visible) {
 			this.renderPortal(props);
@@ -42,7 +41,6 @@ class OldPortal extends React.Component {
 	// 渲染
 	renderPortal(props) {
 		const { Container } = props;
-		// console.log('renderPortal：', Container);
 
 		if (!this.node) {
 			// 防止多次创建node
@@ -57,7 +55,6 @@ class OldPortal extends React.Component {
 			props.children, // 渲染的元素为当前的children
 			this.node, // 将元素渲染到我们新建的node中,这里我们不使用第四个参数回调.
 		);
-		// console.log(props.children);
 		// 将当前node添加到body中
 	}
 

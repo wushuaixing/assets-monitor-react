@@ -20,7 +20,6 @@ const _msieBrowser = /msie/i.test(navigator.userAgent);
 
 // 通过class获取元素
 const getContainer = (className) => {
-	// console.log(className);
 	if (className) {
 		return window.$
 			? window.$(`.${className}`)[0]
@@ -156,8 +155,6 @@ class selectSearch extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		// console.log('nextProps:', nextProps.value);
-
 		if (nextProps.value) {
 			this.setState({
 				inputStatus: 'entered',
@@ -224,7 +221,6 @@ class selectSearch extends React.Component {
 			} else {
 				option = e.target.dataset.search;
 			}
-			// console.log('option:', option);
 			if (option === 'icon-mask') return null;
 			if (option !== 'option' && option !== 'input') {
 				this.setState({
@@ -248,7 +244,6 @@ class selectSearch extends React.Component {
 	onChange=(e) => {
 		const { onSearch } = this.props;
 		const inputValue = e.target.value;
-		// console.log('onChange');
 		this.setState({
 			inputStatus: inputValue ? 'enter' : 'input',
 			inputValue,
@@ -272,7 +267,6 @@ class selectSearch extends React.Component {
 
 	// icon 点击监听后的结果
 	handleSelectIcon=() => {
-		// console.log('onSelectIcon:', event);
 		const { clear, onBlur } = this.props;
 		const { input } = this.refInfo;
 		const { selectLabel, visible, selectValue } = this.state;
@@ -325,7 +319,6 @@ class selectSearch extends React.Component {
 			selectValue,
 		};
 
-		// console.log('inputSlelec:', info);
 		const _placeholder = selectLabel || placeholder || '请输入';
 		const wrapperClassName = this.toWrapperClassName(inputStatus);
 		const Container = getContainer(getPopupContainerClassName);

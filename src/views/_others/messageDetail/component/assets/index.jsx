@@ -100,6 +100,7 @@ class Assets extends Component {
 			total,
 			isShowPagination: total > 5,
 			pageSize: 5,
+			refreshList: this.toGetData,
 		};
 		return (
 			<React.Fragment>

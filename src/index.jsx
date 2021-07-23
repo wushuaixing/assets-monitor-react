@@ -8,8 +8,8 @@ import App from './views/app';
 import './assets/css/index.scss';
 import './utils/config';
 
-const Version = 'v2.10';
-const BetaNumber = '.4';
+const Version = 'v2.11';
+const BetaNumber = '.1';
 const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
 window.CurrentVersions = info;
 if (window.location.protocol === 'http:') {

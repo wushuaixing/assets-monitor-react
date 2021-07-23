@@ -20,8 +20,6 @@ const comButton = (props) => {
 	} else {
 		classList.push(type ? `yc-btn-${type}` : 'yc-btn-default');
 	}
-	// const childrenDom = React.Children.map(children, i => i);
-	// console.log(childrenDom);
 	return (
 		<React.Fragment>
 			<button

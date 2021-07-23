@@ -39,6 +39,12 @@ class HomeQuickStart extends React.Component {
 							<span className="quick-start-container-content-btn-name">分类搜索</span>
 						</div>
 					) : null}
+					{rule.menu_ywgl && rule.menu_ywgl.children.ywglywst ? (
+						<div className="quick-start-container-content-btn" onClick={() => this.handleNavigate('business/view/export')}>
+							<Icon type="icon-export" className="quick-start-container-content-btn-icon" />
+							<span className="quick-start-container-content-btn-name">导出业务报告</span>
+						</div>
+					) : null}
 				</div>
 			</div>
 		);

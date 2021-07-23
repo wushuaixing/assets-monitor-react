@@ -2,7 +2,7 @@
   position: absolute;
   top: 50px;
   right: 0;
-  z-index: 3;
+  z-index: 999;
   width: 400px;
   height: 441px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
@@ -14,65 +14,84 @@
   line-height: 24px;
   cursor: default;
   .yc-station-box {
-    padding: 16px 20px;
+    padding: 11px 20px;
     font-size: 14px;
     line-height: 14px;
     border-bottom: 1px solid $background-line;
+    &-btn{
+      height: 24px;
+      width: 64px;
+      padding: 0px 0px;
+    }
+    .yc-btn-default {
+      &:nth-child(1):hover {
+        border-right: none;
+      }
+      &:nth-child(2):hover {
+        border-left: none;
+      }
+    }
   }
   .yc-station-btn {
-    margin: 0;
+    margin-top:6px ;
     padding: 0;
     border: 0;
-    color: #1C80E1;
+    color: #4E5566;
     font-size: 12px;
     text-align: right;
     background-color: #FFFFFF;
     outline: none;
     float: right;
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
+    &-icon{
+      margin-right: 4px;
+      vertical-align: middle;
     }
   }
   .yc-station-list {
     height: 347px;
     overflow: auto;
     border-bottom: 1px solid $background-line;
-
     .notice-station-wrapper {
-      padding-top: 130px;
       text-align: center;
       color: #bcc1cc;
       line-height: 30px;
+      margin-top: 72px;
       .notice-station-img {
-        width: 60px;
-        height: 60px;
+        width: 300px;
+        height: 180px;
         margin: 0 auto;
         background-repeat: no-repeat;
         background-size: 100%;
-        background-image: url("../../../../assets/img/inform/img_blank_news.png");
       }
     }
     .yc-station-item {
-      padding: 16px 20px;
-      border-bottom: 1px solid $background-line;
+      padding: 14px 10px 11px 20px;
+      //border-bottom: 1px solid $background-line;
       font-size: 12px;
       position: relative;
       display: block;
       text-decoration: none;
       overflow: hidden;
+      &-line{
+        height: 1px;
+        width: 358px;
+        background-color: $background-line;
+        margin-left: 20px;
+      }
+      &-line:last-child{
+        background-color:#FFFFFF;
+      }
       &:last-child {
         border-bottom: 0;
       }
       &:hover {
         background: $background-list-hover;
         text-decoration: none;
-        cursor: pointer;
       }
     }
     .yc-station-item-title {
       font-size: 14px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       line-height: 1;
       color: #20242e;
       .yc-station-item-brief {
@@ -96,6 +115,14 @@
         font-weight: bold;
         font-style: normal;
       }
+      &-span{
+        color: #1C80E1;
+        cursor: pointer;
+      }
+      &-text{
+        color: #B2B8C9;
+        text-decoration:line-through
+      }
     }
   }
   .yc-station-box-center {
@@ -111,3 +138,20 @@
     }
   }
 }
+
+
+
+//.yc-station-list::-webkit-scrollbar {
+//  width: 5px;
+//}
+//.yc-station-list::-webkit-scrollbar-track {
+//  -webkit-border-radius: 2px;
+//  -moz-border-radius: 2px;
+//  border-radius:2px;
+//}
+//.yc-station-list::-webkit-scrollbar-thumb {
+//  background-color:#DADDE6;
+//  -webkit-border-radius: 2px;
+//  -moz-border-radius: 2px;
+//  border-radius:2px;
+//}

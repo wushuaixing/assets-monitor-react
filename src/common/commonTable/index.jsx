@@ -17,7 +17,7 @@ class commonTable extends React.Component {
 		return (
 			<Table
 				{...propsObj}
-				locale={{ emptyText: <NoContent /> }}
+				locale={{ emptyText: <NoContent {...propsObj} /> }}
 			/>
 		);
 	}

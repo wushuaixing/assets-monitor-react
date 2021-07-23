@@ -11,9 +11,14 @@
       margin: 0 2px;
       font-style: normal;
     }
-    &:hover {
-      cursor: pointer;
-      color: $fontColor-base-2;
+  }
+  .yc-message-operation{
+    color: #1C80E1;
+    font-size: 12px;
+    &-text{
+      color: #B2B8C9;
+      text-decoration:line-through;
+      cursor: default;
     }
   }
   .yc-message-delete {
@@ -31,15 +36,44 @@
       color: $text-title;
       font-size: 16px;
       line-height: 16px;
+      padding: 19px 0px 19px 0px;
+      display: inline-block;
       font-weight: bold;
-      padding: 20px;
     }
+    .yc-page-return{
+      font-size: 16px;
+      margin-left: 10px;
+      padding: 10px;
+      cursor: pointer;
+      color: #4E5566;
+      &:hover{
+        color: #1C80E1;
+      }
+    }
+    //.yc-page-oblique{
+    //  margin: 0px 8px ;
+    //  color: #7D8699;
+    //  font-size: 17px;
+    //  vertical-align: middle;
+    //}
     .yc-page-line{
       background-color: $background-line;
       height: 1px;
     }
     .yc-con-item-wrapper {
-      margin: 20px 0 46px 0;
+      margin: 20px 0 16px 0;
+      &-btn{
+        font-size: 12px;
+        color: #4E5566;
+        display: inline-block;
+        margin-left: 10px;
+        cursor: pointer;
+        &-icon{
+          font-size: 16px;
+          margin-right: 4px;
+          vertical-align: -1px;
+        }
+      }
       .btn-default {
         height: 30px;
         &:first-child {
@@ -50,7 +84,7 @@
     .ant-table-thead{
       .message-type{
         span{
-          margin-left: 36px;
+          margin-left: 24px;
         }
       }
     }

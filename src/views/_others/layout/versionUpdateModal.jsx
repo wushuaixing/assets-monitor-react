@@ -19,8 +19,13 @@ export default class VersionUpdateModal extends React.PureComponent {
 		const { VersionUpdateModalVisible } = this.props;
 		const tips = [
 			{
-				title: '风险监控增加被执行、终本案件信息',
-				content: '我们将陆续完成历史债务人的被执行、终本案件信息匹配，请耐心等待！',
+				title: '调整站内消息的展示与交互',
+			},
+			{
+				title: '优化资产拍卖跟进操作的交互',
+			},
+			{
+				title: '优化页面导航的结构',
 			},
 		];
 		return (
@@ -49,7 +54,7 @@ export default class VersionUpdateModal extends React.PureComponent {
 									<div key={i}>
 										<span className="yc-modal-icon" />
 										<span className="yc-label-tips">{i.title}</span>
-										<p className="yc-label-hint">{i.content}</p>
+										{/* <p className="yc-label-hint">{i.content}</p> */}
 									</div>
 								  </div>
 							    ))

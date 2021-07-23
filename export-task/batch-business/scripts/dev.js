@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const ENV = process.env.NODE_ENV;
 const root = path.resolve(__dirname+'/../');
-const _dataPath = path.resolve(__dirname+'../../../_analog-data');
 
 const imgData = require('../../_assets/img/index');
 const { zgBgImgData, bgImgData, deIconData,	personData,	businessData,	disIconData,	disEdIconData,	accurateImgData } = imgData;
@@ -15,45 +14,63 @@ let htmlResult = dev.main;
 let htmlCover = dev.cover;
 
 /* 导出详情-封面 */
-function exportCover(source, exportType,domainName) {
+function exportCover(source,domainName) {
+	// 接口数据
+	var data = JSON.parse(source) || {};
+
+	// 背景图
 	var domainType = {
 		1:{key:'yc',value:bgImgData}, //  源诚
 		2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
 		3:{key:'zhongguandev',value:zgBgImgData}, // (测试环境域名)中冠
 		4:{key:'zhuanxian',value:''} // 专线
 	}
-	var d = JSON.parse(source) || {};
 	var bgImgSource = domainType[domainName] ? domainType[domainName].value : bgImgData;
 	htmlCover = htmlCover.replace("../../_assets/img/watermark.png", bgImgSource);
+
+	// 查询时间
 	var dataTime = new Date().getFullYear() + '年' + (new Date().getMonth() + 1) + "月" + new Date().getDate() + "日";
 	htmlCover = htmlCover.replace(/{base.queryTime}/g, dataTime);
-	var userInfo = '', data = '';
-	if (exportType === 'debtor') {
-		data = d.DB10101 || {};
-		htmlCover = htmlCover.replace(/{base.title}/, "债务人详情查询报告");
-		userInfo = ("<div class='exp-name'>" + (data.obligorName || '-') + "<br/>" + (data.obligorNumber ? ("(" + data.obligorNumber + ")") : "") + "</div>");
-	} else {
-		data = d.BB10101 || {};
-		htmlCover = htmlCover.replace(/{base.title}/, "业务详情");
-		userInfo = ("<div class='exp-name' style='margin-bottom: 30px'>业务编号：" + (data.caseNumber || '-') + "</div><div class='exp-name'>借款人：" + data.obligorName + "</div>");
+
+	// 封面内容
+	var businessInfo = data.BB101011 || {};
+	var businessList = data.BB101012 || [];
+	var businessListShow = businessList.slice(0, 5) || [];
+	var debtorList = [], warrantorList = [];
+	for (var i = 0; i < businessListShow.length; i++) {
+		var item = businessListShow[i];
+		if (item.role === 2) {
+			warrantorList.push("<div class='exp-name'>" + item.roleText + (warrantorList.length + 1) + "：" + item.obligorName + "</div>")       // 担保人
+		} else {
+			debtorList.push("<div class='exp-name'>" + item.roleText + "：" + item.obligorName + "</div>");       // 债务人
+		}
 	}
+	htmlCover = htmlCover.replace(/{base.title}/, "监控业务报告");
+	var userInfo = "<div class='exp-number'>业务编号："
+		+ (businessInfo.caseNumber ? businessInfo.caseNumber : '-') + "</div>"
+		+ "<div class='exp-institution'>"
+		+ "<div class='exp-name'>负责人/机构："
+		+ (businessInfo.orgName ? businessInfo.orgName : '-') + "</div>"
+		+ debtorList.join('')
+		+ warrantorList.join('')
+		+ (businessList.length > 5 ? "<div class='exp-name'>等" + businessList.length + "位债务人</div></div>" : '')
 	htmlCover = htmlCover.replace(/{base.userInfo}/, userInfo);
 	return htmlCover;
 }
 
 /* 导出详情-内容 */
-function exportTemplate(source, exportType, name, domainName) {
+function exportTemplate(source, name, domainName) {
 	var dd = {
 		overview: {
 			name: '概览',
 			about: '{overview.content}',
-			status:'EP',
+			status:'BEP',
 			child: [
-				{ id: "DO1000" ,title:'资产概况',status:'EP',
+				{ id: "DO1000" ,title:'资产概况',status:'BEP',
 					child:[
-						{ id:"DO10100",title:"相关资产拍卖",status:'EP'},
-						{ id:"DO10200",title:"代位权信息",status:'E'},
-						{ id:"DO10200",title:"代位权信息 (裁判文书) ",status:'P'},
+						{ id:"DO10100",title:"相关资产拍卖",status:'BEP'},
+						{ id:"DO10200",title:"代位权信息",status:'BE'},
+						{ id:"DO10200",title:"代位权信息 (裁判文书) ",status:'BP'},
 						{ id:"DO10300",title:"土地信息",status:'BE'},
 						{ id:"DO10400",title:"无形资产信息",status:'BE'},
 						{ id:"DO10500",title:"股权质押信息",status:'BE'},
@@ -61,22 +78,22 @@ function exportTemplate(source, exportType, name, domainName) {
 						{ id:"DO10700",title:"相关招投标信息",status:'BE'},
 					]
 				},
-				{ id: "DO2000" ,title:'风险信息',status:'EP',
+				{ id: "DO2000" ,title:'风险信息',status:'BEP',
 					child:[
-						{ id:"DO20400",title:"失信记录",status:'EP'},
-						{ id:"DO20600",title:"涉诉信息",status:'E'},
-						{ id:"DO20600",title:"涉诉信息 (裁判文书) ", status:'P'},
-						{ id:"DO30200",title:"破产重组信息",status:'E'},
-						{ id:"DO30300",title:"经营风险信息",status:'E'},
-						{ id:"DO30500",title:"税收违法",status:'P'},
+						{ id:"DO20400",title:"失信记录",status:'BEP'},
+						{ id:"DO20600",title:"涉诉信息",status:'BE'},
+						{ id:"DO20600",title:"涉诉信息 (裁判文书) ", status:'BP'},
+						{ id:"DO30200",title:"破产重组信息",status:'BE'},
+						{ id:"DO30300",title:"经营风险信息",status:'BE'},
+						{ id:"DO30500",title:"税收违法",status:'BP'},
 					]
 				},
 				{
-					id: "DO5000", title: '工商基本信息', status: 'E',
+					id: "DO5000", title: '工商基本信息', status: 'BE',
 					child: [
-						{id: "DO50000", title: "基本信息", status: 'E', show: true, type: 1 },
-						{id: "DO50000", title: "股东情况", status: 'E' , type: 2},
-						{id: "DO50000", title: "企业规模", status: 'E', show: true, type: 3 },
+						{id: "DO50000", title: "基本信息", status: 'BE', show: true, type: 1 },
+						{id: "DO50000", title: "股东情况", status: 'BE' , type: 2},
+						{id: "DO50000", title: "企业规模", status: 'BE', show: true, type: 3 },
 					]
 				},
 			]
@@ -129,7 +146,7 @@ function exportTemplate(source, exportType, name, domainName) {
 				{id: 'R20402', title: '失信记录_已移除', desc: '已移除', status: 'BEP'},
 				{id: 'R20501', title: '限制高消费_列入', desc: '列入', status: 'BEP'	},
 				{id: 'R20502', title: '限制高消费_已移除', desc: '已移除', status: 'BEP'	},
-				{id: 'R20604', title: '涉诉文书', status: 'P'},
+				{id: 'R20604', title: '涉诉文书', status: 'BP'},
 				{id: 'R20601', title: '涉诉信息_立案', status: 'BE'},
 				{id: 'R20602', title: '涉诉信息_开庭', status: 'BE'},
 				{id: 'R20603', title: '涉诉信息_裁判文书', status: 'BE'},
@@ -144,31 +161,22 @@ function exportTemplate(source, exportType, name, domainName) {
 			name: '工商基本详情',
 			about: '{info.content}',
 			field: 'info',
-			status: 'E',
+			status: 'BE',
 			child: [
-				{id: 'I50101', title: '基本信息', status: 'E', show: true, className: 'table-baseInfo'},
-				{id: 'I50201', title: '主要人员', status: 'E'},
-				{id: 'I50301', title: '股东信息', status: 'E'},
-				{id: 'I50501', title: '分支机构', status: 'E'},
-				{id: 'I50601', title: '对外投资', status: 'E'},
-				{id: 'I50701', title: '工商变更', status: 'E', className: 'page-break-style'},
+				{id: 'I50101', title: '基本信息', status: 'BE', show: true, className: 'table-baseInfo'},
+				{id: 'I50201', title: '主要人员', status: 'BE'},
+				{id: 'I50301', title: '股东信息', status: 'BE'},
+				{id: 'I50501', title: '分支机构', status: 'BE'},
+				{id: 'I50601', title: '对外投资', status: 'BE'},
+				{id: 'I50701', title: '工商变更', status: 'BE', className: 'page-break-style'},
 			]
 		},
 	};
 	var _dataSource = JSON.parse(source);
 
 	// 导出类型
-	var TYPE = '';
-	var Status = '';
-	if (exportType === 'debtor') {
-		TYPE = 'D';
-		var debtorName = name || _dataSource['DB10101'].obligorName;
-		Status = debtorName.length > 4 ? 'E' : 'P';
-	} else {
-		TYPE = 'B';
-		Status = 'B';
-	}
-	var ET = Status;
+	var TYPE = 'B';
+	var ET = Status = 'B';
 	// public enumeration object
 	var s = {
 		identity: {
@@ -251,13 +259,13 @@ function exportTemplate(source, exportType, name, domainName) {
 			50025973: '林权',
 			200778005: '海域',
 			125228021: '船舶',
-		  125088031: '股权',
-		  50025971: '实物资产',
-		  50025972: '机动车',
-		  201290015: '奢侈品',
-		  50025969: '房产',
-		  56956002: '债权',
-		  50025976: '其他',
+			125088031: '股权',
+			50025971: '实物资产',
+			50025972: '机动车',
+			201290015: '奢侈品',
+			50025969: '房产',
+			56956002: '债权',
+			50025976: '其他',
 			0: '未知',
 		},
 		projectType: {
@@ -622,7 +630,7 @@ function exportTemplate(source, exportType, name, domainName) {
 
 	/* handle tax parties */
 	var handleTax = function (ary) {
-		var id = TYPE === 'D' ? _dataSource['DB10101'].id : _dataSource['BB10101'].id;
+		var id = _dataSource['BB10101'].id;
 		var result = {
 			debtorIdentityTypeStr: [],
 			parties: [],
@@ -655,25 +663,6 @@ function exportTemplate(source, exportType, name, domainName) {
 		var list = '';
 		var dot = true;
 		switch (taxon) {
-			// 业务相关人列表
-			case 'BB10102': {
-				list = drawTable(data.list, [
-					{t: '相关人名称', f: BB.obligorName},
-					{t: '证件号/统一社会信用代码', f: 'obligorNumber'},
-					{t: '角色', f: 'roleText'},
-					{t: '推送状态', f: BB.obligorPushType},
-				]);
-				break;
-			}
-			// 关联业务列表 || 相关业务列表
-			case 'DB10102': {
-				list = drawTable(data.list, [
-					{t: '业务编号', f: 'caseNumber'},
-					{t: '债务人角色', f: 'roleText'},
-					{t: '负责人/机构', f: 'orgName'},
-				]);
-				break;
-			}
 			// 资产拍卖_精准匹配
 			case 'A10101':
 			// 资产拍卖_模糊匹配
@@ -1201,7 +1190,7 @@ function exportTemplate(source, exportType, name, domainName) {
 						]) + "</td></tr>";
 				});
 				break;
-		}
+			}
 			// 破产重组
 			case 'R30201': {
 				data.list.forEach(function (i) {
@@ -1276,7 +1265,7 @@ function exportTemplate(source, exportType, name, domainName) {
 				break;
 			}
 			// 限制高消费
-			case 'R20501': 
+			case 'R20501':
 			case 'R20502': {
 				data.list.forEach(function (i) {
 					// 1：企业 2：个人
@@ -1472,88 +1461,44 @@ function exportTemplate(source, exportType, name, domainName) {
 			"</div><div class=\"content\">" + drawContent(option, source) + "</div></div>"
 	};
 
-	var item = _dataSource[TYPE + 'B10101'] || {};
-	// 基本信息
-	if (TYPE === 'B') {
+	var item = _dataSource['BB10101'] || {};
+	var Status = item.obligorName.length > 4 ? 'E' : 'P';
+	if (Status === 'E') {
 		f.replaceHtml([
-			{f: '{base.logo}', v: item.logoUrl || ''},
-			{f: '{base.logo-icon}', v: 'business-img'},
-			{f: '{base.content-type}', v: 'content-max'},
-			{
-				f: '{base.content}', v: (
-					f.urlDom(('业务编号：' + item.caseNumber || '-')) +
-					f.tag(item.businessPushType ? '当前推送状态：开启' : '当前推送状态：关闭', !item.businessPushType ? 'regStatus-gray' : '') +
+			{f: '{base.logo}', v: item.logoUrl ? ("<img src=\"" + item.logoUrl + "\" alt=\"\">") : ''},
+				{f: '{base.logo-icon}', v: item.logoUrl ? "" : 'debtor-img'},
+				{f: '{base.content-type}', v: 'content-max'},
+				{f: '{base.content}', v: (
+					f.urlDom(item.obligorName) +
+					f.disStatus(item.dishonestStatus, 'close') +
+					f.tag(item.regStatus, f.toRegStatus(item.regStatus)) +
+					f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
+					f.tag(item.bankruptcy ? '破产/重整风险' : '', 'regStatus-red') +
+					f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
 					f.normalList([
 						[
-							{
-								t: '借款人',
-								cot: w(item.obligorName) + f.disStatus(item.dishonestStatus, 'close') + f.tag(item.bankruptcyStatus ? '破产/重整风险' : '', 'regStatus-red')
-							},
-							{t: '证件号/统一社会信用代码', cot: w(item.obligorNumber)},
-							{t: '借款人推送状态', cot: w(item.obligorPushType ? '开启' : '关闭')},
+							{t: '法定代表人', cot: item.legalPersonName},
+							{t: '注册资本', cot: w(item.regCapital, {unit: item.regCapitalUnit})},
+							{t: '成立日期', cot: w(item.establishTime)},
 						],
-						[
-							{t: '负责人/机构', cot: item.orgName},
-							{t: '上传时间', cot: item.uploadTime},
-						],
-					])
-				)
-			},
+						(item.usedName || []).length ? {t: '曾用名', cot: (item.usedName.join('、'))} : null])
+					)
+				}
+			]);
+	} else {
+		f.replaceHtml([
+			{f: '{base.logo}', v: ''},
+			{f: '{base.logo-icon}', v: 'person-img'},
+			{f: '{base.content-type}', v: 'content-min'},
 			{
-				f: '{about.list}', v: aboutList('业务相关人列表',
-					{list: _dataSource["BB10102"] || []},
-					{id: 'BB10102', className: 'table-border', show: true}
+				f: '{base.content}', v: (
+					f.urlDom(item.obligorName) +
+					f.disStatus(item.dishonestStatus, 'close') +
+					f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
+					f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
+					f.normalList([{t: '证件号', cot: item.obligorNumber}])
 				)
 			}]);
-	}
-	if (TYPE === 'D') {
-		if (Status === 'E') {
-			f.replaceHtml([
-				{f: '{base.logo}', v: item.logoUrl?("<img src=\""+item.logoUrl+"\" alt=\"\">"):''},
-				{f: '{base.logo-icon}', v: item.logoUrl?"":'debtor-img'},
-				{f: '{base.content-type}', v: 'content-max'},
-				{
-					f: '{base.content}', v: (
-						f.urlDom(item.obligorName) +
-						f.disStatus(item.dishonestStatus, 'close') +
-						f.tag(item.regStatus, f.toRegStatus(item.regStatus)) +
-						f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
-						f.tag(item.bankruptcy ? '破产/重整风险' : '', 'regStatus-red') +
-						f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
-						f.normalList([
-							[
-								{t: '法定代表人', cot: item.legalPersonName},
-								{t: '注册资本', cot: w(item.regCapital, {unit: item.regCapitalUnit})},
-								{t: '成立日期', cot: w(item.establishTime)},
-							],
-							(item.usedName || []).length ? {t: '曾用名', cot: (item.usedName.join('、'))} : null])
-					)
-				}
-			]);
-		} else {
-			f.replaceHtml([
-				{f: '{base.logo}', v: ''},
-				{f: '{base.logo-icon}', v: 'person-img'},
-				{f: '{base.content-type}', v: 'content-min'},
-				{
-					f: '{base.content}', v: (
-						f.urlDom(item.obligorName) +
-						f.disStatus(item.dishonestStatus, 'close') +
-						f.tag(item.limitConsumption ? '已限高' : '', 'regStatus-orange') +
-						f.tag(item.pushState ? '当前推送状态：开启' : '当前推送状态：关闭', !item.pushState ? 'regStatus-gray' : '') +
-						f.normalList([{t: '证件号', cot: item.obligorNumber}])
-					)
-				}
-			]);
-		}
-		// 关联业务列表
-		f.replaceHtml([{
-			f: '{about.list}', v: aboutList(
-				(Status === 'E' ? '关联业务列表' : '相关业务列表'),
-				{list: _dataSource["DB10102"] || []},
-				{id: 'DB10102', className: 'table-border', show: true}
-			)
-		}]);
 	}
 
 	// 计算子项总数
@@ -1957,10 +1902,10 @@ function exportTemplate(source, exportType, name, domainName) {
 			if(JSON.stringify(source) === '{}' || JSON.stringify(source) === '[]'){
 				return '';
 			}
-		  if(option.id === "DO10100"){
+			if(option.id === "DO10100"){
 				return drawChildTable(option, source.auctionInfos, {1: { title: '-三个月内'}, 2: { title: '-全部'}});
 			}
-		  else if(option.id === "DO10200" ){
+			else if(option.id === "DO10200" ){
 				return drawChildTable(option, source.subrogationInfos, {1: { title: '-立案信息'}, 2: { title: '-开庭信息'}, 3: {title: '-裁判文书'}});
 			}
 			else if(option.id === "DO20600"){
@@ -2038,17 +1983,16 @@ function exportTemplate(source, exportType, name, domainName) {
 
 if (ENV === 'dev') {
 	var dataSource = JSON.stringify(require('./data'));
-	var exportType = 'debtor';
-	var strCover = (exportType) => exportCover(dataSource, exportType,4);
-	var strTemplate = (exportType) => exportTemplate(dataSource, exportType,'',4);
-	fs.writeFile(root + "/dist/cover.html", strCover(exportType), (error) => {
+	var strCover = () => exportCover(dataSource, 4);
+	var strTemplate = () => exportTemplate(dataSource,'',4);
+	fs.writeFile(root + "/dist/cover.html", strCover(), (error) => {
 		if (error) console.log(error);
 		else {
 			console.log('导出模板：封面成功输出！');
 			console.warn(`*************** file: ${root + "/dist/cover.html"} ****************`);
 		}
 	});
-	fs.writeFile(root + "/dist/content.html", strTemplate(exportType), (error) => {
+	fs.writeFile(root + "/dist/content.html", strTemplate(), (error) => {
 		if (error) console.log('error');
 		else {
 			console.log('导出模板：内容成功输出！');
