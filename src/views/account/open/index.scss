@@ -313,7 +313,10 @@
         margin: 0 6px;
       }
       .org-table{
-
+        .ant-table-header{
+          margin-bottom: -17px !important;
+          padding: 0px !important;
+        }
         .switch-org{
           &:hover{
             cursor: pointer;

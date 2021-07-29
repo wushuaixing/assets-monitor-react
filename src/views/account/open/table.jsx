@@ -177,7 +177,7 @@ class OrgTable extends React.Component {
 						<Table
 							className="org-table"
 							pagination={false}
-							style={{ height: 264 }}
+							// style={{ height: 264 }}
 							scroll={{ y: 220 }}
 							dataSource={newNextOrgDataSource}
 							columns={nextOrgcolumns(this.props)}
