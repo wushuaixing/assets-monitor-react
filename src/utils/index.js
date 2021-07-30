@@ -666,3 +666,14 @@ export const isJsonString = (str) => {
 	} catch (e) {}
 	return false;
 };
+
+/**
+ * 判断是否为中冠 是：true 否： false
+ */
+export const isZhongguan = () => {
+	const currentDomainName = window.location.hostname;
+	const domainType = {
+		ZG: 'zhongguan',
+	};
+	return currentDomainName.indexOf(domainType.ZG) >= 0;
+};
