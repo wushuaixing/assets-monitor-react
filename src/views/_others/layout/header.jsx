@@ -235,10 +235,12 @@ export default class Headers extends React.Component {
 	};
 
 	navigateTo = (event) => {
-		global.UP_URL = window.location.href;
-		this.setState({ active: { p: 101, c: '' } });
-		navigate('/message');
-		event.stopPropagation();
+		if (window.location.hash !== '#/message') {
+			global.UP_URL = window.location.href;
+			this.setState({ active: { p: 101, c: '' } });
+			navigate('/message');
+			event.stopPropagation();
+		}
 	}
 
 	render() {
