@@ -13,7 +13,7 @@ export default class MatchingReason extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.dom.clientHeight > 64) {
+		if (this.dom.clientHeight >= 64) {
 			this.setState({ status: 'canOpen' });
 		}
 	}
