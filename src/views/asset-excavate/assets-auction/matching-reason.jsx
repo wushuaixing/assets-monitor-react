@@ -13,7 +13,9 @@ export default class MatchingReason extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.dom.clientHeight >= 64) {
+		const { content: { auctionStatusTag, roundTag } } = this.props;
+		const status = auctionStatusTag || roundTag;
+		if (this.dom.clientHeight > (status ? 94 : 64)) {
 			this.setState({ status: 'canOpen' });
 		}
 	}
@@ -121,16 +123,17 @@ export default class MatchingReason extends React.Component {
 	render() {
 		const {
 			content: {
-				reason, remark, duty, approveTime, pushType,
+				reason, remark, duty, approveTime, pushType, auctionStatusTag, roundTag,
 			}, dishonest,
 		} = this.props;
+		const wrapper = auctionStatusTag || roundTag;
 		// console.log(pushType);		// 类型 1 结构化 0 全文
 		const remarkOrder = pushType ? 'last' : 'first';
 		const { status } = this.state;
 		// const testRemark = '经裁判文书分析，债务人被他方起诉，涉诉债权额xx万元本金及相应利息，详情见<a target=\'_blank\' href=\'http://www.baidu.com/\'>文书链接1</a>、<a target=\'_blank\' href=\'http://www.baidu.com/\'>文书链接2</a>';
 		return (
 			<div className="assets-matching-reason-wrapper">
-				<div className={`reason-content-wrapper content-${status}`}>
+				<div className={`reason-content-${wrapper ? 'wrapperSpecial' : 'wrapper'} content-${status}`}>
 					<div className="reason-content" ref={e => this.dom = e}>
 						{/* 全文匹配放在上面 */}
 						{

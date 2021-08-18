@@ -215,7 +215,7 @@ export default class Excavate extends PureComponent {
 			dataSource.push({ count: res.data.assetOwner || 0, typeName: '资产所有人' });
 			dataSource.push({ count: res.data.bidder || 0, typeName: '竞买人' });
 			dataSource.push({ count: res.data.creditor || 0, typeName: '债权人' });
-			dataSource.push({ count: res.data.unknown || 0 + res.data.assetClue || 0, typeName: '其他' });
+			dataSource.push({ count: (res.data.unknown || 0) + (res.data.assetClue || 0), typeName: '其他' });
 			const dataSourceNum = getCount(dataSource);
 			const auctionPropsData = {
 				auctionArray: dataSource,
