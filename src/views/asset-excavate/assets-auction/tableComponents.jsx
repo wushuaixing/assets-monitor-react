@@ -390,11 +390,25 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 					<span className="info info-title">拍卖状态：</span>
 					<span className={`info info-content${status ? ` info-auction-${status}` : ''}`}>{auctionStatus(status)}</span>
 				</li>
-
+			</li>
+			<li className="table-info-list">
+				{
+					(historyAuction || []).length ? (
+						<li className="table-info-list">
+							<Button className="table-info-list-history" onClick={() => toOpenHistory(rowContent)}>
+								<Icon type="icon-history" style={{ fontSize: 11, marginRight: 5 }} />
+								查看历史拍卖信息
+							</Button>
+						</li>
+					) : null
+				}
+			</li>
+			<br />
+			<li className="table-info-list yc-text-normal">
 				{
 					auctionStatusTag
 						? (
-							<li className="table-info-list list-width-180" style={{ marginTop: '9px' }}>
+							<li className="table-info-list" style={{ marginTop: '9px', marginRight: '10px' }}>
 								<span className="info-tag info-tag_change">
 									<Icon type="icon-remind" style={{ fontSize: '12px', marginRight: '1px' }} />
 									拍卖状态变更
@@ -405,25 +419,13 @@ const AuctionInfo = (text, rowContent, toOpenHistory) => {
 				{
 					roundTag
 						? (
-							<li className="table-info-list list-width-180" style={{ marginTop: '5px' }}>
+							<li className="table-info-list" style={{ marginTop: '5px' }}>
 								<span className="info-tag info-tag_add">
 									<Icon type="icon-remind" style={{ fontSize: '12px', marginRight: '1px' }} />
 									新增拍卖轮次
 								</span>
 							</li>
 						) : null
-				}
-			</li>
-			<li className="table-info-list list-width-180 yc-text-normal">
-				{
-					(historyAuction || []).length ? (
-						<li className="table-info-list list-width-180">
-							<Button className="table-info-list-history" onClick={() => toOpenHistory(rowContent)}>
-								<Icon type="icon-history" style={{ fontSize: 11, marginRight: 5 }} />
-								查看历史拍卖信息
-							</Button>
-						</li>
-					) : null
 				}
 			</li>
 		</div>
