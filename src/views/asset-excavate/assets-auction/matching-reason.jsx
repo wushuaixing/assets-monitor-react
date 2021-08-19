@@ -15,9 +15,11 @@ export default class MatchingReason extends React.Component {
 	componentDidMount() {
 		const { content: { auctionStatusTag, roundTag } } = this.props;
 		const status = auctionStatusTag || roundTag;
-		if (this.dom.clientHeight > (status ? 94 : 64)) {
-			this.setState({ status: 'canOpen' });
-		}
+		setTimeout(() => {
+			if (this.dom.clientHeight > (status ? 96 : 64)) {
+				this.setState({ status: 'canOpen' });
+			}
+		}, 1);
 	}
 
 	componentDidUpdate(prevProps) {
