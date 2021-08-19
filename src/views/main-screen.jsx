@@ -137,7 +137,7 @@ export default class Screen extends React.Component {
 				navigate('/change/password');
 			}
 		}
-		document.body.style.overflowY = 'scroll';
+		// document.body.style.overflowY = 'scroll';
 		this.clientHeight = 500 || document.body.clientHeight;
 		if (token) {
 			authRule().then((res) => {
