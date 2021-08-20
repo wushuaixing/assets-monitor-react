@@ -108,12 +108,13 @@ export default class MatchingReason extends React.Component {
 				const remarkDom = remarkBehindArr.map((i, index) => {
 					const curDom = this.parseDom(i);
 					return	(
-						<>
-							<Ellipsis url={curDom[0].href} content={curDom[0].innerText} isSourceLink />
+						<span style={{ marginRight: '10px' }}>
+							 {/* <Ellipsis url={curDom[0].href} content={curDom[0].innerText} isSourceLink /> */}
+							<a className="click-link" target="_blank" href={curDom[0].href} rel="noreferrer">{curDom[0].innerText}</a>
 							{
 								index === remarkBehindArr.length - 1 ? null : <span style={{ marginLeft: -15 }}>、</span>
 							}
-						</>
+						</span>
 					);
 				});
 				return remarkDom;
@@ -142,8 +143,11 @@ export default class MatchingReason extends React.Component {
 							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
 									<span className="reason-list-dots">●</span>
-									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`} </span>
-									<br/>
+									<span>
+										{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}
+										{' '}
+									</span>
+									<br />
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>
@@ -155,8 +159,11 @@ export default class MatchingReason extends React.Component {
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">
 									<span className="reason-list-dots">●</span>
-									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`} </span>
-									<br/>
+									<span>
+										{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}
+										{' '}
+									</span>
+									<br />
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>
