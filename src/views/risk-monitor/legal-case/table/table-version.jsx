@@ -1,0 +1,159 @@
+import React from 'react';
+import { Pagination } from 'antd';
+import { getDynamicRisk } from 'api/dynamic';
+import { Ellipsis, Spin, Table } from '@/common';
+import { toEmpty, floatFormat } from '@/utils';
+import './index.scss';
+
+export default class TableVersion extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			dataSource: '',
+			current: 1,
+			total: 0,
+			loading: false,
+		};
+	}
+
+	componentWillMount() {
+		this.toGetData();
+	}
+
+	shouldComponentUpdate(nextProps) {
+		if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
+			this.toGetData(1, nextProps);
+		}
+		return true;
+	}
+
+	// 获取column配置
+	// 债务人类型（1：企业 2：个人）
+	// 企业债务人限高信息中的关联对象为个人的名称
+	// 个人债务人限高信息中的管理对象为企业或者为空，为空的不显示关联对象这项信息
+	toGetColumns = () => [
+		{
+			title: '终本案件',
+			width: 360,
+			dataIndex: 'caseNumber',
+			render: (value, row) => (
+				<div className="assets-info-content">
+					<li className="yc-public-normal-bold">
+						<Ellipsis content={toEmpty(row.caseCode)} width="auto" tooltip font={14} />
+					</li>
+					<li>
+						<span className="list list-title align-justify">执行标的</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content" style={{ minWidth: 140 }}>
+							{ toEmpty(row.execMoney) ? <Ellipsis content={`${floatFormat(row.execMoney)}元`} tooltip width={160} /> : '-'}
+						</span>
+						<span className="list list-title align-justify">未履行金额</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content" style={{ minWidth: 160 }}>
+							{ toEmpty(row.unExecMoney) ? <Ellipsis content={`${floatFormat(row.unExecMoney)}元`} tooltip width={160} /> : '-'}
+						</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify">立案日期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content" style={{ minWidth: 160 }}>
+							{ toEmpty(row.caseCreateTime) ? <Ellipsis content={row.caseCreateTime} tooltip width={160} /> : '-'}
+						</span>
+					</li>
+				</div>
+			),
+		}, {
+			title: '关联信息',
+			width: 360,
+			render: (value, row) => (
+				<div className="assets-info-content">
+					<li style={{ height: '20px' }} />
+					<li>
+						<span className="list list-title align-justify">终本日期</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content" style={{ minWidth: 300 }}>
+							{ toEmpty(row.caseEndTime) ? <Ellipsis content={row.caseEndTime} tooltip width={300} /> : '-'}
+						</span>
+					</li>
+					<li>
+						<span className="list list-title align-justify">执行法院</span>
+						<span className="list list-title-colon">:</span>
+						<span className="list list-content" style={{ minWidth: 300 }}>
+							{ toEmpty(row.execCourtName) ? <Ellipsis content={row.execCourtName} tooltip width={300} /> : '-'}
+						</span>
+					</li>
+				</div>
+			),
+		},
+	];
+
+	// 当前页数变化
+	onPageChange=(val) => {
+		this.toGetData(val);
+	};
+
+	// 查询数据methods
+	toGetData=(page, nextProps = {}) => {
+		const { sourceType } = nextProps;
+		const { sourceType: type, portrait } = this.props;
+		const _sourceType = sourceType || type;
+		const { api, params } = getDynamicRisk(portrait, {
+			b: _sourceType,
+		});
+		this.setState({ loading: true });
+		api.list({
+			page: page || 1,
+			num: 5,
+			...params,
+		}).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					dataSource: res.data.list,
+					current: res.data.page,
+					total: res.data.total,
+					loading: false,
+				});
+			} else {
+				this.setState({
+					dataSource: '',
+					current: 1,
+					total: 0,
+					loading: false,
+				});
+			}
+		}).catch(() => {
+			this.setState({ loading: false });
+		});
+	};
+
+	render() {
+		const { dataSource, current, total } = this.state;
+		const { loading } = this.state;
+
+		return (
+			<div className="yc-assets-auction">
+				<Spin visible={loading}>
+					<Table
+						rowClassName={() => 'yc-assets-auction-table-row'}
+						columns={this.toGetColumns()}
+						dataSource={dataSource}
+						showHeader={false}
+						pagination={false}
+					/>
+					{dataSource && dataSource.length > 0 && (
+						<div className="yc-table-pagination">
+							<Pagination
+								showQuickJumper
+								current={current || 1}
+								total={total || 0}
+								pageSize={5}
+								onChange={this.onPageChange}
+								showTotal={totalCount => `共 ${totalCount} 条信息`}
+							/>
+						</div>
+					)}
+				</Spin>
+			</div>
+		);
+	}
+}

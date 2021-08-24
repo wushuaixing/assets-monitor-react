@@ -33,3 +33,15 @@ export const limitHeightCard = async (params) => {
 	const response = await service.get('/yc/index/information/overview/limitHeight', { params });
 	return Object.assign(response.data, { name: 'limitHeight' });
 };
+
+// 被执行信息
+export const executeCard = async (params) => {
+	const response = await service.get('/yc/index/information/overview/execPerson', { params });
+	return Object.assign(response.data, { name: 'executeCard' });
+};
+
+// 终本案件
+export const legalCaseCard = async (params) => {
+	const response = await service.get('/yc/index/information/overview/execEndCase', { params });
+	return Object.assign(response.data, { name: 'legalCase' });
+};

@@ -33,6 +33,19 @@
   }
 }
 
+.overview-container-content-legalcase {
+  color: #4E5566;
+  font-size: 12px;
+  padding: 0 0 30px 10px;
+  &-item:nth-child(n + 2) {
+    margin-left: 30px;
+  }
+  &-bold {
+    color: #20242E;
+    font-weight: 600;
+  }
+}
+
 .yc-basic {
   font-size: 12px;
   display: inline-block;

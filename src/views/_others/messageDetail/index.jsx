@@ -23,28 +23,31 @@ import Dishonesty from './component/dishonesty/index';
 import BusinessRisk from './component/businessRisk/index';
 import UnBlock from './component/unblock/index';
 import LimitHeight from './component/limit-height/index';
+import executeTable from './component/execute/index';
 import Car from './component/car/index';
 import RealEstate from './component/real-estate/index';
 import Construct from './component/construct/index';
+import LegalCase from './component/legal-case/index';
 
 const createForm = Form.create;
 
 // 这个type只有两类， 1，资产挖掘， 2，风险监控
 // ruleName 数组的时候是经营风险或者是在建工程的权限校验， 字符串的时候是其他模块的校验
 const isRule = (ruleName, type, rule) => {
-	if (Array.isArray(ruleName) && ruleName.length > 0) {
+	if (Array.isArray(ruleName) && ruleName.length > 0 && rule.menu_zcwj && rule.menu_fxjk) {
 		let ruleBool = false;
 		ruleName.forEach((item) => {
-			if (type === 1 ? Object.keys(rule.menu_zcwj.children).indexOf(item) >= 0 : Object.keys(rule.menu_fxjk.children).indexOf(item) >= 0) {
+			const r = rule === 1 ? rule.menu_zcwj.children : rule.menu_fxjk.children;
+			if (Object.keys(r).indexOf(item) >= 0) {
 				ruleBool = true;
 			}
 		});
 		return ruleBool;
 	}
-	if (type === 1) {
+	if (type === 1 && rule.menu_zcwj) {
 		return Object.keys(rule.menu_zcwj.children).indexOf(ruleName) >= 0;
 	}
-	if (type === 2) {
+	if (type === 2 && rule.menu_fxjk) {
 		return Object.keys(rule.menu_fxjk.children).indexOf(ruleName) >= 0;
 	}
 	return false;
@@ -234,19 +237,6 @@ const subItems = (rule, data) => {
 			],
 		},
 		{
-			dataType: 109,
-			name: '涉诉监控',
-			total: data ? getCount(data, 109) : 0,
-			status: isRule('fxjkssjk', 2, rule),
-			tagName: 'message-litigation',
-			component: LitigationMonitoring,
-			childrenCount: [
-				{ name: '立案', count: data ? getCount(data, 10901) : 0, dataType: 10901 },
-				{ name: '开庭', count: data ? getCount(data, 10902) : 0, dataType: 10902 },
-				{ name: '裁判文书', count: data ? getCount(data, 10903) : 0, dataType: 10903 },
-			],
-		},
-		{
 			dataType: 110,
 			name: '企业破产重组',
 			total: data ? getCount(data, 110) : 0,
@@ -271,6 +261,22 @@ const subItems = (rule, data) => {
 			component: LimitHeight,
 		},
 		{
+			dataType: 11208,
+			name: '被执行信息',
+			total: data ? getCount(data, 11208) : 0,
+			status: isRule('fxjkbzxxx', 2, rule),
+			tagName: 'message-execute',
+			component: executeTable,
+		},
+		{
+			dataType: 11207,
+			name: '终本案件',
+			total: data ? getCount(data, 11207) : 0,
+			status: isRule('fxjkzbaj', 2, rule),
+			tagName: 'message-legalCase',
+			component: LegalCase,
+		},
+		{
 			dataType: 112,
 			name: '经营风险',
 			total: data ? getAllSum(riskchildren) : 0,
@@ -278,6 +284,19 @@ const subItems = (rule, data) => {
 			tagName: 'message-businessRisk',
 			component: BusinessRisk,
 			childrenCount: riskchildren,
+		},
+		{
+			dataType: 109,
+			name: '涉诉监控',
+			total: data ? getCount(data, 109) : 0,
+			status: isRule('fxjkssjk', 2, rule),
+			tagName: 'message-litigation',
+			component: LitigationMonitoring,
+			childrenCount: [
+				{ name: '立案', count: data ? getCount(data, 10901) : 0, dataType: 10901 },
+				{ name: '开庭', count: data ? getCount(data, 10902) : 0, dataType: 10902 },
+				{ name: '裁判文书', count: data ? getCount(data, 10903) : 0, dataType: 10903 },
+			],
 		},
 	];
 };
@@ -353,7 +372,6 @@ class MessageDetail extends React.Component {
 	// 点击上移
 	handleScroll = (eleID) => {
 		const dom = document.getElementById(eleID);
-		console.log('height === ', document.getElementById(eleID).offsetTop);
 		if (dom) {
 			window.scrollTo(0, document.getElementById(eleID).offsetTop + 70);
 		}
@@ -379,7 +397,7 @@ class MessageDetail extends React.Component {
 				});
 			}
 		}).catch((err) => {
-			console.log('err === ', err);
+			console.log('err ===@@ ', err);
 		});
 	};
 
@@ -422,9 +440,6 @@ class MessageDetail extends React.Component {
 									当前有效：
 									<span className="messageDetail-header-tips-num">{effectiveCount <= 0 ? '0' : effectiveCount}</span>
 									 条
-									{
-										console.log('effectiveCount',effectiveCount)
-									}
 								</span>
 								<span className="splitLine"> | </span>
 								<span>

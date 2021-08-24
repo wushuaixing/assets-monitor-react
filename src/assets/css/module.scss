@@ -393,6 +393,14 @@
     line-height: 16px;
     color: $text-title;
   }
+
+  .reason-content-wrapperSpecial {
+    max-height: 96px;
+    overflow: hidden;
+    line-height: 16px;
+    color: $text-title;
+  }
+
   .content-canClose{
     max-height: none!important;
   }

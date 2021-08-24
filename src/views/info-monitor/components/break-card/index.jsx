@@ -4,7 +4,7 @@ import { riskDishonestCount } from 'api/monitor-info/excavate/count';
 import Card from '../card';
 import './style.scss';
 
-const hasCountStyle = { width: '366px', height: '175px', marginBottom: '20px' };
+const hasCountStyle = { width: '366px', height: '148px', marginBottom: '20px' };
 export default class Broken extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -34,7 +34,7 @@ export default class Broken extends PureComponent {
 	render() {
 		const {
 			url, dishonestPropsData, dishonestPropsData: {
-				dishonest, gmtUpdate, onceDishonest, totalCount,
+				dishonest, gmtUpdate, unDishonestCount, totalCount,
 			},
 		} = this.props;
 		const { riskDishonestNum } = this.state;
@@ -54,15 +54,15 @@ export default class Broken extends PureComponent {
 				{Object.keys(dishonestPropsData).length !== 0 && (
 				<div className="risk-broken-container">
 					<div className={`risk-broken-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
-						曾失信债务人：
-						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{onceDishonest || 0 }</span>
-						名
+						未移除：
+						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{dishonest || 0 }</span>
+						条
 					</div>
 
 					<div className={`risk-broken-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-						已失信债务人：
-						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{dishonest || 0}</span>
-						名
+						已移除：
+						<span className={`risk-broken-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{unDishonestCount || 0}</span>
+						条
 					</div>
 				</div>
 				)}

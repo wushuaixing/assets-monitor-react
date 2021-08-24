@@ -81,15 +81,17 @@ export default class Assets extends React.Component {
 		});
 		const url = window.location.hash;
 		if (url.indexOf('?') === -1) {
-			if (title) {
-				this.onQueryChange({ title }, sourceType);
-			} else {
-				this.onQueryChange({}, sourceType);
-			}
-		} else {
-			this.condition = Object.assign({}, this.condition, getUrlParams(url, 'startApproveTime', 'endApproveTime'));
+			this.onQueryChange({}, sourceType);
+			return;
 		}
-		this.toInfoCount();
+		if (title) {
+			setTimeout(() => {
+				this.onQueryChange({ title }, sourceType);
+			}, 1);
+			return;
+		}
+		this.condition = Object.assign({}, this.condition, getUrlParams(url, 'startApproveTime', 'endApproveTime'));
+		// this.toInfoCount();
 	}
 
 	// 获取统计信息
@@ -237,7 +239,7 @@ export default class Assets extends React.Component {
 		const params = {
 			...this.condition,
 			process: this.condition.process === 12 ? '12,15' : this.condition.process,
-			requestSourceType:1,
+			requestSourceType: 1,
 		};
 		this.toInfoCount();
 		this.setState({
@@ -245,14 +247,21 @@ export default class Assets extends React.Component {
 			manage: _manage || false,
 		});
 		infoList(clearEmpty(params)).then((res) => {
+			const { list, page: _page, total } = res.data;
 			if (res.code === 200) {
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: list,
+					current: _page,
+					total,
 					// manage: false,
 					loading: false,
 				});
+				if (list.length === 0 && _page > 1) {
+					this.setState({
+						current: _page - 1,
+					});
+					this.onQueryChange('', '', '', _page - 1, '');
+				}
 			} else {
 				this.setState({
 					dataSource: '',
@@ -295,6 +304,7 @@ export default class Assets extends React.Component {
 			onSortChange: this.onSortChange,
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
+			refreshList: this.onQueryChange,
 		};
 		return (
 			<div className="yc-assets-auction">

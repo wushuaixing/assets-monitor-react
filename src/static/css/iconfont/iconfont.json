@@ -1,0 +1,877 @@
+{
+  "id": "1496767",
+  "name": "资产监控平台",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "22929467",
+      "name": "返回",
+      "font_class": "fanhui",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "22830084",
+      "name": "添加",
+      "font_class": "tianjia",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "22378468",
+      "name": "终本案件",
+      "font_class": "zhongbenanjian",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "22378469",
+      "name": "被执行信息",
+      "font_class": "beizhihangxinxi",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "21895582",
+      "name": "电子报",
+      "font_class": "dianzibao",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    },
+    {
+      "icon_id": "21473549",
+      "name": "全部标为已读",
+      "font_class": "quanbubiaoweiyidu",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "19206103",
+      "name": "中冠logo文",
+      "font_class": "zhongguanlogowen",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "19206090",
+      "name": "中冠logo图",
+      "font_class": "zhongguanlogotu",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "19206074",
+      "name": "中冠logo图文",
+      "font_class": "zhongguanlogotuwen",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "18721404",
+      "name": "在建工程2",
+      "font_class": "construct",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "18721405",
+      "name": "在建工程1",
+      "font_class": "construct-circle",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "18623764",
+      "name": "下拉符",
+      "font_class": "down",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "18623761",
+      "name": "icon_delete",
+      "font_class": "delete-circle",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "18623762",
+      "name": "icon_follow_add_n",
+      "font_class": "add-circle",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "18623730",
+      "name": "编辑线性",
+      "font_class": "bianjixianxing",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "18343800",
+      "name": "标签-不动产登记",
+      "font_class": "biaoqian-budongchandengji",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "18343801",
+      "name": "不动产登记",
+      "font_class": "budongchandengji",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "18343802",
+      "name": "标签-车辆信息",
+      "font_class": "biaoqian-cheliangxinxi",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "18343803",
+      "name": "车辆信息",
+      "font_class": "cheliangxinxi",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "18070848",
+      "name": "编组",
+      "font_class": "bianzu",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "17857105",
+      "name": "标记为已读",
+      "font_class": "clear",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "17671080",
+      "name": "标签-查解封资产",
+      "font_class": "unblockCube",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "17667062",
+      "name": "标签-限制高消费移除",
+      "font_class": "biaoqian-xianzhigaoxiaofeiyichu",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "17667063",
+      "name": "标签-限制高消费核查",
+      "font_class": "limitCube",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "17567328",
+      "name": "导入业务",
+      "font_class": "import",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "17567274",
+      "name": "画像查询",
+      "font_class": "avatar",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "17567275",
+      "name": "分类搜索",
+      "font_class": "classification",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "17469282",
+      "name": "查解封资产",
+      "font_class": "unlock",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "17469283",
+      "name": "限制高消费",
+      "font_class": "limit",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "16206140",
+      "name": "tel",
+      "font_class": "tel",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "15888035",
+      "name": "gotop",
+      "font_class": "gotop",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "15888036",
+      "name": "gotophover",
+      "font_class": "gotophover",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "15887973",
+      "name": "链接",
+      "font_class": "lianjie",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "14584992",
+      "name": "行政处罚",
+      "font_class": "punishment",
+      "unicode": "e6e5",
+      "unicode_decimal": 59109
+    },
+    {
+      "icon_id": "14584993",
+      "name": "严重违法",
+      "font_class": "illegal",
+      "unicode": "e6e6",
+      "unicode_decimal": 59110
+    },
+    {
+      "icon_id": "14584978",
+      "name": "破产重组",
+      "font_class": "bankruptcy-2",
+      "unicode": "e6e4",
+      "unicode_decimal": 59108
+    },
+    {
+      "icon_id": "14512759",
+      "name": "代位权(文书)",
+      "font_class": "subrogation-judgment",
+      "unicode": "e6c7",
+      "unicode_decimal": 59079
+    },
+    {
+      "icon_id": "14512760",
+      "name": "代位权(开庭)",
+      "font_class": "subrogation-court",
+      "unicode": "e6c8",
+      "unicode_decimal": 59080
+    },
+    {
+      "icon_id": "14512761",
+      "name": "代位权(立案)",
+      "font_class": "subrogation-trial",
+      "unicode": "e6c9",
+      "unicode_decimal": 59081
+    },
+    {
+      "icon_id": "14512772",
+      "name": "涉诉(开庭)",
+      "font_class": "lawsuit-court",
+      "unicode": "e6ca",
+      "unicode_decimal": 59082
+    },
+    {
+      "icon_id": "14512774",
+      "name": "土地转让",
+      "font_class": "land-transfer",
+      "unicode": "e6e3",
+      "unicode_decimal": 59107
+    },
+    {
+      "icon_id": "14184443",
+      "name": "机构",
+      "font_class": "org",
+      "unicode": "e6cb",
+      "unicode_decimal": 59083
+    },
+    {
+      "icon_id": "14184444",
+      "name": "代位权",
+      "font_class": "subrogation",
+      "unicode": "e6cc",
+      "unicode_decimal": 59084
+    },
+    {
+      "icon_id": "14184445",
+      "name": "股权质押",
+      "font_class": "stock",
+      "unicode": "e6cd",
+      "unicode_decimal": 59085
+    },
+    {
+      "icon_id": "14184446",
+      "name": "金融资产",
+      "font_class": "finance",
+      "unicode": "e6ce",
+      "unicode_decimal": 59086
+    },
+    {
+      "icon_id": "14184447",
+      "name": "查询",
+      "font_class": "query",
+      "unicode": "e6cf",
+      "unicode_decimal": 59087
+    },
+    {
+      "icon_id": "14184448",
+      "name": "经营风险",
+      "font_class": "operation-risk",
+      "unicode": "e6d0",
+      "unicode_decimal": 59088
+    },
+    {
+      "icon_id": "14184449",
+      "name": "借",
+      "font_class": "borrow",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
+      "icon_id": "14184450",
+      "name": "金额",
+      "font_class": "money",
+      "unicode": "e6d2",
+      "unicode_decimal": 59090
+    },
+    {
+      "icon_id": "14184451",
+      "name": "涉诉信息",
+      "font_class": "lawsuit",
+      "unicode": "e6d3",
+      "unicode_decimal": 59091
+    },
+    {
+      "icon_id": "14184452",
+      "name": "我的机构",
+      "font_class": "my-org",
+      "unicode": "e6d4",
+      "unicode_decimal": 59092
+    },
+    {
+      "icon_id": "14184453",
+      "name": "添加",
+      "font_class": "append",
+      "unicode": "e6d5",
+      "unicode_decimal": 59093
+    },
+    {
+      "icon_id": "14184454",
+      "name": "债务人",
+      "font_class": "debtor",
+      "unicode": "e6d6",
+      "unicode_decimal": 59094
+    },
+    {
+      "icon_id": "14184455",
+      "name": "icon_arrow",
+      "font_class": "icon_arrow",
+      "unicode": "e6d7",
+      "unicode_decimal": 59095
+    },
+    {
+      "icon_id": "14184456",
+      "name": "失信记录",
+      "font_class": "broken",
+      "unicode": "e6d8",
+      "unicode_decimal": 59096
+    },
+    {
+      "icon_id": "14184457",
+      "name": "破产重组",
+      "font_class": "bankruptcy",
+      "unicode": "e6d9",
+      "unicode_decimal": 59097
+    },
+    {
+      "icon_id": "14184458",
+      "name": "业务",
+      "font_class": "business",
+      "unicode": "e6da",
+      "unicode_decimal": 59098
+    },
+    {
+      "icon_id": "14184459",
+      "name": "设置",
+      "font_class": "setting",
+      "unicode": "e6db",
+      "unicode_decimal": 59099
+    },
+    {
+      "icon_id": "14184460",
+      "name": "招投标",
+      "font_class": "bidding",
+      "unicode": "e6dc",
+      "unicode_decimal": 59100
+    },
+    {
+      "icon_id": "14184461",
+      "name": "无形资产",
+      "font_class": "intangible",
+      "unicode": "e6dd",
+      "unicode_decimal": 59101
+    },
+    {
+      "icon_id": "14184462",
+      "name": "资产拍卖",
+      "font_class": "auction",
+      "unicode": "e6de",
+      "unicode_decimal": 59102
+    },
+    {
+      "icon_id": "14184463",
+      "name": "资产",
+      "font_class": "assets",
+      "unicode": "e6df",
+      "unicode_decimal": 59103
+    },
+    {
+      "icon_id": "14184464",
+      "name": "土地信息",
+      "font_class": "land",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
+      "icon_id": "14184465",
+      "name": "叹号",
+      "font_class": "exc-mark",
+      "unicode": "e6e1",
+      "unicode_decimal": 59105
+    },
+    {
+      "icon_id": "14184466",
+      "name": "动产抵押",
+      "font_class": "chattel",
+      "unicode": "e6e2",
+      "unicode_decimal": 59106
+    },
+    {
+      "icon_id": "14184366",
+      "name": "采矿权发证",
+      "font_class": "intangible-mining",
+      "unicode": "e6ac",
+      "unicode_decimal": 59052
+    },
+    {
+      "icon_id": "14184367",
+      "name": "股权质押",
+      "font_class": "stock-2",
+      "unicode": "e6ad",
+      "unicode_decimal": 59053
+    },
+    {
+      "icon_id": "14184368",
+      "name": "经营异常",
+      "font_class": "abnormal",
+      "unicode": "e6ae",
+      "unicode_decimal": 59054
+    },
+    {
+      "icon_id": "14184369",
+      "name": "排污权发证",
+      "font_class": "intangible-dump",
+      "unicode": "e6af",
+      "unicode_decimal": 59055
+    },
+    {
+      "icon_id": "14184370",
+      "name": "动产抵押",
+      "font_class": "chattel-2",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    },
+    {
+      "icon_id": "14184372",
+      "name": "商标专利",
+      "font_class": "intangible-trademark",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "14184373",
+      "name": "涉诉(立案)",
+      "font_class": "lawsuit-trial",
+      "unicode": "e6b3",
+      "unicode_decimal": 59059
+    },
+    {
+      "icon_id": "14184375",
+      "name": "失信(移除)",
+      "font_class": "broken-remove",
+      "unicode": "e6b4",
+      "unicode_decimal": 59060
+    },
+    {
+      "icon_id": "14184376",
+      "name": "建筑建造资质",
+      "font_class": "intangible-build",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
+    },
+    {
+      "icon_id": "14184377",
+      "name": "失信(列入)",
+      "font_class": "broken-add",
+      "unicode": "e6b6",
+      "unicode_decimal": 59062
+    },
+    {
+      "icon_id": "14184378",
+      "name": "税收违法",
+      "font_class": "tax",
+      "unicode": "e6b7",
+      "unicode_decimal": 59063
+    },
+    {
+      "icon_id": "14184379",
+      "name": "涉诉(文书)",
+      "font_class": "lawsuit-judgment",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "14184380",
+      "name": "资产拍卖",
+      "font_class": "auction-2",
+      "unicode": "e6b9",
+      "unicode_decimal": 59065
+    },
+    {
+      "icon_id": "14184381",
+      "name": "土地抵押",
+      "font_class": "land-mortgage",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "14184382",
+      "name": "土地出让",
+      "font_class": "land-result",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "13694890",
+      "name": "提醒",
+      "font_class": "remind",
+      "unicode": "e688",
+      "unicode_decimal": 59016
+    },
+    {
+      "icon_id": "13455555",
+      "name": "编辑",
+      "font_class": "edit",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "13455556",
+      "name": "变更记录",
+      "font_class": "change-record",
+      "unicode": "e687",
+      "unicode_decimal": 59015
+    },
+    {
+      "icon_id": "356441",
+      "name": "勾",
+      "font_class": "tick",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "12736814",
+      "name": "收缩",
+      "font_class": "chevron-down",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "12736832",
+      "name": "展开",
+      "font_class": "chevron-up",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "12354440",
+      "name": "验证码svg",
+      "font_class": "resetImg",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "12354433",
+      "name": "密码svg",
+      "font_class": "password",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "12354435",
+      "name": "账号",
+      "font_class": "username",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "1002704",
+      "name": "星号",
+      "font_class": "symbol-star",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    },
+    {
+      "icon_id": "11724744",
+      "name": "search-black",
+      "font_class": "search",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "11724484",
+      "name": "排序1",
+      "font_class": "sort-desc",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "11724485",
+      "name": "排序2",
+      "font_class": "sort-asc",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "11724347",
+      "name": "首页图标1",
+      "font_class": "home-info",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "11724185",
+      "name": "首页图标3",
+      "font_class": "home-money",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "12159950",
+      "name": "arrow-white",
+      "font_class": "arrow-line-copy",
+      "unicode": "e759",
+      "unicode_decimal": 59225
+    },
+    {
+      "icon_id": "11724091",
+      "name": "点2",
+      "font_class": "dian",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "11724092",
+      "name": "关闭",
+      "font_class": "guanbi",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "11724093",
+      "name": "导出",
+      "font_class": "export",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "11724094",
+      "name": "加号",
+      "font_class": "add",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "11724096",
+      "name": "排序",
+      "font_class": "sort",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "11724097",
+      "name": "箭头",
+      "font_class": "jiantou",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "11724098",
+      "name": "减号",
+      "font_class": "subtract",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "11724099",
+      "name": "关注",
+      "font_class": "follow",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "11724100",
+      "name": "历史信息",
+      "font_class": "history",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "11724105",
+      "name": "首页图标2",
+      "font_class": "home-user",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "11724106",
+      "name": "统计",
+      "font_class": "tongji",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "11724107",
+      "name": "问号",
+      "font_class": "question",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "11724108",
+      "name": "下拉箭头-上",
+      "font_class": "arrow-up",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "11724109",
+      "name": "下拉箭头",
+      "font_class": "arrow-down",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "11724113",
+      "name": "已关注",
+      "font_class": "follow-ed",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "11724114",
+      "name": "arrow-white",
+      "font_class": "arrow-line",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "11724115",
+      "name": "check",
+      "font_class": "checkbox",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "11724116",
+      "name": "calendar",
+      "font_class": "calendar",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "11724117",
+      "name": "check2",
+      "font_class": "checked",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "11724118",
+      "name": "delete",
+      "font_class": "delete",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "11724120",
+      "name": "warning",
+      "font_class": "warning",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "11724121",
+      "name": "gotop-hover",
+      "font_class": "top-hover",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "11724122",
+      "name": "gotop",
+      "font_class": "top",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "11724125",
+      "name": "下载",
+      "font_class": "download",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "11724127",
+      "name": "消息-svg",
+      "font_class": "message",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "11724129",
+      "name": "logo_white",
+      "font_class": "logo",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "11720727",
+      "name": "已失信",
+      "font_class": "dishonest",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "681206",
+      "name": "圆点中",
+      "font_class": "dot",
+      "unicode": "e758",
+      "unicode_decimal": 59224
+    }
+  ]
+}

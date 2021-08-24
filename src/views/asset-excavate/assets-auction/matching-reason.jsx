@@ -13,9 +13,13 @@ export default class MatchingReason extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.dom.clientHeight > 64) {
-			this.setState({ status: 'canOpen' });
-		}
+		const { content: { auctionStatusTag, roundTag } } = this.props;
+		const status = auctionStatusTag || roundTag;
+		setTimeout(() => {
+			if (this.dom.clientHeight > (status ? 96 : 64)) {
+				this.setState({ status: 'canOpen' });
+			}
+		}, 1);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -104,12 +108,13 @@ export default class MatchingReason extends React.Component {
 				const remarkDom = remarkBehindArr.map((i, index) => {
 					const curDom = this.parseDom(i);
 					return	(
-						<>
-							<Ellipsis url={curDom[0].href} content={curDom[0].innerText} isSourceLink />
+						<span style={{ marginRight: '10px' }}>
+							 {/* <Ellipsis url={curDom[0].href} content={curDom[0].innerText} isSourceLink /> */}
+							<a className="click-link" target="_blank" href={curDom[0].href} rel="noreferrer">{curDom[0].innerText}</a>
 							{
 								index === remarkBehindArr.length - 1 ? null : <span style={{ marginLeft: -15 }}>、</span>
 							}
-						</>
+						</span>
 					);
 				});
 				return remarkDom;
@@ -121,24 +126,28 @@ export default class MatchingReason extends React.Component {
 	render() {
 		const {
 			content: {
-				reason, remark, duty, approveTime, pushType,
+				reason, remark, duty, approveTime, pushType, auctionStatusTag, roundTag,
 			}, dishonest,
 		} = this.props;
+		const wrapper = auctionStatusTag || roundTag;
 		// console.log(pushType);		// 类型 1 结构化 0 全文
 		const remarkOrder = pushType ? 'last' : 'first';
 		const { status } = this.state;
 		// const testRemark = '经裁判文书分析，债务人被他方起诉，涉诉债权额xx万元本金及相应利息，详情见<a target=\'_blank\' href=\'http://www.baidu.com/\'>文书链接1</a>、<a target=\'_blank\' href=\'http://www.baidu.com/\'>文书链接2</a>';
 		return (
 			<div className="assets-matching-reason-wrapper">
-				<div className={`reason-content-wrapper content-${status}`}>
+				<div className={`reason-content-${wrapper ? 'wrapperSpecial' : 'wrapper'} content-${status}`}>
 					<div className="reason-content" ref={e => this.dom = e}>
 						{/* 全文匹配放在上面 */}
 						{
 							remark && remarkOrder === 'first' ? (
 								<div className="reason-list">
 									<span className="reason-list-dots">●</span>
-									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`} </span>
-									<br/>
+									<span>
+										{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}
+										{' '}
+									</span>
+									<br />
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>
@@ -150,8 +159,11 @@ export default class MatchingReason extends React.Component {
 							remark && remarkOrder === 'last' ? (
 								<div className="reason-list">
 									<span className="reason-list-dots">●</span>
-									<span>{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`} </span>
-									<br/>
+									<span>
+										{` 审核备注 | ${new Date(approveTime * 1000).format('yyyy-MM-dd')}`}
+										{' '}
+									</span>
+									<br />
 									<span dangerouslySetInnerHTML={{ __html: this.toGetRemarkBefore(remark) }} className="yc-text-content" />
 									{this.toGetRemarkBehind(remark)}
 								</div>

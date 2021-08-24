@@ -7,14 +7,13 @@ const modalPro = (props) => {
 		row: { id, isAttention }, onClick, api, index, single,
 	} = props;
 	const _isAttention = !isAttention;
-	// console.log(props);
 	const params = single ? { id } : { idList: [id] };
 	api(params, _isAttention).then((res) => {
 		if (res.code === 200) {
 			if (isAttention) {
-				message.success('已取消收藏本条信息');
+				message.success('已取消收藏');
 			} else {
-				message.success('已收藏信息');
+				message.success('收藏成功');
 			}
 			onClick({ id, isAttention: _isAttention, index }, 'isAttention');
 		}

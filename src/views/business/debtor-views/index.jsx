@@ -8,7 +8,7 @@ import {
 import {
 	obligorList, exportExcel, openPush, closePush,
 } from '@/utils/api/debator';
-import { clearEmpty } from '@/utils';
+import { clearEmpty, parseQuery } from '@/utils';
 import TableList from './table';
 import './style.scss';
 
@@ -46,7 +46,11 @@ class BusinessDebtor extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getData();
+		const { hash } = window.location;
+		const { status } = parseQuery(hash);
+		const { form: { setFieldsValue } } = this.props;
+		setFieldsValue({ pushState: Number(status) || '' });
+		this.search();
 		window._addEventListener(document, 'keyup', this.toKeyCode13);
 	}
 

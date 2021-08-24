@@ -24,3 +24,7 @@ export const processList = params => service.post('/yc/monitor/process/list', pa
 // 推送人修改及保存
 export const processSave = params => service.post('/yc/monitor/process/save', params)
 	.then(res => res.data);
+
+// 获取当前推送信息
+export const getCurrentRemindInfo = () => service.get('/yc/user/getCurrentRemindInfo')
+	.then(res => res.data);

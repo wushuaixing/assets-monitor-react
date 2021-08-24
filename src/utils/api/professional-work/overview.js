@@ -214,3 +214,15 @@ export const overviewBusiness = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/business', { params });
 	return response.data;
 };
+
+// 终本案件
+export const execEndCaseRisk = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/execEndCase', { params });
+	return response.data;
+};
+
+// 被执行信息
+export const execPersonRisk = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/execPerson', { params });
+	return response.data;
+};

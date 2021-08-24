@@ -1,0 +1,17 @@
+.legalcase-card-content {
+  display: inline-block;
+  width: 100%;
+  vertical-align: middle;
+  line-height: 12px;
+  &-card {
+    color: #4E5566;
+    font-size: 12px;
+    line-height: 12px;
+    padding-top: 16px;
+    &-num {
+      color: $text-title;
+      padding: 0 5px;
+      font-weight: bold;
+    }
+  }
+}

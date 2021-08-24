@@ -99,13 +99,18 @@ const dd ={
 
 	/*债务人详情，风险*/
 	// 限制高消费
-	"DR20501": "/yc/obligor/monitor/risk/LimitHeightList",
+	"DR20501": "/yc/obligor/monitor/risk/limitHeight/limitHeightList", // 限制高消费-列入
+	"DR20502": "/yc/obligor/monitor/risk/limitHeight/limitHeightList", // 限制高消费-已移除
 
 	/* 风险 */
 	"DR30201":"/yc/obligor/monitor/risk/bankruptcy/list", // 破产重组
 	"DR20604":"/yc/obligor/monitor/risk/lawsuit/judgment-document/list", // 涉诉文书
 	"DR20401":"/yc/obligor/monitor/risk/dishonest/list?removeStatus=false", //  失信记录-列入
 	"DR20402":"/yc/obligor/monitor/risk/dishonest/list?removeStatus=true", //  失信记录-已移除
+	"DR20701":"/yc/obligor/monitor/risk/execEndCase/execEndCaseList", // 终本案件-列入
+	"DR20702":"/yc/obligor/monitor/risk/execEndCase/execEndCaseList", // 终本案件-已移除
+	"DR20801":"/yc/obligor/monitor/risk/execPerson/list", // 被执行信息-列入
+	"DR20802":"/yc/obligor/monitor/risk/execPerson/list", // 被执行信息-已移除
 	// "R20502":"", //  限高
 	"DR20601":"/yc/obligor/monitor/risk/lawsuit/trial/list", // 涉诉信息_立案
 	"DR20602":"/yc/obligor/monitor/risk/lawsuit/court-notice/list", // 涉诉信息_开庭

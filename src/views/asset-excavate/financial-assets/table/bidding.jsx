@@ -38,7 +38,7 @@ const columns = (props) => {
 			title: '操作',
 			width: 80,
 			unNormal: true,
-			className: 'tAlignCenter_important yc-assets-auction-action',
+			className: 'tAlignCenter_important yc-assets-bidding-attentions ',
 			render: (text, row, index) => (
 				<Attentions
 					text={text}

@@ -7,7 +7,7 @@ import TenderBid from '../../asset-excavate/tender-bid/table-intact';
 import FinancialAssets from '../../asset-excavate/financial-assets/table'; // 金融资产
 import ChattelMortgage from '../../asset-excavate/chattel-mortgage/table-intact'; // 动产抵押
 import Car from '../../asset-excavate/car/table-intact'; // 车辆信息
-import Newsettler from '../../asset-excavate/epaper-data/table-intact'; // 电子报
+import Epaper from '../../asset-excavate/epaper-data/table-intact'; // 电子报
 import RealEstate from '../../asset-excavate/real-estate/table-intact'; // 不动产登记
 import Lawsuit from '../../risk-monitor/lawsuits-monitor/table-intact';
 import Operation from '../../risk-monitor/operation-risk/table-intact';
@@ -17,6 +17,8 @@ import IntangibleAssets from '../../asset-excavate/intangible-assets/table-intac
 import Pledge from '../../asset-excavate/equity-pledge/table-intact';
 import UnBlock from '../../asset-excavate/seized-unblock/table/table-intact'; // 查/解封资产
 import LimitHeight from '../../risk-monitor/limit-consumption/table/table-intact';
+import Execute from '../../risk-monitor/execute-info/table/table-intact';// 被执行信息
+import LegalCase from '../../risk-monitor/legal-case/table/table-intact'; // 终本案件
 import ConstructProject from '../../asset-excavate/construct-project/table/table-intact'; // 在建工程
 
 const TableItem	= (props) => {
@@ -50,7 +52,7 @@ const TableItem	= (props) => {
 					YC0209: <UnBlock />,
 					YC0210: <RealEstate />,
 					YC0211: <Car />,
-					YC0213: <Newsettler />,
+					YC0213: <Epaper />,
 					YC021201: <ConstructProject sourceType="YC021201" onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
 					YC021202: <ConstructProject sourceType="YC021202" onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
 					YC021203: <ConstructProject sourceType="YC021203" onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
@@ -66,6 +68,8 @@ const TableItem	= (props) => {
 					YC030306: <Operation sourceType="YC030306" onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
 					YC0304: <BrokenRecord />,
 					YC0305: <LimitHeight />,
+					YC0309: <Execute />,
+					YC0306: <LegalCase />,
 				}[ID] || <AssetsAuction />
 			}
 		</React.Fragment>

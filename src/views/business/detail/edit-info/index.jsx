@@ -178,7 +178,6 @@ class EditBusiness extends React.Component {
 			id, source, businessData, loading, isEdit,
 		} = this.state;
 		const { form: { getFieldProps } } = this.props; // 会提示props is not defined
-		console.log('=======',businessData)
 		return (
 			<div className="edit-info-wrapper">
 				<div className="info-navigation info-wrapper">

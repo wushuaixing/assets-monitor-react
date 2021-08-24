@@ -10,7 +10,7 @@ export default class RiskInformation extends React.Component {
 
 	render() {
 		const {
-			IconType, IconColor, text, children, customStyle, Risk, onClick, totalCount, asset, updateTime, unReadText, unReadNum,
+			IconType, IconColor, text, children, customStyle, Risk, onClick, totalCount, asset, unReadText, unReadNum,
 		} = this.props;
 		return (
 			<div className={`monitor-card-container ${totalCount && 'monitor-card-noCount-hover'}`} style={customStyle} onClick={() => totalCount && onClick && onClick()}>
@@ -40,11 +40,11 @@ export default class RiskInformation extends React.Component {
 							? <Icon className={`monitor-card-container-arrow-icon ${!totalCount && 'monitor-card-noCount-color'}`} type="icon-icon_arrow" style={{ color: '#7D8699' }} /> : null
 					}
 				</div>
-				{totalCount && updateTime ? (
-					<div className="card-footer">
-						{`最近更新时间：${updateTime}`}
-					</div>
-				) : null}
+				{/* {totalCount && updateTime ? ( */}
+				{/*	<div className="card-footer"> */}
+				{/*		{`最近更新时间：${updateTime}`} */}
+				{/*	</div> */}
+				{/* ) : null} */}
 
 			</div>
 		);

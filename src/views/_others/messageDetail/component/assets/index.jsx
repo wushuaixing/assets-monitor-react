@@ -52,6 +52,7 @@ class Assets extends Component {
 		const reg = new RegExp(10101);
 		const api = message.filter(item => reg.test(item.dataType))[0].list;
 		const params = {
+			requestSourceType: 1,
 			obligorId,
 			stationId,
 			page,
@@ -100,6 +101,7 @@ class Assets extends Component {
 			total,
 			isShowPagination: total > 5,
 			pageSize: 5,
+			refreshList: this.toGetData,
 		};
 		return (
 			<React.Fragment>

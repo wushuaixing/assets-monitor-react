@@ -12,7 +12,6 @@ import './style.scss';
 export default class InfoSearch extends React.Component {
 	constructor(props) {
 		super(props);
-		// console.log(props.rule, 333);
 		this.state = {
 			config: [
 				{
@@ -42,9 +41,20 @@ export default class InfoSearch extends React.Component {
 	}
 
 	toGoAttentionPage =() => {
+		const { config } = this.state;
 		const { hash } = window.location;
-		if (hash === '#/info/monitor/excavate' || hash === '#/info/monitor') {
-			navigate('/info/monitor/attention?init=YC02');
+		const initMap = new Map([
+			[1, 'YC02'],
+			[2, 'YC03'],
+		]);
+
+		const id = config && config[0].id;
+		const initType = initMap.get(id);
+		if (hash === '#/info/monitor') {
+			navigate(`/info/monitor/attention?init=${initType}`);
+		}
+		if (hash === '#/info/monitor/excavate') {
+			navigate(`/info/monitor/attention?init=${initType}`);
 		}
 		if (hash === '#/info/monitor/risk') {
 			navigate('/info/monitor/attention?init=YC03');

@@ -9,6 +9,7 @@ import { clearEmpty, changeURLArg } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 import { promiseAll } from '@/utils/promise';
 import { getUrlParams } from '@/views/asset-excavate/query-util';
+import { axiosPromiseArr } from 'service';
 import TableBidding from './table/bidding';
 import TableMerchants from './table/merchants';
 import QueryBidding from './query/bidding';
@@ -265,6 +266,12 @@ export default class Subrogation extends React.Component {
 
 	// sourceType变化
 	onSourceType = (val) => {
+		axiosPromiseArr.forEach((c, index) => {
+			if (c.url !== '/api/auth/currentOrg') {
+				c.cancel();
+				delete axiosPromiseArr[index];
+			}
+		});
 		this.setState({
 			sourceType: val,
 			dataSource: '',
@@ -333,9 +340,7 @@ export default class Subrogation extends React.Component {
 				});
 				message.error(res.message || '网络请求异常请稍后再试！');
 			}
-		}).catch(() => {
-			this.setState({ loading: false });
-		});
+		}).catch(() => {});
 	};
 
 	// 查询是否有未读消息
