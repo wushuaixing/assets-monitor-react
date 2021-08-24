@@ -5,11 +5,12 @@ import { Provider } from 'react-redux';
 import { message } from 'antd';
 import store from './stores/app';
 import App from './views/app';
+import { isZhongguan } from './utils';
 import './assets/css/index.scss';
 import './utils/config';
 
 const Version = 'v2.11';
-const BetaNumber = '.3';
+const BetaNumber = '.7';
 const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
 window.CurrentVersions = info;
 if (window.location.protocol === 'http:') {
@@ -27,6 +28,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 message.config({ top: 300 });
+
+
+document.title = isZhongguan() ? '中冠数据科技' : '源诚资产监控平台';
 
 ReactDOM.render(
 	<Provider store={store} className="Provider">
