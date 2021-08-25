@@ -184,7 +184,7 @@ export default class Subrogation extends React.Component {
 			const { data, code } = res;
 			if (code === 200) {
 				this.setState({
-					mortgageFlag: data.mortgageFlag,
+					mortgageFlag: data.estateRegisterFlag,
 				});
 			}
 		});
