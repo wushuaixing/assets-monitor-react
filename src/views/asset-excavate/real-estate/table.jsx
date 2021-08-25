@@ -100,7 +100,7 @@ const columns = (props) => {
 			width: 320,
 			dataIndex: 'vehicleNumber',
 			render: (text, row) => (
-				<div className="yc-assets-table-info">
+				<div className="yc-assets-table-info" style={{ display: 'flex', flexDirection: 'column' }}>
 					{
 					row.title || row.url ? (
 						// <Tooltip placement="top" title={row.title}>
