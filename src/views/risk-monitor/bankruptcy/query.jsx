@@ -5,6 +5,9 @@ import {
 } from '@/common';
 import { getUrlParams, reserUrl } from '@/views/asset-excavate/query-util';
 
+/**
+ * 信息监控-风险监控-破产重组-搜索条件
+ */
 class QueryCondition extends React.Component {
 	constructor(props) {
 		super(props);
@@ -72,34 +75,14 @@ class QueryCondition extends React.Component {
 		return (
 			<div className="yc-content-query">
 				<div className="yc-query-item">
-					<Input title="企业" style={_style1} size="large" maxLength="40" placeholder="企业名称" {...getFieldProps('obligorName')} />
+					<Input title="被申请人" style={_style1} size="large" maxLength="40" placeholder="企业名称" {...getFieldProps('obligorName')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="标题" style={_style1} size="large" maxLength="40" placeholder="标题信息" {...getFieldProps('title')} />
+					<Input title="案号" style={_style1} size="large" maxLength="40" placeholder="案号" {...getFieldProps('title')} />
 				</div>
 				<div className="yc-query-item">
-					<Input title="起诉法院" style={_style1} size="large" maxLength="20" placeholder="法院名称" {...getFieldProps('court')} />
+					<Input title="法院" style={_style1} size="large" maxLength="20" placeholder="法院名称" {...getFieldProps('court')} />
 				</div>
-
-				<div className="yc-query-item">
-					<span className="yc-query-item-lable">发布日期：</span>
-					<DatePicker
-						size="large"
-						style={_style2}
-						placeholder="开始日期"
-						{...getFieldProps('publishDateStart', timeOption)}
-						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('publishDateEnd'))}
-					/>
-					<span className="yc-query-item-lable">至</span>
-					<DatePicker
-						size="large"
-						style={_style2}
-						placeholder="结束日期"
-						{...getFieldProps('publishDateEnd', timeOption)}
-						disabledDate={time => timeRule.disabledEndDate(time, getFieldValue('publishDateStart'))}
-					/>
-				</div>
-
 				<div className="yc-query-item">
 					<span className="yc-query-item-lable">更新日期：</span>
 					<DatePicker
