@@ -66,8 +66,8 @@ export default class IntangibleAssets extends React.Component {
 	};
 
 	// 获取统计信息
-	toInfoCount=(nextSourceType) => {
-		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
+	toInfoCount=(nextSourceType, condition) => {
+		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType, condition);
 	};
 
 	// 切换列表类型
@@ -152,6 +152,8 @@ export default class IntangibleAssets extends React.Component {
 
 	// sourceType变化
 	onSourceType=(sourceType) => {
+		const { sourceType: _sourceType } = this.state;
+		if (_sourceType === sourceType) return;
 		axiosPromiseArr.forEach((c, index) => {
 			if (c.url !== '/api/auth/currentOrg') {
 				c.cancel();
@@ -234,6 +236,7 @@ export default class IntangibleAssets extends React.Component {
 		API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.config[toGetProcess(__type, this.config)].number = res.data.total;
+				this.toInfoCount(__type, clearEmpty(this.condition));
 				// tabConfig[toGetProcess(__type, tabConfig)].number = res.data.total;
 				this.setState({
 					// tabConfig,

@@ -17,10 +17,10 @@ export default class TabsIntact extends React.Component {
 	// 	this.toRefreshCount(source, sourceType);
 	// }
 
-	toRefreshCount=(config, type) => {
+	toRefreshCount=(config, type, condition) => {
 		const { onRefresh } = this.props;
 		const _source =	config;
-		this.toGetUnReadCount(_source);
+		this.toGetUnReadCount(_source, condition);
 		config.forEach((i, index) => {
 			if (i.id !== type) {
 				console.log(i.id, this.isUrlParams(i.id));
@@ -56,10 +56,10 @@ export default class TabsIntact extends React.Component {
 		return {};
 	};
 
-	toGetUnReadCount=(config) => {
+	toGetUnReadCount=(config, condition) => {
 		const { onRefresh } = this.props;
 		const { _source } = this.state;
-		const apiList = config.map(i => ({ api: APISource(i.id, 'listCount')({ ...this.isUrlParams(i.id), isRead: 0 }), info: { id: i.id } }));
+		const apiList = config.map(i => ({ api: APISource(i.id, 'listCount')({ ...this.isUrlParams(i.id), isRead: 0, ...condition }), info: { id: i.id } }));
 		requestAll(apiList).then((res) => {
 			res.forEach((item, index) => {
 				_source[index].dot = item.data;
