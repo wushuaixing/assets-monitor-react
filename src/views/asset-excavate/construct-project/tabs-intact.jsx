@@ -13,10 +13,10 @@ export default class TabsIntact extends React.Component {
 		};
 	}
 
-	toRefreshCount = (config, type) => {
+	toRefreshCount = (config, type, params) => {
 		const { onRefresh } = this.props;
 		const _source =	config;
-		this.toGetUnReadCount(_source);
+		this.toGetUnReadCount(_source, params, type);
 		config.forEach((i) => {
 			if (i.id !== type) {
 				API(i.id, 'listCount')(this.isUrlParams(i.id)).then((res) => {
@@ -48,14 +48,15 @@ export default class TabsIntact extends React.Component {
 		return {};
 	};
 
-	toGetUnReadCount = (config) => {
+	toGetUnReadCount = (config, params) => {
 		const { onRefresh } = this.props;
-		const params = {
+		const promiseArray = [];
+		const _params = {
+			...params,
 			isRead: 0,
 		};
-		const promiseArray = [];
 		config.forEach((item) => {
-			promiseArray.push(API(item.id, 'listCount')(params));
+			promiseArray.push(API(item.id, 'listCount')(_params));
 		});
 		if (promiseArray.length > 0) {
 			const handlePromise = promiseAll(promiseArray.map(promiseItem => promiseItem.catch(err => err)));
