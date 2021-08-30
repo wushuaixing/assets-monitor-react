@@ -173,6 +173,27 @@ export default class Subrogation extends React.Component {
 		this.onUnReadCount(sourceType);
 	};
 
+	// tabs 数量请求
+	getReadNumber = (params) => {
+		const { tabConfig } = this.state;
+		const _params = {
+			...params,
+			isRead: 0,
+		};
+		const apiArr = [Apis.infoListCountBid(_params), Apis.infoListCountMerchants(_params), Apis.infoListCountPub(_params)];
+		Promise.all(apiArr).then((res) => {
+			const newConfig = [];
+			tabConfig.forEach((item, index) => {
+				// eslint-disable-next-line no-param-reassign
+				const itemContent = { ...item, dot: res[index].data };
+				newConfig.push(itemContent);
+			});
+			this.setState({
+				tabConfig: newConfig,
+			});
+		});
+	}
+
 	// 全部标记为已读
 	handleAllRead = () => {
 		const _this = this;
@@ -341,6 +362,7 @@ export default class Subrogation extends React.Component {
 				message.error(res.message || '网络请求异常请稍后再试！');
 			}
 		}).catch(() => {});
+		this.getReadNumber(con);
 	};
 
 	// 查询是否有未读消息
@@ -349,10 +371,9 @@ export default class Subrogation extends React.Component {
 		unReadCount().then((res) => {
 			const { data, code } = res;
 			// console.log('data onUnReadCount === ', data);
-			let _tabConfig = [];
 			if (code === 200) {
 				if (sourceType && sourceType > 0) {
-					_tabConfig = tabConfig.map((item) => {
+					tabConfig.map((item) => {
 						const _item = item;
 						if (_item.id === sourceType) {
 							_item.dot = data[sourceTypeMap.get(sourceType)];
@@ -360,18 +381,9 @@ export default class Subrogation extends React.Component {
 						return _item;
 					});
 				} else {
-					_tabConfig = tabConfig.map((item) => {
-						const _item = item;
-						if (_item.id === 1)_item.dot = data.auctionBiddingCount;
-						if (_item.id === 2)_item.dot = data.financeInvestment;
-						if (_item.id === 3)_item.dot = data.financeCount;
-						return _item;
-					});
+					this.getReadNumber();
 				}
-				// console.log('_tabConfig === ', _tabConfig);
-				this.setState({ tabConfig: _tabConfig }, () => {
-					this.toInfoCount(sourceType);
-				});
+				this.toInfoCount(sourceType);
 			} else {
 				this.toInfoCount(sourceType);
 			}
