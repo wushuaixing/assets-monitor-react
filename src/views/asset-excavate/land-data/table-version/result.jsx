@@ -48,7 +48,7 @@ export default class TableIntact extends React.Component {
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
 							<Ellipsis content={row.projectName ? row.projectName : row.url} url={row.url} tooltip width={300} font={14} isSourceLink />
 						</span>
-						{ row.landUse && <span className="yc-case-reason text-ellipsis">{row.landUse}</span>}
+						{ row.landUse && <span style={{ margin: '0px' }} className="yc-case-reason text-ellipsis">{row.landUse}</span>}
 					</li>
 					<li>
 						<span className="list list-content">{w(row.administrativeRegion)}</span>

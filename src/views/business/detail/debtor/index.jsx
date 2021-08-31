@@ -299,7 +299,12 @@ export default class Enterprise extends React.Component {
 					>
 						<div className="yc-confirm-body" style={{ padding: '10px 0' }}>
 							<div className="yc-confirm-header">
-								<Icon style={{ fontSize: 28, color: '#f66c5b', marginRight: 8 }} type="cross-circle" />
+								<Icon
+									style={{
+										fontSize: 28, color: '#f66c5b', marginRight: 8, marginLeft: '16px',
+									}}
+									type="cross-circle"
+								/>
 								<span className="yc-confirm-title">债务人不存在，可能关联的业务已经被删除</span>
 							</div>
 							<div className="yc-confirm-content" style={{ marginTop: 10 }}>
