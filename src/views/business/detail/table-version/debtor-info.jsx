@@ -27,7 +27,7 @@ const DownloadButton = () => (
 			condition={{
 				obligorId: getQueryByName(window.location.href, 'id'),
 			}}
-			icon={<IconType type="icon-download" style={{ marginRight: 5 }} />}
+			icon={<IconType type="icon-download" style={{ marginRight: 5, color: '#7D8699' }} />}
 			api={exportListDebtor}
 			normal
 			text="下载"
