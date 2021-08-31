@@ -1,11 +1,14 @@
 import React from 'react';
 import { Router } from '@reach/router';
+import { statistics } from '@/utils';
 import MainScreen from './main-screen';
 import LoginPage from './login';
 // import TestPage from '@/views/_others/_test';
 
 export default class BaseRouter extends React.PureComponent {
 	componentWillMount() {
+		// 埋点
+		statistics();
 		const currentName = window.location.hostname;
 		if (currentName.indexOf('zhongguan') >= 0) {
 			let link = document.querySelector('link[rel~=\'icon\']');

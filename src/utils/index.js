@@ -677,3 +677,13 @@ export const isZhongguan = () => {
 	};
 	return currentDomainName.indexOf(domainType.ZG) >= 0;
 };
+
+/**
+ *友盟数据埋点
+ * * */
+export const statistics = () => {
+	const script = document.createElement('script');
+	script.src = 'https://s9.cnzz.com/z_stat.php?id=1280222141&web_id=1280222141';
+	script.language = 'JavaScript';
+	document.body.appendChild(script);
+};
