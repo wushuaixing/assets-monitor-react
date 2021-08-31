@@ -74,20 +74,26 @@ export default class Subrogation extends React.Component {
 		const { tabConfig, sourceType } = this.state;
 		// const _t = nextSourceType || sourceType;
 		[1, 2, 3].forEach((i) => {
-			if (i !== sourceType) {
-				const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
-				API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
-					tabConfig[i - 1].number = res.count;
-					tabConfig[i - 1].dot = res.unRead;
-					this.setState({ tabConfig });
-				});
-			} else {
-				const params = Object.assign({ isRead: false }, this.queryCondition);
-				API(i, 'listCount')(clearEmpty(params)).then((res) => {
-					tabConfig[i - 1].dot = res.data;
-					this.setState({ tabConfig });
-				});
-			}
+			const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
+			API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
+				tabConfig[i - 1].number = res.count;
+				tabConfig[i - 1].dot = res.unRead;
+				this.setState({ tabConfig });
+			});
+			// if (i !== sourceType) {
+			// 	const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
+			// 	API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
+			// 		tabConfig[i - 1].number = res.count;
+			// 		tabConfig[i - 1].dot = res.unRead;
+			// 		this.setState({ tabConfig });
+			// 	});
+			// } else {
+			// 	const params = Object.assign({ isRead: false }, this.queryCondition);
+			// 	API(i, 'listCount')(clearEmpty(params)).then((res) => {
+			// 		tabConfig[i - 1].dot = res.data;
+			// 		this.setState({ tabConfig });
+			// 	});
+			// }
 		});
 	};
 
@@ -262,7 +268,7 @@ export default class Subrogation extends React.Component {
 			this.toHandleReqTime(type, this.condition), this.condition, this.readStatus);
 		delete params.startGmt;
 		delete params.endGmt;
-		console.log('clear', clearEmpty(params));
+		// console.log('clear', clearEmpty(params));
 		API(type, 'list')(clearEmpty(params)).then((res) => {
 			const { sourceType: selectType } = this.state;
 			if (res.selectType === selectType) {

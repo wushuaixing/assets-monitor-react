@@ -3,7 +3,7 @@ import { Modal, message } from 'antd';
 import {
 	Button, Download, Icon, Spin,
 } from '@/common';
-import { unReadCount } from '@/utils/api/monitor-info';
+import { estateRegisterCount } from 'api/monitor-info/excavate/count';
 import {
 	getMortgageList, postMarkReadAll, postFollow, exportList,
 } from '@/utils/api/monitor-info/real-estate';
@@ -22,7 +22,7 @@ export default class Subrogation extends React.Component {
 			total: 0,
 			loading: true,
 			manage: false,
-			mortgageFlag: false,
+			// mortgageFlag: false,
 		};
 		this.condition = {};
 		this.selectRow = [];
@@ -33,7 +33,7 @@ export default class Subrogation extends React.Component {
 		if (url.indexOf('?') === -1) {
 			this.onQueryChange({});
 		}
-		this.onUnReadCount();
+		// this.onUnReadCount();
 		// this.setUnReadCount = setInterval(() => {
 		// 	this.onUnReadCount();
 		// }, 30 * 1000);
@@ -54,25 +54,27 @@ export default class Subrogation extends React.Component {
 	// 全部标记为已读
 	handleAllRead=() => {
 		const _this = this;
-		const { mortgageFlag } = this.state;
-		if (mortgageFlag) {
-			Modal.confirm({
-				title: '确认将所有信息全部标记为已读？',
-				content: '点击确定，将为您把全部消息标记为已读。',
-				iconType: 'exclamation-circle',
-				onOk() {
-					postMarkReadAll({}).then((res) => {
-						if (res.code === 200) {
-							_this.onQueryChange();
-							_this.onUnReadCount();
-						}
-					});
-				},
-				onCancel() {},
-			});
-		} else {
-			message.warning('最新信息已经全部已读，没有未读信息了');
-		}
+		estateRegisterCount({ isRead: false }).then((res) => {
+			const { data } = res;
+			if (data) {
+				Modal.confirm({
+					title: '确认将所有信息全部标记为已读？',
+					content: '点击确定，将为您把全部消息标记为已读。',
+					iconType: 'exclamation-circle',
+					onOk() {
+						postMarkReadAll({}).then((val) => {
+							if (val.code === 200) {
+								_this.onQueryChange();
+								// _this.onUnReadCount();
+							}
+						});
+					},
+					onCancel() {},
+				});
+			} else {
+				message.warning('最新信息已经全部已读，没有未读信息了');
+			}
+		});
 	};
 
 	// 批量收藏
@@ -178,17 +180,17 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
-	// 查询是否有未读消息
-	onUnReadCount=() => {
-		unReadCount().then((res) => {
-			const { data, code } = res;
-			if (code === 200) {
-				this.setState({
-					mortgageFlag: data.mortgageFlag,
-				});
-			}
-		});
-	};
+	// // 查询是否有未读消息
+	// onUnReadCount=() => {
+	// 	estateRegisterCount({ isRead: false }).then((res) => {
+	// 		const { data, code } = res;
+	// 		if (code === 200) {
+	// 			this.setState({
+	// 				mortgageFlag: data,
+	// 			});
+	// 		}
+	// 	});
+	// };
 
 	clearSelectRowNum = () => this.selectRow = [];
 

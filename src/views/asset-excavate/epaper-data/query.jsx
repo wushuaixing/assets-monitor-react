@@ -101,7 +101,7 @@ class QueryCondition extends React.Component {
 					</Select>
 				</div>
 				<div className="yc-query-item">
-					<Input title="电子报名称" style={_style1} size="large" maxLength="40" placeholder="公告标题关键字" {...getFieldProps('newspaperName')} />
+					<Input title="电子报名称" style={_style1} size="large" maxLength="40" placeholder="电子报名称" {...getFieldProps('newspaperName')} />
 				</div>
 				<div className="yc-query-item">
 					<span>省份：</span>
