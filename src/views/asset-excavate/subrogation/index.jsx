@@ -74,26 +74,20 @@ export default class Subrogation extends React.Component {
 		const { tabConfig, sourceType } = this.state;
 		// const _t = nextSourceType || sourceType;
 		[1, 2, 3].forEach((i) => {
-			const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
-			API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
-				tabConfig[i - 1].number = res.count;
-				tabConfig[i - 1].dot = res.unRead;
-				this.setState({ tabConfig });
-			});
-			// if (i !== sourceType) {
-			// 	const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
-			// 	API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
-			// 		tabConfig[i - 1].number = res.count;
-			// 		tabConfig[i - 1].dot = res.unRead;
-			// 		this.setState({ tabConfig });
-			// 	});
-			// } else {
-			// 	const params = Object.assign({ isRead: false }, this.queryCondition);
-			// 	API(i, 'listCount')(clearEmpty(params)).then((res) => {
-			// 		tabConfig[i - 1].dot = res.data;
-			// 		this.setState({ tabConfig });
-			// 	});
-			// }
+			if (i !== sourceType) {
+				const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
+				API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
+					tabConfig[i - 1].number = res.count;
+					tabConfig[i - 1].dot = res.unRead;
+					this.setState({ tabConfig });
+				});
+			} else {
+				const params = Object.assign({ isRead: false }, this.queryCondition);
+				API(i, 'listCount')(clearEmpty(params)).then((res) => {
+					tabConfig[i - 1].dot = res.data;
+					this.setState({ tabConfig });
+				});
+			}
 		});
 	};
 
