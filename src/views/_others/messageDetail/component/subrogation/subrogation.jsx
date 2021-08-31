@@ -29,6 +29,7 @@ class SubrogationRights extends Component {
 		if (nextProps.obligorId !== obligorId) {
 			this.setState({
 				obligorId: nextProps.obligorId,
+				page: 1,
 			}, () => {
 				this.toGetData();
 			});
