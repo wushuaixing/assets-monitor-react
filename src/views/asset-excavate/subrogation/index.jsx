@@ -47,7 +47,7 @@ export default class Subrogation extends React.Component {
 				},
 				{
 					id: 4,
-					name: '破产代为',
+					name: '破产代位',
 					number: 0,
 					dot: false,
 					showNumber: true,
@@ -350,7 +350,7 @@ export default class Subrogation extends React.Component {
 								onClick={() => this.handleReadChange('unread')}
 								title="只显示未读"
 							/>
-							{sourceType !== 2 ? (
+							{sourceType !== 2 && sourceType !== 4 ? (
 								<Button
 									active={isRead === 'resume'}
 									onClick={() => this.handleReadChange('resume')}
