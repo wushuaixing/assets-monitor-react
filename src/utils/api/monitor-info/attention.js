@@ -1,6 +1,8 @@
 import service from 'service';
 import { requestAll } from '@/utils/promise';
-import { Court, Trial, Judgment } from './subrogation';
+import {
+	Court, Trial, Judgment, Broke,
+} from './subrogation';
 import { Court as lCourt, Trial as lTrial, Judgment as lJudgment } from '../risk-monitor/lawsuit';
 import {
 	attentionFollowListCount, // 收藏列表土地数据出让结果数量
@@ -43,6 +45,10 @@ export const subrogationCount = () => {
 			return Judgment.followListCount();
 		}).then((res) => {
 			if (res.code === 200) result.Judgment = res.data;
+			return Broke.followListCount();
+		})
+		.then((res) => {
+			if (res.code === 200) result.Broke = res.data;
 			return result;
 		})
 		.catch(() => {

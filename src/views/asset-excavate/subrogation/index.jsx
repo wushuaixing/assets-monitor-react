@@ -7,7 +7,9 @@ import {
 import API from '@/utils/api/monitor-info/subrogation';
 import { changeURLArg, clearEmpty } from '@/utils';
 import QueryView from './queryView';
-import { TableCourt, TableTrial, TableJudgment } from './table';
+import {
+	TableCourt, TableTrial, TableJudgment, TableBroke,
+} from './table';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -43,6 +45,13 @@ export default class Subrogation extends React.Component {
 					dot: false,
 					showNumber: true,
 				},
+				{
+					id: 4,
+					name: '破产代为',
+					number: 0,
+					dot: false,
+					showNumber: true,
+				},
 			],
 		};
 		this.condition = {};
@@ -73,7 +82,7 @@ export default class Subrogation extends React.Component {
 	toInfoCount=() => {
 		const { tabConfig, sourceType } = this.state;
 		// const _t = nextSourceType || sourceType;
-		[1, 2, 3].forEach((i) => {
+		[1, 2, 3, 4].forEach((i) => {
 			if (i !== sourceType) {
 				const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
 				API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
@@ -187,6 +196,9 @@ export default class Subrogation extends React.Component {
 		} else if (__sourceType === 1) {
 			GmtTime.startGmtRegister = __con.startGmt;
 			GmtTime.endGmtRegister = __con.endGmt;
+		} else if (__sourceType === 4) {
+			GmtTime.startGmtTrial = __con.startGmt;
+			GmtTime.endGmtTrial = __con.endGmt;
 		} else {
 			GmtTime.startGmtJudgment = __con.startGmt;
 			GmtTime.endGmtJudgment = __con.endGmt;
@@ -395,6 +407,7 @@ export default class Subrogation extends React.Component {
 					{sourceType === 1 ? <TableTrial {...tableProps} /> : null}
 					{sourceType === 2 ? <TableCourt {...tableProps} /> : null}
 					{sourceType === 3 ? <TableJudgment {...tableProps} /> : null}
+					{sourceType === 4 ? <TableBroke {...tableProps} /> : null}
 					{/* { */}
 					{/* sourceType === 3 */}
 					{/* ? */}

@@ -2,7 +2,9 @@ import React from 'react';
 import API from '@/utils/api/monitor-info/subrogation';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import { TableCourt, TableTrial, TableJudgment } from './table';
+import {
+	TableCourt, TableTrial, TableJudgment, TableBroke,
+} from './table';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -148,6 +150,7 @@ export default class TableIntact extends React.Component {
 					{sourceType === 1 ? <TableTrial {...tableProps} /> : null}
 					{sourceType === 2 ? <TableCourt {...tableProps} /> : null}
 					{sourceType === 3 ? <TableJudgment {...tableProps} /> : null}
+					{sourceType === 4 ? <TableBroke {...tableProps} /> : null}
 				</Spin>
 			</div>
 
