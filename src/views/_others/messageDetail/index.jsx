@@ -137,6 +137,7 @@ const subItems = (rule, data) => {
 				{ name: '立案', count: data ? getCount(data, 10201) : 0, dataType: 10201 },
 				{ name: '开庭', count: data ? getCount(data, 10202) : 0, dataType: 10202 },
 				{ name: '文书', count: data ? getCount(data, 10203) : 0, dataType: 10203 },
+				{ name: '破产12321', count: data ? getCount(data, 10204) : 0, dataType: 10204 },
 			],
 		},
 		{
@@ -392,6 +393,9 @@ class MessageDetail extends React.Component {
 		};
 		dataCount(params).then((res) => {
 			if (res.code === 200) {
+				const arr = { dataCount: 1, dataType: 10204, typeName: '代位权-破产' };
+				let a = res.data.categoryCount
+				console.log('@@@', a.push(arr));
 				this.setState({
 					config: subItems(rule, res.data.categoryCount).filter(item => item.status && item.total > 0),
 				});

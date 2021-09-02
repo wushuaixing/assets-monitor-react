@@ -63,7 +63,6 @@ class QueryCondition extends React.Component {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
 		const { form: { getFieldProps, getFieldValue }, sourceType } = this.props;
-		console.log('sourceType',sourceType);
 		// console.log('ddddd', getFieldProps('endGmtCreate'));
 		const timeOption = {
 			normalize(n) {

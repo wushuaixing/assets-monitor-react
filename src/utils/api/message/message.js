@@ -36,6 +36,14 @@ const message = [
 			.then(res => Object.assign(res.data, { id, field: 'instrument' })),
 	},
 	{
+		dataType: 10204,
+		name: '代位权-破产',
+		list: params => service.get('/yc/report/daily/courtNotice/courtNoticeLawsuitList', { params })
+			.then(res => res.data),
+		count: (params, id) => service.get('/yc/report/daily/courtNotice/courtNoticeLawsuitCount', { params })
+			.then(res => Object.assign(res.data, { id, field: 'openCourt' })),
+	},
+	{
 		dataType: 10301,
 		name: '土地数据-土地出让',
 		list: params => service.get('/yc/report/daily/landTransfer/landTransferList', { params })
