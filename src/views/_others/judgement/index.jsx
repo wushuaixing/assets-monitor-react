@@ -1,8 +1,11 @@
 import React from 'react';
-import { Ellipsis, Spin, NoContent , Button} from '@/common';
+import Cookies from 'universal-cookie';
+import { Ellipsis, Spin, NoContent, Button } from '@/common';
 import { parseQuery, clearEmpty } from '@/utils';
 import { judgmentDetail, judgmentUnsealDetail } from '@/utils/api/index';
 import './style.scss';
+
+const cookie = new Cookies();
 
 // 不同的请求映射，查解封的文书请求的接口和其他模块的文书请求的接口不同
 function getUrl(type) {
@@ -25,8 +28,8 @@ class Judgement extends React.Component {
 			url: '',
 			htmlText: '',
 			title: urlTitle,
-			caseReason:'',
-			gmtPublish:'',
+			caseReason: '',
+			gmtPublish: '',
 		};
 	}
 
@@ -49,8 +52,8 @@ class Judgement extends React.Component {
 					url: res.data.url,
 					htmlText: res.data.htmlText,
 					title: res.data.title || title,
-					caseReason:res.data.caseReason,
-					gmtPublish:res.data.gmtPublish,
+					caseReason: res.data.caseReason,
+					gmtPublish: res.data.gmtPublish,
 				});
 			} else {
 				this.setState({
@@ -75,8 +78,9 @@ class Judgement extends React.Component {
 
 	render() {
 		const {
-			loading, htmlText, title, url,caseReason,gmtPublish
+			loading, htmlText, title, url, caseReason, gmtPublish,
 		} = this.state;
+		const isSpecial = cookie.get('isSpecial');
 		const privates = /^[\u4e00-\u9fa5]/.test(htmlText);
 		const newHtmlText = htmlText.replace(/FONT-FAMILY:.{3,4};/g, 'font-family: PingFang SC, microsoft yahei;').replace(/pt/g, 'px').replace(/MARGIN: 0.5px 0cm/g, 'margin: 20px 0');
 		return (
@@ -85,11 +89,13 @@ class Judgement extends React.Component {
 					<div className="judgement-header">
 						<span className="judgement-header-title">{title}</span>
 						{
-							url ? <Button className="judgement-header-btn" onClick={this.handleJumpSourceLink}>源链接</Button> : null
+							isSpecial ? (
+								url && <Ellipsis className="judgement-header-Special" content="源链接" url={url} isSourceLink wsSourceLink />
+							) : (
+								url && <Button className="judgement-header-btn" onClick={this.handleJumpSourceLink}>源链接</Button>
+							)
+
 						}
-						{/*{*/}
-						{/* url ? <Ellipsis className="judgement-header-btn" content="源链接" url={url} isSourceLink wsSourceLink /> : null*/}
-						{/*}*/}
 						<div className="judgement-header-hint">
 							<div className="judgement-header-hint-reason">
 								<span className="judgement-header-hint-reason-label">案由：</span>

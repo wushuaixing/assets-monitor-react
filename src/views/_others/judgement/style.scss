@@ -19,6 +19,11 @@
       border-radius: 2px;
       border: 1px $text-link solid;
     }
+    &-Special{
+      position: absolute;
+      top: 13px;
+      right: 0px;
+    }
     &-hint{
       display: flex;
       margin: 12px 0px 0px 0px;
