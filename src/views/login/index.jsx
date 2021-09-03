@@ -113,29 +113,44 @@ class Login extends React.Component {
 	};
 
 	onRequestLogin = (orgId) => {
-		if (orgId) {
-			cookie.remove('token');
-			checkSpecialIp().then((res) => {
-				// 判断是否是专线
-				if (res.code === 200 && res.data) {
-					cookie.set('isSpecial', true);
-					this.handleLogin(orgId);
-				} else {
-					this.setState({
-						isShow: true,
-					});
-					cookie.set('isSpecial', false);
-					ModalWarning('权限不足，未开通专线');
-				}
-			}).catch(() => this.setState({
-				isShow: true,
-			}));
-		} else {
-			cookie.remove('isSpecial');
-			this.setState({
-				isShow: true,
-			});
-		}
+		checkSpecialIp().then((res) => {
+			const { code, data } = res;
+			if (code === 200 && data) {
+				cookie.set('isSpecial', true);
+				this.handleLogin(orgId);
+			} else {
+				this.setState({
+					isShow: true,
+				});
+				cookie.remove('isSpecial');
+			}
+		}).catch((error) => {
+			console.log(error);
+		});
+
+		// if (orgId) {
+		// 	cookie.remove('token');
+		// 	checkSpecialIp().then((res) => {
+		// 		// 判断是否是专线
+		// 		if (res.code === 200 && res.data) {
+		// 			cookie.set('isSpecial', true);
+		// 			this.handleLogin(orgId);
+		// 		} else {
+		// 			this.setState({
+		// 				isShow: true,
+		// 			});
+		// 			cookie.set('isSpecial', false);
+		// 			ModalWarning('权限不足，未开通专线');
+		// 		}
+		// 	}).catch(() => this.setState({
+		// 		isShow: true,
+		// 	}));
+		// } else {
+		// 	cookie.remove('isSpecial');
+		// 	this.setState({
+		// 		isShow: true,
+		// 	});
+		// }
 	};
 
 	// 手动登录
