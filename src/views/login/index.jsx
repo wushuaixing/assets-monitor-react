@@ -4,16 +4,16 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
+import { navigate } from '@reach/router';
+import { Form, Modal } from 'antd';
+import Cookies from 'universal-cookie';
 import {
 	bankConf, // 个性配置
 } from '@/utils/api/user';
 import CustomAgency from '@/common/custom/agency';
 // import leftBackground from '@/assets/img/login/left_background.png';
-import { navigate } from '@reach/router';
-import { Form, Modal } from 'antd';
 import { getQueryByName } from '@/utils';
 import { checkSpecialIp, specialLogin } from '@/utils/api';
-import Cookies from 'universal-cookie';
 import Header from './header';
 import Footer from './footer';
 import Register from './register';
@@ -157,9 +157,11 @@ class Login extends React.Component {
 					isShow: true,
 				});
 			}
-		}).catch(() => this.setState({
-			isShow: true,
-		}));
+		}).catch(() => {
+			this.setState({
+				isShow: true,
+			});
+		});
 	};
 
 	render() {
