@@ -50,7 +50,7 @@ export default class Subrogation extends PureComponent {
 	render() {
 		const {
 			url, subrogationPropsData, subrogationPropsData: {
-				restore, execute, otherCase, gmtUpdate, totalCount,
+				 gmtUpdate, totalCount, bankruptcyCount, judgment, trial, courtNotice,
 			},
 		} = this.props;
 		const { unReadCount } = this.state;
@@ -73,7 +73,7 @@ export default class Subrogation extends PureComponent {
 								<div className="risk-intangible-container-card">
 									立案信息
 									：
-									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{restore}</span>
+									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{trial}</span>
 									条
 								</div>
 							</Col>
@@ -81,7 +81,7 @@ export default class Subrogation extends PureComponent {
 								<div className="risk-intangible-container-card">
 									开庭公告
 									：
-									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{execute}</span>
+									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{courtNotice}</span>
 									条
 								</div>
 							</Col>
@@ -89,7 +89,7 @@ export default class Subrogation extends PureComponent {
 								<div className="risk-intangible-container-card">
 									裁判文书
 									：
-									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{otherCase}</span>
+									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{judgment}</span>
 									条
 								</div>
 							</Col>
@@ -97,7 +97,7 @@ export default class Subrogation extends PureComponent {
 								<div className="risk-intangible-container-card">
 									破产代位
 									：
-									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>0</span>
+									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{bankruptcyCount}</span>
 									条
 								</div>
 							</Col>
