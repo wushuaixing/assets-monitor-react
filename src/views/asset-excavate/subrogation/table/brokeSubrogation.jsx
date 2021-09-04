@@ -5,7 +5,7 @@ import { timeStandard } from '@/utils';
 import {
 	Table, SelectedNum, Ellipsis, ClueModal,
 } from '@/common';
-import { Court } from '@/utils/api/monitor-info/subrogation';
+import { Broke } from '@/utils/api/monitor-info/subrogation';
 
 // 获取表格配置
 const columns = (props, toOpenHistory) => {
@@ -19,28 +19,45 @@ const columns = (props, toOpenHistory) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="GMT_TRIAL" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>开庭日期</SortVessel>),
-			dataIndex: 'gmtTrial',
+				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>开庭日期</SortVessel>),
+			dataIndex: 'gmtPublish',
 			width: 172,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
 			width: 314,
-			render: (text, rowContent) => (
+			render: (text, row) => (
 				<React.Fragment>
 					<div className="assets-info-content yc-space-nowrap">
 						<li>
 							<span className="list list-title align-justify">申请人：</span>
-							<span className="list list-content" style={{ color: '#186fc7' }}>
-								<Ellipsis content={rowContent.projectName} url={rowContent.url} tooltip width={200} isSourceLink />
+							<span className="list list-content">
+								{
+									row.applicants && row.applicants.map(item => (
+										<React.Fragment>
+											<Ellipsis
+												content={item.name}
+												tooltip
+												width={280}
+												url={item.obligorId ? `/#/business/debtor/detail?id=${item.obligorId}` : ''}
+											/>
+											<br />
+										</React.Fragment>
+									))
+								}
 							</span>
 						</li>
 						<li>
 							<span className="list list-title align-justify">被申请人：</span>
-							<span className="list list-content">
-								<Ellipsis content={rowContent.administrativeRegion || '-'} tooltip width={200} />
-							</span>
+							{
+								row.respondents && row.respondents.map(item => (
+									<React.Fragment>
+										<span className="list list-content">{item.name}</span>
+										<br />
+									</React.Fragment>
+								))
+							}
 						</li>
 					</div>
 				</React.Fragment>
@@ -49,41 +66,45 @@ const columns = (props, toOpenHistory) => {
 			title: '案件信息',
 			dataIndex: 'court',
 			width: 291,
-			render: (text, rowContent) => (
+			render: (text, row) => (
 				<React.Fragment>
 					<div className="assets-info-content">
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>案号</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content">{rowContent.regNumber || '-'}</span>
+							<span className="list list-content">{row.caseNumber || '-'}</span>
 						</li>
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>受理法院</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content">{rowContent.equityAmount || '-'}</span>
+							<span className="list list-content">{row.court || '-'}</span>
 						</li>
 					</div>
 				</React.Fragment>
 			),
 		}, {
 			title: '关联公告',
-			dataIndex: 'caseNumber',
-			render: rowContent => (
+			dataIndex: 'noticeCount',
+			render: (text, row) => (
 				<React.Fragment>
-					<span
-						onClick={() => toOpenHistory(rowContent)}
-						style={{
-							color: '#186fc7', minWidth: '24px', display: 'inline-block', cursor: 'pointer',
-						}}
-					>
-						1
-					</span>
+					{
+						text > 0 ? (
+							<span
+								onClick={() => toOpenHistory(row)}
+								style={{
+									color: '#186fc7', minWidth: '24px', display: 'inline-block', cursor: 'pointer',
+								}}
+							>
+								{text}
+							</span>
+						) : '--'
+					}
 				</React.Fragment>
 			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'gmtCreate',
+				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'gmtModified',
 			width: 164,
 			render: val => timeStandard(val),
 		}, {
@@ -96,7 +117,7 @@ const columns = (props, toOpenHistory) => {
 					text={text}
 					row={row}
 					onClick={onRefresh}
-					api={row.isAttention ? Court.unAttention : Court.attention}
+					api={row.isAttention ? Broke.unAttention : Broke.attention}
 					index={index}
 				/>
 			),
@@ -127,7 +148,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh } = this.props;
 		if (!isRead) {
-			Court.read({ idList: [id] }).then((res) => {
+			Broke.read({ idList: [id] }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

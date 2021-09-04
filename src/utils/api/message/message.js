@@ -38,9 +38,9 @@ const message = [
 	{
 		dataType: 10204,
 		name: '代位权-破产',
-		list: params => service.get('/yc/report/daily/courtNotice/courtNoticeLawsuitList', { params })
+		list: params => service.post('/yc/report/daily/bankruptcySubrogation/list', params)
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/report/daily/courtNotice/courtNoticeLawsuitCount', { params })
+		count: (params, id) => service.post('/yc/report/daily/bankruptcySubrogation/listCount', params)
 			.then(res => Object.assign(res.data, { id, field: 'openCourt' })),
 	},
 	{

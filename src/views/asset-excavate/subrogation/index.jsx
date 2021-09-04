@@ -187,7 +187,7 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
-	// 修改请求参数【开庭】【立案】【裁判文书】
+	// 修改请求参数【开庭】【立案】【裁判文书】【破产代位】
 	toHandleReqTime=(__sourceType, __con) => {
 		const GmtTime = {};
 		if (__sourceType === 2) {
@@ -197,8 +197,8 @@ export default class Subrogation extends React.Component {
 			GmtTime.startGmtRegister = __con.startGmt;
 			GmtTime.endGmtRegister = __con.endGmt;
 		} else if (__sourceType === 4) {
-			GmtTime.startGmtTrial = __con.startGmt;
-			GmtTime.endGmtTrial = __con.endGmt;
+			GmtTime.gmtPublishStart = __con.startGmt;
+			GmtTime.gmtPublishEnd = __con.endGmt;
 		} else {
 			GmtTime.startGmtJudgment = __con.startGmt;
 			GmtTime.endGmtJudgment = __con.endGmt;

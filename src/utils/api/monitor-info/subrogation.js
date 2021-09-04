@@ -119,32 +119,32 @@ const Judgment = {
 // (新)监控信息 => 代位权 => 破产代位
 const Broke = {
 	// POST收藏
-	attention: params => s.post('/yc/monitor/court/subrogation/attention', params).then(res => res.data),
+	attention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attention', params).then(res => res.data),
 	// GET导出
 	exportList: '/yc/monitor/court/subrogation/export',
 	// POST收藏 => 收藏<
-	followAttention: params => s.post('/yc/monitor/court/subrogation/follow/attention', params).then(res => res.data),
+	followAttention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attention', params).then(res => res.data),
 	// GET收藏 => 列表
-	followList: params => s.get('/yc/monitor/court/subrogation/follow/list', { params }).then(res => res.data),
+	followList: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attentionList', params).then(res => res.data),
 	// GET收藏 => 列表Count
-	followListCount: () => s.get('/yc/monitor/court/subrogation/follow/list-count', {}).then(res => res.data),
+	followListCount: () => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attentionListCount', {}).then(res => res.data),
 	// POST收藏 => 取消收藏
-	followUnAttention: params => s.post('/yc/monitor/court/subrogation/follow/un-attention', params).then(res => res.data),
+	followUnAttention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/unAttention', params).then(res => res.data),
 	// GET列表
-	list: params => s.get('/yc/monitor/court/subrogation/list', { params }).then(res => Object.assign(res.data,
+	list: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/list', params).then(res => Object.assign(res.data,
 		{ selectType: params.selectType })),
 	// GET列表count
-	listCount: params => s.get('/yc/monitor/court/subrogation/list-count', { params }).then(res => res.data),
+	listCount: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/listCount', params).then(res => res.data),
 	// POST已读
-	read: params => s.post('/yc/monitor/court/subrogation/read', params).then(res => res.data),
+	read: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/read', params).then(res => res.data),
 	// POST全部已读
-	readAll: () => s.post('/yc/monitor/court/subrogation/read-all', { }).then(res => res.data),
+	readAll: () => s.post('/yc/monitor/subrogation/bankruptcySubrogation/read', { }).then(res => res.data),
 	// POST取消收藏
-	unAttention: params => s.post('/yc/monitor/court/subrogation/un-attention', params).then(res => res.data),
+	unAttention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/unAttention', params).then(res => res.data),
 	// GET列表数据，含未读已读
 	listReadCount: (data) => {
 		const result = {};
-		const count = params => s.get('/yc/monitor/court/subrogation/list-count', { params }).then(res => res.data);
+		const count = params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/listCount', params).then(res => res.data);
 		return count(data).then((res) => {
 			if (res.code === 200) result.count = res.data;
 			return count(Object.assign(data, { isRead: false }));
