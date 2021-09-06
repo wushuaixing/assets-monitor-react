@@ -4,7 +4,7 @@ import service from 'service';
 /*  监控信息=>破产监控相关接口 */
 
 // 破产监控列表页
-export const infoList = params => service.get('/yc/monitor/bankruptcy/list', { params })
+export const infoList = params => service.post('/yc/monitor/bankruptcyNew/list', params)
 	.then(res => res.data);
 
 // 收藏列表
@@ -36,4 +36,9 @@ export const trialDetail = params => service.get('/yc/monitor/bankruptcy/trialDe
 
 // 信息立案
 export const infoTrialDetail = params => service.get('/yc/information/bankruptcy/trialDetail', { params })
+	.then(res => res.data);
+
+
+// // 关联公告
+export const relationNotice = params => service.get('/yc/monitor/bankruptcyNew/notices', { params })
 	.then(res => res.data);

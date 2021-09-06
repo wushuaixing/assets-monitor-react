@@ -1,7 +1,7 @@
 import React from 'react';
 import { overviewBankruptcy, businessOverviewBankruptcy } from '@/utils/api/professional-work/overview';
 import TimeLine from '@/views/portrait-inquiry/common/timeLine';
-import { Spin } from '@/common';
+import { Spin, LiItem } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import './style.scss';
 
@@ -86,7 +86,9 @@ export default class Bankruptcy extends React.Component {
 								) : null}
 
 								<div className="overview-container-content">
-									{getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="ChattelMortgage" />}
+									{/* {getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="ChattelMortgage" />} */}
+									<LiItem Li title="关联案号" auto>(2021)浙0111破1509号、(2021)浙0111破申1509号</LiItem>
+									<LiItem Li title="最新公告发布日期" auto>2020-09-08</LiItem>
 								</div>
 							</Spin>
 						) : null}

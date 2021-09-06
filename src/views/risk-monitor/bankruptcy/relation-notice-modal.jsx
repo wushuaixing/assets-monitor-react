@@ -4,27 +4,8 @@ import PropTypes from 'reactPropTypes';
 
 // 信息监控/风险监控/破产重组- 公告信息列|关联公告弹窗
 function RelationNoticeModal(props) {
-	const listDefult = [{
-		date: '2015-09-01',
-		title: '（2019）浙0781破14号（2019）浙0781破14号之六 ',
-		url: 'https://fanyi.baidu.com',
-		type: '其他公告',
-		id: 1,
-	}, {
-		date: '2015-09-01',
-		title: '（2019）浙0781破14号（2019）浙0781破14号之六 ',
-		url: 'https://fanyi.baidu.com',
-		type: '其他公告',
-		id: 2,
-	}, {
-		date: '2015-09-01',
-		title: '（2019）浙0781破14号（2019）浙0781破14号之六 ',
-		url: 'https://fanyi.baidu.com',
-		type: '其他公告',
-		id: 3,
-	}];
 	const {
-		visible, onCancel, onOk, list = listDefult,
+		visible, onCancel, onOk, list = [],
 	} = props;
 	return (
 		<Modal
@@ -44,9 +25,9 @@ function RelationNoticeModal(props) {
 							list.map(i => (
 								<Timeline.Item key={i.id}>
 									<div className="yc-Timeline-item">
-										 <span>{i.date}</span>
-										 <span>{i.title}</span>
-										 <span>{i.type}</span>
+										 <span>{i.gmtPublish}</span>
+										 <span><a href={i.url} target="_blank" rel="noreferrer">{i.title}</a></span>
+										 <span>{i.typeName}</span>
 									</div>
 								</Timeline.Item>
 							))
@@ -63,11 +44,13 @@ RelationNoticeModal.propTypes = {
 	visible: PropTypes.bool,
 	onCancel: PropTypes.func,
 	onOk: PropTypes.func,
+	list: PropTypes.array,
 };
 
 RelationNoticeModal.defaultProps = {
 	visible: false,
 	onCancel: () => {},
 	onOk: () => {},
+	list: [],
 };
 export default RelationNoticeModal;

@@ -1,10 +1,13 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
+import {
+	readStatus, unFollowSingle, followSingle, relationNotice,
+} from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import RelationNoticeModal from './relation-notice-modal';
+import message from '../../../utils/api/message/message';
 
 // 获取表格配置
 const columns = (props, openModal) => {
@@ -18,8 +21,8 @@ const columns = (props, openModal) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? '最新发布日期'
-				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>最新发布日期</SortVessel>),
-			dataIndex: 'publishDate',
+				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>最新发布日期</SortVessel>),
+			dataIndex: 'gmtPublish',
 			className: 'yc-publish-date',
 			width: 115,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
@@ -33,19 +36,25 @@ const columns = (props, openModal) => {
 			dataIndex: 'title',
 			width: 200,
 			render: (text, record) => {
-				console.log(record);
+				const { caseNumber = '', court } = record;
+				const caseNumberList = caseNumber.split('、');
+				const courtList = court.split('、');
 				return (
 					<ul>
 						<li style={{ display: 'flex' }}>
 							<div>案号：</div>
 							<div>
-								<p>2021)浙0111破1509号</p>
+								{
+									caseNumberList.map(i => <p>{i}</p>)
+								}
 							</div>
 						</li>
 						<li style={{ display: 'flex' }}>
 							<div>受理法院：</div>
 							<div>
-								<p>杭州市富阳区人民法院</p>
+								{
+									courtList.map(i => <p>{i}</p>)
+								}
 							</div>
 						</li>
 					</ul>
@@ -56,18 +65,22 @@ const columns = (props, openModal) => {
 			title: '公告信息',
 			dataIndex: 'title',
 			width: 200,
-			render: (text, record) => {
-				console.log(record);
+			render: (text, record = {}) => {
+				const {
+					relateNoticeCount, isShowNotice, title, id, url,
+				} = record;
 				return (
 					<div>
 						<div>
 							<span>相关公告：</span>
-							<span onClick={() => openModal()}>7</span>
-							<span style={{ background: 'pink' }}>新增公告</span>
+							<span className="cursor-pointer" onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '-'}</span>
+							{
+								isShowNotice && <span style={{ background: 'pink' }} className="cursor-pointer">新增公告</span>
+							}
 						</div>
 						<div>
 							<span>最新公告：</span>
-							<span>（2019）浙0781破14号</span>
+							<span><a href={url} target="_blank" rel="noreferrer">{title || '-'}</a></span>
 						</div>
 					</div>
 				);
@@ -75,10 +88,10 @@ const columns = (props, openModal) => {
 		},
 		{
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
+				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'gmtModified',
 			width: 90,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'}</span>,
+			render: value => <span>{timeStandard(value) || '-'}</span>,
 		}, {
 			title: '操作',
 			width: 55,
@@ -104,7 +117,7 @@ export default class TableView extends React.Component {
 		this.state = {
 			selectedRowKeys: [],
 			relationNoticeModalVisible: false,
-			modalData: {},
+			modalData: [],
 		};
 	}
 
@@ -136,12 +149,19 @@ export default class TableView extends React.Component {
 	};
 
 	// 打开立案弹框
-	openModal = (modalData) => {
-		// console.log(modalData);
-		this.setState({
-			relationNoticeModalVisible: true,
-			modalData,
-		});
+	openModal = (id, count) => {
+		if (count) {
+			relationNotice({ id }).then((res) => {
+				const { code, data = [] } = res || {};
+				if (code === 200) {
+					this.setState({ modalData: data }, () => {
+						this.setState({	relationNoticeModalVisible: true });
+					});
+				} else {
+					message.error('请求出错');
+				}
+			});
+		}
 	};
 
 	// 关闭弹窗
@@ -193,7 +213,7 @@ export default class TableView extends React.Component {
 						onCancel={this.onCancel}
 						onOk={this.onOk}
 						visible={relationNoticeModalVisible}
-						data={modalData}
+						list={modalData}
 					/>
 				)}
 			</React.Fragment>

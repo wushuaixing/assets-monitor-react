@@ -8,7 +8,7 @@ const debtorRisk = {
 			obligorName: '杭州',
 			title: '2015',
 		},
-		list: params => service.get('/yc/obligor/monitor/risk/bankruptcy/list', { params }).then(res => res.data),
+		list: params => service.get('/yc/obligor/monitor/overview/bankruptcyNew', { params }).then(res => res.data),
 		count: (params, id) => service.get('/yc/obligor/monitor/risk/bankruptcy/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
