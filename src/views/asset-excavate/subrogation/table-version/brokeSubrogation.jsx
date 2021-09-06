@@ -41,7 +41,7 @@ export default class TableIntact extends React.Component {
 						</span>
 						{
 							row.relateNoticeCount && (
-							<div className="relevance-announcement-btn" onClick={() => this.toOpenHistory(1)}>
+							<div className="relevance-announcement-btn" onClick={() => this.toOpenHistory(row)}>
 								<Icon type="icon-history" style={{ fontSize: 13, marginLeft: 8, marginRight: 4 }} />
 								查看关联公告
 							</div>
@@ -133,7 +133,8 @@ export default class TableIntact extends React.Component {
 	toOpenHistory=(val) => {
 		const { historyInfoModalVisible } = this.state;
 		if (val) {
-			getSubrogationNotices({ id: 123 }).then((res) => {
+			const { id } = val;
+			getSubrogationNotices({ id }).then((res) => {
 				const { code, data } = res.data;
 				if (code === 200) {
 					this.setState({

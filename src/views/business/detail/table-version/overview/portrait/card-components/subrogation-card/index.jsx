@@ -13,7 +13,7 @@ export default class Subrogation extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				execute, gmtCreate, restore, allNum, otherCase, obligorTotal,
+				 gmtCreate, allNum, obligorTotal, courtNotice, judgment, trial, bankruptcyCount,
 			},
 		} = this.props;
 		return (
@@ -38,7 +38,7 @@ export default class Subrogation extends React.Component {
 									<div className="business-intangible-container-card">
 										<span className="business-intangible-container-card-name">立案信息</span>
 										：
-										<span className="business-intangible-container-card-num">{execute}</span>
+										<span className="business-intangible-container-card-num">{trial}</span>
 										条
 									</div>
 								</Col>
@@ -46,7 +46,7 @@ export default class Subrogation extends React.Component {
 									<div className="business-intangible-container-card">
 										<span className="business-intangible-container-card-name">开庭公告</span>
 										：
-										<span className="business-intangible-container-card-num">{restore}</span>
+										<span className="business-intangible-container-card-num">{courtNotice}</span>
 										条
 									</div>
 								</Col>
@@ -54,7 +54,7 @@ export default class Subrogation extends React.Component {
 									<div className="business-intangible-container-card">
 										<span className="business-intangible-container-card-name">裁判文书</span>
 										：
-										<span className="business-intangible-container-card-num">{otherCase}</span>
+										<span className="business-intangible-container-card-num">{judgment}</span>
 										条
 									</div>
 								</Col>
@@ -62,7 +62,7 @@ export default class Subrogation extends React.Component {
 									<div className="business-intangible-container-card">
 										<span className="business-intangible-container-card-name">破产代位</span>
 										：
-										<span className="business-intangible-container-card-num">{otherCase}</span>
+										<span className="business-intangible-container-card-num">{bankruptcyCount}</span>
 										条
 									</div>
 								</Col>

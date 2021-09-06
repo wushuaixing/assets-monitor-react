@@ -18,7 +18,7 @@ export const getSubrogation = async (params) => {
 };
 
 // 资产概况 => 代位权信息(破产代位)
-export const getSubrogationNotices = params => service.post('/yc/monitor/trial/subrogation/follow/attention', params);
+export const getSubrogationNotices = params => service.get('/yc/obligor/monitor/asset/subrogation/notices', { params });
 
 
 // 风险情况 => 涉诉信息（涉诉文书）
