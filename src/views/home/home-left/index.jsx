@@ -99,7 +99,7 @@ class HomeDynamic extends PureComponent {
 			['default', () => { console.log('未匹配'); }],
 		]);
 		const promiseArray = [];
-		promiseArray.push(homeAssetDig(params));
+		promiseArray.push(homeAssetDig({ ...params, bankruptcyCount: 1 }));
 		promiseArray.push(riskReference(params));
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
