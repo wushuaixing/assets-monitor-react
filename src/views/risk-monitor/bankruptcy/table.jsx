@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import {
-	readStatus, unFollowSingle, followSingle, relationNotice,
+	readStatus, unFollow, follow, relationNotice,
 } from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
@@ -73,15 +73,19 @@ const columns = (props, openModal) => {
 					<div>
 						<div>
 							<span>相关公告：</span>
-							<span className="cursor-pointer" onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '-'}</span>
+							<span className="cursor-pointer" onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '无'}</span>
 							{
-								isShowNotice && <span style={{ background: 'pink' }} className="cursor-pointer">新增公告</span>
+								isShowNotice ? <span style={{ background: 'pink' }} className="cursor-pointer">新增公告</span> : null
 							}
 						</div>
-						<div>
-							<span>最新公告：</span>
-							<span><a href={url} target="_blank" rel="noreferrer">{title || '-'}</a></span>
-						</div>
+						{
+							title ? (
+								<div>
+									<span>最新公告：</span>
+									<span><a href={url} target="_blank" rel="noreferrer">{title }</a></span>
+								</div>
+							) : null
+						}
 					</div>
 				);
 			},
@@ -101,9 +105,9 @@ const columns = (props, openModal) => {
 				<Attentions
 					text={text}
 					row={row}
-					single
+					single={false}
 					onClick={onRefresh}
-					api={row.isAttention ? unFollowSingle : followSingle}
+					api={row.isAttention ? unFollow : follow}
 					index={index}
 				/>
 			),
@@ -133,7 +137,7 @@ export default class TableView extends React.Component {
 		const { id, isRead } = record;
 		const { onRefresh, manage } = this.props;
 		if (!isRead && !manage) {
-			readStatus({ idList: [id] }).then((res) => {
+			readStatus({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({ id, isRead: !isRead, index }, 'isRead');
 				}

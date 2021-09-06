@@ -1,6 +1,6 @@
 import React from 'react';
 import { overviewBankruptcy, businessOverviewBankruptcy } from '@/utils/api/professional-work/overview';
-import TimeLine from '@/views/portrait-inquiry/common/timeLine';
+
 import { Spin, LiItem } from '@/common';
 import getCount from '@/views/portrait-inquiry/common/getCount';
 import './style.scss';
@@ -23,6 +23,7 @@ export default class Bankruptcy extends React.Component {
 		const {
 			businessId, obligorId, portrait, getAssetProfile,
 		} = this.props;
+		console.log(portrait);
 		const params = portrait === 'business' ? { businessId, type: 2 } : { obligorId, type: 2 };
 		const api = portrait === 'business' ? businessOverviewBankruptcy : overviewBankruptcy;
 		this.setState({ loading: true });
