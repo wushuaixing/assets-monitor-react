@@ -145,7 +145,7 @@ export const businessOverviewBidding = async (params) => {
 
 // 债务人破产重组
 export const overviewBankruptcy = async (params) => {
-	const response = await service.get('/yc/obligor/monitor/overview/bankruptcy', { params });
+	const response = await service.get('/yc/obligor/monitor/overview/bankruptcyNew', { params });
 	return response.data;
 };
 
