@@ -14,7 +14,7 @@ import './style.scss';
 
 const createForm = Form.create;
 const cookie = new Cookies();
-const isSpecial = cookie.get('isSpecial');
+
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,6 +23,7 @@ class Login extends React.Component {
 
 
 	render() {
+		const isSpecial = cookie.get('isSpecial');
 		return (
 			!isSpecial && (
 				<div className="yc-login-footer">

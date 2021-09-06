@@ -4,16 +4,16 @@ import React from 'react';
 // ==================
 // 所需的所有组件
 // ==================
+import { navigate } from '@reach/router';
+import { Form, Modal } from 'antd';
+import Cookies from 'universal-cookie';
 import {
 	bankConf, // 个性配置
 } from '@/utils/api/user';
 import CustomAgency from '@/common/custom/agency';
 // import leftBackground from '@/assets/img/login/left_background.png';
-import { navigate } from '@reach/router';
-import { Form, Modal } from 'antd';
 import { getQueryByName } from '@/utils';
 import { checkSpecialIp, specialLogin } from '@/utils/api';
-import Cookies from 'universal-cookie';
 import Header from './header';
 import Footer from './footer';
 import Register from './register';
@@ -113,29 +113,44 @@ class Login extends React.Component {
 	};
 
 	onRequestLogin = (orgId) => {
-		if (orgId) {
-			cookie.remove('token');
-			checkSpecialIp().then((res) => {
-				// 判断是否是专线
-				if (res.code === 200 && res.data) {
-					cookie.set('isSpecial', true);
-					this.handleLogin(orgId);
-				} else {
-					this.setState({
-						isShow: true,
-					});
-					cookie.set('isSpecial', false);
-					ModalWarning('权限不足，未开通专线');
-				}
-			}).catch(() => this.setState({
-				isShow: true,
-			}));
-		} else {
-			cookie.remove('isSpecial');
-			this.setState({
-				isShow: true,
-			});
-		}
+		checkSpecialIp().then((res) => {
+			const { code, data } = res;
+			if (code === 200 && data) {
+				cookie.set('isSpecial', true);
+				this.handleLogin(orgId);
+			} else {
+				this.setState({
+					isShow: true,
+				});
+				cookie.remove('isSpecial');
+			}
+		}).catch((error) => {
+			console.log(error);
+		});
+
+		// if (orgId) {
+		// 	cookie.remove('token');
+		// 	checkSpecialIp().then((res) => {
+		// 		// 判断是否是专线
+		// 		if (res.code === 200 && res.data) {
+		// 			cookie.set('isSpecial', true);
+		// 			this.handleLogin(orgId);
+		// 		} else {
+		// 			this.setState({
+		// 				isShow: true,
+		// 			});
+		// 			cookie.set('isSpecial', false);
+		// 			ModalWarning('权限不足，未开通专线');
+		// 		}
+		// 	}).catch(() => this.setState({
+		// 		isShow: true,
+		// 	}));
+		// } else {
+		// 	cookie.remove('isSpecial');
+		// 	this.setState({
+		// 		isShow: true,
+		// 	});
+		// }
 	};
 
 	// 手动登录
@@ -157,9 +172,11 @@ class Login extends React.Component {
 					isShow: true,
 				});
 			}
-		}).catch(() => this.setState({
-			isShow: true,
-		}));
+		}).catch(() => {
+			this.setState({
+				isShow: true,
+			});
+		});
 	};
 
 	render() {

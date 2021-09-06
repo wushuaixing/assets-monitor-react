@@ -66,8 +66,8 @@ export default class ConstructProject extends React.Component {
 	};
 
 	// 获取三类统计信息
-	toInfoCount = (nextSourceType) => {
-		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
+	toInfoCount = (nextSourceType, params) => {
+		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType, params);
 	};
 
 	// 切换列表类型
@@ -248,6 +248,7 @@ export default class ConstructProject extends React.Component {
 				});
 			}
 		}).catch(() => {});
+		this.toInfoCount(__type, clearEmpty(con));
 	};
 
 	// 取消批量管理选择框

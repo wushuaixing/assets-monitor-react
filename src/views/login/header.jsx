@@ -16,7 +16,6 @@ import './style.scss';
 
 const createForm = Form.create;
 const cookies = new Cookies();
-const isSpecial = cookies.get('isSpecial');
 
 class Login extends React.Component {
 	constructor(props) {
@@ -24,10 +23,9 @@ class Login extends React.Component {
 		this.state = {};
 	}
 
-
 	render() {
+		const isSpecial = cookies.get('isSpecial');
 		const { imgUrl, imgLoading } = this.props;
-
 		return (
 			<div className="yc-login-header">
 				<div className="yc-login-logo">
