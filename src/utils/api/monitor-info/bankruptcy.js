@@ -8,7 +8,7 @@ export const infoList = params => service.post('/yc/monitor/bankruptcyNew/list',
 	.then(res => res.data);
 
 // 收藏列表
-export const attentionList = params => service.post('/yc/monitor/bankruptcyNew/follow/list', { params })
+export const attentionList = params => service.post('/yc/monitor/bankruptcyNew/follow/list', params)
 	.then(res => res.data);
 
 // 标记已读[批量]
