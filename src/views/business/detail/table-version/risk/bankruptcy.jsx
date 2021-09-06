@@ -19,7 +19,7 @@ export default class BankruptcyIntact extends React.Component {
 		return (
 			<div className="yc-inquiry-public-table" id={id}>
 				<div className="public-table-tab">
-					<div className="yc-tabs-simple-prefix">{`破产重组 ${count || 0}`}</div>
+					<div className="yc-tabs-simple-prefix">破产重组 1</div>
 				</div>
 				<div className="inquiry-public-table">
 					<Bankruptcy {...this.props} loadingHeight={h} />

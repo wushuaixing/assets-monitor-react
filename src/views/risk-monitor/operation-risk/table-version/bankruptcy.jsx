@@ -104,17 +104,17 @@ export default class TableIntact extends React.Component {
 								{flagB ? modalHtml : null}
 							</li>
 							{
-								flagA && (
-								<li>
-									<LiItem title={obj.lableA} auto Li>
-										{isPortraitInquiry ? f(obj.valA) : <a href={url} target="_blank" rel="noreferrer">{f(obj.valA)}</a> 	}
-										{!isPortraitInquiry && modalHtml}
-									</LiItem>
-									<LiItem title={obj.lableB} auto Li>
-										{f(obj.valB)}
-									</LiItem>
-								</li>
-								)
+								flagA ? (
+									<li>
+										<LiItem title={obj.lableA} auto Li>
+											{isPortraitInquiry ? f(obj.valA) : <a href={url} target="_blank" rel="noreferrer">{f(obj.valA)}</a> 	}
+											{!isPortraitInquiry && modalHtml}
+										</LiItem>
+										<LiItem title={obj.lableB} auto Li>
+											{f(obj.valB)}
+										</LiItem>
+									</li>
+								) : null
 							}
 						</div>
 					);

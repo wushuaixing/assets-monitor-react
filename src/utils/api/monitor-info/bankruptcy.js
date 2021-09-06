@@ -39,6 +39,10 @@ export const infoTrialDetail = params => service.get('/yc/information/bankruptcy
 	.then(res => res.data);
 
 
-// // 关联公告
+// 关联公告
 export const relationNotice = params => service.get('/yc/monitor/bankruptcyNew/notices', { params })
+	.then(res => res.data);
+
+// 关联公告
+export const markReadNotice = params => service.post('/yc/monitor/bankruptcyNew/markReadNotice', params)
 	.then(res => res.data);

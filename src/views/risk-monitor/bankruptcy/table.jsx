@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import {
-	readStatus, unFollow, follow, relationNotice,
+	readStatus, unFollow, follow, relationNotice, markReadNotice,
 } from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
@@ -10,7 +10,7 @@ import RelationNoticeModal from './relation-notice-modal';
 import message from '../../../utils/api/message/message';
 
 // 获取表格配置
-const columns = (props, openModal) => {
+const columns = (props, openModal, handleAddNotice) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
@@ -65,7 +65,7 @@ const columns = (props, openModal) => {
 			title: '公告信息',
 			dataIndex: 'title',
 			width: 200,
-			render: (text, record = {}) => {
+			render: (text, record = {}, index) => {
 				const {
 					relateNoticeCount, isShowNotice, title, id, url,
 				} = record;
@@ -75,7 +75,7 @@ const columns = (props, openModal) => {
 							<span>相关公告：</span>
 							<span className="cursor-pointer" onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '无'}</span>
 							{
-								isShowNotice ? <span style={{ background: 'pink' }} className="cursor-pointer">新增公告</span> : null
+								isShowNotice ? <span style={{ background: 'pink' }} className="cursor-pointer" onClick={() => handleAddNotice(id, index, isShowNotice)}>新增公告</span> : null
 							}
 						</div>
 						{
@@ -175,6 +175,15 @@ export default class TableView extends React.Component {
 		});
 	};
 
+	handleAddNotice= (id, index, isShowNotice) => {
+		const { onRefresh } = this.props;
+		const _isShowNotice = !isShowNotice;
+		onRefresh({ id, isShowNotice: _isShowNotice, index }, 'isShowNotice');
+		markReadNotice({ id }).then((res) => {
+			console.log(res);
+		});
+	}
+
 	render() {
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
@@ -194,7 +203,7 @@ export default class TableView extends React.Component {
 				<Table
 					{...rowSelection}
 					rowKey={record => record.id}
-					columns={columns(this.props, this.openModal)}
+					columns={columns(this.props, this.openModal, this.handleAddNotice)}
 					dataSource={dataSource}
 					pagination={false}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}

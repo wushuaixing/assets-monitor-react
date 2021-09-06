@@ -9,8 +9,13 @@ const debtorRisk = {
 			title: '2015',
 		},
 		list: params => service.get('/yc/obligor/monitor/overview/bankruptcyNew', { params }).then(res => res.data),
-		count: (params, id) => service.get('/yc/obligor/monitor/risk/bankruptcy/list-count', { params })
-			.then(res => Object.assign(res.data, { id })),
+		// count: (params, id) => service.get('/yc/obligor/monitor/risk/bankruptcy/list-count', { params })
+		// 	.then(res => Object.assign(res.data, { id })),
+		count: (params, id) => service.get('/yc/obligor/monitor/overview/bankruptcyNew', { params }).then((res) => {
+			const { data, code } = res.data || {};
+			const { bankruptcyNum } = data || {};
+			return ({ code, data: bankruptcyNum, id });
+		}),
 	},
 	20301: {
 		id: 20301,
