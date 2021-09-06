@@ -46,9 +46,9 @@ export default class Subrogation extends React.Component {
 				}, {
 					id: 10204,
 					name: '破产代位',
-					number: toGetNumber(props.data, 10202),
+					number: toGetNumber(props.data, 10204),
 					showNumber: true,
-					disabled: !toGetNumber(props.data, 10202),
+					disabled: !toGetNumber(props.data, 10204),
 				}],
 		};
 	}

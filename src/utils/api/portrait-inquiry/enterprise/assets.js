@@ -43,6 +43,15 @@ const assets = {
 		count: (params, id) => service.get('yc/search/portrait/company/asset/subrogation/judgment-document/list-count', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
+	broke: {
+		id: 10204,
+		name: '资产-代位权-破产代为',
+		params: { partiesName: '椰树集团有限公司' },
+		list: params => service.post('/yc/obligor/monitor/asset/subrogation/bankruptcySubrogation/list', params)
+			.then(res => res.data),
+		count: (params, id) => service.post('/yc/obligor/monitor/asset/subrogation/bankruptcySubrogation/listCount', params)
+			.then(res => Object.assign(res.data, { id })),
+	},
 	result: {
 		id: 10301,
 		name: '资产-土地信息-出让结果',

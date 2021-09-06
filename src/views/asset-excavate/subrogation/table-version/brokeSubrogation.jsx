@@ -2,10 +2,9 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
 import {
-	Button, Ellipsis, Icon, Spin, Table, ClueModal,
+	Icon, Spin, Table, ClueModal,
 } from '@/common';
-import associationLink from '@/views/_common/association-link';
-import { linkDom, timeStandard } from '@/utils';
+import { getSubrogationNotices } from '@/utils/api/portrait-inquiry/personal/overview';
 
 
 export default class TableIntact extends React.Component {
@@ -17,6 +16,7 @@ export default class TableIntact extends React.Component {
 			total: 0,
 			loading: false,
 			historyInfoModalVisible: false,
+			dataNotices: '',
 		};
 	}
 
@@ -37,22 +37,35 @@ export default class TableIntact extends React.Component {
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
 						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							{row.caseNumber ? <Ellipsis url={row.url} content={row.caseNumber.replace('（', '( ')} isSourceLink bussinessStyle tooltip /> : '-'}
+							{row.caseNumber || '--'}
 						</span>
-						<div className="relevance-announcement-btn" onClick={() => this.toOpenHistory(row)}>
-							<Icon type="icon-history" style={{ fontSize: 13, marginLeft: 8, marginRight: 4 }} />
-							查看关联公告
-						</div>
+						{
+							row.relateNoticeCount && (
+							<div className="relevance-announcement-btn" onClick={() => this.toOpenHistory(1)}>
+								<Icon type="icon-history" style={{ fontSize: 13, marginLeft: 8, marginRight: 4 }} />
+								查看关联公告
+							</div>
+							)
+						}
+
 					</li>
 					<li>
 						<span style={{ width: '65px' }} className="list list-title align-justify">申请人</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtTrial)}</span>
+						<span className="list list-content">
+							{
+								(row.applicants && row.applicants.map(item => item.name)) || '--'
+							}
+						</span>
 					</li>
 					<li>
 						<span style={{ width: '65px' }} className="list list-title align-justify">被申请人</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{timeStandard(row.gmtTrial)}</span>
+						<span className="list list-content">
+							{
+								(row.respondents && row.respondents.map(item => item.name)) || '--'
+							}
+						</span>
 					</li>
 				</div>
 			),
@@ -65,12 +78,12 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">公开日期</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content"><Ellipsis content={row.court} width={200} font={12} tooltip /></span>
+						<span className="list list-content">{row.gmtPublish || '--'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">受理法院</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">{associationLink(value, row, 'Court')}</span>
+						{row.court || '--'}
 					</li>
 				</div>
 			),
@@ -86,8 +99,8 @@ export default class TableIntact extends React.Component {
 	toGetData=(page) => {
 		const { portrait } = this.props;
 		const { api, params } = getDynamicAsset(portrait, {
-			b: 10202,
-			e: 'court',
+			b: 10204,
+			e: 'broke',
 		});
 		this.setState({ loading: true });
 		api.list({
@@ -110,23 +123,35 @@ export default class TableIntact extends React.Component {
 					loading: false,
 				});
 			}
-		}).catch(() => {
+		}).catch((error) => {
+			console.log(error);
 			this.setState({ loading: false });
 		});
 	};
 
 	// 点击历史拍卖信息
-	toOpenHistory=(source) => {
-		console.log(source);
+	toOpenHistory=(val) => {
 		const { historyInfoModalVisible } = this.state;
-		this.setState({
-			historyInfoModalVisible: !historyInfoModalVisible,
-		});
+		if (val) {
+			getSubrogationNotices({ id: 123 }).then((res) => {
+				const { code, data } = res.data;
+				if (code === 200) {
+					this.setState({
+						historyInfoModalVisible: true,
+						dataNotices: data,
+					});
+				}
+			});
+		} else {
+			this.setState({
+				historyInfoModalVisible: !historyInfoModalVisible,
+			});
+		}
 	};
 
 	render() {
 		const {
-			dataSource, current, total, historyInfoModalVisible,
+			dataSource, current, total, historyInfoModalVisible, dataNotices,
 		} = this.state;
 		const { loading } = this.state;
 		const { loadingHeight } = this.props;
@@ -157,7 +182,7 @@ export default class TableIntact extends React.Component {
 					historyInfoModalVisible && (
 						<ClueModal
 							onCancel={this.toOpenHistory}
-							data={dataSource}
+							data={dataNotices}
 							historyInfoModalVisible={historyInfoModalVisible}
 						/>
 					)
