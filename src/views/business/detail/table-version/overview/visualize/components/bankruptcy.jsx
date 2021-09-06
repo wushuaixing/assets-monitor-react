@@ -58,10 +58,14 @@ export default class Bankruptcy extends React.Component {
 										<div className="overview-container-content-item-label">关联案号：</div>
 										<div className="overview-container-content-item-val">{caseNumber || '-'}</div>
 									</li>
-									<li className="overview-container-content-item">
-										<div className="overview-container-content-item-label">最新公告发布日期：</div>
-										<div className="overview-container-content-item-val">{gmtPublish || '-'}</div>
-									</li>
+									{
+										gmtPublish ? (
+											<li className="overview-container-content-item">
+												<div className="overview-container-content-item-label">最新公告发布日期：</div>
+												<div className="overview-container-content-item-val">{gmtPublish}</div>
+											</li>
+										) : null
+									}
 								</div>
 							</Spin>
 						) : null}
