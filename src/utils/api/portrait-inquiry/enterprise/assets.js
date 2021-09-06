@@ -47,9 +47,9 @@ const assets = {
 		id: 10204,
 		name: '资产-代位权-破产代为',
 		params: { partiesName: '椰树集团有限公司' },
-		list: params => service.post('/yc/obligor/monitor/asset/subrogation/bankruptcySubrogation/list', params)
+		list: params => service.post('/yc/search/portrait/company/asset/bankruptcySubrogation/list', params)
 			.then(res => res.data),
-		count: (params, id) => service.post('/yc/obligor/monitor/asset/subrogation/bankruptcySubrogation/listCount', params)
+		count: (params, id) => service.post('/yc/search/portrait/company/asset/bankruptcySubrogation/listCount', params)
 			.then(res => Object.assign(res.data, { id })),
 	},
 	result: {

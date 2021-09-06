@@ -261,7 +261,6 @@ export default class OverView extends React.Component {
 		const { viewLoading } = this.props;
 		return (
 			<div className="inquiry-overview">
-				<div className="mark-line" />
 				<div className="overview-left" style={{ minHeight: 1000 }}>
 					<div className="yc-overview-title">资产概况</div>
 					{
