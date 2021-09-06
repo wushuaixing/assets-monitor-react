@@ -10,6 +10,7 @@ import {
 
 import RelationNoticeModal from '../../bankruptcy/relation-notice-modal';
 import message from '../../../../utils/api/message/message';
+import '../../style.scss';
 // 债务人详情-风险-破产重组
 // 画像查询-企业详情-风险-破产重组
 export default class TableIntact extends React.Component {
@@ -91,7 +92,7 @@ export default class TableIntact extends React.Component {
 						</Button>
 					);
 					const obj = isPortraitInquiry ? {
-						lableA: '申请人', valA: applicants, lableB: '被申请人', valB: respondents,
+						lableA: '申 请 人', valA: applicants, lableB: '被申请人', valB: respondents,
 					} : {
 						lableA: '最新公告', valA: title, lableB: '最新公告日期', valB: gmtPublish,
 					};
@@ -99,21 +100,21 @@ export default class TableIntact extends React.Component {
 					const flagB = relateNoticeCount && isPortraitInquiry; // 画像查询/债务人详情 - 当公告数大于0时，显示查看关联公告，不然不显示
 					return (
 						<div className="assets-info-content">
-							<li className="yc-public-normal-bold" style={{ marginBottom: 2, display: 'flex' }}>
-								 <div>{caseNumber}</div>
+							<div className="yc-public-normal-bold assets-info-content-item" style={{ marginBottom: 2, display: 'flex' }}>
+								 <div className="first-line">{caseNumber}</div>
 								{flagB ? modalHtml : null}
-							</li>
+							</div>
 							{
 								flagA ? (
-									<li>
-										<LiItem title={obj.lableA} auto Li>
-											{isPortraitInquiry ? f(obj.valA) : <a href={url} target="_blank" rel="noreferrer">{f(obj.valA)}</a> 	}
+									<div className="assets-info-content-item">
+										<LiItem title={obj.lableA} auto Li className="second-line">
+											{isPortraitInquiry ? f(obj.valA) : <a href={url} target="_blank" rel="noreferrer" className="second-line-val">{f(obj.valA)}</a> 	}
 											{!isPortraitInquiry && modalHtml}
 										</LiItem>
-										<LiItem title={obj.lableB} auto Li>
+										<LiItem title={obj.lableB} auto Li className="three-line">
 											{f(obj.valB)}
 										</LiItem>
-									</li>
+									</div>
 								) : null
 							}
 						</div>
@@ -126,7 +127,6 @@ export default class TableIntact extends React.Component {
 					const { gmtPublish, court } = row || {};
 					return 	(
 						<div className="assets-info-content">
-							<br />
 							{	isPortraitInquiry && <LiItem Li title="公开日期" auto>{f(gmtPublish)}</LiItem>}
 							<LiItem Li title="受理法院" auto>{f(court)}</LiItem>
 						</div>
@@ -196,7 +196,7 @@ export default class TableIntact extends React.Component {
 		const { loading } = this.state;
 		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction ">
+			<div className="yc-assets-auction backruptcy-detail-content">
 				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}

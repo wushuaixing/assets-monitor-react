@@ -40,18 +40,18 @@ const columns = (props, openModal, handleAddNotice) => {
 				const caseNumberList = caseNumber.split('、');
 				const courtList = court.split('、');
 				return (
-					<ul>
-						<li style={{ display: 'flex' }}>
-							<div>案号：</div>
-							<div>
+					<ul className="case-info-content">
+						<li className="case-info-content-item">
+							<div className="case-info-content-item-label">案 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号：</div>
+							<div className="case-info-content-item-val">
 								{
 									caseNumberList.map(i => <p>{i}</p>)
 								}
 							</div>
 						</li>
-						<li style={{ display: 'flex' }}>
-							<div>受理法院：</div>
-							<div>
+						<li className="case-info-content-item">
+							<div className="case-info-content-item-label">受理法院：</div>
+							<div className="case-info-content-item-val">
 								{
 									courtList.map(i => <p>{i}</p>)
 								}
@@ -70,19 +70,19 @@ const columns = (props, openModal, handleAddNotice) => {
 					relateNoticeCount, isShowNotice, title, id, url,
 				} = record;
 				return (
-					<div>
-						<div>
-							<span>相关公告：</span>
-							<span className="cursor-pointer" onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '无'}</span>
+					<div className="notice-info-content">
+						<div className="notice-info-content-item">
+							<span className="notice-info-content-item-label">相关公告：</span>
+							<span className="cursor-pointer notice-info-content-item-num" onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '无'}</span>
 							{
-								isShowNotice ? <span style={{ background: 'pink' }} className="cursor-pointer" onClick={() => handleAddNotice(id, index, isShowNotice)}>新增公告</span> : null
+								isShowNotice ? <span className="cursor-pointer notice-info-content-item-add" onClick={() => handleAddNotice(id, index, isShowNotice)}>新增公告</span> : null
 							}
 						</div>
 						{
 							title ? (
-								<div>
-									<span>最新公告：</span>
-									<span><a href={url} target="_blank" rel="noreferrer">{title }</a></span>
+								<div className="notice-info-content-item">
+									<span className="notice-info-content-item-label">最新公告：</span>
+									<span className="notice-info-content-item-url"><a href={url} target="_blank" rel="noreferrer">{title }</a></span>
 								</div>
 							) : null
 						}

@@ -54,8 +54,14 @@ export default class Bankruptcy extends React.Component {
 								</div>
 								<div className="overview-container-content">
 									{/* {getCount(timeLineData) > 0 && <TimeLine title="年份分布" Data={timeLineData} id="ChattelMortgage" />} */}
-									<LiItem Li title="关联案号" auto>{caseNumber || '-'}</LiItem>
-									<LiItem Li title="最新公告发布日期" auto>{gmtPublish || '-'}</LiItem>
+									<li className="overview-container-content-item">
+										<div className="overview-container-content-item-label">关联案号：</div>
+										<div className="overview-container-content-item-val">{caseNumber || '-'}</div>
+									</li>
+									<li className="overview-container-content-item">
+										<div className="overview-container-content-item-label">最新公告发布日期：</div>
+										<div className="overview-container-content-item-val">{gmtPublish || '-'}</div>
+									</li>
 								</div>
 							</Spin>
 						) : null}

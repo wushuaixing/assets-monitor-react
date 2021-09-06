@@ -99,6 +99,14 @@
     }
     .overview-container-content {
       padding: 0 0 20px 10px;
+      &-item{
+        display: flex;
+        font-size: 12px;
+        margin-bottom: 9px;
+        &-label{
+          color: #4E5566;
+        }
+      }
     }
   }
 }

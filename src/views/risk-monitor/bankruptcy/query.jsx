@@ -66,7 +66,8 @@ class QueryCondition extends React.Component {
 
 	render() {
 		const _style1 = { width: 278 };
-		const _style2 = { width: 100 };
+		const _style2 = { width: 164 };
+		const _style3 = { padding: '9px 5px' };
 		const { form: { getFieldProps, getFieldValue } } = this.props;
 		const timeOption = {
 			normalize(n) {
@@ -93,7 +94,7 @@ class QueryCondition extends React.Component {
 						{...getFieldProps('startGmtModified', timeOption)}
 						disabledDate={time => timeRule.disabledStartDate(time, getFieldValue('endGmtModified'))}
 					/>
-					<span className="yc-query-item-lable">至</span>
+					<span className="yc-query-item-lable" style={_style3}>至</span>
 					<DatePicker
 						size="large"
 						style={_style2}
