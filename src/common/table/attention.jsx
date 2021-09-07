@@ -6,6 +6,7 @@ const modalPro = (props) => {
 	const {
 		row: { id, isAttention }, onClick, api, index, single,
 	} = props;
+	console.log(single);
 	const _isAttention = !isAttention;
 	const params = single ? { id } : { idList: [id] };
 	api(params, _isAttention).then((res) => {
