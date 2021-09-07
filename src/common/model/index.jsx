@@ -57,7 +57,7 @@ export default class ClueModal extends React.PureComponent {
 													item.pid ? (
 														<Ellipsis content={item.title} width={270} tooltip url={`#/judgement?sourceId=10986&pid=${item.pid}&title=${item.title}`} />
 													) : (
-														<Ellipsis content={item.title} url={item.url} width={270} isSourceLink tooltip wsSourceLink />
+														<Ellipsis content={item.title} url={item.url} width={270} isSourceLink tooltip />
 													)
 
 												}

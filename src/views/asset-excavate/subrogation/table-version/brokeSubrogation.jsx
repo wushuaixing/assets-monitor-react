@@ -41,7 +41,7 @@ export default class TableIntact extends React.Component {
 						{
 							row.relateNoticeCount && (
 							<div className="relevance-announcement-btn" onClick={() => this.toOpenHistory(row)}>
-								<Icon type="icon-history" style={{ fontSize: 13, marginLeft: 8, marginRight: 4 }} />
+								<Icon type="icon-guanliangonggao" style={{ fontSize: 13, marginLeft: 8, marginRight: 4 }} />
 								查看关联公告
 							</div>
 							)
@@ -148,7 +148,7 @@ export default class TableIntact extends React.Component {
 			dataSource, current, total, historyInfoModalVisible, dataNotices,
 		} = this.state;
 		const { loading } = this.state;
-		const { loadingHeight } = this.props;
+		const { loadingHeight, apiType } = this.props;
 		return (
 			<div className="yc-assets-auction ">
 				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
@@ -177,7 +177,7 @@ export default class TableIntact extends React.Component {
 						<ClueModal
 							onCancel={this.toOpenHistory}
 							data={dataNotices}
-							apiType="debtor"
+							apiType={apiType ? 'portrayal' : 'debtor'}
 							historyInfoModalVisible={historyInfoModalVisible}
 						/>
 					)

@@ -88,7 +88,7 @@ export default class Subrogation extends React.Component {
 					{sourceType === 10201 ? <Trial /> : null}
 					{sourceType === 10202 ? <Court /> : null}
 					{sourceType === 10203 ? <Judgment /> : null}
-					{sourceType === 10204 ? <Broke /> : null}
+					{sourceType === 10204 ? <Broke apiType="portrayal" /> : null}
 				</div>
 			</div>
 		);

@@ -87,7 +87,7 @@ export default class TableIntact extends React.Component {
 					} = row || {};
 					const modalHtml = (
 						<Button onClick={() => this.handleOpenModal(isPortraitInquiry, id, notices)} style={{ padding: '1px 9px' }} className="auction-history-btn">
-							<Icon type="icon-history" style={{ fontSize: 13, marginRight: 4 }} />
+							<Icon type="icon-guanliangonggao" style={{ fontSize: 13, marginRight: 4 }} />
 							查看关联公告
 						</Button>
 					);
