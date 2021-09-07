@@ -165,11 +165,11 @@ const message = [
 			.then(res => Object.assign(res.data, { id, field: 'judgmentDocument' })),
 	},
 	{
-		dataType: 11001,
+		dataType: 11002,
 		name: '企业破产重组',
-		list: params => service.get('/yc/report/daily/bankruptcy/bankruptcyList', { params })
+		list: params => service.get('/yc/report/daily/bankruptcy/bankruptcyNewList', { params })
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/report/daily/bankruptcy/bankruptcyCount', { params })
+		count: (params, id) => service.get('/yc/report/daily/bankruptcy/bankruptcyNewCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 	{

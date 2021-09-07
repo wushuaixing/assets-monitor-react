@@ -39,27 +39,32 @@
 .relation-notice-modal{
   .ant-modal-content{
     .ant-modal-body{
-      padding: 35px 30px 0;
+      padding: 35px 10px 0 30px;
       max-height: 447px !important;
       overflow: auto;
       .ant-timeline-item{
         &-content{
           .yc-Timeline-item{
+            display: flex;
             &-publish{
               color: #7D8699;
+              min-width: 68px;
+            }
+            &-title{
+              margin: 0 8px 0 12px;
+              max-width: 230px;
             }
             &-typeName{
-              width: 64px;
+              padding: 0 8px;
+              min-width: 64px;
               line-height: 20px;
+              height: 20px;
               background: #F0F1F5;
               text-align: center;
               border-radius: 1px;
               border: 1px solid #DADDE6;
               font-size: 12px;
               display: inline-block;
-            }
-            &-title{
-              margin: 0 8px 0 12px;
             }
           }
         }

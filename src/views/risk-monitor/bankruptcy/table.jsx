@@ -73,7 +73,7 @@ const columns = (props, openModal, handleAddNotice) => {
 					<div className="notice-info-content">
 						<div className="notice-info-content-item">
 							<span className="notice-info-content-item-label">相关公告：</span>
-							<span className="cursor-pointer notice-info-content-item-num" onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '无'}</span>
+							<span className={`notice-info-content-item-num ${relateNoticeCount ? ' cursor-pointer' : ''}`} onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '无'}</span>
 							{
 								isShowNotice ? <span className="cursor-pointer notice-info-content-item-add" onClick={() => handleAddNotice(id, index, isShowNotice)}>新增公告</span> : null
 							}
