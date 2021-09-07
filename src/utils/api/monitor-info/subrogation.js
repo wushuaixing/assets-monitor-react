@@ -155,6 +155,13 @@ const Broke = {
 	},
 };
 
+// 关联公告弹窗接口 （信息监控、债务人、画像）
+export const getMessageNotices = params => s.get('/yc/monitor/subrogation/bankruptcySubrogation/notices', { params });
+
+export const getDebtorNotices = params => s.get('/yc/obligor/monitor/asset/subrogation/notices', { params });
+
+export const getPortrayalNotices = params => s.get('/yc/search/portrait/company/asset/notices', { params });
+
 // 获取不同类型的 api 接口
 const Api = (type, res) => {
 	if (type === 1) return Trial[res];

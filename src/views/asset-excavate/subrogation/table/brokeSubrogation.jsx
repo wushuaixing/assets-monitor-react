@@ -84,7 +84,7 @@ const columns = (props, toOpenHistory) => {
 			),
 		}, {
 			title: '关联公告',
-			dataIndex: 'noticeCount',
+			dataIndex: 'relateNoticeCount',
 			render: (text, row) => (
 				<React.Fragment>
 					{
@@ -132,6 +132,7 @@ export default class TableView extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
+			dataNotice: '',
 			historyInfoModalVisible: false,
 		};
 	}
@@ -168,10 +169,16 @@ export default class TableView extends React.Component {
 	// 点击历史拍卖信息
 	toOpenHistory=(source) => {
 		const { historyInfoModalVisible } = this.state;
-		console.log(historyInfoModalVisible);
-		this.setState({
-			historyInfoModalVisible: !historyInfoModalVisible,
-		});
+		if (source) {
+			this.setState({
+				historyInfoModalVisible: true,
+				dataNotice: source,
+			});
+		} else {
+			this.setState({
+				historyInfoModalVisible: !historyInfoModalVisible,
+			});
+		}
 	};
 
 	render() {
@@ -179,7 +186,7 @@ export default class TableView extends React.Component {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;
 		const {
-			selectedRowKeys, historyInfoModalVisible,
+			selectedRowKeys, historyInfoModalVisible, dataNotice,
 		} = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
@@ -216,7 +223,8 @@ export default class TableView extends React.Component {
 					historyInfoModalVisible && (
 					<ClueModal
 						onCancel={this.toOpenHistory}
-						data={dataSource}
+						data={dataNotice}
+						apiType="message"
 						historyInfoModalVisible={historyInfoModalVisible}
 					/>
 					)
