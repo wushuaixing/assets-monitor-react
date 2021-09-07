@@ -53,6 +53,7 @@ export default class HeaderMessage extends React.Component {
 		const { isRead } = this.state;
 		const params = {
 			...val,
+			requestSourceType: 1,
 		};
 		if (isRead === 'else') params.isRead = false;
 		this.setState({
@@ -130,7 +131,7 @@ export default class HeaderMessage extends React.Component {
 
 	// all
 	allRead = () => {
-		notify({ isRead: false }).then((res) => {
+		notify({ isRead: false, requestSourceType: 1 }).then((res) => {
 			if (res.code === 200) {
 				if (res.data.total) {
 					isReads({}).then((val) => {

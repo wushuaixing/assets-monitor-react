@@ -218,7 +218,7 @@ export default class Headers extends React.Component {
 
 	// 获取消息数量
 	getNoticeNum = () => {
-		notify({ isRead: false }).then((res) => {
+		notify({ isRead: false, requestSourceType: 1 }).then((res) => {
 			if (res.code === 200) {
 				this.setState({
 					num: res.data.total,
