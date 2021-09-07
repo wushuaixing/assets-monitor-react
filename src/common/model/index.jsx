@@ -50,7 +50,7 @@ export default class ClueModal extends React.PureComponent {
 									<Timeline.Item>
 										<div className="yc-clueModal-content-label">
 											<span className="yc-clueModal-content-label-time">
-												{item.gmtPublish}
+												{item.gmtPublish || '--'}
 											</span>
 											<span className="yc-clueModal-content-label-url">
 												{

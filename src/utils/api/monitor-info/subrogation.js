@@ -121,7 +121,7 @@ const Broke = {
 	// POST收藏
 	attention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attention', params).then(res => res.data),
 	// GET导出
-	exportList: '/yc/monitor/court/subrogation/export',
+	exportList: '/yc/monitor/subrogation/bankruptcySubrogation/export',
 	// POST收藏 => 收藏<
 	followAttention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attention', params).then(res => res.data),
 	// GET收藏 => 列表

@@ -4,7 +4,6 @@ import { getDynamicAsset } from 'api/dynamic';
 import {
 	Icon, Spin, Table, ClueModal,
 } from '@/common';
-import { getSubrogationNotices } from '@/utils/api/portrait-inquiry/personal/overview';
 
 
 export default class TableIntact extends React.Component {
@@ -52,18 +51,18 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span style={{ width: '65px' }} className="list list-title align-justify">申请人</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">
+						<span className="list list-content" style={{ maxWidth: '600px' }}>
 							{
-								(row.applicants && row.applicants.map(item => item.name)) || '--'
+								(row.applicants && row.applicants.map(item => item.name)).join('，') || '--'
 							}
 						</span>
 					</li>
 					<li>
 						<span style={{ width: '65px' }} className="list list-title align-justify">被申请人</span>
 						<span className="list list-title-colon">:</span>
-						<span className="list list-content">
+						<span className="list list-content" style={{ maxWidth: '600px' }}>
 							{
-								(row.respondents && row.respondents.map(item => item.name)) || '--'
+								(row.respondents && row.respondents.map(item => item.name)).join('，') || '--'
 							}
 						</span>
 					</li>
@@ -130,18 +129,12 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 点击历史拍卖信息
-	toOpenHistory=(val) => {
+	toOpenHistory=(source) => {
 		const { historyInfoModalVisible } = this.state;
-		if (val) {
-			const { id } = val;
-			getSubrogationNotices({ id }).then((res) => {
-				const { code, data } = res.data;
-				if (code === 200) {
-					this.setState({
-						historyInfoModalVisible: true,
-						dataNotices: data,
-					});
-				}
+		if (source) {
+			this.setState({
+				historyInfoModalVisible: true,
+				dataNotices: source,
 			});
 		} else {
 			this.setState({
@@ -184,6 +177,7 @@ export default class TableIntact extends React.Component {
 						<ClueModal
 							onCancel={this.toOpenHistory}
 							data={dataNotices}
+							apiType="debtor"
 							historyInfoModalVisible={historyInfoModalVisible}
 						/>
 					)
