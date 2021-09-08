@@ -129,12 +129,12 @@ class HomeDynamic extends PureComponent {
 		if (res && res.code === 200) {
 			const {
 				auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
-				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister,
+				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, bankruptcySubrogationCount, estateRegister,
 				financeInvestment, vehicleInformation, projectInfoCount, projectBiddingCount, constructionLicenceCount, electronicNewspaperCount,
 			} = res.data;
 			const landNum = this.getTotal([landMortgage, landTransaction, landTransfer]);
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
-			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial]);
+			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial, bankruptcySubrogationCount]);
 			const financeNum = this.getTotal([auctionBidding, finance, financeInvestment]);
 			const onBuildNum = this.getTotal([projectInfoCount, projectBiddingCount, constructionLicenceCount]);
 			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission,
