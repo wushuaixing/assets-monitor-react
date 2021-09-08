@@ -59,6 +59,7 @@ export default class MyAttention extends React.Component {
 					if (item.id === 'YC020201') _item.number = res.Trial;
 					else if (item.id === 'YC020202') _item.number = res.Court;
 					else if (item.id === 'YC020203') _item.number = res.Judgment;
+					else if (item.id === 'YC020204') _item.number = res.Broke;
 					return _item;
 				});
 				this.setState({ source: _source });
@@ -233,13 +234,13 @@ export default class MyAttention extends React.Component {
 			onBtnChange: this.onBtnChange,
 		};
 		const newConfig = config && config.filter(i => i.status);
-		// const newInitConfig = initConfig && initConfig.map(i => i).filter(l => l.status);
+		const newInitConfig = initConfig && initConfig.filter(i => Object.keys(i).length);
 		return (
 			<div className="yc-monitor-attention">
 				<Tabs.Simple
 					borderBottom
 					onChange={this.onType}
-					source={initConfig}
+					source={newInitConfig}
 					field="init"
 					type="primary"
 					prefix={<div className="yc-tabs-simple-prefix">我的收藏</div>}

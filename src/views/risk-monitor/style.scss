@@ -17,3 +17,28 @@
   }
 }
 
+.backruptcy-detail-content{
+  .assets-info-content{
+    &-item{
+      .first-line{
+        color: #20242E;
+        line-height: 24px;
+      }
+      .second-line{
+        &-val{
+
+        }
+      }
+      .three-line{
+
+      }
+      .list-title{
+        min-width: 60px;
+        text-align: right;
+      }
+      .auction-history-btn{
+        margin-left:8px;
+      }
+    }
+  }
+}

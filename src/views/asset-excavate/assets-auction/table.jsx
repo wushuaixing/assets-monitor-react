@@ -11,10 +11,11 @@ import {
 import { Table, SelectedNum } from '@/common';
 import { SortVessel } from '@/common/table';
 import { floatFormat } from '@/utils/format';
+import { readStatus } from '@/utils/api/monitor-info/assets';
 import FollowModel from './follow-info';
 import TableVersionModal from './tableVersionModal';
 
-
+let _this;
 // 忽略操作
 const handleIgnore = (row, index, onRefresh) => {
 	Modal.confirm({
@@ -26,6 +27,7 @@ const handleIgnore = (row, index, onRefresh) => {
 				if (res.code === 200) {
 					message.success('操作成功！');
 					onRefresh({ id: row.id, process: 12, index }, 'process');
+					_this.refreshList();
 				}
 			});
 		},
@@ -47,7 +49,7 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 		{
 			title: (noSort ? '业务信息'
 				: <SortVessel field="UPDATE_TIME" onClick={onSortChange} mark="(更新时间)" {...sort} style={{ marginLeft: 10 }}>业务信息</SortVessel>),
-			width: '220px',
+			width: '249px',
 			render: (text, row, index, noMatching, asset = true) => AssetsInfo(text, row, index, noMatching, asset),
 		}, {
 			title: '匹配原因',
@@ -62,7 +64,7 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 		}, {
 			title: '跟进状态',
 			dataIndex: 'reason',
-			width: '129px',
+			width: '100px',
 			className: 'yc-AssetAuction-verticalMiddle',
 			render: (text, row) => {
 				const { recovery, process } = row;
@@ -121,53 +123,13 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 			unNormal: true,
 			className: 'yc-assets-auction-action yc-AssetAuction-verticalMiddle',
 			render: (text, row, index) => {
-				const { process } = row;
+				const { process, commentTotal } = row;
 				const event = {
 					onClick: () => onFollowClick(row, index),
 				};
 				return (
 					<React.Fragment>
 						<div style={{ display: 'flex' }}>
-							{{
-								0: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-										<span className="auction-button" onClick={() => handleIgnore(row, index, onRefresh)}>忽略</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								3: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								6: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								9: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								12: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-								15: (
-									<React.Fragment>
-										<span className="auction-button" {...event}>跟进</span>
-										<span className="property-list-wire" />
-									</React.Fragment>
-								),
-							}[process] || null }
 							<Attentions
 								text={text}
 								row={row}
@@ -176,6 +138,64 @@ const columns = (props, onFollowClick, toOpenHistory) => {
 								api={row.isAttention ? unFollowSingle : followSingle}
 								single
 							/>
+							{{
+								0: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+										<span className="property-list-wire" />
+										<span className="auction-button" onClick={() => handleIgnore(row, index, onRefresh)}>忽略</span>
+									</React.Fragment>
+								),
+								3: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+								6: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+								9: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+								12: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+								15: (
+									<React.Fragment>
+										<span className="property-list-wire" />
+										<span className="auction-button" {...event}>
+											跟进
+											{(commentTotal > 0) && commentTotal }
+										</span>
+									</React.Fragment>
+								),
+							}[process] || null }
 						</div>
 					</React.Fragment>
 				);
@@ -196,6 +216,7 @@ export default class TableView extends React.Component {
 			historyInfoModalData: {},
 
 		};
+		_this = this;
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -230,6 +251,26 @@ export default class TableView extends React.Component {
 			historyInfoModalVisible: true,
 			historyInfoModalData: source,
 		});
+	};
+
+	// 行点击操作
+	toRowClick = (record, index) => {
+		const { id, isRead } = record;
+		const { onRefresh } = this.props;
+		if (!isRead) {
+			readStatus({ id }).then((res) => {
+				if (res.code === 200) {
+					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+				}
+			});
+		}
+	};
+
+	// 更新列表
+	refreshList = () => {
+		const { refreshList } = this.props;
+		refreshList();
+		this.setState({ visible: false });
 	};
 
 	render() {
@@ -278,7 +319,7 @@ export default class TableView extends React.Component {
 						<FollowModel
 							visible={visible}
 							source={source}
-							onClose={() => this.setState({ visible: false })}
+							onClose={this.refreshList}
 							onRefresh={onRefresh}
 						/>
 					)

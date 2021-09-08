@@ -17,6 +17,7 @@ export const getSubrogation = async (params) => {
 	return response.data;
 };
 
+
 // 风险情况 => 涉诉信息（涉诉文书）
 export const getLitigation = async (params) => {
 	const response = await service.get('/yc/search/portrait/personal/overview/risk/litigation', { params });

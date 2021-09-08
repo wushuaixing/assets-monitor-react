@@ -182,7 +182,7 @@ export default {
 			},
 			{
 				id: 'YC02',
-				name: null, // 测试使用
+				name: null,
 				url: '/monitor',
 				status: rule.menu_zcwj,
 				dot: false,
@@ -203,6 +203,7 @@ export default {
 							{ id: 'YC020201', name: '立案信息', status: true },
 							{ id: 'YC020202', name: '开庭公告', status: true },
 							{ id: 'YC020203', name: '裁判文书', status: true },
+							{ id: 'YC020204', name: '破产代位', status: true },
 						],
 					},
 					{
@@ -256,6 +257,12 @@ export default {
 						name: '股权质押',
 						url: '/monitor/pledge',
 						status: toStatus(rule.menu_zcwj, 'zcwjgqzy'),
+					},
+					{
+						id: 'YC0213',
+						name: '电子报',
+						url: '/monitor/epaper',
+						status: toStatus(rule.menu_zcwj, 'zcwjdzb'),
 					},
 					{
 						id: 'YC0301',
@@ -351,6 +358,7 @@ export default {
 									{ id: 'YC020201', name: '立案信息', status: true },
 									{ id: 'YC020202', name: '开庭公告', status: true },
 									{ id: 'YC020203', name: '裁判文书', status: true },
+									{ id: 'YC020204', name: '破产代位', status: true },
 								],
 							},
 							{
@@ -431,6 +439,18 @@ export default {
 								name: '破产重组',
 								url: '/risk/bankruptcy',
 								status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
+							},
+							{
+								id: 'YC0309',
+								name: '被执行信息',
+								url: '/risk/execute',
+								status: toStatus(rule.menu_fxjk, 'fxjkbzxxx'),
+							},
+							{
+								id: 'YC0306',
+								name: '终本案件',
+								url: '/risk/legalcase',
+								status: toStatus(rule.menu_fxjk, 'fxjkzbaj'),
 							},
 							{
 								id: 'YC0304',
@@ -617,7 +637,7 @@ export const	roleState = (field, childField) => {
 	if (Array.isArray(childField) && childField.length > 0) {
 		let isRule = 0;
 		childField.forEach((item) => {
-			isRule += Boolean(ruleObject.children[item]);
+			isRule += Boolean(ruleObject && ruleObject.children[item]);
 		});
 		return isRule > 0;
 	}

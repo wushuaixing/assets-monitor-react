@@ -84,8 +84,29 @@
         bottom: 3px;
       }
     }
+    // 被执行信息
+    .overview-container-money{
+      margin-bottom: 30px;
+      &-moneyLeft{
+        font-size: 12px;
+        color: #4E5566;
+      }
+      &-moneyRight{
+        font-size: 12px;
+        color: #20242E;
+        font-weight: bold;
+      }
+    }
     .overview-container-content {
       padding: 0 0 20px 10px;
+      &-item{
+        display: flex;
+        font-size: 12px;
+        margin-bottom: 9px;
+        &-label{
+          color: #4E5566;
+        }
+      }
     }
   }
 }

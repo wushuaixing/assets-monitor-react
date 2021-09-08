@@ -4,6 +4,7 @@ import '../../style.scss';
 import SubrogationRights from './subrogation';
 import OpenCourt from './openCourt';
 import Instrument from './instrument';
+import Broke from './broke';
 
 class Subrogation extends Component {
 	constructor(props) {
@@ -55,6 +56,7 @@ class Subrogation extends Component {
 											{ item.dataType === 10201 && <SubrogationRights dataType={10201} {...peopleProps} />}
 											{ item.dataType === 10202 && <OpenCourt dataType={10202} {...peopleProps} />}
 											{ item.dataType === 10203 && <Instrument dataType={10203} {...peopleProps} />}
+											{ item.dataType === 10204 && <Broke dataType={10204} {...peopleProps} />}
 										</div>
 									)
 								))

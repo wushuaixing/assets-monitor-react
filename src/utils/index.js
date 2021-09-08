@@ -541,6 +541,15 @@ export const reviseNum = (value) => {
 	return value;
 };
 
+// 转换金额格式
+export const floatFormat = (item) => {
+	const money = parseFloat(item);
+	if (money.toString() && money.toString() !== 'NaN') {
+		return money.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+	}
+	return '-';
+};
+
 // 防抖
 export const debounce = (fn, delay) => {
 	// 定时器；
@@ -615,6 +624,7 @@ export const toGetModuleHeight = (id = 0, number = 0, portrait = '') => {
 		case 10602: sH = 111; break;
 		case 10701: sH = isD ? 48 : 70; break;
 		case 30201: sH = 69; break;
+		case 20301: sH = 89; break;
 		case 20401: sH = 89; break;
 		case 20402: sH = 89; break;
 		case 20501: sH = 99; break;
@@ -643,4 +653,37 @@ export const toFormatArrayToString = (arr) => {
 		return str.substr(0, str.length - 1);
 	}
 	return str;
+};
+
+/**
+ * 判断是否为JSON字符串 是：true 否： false
+ */
+export const isJsonString = (str) => {
+	try {
+		if (typeof JSON.parse(str) === 'object') {
+			return true;
+		}
+	} catch (e) {}
+	return false;
+};
+
+/**
+ * 判断是否为中冠 是：true 否： false
+ */
+export const isZhongguan = () => {
+	const currentDomainName = window.location.hostname;
+	const domainType = {
+		ZG: 'zhongguan',
+	};
+	return currentDomainName.indexOf(domainType.ZG) >= 0;
+};
+
+/**
+ *友盟数据埋点
+ * * */
+export const statistics = () => {
+	const script = document.createElement('script');
+	script.src = 'https://s9.cnzz.com/z_stat.php?id=1280222141&web_id=1280222141';
+	script.language = 'JavaScript';
+	document.body.appendChild(script);
 };

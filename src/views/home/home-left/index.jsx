@@ -1,58 +1,17 @@
 import React, { PureComponent } from 'react';
 import {
-	homeAssetDig, riskReference, importantListAuction, importantListLandTransfer, importantListLandMortgage, importantListLandTransaction, importantListIntangibleEmission,
-	importantListIntangibleMining, importantListIntangibleTrademarkRight, importantListIntangibleConstruct, importantListMortgage, importantListPledge, importantListSubrogationCourt,
-	importantListSubrogationTrial, importantListSubrogationJudgment, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
+	homeAssetDig, riskReference, importantListRiskPunishment, importantListRiskTax, importantListRiskIllegal, importantListRiskAbnormal,
 	importantListRiskDishonest, importantListRiskBankruptcy, importantListLawsuitCourt, importantListLawsuitTrial, importantListLawsuitJudgment, importantListRiskChange,
-	importantListRiskEpb, importantListAuctionBidding, importantListFinance, importantListBidding, importantListUnseal, importantListLimitHeight, importantListEstateRegister, importantListBuildConstruct, importantListBuildWinbid, importantListBuildUnderway,
-	importantListCar,
+	importantListRiskEpb, importantListLimitHeight,
 } from 'api/home';
-import { Button as Btn, Spin } from '@/common';
+import { Spin } from '@/common';
 import { promiseAll } from '@/utils/promise';
 import './style.scss';
-import DetailItem from '@/views/home/components/detail-item';
 import ImportantInfoModal from '@/views/home/home-left/important-info-modal';
-import { Select } from 'antd';
 import DynamicUpdate from './dynamic-update';
 
 const customStyle = { padding: '20px' };
-const compare = property => (a, b) => {
-	const first = a[property];
-	const second = b[property];
-	return second - first;
-};
-const assestArr = [
-	{ count: 'zcwjzcpm', Api: importantListAuction, auction: true }, // 资产挖掘->资产拍卖 101
-	/* { count: 'zcwjzbzb', Api: importantListBidding }, */ // 资产挖掘->招标中标
-	{ count: 'zcwjcjfzc', Api: importantListUnseal }, // 资产挖掘->查解封资产
 
-	{ count: 'zcwjtdsj', Api: importantListLandTransfer }, // 资产挖掘->土地数据
-	{ count: 'zcwjtdsj', Api: importantListLandMortgage },
-	{ count: 'zcwjtdsj', Api: importantListLandTransaction },
-
-	/* { count: 'zcwjjrzj', Api: importantListAuctionBidding }, // 资产挖掘->金融资产
-  { count: 'zcwjjrzj', Api: importantListFinance }, */
-
-	{ count: 'zcwjwxzc', Api: importantListIntangibleEmission }, // 资产挖掘->无形资产
-	{ count: 'zcwjwxzc', Api: importantListIntangibleMining },
-	// { count: 'zcwjwxzc', Api: importantListIntangibleTrademarkRight }, //商标专利
-	// { count: 'zcwjwxzc', Api: importantListIntangibleConstruct }, // 建筑建造资质
-
-	{ count: 'zcwjdcdy', Api: importantListMortgage }, // 资产挖掘->动产抵押
-
-	{ count: 'zcwjgqzy', Api: importantListPledge }, // 资产挖掘->股权质押
-
-	{ count: 'zcwjdwq', Api: importantListSubrogationCourt }, // 资产挖掘->代位权
-	{ count: 'zcwjdwq', Api: importantListSubrogationTrial },
-	{ count: 'zcwjdwq', Api: importantListSubrogationJudgment },
-
-	{ count: 'zcwjbdcdj', Api: importantListEstateRegister }, // 资产挖掘->不动产登记
-	{ count: 'zcwjclxx', Api: importantListCar }, // 资产挖掘->车辆信息
-
-	{ count: 'zjgcjsdw', Api: importantListBuildConstruct }, // 在建工程-建设单位
-	{ count: 'zjgczbdw', Api: importantListBuildWinbid }, // 在建工程-中标单位
-	{ count: 'zjgcsgdw', Api: importantListBuildUnderway }, // 在建工程-施工单位
-];
 const assetsDataType = {
 	101: { tag: '资产拍卖', icon: 'auction-2' },
 	201: { tag: '出让结果', icon: 'land-result' },
@@ -88,23 +47,7 @@ const riskDataType = {
 	1301: { tag: '限制高消费(移除)', icon: 'limitCube' },
 	1302: { tag: '限制高消费', icon: 'limitCube' },
 };
-const riskArr = [
-	{ count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
 
-	{ count: 'jyfxxzcf', Api: importantListRiskPunishment }, // 经营风险->行政处罚
-	{ count: 'jyfxsswf', Api: importantListRiskTax }, // 经营风险->税收违法
-	{ count: 'jyfxyzwf', Api: importantListRiskIllegal }, // 经营风险->严重违法
-	{ count: 'jyfxjyyc', Api: importantListRiskAbnormal }, // 经营风险->经营异常
-	{ count: 'jyfxgsbg', Api: importantListRiskChange }, // 经营风险->工商变更
-	{ count: 'jyfxhbcf', Api: importantListRiskEpb }, // 经营风险->环保处罚
-
-	{ count: 'jkxxsxjl', Api: importantListRiskDishonest }, // 风险监控->失信记录
-
-	{ count: 'fxjkssjk', Api: importantListLawsuitTrial }, // 风险监控->涉诉监控
-	{ count: 'fxjkssjk', Api: importantListLawsuitCourt },
-	{ count: 'fxjkssjk', Api: importantListLawsuitJudgment },
-	{ count: 'fxjkxzgxf', Api: importantListLimitHeight }, // 风险监控->限制高消费
-];
 class HomeDynamic extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -149,7 +92,7 @@ class HomeDynamic extends PureComponent {
 
 	// 获取资产和风险的数据
 	getData = (val) => {
-		const params = { ...val	};
+		const params = { ...val, bankruptcyCount: 1	};
 		const excavate = new Map([
 			['homeAsset', this.getAssetData],
 			['homeRisk', this.getRiskData],
@@ -187,7 +130,7 @@ class HomeDynamic extends PureComponent {
 			const {
 				auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
 				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister,
-				financeInvestment, vehicleInformation, projectInfoCount, projectBiddingCount, constructionLicenceCount,electronicNewspaperCount,
+				financeInvestment, vehicleInformation, projectInfoCount, projectBiddingCount, constructionLicenceCount, electronicNewspaperCount,
 			} = res.data;
 			const landNum = this.getTotal([landMortgage, landTransaction, landTransfer]);
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
@@ -250,106 +193,37 @@ class HomeDynamic extends PureComponent {
 		}
 	};
 
-	// 资产每个模块的重要信息提醒
-	getAssetImportantReminder = () => {
-	/*	const apiImport = [
-			importantListAuction,
-			importantListBidding,
-			importantListUnseal,
-			importantListLandTransfer,
-			importantListLandMortgage,
-			importantListLandTransaction,
-			importantListAuctionBidding,
-			importantListFinance,
-			importantListIntangibleEmission,
-			importantListIntangibleMining,
-			importantListIntangibleTrademarkRight,
-			importantListIntangibleConstruct,
-			importantListMortgage,
-			importantListPledge,
-			importantListSubrogationCourt,
-			importantListSubrogationTrial,
-			importantListSubrogationJudgment,
-			importantListEstateRegister,
-			importantListCar,
-			importantListRiskBankruptcy,
-			importantListRiskPunishment,
-			importantListRiskTax,
-			importantListRiskIllegal,
-			importantListRiskAbnormal,
-			importantListRiskChange,
-			importantListRiskEpb,
-			importantListRiskDishonest,
-			importantListLawsuitTrial,
-			importantListLawsuitCourt,
-			importantListLawsuitJudgment,
-			importantListLimitHeight,
-		]; */
-		 const apiArray = assestArr.concat(riskArr);
-
-		const AssetImportantReminderArray = [];
-		apiArray.forEach((item) => {
-			if (global.authRoleList.includes(item.count)) {
-				AssetImportantReminderArray.push(item.Api());
-			}
-		});
-		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
-		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
-		// console.log(promiseArray, 123);
-		this.setState({ importLoading: true });
-		const handlePromise = promiseAll(AssetImportantReminderArray.map(promiseItem => promiseItem.catch(err => err)));
-		if (AssetImportantReminderArray.length === 0) {
-			this.setState({ importLoading: false });
-		}
-		handlePromise.then((res) => {
-			const isArray = Array.isArray(res) && res.length > 0;
-			this.setState({ importLoading: false });
-			const AssetImportantReminderList = [];
-			const AssetImportantReminderObligorIdList = [];
-			if (isArray) {
-				res.forEach((item) => {
-					if (item.code === 200) {
-						const { importantList, obligorId } = item.data;
-						AssetImportantReminderList.push(...importantList);
-						AssetImportantReminderObligorIdList.push(...obligorId);
-					}
-				});
-			}
-			// console.log('AssetImportantReminderList', AssetImportantReminderList);
-			this.setState(() => ({
-				AssetImportantReminderList,
-				AssetImportantReminderObligorIdList,
-			}));
-		}).catch((reason) => {
-			this.setState({ importLoading: false });
-			console.log('promise reject failed reason', reason);
-		});
-	};
 
 	getRiskData = (res) => {
 		if (res && res.code === 200) {
 			const {
 				abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial,
-				punishment, tax, limitHeight,
+				punishment, tax, limitHeight, execEndCaseCount, execPerson,
 			} = res.data;
 			const lawsuitNum = this.getTotal([lawsuitCourt, lawsuitJudgement, lawsuitTrial]);
 			const operationNum = this.getTotal([abnormal, change, tax, illegal, punishment, epb]);
-			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, punishment, tax, limitHeight]);
+			const totalNum = this.getTotal([abnormal, bankruptcy, change, dishonest, epb, illegal, lawsuitCourt, lawsuitJudgement, lawsuitTrial, punishment, tax, limitHeight, execEndCaseCount, execPerson]);
 			const riskDataArray = [
 				{
 					count: bankruptcy, type: 7, typeName: '破产重组', name: '破产重组', value: 2,
 				},
 				{
+					count: execPerson, type: 15, typeName: '被执行信息', name: '被执行信息', value: 2,
+				},
+				{
+					count: execEndCaseCount, type: 14, typeName: '终本案件', name: '终本案件', value: 2,
+				},
+				{
 					count: dishonest, type: 8, typeName: '失信记录', name: '失信记录', value: 2,
+				},
+				{
+					count: limitHeight, type: 13, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 				{
 					count: lawsuitNum, type: 9, typeName: '涉诉信息', name: '涉诉信息', value: 2,
 				},
 				{
 					count: operationNum, type: 10, typeName: '经营风险', name: '经营风险', value: 2,
-				},
-				{
-					count: limitHeight, type: 13, typeName: '限制高消费', name: '限制高消费', value: 2,
 				},
 			];
 			const riskPropsData = {
@@ -365,20 +239,6 @@ class HomeDynamic extends PureComponent {
 	};
 
 	getRiskImportantReminder = () => {
-		// const apiImport = [
-		// 	importantListRiskBankruptcy,
-		// 	importantListRiskPunishment,
-		// 	importantListRiskTax,
-		// 	importantListRiskIllegal,
-		// 	importantListRiskAbnormal,
-		// 	importantListRiskChange,
-		// 	importantListRiskEpb,
-		// 	importantListRiskDishonest,
-		// 	importantListLawsuitTrial,
-		// 	importantListLawsuitCourt,
-		// 	importantListLawsuitJudgment,
-		// 	importantListLimitHeight,
-		// ];
 		const apiArray = [
 			{ count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
 
@@ -396,29 +256,12 @@ class HomeDynamic extends PureComponent {
 			{ count: 'fxjkssjk', Api: importantListLawsuitJudgment },
 			{ count: 'fxjkxzgxf', Api: importantListLimitHeight }, // 风险监控->限制高消费
 		];
-		/* const apiArray = [
-			{ count: bankruptcy, Api: importantListRiskBankruptcy },
-			{ count: punishment, Api: importantListRiskPunishment },
-			{ count: tax, Api: importantListRiskTax },
-			{ count: illegal, Api: importantListRiskIllegal },
-			{ count: abnormal, Api: importantListRiskAbnormal },
-			{ count: change, Api: importantListRiskChange },
-			{ count: epb, Api: importantListRiskEpb },
-			{ count: dishonest, Api: importantListRiskDishonest },
-			{ count: lawsuitTrial, Api: importantListLawsuitTrial },
-			{ count: lawsuitCourt, Api: importantListLawsuitCourt },
-			{ count: lawsuitJudgement, Api: importantListLawsuitJudgment },
-			{ count: limitHeight, Api: importantListLimitHeight },
-		]; */
 		const RiskImportantReminderArray = [];
 		apiArray.forEach((item) => {
 			if (global.authRoleList.includes(item.count)) {
 				RiskImportantReminderArray.push(item.Api());
 			}
 		});
-		// apiImport.filter(i => i.count).forEach((item) => {
-		// 	RiskImportantReminderArray.push(item());
-		// });
 		this.setState({ importLoading: true });
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
@@ -506,7 +349,7 @@ class HomeDynamic extends PureComponent {
 	render() {
 		const {
 			checkArray, checkType, loading, assetPropsData, riskPropsData, finish, AssetImportantReminderList, AssetImportantReminderObligorIdList, RiskImportantReminderList,
-			RiskImportantReminderObligorIdList, timeType, showModal, typeValue,
+			RiskImportantReminderObligorIdList, timeType, showModal,
 		} = this.state;
 		const params = {
 			timeType,
@@ -517,24 +360,6 @@ class HomeDynamic extends PureComponent {
 			RiskImportantReminderList,
 			RiskImportantReminderObligorIdList,
 		};
-		// const detailTypeAll = Object.assign({}, assetsDataType, riskDataType);
-		const newAssetArr = [...AssetImportantReminderList];
-		const assetArr = (newAssetArr.sort(compare('timestamp')));
-		// const newRiskArr = [...RiskImportantReminderList];
-		// const riskArr = (newRiskArr.sort(compare('timestamp')));
-		// const newAllArr = newAssetArr.concat(newRiskArr);
-		const riskArrTemp = this.arrFilter(assetArr, 'risk');
-		const assetsTemp = this.arrFilter(assetArr, 'assets');
-		let allArr = [];
-		if (typeValue === 'all') {
-			allArr = assetsTemp.concat(riskArrTemp).sort(compare('timestamp'));
-		}
-		if (typeValue === 'assets') {
-			allArr = assetsTemp.sort(compare('timestamp'));
-		}
-		if (typeValue === 'risk') {
-			allArr = riskArrTemp.sort(compare('timestamp'));
-		}
 		return (
 			<React.Fragment>
 				<div className="dynamic-container">

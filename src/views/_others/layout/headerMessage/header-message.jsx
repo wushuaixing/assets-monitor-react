@@ -3,19 +3,41 @@ import { navigate } from '@reach/router';
 import { message } from 'antd';
 import {
 	notify, // 消息提醒
-	isRead, // 标记已读
+	isRead as isReads, // 标记已读
 } from '@/utils/api/inform';
-import { Icon, Spin } from '@/common';
+import {
+	userInfo, // 通知中心数据
+} from '@/utils/api/user';
+import { clearEmpty, DownloadFile, isJsonString } from '@/utils';
+import { Button, Icon, Spin } from '@/common';
 import { formatDateTime } from '@/utils/changeTime';
+import bell from '@/assets/img/img_blank_nomassage.png';
+import baseUrl from 'api/config';
+import { businessFile } from 'api/home';
+import Cookies from 'universal-cookie';
 import './style.scss';
 
+const cookies = new Cookies();
 export default class HeaderMessage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			dataList: [],
 			loading: false,
+			orgPower: false,
+			isRead: 'all',
 		};
+	}
+
+	componentWillMount() {
+		userInfo().then((res) => {
+			const { currentOrgId, masterOrgId } = res.data;
+			if (currentOrgId === masterOrgId) {
+				this.setState({
+					orgPower: true,
+				});
+			}
+		});
 	}
 
 	componentDidMount() {
@@ -23,19 +45,23 @@ export default class HeaderMessage extends React.Component {
 		if (rule && rule.menu_sy) {
 			this.informCenter();
 		}
+		global.informCenter = this.informCenter;
 	}
 
-	informCenter = () => {
+	informCenter = (val) => {
 		const { getNoticeNum } = this.props;
+		const { isRead } = this.state;
 		const params = {
-			isRead: false,
+			...val,
+			requestSourceType: 1,
 		};
+		if (isRead === 'else') params.isRead = false;
 		this.setState({
 			loading: true,
 		});
-		notify(params).then((res) => {
+		notify(clearEmpty(params)).then((res) => {
 			if (res.code === 200) {
-				getNoticeNum(res.data.total);
+				getNoticeNum();
 				this.setState({
 					dataList: res.data.list,
 					loading: false,
@@ -50,22 +76,17 @@ export default class HeaderMessage extends React.Component {
 
 	skip = (item) => {
 		const { obligorId, id, operateType } = item;
-		const params = {
-			idList: [id],
-		};
-		console.log(obligorId, operateType, '跳转');
-
 		// 资产跟进提醒 tab切换为跟进中 带入拍卖信息标题
 		if (operateType === 'newAuctionProcessAlert') {
 			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
-			w.location.href = `#/monitor?process=3&id=${obligorId}${title ? `&title=${title}` : ''}`;
+			w.location.href = `#/monitor?process=1&id=${obligorId}${title ? `&title=${title}` : ''}`;
 		}
 		// 拍卖状态变更  tab切换为全部 带入拍卖信息标题
 		if (operateType === 'auctionStatusChangeAlert') {
 			const { title } = JSON.parse(item.extend);
 			const w = window.open('about:blank');
-			w.location.href = `#/monitor?process=3&id=${obligorId}${title ? `&title=${title}` : ''}`;
+			w.location.href = `#/monitor?process=1&id=${obligorId}${title ? `&title=${title}` : ''}`;
 		}
 		// 列入失信名单 || 失信状态移除
 		if (operateType === 'dishonestAdd' || operateType === 'dishonestRemove') {
@@ -86,36 +107,74 @@ export default class HeaderMessage extends React.Component {
 				}`;
 			}
 		}
-		isRead(params).then((res) => {
-			if (res.code === 200) {
-				this.informCenter();
-				window.location.reload(); // 实现页面重新加载/
-				// message.success(res.message);
-				console.log('成功');
-			} else {
-				message.warning(res.message);
-			}
-		});
+		this.readPackaging(id);
 	};
 
-	// all
-	allRead = () => {
-		const { dataList } = this.state;
-		if (dataList.length > 0) {
-			isRead({}).then((res) => {
+	readPackaging = (item) => {
+		const { orgPower } = this.state;
+		const { id, isRead } = item;
+		const params = {
+			idList: [id],
+		};
+		if (orgPower && !isRead) {
+			isReads(params).then((res) => {
 				if (res.code === 200) {
-					this.informCenter();
-					window.location.reload(); // 实现页面重新加载/
+					this.informCenter('', true);
+					// window.location.reload(); // 实现页面重新加载/
+					console.log('成功');
 				} else {
 					message.warning(res.message);
 				}
 			});
 		}
+	}
+
+	// all
+	allRead = () => {
+		notify({ isRead: false, requestSourceType: 1 }).then((res) => {
+			if (res.code === 200) {
+				if (res.data.total) {
+					isReads({}).then((val) => {
+						if (val.code === 200) {
+							this.informCenter();
+							message.success('消息已全部标为已读');
+						} else {
+							message.warning(res.message);
+						}
+					});
+				} else {
+					message.warning('当前没有未读数据');
+				}
+			}
+		});
 	};
 
-	render() {
-		const { dataList, loading } = this.state;
+	handleReadChange = (val) => {
+		this.setState({
+			isRead: val,
+		}, () => {
+			this.informCenter();
+		});
+	};
 
+	download = (item) => {
+		const { total } = JSON.parse(item.extend);
+		const token = cookies.get('token');
+		DownloadFile(`${baseUrl}${businessFile(total)}?token=${token}`);
+		this.readPackaging(item);
+	}
+
+	navigateTo = () => {
+		if (window.location.hash !== '#/message') {
+			global.UP_URL = window.location.href;
+			navigate('/message');
+		}
+	}
+
+	render() {
+		const {
+			dataList, loading, isRead, orgPower,
+		} = this.state;
 		return (
 			<div
 				className="yc-header-message"
@@ -125,65 +184,86 @@ export default class HeaderMessage extends React.Component {
 			>
 				<div className="yc-header-title">
 					<div className="yc-station-box">
-						<span>消息</span>
-						<span onClick={this.allRead} className="yc-station-btn">全部标为已读</span>
+						<Button
+							style={{ borderRadius: '2px 0 0 2px' }}
+							className="yc-station-box-btn"
+							active={isRead === 'all'}
+							title="全部"
+							onClick={() => this.handleReadChange('all')}
+						/>
+						<Button
+							style={{ borderRadius: '0 2px 2px 0' }}
+							className="yc-station-box-btn"
+							active={isRead === 'else'}
+							title="未读"
+							onClick={() => this.handleReadChange('else')}
+						/>
+						{
+							orgPower ? (
+								<div className="yc-station-btn">
+									<i className="iconfont icon-quanbubiaoweiyidu yc-station-btn-icon" />
+									<span className="cursor-pointer" onClick={this.allRead}>全部标为已读</span>
+								</div>
+							) : null
+						}
 					</div>
 				</div>
 				<Spin visible={loading}>
-
-					<div className="yc-station-list">
+					<div
+						className="yc-station-list"
+						onClick={(e) => {
+							e.stopPropagation(); // 防止冒泡
+						}}
+					>
 						{dataList && dataList.length > 0 ? dataList.map(item => (
-							<div key={item.id} className="yc-station-item" onClick={() => this.skip(item)}>
-								{item.isRead === false && (
-								<Icon
-									type="icon-dot"
-									style={{
-										fontSize: 12, color: 'red', position: 'absolute', top: '10px', left: '8px',
-									}}
-								/>
-								)}
-								<div className="yc-station-item-title">
-									{item.title}
-									<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
+							<React.Fragment>
+								<div key={item.id} onClick={() => this.readPackaging(item)} className="yc-station-item">
+									{item.isRead === false && (
+									<Icon
+										type="icon-dot"
+										style={{
+											fontSize: 12, color: '#FB5A5C', position: 'absolute', top: '10px', left: '8px',
+										}}
+									/>
+									)}
+									<div className="yc-station-item-title">
+										{item.title}
+										<span className="yc-station-item-brief">{formatDateTime(item.createTime)}</span>
+									</div>
+									<div className="yc-station-item-content">
+										<span dangerouslySetInnerHTML={{ __html: item.content }} />
+										<br />
+										{
+											item.operateType === 'businessReport' ? (
+												isJsonString(item.extend) && JSON.parse(item.extend).disabled ? <span className="yc-station-item-content-text">文件已失效</span>
+													: <span className="yc-station-item-content-span" onClick={() => this.download(item)}> 下载报告 ></span>
+											) : null
+										}
+										{
+											item.operateType !== 'businessReport' && isJsonString(item.extend) && JSON.parse(item.extend).total <= 200 && <span onClick={() => this.skip(item)} className="yc-station-item-content-span"> 点击查看 ></span>
+										}
+										{
+											item.operateType === 'auctionStatusChangeAlert' && <span onClick={() => this.skip(item)} className="yc-station-item-content-span"> 点击查看 ></span>
+										}
+										{
+											item.operateType === 'newAuctionProcessAlert' && <span onClick={() => this.skip(item)} className="yc-station-item-content-span"> 点击查看 ></span>
+										}
+									</div>
 								</div>
-								<div className="yc-station-item-content">
-									<span dangerouslySetInnerHTML={{ __html: item.content }} />
-									，
-									{
-										item.operateType === 'monitorReport' && JSON.parse(item.extend).total > 200 && <span>点击前往“信息监控”查看</span>
-									}
-									{
-										item.operateType === 'monitorReport' && JSON.parse(item.extend).total <= 200 && <span>点击查看日报详情</span>
-									}
-									{
-										item.operateType !== 'monitorReport' && <span>点击查看</span>
-									}
-								</div>
-							</div>
+								<div className="yc-station-item-line" />
+							</React.Fragment>
 						)) : (
 							<div className="notice-station-wrapper">
-								<div className="notice notice-station-img" />
-								<span className="notice-text">
-									暂无新消息，已读信息请至
-									<a
-										onClick={() => {
-											navigate('/message');
-										}}
-										target="_blank"
-									>
-										消息中心
-									</a>
-									查看
-								</span>
+								<img src={bell} className="notice-station-img" />
+								<div className="notice-text">
+									暂无新消息
+								</div>
 							</div>
 						)}
 					</div>
 					<div className="yc-station-box-center">
-						<a onClick={() => {
-							navigate('/message');
-						}}
-						>
-							查看全部
+						<a onClick={() => this.navigateTo()}>
+							查看更多消息
 						</a>
 					</div>
 				</Spin>

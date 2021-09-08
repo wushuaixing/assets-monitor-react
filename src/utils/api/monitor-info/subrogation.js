@@ -31,7 +31,7 @@ const Trial = {
 		const count = params => s.get('/yc/monitor/trial/subrogation/list-count', { params }).then(res => res.data);
 		return count(data).then((res) => {
 			if (res.code === 200) result.count = res.data;
-			return count(Object.assign({}, { isRead: false }));
+			return count(Object.assign(data, { isRead: false }));
 		}).then((res) => {
 			if (res.code === 200) result.unRead = res.data;
 			return result;
@@ -69,7 +69,7 @@ const Court = {
 		const count = params => s.get('/yc/monitor/court/subrogation/list-count', { params }).then(res => res.data);
 		return count(data).then((res) => {
 			if (res.code === 200) result.count = res.data;
-			return count(Object.assign({}, { isRead: false }));
+			return count(Object.assign(data, { isRead: false }));
 		}).then((res) => {
 			if (res.code === 200) result.unRead = res.data;
 			return result;
@@ -107,19 +107,70 @@ const Judgment = {
 		const count = params => s.get('/yc/monitor/judgment/subrogation/list-count', { params }).then(res => res.data);
 		return count(data).then((res) => {
 			if (res.code === 200) result.count = res.data;
-			return count(Object.assign({}, { isRead: false }));
+			return count(Object.assign(data, { isRead: false }));
 		}).then((res) => {
 			if (res.code === 200) result.unRead = res.data;
 			return result;
 		});
 	},
 };
+
+
+// (新)监控信息 => 代位权 => 破产代位
+const Broke = {
+	// POST收藏
+	attention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attention', params).then(res => res.data),
+	// GET导出
+	exportList: '/yc/monitor/subrogation/bankruptcySubrogation/export',
+	// POST收藏 => 收藏<
+	followAttention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attention', params).then(res => res.data),
+	// GET收藏 => 列表
+	followList: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attentionList', params).then(res => res.data),
+	// GET收藏 => 列表Count
+	followListCount: () => s.post('/yc/monitor/subrogation/bankruptcySubrogation/attentionListCount', {}).then(res => res.data),
+	// POST收藏 => 取消收藏
+	followUnAttention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/unAttention', params).then(res => res.data),
+	// GET列表
+	list: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/list', params).then(res => Object.assign(res.data,
+		{ selectType: params.selectType })),
+	// GET列表count
+	listCount: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/listCount', params).then(res => res.data),
+	// POST已读
+	read: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/read', params).then(res => res.data),
+	// POST全部已读
+	readAll: () => s.post('/yc/monitor/subrogation/bankruptcySubrogation/read', { }).then(res => res.data),
+	// POST取消收藏
+	unAttention: params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/unAttention', params).then(res => res.data),
+	// GET列表数据，含未读已读
+	listReadCount: (data) => {
+		const result = {};
+		const count = params => s.post('/yc/monitor/subrogation/bankruptcySubrogation/listCount', params).then(res => res.data);
+		return count(data).then((res) => {
+			if (res.code === 200) result.count = res.data;
+			return count(Object.assign(data, { isRead: false }));
+		}).then((res) => {
+			if (res.code === 200) result.unRead = res.data;
+			return result;
+		});
+	},
+};
+
+// 关联公告弹窗接口 （信息监控、债务人、画像）
+export const getMessageNotices = params => s.get('/yc/monitor/subrogation/bankruptcySubrogation/notices', { params });
+
+export const getDebtorNotices = params => s.get('/yc/obligor/monitor/asset/subrogation/notices', { params });
+
+export const getPortrayalNotices = params => s.get('/yc/search/portrait/company/asset/notices', { params });
+
 // 获取不同类型的 api 接口
 const Api = (type, res) => {
 	if (type === 1) return Trial[res];
 	if (type === 2) return Court[res];
 	if (type === 3) return Judgment[res];
+	if (type === 4) return Broke[res];
 	return Trial[res];
 };
-export { Court, Trial, Judgment };
+export {
+	Court, Trial, Judgment, Broke,
+};
 export default Api;

@@ -5,7 +5,7 @@ import { promiseAll } from '@/utils/promise';
 import Card from '../card';
 import './style.scss';
 
-const hasCountStyle = { width: '366px', height: '155px', marginBottom: '20px' };
+const hasCountStyle = { width: '366px', height: '148px', marginBottom: '20px' };
 export default class Land extends PureComponent {
 	constructor(props) {
 		super(props);

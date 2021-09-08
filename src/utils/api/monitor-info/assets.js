@@ -7,7 +7,7 @@ import service from 'service';
 export const infoList = params => service.get('/yc/monitor/auction/list', { params })
 	.then(res => res.data);
 // 已读
-export const readStatus = params => service.post('/yc/monitor/auction/read', params)
+export const readStatus = params => service.post('/yc/monitor/auction/markRead', params)
 	.then(res => res.data);
 
 // 收藏 [批量]

@@ -16,9 +16,11 @@ export default class Subrogation extends React.Component {
 			FilingArray: [],
 			CourtArray: [],
 			refereeArray: [],
+			brokeArray: [],
 			FilingNum: 0,
 			CourtNum: 0,
 			refereeNum: 0,
+			brokeNum: 0,
 			RingData: [],
 			columnarData: [],
 			timeLineData: [],
@@ -36,16 +38,19 @@ export default class Subrogation extends React.Component {
 		const { companyId, getAssetProfile } = this.props;
 		const params = {
 			companyId,
+			requestSourceType: 1,
 		};
 		getSubrogation(params).then((res) => {
 			if (res.code === 200) {
 				const FilingArray = res.data.subrogationInfos[0];
 				const CourtArray = res.data.subrogationInfos[1];
 				const refereeArray = res.data.subrogationInfos[2];
+				const brokeArray = res.data.subrogationInfos[3];
 				const FilingNum = FilingArray.count;
 				const CourtNum = CourtArray.count;
 				const refereeNum = refereeArray.count;
-				const allNum = FilingArray.count + CourtArray.count + refereeArray.count;
+				const brokeNum = brokeArray.count;
+				const allNum = FilingArray.count + CourtArray.count + refereeArray.count + brokeNum;
 				getAssetProfile(allNum, 'Subrogation');
 
 				if (FilingNum > 0) {
@@ -68,6 +73,16 @@ export default class Subrogation extends React.Component {
 						columnarDataNum: getCount(CourtArray.caseReasons),
 						timeLineDataNum: getCount(CourtArray.yearDistribution),
 					});
+				} else if (brokeNum > 0) {
+					this.setState({
+						selectType: 'Broke',
+						RingData: brokeArray.caseTypes,
+						columnarData: brokeArray.caseReasons,
+						timeLineData: brokeArray.yearDistribution,
+						RingDataNum: getCount(brokeArray.caseTypes),
+						columnarDataNum: getCount(brokeArray.caseReasons),
+						timeLineDataNum: getCount(brokeArray.yearDistribution),
+					});
 				} else {
 					this.setState({
 						selectType: 'referee',
@@ -83,9 +98,11 @@ export default class Subrogation extends React.Component {
 					FilingArray, // 立案信息
 					CourtArray, // 开庭信息
 					refereeArray, // 裁判文书
+					brokeArray, // 破产代位
 					FilingNum,
 					CourtNum,
 					refereeNum,
+					brokeNum,
 				});
 			} else {
 				// this.setState({ loading: false });
@@ -96,7 +113,9 @@ export default class Subrogation extends React.Component {
 	};
 
 	checkTime = (selectType) => {
-		const { FilingArray, CourtArray, refereeArray } = this.state;
+		const {
+			FilingArray, CourtArray, refereeArray, brokeArray,
+		} = this.state;
 		if (selectType === 'Filing') {
 			this.setState({
 				selectType,
@@ -127,12 +146,22 @@ export default class Subrogation extends React.Component {
 				columnarDataNum: getCount(refereeArray.caseReasons),
 				timeLineDataNum: getCount(refereeArray.yearDistribution),
 			});
+		} else if (selectType === 'Broke') {
+			this.setState({
+				selectType,
+				RingData: brokeArray.caseTypes,
+				columnarData: brokeArray.caseReasons,
+				timeLineData: brokeArray.yearDistribution,
+				RingDataNum: getCount(brokeArray.caseTypes),
+				columnarDataNum: getCount(brokeArray.caseReasons),
+				timeLineDataNum: getCount(brokeArray.yearDistribution),
+			});
 		}
 	};
 
 	render() {
 		const {
-			RingData, columnarData, timeLineData, selectType, FilingArray, CourtArray, refereeArray, FilingNum, CourtNum, refereeNum, RingDataNum, timeLineDataNum, columnarDataNum,
+			RingData, columnarData, timeLineData, selectType, FilingArray, CourtArray, refereeArray, brokeArray, FilingNum, brokeNum, CourtNum, refereeNum, RingDataNum, timeLineDataNum, columnarDataNum,
 		} = this.state;
 
 		return (
@@ -142,7 +171,7 @@ export default class Subrogation extends React.Component {
 						<div className="overview-container-title">
 							<div className="overview-left-item" />
 							<span className="container-title-num">
-								{FilingArray.count || CourtArray.count || refereeArray.count ? `${FilingArray.count + CourtArray.count + refereeArray.count} 条` : '-'}
+								{FilingArray.count || CourtArray.count || refereeArray.count || brokeArray.count ? `${FilingArray.count + CourtArray.count + refereeArray.count + brokeArray.count} 条` : '-'}
 							</span>
 							<span className="container-title-name">
 								代位权信息
@@ -162,6 +191,7 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'Filing' ? 'yc-tag-active' : ''}
+									style={{ padding: '0 15px' }}
 								/>
 								<TagSide
 									content="开庭信息"
@@ -172,6 +202,7 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'Court' ? 'yc-tag-active' : ''}
+									style={{ padding: '0 15px' }}
 								/>
 								<TagSide
 									content="裁判文书"
@@ -182,6 +213,18 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'referee' ? 'yc-tag-active' : ''}
+									style={{ padding: '0 15px' }}
+								/>
+								<TagSide
+									content="破产代位"
+									num={brokeNum}
+									onClick={() => {
+										if (brokeNum > 0) {
+											this.checkTime('Broke');
+										}
+									}}
+									tag={selectType === 'Broke' ? 'yc-tag-active' : ''}
+									style={{ padding: '0 15px' }}
 								/>
 							</div>
 							{timeLineDataNum > 0 && <TimeLine title="年份分布" Data={timeLineData} id="subrogation" />}

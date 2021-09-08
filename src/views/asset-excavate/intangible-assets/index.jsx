@@ -8,6 +8,7 @@ import {
 import { changeURLArg, clearEmpty } from '@/utils';
 import ruleMethods from '@/utils/rule';
 import { getUrlParams } from '@/views/asset-excavate/query-util'; /* Table 展示列表 */
+import { axiosPromiseArr } from 'service';
 import TabsIntact from './tabs-intact';
 import Query from './query'; /* Query 查询条件 */
 import Table from './table';
@@ -65,8 +66,8 @@ export default class IntangibleAssets extends React.Component {
 	};
 
 	// 获取统计信息
-	toInfoCount=(nextSourceType) => {
-		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType);
+	toInfoCount=(nextSourceType, condition) => {
+		if (this.tabIntactDom) this.tabIntactDom.toRefreshCount(this.config, nextSourceType, condition);
 	};
 
 	// 切换列表类型
@@ -151,6 +152,14 @@ export default class IntangibleAssets extends React.Component {
 
 	// sourceType变化
 	onSourceType=(sourceType) => {
+		const { sourceType: _sourceType } = this.state;
+		if (_sourceType === sourceType) return;
+		axiosPromiseArr.forEach((c, index) => {
+			if (c.url !== '/api/auth/currentOrg') {
+				c.cancel();
+				delete axiosPromiseArr[index];
+			}
+		});
 		this.setState({
 			sourceType,
 			dataSource: '',
@@ -227,6 +236,7 @@ export default class IntangibleAssets extends React.Component {
 		API(__type, 'list')(clearEmpty(this.condition)).then((res) => {
 			if (res.code === 200) {
 				this.config[toGetProcess(__type, this.config)].number = res.data.total;
+				this.toInfoCount(__type, clearEmpty(this.condition));
 				// tabConfig[toGetProcess(__type, tabConfig)].number = res.data.total;
 				this.setState({
 					// tabConfig,
@@ -241,11 +251,7 @@ export default class IntangibleAssets extends React.Component {
 					loading: false,
 				});
 			}
-		}).catch(() => {
-			this.setState({
-				loading: false,
-			});
-		});
+		}).catch(() => {});
 	};
 
 	render() {

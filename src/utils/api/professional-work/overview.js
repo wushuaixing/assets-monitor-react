@@ -145,7 +145,7 @@ export const businessOverviewBidding = async (params) => {
 
 // 债务人破产重组
 export const overviewBankruptcy = async (params) => {
-	const response = await service.get('/yc/obligor/monitor/overview/bankruptcy', { params });
+	const response = await service.get('/yc/obligor/monitor/overview/bankruptcyNew', { params });
 	return response.data;
 };
 
@@ -212,5 +212,17 @@ export const businessOverviewLimitHeight = async (params) => {
 // 债务人工商基本情况
 export const overviewBusiness = async (params) => {
 	const response = await service.get('/yc/obligor/monitor/overview/business', { params });
+	return response.data;
+};
+
+// 终本案件
+export const execEndCaseRisk = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/execEndCase', { params });
+	return response.data;
+};
+
+// 被执行信息
+export const execPersonRisk = async (params) => {
+	const response = await service.get('/yc/obligor/monitor/overview/execPerson', { params });
 	return response.data;
 };

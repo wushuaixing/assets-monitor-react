@@ -245,7 +245,13 @@ class AssociationLink extends React.Component {
 					visible={visible}
 					width={1040}
 					footer={[
-						<Button onClick={this.toClose} title="关闭" style={{ width: 100 }} />,
+						<Button
+							onClick={this.toClose}
+							title="关闭"
+							style={{
+								width: 100, backgroundColor: '#1C80E1', color: '#fff', borderRadius: '4px',
+							}}
+						/>,
 					]}
 				>
 					{

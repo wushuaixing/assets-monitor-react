@@ -1,16 +1,21 @@
 import React from 'react';
 import { Badge } from 'antd';
 import { navigate } from '@reach/router';
+import Cookies from 'universal-cookie';
 import Ellipse from 'img/icon/icon_unread99.png';
 import Circular from 'img/icon/icon_unread.png';
 import logoImg from '@/assets/img/logo_white.png';
 // import { unreadCount } from '@/utils/api/inform';
 import { bankConf } from '@/utils/api/user';
 import { toGetRuleSource } from '@/utils';
+import { notify } from 'api/inform';
 import HeaderCenter from './headerCenter/header-center';
 import HeaderMessage from './headerMessage/header-message';
 import './style.scss';
 
+
+const cookie = new Cookies();
+const isSpecial = cookie.get('isSpecial');
 // const logoText = '源诚资产监控平台';
 /* 导航项目 */
 const Item = (props) => {
@@ -32,6 +37,8 @@ const Item = (props) => {
 			c: parent ? items.id : _childId,
 		});
 		event.stopPropagation();
+		// 调用玲铛数量接口
+		global.informCenter();
 	};
 
 	const toHref = items => `#${items.url}${items.param ? items.param : ''}`;
@@ -43,23 +50,58 @@ const Item = (props) => {
 			<Badge dot={dot}>
 				<a href={toHref(props)} style={active.p === id ? { color: '#fff' } : { color: '#fff', opacity: '0.8' }}>{name}</a>
 			</Badge>
-			<ul className="header-child-item">
-				{
-					children && children.map(item =>	(
-						<li
-							className={`child-item ${active.c === item.id ? 'child-item-active' : 'child-item-normal'}`}
-							key={item.id}
-							onClick={e => toNavigate(e, item, props)}
-						>
-							{item.name}
-							{
-								item.child && (
-									<div className="header-itemChild_wrapper">
-										<div className="header-itemChild_content">
+			{ id !== 'YC10'
+				? (
+					<ul className="header-child-item">
+						{
+						children && children.map(item =>	(
+							<li
+								className={`child-item ${active.c === item.id ? 'child-item-active' : 'child-item-normal'}`}
+								key={item.id}
+								onClick={e => toNavigate(e, item, props)}
+							>
+								{item.name}
+								{
+									item.child && (
+										<div className="header-itemChild_wrapper">
+											<div className="header-itemChild_content">
+												{
+													item.child.map(i => i.status && (
+														<li
+															className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
+															key={i.id}
+															onClick={e => toNavigate(e, i, props)}
+														>
+															{i.name}
+														</li>
+													))
+												}
+											</div>
+										</div>
+									)
+								}
+							</li>
+						))
+						}
+					</ul>
+				)
+				: (
+					<ul className="header-child-item header-child-item-monitor">
+						{
+						children && children.map(item =>	(
+							<li
+								className="child-item child-item-monitor"
+								key={item.id}
+								onClick={e => toNavigate(e, item, props)}
+							>
+								<div className={`child-item-name ${active.c === item.id ? 'child-item-name-active' : ''}`}>{item.name}</div>
+								{
+									item.child && (
+										<React.Fragment>
 											{
 												item.child.map(i => i.status && (
 													<li
-														className={`itemChild-item ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
+														className={`itemChild-item-monitor ${(i.reg || new RegExp(i.url)).test(hash) ? 'itemChild-active' : 'itemChild-normal'}`}
 														key={i.id}
 														onClick={e => toNavigate(e, i, props)}
 													>
@@ -67,14 +109,15 @@ const Item = (props) => {
 													</li>
 												))
 											}
-										</div>
-									</div>
-								)
-							}
-						</li>
-					))
-					}
-			</ul>
+										</React.Fragment>
+									)
+								}
+							</li>
+						))
+						}
+					</ul>
+				)
+			}
 		</li>
 	);
 };
@@ -150,15 +193,7 @@ export default class Headers extends React.Component {
 	componentDidMount() {
 		// const { rule } = this.props;
 		window.scrollTo(0, 0);
-		// if (rule.menu_sy) {
-		// 	unreadCount().then((res) => {
-		// 		if (res.code === 200) {
-		// 			this.setState({
-		// 				Surplus: res.data,
-		// 			});
-		// 		}
-		// 	});
-		// }
+		global.getNoticeNum = this.getNoticeNum;
 	}
 
 	componentWillReceiveProps() {
@@ -166,15 +201,6 @@ export default class Headers extends React.Component {
 		const { active } = this.state;
 		// const { Surplus, active } = this.state;
 		const _active = defaultRouter(this.source);
-		// if (rule.menu_sy) {
-		// 	unreadCount().then((res) => {
-		// 		if (res.code === 200) {
-		// 			if (Surplus !== res.data) {
-		// 				window.location.reload(); // 实现页面重新加载/
-		// 			}
-		// 		}
-		// 	});
-		// }
 		if (active !== _active) {
 			this.setState({
 				active: _active,
@@ -191,9 +217,13 @@ export default class Headers extends React.Component {
 	}
 
 	// 获取消息数量
-	getNoticeNum = (data) => {
-		this.setState({
-			num: data,
+	getNoticeNum = () => {
+		notify({ isRead: false, requestSourceType: 1 }).then((res) => {
+			if (res.code === 200) {
+				this.setState({
+					num: res.data.total,
+				});
+			}
 		});
 	};
 
@@ -202,10 +232,16 @@ export default class Headers extends React.Component {
 		this.setState({
 			data,
 		});
-		if (this.headerMes) {
-			this.headerMes.informCenter();
-		}
 	};
+
+	navigateTo = (event) => {
+		if (window.location.hash !== '#/message') {
+			global.UP_URL = window.location.href;
+			this.setState({ active: { p: 101, c: '' } });
+			navigate('/message');
+			event.stopPropagation();
+		}
+	}
 
 	render() {
 		const {
@@ -232,8 +268,10 @@ export default class Headers extends React.Component {
 							</div>
 						) : 					(
 							<div className="header-logo">
-								<img src={logoImg} alt="" />
-								<span className="yc-public-white-large">源诚资产监控平台</span>
+								{!isSpecial && <img src={logoImg} alt="" />}
+								<span className="yc-public-white-large">
+									{!isSpecial ? '源诚资产监控平台' : '资产监控平台'}
+								</span>
 							</div>
 						)
 					}
@@ -262,11 +300,12 @@ export default class Headers extends React.Component {
 							rule.menu_sy && (
 							<div
 								className={`else-child else-notice ${active.p === 101 ? 'header-item-active' : 'header-item-normal'}`}
-								onClick={(event) => {
-									this.setState({ active: { p: 101, c: '' } });
-									navigate('/message');
-									event.stopPropagation();
-								}}
+								// onClick={(event) => {
+								// 	this.setState({ active: { p: 101, c: '' } });
+								// 	navigate('/message');
+								// 	event.stopPropagation();
+								// }}
+								onClick={e => this.navigateTo(e)}
 							>
 								<div className="notice-icon yc-notice-img" />
 								{
@@ -275,7 +314,7 @@ export default class Headers extends React.Component {
 								{
 									num ? <span className="yc-badge-num" style={num > 99 ? { left: '28px' } : { left: '30px' }}>{num > 99 ? '99+' : num}</span> : ''
 								}
-								<HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" ref={e => this.headerMes = e} />
+								   <HeaderMessage rule={rule} getNoticeNum={this.getNoticeNum} mark="消息中心大概预览" ref={e => this.headerMes = e} />
 							</div>
 							)
 						}

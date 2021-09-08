@@ -23,6 +23,8 @@ export const unreadCount = async (params) => {
 // 导出Excel文件
 export const exportFile = id => `/yc/export/file/excel/${id}`;
 
+// 业务导出报告
+export const businessFile = id => `/yc/business/download/${id}`;
 
 // 导出Excel文件
 export const normalGet = url => params => serviceFile.get(url, { params }).then(res => res.data);
@@ -46,8 +48,8 @@ export const closeNotice = async (params) => {
 };
 
 // 监控概览的未读消息数量
-export const unreadInfoRemind = async () => {
-	const response = await service.get('/yc/index/information/wechat/unreadInfoRemind');
+export const unreadInfoRemind = async (params) => {
+	const response = await service.get('/yc/index/information/wechat/unreadInfoRemind', { params });
 	return response.data;
 };
 

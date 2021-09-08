@@ -19,7 +19,8 @@ function exportCover(source, exportType,domainName) {
 	var domainType = {
 		1:{key:'yc',value:bgImgData}, //  源诚
 		2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
-		3:{key:'zhongguandev',value:zgBgImgData} // (测试环境域名)中冠
+		3:{key:'zhongguandev',value:zgBgImgData}, // (测试环境域名)中冠
+		4:{key:'zhuanxian',value:''} // 专线
 	}
 	var d = JSON.parse(source) || {};
 	var bgImgSource = domainType[domainName] ? domainType[domainName].value : bgImgData;
@@ -94,9 +95,6 @@ function exportTemplate(source, exportType, name, domainName) {
 				{id: 'A10402', title: '无形资产_矿业权', status: 'BE'},
 				{id: 'A10403', title: '无形资产_商标专利', status: 'BE'},
 				{id: 'A10404', title: '无形资产_建筑建造资质', status: 'BE'},
-				{id: 'A10301', title: '土地信息_出让结果', status: 'BE'},
-				{id: 'A10302', title: '土地信息_土地转让', status: 'BE'},
-				{id: 'A10303', title: '土地信息_土地抵押', status: 'BE'},
 				{id: 'A10201', title: '代位权_立案', status: 'BEP'},
 				{id: 'A10202', title: '代位权_开庭', status: 'BEP'},
 				{id: 'A10203', title: '代位权_裁判文书', status: 'BEP'},
@@ -123,10 +121,14 @@ function exportTemplate(source, exportType, name, domainName) {
 			status: 'BEP',
 			child: [
 				{id: 'R30201', title: '破产重组', status: 'BE'},
-				{id: 'R20604', title: '涉诉文书', status: 'P'},
+				{id: 'R20801', title: '被执行信息_列入', desc: '列入', status: 'BEP'},
+				{id: 'R20802', title: '被执行信息_已移除', desc: '已移除', status: 'BEP'},
+				{id: 'R20701', title: '终本案件_列入', desc: '列入', status: 'BEP'},
+				{id: 'R20702', title: '终本案件_已移除', desc: '已移除', status: 'BEP'},
 				{id: 'R20401', title: '失信记录_列入', desc: '列入', status: 'BEP'},
 				{id: 'R20402', title: '失信记录_已移除', desc: '已移除', status: 'BEP'},
-				{id: 'R20501', title: '限制高消费', status: 'BEP'	},
+				{id: 'R20501', title: '限制高消费_列入', desc: '列入', status: 'BEP'	},
+				{id: 'R20502', title: '限制高消费_已移除', desc: '已移除', status: 'BEP'	},
 				{id: 'R20604', title: '涉诉文书', status: 'P'},
 				{id: 'R20601', title: '涉诉信息_立案', status: 'BE'},
 				{id: 'R20602', title: '涉诉信息_开庭', status: 'BE'},
@@ -277,7 +279,8 @@ function exportTemplate(source, exportType, name, domainName) {
 		domainType: {
 			1:{key:'yc',value:bgImgData}, //  源诚
 			2:{key:'zhongguan',value:zgBgImgData}, // (正式环境域名)中冠
-			3:{key:'zhongguandev',value:zgBgImgData} // (测试环境域名)中冠
+			3:{key:'zhongguandev',value:zgBgImgData}, // (测试环境域名)中冠
+			4:{key:'zhuanxian',value:''} // 专线
 		},
 	};
 	// public function object
@@ -484,6 +487,14 @@ function exportTemplate(source, exportType, name, domainName) {
 			});
 			return list;
 		},
+		// 转换金额格式
+		floatFormat: function(item) {
+			var money = parseFloat(item);
+			if (money.toString() && money.toString() !== 'NaN') {
+				return money.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + '元';
+			}
+			return '-';
+		}
 	};
 	var w = function (value, o) {
 		var option = o || {};
@@ -1226,14 +1237,53 @@ function exportTemplate(source, exportType, name, domainName) {
 				});
 				break;
 			}
+			// 被执行信息_列入
+			case 'R20801':
+			// 被执行信息_已移除
+			case 'R20802': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.caseCode)
+						+ f.normalList([
+							{t: '执行标的', cot: w(f.floatFormat(i.execMoney))}
+						])
+						+ "</td><td>" + f.normalList([
+							{t: '立案日期', cot: f.time(i.caseCreateTime)},
+							{t: '执行法院', cot: i.execCourtName},
+						]) + "</td></tr>";
+				});
+				break;
+			}
+			// 终本案件_列入
+			case 'R20701':
+			// 终本案件_已移除
+			case 'R20702': {
+				data.list.forEach(function (i) {
+					list += "<tr><td>"
+						+ f.urlDom(i.caseCode)
+						+ f.normalList([
+							[
+								{t: '执行标的', cot: w(f.floatFormat(i.execMoney))},
+								{t: '未履行金额', cot: w(f.floatFormat(i.unExecMoney))},
+							],
+							{t: '立案日期', cot: f.time(i.caseCreateTime)},
+						])
+						+ "</td><td>" + f.normalList([
+							{t: '终本日期', cot: f.time(i.caseEndTime)},
+							{t: '执行法院', cot: i.execCourtName},
+						]) + "</></tr>";
+				});
+				break;
+			}
 			// 限制高消费
-			case 'R20501': {
+			case 'R20501': 
+			case 'R20502': {
 				data.list.forEach(function (i) {
 					// 1：企业 2：个人
 					var associatedObject = i.obligorType === 1 ? i.personName : i.companyName;
 					list += "<tr>"
 						+ "<td>"
-						+ "<li>" + i.caseNumber + "</li>"
+						+ "<li>" + f.urlDom(i.caseNumber) + "</li>"
 						+ f.normalList(i.obligorType === 2 && !i.companyName ? [] : [
 							{t: '关联对象', cot: associatedObject}
 						])
@@ -1473,7 +1523,7 @@ function exportTemplate(source, exportType, name, domainName) {
 						f.normalList([
 							[
 								{t: '法定代表人', cot: item.legalPersonName},
-								{t: '注册资本', cot: w(item.regCapital)},
+								{t: '注册资本', cot: w(item.regCapital, {unit: item.regCapitalUnit})},
 								{t: '成立日期', cot: w(item.establishTime)},
 							],
 							(item.usedName || []).length ? {t: '曾用名', cot: (item.usedName.join('、'))} : null])
@@ -1988,9 +2038,9 @@ function exportTemplate(source, exportType, name, domainName) {
 
 if (ENV === 'dev') {
 	var dataSource = JSON.stringify(require('./data'));
-	const exportType = 'debtor';
-	var strCover = (exportType) => exportCover(dataSource, exportType,2);
-	var strTemplate = (exportType) => exportTemplate(dataSource, exportType,'',2);
+	var exportType = 'debtor';
+	var strCover = (exportType) => exportCover(dataSource, exportType,4);
+	var strTemplate = (exportType) => exportTemplate(dataSource, exportType,'',4);
 	fs.writeFile(root + "/dist/cover.html", strCover(exportType), (error) => {
 		if (error) console.log(error);
 		else {

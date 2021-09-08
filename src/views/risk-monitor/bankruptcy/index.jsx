@@ -10,7 +10,10 @@ import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 import Query from './query';
 import Table from './table';
-
+import './style.scss';
+/**
+ * 信息监控-风险监控-破产重组
+ */
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);

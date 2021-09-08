@@ -2,7 +2,9 @@ import React from 'react';
 import API from '@/utils/api/monitor-info/subrogation';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import { TableCourt, TableTrial, TableJudgment } from './table';
+import {
+	TableCourt, TableTrial, TableJudgment, TableBroke,
+} from './table';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -73,7 +75,7 @@ export default class TableIntact extends React.Component {
 	// 当前页数变化
 	onPageChange=(val) => {
 		this.condition.page = val;
-		this.toGetData();
+		// this.toGetData();
 		const { onPageChange, onBtnChange, curSourceObj } = this.props;
 		if (onPageChange)onPageChange();
 		if (curSourceObj) {
@@ -83,23 +85,29 @@ export default class TableIntact extends React.Component {
 	};
 
 	// 查询数据methods
-	toGetData=(nextProps) => {
+	toGetData=(nextProps, turning) => {
 		this.setState({ loading: true });
 		const {
 			reqUrl, id, sourceType, curSourceObj,
 		} = nextProps || this.props;
-		if (curSourceObj) {
+		if (!turning && curSourceObj) {
 			this.condition.page = curSourceObj.page;
 		}
 		const toApi = reqUrl || API(sourceType, 'followList');
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
+				const { list, page, total } = res.data;
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: list,
+					current: page,
+					total,
 					loading: false,
 				});
+				// 处理收藏翻页同步问题
+				if (list.length === 0 && page > 1) {
+					this.condition.page = page - 1;
+					this.toGetData('', true);
+				}
 			} else {
 				this.setState({
 					dataSource: [],
@@ -142,6 +150,7 @@ export default class TableIntact extends React.Component {
 					{sourceType === 1 ? <TableTrial {...tableProps} /> : null}
 					{sourceType === 2 ? <TableCourt {...tableProps} /> : null}
 					{sourceType === 3 ? <TableJudgment {...tableProps} /> : null}
+					{sourceType === 4 ? <TableBroke {...tableProps} /> : null}
 				</Spin>
 			</div>
 
