@@ -19,7 +19,7 @@ const columns = (props, toOpenHistory) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>开庭日期</SortVessel>),
+				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublish',
 			width: 172,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
@@ -92,7 +92,7 @@ const columns = (props, toOpenHistory) => {
 							<span
 								onClick={() => toOpenHistory(row)}
 								style={{
-									color: '#186fc7', minWidth: '24px', display: 'inline-block', cursor: 'pointer',
+									color: '#186fc7', minWidth: '24px', display: 'inline-block', cursor: 'pointer', textAlign: 'center',
 								}}
 							>
 								{text}

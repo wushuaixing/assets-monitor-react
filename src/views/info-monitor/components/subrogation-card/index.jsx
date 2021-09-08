@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-	subrogationTrialCount, subrogationCourtCount, subrogationJudgmentCount,
+	subrogationTrialCount, subrogationCourtCount, subrogationJudgmentCount, bankruptcySubrogationCount,
 } from 'api/monitor-info/excavate/count';
 import { navigate } from '@reach/router';
 import { promiseAll } from '@/utils/promise';
@@ -29,6 +29,7 @@ export default class Subrogation extends PureComponent {
 		promiseArray.push(subrogationTrialCount(params));
 		promiseArray.push(subrogationCourtCount(params));
 		promiseArray.push(subrogationJudgmentCount(params));
+		promiseArray.push(bankruptcySubrogationCount(params));
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		// console.log(promiseArray, 123);
