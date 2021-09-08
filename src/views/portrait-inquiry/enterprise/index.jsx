@@ -288,6 +288,7 @@ export default class Enterprise extends React.Component {
 									symbol="none"
 									defaultCurrent={sourceType}
 								/>
+								<div className="yc-mark-line" />
 								{childDom}
 							</div>
 						</Spin>

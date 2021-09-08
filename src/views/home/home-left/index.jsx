@@ -92,7 +92,7 @@ class HomeDynamic extends PureComponent {
 
 	// 获取资产和风险的数据
 	getData = (val) => {
-		const params = { ...val	};
+		const params = { ...val, bankruptcyCount: 1	};
 		const excavate = new Map([
 			['homeAsset', this.getAssetData],
 			['homeRisk', this.getRiskData],

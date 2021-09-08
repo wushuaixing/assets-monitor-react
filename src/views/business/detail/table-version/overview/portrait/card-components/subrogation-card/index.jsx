@@ -1,5 +1,6 @@
 import React from 'react';
 import { navigateDetail } from '@/utils';
+import { Col, Row } from 'antd';
 import Card from '../card';
 import './style.scss';
 
@@ -12,7 +13,7 @@ export default class Subrogation extends React.Component {
 	render() {
 		const {
 			portrait, dataSource: {
-				execute, gmtCreate, restore, allNum, otherCase, obligorTotal,
+				 gmtCreate, allNum, obligorTotal, courtNotice, judgment, trial, bankruptcyCount,
 			},
 		} = this.props;
 		return (
@@ -32,31 +33,40 @@ export default class Subrogation extends React.Component {
 							text={portrait === 'debtor_personal' ? '代位权-裁判文书' : '代位权'}
 							styleName="subrogation-card"
 						>
-							<div className="business-subrogation-container">
-								{execute ? (
-									<div className="business-subrogation-container-card" style={{ paddingBottom: '16px' }}>
-										执行案件：
-										<span className="business-subrogation-container-card-num ">{execute || 0}</span>
-										笔
-										{restore > 0 ? (
-											<div className="card-content-left-arrow">
-												<div className="card-content-popover-content">
-													{restore}
-													笔执恢案件
-												</div>
-											</div>
-										) : null}
+							<Row gutter={24} className="business-intangible-container">
+								<Col className="gutter-row" span={12}>
+									<div className="business-intangible-container-card">
+										<span className="business-intangible-container-card-name">立案信息</span>
+										：
+										<span className="business-intangible-container-card-num">{trial}</span>
+										条
 									</div>
-								) : null}
-
-								{otherCase ? (
-									<div className="business-subrogation-container-card ">
-										其他案件：
-										<span className="business-subrogation-container-card-num">{otherCase || 0}</span>
-										笔
+								</Col>
+								<Col className="gutter-row" span={12}>
+									<div className="business-intangible-container-card">
+										<span className="business-intangible-container-card-name">开庭公告</span>
+										：
+										<span className="business-intangible-container-card-num">{courtNotice}</span>
+										条
 									</div>
-								) : null}
-							</div>
+								</Col>
+								<Col className="gutter-row" span={12}>
+									<div className="business-intangible-container-card">
+										<span className="business-intangible-container-card-name">裁判文书</span>
+										：
+										<span className="business-intangible-container-card-num">{judgment}</span>
+										条
+									</div>
+								</Col>
+								<Col className="gutter-row" span={12}>
+									<div className="business-intangible-container-card">
+										<span className="business-intangible-container-card-name">破产代位</span>
+										：
+										<span className="business-intangible-container-card-num">{bankruptcyCount}</span>
+										条
+									</div>
+								</Col>
+							</Row>
 						</Card>
 					) : null
 				}

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { Tabs, Icon } from '@/common';
-import { Court, Trial, Judgment } from '@/views/asset-excavate/subrogation/table-version';
+import {
+	Court, Trial, Judgment, Broke,
+} from '@/views/asset-excavate/subrogation/table-version';
 import { toGetNumber, toGetDefaultId } from '@/utils/promise';
 import { linkDom } from '@/utils';
 
@@ -33,6 +35,12 @@ export default class Subrogation extends React.Component {
 					number: toGetNumber(props.data, 10203),
 					showNumber: true,
 					disabled: !toGetNumber(props.data, 10203),
+				}, {
+					id: 10204,
+					name: '破产代位',
+					number: toGetNumber(props.data, 10204),
+					showNumber: true,
+					disabled: !toGetNumber(props.data, 10204),
 				}],
 		};
 	}
@@ -80,6 +88,7 @@ export default class Subrogation extends React.Component {
 					{sourceType === 10201 ? <Trial /> : null}
 					{sourceType === 10202 ? <Court /> : null}
 					{sourceType === 10203 ? <Judgment /> : null}
+					{sourceType === 10204 ? <Broke apiType="portrayal" /> : null}
 				</div>
 			</div>
 		);

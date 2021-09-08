@@ -24,7 +24,7 @@ export const intangibleCard = async (params) => {
 
 // 代位权
 export const subrogationCard = async (params) => {
-	const response = await service.get('/yc/index/information/overview/subrogation', { params });
+	const response = await service.get('/yc/index/information/overview/subrogation', { requestSourceType: 1, ...params });
 	return Object.assign(response.data, { name: 'subrogation' });
 };
 

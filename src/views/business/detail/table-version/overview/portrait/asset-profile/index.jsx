@@ -207,16 +207,16 @@ export default class AssetProfile extends React.Component {
 		const res = values[3];
 		if (isArray && res && res.code === 200) {
 			const {
-				restore, execute, trial, judgment, courtNotice, gmtCreate,
+				trial, judgment, courtNotice, gmtCreate, bankruptcyCount,
 			} = res.data;
 			const allNum = trial + judgment + courtNotice;
-			const otherCase = (trial + judgment + courtNotice) - execute;
 			const subrogationPropsData = {
-				restore,
-				execute,
 				allNum,
-				otherCase,
 				gmtCreate,
+				bankruptcyCount,
+				courtNotice,
+				judgment,
+				trial,
 				obligorTotal: res.data.obligorTotal || null,
 			};
 			this.setState(() => ({
@@ -392,7 +392,7 @@ export default class AssetProfile extends React.Component {
 			|| (financialPropsData.allNum > 0 && portrait !== 'debtor_personal')
 			|| (RealPropsData.realRegisterCount > 0 && portrait !== 'debtor_personal')
 	|| (CarPropsData.vehicleInformationCount > 0 && portrait !== 'debtor_personal')
-			|| (CarPropsData.totalVehicleNum > 0 && portrait !== 'debtor_personal')  ;
+			|| (CarPropsData.totalVehicleNum > 0 && portrait !== 'debtor_personal');
 	};
 
 	render() {

@@ -203,6 +203,7 @@ export default {
 							{ id: 'YC020201', name: '立案信息', status: true },
 							{ id: 'YC020202', name: '开庭公告', status: true },
 							{ id: 'YC020203', name: '裁判文书', status: true },
+							{ id: 'YC020204', name: '破产代位', status: true },
 						],
 					},
 					{
@@ -357,6 +358,7 @@ export default {
 									{ id: 'YC020201', name: '立案信息', status: true },
 									{ id: 'YC020202', name: '开庭公告', status: true },
 									{ id: 'YC020203', name: '裁判文书', status: true },
+									{ id: 'YC020204', name: '破产代位', status: true },
 								],
 							},
 							{

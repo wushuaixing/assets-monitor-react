@@ -48,8 +48,8 @@ export const closeNotice = async (params) => {
 };
 
 // 监控概览的未读消息数量
-export const unreadInfoRemind = async () => {
-	const response = await service.get('/yc/index/information/wechat/unreadInfoRemind');
+export const unreadInfoRemind = async (params) => {
+	const response = await service.get('/yc/index/information/wechat/unreadInfoRemind', { params });
 	return response.data;
 };
 

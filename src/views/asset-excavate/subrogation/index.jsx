@@ -7,7 +7,9 @@ import {
 import API from '@/utils/api/monitor-info/subrogation';
 import { changeURLArg, clearEmpty } from '@/utils';
 import QueryView from './queryView';
-import { TableCourt, TableTrial, TableJudgment } from './table';
+import {
+	TableCourt, TableTrial, TableJudgment, TableBroke,
+} from './table';
 
 export default class Subrogation extends React.Component {
 	constructor(props) {
@@ -43,6 +45,13 @@ export default class Subrogation extends React.Component {
 					dot: false,
 					showNumber: true,
 				},
+				{
+					id: 4,
+					name: '破产代位',
+					number: 0,
+					dot: false,
+					showNumber: true,
+				},
 			],
 		};
 		this.condition = {};
@@ -73,7 +82,7 @@ export default class Subrogation extends React.Component {
 	toInfoCount=() => {
 		const { tabConfig, sourceType } = this.state;
 		// const _t = nextSourceType || sourceType;
-		[1, 2, 3].forEach((i) => {
+		[1, 2, 3, 4].forEach((i) => {
 			if (i !== sourceType) {
 				const params = Object.assign({}, this.toHandleReqTime(i, this.queryCondition), this.queryCondition);
 				API(i, 'listReadCount')(clearEmpty(params)).then((res) => {
@@ -178,7 +187,7 @@ export default class Subrogation extends React.Component {
 		});
 	};
 
-	// 修改请求参数【开庭】【立案】【裁判文书】
+	// 修改请求参数【开庭】【立案】【裁判文书】【破产代位】
 	toHandleReqTime=(__sourceType, __con) => {
 		const GmtTime = {};
 		if (__sourceType === 2) {
@@ -187,6 +196,9 @@ export default class Subrogation extends React.Component {
 		} else if (__sourceType === 1) {
 			GmtTime.startGmtRegister = __con.startGmt;
 			GmtTime.endGmtRegister = __con.endGmt;
+		} else if (__sourceType === 4) {
+			GmtTime.gmtPublishStart = __con.startGmt;
+			GmtTime.gmtPublishEnd = __con.endGmt;
 		} else {
 			GmtTime.startGmtJudgment = __con.startGmt;
 			GmtTime.endGmtJudgment = __con.endGmt;
@@ -338,7 +350,7 @@ export default class Subrogation extends React.Component {
 								onClick={() => this.handleReadChange('unread')}
 								title="只显示未读"
 							/>
-							{sourceType !== 2 ? (
+							{sourceType !== 2 && sourceType !== 4 ? (
 								<Button
 									active={isRead === 'resume'}
 									onClick={() => this.handleReadChange('resume')}
@@ -395,6 +407,7 @@ export default class Subrogation extends React.Component {
 					{sourceType === 1 ? <TableTrial {...tableProps} /> : null}
 					{sourceType === 2 ? <TableCourt {...tableProps} /> : null}
 					{sourceType === 3 ? <TableJudgment {...tableProps} /> : null}
+					{sourceType === 4 ? <TableBroke {...tableProps} /> : null}
 					{/* { */}
 					{/* sourceType === 3 */}
 					{/* ? */}
