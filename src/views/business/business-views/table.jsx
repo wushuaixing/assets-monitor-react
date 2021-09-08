@@ -151,14 +151,14 @@ export default class BusinessView extends React.Component {
 			render: (text, row) => ((text === '0' || !text) ? '0'
 				: <span className="yc-table-text-link" onClick={() => openPeopleModal(row.id)}>{text}</span>),
 		}, {
-			title: <SortVessel field="ASSET_TOTAL" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
+			title: <SortVessel field="ASSET_TOTAL_NEW" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
 			dataIndex: 'assetTotalNew',
 			key: 'assetTotalNew',
 			width: 90,
 			className: 'column-center',
 			render: text => ((text === '0' || !text) ? '0' : text),
 		}, {
-			title: <SortVessel field="RISK_TOTAL" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
+			title: <SortVessel field="RISK_TOTAL_NEW" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
 			dataIndex: 'riskTotalNew',
 			key: 'riskTotalNew',
 			width: 90,
