@@ -209,7 +209,7 @@ export default class AssetProfile extends React.Component {
 			const {
 				trial, judgment, courtNotice, gmtCreate, bankruptcyCount,
 			} = res.data;
-			const allNum = trial + judgment + courtNotice;
+			const allNum = trial + judgment + courtNotice + bankruptcyCount;
 			const subrogationPropsData = {
 				allNum,
 				gmtCreate,
