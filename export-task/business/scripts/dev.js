@@ -98,6 +98,7 @@ function exportTemplate(source, exportType, name, domainName) {
 				{id: 'A10201', title: '代位权_立案', status: 'BEP'},
 				{id: 'A10202', title: '代位权_开庭', status: 'BEP'},
 				{id: 'A10203', title: '代位权_裁判文书', status: 'BEP'},
+				{id: 'A10204', title: '代位权_破产代位', status: 'BEP'},
 				{id: 'A10501', title: '股权质押_股权出质', status: 'BE'},
 				{id: 'A10502', title: '股权质押_股权质权', status: 'BE'},
 				{id: 'A10601', title: '动产抵押_抵押', status: 'BE'},
@@ -761,6 +762,36 @@ function exportTemplate(source, exportType, name, domainName) {
 				});
 				break;
 			}
+			//代位权-破产代位
+		    case 'A10204':{
+				data.list.forEach(function (i) {
+					var applicantsName="";
+					var respondentsName="";
+					i.applicants.forEach(function (it, index) {
+						var s = index === i.applicants.length - 1 ? '' : '，';
+						applicantsName += it.name + s;
+					});
+					i.respondents.forEach(function (it, index) {
+						var s = index === i.respondents.length - 1 ? '' : '，';
+						respondentsName += it.name + s;
+					});
+					list += "<tr><td>"
+						+ f.urlDom(i.caseNumber, i.url)
+						+ f.normalList([
+							{
+								t: '申请人', cot: applicantsName
+							},
+							{
+								t: '被申请人', cot: respondentsName
+							},
+						])
+						+ "</td><td>" + f.normalList([
+							{t: '公开日期', cot: i.gmtPublish},
+							{t: '受理法院', cot: i.court}
+						]) + "</td></tr>";
+				});
+				break;
+			}
 			// 土地信息_出让结果
 			case 'A10301': {
 				data.list.forEach(function (i) {
@@ -1205,13 +1236,19 @@ function exportTemplate(source, exportType, name, domainName) {
 			// 破产重组
 			case 'R30201': {
 				data.list.forEach(function (i) {
-					list += "<tr><td>"
-						+ f.urlDom(i.title, i.url)
-						+ f.normalList([[
-							{t: '破产/重整风险企业', cot: i.obligorName, ET: ET},
-							{t: '发布日期', cot: f.time(i.publishDate)}
-						]])
-						+ "</td><td>" + f.normalList([{t: '受理法院', cot: i.court}]) + "</td></tr>";
+					if(i.relateNoticeCount === 0){
+						list += "<tr><td>"
+							+ f.urlDom(i.caseNumber)
+							+ "</td><td>" + f.normalList([{t:'受理法院',  cnt:i.court}]) + "</td></tr>"
+					} else{
+						list += "<tr><td>"
+							+ f.urlDom(i.caseNumber)
+							+ f.normalList([
+								[{t: '最新公告', cot: f.urlDom(i.title,i.url)}],
+								[{t: '最新公告日期', cot: f.time(i.gmtPublish)}]
+							])
+							+ "</td><td>" + f.normalList([{t: '受理法院', cot: i.court}]) + "</td></tr>"
+					}
 				});
 				break;
 			}
@@ -1276,7 +1313,7 @@ function exportTemplate(source, exportType, name, domainName) {
 				break;
 			}
 			// 限制高消费
-			case 'R20501': 
+			case 'R20501':
 			case 'R20502': {
 				data.list.forEach(function (i) {
 					// 1：企业 2：个人

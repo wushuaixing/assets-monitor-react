@@ -2186,19 +2186,29 @@ function exportTemplate(source,exportType,domainName) {
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.caseNumber||'--')+"</a>":(item.caseNumber||'--')) +
 						"</li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
-						"<span class='n-title'>发布日期：</span>" +
-						"<span class='n-desc'>"+(item.publishDate||'--')+"</span>" +
+						"<span class='n-title'>申 请 人：</span>" +
+						"<span class='n-desc'>"+(item.gmtPublish||'--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>被申请人：</span>" +
+						"<span class='n-desc'>"+(item.gmtPublish||'--')+"</span>" +
 						"</div>" +
 						"</li>" +
 						"</td>" +
 						"<td>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
-						"<span class='n-title'>受理法院：<label class='n-desc'>"+(item.court||'--')+"</label></span>" +
+						"<span class='n-title'>公开日期：<label class='n-desc'>"+(item.gmtPublish||'--')+"</label></span>" +
+						"</div></li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>受理法院：<label class='n-desc'>"+(item.gmtPublish||'--')+"</label></span>" +
 						"</div></li>" +
 						"</td></tr>");
 				});
