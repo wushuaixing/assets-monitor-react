@@ -169,7 +169,7 @@ export const legalCaseCount = async (params) => {
 
 // 破产重组
 export const riskBankruptcyCount = async (params) => {
-	const response = await service.get('/yc/monitor/bankruptcy/list-count', { params });
+	const response = await service.post('/yc/monitor/bankruptcyNew/listCount', { params });
 	return response.data;
 };
 
