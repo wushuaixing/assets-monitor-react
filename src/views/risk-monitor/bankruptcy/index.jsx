@@ -114,11 +114,13 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh=(data, typeList) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
-		_dataSource[index][type] = data[type];
+		typeList.forEach((type) => {
+			_dataSource[index][type] = data[type];
+		});
 		this.setState({
 			dataSource: _dataSource,
 		});
