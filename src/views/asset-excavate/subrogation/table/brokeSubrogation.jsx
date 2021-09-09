@@ -22,7 +22,7 @@ const columns = (props, toOpenHistory) => {
 				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublish',
 			width: 172,
-			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
@@ -50,14 +50,14 @@ const columns = (props, toOpenHistory) => {
 						</li>
 						<li>
 							<span className="list list-title align-justify">被申请人：</span>
-							{
-								row.respondents && row.respondents.map(item => (
+							 {
+								 row.respondents.length > 0 ? row.respondents.map(item => (
 									<React.Fragment>
-										<span className="list list-content">{item.name}</span>
+										<div className="list list-content">{item.name}</div>
 										<br />
 									</React.Fragment>
-								))
-							}
+								 )) : '--'
+							 }
 						</li>
 					</div>
 				</React.Fragment>
@@ -72,12 +72,12 @@ const columns = (props, toOpenHistory) => {
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>案号</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content">{row.caseNumber || '-'}</span>
+							<span className="list list-content">{row.caseNumber || '--'}</span>
 						</li>
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>受理法院</span>
 							<span className="list list-title-colon">:</span>
-							<span className="list list-content">{row.court || '-'}</span>
+							<span className="list list-content">{row.court || '--'}</span>
 						</li>
 					</div>
 				</React.Fragment>
