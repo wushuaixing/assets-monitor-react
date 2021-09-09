@@ -4,7 +4,7 @@ import {
 	Button, Download, Icon, Spin,
 } from '@/common';
 import {
-	infoList, readStatus, exportList, follow,
+	infoList, readStatus, exportList, follow, listCount,
 } from '@/utils/api/monitor-info/bankruptcy';
 import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
@@ -128,10 +128,10 @@ export default class Subrogation extends React.Component {
 
 	// 查询是否有未读消息
 	onUnReadCount=() => {
-		unReadCount().then((res) => {
+		listCount().then((res) => {
 			const { data, code } = res;
 			if (code === 200) {
-				this.unReadCount = data.bankruptcyCount;
+				this.unReadCount = data;
 			}
 		});
 	};
