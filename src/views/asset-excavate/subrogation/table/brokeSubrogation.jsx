@@ -22,7 +22,7 @@ const columns = (props, toOpenHistory) => {
 				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublish',
 			width: 172,
-			render: (text, record) => ReadStatus(timeStandard(text) || '--', record),
+			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
@@ -32,32 +32,34 @@ const columns = (props, toOpenHistory) => {
 					<div className="assets-info-content yc-space-nowrap">
 						<li>
 							<span className="list list-title align-justify">申请人：</span>
-							<span className="list list-content">
+							<div className="list list-content">
 								{
 									row.applicants && row.applicants.map(item => (
 										<React.Fragment>
 											<Ellipsis
 												content={item.name}
 												tooltip
-												width={280}
+												width={256}
 												url={item.obligorId ? `/#/business/debtor/detail?id=${item.obligorId}` : ''}
 											/>
 											<br />
 										</React.Fragment>
 									))
 								}
-							</span>
+							</div>
 						</li>
 						<li>
 							<span className="list list-title align-justify">被申请人：</span>
-							 {
-								 row.respondents.length > 0 ? row.respondents.map(item => (
-									<React.Fragment>
-										<div className="list list-content">{item.name}</div>
-										<br />
-									</React.Fragment>
-								 )) : '--'
-							 }
+							<div className="list list-content">
+								 {
+									 row.respondents.length > 0 ? row.respondents.map(item => (
+										 <React.Fragment>
+											 <Ellipsis content={item.name} tooltip width={256} />
+											 <br />
+										 </React.Fragment>
+									 )) : '--'
+								 }
+							</div>
 						</li>
 					</div>
 				</React.Fragment>
