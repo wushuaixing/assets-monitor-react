@@ -279,7 +279,7 @@ export default {
 						id: 'YC0302',
 						name: '企业破产重组',
 						url: '/risk/bankruptcy',
-						status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
+						status: toStatus(rule.menu_fxjk, 'fxjkbankrupt'),
 					},
 					{
 						id: 'YC0304',
@@ -438,7 +438,7 @@ export default {
 								id: 'YC0302',
 								name: '破产重组',
 								url: '/risk/bankruptcy',
-								status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
+								status: toStatus(rule.menu_fxjk, 'fxjkbankrupt'),
 							},
 							{
 								id: 'YC0309',

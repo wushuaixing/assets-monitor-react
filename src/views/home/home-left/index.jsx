@@ -240,7 +240,7 @@ class HomeDynamic extends PureComponent {
 
 	getRiskImportantReminder = () => {
 		const apiArray = [
-			{ count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
+			{ count: 'fxjkbankrupt', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
 
 			{ count: 'jyfxxzcf', Api: importantListRiskPunishment }, // 经营风险->行政处罚
 			{ count: 'jyfxsswf', Api: importantListRiskTax }, // 经营风险->税收违法

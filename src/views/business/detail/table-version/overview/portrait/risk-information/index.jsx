@@ -74,7 +74,7 @@ export default class RiskInformation extends React.Component {
 		const promiseArray = [];
 		const r = new Map([
 			// 破产重组
-			['fxjkqypccz', {
+			['fxjkbankrupt', {
 				api: 'Bankruptcy',
 				func: 'getBankruptcyData',
 			}],
