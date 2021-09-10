@@ -39,12 +39,12 @@ export default class TableIntact extends React.Component {
 							{row.caseNumber || '--'}
 						</span>
 						{
-							row.relateNoticeCount && (
-							<div className="relevance-announcement-btn" onClick={() => this.toOpenHistory(row)}>
-								<Icon type="icon-guanliangonggao" style={{ fontSize: 13, marginLeft: 8, marginRight: 4 }} />
-								查看关联公告
-							</div>
-							)
+							row.relateNoticeCount ? (
+								<div className="relevance-announcement-btn" onClick={() => this.toOpenHistory(row)}>
+									<Icon type="icon-guanliangonggao" style={{ fontSize: 13, marginLeft: 8, marginRight: 4 }} />
+									查看关联公告
+								</div>
+							) : null
 						}
 
 					</li>
@@ -82,7 +82,7 @@ export default class TableIntact extends React.Component {
 					<li>
 						<span className="list list-title align-justify">受理法院</span>
 						<span className="list list-title-colon">:</span>
-						{row.court || '--'}
+						<span className="list list-content">{row.court || '--'}</span>
 					</li>
 				</div>
 			),

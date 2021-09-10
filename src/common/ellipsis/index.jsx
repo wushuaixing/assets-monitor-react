@@ -89,10 +89,10 @@ export default class Ellipsis extends React.Component {
 					_tooltip
 						? (
 							<Tooltip placement="top" title={content}>
-								{_url ? (ContentText || '-') : <span>{(ContentText || '-')}</span>}
+								{_url ? (ContentText || '--') : <span>{(ContentText || '--')}</span>}
 							</Tooltip>
 						)
-						: (ContentText || '-')
+						: (ContentText || '--')
 				 }
 				{ _isBorrower && <Borrower />}
 				{ _isBankruptcy && <Borrower text="破" style={{ background: '#948BFF' }} />}
