@@ -122,7 +122,7 @@ export default class TableView extends React.Component {
 			readStatus({ id }).then((res) => {
 				if (res.code === 200) {
 					onRefresh({
-						id, isRead: !isRead, isShowNotice: !isShowNotice, index,
+						id, isRead: 1, isShowNotice: 0, index,
 					}, ['isRead', 'isShowNotice']);
 				}
 			});
