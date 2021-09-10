@@ -43,7 +43,6 @@ export default class Subrogation extends React.Component {
 		const api = portrait === 'business' ? businessOverviewSubrogation : overviewSubrogation;
 		api(params).then((res) => {
 			if (res.code === 200) {
-				console.log('res', res);
 				const FilingArray = res.data.subrogationInfos[0];
 				const CourtArray = res.data.subrogationInfos[1];
 				const refereeArray = res.data.subrogationInfos[2];
@@ -76,6 +75,7 @@ export default class Subrogation extends React.Component {
 						timeLineDataNum: getCount(CourtArray.yearDistribution),
 					});
 				} else if (brokeNum > 0) {
+					console.log('@@@',getCount(brokeArray.caseTypes),getCount(brokeArray.yearDistribution));
 					this.setState({
 						selectType: 'Broke',
 						RingData: brokeArray.caseTypes,
@@ -164,7 +164,6 @@ export default class Subrogation extends React.Component {
 		const {
 			RingData, columnarData, timeLineData, selectType, FilingArray, CourtArray, refereeArray, brokeArray, FilingNum, CourtNum, refereeNum, RingDataNum, timeLineDataNum, columnarDataNum, brokeNum,
 		} = this.state;
-
 		return (
 			<div>
 				{timeLineDataNum > 0 || RingDataNum > 0 ? (

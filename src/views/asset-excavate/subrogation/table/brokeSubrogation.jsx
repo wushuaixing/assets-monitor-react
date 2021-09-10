@@ -97,7 +97,7 @@ const columns = (props, toOpenHistory) => {
 							>
 								{text}
 							</span>
-						) : '--'
+						) : <div style={{ width: '24px', textAlign: 'center' }}>--</div>
 					}
 				</React.Fragment>
 			),
