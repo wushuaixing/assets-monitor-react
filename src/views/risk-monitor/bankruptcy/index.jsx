@@ -4,7 +4,7 @@ import {
 	Button, Download, Icon, Spin,
 } from '@/common';
 import {
-	infoList, readStatus, exportList, follow,
+	infoList, readStatus, exportList, follow, listCount,
 } from '@/utils/api/monitor-info/bankruptcy';
 import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
@@ -114,11 +114,13 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, type) => {
+	onRefresh=(data, typeList) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
-		_dataSource[index][type] = data[type];
+		typeList.forEach((type) => {
+			_dataSource[index][type] = data[type];
+		});
 		this.setState({
 			dataSource: _dataSource,
 		});
@@ -126,10 +128,10 @@ export default class Subrogation extends React.Component {
 
 	// 查询是否有未读消息
 	onUnReadCount=() => {
-		unReadCount().then((res) => {
+		listCount().then((res) => {
 			const { data, code } = res;
 			if (code === 200) {
-				this.unReadCount = data.bankruptcyCount;
+				this.unReadCount = data;
 			}
 		});
 	};

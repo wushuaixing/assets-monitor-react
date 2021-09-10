@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination } from 'antd';
+import { Pagination, Icon } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import {
 	readStatus, unFollow, follow, relationNotice, markReadNotice,
@@ -7,10 +7,11 @@ import {
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import RelationNoticeModal from './relation-notice-modal';
+import CaseInfo from './table-column/case-info';
 import message from '../../../utils/api/message/message';
-
+import { Ellipsis } from '@/common';
 // 获取表格配置
-const columns = (props, openModal, handleAddNotice) => {
+const columns = (props, openModal) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
@@ -36,36 +37,15 @@ const columns = (props, openModal, handleAddNotice) => {
 			dataIndex: 'title',
 			width: 200,
 			render: (text, record) => {
-				const { caseNumber = '', court } = record;
-				const caseNumberList = caseNumber.split('、');
-				const courtList = court.split('、');
-				return (
-					<ul className="case-info-content">
-						<li className="case-info-content-item">
-							<div className="case-info-content-item-label">案 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号：</div>
-							<div className="case-info-content-item-val">
-								{
-									caseNumberList.map(i => <p>{i}</p>)
-								}
-							</div>
-						</li>
-						<li className="case-info-content-item">
-							<div className="case-info-content-item-label">受理法院：</div>
-							<div className="case-info-content-item-val">
-								{
-									courtList.map(i => <p>{i}</p>)
-								}
-							</div>
-						</li>
-					</ul>
-				);
+				const { caseNumber = '', court = '' } = record;
+				return <CaseInfo caseNumber={caseNumber} court={court} />;
 			},
 		},
 		{
 			title: '公告信息',
 			dataIndex: 'title',
 			width: 200,
-			render: (text, record = {}, index) => {
+			render: (text, record = {}) => {
 				const {
 					relateNoticeCount, isShowNotice, title, id, url,
 				} = record;
@@ -73,16 +53,18 @@ const columns = (props, openModal, handleAddNotice) => {
 					<div className="notice-info-content">
 						<div className="notice-info-content-item">
 							<span className="notice-info-content-item-label">相关公告：</span>
-							<span className={`notice-info-content-item-num ${relateNoticeCount ? ' cursor-pointer' : ''}`} onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '无'}</span>
+							<span className={`notice-info-content-item-num ${relateNoticeCount ? 'cursor-pointer' : ''}`} onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '无'}</span>
 							{
-								isShowNotice ? <span className="cursor-pointer notice-info-content-item-add" onClick={() => handleAddNotice(id, index, isShowNotice)}>新增公告</span> : null
+								isShowNotice ? <span className="cursor-pointer notice-info-content-item-add">新增公告</span> : null
 							}
 						</div>
 						{
 							title ? (
 								<div className="notice-info-content-item">
 									<span className="notice-info-content-item-label">最新公告：</span>
-									<span className="notice-info-content-item-url"><a href={url} target="_blank" rel="noreferrer">{title }</a></span>
+									<span className="notice-info-content-item-url">
+										<Ellipsis content={title} url={url} width="300px" isSourceLink />
+									</span>
 								</div>
 							) : null
 						}
@@ -134,12 +116,14 @@ export default class TableView extends React.Component {
 
 	// 行点击操作
 	toRowClick = (record, index) => {
-		const { id, isRead } = record;
-		const { onRefresh, manage } = this.props;
-		if (!isRead && !manage) {
+		const { id, isRead, isShowNotice } = record;
+		const { onRefresh } = this.props;
+		if (!isRead || isShowNotice) {
 			readStatus({ id }).then((res) => {
 				if (res.code === 200) {
-					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+					onRefresh({
+						id, isRead: !isRead, isShowNotice: !isShowNotice, index,
+					}, ['isRead', 'isShowNotice']);
 				}
 			});
 		}
@@ -175,15 +159,6 @@ export default class TableView extends React.Component {
 		});
 	};
 
-	handleAddNotice= (id, index, isShowNotice) => {
-		const { onRefresh } = this.props;
-		const _isShowNotice = !isShowNotice;
-		onRefresh({ id, isShowNotice: _isShowNotice, index }, 'isShowNotice');
-		markReadNotice({ id }).then((res) => {
-			console.log(res);
-		});
-	}
-
 	render() {
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
@@ -203,7 +178,7 @@ export default class TableView extends React.Component {
 				<Table
 					{...rowSelection}
 					rowKey={record => record.id}
-					columns={columns(this.props, this.openModal, this.handleAddNotice)}
+					columns={columns(this.props, this.openModal)}
 					dataSource={dataSource}
 					pagination={false}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}

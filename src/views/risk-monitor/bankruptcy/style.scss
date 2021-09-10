@@ -1,5 +1,6 @@
 // 信息监控-风险监控-破产重组列表 案件信息
 .case-info-content{
+  position: relative;
   &-item{
     display: flex;
     line-height: 18px;
@@ -8,6 +9,19 @@
       color: #7D8699;
       min-width:60px ;
       text-align: right;
+    }
+    .action-btn{
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      color:#1C80E1 ;
+      cursor: pointer;
+
+      .anticon{
+        margin-left: 4px;
+        position: relative;
+        top: 1px;
+      }
     }
   }
 }
@@ -25,13 +39,30 @@
     &-num{
       padding: 0 8px;
       line-height: 18px;
-      color: #1C80E1;
+      margin-left: -8px;
     }
     &-add{
       line-height: 20px;
       padding: 0 8px;
       background: #FFE7E7;
       color: #FB5A5C;
+      position: relative;
+      &::before {
+        box-sizing: content-box;
+        position: absolute;
+        top: 8px;
+        left: -8px;
+        border-bottom: 2px solid transparent;
+        border-top: 2px solid transparent;
+        border-left: 4px solid transparent;
+        border-right: 4px solid #ffe7e7;
+        display: block;
+        content: '';
+        z-index: 2;
+      }
+    }
+    .cursor-pointer{
+      color: #1C80E1;
     }
   }
 }
@@ -50,10 +81,7 @@
               color: #7D8699;
               min-width: 68px;
             }
-            &-title{
-              margin: 0 8px 0 12px;
-              max-width: 230px;
-            }
+
             &-typeName{
               padding: 0 8px;
               min-width: 64px;
