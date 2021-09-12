@@ -9,6 +9,7 @@ import {
 } from '@/utils/api/monitor-info/bankruptcy';
 
 import RelationNoticeModal from '../../bankruptcy/relation-notice-modal';
+import BackruptcyItem from '../table/bankruptcyItem';
 import message from '../../../../utils/api/message/message';
 import '../../style.scss';
 // 债务人详情-风险-破产重组
@@ -81,44 +82,8 @@ export default class TableIntact extends React.Component {
 				title: '主要信息',
 				dataIndex: 'title',
 				render: (value, row) => {
-					console.log(row);
-					const {
-						applicants, respondents, title, gmtPublish, url, relateNoticeCount, caseNumber, id, notices,
-					} = row || {};
-					const modalHtml = (
-						<Button onClick={() => this.handleOpenModal(isPortraitInquiry, id, notices)} style={{ padding: '1px 9px' }} className="auction-history-btn">
-							<Icon type="icon-guanliangonggao" style={{ fontSize: 13, marginRight: 4 }} />
-							查看关联公告
-						</Button>
-					);
-					const obj = isPortraitInquiry ? {
-						lableA: '申 请 人', valA: applicants, lableB: '被申请人', valB: respondents,
-					} : {
-						lableA: '最新公告', valA: title, lableB: '最新公告日期', valB: gmtPublish,
-					};
-					const flagA = isPortraitInquiry || relateNoticeCount; // 债务人详情 - 当公告数等于0时不显示最新公告和最新公告日期
-					const flagB = relateNoticeCount && isPortraitInquiry; // 画像查询/债务人详情 - 当公告数大于0时，显示查看关联公告，不然不显示
-					return (
-						<div className="assets-info-content">
-							<div className="yc-public-normal-bold assets-info-content-item" style={{ marginBottom: 2, display: 'flex' }}>
-								 <div className="first-line">{caseNumber}</div>
-								{flagB ? modalHtml : null}
-							</div>
-							{
-								flagA ? (
-									<div className="assets-info-content-item">
-										<LiItem title={obj.lableA} auto Li className="second-line">
-											{isPortraitInquiry ? f(obj.valA) : <a href={url} target="_blank" rel="noreferrer" className="second-line-val">{f(obj.valA)}</a> 	}
-											{!isPortraitInquiry && modalHtml}
-										</LiItem>
-										<LiItem title={obj.lableB} auto Li className="three-line">
-											{f(obj.valB)}
-										</LiItem>
-									</div>
-								) : null
-							}
-						</div>
-					);
+					const params = { ...row, isPortraitInquiry };
+					return <BackruptcyItem handleOpenModal={this.handleOpenModal} {...params} />;
 				},
 			}, {
 				title: '辅助信息',
@@ -126,9 +91,22 @@ export default class TableIntact extends React.Component {
 				render: (value, row) => {
 					const { gmtPublish, court } = row || {};
 					return 	(
-						<div className="assets-info-content">
-							{	isPortraitInquiry && <LiItem Li title="公开日期" auto>{f(gmtPublish)}</LiItem>}
-							<LiItem Li title="受理法院" auto>{f(court)}</LiItem>
+						<div className="backruptcy-table-right-content">
+							{/* {	isPortraitInquiry && <LiItem Li title="公开日期" auto>{f(gmtPublish)}</LiItem>} */}
+							{/* <LiItem Li title="受理法院" auto>{f(court)}</LiItem> */}
+							{
+								isPortraitInquiry ?	(
+									<li className="backruptcy-table-right-content-item">
+										<div className="backruptcy-table-right-content-item-label">公开日期：</div>
+										<div className="backruptcy-table-right-content-item-val">{f(gmtPublish)}</div>
+									</li>
+								) : null
+
+							}
+							<li className="backruptcy-table-right-content-item">
+								<div className="backruptcy-table-right-content-item-label">受理法院：</div>
+								<div className="backruptcy-table-right-content-item-val">{f(court)}</div>
+							</li>
 						</div>
 					);
 				},
@@ -196,7 +174,7 @@ export default class TableIntact extends React.Component {
 		const { loading } = this.state;
 		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction backruptcy-detail-content">
+			<div className="yc-assets-auction">
 				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
