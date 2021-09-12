@@ -279,7 +279,7 @@ export default class Excavate extends PureComponent {
 			const {
 				courtNotice, trial, judgment, gmtUpdate, bankruptcyCount,
 			} = res.data;
-			const dataSourceNum = trial + judgment + courtNotice;
+			const dataSourceNum = trial + judgment + courtNotice + bankruptcyCount;
 			const subrogationPropsData = {
 				gmtUpdate,
 				bankruptcyCount,
