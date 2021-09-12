@@ -65,23 +65,19 @@ export default class TableIntact extends React.Component {
 					list = [], pages, page, total = 0,
 				} = data || {};
 				if (code === 200) {
-					if (list.length) {
+					if (!list.length && total) {
+						this.onPageChange(pages);
+					} else {
 						this.setState({
 							dataSource: list,
 							current: page,
 							total,
 							loading: false,
 						});
-					} else if (total) {
-						this.onPageChange(pages);
-					} else {
-						this.setState({
-							loading: false,
-						});
 					}
 				} else {
 					this.setState({
-						dataSource: '',
+						dataSource: [],
 						current: 1,
 						total: 0,
 						loading: false,
