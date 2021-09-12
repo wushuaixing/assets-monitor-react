@@ -31,7 +31,9 @@ const columns = (props, openModal) => {
 			title: '企业 (被申请人)',
 			dataIndex: 'obligorName',
 			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
+			render: (text, row) => (text
+				? <Ellipsis content={text || '-'} url={`/#/business/debtor/detail?id=${row.obligorId}`} width={200} tooltip />
+				: '-'),
 		}, {
 			title: '案件信息',
 			dataIndex: 'title',
