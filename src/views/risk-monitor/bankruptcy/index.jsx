@@ -173,19 +173,24 @@ export default class Subrogation extends React.Component {
 			const { code, data } = res || {};
 			const { list = [], total, pages } = data || {};
 			if (code === 200) {
-				if (list.length) {
+				if (!list.length && total) {
+					this.onPageChange(pages);
+				} else {
 					this.setState({
 						dataSource: list,
 						current: data.page,
 						total,
+						loading: false,
 					});
-				} else if (total) {
-					this.onPageChange(pages);
 				}
+			} else {
+				this.setState({
+					dataSource: [],
+					current: 1,
+					total: 0,
+					loading: false,
+				});
 			}
-			this.setState({
-				loading: false,
-			});
 		}).catch(() => {
 			this.setState({
 				loading: false,
