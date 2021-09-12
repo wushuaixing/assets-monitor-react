@@ -27,13 +27,11 @@ export default class TableIntact extends React.Component {
 	}
 
 	// 表格发生变化
-	onRefresh=(data, typeList) => {
+	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
-		typeList.forEach((type) => {
-			_dataSource[index][type] = data[type];
-		});
+		_dataSource[index][type] = data[type];
 		this.setState({
 			dataSource: _dataSource,
 		});
