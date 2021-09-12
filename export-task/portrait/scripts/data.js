@@ -369,6 +369,44 @@ module.exports = {
 					},
 				],
 			},
+			{
+				caseReasons: [
+					{
+						count: 17,
+						type: '其他',
+					},
+				],
+				caseTypes: [
+					{
+						count: 12,
+						type: '普通案件',
+					},
+					{
+						count: 2,
+						type: '破产案件',
+					},
+					{
+						count: 2,
+						type: '执行案件',
+					},
+					{
+						count: 1,
+						type: '终本案件',
+					},
+				],
+				count: 17,
+				type: 4,
+				yearDistribution: [
+					{
+						count: 1,
+						year: 2016,
+					},
+					{
+						count: 16,
+						year: 2017,
+					},
+				],
+			},
 		],
 	},
 	// 资产 => 土地信息
@@ -2002,6 +2040,15 @@ module.exports = {
 		page: 1,
 		pages: 1,
 		total: 5,
+	},
+	// 代位权 - 破产代位
+	A10328:{
+		hasNext: true,
+		list: [],
+		num: 5,
+		page: 1,
+		pages: 4,
+		total: 17,
 	},
 	// 土地出让结果
 	A10305:{

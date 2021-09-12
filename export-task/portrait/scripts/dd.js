@@ -56,6 +56,7 @@ const dd = {
 	"A10302": "/yc/search/portrait/company/asset/subrogation/trial/list", // 立案
 	"A10303": "/yc/search/portrait/company/asset/subrogation/court-notice/list", // 开庭
 	"A10304": "/yc/search/portrait/company/asset/subrogation/judgment-document/list", // 裁判文书
+	"A10328": "/yc/search/portrait/company/asset/bankruptcySubrogation/list", // 破产代位
 	//土地信息
 	"A10305": "/yc/search/portrait/company/asset/land/transfer", // 出让
 	"A10306": "/yc/search/portrait/company/asset/land/transaction", // 转让
