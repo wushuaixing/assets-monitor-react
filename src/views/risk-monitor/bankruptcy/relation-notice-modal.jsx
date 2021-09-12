@@ -28,7 +28,7 @@ function RelationNoticeModal(props) {
 									<div className="yc-Timeline-item">
 										 <span className="yc-Timeline-item-publish">{fn(i.gmtPublish)}</span>
 										 <span className="yc-Timeline-item-title">
-											 <Ellipsis content="受理债权人的受理债权人的破产清算申请-民事裁定书破产清算申请-民事裁定书" url={i.pid ? `#/judgement?sourceId=10986&pid=${i.pid}&title=${i.title}` : i.url} isSourceLink={!i.pid} tooltip width={250} />
+											 <Ellipsis content={i.title} url={i.pid ? `#/judgement?sourceId=10986&pid=${i.pid}&title=${i.title}` : i.url} isSourceLink={!i.pid} tooltip width={250} />
 										 </span>
 										 <span className="yc-Timeline-item-typeName">{fn(i.typeName)}</span>
 									</div>
