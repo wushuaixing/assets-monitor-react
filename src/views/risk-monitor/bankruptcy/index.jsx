@@ -170,12 +170,18 @@ export default class Subrogation extends React.Component {
 			manage: _manage || false,
 		});
 		infoList(clearEmpty(this.condition)).then((res) => {
-			if (res.code === 200) {
-				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
-				});
+			const { code, data } = res || {};
+			const { list = [], total, pages } = data || {};
+			if (code === 200) {
+				if (list.length) {
+					this.setState({
+						dataSource: list,
+						current: data.page,
+						total,
+					});
+				} else if (total) {
+					this.onPageChange(pages);
+				}
 			}
 			this.setState({
 				loading: false,
