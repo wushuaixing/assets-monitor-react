@@ -254,7 +254,6 @@ export default class Subrogation extends React.Component {
 			page: page || current,
 			num: 10,
 		});
-
 		/* load 展示 */
 		this.setState({
 			loading: true,
@@ -279,15 +278,19 @@ export default class Subrogation extends React.Component {
 			const { sourceType: selectType } = this.state;
 			if (res.selectType === selectType) {
 				if (res.code === 200) {
-					tabConfig[type - 1].number = res.data.total;
+					const { list, page: _page, total } = res.data;
+					tabConfig[type - 1].number = total;
 					// this.setState({ tabConfig });
 					this.setState({
-						dataSource: res.data.list,
-						current: res.data.page,
-						total: res.data.total,
+						dataSource: list,
+						current: _page,
+						total,
 						tabConfig,
 						loading: false,
 					});
+					if (list.length === 0 && _page > 1) {
+						this.onQueryChange('', _page - 1);
+					}
 				} else {
 					message.error(res.message || '网络请求异常请稍后再试！');
 					this.setState({
