@@ -95,6 +95,7 @@ export default class Subrogation extends React.Component {
 									if (it === item.id) {
 										_item.isAttention = 1;
 										_item.isRead = true;
+										_item.isShowNotice = 0;
 									}
 								});
 								return _item;
@@ -114,13 +115,11 @@ export default class Subrogation extends React.Component {
 	};
 
 	// 表格发生变化
-	onRefresh=(data, typeList) => {
+	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
-		typeList.forEach((type) => {
-			_dataSource[index][type] = data[type];
-		});
+		_dataSource[index][type] = data[type];
 		this.setState({
 			dataSource: _dataSource,
 		});
@@ -171,16 +170,27 @@ export default class Subrogation extends React.Component {
 			manage: _manage || false,
 		});
 		infoList(clearEmpty(this.condition)).then((res) => {
-			if (res.code === 200) {
+			const { code, data } = res || {};
+			const { list = [], total, pages } = data || {};
+			if (code === 200) {
+				if (!list.length && total) {
+					this.onPageChange(pages);
+				} else {
+					this.setState({
+						dataSource: list,
+						current: data.page,
+						total,
+						loading: false,
+					});
+				}
+			} else {
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: [],
+					current: 1,
+					total: 0,
+					loading: false,
 				});
 			}
-			this.setState({
-				loading: false,
-			});
 		}).catch(() => {
 			this.setState({
 				loading: false,
@@ -219,6 +229,7 @@ export default class Subrogation extends React.Component {
 								active={isRead === 'all'}
 								onClick={() => this.handleReadChange('all')}
 								title="全部"
+								style={{ width: '56px' }}
 							/>
 							<Button
 								active={isRead === 'else'}

@@ -27,13 +27,11 @@ export default class TableIntact extends React.Component {
 	}
 
 	// 表格发生变化
-	onRefresh=(data, typeList) => {
+	onRefresh=(data, type) => {
 		const { dataSource } = this.state;
 		const { index } = data;
 		const _dataSource = dataSource;
-		typeList.forEach((type) => {
-			_dataSource[index][type] = data[type];
-		});
+		_dataSource[index][type] = data[type];
 		this.setState({
 			dataSource: _dataSource,
 		});
@@ -62,16 +60,24 @@ export default class TableIntact extends React.Component {
 		const toApi = reqUrl || attentionList;
 		toApi(clearEmpty(this.condition), id)
 			.then((res) => {
-				if (res.code === 200) {
-					this.setState({
-						dataSource: res.data.list,
-						current: res.data.page,
-						total: res.data.total,
-						loading: false,
-					});
+				const { code, data } = res || {};
+				const {
+					list = [], pages, page, total = 0,
+				} = data || {};
+				if (code === 200) {
+					if (!list.length && total) {
+						this.onPageChange(pages);
+					} else {
+						this.setState({
+							dataSource: list,
+							current: page,
+							total,
+							loading: false,
+						});
+					}
 				} else {
 					this.setState({
-						dataSource: '',
+						dataSource: [],
 						current: 1,
 						total: 0,
 						loading: false,
