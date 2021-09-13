@@ -24,6 +24,9 @@ export default class TableIntact extends React.Component {
 	}
 
 	componentWillMount() {
+		const { curSourceObj: { sortColumn, sortOrder } } = this.props;
+		this.condition.sortColumn = sortColumn || '';
+		this.condition.sortOrder = sortOrder || '';
 		this.toGetData();
 	}
 
@@ -31,6 +34,8 @@ export default class TableIntact extends React.Component {
 		const { sourceType, curSourceObj } = this.props;
 		if (curSourceObj) {
 			Object.assign(curSourceObj, { page: 1 });
+			Object.assign(curSourceObj, { sortColumn: '' });
+			Object.assign(curSourceObj, { sortOrder: '' });
 		}
 		if (sourceType !== nextProps.sourceType) {
 			this.condition.sortColumn = '';
@@ -50,14 +55,16 @@ export default class TableIntact extends React.Component {
 	// 排序触发
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
-		this.condition.sortOrder = order;
+		this.condition.sortOrder = order ;
 		this.condition.page = 1;
 		this.toGetData();
 		const { onPageChange, onBtnChange, curSourceObj } = this.props;
 		if (onPageChange)onPageChange();
 		if (curSourceObj) {
-			Object.assign(curSourceObj, { isRedirect: true, page: 1 });
-			// if (onBtnChange)onBtnChange(curSourceObj);
+			Object.assign(curSourceObj, {
+				isRedirect: true, page: 1, sortColumn: field, sortOrder: order,
+			});
+			if (onBtnChange)onBtnChange(curSourceObj);
 		}
 	};
 
@@ -79,7 +86,9 @@ export default class TableIntact extends React.Component {
 		const { onPageChange, onBtnChange, curSourceObj } = this.props;
 		if (onPageChange)onPageChange();
 		if (curSourceObj) {
-			Object.assign(curSourceObj, { isRedirect: true, page: val });
+			Object.assign(curSourceObj, {
+				isRedirect: true, page: val, sortColumn: this.condition.sortColumn, sortOrder: this.condition.sortOrder,
+			});
 			if (onBtnChange)onBtnChange(curSourceObj);
 		}
 	};
@@ -91,7 +100,9 @@ export default class TableIntact extends React.Component {
 			reqUrl, id, sourceType, curSourceObj,
 		} = nextProps || this.props;
 		if (!turning && curSourceObj) {
-			this.condition.page = curSourceObj.page;
+			this.condition.page = curSourceObj.page || 1;
+			this.condition.sortColumn = curSourceObj.sortColumn || '';
+			this.condition.sortOrder = curSourceObj.sortOrder || '';
 		}
 		const toApi = reqUrl || API(sourceType, 'followList');
 		toApi(clearEmpty(this.condition), id).then((res) => {
