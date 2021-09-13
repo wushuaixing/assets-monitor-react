@@ -1,5 +1,5 @@
 .yc-clueModal-content{
-  height: 300px;
+  max-height: 300px;
   padding-top: 34px;
   overflow-x: hidden;
   &-label{
@@ -24,6 +24,9 @@
     }
   }
 }
-.ant-modal-body{
-  padding:0px 0px 0px 16px ;
+.yc-broke-subrogation{
+  .ant-modal-body{
+    padding:0px 0px 0px 16px;
+  }
 }
+

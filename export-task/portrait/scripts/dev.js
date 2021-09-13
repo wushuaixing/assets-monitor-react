@@ -210,7 +210,7 @@ function exportTemplate(source,exportType,domainName) {
 		time: function (date, formatStr, isSelf) {
 			var _this = "";
 			if (typeof date === 'string') return date;
-			if (!date && date !== 0) return '-';
+			if (!date && date !== 0) return '--';
 			if (date === 0) _this = new Date(null);
 			else if (date) _this = new Date((isSelf ? date : date * 1000));
 			else _this = new Date();
@@ -409,7 +409,7 @@ function exportTemplate(source,exportType,domainName) {
 		floatFormat: function (item) {
 			var result = null;
 			if (!item && item !== 0) {
-				return '-';
+				return '--';
 			}
 			var type = parseFloat(item);
 			var bol = isNaN(type);
@@ -1169,7 +1169,7 @@ function exportTemplate(source,exportType,domainName) {
 		else if(viewName==="overview.A10208"){
 			if(source.baseInfo){
 				['legalPersonName', 'regStatus', 'regCapital', 'establishTime', 'regLocation'].forEach(function (item) {
-					htmlTemp = htmlTemp.replace("{" + viewName + ".baseInfo."+item+"}", source.baseInfo[item]||'-');
+					htmlTemp = htmlTemp.replace("{" + viewName + ".baseInfo."+item+"}", source.baseInfo[item]||'--');
 				})
 			}
 			if(source.businessScaleInfo){
@@ -1231,7 +1231,7 @@ function exportTemplate(source,exportType,domainName) {
 		else if(viewName === "baseInfo"){
 			if(source){
 				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
-					htmlTemp = htmlTemp.replace("{baseInfo."+item+"}", source[item]||'-');
+					htmlTemp = htmlTemp.replace("{baseInfo."+item+"}", source[item]||'--');
 					var timeLimit=(source.fromTime && source.toTime)?("自 "+(source.fromTime||'--')+" 至 "+(source.toTime||'--')):"--";
 					htmlTemp = htmlTemp.replace("{baseInfo.timeLimit}", timeLimit);
 				})
