@@ -21,12 +21,12 @@ const columns = (props, toOpenHistory) => {
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
 				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublish',
-			width: 172,
+			// width: 172,
 			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
-			width: 314,
+			// width: 314,
 			render: (text, row) => (
 				<React.Fragment>
 					<div className="assets-info-content yc-space-nowrap">
@@ -67,7 +67,7 @@ const columns = (props, toOpenHistory) => {
 		}, {
 			title: '案件信息',
 			dataIndex: 'court',
-			width: 291,
+			// width: 291,
 			render: (text, row) => (
 				<React.Fragment>
 					<div className="assets-info-content">
@@ -87,6 +87,7 @@ const columns = (props, toOpenHistory) => {
 		}, {
 			title: '关联公告',
 			dataIndex: 'relateNoticeCount',
+			width: 120,
 			render: (text, row) => (
 				<React.Fragment>
 					{
@@ -107,13 +108,13 @@ const columns = (props, toOpenHistory) => {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
-			width: 164,
+			// width: 164,
 			render: val => timeStandard(val),
 		}, {
 			title: '操作',
 			unNormal: true,
 			className: 'tAlignCenter_important',
-			width: 60,
+			// width: 60,
 			render: (text, row, index) => (
 				<Attentions
 					text={text}
