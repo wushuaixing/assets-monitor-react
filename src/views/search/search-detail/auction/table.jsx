@@ -91,7 +91,7 @@ class BusinessView extends React.Component {
 						return (
 							<div className="yc-td-hl">
 								{/* <a href={row.url} target="_blank" rel="noopener noreferrer" className="yc-table-text-link" dangerouslySetInnerHTML={{ __html: row.title }} /> */}
-								<Ellipsis url={row.url} content={row.title} className="yc-table-text-link" isSourceLink />
+								<Ellipsis url={row.url} content={row.title} width={860} tooltip className="yc-table-text-link" isSourceLink />
 								{
 									row.obligors && row.obligors.length > 0 && (
 									<div>

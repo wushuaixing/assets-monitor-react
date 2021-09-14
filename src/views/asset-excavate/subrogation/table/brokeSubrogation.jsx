@@ -73,12 +73,12 @@ const columns = (props, toOpenHistory) => {
 					<div className="assets-info-content">
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>案号</span>
-							<span className="list list-title-colon">:</span>
+							<span className="list list-title-colon">：</span>
 							<span className="list list-content">{row.caseNumber || '--'}</span>
 						</li>
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>受理法院</span>
-							<span className="list list-title-colon">:</span>
+							<span className="list list-title-colon">：</span>
 							<span className="list list-content">{row.court || '--'}</span>
 						</li>
 					</div>
