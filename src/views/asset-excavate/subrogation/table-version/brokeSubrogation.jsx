@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
 import {
-	Icon, Spin, Table, ClueModal,
+	Icon, Spin, Table, ClueModal, Ellipsis,
 } from '@/common';
 import './index.scss';
 
@@ -36,8 +36,8 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							{row.caseNumber || '--'}
+						<span className="list list-content" style={{ maxWidth: 300 }}>
+							<Ellipsis className="text-ellipsis" width={260} bussinessStyle content={row.caseNumber.replace('（', '( ')} tooltip />
 						</span>
 						{
 							row.relateNoticeCount ? (
