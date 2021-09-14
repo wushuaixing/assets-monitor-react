@@ -14,8 +14,8 @@
     .list-title {
       color: $text-remark;
       width: 65px;
+      text-justify: distribute;
       text-align: justify;
-      text-justify: distribute-all-lines;
       text-align-last: justify;
     }
     .list-title-50{
