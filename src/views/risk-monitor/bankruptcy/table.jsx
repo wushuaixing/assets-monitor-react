@@ -25,19 +25,19 @@ const columns = (props, openModal, handleAddNotice) => {
 				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>最新发布日期</SortVessel>),
 			dataIndex: 'gmtPublish',
 			className: 'yc-publish-date',
-			width: 115,
+			width: 140,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '企业 (被申请人)',
 			dataIndex: 'obligorName',
-			width: 200,
+			width: 260,
 			render: (text, row) => (text
 				? <Ellipsis content={text || '-'} url={`/#/business/debtor/detail?id=${row.obligorId}`} width={200} tooltip />
 				: '-'),
 		}, {
 			title: '案件信息',
 			dataIndex: 'title',
-			width: 200,
+			width: 280,
 			render: (text, record) => {
 				const { caseNumber = '', court = '' } = record;
 				return <CaseInfo caseNumber={caseNumber} court={court} />;
@@ -46,7 +46,7 @@ const columns = (props, openModal, handleAddNotice) => {
 		{
 			title: '公告信息',
 			dataIndex: 'title',
-			width: 200,
+			width: 300,
 			render: (text, record = {}, index) => {
 				const {
 					relateNoticeCount, isShowNotice, title, id, url,
@@ -78,11 +78,11 @@ const columns = (props, openModal, handleAddNotice) => {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
-			width: 90,
+			width: 120,
 			render: value => <span>{timeStandard(value) || '-'}</span>,
 		}, {
 			title: '操作',
-			width: 55,
+			width: 60,
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
