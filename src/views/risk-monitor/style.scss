@@ -20,10 +20,11 @@
 
 
 .backruptcy-table-left-content{
-  width: 460px;
+  width: 472px;
   &-title{
     display: flex;
     align-items: center;
+    margin-bottom: 4px;
     &-val{
       font-weight: bold;
     }
@@ -31,12 +32,14 @@
   &-main{
     &-item{
       display: flex;
+      margin-bottom: 4px;
       &-label{
+        min-width: 60px;
         color: #7D8699;
-        text-align-last: justify;
-      }
-      &:first-child{
-        line-height: 24px;
+        span{
+          display: inline-block;
+          text-align-last: justify;
+        }
       }
       &-val{
         &-toggle{
@@ -61,6 +64,10 @@
           height: 36px;
           overflow: hidden;
         }
+      }
+      .align-center{
+        position: relative;
+        top: -1px;
       }
     }
   }
