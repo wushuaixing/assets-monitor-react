@@ -42,7 +42,7 @@ export default class ClueModal extends React.PureComponent {
 		const { historyInfoModalVisible } = this.props;
 		return (
 			<Modal title="关联公告" width={507} style={{ top: '19%' }} visible={historyInfoModalVisible} footer={null} maskClosable={false} onCancel={this.handleCancel} wrapClassName="yc-broke-subrogation">
-				<Spin visible={loading}>
+				<Spin visible={loading} minHeight={loading ? 300 : 0}>
 					<div className="yc-clueModal-content">
 						<Timeline>
 							 {
@@ -55,9 +55,9 @@ export default class ClueModal extends React.PureComponent {
 											<span className="yc-clueModal-content-label-url">
 												{
 													item.pid ? (
-														<Ellipsis content={item.title} width={270} tooltip url={`#/judgement?sourceId=10986&pid=${item.pid}&title=${item.title}`} />
+														<Ellipsis content={item.title} width={250} tooltip url={`#/judgement?sourceId=10986&pid=${item.pid}&title=${item.title}`} />
 													) : (
-														<Ellipsis content={item.title} url={item.url} width={270} isSourceLink tooltip />
+														<Ellipsis content={item.title} url={item.url} width={250} isSourceLink tooltip />
 													)
 
 												}

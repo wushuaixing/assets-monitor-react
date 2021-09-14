@@ -51,7 +51,7 @@ export default class TableIntact extends React.Component {
 					</li>
 					<li>
 						<span style={{ width: '65px' }} className="list list-title align-justify">申请人</span>
-						<span className="list list-title-colon">:</span>
+						<span className="list list-title-colon">：</span>
 						<span className="list list-content" style={{ maxWidth: '600px' }}>
 							{
 								(row.applicants && row.applicants.map(item => item.name)).join('，') || '--'
@@ -60,7 +60,7 @@ export default class TableIntact extends React.Component {
 					</li>
 					<li>
 						<span style={{ width: '65px' }} className="list list-title align-justify">被申请人</span>
-						<span className="list list-title-colon">:</span>
+						<span className="list list-title-colon">：</span>
 						<span className="list list-content" style={{ maxWidth: '600px' }}>
 							{
 								(row.respondents && row.respondents.map(item => item.name)).join('，') || '--'
@@ -77,12 +77,12 @@ export default class TableIntact extends React.Component {
 					<li style={{ height: 24 }} />
 					<li>
 						<span className="list list-title align-justify">公开日期</span>
-						<span className="list list-title-colon">:</span>
+						<span className="list list-title-colon">：</span>
 						<span className="list list-content">{row.gmtPublish || '--'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">受理法院</span>
-						<span className="list list-title-colon">:</span>
+						<span className="list list-title-colon">：</span>
 						<span className="list list-content">{row.court || '--'}</span>
 					</li>
 				</div>
