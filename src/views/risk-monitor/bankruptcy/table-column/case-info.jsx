@@ -31,7 +31,7 @@ function CaseInfo(props) {
 					return 	(
 						<li className="case-info-content-item" key={label}>
 							<div className="case-info-content-item-label">
-								{label}
+								<span>{label}</span>
 								：
 							</div>
 							<div className="case-info-content-item-val">
@@ -41,12 +41,9 @@ function CaseInfo(props) {
 								{
 									length > sliceNumber
 										? (
-											<div>
-												<div style={{ height: '18px' }}>{obj(status).text === '展开' ? '...' : ''}</div>
-												<div className="action-btn yc-text-normal" onClick={() => fn(!status)}>
-													<span>{obj(status).text}</span>
-													<Icon type={obj(status).icon} />
-												</div>
+											<div className="action-btn yc-text-normal" onClick={() => fn(!status)}>
+												<span>{obj(status).text}</span>
+												<Icon type={obj(status).icon} />
 											</div>
 										)
 										: null

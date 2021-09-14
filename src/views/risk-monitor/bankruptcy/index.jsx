@@ -95,7 +95,6 @@ export default class Subrogation extends React.Component {
 									if (it === item.id) {
 										_item.isAttention = 1;
 										_item.isRead = true;
-										_item.isShowNotice = 0;
 									}
 								});
 								return _item;
