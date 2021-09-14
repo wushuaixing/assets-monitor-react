@@ -4,6 +4,7 @@ import { getDynamicAsset } from 'api/dynamic';
 import {
 	Icon, Spin, Table, ClueModal,
 } from '@/common';
+import './index.scss';
 
 
 export default class TableIntact extends React.Component {
