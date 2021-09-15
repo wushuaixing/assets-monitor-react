@@ -74,12 +74,12 @@ const columns = (props, toOpenHistory) => {
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>案号</span>
 							<span className="list list-title-colon">：</span>
-							<span className="list list-content">{row.caseNumber.replace('（', '( ') || '--'}</span>
+							<span className="list list-content">{row.caseNumber.replace('（', '(') || '--'}</span>
 						</li>
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>受理法院</span>
 							<span className="list list-title-colon">：</span>
-							<span className="list list-content">{row.court.replace('（', '( ') || '--'}</span>
+							<span className="list list-content">{row.court || '--'}</span>
 						</li>
 					</div>
 				</React.Fragment>
