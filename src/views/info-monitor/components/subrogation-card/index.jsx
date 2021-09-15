@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import {
-	subrogationTrialCount, subrogationCourtCount, subrogationJudgmentCount,
+	subrogationTrialCount, subrogationCourtCount, subrogationJudgmentCount, bankruptcySubrogationCount,
 } from 'api/monitor-info/excavate/count';
 import { navigate } from '@reach/router';
 import { promiseAll } from '@/utils/promise';
+import { Col, Row } from 'antd';
 import Card from '../card';
 import './style.scss';
 
@@ -28,6 +29,7 @@ export default class Subrogation extends PureComponent {
 		promiseArray.push(subrogationTrialCount(params));
 		promiseArray.push(subrogationCourtCount(params));
 		promiseArray.push(subrogationJudgmentCount(params));
+		promiseArray.push(bankruptcySubrogationCount(params));
 		// 将传入promise.all的数组进行遍历，如果catch住reject结果，
 		// 直接返回，这样就可以在最后结果中将所有结果都获取到,返回的其实是resolved
 		// console.log(promiseArray, 123);
@@ -49,7 +51,7 @@ export default class Subrogation extends PureComponent {
 	render() {
 		const {
 			url, subrogationPropsData, subrogationPropsData: {
-				restore, execute, otherCase, gmtUpdate, totalCount,
+				 gmtUpdate, totalCount, bankruptcyCount, judgment, trial, courtNotice,
 			},
 		} = this.props;
 		const { unReadCount } = this.state;
@@ -65,27 +67,44 @@ export default class Subrogation extends PureComponent {
 				unReadText="条未读信息"
 				unReadNum={unReadCount}
 			>
-				{Object.keys(subrogationPropsData).length !== 0 && (
-					<div className="risk-subrogation-container">
-						<div className={`risk-subrogation-container-card ${!totalCount && 'monitor-card-noCount-color'}`} style={{ paddingBottom: '16px' }}>
-							执行案件：
-							<span className={`risk-subrogation-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{execute || 0}</span>
-							笔
-							{restore > 0 ? (
-								<span className="risk-subrogation-container-card-tips">
-									（
-									<span className="risk-subrogation-container-card-tips-num">{restore}</span>
-									笔执恢案件）
-								</span>
-							) : null}
+				 {Object.keys(subrogationPropsData).length !== 0 && (
+					 <Row gutter={24} className="risk-intangible-container">
+						<div>
+							<Col className="gutter-row" span={12}>
+								<div className="risk-intangible-container-card">
+									立案信息
+									：
+									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{trial}</span>
+									条
+								</div>
+							</Col>
+							<Col className="gutter-row" span={12}>
+								<div className="risk-intangible-container-card">
+									开庭公告
+									：
+									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{courtNotice}</span>
+									条
+								</div>
+							</Col>
+							<Col className="gutter-row" span={12}>
+								<div className="risk-intangible-container-card">
+									裁判文书
+									：
+									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{judgment}</span>
+									条
+								</div>
+							</Col>
+							<Col className="gutter-row" span={12}>
+								<div className="risk-intangible-container-card">
+									破产代位
+									：
+									<span className={`risk-intangible-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{bankruptcyCount}</span>
+									条
+								</div>
+							</Col>
 						</div>
-						<div className={`risk-subrogation-container-card ${!totalCount && 'monitor-card-noCount-color'}`}>
-							其他案件：
-							<span className={`risk-subrogation-container-card-num ${!totalCount && 'monitor-card-noCount-color'}`}>{otherCase || 0}</span>
-							笔
-						</div>
-					</div>
-				)}
+					</Row>
+				 )}
 			</Card>
 		);
 	}

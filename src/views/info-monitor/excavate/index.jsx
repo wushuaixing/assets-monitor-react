@@ -277,15 +277,15 @@ export default class Excavate extends PureComponent {
 	getSubrogationData = (res) => {
 		if (res && res.code === 200) {
 			const {
-				courtNotice, execute, trial, judgment, restore, gmtUpdate,
+				courtNotice, trial, judgment, gmtUpdate, bankruptcyCount,
 			} = res.data;
-			const dataSourceNum = trial + judgment + courtNotice;
-			const otherCase = (trial + judgment + courtNotice) - execute;
+			const dataSourceNum = trial + judgment + courtNotice + bankruptcyCount;
 			const subrogationPropsData = {
-				restore,
-				execute,
-				otherCase,
 				gmtUpdate,
+				bankruptcyCount,
+				courtNotice,
+				trial,
+				judgment,
 				totalCount: dataSourceNum,
 			};
 			this.setState(() => ({

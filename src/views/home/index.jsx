@@ -115,7 +115,7 @@ class HomeRouter extends React.Component {
 
 	getData = () => {
 		this.setState({ loading: true });
-		unreadInfoRemind().then((res) => {
+		unreadInfoRemind({ requestSourceType: 1 }).then((res) => {
 			this.setState({ loading: false });
 			if (res.code === 200) {
 				const {

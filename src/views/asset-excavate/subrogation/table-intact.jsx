@@ -2,7 +2,9 @@ import React from 'react';
 import API from '@/utils/api/monitor-info/subrogation';
 import { Spin } from '@/common';
 import { clearEmpty } from '@/utils';
-import { TableCourt, TableTrial, TableJudgment } from './table';
+import {
+	TableCourt, TableTrial, TableJudgment, TableBroke,
+} from './table';
 
 export default class TableIntact extends React.Component {
 	constructor(props) {
@@ -22,6 +24,9 @@ export default class TableIntact extends React.Component {
 	}
 
 	componentWillMount() {
+		const { curSourceObj: { sortColumn, sortOrder } } = this.props;
+		this.condition.sortColumn = sortColumn || '';
+		this.condition.sortOrder = sortOrder || '';
 		this.toGetData();
 	}
 
@@ -29,6 +34,8 @@ export default class TableIntact extends React.Component {
 		const { sourceType, curSourceObj } = this.props;
 		if (curSourceObj) {
 			Object.assign(curSourceObj, { page: 1 });
+			Object.assign(curSourceObj, { sortColumn: '' });
+			Object.assign(curSourceObj, { sortOrder: '' });
 		}
 		if (sourceType !== nextProps.sourceType) {
 			this.condition.sortColumn = '';
@@ -48,14 +55,16 @@ export default class TableIntact extends React.Component {
 	// 排序触发
 	onSortChange=(field, order) => {
 		this.condition.sortColumn = field;
-		this.condition.sortOrder = order;
+		this.condition.sortOrder = order ;
 		this.condition.page = 1;
 		this.toGetData();
 		const { onPageChange, onBtnChange, curSourceObj } = this.props;
 		if (onPageChange)onPageChange();
 		if (curSourceObj) {
-			Object.assign(curSourceObj, { isRedirect: true, page: 1 });
-			// if (onBtnChange)onBtnChange(curSourceObj);
+			Object.assign(curSourceObj, {
+				isRedirect: true, page: 1, sortColumn: field, sortOrder: order,
+			});
+			if (onBtnChange)onBtnChange(curSourceObj);
 		}
 	};
 
@@ -73,33 +82,43 @@ export default class TableIntact extends React.Component {
 	// 当前页数变化
 	onPageChange=(val) => {
 		this.condition.page = val;
-		this.toGetData();
+		// this.toGetData();
 		const { onPageChange, onBtnChange, curSourceObj } = this.props;
 		if (onPageChange)onPageChange();
 		if (curSourceObj) {
-			Object.assign(curSourceObj, { isRedirect: true, page: val });
+			Object.assign(curSourceObj, {
+				isRedirect: true, page: val, sortColumn: this.condition.sortColumn, sortOrder: this.condition.sortOrder,
+			});
 			if (onBtnChange)onBtnChange(curSourceObj);
 		}
 	};
 
 	// 查询数据methods
-	toGetData=(nextProps) => {
+	toGetData=(nextProps, turning) => {
 		this.setState({ loading: true });
 		const {
 			reqUrl, id, sourceType, curSourceObj,
 		} = nextProps || this.props;
-		if (curSourceObj) {
-			this.condition.page = curSourceObj.page;
+		if (!turning && curSourceObj) {
+			this.condition.page = curSourceObj.page || 1;
+			this.condition.sortColumn = curSourceObj.sortColumn || '';
+			this.condition.sortOrder = curSourceObj.sortOrder || '';
 		}
 		const toApi = reqUrl || API(sourceType, 'followList');
 		toApi(clearEmpty(this.condition), id).then((res) => {
 			if (res.code === 200) {
+				const { list, page, total } = res.data;
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: list,
+					current: page,
+					total,
 					loading: false,
 				});
+				// 处理收藏翻页同步问题
+				if (list.length === 0 && page > 1) {
+					this.condition.page = page - 1;
+					this.toGetData('', true);
+				}
 			} else {
 				this.setState({
 					dataSource: [],
@@ -142,6 +161,7 @@ export default class TableIntact extends React.Component {
 					{sourceType === 1 ? <TableTrial {...tableProps} /> : null}
 					{sourceType === 2 ? <TableCourt {...tableProps} /> : null}
 					{sourceType === 3 ? <TableJudgment {...tableProps} /> : null}
+					{sourceType === 4 ? <TableBroke {...tableProps} /> : null}
 				</Spin>
 			</div>
 

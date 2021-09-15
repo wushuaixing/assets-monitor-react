@@ -2,10 +2,18 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicRisk } from 'api/dynamic';
 import {
-	Spin, Table, Ellipsis, LiItem,
+	Spin, Table, Ellipsis, LiItem, Button, Icon,
 } from '@/common';
-import { timeStandard, toEmpty } from '@/utils';
+import {
+	relationNotice,
+} from '@/utils/api/monitor-info/bankruptcy';
 
+import RelationNoticeModal from '../../bankruptcy/relation-notice-modal';
+import BackruptcyItem from '../table/bankruptcyItem';
+import message from '../../../../utils/api/message/message';
+import '../../style.scss';
+// 债务人详情-风险-破产重组
+// 画像查询-企业详情-风险-破产重组
 export default class TableIntact extends React.Component {
 	constructor(props) {
 		super(props);
@@ -14,6 +22,8 @@ export default class TableIntact extends React.Component {
 			current: 1,
 			total: 0,
 			loading: false,
+			visible: false,
+			modalData: [],
 		};
 	}
 
@@ -43,32 +53,66 @@ export default class TableIntact extends React.Component {
 		return null;
 	};
 
-	toGetColumns = () => [
-		{
-			title: '主要信息',
-			dataIndex: 'title',
-			render: (value, row) => (
-				<div className="assets-info-content">
-					<li className="yc-public-normal-bold" style={{ marginBottom: 2 }}>
-						<Ellipsis content={value || '-'} url={row.url} width={600} font={15} isSourceLink />
-					</li>
-					<li>
-						{this.toShowExtraField(row)}
-						<LiItem title="发布日期">{timeStandard(row.publishDate)}</LiItem>
-					</li>
-				</div>
-			),
-		}, {
-			title: '辅助信息',
-			width: 360,
-			render: (value, row) => (
-				<div className="assets-info-content">
-					<br />
-					<LiItem Li title="受理法院" auto><Ellipsis content={toEmpty(row.court)} tooltip width={240} /></LiItem>
-				</div>
-			),
-		},
-	];
+	handleOpenModal = (isPortraitInquiry, id, notices) => {
+		if (isPortraitInquiry) {
+			this.setState({
+				modalData: notices,
+				visible: true,
+			});
+		} else {
+			relationNotice({ id }).then((res) => {
+				const { code, data = [] } = res || {};
+				if (code === 200) {
+					this.setState({ modalData: data }, () => {
+						this.setState({ visible: true });
+					});
+				} else {
+					message.error('请求出错');
+				}
+			});
+		}
+	}
+
+	toGetColumns = () => {
+		const { portrait } = this.props;
+		const isPortraitInquiry = portrait === 'enterprise'; // true 画像查询 false 债务人详情
+		const f = i => (i || '-');
+		return [
+			{
+				title: '主要信息',
+				dataIndex: 'title',
+				render: (value, row) => {
+					const params = { ...row, isPortraitInquiry };
+					return <BackruptcyItem handleOpenModal={this.handleOpenModal} {...params} />;
+				},
+			}, {
+				title: '辅助信息',
+				width: 360,
+				render: (value, row) => {
+					const { gmtPublish, court } = row || {};
+					return 	(
+						<div className="backruptcy-table-right-content">
+							{/* {	isPortraitInquiry && <LiItem Li title="公开日期" auto>{f(gmtPublish)}</LiItem>} */}
+							{/* <LiItem Li title="受理法院" auto>{f(court)}</LiItem> */}
+							{
+								isPortraitInquiry ?	(
+									<li className="backruptcy-table-right-content-item">
+										<div className="backruptcy-table-right-content-item-label">公开日期：</div>
+										<div className="backruptcy-table-right-content-item-val">{f(gmtPublish)}</div>
+									</li>
+								) : null
+
+							}
+							<li className="backruptcy-table-right-content-item">
+								<div className="backruptcy-table-right-content-item-label">受理法院：</div>
+								<div className="backruptcy-table-right-content-item-val">{f(court)}</div>
+							</li>
+						</div>
+					);
+				},
+			},
+		];
+	};
 
 	// 当前页数变化
 	onPageChange = (val) => {
@@ -78,21 +122,25 @@ export default class TableIntact extends React.Component {
 	// 查询数据methods
 	toGetData = (page) => {
 		const { portrait, option } = this.props;
+		const isPortraitInquiry = portrait === 'enterprise'; // true 画像查询 false 债务人详情
 		const { api, params } = getDynamicRisk(portrait, option || {
 			b: 30201,
 			e: 'bankruptcy',
 		});
 		this.setState({ loading: true });
+
 		api.list({
 			page: page || 1,
 			num: 5,
 			...params,
 		}).then((res) => {
-			if (res.code === 200) {
+			const { code, data = {} } = res || {};
+			const dataSource = isPortraitInquiry ? data.list : [{ ...data }];
+			if (code === 200) {
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource,
+					current: data.page || 1,
+					total: data.total || 1,
 					loading: false,
 				});
 			} else {
@@ -109,12 +157,24 @@ export default class TableIntact extends React.Component {
 			});
 	};
 
+	onCancel = () => {
+		this.setState({
+			visible: false,
+		});
+	};
+
+	onOk = () => {
+		console.log('submit');
+	}
+
 	render() {
-		const { dataSource, current, total } = this.state;
+		const {
+			dataSource, current, total, visible, modalData,
+		} = this.state;
 		const { loading } = this.state;
 		const { loadingHeight } = this.props;
 		return (
-			<div className="yc-assets-auction ">
+			<div className="yc-assets-auction">
 				<Spin visible={loading} minHeight={(current > 1 && current * 5 >= total) ? '' : loadingHeight}>
 					<Table
 						rowClassName={() => 'yc-assets-auction-table-row'}
@@ -136,6 +196,14 @@ export default class TableIntact extends React.Component {
 						</div>
 					)}
 				</Spin>
+				{visible && (
+					<RelationNoticeModal
+						onCancel={this.onCancel}
+						onOk={this.onOk}
+						visible={visible}
+						list={modalData}
+					/>
+				)}
 			</div>
 		);
 	}

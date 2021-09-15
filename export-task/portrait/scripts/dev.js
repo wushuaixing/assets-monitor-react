@@ -82,6 +82,7 @@ function exportTemplate(source,exportType,domainName) {
 				{id: 1, value: "立案信息", field: "trial"},
 				{id: 2, value: "开庭信息", field: "court"},
 				{id: 3, value: "裁判文书", field: "judgment"},
+				{id: 4, value: "破产代位", field: "broke"},
 			],
 			landType:[
 				{id: 1, value: "土地出让", field: ""},
@@ -209,7 +210,7 @@ function exportTemplate(source,exportType,domainName) {
 		time: function (date, formatStr, isSelf) {
 			var _this = "";
 			if (typeof date === 'string') return date;
-			if (!date && date !== 0) return '-';
+			if (!date && date !== 0) return '--';
 			if (date === 0) _this = new Date(null);
 			else if (date) _this = new Date((isSelf ? date : date * 1000));
 			else _this = new Date();
@@ -408,7 +409,7 @@ function exportTemplate(source,exportType,domainName) {
 		floatFormat: function (item) {
 			var result = null;
 			if (!item && item !== 0) {
-				return '-';
+				return '--';
 			}
 			var type = parseFloat(item);
 			var bol = isNaN(type);
@@ -438,6 +439,14 @@ function exportTemplate(source,exportType,domainName) {
 			}
 			result = arr1.join('');
 			return result;
+		},
+		funTitleArr: function (val){
+			var valName = '';
+			val.forEach(function (it, index) {
+				var s = index === val.length - 1 ? '' : '，';
+				valName += it.name + s;
+			});
+			return valName
 		}
 	};
 
@@ -605,21 +614,21 @@ function exportTemplate(source,exportType,domainName) {
 							if(item.count){
 								result = true;
 								htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".total}", item.count);
-								if(item.caseReasons.length){
+								if(item.caseReasons && item.caseReasons.length){
 									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".reason.list}",
 										overViewTable(item.caseReasons, 4, {
 											name: "type",
 											count: "count",
 										}))
 								}
-								if(item.caseTypes.length){
+								if(item.caseTypes && item.caseTypes.length){
 									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".case.list}",
 										overViewTable(item.caseTypes, 4, {
 											name: "type",
 											count: "count",
 										}))
 								}
-								if(item.yearDistribution.length){
+								if(item.yearDistribution && item.yearDistribution.length){
 									htmlTemp = htmlTemp.replace("{" + viewName + "." + i.field + ".year.list}",
 										overViewTable(fun.toGetYearList(item.yearDistribution), 5, {
 											name: "year",
@@ -638,6 +647,7 @@ function exportTemplate(source,exportType,domainName) {
 				htmlTemp = htmlTemp.replace("{" + viewName + ".trial.display}", "display-none");
 				htmlTemp = htmlTemp.replace("{" + viewName + ".court.display}", "display-none");
 				htmlTemp = htmlTemp.replace("{" + viewName + ".judgment.display}", "display-none");
+				htmlTemp = htmlTemp.replace("{" + viewName + ".broke.display}", "display-none");
 			}
 		}
 		// 金融资产
@@ -1159,7 +1169,7 @@ function exportTemplate(source,exportType,domainName) {
 		else if(viewName==="overview.A10208"){
 			if(source.baseInfo){
 				['legalPersonName', 'regStatus', 'regCapital', 'establishTime', 'regLocation'].forEach(function (item) {
-					htmlTemp = htmlTemp.replace("{" + viewName + ".baseInfo."+item+"}", source.baseInfo[item]||'-');
+					htmlTemp = htmlTemp.replace("{" + viewName + ".baseInfo."+item+"}", source.baseInfo[item]||'--');
 				})
 			}
 			if(source.businessScaleInfo){
@@ -1221,7 +1231,7 @@ function exportTemplate(source,exportType,domainName) {
 		else if(viewName === "baseInfo"){
 			if(source){
 				["display", "legalPersonName", "regStatus", "regCapital", "establishTime", "regLocation", "display", "legalPerson", "orgNumber", "creditCode", "taxNumber", "establishTime", "regCapital", "actualCapital", "regStatus", "regInstitute", "companyOrgType", "approvedTime", "industry", "regNumber", "scale", "insuranceNum", "englishName", "businessScope", "regLocation"].forEach(function (item) {
-					htmlTemp = htmlTemp.replace("{baseInfo."+item+"}", source[item]||'-');
+					htmlTemp = htmlTemp.replace("{baseInfo."+item+"}", source[item]||'--');
 					var timeLimit=(source.fromTime && source.toTime)?("自 "+(source.fromTime||'--')+" 至 "+(source.toTime||'--')):"--";
 					htmlTemp = htmlTemp.replace("{baseInfo.timeLimit}", timeLimit);
 				})
@@ -1415,6 +1425,41 @@ function exportTemplate(source,exportType,domainName) {
 				});
 				break;
 			}
+			// 代位权-破产代位
+			case "subrogation.broke":{
+				source.list.forEach(function (item) {
+					listAry.push("<tr>" +
+						"<td>" +
+						"<li class='mg8-0 font-m'>" +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.caseNumber||'--')+"</a>":(item.caseNumber||'--')) +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>申 请 人：</span>" +
+						"<span class='n-desc'>"+(fun.funTitleArr(item.applicants) ||'--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>被申请人：</span>" +
+						"<span class='n-desc'>"+(fun.funTitleArr(item.respondents) || '--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"</td>" +
+						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>公开日期：<label class='n-desc'>"+(item.gmtPublish||'--')+"</label></span>" +
+						"</div></li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>受理法院：<label class='n-desc'>"+(item.court||'--')+"</label></span>" +
+						"</div></li>" +
+						"</td></tr>");
+				});
+				break;
+			}
+
 			// 涉诉 失信记录
 			case "lawsuit.dishonest":{
 				source.list.forEach(function (item) {
@@ -2186,16 +2231,26 @@ function exportTemplate(source,exportType,domainName) {
 					listAry.push("<tr>" +
 						"<td>" +
 						"<li class='mg8-0 font-m'>" +
-						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.title||'--')+"</a>":(item.title||'--')) +
+						(item.url?"<a href=\""+item.url+"\" target=\"_blank\" class=\"base-b fw-bold\">"+(item.caseNumber||'--')+"</a>":(item.caseNumber||'--')) +
 						"</li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
-						"<span class='n-title'>发布日期：</span>" +
-						"<span class='n-desc'>"+(item.publishDate||'--')+"</span>" +
+						"<span class='n-title'>申 请 人：</span>" +
+						"<span class='n-desc'>"+(item.applicants||'--')+"</span>" +
+						"</div>" +
+						"</li>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>被申请人：</span>" +
+						"<span class='n-desc'>"+(item.respondents || '--')+"</span>" +
 						"</div>" +
 						"</li>" +
 						"</td>" +
 						"<td>" +
+						"<li class='mg8-0'>" +
+						"<div class='nAndI'>" +
+						"<span class='n-title'>公开日期：<label class='n-desc'>"+(item.gmtPublish||'--')+"</label></span>" +
+						"</div></li>" +
 						"<li class='mg8-0'>" +
 						"<div class='nAndI'>" +
 						"<span class='n-title'>受理法院：<label class='n-desc'>"+(item.court||'--')+"</label></span>" +
@@ -2492,6 +2547,8 @@ function exportTemplate(source,exportType,domainName) {
 		listView(data.A10303,"subrogation.court");
 		// 代位权 - 裁判文书
 		listView(data.A10304,"subrogation.judgment");
+		// 代位权 - 破产代位
+		listView(data.A10328,"subrogation.broke");
 		// 土地信息 - 出让
 		listView(data.A10305,"land.result");
 		// 土地信息 - 转让

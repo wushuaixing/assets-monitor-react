@@ -9,8 +9,8 @@ import { isZhongguan } from './utils';
 import './assets/css/index.scss';
 import './utils/config';
 
-const Version = 'v2.11';
-const BetaNumber = '.13';
+const Version = 'v2.12';
+const BetaNumber = '.19';
 const info = `Version：${Version}${BetaNumber ? `-beta${BetaNumber}` : ''}`;
 window.CurrentVersions = info;
 if (window.location.protocol === 'http:') {

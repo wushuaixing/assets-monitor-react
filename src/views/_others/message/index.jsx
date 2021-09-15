@@ -230,6 +230,7 @@ class InformCenter extends React.Component {
 		const { isRead, current } = this.state;
 		const params = {
 			...data,
+			requestSourceType: 1,
 			page: _page || current,
 			num: 10,
 		};
@@ -266,7 +267,7 @@ class InformCenter extends React.Component {
 	handleAllRead = () => {
 		const { current } = this.state;
 		const params = {};
-		centerList({ isRead: false }).then((val) => {
+		centerList({ isRead: false, requestSourceType: 1 }).then((val) => {
 			const { total } = val.data;
 			if (val.code === 200 && total > 0) {
 				Modal.confirm({

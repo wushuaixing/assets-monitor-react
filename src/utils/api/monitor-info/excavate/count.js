@@ -64,6 +64,12 @@ export const subrogationJudgmentCount = async (params) => {
 	return response.data;
 };
 
+// 代位权-破产代位
+export const bankruptcySubrogationCount = async (params) => {
+	const response = await service.post('/yc/monitor/subrogation/bankruptcySubrogation/listCount', params);
+	return response.data;
+};
+
 // 股权质押
 export const pledgeCount = async (params) => {
 	const response = await service.get('/yc/monitor/pledge/list-count', { params });
@@ -163,7 +169,7 @@ export const legalCaseCount = async (params) => {
 
 // 破产重组
 export const riskBankruptcyCount = async (params) => {
-	const response = await service.get('/yc/monitor/bankruptcy/list-count', { params });
+	const response = await service.post('/yc/monitor/bankruptcyNew/listCount', params);
 	return response.data;
 };
 

@@ -17,3 +17,82 @@
   }
 }
 
+
+
+.backruptcy-table-left-content{
+  width: 472px;
+  &-title{
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    &-val{
+      font-weight: bold;
+    }
+  }
+  &-main{
+    &-item{
+      display: flex;
+      margin-bottom: 4px;
+      &-label{
+        min-width: 60px;
+        color: #7D8699;
+        span{
+          display: inline-block;
+          text-align-last: justify;
+          text-justify: distribute;
+        }
+      }
+      &-val{
+        &-toggle{
+          display: flex;
+          justify-content: space-between;
+          color: #1C80E1;
+          cursor: pointer;
+          .action-btn{
+            &-text{
+              &:hover{
+                text-decoration: underline;
+              }
+            }
+            .anticon{
+              margin-left: 4px;
+              position: relative;
+              top: 1px;
+            }
+          }
+        }
+        .ellipsis{
+          height: 36px;
+          overflow: hidden;
+        }
+      }
+      .align-center{
+        position: relative;
+        top: -1px;
+      }
+    }
+  }
+  .auction-history-btn{
+    padding: 1px  8px !important;
+    line-height: 18px !important;
+    .iconfont{
+      font-size: 16px !important;
+      position: relative;
+      top: 1px;
+    }
+  }
+}
+.backruptcy-table-right-content{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  &-item{
+    display: flex;
+    margin-bottom: 3px;
+    &-label{
+      color: #7D8699;
+      min-width: 60px;
+    }
+  }
+}

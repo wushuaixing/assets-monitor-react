@@ -64,13 +64,13 @@ export default class RelationTable extends React.Component {
 				width: 100,
 			}, {
 				title: '相关资产',
-				dataIndex: 'assetTotal',
-				key: 'assetTotal',
+				dataIndex: 'assetTotalNew',
+				key: 'assetTotalNew',
 				width: 100,
 			}, {
 				title: '相关风险',
-				dataIndex: 'riskTotal',
-				key: 'riskTotal',
+				dataIndex: 'riskTotalNew',
+				key: 'riskTotalNew',
 				width: 100,
 			}, {
 				title: '推送状态',

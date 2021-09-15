@@ -4,13 +4,16 @@ import {
 	Button, Download, Icon, Spin,
 } from '@/common';
 import {
-	infoList, readStatus, exportList, follow,
+	infoList, readStatus, exportList, follow, listCount,
 } from '@/utils/api/monitor-info/bankruptcy';
 import { clearEmpty } from '@/utils';
 import { unReadCount } from '@/utils/api/monitor-info';
 import Query from './query';
 import Table from './table';
-
+import './style.scss';
+/**
+ * 信息监控-风险监控-破产重组
+ */
 export default class Subrogation extends React.Component {
 	constructor(props) {
 		super(props);
@@ -123,10 +126,10 @@ export default class Subrogation extends React.Component {
 
 	// 查询是否有未读消息
 	onUnReadCount=() => {
-		unReadCount().then((res) => {
+		listCount().then((res) => {
 			const { data, code } = res;
 			if (code === 200) {
-				this.unReadCount = data.bankruptcyCount;
+				this.unReadCount = data;
 			}
 		});
 	};
@@ -166,16 +169,27 @@ export default class Subrogation extends React.Component {
 			manage: _manage || false,
 		});
 		infoList(clearEmpty(this.condition)).then((res) => {
-			if (res.code === 200) {
+			const { code, data } = res || {};
+			const { list = [], total, pages } = data || {};
+			if (code === 200) {
+				if (!list.length && total) {
+					this.onPageChange(pages);
+				} else {
+					this.setState({
+						dataSource: list,
+						current: data.page,
+						total,
+						loading: false,
+					});
+				}
+			} else {
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: [],
+					current: 1,
+					total: 0,
+					loading: false,
 				});
 			}
-			this.setState({
-				loading: false,
-			});
 		}).catch(() => {
 			this.setState({
 				loading: false,
@@ -214,6 +228,7 @@ export default class Subrogation extends React.Component {
 								active={isRead === 'all'}
 								onClick={() => this.handleReadChange('all')}
 								title="全部"
+								style={{ width: '56px' }}
 							/>
 							<Button
 								active={isRead === 'else'}

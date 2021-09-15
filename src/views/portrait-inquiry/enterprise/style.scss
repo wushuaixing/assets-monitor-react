@@ -137,6 +137,14 @@
       border-right: none !important;
     }
   }
+  .yc-mark-line{
+    position: relative;
+    left:-50px;
+    right: 0px;
+    width: 100vw;
+    height: 12px;
+    background-color: #F0F1F5;
+  }
 }
 
 .yc-bread-crumb-box{

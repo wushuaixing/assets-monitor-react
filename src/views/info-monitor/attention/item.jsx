@@ -36,6 +36,7 @@ const TableItem	= (props) => {
 					YC020201: <Subrogation sourceType={1} onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
 					YC020202: <Subrogation sourceType={2} onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
 					YC020203: <Subrogation sourceType={3} onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
+					YC020204: <Subrogation sourceType={4} onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
 					YC020301: <LandData sourceType={1} onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
 					YC020302: <LandData sourceType={2} onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,
 					YC020303: <LandData sourceType={3} onBtnChange={onBtnChange} curSourceObj={curSourceObj} />,

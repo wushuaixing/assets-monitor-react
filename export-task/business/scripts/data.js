@@ -827,6 +827,30 @@ module.exports = {
 		pages: 0,
 		total: 0
 	},
+	// 代位权_破产代位
+	DA10204: {
+		hasNext: false,
+		list: [
+			{
+				applicants: [{name: "深圳市凡牛致信投资有限合伙（有限合伙）", obligorId: 1628379}],
+				name: "深圳市凡牛致信投资有限合伙（有限合伙）",
+				obligorId: 1628379,
+				caseNumber: "（2021）粤0404破2号",
+				court: "珠海市金湾区人民法院",
+				gmtModified: "2021-09-07",
+				gmtPublish: "2021-08-27",
+				id: 3535,
+				isAttention: 0,
+				isRead: 1,
+				relateNoticeCount: 2,
+				respondents: [{name: "统赢软性电路（珠海）有限公司", obligorId: null}],
+			}
+		],
+		num: 5000,
+		page: 1,
+		pages: 0,
+		total: 0
+	},
 	// 股权质押-股权出质
 	DA10501: {
 		hasNext: false,
@@ -1599,7 +1623,19 @@ module.exports = {
 	// 破产重组
 	DR30201: {
 		hasNext: false,
-		list: [],
+		list: [{
+			bankruptcyNum: 1,
+			caseNumber: "（2021）鲁0702破2号",
+			court: "潍坊市潍城区人民法院",
+			gmtModified: "2021-09-08",
+			gmtPublish: "2021-07-30",
+			id: 2456,
+			pid: "",
+			relateNoticeCount: 4,
+			title: "潍坊中亚房地产发展有限公司重整投资人招募公告",
+			typeName: "招募投资人公告",
+			url: "http://pccz.court.gov.cn/pcajxxw/pcgg/ggxq?id=53E85781642425FF0C3F71C605F60EC3"
+		}],
 		num: 5000,
 		page: 1,
 		pages: 0,

@@ -1,22 +1,17 @@
 import React from 'react';
-import { Pagination, Tooltip } from 'antd';
+import { Pagination, Icon } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
-import { readStatus, unFollowSingle, followSingle } from '@/utils/api/monitor-info/bankruptcy';
+import {
+	readStatus, unFollow, follow, relationNotice, markReadNotice,
+} from '@/utils/api/monitor-info/bankruptcy';
 import { linkDom, timeStandard } from '@/utils';
-import { Table, SelectedNum, Ellipsis } from '@/common';
-import RegisterModal from './registerModal';
-
-const getName = (list, key) => {
-	let temp = '';
-	list.forEach((i) => {
-		if (i.role === key) {
-			temp = `${temp + i.name} `;
-		}
-	});
-	return temp;
-};
+import { Table, SelectedNum } from '@/common';
+import RelationNoticeModal from './relation-notice-modal';
+import CaseInfo from './table-column/case-info';
+import message from '../../../utils/api/message/message';
+import { Ellipsis } from '@/common';
 // 获取表格配置
-const columns = (props) => {
+const columns = (props, openModal, handleAddNotice) => {
 	const { normal, onRefresh, noSort } = props;
 	const { onSortChange, sortField, sortOrder } = props;
 	const sort = {
@@ -26,93 +21,77 @@ const columns = (props) => {
 	// 含操作等...
 	const defaultColumns = [
 		{
-			title: (noSort ? '发布日期'
-				: <SortVessel field="PUBLISH_DATE" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
-			dataIndex: 'publishDate',
+			title: (noSort ? '最新发布日期'
+				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>最新发布日期</SortVessel>),
+			dataIndex: 'gmtPublish',
 			className: 'yc-publish-date',
-			width: 115,
+			width: 140,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
-			title: '企业',
+			title: '企业 (被申请人)',
 			dataIndex: 'obligorName',
-			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
+			width: 260,
+			render: (text, row) => (text
+				? <Ellipsis content={text || '-'} url={`/#/business/debtor/detail?id=${row.obligorId}`} width={200} tooltip />
+				: '-'),
 		}, {
-			title: '标题',
+			title: '案件信息',
 			dataIndex: 'title',
-			width: 200,
+			width: 280,
 			render: (text, record) => {
-				if (record.url) {
-					return (
-						// <span>{text ? linkDom(record.url, text) : '-'}</span>
-						<div>{text ? <Ellipsis content={text} url={record.url} isSourceLink bussinessStyle tooltip /> : '-'}</div>
-					);
-				}
+				const { caseNumber = '', court = '' } = record;
+				return <CaseInfo caseNumber={caseNumber} court={court} />;
+			},
+		},
+		{
+			title: '公告信息',
+			dataIndex: 'title',
+			width: 300,
+			render: (text, record = {}, index) => {
+				const {
+					relateNoticeCount, isShowNotice, title, id, url,
+				} = record;
 				return (
-					<span>{text || '-'}</span>
+					<div className="notice-info-content">
+						<div className="notice-info-content-item">
+							<span className="notice-info-content-item-label">相关公告：</span>
+							<span className={`notice-info-content-item-num ${relateNoticeCount ? 'cursor-pointer' : ''}`} onClick={() => openModal(id, relateNoticeCount, index, isShowNotice)}>{relateNoticeCount || '无'}</span>
+							{
+								isShowNotice ? <span className="notice-info-content-item-add">新增公告</span> : null
+							}
+						</div>
+						{
+							title ? (
+								<div className="notice-info-content-item">
+									<span className="notice-info-content-item-label">最新公告：</span>
+									<span className="notice-info-content-item-url" onClick={() => handleAddNotice(id, index, isShowNotice)}>
+										<Ellipsis content={title} url={url} width="300px" isSourceLink />
+									</span>
+								</div>
+							) : null
+						}
+					</div>
 				);
 			},
 		},
 		{
-			title: '相关单位',
-			dataIndex: 'court',
-			width: 280,
-			render: (text, row) => (
-				<div className="yc-assets-table-info">
-					{
-						getName(row.parties, '申请人') && (
-							<li className="table-info-list" style={{ width: 280 }}>
-								<span className="list list-title align-justify">申请人</span>
-								<span className="list list-title-colon">:</span>
-								<Tooltip placement="top" title={getName(row.parties, '申请人')}>
-									<span className="info info-content text-ellipsis" style={{ maxWidth: 200 }}>{getName(row.parties, '申请人')}</span>
-								</Tooltip>
-							</li>
-						)
-					}
-					{
-						getName(row.parties, '被申请人') && (
-							<li className="table-info-list" style={{ width: 280 }}>
-								<span className="list list-title align-justify">被申请人</span>
-								<span className="list list-title-colon">:</span>
-								<Tooltip placement="top" title={getName(row.parties, '被申请人')}>
-									<span className="info info-content text-ellipsis" style={{ maxWidth: 200 }}>{getName(row.parties, '被申请人')}</span>
-								</Tooltip>
-							</li>
-						)
-					}
-					{
-					text && (
-					<li className="table-info-list" style={{ width: 280 }}>
-						<span className="list list-title align-justify">经办法院</span>
-						<span className="list list-title-colon">:</span>
-						<Tooltip placement="top" title={row.certificateType}>
-							<span className="info info-content text-ellipsis" style={{ maxWidth: 200 }}>{text}</span>
-						</Tooltip>
-					</li>
-					)
-				}
-
-				</div>
-			),
-		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="CREATE_TIME" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
-			dataIndex: 'createTime',
-			width: 90,
-			render: value => <span>{value ? new Date(value * 1000).format('yyyy-MM-dd') : '-'}</span>,
+				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+			dataIndex: 'gmtModified',
+			width: 120,
+			render: value => <span>{timeStandard(value) || '-'}</span>,
 		}, {
 			title: '操作',
-			width: 55,
+			width: 60,
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
 				<Attentions
 					text={text}
 					row={row}
-					single
+					single={false}
 					onClick={onRefresh}
-					api={row.isAttention ? unFollowSingle : followSingle}
+					api={row.isAttention ? unFollow : follow}
 					index={index}
 				/>
 			),
@@ -125,8 +104,8 @@ export default class TableView extends React.Component {
 		super(props);
 		this.state = {
 			selectedRowKeys: [],
-			registerModalVisible: false,
-			rowObj: {},
+			relationNoticeModalVisible: false,
+			modalData: [],
 		};
 	}
 
@@ -140,11 +119,13 @@ export default class TableView extends React.Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh, manage } = this.props;
-		if (!isRead && !manage) {
-			readStatus({ idList: [id] }).then((res) => {
+		const { onRefresh } = this.props;
+		if (!isRead) {
+			readStatus({ id }).then((res) => {
 				if (res.code === 200) {
-					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+					onRefresh({
+						id, isRead: 1, index,
+					}, 'isRead');
 				}
 			});
 		}
@@ -157,19 +138,39 @@ export default class TableView extends React.Component {
 		if (onSelect)onSelect(selectedRowKeys);
 	};
 
+	handleAddNotice= (id, index, isShowNotice) => {
+		const { onRefresh } = this.props;
+		if (isShowNotice) {
+			markReadNotice({ id }).then((res) => {
+				if (res.code === 200) {
+					onRefresh({ id, isShowNotice: 0, index }, 'isShowNotice');
+				}
+			});
+		}
+	}
+
+
 	// 打开立案弹框
-	openRegisterModal = (rowObj) => {
-		// console.log(rowObj);
-		this.setState({
-			registerModalVisible: true,
-			rowObj,
-		});
+	openModal = (id, count, index, isShowNotice) => {
+		if (count) {
+			this.handleAddNotice(id, index, isShowNotice);
+			relationNotice({ id }).then((res) => {
+				const { code, data = [] } = res || {};
+				if (code === 200) {
+					this.setState({ modalData: data }, () => {
+						this.setState({	relationNoticeModalVisible: true });
+					});
+				} else {
+					message.error('请求出错');
+				}
+			});
+		}
 	};
 
 	// 关闭弹窗
 	onCancel = () => {
 		this.setState({
-			registerModalVisible: false,
+			relationNoticeModalVisible: false,
 		});
 	};
 
@@ -177,7 +178,9 @@ export default class TableView extends React.Component {
 		const {
 			total, current, dataSource, manage, onPageChange, pageSize, isShowPagination = true,
 		} = this.props;
-		const { selectedRowKeys, registerModalVisible, rowObj } = this.state;
+		const {
+			selectedRowKeys, relationNoticeModalVisible, modalData,
+		} = this.state;
 		const rowSelection = manage ? {
 			rowSelection: {
 				selectedRowKeys,
@@ -190,7 +193,7 @@ export default class TableView extends React.Component {
 				<Table
 					{...rowSelection}
 					rowKey={record => record.id}
-					columns={columns(this.props, this.openRegisterModal)}
+					columns={columns(this.props, this.openModal, this.handleAddNotice)}
 					dataSource={dataSource}
 					pagination={false}
 					rowClassName={record => (record.isRead ? '' : 'yc-row-bold cursor-pointer')}
@@ -208,12 +211,12 @@ export default class TableView extends React.Component {
 						/>
 					</div>
 				)}
-				{registerModalVisible && (
-					<RegisterModal
+				{relationNoticeModalVisible && (
+					<RelationNoticeModal
 						onCancel={this.onCancel}
 						onOk={this.onOk}
-						rowObj={rowObj}
-						registerModalVisible={registerModalVisible}
+						visible={relationNoticeModalVisible}
+						list={modalData}
 					/>
 				)}
 			</React.Fragment>

@@ -97,7 +97,7 @@ class BusinessDebtor extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		obligorList(params).then((res) => {
+		obligorList(clearEmpty(params)).then((res) => {
 			if (res && res.data) {
 				this.setState({
 					dataList: res.data.list,
@@ -171,6 +171,8 @@ class BusinessDebtor extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
 		resetFields('');
+		this.condition.sortColumn = '';
+		this.condition.sortOrder = '';
 		const params = {
 			page: 1,
 		};
@@ -192,7 +194,7 @@ class BusinessDebtor extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		obligorList(params).then((res) => {
+		obligorList(clearEmpty(params)).then((res) => {
 			if (res && res.data) {
 				this.setState({
 					dataList: res.data.list,

@@ -28,7 +28,7 @@ export default class Risk extends PureComponent {
 				{
 					id: 1,
 					title: '破产重组',
-					rule: children.fxjkqypccz,
+					rule: children.fxjkbankrupt,
 					url: '/risk/bankruptcy',
 					Component: Bankruptcy,
 					API: bankruptcyCard,

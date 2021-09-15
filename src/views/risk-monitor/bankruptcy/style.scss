@@ -1,0 +1,108 @@
+// 信息监控-风险监控-破产重组列表 案件信息
+.case-info-content{
+  position: relative;
+  &-item{
+    display: flex;
+    line-height: 18px;
+    margin-bottom: 3px;
+    &-label{
+      color: #7D8699;
+      min-width:60px ;
+      span{
+        display: inline-block;
+        min-width:48px ;
+        text-align-last: justify;
+        text-justify: distribute;
+      }
+    }
+
+    .action-btn{
+      color:#1C80E1 ;
+      cursor: pointer;
+      .anticon{
+        margin-left: 4px;
+        position: relative;
+        top: 1px;
+      }
+    }
+  }
+}
+// 信息监控-风险监控-破产重组列表 公告信息
+.notice-info-content{
+  &-item{
+    display: flex;
+    line-height: 18px;
+    margin-bottom: 2px;
+    &-label{
+      color: #7D8699;
+      min-width:60px ;
+      text-align: right;
+    }
+    &-num{
+      padding: 0 8px;
+      line-height: 18px;
+      margin-left: -8px;
+    }
+    &-url{
+      a{
+        display: inline-block;
+      }
+    }
+    &-add{
+      line-height: 20px;
+      padding: 0 8px;
+      background: #FFE7E7;
+      color: #FB5A5C !important;
+      position: relative;
+      &::before {
+        box-sizing: content-box;
+        position: absolute;
+        top: 8px;
+        left: -8px;
+        border-bottom: 2px solid transparent;
+        border-top: 2px solid transparent;
+        border-left: 4px solid transparent;
+        border-right: 4px solid #ffe7e7;
+        display: block;
+        content: '';
+        z-index: 2;
+      }
+    }
+    .cursor-pointer{
+      color: #1C80E1;
+    }
+  }
+}
+// 关联公告弹窗
+.relation-notice-modal{
+  .ant-modal-content{
+    .ant-modal-body{
+      padding: 35px 10px 0 30px;
+      max-height: 447px !important;
+      overflow: auto;
+      .ant-timeline-item{
+        &-content{
+          .yc-Timeline-item{
+            display: flex;
+            line-height: 18px !important;
+            &-publish{
+              color: #7D8699;
+              min-width: 68px;
+            }
+            &-typeName{
+              display: inline-block;
+              padding: 0 8px;
+              min-width: 64px;
+              color: #7D8699;
+              background: #F0F1F5;
+              text-align: center;
+              border-radius: 1px;
+              border: 1px solid #DADDE6;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

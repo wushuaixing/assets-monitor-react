@@ -36,6 +36,14 @@ const message = [
 			.then(res => Object.assign(res.data, { id, field: 'instrument' })),
 	},
 	{
+		dataType: 10204,
+		name: '代位权-破产',
+		list: params => service.post('/yc/report/daily/bankruptcySubrogation/list', params)
+			.then(res => res.data),
+		count: (params, id) => service.post('/yc/report/daily/bankruptcySubrogation/listCount', params)
+			.then(res => Object.assign(res.data, { id, field: 'openCourt' })),
+	},
+	{
 		dataType: 10301,
 		name: '土地数据-土地出让',
 		list: params => service.get('/yc/report/daily/landTransfer/landTransferList', { params })
@@ -165,11 +173,11 @@ const message = [
 			.then(res => Object.assign(res.data, { id, field: 'judgmentDocument' })),
 	},
 	{
-		dataType: 11001,
+		dataType: 11002,
 		name: '企业破产重组',
-		list: params => service.get('/yc/report/daily/bankruptcy/bankruptcyList', { params })
+		list: params => service.get('/yc/report/daily/bankruptcy/bankruptcyNewList', { params })
 			.then(res => res.data),
-		count: (params, id) => service.get('/yc/report/daily/bankruptcy/bankruptcyCount', { params })
+		count: (params, id) => service.get('/yc/report/daily/bankruptcy/bankruptcyNewCount', { params })
 			.then(res => Object.assign(res.data, { id })),
 	},
 	{

@@ -261,7 +261,6 @@ export default class OverView extends React.Component {
 		const { viewLoading } = this.props;
 		return (
 			<div className="inquiry-overview">
-				<div className="mark-line" />
 				<div className="overview-left" style={{ minHeight: 1000 }}>
 					<div className="yc-overview-title">资产概况</div>
 					{
@@ -293,7 +292,7 @@ export default class OverView extends React.Component {
 								<Car companyId={companyId} getAssetProfile={this.getAssetProfile} />
 							</div>,
 							AssetAuctionCount === 0 && IntangibleAssetCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0 && RealEstateCount === 0 && CarCount === 0 && ConstructCount === 0
-							&& <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}</Spin>,
+							&& <Spin visible><NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" /></Spin>,
 						]
 					}
 				</div>

@@ -39,8 +39,9 @@ class Bankrupt extends Component {
 		const { stationId } = this.props;
 		const { page, num, obligorId } = this.state;
 		// 11001 是message映射的type
-		const reg = new RegExp(11001);
+		const reg = new RegExp(11002);
 		const api = message.filter(item => reg.test(item.dataType))[0].list;
+		console.log(api);
 		const params = {
 			obligorId,
 			stationId,
@@ -122,7 +123,7 @@ class Bankrupt extends Component {
 				</div>
 				<div className="messageDetail-table-container">
 					<Spin visible={loading}>
-						<TableBankruptcy {...tableProps} />
+						 <TableBankruptcy {...tableProps} />
 					</Spin>
 				</div>
 			</React.Fragment>

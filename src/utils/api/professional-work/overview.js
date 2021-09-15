@@ -48,7 +48,8 @@ export const businessOverviewIntangible = async (params) => {
 };
 
 // 债务人代位权
-export const overviewSubrogation = async (params) => {
+export const overviewSubrogation = async (val) => {
+	const params = { requestSourceType: 1, ...val };
 	const response = await service.get('/yc/obligor/monitor/overview/subrogation', { params });
 	return response.data;
 };
@@ -145,7 +146,7 @@ export const businessOverviewBidding = async (params) => {
 
 // 债务人破产重组
 export const overviewBankruptcy = async (params) => {
-	const response = await service.get('/yc/obligor/monitor/overview/bankruptcy', { params });
+	const response = await service.get('/yc/obligor/monitor/overview/bankruptcyNew', { params });
 	return response.data;
 };
 

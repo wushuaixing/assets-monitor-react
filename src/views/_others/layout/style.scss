@@ -143,13 +143,14 @@
 
       .header-child-item-monitor {
         min-width: unset;
-        
+
         .child-item-monitor {
           width: 96px;
           height: auto;
+          min-width: 96px;
           padding: 0;
           &:hover {
-            background-color: unset;
+            background-color: #FFFFFF;
           }
           &:nth-child(n + 2) {
             border-left: 1px solid #E5E5E5;

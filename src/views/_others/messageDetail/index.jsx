@@ -137,6 +137,7 @@ const subItems = (rule, data) => {
 				{ name: '立案', count: data ? getCount(data, 10201) : 0, dataType: 10201 },
 				{ name: '开庭', count: data ? getCount(data, 10202) : 0, dataType: 10202 },
 				{ name: '文书', count: data ? getCount(data, 10203) : 0, dataType: 10203 },
+				{ name: '破产代位', count: data ? getCount(data, 10204) : 0, dataType: 10204 },
 			],
 		},
 		{
@@ -240,7 +241,7 @@ const subItems = (rule, data) => {
 			dataType: 110,
 			name: '企业破产重组',
 			total: data ? getCount(data, 110) : 0,
-			status: isRule('fxjkqypccz', 2, rule),
+			status: isRule('fxjkbankrupt', 2, rule),
 			tagName: 'message-bankruptcy',
 			component: Bankrupt,
 		},

@@ -92,7 +92,7 @@ class HomeDynamic extends PureComponent {
 
 	// 获取资产和风险的数据
 	getData = (val) => {
-		const params = { ...val	};
+		const params = { ...val, requestSourceType: 1	};
 		const excavate = new Map([
 			['homeAsset', this.getAssetData],
 			['homeRisk', this.getRiskData],
@@ -129,12 +129,12 @@ class HomeDynamic extends PureComponent {
 		if (res && res.code === 200) {
 			const {
 				auction, auctionBidding, bidding, construct, emission, finance, landMortgage, landTransaction, landTransfer,
-				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, estateRegister,
+				mining, mortgage, stock, subrogationCourt, subrogationJudgement, subrogationTrial, trademark, unseal, bankruptcySubrogationCount, estateRegister,
 				financeInvestment, vehicleInformation, projectInfoCount, projectBiddingCount, constructionLicenceCount, electronicNewspaperCount,
 			} = res.data;
 			const landNum = this.getTotal([landMortgage, landTransaction, landTransfer]);
 			const intangibleNum = this.getTotal([emission, mining, trademark, construct]);
-			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial]);
+			const subrogationNum = this.getTotal([subrogationCourt, subrogationJudgement, subrogationTrial, bankruptcySubrogationCount]);
 			const financeNum = this.getTotal([auctionBidding, finance, financeInvestment]);
 			const onBuildNum = this.getTotal([projectInfoCount, projectBiddingCount, constructionLicenceCount]);
 			const totalNum = this.getTotal([auction, auctionBidding, bidding, construct, emission,
@@ -240,7 +240,7 @@ class HomeDynamic extends PureComponent {
 
 	getRiskImportantReminder = () => {
 		const apiArray = [
-			{ count: 'fxjkqypccz', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
+			{ count: 'fxjkbankrupt', Api: importantListRiskBankruptcy }, // 风险监控->企业破产重组
 
 			{ count: 'jyfxxzcf', Api: importantListRiskPunishment }, // 经营风险->行政处罚
 			{ count: 'jyfxsswf', Api: importantListRiskTax }, // 经营风险->税收违法

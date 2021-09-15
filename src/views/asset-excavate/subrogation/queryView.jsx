@@ -62,7 +62,7 @@ class QueryCondition extends React.Component {
 	render() {
 		const _style1 = { width: 278 };
 		const _style2 = { width: 100 };
-		const { form: { getFieldProps, getFieldValue } } = this.props;
+		const { form: { getFieldProps, getFieldValue }, sourceType } = this.props;
 		// console.log('ddddd', getFieldProps('endGmtCreate'));
 		const timeOption = {
 			normalize(n) {
@@ -81,7 +81,7 @@ class QueryCondition extends React.Component {
 					<Input title="法院" style={_style1} maxLength="20" size="large" placeholder="法院名称" {...getFieldProps('court')} />
 				</div>
 				<div className="yc-query-item">
-					<span className="yc-query-item-lable">立案/开庭/判决日期：</span>
+					<span className="yc-query-item-lable">{sourceType === 4 ? '发布日期：' : '立案/开庭/判决日期：'}</span>
 					<DatePicker
 						size="large"
 						style={_style2}

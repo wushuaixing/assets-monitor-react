@@ -203,6 +203,7 @@ export default {
 							{ id: 'YC020201', name: '立案信息', status: true },
 							{ id: 'YC020202', name: '开庭公告', status: true },
 							{ id: 'YC020203', name: '裁判文书', status: true },
+							{ id: 'YC020204', name: '破产代位', status: true },
 						],
 					},
 					{
@@ -278,7 +279,7 @@ export default {
 						id: 'YC0302',
 						name: '企业破产重组',
 						url: '/risk/bankruptcy',
-						status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
+						status: toStatus(rule.menu_fxjk, 'fxjkbankrupt'),
 					},
 					{
 						id: 'YC0304',
@@ -357,6 +358,7 @@ export default {
 									{ id: 'YC020201', name: '立案信息', status: true },
 									{ id: 'YC020202', name: '开庭公告', status: true },
 									{ id: 'YC020203', name: '裁判文书', status: true },
+									{ id: 'YC020204', name: '破产代位', status: true },
 								],
 							},
 							{
@@ -436,7 +438,7 @@ export default {
 								id: 'YC0302',
 								name: '破产重组',
 								url: '/risk/bankruptcy',
-								status: toStatus(rule.menu_fxjk, 'fxjkqypccz'),
+								status: toStatus(rule.menu_fxjk, 'fxjkbankrupt'),
 							},
 							{
 								id: 'YC0309',
