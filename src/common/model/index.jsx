@@ -41,7 +41,7 @@ export default class ClueModal extends React.PureComponent {
 		const { dataList, loading } = this.state;
 		const { historyInfoModalVisible } = this.props;
 		return (
-			<Modal title="关联公告" width={507} style={{ top: '19%' }} visible={historyInfoModalVisible} footer={null} maskClosable={false} onCancel={this.handleCancel} wrapClassName="yc-broke-subrogation">
+			<Modal title="关联公告" width={530} style={{ top: '19%' }} visible={historyInfoModalVisible} footer={null} maskClosable={false} onCancel={this.handleCancel} wrapClassName="yc-broke-subrogation">
 				<Spin visible={loading} minHeight={loading ? 300 : 0}>
 					<div className="yc-clueModal-content">
 						<Timeline>
