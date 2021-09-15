@@ -21,6 +21,7 @@ import ModalTable from './modalTable';
 import PeopleListModal from './Modal/peopleList';
 import BusinessModal from './Modal/business-modal';
 import TableList from './table';
+import { clearEmpty } from '@/utils';
 import './style.scss';
 
 // const cookies = new Cookies();
@@ -193,7 +194,7 @@ class BusinessView extends React.Component {
 		this.setState({
 			loading: true,
 		});
-		businessList(params).then((res) => {
+		businessList(clearEmpty(params)).then((res) => {
 			if (res && res.data) {
 				this.setState({
 					dataList: res.data.list,
@@ -225,7 +226,7 @@ class BusinessView extends React.Component {
 			loading: true,
 		});
 
-		businessList(params).then((res) => {
+		businessList(clearEmpty(params)).then((res) => {
 			if (res && res.data) {
 				this.setState({
 					dataList: res.data.list,
@@ -319,6 +320,8 @@ class BusinessView extends React.Component {
 		const { form } = this.props; // 会提示props is not defined
 		const { resetFields } = form;
 		resetFields('');
+		this.condition.sortColumn = '';
+		this.condition.sortOrder = '';
 		const params = {
 			page: 1,
 		};
@@ -376,7 +379,7 @@ class BusinessView extends React.Component {
 				that.setState({
 					reqLoading: true,
 				});
-				return postDeleteBatch(params).then((res) => {
+				return postDeleteBatch(clearEmpty(params)).then((res) => {
 					if (res.code === 200) {
 						const now = new Date().getTime();
 						const latency = now - start;
