@@ -75,7 +75,6 @@ export default class Subrogation extends React.Component {
 						timeLineDataNum: getCount(CourtArray.yearDistribution),
 					});
 				} else if (brokeNum > 0) {
-					console.log('@@@',getCount(brokeArray.caseTypes),getCount(brokeArray.yearDistribution));
 					this.setState({
 						selectType: 'Broke',
 						RingData: brokeArray.caseTypes,
@@ -200,7 +199,8 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'Filing' ? 'yc-tag-active' : ''}
-									style={{ padding: '0 15px' }}
+									style={{ padding: '0 8px' }}
+									paddingNumber
 								/>
 								<TagSide
 									content="开庭信息"
@@ -211,7 +211,8 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'Court' ? 'yc-tag-active' : ''}
-									style={{ padding: '0 15px' }}
+									style={{ padding: '0 8px' }}
+									paddingNumber
 								/>
 								<TagSide
 									content="裁判文书"
@@ -222,7 +223,8 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'referee' ? 'yc-tag-active' : ''}
-									style={{ padding: '0 15px' }}
+									style={{ padding: '0 8px' }}
+									paddingNumber
 								/>
 								<TagSide
 									content="破产代位"
@@ -233,7 +235,8 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'broke' ? 'yc-tag-active' : ''}
-									style={{ padding: '0 15px' }}
+									style={{ padding: '0 8px' }}
+									paddingNumber
 								/>
 							</div>
 							)}
