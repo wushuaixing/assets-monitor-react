@@ -32,9 +32,10 @@ export default class OverView extends React.Component {
 			companyId: parseQuery(window.location.hash).id || -9999,
 			baseInfo: {},
 			loading: true,
+			riskLoading: true,
 			shareholderInfos: [],
 			businessScaleInfo: '',
-			yearDistributions: null,
+			yearDistributions: [],
 			litigationInfos: null,
 			AssetAuctionCount: 0,
 			SubrogationCount: 0,
@@ -95,6 +96,7 @@ export default class OverView extends React.Component {
 					yearDistributions: res.data.assetOverviewDishonestInfo.yearDistributions || [],
 					litigationInfos: res.data.litigationInfos,
 					LitigationInfosCount: this.getLitigationInfosSum(res.data.litigationInfos),
+					riskLoading: false,
 				});
 			} else {
 				this.setState({
@@ -105,6 +107,7 @@ export default class OverView extends React.Component {
 						{ count: 0 },
 						{ count: 0 },
 					],
+					riskLoading: false,
 				});
 			}
 		}).catch(() => {
@@ -116,6 +119,7 @@ export default class OverView extends React.Component {
 					{ count: 0 },
 					{ count: 0 },
 				],
+				riskLoading: false,
 			});
 		});
 
@@ -240,13 +244,13 @@ export default class OverView extends React.Component {
 		case 'BusinessRisk':
 			return (
 				this.setState({
-					BusinessRiskCount: RiskProfileCountValue,
+					BusinessRiskCount: RiskProfileCountValue || 0,
 				})
 			);
 		case 'LimitHeight':
 			return (
 				this.setState({
-					LimitHeightCount: RiskProfileCountValue,
+					LimitHeightCount: RiskProfileCountValue || 0,
 				})
 			);
 		default: return '-';
@@ -255,7 +259,7 @@ export default class OverView extends React.Component {
 
 	render() {
 		const {
-			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, UnBlockCount,
+			loading, riskLoading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, UnBlockCount,
 			ChattelMortgageCount, BiddingCount, BankruptcyCount, BusinessRiskCount, LitigationInfosCount, FinanceCount, LimitHeightCount, RealEstateCount, CarCount, ConstructCount,
 		} = this.state;
 		const { viewLoading } = this.props;
@@ -300,7 +304,7 @@ export default class OverView extends React.Component {
 				<div className="overview-right">
 					<div className="yc-overview-title">风险信息</div>
 					{ viewLoading ? <Spin visible /> : [
-						<div className="yc-overview-container">
+						<div className="yc-overview-container" style={riskLoading ? { display: 'none' } : ''}>
 							{/* 破产重组 */}
 							<Bankruptcy companyId={companyId} getRiskProfile={this.getRiskProfile} />
 							{/*  失信记录 */}
@@ -312,7 +316,7 @@ export default class OverView extends React.Component {
 							{/* 经营风险信息 */}
 							<BusinessRisk companyId={companyId} getRiskProfile={this.getRiskProfile} />
 						</div>,
-						BankruptcyCount === 0 && yearDistributions && yearDistributions.length === 0 && LitigationInfosCount === 0 && BusinessRiskCount === 0 && LimitHeightCount === 0 && <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />}</Spin>,
+						BankruptcyCount === 0 && yearDistributions && yearDistributions.length === 0 && LitigationInfosCount === 0 && BusinessRiskCount === 0 && LimitHeightCount === 0 && <Spin visible={riskLoading}>{riskLoading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />}</Spin>,
 					]
 					}
 					<div className="mark-line" />
