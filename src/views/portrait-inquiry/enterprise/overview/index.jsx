@@ -92,7 +92,7 @@ export default class OverView extends React.Component {
 		getLitigation(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					yearDistributions: res.data.assetOverviewDishonestInfo.yearDistributions,
+					yearDistributions: res.data.assetOverviewDishonestInfo.yearDistributions || [],
 					litigationInfos: res.data.litigationInfos,
 					LitigationInfosCount: this.getLitigationInfosSum(res.data.litigationInfos),
 				});
@@ -233,7 +233,7 @@ export default class OverView extends React.Component {
 		case 'Bankruptcy':
 			return (
 				this.setState({
-					BankruptcyCount: RiskProfileCountValue,
+					BankruptcyCount: RiskProfileCountValue || 0,
 				})
 			);
 		// 经营风险
