@@ -304,7 +304,7 @@ export default class OverView extends React.Component {
 				<div className="overview-right">
 					<div className="yc-overview-title">风险信息</div>
 					{ viewLoading ? <Spin visible /> : [
-						<div className="yc-overview-container" style={riskLoading ? { display: 'none' } : ''}>
+						<div className="yc-overview-container">
 							{/* 破产重组 */}
 							<Bankruptcy companyId={companyId} getRiskProfile={this.getRiskProfile} />
 							{/*  失信记录 */}
