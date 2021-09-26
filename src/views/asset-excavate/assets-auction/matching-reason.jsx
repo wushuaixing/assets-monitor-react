@@ -109,8 +109,8 @@ export default class MatchingReason extends React.Component {
 					const curDom = this.parseDom(i);
 					return	(
 						<span style={{ marginRight: '10px' }}>
-							 {/* <Ellipsis url={curDom[0].href} content={curDom[0].innerText} isSourceLink /> */}
-							<a className="click-link" target="_blank" href={curDom[0].href} rel="noreferrer">{curDom[0].innerText}</a>
+							  <Ellipsis url={curDom[0].href} content={curDom[0].innerText} isSourceLink />
+							{/* <a className="click-link" target="_blank" href={curDom[0].href} rel="noreferrer">{curDom[0].innerText}</a> */}
 							{
 								index === remarkBehindArr.length - 1 ? null : <span style={{ marginLeft: -15 }}>、</span>
 							}
