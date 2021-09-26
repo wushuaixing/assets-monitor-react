@@ -241,7 +241,7 @@ const subItems = (rule, data) => {
 			dataType: 110,
 			name: '企业破产重组',
 			total: data ? getCount(data, 110) : 0,
-			status: isRule('fxjkqypccz', 2, rule),
+			status: isRule('fxjkbankrupt', 2, rule),
 			tagName: 'message-bankruptcy',
 			component: Bankrupt,
 		},

@@ -12,6 +12,7 @@ export default class Bankruptcy extends React.Component {
 
 	render() {
 		const { portrait, dataSource: { bankruptcyNum, gmtCreate, obligorTotal } } = this.props;
+		console.log(portrait);
 		const isBusiness = portrait && portrait === 'business';
 
 		return (

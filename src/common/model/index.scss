@@ -1,29 +1,37 @@
 .yc-clueModal-content{
-  height: 300px;
+  max-height: 300px;
   padding-top: 34px;
   overflow-x: hidden;
+  margin-left: 30px;
   &-label{
     display: flex;
     &-time{
-      max-width: 68px;
+      min-width: 68px;
       color: #7D8699;
     }
     &-url{
       margin-left: 12px;
     }
     &-name{
+      padding: 0 8px;
       min-width: 64px;
-      height: 20px;
-      //margin-left: 8px;
-      padding:0px 8px ;
-      color: #7D8699;
-      text-align: center;
+      line-height: 20px;
+
       background: #F0F1F5;
+      text-align: center;
       border-radius: 1px;
       border: 1px solid #DADDE6;
+      font-size: 12px;
+      display: inline-block;
     }
   }
 }
-.ant-modal-body{
-  padding:0px 0px 0px 16px ;
+.yc-broke-subrogation{
+  .ant-modal-body{
+    padding:0px 0px 0px 0px;
+  }
+  .ant-modal-header{
+    padding-left: 20px;
+  }
 }
+

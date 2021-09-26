@@ -2,8 +2,9 @@ import React from 'react';
 import { Pagination } from 'antd';
 import { getDynamicAsset } from 'api/dynamic';
 import {
-	Icon, Spin, Table, ClueModal,
+	Icon, Spin, Table, ClueModal, Ellipsis,
 } from '@/common';
+import './index.scss';
 
 
 export default class TableIntact extends React.Component {
@@ -35,22 +36,22 @@ export default class TableIntact extends React.Component {
 			render: (value, row) => (
 				<div className="assets-info-content">
 					<li className="yc-public-normal-bold" style={{ marginBottom: 2, lineHeight: '20px' }}>
-						<span className="list list-content text-ellipsis" style={{ maxWidth: 300 }}>
-							{row.caseNumber || '--'}
+						<span className="list list-content" style={{ maxWidth: 300 }}>
+							<Ellipsis className="text-ellipsis" width={260} bussinessStyle content={row.caseNumber.replace('（', '( ')} tooltip />
 						</span>
 						{
-							row.relateNoticeCount && (
-							<div className="relevance-announcement-btn" onClick={() => this.toOpenHistory(row)}>
-								<Icon type="icon-guanliangonggao" style={{ fontSize: 13, marginLeft: 8, marginRight: 4 }} />
-								查看关联公告
-							</div>
-							)
+							row.relateNoticeCount ? (
+								<div className="relevance-announcement-btn" onClick={() => this.toOpenHistory(row)}>
+									<Icon type="icon-guanliangonggao" style={{ fontSize: 13, marginLeft: 8, marginRight: 4 }} />
+									查看关联公告
+								</div>
+							) : null
 						}
 
 					</li>
 					<li>
 						<span style={{ width: '65px' }} className="list list-title align-justify">申请人</span>
-						<span className="list list-title-colon">:</span>
+						<span className="list list-title-colon">：</span>
 						<span className="list list-content" style={{ maxWidth: '600px' }}>
 							{
 								(row.applicants && row.applicants.map(item => item.name)).join('，') || '--'
@@ -59,7 +60,7 @@ export default class TableIntact extends React.Component {
 					</li>
 					<li>
 						<span style={{ width: '65px' }} className="list list-title align-justify">被申请人</span>
-						<span className="list list-title-colon">:</span>
+						<span className="list list-title-colon">：</span>
 						<span className="list list-content" style={{ maxWidth: '600px' }}>
 							{
 								(row.respondents && row.respondents.map(item => item.name)).join('，') || '--'
@@ -76,13 +77,13 @@ export default class TableIntact extends React.Component {
 					<li style={{ height: 24 }} />
 					<li>
 						<span className="list list-title align-justify">公开日期</span>
-						<span className="list list-title-colon">:</span>
+						<span className="list list-title-colon">：</span>
 						<span className="list list-content">{row.gmtPublish || '--'}</span>
 					</li>
 					<li>
 						<span className="list list-title align-justify">受理法院</span>
-						<span className="list list-title-colon">:</span>
-						{row.court || '--'}
+						<span className="list list-title-colon">：</span>
+						<span className="list list-content">{row.court || '--'}</span>
 					</li>
 				</div>
 			),

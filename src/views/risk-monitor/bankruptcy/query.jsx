@@ -17,10 +17,10 @@ class QueryCondition extends React.Component {
 	componentDidMount() {
 		const url = window.location.hash;
 		if (url.indexOf('?') !== -1) {
-			const dParams = getUrlParams(url, 'createTimeStart', 'createTimeEnd');
+			const dParams = getUrlParams(url, 'startGmtModified', 'endGmtModified');
 			const { form: { setFieldsValue } } = this.props;
-			setFieldsValue({ createTimeStart: dParams.createTimeStart });
-			setFieldsValue({ createTimeEnd: dParams.createTimeEnd });
+			setFieldsValue({ startGmtModified: dParams.startGmtModified });
+			setFieldsValue({ endGmtModified: dParams.endGmtModified });
 			this.handleSubmit();
 		}
 		window._addEventListener(document, 'keyup', this.toKeyCode13);

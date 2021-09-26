@@ -38,7 +38,6 @@ export default class Bankruptcy extends React.Component {
 	render() {
 		const { data, loading } = this.state;
 		const { bankruptcyNum, caseNumber, gmtPublish } = data;
-		console.log(data);
 		return (
 			<div>
 				{

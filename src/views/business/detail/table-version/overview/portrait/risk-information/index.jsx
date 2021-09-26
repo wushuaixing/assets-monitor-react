@@ -74,7 +74,7 @@ export default class RiskInformation extends React.Component {
 		const promiseArray = [];
 		const r = new Map([
 			// 破产重组
-			['fxjkqypccz', {
+			['fxjkbankrupt', {
 				api: 'Bankruptcy',
 				func: 'getBankruptcyData',
 			}],
@@ -141,12 +141,12 @@ export default class RiskInformation extends React.Component {
 
 	// 破产重组
 	getBankruptcyData = (isArray, res) => {
+		console.log(res);
 		if (isArray && res && res.code === 200) {
-			const { gmtCreate } = res.data;
-			const dataSourceNum = res.data.bankruptcy || 0;
+			const { gmtModified, bankruptcyNum } = res.data;
 			const bankruptcyPropsData = {
-				bankruptcyNum: dataSourceNum,
-				gmtCreate,
+				bankruptcyNum,
+				gmtCreate: gmtModified,
 				obligorTotal: res.data.obligorTotal || 0,
 			};
 			this.setState(() => ({

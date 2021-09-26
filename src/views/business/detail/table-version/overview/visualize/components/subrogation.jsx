@@ -43,7 +43,6 @@ export default class Subrogation extends React.Component {
 		const api = portrait === 'business' ? businessOverviewSubrogation : overviewSubrogation;
 		api(params).then((res) => {
 			if (res.code === 200) {
-				console.log('res', res);
 				const FilingArray = res.data.subrogationInfos[0];
 				const CourtArray = res.data.subrogationInfos[1];
 				const refereeArray = res.data.subrogationInfos[2];
@@ -164,7 +163,6 @@ export default class Subrogation extends React.Component {
 		const {
 			RingData, columnarData, timeLineData, selectType, FilingArray, CourtArray, refereeArray, brokeArray, FilingNum, CourtNum, refereeNum, RingDataNum, timeLineDataNum, columnarDataNum, brokeNum,
 		} = this.state;
-
 		return (
 			<div>
 				{timeLineDataNum > 0 || RingDataNum > 0 ? (
@@ -201,7 +199,8 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'Filing' ? 'yc-tag-active' : ''}
-									style={{ padding: '0 15px' }}
+									style={{ padding: '0 8px' }}
+									paddingNumber
 								/>
 								<TagSide
 									content="开庭信息"
@@ -212,7 +211,8 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'Court' ? 'yc-tag-active' : ''}
-									style={{ padding: '0 15px' }}
+									style={{ padding: '0 8px' }}
+									paddingNumber
 								/>
 								<TagSide
 									content="裁判文书"
@@ -223,7 +223,8 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'referee' ? 'yc-tag-active' : ''}
-									style={{ padding: '0 15px' }}
+									style={{ padding: '0 8px' }}
+									paddingNumber
 								/>
 								<TagSide
 									content="破产代位"
@@ -234,7 +235,8 @@ export default class Subrogation extends React.Component {
 										}
 									}}
 									tag={selectType === 'broke' ? 'yc-tag-active' : ''}
-									style={{ padding: '0 15px' }}
+									style={{ padding: '0 8px' }}
+									paddingNumber
 								/>
 							</div>
 							)}

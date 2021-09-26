@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination } from 'antd';
+import { Pagination, Icon } from 'antd';
 import { ReadStatus, Attentions, SortVessel } from '@/common/table';
 import {
 	readStatus, unFollow, follow, relationNotice, markReadNotice,
@@ -7,8 +7,9 @@ import {
 import { linkDom, timeStandard } from '@/utils';
 import { Table, SelectedNum } from '@/common';
 import RelationNoticeModal from './relation-notice-modal';
+import CaseInfo from './table-column/case-info';
 import message from '../../../utils/api/message/message';
-
+import { Ellipsis } from '@/common';
 // 获取表格配置
 const columns = (props, openModal, handleAddNotice) => {
 	const { normal, onRefresh, noSort } = props;
@@ -24,47 +25,28 @@ const columns = (props, openModal, handleAddNotice) => {
 				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>最新发布日期</SortVessel>),
 			dataIndex: 'gmtPublish',
 			className: 'yc-publish-date',
-			width: 115,
+			width: 140,
 			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
 		}, {
 			title: '企业 (被申请人)',
 			dataIndex: 'obligorName',
-			width: 200,
-			render: (text, row) => (text ? linkDom(`/#/business/debtor/detail?id=${row.obligorId}`, text) : '-'),
+			width: 260,
+			render: (text, row) => (text
+				? <Ellipsis content={text || '-'} url={`/#/business/debtor/detail?id=${row.obligorId}`} width={200} tooltip />
+				: '-'),
 		}, {
 			title: '案件信息',
 			dataIndex: 'title',
-			width: 200,
+			width: 280,
 			render: (text, record) => {
-				const { caseNumber = '', court } = record;
-				const caseNumberList = caseNumber.split('、');
-				const courtList = court.split('、');
-				return (
-					<ul className="case-info-content">
-						<li className="case-info-content-item">
-							<div className="case-info-content-item-label">案 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号：</div>
-							<div className="case-info-content-item-val">
-								{
-									caseNumberList.map(i => <p>{i}</p>)
-								}
-							</div>
-						</li>
-						<li className="case-info-content-item">
-							<div className="case-info-content-item-label">受理法院：</div>
-							<div className="case-info-content-item-val">
-								{
-									courtList.map(i => <p>{i}</p>)
-								}
-							</div>
-						</li>
-					</ul>
-				);
+				const { caseNumber = '', court = '' } = record;
+				return <CaseInfo caseNumber={caseNumber} court={court} />;
 			},
 		},
 		{
 			title: '公告信息',
 			dataIndex: 'title',
-			width: 200,
+			width: 300,
 			render: (text, record = {}, index) => {
 				const {
 					relateNoticeCount, isShowNotice, title, id, url,
@@ -73,16 +55,18 @@ const columns = (props, openModal, handleAddNotice) => {
 					<div className="notice-info-content">
 						<div className="notice-info-content-item">
 							<span className="notice-info-content-item-label">相关公告：</span>
-							<span className={`notice-info-content-item-num ${relateNoticeCount ? ' cursor-pointer' : ''}`} onClick={() => openModal(id, relateNoticeCount)}>{relateNoticeCount || '无'}</span>
+							<span className={`notice-info-content-item-num ${relateNoticeCount ? 'cursor-pointer' : ''}`} onClick={() => openModal(id, relateNoticeCount, index, isShowNotice)}>{relateNoticeCount || '无'}</span>
 							{
-								isShowNotice ? <span className="cursor-pointer notice-info-content-item-add" onClick={() => handleAddNotice(id, index, isShowNotice)}>新增公告</span> : null
+								isShowNotice ? <span className="notice-info-content-item-add">新增公告</span> : null
 							}
 						</div>
 						{
 							title ? (
 								<div className="notice-info-content-item">
 									<span className="notice-info-content-item-label">最新公告：</span>
-									<span className="notice-info-content-item-url"><a href={url} target="_blank" rel="noreferrer">{title }</a></span>
+									<span className="notice-info-content-item-url" onClick={() => handleAddNotice(id, index, isShowNotice)}>
+										<Ellipsis content={title} url={url} width="300px" isSourceLink />
+									</span>
 								</div>
 							) : null
 						}
@@ -94,11 +78,11 @@ const columns = (props, openModal, handleAddNotice) => {
 			title: (noSort ? global.Table_CreateTime_Text
 				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
-			width: 90,
+			width: 120,
 			render: value => <span>{timeStandard(value) || '-'}</span>,
 		}, {
 			title: '操作',
-			width: 55,
+			width: 60,
 			unNormal: true,
 			className: 'tAlignCenter_important',
 			render: (text, row, index) => (
@@ -135,11 +119,13 @@ export default class TableView extends React.Component {
 	// 行点击操作
 	toRowClick = (record, index) => {
 		const { id, isRead } = record;
-		const { onRefresh, manage } = this.props;
-		if (!isRead && !manage) {
+		const { onRefresh } = this.props;
+		if (!isRead) {
 			readStatus({ id }).then((res) => {
 				if (res.code === 200) {
-					onRefresh({ id, isRead: !isRead, index }, 'isRead');
+					onRefresh({
+						id, isRead: 1, index,
+					}, 'isRead');
 				}
 			});
 		}
@@ -152,9 +138,22 @@ export default class TableView extends React.Component {
 		if (onSelect)onSelect(selectedRowKeys);
 	};
 
+	handleAddNotice= (id, index, isShowNotice) => {
+		const { onRefresh } = this.props;
+		if (isShowNotice) {
+			markReadNotice({ id }).then((res) => {
+				if (res.code === 200) {
+					onRefresh({ id, isShowNotice: 0, index }, 'isShowNotice');
+				}
+			});
+		}
+	}
+
+
 	// 打开立案弹框
-	openModal = (id, count) => {
+	openModal = (id, count, index, isShowNotice) => {
 		if (count) {
+			this.handleAddNotice(id, index, isShowNotice);
 			relationNotice({ id }).then((res) => {
 				const { code, data = [] } = res || {};
 				if (code === 200) {
@@ -174,15 +173,6 @@ export default class TableView extends React.Component {
 			relationNoticeModalVisible: false,
 		});
 	};
-
-	handleAddNotice= (id, index, isShowNotice) => {
-		const { onRefresh } = this.props;
-		const _isShowNotice = !isShowNotice;
-		onRefresh({ id, isShowNotice: _isShowNotice, index }, 'isShowNotice');
-		markReadNotice({ id }).then((res) => {
-			console.log(res);
-		});
-	}
 
 	render() {
 		const {

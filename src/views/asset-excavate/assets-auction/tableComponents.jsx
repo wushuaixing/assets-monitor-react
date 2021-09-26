@@ -58,7 +58,7 @@ const AssetsInfo = (text, rowContent, index, noMatching = false, asset) => {
 						content={obligorName}
 						url={obligorId ? `#/business/debtor/detail?id=${obligorId}` : ''}
 						tooltip
-						width={150}
+						width={160}
 						// width={getByteLength(content) * 6 > maxWidth ? maxWidth : (getByteLength(content) + 3) * 6}
 					/>
 				</li>

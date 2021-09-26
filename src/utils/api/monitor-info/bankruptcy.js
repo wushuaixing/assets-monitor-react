@@ -43,6 +43,10 @@ export const infoTrialDetail = params => service.get('/yc/information/bankruptcy
 export const relationNotice = params => service.get('/yc/monitor/bankruptcyNew/notices', { params })
 	.then(res => res.data);
 
-// 关联公告
+// 点击新增公告已读
 export const markReadNotice = params => service.post('/yc/monitor/bankruptcyNew/markReadNotice', params)
+	.then(res => res.data);
+
+// 关联公告
+export const listCount = () => service.post('/yc/monitor/bankruptcyNew/listCount', { isRead: 0 })
 	.then(res => res.data);

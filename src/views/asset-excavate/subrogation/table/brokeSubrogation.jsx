@@ -19,45 +19,47 @@ const columns = (props, toOpenHistory) => {
 	const defaultColumns = [
 		{
 			title: (noSort ? <span style={{ paddingLeft: 11 }}>发布日期</span>
-				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>开庭日期</SortVessel>),
+				: <SortVessel field="GMT_PUBLISH" onClick={onSortChange} style={{ paddingLeft: 11 }} {...sort}>发布日期</SortVessel>),
 			dataIndex: 'gmtPublish',
-			width: 172,
-			render: (text, record) => ReadStatus(timeStandard(text) || '-', record),
+			// width: 172,
+			render: (text, record) => ReadStatus(timeStandard(text), record),
 		}, {
 			title: '当事人',
 			dataIndex: 'parties',
-			width: 314,
+			// width: 314,
 			render: (text, row) => (
 				<React.Fragment>
 					<div className="assets-info-content yc-space-nowrap">
 						<li>
 							<span className="list list-title align-justify">申请人：</span>
-							<span className="list list-content">
+							<div className="list list-content">
 								{
 									row.applicants && row.applicants.map(item => (
 										<React.Fragment>
 											<Ellipsis
 												content={item.name}
 												tooltip
-												width={280}
+												width={256}
 												url={item.obligorId ? `/#/business/debtor/detail?id=${item.obligorId}` : ''}
 											/>
 											<br />
 										</React.Fragment>
 									))
 								}
-							</span>
+							</div>
 						</li>
 						<li>
 							<span className="list list-title align-justify">被申请人：</span>
-							{
-								row.respondents && row.respondents.map(item => (
-									<React.Fragment>
-										<span className="list list-content">{item.name}</span>
-										<br />
-									</React.Fragment>
-								))
-							}
+							<div className="list list-content">
+								 {
+									 row.respondents.length > 0 ? row.respondents.map(item => (
+										 <React.Fragment>
+											 <Ellipsis content={item.name} tooltip width={256} />
+											 <br />
+										 </React.Fragment>
+									 )) : '--'
+								 }
+							</div>
 						</li>
 					</div>
 				</React.Fragment>
@@ -65,19 +67,19 @@ const columns = (props, toOpenHistory) => {
 		}, {
 			title: '案件信息',
 			dataIndex: 'court',
-			width: 291,
+			// width: 291,
 			render: (text, row) => (
 				<React.Fragment>
 					<div className="assets-info-content">
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>案号</span>
-							<span className="list list-title-colon">:</span>
-							<span className="list list-content">{row.caseNumber || '-'}</span>
+							<span className="list list-title-colon">：</span>
+							<span className="list list-content">{row.caseNumber.replace('（', '(') || '--'}</span>
 						</li>
 						<li>
 							<span className="list list-title align-justify" style={{ width: 60 }}>受理法院</span>
-							<span className="list list-title-colon">:</span>
-							<span className="list list-content">{row.court || '-'}</span>
+							<span className="list list-title-colon">：</span>
+							<span className="list list-content">{row.court || '--'}</span>
 						</li>
 					</div>
 				</React.Fragment>
@@ -85,6 +87,7 @@ const columns = (props, toOpenHistory) => {
 		}, {
 			title: '关联公告',
 			dataIndex: 'relateNoticeCount',
+			width: 120,
 			render: (text, row) => (
 				<React.Fragment>
 					{
@@ -92,26 +95,26 @@ const columns = (props, toOpenHistory) => {
 							<span
 								onClick={() => toOpenHistory(row)}
 								style={{
-									color: '#186fc7', minWidth: '24px', display: 'inline-block', cursor: 'pointer',
+									color: '#186fc7', minWidth: '24px', display: 'inline-block', cursor: 'pointer', textAlign: 'center',
 								}}
 							>
 								{text}
 							</span>
-						) : '--'
+						) : <div style={{ width: '24px', textAlign: 'center' }}>--</div>
 					}
 				</React.Fragment>
 			),
 		}, {
 			title: (noSort ? global.Table_CreateTime_Text
-				: <SortVessel field="GMT_MODIFIED" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
+				: <SortVessel field="GMT_CREATE" onClick={onSortChange} {...sort}>{global.Table_CreateTime_Text}</SortVessel>),
 			dataIndex: 'gmtModified',
-			width: 164,
+			// width: 164,
 			render: val => timeStandard(val),
 		}, {
 			title: '操作',
 			unNormal: true,
 			className: 'tAlignCenter_important',
-			width: 60,
+			// width: 60,
 			render: (text, row, index) => (
 				<Attentions
 					text={text}

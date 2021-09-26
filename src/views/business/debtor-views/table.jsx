@@ -140,16 +140,16 @@ class BusinessView extends React.Component {
 				return <p>{text}</p>;
 			},
 		}, {
-			title: <SortVessel field="ASSET_TOTAL" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
-			dataIndex: 'assetTotal',
-			key: 'assetTotal',
+			title: <SortVessel field="ASSET_TOTAL_NEW" onClick={onSortChange} {...sort}>相关资产</SortVessel>,
+			dataIndex: 'assetTotalNew',
+			key: 'assetTotalNew',
 			width: 100,
 			className: 'column-center',
 			render: text => ((text === '0' || !text) ? '0' : text),
 		}, {
-			title: <SortVessel field="RISK_TOTAL" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
-			dataIndex: 'riskTotal',
-			key: 'riskTotal',
+			title: <SortVessel field="RISK_TOTAL_NEW" onClick={onSortChange} {...sort}>相关风险</SortVessel>,
+			dataIndex: 'riskTotalNew',
+			key: 'riskTotalNew',
 			width: 100,
 			className: 'column-center',
 			render: text => ((text === '0' || !text) ? '0' : text),

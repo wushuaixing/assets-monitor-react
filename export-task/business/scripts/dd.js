@@ -73,6 +73,7 @@ const dd ={
 	"DA10201":"/yc/obligor/monitor/asset/subrogation/trial/list", // 代位权_立案
 	"DA10202":"/yc/obligor/monitor/asset/subrogation/court-notice/list", // 代位权_开庭
 	"DA10203":"/yc/obligor/monitor/asset/subrogation/judgment-document/list", // 代位权_裁判文书
+	"DA10204":"/yc/monitor/subrogation/bankruptcySubrogation/listCount", // 代位权_破产代位
 	"DA10501":"/yc/obligor/monitor/asset/finance/pledgor/list", // 股权质押_股权出质
 	"DA10502":"/yc/obligor/monitor/asset/finance/pledgee/list", // 股权质押_股权质权
 	"DA10601":"/yc/obligor/monitor/asset/mortgage/owner/list", // 动产抵押_抵押

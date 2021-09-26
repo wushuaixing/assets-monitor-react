@@ -32,9 +32,10 @@ export default class OverView extends React.Component {
 			companyId: parseQuery(window.location.hash).id || -9999,
 			baseInfo: {},
 			loading: true,
+			riskLoading: true,
 			shareholderInfos: [],
 			businessScaleInfo: '',
-			yearDistributions: null,
+			yearDistributions: [],
 			litigationInfos: null,
 			AssetAuctionCount: 0,
 			SubrogationCount: 0,
@@ -92,9 +93,10 @@ export default class OverView extends React.Component {
 		getLitigation(params).then((res) => {
 			if (res.code === 200) {
 				this.setState({
-					yearDistributions: res.data.assetOverviewDishonestInfo.yearDistributions,
+					yearDistributions: res.data.assetOverviewDishonestInfo.yearDistributions || [],
 					litigationInfos: res.data.litigationInfos,
 					LitigationInfosCount: this.getLitigationInfosSum(res.data.litigationInfos),
+					riskLoading: false,
 				});
 			} else {
 				this.setState({
@@ -105,6 +107,7 @@ export default class OverView extends React.Component {
 						{ count: 0 },
 						{ count: 0 },
 					],
+					riskLoading: false,
 				});
 			}
 		}).catch(() => {
@@ -116,6 +119,7 @@ export default class OverView extends React.Component {
 					{ count: 0 },
 					{ count: 0 },
 				],
+				riskLoading: false,
 			});
 		});
 
@@ -233,20 +237,20 @@ export default class OverView extends React.Component {
 		case 'Bankruptcy':
 			return (
 				this.setState({
-					BankruptcyCount: RiskProfileCountValue,
+					BankruptcyCount: RiskProfileCountValue || 0,
 				})
 			);
 		// 经营风险
 		case 'BusinessRisk':
 			return (
 				this.setState({
-					BusinessRiskCount: RiskProfileCountValue,
+					BusinessRiskCount: RiskProfileCountValue || 0,
 				})
 			);
 		case 'LimitHeight':
 			return (
 				this.setState({
-					LimitHeightCount: RiskProfileCountValue,
+					LimitHeightCount: RiskProfileCountValue || 0,
 				})
 			);
 		default: return '-';
@@ -255,7 +259,7 @@ export default class OverView extends React.Component {
 
 	render() {
 		const {
-			loading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, UnBlockCount,
+			loading, riskLoading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, UnBlockCount,
 			ChattelMortgageCount, BiddingCount, BankruptcyCount, BusinessRiskCount, LitigationInfosCount, FinanceCount, LimitHeightCount, RealEstateCount, CarCount, ConstructCount,
 		} = this.state;
 		const { viewLoading } = this.props;
@@ -292,7 +296,7 @@ export default class OverView extends React.Component {
 								<Car companyId={companyId} getAssetProfile={this.getAssetProfile} />
 							</div>,
 							AssetAuctionCount === 0 && IntangibleAssetCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0 && RealEstateCount === 0 && CarCount === 0 && ConstructCount === 0
-							&& <Spin visible><NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" /></Spin>,
+							&& <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}</Spin>,
 						]
 					}
 				</div>
@@ -312,7 +316,7 @@ export default class OverView extends React.Component {
 							{/* 经营风险信息 */}
 							<BusinessRisk companyId={companyId} getRiskProfile={this.getRiskProfile} />
 						</div>,
-						BankruptcyCount === 0 && yearDistributions && yearDistributions.length === 0 && LitigationInfosCount === 0 && BusinessRiskCount === 0 && LimitHeightCount === 0 && <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />}</Spin>,
+						BankruptcyCount === 0 && yearDistributions && yearDistributions.length === 0 && LitigationInfosCount === 0 && BusinessRiskCount === 0 && LimitHeightCount === 0 && <Spin visible={riskLoading}>{riskLoading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到风险信息" />}</Spin>,
 					]
 					}
 					<div className="mark-line" />
