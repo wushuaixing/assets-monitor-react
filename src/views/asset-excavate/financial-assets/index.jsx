@@ -104,7 +104,7 @@ export default class Subrogation extends React.Component {
 		if (url.indexOf('?') === -1) {
 			this.onQueryChange({}, sourceType);
 		}
-		this.onUnReadCount();
+		// this.onUnReadCount();
 		// this.setUnReadCount = setInterval(() => {
 		// 	this.onUnReadCount();
 		// }, 30 * 1000);
@@ -174,14 +174,18 @@ export default class Subrogation extends React.Component {
 	};
 
 	// tabs 数量请求
-	getReadNumber = (params) => {
+	getReadNumber = (sourceType, params) => {
 		const { tabConfig } = this.state;
+		const promiseArray = [];
 		const _params = {
 			...params,
 			isRead: 0,
 		};
-		const apiArr = [Apis.infoListCountBid(_params), Apis.infoListCountMerchants(_params), Apis.infoListCountPub(_params)];
-		Promise.all(apiArr).then((res) => {
+		// const apiArr = [Apis.infoListCountBid(_params), Apis.infoListCountMerchants(_params), Apis.infoListCountPub(_params)];
+		promiseArray.push(Apis.infoListCountBid(sourceType === 1 ? _params : { ...this.isUrlParams(1), isRead: 0 }));
+		promiseArray.push(Apis.infoListCountMerchants(sourceType === 2 ? _params : { ...this.isUrlParams(2), isRead: 0 }));
+		promiseArray.push(Apis.infoListCountPub(sourceType === 3 ? _params : { ...this.isUrlParams(3), isRead: 0 }));
+		Promise.all(promiseArray).then((res) => {
 			const newConfig = [];
 			tabConfig.forEach((item, index) => {
 				// eslint-disable-next-line no-param-reassign
@@ -300,7 +304,7 @@ export default class Subrogation extends React.Component {
 			current: 1,
 			total: '',
 		});
-		this.onUnReadCount();
+		// this.onUnReadCount();
 		this.toClearSortStatus();
 		const { sourceType } = this.state;
 		if (sourceType === val) {
@@ -329,7 +333,7 @@ export default class Subrogation extends React.Component {
 	onQuery = (con) => {
 		const { sourceType } = this.state;
 		this.toClearSortStatus();
-		this.onUnReadCount(sourceType);
+		// this.onUnReadCount(sourceType);
 		this.onQueryChange(con, '', '', 1);
 	};
 
@@ -362,34 +366,36 @@ export default class Subrogation extends React.Component {
 				message.error(res.message || '网络请求异常请稍后再试！');
 			}
 		}).catch(() => {});
-		this.getReadNumber(con);
+		this.onUnReadCount(_sourceType || sourceType, this.condition);
 	};
 
 	// 查询是否有未读消息
-	onUnReadCount = (sourceType) => {
-		const { tabConfig } = this.state;
-		unReadCount().then((res) => {
-			const { data, code } = res;
-			// console.log('data onUnReadCount === ', data);
-			if (code === 200) {
-				if (sourceType && sourceType > 0) {
-					tabConfig.map((item) => {
-						const _item = item;
-						if (_item.id === sourceType) {
-							_item.dot = data[sourceTypeMap.get(sourceType)];
-						}
-						return _item;
-					});
-				} else {
-					this.getReadNumber();
-				}
-				this.toInfoCount(sourceType);
-			} else {
-				this.toInfoCount(sourceType);
-			}
-		}).catch(() => {
-			this.toInfoCount(sourceType);
-		});
+	onUnReadCount = async (sourceType, params) => {
+		await this.getReadNumber(sourceType, params);
+		this.toInfoCount(sourceType);
+		// const { tabConfig } = this.state;
+		// unReadCount().then((res) => {
+		// 	const { data, code } = res;
+		// 	// console.log('data onUnReadCount === ', data);
+		// 	if (code === 200) {
+		// 		if (sourceType && sourceType > 0) {
+		// 			tabConfig.map((item) => {
+		// 				const _item = item;
+		// 				if (_item.id === sourceType) {
+		// 					_item.dot = data[sourceTypeMap.get(sourceType)];
+		// 				}
+		// 				return _item;
+		// 			});
+		// 		} else {
+		// 			this.getReadNumber();
+		// 		}
+		// 		this.toInfoCount(sourceType);
+		// 	} else {
+		// 		this.toInfoCount(sourceType);
+		// 	}
+		// }).catch(() => {
+		// 	this.toInfoCount(sourceType);
+		// });
 	};
 
 	// 取消批量管理选择框
@@ -412,7 +418,6 @@ export default class Subrogation extends React.Component {
 			sortField: this.condition.sortColumn,
 			sortOrder: this.condition.sortOrder,
 		};
-
 		return (
 			<div className="yc-assets-auction">
 				{ sourceType === 1 ?	<QueryBidding onQueryChange={this.onQuery} clearSelectRowNum={this.clearSelectRowNum} /> : null}
