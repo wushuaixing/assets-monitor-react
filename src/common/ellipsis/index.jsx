@@ -50,7 +50,7 @@ export default class Ellipsis extends React.Component {
 		const isSpecial = cookies.get('isSpecial');
 		const {
 			ktModalSourceLinkIcon, wsSourceLink, isSourceLink, tooltip, url, font, line, content, width, className, onClick, customColor, auto, obligorId,
-			isBorrower = false, isBankruptcy = false, isLimitHeight = false, isTable = false, prefixContent, prefixStyle, regStatus, bussinessStyle,
+			isBorrower = false, isBankruptcy = false, isLimitHeight = false, isTable = false, prefixContent, prefixStyle, regStatus, bussinessStyle, assetsMatching,
 		} = this.props;
 		const _url = obligorId ? `#/business/debtor/detail?id=${obligorId}` : url;
 		const _line = line || 1;
@@ -78,7 +78,7 @@ export default class Ellipsis extends React.Component {
 			color: customColor || undefined,
 			width: bussinessStyle ? 'auto' : __width + addWidth,
 			display: 'inline-block',
-		} : '';
+		} : assetsMatching ? { display: 'inline-block' } : '';
 		return (
 			<div ref={e => this.element = e} className={`yc-ellipsis-element${className ? ` ${className}` : ''}`} style={style}>
 				{
