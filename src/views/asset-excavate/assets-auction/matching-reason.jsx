@@ -16,7 +16,7 @@ export default class MatchingReason extends React.Component {
 		const { content: { auctionStatusTag, roundTag } } = this.props;
 		const status = auctionStatusTag || roundTag;
 		setTimeout(() => {
-			if (this.dom.clientHeight > (status ? 96 : 64)) {
+			if (this.dom.clientHeight > (status ? 96 : 80)) {
 				this.setState({ status: 'canOpen' });
 			}
 		}, 1);
@@ -30,7 +30,7 @@ export default class MatchingReason extends React.Component {
 
 
 	toInitStatus=() => {
-		if (this.dom.clientHeight > 64) {
+		if (this.dom.clientHeight > 80) {
 			this.setState({ status: 'canOpen' });
 		} else {
 			this.setState({ status: 'none' });
@@ -99,6 +99,15 @@ export default class MatchingReason extends React.Component {
 		return remark;
 	}
 
+	attributes = (val) => {
+		const { attributes } = val[0];
+		let pid = '';
+		Array.from(attributes).forEach((v) => {
+			if (v.nodeName === 'pid') pid = v.nodeValue;
+		});
+		return pid;
+	}
+
 	// 审核备注链接
 	toGetRemarkBehind = (remark) => {
 		if (remark.substr(0, remark.indexOf('<a')) !== '') {
@@ -107,10 +116,16 @@ export default class MatchingReason extends React.Component {
 				const remarkBehindArr = remarkBehind.split('、');
 				const remarkDom = remarkBehindArr.map((i, index) => {
 					const curDom = this.parseDom(i);
+					const pid = this.attributes(curDom);
 					return	(
 						<span style={{ marginRight: '10px' }}>
-							  <Ellipsis url={curDom[0].href} content={curDom[0].innerText} isSourceLink assetsMatching />
-							{/* <a className="click-link" target="_blank" href={curDom[0].href} rel="noreferrer">{curDom[0].innerText}</a> */}
+							{
+								pid ? (
+									<Ellipsis content={curDom[0].innerText} url={`#/judgement?sourceId=10379&pid=${pid}`} assetsMatching />
+								) : (
+									<Ellipsis url={curDom[0].href} content={curDom[0].innerText} isSourceLink assetsMatching />
+								)
+							}
 							{
 								index === remarkBehindArr.length - 1 ? null : <span style={{ marginLeft: -15 }}>、</span>
 							}
