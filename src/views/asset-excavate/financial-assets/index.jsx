@@ -331,7 +331,7 @@ export default class Subrogation extends React.Component {
 
 	// 查询条件变化
 	onQuery = (con) => {
-		const { sourceType } = this.state;
+		// const { sourceType } = this.state;
 		this.toClearSortStatus();
 		// this.onUnReadCount(sourceType);
 		this.onQueryChange(con, '', '', 1);
@@ -347,15 +347,51 @@ export default class Subrogation extends React.Component {
 		if (__isRead === 'all') delete this.condition.isRead;
 		if (__isRead === 'else') this.condition.isRead = 0;
 		this.setState({ loading: true, manage: _manage || false });
+		this.listApi(_sourceType || sourceType, this.condition);
 		// delete this.condition.sourceType;
-		api('infoList', _sourceType || sourceType)(clearEmpty(this.condition)).then((res) => {
+		// api('infoList', _sourceType || sourceType)(clearEmpty(this.condition)).then((res) => {
+		// 	if (res.code === 200) {
+		// 		const { list, total, page: _page } = res.data;
+		// 		this.setState({
+		// 			dataSource: list,
+		// 			current: _page,
+		// 			total,
+		// 			loading: false,
+		// 		});
+		// 		if (list.length === 0 && _page > 1) {
+		// 			const { manage } = this.state;
+		// 			this.condition.page = _page - 1;
+		// 		}
+		// 	} else {
+		// 		this.setState({
+		// 			dataSource: '',
+		// 			current: 1,
+		// 			total: 0,
+		// 			loading: false,
+		// 		});
+		// 		message.error(res.message || '网络请求异常请稍后再试！');
+		// 	}
+		// }).catch(() => {});
+		this.onUnReadCount(_sourceType || sourceType, this.condition);
+	};
+
+	listApi = (_sourceType, condition) => {
+		api('infoList', _sourceType)(clearEmpty(condition)).then((res) => {
 			if (res.code === 200) {
+				const { list, total, page: _page } = res.data;
 				this.setState({
-					dataSource: res.data.list,
-					current: res.data.page,
-					total: res.data.total,
+					dataSource: list,
+					current: _page,
+					total,
 					loading: false,
 				});
+				if (list.length === 0 && _page > 1) {
+					const { sourceType } = this.state;
+					this.condition.page = _page - 1;
+					console.log('sourceType',sourceType);
+					console.log('cond',this.condition);
+					this.listApi(sourceType, this.condition);
+				}
 			} else {
 				this.setState({
 					dataSource: '',
@@ -366,8 +402,7 @@ export default class Subrogation extends React.Component {
 				message.error(res.message || '网络请求异常请稍后再试！');
 			}
 		}).catch(() => {});
-		this.onUnReadCount(_sourceType || sourceType, this.condition);
-	};
+	}
 
 	// 查询是否有未读消息
 	onUnReadCount = async (sourceType, params) => {
