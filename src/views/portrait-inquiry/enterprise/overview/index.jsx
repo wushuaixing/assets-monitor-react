@@ -37,22 +37,22 @@ export default class OverView extends React.Component {
 			businessScaleInfo: '',
 			yearDistributions: [],
 			litigationInfos: null,
-			AssetAuctionCount: 0,
-			SubrogationCount: 0,
-			IntangibleAssetCount: 0,
-			BiddingCount: 0,
-			LandCount: 0,
-			EquityPledgeCount: 0,
-			ChattelMortgageCount: 0,
+			AssetAuctionCount: null,
+			SubrogationCount: null,
+			IntangibleAssetCount: null,
+			BiddingCount: null,
+			LandCount: null,
+			EquityPledgeCount: null,
+			ChattelMortgageCount: null,
 			BankruptcyCount: 0,
 			BusinessRiskCount: 0,
 			LitigationInfosCount: 0,
-			FinanceCount: 0,
-			UnBlockCount: 0,
+			FinanceCount: null,
+			UnBlockCount: null,
 			LimitHeightCount: 0,
-			RealEstateCount: 0,
-			CarCount: 0,
-			ConstructCount: 0,
+			RealEstateCount: null,
+			CarCount: null,
+			ConstructCount: null,
 		};
 	}
 
@@ -147,83 +147,83 @@ export default class OverView extends React.Component {
 		case 'AssetAuction':
 			return (
 				this.setState({
-					AssetAuctionCount: AssetProfileCountValue,
+					AssetAuctionCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 无形资产
 		case 'IntangibleAsset':
 			return (
 				this.setState({
-					IntangibleAssetCount: AssetProfileCountValue,
+					IntangibleAssetCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 代位权
 		case 'Subrogation':
 			return (
 				this.setState({
-					SubrogationCount: AssetProfileCountValue,
+					SubrogationCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 土地信息
 		case 'Land':
 			return (
 				this.setState({
-					LandCount: AssetProfileCountValue,
+					LandCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 股权质押
 		case 'EquityPledge':
 			return (
 				this.setState({
-					EquityPledgeCount: AssetProfileCountValue,
+					EquityPledgeCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 金融资产
 		case 'Finance':
 			return (
 				this.setState({
-					FinanceCount: AssetProfileCountValue,
+					FinanceCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 查解封资产
 		case 'UnBlock':
 			return (
 				this.setState({
-					UnBlockCount: AssetProfileCountValue,
+					UnBlockCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 动产抵押
 		case 'ChattelMortgage':
 			return (
 				this.setState({
-					ChattelMortgageCount: AssetProfileCountValue,
+					ChattelMortgageCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 招投标
 		case 'Bidding':
 			return (
 				this.setState({
-					BiddingCount: AssetProfileCountValue,
+					BiddingCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 不动产
 		case 'RealEstate':
 			return (
 				this.setState({
-					RealEstateCount: AssetProfileCountValue,
+					RealEstateCount: AssetProfileCountValue || 0,
 				})
 			);
 		// 车辆信息
 		case 'Car':
 			return (
 				this.setState({
-					CarCount: AssetProfileCountValue,
+					CarCount: AssetProfileCountValue || 0,
 				})
 			);
 		case 'Construct':
 			return (
 				this.setState({
-					ConstructCount: AssetProfileCountValue,
+					ConstructCount: AssetProfileCountValue || 0,
 				})
 			);
 		default: return '-';
@@ -262,6 +262,8 @@ export default class OverView extends React.Component {
 			loading, riskLoading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, UnBlockCount,
 			ChattelMortgageCount, BiddingCount, BankruptcyCount, BusinessRiskCount, LitigationInfosCount, FinanceCount, LimitHeightCount, RealEstateCount, CarCount, ConstructCount,
 		} = this.state;
+		const NoAsset = AssetAuctionCount === 0 && IntangibleAssetCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0 && RealEstateCount === 0 && CarCount === 0 && ConstructCount === 0;
+		const AssetLoading = AssetAuctionCount === null || IntangibleAssetCount === null || SubrogationCount === null || LandCount === null || EquityPledgeCount === null || ChattelMortgageCount === null || BiddingCount === null || FinanceCount === null || UnBlockCount === null || RealEstateCount === null || CarCount === null || ConstructCount === null;
 		const { viewLoading } = this.props;
 		return (
 			<div className="inquiry-overview">
@@ -295,8 +297,9 @@ export default class OverView extends React.Component {
 								{/* 车辆信息 */}
 								<Car companyId={companyId} getAssetProfile={this.getAssetProfile} />
 							</div>,
-							AssetAuctionCount === 0 && IntangibleAssetCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0 && RealEstateCount === 0 && CarCount === 0 && ConstructCount === 0
-							&& <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}</Spin>,
+							// AssetAuctionCount === 0 && IntangibleAssetCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0 && RealEstateCount === 0 && CarCount === 0 && ConstructCount === 0
+							// && <Spin visible={loading}>{loading ? '' : <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />}</Spin>,
+							AssetLoading ? <Spin visible={AssetLoading} /> : NoAsset && <NoContent style={{ paddingBottom: 60 }} font="暂未匹配到资产信息" />,
 						]
 					}
 				</div>
