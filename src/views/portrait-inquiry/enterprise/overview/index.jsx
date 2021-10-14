@@ -262,8 +262,9 @@ export default class OverView extends React.Component {
 			loading, riskLoading, companyId, baseInfo, shareholderInfos, businessScaleInfo, yearDistributions, litigationInfos, AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, UnBlockCount,
 			ChattelMortgageCount, BiddingCount, BankruptcyCount, BusinessRiskCount, LitigationInfosCount, FinanceCount, LimitHeightCount, RealEstateCount, CarCount, ConstructCount,
 		} = this.state;
-		const NoAsset = AssetAuctionCount === 0 && IntangibleAssetCount === 0 && SubrogationCount === 0 && LandCount === 0 && EquityPledgeCount === 0 && ChattelMortgageCount === 0 && BiddingCount === 0 && FinanceCount === 0 && UnBlockCount === 0 && RealEstateCount === 0 && CarCount === 0 && ConstructCount === 0;
-		const AssetLoading = AssetAuctionCount === null || IntangibleAssetCount === null || SubrogationCount === null || LandCount === null || EquityPledgeCount === null || ChattelMortgageCount === null || BiddingCount === null || FinanceCount === null || UnBlockCount === null || RealEstateCount === null || CarCount === null || ConstructCount === null;
+		const arrAsser = [AssetAuctionCount, IntangibleAssetCount, SubrogationCount, LandCount, EquityPledgeCount, ChattelMortgageCount, BiddingCount, FinanceCount, UnBlockCount, RealEstateCount, CarCount, ConstructCount];
+		const NoAsset = arrAsser.every(i => i === 0);
+		const AssetLoading = arrAsser.includes(null);
 		const { viewLoading } = this.props;
 		return (
 			<div className="inquiry-overview">
